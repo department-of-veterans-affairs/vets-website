@@ -12,8 +12,7 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     outputs:
-      rootURLS: ${{ steps.set-matrix.outputs.rootURLS }}
-      appNames: ${{ steps.set-matrix.outputs.appNames }}
+      rootUrls: ${{ steps.set-matrix.outputs.rootUrls }}
     steps:
       - uses: actions/checkout@master
         with:
@@ -22,8 +21,7 @@ jobs:
           path: ./content-build
       - id: set-matrix
         run: |
-          echo ::set-output name=rootURLS::$(jq '[.[].rootURL]' ./content-build/src/applications/registry.json)
-          echo ::set-output name=appNames::$(jq '[.[].appName]' ./content-build/src/applications/registry.json)
+          echo ::set-output name=rootUrls::$(jq '[.[].rootUrl]' ./content-build/src/applications/registry.json)
 
   lighthouse:
     needs: job1
@@ -32,9 +30,7 @@ jobs:
       fail-fast: false
       max-parallel: 8
       matrix:
-        include:
-          - appName: ${{ fromJson(needs.job1.outputs.appNames) }}
-            rootURL: ${{ fromJson(needs.job1.outputs.rootURLS) }}
+          rootUrl: ${{ fromJson(needs.job1.outputs.rootUrls) }}
 
     steps:
       - name: Checkout
