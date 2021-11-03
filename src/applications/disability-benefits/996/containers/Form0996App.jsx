@@ -14,7 +14,7 @@ import {
 } from '../actions';
 
 import formConfig from '../config/form';
-import { IS_PRODUCTION, SAVED_CLAIM_TYPE } from '../constants';
+import { SAVED_CLAIM_TYPE } from '../constants';
 import { getHlrWizardStatus, shouldShowWizard } from '../wizard/utils';
 import {
   issuesNeedUpdating,
@@ -115,7 +115,7 @@ export const Form0996App = ({
     </RoutedSavableApp>
   );
 
-  if (!IS_PRODUCTION && shouldShowWizard(formConfig.formId, savedForms)) {
+  if (shouldShowWizard(formConfig.formId, savedForms)) {
     router.push('/start');
     content = (
       <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
@@ -123,7 +123,6 @@ export const Form0996App = ({
       </h1>
     );
   } else if (
-    !IS_PRODUCTION &&
     loggedIn &&
     ((contestableIssues?.status || '') === '' ||
       contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT)
