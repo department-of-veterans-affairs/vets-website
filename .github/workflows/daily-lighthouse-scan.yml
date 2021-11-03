@@ -39,7 +39,7 @@ jobs:
           '
           echo ::set-output name=appNames::{\"include\":$(cat ./content-build/src/applications/registry.json)}
       - name: test matrix
-        run: echo ${{ steps.set-matrix.outputs.matrix[entryName] }}
+        run: echo ${{ steps.set-matrix.outputs.matrix['entryName'] }}
       # - name: test appName
       #   run: echo ${{ steps.set-matrix.outputs.matrix }}
 
