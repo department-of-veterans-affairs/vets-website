@@ -32,8 +32,8 @@ jobs:
       fail-fast: false
       max-parallel: 8
       matrix:
-        rootURL: ${{ fromJson(needs.job1.outputs.rootURLS) }}
-        appName: ${{ fromJson(needs.job1.outputs.appNames) }}
+        - rootURL: ${{ fromJson(needs.job1.outputs.rootURLS) }}
+          appName: ${{ fromJson(needs.job1.outputs.appNames) }}
 
     steps:
       - name: Checkout
