@@ -62,7 +62,7 @@ describe('Facility VA search', () => {
     ).as('searchFacilitiesCCP');
     cy.intercept(
       'GET',
-      '/facilities_api/v1/va?bbox**',
+      '/facilities_api/v1/va?type=health**',
       mockFacilitiesSearchResultsV1,
     ).as('searchFacilitiesVA');
     cy.intercept('GET', '/facilities_api/v1/va/vba**', mockFacilityDataV1).as(
