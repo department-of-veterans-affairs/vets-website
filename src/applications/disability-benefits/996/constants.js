@@ -1,5 +1,4 @@
 import constants from 'vets-json-schema/dist/constants.json';
-import environment from 'platform/utilities/environment';
 
 // *** URLS ***
 export const HLR_INFO_URL = '/decision-reviews/higher-level-review/';
@@ -86,8 +85,6 @@ export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,
   isSupported: supportedBenefitTypes.includes(type.value),
 }));
-
-export const IS_PRODUCTION = environment.isProduction();
 
 export const CONFERENCE_TIMES_V1 = {
   time0800to1000: {
