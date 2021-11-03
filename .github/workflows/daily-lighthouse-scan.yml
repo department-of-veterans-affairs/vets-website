@@ -37,7 +37,7 @@ jobs:
               }
             }
           '
-          echo ::set-output name=matrix-combinations::{\"include\":[$MATRIX_PARAMS_COMBINATIONS]}
+          echo ::set-output name=appNames::{\"include\":[$MATRIX_PARAMS_COMBINATIONS]}
 
   lighthouse:
     needs: job1
