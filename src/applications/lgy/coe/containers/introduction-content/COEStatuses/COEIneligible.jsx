@@ -11,7 +11,7 @@ const COEIneligible = () => {
         COE. If you want to request your COE yourself, without getting help from
         your lender, please follow the steps on this page.
       </p>
-      <h2 className="vads-u-margin--0">
+      <h2 className="vads-u-margin-top--5">
         Follow these steps to request a VA home loan COE
       </h2>
     </>
