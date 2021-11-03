@@ -279,166 +279,164 @@ module.exports = async (env = {}) => {
   console.log(entryFiles.vendor);
   console.log(entryFiles);
 
-  const baseConfig =
-    // smp.wrap
-    {
-      mode: 'development',
-      entry: entryFiles,
-      output: {
-        path: path.resolve(buildPath, 'generated'),
-        publicPath: '/generated/',
-        filename: '[name].entry.js',
-        chunkFilename: '[name].entry.js',
-      },
-      module: {
-        strictExportPresence: true,
-        rules: [
-          {
-            test: /\.jsx?$/,
-            exclude: /node_modules/,
-            use: {
-              loader: 'babel-loader',
-              options: {
-                // Speed up compilation.
-                cacheDirectory: '.babelcache',
-                // Also see .babelrc
-              },
-            },
-          },
-          {
-            test: /\.(sa|sc|c)ss$/,
-            use: [
-              MiniCssExtractPlugin.loader,
-              // 'cache-loader',
-              {
-                loader: 'css-loader',
-                options: {
-                  sourceMap: enableCSSSourcemaps,
-                },
-              },
-              {
-                loader: 'postcss-loader',
-              },
-              {
-                loader: 'sass-loader',
-                options: { sourceMap: true },
-              },
-            ],
-          },
-          {
-            // if we want to minify these images, we could add img-loader
-            // but it currently only would apply to three images from uswds
-            test: /\.(jpe?g|png|gif)$/i,
-            use: {
-              loader: 'url-loader',
-              options: {
-                limit: 10000,
-              },
-            },
-          },
-          {
-            test: /\.svg/,
-            use: {
-              loader: 'svg-url-loader',
-              options: {
-                limit: 1024,
-                publicPath: './',
-              },
-            },
-          },
-          {
-            test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-            use: {
-              loader: 'url-loader',
-              options: {
-                limit: 7000,
-                mimetype: 'application/font-woff',
-                name: '[name].[ext]',
-              },
-            },
-          },
-          {
-            test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-            use: {
-              loader: 'file-loader',
-              options: {
-                name: '[name].[ext]',
-              },
-            },
-          },
-          {
-            test: /react-jsonschema-form\/lib\/components\/(widgets|fields\/ObjectField|fields\/ArrayField)/,
-            exclude: [/widgets\/index\.js/, /widgets\/TextareaWidget/],
-            use: {
-              loader: 'null-loader',
-            },
-          },
-        ],
-        noParse: [/mapbox\/vendor\/promise.js$/],
-      },
-      resolve: {
-        extensions: ['.js', '.jsx'],
-        fallback: {
-          path: require.resolve('path-browserify'),
-        },
-      },
-      optimization: {
-        minimizer: [
-          new TerserPlugin({
-            terserOptions: {
-              output: {
-                beautify: false,
-                comments: false,
-              },
-              warnings: false,
-            },
-            parallel: 3,
-          }),
-        ],
-        splitChunks: {
-          cacheGroups: {
-            // this needs to be "vendors" to overwrite a default group
-            vendors: {
-              chunks: 'all',
-              test: 'vendor',
-              name: 'vendor',
-              enforce: true,
+  const baseConfig = {
+    mode: 'development',
+    entry: entryFiles,
+    output: {
+      path: path.resolve(buildPath, 'generated'),
+      publicPath: '/generated/',
+      filename: '[name].entry.js',
+      chunkFilename: '[name].entry.js',
+    },
+    module: {
+      strictExportPresence: true,
+      rules: [
+        {
+          test: /\.jsx?$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              // Speed up compilation.
+              cacheDirectory: '.babelcache',
+              // Also see .babelrc
             },
           },
         },
-      },
-      plugins: [
-        new webpack.DefinePlugin({
-          __BUILDTYPE__: JSON.stringify(buildtype),
-          __API__: JSON.stringify(buildOptions.api),
-        }),
-
-        new StylelintPlugin({
-          configFile: '.stylelintrc.json',
-          exclude: ['node_modules', 'build', 'coverage', '.cache'],
-          fix: true,
-        }),
-
-        new MiniCssExtractPlugin({
-          filename: chunk => {
-            const { name } = chunk;
-
-            const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
-            if (isMedalliaStyleFile) return `[name].css`;
-
-            return `[name].css`;
+        {
+          test: /\.(sa|sc|c)ss$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            // 'cache-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: enableCSSSourcemaps,
+              },
+            },
+            {
+              loader: 'postcss-loader',
+            },
+            {
+              loader: 'sass-loader',
+              options: { sourceMap: true },
+            },
+          ],
+        },
+        {
+          // if we want to minify these images, we could add img-loader
+          // but it currently only would apply to three images from uswds
+          test: /\.(jpe?g|png|gif)$/i,
+          use: {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+            },
           },
-        }),
-
-        new webpack.IgnorePlugin({
-          resourceRegExp: /^\.\/locale$/,
-          contextRegExp: /moment$/,
-        }),
-
-        new WebpackBar(),
+        },
+        {
+          test: /\.svg/,
+          use: {
+            loader: 'svg-url-loader',
+            options: {
+              limit: 1024,
+              publicPath: './',
+            },
+          },
+        },
+        {
+          test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          use: {
+            loader: 'url-loader',
+            options: {
+              limit: 7000,
+              mimetype: 'application/font-woff',
+              name: '[name].[ext]',
+            },
+          },
+        },
+        {
+          test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          use: {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+            },
+          },
+        },
+        {
+          test: /react-jsonschema-form\/lib\/components\/(widgets|fields\/ObjectField|fields\/ArrayField)/,
+          exclude: [/widgets\/index\.js/, /widgets\/TextareaWidget/],
+          use: {
+            loader: 'null-loader',
+          },
+        },
       ],
-      devServer: generateWebpackDevConfig(buildOptions),
-    };
+      noParse: [/mapbox\/vendor\/promise.js$/],
+    },
+    resolve: {
+      extensions: ['.js', '.jsx'],
+      fallback: {
+        path: require.resolve('path-browserify'),
+      },
+    },
+    optimization: {
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            output: {
+              beautify: false,
+              comments: false,
+            },
+            warnings: false,
+          },
+          parallel: 3,
+        }),
+      ],
+      splitChunks: {
+        cacheGroups: {
+          // this needs to be "vendors" to overwrite a default group
+          vendors: {
+            chunks: 'all',
+            test: 'vendor',
+            name: 'vendor',
+            enforce: true,
+          },
+        },
+      },
+    },
+    plugins: [
+      new webpack.DefinePlugin({
+        __BUILDTYPE__: JSON.stringify(buildtype),
+        __API__: JSON.stringify(buildOptions.api),
+      }),
+
+      new StylelintPlugin({
+        configFile: '.stylelintrc.json',
+        exclude: ['node_modules', 'build', 'coverage', '.cache'],
+        fix: true,
+      }),
+
+      new MiniCssExtractPlugin({
+        filename: chunk => {
+          const { name } = chunk;
+
+          const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
+          if (isMedalliaStyleFile) return `[name].css`;
+
+          return `[name].css`;
+        },
+      }),
+
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^\.\/locale$/,
+        contextRegExp: /moment$/,
+      }),
+
+      new WebpackBar(),
+    ],
+    devServer: generateWebpackDevConfig(buildOptions),
+  };
 
   if (!buildOptions.watch) {
     baseConfig.plugins.push(
