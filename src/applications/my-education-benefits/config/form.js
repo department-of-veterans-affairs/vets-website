@@ -53,7 +53,8 @@ import {
   validateEmail,
   validateEffectiveDate,
 } from '../utils/validation';
-import DynamicRadioWidget from '../components/DynamicRadioWidget';
+import DynamicPhoneRadioWidget from '../components/DynamicPhoneRadioWidget';
+import DynamicPhoneRadioReviewField from '../components/DynamicPhoneRadioReviewField';
 
 const {
   fullName,
@@ -752,7 +753,8 @@ const formConfig = {
               [formFields.contactMethod]: {
                 'ui:title':
                   'How should we contact you if we have questions about your application?',
-                'ui:widget': DynamicRadioWidget,
+                'ui:reviewField': DynamicPhoneRadioReviewField,
+                'ui:widget': DynamicPhoneRadioWidget,
                 'ui:errorMessages': {
                   required:
                     'Please select at least one way we can contact you.',
