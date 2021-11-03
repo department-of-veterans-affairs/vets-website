@@ -33,14 +33,16 @@ jobs:
 
   lighthouse:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      max-parallel: 8
-      matrix:
-        # appName: ['/covid19screen', '/verify', '/pension/application/527EZ']
-        appName: ${{fromJson(needs.set-app-matrix.outputs.matrix).rootUrl}}
+    # strategy:
+    #   fail-fast: false
+    #   max-parallel: 8
+    #   matrix:
+    #     # appName: ['/covid19screen', '/verify', '/pension/application/527EZ']
+    #     appName: ${{fromJson(needs.set-app-matrix.outputs.matrix).rootUrl}}
 
     steps:
+      - run: echo ${{fromJson(needs.set-app-matrix.outputs.matrix).rootUrl}}
+  
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
         with:
