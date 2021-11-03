@@ -5,7 +5,7 @@ on:
     inputs:
       release_wait:
         description: Minutes to wait before creating release
-        required: true
+        required: false
         default: 5
       commit_sha:
         description: Deploy specific commit
