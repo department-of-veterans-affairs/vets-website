@@ -5,9 +5,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
+import CustomPage from '../pages/CustomPage';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -17,13 +15,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: 'PRE-CHECK-IN',
-  saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your pre-check-in application (PRE-CHECK-IN) is in progress.',
-    //   expired: 'Your saved pre-check-in application (PRE-CHECK-IN) has expired. If you want to apply for pre-check-in, please start a new application.',
-    //   saved: 'Your pre-check-in application has been saved.',
-    // },
-  },
+  saveInProgress: {},
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
@@ -38,13 +30,26 @@ const formConfig = {
       title: 'Chapter 1',
       pages: {
         page1: {
-          path: 'first-page',
-          title: 'First Page',
-          uiSchema: {},
+          path: 'my-schemaless-page',
+          title: 'Bypassing the SchemaForm',
+          CustomPage,
+          CustomPageReview: CustomPage,
           schema: {
             type: 'object',
             properties: {},
           },
+          uiSchema: {},
+        },
+        page2: {
+          path: 'my-other-page',
+          title: 'ByPassed the SchemaForm',
+          CustomPage,
+          CustomPageReview: CustomPage,
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+          uiSchema: {},
         },
       },
     },
