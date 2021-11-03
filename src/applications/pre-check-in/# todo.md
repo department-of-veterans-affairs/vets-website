@@ -4,7 +4,6 @@
   - X make API call with token from url and dump data into redux
   - X Create a demographics page
   - X Prefill data from redux
-- Submit in redux
 - Next Steps in tickets
 - Demo to team
 
