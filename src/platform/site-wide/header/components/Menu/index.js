@@ -1,20 +1,17 @@
 // Node modules.
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 // Relative imports.
 import './styles.scss';
-// import Search from '../../../user-nav/components/SearchMenu';
-import { toggleSearchHelpUserMenu as toggleSearchHelpUserMenuAction } from 'platform/site-wide/user-nav/actions';
 import MenuItemLevel1 from '../MenuItemLevel1';
+import SearchDropdownComponent from 'applications/search/components/SearchDropdown/SearchDropdownComponent';
+import {
+  fetchSearchSuggestions,
+  onSearch,
+  onSuggestionSubmit,
+} from '../../helpers';
 
-export const Menu = ({
-  isMenuOpen,
-  // isSearchOpen,
-  megaMenuData,
-  showMegaMenu,
-  // toggleSearchHelpUserMenu,
-}) => {
+export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu }) => {
   // Do not render if the menu is closed.
   if (!isMenuOpen) {
     return null;
@@ -23,11 +20,22 @@ export const Menu = ({
   return (
     <div className="header-menu vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0 vads-u-position--absolute vads-u-width--full">
       {/* Search */}
-      {/* <Search
-        clickHandler={() => toggleSearchHelpUserMenu('search', !isSearchOpen)}
-        isOpen={isSearchOpen}
-      /> */}
-      <p>Search</p>
+      <p className="vads-u-padding-x--2 vads-u-color--gray-dark vads-u-margin-bottom--1">
+        Search
+      </p>
+      <SearchDropdownComponent
+        buttonText=""
+        canSubmit
+        className="header-search search-header-dropdown vads-u-margin-bottom--2 "
+        fetchSuggestions={fetchSearchSuggestions}
+        formatSuggestions
+        fullWidthSuggestions
+        onInputSubmit={onSearch}
+        onSuggestionSubmit={onSuggestionSubmit}
+        startingValue={''}
+        submitOnClick
+        submitOnEnter
+      />
 
       {/* Menu items */}
       {showMegaMenu && (
@@ -36,7 +44,10 @@ export const Menu = ({
           role="menubar"
         >
           {megaMenuData?.map(item => (
-            <MenuItemLevel1 key={`header-menu-item-level-1-${item.title}`} />
+            <MenuItemLevel1
+              key={`header-menu-item-level-1-${item?.title}`}
+              item={item}
+            />
           ))}
         </ul>
       )}
@@ -48,21 +59,6 @@ Menu.propTypes = {
   isMenuOpen: PropTypes.bool.isRequired,
   megaMenuData: PropTypes.arrayOf(PropTypes.object),
   showMegaMenu: PropTypes.bool.isRequired,
-  // From mapStateToProps.
-  isSearchOpen: PropTypes.bool,
-  // From mapDispatchToProps.
-  toggleSearchHelpUserMenu: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  isSearchOpen: state.navigation?.utilitiesMenuIsOpen?.search,
-});
-
-const mapDispatchToProps = dispatch => ({
-  toggleSearchHelpUserMenu: () => dispatch(toggleSearchHelpUserMenuAction()),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Menu);
+export default Menu;

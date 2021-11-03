@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
 import './styles.scss';
+import Logo from '../Logo';
 import UserNav from '../../../user-nav/containers/Main';
 
 export const LogoRow = ({ isMenuOpen, setIsMenuOpen }) => {
@@ -11,10 +12,10 @@ export const LogoRow = ({ isMenuOpen, setIsMenuOpen }) => {
   };
 
   return (
-    <div className="header-logo-row vads-u-background-color--primary-darkest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-padding-y--0p5 vads-u-padding-left--1p5 vads-u-padding-right--1">
+    <div className="header-logo-row vads-u-background-color--primary-darkest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-padding-y--1p5 vads-u-padding-left--1p5 vads-u-padding-right--1">
       {/* Logo */}
       <a href="/" className="header-logo">
-        <img alt="Go to VA.gov" src="/img/header-logo-v2.png" />
+        <Logo />
       </a>
 
       <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center">
