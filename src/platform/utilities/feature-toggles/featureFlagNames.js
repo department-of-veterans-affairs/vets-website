@@ -30,6 +30,7 @@ export default Object.freeze({
   facilitiesPpmsSuppressAll: 'facilities_ppms_suppress_all',
   facilitiesPpmsSuppressCommunityCare: 'facilities_ppms_suppress_community_care',
   facilitiesPpmsSuppressPharmacies: 'facilities_ppms_suppress_pharmacies',
+  facilityLocatorLatLongOnly: 'facility_locator_lat_long_only',
   facilityLocatorLighthouseCovidVaccineQuery:
     'facility_locator_lighthouse_covid_vaccine_query',
   facilityLocatorPredictiveLocationSearch:
@@ -46,6 +47,7 @@ export default Object.freeze({
   gibctEybBottomSheet: 'gibct_eyb_bottom_sheet',
   gibctSchoolRatings: 'gibct_school_ratings',
   hlrv2: 'hlr_v2',
+  loginGov: 'login_gov',
   manageDependents: 'dependents_management',
   megaMenuMobileV2: 'mega_menu_mobile_v2',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',

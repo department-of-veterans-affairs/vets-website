@@ -3,7 +3,7 @@ import moment from 'moment';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 import { mockFetch } from 'platform/testing/unit/helpers';
-import { getCCAppointmentMock, getVAAppointmentMock } from '../../mocks/v0';
+import { getCCAppointmentMock } from '../../mocks/v0';
 import {
   mockAppointmentInfo,
   mockSingleCommunityCareAppointmentFetch,
@@ -302,32 +302,18 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
 
   it('should show cc appointment from vista when directly opening page', async () => {
     const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
-
-    const appointment = getVAAppointmentMock();
-    appointment.id = '8a4885896a22f88f016a2cb7f5de0062';
-    appointment.attributes = {
-      ...appointment.attributes,
-      clinicId: '308',
-      clinicFriendlyName: 'COMMUNITY CARE',
-      facilityId: '983',
-      sta6aid: '983GC',
-      communityCare: true,
-      vdsAppointments: [
-        {
-          bookingNote: '',
-          appointmentLength: '60',
-          appointmentTime: '2021-12-07T16:00:00Z',
-          clinic: {
-            name: 'CHY OPT VAR1',
-            askForCheckIn: false,
-            facilityCode: '983',
-          },
-          type: 'REGULAR',
-          currentStatus: 'FUTURE',
-        },
-      ],
-      vvsAppointments: [],
+    const data = {
+      id: '8a4885896a22f88f016a2cb7f5de0062',
+      kind: 'cc',
+      start: moment()
+        .tz('America/Denver')
+        .format('YYYY-MM-DDTHH:mm:ss'),
+      communityCareProvider: {},
     };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockSingleVistaCommunityCareAppointmentFetch({
       appointment,

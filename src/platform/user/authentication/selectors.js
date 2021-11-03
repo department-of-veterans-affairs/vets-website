@@ -2,6 +2,9 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { selectProfile } from 'platform/user/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
+export const loginGov = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.loginGov];
+
 export const ssoe = state => toggleValues(state)[FEATURE_FLAG_NAMES.ssoe];
 
 export const ssoeInbound = state =>
