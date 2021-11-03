@@ -24,7 +24,7 @@ jobs:
         run: |
           JSON=$(cat ./content-build/src/applications/registry.json)
           echo ::set-output name=rootURLS::$(jq '[.[].rootURL]' ./content-build/src/applications/registry.json)
-          echo ::set-output name=appNames::$(jq '[.[].rootURL]' ./content-build/src/applications/registry.json)
+          echo ::set-output name=appNames::$(jq '[.[].appName]' ./content-build/src/applications/registry.json)
 
   lighthouse:
     needs: job1
