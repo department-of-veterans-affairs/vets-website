@@ -182,7 +182,7 @@ export default function SelectDate1Page() {
               required: true,
             }}
             id="dateTime"
-            timezone={timezoneDescription}
+            timezone={timezone}
             disabled={loadingSlots}
             disabledMessage={
               <LoadingIndicator

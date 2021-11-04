@@ -11,10 +11,7 @@ import {
   isMultifactorEnabled as isMultifactorEnabledSelector,
   selectProfile,
 } from 'platform/user/selectors';
-import {
-  isAuthenticatedWithSSOe as authenticatedWithSSOeSelector,
-  signInServiceName as signInServiceNameSelector,
-} from 'platform/user/authentication/selectors';
+import { signInServiceName as signInServiceNameSelector } from 'platform/user/authentication/selectors';
 
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
@@ -33,7 +30,6 @@ export const AccountSecurityContent = ({
   showWeHaveVerifiedYourID,
   showMPIConnectionError,
   showNotInMPIError,
-  isAuthenticatedWithSSOe,
   signInServiceName,
 }) => {
   const securitySections = [
@@ -43,7 +39,6 @@ export const AccountSecurityContent = ({
       value: (
         <TwoFactorAuthorizationStatus
           isMultifactorEnabled={isMultifactorEnabled}
-          isAuthenticatedWithSSOe={isAuthenticatedWithSSOe}
         />
       ),
     },
@@ -173,7 +168,6 @@ AccountSecurityContent.propTypes = {
   }),
   showMHVTermsAndConditions: PropTypes.bool.isRequired,
   signInServiceName: PropTypes.string.isRequired,
-  authenticatedWithSSOe: PropTypes.bool.isRequired,
 };
 
 export const mapStateToProps = state => {
@@ -198,7 +192,6 @@ export const mapStateToProps = state => {
     showNotInMPIError,
     showMHVTermsAndConditions,
     signInServiceName: signInServiceNameSelector(state),
-    isAuthenticatedWithSSOe: authenticatedWithSSOeSelector(state),
   };
 };
 

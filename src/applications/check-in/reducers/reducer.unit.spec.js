@@ -4,11 +4,13 @@ import reducer from './index';
 
 import {
   appointmentWAsCheckedInto,
-  receivedAppointmentDetails,
+  receivedMultipleAppointmentDetails,
   receivedDemographicsData,
+  receivedNextOfKinData,
   tokenWasValidated,
   permissionsUpdated,
   triggerRefresh,
+  seeStaffMessageUpdated,
 } from '../actions';
 
 describe('check-in', () => {
@@ -53,109 +55,126 @@ describe('check-in', () => {
         expect(state.demographics).haveOwnProperty('emailAddress');
       });
     });
-    describe('receivedAppointmentDetails', () => {
+    describe('receivedNextOfKinData', () => {
       it('should create basic structure', () => {
-        const action = receivedAppointmentDetails();
+        const action = receivedNextOfKinData({});
         const state = reducer.checkInData(undefined, action);
-        expect(state).haveOwnProperty('appointments');
+        expect(state).haveOwnProperty('nextOfKin');
       });
 
-      it('should set appointment', () => {
+      it('should have the correct fields', () => {
         const data = {
-          startTime: '2021-08-19T13:56:31.000-07:00',
-          facility: 'LOMA LINDA VA CLINIC',
-          clinicPhoneNumber: '5551234567',
-          clinicFriendlyName: 'TEST CLINIC',
-          clinicName: 'LOM ACC CLINIC TEST',
+          name: 'VETERAN,JONAH',
+          relationship: 'BROTHER',
+          phone: '1112223333',
+          workPhone: '4445556666',
+          address: {
+            street1: '123 Main St',
+            street2: 'Ste 234',
+            street3: '',
+            city: 'Los Angeles',
+            county: 'Los Angeles',
+            state: 'CA',
+            zip: '90089',
+            zip4: '',
+            country: 'USA',
+          },
         };
-        const action = receivedAppointmentDetails(data);
+        const action = receivedNextOfKinData(data);
         const state = reducer.checkInData(undefined, action);
-        expect(state).haveOwnProperty('appointments');
-        expect(state.appointments).to.be.an('array');
-
-        expect(state.appointments[0]).haveOwnProperty('startTime');
-        expect(state.appointments[0].startTime).to.equal('2021-08-19T13:56:31');
-        expect(state.appointments[0]).haveOwnProperty('facility');
-        expect(state.appointments[0]).haveOwnProperty('clinicPhoneNumber');
-        expect(state.appointments[0]).haveOwnProperty('clinicFriendlyName');
-        expect(state.appointments[0]).haveOwnProperty('clinicName');
+        expect(state).haveOwnProperty('nextOfKin');
+        expect(state.nextOfKin).to.be.an('object');
+        expect(state.nextOfKin).haveOwnProperty('name');
+        expect(state.nextOfKin).haveOwnProperty('relationship');
+        expect(state.nextOfKin).haveOwnProperty('phone');
+        expect(state.nextOfKin).haveOwnProperty('workPhone');
+        expect(state.nextOfKin).haveOwnProperty('address');
       });
-
-      it('should trigger refresh', () => {
-        const data = {
+    });
+    it('should trigger refresh', () => {
+      const data = [
+        {
           startTime: '2021-08-19T13:56:31',
           facility: 'LOMA LINDA VA CLINIC',
           clinicPhoneNumber: '5551234567',
           clinicFriendlyName: 'TEST CLINIC',
           clinicName: 'LOM ACC CLINIC TEST',
-        };
-        const action = receivedAppointmentDetails(data);
-        const state = reducer.checkInData(undefined, action);
-        expect(state.context).to.eql({});
+        },
+      ];
+      const action = receivedMultipleAppointmentDetails(data);
+      const state = reducer.checkInData(undefined, action);
+      expect(state.context).to.eql({});
 
-        const refreshAction = triggerRefresh();
-        const newState = reducer.checkInData(undefined, refreshAction);
-        expect(newState.context).to.eql({ shouldRefresh: true });
-      });
+      const refreshAction = triggerRefresh();
+      const newState = reducer.checkInData(undefined, refreshAction);
+      expect(newState.context).to.eql({ shouldRefresh: true });
     });
-    describe('tokenWasValidated', () => {
-      it('should create basic structure', () => {
-        const action = tokenWasValidated({}, 'some-token', 'some-scope');
-        const state = reducer.checkInData(undefined, action);
-        expect(state).haveOwnProperty('appointments');
-        expect(state.appointments).to.be.an('array');
-        expect(state).haveOwnProperty('context');
-        expect(state.context).haveOwnProperty('token');
-        expect(state.context).haveOwnProperty('scope');
-      });
-      it('should set context', () => {
-        const action = tokenWasValidated({}, 'some-token', 'some-scope');
-        const state = reducer.checkInData(undefined, action);
-        expect(state.context).haveOwnProperty('token');
-        expect(state.context.token).to.equal('some-token');
-        expect(state.context).haveOwnProperty('scope');
-        expect(state.context.scope).to.equal('some-scope');
-      });
-      it('should update permissions', () => {
-        const action = tokenWasValidated({}, 'some-token', 'some-scope');
-        const state = reducer.checkInData(undefined, action);
-        expect(state.context).haveOwnProperty('token');
-        expect(state.context.token).to.equal('some-token');
-        expect(state.context).haveOwnProperty('scope');
-        expect(state.context.scope).to.equal('some-scope');
-        const permissionsAction = permissionsUpdated({}, 'new-scope');
-        const newState = reducer.checkInData(undefined, permissionsAction);
-        expect(newState.context).haveOwnProperty('scope');
-        expect(newState.context.scope).to.equal('new-scope');
-      });
+  });
+  describe('tokenWasValidated', () => {
+    it('should create basic structure', () => {
+      const action = tokenWasValidated({}, 'some-token', 'some-scope');
+      const state = reducer.checkInData(undefined, action);
+      expect(state).haveOwnProperty('appointments');
+      expect(state.appointments).to.be.an('array');
+      expect(state).haveOwnProperty('context');
+      expect(state.context).haveOwnProperty('token');
+      expect(state.context).haveOwnProperty('scope');
     });
-    describe('appointmentWAsCheckedInto', () => {
-      it('should create basic structure', () => {
-        const action = appointmentWAsCheckedInto({
-          appointmentIen: 'some-ien',
-        });
-        const state = reducer.checkInData(undefined, action);
-        expect(state).haveOwnProperty('context');
-        expect(state.context).haveOwnProperty('appointment');
-      });
-      it('should set context', () => {
-        const action = appointmentWAsCheckedInto({
-          appointmentIen: 'some-ien',
-        });
-        const state = reducer.checkInData(undefined, action);
-        expect(state).haveOwnProperty('context');
-        expect(state.context).haveOwnProperty('appointment');
-        expect(state.context.appointment).haveOwnProperty('appointmentIen');
-        expect(state.context.appointment.appointmentIen).to.equal('some-ien');
-      });
+    it('should set context', () => {
+      const action = tokenWasValidated({}, 'some-token', 'some-scope');
+      const state = reducer.checkInData(undefined, action);
+      expect(state.context).haveOwnProperty('token');
+      expect(state.context.token).to.equal('some-token');
+      expect(state.context).haveOwnProperty('scope');
+      expect(state.context.scope).to.equal('some-scope');
     });
-    describe('defaultAction', () => {
-      it('the default action should be to return the state unchanged', () => {
-        const action = receivedAppointmentDetails();
+    it('should update permissions', () => {
+      const action = tokenWasValidated({}, 'some-token', 'some-scope');
+      const state = reducer.checkInData(undefined, action);
+      expect(state.context).haveOwnProperty('token');
+      expect(state.context.token).to.equal('some-token');
+      expect(state.context).haveOwnProperty('scope');
+      expect(state.context.scope).to.equal('some-scope');
+      const permissionsAction = permissionsUpdated({}, 'new-scope');
+      const newState = reducer.checkInData(undefined, permissionsAction);
+      expect(newState.context).haveOwnProperty('scope');
+      expect(newState.context.scope).to.equal('new-scope');
+    });
+  });
+  describe('appointmentWAsCheckedInto', () => {
+    it('should create basic structure', () => {
+      const action = appointmentWAsCheckedInto({
+        appointmentIen: 'some-ien',
+      });
+      const state = reducer.checkInData(undefined, action);
+      expect(state).haveOwnProperty('context');
+      expect(state.context).haveOwnProperty('appointment');
+    });
+    it('should set context', () => {
+      const action = appointmentWAsCheckedInto({
+        appointmentIen: 'some-ien',
+      });
+      const state = reducer.checkInData(undefined, action);
+      expect(state).haveOwnProperty('context');
+      expect(state.context).haveOwnProperty('appointment');
+      expect(state.context.appointment).haveOwnProperty('appointmentIen');
+      expect(state.context.appointment.appointmentIen).to.equal('some-ien');
+    });
+  });
+  describe('defaultAction', () => {
+    it('the default action should be to return the state unchanged', () => {
+      const action = receivedMultipleAppointmentDetails([]);
+      const state = reducer.checkInData(undefined, action);
+      expect(state).haveOwnProperty('appointments');
+      const newState = reducer.checkInData(state, { type: 'none' });
+      expect(newState).to.eql(state);
+    });
+    describe('seeStaffMessageUpdated', () => {
+      it('the see staff message should get updates', () => {
+        const action = seeStaffMessageUpdated('This is a message');
         const state = reducer.checkInData(undefined, action);
-        expect(state).haveOwnProperty('appointments');
-        const newState = reducer.checkInData(state, { type: 'none' });
-        expect(newState).to.eql(state);
+        expect(state).haveOwnProperty('seeStaffMessage');
+        expect(state.seeStaffMessage).to.equal('This is a message');
       });
     });
   });

@@ -105,7 +105,7 @@ jobs:
 
       - name: Get AWS IAM role
         if: ${{ github.ref == 'refs/heads/master' }}
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
@@ -131,12 +131,14 @@ jobs:
 
       - name: Publish test results
         if: ${{ always() }}
-        uses: mikepenz/action-junit-report@v2.4.3
+        continue-on-error: true
+        uses: mikepenz/action-junit-report@v2.6.0
         with:
           check_name: 'Unit Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'test-results/unit-tests.xml'
           summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
+          fail_on_failure: 'true'
 
   contract-tests:
     name: Contract Tests
@@ -153,13 +155,13 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get Pact Broker password
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /dsva-vagov/pact-broker/utility/PACT_BROKER_BASIC_AUTH_PASSWORD
           env_variable_name: PACT_BROKER_BASIC_AUTH_PASSWORD
 
       - name: Get GitHub token
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -258,6 +260,77 @@ jobs:
       - name: Annotate Stylelint results
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
+
+  testing-reports-prep:
+    name: Testing Reports Prep
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    outputs:
+      app_list: ${{ env.APPLICATION_LIST }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Generate new application list
+        run: yarn generate-app-list
+      # exports app list and assigns to environmental variable at this step
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Checkout Testing Tools Team Dashboard Data repo
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: testing-tools-team-dashboard-data
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14 # ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+        working-directory: testing-tools-team-dashboard-data
+
+      - name: Get BigQuery service credentials
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
+          env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
+
+      - name: Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: vsp-analytics-and-insights
+          service_account_key: ${{ env.BIGQUERY_SERVICE_CREDENTIALS }}
+          export_default_credentials: true
+
+      - name: Upload app list to BigQuery
+        run: yarn generate-app-list
+        working-directory: testing-tools-team-dashboard-data
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
@@ -400,9 +473,11 @@ jobs:
   testing-reports-contract-tests:
     name: Testing Reports - Contract Tests
     runs-on: ubuntu-latest
-    needs: [contract-tests]
+    needs: [testing-reports-prep, contract-tests]
     if: ${{ always() && (needs.contract-tests.result == 'success' || needs.contract-tests.result == 'failure') }}
     continue-on-error: true
+    env:
+      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
       - name: Set IS_MASTER_BUILD
         run: |
@@ -431,7 +506,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-        # ------------------------
+      # ------------------------
       # | Upload BigQuery Data |
       # ------------------------
 
@@ -443,7 +518,7 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -474,7 +549,7 @@ jobs:
         working-directory: testing-tools-team-dashboard-data
 
       - name: Get BigQuery service credentials
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
           env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
@@ -487,7 +562,7 @@ jobs:
           export_default_credentials: true
 
       - name: Get AWS IAM role
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
@@ -513,13 +588,13 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: contract-test-report
-          path: testing-tools-team-dashboard-data/src/mochawesome/data
+          path: testing-tools-team-dashboard-data/src/testing-reports/data
 
       - name: Upload Contract Test report to s3
-        run: aws s3 cp testing-tools-team-dashboard-data/src/mochawesome/data/mochawesome.html s3://testing-tools-testing-reports/vets-website-contract-test-reports/${{env.UUID}}.html --acl public-read --region us-gov-west-1
+        run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data/mochawesome.html s3://testing-tools-testing-reports/vets-website-contract-test-reports/${{env.UUID}}.html --acl public-read --region us-gov-west-1
 
       - name: Create Contract Test report and post results to BigQuery
-        run: yarn cypress-mochawesome-to-bigquery
+        run: yarn contract-mochawesome-to-bigquery
         working-directory: testing-tools-team-dashboard-data
         env:
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
@@ -546,8 +621,10 @@ jobs:
   testing-reports-cypress:
     name: Testing Reports - Cypress E2E Tests
     runs-on: ubuntu-latest
-    needs: [cypress-tests-prep, cypress-tests]
+    needs: [testing-reports-prep, cypress-tests-prep, cypress-tests]
     if: ${{ always() && needs.cypress-tests-prep.outputs.num_containers > 0 && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
+    env:
+      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     continue-on-error: true
     steps:
       - name: Checkout
@@ -577,7 +654,7 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -607,7 +684,7 @@ jobs:
         working-directory: testing-tools-team-dashboard-data
 
       - name: Get BigQuery service credentials
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
           env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
@@ -620,7 +697,7 @@ jobs:
           export_default_credentials: true
 
       - name: Get AWS IAM role
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
@@ -646,7 +723,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: cypress-mochawesome-test-results
-          path: testing-tools-team-dashboard-data/src/mochawesome/data
+          path: testing-tools-team-dashboard-data/src/testing-reports/data
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
@@ -697,7 +774,7 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging]
 
-    needs: [cypress-tests, unit-tests, contract-tests, security-audit, linting]
+    needs: [build, cypress-tests, unit-tests, contract-tests, security-audit, linting]
 
     # Archive should still run even when linting is skipped (as in PRs).
     # This if overrides the dependency on linting success to include skipped.
@@ -706,7 +783,8 @@ jobs:
     # or else they will also be skipped when linting is skipped.
     if: |
       always() &&
-      needs.cypress-tests.result == 'success' &&
+      (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'skipped') &&
+      needs.build.result == 'success' &&
       needs.unit-tests.result == 'success' &&
       needs.contract-tests.result == 'success' &&
       needs.security-audit.result == 'success' &&
@@ -726,7 +804,7 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get AWS IAM role
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
@@ -791,8 +869,10 @@ jobs:
         include:
           - environment: vagovdev
             bucket: dev-va-gov-assets
+            apps-bucket: apps.dev.va.gov
           - environment: vagovstaging
             bucket: staging-va-gov-assets
+            apps-bucket: apps.staging.va.gov
 
     steps:
       - name: Checkout
@@ -806,7 +886,7 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get AWS IAM role
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
@@ -827,6 +907,13 @@ jobs:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
           DEST: s3://${{ matrix.bucket }}
 
+      # TODO: Revisit revproxy
+      - name: Deploy to ${{ matrix.apps-bucket }}
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
+        env:
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
+          DEST: s3://${{ matrix.apps-bucket }}
+
   # jenkins:
   #   name: Run Jenkins CI
   #   runs-on: ubuntu-latest
@@ -841,7 +928,7 @@ jobs:
   #         aws-region: us-gov-west-1
 
   #     - name: Get Jenkins token
-  #       uses: marvinpinto/action-inject-ssm-secrets@latest
+  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
   #       with:
   #         ssm_parameter: /frontend-team/github-actions/parameters/JENKINS_API_TOKEN
   #         env_variable_name: JENKINS_API_TOKEN

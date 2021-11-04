@@ -22,6 +22,7 @@
     "cy:testrail-run": "cypress run --config-file config/cypress-testrail.json --reporter-options host=https://dsvavsp.testrail.io/,username=$TR_USER,password=$TR_API_KEY,projectId=$TR_PROJECTID,suiteId=$TR_SUITEID,runName=$TR_RUN_NAME,includeAllInTestRun=$TR_INCLUDE_ALL,groupId=$TR_GROUPID,filter=$TR_FILTER",
     "cy:my-testrail-helper": "node ./script/cypress-testrail-helper",
     "cy:my-testrail-run": "cypress run --config-file config/my-cypress-testrail.json",
+    "generate-app-list": "node script/github-actions/generate-app-list.js",
     "heroku-serve": "http-server",
     "jsdoc": "jsdoc",
     "prebuild": "node script/prebuild.js",
@@ -200,6 +201,7 @@
     "mocha-junit-reporter": "^2.0.0",
     "mocha-snapshots": "^4.2.0",
     "mochawesome": "^6.2.2",
+    "mock-fs": "^5.1.1",
     "mockdate": "^3.0.5",
     "mocker-api": "^2.9.0",
     "morgan": "^1.10.0",
@@ -312,7 +314,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#810659cc9ef96efe66b1373c455d38a14418b777",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#67252e48a915a5b31c05de71dbd8127b12052a90",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {

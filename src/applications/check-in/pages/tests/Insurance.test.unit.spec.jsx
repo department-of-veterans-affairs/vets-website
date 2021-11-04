@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
@@ -44,6 +45,44 @@ describe('check in', () => {
       );
 
       expect(container.querySelector('fieldset')).to.exist;
+    });
+    it('has a clickable yes button', () => {
+      const push = sinon.spy();
+      const mockRouter = {
+        push,
+        params: {
+          token: 'token-123',
+        },
+      };
+
+      const component = render(
+        <Provider store={store}>
+          <UpdateInformationQuestion router={mockRouter} />
+        </Provider>,
+      );
+
+      expect(component.getByText('Do you need to update any information?')).to
+        .exist;
+      component.getByTestId('yes-button').click();
+    });
+    it('has a clickable no button', () => {
+      const push = sinon.spy();
+      const mockRouter = {
+        push,
+        params: {
+          token: 'token-123',
+        },
+      };
+
+      const component = render(
+        <Provider store={store}>
+          <UpdateInformationQuestion router={mockRouter} />
+        </Provider>,
+      );
+
+      expect(component.getByText('Do you need to update any information?')).to
+        .exist;
+      component.getByTestId('no-button').click();
     });
     it('passes axeCheck', () => {
       axeCheck(

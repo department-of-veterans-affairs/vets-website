@@ -21,7 +21,7 @@ export const getQueryParams = () => {
   const searchParams = new URLSearchParams(window.location.search);
   const application = searchParams.get('application');
   const to = searchParams.get('to');
-  // console.log('inside qp', { application, to });
+
   return { application, to };
 };
 
@@ -49,8 +49,7 @@ export function sessionTypeUrl({
   version = 'v1',
   queryParams = {},
 }) {
-  // force v1 regardless of version
-  const base = `${environment.API_URL}/${version}/sessions`.replace(/v0/, 'v1');
+  const base = `${environment.API_URL}/${version}/sessions`;
   const searchParams = new URLSearchParams(queryParams);
 
   const queryString =
@@ -110,25 +109,30 @@ export function standaloneRedirect() {
 }
 
 export function redirect(redirectUrl, clickedEvent) {
+  const { application: app } = getQueryParams();
+  const isStandaloneAndValidExternal =
+    loginAppUrlRE.test(window.location.pathname) &&
+    Object.keys(externalRedirects).includes(app);
+
   let rUrl = redirectUrl;
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
-  const returnUrl = loginAppUrlRE.test(window.location.pathname)
-    ? standaloneRedirect() || window.location.origin
-    : window.location;
+  const returnUrl = isStandaloneAndValidExternal
+    ? standaloneRedirect()
+    : window.location.origin;
   sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 
   if (
-    !loginAppUrlRE.test(window.location.pathname) &&
-    clickedEvent === 'login-link-clicked-modal'
+    !isStandaloneAndValidExternal &&
+    (clickedEvent === 'login-link-clicked-modal' ||
+      clickedEvent === 'sso-automatic-login')
   ) {
     setLoginAttempted();
   }
 
   // Generates the redirect for /sign-in page and tracks event
-  if (loginAppUrlRE.test(window.location.pathname)) {
-    const { application: app } = getQueryParams();
+  if (isStandaloneAndValidExternal) {
     rUrl = {
       mhv: `${redirectUrl}?skip_dupe=mhv&redirect=${returnUrl}&postLogin=true`,
       myvahealth: `${redirectUrl}`,
