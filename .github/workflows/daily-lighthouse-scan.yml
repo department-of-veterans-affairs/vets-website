@@ -24,6 +24,8 @@ jobs:
         run: |
           echo ::set-output name=rootUrls::$(jq '[.[].rootUrl]' ./content-build/src/applications/registry.json)
           echo ::set-output name=vagovprod::$(jq '[.[].template] | if has("vagovprod") then .vagovprod else false' ./content-build/src/applications/registry.json)
+          # echo ::set-output name=registries::$(jq '[.[].rootUrl]' ./content-build/src/applications/registry.json)
+          echo $(jq '.[] | {rootUrl: .rootUrl, vagovprod: if has("vagovprod") then .vagovprod else false end }' ./content-build/src/applications/registry.json)
 
   lighthouse:
     needs: job1
