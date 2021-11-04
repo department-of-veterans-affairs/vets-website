@@ -247,7 +247,7 @@ const formConfig = {
         disabilityPension: {
           path: 'va-benefits/disability-pension',
           title: 'VA benefits',
-          depends: formData => formData.vaCompensationType === 'none',
+          depends: formData => formData.vaCompensationType !== 'none',
           uiSchema: disabilityPension.uiSchema,
           schema: disabilityPension.schema,
         },
