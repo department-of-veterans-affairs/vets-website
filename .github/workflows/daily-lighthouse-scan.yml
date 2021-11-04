@@ -32,8 +32,8 @@ jobs:
       fail-fast: false
       max-parallel: 8
       matrix:
-          - rootUrl: ${{ fromJson(needs.job1.outputs.rootUrls) }}
-            vagovprod: ${{ fromJson(needs.job1.outputs.vagovprod) }}
+          rootUrl: ${{ fromJson(needs.job1.outputs.rootUrls) }}
+          vagovprod: ${{ fromJson(needs.job1.outputs.vagovprod) }}
 
     steps:
       - name: Checkout
