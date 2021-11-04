@@ -18,6 +18,7 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
         <button
           disabled={isDisabled}
           type="link"
+          aria-label="Sign in with Login.gov"
           className="usa-button usa-button-big logingov-button vads-u-margin-y--1p5"
           onClick={() => loginHandler('logingov')}
         >
@@ -30,6 +31,7 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
       <button
         disabled={isDisabled}
         type="link"
+        aria-label="Sign in with ID.me"
         className="usa-button usa-button-big idme-button vads-u-margin-y--1p5"
         onClick={() => loginHandler('idme')}
       >
@@ -41,6 +43,7 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
       <button
         disabled={isDisabled}
         type="link"
+        aria-label="Sign in with DS Logon"
         className="usa-button usa-button-big dslogon-button vads-u-margin-y--1p5"
         onClick={() => loginHandler('dslogon')}
       >
@@ -49,6 +52,7 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
       <button
         disabled={isDisabled}
         type="link"
+        aria-label="Sign in with My HealtheVet"
         className="usa-button usa-button-big mhv-button vads-u-margin-y--1p5"
         onClick={() => loginHandler('mhv')}
       >
@@ -61,7 +65,7 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
             <a
               role="link"
               tabIndex="0"
-              aria-label="Create an account on the Login.gov website"
+              aria-label="Create an account with Login.gov. Navigates to Login.gov website"
               disabled={isDisabled}
               className="vads-c-action-link--blue vads-u-border-top--1px vads-u-padding-bottom--2"
               onClick={() =>
@@ -74,7 +78,7 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
           <a
             role="link"
             tabIndex="0"
-            aria-label="Create an account on the ID.me website"
+            aria-label="Create an account with ID.me. Navigates to ID.me website"
             disabled={isDisabled}
             className="vads-c-action-link--blue vads-u-border-top--1px vads-u-padding-bottom--2 vads-u-border-bottom--1px"
             onClick={() =>
@@ -84,13 +88,15 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
             Create an account with ID.me
           </a>
         </div>
-        <a
-          className="vads-u-display--block vads-u-margin-top--2"
-          href="/resources/privacy-and-security-on-vagov/#whats-idme-and-why-should-i-tr"
-          target="_blank"
-        >
-          Learn more about choosing an account
-        </a>
+        {loginGovEnabled && (
+          <a
+            className="vads-u-display--block vads-u-margin-top--2"
+            href="#"
+            target="_blank"
+          >
+            Learn more about choosing an account
+          </a>
+        )}
       </div>
     </div>
   );

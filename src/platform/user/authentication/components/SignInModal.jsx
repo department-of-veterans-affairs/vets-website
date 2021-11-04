@@ -157,6 +157,7 @@ export class SignInModal extends React.Component {
                 <button
                   disabled={globalDowntime}
                   type="link"
+                  aria-label="Sign in with DS Logon"
                   className="usa-button usa-button-big logingov-button vads-u-margin-y--1p5"
                   onClick={this.loginHandler('logingov')}
                 >
@@ -169,6 +170,7 @@ export class SignInModal extends React.Component {
               <button
                 disabled={globalDowntime}
                 type="link"
+                aria-label="Sign in with DS Logon"
                 className="usa-button usa-button-big idme-button vads-u-margin-y--1p5"
                 onClick={this.loginHandler('idme')}
               >
@@ -180,19 +182,19 @@ export class SignInModal extends React.Component {
               <button
                 disabled={globalDowntime}
                 type="link"
+                aria-label="Sign in with DS Logon"
                 className="usa-button usa-button-big dslogon-button vads-u-margin-y--1p5"
                 onClick={this.loginHandler('dslogon')}
               >
-                <span className="sr-only">Sign in with DS Logon</span>
                 DS Logon
               </button>
               <button
                 disabled={globalDowntime}
                 type="link"
+                aria-label="Sign in with My HealtheVet"
                 className="usa-button usa-button-big mhv-button vads-u-margin-y--1p5"
                 onClick={this.loginHandler('mhv')}
               >
-                <span className="sr-only">Sign in with My HealtheVet</span>
                 My HealtheVet
               </button>
               <div className="alternate-signin">
@@ -200,8 +202,9 @@ export class SignInModal extends React.Component {
                 <div className="vads-u-display--flex vads-u-flex-direction--column">
                   {this.props.loginGovEnabled && (
                     <a
-                      role="button"
-                      aria-label="Navigate to Login.gov website"
+                      role="link"
+                      tabIndex="0"
+                      aria-label="Create an account with Login.gov. Navigates to Login.gov website"
                       disabled={globalDowntime}
                       className="vads-c-action-link--blue vads-u-border-top--1px vads-u-padding-bottom--2"
                       onClick={this.signupHandler('logingov')}
@@ -211,7 +214,8 @@ export class SignInModal extends React.Component {
                   )}
                   <a
                     role="link"
-                    aria-label="Navigate to ID.me website"
+                    tabIndex="0"
+                    aria-label="Create an account with ID.me. Navigates to ID.me website"
                     disabled={globalDowntime}
                     className="vads-c-action-link--blue vads-u-border-top--1px vads-u-padding-bottom--2 vads-u-border-bottom--1px"
                     onClick={this.signupHandler('idme')}
@@ -219,13 +223,15 @@ export class SignInModal extends React.Component {
                     Create an account with ID.me
                   </a>
                 </div>
-                <a
-                  className="vads-u-display--block vads-u-margin-top--2"
-                  href="/resources/privacy-and-security-on-vagov/#whats-idme-and-why-should-i-tr"
-                  target="_blank"
-                >
-                  Learn more about choosing an account
-                </a>
+                {this.props.loginGovEnabled && (
+                  <a
+                    className="vads-u-display--block vads-u-margin-top--2"
+                    href="#"
+                    target="_blank"
+                  >
+                    Learn more about choosing an account
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -251,7 +257,7 @@ export class SignInModal extends React.Component {
                 .
               </p>
               <p>
-                <SubmitSignInForm startSentence />. We're here 24/7.
+                <SubmitSignInForm startSentence /> We're here 24/7.
               </p>
             </div>
             <FedWarning />
