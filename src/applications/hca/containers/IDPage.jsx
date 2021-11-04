@@ -161,6 +161,7 @@ class IDPage extends React.Component {
       showLoadingIndicator,
       showServerError,
     } = this.props;
+    // console.log(isSubmittingIDForm, `--> isSubmittingIDForm`);
     return (
       <div className="schemaform-intro">
         <FormTitle title="We need some information before you can start your application" />
