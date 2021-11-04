@@ -157,7 +157,7 @@ export class SignInModal extends React.Component {
                 <button
                   disabled={globalDowntime}
                   type="link"
-                  aria-label="Sign in with DS Logon"
+                  aria-label="Sign in with Login.gov"
                   className="usa-button usa-button-big logingov-button vads-u-margin-y--1p5"
                   onClick={this.loginHandler('logingov')}
                 >
@@ -170,7 +170,7 @@ export class SignInModal extends React.Component {
               <button
                 disabled={globalDowntime}
                 type="link"
-                aria-label="Sign in with DS Logon"
+                aria-label="Sign in with ID.me"
                 className="usa-button usa-button-big idme-button vads-u-margin-y--1p5"
                 onClick={this.loginHandler('idme')}
               >
