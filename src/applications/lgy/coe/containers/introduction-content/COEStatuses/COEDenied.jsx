@@ -5,8 +5,8 @@ const COEDenied = () => (
     <va-alert status="info">
       <h2 slot="headline">We denied your request for a COE</h2>
       <div>
-        <p>You applied on:  June 30, 2021</p>
-        <p>We reviewed your application. You don’t qualify for a COE.</p>
+        <p>You requested a COE on:  June 30, 2021</p>
+        <p>We reviewed your request. You don’t qualify for a COE.</p>
         <a href="/housing-assistance/home-loans/apply-for-coe-form-26-1880/eligibility">
           Go to your VA home loan COE page to see status details
         </a>
@@ -16,7 +16,7 @@ const COEDenied = () => (
       <h2>Can I appeal VA’s decision?</h2>
       <p className="vads-u-margin-bottom--0">
         If you disagree with our decision, and it’s dated on or after February
-        19, 2019, you can choose from 3 decision review options. These your
+        19, 2019, you can choose from 3 decision review options. These are your
         options: Supplemental Claim, Higher-Level Review, or Board Appeal.
       </p>
       <a href="/decision-reviews/">
