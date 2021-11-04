@@ -39,6 +39,7 @@ import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors'
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import { logout, verify, mfa } from 'platform/user/authentication/utilities';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 
 export class CallToActionWidget extends Component {
   static propTypes = {
@@ -469,7 +470,7 @@ export class CallToActionWidget extends Component {
   };
 
   mfaHandler = () => {
-    recordEvent({ event: 'multifactor-link-clicked' });
+    recordEvent({ event: AUTH_EVENTS.MFA });
     mfa(this.authVersion());
   };
 

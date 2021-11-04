@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { mfa } from 'platform/user/authentication/utilities';
 import Verified from './Verified';
+import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 
 const TwoFactorAuthorizationStatus = ({
   isMultifactorEnabled,
@@ -19,7 +20,7 @@ const TwoFactorAuthorizationStatus = ({
   }
 
   const mfaHandler = isAuthenticatedWithSSO => {
-    recordEvent({ event: 'multifactor-link-clicked' });
+    recordEvent({ event: AUTH_EVENTS.MFA });
     mfa(isAuthenticatedWithSSO ? 'v1' : 'v0');
   };
 
