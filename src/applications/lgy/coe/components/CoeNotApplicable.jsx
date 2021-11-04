@@ -52,7 +52,6 @@ export const CoeNotApplicable = () => (
       <a href="/find-forms/about-form-26-1880/">
         <i
           aria-hidden="true"
-          role="img"
           className="fas fa-download vads-u-padding-right--1"
         />
         Download VA form 26-1880 (PDF)
