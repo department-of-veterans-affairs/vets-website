@@ -3,7 +3,7 @@
  */
 import moment from '../../lib/moment-tz';
 import omit from 'platform/utilities/data/omit';
-import { VIDEO_TYPES } from '../../utils/constants';
+import { VIDEO_TYPES, APPOINTMENT_STATUS } from '../../utils/constants';
 
 /**
  * Creates a mock appointment record, based on the data and version number
@@ -87,6 +87,8 @@ export function createMockAppointmentByVersion({
         vistaStatus = 'CHECKED OUT';
       } else if (fields.status === 'booked') {
         vistaStatus = 'FUTURE';
+      } else if (fields.status === APPOINTMENT_STATUS.noshow) {
+        vistaStatus = 'NO-SHOW';
       }
     }
 
@@ -117,7 +119,10 @@ export function createMockAppointmentByVersion({
         sourceSystem: 'VCM',
         dateTime: fields.start,
         duration: fields.minutesDuration || null,
-        status: { description: null, code: 'FUTURE' },
+        status: {
+          description: null,
+          code: currentStatus || 'FUTURE',
+        },
         schedulingRequestType: null,
         type: null,
         bookingNotes: fields.comment,
@@ -184,14 +189,16 @@ export function createMockAppointmentByVersion({
         appointmentRequestId: id,
         distanceEligibleConfirmed: true,
         name: { firstName: null, lastName: null },
-        providerPractice: communityCareProvider.name,
+        providerPractice: communityCareProvider.practiceName,
         providerPhone: communityCareProvider.caresitePhone,
-        address: {
-          street: communityCareProvider.street,
-          city: communityCareProvider.city,
-          state: communityCareProvider.state,
-          zipCode: communityCareProvider.zip,
-        },
+        address: communityCareProvider.address
+          ? {
+              street: communityCareProvider.address.line[0],
+              city: communityCareProvider.address.city,
+              state: communityCareProvider.address.state,
+              zipCode: communityCareProvider.address.postalCode,
+            }
+          : null,
         instructionsToVeteran: fields.comment,
         appointmentTime: moment(fields.start)
           .utc()
@@ -248,6 +255,9 @@ export function createMockAppointmentByVersion({
             : null,
         status: null,
         telehealth: null,
+        extension: {
+          ccLocation: communityCareProvider,
+        },
         ...fieldsWithoutProps,
       },
     };
@@ -267,7 +277,7 @@ export function createMockAppointmentByVersion({
  * @param {?string} params.friendlyName Friendly clinic name,
  * @param {number} [params.version=2] Version of the mock data format to use
  *
- * @returns
+ * @returns {VAOSClinic|VARClinic} A mock clinic object, based on the version provided
  */
 export function createMockClinicByVersion({
   id = null,

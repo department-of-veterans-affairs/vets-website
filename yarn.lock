@@ -13212,6 +13212,11 @@ mochawesome@^6.2.2:
     strip-ansi "^6.0.0"
     uuid "^8.3.2"
 
+mock-fs@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/mock-fs/-/mock-fs-5.1.1.tgz#d4c95e916abf400664197079d7e399d133bb6048"
+  integrity sha512-p/8oZ3qvfKGPw+4wdVCyjDxa6wn2tP0TCf3WXC1UyUBAevezPn1TtOoxtMYVbZu/S/iExg+Ghed1busItj2CEw==
+
 mockdate@^3.0.5:
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/mockdate/-/mockdate-3.0.5.tgz#789be686deb3149e7df2b663d2bc4392bc3284fb"
@@ -19435,9 +19440,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#097045b553829a5aa122dbf1c19de6a59cd14619":
-  version "20.14.4"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#097045b553829a5aa122dbf1c19de6a59cd14619"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#369eda35c5b823e534bb4717131679d31bf84a61":
+  version "20.15.3"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#369eda35c5b823e534bb4717131679d31bf84a61"
 
 vfile-message@^2.0.0:
   version "2.0.4"

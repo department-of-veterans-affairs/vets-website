@@ -22,7 +22,7 @@ export const getQueryParams = () => {
   const searchParams = new URLSearchParams(window.location.search);
   const application = searchParams.get('application');
   const to = searchParams.get('to');
-  // console.log('inside qp', { application, to });
+
   return { application, to };
 };
 
@@ -58,8 +58,7 @@ export function sessionTypeUrl({
   version = 'v1',
   queryParams = {},
 }) {
-  // force v1 regardless of version
-  const base = `${environment.API_URL}/${version}/sessions`.replace(/v0/, 'v1');
+  const base = `${environment.API_URL}/${version}/sessions`;
   const searchParams = new URLSearchParams(queryParams);
 
   const queryString =

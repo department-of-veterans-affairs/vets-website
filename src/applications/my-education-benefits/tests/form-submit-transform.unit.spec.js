@@ -9,6 +9,7 @@ import {
   createRelinquishedBenefit,
   getAddressType,
   getLTSCountryCode,
+  getSchemaCountryCode,
   getNotificationMethod,
 } from '../utils/form-submit-transform';
 
@@ -218,6 +219,16 @@ describe('form submit transform', () => {
     it('should return unknown code of ZZ for unknown country code', () => {
       const ltsCountryCode = getLTSCountryCode('INVALID_COUNTRY');
       expect(ltsCountryCode).to.eql('ZZ');
+    });
+  });
+  describe('has a getSchemaCountryCode method', () => {
+    it('should return a schema code for a valid country', () => {
+      const schemaCountryCode = getSchemaCountryCode('TS');
+      expect(schemaCountryCode).to.eql('TUN');
+    });
+    it('should return undefined for an unknown country code', () => {
+      const schemaCountryCode = getSchemaCountryCode('INVALID_COUNTRY');
+      expect(schemaCountryCode).to.eql(undefined);
     });
   });
 

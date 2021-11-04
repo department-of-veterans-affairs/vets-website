@@ -461,7 +461,7 @@ export class CallToActionWidget extends Component {
   };
 
   authVersion() {
-    return this.props.authenticatedWithSSOe ? 'v1' : 'v0';
+    return 'v1';
   }
 
   signOut = () => {
