@@ -17,6 +17,7 @@ import {
 } from '@@vap-svc/actions';
 
 import * as VAP_SERVICE from '@@vap-svc/constants';
+import { ACTIVE_EDIT_VIEWS, FIELD_NAMES, USA } from '@@vap-svc/constants';
 
 import {
   isFailedTransaction,
@@ -25,6 +26,7 @@ import {
 } from '@@vap-svc/util/transactions';
 import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
+import { getEditButtonId } from '@@vap-svc/components/ContactInformationField';
 
 import {
   selectCurrentlyOpenEditModal,
@@ -34,12 +36,9 @@ import {
   selectEditViewData,
 } from '@@vap-svc/selectors';
 
-import { ACTIVE_EDIT_VIEWS, FIELD_NAMES, USA } from '@@vap-svc/constants';
-
 import { transformInitialFormValues } from '@@profile/util/contact-information/formValues';
 
 import ContactInformationActionButtons from './ContactInformationActionButtons';
-import { getEditButtonId } from './ContactInformationField';
 
 export class ContactInformationEditView extends Component {
   static propTypes = {

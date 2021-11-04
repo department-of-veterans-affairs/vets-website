@@ -1,16 +1,5 @@
 export const RECEIVED_APPOINTMENT_DETAILS = 'RECEIVED_APPOINTMENT_DETAILS';
 
-export const receivedAppointmentDetails = payload => {
-  const data = { appointments: [{ ...payload }] };
-
-  return {
-    type: RECEIVED_APPOINTMENT_DETAILS,
-    payload: {
-      ...data,
-    },
-  };
-};
-
 export const receivedMultipleAppointmentDetails = payload => {
   const data = { appointments: [...payload] };
 
@@ -37,6 +26,15 @@ export const receivedDemographicsData = demographics => {
   return {
     type: RECEIVED_DEMOGRAPHICS_DATA,
     payload: { demographics },
+  };
+};
+
+export const RECEIVED_NEXT_OF_KIN_DATA = 'RECEIVED_NEXT_OF_KIN_DATA';
+
+export const receivedNextOfKinData = nextOfKin => {
+  return {
+    type: RECEIVED_NEXT_OF_KIN_DATA,
+    payload: { nextOfKin },
   };
 };
 
@@ -81,5 +79,14 @@ export const tokenWasValidated = (payload, token, scope) => {
       context: { token, scope },
       ...data,
     },
+  };
+};
+
+export const SEE_STAFF_MESSAGE_UPDATED = 'SEE_STAFF_MESSAGE_UPDATED';
+
+export const seeStaffMessageUpdated = message => {
+  return {
+    type: SEE_STAFF_MESSAGE_UPDATED,
+    payload: { seeStaffMessage: message },
   };
 };

@@ -54,6 +54,10 @@ export default class AccordionField extends React.Component {
 
   componentDidMount() {
     this.accordionField = document.getElementById(this.id);
+    if (!this.accordionField) {
+      return;
+    }
+
     const accordionItemNodes = this.accordionField.querySelectorAll(
       this.MEB_ACORDION_ITEM,
     );
@@ -157,6 +161,11 @@ export default class AccordionField extends React.Component {
     }
 
     const { formData } = this.props;
+
+    if (!formData || !formData.length) {
+      return <p>No service history was found.</p>;
+    }
+
     const items =
       formData && formData.length
         ? formData
@@ -244,7 +253,7 @@ AccordionField.propTypes = {
     }),
     definitions: PropTypes.object.isRequired,
   }).isRequired,
-  formData: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+  formData: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   onBlur: PropTypes.func.isRequired,
   formContext: PropTypes.shape({
     onError: PropTypes.func.isRequired,

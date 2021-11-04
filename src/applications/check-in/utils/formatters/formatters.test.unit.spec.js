@@ -14,6 +14,11 @@ describe('check in', () => {
         const formattedNumber = formatPhone(testNumber);
         expect(formattedNumber).to.equal('+1 111-222-3333');
       });
+      it('ignores a malformatted number', () => {
+        const testNumber = '0';
+        const formattedNumber = formatPhone(testNumber);
+        expect(formattedNumber).to.equal('0');
+      });
     });
     describe('format demographic text', () => {
       it('formats a phone number', () => {

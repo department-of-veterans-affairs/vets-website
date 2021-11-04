@@ -33,7 +33,7 @@ const formConfig = {
       title: '',
       pages: {
         representativeType: {
-          path: 'representstive-type',
+          path: 'representative-type',
           uiSchema: basicInformation.uiSchema,
           schema: basicInformation.schema,
         },
