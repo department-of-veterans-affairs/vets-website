@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './SearchDropdownStyles.scss';
 
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 
@@ -30,13 +31,37 @@ class SearchDropdownComponent extends React.Component {
      * */
     buttonText: PropTypes.string,
     /**
+     * A string value that will be prepended to the classnames for the button
+     * */
+    buttonClassNames: PropTypes.string,
+    /**
      * A boolean value for whether or not the component has "submit" functionality
      * */
     canSubmit: PropTypes.bool,
     /**
      * A string value that will be prepended on each ID
      * */
-    className: PropTypes.string,
+    ID: PropTypes.string,
+    /**
+     * A string value that will be prepended to the classnames for the base component
+     * */
+    componentClassNames: PropTypes.string,
+    /**
+     * A string value that will be prepended to the classnames for the container
+     * */
+    containerClassNames: PropTypes.string,
+    /**
+     * A string value that will be prepended to the classnames for the input field
+     * */
+    inputClassNames: PropTypes.string,
+    /**
+     * A string value that will be prepended to the classnames for the suggestionsList
+     * */
+    suggestionsListClassNames: PropTypes.string,
+    /**
+     * A string value that will be prepended to the classnames for the individual suggestions
+     * */
+    suggestionClassNames: PropTypes.string,
     /**
      * the debounce rate at which to fetch suggestions
      * */
@@ -90,7 +115,7 @@ class SearchDropdownComponent extends React.Component {
   static defaultProps = {
     buttonText: '',
     canSubmit: false,
-    className: '',
+    ID: '',
     debounceRate: 200,
     fetchSuggestions: undefined,
     formatSuggestions: false,
@@ -103,6 +128,12 @@ class SearchDropdownComponent extends React.Component {
     startingValue: '',
     submitOnClick: false,
     submitOnEnter: false,
+    buttonClassNames: '',
+    componentClassNames: '',
+    containerClassNames: '',
+    inputClassNames: '',
+    suggestionsListClassNames: '',
+    suggestionClassNames: '',
   };
 
   constructor(props) {
@@ -345,7 +376,7 @@ class SearchDropdownComponent extends React.Component {
     this.setState({ isOpen: open });
 
     if (callFocus) {
-      document.getElementById(`${this.props.className}-input-field`).focus();
+      document.getElementById(`${this.props.ID}-input-field`).focus();
     }
   }
 
@@ -371,7 +402,13 @@ class SearchDropdownComponent extends React.Component {
     } = this.state;
 
     const {
-      className,
+      componentClassNames,
+      containerClassNames,
+      buttonClassNames,
+      inputClassNames,
+      suggestionsListClassNames,
+      suggestionClassNames,
+      ID,
       fullWidthSuggestions,
       formatSuggestions,
       showButton,
@@ -383,10 +420,10 @@ class SearchDropdownComponent extends React.Component {
 
     let activeId = undefined;
     if (isOpen && activeIndex !== undefined) {
-      activeId = `${className}-option-${activeIndex}`;
+      activeId = `${ID}-option-${activeIndex}`;
     }
 
-    const assistiveHintID = `${className}-assistive-hint`;
+    const assistiveHintID = `${ID}-assistive-hint`;
 
     const mobileResponsiveClass = mobileResponsive ? 'shrink-to-column' : '';
 
@@ -400,20 +437,22 @@ class SearchDropdownComponent extends React.Component {
 
     return (
       <div
-        className={`search-dropdown-component vads-u-display--flex vads-u-width--full ${mobileResponsiveClass} ${className}-component`}
+        className={`search-dropdown-component vads-u-display--flex vads-u-width--full ${mobileResponsiveClass} ${ID}-component ${componentClassNames}`}
       >
-        <div className="search-dropdown-container vads-u-width--full vads-u-flex-direction--column">
+        <div
+          className={`search-dropdown-container vads-u-width--full vads-u-flex-direction--column ${containerClassNames}`}
+        >
           <input
             aria-activedescendant={activeId}
             aria-autocomplete={'none'}
-            aria-controls={`${className}-listbox`}
+            aria-controls={`${ID}-listbox`}
             {...ariaDescribedProp}
             aria-expanded={isOpen}
             aria-haspopup="listbox"
             aria-label={'Search'}
-            className="vads-u-width--full search-dropdown-input-field"
-            id={`${className}-input-field`}
-            data-e2e-id={`${className}-input-field`}
+            className={`vads-u-width--full search-dropdown-input-field ${inputClassNames}`}
+            id={`${ID}-input-field`}
+            data-e2e-id={`${ID}-input-field`}
             role="combobox"
             type="text"
             value={inputValue}
@@ -435,9 +474,9 @@ class SearchDropdownComponent extends React.Component {
           {validOpen &&
             !fullWidthSuggestions && (
               <div
-                className="search-dropdown-options vads-u-padding--x-1"
+                className={`search-dropdown-options vads-u-padding--x-1 ${suggestionsListClassNames}`}
                 role="listbox"
-                id={`${className}-listbox`}
+                id={`${ID}-listbox`}
               >
                 {suggestions.map((suggestionString, i) => {
                   const suggestion = formatSuggestions
@@ -448,11 +487,11 @@ class SearchDropdownComponent extends React.Component {
                       aria-selected={activeIndex === i ? 'true' : false}
                       className={
                         i === activeIndex
-                          ? 'suggestion highlighted'
-                          : 'suggestion regular'
+                          ? `suggestion highlighted ${suggestionClassNames}`
+                          : `suggestion regular ${suggestionClassNames}`
                       }
-                      id={`${className}-option-${i}`}
-                      key={`${className}-${i}`}
+                      id={`${ID}-option-${i}`}
+                      key={`${ID}-${i}`}
                       role="option"
                       tabIndex="-1"
                       onClick={() => {
@@ -480,8 +519,9 @@ class SearchDropdownComponent extends React.Component {
           canSubmit && (
             <button
               type="submit"
-              className="search-dropdown-submit-button"
-              data-e2e-id={`${className}-submit-button`}
+              className={`search-dropdown-submit-button ${buttonClassNames}`}
+              data-e2e-id={`${ID}-submit-button`}
+              id={`${ID}-submit-button`}
               onClick={() => onInputSubmit(this.state)}
               onFocus={this.saveSuggestions}
             >
@@ -493,9 +533,9 @@ class SearchDropdownComponent extends React.Component {
         {validOpen &&
           fullWidthSuggestions && (
             <div
-              className="search-dropdown-options vads-u-padding--x-1"
+              className={`search-dropdown-options vads-u-padding--x-1 vads-u-background-color--white vads-u-width--full ${suggestionsListClassNames}`}
               role="listbox"
-              id={`${className}-listbox`}
+              id={`${ID}-listbox`}
             >
               {suggestions.map((suggestionString, i) => {
                 const suggestion = formatSuggestions
@@ -506,11 +546,11 @@ class SearchDropdownComponent extends React.Component {
                     aria-selected={activeIndex === i ? 'true' : false}
                     className={
                       i === activeIndex
-                        ? 'suggestion highlighted'
-                        : 'suggestion regular'
+                        ? `suggestion vads-u-background-color--primary vads-u-color--white vads-u-width--full vads-u-margin--0 vads-u-padding-y--1 vads-u-padding-x--1p5 ${suggestionClassNames}`
+                        : `suggestion vads-u-color--gray-dark vads-u-width--full vads-u-margin--0 vads-u-padding-y--1 vads-u-padding-x--1p5 ${suggestionClassNames}`
                     }
-                    id={`${className}-option-${i}`}
-                    key={`${className}-${i}`}
+                    id={`${ID}-option-${i}`}
+                    key={`${ID}-${i}`}
                     role="option"
                     tabIndex="-1"
                     onClick={() => {
