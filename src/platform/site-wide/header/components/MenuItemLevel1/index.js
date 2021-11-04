@@ -70,7 +70,6 @@ export const MenuItemLevel1 = ({
         <>
           {/* Expand title */}
           <button
-            aria-controls={`header-menu-item-level-1-${item?.title}-items`}
             aria-expanded={isExpanded ? 'true' : 'false'}
             className="header-menu-item-button vads-u-background-color--primary-darker vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white"
             onKeyDown={event => event.keyCode === 13 && toggleShowItems()}

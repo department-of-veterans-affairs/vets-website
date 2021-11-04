@@ -34,7 +34,7 @@ export const OfficialGovtWebsite = () => {
       {expanded && (
         <div
           aria-hidden={expanded ? 'false' : 'true'}
-          className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-padding--0p5 vads-u-padding-bottom--2"
+          className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-padding--0p5 vads-u-padding-y--2"
           id="official-govt-site-explanation"
         >
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--flex-start">
@@ -43,7 +43,7 @@ export const OfficialGovtWebsite = () => {
               className="usa-banner-icon usa-media_block-img"
               src="/img/icon-dot-gov.svg"
             />
-            <p>
+            <p className="vads-u-margin-top--0">
               <strong>The .gov means it’s official.</strong>
               <br />
               Federal government websites often end in .gov or .mil. Before
@@ -57,7 +57,7 @@ export const OfficialGovtWebsite = () => {
               className="usa-banner-icon usa-media_block-img"
               src="/img/icon-https.svg"
             />
-            <p>
+            <p className="vads-u-margin-top--0">
               <strong>The site is secure.</strong>
               <br /> The <strong>https://</strong> ensures that you’re
               connecting to the official website and that any information you
