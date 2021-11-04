@@ -445,6 +445,7 @@ const FacilitiesMap = props => {
               context={queryContext}
               specialtyMap={props.specialties}
               inProgress={currentQuery.inProgress}
+              totalEntries={pagination.totalEntries}
             />
           )}
           {searchError && <p />}
