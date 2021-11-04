@@ -5,7 +5,7 @@ import Container from './containers/Container.jsx';
 const onFormEnter = (uuid, window) => {
   return (nextState, replace) => {
     if (uuid) {
-      replace(`/introduction?id=${uuid}`);
+      replace(`/validate?id=${uuid}`);
     } else {
       window.location.replace('/');
     }

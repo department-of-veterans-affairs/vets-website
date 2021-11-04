@@ -7,6 +7,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import CustomPage from '../pages/CustomPage';
 
+import Validate from '../pages/Validate';
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -23,6 +25,15 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for pre-check-in.',
   },
+  additionalRoutes: [
+    {
+      path: 'validate',
+      component: Validate,
+      pageKey: 'validate',
+      depends: () => {},
+    },
+  ],
+
   title: 'pre-check-in',
   defaultDefinitions: {},
   chapters: {

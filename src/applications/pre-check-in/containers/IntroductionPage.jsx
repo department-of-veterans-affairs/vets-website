@@ -5,6 +5,8 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 const IntroductionPage = props => {
+  const pageList = props.route.pageList.filter(f => f.path !== '/validate');
+  // console.log({ pageList, props: props.route.pageList });
   return (
     <div className="schemaform-intro">
       <FormTitle title="pre-check-in" />
@@ -12,7 +14,7 @@ const IntroductionPage = props => {
       <SaveInProgressIntro
         prefillEnabled={props.route.formConfig.prefillEnabled}
         messages={props.route.formConfig.savedFormMessages}
-        pageList={props.route.pageList}
+        pageList={pageList}
         startText="Start the Application"
       >
         Please complete the PRE-CHECK-IN form to apply for pre-check-in.

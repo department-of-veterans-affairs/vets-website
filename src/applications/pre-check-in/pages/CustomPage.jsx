@@ -11,15 +11,19 @@ import Form from '~/platform/forms/formulate-integration/Form';
 import { VaTextInput } from 'web-components/react-bindings';
 
 const CustomPage = ({ data, goBack, goForward, onReviewPage, updatePage }) => {
+  const customForward = () => {
+    goForward();
+  };
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
   const updateButton = <button type="submit">Review update button</button>;
 
   const lorRotaData = useSelector(state => state.preCheckIn);
   // console.log({ lorRotaData });
+
   return (
     <Formik
       initialValues={data}
-      onSubmit={onReviewPage ? updatePage : goForward}
+      onSubmit={onReviewPage ? updatePage : customForward}
     >
       <Form>
         <TextField
