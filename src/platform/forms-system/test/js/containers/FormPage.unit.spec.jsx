@@ -32,6 +32,10 @@ function makeRoute(obj) {
           path: '/next-page',
           pageKey: 'nextPage',
         },
+        {
+          path: '/last-page',
+          pageKey: 'lastPage',
+        },
       ],
     },
     obj,
@@ -151,6 +155,33 @@ describe('Schemaform <FormPage>', () => {
     tree.getMountedInstance().goBack();
 
     expect(router.push.calledWith('first-page'));
+  });
+  it("should go back to the beginning if current page isn't found", () => {
+    const router = {
+      push: sinon.spy(),
+    };
+    const route = makeRoute({
+      pageConfig: {
+        pageKey: 'lastPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: '',
+      },
+    });
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage
+        router={router}
+        form={makeForm()}
+        route={route}
+        location={{ pathname: '/last-page' }}
+      />,
+    );
+
+    tree.getMountedInstance().goBack('testing');
+
+    expect(router.push.calledWith('testing'));
   });
   it('should not show a Back button on the first page', () => {
     const tree = SkinDeep.shallowRender(
