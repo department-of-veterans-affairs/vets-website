@@ -40,7 +40,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: test
-        run: echo ${{ matrix.rootUrl }}
+        run: echo ${{ matrix.rootUrl['flag'] }}
 
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
