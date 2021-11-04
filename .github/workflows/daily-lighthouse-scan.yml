@@ -1,9 +1,9 @@
 name: Lighthouse CI
 
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 12 * * 1-5'
+on: push
+  # workflow_dispatch:
+  # schedule:
+  #   - cron: '0 12 * * 1-5'
 
 env:
   CHANNEL_ID: C02A8S3JPNZ
@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       rootUrls: ${{ steps.set-matrix.outputs.rootUrls }}
+      vagovprod: ${{ steps.set-matrix.outputs.rootUrls }}
     steps:
       - uses: actions/checkout@master
         with:
@@ -22,6 +23,7 @@ jobs:
       - id: set-matrix
         run: |
           echo ::set-output name=rootUrls::$(jq '[.[].rootUrl]' ./content-build/src/applications/registry.json)
+          echo ::set-output name=vagovprod::$(jq '[.[].template] | if has("vagovprod") then .vagovprod else false' ./content-build/src/applications/registry.json)
 
   lighthouse:
     needs: job1
@@ -30,7 +32,9 @@ jobs:
       fail-fast: false
       max-parallel: 8
       matrix:
-          rootUrl: ${{ fromJson(needs.job1.outputs.rootUrls) }}
+        include:
+          - rootUrl: ${{ fromJson(needs.job1.outputs.rootUrls) }}
+            vagovprod: ${{ fromJson(needs.job1.outputs.vagovprod) }}
 
     steps:
       - name: Checkout
@@ -60,6 +64,7 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Audit URLs using Lighthouse on ${{ matrix.rootUrl }}
+        if: ${{ matrix.vagovprod == true }}
         id: lighthouse-checks
         uses: treosh/lighthouse-ci-action@v8
         with:
@@ -68,13 +73,15 @@ jobs:
           uploadArtifacts: true # save results as an action artifacts
 
       - name: Upload lighthouse report (JSON)
+        if: ${{ matrix.vagovprod == true }}
         run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath }} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.rootUrl }}.json --acl public-read --region us-gov-west-1
 
       - name: Upload lighthouse report (HTML)
+        if: ${{ matrix.vagovprod == true }}
         run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath }} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.rootUrl }}.html --acl public-read --region us-gov-west-1
 
       - name: Notify Slack
-        if: ${{ always() }}
+        if: ${{ always() && matrix.vagovprod == true }}
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
