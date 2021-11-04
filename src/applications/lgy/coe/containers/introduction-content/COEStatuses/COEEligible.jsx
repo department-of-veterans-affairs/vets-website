@@ -1,6 +1,6 @@
 import React from 'react';
 
-const COEAutomatic = () => (
+const COEEligible = () => (
   <>
     <va-alert status="success">
       <h2 slot="headline">Congratulations on your automatic COE</h2>
@@ -47,4 +47,4 @@ const COEAutomatic = () => (
   </>
 );
 
-export default COEAutomatic;
+export default COEEligible;
