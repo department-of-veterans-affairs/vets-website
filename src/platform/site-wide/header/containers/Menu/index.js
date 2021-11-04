@@ -1,21 +1,33 @@
 // Node modules.
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 // Relative imports.
 import './styles.scss';
-import MenuItemLevel1 from '../MenuItemLevel1';
+import MenuItemLevel1 from '../../components/MenuItemLevel1';
 import SearchDropdownComponent from 'applications/search/components/SearchDropdown/SearchDropdownComponent';
+import SubMenu from '../../components/SubMenu';
 import {
   fetchSearchSuggestions,
   onSearch,
   onSuggestionSubmit,
 } from '../../helpers';
 
-export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu }) => {
+export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu, subMenu }) => {
   // Do not render if the menu is closed.
   if (!isMenuOpen) {
     return null;
   }
+
+  // Render the sub menu if it is in state.
+  if (subMenu) {
+    return <SubMenu />;
+  }
+
+  const contactUsItem = {
+    title: 'Contact us',
+    href: '/contact-us/',
+  };
 
   return (
     <div className="header-menu vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0 vads-u-position--absolute vads-u-width--full">
@@ -26,13 +38,13 @@ export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu }) => {
       <SearchDropdownComponent
         buttonText=""
         canSubmit
-        className="header-search search-header-dropdown vads-u-margin-bottom--2 "
+        className="header-search search-header-dropdown-component vads-u-margin-bottom--2 "
         fetchSuggestions={fetchSearchSuggestions}
         formatSuggestions
         fullWidthSuggestions
         onInputSubmit={onSearch}
         onSuggestionSubmit={onSuggestionSubmit}
-        startingValue={''}
+        startingValue=""
         submitOnClick
         submitOnEnter
       />
@@ -49,6 +61,7 @@ export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu }) => {
               item={item}
             />
           ))}
+          <MenuItemLevel1 item={contactUsItem} />
         </ul>
       )}
     </div>
@@ -59,6 +72,18 @@ Menu.propTypes = {
   isMenuOpen: PropTypes.bool.isRequired,
   megaMenuData: PropTypes.arrayOf(PropTypes.object),
   showMegaMenu: PropTypes.bool.isRequired,
+  // From mapStateToProps.
+  subMenu: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    menuSections: PropTypes.arrayOf(PropTypes.object),
+  }),
 };
 
-export default Menu;
+const mapStateToProps = state => ({
+  subMenu: state.headerMenuReducer.subMenu,
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(Menu);

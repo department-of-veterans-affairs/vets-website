@@ -1,14 +1,17 @@
 // Node modules.
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 // Relative imports.
-import MenuItemLevel3 from '../MenuItemLevel3';
+import { formatMenuItems } from '../../helpers';
+import { updateSubMenuAction } from '../../containers/Menu/actions';
 
-export const MenuItemLevel2 = ({ item }) => {
-  const [showItems, setShowItems] = useState(false);
-
+export const MenuItemLevel2 = ({ item, updateSubMenu }) => {
   const toggleShowItems = () => {
-    setShowItems(!showItems);
+    updateSubMenu({
+      id: `${item?.title}-level-2`,
+      menuSections: formatMenuItems(item?.links),
+    });
   };
 
   // Do not render if we are missing necessary menu item data.
@@ -40,64 +43,116 @@ export const MenuItemLevel2 = ({ item }) => {
           </a>
         )}
 
+      {/* Expand title */}
       {item?.links && (
-        <>
-          {/* Expand title */}
-          <button
-            aria-controls={`header-menu-item-level-1-${item?.title}-items`}
-            aria-expanded={showItems ? 'true' : 'false'}
-            className="header-menu-item-button vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
-            onKeyDown={event => event.keyCode === 13 && toggleShowItems()}
-            onMouseUp={toggleShowItems}
-            type="button"
-          >
-            {item?.title}
-            {!showItems ? (
-              <i
-                aria-hidden="true"
-                className="fa fa-plus vads-u-margin-left--1 vads-u-font-size--lg"
-              />
-            ) : (
-              <i
-                aria-hidden="true"
-                className="fa fa-minus vads-u-margin-left--1 vads-u-font-size--lg"
-              />
-            )}
-          </button>
-
-          {/* Level 2 menu items */}
-          {showItems && (
-            <ul
-              aria-label={item?.title}
-              className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column usa-unstyled-list vads-u-margin--0 vads-u-padding--0"
-              id={`header-menu-item-level-1-${item?.title}-items`}
-              role="menu"
-            >
-              {item?.links.map(itemLevel2 => (
-                <MenuItemLevel3
-                  key={`header-menu-item-level-2-${itemLevel2.title}`}
-                  item={itemLevel2}
-                />
-              ))}
-            </ul>
-          )}
-        </>
+        <button
+          className="header-menu-item-button vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
+          onKeyDown={event => event.keyCode === 13 && toggleShowItems()}
+          onMouseUp={toggleShowItems}
+          type="button"
+        >
+          {item?.title}
+          <i
+            aria-hidden="true"
+            className="fa fa-chevron-right vads-u-margin-left--1 vads-u-font-size--lg"
+          />
+        </button>
       )}
     </li>
   );
 };
 
 MenuItemLevel2.propTypes = {
-  item: PropTypes.shape({
-    href: PropTypes.string,
-    links: PropTypes.arrayOf(
-      PropTypes.shape({
-        href: PropTypes.string,
-        title: PropTypes.string,
+  item: PropTypes.oneOf([
+    PropTypes.shape({
+      href: PropTypes.string,
+      links: PropTypes.shape({
+        columnOne: PropTypes.shape({
+          title: PropTypes.string,
+          links: PropTypes.arrayOf(
+            PropTypes.shape({
+              title: PropTypes.string,
+              href: PropTypes.string,
+            }),
+          ),
+        }),
+        columnTwo: PropTypes.shape({
+          title: PropTypes.string,
+          links: PropTypes.arrayOf(
+            PropTypes.shape({
+              title: PropTypes.string,
+              href: PropTypes.string,
+            }),
+          ),
+        }),
+        columnThree: PropTypes.shape({
+          description: PropTypes.string,
+          img: PropTypes.shape({
+            src: PropTypes.string,
+            alt: PropTypes.string,
+          }),
+          link: PropTypes.shape({
+            text: PropTypes.string,
+            href: PropTypes.string,
+          }),
+        }),
+        seeAllLink: PropTypes.shape({
+          text: PropTypes.string,
+          href: PropTypes.string,
+        }),
       }),
-    ),
-    title: PropTypes.string.isRequired,
-  }),
+      title: PropTypes.string.isRequired,
+    }),
+    PropTypes.shape({
+      columnOne: PropTypes.shape({
+        title: PropTypes.string,
+        links: PropTypes.arrayOf(
+          PropTypes.shape({
+            title: PropTypes.string,
+            href: PropTypes.string,
+          }),
+        ),
+      }),
+      columnTwo: PropTypes.shape({
+        title: PropTypes.string,
+        links: PropTypes.arrayOf(
+          PropTypes.shape({
+            title: PropTypes.string,
+            href: PropTypes.string,
+          }),
+        ),
+      }),
+      columnThree: PropTypes.shape({
+        description: PropTypes.string,
+        img: PropTypes.shape({
+          src: PropTypes.string,
+          alt: PropTypes.string,
+        }),
+        link: PropTypes.shape({
+          text: PropTypes.string,
+          href: PropTypes.string,
+        }),
+      }),
+      mainColumn: PropTypes.shape({
+        title: PropTypes.string,
+        links: PropTypes.arrayOf(
+          PropTypes.shape({
+            text: PropTypes.string,
+            href: PropTypes.string,
+          }),
+        ),
+      }),
+    }),
+  ]),
+  // From mapDispatchToProps.
+  updateSubMenu: PropTypes.func.isRequired,
 };
 
-export default MenuItemLevel2;
+const mapDispatchToProps = dispatch => ({
+  updateSubMenu: subMenu => dispatch(updateSubMenuAction(subMenu)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(MenuItemLevel2);

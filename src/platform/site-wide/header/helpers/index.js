@@ -1,5 +1,6 @@
 // Node modules.
 import * as Sentry from '@sentry/browser';
+import { isArray } from 'lodash';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
@@ -132,4 +133,69 @@ export const onSuggestionSubmit = (index, componentState) => {
 
   // relocate to search results, preserving history
   window.location.assign(searchUrl);
+};
+
+export const formatMenuItems = menuItems => {
+  const formattedMenuItems = [];
+
+  // Escape early if menu sections is already an array.
+  if (menuItems && isArray(menuItems)) {
+    return menuItems;
+  }
+
+  // Add seeAllLink first.
+  if (menuItems?.seeAllLink) {
+    formattedMenuItems.push({
+      title: menuItems?.seeAllLink?.text,
+      href: menuItems?.seeAllLink?.href,
+    });
+  }
+
+  // Add columns as items.
+  if (menuItems?.mainColumn) {
+    formattedMenuItems.push({
+      title: menuItems?.mainColumn?.title,
+      links: menuItems?.mainColumn?.links,
+    });
+  }
+
+  if (menuItems?.columnOne) {
+    formattedMenuItems.push({
+      title: menuItems?.columnOne?.title,
+      links: menuItems?.columnOne?.links,
+    });
+  }
+
+  if (menuItems?.columnTwo) {
+    formattedMenuItems.push({
+      title: menuItems?.columnTwo?.title,
+      links: menuItems?.columnTwo?.links,
+    });
+  }
+
+  // Do not do anything for column three according to current code in production.
+  if (menuItems?.columnThree) {
+    // formattedMenuItems.push({
+    //   title: menuItems?.columnThree?.title,
+    //   links: menuItems?.columnThree?.links,
+    // });
+  }
+
+  return formattedMenuItems;
+};
+
+export const formatSubMenuSections = subMenuSections => {
+  return subMenuSections?.reduce((allSubMenuSections, item) => {
+    if (!item?.links) {
+      allSubMenuSections.push({
+        href: item?.href,
+        links: item?.links,
+        text: item?.title || item?.text,
+      });
+      return allSubMenuSections;
+    }
+
+    allSubMenuSections = [...allSubMenuSections, ...item?.links]; // eslint-disable-line no-param-reassign
+    return allSubMenuSections;
+  }, []);
 };

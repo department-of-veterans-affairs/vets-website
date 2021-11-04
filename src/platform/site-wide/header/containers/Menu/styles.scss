@@ -8,13 +8,14 @@
   border-radius: 0;
 }
 
-.header-search.search-header-dropdown {
+.header-search.search-header-dropdown-component {
   .search-dropdown-container, .search-dropdown-input-field {
     max-width: unset;
   }
 
   .search-dropdown-container {
     margin-left: 16px;
+    padding: 0;
   }
 
   .search-dropdown-input-field {

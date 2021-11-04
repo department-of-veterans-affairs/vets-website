@@ -1,13 +1,20 @@
 // Node modules.
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 // Relative imports.
 import './styles.scss';
 import Logo from '../Logo';
 import UserNav from '../../../user-nav/containers/Main';
+import { updateExpandedMenuIDAction } from '../../containers/Menu/actions';
 
-export const LogoRow = ({ isMenuOpen, setIsMenuOpen }) => {
+export const LogoRow = ({
+  isMenuOpen,
+  setIsMenuOpen,
+  updateExpandedMenuID,
+}) => {
   const onMenuToggle = () => {
+    updateExpandedMenuID();
     setIsMenuOpen(!isMenuOpen);
   };
 
@@ -60,4 +67,12 @@ LogoRow.propTypes = {
   setIsMenuOpen: PropTypes.func.isRequired,
 };
 
-export default LogoRow;
+const mapDispatchToProps = dispatch => ({
+  updateExpandedMenuID: expandedMenuID =>
+    dispatch(updateExpandedMenuIDAction(expandedMenuID)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(LogoRow);

@@ -1,20 +1,36 @@
 // Node modules.
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 // Relative imports.
 import MenuItemLevel2 from '../MenuItemLevel2';
+import { formatMenuItems } from '../../helpers';
+import { updateExpandedMenuIDAction } from '../../containers/Menu/actions';
 
-export const MenuItemLevel1 = ({ item }) => {
-  const [showItems, setShowItems] = useState(false);
-
-  const toggleShowItems = () => {
-    setShowItems(!showItems);
-  };
-
+export const MenuItemLevel1 = ({
+  expandedMenuID,
+  item,
+  updateExpandedMenuID,
+}) => {
   // Do not render if we are missing necessary menu item data.
   if (!item?.menuSections && !item?.href && !item?.title) {
     return null;
   }
+
+  // Format menuSections to be an array if needed.
+  if (item?.menuSections) {
+    item.menuSections = formatMenuItems(item.menuSections); // eslint-disable-line no-param-reassign
+  }
+
+  // Derive the menu item's ID.
+  const menuItemID = `${item?.title}-level-1`;
+
+  // Derive if we the menu item is expanded.
+  const isExpanded = menuItemID === expandedMenuID;
+
+  const toggleShowItems = () => {
+    updateExpandedMenuID(isExpanded ? undefined : menuItemID);
+  };
 
   return (
     <li
@@ -45,28 +61,28 @@ export const MenuItemLevel1 = ({ item }) => {
           {/* Expand title */}
           <button
             aria-controls={`header-menu-item-level-1-${item?.title}-items`}
-            aria-expanded={showItems ? 'true' : 'false'}
+            aria-expanded={isExpanded ? 'true' : 'false'}
             className="header-menu-item-button vads-u-background-color--primary-darker vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white"
             onKeyDown={event => event.keyCode === 13 && toggleShowItems()}
             onMouseUp={toggleShowItems}
             type="button"
           >
             {item?.title}
-            {!showItems ? (
+            {isExpanded ? (
               <i
                 aria-hidden="true"
-                className="fa fa-plus vads-u-margin-left--1 vads-u-font-size--lg"
+                className="fa fa-minus vads-u-margin-left--1 vads-u-font-size--lg"
               />
             ) : (
               <i
                 aria-hidden="true"
-                className="fa fa-minus vads-u-margin-left--1 vads-u-font-size--lg"
+                className="fa fa-plus vads-u-margin-left--1 vads-u-font-size--lg"
               />
             )}
           </button>
 
           {/* Level 2 menu items */}
-          {showItems && (
+          {isExpanded && (
             <ul
               aria-label={item?.title}
               className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column usa-unstyled-list vads-u-margin--0 vads-u-padding--0"
@@ -90,14 +106,21 @@ export const MenuItemLevel1 = ({ item }) => {
 MenuItemLevel1.propTypes = {
   item: PropTypes.shape({
     href: PropTypes.string,
-    menuSections: PropTypes.arrayOf(
-      PropTypes.shape({
-        href: PropTypes.string,
-        title: PropTypes.string,
-      }),
-    ),
+    menuSections: PropTypes.oneOf([PropTypes.array, PropTypes.object]),
     title: PropTypes.string.isRequired,
   }),
 };
 
-export default MenuItemLevel1;
+const mapStateToProps = state => ({
+  expandedMenuID: state.headerMenuReducer.expandedMenuID,
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateExpandedMenuID: menuItemID =>
+    dispatch(updateExpandedMenuIDAction(menuItemID)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MenuItemLevel1);
