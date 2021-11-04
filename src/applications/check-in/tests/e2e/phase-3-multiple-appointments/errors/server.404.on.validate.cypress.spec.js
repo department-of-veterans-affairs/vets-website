@@ -1,5 +1,6 @@
 import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 import mockSession from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
+import '../../support/commands';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
@@ -28,9 +29,7 @@ describe('Check In Experience -- ', () => {
     });
   });
   it('C5732 - Validate - 404 error', () => {
-    const featureRoute =
-      '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
-    cy.visit(featureRoute);
+    cy.visitWithUUID();
     cy.url().should('match', /error/);
     cy.get('h1').contains('We couldn’t check you in');
   });
