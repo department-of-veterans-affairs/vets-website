@@ -21,7 +21,7 @@ jobs:
           path: ./content-build
       - id: set-matrix
         run: |
-          echo ::set-output name=registries::$(jq '[.[] | {rootUrl: .rootUrl, vagovprod: .template.vagovprod // false}]' ./content-build/src/applications/registry.json)
+          echo ::set-output name=registries::$(jq '[.[] | {rootUrl: .rootUrl, vagovprod: .template.vagovprod}]' ./content-build/src/applications/registry.json)
 
   lighthouse:
     needs: job1
