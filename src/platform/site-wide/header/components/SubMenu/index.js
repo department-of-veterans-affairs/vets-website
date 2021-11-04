@@ -1,5 +1,5 @@
 // Node modules.
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
@@ -7,6 +7,11 @@ import { deriveMenuItemID, formatSubMenuSections } from '../../helpers';
 import { updateSubMenuAction } from '../../containers/Menu/actions';
 
 export const SubMenu = ({ subMenu, updateSubMenu }) => {
+  // Scroll to the top when the sub menu is opened.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const onBack = () => {
     updateSubMenu();
   };
@@ -15,7 +20,7 @@ export const SubMenu = ({ subMenu, updateSubMenu }) => {
   const formattedMenuSections = formatSubMenuSections(subMenu?.menuSections);
 
   return (
-    <div className="header-menu vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0 vads-u-position--absolute vads-u-width--full">
+    <div className="header-menu vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0 vads-u-width--full">
       <ul
         className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column usa-unstyled-list vads-u-margin--0 vads-u-padding--0"
         role="menubar"

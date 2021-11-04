@@ -29,7 +29,16 @@ export const MenuItemLevel1 = ({
   const isExpanded = menuItemID === expandedMenuID;
 
   const toggleShowItems = () => {
+    // Update the expanded menu ID.
     updateExpandedMenuID(isExpanded ? undefined : menuItemID);
+
+    // Derive the header element.
+    const header = document.querySelector('header');
+
+    // Scroll to the top of the header when toggling a menu item.
+    if (header) {
+      header.scrollIntoView();
+    }
   };
 
   return (
