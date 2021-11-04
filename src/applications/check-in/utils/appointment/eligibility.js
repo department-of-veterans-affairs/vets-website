@@ -8,6 +8,10 @@ const ELIGIBILITY = Object.freeze({
   INELIGIBLE_ALREADY_CHECKED_IN: 'INELIGIBLE_ALREADY_CHECKED_IN',
 });
 
+/**
+ * @param {string} a
+ * @param {string} b
+ */
 const areEqual = (a, b) =>
   a && b ? a.toLowerCase() === b.toLowerCase() : false;
 

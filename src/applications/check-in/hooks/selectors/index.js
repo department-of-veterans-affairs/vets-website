@@ -23,7 +23,7 @@ const selectFeatureToggles = createSelector(
     isNextOfKinEnabled: checkInExperienceNextOfKinEnabled(state),
     isUpdatePageEnabled: checkInExperienceUpdateInformationPageEnabled(state),
   }),
-  toggles => toggles || {},
+  toggles => toggles,
 );
 
 const makeSelectFeatureToggles = () => selectFeatureToggles;
@@ -31,11 +31,11 @@ const makeSelectFeatureToggles = () => selectFeatureToggles;
 const selectConfirmationData = createSelector(
   state => {
     return {
-      appointments: state.checkInData.appointments,
-      selectedAppointment: state.checkInData.context.appointment,
+      appointments: state.checkInData?.appointments,
+      selectedAppointment: state.checkInData?.context?.appointment,
     };
   },
-  data => data || {},
+  data => (data.appointments || data.selectedAppointment ? data : {}),
 );
 
 const makeSelectConfirmationData = () => selectConfirmationData;
@@ -43,11 +43,11 @@ const makeSelectConfirmationData = () => selectConfirmationData;
 const selectAppointmentListData = createSelector(
   state => {
     return {
-      context: state.checkInData.context,
-      appointments: state.checkInData.appointments,
+      context: state.checkInData?.context,
+      appointments: state.checkInData?.appointments,
     };
   },
-  data => data || {},
+  data => (data.context || data.appointments ? data : {}),
 );
 
 const makeSelectAppointmentListData = () => selectAppointmentListData;

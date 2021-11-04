@@ -5,11 +5,17 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 
 import withToken from '../withToken';
 
 describe('check-in', () => {
+  const checkInUuidKey = 'health.care.check-in.current.uuid';
+
+  afterEach(() => {
+    global.window.sessionStorage.removeItem(checkInUuidKey);
+  });
+
   describe('withToken', () => {
     it('shows the provided component if the data is in the store', () => {
       const middleware = [];
@@ -32,7 +38,7 @@ describe('check-in', () => {
       expect(withRequired.getByTestId('data')).to.have.text('magic');
     });
 
-    it('redirects to the landing page if the context is unavailable and session data is available', () => {
+    it('redirects to the landing page if the context is unavailable and session data is available', async () => {
       const middleware = [];
       const mockStore = configureStore(middleware);
       const initState = {
@@ -45,13 +51,10 @@ describe('check-in', () => {
       const push = sinon.spy();
       const mockRouter = {
         push,
-        params: {
-          token: 'token-123',
-        },
       };
 
-      window.sessionStorage.setItem(
-        'health.care.check-in.current.uuid',
+      global.window.sessionStorage.setItem(
+        checkInUuidKey,
         '{"token":"test-uuid"}',
       );
 
@@ -61,10 +64,13 @@ describe('check-in', () => {
           <Test router={mockRouter} />
         </Provider>,
       );
-      expect(push.called).to.be.true;
-      expect(push.lastCall.args[0]).to.deep.equal({
-        pathname: '',
-        search: '?id=test-uuid',
+
+      await waitFor(() => {
+        expect(push.called).to.be.true;
+        expect(push.lastCall.args[0]).to.deep.equal({
+          pathname: '',
+          search: '?id=test-uuid',
+        });
       });
     });
 

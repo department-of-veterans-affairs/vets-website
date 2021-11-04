@@ -61,11 +61,11 @@ export class VerifyApp extends React.Component {
     const alt = loginGovEnabled ? 'Login.gov' : 'ID.me';
 
     return (
-      <button className="usa-button usa-button-darker" onClick={verify}>
+      <button className="usa-button usa-button-darker" onClick={() => verify()}>
         <strong>
           Verify with <span className="sr-only">{copy}</span>
         </strong>
-        <img alt={alt} role="presentation" aria-hidden="true" src={iconPath} />
+        <img role="presentation" aria-hidden="true" alt={alt} src={iconPath} />
       </button>
     );
   }

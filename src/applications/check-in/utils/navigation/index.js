@@ -1,5 +1,16 @@
+/**
+ * @param {Object} location
+ * @param {Object} [location.query]
+ * @param {string} [location.query.id]
+ */
 const getTokenFromLocation = location => location?.query?.id;
 
+/**
+ * @param {Object} router
+ * @param {string} target
+ * @param {Object} [params]
+ * @param {Object} [params.url]
+ */
 const goToNextPage = (router, target, params) => {
   if (params) {
     const query = {

@@ -115,6 +115,13 @@ describe('check-in', () => {
           },
         });
       });
+      it('returns empty when appointment data is not available', () => {
+        const partialState = cloneDeep(state);
+        delete partialState.checkInData.appointments;
+        delete partialState.checkInData.context.appointment;
+        const selectConfirmationData = makeSelectConfirmationData();
+        expect(selectConfirmationData(partialState)).to.eql({});
+      });
     });
     describe('makeSelectAppointmentListData', () => {
       it('returns appointment list data', () => {
@@ -135,6 +142,13 @@ describe('check-in', () => {
             token: 'foo',
           },
         });
+      });
+      it('returns empty when appointment list data is not available', () => {
+        const partialState = cloneDeep(state);
+        delete partialState.checkInData.appointments;
+        delete partialState.checkInData.context;
+        const selectAppointmentListData = makeSelectAppointmentListData();
+        expect(selectAppointmentListData(partialState)).to.eql({});
       });
     });
     describe('makeSelectSeeStaffMessage', () => {
