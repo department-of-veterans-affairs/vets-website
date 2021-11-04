@@ -12,8 +12,6 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     outputs:
-      rootUrls: ${{ steps.set-matrix.outputs.rootUrls }}
-      vagovprod: ${{ steps.set-matrix.outputs.rootUrls }}
       registries: ${{ steps.set-matrix.outputs.registries }}
     steps:
       - uses: actions/checkout@master
@@ -23,11 +21,7 @@ jobs:
           path: ./content-build
       - id: set-matrix
         run: |
-          echo ::set-output name=rootUrls::$(jq '[.[].rootUrl]' ./content-build/src/applications/registry.json)
-          # echo ::set-output name=vagovprod::$(jq '[.[].template] | if has("vagovprod") then .vagovprod else false' ./content-build/src/applications/registry.json)
-          # echo ::set-output name=registries::$(jq '[.[].rootUrl]' ./content-build/src/applications/registry.json)
-          # echo $(jq '.[] | {rootUrl: .rootUrl, vagovprod: if has("vagovprod") then .vagovprod else false end }' ./content-build/src/applications/registry.json)
-          echo ::set-output name=registries::$(jq '[.[] | {rootUrl: .rootUrl, vagovprod: .template.vagovprod}]' ./content-build/src/applications/registry.json)
+          echo ::set-output name=registries::$(jq '[.[] | {rootUrl: .rootUrl, vagovprod: .template.vagovprod // false}]' ./content-build/src/applications/registry.json)
 
   lighthouse:
     needs: job1
@@ -36,15 +30,11 @@ jobs:
       fail-fast: false
       max-parallel: 8
       matrix:
-          # rootUrl: ${{ fromJson(needs.job1.outputs.rootUrls) }}
-          registry: ${{ fromJson(needs.job1.outputs.registries) }}
+        registry: ${{ fromJson(needs.job1.outputs.registries) }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: test
-        run: echo ${{ matrix.rootUrl['flag'] }}
 
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
@@ -70,7 +60,7 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Audit URLs using Lighthouse on ${{ matrix.rootUrl }}
-        if: ${{ matrix.vagovprod == true }}
+        if: ${{ matrix.registry['vagovprod'] == true }}
         id: lighthouse-checks
         uses: treosh/lighthouse-ci-action@v8
         with:
@@ -79,15 +69,15 @@ jobs:
           uploadArtifacts: true # save results as an action artifacts
 
       - name: Upload lighthouse report (JSON)
-        if: ${{ matrix.vagovprod == true }}
+        if: ${{ matrix.registry['vagovprod'] == true }}
         run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath }} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.rootUrl }}.json --acl public-read --region us-gov-west-1
 
       - name: Upload lighthouse report (HTML)
-        if: ${{ matrix.vagovprod == true }}
+        if: ${{ matrix.registry['vagovprod'] == true }}
         run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath }} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.rootUrl }}.html --acl public-read --region us-gov-west-1
 
       - name: Notify Slack
-        if: ${{ always() && matrix.vagovprod == true }}
+        if: ${{ always() && matrix.registry['vagovprod'] == true }}
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
