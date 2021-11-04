@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
 import MenuItemLevel2 from '../MenuItemLevel2';
-import { formatMenuItems } from '../../helpers';
+import { deriveMenuItemID, formatMenuItems } from '../../helpers';
 import { updateExpandedMenuIDAction } from '../../containers/Menu/actions';
 
 export const MenuItemLevel1 = ({
@@ -23,7 +23,7 @@ export const MenuItemLevel1 = ({
   }
 
   // Derive the menu item's ID.
-  const menuItemID = `${item?.title}-level-1`;
+  const menuItemID = deriveMenuItemID(item, '1');
 
   // Derive if we the menu item is expanded.
   const isExpanded = menuItemID === expandedMenuID;
@@ -35,6 +35,7 @@ export const MenuItemLevel1 = ({
   return (
     <li
       className="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
+      id={menuItemID}
       role="menuitem"
     >
       {/* Raw title */}
@@ -89,12 +90,10 @@ export const MenuItemLevel1 = ({
               id={`header-menu-item-level-1-${item?.title}-items`}
               role="menu"
             >
-              {item?.menuSections.map(itemLevel2 => (
-                <MenuItemLevel2
-                  key={`header-menu-item-level-2-${itemLevel2.title}`}
-                  item={itemLevel2}
-                />
-              ))}
+              {item?.menuSections.map(itemLevel2 => {
+                const itemLevel2ID = deriveMenuItemID(itemLevel2, '2');
+                return <MenuItemLevel2 key={itemLevel2ID} item={itemLevel2} />;
+              })}
             </ul>
           )}
         </>
@@ -106,7 +105,7 @@ export const MenuItemLevel1 = ({
 MenuItemLevel1.propTypes = {
   item: PropTypes.shape({
     href: PropTypes.string,
-    menuSections: PropTypes.oneOf([PropTypes.array, PropTypes.object]),
+    menuSections: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
     title: PropTypes.string.isRequired,
   }),
 };

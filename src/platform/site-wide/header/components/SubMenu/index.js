@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
-import { formatSubMenuSections } from '../../helpers';
+import { deriveMenuItemID, formatSubMenuSections } from '../../helpers';
 import { updateSubMenuAction } from '../../containers/Menu/actions';
 
 export const SubMenu = ({ subMenu, updateSubMenu }) => {
@@ -38,32 +38,38 @@ export const SubMenu = ({ subMenu, updateSubMenu }) => {
           </button>
         </li>
 
-        {formattedMenuSections?.map(item => (
-          <li
-            className="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
-            key={`${item?.title}-${item?.href}`}
-            role="menuitem"
-          >
-            {/* Raw title */}
-            {!item?.links &&
-              !item?.href && (
-                <span className="vads-u-display--flex vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full">
-                  {item?.text}
-                </span>
-              )}
+        {formattedMenuSections?.map(item => {
+          // Derive the menu item ID.
+          const menuItemID = deriveMenuItemID(item, '3');
 
-            {/* Title link */}
-            {!item?.links &&
-              item?.href && (
-                <a
-                  className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full"
-                  href={item?.href}
-                >
-                  {item?.text}
-                </a>
-              )}
-          </li>
-        ))}
+          return (
+            <li
+              className="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
+              id={menuItemID}
+              key={menuItemID}
+              role="menuitem"
+            >
+              {/* Raw title */}
+              {!item?.links &&
+                !item?.href && (
+                  <span className="vads-u-display--flex vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full">
+                    {item?.text}
+                  </span>
+                )}
+
+              {/* Title link */}
+              {!item?.links &&
+                item?.href && (
+                  <a
+                    className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full"
+                    href={item?.href}
+                  >
+                    {item?.text}
+                  </a>
+                )}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

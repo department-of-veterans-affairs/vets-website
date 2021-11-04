@@ -199,3 +199,10 @@ export const formatSubMenuSections = subMenuSections => {
     return allSubMenuSections;
   }, []);
 };
+
+export const deriveMenuItemID = (item, level) => {
+  const formattedTitle = item?.title || item?.text || '';
+  const formattedHref = item?.href || '';
+  const formattedLevel = level || '';
+  return `${formattedTitle}-${formattedHref}-${formattedLevel}`;
+};

@@ -3,25 +3,29 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
-import { formatMenuItems } from '../../helpers';
+import { deriveMenuItemID, formatMenuItems } from '../../helpers';
 import { updateSubMenuAction } from '../../containers/Menu/actions';
 
 export const MenuItemLevel2 = ({ item, updateSubMenu }) => {
-  const toggleShowItems = () => {
-    updateSubMenu({
-      id: `${item?.title}-level-2`,
-      menuSections: formatMenuItems(item?.links),
-    });
-  };
-
   // Do not render if we are missing necessary menu item data.
   if (!item?.links && !item?.href && !item?.title) {
     return null;
   }
 
+  // Derive the menu item's ID.
+  const menuItemID = deriveMenuItemID(item, '2');
+
+  const toggleShowItems = () => {
+    updateSubMenu({
+      id: menuItemID,
+      menuSections: formatMenuItems(item?.links),
+    });
+  };
+
   return (
     <li
       className="vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
+      id={menuItemID}
       role="menuitem"
     >
       {/* Raw title */}
@@ -63,7 +67,7 @@ export const MenuItemLevel2 = ({ item, updateSubMenu }) => {
 };
 
 MenuItemLevel2.propTypes = {
-  item: PropTypes.oneOf([
+  item: PropTypes.oneOfType([
     PropTypes.shape({
       href: PropTypes.string,
       links: PropTypes.shape({

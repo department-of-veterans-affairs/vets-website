@@ -8,6 +8,7 @@ import MenuItemLevel1 from '../../components/MenuItemLevel1';
 import SearchDropdownComponent from 'applications/search/components/SearchDropdown/SearchDropdownComponent';
 import SubMenu from '../../components/SubMenu';
 import {
+  deriveMenuItemID,
   fetchSearchSuggestions,
   onSearch,
   onSuggestionSubmit,
@@ -55,12 +56,10 @@ export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu, subMenu }) => {
           className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0"
           role="menubar"
         >
-          {megaMenuData?.map(item => (
-            <MenuItemLevel1
-              key={`header-menu-item-level-1-${item?.title}`}
-              item={item}
-            />
-          ))}
+          {megaMenuData?.map(item => {
+            const menuItemID = deriveMenuItemID(item, '1');
+            return <MenuItemLevel1 key={menuItemID} item={item} />;
+          })}
           <MenuItemLevel1 item={contactUsItem} />
         </ul>
       )}
