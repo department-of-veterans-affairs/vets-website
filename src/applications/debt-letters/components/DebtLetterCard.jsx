@@ -48,7 +48,10 @@ const DebtLetterCard = ({ debt, setActiveDebt }) => {
           className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans"
           data-testid="diary-codes-status"
         >
-          {additionalInfo.status}
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong>
+            {additionalInfo.status}
+          </p>
         </div>
       )}
 

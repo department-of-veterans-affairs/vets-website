@@ -11,7 +11,6 @@ import {
   mockRequestCancelFetch,
   mockCCSingleProviderFetch,
   mockSingleRequestFetch,
-  mockFacilityFetch,
 } from '../../mocks/helpers';
 import {
   mockSingleVAOSRequestFetch,
@@ -30,6 +29,7 @@ import {
 } from '../../mocks/v0';
 import { getVAOSRequestMock } from '../../mocks/v2';
 import { createMockFacilityByVersion } from '../../mocks/data';
+import { mockFacilityFetchByVersion } from '../../mocks/fetch';
 
 const testDate = getTimezoneTestDate();
 
@@ -49,7 +49,10 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(testDate);
-    mockFacilityFetch('vha_fake', createMockFacilityByVersion({ version: 0 }));
+    mockFacilityFetchByVersion({
+      facility: createMockFacilityByVersion({ version: 0 }),
+      version: 0,
+    });
     mockMessagesFetch();
   });
 
@@ -102,7 +105,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       version: 0,
     });
 
-    mockFacilityFetch('vha_442GC', facility);
+    mockFacilityFetchByVersion({ facility, version: 0 });
     const message = getMessageMock();
     message.attributes = {
       ...message.attributes,
@@ -680,7 +683,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       version: 0,
     });
 
-    mockFacilityFetch('vha_442GC', facility);
+    mockFacilityFetchByVersion({ facility, version: 0 });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: initialStateVAOSService,
@@ -888,10 +891,11 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     };
 
     mockSingleVAOSRequestFetch({ request: appointment });
-    mockFacilityFetch(
-      'vha_442GC',
-      createMockFacilityByVersion({ id: '442GC', version: 0 }),
-    );
+    mockAppointmentCancelFetch({ appointment });
+    mockFacilityFetchByVersion({
+      facility: createMockFacilityByVersion({ id: '442GC', version: 0 }),
+      version: 0,
+    });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: initialStateVAOSService,
@@ -919,8 +923,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     const cancelData = JSON.parse(
       global.fetch
         .getCalls()
-        // Looks for second appointments/1234 call, because first is GET, second is PUT
-        .filter(call => call.args[0].endsWith('appointments/1234'))[1].args[1]
+        .filter(call => call.args[0].endsWith('appointments/1234'))[0].args[1]
         .body,
     );
     expect(cancelData).to.deep.equal({
@@ -961,10 +964,10 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     };
 
     mockSingleVAOSRequestFetch({ request: appointment });
-    mockFacilityFetch(
-      'vha_442GC',
-      createMockFacilityByVersion({ id: '442GC', version: 0 }),
-    );
+    mockFacilityFetchByVersion({
+      facility: createMockFacilityByVersion({ id: '442GC', version: 0 }),
+      version: 0,
+    });
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: initialStateVAOSService,

@@ -13,8 +13,10 @@ const baseUrls = {
 describe('<I18Select>', () => {
   describe('Language links and related logic', () => {
     it('should render with ENGLISH link bolded/active', async () => {
+      const languageCode = 'en';
+
       const screen = renderInReduxProvider(<I18Select baseUrls={baseUrls} />, {
-        initialState: { i18State: { lang: 'en' } },
+        initialState: { i18State: { lang: languageCode } },
       });
 
       const activeLink = await screen.findByText('English');
@@ -39,7 +41,7 @@ describe('<I18Select>', () => {
     });
   });
 
-  it('should render with TAGOLOG link bolded/active', async () => {
+  it('should render with TAGALOG link bolded/active', async () => {
     const languageCode = 'tl';
 
     const screen = renderInReduxProvider(<I18Select baseUrls={baseUrls} />, {
