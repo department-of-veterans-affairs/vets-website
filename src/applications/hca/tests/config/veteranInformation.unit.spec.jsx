@@ -10,7 +10,7 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 
-describe('HCA veteranInformation', () => {
+describe.skip('HCA veteranInformation', () => {
   it('should render veteranInformation page', () => {
     const onSubmit = sinon.spy();
     const {

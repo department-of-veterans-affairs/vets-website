@@ -7,7 +7,7 @@ import ObjectField from 'platform/forms-system/src/js/fields/ObjectField';
 import DemographicField from '../../components/DemographicField';
 import formConfig from '../../config/form';
 
-describe('hca <DemographicField>', () => {
+describe.skip('hca <DemographicField>', () => {
   it('should render ObjectField', () => {
     const formContext = {
       reviewMode: false,
