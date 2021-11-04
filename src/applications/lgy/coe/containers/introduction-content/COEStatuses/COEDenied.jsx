@@ -16,7 +16,7 @@ const COEDenied = () => (
       <h2>Can I appeal VA’s decision?</h2>
       <p className="vads-u-margin-bottom--0">
         If you disagree with our decision, and it’s dated on or after February
-        19, 2019, you can choose from 3 decision review options. These your
+        19, 2019, you can choose from 3 decision review options. These are your
         options: Supplemental Claim, Higher-Level Review, or Board Appeal.
       </p>
       <a href="/decision-reviews/">
