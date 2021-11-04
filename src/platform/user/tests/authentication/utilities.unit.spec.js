@@ -36,11 +36,6 @@ describe('authentication URL helpers', () => {
     );
   });
 
-  it('should redirect for login v0 to v1', () => {
-    login('idme', 'v0');
-    expect(global.window.location).to.include('/v1/sessions/idme/new');
-  });
-
   it('should redirect for login v1', () => {
     login('idme', 'v1');
     expect(global.window.location).to.include('/v1/sessions/idme/new');
@@ -50,11 +45,6 @@ describe('authentication URL helpers', () => {
     login('idme', 'v1', {}, 'custom-event');
     expect(global.window.location).to.include('/v1/sessions/idme/new');
     expect(global.window.dataLayer[0].event).to.eq('custom-event');
-  });
-
-  it('should redirect for logout', () => {
-    logout('v0');
-    expect(global.window.location).to.include('/v1/sessions/slo/new');
   });
 
   it('should redirect for logout v1', () => {
@@ -68,19 +58,9 @@ describe('authentication URL helpers', () => {
     expect(global.window.dataLayer[0].event).to.eq('custom-event');
   });
 
-  it('should redirect for MFA v0 to v1', () => {
-    mfa('v0');
-    expect(global.window.location).to.include('/v1/sessions/mfa/new');
-  });
-
   it('should redirect for MFA v1', () => {
     mfa('v1');
     expect(global.window.location).to.include('/v1/sessions/mfa/new');
-  });
-
-  it('should redirect for verify v0 to v1', () => {
-    verify('v0');
-    expect(global.window.location).to.include('/v1/sessions/verify/new');
   });
 
   it('should redirect for verify v1', () => {
@@ -118,13 +98,13 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 
-  it('should mimick modal behavior when sign-in page lacks appliction param', () => {
+  it('should mimic modal behavior when sign-in page lacks appliction param', () => {
     global.window.location.pathname = '/sign-in/';
     login('idme', 'v1');
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 
-  it('should mimick modal behavior when sign-in page has invalid application param', () => {
+  it('should mimic modal behavior when sign-in page has invalid application param', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=foobar';
     login('idme', 'v1');
