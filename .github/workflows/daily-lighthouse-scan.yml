@@ -32,7 +32,6 @@ jobs:
       fail-fast: false
       max-parallel: 8
       matrix:
-        include:
           - rootUrl: ${{ fromJson(needs.job1.outputs.rootUrls) }}
             vagovprod: ${{ fromJson(needs.job1.outputs.vagovprod) }}
 
