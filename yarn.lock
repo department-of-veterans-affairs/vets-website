@@ -1142,13 +1142,13 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^3.3.4":
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.4.0.tgz#f70e3ff5895c332683d80c2cfd1c95f5904fcfe6"
-  integrity sha512-YmOYEm/jhqgQfRGTsYD4wuobaD/AA4sMAoAvuybPvckiW0TA6I5XkfpsKIGa+xOu1c5pp+bign6GxNqt4ZfjgQ==
+"@department-of-veterans-affairs/component-library@^3.6.0":
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.6.0.tgz#7398b4eb644eb460fa40eeb0f15346a3a9715813"
+  integrity sha512-vNzR1hXcnE76dnAP8wA9bi5IpLvD07fSd7qTuQSC3aJ6dgApLKrO9RAS01/0tO713gNj5h1BXFfzQ4ehp5odGw==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "3.2.3"
-    "@department-of-veterans-affairs/web-components" "0.14.0"
+    "@department-of-veterans-affairs/react-components" "3.3.0"
+    "@department-of-veterans-affairs/web-components" "0.15.0"
     date-fns-tz "^1.1.1"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
@@ -1180,10 +1180,10 @@
     yeoman-generator "^4.11.0"
     yosay "^2.0.1"
 
-"@department-of-veterans-affairs/react-components@3.2.3":
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-3.2.3.tgz#1a6486f3f7c7839c42995532434ea36b6b8068d0"
-  integrity sha512-xyqWNSG5QNYnIP5KzT/XwULU4HWSm1+x6p++7RMV71KNEwWCQGFtg6TfKnuWN81gYcRpKP28z7hzXIXuEcF5+w==
+"@department-of-veterans-affairs/react-components@3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-3.3.0.tgz#2dc641c00f90ca118880b54127cd49eb6fe036d5"
+  integrity sha512-gsbbwpMabh/RIKOLS+sL+pbgAlrjS3U/UH+2sojDjN7vugeQPWdxKSTOSGjFd0i7d3M/ByjsC8ubZE6486Qk5Q==
   dependencies:
     classnames "^2.2.6"
     core-js "^3.9.0"
@@ -1210,10 +1210,10 @@
     react-is "^17.0.1"
     setimmediate "^1.0.5"
 
-"@department-of-veterans-affairs/web-components@0.14.0":
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-0.14.0.tgz#66a65393ae86d620067f67e5e67d42e60cf533eb"
-  integrity sha512-dJ4IrCC1fmu8XsHAgHc+4nPwzpjdg9mgiDhr8LCwpCJmrtioyRYM8VkyPrWhi5K2Cei5GdKSB13jpneTWuNtUQ==
+"@department-of-veterans-affairs/web-components@0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-0.15.0.tgz#6002b2f83f18bd7bfbdc8a9bb760e959d3f41ab5"
+  integrity sha512-2C+vr/8HuvSwiqyt4IpT310XHv+eOTKdH1B/pm6Ua592nTwLqlXhIKbPHBwxNN2LmFQeaJvpiK2WDA4Hk4eAUA==
   dependencies:
     "@stencil/core" "^2.8.1"
     "@stencil/postcss" "^2.0.0"
