@@ -10,7 +10,7 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe('Hca vaBenefits', () => {
+describe.skip('Hca vaBenefits', () => {
   const { schema, uiSchema } = formConfig.chapters.vaBenefits.pages.vaBenefits;
   const definitions = formConfig.defaultDefinitions;
   it('should render', () => {
