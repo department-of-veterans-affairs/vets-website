@@ -14,6 +14,7 @@ jobs:
     outputs:
       rootUrls: ${{ steps.set-matrix.outputs.rootUrls }}
       vagovprod: ${{ steps.set-matrix.outputs.rootUrls }}
+      registries: ${{ steps.set-matrix.outputs.registries }}
     steps:
       - uses: actions/checkout@master
         with:
@@ -26,7 +27,7 @@ jobs:
           # echo ::set-output name=vagovprod::$(jq '[.[].template] | if has("vagovprod") then .vagovprod else false' ./content-build/src/applications/registry.json)
           # echo ::set-output name=registries::$(jq '[.[].rootUrl]' ./content-build/src/applications/registry.json)
           # echo $(jq '.[] | {rootUrl: .rootUrl, vagovprod: if has("vagovprod") then .vagovprod else false end }' ./content-build/src/applications/registry.json)
-          echo $(jq '.[] | {rootUrl: .rootUrl, vagovprod: .template.vagovprod}' ./content-build/src/applications/registry.json)
+          echo ::set-output name=registries::$(jq '.[] | {rootUrl: .rootUrl, vagovprod: .template.vagovprod}' ./content-build/src/applications/registry.json)
 
   lighthouse:
     needs: job1
@@ -36,7 +37,7 @@ jobs:
       max-parallel: 8
       matrix:
           # rootUrl: ${{ fromJson(needs.job1.outputs.rootUrls) }}
-          rootUrl: [ {rootUrl: "/test", flag: true}]
+          registry: ${{ fromJson(needs.job1.outputs.registries) }}
 
     steps:
       - name: Checkout
