@@ -138,6 +138,11 @@ describe('Schemaform <FormPage>', () => {
 
       expect(router.push.calledWith('/first-page')).to.be.true;
     });
+    it('go to path', () => {
+      tree.getMountedInstance().goToPath('/last-page');
+
+      expect(router.push.calledWith('/last-page')).to.be.true;
+    });
   });
   it("should go back to the beginning if current page isn't found", () => {
     const router = {
@@ -180,7 +185,7 @@ describe('Schemaform <FormPage>', () => {
       />,
     );
 
-    tree.getMountedInstance().goBack('/testing');
+    tree.getMountedInstance().goToPath('/testing');
 
     expect(router.push.calledWith('/testing')).to.be.true;
   });
@@ -207,7 +212,7 @@ describe('Schemaform <FormPage>', () => {
       />,
     );
 
-    tree.getMountedInstance().goBack('/invalid-page');
+    tree.getMountedInstance().goToPath('/invalid-page');
 
     expect(router.push.calledWith('/testing')).to.be.true;
   });

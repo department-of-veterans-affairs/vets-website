@@ -10,8 +10,11 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import FormNavButtons from '../components/FormNavButtons';
 import SchemaForm from '../components/SchemaForm';
 import { setData, uploadFile } from '../actions';
-import { getActiveExpandedPages } from '../helpers';
-import { getNextPagePath, getPreviousPagePath } from '../routing';
+import {
+  getNextPagePath,
+  getPreviousPagePath,
+  checkValidPagePath,
+} from '../routing';
 import { focusElement } from '../utilities/ui';
 import { isReactComponent, getScrollOptions } from '~/platform/utilities/ui';
 
@@ -93,22 +96,30 @@ class FormPage extends React.Component {
       : this.props.form.data;
   };
 
-  goBack = (customPath = '') => {
+  goBack = () => {
     const {
       form,
       route: { pageList },
       location,
     } = this.props;
 
-    const validCustomPath = customPath
-      ? getActiveExpandedPages(pageList, this.props.form.data).some(
-          page => page.path === customPath,
-        )
-      : false;
+    const path = getPreviousPagePath(pageList, form.data, location.pathname);
 
-    const path = validCustomPath
-      ? customPath
-      : getPreviousPagePath(pageList, form.data, location.pathname);
+    this.props.router.push(path);
+  };
+
+  goToPath = customPath => {
+    const {
+      form,
+      route: { pageList },
+      location,
+    } = this.props;
+
+    const path =
+      customPath &&
+      checkValidPagePath(pageList, this.props.form.data, customPath)
+        ? customPath
+        : getPreviousPagePath(pageList, form.data, location.pathname);
 
     this.props.router.push(path);
   };
@@ -164,6 +175,7 @@ class FormPage extends React.Component {
             uploadFile={this.props.uploadFile}
             goBack={this.goBack}
             goForward={this.onSubmit}
+            goToPath={this.goToPath}
           />
         </div>
       );
