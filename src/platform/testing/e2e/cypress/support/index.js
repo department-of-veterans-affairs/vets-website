@@ -65,8 +65,14 @@ Cypress.on('test:after:run', test => {
     let videoName = Cypress.spec.name;
     videoName = videoName.replace('/.js.*', '.js');
     const videoPath = `${Cypress.config('videosFolder')}/${videoName}.mp4`;
-    addContext({ test }, { video: videoPath, retries: test.retries });
+    addContext(
+      { test },
+      { title: 'context', value: { video: videoPath, retries: test.retries } },
+    );
   } else {
-    addContext({ test }, { retries: test.retries });
+    addContext(
+      { test },
+      { title: 'context', value: { retries: test.retries } },
+    );
   }
 });
