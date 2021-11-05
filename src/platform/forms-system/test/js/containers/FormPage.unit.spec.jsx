@@ -47,6 +47,7 @@ function makeForm(obj) {
       pages: {
         firstPage: { schema: {}, uiSchema: {} },
         testPage: { schema: {}, uiSchema: {} },
+        nextPage: { schema: {}, uiSchema: {} },
         lastPage: { schema: {}, uiSchema: {} },
       },
       data: {},
@@ -130,12 +131,12 @@ describe('Schemaform <FormPage>', () => {
     it('submit', () => {
       tree.getMountedInstance().onSubmit({});
 
-      expect(router.push.calledWith('next-page'));
+      expect(router.push.calledWith('/next-page')).to.be.true;
     });
     it('back', () => {
       tree.getMountedInstance().goBack();
 
-      expect(router.push.calledWith('previous-page'));
+      expect(router.push.calledWith('/first-page')).to.be.true;
     });
   });
   it("should go back to the beginning if current page isn't found", () => {
@@ -154,9 +155,9 @@ describe('Schemaform <FormPage>', () => {
 
     tree.getMountedInstance().goBack();
 
-    expect(router.push.calledWith('first-page'));
+    expect(router.push.calledWith('/first-page')).to.be.true;
   });
-  it("should go back to the beginning if current page isn't found", () => {
+  it('should go to the custom path passed to the goBack function', () => {
     const router = {
       push: sinon.spy(),
     };
@@ -179,9 +180,36 @@ describe('Schemaform <FormPage>', () => {
       />,
     );
 
-    tree.getMountedInstance().goBack('testing');
+    tree.getMountedInstance().goBack('/testing');
 
-    expect(router.push.calledWith('testing'));
+    expect(router.push.calledWith('/testing')).to.be.true;
+  });
+  it('should go back to the previous page if the custom path is invalid', () => {
+    const router = {
+      push: sinon.spy(),
+    };
+    const route = makeRoute({
+      pageConfig: {
+        pageKey: 'nextPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: '',
+      },
+    });
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage
+        router={router}
+        form={makeForm()}
+        route={route}
+        location={{ pathname: '/next-page' }}
+      />,
+    );
+
+    tree.getMountedInstance().goBack('/invalid-page');
+
+    expect(router.push.calledWith('/testing')).to.be.true;
   });
   it('should not show a Back button on the first page', () => {
     const tree = SkinDeep.shallowRender(

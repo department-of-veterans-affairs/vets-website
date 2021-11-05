@@ -10,6 +10,7 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import FormNavButtons from '../components/FormNavButtons';
 import SchemaForm from '../components/SchemaForm';
 import { setData, uploadFile } from '../actions';
+import { getActiveExpandedPages } from '../helpers';
 import { getNextPagePath, getPreviousPagePath } from '../routing';
 import { focusElement } from '../utilities/ui';
 import { isReactComponent, getScrollOptions } from '~/platform/utilities/ui';
@@ -98,8 +99,16 @@ class FormPage extends React.Component {
       route: { pageList },
       location,
     } = this.props;
-    const path =
-      customPath || getPreviousPagePath(pageList, form.data, location.pathname);
+
+    const validCustomPath = customPath
+      ? getActiveExpandedPages(pageList, this.props.form.data).some(
+          page => page.path === customPath,
+        )
+      : false;
+
+    const path = validCustomPath
+      ? customPath
+      : getPreviousPagePath(pageList, form.data, location.pathname);
 
     this.props.router.push(path);
   };
