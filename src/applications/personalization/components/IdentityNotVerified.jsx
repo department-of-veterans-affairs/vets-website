@@ -3,6 +3,7 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 import recordEvent from '~/platform/monitoring/record-event';
+import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 
 const IdentityNotVerified = ({
   alertHeadline,
@@ -24,7 +25,7 @@ const IdentityNotVerified = ({
       <a
         className="vads-c-action-link--green"
         href="/verify"
-        onClick={() => recordEvent({ event: 'verify-link-clicked' })}
+        onClick={() => recordEvent({ event: AUTH_EVENTS.VERIFY })}
       >
         Verify your identity
       </a>

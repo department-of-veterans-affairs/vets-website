@@ -43,7 +43,4 @@ const mapStateToProps = state => ({
   loggedIn: isLoggedIn(state),
 });
 
-export default connect(
-  mapStateToProps,
-  {},
-)(IntroductionPage);
+export default connect(mapStateToProps)(IntroductionPage);
