@@ -1,6 +1,8 @@
+const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
+
 const createMockSuccessResponse = (data, hasBeenValidated) => {
   const rv = {
-    id: data.id || '46bebc0a-b99c-464f-a5c5-560bc9eae287',
+    id: data.id || defaultUUID,
     payload: {
       demographics: {
         mailingAddress: {
@@ -79,7 +81,7 @@ const createMultipleAppointments = (
   numberOfCheckInAbledAppointments = 2,
 ) => {
   const rv = {
-    id: token || '46bebc0a-b99c-464f-a5c5-560bc9eae287',
+    id: token || defaultUUID,
     payload: {
       demographics: {
         nextOfKin1: {
@@ -162,4 +164,5 @@ module.exports = {
   createMockFailedResponse,
   createMultipleAppointments,
   createAppointment,
+  defaultUUID,
 };
