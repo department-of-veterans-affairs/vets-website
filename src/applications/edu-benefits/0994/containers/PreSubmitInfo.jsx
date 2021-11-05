@@ -1,5 +1,6 @@
 import React from 'react';
 import PreSubmitInfo from '../../containers/PreSubmitInfo';
+import environment from 'platform/utilities/environment';
 
 function PreSubmitNotice({
   formData,
@@ -8,7 +9,10 @@ function PreSubmitNotice({
   setPreSubmit,
 }) {
   const activeDutyNote = (
-    <div className="vads-u-margin-bottom--3">
+    <div
+      className="vads-u-margin-bottom--3"
+      id={!environment.isProduction() && 'submit-application'}
+    >
       {formData.activeDuty ? (
         <div>
           <strong>By submitting this form</strong> you certify that:

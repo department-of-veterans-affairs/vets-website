@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import uniqueId from 'lodash/uniqueId';
+import environment from 'platform/utilities/environment';
 
 /**
  * A component for the continue button to navigate through panels of questions.
@@ -31,6 +32,8 @@ class ProgressButton extends React.Component {
     );
 
     return (
+      // aria-describedby tag invoked explicitly to match
+      // "By submitting this form" text for proper screen reader operation
       <button
         type={this.props.submitButton ? 'submit' : 'button'}
         disabled={this.props.disabled}
@@ -40,6 +43,12 @@ class ProgressButton extends React.Component {
         id={`${this.id}-continueButton`}
         onClick={this.props.onButtonClick}
         aria-label={this.props.ariaLabel || null}
+        aria-describedby={
+          this.props.buttonText === 'Submit application' &&
+          !environment.isProduction()
+            ? 'submit-application'
+            : null
+        }
       >
         {beforeText}
         {this.props.buttonText}
