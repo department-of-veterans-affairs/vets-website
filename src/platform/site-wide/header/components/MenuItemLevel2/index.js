@@ -25,7 +25,6 @@ export const MenuItemLevel2 = ({ item, updateSubMenu }) => {
   return (
     <li
       className="vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
-      id={menuItemID}
       role="menuitem"
     >
       {/* Raw title */}
@@ -51,6 +50,7 @@ export const MenuItemLevel2 = ({ item, updateSubMenu }) => {
       {item?.links && (
         <button
           className="header-menu-item-button vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
+          id={menuItemID}
           onKeyDown={event => event.keyCode === 13 && toggleShowItems()}
           onMouseUp={toggleShowItems}
           type="button"
