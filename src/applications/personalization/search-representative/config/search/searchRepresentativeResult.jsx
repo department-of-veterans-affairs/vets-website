@@ -15,7 +15,15 @@ const searchRepresentativeResult = props => {
       <p>{props.option.phone}</p>
       <div style={customStyle}>
         <button
-          onClick={() => props.handleClick(props.option.name)}
+          onClick={() =>
+            props.handleClick(
+              props.option.name,
+              props.option.address,
+              props.option.city,
+              props.option.phone,
+              props.option.type,
+            )
+          }
           className="va-button-link"
         >
           Select this representative

@@ -24,10 +24,18 @@ const SearchRepresentativeWidget = props => {
     setPages(chunkedData.length);
   }
 
-  const handleClick = value => {
+  const handleClick = (name, address, city, phone, type) => {
+    const representativeObject = {
+      name,
+      address,
+      city,
+      phone,
+      type,
+    };
     const updatedFormData = {
       ...formData,
-      preferredRepresentative: value,
+      preferredRepresentative: name,
+      representativeData: representativeObject,
     };
     props.setData(updatedFormData);
   };
