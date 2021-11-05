@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
-import './styles.scss';
 import Logo from '../Logo';
 import UserNav from '../../../user-nav/containers/Main';
 import { updateExpandedMenuIDAction } from '../../containers/Menu/actions';

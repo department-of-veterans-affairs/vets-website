@@ -1,7 +1,5 @@
 // Node modules.
 import React, { useState } from 'react';
-// Relative imports.
-import './styles.scss';
 
 export const OfficialGovtWebsite = () => {
   const [expanded, setExpanded] = useState(false);

@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
-import './styles.scss';
 import MenuItemLevel1 from '../../components/MenuItemLevel1';
 import SearchDropdownComponent from 'applications/search/components/SearchDropdown/SearchDropdownComponent';
 import SubMenu from '../../components/SubMenu';
