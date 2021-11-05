@@ -18,7 +18,6 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
         <button
           disabled={isDisabled}
           type="button"
-          role="link"
           aria-label="Sign in with Login.gov"
           className="usa-button usa-button-big logingov-button vads-u-margin-y--1p5"
           onClick={() => loginHandler('logingov')}
@@ -32,7 +31,6 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
       <button
         disabled={isDisabled}
         type="button"
-        role="link"
         aria-label="Sign in with ID.me"
         className="usa-button usa-button-big idme-button vads-u-margin-y--1p5"
         onClick={() => loginHandler('idme')}
@@ -45,7 +43,6 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
       <button
         disabled={isDisabled}
         type="button"
-        role="link"
         aria-label="Sign in with DS Logon"
         className="usa-button usa-button-big dslogon-button vads-u-margin-y--1p5"
         onClick={() => loginHandler('dslogon')}
@@ -55,7 +52,6 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
       <button
         disabled={isDisabled}
         type="button"
-        role="link"
         aria-label="Sign in with My HealtheVet"
         className="usa-button usa-button-big mhv-button vads-u-margin-y--1p5"
         onClick={() => loginHandler('mhv')}
@@ -68,7 +64,6 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
           {loginGovEnabled && (
             <button
               type="button"
-              role="link"
               aria-label="Create an account with Login.gov (Opens a new window)"
               disabled={isDisabled}
               className="vads-u-border-top--1px"
@@ -79,7 +74,6 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
           )}
           <button
             type="button"
-            role="link"
             aria-label="Create an account with ID.me (Opens a new window)"
             disabled={isDisabled}
             className="vads-u-border-top--1px vads-u-border-bottom--1px"
