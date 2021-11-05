@@ -1,5 +1,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+$color-logingov-red: rgb(187, 52, 42);
+$color-logingov-red-darker: rgb(154, 43, 35);
 
 #signin-signup-modal {
   .va-modal-body {
@@ -70,10 +72,10 @@
     }
 
     &.logingov-button {
-      background: $color-secondary-dark;
+      background: $color-logingov-red;
 
       &:hover {
-        background: $color-secondary-darkest;
+        background: $color-logingov-red-darker;
       }
     }
 
