@@ -17,6 +17,7 @@ export const SearchResultsHeader = ({
   context,
   inProgress,
   specialtyMap,
+  totalEntries,
 }) => {
   const noResultsFound = !results || !results.length;
 
@@ -64,7 +65,16 @@ export const SearchResultsHeader = ({
 
   const formattedServiceType = formatServiceType(serviceType);
 
-  const messagePrefix = noResultsFound ? 'No results found' : 'Results';
+  // const messagePrefix = noResultsFound ? 'No results found' : 'Results';
+
+  const handleNumberOfResults = () => {
+    if (noResultsFound) return 'No resutls found';
+    else if (totalEntries === 1) {
+      return '1 result';
+    } else if (totalEntries < 10 && totalEntries > 1) {
+      return `Showing 1 - ${totalEntries} results`;
+    } else return 'Resultss';
+  };
 
   return (
     <div>
@@ -73,7 +83,7 @@ export const SearchResultsHeader = ({
         className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
         tabIndex="-1"
       >
-        {messagePrefix} for &quot;
+        {handleNumberOfResults()} for &quot;
         <b>{facilityTypes[facilityType]}</b>
         &quot;
         {formattedServiceType && (
