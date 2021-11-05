@@ -11,6 +11,11 @@ import {
   externalRedirects,
 } from '../../authentication/utilities';
 
+import {
+  getLoginAttempted,
+  removeLoginAttempted,
+} from 'platform/utilities/sso/loginAttempted';
+
 const setup = () => {
   global.window.location = {
     get: () => global.window.location,
@@ -20,6 +25,7 @@ const setup = () => {
     pathname: '',
     search: '',
   };
+  removeLoginAttempted();
 };
 
 describe('authentication URL helpers', () => {
@@ -112,6 +118,39 @@ describe('authentication URL helpers', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=foobar';
     login('idme', 'v1');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+});
+
+describe('setLoginAttempted', () => {
+  beforeEach(setup);
+
+  it('should setLoginAttempted true when logging in from modal', () => {
+    login('idme');
+    expect(getLoginAttempted()).to.equal('true');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+
+  it('should setLoginAttempted true when logging in from /sign-in with no external redirect', () => {
+    global.window.location.pathname = '/sign-in/';
+    login('idme');
+    expect(getLoginAttempted()).to.equal('true');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+
+  it('should setLoginAttempted true when logging in from /sign-in with invalid external redirect', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=foobar';
+    login('idme');
+    expect(getLoginAttempted()).to.equal('true');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+
+  it('should not setLoginAttempted when logging in from /sign-in with valid external redirect', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=mhv';
+    login('idme');
+    expect(getLoginAttempted()).to.be.null;
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 });

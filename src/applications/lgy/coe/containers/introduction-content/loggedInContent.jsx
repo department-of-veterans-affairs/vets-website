@@ -11,11 +11,11 @@ const LoggedInContent = props => (
           <h3>Check your service requirements</h3>
           <p>
             Make sure you meet our VA home loan eligibility requirements before
-            you apply for a COE. You may be able to get a COE if you:
+            you request a COE. You may be able to get a COE if you:
           </p>
           <ul>
             <li>
-              Didn’t receive a dishonorable discharge <strong>and</strong>
+              Didn’t receive a dishonorable discharge, <strong>and</strong>
             </li>
             <li>
               Meet the minimum active-duty service requirement based on when you
@@ -26,7 +26,7 @@ const LoggedInContent = props => (
         </li>
         <li className="process-step list-two">
           <h3>Gather your information</h3>
-          <p>Here’s what you’ll need to apply:</p>
+          <p>Here’s what you’ll need to request a COE:</p>
           <ul>
             <li>
               Your Social Security number, date of birth and current contact
@@ -84,10 +84,10 @@ const LoggedInContent = props => (
         <li className="process-step list-three">
           <h3>Start your application</h3>
           <p>
-            Complete the form to apply for a VA home loan Certificate of
+            Complete the form to request a VA home loan Certificate of
             Eligibility. It should take about 15 minutes.
           </p>
-          <AdditionalInfo triggerText="What happens after I apply?">
+          <AdditionalInfo triggerText="What happens after I request a COE?">
             <p>hey</p>
           </AdditionalInfo>
         </li>
@@ -101,7 +101,7 @@ const LoggedInContent = props => (
           formConfig={props.parentProps.route.formConfig}
           pageList={props.parentProps.route.pageList}
           downtime={props.parentProps.route.formConfig.downtime}
-          startText="Apply for a Certificate of Eligibility"
+          startText="Request a Certificate of Eligibility"
           headingLevel={2}
         />
       </div>
