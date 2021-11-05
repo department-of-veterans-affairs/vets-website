@@ -5,7 +5,6 @@ import 'cypress-plugin-tab';
 import 'cypress-real-events/support';
 import addContext from 'mochawesome/addContext';
 import './commands';
-import core from '@actions/core';
 
 Cypress.on('window:before:load', window => {
   // Workaround to allow Cypress to intercept requests made with the Fetch API.
@@ -66,7 +65,8 @@ Cypress.on('test:after:run', test => {
     let videoName = Cypress.spec.name;
     videoName = videoName.replace('/.js.*', '.js');
     const videoPath = `${Cypress.config('videosFolder')}/${videoName}.mp4`;
-    addContext({ test }, videoPath);
+    addContext({ test }, { video: videoPath, retries: test.retries });
+  } else {
+    addContext({ test }, { retries: test.retries });
   }
-  core.exportVariable('CYPRESS_RETRIES', Cypress.env('test_retries'));
 });
