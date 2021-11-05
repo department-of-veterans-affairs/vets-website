@@ -61,8 +61,6 @@ Cypress.on('test:after:run', test => {
     const videoPath = `${Cypress.config('videosFolder')}/${videoName}.mp4`;
     addContext({ test }, videoPath);
   }
-  /* eslint-disable no-console */
-  console.log(test);
   // eslint-disable-next-line no-param-reassign
   test.retries = test.state('runnable')._retries;
 });
