@@ -88,7 +88,8 @@ function callFakeSuccess(dispatch, status = HCA_ENROLLMENT_STATUSES.enrolled) {
 
 // actually call the /health_care_applications/enrollment_status endpoint
 function callAPI(dispatch, formData = {}) {
-  const baseUrl = `/health_care_applications/enrollment_status`;
+  // const baseUrl = `/health_care_applications/enrollment_status`;
+  const baseUrl = `https://dev-api.va.gov/v0/health_care_applications/enrollment_status`;
 
   const url = appendQuery(baseUrl, {
     'userAttributes[veteranDateOfBirth]': formData.dob,
