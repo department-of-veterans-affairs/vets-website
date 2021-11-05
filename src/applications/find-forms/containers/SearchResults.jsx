@@ -15,6 +15,7 @@ import {
   updateSortByPropertyNameThunk,
   updatePaginationAction,
 } from '../actions';
+import { setCookie } from '../helpers';
 import { showPDFModal, getFindFormsAppState } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
@@ -102,8 +103,11 @@ export const SearchResults = ({
     }
   };
 
-  const toggleModalState = (pdfSelected, pdfUrl) =>
-    setModalState({ isOpen: !modalState.isOpen, pdfSelected, pdfUrl });
+  const toggleModalState = async (pdfSelected, pdfUrl, closingModal) => {
+    const doesCookieExist = await setCookie();
+    if (!doesCookieExist || closingModal)
+      setModalState({ isOpen: !modalState.isOpen, pdfSelected, pdfUrl });
+  };
 
   // Show loading indicator if we are fetching.
   if (fetching) {
@@ -235,7 +239,7 @@ export const SearchResults = ({
         }}
       >
         <Modal
-          onClose={() => toggleModalState()}
+          onClose={() => toggleModalState(null, null, true)}
           title="Download his PDF and open it in Acrobat Reader"
           visible={isOpen}
         >
