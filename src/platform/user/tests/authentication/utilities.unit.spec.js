@@ -78,6 +78,15 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/v1/sessions/verify/new');
   });
 
+  it('should not append unneeded query parameters on unified sign-in page on a signup', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=mhv';
+    signup();
+    expect(global.window.location).to.include(
+      `/v1/sessions/idme_signup/new?op=signup`,
+    );
+  });
+
   it('should redirect to the proper unified sign-in page redirect for mhv', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=mhv';
