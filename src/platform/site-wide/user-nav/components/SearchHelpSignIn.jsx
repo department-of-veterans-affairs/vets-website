@@ -1,6 +1,6 @@
 // Node modules.
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 // Relative imports.
 import SearchMenu from './SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
@@ -9,6 +9,19 @@ import recordEvent from 'platform/monitoring/record-event';
 import { hasSession } from 'platform/user/profile/utilities';
 
 class SearchHelpSignIn extends Component {
+  static propTypes = {
+    isHeaderV2: PropTypes.bool,
+    isLOA3: PropTypes.bool,
+    isLoggedIn: PropTypes.bool,
+    isMenuOpen: PropTypes.objectOf(PropTypes.bool).isRequired,
+    isProfileLoading: PropTypes.bool.isRequired,
+    onSignInSignUp: PropTypes.func.isRequired,
+    toggleMenu: PropTypes.func.isRequired,
+    userGreeting: PropTypes.oneOfType([
+      PropTypes.node,
+      PropTypes.arrayOf(PropTypes.node),
+    ]),
+  };
   handleSignInSignUp = e => {
     e.preventDefault();
     this.props.onSignInSignUp();
@@ -67,35 +80,35 @@ class SearchHelpSignIn extends Component {
 
   render() {
     return (
-      <div className="vads-u-display--flex vads-u-align-items--center vads-u-padding-top--1">
-        <SearchMenu
-          clickHandler={this.handleSearchMenuClick}
-          isOpen={this.props.isMenuOpen.search}
-        />
-        <a
-          className="vads-u-color--white vads-u-text-decoration--none vads-u-padding-x--1 vads-u-font-weight--bold"
-          href="https://www.va.gov/contact-us/"
-          onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
-        >
-          Contact us
-        </a>
+      <div
+        className={`vads-u-display--flex vads-u-align-items--center${
+          this.props.isHeaderV2 ? '' : ' vads-u-padding-top--1'
+        }`}
+      >
+        {/* Search */}
+        {!this.props.isHeaderV2 && (
+          <SearchMenu
+            clickHandler={this.handleSearchMenuClick}
+            isOpen={this.props.isMenuOpen.search}
+          />
+        )}
+
+        {/* Contact us */}
+        {!this.props.isHeaderV2 && (
+          <a
+            className="vads-u-color--white vads-u-text-decoration--none vads-u-padding-x--1 vads-u-font-weight--bold"
+            href="https://www.va.gov/contact-us/"
+            onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
+          >
+            Contact us
+          </a>
+        )}
+
+        {/* Sign in | First name (if logged in) */}
         <div className="sign-in-nav">{this.renderSignInContent()}</div>
       </div>
     );
   }
 }
-
-SearchHelpSignIn.propTypes = {
-  isLOA3: PropTypes.bool,
-  isLoggedIn: PropTypes.bool,
-  isMenuOpen: PropTypes.objectOf(PropTypes.bool).isRequired,
-  isProfileLoading: PropTypes.bool.isRequired,
-  onSignInSignUp: PropTypes.func.isRequired,
-  toggleMenu: PropTypes.func.isRequired,
-  userGreeting: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.arrayOf(PropTypes.node),
-  ]),
-};
 
 export default SearchHelpSignIn;
