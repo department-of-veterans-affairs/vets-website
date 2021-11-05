@@ -49,7 +49,7 @@ function callFake404(dispatch) {
 }
 
 /* eslint-disable no-unused-vars */
-// Disabling ESLint because it's nice to be able to use this function during
+// Disabling ESLint because we it's nice to be able to use this function during
 // development and local testing
 // fake a 500 response from /health_care_applications/enrollment_status
 function callFake500(dispatch) {
