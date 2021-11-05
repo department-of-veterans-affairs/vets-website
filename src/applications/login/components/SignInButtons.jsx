@@ -17,7 +17,8 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
       {loginGovEnabled && (
         <button
           disabled={isDisabled}
-          type="link"
+          type="button"
+          role="link"
           aria-label="Sign in with Login.gov"
           className="usa-button usa-button-big logingov-button vads-u-margin-y--1p5"
           onClick={() => loginHandler('logingov')}
@@ -30,7 +31,8 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
       )}
       <button
         disabled={isDisabled}
-        type="link"
+        type="button"
+        role="link"
         aria-label="Sign in with ID.me"
         className="usa-button usa-button-big idme-button vads-u-margin-y--1p5"
         onClick={() => loginHandler('idme')}
@@ -42,7 +44,8 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
       </button>
       <button
         disabled={isDisabled}
-        type="link"
+        type="button"
+        role="link"
         aria-label="Sign in with DS Logon"
         className="usa-button usa-button-big dslogon-button vads-u-margin-y--1p5"
         onClick={() => loginHandler('dslogon')}
@@ -51,52 +54,40 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
       </button>
       <button
         disabled={isDisabled}
-        type="link"
+        type="button"
+        role="link"
         aria-label="Sign in with My HealtheVet"
         className="usa-button usa-button-big mhv-button vads-u-margin-y--1p5"
         onClick={() => loginHandler('mhv')}
       >
         My HealtheVet
       </button>
-      <div className="alternate-signin">
+      <div id="create-account">
         <h2 className="vads-u-margin-top--3">Or create an account</h2>
         <div className="vads-u-display--flex vads-u-flex-direction--column">
           {loginGovEnabled && (
-            <a
+            <button
+              type="button"
               role="link"
-              tabIndex="0"
-              aria-label="Create an account with Login.gov. Navigates to Login.gov website"
+              aria-label="Create an account with Login.gov (Opens a new window)"
               disabled={isDisabled}
-              className="vads-c-action-link--blue vads-u-border-top--1px vads-u-padding-bottom--2"
-              onClick={() =>
-                signup({ version: 'v1', queryParams: { csp: 'logingov' } })
-              }
+              className="vads-u-border-top--1px"
+              onClick={() => signup({ csp: 'logingov' })}
             >
               Create an account with Login.gov
-            </a>
+            </button>
           )}
-          <a
+          <button
+            type="button"
             role="link"
-            tabIndex="0"
-            aria-label="Create an account with ID.me. Navigates to ID.me website"
+            aria-label="Create an account with ID.me (Opens a new window)"
             disabled={isDisabled}
-            className="vads-c-action-link--blue vads-u-border-top--1px vads-u-padding-bottom--2 vads-u-border-bottom--1px"
-            onClick={() =>
-              signup({ version: 'v1', queryParams: { csp: 'idme' } })
-            }
+            className="vads-u-border-top--1px vads-u-border-bottom--1px"
+            onClick={() => signup({ csp: 'idme' })}
           >
             Create an account with ID.me
-          </a>
+          </button>
         </div>
-        {loginGovEnabled && (
-          <a
-            className="vads-u-display--block vads-u-margin-top--2"
-            href="#"
-            target="_blank"
-          >
-            Learn more about choosing an account
-          </a>
-        )}
       </div>
     </div>
   );

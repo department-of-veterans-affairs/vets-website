@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import FedWarning from 'applications/login/components/FedWarning';
+import SignInButtons from 'applications/login/components/SignInButtons';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 
 // import { getCurrentGlobalDowntime } from 'platform/monitoring/DowntimeNotification/util/helpers';
@@ -12,7 +13,6 @@ import ExternalServicesError from 'platform/monitoring/external-services/Externa
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import recordEvent from 'platform/monitoring/record-event';
 import { ssoe, loginGov } from 'platform/user/authentication/selectors';
-import { login, signup } from 'platform/user/authentication/utilities';
 import { formatDowntime } from 'platform/utilities/date';
 import environment from 'platform/utilities/environment';
 
@@ -37,15 +37,6 @@ export class SignInModal extends React.Component {
       recordEvent({ event: 'login-modal-closed' });
     }
   }
-
-  loginHandler = loginType => () => {
-    recordEvent({ event: `login-attempted-${loginType}` });
-    login(loginType, 'v1');
-  };
-
-  signupHandler = provider => () => {
-    signup({ version: 'v1', queryParams: { csp: provider } });
-  };
 
   downtimeBanner = (dependencies, headline, status, message, onRender) => (
     <ExternalServicesError dependencies={dependencies} onRender={onRender}>
@@ -152,88 +143,10 @@ export class SignInModal extends React.Component {
         {this.renderDowntimeBanners()}
         <div className="row">
           <div className="columns small-12 medium-6">
-            <div>
-              {this.props.loginGovEnabled && (
-                <button
-                  disabled={globalDowntime}
-                  type="link"
-                  aria-label="Sign in with Login.gov"
-                  className="usa-button usa-button-big logingov-button vads-u-margin-y--1p5"
-                  onClick={this.loginHandler('logingov')}
-                >
-                  <img
-                    alt="Sign in with Login.gov"
-                    src={`${vaGovFullDomain}/img/signin/logingov-icon-white.svg`}
-                  />
-                </button>
-              )}
-              <button
-                disabled={globalDowntime}
-                type="link"
-                aria-label="Sign in with ID.me"
-                className="usa-button usa-button-big idme-button vads-u-margin-y--1p5"
-                onClick={this.loginHandler('idme')}
-              >
-                <img
-                  alt="Sign in with ID.me"
-                  src={`${vaGovFullDomain}/img/signin/idme-icon-white.svg`}
-                />
-              </button>
-              <button
-                disabled={globalDowntime}
-                type="link"
-                aria-label="Sign in with DS Logon"
-                className="usa-button usa-button-big dslogon-button vads-u-margin-y--1p5"
-                onClick={this.loginHandler('dslogon')}
-              >
-                DS Logon
-              </button>
-              <button
-                disabled={globalDowntime}
-                type="link"
-                aria-label="Sign in with My HealtheVet"
-                className="usa-button usa-button-big mhv-button vads-u-margin-y--1p5"
-                onClick={this.loginHandler('mhv')}
-              >
-                My HealtheVet
-              </button>
-              <div className="alternate-signin">
-                <h2 className="vads-u-margin-top--3">Or create an account</h2>
-                <div className="vads-u-display--flex vads-u-flex-direction--column">
-                  {this.props.loginGovEnabled && (
-                    <a
-                      role="link"
-                      tabIndex="0"
-                      aria-label="Create an account with Login.gov. Navigates to Login.gov website"
-                      disabled={globalDowntime}
-                      className="vads-c-action-link--blue vads-u-border-top--1px vads-u-padding-bottom--2"
-                      onClick={this.signupHandler('logingov')}
-                    >
-                      Create an account with Login.gov
-                    </a>
-                  )}
-                  <a
-                    role="link"
-                    tabIndex="0"
-                    aria-label="Create an account with ID.me. Navigates to ID.me website"
-                    disabled={globalDowntime}
-                    className="vads-c-action-link--blue vads-u-border-top--1px vads-u-padding-bottom--2 vads-u-border-bottom--1px"
-                    onClick={this.signupHandler('idme')}
-                  >
-                    Create an account with ID.me
-                  </a>
-                </div>
-                {this.props.loginGovEnabled && (
-                  <a
-                    className="vads-u-display--block vads-u-margin-top--2"
-                    href="#"
-                    target="_blank"
-                  >
-                    Learn more about choosing an account
-                  </a>
-                )}
-              </div>
-            </div>
+            <SignInButtons
+              loginGovEnabled={this.props.loginGovEnabled}
+              isDisabled={globalDowntime}
+            />
           </div>
         </div>
         <div className="row">
@@ -244,13 +157,18 @@ export class SignInModal extends React.Component {
               </h2>
               <p>
                 Get answers to common questions about{' '}
-                <a href="/resources/signing-in-to-vagov/" target="_blank">
+                <a
+                  href="/resources/signing-in-to-vagov/"
+                  target="_blank"
+                  aria-label="Questions about signing in to VA.gov. (Opens a new window)"
+                >
                   signing in
                 </a>{' '}
                 and{' '}
                 <a
                   href="/resources/verifying-your-identity-on-vagov/"
                   target="_blank"
+                  aria-label="Verifying your identity on VA.gov. (Opens a new window)"
                 >
                   verifying your identity
                 </a>

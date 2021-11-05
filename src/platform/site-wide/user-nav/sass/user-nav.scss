@@ -23,23 +23,6 @@
     padding: 8px 30px 8px 8px;
     width: auto;
   }
-
-  .login {
-    .explanation-content {
-      @include media($medium-large-screen) {
-        margin-left: 2em;
-      }
-
-      ul {
-        list-style: square;
-        padding-left: 1.5em;
-      }
-
-      p {
-        margin: 1em 0;
-      }
-    }
-  }
 }
 
 .signin-breadcrumbs {
@@ -151,80 +134,6 @@
 
 .login {
   background: $color-white;
-
-  hr {
-    border-color: $color-gray-lighter;
-  }
-
-  .mobile-explanation {
-    padding: 1em 0;
-
-    p {
-      margin-top: 0;
-    }
-  }
-
-  .fed-warning {
-    font-size: 0.9em;
-    margin-bottom: 2em;
-
-    p {
-      margin: 0.5em 0;
-    }
-  }
-
-  .signin-actions-container {
-    text-align: center;
-
-    @include media-maxwidth($small-screen) {
-      margin-right: 0;
-    }
-
-    div:first-child {
-      background: $color-gray-light-alt;
-    }
-
-    border: solid 2px $color-gray-light-alt;
-
-    .top-banner {
-      text-align: center;
-      display: flex;
-      align-items: center;
-      padding: 0.25em 0;
-      font-style: italic;
-
-      div:first-child {
-        margin: 0 auto;
-      }
-
-      img {
-        height: inherit;
-        vertical-align: baseline;
-        padding: 0 0.25em;
-      }
-    }
-
-    .signin-actions {
-      padding: 2em 2em 1em;
-
-      h5 {
-        margin-top: 0;
-      }
-
-      @include media-maxwidth($small-screen) {
-        padding: 2em 1em 1em;
-      }
-
-      .alternate-signin {
-        padding-top: 1em;
-
-        p:first-of-type {
-          margin-top: 0.5em;
-          color: $color-gray-dark;
-        }
-      }
-    }
-  }
 }
 
 .sign-in-nav {
@@ -317,5 +226,35 @@
   .search-dropdown-submit-button {
     height: 42px;
     margin: 8px 8px 8px 8px;
+  }
+}
+
+#create-account button {
+  display: block;
+  text-align: left;
+  border-radius: 0;
+  margin: 0;
+  background-color: transparent;
+  text-decoration: underline;
+  font-weight: 700;
+  padding: 1.16em 0;
+  color: $color-link-default;
+
+  &:before {
+    color: $color-link-default;
+    content: "\F138";
+    display: inline-block;
+    font-family: "Font Awesome 5 Free";
+    font-size: 175%;
+    font-weight: 900;
+    height: 0;
+    padding-right: 1rem;
+    transform: translateY(5px);
+    text-decoration: none;
+  }
+
+  &:hover {
+    color: $color-black;
+    background-color: $color-gray-lightest;
   }
 }

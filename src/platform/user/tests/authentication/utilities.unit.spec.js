@@ -26,13 +26,17 @@ describe('authentication URL helpers', () => {
   beforeEach(setup);
 
   it('should redirect for signup v1', () => {
-    signup({ version: 'v1', queryParams: { csp: 'idme' } });
+    signup();
     expect(global.window.location).to.include(
-      '/v1/sessions/signup/new?csp=idme',
+      '/v1/sessions/idme_signup/new?op=signup',
     );
-    signup({ version: 'v1', queryParams: { csp: 'logingov' } });
+    signup({ version: 'v1', csp: 'idme' });
     expect(global.window.location).to.include(
-      '/v1/sessions/signup/new?csp=logingov',
+      '/v1/sessions/idme_signup/new?op=signup',
+    );
+    signup({ version: 'v1', csp: 'logingov' });
+    expect(global.window.location).to.include(
+      '/v1/sessions/logingov_signup/new',
     );
   });
 

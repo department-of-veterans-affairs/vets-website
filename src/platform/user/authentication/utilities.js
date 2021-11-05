@@ -183,9 +183,13 @@ export function logout(
   );
 }
 
-export function signup({ version = 'v1', queryParams = {} }) {
+export function signup({ version = 'v1', csp = 'idme' } = {}) {
   return redirect(
-    sessionTypeUrl({ type: 'signup', version, queryParams }),
+    sessionTypeUrl({
+      type: `${csp}_signup`,
+      version,
+      ...(csp === 'idme' && { queryParams: { op: 'signup' } }),
+    }),
     'register-link-clicked',
   );
 }
