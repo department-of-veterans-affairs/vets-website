@@ -66,7 +66,6 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
               type="button"
               aria-label="Create an account with Login.gov (Opens a new window)"
               disabled={isDisabled}
-              className="vads-u-border-top--1px"
               onClick={() => signup({ csp: 'logingov' })}
             >
               Create an account with Login.gov
@@ -76,7 +75,6 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
             type="button"
             aria-label="Create an account with ID.me (Opens a new window)"
             disabled={isDisabled}
-            className="vads-u-border-top--1px vads-u-border-bottom--1px"
             onClick={() => signup({ csp: 'idme' })}
           >
             Create an account with ID.me

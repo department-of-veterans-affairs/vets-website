@@ -70,10 +70,10 @@
     }
 
     &.logingov-button {
-      background: $color-secondary;
+      background: $color-secondary-dark;
 
       &:hover {
-        background: $color-secondary-dark;
+        background: $color-secondary-darkest;
       }
     }
 
@@ -237,8 +237,10 @@
   background-color: transparent;
   text-decoration: underline;
   font-weight: 700;
-  padding: 1.16em 0;
+  padding: 1.16em 0 1.6em;
   color: $color-link-default;
+  border-top: 1px solid $color-gray-light;
+  border-bottom: 1px solid $color-gray-light;
 
   &:before {
     color: $color-link-default;
@@ -256,5 +258,9 @@
   &:hover {
     color: $color-black;
     background-color: $color-gray-lightest;
+  }
+
+  &:last-of-type {
+    border-top: none;
   }
 }
