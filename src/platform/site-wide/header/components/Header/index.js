@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
-import './styles.scss';
 import LogoRow from '../LogoRow';
 import Menu from '../../containers/Menu';
 import OfficialGovtWebsite from '../OfficialGovtWebsite';
