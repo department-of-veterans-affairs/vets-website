@@ -9,7 +9,7 @@ import {
 
 // flip the `false` to `true` to fake the endpoint when testing locally
 // eslint-disable-next-line sonarjs/no-redundant-boolean
-const simulateServerLocally = environment.isLocalhost() && true;
+const simulateServerLocally = environment.isLocalhost() && false;
 
 // action types related to calling /health_care_applications/enrollment_status
 export const FETCH_ENROLLMENT_STATUS_STARTED =
