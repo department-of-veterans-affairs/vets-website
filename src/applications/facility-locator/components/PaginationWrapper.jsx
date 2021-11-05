@@ -38,7 +38,7 @@ export class PaginationWrapper extends Component {
 }
 
 const mapStateToProps = state => {
-  let isCommunityProviderSearch = false;
+  let shouldHide = false;
 
   if (
     [
@@ -48,9 +48,10 @@ const mapStateToProps = state => {
     ].includes(state.searchQuery.facilityType) &&
     !facilityLocatorRestoreCommunityCarePagination(state)
   ) {
-    isCommunityProviderSearch = true;
+    shouldHide = true;
   }
 
+  // pagination not yet supported for PPMS urgent care
   if (
     state.searchQuery.facilityType === LocationType.URGENT_CARE &&
     (!state.searchQuery.serviceType ||
@@ -58,11 +59,11 @@ const mapStateToProps = state => {
         state.searchQuery.serviceType,
       ))
   ) {
-    isCommunityProviderSearch = true;
+    shouldHide = true;
   }
 
   return {
-    shouldRender: !isCommunityProviderSearch,
+    shouldRender: !shouldHide,
   };
 };
 
