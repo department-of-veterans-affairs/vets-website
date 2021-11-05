@@ -1989,7 +1989,7 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^3.5.0":
+"@department-of-veterans-affairs/component-library@^3.6.0":
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.6.0.tgz#7398b4eb644eb460fa40eeb0f15346a3a9715813"
   integrity sha512-vNzR1hXcnE76dnAP8wA9bi5IpLvD07fSd7qTuQSC3aJ6dgApLKrO9RAS01/0tO713gNj5h1BXFfzQ4ehp5odGw==
