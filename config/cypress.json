@@ -16,6 +16,7 @@
     "openMode": 0
   },
   "env": {
+    "test_retries": [],
     "vaTopMobileViewportsIterateUptoIndex": 0,
     "vaTopMobileViewports": [
       {
