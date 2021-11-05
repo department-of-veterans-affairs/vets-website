@@ -42,10 +42,7 @@ export const MenuItemLevel1 = ({
   };
 
   return (
-    <li
-      className="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
-      role="menuitem"
-    >
+    <li className="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
       {/* Raw title */}
       {!item?.menuSections &&
         !item?.href && (
@@ -96,7 +93,6 @@ export const MenuItemLevel1 = ({
               aria-label={item?.title}
               className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column usa-unstyled-list vads-u-margin--0 vads-u-padding--0"
               id={menuItemID}
-              role="menu"
             >
               {item?.menuSections.map(itemLevel2 => {
                 const itemLevel2ID = deriveMenuItemID(itemLevel2, '2');

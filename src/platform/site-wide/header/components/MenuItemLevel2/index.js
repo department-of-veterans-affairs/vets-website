@@ -23,10 +23,7 @@ export const MenuItemLevel2 = ({ item, updateSubMenu }) => {
   };
 
   return (
-    <li
-      className="vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
-      role="menuitem"
-    >
+    <li className="vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
       {/* Raw title */}
       {!item?.links &&
         !item?.href && (
