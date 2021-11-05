@@ -6,7 +6,7 @@ export const initialState = {
   subMenu: undefined,
 };
 
-export default (state = initialState, action) => {
+export default (state = initialState, action = {}) => {
   if (action.type === UPDATE_EXPANDED_MENU_ID) {
     return {
       ...state,
