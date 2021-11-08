@@ -75,6 +75,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Create release
+        uses: actions/create-release@v1
+        with:
+          tag_name: v0.1.1927
+          release_name: vets-website/v0.1.1927
+
       - name: Install dependencies
         uses: ./.github/workflows/install
         with:
