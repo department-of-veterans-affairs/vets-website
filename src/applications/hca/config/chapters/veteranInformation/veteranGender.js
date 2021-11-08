@@ -17,8 +17,7 @@ export default {
     'ui:description': PrefillMessage,
     'view:demographicCategories': {
       'ui:field': DemographicField,
-      'ui:title': 'Which categories best describe you?',
-      'ui:description': 'You may check more than one.',
+      'ui:title': 'What is your gender? (Please check all that apply.)',
       isSpanishHispanicLatino: {
         'ui:title': 'Spanish, Hispanic, or Latino',
       },
