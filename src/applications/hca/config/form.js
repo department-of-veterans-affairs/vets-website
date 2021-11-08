@@ -37,6 +37,7 @@ import documentUpload from './chapters/militaryService/documentUpload';
 
 // chapter 3 VA Benefits
 import basicInformation from './chapters/vaBenefits/basicInformation';
+import pensionInformation from './chapters/vaBenefits/pensionInformation';
 
 // chapter 4 Household Information
 import financialDisclosure from './chapters/householdInformation/financialDisclosure';
@@ -205,6 +206,13 @@ const formConfig = {
           title: 'VA benefits',
           uiSchema: basicInformation.uiSchema,
           schema: basicInformation.schema,
+        },
+        vaPension: {
+          path: 'va-benefits/pension-information',
+          title: 'VA benefits',
+          uiSchema: pensionInformation.uiSchema,
+          schema: pensionInformation.schema,
+          depends: ({ vaCompensationType }) => vaCompensationType === 'none',
         },
       },
     },
