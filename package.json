@@ -183,7 +183,7 @@
     "find-root": "^1.1.0",
     "fs-extra": "^7.0.0",
     "glob": "^7.1.7",
-    "html-webpack-plugin": "^5.3.2",
+    "html-webpack-plugin": "^5.5.0",
     "http-server": "^13.0.2",
     "husky": ">=6",
     "inquirer": "^8.1.5",
