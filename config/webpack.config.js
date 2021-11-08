@@ -121,9 +121,7 @@ async function getScaffoldAssets() {
 
     if (!response.ok) {
       throw new Error(
-        `Failed to fetch ${fileUrl}.\n\n${response.status}: ${
-          response.statusText
-        }`,
+        `Failed to fetch ${fileUrl}.\n\n${response.status}: ${response.statusText}`,
       );
     }
 
@@ -232,10 +230,10 @@ async function generateHtmlFiles(buildPath) {
         typeof template !== 'undefined' && template.title
           ? `${template.title} | Veterans Affairs`
           : typeof appName !== 'undefined'
-            ? appName
-              ? `${appName} | Veterans Affairs`
-              : null
-            : 'VA.gov Home | Veterans Affairs',
+          ? appName
+            ? `${appName} | Veterans Affairs`
+            : null
+          : 'VA.gov Home | Veterans Affairs',
     });
   /* eslint-enable no-nested-ternary */
 
@@ -275,8 +273,7 @@ module.exports = async (env = {}) => {
     buildOptions.destination,
   );
 
-  console.log(entryFiles['10182-board-appeal']);
-  console.log(entryFiles.vendor);
+  console.log(entryFiles.facilities);
   console.log(entryFiles);
 
   const baseConfig = {
@@ -311,6 +308,7 @@ module.exports = async (env = {}) => {
             {
               loader: 'css-loader',
               options: {
+                url: false,
                 sourceMap: enableCSSSourcemaps,
               },
             },
@@ -484,7 +482,7 @@ module.exports = async (env = {}) => {
       }),
     );
 
-    baseConfig.plugins.optimization.moduleIds = 'deterministic';
+    // baseConfig.plugins.optimization.moduleIds = 'deterministic';
     baseConfig.mode = 'production';
   } else {
     baseConfig.devtool = 'eval-source-map';
