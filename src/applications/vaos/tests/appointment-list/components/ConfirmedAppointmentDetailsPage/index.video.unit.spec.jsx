@@ -35,7 +35,7 @@ const initialState = {
 };
 
 describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
-  describe('video appointments', () => {
+  describe.skip('video appointments', () => {
     // VA appointment id from confirmed_va.json
     const url = 'va/05760f00c80ae60ce49879cf37a05fc8';
 
@@ -920,7 +920,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       ).to.be.ok;
     });
 
-    it('should verify Video Connect at home calendar ics file format', async () => {
+    it.skip('should verify Video Connect at home calendar ics file format', async () => {
       const appointment = getVideoAppointmentMock();
       const startDate = moment.utc().add(3, 'days');
       appointment.attributes = {
@@ -1030,7 +1030,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens.get('END')).includes('VCALENDAR');
     });
 
-    it('should verify Video Connect at VA location calendar ics file format', async () => {
+    it.skip('should verify Video Connect at VA location calendar ics file format', async () => {
       const appointment = getVideoAppointmentMock();
       const startDate = moment.utc().add(3, 'days');
       appointment.attributes = {
@@ -1145,7 +1145,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens.get('END')).includes('VCALENDAR');
     });
 
-    it('should verify Video Connect at ATLAS calendar ics file format', async () => {
+    it.skip('should verify Video Connect at ATLAS calendar ics file format', async () => {
       // Given a user with an ATLAS video appointment
       const startDate = moment.utc().add(3, 'days');
       const appointment = getVideoAppointmentMock({

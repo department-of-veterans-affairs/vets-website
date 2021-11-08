@@ -713,4 +713,62 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.getByText(/Community care/)).to.be.ok;
     expect(screen.getByText(/Atlantic Medical Care/)).to.be.ok;
   });
+
+  it('should not show "Add to Calendar" for canceled appointments', async () => {
+    // Given a user with a canceled CC appointment
+    const url = '/cc/01aa456cc';
+    const appointmentTime = moment().add(1, 'days');
+
+    const data = {
+      id: '01aa456cc',
+      kind: 'cc',
+      practitioners: [
+        {
+          identifier: { system: null, value: '123' },
+        },
+      ],
+      description: 'community care appointment',
+      comment: 'test comment',
+      start: appointmentTime,
+      communityCareProvider: {
+        practiceName: 'Atlantic Medical Care',
+      },
+      status: 'cancelled',
+    };
+
+    const appointment = createMockAppointmentByVersion({
+      version: 2,
+      ...data,
+    });
+
+    mockSingleVAOSAppointmentFetch({
+      appointment,
+    });
+
+    // When the page displays
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: {
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingVAOSServiceVAAppointments: true,
+          vaOnlineSchedulingVAOSServiceCCAppointments: true,
+        },
+      },
+      path: url,
+    });
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    // Then the 'Add to calendar' link should not be displayed
+    expect(screen.queryByText(/Add to calendar/)).not.to.exist;
+  });
 });

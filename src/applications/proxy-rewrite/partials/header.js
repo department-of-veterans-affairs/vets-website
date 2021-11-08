@@ -11,7 +11,7 @@ export default `
   ></div>
 
   <!-- Legacy Header -->
-  <header class="header merger" id="legacy-header">
+  <header class="header merger" id="legacy-header" role="banner">
     <div class="incompatible-browser-warning">
       <div class="row full">
         <div class="small-12">
