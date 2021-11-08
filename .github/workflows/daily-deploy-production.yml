@@ -11,7 +11,7 @@ on:
         description: Deploy specific commit
         required: false
   schedule:
-    - cron: 0 18 * * 1-5
+    - cron: 0 19 * * 1-5
 
 env:
   CHANNEL_ID: C0MQ281DJ # vfs-platform-builds
@@ -144,8 +144,8 @@ jobs:
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_PROD_ROLE
+          env_variable_name: AWS_FRONTEND_PROD_ROLE
 
       - name: Configure AWS Credentials (2)
         uses: aws-actions/configure-aws-credentials@v1
@@ -153,7 +153,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-to-assume: ${{ env.AWS_FRONTEND_PROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
@@ -178,7 +178,7 @@ jobs:
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "@here Production deploy for vets-website has failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
+          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> Production deploy for vets-website has failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
           channel_id: ${{ env.CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
