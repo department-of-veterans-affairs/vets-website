@@ -37,7 +37,7 @@ export default {
         classNames: 'vads-u-margin-bottom--4',
       },
     },
-    vaCompensationType: {
+    vaPensionType: {
       'ui:title': 'Do you receive a Veterans pension from the VA?',
       'ui:description': PensionInfo,
       'ui:widget': 'radio',
@@ -57,9 +57,9 @@ export default {
         type: 'object',
         properties: {},
       },
-      vaCompensationType: {
+      vaPensionType: {
         type: 'string',
-        enum: ['pension', 'none'],
+        enum: ['Yes', 'No'],
       },
     },
   },
