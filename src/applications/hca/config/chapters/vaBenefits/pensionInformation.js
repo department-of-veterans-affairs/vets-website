@@ -1,6 +1,9 @@
 import React from 'react';
+import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
+
+const { vaPensionType } = fullSchemaHca.properties;
 
 const PensionInfo = (
   <div className="vads-u-margin-top--2 vads-u-margin-bottom--5">
@@ -57,10 +60,7 @@ export default {
         type: 'object',
         properties: {},
       },
-      vaPensionType: {
-        type: 'string',
-        enum: ['Yes', 'No'],
-      },
+      vaPensionType,
     },
   },
 };
