@@ -23,7 +23,7 @@ jobs:
           path: ./content-build
       - id: set-matrix
         run: |
-          echo ::set-output name=registries::$(jq '[.[] | {rootUrl: .rootUrl, vagovprod: .template.vagovprod}]' ./content-build/src/applications/registry.json)
+          echo ::set-output name=registries::$(jq '[.[] | (if .template.vagovprod then {rootUrl: .rootUrl, vagovprod: .template.vagovprod} else empty end)]' src/applications/registry.json)
 
   lighthouse:
     needs: get-registries
@@ -59,7 +59,6 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Audit URLs using Lighthouse on ${{ matrix.registry['rootUrl'] }}
-        if: ${{ matrix.registry['vagovprod'] == true }}
         id: lighthouse-checks
         uses: treosh/lighthouse-ci-action@v8
         with:
@@ -68,11 +67,9 @@ jobs:
           uploadArtifacts: true # save results as an action artifacts
 
       - name: Upload lighthouse report (JSON)
-        if: ${{ matrix.registry['vagovprod'] == true }}
         run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath }} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.registry['rootUrl'] }}.json --acl public-read --region us-gov-west-1
 
       - name: Upload lighthouse report (HTML)
-        if: ${{ matrix.registry['vagovprod'] == true }}
         run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath }} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.registry['rootUrl'] }}.html --acl public-read --region us-gov-west-1
 
   notify-slack:
