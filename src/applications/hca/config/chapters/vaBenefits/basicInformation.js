@@ -50,7 +50,7 @@ export default {
       'ui:options': {
         labels: {
           lowDisability:
-            'Yes, for service-connected disability rating of up to 40%',
+            'Yes, for a service-connected disability rating of up to 40%',
           highDisability:
             'Yes, for a service-connected disability rating of 50% or higher',
           none: 'No',
