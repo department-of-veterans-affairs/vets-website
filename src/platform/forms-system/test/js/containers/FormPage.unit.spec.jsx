@@ -1,4 +1,5 @@
 import React from 'react';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import { mount } from 'enzyme';
@@ -162,7 +163,7 @@ describe('Schemaform <FormPage>', () => {
 
     expect(router.push.calledWith('/first-page')).to.be.true;
   });
-  it('should go to the custom path passed to the goBack function', () => {
+  it('should go to the custom path passed to the goToPath function', () => {
     const router = {
       push: sinon.spy(),
     };
@@ -173,10 +174,21 @@ describe('Schemaform <FormPage>', () => {
         uiSchema: {},
         errorMessages: {},
         title: '',
+        CustomPage: ({ goToPath }) => (
+          <button
+            type="button"
+            onClick={e => {
+              e.preventDefault();
+              goToPath('/testing');
+            }}
+          >
+            go
+          </button>
+        ),
       },
     });
 
-    const tree = SkinDeep.shallowRender(
+    const { getByText } = render(
       <FormPage
         router={router}
         form={makeForm()}
@@ -185,8 +197,7 @@ describe('Schemaform <FormPage>', () => {
       />,
     );
 
-    tree.getMountedInstance().goToPath('/testing');
-
+    fireEvent.click(getByText(/go/));
     expect(router.push.calledWith('/testing')).to.be.true;
   });
   it('should go back to the previous page if the custom path is invalid', () => {
@@ -200,10 +211,21 @@ describe('Schemaform <FormPage>', () => {
         uiSchema: {},
         errorMessages: {},
         title: '',
+        CustomPage: ({ goToPath }) => (
+          <button
+            type="button"
+            onClick={e => {
+              e.preventDefault();
+              goToPath('/invalid-page');
+            }}
+          >
+            go
+          </button>
+        ),
       },
     });
 
-    const tree = SkinDeep.shallowRender(
+    const { getByText } = render(
       <FormPage
         router={router}
         form={makeForm()}
@@ -212,8 +234,7 @@ describe('Schemaform <FormPage>', () => {
       />,
     );
 
-    tree.getMountedInstance().goToPath('/invalid-page');
-
+    fireEvent.click(getByText(/go/));
     expect(router.push.calledWith('/testing')).to.be.true;
   });
   it('should not show a Back button on the first page', () => {
