@@ -4,37 +4,41 @@ import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import DemographicField from '../../../components/DemographicField';
 
 const {
-  isAmericanIndianOrAlaskanNative,
-  isAsian,
-  isBlackOrAfricanAmerican,
-  isNativeHawaiianOrOtherPacificIslander,
-  isSpanishHispanicLatino,
-  isWhite,
+  isGenderMan,
+  isGenderWoman,
+  isGenderTransMan,
+  isGenderTransWoman,
+  isGenderNonBinary,
+  isGenderNotListed,
+  isGenderPreferNoAnswer,
 } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
     'ui:description': PrefillMessage,
-    'view:demographicCategories': {
+    'view:veteranGender': {
       'ui:field': DemographicField,
       'ui:title': 'What is your gender? (Please check all that apply.)',
-      isSpanishHispanicLatino: {
-        'ui:title': 'Spanish, Hispanic, or Latino',
+      isGenderMan: {
+        'ui:title': 'Man',
       },
-      isAmericanIndianOrAlaskanNative: {
-        'ui:title': 'American Indian or Alaskan Native',
+      isGenderWoman: {
+        'ui:title': 'Woman',
       },
-      isBlackOrAfricanAmerican: {
-        'ui:title': 'Black or African American',
+      isGenderTransMan: {
+        'ui:title': 'Transgender Man',
       },
-      isNativeHawaiianOrOtherPacificIslander: {
-        'ui:title': 'Native Hawaiian or Other Pacific Islander',
+      isGenderTransWoman: {
+        'ui:title': 'Transgender Woman',
       },
-      isAsian: {
-        'ui:title': 'Asian',
+      isGenderNonBinary: {
+        'ui:title': 'Non-binary',
       },
-      isWhite: {
-        'ui:title': 'White',
+      isGenderNotListed: {
+        'ui:title': 'A gender not listed here',
+      },
+      isGenderPreferNoAnswer: {
+        'ui:title': 'Prefer not to answer',
       },
     },
   },
@@ -44,12 +48,13 @@ export default {
       'view:demographicCategories': {
         type: 'object',
         properties: {
-          isSpanishHispanicLatino,
-          isAmericanIndianOrAlaskanNative,
-          isBlackOrAfricanAmerican,
-          isNativeHawaiianOrOtherPacificIslander,
-          isAsian,
-          isWhite,
+          isGenderMan,
+          isGenderWoman,
+          isGenderTransMan,
+          isGenderTransWoman,
+          isGenderNonBinary,
+          isGenderNotListed,
+          isGenderPreferNoAnswer,
         },
       },
     },
