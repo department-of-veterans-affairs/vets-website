@@ -209,7 +209,7 @@ const formConfig = {
         },
         vaPension: {
           path: 'va-benefits/pension-information',
-          title: 'VA benefits',
+          title: 'VA pension',
           uiSchema: pensionInformation.uiSchema,
           schema: pensionInformation.schema,
           depends: ({ vaCompensationType }) => vaCompensationType === 'none',

@@ -2,10 +2,11 @@ import React from 'react';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
+import CustomReviewField from '../../../components/CustomReviewField';
 
 const { vaPensionType } = fullSchemaHca.properties;
 
-const PensionInfo = (
+const PensionInfo = () => (
   <div className="vads-u-margin-top--2 vads-u-margin-bottom--5">
     <AdditionalInfo triggerText="Why we ask for this information">
       <p>We use this information to help us decide these 3 things:</p>
@@ -43,6 +44,7 @@ export default {
     vaPensionType: {
       'ui:title': 'Do you receive a Veterans pension from the VA?',
       'ui:description': PensionInfo,
+      'ui:reviewField': CustomReviewField,
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
