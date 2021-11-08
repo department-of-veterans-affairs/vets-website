@@ -5,10 +5,10 @@ const COEAvailable = () => (
     <va-alert status="info">
       <h2 slot="headline">You already have a COE</h2>
       <div>
-        <p>You applied on:  June 30, 2020</p>
+        <p>You requested a COE on:  June 30, 2020</p>
         <p>
-          If you qualify for a Certificate of Eligibility, we’ll notify you by
-          email or mail to let you know how to get your COE.
+          You have a COE available so you don’t need to fill out a request. You
+          can review the details about your COE status or download your COE now.
         </p>
         <a href="/housing-assistance/home-loans/apply-for-coe-form-26-1880/eligibility">
           Go to your VA home loan COE page to review the details of your COE
@@ -31,7 +31,7 @@ const COEAvailable = () => (
         <i
           className="fas fa-download vads-u-padding-right--1"
           aria-hidden="true"
-        />{' '}
+        />
         Download your COE (PDF) 0.20MB
       </a>
     </div>
@@ -46,7 +46,7 @@ const COEAvailable = () => (
           Make changes to your COE (correct an error or update your
           information), <strong>or</strong>
         </li>
-        <li>Apply for a restoration of entitlement</li>
+        <li>Request a restoration of entitlement</li>
       </ul>
     </div>
   </>

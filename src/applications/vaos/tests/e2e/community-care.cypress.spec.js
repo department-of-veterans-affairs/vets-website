@@ -545,7 +545,7 @@ describe('VAOS community care flow using VAOS service', () => {
     }).as('appointmentRequests');
     cy.route({
       method: 'GET',
-      url: '/vaos/v2/appointments/25956',
+      url: '/vaos/v2/appointments/25956*',
       response: {
         data: requests.data.find(r => r.id === '25956'),
       },

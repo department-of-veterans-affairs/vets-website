@@ -46,7 +46,7 @@ describe('686 add child - child place of birth', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(10);
+    expect(form.find('input').length).to.equal(11);
     form.unmount();
   });
 
@@ -64,7 +64,7 @@ describe('686 add child - child place of birth', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -85,6 +85,7 @@ describe('686 add child - child place of birth', () => {
     changeDropdown(form, 'select#root_placeOfBirth_state', 'CA');
     fillData(form, 'input#root_placeOfBirth_city', 'Someplace');
     selectCheckbox(form, 'root_childStatus_biological', true);
+    selectRadio(form, 'root_notSelfSufficient', 'N');
     selectRadio(form, 'root_previouslyMarried', 'No');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

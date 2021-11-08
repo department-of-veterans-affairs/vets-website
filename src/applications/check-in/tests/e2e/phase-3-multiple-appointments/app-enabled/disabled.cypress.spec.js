@@ -1,4 +1,5 @@
 import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
+import '../../support/commands';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
@@ -16,9 +17,7 @@ describe('Check In Experience -- ', () => {
     });
   });
   it('C5740 - Feature is disabled', () => {
-    const featureRoute =
-      '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
-    cy.visit(featureRoute);
+    cy.visitWithUUID();
     cy.url().should('not.match', /check-in/);
   });
 });

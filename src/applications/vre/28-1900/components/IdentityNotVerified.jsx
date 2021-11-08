@@ -1,6 +1,7 @@
 import React from 'react';
 
 import recordEvent from 'platform/monitoring/record-event';
+import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 
 const IdentityNotVerified = () => {
   const content = (
@@ -18,7 +19,7 @@ const IdentityNotVerified = () => {
       <a
         className="usa-button-primary va-button-primary vads-u-font-size--base"
         href="/verify"
-        onClick={() => recordEvent({ event: 'verify-link-clicked' })}
+        onClick={() => recordEvent({ event: AUTH_EVENTS.VERIFY })}
       >
         <img alt="ID.me logo" src="/img/signin/idme-icon-white.svg" />{' '}
         <strong>Verify my identity</strong>

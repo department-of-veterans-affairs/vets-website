@@ -1,13 +1,13 @@
 import React from 'react';
 
-const COEAutomatic = () => (
+const COEEligible = () => (
   <>
     <va-alert status="success">
       <h2 slot="headline">Congratulations on your automatic COE</h2>
       <div>
         <p>
-          We have all the information we need, so you don’t need to fill out an
-          application. You can download your COE now.
+          We have all the information we need, so you don’t need to fill out a
+          COE request. You can download your COE now.
         </p>
       </div>
     </va-alert>
@@ -26,7 +26,7 @@ const COEAutomatic = () => (
         <i
           className="fas fa-download vads-u-padding-right--1"
           aria-hidden="true"
-        />{' '}
+        />
         Download your COE (PDF) 0.20MB
       </a>
     </div>
@@ -47,4 +47,4 @@ const COEAutomatic = () => (
   </>
 );
 
-export default COEAutomatic;
+export default COEEligible;

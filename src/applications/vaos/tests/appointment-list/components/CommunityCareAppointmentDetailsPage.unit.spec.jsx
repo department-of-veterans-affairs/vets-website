@@ -8,7 +8,6 @@ import {
   mockAppointmentInfo,
   mockSingleCommunityCareAppointmentFetch,
   mockSingleVistaCommunityCareAppointmentFetch,
-  mockCCSingleProviderFetch,
 } from '../../mocks/helpers';
 import {
   mockSingleVAOSAppointmentFetch,
@@ -564,14 +563,14 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       practitioners: [
         {
           identifier: { system: null, value: '123' },
-          firstName: 'Dr',
-          lastName: 'Hyde',
-          practiceName: 'Atlantic Medical Care',
         },
       ],
       description: 'community care appointment',
       comment: 'test comment',
       start: appointmentTime,
+      communityCareProvider: {
+        practiceName: 'Atlantic Medical Care',
+      },
     };
 
     const appointment = createMockAppointmentByVersion({
@@ -587,20 +586,6 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
     });
 
     mockSingleVAOSAppointmentFetch({ appointment });
-
-    const ccProvider = {
-      id: '123',
-      type: 'provider',
-      attributes: {
-        address: {},
-        caresitePhone: '202-555-1264',
-        name: 'Atlantic Medical Care',
-        lat: null,
-        long: null,
-        uniqueId: '123',
-      },
-    };
-    mockCCSingleProviderFetch(ccProvider);
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: {
@@ -631,11 +616,6 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
 
     expect(screen.getByText(/Community care/)).to.be.ok;
     expect(await screen.findByText(/Atlantic Medical Care/)).to.be.ok;
-    expect(
-      screen.getByRole('link', {
-        name: /2 0 2. 5 5 5. 1 2 6 4./,
-      }),
-    ).to.be.ok;
     expect(
       screen.getByRole('heading', {
         level: 2,
@@ -689,14 +669,14 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       practitioners: [
         {
           identifier: { system: null, value: '123' },
-          firstName: 'Dr',
-          lastName: 'Hyde',
-          practiceName: 'Jeckle and Hyde',
         },
       ],
       description: 'community care appointment',
       comment: 'test comment',
       start: appointmentTime,
+      communityCareProvider: {
+        practiceName: 'Atlantic Medical Care',
+      },
     };
 
     const appointment = createMockAppointmentByVersion({
@@ -707,20 +687,6 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
     mockSingleVAOSAppointmentFetch({
       appointment,
     });
-
-    const ccProvider = {
-      id: '123',
-      type: 'provider',
-      attributes: {
-        address: {},
-        caresitePhone: '202-555-1264',
-        name: 'Atlantic Medical Care',
-        lat: null,
-        long: null,
-        uniqueId: '123',
-      },
-    };
-    mockCCSingleProviderFetch(ccProvider);
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: {
@@ -746,5 +712,63 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
 
     expect(screen.getByText(/Community care/)).to.be.ok;
     expect(screen.getByText(/Atlantic Medical Care/)).to.be.ok;
+  });
+
+  it('should not show "Add to Calendar" for canceled appointments', async () => {
+    // Given a user with a canceled CC appointment
+    const url = '/cc/01aa456cc';
+    const appointmentTime = moment().add(1, 'days');
+
+    const data = {
+      id: '01aa456cc',
+      kind: 'cc',
+      practitioners: [
+        {
+          identifier: { system: null, value: '123' },
+        },
+      ],
+      description: 'community care appointment',
+      comment: 'test comment',
+      start: appointmentTime,
+      communityCareProvider: {
+        practiceName: 'Atlantic Medical Care',
+      },
+      status: 'cancelled',
+    };
+
+    const appointment = createMockAppointmentByVersion({
+      version: 2,
+      ...data,
+    });
+
+    mockSingleVAOSAppointmentFetch({
+      appointment,
+    });
+
+    // When the page displays
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: {
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingVAOSServiceVAAppointments: true,
+          vaOnlineSchedulingVAOSServiceCCAppointments: true,
+        },
+      },
+      path: url,
+    });
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    // Then the 'Add to calendar' link should not be displayed
+    expect(screen.queryByText(/Add to calendar/)).not.to.exist;
   });
 });

@@ -1,9 +1,7 @@
 import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
-
-import mockCheckIn from '../../../../api/local-mock-api/mocks/v2/check.in.responses';
 import mockSession from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
-import mockPatientCheckIns from '../../../../api/local-mock-api/mocks/v2/patient.check.in.responses';
 import Timeouts from 'platform/testing/e2e/timeouts';
+import '../../support/commands';
 
 describe('Check In Experience -- ', () => {
   describe('phase 3 -- ', () => {
@@ -15,12 +13,6 @@ describe('Check In Experience -- ', () => {
       });
       cy.intercept('POST', '/check_in/v2/sessions', req => {
         req.reply(400, mockSession.createMockFailedResponse());
-      });
-      cy.intercept('GET', '/check_in/v2/patient_check_ins/*', req => {
-        req.reply(mockPatientCheckIns.createMockSuccessResponse({}, false));
-      });
-      cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
-        req.reply(mockCheckIn.createMockSuccessResponse({}));
       });
       cy.intercept(
         'GET',
@@ -36,9 +28,7 @@ describe('Check In Experience -- ', () => {
       });
     });
     it('validation failed with failed response from server', () => {
-      const featureRoute =
-        '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
-      cy.visit(featureRoute);
+      cy.visitWithUUID();
       cy.get('h1').contains('Check in at VA');
       cy.injectAxe();
       cy.axeCheck();

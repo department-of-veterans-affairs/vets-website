@@ -1,6 +1,11 @@
 import { createApiEvent } from '../analytics';
 import recordEvent from 'platform/monitoring/record-event';
 
+/**
+ * @param {Promise} request
+ * @param {string} [eventName]
+ * @param {string} [token]
+ */
 const makeApiCall = async (request, eventName, token) => {
   // log call started
   recordEvent(createApiEvent(eventName, 'started'));
