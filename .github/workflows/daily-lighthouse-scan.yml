@@ -58,8 +58,10 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
+      # TODO: Add flag to handle behind auth, skipping couple of urls
       - name: Audit URLs using Lighthouse on ${{ matrix.registry['rootUrl'] }}
         id: lighthouse-checks
+        if: ${{ matrix.registry['rootUrl'] != '/health-care/health-questionnaires/questionnaires/answer-questions' || matrix.registry['rootUrl'] != '/health-care/health-questionnaires/questionnaires' }}
         uses: treosh/lighthouse-ci-action@v8
         with:
           urls: |
@@ -67,9 +69,11 @@ jobs:
           uploadArtifacts: true # save results as an action artifacts
 
       - name: Upload lighthouse report (JSON)
+        if: ${{ matrix.registry['rootUrl'] != '/health-care/health-questionnaires/questionnaires/answer-questions' || matrix.registry['rootUrl'] != '/health-care/health-questionnaires/questionnaires' }}
         run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath }} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.registry['rootUrl'] }}.json --acl public-read --region us-gov-west-1
 
       - name: Upload lighthouse report (HTML)
+        if: ${{ matrix.registry['rootUrl'] != '/health-care/health-questionnaires/questionnaires/answer-questions' || matrix.registry['rootUrl'] != '/health-care/health-questionnaires/questionnaires' }}
         run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath }} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.registry['rootUrl'] }}.html --acl public-read --region us-gov-west-1
 
   notify-slack:
