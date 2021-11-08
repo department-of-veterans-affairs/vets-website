@@ -1,4 +1,5 @@
 import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
+import '../../support/commands';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
@@ -10,9 +11,7 @@ describe('Check In Experience -- ', () => {
     });
   });
   it('C5724 - Token is not valid', () => {
-    const featureRoute =
-      '/health-care/appointment-check-in/?id=MALFORMED_TOKEN';
-    cy.visit(featureRoute);
+    cy.visitWithUUID('MALFORMED_TOKEN');
     cy.get('h1').contains('We couldn’t check you in');
   });
 });

@@ -28,5 +28,5 @@ export const facilityLocatorShowOperationalHoursSpecialInstructions = state =>
 export const covidVaccineSchedulingFrontend = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.covidVaccineSchedulingFrontend];
 
-export const facilitiesVetCenterAutomateNearby = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.facilitiesVetCenterAutomateNearby];
+export const facilityLocatorLatLongOnly = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.facilityLocatorLatLongOnly];

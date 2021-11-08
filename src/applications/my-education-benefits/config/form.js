@@ -36,9 +36,11 @@ import PhoneReviewField from '../components/PhoneReviewField';
 import DateReviewField from '../components/DateReviewField';
 import EmailReviewField from '../components/EmailReviewField';
 
+import environment from 'platform/utilities/environment';
+
 import {
-  activeDutyLabel,
-  selectedReserveLabel,
+  chapter30Label,
+  chapter1606Label,
   unsureDescription,
   post911GiBillNote,
   prefillTransformer,
@@ -53,6 +55,10 @@ import {
   validateEmail,
   validateEffectiveDate,
 } from '../utils/validation';
+import DynamicPhoneRadioWidget from '../components/DynamicPhoneRadioWidget';
+import DynamicPhoneRadioReviewField from '../components/DynamicPhoneRadioReviewField';
+
+import { createSubmissionForm } from '../utils/form-submit-transform';
 
 const {
   fullName,
@@ -72,7 +78,7 @@ const formFields = {
   dateOfBirth: 'dateOfBirth',
   ssn: 'ssn',
   toursOfDuty: 'toursOfDuty',
-  toursOfDutyCorrect: 'toursOfDutyCorrect',
+  serviceHistoryIncorrect: 'serviceHistoryIncorrect',
   viewNoDirectDeposit: 'view:noDirectDeposit',
   viewStopWarning: 'view:stopWarning',
   bankAccount: 'bankAccount',
@@ -85,7 +91,7 @@ const formFields = {
   phoneNumber: 'phoneNumber',
   mobilePhoneNumber: 'mobilePhoneNumber',
   viewBenefitSelection: 'view:benefitSelection',
-  benefitSelection: 'benefitSelection',
+  benefitRelinquished: 'benefitRelinquished',
   benefitEffectiveDate: 'benefitEffectiveDate',
   incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
   contactMethod: 'contactMethod',
@@ -214,7 +220,7 @@ function phoneSchema() {
 }
 
 function additionalConsiderationsQuestionTitleText(benefitSelection, order) {
-  const isUnsure = !benefitSelection || benefitSelection === 'UNSURE';
+  const isUnsure = !benefitSelection || benefitSelection === 'CannotRelinquish';
   const pageNumber = isUnsure ? order - 1 : order;
   const totalPages = isUnsure ? 3 : 4;
 
@@ -264,7 +270,7 @@ function AdditionalConsiderationTemplate(page, formField) {
     path: page.name,
     title: data => {
       return additionalConsiderationsQuestionTitleText(
-        data[formFields.viewBenefitSelection][formFields.benefitSelection],
+        data[formFields.viewBenefitSelection][formFields.benefitRelinquished],
         page.order,
       );
     },
@@ -272,7 +278,7 @@ function AdditionalConsiderationTemplate(page, formField) {
       'ui:description': data => {
         return additionalConsiderationsQuestionTitle(
           data.formData[formFields.viewBenefitSelection][
-            formFields.benefitSelection
+            formFields.benefitRelinquished
           ],
           page.order,
         );
@@ -305,8 +311,8 @@ function AdditionalConsiderationTemplate(page, formField) {
 }
 
 function givingUpBenefitSelected(formData) {
-  return ['ACTIVE_DUTY', 'SELECTED_RESERVE'].includes(
-    formData[formFields.viewBenefitSelection][formFields.benefitSelection],
+  return ['Chapter30', 'Chapter1606'].includes(
+    formData[formFields.viewBenefitSelection][formFields.benefitRelinquished],
   );
 }
 
@@ -314,34 +320,16 @@ function notGivingUpBenefitSelected(formData) {
   return !givingUpBenefitSelected(formData);
 }
 
-function renderContactMethodFollowUp(formData, cond) {
-  const { mobilePhoneNumber, phoneNumber } = formData['view:phoneNumbers'];
-  let res = false;
-
-  switch (cond) {
-    case 1:
-      if (mobilePhoneNumber.phone && phoneNumber.phone) res = true;
-      break;
-    case 2:
-      if (mobilePhoneNumber.phone && !phoneNumber.phone) res = true;
-      break;
-    case 3:
-      if (!mobilePhoneNumber.phone && phoneNumber.phone) res = true;
-      break;
-    case 4:
-      if (!mobilePhoneNumber.phone && !phoneNumber.phone) res = true;
-      break;
-    default:
-  }
-
-  return res;
+function transform(metaData, form) {
+  const submission = createSubmissionForm(form.data);
+  return JSON.stringify(submission);
 }
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/meb_api/v0/submit_claim`,
+  transformForSubmit: transform,
   trackingPrefix: 'my-education-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -498,22 +486,22 @@ const formConfig = {
         [formPages.contactInformation.contactInformation]: {
           title: 'Phone numbers and email address',
           path: 'contact-information/email-phone',
-          initialData: {
-            [formFields.viewPhoneNumbers]: {
-              mobilePhoneNumber: {
-                phone: '123-456-7890',
-                isInternational: false,
-              },
-              phoneNumber: {
-                phone: '098-765-4321',
-                isInternational: false,
-              },
-            },
-            [formFields.email]: {
-              email: 'hector.stanley@gmail.com',
-              confirmEmail: 'hector.stanley@gmail.com',
-            },
-          },
+          // initialData: {
+          //   [formFields.viewPhoneNumbers]: {
+          //     mobilePhoneNumber: {
+          //       phone: '123-456-7890',
+          //       isInternational: false,
+          //     },
+          //     phoneNumber: {
+          //       phone: '098-765-4321',
+          //       isInternational: false,
+          //     },
+          //   },
+          //   [formFields.email]: {
+          //     email: 'hector.stanley@gmail.com',
+          //     confirmEmail: 'hector.stanley@gmail.com',
+          //   },
+          // },
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -619,18 +607,18 @@ const formConfig = {
         [formPages.contactInformation.mailingAddress]: {
           title: 'Mailing address',
           path: 'contact-information/mailing-address',
-          initialData: {
-            'view:mailingAddress': {
-              livesOnMilitaryBase: false,
-              [formFields.address]: {
-                street: '2222 Avon Street',
-                street2: 'Apt 6',
-                city: 'Arlington',
-                state: 'VA',
-                postalCode: '22205',
-              },
-            },
-          },
+          // initialData: {
+          //   'view:mailingAddress': {
+          //     livesOnMilitaryBase: false,
+          //     [formFields.address]: {
+          //       street: '2222 Avon Street',
+          //       street2: 'Apt 6',
+          //       city: 'Arlington',
+          //       state: 'VA',
+          //       postalCode: '22205',
+          //     },
+          //   },
+          // },
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -775,84 +763,12 @@ const formConfig = {
               [formFields.contactMethod]: {
                 'ui:title':
                   'How should we contact you if we have questions about your application?',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  widgetProps: {
-                    Email: { 'data-info': 'email' },
-                    'Mobile phone': { 'data-info': 'mobile phone' },
-                    'Home phone': { 'data-info': 'home phone' },
-                    Mail: { 'data-info': 'mail' },
-                  },
-                },
+                'ui:reviewField': DynamicPhoneRadioReviewField,
+                'ui:widget': DynamicPhoneRadioWidget,
                 'ui:errorMessages': {
                   required:
                     'Please select at least one way we can contact you.',
                 },
-              },
-              'ui:options': {
-                hideIf: formData => !renderContactMethodFollowUp(formData, 1),
-              },
-            },
-            'view:noHomePhoneForContact': {
-              [formFields.contactMethod]: {
-                'ui:title':
-                  'How should we contact you if we have questions about your application?',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  widgetProps: {
-                    Email: { 'data-info': 'email' },
-                    'Mobile phone': { 'data-info': 'mobile phone' },
-                    Mail: { 'data-info': 'mail' },
-                  },
-                },
-                'ui:errorMessages': {
-                  required:
-                    'Please select at least one way we can contact you.',
-                },
-              },
-              'ui:options': {
-                hideIf: formData => !renderContactMethodFollowUp(formData, 2),
-              },
-            },
-            'view:noMobilePhoneForContact': {
-              [formFields.contactMethod]: {
-                'ui:title':
-                  'How should we contact you if we have questions about your application?',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  widgetProps: {
-                    Email: { 'data-info': 'email' },
-                    'Home phone': { 'data-info': 'home phone' },
-                    Mail: { 'data-info': 'mail' },
-                  },
-                },
-                'ui:errorMessages': {
-                  required:
-                    'Please select at least one way we can contact you.',
-                },
-              },
-              'ui:options': {
-                hideIf: formData => !renderContactMethodFollowUp(formData, 3),
-              },
-            },
-            'view:noMobileOrHomeForContact': {
-              [formFields.contactMethod]: {
-                'ui:title':
-                  'How should we contact you if we have questions about your application?',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  widgetProps: {
-                    Email: { 'data-info': 'email' },
-                    Mail: { 'data-info': 'mail' },
-                  },
-                },
-                'ui:errorMessages': {
-                  required:
-                    'Please select at least one way we can contact you.',
-                },
-              },
-              'ui:options': {
-                hideIf: formData => !renderContactMethodFollowUp(formData, 4),
               },
             },
             'view:receiveTextMessages': {
@@ -980,37 +896,10 @@ const formConfig = {
               },
               'view:contactMethod': {
                 type: 'object',
+                required: [formFields.contactMethod],
                 properties: {
                   [formFields.contactMethod]: {
                     type: 'string',
-                    enum: ['Email', 'Mobile phone', 'Home phone', 'Mail'],
-                  },
-                },
-              },
-              'view:noHomePhoneForContact': {
-                type: 'object',
-                properties: {
-                  [formFields.contactMethod]: {
-                    type: 'string',
-                    enum: ['Email', 'Mobile phone', 'Mail'],
-                  },
-                },
-              },
-              'view:noMobilePhoneForContact': {
-                type: 'object',
-                properties: {
-                  [formFields.contactMethod]: {
-                    type: 'string',
-                    enum: ['Email', 'Home phone', 'Mail'],
-                  },
-                },
-              },
-              'view:noMobileOrHomeForContact': {
-                type: 'object',
-                properties: {
-                  [formFields.contactMethod]: {
-                    type: 'string',
-                    enum: ['Email', 'Mail'],
                   },
                 },
               },
@@ -1074,14 +963,14 @@ const formConfig = {
                 'ui:objectViewField': ServicePeriodAccordionView,
               },
             },
-            'view:toursOfDutyCorrect': {
+            'view:serviceHistory': {
               'ui:description': (
                 <p className="meb-review-page-only">
                   If you’d like to update information related to your service
                   history, edit the form fields below.
                 </p>
               ),
-              [formFields.toursOfDutyCorrect]: {
+              [formFields.serviceHistoryIncorrect]: {
                 'ui:title': 'This information is incorrect and/or incomplete',
                 'ui:reviewField': YesNoReviewField,
               },
@@ -1090,10 +979,10 @@ const formConfig = {
               'ui:title':
                 'Please explain what is incorrect and/or incomplete about your service history.',
               'ui:options': {
-                expandUnder: 'view:toursOfDutyCorrect',
+                expandUnder: 'view:serviceHistory',
                 hideIf: formData =>
-                  !formData['view:toursOfDutyCorrect'][
-                    formFields.toursOfDutyCorrect
+                  !formData['view:serviceHistory'][
+                    formFields.serviceHistoryIncorrect
                   ],
               },
               'ui:widget': 'textarea',
@@ -1110,10 +999,10 @@ const formConfig = {
                 ...toursOfDuty,
                 title: '', // Hack to prevent console warning
               },
-              'view:toursOfDutyCorrect': {
+              'view:serviceHistory': {
                 type: 'object',
                 properties: {
-                  [formFields.toursOfDutyCorrect]: {
+                  [formFields.serviceHistoryIncorrect]: {
                     type: 'boolean',
                   },
                 },
@@ -1125,50 +1014,50 @@ const formConfig = {
             },
           },
           initialData: {
-            [formFields.toursOfDuty]: [
-              {
-                // applyPeriodToSelected: true,
-                dateRange: {
-                  from: '2011-08-01',
-                  to: '2014-07-30',
-                },
-                exclusionPeriods: [
-                  {
-                    from: '2011-08-01',
-                    to: '2011-09-14',
-                  },
-                  {
-                    from: '2011-11-01',
-                    to: '2011-12-14',
-                  },
-                ],
-                separationReason: 'Expiration term of service',
-                serviceBranch: 'Navy',
-                serviceCharacter: 'Honorable',
-                // serviceStatus: 'Active Duty',
-                trainingPeriods: [
-                  {
-                    from: '2011-08-01',
-                    to: '2011-09-14',
-                  },
-                  {
-                    from: '2011-11-01',
-                    to: '2011-12-14',
-                  },
-                ],
-              },
-              {
-                // applyPeriodToSelected: true,
-                dateRange: {
-                  from: '2015-04-04',
-                  to: '2017-10-12',
-                },
-                separationReason: 'Disability',
-                serviceBranch: 'Navy',
-                serviceCharacter: 'Honorable',
-                // serviceStatus: 'Active Duty',
-              },
-            ],
+            // [formFields.toursOfDuty]: [
+            //   {
+            //     // applyPeriodToSelected: true,
+            //     dateRange: {
+            //       from: '2011-08-01',
+            //       to: '2014-07-30',
+            //     },
+            //     exclusionPeriods: [
+            //       {
+            //         from: '2011-08-01',
+            //         to: '2011-09-14',
+            //       },
+            //       {
+            //         from: '2011-11-01',
+            //         to: '2011-12-14',
+            //       },
+            //     ],
+            //     separationReason: 'Expiration term of service',
+            //     serviceBranch: 'Navy',
+            //     serviceCharacter: 'Honorable',
+            //     // serviceStatus: 'Active Duty',
+            //     trainingPeriods: [
+            //       {
+            //         from: '2011-08-01',
+            //         to: '2011-09-14',
+            //       },
+            //       {
+            //         from: '2011-11-01',
+            //         to: '2011-12-14',
+            //       },
+            //     ],
+            //   },
+            //   {
+            //     // applyPeriodToSelected: true,
+            //     dateRange: {
+            //       from: '2015-04-04',
+            //       to: '2017-10-12',
+            //     },
+            //     separationReason: 'Disability',
+            //     serviceBranch: 'Navy',
+            //     serviceCharacter: 'Honorable',
+            //     // serviceStatus: 'Active Duty',
+            //   },
+            // ],
           },
         },
       },
@@ -1216,27 +1105,29 @@ const formConfig = {
                   {post911GiBillNote}
                 </div>
               ),
-              [formFields.benefitSelection]: {
+              [formFields.benefitRelinquished]: {
                 'ui:title': 'Which benefit will you give up?',
                 'ui:reviewField': BenefitGivenUpReviewField,
                 'ui:widget': 'radio',
                 'ui:options': {
                   labels: {
-                    ACTIVE_DUTY: activeDutyLabel,
-                    SELECTED_RESERVE: selectedReserveLabel,
-                    UNSURE: "I'm not sure and I need assistance",
+                    Chapter30: chapter30Label,
+                    Chapter1606: chapter1606Label,
+                    CannotRelinquish: "I'm not sure and I need assistance",
                   },
                   widgetProps: {
-                    ACTIVE_DUTY: { 'data-info': 'ACTIVE_DUTY' },
-                    SELECTED_RESERVE: { 'data-info': 'SELECTED_RESERVE' },
-                    UNSURE: { 'data-info': 'UNSURE' },
+                    Chapter30: { 'data-info': 'Chapter30' },
+                    Chapter1606: { 'data-info': 'Chapter1606' },
+                    CannotRelinquish: { 'data-info': 'CannotRelinquish' },
                   },
                   selectedProps: {
-                    ACTIVE_DUTY: { 'aria-describedby': 'ACTIVE_DUTY' },
-                    SELECTED_RESERVE: {
-                      'aria-describedby': 'SELECTED_RESERVE',
+                    Chapter30: { 'aria-describedby': 'Chapter30' },
+                    Chapter1606: {
+                      'aria-describedby': 'Chapter1606',
                     },
-                    UNSURE: { 'aria-describedby': 'UNSURE' },
+                    CannotRelinquish: {
+                      'aria-describedby': 'CannotRelinquish',
+                    },
                   },
                 },
                 'ui:errorMessages': {
@@ -1260,8 +1151,8 @@ const formConfig = {
                 expandUnder: [formFields.viewBenefitSelection],
                 hideIf: formData =>
                   formData[formFields.viewBenefitSelection][
-                    formFields.benefitSelection
-                  ] !== 'ACTIVE_DUTY',
+                    formFields.benefitRelinquished
+                  ] !== 'Chapter30',
               },
             },
             [formFields.benefitEffectiveDate]: {
@@ -1302,8 +1193,8 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   formData[formFields.viewBenefitSelection][
-                    formFields.benefitSelection
-                  ] !== 'UNSURE',
+                    formFields.benefitRelinquished
+                  ] !== 'CannotRelinquish',
                 expandUnder: [formFields.viewBenefitSelection],
               },
             },
@@ -1317,11 +1208,11 @@ const formConfig = {
               },
               [formFields.viewBenefitSelection]: {
                 type: 'object',
-                required: [formFields.benefitSelection],
+                required: [formFields.benefitRelinquished],
                 properties: {
-                  [formFields.benefitSelection]: {
+                  [formFields.benefitRelinquished]: {
                     type: 'string',
-                    enum: ['ACTIVE_DUTY', 'SELECTED_RESERVE', 'UNSURE'],
+                    enum: ['Chapter30', 'Chapter1606', 'CannotRelinquish'],
                   },
                 },
               },
@@ -1340,9 +1231,6 @@ const formConfig = {
               },
             },
           },
-          initialData: {
-            benefitSelection: '',
-          },
         },
       },
     },
@@ -1356,8 +1244,8 @@ const formConfig = {
           ),
           depends: formData =>
             formData[formFields.viewBenefitSelection][
-              formFields.benefitSelection
-            ] === 'ACTIVE_DUTY',
+              formFields.benefitRelinquished
+            ] === 'Chapter30',
         },
         [formPages.additionalConsiderations.reserveKicker.name]: {
           ...AdditionalConsiderationTemplate(
@@ -1366,8 +1254,8 @@ const formConfig = {
           ),
           depends: formData =>
             formData[formFields.viewBenefitSelection][
-              formFields.benefitSelection
-            ] === 'SELECTED_RESERVE',
+              formFields.benefitRelinquished
+            ] === 'Chapter1606',
         },
         [formPages.additionalConsiderations.militaryAcademy.name]: {
           ...AdditionalConsiderationTemplate(

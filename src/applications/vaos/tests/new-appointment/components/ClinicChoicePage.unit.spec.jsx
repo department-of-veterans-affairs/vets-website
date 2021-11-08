@@ -11,13 +11,11 @@ import {
 import userEvent from '@testing-library/user-event';
 
 import ClinicChoicePage from '../../../new-appointment/components/ClinicChoicePage';
-import { mockEligibilityFetches, mockFacilityFetch } from '../../mocks/helpers';
+import { mockEligibilityFetches } from '../../mocks/helpers';
 import { getClinicMock } from '../../mocks/v0';
-import {
-  createMockCheyenneFacilityByVersion,
-  createMockFacilityByVersion,
-} from '../../mocks/data';
+import { createMockCheyenneFacilityByVersion } from '../../mocks/data';
 import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFacilityFetchByVersion } from '../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -134,10 +132,12 @@ describe('VAOS <ClinicChoicePage>', () => {
       clinics,
       pastClinics: true,
     });
-    mockFacilityFetch(
-      'vha_442',
-      createMockFacilityByVersion({ id: '442', version: 0 }),
-    );
+    mockFacilityFetchByVersion({
+      facility: createMockCheyenneFacilityByVersion({
+        version: 0,
+      }),
+      version: 0,
+    });
 
     const store = createTestStore(initialState);
 
@@ -217,10 +217,12 @@ describe('VAOS <ClinicChoicePage>', () => {
       clinics,
       pastClinics: true,
     });
-    mockFacilityFetch(
-      'vha_442',
-      createMockCheyenneFacilityByVersion({ version: 0 }),
-    );
+    mockFacilityFetchByVersion({
+      facility: createMockCheyenneFacilityByVersion({
+        version: 0,
+      }),
+      version: 0,
+    });
 
     // And the page has loaded
     const store = createTestStore(initialState);
@@ -428,10 +430,12 @@ describe('VAOS <ClinicChoicePage>', () => {
       clinics,
       pastClinics: true,
     });
-    mockFacilityFetch(
-      'vha_442',
-      createMockCheyenneFacilityByVersion({ version: 0 }),
-    );
+    mockFacilityFetchByVersion({
+      facility: createMockCheyenneFacilityByVersion({
+        version: 0,
+      }),
+      version: 0,
+    });
 
     const store = createTestStore(initialState);
 

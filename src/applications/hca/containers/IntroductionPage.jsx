@@ -22,6 +22,7 @@ import {
   isUserLOA3,
   shouldShowLoggedOutContent,
 } from '../selectors';
+import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 
 const VerificationRequiredAlert = () => (
   <va-alert isVisible status="continue">
@@ -68,7 +69,7 @@ const VerificationRequiredAlert = () => (
           className="usa-button-primary va-button-primary"
           href="/verify"
           onClick={() => {
-            recordEvent({ event: 'verify-link-clicked' });
+            recordEvent({ event: AUTH_EVENTS.VERIFY });
           }}
         >
           Verify your identity

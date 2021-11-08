@@ -39,7 +39,6 @@ const AppointmentListItem = props => {
       </dl>
       <AppointmentAction
         appointment={appointment}
-        isMultipleAppointmentsEnabled
         router={router}
         token={token}
       />

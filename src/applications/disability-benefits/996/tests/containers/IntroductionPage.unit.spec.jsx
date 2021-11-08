@@ -8,9 +8,11 @@ import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { IntroductionPage } from '../../containers/IntroductionPage';
 import formConfig from '../../config/form';
 
+import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../actions';
 import { setHlrWizardStatus, removeHlrWizardStatus } from '../../wizard/utils';
 
 const defaultProps = {
+  getContestableIssues: () => {},
   allowHlr: true,
   user: {
     profile: {
@@ -171,24 +173,23 @@ describe('IntroductionPage', () => {
     tree.unmount();
   });
 
-  // Wizard
-  it('should render wizard', () => {
-    removeHlrWizardStatus();
+  it('should show contestable issue loading indicator', () => {
+    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const props = {
       ...defaultProps,
-      isProduction: true,
+      loggedIn: true,
       contestableIssues: {
         issues: [{}],
-        status: 'done',
+        status: FETCH_CONTESTABLE_ISSUES_INIT,
         error: '',
       },
     };
 
     const tree = shallow(<IntroductionPage {...props} />);
-    expect(tree.find('Connect(WizardContainer)')).to.have.lengthOf(1);
-    expect(
-      tree.find('withRouter(Connect(SaveInProgressIntro))'),
-    ).to.have.lengthOf(0);
+    const loading = tree.find('LoadingIndicator').first();
+    expect(loading.props().message).to.contain(
+      'Loading your previous decisions',
+    );
     tree.unmount();
   });
 });

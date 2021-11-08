@@ -45,6 +45,7 @@ This is a multi-team project and questions are highly encouraged. There are seve
 /health-care/appointment-check-in/?id=xxxxxx
 /health-care/appointment-check-in/verify
 /health-care/appointment-check-in/update-information
+/health-care/appointment-check-in/contact-information
 /health-care/appointment-check-in/details
 /health-care/appointment-check-in/see-staff
 /health-care/appointment-check-in/complete
@@ -53,11 +54,17 @@ This is a multi-team project and questions are highly encouraged. There are seve
 
 ### What version of the api are we using?
 
-Currently, we are using the `v2` of the API, with `v1` behind a feature flip. The mocks in [api/mocks](/api/mocks) show the the current structure and routes used.
+Currently, we are using the `v2` of the API. The mocks in [api/mocks](/api/mocks) show the the current structure and routes used.
 
 ### How to run locally
 
 Follow the standard directions to run the app. The API needs to be running in order to run the app locally. Currently I would use the mock api in `src/applications/check-in/api/local-mock-api` using the directions in the [README](https://github.com/department-of-veterans-affairs/vets-website/blob/master/README.md#running-a-mock-api-for-local-development). This makes development easier since creating a valid token is tedious.
+
+### Enable local type checking with jsconfig (Optional)
+
+The `utils` directory of the check-in application contains JSDoc comments to improve editor feedback and autocomplete functionality. To enable advanced type checking, copy the `jsconfig-example.json` file in the root of the check-in folder and rename it to be `jsconfig.json`. The new file will automatically be excluded form the git repo by the gitignore file.
+
+Note that JSDoc comments are only included when the editor cannot not correctly infer types. Any objects, function arguments, or return types that can be successfully inferred from the code are not necessary. 
 
 ### How to run with Codespaces
 
@@ -102,8 +109,6 @@ We are currently using an HOC located at `src/applications/check-in/containers/w
   - when to sunset: Sprint 59
 - `check_in_experience_update_information_page_enabled` : Enables or disabled the update information page
   - when to sunset: when we expand to multiple facilities and address the edge cases around it
-- `check_in_experience_multiple_appointment_support` : Enables or disabled the multiple appointment support
-  - when to sunset: When phase-4 is complete
 - `check_in_experience_next_of_kin_enabled` : Enables or disabled the next of kin page
   - when to sunset: When phase-5 is complete
 

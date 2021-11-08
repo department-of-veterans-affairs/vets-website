@@ -158,4 +158,6 @@ node('vetsgov-general-purpose') {
       }
     }
   }
+
+  // commonStages.archiveAll(dockerContainer, ref);
 }

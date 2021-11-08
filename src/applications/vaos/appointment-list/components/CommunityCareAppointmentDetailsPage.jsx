@@ -5,7 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import moment from '../../lib/moment-tz';
 
-import { FETCH_STATUS } from '../../utils/constants';
+import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { fetchConfirmedAppointmentDetails } from '../redux/actions';
 import AppointmentDateTime from './AppointmentDateTime';
@@ -82,6 +82,7 @@ export default function CommunityCareAppointmentDetailsPage() {
     appointment,
   });
   const isPastAppointment = appointment.vaos.isPastAppointment;
+  const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
 
   return (
     <PageLayout>
@@ -131,25 +132,26 @@ export default function CommunityCareAppointmentDetailsPage() {
         )}
       </div>
 
-      {!isPastAppointment && (
-        <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-          <i
-            aria-hidden="true"
-            className="far fa-calendar vads-u-margin-right--1 vads-u-color--link-default"
-          />
-          <AddToCalendar
-            summary={calendarData.summary}
-            description={{
-              text: calendarData.text,
-              phone: calendarData.phone,
-              additionalText: calendarData.additionalText,
-            }}
-            location={calendarData.location}
-            duration={appointment.minutesDuration}
-            startDateTime={moment.parseZone(appointment.start)}
-          />
-        </div>
-      )}
+      {!isPastAppointment &&
+        !isCanceled && (
+          <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
+            <i
+              aria-hidden="true"
+              className="far fa-calendar vads-u-margin-right--1 vads-u-color--link-default"
+            />
+            <AddToCalendar
+              summary={calendarData.summary}
+              description={{
+                text: calendarData.text,
+                phone: calendarData.phone,
+                additionalText: calendarData.additionalText,
+              }}
+              location={calendarData.location}
+              duration={appointment.minutesDuration}
+              startDateTime={moment.parseZone(appointment.start)}
+            />
+          </div>
+        )}
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
         <i

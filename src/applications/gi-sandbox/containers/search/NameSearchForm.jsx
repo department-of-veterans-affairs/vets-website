@@ -99,32 +99,35 @@ export function NameSearchForm({
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="vads-u-margin-y--0">
-        <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-right--0">
-          <div className="vads-l-row">
-            <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--9 medium-screen:vads-l-col--10 input-row">
-              <KeywordSearch
-                className="name-search"
-                error={error}
-                inputValue={name}
-                label="School, employer, or training provider"
-                onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
-                onPressEnter={e => handleSubmit(e)}
-                onSelection={s => setName(s.label)}
-                onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
-                suggestions={[...autocomplete.nameSuggestions]}
-                validateSearchTerm={validateSearchTerm}
-                version={version}
+      <form onSubmit={handleSubmit}>
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
+            <KeywordSearch
+              className="name-search"
+              error={error}
+              inputValue={name}
+              label="School, employer, or training provider"
+              onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
+              onPressEnter={e => handleSubmit(e)}
+              onSelection={s => setName(s.label)}
+              onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
+              suggestions={[...autocomplete.nameSuggestions]}
+              validateSearchTerm={validateSearchTerm}
+              version={version}
+            />
+          </div>
+          <div className="vads-l-col--12 medium-screen:vads-u-flex--auto medium-screen:vads-u-width--auto name-search-button-container">
+            <button
+              className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button"
+              type="submit"
+            >
+              <i
+                aria-hidden="true"
+                className="fas fa-search vads-u-margin-right--0p5"
+                role="presentation"
               />
-            </div>
-            <div className="name-search-inputs vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 medium-screen:vads-l-col--2 vads-u-text-align--right input-row">
-              <div className="bottom-positioner">
-                <button type="submit" className="usa-button name-search-button">
-                  Search
-                  <i aria-hidden="true" className="fa fa-search" />
-                </button>
-              </div>
-            </div>
+              Search
+            </button>
           </div>
         </div>
       </form>

@@ -1,5 +1,16 @@
+/**
+ * @param {Object} location
+ * @param {Object} [location.query]
+ * @param {string} [location.query.id]
+ */
 const getTokenFromLocation = location => location?.query?.id;
 
+/**
+ * @param {Object} router
+ * @param {string} target
+ * @param {Object} [params]
+ * @param {Object} [params.url]
+ */
 const goToNextPage = (router, target, params) => {
   if (params) {
     const query = {
@@ -29,6 +40,7 @@ const URLS = Object.freeze({
   DETAILS: 'details',
   ERROR: 'error',
   LANDING: '',
+  NEXT_OF_KIN: 'next-of-kin',
   SEE_STAFF: 'see-staff',
   UPDATE_INSURANCE: 'update-information',
   VALIDATION_NEEDED: 'verify',

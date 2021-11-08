@@ -223,6 +223,29 @@ article[data-location="additional-issues"] {
   }
 }
 
+/* Area of disagreement */
+.area-of-disagreement-label {
+  margin-top: 0;
+
+  .usa-input-error-message {
+    display: none;
+  }
+}
+.area-of-disagreement-label[data-submitted="true"].usa-input-error {
+  .usa-input-error-message {
+    display: block;
+  }
+  .input-section {
+    margin-bottom: 0;
+  }
+}
+.area-of-disagreement-label:not(.usa-input-error) {
+  margin: 2rem 0;
+}
+label[for^="root_disagreementOptions"] {
+  margin-top: 3rem;
+}
+
 /* Step 3 */
 /* Informal conference */
 /* global */
@@ -243,6 +266,14 @@ article[data-location="additional-issues"] {
 /* page specific */
 article[data-contact-choice] .contact-choice {
   display: none;
+}
+
+article[data-location^="area-of-disagreement"] {
+  .schemaform-block-header,
+  .schemaform-block-header + .usa-input-error {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
 
 article[data-contact-choice="rep"] .contact-choice.selected-rep,

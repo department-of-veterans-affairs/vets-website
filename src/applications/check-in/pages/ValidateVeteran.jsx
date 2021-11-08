@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { VaTextInput } from 'web-components/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
@@ -14,11 +14,11 @@ import { SCOPES } from '../utils/token-format-validator';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 
+import { makeSelectContext } from '../hooks/selectors';
+
 const ValidateVeteran = props => {
   const {
-    context,
     isUpdatePageEnabled,
-    isMultipleAppointmentsEnabled,
     isDemographicsPageEnabled,
     router,
     setPermissions,
@@ -30,7 +30,8 @@ const ValidateVeteran = props => {
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
 
-  const { token } = context;
+  const selectContext = useMemo(makeSelectContext, []);
+  const { token } = useSelector(selectContext);
 
   const onClick = async () => {
     setLastNameErrorMessage();
@@ -47,40 +48,24 @@ const ValidateVeteran = props => {
     } else {
       // API call
       setIsLoading(true);
-      if (isMultipleAppointmentsEnabled) {
-        api.v2
-          .postSession({ lastName, last4: last4Ssn, token })
-          .then(data => {
-            // update sessions with new permissions
-            setPermissions(data);
-            // routing
-            if (isDemographicsPageEnabled) {
-              goToNextPage(router, URLS.DEMOGRAPHICS);
-            } else if (isUpdatePageEnabled) {
-              goToNextPage(router, URLS.UPDATE_INSURANCE);
-            } else {
-              goToNextPage(router, URLS.DETAILS);
-            }
-          })
-          .catch(() => {
-            goToNextPage(router, URLS.ERROR);
-          });
-      } else {
-        api.v1
-          .postSession({ lastName, last4: last4Ssn, token })
-          .then(data => {
-            // update sessions with new permissions
-            setPermissions(data);
-            if (isUpdatePageEnabled) {
-              goToNextPage(router, URLS.UPDATE_INSURANCE);
-            } else {
-              goToNextPage(router, URLS.DETAILS);
-            }
-          })
-          .catch(() => {
-            goToNextPage(router, URLS.ERROR);
-          });
-      }
+
+      api.v2
+        .postSession({ lastName, last4: last4Ssn, token })
+        .then(data => {
+          // update sessions with new permissions
+          setPermissions(data);
+          // routing
+          if (isDemographicsPageEnabled) {
+            goToNextPage(router, URLS.DEMOGRAPHICS);
+          } else if (isUpdatePageEnabled) {
+            goToNextPage(router, URLS.UPDATE_INSURANCE);
+          } else {
+            goToNextPage(router, URLS.DETAILS);
+          }
+        })
+        .catch(() => {
+          goToNextPage(router, URLS.ERROR);
+        });
     }
   };
   useEffect(() => {
@@ -130,12 +115,7 @@ const ValidateVeteran = props => {
     </div>
   );
 };
-const mapStateToProps = state => {
-  return {
-    appointments: state.checkInData.appointments,
-    context: state.checkInData.context,
-  };
-};
+
 const mapDispatchToProps = dispatch => {
   return {
     setPermissions: data =>
@@ -144,15 +124,13 @@ const mapDispatchToProps = dispatch => {
 };
 
 ValidateVeteran.propTypes = {
-  context: PropTypes.object,
   isUpdatePageEnabled: PropTypes.bool,
-  isMultipleAppointmentsEnabled: PropTypes.bool,
   isDemographicsPageEnabled: PropTypes.bool,
   router: PropTypes.object,
   setPermissions: PropTypes.func,
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(ValidateVeteran);

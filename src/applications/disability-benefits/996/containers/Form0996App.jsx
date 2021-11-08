@@ -14,9 +14,15 @@ import {
 } from '../actions';
 
 import formConfig from '../config/form';
-import { IS_PRODUCTION, SAVED_CLAIM_TYPE } from '../constants';
+import { SAVED_CLAIM_TYPE } from '../constants';
 import { getHlrWizardStatus, shouldShowWizard } from '../wizard/utils';
-import { issuesNeedUpdating, processContestableIssues } from '../utils/helpers';
+import {
+  issuesNeedUpdating,
+  getSelected,
+  getIssueNameAndDate,
+  processContestableIssues,
+} from '../utils/helpers';
+import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
 
 export const Form0996App = ({
   loggedIn,
@@ -38,6 +44,7 @@ export const Form0996App = ({
     () => {
       if (loggedIn && getHlrWizardStatus() === WIZARD_STATUS_COMPLETE) {
         const { veteran = {} } = formData || {};
+        const areaOfDisagreement = getSelected(formData);
         if (!contestableIssues?.status) {
           const benefitType =
             sessionStorage.getItem(SAVED_CLAIM_TYPE) || formData.benefitType;
@@ -69,6 +76,23 @@ export const Form0996App = ({
               contestableIssues?.issues,
             ),
           });
+        } else if (
+          formData.hlrV2 && // easier to test formData.hlrV2 with SiP menu
+          (areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
+            !areaOfDisagreement.every(
+              (entry, index) =>
+                getIssueNameAndDate(entry) ===
+                getIssueNameAndDate(formData.areaOfDisagreement[index]),
+            ))
+        ) {
+          setFormData({
+            ...formData,
+            // save existing settings
+            areaOfDisagreement: copyAreaOfDisagreementOptions(
+              areaOfDisagreement,
+              formData.areaOfDisagreement,
+            ),
+          });
         }
       }
     },
@@ -91,7 +115,7 @@ export const Form0996App = ({
     </RoutedSavableApp>
   );
 
-  if (!IS_PRODUCTION && shouldShowWizard(formConfig.formId, savedForms)) {
+  if (shouldShowWizard(formConfig.formId, savedForms)) {
     router.push('/start');
     content = (
       <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">

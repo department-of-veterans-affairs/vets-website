@@ -42,18 +42,8 @@ const testConfig = createTestConfig(
 
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          if (Cypress.env('CI')) {
-            cy.get('@testData').then(testData => {
-              cy.get('[type="radio"][value="compensation"]').click();
-              if (!testData.hlrV2) {
-                cy.get('[type="radio"][value="legacy-no"]').click();
-              }
-              cy.axeCheck();
-              cy.findByText(/review online/i, { selector: 'a' }).click();
-            });
-          }
           // Hit the start button
-          cy.findAllByText(/start/i, { selector: 'button' })
+          cy.findAllByText(/start the request/i, { selector: 'a' })
             .first()
             .click();
         });
@@ -115,23 +105,19 @@ const testConfig = createTestConfig(
         mockContestableIssues,
       );
 
-      cy.intercept('PUT', 'v0/in_progress_forms/20-0996', mockInProgress);
+      cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockInProgress);
 
       cy.intercept('POST', '/v0/higher_level_reviews', mockSubmit);
       cy.intercept('POST', '/v1/higher_level_reviews', mockSubmit);
 
       cy.get('@testData').then(testData => {
         cy.intercept('GET', '/v0/in_progress_forms/20-0996', testData);
-        cy.intercept('PUT', 'v0/in_progress_forms/20-0996', testData);
+        cy.intercept('PUT', '/v0/in_progress_forms/20-0996', testData);
 
         const features = testData.hlrV2 ? [{ name: 'hlrV2', value: true }] : [];
         cy.intercept('GET', '/v0/feature_toggles?*', { data: { features } });
       });
     },
-    // Skip tests in CI until the wizard has been moved to the /start page.
-    // We're using an env production flag to adjust the route since I haven't
-    // found a way to check/get a feature flag in the router
-    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

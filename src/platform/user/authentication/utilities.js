@@ -6,6 +6,7 @@ import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
 import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
+import { AUTH_EVENTS } from './constants';
 
 // NOTE: the login app typically has URLs that being with 'sign-in',
 // however there is at least one CMS page, 'sign-in-faq', that we don't
@@ -21,7 +22,7 @@ export const getQueryParams = () => {
   const searchParams = new URLSearchParams(window.location.search);
   const application = searchParams.get('application');
   const to = searchParams.get('to');
-  // console.log('inside qp', { application, to });
+
   return { application, to };
 };
 
@@ -39,15 +40,12 @@ export const externalRedirects = {
   }eauth.va.gov/mhv-portal-web/eauth`,
 };
 
-const mhvRedirects = {
-  '?deeplinking=download_my_data': 'download_my_data',
-  '?deeplinking=prescription_refill': 'prescription_refill',
-  '?deeplinking=secure_messaging': 'secure_messaging',
-  '?deeplinking=appointments': 'appointments',
-  '?deeplinking=home': 'home',
-  '?deeplinking=labs_and_tests': 'home',
-  '?deeplinking=null': 'home',
-  home: 'home',
+export const isExternalRedirect = () => {
+  const { application } = getQueryParams();
+  return (
+    loginAppUrlRE.test(window.location.pathname) &&
+    Object.keys(externalRedirects).includes(application)
+  );
 };
 
 export const ssoKeepAliveEndpoint = () => {
@@ -60,8 +58,7 @@ export function sessionTypeUrl({
   version = 'v1',
   queryParams = {},
 }) {
-  // force v1 regardless of version
-  const base = `${environment.API_URL}/${version}/sessions`.replace(/v0/, 'v1');
+  const base = `${environment.API_URL}/${version}/sessions`;
   const searchParams = new URLSearchParams(queryParams);
 
   const queryString =
@@ -120,46 +117,28 @@ export function standaloneRedirect() {
   return url;
 }
 
-export function generateLookup(returnUrl) {
-  // Grabs the `app` & `to` queries, generates the path and does
-  // a reverse lookup to create mapping
-  const { application: app, to } = getQueryParams();
-  const link = !to ? '' : generatePath(app, to);
-
-  const toRedirect = {
-    ...(app === 'mhv' && { ...mhvRedirects }),
-  }[link || 'home'];
-
-  const externalRedirectLookup = {
-    ...(app === 'mhv' && {
-      [`${externalRedirects.mhv}${link}`]: `mhv_${toRedirect}`,
-    }),
-  };
-
-  return {
-    redirectsTo: externalRedirectLookup[`${returnUrl}`],
-    app,
-  };
-}
-
 export function redirect(redirectUrl, clickedEvent) {
+  const { application } = getQueryParams();
+  const externalRedirect = isExternalRedirect();
+
   let rUrl = redirectUrl;
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
-  const returnUrl = loginAppUrlRE.test(window.location.pathname)
-    ? standaloneRedirect() || window.location.origin
-    : window.location;
+  const returnUrl = externalRedirect
+    ? standaloneRedirect()
+    : window.location.origin;
   sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 
   // Generates the redirect for /sign-in page and tracks event
-  if (loginAppUrlRE.test(window.location.pathname)) {
-    const { redirectsTo, app } = generateLookup(returnUrl);
+  if (externalRedirect) {
     rUrl = {
-      mhv: `${redirectUrl}?redirect=${redirectsTo}`,
+      mhv: `${redirectUrl}?skip_dupe=mhv&redirect=${returnUrl}&postLogin=true`,
       myvahealth: `${redirectUrl}`,
-    }[app];
-    recordEvent({ event: `${authnSettings.REDIRECT_EVENT}-${app}-inbound` });
+    }[application];
+    recordEvent({
+      event: `${authnSettings.REDIRECT_EVENT}-${application}-inbound`,
+    });
   }
 
   if (redirectUrl.includes('idme')) {
@@ -173,30 +152,31 @@ export function login(
   policy,
   version = 'v1',
   queryParams = {},
-  clickedEvent = 'login-link-clicked-modal',
+  clickedEvent = AUTH_EVENTS.MODAL_LOGIN,
 ) {
   const url = sessionTypeUrl({ type: policy, version, queryParams });
-  setLoginAttempted();
+
+  if (!isExternalRedirect()) {
+    setLoginAttempted();
+  }
+
   return redirect(url, clickedEvent);
 }
 
 export function mfa(version = 'v1') {
-  return redirect(
-    sessionTypeUrl({ type: 'mfa', version }),
-    'multifactor-link-clicked',
-  );
+  return redirect(sessionTypeUrl({ type: 'mfa', version }), AUTH_EVENTS.MFA);
 }
 
 export function verify(version = 'v1') {
   return redirect(
     sessionTypeUrl({ type: 'verify', version }),
-    'verify-link-clicked',
+    AUTH_EVENTS.VERIFY,
   );
 }
 
 export function logout(
   version = 'v1',
-  clickedEvent = 'logout-link-clicked',
+  clickedEvent = AUTH_EVENTS.LOGOUT,
   queryParams = {},
 ) {
   clearSentryLoginType();
@@ -209,6 +189,6 @@ export function logout(
 export function signup(version = 'v1') {
   return redirect(
     sessionTypeUrl({ type: 'signup', version }),
-    'register-link-clicked',
+    AUTH_EVENTS.REGISTER,
   );
 }

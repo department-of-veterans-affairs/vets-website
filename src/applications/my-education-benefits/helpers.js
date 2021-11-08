@@ -1,5 +1,8 @@
 import React from 'react';
+import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { getSchemaCountryCode } from './utils/form-submit-transform';
+import { DATE_TIMESTAMP } from './constants';
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">
@@ -22,7 +25,7 @@ export const directDepositWarning = (
   </div>
 );
 
-export const activeDutyLabel = (
+export const chapter30Label = (
   <>
     Montgomery GI Bill Active Duty (Chapter 30)
     <AdditionalInfo triggerText="Learn more">
@@ -43,7 +46,7 @@ export const activeDutyLabel = (
   </>
 );
 
-export const selectedReserveLabel = (
+export const chapter1606Label = (
   <>
     Montgomery GI Bill Selected Reserve (Chapter 1606)
     <AdditionalInfo triggerText="Learn more">
@@ -165,16 +168,111 @@ export const getSelectedCheckboxes = (uiSchema, formData) =>
     .map(selectedCheckboxKey => uiSchema[selectedCheckboxKey]['ui:title'])
     .join(', ');
 
-export function prefillTransformer(pages, formData, metadata, state) {
-  let newData = formData;
+// function transformPhone(phone) {
+//   const isInternational = phone?.isInternational;
+//   let phoneNumber = phone?.areaCode + phone?.phoneNumber;
+//   phoneNumber = isInternational
+//     ? phone?.countryCode + phoneNumber
+//     : phoneNumber;
 
-  newData = {
-    ...newData,
-    'view:userFullName': {
-      userFullName: state.user.profile?.userFullName,
+//   return {
+//     phone: phoneNumber,
+//     isInternational,
+//   };
+// }
+
+function transformServiceHistory(serviceHistory) {
+  return [
+    {
+      dateRange: {
+        from: moment(serviceHistory?.beginDate).format(DATE_TIMESTAMP),
+        to: moment(serviceHistory?.endDate).format(DATE_TIMESTAMP),
+      },
+      exclusionPeriods: serviceHistory.exclusionPeriods.map(exclusionPeriod => {
+        return {
+          from: moment(exclusionPeriod.beginDate).format(DATE_TIMESTAMP),
+          to: moment(exclusionPeriod.endDate).format(DATE_TIMESTAMP),
+        };
+      }),
+      trainingPeriods: serviceHistory.trainingPeriods.map(exclusionPeriod => {
+        return {
+          from: moment(exclusionPeriod.beginDate).format(DATE_TIMESTAMP),
+          to: moment(exclusionPeriod.endDate).format(DATE_TIMESTAMP),
+        };
+      }),
+      serviceBranch: serviceHistory.branchOfService,
+      serviceCharacter: serviceHistory.characterOfService,
+      separationReason: serviceHistory.reasonForSeparation,
+      // toursOfDutyIncorrect: serviceHistory.disagreeWithServicePeriod,
     },
-    dateOfBirth: state.user.profile?.dob,
+  ];
+}
+
+function mapNotificaitonMethod(notificationMethod) {
+  if (notificationMethod === 'mail') {
+    return 'Mail';
+  } else if (notificationMethod === 'email') {
+    return 'Email';
+  }
+  return notificationMethod;
+}
+
+export function prefillTransformer(pages, formData, metadata, state) {
+  // if (!state.data?.formData) {
+  //   fetchPersonalInformation();
+  // }
+
+  const claimant = state.data?.formData?.data?.claimant || {};
+  const serviceData = state.data?.formData?.serviceData || {};
+  const contactInfo = claimant?.contactInfo || {};
+
+  const newData = {
+    ...formData,
+    'view:userFullName': {
+      userFullName: {
+        first: claimant.firstName,
+        middle: claimant.middleName,
+        last: claimant.lastName,
+      },
+    },
+    dateOfBirth: claimant.dateOfBirth,
+    email: {
+      email: contactInfo.emailAddress,
+      confirmEmail: contactInfo.emailAddress,
+    },
+    'view:phoneNumbers': {
+      mobilePhoneNumber: {
+        phone: contactInfo?.mobilePhoneNumber || undefined,
+      },
+      phoneNumber: {
+        phone: contactInfo?.homePhoneNumber || undefined,
+      },
+    },
+    'view:contactMethod': {
+      contactMethod: mapNotificaitonMethod(claimant?.notificationMethod),
+    },
+    'view:mailingAddress': {
+      address: {
+        street: contactInfo?.addressLine1,
+        street2: contactInfo?.addressLine2 || undefined,
+        city: contactInfo?.city,
+        state: contactInfo?.stateCode,
+        postalCode: contactInfo?.zipcode,
+        country: getSchemaCountryCode(contactInfo?.countryCode),
+      },
+      livesOnMilitaryBase:
+        contactInfo?.countryCode !== 'US' &&
+        contactInfo?.addressType === 'MILITARY_OVERSEAS',
+    },
+    toursOfDuty: transformServiceHistory(serviceData),
+    // 'view:toursOfDutyCorrect': {
+    //   toursOfDutyCorrect: serviceHistory?.data?.toursOfDutyIncorrect,
+    // },
   };
+
+  if (claimant?.suffix) {
+    newData['view:userFullName'].userFullName.suffix = claimant?.suffix;
+  }
 
   return {
     metadata,
