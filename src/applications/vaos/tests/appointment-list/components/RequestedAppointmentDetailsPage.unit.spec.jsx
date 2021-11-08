@@ -891,6 +891,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     };
 
     mockSingleVAOSRequestFetch({ request: appointment });
+    mockAppointmentCancelFetch({ appointment });
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({ id: '442GC', version: 0 }),
       version: 0,
@@ -922,8 +923,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     const cancelData = JSON.parse(
       global.fetch
         .getCalls()
-        // Looks for second appointments/1234 call, because first is GET, second is PUT
-        .filter(call => call.args[0].endsWith('appointments/1234'))[1].args[1]
+        .filter(call => call.args[0].endsWith('appointments/1234'))[0].args[1]
         .body,
     );
     expect(cancelData).to.deep.equal({
