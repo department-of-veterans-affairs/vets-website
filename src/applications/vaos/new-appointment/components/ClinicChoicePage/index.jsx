@@ -28,7 +28,6 @@ function formatTypeOfCare(careLabel) {
   return careLabel.slice(0, 1).toLowerCase() + careLabel.slice(1);
 }
 
-// Temp VAOS change to test single app build
 function vowelCheck(givenString) {
   return /^[aeiou]$/i.test(givenString.charAt(0));
 }
