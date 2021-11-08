@@ -6,7 +6,7 @@ const divider = Math.ceil(tests.length / Number(process.env.NUM_CONTAINERS));
 
 const batch = tests
   .map(test => test.replace('/home/runner/work', '/__w'))
-  .slice(Number(step) * divider, (Number(step) + 1) * divider)
+  .slice(step * divider, (step + 1) * divider)
   .join(',');
 
 const status = runCommandSync(
