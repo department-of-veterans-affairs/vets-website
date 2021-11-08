@@ -27,22 +27,6 @@ $color-logingov-red-darker: rgb(154, 43, 35);
   }
 }
 
-.signin-breadcrumbs {
-  @include media($small-desktop-screen) {
-    padding-left: unset !important;
-  }
-
-  ul {
-    @include media($medium-screen) {
-      margin: 0 -1em !important;
-    }
-
-    @include media($small-desktop-screen) {
-      margin: unset !important;
-    }
-  }
-}
-
 .verify,
 .login {
   button {
@@ -72,10 +56,10 @@ $color-logingov-red-darker: rgb(154, 43, 35);
     }
 
     &.logingov-button {
-      background: $color-logingov-red;
+      background: $color-secondary;
 
       &:hover {
-        background: $color-logingov-red-darker;
+        background: $color-secondary-darkest;
       }
     }
 

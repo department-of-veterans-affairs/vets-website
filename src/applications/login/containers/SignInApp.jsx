@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import 'url-search-params-polyfill';
 
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-
 import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
 import SignInButtons from '../components/SignInButtons';
 import FedWarning from '../components/FedWarning';
@@ -78,11 +76,7 @@ class SignInPage extends React.Component {
         <div className="row">
           {loggedOut && <LogoutAlert />}
           <div className="columns small-12">
-            <Breadcrumbs className="signin-breadcrumbs vads-u-display--none medium-screen:vads-u-display--block">
-              <a href="/">Home</a>
-              <a href="/sign-in">Sign in</a>
-            </Breadcrumbs>
-            <h1 className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2">
+            <h1 className="vads-u-margin-top--2 medium-screen:vads-u-margin-bottom--2">
               Sign in
             </h1>
           </div>
