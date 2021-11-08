@@ -19,8 +19,8 @@ const TransitionPageDescription = props => {
         to find out if they’re available, continue this form to create a
         pre-filled PDF Form to submit.
       </p>
-      <div className="vads-u-margin-top--4 vads-u-background-color--gray-lightest vads-u-padding--1p5">
-        <p className="vads-u-font-size--h3 vads-u-font-family--serif vads-u-font-weight--bold">
+      <div className="vads-u-margin-top--4 vads-u-background-color--gray-lightest vads-u-padding--4">
+        <p className="vads-u-margin-top--0 vads-u-font-size--h3 vads-u-font-family--serif vads-u-font-weight--bold">
           {props?.formData?.representativeData?.name}
         </p>
         <p className="vads-u-font-weight--bold">
@@ -28,7 +28,9 @@ const TransitionPageDescription = props => {
         </p>
         <p>{props?.formData?.representativeData?.address}</p>
         <p>{props?.formData?.representativeData?.city}</p>
-        <p>{props?.formData?.representativeData?.phone}</p>
+        <p className="vads-u-margin-bottom--0">
+          {props?.formData?.representativeData?.phone}
+        </p>
       </div>
     </>
   );

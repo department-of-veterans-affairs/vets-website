@@ -25,6 +25,7 @@ const SearchRepresentativeWidget = props => {
   }
 
   const handleClick = (name, address, city, phone, type) => {
+    // assemble a full object of the chosen representative separate from the name
     const representativeObject = {
       name,
       address,
@@ -32,6 +33,8 @@ const SearchRepresentativeWidget = props => {
       phone,
       type,
     };
+    // add both the name of the chosen representative and the full object
+    // of representative data to the form data
     const updatedFormData = {
       ...formData,
       preferredRepresentative: name,
