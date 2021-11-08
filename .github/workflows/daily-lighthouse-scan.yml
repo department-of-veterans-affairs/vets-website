@@ -23,7 +23,7 @@ jobs:
           path: ./content-build
       - id: set-matrix
         run: |
-          echo ::set-output name=registries::$(jq '[.[] | (if .template.vagovprod then {rootUrl: .rootUrl, vagovprod: .template.vagovprod} else empty end)]' src/applications/registry.json)
+          echo ::set-output name=registries::$(jq '[.[] | (if .template.vagovprod then {rootUrl: .rootUrl, vagovprod: .template.vagovprod} else empty end)]' ./content-build/src/applications/registry.json)
 
   lighthouse:
     needs: get-registries
