@@ -38,7 +38,6 @@ import primaryContactInfoPage from './chapters/primary/primaryContact';
 import primaryMedicalPage from './chapters/primary/primaryHealthCoverage';
 
 // secondary pages
-// Test with a file outside VAOS
 import hasSecondaryCaregiverPage from './chapters/secondaryOne/hasSecondaryCaregiver';
 import secondaryCaregiverInfoPage from './chapters/secondaryOne/secondaryInfo';
 import secondaryCaregiverContactPage from './chapters/secondaryOne/secondaryCaregiverContact';
