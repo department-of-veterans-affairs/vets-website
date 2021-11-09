@@ -45,7 +45,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:demographicCategories': {
+      'view:veteranGender': {
         type: 'object',
         properties: {
           isGenderMan,
