@@ -77,9 +77,7 @@ const getChangedAppsString = (files, config, outputType = 'entry') => {
 };
 
 if (process.env.CHANGED_FILE_PATHS) {
-  const changedFiles = process.env.CHANGED_FILE_PATHS.split(' ').filter(
-    filePath => filePath.startsWith('src/applications'),
-  );
+  const changedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
   const options = commandLineArgs([
     // Use the --get-folders option to get app folder paths. Entry names are the default.
     { name: 'get-folders', type: Boolean, defaultValue: false },
