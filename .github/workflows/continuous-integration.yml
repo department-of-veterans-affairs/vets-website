@@ -589,7 +589,7 @@ jobs:
         run: yarn contract-mochawesome-to-bigquery
         working-directory: testing-tools-team-dashboard-data
         env:
-          NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+          NUM_CONTAINERS: 8
           TEST_EXECUTIONS_TABLE_NAME: vets_website_contract_test_suite_executions
           TEST_RESULTS_TABLE_NAME: vets_website_contract_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-contract-test-reports
@@ -614,7 +614,7 @@ jobs:
     name: Testing Reports - Cypress E2E Tests
     runs-on: ubuntu-latest
     needs: [testing-reports-prep, cypress-tests-prep, cypress-tests]
-    if: ${{ always() && needs.cypress-tests-prep.outputs.num_containers > 0 && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
+    if: ${{ always() && needs.cypress-tests-prep.outputs.tests != '[]' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     continue-on-error: true
@@ -729,7 +729,7 @@ jobs:
         working-directory: testing-tools-team-dashboard-data
         env:
           IS_MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.is_master_build }}
-          NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+          NUM_CONTAINERS: 8
           TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
           TEST_RESULTS_TABLE_NAME: cypress_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
