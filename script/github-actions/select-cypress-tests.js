@@ -162,12 +162,6 @@ function allTests() {
   return glob.sync(pattern);
 }
 
-function limitedTests() {
-  const pattern = path.join(__dirname, '../..', integrationFolder, testFiles);
-  /* eslint-disable no-console */
-  console.log(glob.sync(pattern));
-}
-
 function selectTests(graph, pathsOfChangedFiles) {
   if (IS_MASTER_BUILD) {
     return allTests();
@@ -197,8 +191,7 @@ function selectTests(graph, pathsOfChangedFiles) {
     } else if (allMdAndOrSrcApplicationsFiles) {
       return selectedTests(graph, pathsOfChangedFiles);
     } else {
-      // return allTests();
-      return limitedTests();
+      return allTests();
     }
   }
 }
@@ -235,7 +228,12 @@ function exportVariables(tests) {
     core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6, 7]);
   }
 
-  if (numTests > 0) core.exportVariable('TESTS', tests);
+  // if (numTests > 0) core.exportVariable('TESTS', tests);
+  core.exportVariable('TESTS', [
+    '/home/runner/work/vets-website/vets-website/src/applications/personalization/profile/tests/e2e/address-validation/confirm-address.cypress.spec.js',
+    '/home/runner/work/vets-website/vets-website/src/applications/personalization/profile/tests/e2e/address-validation/confirm-state-diff.cypress.spec.js',
+    '/home/runner/work/vets-website/vets-website/src/applications/personalization/profile/tests/e2e/address-validation/edit-after-validation.cypress.spec.js',
+  ]);
 }
 
 function run() {
