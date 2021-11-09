@@ -1,5 +1,6 @@
 import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 import mockSession from '../../../../api/local-mock-api/mocks/v2/sessions.responses';
+import '../../support/commands';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
@@ -7,13 +8,7 @@ describe('Check In Experience -- ', () => {
       req.reply(403, mockSession.createMockFailedResponse({}));
     });
 
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        checkInExperienceMultipleAppointmentSupport: true,
-      }),
-    );
+    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
     cy.window().then(window => {
       window.sessionStorage.clear();
     });
@@ -24,9 +19,7 @@ describe('Check In Experience -- ', () => {
     });
   });
   it('C5728 - Check in - 404 api error', () => {
-    const featureRoute =
-      '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
-    cy.visit(featureRoute);
+    cy.visitWithUUID();
 
     cy.url().should('match', /error/);
     cy.get('h1').contains('We couldn’t check you in');

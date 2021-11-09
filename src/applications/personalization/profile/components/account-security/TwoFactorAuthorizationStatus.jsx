@@ -4,11 +4,9 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { mfa } from 'platform/user/authentication/utilities';
 import Verified from './Verified';
+import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 
-const TwoFactorAuthorizationStatus = ({
-  isMultifactorEnabled,
-  isAuthenticatedWithSSOe,
-}) => {
+const TwoFactorAuthorizationStatus = ({ isMultifactorEnabled }) => {
   if (isMultifactorEnabled) {
     return (
       <Verified>
@@ -18,9 +16,9 @@ const TwoFactorAuthorizationStatus = ({
     );
   }
 
-  const mfaHandler = isAuthenticatedWithSSO => {
-    recordEvent({ event: 'multifactor-link-clicked' });
-    mfa(isAuthenticatedWithSSO ? 'v1' : 'v0');
+  const mfaHandler = (version = 'v1') => {
+    recordEvent({ event: AUTH_EVENTS.MFA });
+    mfa(version);
   };
 
   return (
@@ -31,10 +29,7 @@ const TwoFactorAuthorizationStatus = ({
         gets your password.
       </p>
       <p className="vads-u-margin-bottom--0">
-        <button
-          className="va-button-link"
-          onClick={() => mfaHandler(isAuthenticatedWithSSOe)}
-        >
+        <button className="va-button-link" onClick={() => mfaHandler('v1')}>
           Set up 2-factor authentication
         </button>
       </p>
@@ -44,7 +39,6 @@ const TwoFactorAuthorizationStatus = ({
 
 TwoFactorAuthorizationStatus.propTypes = {
   isMultifactorEnabled: PropTypes.bool.isRequired,
-  isAuthenticatedWithSSOe: PropTypes.bool.isRequired,
 };
 
 export default TwoFactorAuthorizationStatus;

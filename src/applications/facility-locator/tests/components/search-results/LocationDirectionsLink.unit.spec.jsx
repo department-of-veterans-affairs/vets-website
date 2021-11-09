@@ -27,7 +27,7 @@ const verifyLink = data => {
     target: '_blank',
   });
   expect(wrapper.find('a').text()).to.equal(
-    'Get directionsto Austin VA Clinic',
+    'Get directions on Google Mapsto Austin VA Clinic',
   );
   expect(wrapper.find('.sr-only').text()).to.equal('to Austin VA Clinic');
 

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import {
   setLangAttributes,
+  adjustSidebarNav,
   getConfigFromUrl,
 } from 'applications/static-pages/i18Select/utilities/helpers';
 import { FOOTER_EVENTS } from '../helpers';
@@ -69,6 +70,7 @@ export default function LanguageSupport({
       );
 
       setLangAttributes(parsedLanguageCode);
+      adjustSidebarNav(parsedLanguageCode);
 
       if (languageCode === parsedLanguageCode) return;
 

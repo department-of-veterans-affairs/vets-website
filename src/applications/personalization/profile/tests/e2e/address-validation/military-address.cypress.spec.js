@@ -1,38 +1,19 @@
-import { setUp } from '@@profile/tests/e2e/address-validation/setup';
+import AddressPage from './page-objects/AddressPage';
 
 describe('Personal and contact information', () => {
   describe('when entering a military address', () => {
     it('should successfully update on Desktop', () => {
-      setUp('military');
-
-      cy.findByRole('checkbox', {
-        name: /I live on a.*military base/i,
-      }).check();
-
-      cy.findByLabelText(/^street address \(/i)
-        .clear()
-        .type('PSC 808 Box 37');
-      cy.findByLabelText(/^street address line 2/i).clear();
-      cy.findByLabelText(/^street address line 3/i).clear();
-
-      cy.get('#root_city').select('FPO');
-
-      cy.findByLabelText(/^State/).select('AE');
-      cy.findByLabelText(/Zip code/i)
-        .clear()
-        .type('09618');
-
-      cy.findByTestId('save-edit-button').click({
-        force: true,
-      });
-
-      cy.findByTestId('mailingAddress')
-        .should('contain', 'PSC 808 Box 37')
-        .and('contain', 'FPO, Armed Forces Europe');
-
-      cy.focused()
-        .invoke('text')
-        .should('match', /update saved/i);
+      const formFields = {
+        address: 'PSC 808 Box 37',
+        state: 'AE',
+        zipCode: '09618',
+        military: true,
+        postOffice: 'FPO',
+      };
+      const addressPage = new AddressPage();
+      addressPage.loadPage('military');
+      addressPage.fillAddressForm(formFields);
+      addressPage.saveForm();
     });
   });
 });

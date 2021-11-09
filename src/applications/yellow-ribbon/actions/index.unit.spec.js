@@ -7,7 +7,7 @@ import {
   fetchResultsFailure,
   fetchResultsSuccess,
   fetchResultsThunk,
-} from './index';
+} from '.';
 import {
   FETCH_RESULTS,
   FETCH_RESULTS_FAILURE,

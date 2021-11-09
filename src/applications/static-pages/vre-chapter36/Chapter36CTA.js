@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { rootUrl as chapter36Url } from 'applications/vre/28-8832/manifest.json';
+import manifest from 'applications/vre/28-8832/manifest.json';
 
 const EDUCATION_CAREER_COUNSELING_PATH = 'education-and-career-counseling';
 
@@ -14,7 +14,7 @@ const Chapter36CTA = () => {
       <a
         className="usa-button-primary va-button-primary"
         target="_self"
-        href={chapter36Url}
+        href={manifest.rootUrl}
       >
         Apply for career counseling
       </a>
