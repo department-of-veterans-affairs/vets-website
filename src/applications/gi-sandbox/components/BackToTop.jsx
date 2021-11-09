@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import classNames from 'classnames';
+import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 
 /**
  * This thing has a hack in it to make sure the when the element is floating at bottom of page it is on the right side
@@ -116,7 +118,18 @@ export default function BackToTop({
             <button
               type="button"
               className="usa-button va-top-button-transition-in"
-              onClick={() => scrollToTop()}
+              onClick={
+                environment.isProduction()
+                  ? () => scrollToTop()
+                  : () => {
+                      scrollToTop();
+                      recordEvent({
+                        event: 'button_click',
+                        'button-text': 'Back to top',
+                        'button-type': 'Default|Back to Top',
+                      });
+                    }
+              }
             >
               <span>
                 <i aria-hidden="true" className="fas fa-arrow-up" role="img" />

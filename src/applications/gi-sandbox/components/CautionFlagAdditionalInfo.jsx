@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import JumpLink from './profile/JumpLink';
+import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 
 export const CautionFlagAdditionalInfo = ({
   cautionFlags,
@@ -21,7 +23,18 @@ export const CautionFlagAdditionalInfo = ({
       <div className="usa-alert-body ">
         <button
           className="caution-flag-toggle"
-          onClick={() => toggleExpansion(!expanded)}
+          onClick={
+            environment.isProduction()
+              ? () => toggleExpansion(!expanded)
+              : () => {
+                  toggleExpansion(!expanded);
+                  recordEvent(
+                    !expanded
+                      ? { event: 'caution-flag-additional-info-expand' }
+                      : { event: 'caution-flag-additional-info-collapsed' },
+                  );
+                }
+          }
         >
           <div className="vads-u-display--flex">
             <div>
