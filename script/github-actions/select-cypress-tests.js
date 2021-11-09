@@ -197,7 +197,9 @@ function selectTests(graph, pathsOfChangedFiles) {
 }
 
 function exportVariables(tests) {
-  core.exportVariable('TESTS', tests);
+  // eslint-disable-next-line no-console
+  console.log(tests);
+  core.exportVariable('TESTS', []);
 }
 
 function run() {
