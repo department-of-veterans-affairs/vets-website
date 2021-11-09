@@ -45,6 +45,7 @@ export default {
       'ui:title': 'Do you receive a Veterans pension from the VA?',
       'ui:description': PensionInfo,
       'ui:reviewField': CustomReviewField,
+      'ui:required': () => true,
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
