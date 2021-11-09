@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import classNames from 'classnames';
@@ -64,34 +64,40 @@ export default function BackToTop({
       }
       setCompareOpen(compare.open);
     },
-    [scrolled, smallScreen, compare.open],
+    [scrolled, smallScreen, compare.open, profilePageHeaderId, compareOpen],
   );
 
-  const resize = () => {
-    if (floating) {
-      const parentElement = document.getElementById(parentId);
-      if (parentElement) {
-        const parentX = parentElement.getBoundingClientRect().x;
-        setBackToTopContainerStyle({ right: parentX });
+  const resize = useCallback(
+    () => {
+      if (floating) {
+        const parentElement = document.getElementById(parentId);
+        if (parentElement) {
+          const parentX = parentElement.getBoundingClientRect().x;
+          setBackToTopContainerStyle({ right: parentX });
+        }
       }
-    }
-  };
+    },
+    [floating, parentId],
+  );
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll, true);
-    window.addEventListener('resize', resize);
+  useEffect(
+    () => {
+      window.addEventListener('scroll', handleScroll, true);
+      window.addEventListener('resize', resize);
 
-    return () => {
-      window.removeEventListener('scroll', handleScroll, true);
-      window.removeEventListener('scroll', resize, true);
-    };
-  }, []);
+      return () => {
+        window.removeEventListener('scroll', handleScroll, true);
+        window.removeEventListener('scroll', resize, true);
+      };
+    },
+    [resize],
+  );
 
   useEffect(
     () => {
       resize();
     },
-    [floating],
+    [floating, resize],
   );
 
   const backToTopClasses = classNames('back-to-top', {
