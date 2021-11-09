@@ -11,19 +11,25 @@ export const App = ({ loggedIn, show, toggleLoginModal }) => {
   }
 
   return (
-    <va-alert status="continue">
+    <va-alert status={loggedIn ? 'info' : 'continue'}>
       {/* Title */}
       <h2 slot="headline" className="vads-u-font-size--h3">
-        Please sign in to view your VA copay balances
+        {loggedIn
+          ? 'View your VA copay balances'
+          : 'Please sign in to view your VA copay balances'}
       </h2>
 
       {/* Explanation */}
-      <p>
-        Try signing in with your <strong>DS Logon</strong>,{' '}
-        <strong>My HealtheVet</strong>, or <strong>ID.me</strong> account. If
-        you don’t have any of those accounts, you can create one now. When you
-        sign in or create an account, you’ll be able to:
-      </p>
+      {loggedIn ? (
+        <p>With this tool, you can:</p>
+      ) : (
+        <p>
+          Try signing in with your <strong>DS Logon</strong>,{' '}
+          <strong>My HealtheVet</strong>, or <strong>ID.me</strong> account. If
+          you don’t have any of those accounts, you can create one now. When you
+          sign in or create an account, you’ll be able to:
+        </p>
+      )}
       <ul>
         <li>View your balances for each of your medical facilities</li>
         <li>Download your copay statements</li>
