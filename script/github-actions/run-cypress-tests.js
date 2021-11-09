@@ -1,7 +1,7 @@
 const { runCommandSync } = require('../utils');
 
 const tests = JSON.parse(process.env.TESTS);
-const step = JSON.parse(process.env.STEP);
+const step = Number(process.env.STEP);
 const divider = Math.ceil(tests.length / 8);
 
 const batch = tests
