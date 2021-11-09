@@ -151,6 +151,7 @@ const formConfig = {
           path: 'veteran-information/veteran-gender',
           title: 'Veteran information',
           initialData: {},
+          depends: formData => formData['view:caregiverSIGIEnabled'],
           uiSchema: veteranGender.uiSchema,
           schema: veteranGender.schema,
         },
