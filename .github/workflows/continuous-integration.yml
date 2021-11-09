@@ -408,9 +408,9 @@ jobs:
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
-      - name: Run Pact verify
+      - name: Test
         run: |
-          test ${{ fromJson(needs.cypress-tests-prep.outputs.selected) }}'
+          curl ${{ fromJson(needs.cypress-tests-prep.outputs.selected) }}'
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
