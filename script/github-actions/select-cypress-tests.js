@@ -162,6 +162,12 @@ function allTests() {
   return glob.sync(pattern);
 }
 
+function limitedTests() {
+  const pattern = path.join(__dirname, '../..', integrationFolder, testFiles);
+  /* eslint-disable no-console */
+  console.log(glob.sync(pattern));
+}
+
 function selectTests(graph, pathsOfChangedFiles) {
   if (IS_MASTER_BUILD) {
     return allTests();
@@ -191,7 +197,8 @@ function selectTests(graph, pathsOfChangedFiles) {
     } else if (allMdAndOrSrcApplicationsFiles) {
       return selectedTests(graph, pathsOfChangedFiles);
     } else {
-      return allTests();
+      // return allTests();
+      return limitedTests();
     }
   }
 }

@@ -61,12 +61,15 @@ Cypress.on('test:after:run', test => {
     const videoPath = `${Cypress.config('videosFolder')}/${videoName}.mp4`;
     addContext(
       { test },
-      { title: 'context', value: { video: videoPath, retries: test.retries } },
+      {
+        title: 'context',
+        value: { video: videoPath, retries: test.currentRetry },
+      },
     );
   } else {
     addContext(
       { test },
-      { title: 'context', value: { retries: test.retries } },
+      { title: 'context', value: { retries: test.currentRetry } },
     );
   }
 });
