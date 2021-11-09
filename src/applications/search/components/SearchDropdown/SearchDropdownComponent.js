@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './SearchDropdownStyles.scss';
 
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 
