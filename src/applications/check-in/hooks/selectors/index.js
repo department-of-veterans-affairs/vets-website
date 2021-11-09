@@ -59,12 +59,14 @@ const selectContext = createSelector(
 
 const makeSelectContext = () => selectContext;
 
-const selectSeeStaffMessage = () =>
-  createSelector(state => {
+const selectSeeStaffMessage = createSelector(
+  state => {
     return {
       message: state?.checkInData?.seeStaffMessage,
     };
-  });
+  },
+  message => message,
+);
 
 const makeSelectSeeStaffMessage = () => selectSeeStaffMessage;
 
