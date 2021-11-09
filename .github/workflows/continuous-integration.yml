@@ -408,7 +408,7 @@ jobs:
 
     steps:
       - name: Test
-        run: curl ${{ needs.cypress-tests-prep.outputs.tests }} ${{ needs.cypress-tests-prep.outputs.tests != "['']" }}
+        run: curl ${{ needs.cypress-tests-prep.outputs.tests }} ${{ needs.cypress-tests-prep.outputs.tests != '[\'\']' }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
