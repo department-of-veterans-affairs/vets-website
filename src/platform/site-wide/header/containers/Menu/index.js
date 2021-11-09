@@ -41,8 +41,8 @@ export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu, subMenu }) => {
         ID="header-search-dropdown"
         componentClassNames="vads-u-margin-bottom--2"
         containerClassNames="vads-u-max-width--none vads-u-margin-left--2 vads-u-padding--0"
-        buttonClassNames="vads-u-padding--0 vads-u-margin-top--2 vads-u-margin-x--0 vads-u-margin-bottom--0"
-        inputClassNames="vads-u-max-width--none vads-u-margin--0"
+        buttonClassNames="vads-u-padding--0 vads-u-margin-right--2"
+        inputClassNames="vads-u-max-width--none vads-u-margin--0 "
         suggestionsListClassNames=""
         suggestionClassNames=""
         fetchSuggestions={fetchSearchSuggestions}

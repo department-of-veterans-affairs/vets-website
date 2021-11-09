@@ -145,8 +145,8 @@ class SearchDropdownComponent extends React.Component {
       isOpen: false,
       savedSuggestions: [],
       suggestions: [],
-      hasBeenChanged: false,
       a11yStatusMessage: '',
+      displayA11yDescriptionFlag: true,
     };
   }
 
@@ -157,6 +157,13 @@ class SearchDropdownComponent extends React.Component {
     if (startingValue) {
       const suggestions = this.fetchSuggestions(startingValue);
       this.setState({ suggestions });
+    }
+
+    const displayA11yDescriptionFlag =
+      JSON.parse(window.sessionStorage.getItem('searchA11yDescriptionFlag')) ||
+      true;
+    if (!displayA11yDescriptionFlag) {
+      this.setState({ displayA11yDescriptionFlag });
     }
   }
 
@@ -209,7 +216,6 @@ class SearchDropdownComponent extends React.Component {
     this.setState({
       inputValue,
       activeIndex: undefined,
-      hasBeenChanged: true,
     });
 
     // clear suggestions if the input is too short
@@ -269,6 +275,7 @@ class SearchDropdownComponent extends React.Component {
     // if the menu is not open and the ENTER key is pressed, search for the term currently in the input field
     if (!isOpen && currentKeyPress === Keycodes.Enter && canSubmit) {
       event.preventDefault();
+      this.setA11yDescriptionFlag(false);
       onInputSubmit(this.state);
       return;
     }
@@ -330,6 +337,7 @@ class SearchDropdownComponent extends React.Component {
       event.preventDefault();
 
       if (activeIndex === undefined && canSubmit) {
+        this.setA11yDescriptionFlag(false);
         onInputSubmit(this.state);
         return;
       }
@@ -340,6 +348,7 @@ class SearchDropdownComponent extends React.Component {
         return;
       }
       if (canSubmit) {
+        this.setA11yDescriptionFlag(false);
         onSuggestionSubmit(activeIndex, this.state);
         this.selectOption(activeIndex);
         this.updateMenuState(false);
@@ -360,6 +369,7 @@ class SearchDropdownComponent extends React.Component {
       return;
     }
     if (canSubmit) {
+      this.setA11yDescriptionFlag(false);
       onSuggestionSubmit(index, this.state);
       this.selectOption(index);
       this.updateMenuState(false);
@@ -375,10 +385,13 @@ class SearchDropdownComponent extends React.Component {
       inputValue,
       activeIndex: undefined,
       savedSuggestions: suggestions,
-      hasBeenChanged: true,
     });
     this.fetchSuggestions(inputValue);
   }
+
+  setA11yDescriptionFlag = value => {
+    window.sessionStorage.setItem('searchA11yDescriptionFlag', value);
+  };
 
   // update whether the menu is open or closed, and refocus the menu if called for
   updateMenuState(open, callFocus = true) {
@@ -453,8 +466,8 @@ class SearchDropdownComponent extends React.Component {
       isOpen,
       inputValue,
       suggestions,
-      hasBeenChanged,
       a11yStatusMessage,
+      displayA11yDescriptionFlag,
     } = this.state;
 
     const {
@@ -483,11 +496,11 @@ class SearchDropdownComponent extends React.Component {
 
     const mobileResponsiveClass = mobileResponsive ? 'shrink-to-column' : '';
 
-    const ariaDescribedProp = hasBeenChanged
-      ? null
-      : {
+    const ariaDescribedProp = displayA11yDescriptionFlag
+      ? {
           'aria-describedby': assistiveHintID,
-        };
+        }
+      : null;
 
     const validOpen = isOpen && suggestions.length > 0;
 
@@ -595,8 +608,8 @@ class SearchDropdownComponent extends React.Component {
           canSubmit && (
             <button
               type="submit"
-              className={`search-dropdown-submit-button  ${
-                fullWidthSuggestions ? 'vads-u-margin--1' : ''
+              className={`search-dropdown-submit-button vads-u-margin-right--1 ${
+                fullWidthSuggestions ? 'vads-u-margin-top--1 ' : ''
               } ${buttonClassNames}`}
               data-e2e-id={`${ID}-submit-button`}
               id={`${ID}-submit-button`}
