@@ -131,7 +131,10 @@ export function redirect(redirectUrl, clickedEvent) {
   recordEvent({ event: clickedEvent });
 
   // Generates the redirect for /sign-in page and tracks event
-  if (externalRedirect) {
+  if (
+    externalRedirect &&
+    [AUTH_EVENTS.SSO_LOGIN, AUTH_EVENTS.MODAL_LOGIN].includes(clickedEvent)
+  ) {
     rUrl = {
       mhv: `${redirectUrl}?skip_dupe=mhv&redirect=${returnUrl}&postLogin=true`,
       myvahealth: `${redirectUrl}`,
@@ -186,9 +189,13 @@ export function logout(
   );
 }
 
-export function signup(version = 'v1') {
+export function signup({ version = 'v1', csp = 'idme' } = {}) {
   return redirect(
-    sessionTypeUrl({ type: 'signup', version }),
-    AUTH_EVENTS.REGISTER,
+    sessionTypeUrl({
+      type: `${csp}_signup`,
+      version,
+      ...(csp === 'idme' && { queryParams: { op: 'signup' } }),
+    }),
+    `${csp}-${AUTH_EVENTS.REGISTER}`,
   );
 }

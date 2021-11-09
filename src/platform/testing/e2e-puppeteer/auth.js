@@ -117,9 +117,7 @@ async function testUnauthedUserFlow(client, path) {
   await client.waitForSelector('body', { timeout: Timeouts.normal });
 
   await client.waitForSelector('.login', { timeout: Timeouts.normal });
-  expect(client.$eval('h1', node => node.innerText)).to.equal(
-    'Sign in to VA.gov',
-  );
+  expect(client.$eval('h1', node => node.innerText)).to.equal('Sign in');
 }
 
 module.exports = {
