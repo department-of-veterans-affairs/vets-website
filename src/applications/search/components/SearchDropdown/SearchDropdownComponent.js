@@ -401,38 +401,6 @@ class SearchDropdownComponent extends React.Component {
   };
 
   // derive the ally status message for screen reade
-  // getA11yStatusMessage = () => {
-  //   const { isOpen, suggestions, activeIndex } = this.state;
-
-  //   const suggestionsCount = suggestions?.length;
-
-  //   if (!isOpen && suggestionsCount) {
-  //     return `Closed, ${suggestionsCount} suggestions${
-  //       suggestionsCount === 1 ? ' is' : 's are'
-  //     }
-  //  available`;
-  //   }
-
-  //   if (!isOpen) {
-  //     return '';
-  //   }
-
-  //   if (!suggestionsCount) {
-  //     return 'No suggestions are available.';
-  //   }
-
-  //   if (!(activeIndex + 1)) {
-  //     return `Expanded, ${suggestionsCount} suggestion${
-  //       suggestionsCount === 1 ? ' is' : 's are'
-  //     }
-  //  available`;
-  //   }
-
-  //   return `${suggestions[activeIndex]}, selected ${activeIndex +
-  //     1} of ${suggestionsCount}`;
-  // };
-
-  // derive the ally status message for screen reade
   setA11yStatusMessage = () => {
     const { isOpen, suggestions, activeIndex } = this.state;
 
@@ -521,9 +489,7 @@ class SearchDropdownComponent extends React.Component {
           'aria-describedby': assistiveHintID,
         };
 
-    const validOpen = isOpen && suggestions.length > 0;
-
-    // const a11yStatusMessage = this.getA11yStatusMessage();
+    const validOpen = (isOpen && suggestions.length > 0) || true;
 
     return (
       <div
@@ -572,10 +538,10 @@ class SearchDropdownComponent extends React.Component {
           </span>
 
           <span
-            id="a11y-status-message"
+            id={`${ID}-a11y-status-message`}
             role="status"
             className="vads-u-visibility--screen-reader"
-            aria-live="polite"
+            aria-live="assertive"
             aria-relevant="all"
           >
             {a11yStatusMessage}
