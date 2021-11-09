@@ -11,6 +11,11 @@ import {
   externalRedirects,
 } from '../../authentication/utilities';
 
+import {
+  getLoginAttempted,
+  removeLoginAttempted,
+} from 'platform/utilities/sso/loginAttempted';
+
 const setup = () => {
   global.window.location = {
     get: () => global.window.location,
@@ -20,14 +25,25 @@ const setup = () => {
     pathname: '',
     search: '',
   };
+  removeLoginAttempted();
 };
 
 describe('authentication URL helpers', () => {
   beforeEach(setup);
 
   it('should redirect for signup v1', () => {
-    signup('v1');
-    expect(global.window.location).to.include('/v1/sessions/signup/new');
+    signup();
+    expect(global.window.location).to.include(
+      '/v1/sessions/idme_signup/new?op=signup',
+    );
+    signup({ version: 'v1', csp: 'idme' });
+    expect(global.window.location).to.include(
+      '/v1/sessions/idme_signup/new?op=signup',
+    );
+    signup({ version: 'v1', csp: 'logingov' });
+    expect(global.window.location).to.include(
+      '/v1/sessions/logingov_signup/new',
+    );
   });
 
   it('should redirect for login v1', () => {
@@ -60,6 +76,15 @@ describe('authentication URL helpers', () => {
   it('should redirect for verify v1', () => {
     verify('v1');
     expect(global.window.location).to.include('/v1/sessions/verify/new');
+  });
+
+  it('should not append unneeded query parameters on unified sign-in page on a signup', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=mhv';
+    signup();
+    expect(global.window.location).to.include(
+      `/v1/sessions/idme_signup/new?op=signup`,
+    );
   });
 
   it('should redirect to the proper unified sign-in page redirect for mhv', () => {
@@ -102,6 +127,39 @@ describe('authentication URL helpers', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=foobar';
     login('idme', 'v1');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+});
+
+describe('setLoginAttempted', () => {
+  beforeEach(setup);
+
+  it('should setLoginAttempted true when logging in from modal', () => {
+    login('idme');
+    expect(getLoginAttempted()).to.equal('true');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+
+  it('should setLoginAttempted true when logging in from /sign-in with no external redirect', () => {
+    global.window.location.pathname = '/sign-in/';
+    login('idme');
+    expect(getLoginAttempted()).to.equal('true');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+
+  it('should setLoginAttempted true when logging in from /sign-in with invalid external redirect', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=foobar';
+    login('idme');
+    expect(getLoginAttempted()).to.equal('true');
+    expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+
+  it('should not setLoginAttempted when logging in from /sign-in with valid external redirect', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=mhv';
+    login('idme');
+    expect(getLoginAttempted()).to.be.null;
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 });

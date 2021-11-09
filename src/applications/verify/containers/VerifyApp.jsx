@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoginGovSVG from 'applications/login/components/LoginGov';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -54,18 +55,29 @@ export class VerifyApp extends React.Component {
 
   renderVerifyButton() {
     const { loginGovEnabled } = this.props;
-    const copy = loginGovEnabled ? 'Login.gov' : 'ID.me';
-    const iconPath = loginGovEnabled
-      ? '/img/signin/logingov-icon-white.svg'
-      : '/img/signin/idme-icon-white.svg';
-    const alt = loginGovEnabled ? 'Login.gov' : 'ID.me';
+    const renderOpts = {
+      copy: loginGovEnabled ? 'Login.gov' : 'ID.me',
+      renderImage: loginGovEnabled ? (
+        <LoginGovSVG />
+      ) : (
+        <img
+          role="presentation"
+          aria-hidden="true"
+          alt="ID.me"
+          src="/img/signin/idme-icon-white.svg"
+        />
+      ),
+      className: `usa-button ${
+        loginGovEnabled ? 'logingov-button' : 'idme-button'
+      }`,
+    };
 
     return (
-      <button className="usa-button usa-button-darker" onClick={() => verify()}>
+      <button className={renderOpts.className} onClick={() => verify()}>
         <strong>
-          Verify with <span className="sr-only">{copy}</span>
+          Verify with <span className="sr-only">{renderOpts.copy}</span>
         </strong>
-        <img role="presentation" aria-hidden="true" alt={alt} src={iconPath} />
+        {renderOpts.renderImage}
       </button>
     );
   }
