@@ -23,7 +23,7 @@ describe('Hca vaBenefits', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(4);
+    expect(formDOM.querySelectorAll('input').length).to.equal(3);
   });
 
   it('should not submit empty form', () => {
