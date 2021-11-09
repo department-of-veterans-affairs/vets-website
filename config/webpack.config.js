@@ -165,7 +165,7 @@ async function generateHtmlFiles(buildPath) {
       .reduce(
         (tags, tag) =>
           // Puts style.css before the app-specific stylesheet.
-          tag.attributes.href.match(/style/) ? [tag, ...tags] : [...tags, tag],
+          tag.attributes.href?.match(/style/) ? [tag, ...tags] : [...tags, tag],
         [],
       )
       .join('');
