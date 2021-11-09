@@ -1,4 +1,5 @@
 export const submissionForm = {
+  claimantId: '1000000000000246',
   loanPayment: 'No',
   'view:loanPaymentAdditionalInfo': {},
   seniorRotcCommission: 'Yes',
