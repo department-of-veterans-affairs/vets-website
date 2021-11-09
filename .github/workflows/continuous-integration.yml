@@ -391,7 +391,6 @@ jobs:
     runs-on: self-hosted
     needs: [cypress-tests-prep]
     if: |
-      needs.build.result == 'success' &&
       needs.cypress-tests-prep.result == 'success'
     container:
       image: public.ecr.aws/cypress-io/cypress/browsers:node14.16.0-chrome90-ff88
