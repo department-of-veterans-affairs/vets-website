@@ -90,7 +90,7 @@ export function ComparePage({
         setScrollTo(null);
       }
     },
-    [scrollTo],
+    [hasScrollTo, headerFixed, scrollTo],
   );
 
   useEffect(() => {

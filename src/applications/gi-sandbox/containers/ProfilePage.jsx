@@ -7,7 +7,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { fetchProfile, setPageTitle, showModal, hideModal } from '../actions';
+import { fetchProfile, showModal, hideModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/InstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ServiceError from '../components/ServiceError';
@@ -21,7 +21,6 @@ export function ProfilePage({
   profile,
   calculator,
   dispatchFetchProfile,
-  dispatchSetPageTitle,
   dispatchShowModal,
   dispatchHideModal,
   eligibility,
@@ -46,13 +45,13 @@ export function ProfilePage({
       window.removeEventListener('resize', checkSize);
       dispatchHideModal();
     };
-  }, []);
+  });
 
   useEffect(
     () => {
-      if (institutionName) {
-        dispatchSetPageTitle(`${institutionName} - GI Bill® Comparison Tool`);
-      }
+      document.title = `${
+        institutionName ? `${institutionName} - ` : ''
+      }GI Bill® Comparison Tool`;
     },
     [institutionName],
   );
@@ -69,7 +68,7 @@ export function ProfilePage({
     () => {
       dispatchFetchProfile(facilityCode, version);
     },
-    [version],
+    [dispatchFetchProfile, facilityCode, version],
   );
 
   let content;
@@ -147,7 +146,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   dispatchFetchProfile: fetchProfile,
-  dispatchSetPageTitle: setPageTitle,
   dispatchShowModal: showModal,
   dispatchHideModal: hideModal,
 };

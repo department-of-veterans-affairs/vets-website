@@ -56,24 +56,34 @@ export function GiBillApp({
         dispatchFetchConstants();
       }
     },
-    [shouldExitPreviewMode, shouldEnterPreviewMode],
+    [
+      shouldExitPreviewMode,
+      shouldEnterPreviewMode,
+      dispatchExitPreviewMode,
+      dispatchEnterPreviewMode,
+      version,
+      dispatchFetchConstants,
+    ],
   );
 
-  useEffect(() => {
-    const params = {};
-    for (const [key, value] of queryParams.entries()) {
-      if (key.includes('[]')) {
-        const arrayKey = key.replace('[]', '');
-        if (!params[arrayKey]) {
-          params[arrayKey] = [];
+  useEffect(
+    () => {
+      const params = {};
+      for (const [key, value] of queryParams.entries()) {
+        if (key.includes('[]')) {
+          const arrayKey = key.replace('[]', '');
+          if (!params[arrayKey]) {
+            params[arrayKey] = [];
+          }
+          params[arrayKey].push(value);
+        } else {
+          params[key] = value;
         }
-        params[arrayKey].push(value);
-      } else {
-        params[key] = value;
       }
-    }
-    dispatchUpdateQueryParams(params);
-  }, []);
+      dispatchUpdateQueryParams(params);
+    },
+    [dispatchUpdateQueryParams, queryParams],
+  );
 
   const onProfilePage = location.pathname.includes('/institution');
   const onComparePage = location.pathname.includes('/compare');

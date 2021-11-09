@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { changeSearchTab, setPageTitle } from '../actions';
+import { changeSearchTab } from '../actions';
 import { PAGE_TITLE, TABS } from '../constants';
 import SearchTabs from '../components/search/SearchTabs';
 import { useQueryParams, isSmallScreen } from '../utils/helpers';
@@ -18,7 +18,6 @@ import environment from 'platform/utilities/environment';
 
 export function SearchPage({
   dispatchChangeSearchTab,
-  dispatchSetPageTitle,
   search,
   preview,
   filters,
@@ -33,29 +32,29 @@ export function SearchPage({
   });
   const { version } = preview;
 
+  useEffect(() => {
+    document.title = `${
+      environment.isProduction()
+        ? `${PAGE_TITLE}: VA.gov`
+        : 'Compare institutions: GI Bill® Comparison Tool | Veterans Affairs'
+    }`;
+  }, []);
+
   useEffect(
     () => {
-      document.title = `${
-        environment.isProduction()
-          ? `${PAGE_TITLE}: VA.gov`
-          : 'Compare institutions: GI Bill® Comparison Tool | Veterans Affairs'
-      }`;
+      const checkSize = () => {
+        setSmallScreen(isSmallScreen());
+      };
+      window.addEventListener('resize', checkSize);
+
+      if (getSearchQueryChanged(search.query)) {
+        updateUrlParams(history, search.tab, search.query, filters, version);
+      }
+
+      return () => window.removeEventListener('resize', checkSize);
     },
-    [dispatchSetPageTitle],
+    [filters, history, search.query, search.tab, version],
   );
-
-  useEffect(() => {
-    const checkSize = () => {
-      setSmallScreen(isSmallScreen());
-    };
-    window.addEventListener('resize', checkSize);
-
-    if (getSearchQueryChanged(search.query)) {
-      updateUrlParams(history, search.tab, search.query, filters, version);
-    }
-
-    return () => window.removeEventListener('resize', checkSize);
-  }, []);
 
   const tabbedResults = {
     [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
@@ -151,7 +150,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   dispatchChangeSearchTab: changeSearchTab,
-  dispatchSetPageTitle: setPageTitle,
 };
 
 export default connect(

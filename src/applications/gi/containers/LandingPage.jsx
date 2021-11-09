@@ -5,7 +5,6 @@ import { useHistory, useLocation } from 'react-router-dom';
 import {
   clearAutocompleteSuggestions,
   fetchInstitutionAutocompleteSuggestions,
-  setPageTitle,
   updateAutocompleteSearchTerm,
   institutionFilterChange,
   eligibilityChange,
@@ -31,24 +30,18 @@ export function LandingPage({
   dispatchFetchInstitutionAutocompleteSuggestions,
   dispatchInstitutionFilterChange,
   dispatchHideModal,
-  dispatchSetPageTitle,
   dispatchShowModal,
   dispatchUpdateAutocompleteSearchTerm,
   eligibility,
   filters,
 }) {
-  useEffect(
-    () => {
-      dispatchSetPageTitle(
-        `${
-          environment.isProduction()
-            ? 'GI Bill® Comparison Tool: VA.gov'
-            : 'GI Bill® Comparison Tool | Veterans Affairs'
-        }`,
-      );
-    },
-    [dispatchSetPageTitle],
-  );
+  useEffect(() => {
+    document.title = `${
+      environment.isProduction()
+        ? 'GI Bill® Comparison Tool: VA.gov'
+        : 'GI Bill® Comparison Tool | Veterans Affairs'
+    }`;
+  }, []);
 
   const location = useLocation();
   const history = useHistory();
@@ -217,7 +210,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   dispatchClearAutocompleteSuggestions: clearAutocompleteSuggestions,
   dispatchFetchInstitutionAutocompleteSuggestions: fetchInstitutionAutocompleteSuggestions,
-  dispatchSetPageTitle: setPageTitle,
   dispatchUpdateAutocompleteSearchTerm: updateAutocompleteSearchTerm,
   dispatchInstitutionFilterChange: institutionFilterChange,
   dispatchEligibilityChange: eligibilityChange,

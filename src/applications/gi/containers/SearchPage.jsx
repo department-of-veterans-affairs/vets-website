@@ -10,7 +10,6 @@ import {
   fetchInstitutionAutocompleteSuggestions,
   fetchInstitutionSearchResults,
   institutionFilterChange,
-  setPageTitle,
   toggleFilter,
   updateAutocompleteSearchTerm,
   eligibilityChange,
@@ -43,7 +42,6 @@ export function SearchPage({
   dispatchFetchInstitutionSearchResults,
   dispatchHideModal,
   dispatchInstitutionFilterChange,
-  dispatchSetPageTitle,
   dispatchShowModal,
   dispatchToggleFilter,
   dispatchUpdateAutocompleteSearchTerm,
@@ -67,12 +65,10 @@ export function SearchPage({
 
   useEffect(
     () => {
-      dispatchSetPageTitle(
-        `${environment.isProduction() ? legacyTitle : newTitle}`,
-      );
+      document.title = `${environment.isProduction() ? legacyTitle : newTitle}`;
     },
 
-    [dispatchSetPageTitle, legacyTitle, newTitle],
+    [legacyTitle, newTitle],
   );
 
   useEffect(
@@ -130,7 +126,13 @@ export function SearchPage({
         dispatchFetchInstitutionSearchResults(query);
       }
     },
-    [location.search],
+    [
+      dispatchFetchInstitutionSearchResults,
+      dispatchInstitutionFilterChange,
+      location.search,
+      queryParams,
+      search.inProgress,
+    ],
   );
 
   useEffect(
@@ -148,7 +150,7 @@ export function SearchPage({
         focusElement('.search-results-count > h1');
       }
     },
-    [search.results],
+    [search.inProgress, search.results],
   );
 
   const handleAutocompleteUpdate = (value, version) => {
@@ -312,7 +314,6 @@ const mapDispatchToProps = {
   dispatchFetchInstitutionAutocompleteSuggestions: fetchInstitutionAutocompleteSuggestions,
   dispatchFetchInstitutionSearchResults: fetchInstitutionSearchResults,
   dispatchInstitutionFilterChange: institutionFilterChange,
-  dispatchSetPageTitle: setPageTitle,
   dispatchToggleFilter: toggleFilter,
   dispatchUpdateAutocompleteSearchTerm: updateAutocompleteSearchTerm,
   dispatchEligibilityChange: eligibilityChange,

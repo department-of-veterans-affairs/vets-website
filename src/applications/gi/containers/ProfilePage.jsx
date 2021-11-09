@@ -7,7 +7,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { fetchProfile, setPageTitle, showModal, hideModal } from '../actions';
+import { fetchProfile, showModal, hideModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/VetTecInstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ServiceError from '../components/ServiceError';
@@ -22,7 +22,6 @@ export function ProfilePage({
   profile,
   calculator,
   dispatchFetchProfile,
-  dispatchSetPageTitle,
   dispatchShowModal,
   dispatchHideModal,
   eligibility,
@@ -35,24 +34,24 @@ export function ProfilePage({
   const version = queryParams.get('version');
   const institutionName = _.get(profile, 'attributes.name');
 
-  useEffect(() => {
-    return () => {
-      dispatchHideModal();
-    };
-  }, []);
+  useEffect(
+    () => {
+      return () => {
+        dispatchHideModal();
+      };
+    },
+    [dispatchHideModal],
+  );
 
   useEffect(
     () => {
       if (institutionName) {
-        if (environment.isProduction())
-          dispatchSetPageTitle(`${institutionName} - GI Bill® Comparison Tool`);
-        else
-          dispatchSetPageTitle(
-            `${institutionName}: GI Bill® Comparison Tool | Veterans Affairs`,
-          );
+        document.title = environment.isProduction
+          ? `${institutionName} - GI Bill® Comparison Tool`
+          : `${institutionName}: GI Bill® Comparison Tool | Veterans Affairs`;
       }
     },
-    [dispatchSetPageTitle, institutionName],
+    [institutionName],
   );
 
   useEffect(
@@ -67,7 +66,7 @@ export function ProfilePage({
     () => {
       dispatchFetchProfile(facilityCode, version);
     },
-    [version],
+    [dispatchFetchProfile, facilityCode, version],
   );
 
   let content;
@@ -136,7 +135,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   dispatchFetchProfile: fetchProfile,
-  dispatchSetPageTitle: setPageTitle,
   dispatchShowModal: showModal,
   dispatchHideModal: hideModal,
 };
