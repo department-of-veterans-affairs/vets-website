@@ -145,7 +145,7 @@ class SearchDropdownComponent extends React.Component {
       savedSuggestions: [],
       suggestions: [],
       a11yStatusMessage: '',
-      displayA11yDescriptionFlag: true,
+      displayA11yDescriptionFlag: undefined,
     };
   }
 
@@ -158,12 +158,10 @@ class SearchDropdownComponent extends React.Component {
       this.setState({ suggestions });
     }
 
-    const displayA11yDescriptionFlag =
-      JSON.parse(window.sessionStorage.getItem('searchA11yDescriptionFlag')) ||
-      true;
-    if (!displayA11yDescriptionFlag) {
-      this.setState({ displayA11yDescriptionFlag });
-    }
+    const displayA11yDescriptionFlag = window.sessionStorage.getItem(
+      'searchA11yDescriptionFlag',
+    );
+    this.setState({ displayA11yDescriptionFlag: !displayA11yDescriptionFlag });
   }
 
   // whenever the Input Value changes, call the prop function to export its value to the parent component
@@ -390,6 +388,7 @@ class SearchDropdownComponent extends React.Component {
 
   setA11yDescriptionFlag = value => {
     window.sessionStorage.setItem('searchA11yDescriptionFlag', value);
+    this.setState({ displayA11yDescriptionFlag: value });
   };
 
   // update whether the menu is open or closed, and refocus the menu if called for
