@@ -489,7 +489,7 @@ class SearchDropdownComponent extends React.Component {
           'aria-describedby': assistiveHintID,
         };
 
-    const validOpen = (isOpen && suggestions.length > 0) || true;
+    const validOpen = isOpen && suggestions.length > 0;
 
     return (
       <div
