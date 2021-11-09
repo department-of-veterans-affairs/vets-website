@@ -3,6 +3,7 @@ import React from 'react';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import { login, signup } from 'platform/user/authentication/utilities';
+import LoginGovSVG from 'applications/login/components/LoginGov';
 
 const vaGovFullDomain = environment.BASE_URL;
 
@@ -22,10 +23,7 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
           className="usa-button usa-button-big logingov-button vads-u-margin-y--1p5"
           onClick={() => loginHandler('logingov')}
         >
-          <img
-            alt="Sign in with Login.gov"
-            src={`${vaGovFullDomain}/img/signin/logingov-icon-white.svg`}
-          />
+          <LoginGovSVG />
         </button>
       )}
       <button
