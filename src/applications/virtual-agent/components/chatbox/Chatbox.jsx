@@ -35,9 +35,19 @@ function useWebChat(props) {
 //   return true;
 // }
 
+function showBot(loggedIn, accepted, minute, props) {
+  if (!loggedIn) {
+    return <ConnectedSignInAlert />;
+  } else if (!accepted) {
+    return <ChatboxDisclaimer />;
+  } else {
+    return <App timeout={props.timeout || minute} />;
+  }
+}
+
 export default function Chatbox(props) {
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
-  const isAccepted = useSelector(state => state.user.disclaimer.isAccepted);
+  const isAccepted = useSelector(state => state.virtualAgentData.termsAccepted);
 
   const ONE_MINUTE = 60 * 1000;
   return (
@@ -47,17 +57,7 @@ export default function Chatbox(props) {
           VA Virtual Agent (beta)
         </h2>
       </div>
-      {() => {
-        let component = null;
-        if (!isLoggedIn) {
-          component = <ConnectedSignInAlert />;
-        } else if (!isAccepted) {
-          component = <ChatboxDisclaimer isApproved={isAccepted} />;
-        } else {
-          component = <App timeout={props.timeout || ONE_MINUTE} />;
-        }
-        return component;
-      }}
+      {showBot(isLoggedIn, isAccepted, ONE_MINUTE, props)}
     </div>
   );
 }

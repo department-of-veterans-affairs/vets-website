@@ -21,7 +21,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
         GreetUser.makeBotGreetUser(
           csrfToken,
           apiSession,
-          environment.API_URL,
+          'https://9867-73-211-82-246.ngrok.io',
           environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
         ),
