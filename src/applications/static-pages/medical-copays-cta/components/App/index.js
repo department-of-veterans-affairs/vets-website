@@ -15,8 +15,8 @@ export const App = ({ loggedIn, show, toggleLoginModal }) => {
       {/* Title */}
       <h2 slot="headline" className="vads-u-font-size--h3">
         {loggedIn
-          ? 'View your VA copay balances'
-          : 'Please sign in to view your VA copay balances'}
+          ? 'Review your VA copay balances'
+          : 'Please sign in to review your VA copay balances'}
       </h2>
 
       {/* Explanation */}
@@ -31,7 +31,7 @@ export const App = ({ loggedIn, show, toggleLoginModal }) => {
         </p>
       )}
       <ul>
-        <li>View your balances for each of your medical facilities</li>
+        <li>Review your balances for each of your medical facilities</li>
         <li>Download your copay statements</li>
         <li>Find the right repayment option for you</li>
       </ul>
@@ -42,7 +42,7 @@ export const App = ({ loggedIn, show, toggleLoginModal }) => {
           className="vads-c-action-link--blue vads-u-margin-top--2"
           href="/health-care/pay-copay-bill/your-current-balances/"
         >
-          View your current copay balances
+          Review your current copay balances
         </a>
       ) : (
         <button
