@@ -154,7 +154,7 @@ describe('check-in', () => {
     describe('makeSelectSeeStaffMessage', () => {
       it('returns see staff message', () => {
         const selectSeeStaffMessage = makeSelectSeeStaffMessage();
-        expect(selectSeeStaffMessage().resultFunc(state)).to.eql({
+        expect(selectSeeStaffMessage(state)).to.eql({
           message: 'Test message',
         });
       });
