@@ -55,8 +55,10 @@ jobs:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Build
-        run: yarn build --verbose --buildtype=${{ matrix.buildtype }} ${${{ steps.get-changed-apps.outputs.app_entries }}:+"--entry" "${{ steps.get-changed-apps.outputs.app_entries }}"}
+        run: yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry" "$ENTRY"}
         timeout-minutes: 30
+        env:
+          ENTRY: ${{ steps.get-changed-apps.outputs.app_entries }}
 
       - name: Generate build details
         run: |
