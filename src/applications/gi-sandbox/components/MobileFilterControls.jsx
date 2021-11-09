@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import TuitionAndHousingEstimates from '../containers/TuitionAndHousingEstimates';
 import FilterYourResults from '../containers/FilterYourResults';
+import recordEvent from 'platform/monitoring/record-event';
 
 export default function MobileFilterControls({ className }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -10,12 +11,18 @@ export default function MobileFilterControls({ className }) {
   const filterClick = () => {
     if (!filtersOpen) {
       document.body.classList.add('modal-open');
+      recordEvent({
+        event: 'int-accordion-expand',
+      });
     }
     setFiltersOpen(!filtersOpen);
   };
 
   const tuitionAndHousingEstimatesClick = () => {
     if (!tuitionAndHousingOpen) {
+      recordEvent({
+        event: 'int-accordion-expand',
+      });
       document.body.classList.add('modal-open');
     }
     setTuitionAndHousingOpen(!tuitionAndHousingOpen);
