@@ -409,7 +409,7 @@ export class SearchMenu extends React.Component {
           ID="search-header-dropdown"
           componentClassNames=""
           containerClassNames=""
-          buttonClassNames=""
+          buttonClassNames="vads-u-margin-left--1"
           inputClassNames=""
           suggestionsListClassNames=""
           suggestionClassNames=""
