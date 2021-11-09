@@ -10,6 +10,9 @@ export const SubMenu = ({ subMenu, updateSubMenu }) => {
   useEffect(() => {
     // Scroll to the top when the sub menu is opened.
     window.scrollTo(0, 0);
+
+    // Focus back to menu button.
+    document.getElementById('header-back-to-menu')?.focus?.();
   }, []);
 
   const onBack = () => {

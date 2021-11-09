@@ -1,5 +1,5 @@
 // Node modules.
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
@@ -12,6 +12,22 @@ export const MenuItemLevel1 = ({
   item,
   updateExpandedMenuID,
 }) => {
+  // Derive the menu item's ID.
+  const menuItemID = deriveMenuItemID(item, '1');
+
+  // Derive if we the menu item is expanded.
+  const isExpanded = menuItemID === expandedMenuID;
+
+  // Focus item if expanded when coming from SubMenu.
+  useEffect(
+    () => {
+      if (isExpanded) {
+        document.getElementById(menuItemID)?.focus?.();
+      }
+    },
+    [isExpanded, menuItemID],
+  );
+
   // Do not render if we are missing necessary menu item data.
   if (!item?.menuSections && !item?.href && !item?.title) {
     return null;
@@ -21,12 +37,6 @@ export const MenuItemLevel1 = ({
   if (item?.menuSections) {
     item.menuSections = formatMenuItems(item.menuSections); // eslint-disable-line no-param-reassign
   }
-
-  // Derive the menu item's ID.
-  const menuItemID = deriveMenuItemID(item, '1');
-
-  // Derive if we the menu item is expanded.
-  const isExpanded = menuItemID === expandedMenuID;
 
   const toggleShowItems = () => {
     // Update the expanded menu ID.
