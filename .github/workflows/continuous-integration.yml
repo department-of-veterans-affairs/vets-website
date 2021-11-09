@@ -391,7 +391,7 @@ jobs:
     runs-on: self-hosted
     needs: [build, cypress-tests-prep]
     if: |
-      needs.build.result = 'success' &&
+      needs.build.result == 'success' &&
       needs.cypress-tests-prep.result == 'success' &&
       needs.cypress-tests-prep.outputs.tests != '[]'
     container:
