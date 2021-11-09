@@ -336,8 +336,6 @@ jobs:
     name: Prep for Cypress Tests
     runs-on: ubuntu-latest
     outputs:
-      num_containers: ${{ steps.containers.outputs.num }}
-      ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       tests: ${{ steps.tests.outputs.selected }}
       is_master_build: ${{ env.IS_MASTER_BUILD }}
 
@@ -368,19 +366,11 @@ jobs:
         id: changed-files
         run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
 
-      - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
+      - name: Set TESTS variables
         run: node script/github-actions/select-cypress-tests.js
         env:
           IS_MASTER_BUILD: ${{ env.IS_MASTER_BUILD }}
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
-
-      - name: Set output of NUM_CONTAINERS
-        id: containers
-        run: echo ::set-output name=num::$NUM_CONTAINERS
-
-      - name: Set output of CI_NODE_INDEX
-        id: matrix
-        run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
 
       - name: Set output of TESTS
         id: tests
