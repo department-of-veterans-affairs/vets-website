@@ -25,8 +25,15 @@ const HealthCareEntry = ({
           'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
         });
       }
+
+      if (hcaAmericanIndianEnabled !== undefined) {
+        setFormData({
+          ...formData,
+          'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
+        });
+      }
     },
-    [caregiverSIGIEnabled],
+    [caregiverSIGIEnabled, hcaAmericanIndianEnabled],
   );
 
   useEffect(
