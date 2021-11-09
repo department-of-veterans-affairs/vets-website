@@ -15,7 +15,7 @@ import {
   updateSortByPropertyNameThunk,
   updatePaginationAction,
 } from '../actions';
-import { setCookie } from '../helpers';
+import { getCookie, setCookie } from '../helpers';
 import { showPDFModal, getFindFormsAppState } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
@@ -62,6 +62,8 @@ export const SearchResults = ({
     isOpen: false,
     pdfSelected: '',
     pdfUrl: '',
+    pdfLabel: '',
+    cookieExistence: false,
   });
   useEffect(() => {
     const justRefreshed = prevProps?.fetching && !fetching;
@@ -69,6 +71,12 @@ export const SearchResults = ({
       focusElement('[data-forms-focus]');
     }
   });
+  useEffect(() => {
+    const doesCookieExist = getCookie();
+    if (doesCookieExist) {
+      setModalState({ ...modalState, cookieExistence: doesCookieExist });
+    }
+  }, []);
 
   const onPageSelect = p => {
     // Derive the new start index.
@@ -103,10 +111,39 @@ export const SearchResults = ({
     }
   };
 
-  const toggleModalState = async (pdfSelected, pdfUrl, closingModal) => {
+  const toggleModalState = async (
+    pdfSelected,
+    pdfUrl,
+    pdfLabel,
+    closingModal,
+  ) => {
     const doesCookieExist = await setCookie();
-    if (!doesCookieExist || closingModal)
-      setModalState({ isOpen: !modalState.isOpen, pdfSelected, pdfUrl });
+    if (!doesCookieExist || closingModal) {
+      if (!doesCookieExist)
+        setModalState({
+          isOpen: !modalState.isOpen,
+          pdfSelected,
+          pdfUrl,
+          pdfLabel,
+        });
+      if (closingModal) {
+        /**
+         * This is set here due to a race condition where:
+         * 1. the state would be updated to the cookie would exist which would fire the href download
+         * 2. we open the modal because the cookie did not exist at the time of the browser click event
+         */
+        setModalState({
+          ...modalState,
+          isOpen: !modalState.isOpen,
+          cookieExistence: true,
+        });
+        recordEvent({
+          event: 'int-modal-click',
+          'modal-status': 'closed',
+          'modal-title': 'Download this PDF and open it in Acrobat Reader',
+        });
+      }
+    }
   };
 
   // Show loading indicator if we are fetching.
@@ -186,7 +223,7 @@ export const SearchResults = ({
     .slice(startIndex, lastIndex)
     .map((form, index) => (
       <SearchResult
-        currentPosition={index + 1}
+        doesCookieExist={modalState.cookieExistence}
         key={form.id}
         form={form}
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
@@ -196,7 +233,7 @@ export const SearchResults = ({
     ));
 
   // modal state variables
-  const { isOpen, pdfSelected, pdfUrl } = modalState;
+  const { isOpen, pdfSelected, pdfUrl, pdfLabel } = modalState;
 
   return (
     <>
@@ -239,8 +276,8 @@ export const SearchResults = ({
         }}
       >
         <Modal
-          onClose={() => toggleModalState(null, null, true)}
-          title="Download his PDF and open it in Acrobat Reader"
+          onClose={() => toggleModalState(pdfSelected, pdfUrl, pdfLabel, true)}
+          title="Download this PDF and open it in Acrobat Reader"
           visible={isOpen}
         >
           <>
@@ -259,7 +296,15 @@ export const SearchResults = ({
             <a
               href={pdfUrl}
               className="usa-button vads-u-margin-top--2"
+              rel="noreferrer noopener"
               role="button"
+              onClick={() => {
+                recordEvent(
+                  `Download VA form ${pdfSelected} ${pdfLabel}`,
+                  pdfUrl,
+                  'pdf',
+                );
+              }}
             >
               Download VA Form {pdfSelected}
             </a>

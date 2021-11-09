@@ -122,6 +122,7 @@ const deriveRelatedTo = ({
 };
 
 const SearchResult = ({
+  doesCookieExist,
   form,
   formMetaInfo,
   showPDFInfoVersionOne,
@@ -206,10 +207,23 @@ const SearchResult = ({
         <a
           className="find-forms-max-content vads-u-text-decoration--none"
           rel="noreferrer noopener"
-          href={showPDFInfoVersionOne ? null : url}
+          href={showPDFInfoVersionOne && !doesCookieExist ? null : url}
           onClick={() => {
-            recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf');
-            if (showPDFInfoVersionOne) toggleModalState(id, url);
+            if (showPDFInfoVersionOne) {
+              if (!doesCookieExist) {
+                recordEvent({
+                  event: 'int-modal-click',
+                  'modal-status': 'opened',
+                  'modal-title':
+                    'Download this PDF and open it in Acrobat Reader',
+                });
+                toggleModalState(id, url, pdfLabel);
+              } else {
+                recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf');
+              }
+            } else {
+              recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf');
+            }
           }}
           {...linkProps}
         >
@@ -229,6 +243,7 @@ const SearchResult = ({
 };
 
 SearchResult.propTypes = {
+  doesCookieExist: PropTypes.bool,
   form: customPropTypes.Form.isRequired,
   formMetaInfo: customPropTypes.FormMetaInfo,
   showPDFInfoVersionOne: PropTypes.bool,
