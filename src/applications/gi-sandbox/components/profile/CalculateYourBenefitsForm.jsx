@@ -25,7 +25,6 @@ import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
 import LearnMoreLabel from '../LearnMoreLabel';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import environment from 'platform/utilities/environment';
 
 function CalculateYourBenefitsForm({
   calculatorInputChange,
@@ -125,9 +124,6 @@ function CalculateYourBenefitsForm({
           'gibct-form-value': 'other location',
         });
       }
-    }
-    if (environment.isProduction()) {
-      return;
     }
     if (
       field === 'buyUp' ||
