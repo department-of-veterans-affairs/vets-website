@@ -409,8 +409,7 @@ jobs:
 
     steps:
       - name: Test
-        run: |
-          curl ${{ fromJson(needs.cypress-tests-prep.outputs.selected) }}
+        run: curl ${{ needs.cypress-tests-prep.outputs.selected }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
