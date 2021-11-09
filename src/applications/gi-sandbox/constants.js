@@ -1,4 +1,4 @@
-export const PAGE_TITLE = 'GI Bill® CT Redesign Sandbox';
+export const PAGE_TITLE = 'GI Bill® Comparison Tool | Veterans Affairs';
 
 export const NAV_WIDTH = 951;
 
