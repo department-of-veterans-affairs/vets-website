@@ -209,6 +209,7 @@ const SearchResult = ({
           rel="noreferrer noopener"
           href={showPDFInfoVersionOne && !doesCookieExist ? null : url}
           onClick={() => {
+            // TODO: CLEAN THIS UP. IT IS SO MESSY (MOVE TO FUNCTION)
             if (showPDFInfoVersionOne) {
               if (!doesCookieExist) {
                 recordEvent({

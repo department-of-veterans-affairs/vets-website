@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
+// Relative imports
+import recordEvent from 'platform/monitoring/record-event';
+
 // DownloadPDFModal is state wrapper + modal for PDF guidance upon PDf being valid
 const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
   const [modalState, setModalState] = useState({
@@ -24,7 +27,14 @@ const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
       }}
     >
       <Modal
-        onClose={() => toggleModalState(removeNode)}
+        onClose={() => {
+          toggleModalState(removeNode);
+          recordEvent({
+            event: 'int-modal-click',
+            'modal-status': 'closed',
+            'modal-title': 'Download this PDF and open it in Acrobat Reader',
+          });
+        }}
         title="Download this PDF and open it in Acrobat Reader"
         visible={isOpen}
       >
@@ -45,6 +55,16 @@ const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
             href={pdfUrl}
             className="usa-button vads-u-margin-top--2"
             role="button"
+            rel="noreferrer noopener"
+            onClick={() => {
+              recordEvent({
+                event: 'int-modal-click',
+                'modal-status': 'open',
+                'modal-title':
+                  'Download this PDF and open it in Acrobat Reader',
+                'modal-primaryButton-text': `Download VA Form ${pdfSelected}`,
+              });
+            }}
           >
             Download VA Form {pdfSelected}
           </a>
