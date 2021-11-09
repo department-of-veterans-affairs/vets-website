@@ -11,6 +11,7 @@ import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export default function ClientError(props) {
   const { buttonText, formConfig, onBack, onSubmit, testId } = props;
+  const ariaDescribedBy = formConfig.ariaDescribedBy.submitSection;
   const Element = Scroll.Element;
   const scrollToError = () => {
     scrollTo('errorScrollElement', getScrollOptions());
@@ -40,6 +41,7 @@ export default function ClientError(props) {
         </Column>
         <Column classNames="small-6 medium-5">
           <ProgressButton
+            ariaDescribedBy={ariaDescribedBy}
             onButtonClick={onSubmit}
             buttonText={buttonText}
             buttonClass="usa-button-primary"

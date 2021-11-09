@@ -32,8 +32,8 @@ class ProgressButton extends React.Component {
     );
 
     return (
-      // aria-describedby tag invoked explicitly to match
-      // "By submitting this form" text for proper screen reader operation
+      // aria-describedby tag to match "By submitting this form"
+      // text for proper screen reader operation
       <button
         type={this.props.submitButton ? 'submit' : 'button'}
         disabled={this.props.disabled}
@@ -44,10 +44,7 @@ class ProgressButton extends React.Component {
         onClick={this.props.onButtonClick}
         aria-label={this.props.ariaLabel || null}
         aria-describedby={
-          this.props.buttonText === 'Submit application' &&
-          !environment.isProduction()
-            ? 'submit-application'
-            : null
+          !environment.isProduction() && this.props.ariaDescribedBy
         }
       >
         {beforeText}

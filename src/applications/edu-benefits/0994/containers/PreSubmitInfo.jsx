@@ -1,6 +1,7 @@
 import React from 'react';
 import PreSubmitInfo from '../../containers/PreSubmitInfo';
 import environment from 'platform/utilities/environment';
+import formConfig from '../config/form';
 
 function PreSubmitNotice({
   formData,
@@ -11,7 +12,9 @@ function PreSubmitNotice({
   const activeDutyNote = (
     <div
       className="vads-u-margin-bottom--3"
-      id={!environment.isProduction() && 'submit-application'}
+      id={
+        !environment.isProduction() && formConfig.ariaDescribedBy.submitSection
+      }
     >
       {formData.activeDuty ? (
         <div>

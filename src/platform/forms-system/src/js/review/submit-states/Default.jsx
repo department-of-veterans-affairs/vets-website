@@ -7,6 +7,7 @@ import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection'
 
 export default function Default(props) {
   const { buttonText, formConfig, onBack, onSubmit } = props;
+  const ariaDescribedBy = formConfig.ariaDescribedBy.submitSection;
   return (
     <>
       <PreSubmitSection formConfig={formConfig} />
@@ -16,6 +17,7 @@ export default function Default(props) {
         </Column>
         <Column classNames={`vads-u-flex--1`}>
           <ProgressButton
+            ariaDescribedBy={ariaDescribedBy}
             onButtonClick={onSubmit}
             buttonText={buttonText}
             buttonClass="usa-button-primary"

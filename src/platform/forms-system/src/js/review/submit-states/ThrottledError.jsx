@@ -11,6 +11,7 @@ import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection'
 
 export default function ThrottledError(props) {
   const { buttonText, when, formConfig, onBack, onSubmit, testId } = props;
+  const ariaDescribedBy = formConfig.ariaDescribedBy.submitSection;
 
   return (
     <>
@@ -33,6 +34,7 @@ export default function ThrottledError(props) {
         </Column>
         <Column classNames="small-6 medium-5">
           <ProgressButton
+            ariaDescribedBy={ariaDescribedBy}
             onButtonClick={onSubmit}
             buttonText={buttonText}
             buttonClass="usa-button-primary"

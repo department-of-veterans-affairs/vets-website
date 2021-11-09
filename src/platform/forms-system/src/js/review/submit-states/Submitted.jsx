@@ -7,6 +7,7 @@ import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection'
 
 export default function Submitted(props) {
   const { formConfig, onBack, onSubmit } = props;
+  const ariaDescribedBy = formConfig.ariaDescribedBy.submitSection;
 
   return (
     <>
@@ -17,6 +18,7 @@ export default function Submitted(props) {
         </Column>
         <Column classNames="small-6 medium-5">
           <ProgressButton
+            ariaDescribedBy={ariaDescribedBy}
             onButtonClick={onSubmit}
             buttonText="Submitted"
             disabled

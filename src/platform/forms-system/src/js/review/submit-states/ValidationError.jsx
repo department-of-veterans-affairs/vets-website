@@ -10,6 +10,7 @@ import ErrorLinks from './ErrorLinks';
 
 function ValidationError(props) {
   const { appType, buttonText, formConfig, onBack, onSubmit, testId } = props;
+  const ariaDescribedBy = formConfig.ariaDescribedBy.submitSection;
 
   const alert = formConfig.showReviewErrors ? (
     <ErrorLinks appType={appType} testId={testId} />
@@ -39,6 +40,7 @@ function ValidationError(props) {
         </Column>
         <Column classNames="small-6 medium-5">
           <ProgressButton
+            ariaDescribedBy={ariaDescribedBy}
             onButtonClick={onSubmit}
             buttonText={buttonText}
             buttonClass="usa-button-primary"
