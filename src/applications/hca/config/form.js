@@ -24,6 +24,7 @@ import { createDependentSchema } from '../definitions/dependent';
 
 // chapter 1 Veteran Information
 import birthInformation from './chapters/veteranInformation/birthInformation';
+import americanIndian from './chapters/veteranInformation/americanIndian';
 import birthSex from './chapters/veteranInformation/birthSex';
 import veteranInformation from './chapters/veteranInformation/personalnformation';
 import demographicInformation from './chapters/veteranInformation/demographicInformation';
@@ -172,6 +173,14 @@ const formConfig = {
           },
           uiSchema: demographicInformation.uiSchema,
           schema: demographicInformation.schema,
+        },
+        americanIndian: {
+          path: 'veteran-information/american-indian',
+          title: 'Veteran information',
+          initialData: {},
+          depends: formData => formData['view:hcaAmericanIndianEnabled'],
+          uiSchema: americanIndian.uiSchema,
+          schema: americanIndian.schema,
         },
         veteranAddress: {
           path: 'veteran-information/veteran-address',
