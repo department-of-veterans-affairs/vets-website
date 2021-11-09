@@ -51,7 +51,10 @@ export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu, subMenu }) => {
 
       {/* Menu items */}
       {showMegaMenu && (
-        <ul className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">
+        <ul
+          id="header-nav-items"
+          className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0"
+        >
           {megaMenuData?.map(item => {
             const menuItemID = deriveMenuItemID(item, '1');
             return <MenuItemLevel1 key={menuItemID} item={item} />;
