@@ -38,6 +38,9 @@ export default class EducationWizard extends React.Component {
       case '10203':
         url = `/education/other-va-education-benefits/stem-scholarship/apply-for-scholarship-form-22-10203`;
         break;
+      case '22-1990':
+        url = `/education/apply-for-benefits-form-22-1990`;
+        break;
       default:
         url = `/education/apply-for-education-benefits/application/${form}`;
         break;
@@ -137,6 +140,7 @@ export default class EducationWizard extends React.Component {
       sponsorTransferredBenefits,
       vetTecBenefit,
       applyForScholarship,
+      post911GIBill,
     } = this.state;
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
       'va-button-primary': !this.state.open,
@@ -331,6 +335,25 @@ export default class EducationWizard extends React.Component {
                 </div>
               )}
             {newBenefit === 'yes' &&
+              serviceBenefitBasedOn === 'own' &&
+              nationalCallToService === 'no' &&
+              vetTecBenefit === 'no' && (
+                <RadioButtons
+                  additionalFieldsetClass="wizard-fieldset"
+                  name="post911GIBill"
+                  id="post911GIBill"
+                  options={[
+                    { label: 'Yes', value: 'yes' },
+                    { label: 'No', value: 'no' },
+                  ]}
+                  onValueChange={({ value }) =>
+                    this.answerQuestion('post911GIBill', value)
+                  }
+                  value={{ value: post911GIBill }}
+                  label="Are you applying for the post- 9/11 GI Bill?"
+                />
+              )}
+            {newBenefit === 'yes' &&
               nationalCallToService === 'yes' && (
                 <div>
                   <div className="usa-alert usa-alert-warning">
@@ -465,8 +488,15 @@ export default class EducationWizard extends React.Component {
               </div>
             )}
             {newBenefit === 'yes' &&
+              serviceBenefitBasedOn === 'own' &&
               nationalCallToService === 'no' &&
               vetTecBenefit === 'no' &&
+              post911GIBill === 'yes' &&
+              this.getButton('22-1990')}
+            {newBenefit === 'yes' &&
+              nationalCallToService === 'no' &&
+              vetTecBenefit === 'no' &&
+              post911GIBill === 'no' &&
               this.getButton('1990')}
             {newBenefit === 'yes' &&
               nationalCallToService === 'no' &&
