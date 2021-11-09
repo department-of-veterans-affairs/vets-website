@@ -389,7 +389,7 @@ jobs:
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: self-hosted
-    needs: [build, cypress-tests-prep]
+    needs: [cypress-tests-prep]
     if: |
       needs.build.result == 'success' &&
       needs.cypress-tests-prep.result == 'success'
