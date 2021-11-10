@@ -1,6 +1,7 @@
 name: Daily Production Deploy
 
 on:
+  push:
   workflow_dispatch:
     inputs:
       release_wait:
@@ -56,6 +57,9 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.commit_sha != '' }}
         run: echo 'COMMIT_SHA=${{ github.event.inputs.commit_sha }}' >> $GITHUB_ENV
 
+      - run: echo 'COMMIT_SHA=d669b8048d12f2e6743f355bc7fb6dfdaa2b8067' >> $GITHUB_ENV
+      - run: echo 'RELEASE_WAIT=0' >> $GITHUB_ENV
+
   validate-build-status:
     name: Validate Build Status
     runs-on: ubuntu-latest
@@ -86,14 +90,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Notify Slack
-        uses: ./.github/workflows/slack-notify
-        continue-on-error: true
-        with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "Stand by, production deploy for vets-website coming up in ${{ needs.set-env.outputs.RELEASE_WAIT }} minutes. View what coming here: <https://github.com/${{ github.repository }}/compare/vets-website/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}>"}]'
-          channel_id: ${{ env.CHANNEL_ID }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # - name: Notify Slack
+      #   uses: ./.github/workflows/slack-notify
+      #   continue-on-error: true
+      #   with:
+      #     attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "Stand by, production deploy for vets-website coming up in ${{ needs.set-env.outputs.RELEASE_WAIT }} minutes. View what coming here: <https://github.com/${{ github.repository }}/compare/vets-website/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}>"}]'
+      #     channel_id: ${{ env.CHANNEL_ID }}
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   create-release:
     name: Create Release
@@ -183,12 +187,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Notify Slack
-        if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
-        uses: ./.github/workflows/slack-notify
-        continue-on-error: true
-        with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> Production deploy for vets-website has failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
-          channel_id: ${{ env.CHANNEL_ID }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # - name: Notify Slack
+      #   if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
+      #   uses: ./.github/workflows/slack-notify
+      #   continue-on-error: true
+      #   with:
+      #     attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> Production deploy for vets-website has failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
+      #     channel_id: ${{ env.CHANNEL_ID }}
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
