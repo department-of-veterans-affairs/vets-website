@@ -1,10 +1,9 @@
 import { createSelector } from 'reselect';
 
-import { preCheckInExperienceEnabled, loadingFeatureFlags } from './selectors';
+import { loadingFeatureFlags } from './selectors';
 
 const selectFeatureToggles = createSelector(
   state => ({
-    isPreCheckInEnabled: preCheckInExperienceEnabled(state),
     isLoadingFeatureFlags: loadingFeatureFlags(state),
   }),
   toggles => toggles,
