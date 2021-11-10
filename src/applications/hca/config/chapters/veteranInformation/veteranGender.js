@@ -3,6 +3,7 @@ import React from 'react';
 
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import CustomReviewField from '../../../components/CustomReviewField';
 
 const { sigiGenders } = fullSchemaHca.properties;
 
@@ -43,6 +44,7 @@ export default {
     'ui:description': SIGIGenderDescription,
     sigiGenders: {
       'ui:title': ' ',
+      'ui:reviewField': CustomReviewField,
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
