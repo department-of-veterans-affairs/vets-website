@@ -354,13 +354,13 @@ class SearchApp extends React.Component {
             <SearchDropdownComponent
               buttonText="Search"
               canSubmit
-              ID="search-results-page-dropdown"
-              componentClassNames=""
-              containerClassNames=""
-              buttonClassNames=""
-              inputClassNames=""
-              suggestionsListClassNames=""
-              suggestionClassNames=""
+              id="search-results-page-dropdown"
+              componentClassName=""
+              containerClassName=""
+              buttonClassName=""
+              inputClassName=""
+              suggestionsListClassName=""
+              suggestionClassName=""
               formatSuggestions
               fullWidthSuggestions={false}
               mobileResponsive
