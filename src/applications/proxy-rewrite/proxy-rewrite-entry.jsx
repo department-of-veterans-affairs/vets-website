@@ -1,27 +1,23 @@
+// Node modules.
 import 'platform/polyfills';
 import cookie from 'cookie';
-
+// Relative imports.
+import addFocusBehaviorToCrisisLineModal from 'platform/site-wide/accessible-VCL-modal';
 import buckets from 'site/constants/buckets';
 import bucketsContent from 'site/constants/buckets-content';
-import environments from 'site/constants/environments';
-
 import createCommonStore from 'platform/startup/store';
 import environment from 'platform/utilities/environment';
-
-import headerPartial from './partials/header';
+import environments from 'site/constants/environments';
 import footerPartial from './partials/footer';
-
-import startUserNavWidget from 'platform/site-wide/user-nav';
+import headerPartial from './partials/header';
+import redirectIfNecessary from './redirects';
+import startHeader from 'platform/site-wide/header';
 import startMegaMenuWidget from 'platform/site-wide/mega-menu';
 import startMobileMenuButton from 'platform/site-wide/mobile-menu-button';
-
-// import startLRNHealthCarWidget from 'platform/site-wide/left-rail-navs/health-care';
-// import startAnnouncementWidget from 'platform/site-wide/announcements';
+import startUserNavWidget from 'platform/site-wide/user-nav';
 import startVAFooter, { footerElemementId } from 'platform/site-wide/va-footer';
-import redirectIfNecessary from './redirects';
-import addFocusBehaviorToCrisisLineModal from 'platform/site-wide/accessible-VCL-modal';
 import { addOverlayTriggers } from 'platform/site-wide/legacy/menu';
-import { proxyRewriteWhitelist } from './proxy-rewrite-whitelist.json';
+import proxyWhitelist from './proxy-rewrite-whitelist.json';
 
 function createMutationObserverCallback() {
   // Find native header, footer, etc based on page path
@@ -78,9 +74,6 @@ function renderFooter(data, commonStore) {
   startVAFooter(
     data,
     () => {
-      addOverlayTriggers();
-      addFocusBehaviorToCrisisLineModal();
-
       if (lastUpdated) {
         const lastUpdatedPanel = document.createElement('div');
         const lastUpdatedDate = lastUpdated.replace('Last updated ', '');
@@ -120,12 +113,18 @@ function mountReactComponents(headerFooterData, commonStore) {
   document.documentElement.style.fontSize = '10px';
   document.getElementsByTagName('body')[0].style.fontSize = '12px';
 
+  // Start site-wide widgets.
   startUserNavWidget(commonStore);
   startMegaMenuWidget(headerFooterData.megaMenuData, commonStore);
   startMobileMenuButton(commonStore);
-  // startLRNHealthCarWidget(commonStore);
-  // startAnnouncementWidget(commonStore);
   renderFooter(headerFooterData.footerData, commonStore);
+  startHeader(commonStore, headerFooterData.megaMenuData);
+
+  // Start Veteran Crisis Line modal functionality.
+  document.addEventListener('DOMContentLoaded', () => {
+    addFocusBehaviorToCrisisLineModal();
+    addOverlayTriggers();
+  });
 }
 
 function getContentHostName() {
@@ -184,7 +183,9 @@ function getProxyRewriteCookieValue(
   return parseCookie(cookies).proxyRewrite;
 }
 
-function getMatchedWhitelistItem(whitelist = proxyRewriteWhitelist) {
+function getMatchedWhitelistItem(
+  whitelist = proxyWhitelist.proxyRewriteWhitelist,
+) {
   const { hostname, pathname } = window.location;
 
   return whitelist.find(

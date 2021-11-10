@@ -1,13 +1,15 @@
 import React from 'react';
 import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
+import { validateCurrentOrPastDate } from 'platform/forms-system/src/js/validation';
 
 export const uiSchema = {
   'ui:title': 'Your bankruptcy details',
   additionalData: {
     bankruptcy: {
-      dateDischarged: monthYearUI(
-        'Date a court granted you a bankruptcy discharge',
-      ),
+      dateDischarged: {
+        ...monthYearUI('Date a court granted you a bankruptcy discharge'),
+        'ui:validations': [validateCurrentOrPastDate],
+      },
       courtLocation: {
         'ui:title': 'Location of court (city, state)',
         'ui:options': {

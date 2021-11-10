@@ -3,13 +3,11 @@ import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoginGovSVG from 'applications/login/components/LoginGov';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
+import { loginGov } from 'platform/user/authentication/selectors';
 import { verify } from 'platform/user/authentication/utilities';
 import { hasSession } from 'platform/user/profile/utilities';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
@@ -55,9 +53,37 @@ export class VerifyApp extends React.Component {
     }
   }
 
+  renderVerifyButton() {
+    const { loginGovEnabled } = this.props;
+    const renderOpts = {
+      copy: loginGovEnabled ? 'Login.gov' : 'ID.me',
+      renderImage: loginGovEnabled ? (
+        <LoginGovSVG />
+      ) : (
+        <img
+          role="presentation"
+          aria-hidden="true"
+          alt="ID.me"
+          src="/img/signin/idme-icon-white.svg"
+        />
+      ),
+      className: `usa-button ${
+        loginGovEnabled ? 'logingov-button' : 'idme-button'
+      }`,
+    };
+
+    return (
+      <button className={renderOpts.className} onClick={() => verify()}>
+        <strong>
+          Verify with <span className="sr-only">{renderOpts.copy}</span>
+        </strong>
+        {renderOpts.renderImage}
+      </button>
+    );
+  }
+
   render() {
     const { profile } = this.props;
-    const authVersion = this.props.authenticatedWithSSOe ? 'v1' : 'v0';
 
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
@@ -90,13 +116,7 @@ export class VerifyApp extends React.Component {
                   This one-time process will take{' '}
                   <strong>5 - 10 minutes</strong> to complete.
                 </p>
-                <button
-                  className="usa-button-primary va-button-primary"
-                  onClick={() => verify(authVersion)}
-                >
-                  <img alt="" src="/img/signin/idme-icon-white.svg" />
-                  <strong> Verify with ID.me</strong>
-                </button>
+                {this.renderVerifyButton()}
               </div>
             </div>
           </div>
@@ -110,13 +130,7 @@ export class VerifyApp extends React.Component {
                   </a>
                 </p>
                 <p>
-                  <SubmitSignInForm startSentence>
-                    Call the VA.gov Help Desk at{' '}
-                    <a href="tel:1-855-574-7286">855-574-7286</a>, TTY:{' '}
-                    <Telephone contact={CONTACTS.HELP_TTY} />
-                    <br />
-                    Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET
-                  </SubmitSignInForm>
+                  <SubmitSignInForm startSentence />
                 </p>
               </div>
             </div>
@@ -132,7 +146,7 @@ const mapStateToProps = state => {
   return {
     login: userState.login,
     profile: userState.profile,
-    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
+    loginGovEnabled: loginGov(state),
   };
 };
 

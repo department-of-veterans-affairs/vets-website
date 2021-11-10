@@ -74,3 +74,22 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
 
   return indexRemainsInPlace;
 };
+
+/**
+ * This function sets a cookie if it does not exist.
+ * @returns {boolean} value if it does exist.
+ */
+export const setCookie = async () => {
+  if (
+    document.cookie
+      .split(';')
+      .some(cookie => cookie.trim().startsWith('findForms='))
+  ) {
+    return true;
+  } else {
+    const expireDate = new Date(Date.now() + 86400000); // 24hr cookie
+    const utcDateString = expireDate.toUTCString();
+    document.cookie = `findForms=pdfModal; expires=${utcDateString}; SameSite=None;`;
+    return false;
+  }
+};

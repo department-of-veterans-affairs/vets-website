@@ -38,21 +38,12 @@ span.sidelines {
     // Overwrite white header color.
     color: $color-gray-dark;
     padding-top: 0;
+    margin-right: 0;
   }
 
   .va-modal-inner {
     max-width: 62.5em;
     width: 95vw;
-  }
-}
-
-#login-root {
-  .sitewide-search-drop-down-panel-button,
-  .sign-in-drop-down-panel-button {
-    border-top: none;
-    margin-right: 0;
-    padding: 8px 30px 8px 8px;
-    width: auto;
   }
 
   .login {
@@ -73,6 +64,16 @@ span.sidelines {
   }
 }
 
+#login-root {
+  .sitewide-search-drop-down-panel-button,
+  .sign-in-drop-down-panel-button {
+    border-top: none;
+    margin-right: 0;
+    padding: 8px 30px 8px 8px;
+    width: auto;
+  }
+}
+
 .verify,
 .login {
   button {
@@ -84,6 +85,14 @@ span.sidelines {
     font-size: 16px;
     margin: 1em 0;
     white-space: normal !important;
+
+    &.dslogon-button {
+      background: $color-primary-darker;
+
+      &:hover {
+        background: $color-primary-darkest;
+      }
+    }
 
     &.dslogon {
       background: $color-primary-darker;
@@ -104,15 +113,40 @@ span.sidelines {
       }
     }
 
-    img {
+    &.idme-button {
+      background: $color-green;
+
+      &:hover {
+        background: $color-green-darker;
+      }
+    }
+
+    &.logingov-button {
+      background: $color-secondary;
+
+      &:hover {
+        background: $color-secondary-darkest;
+      }
+    }
+
+    &.mhv-button {
+      background: $color-primary;
+
+      &:hover {
+        background: $color-primary-darker;
+      }
+    }
+
+    img,
+    svg {
       height: 1em;
       padding: 0 0.25em;
     }
   }
 
   .container {
-    padding: 2em 0;
     color: $color-base;
+    padding: 2em 0;
   }
 
   .logo {
@@ -273,51 +307,39 @@ span.sidelines {
 #help-menu {
   width: 21rem;
 }
-.search-header-dropdown-component {
-  position: relative;
 
-  .search-dropdown-container {
-    padding: 8px 0 8px 8px;
-    max-width: 75%;
+#create-account button {
+  display: block;
+  text-align: left;
+  border-radius: 0;
+  margin: 0;
+  background-color: transparent;
+  text-decoration: underline;
+  font-weight: 700;
+  padding: 1.16em 0 1.6em;
+  color: $color-link-default;
+  border-top: 1px solid $color-gray-light;
+  border-bottom: 1px solid $color-gray-light;
+
+  &:before {
+    color: $color-link-default;
+    content: "\F138";
+    display: inline-block;
+    font-family: "Font Awesome 5 Free";
+    font-size: 175%;
+    font-weight: 900;
+    height: 0;
+    padding-right: 1rem;
+    transform: translateY(5px);
+    text-decoration: none;
   }
 
-  .search-dropdown-options {
-    position: absolute;
-    top: 58px;
-    background-color: $color-white;
-    width: 100%;
-    box-shadow: 0px 1px 5px 1px rgba(155, 155, 155, 0.5);
-
-    .suggestion {
-      width: 100%;
-      margin: 0;
-      padding: 8px 12px;
-      line-height: 24px;
-
-      strong {
-        font-weight: 700;
-      }
-
-      &.highlighted {
-        background-color: $color-primary;
-        color: $color-white;
-      }
-
-      &.regular {
-        color: $color-gray-dark;
-      }
-    }
+  &:hover {
+    color: $color-black;
+    background-color: $color-gray-lightest;
   }
 
-  .search-dropdown-input-field {
-    height: 42px;
-    display: block;
-    margin: 0;
-    max-width: 46rem;
-  }
-
-  .search-dropdown-submit-button {
-    height: 42px;
-    margin: 8px 8px 8px 8px;
+  &:last-of-type {
+    border-top: none;
   }
 }

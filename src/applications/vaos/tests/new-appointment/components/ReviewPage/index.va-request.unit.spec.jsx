@@ -24,10 +24,10 @@ import {
   mockMessagesFetch,
   mockPreferences,
   mockRequestSubmit,
-  mockFacilityFetch,
 } from '../../../mocks/helpers';
 import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
 import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
+import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -342,7 +342,9 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
   });
 
   it('should show error message on failure', async () => {
-    mockFacilityFetch('vha_442', createMockCheyenneFacilityByVersion());
+    mockFacilityFetchByVersion({
+      facility: createMockCheyenneFacilityByVersion({}),
+    });
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
       {

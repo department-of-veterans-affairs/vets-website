@@ -17,7 +17,6 @@ import { getParentSiteMock } from '../../../mocks/v0';
 import {
   mockCCProviderFetch,
   mockCommunityCareEligibility,
-  mockFacilityFetch,
   mockGetCurrentPosition,
   mockParentSites,
 } from '../../../mocks/helpers';
@@ -27,6 +26,7 @@ import { calculateBoundingBox } from '../../../../utils/address';
 import { CC_PROVIDERS_DATA } from './cc_providers_data';
 import { FACILITY_SORT_METHODS } from '../../../../utils/constants';
 import { createMockFacilityByVersion } from '../../../mocks/data';
+import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -104,15 +104,15 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
       ),
       CC_PROVIDERS_DATA,
     );
-    mockFacilityFetch(
-      'vha_442',
-      createMockFacilityByVersion({
+    mockFacilityFetchByVersion({
+      facility: createMockFacilityByVersion({
         id: '442',
         lat: 38.5615,
         long: 122.9988,
         version: 0,
       }),
-    );
+      version: 0,
+    });
   });
 
   it('should display list of providers when choose a provider clicked', async () => {
@@ -442,16 +442,16 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
       CC_PROVIDERS_DATA,
     );
 
-    mockFacilityFetch(
-      'vha_442GJ',
-      createMockFacilityByVersion({
+    mockFacilityFetchByVersion({
+      facility: createMockFacilityByVersion({
         id: '442GJ',
         name: 'Facility that is enabled',
         lat: 39.1362562,
         long: -83.1804804,
         version: 0,
       }),
-    );
+      version: 0,
+    });
 
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);
@@ -525,16 +525,16 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
       CC_PROVIDERS_DATA,
     );
 
-    mockFacilityFetch(
-      'vha_442GJ',
-      createMockFacilityByVersion({
+    mockFacilityFetchByVersion({
+      facility: createMockFacilityByVersion({
         id: '442GJ',
         name: 'Facility that is enabled',
         lat: 39.1362562,
         long: -83.1804804,
         version: 0,
       }),
-    );
+      version: 0,
+    });
 
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);

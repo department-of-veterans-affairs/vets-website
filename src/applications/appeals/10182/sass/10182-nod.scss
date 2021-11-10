@@ -75,7 +75,7 @@ dl.review {
   }
 
   dd.widget-content {
-    margin-inline-start: 0; /* override user agent */
+    margin-inline-start: 5rem; /* override user agent */
     text-align: left;
     margin: 3rem 3.5rem 0 5rem;
   }
@@ -115,6 +115,12 @@ dl.review {
     .widget-content {
       margin: 2rem 0 0 2rem;
     }
+  }
+}
+
+@media screen and (min-width: 481px) {
+  .va-profile-wrapper button {
+    width: auto;
   }
 }
 

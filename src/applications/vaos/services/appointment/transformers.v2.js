@@ -180,14 +180,24 @@ export function transformVAOSAppointment(appt) {
       vistaId: appt.locationId?.substr(0, 3) || null,
       clinicId: appt.clinic,
       stationId: appt.locationId,
-      clinicName: null,
+      clinicName: appt.serviceName || null,
     },
     comment:
       isVideo && !!appt.patientInstruction
         ? getPatientInstruction(appt)
         : appt.comment || null,
     videoData,
-    communityCareProvider: null,
+    communityCareProvider:
+      isCC && !isRequest
+        ? {
+            practiceName: appt.extension?.ccLocation?.practiceName,
+            address: appt.extension?.ccLocation?.address,
+            telecom: null,
+            firstName: null,
+            lastName: null,
+            providerName: null,
+          }
+        : null,
     practitioners: appt.practitioners,
     ...requestFields,
     vaos: {

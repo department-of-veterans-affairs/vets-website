@@ -9,8 +9,7 @@ export default function SubmitSignInForm({ startSentence }) {
   return (
     <span>
       {startSentence ? 'Call' : 'call'} our MyVA411 main information line for
-      help at
-      <Telephone contact={CONTACTS.HELP_DESK} />
+      help at <Telephone contact={CONTACTS.HELP_DESK} />
       (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
       ).
     </span>

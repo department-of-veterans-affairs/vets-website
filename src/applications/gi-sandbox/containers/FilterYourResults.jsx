@@ -1,4 +1,3 @@
-import environment from 'platform/utilities/environment';
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import SearchAccordion from '../components/SearchAccordion';
@@ -20,6 +19,7 @@ import { TABS, INSTITUTION_TYPES } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import _ from 'lodash';
 import { updateUrlParams } from '../selectors/search';
+import recordEvent from 'platform/monitoring/record-event';
 
 export function FilterYourResults({
   dispatchShowModal,
@@ -54,15 +54,37 @@ export function FilterYourResults({
   const [showAllSchoolTypes, setShowAllSchoolTypes] = useState(false);
   const SEE_LESS_SIZE = 4;
 
+  const recordCheckboxEvent = e => {
+    recordEvent({
+      event: 'howToWizard-formChange',
+      'form-field-type': 'form-checkbox',
+      'form-field-label': e.target.name,
+      'form-field-value': e.target.checked,
+    });
+  };
+
   const updateInstitutionFilters = (name, value) => {
     dispatchFilterChange({ ...filters, [name]: value });
   };
-  const onChangeCheckbox = e =>
+  const onChangeCheckbox = e => {
+    recordCheckboxEvent(e);
     updateInstitutionFilters(e.target.name, e.target.checked);
+  };
 
-  const onChange = e => updateInstitutionFilters(e.target.name, e.target.value);
+  const onChange = e => {
+    recordEvent({
+      event: 'howToWizard-formChange',
+      'form-field-type': 'form-dropdown',
+      'form-field-label': e.target.name,
+      'form-field-value': e.target.value,
+    });
+    updateInstitutionFilters(e.target.name, e.target.value);
+  };
 
   const onAccordionChange = value => {
+    recordEvent({
+      event: value ? 'int-accordion-expand' : 'int-accordion-collapse',
+    });
     updateInstitutionFilters('expanded', value);
   };
 
@@ -80,6 +102,7 @@ export function FilterYourResults({
         yellowRibbonScholarship: false,
         specialMission: 'ALL',
       });
+      recordCheckboxEvent(e);
     } else {
       onChangeCheckbox(e);
     }
@@ -89,6 +112,7 @@ export function FilterYourResults({
     const name = e.target.name;
     const checked = e.target.checked;
     const newExcluded = _.cloneDeep(excludedSchoolTypes);
+    recordCheckboxEvent(e);
     updateInstitutionFilters(
       'excludedSchoolTypes',
       checked
@@ -105,6 +129,7 @@ export function FilterYourResults({
         vettec: false,
         preferredProvider: false,
       });
+      recordCheckboxEvent(e);
     } else {
       onChangeCheckbox(e);
     }
@@ -116,8 +141,9 @@ export function FilterYourResults({
       dispatchFilterChange({
         ...filters,
         vettec: true,
-        preferredProvider: true,
+        preferredProvider: false,
       });
+      recordCheckboxEvent(e);
     } else {
       onChangeCheckbox(e);
     }
@@ -205,7 +231,14 @@ export function FilterYourResults({
         optionLabel: (
           <LearnMoreLabel
             text="Has no cautionary warnings"
-            onClick={() => dispatchShowModal('cautionaryWarnings')}
+            onClick={() => {
+              recordEvent({
+                event: 'gibct-form-help-text-clicked',
+                'help-text-label':
+                  'Learn more about cautionary warnings and school closures',
+              });
+              dispatchShowModal('cautionaryWarnings');
+            }}
             ariaLabel="Learn more about VA education and training programs"
           />
         ),
@@ -216,7 +249,13 @@ export function FilterYourResults({
         optionLabel: (
           <LearnMoreLabel
             text="Is accredited"
-            onClick={() => dispatchShowModal('accredited')}
+            onClick={() => {
+              recordEvent({
+                event: 'gibct-form-help-text-clicked',
+                'help-text-label': 'Learn more about accreditation',
+              });
+              dispatchShowModal('accredited');
+            }}
             ariaLabel="Learn more about VA education and training programs"
           />
         ),
@@ -323,25 +362,14 @@ export function FilterYourResults({
             inputAriaLabelledBy={legendId}
           />
           <div className="expanding-group-children">
-            {environment.isProduction() ? (
-              <Checkbox
-                checked={preferredProvider}
-                name="preferredProvider"
-                label="Preferred providers"
-                onChange={handlePreferredProviderChange}
-                labelAriaLabel="VET TEC Preferred providers"
-                inputAriaLabelledBy={legendId}
-              />
-            ) : (
-              <Checkbox
-                checked={preferredProvider}
-                name="preferredProvider"
-                label="Preferred providers only"
-                onChange={handlePreferredProviderChange}
-                labelAriaLabel="VET TEC Preferred providers"
-                inputAriaLabelledBy={legendId}
-              />
-            )}
+            <Checkbox
+              checked={preferredProvider}
+              name="preferredProvider"
+              label="Preferred providers only"
+              onChange={handlePreferredProviderChange}
+              labelAriaLabel="VET TEC Preferred providers"
+              inputAriaLabelledBy={legendId}
+            />
           </div>
         </ExpandingGroup>
       </>

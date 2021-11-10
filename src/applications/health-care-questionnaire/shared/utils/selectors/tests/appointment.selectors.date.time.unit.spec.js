@@ -32,7 +32,7 @@ describe('health care questionnaire -- utils -- get appointment status --', () =
       });
       expect(result).to.be.null;
     });
-    it('appointment has a start date', () => {
+    it.skip('appointment has a start date', () => {
       const result = appointment.getStartTimeInTimeZone({
         start: '2021-07-31T08:00:00Z',
       });
@@ -88,7 +88,7 @@ describe('health care questionnaire -- utils -- get appointment status --', () =
         });
         expect(result).to.contain('a.m.');
       });
-      it('no meridiem', () => {
+      it.skip('no meridiem', () => {
         const result = appointment.getStartTimeInTimeZone(
           {
             start: '2021-07-31T08:00:00Z',

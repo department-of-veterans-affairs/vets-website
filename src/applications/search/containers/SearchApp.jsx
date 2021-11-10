@@ -226,7 +226,6 @@ class SearchApp extends React.Component {
       keywordPosition: undefined,
       suggestionsList: validSuggestions,
       sitewideSearch: false,
-      searchLocation: 'Search Results Page',
     });
 
     this.updateQueryInfo({
@@ -266,7 +265,6 @@ class SearchApp extends React.Component {
       keywordPosition: index + 1,
       suggestionsList: validSuggestions,
       sitewideSearch: false,
-      searchLocation: 'Search Results Page',
     });
 
     this.updateQueryInfo({
@@ -356,7 +354,13 @@ class SearchApp extends React.Component {
             <SearchDropdownComponent
               buttonText="Search"
               canSubmit
-              className="search-results-page-dropdown"
+              ID="search-results-page-dropdown"
+              componentClassNames=""
+              containerClassNames=""
+              buttonClassNames=""
+              inputClassNames=""
+              suggestionsListClassNames=""
+              suggestionClassNames=""
               formatSuggestions
               fullWidthSuggestions={false}
               mobileResponsive
