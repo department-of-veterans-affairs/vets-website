@@ -17,7 +17,7 @@ const withFeatureFlip = Component => {
           <LoadingIndicator message="Loading your pre check in experience" />
         </>
       );
-    } else if (environment.isProduction) {
+    } else if (environment.isProduction()) {
       window.location.replace('/');
       return <></>;
     } else {
