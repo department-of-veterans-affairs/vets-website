@@ -440,6 +440,7 @@ jobs:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
           TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
+          NUM_CONTAINERS: ${{ env.NUM_CYPRESS_CONTAINERS }}
 
       - name: Archive test videos
         uses: actions/upload-artifact@v2
