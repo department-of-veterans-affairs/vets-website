@@ -1,5 +1,5 @@
 // Dependencies.
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
@@ -14,10 +14,17 @@ const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
     pdfUrl: url,
   });
 
-  const toggleModalState = cb => {
+  useEffect(
+    () => {
+      if (modalState.isOpen === false) {
+        removeNode(); // removes react widget from dom
+      }
+    },
+    [modalState, removeNode],
+  );
+
+  const toggleModalState = () =>
     setModalState({ ...modalState, isOpen: !modalState.isOpen });
-    if (cb) cb();
-  };
 
   // modal state variables
   const { isOpen, pdfSelected, pdfUrl } = modalState;
@@ -30,7 +37,7 @@ const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
     >
       <Modal
         onClose={() => {
-          toggleModalState(removeNode);
+          toggleModalState();
           recordEvent({
             event: 'int-modal-click',
             'modal-status': 'closed',
