@@ -1,21 +1,10 @@
-// TODO: need to finnish vets-json-schema changes and plug in via schema below
-// import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import React from 'react';
 
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-// const { SIGIGenders } = fullSchemaHca.properties;
-
-const genderLabels = [
-  { label: 'Woman', value: 'F' },
-  { label: 'Man', value: 'M' },
-  { label: 'Transgender Woman', value: 'TF' },
-  { label: 'Transgender Man', value: 'TM' },
-  { label: 'A gender not listed here', value: 'O' },
-  { label: 'Non-binary', value: 'NB' },
-  { label: 'Prefer not to answer', value: 'NA' },
-];
+const { sigiGenders } = fullSchemaHca.properties;
 
 const SIGIGenderDescription = props => {
   return (
@@ -52,7 +41,7 @@ const SIGIGenderDescription = props => {
 export default {
   uiSchema: {
     'ui:description': SIGIGenderDescription,
-    gender: {
+    sigiGenders: {
       'ui:title': ' ',
       'ui:widget': 'radio',
       'ui:options': {
@@ -72,10 +61,7 @@ export default {
     type: 'object',
     required: [],
     properties: {
-      gender: {
-        type: 'string',
-        enum: genderLabels.map(option => option.value),
-      },
+      sigiGenders,
     },
   },
 };
