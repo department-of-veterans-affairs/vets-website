@@ -49,7 +49,7 @@ export class SignInModal extends React.Component {
     }
   }
 
-  original = ({ globalDowntime }) => {
+  renderOriginalModal = ({ globalDowntime }) => {
     return (
       <div>
         <div className="usa-width-one-half">
@@ -261,7 +261,7 @@ export class SignInModal extends React.Component {
         ) : null}
         {this.renderDowntimeBanners()}
         {!this.props.loginGovEnabled ? (
-          this.original({
+          this.renderOriginalModal({
             globalDowntime,
           })
         ) : (
