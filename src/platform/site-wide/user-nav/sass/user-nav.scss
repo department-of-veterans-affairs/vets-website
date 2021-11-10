@@ -1,7 +1,5 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-$color-logingov-red: rgb(187, 52, 42);
-$color-logingov-red-darker: rgb(154, 43, 35);
 
 #signin-signup-modal {
   .va-modal-body {
@@ -71,7 +69,8 @@ $color-logingov-red-darker: rgb(154, 43, 35);
       }
     }
 
-    img {
+    img,
+    svg {
       height: 1em;
       padding: 0 0.25em;
     }
@@ -164,89 +163,4 @@ $color-logingov-red-darker: rgb(154, 43, 35);
 
 #help-menu {
   width: 21rem;
-}
-.search-header-dropdown-component {
-  position: relative;
-
-  .search-dropdown-container {
-    padding: 8px 0 8px 8px;
-    max-width: 75%;
-  }
-
-  .search-dropdown-options {
-    position: absolute;
-    top: 58px;
-    background-color: $color-white;
-    width: 100%;
-    box-shadow: 0px 1px 5px 1px rgba(155, 155, 155, 0.5);
-
-    .suggestion {
-      width: 100%;
-      margin: 0;
-      padding: 8px 12px;
-      line-height: 24px;
-      cursor: pointer;
-
-      strong {
-        font-weight: 700;
-      }
-
-      &.highlighted {
-        background-color: $color-primary;
-        color: $color-white;
-      }
-
-      &.regular {
-        color: $color-gray-dark;
-      }
-    }
-  }
-
-  .search-dropdown-input-field {
-    height: 42px;
-    display: block;
-    margin: 0;
-    max-width: 46rem;
-  }
-
-  .search-dropdown-submit-button {
-    height: 42px;
-    margin: 8px 8px 8px 8px;
-  }
-}
-
-#create-account button {
-  display: block;
-  text-align: left;
-  border-radius: 0;
-  margin: 0;
-  background-color: transparent;
-  text-decoration: underline;
-  font-weight: 700;
-  padding: 1.16em 0 1.6em;
-  color: $color-link-default;
-  border-top: 1px solid $color-gray-light;
-  border-bottom: 1px solid $color-gray-light;
-
-  &:before {
-    color: $color-link-default;
-    content: "\F138";
-    display: inline-block;
-    font-family: "Font Awesome 5 Free";
-    font-size: 175%;
-    font-weight: 900;
-    height: 0;
-    padding-right: 1rem;
-    transform: translateY(5px);
-    text-decoration: none;
-  }
-
-  &:hover {
-    color: $color-black;
-    background-color: $color-gray-lightest;
-  }
-
-  &:last-of-type {
-    border-top: none;
-  }
 }
