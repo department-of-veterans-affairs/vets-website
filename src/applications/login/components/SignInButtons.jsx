@@ -13,12 +13,12 @@ function loginHandler(loginType) {
 }
 
 const LoginGovButtons = ({ isDisabled }) => (
-  <>
+  <div className="columns small-12" id="sign-in-wrapper">
     <button
       disabled={isDisabled}
       type="button"
       aria-label="Sign in with Login.gov"
-      className="usa-button usa-button-big logingov-button vads-u-margin-y--1p5"
+      className="usa-button logingov-button vads-u-margin-y--1p5"
       onClick={() => loginHandler('logingov')}
     >
       <LoginGovSVG />
@@ -27,7 +27,7 @@ const LoginGovButtons = ({ isDisabled }) => (
       disabled={isDisabled}
       type="button"
       aria-label="Sign in with ID.me"
-      className="usa-button usa-button-big idme-button vads-u-margin-y--1p5"
+      className="usa-button idme-button vads-u-margin-y--1p5"
       onClick={() => loginHandler('idme')}
     >
       <img
@@ -39,7 +39,7 @@ const LoginGovButtons = ({ isDisabled }) => (
       disabled={isDisabled}
       type="button"
       aria-label="Sign in with DS Logon"
-      className="usa-button usa-button-big dslogon-button vads-u-margin-y--1p5"
+      className="usa-button dslogon-button vads-u-margin-y--1p5"
       onClick={() => loginHandler('dslogon')}
     >
       DS Logon
@@ -48,7 +48,7 @@ const LoginGovButtons = ({ isDisabled }) => (
       disabled={isDisabled}
       type="button"
       aria-label="Sign in with My HealtheVet"
-      className="usa-button usa-button-big mhv-button vads-u-margin-y--1p5"
+      className="usa-button mhv-button vads-u-margin-y--1p5"
       onClick={() => loginHandler('mhv')}
     >
       My HealtheVet
@@ -56,25 +56,29 @@ const LoginGovButtons = ({ isDisabled }) => (
     <div id="create-account">
       <h2 className="vads-u-margin-top--3">Or create an account</h2>
       <div className="vads-u-display--flex vads-u-flex-direction--column">
-        <button
-          type="button"
-          aria-label="Create an account with Login.gov"
+        <a
+          tabIndex="0"
+          role="link"
+          className="vads-c-action-link--blue logingov"
+          aria-label="Create an account with Login.gov. (Opens in a new window)"
           disabled={isDisabled}
           onClick={() => signup({ csp: 'logingov' })}
         >
           Create an account with Login.gov
-        </button>
-        <button
-          type="button"
-          aria-label="Create an account with ID.me"
+        </a>
+        <a
+          tabIndex="0"
+          role="link"
+          className="vads-c-action-link--blue"
+          aria-label="Create an account with ID.me. (Opens in a new window)"
           disabled={isDisabled}
           onClick={() => signup({ csp: 'idme' })}
         >
           Create an account with ID.me
-        </button>
+        </a>
       </div>
     </div>
-  </>
+  </div>
 );
 
 const OriginalButtons = ({ isDisabled }) => (
