@@ -245,7 +245,7 @@ export class SignInModal extends React.Component {
               className={`${this.props.loginGovEnabled &&
                 'vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2'}`}
             >
-              Sign in to VA.gov
+              Sign in
             </h1>
           </div>
         </div>
