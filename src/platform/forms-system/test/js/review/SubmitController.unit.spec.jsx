@@ -24,6 +24,9 @@ const createformReducer = (options = {}) =>
 // Return fresh objects from templates for use with individual tests
 // Default setup: Valid (but empty) form, privacy agreement not set
 const createFormConfig = options => ({
+  ariaDescribedBy: {
+    submitSection: '22-0994-submit-application',
+  },
   urlPrefix: '/',
   trackingPrefix: 'test-',
   prefillEnabled: true,
