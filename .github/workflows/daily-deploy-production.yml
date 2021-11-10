@@ -102,6 +102,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Waiting to release
         run: |
@@ -136,7 +138,8 @@ jobs:
 
     env:
       ENVIRONMENT: vagovprod
-      BUCKET: prod-va-gov-assets
+      DEPLOY_BUCKET: www.va.gov
+      ASSET_BUCKET: prod-va-gov-assets
 
     steps:
       - name: Checkout
@@ -166,10 +169,11 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Deploy
-        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
         env:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.ENVIRONMENT }}.tar.bz2
-          DEST: s3://${{ env.BUCKET }}
+          DEST: s3://${{ env.DEPLOY_BUCKET }}
+          ASSET_DEST: s3://${{ env.ASSET_BUCKET }}
 
   notify-failure:
     name: Notify Failure
