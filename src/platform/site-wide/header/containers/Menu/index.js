@@ -38,7 +38,7 @@ export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu, subMenu }) => {
       <SearchDropdownComponent
         buttonText=""
         canSubmit
-        ID="header-search-dropdown"
+        id="header-search-dropdown"
         componentClassNames="vads-u-margin-bottom--2"
         containerClassNames="vads-u-max-width--none vads-u-margin-left--2 vads-u-padding--0"
         buttonClassNames="vads-u-padding--0 vads-u-margin-right--2"
