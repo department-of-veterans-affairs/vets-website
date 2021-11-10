@@ -1,6 +1,5 @@
 import {
   selectFeatureCCIterations,
-  selectHasVAPResidentialAddress,
   selectRegisteredCernerFacilityIds,
 } from '../redux/selectors';
 import {
@@ -206,12 +205,8 @@ export default {
   },
   ccPreferences: {
     url: '/new-appointment/community-care-preferences',
-    next(state) {
-      if (selectHasVAPResidentialAddress(state)) {
-        return 'ccLanguage';
-      }
-
-      return 'reasonForAppointment';
+    next(_state) {
+      return 'ccLanguage';
     },
   },
   ccLanguage: {
