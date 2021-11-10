@@ -391,7 +391,7 @@ jobs:
 
     strategy:
       fail-fast: false
-      max-parallel: ${{ env.NUM_CYPRESS_CONTAINERS }}
+      max-parallel: 8
       matrix:
         ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7]
 
