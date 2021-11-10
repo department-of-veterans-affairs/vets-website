@@ -79,7 +79,7 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
  * This function finds out if cookie exists.
  * @returns {boolean} boolean value if it does exist.
  */
-export const getCookie = () =>
+export const doesCookieExist = () =>
   document.cookie
     .split(';')
     .some(cookie => cookie.trim().startsWith('findForms='));
@@ -88,9 +88,8 @@ export const getCookie = () =>
  * This function sets a cookie if it does not exist.
  * @returns {boolean} boolean value if it does exist.
  */
-export const setCookie = async () => {
-  const doesCookieExist = getCookie();
-  if (doesCookieExist) {
+export const setCookie = () => {
+  if (doesCookieExist()) {
     return true;
   } else {
     const expireDate = new Date(Date.now() + 86400000); // 24hr cookie

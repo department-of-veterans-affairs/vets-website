@@ -165,6 +165,23 @@ const SearchResult = ({
   const recordGAEvent = (eventTitle, eventUrl, eventType) =>
     recordGAEventHelper({ ...formMetaInfo, eventTitle, eventUrl, eventType });
 
+  const pdfDownloadHandler = () => {
+    if (showPDFInfoVersionOne) {
+      if (!doesCookieExist) {
+        recordEvent({
+          event: 'int-modal-click',
+          'modal-status': 'opened',
+          'modal-title': 'Download this PDF and open it in Acrobat Reader',
+        });
+        toggleModalState(id, url, pdfLabel);
+      } else {
+        recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf');
+      }
+    } else {
+      recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf');
+    }
+  };
+
   return (
     <li>
       <FormTitle
@@ -208,24 +225,7 @@ const SearchResult = ({
           className="find-forms-max-content vads-u-text-decoration--none"
           rel="noreferrer noopener"
           href={showPDFInfoVersionOne && !doesCookieExist ? null : url}
-          onClick={() => {
-            // TODO: CLEAN THIS UP. IT IS SO MESSY (MOVE TO FUNCTION)
-            if (showPDFInfoVersionOne) {
-              if (!doesCookieExist) {
-                recordEvent({
-                  event: 'int-modal-click',
-                  'modal-status': 'opened',
-                  'modal-title':
-                    'Download this PDF and open it in Acrobat Reader',
-                });
-                toggleModalState(id, url, pdfLabel);
-              } else {
-                recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf');
-              }
-            } else {
-              recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf');
-            }
-          }}
+          onClick={() => pdfDownloadHandler()}
           {...linkProps}
         >
           <i

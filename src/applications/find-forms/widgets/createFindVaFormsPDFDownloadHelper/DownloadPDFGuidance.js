@@ -9,7 +9,7 @@ import InvalidFormDownload from './InvalidFormAlert';
 import recordEvent from 'platform/monitoring/record-event';
 import { sentryLogger } from './index';
 import { showPDFModal } from '../../helpers/selectors';
-import { getCookie, setCookie } from '../../helpers';
+import { doesCookieExist, setCookie } from '../../helpers';
 
 const removeReactRoot = () => {
   const pdf = document.querySelector('.faf-pdf-alert-modal-root');
@@ -31,7 +31,6 @@ const DownloadPDFGuidance = ({
   const div = document.createElement('div');
   div.className = 'faf-pdf-alert-modal-root';
   const parentEl = link.parentNode;
-  const doesCookieExist = getCookie();
 
   if (formPdfIsValid && formPdfUrlIsValid && !netWorkRequestError) {
     // feature flag

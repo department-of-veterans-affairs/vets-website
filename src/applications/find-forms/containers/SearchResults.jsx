@@ -15,7 +15,7 @@ import {
   updateSortByPropertyNameThunk,
   updatePaginationAction,
 } from '../actions';
-import { getCookie, setCookie } from '../helpers';
+import { doesCookieExist, setCookie } from '../helpers';
 import { showPDFModal, getFindFormsAppState } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
@@ -63,7 +63,7 @@ export const SearchResults = ({
     pdfSelected: '',
     pdfUrl: '',
     pdfLabel: '',
-    cookieExistence: false,
+    doesCookieExist: false,
   });
   useEffect(() => {
     const justRefreshed = prevProps?.fetching && !fetching;
@@ -72,9 +72,8 @@ export const SearchResults = ({
     }
   });
   useEffect(() => {
-    const doesCookieExist = getCookie();
-    if (doesCookieExist) {
-      setModalState({ ...modalState, cookieExistence: doesCookieExist });
+    if (doesCookieExist()) {
+      setModalState({ ...modalState, doesCookieExist: doesCookieExist() });
     }
   }, []);
 
@@ -117,15 +116,16 @@ export const SearchResults = ({
     pdfLabel,
     closingModal,
   ) => {
-    const doesCookieExist = await setCookie();
-    if (!doesCookieExist || closingModal) {
-      if (!doesCookieExist)
+    if (!doesCookieExist() || closingModal) {
+      if (!doesCookieExist()) {
+        setCookie();
         setModalState({
           isOpen: !modalState.isOpen,
           pdfSelected,
           pdfUrl,
           pdfLabel,
         });
+      }
       if (closingModal) {
         /**
          * This is set here due to a race condition where:
@@ -135,7 +135,7 @@ export const SearchResults = ({
         setModalState({
           ...modalState,
           isOpen: !modalState.isOpen,
-          cookieExistence: true,
+          doesCookieExist: true,
         });
         recordEvent({
           event: 'int-modal-click',
@@ -223,7 +223,7 @@ export const SearchResults = ({
     .slice(startIndex, lastIndex)
     .map((form, index) => (
       <SearchResult
-        doesCookieExist={modalState.cookieExistence}
+        doesCookieExist={modalState.doesCookieExist}
         key={form.id}
         form={form}
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
