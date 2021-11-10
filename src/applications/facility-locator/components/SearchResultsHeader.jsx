@@ -17,7 +17,7 @@ export const SearchResultsHeader = ({
   context,
   inProgress,
   specialtyMap,
-  totalEntries,
+  pagination,
 }) => {
   const noResultsFound = !results || !results.length;
 
@@ -65,15 +65,26 @@ export const SearchResultsHeader = ({
 
   const formattedServiceType = formatServiceType(serviceType);
 
-  // const messagePrefix = noResultsFound ? 'No results found' : 'Results';
+  const messagePrefix = noResultsFound ? 'No results found' : 'Results';
 
   const handleNumberOfResults = () => {
-    if (noResultsFound) return 'No resutls found';
-    else if (totalEntries === 1) {
-      return '1 result';
-    } else if (totalEntries < 10 && totalEntries > 1) {
+    const { totalEntries, currentPage, totalPages } = pagination;
+    if (noResultsFound) {
+      return 'No results found';
+    } else if (totalEntries === 1) {
+      return 'Showing 1 result';
+    } else if (totalEntries < 11 && totalEntries > 1) {
       return `Showing 1 - ${totalEntries} results`;
-    } else return 'Resultss';
+    } else if (totalEntries > 10) {
+      const startResultNum = 10 * (currentPage - 1) + 1;
+      let endResultNum;
+
+      if (currentPage !== totalPages) {
+        endResultNum = 10 * currentPage;
+      } else endResultNum = totalEntries;
+
+      return `Showing ${startResultNum} - ${endResultNum} of ${totalEntries} results`;
+    } else return 'Results';
   };
 
   return (
@@ -83,7 +94,11 @@ export const SearchResultsHeader = ({
         className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
         tabIndex="-1"
       >
-        {handleNumberOfResults()} for &quot;
+        {facilityType === LocationType.URGENT_CARE ||
+        facilityType === LocationType.EMERGENCY_CARE
+          ? messagePrefix
+          : handleNumberOfResults()}{' '}
+        for &quot;
         <b>{facilityTypes[facilityType]}</b>
         &quot;
         {formattedServiceType && (
