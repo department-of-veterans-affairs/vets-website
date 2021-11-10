@@ -184,53 +184,54 @@ describe('App', () => {
         );
       });
 
-      // it('presents disclaimer text when user has not acknowledged the disclaimer.', async () => {
-      //   loadWebChat();
-      //   mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
-      //   const unacknowledgedUserStore = {
-      //     initialState: {
-      //       featureToggles: {
-      //         loading: false,
-      //       },
-      //       virtualAgentData: {
-      //         termsAccepted: false,
-      //       },
-      //       user: {
-      //         login: {
-      //           currentlyLoggedIn: true,
-      //         },
-      //         profile: {
-      //           userFullName: {
-      //             first: 'Steve',
-      //           },
-      //         },
-      //       },
-      //     },
-      //   };
-      //
-      //   const wrapper = renderInReduxProvider(
-      //     <Chatbox {...defaultProps} />,
-      //     unacknowledgedUserStore,
-      //   );
-      //
-      //   await waitFor(
-      //     () =>
-      //       expect(
-      //         wrapper.getByText(
-      //           'This virtual agent is still in development and cannot help with personal, medical or mental health emergencies. Thank you for understanding.',
-      //         ),
-      //       ).to.exist,
-      //   );
-      //
-      //   await waitFor(
-      //     () =>
-      //       expect(
-      //         wrapper.getByText(
-      //           'We keep a record of all virtual agent conversations, so we ask that you do not enter personal information that can be used to identify you.',
-      //         ),
-      //       ).to.exist,
-      //   );
-      // });
+      it('presents disclaimer text when user has not acknowledged the disclaimer.', async () => {
+        loadWebChat();
+        mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+        const unacknowledgedUserStore = {
+          initialState: {
+            featureToggles: {
+              loading: false,
+            },
+            virtualAgentData: {
+              termsAccepted: false,
+            },
+            user: {
+              login: {
+                currentlyLoggedIn: true,
+              },
+              profile: {
+                userFullName: {
+                  first: 'Steve',
+                },
+              },
+            },
+          },
+          reducers: virtualAgentReducer,
+        };
+
+        const wrapper = renderInReduxProvider(
+          <Chatbox {...defaultProps} />,
+          unacknowledgedUserStore,
+        );
+
+        await waitFor(
+          () =>
+            expect(
+              wrapper.getByText(
+                'This virtual agent is still in development and cannot help with personal, medical or mental health emergencies. Thank you for understanding.',
+              ),
+            ).to.exist,
+        );
+
+        await waitFor(
+          () =>
+            expect(
+              wrapper.getByText(
+                'We keep a record of all virtual agent conversations, so we ask that you do not enter personal information that can be used to identify you.',
+              ),
+            ).to.exist,
+        );
+      });
     });
 
     describe('web chat script has not loaded', () => {
