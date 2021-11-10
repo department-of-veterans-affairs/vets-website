@@ -14,8 +14,10 @@ const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
     pdfUrl: url,
   });
 
-  const toggleModalState = cb =>
-    setModalState({ ...modalState, isOpen: !modalState.isOpen }, cb ?? cb());
+  const toggleModalState = cb => {
+    setModalState({ ...modalState, isOpen: !modalState.isOpen });
+    if (cb) cb();
+  };
 
   // modal state variables
   const { isOpen, pdfSelected, pdfUrl } = modalState;
