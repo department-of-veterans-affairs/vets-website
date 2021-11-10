@@ -9,6 +9,7 @@ import * as keepAliveMod from 'platform/utilities/sso/keepAliveSSO';
 import { checkAutoSession, checkAndUpdateSSOeSession } from '../sso';
 import * as loginAttempted from '../sso/loginAttempted';
 import { keepAlive } from '../sso/keepAliveSSO';
+import { AUTH_EVENTS } from '../../user/authentication/constants';
 
 function setKeepAliveResponse(stub, sessionTimeout = 0, csid = null) {
   const response = new Response();
@@ -132,7 +133,7 @@ describe('checkAutoSession', () => {
       'custom',
       'v1',
       { authn: 'dslogon' },
-      'sso-automatic-login',
+      AUTH_EVENTS.SSO_LOGIN,
     );
   });
 
@@ -145,7 +146,7 @@ describe('checkAutoSession', () => {
     await checkAutoSession(true, 'X');
 
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(auto, 'v1', 'sso-automatic-logout', {
+    sinon.assert.calledWith(auto, 'v1', AUTH_EVENTS.SSO_LOGOUT, {
       'auto-logout': 'true',
     });
   });
@@ -177,7 +178,7 @@ describe('checkAutoSession', () => {
       'custom',
       'v1',
       { authn: 'dslogon' },
-      'sso-automatic-login',
+      AUTH_EVENTS.SSO_LOGIN,
     );
   });
 
@@ -226,7 +227,7 @@ describe('checkAutoSession', () => {
       'custom',
       'v1',
       { authn: 'dslogon' },
-      'sso-automatic-login',
+      AUTH_EVENTS.SSO_LOGIN,
     );
   });
 
@@ -247,7 +248,7 @@ describe('checkAutoSession', () => {
       'custom',
       'v1',
       { authn: 'myhealthevet' },
-      'sso-automatic-login',
+      AUTH_EVENTS.SSO_LOGIN,
     );
   });
 

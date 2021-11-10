@@ -189,4 +189,32 @@ describe('Direct Deposit', () => {
       cy.axeCheck();
     });
   });
+  describe('when moving to other profile sections', () => {
+    it('should exit edit mode if opened', () => {
+      cy.findByRole('button', {
+        name: /edit.*disability.*bank information/i,
+      }).click({
+        // using force: true since there are times when the click does not
+        // register and the bank info form does not open
+        force: true,
+      });
+      cy.findByRole('link', {
+        name: /military information/i,
+      }).click({
+        // using force: true since there are times when the click does not
+        // register and the bank info form does not open
+        force: true,
+      });
+      cy.findByRole('link', {
+        name: /direct deposit information/i,
+      }).click({
+        // using force: true since there are times when the click does not
+        // register and the bank info form does not open
+        force: true,
+      });
+      cy.findByRole('button', {
+        name: /edit.*disability.*bank info/i,
+      }).should('exist');
+    });
+  });
 });
