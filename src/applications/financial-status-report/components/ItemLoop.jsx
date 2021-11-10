@@ -2,8 +2,6 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
-import { scrollToFirstError } from 'platform/forms-system/src/js/utilities/ui';
-import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import { isReactComponent } from 'platform/utilities/ui';
 import { allEqual } from '../utils/helpers';
@@ -240,17 +238,13 @@ const ItemLoop = ({
   };
 
   const handleSave = index => {
-    if (errorSchemaIsValid(errorSchema[index])) {
+    if (!errorSchemaIsValid(errorSchema[index])) {
+      formContext.onError();
+    } else {
       const editData = editing.map(() => false);
       setEditing(editData);
       setShowTable(true);
       handleScroll(`table_${idSchema.$id}_${index}`, 0);
-    } else {
-      // Set all the fields for this item as touched, so we show errors
-      const touched = setArrayRecordTouched(idSchema.$id, index);
-      formContext.setTouched(touched, () => {
-        scrollToFirstError();
-      });
     }
   };
 

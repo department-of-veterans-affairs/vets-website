@@ -11,6 +11,7 @@ import { updateUrlParams } from '../../selectors/search';
 import { getFiltersChanged } from '../../selectors/filters';
 import MobileFilterControls from '../../components/MobileFilterControls';
 import { focusElement } from 'platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
 
 export function NameSearchResults({
   dispatchFetchSearchByNameResults,
@@ -34,11 +35,26 @@ export function NameSearchResults({
     },
     [search.name.results],
   );
+
   useEffect(
     () => {
       focusElement('#name-search-results-count');
+
+      recordEvent({
+        event: 'onsite-search-results-change',
+        'search-page-path': '/?search=name',
+        'search-query': name,
+        'search-results-total-count': count,
+        'search-results-total-pages': totalPages,
+        'search-selection': 'Search By Name',
+        'sitewide-search-app-used': false,
+        'type-ahead-option-keyword-selected': undefined,
+        'type-ahead-option-position': undefined,
+        'type-ahead-options-list': undefined,
+        'type-ahead-options-count': undefined,
+      });
     },
-    [results],
+    [results, name, totalPages, count],
   );
   const fetchPage = page => {
     dispatchFetchSearchByNameResults(name, page, filters, version);

@@ -70,6 +70,17 @@ describe('<ContactInformationField/>', () => {
 
     component.unmount();
   });
+  it('renders the ContactInformationEditView when forceEditView is set', () => {
+    props.forceEditView = true;
+    component = enzyme.shallow(<ContactInformationField {...props} />);
+
+    expect(
+      component.find('Connect(ContactInformationEditView)'),
+      'the ContactInformationEditView was rendered',
+    ).to.have.lengthOf(1);
+
+    component.unmount();
+  });
 
   it('renders the ContactInformationView', () => {
     component = enzyme.shallow(<ContactInformationField {...props} />);
@@ -91,6 +102,80 @@ describe('<ContactInformationField/>', () => {
       component.find('.usa-button-secondary'),
       'the remove button was not rendered',
     ).to.have.lengthOf(0);
+
+    component.unmount();
+  });
+
+  it('calls the cancelCallback', () => {
+    const cancelCallbackSpy = sinon.spy();
+    props.forceEditView = true;
+    component = enzyme.shallow(
+      <ContactInformationField {...props} cancelCallback={cancelCallbackSpy} />,
+    );
+
+    expect(
+      component.find('Connect(ContactInformationEditView)'),
+      'the ContactInformationEditView was rendered',
+    ).to.have.lengthOf(1);
+
+    component
+      .find('Connect(ContactInformationEditView)')
+      .props()
+      .onCancel();
+
+    expect(cancelCallbackSpy.calledOnce, 'cancelCallback called').to.be.true;
+
+    component.unmount();
+  });
+  it('calls the successCallback (non-address changes)', () => {
+    const successCallbackSpy = sinon.spy();
+    const data = {
+      ...props,
+      forceEditView: true,
+      transactionRequest: {},
+      successCallback: successCallbackSpy,
+    };
+    component = enzyme.shallow(<ContactInformationField {...data} />);
+
+    expect(
+      component.find('Connect(ContactInformationEditView)'),
+      'the ContactInformationEditView was rendered',
+    ).to.have.lengthOf(1);
+
+    data.transactionRequest = null; // non-address success
+    component.setProps(data);
+
+    expect(successCallbackSpy.calledOnce, 'successCallback called').to.be.true;
+
+    component.unmount();
+  });
+  it('calls the successCallback (address changes)', () => {
+    const successCallbackSpy = sinon.spy();
+    const data = {
+      ...props,
+      showEditView: true,
+      forceEditView: true,
+      fieldName: FIELD_NAMES.MAILING_ADDRESS,
+      transaction: { data: { attributes: { transactionStatus: '' } } },
+      successCallback: successCallbackSpy,
+    };
+    component = enzyme.shallow(<ContactInformationField {...data} />);
+
+    expect(
+      component.find('Connect(ContactInformationEditView)'),
+      'the ContactInformationEditView was rendered',
+    ).to.have.lengthOf(1);
+
+    const newData = {
+      ...data,
+      showEditView: false, // justClosedModal check
+      transaction: null,
+      showUpdateSuccessAlert: true, // success check
+    };
+    // Address success callback
+    component.setProps(newData);
+
+    expect(successCallbackSpy.calledOnce, 'successCallback called').to.be.true;
 
     component.unmount();
   });

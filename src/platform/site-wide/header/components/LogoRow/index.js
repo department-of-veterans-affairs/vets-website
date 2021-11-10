@@ -20,7 +20,11 @@ export const LogoRow = ({
   return (
     <div className="header-logo-row vads-u-background-color--primary-darkest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-padding-y--1p5 vads-u-padding-left--1p5 vads-u-padding-right--1">
       {/* Logo */}
-      <a aria-label="VA logo" href="/" className="header-logo">
+      <a
+        aria-label="VA logo"
+        className="header-logo vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center"
+        href="/"
+      >
         <Logo />
       </a>
 
@@ -30,6 +34,8 @@ export const LogoRow = ({
 
         {/* Mobile menu button */}
         <button
+          aria-controls="header-nav-items"
+          aria-expanded={isMenuOpen ? 'true' : 'false'}
           className="header-menu-button usa-button vads-u-background-color--gray-lightest vads-u-color--link-default vads-u-padding-y--1 vads-u-padding-x--1p5 vads-u-margin--0 vads-u-margin-left--2 vads-u-position--relative"
           onMouseUp={onMenuToggle}
           onKeyDown={event => event.keyCode === 13 && onMenuToggle()}
