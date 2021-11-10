@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
+const commonResponses = require('../../../../../platform/testing/local-dev-mock-api/common');
 const mockCheckIns = require('./mocks/v2/check.in.responses');
 const mockPatientCheckIns = require('./mocks/v2/patient.check.in.responses');
 const mockSessions = require('./mocks/v2/sessions.responses');
@@ -14,7 +14,6 @@ const responses = {
   ...commonResponses,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     checkInExperienceUpdateInformationPageEnabled: false,
-    checkInExperienceDemographicsPageEnabled: true,
   }),
   // v2
   'GET /check_in/v2/sessions/:uuid': (req, res) => {
@@ -28,13 +27,12 @@ const responses = {
     hasBeenValidated = true;
     return res.json(mockSessions.mocks.post(req.body));
   },
-  'GET /check_in/v2/patient_check_ins/:uuid': (req, res) => {
-    const { uuid } = req.params;
+  'GET /check_in/v2/patient_check_ins/:uuid': (_req, res) => {
     if (hasBeenValidated) {
       hasBeenValidated = false;
-      return res.json(mockPatientCheckIns.createMultipleAppointments(uuid, 3));
+      return res.json(mockPatientCheckIns.createMultipleAppointments({}));
     } else {
-      return res.json(mockPatientCheckIns.createMultipleAppointments(uuid));
+      return res.json(mockPatientCheckIns.createMultipleAppointments({}));
     }
   },
   'POST /check_in/v2/patient_check_ins/': (req, res) => {
