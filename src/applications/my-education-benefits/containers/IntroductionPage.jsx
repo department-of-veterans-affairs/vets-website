@@ -117,7 +117,7 @@ export const IntroductionPage = ({ user, route }) => {
           </li>
         </ol>
       </div>
-      {SaveInProgressComponent}
+      {user ? '' : SaveInProgressComponent}
       <div
         className="omb-info--container"
         style={{ marginTop: '1rem', paddingLeft: '0px' }}
