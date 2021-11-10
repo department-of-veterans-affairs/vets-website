@@ -10,6 +10,7 @@
     "isEnrolledMedicarePartA": false,
     "discloseFinancialInformation": false,
     "vaCompensationType": "none",
+    "vaPensionType": "No",
     "lastServiceBranch": "marine corps",
     "lastEntryDate": "2006-01-01",
     "lastDischargeDate": "2007-01-04",

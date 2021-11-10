@@ -102,8 +102,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-      - name: Waiting to release 
+      - name: Waiting to release
         run: |
           echo 'Waiting to release: https://github.com/${{ github.repository }}/compare/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}'
 
@@ -119,10 +121,12 @@ jobs:
           version: ${{ needs.set-env.outputs.LATEST_TAG_VERSION }}
 
       - name: Create tag
-        run: git tag ${{ steps.bump-tag-version.outputs.v_patch }} ${{ needs.set-env.outputs.COMMIT_SHA }} && git push origin ${{ steps.bump-tag-version.outputs.v_patch }} 
+        run: git tag ${{ steps.bump-tag-version.outputs.v_patch }} ${{ needs.set-env.outputs.COMMIT_SHA }} && git push origin ${{ steps.bump-tag-version.outputs.v_patch }}
 
       - name: Create release
         uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.bump-tag-version.outputs.v_patch }}
           release_name: vets-website/${{ steps.bump-tag-version.outputs.v_patch }}
@@ -134,7 +138,8 @@ jobs:
 
     env:
       ENVIRONMENT: vagovprod
-      BUCKET: prod-va-gov-assets
+      DEPLOY_BUCKET: www.va.gov
+      ASSET_BUCKET: prod-va-gov-assets
 
     steps:
       - name: Checkout
@@ -164,10 +169,11 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Deploy
-        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
         env:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.ENVIRONMENT }}.tar.bz2
-          DEST: s3://${{ env.BUCKET }}
+          DEST: s3://${{ env.DEPLOY_BUCKET }}
+          ASSET_DEST: s3://${{ env.ASSET_BUCKET }}
 
   notify-failure:
     name: Notify Failure
