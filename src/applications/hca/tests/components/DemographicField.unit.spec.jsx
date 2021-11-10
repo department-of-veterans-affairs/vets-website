@@ -1,3 +1,5 @@
+/* eslint no-console: "error" */
+
 import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
@@ -7,7 +9,7 @@ import ObjectField from 'platform/forms-system/src/js/fields/ObjectField';
 import DemographicField from '../../components/DemographicField';
 import formConfig from '../../config/form';
 
-describe.skip('hca <DemographicField>', () => {
+describe('hca <DemographicField>', () => {
   it('should render ObjectField', () => {
     const formContext = {
       reviewMode: false,
@@ -65,7 +67,12 @@ describe.skip('hca <DemographicField>', () => {
     );
 
     const reviewRows = tree.everySubTree('.review-row');
-
+    // console.log(`*******`);
+    // console.log(reviewRows[0].subTree('dd').text(), `--> reviewRows[0].subTree('dd').text()`);
+    // console.log(`*******`);
+    // console.log(`&&&&&&&&`);
+    // console.log(reviewRows[0].subTree('dt').text(), `--> reviewRows[0].subTree('dd').text()`);
+    // console.log(`&&&&&&&&`);
     expect(reviewRows[0].subTree('dt').text()).to.equal(
       demographicInformation.uiSchema['view:demographicCategories']['ui:title'],
     );
