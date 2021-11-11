@@ -456,7 +456,7 @@ describe('VAOS newAppointmentFlow', () => {
 
   describe('ccPreferences page', () => {
     describe('next page', () => {
-      it('should be ccLanguage if user has no address on file', () => {
+      it('should be reasonForAppointment if user has no address on file', () => {
         const state = {
           featureToggles: {
             loading: false,
@@ -464,7 +464,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
 
         expect(newAppointmentFlow.ccPreferences.next(state)).to.equal(
-          'ccLanguage',
+          'reasonForAppointment',
         );
       });
 
