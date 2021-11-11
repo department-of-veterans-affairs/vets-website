@@ -188,21 +188,23 @@ function transformServiceHistory(serviceHistory) {
         from: moment(serviceHistory?.beginDate).format(DATE_TIMESTAMP),
         to: moment(serviceHistory?.endDate).format(DATE_TIMESTAMP),
       },
-      exclusionPeriods: serviceHistory.exclusionPeriods.map(exclusionPeriod => {
+      exclusionPeriods: serviceHistory?.exclusionPeriods?.map(
+        exclusionPeriod => {
+          return {
+            from: moment(exclusionPeriod.beginDate).format(DATE_TIMESTAMP),
+            to: moment(exclusionPeriod.endDate).format(DATE_TIMESTAMP),
+          };
+        },
+      ),
+      trainingPeriods: serviceHistory?.trainingPeriods?.map(exclusionPeriod => {
         return {
           from: moment(exclusionPeriod.beginDate).format(DATE_TIMESTAMP),
           to: moment(exclusionPeriod.endDate).format(DATE_TIMESTAMP),
         };
       }),
-      trainingPeriods: serviceHistory.trainingPeriods.map(exclusionPeriod => {
-        return {
-          from: moment(exclusionPeriod.beginDate).format(DATE_TIMESTAMP),
-          to: moment(exclusionPeriod.endDate).format(DATE_TIMESTAMP),
-        };
-      }),
-      serviceBranch: serviceHistory.branchOfService,
-      serviceCharacter: serviceHistory.characterOfService,
-      separationReason: serviceHistory.reasonForSeparation,
+      serviceBranch: serviceHistory?.branchOfService,
+      serviceCharacter: serviceHistory?.characterOfService,
+      separationReason: serviceHistory?.reasonForSeparation,
       // toursOfDutyIncorrect: serviceHistory.disagreeWithServicePeriod,
     },
   ];
@@ -228,6 +230,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
 
   const newData = {
     ...formData,
+    claimantId: claimant.claimantId,
     'view:userFullName': {
       userFullName: {
         first: claimant.firstName,

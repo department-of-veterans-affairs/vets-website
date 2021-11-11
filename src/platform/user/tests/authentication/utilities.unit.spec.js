@@ -177,7 +177,7 @@ describe('standaloneRedirect', () => {
     expect(standaloneRedirect()).to.be.null;
   });
 
-  it('should return a plain url when no `to` search query is provided', () => {
+  it.skip('should return a plain url when no `to` search query is provided', () => {
     global.window.location.search = '?application=myvahealth';
     expect(standaloneRedirect()).to.equal(externalRedirects.myvahealth);
   });
