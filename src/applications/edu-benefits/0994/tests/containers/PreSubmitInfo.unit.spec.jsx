@@ -28,7 +28,6 @@ describe('<PreSubmitInfo>', () => {
     expect(tree).to.not.be.undefined;
     expect(tree.text()).to.contain('By submitting this form you certify');
     expect(tree.text()).to.contain('privacy policy');
-    // TODO: expect(tree.find('[aria-describedby]')).to.contain('22-0994-submit-application');
     tree.unmount();
   });
 });
