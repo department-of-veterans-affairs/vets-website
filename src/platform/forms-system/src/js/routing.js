@@ -31,6 +31,20 @@ export function getPreviousPagePath(pageList, data, pathname) {
   return pages[page].path;
 }
 
+/**
+ * Checks if the passed in pathname is a valid path within the form's active
+ * pages.
+ * @param {Array} pageList - Array of all pages within a form
+ * @param {Object} data - All data specific to the form
+ * @param {String} pathname - the pathname to test
+ * @returns {Boolean}
+ */
+export function checkValidPagePath(pageList, data, pathname) {
+  return getActiveExpandedPages(pageList, data).some(
+    page => page.path === pathname,
+  );
+}
+
 /*
  * Create the routes based on a form config. This goes through each chapter in a form
  * config, pulls out the config for each page, then generates a list of Route components with the

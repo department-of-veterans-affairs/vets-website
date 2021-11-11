@@ -7,6 +7,7 @@ import {
   sessionTypeUrl,
   verify,
 } from 'platform/user/authentication/utilities';
+import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 
 function handleClick(version = 'v1') {
   // For first-time users attempting to navigate to My VA Health, The user must
@@ -16,7 +17,7 @@ function handleClick(version = 'v1') {
   const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL);
 
   if (returnUrl && returnUrl.includes(externalRedirects.myvahealth)) {
-    recordEvent({ event: 'verify-link-clicked' });
+    recordEvent({ event: AUTH_EVENTS.VERIFY });
     window.location = sessionTypeUrl({ type: 'verify', version });
   } else {
     verify(version);
