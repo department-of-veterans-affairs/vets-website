@@ -9,6 +9,7 @@ import KeywordSearch from '../../components/search/KeywordSearch';
 import { updateUrlParams } from '../../selectors/search';
 import { useHistory } from 'react-router-dom';
 import { TABS } from '../../constants';
+import recordEvent from 'platform/monitoring/record-event';
 
 export function NameSearchForm({
   autocomplete,
@@ -78,6 +79,11 @@ export function NameSearchForm({
   const handleSubmit = event => {
     event.preventDefault();
     if (validateSearchTerm(name)) {
+      recordEvent({
+        event: 'gibct-form-change',
+        'gibct-form-field': 'nameSearch',
+        'gibct-form-value': name,
+      });
       doSearch(name);
     }
   };

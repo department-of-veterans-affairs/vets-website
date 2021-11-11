@@ -38,7 +38,13 @@ export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu, subMenu }) => {
       <SearchDropdownComponent
         buttonText=""
         canSubmit
-        className="header-search search-header-dropdown-component vads-u-margin-bottom--2 "
+        ID="header-search-dropdown"
+        componentClassNames="vads-u-margin-bottom--2"
+        containerClassNames="vads-u-max-width--none vads-u-margin-left--2 vads-u-padding--0"
+        buttonClassNames="vads-u-padding--0 vads-u-margin-right--2"
+        inputClassNames="vads-u-max-width--none vads-u-margin--0 "
+        suggestionsListClassNames=""
+        suggestionClassNames=""
         fetchSuggestions={fetchSearchSuggestions}
         formatSuggestions
         fullWidthSuggestions
@@ -51,7 +57,10 @@ export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu, subMenu }) => {
 
       {/* Menu items */}
       {showMegaMenu && (
-        <ul className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">
+        <ul
+          id="header-nav-items"
+          className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0"
+        >
           {megaMenuData?.map(item => {
             const menuItemID = deriveMenuItemID(item, '1');
             return <MenuItemLevel1 key={menuItemID} item={item} />;

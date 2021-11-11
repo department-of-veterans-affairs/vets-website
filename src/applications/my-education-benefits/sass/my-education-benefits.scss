@@ -403,3 +403,9 @@ label.schemaform-label[for=root_mobilePhoneNumber_isInternational],
 label.schemaform-label[for=root_phoneNumber_isInternational] {
 	margin-top: 2rem;
 }
+
+// Claimant ID (Hide it)
+#root_claimantId,
+#root_claimantId-label {
+	display: none;
+}
