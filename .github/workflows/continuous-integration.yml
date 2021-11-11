@@ -10,6 +10,7 @@ on:
 env:
   DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
+  NUM_CONTAINERS: '8'
 
 concurrency:
   group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha }}
@@ -603,7 +604,6 @@ jobs:
         run: yarn contract-mochawesome-to-bigquery
         working-directory: testing-tools-team-dashboard-data
         env:
-          NUM_CONTAINERS: '8'
           TEST_EXECUTIONS_TABLE_NAME: vets_website_contract_test_suite_executions
           TEST_RESULTS_TABLE_NAME: vets_website_contract_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-contract-test-reports
@@ -742,7 +742,6 @@ jobs:
         working-directory: testing-tools-team-dashboard-data
         env:
           IS_MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.is_master_build }}
-          NUM_CONTAINERS: '8'
           TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
           TEST_RESULTS_TABLE_NAME: cypress_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
