@@ -18,9 +18,14 @@ export const ChatboxDisclaimer = () => {
           you.
         </li>
       </ul>
-      <a href="#" onClick={() => dispatch({ type: ACCEPTED })}>
+      <button
+        id="btnAcceptDisclaimer"
+        data-testid="btnAcceptDisclaimer"
+        className={'usa-button-primary'}
+        onClick={() => dispatch({ type: ACCEPTED })}
+      >
         Accept
-      </a>
+      </button>
     </div>
   );
 };

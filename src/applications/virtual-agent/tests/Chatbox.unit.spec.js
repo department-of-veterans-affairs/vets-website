@@ -232,6 +232,56 @@ describe('App', () => {
             ).to.exist,
         );
       });
+
+      it('displays sign in modal when user clicks sign in button', async () => {
+        loadWebChat();
+        mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+        const unacknowledgedUserStore = {
+          initialState: {
+            featureToggles: {
+              loading: false,
+            },
+            virtualAgentData: {
+              termsAccepted: false,
+            },
+            user: {
+              login: {
+                currentlyLoggedIn: true,
+              },
+              profile: {
+                userFullName: {
+                  first: 'Steve',
+                },
+              },
+            },
+          },
+          reducers: virtualAgentReducer,
+        };
+
+        const store = createTestStore(
+          unacknowledgedUserStore.initialState,
+          unacknowledgedUserStore.reducers,
+        );
+
+        const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
+          store,
+        });
+
+        const button = wrapper.getByTestId('btnAcceptDisclaimer');
+
+        await waitFor(() => expect(button).to.exist);
+
+        await waitFor(
+          () =>
+            expect(store.getState().virtualAgentData.termsAccepted).to.be.false,
+        );
+
+        await act(async () => {
+          fireEvent.click(button);
+        });
+
+        expect(store.getState().virtualAgentData.termsAccepted).to.be.true;
+      });
     });
 
     describe('web chat script has not loaded', () => {
