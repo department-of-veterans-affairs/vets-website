@@ -1,7 +1,7 @@
-// TODO: Do we need to add maritalStatuses to fullSchema?
-// import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import { maritalStatuses } from 'platform/static-data/options-for-select';
+import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
+
+const { maritalStatus } = fullSchemaHca.definitions;
 
 export default {
   uiSchema: {
@@ -14,10 +14,7 @@ export default {
     type: 'object',
     required: ['maritalStatus'],
     properties: {
-      maritalStatus: {
-        type: 'string',
-        enum: maritalStatuses,
-      },
+      maritalStatus,
     },
   },
 };

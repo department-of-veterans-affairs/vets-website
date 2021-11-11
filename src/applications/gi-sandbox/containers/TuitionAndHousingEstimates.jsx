@@ -6,6 +6,7 @@ import LearnMoreLabel from '../components/LearnMoreLabel';
 import { showModal, eligibilityChange } from '../actions';
 import { connect } from 'react-redux';
 import { createId } from '../utils/helpers';
+import recordEvent from 'platform/monitoring/record-event';
 
 export function TuitionAndHousingEstimates({
   eligibility,
@@ -52,6 +53,9 @@ export function TuitionAndHousingEstimates({
   };
 
   const onExpand = value => {
+    recordEvent({
+      event: value ? 'int-accordion-expand' : 'int-accordion-collapse',
+    });
     dispatchEligibilityChange({ expanded: value });
   };
 
@@ -83,7 +87,13 @@ export function TuitionAndHousingEstimates({
         label={
           <LearnMoreLabel
             text="Will you be taking any classes in person?"
-            onClick={() => dispatchShowModal('onlineOnlyDistanceLearning')}
+            onClick={() => {
+              recordEvent({
+                event: 'gibct-form-help-text-clicked',
+                'help-text-label': 'Will you be taking any classes in person?',
+              });
+              dispatchShowModal('onlineOnlyDistanceLearning');
+            }}
             ariaLabel="Learn more about how we calculate your housing allowance based on where you take classes"
             butttonId="classes-in-person-learn-more"
           />
@@ -92,6 +102,12 @@ export function TuitionAndHousingEstimates({
         options={[{ value: 'no', label: 'Yes' }, { value: 'yes', label: 'No' }]}
         value={onlineClasses}
         onChange={e => {
+          recordEvent({
+            event: 'howToWizard-formChange',
+            'form-field-type': 'form-radio-buttons',
+            'form-field-label': 'Will you be taking any classes in person ?',
+            'form-field-value': e.target.value,
+          });
           setOnlineClasses(e.target.value);
         }}
       />

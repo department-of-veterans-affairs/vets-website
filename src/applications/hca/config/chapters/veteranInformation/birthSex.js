@@ -20,7 +20,10 @@ export default {
     type: 'object',
     required: ['gender'],
     properties: {
-      gender,
+      gender: {
+        ...gender,
+        enum: ['M', 'F'],
+      },
     },
   },
 };

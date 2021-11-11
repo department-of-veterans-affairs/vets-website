@@ -58,10 +58,10 @@ describe('Hca vaBenefits', () => {
     const formDOM = findDOMNode(form);
 
     ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_vaCompensationType_3'),
+      formDOM.querySelector('#root_vaCompensationType_0'),
       {
         target: {
-          value: 'none',
+          value: 'lowDisability',
         },
       },
     );

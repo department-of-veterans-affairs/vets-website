@@ -2,6 +2,7 @@ import React from 'react';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import Dropdown from './Dropdown';
 import LearnMoreLabel from './LearnMoreLabel';
+import recordEvent from 'platform/monitoring/record-event';
 
 const SearchBenefits = ({
   cumulativeService,
@@ -39,7 +40,15 @@ const SearchBenefits = ({
         value={militaryStatus}
         alt="What's your military status?"
         visible
-        onChange={e => setMilitaryStatus(e.target.value)}
+        onChange={e => {
+          recordEvent({
+            event: 'howToWizard-formChange',
+            'form-field-type': 'form-dropdown',
+            'form-field-label': `What's your military status?`,
+            'form-field-value': e.target.value,
+          });
+          setMilitaryStatus(e.target.value);
+        }}
       />
 
       <Dropdown
@@ -59,7 +68,14 @@ const SearchBenefits = ({
         label={
           <LearnMoreLabel
             text="Which GI Bill benefit do you want to use?"
-            onClick={() => dispatchShowModal('giBillChapter')}
+            onClick={() => {
+              recordEvent({
+                event: 'gibct-form-help-text-clicked',
+                'help-text-label':
+                  'Learn more about VA education and training programs',
+              });
+              dispatchShowModal('giBillChapter');
+            }}
             ariaLabel="Learn more about VA education and training programs"
           />
         }
@@ -88,7 +104,15 @@ const SearchBenefits = ({
         value={giBillChapter}
         alt="Which GI Bill benefit do you want to use?"
         visible
-        onChange={e => setGiBillChapter(e.target.value)}
+        onChange={e => {
+          recordEvent({
+            event: 'howToWizard-formChange',
+            'form-field-type': 'form-dropdown',
+            'form-field-label': 'Which GI Bill benefit do you want to use?',
+            'form-field-value': e.target.value,
+          });
+          setGiBillChapter(e.target.value);
+        }}
       />
 
       {militaryStatus === 'active duty' &&
@@ -125,7 +149,14 @@ const SearchBenefits = ({
         label={
           <LearnMoreLabel
             text="Cumulative Post-9/11 active-duty service"
-            onClick={() => dispatchShowModal('cumulativeService')}
+            onClick={() => {
+              recordEvent({
+                event: 'gibct-form-help-text-clicked',
+                'help-text-label':
+                  'Learn more about Cumulative Post-9/11 service',
+              });
+              dispatchShowModal('cumulativeService');
+            }}
             ariaLabel="Learn more about Cumulative Post-9/11 service"
           />
         }
@@ -153,7 +184,15 @@ const SearchBenefits = ({
         value={cumulativeService}
         alt="Cumulative Post-9/11 active-duty service"
         visible={chapter33Check}
-        onChange={e => setCumulativeService(e.target.value)}
+        onChange={e => {
+          recordEvent({
+            event: 'howToWizard-formChange',
+            'form-field-type': 'form-dropdown',
+            'form-field-label': 'Cumulative Post-9/11 active-duty service',
+            'form-field-value': e.target.value,
+          });
+          setCumulativeService(e.target.value);
+        }}
       />
       <Dropdown
         label={
