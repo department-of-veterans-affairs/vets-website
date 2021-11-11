@@ -11,11 +11,18 @@ import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export default function ClientError(props) {
   const { buttonText, formConfig, onBack, onSubmit, testId } = props;
-  const ariaDescribedBy = formConfig.ariaDescribedBy.submitSection;
   const Element = Scroll.Element;
   const scrollToError = () => {
     scrollTo('errorScrollElement', getScrollOptions());
   };
+  let ariaDescribedBy = null;
+  // If no ariaDescribedBy is passed down from form.js,
+  // a null value will properly not render the aria label.
+  if (formConfig.ariaDescribedBySubmit !== null) {
+    ariaDescribedBy = formConfig.ariaDescribedBySubmit;
+  } else {
+    ariaDescribedBy = null;
+  }
 
   useEffect(() => {
     focusElement('.schemaform-failure-alert');

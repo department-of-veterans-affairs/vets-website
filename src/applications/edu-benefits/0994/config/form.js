@@ -31,9 +31,7 @@ import {
 } from '../pages';
 
 const formConfig = {
-  ariaDescribedBy: {
-    submitSection: '22-0994-submit-application',
-  },
+  ariaDescribedBySubmit: '22-0994-submit-application',
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/0994`,
