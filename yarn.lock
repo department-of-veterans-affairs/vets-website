@@ -19440,9 +19440,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#e91966680ab957e223c1a0de17c09e103766edf6":
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#fdbbfd00cccf1823a07f180f65e3093b805a55f2":
   version "21.0.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#e91966680ab957e223c1a0de17c09e103766edf6"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#fdbbfd00cccf1823a07f180f65e3093b805a55f2"
 
 vfile-message@^2.0.0:
   version "2.0.4"

@@ -3,12 +3,12 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
-const { birthSex } = fullSchemaHca.properties;
+const { gender } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
     'ui:description': PrefillMessage,
-    birthSex: {
+    gender: {
       'ui:title': 'Birth sex',
       'ui:widget': 'radio',
       'ui:options': {
@@ -18,9 +18,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['birthSex'],
+    required: ['gender'],
     properties: {
-      birthSex,
+      gender,
     },
   },
 };
