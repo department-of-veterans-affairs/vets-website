@@ -55,6 +55,8 @@ import {
   validateEmail,
   validateEffectiveDate,
 } from '../utils/validation';
+import DynamicPhoneRadioWidget from '../components/DynamicPhoneRadioWidget';
+import DynamicPhoneRadioReviewField from '../components/DynamicPhoneRadioReviewField';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
 
@@ -318,29 +320,6 @@ function notGivingUpBenefitSelected(formData) {
   return !givingUpBenefitSelected(formData);
 }
 
-function renderContactMethodFollowUp(formData, cond) {
-  const { mobilePhoneNumber, phoneNumber } = formData['view:phoneNumbers'];
-  let res = false;
-
-  switch (cond) {
-    case 1:
-      if (mobilePhoneNumber.phone && phoneNumber.phone) res = true;
-      break;
-    case 2:
-      if (mobilePhoneNumber.phone && !phoneNumber.phone) res = true;
-      break;
-    case 3:
-      if (!mobilePhoneNumber.phone && phoneNumber.phone) res = true;
-      break;
-    case 4:
-      if (!mobilePhoneNumber.phone && !phoneNumber.phone) res = true;
-      break;
-    default:
-  }
-
-  return res;
-}
-
 function transform(metaData, form) {
   const submission = createSubmissionForm(form.data);
   return JSON.stringify(submission);
@@ -418,6 +397,10 @@ const formConfig = {
                 </>
               ),
             },
+            claimantId: {
+              'ui:title': 'Claimant ID',
+              'ui:disabled': true,
+            },
             'view:userFullName': {
               'ui:description': (
                 <p className="meb-review-page-only">
@@ -464,6 +447,9 @@ const formConfig = {
             type: 'object',
             required: [formFields.dateOfBirth],
             properties: {
+              claimantId: {
+                type: 'string',
+              },
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
@@ -784,84 +770,12 @@ const formConfig = {
               [formFields.contactMethod]: {
                 'ui:title':
                   'How should we contact you if we have questions about your application?',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  widgetProps: {
-                    Email: { 'data-info': 'email' },
-                    'Mobile phone': { 'data-info': 'mobile phone' },
-                    'Home phone': { 'data-info': 'home phone' },
-                    Mail: { 'data-info': 'mail' },
-                  },
-                },
+                'ui:reviewField': DynamicPhoneRadioReviewField,
+                'ui:widget': DynamicPhoneRadioWidget,
                 'ui:errorMessages': {
                   required:
                     'Please select at least one way we can contact you.',
                 },
-              },
-              'ui:options': {
-                hideIf: formData => !renderContactMethodFollowUp(formData, 1),
-              },
-            },
-            'view:noHomePhoneForContact': {
-              [formFields.contactMethod]: {
-                'ui:title':
-                  'How should we contact you if we have questions about your application?',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  widgetProps: {
-                    Email: { 'data-info': 'email' },
-                    'Mobile phone': { 'data-info': 'mobile phone' },
-                    Mail: { 'data-info': 'mail' },
-                  },
-                },
-                'ui:errorMessages': {
-                  required:
-                    'Please select at least one way we can contact you.',
-                },
-              },
-              'ui:options': {
-                hideIf: formData => !renderContactMethodFollowUp(formData, 2),
-              },
-            },
-            'view:noMobilePhoneForContact': {
-              [formFields.contactMethod]: {
-                'ui:title':
-                  'How should we contact you if we have questions about your application?',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  widgetProps: {
-                    Email: { 'data-info': 'email' },
-                    'Home phone': { 'data-info': 'home phone' },
-                    Mail: { 'data-info': 'mail' },
-                  },
-                },
-                'ui:errorMessages': {
-                  required:
-                    'Please select at least one way we can contact you.',
-                },
-              },
-              'ui:options': {
-                hideIf: formData => !renderContactMethodFollowUp(formData, 3),
-              },
-            },
-            'view:noMobileOrHomeForContact': {
-              [formFields.contactMethod]: {
-                'ui:title':
-                  'How should we contact you if we have questions about your application?',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  widgetProps: {
-                    Email: { 'data-info': 'email' },
-                    Mail: { 'data-info': 'mail' },
-                  },
-                },
-                'ui:errorMessages': {
-                  required:
-                    'Please select at least one way we can contact you.',
-                },
-              },
-              'ui:options': {
-                hideIf: formData => !renderContactMethodFollowUp(formData, 4),
               },
             },
             'view:receiveTextMessages': {
@@ -989,37 +903,10 @@ const formConfig = {
               },
               'view:contactMethod': {
                 type: 'object',
+                required: [formFields.contactMethod],
                 properties: {
                   [formFields.contactMethod]: {
                     type: 'string',
-                    enum: ['Email', 'Mobile phone', 'Home phone', 'Mail'],
-                  },
-                },
-              },
-              'view:noHomePhoneForContact': {
-                type: 'object',
-                properties: {
-                  [formFields.contactMethod]: {
-                    type: 'string',
-                    enum: ['Email', 'Mobile phone', 'Mail'],
-                  },
-                },
-              },
-              'view:noMobilePhoneForContact': {
-                type: 'object',
-                properties: {
-                  [formFields.contactMethod]: {
-                    type: 'string',
-                    enum: ['Email', 'Home phone', 'Mail'],
-                  },
-                },
-              },
-              'view:noMobileOrHomeForContact': {
-                type: 'object',
-                properties: {
-                  [formFields.contactMethod]: {
-                    type: 'string',
-                    enum: ['Email', 'Mail'],
                   },
                 },
               },

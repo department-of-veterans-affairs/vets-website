@@ -11,7 +11,7 @@ on:
         description: Deploy specific commit
         required: false
   schedule:
-    - cron: 0 18 * * 1-5
+    - cron: 0 19 * * 1-5
 
 env:
   CHANNEL_ID: C0MQ281DJ # vfs-platform-builds
@@ -102,8 +102,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-      - name: Waiting to release 
+      - name: Waiting to release
         run: |
           echo 'Waiting to release: https://github.com/${{ github.repository }}/compare/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}'
 
@@ -118,8 +120,16 @@ jobs:
         with:
           version: ${{ needs.set-env.outputs.LATEST_TAG_VERSION }}
 
-      - name: Tag release
-        run: git tag ${{ steps.bump-tag-version.outputs.v_patch }} ${{ needs.set-env.outputs.COMMIT_SHA }} && git push origin ${{ steps.bump-tag-version.outputs.v_patch }} 
+      - name: Create tag
+        run: git tag ${{ steps.bump-tag-version.outputs.v_patch }} ${{ needs.set-env.outputs.COMMIT_SHA }} && git push origin ${{ steps.bump-tag-version.outputs.v_patch }}
+
+      - name: Create release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.bump-tag-version.outputs.v_patch }}
+          release_name: vets-website/${{ steps.bump-tag-version.outputs.v_patch }}
 
   deploy:
     name: Deploy
@@ -128,7 +138,8 @@ jobs:
 
     env:
       ENVIRONMENT: vagovprod
-      BUCKET: prod-va-gov-assets
+      DEPLOY_BUCKET: www.va.gov
+      ASSET_BUCKET: prod-va-gov-assets
 
     steps:
       - name: Checkout
@@ -144,8 +155,8 @@ jobs:
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_PROD_ROLE
+          env_variable_name: AWS_FRONTEND_PROD_ROLE
 
       - name: Configure AWS Credentials (2)
         uses: aws-actions/configure-aws-credentials@v1
@@ -153,15 +164,16 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-to-assume: ${{ env.AWS_FRONTEND_PROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Deploy
-        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
         env:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.ENVIRONMENT }}.tar.bz2
-          DEST: s3://${{ env.BUCKET }}
+          DEST: s3://${{ env.DEPLOY_BUCKET }}
+          ASSET_DEST: s3://${{ env.ASSET_BUCKET }}
 
   notify-failure:
     name: Notify Failure
@@ -178,7 +190,7 @@ jobs:
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "Production deploy for vets-website has failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
+          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> Production deploy for vets-website has failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
           channel_id: ${{ env.CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

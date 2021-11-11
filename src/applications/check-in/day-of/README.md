@@ -105,8 +105,6 @@ We are currently using an HOC located at `src/applications/check-in/containers/w
   - when to sunset: never;
 - `check_in_experience_demographics_page_enabled`: Enables or disabled the demographics page
   - when to sunset: when the demographics page is deployed in production;
-- `check_in_experience_low_authentication_enabled` : Enables or disabled the low authentication flow
-  - when to sunset: Sprint 59
 - `check_in_experience_update_information_page_enabled` : Enables or disabled the update information page
   - when to sunset: when we expand to multiple facilities and address the edge cases around it
 - `check_in_experience_next_of_kin_enabled` : Enables or disabled the next of kin page
