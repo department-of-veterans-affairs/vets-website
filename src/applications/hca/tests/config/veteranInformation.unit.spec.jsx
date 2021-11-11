@@ -69,6 +69,56 @@ describe('HCA veteranInformation', () => {
     expect(onSubmit.called).to.be.false;
   });
 
+  it('should render birthSex page', () => {
+    const onSubmit = sinon.spy();
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.veteranInformation.pages.birthSex;
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        data={{}}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    const formDOM = findDOMNode(form);
+
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(2);
+    expect(formDOM.querySelector('#root_gender_0')).not.to.be.null;
+
+    submitForm(form);
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('should render maritalStatus page', () => {
+    const onSubmit = sinon.spy();
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.veteranInformation.pages.maritalStatus;
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        data={{}}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    const formDOM = findDOMNode(form);
+
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(1);
+    expect(formDOM.querySelector('#root_maritalStatus')).not.to.be.null;
+
+    submitForm(form);
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
   it('should render demographicInformation page', () => {
     const onSubmit = sinon.spy();
     const {
@@ -86,12 +136,10 @@ describe('HCA veteranInformation', () => {
     const formDOM = findDOMNode(form);
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(6);
-    expect(formDOM.querySelector('#root_gender')).not.to.be.null;
-
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
-    expect(onSubmit.called).to.be.false;
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
   });
 
   it('should render veteranAddress page', () => {

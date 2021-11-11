@@ -44,6 +44,7 @@ export default {
     properties: {
       'view:demographicCategories': {
         type: 'object',
+        required: [],
         properties: {
           isSpanishHispanicLatino,
           isAmericanIndianOrAlaskanNative,
