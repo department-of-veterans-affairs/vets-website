@@ -871,11 +871,11 @@ jobs:
       matrix:
         include:
           - environment: vagovdev
-            bucket: dev-va-gov-assets
-            apps-bucket: apps.dev.va.gov
+            deploy-bucket: dev.va.gov
+            asset-bucket: dev-va-gov-assets
           - environment: vagovstaging
-            bucket: staging-va-gov-assets
-            apps-bucket: apps.staging.va.gov
+            deploy-bucket: staging.va.gov
+            asset-bucket: staging-va-gov-assets
 
     steps:
       - name: Checkout
@@ -905,17 +905,11 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Deploy
-        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
         env:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
-          DEST: s3://${{ matrix.bucket }}
-
-      # TODO: Revisit revproxy
-      - name: Deploy to ${{ matrix.apps-bucket }}
-        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
-        env:
-          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
-          DEST: s3://${{ matrix.apps-bucket }}
+          DEST: s3://${{ matrix.deploy-bucket }}
+          ASSET_DEST: s3://${{ matrix.asset-bucket }}
 
   # jenkins:
   #   name: Run Jenkins CI
