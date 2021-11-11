@@ -8,8 +8,6 @@ on:
       - '**'
 
 env:
-  DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
-  CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
   NUM_CONTAINERS: '8'
 
 concurrency:
@@ -969,6 +967,8 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
     needs: deploy
+    env:
+      DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
 
     steps:
       - name: Checkout
