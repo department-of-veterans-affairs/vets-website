@@ -4,6 +4,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
+import environment from 'platform/utilities/environment';
 import {
   FORM_MOMENT_PRESENTATION_DATE_FORMAT,
   FORM_MOMENT_CONSTRUCTOR_DATE_FORMAT,
@@ -29,6 +30,16 @@ const deriveLinkPropsFromFormURL = url => {
   }
 
   return linkProps;
+};
+
+// helper for replacing the form title to keep same domain for testing in non production
+const regulateURL = url => {
+  if (!environment.isProduction()) {
+    return url.replace(
+      url.substring(0, url.indexOf('/find-forms')),
+      environment.BASE_URL,
+    );
+  } else return url;
 };
 
 export const deriveLatestIssue = (d1, d2) => {
@@ -186,7 +197,7 @@ const SearchResult = ({
     <li>
       <FormTitle
         id={id}
-        formUrl={formDetailsUrl}
+        formUrl={regulateURL(formDetailsUrl)}
         lang={language}
         title={title}
         recordGAEvent={recordGAEvent}
