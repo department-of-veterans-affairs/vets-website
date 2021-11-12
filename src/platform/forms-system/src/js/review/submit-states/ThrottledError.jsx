@@ -14,8 +14,8 @@ export default function ThrottledError(props) {
   let ariaDescribedBy = null;
   // If no ariaDescribedBy is passed down from form.js,
   // a null value will properly not render the aria label.
-  if (formConfig.ariaDescribedBySubmit !== null) {
-    ariaDescribedBy = formConfig.ariaDescribedBySubmit;
+  if (formConfig?.ariaDescribedBySubmit !== null) {
+    ariaDescribedBy = formConfig?.ariaDescribedBySubmit;
   } else {
     ariaDescribedBy = null;
   }

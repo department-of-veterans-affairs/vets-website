@@ -10,8 +10,8 @@ function PreSubmitNotice({
   setPreSubmit,
 }) {
   let ariaDescribedBy = null;
-  if (formConfig.ariaDescribedBySubmit !== null) {
-    ariaDescribedBy = formConfig.ariaDescribedBySubmit;
+  if (formConfig?.ariaDescribedBySubmit !== null) {
+    ariaDescribedBy = formConfig?.ariaDescribedBySubmit;
   } else {
     ariaDescribedBy = null;
   }
