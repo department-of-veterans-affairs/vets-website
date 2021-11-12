@@ -21,7 +21,6 @@ export function ProfilePage({
   profile,
   calculator,
   dispatchFetchProfile,
-  dispatchSetPageTitle,
   dispatchShowModal,
   dispatchHideModal,
   eligibility,
@@ -51,7 +50,7 @@ export function ProfilePage({
   useEffect(
     () => {
       if (institutionName) {
-        dispatchSetPageTitle(`${institutionName} - GI Bill® Comparison Tool`);
+        document.title = `${institutionName} - GI Bill® Comparison Tool`;
       }
     },
     [institutionName],
