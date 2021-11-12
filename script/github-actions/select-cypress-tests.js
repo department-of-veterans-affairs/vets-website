@@ -194,11 +194,6 @@ function selectTests(graph, pathsOfChangedFiles) {
       return allTests();
     }
   }
-  // return [
-  //   '/home/runner/work/vets-website/vets-website/src/applications/personalization/profile/tests/e2e/address-validation/confirm-address.cypress.spec.js',
-  //   '/home/runner/work/vets-website/vets-website/src/applications/personalization/profile/tests/e2e/address-validation/confirm-state-diff.cypress.spec.js',
-  //   '/home/runner/work/vets-website/vets-website/src/applications/personalization/profile/tests/e2e/address-validation/edit-after-validation.cypress.spec.js',
-  // ];
 }
 
 function exportVariables(tests) {
