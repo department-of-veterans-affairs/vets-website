@@ -1162,13 +1162,13 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^3.3.4":
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.6.0.tgz#7398b4eb644eb460fa40eeb0f15346a3a9715813"
-  integrity sha512-vNzR1hXcnE76dnAP8wA9bi5IpLvD07fSd7qTuQSC3aJ6dgApLKrO9RAS01/0tO713gNj5h1BXFfzQ4ehp5odGw==
+"@department-of-veterans-affairs/component-library@^3.6.1":
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.6.1.tgz#09d472399895d50f7a049e68f3e96cb9630ea185"
+  integrity sha512-EyEbYp4NQ1gq+uCyqGzl0ZtKulPM3L+DjU5wIiwNrZ7OmSG3li2ZQeZ388CYYuf9UekV2OptHpJVdGiuEj9pIA==
   dependencies:
     "@department-of-veterans-affairs/react-components" "3.3.0"
-    "@department-of-veterans-affairs/web-components" "0.15.0"
+    "@department-of-veterans-affairs/web-components" "0.15.1"
     date-fns-tz "^1.1.1"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
@@ -1230,12 +1230,12 @@
     react-is "^17.0.1"
     setimmediate "^1.0.5"
 
-"@department-of-veterans-affairs/web-components@0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-0.15.0.tgz#6002b2f83f18bd7bfbdc8a9bb760e959d3f41ab5"
-  integrity sha512-2C+vr/8HuvSwiqyt4IpT310XHv+eOTKdH1B/pm6Ua592nTwLqlXhIKbPHBwxNN2LmFQeaJvpiK2WDA4Hk4eAUA==
+"@department-of-veterans-affairs/web-components@0.15.1":
+  version "0.15.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-0.15.1.tgz#92fe0025e230e7b6599f50377ec4a75cdf7a34a9"
+  integrity sha512-eJ7FBQjFqr85sId/z+821HYyo1uG4di2XaPlZbTcqTxXbWt3qmYJC7VekinHdqdELl5Anys/O6bjaU8ECMfq5A==
   dependencies:
-    "@stencil/core" "^2.8.1"
+    "@stencil/core" "^2.10.0"
     "@stencil/postcss" "^2.0.0"
     classnames "^2.3.1"
     intersection-observer "^0.12.0"
@@ -1948,7 +1948,7 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@stencil/core@^2.8.1":
+"@stencil/core@^2.10.0", "@stencil/core@^2.8.1":
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/@stencil/core/-/core-2.10.0.tgz#acf44b9ae6578a20f0d09bf94296e833beadc885"
   integrity sha512-15rWMTPQ/sp0lSV82HVCXkIya3QLN+uBl7pqK4JnTrp4HiLrzLmNbWjbvgCs55gw0lULbCIGbRIEsFz+Pe/Q+A==
