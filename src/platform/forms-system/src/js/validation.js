@@ -1,3 +1,4 @@
+import moment from 'moment';
 import find from 'lodash/find';
 import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
@@ -345,10 +346,17 @@ export function validateSSN(errors, ssn) {
   }
 }
 
-export function validateDate(errors, dateString) {
+export function validateDate(
+  errors,
+  dateString,
+  customMinYear = minYear,
+  customMaxYear = maxYear,
+) {
   const { day, month, year } = parseISODate(dateString);
   if (year?.length >= 4 && !isValidYear(year)) {
-    errors.addError(`Please enter a year between ${minYear} and ${maxYear}`);
+    errors.addError(
+      `Please enter a year between ${customMinYear} and ${customMaxYear}`,
+    );
   } else if (!isValidPartialDate(day, month, year)) {
     errors.addError('Please provide a valid date');
   }
@@ -376,7 +384,7 @@ export function validateCurrentOrPastDate(
   const {
     futureDate = 'Please provide a valid current or past date',
   } = errorMessages;
-  validateDate(errors, dateString);
+  validateDate(errors, dateString, minYear, moment().year());
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
     errors.addError(futureDate);
