@@ -76,20 +76,25 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
 };
 
 /**
- * This function sets a cookie if it does not exist.
- * @returns {boolean} value if it does exist.
+ * This function finds out if cookie exists.
+ * @returns {boolean} boolean value if it does exist.
  */
-export const setCookie = async () => {
-  if (
-    document.cookie
-      .split(';')
-      .some(cookie => cookie.trim().startsWith('findForms='))
-  ) {
+export const doesCookieExist = () =>
+  document.cookie
+    .split(';')
+    .some(cookie => cookie.trim().startsWith('findForms='));
+
+/**
+ * This function sets a cookie if it does not exist.
+ * @returns {boolean} boolean value if it does exist.
+ */
+export const setCookie = () => {
+  if (doesCookieExist()) {
     return true;
   } else {
     const expireDate = new Date(Date.now() + 86400000); // 24hr cookie
     const utcDateString = expireDate.toUTCString();
-    document.cookie = `findForms=pdfModal; expires=${utcDateString}; SameSite=None;`;
+    document.cookie = `findForms=pdfModal; expires=${utcDateString};`;
     return false;
   }
 };

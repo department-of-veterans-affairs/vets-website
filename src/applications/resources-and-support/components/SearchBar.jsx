@@ -26,6 +26,7 @@ export default function SearchBar({
         'search-results-total-pages': undefined,
         'search-selection': 'All VA.gov',
         'search-typeahead-enabled': false,
+        'search-location': 'Resources And Support',
         'sitewide-search-app-used': false, // this is not the sitewide search app
         'type-ahead-option-keyword-selected': undefined,
         'type-ahead-option-position': undefined,
