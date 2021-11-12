@@ -35,11 +35,12 @@ const deriveLinkPropsFromFormURL = url => {
 // helper for replacing the form title to keep same domain for testing in non production
 const regulateURL = url => {
   if (!environment.isProduction()) {
-    return url.replace(
+    url.replace(
       url.substring(0, url.indexOf('/find-forms')),
       environment.BASE_URL,
     );
-  } else return url;
+  }
+  return url;
 };
 
 export const deriveLatestIssue = (d1, d2) => {
