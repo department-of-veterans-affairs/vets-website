@@ -125,6 +125,19 @@ function CalculateYourBenefitsForm({
         });
       }
     }
+    if (
+      field === 'buyUp' ||
+      field === 'inState' ||
+      field === 'kickerEligible' ||
+      field === 'yellowRibbonRecipient' ||
+      field === 'giBillBenefit'
+    ) {
+      recordEvent({
+        event: 'int-radio-button-option-click',
+        'radio-button-label': field,
+        'radio-button-optionLabel': value,
+      });
+    }
   };
 
   const toggleExpanded = (expandedName, isExpanded) => {
