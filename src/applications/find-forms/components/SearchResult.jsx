@@ -34,6 +34,8 @@ const deriveLinkPropsFromFormURL = url => {
 
 // helper for replacing the form title to keep same domain for testing in non production
 const regulateURL = url => {
+  if (!url) return '';
+
   // On prod, give back the raw URL.
   if (environment.isProduction()) {
     return url;
