@@ -406,13 +406,13 @@ export class SearchMenu extends React.Component {
         <SearchDropdownComponent
           buttonText=""
           canSubmit
-          ID="search-header-dropdown"
-          componentClassNames=""
-          containerClassNames=""
-          buttonClassNames="vads-u-margin-left--1"
-          inputClassNames=""
-          suggestionsListClassNames=""
-          suggestionClassNames=""
+          id="search-header-dropdown"
+          componentClassName=""
+          containerClassName=""
+          buttonClassName="vads-u-margin-left--1"
+          inputClassName=""
+          suggestionsListClassName=""
+          suggestionClassName=""
           fullWidthSuggestions
           formatSuggestions
           startingValue={''}
