@@ -12,8 +12,8 @@ export default function HowToApplyPost911GiBill() {
             <p>
               At this time, you can only apply for Post-9/11 GI Bill (Chapter
               33) benefits through this application. If you want to apply for
-              other education benefits,
-              <a href="#">find out what you're eligible for</a>.
+              other education benefits,{' '}
+              <a href="#">find out what you may be eligible for</a>.
             </p>
           </div>
         </div>

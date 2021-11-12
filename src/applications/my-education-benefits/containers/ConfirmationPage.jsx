@@ -140,7 +140,7 @@ const deniedPage = (
     <h2>What happens next?</h2>
     <ul>
       <li>
-        Download a copy of your <a href="#">Denial Letter</a>
+        Download a copy of your <a href="#">Denial Letter</a>.
       </li>
       <li>
         We will review your eligibility for other VA education benefit programs.
