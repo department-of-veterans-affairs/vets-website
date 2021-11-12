@@ -6,8 +6,6 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
 import InsuranceProviderView from '../../../components/InsuranceProviderView';
 
-// const InsuranceProviderView = () => <div>asdf</div>
-
 const { provider } = fullSchemaHca.definitions;
 
 const insuranceInfo = (
@@ -71,20 +69,6 @@ export default {
           'ui:title':
             'Name of policyholder (the person whose name the policy is in)',
         },
-        // test: {
-        //   'ui:title':
-        //   'Provide either your insurance policy number or group code',
-        // },
-        // insurancePolicyNumber: {
-        // 'ui:title':
-        //   'Provide either your insurance policy number or group code',
-        //   'ui:description': triCareInfo,
-        //   'ui:required': (formData, index) =>
-        //     !get(`providers[${index}].insuranceGroupCode`, formData),
-        //   'ui:errorMessages': {
-        //     pattern: 'Please provide a valid policy number.',
-        //   },
-        // },
         insurancePolicyNumber: {
           'ui:title':
             'Provide either your insurance policy number or group code',
