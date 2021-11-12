@@ -397,6 +397,10 @@ const formConfig = {
                 </>
               ),
             },
+            claimantId: {
+              'ui:title': 'Claimant ID',
+              'ui:disabled': true,
+            },
             'view:userFullName': {
               'ui:description': (
                 <p className="meb-review-page-only">
@@ -443,6 +447,9 @@ const formConfig = {
             type: 'object',
             required: [formFields.dateOfBirth],
             properties: {
+              claimantId: {
+                type: 'string',
+              },
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
@@ -1113,7 +1120,7 @@ const formConfig = {
                   labels: {
                     Chapter30: chapter30Label,
                     Chapter1606: chapter1606Label,
-                    CannotRelinquish: "I'm not sure and I need assistance",
+                    CannotRelinquish: "I'm not sure",
                   },
                   widgetProps: {
                     Chapter30: { 'data-info': 'Chapter30' },

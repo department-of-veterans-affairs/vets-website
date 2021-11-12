@@ -35,7 +35,7 @@ const initialState = {
 };
 
 describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
-  describe.skip('video appointments', () => {
+  describe('video appointments', () => {
     // VA appointment id from confirmed_va.json
     const url = 'va/05760f00c80ae60ce49879cf37a05fc8';
 
@@ -920,9 +920,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       ).to.be.ok;
     });
 
-    it.skip('should verify Video Connect at home calendar ics file format', async () => {
+    it('should verify Video Connect at home calendar ics file format', async () => {
       const appointment = getVideoAppointmentMock();
-      const startDate = moment.utc().add(3, 'days');
+      const startDate = moment(getTimezoneTestDate()).add(3, 'days');
       appointment.attributes = {
         ...appointment.attributes,
         facilityId: '983',
@@ -975,9 +975,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const ics = decodeURIComponent(
         screen
           .getByRole('link', {
-            name: `Add ${startDate.format(
-              'MMMM D, YYYY',
-            )} appointment to your calendar`,
+            name: `Add ${moment(startDate)
+              .tz('America/Denver')
+              .format('MMMM D, YYYY')} appointment to your calendar`,
           })
           .getAttribute('href')
           .replace('data:text/calendar;charset=utf-8,', ''),
@@ -1030,9 +1030,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens.get('END')).includes('VCALENDAR');
     });
 
-    it.skip('should verify Video Connect at VA location calendar ics file format', async () => {
+    it('should verify Video Connect at VA location calendar ics file format', async () => {
       const appointment = getVideoAppointmentMock();
-      const startDate = moment.utc().add(3, 'days');
+      const startDate = moment(getTimezoneTestDate()).add(3, 'days');
       appointment.attributes = {
         ...appointment.attributes,
         facilityId: '983',
@@ -1081,9 +1081,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const ics = decodeURIComponent(
         screen
           .getByRole('link', {
-            name: `Add ${startDate.format(
-              'MMMM D, YYYY',
-            )} appointment to your calendar`,
+            name: `Add ${moment(startDate)
+              .tz('America/Denver')
+              .format('MMMM D, YYYY')} appointment to your calendar`,
           })
           .getAttribute('href')
           .replace('data:text/calendar;charset=utf-8,', ''),
@@ -1145,9 +1145,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens.get('END')).includes('VCALENDAR');
     });
 
-    it.skip('should verify Video Connect at ATLAS calendar ics file format', async () => {
+    it('should verify Video Connect at ATLAS calendar ics file format', async () => {
       // Given a user with an ATLAS video appointment
-      const startDate = moment.utc().add(3, 'days');
+      const startDate = moment(getTimezoneTestDate()).add(3, 'days');
       const appointment = getVideoAppointmentMock({
         facilityId: '983',
         startDate: startDate.format(),
@@ -1204,9 +1204,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const ics = decodeURIComponent(
         screen
           .getByRole('link', {
-            name: `Add ${startDate.format(
-              'MMMM D, YYYY',
-            )} appointment to your calendar`,
+            name: `Add ${moment(startDate)
+              .tz('America/Denver')
+              .format('MMMM D, YYYY')} appointment to your calendar`,
           })
           .getAttribute('href')
           .replace('data:text/calendar;charset=utf-8,', ''),
@@ -1329,9 +1329,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const ics = decodeURIComponent(
         screen
           .getByRole('link', {
-            name: `Add ${startDate.format(
-              'MMMM D, YYYY',
-            )} appointment to your calendar`,
+            name: `Add ${startDate
+              .tz('America/Denver')
+              .format('MMMM D, YYYY')} appointment to your calendar`,
           })
           .getAttribute('href')
           .replace('data:text/calendar;charset=utf-8,', ''),

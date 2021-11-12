@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import classNames from 'classnames';
+import recordEvent from 'platform/monitoring/record-event';
 
 /**
  * This thing has a hack in it to make sure the when the element is floating at bottom of page it is on the right side
@@ -62,34 +63,40 @@ export default function BackToTop({
       }
       setCompareOpen(compare.open);
     },
-    [scrolled, smallScreen, compare.open],
+    [scrolled, smallScreen, compare.open, profilePageHeaderId, compareOpen],
   );
 
-  const resize = () => {
-    if (floating) {
-      const parentElement = document.getElementById(parentId);
-      if (parentElement) {
-        const parentX = parentElement.getBoundingClientRect().x;
-        setBackToTopContainerStyle({ right: parentX });
+  const resize = useCallback(
+    () => {
+      if (floating) {
+        const parentElement = document.getElementById(parentId);
+        if (parentElement) {
+          const parentX = parentElement.getBoundingClientRect().x;
+          setBackToTopContainerStyle({ right: parentX });
+        }
       }
-    }
-  };
+    },
+    [floating, parentId],
+  );
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll, true);
-    window.addEventListener('resize', resize);
+  useEffect(
+    () => {
+      window.addEventListener('scroll', handleScroll, true);
+      window.addEventListener('resize', resize);
 
-    return () => {
-      window.removeEventListener('scroll', handleScroll, true);
-      window.removeEventListener('scroll', resize, true);
-    };
-  }, []);
+      return () => {
+        window.removeEventListener('scroll', handleScroll, true);
+        window.removeEventListener('scroll', resize, true);
+      };
+    },
+    [resize],
+  );
 
   useEffect(
     () => {
       resize();
     },
-    [floating],
+    [floating, resize],
   );
 
   const backToTopClasses = classNames('back-to-top', {
@@ -116,7 +123,14 @@ export default function BackToTop({
             <button
               type="button"
               className="usa-button va-top-button-transition-in"
-              onClick={() => scrollToTop()}
+              onClick={() => {
+                scrollToTop();
+                recordEvent({
+                  event: 'button_click Back to top',
+                  'button-text': 'Back to top',
+                  'button-type': 'Default|Back to Top',
+                });
+              }}
             >
               <span>
                 <i aria-hidden="true" className="fas fa-arrow-up" role="img" />

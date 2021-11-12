@@ -18,13 +18,10 @@ export const footerElemementId = 'footerNav';
  *
  * @param {Redux.Store} store The common store used on the site
  */
-export default function startVAFooter(footerData, handleFooterDidMount, store) {
+export default function startVAFooter(footerData, store) {
   startReactApp(
     <Provider store={store}>
-      <Footer
-        handleFooterDidMount={handleFooterDidMount}
-        footerData={footerData}
-      />
+      <Footer footerData={footerData} />
     </Provider>,
     document.getElementById(footerElemementId),
   );
