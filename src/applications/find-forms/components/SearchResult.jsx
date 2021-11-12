@@ -34,13 +34,16 @@ const deriveLinkPropsFromFormURL = url => {
 
 // helper for replacing the form title to keep same domain for testing in non production
 const regulateURL = url => {
-  if (!environment.isProduction()) {
-    url.replace(
-      url.substring(0, url.indexOf('/find-forms')),
-      environment.BASE_URL,
-    );
+  // On prod, give back the raw URL.
+  if (environment.isProduction()) {
+    return url;
   }
-  return url;
+
+  // Derive the current hostname.
+  const currentHostname = url.substring(0, url.indexOf('/find-forms'));
+
+  // On non-prod envs, we need to swap the hostname of the URL.
+  return url.replace(currentHostname, environment.BASE_URL);
 };
 
 export const deriveLatestIssue = (d1, d2) => {
