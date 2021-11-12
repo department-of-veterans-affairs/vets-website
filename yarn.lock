@@ -1990,12 +1990,12 @@
     kuler "^2.0.0"
 
 "@department-of-veterans-affairs/component-library@^3.3.4":
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.3.4.tgz#3d47258b203073aa59b89248fb0ec1b10db679a2"
-  integrity sha512-G56dVat0nSzuehtJt0IcFxRM0t7nGVq3rcPy4WSW0EsgO+xm0sCSMaxfSEoBGVJFOc79vpwUXTl0fvfx7Sz6AA==
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.6.1.tgz#09d472399895d50f7a049e68f3e96cb9630ea185"
+  integrity sha512-EyEbYp4NQ1gq+uCyqGzl0ZtKulPM3L+DjU5wIiwNrZ7OmSG3li2ZQeZ388CYYuf9UekV2OptHpJVdGiuEj9pIA==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "3.2.3"
-    "@department-of-veterans-affairs/web-components" "0.13.0"
+    "@department-of-veterans-affairs/react-components" "3.3.0"
+    "@department-of-veterans-affairs/web-components" "0.15.1"
     date-fns-tz "^1.1.1"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
@@ -2027,10 +2027,10 @@
     yeoman-generator "^4.11.0"
     yosay "^2.0.1"
 
-"@department-of-veterans-affairs/react-components@3.2.3":
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-3.2.3.tgz#1a6486f3f7c7839c42995532434ea36b6b8068d0"
-  integrity sha512-xyqWNSG5QNYnIP5KzT/XwULU4HWSm1+x6p++7RMV71KNEwWCQGFtg6TfKnuWN81gYcRpKP28z7hzXIXuEcF5+w==
+"@department-of-veterans-affairs/react-components@3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-3.3.0.tgz#2dc641c00f90ca118880b54127cd49eb6fe036d5"
+  integrity sha512-gsbbwpMabh/RIKOLS+sL+pbgAlrjS3U/UH+2sojDjN7vugeQPWdxKSTOSGjFd0i7d3M/ByjsC8ubZE6486Qk5Q==
   dependencies:
     classnames "^2.2.6"
     core-js "^3.9.0"
@@ -2057,12 +2057,12 @@
     react-is "^17.0.1"
     setimmediate "^1.0.5"
 
-"@department-of-veterans-affairs/web-components@0.13.0":
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-0.13.0.tgz#dad22867391b1c022960a82f012c32a8b78578f3"
-  integrity sha512-yDKFjKqUj1YC7Mt4cYTJ1tPPvnXPc+xNUbRbU1FxlJN/oUnNLKsb/OwyAjIi2uFv0NUBVSlVNpPmT9kD1Nv/Dg==
+"@department-of-veterans-affairs/web-components@0.15.1":
+  version "0.15.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-0.15.1.tgz#92fe0025e230e7b6599f50377ec4a75cdf7a34a9"
+  integrity sha512-eJ7FBQjFqr85sId/z+821HYyo1uG4di2XaPlZbTcqTxXbWt3qmYJC7VekinHdqdELl5Anys/O6bjaU8ECMfq5A==
   dependencies:
-    "@stencil/core" "^2.8.1"
+    "@stencil/core" "^2.10.0"
     "@stencil/postcss" "^2.0.0"
     classnames "^2.3.1"
     intersection-observer "^0.12.0"
@@ -2824,10 +2824,10 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-2.1.1.tgz#ceff6a28a5b4867c2dd4a1ba513de278ccbe8bb1"
   integrity sha512-/aPsuoj/1Dw/kzhkgz+ES6TxG0zfTMGLwuK2ZG00k/iJzYHTLCE8mVU8EPqEOp/lmxPoq1C1C9RYToRKb2KEfg==
 
-"@stencil/core@^2.8.1":
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-2.8.1.tgz#21b15c115d9a5e2f56379774fcbd9bc947bf336f"
-  integrity sha512-iv9J6oLO/lv7/aO45M05yw3pp1J7olY400vlOZgdMVs3s5zHfalY1ZPYM0KyqU4+7DZuadKYbd0aQZ/g2PInZw==
+"@stencil/core@^2.10.0":
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-2.10.0.tgz#acf44b9ae6578a20f0d09bf94296e833beadc885"
+  integrity sha512-15rWMTPQ/sp0lSV82HVCXkIya3QLN+uBl7pqK4JnTrp4HiLrzLmNbWjbvgCs55gw0lULbCIGbRIEsFz+Pe/Q+A==
 
 "@stencil/postcss@^2.0.0":
   version "2.0.0"
@@ -19440,9 +19440,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#fdbbfd00cccf1823a07f180f65e3093b805a55f2":
-  version "21.0.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#fdbbfd00cccf1823a07f180f65e3093b805a55f2"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#41706504b675b5342350c5937a68099b0d1ed2e4":
+  version "20.16.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#41706504b675b5342350c5937a68099b0d1ed2e4"
 
 vfile-message@^2.0.0:
   version "2.0.4"
