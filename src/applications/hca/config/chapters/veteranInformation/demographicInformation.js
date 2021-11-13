@@ -11,6 +11,7 @@ const {
   isNativeHawaiianOrOtherPacificIslander,
   isSpanishHispanicLatino,
   isWhite,
+  hasDemographicNoAnswer,
 } = fullSchemaHca.properties;
 
 const DemographicInfoDescription = props => {
@@ -38,11 +39,14 @@ export default {
     'view:demographicCategories': {
       'ui:field': DemographicField,
       'ui:title': ' ',
-      isSpanishHispanicLatino: {
-        'ui:title': 'Spanish, Hispanic, or Latino',
-      },
       isAmericanIndianOrAlaskanNative: {
         'ui:title': 'American Indian or Alaskan Native',
+      },
+      isSpanishHispanicLatino: {
+        'ui:title': ' Hispanic, Latino, or Spanish',
+      },
+      isAsian: {
+        'ui:title': 'Asian',
       },
       isBlackOrAfricanAmerican: {
         'ui:title': 'Black or African American',
@@ -50,11 +54,11 @@ export default {
       isNativeHawaiianOrOtherPacificIslander: {
         'ui:title': 'Native Hawaiian or Other Pacific Islander',
       },
-      isAsian: {
-        'ui:title': 'Asian',
-      },
       isWhite: {
         'ui:title': 'White',
+      },
+      hasDemographicNoAnswer: {
+        'ui:title': 'Prefer not to answer',
       },
     },
   },
@@ -65,12 +69,13 @@ export default {
         type: 'object',
         required: [],
         properties: {
-          isSpanishHispanicLatino,
           isAmericanIndianOrAlaskanNative,
-          isBlackOrAfricanAmerican,
-          isNativeHawaiianOrOtherPacificIslander,
           isAsian,
+          isBlackOrAfricanAmerican,
+          isSpanishHispanicLatino,
+          isNativeHawaiianOrOtherPacificIslander,
           isWhite,
+          hasDemographicNoAnswer,
         },
       },
     },
