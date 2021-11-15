@@ -146,7 +146,7 @@
     "command-line-args": "^5.2.0",
     "command-line-usage": "^6.1.1",
     "comment-parser": "^1.2.4",
-    "copy-webpack-plugin": "^6.0.2",
+    "copy-webpack-plugin": "^9.1.0",
     "cors": "^2.8.5",
     "css-loader": "^6.5.1",
     "cssnano": "^5.0.8",
