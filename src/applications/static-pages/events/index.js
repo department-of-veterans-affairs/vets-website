@@ -9,9 +9,15 @@ export default (store, widgetType) => {
     import(/* webpackChunkName: "ask-va" */
     './components/App').then(module => {
       const App = module.default;
+
+      // Derive the props to pass to the widget.
+      const pastEvents = window?.pastEvents?.entities || [];
+      const allEventTeasers = window?.allEventTeasers?.entities || [];
+      const events = [...pastEvents, ...allEventTeasers];
+
       ReactDOM.render(
         <Provider store={store}>
-          <App />
+          <App events={events} />
         </Provider>,
         root,
       );

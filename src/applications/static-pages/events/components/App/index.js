@@ -17,6 +17,23 @@ export const App = ({ showEventsV2 }) => {
 };
 
 App.propTypes = {
+  events: PropTypes.arrayOf(
+    PropTypes.shape({
+      entityUrl: PropTypes.shape({
+        path: PropTypes.string,
+      }),
+      fieldDatetimeRangeTimezone: PropTypes.shape({
+        value: PropTypes.number,
+        endValue: PropTypes.number,
+        timezone: PropTypes.string,
+      }),
+      fieldDescription: PropTypes.string,
+      fieldFacilityLocation: PropTypes.object,
+      fieldFeatured: PropTypes.bool,
+      fieldLocationHumanreadable: PropTypes.string,
+      title: PropTypes.string,
+    }),
+  ).isRequired,
   // From mapStateToProps.
   showEventsV2: PropTypes.bool.isRequired,
 };
