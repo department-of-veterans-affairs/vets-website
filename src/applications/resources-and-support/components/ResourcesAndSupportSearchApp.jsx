@@ -110,7 +110,7 @@ const ResourcesAndSupportSearchApp = () => {
         {articles && (
           <>
             <h1 className="vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
-              Search results
+              Search resources and support articles or all of VA.gov
             </h1>
             <SearchBar
               onSearch={onSearch}
