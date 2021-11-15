@@ -266,12 +266,10 @@ export class SignInModal extends React.Component {
           })
         ) : (
           <div className="row">
-            <div className="columns small-12 medium-6">
-              <SignInButtons
-                loginGovEnabled={this.props.loginGovEnabled}
-                isDisabled={globalDowntime}
-              />
-            </div>
+            <SignInButtons
+              loginGovEnabled={this.props.loginGovEnabled}
+              isDisabled={globalDowntime}
+            />
           </div>
         )}
         <div className="row">
@@ -310,7 +308,7 @@ export class SignInModal extends React.Component {
                 {this.props.loginGovEnabled && ` We're here 24/7.`}
               </p>
             </div>
-            <FedWarning />
+            <FedWarning loginGovEnabled={this.props.loginGovEnabled} />
           </div>
         </div>
       </div>

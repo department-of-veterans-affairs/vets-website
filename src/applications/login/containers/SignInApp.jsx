@@ -137,12 +137,10 @@ class SignInPage extends React.Component {
               <SignInDescription />
             </>
           ) : (
-            <div className="columns small-12 medium-6">
-              <SignInButtons
-                isDisabled={globalDowntime}
-                loginGovEnabled={loginGovEnabled}
-              />
-            </div>
+            <SignInButtons
+              isDisabled={globalDowntime}
+              loginGovEnabled={loginGovEnabled}
+            />
           )}
         </div>
         <div className="row">
@@ -177,7 +175,7 @@ class SignInPage extends React.Component {
               </p>
             </div>
             {!loginGovEnabled && <hr />}
-            <FedWarning />
+            <FedWarning loginGovEnabled={loginGovEnabled} />
           </div>
         </div>
       </>
