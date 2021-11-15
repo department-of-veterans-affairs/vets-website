@@ -25,6 +25,7 @@ const missingFromVetsJsonSchema = [
 const root = path.join(__dirname, '../../../');
 
 const formConfigKeys = [
+  'ariaDescribedBySubmit',
   'rootUrl',
   'formId',
   'version',
@@ -283,6 +284,7 @@ describe('form:', () => {
       return expect(
         // Dynamically import the module and perform tests on its default export
         import(configFilePath).then(({ default: formConfig }) => {
+          validStringProperty(formConfig, 'ariaDescribedBySubmit', false);
           validFormConfigKeys(formConfig);
           validFormId(formConfig);
           validStringProperty(formConfig, 'rootUrl', true);
