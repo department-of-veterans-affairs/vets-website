@@ -7,6 +7,8 @@ import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
+import { connect } from 'react-redux';
+import { showEduBenefits1990EZWizard } from '../selectors/educationWizard';
 
 const levels = [
   ['newBenefit'],
@@ -17,7 +19,7 @@ const levels = [
   ['applyForScholarship'],
 ];
 
-export default class EducationWizard extends React.Component {
+class EducationWizard extends React.Component {
   constructor(props) {
     super(props);
 
@@ -142,6 +144,8 @@ export default class EducationWizard extends React.Component {
       applyForScholarship,
       post911GIBill,
     } = this.state;
+    const { showWizard } = this.props;
+
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
       'va-button-primary': !this.state.open,
     });
@@ -334,7 +338,8 @@ export default class EducationWizard extends React.Component {
                   </div>
                 </div>
               )}
-            {newBenefit === 'yes' &&
+            {showWizard &&
+              newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'own' &&
               nationalCallToService === 'no' &&
               vetTecBenefit === 'no' && (
@@ -487,33 +492,44 @@ export default class EducationWizard extends React.Component {
                 </div>
               </div>
             )}
-            {newBenefit === 'yes' &&
-              serviceBenefitBasedOn === 'own' &&
+            {(showWizard &&
+              (post911GIBill === 'yes' &&
+                newBenefit === 'yes' &&
+                serviceBenefitBasedOn === 'own' &&
+                nationalCallToService === 'no' &&
+                vetTecBenefit === 'no' &&
+                this.getButton('22-1990'))) ||
+              (post911GIBill === 'no' &&
+                newBenefit === 'yes' &&
+                nationalCallToService === 'no' &&
+                vetTecBenefit === 'no' &&
+                this.getButton('1990'))}
+            {!showWizard &&
+              newBenefit === 'yes' &&
               nationalCallToService === 'no' &&
               vetTecBenefit === 'no' &&
-              post911GIBill === 'yes' &&
-              this.getButton('22-1990')}
-            {newBenefit === 'yes' &&
-              nationalCallToService === 'no' &&
-              vetTecBenefit === 'no' &&
-              post911GIBill === 'no' &&
               this.getButton('1990')}
-            {newBenefit === 'yes' &&
+            {!showWizard &&
+              newBenefit === 'yes' &&
               nationalCallToService === 'no' &&
               vetTecBenefit === 'yes' &&
               this.getButton('0994')}
-            {newBenefit === 'no' &&
+            {!showWizard &&
+              newBenefit === 'no' &&
               (transferredEduBenefits === 'transferred' ||
                 transferredEduBenefits === 'own') &&
               this.getButton('1995')}
-            {newBenefit === 'no' &&
+            {!showWizard &&
+              newBenefit === 'no' &&
               transferredEduBenefits === 'fry' &&
               this.getButton('5495')}
-            {newBenefit === 'yes' &&
+            {!showWizard &&
+              newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'other' &&
               sponsorDeceasedDisabledMIA === 'yes' &&
               this.getButton('5490')}
-            {newBenefit === 'yes' &&
+            {!showWizard &&
+              newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'other' &&
               sponsorDeceasedDisabledMIA === 'no' &&
               sponsorTransferredBenefits !== null &&
@@ -524,3 +540,9 @@ export default class EducationWizard extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  showWizard: showEduBenefits1990EZWizard(state),
+});
+
+export default connect(mapStateToProps)(EducationWizard);
