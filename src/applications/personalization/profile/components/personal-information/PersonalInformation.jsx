@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Prompt } from 'react-router-dom';
 import { useLastLocation } from 'react-router-last-location';
 import { connect } from 'react-redux';
+import { openModal } from '@@vap-svc/actions';
 
 import DowntimeNotification, {
   externalServices,
@@ -32,6 +33,7 @@ const PersonalInformation = ({
   hasUnsavedEdits,
   hasVAPServiceError,
   showDirectDepositBlockedError,
+  openEditModal,
 }) => {
   const lastLocation = useLastLocation();
   useEffect(() => {
@@ -90,6 +92,15 @@ const PersonalInformation = ({
     [hasUnsavedEdits],
   );
 
+  useEffect(
+    () => {
+      return () => {
+        openEditModal(null);
+      };
+    },
+    [openEditModal],
+  );
+
   return (
     <>
       <Prompt
@@ -112,6 +123,7 @@ PersonalInformation.propTypes = {
   showDirectDepositBlockedError: PropTypes.bool.isRequired,
   hasUnsavedEdits: PropTypes.bool.isRequired,
   hasVAPServiceError: PropTypes.bool,
+  openModal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -122,6 +134,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   clearSuccessAlert: clearMostRecentlySavedField,
+  openEditModal: openModal,
 };
 
 export default connect(
