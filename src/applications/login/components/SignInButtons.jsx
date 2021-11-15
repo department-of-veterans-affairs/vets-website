@@ -14,7 +14,11 @@ function loginHandler(loginType) {
   });
 }
 
-const LoginGovButtons = ({ isDisabled, externalApplication }) => (
+const LoginGovButtons = ({
+  isDisabled,
+  externalApplication,
+  loginGovCreateAccountEnabled,
+}) => (
   <>
     {externalApplication !== 'mhv' && (
       <button
@@ -60,16 +64,17 @@ const LoginGovButtons = ({ isDisabled, externalApplication }) => (
     <div id="create-account">
       <h2 className="vads-u-margin-top--3">Or create an account</h2>
       <div className="vads-u-display--flex vads-u-flex-direction--column">
-        {externalApplication !== 'mhv' && (
-          <button
-            type="button"
-            aria-label="Create an account with Login.gov"
-            disabled={isDisabled}
-            onClick={() => signup({ csp: 'logingov' })}
-          >
-            Create an account with Login.gov
-          </button>
-        )}
+        {externalApplication !== 'mhv' &&
+          loginGovCreateAccountEnabled && (
+            <button
+              type="button"
+              aria-label="Create an account with Login.gov"
+              disabled={isDisabled}
+              onClick={() => signup({ csp: 'logingov' })}
+            >
+              Create an account with Login.gov
+            </button>
+          )}
         <button
           type="button"
           aria-label="Create an account with ID.me"
@@ -151,6 +156,7 @@ export default function SignInButtons({
   isDisabled,
   loginGovEnabled,
   externalApplication,
+  loginGovCreateAccountEnabled,
 }) {
   return (
     <div>
@@ -160,6 +166,7 @@ export default function SignInButtons({
         <LoginGovButtons
           isDisabled={isDisabled}
           loginGovEnabled={loginGovEnabled}
+          loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
           externalApplication={externalApplication}
         />
       )}

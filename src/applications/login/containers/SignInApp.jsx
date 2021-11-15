@@ -15,6 +15,7 @@ import environment from 'platform/utilities/environment';
 import {
   isAuthenticatedWithSSOe,
   loginGov,
+  loginGovCreateAccount,
 } from 'platform/user/authentication/selectors';
 import { selectProfile, isProfileLoading } from 'platform/user/selectors';
 
@@ -68,7 +69,11 @@ class SignInPage extends React.Component {
 
   render() {
     const { globalDowntime } = this.state;
-    const { loginGovEnabled, location } = this.props;
+    const {
+      loginGovEnabled,
+      loginGovCreateAccountEnabled,
+      location,
+    } = this.props;
     const { query } = location;
     const loggedOut = query.auth === 'logged_out';
     const externalApplication = query.application;
@@ -140,6 +145,7 @@ class SignInPage extends React.Component {
               <SignInButtons
                 isDisabled={globalDowntime}
                 loginGovEnabled={loginGovEnabled}
+                loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
                 externalApplication={externalApplication}
               />
             </div>
@@ -189,6 +195,7 @@ const mapStateToProps = state => ({
   profile: selectProfile(state),
   profileLoading: isProfileLoading(state),
   loginGovEnabled: loginGov(state),
+  loginGovCreateAccountEnabled: loginGovCreateAccount(state),
   isAuthenticatedWithSSOe: isAuthenticatedWithSSOe(state),
 });
 

@@ -13,7 +13,11 @@ import SignInDescription from 'applications/login/components/SignInDescription';
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import recordEvent from 'platform/monitoring/record-event';
-import { ssoe, loginGov } from 'platform/user/authentication/selectors';
+import {
+  ssoe,
+  loginGov,
+  loginGovCreateAccount,
+} from 'platform/user/authentication/selectors';
 import { login, signup } from 'platform/user/authentication/utilities';
 import { formatDowntime } from 'platform/utilities/date';
 import environment from 'platform/utilities/environment';
@@ -269,6 +273,9 @@ export class SignInModal extends React.Component {
             <div className="columns small-12 medium-6">
               <SignInButtons
                 loginGovEnabled={this.props.loginGovEnabled}
+                loginGovCreateAccountEnabled={
+                  this.props.loginGovCreateAccountEnabled
+                }
                 isDisabled={globalDowntime}
               />
             </div>
@@ -341,6 +348,7 @@ function mapStateToProps(state) {
   return {
     useSSOe: ssoe(state),
     loginGovEnabled: loginGov(state),
+    loginGovCreateAccountEnabled: loginGovCreateAccount(state),
   };
 }
 
