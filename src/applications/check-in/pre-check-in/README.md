@@ -39,7 +39,11 @@ The goal one day is to merge the two applications together.
 
 ### What version of the api are we using?
 
-At the time of this commit we are not sure.
+What we know
+
+- Using v2 of the api for low auth
+- using a new v2 router to get the demographics
+- POSTing to a new v2 route to send to CHIP that the pre-checkin was complete
 
 ### How to run locally
 
