@@ -301,10 +301,11 @@ module.exports = async (env = {}) => {
           test: /\.(sa|sc|c)ss$/,
           use: [
             MiniCssExtractPlugin.loader,
-            'cache-loader',
+            // 'cache-loader',
             {
-              // loader: 'css-loader',
+              loader: 'css-loader',
               options: {
+                url: false,
                 sourceMap: enableCSSSourcemaps,
               },
             },
@@ -313,10 +314,7 @@ module.exports = async (env = {}) => {
             },
             {
               loader: 'sass-loader',
-              options: {
-                url: false,
-                sourceMap: true,
-              },
+              options: { sourceMap: true },
             },
           ],
         },
