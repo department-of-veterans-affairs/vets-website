@@ -8,6 +8,7 @@ import {
   location,
   organizationName,
   search,
+  transitionPage,
 } from './imports';
 
 const formConfig = {
@@ -51,6 +52,11 @@ const formConfig = {
           path: 'search-for-representative',
           uiSchema: search.uiSchema,
           schema: search.schema,
+        },
+        transitionPage: {
+          path: 'more-information',
+          uiSchema: transitionPage.uiSchema,
+          schema: transitionPage.schema,
         },
       },
     },

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
+const commonResponses = require('../../../../../platform/testing/local-dev-mock-api/common');
 const mockCheckIns = require('./mocks/v2/check.in.responses');
 const mockPatientCheckIns = require('./mocks/v2/patient.check.in.responses');
 const mockSessions = require('./mocks/v2/sessions.responses');

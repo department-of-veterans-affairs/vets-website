@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { createId } from '../../utils/helpers';
 import _ from 'lodash';
 import LearnMoreLabel from '../LearnMoreLabel';
+import recordEvent from 'platform/monitoring/record-event';
 
 export default function EstimatedBenefits({
   outputs,
@@ -110,8 +111,16 @@ export default function EstimatedBenefits({
             onClick={() => {
               if (modal) {
                 dispatchShowModal(modal);
+                recordEvent({
+                  event: 'gibct-form-help-text-clicked',
+                  'help-text-label': learnMoreAriaLabel,
+                });
               } else {
                 window.open(learnMoreLink, '_blank');
+                recordEvent({
+                  event: 'gibct-form-help-text-clicked',
+                  'help-text-label': learnMoreAriaLabel,
+                });
               }
             }}
             ariaLabel={learnMoreAriaLabel}
