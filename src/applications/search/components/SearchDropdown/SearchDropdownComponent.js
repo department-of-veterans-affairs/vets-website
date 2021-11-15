@@ -581,6 +581,7 @@ class SearchDropdownComponent extends React.Component {
               <div
                 className={`search-dropdown-options vads-u-padding--x-1 vads-u-background-color--white vads-u-width--full ${suggestionsListClassName}`}
                 role="listbox"
+                aria-label={'Search Suggestions'}
                 id={`${id}-listbox`}
               >
                 {suggestions.map((suggestionString, i) => {
@@ -631,7 +632,10 @@ class SearchDropdownComponent extends React.Component {
               data-e2e-id={`${id}-submit-button`}
               id={`${id}-submit-button`}
               onClick={() => onInputSubmit(this.state)}
-              onFocus={this.saveSuggestions}
+              onFocus={() => {
+                this.saveSuggestions();
+                this.updateMenuState(false, false);
+              }}
             >
               <IconSearch color="#fff" />
               <span className="usa-sr-only">Search</span>
