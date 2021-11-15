@@ -37,7 +37,7 @@ const DownloadPDFGuidance = ({
     if (
       reduxStore?.getState &&
       showPDFModal(reduxStore.getState()) &&
-      !doesCookieExist
+      !doesCookieExist()
     ) {
       ReactDOM.render(
         <Provider store={reduxStore}>

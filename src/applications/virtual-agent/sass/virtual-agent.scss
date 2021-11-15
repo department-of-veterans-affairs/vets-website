@@ -16,3 +16,9 @@ button.webchat__suggested-action__button:hover {
 button.webchat__suggested-action__button:active {
   background: rgb(17,46,81) !important;
 }
+
+#btnAcceptDisclaimer {
+  @include media($medium-large-screen) {
+    margin-left: 23px;
+  }
+}
