@@ -1,5 +1,4 @@
-// import mockUser from 'platform/testing/e2e/mock-user';
-import mockUser from './fixtures/mocks/mock-user.json';
+import mockUser from 'platform/testing/e2e/mock-user';
 
 describe('edu-benefits Application Status Test', () => {
   it('Achieves the correct result per URL', () => {
