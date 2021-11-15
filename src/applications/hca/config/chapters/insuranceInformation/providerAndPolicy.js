@@ -36,7 +36,7 @@ const insuranceInfo = (
 
 const triCareInfo = (
   <>
-    <p>
+    <div className={'vads-u-padding-y--1'}>
       <AdditionalInfo triggerText="I have TRICARE. What’s my policy number?">
         <p>
           You can use your Department of Defense benefits number (DBN) or your
@@ -47,7 +47,7 @@ const triCareInfo = (
           your military ID card.
         </p>
       </AdditionalInfo>
-    </p>
+    </div>
     <p>Policy Number</p>
   </>
 );
