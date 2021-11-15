@@ -37,7 +37,7 @@ span.sidelines {
   .va-modal-body {
     // Overwrite white header color.
     color: $color-gray-dark;
-    padding-top: 0;
+    padding: 0 9em;
     margin-right: 0;
   }
 
@@ -146,7 +146,7 @@ span.sidelines {
 
   .container {
     color: $color-base;
-    padding: 2em 0;
+    padding: 2em 0 0;
   }
 
   .logo {
