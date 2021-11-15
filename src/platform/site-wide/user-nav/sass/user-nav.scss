@@ -88,7 +88,6 @@ span.sidelines {
 
     &.dslogon-button {
       background: $color-primary-darker;
-      padding: 1em 0.75em;
 
       &:hover {
         background: $color-primary-darkest;
@@ -116,7 +115,6 @@ span.sidelines {
 
     &.idme-button {
       background: $color-green;
-      padding: 1em 0.75em;
 
       &:hover {
         background: $color-green-darker;
@@ -125,7 +123,6 @@ span.sidelines {
 
     &.logingov-button {
       background: $color-secondary;
-      padding: 1em 0.75em;
 
       &:hover {
         background: $color-secondary-darkest;
@@ -134,7 +131,6 @@ span.sidelines {
 
     &.mhv-button {
       background: $color-primary;
-      padding: 1em 0.75em;
 
       &:hover {
         background: $color-primary-darker;
@@ -318,7 +314,7 @@ span.sidelines {
   width: 21rem;
 }
 
-#create-account a[role="link"] {
+#create-account a {
   border-top: 1px solid $color-gray-light;
   border-bottom: 1px solid $color-gray-light;
   padding-bottom: 1.16em;

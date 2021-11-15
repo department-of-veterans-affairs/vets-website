@@ -199,3 +199,12 @@ export function signup({ version = 'v1', csp = 'idme' } = {}) {
     `${csp}-${AUTH_EVENTS.REGISTER}`,
   );
 }
+
+export const idmeSignupUrl = sessionTypeUrl({
+  type: 'idme_signup',
+  queryParams: { op: 'signup' },
+});
+
+export const loginGovSignupUrl = sessionTypeUrl({
+  type: 'logingov_signup',
+});
