@@ -68,7 +68,6 @@ const LoginGovButtons = ({ isDisabled }) => (
         <a
           href={loginGovSignupUrl()}
           className="vads-c-action-link--blue logingov"
-          aria-label="Create an account on the Login.gov website"
           disabled={isDisabled}
           onClick={() => signupHandler('logingov')}
         >
@@ -77,7 +76,6 @@ const LoginGovButtons = ({ isDisabled }) => (
         <a
           href={idmeSignupUrl()}
           className="vads-c-action-link--blue"
-          aria-label="Create an account on the ID.me website"
           disabled={isDisabled}
           onClick={() => signupHandler('idme')}
         >
