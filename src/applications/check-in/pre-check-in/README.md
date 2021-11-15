@@ -42,8 +42,8 @@ The goal one day is to merge the two applications together.
 What we know
 
 - Using v2 of the api for low auth
-- using a new v2 router to get the demographics
-- POSTing to a new v2 route to send to CHIP that the pre-checkin was complete
+- using a new route to get the demographics
+- POSTing to a new route to send to CHIP that the pre-checkin was complete
 
 ### How to run locally
 
