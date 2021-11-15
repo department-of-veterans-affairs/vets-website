@@ -95,3 +95,6 @@ export const showNotificationSettings = state => {
   }
   return !!FFProfileNotificationSettings;
 };
+
+export const showProfileLGBTQEnhancements = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.profileEnhancements];

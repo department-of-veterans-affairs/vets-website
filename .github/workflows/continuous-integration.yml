@@ -8,8 +8,7 @@ on:
       - '**'
 
 env:
-  DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
-  CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
+  NUM_CONTAINERS: '8'
 
 concurrency:
   group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha }}
@@ -31,6 +30,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -41,9 +42,22 @@ jobs:
             .cache/yarn
             node_modules
 
+      - name: List changed files
+        id: changed-files
+        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+
+      - name: Get app entries for changed files
+        id: get-changed-apps
+        if: ${{ github.ref != 'refs/heads/master' && matrix.buildtype == 'vagovdev' }}
+        run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+
       - name: Build
-        run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
+        run: yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
         timeout-minutes: 30
+        env:
+          ENTRY: ${{ steps.get-changed-apps.outputs.app_entries }}
 
       - name: Generate build details
         run: |
@@ -588,7 +602,6 @@ jobs:
         run: yarn contract-mochawesome-to-bigquery
         working-directory: testing-tools-team-dashboard-data
         env:
-          NUM_CONTAINERS: '8'
           TEST_EXECUTIONS_TABLE_NAME: vets_website_contract_test_suite_executions
           TEST_RESULTS_TABLE_NAME: vets_website_contract_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-contract-test-reports
@@ -727,7 +740,6 @@ jobs:
         working-directory: testing-tools-team-dashboard-data
         env:
           IS_MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.is_master_build }}
-          NUM_CONTAINERS: '8'
           TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
           TEST_RESULTS_TABLE_NAME: cypress_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
@@ -857,11 +869,11 @@ jobs:
       matrix:
         include:
           - environment: vagovdev
-            bucket: dev-va-gov-assets
-            apps-bucket: apps.dev.va.gov
+            deploy-bucket: dev.va.gov
+            asset-bucket: dev-va-gov-assets
           - environment: vagovstaging
-            bucket: staging-va-gov-assets
-            apps-bucket: apps.staging.va.gov
+            deploy-bucket: staging.va.gov
+            asset-bucket: staging-va-gov-assets
 
     steps:
       - name: Checkout
@@ -891,17 +903,11 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Deploy
-        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
         env:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
-          DEST: s3://${{ matrix.bucket }}
-
-      # TODO: Revisit revproxy
-      - name: Deploy to ${{ matrix.apps-bucket }}
-        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
-        env:
-          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
-          DEST: s3://${{ matrix.apps-bucket }}
+          DEST: s3://${{ matrix.deploy-bucket }}
+          ASSET_DEST: s3://${{ matrix.asset-bucket }}
 
   # jenkins:
   #   name: Run Jenkins CI
@@ -955,6 +961,8 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
     needs: deploy
+    env:
+      DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
 
     steps:
       - name: Checkout

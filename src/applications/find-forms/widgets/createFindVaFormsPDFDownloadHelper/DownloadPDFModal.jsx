@@ -1,7 +1,10 @@
 // Dependencies.
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
+
+// Relative imports
+import recordEvent from 'platform/monitoring/record-event';
 
 // DownloadPDFModal is state wrapper + modal for PDF guidance upon PDf being valid
 const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
@@ -11,8 +14,17 @@ const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
     pdfUrl: url,
   });
 
-  const toggleModalState = cb =>
-    setModalState({ ...modalState, isOpen: !modalState.isOpen }, cb ?? cb());
+  useEffect(
+    () => {
+      if (modalState.isOpen === false) {
+        removeNode(); // removes react widget from dom
+      }
+    },
+    [modalState, removeNode],
+  );
+
+  const toggleModalState = () =>
+    setModalState({ ...modalState, isOpen: !modalState.isOpen });
 
   // modal state variables
   const { isOpen, pdfSelected, pdfUrl } = modalState;
@@ -24,44 +36,46 @@ const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
       }}
     >
       <Modal
-        onClose={() => toggleModalState(removeNode)}
-        secondaryButton={{
-          action: () => {
-            toggleModalState(removeNode);
-          },
-          text: 'Close',
+        onClose={() => {
+          toggleModalState();
+          recordEvent({
+            event: 'int-modal-click',
+            'modal-status': 'closed',
+            'modal-title': 'Download this PDF and open it in Acrobat Reader',
+          });
         }}
-        title="Adobe Reader DC Required"
+        title="Download this PDF and open it in Acrobat Reader"
         visible={isOpen}
       >
         <>
-          <p className="vads-u-display--block vads-u-margin-bottom--3">
-            <span>
-              All PDF forms do not function fully in a web browser or other PDF
-              viewer. Please download the form and use Adobe Acrobat Reader DC
-              to fill out. For specific instructions about working with PDFs
-            </span>{' '}
-            <a href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form">
-              please read our Resources and Support Article
-            </a>
-          </p>
-          <a
-            className="vads-u-display--block vads-u-margin-bottom--1p5"
-            href="https://get.adobe.com/reader/"
-            rel="noopener noreferrer"
-          >
-            <span>Get Acrobat Reader DC</span>
+          <p>
+            Download this PDF to your desktop computer or laptop. Then use Adobe
+            Acrobat Reader to open and fill out the form. Don’t try to open the
+            PDF on a mobile device or fill it out in your browser.
+          </p>{' '}
+          <p>
+            If you just want to fill out a paper copy, open the PDF in your
+            browser and print it from there.
+          </p>{' '}
+          <a href="https://get.adobe.com/reader/" rel="noopener noreferrer">
+            Get Acrobat Reader for free from Adobe
           </a>
           <a
             href={pdfUrl}
-            className="vads-u-display--block vads-u-margin-bottom--3"
+            className="usa-button vads-u-margin-top--2"
+            role="button"
+            rel="noreferrer noopener"
+            onClick={() => {
+              recordEvent({
+                event: 'int-modal-click',
+                'modal-status': 'open',
+                'modal-title':
+                  'Download this PDF and open it in Acrobat Reader',
+                'modal-primaryButton-text': `Download VA Form ${pdfSelected}`,
+              });
+            }}
           >
-            <i
-              aria-hidden="true"
-              className="fas fa-download fa-lg vads-u-margin-right--1"
-              role="presentation"
-            />
-            <span>Download VA Form {pdfSelected}</span>
+            Download VA Form {pdfSelected}
           </a>
         </>
       </Modal>
