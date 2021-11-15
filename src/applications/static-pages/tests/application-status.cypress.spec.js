@@ -15,13 +15,6 @@ describe('Application Status Test', () => {
       '/health-care/apply/application/resume',
     );
 
-    // ???
-    cy.testStatus(
-      '/pension/how-to-apply/',
-      '/pension/application/527EZ/resume',
-    );
-    cy.testStatus('/pension/eligibility', '/pension/application/527EZ/resume');
-
     // src/applications/burials @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
     cy.testStatus(
       '/burials-memorials/veterans-burial-allowance/',
