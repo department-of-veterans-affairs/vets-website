@@ -37,8 +37,12 @@ span.sidelines {
   .va-modal-body {
     // Overwrite white header color.
     color: $color-gray-dark;
-    padding: 0 9em;
+    padding: 0;
     margin-right: 0;
+
+    @include media($medium-screen) {
+      padding: 0 9em;
+    }
   }
 
   .va-modal-inner {
@@ -146,7 +150,7 @@ span.sidelines {
 
   .container {
     color: $color-base;
-    padding: 2em 0 0;
+    padding: 2em 0;
   }
 
   .logo {
