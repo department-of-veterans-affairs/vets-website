@@ -2,6 +2,7 @@ import React from 'react';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import CustomReviewField from '../../../components/CustomReviewField';
 
 const MaritalStatusDescription = () => {
   return (
@@ -29,6 +30,7 @@ export default {
     'ui:description': PrefillMessage,
     maritalStatus: {
       'ui:title': 'Marital status',
+      'ui:reviewField': CustomReviewField,
       'ui:description': MaritalStatusDescription,
     },
   },
