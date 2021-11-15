@@ -1,5 +1,7 @@
 import 'platform/polyfills';
 import './styles.scss';
+
+// necessary styles for the search dropdown component
 import './components/SearchDropdown/SearchDropdownStyles.scss';
 
 import startApp from 'platform/startup';

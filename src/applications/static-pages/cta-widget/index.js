@@ -25,10 +25,7 @@ import UpgradeFailed from './components/messages/UpgradeFailed';
 import VAOnlineScheduling from './components/messages/VAOnlineScheduling';
 import Verify from './components/messages/Verify';
 import recordEvent from 'platform/monitoring/record-event';
-import {
-  ACCOUNT_STATES,
-  ACCOUNT_STATES_SET,
-} from 'applications/validate-mhv-account/constants';
+import { ACCOUNT_STATES, ACCOUNT_STATES_SET } from './constants';
 import {
   createAndUpgradeMHVAccount,
   fetchMHVAccount,
