@@ -89,12 +89,9 @@ export const doesCookieExist = () =>
  * @returns {boolean} boolean value if it does exist.
  */
 export const setCookie = () => {
-  if (doesCookieExist()) {
-    return true;
-  } else {
+  if (!doesCookieExist()) {
     const expireDate = new Date(Date.now() + 86400000); // 24hr cookie
     const utcDateString = expireDate.toUTCString();
     document.cookie = `findForms=pdfModal; expires=${utcDateString};`;
-    return false;
   }
 };

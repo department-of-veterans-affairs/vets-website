@@ -7,8 +7,13 @@ on:
         description: Deploy a specific commit
         required: true
       deploy_environment:
-        description: The environment to deploy to (dev, staging, both)
+        type: choice
+        description: The environment to deploy to
         required: true
+        options:
+          - dev
+          - staging
+          - both
 
 env:
   DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
