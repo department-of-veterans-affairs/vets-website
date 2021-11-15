@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { makeApiCall } from './index';
 
-describe('check in', () => {
+describe('Pre check in', () => {
   describe('api utils', () => {
     describe('makeApiCall', () => {
       it('makeApiCall invokes promise', async () => {
