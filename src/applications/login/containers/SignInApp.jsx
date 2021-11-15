@@ -28,16 +28,14 @@ class SignInPage extends React.Component {
   };
 
   componentDidUpdate() {
-    const searchParams = new URLSearchParams(window.location.search);
-    const application = searchParams.get('application');
+    const { router, location } = this.props;
+    const application = location?.query?.application;
     if (
       this.props.isAuthenticatedWithSSOe &&
       !this.props.profile.verified &&
       application === 'myvahealth'
     ) {
-      this.props.router.push(
-        appendQuery('/verify', window.location.search.slice(1)),
-      );
+      router.push(appendQuery('/verify', window.location.search.slice(1)));
     }
   }
 
@@ -70,9 +68,10 @@ class SignInPage extends React.Component {
 
   render() {
     const { globalDowntime } = this.state;
-    const { query } = this.props.location;
-    const { loginGovEnabled } = this.props;
+    const { loginGovEnabled, location } = this.props;
+    const { query } = location;
     const loggedOut = query.auth === 'logged_out';
+    const externalApplication = query.application;
 
     return (
       <>
@@ -141,6 +140,7 @@ class SignInPage extends React.Component {
               <SignInButtons
                 isDisabled={globalDowntime}
                 loginGovEnabled={loginGovEnabled}
+                externalApplication={externalApplication}
               />
             </div>
           )}

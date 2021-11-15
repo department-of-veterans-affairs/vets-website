@@ -9,20 +9,24 @@ const vaGovFullDomain = environment.BASE_URL;
 
 function loginHandler(loginType) {
   recordEvent({ event: `login-attempted-${loginType}` });
-  login(loginType, 'v1');
+  login({
+    policy: loginType,
+  });
 }
 
-const LoginGovButtons = ({ isDisabled }) => (
+const LoginGovButtons = ({ isDisabled, externalApplication }) => (
   <>
-    <button
-      disabled={isDisabled}
-      type="button"
-      aria-label="Sign in with Login.gov"
-      className="usa-button usa-button-big logingov-button vads-u-margin-y--1p5"
-      onClick={() => loginHandler('logingov')}
-    >
-      <LoginGovSVG />
-    </button>
+    {externalApplication !== 'mhv' && (
+      <button
+        disabled={isDisabled}
+        type="button"
+        aria-label="Sign in with Login.gov"
+        className="usa-button usa-button-big logingov-button vads-u-margin-y--1p5"
+        onClick={() => loginHandler('logingov')}
+      >
+        <LoginGovSVG />
+      </button>
+    )}
     <button
       disabled={isDisabled}
       type="button"
@@ -56,14 +60,16 @@ const LoginGovButtons = ({ isDisabled }) => (
     <div id="create-account">
       <h2 className="vads-u-margin-top--3">Or create an account</h2>
       <div className="vads-u-display--flex vads-u-flex-direction--column">
-        <button
-          type="button"
-          aria-label="Create an account with Login.gov"
-          disabled={isDisabled}
-          onClick={() => signup({ csp: 'logingov' })}
-        >
-          Create an account with Login.gov
-        </button>
+        {externalApplication !== 'mhv' && (
+          <button
+            type="button"
+            aria-label="Create an account with Login.gov"
+            disabled={isDisabled}
+            onClick={() => signup({ csp: 'logingov' })}
+          >
+            Create an account with Login.gov
+          </button>
+        )}
         <button
           type="button"
           aria-label="Create an account with ID.me"
@@ -126,7 +132,7 @@ const OriginalButtons = ({ isDisabled }) => (
       <button
         disabled={isDisabled}
         className="idme-create usa-button usa-button-secondary"
-        onClick={() => signup('v1')}
+        onClick={() => signup()}
       >
         <img
           aria-hidden="true"
@@ -141,7 +147,11 @@ const OriginalButtons = ({ isDisabled }) => (
   </>
 );
 
-export default function SignInButtons({ isDisabled, loginGovEnabled }) {
+export default function SignInButtons({
+  isDisabled,
+  loginGovEnabled,
+  externalApplication,
+}) {
   return (
     <div>
       {!loginGovEnabled ? (
@@ -150,6 +160,7 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
         <LoginGovButtons
           isDisabled={isDisabled}
           loginGovEnabled={loginGovEnabled}
+          externalApplication={externalApplication}
         />
       )}
     </div>
