@@ -22,6 +22,7 @@
     "cy:testrail-run": "cypress run --config-file config/cypress-testrail.json --reporter-options host=https://dsvavsp.testrail.io/,username=$TR_USER,password=$TR_API_KEY,projectId=$TR_PROJECTID,suiteId=$TR_SUITEID,runName=$TR_RUN_NAME,includeAllInTestRun=$TR_INCLUDE_ALL,groupId=$TR_GROUPID,filter=$TR_FILTER",
     "cy:my-testrail-helper": "node ./script/cypress-testrail-helper",
     "cy:my-testrail-run": "cypress run --config-file config/my-cypress-testrail.json",
+    "generate-app-list": "node script/github-actions/generate-app-list.js",
     "heroku-serve": "http-server",
     "jsdoc": "jsdoc",
     "prebuild": "node script/prebuild.js",
@@ -93,7 +94,7 @@
     "ie 11"
   ],
   "devDependencies": {
-    "@actions/core": "^1.5.0",
+    "@actions/core": "^1.6.0",
     "@babel/core": "^7.15.8",
     "@babel/parser": "^7.16.3",
     "@babel/plugin-proposal-class-properties": "^7.14.5",
@@ -110,7 +111,7 @@
     "@babel/preset-react": "^7.14.5",
     "@babel/register": "^7.15.3",
     "@babel/traverse": "^7.16.3",
-    "@cypress/webpack-preprocessor": "^5.4.1",
+    "@cypress/webpack-preprocessor": "^5.9.1",
     "@department-of-veterans-affairs/generator-vets-website": "^3.5.0",
     "@octokit/rest": "^18.11.0",
     "@pact-foundation/pact": "^9.16.1",
@@ -144,6 +145,7 @@
     "cli-table": "^0.3.6",
     "command-line-args": "^5.2.0",
     "command-line-usage": "^6.1.1",
+    "comment-parser": "^1.2.4",
     "copy-webpack-plugin": "^9.0.1",
     "cors": "^2.8.5",
     "css-loader": "^6.4.0",
@@ -314,7 +316,6 @@
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#8f22da4a728ec2a33e59d3ad3e19bd1e1516d9b2",
-    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.13.0",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {
