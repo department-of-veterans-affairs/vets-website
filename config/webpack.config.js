@@ -425,7 +425,10 @@ module.exports = async (env = {}) => {
         },
       }),
 
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^\.\/locale$/,
+        contextRegExp: /moment$/,
+      }),
 
       new WebpackBar(),
     ],
