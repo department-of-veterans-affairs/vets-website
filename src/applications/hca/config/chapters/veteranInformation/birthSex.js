@@ -54,9 +54,7 @@ export default {
     type: 'object',
     required: ['gender'],
     properties: {
-      gender: {
-        ...gender,
-      },
+      gender,
     },
   },
 };
