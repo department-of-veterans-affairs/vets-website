@@ -73,10 +73,10 @@ const ResourcesAndSupportSearchApp = () => {
 
   if (results.length > 0) {
     paginationSummary = (
-      <>
+      <h2 className="vads-u-font-size--base">
         Showing {startIndex + 1} - {endIndex} of {results.length} results for "
         <strong>{query}</strong>"
-      </>
+      </h2>
     );
   } else if (!query) {
     paginationSummary = <>Enter a query to get started.</>;
