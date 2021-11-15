@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { setCurrentToken, clearCurrentSession, getCurrentToken } from './index';
 
-describe('Pre check in', () => {
+describe('check in', () => {
   describe('session utils', () => {
     describe('save token to session storage', () => {
       it('saves data to name spaced key', () => {
