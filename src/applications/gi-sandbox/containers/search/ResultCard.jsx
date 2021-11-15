@@ -76,12 +76,6 @@ export function ResultCard({
     }
   };
 
-  // const handleCompareClick = () => {
-  //   recordEvent({
-  //     event: `${compareLength ? compareLength + 1 : 'No'} schools in compare`,
-  //   });
-  // };
-
   const [expanded, toggleExpansion] = useState(false);
 
   const profileLink = version
