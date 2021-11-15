@@ -110,7 +110,7 @@ const ResourcesAndSupportSearchApp = () => {
         {articles && (
           <>
             <h1 className="vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
-              Search resources and support articles or all of VA.gov
+              Resources and Support Search Results
             </h1>
             <SearchBar
               onSearch={onSearch}
@@ -118,7 +118,7 @@ const ResourcesAndSupportSearchApp = () => {
               onInputChange={setUserInput}
             />
             <h2
-              className="vads-u-padding-x--1 large-screen:vads-u-padding-x--0 vads-u-font-size--base"
+              className="vads-u-padding-x--1 large-screen:vads-u-padding-x--0 vads-u-font-size--base vads-u-margin-y--1 vads-u-font-weight--normal"
               id="pagination-summary"
             >
               {paginationSummary}

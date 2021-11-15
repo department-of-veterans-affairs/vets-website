@@ -93,7 +93,7 @@ export default function SearchBar({
           >
             <fieldset className="fieldset-input vads-u-margin--0">
               <legend>
-                <h2 className="vads-u-font-size--md vads-u-font-family--serif">
+                <h2 className="vads-u-font-size--md vads-u-font-family--serif vads-u-margin--0">
                   Search resources and support articles or all of VA.gov
                 </h2>
               </legend>
