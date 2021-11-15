@@ -15,7 +15,7 @@ const Keycodes = {
   PageUp: 33,
   Right: 39,
   // Space: 32,
-  // Tab: 9,
+  Tab: 9,
   Up: 38,
 };
 
@@ -199,12 +199,12 @@ class SearchDropdownComponent extends React.Component {
     if (lowerSuggestion.includes(lowerQuery)) {
       return (
         <>
-          {inputValue}
-          <strong>{lowerSuggestion.replace(lowerQuery, '')}</strong>
+          <span aria-hidden>{inputValue}</span>
+          <strong aria-hidden>{lowerSuggestion.replace(lowerQuery, '')}</strong>
         </>
       );
     }
-    return <strong>{lowerSuggestion}</strong>;
+    return <strong aria-hidden>{lowerSuggestion}</strong>;
   };
 
   handleInputChange = event => {
@@ -250,6 +250,14 @@ class SearchDropdownComponent extends React.Component {
     }
   }
 
+  focusIndex(index) {
+    this.setState({ activeIndex: index, ignoreBlur: true }, () => {
+      if (index !== undefined) {
+        document.getElementById(`${this.props.id}-option-${index}`).focus();
+      }
+    });
+  }
+
   // this is the handler for all of the keypress logic
   onKeyDown = event => {
     const { suggestions, isOpen, activeIndex } = this.state;
@@ -283,11 +291,12 @@ class SearchDropdownComponent extends React.Component {
     // if the last option is selected, cycle to the first option instead
     if (currentKeyPress === Keycodes.Down) {
       if (activeIndex === undefined || activeIndex + 1 > max) {
-        this.setState({ activeIndex: 0 });
+        this.focusIndex(0);
 
         return;
       }
-      this.setState({ activeIndex: activeIndex + 1 });
+
+      this.focusIndex(activeIndex + 1);
       return;
     }
 
@@ -296,25 +305,25 @@ class SearchDropdownComponent extends React.Component {
     // if the first option is selected, cycle to the last option instead
     if (currentKeyPress === Keycodes.Up || currentKeyPress === Keycodes.Left) {
       if (activeIndex - 1 < 0) {
-        this.setState({ activeIndex: max });
+        this.focusIndex(max);
 
         return;
       }
-      this.setState({ activeIndex: activeIndex - 1 });
+      this.focusIndex(activeIndex - 1);
       return;
     }
 
     // first
     // when the HOME key is pressed, select the first option in the drop down menu
     if (currentKeyPress === Keycodes.Home) {
-      this.setState({ activeIndex: 0 });
+      this.focusIndex(0);
       return;
     }
 
     // last
     // when the END key is pressed, select the last option in the drop down menu
     if (currentKeyPress === Keycodes.End) {
-      this.setState({ activeIndex: max });
+      this.focusIndex(max);
       return;
     }
 
@@ -322,7 +331,7 @@ class SearchDropdownComponent extends React.Component {
     // when the ESCAPE key is pressed, close the drop down menu WITHOUT selecting any of the options
     if (currentKeyPress === Keycodes.Escape) {
       this.setState({ activeIndex: undefined });
-      this.updateMenuState(false);
+      this.updateMenuState(false, true);
       return;
     }
 
@@ -340,7 +349,7 @@ class SearchDropdownComponent extends React.Component {
       }
       if (!submitOnEnter) {
         this.selectOption(activeIndex);
-        this.updateMenuState(false);
+        this.updateMenuState(false, true);
 
         return;
       }
@@ -348,8 +357,17 @@ class SearchDropdownComponent extends React.Component {
         this.setA11yDescriptionFlag(false);
         onSuggestionSubmit(activeIndex, this.state);
         this.selectOption(activeIndex);
-        this.updateMenuState(false);
+        this.updateMenuState(false, true);
       }
+    }
+
+    // when the tab key is pressed, close the suggestions list and select the search button
+    if (currentKeyPress === Keycodes.Tab) {
+      event.preventDefault();
+      this.setState({ activeIndex: undefined }, () => {
+        this.updateMenuState(false, false);
+        document.getElementById(`${this.props.id}-submit-button`).focus();
+      });
     }
   };
 
@@ -362,14 +380,14 @@ class SearchDropdownComponent extends React.Component {
     if (!submitOnClick) {
       this.setState({ activeIndex: index });
       this.selectOption(index);
-      this.updateMenuState(false);
+      this.updateMenuState(false, true);
       return;
     }
     if (canSubmit) {
       this.setA11yDescriptionFlag(false);
       onSuggestionSubmit(index, this.state);
       this.selectOption(index);
-      this.updateMenuState(false);
+      this.updateMenuState(false, true);
     }
   }
 
@@ -553,7 +571,7 @@ class SearchDropdownComponent extends React.Component {
             role="status"
             className="vads-u-visibility--screen-reader"
             aria-live="assertive"
-            aria-relevant="all"
+            aria-relevant="additions text"
           >
             {a11yStatusMessage}
           </span>
@@ -563,6 +581,7 @@ class SearchDropdownComponent extends React.Component {
               <div
                 className={`search-dropdown-options vads-u-padding--x-1 vads-u-background-color--white vads-u-width--full ${suggestionsListClassName}`}
                 role="listbox"
+                aria-label={'Search Suggestions'}
                 id={`${id}-listbox`}
               >
                 {suggestions.map((suggestionString, i) => {
@@ -590,6 +609,7 @@ class SearchDropdownComponent extends React.Component {
                       onMouseOver={() => {
                         this.setState({ activeIndex: i });
                       }}
+                      onKeyDown={this.onKeyDown}
                       onFocus={() => {
                         this.setState({ activeIndex: i });
                       }}
@@ -612,7 +632,10 @@ class SearchDropdownComponent extends React.Component {
               data-e2e-id={`${id}-submit-button`}
               id={`${id}-submit-button`}
               onClick={() => onInputSubmit(this.state)}
-              onFocus={this.saveSuggestions}
+              onFocus={() => {
+                this.saveSuggestions();
+                this.updateMenuState(false, false);
+              }}
             >
               <IconSearch color="#fff" />
               <span className="usa-sr-only">Search</span>
@@ -651,6 +674,7 @@ class SearchDropdownComponent extends React.Component {
                     onMouseOver={() => {
                       this.setState({ activeIndex: i });
                     }}
+                    onKeyDown={this.onKeyDown}
                     onFocus={() => {
                       this.setState({ activeIndex: i });
                     }}
