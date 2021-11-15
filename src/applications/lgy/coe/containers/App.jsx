@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import FormFooter from 'platform/forms/components/FormFooter';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
 import formConfig from '../config/form';
@@ -18,10 +17,6 @@ function App(props) {
 
   const content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      <FormTitle title="Request a VA home loan Certificate of Eligibility (COE)" />
-      <p className="vads-u-padding-bottom--3">
-        Request for a Certificate of Eligibility (VA Form 26-1880)
-      </p>
       {children}
     </RoutedSavableApp>
   );
