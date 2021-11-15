@@ -77,9 +77,10 @@ export const post911GiBillNote = (
   <div className="usa-alert background-color-only">
     <h3>You’re applying for the Post-9/11 GI BIll®</h3>
     <p>
-      At this time, you can only apply for Post-9/11 GI Bill (Chapter 33)
-      benefits through this application. If you want to apply for other
-      education benefits, <a href="#">find out what you’re eligible for.</a>
+      At this time, you can only apply for the Post-9/11 GI Bill (Chapter 33)
+      benefits through this application. Doing so will require that you give up
+      one other benefit you may be eligible for. You cannot change your decision
+      after you submit this application.
     </p>
   </div>
 );
