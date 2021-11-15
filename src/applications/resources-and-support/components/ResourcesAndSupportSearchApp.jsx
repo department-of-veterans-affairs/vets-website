@@ -73,10 +73,10 @@ const ResourcesAndSupportSearchApp = () => {
 
   if (results.length > 0) {
     paginationSummary = (
-      <h2 className="vads-u-font-size--base">
+      <>
         Showing {startIndex + 1} - {endIndex} of {results.length} results for "
         <strong>{query}</strong>"
-      </h2>
+      </>
     );
   } else if (!query) {
     paginationSummary = <>Enter a query to get started.</>;
@@ -117,12 +117,12 @@ const ResourcesAndSupportSearchApp = () => {
               userInput={userInput}
               onInputChange={setUserInput}
             />
-            <p
-              className="vads-u-padding-x--1 large-screen:vads-u-padding-x--0"
+            <h2
+              className="vads-u-padding-x--1 large-screen:vads-u-padding-x--0 vads-u-font-size--base"
               id="pagination-summary"
             >
               {paginationSummary}
-            </p>
+            </h2>
             <SearchResultList
               query={query}
               results={currentPageOfResults}

@@ -253,7 +253,9 @@ class SearchDropdownComponent extends React.Component {
   focusIndex(index) {
     this.setState({ activeIndex: index, ignoreBlur: true }, () => {
       if (index !== undefined) {
-        document.getElementById(`${this.props.id}-option-${index}`).focus();
+        document.getElementById(`${this.props.id}-option-${index}`).focus({
+          preventScroll: true,
+        });
       }
     });
   }
