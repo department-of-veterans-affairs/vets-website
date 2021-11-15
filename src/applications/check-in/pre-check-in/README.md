@@ -1,24 +1,12 @@
 # Pre Check in Application
 
-- [Check in Application](#check-in-application)
-  - [Description](#description)
-  - [Slack Channels](#slack-channels)
-  - [Approval Groups](#approval-groups)
-  - [Project Documentation](#project-documentation)
-  - [Good to knows](#good-to-knows)
-    - [Project URLS](#project-urls)
-    - [How to run locally](#how-to-run-locally)
-    - [How to run with Codespaces](#how-to-run-with-codespaces)
-    - [Where is the data coming from?](#where-is-the-data-coming-from)
-    - [Why is this not a VA forms app (formation)](#why-is-this-not-a-va-forms-app-formation)
-    - [What API(s) does this use?](#what-apis-does-this-use)
-    - [Feature toggles](#feature-toggles)
-    - [How to test this?](#how-to-test-this)
-    - [Useful acronym and terms](#useful-acronym-and-terms)
-
 ## Description
 
-// TODO: fill this doc in with ticket number<https://github.com/department-of-veterans-affairs/va.gov-team/issues/32743>
+This is the pre-check-in application. Ideally, this is going to be filled out days before the appointment. The veteran will be able to confirm various aspects of their appointment and information.
+
+From a technical perspective, this app is going to be very similar to the the `day-of` product. For this iteration we are going to be focusing on creating a dynamic form system using the new Formulate library. The Formulate library is not yet ready for prime time, but we will be using the underlying engine (Formik), for when we need edit data points.
+
+The goal one day is to merge the two applications together.
 
 ## Slack Channels
 
@@ -31,21 +19,31 @@
 
 ## Project Documentation
 
-// TODO: fill this doc in with ticket number<https://github.com/department-of-veterans-affairs/va.gov-team/issues/32743>
+- [Sketch](https://www.sketch.com/s/e79a827e-42cf-4a82-b554-874c75b5c70e/p/847B453D-F19E-4D55-9EE6-C523E7408879)
+- [Product Docs](https://github.com/department-of-veterans-affairs/va.gov-team/tree/master/products/health-care/checkin)
+- [Decision Docs](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/health-care/checkin/Decisions/DecisionRegister.md)
 
 ## Good to knows
 
 ### Project URLS
 
-// TODO: fill this doc in with ticket number<https://github.com/department-of-veterans-affairs/va.gov-team/issues/32743>
+``` markdown
+/health-care/appointment-check-in/?id=xxxxxx
+/health-care/appointment-check-in/verify
+/health-care/appointment-check-in/contact-information
+/health-care/appointment-check-in/next-of-kin
+/health-care/appointment-check-in/see-staff
+/health-care/appointment-check-in/complete
+/health-care/appointment-check-in/error
+```
 
 ### What version of the api are we using?
 
-// TODO: fill this doc in with ticket number<https://github.com/department-of-veterans-affairs/va.gov-team/issues/32743>
+At the time of this commit we are not sure.
 
 ### How to run locally
 
-Follow the standard directions to run the app. The API needs to be running in order to run the app locally. Currently I would use the mock api in `src/applications/check-in/api/local-mock-api` using the directions in the [README](https://github.com/department-of-veterans-affairs/vets-website/blob/master/README.md#running-a-mock-api-for-local-development). This makes development easier since creating a valid token is tedious.
+Follow the standard directions to run the app. The API needs to be running in order to run the app locally. Currently I would use the mock api in `src/applications/pre-check-in/api/local-mock-api` using the directions in the [README](https://github.com/department-of-veterans-affairs/vets-website/blob/master/README.md#running-a-mock-api-for-local-development). This makes development easier since creating a valid token is tedious.
 
 ### Enable local type checking with jsconfig (Optional)
 
@@ -64,15 +62,15 @@ Note that JSDoc comments are only included when the editor cannot not correctly 
 To share an app instance using the mock API running on Codespaces publicly, use these steps:
 
 - Create the codespace as above and wait for it to build
-- Start the mock API in a Codespace terminal: `yarn mock-api --responses src/applications/check-in/api/local-mock-api/phase.3.js`
-- Start the app in another Codespace terminal: `yarn watch --env.api="https://${CODESPACE_NAME}-3000.githubpreview.dev" --env.entry check-in`
+- Start the mock API in a Codespace terminal: `yarn mock-api --responses path/to/mock/api.js`
+- Start the app in another Codespace terminal: `yarn watch --env.api="https://${CODESPACE_NAME}-3000.githubpreview.dev" --env.entry pre-check-in`
 - Go to the "Ports" tab and make both port 3000 and 3001 public by right-clicking and selecting Privacy -> Public:
   <img width="999" alt="Screen Shot 2021-10-13 at 2 35 24 PM" src="https://user-images.githubusercontent.com/101649/137209007-c38ea216-1450-47f5-8d4a-7873f5cf82e1.png">
 - Hover over the "Local Address" on the line for port 3001 and click the globe icon to open the public URL in your browser.
 
 ### Where is the data coming from?
 
-// TODO: fill this doc in with ticket number<https://github.com/department-of-veterans-affairs/va.gov-team/issues/32743>
+- Demographics and Appointment data are coming from VistA.
 
 ### What API(s) does this use?
 
@@ -95,9 +93,11 @@ For testing in staging, use the instructions at [https://github.com/department-o
 
 ### Useful acronym and terms
 
-// TODO: fill this doc in with ticket number<https://github.com/department-of-veterans-affairs/va.gov-team/issues/32743>
-
 - CHIP - New API that is a central point for all the health data access. Bascially a wrapper around VistA and other internal nasty APIs.
 - LoROTA - Low Risk Authorization Service. This is how we are managing and verifying a user is who they say they are. Currently its a token based system that is essentially a shared short term data storage
 - VeText - This is the service that sends and receives text messages for the user.
 - VistA - This is a legacy but powerful health recond system that the VA uses. This is slowly being replace by Cerner.
+- VA Profile - This is the universal profile service that is used to store veteran data.
+- Check-In - The day of check in applicatipn
+- Pre-Check-In - The forms that a user can fill out before they check in.
+- Pre-registration - This the confirmation that a user needs to do before their appointment, this can be day of, or days before
