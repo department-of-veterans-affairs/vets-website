@@ -165,7 +165,7 @@ async function generateHtmlFiles(buildPath) {
       .reduce(
         (tags, tag) =>
           // Puts style.css before the app-specific stylesheet.
-          tag.attributes.href.match(/style/) ? [tag, ...tags] : [...tags, tag],
+          tag.attributes.href?.match(/style/) ? [tag, ...tags] : [...tags, tag],
         [],
       )
       .join('');
@@ -303,7 +303,7 @@ module.exports = async (env = {}) => {
             MiniCssExtractPlugin.loader,
             'cache-loader',
             {
-              loader: 'css-loader',
+              // loader: 'css-loader',
               options: {
                 sourceMap: enableCSSSourcemaps,
               },
@@ -313,7 +313,10 @@ module.exports = async (env = {}) => {
             },
             {
               loader: 'sass-loader',
-              options: { sourceMap: true },
+              options: {
+                url: false,
+                sourceMap: true,
+              },
             },
           ],
         },
@@ -331,7 +334,11 @@ module.exports = async (env = {}) => {
         {
           test: /\.svg/,
           use: {
-            loader: 'svg-url-loader?limit=1024',
+            loader: 'svg-url-loader',
+            options: {
+              limit: 1024,
+              publicPath: './',
+            },
           },
         },
         {
@@ -366,6 +373,9 @@ module.exports = async (env = {}) => {
     },
     resolve: {
       extensions: ['.js', '.jsx'],
+      fallback: {
+        path: require.resolve('path-browserify'),
+      },
     },
     optimization: {
       minimizer: [
@@ -377,9 +387,7 @@ module.exports = async (env = {}) => {
             },
             warnings: false,
           },
-          // cache: true,
           parallel: 3,
-          sourceMap: true,
         }),
       ],
       splitChunks: {
@@ -407,7 +415,7 @@ module.exports = async (env = {}) => {
       }),
 
       new MiniCssExtractPlugin({
-        moduleFilename: chunk => {
+        filename: chunk => {
           const { name } = chunk;
 
           const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
@@ -470,10 +478,10 @@ module.exports = async (env = {}) => {
       }),
     );
 
-    baseConfig.plugins.push(new webpack.HashedModuleIdsPlugin());
+    // baseConfig.plugins.optimization.moduleIds = 'deterministic';
     baseConfig.mode = 'production';
   } else {
-    baseConfig.devtool = '#eval-source-map';
+    baseConfig.devtool = 'eval-source-map';
 
     // The eval-source-map devtool doesn't seem to work for CSS, so we
     // add a separate plugin for CSS source maps.
