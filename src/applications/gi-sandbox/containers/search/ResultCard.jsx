@@ -59,7 +59,11 @@ export function ResultCard({
   const handleCompareUpdate = e => {
     // TODO WHY THIS NOT WORK
     // eslint-disable-next-line no-console
-    console.log(location, `loggin`);
+    console.log(
+      location
+        ? `Checkbox Clicked: Added from location search`
+        : `Checkbox Clicked: Added from name search`,
+    );
     recordEvent({
       event: location
         ? `Checkbox Clicked: Added from location search`
