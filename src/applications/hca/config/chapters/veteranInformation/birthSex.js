@@ -23,10 +23,8 @@ const BirthSexDescription = () => {
           <li>Interpret your lab results</li>
 
           <li>Prescribe the right dose of medications</li>
-          <li>
-            Recommend health prevention screenings We also collect this
-            information to better understand our Veteran community
-          </li>
+
+          <li>Recommend health prevention screenings</li>
         </ul>
 
         <p>
