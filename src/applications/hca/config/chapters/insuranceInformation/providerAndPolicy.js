@@ -36,18 +36,19 @@ const insuranceInfo = (
 
 const triCareInfo = (
   <>
-    <span className="schemaform-required-span">(*Required)</span>
-    <AdditionalInfo triggerText="I have TRICARE. What’s my policy number?">
-      <p>
-        You can use your Department of Defense benefits number (DBN) or your
-        Social Security number as your policy number.
-      </p>
-      <p>
-        Your DBN is an 11-digit number. You’ll find this number on the back of
-        your military ID card.
-      </p>
-    </AdditionalInfo>
-    <p>Policy number</p>
+    <p>
+      <AdditionalInfo triggerText="I have TRICARE. What’s my policy number?">
+        <p>
+          You can use your Department of Defense benefits number (DBN) or your
+          Social Security number as your policy number.
+        </p>
+        <p>
+          Your DBN is an 11-digit number. You’ll find this number on the back of
+          your military ID card.
+        </p>
+      </AdditionalInfo>
+    </p>
+    <p>Policy Number</p>
   </>
 );
 
@@ -63,26 +64,36 @@ export default {
       },
       items: {
         insuranceName: {
-          'ui:title': 'Name of insurance provider',
+          'ui:title': <span>Name of insurance provider</span>,
         },
         insurancePolicyHolderName: {
-          'ui:title':
-            'Name of policyholder (the person whose name the policy is in)',
+          'ui:title': (
+            <span>
+              Name of policyholder (the person whose name the policy is in)
+            </span>
+          ),
         },
         insurancePolicyNumber: {
-          'ui:title':
-            'Provide either your insurance policy number or group code',
+          'ui:title': (
+            <>
+              <span>
+                Provide either your insurance policy number or group code
+              </span>
+              <span className="schemaform-required-span">(*Required)</span>
+            </>
+          ),
           'ui:description': triCareInfo,
-          // 'ui:required': (formData, index) =>
-          //   !get(`providers[${index}].insuranceGroupCode`, formData),
           'ui:errorMessages': {
             pattern: 'Please provide a valid policy number.',
           },
         },
         insuranceGroupCode: {
-          'ui:title': 'Group Code',
-          // 'ui:required': (formData, index) =>
-          //   !get(`providers[${index}].insurancePolicyNumber`, formData),
+          'ui:title': (
+            <>
+              <p style={{ fontWeight: 'bold' }}>or</p>
+              <p>Group Code</p>
+            </>
+          ),
           'ui:errorMessages': {
             pattern: 'Please provide a valid group code.',
           },

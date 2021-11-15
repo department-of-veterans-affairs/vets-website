@@ -67,12 +67,6 @@ describe('hca <DemographicField>', () => {
     );
 
     const reviewRows = tree.everySubTree('.review-row');
-    // console.log(`*******`);
-    // console.log(reviewRows[0].subTree('dd').text(), `--> reviewRows[0].subTree('dd').text()`);
-    // console.log(`*******`);
-    // console.log(`&&&&&&&&`);
-    // console.log(reviewRows[0].subTree('dt').text(), `--> reviewRows[0].subTree('dd').text()`);
-    // console.log(`&&&&&&&&`);
     expect(reviewRows[0].subTree('dt').text()).to.equal(
       demographicInformation.uiSchema['view:demographicCategories']['ui:title'],
     );

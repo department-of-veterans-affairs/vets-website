@@ -5,8 +5,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/component-library/Ad
 const { isCoveredByHealthInsurance } = fullSchemaHca.properties;
 
 const insuranceInfo = (
-  <>
-    {/* <p>Do you have health insurance coverage?</p> */}
+  <p>
     <AdditionalInfo triggerText="Why we ask for this information">
       <p>
         We ask this information for billing purposes only. Your health insurance
@@ -30,7 +29,7 @@ const insuranceInfo = (
         </li>
       </ul>
     </AdditionalInfo>
-  </>
+  </p>
 );
 
 export default {
@@ -43,10 +42,11 @@ export default {
             or significant other. Health insurance also includes Medicare,
             private insurance, or insurance from your employer.
           </p>
-          <p>Do you have health insurance coverage?</p>
+          <div className={'.vads-u-padding-x--0'}>
+            Do you have health insurance coverage?
+          </div>
         </>
       ),
-      // 'Health insurance includes any coverage that you get through a spouse or significant other. Health insurance also includes Medicare, private insurance, or insurance from your employer. Do you have health insurance coverage?',
       'ui:widget': 'yesNo',
       'ui:description': insuranceInfo,
     },
