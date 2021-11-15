@@ -1120,7 +1120,7 @@ const formConfig = {
                   labels: {
                     Chapter30: chapter30Label,
                     Chapter1606: chapter1606Label,
-                    CannotRelinquish: "I'm not sure and I need assistance",
+                    CannotRelinquish: "I'm not sure",
                   },
                   widgetProps: {
                     Chapter30: { 'data-info': 'Chapter30' },
