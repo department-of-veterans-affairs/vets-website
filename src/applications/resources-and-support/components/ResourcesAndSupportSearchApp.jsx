@@ -75,7 +75,7 @@ const ResourcesAndSupportSearchApp = () => {
     paginationSummary = (
       <>
         Showing {startIndex + 1} - {endIndex} of {results.length} results for "
-        <strong>{query}</strong>"
+        <strong className="vads-u-font-family--sans">{query}</strong>"
       </>
     );
   } else if (!query) {
