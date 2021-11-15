@@ -55,7 +55,16 @@ export function ResultCard({
   } = institution;
   const compareChecked = !!compare.search.institutions[facilityCode];
   const compareLength = compare.search.loaded.length;
+
   const handleCompareUpdate = e => {
+    // TODO WHY THIS NOT WORK
+    // eslint-disable-next-line no-console
+    console.log(location, `loggin`);
+    recordEvent({
+      event: location
+        ? `Checkbox Clicked: Added from location search`
+        : `Checkbox Clicked: Added from name search`,
+    });
     if (compareLength < 3) {
       recordEvent({
         event: compareChecked
@@ -63,6 +72,7 @@ export function ResultCard({
           : `Compare Checkbox click: ${compareLength + 1} in Comparison Drawer`,
       });
     }
+
     if (e.target.checked && !compareChecked) {
       if (compareLength === 3) {
         dispatchShowModal('comparisonLimit');
