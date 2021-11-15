@@ -1,4 +1,3 @@
-import moment from 'moment';
 import find from 'lodash/find';
 import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
@@ -384,7 +383,7 @@ export function validateCurrentOrPastDate(
   const {
     futureDate = 'Please provide a valid current or past date',
   } = errorMessages;
-  validateDate(errors, dateString, minYear, moment().year());
+  validateDate(errors, dateString, minYear, new Date().getFullYear());
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
     errors.addError(futureDate);
