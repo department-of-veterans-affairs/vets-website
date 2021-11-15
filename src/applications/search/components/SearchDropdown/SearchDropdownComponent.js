@@ -199,7 +199,7 @@ class SearchDropdownComponent extends React.Component {
     if (lowerSuggestion.includes(lowerQuery)) {
       return (
         <>
-          {inputValue}
+          <span aria-hidden>{inputValue}</span>
           <strong aria-hidden>{lowerSuggestion.replace(lowerQuery, '')}</strong>
         </>
       );
@@ -552,7 +552,7 @@ class SearchDropdownComponent extends React.Component {
             role="combobox"
             type="text"
             value={inputValue}
-            onBlur={this.onInputBlur}
+            onBlur={() => this.onInputBlur()}
             onChange={this.handleInputChange}
             onClick={() => this.updateMenuState(true)}
             onFocus={() => this.updateMenuState(true)}
