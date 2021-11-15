@@ -112,13 +112,13 @@ export default function EstimatedBenefits({
               if (modal) {
                 dispatchShowModal(modal);
                 recordEvent({
-                  event: 'gibct-form-help-text-clicked',
+                  event: 'gibct-profile-help-text-clicked',
                   'help-text-label': learnMoreAriaLabel,
                 });
               } else {
                 window.open(learnMoreLink, '_blank');
                 recordEvent({
-                  event: 'gibct-form-help-text-clicked',
+                  event: 'gibct-profile-help-text-clicked',
                   'help-text-label': learnMoreAriaLabel,
                 });
               }
@@ -212,7 +212,13 @@ export default function EstimatedBenefits({
               label={
                 <LearnMoreLabel
                   text="Book stipend"
-                  onClick={() => dispatchShowModal('bookStipendInfo')}
+                  onClick={() => {
+                    dispatchShowModal('bookStipendInfo');
+                    recordEvent({
+                      event: 'gibct-form-help-text-clicked',
+                      'help-text-label': 'Learn more about the book stipend',
+                    });
+                  }}
                   ariaLabel="Learn more about the book stipend"
                   buttonId="book-stipend-learn-more"
                 />
