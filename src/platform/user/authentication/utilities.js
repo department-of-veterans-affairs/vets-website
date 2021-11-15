@@ -217,7 +217,7 @@ function getExternalRedirectOptions() {
   return { application, to, returnUrl };
 }
 
-export const idmeSignUrl = () => {
+export const idmeSignupUrl = () => {
   const idmeOpts = { type: 'idme_signup', queryParams: { op: 'signup' } };
   const { returnUrl, application } = getExternalRedirectOptions();
 
@@ -230,7 +230,7 @@ export const idmeSignUrl = () => {
     : sessionTypeUrl(idmeOpts);
 };
 
-export const createSignupUrls = () => {
+export const loginGovSignupUrl = () => {
   const loginGovOpts = { type: 'logingov_signup' };
   const { returnUrl, application } = getExternalRedirectOptions();
 

@@ -66,7 +66,7 @@ const LoginGovButtons = ({ isDisabled }) => (
       <h2 className="vads-u-margin-top--3">Or create an account</h2>
       <div className="vads-u-display--flex vads-u-flex-direction--column">
         <a
-          href={loginGovSignupUrl}
+          href={loginGovSignupUrl()}
           className="vads-c-action-link--blue logingov"
           aria-label="Create an account on the Login.gov website"
           disabled={isDisabled}
@@ -75,7 +75,7 @@ const LoginGovButtons = ({ isDisabled }) => (
           Create an account with Login.gov
         </a>
         <a
-          href={idmeSignupUrl}
+          href={idmeSignupUrl()}
           className="vads-c-action-link--blue"
           aria-label="Create an account on the ID.me website"
           disabled={isDisabled}
