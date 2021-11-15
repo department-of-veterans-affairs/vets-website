@@ -34,7 +34,6 @@ const ExpandedContent = ({
             field={{ value: debt.resolution?.offerToPay || '' }}
             onValueChange={({ value }) => updateDebts(objKey, value, debt)}
             errorMessage={submitted && inputErrMsg}
-            required
           />
         </div>
       );
@@ -47,7 +46,6 @@ const ExpandedContent = ({
             field={{ value: debt.resolution?.offerToPay || '' }}
             onValueChange={({ value }) => updateDebts(objKey, value, debt)}
             errorMessage={submitted && inputErrMsg}
-            required
           />
         </div>
       );
@@ -60,7 +58,6 @@ const ExpandedContent = ({
             checked={debt.resolution?.agreeToWaiver || false}
             onValueChange={value => updateDebts('agreeToWaiver', value, debt)}
             errorMessage={submitted && checkboxErrMsg}
-            required
           />
           <p>
             Note: If you have questions about this, call us at
@@ -120,6 +117,7 @@ const ResolutionDebtCards = ({
       <h4 className="resolution-options-debt-title">Your selected debts</h4>
       {selectedDebts.map((debt, index) => {
         const objKey = 'resolutionType';
+        const isCompAndPenDebt = debt.deductionCode === '30';
         const submitted = formContext.submitted;
         const radioError = submitted && !debt.resolution?.resolutionType;
         const title = deductionCodes[debt.deductionCode] || debt.benefitType;
@@ -137,7 +135,7 @@ const ResolutionDebtCards = ({
               {subTitle}
             </p>
             <ExpandingGroup
-              open={debt.resolution?.resolutionType}
+              open={debt.resolution?.resolutionType && !isCompAndPenDebt}
               additionalClass="form-expanding-group-active-radio"
             >
               <RadioButtons
