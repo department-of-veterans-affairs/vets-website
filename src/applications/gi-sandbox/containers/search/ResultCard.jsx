@@ -56,8 +56,6 @@ export function ResultCard({
   const compareChecked = !!compare.search.institutions[facilityCode];
   const compareLength = compare.search.loaded.length;
   const handleCompareUpdate = e => {
-    // eslint-disable-next-line no-console
-    console.log(compare.search);
     recordEvent({
       event: `${compareLength + 1} schools in compare`,
     });
