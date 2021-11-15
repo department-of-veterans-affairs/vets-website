@@ -5,6 +5,7 @@
 
 ME=$(basename "$0")
 
+ASSET_DEST=""
 DEST=""
 SOURCE=""
 VERBOSE="no"
@@ -13,9 +14,10 @@ EXIT_OK=no
 
 function usage {
     echo "$ME: perform a sync'ed deploy of static assets using 'aws s3 sync'"
-    echo "Usage: $ME -s SOURCE -d DEST [-w WORKDIR] [-v]"
+    echo "Usage: $ME -s SOURCE -d DEST [-a ASSET_DEST] [-w WORKDIR] [-v]"
     echo "  -s : An S3 URL to the build tarball object"
-    echo "  -d : An S3 URL to the asset bucket to deploy to"
+    echo "  -d : An S3 URL to the website bucket to deploy to"
+    echo "  -a : An S3 URL to the asset bucket to deploy to"
     echo "  -w : local fs path to work in, defaults to current dir"
     echo "  -v : Use verbose output"
 }
@@ -35,8 +37,9 @@ function bail {
     exit 2
 }
 
-while getopts ":d:s:vw:h" option ; do
+while getopts ":a:d:s:vw:h" option ; do
     case $option in
+        a) ASSET_DEST="$OPTARG" ;;
         d) DEST="$OPTARG" ;;
         s) SOURCE="$OPTARG" ;;
         v) VERBOSE="yes" ;;
@@ -57,6 +60,9 @@ fi
 
 say "INFO: Starting up..."
 say "INFO:  -> Deploying $SOURCE to $DEST"
+if [ -n "$ASSET_DEST" ] ; then
+    say "INFO:  -> Will also sync assets to $ASSET_DEST"
+fi
 
 # Create working directory
 dir=$(mktemp -d "$WORKDIR/$ME.XXXXXX")
@@ -101,75 +107,113 @@ mkdir build
 tar -x $compress -C build -f "$(basename "$SOURCE")"
 
 # Copy assets from build directory into assets directory, excluding HTML files
-say "INFO: Prepping assets for $DEST"
-mkdir assets
-rsync -a --exclude '*.asp' --exclude '*.html' build/ assets/
-cd assets
+if [ ! -f build/BUILD.txt ] ; then
+    say_err "ERROR: BUILD.txt file missing from source tarball"
+    exit 1
+fi
 
-# XXX: switch this to pigz for 15 seconds of savings
-say "INFO: Compressing text assets"
-find . \
-    \( \
-    -name '*.js' -o \
-    -name '*.css' -o \
-    -name '*.ico' -o \
-    -name '*.txt' -o \
-    -name '*.xml' -o \
-    -name '*.ttf' -o \
-    -name '*.svg' \
-    \) \
-    -exec gzip -n {} \; -exec mv {}.gz {} \;
+if [ -n "$ASSET_DEST" ] ; then
+    say "INFO: Prepping assets for $ASSET_DEST"
+    mkdir assets
+    rsync -a --exclude '*.asp' --exclude '*.html' build/ assets/
+    cd assets
 
-# Sync text assets to s3
-say "INFO: Syncing compressed assets to $DEST"
-aws s3 sync --only-show-errors \
-    --acl public-read \
-    --content-encoding gzip \
-    --cache-control "public, no-cache" \
-    --exclude '*' \
-    --include '*.js' \
-    --include '*.css' \
-    --include '*.ico' \
-    --include '*.txt' \
-    --include '*.xml' \
-    --include '*.ttf' \
-    --include '*.svg' \
-    --exclude generated/styleConsolidated.css \
-    --exclude generated/polyfills.entry.js \
-    --exclude generated/vendor.entry.js \
-    --exclude generated/proxy-rewrite.entry.js \
-    --exclude js/settings.js \
-    --exclude js/vendor/uswds.min.js \
-        . "$DEST"
+    # XXX: switch this to pigz for 15 seconds of savings
+    say "INFO: Compressing text assets"
+    find . \
+        \( \
+        -name '*.js' -o \
+        -name '*.css' -o \
+        -name '*.ico' -o \
+        -name '*.txt' -o \
+        -name '*.xml' -o \
+        -name '*.ttf' -o \
+        -name '*.svg' \
+        \) \
+        -exec gzip -n {} \; -exec mv {}.gz {} \;
 
-# XXX: This list should come from `vets-website` build
-say "INFO: Re-sync subset with shorter cache control to $DEST"
-aws s3 sync --only-show-errors \
-    --acl public-read \
-    --content-encoding gzip \
-    --cache-control "public, no-cache" \
-    --exclude '*' \
-    --include generated/styleConsolidated.css \
-    --include generated/polyfills.entry.js \
-    --include generated/vendor.entry.js \
-    --include generated/proxy-rewrite.entry.js \
-    --include js/settings.js \
-    --include js/vendor/uswds.min.js \
-    . "$DEST"
+    # Sync text assets to s3
+    say "INFO: Syncing compressed assets to $ASSET_DEST"
+    aws s3 sync --only-show-errors \
+        --acl public-read \
+        --content-encoding gzip \
+        --cache-control "public, no-cache" \
+        --exclude '*' \
+        --include '*.js' \
+        --include '*.css' \
+        --include '*.ico' \
+        --include '*.txt' \
+        --include '*.xml' \
+        --include '*.ttf' \
+        --include '*.svg' \
+        --exclude generated/styleConsolidated.css \
+        --exclude generated/polyfills.entry.js \
+        --exclude generated/vendor.entry.js \
+        --exclude generated/proxy-rewrite.entry.js \
+        --exclude js/settings.js \
+        --exclude js/vendor/uswds.min.js \
+         . "$ASSET_DEST"
+
+    # XXX: This list should come from `vets-website` build
+    say "INFO: Re-sync subset with shorter cache control to $ASSET_DEST"
+    aws s3 sync --only-show-errors \
+        --acl public-read \
+        --content-encoding gzip \
+        --cache-control "public, no-cache" \
+        --exclude '*' \
+        --include generated/styleConsolidated.css \
+        --include generated/polyfills.entry.js \
+        --include generated/vendor.entry.js \
+        --include generated/proxy-rewrite.entry.js \
+        --include js/settings.js \
+        --include js/vendor/uswds.min.js \
+        . "$ASSET_DEST"
+
+    say "INFO: Syncing assets to $ASSET_DEST"
+    aws s3 sync --only-show-errors \
+        --acl public-read \
+        --cache-control "public, no-cache" \
+        . "$ASSET_DEST"
+
+    cd ..
+fi
+
+cd build
 
 say "INFO: Syncing assets to $DEST"
 aws s3 sync --only-show-errors \
     --acl public-read \
     --cache-control "public, no-cache" \
+    --exclude '*' \
+    --include '*.css' \
+    --include '*.js' \
+    --include '*.png' \
+    --include '*.jpg' \
+    --include '*.svg' \
+    --include '*.woff2' \
+    --include '*.ttf' \
     . "$DEST"
 
-say "INFO: Cleanup sync for $DEST"
+say "INFO: Syncing all content to $DEST"
 aws s3 sync --only-show-errors \
---acl public-read \
---cache-control "public, no-cache" \
---delete \
-. "$DEST"
+    --acl public-read \
+    --cache-control "public, no-cache" \
+    --delete \
+    . "$DEST"
 
 cd ..
+
+if [ -n "$ASSET_DEST" ] ; then
+    cd assets
+    
+    say "INFO: Cleanup sync for $ASSET_DEST"
+    aws s3 sync --only-show-errors \
+    --acl public-read \
+    --cache-control "public, no-cache" \
+    --delete \
+    . "$ASSET_DEST"
+
+    cd ..
+fi
 
 EXIT_OK=yes

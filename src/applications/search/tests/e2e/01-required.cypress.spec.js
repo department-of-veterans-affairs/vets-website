@@ -1,3 +1,11 @@
+/**
+ * [TestRail-integrated] Spec for Search Type Ahead 2.0
+ * @testrailinfo projectId 31
+ * @testrailinfo suiteId 150
+ * @testrailinfo groupId 2925
+ * @testrailinfo runName TA-2.0-e2e
+ */
+
 const axeTestPage = () => {
   cy.injectAxe();
   cy.axeCheck();
