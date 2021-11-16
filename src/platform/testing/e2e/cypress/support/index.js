@@ -56,7 +56,7 @@ beforeEach(() => {
 // Assign the video path to the context property for failed tests
 Cypress.on('test:after:run', test => {
   /* eslint-disable no-console */
-  console.log(test);
+  console.log(Cypress);
   if (test.state === 'failed') {
     let videoName = Cypress.spec.name;
     videoName = videoName.replace('/.js.*', '.js');
@@ -68,7 +68,7 @@ Cypress.on('test:after:run', test => {
         value: {
           video: videoPath,
           retries: test.currentRetry,
-          testPath: test.invocationDetails.relativeFile,
+          testPath: Cypress.spec.relative,
           testTitle: test.title,
         },
       },
@@ -80,7 +80,7 @@ Cypress.on('test:after:run', test => {
         title: 'context',
         value: {
           retries: test.currentRetry,
-          testPath: test.invocationDetails.relativeFile,
+          testPath: Cypress.spec.relative,
           testTitle: test.title,
         },
       },
