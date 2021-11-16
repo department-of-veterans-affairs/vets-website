@@ -43,13 +43,5 @@ describe('Application Status Test', () => {
       '/burials-memorials/veterans-burial-allowance/',
       '/burials-and-memorials/application/530/resume',
     );
-    cy.testStatus(
-      '/education/how-to-apply/',
-      '/education/apply-for-education-benefits/application/1995/resume',
-    );
-    cy.testStatus(
-      '/education/eligibility',
-      '/education/apply-for-education-benefits/application/1995/resume',
-    );
   });
 });
