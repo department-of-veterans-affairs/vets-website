@@ -74,7 +74,13 @@ describe('Authed Letter Test', () => {
       });
 
     // poke all the checkboxes and expect them to all be unselected
-    cy.get('#militaryService').should('exist');
+    // Flakiness test
+    const attempt = cy.state('runnable')._currentRetry;
+    if (attempt === 0) {
+      cy.get('#nonexistantelement').should('exist');
+    } else {
+      cy.get('#militaryService').should('exist');
+    }
     cy.get('#militaryService').should('be.checked');
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(200);
