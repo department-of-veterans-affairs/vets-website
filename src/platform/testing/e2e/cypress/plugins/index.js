@@ -11,6 +11,8 @@ const tableConfig = {
 
 module.exports = on => {
   const ENV = 'localhost';
+  const publicPath = '/generated/';
+  let outputOptions = {};
 
   // Import our own Webpack config.
   require('../../../../../../config/webpack.config.js')(ENV).then(
@@ -26,6 +28,17 @@ module.exports = on => {
           },
         },
       };
+
+      // Webpack 5 workaround to keep Cypress from unsetting publicPath
+      // https://github.com/cypress-io/cypress/issues/8900
+      Object.defineProperty(options.webpackOptions, 'output', {
+        get: () => {
+          return { ...outputOptions, publicPath };
+        },
+        set: x => {
+          outputOptions = x;
+        },
+      });
 
       on('file:preprocessor', webpackPreprocessor(options));
     },
