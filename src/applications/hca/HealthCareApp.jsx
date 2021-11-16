@@ -12,6 +12,7 @@ const HealthCareEntry = ({
   location,
   children,
   caregiverSIGIEnabled = false,
+  hcaAmericanIndianEnabled = false,
   setFormData,
   formData,
 }) => {
@@ -21,10 +22,11 @@ const HealthCareEntry = ({
         setFormData({
           ...formData,
           'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
+          'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
         });
       }
     },
-    [caregiverSIGIEnabled],
+    [caregiverSIGIEnabled, hcaAmericanIndianEnabled],
   );
 
   useEffect(
@@ -47,6 +49,9 @@ const mapStateToProps = state => ({
   caregiverSIGIEnabled: toggleValues(state)[
     FEATURE_FLAG_NAMES.caregiverSIGIEnabled
   ],
+  hcaAmericanIndianEnabled: toggleValues(state)[
+    FEATURE_FLAG_NAMES.hcaAmericanIndianEnabled
+  ],
 });
 
 const mapDispatchToProps = {
@@ -55,6 +60,7 @@ const mapDispatchToProps = {
 
 HealthCareEntry.propTypes = {
   caregiverSIGIEnabled: PropTypes.bool,
+  hcaAmericanIndianEnabled: PropTypes.bool,
   setFormData: PropTypes.func,
   formData: PropTypes.object,
 };
