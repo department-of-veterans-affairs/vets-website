@@ -17,6 +17,7 @@ import {
   ssoe,
   loginGov,
   loginGovCreateAccount,
+  loginNewDesign,
 } from 'platform/user/authentication/selectors';
 import { login, signup } from 'platform/user/authentication/utilities';
 import { formatDowntime } from 'platform/utilities/date';
@@ -246,14 +247,14 @@ export class SignInModal extends React.Component {
         <div className="row">
           <div className="columns small-12">
             <h1
-              className={`${this.props.loginGovEnabled &&
+              className={`${this.props.newDesignEnabled &&
                 'vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2'}`}
             >
               Sign in
             </h1>
           </div>
         </div>
-        {!this.props.loginGovEnabled ? (
+        {!this.props.newDesignEnabled ? (
           <div className="row medium-screen:vads-u-display--none mobile-explanation">
             <div className="columns small-12">
               <h2>
@@ -264,7 +265,7 @@ export class SignInModal extends React.Component {
           </div>
         ) : null}
         {this.renderDowntimeBanners()}
-        {!this.props.loginGovEnabled ? (
+        {!this.props.newDesignEnabled ? (
           this.renderOriginalModal({
             globalDowntime,
           })
@@ -275,6 +276,7 @@ export class SignInModal extends React.Component {
               loginGovCreateAccountEnabled={
                 this.props.loginGovCreateAccountEnabled
               }
+              newDesignEnabled={this.props.newDesignEnabled}
               isDisabled={globalDowntime}
             />
           </div>
@@ -284,7 +286,7 @@ export class SignInModal extends React.Component {
             <div className="help-info">
               <h2
                 className={`${
-                  this.props.loginGovEnabled
+                  this.props.newDesignEnabled
                     ? 'vads-u-margin-top--0'
                     : 'vads-u-font-size--md'
                 }`}
@@ -312,10 +314,10 @@ export class SignInModal extends React.Component {
               </p>
               <p>
                 <SubmitSignInForm startSentence />{' '}
-                {this.props.loginGovEnabled && ` We're here 24/7.`}
+                {this.props.newDesignEnabled && ` We're here 24/7.`}
               </p>
             </div>
-            <FedWarning loginGovEnabled={this.props.loginGovEnabled} />
+            <FedWarning newDesignEnabled={this.props.newDesignEnabled} />
           </div>
         </div>
       </div>
@@ -325,7 +327,9 @@ export class SignInModal extends React.Component {
   render() {
     return (
       <Modal
-        cssClass="va-modal-large"
+        cssClass={`va-modal-large ${
+          this.props.newDesignEnabled ? 'new-modal-design' : ''
+        }`}
         visible={this.props.visible}
         focusSelector="button"
         onClose={this.props.onClose}
@@ -347,6 +351,7 @@ function mapStateToProps(state) {
     useSSOe: ssoe(state),
     loginGovEnabled: loginGov(state),
     loginGovCreateAccountEnabled: loginGovCreateAccount(state),
+    newDesignEnabled: loginNewDesign(state),
   };
 }
 

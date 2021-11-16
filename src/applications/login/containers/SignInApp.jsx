@@ -16,6 +16,7 @@ import {
   isAuthenticatedWithSSOe,
   loginGov,
   loginGovCreateAccount,
+  loginNewDesign,
 } from 'platform/user/authentication/selectors';
 import { selectProfile, isProfileLoading } from 'platform/user/selectors';
 
@@ -72,6 +73,7 @@ class SignInPage extends React.Component {
     const {
       loginGovEnabled,
       loginGovCreateAccountEnabled,
+      newDesignEnabled,
       location,
     } = this.props;
     const { query } = location;
@@ -86,7 +88,7 @@ class SignInPage extends React.Component {
           <div className="columns small-12">
             <h1
               className={`${
-                loginGovEnabled
+                newDesignEnabled
                   ? 'vads-u-margin-top--2 medium-screen:vads-u-margin-bottom--2'
                   : 'medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--5'
               }`}
@@ -95,7 +97,7 @@ class SignInPage extends React.Component {
             </h1>
           </div>
         </div>
-        {!loginGovEnabled && (
+        {!newDesignEnabled && (
           <div className="row medium-screen:vads-u-display--none mobile-explanation">
             <div className="columns small-12">
               <h2 className="vads-u-margin-top--0">
@@ -109,7 +111,7 @@ class SignInPage extends React.Component {
           this.downtimeBanner(props, globalDowntime, index),
         )}
         <div className="row">
-          {!loginGovEnabled ? (
+          {!newDesignEnabled ? (
             <>
               <div className="usa-width-one-half">
                 <div className="signin-actions-container">
@@ -144,6 +146,7 @@ class SignInPage extends React.Component {
             <SignInButtons
               isDisabled={globalDowntime}
               loginGovEnabled={loginGovEnabled}
+              newDesignEnabled={newDesignEnabled}
               loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
               externalApplication={externalApplication}
             />
@@ -154,7 +157,7 @@ class SignInPage extends React.Component {
             <div className="help-info">
               <h2
                 className={`${
-                  loginGovEnabled
+                  newDesignEnabled
                     ? 'vads-u-margin-top--0'
                     : 'vads-u-font-size--md'
                 }`}
@@ -177,11 +180,11 @@ class SignInPage extends React.Component {
               </p>
               <p>
                 <SubmitSignInForm startSentence />{' '}
-                {loginGovEnabled && `We're here 24/7.`}
+                {newDesignEnabled && `We're here 24/7.`}
               </p>
             </div>
-            {!loginGovEnabled && <hr />}
-            <FedWarning loginGovEnabled={loginGovEnabled} />
+            {!newDesignEnabled && <hr />}
+            <FedWarning newDesignEnabled={newDesignEnabled} />
           </div>
         </div>
       </>
@@ -194,6 +197,7 @@ const mapStateToProps = state => ({
   profileLoading: isProfileLoading(state),
   loginGovEnabled: loginGov(state),
   loginGovCreateAccountEnabled: loginGovCreateAccount(state),
+  newDesignEnabled: loginNewDesign(state),
   isAuthenticatedWithSSOe: isAuthenticatedWithSSOe(state),
 });
 

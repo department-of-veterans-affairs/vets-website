@@ -50,6 +50,7 @@ export default Object.freeze({
   hlrv2: 'hlr_v2',
   loginGov: 'login_gov',
   loginGovCreateAccount: 'login_gov_create_account',
+  loginNewDesign: 'login_new_design',
   loopPages: 'loop_pages',
   manageDependents: 'dependents_management',
   megaMenuMobileV2: 'mega_menu_mobile_v2',

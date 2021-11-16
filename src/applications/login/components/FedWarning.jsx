@@ -1,15 +1,15 @@
 import React from 'react';
 
-export default function FedWarning({ loginGovEnabled }) {
+export default function FedWarning({ newDesignEnabled }) {
   return (
     <div
       className={`${
-        loginGovEnabled
+        newDesignEnabled
           ? 'vads-u-padding-bottom--2p5 fed-warning--v2'
           : 'fed-warning'
       }`}
     >
-      {loginGovEnabled && (
+      {newDesignEnabled && (
         <h2 className="vads-u-margin-top--0">Terms of use</h2>
       )}
       <p>

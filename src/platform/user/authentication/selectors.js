@@ -8,6 +8,9 @@ export const loginGov = state =>
 export const loginGovCreateAccount = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.loginGovCreateAccount];
 
+export const loginNewDesign = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.loginNewDesign];
+
 export const ssoe = state => toggleValues(state)[FEATURE_FLAG_NAMES.ssoe];
 
 export const ssoeInbound = state =>

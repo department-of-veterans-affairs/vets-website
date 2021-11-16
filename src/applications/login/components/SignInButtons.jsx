@@ -27,19 +27,21 @@ const LoginGovButtons = ({
   isDisabled,
   externalApplication,
   loginGovCreateAccountEnabled,
+  loginGovEnabled,
 }) => (
   <div className="columns small-12" id="sign-in-wrapper">
-    {externalApplication !== 'mhv' && (
-      <button
-        disabled={isDisabled}
-        type="button"
-        aria-label="Sign in with Login.gov"
-        className="usa-button logingov-button vads-u-margin-y--1p5 vads-u-padding-y--2"
-        onClick={() => loginHandler('logingov')}
-      >
-        <LoginGovSVG />
-      </button>
-    )}
+    {externalApplication !== 'mhv' &&
+      loginGovEnabled && (
+        <button
+          disabled={isDisabled}
+          type="button"
+          aria-label="Sign in with Login.gov"
+          className="usa-button logingov-button vads-u-margin-y--1p5 vads-u-padding-y--2"
+          onClick={() => loginHandler('logingov')}
+        >
+          <LoginGovSVG />
+        </button>
+      )}
     <button
       disabled={isDisabled}
       type="button"
@@ -166,10 +168,11 @@ export default function SignInButtons({
   loginGovEnabled,
   externalApplication,
   loginGovCreateAccountEnabled,
+  newDesignEnabled,
 }) {
   return (
     <div>
-      {!loginGovEnabled ? (
+      {!newDesignEnabled ? (
         <OriginalButtons isDisabled={isDisabled} />
       ) : (
         <LoginGovButtons
