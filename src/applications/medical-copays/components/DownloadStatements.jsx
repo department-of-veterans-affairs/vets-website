@@ -2,14 +2,14 @@ import React from 'react';
 import { mockDownloadStatements } from '../utils/mockData';
 
 const DownloadStatements = () => (
-  <article className="vads-u-padding--0">
+  <article className="vads-u-padding--0" data-e2e-id="download-statements">
     <h2 id="download-statements">Download your statements</h2>
     <p>
       Download your mailed statements for this facility from the past 6 months.
     </p>
     {mockDownloadStatements.map((statement, i) => (
       <div key={i} className="vads-u-margin-top--2">
-        <a href="#">
+        <a href="#" data-e2e-id={`download-link-${statement.date}`}>
           <i
             className="fas fa-download vads-u-margin-right--1"
             aria-hidden="true"

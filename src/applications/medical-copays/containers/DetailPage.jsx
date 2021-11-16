@@ -51,7 +51,7 @@ const DetailPage = ({ match }) => {
         <>
           <p className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--5">
             Updated on
-            <span className="vads-u-margin-x--0p5">
+            <span className="vads-u-margin-x--0p5" data-e2e-id="updated-date">
               {formatDate(selectedCopay?.pSStatementDate)}
             </span>
           </p>
