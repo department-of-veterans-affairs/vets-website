@@ -4,17 +4,8 @@ const initialState = {
   form: {},
 };
 
-import {} from '../actions';
-
 const preCheckInReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'NO_ACTION':
-      return {};
-    case 'CREATE_FROM':
-      return {
-        ...state,
-        form: { ...state.form, pages: action.payload.pages },
-      };
     case 'INIT_FORM':
       return {
         ...state,
