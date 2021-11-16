@@ -79,7 +79,7 @@ Cypress.on('test:after:run', test => {
       {
         title: 'context',
         value: {
-          retries: test.currentRetry,
+          retries: test.retries,
           testPath: test.invocationDetails.relativeFile,
           testTitle: test.title,
         },
