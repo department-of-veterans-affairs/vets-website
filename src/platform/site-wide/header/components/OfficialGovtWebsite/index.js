@@ -1,7 +1,5 @@
 // Node modules.
 import React, { useState } from 'react';
-// Relative imports.
-import { onEnterOrSpaceHandler } from '../../helpers';
 
 export const OfficialGovtWebsite = () => {
   const [expanded, setExpanded] = useState(false);
@@ -23,8 +21,7 @@ export const OfficialGovtWebsite = () => {
           aria-controls="official-govt-site-explanation"
           aria-expanded={expanded ? 'true' : 'false'}
           className="expand-official-govt-explanation va-button-link vads-u-text-decoration--none"
-          onKeyDown={onEnterOrSpaceHandler(onToggle)}
-          onMouseUp={onToggle}
+          onClick={onToggle}
         >
           An official website of the United States government.
           <i

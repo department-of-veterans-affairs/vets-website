@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 // Relative imports.
 import Logo from '../Logo';
 import UserNav from '../../../user-nav/containers/Main';
-import { onEnterOrSpaceHandler } from '../../helpers';
 import { updateExpandedMenuIDAction } from '../../containers/Menu/actions';
 
 export const LogoRow = ({
@@ -38,8 +37,7 @@ export const LogoRow = ({
           aria-controls="header-nav-items"
           aria-expanded={isMenuOpen ? 'true' : 'false'}
           className="header-menu-button usa-button vads-u-background-color--gray-lightest vads-u-color--link-default vads-u-padding-y--1 vads-u-padding-x--1p5 vads-u-margin--0 vads-u-margin-left--2 vads-u-position--relative"
-          onKeyDown={onEnterOrSpaceHandler(onMenuToggle)}
-          onMouseUp={onMenuToggle}
+          onClick={onMenuToggle}
           type="button"
         >
           {/* Menu | Close */}

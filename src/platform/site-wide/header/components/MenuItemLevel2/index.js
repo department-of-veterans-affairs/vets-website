@@ -3,11 +3,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
-import {
-  deriveMenuItemID,
-  formatMenuItems,
-  onEnterOrSpaceHandler,
-} from '../../helpers';
+import { deriveMenuItemID, formatMenuItems } from '../../helpers';
 import { updateSubMenuAction } from '../../containers/Menu/actions';
 
 export const MenuItemLevel2 = ({ item, lastClickedMenuID, updateSubMenu }) => {
@@ -65,8 +61,7 @@ export const MenuItemLevel2 = ({ item, lastClickedMenuID, updateSubMenu }) => {
         <button
           className="header-menu-item-button vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
           id={menuItemID}
-          onKeyDown={onEnterOrSpaceHandler(toggleShowItems)}
-          onMouseUp={toggleShowItems}
+          onClick={toggleShowItems}
           type="button"
         >
           {item?.title}
