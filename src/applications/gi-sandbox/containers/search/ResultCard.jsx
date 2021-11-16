@@ -57,18 +57,12 @@ export function ResultCard({
   const compareLength = compare.search.loaded.length;
 
   const handleCompareUpdate = e => {
-    // TODO WHY THIS NOT WORK
-    // eslint-disable-next-line no-console
-    console.log(
-      location
-        ? `Checkbox Clicked: Added from location search`
-        : `Checkbox Clicked: Added from name search`,
-    );
     recordEvent({
       event: location
-        ? `Checkbox Clicked: Added from location search`
-        : `Checkbox Clicked: Added from name search`,
+        ? `Checkbox Clicked: Added from location tab`
+        : `Checkbox Clicked: Added from name tab`,
     });
+
     if (compareLength < 3) {
       recordEvent({
         event: compareChecked
