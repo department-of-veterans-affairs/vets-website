@@ -1,6 +1,7 @@
 import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
+import recordEvent from 'platform/monitoring/record-event';
 
 export default function LearnMoreLabel({
   ariaLabel,
@@ -33,7 +34,12 @@ export default function LearnMoreLabel({
           'vads-u-font-weight--bold': bold,
         },
       )}
-      onClick={() => focusElement(labelFor)}
+      onClick={() => {
+        focusElement(labelFor);
+        recordEvent({
+          event: `Learn more clicked for ${labelFor}`,
+        });
+      }}
     >
       {bold ? <strong>{displayText}</strong> : displayText}
       <span
