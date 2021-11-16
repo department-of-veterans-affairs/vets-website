@@ -1,6 +1,6 @@
-import mockUser from 'platform/testing/e2e/mock-user';
+import mockUser from './fixtures/mocks/mockUser';
 
-describe('Pension Application Status Test', () => {
+describe('Application Status Test: Pensions', () => {
   it('Achieves the correct result per URL', () => {
     cy.login();
     cy.intercept('GET', '/v0/user', mockUser);
