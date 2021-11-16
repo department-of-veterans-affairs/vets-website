@@ -550,4 +550,47 @@ describe('<AutosuggestField>', () => {
       done();
     });
   });
+  it('should not throw an error if the value includes regexp special characters', done => {
+    const onChange = sinon.spy();
+    const props = {
+      uiSchema: {
+        'ui:options': {
+          freeInput: true,
+          highlightText: true,
+          labels: {
+            AL: 'Label(1)',
+            BC: 'LABEL 2',
+          },
+        },
+      },
+      schema: {
+        type: 'string',
+        enum: ['AL', 'BC'],
+      },
+      formContext: { reviewMode: false },
+      idSchema: { $id: 'id' },
+      onChange,
+      onBlur: () => {},
+    };
+    const wrapper = mount(<AutosuggestField {...props} />);
+
+    // Input something not in options
+    const input = wrapper.find('input');
+    input.simulate('focus');
+    input.simulate('change', {
+      target: {
+        value: 'Bel(',
+      },
+    });
+
+    setTimeout(() => {
+      expect(wrapper.find('.autosuggest-list')).to.exist;
+      const firstItem = wrapper.find('.autosuggest-item').last();
+      const highlight = firstItem.find('.autosuggest-highlight').text();
+      expect(firstItem.text()).to.equal('Label(1)');
+      expect(highlight).to.equal('bel(');
+      wrapper.unmount();
+      done();
+    });
+  });
 });

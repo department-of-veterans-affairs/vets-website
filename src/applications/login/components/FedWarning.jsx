@@ -1,9 +1,15 @@
 import React from 'react';
 
-export default function FedWarning() {
+export default function FedWarning({ loginGovEnabled }) {
   return (
-    <div className="vads-u-padding-bottom--2p5">
-      <h2 className="vads-u-margin-top--0">Terms of use</h2>
+    <div
+      className={`${
+        loginGovEnabled ? 'vads-u-padding-bottom--2p5' : 'fed-warning'
+      }`}
+    >
+      {loginGovEnabled && (
+        <h2 className="vads-u-margin-top--0">Terms of use</h2>
+      )}
       <p>
         When you sign in to VA.gov, you’re using a United States federal
         government information system.

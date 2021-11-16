@@ -41,5 +41,10 @@ export const updateUrlParams = (
     ...queryParams,
     ...buildSearchFilters(filters),
   });
+
   history.push(url);
+
+  document.title = `Search Results: ${
+    searchQuery.name
+  }: GI Bill® Comparison Tool | Veterans Affairs`;
 };
