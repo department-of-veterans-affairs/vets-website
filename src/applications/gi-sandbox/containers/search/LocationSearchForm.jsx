@@ -17,6 +17,7 @@ import { useHistory } from 'react-router-dom';
 import { updateUrlParams } from '../../selectors/search';
 import { TABS } from '../../constants';
 import { INITIAL_STATE } from '../../reducers/search';
+import recordEvent from 'platform/monitoring/record-event';
 
 export function LocationSearchForm({
   autocomplete,
@@ -77,6 +78,12 @@ export function LocationSearchForm({
     }
     let paramLocation = location;
     dispatchMapChanged({ changed: false, distance: null });
+
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': 'locationSearch',
+      'gibct-form-value': location,
+    });
 
     if (autocompleteSelection?.coords) {
       paramLocation = autocompleteSelection.label;
@@ -203,7 +210,12 @@ export function LocationSearchForm({
                     </div>
                   ) : (
                     <button
-                      onClick={dispatchGeolocateUser}
+                      onClick={() => {
+                        recordEvent({
+                          event: 'use-my-location-clicked',
+                        });
+                        dispatchGeolocateUser();
+                      }}
                       className="use-my-location-link"
                     >
                       <i
@@ -238,7 +250,14 @@ export function LocationSearchForm({
                 value={distance}
                 alt="distance"
                 visible
-                onChange={e => setDistance(e.target.value)}
+                onChange={e => {
+                  recordEvent({
+                    event: 'gibct-form-change',
+                    'gibct-form-field': 'locationRadius',
+                    'gibct-form-value': e.target.value,
+                  });
+                  setDistance(e.target.value);
+                }}
               />
               <button
                 type="submit"

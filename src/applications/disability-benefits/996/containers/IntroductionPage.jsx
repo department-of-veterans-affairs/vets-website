@@ -98,7 +98,7 @@ export class IntroductionPage extends React.Component {
   render() {
     const { loggedIn, hasEmptyAddress } = this.props;
     const pageTitle = 'Request a Higher-Level Review with VA Form 20-0996';
-    const subTitle = 'Equal to VA Form 20-0996 (Higher-Level Review)';
+    const subTitle = 'VA Form 20-0996 (Higher-Level Review)';
 
     // check if user has address
     if (loggedIn && hasEmptyAddress) {

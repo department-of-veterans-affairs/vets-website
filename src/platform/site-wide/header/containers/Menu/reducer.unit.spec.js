@@ -9,6 +9,7 @@ describe('Menu reducer', () => {
     // Assertions.
     expect(initialState).to.deep.equal({
       expandedMenuID: undefined,
+      lastClickedMenuID: undefined,
       subMenu: undefined,
     });
   });
@@ -25,18 +26,20 @@ describe('Menu reducer', () => {
     // Assertions.
     expect(headerMenuReducer(initialState, action)).to.deep.equal({
       expandedMenuID: 'test',
+      lastClickedMenuID: undefined,
       subMenu: undefined,
     });
   });
 
   it('headerMenuReducer handles UPDATE_SUB_MENU case', () => {
     // Set up.
-    const action = { subMenu: 'test', type: UPDATE_SUB_MENU };
+    const action = { subMenu: { id: 'test' }, type: UPDATE_SUB_MENU };
 
     // Assertions.
     expect(headerMenuReducer(initialState, action)).to.deep.equal({
       expandedMenuID: undefined,
-      subMenu: 'test',
+      lastClickedMenuID: 'test',
+      subMenu: { id: 'test' },
     });
   });
 });
