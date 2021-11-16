@@ -145,7 +145,7 @@ def archiveAll(dockerContainer, String ref) {
       parallel archives
 
     } catch (error) {
-      slackNotify()
+      // slackNotify()
       throw error
     }
   }
