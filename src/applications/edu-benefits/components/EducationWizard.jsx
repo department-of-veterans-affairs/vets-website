@@ -492,43 +492,49 @@ class EducationWizard extends React.Component {
                 </div>
               </div>
             )}
-            {(showWizard &&
+            {showWizard &&
               (post911GIBill === 'yes' &&
                 newBenefit === 'yes' &&
                 serviceBenefitBasedOn === 'own' &&
                 nationalCallToService === 'no' &&
                 vetTecBenefit === 'no' &&
-                this.getButton('22-1990'))) ||
+                this.getButton('22-1990'))}
+            {showWizard &&
               (post911GIBill === 'no' &&
                 newBenefit === 'yes' &&
                 nationalCallToService === 'no' &&
                 vetTecBenefit === 'no' &&
                 this.getButton('1990'))}
-            {(!showWizard &&
-              (newBenefit === 'yes' &&
-                nationalCallToService === 'no' &&
-                vetTecBenefit === 'no' &&
-                this.getButton('1990'))) ||
-              (newBenefit === 'yes' &&
-                nationalCallToService === 'no' &&
-                vetTecBenefit === 'yes' &&
-                this.getButton('0994')) ||
-              (newBenefit === 'no' &&
-                (transferredEduBenefits === 'transferred' ||
-                  transferredEduBenefits === 'own') &&
-                this.getButton('1995')) ||
-              (newBenefit === 'no' &&
-                transferredEduBenefits === 'fry' &&
-                this.getButton('5495')) ||
-              (newBenefit === 'yes' &&
-                serviceBenefitBasedOn === 'other' &&
-                sponsorDeceasedDisabledMIA === 'yes' &&
-                this.getButton('5490')) ||
-              (newBenefit === 'yes' &&
-                serviceBenefitBasedOn === 'other' &&
-                sponsorDeceasedDisabledMIA === 'no' &&
-                sponsorTransferredBenefits !== null &&
-                this.getButton('1990E'))}
+            {!showWizard &&
+              newBenefit === 'yes' &&
+              nationalCallToService === 'no' &&
+              vetTecBenefit === 'no' &&
+              this.getButton('1990')}
+            {!showWizard &&
+              newBenefit === 'yes' &&
+              nationalCallToService === 'no' &&
+              vetTecBenefit === 'yes' &&
+              this.getButton('0994')}
+            {!showWizard &&
+              newBenefit === 'no' &&
+              (transferredEduBenefits === 'transferred' ||
+                transferredEduBenefits === 'own') &&
+              this.getButton('1995')}
+            {!showWizard &&
+              newBenefit === 'no' &&
+              transferredEduBenefits === 'fry' &&
+              this.getButton('5495')}
+            {!showWizard &&
+              newBenefit === 'yes' &&
+              serviceBenefitBasedOn === 'other' &&
+              sponsorDeceasedDisabledMIA === 'yes' &&
+              this.getButton('5490')}
+            {!showWizard &&
+              newBenefit === 'yes' &&
+              serviceBenefitBasedOn === 'other' &&
+              sponsorDeceasedDisabledMIA === 'no' &&
+              sponsorTransferredBenefits !== null &&
+              this.getButton('1990E')}
           </div>
         </div>
       </div>
