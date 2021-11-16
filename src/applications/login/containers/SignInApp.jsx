@@ -4,7 +4,8 @@ import appendQuery from 'append-query';
 import 'url-search-params-polyfill';
 
 import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
-import SignInButtons from '../components/SignInButtons';
+import OriginalDesignButtons from '../components/OriginalDesignButtons';
+import NewDesignButtons from '../components/NewDesignButtons';
 import SignInDescription from '../components/SignInDescription';
 import FedWarning from '../components/FedWarning';
 import LogoutAlert from '../components/LogoutAlert';
@@ -16,7 +17,7 @@ import {
   isAuthenticatedWithSSOe,
   loginGov,
   loginGovCreateAccount,
-  loginNewDesign,
+  loginOldDesign,
 } from 'platform/user/authentication/selectors';
 import { selectProfile, isProfileLoading } from 'platform/user/selectors';
 
@@ -73,7 +74,7 @@ class SignInPage extends React.Component {
     const {
       loginGovEnabled,
       loginGovCreateAccountEnabled,
-      newDesignEnabled,
+      oldDesignEnabled,
       location,
     } = this.props;
     const { query } = location;
@@ -88,7 +89,7 @@ class SignInPage extends React.Component {
           <div className="columns small-12">
             <h1
               className={`${
-                newDesignEnabled
+                !oldDesignEnabled
                   ? 'vads-u-margin-top--2 medium-screen:vads-u-margin-bottom--2'
                   : 'medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--5'
               }`}
@@ -97,7 +98,7 @@ class SignInPage extends React.Component {
             </h1>
           </div>
         </div>
-        {!newDesignEnabled && (
+        {oldDesignEnabled && (
           <div className="row medium-screen:vads-u-display--none mobile-explanation">
             <div className="columns small-12">
               <h2 className="vads-u-margin-top--0">
@@ -111,7 +112,7 @@ class SignInPage extends React.Component {
           this.downtimeBanner(props, globalDowntime, index),
         )}
         <div className="row">
-          {!newDesignEnabled ? (
+          {oldDesignEnabled ? (
             <>
               <div className="usa-width-one-half">
                 <div className="signin-actions-container">
@@ -136,17 +137,16 @@ class SignInPage extends React.Component {
                     <h2 className="vads-u-font-size--sm vads-u-margin-top--0">
                       Sign in with an existing account
                     </h2>
-                    <SignInButtons isDisabled={globalDowntime} />
+                    <OriginalDesignButtons isDisabled={globalDowntime} />
                   </div>
                 </div>
               </div>
               <SignInDescription />
             </>
           ) : (
-            <SignInButtons
+            <NewDesignButtons
               isDisabled={globalDowntime}
               loginGovEnabled={loginGovEnabled}
-              newDesignEnabled={newDesignEnabled}
               loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
               externalApplication={externalApplication}
             />
@@ -157,7 +157,7 @@ class SignInPage extends React.Component {
             <div className="help-info">
               <h2
                 className={`${
-                  newDesignEnabled
+                  !oldDesignEnabled
                     ? 'vads-u-margin-top--0'
                     : 'vads-u-font-size--md'
                 }`}
@@ -180,11 +180,11 @@ class SignInPage extends React.Component {
               </p>
               <p>
                 <SubmitSignInForm startSentence />{' '}
-                {newDesignEnabled && `We're here 24/7.`}
+                {!oldDesignEnabled && `We're here 24/7.`}
               </p>
             </div>
-            {!newDesignEnabled && <hr />}
-            <FedWarning newDesignEnabled={newDesignEnabled} />
+            {oldDesignEnabled && <hr />}
+            <FedWarning oldDesignEnabled={oldDesignEnabled} />
           </div>
         </div>
       </>
@@ -197,7 +197,7 @@ const mapStateToProps = state => ({
   profileLoading: isProfileLoading(state),
   loginGovEnabled: loginGov(state),
   loginGovCreateAccountEnabled: loginGovCreateAccount(state),
-  newDesignEnabled: loginNewDesign(state),
+  oldDesignEnabled: loginOldDesign(state),
   isAuthenticatedWithSSOe: isAuthenticatedWithSSOe(state),
 });
 
