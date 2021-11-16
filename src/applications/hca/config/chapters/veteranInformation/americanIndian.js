@@ -1,11 +1,11 @@
-// import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
 import React from 'react';
 
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
-// const { isAmericanIndian } = fullSchemaHca.properties;
+const { sigiIsAmericanIndian } = fullSchemaHca.properties;
 
 const Description = props => {
   return (
@@ -92,7 +92,7 @@ const Description = props => {
 export default {
   uiSchema: {
     'ui:description': Description,
-    isAmericanIndian: {
+    sigiIsAmericanIndian: {
       'ui:title':
         'Are you recognized as an American Indian or Alaska Native by any tribal, state, or federal law or regulation?',
       'ui:widget': 'yesNo',
@@ -100,11 +100,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['isAmericanIndian'],
+    required: ['sigiIsAmericanIndian'],
     properties: {
-      isAmericanIndian: {
-        type: 'boolean',
-      },
+      sigiIsAmericanIndian,
     },
   },
 };
