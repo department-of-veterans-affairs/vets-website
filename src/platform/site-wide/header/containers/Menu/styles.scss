@@ -1,20 +1,3 @@
 .header-menu-item-button {
   border-radius: 0;
 }
-
-.header-search {
-  .search-dropdown-container.full-width-suggestions {
-    max-width: unset;
-  }
-
-  input {
-    max-width: unset;
-  }
-
-  .search-dropdown-submit-button {
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
-    margin-right: 0 !important;
-    width: 45px;
-  }
-}
