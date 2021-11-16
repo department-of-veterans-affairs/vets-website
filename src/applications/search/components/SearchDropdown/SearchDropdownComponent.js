@@ -553,6 +553,7 @@ class SearchDropdownComponent extends React.Component {
             data-e2e-id={`${id}-input-field`}
             role="combobox"
             type="text"
+            tabIndex="0"
             value={inputValue}
             onBlur={() => this.onInputBlur()}
             onChange={this.handleInputChange}
@@ -633,6 +634,7 @@ class SearchDropdownComponent extends React.Component {
               } ${buttonClassName}`}
               data-e2e-id={`${id}-submit-button`}
               id={`${id}-submit-button`}
+              tabIndex="0"
               onClick={() => onInputSubmit(this.state)}
               onFocus={() => {
                 this.saveSuggestions();
