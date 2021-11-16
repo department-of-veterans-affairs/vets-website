@@ -31,8 +31,10 @@ export default function FormNav(props) {
   const pageList = createPageList(formConfig, formPages);
 
   const eligiblePageList = getActiveExpandedPages(pageList, formData);
-  const test = eligiblePageList.map(p => p.chapterKey);
-  const chapters = uniq(test.filter(key => !!key));
+
+  const chapters = uniq(
+    eligiblePageList.map(p => p.chapterKey).filter(key => !!key),
+  );
 
   let page = eligiblePageList.filter(p => p.path === currentPath)[0];
   // If the page isn’t active, it won’t be in the eligiblePageList

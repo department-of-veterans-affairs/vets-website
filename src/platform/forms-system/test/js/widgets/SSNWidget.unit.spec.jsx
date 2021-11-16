@@ -12,7 +12,7 @@ const props = {
   },
 };
 
-describe.skip('Schemaform <SSNWidget>', () => {
+describe('Schemaform <SSNWidget>', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<SSNWidget value="12345678" />);
     expect(tree.subTree('TextWidget').props.value).to.equal('12345678');

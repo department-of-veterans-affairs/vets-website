@@ -8,7 +8,7 @@ const { gender } = fullSchemaHca.properties;
 
 const GenderIdentificationInfo = (
   <>
-    <p style={{ color: 'gray' }}>
+    <p className={'vads-u-color--gray-medium'}>
       Choose the option that best fits how you describe yourself
     </p>
     <AdditionalInfo triggerText="Why we ask for this information">
