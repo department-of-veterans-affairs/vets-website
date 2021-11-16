@@ -76,6 +76,7 @@ describe('Authed Letter Test', () => {
     // poke all the checkboxes and expect them to all be unselected
     // Flakiness test
     const attempt = cy.state('runnable')._currentRetry;
+    cy.log(attempt);
     if (attempt === 0) {
       cy.get('#nonexistantelement').should('exist');
     } else {
