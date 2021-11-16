@@ -16,17 +16,14 @@ import { focusElement } from '~/platform/utilities/ui';
 export class VerifyApp extends React.Component {
   constructor(props) {
     super(props);
-    const { profile } = this.props;
-    const serviceName = (profile.signIn || {}).serviceName;
 
-    const signinMethodLabels = {
+    this.signinMethodLabels = {
       dslogon: 'DS Logon',
       myhealthevet: 'My HealtheVet',
       logingov: 'Login.gov',
     };
-
-    this.signInMethod = signinMethodLabels[serviceName] || 'ID.me';
   }
+
   componentDidMount() {
     if (!hasSession()) {
       window.location.replace('/');
@@ -85,6 +82,8 @@ export class VerifyApp extends React.Component {
 
   render() {
     const { profile } = this.props;
+    const signInMethod =
+      this.signinMethodLabels[(profile?.signIn?.serviceName)] || 'ID.me';
 
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
@@ -98,7 +97,7 @@ export class VerifyApp extends React.Component {
               <div>
                 <h1>Verify your identity</h1>
                 <AlertBox
-                  content={`You signed in with ${this.signInMethod}`}
+                  content={`You signed in with ${signInMethod}`}
                   isVisible
                   status="success"
                 />
