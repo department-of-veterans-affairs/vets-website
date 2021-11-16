@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import { changeSearchTab, setPageTitle } from '../actions';
-import { PAGE_TITLE, TABS } from '../constants';
+import { TABS } from '../constants';
 import SearchTabs from '../components/search/SearchTabs';
 import { useQueryParams, isSmallScreen } from '../utils/helpers';
 import { useHistory } from 'react-router-dom';
@@ -14,7 +14,6 @@ import AccordionItem from '../components/AccordionItem';
 import { getSearchQueryChanged, updateUrlParams } from '../selectors/search';
 import classNames from 'classnames';
 import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
-import environment from 'platform/utilities/environment';
 
 export function SearchPage({
   dispatchChangeSearchTab,
@@ -35,11 +34,7 @@ export function SearchPage({
 
   useEffect(
     () => {
-      document.title = `${
-        environment.isProduction()
-          ? `${PAGE_TITLE}: VA.gov`
-          : 'Compare institutions: GI Bill® Comparison Tool | Veterans Affairs'
-      }`;
+      document.title = 'GI Bill® Comparison Tool | Veterans Affairs';
     },
     [dispatchSetPageTitle],
   );

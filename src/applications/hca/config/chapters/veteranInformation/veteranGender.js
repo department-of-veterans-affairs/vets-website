@@ -48,12 +48,12 @@ export default {
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
-          F: 'Woman',
           M: 'Man',
-          TF: 'Transgender Female',
-          TM: 'Transgender Man',
-          O: 'A gender not listed here',
+          F: 'Woman',
           NB: 'Non-binary',
+          TM: 'Transgender Man',
+          TF: 'Transgender Female',
+          O: 'A gender not listed here',
           NA: 'Prefer not to answer',
         },
       },

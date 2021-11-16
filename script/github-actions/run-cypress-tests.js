@@ -2,7 +2,8 @@ const { runCommandSync } = require('../utils');
 
 const tests = JSON.parse(process.env.TESTS);
 const step = Number(process.env.STEP);
-const divider = Math.ceil(tests.length / 8);
+const numContainers = Number(process.env.NUM_CONTAINERS);
+const divider = Math.ceil(tests.length / numContainers);
 
 const batch = tests
   .map(test => test.replace('/home/runner/work', '/__w'))

@@ -38,13 +38,13 @@ export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu, subMenu }) => {
       <SearchDropdownComponent
         buttonText=""
         canSubmit
-        ID="header-search-dropdown"
-        componentClassNames="vads-u-margin-bottom--2"
-        containerClassNames="vads-u-max-width--none vads-u-margin-left--2 vads-u-padding--0"
-        buttonClassNames="vads-u-padding--0 vads-u-margin-right--2"
-        inputClassNames="vads-u-max-width--none vads-u-margin--0 "
-        suggestionsListClassNames=""
-        suggestionClassNames=""
+        id="header-search-dropdown"
+        componentClassName="vads-u-margin-bottom--2"
+        containerClassName="vads-u-max-width--none vads-u-margin-left--2 vads-u-padding--0"
+        buttonClassName="vads-u-padding--0 vads-u-margin-right--2"
+        inputClassName="vads-u-max-width--none vads-u-margin--0 "
+        suggestionsListClassName=""
+        suggestionClassName=""
         fetchSuggestions={fetchSearchSuggestions}
         formatSuggestions
         fullWidthSuggestions
