@@ -1,16 +1,19 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { URLS } from '../utils/navigation';
+import { makeSelectForm } from './selectors';
+
 const useFormRouting = (router = {}) => {
-  const { pages, currentPage } = useSelector(
-    state => state.preCheckInData.form,
-  );
+  const selectForm = useMemo(makeSelectForm);
+  const { pages, currentPage } = useSelector(selectForm);
+
   const dispatch = useDispatch();
 
   const goToNextPage = useCallback(
     () => {
       const currentPageIndex = pages.findIndex(page => page === currentPage);
-      const nextPage = pages[currentPageIndex + 1];
+      const nextPage = pages[currentPageIndex + 1] ?? URLS.ERROR;
       dispatch({ type: 'GO_TO_NEXT_PAGE', payload: { form: { nextPage } } });
       router.push(nextPage);
     },
@@ -19,7 +22,7 @@ const useFormRouting = (router = {}) => {
   const goToPreviousPage = useCallback(
     () => {
       const currentPageIndex = pages.findIndex(page => page === currentPage);
-      const nextPage = pages[currentPageIndex - 1];
+      const nextPage = pages[currentPageIndex - 1] ?? URLS.ERROR;
       dispatch({ type: 'GO_TO_NEXT_PAGE', payload: { form: { nextPage } } });
       router.push(nextPage);
     },
@@ -30,8 +33,6 @@ const useFormRouting = (router = {}) => {
 
 export { useFormRouting };
 
-// TODO: Error bounds of high and lower
-// TODO: get second eyes
 // TODO: refactor to use
 // -- selector files
 // -- reducers and actions
