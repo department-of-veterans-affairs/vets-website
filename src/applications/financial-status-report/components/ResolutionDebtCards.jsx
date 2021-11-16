@@ -122,8 +122,7 @@ const ResolutionDebtCards = ({
         const type = debt.resolution?.resolutionType;
         const compPenWaiver = debt.deductionCode === '30' && type === 'Waiver';
         const title = deductionCodes[debt.deductionCode] || debt.benefitType;
-        const subTitle =
-          debt.currentAr && currency.format(parseFloat(debt.currentAr));
+        const subTitle = currency(debt?.currentAr);
 
         return (
           <div
