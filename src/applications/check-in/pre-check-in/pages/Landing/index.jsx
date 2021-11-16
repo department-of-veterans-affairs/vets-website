@@ -1,5 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-export default function index() {
-  return <div>Landing Page</div>;
+export default function Index(props) {
+  useEffect(
+    () => {
+      const { router } = props;
+      router.push('verify');
+    },
+    [props],
+  );
+  return <></>;
 }

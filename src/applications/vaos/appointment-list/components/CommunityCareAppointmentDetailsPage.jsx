@@ -18,6 +18,7 @@ import FullWidthLayout from '../../components/FullWidthLayout';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import InfoAlert from '../../components/InfoAlert';
 import { getCalendarData } from '../../services/appointment';
+import StatusAlert from './ConfirmedAppointmentDetailsPage/StatusAlert';
 
 export default function CommunityCareAppointmentDetailsPage() {
   const { id } = useParams();
@@ -94,11 +95,7 @@ export default function CommunityCareAppointmentDetailsPage() {
         <AppointmentDateTime appointment={appointment} />
       </h1>
 
-      {isPastAppointment && (
-        <InfoAlert backgroundOnly status="warning">
-          This appointment occurred in the past.
-        </InfoAlert>
-      )}
+      <StatusAlert appointment={appointment} />
 
       <h2
         className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
