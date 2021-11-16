@@ -30,11 +30,11 @@ const useFormRouting = (router = {}) => {
 
 export { useFormRouting };
 
-// TODO: populate from a place that is configurable??
 // TODO: Error bounds of high and lower
-// TODO: put on every page
 // TODO: get second eyes
 // TODO: refactor to use
-// ------- selector files
-// ------- reducers and actions
+// -- selector files
+// -- reducers and actions
 // TODO: tests
+// -- unit
+// -- integration
