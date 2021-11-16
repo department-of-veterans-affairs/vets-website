@@ -4,7 +4,9 @@ export default function FedWarning({ loginGovEnabled }) {
   return (
     <div
       className={`${
-        loginGovEnabled ? 'vads-u-padding-bottom--2p5' : 'fed-warning'
+        loginGovEnabled
+          ? 'vads-u-padding-bottom--2p5 fed-warning--v2'
+          : 'fed-warning'
       }`}
     >
       {loginGovEnabled && (

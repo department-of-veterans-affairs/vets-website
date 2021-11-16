@@ -2,7 +2,12 @@ import React from 'react';
 
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
-import { login, signup } from 'platform/user/authentication/utilities';
+import {
+  login,
+  signup,
+  loginGovSignupUrl,
+  idmeSignupUrl,
+} from 'platform/user/authentication/utilities';
 import LoginGovSVG from 'applications/login/components/LoginGov';
 
 const vaGovFullDomain = environment.BASE_URL;
@@ -14,18 +19,22 @@ function loginHandler(loginType) {
   });
 }
 
+function signupHandler(loginType) {
+  recordEvent({ event: `register-link-clicked-${loginType}` });
+}
+
 const LoginGovButtons = ({
   isDisabled,
   externalApplication,
   loginGovCreateAccountEnabled,
 }) => (
-  <>
+  <div className="columns small-12" id="sign-in-wrapper">
     {externalApplication !== 'mhv' && (
       <button
         disabled={isDisabled}
         type="button"
         aria-label="Sign in with Login.gov"
-        className="usa-button usa-button-big logingov-button vads-u-margin-y--1p5"
+        className="usa-button logingov-button vads-u-margin-y--1p5 vads-u-padding-y--2"
         onClick={() => loginHandler('logingov')}
       >
         <LoginGovSVG />
@@ -35,7 +44,7 @@ const LoginGovButtons = ({
       disabled={isDisabled}
       type="button"
       aria-label="Sign in with ID.me"
-      className="usa-button usa-button-big idme-button vads-u-margin-y--1p5"
+      className="usa-button idme-button vads-u-margin-y--1p5 vads-u-padding-y--2"
       onClick={() => loginHandler('idme')}
     >
       <img
@@ -47,7 +56,7 @@ const LoginGovButtons = ({
       disabled={isDisabled}
       type="button"
       aria-label="Sign in with DS Logon"
-      className="usa-button usa-button-big dslogon-button vads-u-margin-y--1p5"
+      className="usa-button dslogon-button vads-u-margin-y--1p5 vads-u-padding-y--2"
       onClick={() => loginHandler('dslogon')}
     >
       DS Logon
@@ -56,7 +65,7 @@ const LoginGovButtons = ({
       disabled={isDisabled}
       type="button"
       aria-label="Sign in with My HealtheVet"
-      className="usa-button usa-button-big mhv-button vads-u-margin-y--1p5"
+      className="usa-button mhv-button vads-u-margin-y--1p5 vads-u-padding-y--2"
       onClick={() => loginHandler('mhv')}
     >
       My HealtheVet
@@ -66,26 +75,26 @@ const LoginGovButtons = ({
       <div className="vads-u-display--flex vads-u-flex-direction--column">
         {externalApplication !== 'mhv' &&
           loginGovCreateAccountEnabled && (
-            <button
-              type="button"
-              aria-label="Create an account with Login.gov"
+            <a
+              href={loginGovSignupUrl()}
+              className="vads-c-action-link--blue logingov"
               disabled={isDisabled}
-              onClick={() => signup({ csp: 'logingov' })}
+              onClick={() => signupHandler('logingov')}
             >
               Create an account with Login.gov
-            </button>
+            </a>
           )}
-        <button
-          type="button"
-          aria-label="Create an account with ID.me"
+        <a
+          href={idmeSignupUrl()}
+          className="vads-c-action-link--blue"
           disabled={isDisabled}
-          onClick={() => signup({ csp: 'idme' })}
+          onClick={() => signupHandler('idme')}
         >
           Create an account with ID.me
-        </button>
+        </a>
       </div>
     </div>
-  </>
+  </div>
 );
 
 const OriginalButtons = ({ isDisabled }) => (
