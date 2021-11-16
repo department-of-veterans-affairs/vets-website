@@ -40,7 +40,7 @@ export class SignInModal extends React.Component {
 
   loginHandler = loginType => () => {
     recordEvent({ event: `login-attempted-${loginType}` });
-    login(loginType, 'v1');
+    login({ policy: loginType });
   };
 
   signupHandler = () => {
