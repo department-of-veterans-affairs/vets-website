@@ -21,6 +21,7 @@ describe('<EducationWizard>', () => {
     tree.unmount();
   });
   it('should show button and first question', () => {
+    expect(EducationWizard.props().showWizard).not.to.be.undefined;
     const tree = mount(<EducationWizard />);
     tree.setState({ open: true });
     expect(tree.find('button').length).to.eq(1);
