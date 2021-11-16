@@ -44,7 +44,7 @@ const Description = props => {
           </strong>
 
           <div>
-            You live in an urban center and you meet at least one of these
+            You live in an urban area and you meet at least one of these
             requirements:
             <ul>
               <li>
@@ -76,10 +76,12 @@ const Description = props => {
             Act (IHCIA), U.S.C. regulations 1603(13) and 1603(28).
           </p>
 
-          <a href="#">
-            <span>
-              Learn more about the IHCIA on the Indian Health Service website
-            </span>
+          <a
+            href="https://www.ihs.gov/ihcia/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn more about the IHCIA on the Indian Health Service website
           </a>
         </AdditionalInfo>
       </div>
@@ -98,7 +100,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: [],
+    required: ['isAmericanIndian'],
     properties: {
       isAmericanIndian: {
         type: 'boolean',
