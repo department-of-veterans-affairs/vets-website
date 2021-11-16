@@ -35,11 +35,6 @@ describe('Application Status Test', () => {
       '/health-care/apply/application/resume',
     );
     cy.testStatus(
-      '/pension/how-to-apply/',
-      '/pension/application/527EZ/resume',
-    );
-    cy.testStatus('/pension/eligibility', '/pension/application/527EZ/resume');
-    cy.testStatus(
       '/burials-memorials/veterans-burial-allowance/',
       '/burials-and-memorials/application/530/resume',
     );
