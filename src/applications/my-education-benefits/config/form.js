@@ -400,6 +400,9 @@ const formConfig = {
             claimantId: {
               'ui:title': 'Claimant ID',
               'ui:disabled': true,
+              'ui:options': {
+                hideOnReview: true,
+              },
             },
             'view:userFullName': {
               'ui:description': (

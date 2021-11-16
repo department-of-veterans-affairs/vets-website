@@ -238,7 +238,8 @@ const ItemLoop = ({
   };
 
   const handleSave = index => {
-    if (!errorSchemaIsValid(errorSchema[index])) {
+    const isUndefined = Object.values(items[index]).includes(undefined);
+    if (isUndefined || !errorSchemaIsValid(errorSchema[index])) {
       formContext.onError();
     } else {
       const editData = editing.map(() => false);
