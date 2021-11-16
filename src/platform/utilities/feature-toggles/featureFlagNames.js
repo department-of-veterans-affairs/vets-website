@@ -13,6 +13,7 @@ export default Object.freeze({
   cernerOverride757: 'cerner_override_757',
   checkInExperienceEnabled: 'check_in_experience_enabled',
   checkInExperienceDemographicsPageEnabled: 'check_in_experience_demographics_page_enabled',
+  checkInExperiencePreCheckInEnabled: 'check_in_experience_pre_check_in_enabled',
   checkInExperienceUpdateInformationPageEnabled: 'check_in_experience_update_information_page_enabled',
   checkInExperienceNextOfKinEnabled: 'check_in_experience_next_of_kin_enabled',
   coeAccess: 'coe_access',

@@ -47,7 +47,7 @@ const createRoutesWithStore = () => {
     <Switch>
       {routes.map((route, i) => (
         <Route
-          path={route.path}
+          path={`/${route.path}`}
           component={withFeatureFlip(route.component)}
           key={i}
         />

@@ -1,3 +1,10 @@
+/**
+ * [TestRail-integrated] Spec for User Nav
+ * @testrailinfo projectId 31
+ * @testrailinfo suiteId 150
+ * @testrailinfo groupId 642
+ * @testrailinfo runName SH-e2e-UserNav
+ */
 const axeTestPage = () => {
   cy.injectAxe();
   cy.axeCheck();
