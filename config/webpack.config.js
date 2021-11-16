@@ -374,6 +374,7 @@ module.exports = async (env = {}) => {
       fallback: {
         path: require.resolve('path-browserify'),
       },
+      symlinks: false,
     },
     optimization: {
       minimizer: [
