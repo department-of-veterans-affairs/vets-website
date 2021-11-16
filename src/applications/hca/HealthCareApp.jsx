@@ -26,7 +26,7 @@ const HealthCareEntry = ({
         });
       }
     },
-    [caregiverSIGIEnabled],
+    [caregiverSIGIEnabled, hcaAmericanIndianEnabled],
   );
 
   useEffect(
