@@ -208,3 +208,13 @@ export const deriveMenuItemID = (item, level) => {
   const formattedLevel = level || '';
   return `${formattedTitle}-${formattedHref}-${formattedLevel}`;
 };
+
+export const onEnterOrSpaceHandler = onEnterOrSpace => event => {
+  const isEnterKey = event.keyCode === 13;
+  const isSpaceKey = event.keyCode === 32;
+
+  if (isEnterKey || isSpaceKey) {
+    event.preventDefault();
+    onEnterOrSpace?.();
+  }
+};

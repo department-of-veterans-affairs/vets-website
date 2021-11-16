@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
 import MenuItemLevel2 from '../MenuItemLevel2';
-import { deriveMenuItemID, formatMenuItems } from '../../helpers';
+import {
+  deriveMenuItemID,
+  formatMenuItems,
+  onEnterOrSpaceHandler,
+} from '../../helpers';
 import { updateExpandedMenuIDAction } from '../../containers/Menu/actions';
 
 export const MenuItemLevel1 = ({
@@ -41,15 +45,6 @@ export const MenuItemLevel1 = ({
     }
   };
 
-  const onButtonKeyDown = event => {
-    const isEnterKey = event.keyCode === 13;
-    const isSpaceKey = event.keyCode === 32;
-
-    if (isEnterKey || isSpaceKey) {
-      toggleShowItems();
-    }
-  };
-
   return (
     <li className="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
       {/* Raw title */}
@@ -78,7 +73,7 @@ export const MenuItemLevel1 = ({
             aria-expanded={isExpanded ? 'true' : 'false'}
             className="header-menu-item-button vads-u-background-color--primary-darker vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white"
             id={menuItemID}
-            onKeyDown={onButtonKeyDown}
+            onKeyDown={onEnterOrSpaceHandler(toggleShowItems)}
             onMouseUp={toggleShowItems}
             type="button"
           >
