@@ -29,6 +29,7 @@ const ExpandedContent = ({
       return (
         <div className="currency-input">
           <TextInput
+            name="extended-payment-resolution-amount"
             additionalClass="input-size-3"
             label="How much can you pay monthly on this debt?"
             field={{ value: debt.resolution?.offerToPay || '' }}
@@ -41,6 +42,7 @@ const ExpandedContent = ({
       return (
         <div className="currency-input">
           <TextInput
+            name="compromise-resolution-amount"
             additionalClass="input-size-3"
             label="What is your offer for a one-time payment?"
             field={{ value: debt.resolution?.offerToPay || '' }}
