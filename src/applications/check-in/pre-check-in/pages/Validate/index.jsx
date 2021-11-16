@@ -1,12 +1,14 @@
 import React from 'react';
 import BackToHome from '../../components/BackToHome';
-import FormButtons from '../../components/FormButtons';
 
-export default function index({ router }) {
+import { useFormRouting } from '../../hooks/useFormRouting';
+
+export default function Index({ router }) {
+  const { goToNextPage } = useFormRouting(router);
   return (
     <>
       <h1>Prepare for your primary care appointment</h1>
-      <FormButtons router={router} />
+      <button onClick={goToNextPage}>Validate</button>
       <BackToHome />
     </>
   );
