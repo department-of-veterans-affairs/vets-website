@@ -117,9 +117,10 @@ const ResolutionDebtCards = ({
       <h4 className="resolution-options-debt-title">Your selected debts</h4>
       {selectedDebts.map((debt, index) => {
         const objKey = 'resolutionType';
-        const isCompAndPenDebt = debt.deductionCode === '30';
         const submitted = formContext.submitted;
         const radioError = submitted && !debt.resolution?.resolutionType;
+        const type = debt.resolution?.resolutionType;
+        const compPenWaiver = debt.deductionCode === '30' && type === 'Waiver';
         const title = deductionCodes[debt.deductionCode] || debt.benefitType;
         const subTitle =
           debt.currentAr && currency.format(parseFloat(debt.currentAr));
@@ -135,7 +136,7 @@ const ResolutionDebtCards = ({
               {subTitle}
             </p>
             <ExpandingGroup
-              open={debt.resolution?.resolutionType && !isCompAndPenDebt}
+              open={type && !compPenWaiver}
               additionalClass="form-expanding-group-active-radio"
             >
               <RadioButtons
