@@ -99,7 +99,7 @@ const formConfig = {
   },
 
   title: 'Request a Higher-Level Review',
-  subTitle: 'Equal to VA Form 20-0996',
+  subTitle: 'VA Form 20-0996 (Higher-Level Review)',
   defaultDefinitions: {},
   preSubmitInfo,
   chapters: {
