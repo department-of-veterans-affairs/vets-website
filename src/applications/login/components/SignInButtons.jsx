@@ -14,24 +14,32 @@ const vaGovFullDomain = environment.BASE_URL;
 
 function loginHandler(loginType) {
   recordEvent({ event: `login-attempted-${loginType}` });
-  login(loginType, 'v1');
+  login({
+    policy: loginType,
+  });
 }
 
 function signupHandler(loginType) {
   recordEvent({ event: `register-link-clicked-${loginType}` });
 }
 
-const LoginGovButtons = ({ isDisabled }) => (
+const LoginGovButtons = ({
+  isDisabled,
+  externalApplication,
+  loginGovCreateAccountEnabled,
+}) => (
   <div className="columns small-12" id="sign-in-wrapper">
-    <button
-      disabled={isDisabled}
-      type="button"
-      aria-label="Sign in with Login.gov"
-      className="usa-button logingov-button vads-u-margin-y--1p5 vads-u-padding-y--2"
-      onClick={() => loginHandler('logingov')}
-    >
-      <LoginGovSVG />
-    </button>
+    {externalApplication !== 'mhv' && (
+      <button
+        disabled={isDisabled}
+        type="button"
+        aria-label="Sign in with Login.gov"
+        className="usa-button logingov-button vads-u-margin-y--1p5 vads-u-padding-y--2"
+        onClick={() => loginHandler('logingov')}
+      >
+        <LoginGovSVG />
+      </button>
+    )}
     <button
       disabled={isDisabled}
       type="button"
@@ -65,14 +73,17 @@ const LoginGovButtons = ({ isDisabled }) => (
     <div id="create-account">
       <h2 className="vads-u-margin-top--3">Or create an account</h2>
       <div className="vads-u-display--flex vads-u-flex-direction--column">
-        <a
-          href={loginGovSignupUrl()}
-          className="vads-c-action-link--blue logingov"
-          disabled={isDisabled}
-          onClick={() => signupHandler('logingov')}
-        >
-          Create an account with Login.gov
-        </a>
+        {externalApplication !== 'mhv' &&
+          loginGovCreateAccountEnabled && (
+            <a
+              href={loginGovSignupUrl()}
+              className="vads-c-action-link--blue logingov"
+              disabled={isDisabled}
+              onClick={() => signupHandler('logingov')}
+            >
+              Create an account with Login.gov
+            </a>
+          )}
         <a
           href={idmeSignupUrl()}
           className="vads-c-action-link--blue"
@@ -135,7 +146,7 @@ const OriginalButtons = ({ isDisabled }) => (
       <button
         disabled={isDisabled}
         className="idme-create usa-button usa-button-secondary"
-        onClick={() => signup('v1')}
+        onClick={() => signup()}
       >
         <img
           aria-hidden="true"
@@ -150,7 +161,12 @@ const OriginalButtons = ({ isDisabled }) => (
   </>
 );
 
-export default function SignInButtons({ isDisabled, loginGovEnabled }) {
+export default function SignInButtons({
+  isDisabled,
+  loginGovEnabled,
+  externalApplication,
+  loginGovCreateAccountEnabled,
+}) {
   return (
     <div>
       {!loginGovEnabled ? (
@@ -159,6 +175,8 @@ export default function SignInButtons({ isDisabled, loginGovEnabled }) {
         <LoginGovButtons
           isDisabled={isDisabled}
           loginGovEnabled={loginGovEnabled}
+          loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
+          externalApplication={externalApplication}
         />
       )}
     </div>

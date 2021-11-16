@@ -15,6 +15,7 @@ import environment from 'platform/utilities/environment';
 import {
   isAuthenticatedWithSSOe,
   loginGov,
+  loginGovCreateAccount,
 } from 'platform/user/authentication/selectors';
 import { selectProfile, isProfileLoading } from 'platform/user/selectors';
 
@@ -28,16 +29,14 @@ class SignInPage extends React.Component {
   };
 
   componentDidUpdate() {
-    const searchParams = new URLSearchParams(window.location.search);
-    const application = searchParams.get('application');
+    const { router, location } = this.props;
+    const application = location?.query?.application;
     if (
       this.props.isAuthenticatedWithSSOe &&
       !this.props.profile.verified &&
       application === 'myvahealth'
     ) {
-      this.props.router.push(
-        appendQuery('/verify', window.location.search.slice(1)),
-      );
+      router.push(appendQuery('/verify', window.location.search.slice(1)));
     }
   }
 
@@ -70,9 +69,14 @@ class SignInPage extends React.Component {
 
   render() {
     const { globalDowntime } = this.state;
-    const { query } = this.props.location;
-    const { loginGovEnabled } = this.props;
+    const {
+      loginGovEnabled,
+      loginGovCreateAccountEnabled,
+      location,
+    } = this.props;
+    const { query } = location;
     const loggedOut = query.auth === 'logged_out';
+    const externalApplication = query.application;
 
     return (
       <>
@@ -140,6 +144,8 @@ class SignInPage extends React.Component {
             <SignInButtons
               isDisabled={globalDowntime}
               loginGovEnabled={loginGovEnabled}
+              loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
+              externalApplication={externalApplication}
             />
           )}
         </div>
@@ -187,6 +193,7 @@ const mapStateToProps = state => ({
   profile: selectProfile(state),
   profileLoading: isProfileLoading(state),
   loginGovEnabled: loginGov(state),
+  loginGovCreateAccountEnabled: loginGovCreateAccount(state),
   isAuthenticatedWithSSOe: isAuthenticatedWithSSOe(state),
 });
 

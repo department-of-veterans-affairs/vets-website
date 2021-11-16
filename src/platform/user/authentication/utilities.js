@@ -159,12 +159,12 @@ export function redirect(redirectUrl, clickedEvent) {
   }
 }
 
-export function login(
+export function login({
   policy,
   version = 'v1',
   queryParams = {},
   clickedEvent = AUTH_EVENTS.MODAL_LOGIN,
-) {
+}) {
   const url = sessionTypeUrl({ type: policy, version, queryParams });
 
   if (!isExternalRedirect()) {
