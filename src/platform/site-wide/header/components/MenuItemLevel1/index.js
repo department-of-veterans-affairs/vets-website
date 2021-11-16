@@ -1,5 +1,5 @@
 // Node modules.
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
@@ -17,16 +17,6 @@ export const MenuItemLevel1 = ({
 
   // Derive if we the menu item is expanded.
   const isExpanded = menuItemID === expandedMenuID;
-
-  // Focus item if expanded when coming from SubMenu.
-  useEffect(
-    () => {
-      if (isExpanded) {
-        document.getElementById(menuItemID)?.focus?.();
-      }
-    },
-    [isExpanded, menuItemID],
-  );
 
   // Do not render if we are missing necessary menu item data.
   if (!item?.menuSections && !item?.href && !item?.title) {

@@ -5,6 +5,9 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 export const loginGov = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.loginGov];
 
+export const loginGovCreateAccount = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.loginGovCreateAccount];
+
 export const ssoe = state => toggleValues(state)[FEATURE_FLAG_NAMES.ssoe];
 
 export const ssoeInbound = state =>
