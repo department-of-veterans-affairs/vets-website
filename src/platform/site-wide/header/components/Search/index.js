@@ -31,7 +31,7 @@ export const Search = () => {
     });
 
     // Redirect to the search results page.
-    window.location.push(searchResultsPage);
+    window.location.href = searchResultsPage;
   };
 
   return (
