@@ -14,7 +14,6 @@ import AccordionItem from '../components/AccordionItem';
 import { getSearchQueryChanged, updateUrlParams } from '../selectors/search';
 import classNames from 'classnames';
 import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
-import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 
 export function SearchPage({
