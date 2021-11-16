@@ -1,6 +1,6 @@
 import React from 'react';
 import merge from 'lodash/merge';
-// import get from 'platform/utilities/data/get';
+import get from 'platform/utilities/data/get';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
@@ -75,13 +75,12 @@ export default {
         },
         insurancePolicyNumber: {
           'ui:title': (
-            <>
-              <span>
-                Provide either your insurance policy number or group code
-              </span>
-              <span className="schemaform-required-span">(*Required)</span>
-            </>
+            <span>
+              Provide either your insurance policy number or group code
+            </span>
           ),
+          'ui:required': (formData, index) =>
+            !get(`providers[${index}].insuranceGroupCode`, formData),
           'ui:description': triCareInfo,
           'ui:errorMessages': {
             pattern: 'Please provide a valid policy number.',
@@ -90,10 +89,12 @@ export default {
         insuranceGroupCode: {
           'ui:title': (
             <>
-              <p style={{ fontWeight: 'bold' }}>or</p>
+              <h4>or</h4>
               <p>Group Code</p>
             </>
           ),
+          'ui:required': (formData, index) =>
+            !get(`providers[${index}].insurancePolicyNumber`, formData),
           'ui:errorMessages': {
             pattern: 'Please provide a valid group code.',
           },
@@ -103,7 +104,6 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['isCoveredByHealthInsurance'],
     properties: {
       providers: {
         type: 'array',
@@ -112,8 +112,8 @@ export default {
           required: [
             'insuranceName',
             'insurancePolicyHolderName',
-            // 'insurancePolicyNumber',
-            // 'insuranceGroupCode',
+            'insurancePolicyNumber',
+            'insuranceGroupCode',
           ],
         }),
       },
