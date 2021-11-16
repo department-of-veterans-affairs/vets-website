@@ -37,7 +37,7 @@ describe('Header <Menu>', () => {
     expect(
       wrapper.find('div.vads-u-background-color--gray-lightest'),
     ).to.have.length(1);
-    expect(wrapper.find('p').text()).to.equal('Search');
+    expect(wrapper.find('label').text()).to.equal('Search');
     expect(wrapper.find('SearchDropdownComponent')).to.have.length(1);
     expect(wrapper.find('ul')).to.have.length(0);
 
@@ -54,7 +54,7 @@ describe('Header <Menu>', () => {
     expect(
       wrapper.find('div.vads-u-background-color--gray-lightest'),
     ).to.have.length(1);
-    expect(wrapper.find('p').text()).to.equal('Search');
+    expect(wrapper.find('label').text()).to.equal('Search');
     expect(wrapper.find('SearchDropdownComponent')).to.have.length(1);
     expect(wrapper.find('ul')).to.have.length(1);
     expect(wrapper.find('Connect(MenuItemLevel1)')).to.have.length(1);
@@ -80,7 +80,7 @@ describe('Header <Menu>', () => {
     expect(
       wrapper.find('div.vads-u-background-color--gray-lightest'),
     ).to.have.length(1);
-    expect(wrapper.find('p').text()).to.equal('Search');
+    expect(wrapper.find('label').text()).to.equal('Search');
     expect(wrapper.find('SearchDropdownComponent')).to.have.length(1);
     expect(wrapper.find('ul')).to.have.length(1);
     expect(wrapper.find('Connect(MenuItemLevel1)')).to.have.length(2);

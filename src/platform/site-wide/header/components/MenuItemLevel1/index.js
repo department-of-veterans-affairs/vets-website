@@ -12,6 +12,12 @@ export const MenuItemLevel1 = ({
   item,
   updateExpandedMenuID,
 }) => {
+  // Derive the menu item's ID.
+  const menuItemID = deriveMenuItemID(item, '1');
+
+  // Derive if we the menu item is expanded.
+  const isExpanded = menuItemID === expandedMenuID;
+
   // Do not render if we are missing necessary menu item data.
   if (!item?.menuSections && !item?.href && !item?.title) {
     return null;
@@ -21,12 +27,6 @@ export const MenuItemLevel1 = ({
   if (item?.menuSections) {
     item.menuSections = formatMenuItems(item.menuSections); // eslint-disable-line no-param-reassign
   }
-
-  // Derive the menu item's ID.
-  const menuItemID = deriveMenuItemID(item, '1');
-
-  // Derive if we the menu item is expanded.
-  const isExpanded = menuItemID === expandedMenuID;
 
   const toggleShowItems = () => {
     // Update the expanded menu ID.
@@ -38,6 +38,15 @@ export const MenuItemLevel1 = ({
     // Scroll to the top of the header when toggling a menu item.
     if (header) {
       header.scrollIntoView();
+    }
+  };
+
+  const onButtonKeyDown = event => {
+    const isEnterKey = event.keyCode === 13;
+    const isSpaceKey = event.keyCode === 32;
+
+    if (isEnterKey || isSpaceKey) {
+      toggleShowItems();
     }
   };
 
@@ -69,7 +78,7 @@ export const MenuItemLevel1 = ({
             aria-expanded={isExpanded ? 'true' : 'false'}
             className="header-menu-item-button vads-u-background-color--primary-darker vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white"
             id={menuItemID}
-            onKeyDown={event => event.keyCode === 13 && toggleShowItems()}
+            onKeyDown={onButtonKeyDown}
             onMouseUp={toggleShowItems}
             type="button"
           >

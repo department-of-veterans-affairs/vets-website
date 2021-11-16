@@ -32,16 +32,19 @@ export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu, subMenu }) => {
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0 vads-u-width--full">
       {/* Search */}
-      <p className="vads-u-padding-x--2 vads-u-color--gray-dark vads-u-margin-bottom--1">
+      <label className="vads-u-padding-x--1p5 vads-u-color--gray-dark vads-u-margin--0 vads-u-margin-top--2">
         Search
-      </p>
+      </label>
       <SearchDropdownComponent
+        buttonClassName="vads-u-padding--0"
         buttonText=""
         canSubmit
-        className="header-search search-header-dropdown-component vads-u-margin-bottom--2 "
+        componentClassName="header-search vads-u-padding-right--1p5 vads-u-padding-bottom--2"
+        containerClassName="vads-u-padding-left--1p5"
         fetchSuggestions={fetchSearchSuggestions}
         formatSuggestions
         fullWidthSuggestions
+        id="header-search-dropdown"
         onInputSubmit={onSearch}
         onSuggestionSubmit={onSuggestionSubmit}
         startingValue=""
@@ -51,7 +54,10 @@ export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu, subMenu }) => {
 
       {/* Menu items */}
       {showMegaMenu && (
-        <ul className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">
+        <ul
+          id="header-nav-items"
+          className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0"
+        >
           {megaMenuData?.map(item => {
             const menuItemID = deriveMenuItemID(item, '1');
             return <MenuItemLevel1 key={menuItemID} item={item} />;

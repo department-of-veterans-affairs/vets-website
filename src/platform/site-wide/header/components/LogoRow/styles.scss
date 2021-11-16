@@ -1,5 +1,7 @@
 .header-logo {
-  width: 40px;
+  svg {
+    width: 40px;
+  }
 }
 
 .header-sign-in-button {
@@ -14,6 +16,7 @@
 
 .header-menu-button {
   min-height: 37px;
+  width: 85px;
   z-index: 1;
 }
 

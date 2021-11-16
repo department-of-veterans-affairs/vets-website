@@ -2,25 +2,15 @@
   border-radius: 0;
 }
 
-.header-search.search-header-dropdown-component {
-  .search-dropdown-container, .search-dropdown-input-field {
+.header-search {
+  .search-dropdown-container.full-width-suggestions {
     max-width: unset;
-  }
-
-  .search-dropdown-container {
-    margin-left: 16px;
-    padding: 0;
-  }
-
-  .search-dropdown-input-field {
-    margin: 0;
   }
 
   .search-dropdown-submit-button {
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
-    margin: 0 16px 0 0;
-    padding: 0;
-    width: 55px;
+    margin-right: 0 !important;
+    width: 45px;
   }
 }

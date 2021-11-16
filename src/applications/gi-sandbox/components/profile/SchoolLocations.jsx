@@ -3,6 +3,7 @@ import { getCalculatedBenefits } from '../../selectors/calculator';
 import { locationInfo, upperCaseFirstLetterOnly } from '../../utils/helpers';
 import ResponsiveTable from '../ResponsiveTable';
 import { Link } from 'react-router-dom';
+import recordEvent from 'platform/monitoring/record-event';
 
 export default function SchoolLocations({
   calculator,
@@ -71,11 +72,13 @@ export default function SchoolLocations({
     setViewableRowCount(totalRowCount);
     setViewAll(true);
     setFocusedElementIndex(previousRowCount);
+    recordEvent({ event: 'view-all-locations-click' });
   };
 
   const handleViewLessClicked = () => {
     if (onViewLess) {
       onViewLess();
+      recordEvent({ event: 'view-less-locations-click' });
     }
 
     setViewableRowCount(initialRowCount);
@@ -93,6 +96,7 @@ export default function SchoolLocations({
 
     setViewableRowCount(newViewableRowCount);
     setFocusedElementIndex(previousRowCount);
+    recordEvent({ event: 'view-more-locations-click' });
   };
 
   const schoolLocationTableInfo = (

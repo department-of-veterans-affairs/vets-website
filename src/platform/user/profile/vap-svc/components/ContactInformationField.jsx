@@ -79,6 +79,7 @@ class ContactInformationField extends React.Component {
     ).isRequired,
     apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
     blockEditMode: PropTypes.bool.isRequired,
+    cancelCallback: PropTypes.func,
     clearTransactionRequest: PropTypes.func.isRequired,
     convertCleanDataToPayload: PropTypes.func.isRequired,
     createTransaction: PropTypes.func.isRequired,
@@ -86,6 +87,7 @@ class ContactInformationField extends React.Component {
     editViewData: PropTypes.object,
     fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES))
       .isRequired,
+    forceEditView: PropTypes.bool,
     formSchema: PropTypes.object.isRequired,
     hasUnsavedEdits: PropTypes.bool.isRequired,
     isEmpty: PropTypes.bool.isRequired,
@@ -95,6 +97,7 @@ class ContactInformationField extends React.Component {
     showEditView: PropTypes.bool.isRequired,
     isDeleteDisabled: PropTypes.bool,
     showValidationView: PropTypes.bool.isRequired,
+    successCallback: PropTypes.func,
     title: PropTypes.string,
     transaction: PropTypes.object,
     transactionRequest: PropTypes.object,
@@ -115,7 +118,7 @@ class ContactInformationField extends React.Component {
   closeModalTimeoutID = null;
 
   componentDidUpdate(prevProps) {
-    const { fieldName } = this.props;
+    const { fieldName, forceEditView, successCallback } = this.props;
     // Exit the edit view if it takes more than 5 seconds for the update/save
     // transaction to resolve. If the transaction has not resolved after 5
     // seconds we will show a "we're saving your new information..." message on
@@ -136,16 +139,27 @@ class ContactInformationField extends React.Component {
     if (this.transactionJustFailed(prevProps, this.props)) {
       clearTimeout(this.closeModalTimeoutID);
     }
-
     if (this.justClosedModal(prevProps, this.props)) {
       clearTimeout(this.closeModalTimeoutID);
       if (this.props.transaction) {
         focusElement(`div#${fieldName}-transaction-status`);
       } else if (this.props.showUpdateSuccessAlert) {
         focusElement('[data-testid=update-success-alert]');
+        // Success check after confirming suggested address
+        if (forceEditView && typeof successCallback === 'function') {
+          successCallback();
+        }
       } else {
         focusElement(`#${getEditButtonId(fieldName)}`);
       }
+    } else if (
+      forceEditView &&
+      typeof successCallback === 'function' &&
+      prevProps.transactionRequest &&
+      !this.props.transactionRequest
+    ) {
+      // Success callback (non-address) after updating a field
+      successCallback();
     }
   }
 
@@ -154,6 +168,10 @@ class ContactInformationField extends React.Component {
 
     if (!this.props.hasUnsavedEdits) {
       this.closeModal();
+      // cancel form app inline editing. Allows changing route
+      if (typeof this.props.cancelCallback === 'function') {
+        this.props.cancelCallback();
+      }
       return;
     }
 
@@ -270,6 +288,7 @@ class ContactInformationField extends React.Component {
       fieldName,
       isEmpty,
       showEditView,
+      forceEditView,
       isDeleteDisabled,
       showRemoveModal,
       showValidationView,
@@ -290,7 +309,12 @@ class ContactInformationField extends React.Component {
     const wrapInTransaction = children => {
       return (
         <VAPServiceTransaction
-          isModalOpen={showEditView || showValidationView || showRemoveModal}
+          isModalOpen={
+            showEditView ||
+            showValidationView ||
+            showRemoveModal ||
+            forceEditView
+          }
           id={`${fieldName}-transaction-status`}
           title={title}
           transaction={transaction}
@@ -350,7 +374,7 @@ class ContactInformationField extends React.Component {
       </div>,
     );
 
-    if (showEditView) {
+    if (showEditView || forceEditView) {
       content = (
         <ContactInformationEditView
           getInitialFormValues={() =>
