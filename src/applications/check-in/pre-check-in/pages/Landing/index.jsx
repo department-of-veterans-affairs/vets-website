@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 
-import { PRE_CHECK_IN_FORM_PAGES } from '../../utils/navigation';
+import { createForm } from '../../utils/navigation';
 
 export default function Index(props) {
   const dispatch = useDispatch();
@@ -10,11 +10,12 @@ export default function Index(props) {
   useEffect(
     () => {
       const { router } = props;
-      const firstPage = PRE_CHECK_IN_FORM_PAGES[0].url;
+      const pages = createForm(false);
+      const firstPage = pages[0];
       dispatch({
         type: 'INIT_FORM',
         payload: {
-          pages: PRE_CHECK_IN_FORM_PAGES.map(page => page.url),
+          pages,
           currentPage: firstPage,
         },
       });

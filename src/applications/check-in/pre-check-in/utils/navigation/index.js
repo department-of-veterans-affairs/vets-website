@@ -32,4 +32,14 @@ const PRE_CHECK_IN_FORM_PAGES = Object.freeze([
   },
 ]);
 
-export { URLS, PRE_CHECK_IN_FORM_PAGES };
+const createForm = hasConfirmed => {
+  let pages = PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
+  if (hasConfirmed) {
+    pages = pages.filter(
+      page => page !== URLS.DEMOGRAPHICS && page !== URLS.NEXT_OF_KIN,
+    );
+  }
+  return pages;
+};
+
+export { URLS, PRE_CHECK_IN_FORM_PAGES, createForm };
