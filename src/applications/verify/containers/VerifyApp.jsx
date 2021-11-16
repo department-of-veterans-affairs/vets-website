@@ -22,6 +22,7 @@ export class VerifyApp extends React.Component {
     const signinMethodLabels = {
       dslogon: 'DS Logon',
       myhealthevet: 'My HealtheVet',
+      logingov: 'Login.gov',
     };
 
     this.signInMethod = signinMethodLabels[serviceName] || 'ID.me';

@@ -123,8 +123,8 @@ const testConfig = createTestConfig(
       },
       'resolution-options': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type="radio"][value="Waiver"]').click();
-          cy.get(`input[name="agree-to-waiver"]`).check();
+          cy.get('[type="radio"][value="Compromise"]').click();
+          cy.get(`input[name="compromise-resolution-amount"]`).type('100');
           cy.get('.usa-button-primary').click();
         });
       },
