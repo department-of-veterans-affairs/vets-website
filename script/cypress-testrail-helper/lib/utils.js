@@ -43,7 +43,7 @@ module.exports = {
 
     return new Promise((myResolve, myReject) => {
       try {
-        specGlob = 'src/applications/**/' + filename + '.cypress.spec.js?(x)';
+        specGlob = 'src/**/tests/**/' + filename + '.cypress.spec.js?(x)';
         glob(specGlob, {}, (err, files) => {
           if (err) {
             throw new Error(err);
