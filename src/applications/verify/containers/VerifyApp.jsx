@@ -50,11 +50,13 @@ export class VerifyApp extends React.Component {
     }
   }
 
-  renderVerifyButton() {
-    const { loginGovEnabled } = this.props;
+  renderVerifyButton(signInMethod) {
+    const verifyWithLoginGov =
+      this.signinMethodLabels.logingov === signInMethod;
+
     const renderOpts = {
-      copy: loginGovEnabled ? 'Login.gov' : 'ID.me',
-      renderImage: loginGovEnabled ? (
+      copy: verifyWithLoginGov ? 'Login.gov' : 'ID.me',
+      renderImage: verifyWithLoginGov ? (
         <LoginGovSVG />
       ) : (
         <img
@@ -65,7 +67,7 @@ export class VerifyApp extends React.Component {
         />
       ),
       className: `usa-button ${
-        loginGovEnabled ? 'logingov-button' : 'idme-button'
+        verifyWithLoginGov ? 'logingov-button' : 'idme-button'
       }`,
     };
 
@@ -113,7 +115,7 @@ export class VerifyApp extends React.Component {
                   This one-time process will take{' '}
                   <strong>5 - 10 minutes</strong> to complete.
                 </p>
-                {this.renderVerifyButton()}
+                {this.renderVerifyButton(signInMethod)}
               </div>
             </div>
           </div>
