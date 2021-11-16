@@ -75,7 +75,8 @@ describe('Authed Letter Test', () => {
 
     // poke all the checkboxes and expect them to all be unselected
     // Flakiness test
-    if (cy.state('runnable')._currentRetry === 0) {
+    /* eslint-disable-next-line eqeqeq */
+    if (cy.state('runnable')._currentRetry == 0) {
       cy.get('#nonexistantelement').should('exist');
     } else {
       cy.get('#militaryService')
