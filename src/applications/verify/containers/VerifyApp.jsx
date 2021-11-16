@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoginGovSVG from 'applications/login/components/LoginGov';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
@@ -96,11 +95,9 @@ export class VerifyApp extends React.Component {
             <div className="columns small-12">
               <div>
                 <h1>Verify your identity</h1>
-                <AlertBox
-                  content={`You signed in with ${signInMethod}`}
-                  isVisible
-                  status="success"
-                />
+                <va-alert visible status="success">
+                  You signed in with {signInMethod}
+                </va-alert>
                 <p>
                   We'll need to verify your identity so that you can securely
                   access and manage your benefits.
