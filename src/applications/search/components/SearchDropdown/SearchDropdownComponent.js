@@ -332,8 +332,8 @@ class SearchDropdownComponent extends React.Component {
     // close
     // when the ESCAPE key is pressed, close the drop down menu WITHOUT selecting any of the options
     if (currentKeyPress === Keycodes.Escape) {
-      this.setState({ activeIndex: undefined });
-      this.updateMenuState(false, true);
+      document.getElementById(`${this.props.id}-input-field`).focus();
+      this.setState({ activeIndex: undefined, isOpen: false });
       return;
     }
 
@@ -365,11 +365,27 @@ class SearchDropdownComponent extends React.Component {
 
     // when the tab key is pressed, close the suggestions list and select the search button
     if (currentKeyPress === Keycodes.Tab) {
-      event.preventDefault();
-      this.setState({ activeIndex: undefined }, () => {
+      if (activeIndex === undefined && event.shiftKey) {
         this.updateMenuState(false, false);
+        return;
+      }
+      event.preventDefault();
+      // if in the dropdown options and press shift+tab, close the suggestions and focus the input bar
+      if (event.shiftKey && activeIndex !== undefined) {
+        this.setState({ activeIndex: undefined }, () => {
+          this.updateMenuState(false, true);
+        });
+        return;
+      }
+      // in in the dropdown options and press tab, select the current item and focus the search button
+      if (!event.shiftKey && activeIndex !== undefined) {
+        this.selectOption(activeIndex);
         document.getElementById(`${this.props.id}-submit-button`).focus();
-      });
+        return;
+      }
+
+      // else if on the input bar and you press tab, focus the button
+      document.getElementById(`${this.props.id}-submit-button`).focus();
     }
   };
 
