@@ -24,10 +24,21 @@ const SearchRepresentativeWidget = props => {
     setPages(chunkedData.length);
   }
 
-  const handleClick = value => {
+  const handleClick = (name, address, city, phone, type) => {
+    // assemble a full object of the chosen representative separate from the name
+    const representativeObject = {
+      name,
+      address,
+      city,
+      phone,
+      type,
+    };
+    // add both the name of the chosen representative and the full object
+    // of representative data to the form data
     const updatedFormData = {
       ...formData,
-      preferredRepresentative: value,
+      preferredRepresentative: name,
+      representativeData: representativeObject,
     };
     props.setData(updatedFormData);
   };
@@ -70,13 +81,16 @@ const SearchRepresentativeWidget = props => {
           page={currentPage}
           pages={pages}
         />
-        <h2>If you don’t see the representative you want</h2>
-        <p>You can go back to make changes and search again.</p>
+        <h2>If the accredited representative you want isn’t listed here</h2>
+        <p>
+          You can go back to try your search again. Try entering a different
+          kind of representative or a different location.
+        </p>
         <a
           className="vads-c-action-link--green"
           href="/view-change-representative/search/representative-type"
         >
-          Go back and search again
+          Go back to search again
         </a>
         <h2>If you found the representative you want</h2>
         <p>
@@ -143,7 +157,21 @@ const SearchRepresentativeWidget = props => {
       </div>
     );
   } else {
-    return <div>No results</div>;
+    return (
+      <>
+        <h2>We didn’t find a match</h2>
+        <p>
+          You can go back to try your search again. Try entering a different
+          kind of representative or a different location.
+        </p>
+        <a
+          className="vads-c-action-link--green"
+          href="/view-change-representative/search/representative-type"
+        >
+          Go back to search again
+        </a>
+      </>
+    );
   }
 };
 

@@ -1,17 +1,70 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 
+span.sidelines {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  text-align: center;
+  width: 100%;
+  display: inline-block;
+
+  font-size: 1.15em;
+  font-weight: bold;
+
+  &:before,
+  &:after {
+    position: absolute;
+    top: 51%;
+    overflow: hidden;
+    width: 50%;
+    height: 2px;
+    content: "\a0";
+    background-color: $color-gray-light-alt;
+  }
+
+  &:before {
+    margin-left: -52%;
+    text-align: right;
+  }
+
+  &:after {
+    margin-left: 2%;
+  }
+}
+
 #signin-signup-modal {
   .va-modal-body {
     // Overwrite white header color.
     color: $color-gray-dark;
-    padding-top: 0;
+    padding: 0;
     margin-right: 0;
+
+    @include media($medium-screen) {
+      padding: 0 9em;
+    }
   }
 
   .va-modal-inner {
     max-width: 62.5em;
     width: 95vw;
+  }
+
+  .login {
+    .explanation-content {
+      @include media($medium-large-screen) {
+        margin-left: 2em;
+      }
+
+      ul {
+        list-style: square;
+        padding-left: 1.5em;
+      }
+
+      p {
+        margin: 1em 0;
+      }
+    }
   }
 }
 
@@ -42,6 +95,25 @@
 
       &:hover {
         background: $color-primary-darkest;
+      }
+    }
+
+    &.dslogon {
+      background: $color-primary-darker;
+
+      &:hover {
+        background: $color-primary-darkest;
+      }
+    }
+
+    &.idme-create {
+      box-shadow: inset 0 0 0 2px $color-green;
+      color: $color-green;
+      margin-bottom: 0;
+
+      &:hover {
+        box-shadow: inset 0 0 0 2px $color-green-darker;
+        color: $color-green-darker;
       }
     }
 
@@ -78,6 +150,7 @@
 
   .container {
     color: $color-base;
+    padding: 2em 0;
   }
 
   .logo {
@@ -119,6 +192,86 @@
 
 .login {
   background: $color-white;
+
+  hr {
+    border-color: $color-gray-lighter;
+  }
+
+  .mobile-explanation {
+    padding: 1em 0;
+
+    p {
+      margin-top: 0;
+    }
+  }
+
+  .fed-warning {
+    font-size: 0.9em;
+    margin-bottom: 2em;
+
+    p {
+      margin: 0.5em 0;
+    }
+
+    &--v2 {
+      font-size: unset;
+      margin-bottom: unset;
+      max-width: 81ch;
+    }
+  }
+
+  .signin-actions-container {
+    text-align: center;
+
+    @include media-maxwidth($small-screen) {
+      margin-right: 0;
+    }
+
+    div:first-child {
+      background: $color-gray-light-alt;
+    }
+
+    border: solid 2px $color-gray-light-alt;
+
+    .top-banner {
+      text-align: center;
+      display: flex;
+      align-items: center;
+      padding: 0.25em 0;
+      font-style: italic;
+
+      div:first-child {
+        margin: 0 auto;
+      }
+
+      img {
+        height: inherit;
+        vertical-align: baseline;
+        padding: 0 0.25em;
+      }
+    }
+
+    .signin-actions {
+      padding: 2em 2em 1em;
+
+      h5 {
+        margin-top: 0;
+      }
+
+      @include media-maxwidth($small-screen) {
+        padding: 2em 1em 1em;
+      }
+
+      .alternate-signin {
+        padding-top: 1em;
+
+        p:first-of-type {
+          margin-top: 0.5em;
+          color: $color-gray-dark;
+        }
+      }
+    }
+  }
 }
 
 .sign-in-nav {
@@ -163,4 +316,20 @@
 
 #help-menu {
   width: 21rem;
+}
+
+#create-account a {
+  border-top: 1px solid $color-gray-light;
+  border-bottom: 1px solid $color-gray-light;
+  padding-bottom: 1.16em;
+
+  &.logingov {
+    border-bottom: 0;
+  }
+}
+
+#sign-in-wrapper {
+  @include media($medium-screen) {
+    max-width: 330px;
+  }
 }

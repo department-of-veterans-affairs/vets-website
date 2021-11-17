@@ -9,7 +9,7 @@ import {
 const initialState = {
   loading: true, // app starts in loading state
   error: null,
-  representativeSearchResults: null,
+  representativeSearchResults: [],
 };
 
 function allSearchResults(state = initialState, action) {

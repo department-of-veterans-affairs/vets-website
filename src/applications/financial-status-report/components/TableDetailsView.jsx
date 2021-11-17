@@ -8,7 +8,7 @@ const TableDetailsView = ({ formData, onEdit }) => {
   const format = value => {
     const isNumber = !isNaN(value);
     if (isNumber) {
-      return currency.format(parseFloat(value));
+      return currency(value);
     }
     return value;
   };
