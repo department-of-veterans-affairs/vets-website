@@ -123,7 +123,7 @@ PersonalInformation.propTypes = {
   showDirectDepositBlockedError: PropTypes.bool.isRequired,
   hasUnsavedEdits: PropTypes.bool.isRequired,
   hasVAPServiceError: PropTypes.bool,
-  openModal: PropTypes.func.isRequired,
+  openEditModal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
