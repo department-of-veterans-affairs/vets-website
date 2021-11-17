@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import ExpandableOperatingStatus from '../../shared/ExpandableOperatingStatus';
+import ExpandableOperatingStatus from '../vet-center/components/ExpandableOperatingStatus';
 
 describe('<ExpandableOperatingStatus>', () => {
   it('Should render ExpandableOperatingStatus and be functional', () => {
