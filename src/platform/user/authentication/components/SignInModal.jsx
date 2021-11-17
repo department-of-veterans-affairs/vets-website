@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
-import FedWarning from 'applications/login/components/FedWarning';
-import NewDesignButtons from 'applications/login/components/NewDesignButtons';
-import OriginalDesignButtons from 'applications/login/components/OriginalDesignButtons';
+import FedWarning from 'platform/user/authentication/components/FedWarning';
+import NewDesignButtons from 'platform/user/authentication/components/NewDesignButtons';
+import OriginalDesignButtons from 'platform/user/authentication/components/OriginalDesignButtons';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
-import SignInDescription from 'applications/login/components/SignInDescription';
+import SignInDescription from 'platform/user/authentication/components/SignInDescription';
 
 // import { getCurrentGlobalDowntime } from 'platform/monitoring/DowntimeNotification/util/helpers';
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
