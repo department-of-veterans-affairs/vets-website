@@ -19,6 +19,7 @@ export default function({
 }) {
   useEffect(() => {
     focusElement('.compare-page-description-label');
+    document.title = `Compare institutions: GI Bill® Comparison Tool | Veterans Affairs`;
   }, []);
 
   const empties = [];
