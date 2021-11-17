@@ -29,12 +29,12 @@ const ExpandedContent = ({
       return (
         <div className="currency-input">
           <TextInput
+            name="extended-payment-resolution-amount"
             additionalClass="input-size-3"
             label="How much can you pay monthly on this debt?"
             field={{ value: debt.resolution?.offerToPay || '' }}
             onValueChange={({ value }) => updateDebts(objKey, value, debt)}
             errorMessage={submitted && inputErrMsg}
-            required
           />
         </div>
       );
@@ -42,12 +42,12 @@ const ExpandedContent = ({
       return (
         <div className="currency-input">
           <TextInput
+            name="compromise-resolution-amount"
             additionalClass="input-size-3"
             label="What is your offer for a one-time payment?"
             field={{ value: debt.resolution?.offerToPay || '' }}
             onValueChange={({ value }) => updateDebts(objKey, value, debt)}
             errorMessage={submitted && inputErrMsg}
-            required
           />
         </div>
       );
@@ -60,7 +60,6 @@ const ExpandedContent = ({
             checked={debt.resolution?.agreeToWaiver || false}
             onValueChange={value => updateDebts('agreeToWaiver', value, debt)}
             errorMessage={submitted && checkboxErrMsg}
-            required
           />
           <p>
             Note: If you have questions about this, call us at
@@ -122,9 +121,10 @@ const ResolutionDebtCards = ({
         const objKey = 'resolutionType';
         const submitted = formContext.submitted;
         const radioError = submitted && !debt.resolution?.resolutionType;
+        const type = debt.resolution?.resolutionType;
+        const compPenWaiver = debt.deductionCode === '30' && type === 'Waiver';
         const title = deductionCodes[debt.deductionCode] || debt.benefitType;
-        const subTitle =
-          debt.currentAr && currency.format(parseFloat(debt.currentAr));
+        const subTitle = currency(debt?.currentAr);
 
         return (
           <div
@@ -137,7 +137,7 @@ const ResolutionDebtCards = ({
               {subTitle}
             </p>
             <ExpandingGroup
-              open={debt.resolution?.resolutionType}
+              open={type && !compPenWaiver}
               additionalClass="form-expanding-group-active-radio"
             >
               <RadioButtons

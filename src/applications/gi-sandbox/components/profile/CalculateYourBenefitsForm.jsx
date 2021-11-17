@@ -274,7 +274,7 @@ function CalculateYourBenefitsForm({
       onClick={() => {
         showModal(modal);
         recordEvent({
-          event: ariaLabel,
+          event: `Learn more help text clicked for: ${labelFor}`,
         });
       }}
       ariaLabel={ariaLabel}

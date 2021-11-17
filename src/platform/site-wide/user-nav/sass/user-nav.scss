@@ -37,8 +37,12 @@ span.sidelines {
   .va-modal-body {
     // Overwrite white header color.
     color: $color-gray-dark;
-    padding-top: 0;
+    padding: 0;
     margin-right: 0;
+
+    @include media($medium-screen) {
+      padding: 0 9em;
+    }
   }
 
   .va-modal-inner {
@@ -208,6 +212,12 @@ span.sidelines {
     p {
       margin: 0.5em 0;
     }
+
+    &--v2 {
+      font-size: unset;
+      margin-bottom: unset;
+      max-width: 81ch;
+    }
   }
 
   .signin-actions-container {
@@ -308,38 +318,18 @@ span.sidelines {
   width: 21rem;
 }
 
-#create-account button {
-  display: block;
-  text-align: left;
-  border-radius: 0;
-  margin: 0;
-  background-color: transparent;
-  text-decoration: underline;
-  font-weight: 700;
-  padding: 1.16em 0 1.6em;
-  color: $color-link-default;
+#create-account a {
   border-top: 1px solid $color-gray-light;
   border-bottom: 1px solid $color-gray-light;
+  padding-bottom: 1.16em;
 
-  &:before {
-    color: $color-link-default;
-    content: "\F138";
-    display: inline-block;
-    font-family: "Font Awesome 5 Free";
-    font-size: 175%;
-    font-weight: 900;
-    height: 0;
-    padding-right: 1rem;
-    transform: translateY(5px);
-    text-decoration: none;
+  &.logingov {
+    border-bottom: 0;
   }
+}
 
-  &:hover {
-    color: $color-black;
-    background-color: $color-gray-lightest;
-  }
-
-  &:last-of-type {
-    border-top: none;
+#sign-in-wrapper {
+  @include media($medium-screen) {
+    max-width: 330px;
   }
 }

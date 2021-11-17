@@ -28,10 +28,10 @@ const CardDetailsView = ({ formData, onEdit, title }) => {
       purpose = capitalize(formData[key]);
     }
     if (key.toLowerCase().includes('balance')) {
-      balance = currency.format(parseFloat(formData[key]));
+      balance = currency(formData[key]);
     }
     if (key.toLowerCase().includes('monthly')) {
-      monthly = currency.format(parseFloat(formData[key]));
+      monthly = currency(formData[key]);
     }
     if (key.toLowerCase().includes('type')) {
       type = capitalize(formData[key]);
@@ -40,7 +40,7 @@ const CardDetailsView = ({ formData, onEdit, title }) => {
       key.toLowerCase().includes('amount') ||
       key.toLowerCase().includes('value')
     ) {
-      amount = currency.format(parseFloat(formData[key]));
+      amount = currency(formData[key]);
     }
     if (key.toLowerCase().includes('make')) {
       make = capitalize(formData[key]);
