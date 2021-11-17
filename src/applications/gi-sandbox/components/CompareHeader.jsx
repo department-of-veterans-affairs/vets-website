@@ -45,7 +45,7 @@ export default function({
     );
   };
 
-  const handleOnChnage = e => {
+  const handleOnChange = e => {
     setShowDifferences(e.target.checked);
     recordEvent({
       event: 'gibct-formChange',
@@ -79,7 +79,7 @@ export default function({
               }
               name="highlight-differences"
               className="vads-u-display--inline-block"
-              onChange={handleOnChnage}
+              onChange={handleOnChange}
             />
           </div>
         </div>
