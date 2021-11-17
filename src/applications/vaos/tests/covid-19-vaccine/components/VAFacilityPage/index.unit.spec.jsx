@@ -136,7 +136,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     });
 
     expect(screen.baseElement).to.contain.text(
-      'Below is a list of VA locations where you’re registered that offer COVID-19 vaccine appointments',
+      'Here’s a list of VA facilities where you’re registered that offer COVID-19 vaccine appointments',
     );
 
     // Should contain radio buttons
@@ -218,10 +218,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     await screen.findAllByRole('radio');
 
     expect(screen.baseElement).to.contain.text(
-      'Below is a list of VA locations where you’re registered that offer COVID-19 vaccine appointments',
+      'Here’s a list of VA facilities where you’re registered that offer COVID-19 vaccine appointments',
     );
     expect(screen.baseElement).to.contain.text(
-      'Locations closest to you are at the top of the list',
+      'Locations closest to you are listed first',
     );
     expect(screen.baseElement).to.contain.text(
       'Facilities based on your home address',
@@ -391,7 +391,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
 
     expect(
       screen.getByText(
-        /Below is a list of VA locations where you’re registered that offer COVID-19 vaccine appointments/i,
+        /Here’s a list of VA facilities where you’re registered that offer COVID-19 vaccine appointments/i,
       ),
     ).to.exist;
 
@@ -546,7 +546,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       store,
     });
 
-    await screen.findByText(/below is a list of VA locations/i);
+    await screen.findByText(/Here’s a list of VA facilities/i);
 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
     fireEvent.click(screen.getByText(/Continue/));
@@ -782,7 +782,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       store,
     });
 
-    await screen.findByText(/below is a list of VA locations/i);
+    await screen.findByText(/Here’s a list of VA facilities/i);
 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
     fireEvent.click(screen.getByText(/Continue/));
