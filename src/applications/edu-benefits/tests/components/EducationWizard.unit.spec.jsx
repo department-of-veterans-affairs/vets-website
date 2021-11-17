@@ -50,32 +50,11 @@ describe('<EducationWizard>', () => {
     answerQuestion(tree, '#serviceBenefitBasedOn-0', 'own');
     answerQuestion(tree, '#nationalCallToService-1', 'no');
     answerQuestion(tree, '#vetTecBenefit-1', 'no');
-    answerQuestion(tree, '#post911GIBill-0', 'no');
     expect(
       tree
         .find('#apply-now-link')
         .prop('href')
         .endsWith('1990'),
-    ).to.be.true;
-    tree.unmount();
-  });
-  //
-  it('should show 22-1990EZ button', () => {
-    const myStore = mockStore({
-      showEduBenefits1990EZWizard: true,
-    });
-    const tree = mount(<EducationWizard store={myStore} />);
-
-    answerQuestion(tree, '#newBenefit-0', 'yes');
-    answerQuestion(tree, '#serviceBenefitBasedOn-0', 'own');
-    answerQuestion(tree, '#nationalCallToService-1', 'no');
-    answerQuestion(tree, '#vetTecBenefit-1', 'no');
-    answerQuestion(tree, '#post911GIBill-0', 'yes');
-    expect(
-      tree
-        .find('#apply-now-link')
-        .prop('href')
-        .endsWith('form-22-1990'),
     ).to.be.true;
     tree.unmount();
   });
