@@ -74,17 +74,7 @@ describe('Authed Letter Test', () => {
       });
 
     // poke all the checkboxes and expect them to all be unselected
-    // Flakiness test
-    /* eslint-disable-next-line eqeqeq */
-    if (cy.state('runnable')._currentRetry == 0) {
-      cy.get('#nonexistantelement').should('exist');
-    } else {
-      cy.get('#militaryService')
-        .should('exist')
-        .then(() => {
-          expect(cy.state('runnable')._currentRetry).to.eq(1);
-        });
-    }
+    cy.get('#militaryService').should('exist');
     cy.get('#militaryService').should('be.checked');
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(200);
