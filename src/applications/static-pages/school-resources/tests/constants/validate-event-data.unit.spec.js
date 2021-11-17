@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import moment from 'moment';
 
-import scoEvents from '../../../school-resources/constants/events';
+import scoEvents from '../../constants/events';
 
 describe('school resources data', () => {
   it('all events have required data', () => {
