@@ -318,6 +318,7 @@ jobs:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
+          ref: Cbonade/test-retries
 
       - name: Setup Node
         uses: actions/setup-node@v2
@@ -536,6 +537,7 @@ jobs:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
+          ref: Cbonade/test-retries
 
       - name: Get Node version
         id: get-node-version
@@ -671,6 +673,7 @@ jobs:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
+          ref: Cbonade/test-retries
 
       - name: Get Node version
         id: get-node-version
