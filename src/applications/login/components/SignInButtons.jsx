@@ -26,76 +26,93 @@ function signupHandler(loginType) {
 const LoginGovButtons = ({
   isDisabled,
   externalApplication,
+  loginGovMHVEnabled,
+  loginGovMyVAHealthEnabled,
   loginGovCreateAccountEnabled,
-}) => (
-  <div className="columns small-12" id="sign-in-wrapper">
-    {externalApplication !== 'mhv' && (
+}) => {
+  const externalLoginGovSupport = {
+    mhv: loginGovMHVEnabled,
+    myvahealth: loginGovMyVAHealthEnabled,
+  };
+
+  const showLoginGov = () => {
+    if (!Object.keys(externalLoginGovSupport).includes(externalApplication)) {
+      return true;
+    }
+
+    return externalLoginGovSupport[externalApplication];
+  };
+
+  return (
+    <div className="columns small-12" id="sign-in-wrapper">
+      {showLoginGov() && (
+        <button
+          disabled={isDisabled}
+          type="button"
+          aria-label="Sign in with Login.gov"
+          className="usa-button logingov-button vads-u-margin-y--1p5 vads-u-padding-y--2"
+          onClick={() => loginHandler('logingov')}
+        >
+          <LoginGovSVG />
+        </button>
+      )}
       <button
         disabled={isDisabled}
         type="button"
-        aria-label="Sign in with Login.gov"
-        className="usa-button logingov-button vads-u-margin-y--1p5 vads-u-padding-y--2"
-        onClick={() => loginHandler('logingov')}
+        aria-label="Sign in with ID.me"
+        className="usa-button idme-button vads-u-margin-y--1p5 vads-u-padding-y--2"
+        onClick={() => loginHandler('idme')}
       >
-        <LoginGovSVG />
+        <img
+          alt="Sign in with ID.me"
+          src={`${vaGovFullDomain}/img/signin/idme-icon-white.svg`}
+        />
       </button>
-    )}
-    <button
-      disabled={isDisabled}
-      type="button"
-      aria-label="Sign in with ID.me"
-      className="usa-button idme-button vads-u-margin-y--1p5 vads-u-padding-y--2"
-      onClick={() => loginHandler('idme')}
-    >
-      <img
-        alt="Sign in with ID.me"
-        src={`${vaGovFullDomain}/img/signin/idme-icon-white.svg`}
-      />
-    </button>
-    <button
-      disabled={isDisabled}
-      type="button"
-      aria-label="Sign in with DS Logon"
-      className="usa-button dslogon-button vads-u-margin-y--1p5 vads-u-padding-y--2"
-      onClick={() => loginHandler('dslogon')}
-    >
-      DS Logon
-    </button>
-    <button
-      disabled={isDisabled}
-      type="button"
-      aria-label="Sign in with My HealtheVet"
-      className="usa-button mhv-button vads-u-margin-y--1p5 vads-u-padding-y--2"
-      onClick={() => loginHandler('mhv')}
-    >
-      My HealtheVet
-    </button>
-    <div id="create-account">
-      <h2 className="vads-u-margin-top--3">Or create an account</h2>
-      <div className="vads-u-display--flex vads-u-flex-direction--column">
-        {externalApplication !== 'mhv' &&
-          loginGovCreateAccountEnabled && (
-            <a
-              href={loginGovSignupUrl()}
-              className="vads-c-action-link--blue logingov"
-              disabled={isDisabled}
-              onClick={() => signupHandler('logingov')}
-            >
-              Create an account with Login.gov
-            </a>
-          )}
-        <a
-          href={idmeSignupUrl()}
-          className="vads-c-action-link--blue"
-          disabled={isDisabled}
-          onClick={() => signupHandler('idme')}
-        >
-          Create an account with ID.me
-        </a>
+      <button
+        disabled={isDisabled}
+        type="button"
+        aria-label="Sign in with DS Logon"
+        className="usa-button dslogon-button vads-u-margin-y--1p5 vads-u-padding-y--2"
+        onClick={() => loginHandler('dslogon')}
+      >
+        DS Logon
+      </button>
+      <button
+        disabled={isDisabled}
+        type="button"
+        aria-label="Sign in with My HealtheVet"
+        className="usa-button mhv-button vads-u-margin-y--1p5 vads-u-padding-y--2"
+        onClick={() => loginHandler('mhv')}
+      >
+        My HealtheVet
+      </button>
+      <div id="create-account">
+        <h2 className="vads-u-margin-top--3">Or create an account</h2>
+        <div className="vads-u-display--flex vads-u-flex-direction--column">
+          {showLoginGov() &&
+            loginGovCreateAccountEnabled && (
+              <a
+                href={loginGovSignupUrl()}
+                className="vads-c-action-link--blue logingov"
+                disabled={isDisabled}
+                onClick={() => signupHandler('logingov')}
+              >
+                Create an account with Login.gov
+              </a>
+            )}
+          <a
+            href={idmeSignupUrl()}
+            className="vads-c-action-link--blue"
+            disabled={isDisabled}
+            onClick={() => signupHandler('idme')}
+          >
+            Create an account with ID.me
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const OriginalButtons = ({ isDisabled }) => (
   <>
@@ -164,6 +181,8 @@ const OriginalButtons = ({ isDisabled }) => (
 export default function SignInButtons({
   isDisabled,
   loginGovEnabled,
+  loginGovMHVEnabled,
+  loginGovMyVAHealthEnabled,
   externalApplication,
   loginGovCreateAccountEnabled,
 }) {
@@ -175,6 +194,8 @@ export default function SignInButtons({
         <LoginGovButtons
           isDisabled={isDisabled}
           loginGovEnabled={loginGovEnabled}
+          loginGovMHVEnabled={loginGovMHVEnabled}
+          loginGovMyVAHealthEnabled={loginGovMyVAHealthEnabled}
           loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
           externalApplication={externalApplication}
         />
