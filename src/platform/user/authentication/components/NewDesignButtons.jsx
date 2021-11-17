@@ -24,6 +24,7 @@ function signupHandler(loginType) {
 export default function NewDesignButtons({
   isDisabled,
   externalApplication,
+  loginGovEnabled,
   loginGovCreateAccountEnabled,
   loginGovMHVEnabled,
   loginGovMyVAHealthEnabled,
@@ -34,6 +35,10 @@ export default function NewDesignButtons({
   };
 
   const showLoginGov = () => {
+    if (!loginGovEnabled) {
+      return false;
+    }
+
     if (!Object.keys(externalLoginGovSupport).includes(externalApplication)) {
       return true;
     }
