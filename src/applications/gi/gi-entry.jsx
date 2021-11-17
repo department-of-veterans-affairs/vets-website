@@ -6,9 +6,23 @@ import { buildRoutes } from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';
 
-startApp({
-  url: manifest.rootUrl,
-  routes: buildRoutes(),
-  reducer,
-  entryName: manifest.entryName,
-});
+import { buildRoutes as redesignedRoutes } from '../gi-sandbox/routes';
+import redesignedReducer from '../gi-sandbox/reducers';
+
+const fakeFlag = true;
+
+startApp(
+  fakeFlag
+    ? {
+        url: manifest.rootUrl,
+        routes: redesignedRoutes(),
+        redesignedReducer,
+        entryName: manifest.entryName,
+      }
+    : {
+        url: manifest.rootUrl,
+        routes: buildRoutes(),
+        reducer,
+        entryName: manifest.entryName,
+      },
+);
