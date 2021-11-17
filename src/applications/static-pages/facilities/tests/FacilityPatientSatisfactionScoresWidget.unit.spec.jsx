@@ -5,7 +5,7 @@ import {
   mockFacilityLocatorApiResponse,
   mockFeedbackZeroValues,
 } from './mockFacilitiesData';
-import { FacilityPatientSatisfactionScoresWidget } from '../../facilities/FacilityPatientSatisfactionScoresWidget';
+import { FacilityPatientSatisfactionScoresWidget } from '../FacilityPatientSatisfactionScoresWidget';
 
 describe('facilities <FacilityPatientSatisfactionScoresWidget>', () => {
   it('should render loading', () => {

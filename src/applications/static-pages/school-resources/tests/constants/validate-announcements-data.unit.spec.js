@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import moment from 'moment';
 
-import announcements from '../../../school-resources/constants/announcements';
+import announcements from '../../constants/announcements';
 
 describe('Announcements data', () => {
   it('has all required fields', () => {
