@@ -275,6 +275,7 @@ class SearchDropdownComponent extends React.Component {
 
     // if the menu is not open and the DOWN arrow key is pressed, open the menu
     if (!isOpen && currentKeyPress === Keycodes.Down) {
+      event.preventDefault();
       this.updateMenuState(true, false);
       return;
     }
@@ -292,6 +293,7 @@ class SearchDropdownComponent extends React.Component {
     // when the DOWN key is pressed, select the next option in the drop down.
     // if the last option is selected, cycle to the first option instead
     if (currentKeyPress === Keycodes.Down) {
+      event.preventDefault();
       if (activeIndex === undefined || activeIndex + 1 > max) {
         this.focusIndex(0);
 
@@ -305,7 +307,8 @@ class SearchDropdownComponent extends React.Component {
     // previous
     // when the UP key is pressed, select the previous option in the drop down.
     // if the first option is selected, cycle to the last option instead
-    if (currentKeyPress === Keycodes.Up || currentKeyPress === Keycodes.Left) {
+    if (currentKeyPress === Keycodes.Up) {
+      event.preventDefault();
       if (activeIndex - 1 < 0) {
         this.focusIndex(max);
 
