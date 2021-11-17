@@ -45,13 +45,10 @@ export default function({
     );
   };
 
-  const handleOnChnage = e => {
+  const handleOnChange = e => {
     setShowDifferences(e.target.checked);
     recordEvent({
-      event: 'gibct-formChange',
-      'form-field-type': 'form-checkbox',
-      'form-field-label': e.target.name,
-      'form-field-value': e.target.checked,
+      event: `Radio checkbox clicked: Compare schools highlight differences`,
     });
   };
 
@@ -79,7 +76,7 @@ export default function({
               }
               name="highlight-differences"
               className="vads-u-display--inline-block"
-              onChange={handleOnChnage}
+              onChange={handleOnChange}
             />
           </div>
         </div>
