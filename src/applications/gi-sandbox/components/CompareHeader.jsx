@@ -6,6 +6,7 @@ import SchoolClassification from './SchoolClassification';
 import { Link } from 'react-router-dom';
 import CompareScroller from './CompareScroller';
 import { focusElement } from 'platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
 
 export default function({
   currentScroll,
@@ -45,6 +46,16 @@ export default function({
     );
   };
 
+  const handleOnChange = e => {
+    setShowDifferences(e.target.checked);
+    recordEvent({
+      event: 'gibct-formChange',
+      'form-field-type': 'form-checkbox',
+      'form-field-label': e.target.name,
+      'form-field-value': e.target.checked,
+    });
+  };
+
   return (
     <div
       className={classNames({
@@ -69,7 +80,7 @@ export default function({
               }
               name="highlight-differences"
               className="vads-u-display--inline-block"
-              onChange={e => setShowDifferences(e.target.checked)}
+              onChange={handleOnChange}
             />
           </div>
         </div>
