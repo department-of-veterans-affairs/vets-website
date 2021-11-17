@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import VetCenterHours from '../../facilities/vetCentersHours';
+import VetCenterHours from '../vetCentersHours';
 
 describe('<VetCenterHours>', () => {
   const hoursTestData = [

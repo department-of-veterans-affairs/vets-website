@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { mockFacilityLocatorApiResponse } from './mockFacilitiesData';
-import { FacilityMapWidget } from '../../facilities/FacilityMapWidget';
+import { FacilityMapWidget } from '../FacilityMapWidget';
 
 describe('facilities <FacilityMapWidget>', () => {
   it('should render loading', () => {

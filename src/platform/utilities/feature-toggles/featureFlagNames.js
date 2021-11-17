@@ -71,6 +71,7 @@ export default Object.freeze({
   showEduBenefits5495Wizard: 'show_edu_benefits_5495_wizard',
   showFinancialStatusReport: 'show_financial_status_report',
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
+  showFormI18n: 'show_form_i18n',
   showEventsV2: 'show_events_v2',
   showHeaderV2: 'show_header_v2',
   showMebMockEndpoints: 'show_meb_mock_endpoints',
@@ -114,4 +115,7 @@ export default Object.freeze({
   vaOnlineSchedulingCCIterations: 'va_online_scheduling_cc_iterations',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
+  showEduBenefits1990EZWizard: 'show_edu_benefits_1990EZ_Wizard',
+  'caregiverSIGIEnabled': 'caregiver_sigi_enabled',
+  'hcaAmericanIndianEnabled': 'hca_american_indian_enabled'
 });
