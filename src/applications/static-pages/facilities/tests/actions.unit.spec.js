@@ -8,7 +8,7 @@ import {
   fetchFacilityStarted,
   fetchFacilityFailed,
   fetchFacility,
-} from '../../facilities/actions';
+} from '../actions';
 import { mockApiRequest } from 'platform/testing/unit/helpers';
 import { mockFacilityLocatorApiResponse } from './mockFacilitiesData';
 

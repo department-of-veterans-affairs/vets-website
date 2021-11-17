@@ -4,8 +4,8 @@ import {
   FETCH_FACILITY_FAILED,
   FETCH_FACILITY_STARTED,
   FETCH_FACILITY_SUCCESS,
-} from '../../facilities/actions';
-import { facilityReducer as reducer } from '../../facilities/reducers';
+} from '../actions';
+import { facilityReducer as reducer } from '../reducers';
 import { mockFacilityLocatorApiResponse } from './mockFacilitiesData';
 
 describe('Facility Reducer', () => {

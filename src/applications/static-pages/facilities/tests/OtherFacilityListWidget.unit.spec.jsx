@@ -2,17 +2,14 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { mockApiRequest } from 'platform/testing/unit/helpers';
-import {
-  mockWidgetFacilitiesList,
-  mockFacilityLocatorApiResponse,
-} from './mockFacilitiesData';
+import { mockFacilityLocatorApiResponse } from './mockFacilitiesData';
 
-import BasicFacilityListWidget from '../../facilities/BasicFacilityListWidget';
+import OtherFacilityListWidget from '../OtherFacilityListWidget';
 
-describe('facilities <FacilityListWidget>', () => {
+describe('facilities <OtherFacilityListWidget>', () => {
   it('should render loading', () => {
     const tree = shallow(
-      <BasicFacilityListWidget facilities={mockWidgetFacilitiesList} />,
+      <OtherFacilityListWidget facilities="vha_663,nca_120" />,
       {
         disableLifecycleMethods: true,
       },
@@ -26,14 +23,13 @@ describe('facilities <FacilityListWidget>', () => {
     mockApiRequest(mockFacilityLocatorApiResponse);
 
     const tree = shallow(
-      <BasicFacilityListWidget facilities={mockWidgetFacilitiesList} />,
+      <OtherFacilityListWidget facilities="vha_663,nca_120" />,
     );
     tree.instance().request.then(() => {
       tree.update();
       expect(tree.find('LoadingIndicator').exists()).to.be.false;
 
-      const facilityNameComponent = tree.find('FacilityTitle').dive();
-      const facilityName = facilityNameComponent.find('h3');
+      const facilityName = tree.find('h3');
       expect(facilityName.text()).to.contain(
         'Pittsburgh VA Medical Center-University Drive',
       );
@@ -44,16 +40,11 @@ describe('facilities <FacilityListWidget>', () => {
         'University Drive CPittsburgh, PA 15240-1003',
       );
 
-      const facilityPhoneComponent = tree.find('FacilityPhone').dive();
-      const mainPhone = facilityPhoneComponent.find('.main-phone');
+      const mainPhone = tree.find('.main-phone');
       expect(mainPhone.text()).to.contain('Main phone: 866-482-7488');
 
-      const mentalHealthClinic = facilityPhoneComponent.find(
-        '.mental-health-clinic-phone',
-      );
-      expect(mentalHealthClinic.text()).to.contain(
-        'Mental health clinic: 412-360-6600',
-      );
+      const facilityType = tree.find('.facility-type');
+      expect(facilityType.text()).to.contain('VA Medical Center (VAMC)');
       tree.unmount();
       done();
     });
