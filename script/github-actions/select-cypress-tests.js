@@ -121,41 +121,41 @@ function dedupeGraph(graph) {
   return graph;
 }
 
-function selectedTests(graph, pathsOfChangedFiles) {
-  const tests = [];
-  const applications = [];
-  const applicationNames = pathsOfChangedFiles
-    .filter(filePath => !filePath.endsWith('.md'))
-    .map(filePath => filePath.split('/')[2]);
+// function selectedTests(graph, pathsOfChangedFiles) {
+//   const tests = [];
+//   const applications = [];
+//   const applicationNames = pathsOfChangedFiles
+//     .filter(filePath => !filePath.endsWith('.md'))
+//     .map(filePath => filePath.split('/')[2]);
 
-  [...new Set(applicationNames)].forEach(app => {
-    // Lookup app in cross-app imports graph to reference which app's tests
-    // should run
-    applications.push(...graph[app].appsToTest);
-  });
+//   [...new Set(applicationNames)].forEach(app => {
+//     // Lookup app in cross-app imports graph to reference which app's tests
+//     // should run
+//     applications.push(...graph[app].appsToTest);
+//   });
 
-  [...new Set(applications)].forEach(app => {
-    const selectedTestsPattern = path.join(
-      __dirname,
-      '../..',
-      'src/applications',
-      `${app}/**/tests/**/*.cypress.spec.js?(x)`,
-    );
+//   [...new Set(applications)].forEach(app => {
+//     const selectedTestsPattern = path.join(
+//       __dirname,
+//       '../..',
+//       'src/applications',
+//       `${app}/**/tests/**/*.cypress.spec.js?(x)`,
+//     );
 
-    tests.push(...glob.sync(selectedTestsPattern));
-  });
+//     tests.push(...glob.sync(selectedTestsPattern));
+//   });
 
-  // Always run the tests in src/platform
-  const defaultTestsPattern = path.join(
-    __dirname,
-    '../..',
-    'src/platform',
-    '**/tests/**/*.cypress.spec.js?(x)',
-  );
+//   // Always run the tests in src/platform
+//   const defaultTestsPattern = path.join(
+//     __dirname,
+//     '../..',
+//     'src/platform',
+//     '**/tests/**/*.cypress.spec.js?(x)',
+//   );
 
-  tests.push(...glob.sync(defaultTestsPattern));
-  return tests;
-}
+//   tests.push(...glob.sync(defaultTestsPattern));
+//   return tests;
+// }
 
 function allTests() {
   const pattern = path.join(__dirname, '../..', integrationFolder, testFiles);
@@ -186,13 +186,15 @@ function selectTests(graph, pathsOfChangedFiles) {
       }
     }
 
-    if (allMdFiles) {
-      return [];
-    } else if (allMdAndOrSrcApplicationsFiles) {
-      return selectedTests(graph, pathsOfChangedFiles);
-    } else {
-      return allTests();
-    }
+    // if (allMdFiles) {
+    //   return [];
+    // } else if (allMdAndOrSrcApplicationsFiles) {
+    //   return selectedTests(graph, pathsOfChangedFiles);
+    // } else {
+    //   return allTests();
+    // }
+
+    return ['src/applications/letters/tests/01-authed.cypress.spec.js'];
   }
 }
 
