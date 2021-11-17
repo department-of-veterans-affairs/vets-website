@@ -1144,6 +1144,118 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       'This appointment occurred in the past.',
     );
   });
+  it('should show confirmed phone appointments detail page', async () => {
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      },
+    };
+    const url = '/va/1234';
+    const futureDate = moment.utc();
+
+    const appointment = getVAOSAppointmentMock();
+    appointment.id = '1234';
+    appointment.attributes = {
+      ...appointment.attributes,
+      kind: 'phone',
+      clinic: '455',
+      locationId: '983GC',
+      id: '1234',
+      preferredTimesForPhoneCall: ['Morning'],
+      reason: 'New Issue',
+      comment: 'New issue: I have a headache',
+      serviceType: 'primaryCare',
+      start: futureDate.format(),
+      status: 'booked',
+    };
+
+    mockSingleClinicFetchByVersion({
+      clinicId: '455',
+      locationId: '983GC',
+      clinicName: 'Some fancy clinic name',
+      version: 2,
+    });
+    mockSingleVAOSAppointmentFetch({ appointment });
+
+    mockFacilityFetchByVersion({
+      facility: createMockFacilityByVersion({
+        id: '442GC',
+        name: 'Cheyenne VA Medical Center',
+        phone: '970-224-1550',
+        address: {
+          postalCode: '82001-5356',
+          city: 'Cheyenne',
+          state: 'WY',
+          line: ['2360 East Pershing Boulevard'],
+        },
+        version: 0,
+      }),
+      version: 0,
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: myInitialState,
+      path: url,
+    });
+
+    // Verify document title and content...
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'VA appointment over the phone',
+      }),
+    ).to.be.ok;
+    expect(
+      screen.getByText(
+        /Someone from your VA facility will call you at your phone number/i,
+      ),
+    ).to.be.ok;
+
+    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
+    expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
+    expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
+    expect(screen.getByRole('link', { name: /9 7 0. 2 2 4. 1 5 5 0./ })).to.be
+      .ok;
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'You shared these details about your concern',
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/New issue: I have a headache/)).to.be.ok;
+    expect(
+      screen.getByRole('link', {
+        name: new RegExp(
+          futureDate
+            .tz('America/Denver')
+            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/Print/)).to.be.ok;
+    expect(screen.getByText(/Cancel appointment/)).to.be.ok;
+
+    expect(screen.baseElement).not.to.contain.text(
+      'This appointment occurred in the past.',
+    );
+  });
 
   it('should show details without clinic name when clinic call fails', async () => {
     const myInitialState = {
