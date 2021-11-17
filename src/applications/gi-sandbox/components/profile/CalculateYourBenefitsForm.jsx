@@ -273,8 +273,6 @@ function CalculateYourBenefitsForm({
       text={text}
       onClick={() => {
         showModal(modal);
-        // eslint-disable-next-line no-console
-        console.log(ariaLabel, labelFor);
         recordEvent({
           event: `Learn more help text clicked for: ${labelFor}`,
         });
