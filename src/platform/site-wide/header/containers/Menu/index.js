@@ -4,14 +4,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
 import MenuItemLevel1 from '../../components/MenuItemLevel1';
-import SearchDropdownComponent from 'applications/search/components/SearchDropdown/SearchDropdownComponent';
+import Search from '../../components/Search';
 import SubMenu from '../../components/SubMenu';
-import {
-  deriveMenuItemID,
-  fetchSearchSuggestions,
-  onSearch,
-  onSuggestionSubmit,
-} from '../../helpers';
+import { deriveMenuItemID } from '../../helpers';
 
 export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu, subMenu }) => {
   // Do not render if the menu is closed.
@@ -32,25 +27,7 @@ export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu, subMenu }) => {
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0 vads-u-width--full">
       {/* Search */}
-      <label className="vads-u-padding-x--1p5 vads-u-color--gray-dark vads-u-margin--0 vads-u-margin-top--2">
-        Search
-      </label>
-      <SearchDropdownComponent
-        buttonClassName="vads-u-padding--0"
-        buttonText=""
-        canSubmit
-        componentClassName="header-search vads-u-padding-right--1p5 vads-u-padding-bottom--2"
-        containerClassName="vads-u-padding-left--1p5"
-        fetchSuggestions={fetchSearchSuggestions}
-        formatSuggestions
-        fullWidthSuggestions
-        id="header-search-dropdown"
-        onInputSubmit={onSearch}
-        onSuggestionSubmit={onSuggestionSubmit}
-        startingValue=""
-        submitOnClick
-        submitOnEnter
-      />
+      <Search />
 
       {/* Menu items */}
       {showMegaMenu && (

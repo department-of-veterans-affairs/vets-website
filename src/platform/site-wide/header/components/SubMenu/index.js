@@ -29,8 +29,7 @@ export const SubMenu = ({ subMenu, updateSubMenu }) => {
           <button
             className="header-menu-item-button vads-u-background-color--gray-lightest vads-u-display--flex vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default vads-u-align-items--center"
             id="header-back-to-menu"
-            onKeyDown={event => event.keyCode === 13 && onBack()}
-            onMouseUp={onBack}
+            onClick={onBack}
             type="button"
           >
             <i

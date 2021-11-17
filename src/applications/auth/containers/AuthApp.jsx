@@ -160,7 +160,7 @@ export class AuthApp extends React.Component {
           app: 'mhv',
         }),
       };
-      recordEvent({ event: `inbound-redirect-to-${app}` });
+      recordEvent({ event: `login-inbound-redirect-to-${app}` });
     }
 
     sessionStorage.removeItem(authnSettings.RETURN_URL);

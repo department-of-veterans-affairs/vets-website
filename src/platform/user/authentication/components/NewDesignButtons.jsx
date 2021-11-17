@@ -6,7 +6,7 @@ import {
   loginGovSignupUrl,
   idmeSignupUrl,
 } from 'platform/user/authentication/utilities';
-import LoginGovSVG from 'applications/login/components/LoginGov';
+import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
 
 const vaGovFullDomain = environment.BASE_URL;
 
@@ -25,22 +25,35 @@ export default function NewDesignButtons({
   isDisabled,
   externalApplication,
   loginGovCreateAccountEnabled,
-  loginGovEnabled,
+  loginGovMHVEnabled,
+  loginGovMyVAHealthEnabled,
 }) {
+  const externalLoginGovSupport = {
+    mhv: loginGovMHVEnabled,
+    myvahealth: loginGovMyVAHealthEnabled,
+  };
+
+  const showLoginGov = () => {
+    if (!Object.keys(externalLoginGovSupport).includes(externalApplication)) {
+      return true;
+    }
+
+    return externalLoginGovSupport[externalApplication];
+  };
+
   return (
     <div className="columns small-12" id="sign-in-wrapper">
-      {externalApplication !== 'mhv' &&
-        loginGovEnabled && (
-          <button
-            disabled={isDisabled}
-            type="button"
-            aria-label="Sign in with Login.gov"
-            className="usa-button logingov-button vads-u-margin-y--1p5 vads-u-padding-y--2"
-            onClick={() => loginHandler('logingov')}
-          >
-            <LoginGovSVG />
-          </button>
-        )}
+      {showLoginGov() && (
+        <button
+          disabled={isDisabled}
+          type="button"
+          aria-label="Sign in with Login.gov"
+          className="usa-button logingov-button vads-u-margin-y--1p5 vads-u-padding-y--2"
+          onClick={() => loginHandler('logingov')}
+        >
+          <LoginGovSVG />
+        </button>
+      )}
       <button
         disabled={isDisabled}
         type="button"
@@ -74,7 +87,7 @@ export default function NewDesignButtons({
       <div id="create-account">
         <h2 className="vads-u-margin-top--3">Or create an account</h2>
         <div className="vads-u-display--flex vads-u-flex-direction--column">
-          {externalApplication !== 'mhv' &&
+          {showLoginGov() &&
             loginGovCreateAccountEnabled && (
               <a
                 href={loginGovSignupUrl()}

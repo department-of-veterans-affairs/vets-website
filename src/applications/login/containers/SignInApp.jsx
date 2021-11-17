@@ -4,11 +4,11 @@ import appendQuery from 'append-query';
 import 'url-search-params-polyfill';
 
 import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
-import OriginalDesignButtons from '../components/OriginalDesignButtons';
-import NewDesignButtons from '../components/NewDesignButtons';
-import SignInDescription from '../components/SignInDescription';
-import FedWarning from '../components/FedWarning';
-import LogoutAlert from '../components/LogoutAlert';
+import OriginalDesignButtons from 'platform/user/authentication/components/OriginalDesignButtons';
+import NewDesignButtons from 'platform/user/authentication/components/NewDesignButtons';
+import SignInDescription from 'platform/user/authentication/components/SignInDescription';
+import FedWarning from 'platform/user/authentication/components/FedWarning';
+import LogoutAlert from 'platform/user/authentication/components/LogoutAlert';
 
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
@@ -16,6 +16,8 @@ import environment from 'platform/utilities/environment';
 import {
   isAuthenticatedWithSSOe,
   loginGov,
+  loginGovMHV,
+  loginGovMyVAHealth,
   loginGovCreateAccount,
   loginOldDesign,
 } from 'platform/user/authentication/selectors';
@@ -73,6 +75,8 @@ class SignInPage extends React.Component {
     const { globalDowntime } = this.state;
     const {
       loginGovEnabled,
+      loginGovMHVEnabled,
+      loginGovMyVAHealthEnabled,
       loginGovCreateAccountEnabled,
       oldDesignEnabled,
       location,
@@ -147,6 +151,8 @@ class SignInPage extends React.Component {
             <NewDesignButtons
               isDisabled={globalDowntime}
               loginGovEnabled={loginGovEnabled}
+              loginGovMHVEnabled={loginGovMHVEnabled}
+              loginGovMyVAHealthEnabled={loginGovMyVAHealthEnabled}
               loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
               externalApplication={externalApplication}
             />
@@ -196,6 +202,8 @@ const mapStateToProps = state => ({
   profile: selectProfile(state),
   profileLoading: isProfileLoading(state),
   loginGovEnabled: loginGov(state),
+  loginGovMHVEnabled: loginGovMHV(state),
+  loginGovMyVAHealthEnabled: loginGovMyVAHealth(state),
   loginGovCreateAccountEnabled: loginGovCreateAccount(state),
   oldDesignEnabled: loginOldDesign(state),
   isAuthenticatedWithSSOe: isAuthenticatedWithSSOe(state),
