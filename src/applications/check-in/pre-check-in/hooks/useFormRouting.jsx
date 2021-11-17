@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { URLS } from '../utils/navigation';
-import { makeSelectForm } from './redux/selectors';
+import { makeSelectForm } from '../selectors';
 
 const useFormRouting = (router = {}) => {
   const selectForm = useMemo(makeSelectForm, []);
