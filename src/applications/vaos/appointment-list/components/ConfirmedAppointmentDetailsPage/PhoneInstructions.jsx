@@ -1,7 +1,11 @@
 import React from 'react';
+import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
-export default function PhoneInstructions({ isPhone }) {
-  if (!isPhone) {
+export default function PhoneInstructions({ appointment }) {
+  const isPhone = appointment.vaos.isPhoneAppointment;
+  const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
+
+  if (!isPhone || isCanceled) {
     return null;
   }
 

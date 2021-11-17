@@ -44,7 +44,7 @@ export default function DetailsVA({ appointment, facilityData }) {
       <StatusAlert appointment={appointment} facility={facility} />
 
       <TypeHeader>{header}</TypeHeader>
-      <PhoneInstructions isPhone={isPhone} />
+      <PhoneInstructions appointment={appointment} />
 
       <VAFacilityLocation
         facility={facility}
