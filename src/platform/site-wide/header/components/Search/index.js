@@ -36,7 +36,7 @@ export const Search = () => {
 
   return (
     <form
-      className="header-search vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--1p5"
+      className="header-search vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding-x--1p5 vads-u-padding-bottom--2"
       onSubmit={onFormSubmit}
     >
       <label
