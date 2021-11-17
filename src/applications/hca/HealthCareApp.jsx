@@ -22,6 +22,12 @@ const HealthCareEntry = ({
         setFormData({
           ...formData,
           'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
+        });
+      }
+
+      if (hcaAmericanIndianEnabled !== undefined) {
+        setFormData({
+          ...formData,
           'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
         });
       }
