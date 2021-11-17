@@ -33,8 +33,10 @@ export function GiBillApp({
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
   const versionChange = version && version !== preview.version?.id;
-  const shouldExitPreviewMode = preview.display && !version;
-  const shouldEnterPreviewMode = !preview.display && versionChange;
+  const shouldExitPreviewMode =
+    (preview.display === undefined ? false : preview.display) && !version;
+  const shouldEnterPreviewMode =
+    (preview.display === undefined ? false : preview.display) && versionChange;
   const location = useLocation();
 
   useEffect(() => {
@@ -47,7 +49,8 @@ export function GiBillApp({
   }, []);
 
   useEffect(
-    () => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    async () => {
       if (shouldExitPreviewMode) {
         dispatchExitPreviewMode();
       } else if (shouldEnterPreviewMode) {
