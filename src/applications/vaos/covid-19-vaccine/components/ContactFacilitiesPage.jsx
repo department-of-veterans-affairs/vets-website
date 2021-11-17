@@ -79,8 +79,8 @@ export default function ContactFacilitiesPage() {
             headline="Call to schedule your second dose"
             status="warning"
           >
+            <p>Here's what to know:</p>
             <ul>
-              <strong>Here's what to know:</strong>
               <li>You must receive the same vaccine for both doses.</li>
               <li>
                 We encourage you to go to the same location for both doses. But
