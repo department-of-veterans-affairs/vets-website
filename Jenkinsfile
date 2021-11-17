@@ -100,14 +100,14 @@ node('vetsgov-general-purpose') {
               stringParam(name: 'source_repo', value: 'vets-website'),
             ], wait: false
           } catch (error) {
-            commonStages.slackNotify()
+            // commonStages.slackNotify()
             throw error
           }
         },
 
       )
     } catch (error) {
-      commonStages.slackNotify()
+      // commonStages.slackNotify()
       throw error
     } finally {
       dir("vets-website") {
@@ -145,7 +145,7 @@ node('vetsgov-general-purpose') {
             }
           )
         } catch (error) {
-          commonStages.slackNotify()
+          // commonStages.slackNotify()
           throw error
         } finally {
           sh "docker-compose -p cypress-${env.EXECUTOR_NUMBER} down --remove-orphans"

@@ -21,6 +21,7 @@ import {
 import { CautionFlagAdditionalInfo } from '../../components/CautionFlagAdditionalInfo';
 import RatingsStars from '../../components/RatingsStars';
 import SchoolClassification from '../../components/SchoolClassification';
+import recordEvent from 'platform/monitoring/record-event';
 
 export function ResultCard({
   compare,
@@ -53,15 +54,25 @@ export function ResultCard({
     programLengthInHours,
   } = institution;
   const compareChecked = !!compare.search.institutions[facilityCode];
+  const compareLength = compare.search.loaded.length;
   const handleCompareUpdate = e => {
+    recordEvent({
+      event: `${compareLength + 1} schools in compare`,
+    });
     if (e.target.checked && !compareChecked) {
-      if (compare.search.loaded.length === 3) {
+      if (compareLength === 3) {
         dispatchShowModal('comparisonLimit');
       } else {
         dispatchAddCompareInstitution(institution);
+        recordEvent({
+          event: `Added ${institution.name} to compare`,
+        });
       }
     } else {
       dispatchRemoveCompareInstitution(facilityCode);
+      recordEvent({
+        event: `Removed ${institution} from compare`,
+      });
     }
   };
 

@@ -47,8 +47,10 @@ export const uiSchema = {
       resolution: {
         agreeToWaiver: {
           'ui:required': (formData, index) => {
-            const { resolution } = formData.selectedDebts[index];
+            const { resolution, deductionCode } = formData.selectedDebts[index];
+            const isCompAndPenDebt = deductionCode === '30';
             return (
+              !isCompAndPenDebt &&
               resolution?.resolutionType === 'Waiver' &&
               !resolution?.agreeToWaiver
             );

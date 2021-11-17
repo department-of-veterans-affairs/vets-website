@@ -10,6 +10,14 @@ import ErrorLinks from './ErrorLinks';
 
 function ValidationError(props) {
   const { appType, buttonText, formConfig, onBack, onSubmit, testId } = props;
+  let ariaDescribedBy = null;
+  // If no ariaDescribedBy is passed down from form.js,
+  // a null value will properly not render the aria label.
+  if (formConfig?.ariaDescribedBySubmit !== null) {
+    ariaDescribedBy = formConfig?.ariaDescribedBySubmit;
+  } else {
+    ariaDescribedBy = null;
+  }
 
   const alert = formConfig.showReviewErrors ? (
     <ErrorLinks appType={appType} testId={testId} />
@@ -39,6 +47,7 @@ function ValidationError(props) {
         </Column>
         <Column classNames="small-6 medium-5">
           <ProgressButton
+            ariaDescribedBy={ariaDescribedBy}
             onButtonClick={onSubmit}
             buttonText={buttonText}
             buttonClass="usa-button-primary"
