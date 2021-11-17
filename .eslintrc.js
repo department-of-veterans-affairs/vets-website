@@ -52,6 +52,11 @@ module.exports = {
         name: '@department-of-veterans-affairs/component-library/AlertBox',
         use: '<va-alert>',
       },
+      {
+        name:
+          '@department-of-veterans-affairs/component-library/LoadingIndicator',
+        use: '<va-loading-indicator>',
+      },
     ],
 
     // "func-names": 2,
