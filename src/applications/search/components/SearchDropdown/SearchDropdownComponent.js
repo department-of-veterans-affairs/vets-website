@@ -583,6 +583,7 @@ class SearchDropdownComponent extends React.Component {
           <span
             id={assistiveHintid}
             className="vads-u-visibility--screen-reader"
+            tabIndex="-1"
           >
             Use up and down arrows to review autocomplete results and enter to
             search. Touch device users, explore by touch or with swipe gestures.
@@ -594,6 +595,7 @@ class SearchDropdownComponent extends React.Component {
             className="vads-u-visibility--screen-reader"
             aria-live="assertive"
             aria-relevant="additions text"
+            tabIndex="-1"
           >
             {a11yStatusMessage}
           </span>
