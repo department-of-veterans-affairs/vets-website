@@ -1,12 +1,21 @@
 const initialState = {
   appointments: [],
+  veteranData: {
+    demographics: {},
+  },
   context: {},
-  form: {},
+  form: {
+    pages: [],
+    currentPage: '',
+    data: {},
+  },
 };
+
+import { INIT_FORM, GO_TO_NEXT_PAGE } from '../actions';
 
 const preCheckInReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'INIT_FORM':
+    case INIT_FORM:
       return {
         ...state,
         form: {
@@ -15,10 +24,10 @@ const preCheckInReducer = (state = initialState, action) => {
           currentPage: action.payload.currentPage,
         },
       };
-    case 'GO_TO_NEXT_PAGE':
+    case GO_TO_NEXT_PAGE:
       return {
         ...state,
-        form: { ...state.form, currentPage: action.payload.form.nextPage },
+        form: { ...state.form, currentPage: action.payload.nextPage },
       };
     default:
       return { ...state };

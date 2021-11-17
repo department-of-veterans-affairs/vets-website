@@ -40,8 +40,6 @@ const useFormRouting = (router = {}) => {
 
 export { useFormRouting };
 
-// TODO: refactor to use
-// -- reducers and actions
 // TODO: tests
 // -- unit
 // -- integration
