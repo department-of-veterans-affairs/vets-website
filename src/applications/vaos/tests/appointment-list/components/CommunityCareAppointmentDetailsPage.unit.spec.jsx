@@ -768,6 +768,9 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       }),
     ).to.be.ok;
 
+    // Then the canceled status message should be displayed
+    expect(screen.getByText(/Facility canceled this appointment/)).to.be.ok;
+
     // Then the 'Add to calendar' link should not be displayed
     expect(screen.queryByText(/Add to calendar/)).not.to.exist;
   });

@@ -378,7 +378,7 @@ module.exports = async (env = {}) => {
             warnings: false,
           },
           // cache: true,
-          parallel: 3,
+          parallel: true,
           sourceMap: true,
         }),
       ],

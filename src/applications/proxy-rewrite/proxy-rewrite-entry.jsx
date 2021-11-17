@@ -74,9 +74,6 @@ function renderFooter(data, commonStore) {
   startVAFooter(
     data,
     () => {
-      addOverlayTriggers();
-      addFocusBehaviorToCrisisLineModal();
-
       if (lastUpdated) {
         const lastUpdatedPanel = document.createElement('div');
         const lastUpdatedDate = lastUpdated.replace('Last updated ', '');
@@ -116,11 +113,18 @@ function mountReactComponents(headerFooterData, commonStore) {
   document.documentElement.style.fontSize = '10px';
   document.getElementsByTagName('body')[0].style.fontSize = '12px';
 
+  // Start site-wide widgets.
   startUserNavWidget(commonStore);
   startMegaMenuWidget(headerFooterData.megaMenuData, commonStore);
   startMobileMenuButton(commonStore);
   renderFooter(headerFooterData.footerData, commonStore);
   startHeader(commonStore, headerFooterData.megaMenuData);
+
+  // Start Veteran Crisis Line modal functionality.
+  document.addEventListener('DOMContentLoaded', () => {
+    addFocusBehaviorToCrisisLineModal();
+    addOverlayTriggers();
+  });
 }
 
 function getContentHostName() {

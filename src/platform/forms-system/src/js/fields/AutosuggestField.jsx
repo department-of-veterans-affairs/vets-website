@@ -6,6 +6,7 @@ import classNames from 'classnames';
 
 import debounce from '../utilities/data/debounce';
 import sortListByFuzzyMatch from '../utilities/fuzzy-matching';
+import escapeRegExp from '../utilities/data/escapeRegExp';
 
 const ESCAPE_KEY = 27;
 
@@ -211,7 +212,7 @@ export default class AutosuggestField extends React.Component {
     // wrap matching text in a <span> element
     const highlightText = uiSchema['ui:options']?.highlightText ?? true;
     const value = this.state.input?.toLowerCase() || '';
-    const caseInsensitiveMatch = new RegExp(`(${value})`, 'i');
+    const caseInsensitiveMatch = new RegExp(`(${escapeRegExp(value)})`, 'i');
     const highLightMatchingText = query => {
       if (value.length > 2) {
         return query

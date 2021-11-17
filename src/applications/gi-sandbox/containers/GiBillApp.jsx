@@ -38,6 +38,7 @@ export function GiBillApp({
   const location = useLocation();
 
   useEffect(() => {
+    document.title = 'GI Bill® Comparison Tool | Veterans Affairs';
     document.addEventListener('focus', scrollToFocusedElement, true);
 
     return () => {
@@ -91,7 +92,7 @@ export function GiBillApp({
           {constants.inProgress && <LoadingIndicator message="Loading..." />}
           {constants.error && <ServiceError />}
           {!(constants.error || constants.inProgress) && (
-            <DowntimeNotification appTitle={'GI Bill Comparison Tool'}>
+            <DowntimeNotification appTitle={'GI Bill® Comparison Tool'}>
               {children}
             </DowntimeNotification>
           )}

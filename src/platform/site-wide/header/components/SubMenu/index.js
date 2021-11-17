@@ -10,6 +10,9 @@ export const SubMenu = ({ subMenu, updateSubMenu }) => {
   useEffect(() => {
     // Scroll to the top when the sub menu is opened.
     window.scrollTo(0, 0);
+
+    // Focus back to menu button.
+    document.getElementById('header-back-to-menu')?.focus?.();
   }, []);
 
   const onBack = () => {
@@ -24,10 +27,9 @@ export const SubMenu = ({ subMenu, updateSubMenu }) => {
       <ul className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column usa-unstyled-list vads-u-margin--0 vads-u-padding--0">
         <li className="vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
           <button
-            className="header-menu-item-button vads-u-background-color--gray-lightest vads-u-display--flex vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
+            className="header-menu-item-button vads-u-background-color--gray-lightest vads-u-display--flex vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default vads-u-align-items--center"
             id="header-back-to-menu"
-            onKeyDown={event => event.keyCode === 13 && onBack()}
-            onMouseUp={onBack}
+            onClick={onBack}
             type="button"
           >
             <i

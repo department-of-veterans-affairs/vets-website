@@ -25,7 +25,7 @@ describe('form submit transform', () => {
 
       // Check the military claimant section
       expect(createdSubmissionForm.militaryClaimant.claimant.claimantId).to.eql(
-        0,
+        '1000000000000246',
       );
       expect(createdSubmissionForm.militaryClaimant.claimant.suffix).to.eql(
         'Sr.',
@@ -129,7 +129,7 @@ describe('form submit transform', () => {
     it('should construct the contact Info object', () => {
       const militaryClaimant = createMilitaryClaimant(mockSubmissionForm);
 
-      expect(militaryClaimant.claimant.claimantId).to.eql(0); // TODO need to figure out how this will get set.
+      expect(militaryClaimant.claimant.claimantId).to.eql('1000000000000246');
       expect(militaryClaimant.claimant.suffix).to.eql('Sr.');
       expect(militaryClaimant.claimant.dateOfBirth).to.eql('1989-11-11');
       expect(militaryClaimant.claimant.firstName).to.eql('ANDREA');
