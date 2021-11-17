@@ -1,28 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 
 import { useDispatch } from 'react-redux';
 
 import { createForm } from '../../utils/navigation';
+import { createInitFormAction } from '../../actions';
 
 export default function Index(props) {
   const dispatch = useDispatch();
+  const initForm = useCallback(
+    (pages, firstPage) => {
+      dispatch(createInitFormAction({ pages, firstPage }));
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
       const { router } = props;
       const pages = createForm(false);
       const firstPage = pages[0];
-      dispatch({
-        type: 'INIT_FORM',
-        payload: {
-          pages,
-          currentPage: firstPage,
-        },
-      });
-
+      initForm(pages, firstPage);
       router.push(firstPage);
     },
-    [props, dispatch],
+    [initForm, props],
   );
   return <></>;
 }
