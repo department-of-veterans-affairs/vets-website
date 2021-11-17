@@ -17,7 +17,7 @@ export default function Index(props) {
   useEffect(
     () => {
       const { router } = props;
-      const pages = createForm(false);
+      const pages = createForm({ hasConfirmedDemographics: false });
       const firstPage = pages[0];
       initForm(pages, firstPage);
       router.push(firstPage);

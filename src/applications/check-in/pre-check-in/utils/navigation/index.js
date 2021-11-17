@@ -32,9 +32,9 @@ const PRE_CHECK_IN_FORM_PAGES = Object.freeze([
   },
 ]);
 
-const createForm = hasConfirmed => {
+const createForm = ({ hasConfirmedDemographics = false }) => {
   let pages = PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
-  if (hasConfirmed) {
+  if (hasConfirmedDemographics) {
     pages = pages.filter(
       page => page !== URLS.DEMOGRAPHICS && page !== URLS.NEXT_OF_KIN,
     );
