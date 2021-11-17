@@ -126,6 +126,12 @@ export function ResultCard({
         <Link
           to={profileLink}
           aria-labelledby={`${facilityCode}-label ${facilityCode}-classification`}
+          onClick={() =>
+            cautionFlags.length > 0 &&
+            recordEvent({
+              event: `Cautionary Warnings: ${name} profile link clicked`,
+            })
+          }
         >
           <h3
             className={nameClasses}

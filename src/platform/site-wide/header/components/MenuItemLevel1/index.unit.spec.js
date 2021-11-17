@@ -25,7 +25,7 @@ describe('Header <MenuItemLevel1>', () => {
     wrapper.unmount();
   });
 
-  it('renders an expanded item with children and collapses it on mouseup', () => {
+  it('renders an expanded item with children and collapses it on click', () => {
     // Set up.
     const updateExpandedMenuID = sinon.spy();
     const item = {
@@ -52,7 +52,7 @@ describe('Header <MenuItemLevel1>', () => {
     expect(wrapper.find('ul')).to.have.length(1);
 
     // Set up.
-    wrapper.find('.header-menu-item-button').simulate('mouseup');
+    wrapper.find('.header-menu-item-button').simulate('click');
 
     // Assertions.
     expect(updateExpandedMenuID.firstCall.args[0]).to.equal(undefined);
@@ -61,7 +61,7 @@ describe('Header <MenuItemLevel1>', () => {
     wrapper.unmount();
   });
 
-  it('renders a collapsed item with children and expands it on mouseup', () => {
+  it('renders a collapsed item with children and expands it on click', () => {
     // Set up.
     const updateExpandedMenuID = sinon.spy();
     const item = {
@@ -88,7 +88,7 @@ describe('Header <MenuItemLevel1>', () => {
     expect(wrapper.find('ul')).to.have.length(0);
 
     // Set up.
-    wrapper.find('.header-menu-item-button').simulate('mouseup');
+    wrapper.find('.header-menu-item-button').simulate('click');
 
     // Assertions.
     expect(updateExpandedMenuID.firstCall.args[0]).to.equal('example--1');

@@ -4,6 +4,10 @@ import React, { useState } from 'react';
 export const OfficialGovtWebsite = () => {
   const [expanded, setExpanded] = useState(false);
 
+  const onToggle = () => {
+    setExpanded(!expanded);
+  };
+
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
       {/* Banner */}
@@ -17,8 +21,7 @@ export const OfficialGovtWebsite = () => {
           aria-controls="official-govt-site-explanation"
           aria-expanded={expanded ? 'true' : 'false'}
           className="expand-official-govt-explanation va-button-link vads-u-text-decoration--none"
-          onKeyDown={event => event.keyCode === 13 && setExpanded(!expanded)}
-          onMouseUp={() => setExpanded(!expanded)}
+          onClick={onToggle}
         >
           An official website of the United States government.
           <i
@@ -32,7 +35,7 @@ export const OfficialGovtWebsite = () => {
       {expanded && (
         <div
           aria-hidden={expanded ? 'false' : 'true'}
-          className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-padding--0p5 vads-u-padding-y--2"
+          className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-padding--1p5 vads-u-padding-y--2"
           id="official-govt-site-explanation"
         >
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--flex-start">
