@@ -15,6 +15,8 @@ import environment from 'platform/utilities/environment';
 import {
   isAuthenticatedWithSSOe,
   loginGov,
+  loginGovMHV,
+  loginGovMyVAHealth,
   loginGovCreateAccount,
 } from 'platform/user/authentication/selectors';
 import { selectProfile, isProfileLoading } from 'platform/user/selectors';
@@ -71,6 +73,8 @@ class SignInPage extends React.Component {
     const { globalDowntime } = this.state;
     const {
       loginGovEnabled,
+      loginGovMHVEnabled,
+      loginGovMyVAHealthEnabled,
       loginGovCreateAccountEnabled,
       location,
     } = this.props;
@@ -144,6 +148,8 @@ class SignInPage extends React.Component {
             <SignInButtons
               isDisabled={globalDowntime}
               loginGovEnabled={loginGovEnabled}
+              loginGovMHVEnabled={loginGovMHVEnabled}
+              loginGovMyVAHealthEnabled={loginGovMyVAHealthEnabled}
               loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
               externalApplication={externalApplication}
             />
@@ -193,6 +199,8 @@ const mapStateToProps = state => ({
   profile: selectProfile(state),
   profileLoading: isProfileLoading(state),
   loginGovEnabled: loginGov(state),
+  loginGovMHVEnabled: loginGovMHV(state),
+  loginGovMyVAHealthEnabled: loginGovMyVAHealth(state),
   loginGovCreateAccountEnabled: loginGovCreateAccount(state),
   isAuthenticatedWithSSOe: isAuthenticatedWithSSOe(state),
 });
