@@ -70,7 +70,6 @@ export function ResultCard({
           : `Compare Checkbox click: ${compareLength + 1} in Comparison Drawer`,
       });
     }
-
     if (e.target.checked && !compareChecked) {
       if (compareLength === 3) {
         dispatchShowModal('comparisonLimit');
@@ -126,6 +125,12 @@ export function ResultCard({
         <Link
           to={profileLink}
           aria-labelledby={`${facilityCode}-label ${facilityCode}-classification`}
+          onClick={() =>
+            cautionFlags.length > 0 &&
+            recordEvent({
+              event: `Cautionary Warnings: ${name} profile link clicked`,
+            })
+          }
         >
           <h3
             className={nameClasses}

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import uniqueId from 'lodash/uniqueId';
-import environment from 'platform/utilities/environment';
 
 /**
  * A component for the continue button to navigate through panels of questions.
@@ -43,9 +42,7 @@ class ProgressButton extends React.Component {
         id={`${this.id}-continueButton`}
         onClick={this.props.onButtonClick}
         aria-label={this.props.ariaLabel || null}
-        aria-describedby={
-          !environment.isProduction() && this.props.ariaDescribedBy
-        }
+        aria-describedby={this.props.ariaDescribedBy}
       >
         {beforeText}
         {this.props.buttonText}

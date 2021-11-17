@@ -274,7 +274,8 @@ function CalculateYourBenefitsForm({
       onClick={() => {
         showModal(modal);
         recordEvent({
-          event: ariaLabel,
+          event: 'gibct-form-help-text-clicked',
+          'help-text-label': ariaLabel,
         });
       }}
       ariaLabel={ariaLabel}

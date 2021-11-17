@@ -47,12 +47,12 @@ describe('authentication URL helpers', () => {
   });
 
   it('should redirect for login v1', () => {
-    login('idme', 'v1');
+    login({ policy: 'idme' });
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 
   it('should redirect for login with custom event', () => {
-    login('idme', 'v1', {}, 'custom-event');
+    login({ policy: 'idme', clickedEvent: 'custom-event' });
     expect(global.window.location).to.include('/v1/sessions/idme/new');
     expect(global.window.dataLayer[0].event).to.eq('custom-event');
   });
@@ -90,7 +90,7 @@ describe('authentication URL helpers', () => {
   it('should redirect to the proper unified sign-in page redirect for mhv', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=mhv';
-    login('idme', 'v1');
+    login({ policy: 'idme' });
     expect(global.window.location).to.include(
       `/v1/sessions/idme/new?skip_dupe=mhv&redirect=${
         externalRedirects.mhv
@@ -102,7 +102,7 @@ describe('authentication URL helpers', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=mhv&to=secure_messaging';
 
-    login('idme', 'v1');
+    login({ policy: 'idme' });
     expect(global.window.location).to.include(
       `/v1/sessions/idme/new?skip_dupe=mhv&redirect=${
         externalRedirects.mhv
@@ -113,20 +113,20 @@ describe('authentication URL helpers', () => {
   it('should redirect to the proper unified sign-in page redirect for cerner', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=myvahealth';
-    login('idme', 'v1');
+    login({ policy: 'idme' });
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 
   it('should mimic modal behavior when sign-in page lacks appliction param', () => {
     global.window.location.pathname = '/sign-in/';
-    login('idme', 'v1');
+    login({ policy: 'idme' });
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 
   it('should mimic modal behavior when sign-in page has invalid application param', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=foobar';
-    login('idme', 'v1');
+    login({ policy: 'idme' });
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 });
@@ -135,14 +135,14 @@ describe('setLoginAttempted', () => {
   beforeEach(setup);
 
   it('should setLoginAttempted true when logging in from modal', () => {
-    login('idme');
+    login({ policy: 'idme' });
     expect(getLoginAttempted()).to.equal('true');
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 
   it('should setLoginAttempted true when logging in from /sign-in with no external redirect', () => {
     global.window.location.pathname = '/sign-in/';
-    login('idme');
+    login({ policy: 'idme' });
     expect(getLoginAttempted()).to.equal('true');
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
@@ -150,7 +150,7 @@ describe('setLoginAttempted', () => {
   it('should setLoginAttempted true when logging in from /sign-in with invalid external redirect', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=foobar';
-    login('idme');
+    login({ policy: 'idme' });
     expect(getLoginAttempted()).to.equal('true');
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
@@ -158,7 +158,7 @@ describe('setLoginAttempted', () => {
   it('should not setLoginAttempted when logging in from /sign-in with valid external redirect', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=mhv';
-    login('idme');
+    login({ policy: 'idme' });
     expect(getLoginAttempted()).to.be.null;
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
