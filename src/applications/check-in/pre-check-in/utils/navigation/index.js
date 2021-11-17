@@ -6,7 +6,6 @@ const URLS = Object.freeze({
   LANDING: '',
   NEXT_OF_KIN: 'next-of-kin',
   SEE_STAFF: 'see-staff',
-  UPDATE_INSURANCE: 'update-information',
   VERIFY: 'verify',
 });
 

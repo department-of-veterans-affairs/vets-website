@@ -1,5 +1,5 @@
 // Node modules.
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
@@ -17,16 +17,6 @@ export const MenuItemLevel1 = ({
 
   // Derive if we the menu item is expanded.
   const isExpanded = menuItemID === expandedMenuID;
-
-  // Focus item if expanded when coming from SubMenu.
-  useEffect(
-    () => {
-      if (isExpanded) {
-        document.getElementById(menuItemID)?.focus?.();
-      }
-    },
-    [isExpanded, menuItemID],
-  );
 
   // Do not render if we are missing necessary menu item data.
   if (!item?.menuSections && !item?.href && !item?.title) {
@@ -48,15 +38,6 @@ export const MenuItemLevel1 = ({
     // Scroll to the top of the header when toggling a menu item.
     if (header) {
       header.scrollIntoView();
-    }
-  };
-
-  const onButtonKeyDown = event => {
-    const isEnterKey = event.keyCode === 13;
-    const isSpaceKey = event.keyCode === 32;
-
-    if (isEnterKey || isSpaceKey) {
-      toggleShowItems();
     }
   };
 
@@ -88,8 +69,7 @@ export const MenuItemLevel1 = ({
             aria-expanded={isExpanded ? 'true' : 'false'}
             className="header-menu-item-button vads-u-background-color--primary-darker vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white"
             id={menuItemID}
-            onKeyDown={onButtonKeyDown}
-            onMouseUp={toggleShowItems}
+            onClick={toggleShowItems}
             type="button"
           >
             {item?.title}

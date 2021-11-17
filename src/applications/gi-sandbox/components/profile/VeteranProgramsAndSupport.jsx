@@ -2,6 +2,7 @@ import React from 'react';
 import { createId, formatCurrency, formatNumber } from '../../utils/helpers';
 import LearnMoreLabel from '../LearnMoreLabel';
 import { ariaLabels } from '../../constants';
+import recordEvent from 'platform/monitoring/record-event';
 
 export default function VeteranProgramsAndSupport({
   constants,
@@ -79,7 +80,13 @@ export default function VeteranProgramsAndSupport({
         <strong>
           <LearnMoreLabel
             text={program.text}
-            onClick={() => showModal(program.modal)}
+            onClick={() => {
+              showModal(program.modal);
+              recordEvent({
+                event: 'gibct-form-help-text-clicked',
+                'help-text-label': program.ariaLabel,
+              });
+            }}
             ariaLabel={program.ariaLabel}
             buttonId={createId(program.text)}
           />
