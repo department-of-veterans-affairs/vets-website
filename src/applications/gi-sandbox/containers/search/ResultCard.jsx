@@ -70,7 +70,7 @@ export function ResultCard({
           : `Compare Checkbox click: ${compareLength + 1} in Comparison Drawer`,
       });
     }
-
+    
     if (e.target.checked && !compareChecked) {
       if (compareLength === 3) {
         dispatchShowModal('comparisonLimit');
