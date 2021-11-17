@@ -194,7 +194,12 @@ function selectTests(graph, pathsOfChangedFiles) {
     //   return allTests();
     // }
 
-    return ['src/applications/letters/tests/01-authed.cypress.spec.js'];
+    return [
+      'src/applications/letters/tests/01-authed.cypress.spec.js',
+      'src/applications/hca/tests/hca.cypress.spec.js',
+      'src/applications/gi/tests/e2e/03-vet-tec.cypress.spec.js',
+      'src/applications/discharge-wizard/tests/e2e/discharge-wizard.cypress.spec.js',
+    ];
   }
 }
 
