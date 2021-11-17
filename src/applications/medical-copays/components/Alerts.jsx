@@ -11,7 +11,7 @@ Alert.Error = () => (
   <va-alert
     class="row vads-u-margin-bottom--5"
     status="error"
-    data-e2e-id="error-alert"
+    data-testid="error-alert"
   >
     <h2 slot="headline" className="vads-u-font-size--h3">
       We can’t access your current copay balances right now
@@ -51,7 +51,7 @@ Alert.Maintenance = () => (
   <va-alert
     class="row vads-u-margin-bottom--5"
     status="info"
-    data-e2e-id="maintenance-alert"
+    data-testid="maintenance-alert"
   >
     <h2 slot="headline" className="vads-u-font-size--h3">
       Down for maintenance
@@ -66,7 +66,7 @@ Alert.NoHealthcare = () => (
   <va-alert
     class="row vads-u-margin-bottom--5"
     status="warning"
-    data-e2e-id="no-healthcare-alert"
+    data-testid="no-healthcare-alert"
   >
     <h2 slot="headline" className="vads-u-font-size--h3">
       You’re not enrolled in VA health care
@@ -94,7 +94,7 @@ Alert.NoHistory = () => (
   <va-alert
     class="row vads-u-margin-bottom--5"
     status="info"
-    data-e2e-id="no-history-alert"
+    data-testid="no-history-alert"
   >
     <h2 slot="headline" className="vads-u-font-size--h3">
       You haven’t received a copay bill in the past 6 months
@@ -121,7 +121,7 @@ Alert.Deceased = () => (
   <va-alert
     class="row vads-u-margin-bottom--5"
     status="warning"
-    data-e2e-id="deceased-alert"
+    data-testid="deceased-alert"
   >
     <h2 slot="headline" className="vads-u-font-size--h3">
       Our records show that this Veteran is deceased
@@ -138,7 +138,7 @@ Alert.Deceased = () => (
 );
 
 Alert.Status = ({ copay }) => (
-  <va-alert background-only status="info" data-e2e-id="status-alert">
+  <va-alert background-only status="info" data-testid="status-alert">
     <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
       {/* using vads-u-margin-left here causes the word "before" 
       to wrap to the next line so we need a {' '} space here */}

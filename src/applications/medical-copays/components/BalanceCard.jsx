@@ -5,19 +5,19 @@ import { currency, calcDueDate } from '../utils/helpers';
 const BalanceCard = ({ id, amount, facility, city, date }) => (
   <div
     className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
-    data-e2e-id={`balance-card-${id}`}
+    data-testid={`balance-card-${id}`}
   >
     <h3
       aria-describedby="copay-balance"
       className="card-balance vads-u-margin-top--0"
-      data-e2e-id={`amount-${id}`}
+      data-testid={`amount-${id}`}
     >
       {currency(amount)}
     </h3>
     <p
       id="copay-balance"
       className="card-heading vads-u-margin-top--0"
-      data-e2e-id={`facility-city-${id}`}
+      data-testid={`facility-city-${id}`}
     >
       Copay balance for {facility} - {city}
     </p>
@@ -32,7 +32,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => (
           Pay your full balance or request financial help before
           <strong
             className="vads-u-margin-x--0p5"
-            data-e2e-id={`due-date-${id}`}
+            data-testid={`due-date-${id}`}
           >
             {calcDueDate(date, 30)}
           </strong>
@@ -43,7 +43,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => (
     <Link
       className="vads-u-font-size--sm"
       to={`/balance-details/${id}`}
-      data-e2e-id={`detail-link-${id}`}
+      data-testid={`detail-link-${id}`}
     >
       <strong>
         {amount ? 'Check details and resolve this bill' : 'Check details'}
