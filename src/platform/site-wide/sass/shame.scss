@@ -139,12 +139,11 @@ $medium-phone-screen: 375px;
   }
 
   .va-nav-breadcrumbs-list {
-    padding-left: 0;
+    padding: 1em 0 0 0;
 
     li {
       list-style: none;
-      padding-bottom: 1em;
-      padding-top: 1em;
+      margin: 0 0 1.375em 0;
     }
   }
 

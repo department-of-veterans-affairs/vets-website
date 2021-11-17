@@ -122,6 +122,10 @@ export const ContactInfoDescription = ({
         This is the contact information we have on file for you. We’ll send any
         updates or information about your Higher-Level Review to this address.
       </p>
+      <p>
+        <strong>Note:</strong> Any updates you make here will be reflected in
+        your VA.gov profile.
+      </p>
       {hadError &&
         missingInfo.length === 0 && (
           <div className="vads-u-margin-top--1p5">
