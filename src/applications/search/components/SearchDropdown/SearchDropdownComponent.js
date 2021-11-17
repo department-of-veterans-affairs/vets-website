@@ -15,7 +15,7 @@ const Keycodes = {
   PageUp: 33,
   Right: 39,
   // Space: 32,
-  // Tab: 9,
+  Tab: 9,
   Up: 38,
 };
 
@@ -30,9 +30,37 @@ class SearchDropdownComponent extends React.Component {
      * */
     buttonText: PropTypes.string,
     /**
+     * A string value that will be prepended to the classnames for the button
+     * */
+    buttonClassName: PropTypes.string,
+    /**
      * A boolean value for whether or not the component has "submit" functionality
      * */
     canSubmit: PropTypes.bool,
+    /**
+     * A string value that will be prepended on each id
+     * */
+    id: PropTypes.string,
+    /**
+     * A string value that will be prepended to the classnames for the base component
+     * */
+    componentClassName: PropTypes.string,
+    /**
+     * A string value that will be prepended to the classnames for the container
+     * */
+    containerClassName: PropTypes.string,
+    /**
+     * A string value that will be prepended to the classnames for the input field
+     * */
+    inputClassName: PropTypes.string,
+    /**
+     * A string value that will be prepended to the classnames for the suggestionsList
+     * */
+    suggestionsListClassName: PropTypes.string,
+    /**
+     * A string value that will be prepended to the classnames for the individual suggestions
+     * */
+    suggestionClassName: PropTypes.string,
     /**
      * the debounce rate at which to fetch suggestions
      * */
@@ -86,7 +114,7 @@ class SearchDropdownComponent extends React.Component {
   static defaultProps = {
     buttonText: '',
     canSubmit: false,
-    className: '',
+    id: '',
     debounceRate: 200,
     fetchSuggestions: undefined,
     formatSuggestions: false,
@@ -99,6 +127,12 @@ class SearchDropdownComponent extends React.Component {
     startingValue: '',
     submitOnClick: false,
     submitOnEnter: false,
+    buttonClassName: '',
+    componentClassName: '',
+    containerClassName: '',
+    inputClassName: '',
+    suggestionsListClassName: '',
+    suggestionClassName: '',
   };
 
   constructor(props) {
@@ -110,7 +144,8 @@ class SearchDropdownComponent extends React.Component {
       isOpen: false,
       savedSuggestions: [],
       suggestions: [],
-      hasBeenChanged: false,
+      a11yStatusMessage: '',
+      displayA11yDescriptionFlag: undefined,
     };
   }
 
@@ -122,6 +157,11 @@ class SearchDropdownComponent extends React.Component {
       const suggestions = this.fetchSuggestions(startingValue);
       this.setState({ suggestions });
     }
+
+    const displayA11yDescriptionFlag = window.sessionStorage.getItem(
+      'searchA11yDescriptionFlag',
+    );
+    this.setState({ displayA11yDescriptionFlag: !displayA11yDescriptionFlag });
   }
 
   // whenever the Input Value changes, call the prop function to export its value to the parent component
@@ -134,11 +174,17 @@ class SearchDropdownComponent extends React.Component {
     if (getInputValue && inputChanged) {
       getInputValue(inputValue);
     }
+
+    clearTimeout(this.updateA11yTimeout);
+    this.updateA11yTimeout = setTimeout(() => {
+      this.setA11yStatusMessage();
+    }, 300);
   }
 
   // when the component unmounts, clear the timeout if we have one.
   componentWillUnmount() {
     clearTimeout(this.fetchSuggestionsTimeout);
+    clearTimeout(this.updateA11yTimeout);
   }
 
   // format suggestions so that the suggested text is BOLD
@@ -153,12 +199,12 @@ class SearchDropdownComponent extends React.Component {
     if (lowerSuggestion.includes(lowerQuery)) {
       return (
         <>
-          {inputValue}
-          <strong>{lowerSuggestion.replace(lowerQuery, '')}</strong>
+          <span aria-hidden>{inputValue}</span>
+          <strong aria-hidden>{lowerSuggestion.replace(lowerQuery, '')}</strong>
         </>
       );
     }
-    return <strong>{lowerSuggestion}</strong>;
+    return <strong aria-hidden>{lowerSuggestion}</strong>;
   };
 
   handleInputChange = event => {
@@ -167,7 +213,6 @@ class SearchDropdownComponent extends React.Component {
     this.setState({
       inputValue,
       activeIndex: undefined,
-      hasBeenChanged: true,
     });
 
     // clear suggestions if the input is too short
@@ -205,6 +250,16 @@ class SearchDropdownComponent extends React.Component {
     }
   }
 
+  focusIndex(index) {
+    this.setState({ activeIndex: index, ignoreBlur: true }, () => {
+      if (index !== undefined) {
+        document.getElementById(`${this.props.id}-option-${index}`).focus({
+          preventScroll: true,
+        });
+      }
+    });
+  }
+
   // this is the handler for all of the keypress logic
   onKeyDown = event => {
     const { suggestions, isOpen, activeIndex } = this.state;
@@ -220,6 +275,7 @@ class SearchDropdownComponent extends React.Component {
 
     // if the menu is not open and the DOWN arrow key is pressed, open the menu
     if (!isOpen && currentKeyPress === Keycodes.Down) {
+      event.preventDefault();
       this.updateMenuState(true, false);
       return;
     }
@@ -227,6 +283,7 @@ class SearchDropdownComponent extends React.Component {
     // if the menu is not open and the ENTER key is pressed, search for the term currently in the input field
     if (!isOpen && currentKeyPress === Keycodes.Enter && canSubmit) {
       event.preventDefault();
+      this.setA11yDescriptionFlag(false);
       onInputSubmit(this.state);
       return;
     }
@@ -236,45 +293,50 @@ class SearchDropdownComponent extends React.Component {
     // when the DOWN key is pressed, select the next option in the drop down.
     // if the last option is selected, cycle to the first option instead
     if (currentKeyPress === Keycodes.Down) {
+      event.preventDefault();
       if (activeIndex === undefined || activeIndex + 1 > max) {
-        this.setState({ activeIndex: 0 });
+        this.focusIndex(0);
+
         return;
       }
-      this.setState({ activeIndex: activeIndex + 1 });
+
+      this.focusIndex(activeIndex + 1);
       return;
     }
 
     // previous
     // when the UP key is pressed, select the previous option in the drop down.
     // if the first option is selected, cycle to the last option instead
-    if (currentKeyPress === Keycodes.Up || currentKeyPress === Keycodes.Left) {
+    if (currentKeyPress === Keycodes.Up) {
+      event.preventDefault();
       if (activeIndex - 1 < 0) {
-        this.setState({ activeIndex: max });
+        this.focusIndex(max);
+
         return;
       }
-      this.setState({ activeIndex: activeIndex - 1 });
+      this.focusIndex(activeIndex - 1);
       return;
     }
 
     // first
     // when the HOME key is pressed, select the first option in the drop down menu
     if (currentKeyPress === Keycodes.Home) {
-      this.setState({ activeIndex: 0 });
+      this.focusIndex(0);
       return;
     }
 
     // last
     // when the END key is pressed, select the last option in the drop down menu
     if (currentKeyPress === Keycodes.End) {
-      this.setState({ activeIndex: max });
+      this.focusIndex(max);
       return;
     }
 
     // close
     // when the ESCAPE key is pressed, close the drop down menu WITHOUT selecting any of the options
     if (currentKeyPress === Keycodes.Escape) {
-      this.setState({ activeIndex: undefined });
-      this.updateMenuState(false);
+      document.getElementById(`${this.props.id}-input-field`).focus();
+      this.setState({ activeIndex: undefined, isOpen: false });
       return;
     }
 
@@ -286,19 +348,47 @@ class SearchDropdownComponent extends React.Component {
       event.preventDefault();
 
       if (activeIndex === undefined && canSubmit) {
+        this.setA11yDescriptionFlag(false);
         onInputSubmit(this.state);
         return;
       }
       if (!submitOnEnter) {
         this.selectOption(activeIndex);
-        this.updateMenuState(false);
+        this.updateMenuState(false, true);
+
         return;
       }
       if (canSubmit) {
+        this.setA11yDescriptionFlag(false);
         onSuggestionSubmit(activeIndex, this.state);
         this.selectOption(activeIndex);
-        this.updateMenuState(false);
+        this.updateMenuState(false, true);
       }
+    }
+
+    // when the tab key is pressed, close the suggestions list and select the search button
+    if (currentKeyPress === Keycodes.Tab) {
+      if (activeIndex === undefined && event.shiftKey) {
+        this.updateMenuState(false, false);
+        return;
+      }
+      event.preventDefault();
+      // if in the dropdown options and press shift+tab, close the suggestions and focus the input bar
+      if (event.shiftKey && activeIndex !== undefined) {
+        this.setState({ activeIndex: undefined }, () => {
+          this.updateMenuState(false, true);
+        });
+        return;
+      }
+      // in in the dropdown options and press tab, select the current item and focus the search button
+      if (!event.shiftKey && activeIndex !== undefined) {
+        this.selectOption(activeIndex);
+        document.getElementById(`${this.props.id}-submit-button`).focus();
+        return;
+      }
+
+      // else if on the input bar and you press tab, focus the button
+      document.getElementById(`${this.props.id}-submit-button`).focus();
     }
   };
 
@@ -311,13 +401,14 @@ class SearchDropdownComponent extends React.Component {
     if (!submitOnClick) {
       this.setState({ activeIndex: index });
       this.selectOption(index);
-      this.updateMenuState(false);
+      this.updateMenuState(false, true);
       return;
     }
     if (canSubmit) {
+      this.setA11yDescriptionFlag(false);
       onSuggestionSubmit(index, this.state);
       this.selectOption(index);
-      this.updateMenuState(false);
+      this.updateMenuState(false, true);
     }
   }
 
@@ -330,18 +421,21 @@ class SearchDropdownComponent extends React.Component {
       inputValue,
       activeIndex: undefined,
       savedSuggestions: suggestions,
-      hasBeenChanged: true,
     });
-
     this.fetchSuggestions(inputValue);
   }
+
+  setA11yDescriptionFlag = value => {
+    window.sessionStorage.setItem('searchA11yDescriptionFlag', value);
+    this.setState({ displayA11yDescriptionFlag: value });
+  };
 
   // update whether the menu is open or closed, and refocus the menu if called for
   updateMenuState(open, callFocus = true) {
     this.setState({ isOpen: open });
 
     if (callFocus) {
-      document.getElementById(`${this.props.className}-input-field`).focus();
+      document.getElementById(`${this.props.id}-input-field`).focus();
     }
   }
 
@@ -356,6 +450,52 @@ class SearchDropdownComponent extends React.Component {
     this.setState({ savedSuggestions: suggestions });
   };
 
+  // derive the ally status message for screen reade
+  setA11yStatusMessage = () => {
+    const { isOpen, suggestions, activeIndex } = this.state;
+
+    const suggestionsCount = suggestions?.length;
+
+    if (!isOpen && suggestionsCount) {
+      this.setState({
+        a11yStatusMessage: `Closed, ${suggestionsCount} suggestions${
+          suggestionsCount === 1 ? ' is' : 's are'
+        }
+   available`,
+      });
+      return;
+    }
+
+    if (!isOpen) {
+      this.setState({
+        a11yStatusMessage: '',
+      });
+      return;
+    }
+
+    if (!suggestionsCount) {
+      this.setState({
+        a11yStatusMessage: 'No suggestions are available.',
+      });
+      return;
+    }
+
+    if (!(activeIndex + 1)) {
+      this.setState({
+        a11yStatusMessage: `Expanded, ${suggestionsCount} suggestion${
+          suggestionsCount === 1 ? ' is' : 's are'
+        }
+   available`,
+      });
+      return;
+    }
+
+    this.setState({
+      a11yStatusMessage: `${suggestions[activeIndex]}, selected ${activeIndex +
+        1} of ${suggestionsCount}`,
+    });
+  };
+
   // render
   render() {
     const {
@@ -363,11 +503,18 @@ class SearchDropdownComponent extends React.Component {
       isOpen,
       inputValue,
       suggestions,
-      hasBeenChanged,
+      a11yStatusMessage,
+      displayA11yDescriptionFlag,
     } = this.state;
 
     const {
-      className,
+      componentClassName,
+      containerClassName,
+      buttonClassName,
+      inputClassName,
+      suggestionsListClassName,
+      suggestionClassName,
+      id,
       fullWidthSuggestions,
       formatSuggestions,
       showButton,
@@ -379,39 +526,53 @@ class SearchDropdownComponent extends React.Component {
 
     let activeId = undefined;
     if (isOpen && activeIndex !== undefined) {
-      activeId = `${className}-option-${activeIndex}`;
+      activeId = `${id}-option-${activeIndex}`;
     }
 
-    const assistiveHintID = `${className}-assistive-hint`;
+    const assistiveHintid = `${id}-assistive-hint`;
 
     const mobileResponsiveClass = mobileResponsive ? 'shrink-to-column' : '';
 
-    const ariaDescribedProp = hasBeenChanged
-      ? null
-      : {
-          'aria-describedby': assistiveHintID,
-        };
+    const ariaDescribedProp = displayA11yDescriptionFlag
+      ? {
+          'aria-describedby': assistiveHintid,
+        }
+      : null;
 
     const validOpen = isOpen && suggestions.length > 0;
 
     return (
       <div
-        className={`search-dropdown-component vads-u-display--flex vads-u-width--full ${mobileResponsiveClass} ${className}-component`}
+        id={`${id}-component`}
+        className={`search-dropdown-component vads-u-display--flex vads-u-width--full ${mobileResponsiveClass} ${
+          fullWidthSuggestions ? 'full-width-suggestions' : ''
+        } ${componentClassName}`}
       >
-        <div className="search-dropdown-container vads-u-width--full vads-u-flex-direction--column">
+        <div
+          className={`search-dropdown-container vads-u-width--full vads-u-flex-direction--column ${
+            fullWidthSuggestions
+              ? 'full-width-suggestions vads-u-padding-y--1 vads-u-padding-left--1 vads-u-padding-right--0'
+              : ''
+          } ${containerClassName}`}
+        >
           <input
             aria-activedescendant={activeId}
             aria-autocomplete={'none'}
-            aria-controls={`${className}-listbox`}
+            aria-controls={`${id}-listbox`}
             {...ariaDescribedProp}
             aria-expanded={isOpen}
             aria-haspopup="listbox"
             aria-label={'Search'}
-            className="vads-u-width--full search-dropdown-input-field"
-            id={`${className}-input-field`}
-            data-e2e-id={`${className}-input-field`}
+            className={`vads-u-width--full search-dropdown-input-field ${
+              fullWidthSuggestions
+                ? 'vads-u-margin--0 vads-u-display--block'
+                : ''
+            } ${inputClassName}`}
+            id={`${id}-input-field`}
+            data-e2e-id={`${id}-input-field`}
             role="combobox"
             type="text"
+            tabIndex="0"
             value={inputValue}
             onBlur={() => this.onInputBlur()}
             onChange={this.handleInputChange}
@@ -419,21 +580,33 @@ class SearchDropdownComponent extends React.Component {
             onFocus={() => this.updateMenuState(true)}
             onKeyDown={this.onKeyDown}
           />
-
           <span
-            id={assistiveHintID}
+            id={assistiveHintid}
             className="vads-u-visibility--screen-reader"
+            tabIndex="-1"
           >
             Use up and down arrows to review autocomplete results and enter to
             search. Touch device users, explore by touch or with swipe gestures.
           </span>
 
+          <span
+            id={`${id}-a11y-status-message`}
+            role="status"
+            className="vads-u-visibility--screen-reader"
+            aria-live="assertive"
+            aria-relevant="additions text"
+            tabIndex="-1"
+          >
+            {a11yStatusMessage}
+          </span>
+
           {validOpen &&
             !fullWidthSuggestions && (
               <div
-                className="search-dropdown-options vads-u-padding--x-1"
+                className={`search-dropdown-options vads-u-padding--x-1 vads-u-background-color--white vads-u-width--full ${suggestionsListClassName}`}
                 role="listbox"
-                id={`${className}-listbox`}
+                aria-label={'Search Suggestions'}
+                id={`${id}-listbox`}
               >
                 {suggestions.map((suggestionString, i) => {
                   const suggestion = formatSuggestions
@@ -444,12 +617,12 @@ class SearchDropdownComponent extends React.Component {
                       aria-selected={activeIndex === i ? 'true' : false}
                       className={
                         i === activeIndex
-                          ? 'suggestion highlighted'
-                          : 'suggestion regular'
+                          ? `suggestion vads-u-background-color--primary vads-u-color--white vads-u-width--full vads-u-margin--0 vads-u-padding-y--1 vads-u-padding-x--1p5 ${suggestionClassName}`
+                          : `suggestion vads-u-color--gray-dark vads-u-width--full vads-u-margin--0 vads-u-padding-y--1 vads-u-padding-x--1p5 ${suggestionClassName}`
                       }
-                      id={`${className}-option-${i}`}
-                      key={`${className}-${i}`}
-                      role="option"
+                      id={`${id}-option-${i}`}
+                      key={`${id}-${i}`}
+                      aria-hidden
                       tabIndex="-1"
                       onClick={() => {
                         this.onOptionClick(i);
@@ -460,6 +633,7 @@ class SearchDropdownComponent extends React.Component {
                       onMouseOver={() => {
                         this.setState({ activeIndex: i });
                       }}
+                      onKeyDown={this.onKeyDown}
                       onFocus={() => {
                         this.setState({ activeIndex: i });
                       }}
@@ -476,10 +650,17 @@ class SearchDropdownComponent extends React.Component {
           canSubmit && (
             <button
               type="submit"
-              className="search-dropdown-submit-button"
-              data-e2e-id={`${className}-submit-button`}
+              className={`search-dropdown-submit-button vads-u-margin-right--1 ${
+                fullWidthSuggestions ? 'vads-u-margin-top--1 ' : ''
+              } ${buttonClassName}`}
+              data-e2e-id={`${id}-submit-button`}
+              id={`${id}-submit-button`}
+              tabIndex="0"
               onClick={() => onInputSubmit(this.state)}
-              onFocus={this.saveSuggestions}
+              onFocus={() => {
+                this.saveSuggestions();
+                this.updateMenuState(false, false);
+              }}
             >
               <IconSearch color="#fff" />
               <span className="usa-sr-only">Search</span>
@@ -489,9 +670,9 @@ class SearchDropdownComponent extends React.Component {
         {validOpen &&
           fullWidthSuggestions && (
             <div
-              className="search-dropdown-options vads-u-padding--x-1"
+              className={`search-dropdown-options full-width-suggestions vads-u-width--full vads-u-padding--x-1 vads-u-background-color--white vads-u-width--full ${suggestionsListClassName}`}
               role="listbox"
-              id={`${className}-listbox`}
+              id={`${id}-listbox`}
             >
               {suggestions.map((suggestionString, i) => {
                 const suggestion = formatSuggestions
@@ -502,12 +683,12 @@ class SearchDropdownComponent extends React.Component {
                     aria-selected={activeIndex === i ? 'true' : false}
                     className={
                       i === activeIndex
-                        ? 'suggestion highlighted'
-                        : 'suggestion regular'
+                        ? `suggestion vads-u-background-color--primary vads-u-color--white vads-u-width--full vads-u-margin--0 vads-u-padding-y--1 vads-u-padding-x--1p5 ${suggestionClassName}`
+                        : `suggestion vads-u-color--gray-dark vads-u-width--full vads-u-margin--0 vads-u-padding-y--1 vads-u-padding-x--1p5 ${suggestionClassName}`
                     }
-                    id={`${className}-option-${i}`}
-                    key={`${className}-${i}`}
-                    role="option"
+                    id={`${id}-option-${i}`}
+                    key={`${id}-${i}`}
+                    aria-hidden
                     tabIndex="-1"
                     onClick={() => {
                       this.onOptionClick(i);
@@ -518,6 +699,7 @@ class SearchDropdownComponent extends React.Component {
                     onMouseOver={() => {
                       this.setState({ activeIndex: i });
                     }}
+                    onKeyDown={this.onKeyDown}
                     onFocus={() => {
                       this.setState({ activeIndex: i });
                     }}

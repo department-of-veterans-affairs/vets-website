@@ -13,6 +13,7 @@ export default Object.freeze({
   cernerOverride757: 'cerner_override_757',
   checkInExperienceEnabled: 'check_in_experience_enabled',
   checkInExperienceDemographicsPageEnabled: 'check_in_experience_demographics_page_enabled',
+  checkInExperiencePreCheckInEnabled: 'check_in_experience_pre_check_in_enabled',
   checkInExperienceUpdateInformationPageEnabled: 'check_in_experience_update_information_page_enabled',
   checkInExperienceNextOfKinEnabled: 'check_in_experience_next_of_kin_enabled',
   coeAccess: 'coe_access',
@@ -30,11 +31,13 @@ export default Object.freeze({
   facilitiesPpmsSuppressAll: 'facilities_ppms_suppress_all',
   facilitiesPpmsSuppressCommunityCare: 'facilities_ppms_suppress_community_care',
   facilitiesPpmsSuppressPharmacies: 'facilities_ppms_suppress_pharmacies',
+  facilityLocatorLatLongOnly: 'facility_locator_lat_long_only',
   facilityLocatorLighthouseCovidVaccineQuery:
     'facility_locator_lighthouse_covid_vaccine_query',
   facilityLocatorPredictiveLocationSearch:
     'facility_locator_predictive_location_search',
   facilityLocatorRailsEngine: 'facility_locator_rails_engine',
+  facilityLocatorRestoreCommunityCarePagination: 'facility_locator_restore_community_care_pagination',
   facilityLocatorShowCommunityCares: 'facility_locator_show_community_cares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilityLocatorShowOperationalHoursSpecialInstructions:
     'facility_locator_show_operational_hours_special_instructions',
@@ -47,6 +50,8 @@ export default Object.freeze({
   gibctSchoolRatings: 'gibct_school_ratings',
   hlrv2: 'hlr_v2',
   loginGov: 'login_gov',
+  loginGovCreateAccount: 'login_gov_create_account',
+  loopPages: 'loop_pages',
   manageDependents: 'dependents_management',
   megaMenuMobileV2: 'mega_menu_mobile_v2',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
@@ -66,6 +71,7 @@ export default Object.freeze({
   showEduBenefits5495Wizard: 'show_edu_benefits_5495_wizard',
   showFinancialStatusReport: 'show_financial_status_report',
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
+  showEventsV2: 'show_events_v2',
   showHeaderV2: 'show_header_v2',
   showMebMockEndpoints: 'show_meb_mock_endpoints',
   showMedicalCopays: 'show_medical_copays',
@@ -108,4 +114,7 @@ export default Object.freeze({
   vaOnlineSchedulingCCIterations: 'va_online_scheduling_cc_iterations',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
+  showEduBenefits1990EZWizard: 'show_edu_benefits_1990EZ_Wizard',
+  'caregiverSIGIEnabled': 'caregiver_sigi_enabled',
+  'hcaAmericanIndianEnabled': 'hca_american_indian_enabled'
 });

@@ -6,6 +6,7 @@ import {
   EMERGENCY_CARE_SERVICES,
 } from './constants';
 import manifest from './manifest.json';
+import { facilityLocatorLatLongOnly } from './utils/featureFlagSelectors';
 
 const apiSettings = {
   credentials: 'include',
@@ -40,12 +41,18 @@ export const resolveParamsWithUrl = ({
   bounds,
   center,
   radius,
-  // store,
+  store,
 }) => {
   const filterableLocations = ['health', 'benefits', 'provider'];
-  // If feature toggles are needed here in the future, uncomment the following line
-  // and the store param above
-  // const reduxStore = store || require('./facility-locator-entry');
+  const reduxStore = store || require('./facility-locator-entry');
+  let latLongOnly = false;
+
+  try {
+    latLongOnly = facilityLocatorLatLongOnly(reduxStore.default.getState());
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn('error getting redux state from store', reduxStore, e);
+  }
 
   const api = getAPI();
 
@@ -112,11 +119,24 @@ export const resolveParamsWithUrl = ({
     }&${sNchar}${EMERGENCY_CARE_SERVICES[4]}`;
   }
 
+  let locationParams;
+  if (latLongOnly) {
+    locationParams = [
+      center && center.length > 0 ? `lat=${center[0]}` : null,
+      center && center.length > 0 ? `long=${center[1]}` : null,
+    ];
+  } else {
+    locationParams = [
+      address ? `address=${address}` : null,
+      ...bounds.map(c => `bbox[]=${c}`),
+      center && center.length > 0 ? `latitude=${center[0]}` : null,
+      center && center.length > 0 ? `longitude=${center[1]}` : null,
+    ];
+  }
+
   return {
     url,
     params: compact([
-      address ? `address=${address}` : null,
-      ...bounds.map(c => `bbox[]=${c}`),
       facility && !communityServiceType ? `type=${facility}` : null,
       filterableLocations.includes(facility) && service
         ? `${communityServiceType ? 'specialties' : 'services'}[]=${service}`
@@ -126,8 +146,7 @@ export const resolveParamsWithUrl = ({
       facility === LocationType.VET_CENTER ? `mobile=false` : null,
       facility === LocationType.HEALTH ? `mobile=false` : null,
       roundRadius ? `radius=${roundRadius}` : null,
-      center && center.length > 0 ? `latitude=${center[0]}` : null,
-      center && center.length > 0 ? `longitude=${center[1]}` : null,
+      ...locationParams,
     ]).join('&'),
   };
 };

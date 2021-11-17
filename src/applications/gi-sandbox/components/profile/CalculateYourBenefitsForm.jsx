@@ -125,6 +125,19 @@ function CalculateYourBenefitsForm({
         });
       }
     }
+    if (
+      field === 'buyUp' ||
+      field === 'inState' ||
+      field === 'kickerEligible' ||
+      field === 'yellowRibbonRecipient' ||
+      field === 'giBillBenefit'
+    ) {
+      recordEvent({
+        event: 'int-radio-button-option-click',
+        'radio-button-label': field,
+        'radio-button-optionLabel': value,
+      });
+    }
   };
 
   const toggleExpanded = (expandedName, isExpanded) => {
@@ -258,7 +271,13 @@ function CalculateYourBenefitsForm({
   const learnMoreLabel = ({ text, modal, ariaLabel, labelFor, buttonId }) => (
     <LearnMoreLabel
       text={text}
-      onClick={() => showModal(modal)}
+      onClick={() => {
+        showModal(modal);
+        recordEvent({
+          event: 'gibct-form-help-text-clicked',
+          'help-text-label': ariaLabel,
+        });
+      }}
       ariaLabel={ariaLabel}
       labelFor={labelFor}
       buttonId={buttonId}

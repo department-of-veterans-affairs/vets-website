@@ -618,9 +618,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       await screen.findByText(/We can’t find a recent appointment for you/i);
       expect(screen.getByRole('alertdialog')).to.be.ok;
       expect(screen.baseElement).to.contain.text('last 36 months');
-      fireEvent.click(
-        screen.getByRole('button', { name: 'Close the warning modal' }),
-      );
+      fireEvent.click(screen.getByRole('button', { name: /close/i }));
 
       await waitFor(
         () =>

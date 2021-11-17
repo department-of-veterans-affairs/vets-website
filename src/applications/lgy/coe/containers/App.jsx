@@ -26,8 +26,8 @@ function App(props) {
     <>
       <header className="row">
         <div className="usa-width-two-thirds medium-12 columns">
-          <FormTitle title="Apply for a VA home loan Certificate of Eligibility" />
-          <p className="vads-u-padding-bottom--4">
+          <FormTitle title="Request a VA home loan Certificate of Eligibility (COE)" />
+          <p className="vads-u-padding-bottom--3">
             Request for a Certificate of Eligibility (VA Form 26-1880)
           </p>
         </div>

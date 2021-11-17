@@ -5,12 +5,9 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import * as formConfig from '../../definitions/educationProgram';
-import {
-  address,
-  educationProgram,
-  educationType,
-  date,
-} from 'vets-json-schema/dist/definitions.json';
+import definitionsJson from 'vets-json-schema/dist/definitions.json';
+
+const { address, educationProgram, educationType, date } = definitionsJson;
 
 const schemaWithEdu = {
   definitions: {

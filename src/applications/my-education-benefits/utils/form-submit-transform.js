@@ -254,6 +254,13 @@ export function getLTSCountryCode(schemaCountryValue) {
   return country?.ltsValue ? country.ltsValue : 'ZZ'; // ZZ is LTS code for unknown
 }
 
+export function getSchemaCountryCode(ltsCountryValue) {
+  const country = countries.find(countryInfo => {
+    return countryInfo.ltsValue === ltsCountryValue;
+  });
+  return country?.schemaValue ? country.schemaValue : undefined;
+}
+
 export function getAddressType(mailingAddress) {
   if (mailingAddress) {
     if (
@@ -303,7 +310,7 @@ export function getNotificationMethod(notificationMethod) {
 export function createMilitaryClaimant(submissionForm) {
   return {
     claimant: {
-      claimantId: 0, // TODO Where will this come from
+      claimantId: submissionForm.claimantId,
       firstName: submissionForm['view:userFullName'].userFullName.first,
       middleName: submissionForm['view:userFullName'].userFullName.middle,
       lastName: submissionForm['view:userFullName'].userFullName.last,

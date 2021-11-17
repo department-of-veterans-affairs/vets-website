@@ -42,6 +42,7 @@ import {
   eduDirectDepositInformation,
   eduDirectDepositIsSetUp,
   showNotificationSettings,
+  showProfileLGBTQEnhancements,
 } from '@@profile/selectors';
 import {
   fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
@@ -158,6 +159,8 @@ class Profile extends Component {
     const routesOptions = {
       removeDirectDeposit: !this.props.shouldShowDirectDeposit,
       removeNotificationSettings: !this.props.shouldShowNotificationSettings,
+      shouldShowProfileLGBTQEnhancements: this.props
+        .shouldShowProfileLGBTQEnhancements,
     };
 
     // We need to pass in a config to hide forbidden routes
@@ -265,6 +268,7 @@ Profile.propTypes = {
   fetchPersonalInformation: PropTypes.func.isRequired,
   fetchCNPPaymentInformation: PropTypes.func.isRequired,
   fetchEDUPaymentInformation: PropTypes.func.isRequired,
+  shouldShowProfileLGBTQEnhancements: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => {
@@ -365,6 +369,7 @@ const mapStateToProps = state => {
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
     ),
+    shouldShowProfileLGBTQEnhancements: showProfileLGBTQEnhancements(state),
   };
 };
 

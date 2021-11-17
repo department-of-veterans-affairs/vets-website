@@ -2,12 +2,11 @@
 import '@department-of-veterans-affairs/formation/dist/formation';
 // Relative imports.
 import '../monitoring/sentry.js';
-import './legacy/menu';
+import './component-library-analytics-setup';
 import './medallia-feedback-button';
 import './moment-setup';
 import './popups';
 import './wysiwyg-analytics-setup';
-import './component-library-analytics-setup';
 import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
 import startAnnouncementWidget from './announcements';
 import startBanners from './banners';
@@ -17,6 +16,7 @@ import startMobileMenuButton from './mobile-menu-button';
 import startSideNav from './side-nav';
 import startUserNavWidget from './user-nav';
 import startVAFooter from './va-footer';
+import { addOverlayTriggers } from './legacy/menu';
 
 /**
  * Start up the site-wide components that live on every page, like
@@ -50,10 +50,12 @@ export default function startSitewideComponents(commonStore) {
   startSideNav(window.sideNav, commonStore);
   startBanners();
   startMobileMenuButton(commonStore);
-  startVAFooter(
-    window.VetsGov.headerFooter.footerData,
-    addFocusBehaviorToCrisisLineModal,
-    commonStore,
-  );
+  startVAFooter(window.VetsGov.headerFooter.footerData, commonStore);
   startHeader(commonStore, window.VetsGov.headerFooter.megaMenuData);
+
+  // Start Veteran Crisis Line modal functionality.
+  document.addEventListener('DOMContentLoaded', () => {
+    addFocusBehaviorToCrisisLineModal();
+    addOverlayTriggers();
+  });
 }

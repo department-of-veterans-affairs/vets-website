@@ -2,8 +2,6 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
-import { scrollToFirstError } from 'platform/forms-system/src/js/utilities/ui';
-import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import { isReactComponent } from 'platform/utilities/ui';
 import { allEqual } from '../utils/helpers';
@@ -120,14 +118,13 @@ const InputSection = ({
             onBlur={onBlur}
             registry={registry}
             onChange={value => handleChange(index, value)}
-            required={false}
           />
           <div className="row small-collapse">
             <div className="small-4 left columns button-group">
               <button
                 type="button"
                 className="float-left"
-                onClick={() => handleSave(index)}
+                onClick={() => handleSave(index, itemSchema)}
                 aria-label={`${buttonText} ${title}`}
               >
                 {buttonText}
@@ -239,18 +236,18 @@ const ItemLoop = ({
     handleScroll(`table_${idSchema.$id}_${index}`, 0);
   };
 
-  const handleSave = index => {
-    if (errorSchemaIsValid(errorSchema[index])) {
+  const handleSave = (index, itemSchema) => {
+    const isRequired = itemSchema.required?.length;
+    const isUndefined = Object.values(items[index]).includes(undefined);
+    const disableSave = !isRequired && isUndefined;
+
+    if (disableSave || !errorSchemaIsValid(errorSchema[index])) {
+      formContext.onError();
+    } else {
       const editData = editing.map(() => false);
       setEditing(editData);
       setShowTable(true);
       handleScroll(`table_${idSchema.$id}_${index}`, 0);
-    } else {
-      // Set all the fields for this item as touched, so we show errors
-      const touched = setArrayRecordTouched(idSchema.$id, index);
-      formContext.setTouched(touched, () => {
-        scrollToFirstError();
-      });
     }
   };
 

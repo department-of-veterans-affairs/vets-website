@@ -7,6 +7,7 @@ import Telephone, {
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import recordEvent from '~/platform/monitoring/record-event';
+import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 
 const SetUpVerifiedIDMeAlert = () => {
   return (
@@ -35,7 +36,7 @@ const SetUpVerifiedIDMeAlert = () => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => {
-                recordEvent({ event: 'multifactor-link-clicked' });
+                recordEvent({ event: AUTH_EVENTS.MFA });
               }}
             >
               create a verified account on ID.me

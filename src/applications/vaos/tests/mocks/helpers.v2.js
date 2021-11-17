@@ -29,7 +29,9 @@ export function mockAppointmentSubmitV2(data) {
  * }
  */
 export function mockSingleVAOSRequestFetch({ request, error = null }) {
-  const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${request.id}`;
+  const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${
+    request.id
+  }?_include=facilities,clinics`;
 
   if (error) {
     setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
@@ -51,7 +53,7 @@ export function mockSingleVAOSRequestFetch({ request, error = null }) {
 export function mockSingleVAOSAppointmentFetch({ appointment, error = null }) {
   const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${
     appointment.id
-  }`;
+  }?_include=facilities,clinics`;
 
   if (error) {
     setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
@@ -81,7 +83,7 @@ export function mockVAOSAppointmentsFetch({
 }) {
   const baseUrl = `${
     environment.API_URL
-  }/vaos/v2/appointments?start=${start}&end=${end}&${statuses
+  }/vaos/v2/appointments?_include=facilities,clinics&start=${start}&end=${end}&${statuses
     .map(status => `statuses[]=${status}`)
     .join('&')}`;
 

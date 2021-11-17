@@ -1,0 +1,28 @@
+.header-logo {
+  svg {
+    width: 40px;
+  }
+}
+
+.header-sign-in-button {
+  flex-shrink: 0;
+}
+
+.header-logo-row {
+  .profile-nav-contianer > div {
+    padding-top: 0 !important;
+  }
+}
+
+.header-menu-button {
+  min-height: 37px;
+  width: 85px;
+  z-index: 1;
+}
+
+.header-menu-button-overlay {
+  bottom: -12px;
+  height: 20px;
+  left: 0;
+  z-index: -1;
+}
