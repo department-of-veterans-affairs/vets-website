@@ -2,10 +2,10 @@ import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { URLS } from '../utils/navigation';
-import { makeSelectForm } from './selectors';
+import { makeSelectForm } from './redux/selectors';
 
 const useFormRouting = (router = {}) => {
-  const selectForm = useMemo(makeSelectForm);
+  const selectForm = useMemo(makeSelectForm, []);
   const { pages, currentPage } = useSelector(selectForm);
 
   const dispatch = useDispatch();
@@ -34,7 +34,6 @@ const useFormRouting = (router = {}) => {
 export { useFormRouting };
 
 // TODO: refactor to use
-// -- selector files
 // -- reducers and actions
 // TODO: tests
 // -- unit
