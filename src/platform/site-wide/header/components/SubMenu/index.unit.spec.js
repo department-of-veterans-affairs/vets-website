@@ -47,7 +47,7 @@ describe('Header <SubMenu>', () => {
     ).to.have.length(7);
 
     // Set up.
-    wrapper.find('.header-menu-item-button').simulate('mouseup');
+    wrapper.find('.header-menu-item-button').simulate('click');
 
     // Assertions.
     expect(updateSubMenu.calledOnce).to.be.true;

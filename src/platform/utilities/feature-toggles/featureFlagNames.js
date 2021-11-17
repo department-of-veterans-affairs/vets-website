@@ -114,6 +114,7 @@ export default Object.freeze({
   vaOnlineSchedulingCCIterations: 'va_online_scheduling_cc_iterations',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
+  showEduBenefits1990EZWizard: 'show_edu_benefits_1990EZ_Wizard',
   'caregiverSIGIEnabled': 'caregiver_sigi_enabled',
   'hcaAmericanIndianEnabled': 'hca_american_indian_enabled'
 });
