@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 
-import LoginGovSVG from 'applications/login/components/LoginGov';
+import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 
