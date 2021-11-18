@@ -93,6 +93,7 @@ export default Object.freeze({
     'show_new_schedule_view_appointments_page',
   showNewSecureMessagingPage: 'show_new_secure_messaging_page',
   showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
+  showOmniChannelLink: 'omni_channel_link',
   ssoe: 'ssoe',
   ssoeEbenefitsLinks: 'ssoe_ebenefits_links',
   ssoeInbound: 'ssoe_inbound',
