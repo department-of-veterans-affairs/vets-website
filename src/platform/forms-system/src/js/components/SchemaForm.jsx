@@ -89,8 +89,8 @@ class SchemaForm extends React.Component {
     return true;
   }
 
-  onError() {
-    const formContext = set('submitted', true, this.state.formContext);
+  onError(hasSubmitted = true) {
+    const formContext = set('submitted', hasSubmitted, this.state.formContext);
     this.setState({ formContext });
     scrollToFirstError();
   }
