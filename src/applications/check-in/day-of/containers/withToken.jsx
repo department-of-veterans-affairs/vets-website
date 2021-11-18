@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import { goToNextPage, URLS } from '../utils/navigation';
-import { getCurrentToken } from '../utils/session';
+import { getCurrentToken } from '../../utils/session';
 import { makeSelectCheckInData } from '../hooks/selectors';
 
 const withToken = Component => {

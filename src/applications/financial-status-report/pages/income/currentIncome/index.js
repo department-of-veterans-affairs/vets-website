@@ -65,6 +65,9 @@ export const uiSchema = {
               widgetClassNames: 'input-size-1',
               classNames: 'schemaform-currency-input',
             },
+            // triggers validation when the field is not required
+            'ui:required': () => {},
+            'ui:validations': [validateCurrency],
           },
         },
       },

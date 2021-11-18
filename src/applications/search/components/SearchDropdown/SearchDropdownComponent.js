@@ -621,6 +621,7 @@ class SearchDropdownComponent extends React.Component {
                       key={`${id}-${i}`}
                       aria-hidden
                       tabIndex="-1"
+                      role="option"
                       onClick={() => {
                         this.onOptionClick(i);
                       }}
@@ -687,6 +688,7 @@ class SearchDropdownComponent extends React.Component {
                     key={`${id}-${i}`}
                     aria-hidden
                     tabIndex="-1"
+                    role="option"
                     onClick={() => {
                       this.onOptionClick(i);
                     }}

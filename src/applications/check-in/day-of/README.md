@@ -7,12 +7,20 @@
   - [Project Documentation](#project-documentation)
   - [Good to knows](#good-to-knows)
     - [Project URLS](#project-urls)
+    - [What version of the api are we using?](#what-version-of-the-api-are-we-using)
     - [How to run locally](#how-to-run-locally)
+    - [Run locally for a BE developer](#run-locally-for-a-be-developer)
+      - [Useful Commands](#useful-commands)
+      - [Current Feature toggles to enable](#current-feature-toggles-to-enable)
+      - [Steps to see the app](#steps-to-see-the-app)
     - [How to run with Codespaces](#how-to-run-with-codespaces)
+      - [Setup](#setup)
+      - [Public sharing](#public-sharing)
     - [Where is the data coming from?](#where-is-the-data-coming-from)
     - [Why is this not a VA forms app (formation)](#why-is-this-not-a-va-forms-app-formation)
     - [What API(s) does this use?](#what-apis-does-this-use)
     - [Feature toggles](#feature-toggles)
+      - [Current toggles](#current-toggles)
     - [How to test this?](#how-to-test-this)
     - [Useful acronym and terms](#useful-acronym-and-terms)
 
@@ -64,7 +72,33 @@ Follow the standard directions to run the app. The API needs to be running in or
 
 The `utils` directory of the check-in application contains JSDoc comments to improve editor feedback and autocomplete functionality. To enable advanced type checking, copy the `jsconfig-example.json` file in the root of the check-in folder and rename it to be `jsconfig.json`. The new file will automatically be excluded form the git repo by the gitignore file.
 
-Note that JSDoc comments are only included when the editor cannot not correctly infer types. Any objects, function arguments, or return types that can be successfully inferred from the code are not necessary. 
+Note that JSDoc comments are only included when the editor cannot not correctly infer types. Any objects, function arguments, or return types that can be successfully inferred from the code are not necessary.
+
+### Run locally for a BE developer
+
+#### Useful Commands
+
+To run locally for a BE developer, you can use the following commands
+
+| Command | Description |
+|---------|-------------|
+| yarn && yarn build:webpack --env.scaffold | Installs the dependancies and builds the app |
+| yarn watch | Runs the app in watch mode |
+
+#### Current Feature toggles to enable
+
+Be sure to have the follow toggles set correctly.
+
+- `check_in_experience_enabled`
+- `check_in_experience_multiple_appointment_support`
+- `check_in_experience_demographics_page_enabled`
+
+#### Steps to see the app
+
+1. Git pull the latest version of `vets-website`
+2. Build the front-end using the command `yarn && yarn build:webpack --env.scaffold`
+3. Run the app locally using the command `yarn watch`
+4. Go to `http://localhost:3001/health-care/appointment-check-in/?id=[SOME VALID GUID]` in your browser
 
 ### How to run with Codespaces
 

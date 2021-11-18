@@ -281,11 +281,12 @@ describe('Schemaform validations', () => {
     it('should set message if invalid', () => {
       const errors = { addError: sinon.spy() };
       const pastDate = `${minYear - 1}-01-01`;
+      const currentYear = new Date().getFullYear();
       validateCurrentOrPastDate(errors, pastDate);
 
       expect(errors.addError.callCount).to.equal(1);
       expect(errors.addError.firstCall.args[0]).to.equal(
-        `Please enter a year between ${minYear} and ${maxYear}`,
+        `Please enter a year between ${minYear} and ${currentYear}`,
       );
     });
     it('should use custom message', () => {
