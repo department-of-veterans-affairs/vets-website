@@ -21,7 +21,7 @@ const DownloadStatement = ({ statementId, statementDate, fullName }) => {
       apiRequest(
         `${
           environment.API_URL
-        }/v0/medical_copays/get_pdf_statements_by_id/${statementId}`,
+        }/v0/medical_copays/get_pdf_statement_by_id/${statementId}`,
       ).then(payload => {
         const url = window.URL.createObjectURL(new Blob([payload]));
         setDownloadLink(url);
