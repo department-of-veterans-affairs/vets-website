@@ -13,24 +13,35 @@ const AppointmentBlock = props => {
 
   return (
     <div>
-      <p>
+      <p className="vads-u-font-family--serif">
         Your {appointmentString} on {appointmentsDay} at {appointmentFacility}.
       </p>
-      <ul>
+      <ol className="vads-u-border-top--1px vads-u-margin-bottom--4 pre-check-in--appointment-list">
         {appointments.map((appointment, index) => {
-          const appointmentDateTime = new Date(appointments[0].startTime);
+          const appointmentDateTime = new Date(appointment.startTime);
           return (
-            <li key={index}>
-              <dl>
-                <dt>Time: </dt>
-                <dd>{format(appointmentDateTime, 'h:mm aaaa')}</dd>
-                <dt>Clinic: </dt>
-                <dd>{appointment.clinicFriendlyName}</dd>
+            <li
+              key={index}
+              className="vads-u-border-bottom--1px pre-check-in--appointment-item"
+            >
+              <dl className="pre-check-in--appointment-summary">
+                <dt className="pre-check-in--label vads-u-margin-right--1">
+                  Time:{' '}
+                </dt>
+                <dd className="pre-check-in--value">
+                  {format(appointmentDateTime, 'h:mm aaaa')}
+                </dd>
+                <dt className="pre-check-in--label vads-u-margin-right--1">
+                  Clinic:{' '}
+                </dt>
+                <dd className="pre-check-in--value">
+                  {appointment.clinicFriendlyName}
+                </dd>
               </dl>
             </li>
           );
         })}
-      </ul>
+      </ol>
     </div>
   );
 };
