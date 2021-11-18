@@ -16,9 +16,6 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
 const StylelintPlugin = require('stylelint-webpack-plugin');
-const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
-
-const smp = new SpeedMeasurePlugin();
 
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
@@ -471,7 +468,6 @@ module.exports = async (env = {}) => {
       new webpack.SourceMapDevToolPlugin({
         append: `\n//# sourceMappingURL=${bucket}/generated/[url]`,
         filename: '[file].map',
-        test: /\.jsx?$/,
       }),
     );
 
@@ -498,5 +494,5 @@ module.exports = async (env = {}) => {
     );
   }
 
-  return smp.wrap(baseConfig);
+  return baseConfig;
 };
