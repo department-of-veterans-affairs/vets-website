@@ -23,7 +23,9 @@ jobs:
           path: ./content-build
       - id: set-matrix
         run: |
-          echo ::set-output name=registries::$(jq '[.[] | (if .template.vagovprod then {rootUrl: .rootUrl, vagovprod: .template.vagovprod} else empty end)]' ./content-build/src/applications/registry.json)
+          CUSTOM_URLS='[{"rootUrl": "/va.gov"}]'
+          JSON=$(jq '[.[] | (if .template.vagovprod then {rootUrl: .rootUrl} else empty end)]' ./content-build/src/applications/registry.json)
+          echo ::set-output name=registries::$(jq --argjson arr1 "$CUSTOM_URLS" --argjson arr2 "$JSON" -n '$arr2 + $arr1 | unique_by(.rootUrl)')
 
   lighthouse:
     needs: get-registries
