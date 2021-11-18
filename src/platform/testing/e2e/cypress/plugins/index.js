@@ -18,6 +18,7 @@ module.exports = on => {
       const options = {
         webpackOptions: {
           ...webpackConfig,
+          plugins: [],
 
           // Expose some Node globals.
           node: {
