@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -312,6 +314,9 @@ function mapStateToProps(state) {
     selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
     showCovidVaccineSchedulingLinks: covidVaccineSchedulingFrontend(state),
+    showHealthConnectNumber: toggleValues(state)[
+      FEATURE_FLAG_NAMES.facility_locator_show_health_connect_number
+    ],
   };
 }
 
