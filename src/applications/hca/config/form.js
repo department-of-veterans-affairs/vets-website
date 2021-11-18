@@ -26,8 +26,6 @@ import { createDependentSchema } from '../definitions/dependent';
 import birthInformation from './chapters/veteranInformation/birthInformation';
 import veteranInformation from './chapters/veteranInformation/personalnformation';
 import demographicInformation from './chapters/veteranInformation/demographicInformation';
-import genderInformation from './chapters/veteranInformation/genderInformation';
-import maritalInformation from './chapters/veteranInformation/maritalInformation';
 import veteranAddress from './chapters/veteranInformation/veteranAddress';
 import veteranHomeAddress from './chapters/veteranInformation/veteranHomeAddress';
 import contactInformation from './chapters/veteranInformation/contactInformation';
@@ -151,40 +149,6 @@ const formConfig = {
           },
           uiSchema: demographicInformation.uiSchema,
           schema: demographicInformation.schema,
-        },
-        genderInformation: {
-          path: 'veteran-information/gender-information',
-          title: 'Veteran information',
-          initialData: {
-            'view:demographicCategories': {
-              isSpanishHispanicLatino: false,
-            },
-          },
-          uiSchema: genderInformation.uiSchema,
-          schema: genderInformation.schema,
-        },
-        genderIdentificationInformation: {
-          path: 'veteran-information/gender-identification-information',
-          title: 'Veteran information',
-          initialData: {
-            'view:demographicCategories': {
-              isSpanishHispanicLatino: false,
-            },
-          },
-          uiSchema: genderInformation.uiSchema,
-          schema: genderInformation.schema,
-        },
-        maritalInformation: {
-          path: 'veteran-information/marital-information',
-          title: 'Veteran information',
-          // title: 'Marital information',
-          initialData: {
-            'view:demographicCategories': {
-              isSpanishHispanicLatino: false,
-            },
-          },
-          uiSchema: maritalInformation.uiSchema,
-          schema: maritalInformation.schema,
         },
         veteranAddress: {
           path: 'veteran-information/veteran-address',

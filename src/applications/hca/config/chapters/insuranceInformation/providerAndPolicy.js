@@ -77,13 +77,14 @@ export default {
           'ui:title': (
             <span>
               Provide either your insurance policy number or group code
+              (*Required)
             </span>
           ),
           'ui:required': (formData, index) =>
             !get(`providers[${index}].insuranceGroupCode`, formData),
           'ui:description': triCareInfo,
           'ui:errorMessages': {
-            pattern: 'Please provide a valid policy number.',
+            pattern: 'Please provide a valid group code.',
           },
         },
         insuranceGroupCode: {
@@ -96,7 +97,7 @@ export default {
           'ui:required': (formData, index) =>
             !get(`providers[${index}].insurancePolicyNumber`, formData),
           'ui:errorMessages': {
-            pattern: 'Please provide a valid group code.',
+            pattern: 'Please provide a valid policy number.',
           },
         },
       },
@@ -112,8 +113,8 @@ export default {
           required: [
             'insuranceName',
             'insurancePolicyHolderName',
-            'insurancePolicyNumber',
-            'insuranceGroupCode',
+            // 'insurancePolicyNumber',
+            // 'insuranceGroupCode',
           ],
         }),
       },
