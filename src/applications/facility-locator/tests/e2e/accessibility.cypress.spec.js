@@ -1,5 +1,3 @@
-import { facilityTypesOptions } from '../../config';
-import { LocationType } from '../../constants';
 import mockFacilityData from '../../constants/mock-facility-data.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 
@@ -32,9 +30,7 @@ describe('Accessibility', () => {
     cy.get('#facility-type-dropdown').focused();
 
     // Select facility option
-    cy.get('#facility-type-dropdown').select(
-      facilityTypesOptions[LocationType.HEALTH],
-    );
+    cy.get('#facility-type-dropdown').select('VA health');
 
     // Tab
     cy.get('#facility-type-dropdown').tab();
