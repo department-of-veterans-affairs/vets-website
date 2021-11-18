@@ -441,7 +441,7 @@
       "deductions": [
         {
           "name": "Federal tax",
-          "amount": "350.5643534"
+          "amount": "350.56"
         },
         {
           "name": "State tax",
@@ -491,7 +491,7 @@
       "deductions": [
         {
           "name": "Federal tax",
-          "amount": "325.54432"
+          "amount": "325.54"
         },
         {
           "name": "Health insurance",
