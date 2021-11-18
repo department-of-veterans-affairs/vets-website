@@ -81,10 +81,6 @@ export class ResultsList extends Component {
                 showCovidVaccineWalkInAvailabilityText={
                   (walkInsAccepted || '').toLowerCase() === 'true'
                 }
-                showHealthConnectNumber={
-                  result?.attributes?.visn === '8' &&
-                  result?.attributes?.facilityType === 'va_health_facility'
-                }
               />
             ) : (
               <VaFacilityResult
@@ -92,10 +88,6 @@ export class ResultsList extends Component {
                 query={query}
                 key={result.id}
                 index={index}
-                showHealthConnectNumber={
-                  result?.attributes?.visn === '8' &&
-                  result?.attributes?.facilityType === 'va_health_facility'
-                }
               />
             );
           break;
