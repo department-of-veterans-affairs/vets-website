@@ -237,13 +237,12 @@ const mockEventListeners = (target = {}) => {
 };
 
 /**
- * Creates a history object and attaches a spy to replace and push
- *
- * The history object is fully functional, not stubbed
+ * Creates a history object and attaches a spy to replace and push.
+ * The history object is fully functional, not stubbed.
  *
  * @export
- * @param {string} [path='/'] The url to use initially for the history
- * @returns {History} Returns a History object
+ * @param {string} [path='/'] - The initial url to use for the history
+ * @returns {History} A History object
  */
 const createTestHistory = (path = '/') => {
   const history = createMemoryHistory({ initialEntries: [path] });
