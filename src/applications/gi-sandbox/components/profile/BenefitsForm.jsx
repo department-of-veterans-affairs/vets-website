@@ -7,6 +7,7 @@ import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import LearnMoreLabel from '../LearnMoreLabel';
+import recordEvent from 'platform/monitoring/record-event';
 
 export class BenefitsForm extends React.Component {
   state = { showYourMilitaryDetails: false };
@@ -46,7 +47,13 @@ export class BenefitsForm extends React.Component {
   renderLearnMoreLabel = ({ text, modal, ariaLabel, labelFor, buttonId }) => (
     <LearnMoreLabel
       text={text}
-      onClick={() => this.props.showModal(modal)}
+      onClick={() => {
+        this.props.showModal(modal);
+        recordEvent({
+          event: 'gibct-form-help-text-clicked',
+          'help-text-label': ariaLabel,
+        });
+      }}
       ariaLabel={ariaLabel}
       labelFor={labelFor || modal}
       buttonId={buttonId}

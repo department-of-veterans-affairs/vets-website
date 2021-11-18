@@ -23,7 +23,7 @@ describe('Header <OfficialGovtWebsite>', () => {
     expect(wrapper.text()).not.includes('The site is secure.');
 
     // Set up.
-    wrapper.find('.expand-official-govt-explanation').simulate('mouseup');
+    wrapper.find('.expand-official-govt-explanation').simulate('click');
 
     // Assertions.
     expect(wrapper.find('#official-govt-site-explanation')).to.have.length(1);

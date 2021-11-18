@@ -271,7 +271,12 @@ function CalculateYourBenefitsForm({
   const learnMoreLabel = ({ text, modal, ariaLabel, labelFor, buttonId }) => (
     <LearnMoreLabel
       text={text}
-      onClick={() => showModal(modal)}
+      onClick={() => {
+        showModal(modal);
+        recordEvent({
+          event: `Learn more help text clicked for: ${labelFor}`,
+        });
+      }}
       ariaLabel={ariaLabel}
       labelFor={labelFor}
       buttonId={buttonId}

@@ -72,7 +72,7 @@ const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
       )}
       <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
         <strong>Amount owed: </strong>
-        {debt.currentAr && currency.format(parseFloat(debt.currentAr))}
+        {currency(debt?.currentAr)}
       </p>
       <div className="vads-u-margin-y--2">{additionalInfo.status}</div>
       {firstDebtLetter && (

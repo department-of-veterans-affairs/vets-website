@@ -6,6 +6,7 @@ import SchoolClassification from './SchoolClassification';
 import { Link } from 'react-router-dom';
 import CompareScroller from './CompareScroller';
 import { focusElement } from 'platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
 
 export default function({
   currentScroll,
@@ -19,6 +20,7 @@ export default function({
 }) {
   useEffect(() => {
     focusElement('.compare-page-description-label');
+    document.title = `Compare institutions: GI Bill® Comparison Tool | Veterans Affairs`;
   }, []);
 
   const empties = [];
@@ -42,6 +44,13 @@ export default function({
     ) : (
       cards
     );
+  };
+
+  const handleOnChange = e => {
+    setShowDifferences(e.target.checked);
+    recordEvent({
+      event: `Radio checkbox clicked: Compare schools highlight differences`,
+    });
   };
 
   return (
@@ -68,7 +77,7 @@ export default function({
               }
               name="highlight-differences"
               className="vads-u-display--inline-block"
-              onChange={e => setShowDifferences(e.target.checked)}
+              onChange={handleOnChange}
             />
           </div>
         </div>

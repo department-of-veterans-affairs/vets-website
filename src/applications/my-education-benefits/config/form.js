@@ -200,6 +200,18 @@ function phoneUISchema(category) {
     isInternational: {
       'ui:title': `This ${category} phone number is international`,
       'ui:reviewField': YesNoReviewField,
+      'ui:options': {
+        hideIf: formData => {
+          if (category === 'mobile') {
+            if (!formData['view:phoneNumbers'].mobilePhoneNumber.phone) {
+              return true;
+            }
+          } else if (!formData['view:phoneNumbers'].phoneNumber.phone) {
+            return true;
+          }
+          return false;
+        },
+      },
     },
   };
 }
@@ -400,6 +412,9 @@ const formConfig = {
             claimantId: {
               'ui:title': 'Claimant ID',
               'ui:disabled': true,
+              'ui:options': {
+                hideOnReview: true,
+              },
             },
             'view:userFullName': {
               'ui:description': (

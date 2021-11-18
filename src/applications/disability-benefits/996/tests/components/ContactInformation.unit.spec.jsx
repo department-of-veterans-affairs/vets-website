@@ -10,6 +10,7 @@ const getData = ({
   address = true,
   submitted = false,
   homeless = false,
+  loopPages = false,
 } = {}) => {
   const data = {};
   if (email) {
@@ -40,17 +41,32 @@ const getData = ({
     formContext: { submitted },
     profile: { vapContactInfo: data },
     homeless,
+    loopPages,
   };
 };
 
 describe('Veteran information review content', () => {
-  it('should render contact information', () => {
+  it('should render inline contact information', () => {
     const data = getData();
     const tree = shallow(<ContactInfoDescription {...data} />);
 
     expect(tree.find('PhoneField')).to.exist;
     expect(tree.find('EmailField')).to.exist;
     expect(tree.find('MailingAddress')).to.exist;
+    tree.unmount();
+  });
+
+  it('should render contact information main loop', () => {
+    const data = getData({ loopPages: true });
+    const tree = shallow(<ContactInfoDescription {...data} />);
+
+    expect(tree.find('Telephone')).to.exist;
+    expect(tree.find('AddressView')).to.exist;
+    expect(tree.find('Link').length).to.eq(3);
+
+    expect(tree.find('PhoneField').length).to.eq(0);
+    expect(tree.find('EmailField').length).to.eq(0);
+    expect(tree.find('MailingAddress').length).to.eq(0);
     tree.unmount();
   });
 

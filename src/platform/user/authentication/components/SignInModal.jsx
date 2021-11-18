@@ -4,16 +4,22 @@ import { connect } from 'react-redux';
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
-import FedWarning from 'applications/login/components/FedWarning';
-import SignInButtons from 'applications/login/components/SignInButtons';
+import FedWarning from 'platform/user/authentication/components/FedWarning';
+import NewDesignButtons from 'platform/user/authentication/components/NewDesignButtons';
+import OriginalDesignButtons from 'platform/user/authentication/components/OriginalDesignButtons';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
-import SignInDescription from 'applications/login/components/SignInDescription';
+import SignInDescription from 'platform/user/authentication/components/SignInDescription';
 
 // import { getCurrentGlobalDowntime } from 'platform/monitoring/DowntimeNotification/util/helpers';
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import recordEvent from 'platform/monitoring/record-event';
-import { ssoe, loginGov } from 'platform/user/authentication/selectors';
+import {
+  ssoe,
+  loginGov,
+  loginGovCreateAccount,
+  loginOldDesign,
+} from 'platform/user/authentication/selectors';
 import { login, signup } from 'platform/user/authentication/utilities';
 import { formatDowntime } from 'platform/utilities/date';
 import environment from 'platform/utilities/environment';
@@ -34,7 +40,7 @@ export class SignInModal extends React.Component {
 
   loginHandler = loginType => () => {
     recordEvent({ event: `login-attempted-${loginType}` });
-    login(loginType, 'v1');
+    login({ policy: loginType });
   };
 
   signupHandler = () => {
@@ -76,65 +82,7 @@ export class SignInModal extends React.Component {
                 Sign in with an existing account
               </h2>
               <div>
-                <button
-                  disabled={globalDowntime}
-                  className="dslogon"
-                  onClick={this.loginHandler('dslogon')}
-                >
-                  <img
-                    aria-hidden="true"
-                    role="presentation"
-                    alt="DS Logon"
-                    src={`${vaGovFullDomain}/img/signin/dslogon-icon.svg`}
-                  />
-                  <strong> Sign in with DS Logon</strong>
-                </button>
-                <button
-                  disabled={globalDowntime}
-                  className="mhv"
-                  onClick={this.loginHandler('mhv')}
-                >
-                  <img
-                    aria-hidden="true"
-                    role="presentation"
-                    alt="My HealtheVet"
-                    src={`${vaGovFullDomain}/img/signin/mhv-icon.svg`}
-                  />
-                  <strong> Sign in with My HealtheVet</strong>
-                </button>
-                <button
-                  disabled={globalDowntime}
-                  className="usa-button-primary va-button-primary"
-                  onClick={this.loginHandler('idme')}
-                >
-                  <img
-                    aria-hidden="true"
-                    role="presentation"
-                    alt="ID.me"
-                    src={`${vaGovFullDomain}/img/signin/idme-icon-white.svg`}
-                  />
-                  <strong> Sign in with ID.me</strong>
-                </button>
-                <span className="sidelines">OR</span>
-                <div className="alternate-signin">
-                  <h2 className="vads-u-font-size--sm vads-u-margin-top--0">
-                    Don't have those accounts?
-                  </h2>
-                  <button
-                    disabled={globalDowntime}
-                    className="idme-create usa-button usa-button-secondary"
-                    onClick={this.signupHandler}
-                  >
-                    <img
-                      aria-hidden="true"
-                      role="presentation"
-                      alt="ID.me"
-                      src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
-                    />
-                    <strong> Create an ID.me account</strong>
-                  </button>
-                  <p>Use your email, Google, or Facebook</p>
-                </div>
+                <OriginalDesignButtons isDisabled={globalDowntime} />
               </div>
             </div>
           </div>
@@ -242,14 +190,14 @@ export class SignInModal extends React.Component {
         <div className="row">
           <div className="columns small-12">
             <h1
-              className={`${this.props.loginGovEnabled &&
+              className={`${!this.props.oldDesignEnabled &&
                 'vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2'}`}
             >
               Sign in
             </h1>
           </div>
         </div>
-        {!this.props.loginGovEnabled ? (
+        {this.props.oldDesignEnabled ? (
           <div className="row medium-screen:vads-u-display--none mobile-explanation">
             <div className="columns small-12">
               <h2>
@@ -260,18 +208,19 @@ export class SignInModal extends React.Component {
           </div>
         ) : null}
         {this.renderDowntimeBanners()}
-        {!this.props.loginGovEnabled ? (
+        {this.props.oldDesignEnabled ? (
           this.renderOriginalModal({
             globalDowntime,
           })
         ) : (
           <div className="row">
-            <div className="columns small-12 medium-6">
-              <SignInButtons
-                loginGovEnabled={this.props.loginGovEnabled}
-                isDisabled={globalDowntime}
-              />
-            </div>
+            <NewDesignButtons
+              loginGovEnabled={this.props.loginGovEnabled}
+              loginGovCreateAccountEnabled={
+                this.props.loginGovCreateAccountEnabled
+              }
+              isDisabled={globalDowntime}
+            />
           </div>
         )}
         <div className="row">
@@ -279,7 +228,7 @@ export class SignInModal extends React.Component {
             <div className="help-info">
               <h2
                 className={`${
-                  this.props.loginGovEnabled
+                  !this.props.oldDesignEnabled
                     ? 'vads-u-margin-top--0'
                     : 'vads-u-font-size--md'
                 }`}
@@ -307,10 +256,10 @@ export class SignInModal extends React.Component {
               </p>
               <p>
                 <SubmitSignInForm startSentence />{' '}
-                {this.props.loginGovEnabled && ` We're here 24/7.`}
+                {!this.props.oldDesignEnabled && ` We're here 24/7.`}
               </p>
             </div>
-            <FedWarning />
+            <FedWarning oldDesignEnabled={this.props.oldDesignEnabled} />
           </div>
         </div>
       </div>
@@ -320,7 +269,9 @@ export class SignInModal extends React.Component {
   render() {
     return (
       <Modal
-        cssClass="va-modal-large"
+        cssClass={`va-modal-large ${
+          !this.props.oldDesignEnabled ? 'new-modal-design' : ''
+        }`}
         visible={this.props.visible}
         focusSelector="button"
         onClose={this.props.onClose}
@@ -341,6 +292,8 @@ function mapStateToProps(state) {
   return {
     useSSOe: ssoe(state),
     loginGovEnabled: loginGov(state),
+    loginGovCreateAccountEnabled: loginGovCreateAccount(state),
+    oldDesignEnabled: loginOldDesign(state),
   };
 }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { ariaLabels } from '../../constants';
 import { upperCaseFirstLetterOnly } from '../../utils/helpers';
 import LearnMoreLabel from '../LearnMoreLabel';
+import recordEvent from 'platform/monitoring/record-event';
 
 export default function Academics({ institution, onShowModal }) {
   const accredited = institution.accredited && institution.accreditationType;
@@ -11,7 +12,13 @@ export default function Academics({ institution, onShowModal }) {
       <strong>
         <LearnMoreLabel
           text={'Accreditation'}
-          onClick={() => onShowModal('accreditation')}
+          onClick={() => {
+            onShowModal('accreditation');
+            recordEvent({
+              event: 'gibct-form-help-text-clicked',
+              'help-text-label': 'Learn more about the accreditation',
+            });
+          }}
           ariaLabel={ariaLabels.learnMore.accreditation}
           buttonId={'accreditation-button'}
           buttonClassName="small-screen-font"
@@ -44,7 +51,13 @@ export default function Academics({ institution, onShowModal }) {
       <strong>
         <LearnMoreLabel
           text={'Credit for military training'}
-          onClick={() => onShowModal('militaryTrainingCredit')}
+          onClick={() => {
+            onShowModal('militaryTrainingCredit');
+            recordEvent({
+              event: 'gibct-form-help-text-clicked',
+              'help-text-label': 'Learn more about Military Training Credit',
+            });
+          }}
           ariaLabel={ariaLabels.learnMore.militaryTrainingCredit}
           buttonId={'creditTraining-button'}
           buttonClassName="small-screen-font"
@@ -61,7 +74,13 @@ export default function Academics({ institution, onShowModal }) {
       <strong>
         <LearnMoreLabel
           text={'Independent study'}
-          onClick={() => onShowModal('independentStudy')}
+          onClick={() => {
+            onShowModal('independentStudy');
+            recordEvent({
+              event: 'gibct-form-help-text-clicked',
+              'help-text-label': 'Learn more about Independent Study',
+            });
+          }}
           ariaLabel={ariaLabels.learnMore.independentStudy}
           buttonId={'independentStudy-button'}
           buttonClassName="small-screen-font"
@@ -78,7 +97,13 @@ export default function Academics({ institution, onShowModal }) {
       <strong>
         <LearnMoreLabel
           text={'Priority Enrollment'}
-          onClick={() => onShowModal('priorityEnrollment')}
+          onClick={() => {
+            onShowModal('priorityEnrollment');
+            recordEvent({
+              event: 'gibct-form-help-text-clicked',
+              'help-text-label': 'Learn more about priority enrollment',
+            });
+          }}
           ariaLabel={ariaLabels.learnMore.priorityEnrollment}
           buttonClassName="small-screen-font"
           buttonId="priority-enrollment-learn-more"

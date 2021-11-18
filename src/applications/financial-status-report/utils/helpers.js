@@ -20,11 +20,14 @@ export const dateFormatter = date => {
   return moment(formatDate, 'YYYY-MM').format('MM/YYYY');
 };
 
-export const currency = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2,
-});
+export const currency = amount => {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  });
+  return formatter.format(parseFloat(amount));
+};
 
 const hasProperty = (arr, key) => {
   return arr.filter(item => item[key]).length > 0 ?? false;
