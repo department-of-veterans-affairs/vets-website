@@ -2,9 +2,10 @@ import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1
 import mockFacilityDataV1 from '../../constants/mock-facility-v1.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockLaLocation from '../../constants/mock-la-location.json';
-import { healthServices, facilityTypesOptions } from '../../config';
-import { LocationType } from '../../constants';
+import { healthServices } from '../../config';
 import mockServices from '../../constants/mock-provider-services.json';
+
+const CC_PROVIDER = 'Community providers (in VA’s network)';
 
 Cypress.Commands.add('verifyOptions', () => {
   // Va facilities have services available
@@ -158,9 +159,7 @@ describe('Facility VA search', () => {
     );
 
     cy.get('#street-city-state-zip').type('27606');
-    cy.get('#facility-type-dropdown').select(
-      facilityTypesOptions[LocationType.CC_PROVIDER],
-    );
+    cy.get('#facility-type-dropdown').select(CC_PROVIDER);
     cy.get('#service-type-ahead-input').type('General');
     cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
 
