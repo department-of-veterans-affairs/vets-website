@@ -8,8 +8,6 @@ on: push
 env:
   CHANNEL_ID: C02A8S3JPNZ
 
-# TODO: Add manual flow
-
 jobs:
   get-registries:
     runs-on: ubuntu-latest
@@ -23,7 +21,7 @@ jobs:
           path: ./content-build
       - id: set-matrix
         run: |
-          CUSTOM_URLS='[{"rootUrl": "/va.gov"}]'
+          CUSTOM_URLS='[{"rootUrl": "/"}]'
           JSON=$(jq '[.[] | (if .template.vagovprod then {rootUrl: .rootUrl} else empty end)]' ./content-build/src/applications/registry.json)
           echo ::set-output name=registries::$(jq --argjson arr1 "$CUSTOM_URLS" --argjson arr2 "$JSON" -n '$arr2 + $arr1 | unique_by(.rootUrl)')
 
@@ -87,7 +85,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
       # - name: Notify Slack
       #   uses: ./.github/workflows/slack-notify
       #   continue-on-error: true
