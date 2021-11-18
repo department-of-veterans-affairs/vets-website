@@ -7,7 +7,7 @@ import {
   mockFacilityLocatorApiResponse,
 } from './mockFacilitiesData';
 
-import FacilityListWidget from '../../facilities/FacilityListWidget';
+import FacilityListWidget from '../FacilityListWidget';
 
 describe('facilities <FacilityListWidget>', () => {
   it('should render loading', () => {

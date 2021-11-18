@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 import { mockApiRequest } from 'platform/testing/unit/helpers.js';
-import NearbyVetCenters from '../../facilities/vet-center/NearByVetCenters';
+import NearbyVetCenters from '../vet-center/NearByVetCenters';
 import * as mapboxUtils from 'applications/facility-locator/utils/mapbox';
 
 const createFakeStore = state => {

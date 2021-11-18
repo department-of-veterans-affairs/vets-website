@@ -15,7 +15,7 @@ export const loginAppUrlRE = new RegExp('^/sign-in(/.*)?$');
 
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
-  REDIRECT_EVENT: 'auth-redirect',
+  REDIRECT_EVENT: 'login-auth-redirect',
 };
 
 export const getQueryParams = () => {
