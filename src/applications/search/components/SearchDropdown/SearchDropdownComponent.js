@@ -458,7 +458,7 @@ class SearchDropdownComponent extends React.Component {
 
     if (!isOpen && suggestionsCount) {
       this.setState({
-        a11yStatusMessage: `Closed, ${suggestionsCount} suggestions${
+        a11yStatusMessage: `Closed, ${suggestionsCount} suggestion${
           suggestionsCount === 1 ? ' is' : 's are'
         }
    available`,
@@ -555,6 +555,23 @@ class SearchDropdownComponent extends React.Component {
               : ''
           } ${containerClassName}`}
         >
+          <span
+            id={`${id}-a11y-status-message`}
+            role="status"
+            className="vads-u-visibility--screen-reader"
+            aria-live="assertive"
+            aria-relevant="additions text"
+          >
+            {a11yStatusMessage}
+          </span>
+
+          <span
+            id={assistiveHintid}
+            className="vads-u-visibility--screen-reader"
+          >
+            Use up and down arrows to review autocomplete results and enter to
+            search. Touch device users, explore by touch or with swipe gestures.
+          </span>
           <input
             aria-activedescendant={activeId}
             aria-autocomplete={'none'}
@@ -580,26 +597,6 @@ class SearchDropdownComponent extends React.Component {
             onFocus={() => this.updateMenuState(true)}
             onKeyDown={this.onKeyDown}
           />
-          <span
-            id={assistiveHintid}
-            className="vads-u-visibility--screen-reader"
-            tabIndex="-1"
-          >
-            Use up and down arrows to review autocomplete results and enter to
-            search. Touch device users, explore by touch or with swipe gestures.
-          </span>
-
-          <span
-            id={`${id}-a11y-status-message`}
-            role="status"
-            className="vads-u-visibility--screen-reader"
-            aria-live="assertive"
-            aria-relevant="additions text"
-            tabIndex="-1"
-          >
-            {a11yStatusMessage}
-          </span>
-
           {validOpen &&
             !fullWidthSuggestions && (
               <div

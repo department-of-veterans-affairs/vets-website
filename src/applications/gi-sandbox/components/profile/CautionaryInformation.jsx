@@ -108,8 +108,9 @@ export function CautionaryInformation({ institution, showModal }) {
         text={'All campuses'}
         onClick={() => {
           recordEvent({
-            event: 'education-navigation',
-            'edu-action': 'all-campuses',
+            event: `Learn more clicked for: ${
+              ariaLabels.learnMore.allCampusComplaints
+            }`,
           });
           showModal('allCampuses');
         }}
@@ -182,6 +183,9 @@ export function CautionaryInformation({ institution, showModal }) {
             <LearnMoreLabel
               onClick={() => {
                 showModal('studentComplaints');
+                recordEvent({
+                  event: `Learn more link Clicked: for student complaints`,
+                });
               }}
               buttonId="student-complaints"
               buttonClassName="small-screen-font"
