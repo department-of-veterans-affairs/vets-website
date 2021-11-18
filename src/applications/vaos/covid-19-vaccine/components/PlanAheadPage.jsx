@@ -8,7 +8,6 @@ import {
 import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import NewTabAnchor from '../../components/NewTabAnchor';
 import FormButtons from '../../components/FormButtons';
 import { selectPageChangeInProgress } from '../redux/selectors';
 
@@ -27,28 +26,22 @@ export default function PlanAheadPage() {
   return (
     <div>
       <h1>{pageTitle}</h1>
-      <p>Here’s what you should know:</p>
+      <p>We can only schedule appointments for first vaccine doses online:</p>
       <ul>
-        <li>Some COVID-19 vaccines require 2 doses</li>
         <li>
-          If you get a vaccine that requires a second dose, we’ll schedule your
-          second appointment while you’re here for your first dose.
+          If you get a vaccine that requires 2 doses, we’ll schedule your second
+          appointment while you’re here for your first dose.
+        </li>
+        <li>
+          If you’re eligible for a booster shot or additional dose, contact your
+          VA health facility.
         </li>
       </ul>
 
       <p>
-        If you have questions,{' '}
-        <NewTabAnchor
-          href="/health-care/covid-19-vaccine"
-          className="vads-u-margin-top--2"
-          onClick={() => {
-            recordEvent({
-              event: `${GA_PREFIX}-COVID-19-vaccines-at-VA-link-clicked`,
-            });
-          }}
-        >
-          go to our main COVID-19 vaccine at VA page.
-        </NewTabAnchor>
+        Want to get your vaccine without an appointment?
+        <br />
+        Find out how to get your vaccine at a VA walk-in clinic
       </p>
       <FormButtons
         pageChangeInProgress={pageChangeInProgress}
