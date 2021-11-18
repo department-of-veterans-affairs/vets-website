@@ -39,14 +39,3 @@ const useFormRouting = (router = {}) => {
 };
 
 export { useFormRouting };
-
-/* TODO: tests
-- integration
-  - Happy Path
-  - Create page helper functions structure around
-    - user validating
-    - user clicking through introduction
-    - user approve demographics
-    - user approve next of kin
-    - user is on 
-*/
