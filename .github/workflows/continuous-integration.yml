@@ -614,6 +614,17 @@ jobs:
 
           # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
 
+
+      # -------------------------
+      # | Unit Tests to BigQuery |
+      # -------------------------
+
+      - name: Create Unit Test report and post results to BigQuery
+        run: yarn unit-mochawesome-to-bigquery
+        working-directory: testing-tools-team-dashboard-data
+        env:
+          TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
+
       # -------------------------
       # | Contract Tests Summary |
       # -------------------------
