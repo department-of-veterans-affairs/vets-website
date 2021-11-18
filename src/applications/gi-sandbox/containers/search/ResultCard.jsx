@@ -187,7 +187,7 @@ export function ResultCard({
   const tuitionAndEligibility = (
     <>
       <p>
-        <strong>You may be eligible for up to smirf:</strong>
+        <strong>You may be eligible for up to:</strong>
       </p>
       <div className="vads-u-display--flex vads-u-margin-top--0 vads-u-margin-bottom--2">
         <div className="vads-u-flex--1">
