@@ -83,7 +83,7 @@ export class ResultsList extends Component {
                 }
                 showHealthConnectNumber={
                   result?.attributes?.visn === '8' &&
-                  result?.attributes?.facilityType === 'va_health_facility'
+                  query?.facilityType === 'health'
                 }
               />
             ) : (
@@ -94,7 +94,7 @@ export class ResultsList extends Component {
                 index={index}
                 showHealthConnectNumber={
                   result?.attributes?.visn === '8' &&
-                  result?.attributes?.facilityType === 'va_health_facility'
+                  query?.facilityType === 'health'
                 }
               />
             );
