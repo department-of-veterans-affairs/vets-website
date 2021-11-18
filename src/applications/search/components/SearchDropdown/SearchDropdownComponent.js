@@ -452,9 +452,19 @@ class SearchDropdownComponent extends React.Component {
 
   // derive the ally status message for screen reade
   setA11yStatusMessage = () => {
-    const { isOpen, suggestions, activeIndex } = this.state;
+    const { isOpen, suggestions, activeIndex, inputValue } = this.state;
 
     const suggestionsCount = suggestions?.length;
+    if (
+      !isOpen &&
+      (!document.getElementById(`${this.props.id}-input-field`).hasFocus() ||
+        !document.getElementById(`${this.props.id}-submit-button`).hasFocus())
+    ) {
+      this.setState({
+        a11yStatusMessage: '',
+      });
+      return;
+    }
 
     if (!isOpen && suggestionsCount) {
       this.setState({
@@ -473,14 +483,14 @@ class SearchDropdownComponent extends React.Component {
       return;
     }
 
-    if (!suggestionsCount) {
+    if (!suggestionsCount && inputValue?.length > 3) {
       this.setState({
         a11yStatusMessage: 'No suggestions are available.',
       });
       return;
     }
 
-    if (!(activeIndex + 1)) {
+    if (!(activeIndex + 1) && inputValue?.length > 2) {
       this.setState({
         a11yStatusMessage: `Expanded, ${suggestionsCount} suggestion${
           suggestionsCount === 1 ? ' is' : 's are'
@@ -490,9 +500,17 @@ class SearchDropdownComponent extends React.Component {
       return;
     }
 
+    if (activeIndex !== undefined) {
+      this.setState({
+        a11yStatusMessage: `${
+          suggestions[activeIndex]
+        }, selected ${activeIndex + 1} of ${suggestionsCount}`,
+      });
+      return;
+    }
+
     this.setState({
-      a11yStatusMessage: `${suggestions[activeIndex]}, selected ${activeIndex +
-        1} of ${suggestionsCount}`,
+      a11yStatusMessage: '',
     });
   };
 
@@ -621,6 +639,7 @@ class SearchDropdownComponent extends React.Component {
                       key={`${id}-${i}`}
                       aria-hidden
                       tabIndex="-1"
+                      role="option"
                       onClick={() => {
                         this.onOptionClick(i);
                       }}
@@ -687,6 +706,7 @@ class SearchDropdownComponent extends React.Component {
                     key={`${id}-${i}`}
                     aria-hidden
                     tabIndex="-1"
+                    role="option"
                     onClick={() => {
                       this.onOptionClick(i);
                     }}
