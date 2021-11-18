@@ -10,14 +10,14 @@ import manifest from './manifest.json';
 import { buildRoutes as redesignedRoutes } from '../gi-sandbox/routes';
 import redesignedReducer from '../gi-sandbox/reducers';
 
-const fakeFlag = true;
+const redesignFlag = toggleValues(0).gi_sandbox_comparision_tool_toggle;
 
 startApp(
-  fakeFlag
+  redesignFlag
     ? {
         url: manifest.rootUrl,
         routes: redesignedRoutes(),
-        redesignedReducer,
+        reducer: redesignedReducer,
         entryName: manifest.entryName,
       }
     : {
