@@ -2,6 +2,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { createMemoryHistory } from 'history-v4';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
@@ -235,8 +236,26 @@ const mockEventListeners = (target = {}) => {
   };
 };
 
+/**
+ * Creates a history object and attaches a spy to replace and push
+ *
+ * The history object is fully functional, not stubbed
+ *
+ * @export
+ * @param {string} [path='/'] The url to use initially for the history
+ * @returns {History} Returns a History object
+ */
+const createTestHistory = (path = '/') => {
+  const history = createMemoryHistory({ initialEntries: [path] });
+  sinon.spy(history, 'replace');
+  sinon.spy(history, 'push');
+
+  return history;
+};
+
 export {
   chai,
+  createTestHistory,
   expect,
   fillDate,
   mockEventListeners,
