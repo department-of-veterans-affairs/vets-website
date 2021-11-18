@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import moment from 'moment';
-import ScoAnnouncementsWidget from '../../school-resources/ScoAnnouncementsWidget';
+import ScoAnnouncementsWidget from '../ScoAnnouncementsWidget';
 
 describe('<ScoAnnouncementsWidget>', () => {
   it('renders correctly', () => {

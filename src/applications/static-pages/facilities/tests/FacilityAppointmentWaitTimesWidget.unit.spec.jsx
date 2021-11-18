@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { mockFacilityLocatorApiResponse } from './mockFacilitiesData';
-import { FacilityAppointmentWaitTimesWidget } from '../../facilities/FacilityAppointmentWaitTimesWidget';
+import { FacilityAppointmentWaitTimesWidget } from '../FacilityAppointmentWaitTimesWidget';
 
 describe('facilities <FacilityAppointmentWaitTimesWidget>', () => {
   it('should render loading', () => {

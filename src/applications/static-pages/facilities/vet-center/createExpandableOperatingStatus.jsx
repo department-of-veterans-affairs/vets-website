@@ -12,7 +12,7 @@ export default async function createExpandableOperatingStatus() {
   if (statusWidgets.length) {
     const {
       default: ExpandableOperatingStatus,
-    } = await import('../../shared/ExpandableOperatingStatus');
+    } = await import('./components/ExpandableOperatingStatus');
 
     statusWidgets.forEach(el => {
       if (

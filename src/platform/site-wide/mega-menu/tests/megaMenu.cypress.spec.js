@@ -74,7 +74,7 @@ const testSecondMenuSection = isMobile => {
     '[data-e2e-id="about-va-1"]',
   );
   cy.checkMenuItem(
-    '[data-e2e-id="va-plans-budget-and-performance-2"]',
+    '[data-e2e-id="va-plans-budget-finances-and-performance-2"]',
     'performance',
     '[data-e2e-id="about-va-1"]',
   );

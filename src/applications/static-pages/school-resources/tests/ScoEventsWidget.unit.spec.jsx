@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import moment from 'moment';
-import ScoEventsWidget from '../../school-resources/ScoEventsWidget';
+import ScoEventsWidget from '../ScoEventsWidget';
 
 describe('<ScoEventsWidget>', () => {
   it('renders correctly', () => {
