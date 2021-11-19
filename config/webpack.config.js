@@ -158,36 +158,38 @@ async function generateHtmlFiles(buildPath) {
   const appRegistry = JSON.parse(scaffoldAssets['registry.json']);
   const loadInlineScript = filename => scaffoldAssets[filename];
 
-  // Modifies the style tags output from HTML Webpack Plugin
-  // to match the order and attributes of style tags from real content.
-  const modifyStyleTags = pluginStyleTags =>
-    pluginStyleTags
-      .reduce(
-        (tags, tag) =>
-          // Puts style.css before the app-specific stylesheet.
-          tag.attributes.href?.match(/style/) ? [tag, ...tags] : [...tags, tag],
-        [],
-      )
-      .join('');
+  // Modify the script and style tags output from HTML Webpack Plugin
+  // to match the order and attributes of tags from real content.
+  const modifyScriptAndStyleTags = originalTags => {
+    let scriptTags = [];
+    let styleTags = [];
 
-  // Modifies the script tags output from HTML Webpack Plugin
-  // to match the order and attributes of script tags from real content.
-  const modifyScriptTags = pluginScriptTags =>
-    pluginScriptTags
-      .reduce((tags, tag) => {
+    originalTags.forEach(tag => {
+      if (tag.attributes.src?.match(/style/)) {
         // Exclude style.entry.js, which gets included with the style chunk.
-        if (tag.attributes.src.match(/style/)) return tags;
+      } else if (tag.attributes.src?.match(/polyfills/)) {
+        // Force polyfills.entry.js to be first since vendor.entry.js gets
+        // put first even with chunksSortMode: 'manual'. Also set nomodule
+        // so IE polyfills don't load in newer browsers
+        const tagWithNoModule = {
+          ...tag,
+          attributes: { ...tag.attributes, nomodule: true },
+        };
+        scriptTags = [tagWithNoModule, ...scriptTags];
+      } else if (tag.attributes.href?.match(/style/)) {
+        // Put style.css before the app-specific stylesheet
+        styleTags = [tag, ...styleTags];
+      } else if (tag.attributes.src) {
+        scriptTags.push(tag);
+      } else if (tag.attributes.href) {
+        styleTags.push(tag);
+      } else {
+        throw new Error('Unexpected tag in <head>:', tag);
+      }
+    });
 
-        // Force polyfills.entry.js to be first (and set `nomodules`), since
-        // vendor.entry.js gets put first even with chunksSortMode: 'manual'.
-        return tag.attributes.src.match(/polyfills/)
-          ? [
-              { ...tag, attributes: { ...tag.attributes, nomodule: true } },
-              ...tags,
-            ]
-          : [...tags, tag];
-      }, [])
-      .join('');
+    return [...styleTags, ...scriptTags].join('');
+  };
 
   /* eslint-disable no-nested-ternary */
   const generateHtmlFile = ({
@@ -211,8 +213,7 @@ async function generateHtmlFiles(buildPath) {
 
         // Helper functions
         loadInlineScript,
-        modifyScriptTags,
-        modifyStyleTags,
+        modifyScriptAndStyleTags,
 
         // Default template metadata.
         breadcrumbs_override: [], // eslint-disable-line camelcase
