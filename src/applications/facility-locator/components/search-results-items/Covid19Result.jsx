@@ -10,14 +10,12 @@ import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationDistance from './common/LocationDistance';
 import CovidPhoneLink from './common/Covid19PhoneLink';
 import recordEvent from 'platform/monitoring/record-event';
-import { renderPhoneNumber } from './common/LocationPhoneLink';
 
 const Covid19Result = ({
   location,
   index,
   showCovidVaccineSchedulingLinks,
   showCovidVaccineWalkInAvailabilityText,
-  showHealthConnectNumber,
 }) => {
   const {
     name,
@@ -89,7 +87,6 @@ const Covid19Result = ({
             showCovidVaccineWalkInAvailabilityText
           }
           labelId={`${location.id}-phoneLabel`}
-          showHealthConnectNumber={showHealthConnectNumber}
         />
         {infoURL && (
           <span className="vads-u-margin-top--2 vads-u-display--block">
@@ -98,15 +95,6 @@ const Covid19Result = ({
             </a>
           </span>
         )}
-        {showHealthConnectNumber && <div style={{ minHeight: '20px' }} />}
-        {showHealthConnectNumber &&
-          renderPhoneNumber(
-            'VA health connect',
-            null,
-            '877-741-3400',
-            'SearchResult',
-            location,
-          )}
       </>
     </div>
   );

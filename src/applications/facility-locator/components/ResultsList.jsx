@@ -68,8 +68,9 @@ export class ResultsList extends Component {
         : 'false';
 
       const showHealthConnectNumber =
-        result?.attributes?.visn === '8' && query?.facilityType === 'health'; // &&
-      // this.props.facilityLocatorShowHealthConnectNumber;
+        result?.attributes?.visn === '8' &&
+        query?.facilityType === 'health' &&
+        this.props.facilityLocatorShowHealthConnectNumber;
 
       switch (query.facilityType) {
         case 'health':
@@ -88,7 +89,6 @@ export class ResultsList extends Component {
                 showCovidVaccineWalkInAvailabilityText={
                   (walkInsAccepted || '').toLowerCase() === 'true'
                 }
-                showHealthConnectNumber={showHealthConnectNumber}
               />
             ) : (
               <VaFacilityResult
