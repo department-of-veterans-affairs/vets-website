@@ -12,36 +12,39 @@ import { URLS } from '../../../utils/navigation';
 
 describe('check-in', () => {
   describe('useFormRouting', () => {
-    let store;
-    beforeEach(() => {
-      const middleware = [];
-      const mockStore = configureStore(middleware);
-      const initState = {
-        preCheckInData: {
-          form: {
-            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'first-page',
+    describe('should pull data from redux store', () => {
+      let store;
+      beforeEach(() => {
+        const middleware = [];
+        const mockStore = configureStore(middleware);
+        const initState = {
+          preCheckInData: {
+            form: {
+              pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+              currentPage: 'first-page',
+            },
           },
-        },
-      };
-      store = mockStore(initState);
-    });
+        };
+        store = mockStore(initState);
+      });
 
-    it('should get the current pages from redux', () => {
-      const component = render(
-        <Provider store={store}>
-          <TestComponent router={{ push: () => {} }} />
-        </Provider>,
-      );
+      it('should get the current pages from redux', () => {
+        const component = render(
+          <Provider store={store}>
+            <TestComponent router={{ push: () => {} }} />
+          </Provider>,
+        );
 
-      expect(component.queryByTestId('current-page').textContent).to.equal(
-        'first-page',
-      );
-      expect(component.queryByTestId('all-pages').textContent).to.equal(
-        'first-page,second-page,third-page,fourth-page',
-      );
+        expect(component.queryByTestId('current-page').textContent).to.equal(
+          'first-page',
+        );
+        expect(component.queryByTestId('all-pages').textContent).to.equal(
+          'first-page,second-page,third-page,fourth-page',
+        );
+      });
     });
     describe('goToNextPage', () => {
+      let store;
       beforeEach(() => {
         const middleware = [];
         const mockStore = configureStore(middleware);
@@ -78,6 +81,8 @@ describe('check-in', () => {
       });
     });
     describe('goToNextPage', () => {
+      let store;
+
       beforeEach(() => {
         const middleware = [];
         const mockStore = configureStore(middleware);
@@ -114,6 +119,7 @@ describe('check-in', () => {
       });
     });
     describe('goToPreviousPage', () => {
+      let store;
       beforeEach(() => {
         const middleware = [];
         const mockStore = configureStore(middleware);
@@ -149,6 +155,7 @@ describe('check-in', () => {
       });
     });
     describe('goToPreviousPage', () => {
+      let store;
       beforeEach(() => {
         const middleware = [];
         const mockStore = configureStore(middleware);
