@@ -19,6 +19,7 @@ import startVAFooter, { footerElemementId } from 'platform/site-wide/va-footer';
 import { addOverlayTriggers } from 'platform/site-wide/legacy/menu';
 import proxyWhitelist from './proxy-rewrite-whitelist.json';
 
+// Test only changed apps builds
 function createMutationObserverCallback() {
   // Find native header, footer, etc based on page path
   const DEPRECATED_SELECTOR_CONFIG = [
