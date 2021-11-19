@@ -113,10 +113,10 @@ jobs:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Run unit tests
-        run: yarn test:unit --coverage ${FOLDER:+"{script,$FOLDER}/**/*.unit.spec.js?(x)"}
+        run: yarn test:unit ${APP_FOLDER:+"{script,$APP_FOLDER}/**/*.unit.spec.js?(x)"} --coverage
         env:
           MOCHA_FILE: test-results/unit-tests.xml
-          FOLDER: ${{ steps.get-changed-apps.outputs.app_folders }}
+          APP_FOLDER: ${{ steps.get-changed-apps.outputs.app_folders }}
 
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
