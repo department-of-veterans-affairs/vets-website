@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Footer = () => (
-  <footer className="row">
+  <footer>
     <h2 className="help-heading vads-u-font-size--lg vads-u-padding-bottom--1 vads-u-border-bottom--3px vads-u-border-color--primary">
       Need Help?
     </h2>
