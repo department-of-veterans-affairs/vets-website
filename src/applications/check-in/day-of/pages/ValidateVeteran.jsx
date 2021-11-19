@@ -9,7 +9,7 @@ import { api } from '../api';
 
 import { permissionsUpdated } from '../actions';
 import { goToNextPage, URLS } from '../utils/navigation';
-import { SCOPES } from '../utils/token-format-validator';
+import { SCOPES } from '../../utils/token-format-validator';
 
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';

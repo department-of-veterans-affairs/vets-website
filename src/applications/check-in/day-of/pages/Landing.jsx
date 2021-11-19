@@ -8,9 +8,9 @@ import recordEvent from 'platform/monitoring/record-event';
 import { getTokenFromLocation, URLS, goToNextPage } from '../utils/navigation';
 import { api } from '../api';
 import { tokenWasValidated, triggerRefresh } from '../actions';
-import { setCurrentToken, clearCurrentSession } from '../utils/session';
-import { createAnalyticsSlug } from '../utils/analytics';
-import { isUUID, SCOPES } from '../utils/token-format-validator';
+import { setCurrentToken, clearCurrentSession } from '../../utils/session';
+import { createAnalyticsSlug } from '../../utils/analytics';
+import { isUUID, SCOPES } from '../../utils/token-format-validator';
 
 const Landing = props => {
   const {

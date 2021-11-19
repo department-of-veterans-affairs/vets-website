@@ -4,7 +4,6 @@ import isEmpty from 'lodash/isEmpty';
 
 import '../sass/dashboard.scss';
 
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
@@ -76,7 +75,7 @@ const DashboardHeader = () => {
         id="dashboard-title"
         data-testid="dashboard-title"
         tabIndex="-1"
-        className="vads-u-margin--0"
+        className="vads-u-margin--0 vads-u-margin-top--2 medium-screen:vads-u-margin-top--3"
       >
         My VA
       </h1>
@@ -178,13 +177,6 @@ const Dashboard = ({
               </div>
             )}
             <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
-              <Breadcrumbs className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
-                <a href="/" key="home">
-                  Home
-                </a>
-                <a href="/my-va">My VA</a>
-              </Breadcrumbs>
-
               <DashboardHeader />
 
               {showMPIConnectionError ? (
