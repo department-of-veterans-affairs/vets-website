@@ -6,12 +6,15 @@ import { focusElement } from 'platform/utilities/ui';
 import { format, add } from 'date-fns';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import { useFormRouting } from '../../hooks/useFormRouting';
 
-// @TODO Add routing to button once routing merged in. Remove appointments once mock API merged in. Resolve answers to questions for UX team. Add unit test for intro.
-const Introduction = () => {
+// @TODO Remove appointments once mock API merged in. Resolve answers to questions for UX team. Add unit test for intro.
+const Introduction = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
+  const { router } = props;
+  const { goToNextPage } = useFormRouting(router);
   const [privacyActModalOpen, setPrivacyActModalOpen] = useState(false);
   const appointments = [
     {
@@ -76,7 +79,14 @@ const Introduction = () => {
   const appointmentsDateTime = new Date(appointments[0].startTime);
   const StartButton = () => (
     <div className="vads-u-margin-bottom--4 vads-u-display--block">
-      <a className="vads-c-action-link--green" href="#">
+      <a
+        className="vads-c-action-link--green"
+        href="#"
+        onClick={e => {
+          e.preventDefault();
+          goToNextPage();
+        }}
+      >
         Start answering questions
       </a>
     </div>
