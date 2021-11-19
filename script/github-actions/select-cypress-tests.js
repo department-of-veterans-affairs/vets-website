@@ -213,6 +213,7 @@ function exportVariables(tests) {
 }
 
 function run() {
+  // Filter changed files for testing
   const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ').filter(
     filePath => filePath.startsWith('src/applications'),
   );

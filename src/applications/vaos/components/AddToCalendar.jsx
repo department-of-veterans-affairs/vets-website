@@ -7,6 +7,7 @@ import moment from 'moment';
 import guid from 'simple-guid';
 import { ICS_LINE_LIMIT } from '../utils/calendar';
 
+// Test only changed apps build
 function formatDescription(description, location = '') {
   if (!description || !description.text) {
     return 'DESCRIPTION:';
