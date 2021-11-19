@@ -27,7 +27,7 @@ export function AskVAQuestions({ showOmniChannelLink }) {
       {showOmniChannelLink && (
         <p>
           <a
-            id="btnLiveAgent"
+            id="live-chat"
             href={OMNI_CHANNEL_URL}
             onClick={event => {
               // prevent left mouse click & keyboard Enter from opening
@@ -38,7 +38,7 @@ export function AskVAQuestions({ showOmniChannelLink }) {
               openOmniChannel();
             }}
           >
-            Live Agent Chat
+            Open a live chat
           </a>
         </p>
       )}
@@ -51,9 +51,7 @@ AskVAQuestions.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  showOmniChannelLink: toggleValues(state)[
-    FEATURE_FLAG_NAMES.showOmniChannelLink
-  ],
+  showOmniChannelLink: toggleValues(state)[FEATURE_FLAG_NAMES.omniChannelLink],
 });
 
 export default connect(mapStateToProps)(AskVAQuestions);
