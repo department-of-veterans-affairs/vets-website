@@ -15,4 +15,11 @@ const selectFeatureToggles = createSelector(
 
 const makeSelectFeatureToggles = () => selectFeatureToggles;
 
-export { makeSelectFeatureToggles };
+const selectForm = createSelector(
+  state => state.preCheckInData,
+  data => data.form,
+);
+
+const makeSelectForm = () => selectForm;
+
+export { makeSelectFeatureToggles, makeSelectForm };

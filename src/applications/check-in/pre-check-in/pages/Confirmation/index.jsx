@@ -1,5 +1,11 @@
 import React from 'react';
+import BackToHome from '../../components/BackToHome';
 
 export default function index() {
-  return <div>Confirmation</div>;
+  return (
+    <>
+      <h1>Confirmation</h1>
+      <BackToHome />
+    </>
+  );
 }
