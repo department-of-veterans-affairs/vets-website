@@ -20,6 +20,7 @@ import { getFiltersChanged } from '../../selectors/filters';
 import MobileFilterControls from '../../components/MobileFilterControls';
 import classNames from 'classnames';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+import recordEvent from 'platform/monitoring/record-event';
 
 const MILE_METER_CONVERSION_RATE = 1609.34;
 const LIST_TAB = 'List';
@@ -36,7 +37,7 @@ function LocationSearchResults({
   dispatchMapChanged,
 }) {
   const { inProgress } = search;
-  const { results } = search.location;
+  const { count, results } = search.location;
   const { location, streetAddress } = search.query;
   const map = useRef(null);
   const mapContainer = useRef(null);
@@ -191,6 +192,9 @@ function LocationSearchResults({
       if (markerClicked && (!smallScreen || mobileTab === LIST_TAB)) {
         mapMarkerClicked(markerClicked);
         setMarkerClicked(null);
+        recordEvent({
+          event: `${markerClicked} map marker clicked`,
+        });
       }
     },
     [markerClicked],
@@ -358,6 +362,9 @@ function LocationSearchResults({
       e.preventDefault();
     }
     updateMapState();
+    recordEvent({
+      event: `Search this area of map clicked`,
+    });
     dispatchFetchSearchByLocationCoords(
       search.query.location,
       map.current.getCenter().toArray(),
@@ -388,6 +395,18 @@ function LocationSearchResults({
   useEffect(
     () => {
       focusElement('#location-search-results-count');
+      recordEvent({
+        event: 'onsite-search-results-change',
+        'search-page-path': '/?search=location',
+        'search-query': location,
+        'search-results-total-count': count,
+        'search-selection': 'Search By Location',
+        'sitewide-search-app-used': false,
+        'type-ahead-option-keyword-selected': undefined,
+        'type-ahead-option-position': undefined,
+        'type-ahead-options-list': undefined,
+        'type-ahead-options-count': undefined,
+      });
     },
     [results],
   );
@@ -396,8 +415,8 @@ function LocationSearchResults({
    * Renders the Eligibility and Filters accordions/buttons
    * @type {function(JSX.Element): (*|null)}
    */
-  const eligibilityAndFilters = count => {
-    const showTuitionAndFilters = count > 0 || usedFilters;
+  const eligibilityAndFilters = cnt => {
+    const showTuitionAndFilters = cnt > 0 || usedFilters;
 
     if (showTuitionAndFilters) {
       return (
@@ -420,12 +439,12 @@ function LocationSearchResults({
   /**
    * Content for when no results are found with or without the use of filters
    * smallScreen count is different from desktop count
-   * @param count
+   * @param cnt
    * @return {JSX.Element}
    */
-  const noResultsFound = count => {
-    const noResultsNoFilters = count === 0 && !usedFilters;
-    const noResultsWithFilters = count === 0 && usedFilters;
+  const noResultsFound = cnt => {
+    const noResultsNoFilters = cnt === 0 && !usedFilters;
+    const noResultsWithFilters = cnt === 0 && usedFilters;
 
     return (
       <>
@@ -498,24 +517,24 @@ function LocationSearchResults({
   /**
    * Content for how many search results are showing
    * smallScreen count is different from desktop count
-   * @param count
+   * @param cnt
    * @return {JSX.Element}
    */
-  const searchResultsShowing = count => (
+  const searchResultsShowing = cnt => (
     <p id="location-search-results-count">
-      Showing {count} search results for "<strong>{location}</strong>"
+      Showing {cnt} search results for "<strong>{location}</strong>"
     </p>
   );
 
   /**
    * Renders the result cards
    * smallScreen count is different from desktop count
-   * @param count
+   * @param cnt
    * @param visible
    * @return {boolean|JSX.Element}
    */
-  const searchResults = (count, visible = true) => {
-    if (count > 0) {
+  const searchResults = (cnt, visible = true) => {
+    if (cnt > 0) {
       const containerClassNames = classNames(
         'location-search-results-container',
         'usa-grid',

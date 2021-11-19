@@ -25,10 +25,7 @@ import UpgradeFailed from './components/messages/UpgradeFailed';
 import VAOnlineScheduling from './components/messages/VAOnlineScheduling';
 import Verify from './components/messages/Verify';
 import recordEvent from 'platform/monitoring/record-event';
-import {
-  ACCOUNT_STATES,
-  ACCOUNT_STATES_SET,
-} from 'applications/validate-mhv-account/constants';
+import { ACCOUNT_STATES, ACCOUNT_STATES_SET } from './constants';
 import {
   createAndUpgradeMHVAccount,
   fetchMHVAccount,
@@ -39,6 +36,7 @@ import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors'
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import { logout, verify, mfa } from 'platform/user/authentication/utilities';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 
 export class CallToActionWidget extends Component {
   static propTypes = {
@@ -460,7 +458,7 @@ export class CallToActionWidget extends Component {
   };
 
   authVersion() {
-    return this.props.authenticatedWithSSOe ? 'v1' : 'v0';
+    return 'v1';
   }
 
   signOut = () => {
@@ -469,7 +467,7 @@ export class CallToActionWidget extends Component {
   };
 
   mfaHandler = () => {
-    recordEvent({ event: 'multifactor-link-clicked' });
+    recordEvent({ event: AUTH_EVENTS.MFA });
     mfa(this.authVersion());
   };
 

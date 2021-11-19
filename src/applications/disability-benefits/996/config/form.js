@@ -13,6 +13,11 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
 import ReviewDescription from '../components/ReviewDescription';
+import {
+  EditPhone,
+  EditEmail,
+  EditAddress,
+} from '../components/EditContactInfo';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
@@ -94,7 +99,7 @@ const formConfig = {
   },
 
   title: 'Request a Higher-Level Review',
-  subTitle: 'Equal to VA Form 20-0996',
+  subTitle: 'VA Form 20-0996 (Higher-Level Review)',
   defaultDefinitions: {},
   preSubmitInfo,
   chapters: {
@@ -120,6 +125,33 @@ const formConfig = {
           path: 'contact-information',
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
+        },
+        editMobilePhone: {
+          title: 'Edit mobile phone',
+          path: 'edit-mobile-phone',
+          CustomPage: EditPhone,
+          CustomPageReview: EditPhone,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editEmailAddress: {
+          title: 'Edit email address',
+          path: 'edit-email-address',
+          CustomPage: EditEmail,
+          CustomPageReview: EditEmail,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editMailingAddress: {
+          title: 'Edit mailing address',
+          path: 'edit-mailing-address',
+          CustomPage: EditAddress,
+          CustomPageReview: EditAddress,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
       },
     },

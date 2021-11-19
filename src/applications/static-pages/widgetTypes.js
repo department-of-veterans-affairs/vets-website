@@ -14,6 +14,7 @@ export default {
   DISABILITY_APP_STATUS: 'disability-app-status',
   DISABILITY_RATING_CALCULATOR: 'disability-rating-calculator',
   EDUCATION_APP_STATUS: 'education-app-status',
+  EVENTS: 'events',
   FACILITY_APPOINTMENT_WAIT_TIMES_WIDGET:
     'facility-appointment-wait-times-widget',
   FACILITY_DETAIL: 'facility-detail',
@@ -30,6 +31,7 @@ export default {
   I_18_SELECT: 'i18-select',
   MAINTENANCE_BANNER: 'maintenance-banner',
   MANAGE_VA_DEBT_CTA: 'manage-va-debt-cta',
+  MEDICAL_COPAYS_CTA: 'medical-copays-cta',
   OPT_OUT_APP_STATUS: 'opt-out-app-status',
   OTHER_FACILITY_LOCATIONS_LIST: 'other-facility-locations-list',
   PENSION_APP_STATUS: 'pension-app-status',

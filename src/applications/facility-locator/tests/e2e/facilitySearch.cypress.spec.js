@@ -2,7 +2,6 @@ import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1
 import mockFacilityDataV1 from '../../constants/mock-facility-v1.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockLaLocation from '../../constants/mock-la-location.json';
-
 import { healthServices, facilityTypesOptions } from '../../config';
 import { LocationType } from '../../constants';
 import mockServices from '../../constants/mock-provider-services.json';

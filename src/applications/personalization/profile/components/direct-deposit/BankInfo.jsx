@@ -90,6 +90,17 @@ export const BankInfo = ({
     [isEmptyForm],
   );
 
+  useEffect(
+    () => {
+      return () => {
+        if (isEditingBankInfo) {
+          toggleEditState(false);
+        }
+      };
+    },
+    [isEditingBankInfo],
+  );
+
   // when we enter and exit edit mode...
   useEffect(
     () => {

@@ -15,6 +15,7 @@ import {
   updateSortByPropertyNameThunk,
   updatePaginationAction,
 } from '../actions';
+import { doesCookieExist, setCookie } from '../helpers';
 import { showPDFModal, getFindFormsAppState } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
@@ -61,6 +62,8 @@ export const SearchResults = ({
     isOpen: false,
     pdfSelected: '',
     pdfUrl: '',
+    pdfLabel: '',
+    doesCookieExist: false,
   });
   useEffect(() => {
     const justRefreshed = prevProps?.fetching && !fetching;
@@ -68,6 +71,11 @@ export const SearchResults = ({
       focusElement('[data-forms-focus]');
     }
   });
+  useEffect(() => {
+    if (doesCookieExist()) {
+      setModalState({ ...modalState, doesCookieExist: doesCookieExist() });
+    }
+  }, []);
 
   const onPageSelect = p => {
     // Derive the new start index.
@@ -102,8 +110,41 @@ export const SearchResults = ({
     }
   };
 
-  const toggleModalState = (pdfSelected, pdfUrl) =>
-    setModalState({ isOpen: !modalState.isOpen, pdfSelected, pdfUrl });
+  const toggleModalState = async (
+    pdfSelected,
+    pdfUrl,
+    pdfLabel,
+    closingModal,
+  ) => {
+    if (!doesCookieExist() || closingModal) {
+      if (!doesCookieExist()) {
+        setCookie();
+        setModalState({
+          isOpen: !modalState.isOpen,
+          pdfSelected,
+          pdfUrl,
+          pdfLabel,
+        });
+      }
+      if (closingModal) {
+        /**
+         * This is set here due to a race condition where:
+         * 1. the state would be updated to the cookie would exist which would fire the href download
+         * 2. we open the modal because the cookie did not exist at the time of the browser click event
+         */
+        setModalState({
+          ...modalState,
+          isOpen: !modalState.isOpen,
+          doesCookieExist: true,
+        });
+        recordEvent({
+          event: 'int-modal-click',
+          'modal-status': 'closed',
+          'modal-title': 'Download this PDF and open it in Acrobat Reader',
+        });
+      }
+    }
+  };
 
   // Show loading indicator if we are fetching.
   if (fetching) {
@@ -182,7 +223,7 @@ export const SearchResults = ({
     .slice(startIndex, lastIndex)
     .map((form, index) => (
       <SearchResult
-        currentPosition={index + 1}
+        doesCookieExist={modalState.doesCookieExist}
         key={form.id}
         form={form}
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
@@ -192,7 +233,7 @@ export const SearchResults = ({
     ));
 
   // modal state variables
-  const { isOpen, pdfSelected, pdfUrl } = modalState;
+  const { isOpen, pdfSelected, pdfUrl, pdfLabel } = modalState;
 
   return (
     <>
@@ -235,45 +276,37 @@ export const SearchResults = ({
         }}
       >
         <Modal
-          onClose={() => toggleModalState()}
-          secondaryButton={{
-            action: () => {
-              toggleModalState();
-            },
-            text: 'Close',
-          }}
-          title="Adobe Reader DC Required"
+          onClose={() => toggleModalState(pdfSelected, pdfUrl, pdfLabel, true)}
+          title="Download this PDF and open it in Acrobat Reader"
           visible={isOpen}
         >
           <>
-            <p className="vads-u-display--block vads-u-margin-bottom--3">
-              <span>
-                All PDF forms do not function fully in a web browser or other
-                PDF viewer. Please download the form and use Adobe Acrobat
-                Reader DC to fill out. For specific instructions about working
-                with PDFs
-              </span>{' '}
-              <a href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form">
-                please read out Resources and Support Article
-              </a>
-            </p>
-            <a
-              className="vads-u-display--block vads-u-margin-bottom--1p5"
-              href="https://get.adobe.com/reader/"
-              rel="noopener noreferrer"
-            >
-              <span>Get Acrobat Reader DC</span>
+            <p>
+              Download this PDF to your desktop computer or laptop. Then use
+              Adobe Acrobat Reader to open and fill out the form. Don’t try to
+              open the PDF on a mobile device or fill it out in your browser.
+            </p>{' '}
+            <p>
+              If you just want to fill out a paper copy, open the PDF in your
+              browser and print it from there.
+            </p>{' '}
+            <a href="https://get.adobe.com/reader/" rel="noopener noreferrer">
+              Get Acrobat Reader for free from Adobe
             </a>
             <a
               href={pdfUrl}
-              className="vads-u-display--block vads-u-margin-bottom--3"
+              className="usa-button vads-u-margin-top--2"
+              rel="noreferrer noopener"
+              role="button"
+              onClick={() => {
+                recordEvent(
+                  `Download VA form ${pdfSelected} ${pdfLabel}`,
+                  pdfUrl,
+                  'pdf',
+                );
+              }}
             >
-              <i
-                aria-hidden="true"
-                className="fas fa-download fa-lg vads-u-margin-right--1"
-                role="presentation"
-              />
-              <span>Download VA Form {pdfSelected}</span>
+              Download VA Form {pdfSelected}
             </a>
           </>
         </Modal>

@@ -582,23 +582,18 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         });
       }
 
+      // We would expect to have the clinic name here, but if we don't, fetch it
       if (
-        featureVAOSServiceCCAppointments &&
-        appointment.vaos.isCommunityCare &&
-        appointment.practitioners?.length
+        featureVAOSServiceVAAppointments &&
+        appointment.location.clinicId &&
+        !appointment.location.clinicName
       ) {
-        appointment.communityCareProvider = await getCommunityProvider(
-          appointment.practitioners[0].identifier.value,
-        );
-      }
-
-      if (featureVAOSServiceVAAppointments && appointment.location.clinicId) {
         try {
           const clinic = await fetchHealthcareServiceById({
             locationId: appointment.location.stationId,
             id: appointment.location.clinicId,
           });
-          appointment.location.clinicName = clinic.serviceName;
+          appointment.location.clinicName = clinic?.serviceName;
         } catch (e) {
           // We don't want to show an overall error on this page just
           // because we don't have a clinic name, so capture the error and continue
@@ -607,8 +602,12 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       }
 
       facilityId = getVAAppointmentLocationId(appointment);
-      facility = state.appointments.facilityData?.[facilityId];
+      facility =
+        state.appointments.facilityData?.[facilityId] ||
+        appointment.vaos.facilityData;
 
+      // Similar to the clinic, we'd expect to have the facility data included, but if
+      // we don't, fetch it
       if (facilityId && !facility) {
         try {
           facility = await getLocation({

@@ -42,6 +42,7 @@ import createDependencyVerification from './dependency-verification/createDepend
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
+import createEventsPage from './events';
 import createExpandableOperatingStatus from './facilities/vet-center/createExpandableOperatingStatus';
 import createFacilityPage from './facilities/createFacilityPage';
 import createFindVaForms, {
@@ -50,6 +51,7 @@ import createFindVaForms, {
 import createFindVaFormsPDFDownloadHelper from '../find-forms/widgets/createFindVaFormsPDFDownloadHelper';
 import createHigherLevelReviewApplicationStatus from 'applications/disability-benefits/996/components/createHLRApplicationStatus';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
+import createMedicalCopaysCTA from './medical-copays-cta';
 import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
 import createNearByVetCenters from './facilities/vet-center/createNearByVetCenters';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
@@ -159,6 +161,8 @@ createCovidVaccineUpdatesWidget(store, widgetTypes.COVID_VACCINE_UPDATES_CTA);
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 form686CTA(store, widgetTypes.FORM_686_CTA);
 createAskVAWidget(store, widgetTypes.ASK_VA);
+createEventsPage(store, widgetTypes.EVENTS);
+createMedicalCopaysCTA(store, widgetTypes.MEDICAL_COPAYS_CTA);
 createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
 createRefillTrackPrescriptionsPage(
   store,
