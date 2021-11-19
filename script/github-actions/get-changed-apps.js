@@ -76,7 +76,9 @@ const getChangedAppsString = (files, config, outputType = 'entry') => {
 };
 
 if (process.env.CHANGED_FILE_PATHS) {
-  const changedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
+  const changedFiles = process.env.CHANGED_FILE_PATHS.split(' ').filter(
+    filePath => filePath.startsWith('src/applications'),
+  );
 
   const options = commandLineArgs([
     // Use the --output option to specify output type. Entry names are the default.
