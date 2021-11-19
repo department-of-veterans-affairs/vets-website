@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
 import * as mocks from '@@profile/msw-mocks';
-import ContactInformation from '@@profile/components/contact-information/ContactInformation';
+import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
 
 import {
   createBasicInitialState,
@@ -26,7 +26,7 @@ describe('PersonalInformation', () => {
 
   const ui = (
     <MemoryRouter>
-      <ContactInformation />
+      <PersonalInformation />
     </MemoryRouter>
   );
 
