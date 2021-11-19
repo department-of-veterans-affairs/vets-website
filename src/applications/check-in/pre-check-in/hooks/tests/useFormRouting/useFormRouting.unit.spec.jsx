@@ -8,6 +8,7 @@ import { render, fireEvent } from '@testing-library/react';
 
 import TestComponent from './TestComponent';
 import { GO_TO_NEXT_PAGE } from '../../../actions';
+import { URLS } from '../../../utils/navigation';
 
 describe('check-in', () => {
   describe('useFormRouting', () => {
@@ -76,6 +77,42 @@ describe('check-in', () => {
         expect(routingAction.payload.nextPage).to.equal('second-page');
       });
     });
+    describe('goToNextPage', () => {
+      beforeEach(() => {
+        const middleware = [];
+        const mockStore = configureStore(middleware);
+        const initState = {
+          preCheckInData: {
+            form: {
+              pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+              currentPage: 'fourth-page',
+            },
+          },
+        };
+        store = mockStore(initState);
+      });
+      it('should go to the next page - should redirect to error at the end of the array', () => {
+        const push = sinon.spy();
+        const component = render(
+          <Provider store={store}>
+            <TestComponent
+              router={{
+                push,
+              }}
+            />
+          </Provider>,
+        );
+
+        const button = component.getByTestId('next-button');
+        fireEvent.click(button);
+
+        expect(push.calledWith(URLS.ERROR)).to.be.true;
+        const routingAction = store
+          .getActions()
+          .find(action => action.type === GO_TO_NEXT_PAGE);
+        expect(routingAction.payload.nextPage).to.equal(URLS.ERROR);
+      });
+    });
     describe('goToPreviousPage', () => {
       beforeEach(() => {
         const middleware = [];
@@ -109,6 +146,41 @@ describe('check-in', () => {
           .getActions()
           .find(action => action.type === GO_TO_NEXT_PAGE);
         expect(routingAction.payload.nextPage).to.equal('second-page');
+      });
+    });
+    describe('goToPreviousPage', () => {
+      beforeEach(() => {
+        const middleware = [];
+        const mockStore = configureStore(middleware);
+        const initState = {
+          preCheckInData: {
+            form: {
+              pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+              currentPage: 'first-page',
+            },
+          },
+        };
+        store = mockStore(initState);
+      });
+      it('should go to the prev page - should redirect to error at the end of the array', () => {
+        const push = sinon.spy();
+        const component = render(
+          <Provider store={store}>
+            <TestComponent
+              router={{
+                push,
+              }}
+            />
+          </Provider>,
+        );
+
+        const button = component.getByTestId('prev-button');
+        fireEvent.click(button);
+        expect(push.calledWith(URLS.ERROR)).to.be.true;
+        const routingAction = store
+          .getActions()
+          .find(action => action.type === GO_TO_NEXT_PAGE);
+        expect(routingAction.payload.nextPage).to.equal(URLS.ERROR);
       });
     });
   });
