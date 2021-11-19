@@ -75,12 +75,11 @@ const Introduction = () => {
   ];
   const appointmentsDateTime = new Date(appointments[0].startTime);
   const StartButton = () => (
-    <a
-      className="vads-c-action-link--green vads-u-margin-bottom--3 vads-u-display--block"
-      href="#"
-    >
-      Start answering questions
-    </a>
+    <div className="vads-u-margin-bottom--4 vads-u-display--block">
+      <a className="vads-c-action-link--green" href="#">
+        Start answering questions
+      </a>
+    </div>
   );
   return (
     <div className="vads-l-grid-container vads-u-padding-top--3 vads-u-padding-bottom--3">
