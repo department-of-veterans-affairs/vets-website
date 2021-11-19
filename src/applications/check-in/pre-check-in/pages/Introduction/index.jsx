@@ -75,14 +75,11 @@ const Introduction = () => {
   ];
   const appointmentsDateTime = new Date(appointments[0].startTime);
   const StartButton = () => (
-    <a href="#" className="vads-u-margin-bottom--3 vads-u-display--block">
-      <i
-        className="fas fa-chevron-circle-right vads-u-color--green vads-u-font-size--2xl vads-u-display--inline-block vads-u-margin-right--1"
-        style={{ verticalAlign: 'middle' }}
-      />
-      <span className="vads-u-font-weight--bold">
-        Start answering questions
-      </span>
+    <a
+      className="vads-c-action-link--green vads-u-margin-bottom--3 vads-u-display--block"
+      href="#"
+    >
+      Start answering questions
     </a>
   );
   return (
