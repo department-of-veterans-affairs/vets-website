@@ -78,7 +78,10 @@ const Introduction = props => {
   ];
   const appointmentsDateTime = new Date(appointments[0].startTime);
   const StartButton = () => (
-    <div className="vads-u-margin-bottom--4 vads-u-display--block">
+    <div
+      className="vads-u-margin-bottom--4 vads-u-display--block"
+      data-testid="start-button"
+    >
       <a
         className="vads-c-action-link--green"
         href="#"
@@ -92,7 +95,10 @@ const Introduction = props => {
     </div>
   );
   return (
-    <div className="vads-l-grid-container vads-u-padding-top--3 vads-u-padding-bottom--3">
+    <div
+      className="vads-l-grid-container vads-u-padding-top--3 vads-u-padding-bottom--3"
+      data-testid="intro-wrapper"
+    >
       <h1 tabIndex="-1" className="vads-u-margin-top--2">
         Answer pre check-in questions
       </h1>
