@@ -5,7 +5,7 @@ import Footer from '../../components/Footer';
 import { focusElement } from 'platform/utilities/ui';
 import { format, add } from 'date-fns';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
-
+// @TODO Add routing to button once routing merged in. Remove appointments once mock API merged in. Resolve answers to questions for UX team. Add unit test for intro.
 const Introduction = () => {
   useEffect(() => {
     focusElement('h1');
