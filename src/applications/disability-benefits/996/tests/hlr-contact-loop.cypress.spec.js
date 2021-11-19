@@ -4,7 +4,7 @@ import { BASE_URL, WIZARD_STATUS, CONTESTABLE_ISSUES_API } from '../constants';
 
 import mockUser from './fixtures/mocks/user.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
-import mockV2Data from './fixtures/data/maximal-test-v2.json';
+import mockV2Data from './fixtures/data/maximal-test-v2-C12239.json';
 import { mockContestableIssues } from './hlr.cypress.helpers';
 
 // Telephone specific responses

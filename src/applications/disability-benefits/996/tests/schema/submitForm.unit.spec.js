@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import formConfig from '../../config/form';
-import maximalTestV1 from '../fixtures/data/maximal-test-v1.json';
-import maximalTestV2 from '../fixtures/data/maximal-test-v2.json';
+import maximalTestV1 from '../fixtures/data/maximal-test-v1-C12058.json';
+import maximalTestV2 from '../fixtures/data/maximal-test-v2-C12239.json';
 
 import submitForm, { buildEventData } from '../../config/submitForm';
 

@@ -4,16 +4,16 @@ import formConfig from '../../config/form';
 
 import { transform } from '../../config/submit-transformer';
 
-import minimalDataV1 from '../fixtures/data/minimal-test-v1.json';
-import maximalDataV1 from '../fixtures/data/maximal-test-v1.json';
+import minimalDataV1 from '../fixtures/data/minimal-test-v1-C12238.json';
+import maximalDataV1 from '../fixtures/data/maximal-test-v1-C12058.json';
 import oneConferenceTimeDataV1 from '../fixtures/data/one-conference-time-test-v1.json';
 
-import transformedMinimalDataV1 from '../fixtures/data/transformed/minimal-test-v1.json';
-import transformedMaximalDataV1 from '../fixtures/data/transformed/maximal-test-v1.json';
+import transformedMinimalDataV1 from '../fixtures/data/transformed/minimal-test-v1-C12238.json';
+import transformedMaximalDataV1 from '../fixtures/data/transformed/maximal-test-v1-C12058.json';
 import transformedOneConferenceTimeDataV1 from '../fixtures/data/transformed/one-conference-time-test-v1.json';
 
-import maximalDataV2 from '../fixtures/data/maximal-test-v2.json';
-import transformedMaximalDataV2 from '../fixtures/data/transformed/maximal-test-v2.json';
+import maximalDataV2 from '../fixtures/data/maximal-test-v2-C12239.json';
+import transformedMaximalDataV2 from '../fixtures/data/transformed/maximal-test-v2-C12239.json';
 
 describe('transform', () => {
   it('should transform v1 minimal-test.json correctly', () => {
