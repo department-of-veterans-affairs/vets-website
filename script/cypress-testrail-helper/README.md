@@ -8,7 +8,7 @@ For basic TestRail help/info, see VSP's [TestRail docs][vsp-testrail-docs].
 
 ## Before using this app
 
-You only need to follow these steps once:
+You only need to follow these Cypress-TestRail integration steps once:
 
 1. Integrate your Cypress spec-file with TestRail -- you should have a TestRail test-case group/section for your spec, and within it TestRail test-cases corresponding to your spec's tests.
 1. In TestRail, click the green info-button next to one of your test-case's Case ID. An alert should be displayed, providing the case's parent Group ID and ancestor Project & Suite IDs.
@@ -31,7 +31,7 @@ You only need to follow these steps once:
    - TestRail Username
    - TestRail API Key
 
-[See VSP's [Cypress to TestRail Reporter Configuration doc][vsp-cypress-testrail-reporter-doc] for details on Step 1\*. No need to `export` environment-variables; just copy the values somewhere so they're ready for input into CTH.]
+[See VSP's [Cypress to TestRail Reporter Configuration doc][vsp-cypress-testrail-reporter-doc] for details on initial integration\*. No need to `export` environment-variables; just copy the values somewhere so they're ready for input into CTH.]
 
 ## Usage
 
