@@ -31,7 +31,6 @@ Cypress.Commands.add('verifyOptions', () => {
   // Va facilities have services available
   cy.get('#facility-type-dropdown').select('VA health');
   cy.get('#service-type-dropdown').should('not.have.attr', 'disabled');
-  delete 'COVID-19 vaccines';
   const hServices = Object.keys(healthServices);
 
   for (let i = 0; i < hServices.length; i++) {
