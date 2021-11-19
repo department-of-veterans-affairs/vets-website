@@ -22,7 +22,7 @@ const appointments = [
     startTime: '2021-11-16T23:00:00',
   },
 ];
-describe('check-in', () => {
+describe('pre-check-in', () => {
   describe('AppointmentBlock', () => {
     it('Renders appointment day and facility for multiple appointments', () => {
       const screen = render(<AppointmentBlock appointments={appointments} />);
