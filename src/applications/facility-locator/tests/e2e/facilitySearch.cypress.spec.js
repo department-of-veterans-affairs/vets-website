@@ -2,16 +2,37 @@ import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1
 import mockFacilityDataV1 from '../../constants/mock-facility-v1.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockLaLocation from '../../constants/mock-la-location.json';
-import { healthServices } from '../../config';
 import mockServices from '../../constants/mock-provider-services.json';
 
 const CC_PROVIDER = 'Community providers (in VA’s network)';
+const healthServices = {
+  All: 'All VA health services',
+  PrimaryCare: 'Primary care',
+  MentalHealthCare: 'Mental health care',
+  Covid19Vaccine: 'COVID-19 vaccines',
+  DentalServices: 'Dental services',
+  UrgentCare: 'Urgent care',
+  EmergencyCare: 'Emergency care',
+  Audiology: 'Audiology',
+  Cardiology: 'Cardiology',
+  Dermatology: 'Dermatology',
+  Gastroenterology: 'Gastroenterology',
+  Gynecology: 'Gynecology',
+  Ophthalmology: 'Ophthalmology',
+  Optometry: 'Optometry',
+  Orthopedics: 'Orthopedics',
+  Urology: 'Urology',
+  WomensHealth: "Women's health",
+  Podiatry: 'Podiatry',
+  Nutrition: 'Nutrition',
+  CaregiverSupport: 'Caregiver support',
+};
 
 Cypress.Commands.add('verifyOptions', () => {
   // Va facilities have services available
   cy.get('#facility-type-dropdown').select('VA health');
   cy.get('#service-type-dropdown').should('not.have.attr', 'disabled');
-  delete healthServices.Covid19Vaccine;
+  delete 'COVID-19 vaccines';
   const hServices = Object.keys(healthServices);
 
   for (let i = 0; i < hServices.length; i++) {
