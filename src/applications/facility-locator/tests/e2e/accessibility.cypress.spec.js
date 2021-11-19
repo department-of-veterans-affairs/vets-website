@@ -1,7 +1,7 @@
 import mockFacilityData from '../../constants/mock-facility-data.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 
-const LOCAATION_TYPE_HEALTH = 'VA health';
+const LOCATION_TYPE_HEALTH = 'VA health';
 
 describe('Accessibility', () => {
   beforeEach(() => {
@@ -32,7 +32,7 @@ describe('Accessibility', () => {
     cy.get('#facility-type-dropdown').focused();
 
     // Select facility option
-    cy.get('#facility-type-dropdown').select(LOCAATION_TYPE_HEALTH);
+    cy.get('#facility-type-dropdown').select(LOCATION_TYPE_HEALTH);
 
     // Tab
     cy.get('#facility-type-dropdown').tab();
