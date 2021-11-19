@@ -57,6 +57,7 @@ export default Object.freeze({
    * platform/utilities/api to fetch data.
    */
   API_URL: environment.API_URL,
+  // API_URL: 'https://staging-api.va.gov',
 
   /**
    * Workaround to map existing environments to normalized string until completion of:

@@ -3,8 +3,8 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
 
-import ContactInformationSection from './../personal-information/ContactInformationSection';
-import EmailInformationSection from './../personal-information/email-addresses/EmailInformationSection';
+import ContactInformationSection from './../contact-information/ContactInformationSection';
+import EmailInformationSection from './../contact-information/email-addresses/EmailInformationSection';
 
 const ContactInformationContent = ({ hasVAPServiceError }) => (
   <>
