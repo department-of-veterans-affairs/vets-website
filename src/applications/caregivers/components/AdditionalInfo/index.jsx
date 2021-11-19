@@ -10,6 +10,7 @@ import {
 import { links } from 'applications/caregivers/definitions/content';
 import { arrayToSentenceString } from '../../helpers';
 
+// Test only changed apps build
 export const VeteranSSNInfo = () => (
   <div className="vads-u-margin-y--1p5">
     <AdditionalInfo triggerText="Why is this required?">
