@@ -16,6 +16,7 @@ import RatingsStars from '../components/RatingsStars';
 import { showModal } from '../actions';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import { religiousAffiliations } from '../utils/data/religiousAffiliations';
+import recordEvent from 'platform/monitoring/record-event';
 
 const CompareLayout = ({
   calculated,
@@ -95,7 +96,14 @@ const CompareLayout = ({
             label: (
               <LearnMoreLabel
                 text="Accreditation"
-                onClick={() => dispatchShowModal('accreditation')}
+                onClick={() => {
+                  dispatchShowModal('accreditation');
+                  recordEvent({
+                    event: `Learn more click: ${
+                      ariaLabels.learnMore.accreditation
+                    }`,
+                  });
+                }}
                 ariaLabel={ariaLabels.learnMore.accreditation}
               />
             ),
@@ -106,7 +114,14 @@ const CompareLayout = ({
             label: (
               <LearnMoreLabel
                 text="GI Bill students"
-                onClick={() => dispatchShowModal('gibillstudents')}
+                onClick={() => {
+                  dispatchShowModal('gibillstudents');
+                  recordEvent({
+                    event: `Learn more click: ${
+                      ariaLabels.learnMore.numberOfStudents
+                    }`,
+                  });
+                }}
                 ariaLabel={ariaLabels.learnMore.numberOfStudents}
                 buttonId="GI-Bill-students-compare"
               />
@@ -146,7 +161,14 @@ const CompareLayout = ({
             label: (
               <LearnMoreLabel
                 text="Size of institution"
-                onClick={() => dispatchShowModal('sizeOfInstitution')}
+                onClick={() => {
+                  dispatchShowModal('sizeOfInstitution');
+                  recordEvent({
+                    event: `Learn more click: ${
+                      ariaLabels.learnMore.sizeOfInstitution
+                    }`,
+                  });
+                }}
                 ariaLabel={ariaLabels.learnMore.sizeOfInstitution}
               />
             ),
@@ -156,7 +178,14 @@ const CompareLayout = ({
             label: (
               <LearnMoreLabel
                 text="Specialized mission"
-                onClick={() => dispatchShowModal('specializedMission')}
+                onClick={() => {
+                  dispatchShowModal('specializedMission');
+                  recordEvent({
+                    event: `Learn more click: ${
+                      ariaLabels.learnMore.specializedMission
+                    }`,
+                  });
+                }}
                 ariaLabel={ariaLabels.learnMore.specializedMission}
               />
             ),
@@ -195,7 +224,14 @@ const CompareLayout = ({
             label: (
               <LearnMoreLabel
                 text="Tuition and fees"
-                onClick={() => dispatchShowModal('tuitionAndFeesSchool')}
+                onClick={() => {
+                  dispatchShowModal('tuitionAndFeesSchool');
+                  recordEvent({
+                    event: `Learn more click: ${
+                      ariaLabels.learnMore.tuitionFees
+                    }`,
+                  });
+                }}
                 ariaLabel={ariaLabels.learnMore.tuitionFees}
               />
             ),
@@ -234,7 +270,14 @@ const CompareLayout = ({
             label: (
               <LearnMoreLabel
                 text="Housing allowance"
-                onClick={() => dispatchShowModal('housingAllowanceSchool')}
+                onClick={() => {
+                  dispatchShowModal('housingAllowanceSchool');
+                  recordEvent({
+                    event: `Learn more click: ${
+                      ariaLabels.learnMore.housingAllowance
+                    }`,
+                  });
+                }}
                 ariaLabel={ariaLabels.learnMore.housingAllowance}
               />
             ),
@@ -245,7 +288,14 @@ const CompareLayout = ({
             label: (
               <LearnMoreLabel
                 text="Book stipend"
-                onClick={() => dispatchShowModal('bookStipendInfo')}
+                onClick={() => {
+                  dispatchShowModal('bookStipendInfo');
+                  recordEvent({
+                    event: `Learn more click: ${
+                      ariaLabels.learnMore.bookStipend
+                    }`,
+                  });
+                }}
                 ariaLabel={ariaLabels.learnMore.bookStipend}
               />
             ),
@@ -377,7 +427,14 @@ const CompareLayout = ({
             label: (
               <LearnMoreLabel
                 text="Caution flags"
-                onClick={() => dispatchShowModal('cautionFlags')}
+                onClick={() => {
+                  dispatchShowModal('cautionFlags');
+                  recordEvent({
+                    event: `Learn more click: ${
+                      ariaLabels.learnMore.cautionFlags
+                    }`,
+                  });
+                }}
                 ariaLabel={ariaLabels.learnMore.cautionFlags}
               />
             ),
@@ -436,7 +493,14 @@ const CompareLayout = ({
             label: (
               <LearnMoreLabel
                 text="Student complaints"
-                onClick={() => dispatchShowModal('studentComplaints')}
+                onClick={() => {
+                  dispatchShowModal('studentComplaints');
+                  recordEvent({
+                    event: `Learn more click: ${
+                      ariaLabels.learnMore.allCampusComplaints
+                    }`,
+                  });
+                }}
                 ariaLabel={ariaLabels.learnMore.allCampusComplaints}
               />
             ),
@@ -460,7 +524,14 @@ const CompareLayout = ({
             label: (
               <LearnMoreLabel
                 text="Credit for military training"
-                onClick={() => dispatchShowModal('militaryTrainingCredit')}
+                onClick={() => {
+                  dispatchShowModal('militaryTrainingCredit');
+                  recordEvent({
+                    event: `Learn more click: ${
+                      ariaLabels.learnMore.militaryTrainingCredit
+                    }`,
+                  });
+                }}
                 ariaLabel={ariaLabels.learnMore.militaryTrainingCredit}
               />
             ),
@@ -479,7 +550,14 @@ const CompareLayout = ({
             label: (
               <LearnMoreLabel
                 text="Yellow Ribbon"
-                onClick={() => dispatchShowModal('yribbon')}
+                onClick={() => {
+                  dispatchShowModal('yribbon');
+                  recordEvent({
+                    event: `Learn more click: ${
+                      ariaLabels.learnMore.yellowRibbonProgram
+                    }`,
+                  });
+                }}
                 ariaLabel={ariaLabels.learnMore.yellowRibbonProgram}
                 buttonId="veteran-programs-yellow-ribbon"
               />
@@ -490,7 +568,14 @@ const CompareLayout = ({
             label: (
               <LearnMoreLabel
                 text="Student Veteran Group"
-                onClick={() => dispatchShowModal('vetgroups')}
+                onClick={() => {
+                  dispatchShowModal('vetgroups');
+                  recordEvent({
+                    event: `Learn more click: ${
+                      ariaLabels.learnMore.studentVeteranGroup
+                    }`,
+                  });
+                }}
                 ariaLabel={ariaLabels.learnMore.studentVeteranGroup}
                 buttonId="student-veteran-group"
               />
@@ -501,7 +586,14 @@ const CompareLayout = ({
             label: (
               <LearnMoreLabel
                 text="Principles of Excellence"
-                onClick={() => dispatchShowModal('poe')}
+                onClick={() => {
+                  dispatchShowModal('poe');
+                  recordEvent({
+                    event: `Learn more click: ${
+                      ariaLabels.learnMore.principlesOfExcellence
+                    }`,
+                  });
+                }}
                 ariaLabel={ariaLabels.learnMore.principlesOfExcellence}
                 buttonId="principles-of-excellence"
               />
@@ -512,7 +604,14 @@ const CompareLayout = ({
             label: (
               <LearnMoreLabel
                 text="8 Keys to Veteran Success"
-                onClick={() => dispatchShowModal('eightKeys')}
+                onClick={() => {
+                  dispatchShowModal('eightKeys');
+                  recordEvent({
+                    event: `Learn more click: ${
+                      ariaLabels.learnMore.eightKeys
+                    }`,
+                  });
+                }}
                 ariaLabel={ariaLabels.learnMore.eightKeys}
                 buttonId="eight-keys-to-veteran-success"
               />
@@ -523,7 +622,14 @@ const CompareLayout = ({
             label: (
               <LearnMoreLabel
                 text="Military Tuition Assistance (TA)"
-                onClick={() => dispatchShowModal('ta')}
+                onClick={() => {
+                  dispatchShowModal('ta');
+                  recordEvent({
+                    event: `Learn more click: ${
+                      ariaLabels.learnMore.militaryTuitionAssistance
+                    }`,
+                  });
+                }}
                 ariaLabel={ariaLabels.learnMore.militaryTuitionAssistance}
                 buttonId="military-tuition-assistance"
               />
@@ -534,7 +640,14 @@ const CompareLayout = ({
             label: (
               <LearnMoreLabel
                 text="Priority Enrollment"
-                onClick={() => dispatchShowModal('priorityEnrollment')}
+                onClick={() => {
+                  dispatchShowModal('priorityEnrollment');
+                  recordEvent({
+                    event: `Learn more click: ${
+                      ariaLabels.learnMore.priorityEnrollment
+                    }`,
+                  });
+                }}
                 ariaLabel={ariaLabels.learnMore.priorityEnrollment}
                 buttonId="priority-enrollments"
               />

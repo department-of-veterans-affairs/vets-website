@@ -76,17 +76,16 @@ export default function ContactFacilitiesPage() {
           <h1>{pageTitle}</h1>
           <InfoAlert
             backgroundOnly
-            headline="If you got your first dose:"
+            headline="Call to schedule your second dose"
             status="warning"
           >
+            <p>Here's what to know:</p>
             <ul>
+              <li>You must receive the same vaccine for both doses.</li>
               <li>
-                <strong>At a VA health facility,</strong> call that facility to
-                schedule your second dose.
-              </li>
-              <li>
-                <strong>Outside of VA,</strong> you'll need to go to the same
-                location to get your second dose.
+                We encourage you to go to the same location for both doses. But
+                even if you got your first dose outside of VA, you can go to any
+                VA facility that offers the same type of vaccine.
               </li>
             </ul>
           </InfoAlert>

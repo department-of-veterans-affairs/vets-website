@@ -263,6 +263,7 @@ const ItemLoop = ({
     onChange(newFormData);
     setEditing(prevState => [...prevState, 'add']);
     handleScroll(`table_${idSchema.$id}_${lastIndex + 1}`, 0);
+    formContext.onError(false);
   };
 
   const handleCancel = index => {

@@ -109,18 +109,14 @@ export default function EstimatedBenefits({
           <LearnMoreLabel
             text={title}
             onClick={() => {
+              recordEvent({
+                event: `Learn more clicked for ${learnMoreAriaLabel} test`,
+              });
+
               if (modal) {
                 dispatchShowModal(modal);
-                recordEvent({
-                  event: 'gibct-profile-help-text-clicked',
-                  'help-text-label': learnMoreAriaLabel,
-                });
               } else {
                 window.open(learnMoreLink, '_blank');
-                recordEvent({
-                  event: 'gibct-profile-help-text-clicked',
-                  'help-text-label': learnMoreAriaLabel,
-                });
               }
             }}
             ariaLabel={learnMoreAriaLabel}

@@ -1,7 +1,6 @@
 // Node modules.
 import React, { useState } from 'react';
 // Relative imports.
-import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 import recordEvent from 'platform/monitoring/record-event';
 
 export const Search = () => {
@@ -36,8 +35,9 @@ export const Search = () => {
 
   return (
     <form
-      className="header-search vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--1p5"
+      className="header-search vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding-x--1p5 vads-u-padding-bottom--2"
       onSubmit={onFormSubmit}
+      role="search"
     >
       <label
         className="vads-u-color--gray-dark vads-u-margin--0 vads-u-margin-top--2"
@@ -48,7 +48,6 @@ export const Search = () => {
 
       <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center">
         <input
-          aria-label="Enter a keyword"
           className="vads-u-width--full"
           id="header-search"
           name="query"
@@ -57,7 +56,11 @@ export const Search = () => {
           value={term}
         />
         <button className="vads-u-margin--0 vads-u-padding--0" type="submit">
-          <IconSearch color="#fff" />
+          <span className="usa-sr-only">Search</span>
+          <i
+            aria-hidden="true"
+            className="fa fa-search vads-u-color--white vads-u-font-size--base"
+          />
         </button>
       </div>
     </form>
