@@ -387,22 +387,23 @@ jobs:
         id: changed-files
         run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
 
-      - name: Set TESTS variable
-        run: node script/github-actions/select-cypress-tests.js
-        env:
-          IS_MASTER_BUILD: ${{ env.IS_MASTER_BUILD }}
-          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
-
-      - name: Set output of TESTS
-        id: tests
-        run: echo ::set-output name=selected::$TESTS
-
       - name: Get app URLs for header test
         id: get-changed-apps
         if: ${{ github.ref != 'refs/heads/master' }}
         run: echo ::set-output name=app_urls::$(node script/github-actions/get-changed-apps.js --output-type url)
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+
+      - name: Set TESTS variable
+        run: node script/github-actions/select-cypress-tests.js
+        env:
+          IS_MASTER_BUILD: ${{ env.IS_MASTER_BUILD }}
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+          APP_URLS: ${{ steps.get-changed-apps.outputs.app_urls }}
+
+      - name: Set output of TESTS
+        id: tests
+        run: echo ::set-output name=selected::$TESTS
 
   cypress-tests:
     name: Cypress E2E Tests

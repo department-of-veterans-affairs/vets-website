@@ -6,6 +6,7 @@ const { integrationFolder, testFiles } = require('../../config/cypress.json');
 const findImports = require('find-imports');
 
 const IS_MASTER_BUILD = process.env.IS_MASTER_BUILD === 'true';
+const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_URLS);
 
 function getImports(filePath) {
   return findImports(filePath, {
@@ -149,14 +150,21 @@ function selectedTests(graph, pathsOfChangedFiles) {
   });
 
   // Always run the tests in src/platform
-  const defaultTestsPattern = path.join(
-    __dirname,
-    '../..',
-    'src/platform',
-    '**/tests/**/*.cypress.spec.js?(x)',
-  );
+  if (!IS_CHANGED_APPS_BUILD) {
+    const defaultTestsPattern = path.join(
+      __dirname,
+      '../..',
+      'src/platform',
+      '**/tests/**/*.cypress.spec.js?(x)',
+    );
 
-  tests.push(...glob.sync(defaultTestsPattern));
+    tests.push(...glob.sync(defaultTestsPattern));
+  } else {
+    tests.push(
+      'src/platform/site-wide/mega-menu/tests/**/*.cypress.spec.js?(x)',
+    );
+  }
+
   return tests;
 }
 
