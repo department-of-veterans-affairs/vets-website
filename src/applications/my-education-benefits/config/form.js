@@ -1016,7 +1016,7 @@ const formConfig = {
             },
             [formFields.incorrectServiceHistoryExplanation]: {
               'ui:title':
-                'Please explain what is incorrect and/or incomplete about your service history. (250 character limit)',
+                'Please explain what is incorrect and/or incomplete about your service history (250 character limit)',
               'ui:options': {
                 expandUnder: 'view:serviceHistory',
                 hideIf: formData =>
