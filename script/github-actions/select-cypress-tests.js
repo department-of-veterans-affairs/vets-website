@@ -149,8 +149,13 @@ function selectedTests(graph, pathsOfChangedFiles) {
     tests.push(...glob.sync(selectedTestsPattern));
   });
 
-  // Always run the tests in src/platform
-  if (!IS_CHANGED_APPS_BUILD) {
+  // Only run the mega menu test for changed apps builds
+  // otherwise, run all tests in src/platform for full builds
+  if (IS_CHANGED_APPS_BUILD) {
+    tests.push(
+      'src/platform/site-wide/mega-menu/tests/**/*.cypress.spec.js?(x)',
+    );
+  } else {
     const defaultTestsPattern = path.join(
       __dirname,
       '../..',
@@ -159,10 +164,6 @@ function selectedTests(graph, pathsOfChangedFiles) {
     );
 
     tests.push(...glob.sync(defaultTestsPattern));
-  } else {
-    tests.push(
-      'src/platform/site-wide/mega-menu/tests/**/*.cypress.spec.js?(x)',
-    );
   }
 
   return tests;
