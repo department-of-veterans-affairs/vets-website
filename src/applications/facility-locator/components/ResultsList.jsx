@@ -200,16 +200,16 @@ export class ResultsList extends Component {
       return (
         <div>
           <va-loading-indicator
-            message={`Searching for ${facilityTypeName}
-            in ${searchString}`}
+            message={`Searching for ${facilityTypeName} in ${searchString}`}
           />
           <DelayedRender>
-            <va-alert
-              isVisible
-              status="info"
-              headline="Please wait"
-              content="Your results should appear in less than a minute. Thank you for your patience."
-            />
+            <va-alert visible status="info">
+              <h3 slot="headline">Please wait</h3>
+              <div>
+                Your results should appear in less than a minute. Thank you for
+                your patience.
+              </div>
+            </va-alert>
           </DelayedRender>
         </div>
       );
