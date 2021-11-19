@@ -26,12 +26,12 @@ You only need to follow these steps once:
 
    [for runName, do NOT use spaces. Use dashes/underscores instead to separate words.]
 
-1. IF launching CTH for the first time, gather your team-specific\* TestRail credentials:
+1. IF launching CTH for the first time, gather your team-specific\*\* TestRail credentials:
 
    - TestRail Username
    - TestRail API Key
 
-[See VSP's [Cypress to TestRail Reporter Configuration doc][vsp-cypress-testrail-reporter-doc] for details on Steps 1 & 4. NOTE: No need to `export` environment-variables; just copy the values somewhere so they're ready for input into CTH.]
+[See VSP's [Cypress to TestRail Reporter Configuration doc][vsp-cypress-testrail-reporter-doc] for details on Step 1\*. No need to `export` environment-variables; just copy the values somewhere so they're ready for input into CTH.]
 
 ## Usage
 
@@ -56,11 +56,12 @@ IF this app's not working, [open a Bug in va.gov-team GitHub repo][va-gov-team-n
 
 ---
 
-\*Your product-team should already be set up in TestRail -- check with your Product Manager. If your team's not set up, your PM should reach out to VSP for account creation.
-\*\*You only need to switch TestRail Projects if you need to run a _different_ product-team's Cypress spec. TestRail Projects are team-specific, and houses Test Cases/Plans/Runs/Results for all products assigned to the team.
+\*IF your spec uses VSP's Form Tester (`testForm()` method), when you get to creating test-cases, follow [this section][vsa-form-tester-integration] in VSA-QA docs.
+\*\*Your product-team should already be set up in TestRail -- check with your Product Manager. If your team's not set up, your PM should reach out to VSP for account creation.
 
 [npm-cy-tr-reporter]: https://www.npmjs.com/package/cy-tr-reporter
 [vsp-testrail-docs]: https://depo-platform-documentation.scrollhelp.site/developer-docs/How-to-use-TestRail.1600684126.html
+[vsa-form-tester-integration]: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/engineering/qa/testrail/vsa-qa-cypress-testrail.md#specs-with-testform-tests
 [dsvavsp-testrail]: https://dsvavsp.testrail.io/
 [vsp-cypress-testrail-reporter-doc]: https://depo-platform-documentation.scrollhelp.site/developer-docs/Cypress-to-TestRail-Reporter-Plugin-Configuration.1738047581.html
 [va-gov-team-new-bug]: https://github.com/department-of-veterans-affairs/va.gov-team/issues/new?assignees=&labels=bug&template=bug-issue.md&title=

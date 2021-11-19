@@ -1,3 +1,10 @@
+/**
+ * [TestRail-integrated] Spec for <spec description>
+ * @testrailinfo projectId 5
+ * @testrailinfo suiteId 6
+ * @testrailinfo groupId 2897
+ * @testrailinfo runName HLR-e2e-testForm
+ */
 import path from 'path';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
@@ -20,7 +27,11 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
-    dataSets: ['maximal-test-v1', 'minimal-test-v1', 'maximal-test-v2'],
+    dataSets: [
+      'maximal-test-v1-C12058',
+      'minimal-test-v1-C12238',
+      'maximal-test-v2-C12239',
+    ],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),

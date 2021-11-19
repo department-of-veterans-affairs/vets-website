@@ -528,8 +528,22 @@ const testForm = testConfig => {
 
     const extractTestData = testData => get(dataPrefix, testData, testData);
 
+    const getTestrailCaseIdSuffix = testKey => {
+      // Returns any TestRail Case ID (e.g. 'C1234') found at end of testKey string, or '' if not found.
+      const regex = RegExp('(?<=-)C\\d+$');
+      const match = regex.exec(testKey);
+      let suffix = '';
+
+      if (match) {
+        suffix = ` - ${match[0]}`;
+      }
+
+      return suffix;
+    };
+
     const createTestCase = testKey =>
       testCase(testKey, () => {
+        const testrailCaseIdSuffix = getTestrailCaseIdSuffix(testKey);
         beforeEach(() => {
           cy.wrap(testKey).as('testKey');
           cy.fixture(`${dataDir || fixtures.data}/${testKey}`)
@@ -538,7 +552,7 @@ const testForm = testConfig => {
             .then(setupPerTest);
         });
 
-        it('fills the form', () => {
+        it(`fills the form${testrailCaseIdSuffix}`, () => {
           cy.visit(rootUrl).injectAxe();
 
           cy.get(LOADING_SELECTOR)
