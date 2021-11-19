@@ -23,6 +23,6 @@ jobs:
       run: yarn build
     
     - name: Publish build artifacts to NPM
-      run: npm publish --access public --tolerate-republish
+      run: yarn npm publish --access public --tolerate-republish
       env:
         YARN_NPM_AUTH_TOKEN: ${{ secrets.YARN_NPM_AUTH_TOKEN }}
