@@ -62,14 +62,11 @@ jobs:
       - name: Audit URLs using Lighthouse on ${{ matrix.registry['rootUrl'] }}
         id: lighthouse-checks
         if: ${{ matrix.registry['rootUrl'] != '/health-care/health-questionnaires/questionnaires/answer-questions' && matrix.registry['rootUrl'] != '/health-care/health-questionnaires/questionnaires' }}
-        uses: Wandalen/wretry.action@v1.0.11
+        uses: treosh/lighthouse-ci-action@v8
         with:
-          action: treosh/lighthouse-ci-action@v8
-          with: |
-            urls: https://va.gov${{ matrix.registry['rootUrl'] }}
-            uploadArtifacts: true
-          attempt_limit: 3
-          attempt_delay: 2000
+          urls: |
+            https://va.gov${{ matrix.registry['rootUrl'] }}
+          uploadArtifacts: true # save results as an action artifacts
 
       - name: Upload lighthouse report (JSON)
         if: ${{ matrix.registry['rootUrl'] != '/health-care/health-questionnaires/questionnaires/answer-questions' && matrix.registry['rootUrl'] != '/health-care/health-questionnaires/questionnaires' }}
