@@ -66,6 +66,11 @@ export class ResultsList extends Component {
       const walkInsAccepted = Array.isArray(services)
         ? services[0]?.walkInsAccepted
         : 'false';
+
+      const showHealthConnectNumber =
+        result?.attributes?.visn === '8' && query?.facilityType === 'health'; // &&
+      // this.props.facilityLocatorShowHealthConnectNumber;
+
       switch (query.facilityType) {
         case 'health':
         case 'cemetery':
@@ -83,10 +88,7 @@ export class ResultsList extends Component {
                 showCovidVaccineWalkInAvailabilityText={
                   (walkInsAccepted || '').toLowerCase() === 'true'
                 }
-                showHealthConnectNumber={
-                  result?.attributes?.visn === '8' &&
-                  query?.facilityType === 'health'
-                }
+                showHealthConnectNumber={showHealthConnectNumber}
               />
             ) : (
               <VaFacilityResult
@@ -94,10 +96,7 @@ export class ResultsList extends Component {
                 query={query}
                 key={result.id}
                 index={index}
-                showHealthConnectNumber={
-                  result?.attributes?.visn === '8' &&
-                  query?.facilityType === 'health'
-                }
+                showHealthConnectNumber={showHealthConnectNumber}
               />
             );
           break;
@@ -314,8 +313,8 @@ function mapStateToProps(state) {
     selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
     showCovidVaccineSchedulingLinks: covidVaccineSchedulingFrontend(state),
-    showHealthConnectNumber: toggleValues(state)[
-      FEATURE_FLAG_NAMES.facility_locator_show_health_connect_number
+    facilityLocatorShowHealthConnectNumber: toggleValues(state)[
+      FEATURE_FLAG_NAMES.facilityLocatorShowHealthConnectNumber
     ],
   };
 }
