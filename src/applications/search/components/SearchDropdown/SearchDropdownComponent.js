@@ -464,8 +464,10 @@ class SearchDropdownComponent extends React.Component {
     const suggestionsCount = suggestions?.length;
     if (
       !isOpen &&
-      (!document.getElementById(`${this.props.id}-input-field`).hasFocus() ||
-        !document.getElementById(`${this.props.id}-submit-button`).hasFocus())
+      (document.activeElement !==
+        document.getElementById(`${this.props.id}-input-field`) ||
+        document.activeElement !==
+          document.getElementById(`${this.props.id}-submit-button`))
     ) {
       this.setState({
         a11yStatusMessage: '',
