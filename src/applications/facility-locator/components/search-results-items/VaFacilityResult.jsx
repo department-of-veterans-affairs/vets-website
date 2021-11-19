@@ -65,6 +65,7 @@ VaFacilityResult.propTypes = {
   location: PropTypes.object,
   query: PropTypes.object,
   index: PropTypes.number,
+  showHealthConnectNumber: PropTypes.string,
 };
 
 export default VaFacilityResult;

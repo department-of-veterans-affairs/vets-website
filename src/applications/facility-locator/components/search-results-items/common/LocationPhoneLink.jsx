@@ -97,6 +97,7 @@ LocationPhoneLink.propTypes = {
   location: PropTypes.object,
   from: PropTypes.string,
   query: PropTypes.object,
+  showHealthConnectNumber: PropTypes.string,
 };
 
 export default LocationPhoneLink;
