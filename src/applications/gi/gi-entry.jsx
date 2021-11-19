@@ -7,23 +7,17 @@ import { buildRoutes } from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';
 
-import { buildRoutes as redesignedRoutes } from '../gi-sandbox/routes';
+import { buildRoutes as buildRedesignedRoutes } from '../gi-sandbox/routes';
 import redesignedReducer from '../gi-sandbox/reducers';
 
 const redesignFlag = toggleValues(0).gi_sandbox_comparision_tool_toggle;
+const page = redesignFlag
+  ? { reducer: redesignedReducer, routes: buildRedesignedRoutes() }
+  : { reducer, routes: buildRoutes() };
 
-startApp(
-  redesignFlag
-    ? {
-        url: manifest.rootUrl,
-        routes: redesignedRoutes(),
-        reducer: redesignedReducer,
-        entryName: manifest.entryName,
-      }
-    : {
-        url: manifest.rootUrl,
-        routes: buildRoutes(),
-        reducer,
-        entryName: manifest.entryName,
-      },
-);
+startApp({
+  url: manifest.rootUrl,
+  entryName: manifest.entryName,
+  reducer: page.reducer,
+  routes: page.routes,
+});
