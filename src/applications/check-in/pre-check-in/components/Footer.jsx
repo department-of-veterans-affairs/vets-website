@@ -1,4 +1,5 @@
 import React from 'react';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 const Footer = () => (
   <footer>
@@ -20,11 +21,11 @@ const Footer = () => (
         need help with the form,
       </span>{' '}
       please call our MyVA411 main information line at{' '}
-      <a href="tel:1-800-698-2411">800-698-2411</a> and select 0. We’re here
-      24/7.
+      <Telephone contact="8006982411" /> and select 0. We’re here 24/7.
     </p>
     <p>
-      If you have hearing loss, call <a href="tel:711">TTY: 711</a>.
+      If you have hearing loss, call{' '}
+      <Telephone contact="711">TTY: 711</Telephone>.
     </p>
   </footer>
 );

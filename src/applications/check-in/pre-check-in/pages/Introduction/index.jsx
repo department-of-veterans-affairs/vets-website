@@ -5,6 +5,8 @@ import Footer from '../../components/Footer';
 import { focusElement } from 'platform/utilities/ui';
 import { format, add } from 'date-fns';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+
 // @TODO Add routing to button once routing merged in. Remove appointments once mock API merged in. Resolve answers to questions for UX team. Add unit test for intro.
 const Introduction = () => {
   useEffect(() => {
@@ -115,12 +117,12 @@ const Introduction = () => {
         </p>
         <ul>
           <li>
-            Call <a href="tel:911">911</a>,{' '}
+            Call <Telephone contact="911" />,{' '}
             <span className="vads-u-font-weight--bold">or</span>
           </li>
           <li>
             Call the Veterans Crisis hotline at{' '}
-            <a href="tel:1-800-273-8255">800-273-8255</a> and select 1
+            <Telephone contact="8002738255" /> and select 1
           </li>
         </ul>
       </va-featured-content>
