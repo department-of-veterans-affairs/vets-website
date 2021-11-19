@@ -195,7 +195,6 @@ export class ResultsList extends Component {
     } = this.props;
 
     const currentPage = pagination ? pagination.currentPage : 1;
-
     if (inProgress) {
       return (
         <div>
