@@ -133,6 +133,7 @@ class SearchDropdownComponent extends React.Component {
     inputClassName: '',
     suggestionsListClassName: '',
     suggestionClassName: '',
+    fetchingSuggestions: false,
   };
 
   constructor(props) {
@@ -231,9 +232,9 @@ class SearchDropdownComponent extends React.Component {
   // call the fetchSuggestions prop and save the returned value into state
   fetchSuggestions = async inputValue => {
     const { fetchSuggestions } = this.props;
-
+    this.setState({ fetchingSuggestions: true });
     const suggestions = await fetchSuggestions(inputValue);
-    this.setState({ suggestions });
+    this.setState({ suggestions, fetchingSuggestions: false });
   };
 
   // handle blur logic
@@ -452,7 +453,13 @@ class SearchDropdownComponent extends React.Component {
 
   // derive the ally status message for screen reade
   setA11yStatusMessage = () => {
-    const { isOpen, suggestions, activeIndex, inputValue } = this.state;
+    const {
+      isOpen,
+      suggestions,
+      activeIndex,
+      inputValue,
+      fetchingSuggestions,
+    } = this.state;
 
     const suggestionsCount = suggestions?.length;
     if (
@@ -483,7 +490,7 @@ class SearchDropdownComponent extends React.Component {
       return;
     }
 
-    if (!suggestionsCount && inputValue?.length > 3) {
+    if (!suggestionsCount && inputValue?.length > 3 && !fetchingSuggestions) {
       this.setState({
         a11yStatusMessage: 'No suggestions are available.',
       });
