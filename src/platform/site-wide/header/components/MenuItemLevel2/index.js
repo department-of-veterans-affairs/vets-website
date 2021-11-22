@@ -1,21 +1,42 @@
 // Node modules.
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
+import recordEvent from 'platform/monitoring/record-event';
 import { deriveMenuItemID, formatMenuItems } from '../../helpers';
 import { updateSubMenuAction } from '../../containers/Menu/actions';
 
-export const MenuItemLevel2 = ({ item, updateSubMenu }) => {
+export const MenuItemLevel2 = ({ item, lastClickedMenuID, updateSubMenu }) => {
+  // Derive the menu item's ID.
+  const menuItemID = deriveMenuItemID(item, '2');
+
+  // Derive if we the menu item is expanded.
+  const shouldFocus = menuItemID === lastClickedMenuID;
+
+  // Focus item if last clicked when coming back from SubMenu.
+  useEffect(
+    () => {
+      if (shouldFocus) {
+        document.getElementById(menuItemID)?.focus?.();
+      }
+    },
+    [shouldFocus, menuItemID],
+  );
+
   // Do not render if we are missing necessary menu item data.
   if (!item?.links && !item?.href && !item?.title) {
     return null;
   }
 
-  // Derive the menu item's ID.
-  const menuItemID = deriveMenuItemID(item, '2');
+  const toggleShowItems = title => () => {
+    // Record event.
+    recordEvent({
+      event: 'nav-header-second-level',
+      'nav-header-action': `Navigation - Header - Open Second Level - ${title}`,
+    });
 
-  const toggleShowItems = () => {
+    // Update the sub menu.
     updateSubMenu({
       id: menuItemID,
       menuSections: formatMenuItems(item?.links),
@@ -48,8 +69,7 @@ export const MenuItemLevel2 = ({ item, updateSubMenu }) => {
         <button
           className="header-menu-item-button vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
           id={menuItemID}
-          onKeyDown={event => event.keyCode === 13 && toggleShowItems()}
-          onMouseUp={toggleShowItems}
+          onClick={toggleShowItems(item?.title)}
           type="button"
         >
           {item?.title}
@@ -145,15 +165,21 @@ MenuItemLevel2.propTypes = {
       }),
     }),
   ]),
+  // From mapStateToProps.
+  lastClickedMenuID: PropTypes.string,
   // From mapDispatchToProps.
   updateSubMenu: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = state => ({
+  lastClickedMenuID: state.headerMenuReducer.lastClickedMenuID,
+});
 
 const mapDispatchToProps = dispatch => ({
   updateSubMenu: subMenu => dispatch(updateSubMenuAction(subMenu)),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(MenuItemLevel2);

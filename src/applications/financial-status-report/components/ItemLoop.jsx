@@ -118,14 +118,13 @@ const InputSection = ({
             onBlur={onBlur}
             registry={registry}
             onChange={value => handleChange(index, value)}
-            required={false}
           />
           <div className="row small-collapse">
             <div className="small-4 left columns button-group">
               <button
                 type="button"
                 className="float-left"
-                onClick={() => handleSave(index)}
+                onClick={() => handleSave(index, itemSchema)}
                 aria-label={`${buttonText} ${title}`}
               >
                 {buttonText}
@@ -237,8 +236,12 @@ const ItemLoop = ({
     handleScroll(`table_${idSchema.$id}_${index}`, 0);
   };
 
-  const handleSave = index => {
-    if (!errorSchemaIsValid(errorSchema[index])) {
+  const handleSave = (index, itemSchema) => {
+    const isRequired = itemSchema.required?.length;
+    const isUndefined = Object.values(items[index]).includes(undefined);
+    const disableSave = !isRequired && isUndefined;
+
+    if (disableSave || !errorSchemaIsValid(errorSchema[index])) {
       formContext.onError();
     } else {
       const editData = editing.map(() => false);
@@ -260,6 +263,7 @@ const ItemLoop = ({
     onChange(newFormData);
     setEditing(prevState => [...prevState, 'add']);
     handleScroll(`table_${idSchema.$id}_${lastIndex + 1}`, 0);
+    formContext.onError(false);
   };
 
   const handleCancel = index => {

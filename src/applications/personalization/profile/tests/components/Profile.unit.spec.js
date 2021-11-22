@@ -287,6 +287,7 @@ describe('mapStateToProps', () => {
       'shouldShowDirectDeposit',
       'shouldShowNotificationSettings',
       'isDowntimeWarningDismissed',
+      'shouldShowProfileLGBTQEnhancements',
     ];
     expect(Object.keys(props)).to.deep.equal(expectedKeys);
   });

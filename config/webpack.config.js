@@ -294,6 +294,7 @@ module.exports = async (env = {}) => {
             options: {
               // Speed up compilation.
               cacheDirectory: '.babelcache',
+              cacheCompression: false,
               // Also see .babelrc
             },
           },

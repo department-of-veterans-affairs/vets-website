@@ -3,21 +3,20 @@ import { useSelector } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import { makeSelectFeatureToggles } from '../hooks/selectors';
-import environment from 'platform/utilities/environment';
+import { makeSelectFeatureToggles } from '../selectors';
 
 const withFeatureFlip = Component => {
   return props => {
     const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
     const featureToggles = useSelector(selectFeatureToggles);
-    const { isLoadingFeatureFlags } = featureToggles;
+    const { isLoadingFeatureFlags, isPreCheckInEnabled } = featureToggles;
     if (isLoadingFeatureFlags) {
       return (
         <>
           <LoadingIndicator message="Loading your pre check in experience" />
         </>
       );
-    } else if (environment.isProduction()) {
+    } else if (!isPreCheckInEnabled) {
       window.location.replace('/');
       return <></>;
     } else {

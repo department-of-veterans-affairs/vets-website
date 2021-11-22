@@ -75,7 +75,7 @@ export const unsureDescription = (
 
 export const post911GiBillNote = (
   <div className="usa-alert background-color-only">
-    <h3>You’re applying for the Post-9/11 GI BIll®</h3>
+    <h3>You’re applying for the Post-9/11 GI Bill®</h3>
     <p>
       At this time, you can only apply for the Post-9/11 GI Bill (Chapter 33)
       benefits through this application. Doing so will require that you give up

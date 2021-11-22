@@ -18,7 +18,9 @@
         "identity-proofed",
         "vet360",
         "evss_common_client",
-        "claim_increase"
+        "claim_increase",
+        "user-profile",
+        "vet360"
       ],
       "account": { "accountUuid": "c049d895-ecdf-40a4-ac0f-7947a06ea0c2" },
       "profile": {

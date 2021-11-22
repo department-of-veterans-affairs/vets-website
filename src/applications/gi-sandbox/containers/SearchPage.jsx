@@ -14,6 +14,7 @@ import AccordionItem from '../components/AccordionItem';
 import { getSearchQueryChanged, updateUrlParams } from '../selectors/search';
 import classNames from 'classnames';
 import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
+import recordEvent from 'platform/monitoring/record-event';
 
 export function SearchPage({
   dispatchChangeSearchTab,
@@ -58,6 +59,9 @@ export function SearchPage({
   };
 
   const tabChange = selectedTab => {
+    recordEvent({
+      event: `Search By ${selectedTab} tab clicked`,
+    });
     dispatchChangeSearchTab(selectedTab);
     queryParams.set('search', selectedTab);
     history.push({ pathname: '/', search: queryParams.toString() });
@@ -112,16 +116,24 @@ export function SearchPage({
                   <AccordionItem
                     button="Search by name"
                     expanded={accordions[TABS.name]}
-                    onClick={expanded => accordionChange(TABS.name, expanded)}
+                    onClick={expanded => {
+                      accordionChange(TABS.name, expanded);
+                      recordEvent({
+                        event: `Search By Name tab clicked`,
+                      });
+                    }}
                   >
                     <NameSearchForm smallScreen />
                   </AccordionItem>
                   <AccordionItem
                     button="Search by location"
                     expanded={accordions[TABS.location]}
-                    onClick={expanded =>
-                      accordionChange(TABS.location, expanded)
-                    }
+                    onClick={expanded => {
+                      recordEvent({
+                        event: `Search By Location tab clicked`,
+                      });
+                      accordionChange(TABS.location, expanded);
+                    }}
                   >
                     <LocationSearchForm smallScreen />
                   </AccordionItem>
