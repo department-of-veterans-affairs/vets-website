@@ -133,6 +133,7 @@ class SearchDropdownComponent extends React.Component {
     inputClassName: '',
     suggestionsListClassName: '',
     suggestionClassName: '',
+    fetchingSuggestions: false,
   };
 
   constructor(props) {
@@ -231,9 +232,9 @@ class SearchDropdownComponent extends React.Component {
   // call the fetchSuggestions prop and save the returned value into state
   fetchSuggestions = async inputValue => {
     const { fetchSuggestions } = this.props;
-
+    this.setState({ fetchingSuggestions: true });
     const suggestions = await fetchSuggestions(inputValue);
-    this.setState({ suggestions });
+    this.setState({ suggestions, fetchingSuggestions: false });
   };
 
   // handle blur logic
@@ -368,11 +369,15 @@ class SearchDropdownComponent extends React.Component {
 
     // when the tab key is pressed, close the suggestions list and select the search button
     if (currentKeyPress === Keycodes.Tab) {
+      // if focused on the input field and press shift + tab, close the menu and allow default behavior
       if (activeIndex === undefined && event.shiftKey) {
         this.updateMenuState(false, false);
         return;
       }
+
+      // each of the below events should override default tab behavior
       event.preventDefault();
+
       // if in the dropdown options and press shift+tab, close the suggestions and focus the input bar
       if (event.shiftKey && activeIndex !== undefined) {
         this.setState({ activeIndex: undefined }, () => {
@@ -388,6 +393,7 @@ class SearchDropdownComponent extends React.Component {
       }
 
       // else if on the input bar and you press tab, focus the button
+      this.setState({ savedSuggestions: suggestions, suggestions: [] });
       document.getElementById(`${this.props.id}-submit-button`).focus();
     }
   };
@@ -422,7 +428,6 @@ class SearchDropdownComponent extends React.Component {
       activeIndex: undefined,
       savedSuggestions: suggestions,
     });
-    this.fetchSuggestions(inputValue);
   }
 
   setA11yDescriptionFlag = value => {
@@ -450,15 +455,42 @@ class SearchDropdownComponent extends React.Component {
     this.setState({ savedSuggestions: suggestions });
   };
 
+  // handle shift tabbing to reset suggestions list
+  handleButtonShift = event => {
+    const { savedSuggestions } = this.state;
+    const { id } = this.props;
+    const currentKeyPress = event.which || event.keycode;
+    if (event.shiftKey && currentKeyPress === Keycodes.Tab) {
+      event.preventDefault();
+      this.setState(
+        {
+          suggestions: savedSuggestions,
+          savedSuggestions: [],
+        },
+        () => {
+          document.getElementById(`${id}-input-field`).focus();
+        },
+      );
+    }
+  };
+
   // derive the ally status message for screen reade
   setA11yStatusMessage = () => {
-    const { isOpen, suggestions, activeIndex, inputValue } = this.state;
+    const {
+      isOpen,
+      suggestions,
+      activeIndex,
+      inputValue,
+      fetchingSuggestions,
+    } = this.state;
 
     const suggestionsCount = suggestions?.length;
     if (
       !isOpen &&
-      (!document.getElementById(`${this.props.id}-input-field`).hasFocus() ||
-        !document.getElementById(`${this.props.id}-submit-button`).hasFocus())
+      (document.activeElement !==
+        document.getElementById(`${this.props.id}-input-field`) ||
+        document.activeElement !==
+          document.getElementById(`${this.props.id}-submit-button`))
     ) {
       this.setState({
         a11yStatusMessage: '',
@@ -483,7 +515,7 @@ class SearchDropdownComponent extends React.Component {
       return;
     }
 
-    if (!suggestionsCount && inputValue?.length > 3) {
+    if (!suggestionsCount && inputValue?.length > 3 && !fetchingSuggestions) {
       this.setState({
         a11yStatusMessage: 'No suggestions are available.',
       });
@@ -674,9 +706,9 @@ class SearchDropdownComponent extends React.Component {
               tabIndex="0"
               onClick={() => onInputSubmit(this.state)}
               onFocus={() => {
-                this.saveSuggestions();
                 this.updateMenuState(false, false);
               }}
+              onKeyDown={this.handleButtonShift}
             >
               <IconSearch color="#fff" />
               <span className="usa-sr-only">Search</span>
