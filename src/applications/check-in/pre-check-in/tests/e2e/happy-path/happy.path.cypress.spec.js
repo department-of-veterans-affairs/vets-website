@@ -12,7 +12,7 @@ describe('Pre-Check In Experience ', () => {
     });
   });
   it('Happy Path', () => {
-    cy.visitWithUUID();
+    cy.visitPrCheckInWithUUID();
     // page: Validate
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
