@@ -4,17 +4,17 @@ import { VaTextInput } from 'web-components/react-bindings';
 
 export default function ValidateDisplay({
   header = 'Check in at VA',
-  subTitle = 'We need some information to verify your identity so we can check you in.',
+  subtitle = 'We need some information to verify your identity so we can check you in.',
   validateHandler,
   isLoading,
-  lastNameInput: { lastNameErrorMessage, setLastName, lastName },
-  last4Input: { last4ErrorMessage, setLast4Ssn, last4Ssn },
+  lastNameInput: { lastNameErrorMessage, setLastName, lastName } = {},
+  last4Input: { last4ErrorMessage, setLast4Ssn, last4Ssn } = {},
   Footer,
 }) {
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
       <h1>{header}</h1>
-      <p>{subTitle}</p>
+      <p>{subtitle}</p>
       <form className="vads-u-margin-bottom--2p5" onSubmit={() => false}>
         <VaTextInput
           autoCorrect="false"
@@ -25,6 +25,7 @@ export default function ValidateDisplay({
           required
           spellCheck="false"
           value={lastName}
+          data-testid="last-name-input"
         />
         <VaTextInput
           error={last4ErrorMessage}
@@ -35,6 +36,7 @@ export default function ValidateDisplay({
           name="last-4-ssn"
           required
           value={last4Ssn}
+          data-testid="last-4-input"
         />
       </form>
       <button
