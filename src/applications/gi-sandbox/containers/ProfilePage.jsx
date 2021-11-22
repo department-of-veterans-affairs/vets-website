@@ -50,7 +50,7 @@ export function ProfilePage({
   useEffect(
     () => {
       if (institutionName) {
-        document.title = `${institutionName}: GI Bill® Comparison Tool`;
+        document.title = `${institutionName}: GI Bill® Comparison Tool | Veterans Affairs`;
       }
     },
     [institutionName],

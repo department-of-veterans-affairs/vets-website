@@ -2,6 +2,7 @@ import moment from 'moment';
 import {
   sumValues,
   dateFormatter,
+  getFsrReason,
   getMonthlyIncome,
   getMonthlyExpenses,
   getEmploymentHistory,
@@ -111,14 +112,13 @@ export const transform = (formConfig, form) => {
   const totMonthlyExpenses = getMonthlyExpenses(form.data);
   const employmentHistory = getEmploymentHistory(form.data);
   const totalAssets = getTotalAssets(form.data);
+  const fsrReason = getFsrReason(selectedDebts);
 
   const submissionObj = {
     personalIdentification: {
       ssn: personalIdentification.ssn,
       fileNumber: personalIdentification.fileNumber,
-      fsrReason: selectedDebts
-        .map(({ resolution }) => resolution.resolutionType)
-        .join(', '),
+      fsrReason,
     },
     personalData: {
       veteranFullName: {

@@ -48,7 +48,7 @@ jobs:
 
       - name: Get app entries for changed files
         id: get-changed-apps
-        if: ${{ github.ref != 'refs/heads/master' && matrix.buildtype == 'vagovdev' }}
+        if: ${{ github.ref != 'refs/heads/master' && matrix.buildtype != 'vagovprod' }}
         run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
@@ -749,7 +749,7 @@ jobs:
           TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
           TEST_RESULTS_TABLE_NAME: cypress_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
-
+          TEST_RETRIES_TABLE_NAME: cypress_retry_records
           # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
 
       - name: Upload Cypress E2E test videos to s3
@@ -781,7 +781,15 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
-    needs: [build, cypress-tests, unit-tests, contract-tests, security-audit, linting]
+    needs:
+      [
+        build,
+        cypress-tests,
+        unit-tests,
+        contract-tests,
+        security-audit,
+        linting,
+      ]
 
     # Archive should still run even when linting is skipped (as in PRs).
     # This if overrides the dependency on linting success to include skipped.
