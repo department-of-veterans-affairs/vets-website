@@ -6,7 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { goToNextPage, URLS } from '../utils/navigation';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
-import DemographicItem from '../components/DemographicItem';
+import DemographicItem from '../../components/DemographicItem';
 import { seeStaffMessageUpdated } from '../actions';
 
 const Demographics = props => {
