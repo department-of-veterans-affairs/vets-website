@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import DebtCardsList from '../components/DebtCardsList';
 
@@ -169,7 +169,12 @@ describe('DebtLettersSummary', () => {
   });
   it('renders correct number of debt cards', () => {
     const wrapper = shallow(<DebtCardsList store={fakeStore} />);
-    expect(wrapper.dive().find(`Connect(DebtLetterCard)`).length).to.equal(4);
+    expect(
+      wrapper
+        .dive()
+        .dive()
+        .find(`Connect(DebtLetterCard)`).length,
+    ).to.equal(4);
     wrapper.unmount();
   });
   it('renders correct empty state', () => {
@@ -196,9 +201,11 @@ describe('DebtLettersSummary', () => {
     expect(
       wrapper
         .dive()
-        .find('h4')
+        .dive()
+        .find('h3')
+        .at(0)
         .text(),
-    ).to.equal("Our records show that you don't have any current debts");
+    ).to.equal('Our records show that you don’t have any current debts');
     wrapper.unmount();
   });
 });

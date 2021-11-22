@@ -8,20 +8,37 @@ let mockQuestion;
 let mockRecordStart;
 let mockOptionsConfig;
 let mockSetQuestionValue;
-let mockclearQuestionValues;
+let mockClearQuestionValues;
+let mockSelectedLanguage;
 
 beforeEach(() => {
   mockQuestion = {
     id: 'sample1',
-    text: 'this is question sample1 text',
+    text: {
+      en: 'this is question sample1 text',
+      es: 'este es el texto de la pregunta sample1',
+    },
   };
   mockRecordStart = () => {};
   mockOptionsConfig = [
-    { optionValue: 'yes', optionText: 'Yes' },
-    { optionValue: 'no', optionText: 'No' },
+    {
+      optionValue: 'yes',
+      optionText: {
+        en: 'Yes',
+        es: 'Sí',
+      },
+    },
+    {
+      optionValue: 'no',
+      optionText: {
+        en: 'No',
+        es: 'No',
+      },
+    },
   ];
   mockSetQuestionValue = () => {};
-  mockclearQuestionValues = () => {};
+  mockClearQuestionValues = () => {};
+  mockSelectedLanguage = 'es';
 });
 
 describe('coronavirus-screener', () => {
@@ -33,10 +50,13 @@ describe('coronavirus-screener', () => {
           recordStart={mockRecordStart}
           optionsConfig={mockOptionsConfig}
           setQuestionValue={mockSetQuestionValue}
-          clearQuestionValues={mockclearQuestionValues}
+          clearQuestionValues={mockClearQuestionValues}
+          selectedLanguage={mockSelectedLanguage}
         />,
       );
-      expect(wrapper.find('h2').text()).to.equal(mockQuestion.text);
+      expect(wrapper.find('h2').text()).to.equal(
+        mockQuestion.text[mockSelectedLanguage],
+      );
       wrapper.unmount();
     });
     it('sets button class when no option is selected', () => {
@@ -46,7 +66,7 @@ describe('coronavirus-screener', () => {
           recordStart={mockRecordStart}
           optionsConfig={mockOptionsConfig}
           setQuestionValue={mockSetQuestionValue}
-          clearQuestionValues={mockclearQuestionValues}
+          clearQuestionValues={mockClearQuestionValues}
         />,
       );
       expect(wrapper.find('.usa-button-secondary')).to.have.lengthOf(2);
@@ -64,7 +84,7 @@ describe('coronavirus-screener', () => {
           recordStart={mockRecordStart}
           optionsConfig={mockOptionsConfig}
           setQuestionValue={mockSetQuestionValue}
-          clearQuestionValues={mockclearQuestionValues}
+          clearQuestionValues={mockClearQuestionValues}
         />,
       );
       expect(wrapper.find('.usa-button')).to.have.lengthOf(1);
@@ -90,7 +110,7 @@ describe('coronavirus-screener', () => {
           recordStart={mockRecordStart}
           optionsConfig={mockOptionsConfig}
           setQuestionValue={setQuestionValueSpy}
-          clearQuestionValues={mockclearQuestionValues}
+          clearQuestionValues={mockClearQuestionValues}
         />,
       );
 

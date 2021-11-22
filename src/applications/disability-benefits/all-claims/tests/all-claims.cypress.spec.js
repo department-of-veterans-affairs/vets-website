@@ -4,9 +4,30 @@ import moment from 'moment';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
+import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
+import mockInProgress from './fixtures/mocks/in-progress-forms.json';
+import mockLocations from './fixtures/mocks/separation-locations.json';
+import mockPayment from './fixtures/mocks/payment-information.json';
+import mockSubmit from './fixtures/mocks/application-submit.json';
+import mockUpload from './fixtures/mocks/document-upload.json';
+import mockUser from './fixtures/mocks/user.json';
+
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { mockItf } from './all-claims.cypress.helpers';
+import {
+  MOCK_SIPS_API,
+  WIZARD_STATUS,
+  FORM_STATUS_BDD,
+  SHOW_8940_4192,
+  SAVED_SEPARATION_DATE,
+} from '../constants';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
+
+const todayPlus120 = moment()
+  .add(120, 'days')
+  .format('YYYY-M-D')
+  .split('-');
 
 const testConfig = createTestConfig(
   {
@@ -15,9 +36,9 @@ const testConfig = createTestConfig(
     dataSets: [
       'full-781-781a-8940-test.json',
       'maximal-test',
-      'maximal-bdd-test',
+      // 'maximal-bdd-test',
       'minimal-test',
-      'minimal-bdd-test',
+      // 'minimal-bdd-test',
       'newOnly-test',
       'secondary-new-test.json',
       'upload-781-781a-8940-test.json',
@@ -25,13 +46,25 @@ const testConfig = createTestConfig(
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
-      mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
 
     pageHooks: {
-      introduction: ({ afterHook }) => {
-        afterHook(() => {
-          // Hit the start button
+      start: () => {
+        // skip wizard
+        cy.findByText(/apply now/i).click();
+      },
+
+      introduction: () => {
+        cy.get('@testData').then(data => {
+          if (data['view:isBddData']) {
+            window.sessionStorage.setItem(
+              SAVED_SEPARATION_DATE,
+              todayPlus120.join('-'),
+            );
+          } else {
+            window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
+          }
+          // Start form
           cy.findAllByText(/start/i, { selector: 'button' })
             .first()
             .click();
@@ -47,19 +80,42 @@ const testConfig = createTestConfig(
         cy.get('@testData').then(data => {
           cy.fillPage();
           if (data['view:isBddData']) {
-            const date = moment()
-              .add(120, 'days')
-              .format('YYYY-M-D')
-              .split('-');
-            cy.get('select[name$="_dateRange_toMonth"]').select(date[1]);
-            cy.get('select[name$="_dateRange_toDay"]').select(date[2]);
+            cy.get('select[name$="_dateRange_toMonth"]').select(
+              todayPlus120[1],
+            );
+            cy.get('select[name$="_dateRange_toDay"]').select(todayPlus120[2]);
             cy.get('input[name$="_dateRange_toYear"]')
               .clear()
-              .type(date[0]);
-            cy.get('input[name$="_separationLocation"]')
-              .type(data.serviceInformation.separationLocation)
-              .blur();
+              .type(todayPlus120[0]);
           }
+        });
+      },
+
+      'review-veteran-details/military-service-history/federal-orders': () => {
+        cy.get('@testData').then(data => {
+          cy.fillPage();
+          if (
+            data.serviceInformation.reservesNationalGuardService[
+              'view:isTitle10Activated'
+            ]
+          ) {
+            // active title 10 activation puts this into BDD flow
+            cy.get('select[name$="SeparationDateMonth"]').select(
+              todayPlus120[1],
+            );
+            cy.get('select[name$="SeparationDateDay"]').select(todayPlus120[2]);
+            cy.get('input[name$="SeparationDateYear"]')
+              .clear()
+              .type(todayPlus120[0]);
+          }
+        });
+      },
+
+      'review-veteran-details/separation-location': () => {
+        cy.get('@testData').then(data => {
+          cy.get(
+            'input[name="root_serviceInformation_separationLocation"]',
+          ).type(data.serviceInformation.separationLocation.label);
         });
       },
 
@@ -89,36 +145,38 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
-      cy.login();
+      window.sessionStorage.setItem(SHOW_8940_4192, 'true');
+      window.sessionStorage.removeItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+      window.sessionStorage.removeItem(FORM_STATUS_BDD);
 
-      cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
+      cy.login(mockUser);
+
+      cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
 
       // `mockItf` is not a fixture; it can't be loaded as a fixture
       // because fixtures don't evaluate JS.
-      cy.route('GET', '/v0/intent_to_file', mockItf);
+      cy.intercept('GET', '/v0/intent_to_file', mockItf);
 
-      cy.route('PUT', '/v0/in_progress_forms/*', 'fx:mocks/in-progress-forms');
+      cy.intercept('PUT', `${MOCK_SIPS_API}*`, mockInProgress);
 
-      cy.route(
+      cy.intercept(
         'GET',
-        '/v0/ppiu/payment_information',
-        'fx:mocks/payment-information',
+        '/v0/disability_compensation_form/separation_locations',
+        mockLocations,
       );
 
-      cy.route(
-        'POST',
-        '/v0/upload_supporting_evidence',
-        'fx:mocks/document-upload',
-      );
+      cy.intercept('GET', '/v0/ppiu/payment_information', mockPayment);
 
-      cy.route(
+      cy.intercept('POST', '/v0/upload_supporting_evidence', mockUpload);
+
+      cy.intercept(
         'POST',
         '/v0/disability_compensation_form/submit_all_claim',
-        'fx:mocks/application-submit',
+        mockSubmit,
       );
 
       // Stub submission status for immediate transition to confirmation page.
-      cy.route(
+      cy.intercept(
         'GET',
         '/v0/disability_compensation_form/submission_status/*',
         '',
@@ -131,7 +189,7 @@ const testConfig = createTestConfig(
           ({ 'view:selected': _, ...obj }) => obj,
         );
 
-        cy.route('GET', 'v0/in_progress_forms/21-526EZ', {
+        cy.intercept('GET', `${MOCK_SIPS_API}*`, {
           formData: {
             veteran: {
               primaryPhone: '4445551212',
@@ -148,7 +206,7 @@ const testConfig = createTestConfig(
       });
     },
 
-    skip: ['maximal-bdd-test', 'minimal-bdd-test'],
+    // skip: [],
   },
   manifest,
   formConfig,

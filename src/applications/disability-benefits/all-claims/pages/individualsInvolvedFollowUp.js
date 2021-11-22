@@ -5,7 +5,6 @@ import {
   personDescriptionText,
 } from '../content/individualsInvolved';
 import IndividualsInvolvedCard from '../components/IndividualsInvolvedCard';
-import fullNameUI from 'platform/forms/definitions/fullName';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
@@ -37,7 +36,23 @@ export const uiSchema = index => ({
           'injuryDeathOther',
           'view:individualAddMsg',
         ],
-        name: fullNameUI,
+        name: {
+          first: {
+            'ui:title': 'First name',
+            'ui:errorMessages': {
+              required: 'Please enter a first name',
+            },
+          },
+          last: {
+            'ui:title': 'Last name',
+            'ui:errorMessages': {
+              required: 'Please enter a last name',
+            },
+          },
+          middle: {
+            'ui:title': 'Middle name',
+          },
+        },
         description: {
           'ui:title': personDescriptionText,
           'ui:widget': 'textarea',

@@ -11,7 +11,10 @@ describe('<ClaimEstimate>', () => {
       .startOf('day')
       .add(2, 'days');
     const tree = SkinDeep.shallowRender(
-      <ClaimEstimate maxDate={date.format('YYYY-MM-DD')} />,
+      <ClaimEstimate
+        maxDate={date.format('YYYY-MM-DD')}
+        showCovidMessage={false}
+      />,
     );
     expect(tree.text()).to.contain(
       `Estimated date: ${date.format('MMM D, YYYY')}`,
@@ -25,14 +28,19 @@ describe('<ClaimEstimate>', () => {
       .startOf('day')
       .subtract(2, 'days');
     const tree = SkinDeep.shallowRender(
-      <ClaimEstimate maxDate={date.format('YYYY-MM-DD')} />,
+      <ClaimEstimate
+        maxDate={date.format('YYYY-MM-DD')}
+        showCovidMessage={false}
+      />,
     );
     expect(tree.text()).to.contain(
       'We estimated your claim would be completed by now',
     );
   });
   it('should render no estimate warning', () => {
-    const tree = SkinDeep.shallowRender(<ClaimEstimate maxDate="" />);
+    const tree = SkinDeep.shallowRender(
+      <ClaimEstimate maxDate="" showCovidMessage={false} />,
+    );
     expect(tree.text()).to.contain('Estimate not available');
   });
   it('should render no estimate warning with far away date', () => {
@@ -40,7 +48,10 @@ describe('<ClaimEstimate>', () => {
       .startOf('day')
       .add(5, 'years');
     const tree = SkinDeep.shallowRender(
-      <ClaimEstimate maxDate={date.format('YYYY-MM-DD')} />,
+      <ClaimEstimate
+        maxDate={date.format('YYYY-MM-DD')}
+        showCovidMessage={false}
+      />,
     );
     expect(tree.text()).to.contain('Estimate not available');
   });

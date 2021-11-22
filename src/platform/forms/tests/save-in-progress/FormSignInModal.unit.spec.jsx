@@ -12,10 +12,12 @@ describe('<FormSignInModal>', () => {
     visible: false,
   };
 
-  const oldWindow = global.window;
+  let oldWindow = null;
 
   beforeEach(() => {
-    global.window = { dataLayer: [] };
+    oldWindow = global.window;
+    global.window = Object.create(global.window);
+    Object.assign(global.window, { dataLayer: [] });
   });
 
   afterEach(() => {

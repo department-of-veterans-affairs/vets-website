@@ -1,7 +1,7 @@
 import FacilityLocatorApp from './containers/FacilityLocatorApp';
 import FacilityDetail from './containers/FacilityDetail';
 import ProviderDetail from './containers/ProviderDetail';
-import VAMap from './containers/VAMap';
+import FacilitiesMap from './containers/FacilitiesMap';
 
 const childRoutes = [
   { path: 'facility/:id', component: FacilityDetail },
@@ -13,7 +13,7 @@ const routes = {
   component: FacilityLocatorApp,
   childRoutes: [
     {
-      indexRoute: { component: VAMap },
+      indexRoute: { component: FacilitiesMap },
       childRoutes,
     },
   ],

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { render } from '@testing-library/react';
 
 import FormNav from '../../../src/js/components/FormNav';
 
@@ -57,21 +57,59 @@ describe('Schemaform FormNav', () => {
   it('should render current chapter data', () => {
     const currentPath = 'testing';
     const formConfigDefaultData = getDefaultData();
-    const tree = SkinDeep.shallowRender(
+    const tree = render(
       <FormNav formConfig={formConfigDefaultData} currentPath={currentPath} />,
     );
 
-    expect(tree.subTree('SegmentedProgressBar').props.total).to.equal(4);
-    expect(tree.subTree('SegmentedProgressBar').props.current).to.equal(1);
-    expect(tree.subTree('.nav-header').text()).to.equal('1 of 4 Testing');
+    expect(tree.getByText('Step 1 of 4: Testing')).to.not.be.null;
   });
   it('should display a custom review page title', () => {
     const formConfigReviewData = getReviewData();
     const currentPath = 'review-and-submit';
 
-    const tree = SkinDeep.shallowRender(
+    const tree = render(
       <FormNav formConfig={formConfigReviewData} currentPath={currentPath} />,
     );
-    expect(tree.text()).to.include('Custom Review Page Title');
+    expect(tree.getByText('Custom Review Page Title', { exact: false })).to.not
+      .be.null;
+  });
+  it('should diplay the auto-save message & application ID', () => {
+    const formConfigReviewData = getReviewData();
+    const currentPath = 'review-and-submit';
+
+    const tree = render(
+      <FormNav
+        formConfig={formConfigReviewData}
+        currentPath={currentPath}
+        inProgressFormId={12345}
+        isLoggedIn
+      />,
+    );
+    expect(
+      tree.getByText('Your application will be saved on every change', {
+        exact: false,
+      }),
+    ).to.not.be.null;
+    expect(
+      tree.getByText('Your application ID number is 12345', {
+        exact: false,
+      }),
+    ).to.not.be.null;
+  });
+  it('should not display the auto-save message', () => {
+    const formConfigReviewData = getReviewData();
+    const currentPath = 'review-and-submit';
+
+    const tree = render(
+      <FormNav
+        formConfig={formConfigReviewData}
+        currentPath={currentPath}
+        inProgressFormId={12345}
+        isLoggedIn={false}
+      />,
+    );
+    expect(
+      tree.getByText('Step 3 of 3: Custom Review Page Title', { exact: true }),
+    ).to.not.be.null;
   });
 });

@@ -1,24 +1,24 @@
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 import { selectProfile } from 'platform/user/selectors';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
+import { SELECTED, SAVED_CLAIM_TYPE, WIZARD_STATUS } from '../constants';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
-    focusElement('.schemaform-title > h1');
+    focusElement('.confirmation-page-title');
     scrollToTop();
+
+    // reset the wizard
+    window.sessionStorage.removeItem(WIZARD_STATUS);
+    window.sessionStorage.removeItem(SAVED_CLAIM_TYPE);
   }
 
   render() {
@@ -26,7 +26,7 @@ export class ConfirmationPage extends React.Component {
     const { submission, formId } = form;
     const { response } = submission;
     const issues = (form.data?.contestedIssues || [])
-      .filter(el => el['view:selected'])
+      .filter(el => el[SELECTED])
       .map((issue, index) => (
         <li key={index} className="vads-u-margin-bottom--0">
           {issue.attributes.ratingIssueSubjectText}
@@ -38,7 +38,7 @@ export class ConfirmationPage extends React.Component {
       <div>
         <div className="print-only">
           <img
-            src="https://va.gov/img/design/logo/logo-black-and-white.png"
+            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
             alt="VA logo"
             width="300"
           />
@@ -66,11 +66,11 @@ export class ConfirmationPage extends React.Component {
               <p>
                 <strong>Date submitted</strong>
                 <br />
-                <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
+                <span>{moment(response.timestamp).format('MMMM D, YYYY')}</span>
               </p>
               <strong>
                 Issue
-                {issues.length > 1 ? 's' : ''} contested
+                {issues.length > 1 ? 's' : ''} submitted
               </strong>
               <ul className="vads-u-margin-top--0">{issues}</ul>
               <button
@@ -104,22 +104,20 @@ export class ConfirmationPage extends React.Component {
         <p>
           If you requested a decision review and haven’t heard back from VA yet,
           please don’t request another review. Call VA at{' '}
-          <a
-            href="tel:1-800-827-1000"
-            aria-label="8 0 0. 8 2 7. 1 0 0 0."
-            className="nowrap"
-          >
-            800-827-1000
-          </a>
-          .
+          <Telephone contact={CONTACTS.VA_BENEFITS} />.
         </p>
         <br />
         <a
           href="/claim-or-appeal-status/"
           className="usa-button usa-button-primary"
         >
-          Track the status of your decision review
+          Check the status of your decision review
         </a>
+        <p>
+          <strong>Note</strong>: Please allow some time for your decision review
+          to process through our system. It could take 7 to 10 days for it to
+          show up in our claim status tool.
+        </p>
       </div>
     );
   }

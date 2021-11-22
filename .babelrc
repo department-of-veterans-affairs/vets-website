@@ -25,12 +25,18 @@
           ]
         },
         "useBuiltIns": "entry",
-        "corejs": "2.0.0",
+        "corejs": "3.8.1",
         "modules": false,
         "debug": false
       }
     ],
     "@babel/react"
+  ],
+  "ignore": [
+    /* Ignore the file containing core-js polyfill imports for older browsers. If Babel processes the file,
+     * it will remove all the imports because they are not needed for the newer browsers in the list above.
+     */
+    "./src/platform/polyfills/preESModulesPolyfills.js"
   ],
   "plugins": [
     "lodash",
@@ -51,7 +57,24 @@
       {
         "root": "./src",
         "alias": {
-          "vet360": "./src/platform/user/profile/vet360"
+          "~": "./src",
+          "@@vap-svc": "./src/platform/user/profile/vap-svc",
+          "@@profile": "./src/applications/personalization/profile",
+          "web-components/react-bindings": "@department-of-veterans-affairs/component-library/dist/react-bindings",
+          "@department-of-veterans-affairs/component-library/LoadingIndicator": "@department-of-veterans-affairs/react-components/LoadingIndicator",
+          "@department-of-veterans-affairs/component-library/AlertBox": "@department-of-veterans-affairs/react-components/AlertBox",
+          "@department-of-veterans-affairs/component-library/ProgressButton": "@department-of-veterans-affairs/react-components/ProgressButton",
+          "@department-of-veterans-affairs/component-library/CollapsiblePanel": "@department-of-veterans-affairs/react-components/CollapsiblePanel",
+          "@department-of-veterans-affairs/component-library/RadioButtons": "@department-of-veterans-affairs/react-components/RadioButtons",
+          "@department-of-veterans-affairs/component-library/Breadcrumbs": "@department-of-veterans-affairs/react-components/Breadcrumbs",
+          "@department-of-veterans-affairs/component-library/Modal": "@department-of-veterans-affairs/react-components/Modal",
+          "@department-of-veterans-affairs/component-library/FileInput": "@department-of-veterans-affairs/react-components/FileInput",
+          "@department-of-veterans-affairs/component-library/SystemDownView": "@department-of-veterans-affairs/react-components/SystemDownView",
+          "@department-of-veterans-affairs/component-library/Pagination": "@department-of-veterans-affairs/react-components/Pagination",
+          "@department-of-veterans-affairs/component-library/Checkbox": "@department-of-veterans-affairs/react-components/Checkbox",
+          "@department-of-veterans-affairs/component-library/DropDownPanel": "@department-of-veterans-affairs/react-components/DropDownPanel",
+          "@department-of-veterans-affairs/component-library/AdditionalInfo": "@department-of-veterans-affairs/react-components/AdditionalInfo"
+
         }
       }
     ]

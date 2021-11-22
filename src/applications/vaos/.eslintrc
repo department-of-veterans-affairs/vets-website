@@ -1,0 +1,34 @@
+{
+  "rules": {
+    "no-restricted-imports": [
+      "error",
+      "raven",
+      "react-router",
+      "history",
+      "lodash/fp"
+    ],
+    "import/no-restricted-paths": [
+      "error",
+      {
+        "zones": [
+          {
+            "target": "./src/applications/vaos/new-appointment",
+            "from": "./src/applications/vaos/express-care"
+          },
+          {
+            "target": "./src/applications/vaos/express-care",
+            "from": "./src/applications/vaos/new-appointment"
+          },
+          {
+            "target": "./src/applications/vaos/appointment-list",
+            "from": "./src/applications/vaos/new-appointment"
+          },
+          {
+            "target": "./src/applications/vaos/appointment-list",
+            "from": "./src/applications/vaos/express-care"
+          }
+        ]
+      }
+    ]
+  }
+}

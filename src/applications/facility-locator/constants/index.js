@@ -12,6 +12,7 @@ export const LocationType = {
   VET_CENTER: 'vet_center',
   URGENT_CARE: 'urgent_care',
   URGENT_CARE_PHARMACIES: 'pharmacy',
+  EMERGENCY_CARE: 'emergency_care',
 };
 
 /**
@@ -24,6 +25,7 @@ export const FacilityType = {
   VET_CENTER: 'vet_center',
   URGENT_CARE: 'urgent_care',
   URGENT_CARE_PHARMACIES: 'pharmacy',
+  EMERGENCY_CARE: 'emergency_care',
 };
 
 /**
@@ -50,6 +52,7 @@ export const LOCATION_OPTIONS = [
   LocationType.BENEFITS,
   LocationType.CEMETARY,
   LocationType.VET_CENTER,
+  LocationType.EMERGENCY_CARE,
 ];
 
 /**
@@ -76,3 +79,69 @@ export const OperatingStatus = {
  * Service type "Clinic/Center - Urgent Care" code
  */
 export const CLINIC_URGENTCARE_SERVICE = '261QU0200X';
+
+/**
+ * Service type "Dentist - Orofacial Pain" code
+ */
+export const DENTAL_OROFACIAL_PAIN_SERVICE = '1223X2210X';
+
+/**
+ * Service type "Pharmacy - Community/Retail Pharmacy" code
+ */
+export const PHARMACY_RETAIL_SERVICE = '3336C0003X';
+
+/**
+ * Emergency Care Services codes
+ */
+export const EMERGENCY_CARE_SERVICES = [
+  '261QE0002X',
+  '282N00000X',
+  '282NC0060X',
+  '282NR1301X',
+  '282NW0100X',
+];
+
+/**
+ * Error Messages
+ */
+export const Error = {
+  DEFAULT:
+    'We’re sorry. Something went wrong on our end. Please refresh this page or try again later.',
+  LOCATION:
+    'Something’s not quite right. Please enter a valid or different location and try your search again.',
+};
+
+/**
+ * Mapbox init values
+ */
+export const MapboxInit = {
+  zoomInit: 3,
+  centerInit: {
+    lng: -99.27246093750001,
+    lat: 40.17887331434698,
+  },
+};
+
+/**
+ * Mapbox api request countries
+ */
+
+export const CountriesList = ['us', 'pr', 'ph', 'gu', 'as', 'mp'];
+
+/**
+ * Mapbox api request types
+ */
+
+export const MAPBOX_QUERY_TYPES = ['place', 'region', 'postcode', 'locality'];
+
+/**
+ * Max search area in miles
+ */
+export const MAX_SEARCH_AREA = 500;
+
+/**
+ * Min radius search area in miles
+ */
+export const MIN_RADIUS = 10;
+
+export const Covid19Vaccine = 'Covid19Vaccine';

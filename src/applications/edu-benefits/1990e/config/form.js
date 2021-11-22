@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 
 import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 
@@ -27,9 +27,16 @@ import * as personId from 'platform/forms/definitions/personId';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { transform, eligibilityDescription, benefitsLabels } from '../helpers';
+import {
+  transform,
+  eligibilityDescription,
+  benefitsLabels,
+  relationshipLabels,
+} from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
+
+import manifest from '../manifest.json';
 
 const {
   benefit,
@@ -43,13 +50,26 @@ const {
   educationType,
   fullName,
   postHighSchoolTrainings,
+  usaPhone,
 } = fullSchema1990e.definitions;
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990e`,
   trackingPrefix: 'edu-1990e-',
   formId: VA_FORM_IDS.FORM_22_1990E,
+  saveInProgress: {
+    messages: {
+      messages: {
+        inProgress:
+          'Your education benefits application (22-1990E) is in progress.',
+        expired:
+          'Your saved education benefits application (22-1990E) has expired. If you want to apply for education benefits, please start a new application.',
+        saved: 'Your education benefits application has been saved.',
+      },
+    },
+  },
   version: 1,
   migrations: [urlMigration('/1990e')],
   prefillEnabled: true,
@@ -66,6 +86,7 @@ const formConfig = {
     date,
     dateRange,
     educationType,
+    usaPhone,
   },
   title: 'Apply to use transferred education benefits',
   subTitle: 'Form 22-1990E',
@@ -75,14 +96,16 @@ const formConfig = {
   errorText: ErrorText,
   chapters: {
     applicantInformation: {
-      title: 'Applicant Information',
+      title: 'Applicant information',
       pages: {
-        applicantInformation: applicantInformation(fullSchema1990e),
+        applicantInformation: applicantInformation(fullSchema1990e, {
+          labels: { relationship: relationshipLabels },
+        }),
         additionalBenefits: additionalBenefits(fullSchema1990e),
       },
     },
     benefitEligibility: {
-      title: 'Benefits Eligibility',
+      title: 'Benefits eligibility',
       pages: {
         benefitEligibility: {
           path: 'benefits/eligibility',
@@ -108,40 +131,40 @@ const formConfig = {
       },
     },
     sponsorVeteran: {
-      title: 'Sponsor Information',
+      title: 'Sponsor information',
       pages: {
         sponsorVeteran: {
           title: 'Sponsor information',
           path: 'sponsor/information',
           uiSchema: {
-            veteranFullName: _.merge(fullNameUISchema, {
+            veteranFullName: merge({}, fullNameUISchema, {
               first: {
-                'ui:title': 'Sponsor first name',
+                'ui:title': "Sponsor's first name",
               },
               last: {
-                'ui:title': 'Sponsor last name',
+                'ui:title': "Sponsor's last name",
               },
               middle: {
-                'ui:title': 'Sponsor middle name',
+                'ui:title': "Sponsor's middle name",
               },
               suffix: {
-                'ui:title': 'Sponsor suffix',
+                'ui:title': "Sponsor's suffix",
               },
             }),
-            'view:veteranId': _.merge(personId.uiSchema(), {
+            'view:veteranId': merge({}, personId.uiSchema(), {
               veteranSocialSecurityNumber: {
-                'ui:title': 'Sponsor Social Security number',
+                'ui:title': "Sponsor's Social Security number",
               },
               'view:noSSN': {
                 'ui:title': 'I don’t know my sponsor’s Social Security number',
               },
               vaFileNumber: {
-                'ui:title': 'Sponsor file number',
+                'ui:title': "Sponsor's VA file number",
               },
             }),
-            veteranAddress: address.uiSchema('Sponsor address'),
+            veteranAddress: address.uiSchema("Sponsor's address"),
             serviceBranch: {
-              'ui:title': 'Sponsor Branch of Service',
+              'ui:title': "Sponsor's branch of service",
             },
           },
           schema: {
@@ -158,7 +181,7 @@ const formConfig = {
       },
     },
     educationHistory: {
-      title: 'Education History',
+      title: 'Education history',
       pages: {
         educationHistory: {
           path: 'education/history',
@@ -187,13 +210,13 @@ const formConfig = {
       },
     },
     employmentHistory: {
-      title: 'Employment History',
+      title: 'Employment history',
       pages: {
         employmentHistory: employmentHistoryPage(fullSchema1990e, false),
       },
     },
     schoolSelection: {
-      title: 'School Selection',
+      title: 'School selection',
       pages: {
         schoolSelection: createSchoolSelectionPage(
           fullSchema1990e,
@@ -202,7 +225,7 @@ const formConfig = {
       },
     },
     personalInformation: {
-      title: 'Personal Information',
+      title: 'Personal information',
       pages: {
         contactInformation: createContactInformationPage(
           fullSchema1990e,

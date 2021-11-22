@@ -1,26 +1,13 @@
 import { expect } from 'chai';
 
 import {
-  formatTypeOfCare,
   titleCase,
   sentenceCase,
   lowerCase,
+  aOrAn,
 } from '../../utils/formatters';
 
 describe('VAOS formatters', () => {
-  describe('formatTypeOfCare', () => {
-    it('should not lower case MOVE', () => {
-      const result = formatTypeOfCare('MOVE! weight management');
-
-      expect(result).to.equal('MOVE! weight management');
-    });
-    it('should lower case regular types of care', () => {
-      const result = formatTypeOfCare('Primary care');
-
-      expect(result).to.equal('primary care');
-    });
-  });
-
   describe('titleCase', () => {
     it('should return capitalize the 1st letter of each word in a sentence', () => {
       expect(titleCase('THE cOw jumpeD over the moon')).to.equal(
@@ -51,6 +38,20 @@ describe('VAOS formatters', () => {
       expect(lowerCase('The COW jumpeD Over tHe moon')).to.equal(
         'the COW jumped over the moon',
       );
+    });
+  });
+
+  describe('aOrAn', () => {
+    it('should return an if noun starts with a vowel', () => {
+      expect(aOrAn('Audiology')).to.equal('an');
+      expect(aOrAn('Eye care')).to.equal('an');
+      expect(aOrAn('injury')).to.equal('an');
+      expect(aOrAn('Opthalmology')).to.equal('an');
+      expect(aOrAn('ulna')).to.equal('an');
+    });
+
+    it('should return an if noun starts with a consonant', () => {
+      expect(aOrAn('Primary care')).to.equal('a');
     });
   });
 });

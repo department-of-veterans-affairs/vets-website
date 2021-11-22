@@ -1,27 +1,39 @@
 // Node modules.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { isEmpty, map } from 'lodash';
+import { isEmpty, map, replace } from 'lodash';
+import * as Sentry from '@sentry/browser';
 // Relative imports.
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
-import { CERNER_FACILITY_IDS, getCernerURL } from 'platform/utilities/cerner';
+import { appointmentsToolLink } from 'platform/utilities/cerner';
+import { getButtonType } from 'applications/static-pages/analytics/addButtonLinkListeners';
 
 export class CernerCallToAction extends Component {
+  static defaultProps = {
+    cernerFacilities: [],
+    otherFacilities: [],
+  };
+
   static propTypes = {
-    linksHeaderText: PropTypes.string.isRequired,
-    myVAHealthLink: PropTypes.string.isRequired,
-    myHealtheVetLink: PropTypes.string.isRequired,
-    // From mapStateToProps.
-    facilities: PropTypes.arrayOf(
+    cernerFacilities: PropTypes.arrayOf(
       PropTypes.shape({
         facilityId: PropTypes.string.isRequired,
         isCerner: PropTypes.bool.isRequired,
       }).isRequired,
-    ).isRequired,
+    ),
+    otherFacilities: PropTypes.arrayOf(
+      PropTypes.shape({
+        facilityId: PropTypes.string.isRequired,
+        isCerner: PropTypes.bool.isRequired,
+      }).isRequired,
+    ),
+    linksHeaderText: PropTypes.string.isRequired,
+    myVAHealthLink: PropTypes.string.isRequired,
+    myHealtheVetLink: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -34,32 +46,27 @@ export class CernerCallToAction extends Component {
   }
 
   componentDidMount() {
-    const { facilities } = this.props;
+    const { cernerFacilities, otherFacilities } = this.props;
+
+    const facilities = [...cernerFacilities, ...otherFacilities];
 
     // Escape early if there are no facilities.
     if (isEmpty(facilities)) {
-      return;
-    }
-
-    // Derive the cerner facilities.
-    const cernerFacilities = facilities.filter(facility =>
-      CERNER_FACILITY_IDS.includes(facility?.facilityId),
-    );
-
-    // Escape early if there are no cerner facilities.
-    if (isEmpty(cernerFacilities)) {
-      // WARNING: Add sentry logging here if there are no cerner facilities found, this should never happen as the component only renders when there ARE cerner facilities.
+      Sentry.withScope(scope => {
+        scope.setExtra('facilities', facilities);
+        Sentry.captureMessage(`Facilities - unexpected empty facilities`);
+      });
       return;
     }
 
     // Derive the list of facility IDs.
-    const cernerFacilityIDs = map(
-      cernerFacilities,
+    const facilityIDs = map(
+      facilities,
       facility => `vha_${facility.facilityId}`,
     );
 
     // Fetch cerner facilities.
-    this.fetchFacilities(cernerFacilityIDs);
+    this.fetchFacilities(facilityIDs);
   }
 
   fetchFacilities = async facilityIDs => {
@@ -79,29 +86,68 @@ export class CernerCallToAction extends Component {
     }
   };
 
+  onCTALinkClick = event => {
+    const style = window.getComputedStyle(event.target);
+
+    recordEvent({
+      event: 'cta-button-click',
+      'button-type': getButtonType(event.target.classList),
+      'button-click-label': event.target.text,
+      'button-background-color': style.getPropertyValue('background-color'),
+    });
+  };
+
   render() {
-    const { linksHeaderText, myVAHealthLink, myHealtheVetLink } = this.props;
+    const { onCTALinkClick } = this;
+    const {
+      cernerFacilities,
+      linksHeaderText,
+      myVAHealthLink,
+      myHealtheVetLink,
+    } = this.props;
     const { error, fetching, facilities } = this.state;
 
     // Escape early if we are fetching.
     if (fetching) {
-      return <LoadingIndicator message="Loading your information..." />;
+      return (
+        <div data-testid="cerner-cta-widget">
+          <LoadingIndicator message="Loading your information..." />
+        </div>
+      );
     }
 
     // Escape early if there was an error fetching the Cerner facilities.
     if (error || isEmpty(facilities)) {
       // WARNING: Add sentry logging here if there is an error fetching Cerner facilities.
+      Sentry.withScope(scope => {
+        scope.setExtra('error', error);
+        scope.setExtra('facilities', facilities);
+        Sentry.captureMessage(
+          `Facilities - unexpected empty facilities or error`,
+        );
+      });
       return (
-        <AlertBox
-          headline="Something went wrong"
-          content="We’re sorry. Something went wrong on our end. Please try again later."
-          status="error"
-        />
+        <div data-testid="cerner-cta-widget">
+          <AlertBox
+            headline="Something went wrong"
+            content="We’re sorry. Something went wrong on our end. Please try again later."
+            status="error"
+          />
+        </div>
       );
     }
 
+    // Derive MyHealtheVet link text.
+    const myHealtheVetLinkText =
+      myHealtheVetLink === appointmentsToolLink
+        ? 'Go to the VA appointments tool'
+        : 'Go to My HealtheVet';
+
     return (
-      <div className="usa-alert usa-alert-warning">
+      <div
+        className="usa-alert usa-alert-warning"
+        data-testid="cerner-cta-widget"
+      >
         <div className="usa-alert-body">
           <h3 className="usa-alert-heading">
             Your VA health care team may be using our new My VA Health portal
@@ -114,9 +160,10 @@ export class CernerCallToAction extends Component {
           {map(facilities, facility => {
             // Derive facility properties.
             const id = facility?.id;
+            const strippedID = replace(id, 'vha_', '');
             const name = facility?.attributes?.name;
-            const isCerner = CERNER_FACILITY_IDS.includes(
-              id?.replace('vha_', ''),
+            const isCerner = cernerFacilities?.some(
+              cernerFacility => cernerFacility?.facilityId === strippedID,
             );
 
             return (
@@ -143,10 +190,16 @@ export class CernerCallToAction extends Component {
           {map(facilities, facility => {
             // Derive facility properties.
             const id = facility?.id;
+            const strippedID = replace(id, 'vha_', '');
             const name = facility?.attributes?.name;
-            const isCerner = CERNER_FACILITY_IDS.includes(
-              id?.replace('vha_', ''),
+            const isCerner = cernerFacilities?.some(
+              cernerFacility => cernerFacility?.facilityId === strippedID,
             );
+
+            // Derive the link text/label.
+            const linkText = isCerner
+              ? 'Go to My VA Health'
+              : myHealtheVetLinkText;
 
             return (
               <div key={`${id}-cta-link`}>
@@ -156,14 +209,16 @@ export class CernerCallToAction extends Component {
                 <a
                   className="usa-button vads-u-color--white vads-u-margin-top--0 vads-u-margin-bottom--4"
                   href={isCerner ? myVAHealthLink : myHealtheVetLink}
+                  onClick={onCTALinkClick}
                   rel="noreferrer noopener"
                   target="_blank"
                 >
-                  {isCerner ? 'Use My VA Health' : 'Use My HealtheVet'}
+                  {linkText}
                 </a>
               </div>
             );
           })}
+
           <div>
             <p className="vads-u-margin-bottom--1">
               <strong>Another VA health facility</strong>
@@ -171,10 +226,11 @@ export class CernerCallToAction extends Component {
             <a
               className="usa-button usa-button-secondary vads-u-color--primary vads-u-margin-top--0 vads-u-margin-bottom--2"
               href={myHealtheVetLink}
+              onClick={onCTALinkClick}
               rel="noreferrer noopener"
               target="_blank"
             >
-              Use My HealtheVet
+              {myHealtheVetLinkText}
             </a>
           </div>
         </div>
@@ -183,11 +239,4 @@ export class CernerCallToAction extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  facilities: state?.user?.profile?.facilities,
-});
-
-export default connect(
-  mapStateToProps,
-  null,
-)(CernerCallToAction);
+export default CernerCallToAction;

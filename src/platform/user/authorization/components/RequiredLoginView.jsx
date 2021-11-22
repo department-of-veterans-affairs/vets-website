@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intersection } from 'lodash';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import SystemDownView from '@department-of-veterans-affairs/formation-react/SystemDownView';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import SystemDownView from '@department-of-veterans-affairs/component-library/SystemDownView';
 import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
 
 import backendServices from '../../profile/constants/backendServices';
@@ -13,6 +13,14 @@ import { hasSession } from '../../profile/utilities';
 const nextQuery = { next: window.location.pathname };
 const signInUrl = appendQuery('/', nextQuery);
 const verifyUrl = appendQuery('/verify', nextQuery);
+
+const RequiredLoginLoader = () => {
+  return (
+    <div className="vads-u-margin-y--5">
+      <LoadingIndicator setFocus message="Loading your information..." />
+    </div>
+  );
+};
 
 class RequiredLoginView extends React.Component {
   componentDidMount() {
@@ -122,11 +130,7 @@ class RequiredLoginView extends React.Component {
     const { user, verify } = this.props;
 
     if (user.profile.loading) {
-      return (
-        <div className="vads-u-margin-y--5">
-          <LoadingIndicator setFocus message="Loading your information..." />
-        </div>
-      );
+      return <RequiredLoginLoader />;
     }
 
     if (this.shouldSignIn()) {
@@ -145,7 +149,7 @@ class RequiredLoginView extends React.Component {
   };
 
   render() {
-    return <div>{this.renderWrappedContent()}</div>;
+    return <>{this.renderWrappedContent()}</>;
   }
 }
 
@@ -161,3 +165,5 @@ RequiredLoginView.propTypes = {
 };
 
 export default RequiredLoginView;
+
+export { RequiredLoginLoader };

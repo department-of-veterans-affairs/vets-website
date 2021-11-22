@@ -1,7 +1,24 @@
 {
   "data": {
     "type": "feature_toggles",
-    "features": []
+    "features": [
+      {
+        "name": "show526Wizard",
+        "value": true
+      },
+      {
+        "name": "form526_confirmation_email",
+        "value": true
+      },
+      {
+        "name": "form526_confirmation_email_show_copy",
+        "value": true
+      },
+      {
+        "name": "subform_8940_4192",
+        "value": true
+      }
+    ]
   }
 }
 

@@ -1,37 +1,59 @@
 import React from 'react';
 import { expect } from 'chai';
-import SkinDeep from 'skin-deep';
+import { MemoryRouter } from 'react-router-dom';
+import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
 
 import createCommonStore from 'platform/startup/store';
 import { ProfilePage } from '../../containers/ProfilePage';
 import reducer from '../../reducers';
 
-const defaultProps = createCommonStore(reducer).getState();
+const defaultStore = createCommonStore(reducer);
+
+const defaultProps = {
+  ...defaultStore.getState(),
+  dispatchFetchProfile: () => {},
+  dispatchSetPageTitle: () => {},
+  dispatchShowModal: () => {},
+  dispatchHideModal: () => {},
+  match: { params: { facilityCode: 'a', preSelectedProgram: '' } },
+};
 
 describe('<ProfilePage>', () => {
   it('should render', () => {
-    const tree = SkinDeep.shallowRender(<ProfilePage {...defaultProps} />);
-    const vdom = tree.getRenderOutput();
-    expect(vdom).to.not.be.undefined;
+    const tree = mount(
+      <MemoryRouter>
+        <ProfilePage {...defaultProps} />
+      </MemoryRouter>,
+    );
+    expect(tree.find('div[name="profilePage"]').length).to.eq(1);
+    tree.unmount();
   });
 
   it('should render VET TEC institution', () => {
     const vetTecProps = {
       ...defaultProps,
-      showModal: () => {},
       profile: {
         ...defaultProps.profile,
         attributes: {
           type: 'FOR PROFIT',
           vetTecProvider: true,
+          city: 'Test',
+          state: 'TN',
+          country: 'USA',
+          programs: [{ description: 'TEST' }],
         },
       },
-      params: {
-        preSelectedProgram: '',
-      },
     };
-    const tree = SkinDeep.shallowRender(<ProfilePage {...vetTecProps} />);
-    expect(tree.subTree('VetTecInstitutionProfile')).to.be.ok;
+    const tree = mount(
+      <MemoryRouter initialEntries={[`/2V111111/TEST`]}>
+        <Provider store={defaultStore}>
+          <ProfilePage {...vetTecProps} />
+        </Provider>
+      </MemoryRouter>,
+    );
+    expect(tree.find('VetTecInstitutionProfile').length).to.eq(1);
+    tree.unmount();
   });
 
   it('should show LoadingState when profile is fetching', () => {
@@ -39,10 +61,13 @@ describe('<ProfilePage>', () => {
       ...defaultProps,
       profile: { inProgress: true },
     };
-    const tree = SkinDeep.shallowRender(<ProfilePage {...inProgressProps} />);
-    const vdom = tree.getRenderOutput();
-    expect(vdom).to.not.be.undefined;
-    expect(tree.subTree('LoadingIndicator')).to.be.ok;
+    const tree = mount(
+      <MemoryRouter>
+        <ProfilePage {...inProgressProps} />
+      </MemoryRouter>,
+    );
+    expect(tree.find('LoadingIndicator').length).to.eq(1);
+    tree.unmount();
   });
 
   it('should show error message when profile failed', () => {
@@ -50,7 +75,12 @@ describe('<ProfilePage>', () => {
       ...defaultProps,
       profile: { inProgress: true, error: 'Service Unavailable' },
     };
-    const tree = SkinDeep.shallowRender(<ProfilePage {...errorProps} />);
-    expect(tree.subTree('ServiceError')).to.be.ok;
+    const tree = mount(
+      <MemoryRouter>
+        <ProfilePage {...errorProps} />
+      </MemoryRouter>,
+    );
+    expect(tree.find('ServiceError').length).to.eq(1);
+    tree.unmount();
   });
 });

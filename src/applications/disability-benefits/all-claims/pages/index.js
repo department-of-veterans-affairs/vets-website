@@ -35,7 +35,6 @@ import * as medicalCare from './medicalCare';
 import * as mentalHealthChanges from './mentalHealthChanges';
 import * as militaryDutyImpact from './militaryDutyImpact';
 import * as militaryHistory from './militaryHistory';
-import * as newDisabilities from './newDisabilities';
 import * as newDisabilityFollowUp from './newDisabilityFollowUp';
 import * as newPTSDFollowUp from './newPTSDFollowUp';
 import * as pastEducationTraining from './pastEducationTraining';
@@ -46,6 +45,7 @@ import * as paymentInformation from './paymentInformation';
 import * as physicalHealthChanges from './physicalHealthChanges';
 import * as prisonerOfWar from './prisonerOfWar';
 import * as privateMedicalRecords from './privateMedicalRecords';
+import * as privateMedicalRecordsAttachments from './privateMedicalRecordsAttachments';
 import * as privateMedicalRecordsRelease from './privateMedicalRecordsRelease';
 import * as ptsd781aChangesIntro from './ptsd781aChangesIntro';
 import * as ptsdAdditionalEvents from './ptsdAdditionalEvents';
@@ -70,9 +70,10 @@ import * as secondaryOtherSources from './secondaryOtherSources';
 import * as secondaryOtherSourcesHelp from './secondaryOtherSourcesHelp';
 import * as secondaryUploadSourcesChoice from './secondaryUploadSourcesChoice';
 import * as secondaryUploadSources from './secondaryUploadSources';
+import * as separationLocation from './separationLocation';
 import * as separationPay from './separationPay';
-import * as servedInCombatZone from './servedInCombatZone';
 import * as serviceTreatmentRecords from './serviceTreatmentRecords';
+import * as serviceTreatmentRecordsAttachments from './serviceTreatmentRecordsAttachments';
 import * as socialBehaviorChanges from './socialBehaviorChanges';
 import * as summaryOfDisabilities from './summaryOfDisabilities';
 import * as summaryOfEvidence from './summaryOfEvidence';
@@ -93,6 +94,7 @@ import * as uploadUnemployabilitySupportingDocumentsChoice from './uploadUnemplo
 import * as uploadUnemployabilitySupportingDocuments from './uploadUnemployabilitySupportingDocuments';
 import * as vaEmployee from './vaEmployee';
 import * as vaMedicalRecords from './vaMedicalRecords';
+import * as veteranInfo from './veteranInfo';
 import * as workBehaviorChanges from './workBehaviorChanges';
 
 export {
@@ -133,7 +135,6 @@ export {
   mentalHealthChanges,
   militaryDutyImpact,
   militaryHistory,
-  newDisabilities,
   newDisabilityFollowUp,
   newPTSDFollowUp,
   pastEducationTraining,
@@ -144,6 +145,7 @@ export {
   physicalHealthChanges,
   prisonerOfWar,
   privateMedicalRecords,
+  privateMedicalRecordsAttachments,
   privateMedicalRecordsRelease,
   ptsd781aChangesIntro,
   ptsdAdditionalEvents,
@@ -168,9 +170,10 @@ export {
   secondaryOtherSourcesHelp,
   secondaryUploadSources,
   secondaryUploadSourcesChoice,
+  separationLocation,
   separationPay,
-  servedInCombatZone,
   serviceTreatmentRecords,
+  serviceTreatmentRecordsAttachments,
   socialBehaviorChanges,
   summaryOfDisabilities,
   summaryOfEvidence,
@@ -191,5 +194,6 @@ export {
   uploadUnemployabilitySupportingDocumentsChoice,
   vaEmployee,
   vaMedicalRecords,
+  veteranInfo,
   workBehaviorChanges,
 };

@@ -37,7 +37,7 @@ const uiSchema = {
       },
     },
     degreeReceived: {
-      'ui:title': 'Degree, diploma or certificate received',
+      'ui:title': 'Degree, diploma, or certificate received',
     },
     major: {
       'ui:title': 'What did you study?',

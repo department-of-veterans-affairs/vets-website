@@ -1,9 +1,14 @@
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import find from 'lodash/find';
+import get from '../../../utilities/data/get';
+import omit from '../../../utilities/data/omit';
+import set from '../../../utilities/data/set';
+import unset from '../../../utilities/data/unset';
 import { Validator } from 'jsonschema';
 
-import { isActivePage, parseISODate } from './helpers';
+import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
 import {
   isValidSSN,
+  isValidYear,
   isValidPartialDate,
   isValidCurrentOrPastDate,
   isValidCurrentOrPastYear,
@@ -39,13 +44,13 @@ const defaultMessages = {
 function getMessage(path, name, uiSchema, errorArgument) {
   let pathSpecificMessage;
   if (path === 'instance') {
-    pathSpecificMessage = _.get(['ui:errorMessages', name], uiSchema);
+    pathSpecificMessage = get(['ui:errorMessages', name], uiSchema);
   } else {
     const cleanPath = path
       .replace('instance.', '')
       .replace(/\[\d+\]/g, '.items');
-    pathSpecificMessage = _.get(
-      `${cleanPath}['ui:errorMessages'].${name}`,
+    pathSpecificMessage = get(
+      `${cleanPath}[ui:errorMessages].${name}`,
       uiSchema,
     );
   }
@@ -70,10 +75,11 @@ export function transformErrors(errors, uiSchema) {
   return errors.map(error => {
     if (error.name === 'required') {
       const path = `${error.property}.${error.argument}`;
-      return _.assign(error, {
+      return {
+        ...error,
         property: path,
         message: getMessage(path, error.name, uiSchema, error.argument),
-      });
+      };
     }
 
     const newMessage = getMessage(
@@ -83,7 +89,7 @@ export function transformErrors(errors, uiSchema) {
       error.argument,
     );
     if (newMessage) {
-      return _.set('message', newMessage, error);
+      return set('message', newMessage, error);
     }
 
     return error;
@@ -137,7 +143,7 @@ export function uiSchemaValidate(
   appStateData,
 ) {
   if (uiSchema && schema) {
-    const currentData = path !== '' ? _.get(path, formData) : formData;
+    const currentData = path !== '' ? get(path, formData) : formData;
     if (uiSchema.items && currentData) {
       currentData.forEach((item, index) => {
         const newPath = `${path}[${index}]`;
@@ -145,8 +151,8 @@ export function uiSchemaValidate(
           index < schema.items.length
             ? schema.items[index]
             : schema.additionalItems;
-        if (!_.get(newPath, errors)) {
-          const currentErrors = path ? _.get(path, errors) : errors;
+        if (!get(newPath, errors)) {
+          const currentErrors = path ? get(path, errors) : errors;
           currentErrors[index] = {
             __errors: [],
             addError(error) {
@@ -169,8 +175,8 @@ export function uiSchemaValidate(
         .filter(prop => !prop.startsWith('ui:'))
         .forEach(item => {
           const nextPath = path !== '' ? `${path}.${item}` : item;
-          if (!_.get(nextPath, errors)) {
-            const currentErrors = path === '' ? errors : _.get(path, errors);
+          if (!get(nextPath, errors)) {
+            const currentErrors = path === '' ? errors : get(path, errors);
 
             currentErrors[item] = {
               __errors: [],
@@ -194,7 +200,7 @@ export function uiSchemaValidate(
     const validations = uiSchema['ui:validations'];
     if (validations && currentData !== undefined) {
       validations.forEach(validation => {
-        const pathErrors = path ? _.get(path, errors) : errors;
+        const pathErrors = path ? get(path, errors) : errors;
         if (typeof validation === 'function') {
           validation(
             pathErrors,
@@ -228,14 +234,31 @@ export function errorSchemaIsValid(errorSchema) {
     return false;
   }
 
-  return _.values(_.omit('__errors', errorSchema)).every(errorSchemaIsValid);
+  return Object.values(omit('__errors', errorSchema)).every(errorSchemaIsValid);
 }
 
-export function isValidForm(form, pageList) {
+/**
+ * IsValidForm~results
+ * @typedef {Object}
+ * @property {Boolean} isValid - Returns true if the formData & schema match and
+ *  are valid
+ * @property {Object[]} errors - Errors returned by jsonschema validator
+ * @property {Object|null} formData - Only available during unit tests
+ */
+/**
+ * Use third-party jsonschema validator to validate the formData against the
+ * schema
+ * @param {Object} form - the entire form object from Redux state
+ * @param {Obect[]} pageList - Page list array from the router
+ * @param {Boolean} isTesting - Testing flag used to return the modified form
+ *  data to verify the correct changes were made
+ * @returns {IsValidForm~results}
+ */
+export function isValidForm(form, pageList, isTesting = false) {
   const pageListMap = new Map();
   pageList.forEach(page => pageListMap.set(page.pageKey, page));
   const validPages = Object.keys(form.pages).filter(pageKey =>
-    isActivePage(_.find({ pageKey }, pageList), form.data),
+    isActivePage(find(pageList, { pageKey }), form.data),
   );
 
   const v = new Validator();
@@ -255,13 +278,30 @@ export function isValidForm(form, pageList) {
       if (showPagePerItem) {
         const arrayData = formData[arrayPath];
         if (arrayData) {
-          formData = _.set(
+          const itemsToKeep = arrayData.map(itemFilter || (() => true));
+          // Remove the excluded array data
+          formData = set(
             arrayPath,
-            itemFilter ? arrayData.filter(itemFilter) : arrayData,
+            arrayData.filter((item, index) => itemsToKeep[index]),
             formData,
           );
+          // Remove the excluded array itemSchemas
+          //
+          // NOTE: This will only work when `arrayPath` isn't a nested path.
+          // This is consistent with other uses of arrayPath throughout the
+          // library.
+          if (Array.isArray(schema.properties[arrayPath].items)) {
+            // `items` may be an array if the individual item schemas can be
+            // different, or a single object to describe every item. We only
+            // want to filter the schemas if they can be different. This ensures
+            // the data still matches its corresponding schema if we filtered
+            // out some data with `itemFilter`.
+            schema.properties[arrayPath].items = schema.properties[
+              arrayPath
+            ].items.filter((item, index) => itemsToKeep[index]);
+          }
         } else {
-          formData = _.unset(arrayPath, formData);
+          formData = unset(arrayPath, formData);
         }
       }
 
@@ -282,13 +322,17 @@ export function isValidForm(form, pageList) {
         return {
           isValid: isValid && errorSchemaIsValid(customErrors),
           errors: errors.concat(customErrors),
+          formData: isTesting ? formData : null, // for unit tests
         };
       }
 
       return {
         isValid: false,
         // removes PII
-        errors: errors.concat(result.errors.map(_.unset('instance'))),
+        errors: errors.concat(
+          result.errors.map(error => unset('instance', error)),
+        ),
+        formData: isTesting ? formData : null, // for unit tests
       };
     },
     { isValid: true, errors: [] },
@@ -301,9 +345,18 @@ export function validateSSN(errors, ssn) {
   }
 }
 
-export function validateDate(errors, dateString) {
+export function validateDate(
+  errors,
+  dateString,
+  customMinYear = minYear,
+  customMaxYear = maxYear,
+) {
   const { day, month, year } = parseISODate(dateString);
-  if (!isValidPartialDate(day, month, year)) {
+  if (year?.length >= 4 && !isValidYear(year)) {
+    errors.addError(
+      `Please enter a year between ${customMinYear} and ${customMaxYear}`,
+    );
+  } else if (!isValidPartialDate(day, month, year)) {
     errors.addError('Please provide a valid date');
   }
 }
@@ -330,7 +383,7 @@ export function validateCurrentOrPastDate(
   const {
     futureDate = 'Please provide a valid current or past date',
   } = errorMessages;
-  validateDate(errors, dateString);
+  validateDate(errors, dateString, minYear, new Date().getFullYear());
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
     errors.addError(futureDate);
@@ -399,9 +452,14 @@ export function validateCurrentOrPastYear(errors, year) {
   }
 }
 
-export function validateMatch(field1, field2) {
+export function validateMatch(
+  field1,
+  field2,
+  { ignoreCase } = { ignoreCase: false },
+) {
   return (errors, formData) => {
-    if (formData[field1] !== formData[field2]) {
+    const transform = ignoreCase ? val => val?.toLowerCase() : val => val;
+    if (transform(formData[field1]) !== transform(formData[field2])) {
       errors[field2].addError('Please ensure your entries match');
     }
   };
@@ -426,7 +484,7 @@ export function convertToDateField(dateStr) {
     datePart[part] = {
       value: date[part],
     };
-    return _.assign(dateField, datePart);
+    return { ...dateField, ...datePart };
   }, date);
 }
 
@@ -436,15 +494,27 @@ export function validateDateRange(
   formData,
   schema,
   errorMessages,
+  allowSameMonth = false,
 ) {
   const fromDate = convertToDateField(dateRange.from);
   const toDate = convertToDateField(dateRange.to);
 
-  if (!isValidDateRange(fromDate, toDate)) {
+  if (!isValidDateRange(fromDate, toDate, allowSameMonth)) {
     errors.to.addError(
-      errorMessages.pattern || 'To date must be after from date',
+      errorMessages?.pattern || 'To date must be after from date',
     );
   }
+}
+
+// using ...args here breaks unit test that don't include all parameters
+export function validateDateRangeAllowSameMonth(
+  errors,
+  dateRange,
+  formData,
+  schema,
+  errorMessages,
+) {
+  validateDateRange(errors, dateRange, formData, schema, errorMessages, true);
 }
 
 export function getFileError(file) {
@@ -452,6 +522,8 @@ export function getFileError(file) {
     return file.errorMessage;
   } else if (file.uploading) {
     return 'Uploading file...';
+  } else if (file.isEncrypted && !file.password) {
+    return null; // still awaiting password entry
   } else if (!file.confirmationCode) {
     return 'Something went wrong...';
   }

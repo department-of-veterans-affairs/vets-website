@@ -2,41 +2,30 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import Scroll from 'react-scroll';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import get from '../../../../utilities/data/get';
+import set from '../../../../utilities/data/set';
 import classNames from 'classnames';
-import environment from 'platform/utilities/environment';
 
-import ProgressButton from '../components/ProgressButton';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import FormNavButtons from '../components/FormNavButtons';
 import SchemaForm from '../components/SchemaForm';
 import { setData, uploadFile } from '../actions';
-import { getNextPagePath, getPreviousPagePath } from '../routing';
+import {
+  getNextPagePath,
+  getPreviousPagePath,
+  checkValidPagePath,
+} from '../routing';
 import { focusElement } from '../utilities/ui';
+import { isReactComponent, getScrollOptions } from '~/platform/utilities/ui';
 
 function focusForm() {
-  if (environment.isProduction()) {
-    focusElement('.nav-header');
-  } else {
-    focusElement('.nav-header h2');
-  }
+  focusElement('.nav-header > h2');
 }
-
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo(
-    'topScrollElement',
-    window.Forms?.scroll || {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    },
-  );
-};
 
 class FormPage extends React.Component {
   componentDidMount() {
     if (!this.props.blockScrollOnMount) {
-      scrollToTop();
+      scrollToTop('topScrollElement', getScrollOptions());
       focusForm();
     }
   }
@@ -45,9 +34,9 @@ class FormPage extends React.Component {
     if (
       prevProps.route.pageConfig.pageKey !==
         this.props.route.pageConfig.pageKey ||
-      _.get('params.index', prevProps) !== _.get('params.index', this.props)
+      get('params.index', prevProps) !== get('params.index', this.props)
     ) {
-      scrollToTop();
+      scrollToTop('topScrollElement', getScrollOptions());
       focusForm();
     }
   }
@@ -58,7 +47,7 @@ class FormPage extends React.Component {
     if (pageConfig.showPagePerItem) {
       // If this is a per item page, the formData object will have data for a particular
       // row in an array, so we need to update the full form data object and then call setData
-      newData = _.set(
+      newData = set(
         [this.props.route.pageConfig.arrayPath, this.props.params.index],
         formData,
         this.props.form.data,
@@ -70,13 +59,16 @@ class FormPage extends React.Component {
     this.props.setData(newData);
   };
 
+  // Navigate to the next page
   onSubmit = ({ formData }) => {
     const { form, params, route, location } = this.props;
 
     // This makes sure defaulted data on a page with no changes is saved
-    // Probably safe to do this for regular pages, too, but it hasn’t been necessary
-    if (route.pageConfig.showPagePerItem) {
-      const newData = _.set(
+    // Probably safe to do this for regular pages, too, but it hasn’t been
+    // necessary. Additionally, it should NOT setData for a CustomPage. The
+    // CustomPage should take care of that itself.
+    if (route.pageConfig.showPagePerItem && !route.pageConfig.CustomPage) {
+      const newData = set(
         [route.pageConfig.arrayPath, params.index],
         formData,
         form.data,
@@ -91,8 +83,13 @@ class FormPage extends React.Component {
 
   formData = () => {
     const { pageConfig } = this.props.route;
+    // If it's a CustomPage, return the entire form data
+    if (pageConfig.CustomPage) return this.props.form.data;
+
+    // If it's an array page, return only the data for that array item
+    // Otherwise, return the data for the entire form
     return this.props.route.pageConfig.showPagePerItem
-      ? _.get(
+      ? get(
           [pageConfig.arrayPath, this.props.params.index],
           this.props.form.data,
         )
@@ -105,7 +102,24 @@ class FormPage extends React.Component {
       route: { pageList },
       location,
     } = this.props;
+
     const path = getPreviousPagePath(pageList, form.data, location.pathname);
+
+    this.props.router.push(path);
+  };
+
+  goToPath = customPath => {
+    const {
+      form,
+      route: { pageList },
+      location,
+    } = this.props;
+
+    const path =
+      customPath &&
+      checkValidPagePath(pageList, this.props.form.data, customPath)
+        ? customPath
+        : getPreviousPagePath(pageList, form.data, location.pathname);
 
     this.props.router.push(path);
   };
@@ -115,6 +129,7 @@ class FormPage extends React.Component {
       route,
       params,
       form,
+      contentBeforeButtons,
       contentAfterButtons,
       formContext,
       appStateData,
@@ -125,7 +140,7 @@ class FormPage extends React.Component {
     const pageClasses = classNames('form-panel', route.pageConfig.pageClass);
     const data = this.formData();
 
-    if (route.pageConfig.showPagePerItem) {
+    if (route.pageConfig.showPagePerItem && !route.pageConfig.CustomPage) {
       // Instead of passing through the schema/uiSchema to SchemaForm, the
       // current item schema for the array at arrayPath is pulled out of the page state and passed
       schema =
@@ -144,6 +159,28 @@ class FormPage extends React.Component {
       }
     }
 
+    // Bypass the SchemaForm and render the custom component
+    // NOTE: I don't think FormPage is rendered on the review page, so I believe
+    // onReviewPage will always be false here
+    if (isReactComponent(route.pageConfig.CustomPage)) {
+      return (
+        <div className={pageClasses}>
+          <route.pageConfig.CustomPage
+            name={route.pageConfig.pageKey}
+            title={route.pageConfig.title}
+            data={data}
+            pagePerItemIndex={params ? params.index : undefined}
+            onReviewPage={formContext?.onReviewPage}
+            trackingPrefix={this.props.form.trackingPrefix}
+            uploadFile={this.props.uploadFile}
+            goBack={this.goBack}
+            goForward={this.onSubmit}
+            goToPath={this.goToPath}
+          />
+        </div>
+      );
+    }
+
     return (
       <div className={pageClasses}>
         <SchemaForm
@@ -160,27 +197,12 @@ class FormPage extends React.Component {
           onChange={this.onChange}
           onSubmit={this.onSubmit}
         >
-          <div className="row form-progress-buttons schemaform-buttons">
-            <div className="small-6 medium-5 columns">
-              {!isFirstRoutePage && (
-                <ProgressButton
-                  onButtonClick={this.goBack}
-                  buttonText="Back"
-                  buttonClass="usa-button-secondary"
-                  beforeText="«"
-                />
-              )}
-            </div>
-            <div className="small-6 medium-5 end columns">
-              <ProgressButton
-                submitButton
-                onButtonClick={callOnContinue}
-                buttonText="Continue"
-                buttonClass="usa-button-primary"
-                afterText="»"
-              />
-            </div>
-          </div>
+          {contentBeforeButtons}
+          <FormNavButtons
+            goBack={!isFirstRoutePage && this.goBack}
+            goForward={callOnContinue}
+            submitToContinue
+          />
           {contentAfterButtons}
         </SchemaForm>
       </div>
@@ -217,6 +239,7 @@ FormPage.propTypes = {
       }),
     ),
   }),
+  contentBeforeButtons: PropTypes.element,
   contentAfterButtons: PropTypes.element,
   setData: PropTypes.func,
 };

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import set from '../../../../utilities/data/set';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
 
@@ -10,12 +10,13 @@ import {
   deepEquals,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import { scrollToFirstError } from '../utilities/ui';
 import { setArrayRecordTouched } from '../helpers';
 import { errorSchemaIsValid } from '../validation';
+import { getScrollOptions, isReactComponent } from '../../../../utilities/ui';
 
 const Element = Scroll.Element;
-const scroller = Scroll.scroller;
 
 /* Non-review growable table (array) field */
 export default class ArrayField extends React.Component {
@@ -23,7 +24,7 @@ export default class ArrayField extends React.Component {
     super(props);
 
     // Throw an error if there’s no viewField (should be React component)
-    if (typeof this.props.uiSchema['ui:options'].viewField !== 'function') {
+    if (!isReactComponent(this.props.uiSchema['ui:options'].viewField)) {
       throw new Error(
         `No viewField found in uiSchema for ArrayField ${
           this.props.idSchema.$id
@@ -77,7 +78,7 @@ export default class ArrayField extends React.Component {
   }
 
   onItemChange(indexToChange, value) {
-    const newItems = _.set(indexToChange, value, this.props.formData || []);
+    const newItems = set(indexToChange, value, this.props.formData || []);
     this.props.onChange(newItems);
   }
 
@@ -92,37 +93,29 @@ export default class ArrayField extends React.Component {
 
   scrollToTop() {
     setTimeout(() => {
-      scroller.scrollTo(
+      scrollTo(
         `topOfTable_${this.props.idSchema.$id}`,
-        window.Forms?.scroll || {
-          duration: 500,
-          delay: 0,
-          smooth: true,
-          offset: -60,
-        },
+        window.Forms?.scroll || getScrollOptions({ offset: -60 }),
       );
     }, 100);
   }
 
   scrollToRow(id) {
-    setTimeout(() => {
-      scroller.scrollTo(
-        `table_${id}`,
-        window.Forms?.scroll || {
-          duration: 500,
-          delay: 0,
-          smooth: true,
-          offset: 0,
-        },
-      );
-    }, 100);
+    if (!this.props.uiSchema['ui:options'].doNotScroll) {
+      setTimeout(() => {
+        scrollTo(
+          `table_${id}`,
+          window.Forms?.scroll || getScrollOptions({ offset: 0 }),
+        );
+      }, 100);
+    }
   }
 
   /*
    * Clicking edit on an item that’s not last and so is in view mode
    */
   handleEdit(index, status = true) {
-    this.setState(_.set(['editing', index], status, this.state), () => {
+    this.setState(set(['editing', index], status, this.state), () => {
       this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
     });
   }
@@ -132,7 +125,7 @@ export default class ArrayField extends React.Component {
    */
   handleUpdate(index) {
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
-      this.setState(_.set(['editing', index], false, this.state), () => {
+      this.setState(set(['editing', index], false, this.state), () => {
         this.scrollToTop();
       });
     } else {
@@ -145,7 +138,7 @@ export default class ArrayField extends React.Component {
   }
 
   /*
-   * Clicking Add Another
+   * Clicking Add another
    */
   handleAdd() {
     const lastIndex = this.props.formData.length - 1;
@@ -156,9 +149,10 @@ export default class ArrayField extends React.Component {
         (val, index) => (index + 1 === this.state.editing.length ? false : val),
       );
       const editingState = this.props.uiSchema['ui:options'].reviewMode;
-      const newState = _.assign(this.state, {
+      const newState = {
+        ...this.state,
         editing: newEditing.concat(!!editingState),
-      });
+      };
       this.setState(newState, () => {
         const newFormData = this.props.formData.concat(
           getDefaultFormState(
@@ -185,11 +179,12 @@ export default class ArrayField extends React.Component {
     const newItems = this.props.formData.filter(
       (val, index) => index !== indexToRemove,
     );
-    const newState = _.assign(this.state, {
+    const newState = {
+      ...this.state,
       editing: this.state.editing.filter(
         (val, index) => index !== indexToRemove,
       ),
-    });
+    };
     this.props.onChange(newItems);
     this.setState(newState, () => {
       this.scrollToTop();
@@ -219,9 +214,10 @@ export default class ArrayField extends React.Component {
     const description = uiSchema['ui:description'];
     const textDescription =
       typeof description === 'string' ? description : null;
-    const DescriptionField =
-      typeof description === 'function' ? uiSchema['ui:description'] : null;
-    const isReviewMode = uiSchema['ui:options'].reviewMode;
+    const DescriptionField = isReactComponent(description)
+      ? uiSchema['ui:description']
+      : null;
+    const isReviewMode = uiOptions.reviewMode;
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
 
     // if we have form data, use that, otherwise use an array with a single default object
@@ -248,9 +244,7 @@ export default class ArrayField extends React.Component {
               />
             ) : null}
             {textDescription && <p>{textDescription}</p>}
-            {DescriptionField && (
-              <DescriptionField options={uiSchema['ui:options']} />
-            )}
+            {DescriptionField && <DescriptionField options={uiOptions} />}
             {!textDescription && !DescriptionField && description}
           </div>
         )}
@@ -265,9 +259,17 @@ export default class ArrayField extends React.Component {
               itemIdPrefix,
               definitions,
             );
+            const showSave = uiOptions.showSave;
+            const updateText = showSave && index === 0 ? 'Save' : 'Update';
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
-            const notLastOrMultipleRows = !isLast || items.length > 1;
+            const ariaLabel = uiOptions.itemAriaLabel;
+            const itemName =
+              (typeof ariaLabel === 'function' && ariaLabel(item || {})) ||
+              uiOptions.itemName ||
+              'Item';
+            const notLastOrMultipleRows =
+              showSave || !isLast || items.length > 1;
 
             if (isReviewMode ? isEditing : isLast || isEditing) {
               return (
@@ -280,12 +282,8 @@ export default class ArrayField extends React.Component {
                   <Element name={`table_${itemIdPrefix}`} />
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
-                      {isLast &&
-                      items.length > 1 &&
-                      uiSchema['ui:options'].itemName ? (
-                        <h3 className="vads-u-font-size--h5">
-                          New {uiSchema['ui:options'].itemName}
-                        </h3>
+                      {isLast && items.length > 1 ? (
+                        <h3 className="vads-u-font-size--h5">New {itemName}</h3>
                       ) : null}
                       <div className="input-section">
                         <SchemaField
@@ -308,24 +306,28 @@ export default class ArrayField extends React.Component {
                       {notLastOrMultipleRows && (
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
-                            {!isLast && (
+                            {(!isLast || showSave) && (
                               <button
+                                type="button"
                                 className="float-left"
+                                aria-label={`${updateText} ${itemName}`}
                                 onClick={() => this.handleUpdate(index)}
-                                aria-label={`Update ${title}`}
                               >
-                                Update
+                                {updateText}
                               </button>
                             )}
                           </div>
                           <div className="small-6 right columns">
-                            <button
-                              className="usa-button-secondary float-right"
-                              type="button"
-                              onClick={() => this.handleRemove(index)}
-                            >
-                              Remove
-                            </button>
+                            {index !== 0 && (
+                              <button
+                                type="button"
+                                className="usa-button-secondary float-right"
+                                aria-label={`Remove ${itemName}`}
+                                onClick={() => this.handleRemove(index)}
+                              >
+                                Remove
+                              </button>
+                            )}
                           </div>
                         </div>
                       )}
@@ -336,15 +338,18 @@ export default class ArrayField extends React.Component {
             }
             return (
               <div key={index} className="va-growable-background editable-row">
-                <div className="row small-collapse">
-                  <ViewField
-                    formData={item}
-                    onEdit={() => this.handleEdit(index)}
-                  />
+                <div className="row small-collapse vads-u-display--flex vads-u-align-items--center">
+                  <div className="vads-u-flex--fill">
+                    <ViewField
+                      formData={item}
+                      onEdit={() => this.handleEdit(index)}
+                    />
+                  </div>
                   <button
-                    className="usa-button-secondary edit-button"
+                    type="button"
+                    className="usa-button-secondary edit vads-u-flex--auto"
+                    aria-label={`Edit ${itemName}`}
                     onClick={() => this.handleEdit(index)}
-                    aria-label={`Edit ${title}`}
                   >
                     Edit
                   </button>
@@ -365,7 +370,7 @@ export default class ArrayField extends React.Component {
             disabled={!this.props.formData || addAnotherDisabled}
             onClick={this.handleAdd}
           >
-            Add Another {uiOptions.itemName}
+            Add another {uiOptions.itemName}
           </button>
           <p>
             {addAnotherDisabled &&

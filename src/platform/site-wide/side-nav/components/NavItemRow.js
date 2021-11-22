@@ -45,6 +45,14 @@ const NavItemRow = ({ depth, item, trackEvents }) => {
     trackEvents(id);
   };
 
+  const pointerEventsStyle = _href =>
+    window.location.pathname.substring(
+      0,
+      window.location.pathname.length - 1,
+    ) === _href
+      ? 'none'
+      : 'all';
+
   // Render the row not as a link when there are child nav items.
   if (hasChildren) {
     return (
@@ -61,7 +69,10 @@ const NavItemRow = ({ depth, item, trackEvents }) => {
         href={href}
         onClick={handleClick}
         rel="noopener noreferrer"
-        style={{ paddingLeft: indentation }}
+        style={{
+          paddingLeft: indentation,
+          pointerEvents: pointerEventsStyle(href),
+        }}
       >
         {/* Label text */}
         <span
@@ -86,7 +97,10 @@ const NavItemRow = ({ depth, item, trackEvents }) => {
       href={href}
       onClick={handleClick}
       rel="noopener noreferrer"
-      style={{ paddingLeft: indentation }}
+      style={{
+        paddingLeft: indentation,
+        pointerEvents: pointerEventsStyle(href),
+      }}
     >
       {/* Label text */}
       <span

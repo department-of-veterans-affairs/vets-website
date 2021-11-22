@@ -2,21 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import { COVID19Alert, showCOVID19AlertSelector } from '../covid-19';
-
-describe('showCOVID19AlertSelector', () => {
-  it('returns true if the feature flag is on', () => {
-    const state = {
-      featureToggles: {
-        dashboardShowCovid19Alert: true,
-      },
-    };
-    expect(showCOVID19AlertSelector(state)).to.be.true;
-  });
-  it('does not return true if the feature flag is not set', () => {
-    expect(showCOVID19AlertSelector({})).to.not.be.true;
-  });
-});
+import { COVID19Alert } from '../covid-19';
 
 describe('COVID19Alert component', () => {
   it('renders', () => {

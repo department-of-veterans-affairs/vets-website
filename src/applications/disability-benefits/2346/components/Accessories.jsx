@@ -1,5 +1,5 @@
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import classnames from 'classnames';
 import moment from 'moment';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { ACCESSORY } from '../constants';
 
 class Accessories extends Component {
-  componentDidMount(props) {
+  componentDidMount() {
     const areAccessorySuppliesEligible = this.props.eligibility?.accessories;
     if (!areAccessorySuppliesEligible) {
       recordEvent({
@@ -57,10 +57,6 @@ class Accessories extends Component {
       accessorySupplies.every(
         accessory => currentDate.diff(accessory.lastOrderDate, 'years') <= 2,
       );
-    const accessorySupplyAvailabilityDates = accessorySupplies.map(
-      accessorySupply => accessorySupply.nextAvailabilityDate,
-    );
-    const earliestAvailableDateForReordering = accessorySupplyAvailabilityDates.sort()[0];
 
     const isAccessorySelected = accessoryProductId => {
       const selectedProductIds = order.map(

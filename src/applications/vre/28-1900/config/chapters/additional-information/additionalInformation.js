@@ -1,57 +1,32 @@
 import React from 'react';
-import {
-  buildAddressSchema,
-  addressUISchema,
-} from '../../../../../disability-benefits/686c-674/config/address-schema';
-import { EDUCATION_LEVELS } from '../../constants';
+import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
+import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAddress';
 
-const newAddress = buildAddressSchema(true);
-// reset boolean type
-newAddress.properties['view:livesOnMilitaryBase'] = {
-  type: 'boolean',
-};
+const { newAddress, isMoving, yearsOfEducation } = fullSchema.properties;
 
-const newAddressUI = addressUISchema(
-  true,
-  'newAddress',
-  formData => formData.isMoving,
-);
-// reset title for checkbox
-newAddressUI['view:livesOnMilitaryBase']['ui:title'] =
+const checkboxTitle =
   'I will live on a United States military base outside of the U.S.';
 
-const educationLabels = Object.entries(EDUCATION_LEVELS).map(
-  ([label, title]) => label,
-);
-const educationTitles = Object.entries(EDUCATION_LEVELS).map(
-  ([label, title]) => title,
+const newAddressUi = addressUiSchema(
+  'newAddress',
+  checkboxTitle,
+  formData => formData?.isMoving,
 );
 
 export const schema = {
   type: 'object',
   properties: {
-    educationLevel: {
-      type: 'string',
-      enum: educationLabels,
-      enumNames: educationTitles,
-    },
-    isMoving: {
-      type: 'boolean',
-    },
+    yearsOfEducation,
+    isMoving,
     newAddress,
   },
 };
 
 export const uiSchema = {
-  'ui:description': (
-    <p>
-      <strong>Giving this information is optional.</strong> If you skip this
-      page, and we don't have this information in your record, we may ask you
-      for this again when we process your application.
-    </p>
-  ),
-  educationLevel: {
-    'ui:title': 'Highest education level',
+  'ui:title': 'Additional Information',
+  yearsOfEducation: {
+    'ui:title': 'What’s your level of education?',
+    'ui:required': () => true,
   },
   isMoving: {
     'ui:widget': 'yesNo',
@@ -60,6 +35,7 @@ export const uiSchema = {
         Are you moving in the <strong>next 30 days?</strong>
       </p>
     ),
+    'ui:required': () => true,
   },
   newAddress: {
     'ui:title': (
@@ -67,10 +43,17 @@ export const uiSchema = {
         Your new address
       </p>
     ),
-    ...newAddressUI,
+    ...newAddressUi,
     'ui:options': {
       expandUnder: 'isMoving',
       expandUnderCondition: true,
+      updateSchema: (formData, formSchema) => {
+        // Clear out required fields here to avoid silent validation errors for hidden fields.
+        if (!formData.isMoving && formData.newAddress) {
+          return { ...formSchema, required: [] };
+        }
+        return formSchema;
+      },
     },
   },
 };

@@ -1,0 +1,10 @@
+exports["Common ErrorMessage component/should render title if passed as a prop(0)"] = "<div class=\"usa-alert usa-alert-error schemaform-failure-alert\" data-testid=\"12345\"><div class=\"usa-alert-body\"><p class=\"schemaform-warning-header\"><strong>i am a title</strong></p><p></p></div></div>";
+
+exports["Common ErrorMessage component/should render message if passed as a prop(0)"] = "<div class=\"usa-alert usa-alert-error schemaform-failure-alert\"><div class=\"usa-alert-body\"><p class=\"schemaform-warning-header\"><strong></strong></p><p>i am a message</p></div></div>";
+
+exports["Common ErrorMessage component/should render children if passed as a prop(0)"] = "<div class=\"usa-alert usa-alert-error schemaform-failure-alert\"><div class=\"usa-alert-body\"><p class=\"schemaform-warning-header\"><strong></strong></p><p></p>i am a child component</div></div>";
+
+exports["Common ErrorMessage component/should render if active(0)"] = "<div class=\"usa-alert usa-alert-error schemaform-failure-alert\" data-testid=\"12345\"><div class=\"usa-alert-body\"><p class=\"schemaform-warning-header\"><strong></strong></p><p></p></div></div>";
+
+exports["Common ErrorMessage component/should not render if not active(0)"] = "";
+

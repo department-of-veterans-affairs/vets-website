@@ -1,4 +1,3 @@
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
@@ -70,6 +69,7 @@ describe('Schemaform review <ArrayField>', () => {
           },
         },
       },
+      additionalItems: {},
     };
     const uiSchema = {
       'ui:title': 'List of things',
@@ -132,7 +132,7 @@ describe('Schemaform review <ArrayField>', () => {
       items: {},
       'ui:options': {
         viewField: f => f,
-        itemName: 'Item name',
+        itemName: 'item name',
       },
     };
     const arrayData = [{}, {}];
@@ -152,11 +152,76 @@ describe('Schemaform review <ArrayField>', () => {
     );
 
     tree.getMountedInstance().handleAdd();
-    expect(tree.everySubTree('h5')[0].text()).to.equal('New Item name');
+    expect(tree.everySubTree('.schemaform-array-row-title')[0].text()).to.equal(
+      'New item name',
+    );
     expect(tree.everySubTree('button')[2].text()).to.equal(
-      'Add Another Item name',
+      'Add another item name',
     );
   });
+
+  it('should call handleAdd in edit mode with no data', () => {
+    const schema = {
+      type: 'array',
+      items: [
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+      ],
+      additionalItems: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string',
+          },
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      items: {},
+      'ui:options': {
+        viewField: f => f,
+        itemName: 'item name',
+      },
+    };
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        pageKey="page1"
+        arrayData={[]}
+        path={['thingList']}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={{}}
+        registry={registry}
+        formContext={{ onReviewPage: true }}
+        pageTitle=""
+        editing={false} // Not already in edit mode
+        requiredSchema={requiredSchema}
+      />,
+    );
+    tree.getMountedInstance().componentDidMount();
+    expect(tree.everySubTree('.schemaform-array-row-title')[0].text()).to.equal(
+      'New item name',
+    );
+    expect(tree.everySubTree('button')[2].text()).to.equal(
+      'Add another item name',
+    );
+  });
+
   it('should render array warning', () => {
     // If it's a BasicArrayField with a set minItems, make sure it doesn't break
     //  if no items are found; it should render a validation warning instead.
@@ -221,6 +286,156 @@ describe('Schemaform review <ArrayField>', () => {
     expect(tree.everySubTree('.schemaform-review-array-warning')).to.not.be
       .empty;
   });
+  it('should render start in edit mode for duplicate items', () => {
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      items: [
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+      ],
+      additionalItems: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string',
+          },
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      items: {
+        test: {
+          type: 'string',
+        },
+      },
+      'ui:options': {
+        viewField: f => f,
+        itemName: 'Item name',
+        duplicateKey: 'field',
+      },
+    };
+    // Duplicates are case insensitive
+    const arrayData = [
+      { field: 'a' },
+      { field: 'b' },
+      { field: 'A' },
+      { field: 'a' },
+      { field: 'B' },
+    ];
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        pageKey="page1"
+        arrayData={arrayData}
+        path={['thingList']}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formContext={formContext}
+        pageTitle=""
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    expect(tree.getMountedInstance().state.editing).to.deep.equal([
+      false,
+      false,
+      true,
+      true,
+      true,
+    ]);
+  });
+
+  it('should render unique aria-labels on buttons from ui option key in item', () => {
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      items: [
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+      ],
+      additionalItems: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string',
+          },
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      items: {
+        test: {},
+        'ui:options': {
+          itemAriaLabel: data => data.field,
+        },
+      },
+      'ui:options': {
+        viewField: f => f,
+        itemAriaLabel: data => data.field,
+        itemName: 'Itemz',
+      },
+    };
+    const arrayData = [{ field: 'foo' }, { field: 'bar' }];
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        pageKey="page1"
+        arrayData={arrayData}
+        path={['thingList']}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formContext={formContext}
+        pageTitle=""
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    tree.getMountedInstance().handleEdit(1, true);
+    tree.getMountedInstance().handleAdd();
+    expect(tree.everySubTree('.schemaform-array-row-title')[0].text()).to.equal(
+      'New Itemz',
+    );
+    const buttons = tree.everySubTree('button');
+    expect(buttons[0].props['aria-label']).to.equal('Update bar');
+    expect(buttons[1].props['aria-label']).to.equal('Remove bar');
+    expect(buttons[2].props['aria-label']).to.equal('Update Itemz');
+    expect(buttons[3].props['aria-label']).to.equal('Remove Itemz');
+    expect(buttons[4].text()).to.equal('Add another Itemz');
+  });
+
   describe('should handle', () => {
     let tree;
     let setData;
@@ -294,11 +509,11 @@ describe('Schemaform review <ArrayField>', () => {
       expect(tree.everySubTree('SchemaForm').length).to.equal(2);
     });
     it('enforces max items', () => {
-      expect(tree.subTree('.edit-btn').props.disabled).to.be.false;
+      expect(tree.subTree('.add-btn').props.disabled).to.be.false;
 
       tree.getMountedInstance().handleAdd();
 
-      expect(tree.subTree('.edit-btn').props.disabled).to.be.true;
+      expect(tree.subTree('.add-btn').props.disabled).to.be.true;
     });
     it('remove', () => {
       expect(tree.everySubTree('SchemaForm').length).to.equal(1);
@@ -312,6 +527,7 @@ describe('Schemaform review <ArrayField>', () => {
       expect(setData.calledWith({ thingList: [{ test: 1 }] })).to.be.true;
     });
   });
+
   it('should update state when props change', () => {
     const idSchema = {};
     const schema = {
@@ -324,6 +540,7 @@ describe('Schemaform review <ArrayField>', () => {
           },
         },
       },
+      additionalItems: {},
     };
     const uiSchema = {
       'ui:title': 'List of things',
@@ -354,13 +571,97 @@ describe('Schemaform review <ArrayField>', () => {
 
     const instance = tree.getMountedInstance();
 
-    const newProps = _.assign(instance.props, {
+    const newProps = {
+      ...instance.props,
       arrayData: [],
-    });
+    };
 
     instance.UNSAFE_componentWillReceiveProps(newProps);
 
     expect(instance.state.items).to.eql(newProps.arrayData);
     expect(instance.state.editing).to.eql([]);
+  });
+  it('should render reviewTitle first', () => {
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string',
+          },
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      items: {},
+      'ui:options': {
+        viewField: f => f,
+        reviewTitle: 'My List',
+      },
+    };
+    const arrayData = [];
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        pageKey="page1"
+        arrayData={arrayData}
+        path={['thingList']}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formContext={formContext}
+        pageTitle="Page Title"
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    expect(tree.subTree('.form-review-panel-page-header').text()).to.equal(
+      uiSchema['ui:options'].reviewTitle,
+    );
+    expect(tree.everySubTree('SchemaForm')).to.be.empty;
+  });
+  it('should render page title', () => {
+    const idSchema = {};
+    const schema = {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string',
+          },
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': ' ',
+      items: {},
+      'ui:options': {
+        viewField: f => f,
+      },
+    };
+    const arrayData = [];
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        pageKey="page1"
+        arrayData={arrayData}
+        path={['thingList']}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formContext={formContext}
+        pageTitle="Page Title"
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    expect(tree.subTree('.form-review-panel-page-header').text()).to.equal(
+      'Page Title',
+    );
+    expect(tree.everySubTree('SchemaForm')).to.be.empty;
   });
 });

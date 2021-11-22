@@ -1,10 +1,10 @@
 import 'platform/polyfills';
 import './sass/hca.scss';
 
-import startApp from 'platform/startup';
+import startApp from '~/platform/startup';
 
 import routes from './routes';
-import reducer from './reducer';
+import reducer from './reducers';
 import manifest from './manifest.json';
 
 let rootUrl = manifest.rootUrl;

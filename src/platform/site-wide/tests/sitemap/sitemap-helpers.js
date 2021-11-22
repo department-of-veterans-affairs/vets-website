@@ -1,24 +1,33 @@
-const libxmljs = require('libxmljs');
+const libxmljs2 = require('libxmljs2');
 const fetch = require('node-fetch');
 const E2eHelpers = require('../../../testing/e2e/helpers');
-const Timeouts = require('../../../testing/e2e/timeouts.js');
 
 const SITEMAP_URL = `${E2eHelpers.baseUrl}/sitemap.xml`;
 const SITEMAP_LOC_NS = 'http://www.sitemaps.org/schemas/sitemap/0.9';
 const DOMAIN_REGEX = /http[s]?:\/\/(.*?)\//;
 
+const pagesWithRedirects = ['/manage-va-debt/your-debt/'];
+
+const shouldIgnore = url => {
+  const parsedUrl = new URL(url);
+  return (
+    !url.endsWith('auth/login/callback/') &&
+    !url.includes('playbook/') &&
+    !url.includes('pittsburgh-health-care/') &&
+    !/.*opt-out-information-sharing.*/.test(url) &&
+    !pagesWithRedirects.some(redirectUrl => parsedUrl.pathname === redirectUrl)
+  );
+};
+
 function sitemapURLs() {
   return fetch(SITEMAP_URL)
     .then(res => res.text())
-    .then(body => libxmljs.parseXml(body))
+    .then(body => libxmljs2.parseXml(body))
     .then(doc =>
       doc
         .find('//xmlns:loc', SITEMAP_LOC_NS)
         .map(n => n.text().replace(DOMAIN_REGEX, `${E2eHelpers.baseUrl}/`))
-        .filter(url => !url.endsWith('auth/login/callback/'))
-        .filter(url => !url.includes('playbook/'))
-        .filter(url => !url.includes('pittsburgh-health-care/'))
-        .filter(url => !/.*opt-out-information-sharing.*/.test(url)),
+        .filter(shouldIgnore),
     )
     .then(urls => {
       const onlyTest508Rules = [
@@ -44,21 +53,4 @@ function sitemapURLs() {
     });
 }
 
-function runTests(client, segment, only508List) {
-  segment.forEach(url => {
-    const only508 = only508List.filter(path => url.endsWith(path)).length > 0;
-    client
-      .perform(() => {
-        // eslint-disable-next-line no-console
-        console.log(url);
-      })
-      .openUrl(url)
-      .waitForElementVisible('body', Timeouts.normal)
-      .axeCheck(
-        'document',
-        only508 ? { scope: url, rules: ['section508'] } : { scope: url },
-      );
-  });
-}
-
-module.exports = { runTests, sitemapURLs };
+module.exports = { sitemapURLs };

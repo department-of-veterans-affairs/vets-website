@@ -34,18 +34,30 @@ for o in "$@"; do
             buildtype="${o#*=}"
             shift
             ;;
+        --destination)
+            destination="$2"
+            shift
+            shift
+            ;;
+        --destination=*)
+            destination="${o#*=}"
+            shift
+            ;;
         *)
             ;;
     esac
 done
 
+# If destination flag is absent, use buildtype as destination
+destination="${destination:-$buildtype}"
+
 echo "assetSource: ${assetSource}"
 echo "buildtype: ${buildtype}"
-echo
+echo "destination: ${destination}"
 
-buildDir="$(dirname "$0")/../build/${buildtype}/"
+buildDir="$(dirname "$0")/../build/${destination}/"
 if [ -d "${buildDir}" ]; then
-    echo "Removing build/${buildtype}"
+    echo "Removing build/${destination}"
     rm -r "${buildDir}"
 fi
 
@@ -57,6 +69,3 @@ if [ "${assetSource}" = "local" ]; then
 else
     echo "Will fetch application assets from the content build script"
 fi
-
-# Always build the content
-yarn build:content $args

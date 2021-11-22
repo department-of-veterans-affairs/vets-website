@@ -1,0 +1,6 @@
+exports["Review PreSubmitSection component/should render(0)"] = "<div>&lt;div&gt;Notice&lt;/div&gt;<div class=\"form-checkbox\"><input id=\"errorable-checkbox-1\" name=\"privacyAgreementAccepted\" type=\"checkbox\"><label name=\"privacyAgreementAccepted-label\" for=\"errorable-checkbox-1\">I accept the privacy agreement<span class=\"form-required-span\">(*Required)</span></label></div></div>";
+
+exports["Review PreSubmitSection component/should render presubmit error(0)"] = "<div>&lt;div&gt;Notice&lt;/div&gt;<div class=\"form-checkbox usa-input-error\"><input aria-describedby=\"errorable-checkbox-2-error-message\" id=\"errorable-checkbox-2\" name=\"privacyAgreementAccepted\" type=\"checkbox\"><label class=\"usa-input-error-label\" name=\"privacyAgreementAccepted-label\" for=\"errorable-checkbox-2\">I accept the privacy agreement<span class=\"form-required-span\">(*Required)</span></label><span class=\"usa-input-error-message\" role=\"alert\" id=\"errorable-checkbox-2-error-message\"><span class=\"sr-only\">Error</span> You must accept the privacy agreement</span></div></div>";
+
+exports["Review PreSubmitSection component/should render a CustomComponent(0)"] = "<div data-testid=\"12345\">i am custom component</div>";
+

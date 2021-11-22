@@ -17,10 +17,48 @@
   white-space: nowrap;
 }
 
+.word-break {
+  word-break: break-word;
+}
+
+.clearfix:after {
+  content: " ";
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+.button-icon {
+  pointer-events: none;
+}
+
 ul.original-disability-list {
   li {
     margin-bottom: 0;
   }
+}
+
+fieldset.schemaform-block,
+.schemaform-field-template.usa-input-error,
+.wizard-content-inner .fieldset-input:first-child {
+  margin-top: 0;
+}
+
+/* federal orders */
+article[data-location$="federal-orders"] {
+  .schemaform-field-template.usa-input-error {
+    margin-top: 3rem;
+  }
+}
+
+/* Hide duplicate required span; first one in legend */
+.new-condition-description + .schemaform-required-span {
+  display: none;
+}
+
+.row .usa-date-of-birth.row {
+  margin: unset;
 }
 
 .process-step:last-child {
@@ -39,10 +77,6 @@ ul.original-disability-list {
   p {
     margin: 0.5em 0;
   }
-}
-
-.progress-box .va-growable button {
-  max-height: 2.3em;
 }
 
 // Bring the text of an element nested in a <label> up to the same line as the check box
@@ -101,6 +135,11 @@ ul.original-disability-list {
   }
 }
 
+// upload error message alignment
+.form-expanding-group li.usa-input-error {
+  right: 0;
+}
+
 // removes gap when using multiple widget-outlines
 .widget-outline-group {
   &:last-child {
@@ -127,6 +166,12 @@ ul.original-disability-list {
   white-space: pre-wrap;
 }
 
+article[data-location="review-veteran-details/separation-location"] {
+  fieldset > .schemaform-field-container {
+    margin-top: 0;
+  }
+}
+
 // Style fix for "Private medical records"
 dl.review,
 div.review {
@@ -149,6 +194,16 @@ div.review {
   }
 }
 
+/* Remove bold on New Disability AdditionalInfo link in review #12678 */
+.usa-accordion > ul button.additional-info-button,
+.usa-accordion-bordered > ul button.additional-info-button {
+  font-weight: normal;
+}
+
+.capitalize-first-letter::first-letter {
+  text-transform: capitalize;
+}
+
 @media (min-width: 481px) {
   dl.review,
   div.review {
@@ -164,5 +219,28 @@ div.review {
       max-width: 60%;
       min-width: 40%;
     }
+  }
+}
+
+/* Confirmation page */
+article[data-location="confirmation"] {
+  h1[tabindex="-1"] {
+    outline: none;
+  }
+  @media print {
+    .confirmation-page-title, a {
+      text-align: left;
+      padding-left: 0;
+    }
+  }
+}
+
+@media print {
+  .usa-width-two-thirds {
+    width: 100%;
+  }
+  .schemaform-title,
+  .schemaform-subtitle {
+    display: none;
   }
 }

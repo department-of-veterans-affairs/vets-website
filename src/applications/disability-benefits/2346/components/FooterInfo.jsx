@@ -2,7 +2,7 @@ import React from 'react';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 const FooterInfo = () => (
   <section className="need-help-footer row vads-u-padding-x--1p5">

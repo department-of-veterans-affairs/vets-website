@@ -1,4 +1,8 @@
-<html>
+<!--
+  IMPORTANT: This template is only used when running vets-website in standalone mode for development.
+  Changes to this file must also be made to src/site/layouts/page-react.html in the content-build repository.
+-->
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -7,8 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= htmlWebpackPlugin.options.title %></title>
 
-    <script>
-      <%= inlineScripts['record-event.js'] %>
+    <script nonce="**CSP_NONCE**">
+      <%= loadInlineScript('record-event.js') %>
     </script>
 
 
@@ -34,7 +38,18 @@
 
     <%= modifyScriptTags(htmlWebpackPlugin.tags.bodyTags) %>
 
-    <script type="text/javascript">
+    <script nonce="**CSP_NONCE**" type="text/javascript">
+      function focusContent(e) {
+        e.preventDefault();
+        e.target.hidden = true;
+        const contentElement = document.querySelector('#content h1') || document.querySelector('#content');
+        contentElement.setAttribute('tabindex', '-1');
+        contentElement.addEventListener('blur', function(event) {
+          event.target.removeAttribute('tabindex');
+        }, true);
+        window.scrollTo(0, contentElement.offsetTop);
+        contentElement.focus();
+      }
       window.VetsGov = window.VetsGov || {};
       window.VetsGov.headerFooter = <%= JSON.stringify(headerFooterData) %>;
     </script>
@@ -42,9 +57,19 @@
   </head>
 
   <body class="merger">
-    <a class="show-on-focus" href="#content">Skip to Content</a>
+    <a class="show-on-focus" href="#content" onclick="focusContent(event)">Skip to Content</a>
 
-    <header class="header">
+    <!-- Header -->
+    <div
+      data-widget-type="header"
+      data-show="{{ !noHeader }}"
+      data-show-nav-login="{{ !noNavOrLogin }}"
+      data-show-mega-menu="{{ !noMegamenu }}"
+      id="header-v2"
+    ></div>
+
+    <!-- Legacy Header -->
+    <header class="header" id="legacy-header" role="banner">
       <div class="incompatible-browser-warning">
         <div class="row full">
           <div class="small-12">
@@ -109,19 +134,22 @@
           </a>
         </div>
         <div id="va-nav-controls"></div>
+        <div class="medium-screen:vads-u-display--none usa-grid usa-grid-full">
+          <div class="menu-rule usa-one-whole"></div>
+          <div class="mega-menu" id="mega-menu-mobile"></div>
+        </div>
         <div id="login-root" class="vet-toolbar"></div>
       </div>
       <div class="usa-grid usa-grid-full">
-        <div id="menu-rule" class="usa-one-whole"></div>
+        <div class="menu-rule usa-one-whole"></div>
         <div id="mega-menu"></div>
-        <!-- for the mega-menu, but if you add the ID the css breaks rn -->
       </div>
     </header>
 
-    <script type="text/javascript">
+    <script nonce="**CSP_NONCE**" type="text/javascript">
     (function() {
       var module = {};
-      <%= inlineScripts['incompatible-browser.js'] %>
+      <%= loadInlineScript('incompatible-browser.js') %>
       checkBrowserCompatibility();
     })();
     </script>
@@ -132,7 +160,7 @@
       <ul id="va-breadcrumbs-list" class="row va-nav-breadcrumbs-list columns" tabindex="-1">
       <% breadcrumbs_override.forEach(({ name, path }, index) => { %>
         <li>
-          <a 
+          <a
             <% if (index === breadcrumbs_override.length - 1) { %>
             aria-current="page"
             <% } %>
@@ -148,17 +176,52 @@
     <!-- React root -->
     <div id="content">
       <main id="main" class="main">
-        <div class="section">
-          <div id="react-root">
-            <div class="vads-u-margin-y--5">
-              <div class="loading-indicator-container">
-                <div class="loading-indicator" role="progressbar" aria-valuetext="<%= loadingMessage %>" tabindex="0">
+        <% if (widgetType) { %>
+          <div class="usa-grid usa-grid-full vads-u-padding-top--3">
+            <% if (widgetTemplate == 'navigation/facility_sidebar_nav') { %>
+              <script nonce="**CSP_NONCE**" type="text/javascript">
+                window.sideNav = <%= JSON.stringify({rootPath: rootUrl, data: facilitySidebar}) %>;
+              </script>
+              <nav data-template="navigation/facility_sidebar_nav" aria-label="secondary" data-widget-type="side-nav"></nav>
+            <% } %>
+
+            <div class="usa-width-three-fourths">
+              <article class="usa-content">
+                <div data-template="paragraphs/react_widget" data-widget-type="<%= widgetType %>" data-widget-timeout="20">
+                  <div class="loading-indicator-container">
+                    <div class="loading-indicator" role="progressbar" aria-valuetext="Loading" aria-label="secondary"></div>
+                    <span class="loading-indicator-message loading-indicator-message--normal"></span>
+                    <span class="loading-indicator-message loading-indicator-message--slow vads-u-display--none"
+                      aria-hidden="true">
+                      Sorry, this is taking longer than expected.
+                    </span>
+                  </div>
+                  <span class="static-widget-content vads-u-display--none" aria-hidden="true">
+                  </span>
+                  <div class="usa-alert usa-alert-error sip-application-error vads-u-display--none" aria-hidden="true">
+                    <div class="usa-alert-body">
+                      <strong>We&#x2019;re sorry. Something went wrong when we tried to load the
+                        search widget.</strong><br>Please try refreshing your browser in a few
+                      minutes.
+                    </div>
+                  </div>
                 </div>
-                <%= loadingMessage %>
+              </article>
+            </div><!--/.usa-width-three-fourths-->
+          </div><!--/.usa-grid.usa-grid-full-->
+        <% } else{ %>
+          <div class="section">
+            <div id="react-root">
+              <div class="vads-u-margin-y--5">
+                <div class="loading-indicator-container">
+                  <div class="loading-indicator" role="progressbar" aria-valuetext="<%= loadingMessage %>" aria-label="Load application" tabindex="0">
+                  </div>
+                  <%= loadingMessage %>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        <% } %>
       </main>
     </div>
 
@@ -174,10 +237,10 @@
       -->
 
     <% if (entryName === 'static-pages') { %>
-    <script type="text/javascript">
+    <script nonce="**CSP_NONCE**" type="text/javascript">
       (function() {
       var module = {};
-      <%= inlineScripts['static-page-widgets.js'] %>
+      <%= loadInlineScript('static-page-widgets.js') %>
       mountWidgets(document.querySelectorAll('[data-widget-type]'), 6000);
       })();
     </script>

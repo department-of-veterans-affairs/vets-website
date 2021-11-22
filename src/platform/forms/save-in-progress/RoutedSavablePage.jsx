@@ -34,10 +34,9 @@ class RoutedSavablePage extends React.Component {
     const { form, user } = this.props;
     if (user.login.currentlyLoggedIn) {
       const data = form.data;
-      const { formId, version } = form;
+      const { formId, version, submission } = form;
       const returnUrl = this.props.location.pathname;
-
-      this.props.autoSaveForm(formId, data, version, returnUrl);
+      this.props.autoSaveForm(formId, data, version, returnUrl, submission);
     }
   }
 
@@ -46,29 +45,29 @@ class RoutedSavablePage extends React.Component {
     const finishAppLaterMessage =
       formConfig?.customText?.finishAppLaterMessage ||
       FINISH_APP_LATER_DEFAULT_MESSAGE;
+    const contentBeforeButtons = (
+      <SaveFormLink
+        locationPathname={this.props.location.pathname}
+        form={form}
+        formConfig={formConfig}
+        route={route}
+        pageList={route.pageList}
+        user={user}
+        showLoginModal={this.props.showLoginModal}
+        saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
+        toggleLoginModal={this.props.toggleLoginModal}
+      >
+        {finishAppLaterMessage}
+      </SaveFormLink>
+    );
     const contentAfterButtons = (
-      <div>
-        <SaveStatus
-          isLoggedIn={user.login.currentlyLoggedIn}
-          showLoginModal={this.props.showLoginModal}
-          toggleLoginModal={this.props.toggleLoginModal}
-          form={form}
-          formConfig={formConfig}
-        />
-        <SaveFormLink
-          locationPathname={this.props.location.pathname}
-          form={form}
-          formConfig={formConfig}
-          route={route}
-          pageList={route.pageList}
-          user={user}
-          showLoginModal={this.props.showLoginModal}
-          saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-          toggleLoginModal={this.props.toggleLoginModal}
-        >
-          {finishAppLaterMessage}
-        </SaveFormLink>
-      </div>
+      <SaveStatus
+        isLoggedIn={user.login.currentlyLoggedIn}
+        showLoginModal={this.props.showLoginModal}
+        toggleLoginModal={this.props.toggleLoginModal}
+        form={form}
+        formConfig={formConfig}
+      />
     );
 
     return (
@@ -77,6 +76,7 @@ class RoutedSavablePage extends React.Component {
         blockScrollOnMount={saveErrors.has(form.savedStatus)}
         setData={this.onChange}
         formContext={getFormContext({ user, form })}
+        contentBeforeButtons={contentBeforeButtons}
         contentAfterButtons={contentAfterButtons}
       />
     );

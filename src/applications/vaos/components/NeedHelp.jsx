@@ -1,9 +1,9 @@
 import React from 'react';
-import recordEvent from 'platform/monitoring/record-event';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
+import NewTabAnchor from './NewTabAnchor';
 
 export default function NeedHelp() {
   return (
@@ -16,27 +16,29 @@ export default function NeedHelp() {
         className="vads-u-margin-y--1p5 vads-u-border-color--primary"
       />
       <p className="vads-u-margin-top--0">
-        For help scheduling a VA or Community Care appointment, please call{' '}
-        <a href="tel:8774705947">877-470-5947</a> (if you have hearing loss,
-        call TTY:{' '}
+        If you need help scheduling an appointment, please call your VA or
+        community care health facility.{' '}
+        <NewTabAnchor href="/find-locations">
+          Find your health facility’s phone number.
+        </NewTabAnchor>
+      </p>
+      <p className="vads-u-margin-top--0">
+        To report a technical issue with the VA appointments tool, or if you
+        have a question about using the tool, please call{' '}
+        <Telephone contact="8774705947" /> (TTY:{' '}
         <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
-        ). We’re here Monday &ndash; Friday, 8:00 a.m. to 8:00 p.m. ET.
+        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
       <p className="vads-u-margin-top--0">
         For questions about joining a VA Video Connect appointment, please call{' '}
-        <a href="tel:8666513180">866-651-3180</a> (if you have hearing loss,
-        call TTY:{' '}
+        <Telephone contact="8666513180" /> (TTY:{' '}
         <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
-        ). We’re here Monday &ndash; Saturday, 7:00 a.m. to 11:00 p.m. ET.
+        ). We’re here 24/7.
       </p>
       <p className="vads-u-margin-top--0">
-        <a
-          href="https://veteran.apps.va.gov/feedback-web/v1/?appId=85870ADC-CC55-405E-9AC3-976A92BBBBEE"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <NewTabAnchor href="https://veteran.apps.va.gov/feedback-web/v1/?appId=85870ADC-CC55-405E-9AC3-976A92BBBBEE">
           Leave feedback about this application
-        </a>
+        </NewTabAnchor>
       </p>
     </div>
   );

@@ -23,8 +23,16 @@
     },
     {
       "column": 1,
-      "href": "https://www.ptsd.va.gov",
+      "href": "https://www.patientcare.va.gov/lgbt/",
       "order": 4,
+      "target": "",
+      "title": "LGBTQ+ Veterans",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 1,
+      "href": "https://www.ptsd.va.gov",
+      "order": 5,
       "target": "",
       "title": "PTSD",
       "rel": "noopener noreferrer"
@@ -32,7 +40,7 @@
     {
       "column": 1,
       "href": "https://www.mentalhealth.va.gov",
-      "order": 5,
+      "order": 6,
       "target": "",
       "title": "Mental health",
       "rel": "noopener noreferrer"
@@ -40,82 +48,96 @@
     {
       "column": 1,
       "href": "https://www.va.gov/adaptivesports/",
-      "order": 6,
+      "order": 7,
       "target": "",
       "title": "Adaptive sports and special events"
     },
     {
       "column": 1,
+      "href": "https://www.va.gov/outreach-and-events/events/",
+      "order": 8,
+      "target": null,
+      "title": "VA outreach events"
+    },
+    {
+      "column": 1,
       "href": "https://www.nrd.gov",
-      "order": 7,
+      "order": 9,
       "target": "_blank",
       "title": "National Resource Directory",
       "rel": "noopener noreferrer"
     },
     {
       "column": 2,
-      "href": "https://staging.va.gov/find-forms/",
+      "href": "https://www.va.gov/find-forms/",
       "order": 1,
       "target": null,
-      "title": "Find a VA form"
-    },
-    {
-      "column": 2,
-      "href": "https://www.mobile.va.gov/appstore/",
-      "order": 2,
-      "target": "_blank",
-      "title": "Get VA mobile apps",
-      "rel": "noopener noreferrer"
-    },
-    {
-      "column": 2,
-      "href": "https://www.va.gov/jobs/",
-      "order": 3,
-      "target": null,
-      "title": "Careers at VA"
-    },
-    {
-      "column": 2,
-      "href": "https://www.va.gov/landing2_business.htm",
-      "order": 4,
-      "target": null,
-      "title": "Doing business with VA"
-    },
-    {
-      "column": 2,
-      "href": "https://www.va.gov/ogc/accreditation.asp",
-      "order": 5,
-      "target": null,
-      "title": "VA claims accreditation"
+      "title": "VA forms"
     },
     {
       "column": 2,
       "href": "https://www.accesstocare.va.gov/ourproviders/",
-      "order": 6,
+      "order": 2,
       "target": "_blank",
-      "title": "Find a VA health care provider",
+      "title": "VA health care provider",
+      "rel": "noopener noreferrer"
+    },
+    {
+      "column": 2,
+      "href": "https://www.va.gov/ogc/accreditation.asp",
+      "order": 3,
+      "target": null,
+      "title": "Accredited claims representatives"
+    },
+    {
+      "column": 2,
+      "href": "https://www.mobile.va.gov/appstore/",
+      "order": 4,
+      "target": "_blank",
+      "title": "VA mobile apps",
       "rel": "noopener noreferrer"
     },
     {
       "column": 2,
       "href": "https://www.va.gov/vso/",
-      "order": 7,
+      "order": 5,
       "target": null,
       "title": "Veterans Service Organizations (VSOs)"
     },
     {
       "column": 2,
       "href": "https://www.va.gov/statedva.htm",
-      "order": 8,
+      "order": 6,
       "target": null,
       "title": "State Veterans Affairs offices"
     },
     {
       "column": 2,
-      "href": "https://www.va.gov/welcome-kit/",
+      "href": "https://www.va.gov/landing2_business.htm",
+      "order": 7,
+      "target": null,
+      "title": "Doing business with VA"
+    },
+    {
+      "column": 2,
+      "href": "https://www.va.gov/jobs/",
+      "order": 8,
+      "target": null,
+      "title": "Careers at VA"
+    },
+    {
+      "column": 2,
+      "href": "https://www.va.gov/outreach-and-events/outreach-materials/",
       "order": 9,
       "target": null,
-      "title": "Print your VA welcome kit"
+      "title": "VA outreach materials"
+    },
+    {
+      "column": 2,
+      "href": "https://www.va.gov/welcome-kit/",
+      "order": 10,
+      "target": null,
+      "title": "Your VA welcome kit"
     },
     {
       "column": 3,
@@ -127,8 +149,15 @@
     },
     {
       "column": 3,
-      "href": "https://public.govdelivery.com/accounts/USVA/subscriber/new/",
+      "href": "https://www.va.gov/opa/pressrel/",
       "order": 2,
+      "target": null,
+      "title": "Get VA updates"
+    },
+    {
+      "column": 3,
+      "href": "https://public.govdelivery.com/accounts/USVA/subscriber/new/",
+      "order": 3,
       "target": "_blank",
       "title": "Email updates",
       "rel": "noopener noreferrer"
@@ -136,7 +165,7 @@
     {
       "column": 3,
       "href": "https://www.facebook.com/VeteransAffairs",
-      "order": 3,
+      "order": 4,
       "target": "_blank",
       "title": "Facebook",
       "rel": "noopener noreferrer"
@@ -144,7 +173,7 @@
     {
       "column": 3,
       "href": "https://www.instagram.com/deptvetaffairs/",
-      "order": 4,
+      "order": 5,
       "target": "_blank",
       "title": "Instagram",
       "rel": "noopener noreferrer"
@@ -152,7 +181,7 @@
     {
       "column": 3,
       "href": "https://www.twitter.com/DeptVetAffairs/",
-      "order": 5,
+      "order": 6,
       "target": "_blank",
       "title": "Twitter",
       "rel": "noopener noreferrer"
@@ -160,7 +189,7 @@
     {
       "column": 3,
       "href": "https://www.flickr.com/photos/VeteransAffairs/",
-      "order": 6,
+      "order": 7,
       "target": "_blank",
       "title": "Flickr",
       "rel": "noopener noreferrer"
@@ -168,7 +197,7 @@
     {
       "column": 3,
       "href": "https://www.youtube.com/user/DeptVetAffairs",
-      "order": 7,
+      "order": 8,
       "target": "_blank",
       "title": "YouTube",
       "rel": "noopener noreferrer"
@@ -176,37 +205,54 @@
     {
       "column": 3,
       "href": "https://www.va.gov/opa/socialmedia.asp",
-      "order": 8,
+      "order": 9,
       "target": null,
       "title": "All VA social media"
     },
     {
+      "column": 3,
+      "href": "https://www.va.gov/performance-dashboard/",
+      "order": 10,
+      "target": null,
+      "title": "VA performance dashboard"
+    },
+    {
       "column": 4,
-      "href": "https://www.va.gov/find-locations/",
+      "href": "https://www.va.gov/resources/",
       "order": 1,
       "target": null,
-      "title": "Find a VA location"
+      "title": "Resources and support"
     },
     {
       "column": 4,
-      "href": "https://iris.custhelp.va.gov/app/ask",
+      "href": "https://www.va.gov/contact-us/",
       "order": 2,
       "target": null,
-      "title": "Ask a question",
-      "rel": "noopener noreferrer"
+      "title": "Contact us"
     },
     {
       "column": 4,
-      "label": "Call VA311:",
-      "href": "tel:18446982311",
+      "label": "Call us",
+      "href": "tel:18006982411",
       "order": 3,
       "target": null,
-      "title": "844-698-2311"
+      "title": "800-698-2411"
+    },
+    {
+      "ariaLabel": "TTY: 7 1 1.",
+      "column": 4,
+      "href": "tel:+1711",
+      "order": 4,
+      "target": null,
+      "title": "TTY: 711"
     },
     {
       "column": 4,
-      "order": 4,
-      "title": "TTY: 711"
+      "label": "Visit a medical center or regional office",
+      "href": "https://www.va.gov/find-locations/",
+      "order": 5,
+      "target": null,
+      "title": "Find a VA location"
     },
     {
       "column": "bottom_rail",
@@ -218,60 +264,60 @@
     },
     {
       "column": "bottom_rail",
-      "href": "https://www.va.gov/orm/NOFEAR_Select.asp",
+      "href": "https://www.va.gov/resources/your-civil-rights-and-how-to-file-a-discrimination-complaint/",
       "order": 2,
       "target": null,
-      "title": "No FEAR Act Data"
+      "title": "Civil Rights"
+    },
+    {
+      "column": "bottom_rail",
+      "href": "https://www.va.gov/foia/",
+      "order": 3,
+      "target": null,
+      "title": "Freedom of Information Act (FOIA)"
     },
     {
       "column": "bottom_rail",
       "href": "https://www.va.gov/oig/",
-      "order": 3,
+      "order": 4,
       "target": null,
       "title": "Office of Inspector General"
     },
     {
       "column": "bottom_rail",
       "href": "https://www.va.gov/opa/Plain_Language.asp",
-      "order": 4,
+      "order": 5,
       "target": null,
       "title": "Plain language"
     },
     {
       "column": "bottom_rail",
       "href": "https://www.va.gov/privacy-policy/",
-      "order": 5,
+      "order": 6,
       "target": null,
       "title": "Privacy, policies, and legal information"
     },
     {
       "column": "bottom_rail",
       "href": "https://www.va.gov/privacy/",
-      "order": 6,
+      "order": 7,
       "target": null,
       "title": "VA Privacy Service"
     },
     {
       "column": "bottom_rail",
-      "href": "https://www.va.gov/foia/",
-      "order": 7,
+      "href": "https://www.va.gov/ormdi/NOFEAR_Select.asp",
+      "order": 8,
       "target": null,
-      "title": "Freedom of Information Act (FOIA)"
+      "title": "No FEAR Act Data"
     },
     {
       "column": "bottom_rail",
       "href": "https://www.usa.gov/",
-      "order": 8,
+      "order": 9,
       "target": "_blank",
       "title": "USA.gov",
       "rel": "noopener noreferrer"
-    },
-    {
-      "column": "bottom_rail",
-      "href": "https://www.va.gov/performance-dashboard/",
-      "order": 9,
-      "target": null,
-      "title": "VA performance dashboard"
     },
     {
       "column": "bottom_rail",
@@ -283,7 +329,7 @@
   ],
   "megaMenuData": [
     {
-      "title": "VA Benefits and Health Care",
+      "title": "VA benefits and health care",
       "menuSections": [
         {
           "title": "Health care",
@@ -325,7 +371,7 @@
                   "href": "https://www.va.gov/health-care/secure-messaging"
                 },
                 {
-                  "text": "Schedule and view VA appointments",
+                  "text": "Schedule and manage health appointments",
                   "href": "https://www.va.gov/health-care/schedule-view-va-appointments"
                 },
                 {
@@ -347,7 +393,7 @@
                 "text": "Coronavirus FAQs",
                 "href": "https://www.va.gov/coronavirus-veteran-frequently-asked-questions/"
               },
-              "description": "Get answers to frequently asked questions about COVID-19 and VA health care. You can also call VA311 at 844-698-2311."
+              "description": "Get answers to frequently asked questions about COVID-19 and VA health care. You can also call our MyVA411 main information line at at 800-698-2411."
             }
           }
         },
@@ -666,6 +712,64 @@
           }
         },
         {
+          "title": "Life insurance",
+          "links": {
+            "seeAllLink": {
+              "text": "View all in life insurance",
+              "href": "https://www.va.gov/life-insurance"
+            },
+            "columnOne": {
+              "title": "Get life insurance",
+              "links": [
+                {
+                  "text": "About life insurance options",
+                  "href": "https://www.va.gov/life-insurance/options-eligibility"
+                },
+                {
+                  "text": "Benefits for totally disabled or terminally ill policyholders",
+                  "href": "https://www.va.gov/life-insurance/totally-disabled-or-terminally-ill"
+                },
+                {
+                  "text": "Beneficiary financial counseling and online will preparation",
+                  "href": "https://www.benefits.va.gov/insurance/bfcs.asp"
+                }
+              ]
+            },
+            "columnTwo": {
+              "title": "Manage your life insurance",
+              "links": [
+                {
+                  "text": "Access your policy online",
+                  "href": "https://www.va.gov/life-insurance/manage-your-policy"
+                },
+                {
+                  "text": "Update your beneficiaries",
+                  "href": "https://www.benefits.va.gov/INSURANCE/updatebene.asp"
+                },
+                {
+                  "text": "File a claim for insurance benefits",
+                  "href": "https://www.benefits.va.gov/INSURANCE/sglivgli.asp"
+                },
+                {
+                  "text": "Check your appeal status",
+                  "href": "https://www.va.gov/claim-or-appeal-status"
+                }
+              ]
+            },
+            "columnThree": {
+              "img": {
+                "src": "https://www.va.gov/img/styles/3_2_medium_thumbnail/public/hub_promos/life-insurance.png",
+                "alt": ""
+              },
+              "link": {
+                "text": "SGLI Online Enrollment System (SOES)",
+                "href": "https://www.benefits.va.gov/INSURANCE/SOES.asp"
+              },
+              "description": "Learn about our new online enrollment system for Servicemembers' Group Life Insurance."
+            }
+          }
+        },
+        {
           "title": "Burials and memorials",
           "links": {
             "columnOne": {
@@ -728,64 +832,6 @@
                 "href": "https://m.va.gov/"
               },
               "description": "Locate a grave, search for cemeteries, and find benefits information and resources."
-            }
-          }
-        },
-        {
-          "title": "Life insurance",
-          "links": {
-            "seeAllLink": {
-              "text": "View all in life insurance",
-              "href": "https://www.va.gov/life-insurance"
-            },
-            "columnOne": {
-              "title": "Get life insurance",
-              "links": [
-                {
-                  "text": "About life insurance options",
-                  "href": "https://www.va.gov/life-insurance/options-eligibility"
-                },
-                {
-                  "text": "Benefits for totally disabled or terminally ill policyholders",
-                  "href": "https://www.va.gov/life-insurance/totally-disabled-or-terminally-ill"
-                },
-                {
-                  "text": "Beneficiary financial counseling and online will preparation",
-                  "href": "https://www.benefits.va.gov/insurance/bfcs.asp"
-                }
-              ]
-            },
-            "columnTwo": {
-              "title": "Manage your life insurance",
-              "links": [
-                {
-                  "text": "Access your policy online",
-                  "href": "https://www.va.gov/life-insurance/manage-your-policy"
-                },
-                {
-                  "text": "Update your beneficiaries",
-                  "href": "https://www.benefits.va.gov/INSURANCE/updatebene.asp"
-                },
-                {
-                  "text": "File a claim for insurance benefits",
-                  "href": "https://www.benefits.va.gov/INSURANCE/sglivgli.asp"
-                },
-                {
-                  "text": "Check your appeal status",
-                  "href": "https://www.va.gov/claim-or-appeal-status"
-                }
-              ]
-            },
-            "columnThree": {
-              "img": {
-                "src": "https://www.va.gov/img/styles/3_2_medium_thumbnail/public/hub_promos/life-insurance.png",
-                "alt": ""
-              },
-              "link": {
-                "text": "SGLI Online Enrollment System (SOES)",
-                "href": "https://www.benefits.va.gov/INSURANCE/SOES.asp"
-              },
-              "description": "Learn about our new online enrollment system for Servicemembers' Group Life Insurance."
             }
           }
         },
@@ -948,7 +994,7 @@
               "href": "https://www.va.gov/about_va/vahistory.asp"
             },
             {
-              "text": "VA plans, budget, and performance",
+              "text": "VA plans, budget, finances, and performance",
               "href": "https://www.va.gov/performance/"
             },
             {
@@ -979,7 +1025,7 @@
       }
     },
     {
-      "title": "Find a VA Location",
+      "title": "Find a VA location",
       "href": "https://www.va.gov/find-locations"
     }
   ]

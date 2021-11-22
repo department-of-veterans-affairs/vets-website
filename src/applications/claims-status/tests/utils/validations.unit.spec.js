@@ -5,13 +5,41 @@ import {
   isValidFileType,
   isValidFile,
   isValidDocument,
+  MAX_FILE_SIZE_BYTES,
+  MAX_PDF_SIZE_BYTES,
 } from '../../utils/validations';
+
+const pdfSizeFeature = true;
+const validPdfSize =
+  MAX_FILE_SIZE_BYTES + (MAX_PDF_SIZE_BYTES - MAX_FILE_SIZE_BYTES) / 2;
 
 describe('Claims status validation:', () => {
   describe('isValidFileSize', () => {
     it('should validate size is less than max', () => {
       const result = isValidFileSize({ size: 10 });
       expect(result).to.be.true;
+    });
+
+    it('should invalidate size is greater than max', () => {
+      const result = isValidFileSize({ size: MAX_PDF_SIZE_BYTES + 100 });
+      expect(result).to.be.false;
+    });
+
+    it('should validate PDF size is less than max', () => {
+      const result = isValidFileSize(
+        { name: 'test.pdf', size: validPdfSize },
+        pdfSizeFeature,
+      );
+      expect(result).to.be.true;
+    });
+
+    it('should invalidate PDF size is greater than max', () => {
+      const invalidSize = MAX_PDF_SIZE_BYTES;
+      const result = isValidFileSize(
+        { name: 'test.pdf', size: invalidSize },
+        pdfSizeFeature,
+      );
+      expect(result).to.be.false;
     });
   });
   describe('isValidFileType', () => {
@@ -50,6 +78,14 @@ describe('Claims status validation:', () => {
       const result = isValidFile();
 
       expect(result).to.be.false;
+    });
+    it('should validate file for size and type', () => {
+      const result = isValidFile(
+        { name: 'testing.pdf', size: validPdfSize },
+        pdfSizeFeature,
+      );
+
+      expect(result).to.be.true;
     });
   });
   describe('isValidDocument', () => {

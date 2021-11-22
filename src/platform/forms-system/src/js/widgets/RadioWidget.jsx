@@ -1,4 +1,5 @@
 import React from 'react';
+import { isReactComponent } from '../../../../utilities/ui';
 
 import ExpandingGroup from '../components/ExpandingGroup';
 
@@ -9,11 +10,22 @@ export default function RadioWidget({
   onChange,
   id,
 }) {
-  const { enumOptions, labels = {}, nestedContent = {} } = options;
+  const {
+    enumOptions,
+    labels = {},
+    nestedContent = {},
+    widgetProps = {},
+    selectedProps = {},
+  } = options;
+
+  const getProps = (key, checked) => ({
+    ...(widgetProps[key] || {}),
+    ...((checked && selectedProps[key]) || {}),
+  });
 
   // nested content could be a component or just jsx/text
   let content = nestedContent[value];
-  if (typeof content === 'function') {
+  if (isReactComponent(content)) {
     const NestedContent = content;
     content = <NestedContent />;
   }
@@ -32,6 +44,7 @@ export default function RadioWidget({
               value={option.value}
               disabled={disabled}
               onChange={_ => onChange(option.value)}
+              {...getProps(option.value, checked)}
             />
             <label htmlFor={`${id}_${i}`}>
               {labels[option.value] || option.label}

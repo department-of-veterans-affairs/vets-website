@@ -1,3 +1,11 @@
+h2:focus {
+  outline: none;
+}
+
+.additional-info-title {
+  font-weight: normal;
+}
+
 .caregiver-confirmation {
   .print-details {
     display: none;
@@ -9,32 +17,32 @@
     display: none;
   }
 
- .caregiver-confirmation {
-   .print-details {
-     display: flex;
-     flex-direction: column;
+  .caregiver-confirmation {
+    .print-details {
+      display: flex;
+      flex-direction: column;
 
-     img {
-       width: 240px;
-       margin-bottom: 24px;
-     }
-   }
+      img {
+        width: 240px;
+        margin-bottom: 24px;
+      }
+    }
 
-  .usa-alert, .usa-alert-success {
-    display: none;
-  }
+    .usa-alert,
+    .usa-alert-success {
+      display: none;
+    }
 
+    .claim-list {
+      display: none;
+    }
+    .inset {
+      display: none;
+    }
 
-   .claim-list {
-     display: none;
-   }
-   .inset {
-     display: none;
-   }
-
-   p {
-     margin: 10px 0;
-   }
+    p {
+      margin: 10px 0;
+    }
   }
 
   .caregiver-footer {

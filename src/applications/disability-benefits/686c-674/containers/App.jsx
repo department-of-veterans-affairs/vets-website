@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
+import manifest from '../manifest.json';
 import formConfig from '../config/form';
 
 function App({ location, children, isLoggedIn, isLoading, vaFileNumber }) {
@@ -27,11 +28,9 @@ function App({ location, children, isLoggedIn, isLoading, vaFileNumber }) {
   // redirect them to the introduction page.
   if (
     !isLoggedIn ||
-    (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.validVaFileNumber)
+    (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.VALIDVAFILENUMBER)
   ) {
-    document.location.replace(
-      '/view-change-dependents/add-remove-form-686c/introduction',
-    );
+    document.location.replace(`${manifest.rootUrl}`);
     return <LoadingIndicator message="Redirecting to introduction page..." />;
   }
 

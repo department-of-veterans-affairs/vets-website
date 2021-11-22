@@ -29,27 +29,24 @@ import {
   isAnswering781aQuestions,
   isUploading781Form,
   isUploading781aForm,
-  servedAfter911,
   isNotUploadingPrivateMedical,
   hasNewPtsdDisability,
-  hasNewDisabilities,
   increaseOnly,
   isDisabilityPtsd,
-  directToCorrectForm,
   DISABILITY_SHARED_CONFIG,
   isBDD,
+  isUploadingSTR,
+  showSeparationLocation,
+  getPageTitle,
+  claimingNew,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
-
 import prefillTransformer from '../prefill-transformer';
-
 import { transform } from '../submit-transformer';
 
-import { veteranInfoDescription } from '../content/veteranDetails';
 import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
 import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrientation';
-import { supportingEvidenceOrientationBDD } from '../content/supportingEvidenceOrientationBDD';
 import {
   adaptiveBenefits,
   addDisabilities,
@@ -72,13 +69,13 @@ import {
   individualUnemployability,
   mentalHealthChanges,
   militaryHistory,
-  newDisabilities,
   newDisabilityFollowUp,
   newPTSDFollowUp,
   paymentInformation,
   physicalHealthChanges,
   prisonerOfWar,
   privateMedicalRecords,
+  privateMedicalRecordsAttachments,
   privateMedicalRecordsRelease,
   ptsd781aChangesIntro,
   ptsdWalkthroughChoice781,
@@ -88,9 +85,10 @@ import {
   retirementPay,
   retirementPayWaiver,
   secondaryFinalIncident,
+  separationLocation,
   separationPay,
-  servedInCombatZone,
   serviceTreatmentRecords,
+  serviceTreatmentRecordsAttachments,
   socialBehaviorChanges,
   summaryOfDisabilities,
   summaryOfEvidence,
@@ -101,10 +99,9 @@ import {
   uploadPtsdDocuments,
   vaEmployee,
   vaMedicalRecords,
+  veteranInfo,
   workBehaviorChanges,
 } from '../pages';
-
-import { form526BDDFeature } from '../config/selectors';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
@@ -115,13 +112,21 @@ import { createFormConfig781, createFormConfig781a } from './781';
 
 import createformConfig8940 from './8940';
 
-import { PTSD_INCIDENT_ITERATION, NULL_CONDITION_STRING } from '../constants';
+import {
+  PTSD_INCIDENT_ITERATION,
+  NULL_CONDITION_STRING,
+  WIZARD_STATUS,
+} from '../constants';
 
 import migrations from '../migrations';
+import reviewErrors from '../reviewErrors';
+
+import manifest from '../manifest.json';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${
@@ -131,10 +136,28 @@ const formConfig = {
   trackingPrefix: 'disability-526EZ-',
   downtime: {
     requiredForPrefill: true,
-    dependencies: [services.evss, services.emis, services.mvi, services.vet360],
+    dependencies: [
+      services.evss,
+      services.emis,
+      services.mvi,
+      services.vaProfile,
+    ],
   },
   formId: VA_FORM_IDS.FORM_21_526EZ,
-  onFormLoaded: directToCorrectForm,
+  wizardStorageKey: WIZARD_STATUS,
+  customText: {
+    appAction: 'filing',
+    appContinuing: 'for disability compensation',
+  },
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your disability compensation application (21-526EZ) is in progress.',
+      expired:
+        'Your saved disability compensation application (21-526EZ) has expired. If you want to apply for disability compensation, please start a new application.',
+      saved: 'Your disability compensation application has been saved.',
+    },
+  },
   version: migrations.length,
   migrations,
   prefillTransformer,
@@ -152,11 +175,14 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
+  // Don't show error links on the review page in production
+  showReviewErrors: !environment.isProduction(),
+  reviewErrors,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
-  title: 'File for disability compensation',
-  subTitle: 'Form 21-526EZ',
+  title: ({ formData }) => getPageTitle(formData),
+  subTitle: 'Equal to VA Form 21-526EZ',
   preSubmitInfo,
   chapters: {
     veteranDetails: {
@@ -165,8 +191,14 @@ const formConfig = {
         veteranInformation: {
           title: 'Veteran information',
           path: 'veteran-information',
-          uiSchema: { 'ui:description': veteranInfoDescription },
-          schema: { type: 'object', properties: {} },
+          uiSchema: veteranInfo.uiSchema,
+          schema: veteranInfo.schema,
+        },
+        contactInformation: {
+          title: 'Veteran contact information',
+          path: 'contact-information',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
         },
         alternateNames: {
           title: 'Service under another name',
@@ -183,27 +215,13 @@ const formConfig = {
           onContinue: captureEvents.militaryHistory,
           appStateSelector: state => ({
             dob: state.user.profile.dob,
-            allowBDD: form526BDDFeature(state),
+            isBDD: state.form.data?.['view:isBddData'],
+            servicePeriods:
+              state.form.data?.serviceInformation?.servicePeriods || [],
           }),
         },
-        claimType: {
-          title: 'Claim type',
-          path: 'claim-type',
-          depends: formData =>
-            hasRatedDisabilities(formData) && !isBDD(formData),
-          uiSchema: claimType.uiSchema,
-          schema: claimType.schema,
-          onContinue: captureEvents.claimType,
-        },
-        servedInCombatZone: {
-          title: 'Combat status',
-          path: 'review-veteran-details/combat-status',
-          depends: servedAfter911,
-          uiSchema: servedInCombatZone.uiSchema,
-          schema: servedInCombatZone.schema,
-        },
         reservesNationalGuardService: {
-          title: 'Reserves and National Guard service',
+          title: 'Reserve and National Guard service',
           path:
             'review-veteran-details/military-service-history/reserves-national-guard',
           depends: formData =>
@@ -218,6 +236,17 @@ const formConfig = {
           depends: form => hasGuardOrReservePeriod(form.serviceInformation),
           uiSchema: federalOrders.uiSchema,
           schema: federalOrders.schema,
+          appStateSelector: state => ({
+            servicePeriods:
+              state.form.data?.serviceInformation?.servicePeriods || [],
+          }),
+        },
+        separationLocation: {
+          title: 'Separation location',
+          path: 'review-veteran-details/separation-location',
+          depends: showSeparationLocation,
+          uiSchema: separationLocation.uiSchema,
+          schema: separationLocation.schema,
         },
         separationPay: {
           title: 'Separation or severance pay',
@@ -248,12 +277,19 @@ const formConfig = {
     disabilities: {
       title: 'Disabilities', // this probably needs to change
       pages: {
+        claimType: {
+          title: 'Claim type',
+          path: 'claim-type',
+          depends: formData => hasRatedDisabilities(formData),
+          uiSchema: claimType.uiSchema,
+          schema: claimType.schema,
+          onContinue: captureEvents.claimType,
+        },
         disabilitiesOrientation: {
           title: '',
           path: DISABILITY_SHARED_CONFIG.orientation.path,
           depends: formData =>
-            DISABILITY_SHARED_CONFIG.orientation.depends(formData) &&
-            !isBDD(formData),
+            DISABILITY_SHARED_CONFIG.orientation.depends(formData),
           uiSchema: { 'ui:description': disabilitiesOrientation },
           schema: { type: 'object', properties: {} },
         },
@@ -261,17 +297,9 @@ const formConfig = {
           title: 'Existing conditions (rated disabilities)',
           path: DISABILITY_SHARED_CONFIG.ratedDisabilities.path,
           depends: formData =>
-            DISABILITY_SHARED_CONFIG.ratedDisabilities.depends(formData) &&
-            !isBDD(formData),
+            DISABILITY_SHARED_CONFIG.ratedDisabilities.depends(formData),
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
-        },
-        newDisabilities: {
-          title: 'New disabilities',
-          path: 'new-disabilities',
-          depends: formData => !increaseOnly(formData),
-          uiSchema: newDisabilities.uiSchema,
-          schema: newDisabilities.schema,
         },
         addDisabilities: {
           title: 'Add a new disability',
@@ -280,10 +308,17 @@ const formConfig = {
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
           updateFormData: addDisabilities.updateFormData,
+          appStateSelector: state => ({
+            // needed for validateDisabilityName to work properly on the review
+            // & submit page. Validation functions are provided the pageData and
+            // not the formData on the review & submit page. For more details
+            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
+            newDisabilities: state.form?.data?.newDisabilities || [],
+          }),
         },
         followUpDesc: {
           title: 'Follow-up questions',
-          depends: formData => hasNewDisabilities(formData) && !isBDD(formData),
+          depends: formData => claimingNew(formData) && !isBDD(formData),
           path: 'new-disabilities/follow-up',
           uiSchema: {
             'ui:description':
@@ -296,7 +331,7 @@ const formConfig = {
             typeof formData.condition === 'string'
               ? capitalizeEachWord(formData.condition)
               : NULL_CONDITION_STRING,
-          depends: hasNewDisabilities,
+          depends: claimingNew,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
           itemFilter: item => !isDisabilityPtsd(item.condition),
@@ -468,6 +503,9 @@ const formConfig = {
           depends: formData => !increaseOnly(formData) && !isBDD(formData),
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
+          appStateSelector: state => ({
+            serviceInformation: state.form?.data?.serviceInformation,
+          }),
         },
         // Ancillary forms wizard
         ancillaryFormsWizardIntro: {
@@ -539,15 +577,10 @@ const formConfig = {
         orientation: {
           title: '',
           path: 'supporting-evidence/orientation',
-          depends: formData => !isBDD(formData),
-          uiSchema: { 'ui:description': supportingEvidenceOrientation },
-          schema: { type: 'object', properties: {} },
-        },
-        orientationBDD: {
-          title: '',
-          path: 'supporting-evidence/orientation-bdd',
-          depends: formData => isBDD(formData),
-          uiSchema: { 'ui:description': supportingEvidenceOrientationBDD },
+          uiSchema: {
+            'ui:description': formData =>
+              supportingEvidenceOrientation(formData),
+          },
           schema: { type: 'object', properties: {} },
         },
         serviceTreatmentRecords: {
@@ -557,6 +590,13 @@ const formConfig = {
           uiSchema: serviceTreatmentRecords.uiSchema,
           schema: serviceTreatmentRecords.schema,
         },
+        serviceTreatmentRecordsAttachments: {
+          title: 'Service treatment records upload',
+          path: 'supporting-evidence/service-treatment-records-upload',
+          depends: formData => isUploadingSTR(formData),
+          uiSchema: serviceTreatmentRecordsAttachments.uiSchema,
+          schema: serviceTreatmentRecordsAttachments.schema,
+        },
         evidenceTypes: {
           title: 'Supporting evidence types',
           path: 'supporting-evidence/evidence-types',
@@ -565,7 +605,7 @@ const formConfig = {
           schema: evidenceTypes.schema,
         },
         evidenceTypesBDD: {
-          title: 'Supporting evidence types',
+          title: 'Supporting evidence types for BDD',
           path: 'supporting-evidence/evidence-types-bdd',
           depends: formData => isBDD(formData),
           uiSchema: evidenceTypesBDD.uiSchema,
@@ -574,7 +614,7 @@ const formConfig = {
         vaMedicalRecords: {
           title: 'VA medical records',
           path: 'supporting-evidence/va-medical-records',
-          depends: formData => hasVAEvidence(formData) && !isBDD(formData),
+          depends: formData => hasVAEvidence(formData),
           uiSchema: vaMedicalRecords.uiSchema,
           schema: vaMedicalRecords.schema,
         },
@@ -584,6 +624,15 @@ const formConfig = {
           depends: hasPrivateEvidence,
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
+        },
+        privateMedicalRecordsAttachments: {
+          title: 'Private medical records',
+          path: 'supporting-evidence/private-medical-records-upload',
+          depends: formData =>
+            hasPrivateEvidence(formData) &&
+            !isNotUploadingPrivateMedical(formData),
+          uiSchema: privateMedicalRecordsAttachments.uiSchema,
+          schema: privateMedicalRecordsAttachments.schema,
         },
         privateMedicalRecordsRelease: {
           title: 'Private medical records',
@@ -618,12 +667,6 @@ const formConfig = {
     additionalInformation: {
       title: 'Additional information',
       pages: {
-        contactInformation: {
-          title: 'Veteran contact information',
-          path: 'contact-information',
-          uiSchema: contactInformation.uiSchema,
-          schema: contactInformation.schema,
-        },
         paymentInformation: {
           title: 'Payment information',
           path: 'payment-information',
@@ -677,6 +720,7 @@ const formConfig = {
           path: 'fully-developed-claim',
           uiSchema: fullyDevelopedClaim.uiSchema,
           schema: fullyDevelopedClaim.schema,
+          depends: formData => !isBDD(formData),
         },
       },
     },

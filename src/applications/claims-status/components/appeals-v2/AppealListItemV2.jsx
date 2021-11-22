@@ -8,19 +8,8 @@ import {
   EVENT_TYPES,
   getTypeName,
   getStatusContents,
+  programAreaMap,
 } from '../../utils/appeals-v2-helpers';
-
-const programAreaMap = {
-  compensation: 'disability compensation',
-  pension: 'pension',
-  insurance: 'insurance',
-  loan_guaranty: 'loan guaranty', // eslint-disable-line camelcase
-  education: 'education',
-  vre: 'vocational rehabilitation and employment',
-  medical: 'health care',
-  burial: 'burial benefits',
-  fiduciary: 'fiduciary',
-};
 
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
@@ -126,21 +115,19 @@ export default function AppealListItem({ appeal, name, external = false }) {
       )}
       {!external && (
         <Link
-          className="usa-button usa-button-primary"
+          className="vads-c-action-link--blue"
           to={`appeals/${appeal.id}/status`}
         >
           View details
-          <i className="fa fa-chevron-right" />
         </Link>
       )}
       {external && (
         <Link
           aria-label={`View details of ${appealTitle} `}
-          className="usa-button usa-button-primary"
+          className="vads-c-action-link--blue"
           href={`/track-claims/appeals/${appeal.id}/status`}
         >
           View details
-          <i className="fa fa-chevron-right" />
         </Link>
       )}
     </div>

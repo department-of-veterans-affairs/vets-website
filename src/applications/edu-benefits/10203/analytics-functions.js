@@ -20,16 +20,18 @@ export default {
       isChapter33,
       isEnrolledStem,
       isPursuingTeachingCert,
+      isPursuingClinicalTraining,
       benefitLeft,
     } = data;
-    const enrolledStemAndTeaching = isEnrolledStem || isPursuingTeachingCert;
+    const enrolledStemAndTeaching =
+      isEnrolledStem || isPursuingTeachingCert || isPursuingClinicalTraining;
     recordEvent({
       event: 'edu-stem-scholarship-ineligibility-alert',
       'edu-eligibility-criteria-post911-met': isChapter33,
       'edu-eligibility-criteria-stem-or-teaching-met': enrolledStemAndTeaching,
       'edu-eligibility-criteria-used-all-benefits-met':
         benefitLeft !== 'moreThanSixMonths',
-      'edu-eligibilty-criteria-months-remaining-for-use': benefitLeft,
+      'edu-eligibility-criteria-months-remaining-for-use': benefitLeft,
     });
   },
   exitApplication: () => {

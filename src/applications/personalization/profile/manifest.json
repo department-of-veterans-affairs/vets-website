@@ -1,0 +1,6 @@
+{
+  "appName": "VA Profile",
+  "entryFile": "./profile-entry.jsx",
+  "entryName": "profile",
+  "rootUrl": "/profile"
+}

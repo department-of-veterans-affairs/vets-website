@@ -5,12 +5,14 @@ import { shallow } from 'enzyme';
 import { PersonalizationDropdown } from '../../components/PersonalizationDropdown';
 
 describe('<PersonalizationDropdown>', () => {
-  const oldWindow = global.window;
+  let oldWindow = null;
 
   beforeEach(() => {
-    global.window = {
+    oldWindow = global.window;
+    global.window = Object.create(global.window);
+    Object.assign(global.window, {
       dataLayer: [],
-    };
+    });
   });
 
   afterEach(() => {
@@ -56,32 +58,6 @@ describe('<PersonalizationDropdown>', () => {
     const recordedEvent = global.window.dataLayer[0];
     expect(recordedEvent.event).to.equal('nav-user');
     expect(recordedEvent['nav-user-section']).to.equal('profile');
-    wrapper.unmount();
-  });
-
-  it('should report analytics when clicking Account', () => {
-    const wrapper = shallow(<PersonalizationDropdown showAccount />);
-    wrapper
-      .find('a')
-      .at(3)
-      .simulate('click');
-    const recordedEvent = global.window.dataLayer[0];
-    expect(recordedEvent.event).to.equal('nav-user');
-    expect(recordedEvent['nav-user-section']).to.equal('account');
-    wrapper.unmount();
-  });
-
-  it('should show the `Account` menu item if `showAccount` prop true', () => {
-    const wrapper = shallow(<PersonalizationDropdown showAccount />);
-    const accountLink = wrapper.find('li > a[href="/account"]');
-    expect(accountLink.length).to.equal(1);
-    wrapper.unmount();
-  });
-
-  it('should not show the `Account` menu item if `showAccount` prop is not true', () => {
-    const wrapper = shallow(<PersonalizationDropdown />);
-    const accountLink = wrapper.find('li > a[href="/account"]');
-    expect(accountLink.length).to.equal(0);
     wrapper.unmount();
   });
 });

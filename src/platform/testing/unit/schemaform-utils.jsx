@@ -2,7 +2,7 @@
  * Utilities for testing forms built with our schema based form library
  */
 
-import _ from 'lodash/fp';
+import set from '../../utilities/data/set';
 import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
@@ -16,6 +16,7 @@ import {
   replaceRefSchemas,
   updateSchemaAndData,
 } from 'platform/forms-system/src/js/state/helpers';
+import { fireEvent } from '@testing-library/dom';
 
 function getDefaultData(schema) {
   if (schema.type === 'array') {
@@ -49,10 +50,10 @@ export class DefinitionTester extends React.Component {
   constructor(props) {
     super(props);
     const { data, uiSchema } = props;
-    const definitions = _.assign(
-      props.definitions || {},
-      props.schema.definitions,
-    );
+    const definitions = {
+      ...(props.definitions || {}),
+      ...props.schema.definitions,
+    };
     const schema = replaceRefSchemas(props.schema, definitions);
 
     const { data: newData, schema: newSchema } = updateSchemaAndData(
@@ -75,7 +76,7 @@ export class DefinitionTester extends React.Component {
     let fullData = data;
 
     if (arrayPath) {
-      fullData = _.set([arrayPath, pagePerItemIndex], data, formData);
+      fullData = set([arrayPath, pagePerItemIndex], data, formData);
     }
 
     const { data: newData, schema: newSchema } = updateSchemaAndData(
@@ -173,9 +174,9 @@ function printTree(node, level = 0, isLastChild = true, padding = '') {
  * @returns {object} An DOM node for the form, with added helper methods
  */
 export function getFormDOM(form) {
-  const formDOM = findDOMNode(form);
+  const formDOM = form?.container || findDOMNode(form);
 
-  if (formDOM === null) {
+  if (!formDOM) {
     throw new Error(
       'Could not find DOM node. Please make sure to pass a component returned from ReactTestUtils.renderIntoDocument(). If you are testing a stateless (function) component, be sure to wrap it in a <div>.',
     );
@@ -214,7 +215,13 @@ export function getFormDOM(form) {
   };
 
   formDOM.submitForm = () => {
-    submitForm(form);
+    if (form?.container) {
+      fireEvent.submit(formDOM.querySelector('form'), {
+        preventDefault: f => f,
+      });
+    } else {
+      submitForm(form);
+    }
   };
 
   formDOM.setCheckbox = function toggleCheckbox(selector, checked) {

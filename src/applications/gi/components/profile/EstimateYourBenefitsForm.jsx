@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
-import { scroller } from 'react-scroll';
 import classNames from 'classnames';
 
-import ExpandingGroup from '@department-of-veterans-affairs/formation-react/ExpandingGroup';
-import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
+import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
+import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import recordEvent from 'platform/monitoring/record-event';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import AlertBox from '../AlertBox';
@@ -17,6 +16,7 @@ import {
   isCountryInternational,
   locationInfo,
   handleInputFocusWithPotentialOverLap,
+  isURL,
 } from '../../utils/helpers';
 import { renderLearnMoreLabel } from '../../utils/render';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
@@ -24,6 +24,7 @@ import Checkbox from '../Checkbox';
 import { ariaLabels } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 class EstimateYourBenefitsForm extends React.Component {
   constructor(props) {
@@ -110,7 +111,7 @@ class EstimateYourBenefitsForm extends React.Component {
     ) {
       this.toggleLearningFormatAndSchedule(true);
       setTimeout(() => {
-        scroller.scrollTo('beneficiary-zip-question', getScrollOptions());
+        scrollTo('beneficiary-zip-question', getScrollOptions());
         focusElement('input[name=beneficiaryZIPCode]');
       }, 50);
     } else {
@@ -133,15 +134,18 @@ class EstimateYourBenefitsForm extends React.Component {
     this.props.eligibilityChange(e);
   };
 
-  handleExtensionChange = event => {
-    const value = event.target.value;
-    const zipCode = value.slice(value.indexOf('-') + 1);
-
+  handleExtensionBlur = event => {
     recordEvent({
       event: 'gibct-form-change',
       'gibct-form-field': 'gibctExtensionCampusDropdown',
       'gibct-form-value': event.target.options[event.target.selectedIndex].text,
     });
+  };
+
+  handleExtensionChange = event => {
+    const value = event.target.value;
+    const zipCode = value.slice(value.indexOf('-') + 1);
+
     if (!event.dirty) {
       if (event.target.value !== 'other') {
         this.props.onBeneficiaryZIPCodeChanged(zipCode);
@@ -167,6 +171,15 @@ class EstimateYourBenefitsForm extends React.Component {
     const { name: field, checked: value } = e.target;
     this.setState({ inputUpdated: true });
     this.props.calculatorInputChange({ field, value });
+  };
+
+  handleInputBlur = event => {
+    const { name: field, value } = event.target;
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': field,
+      'gibct-form-value': value,
+    });
   };
 
   handleInputChange = event => {
@@ -211,6 +224,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
   resetBuyUp = event => {
     event.preventDefault();
+    this.handleInputBlur(event);
     if (this.props.inputs.buyUpAmount > 600) {
       this.setState({ inputUpdated: true });
       this.props.calculatorInputChange({
@@ -298,13 +312,6 @@ class EstimateYourBenefitsForm extends React.Component {
     this.handleAccordionFocus();
   };
 
-  handleEYBSkipLinkOnClick = () => {
-    scroller.scrollTo('estimated-benefits', getScrollOptions());
-    setTimeout(() => {
-      focusElement('#estimated-benefits');
-    }, 50);
-  };
-
   /**
    * Renders a learn more label with common props for this component being set
    * @param text
@@ -312,13 +319,14 @@ class EstimateYourBenefitsForm extends React.Component {
    * @param ariaLabel
    * @returns {*}
    */
-  renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
+  renderLearnMoreLabel = ({ text, modal, ariaLabel, labelFor }) =>
     renderLearnMoreLabel({
       text,
       modal,
       ariaLabel,
       showModal: this.props.showModal,
       component: this,
+      labelFor,
     });
 
   /**
@@ -329,6 +337,19 @@ class EstimateYourBenefitsForm extends React.Component {
    */
   renderInState = () => {
     if (!this.props.displayedInputs.inState) return null;
+    const { inStateTuitionInformation } = this.props.profile.attributes;
+
+    const label = this.renderLearnMoreLabel({
+      text: 'Are you an in-state student?',
+      modal:
+        isURL(inStateTuitionInformation) &&
+        inStateTuitionInformation !==
+          'Contact the School Certifying Official (SCO) for requirements'
+          ? 'inStateWithLink'
+          : 'inStateWithoutLink',
+      ariaLabel: ariaLabels.learnMore.inState,
+    });
+
     return (
       <ExpandingGroup
         open={
@@ -337,7 +358,7 @@ class EstimateYourBenefitsForm extends React.Component {
         }
       >
         <RadioButtons
-          label="Are you an in-state student?"
+          label={label}
           name="inState"
           options={[
             { value: 'yes', label: 'Yes' },
@@ -345,6 +366,7 @@ class EstimateYourBenefitsForm extends React.Component {
           ]}
           value={this.props.inputs.inState}
           onChange={this.handleInputChange}
+          onBlur={this.handleInputBlur}
           onFocus={this.handleEYBInputFocus}
         />
         {this.renderInStateTuition()}
@@ -376,6 +398,7 @@ class EstimateYourBenefitsForm extends React.Component {
           id={inStateTuitionFeesId}
           value={formatCurrency(this.props.inputs.inStateTuitionFees)}
           onChange={this.handleInputChange}
+          onBlur={this.handleInputBlur}
           onFocus={this.handleEYBInputFocus.bind(this, inStateFieldId)}
         />
       </div>
@@ -391,7 +414,7 @@ class EstimateYourBenefitsForm extends React.Component {
       <div id={tuitionFeesFieldId}>
         <label htmlFor={tuitionFeesId} className="vads-u-display--inline-block">
           Tuition and fees per year
-        </label>
+        </label>{' '}
         {this.renderLearnMoreLabel({
           modal: 'calcTuition',
           ariaLabel: ariaLabels.learnMore.tuitionFeesPerYear,
@@ -404,6 +427,7 @@ class EstimateYourBenefitsForm extends React.Component {
           id={tuitionFeesId}
           value={formatCurrency(this.props.inputs.tuitionFees)}
           onChange={this.handleInputChange}
+          onBlur={this.handleInputBlur}
           onFocus={this.handleEYBInputFocus.bind(this, tuitionFeesFieldId)}
         />
       </div>
@@ -425,6 +449,7 @@ class EstimateYourBenefitsForm extends React.Component {
           id={booksId}
           value={formatCurrency(this.props.inputs.books)}
           onChange={this.handleInputChange}
+          onBlur={this.handleInputBlur}
           onFocus={this.handleEYBInputFocus.bind(this, booksFieldId)}
         />
       </div>
@@ -469,6 +494,7 @@ class EstimateYourBenefitsForm extends React.Component {
           ]}
           value={this.props.inputs.yellowRibbonRecipient}
           onChange={this.handleInputChange}
+          onBlur={this.handleInputBlur}
           onFocus={this.handleEYBInputFocus}
         />
 
@@ -482,6 +508,7 @@ class EstimateYourBenefitsForm extends React.Component {
             visible={showYellowRibbonOptions}
             value={this.props.inputs.yellowRibbonDegreeLevel}
             onChange={this.handleInputChange}
+            onBlur={this.handleInputBlur}
             onFocus={this.handleEYBInputFocus}
           />
           <Dropdown
@@ -494,6 +521,7 @@ class EstimateYourBenefitsForm extends React.Component {
             visible={showYellowRibbonDetails}
             value={this.props.inputs.yellowRibbonDivision}
             onChange={this.handleInputChange}
+            onBlur={this.handleInputBlur}
             onFocus={this.handleEYBInputFocus}
           />
           <div id={yellowRibbonFieldId}>
@@ -508,6 +536,7 @@ class EstimateYourBenefitsForm extends React.Component {
               name="yellowRibbonAmount"
               value={formatCurrency(this.props.inputs.yellowRibbonAmount)}
               onChange={this.handleInputChange}
+              onBlur={this.handleInputBlur}
               onFocus={this.handleEYBInputFocus.bind(this, yellowRibbonFieldId)}
             />
           </div>
@@ -555,6 +584,7 @@ class EstimateYourBenefitsForm extends React.Component {
           id={scholarshipsId}
           value={formatCurrency(this.props.inputs.scholarships)}
           onChange={this.handleInputChange}
+          onBlur={this.handleInputBlur}
           onFocus={this.handleEYBInputFocus.bind(this, scholarshipsFieldId)}
         />
       </div>
@@ -582,6 +612,7 @@ class EstimateYourBenefitsForm extends React.Component {
           id={tuitionAssistId}
           value={formatCurrency(this.props.inputs.tuitionAssist)}
           onChange={this.handleInputChange}
+          onBlur={this.handleInputBlur}
           onFocus={this.handleEYBInputFocus.bind(this, tuitionAssistFieldId)}
         />
       </div>
@@ -630,6 +661,7 @@ class EstimateYourBenefitsForm extends React.Component {
           text: 'Enrolled',
           modal: 'calcEnrolled',
           ariaLabel: ariaLabels.learnMore.calcEnrolled,
+          labelFor: name,
         })}
         name={name}
         alt="Enrolled"
@@ -637,6 +669,7 @@ class EstimateYourBenefitsForm extends React.Component {
         visible
         value={value}
         onChange={this.handleInputChange}
+        onBlur={this.handleInputBlur}
         onFocus={this.handleEYBInputFocus}
       />
     );
@@ -659,6 +692,7 @@ class EstimateYourBenefitsForm extends React.Component {
           visible
           value={this.props.inputs.numberNontradTerms}
           onChange={this.handleInputChange}
+          onBlur={this.handleInputBlur}
           onFocus={this.handleEYBInputFocus}
         />
         <Dropdown
@@ -682,6 +716,7 @@ class EstimateYourBenefitsForm extends React.Component {
           visible
           value={this.props.inputs.lengthNontradTerms}
           onChange={this.handleInputChange}
+          onBlur={this.handleInputBlur}
           onFocus={this.handleEYBInputFocus}
         />
       </div>
@@ -695,6 +730,7 @@ class EstimateYourBenefitsForm extends React.Component {
               text: 'School Calendar',
               modal: 'calcSchoolCalendar',
               ariaLabel: ariaLabels.learnMore.calcSchoolCalendar,
+              labelFor: 'calendar',
             })}
             name="calendar"
             alt="School calendar"
@@ -706,8 +742,10 @@ class EstimateYourBenefitsForm extends React.Component {
             visible
             value={this.props.inputs.calendar}
             onChange={this.handleInputChange}
+            onBlur={this.handleInputBlur}
             onFocus={this.handleEYBInputFocus}
           />
+
           {dependentDropdowns}
         </ExpandingGroup>
       </div>
@@ -730,6 +768,7 @@ class EstimateYourBenefitsForm extends React.Component {
           id={kickerAmountId}
           value={formatCurrency(this.props.inputs.kickerAmount)}
           onChange={this.handleInputChange}
+          onBlur={this.handleInputBlur}
           onFocus={this.handleEYBInputFocus.bind(this, kickerFieldId)}
         />
       </div>
@@ -750,6 +789,7 @@ class EstimateYourBenefitsForm extends React.Component {
           ]}
           value={this.props.inputs.kickerEligible}
           onChange={this.handleInputChange}
+          onBlur={this.handleInputBlur}
           onFocus={this.handleEYBInputFocus}
         />
         {amountInput}
@@ -817,6 +857,7 @@ class EstimateYourBenefitsForm extends React.Component {
           options={extensionOptions}
           value={inputs.extension}
           onChange={this.handleExtensionChange}
+          onBlur={this.handleExtensionBlur}
           onFocus={this.handleEYBInputFocus}
         />
       );
@@ -835,7 +876,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
         zipcodeInput = (
           <div name="beneficiary-zip-question">
-            <ErrorableTextInput
+            <TextInput
               autoFocus
               errorMessage={errorMessageCheck}
               label={label}
@@ -863,7 +904,6 @@ class EstimateYourBenefitsForm extends React.Component {
           onChange={this.handleHasClassesOutsideUSChange}
           checked={inputs.classesOutsideUS}
           name={'classesOutsideUS'}
-          id={'classesOutsideUS'}
         />
       );
     }
@@ -888,6 +928,7 @@ class EstimateYourBenefitsForm extends React.Component {
           options={beneficiaryLocationQuestionOptions}
           value={selectedBeneficiaryLocationQuestion}
           onChange={this.handleInputChange}
+          onBlur={this.handleInputBlur}
           onFocus={this.handleEYBInputFocus}
         />
         <div>
@@ -935,6 +976,7 @@ class EstimateYourBenefitsForm extends React.Component {
           ]}
           value={this.props.inputs.buyUp}
           onChange={this.handleInputChange}
+          onBlur={this.handleInputBlur}
         />
         {amountInput}
       </ExpandingGroup>
@@ -949,6 +991,7 @@ class EstimateYourBenefitsForm extends React.Component {
           text: 'Will be working',
           modal: 'calcWorking',
           ariaLabel: ariaLabels.learnMore.calcWorking,
+          labelFor: 'working',
         })}
         name="working"
         alt="Will be working"
@@ -972,6 +1015,7 @@ class EstimateYourBenefitsForm extends React.Component {
         visible
         value={this.props.inputs.working}
         onChange={this.handleInputChange}
+        onBlur={this.handleInputBlur}
         onFocus={this.handleEYBInputFocus}
       />
     );
@@ -1002,6 +1046,7 @@ class EstimateYourBenefitsForm extends React.Component {
         options={[{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }]}
         value={this.props.inputs.giBillBenefit}
         onChange={this.handleInputChange}
+        onBlur={this.handleInputBlur}
         onFocus={this.handleEYBInputFocus}
       />
     );
@@ -1009,15 +1054,14 @@ class EstimateYourBenefitsForm extends React.Component {
 
   renderEYBSkipLink = () => {
     return (
-      <div className="vads-u-padding-bottom--2p5">
-        <button
-          type="button"
-          className="va-button-link learn-more-button eyb-skip-link"
+      <div className="vads-u-padding-top--1 ">
+        <a
+          className="va-button-link learn-more-button eyb-skip-link vads-u-display--block"
           aria-label="Skip to your estimated benefits"
-          onClick={this.handleEYBSkipLinkOnClick}
+          href="#estimated-benefits"
         >
           Skip to your estimated benefits
-        </button>
+        </a>
       </div>
     );
   };
@@ -1042,7 +1086,6 @@ class EstimateYourBenefitsForm extends React.Component {
             displayedInputs={this.props.displayedInputs}
             handleInputFocus={this.handleEYBInputFocus}
             giBillChapterOpen={[this.props.displayedInputs?.giBillBenefit]}
-            gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
           >
             {this.renderGbBenefit()}
           </BenefitsForm>

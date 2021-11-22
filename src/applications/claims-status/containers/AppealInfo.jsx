@@ -6,14 +6,15 @@ import { Link } from 'react-router';
 import moment from 'moment';
 
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AppealNotFound from '../components/appeals-v2/AppealNotFound';
 import { getAppealsV2 } from '../actions/index.jsx';
 import AppealHeader from '../components/appeals-v2/AppealHeader';
 import AppealsV2TabNav from '../components/appeals-v2/AppealsV2TabNav';
 import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
 import CopyOfExam from '../components/CopyOfExam';
-import { setUpPage, scrollToTop } from '../utils/page';
+import { setUpPage } from '../utils/page';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import {
   APPEAL_TYPES,

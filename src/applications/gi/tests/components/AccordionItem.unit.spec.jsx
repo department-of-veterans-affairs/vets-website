@@ -60,4 +60,20 @@ describe('<AccordionItem>', () => {
     expect(recordedEvent['accordion-size']).to.eq('small');
     wrapper.unmount();
   });
+
+  it('should track accordion-size', () => {
+    const wrapper = shallow(
+      <AccordionItem expanded={false} button={'test'}>
+        <div />
+      </AccordionItem>,
+    );
+    wrapper
+      .find('button')
+      .at(0)
+      .simulate('click');
+    const recordedEvent = global.window.dataLayer[0];
+    expect(recordedEvent.event).to.eq('nav-accordion-expand');
+    expect(recordedEvent['accordion-size']).to.eq('full-content-width');
+    wrapper.unmount();
+  });
 });

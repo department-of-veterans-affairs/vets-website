@@ -75,7 +75,7 @@ export const deriveEligibleStudentsLabel = (school = {}) => {
   return `${school?.numberOfStudents} students`;
 };
 
-export const deriveInstURLLabel = (school = {}) => {
+export const deriveInstURLLabel = (school = {}, onSearchResultClick) => {
   // Show unknown if there's no insturl.
   if (!school?.insturl) {
     return 'Not provided';
@@ -88,7 +88,13 @@ export const deriveInstURLLabel = (school = {}) => {
 
   // Show the school's website URL.
   return (
-    <a href={href} rel="noreferrer noopener" target="_blank">
+    <a
+      href={href}
+      onClick={onSearchResultClick(school)}
+      rel="noreferrer noopener"
+      target="_blank"
+      aria-label={`${school?.insturl} Opens in a new window`}
+    >
       {toLower(school?.insturl)}
     </a>
   );
@@ -114,79 +120,80 @@ export const deriveDivisionProfessionalSchool = (school = {}) => {
   return school?.divisionProfessionalSchool;
 };
 
-export const SearchResult = ({ school }) => (
+export const SearchResult = ({ school, onSearchResultClick }) => (
   <li className="usa-unstyled-list vads-l-col vads-u-margin-bottom--2 vads-u-padding-x--2 vads-u-padding-y--2 vads-u-background-color--gray-light-alt">
     {/* School Name */}
-    <p
-      className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif vads-u-margin--0"
-      data-e2e-id="result-title"
-    >
-      <span className="sr-only">School name</span>
-      {deriveNameLabel(school)}
-    </p>
+    <dl className="vads-u-margin--0">
+      <dt className="sr-only">School name:</dt>
+      <dd
+        className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif vads-u-margin--0"
+        data-e2e-id="result-title"
+      >
+        <h3 className="vads-u-margin--0">{deriveNameLabel(school)}</h3>
+      </dd>
 
-    {/* School Location */}
-    <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
-      <span className="sr-only">School location</span>
-      {deriveLocationLabel(school)}
-    </p>
+      {/* School Location */}
+      <dt className="sr-only">School location</dt>
+      <dd className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+        {deriveLocationLabel(school)}
+      </dd>
+    </dl>
 
     <div className="vads-l-row vads-u-margin-top--2">
       <div className="vads-l-col--12 vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--space-between medium-screen:vads-l-col--6">
         {/* Max Contribution Amount */}
         <div className="vads-u-col">
-          <p className="vads-u-font-weight--bold vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin--0">
-            Maximum Yellow Ribbon funding amount
-            <br />
-            (per student, per year)
-            <span className="sr-only">:</span>
-          </p>
-          <p className="vads-u-margin--0">{deriveMaxAmountLabel(school)}</p>
+          <dl className="vads-u-margin--0">
+            <dt className="vads-u-font-weight--bold vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin--0">
+              Maximum Yellow Ribbon funding amount
+              <br />
+              (per student, per year)
+              <dfn className="sr-only">:</dfn>
+            </dt>
+            <dd>{deriveMaxAmountLabel(school)}</dd>
+          </dl>
         </div>
 
         {/* Student Count */}
-        <p className="vads-u-font-weight--bold vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin-top--2 vads-u-margin-bottom--0">
-          Funding available for
-          <span className="sr-only">:</span>
-        </p>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-          {deriveEligibleStudentsLabel(school)}
-        </p>
+        <dl className="vads-u-margin--0">
+          <dt className="vads-u-font-weight--bold vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin-top--2 vads-u-margin-bottom--0">
+            Funding available for
+            <dfn className="sr-only">:</dfn>
+          </dt>
+          <dd>{deriveEligibleStudentsLabel(school)}</dd>
 
-        {/* School Website */}
-        <p className="vads-u-font-weight--bold vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin-top--2 vads-u-margin-bottom--0">
-          School website
-          <span className="sr-only">:</span>
-        </p>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-          {deriveInstURLLabel(school)}
-        </p>
+          {/* School Website */}
+          <dt className="vads-u-font-weight--bold vads-u-font-family--sans vads-u-font-size--h5 vads-u-margin-top--2 vads-u-margin-bottom--0">
+            School website
+            <dfn className="sr-only">:</dfn>
+          </dt>
+          <dd>{deriveInstURLLabel(school, onSearchResultClick)}</dd>
+        </dl>
       </div>
 
       <div className="vads-l-col--12 medium-screen:vads-l-col--6 medium-screen:vads-u-padding-left--2">
-        {/* Degree Level */}
-        <p className="vads-u-font-weight--bold vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-size--h5 medium-screen:vads-u-margin--0">
-          Degree type
-          <span className="sr-only">:</span>
-        </p>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 medium-screen:vads-u-margin--0">
-          {deriveDegreeLevel(school)}
-        </p>
+        <dl className="vads-u-margin--0">
+          {/* Degree Level */}
+          <dt className="vads-u-font-weight--bold vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-size--h5 medium-screen:vads-u-margin--0">
+            Degree type
+            <dfn className="sr-only">:</dfn>
+          </dt>
+          <dd>{deriveDegreeLevel(school)}</dd>
 
-        {/* Division Professional School */}
-        <p className="school-program vads-u-font-weight--bold vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-size--h5 medium-screen:vads-u-margin-bottom--0">
-          School or program
-          <span className="sr-only">:</span>
-        </p>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 medium-screen:vads-u-margin--0">
-          {deriveDivisionProfessionalSchool(school)}
-        </p>
+          {/* Division Professional School */}
+          <dt className="school-program vads-u-font-weight--bold vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-size--h5 medium-screen:vads-u-margin-bottom--0">
+            School or program
+            <dfn className="sr-only">:</dfn>
+          </dt>
+          <dd>{deriveDivisionProfessionalSchool(school)}</dd>
+        </dl>
       </div>
     </div>
   </li>
 );
 
 SearchResult.propTypes = {
+  onSearchResultClick: PropTypes.func,
   school: PropTypes.shape({
     city: PropTypes.string.isRequired,
     contributionAmount: PropTypes.string.isRequired,
@@ -195,6 +202,7 @@ SearchResult.propTypes = {
     nameOfInstitution: PropTypes.string.isRequired,
     numberOfStudents: PropTypes.number.isRequired,
     state: PropTypes.string.isRequired,
+    positionInResults: PropTypes.number,
   }).isRequired,
 };
 

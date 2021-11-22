@@ -1,5 +1,5 @@
 /**
- * Adapter for enzyme configuration, imported in mocha.opts
+ * Adapter for enzyme configuration, imported in mocha.
  */
 
 import { configure } from 'enzyme';

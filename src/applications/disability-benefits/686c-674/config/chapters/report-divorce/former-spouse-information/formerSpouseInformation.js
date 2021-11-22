@@ -1,11 +1,12 @@
 import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import environment from 'platform/utilities/environment';
 import { validateName, reportDivorce } from '../../../utilities';
 import { TASK_KEYS } from '../../../constants';
 import {
   isChapterFieldRequired,
-  stateTitle,
-  cityTitle,
+  PensionIncomeRemovalQuestionTitle,
 } from '../../../helpers';
 import { locationUISchema } from '../../../location-schema';
 
@@ -26,7 +27,12 @@ export const uiSchema = {
         'ui:required': formData =>
           isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
       },
-      middle: { 'ui:title': 'Former spouse’s middle name' },
+      middle: {
+        'ui:title': 'Former spouse’s middle name',
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
+      },
       last: {
         'ui:title': 'Former spouse’s last name',
         'ui:errorMessages': { required: 'Please enter a last name' },
@@ -41,6 +47,16 @@ export const uiSchema = {
         },
       },
     },
+    ssn: {
+      ...ssnUI,
+      'ui:title': 'Former spouse’s Social Security number',
+      'ui:required': formData =>
+        isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
+    },
+    birthDate: merge(currentOrPastDateUI('Former spouse’s date of birth'), {
+      'ui:required': formData =>
+        isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
+    }),
     date: merge(currentOrPastDateUI('Date of divorce'), {
       'ui:required': formData =>
         isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
@@ -74,6 +90,14 @@ export const uiSchema = {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
       },
+    },
+    spouseIncome: {
+      'ui:options': {
+        hideIf: () => environment.isProduction(),
+        hideEmptyValueInReview: true,
+      },
+      'ui:title': PensionIncomeRemovalQuestionTitle,
+      'ui:widget': 'yesNo',
     },
   },
 };

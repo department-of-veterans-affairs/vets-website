@@ -2,9 +2,6 @@
   "appName": "686C-674",
   "entryFile": "./app-entry.jsx",
   "entryName": "686C-674",
-  "rootUrl": "/view-change-dependents/add-remove-form-686c",
-  "e2eTestsDisabled": true,
-  "template": {
-    "includeBreadcrumbs": true
-  }
+  "rootUrl": "/view-change-dependents/add-remove-form-21-686c",
+  "e2eTestsDisabled": false
 }

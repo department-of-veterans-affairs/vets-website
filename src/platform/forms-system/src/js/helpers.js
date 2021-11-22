@@ -1,9 +1,17 @@
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import moment from 'moment';
+import { intersection, matches, merge, uniq } from 'lodash';
+import get from '../../../utilities/data/get';
+import omit from '../../../utilities/data/omit';
+import set from '../../../utilities/data/set';
+import unset from '../../../utilities/data/unset';
 import shouldUpdate from 'recompose/shouldUpdate';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
-import FormPage from './containers/FormPage';
-import ReviewPage from './review/ReviewPage';
+export const minYear = 1900;
+// maxYear was previously set to 3000
+export const maxYear = moment()
+  .add(100, 'year')
+  .year();
 
 // An active page is one that will be shown to the user.
 // Pages become inactive if they are conditionally shown based
@@ -14,10 +22,10 @@ export function isActivePage(page, data) {
   }
 
   if (Array.isArray(page.depends)) {
-    return page.depends.some(condition => _.matches(condition)(data));
+    return page.depends.some(condition => matches(condition)(data));
   }
 
-  return page.depends === undefined || _.matches(page.depends)(data);
+  return page.depends === undefined || matches(page.depends)(data);
 }
 
 export function getActivePages(pages, data) {
@@ -31,7 +39,7 @@ export function getActiveProperties(activePages) {
       allProperties.push(...Object.keys(page.schema.properties));
     }
   });
-  return _.uniq(allProperties);
+  return uniq(allProperties);
 }
 
 export function getInactivePages(pages, data) {
@@ -42,7 +50,7 @@ export function createFormPageList(formConfig) {
   return Object.keys(formConfig.chapters).reduce((pageList, chapter) => {
     const chapterTitle = formConfig.chapters[chapter].title;
     const pages = Object.keys(formConfig.chapters[chapter].pages).map(page =>
-      _.assign(formConfig.chapters[chapter].pages[page], {
+      Object.assign({}, formConfig.chapters[chapter].pages[page], {
         chapterTitle,
         chapterKey: chapter,
         pageKey: page,
@@ -55,12 +63,12 @@ export function createFormPageList(formConfig) {
 export function createPageListByChapter(formConfig) {
   return Object.keys(formConfig.chapters).reduce((chapters, chapter) => {
     const pages = Object.keys(formConfig.chapters[chapter].pages).map(page =>
-      _.assign(formConfig.chapters[chapter].pages[page], {
+      Object.assign({}, formConfig.chapters[chapter].pages[page], {
         pageKey: page,
         chapterKey: chapter,
       }),
     );
-    return _.set(chapter, pages, chapters);
+    return set(chapter, pages, chapters);
   }, {});
 }
 
@@ -89,64 +97,8 @@ export function createPageList(formConfig, formPages) {
       },
     ])
     .map(page =>
-      _.set('path', `${formConfig.urlPrefix || ''}${page.path}`, page),
+      set('path', `${formConfig.urlPrefix || ''}${page.path}`, page),
     );
-}
-
-/*
- * Create the routes based on a form config. This goes through each chapter in a form
- * config, pulls out the config for each page, then generates a list of Route components with the
- * config as props
- */
-export function createRoutes(formConfig) {
-  const formPages = createFormPageList(formConfig);
-  const pageList = createPageList(formConfig, formPages);
-
-  let routes = formPages.map(page => ({
-    path: page.path,
-    component: page.component || FormPage,
-    pageConfig: page,
-    pageList,
-    urlPrefix: formConfig.urlPrefix,
-  }));
-
-  if (formConfig.additionalRoutes) {
-    routes = formConfig.additionalRoutes
-      .map(route => ({
-        ...route,
-        formConfig,
-        pageList,
-      }))
-      .concat(routes);
-  }
-
-  if (formConfig.introduction) {
-    routes = [
-      {
-        path: 'introduction',
-        component: formConfig.introduction,
-        formConfig,
-        pageList,
-      },
-    ].concat(routes);
-  }
-
-  return routes.concat([
-    {
-      path: 'review-and-submit',
-      formConfig,
-      component: ReviewPage,
-      pageList,
-    },
-    {
-      path: 'confirmation',
-      component: formConfig.confirmation,
-    },
-    {
-      path: '*',
-      onEnter: (nextState, replace) => replace(formConfig.urlPrefix || '/'),
-    },
-  ]);
 }
 
 function formatDayMonth(val) {
@@ -225,18 +177,18 @@ export function filterViewFields(data) {
     if (Array.isArray(field)) {
       const newArray = field.map(item => filterViewFields(item));
 
-      return _.set(nextProp, newArray, newData);
+      return set(nextProp, newArray, newData);
     }
 
     if (typeof field === 'object') {
       if (nextProp.startsWith('view:')) {
-        return _.assign(newData, filterViewFields(field));
+        return { ...newData, ...filterViewFields(field) };
       }
-      return _.set(nextProp, filterViewFields(field), newData);
+      return set(nextProp, filterViewFields(field), newData);
     }
 
     if (!nextProp.startsWith('view:')) {
-      return _.set(nextProp, field, newData);
+      return set(nextProp, field, newData);
     }
 
     return newData;
@@ -287,7 +239,7 @@ export function stringifyFormReplacer(key, value) {
 
     // Exclude file data
     if (value.confirmationCode && value.file) {
-      return _.omit('file', value);
+      return omit('file', value);
     }
   }
 
@@ -325,12 +277,12 @@ export function getArrayFields(data) {
     if (
       obj.type === 'array' &&
       !isHiddenField(obj) &&
-      !_.get('ui:options.keepInPageOnReview', ui)
+      !get('ui:options.keepInPageOnReview', ui)
     ) {
       fields.push({
         path,
-        schema: _.set('definitions', data.schema.definitions, obj),
-        uiSchema: _.get(path, data.uiSchema) || data.uiSchema,
+        schema: set('definitions', data.schema.definitions, obj),
+        uiSchema: get(path, data.uiSchema) || data.uiSchema,
       });
     }
 
@@ -373,7 +325,7 @@ export function hasFieldsOtherThanArray(schema) {
 export function getNonArraySchema(schema, uiSchema = {}) {
   if (
     schema.type === 'array' &&
-    !_.get('ui:options.keepInPageOnReview', uiSchema)
+    !get('ui:options.keepInPageOnReview', uiSchema)
   ) {
     return {
       schema: undefined,
@@ -390,11 +342,11 @@ export function getNonArraySchema(schema, uiSchema = {}) {
         );
 
         if (typeof newSchema.schema === 'undefined') {
-          return _.unset(next, current);
+          return unset(next, current);
         }
 
         if (newSchema.schema !== schema.properties[next]) {
-          return _.set(next, newSchema.schema, current);
+          return set(next, newSchema.schema, current);
         }
 
         return current;
@@ -410,20 +362,21 @@ export function getNonArraySchema(schema, uiSchema = {}) {
     }
 
     if (newProperties !== schema.properties) {
-      let newSchema = _.set('properties', newProperties, schema);
+      let newSchema = set('properties', newProperties, schema);
       if (newSchema.required) {
-        const newRequired = _.intersection(
+        const newRequired = intersection(
           Object.keys(newSchema.properties),
           newSchema.required,
         );
         if (newRequired.length !== newSchema.required.length) {
-          newSchema = _.set('required', newRequired, newSchema);
+          newSchema = set('required', newRequired, newSchema);
         }
       }
 
       const schemaPropertyKeys = Object.keys(newSchema.properties);
       const newUiSchema = Object.assign({}, uiSchema);
       newUiSchema['ui:order'] = uiSchema['ui:order']?.filter(item => {
+        // check item === '*' here?
         return schemaPropertyKeys.includes(item);
       });
 
@@ -528,7 +481,7 @@ export function setArrayRecordTouched(prefix, index) {
 
 export function createUSAStateLabels(states) {
   return states.USA.reduce(
-    (current, { label, value }) => _.merge(current, { [value]: label }),
+    (current, { label, value }) => merge({}, current, { [value]: label }),
     {},
   );
 }
@@ -538,14 +491,14 @@ export function createUSAStateLabels(states) {
  * for each item in an array
  */
 function generateArrayPages(arrayPages, data) {
-  const items = _.get(arrayPages[0].arrayPath, data) || [];
+  const items = get(arrayPages[0].arrayPath, data) || [];
   return (
     items
       .reduce(
         (pages, item, index) =>
           pages.concat(
             arrayPages.map(page =>
-              _.assign(page, {
+              Object.assign({}, page, {
                 path: page.path.replace(':index', index),
                 index,
               }),
@@ -583,14 +536,15 @@ export function expandArrayPages(pageList, data) {
           generateArrayPages(arrayPages, data),
           nextPage,
         );
-        return _.assign(acc, {
+        return {
+          ...acc,
           lastArrayPath: null,
           arrayPages: [],
           currentList: newList,
-        });
+        };
       }
 
-      return _.set('currentList', currentList.concat(nextPage), acc);
+      return set('currentList', currentList.concat(nextPage), acc);
     },
     { lastArrayPath: null, arrayPages: [], currentList: [] },
   );
@@ -652,7 +606,7 @@ export function getActiveChapters(formConfig, formData) {
   const pageList = createPageList(formConfig, formPages);
   const expandedPageList = getActiveExpandedPages(pageList, formData);
 
-  return _.uniq(
+  return uniq(
     expandedPageList
       .map(p => p.chapterKey)
       .filter(key => !!key && key !== 'review'),
@@ -670,7 +624,7 @@ export function omitRequired(schema) {
     return schema;
   }
 
-  const newSchema = _.omit('required', schema);
+  const newSchema = omit('required', schema);
   Object.keys(newSchema).forEach(key => {
     newSchema[key] = omitRequired(newSchema[key]);
   });
@@ -700,4 +654,39 @@ export function transformForSubmit(
   const withoutViewFields = filterViewFields(withoutInactivePages);
 
   return JSON.stringify(withoutViewFields, replacer) || '{}';
+}
+
+/**
+ * Determines whether or not the review field should be displayed on the review page
+ *
+ * @param propName {string} The name of the field to check
+ * @param schema {Object} The current JSON Schema
+ * @param uiSchema {Object} The current UI Schema
+ * @param formData {Object} The current form data
+ * @param formContext {Object} The context of the current form
+ * @returns {boolean} the display status of the field
+ */
+export function showReviewField(
+  propName,
+  schema,
+  uiSchema,
+  formData,
+  formContext,
+) {
+  const hiddenOnSchema =
+    schema.properties[propName] && schema.properties[propName]['ui:hidden'];
+  const collapsedOnSchema =
+    schema.properties[propName] && schema.properties[propName]['ui:collapsed'];
+  const hideOnReviewIfFalse =
+    get([propName, 'ui:options', 'hideOnReviewIfFalse'], uiSchema) === true;
+  let hideOnReview = get([propName, 'ui:options', 'hideOnReview'], uiSchema);
+  if (typeof hideOnReview === 'function') {
+    hideOnReview = hideOnReview(formData, formContext);
+  }
+  return (
+    (!hideOnReviewIfFalse || !!formData[propName]) &&
+    !hideOnReview &&
+    !hiddenOnSchema &&
+    !collapsedOnSchema
+  );
 }

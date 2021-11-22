@@ -45,6 +45,7 @@ export const maxPrefillData = {
   schoolName: 'PURDUE UNIVERSITY-MAIN CAMPUS',
   schoolCity: 'WEST LAFAYETTE',
   schoolState: 'IN',
+  schoolCountry: 'USA',
   remainingEntitlement: {
     months: 6,
     days: 4,
@@ -74,6 +75,7 @@ export const transformedMaxPrefillData = {
   schoolName: 'PURDUE UNIVERSITY-MAIN CAMPUS',
   schoolCity: 'WEST LAFAYETTE',
   schoolState: 'IN',
+  schoolCountry: 'USA',
   'view:remainingEntitlement': {
     days: 4,
     months: 6,

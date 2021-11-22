@@ -45,7 +45,7 @@ const submitFormFor = eventName =>
           } else {
             error = new Error(`vets_server_error: ${req.statusText}`);
           }
-          error.statusText = req.statusText;
+          error.statusText = req.details;
           clearTimeout(timer);
           reject(error);
         }
@@ -53,21 +53,21 @@ const submitFormFor = eventName =>
 
       req.addEventListener('error', () => {
         const error = new Error('client_error: Network request failed');
-        error.statusText = req.statusText;
+        error.statusText = req.details;
         clearTimeout(timer);
         reject(error);
       });
 
       req.addEventListener('abort', () => {
         const error = new Error('client_error: Request aborted');
-        error.statusText = req.statusText;
+        error.statusText = req.details;
         clearTimeout(timer);
         reject(error);
       });
 
       req.addEventListener('timeout', () => {
         const error = new Error('client_error: Request timed out');
-        error.statusText = req.statusText;
+        error.statusText = req.details;
         clearTimeout(timer);
         reject(error);
       });
@@ -75,6 +75,7 @@ const submitFormFor = eventName =>
       req.setRequestHeader('X-Key-Inflection', 'camel');
       req.setRequestHeader('Content-Type', 'application/json');
       req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
+      req.setRequestHeader('Source-App-Name', window.appName);
 
       // Log an error after the timeout fires
       timer = setTimeout(() => {

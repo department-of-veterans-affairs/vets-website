@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { mockFetch } from 'platform/testing/unit/helpers';
 
 import {
   PAYMENTS_RECEIVED_SUCCEEDED,
@@ -7,28 +8,13 @@ import {
   getAllPayments,
 } from '../../actions';
 
-import { mockData } from '../helpers';
-
-let fetchMock;
-let oldFetch;
-
-const mockFetch = () => {
-  oldFetch = global.fetch;
-  fetchMock = sinon.stub();
-  global.fetch = fetchMock;
-};
-
-const unMockFetch = () => {
-  global.fetch = oldFetch;
-};
+import { payments } from '../helpers';
 
 describe('View Payments actions: getAllPayments', () => {
-  beforeEach(mockFetch);
+  beforeEach(() => mockFetch());
 
   it('should get all payments', () => {
-    const payments = mockData;
-
-    fetchMock.returns({
+    global.fetch.returns({
       catch: () => ({
         then: fn => fn({ ok: true, json: () => Promise.resolve(payments) }),
       }),
@@ -55,7 +41,7 @@ describe('View Payments actions: getAllPayments', () => {
         },
       ],
     };
-    fetchMock.returns({
+    global.fetch.returns({
       catch: () => ({
         then: fn => fn({ ok: true, json: () => Promise.resolve(response) }),
       }),
@@ -72,5 +58,4 @@ describe('View Payments actions: getAllPayments', () => {
     };
     thunk(dispatch);
   });
-  afterEach(unMockFetch);
 });

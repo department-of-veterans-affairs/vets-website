@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 import classNames from 'classnames';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import {
   clearAutocompleteSuggestions,
   fetchInstitutionAutocompleteSuggestions,
   fetchInstitutionSearchResults,
-  fetchProgramAutocompleteSuggestions,
-  fetchProgramSearchResults,
   institutionFilterChange,
   setPageTitle,
   toggleFilter,
@@ -21,177 +20,165 @@ import {
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import SearchResult from '../components/search/SearchResult';
+import RatedSearchResult from '../components/search/RatedSearchResult';
 import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
 import ServiceError from '../components/ServiceError';
 import { renderSearchResultsHeader } from '../utils/render';
+import { isMobileView, useQueryParams } from '../utils/helpers';
+import { searchWithFilters } from '../utils/search';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import environment from 'platform/utilities/environment';
-import { isMobileView } from '../utils/helpers';
 
-const { Element: ScrollElement, scroller } = Scroll;
+const { Element: ScrollElement } = Scroll;
 
-export class SearchPage extends React.Component {
-  componentDidMount() {
-    let title = 'Search Results';
-    const searchTerm = this.props.autocomplete.term;
-    if (searchTerm) {
-      title += ` - ${searchTerm}`;
-    }
-    this.props.setPageTitle(title);
-    this.updateSearchResults();
-  }
+export function SearchPage({
+  autocomplete,
+  dispatchClearAutocompleteSuggestions,
+  dispatchEligibilityChange,
+  dispatchFetchInstitutionAutocompleteSuggestions,
+  dispatchFetchInstitutionSearchResults,
+  dispatchHideModal,
+  dispatchInstitutionFilterChange,
+  dispatchSetPageTitle,
+  dispatchShowModal,
+  dispatchToggleFilter,
+  dispatchUpdateAutocompleteSearchTerm,
+  eligibility,
+  filters,
+  gibctSchoolRatings,
+  search,
+}) {
+  const location = useLocation();
+  const history = useHistory();
+  const queryParams = useQueryParams();
 
-  componentDidUpdate(prevProps) {
-    const currentlyInProgress = this.props.search.inProgress;
+  const searchTerm = autocomplete.term
+    ? autocomplete.term
+    : autocomplete.searchTerm;
 
-    const shouldUpdateSearchResults =
-      !currentlyInProgress &&
-      !_.isEqual(this.props.location.query, prevProps.location.query);
+  const legacyTitle = searchTerm
+    ? `SearchResults - ${searchTerm}`
+    : 'Search Results';
+  const newTitle = `Search results: GI Bill® Comparison Tool | Veterans Affairs`;
 
-    if (shouldUpdateSearchResults) {
-      this.updateSearchResults();
-    }
+  useEffect(
+    () => {
+      dispatchSetPageTitle(
+        `${environment.isProduction() ? legacyTitle : newTitle}`,
+      );
+    },
 
-    // prod flag for bah-8821
-    if (environment.isProduction()) {
-      if (currentlyInProgress !== prevProps.search.inProgress) {
-        scroller.scrollTo('searchPage', getScrollOptions());
+    [dispatchSetPageTitle, legacyTitle, newTitle],
+  );
+
+  useEffect(
+    () => {
+      if (!search.inProgress) {
+        const booleanFilterParams = [
+          'distanceLearning',
+          'studentVeteranGroup',
+          'yellowRibbonScholarship',
+          'onlineOnly',
+          'principlesOfExcellence',
+          'eightKeysToVeteranSuccess',
+          'priorityEnrollment',
+          'independentStudy',
+          'preferredProvider',
+          'excludeWarnings',
+          'excludeCautionFlags',
+        ];
+
+        const stringFilterParams = [
+          'version',
+          'category',
+          'country',
+          'state',
+          'type',
+        ];
+
+        const stringSearchParams = ['page', 'name'];
+
+        const allParams = [
+          ...stringSearchParams,
+          ...stringFilterParams,
+          ...booleanFilterParams,
+        ];
+
+        const query = {};
+        allParams.forEach(filterKey => {
+          const queryVal = queryParams.get(filterKey);
+          if (queryVal) {
+            query[filterKey] = queryParams.get(filterKey);
+          }
+        });
+
+        // Update form selections based on query.
+        const institutionFilter = _.omit(query, stringSearchParams);
+
+        // Convert string to bool for params associated with checkboxes.
+        booleanFilterParams.forEach(filterKey => {
+          const filterValue = institutionFilter[filterKey];
+          institutionFilter[filterKey] = filterValue === 'true';
+        });
+
+        dispatchInstitutionFilterChange(institutionFilter);
+
+        dispatchFetchInstitutionSearchResults(query);
       }
-    } else if (
-      !isMobileView() &&
-      currentlyInProgress !== prevProps.search.inProgress
-    ) {
-      scroller.scrollTo('searchPage', getScrollOptions());
-    }
+    },
+    [location.search],
+  );
 
-    if (
-      !currentlyInProgress &&
-      !_.isEqual(this.props.search.results, prevProps.search.results)
-    ) {
-      focusElement('.search-results-count > h1');
-    }
-  }
+  useEffect(
+    () => {
+      if (!isMobileView()) {
+        scrollTo('searchPage', getScrollOptions());
+      }
+    },
+    [search.inProgress],
+  );
 
-  updateSearchResults = () => {
-    const booleanFilterParams = [
-      'distanceLearning',
-      'studentVeteranGroup',
-      'yellowRibbonScholarship',
-      'onlineOnly',
-      'principlesOfExcellence',
-      'eightKeysToVeteranSuccess',
-      'stemIndicator',
-      'priorityEnrollment',
-      'independentStudy',
-      'preferredProvider',
-      'excludeWarnings',
-      'excludeCautionFlags',
-      'womenonly',
-      'menonly',
-      'hbcu',
-    ];
+  useEffect(
+    () => {
+      if (!search.inProgress) {
+        focusElement('.search-results-count > h1');
+      }
+    },
+    [search.results],
+  );
 
-    const stringFilterParams = [
-      'version',
-      'category',
-      'country',
-      'state',
-      'type',
-      'relaffil',
-    ];
-
-    const stringSearchParams = ['page', 'name'];
-
-    const query = _.pick(this.props.location.query, [
-      ...stringSearchParams,
-      ...stringFilterParams,
-      ...booleanFilterParams,
-    ]);
-
-    // Update form selections based on query.
-    const institutionFilter = _.omit(query, stringSearchParams);
-
-    // Convert string to bool for params associated with checkboxes.
-    booleanFilterParams.forEach(filterKey => {
-      const filterValue = institutionFilter[filterKey];
-      institutionFilter[filterKey] = filterValue === 'true';
-    });
-
-    this.props.institutionFilterChange(institutionFilter);
-    this.props.fetchInstitutionSearchResults(
-      query,
-      this.props.gibctSearchEnhancements,
-    );
-  };
-
-  autocomplete = (value, version) => {
+  const handleAutocompleteUpdate = (value, version) => {
     if (value) {
-      this.props.fetchInstitutionAutocompleteSuggestions(
+      dispatchFetchInstitutionAutocompleteSuggestions(
         value,
-        _.omit(this.props.search.query, 'name'),
+        _.omit(search.query, 'name'),
         version,
       );
     }
   };
 
-  handlePageSelect = page => {
-    this.props.router.push({
-      ...this.props.location,
-      query: { ...this.props.location.query, page },
+  const handlePageSelect = page => {
+    queryParams.set('page', page);
+    history.push({ pathname: '/search/', search: queryParams.toString() });
+  };
+
+  const handleFilterChange = (field, value) => {
+    searchWithFilters({
+      search,
+      field,
+      value,
+      clearAutocompleteSuggestions: dispatchClearAutocompleteSuggestions,
+      history,
+      query: queryParams.toString(),
+      pathname: '/search',
     });
   };
 
-  handleFilterChange = (field, value) => {
-    // Translate form selections to query params.
-    let query = {
-      ...this.props.location.query,
-      [field]: value,
-      name: value === undefined ? field : this.props.autocomplete.searchTerm,
-    };
-    // Don’t update the route if the query hasn’t changed.
-    if (
-      _.isEqual(query, this.props.location.query) ||
-      this.props.search.inProgress
-    ) {
-      return;
-    }
-    this.props.clearAutocompleteSuggestions();
-
-    // Reset to the first page upon a filter change.
-    delete query.page;
-
-    const shouldRemoveFilter =
-      !value ||
-      ((field === 'country' ||
-        field === 'state' ||
-        field === 'type' ||
-        field === 'relaffil') &&
-        value === 'ALL');
-
-    if (shouldRemoveFilter) {
-      delete query[field];
-    }
-
-    if (field === 'gender') {
-      delete query?.menonly;
-      delete query?.womenonly;
-      if (value === 'womenonly') {
-        query = { ...query, womenonly: 'true' };
-      }
-      if (value === 'menonly') {
-        query = { ...query, menonly: 'true' };
-      }
-
-      delete query?.gender;
-    }
-    this.props.router.push({ ...this.props.location, query });
-  };
-
-  searchResults = () => {
-    const { search } = this.props;
+  const searchResults = () => {
     const {
       pagination: { currentPage, totalPages },
     } = search;
@@ -206,65 +193,54 @@ export class SearchPage extends React.Component {
       },
     );
 
-    let searchResults;
+    let results;
 
     // Filter button on mobile.
     const filterButton = (
       <button
         className="filter-button usa-button-secondary"
-        onClick={this.props.toggleFilter}
+        data-cy="filter-button"
+        onClick={dispatchToggleFilter}
       >
         Filter
       </button>
     );
 
     if (search.inProgress) {
-      searchResults = (
+      results = (
         <div className={resultsClass}>
           {filterButton}
           <LoadingIndicator message="Loading search results..." />
         </div>
       );
     } else {
-      searchResults = (
+      results = (
         <div className={resultsClass}>
           {filterButton}
           <div>
-            {search.results.map(result => (
-              <SearchResult
-                version={this.props.location.query.version}
-                key={result.facilityCode}
-                name={result.name}
-                facilityCode={result.facilityCode}
-                type={result.type}
-                city={result.city}
-                state={result.state}
-                zip={result.zip}
-                country={result.country}
-                cautionFlag={result.cautionFlag}
-                cautionFlags={result.cautionFlags}
-                studentCount={result.studentCount}
-                bah={result.bah}
-                dodBah={result.dodBah}
-                schoolClosing={result.schoolClosing}
-                schoolClosingOn={result.schoolClosingOn}
-                tuitionInState={result.tuitionInState}
-                tuitionOutOfState={result.tuitionOutOfState}
-                books={result.books}
-                studentVeteran={result.studentVeteran}
-                yr={result.yr}
-                poe={result.poe}
-                eightKeys={result.eightKeys}
-                womenonly={result.womenonly}
-                menonly={result.menonly}
-                relaffil={result.relaffil}
-                hbcu={result.hbcu}
-              />
-            ))}
+            {search.results.map(result => {
+              return gibctSchoolRatings ? (
+                <RatedSearchResult
+                  key={result.facilityCode}
+                  menOnly={result.menonly}
+                  womenOnly={result.womenonly}
+                  ratingAverage={result.ratingAverage}
+                  ratingCount={result.ratingCount}
+                  {...result}
+                />
+              ) : (
+                <SearchResult
+                  key={result.facilityCode}
+                  menOnly={result.menonly}
+                  womenOnly={result.womenonly}
+                  {...result}
+                />
+              );
+            })}
           </div>
 
           <Pagination
-            onPageSelect={this.handlePageSelect.bind(this)}
+            onPageSelect={handlePageSelect}
             page={currentPage}
             pages={totalPages}
           />
@@ -272,40 +248,10 @@ export class SearchPage extends React.Component {
       );
     }
 
-    return searchResults;
+    return results;
   };
 
-  renderInstitutionSearchForm = (searchResults, filtersClass) => (
-    <div>
-      <div className="vads-l-col--10 search-results-count">
-        {renderSearchResultsHeader(this.props.search)}
-      </div>
-      <InstitutionSearchForm
-        filtersClass={filtersClass}
-        search={this.props.search}
-        autocomplete={this.props.autocomplete}
-        location={this.props.location}
-        clearAutocompleteSuggestions={this.props.clearAutocompleteSuggestions}
-        fetchAutocompleteSuggestions={this.autocomplete}
-        handleFilterChange={this.handleFilterChange}
-        updateAutocompleteSearchTerm={this.props.updateAutocompleteSearchTerm}
-        filters={this.props.filters}
-        toggleFilter={this.props.toggleFilter}
-        searchResults={searchResults}
-        eligibility={this.props.eligibility}
-        showModal={this.props.showModal}
-        eligibilityChange={this.props.eligibilityChange}
-        gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
-        hideModal={this.props.hideModal}
-        gibctFilterEnhancement={this.props.gibctFilterEnhancement}
-        gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
-      />
-    </div>
-  );
-
-  render() {
-    const { search } = this.props;
-
+  const renderInstitutionSearchForm = () => {
     const filtersClass = classNames(
       'filters-sidebar',
       'small-12',
@@ -313,20 +259,39 @@ export class SearchPage extends React.Component {
       'columns',
       { opened: search.filterOpened },
     );
-
-    const searchResults = this.searchResults();
-
     return (
-      <ScrollElement name="searchPage" className="search-page">
-        {/* /CT 116 */}
-        {search.error ? (
-          <ServiceError />
-        ) : (
-          this.renderInstitutionSearchForm(searchResults, filtersClass)
-        )}
-      </ScrollElement>
+      <div>
+        <div className="vads-l-col--10 search-results-count">
+          {renderSearchResultsHeader(search)}
+        </div>
+        <InstitutionSearchForm
+          filtersClass={filtersClass}
+          search={search}
+          autocomplete={autocomplete}
+          location={location}
+          clearAutocompleteSuggestions={dispatchClearAutocompleteSuggestions}
+          fetchAutocompleteSuggestions={handleAutocompleteUpdate}
+          handleFilterChange={handleFilterChange}
+          updateAutocompleteSearchTerm={dispatchUpdateAutocompleteSearchTerm}
+          filters={filters}
+          toggleFilter={dispatchToggleFilter}
+          searchResults={searchResults()}
+          eligibility={eligibility}
+          showModal={dispatchShowModal}
+          eligibilityChange={dispatchEligibilityChange}
+          hideModal={dispatchHideModal}
+          searchOnAutcompleteSelection
+        />
+      </div>
     );
-  }
+  };
+
+  return (
+    <ScrollElement name="searchPage" className="search-page">
+      {/* /CT 116 */}
+      {search.error ? <ServiceError /> : renderInstitutionSearchForm()}
+    </ScrollElement>
+  );
 }
 
 SearchPage.defaultProps = {};
@@ -337,33 +302,22 @@ const mapStateToProps = state => ({
   filters: state.filters,
   search: state.search,
   eligibility: state.eligibility,
-  gibctEstimateYourBenefits: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctEstimateYourBenefits
-  ],
-  gibctSearchEnhancements: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctSearchEnhancements
-  ],
-  gibctFilterEnhancement: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctFilterEnhancement
-  ],
-  gibctCh33BenefitRateUpdate: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctCh33BenefitRateUpdate
+  gibctSchoolRatings: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctSchoolRatings
   ],
 });
 
 const mapDispatchToProps = {
-  clearAutocompleteSuggestions,
-  fetchProgramAutocompleteSuggestions,
-  fetchInstitutionAutocompleteSuggestions,
-  fetchInstitutionSearchResults,
-  fetchProgramSearchResults,
-  institutionFilterChange,
-  setPageTitle,
-  toggleFilter,
-  updateAutocompleteSearchTerm,
-  eligibilityChange,
-  showModal,
-  hideModal,
+  dispatchClearAutocompleteSuggestions: clearAutocompleteSuggestions,
+  dispatchFetchInstitutionAutocompleteSuggestions: fetchInstitutionAutocompleteSuggestions,
+  dispatchFetchInstitutionSearchResults: fetchInstitutionSearchResults,
+  dispatchInstitutionFilterChange: institutionFilterChange,
+  dispatchSetPageTitle: setPageTitle,
+  dispatchToggleFilter: toggleFilter,
+  dispatchUpdateAutocompleteSearchTerm: updateAutocompleteSearchTerm,
+  dispatchEligibilityChange: eligibilityChange,
+  dispatchShowModal: showModal,
+  dispatchHideModal: hideModal,
 };
 
 export default connect(

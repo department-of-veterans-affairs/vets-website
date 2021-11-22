@@ -14,13 +14,13 @@ describe('<RequiredLoginView>', () => {
   const initialSetup = () => {
     localStorage.setItem('hasSession', true);
     oldWindow = global.window;
-
-    global.window = {
+    global.window = Object.create(global.window);
+    Object.assign(global.window, {
       pathname: '',
       location: {
         replace: redirectFunc,
       },
-    };
+    });
   };
 
   const teardown = () => {
@@ -131,7 +131,8 @@ describe('<RequiredLoginView>', () => {
     const { tree } = setup({
       user: { profile: { loading: true } },
     });
-    const loadingIndicatorElement = tree.dive(['LoadingIndicator']);
+    const loadingIndicator = tree.dive(['RequiredLoginLoader']);
+    const loadingIndicatorElement = loadingIndicator.dive(['LoadingIndicator']);
     expect(loadingIndicatorElement.text()).to.contain(
       'Loading your information',
     );

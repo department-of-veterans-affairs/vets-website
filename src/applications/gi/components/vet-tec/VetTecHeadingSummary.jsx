@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import VetTecAdditionalResources from './VetTecAdditionalResources';
+import AdditionalResources from '../content/AdditionalResources';
 import { locationInfo, phoneInfo, isPresent } from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
 import _ from 'lodash';
@@ -115,7 +115,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
         </div>
         <div className={preferredProvider}>
           <div>
-            <VetTecAdditionalResources />
+            <AdditionalResources vetTec />
           </div>
         </div>
       </div>

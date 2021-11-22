@@ -1,3 +1,4 @@
+const path = require('path');
 const setupLocalProxyRewrite = require('../src/applications/proxy-rewrite/local-proxy-rewrite');
 const manifestHelpers = require('./manifest-helpers');
 
@@ -12,7 +13,12 @@ function generateWebpackDevConfig(buildOptions) {
 
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   return {
-    contentBase: buildOptions.destination,
+    contentBase: path.resolve(
+      __dirname,
+      '../',
+      'build',
+      buildOptions.destination,
+    ),
     historyApiFallback: {
       rewrites: [
         ...appRewrites,

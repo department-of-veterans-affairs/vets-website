@@ -6,7 +6,8 @@ import {
   FETCH_RESULTS_FAILURE,
   FETCH_RESULTS_SUCCESS,
   TOGGLE_SHOW_MOBILE_FORM,
-} from './index';
+  TOGGLE_TOOL_TIP,
+} from '.';
 
 describe('Yellow Ribbon constants', () => {
   it('should have `yellow-ribbon` in them', () => {
@@ -14,5 +15,6 @@ describe('Yellow Ribbon constants', () => {
     expect(FETCH_RESULTS_FAILURE).to.include('yellow-ribbon');
     expect(FETCH_RESULTS_SUCCESS).to.include('yellow-ribbon');
     expect(TOGGLE_SHOW_MOBILE_FORM).to.include('yellow-ribbon');
+    expect(TOGGLE_TOOL_TIP).to.include('yellow-ribbon');
   });
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
 export default class EducationWizard extends React.Component {
   constructor(props) {
@@ -74,7 +74,7 @@ export default class EducationWizard extends React.Component {
               if (shouldDisplayQuestion) {
                 if (options) {
                   return (
-                    <ErrorableRadioButtons
+                    <RadioButtons
                       additionalFieldsetClass="wizard-fieldset"
                       name={type}
                       id={type}

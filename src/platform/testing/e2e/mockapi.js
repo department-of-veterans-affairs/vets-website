@@ -21,16 +21,9 @@ const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'vagovdev' },
   { name: 'port', type: Number, defaultValue: +(process.env.API_PORT || 3000) },
   { name: 'host', type: String, defaultValue: 'localhost' },
-  { name: 'responses', type: String },
-
-  // Catch-all for bad arguments.
-  { name: 'unexpected', type: String, multile: true, defaultOption: true },
+  { name: 'responses', type: String, defaultOption: true },
 ];
 const options = commandLineArgs(optionDefinitions);
-
-if (options.unexpected && options.unexpected.length !== 0) {
-  throw new Error(`Unexpected arguments: '${options.unexpected}'`);
-}
 
 function stripTrailingSlash(path) {
   return path.substr(-1) === '/' ? path.slice(0, -1) : path;
@@ -118,14 +111,25 @@ function makeMockApiRouter(opts) {
       res.status(result.status);
     }
 
-    opts.logger.debug(token, verb, path, result.value);
+    opts.logger.debug(
+      `(${token}) ${verb} ${path} : ${JSON.stringify(
+        result.error || result.value,
+      )}`,
+    );
     res.json(result.value);
   });
 
   return router;
 }
 
-options.logger = winston;
+options.logger = winston.createLogger({
+  level: 'debug',
+  transports: [
+    new winston.transports.Console({
+      format: winston.format.simple(),
+    }),
+  ],
+});
 
 const app = express();
 app.use(cors(corsOptions));

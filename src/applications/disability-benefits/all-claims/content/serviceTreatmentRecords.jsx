@@ -1,12 +1,20 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+
+const alertContent = (
+  <p className="vads-u-font-size--base">
+    You don’t have to turn in your service treatment records with your
+    application, but your eligibility for the BDD program could expire if there
+    is a delay in us receiving them.
+  </p>
+);
 
 export const serviceTreatmentRecordsSubmitLater = (
-  <div className="service-treatment-records-submit-later">
-    <AlertBox
-      headline="We recommend submitting your Service Treatment Records as soon as possible."
-      content="It is not required that you submit your Service Treatment Records with this application - you are able to submit them after filing. However, a delay in receiving your records may cause you to fall out of the eligibility window (180 - 90 days from separation) for the Benefits Delivery at Discharge program."
-      status="warning"
-    />
+  <div id="submit-str-asap" className="service-treatment-records-submit-later">
+    <va-alert status="warning">
+      <h3 slot="headline">
+        Please submit your service treatment records as soon as possible
+      </h3>
+      {alertContent}
+    </va-alert>
   </div>
 );

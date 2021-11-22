@@ -1,17 +1,25 @@
 // Node modules.
 import React from 'react';
+import PropTypes from 'prop-types';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 // Relative imports.
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
+import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 
-export const AuthContent = () => (
+export const AuthContent = ({
+  authenticatedWithSSOe,
+  cernerFacilities,
+  otherFacilities,
+}) => (
   <>
     <CernerCallToAction
+      cernerFacilities={cernerFacilities}
+      otherFacilities={otherFacilities}
       linksHeaderText="View lab and test results from:"
-      myHealtheVetLink="https://sqa.eauth.va.gov/mhv-portal-web/eauth"
+      myHealtheVetLink={mhvUrl(authenticatedWithSSOe, 'labs-tests')}
       myVAHealthLink={getCernerURL('/pages/health_record/results/labs')}
     />
     <div>
@@ -44,14 +52,15 @@ export const AuthContent = () => (
               </p>
               <h3>If you receive care at Mann-Grandstaff VA Medical Center</h3>
               <p>
-                You’ll use My VA Health’s Labs and Vitals tool to view some of
-                your VA lab and test results from providers at Mann-Grandstaff.
-                These include results like blood tests as well as microbiology,
-                pathology, radiology, and cardiology reports.
+                You’ll use <strong>My VA Health’s Labs and Vitals</strong> tool
+                to view some of your VA lab and test results from providers at
+                Mann-Grandstaff. These include results like blood tests as well
+                as microbiology, pathology, radiology, and cardiology reports.
               </p>
               <h3>If you receive care at any other VA medical center</h3>
               <p>
-                You&apos;ll use My HealtheVet&apos;s Labs and Tests tool to:
+                You’ll use <strong>My HealtheVet’s Labs and Tests</strong> tool
+                to:
               </p>
               <ul>
                 <li>
@@ -61,20 +70,6 @@ export const AuthContent = () => (
                   blood sugar and liver function.
                 </li>
                 <li>Add results from non-VA health care providers and labs.</li>
-              </ul>
-              <p>
-                <strong>
-                  If you receive care at another VA medical center, you&apos;ll
-                  use My HealtheVet Labs + Tests tool to:
-                </strong>
-              </p>
-              <ul>
-                <li>
-                  View your VA chemistry/hematology lab and test results (like
-                  blood tests, blood sugar, liver function, and blood cell
-                  count) from all other VA medical centers
-                </li>
-                <li>Add results from non-VA health care providers and labs</li>
               </ul>
             </div>
           </div>
@@ -97,7 +92,7 @@ export const AuthContent = () => (
                 requirements listed below.
               </p>
               <p>
-                <strong>Both of these must be true. You&apos;re:</strong>
+                <strong>Both of these must be true. You’re:</strong>
               </p>
               <ul>
                 <li>
@@ -136,15 +131,15 @@ export const AuthContent = () => (
                 </li>
               </ul>
               <p>
-                <strong>Note:</strong> If you sign in with a Basic or Advanced
-                account, you’ll find only the results you’ve entered yourself.
+                <strong>Note:</strong> If you sign in with a Basic account,
+                you’ll find only the results you’ve entered yourself.
                 <br />
                 <a
                   href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Learn about the 3 different My HealtheVet account types
+                  Learn about the 2 different My HealtheVet account types
                 </a>
               </p>
             </div>
@@ -163,8 +158,8 @@ export const AuthContent = () => (
           <div itemProp="text">
             <div className="processed-content">
               <p>
-                No. Labs results from community providers aren&apos;t listed in
-                the tools. But you can add this information yourself into My
+                No. Labs results from community providers aren’t listed in the
+                tools. But you can add this information yourself into My
                 HealtheVet.
               </p>
             </div>
@@ -182,20 +177,17 @@ export const AuthContent = () => (
         >
           <div itemProp="text">
             <div className="processed-content">
-              <h3>If you&apos;re viewing results on My HealtheVet</h3>
+              <h3>If you’re viewing results on My HealtheVet</h3>
               <p>
-                On your Welcome page dashboard, find a module for
-                <strong>Health Records.</strong> Within that module, click on
+                On your Welcome page dashboard, find a module for{' '}
+                <strong>Health Records.</strong> Within that module, click on{' '}
                 <strong>Labs and Tests.</strong>
               </p>
               <p>
                 This will take you to a new page with links to your test
                 results.
               </p>
-              <p>
-                If you&apos;re signed in with a Premium account, you&apos;ll
-                find:
-              </p>
+              <p>If you’re signed in with a Premium account, you’ll find:</p>
               <ul>
                 <li>
                   <strong>VA chemistry/hematology results:</strong> Your tests
@@ -205,9 +197,8 @@ export const AuthContent = () => (
                   review details.
                 </li>
                 <li>
-                  <strong>Test results you&apos;ve entered yourself:</strong>{' '}
-                  You can add and review results from community providers and
-                  labs.
+                  <strong>Test results you’ve entered yourself:</strong> You can
+                  add and review results from community providers and labs.
                 </li>
               </ul>
               <p>
@@ -220,11 +211,11 @@ export const AuthContent = () => (
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Learn about the 3 different My HealtheVet account types
+                  Learn about the 2 different My HealtheVet account types
                 </a>
               </p>
 
-              <h3>If you&apos;re viewing results on My VA Health</h3>
+              <h3>If you’re viewing results on My VA Health</h3>
               <p>
                 In the navigation panel, click <strong>Health Record.</strong>
               </p>
@@ -234,11 +225,11 @@ export const AuthContent = () => (
                 links to specific test results.
               </p>
               <p>
-                If you&apos;re signed in with a <strong>Premium</strong>{' '}
-                account, you&apos;ll find VA test results listed by date and
-                specimen. A specimen is the sample studied by the test (like
-                blood, urine, a tissue biopsy, or a throat swab). You can click
-                on each result to review details.
+                If you’re signed in with a <strong>Premium</strong> account,
+                you’ll find VA test results listed by date and specimen. A
+                specimen is the sample studied by the test (like blood, urine, a
+                tissue biopsy, or a throat swab). You can click on each result
+                to review details.
               </p>
             </div>
           </div>
@@ -303,7 +294,7 @@ export const AuthContent = () => (
                   <a href="tel:18773270022" aria-label="8 7 7. 3 2 7. 0 0 2 2.">
                     877-327-0022
                   </a>{' '}
-                  (<Telephone contact={CONTACTS.HELP_TTY} />
+                  (TTY: <Telephone contact={CONTACTS.HELP_TTY} />
                   ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
                   ET.
                 </li>
@@ -331,5 +322,31 @@ export const AuthContent = () => (
     </div>
   </>
 );
+
+AuthContent.propTypes = {
+  authenticatedWithSSOe: PropTypes.bool.isRequired,
+  cernerfacilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilityId: PropTypes.string.isRequired,
+      isCerner: PropTypes.bool.isRequired,
+      usesCernerAppointments: PropTypes.string,
+      usesCernerMedicalRecords: PropTypes.string,
+      usesCernerMessaging: PropTypes.string,
+      usesCernerRx: PropTypes.string,
+      usesCernerTestResults: PropTypes.string,
+    }).isRequired,
+  ),
+  otherfacilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilityId: PropTypes.string.isRequired,
+      isCerner: PropTypes.bool.isRequired,
+      usesCernerAppointments: PropTypes.string,
+      usesCernerMedicalRecords: PropTypes.string,
+      usesCernerMessaging: PropTypes.string,
+      usesCernerRx: PropTypes.string,
+      usesCernerTestResults: PropTypes.string,
+    }).isRequired,
+  ),
+};
 
 export default AuthContent;

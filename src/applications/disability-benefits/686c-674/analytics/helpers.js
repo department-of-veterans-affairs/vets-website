@@ -1,23 +1,34 @@
-import recordEvent from 'platform/monitoring/record-event';
+import { submitToUrl } from 'platform/forms-system/src/js/actions';
+import { customTransformForSubmit } from '../config/utilities';
 
-export const fireAnalytics = submission => {
-  recordEvent({
-    event: 'disability-21-686c-submission-successful',
-    'disability-claimSpouse': submission['view:selectable686Options'].addSpouse,
+export const buildEventData = formData => {
+  return {
+    'disability-claimSpouse': formData['view:selectable686Options'].addSpouse,
     'disability-under18AndUnmarried':
-      submission['view:selectable686Options'].addChild,
+      formData['view:selectable686Options'].addChild,
     'disability-childAttendingSchool':
-      submission['view:selectable686Options'].report674,
+      formData['view:selectable686Options'].report674,
     'disability-reportingDivorce':
-      submission['view:selectable686Options'].reportDivorce,
+      formData['view:selectable686Options'].reportDivorce,
     'disability-stepchildLeftHousehold':
-      submission['view:selectable686Options'].reportStepchildNotInHousehold,
+      formData['view:selectable686Options'].reportStepchildNotInHousehold,
     'disability-deathOfDependent':
-      submission['view:selectable686Options'].reportDeath,
+      formData['view:selectable686Options'].reportDeath,
     'disability-marriageOfChild':
-      submission['view:selectable686Options'].reportMarriageOfChildUnder18,
+      formData['view:selectable686Options'].reportMarriageOfChildUnder18,
     'disability-childStoppedAttendingSchool':
-      submission['view:selectable686Options']
+      formData['view:selectable686Options']
         .reportChild18OrOlderIsNotAttendingSchool,
-  });
+  };
+};
+
+export const customSubmit686 = (form, formConfig) => {
+  const body = customTransformForSubmit(formConfig, form);
+
+  return submitToUrl(
+    body,
+    formConfig.submitUrl,
+    formConfig.trackingPrefix,
+    buildEventData(form.data),
+  );
 };

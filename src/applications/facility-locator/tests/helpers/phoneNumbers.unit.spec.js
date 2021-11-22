@@ -41,4 +41,14 @@ describe('parsePhoneNumber', () => {
     expect(extension).to.equal('123');
     expect(contact).to.equal('1234567890');
   });
+
+  it('with 800 numbers', () => {
+    const phone = '1-800-827-1000';
+    const { formattedPhoneNumber, extension, contact } = parsePhoneNumber(
+      phone,
+    );
+    expect(formattedPhoneNumber).to.equal('800-827-1000');
+    expect(extension).to.equal('');
+    expect(contact).to.equal('8008271000');
+  });
 });

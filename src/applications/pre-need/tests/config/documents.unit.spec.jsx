@@ -1,13 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
+import { Provider } from 'react-redux';
 
+import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
+import { render } from '@testing-library/react';
 
 describe('Pre-need attachments', () => {
   const {
@@ -16,12 +18,15 @@ describe('Pre-need attachments', () => {
   } = formConfig.chapters.supportingDocuments.pages.supportingDocuments;
 
   it('should render', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-      />,
+    const form = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{}}
+        />
+      </Provider>,
     );
     const formDOM = getFormDOM(form);
 
@@ -30,13 +35,16 @@ describe('Pre-need attachments', () => {
 
   it('should submit empty form', () => {
     const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+    const form = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+          data={{}}
+        />
+      </Provider>,
     );
 
     const formDOM = getFormDOM(form);
@@ -49,22 +57,24 @@ describe('Pre-need attachments', () => {
 
   it('should not submit without attachment id', () => {
     const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{
-          application: {
-            preneedAttachments: [
-              {
-                confirmationCode: 'testing',
-              },
-            ],
-          },
-        }}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+    const form = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{
+            application: {
+              preneedAttachments: [
+                {
+                  confirmationCode: 'testing',
+                },
+              ],
+            },
+          }}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     const formDOM = getFormDOM(form);
@@ -76,22 +86,24 @@ describe('Pre-need attachments', () => {
 
   it('should not submit without required fields', () => {
     const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{
-          application: {
-            preneedAttachments: [
-              {
-                confirmationCode: 'testing',
-              },
-            ],
-          },
-        }}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+    const form = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{
+            application: {
+              preneedAttachments: [
+                {
+                  confirmationCode: 'testing',
+                },
+              ],
+            },
+          }}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     const formDOM = getFormDOM(form);
@@ -102,29 +114,31 @@ describe('Pre-need attachments', () => {
   });
   it('should submit with valid data', () => {
     const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{
-          application: {
-            preneedAttachments: [
-              {
-                attachmentId: '1',
-                confirmationCode: 'testing',
-                name: 'abc',
-              },
-              {
-                attachmentId: '1',
-                confirmationCode: 'testing2',
-                name: 'abc',
-              },
-            ],
-          },
-        }}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+    const form = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{
+            application: {
+              preneedAttachments: [
+                {
+                  attachmentId: '1',
+                  confirmationCode: 'testing',
+                  name: 'abc',
+                },
+                {
+                  attachmentId: '1',
+                  confirmationCode: 'testing2',
+                  name: 'abc',
+                },
+              ],
+            },
+          }}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     const formDOM = getFormDOM(form);

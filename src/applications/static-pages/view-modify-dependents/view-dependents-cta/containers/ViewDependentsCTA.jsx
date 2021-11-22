@@ -3,8 +3,8 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { connect } from 'react-redux';
 
-import CallToActionWidget from 'platform/site-wide/cta-widget';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import CallToActionWidget from 'applications/static-pages/cta-widget';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 

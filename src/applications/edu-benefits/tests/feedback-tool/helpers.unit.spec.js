@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import {
   mockFetch,
-  resetFetch,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers';
 
@@ -317,7 +316,6 @@ describe('feedback-tool helpers:', () => {
     });
 
     afterEach(() => {
-      resetFetch();
       delete window.URL;
     });
   });

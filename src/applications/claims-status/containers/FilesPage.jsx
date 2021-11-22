@@ -9,7 +9,8 @@ import RequestedFilesInfo from '../components/RequestedFilesInfo';
 
 import { clearNotification } from '../actions/index.jsx';
 import { getClaimType } from '../utils/helpers';
-import { scrollToTop, setUpPage, isTab, setFocus } from '../utils/page';
+import { setUpPage, isTab, setFocus } from '../utils/page';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 const NEED_ITEMS_STATUS = 'NEEDED';
 const FIRST_GATHERING_EVIDENCE_PHASE = 3;
@@ -51,7 +52,7 @@ class FilesPage extends React.Component {
     const { claim, loading, message, synced } = this.props;
 
     let content = null;
-    if (!loading) {
+    if (!loading && claim) {
       const showDecision =
         claim.attributes.phase === FIRST_GATHERING_EVIDENCE_PHASE &&
         !claim.attributes.waiverSubmitted;

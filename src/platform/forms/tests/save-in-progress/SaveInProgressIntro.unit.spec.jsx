@@ -19,7 +19,14 @@ describe('Schemaform <SaveInProgressIntro>', () => {
   const removeInProgressForm = () => {};
   const toggleLoginModal = () => {};
 
-  const formConfig = {};
+  const formConfig = {
+    saveInProgress: {
+      messages: {
+        expired:
+          'Your saved health care benefits application (10-10EZ) has expired. If you want to apply for health care benefits, please start a new application.',
+      },
+    },
+  };
 
   it('should render in progress message', () => {
     const user = {
@@ -58,10 +65,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(
       tree
-        .find('.saved-form-item-metadata')
+        .find('.usa-alert-heading')
         .last()
         .text(),
-    ).to.include(moment.unix(946684800).format('M/D/YYYY [at] h:mm a'));
+    ).to.include(moment.unix(946684800).format('MMMM D, YYYY [at] h:mm a'));
 
     expect(tree.find('.usa-alert').text()).to.contain(
       'Your application is in progress',
@@ -73,6 +80,47 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(
       tree.find('withRouter(FormStartControls)').props().startPage,
     ).to.equal('testing');
+    tree.unmount();
+  });
+  it('should render in progress message with header', () => {
+    const user = {
+      profile: {
+        savedForms: [
+          {
+            form: VA_FORM_IDS.FORM_10_10EZ,
+            metadata: {
+              lastUpdated: 946684800,
+              expiresAt: moment().unix() + 2000,
+            },
+          },
+        ],
+        prefillsAvailable: [],
+      },
+      login: {
+        currentlyLoggedIn: true,
+        loginUrls: {
+          idme: '/mockLoginUrl',
+        },
+      },
+    };
+
+    const tree = shallow(
+      <SaveInProgressIntro
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        formId="1010ez"
+        user={user}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
+        headingLevel={1}
+      />,
+    );
+
+    expect(tree.find('.usa-alert-heading').text()).to.contain(
+      'Your application is in progress',
+    );
     tree.unmount();
   });
   it('should pass prefills available prop', () => {
@@ -101,11 +149,15 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
         formConfig={formConfig}
+        ariaLabel="test aria-label"
+        ariaDescribedby="test-id"
       />,
     );
 
-    expect(tree.find('withRouter(FormStartControls)').props().prefillAvailable)
-      .to.be.true;
+    const formControlProps = tree.find('withRouter(FormStartControls)').props();
+    expect(formControlProps.prefillAvailable).to.be.true;
+    expect(formControlProps.ariaLabel).to.eq('test aria-label');
+    expect(formControlProps.ariaDescribedby).to.eq('test-id');
     tree.unmount();
   });
   it('should render sign in message', () => {
@@ -137,12 +189,15 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
         formConfig={formConfig}
+        ariaLabel="test aria-label"
+        ariaDescribedby="test-id"
       />,
     );
 
-    expect(tree.find('.va-button-link').text()).to.contain(
-      'Sign in to your account.',
-    );
+    const link = tree.find('.va-button-link');
+    expect(link.text()).to.contain('Sign in to your account.');
+    expect(link.prop('aria-label')).to.eq('test aria-label');
+    expect(link.prop('aria-describedby')).to.eq('test-id');
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
     tree.unmount();
   });
@@ -448,6 +503,44 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     tree.unmount();
   });
 
+  it('should render a different heading level when passed in as a prop', () => {
+    const user = {
+      profile: {
+        savedForms: [
+          {
+            form: VA_FORM_IDS.FORM_10_10EZ,
+            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+          },
+        ],
+        prefillsAvailable: [],
+      },
+      login: {
+        currentlyLoggedIn: true,
+        loginUrls: {
+          idme: '/mockLoginUrl',
+        },
+      },
+    };
+
+    const tree = shallow(
+      <SaveInProgressIntro
+        downtime={{}}
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        formId="1010ez"
+        user={user}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
+        headingLevel={1}
+      />,
+    );
+
+    expect(tree.find('h1').exists()).to.be.true;
+    tree.unmount();
+  });
+
   it('should not render downtime notification when logged in', () => {
     const user = {
       profile: {
@@ -593,6 +686,60 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(tree.find('.usa-button-primary').text()).to.equal(
       'Custom message displayed to non-signed-in users',
     );
+    tree.unmount();
+  });
+
+  it('should not render an inProgress message', () => {
+    const user = {
+      profile: {
+        savedForms: [
+          {
+            form: VA_FORM_IDS.FORM_10_10EZ,
+            metadata: {
+              lastUpdated: 946684800,
+              expiresAt: moment().unix() + 2000,
+            },
+          },
+        ],
+        prefillsAvailable: [],
+      },
+      login: {
+        currentlyLoggedIn: true,
+        loginUrls: {
+          idme: '/mockLoginUrl',
+        },
+      },
+    };
+
+    const emptyMessageConfig = {
+      saveInProgress: {
+        messages: {
+          inProgress: '',
+        },
+      },
+    };
+
+    const tree = shallow(
+      <SaveInProgressIntro
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        formId="1010ez"
+        user={user}
+        prefillEnabled
+        hideUnauthedStartLink
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}
+        startMessageOnly
+        unauthStartText="Custom message displayed to non-signed-in users"
+        formConfig={emptyMessageConfig}
+      />,
+    );
+    expect(tree.find('.usa-alert-heading')).to.have.lengthOf(1);
+    expect(tree.find('.usa-alert-heading').text()).to.not.contain(
+      'Your application is in progress',
+    );
+
     tree.unmount();
   });
 });

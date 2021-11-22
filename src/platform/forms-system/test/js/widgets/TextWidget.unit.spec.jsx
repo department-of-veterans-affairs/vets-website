@@ -46,6 +46,53 @@ describe('Schemaform <TextWidget>', () => {
     ).to.equal('date');
     tree.unmount();
   });
+  it('should render ariaDescribedby attribute', () => {
+    const onChange = sinon.spy();
+    const tree = mount(
+      <TextWidget
+        id="1"
+        value="testing"
+        schema={{ type: 'string' }}
+        required
+        disabled={false}
+        onChange={onChange}
+        options={{
+          ariaDescribedby: 'test-id',
+        }}
+      />,
+    );
+    expect(
+      tree
+        .find('input')
+        .getDOMNode()
+        .getAttribute('aria-describedby'),
+    ).to.equal('test-id');
+    tree.unmount();
+  });
+  it('should render ariaDescribedby attribute with pagePerItemIndex', () => {
+    const onChange = sinon.spy();
+    const tree = mount(
+      <TextWidget
+        id="1"
+        value="testing"
+        schema={{ type: 'string' }}
+        required
+        disabled={false}
+        onChange={onChange}
+        formContext={{ pagePerItemIndex: 2 }}
+        options={{
+          ariaDescribedby: 'test_id',
+        }}
+      />,
+    );
+    expect(
+      tree
+        .find('input')
+        .getDOMNode()
+        .getAttribute('aria-describedby'),
+    ).to.equal('test_id_2');
+    tree.unmount();
+  });
   it('should render empty string when undefined', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
@@ -112,5 +159,41 @@ describe('Schemaform <TextWidget>', () => {
     );
     tree.subTree('input').props.onBlur();
     expect(onBlur.calledWith('1')).to.be.true;
+  });
+  it('should pass min max props', () => {
+    const tree = SkinDeep.shallowRender(
+      <TextWidget
+        id="1"
+        value={0}
+        schema={{ type: 'number', minValue: '0', maxValue: '10' }}
+        required
+        disabled={false}
+        onChange={() => null}
+        onBlur={() => null}
+        options={{}}
+      />,
+    );
+
+    expect(tree.subTree('input').props.min).to.equal('0');
+    expect(tree.subTree('input').props.max).to.equal('10');
+    expect(tree.subTree('input').props.id).to.equal('1');
+    expect(tree.subTree('input').props.value).to.equal(0);
+  });
+  it('should not pass undefined if minLength and maxLength are undefined', () => {
+    const tree = SkinDeep.shallowRender(
+      <TextWidget
+        id="1"
+        value={0}
+        schema={{ type: 'number' }}
+        required
+        disabled={false}
+        onChange={() => null}
+        onBlur={() => null}
+        options={{}}
+      />,
+    );
+
+    expect(tree.subTree('input').props.min).to.not.exist;
+    expect(tree.subTree('input').props.max).to.not.exist;
   });
 });

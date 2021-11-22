@@ -1,5 +1,5 @@
 import fullSchema from '../2122-schema.json';
-import _ from 'lodash/fp';
+import _ from 'lodash';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
@@ -11,6 +11,9 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 
 import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+
+import manifest from '../manifest.json';
 
 const {
   veteranFullName,
@@ -46,12 +49,20 @@ const authorizationToChangeClaimantAddressDescription =
   'I authorize any official representative of the organization named in Item 3A to act on my behalf to change my address in my VA records. This authorization does not extend to any other organization without my further written consent. This authorization will remain in effect until the earlier of the following events: (1) I file a written revocation with VA; or (2) I appoint another representative, or (3) I have been determined unable to manage my financial affairs and the individual or organization named in Item 3A is not my appointed fiduciary';
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/vso_appointments`,
   trackingPrefix: 'form-2122-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '21-22',
+  formId: VA_FORM_IDS.FORM_21_22,
+  saveInProgress: {
+    // messages: {
+    //   inProgress: 'Your [savedFormDescription] is in progress.',
+    //   expired: 'Your saved [savedFormDescription] has expired. If you want to apply for [benefitType], please start a new [appType].',
+    //   saved: 'Your [benefitType] [appType] has been saved.',
+    // },
+  },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
@@ -74,7 +85,7 @@ const formConfig = {
           path: 'veteran-information',
           title: 'Veteran information',
           uiSchema: {
-            veteranFullName: _.merge(fullNameUI, {
+            veteranFullName: _.merge({}, fullNameUI, {
               first: {
                 'ui:title': 'Veteran’s first name',
               },
@@ -88,7 +99,7 @@ const formConfig = {
                 'ui:title': 'Veteran’s suffix',
               },
             }),
-            veteranSSN: _.merge(ssnUI, {
+            veteranSSN: _.merge({}, ssnUI, {
               'ui:title': 'Veteran’s Social Security number',
             }),
             vaFileNumber: {
@@ -119,7 +130,7 @@ const formConfig = {
           path: 'claimant-information',
           title: 'Claimant information',
           uiSchema: {
-            claimantFullName: _.merge(fullNameUI, {
+            claimantFullName: _.merge({}, fullNameUI, {
               first: {
                 'ui:title': 'Claimant’s first name',
               },

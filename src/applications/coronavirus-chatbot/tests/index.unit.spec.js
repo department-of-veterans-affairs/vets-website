@@ -2,19 +2,13 @@ import * as WebchatModule from '../webchat';
 import { initializeChatbot } from '../index';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import {
-  mockFetch,
-  setFetchJSONResponse,
-  resetFetch,
-} from 'platform/testing/unit/helpers';
-import localStorage from 'platform/utilities/storage/localStorage';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 describe('initializeChatbot', () => {
   let botConnectionStub;
   let webchatStoreStub;
 
   before(() => {
-    sinon.stub(localStorage, 'getItem').returns('fake csrf token');
     botConnectionStub = sinon
       .stub(WebchatModule, 'createBotConnection')
       .returns('fake bot connection');
@@ -24,10 +18,8 @@ describe('initializeChatbot', () => {
   });
 
   after(() => {
-    localStorage.getItem.restore();
     botConnectionStub.restore();
     webchatStoreStub.restore();
-    resetFetch();
   });
 
   it('should configure webchat with CSRF token', async () => {

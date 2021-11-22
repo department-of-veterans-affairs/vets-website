@@ -1,12 +1,13 @@
 // Node modules.
 import React from 'react';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
 import FindYellowRibbonPage from '../../components/FindYellowRibbonPage';
 import SearchResultsPage from '../../components/SearchResultsPage';
 import manifest from '../../manifest.json';
+import { getYellowRibbonAppState } from '../../helpers/selectors';
 
 export const YellowRibbonApp = ({ hasFetchedOnce }) => (
   <div
@@ -32,7 +33,7 @@ YellowRibbonApp.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  hasFetchedOnce: state.yellowRibbonReducer.hasFetchedOnce,
+  hasFetchedOnce: getYellowRibbonAppState(state).hasFetchedOnce,
 });
 
 export default connect(

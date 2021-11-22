@@ -3,6 +3,9 @@ node_modules/
 /build/
 logs/
 tmp/
+out/
+src/applications/vaos/docs/
+src/site/tests/html/
 
 # Files to ignore
 ._*
@@ -21,6 +24,7 @@ typings.json
 typings/
 coverage
 /cypress
+/pacts
 .nyc_output
 .yalc
 yalc.lock
@@ -28,10 +32,12 @@ yalc.lock
 package-lock.json
 src/applications/proxy-rewrite/tests/__image_snapshots__/__diff_output__/
 temp
+dump.rdb
 
 # Ignore user's editor/IDE prefs
 .vscode/
 .idea/
+.nova/
 .swp
 .swo
 all-links.csv
@@ -46,5 +52,12 @@ all-links.csv
 standaloneContentBuildHash.txt
 websiteContentBuildHash.txt
 
+cms.diff
+graphql-data.json
+/content-object-diffs
+content-object-diff.json
+comparison-output/
 
-
+# Ignore custom generated Cypress-TestRail configs
+my-cypress-testrail.json
+script/cypress-testrail-helper/my-config.json

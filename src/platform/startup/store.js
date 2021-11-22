@@ -3,19 +3,23 @@
  * @module platform/startup/store
  * @see module:platform/startup
  */
+// Node modules.
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
-
-import scheduledDowntime from '../monitoring/DowntimeNotification/reducer';
-import externalServiceStatuses from '../monitoring/external-services/reducer';
+import persistState from 'redux-localstorage';
+// Relative imports.
 import announcements from '../site-wide/announcements/reducers';
-import { FeatureToggleReducer } from '../site-wide/feature-toggles/reducers';
+import createAnalyticsMiddleware from './analytics-middleware';
+import environment from '../utilities/environment';
+import externalServiceStatuses from '../monitoring/external-services/reducer';
+import headerMenuReducer from '../site-wide/header/containers/Menu/reducer';
+import i18Reducer from 'applications/static-pages/i18Select/reducers';
+import login from '../user/authentication/reducers';
 import megaMenu from '../site-wide/mega-menu/reducers';
 import navigation from '../site-wide/user-nav/reducers';
-import login from '../user/authentication/reducers';
 import profile from '../user/profile/reducers';
-import environment from '../utilities/environment';
-import createAnalyticsMiddleware from './analytics-middleware';
+import scheduledDowntime from '../monitoring/DowntimeNotification/reducer';
+import { FeatureToggleReducer } from '../site-wide/feature-toggles/reducers';
 
 const brandConsolidatedReducers = {
   megaMenu,
@@ -27,10 +31,12 @@ const brandConsolidatedReducers = {
  */
 export const commonReducer = {
   announcements,
+  headerMenuReducer,
   externalServiceStatuses,
   featureToggles: FeatureToggleReducer,
   navigation,
   scheduledDowntime,
+  i18State: i18Reducer,
   user: combineReducers({ login, profile }),
   ...brandConsolidatedReducers,
 };
@@ -59,6 +65,7 @@ export default function createCommonStore(
     combineReducers(reducer),
     compose(
       applyMiddleware(thunk, createAnalyticsMiddleware(analyticsEvents)),
+      persistState('i18State'),
       useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
     ),
   );

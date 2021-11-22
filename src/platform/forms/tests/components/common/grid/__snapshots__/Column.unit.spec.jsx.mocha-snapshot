@@ -1,0 +1,8 @@
+exports["Common Column component/should render(0)"] = "<div class=\" columns\" data-testid=\"12345\"></div>";
+
+exports["Common Column component/should role to output(0)"] = "<div class=\" columns\" role=\"alert\" data-testid=\"12345\"></div>";
+
+exports["Common Column component/should add classNames to output(0)"] = "<div class=\"i-am-classname columns\"></div>";
+
+exports["Common Column component/should render child components(0)"] = "<div class=\" columns\"><div data-testid=\"12345\">i am a component</div></div>";
+

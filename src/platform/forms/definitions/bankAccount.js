@@ -25,10 +25,13 @@ const uiSchema = {
     },
   },
   accountNumber: {
-    'ui:title': 'Account number',
+    'ui:title': 'Bank account number',
+    'ui:errorMessages': {
+      required: 'Please enter a bank account number',
+    },
   },
   routingNumber: {
-    'ui:title': 'Routing number',
+    'ui:title': 'Bank routing number',
     'ui:validations': [validateRoutingNumber],
     'ui:errorMessages': {
       pattern: 'Please enter a valid nine digit routing number',

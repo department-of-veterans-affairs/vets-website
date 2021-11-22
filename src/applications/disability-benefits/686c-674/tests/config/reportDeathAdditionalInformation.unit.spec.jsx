@@ -8,7 +8,7 @@ import {
   fillData,
   selectCheckbox,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import { changeDropdown } from '../helpers/index';
+import { changeDropdown } from 'platform/testing/unit/helpers';
 import formConfig from '../../config/form';
 
 describe('686 report dependent death additional information', () => {
@@ -43,7 +43,7 @@ describe('686 report dependent death additional information', () => {
         arrayPath={arrayPath}
       />,
     );
-    expect(form.find('input').length).to.equal(3);
+    expect(form.find('input').length).to.equal(5);
     form.unmount();
   });
 

@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import set from 'platform/utilities/data/set';
 
 import * as address from 'platform/forms/definitions/address';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
@@ -20,12 +20,13 @@ export default function createOldSchoolPage(schema) {
         'School, university, program, or training facility you last attended',
       oldSchool: {
         name: {
-          'ui:title': 'Name of school, university, or training facility',
+          'ui:title':
+            'Name of school, university, program, or training facility',
         },
         address: address.uiSchema(),
       },
       trainingEndDate: dateUI(
-        'When did you stop taking classes or participating in the training program? (Future dates are ok)',
+        'When did you stop taking classes or participating in the training program? (Future dates are ok.)',
       ),
       reasonForChange: {
         'ui:title':
@@ -38,7 +39,7 @@ export default function createOldSchoolPage(schema) {
         date,
       },
       properties: {
-        oldSchool: _.set('properties.address', address.schema(schema), school),
+        oldSchool: set('properties.address', address.schema(schema), school),
         trainingEndDate,
         reasonForChange,
       },

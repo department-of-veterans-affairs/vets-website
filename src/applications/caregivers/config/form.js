@@ -1,4 +1,3 @@
-import React from 'react';
 import ConfirmationPage from 'applications/caregivers/containers/ConfirmationPage';
 import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
@@ -6,27 +5,44 @@ import IntroductionPage from 'applications/caregivers/containers/IntroductionPag
 import NeedHelpFooter from 'applications/caregivers/components/NeedHelpFooter';
 import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
 import SubmitError from 'applications/caregivers/components/SubmitError';
+import FormFooter from 'platform/forms/components/FormFooter';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
+
 import {
   submitTransform,
+  hasPrimaryCaregiver,
   hasSecondaryCaregiverOne,
   hasSecondaryCaregiverTwo,
 } from 'applications/caregivers/helpers';
-import definitions, {
-  addressWithoutCountryUI,
-} from 'applications/caregivers/definitions/caregiverUI';
-import {
-  vetInfoPage,
-  vetContactInfoPage,
-  vetMedicalCenterPage,
-  primaryInfoPage,
-  primaryContactInfoPage,
-  primaryMedicalPage,
-  hasSecondaryCaregiverPage,
-  secondaryCaregiverInfoPage,
-  secondaryCaregiverContactPage,
-  secondaryTwoInfoPage,
-  secondaryTwoContactPage,
-} from './pages';
+
+import { secondaryTwoChapterTitle } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+
+import { addressWithoutCountryUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
+
+import manifest from '../manifest.json';
+
+// veteran pages
+import vetInfoPage from './chapters/veteran/vetInfo';
+import vetContactInfoPage from './chapters/veteran/vetContactInfo';
+import vetMedicalCenterPage from './chapters/veteran/vetMedicalCenter';
+
+// sign as representative
+import signAsRepresentativeYesNo from './chapters/signAsRepresentative/signAsRepresentativeYesNo';
+import uploadPOADocument from './chapters/signAsRepresentative/uploadPOADocument';
+
+// primary pages
+import hasPrimaryCaregiverPage from './chapters/primary/hasPrimaryCaregiver';
+import primaryInfoPage from './chapters/primary/primaryInfo';
+import primaryContactInfoPage from './chapters/primary/primaryContact';
+import primaryMedicalPage from './chapters/primary/primaryHealthCoverage';
+
+// secondary pages
+import hasSecondaryCaregiverPage from './chapters/secondaryOne/hasSecondaryCaregiver';
+import secondaryCaregiverInfoPage from './chapters/secondaryOne/secondaryInfo';
+import secondaryCaregiverContactPage from './chapters/secondaryOne/secondaryCaregiverContact';
+import secondaryTwoInfoPage from './chapters/secondaryTwo/secondaryTwoInfo';
+import secondaryTwoContactPage from './chapters/secondaryTwo/secondaryTwoContactInfo';
 
 const {
   address,
@@ -37,46 +53,60 @@ const {
   vetRelationship,
   ssn,
   fullName,
+  uuid,
+  signature,
 } = fullSchema.definitions;
-
-const { contactInfoTitle } = definitions.sharedItems;
-const { secondaryCaregiversUI } = definitions;
 
 /* Chapters
  * 1 - Vet/Service Member (required)
- * 2 - Primary Family Caregiver (required)
- * 3 - Secondary & secondaryTwo Family Caregiver (optional -- up to 2 conditionally)
+ * 2 - Primary Family Caregiver
+ * 3 - Secondary & secondaryTwo Family Caregiver
+ * (One caregiver is always required, at least one primary, or one secondary - minimal)
  */
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/caregivers_assistance_claims`,
   transformForSubmit: submitTransform,
   trackingPrefix: 'caregivers-10-10cg-',
   introduction: IntroductionPage,
-  footerContent: NeedHelpFooter,
+  footerContent: FormFooter,
+  getHelp: NeedHelpFooter,
   preSubmitInfo: PreSubmitInfo,
   confirmation: ConfirmationPage,
   submissionError: SubmitError,
-  formId: '10-10CG',
+  formId: VA_FORM_IDS.FORM_10_10CG,
+  saveInProgress: {
+    // messages: {
+    //   inProgress: 'Your [savedFormDescription] is in progress.',
+    //   expired: 'Your saved [savedFormDescription] has expired. If you want to apply for [benefitType], please start a new [appType].',
+    //   saved: 'Your [benefitType] [appType] has been saved.',
+    // },
+  },
   version: 0,
   prefillEnabled: false,
+  downtime: {
+    dependencies: [externalServices.mvi, externalServices.carma],
+  },
   title:
     'Apply for the Program of Comprehensive Assistance for Family Caregivers',
   subTitle: 'Form 10-10CG',
   defaultDefinitions: {
-    address,
-    addressWithoutCountryUI,
-    date,
-    email,
     fullName,
+    ssn,
+    date,
     gender,
     phone,
-    ssn,
+    address,
+    addressWithoutCountryUI,
+    email,
     vetRelationship,
+    uuid,
+    signature,
   },
   chapters: {
     veteranChapter: {
-      title: 'Veteran or service member information',
+      title: 'Veteran information',
       pages: {
         veteranInfoOne: {
           path: 'vet-1',
@@ -86,7 +116,7 @@ const formConfig = {
         },
         veteranInfoTwo: {
           path: 'vet-2',
-          title: contactInfoTitle,
+          title: 'Contact information',
           uiSchema: vetContactInfoPage.uiSchema,
           schema: vetContactInfoPage.schema,
         },
@@ -99,31 +129,39 @@ const formConfig = {
       },
     },
     primaryCaregiverChapter: {
-      title: 'Primary Family Caregiver information',
+      title: 'Primary Family Caregiver applicant information',
       pages: {
         primaryCaregiverInfoOne: {
           path: 'primary-1',
           title: 'Primary Family Caregiver information',
-          uiSchema: primaryInfoPage.uiSchema,
-          schema: primaryInfoPage.schema,
+          uiSchema: hasPrimaryCaregiverPage.uiSchema,
+          schema: hasPrimaryCaregiverPage.schema,
         },
         primaryCaregiverInfoTwo: {
           path: 'primary-2',
-          title: contactInfoTitle,
-          uiSchema: primaryContactInfoPage.uiSchema,
-          schema: primaryContactInfoPage.schema,
+          title: 'Primary Family Caregiver information',
+          depends: formData => hasPrimaryCaregiver(formData),
+          uiSchema: primaryInfoPage.uiSchema,
+          schema: primaryInfoPage.schema,
         },
         primaryCaregiverInfoThree: {
           path: 'primary-3',
+          title: 'Contact information',
+          depends: formData => hasPrimaryCaregiver(formData),
+          uiSchema: primaryContactInfoPage.uiSchema,
+          schema: primaryContactInfoPage.schema,
+        },
+        primaryCaregiverInfoFour: {
+          path: 'primary-4',
           title: 'Health care coverage',
+          depends: formData => hasPrimaryCaregiver(formData),
           uiSchema: primaryMedicalPage.uiSchema,
           schema: primaryMedicalPage.schema,
         },
       },
     },
     secondaryCaregiversChapter: {
-      title: 'Secondary Family Caregiver information',
-      depends: formData => hasSecondaryCaregiverOne(formData),
+      title: 'Secondary Family Caregiver applicant information',
       pages: {
         secondaryCaregiverOneIntro: {
           path: 'secondary-one-1',
@@ -148,26 +186,49 @@ const formConfig = {
       },
     },
     secondaryCaregiversTwoChapter: {
-      title: secondaryCaregiversUI.secondaryTwoChapterTitle,
+      title: secondaryTwoChapterTitle,
       depends: formData => hasSecondaryCaregiverTwo(formData),
       pages: {
         secondaryCaregiverTwo: {
           path: 'secondary-two-1',
-          title: 'Secondary Family Caregiver (2) information',
+          title: secondaryTwoChapterTitle,
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: secondaryTwoInfoPage.uiSchema,
           schema: secondaryTwoInfoPage.schema,
         },
         secondaryCaregiverTwoTwo: {
           path: 'secondary-two-2',
-          title: secondaryCaregiversUI.secondaryTwoChapterTitle,
+          title: secondaryTwoChapterTitle,
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: secondaryTwoContactPage.uiSchema,
           schema: secondaryTwoContactPage.schema,
         },
       },
     },
+    signAsRepresentativeChapter: {
+      title: 'Representative document',
+      pages: {
+        signAsRepresentative: {
+          path: 'representative-document',
+          title: 'Representative document',
+          depends: formData => formData['view:canUpload1010cgPOA'],
+          uiSchema: signAsRepresentativeYesNo.uiSchema,
+          schema: signAsRepresentativeYesNo.schema,
+        },
+        documentUpload: {
+          path: 'representative-document-upload',
+          title: 'Representative document',
+          depends: formData => formData.signAsRepresentativeYesNo === 'yes',
+          editModeOnReviewPage: false,
+          uiSchema: uploadPOADocument.uiSchema,
+          schema: uploadPOADocument.schema,
+        },
+      },
+    },
   },
 };
+
+/* TODO Need to change editModeOnReviewPage for document upload to true 
+when platform bug is fixed and upload button appears with this feature enabled */
 
 export default formConfig;

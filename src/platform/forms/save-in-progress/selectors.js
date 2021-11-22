@@ -14,6 +14,7 @@ export const getSaveInProgressState = createStructuredSelector({
   savedForms: state => state.user.profile.savedForms,
   prefillsAvailable: state => state.user.profile.prefillsAvailable,
   profileIsLoading: state => state.user.profile.loading,
+  isStartingOver: state => state.form.isStartingOver,
 });
 
 export const getIntroState = createStructuredSelector({

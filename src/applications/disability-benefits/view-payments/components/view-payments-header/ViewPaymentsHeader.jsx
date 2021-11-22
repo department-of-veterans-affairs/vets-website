@@ -2,11 +2,10 @@ import React from 'react';
 
 const ViewPaymentsHeader = () => (
   <div>
-    <h1>Your VA payment history</h1>
-    <h2 className="vads-u-font-size--lg vads-u-font-weight--normal">
-      You can view payments made for disability compensation, pension benefits,
-      and/or education benefits. You can also see any payments you returned.
-    </h2>
+    <p className="vads-u-font-size--lg vads-u-font-weight--normal vads-u-line-height--5 vads-u-margin-top--3 vads-u-margin-bottom--1">
+      Check your payment history for your VA disability compensation, pension,
+      and education benefits.
+    </p>
   </div>
 );
 

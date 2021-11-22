@@ -18,7 +18,7 @@ export const BenefitNotification = () => (
       <p>
         To learn more about the Location-Based Housing Allowance,{' '}
         <a
-          href="https://va.gov/education/about-gi-bill-benefits/post-9-11/#location-based107"
+          href="https://va.gov/education/about-gi-bill-benefits/post-9-11/#what-is-the-location-based-hou"
           target="_blank"
           rel="noopener noreferrer"
         >

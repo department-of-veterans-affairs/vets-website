@@ -12,7 +12,7 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Opt Out of Sharing VA Education Benefits Information" />
+        <FormTitle title="Opt out of sharing education benefits information" />
         <h4>
           Follow the steps below to apply for declaration of status of
           dependents.

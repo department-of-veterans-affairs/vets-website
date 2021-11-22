@@ -28,7 +28,10 @@ export const uiSchema = {
         'ui:widget': 'yesNo',
         'ui:title': 'Are you still supporting this stepchild?',
         'ui:required': formData =>
-          isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
+          isChapterFieldRequired(
+            formData,
+            TASK_KEYS.reportStepchildNotInHousehold,
+          ),
       },
       livingExpensesPaid: {
         'ui:widget': 'radio',
@@ -44,17 +47,26 @@ export const uiSchema = {
       whoDoesTheStepchildLiveWith: {
         'ui:title': 'Who does this stepchild live with?',
         first: {
-          'ui:title': 'First Name',
+          'ui:title': 'First name of parent or guardian',
           'ui:required': formData =>
-            isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
+            isChapterFieldRequired(
+              formData,
+              TASK_KEYS.reportStepchildNotInHousehold,
+            ),
         },
         middle: {
-          'ui:title': 'Middle Name',
+          'ui:title': 'Middle name of parent or guardian',
+          'ui:options': {
+            hideEmptyValueInReview: true,
+          },
         },
         last: {
-          'ui:title': 'Last Name',
+          'ui:title': 'Last name of parent or guardian',
           'ui:required': formData =>
-            isChapterFieldRequired(formData, 'reportStepchildNotInHousehold'),
+            isChapterFieldRequired(
+              formData,
+              TASK_KEYS.reportStepchildNotInHousehold,
+            ),
         },
         suffix: {
           'ui:options': {

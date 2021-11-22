@@ -43,7 +43,29 @@ describe('Uploads reducer', () => {
     );
 
     expect(state.files.length).to.equal(1);
-    expect(state.files[0].file.name).to.equal('test');
+    const file = state.files[0];
+    expect(file.file.name).to.equal('test');
+    expect(file.password.value).to.equal('');
+    expect(file.isEncrypted).to.be.undefined;
+  });
+
+  it('should add a file that needs a password', () => {
+    const state = uploads(
+      {
+        files: [],
+      },
+      {
+        type: ADD_FILE,
+        files: [{ name: 'test' }],
+        isEncrypted: true,
+      },
+    );
+
+    expect(state.files.length).to.equal(1);
+    const file = state.files[0];
+    expect(file.file.name).to.equal('test');
+    expect(file.password.value).to.equal('');
+    expect(file.isEncrypted).to.be.true;
   });
 
   it('remove a file', () => {

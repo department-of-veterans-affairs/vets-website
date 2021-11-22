@@ -5,11 +5,12 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
+import featureToggles from './mocks/feature-toggles.json';
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['minimal-test', 'maximal-test', 'foreign-address-test'],
+    dataSets: ['maximal-test', 'minimal-test', 'foreign-address-test'],
     fixtures: { data: path.join(__dirname, 'schema') },
 
     pageHooks: {
@@ -41,6 +42,9 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
+      cy.server();
+      cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
+
       cy.route({
         method: 'GET',
         url: '/v0/health_care_applications/enrollment_status*',

@@ -1,4 +1,5 @@
 import React from 'react';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import { mount } from 'enzyme';
@@ -32,6 +33,10 @@ function makeRoute(obj) {
           path: '/next-page',
           pageKey: 'nextPage',
         },
+        {
+          path: '/last-page',
+          pageKey: 'lastPage',
+        },
       ],
     },
     obj,
@@ -43,6 +48,7 @@ function makeForm(obj) {
       pages: {
         firstPage: { schema: {}, uiSchema: {} },
         testPage: { schema: {}, uiSchema: {} },
+        nextPage: { schema: {}, uiSchema: {} },
         lastPage: { schema: {}, uiSchema: {} },
       },
       data: {},
@@ -89,7 +95,7 @@ describe('Schemaform <FormPage>', () => {
     );
 
     expect(tree.everySubTree('SchemaForm')).not.to.be.empty;
-    expect(tree.everySubTree('ProgressButton').length).to.equal(2);
+    expect(tree.everySubTree('FormNavButtons')).not.to.be.empty;
   });
   describe('should handle', () => {
     let tree;
@@ -126,12 +132,17 @@ describe('Schemaform <FormPage>', () => {
     it('submit', () => {
       tree.getMountedInstance().onSubmit({});
 
-      expect(router.push.calledWith('next-page'));
+      expect(router.push.calledWith('/next-page')).to.be.true;
     });
     it('back', () => {
       tree.getMountedInstance().goBack();
 
-      expect(router.push.calledWith('previous-page'));
+      expect(router.push.calledWith('/first-page')).to.be.true;
+    });
+    it('go to path', () => {
+      tree.getMountedInstance().goToPath('/last-page');
+
+      expect(router.push.calledWith('/last-page')).to.be.true;
     });
   });
   it("should go back to the beginning if current page isn't found", () => {
@@ -150,7 +161,81 @@ describe('Schemaform <FormPage>', () => {
 
     tree.getMountedInstance().goBack();
 
-    expect(router.push.calledWith('first-page'));
+    expect(router.push.calledWith('/first-page')).to.be.true;
+  });
+  it('should go to the custom path passed to the goToPath function', () => {
+    const router = {
+      push: sinon.spy(),
+    };
+    const route = makeRoute({
+      pageConfig: {
+        pageKey: 'lastPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: '',
+        CustomPage: ({ goToPath }) => (
+          <button
+            type="button"
+            onClick={e => {
+              e.preventDefault();
+              goToPath('/testing');
+            }}
+          >
+            go
+          </button>
+        ),
+      },
+    });
+
+    const { getByText } = render(
+      <FormPage
+        router={router}
+        form={makeForm()}
+        route={route}
+        location={{ pathname: '/last-page' }}
+      />,
+    );
+
+    fireEvent.click(getByText(/go/));
+    expect(router.push.calledWith('/testing')).to.be.true;
+  });
+  it('should go back to the previous page if the custom path is invalid', () => {
+    const router = {
+      push: sinon.spy(),
+    };
+    const route = makeRoute({
+      pageConfig: {
+        pageKey: 'nextPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: '',
+        CustomPage: ({ goToPath }) => (
+          <button
+            type="button"
+            onClick={e => {
+              e.preventDefault();
+              goToPath('/invalid-page');
+            }}
+          >
+            go
+          </button>
+        ),
+      },
+    });
+
+    const { getByText } = render(
+      <FormPage
+        router={router}
+        form={makeForm()}
+        route={route}
+        location={{ pathname: '/next-page' }}
+      />,
+    );
+
+    fireEvent.click(getByText(/go/));
+    expect(router.push.calledWith('/testing')).to.be.true;
   });
   it('should not show a Back button on the first page', () => {
     const tree = SkinDeep.shallowRender(
@@ -161,9 +246,7 @@ describe('Schemaform <FormPage>', () => {
       />,
     );
 
-    expect(tree.subTree('ProgressButton').props.buttonText).to.equal(
-      'Continue',
-    );
+    expect(tree.subTree('FormNavButtons').props.goBack).to.equal(false);
   });
   it('should render array page', () => {
     const route = makeRoute({
@@ -292,6 +375,109 @@ describe('Schemaform <FormPage>', () => {
 
     expect(setData.firstCall.args[0]).to.eql({
       arrayProp: [{ test: 2 }],
+    });
+  });
+
+  describe('bypassing schemaform', () => {
+    function makeBypassRoute(CustomPage) {
+      return obj =>
+        Object.assign(
+          {
+            pageConfig: {
+              pageKey: 'testPage',
+              CustomPage,
+              errorMessages: {},
+              title: '',
+            },
+            pageList: [
+              {
+                path: '/first-page',
+                pageKey: 'firstPage',
+              },
+              {
+                path: '/testing',
+                pageKey: 'testPage',
+              },
+              {
+                path: '/next-page',
+                pageKey: 'nextPage',
+              },
+            ],
+          },
+          obj,
+        );
+    }
+    function makeBypassForm(CustomPage) {
+      return obj =>
+        Object.assign(
+          {
+            pages: {
+              firstPage: { schema: {}, uiSchema: {} },
+              testPage: { CustomPage },
+              lastPage: { schema: {}, uiSchema: {} },
+            },
+            data: {},
+          },
+          obj,
+        );
+    }
+    function makeBypassArrayForm(CustomPage) {
+      return obj =>
+        Object.assign(
+          {
+            pages: {
+              testPage: {
+                CustomPage,
+                showPagePerItem: true,
+                arrayPath: 'arrayProp',
+              },
+            },
+            data: {
+              arrayProp: [{}],
+              someOtherProp: 'asdf',
+            },
+          },
+          obj,
+        );
+    }
+
+    it('should render a custom component instead of SchemaForm', () => {
+      const CustomPage = () => <div>Hello, world!</div>;
+      const tree = SkinDeep.shallowRender(
+        <FormPage
+          form={makeBypassForm(CustomPage)()}
+          route={makeBypassRoute(CustomPage)()}
+          location={location}
+        />,
+      );
+
+      expect(tree.everySubTree('SchemaForm')).to.be.empty;
+      expect(tree.everySubTree('CustomPage')).not.to.be.empty;
+    });
+
+    it('should return the entire form data to the CustomPage when showPagePerIndex is true', () => {
+      const CustomPage = () => <div />;
+      const tree = SkinDeep.shallowRender(
+        <FormPage
+          form={makeBypassArrayForm(CustomPage)()}
+          route={makeBypassRoute(CustomPage)({
+            pageConfig: {
+              pageKey: 'testPage',
+              CustomPage,
+              errorMessages: {},
+              title: '',
+              showPagePerItem: true,
+              arrayPath: 'arrayProp',
+            },
+          })}
+          location={location}
+          params={{ index: 0 }}
+        />,
+      );
+
+      expect(
+        tree.everySubTree('CustomPage')[0].getRenderOutput().props.data,
+      ).to.deep.equal({ arrayProp: [{}], someOtherProp: 'asdf' });
     });
   });
 });

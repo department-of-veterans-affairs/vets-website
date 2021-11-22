@@ -109,9 +109,11 @@ export const benefitsLabels = {
 export const survivorBenefitsLabels = {
   chapter35: (
     <p>
-      Survivors’ and Dependents’ Educational Assistance
-      <br />
-      (DEA, Chapter 35)
+      <span aria-describedby="conditional-warning-text">
+        Survivors’ and Dependents’ Educational Assistance
+        <br />
+        (DEA, Chapter 35)
+      </span>
       <br />
       <a
         aria-label="Learn more about Survivors’ and Dependents’ Educational Assistance benefits"
@@ -124,7 +126,9 @@ export const survivorBenefitsLabels = {
   ),
   chapter33: (
     <p>
-      The Fry Scholarship (Chapter 33)
+      <span aria-describedby="conditional-warning-text">
+        The Fry Scholarship (Chapter 33)
+      </span>
       <br />
       <a
         aria-label="Learn more about Fry Scholarship benefits"
@@ -140,7 +144,8 @@ export const survivorBenefitsLabels = {
 export const preferredContactMethodLabels = {
   mail: 'Mail',
   email: 'Email',
-  phone: 'Phone',
+  phone: 'Home phone number',
+  mobile: 'Mobile phone number',
 };
 
 export const hoursTypeLabels = {
@@ -154,7 +159,7 @@ export const stateLabels = createUSAStateLabels(states);
 export const civilianBenefitsLabel = (
   <span>
     Are you getting benefits from the U.S. Government as a{' '}
-    <strong>civilian employee</strong> during the same time as you are seeking
+    <strong>civilian employee</strong> during the same time as you’re seeking
     benefits from VA?
   </span>
 );
@@ -167,22 +172,34 @@ export const bankAccountChangeLabels = {
 
 export const directDepositWarning = (
   <div className="edu-dd-warning">
-    The Department of Treasury requires all federal benefit payments be made by
-    electronic funds transfer (EFT), also called direct deposit (direct deposit
-    isn’t an option for Chapter 32 (VEAP) recipients). If you don’t have a bank
-    account, you must get your payment through Direct Express Debit MasterCard.
-    To request a Direct Express Debit MasterCard you must apply at{' '}
-    <a
-      href="http://www.usdirectexpress.com"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      www.usdirectexpress.com
-    </a>{' '}
-    or by telephone at <a href="tel:8003331795">800-333-1795</a>. If you chose
-    not to enroll, you must contact representatives handling waiver requests for
-    the Department of Treasury at <a href="tel:8882242950">888-224-2950</a>.
-    They will address any questions or concerns you may have and encourage your
-    participation in EFT.
+    <p>
+      The Department of the Treasury requires all federal benefit payments be
+      made by electronic funds transfer (EFT), also called direct deposit.
+    </p>
+    <p>
+      If you don’t have a bank account, or don’t wish to provide your bank
+      account information, you must receive your payment through Direct Express
+      Debit MasterCard. To request a Direct Express Debit MasterCard:
+      <ul>
+        <li>
+          Apply at{' '}
+          <a
+            href="http://www.usdirectexpress.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            www.usdirectexpress.com
+          </a>{' '}
+          <b>or</b>
+        </li>
+        <li>
+          Call <a href="tel:8003331795">800-333-1795</a>
+        </li>
+      </ul>
+      If you choose not to enroll, you’ll need to call the Department of the
+      Treasury at <a href="tel:8882242950">888-224-2950</a> and speak to a
+      representative handling waiver requests. They’ll encourage you to
+      participate in EFT and address any questions or concerns you have.
+    </p>
   </div>
 );

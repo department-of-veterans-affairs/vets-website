@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import {
   mockFetch,
-  resetFetch,
   setFetchJSONFailure as setFetchFailure,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers.js';
@@ -123,8 +122,6 @@ describe('beneficiaryZIPCodeChanged', () => {
       done();
     }, 0);
   });
-
-  afterEach(() => resetFetch());
 });
 
 describe('fetchProfile', () => {
@@ -249,7 +246,6 @@ describe('fetchProfile', () => {
       done();
     }, 0);
   });
-  afterEach(() => resetFetch());
 });
 
 describe('institution autocomplete', () => {
@@ -367,20 +363,6 @@ describe('institution search', () => {
       done();
     }, 0);
   });
-
-  it('should pass fuzzy_search flag', done => {
-    const dispatch = sinon.spy();
-    fetchInstitutionSearchResults({}, true)(dispatch);
-    expect(global.fetch.firstCall.args[0]).to.contain('fuzzy_search=true');
-    done();
-  });
-
-  it('should not pass fuzzy_search flag when fuzzySearch is false', done => {
-    const dispatch = sinon.spy();
-    fetchInstitutionSearchResults({}, false)(dispatch);
-    expect(global.fetch.firstCall.args[0]).to.not.contain('fuzzy_search');
-    done();
-  });
 });
 
 describe('constants', () => {
@@ -436,6 +418,5 @@ describe('calculator input change', () => {
       value,
     };
     verifyAction(expectedAction, actualAction);
-    verifyGibctFormChange(field, value);
   });
 });

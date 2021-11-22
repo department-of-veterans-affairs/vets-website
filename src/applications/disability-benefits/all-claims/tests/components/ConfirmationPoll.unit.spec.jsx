@@ -13,8 +13,6 @@ import {
 } from '../../components/ConfirmationPoll';
 import { submissionStatuses } from '../../constants';
 
-const originalFetch = global.fetch;
-
 const pendingResponse = {
   shouldResolve: true,
   response: {
@@ -49,17 +47,28 @@ const failureResponse = {
   },
 };
 
+const errorResponse = {
+  shouldResolve: true,
+  response: {
+    errors: [
+      {
+        title: 'error',
+        detail: 'some error',
+        code: '401',
+        status: 'some status',
+      },
+    ],
+  },
+};
+
 describe('ConfirmationPoll', () => {
   const defaultProps = {
     jobId: '12345',
     fullName: { first: 'asdf', last: 'fdsa' },
     disabilities: [],
     submittedAt: Date.now(),
+    isSubmittingBDD: false,
   };
-
-  afterEach(() => {
-    global.fetch = originalFetch;
-  });
 
   it('should make an api call after mounting', () => {
     mockApiRequest(successResponse.response);
@@ -100,10 +109,52 @@ describe('ConfirmationPoll', () => {
         fullName: defaultProps.fullName,
         disabilities: defaultProps.disabilities,
         submittedAt: defaultProps.submittedAt,
+        isSubmittingBDD: defaultProps.isSubmittingBDD,
       });
       tree.unmount();
       done();
     }, 500);
+  });
+
+  it('should render long wait alert', done => {
+    mockMultipleApiRequests([
+      pendingResponse,
+      pendingResponse,
+      pendingResponse,
+      successResponse,
+    ]);
+
+    const form = mount(
+      <ConfirmationPoll {...defaultProps} pollRate={10} longWaitTime={10} />,
+    );
+    setTimeout(() => {
+      expect(global.fetch.callCount).to.equal(4);
+      const alert = form.find('LoadingIndicator');
+      expect(alert.text()).to.contain('longer than expected');
+      form.unmount();
+      done();
+    }, 50);
+  });
+
+  it('should ignore immediate api failures', done => {
+    mockMultipleApiRequests([
+      errorResponse,
+      pendingResponse,
+      pendingResponse,
+      successResponse,
+    ]);
+
+    const form = mount(
+      <ConfirmationPoll {...defaultProps} pollRate={10} delayFailure={20} />,
+    );
+    setTimeout(() => {
+      form.update();
+      expect(global.fetch.callCount).to.equal(4);
+      const confirmationPage = form.find('ConfirmationPage');
+      expect(confirmationPage.length).to.equal(1);
+      form.unmount();
+      done();
+    }, 50);
   });
 
   describe('selectAllDisabilityNames', () => {

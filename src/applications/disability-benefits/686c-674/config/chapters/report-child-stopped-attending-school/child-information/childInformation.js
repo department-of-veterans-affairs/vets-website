@@ -1,6 +1,12 @@
+import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import environment from 'platform/utilities/environment';
 import { TASK_KEYS } from '../../../constants';
-import { isChapterFieldRequired } from '../../../helpers';
+import {
+  isChapterFieldRequired,
+  PensionIncomeRemovalQuestionTitle,
+} from '../../../helpers';
 import {
   validateName,
   reportChildStoppedAttendingSchool,
@@ -26,7 +32,12 @@ export const uiSchema = {
         'ui:title': 'First name',
         'ui:errorMessages': { required: 'Please enter a first name' },
       },
-      middle: { 'ui:title': 'Middle name' },
+      middle: {
+        'ui:title': 'Middle name',
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
+      },
       last: {
         'ui:required': formData =>
           isChapterFieldRequired(
@@ -38,9 +49,28 @@ export const uiSchema = {
       },
       suffix: {
         'ui:title': 'Suffix',
-        'ui:options': { widgetClassNames: 'form-select-medium' },
+        'ui:options': {
+          widgetClassNames: 'form-select-medium',
+          hideEmptyValueInReview: true,
+        },
       },
     },
+    ssn: {
+      ...ssnUI,
+      'ui:title': 'Child’s Social Security number',
+      'ui:required': formData =>
+        isChapterFieldRequired(
+          formData,
+          TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+        ),
+    },
+    birthDate: merge(currentOrPastDateUI('Child’s date of birth'), {
+      'ui:required': formData =>
+        isChapterFieldRequired(
+          formData,
+          TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
+        ),
+    }),
     dateChildLeftSchool: {
       ...currentOrPastDateUI('When did child stop attending school?'),
       ...{
@@ -50,6 +80,14 @@ export const uiSchema = {
             TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
           ),
       },
+    },
+    dependentIncome: {
+      'ui:options': {
+        hideIf: () => environment.isProduction(),
+        hideEmptyValueInReview: true,
+      },
+      'ui:title': PensionIncomeRemovalQuestionTitle,
+      'ui:widget': 'yesNo',
     },
   },
 };

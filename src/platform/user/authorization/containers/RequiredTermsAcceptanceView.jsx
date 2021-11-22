@@ -6,20 +6,21 @@ import recordEvent from '../../../monitoring/record-event';
 import { fetchLatestTerms, acceptTerms } from '../../profile/actions';
 
 import AcceptTermsPrompt from '../components/AcceptTermsPrompt';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export class RequiredTermsAcceptanceView extends React.Component {
   componentDidMount() {
     if (this.props.termsNeeded) {
       this.props.fetchLatestTerms(this.props.termsName);
-      window.scrollTo(0, 0);
+      scrollTo(0);
     }
     recordEvent({ event: 'terms-shown' });
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.termsNeeded !== this.props.termsNeeded) {
-      window.scrollTo(0, 0);
+      scrollTo(0);
     }
   }
 

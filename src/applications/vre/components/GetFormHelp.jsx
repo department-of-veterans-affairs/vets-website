@@ -1,25 +1,16 @@
 import React from 'react';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+  PATTERNS,
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
-export default function GetFormHelp() {
-  return (
-    <div>
-      <p className="help-talk">Enrollment or Eligibility questions:</p>
-      <p className="help-phone-number">
-        <a className="help-phone-number-link" href="tel:1-877-222-8387">
-          877-222-8387
-        </a>
-        <br />
-        TTY:{' '}
-        <Telephone
-          className="help-phone-number-link"
-          contact={CONTACTS.HELP_TTY}
-        />
-        <br />
-        Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET
-      </p>
-    </div>
-  );
-}
+const GetFormHelp = () => (
+  <p className="help-talk">
+    If you have trouble using this online form, call our MyVA411 main
+    information line at <Telephone contact={'800-698-2411'} />. If you have
+    hearing loss, call TTY:{' '}
+    <Telephone contact={CONTACTS['711']} pattern={PATTERNS['3_DIGIT']} />.
+  </p>
+);
+
+export default GetFormHelp;

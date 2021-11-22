@@ -3,8 +3,6 @@ import { addSpouse } from '../../../utilities';
 import { SpouseTitle } from '../../../../components/ArrayPageItemSpouseTitle';
 import { locationUISchema } from '../../../location-schema';
 
-import { get } from 'lodash';
-
 export const schema = addSpouse.properties.spouseMarriageHistoryDetails;
 
 export const uiSchema = {
@@ -23,6 +21,9 @@ export const uiSchema = {
         true,
         'Place of marriage to former spouse',
         'addSpouse',
+        'Country marriage occurred',
+        'State marriage occurred',
+        'City marriage occurred',
       ),
       reasonMarriageEnded: {
         'ui:required': formData => formData.spouseWasMarriedBefore === true,
@@ -58,6 +59,9 @@ export const uiSchema = {
         true,
         'Place marriage with former spouse ended',
         'addSpouse',
+        'Country marriage ended',
+        'State marriage ended',
+        'City marriage ended',
       ),
     },
   },

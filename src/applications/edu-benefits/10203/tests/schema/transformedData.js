@@ -24,9 +24,9 @@ const transformedMinimalDataActual = {
   isPursuingTeachingCert: true,
   benefitLeft: 'none',
   degreeName: '0',
-  schoolName: '0',
-  schoolCity: '0',
-  schoolState: 'MA',
+  schoolName: 'TEST SCHOOL',
+  schoolCity: 'TEST',
+  schoolCountry: 'ALB',
   benefit: 'chapter33',
 };
 
@@ -66,9 +66,10 @@ const transformedMaximalDataActual = {
   isPursuingTeachingCert: true,
   benefitLeft: 'none',
   degreeName: '0',
-  schoolName: '0',
-  schoolCity: '0',
+  schoolName: 'TEST SCHOOL',
+  schoolCity: 'TEST',
   schoolState: 'MA',
+  schoolCountry: 'USA',
   benefit: 'chapter33',
 };
 

@@ -1,12 +1,15 @@
 import { expect } from 'chai';
 
-import { mapRawUserDataToState } from '../../../profile/utilities';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import { mapRawUserDataToState } from '~/platform/user/profile/utilities';
+import { VA_FORM_IDS } from '~/platform/forms/constants';
 
 /* eslint-disable camelcase */
 function createDefaultData() {
   return {
     attributes: {
+      account: {
+        accountUuid: 'user-1234',
+      },
       profile: {
         sign_in: {
           service_name: 'idme',
@@ -67,7 +70,7 @@ let oldLocation;
 
 describe('Profile utilities', () => {
   describe('mapRawUserDataToState', () => {
-    // This url change is to work around the Vet 360 data mocking
+    // This url change is to work around the VA Profile Service data mocking
     beforeEach(() => {
       oldLocation = document.location.href;
       global.dom.reconfigure({ url: 'https://www.va.gov' });
@@ -87,6 +90,20 @@ describe('Profile utilities', () => {
       expect(mappedData.status).to.equal(data.attributes.va_profile.status);
     });
 
+    it('should map account UUID', () => {
+      const data = createDefaultData();
+      const mappedData = mapRawUserDataToState({
+        data,
+        meta: {
+          errors: null,
+        },
+      });
+
+      expect(mappedData.accountUuid).to.deep.equal(
+        data.attributes.account.accountUuid,
+      );
+    });
+
     it('should map veteran status', () => {
       const data = createDefaultData();
       const mappedData = mapRawUserDataToState({
@@ -96,16 +113,9 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.isVeteran).to.equal(
-        data.attributes.veteran_status.is_veteran,
-      );
       expect(mappedData.veteranStatus).to.deep.equal({
+        status: data.attributes.veteran_status.status,
         isVeteran: data.attributes.veteran_status.is_veteran,
-        veteranStatus: {
-          status: data.attributes.veteran_status.status,
-          isVeteran: data.attributes.veteran_status.is_veteran,
-          servedInMilitary: data.attributes.veteran_status.served_in_military,
-        },
         servedInMilitary: data.attributes.veteran_status.served_in_military,
       });
     });
@@ -119,9 +129,30 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.vet360).to.deep.equal(
+      expect(mappedData.vapContactInfo).to.deep.equal(
         data.attributes.vet360_contact_information,
       );
+    });
+
+    it('should handle upstream VET360/VA Profile server errors', () => {
+      const data = createDefaultData();
+      data.attributes.vet360_contact_information = null;
+      const mappedData = mapRawUserDataToState({
+        data,
+        meta: {
+          errors: [
+            {
+              externalService: 'Vet360',
+              startTime: '2020-11-19T17:32:54Z',
+              endTime: null,
+              description:
+                'VET360_502, 502, Bad Gateway, Received an an invalid response from the upstream server',
+              status: 502,
+            },
+          ],
+        },
+      });
+      expect(mappedData.vapContactInfo.status).to.equal('SERVER_ERROR');
     });
 
     it('should map the facilities if they are set', () => {
@@ -184,7 +215,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.veteranStatus).to.equal('NOT_FOUND');
+      expect(mappedData.veteranStatus.status).to.equal('NOT_FOUND');
     });
 
     it('should handle vet 360 error', () => {
@@ -202,7 +233,7 @@ describe('Profile utilities', () => {
         },
       });
 
-      expect(mappedData.vet360.status).to.equal('SERVER_ERROR');
+      expect(mappedData.vapContactInfo.status).to.equal('SERVER_ERROR');
     });
   });
 });

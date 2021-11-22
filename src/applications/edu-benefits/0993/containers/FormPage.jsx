@@ -2,10 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import Scroll from 'react-scroll';
-import _ from 'lodash/fp';
+import get from 'platform/utilities/data/get';
+import set from 'platform/utilities/data/set';
 import classNames from 'classnames';
 
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { setData, uploadFile } from 'platform/forms-system/src/js/actions';
@@ -16,22 +17,10 @@ function focusForm() {
   focusElement('.nav-header');
 }
 
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo(
-    'topScrollElement',
-    window.Forms?.scroll || {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    },
-  );
-};
-
 class FormPage extends React.Component {
   componentDidMount() {
     if (!this.props.blockScrollOnMount) {
-      scrollToTop();
+      scrollToTop('topScrollElement', window.Forms?.scroll || '');
       focusForm();
     }
   }
@@ -40,7 +29,7 @@ class FormPage extends React.Component {
     if (
       prevProps.route.pageConfig.pageKey !==
         this.props.route.pageConfig.pageKey ||
-      _.get('params.index', prevProps) !== _.get('params.index', this.props)
+      get('params.index', prevProps) !== get('params.index', this.props)
     ) {
       scrollToTop();
       focusForm();
@@ -52,7 +41,7 @@ class FormPage extends React.Component {
     if (this.props.route.pageConfig.showPagePerItem) {
       // If this is a per item page, the formData object will have data for a particular
       // row in an array, so we need to update the full form data object and then call setData
-      newData = _.set(
+      newData = set(
         [this.props.route.pageConfig.arrayPath, this.props.params.index],
         formData,
         this.props.form.data,
@@ -67,7 +56,7 @@ class FormPage extends React.Component {
     // This makes sure defaulted data on a page with no changes is saved
     // Probably safe to do this for regular pages, too, but it hasn’t been necessary
     if (route.pageConfig.showPagePerItem) {
-      const newData = _.set(
+      const newData = set(
         [route.pageConfig.arrayPath, params.index],
         formData,
         form.data,
@@ -93,6 +82,7 @@ class FormPage extends React.Component {
       route,
       params,
       form,
+      contentBeforeButtons,
       contentAfterButtons,
       formContext,
     } = this.props;
@@ -110,7 +100,7 @@ class FormPage extends React.Component {
       // Similarly, the items uiSchema and the data for just that particular item are passed
       uiSchema = uiSchema[route.pageConfig.arrayPath].items;
       // And the data should be for just the item in the array
-      data = _.get([route.pageConfig.arrayPath, params.index], data);
+      data = get([route.pageConfig.arrayPath, params.index], data);
     }
 
     return (
@@ -127,6 +117,7 @@ class FormPage extends React.Component {
           onChange={this.onChange}
           onSubmit={this.onSubmit}
         >
+          {contentBeforeButtons}
           <div className="row form-progress-buttons schemaform-buttons">
             <div className="small-6 medium-5 columns">
               <ProgressButton
@@ -178,6 +169,7 @@ FormPage.propTypes = {
       }),
     ),
   }),
+  contentBeforeButtons: PropTypes.element,
   contentAfterButtons: PropTypes.element,
   setData: PropTypes.func,
 };

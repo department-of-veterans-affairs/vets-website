@@ -1,7 +1,6 @@
 import { mapboxToken } from '../utils/mapboxToken';
-import environment from 'platform/utilities/environment';
 import React from 'react';
-import { LocationType, PinNames } from '../constants';
+import { staticMapURL } from '../utils/mapHelpers';
 
 function LocationMap({ info }) {
   if (!info) {
@@ -9,21 +8,13 @@ function LocationMap({ info }) {
   }
 
   const {
-    type,
-    attributes: { lat, long, facilityType },
+    attributes: { lat, long },
   } = info;
 
-  const pinName =
-    type === LocationType.CC_PROVIDER ? PinNames[type] : PinNames[facilityType];
-
-  const pinURL = encodeURIComponent(
-    `${environment.BASE_URL}/img/icons/${pinName}-pin.png`,
-  );
-
-  const mapUrl = `https://api.mapbox.com/v4/mapbox.streets/url-${pinURL}(${long},${lat})/${long},${lat},16/500x300.png?access_token=${mapboxToken}`;
+  const mapUrl = staticMapURL(lat, long, mapboxToken);
 
   return (
-    <div className="mb2">
+    <div className="vads-u-margin-bottom--4">
       <h3 className="highlight">View on map</h3>
       <img src={mapUrl} alt="Static map" />
     </div>

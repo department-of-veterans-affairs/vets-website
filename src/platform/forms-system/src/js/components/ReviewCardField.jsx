@@ -13,6 +13,7 @@ import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
+import { isReactComponent } from 'platform/utilities/ui';
 
 /**
  * Displays a review card if the information inside is valid.
@@ -36,7 +37,7 @@ export default class ReviewCardField extends React.Component {
 
     // Throw an error if there’s no viewComponent (should be React component)
     if (
-      typeof get('ui:options.viewComponent', this.props.uiSchema) !== 'function'
+      !isReactComponent(get('ui:options.viewComponent', this.props.uiSchema))
     ) {
       throw new Error(
         `No viewComponent found in uiSchema for ReviewCardField ${
@@ -153,7 +154,6 @@ export default class ReviewCardField extends React.Component {
       'vads-u-margin-top--1',
       'vads-u-margin-bottom--2p5',
       'vads-u-margin-x--0',
-      'vads-u-font-size--h4',
     ].join(' ');
 
     const updateButtonClasses = [
@@ -264,7 +264,7 @@ export default class ReviewCardField extends React.Component {
       'review-card--header',
       'vads-u-background-color--gray-lightest',
       'vads-u-padding-y--0',
-      'vads-u-padding-x--1',
+      'vads-u-padding-x--2',
       'vads-u-display--flex',
       'vads-u-justify-content--space-between',
       'vads-u-align-items--center',
@@ -419,8 +419,10 @@ ReviewCardField.propTypes = {
        * ReactNode that should be shown instead of edit fields It's passed the
        * same formData the field is
        */
-      viewComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
-        .isRequired,
+      viewComponent: PropTypes.oneOfType([
+        PropTypes.element,
+        PropTypes.elementType,
+      ]).isRequired,
 
       /**
        * Either a function or a value that will be evaluated as truthy or not. If
@@ -461,7 +463,12 @@ ReviewCardField.propTypes = {
        */
       itemNameAction: PropTypes.string,
     }).isRequired,
-    'ui:description': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+    'ui:description': PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.func,
+      PropTypes.elementType,
+      PropTypes.string,
+    ]),
     'ui:title': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     'ui:subtitle': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     saveClickTrackEvent: PropTypes.object,
@@ -471,7 +478,7 @@ ReviewCardField.propTypes = {
   idSchema: PropTypes.object.isRequired,
   registry: PropTypes.shape({
     fields: PropTypes.shape({
-      SchemaField: PropTypes.func.isRequired,
+      SchemaField: PropTypes.elementType.isRequired,
     }),
     definitions: PropTypes.object.isRequired,
   }).isRequired,

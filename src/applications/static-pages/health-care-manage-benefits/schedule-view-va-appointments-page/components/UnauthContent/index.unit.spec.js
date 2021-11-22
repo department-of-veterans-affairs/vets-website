@@ -11,12 +11,6 @@ describe('Scheduling Page <UnauthContent>', () => {
 
     const text = wrapper.text();
     expect(text).to.include(
-      'Due to COVID-19, you can only request an appointment online',
-    );
-    expect(text).to.include(
-      'View, schedule, or cancel a VA appointment online',
-    );
-    expect(text).to.include(
       'How can the VA appointments tool help me manage my care?',
     );
     expect(text).to.include('Am I eligible to use this tool?');
@@ -27,7 +21,7 @@ describe('Scheduling Page <UnauthContent>', () => {
       'What types of VA health appointments can I schedule online?',
     );
     expect(text).to.include(
-      'Can I use these tools to schedule community (non-VA) appointments?',
+      'Can I use this tool to schedule community (non-VA) appointments?',
     );
     expect(text).to.include(
       'Can I schedule appointments through VA secure messaging?',

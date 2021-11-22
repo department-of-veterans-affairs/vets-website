@@ -7,7 +7,7 @@ import prefillTransformer, {
 import {
   SERVICE_CONNECTION_TYPES,
   disabilityActionTypes,
-} from '../../all-claims/constants';
+} from 'applications/disability-benefits/all-claims/constants';
 
 describe('526v2 prefill transformer', () => {
   const noTransformData = {
@@ -114,9 +114,55 @@ describe('526v2 prefill transformer', () => {
           primaryPhone: '1123123123',
           emailAddress: 'a@b.c',
           mailingAddress: {
+            country: 'USA',
             addressLine1: '123 Any Street',
+            addressLine2: 'test',
+            addressLine3: 'test 2',
             city: 'Anyville',
             state: 'AK',
+            zipCode: '12345',
+            // extra data that needs to be removed
+            type: 'MILITARY',
+            militaryPostOfficeTypeCode: 'APO',
+            militaryStateCode: 'AA',
+          },
+        },
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+
+      const { primaryPhone, emailAddress } = formData.veteran;
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+        phoneAndEmail: {
+          primaryPhone,
+          emailAddress,
+        },
+        mailingAddress: {
+          'view:livesOnMilitaryBase': false,
+          country: 'USA',
+          addressLine1: '123 Any Street',
+          addressLine2: 'test',
+          addressLine3: 'test 2',
+          city: 'Anyville',
+          state: 'AK',
+          zipCode: '12345',
+        },
+      });
+    });
+
+    it('should transform address on military base when present', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        veteran: {
+          primaryPhone: '1123123123',
+          emailAddress: 'a@b.c',
+          mailingAddress: {
+            country: 'USA',
+            addressLine1: '123 Any Street',
+            city: 'APO',
+            state: 'AE',
             zipCode: '12345',
           },
         },
@@ -125,14 +171,23 @@ describe('526v2 prefill transformer', () => {
       const transformedData = prefillTransformer(pages, formData, metadata)
         .formData;
 
-      const { primaryPhone, emailAddress, mailingAddress } = formData.veteran;
+      const { primaryPhone, emailAddress } = formData.veteran;
       expect(transformedData).to.deep.equal({
         'view:claimType': noTransformData.formData['view:claimType'],
         phoneAndEmail: {
           primaryPhone,
           emailAddress,
         },
-        mailingAddress,
+        mailingAddress: {
+          'view:livesOnMilitaryBase': true,
+          country: 'USA',
+          addressLine1: '123 Any Street',
+          addressLine2: undefined,
+          addressLine3: undefined,
+          city: 'APO',
+          state: 'AE',
+          zipCode: '12345',
+        },
       });
     });
 

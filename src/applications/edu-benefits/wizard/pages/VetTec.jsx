@@ -1,5 +1,5 @@
 import React from 'react';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { pageNames } from './pageList';
 import { formIdSuffixes } from 'applications/static-pages/wizard/';
 
@@ -14,7 +14,7 @@ const VetTec = ({
   state = {},
   setReferredBenefit,
 }) => (
-  <ErrorableRadioButtons
+  <RadioButtons
     name={`${pageNames.vetTec}`}
     label={
       <span>
@@ -26,8 +26,6 @@ const VetTec = ({
     additionalFieldsetClass="wizard-fieldset"
     options={vetTecOptions}
     onValueChange={({ value }) => {
-      const newBenefitAnswer = getPageStateFromPageName(pageNames.newBenefit)
-        ?.selected;
       const claimingBenefitOwnServiceAnswer = getPageStateFromPageName(
         pageNames.claimingBenefitOwnService,
       )?.selected;

@@ -59,10 +59,34 @@ function pollStatus(
   }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
 }
 
+function transformCountryCode(countryCode) {
+  switch (countryCode) {
+    case 'USA':
+      return 'US';
+    case 'MEX':
+      return 'MX';
+    case 'CAN':
+      return 'CA';
+    default:
+      return countryCode;
+  }
+}
+
 export function transform(formConfig, form) {
-  const formData = transformForSubmit(formConfig, form);
+  const correctedForm = {
+    ...form,
+    data: {
+      ...form?.data,
+      claimantAddress: {
+        ...form?.data?.claimantAddress,
+        country: transformCountryCode(form?.data?.claimantAddress?.country),
+      },
+    },
+  };
+  const formData = transformForSubmit(formConfig, correctedForm);
   return JSON.stringify({
     burialClaim: {
+      // this is ugly but the address schema helper within the forms system coerces all country codes back to alpha 3
       form: formData,
     },
     // can’t use toISOString because we need the offset

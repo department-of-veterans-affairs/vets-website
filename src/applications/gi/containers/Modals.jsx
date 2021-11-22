@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 import * as actions from '../actions';
 import Modal from '../components/Modal';
 import YellowRibbonModalContent from '../components/content/YellowRibbonModalContent';
@@ -37,7 +36,7 @@ export class Modals extends React.Component {
       <p>
         Learn more about the{' '}
         <a
-          href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11#location-based107"
+          href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11/#what-is-the-location-based-hou"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -228,15 +227,8 @@ export class Modals extends React.Component {
         </p>
         <p>
           Please note this email address is only for tool-related issues. For
-          questions about your GI Bill benefits, please check this{' '}
-          <a
-            href="https://gibill.custhelp.com/app/utils/login_form/redirect/ask"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            "Ask a Question" page
-          </a>
-          .
+          questions about your GI Bill benefits,{' '}
+          <a href="/contact-us/">contact us online through Ask VA</a>.
         </p>
       </Modal>
 
@@ -337,30 +329,32 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('onlineOnlyDistanceLearning')}
       >
-        <h3>Online and distance learning</h3>
-        <p>
+        <div>
+          <h3>
+            Your housing allowance is determined by where you take classes
+          </h3>
           <p>
-            Under the GI Bill you’re eligible to receive a monthly housing
-            allowance if you’re enrolled in an online or distance-learning
-            course.
+            <p>
+              Under the GI Bill you’re eligible to receive a monthly housing
+              allowance. We calculate this monthly housing allowance based on
+              where you take classes.
+            </p>
+            <p>
+              If you use Post-9/11 GI Bill benefits to take at least 1 in-person
+              class, your housing allowance is based on where you do most of
+              your coursework. If you take online courses only, your housing
+              allowance is based on 50% of the national average.
+            </p>
+            <p>
+              Through Dec. 21, 2021, current and new students can receive
+              in-person allowance rates if their school’s approved program
+              changed from in-person to online learning due to COVID-19.
+            </p>
+            <a href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp?_ga=2.144591223.39405460.1542131207-1582256389.1508352376">
+              View the current housing allowance payment rates
+            </a>
           </p>
-          <p>
-            We now calculate the monthly housing allowance based on where a
-            student takes their classes. So if you enroll in an online or
-            distance-learning class, your housing allowance payment will be
-            based on where you do most of your coursework, not on your school’s
-            location.
-          </p>
-          <p>
-            If you use your Post-9/11 GI Bill benefits while taking only
-            distance-learning courses, we’ll pay you a housing allowance based
-            on 50% of the national average.
-          </p>
-          <a href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp?_ga=2.144591223.39405460.1542131207-1582256389.1508352376">
-            View the current housing allowance payment rates
-          </a>
-          .
-        </p>
+        </div>
       </Modal>
 
       <Modal
@@ -529,37 +523,6 @@ export class Modals extends React.Component {
       </Modal>
       <Modal
         onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('stemIndicator')}
-        elementToFocusOnClose="stemIndicator-button"
-      >
-        <h3>The Rogers STEM Scholarship</h3>
-        <div>
-          <p>
-            The Edith Nourse Rogers STEM Scholarship provides up to 9 months of
-            additional Post-9/11 GI Bill benefits, to a maximum of $30,000.
-          </p>
-          <p>
-            Veterans and Fry Scholars may qualify for this scholarship if
-            they're enrolled in an undergraduate program for Science,
-            Technology, Engineering, or Math (STEM), or if they've earned a STEM
-            degree and are getting a teaching certification.
-          </p>
-          <p>
-            To learn more about this scholarship,{' '}
-            <a
-              href="https://benefits.va.gov/gibill/fgib/stem.asp"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {' '}
-              visit the Rogers STEM Scholarship website
-            </a>
-            .
-          </p>
-        </div>
-      </Modal>
-      <Modal
-        onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('iStudy')}
         elementToFocusOnClose="iStudy-button"
       >
@@ -625,6 +588,27 @@ export class Modals extends React.Component {
             rel="noopener noreferrer"
           >
             Read our policy on protecting students from late VA payments
+          </a>
+          .
+        </p>
+      </Modal>
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('vrrap')}
+        elementToFocusOnClose="vrrap-button"
+      >
+        <h3 className="vads-u-margin-right--1p5">
+          Veteran Rapid Retraining Assistance Program (VRRAP)
+        </h3>
+        <p>
+          The Veteran Rapid Retraining Assistance Program (VRRAP) offers
+          education and training for high-demand jobs to Veterans who are
+          unemployed because of the COVID-19 pandemic.
+        </p>
+        <p>
+          To learn more about this benefit and see eligibility requirements,{' '}
+          <a href="https://www.va.gov/education/other-va-education-benefits/veteran-rapid-retraining-assistance/">
+            visit the VRRAP page
           </a>
           .
         </p>
@@ -790,7 +774,7 @@ export class Modals extends React.Component {
   renderProfileCalculatorModals = () => {
     const whenUsedGiBill = (
       <div>
-        <h3 className="vads-u-padding-top--4">
+        <h3 className="align-left">
           What is Section 501 (Monthly Housing Allowance Rate)?
         </h3>
         <p>
@@ -811,6 +795,12 @@ export class Modals extends React.Component {
         </ul>
       </div>
     );
+
+    const inStateTuitionInformation = this.props.profile.attributes.inStateTuitionInformation?.startsWith(
+      'http',
+    )
+      ? this.props.profile.attributes.inStateTuitionInformation
+      : `http://${this.props.profile.attributes.inStateTuitionInformation}`;
 
     return (
       <span>
@@ -936,51 +926,15 @@ export class Modals extends React.Component {
           visible={this.shouldDisplayModal('calcEnrolled')}
         >
           <h3>Enrollment status</h3>
-          {environment.isProduction() ? (
-            <div>
-              {' '}
-              <p>
-                Are you considered a full-time or part-time student by your
-                school? Students attending school less than full-time will get a
-                pro-rated monthly housing allowance. Students attending school
-                exactly ½ time or less won’t get a monthly housing allowance.
-              </p>
-              <p>
-                For more information about MHA increases or decreases, visit{' '}
-                <a
-                  title="For more information about MHA increases or decreases click here"
-                  href="https://gibill.custhelp.com/app/answers/detail/a_id/1412"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  this page
-                </a>
-                .
-              </p>
-            </div>
-          ) : (
-            <div>
-              {' '}
-              <p>
-                Are you considered a full-time or part-time student by your
-                school? Students attending school less than full-time will get a
-                pro-rated monthly housing allowance. Students attending school
-                exactly ½ time or less won’t get a monthly housing allowance.
-              </p>
-              <p>
-                Learn more about{' '}
-                <a
-                  title="For more information about MHA increases or decreases click here"
-                  href="https://gibill.custhelp.va.gov/app/answers/detail/a_id/1480/kw/pro-rated%20monthly%20housing%20allowance"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  pro-rated housing allowance calculations
-                </a>
-                .
-              </p>
-            </div>
-          )}
+          <div>
+            {' '}
+            <p>
+              Are you considered a full-time or part-time student by your
+              school? Students attending school less than full-time will get a
+              pro-rated monthly housing allowance. Students attending school
+              exactly ½ time or less won’t get a monthly housing allowance.
+            </p>
+          </div>
         </Modal>
 
         <Modal
@@ -999,46 +953,17 @@ export class Modals extends React.Component {
           visible={this.shouldDisplayModal('calcKicker')}
         >
           <h3>Eligible for kicker bonus?</h3>
-          {environment.isProduction() ? (
+          <div>
+            {' '}
             <p>
-              A kicker bonus or college fund is an additional incentive, paid
-              for by the Department of Defense, to extend a tour of duty or
-              retain highly skilled military personnel. The money is a bonus on
-              top of any GI Bill payments paid directly to the Veteran. To learn
-              more, visit{' '}
-              <a
-                href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                this page
-              </a>
-              .
+              A kicker bonus (also known as the “College Fund”) is an additional
+              incentive paid by an individual’s branch of service. The kicker
+              bonus may be offered to extend a tour of duty, retain
+              highly-skilled military personnel, or for other reasons the branch
+              of service determines. The money is on top of any GI Bill payments
+              paid directly to the Veteran.
             </p>
-          ) : (
-            <div>
-              {' '}
-              <p>
-                A kicker bonus (also known as the “College Fund”) is an
-                additional incentive paid by an individual’s branch of service.
-                The kicker bonus may be offered to extend a tour of duty, retain
-                highly-skilled military personnel, or for other reasons the
-                branch of service determines. The money is on top of any GI Bill
-                payments paid directly to the Veteran.
-              </p>
-              <p>
-                Learn more about{' '}
-                <a
-                  href="https://gibill.custhelp.com/app/answers/detail/a_id/97"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  the GI Bill kicker bonus
-                </a>
-                .
-              </p>
-            </div>
-          )}
+          </div>
         </Modal>
 
         <Modal
@@ -1060,6 +985,42 @@ export class Modals extends React.Component {
             allowance.
           </p>
         </Modal>
+
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('inStateWithoutLink')}
+        >
+          <h3>Qualifying for in-state tuition</h3>
+          <p>
+            If you're using GI Bill education benefits, you probably qualify for
+            in-state tuition.
+          </p>
+          <p>
+            Contact the School Certifying Official (SCO) to learn more about
+            this school's in-state tuition requirements.
+          </p>
+        </Modal>
+
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('inStateWithLink')}
+        >
+          <h3>Qualifying for in-state tuition</h3>
+          <p>
+            If you're using GI Bill education benefits, you probably qualify for
+            in-state tuition.
+          </p>
+          <p>
+            Visit this school's website to{' '}
+            <a
+              href={inStateTuitionInformation}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              see any in-state tuition requirements.
+            </a>
+          </p>
+        </Modal>
       </span>
     );
   };
@@ -1073,50 +1034,26 @@ export class Modals extends React.Component {
         <div className="align-left">
           <h3>Which GI Bill benefit do you want to use?</h3>
         </div>
-        {environment.isProduction() ? (
-          <div>
-            {' '}
-            <p>
-              You may be eligible for multiple types of education and training
-              programs. Different programs offer different benefits, so it’s
-              important to choose the program that will best meet your needs.
-              Use this tool to compare programs and schools.
-            </p>
-            <p>
-              For detailed information on eligibility requirements and general
-              program benefits, visit{' '}
-              <a
-                href="/education/eligibility/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                this page
-              </a>
-              .
-            </p>
-          </div>
-        ) : (
-          <div>
-            {' '}
-            <p>
-              You may be eligible for multiple types of education and training
-              programs. Different programs offer different benefits, so it’s
-              important to choose the program that will best meet your needs.
-              Use this tool to compare programs and schools.
-            </p>
-            <p>
-              Learn more about{' '}
-              <a
-                href="/education/eligibility/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                GI Bill program benefits and eligibility requirements
-              </a>
-              .
-            </p>
-          </div>
-        )}
+        <div>
+          {' '}
+          <p>
+            You may be eligible for multiple types of education and training
+            programs. Different programs offer different benefits, so it’s
+            important to choose the program that will best meet your needs. Use
+            this tool to compare programs and schools.
+          </p>
+          <p>
+            Learn more about{' '}
+            <a
+              href="/education/eligibility/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GI Bill program benefits and eligibility requirements
+            </a>
+            .
+          </p>
+        </div>
       </Modal>
 
       <Modal
@@ -1157,49 +1094,17 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('cumulativeService')}
       >
         <h3>Cumulative Post-9/11 service</h3>
-        {!this.props.gibctCh33BenefitRateUpdate ? (
-          <div>
-            {' '}
-            <p>
-              The{' '}
-              <a
-                title="Post-9/11 GI Bill"
-                href="../post911_gibill.asp"
-                id="anch_375"
-              >
-                Post-9/11 GI Bill
-              </a>{' '}
-              provides financial support for education and a housing allowance.
-              To qualify for this program, you must have served after September
-              10, 2001 for at least 90 days or, if you were discharged with a
-              service-connected disability, for at least 30 days. You also need
-              to have received an honorable discharge.
-            </p>
-            <p>
-              For detailed information about Cumulative Post-9/11 Service, visit{' '}
-              <a
-                href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#cumulativeservice"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                this page
-              </a>
-              .
-            </p>
-          </div>
-        ) : (
-          <div>
-            <p>
-              The Post-9/11 GI Bill provides financial support for education and
-              a housing allowance. To qualify for this program, you must have
-              served after September 10, 2001 for at least 90 days or, if you
-              were discharged with a service-connected disability, for at least
-              30 days. The service period for these benefits doesn't include
-              your entry and initial skill training. You also need to have
-              received an honorable discharge.
-            </p>
-          </div>
-        )}
+        <div>
+          <p>
+            The Post-9/11 GI Bill provides financial support for education and a
+            housing allowance. To qualify for this program, you must have served
+            after September 10, 2001 for at least 90 days or, if you were
+            discharged with a service-connected disability, for at least 30
+            days. The service period for these benefits doesn't include your
+            entry and initial skill training. You also need to have received an
+            honorable discharge.
+          </p>
+        </div>
       </Modal>
 
       <Modal

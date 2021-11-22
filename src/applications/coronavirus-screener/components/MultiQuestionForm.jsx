@@ -4,7 +4,7 @@ import FormQuestion from './FormQuestion';
 import FormResult from './FormResult';
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
-import { isEqual } from 'lodash/fp';
+import { isEqual } from 'lodash';
 import {
   getEnabledQuestions,
   checkFormStatus,
@@ -15,6 +15,8 @@ export default function MultiQuestionForm({
   questions,
   defaultOptions,
   customId,
+  selectedLanguage,
+  passFormResultsColors,
 }) {
   const [formState, setFormState] = useState({
     status: 'incomplete',
@@ -106,7 +108,6 @@ export default function MultiQuestionForm({
   }
 
   const enabledQuestions = getEnabledQuestions({ questionState, customId });
-
   const formQuestions = enabledQuestions.map(
     (question, index) =>
       (index === 0 ||
@@ -118,14 +119,21 @@ export default function MultiQuestionForm({
           setQuestionValue={setQuestionValue}
           clearQuestionValues={clearQuestionValues}
           key={`question-${question.id}`}
+          selectedLanguage={selectedLanguage}
         />
       ),
   );
 
   return (
+    // TODO: Rather than pass selectedLanguage around as a prop, write it to
+    // state and then use it where it is needed.
     <div>
       {formQuestions}
-      <FormResult formState={formState} />
+      <FormResult
+        formState={formState}
+        selectedLanguage={selectedLanguage}
+        passFormResultsColors={passFormResultsColors}
+      />
     </div>
   );
 }

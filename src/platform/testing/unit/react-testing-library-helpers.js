@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
+import { isPlainObject } from 'lodash';
 import { render as rtlRender } from '@testing-library/react';
 
 import { commonReducer } from 'platform/startup/store';
@@ -20,6 +21,17 @@ export function renderInReduxProvider(
   ui,
   { initialState = {}, reducers = {}, store = null, ...renderOptions } = {},
 ) {
+  if (Object.keys(renderOptions).includes('reducer')) {
+    /* eslint-disable no-console */
+    console.log(
+      'You passed in a `reducer` option to renderInReduxProvider. Did you mean to pass in a `reducers` option instead?',
+    );
+  }
+  if (!isPlainObject(reducers)) {
+    throw new TypeError(
+      "renderInReduxProvider's `reducers` option must be an Object",
+    );
+  }
   const testStore =
     store ||
     createStore(

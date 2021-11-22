@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 import { recordEventOnce } from 'platform/monitoring/record-event';
 
@@ -21,7 +21,7 @@ export const dateDescription = (
 );
 
 export const dateFieldsDescription = (
-  <div className="additional-info-title-help">
+  <div className="additional-info-title-help vads-u-margin-top--4">
     <AdditionalInfo
       triggerText="How are these dates different?"
       onClick={helpClicked}

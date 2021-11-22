@@ -1,63 +1,40 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
-import moment from 'moment';
+import { shallow } from 'enzyme';
 
-import { genderLabels } from 'platform/static-data/labels';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { VeteranInformation } from '../../components/VeteranInformation';
 
-import { veteranInfoView } from '../../content/veteranInformation';
+describe('<VeteranInformation>', () => {
+  it('should render', () => {
+    const wrapper = shallow(<VeteranInformation />);
+    expect(wrapper.find('.blue-bar-block').length).to.eq(1);
+    wrapper.unmount();
+  });
 
-const data = {
-  veteran: {
-    ssnLastFour: '4321',
-    vaFileNumber: '1234',
-  },
-  profile: {
-    dob: '1980-12-31',
-    gender: 'M',
-    userFullName: {
-      first: 'MIKE',
-      middle: 'M',
-      last: 'Wazowski',
-      suffix: 'III',
-    },
-  },
-};
-
-describe('Confirm Veteran Details', () => {
-  it('should render Veteran details (Name, last 4 SSN & VA File, gender)', () => {
-    const schema = {
-      type: 'object',
-      properties: {},
+  it('should render profile data', () => {
+    const data = {
+      profile: {
+        userFullName: {
+          first: 'uno',
+          middle: 'dos',
+          last: 'tres',
+        },
+        dob: '2000-01-05',
+        gender: 'F',
+      },
+      veteran: {
+        vaFileLastFour: '8765',
+        ssnLastFour: '5678',
+      },
     };
-    const uiSchema = {
-      'ui:description': () => veteranInfoView(data),
-    };
-    const tree = mount(
-      <DefinitionTester
-        definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={data}
-        formData={data}
-      />,
-    );
-    const fullName = tree.find('.name').text();
-    expect(fullName).to.equal('MIKE M Wazowski, III');
+    const wrapper = shallow(<VeteranInformation {...data} />);
 
-    const ssn = tree.find('.ssn').text();
-    expect(ssn).to.include(data.veteran.ssnLastFour);
+    expect(wrapper.find('.name').text()).to.equal('uno dos tres');
+    expect(wrapper.find('.ssn').text()).to.contain('5678');
+    expect(wrapper.find('.vafn').text()).to.contain('8765');
+    expect(wrapper.find('.dob').text()).to.contain('January 5, 2000');
+    expect(wrapper.find('.gender').text()).to.contain('Female');
 
-    const vafn = tree.find('.vafn').text();
-    expect(vafn).to.include(data.veteran.vaFileNumber);
-
-    const dob = tree.find('.dob').text();
-    expect(dob).to.equal(moment(data.profile.dob).format('LL'));
-
-    const gender = tree.find('.gender').text();
-    expect(gender).to.equal(genderLabels[data.profile.gender]);
-
-    tree.unmount();
+    wrapper.unmount();
   });
 });

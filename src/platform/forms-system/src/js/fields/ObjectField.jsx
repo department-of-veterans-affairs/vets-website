@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import groupBy from 'lodash/groupBy';
+import get from '../../../../utilities/data/get';
+import set from '../../../../utilities/data/set';
 
 import environment from 'platform/utilities/environment';
 
@@ -14,6 +16,7 @@ import {
 
 import ExpandingGroup from '../components/ExpandingGroup';
 import { pureWithDeepEquals } from '../helpers';
+import { isReactComponent } from '../../../../utilities/ui';
 
 /*
  * This is largely copied from the react-jsonschema-form library,
@@ -127,7 +130,7 @@ class ObjectField extends React.Component {
             undefined,
             this.props.registry.definitions,
           );
-      this.props.onChange(_.set(name, value, formData));
+      this.props.onChange(set(name, value, formData));
     };
   }
 
@@ -135,6 +138,34 @@ class ObjectField extends React.Component {
     return (path = []) => {
       this.props.onBlur([name].concat(path));
     };
+  }
+
+  getStateFromProps(props) {
+    const { schema, formData, registry } = props;
+    return getDefaultFormState(schema, formData, registry.definitions) || {};
+  }
+
+  // This runs a series of steps that order properties and then group them into
+  // expandable groups. If there are no expandable groups, then the end result of this
+  // will be an array of single item arrays
+  orderAndFilterProperties(schema, uiSchema) {
+    const properties = Object.keys(schema.properties);
+    const orderedProperties = orderProperties(
+      properties,
+      get('ui:order', uiSchema),
+    );
+    const filteredProperties = orderedProperties.filter(
+      prop => !schema.properties[prop]['ui:hidden'],
+    );
+    const groupedProperties = groupBy(filteredProperties, item => {
+      const expandUnderField = get(
+        [item, 'ui:options', 'expandUnder'],
+        uiSchema,
+      );
+      return expandUnderField || item;
+    });
+
+    return Object.values(groupedProperties);
   }
 
   isRequired(name) {
@@ -167,14 +198,16 @@ class ObjectField extends React.Component {
     // description and title setup
     const showFieldLabel = uiOptions.showFieldLabel;
     const fieldsetClassNames = uiOptions.classNames;
+    const forceDivWrapper = !!uiOptions.forceDivWrapper;
     const title = uiSchema['ui:title'] || schema.title;
-    const CustomTitleField = typeof title === 'function' ? title : null;
+    const CustomTitleField = isReactComponent(title) ? title : null;
 
     const description = uiSchema['ui:description'];
     const textDescription =
       typeof description === 'string' ? description : null;
-    const DescriptionField =
-      typeof description === 'function' ? uiSchema['ui:description'] : null;
+    const DescriptionField = isReactComponent(description)
+      ? uiSchema['ui:description']
+      : null;
 
     const hasTitleOrDescription = !!title || !!description;
     const isRoot = idSchema.$id === 'root';
@@ -185,6 +218,25 @@ class ObjectField extends React.Component {
       'schemaform-block': title && !isRoot,
     });
 
+    const pageIndex = formContext?.pagePerItemIndex;
+    // Fix array nested ids (one-level deep)
+    const processIds = (originalIds = {}) =>
+      // pagePerItemIndex is zero-based
+      typeof pageIndex !== 'undefined' && formContext.onReviewPage
+        ? Object.keys(originalIds).reduce(
+            (ids, key) => ({
+              ...ids,
+              [key]: originalIds[key].$id
+                ? {
+                    ...originalIds[key],
+                    $id: `${originalIds[key].$id}_${pageIndex}`,
+                  }
+                : `${originalIds[key]}_${pageIndex}`,
+            }),
+            {},
+          )
+        : originalIds;
+
     const renderProp = propName => (
       <div key={propName}>
         <SchemaField
@@ -193,7 +245,7 @@ class ObjectField extends React.Component {
           schema={schema.properties[propName]}
           uiSchema={uiSchema[propName]}
           errorSchema={errorSchema[propName]}
-          idSchema={idSchema[propName]}
+          idSchema={processIds(idSchema[propName])}
           formData={formData[propName]}
           onChange={this.onPropertyChange(propName)}
           onBlur={onBlur}
@@ -205,7 +257,7 @@ class ObjectField extends React.Component {
     );
 
     // Id's are not always unique on the review and submit page
-    const id =
+    const id = `${
       isRoot && formContext.onReviewPage
         ? Object.keys(idSchema)
             .reduce((ids, key) => {
@@ -214,7 +266,8 @@ class ObjectField extends React.Component {
             }, [])
             .filter(k => k)
             .join('_')
-        : idSchema.$id;
+        : idSchema.$id
+    }${typeof pageIndex === 'undefined' ? '' : `_${pageIndex}`}`;
 
     const fieldContent = (
       <div className={containerClassNames}>
@@ -251,13 +304,13 @@ class ObjectField extends React.Component {
           if (objectFields.length > 1) {
             const [first, ...rest] = objectFields;
             const visible = rest.filter(
-              prop => !_.get(['properties', prop, 'ui:collapsed'], schema),
+              prop => !schema.properties[prop]['ui:collapsed'],
             );
             return (
               <ExpandingGroup open={visible.length > 0} key={index}>
                 {renderProp(first)}
                 <div
-                  className={_.get(
+                  className={get(
                     [first, 'ui:options', 'expandUnderClassNames'],
                     uiSchema,
                   )}
@@ -270,10 +323,7 @@ class ObjectField extends React.Component {
 
           // if fields have expandUnder, but are the only item, that means the
           // field they’re expanding under is hidden, and they should be hidden, too
-          return !_.get(
-            [objectFields[0], 'ui:options', 'expandUnder'],
-            uiSchema,
-          )
+          return !get([objectFields[0], 'ui:options', 'expandUnder'], uiSchema)
             ? // eslint-disable-next-line sonarjs/no-extra-arguments
               renderProp(objectFields[0], index)
             : undefined;
@@ -346,7 +396,7 @@ class ObjectField extends React.Component {
       </>
     );
 
-    if (title) {
+    if (title && !forceDivWrapper) {
       return (
         <fieldset className={fieldsetClassNames}>
           {environment.isProduction() ? fieldContent : accessibleFieldContent}

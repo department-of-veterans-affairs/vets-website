@@ -11,7 +11,7 @@ const ProviderDetailBlock = ({ provider }) => {
   } = provider.attributes;
 
   return (
-    <div className="mb2">
+    <div className="vads-u-margin-bottom--4">
       <h2 className="highlight">Provider Details</h2>
       <ul>
         <li>

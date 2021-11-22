@@ -5,33 +5,17 @@ import {
   RECEIVE_SCHEDULED_DOWNTIME,
   RETRIEVE_SCHEDULED_DOWNTIME,
 } from '../actions';
-import {
-  mockFetch,
-  setFetchJSONResponse,
-  resetFetch,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 describe('getScheduledDowntime', () => {
   const dispatch = sinon.spy();
-  const old = {
-    sessionStorage: global.sessionStorage,
-    dataLayer: global.window.dataLayer,
-  };
 
-  before(() => {
-    global.sessionStorage = {};
+  beforeEach(() => {
     global.window.dataLayer = [];
+    mockFetch();
   });
-
-  after(() => {
-    global.sessionStorage = old.sessionStorage;
-    global.window.dataLayer = old.dataLayer;
-  });
-
-  beforeEach(() => mockFetch());
 
   afterEach(() => {
-    resetFetch();
     dispatch.reset();
   });
 

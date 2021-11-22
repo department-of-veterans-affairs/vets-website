@@ -1,21 +1,14 @@
 import React from 'react';
-import _ from 'lodash/fp';
+import cloneDeep from '../../../utilities/data/cloneDeep';
 import ReactDOM /* , { act } */ from 'react-dom';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import {
-  getFormDOM,
-  fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import localStorage from 'platform/utilities/storage/localStorage';
+import { getFormDOM } from 'platform/testing/unit/schemaform-utils.jsx';
 import SipsDevModal from '../../save-in-progress/SaveInProgressDevModal';
 import { SAVE_STATUSES } from '../../save-in-progress/actions';
 
 describe('Schemaform <SipsDevModal>', () => {
-  let oldLocation;
-
   const props = {
     loggedInUser: {
       profile: {
@@ -41,24 +34,14 @@ describe('Schemaform <SipsDevModal>', () => {
     ],
   };
 
-  const resetAfter = () => {
-    window.location = oldLocation;
-    localStorage.getItem.restore();
-  };
-
-  afterEach(resetAfter);
-
-  function setLoc(storage = 'true', dev = 'on') {
-    oldLocation = window.location;
-    delete window.location;
-    sinon.stub(localStorage, 'getItem').returns(storage);
+  function setLoc(dev = 'on') {
     window.location = {
       hash: `#dev-${dev}`,
     };
   }
 
   it('should not render sips-modal link when disabled', () => {
-    setLoc('false', 'off');
+    setLoc('off');
     const dom = document.createElement('div');
     ReactDOM.render(<SipsDevModal {...props} />, dom);
     expect(dom.querySelector('.va-button-link')).to.be.null;
@@ -100,7 +83,7 @@ describe('Schemaform <SipsDevModal>', () => {
 
   it('should replace the form data & include return url', () => {
     setLoc();
-    const data = _.cloneDeep(props);
+    const data = cloneDeep(props);
     const newData = {
       page1: { foo: true },
       page2: { bar: 'ok' },
@@ -132,7 +115,7 @@ describe('Schemaform <SipsDevModal>', () => {
   });
   it('should replace the form data from maximal-test.json & include return url', () => {
     setLoc();
-    const data = _.cloneDeep(props);
+    const data = cloneDeep(props);
     const newData = {
       data: {
         page1: { foo: true },
@@ -167,7 +150,7 @@ describe('Schemaform <SipsDevModal>', () => {
 
   it('should merge partial data into the form data & include return url', () => {
     setLoc();
-    const data = _.cloneDeep(props);
+    const data = cloneDeep(props);
     data.form.data = {
       page1: { foo: true },
       page2: { bar: 'ok' },
@@ -201,7 +184,7 @@ describe('Schemaform <SipsDevModal>', () => {
   });
   it('should unwrap "data" & merge partial data into the form data & include return url', () => {
     setLoc();
-    const data = _.cloneDeep(props);
+    const data = cloneDeep(props);
     data.form.data = {
       page1: { foo: true },
       page2: { bar: 'ok' },

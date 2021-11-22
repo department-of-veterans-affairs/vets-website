@@ -13,6 +13,7 @@ let oldAddEventListener;
 const location = {
   pathname: '/',
 };
+const wizardStorageKey = 'testKey';
 
 const setup = () => {
   oldAddEventListener = global.window.addEventListener;
@@ -22,6 +23,7 @@ const setup = () => {
 
 const teardown = () => {
   global.window.addEventListener = oldAddEventListener;
+  global.window.sessionStorage.removeItem(wizardStorageKey);
 };
 
 describe('Schemaform <RoutedSavableApp>', () => {
@@ -130,6 +132,63 @@ describe('Schemaform <RoutedSavableApp>', () => {
 
     expect(router.push.calledWith('/test-path')).to.be.true;
   });
+  it('should route to restartFormCallback destination when prefill unfilled (on form restart)', () => {
+    const restartDestination = '/test-page';
+    sessionStorage.setItem(wizardStorageKey, 'restarting');
+
+    const formConfig = {
+      title: 'Testing',
+      wizardStorageKey,
+      saveInProgress: {
+        restartFormCallback: () => restartDestination,
+      },
+    };
+    const currentLocation = {
+      pathname: 'test',
+      search: '',
+    };
+    const routes = [
+      {
+        pageList: [
+          {
+            path: '/introduction',
+          },
+          {
+            path: '/test-path',
+          },
+        ],
+      },
+    ];
+    const router = {
+      push: sinon.spy(),
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <RoutedSavableApp
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+        loadedStatus={LOAD_STATUSES.pending}
+        prefillStatus={PREFILL_STATUSES.pending}
+        updateLogInUrl={() => {}}
+      >
+        <div className="child" />
+      </RoutedSavableApp>,
+    );
+
+    tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
+      prefillStatus: PREFILL_STATUSES.unfilled,
+      router,
+      routes,
+      data: {},
+      isStartingOver: true, // flag set by FormStartControls
+      formConfig,
+    });
+
+    expect(router.push.firstCall.args[0]).to.equal(restartDestination);
+    expect(sessionStorage.getItem(wizardStorageKey)).to.equal('restarted');
+  });
+
   it('should route and reset fetch status on success', () => {
     const formConfig = {
       title: 'Testing',

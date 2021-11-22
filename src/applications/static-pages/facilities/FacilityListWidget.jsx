@@ -1,6 +1,6 @@
 import React from 'react';
 import { apiRequest } from 'platform/utilities/api';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import FacilityApiAlert from './FacilityApiAlert';
 import { sortFacilitiesByName } from './facilityUtilities';
 import FacilityTitle from './FacilityTitle';

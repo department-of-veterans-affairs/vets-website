@@ -17,7 +17,7 @@ export const uiSchema = {
       'ui:description': NotificationText,
     },
     fullName: {
-      'ui:validation': [validateName],
+      'ui:validations': [validateName],
       first: {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'report674'),
@@ -26,6 +26,9 @@ export const uiSchema = {
       },
       middle: {
         'ui:title': 'Student’s middle name',
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
       },
       last: {
         'ui:required': formData =>
@@ -37,6 +40,7 @@ export const uiSchema = {
         'ui:title': 'Student’s suffix',
         'ui:options': {
           widgetClassNames: 'form-select-medium',
+          hideEmptyValueInReview: true,
         },
       },
     },
@@ -54,6 +58,15 @@ export const uiSchema = {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'report674'),
       },
+    },
+    isParent: {
+      'ui:title': "Are you this child's parent?",
+      'ui:widget': 'yesNo',
+      'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
+    },
+    dependentIncome: {
+      'ui:title': 'Did this dependent earn an income in the last 365 days?',
+      'ui:widget': 'yesNo',
     },
   },
 };

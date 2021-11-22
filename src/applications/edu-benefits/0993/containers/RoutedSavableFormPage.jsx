@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import _ from 'lodash/fp';
+import debounce from 'platform/utilities/data/debounce';
 
 import { FormPage } from './FormPage';
 import { setData, uploadFile } from 'platform/forms-system/src/js/actions';
@@ -20,7 +20,7 @@ import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 class RoutedSavableFormPage extends React.Component {
   constructor(props) {
     super(props);
-    this.debouncedAutoSave = _.debounce(1000, this.autoSave);
+    this.debouncedAutoSave = debounce(1000, this.autoSave);
   }
 
   onChange = formData => {
@@ -41,23 +41,23 @@ class RoutedSavableFormPage extends React.Component {
 
   render() {
     const { user, form } = this.props;
+    const contentBeforeButtons = (
+      <SaveFormLink
+        locationPathname={this.props.location.pathname}
+        form={form}
+        user={user}
+        showLoginModal={this.props.showLoginModal}
+        saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
+        toggleLoginModal={this.props.toggleLoginModal}
+      />
+    );
     const contentAfterButtons = (
-      <div>
-        <SaveStatus
-          isLoggedIn={user.login.currentlyLoggedIn}
-          showLoginModal={this.props.showLoginModal}
-          toggleLoginModal={this.props.toggleLoginModal}
-          form={form}
-        />
-        <SaveFormLink
-          locationPathname={this.props.location.pathname}
-          form={form}
-          user={user}
-          showLoginModal={this.props.showLoginModal}
-          saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-          toggleLoginModal={this.props.toggleLoginModal}
-        />
-      </div>
+      <SaveStatus
+        isLoggedIn={user.login.currentlyLoggedIn}
+        showLoginModal={this.props.showLoginModal}
+        toggleLoginModal={this.props.toggleLoginModal}
+        form={form}
+      />
     );
 
     return (
@@ -66,6 +66,7 @@ class RoutedSavableFormPage extends React.Component {
         blockScrollOnMount={saveErrors.has(form.savedStatus)}
         setData={this.onChange}
         formContext={getFormContext({ user, form })}
+        contentBeforeButtons={contentBeforeButtons}
         contentAfterButtons={contentAfterButtons}
       />
     );

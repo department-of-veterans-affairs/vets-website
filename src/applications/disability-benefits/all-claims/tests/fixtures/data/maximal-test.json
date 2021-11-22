@@ -28,6 +28,11 @@
       "emailAddress": "test2@test1.net"
     },
     "mailingAddress": {
+      "view:livesOnMilitaryBase": false,
+      "type": "MILITARY",
+      "militaryPostOfficeTypeCode": "APO",
+      "militaryStateCode": "AA",
+      "zipFirstFive": "27103",
       "country": "USA",
       "addressLine1": "123 Main",
       "city": "Bigcity",
@@ -86,8 +91,7 @@
       {
         "treatmentCenterName": "Treatment Center the First",
         "treatmentDateRange": {
-          "from": "2008-01-XX",
-          "to": "2010-01-XX"
+          "from": "2008-01-XX"
         },
         "treatmentCenterAddress": {
           "country": "USA",
@@ -95,16 +99,15 @@
           "state": "AK"
         },
         "treatedDisabilityNames": {
-          "diabetes mellitus0": true,
-          "diabetes mellitus1": true,
-          "myocardial infarction (mi)": true
+          "diabetesmellitus0": true,
+          "diabetesmellitus1": true,
+          "myocardialinfarctionmi": true
         }
       },
       {
         "treatmentCenterName": "Treatment Center the Second",
         "treatmentDateRange": {
-          "from": "2010-01-XX",
-          "to": "2018-02-XX"
+          "from": "2010-01-XX"
         },
         "treatmentCenterAddress": {
           "country": "Uganda",
@@ -113,7 +116,7 @@
         "treatedDisabilityNames": {
           "asthma": true,
           "phlebitis": true,
-          "knee replacement": true
+          "kneereplacement": true
         }
       }
     ],
@@ -146,8 +149,8 @@
         }
       ],
       "powDisabilities": {
-        "knee replacement": true,
-        "myocardial infarction (mi)": true
+        "kneereplacement": true,
+        "myocardialinfarctionmi": true
       }
     },
     "newDisabilities": [
@@ -186,7 +189,6 @@
         "view:descriptionInfo": {}
       }
     ],
-    "view:newDisabilities": true,
     "ratedDisabilities": [
       {
         "name": "Diabetes mellitus0",
@@ -235,11 +237,7 @@
     "view:disabilitiesClarification": {},
     "serviceInformation": {
       "reservesNationalGuardService": {
-        "view:isTitle10Activated": true,
-        "title10Activation": {
-          "title10ActivationDate": "2015-01-01",
-          "anticipatedSeparationDate": "2120-01-01"
-        },
+        "view:isTitle10Activated": false,
         "obligationTermOfServiceDateRange": {
           "from": "2007-05-22",
           "to": "2008-06-05"
@@ -248,7 +246,7 @@
       },
       "servicePeriods": [
         {
-          "serviceBranch": "Air Force Reserve",
+          "serviceBranch": "Air Force",
           "dateRange": {
             "from": "2001-03-21",
             "to": "2014-07-21"
@@ -264,7 +262,6 @@
       ],
       "view:militaryHistoryNote": {}
     },
-    "servedInCombatZonePost911": true,
     "view:selectablePtsdTypes": {},
     "view:ptsdTypeHelp": {},
     "view:upload781ChoiceHelp": {},

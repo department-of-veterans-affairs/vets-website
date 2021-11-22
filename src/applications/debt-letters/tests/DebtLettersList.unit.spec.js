@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import DebtLettersList from '../components/DebtLettersList';
 
@@ -53,9 +53,17 @@ describe('DebtLettersList', () => {
   });
   it('renders correct number of debt rows', () => {
     const wrapper = shallow(<DebtLettersList store={fakeStore} />);
-    expect(wrapper.dive().find(`td`).length).to.equal(12);
     expect(
       wrapper
+        .dive()
+        .dive()
+        .find(`DebtLettersTable`).length,
+    ).to.equal(1);
+    expect(
+      wrapper
+        .dive()
+        .dive()
+        .find('DebtLettersTable')
         .dive()
         .find('td')
         .at(0)
@@ -63,6 +71,9 @@ describe('DebtLettersList', () => {
     ).to.equal('May 29, 2020');
     expect(
       wrapper
+        .dive()
+        .dive()
+        .find('DebtLettersTable')
         .dive()
         .find('td')
         .at(1)
@@ -90,21 +101,6 @@ describe('DebtLettersList', () => {
     };
     const wrapper = shallow(<DebtLettersList store={fakeStoreEmptyState} />);
     expect(wrapper.dive().find(`table`).length).to.equal(0);
-    expect(
-      wrapper
-        .dive()
-        .find('h4')
-        .text(),
-    ).to.equal("Our records show that you don't have any debt letters");
-    expect(
-      wrapper
-        .dive()
-        .find('p')
-        .at(2)
-        .text(),
-    ).to.equal(
-      "If you have been notified of a debt and don't see the debt's letter on this page, or you would like to get information about your debts that have been resolved, call the Debt Management Center at 800-827-0648",
-    );
     wrapper.unmount();
   });
 });

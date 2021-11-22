@@ -66,10 +66,4 @@ describe('<ContactInformation>', () => {
     expect(wrapper.find('.primary-sco-list li').length).to.eq(2);
     wrapper.unmount();
   });
-
-  it('should display secondary SCOs', () => {
-    const wrapper = shallow(<ContactInformation institution={institution} />);
-    expect(wrapper.find('.secondary-sco-list li').length).to.eq(2);
-    wrapper.unmount();
-  });
 });

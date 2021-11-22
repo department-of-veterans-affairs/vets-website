@@ -41,4 +41,21 @@ describe('Schemaform <CheckboxWidget>', () => {
     });
     expect(onChange.calledWith(false)).to.be.true;
   });
+  it('should add custom props', () => {
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <CheckboxWidget
+        id="1"
+        required
+        disabled={false}
+        onChange={onChange}
+        options={{
+          widgetProps: {
+            false: { 'data-test': 'unchecked' },
+          },
+        }}
+      />,
+    );
+    expect(tree.subTree('input').props['data-test']).to.equal('unchecked');
+  });
 });

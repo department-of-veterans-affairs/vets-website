@@ -4,6 +4,8 @@ import { transformForSubmit } from './helpers';
 import recordEvent from 'platform/monitoring/record-event';
 import { timeFromNow } from './utilities/date';
 import localStorage from 'platform/utilities/storage/localStorage';
+import { displayFileSize } from 'platform/utilities/ui/index';
+import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
 export const SET_DATA = 'SET_DATA';
@@ -13,6 +15,7 @@ export const SET_SUBMISSION = 'SET_SUBMISSION';
 export const SET_SUBMITTED = 'SET_SUBMITTED';
 export const OPEN_REVIEW_CHAPTER = 'OPEN_REVIEW_CHAPTER';
 export const CLOSE_REVIEW_CHAPTER = 'CLOSE_REVIEW_CHAPTER';
+export const SET_FORM_ERRORS = 'SET_FORM_ERRORS';
 
 export function closeReviewChapter(closedChapter, pageKeys = []) {
   return {
@@ -47,11 +50,12 @@ export function setEditMode(page, edit, index = null) {
 
 // extra is used to pass other information (from a submission error or anything else)
 // into the submission state object
-export function setSubmission(field, value, extra = null) {
+export function setSubmission(field, value, errorMessage = null, extra = null) {
   return {
     type: SET_SUBMISSION,
     field,
     value,
+    errorMessage, // include errorMessage in form.submission
     extra,
   };
 }
@@ -75,6 +79,15 @@ export function setViewedPages(pageKeys) {
   return {
     type: SET_VIEWED_PAGES,
     pageKeys,
+  };
+}
+
+export function setFormErrors(errors) {
+  // See platform/forms-system/src/js/utilities/data/reduceErrors.js for
+  // data structure
+  return {
+    type: SET_FORM_ERRORS,
+    data: errors,
   };
 }
 
@@ -132,6 +145,7 @@ export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
     req.setRequestHeader('X-Key-Inflection', 'camel');
     req.setRequestHeader('Content-Type', 'application/json');
     req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
+    req.setRequestHeader('Source-App-Name', window.appName);
     req.withCredentials = true;
 
     req.send(body);
@@ -139,11 +153,13 @@ export function submitToUrl(body, submitUrl, trackingPrefix, eventData) {
 }
 
 export function submitForm(formConfig, form) {
+  const inProgressFormId = form.loadedData?.metadata?.inProgressFormId;
   const captureError = (error, errorType) => {
     Sentry.withScope(scope => {
       scope.setFingerprint([formConfig.trackingPrefix]);
       scope.setExtra('errorType', errorType);
       scope.setExtra('statusText', error.statusText);
+      scope.setExtra('inProgressFormId', inProgressFormId);
       Sentry.captureException(error);
     });
     recordEvent({
@@ -190,7 +206,7 @@ export function submitForm(formConfig, form) {
           errorType = 'serverError';
         }
         captureError(error, errorType);
-        dispatch(setSubmission('status', errorType, error.extra));
+        dispatch(setSubmission('status', errorType, errorMessage, error.extra));
       });
   };
 }
@@ -202,14 +218,29 @@ export function uploadFile(
   onChange,
   onError,
   trackingPrefix,
+  password,
+  enableShortWorkflow,
 ) {
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
   return (dispatch, getState) => {
-    if (file.size > uiOptions.maxSize) {
+    // PDFs may have a different max size based on where it is being uploaded
+    // (form 526 & claim status)
+    const maxSize =
+      (file.name.toLowerCase().endsWith('pdf') && uiOptions.maxPdfSize) ||
+      uiOptions.maxSize;
+
+    if (file.size > maxSize) {
+      const fileSizeText = displayFileSize(maxSize);
+      const fileTooBigErrorMessage = enableShortWorkflow
+        ? 'We couldn\u2019t upload your file because it\u2019s too big. ' +
+          `Please make sure the file is ${fileSizeText} or less and try again.`
+        : 'We couldn\u2019t upload your file because it\u2019s too big. ' +
+          `Please delete this file. Then upload a file that\u2019s ${fileSizeText} or less.`;
+
       onChange({
         name: file.name,
-        errorMessage: 'File is too large to be uploaded',
+        errorMessage: fileTooBigErrorMessage,
       });
 
       onError();
@@ -217,9 +248,16 @@ export function uploadFile(
     }
 
     if (file.size < uiOptions.minSize) {
+      const fileSizeText = displayFileSize(uiOptions.minSize);
+      const fileTooSmallErrorMessage = enableShortWorkflow
+        ? 'We couldn\u2019t upload your file because it\u2019s too small. ' +
+          `Please make sure the file is ${fileSizeText} or more and try again.`
+        : 'We couldn\u2019t upload your file because it\u2019s too small. ' +
+          `Please delete this file. Then upload a file that\u2019s ${fileSizeText} or more.`;
+
       onChange({
         name: file.name,
-        errorMessage: 'File is too small to be uploaded',
+        errorMessage: fileTooSmallErrorMessage,
       });
 
       onError();
@@ -233,21 +271,41 @@ export function uploadFile(
         file.name.toLowerCase().endsWith(fileType.toLowerCase()),
       )
     ) {
+      const allowedTypes = uiOptions.fileTypes.reduce(
+        (accumulator, fileType, index, array) => {
+          if (index === 0) return `.${fileType}`;
+
+          const seperator = index < array.length - 1 ? ',' : ', or';
+          return `${accumulator}${seperator} .${fileType}`;
+        },
+        '',
+      );
+
+      const fileTypeErrorMessage = enableShortWorkflow
+        ? 'We couldn\u2019t upload your file because we can\u2019t accept this type ' +
+          `of file. Please make sure the file is a ${allowedTypes} file and try again.`
+        : 'We couldn\u2019t upload your file because we can\u2019t accept this type ' +
+          `of file. Please delete the file. Then try again with a ${allowedTypes} file.`;
+
       onChange({
         name: file.name,
-        errorMessage: 'File is not one of the allowed types',
+        errorMessage: fileTypeErrorMessage,
       });
 
       onError();
       return null;
     }
+    if (password) {
+      onChange({ name: file.name, uploading: true, password });
+    } else {
+      onChange({ name: file.name, uploading: true });
+    }
 
-    onChange({
-      name: file.name,
-      uploading: true,
-    });
-
-    const payload = uiOptions.createPayload(file, getState().form.formId);
+    const payload = uiOptions.createPayload(
+      file,
+      getState().form.formId,
+      password,
+    );
 
     const req = new XMLHttpRequest();
 
@@ -258,9 +316,15 @@ export function uploadFile(
         const fileData = uiOptions.parseResponse(JSON.parse(body), file);
 
         recordEvent({ event: `${trackingPrefix}file-uploaded` });
-        onChange(fileData);
+        onChange({ ...fileData, isEncrypted: !!password });
       } else {
         let errorMessage = req.statusText;
+        try {
+          // detail contains a better error message
+          errorMessage = JSON.parse(req?.response)?.errors?.[0]?.detail;
+        } catch (error) {
+          // intentionally empty
+        }
         if (req.status === 429) {
           errorMessage = `You’ve reached the limit for the number of submissions we can accept at this time. Please try again in ${timeFromNow(
             moment.unix(
@@ -269,21 +333,36 @@ export function uploadFile(
           )}.`;
         }
 
-        onChange({
-          name: file.name,
-          errorMessage,
-        });
-        Sentry.captureMessage(`vets_upload_error: ${req.statusText}`);
+        if (password) {
+          onChange({
+            file, // return file object to allow resubmit
+            name: file.name,
+            errorMessage,
+            isEncrypted: true,
+          });
+        } else {
+          onChange({ name: file.name, errorMessage });
+        }
+        Sentry.captureMessage(`vets_upload_error: ${errorMessage}`);
         onError();
       }
     });
 
     req.addEventListener('error', () => {
-      const errorMessage = 'Network request failed';
-      onChange({
-        name: file.name,
-        errorMessage,
-      });
+      const errorMessage = enableShortWorkflow
+        ? FILE_UPLOAD_NETWORK_ERROR_MESSAGE
+        : 'We\u2019re sorry. We had a connection problem. Please delete the file and try again.';
+
+      if (password) {
+        onChange({
+          file, // return file object to allow resubmit
+          name: file.name,
+          errorMessage,
+          password: file.password,
+        });
+      } else {
+        onChange({ file, name: file.name, errorMessage }); // return file object to allow resubmit
+      }
       Sentry.withScope(scope => {
         scope.setExtra('statusText', req.statusText);
         Sentry.captureMessage(`vets_upload_error: ${errorMessage}`);
@@ -301,6 +380,7 @@ export function uploadFile(
 
     req.setRequestHeader('X-Key-Inflection', 'camel');
     req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
+    req.setRequestHeader('Source-App-Name', window.appName);
     req.withCredentials = true;
     req.send(payload);
 

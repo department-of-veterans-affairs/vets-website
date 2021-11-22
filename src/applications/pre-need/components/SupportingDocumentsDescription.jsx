@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import { isVeteran, isUnmarriedChild } from '../utils/helpers';
 
 export default function SupportingDocumentsDescription(props) {

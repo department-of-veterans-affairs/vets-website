@@ -7,12 +7,7 @@ import {
 } from 'applications/static-pages/wizard/';
 import recordEvent from 'platform/monitoring/record-event';
 
-const ApplyNow = ({
-  setPageState,
-  getPageStateFromPageName,
-  state = {},
-  setWizardStatus,
-}) => {
+const ApplyNow = ({ getPageStateFromPageName, setWizardStatus }) => {
   const [url, setUrl] = useState('');
   const [referredBenefit, setReferredBenefit] = useState('');
   const newBenefitAnswer = getPageStateFromPageName(pageNames.newBenefit)
@@ -50,14 +45,22 @@ const ApplyNow = ({
   useEffect(() => {
     const updateUrl = async () => {
       const updatedBenefit = await getReferredBenefit();
-      const { FORM_ID_0994 } = formIdSuffixes;
+      const { FORM_ID_0994, FORM_ID_10203 } = formIdSuffixes;
       setReferredBenefit(updatedBenefit);
       if (updatedBenefit) {
-        setUrl(
-          updatedBenefit === FORM_ID_0994
-            ? `/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994`
-            : `/education/apply-for-education-benefits/application/${updatedBenefit}`,
-        );
+        if (updatedBenefit === FORM_ID_0994) {
+          setUrl(
+            `/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994`,
+          );
+        } else if (updatedBenefit === FORM_ID_10203) {
+          setUrl(
+            `/education/other-va-education-benefits/stem-scholarship/apply-for-scholarship-form-22-10203`,
+          );
+        } else {
+          setUrl(
+            `/education/apply-for-education-benefits/application/${updatedBenefit}`,
+          );
+        }
       }
     };
     updateUrl();

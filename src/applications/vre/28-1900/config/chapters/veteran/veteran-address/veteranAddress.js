@@ -1,41 +1,39 @@
-import cloneDeep from 'platform/utilities/data/cloneDeep';
+import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import {
-  buildAddressSchema,
-  addressUISchema,
-} from '../../../../../../disability-benefits/686c-674/config/address-schema';
+import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAddress';
 
-const veteranAddress = buildAddressSchema(true);
-// reset boolean type for checkbox
-veteranAddress.properties['view:livesOnMilitaryBase'] = {
-  type: 'boolean',
-};
+import { VeteranAddressDescription } from '../../../../components/VeteranAddressDescription';
+
+const { veteranAddress, mainPhone, cellPhone, email } = fullSchema.properties;
+
+const checkboxTitle =
+  'I live on a United States military base outside of the U.S.';
 
 export const schema = {
   type: 'object',
   properties: {
+    'view:addressDescription': {
+      type: 'object',
+      properties: {},
+    },
     veteranAddress,
-    mainPhone: {
+    mainPhone,
+    cellPhone,
+    email,
+    'view:confirmEmail': {
       type: 'string',
-      minLength: 10,
-    },
-    cellPhone: {
-      type: 'string',
-      minLength: 10,
-    },
-    emailAddress: {
-      type: 'string',
-      minLength: 6,
-      maxLength: 80,
-      pattern:
-        '^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$',
     },
   },
+  required: ['email'],
 };
 
 export const uiSchema = {
-  veteranAddress: addressUISchema(true, 'veteranAddress', () => true),
+  'view:addressDescription': {
+    'ui:description': VeteranAddressDescription,
+  },
+  veteranAddress: addressUiSchema('veteranAddress', checkboxTitle, () => true),
   mainPhone: {
+    'ui:required': () => true,
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
     },
@@ -47,11 +45,31 @@ export const uiSchema = {
   cellPhone: {
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
+      hideEmptyValueInReview: true,
     },
     'ui:title': 'Cell phone number',
     'ui:errorMessages': {
       pattern: 'Please enter only numbers, no dashes or parentheses',
     },
   },
-  emailAddress: emailUI(),
+  email: emailUI(),
+  'view:confirmEmail': {
+    ...emailUI(),
+    'ui:title': 'Confirm email address',
+    'ui:required': () => true,
+    'ui:validations': [
+      {
+        validator: (errors, fieldData, formData) => {
+          if (
+            formData.email.toLowerCase() !==
+            formData['view:confirmEmail'].toLowerCase()
+          ) {
+            errors.addError(
+              'This email does not match your previously entered email',
+            );
+          }
+        },
+      },
+    ],
+  },
 };

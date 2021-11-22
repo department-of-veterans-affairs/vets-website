@@ -1,5 +1,8 @@
 import React from 'react';
-import _ from 'lodash/fp';
+import { merge, pick } from 'lodash';
+import get from 'platform/utilities/data/get';
+import omit from 'platform/utilities/data/omit';
+import set from 'platform/utilities/data/set';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
@@ -27,6 +30,8 @@ import ErrorText from '../components/ErrorText';
 import EligibleBuriedView from '../components/EligibleBuriedView';
 import SupportingDocumentsDescription from '../components/SupportingDocumentsDescription';
 import { validateSponsorDeathDate } from '../validation';
+
+import manifest from '../manifest.json';
 
 import {
   isVeteran,
@@ -72,20 +77,32 @@ const {
   race,
 } = fullSchemaPreNeed.definitions;
 
-const nonRequiredFullName = _.omit('required', fullName);
+const nonRequiredFullName = omit('required', fullName);
 
 function currentlyBuriedPersonsMinItem() {
   const copy = Object.assign({}, currentlyBuriedPersons);
   copy.minItems = 1;
-  return _.set('items.properties.cemeteryNumber', autosuggest.schema, copy);
+  return set('items.properties.cemeteryNumber', autosuggest.schema, copy);
 }
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/preneeds/burial_forms`,
   trackingPrefix: 'preneed-',
   transformForSubmit: transform,
   formId: VA_FORM_IDS.FORM_40_10007,
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your pre-need determination of eligibility in a VA national cemetery application is in progress.',
+      // TODO: Fix the expired message
+      expired:
+        'Your saved pre-need determination of eligibility in a VA national cemetery application has expired. If you want to apply for pre-need determination of eligibility in a VA national cemetery, please start a new application.',
+      saved:
+        'Your pre-need determination of eligibility in a VA national cemetery application has been saved.',
+    },
+  },
   prefillEnabled: true,
   verifyRequiredPrefill: false,
   version: 0,
@@ -165,10 +182,12 @@ const formConfig = {
                       'dateOfBirth',
                       'relationshipToVet',
                     ],
-                    properties: _.pick(
-                      ['name', 'ssn', 'dateOfBirth', 'relationshipToVet'],
-                      claimant.properties,
-                    ),
+                    properties: pick(claimant.properties, [
+                      'name',
+                      'ssn',
+                      'dateOfBirth',
+                      'relationshipToVet',
+                    ]),
                   },
                 },
               },
@@ -193,25 +212,22 @@ const formConfig = {
                   veteran: {
                     type: 'object',
                     required: ['gender', 'maritalStatus', 'militaryStatus'],
-                    properties: _.set(
+                    properties: set(
                       'militaryStatus.enum',
                       veteran.properties.militaryStatus.enum.filter(
                         // Doesn't make sense to have options for the
                         // Veteran to say they're deceased
                         opt => !['I', 'D'].includes(opt),
                       ),
-                      _.pick(
-                        [
-                          'militaryServiceNumber',
-                          'vaClaimNumber',
-                          'placeOfBirth',
-                          'gender',
-                          'race',
-                          'maritalStatus',
-                          'militaryStatus',
-                        ],
-                        veteran.properties,
-                      ),
+                      pick(veteran.properties, [
+                        'militaryServiceNumber',
+                        'vaClaimNumber',
+                        'placeOfBirth',
+                        'gender',
+                        'race',
+                        'maritalStatus',
+                        'militaryStatus',
+                      ]),
                     ),
                   },
                 },
@@ -230,8 +246,8 @@ const formConfig = {
           uiSchema: {
             'ui:description': applicantDescription,
             application: {
-              veteran: _.merge(veteranUI, {
-                currentName: _.merge(fullNameUI, {
+              veteran: merge({}, veteranUI, {
+                currentName: merge({}, fullNameUI, {
                   first: {
                     'ui:title': 'Sponsor’s first name',
                   },
@@ -247,6 +263,7 @@ const formConfig = {
                   maiden: {
                     'ui:title': 'Sponsor’s maiden name',
                   },
+                  'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
                 }),
                 militaryServiceNumber: {
                   'ui:title':
@@ -294,7 +311,8 @@ const formConfig = {
                     },
                   },
                 },
-                dateOfDeath: _.merge(
+                dateOfDeath: merge(
+                  {},
                   currentOrPastDateUI('Sponsor’s date of death'),
                   {
                     'ui:options': {
@@ -322,23 +340,20 @@ const formConfig = {
                       'militaryStatus',
                       'isDeceased',
                     ],
-                    properties: _.pick(
-                      [
-                        'currentName',
-                        'ssn',
-                        'dateOfBirth',
-                        'militaryServiceNumber',
-                        'vaClaimNumber',
-                        'placeOfBirth',
-                        'gender',
-                        'race',
-                        'maritalStatus',
-                        'militaryStatus',
-                        'isDeceased',
-                        'dateOfDeath',
-                      ],
-                      veteran.properties,
-                    ),
+                    properties: pick(veteran.properties, [
+                      'currentName',
+                      'ssn',
+                      'dateOfBirth',
+                      'militaryServiceNumber',
+                      'vaClaimNumber',
+                      'placeOfBirth',
+                      'gender',
+                      'race',
+                      'maritalStatus',
+                      'militaryStatus',
+                      'isDeceased',
+                      'dateOfDeath',
+                    ]),
                   },
                 },
               },
@@ -383,18 +398,18 @@ const formConfig = {
         applicantMilitaryName: {
           path: 'applicant-military-name',
           depends: isVeteran,
-          uiSchema: _.merge(militaryNameUI, {
+          uiSchema: merge({}, militaryNameUI, {
             application: {
               veteran: {
                 serviceName: {
                   first: {
                     'ui:required': form =>
-                      _.get('application.veteran.view:hasServiceName', form) ===
+                      get('application.veteran.view:hasServiceName', form) ===
                       true,
                   },
                   last: {
                     'ui:required': form =>
-                      _.get('application.veteran.view:hasServiceName', form) ===
+                      get('application.veteran.view:hasServiceName', form) ===
                       true,
                   },
                 },
@@ -428,11 +443,18 @@ const formConfig = {
           uiSchema: {
             application: {
               veteran: {
-                serviceRecords: _.merge(serviceRecordsUI, {
+                serviceRecords: merge({}, serviceRecordsUI, {
                   'ui:title': 'Sponsor’s service periods',
                   'ui:description':
                     'Please provide all your sponsor’s service periods. If you need to add another service period, please click the Add Another Service Period button.',
                   items: {
+                    'ui:order': [
+                      'serviceBranch',
+                      'dateRange',
+                      'dischargeType',
+                      'highestRank',
+                      'nationalGuardState',
+                    ],
                     serviceBranch: {
                       'ui:title': 'Sponsor’s branch of service',
                     },
@@ -476,23 +498,23 @@ const formConfig = {
         sponsorMilitaryName: {
           path: 'sponsor-military-name',
           depends: formData => !isVeteran(formData),
-          uiSchema: _.merge(militaryNameUI, {
+          uiSchema: merge({}, militaryNameUI, {
             application: {
               veteran: {
                 'view:hasServiceName': {
                   'ui:title': 'Did your sponsor serve under another name?',
                 },
-                serviceName: _.merge(fullNameUI, {
+                serviceName: merge({}, fullNameUI, {
                   first: {
                     'ui:title': 'Sponsor’s first name',
                     'ui:required': form =>
-                      _.get('application.veteran.view:hasServiceName', form) ===
+                      get('application.veteran.view:hasServiceName', form) ===
                       true,
                   },
                   last: {
                     'ui:title': 'Sponsor’s last name',
                     'ui:required': form =>
-                      _.get('application.veteran.view:hasServiceName', form) ===
+                      get('application.veteran.view:hasServiceName', form) ===
                       true,
                   },
                   middle: {
@@ -574,7 +596,7 @@ const formConfig = {
                   expandUnderCondition: '1',
                 },
                 items: {
-                  name: _.merge(fullNameUI, {
+                  name: merge({}, fullNameUI, {
                     'ui:title': 'Name of deceased',
                   }),
                   cemeteryNumber: autosuggest.uiSchema(
@@ -741,7 +763,7 @@ const formConfig = {
                   'ui:widget': 'radio',
                   'ui:options': {
                     updateSchema: formData => {
-                      const nameData = _.get(
+                      const nameData = get(
                         'application.claimant.name',
                         formData,
                       );
@@ -763,21 +785,26 @@ const formConfig = {
                     expandUnder: 'applicantRelationshipToClaimant',
                     expandUnderCondition: 'Authorized Agent/Rep',
                   },
-                  name: _.merge(nonRequiredFullNameUI, {
+                  name: merge({}, nonRequiredFullNameUI, {
                     'ui:title': 'Preparer information',
                     first: { 'ui:required': isAuthorizedAgent },
                     last: { 'ui:required': isAuthorizedAgent },
                   }),
-                  mailingAddress: _.merge(address.uiSchema('Mailing address'), {
-                    country: { 'ui:required': isAuthorizedAgent },
-                    street: { 'ui:required': isAuthorizedAgent },
-                    city: { 'ui:required': isAuthorizedAgent },
-                    state: { 'ui:required': isAuthorizedAgent },
-                    postalCode: { 'ui:required': isAuthorizedAgent },
-                  }),
+                  mailingAddress: merge(
+                    {},
+                    address.uiSchema('Mailing address'),
+                    {
+                      country: { 'ui:required': isAuthorizedAgent },
+                      street: { 'ui:required': isAuthorizedAgent },
+                      city: { 'ui:required': isAuthorizedAgent },
+                      state: { 'ui:required': isAuthorizedAgent },
+                      postalCode: { 'ui:required': isAuthorizedAgent },
+                    },
+                  ),
                   'view:contactInfo': {
                     'ui:title': 'Contact information',
-                    applicantPhoneNumber: _.merge(
+                    applicantPhoneNumber: merge(
+                      {},
                       phoneUI('Primary telephone number'),
                       {
                         'ui:required': isAuthorizedAgent,

@@ -1,17 +1,12 @@
-import moment from 'moment';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import AutosuggestField from 'platform/forms-system/src/js/fields/AutosuggestField';
-import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+
+import { validateCurrentOrPastDate } from 'platform/forms-system/src/js/validation';
 
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
-import { isBDD, showSeparationLocation } from '../utils';
-import {
-  SeparationLocationTitle,
-  SeparationLocationDescription,
-} from '../content/militaryHistory';
-import { checkSeparationLocation } from '../validations';
-import separationLocations from '../content/separationLocations';
+import ArrayField from '../components/ArrayField';
+import { isValidServicePeriod, formatDate } from '../utils';
+import { validateAge, validateSeparationDate } from '../validations';
 
 const dateRangeUISchema = dateRangeUI(
   'Service start date',
@@ -19,42 +14,19 @@ const dateRangeUISchema = dateRangeUI(
   'End of service must be after start of service',
 );
 
-const validateAge = (
-  errors,
-  dateString,
-  formData,
-  schema,
-  uiSchema,
-  currentIndex,
-  appStateData,
-) => {
-  if (moment(dateString).isBefore(moment(appStateData.dob).add(13, 'years'))) {
-    errors.addError('Your start date must be after your 13th birthday');
-  }
-};
-
-const validateSeparationDate = (
-  errors,
-  dateString,
-  formData,
-  schema,
-  uiSchema,
-  currentIndex,
-  appStateData,
-) => {
-  const allowBDD = appStateData.allowBDD;
-  if (!allowBDD && moment(dateString).isAfter(moment())) {
-    errors.addError('Your separation date must be in the past');
-  } else if (
-    allowBDD &&
-    moment(dateString).isAfter(moment().add(180, 'days'))
-  ) {
-    errors.addError('Your separation date must be before 180 days from today');
-  }
-};
-
-dateRangeUISchema.from['ui:validations'].push(validateAge);
+dateRangeUISchema.from['ui:validations'].push(
+  validateAge,
+  validateCurrentOrPastDate,
+);
 dateRangeUISchema.to['ui:validations'].push(validateSeparationDate);
+
+const itemAriaLabel = data => {
+  const hasDate =
+    data.serviceBranch && data.dateRange?.from
+      ? ` started on ${formatDate(data.dateRange.from)}`
+      : '';
+  return `${data.serviceBranch || ''}${hasDate}`;
+};
 
 export const uiSchema = {
   serviceInformation: {
@@ -62,10 +34,15 @@ export const uiSchema = {
       'ui:title': 'Military service history',
       'ui:description':
         'Please add or update your military service history details below.',
+      'ui:field': ArrayField,
       'ui:options': {
         itemName: 'Service Period',
+        itemAriaLabel,
         viewField: ValidatedServicePeriodView,
         reviewMode: true,
+        showSave: true,
+        setEditState: formData =>
+          formData.map(data => !isValidServicePeriod(data)),
       },
       items: {
         serviceBranch: {
@@ -73,34 +50,9 @@ export const uiSchema = {
         },
         dateRange: dateRangeUISchema,
         'ui:options': {
-          ariaLabelForEditButtonOnReview: 'Edit Military service history',
+          itemAriaLabel,
+          itemName: 'Military service history',
         },
-      },
-    },
-    'view:separationLocation': {
-      'ui:title': SeparationLocationTitle,
-      'ui:description': SeparationLocationDescription,
-      'ui:options': {
-        hideIf: formData => !showSeparationLocation(formData),
-      },
-    },
-    // Not using autosuggest.uiSchema; validations not set?
-    separationLocation: {
-      'ui:title': 'Enter a location',
-      'ui:field': AutosuggestField,
-      'ui:required': formData => showSeparationLocation(formData),
-      'ui:validations': [checkSeparationLocation],
-      'ui:options': {
-        hideIf: formData => !showSeparationLocation(formData),
-        showFieldLabel: 'label',
-        maxOptions: 20,
-        getOptions: () =>
-          Promise.resolve().then(() =>
-            separationLocations.map(({ code, description }) => ({
-              id: code,
-              label: description,
-            })),
-          ),
       },
     },
   },
@@ -119,11 +71,6 @@ export const schema = {
           type: 'object',
           properties: {},
         },
-        'view:separationLocation': {
-          type: 'object',
-          properties: {},
-        },
-        separationLocation: autosuggest.schema,
       },
     },
   },

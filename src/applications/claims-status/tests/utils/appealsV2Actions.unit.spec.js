@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import { getAppealsV2 } from '../../actions';
 
@@ -13,30 +14,22 @@ import {
   FETCH_APPEALS_ERROR,
 } from '../../utils/appeals-v2-helpers';
 
-let oldFetch;
-
 const setup = () => {
-  oldFetch = global.fetch;
-  global.fetch = sinon.stub();
-  global.fetch.returns(
-    Promise.resolve({
-      headers: { get: () => 'application/json' },
-      ok: true,
-      json: () =>
-        Promise.resolve({
-          data: [],
-        }),
-    }),
-  );
-};
-
-const teardown = () => {
-  global.fetch = oldFetch;
+  const response = {
+    url: 'https://dev-api.va.gov',
+    status: 200,
+    headers: { get: () => 'application/json' },
+    ok: true,
+    json: () =>
+      Promise.resolve({
+        data: [],
+      }),
+  };
+  mockFetch(response);
 };
 
 describe('getAppealsV2', () => {
   beforeEach(setup);
-  afterEach(teardown);
 
   it('dispatches FETCH_APPEALS_PENDING', done => {
     const thunk = getAppealsV2();
@@ -72,7 +65,8 @@ describe('getAppealsV2', () => {
     it(`Dispatches ${
       appealsErrors[code]
     } when GET fails with ${code}`, done => {
-      global.fetch.returns(
+      setFetchJSONResponse(
+        global.fetch.onCall(0),
         Promise.reject({
           errors: [{ status: `${code}` }],
         }),

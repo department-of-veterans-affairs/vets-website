@@ -8,7 +8,11 @@ import {
   DEBT_LETTERS_FETCH_INITIATED,
 } from '../actions';
 
+import { FETCH_TOGGLE_VALUES_STARTED } from 'platform/site-wide/feature-toggles/actionTypes';
+import { UPDATE_LOGGEDIN_STATUS } from 'platform/user/authentication/actions';
+
 const initialState = {
+  isProfileUpdating: true,
   isPending: false,
   isPendingVBMS: false,
   isError: false,
@@ -16,6 +20,8 @@ const initialState = {
   debts: [],
   selectedDebt: {},
   debtLinks: [],
+  errors: [],
+  hasDependentDebts: false,
 };
 
 export const debtsReducer = (state = initialState, action) => {
@@ -32,12 +38,14 @@ export const debtsReducer = (state = initialState, action) => {
         isPending: false,
         isError: false,
         debts: action.debts,
+        hasDependentDebts: action.hasDependentDebts,
       };
     case DEBTS_FETCH_FAILURE:
       return {
         ...state,
         isPending: false,
         isError: true,
+        errors: action.errors,
       };
     case DEBTS_SET_ACTIVE_DEBT:
       return {
@@ -63,6 +71,16 @@ export const debtsReducer = (state = initialState, action) => {
         isPending: false,
         isPendingVBMS: false,
         isVBMSError: true,
+      };
+    case FETCH_TOGGLE_VALUES_STARTED:
+      return {
+        ...state,
+        isProfileUpdating: true,
+      };
+    case UPDATE_LOGGEDIN_STATUS:
+      return {
+        ...state,
+        isProfileUpdating: false,
       };
     default:
       return state;

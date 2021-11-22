@@ -16,8 +16,8 @@ export default (store, widgetType) => {
     return;
   }
 
-  // webpackChunkName: "find-va-forms"
-  import('./find-va-forms-entry').then(module => {
+  import(/* webpackChunkName: "find-va-forms" */
+  './find-va-forms-entry').then(module => {
     const { FindVaForms } = module.default;
     ReactDOM.render(
       <Provider store={store}>

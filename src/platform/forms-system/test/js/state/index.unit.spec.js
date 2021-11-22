@@ -8,6 +8,7 @@ import {
   SET_PRE_SUBMIT,
   SET_SUBMISSION,
   SET_SUBMITTED,
+  SET_FORM_ERRORS,
 } from '../../../src/js/actions';
 
 import createSchemaFormReducer from '../../../src/js/state';
@@ -215,6 +216,7 @@ describe('schemaform createSchemaFormReducer', () => {
       );
 
       expect(state.submission.hasAttemptedSubmit).to.be.true;
+      expect(state.submission.timestamp).to.exist;
     });
     it('should set submitted', () => {
       const state = reducer(
@@ -232,6 +234,22 @@ describe('schemaform createSchemaFormReducer', () => {
 
       expect(state.submission.status).to.equal('applicationSubmitted');
       expect(state.submission.response).to.eql({ field: 'test' });
+    });
+    it('should set form errors', () => {
+      const data = {
+        rawErrors: ['raw error'],
+        errors: ['error'],
+      };
+      const state = reducer(
+        {
+          formErrors: {},
+        },
+        {
+          type: SET_FORM_ERRORS,
+          data,
+        },
+      );
+      expect(state.formErrors).to.equal(data);
     });
   });
 });

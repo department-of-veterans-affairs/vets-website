@@ -9,35 +9,22 @@ import {
 import {
   isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
-  getBookedAppointments,
+  fetchAppointments,
   getAppointmentRequests,
-  isVideoAppointment,
-  isVideoGFE,
-  sortFutureConfirmedAppointments,
+  FUTURE_APPOINTMENTS_HIDDEN_SET,
 } from '../../../services/appointment';
-import {
-  transformConfirmedAppointments,
-  transformPendingAppointments,
-} from '../../../services/appointment/transformers';
-import {
-  getVAAppointmentMock,
-  getVideoAppointmentMock,
-  getVARequestMock,
-} from '../../mocks/v0';
-import confirmed from '../../../api/confirmed_va.json';
-import requests from '../../../api/requests.json';
+import confirmed from '../../../services/mocks/var/confirmed_va.json';
+import requests from '../../../services/mocks/var/requests.json';
 import { setRequestedPeriod } from '../../mocks/helpers';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
-  VIDEO_TYPES,
-  FUTURE_APPOINTMENTS_HIDDEN_SET,
 } from '../../../utils/constants';
 
 const now = moment();
 
 describe('VAOS Appointment service', () => {
-  describe('getBookedAppointments', () => {
+  describe('fetchAppointments', () => {
     it('should make successful request', async () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, confirmed);
@@ -45,7 +32,7 @@ describe('VAOS Appointment service', () => {
       const startDate = '2020-05-01';
       const endDate = '2020-06-30';
 
-      const data = await getBookedAppointments({
+      const data = await fetchAppointments({
         startDate,
         endDate,
       });
@@ -56,7 +43,9 @@ describe('VAOS Appointment service', () => {
         ).toISOString()}&end_date=${moment(endDate).toISOString()}&type=va`,
       );
       expect(global.fetch.secondCall.args[0]).to.contain(
-        '/vaos/v0/appointments?start_date=2020-05-01&end_date=2020-06-30&type=cc',
+        `/vaos/v0/appointments?start_date=${moment(
+          startDate,
+        ).toISOString()}&end_date=${moment(endDate).toISOString()}&type=cc`,
       );
       expect(data[0].status).to.equal('booked');
     });
@@ -71,7 +60,7 @@ describe('VAOS Appointment service', () => {
 
       let error;
       try {
-        await getBookedAppointments({
+        await fetchAppointments({
           startDate,
           endDate,
         });
@@ -85,89 +74,11 @@ describe('VAOS Appointment service', () => {
         ).toISOString()}&end_date=${moment(endDate).toISOString()}&type=va`,
       );
       expect(global.fetch.secondCall.args[0]).to.contain(
-        '/vaos/v0/appointments?start_date=2020-05-01&end_date=2020-06-30&type=cc',
+        `/vaos/v0/appointments?start_date=${moment(
+          startDate,
+        ).toISOString()}&end_date=${moment(endDate).toISOString()}&type=cc`,
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
-    });
-  });
-
-  describe('isVideoAppointment', () => {
-    it('should return false if confirmed non video', () => {
-      const confirmedVA = transformConfirmedAppointments([
-        {
-          ...getVAAppointmentMock().attributes,
-        },
-      ])[0];
-      expect(isVideoAppointment(confirmedVA)).to.equal(false);
-    });
-
-    it('should return false if confirmed non video', () => {
-      const confirmedVideo = transformConfirmedAppointments([
-        {
-          ...getVideoAppointmentMock().attributes,
-        },
-      ])[0];
-
-      expect(isVideoAppointment(confirmedVideo)).to.equal(true);
-    });
-
-    it('should return false if non video request', () => {
-      const request = transformPendingAppointments([
-        {
-          ...getVARequestMock().attributes,
-        },
-      ])[0];
-
-      expect(isVideoAppointment(request)).to.equal(false);
-    });
-
-    it('should return false if non video request', () => {
-      const request = transformPendingAppointments([
-        {
-          ...getVARequestMock().attributes,
-          visitType: 'Video Conference',
-        },
-      ])[0];
-
-      expect(isVideoAppointment(request)).to.equal(true);
-    });
-  });
-
-  describe('isVideoGFE', () => {
-    it('should return false if confirmed non gfe', () => {
-      const confirmedVA = transformConfirmedAppointments([
-        {
-          ...getVAAppointmentMock().attributes,
-        },
-      ])[0];
-
-      expect(isVideoGFE(confirmedVA)).to.equal(false);
-    });
-
-    it('should return false if video but non gfe', () => {
-      const confirmedVideo = transformConfirmedAppointments([
-        {
-          ...getVideoAppointmentMock().attributes,
-        },
-      ])[0];
-      expect(isVideoGFE(confirmedVideo)).to.equal(false);
-    });
-
-    it('should return true if confirmed gfe', () => {
-      const mock = getVideoAppointmentMock();
-      const gfe = transformConfirmedAppointments([
-        {
-          ...mock.attributes,
-          vvsAppointments: [
-            {
-              ...mock.attributes.vvsAppointments[0],
-              appointmentKind: 'MOBILE_GFE',
-            },
-          ],
-        },
-      ])[0];
-
-      expect(isVideoGFE(gfe)).to.equal(true);
     });
   });
 
@@ -258,7 +169,7 @@ describe('VAOS Appointment service', () => {
             setRequestedPeriod(
               now
                 .clone()
-                .add(13, 'months')
+                .add(395, 'days')
                 .add(-1, 'days'),
               'AM',
             ),
@@ -354,7 +265,6 @@ describe('VAOS Appointment service', () => {
             .subtract(230, 'minutes')
             .format(),
           vaos: {
-            videoType: VIDEO_TYPES.videoConnect,
             appointmentType: APPOINTMENT_TYPES.vaAppointment,
           },
         },
@@ -365,7 +275,6 @@ describe('VAOS Appointment service', () => {
             .subtract(245, 'minutes')
             .format(),
           vaos: {
-            videoType: VIDEO_TYPES.videoConnect,
             isPastAppointment: true,
             appointmentType: APPOINTMENT_TYPES.vaAppointment,
           },
@@ -407,7 +316,6 @@ describe('VAOS Appointment service', () => {
         description: code,
         vaos: {
           appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          videoType: VIDEO_TYPES.videoConnect,
         },
       }));
 

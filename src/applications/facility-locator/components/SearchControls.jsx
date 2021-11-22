@@ -1,42 +1,112 @@
-import React, { Component } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import recordEvent from 'platform/monitoring/record-event';
+import omit from 'platform/utilities/data/omit';
 import { LocationType } from '../constants';
 import {
   healthServices,
   benefitsServices,
-  vetCenterServices,
   urgentCareServices,
   facilityTypesOptions,
+  emergencyCareServices,
+  nonPPMSfacilityTypeOptions,
 } from '../config';
 import { focusElement } from 'platform/utilities/ui';
+import classNames from 'classnames';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { setFocus } from '../utils/helpers';
 
-class SearchControls extends Component {
-  handleEditSearch = () => {
-    this.props.onChange({ active: false });
+const SearchControls = props => {
+  const {
+    currentQuery,
+    onChange,
+    onSubmit,
+    clearSearchText,
+    geolocateUser,
+    clearGeocodeError,
+  } = props;
+
+  const [selectedServiceType, setSelectedServiceType] = useState(null);
+  const locationInputFieldRef = useRef(null);
+
+  const onlySpaces = str => /^\s+$/.test(str);
+
+  const handleQueryChange = e => {
+    // prevent users from entering only spaces
+    // because this will not trigger a change
+    // when they exit the field
+    onChange({
+      searchString: onlySpaces(e.target.value)
+        ? e.target.value.trim()
+        : e.target.value,
+    });
   };
 
-  handleQueryChange = e => {
-    this.props.onChange({ searchString: e.target.value });
+  const handleLocationBlur = e => {
+    // force redux state to register a change
+    onChange({ searchString: ' ' });
+    handleQueryChange(e);
   };
 
-  handleFacilityTypeChange = e => {
-    this.props.onChange({ facilityType: e.target.value, serviceType: null });
+  const handleFacilityTypeChange = e => {
+    onChange({
+      facilityType: e.target.value,
+      serviceType: null,
+    });
   };
 
-  handleServiceTypeChange = ({ target }) => {
-    const option = target.value;
+  const handleServiceTypeChange = ({ target, selectedItem }) => {
+    setSelectedServiceType(selectedItem);
+
+    const option = target.value.trim();
     const serviceType = option === 'All' ? null : option;
-    this.props.onChange({ serviceType });
+    onChange({ serviceType });
   };
 
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
-    const { facilityType, serviceType } = this.props.currentQuery;
+    const {
+      facilityType,
+      serviceType,
+      zoomLevel,
+      isValid,
+      searchString,
+      specialties,
+    } = currentQuery;
 
-    if (facilityType === LocationType.CC_PROVIDER && !serviceType) {
-      focusElement('#service-type-ahead-input');
+    let analyticsServiceType = serviceType;
+
+    const updateReduxState = propName => {
+      onChange({ [propName]: ' ' });
+      onChange({ [propName]: '' });
+    };
+
+    if (facilityType === LocationType.CC_PROVIDER) {
+      if (!serviceType || !selectedServiceType) {
+        updateReduxState('serviceType');
+        focusElement('#service-type-ahead-input');
+        return;
+      }
+
+      if (specialties && Object.keys(specialties).includes(serviceType)) {
+        analyticsServiceType = specialties[serviceType];
+      }
+    }
+
+    if (!searchString) {
+      updateReduxState('searchString');
+      focusElement('#street-city-state-zip');
+      return;
+    }
+
+    if (!facilityType) {
+      updateReduxState('facilityType');
+      focusElement('#facility-type-dropdown');
+      return;
+    }
+
+    if (!isValid) {
       return;
     }
 
@@ -44,63 +114,187 @@ class SearchControls extends Component {
     recordEvent({
       event: 'fl-search',
       'fl-search-fac-type': facilityType,
+      'fl-search-svc-type': analyticsServiceType,
+      'fl-current-zoom-depth': zoomLevel,
     });
 
-    this.props.onSubmit();
+    onSubmit();
+
+    setSelectedServiceType(null);
   };
 
-  renderFacilityTypeDropdown = () => {
-    const { suppressCCP, suppressPharmacies } = this.props;
-    const { facilityType } = this.props.currentQuery;
-    const locationOptions = facilityTypesOptions;
+  const handleGeolocationButtonClick = e => {
+    e.preventDefault();
+    recordEvent({
+      event: 'fl-get-geolocation',
+    });
+    geolocateUser();
+  };
+
+  const handleClearInput = () => {
+    clearSearchText();
+    focusElement('#street-city-state-zip');
+  };
+
+  const renderLocationInputField = () => {
+    const {
+      locationChanged,
+      searchString,
+      geolocationInProgress,
+    } = currentQuery;
+    const showError =
+      locationChanged &&
+      !geolocationInProgress &&
+      (!searchString || searchString.length === 0);
+    return (
+      <div
+        className={classNames('vads-u-margin--0', {
+          'usa-input-error': showError,
+        })}
+      >
+        <div id="location-input-field">
+          <label
+            htmlFor="street-city-state-zip"
+            id="street-city-state-zip-label"
+          >
+            City, state or postal code{' '}
+            <span className="form-required-span">(*Required)</span>
+          </label>
+          {geolocationInProgress ? (
+            <div className="use-my-location-link">
+              <i
+                className="fa fa-spinner fa-spin"
+                aria-hidden="true"
+                role="presentation"
+              />
+              <span aria-live="assertive">Finding your location...</span>
+            </div>
+          ) : (
+            <button
+              onClick={handleGeolocationButtonClick}
+              type="button"
+              className="use-my-location-link"
+            >
+              <i
+                className="use-my-location-button"
+                aria-hidden="true"
+                role="presentation"
+              />
+              Use my location
+            </button>
+          )}
+        </div>
+        {showError && (
+          <span className="usa-input-error-message" role="alert">
+            <span className="sr-only">Error</span>
+            Please fill in a city, state, or postal code.
+          </span>
+        )}
+        <div className="input-container">
+          <input
+            id="street-city-state-zip"
+            ref={locationInputFieldRef}
+            name="street-city-state-zip"
+            type="text"
+            onChange={handleQueryChange}
+            onBlur={handleLocationBlur}
+            value={searchString}
+            title="Your location: Street, City, State or Postal code"
+          />
+          {searchString?.length > 0 && (
+            <button
+              aria-label="Clear your city, state or postal code"
+              type="button"
+              id="clear-input"
+              className="fas fa-times-circle clear-button"
+              onClick={handleClearInput}
+            />
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const renderFacilityTypeDropdown = () => {
+    const { suppressCCP, suppressPharmacies, suppressPPMS } = props;
+    const { facilityType, isValid, facilityTypeChanged } = currentQuery;
+    const locationOptions = suppressPPMS
+      ? nonPPMSfacilityTypeOptions
+      : facilityTypesOptions;
+    const showError = !isValid && facilityTypeChanged && !facilityType;
+
     if (suppressPharmacies) {
       delete locationOptions.pharmacy;
     }
+
     if (suppressCCP) {
       delete locationOptions.provider;
     }
+
     const options = Object.keys(locationOptions).map(facility => (
       <option key={facility} value={facility}>
         {locationOptions[facility]}
       </option>
     ));
+
     return (
-      <span>
+      <div
+        className={classNames('input-clear', 'vads-u-margin--0', {
+          'usa-input-error': showError,
+        })}
+      >
         <label htmlFor="facility-type-dropdown">
-          Choose a VA facility type
+          Facility type <span className="form-required-span">(*Required)</span>
         </label>
+        {showError && (
+          <span className="usa-input-error-message" role="alert">
+            <span className="sr-only">Error</span>
+            Please choose a facility type.
+          </span>
+        )}
         <select
           id="facility-type-dropdown"
           aria-label="Choose a facility type"
           value={facilityType || ''}
           className="bor-rad"
-          onChange={this.handleFacilityTypeChange}
+          onChange={handleFacilityTypeChange}
           style={{ fontWeight: 'bold' }}
-          required
         >
           {options}
         </select>
-      </span>
+      </div>
     );
   };
 
-  renderServiceTypeDropdown = () => {
-    const { facilityType, serviceType } = this.props.currentQuery;
+  const renderServiceTypeDropdown = () => {
+    const { searchCovid19Vaccine } = props;
+    const { facilityType, serviceType, serviceTypeChanged } = currentQuery;
     const disabled = ![
       LocationType.HEALTH,
       LocationType.URGENT_CARE,
       LocationType.BENEFITS,
       LocationType.CC_PROVIDER,
+      LocationType.EMERGENCY_CARE,
     ].includes(facilityType);
 
+    const showError = serviceTypeChanged && !disabled && !serviceType;
+
+    let filteredHealthServices = healthServices;
+
+    if (!searchCovid19Vaccine) {
+      filteredHealthServices = omit(['Covid19Vaccine'], healthServices);
+    }
     let services;
     // Determine what service types to display for the location type (if any).
     switch (facilityType) {
       case LocationType.HEALTH:
-        services = healthServices;
+        services = filteredHealthServices;
         break;
       case LocationType.URGENT_CARE:
         services = urgentCareServices;
+        break;
+      case LocationType.EMERGENCY_CARE:
+        services = emergencyCareServices;
         break;
       case LocationType.BENEFITS:
         services = benefitsServices;
@@ -108,8 +302,9 @@ class SearchControls extends Component {
       case LocationType.CC_PROVIDER:
         return (
           <ServiceTypeAhead
-            onSelect={this.handleServiceTypeChange}
+            handleServiceTypeChange={handleServiceTypeChange}
             initialSelectedServiceType={serviceType}
+            showError={showError}
           />
         );
       default:
@@ -125,13 +320,13 @@ class SearchControls extends Component {
 
     return (
       <span>
-        <label htmlFor="service-type-dropdown">Choose a service type</label>
+        <label htmlFor="service-type-dropdown">Service type</label>
         <select
           id="service-type-dropdown"
           disabled={disabled || !facilityType}
           value={serviceType || ''}
           className="bor-rad"
-          onChange={this.handleServiceTypeChange}
+          onChange={handleServiceTypeChange}
           style={{ fontWeight: 'bold' }}
         >
           {options}
@@ -140,61 +335,80 @@ class SearchControls extends Component {
     );
   };
 
-  render() {
-    const { currentQuery, isMobile } = this.props;
+  // Set focus in the location field when manual geocoding completes
+  useEffect(
+    () => {
+      if (
+        currentQuery.geolocationInProgress === false &&
+        locationInputFieldRef.current
+      ) {
+        setFocus(locationInputFieldRef.current, false);
+      }
+    },
+    [currentQuery.geolocationInProgress],
+  );
 
-    if (currentQuery.active && isMobile) {
-      return (
-        <div className="search-controls-container">
-          <button className="small-12" onClick={this.handleEditSearch}>
-            Edit Search
-          </button>
-        </div>
-      );
-    }
+  // Track geocode errors
+  useEffect(
+    () => {
+      switch (currentQuery.geocodeError) {
+        case 0:
+          break;
+        case 1:
+          recordEvent({
+            event: 'fl-get-geolocation-permission-error',
+            'error-key': '1_PERMISSION_DENIED',
+          });
+          break;
+        case 2:
+          recordEvent({
+            event: 'fl-get-geolocation-other-error',
+            'error-key': '2_POSITION_UNAVAILABLE',
+          });
+          break;
+        default:
+          recordEvent({
+            event: 'fl-get-geolocation-other-error',
+            'error-key': '3_TIMEOUT',
+          });
+      }
+    },
+    [currentQuery.geocodeError],
+  );
 
-    return (
-      <div className="search-controls-container clearfix">
-        <form id="facility-search-controls" onSubmit={this.handleSubmit}>
-          <div className="row">
-            <div className={isMobile ? 'columns' : 'columns marg-left'}>
-              <div className="row">
-                <div className="columns large-1-2">
-                  <label
-                    htmlFor="street-city-state-zip"
-                    id="street-city-state-zip-label"
-                  >
-                    Search by city, state or postal code
-                  </label>
-                  <input
-                    id="street-city-state-zip"
-                    name="street-city-state-zip"
-                    style={{ fontWeight: 'bold' }}
-                    type="text"
-                    onChange={this.handleQueryChange}
-                    value={currentQuery.searchString}
-                    title="Your location: Street, City, State or Postal code"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="columns large-1-2">
-                  {this.renderFacilityTypeDropdown()}
-                </div>
-                <div className="columns large-1-2">
-                  {this.renderServiceTypeDropdown()}
-                </div>
-                <div className="columns medium-1-2">
-                  <input id="facility-search" type="submit" value="Search" />
-                </div>
-              </div>
-            </div>
+  return (
+    <div className="search-controls-container clearfix">
+      <Modal
+        title={
+          currentQuery.geocodeError === 1
+            ? 'We need to use your location'
+            : "We couldn't locate you"
+        }
+        onClose={() => clearGeocodeError()}
+        status="warning"
+        visible={currentQuery.geocodeError > 0}
+        contents={
+          <>
+            <p>
+              {currentQuery.geocodeError === 1
+                ? 'Please enable location sharing in your browser to use this feature.'
+                : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
+            </p>
+          </>
+        }
+      />
+      <form id="facility-search-controls" onSubmit={handleSubmit}>
+        <div className={'columns'}>
+          {renderLocationInputField()}
+          <div id="search-controls-bottom-row">
+            {renderFacilityTypeDropdown()}
+            {renderServiceTypeDropdown()}
+            <input id="facility-search" type="submit" value="Search" />
           </div>
-        </form>
-      </div>
-    );
-  }
-}
+        </div>
+      </form>
+    </div>
+  );
+};
 
 export default SearchControls;

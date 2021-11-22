@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
@@ -46,7 +46,13 @@ function RatedDisabilitiesApp(props) {
       >
         <DowntimeNotification
           appTitle="Rated Disabilities"
-          dependencies={[externalServices.evss]}
+          dependencies={[
+            externalServices.evss,
+            externalServices.global,
+            externalServices.mvi,
+            externalServices.vaProfile,
+            externalServices.vbms,
+          ]}
         >
           <RatedDisabilityView
             fetchRatedDisabilities={props.fetchRatedDisabilities}

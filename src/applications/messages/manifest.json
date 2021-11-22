@@ -1,0 +1,6 @@
+{
+  "appName": "My Messages",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "messages",
+  "rootUrl": "/my-messages"
+}

@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Wizard, {
-  getReferredBenefit,
-  getWizardStatus,
   WIZARD_STATUS_COMPLETE,
   NO_BENEFIT_REFERRED,
   formIdSuffixes,

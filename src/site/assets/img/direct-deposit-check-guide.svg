@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1000px" height="503px" viewBox="0 0 1000 503" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <style>
+    text {
+        font-family:sans-serif;
+    }
+    </style>
+    <title>Check</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="direct-deposit-check-guide">
+            <rect id="Rectangle" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="1000" height="500"></rect>
+            <rect id="Rectangle" stroke="#C9C9C9" fill="#F7F7F7" fill-rule="nonzero" x="0.5" y="0.5" width="999" height="399"></rect>
+            <g id="YOUR-NAME" transform="translate(30.000000, 58.000000)" fill="#3F3F3F" fill-rule="nonzero" font-size="30" font-weight="normal">
+                <text>
+                    <tspan x="0" y="29">YOUR NAME</tspan>
+                </text>
+            </g>
+            <g id="YOUR-ADDRESS" transform="translate(30.000000, 96.000000)" fill="#3F3F3F" fill-rule="nonzero" font-size="30" font-weight="normal">
+                <text>
+                    <tspan x="0" y="29">YOUR ADDRESS</tspan>
+                </text>
+            </g>
+            <g id="DATE" transform="translate(602.000000, 96.000000)" fill="#3F3F3F" fill-rule="nonzero" font-size="30" font-weight="normal">
+                <text>
+                    <tspan x="0" y="29">DATE</tspan>
+                </text>
+            </g>
+            <g id="DOLLARS" transform="translate(849.060000, 248.000000)" fill="#3F3F3F" fill-rule="nonzero" font-size="30" font-weight="normal">
+                <text>
+                    <tspan x="0" y="29">DOLLARS</tspan>
+                </text>
+            </g>
+            <g id="|:04407234" transform="translate(27.000000, 321.000000)" fill="#3F3F3F" fill-rule="nonzero" font-size="30" font-weight="bold">
+                <text>
+                    <tspan x="0" y="29">|:04407234</tspan>
+                </text>
+            </g>
+            <g id="|:000123456789" transform="translate(224.000000, 321.000000)" fill="#3F3F3F" fill-rule="nonzero" font-size="30" font-weight="bold">
+                <text>
+                    <tspan x="0" y="29">|:000123456789</tspan>
+                </text>
+            </g>
+            <g id="|:" transform="translate(491.000000, 321.000000)" fill="#3F3F3F" fill-rule="nonzero" font-size="30" font-weight="normal">
+                <text>
+                    <tspan x="0" y="29">|:</tspan>
+                </text>
+            </g>
+            <g id="$" transform="translate(793.000000, 163.000000)" fill="#3F3F3F" fill-rule="nonzero" font-size="40" font-weight="normal">
+                <text>
+                    <tspan x="0" y="39">$</tspan>
+                </text>
+            </g>
+            <g id="1001" transform="translate(909.360000, 47.000000)" fill="#3F3F3F" fill-rule="nonzero" font-size="30" font-weight="normal">
+                <text>
+                    <tspan x="0" y="29">1001</tspan>
+                </text>
+            </g>
+            <g id="PAY-TO-THE-ORDER-OF" transform="translate(30.000000, 159.000000)" fill="#3F3F3F" fill-rule="nonzero" font-size="30" font-weight="normal">
+                <text id="PAY-TO-THE">
+                    <tspan x="0" y="29">PAY TO THE</tspan>
+                </text>
+                <text id="ORDER-OF">
+                    <tspan x="0" y="58">ORDER OF</tspan>
+                </text>
+            </g>
+            <rect id="Rectangle" fill="#C9C9C9" fill-rule="nonzero" x="188" y="218" width="597" height="3"></rect>
+            <rect id="Rectangle-Copy-2" fill="#C9C9C9" fill-rule="nonzero" x="685" y="123" width="285" height="3"></rect>
+            <rect id="Rectangle-Copy" fill="#C9C9C9" fill-rule="nonzero" x="30" y="275" width="810" height="3"></rect>
+            <rect id="Rectangle" fill="#FFFFFF" fill-rule="nonzero" x="822" y="165" width="147" height="48"></rect>
+            <g id="Label" transform="translate(17.000000, 337.000000)">
+                <path d="M0,0 L0,33 L82,33 L166,33 L166,0 M83,33 L83,85" id="Combined-Shape" stroke="#0087FF" stroke-width="3"></path>
+                <g id="routing-number" transform="translate(39.000000, 96.000000)" fill="#3F3F3F" fill-rule="nonzero" font-size="30" font-weight="normal">
+                    <text id="routing">
+                        <tspan x="0" y="29">routing</tspan>
+                    </text>
+                    <text id="number">
+                        <tspan x="0" y="63">number</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="Label-Copy-2" transform="translate(478.000000, 337.000000)">
+                <path d="M0,0 L0,33 L82,33 L166,33 L166,0 M83,33 L83,85" id="Combined-Shape" stroke="#0087FF" stroke-width="3"></path>
+                <g id="check-number" transform="translate(39.000000, 96.000000)" fill="#3F3F3F" fill-rule="nonzero" font-size="30" font-weight="normal">
+                    <text id="check">
+                        <tspan x="0" y="29">check</tspan>
+                    </text>
+                    <text id="number">
+                        <tspan x="0" y="63">number</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="Label-Copy" transform="translate(217.000000, 337.000000)">
+                <path d="M0,2.27373675e-13 L0,33 L114.5,33 L229,33 L229,2.27373675e-13 M115.5,33 L115.5,85" id="Combined-Shape" stroke="#0087FF" stroke-width="3"></path>
+                <g id="account-number" transform="translate(64.000000, 96.000000)" fill="#3F3F3F" fill-rule="nonzero" font-size="30" font-weight="normal">
+                    <text id="account">
+                        <tspan x="0" y="29">account</tspan>
+                    </text>
+                    <text id="number">
+                        <tspan x="0" y="63">number</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

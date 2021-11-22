@@ -1,12 +1,24 @@
 import React from 'react';
+import FormFooter from 'platform/forms/components/FormFooter';
 
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
+import OrientationWizardContainer from './OrientationWizardContainer';
+import { WIZARD_STATUS } from '../constants';
 
-export default function App({ location, children }) {
+function App() {
+  const wizardStateHandler = status => {
+    sessionStorage.setItem(WIZARD_STATUS, status);
+  };
+  const content = (
+    <OrientationWizardContainer wizardStateHandler={wizardStateHandler} />
+  );
+
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    <>
+      {content}
+      <FormFooter formConfig={formConfig} />
+    </>
   );
 }
+
+export default App;

@@ -16,6 +16,7 @@ import {
   LETTER_TYPES,
   UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
   INVALID_ADDRESS_PROPERTY,
+  LETTER_HAS_EMPTY_ADDRESS,
 } from '../utils/constants';
 
 export function getLetterList(dispatch) {
@@ -185,3 +186,7 @@ export function updateBenefitSummaryRequestOption(propertyPath, value) {
     value,
   };
 }
+
+export const profileHasEmptyAddress = () => ({
+  type: LETTER_HAS_EMPTY_ADDRESS,
+});

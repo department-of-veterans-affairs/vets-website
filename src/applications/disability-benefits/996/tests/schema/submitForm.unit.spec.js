@@ -1,69 +1,58 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import localStorage from 'platform/utilities/storage/localStorage';
-
 import formConfig from '../../config/form';
+import maximalTestV1 from '../fixtures/data/maximal-test-v1.json';
+import maximalTestV2 from '../fixtures/data/maximal-test-v2.json';
 
-const getFormData = (sameOffice, informalConference) => ({
-  data: {
-    sameOffice,
-    informalConference,
-    informalConferenceTimes: [],
-  },
+import submitForm, { buildEventData } from '../../config/submitForm';
+
+describe('HLR submit event data', () => {
+  it('should build submit event data', () => {
+    expect(
+      buildEventData({ sameOffice: true, informalConference: 'no' }),
+    ).to.deep.equal({
+      'decision-reviews-same-office-to-review': 'yes',
+      'decision-reviews-informalConf': 'no',
+    });
+    expect(
+      buildEventData({ sameOffice: false, informalConference: 'rep' }),
+    ).to.deep.equal({
+      'decision-reviews-same-office-to-review': 'no',
+      'decision-reviews-informalConf': 'yes-with-rep',
+    });
+    expect(
+      buildEventData({ sameOffice: false, informalConference: 'yes' }),
+    ).to.deep.equal({
+      'decision-reviews-same-office-to-review': 'no',
+      'decision-reviews-informalConf': 'yes',
+    });
+  });
 });
 
-const getEvent = (result, office, conf) => ({
-  event: `${formConfig.trackingPrefix}-submission${result}`,
-  'decision-reviews-differentOffice': office,
-  'decision-reviews-informalConf': conf,
-});
+describe('submitForm', () => {
+  let xhr;
+  let requests;
 
-describe('HLR submit form', () => {
-  it('should record a submission attempt & failed attempt', done => {
-    const config = {
-      ...formConfig,
-      submitUrl: '', // something that will always fail
-    };
-    formConfig.submit(getFormData(false, 'no'), config).finally(() => {
-      expect(global.window.dataLayer[0]).to.deep.equal(
-        getEvent('', 'no', 'no'),
-      );
-      expect(global.window.dataLayer[1]).to.deep.equal(
-        getEvent('-failure', 'no', 'no'),
-      );
-      done();
-    });
+  beforeEach(() => {
+    xhr = sinon.useFakeXMLHttpRequest();
+    requests = [];
+    xhr.onCreate = createdXhr => requests.push(createdXhr);
   });
-  it('should record a submission attempt & failed attempt with different data', done => {
-    const config = {
-      ...formConfig,
-      submitUrl: '', // something that will always fail
-    };
-    formConfig.submit(getFormData(true, 'yes'), config).finally(() => {
-      expect(global.window.dataLayer[0]).to.deep.equal(
-        getEvent('', 'yes', 'yes'),
-      );
-      expect(global.window.dataLayer[1]).to.deep.equal(
-        getEvent('-failure', 'yes', 'yes'),
-      );
-      done();
-    });
+
+  afterEach(() => {
+    global.XMLHttpRequest = window.XMLHttpRequest;
+    xhr.restore();
   });
-  it('should record a submission attempt & failed attempt with different data', done => {
-    const config = {
-      ...formConfig,
-      submitUrl: '', // something that will always fail
-    };
-    formConfig.submit(getFormData(true, 'rep'), config).finally(() => {
-      expect(global.window.dataLayer[0]).to.deep.equal(
-        getEvent('', 'yes', 'yes-with-rep'),
-      );
-      expect(global.window.dataLayer[1]).to.deep.equal(
-        getEvent('-failure', 'yes', 'yes-with-rep'),
-      );
-      done();
-    });
+
+  it('should use v0 endpoint', done => {
+    submitForm(maximalTestV1, formConfig);
+    expect(requests[0].url).to.contain('/v0/higher_level_reviews');
+    done();
   });
-  // TODO: Test successful XMLHttpRequest
+  it('should use v1 endpoint', done => {
+    submitForm(maximalTestV2, formConfig);
+    expect(requests[0].url).to.contain('/v1/higher_level_reviews');
+    done();
+  });
 });

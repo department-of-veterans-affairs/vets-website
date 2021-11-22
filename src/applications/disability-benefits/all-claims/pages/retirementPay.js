@@ -7,7 +7,7 @@ const {
 
 export const uiSchema = {
   'view:hasMilitaryRetiredPay': {
-    'ui:title': 'Have you received military retired pay at any time?',
+    'ui:title': 'Have you ever received military retirement pay?',
     'ui:widget': 'yesNo',
     'ui:options': {},
   },

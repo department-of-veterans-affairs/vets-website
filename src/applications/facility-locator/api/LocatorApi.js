@@ -1,4 +1,4 @@
-import { api, resolveParamsWithUrl } from '../config';
+import { getAPI, resolveParamsWithUrl } from '../config';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 
 class LocatorApi {
@@ -21,18 +21,42 @@ class LocatorApi {
     locationType,
     serviceType,
     page,
+    center,
+    radius,
+    allUrgentCare,
   ) {
-    const { params, url } = resolveParamsWithUrl(
+    const reduxStore = require('../facility-locator-entry');
+    const { params, url } = resolveParamsWithUrl({
       address,
       locationType,
       serviceType,
       page,
       bounds,
-    );
+      center,
+      radius,
+      allUrgentCare,
+      reduxStore,
+    });
 
+    const api = getAPI();
+    const startTime = new Date().getTime();
     return new Promise((resolve, reject) => {
       fetch(`${url}?${params}`, api.settings)
-        .then(res => res.json())
+        .then(response => {
+          if (!response.ok) {
+            throw Error(response.statusText);
+          }
+          return response.json();
+        })
+        .then(res => {
+          const endTime = new Date().getTime();
+          const resultTime = endTime - startTime;
+          res.meta = {
+            ...res.meta,
+            resultTime,
+          };
+          return res;
+        })
         .then(data => resolve(data), error => reject(error));
     });
   }
@@ -43,6 +67,7 @@ class LocatorApi {
    * @param {string} id The ID of the Facility
    */
   static fetchVAFacility(id) {
+    const api = getAPI();
     const url = `${api.url}/${id}`;
 
     return new Promise((resolve, reject) => {
@@ -58,6 +83,7 @@ class LocatorApi {
    * @param {string} id The ID of the CC Provider
    */
   static fetchProviderDetail(id) {
+    const api = getAPI();
     const url = `${api.baseUrl}/ccp/${id}`;
 
     return new Promise((resolve, reject) => {
@@ -71,6 +97,7 @@ class LocatorApi {
    * Get all known specialties available from all CC Providers.
    */
   static getProviderSpecialties() {
+    const api = getAPI();
     const url = `${api.baseUrl}/ccp/specialties`;
     return new Promise((resolve, reject) => {
       fetch(url, api.settings)

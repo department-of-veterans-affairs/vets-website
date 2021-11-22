@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { object } from 'prop-types';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { vetCenterServices } from '../config';
 import { formatServiceName } from '../utils/formatServiceName';
 import { FacilityType } from '../constants';
@@ -37,7 +37,7 @@ class ServicesAtFacility extends Component {
 
   renderVetCenterServices() {
     return (
-      <div className="mb2">
+      <div className="vads-u-margin-bottom--4">
         <ul>
           {vetCenterServices.map(s => (
             <li key={s}>{s}</li>
@@ -70,7 +70,7 @@ class ServicesAtFacility extends Component {
      * v1  - services.benefits
      */
     return (
-      <div className="mb2">
+      <div className="vads-u-margin-bottom--4">
         <ul>
           {(services.benefits.standard &&
             services.benefits.standard.map(s => this.renderService(s))) ||
@@ -103,7 +103,7 @@ class ServicesAtFacility extends Component {
           <strong>{moment(services.last_updated).format('LL')}</strong>
         </p>
 
-        <div className="mb2">
+        <div className="vads-u-margin-bottom--4">
           <AlertBox
             isVisible
             status="warning"
@@ -112,7 +112,7 @@ class ServicesAtFacility extends Component {
           />
         </div>
 
-        <div className="mb2">
+        <div className="vads-u-margin-bottom--4">
           <ul>
             {services.health.map(
               s =>

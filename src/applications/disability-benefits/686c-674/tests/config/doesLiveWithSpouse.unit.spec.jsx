@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { changeDropdown } from '../helpers/index.js';
+import { changeDropdown } from 'platform/testing/unit/helpers';
 import {
   DefinitionTester,
   fillData,
@@ -32,7 +32,7 @@ describe('686 current marriage co-habitation status', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('input').length).to.equal(4);
     form.unmount();
   });
 

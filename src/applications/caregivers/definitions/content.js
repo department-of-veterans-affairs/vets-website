@@ -1,17 +1,9 @@
+import React from 'react';
+
 export const links = {
   findLocations: {
     label: 'Find locations with our facility locator tool',
     link: 'https://www.va.gov/find-locations',
-  },
-  caregiverDefinition: {
-    label: '38 U.S.C. §1720G(a)(7)(A);',
-    link:
-      'https://www.govinfo.gov/content/pkg/USCODE-2011-title38/pdf/USCODE-2011-title38-partII-chap17-subchapII-sec1720G.pdf',
-  },
-  familyCaregiver: {
-    label: '38 C.F.R. §71.25.',
-    link:
-      'https://www.govinfo.gov/content/pkg/CFR-2014-title38-vol2/pdf/CFR-2014-title38-vol2-sec71-25.pdf',
   },
   caregiverSupportCoordinators: {
     link: 'https://www.caregiver.va.gov/support/New_CSC_Page.asp',
@@ -23,13 +15,84 @@ export const links = {
   },
   caregiverHelpPage: {
     link: 'https://www.caregiver.va.gov/',
+    label: 'www.caregiver.va.gov',
   },
   applyVAHealthCare: {
     link: 'https://www.va.gov/health-care/how-to-apply/',
     label: 'Application for Health Benefits',
   },
-  getHelpFillingApplication: {
-    link: 'https://www.va.gov/disability/get-help-filing-claim/',
-    label: 'Get help filing out your application',
+  privacyPolicy: {
+    link: 'https://www.va.gov/privacy-policy/',
   },
+};
+
+export const veteranLabel = `Veteran\u2019s`;
+export const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
+export const representativeLabel = `Representative\u2019s`;
+export const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
+export const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
+export const secondaryOneHeaderInfo =
+  'Please complete the following information about the Secondary Family Caregiver.';
+export const secondaryTwoHeaderInfo =
+  'Please complete the following information about the Secondary Family Caregiver (2).';
+
+export const veteranSignatureContent = [
+  'I certify that I give consent to the individual(s) named in this application to perform personal care services for me upon being approved as Primary and/or Secondary Family Caregivers in the Program of Comprehensive Assistance for Family Caregivers.',
+];
+
+export const primaryCaregiverContent = [
+  'I certify that I am at least 18 years of age.',
+  'I certify that either: (1) I am a member of the Veteran\u2019s family (including a parent, spouse, a son or daughter, a step-family member, or an extended family member) OR (2) I am not a member of the Veteran\u2019s family, and I reside with the Veteran full-time or will do so upon designation as the Veteran\u2019s Primary Family Caregiver.',
+  'I agree to perform personal care services as the Primary Family Caregiver for the Veteran named on this application.',
+  'I understand that the Veteran or the Veteran\u2019s surrogate may request my discharge from the Program of Comprehensive Assistance for Family Caregivers (PCAFC) at any time and that my designation as a Primary Family Caregiver may be revoked or I may be discharged from PCAFC by the Secretary of Veterans Affairs (or designee) as set forth in 38 CFR 71.45.',
+  'I understand that participation in the PCAFC does not create an employment relationship between me and the Department of Veterans Affairs.',
+];
+export const secondaryCaregiverContent = [
+  'I certify that I am at least 18 years of age.',
+  'I certify that either: (1) I am a member of the Veteran\u2019s family (including a parent, spouse, a son or daughter, a step-family member, or an extended family member) OR (2) I am not a member of the Veteran\u2019s family, and I reside with the Veteran full-time or will do so upon designation as the Veteran\u2019s Secondary Family Caregiver.',
+  'I agree to perform personal care services as the Secondary Family Caregiver for the Veteran named on this application.',
+  'I understand that the Veteran or the Veteran\u2019s surrogate may request my discharge from the Program of Comprehensive Assistance for Family Caregivers (PCAFC) at any time and that my designation as a Secondary Family Caregiver may be revoked or I may be discharged from PCAFC by the Secretary of Veterans Affairs (or designee) as set forth in 38 CFR 71.45.',
+  'I understand that participation in the PCAFC does not create an employment relationship between me and the Department of Veterans Affairs.',
+];
+
+export const representativeSignatureContent = [
+  'Signed by the Veteran’s legal representative on behalf of the Veteran.',
+  'I certify that I give consent to the individual(s) named in this application to perform personal care services for me (or if the Veteran’s Representative, the Veteran) upon being approved as a Primary and/or Secondary Family Caregiver(s) in the Program of Comprehensive Assistance for Family Caregivers.',
+];
+
+export const signatureBoxNoteContent =
+  'According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or providing incorrect information. (See 18 U.S.C. 1001)';
+
+export const PrivacyPolicy = () => (
+  <p>
+    I have read and accept the
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      className="vads-u-margin-left--0p5"
+      href={links.privacyPolicy.link}
+    >
+      privacy policy
+    </a>
+    .
+  </p>
+);
+
+export const SecondaryCaregiverCopy = ({ label }) => {
+  const header = title => `${title} statement of truth`;
+  const firstParagraph = secondaryCaregiverContent[0];
+  const contentWithoutFirstParagraph = secondaryCaregiverContent.slice(1);
+
+  return (
+    <div>
+      <h3 className="vads-u-margin-top--4">{header(label)}</h3>
+
+      <p className="vads-u-margin-y--4">{firstParagraph}</p>
+
+      {contentWithoutFirstParagraph.map((secondaryContent, idx) => {
+        return <p key={`${label}-${idx}`}>{secondaryContent}</p>;
+      })}
+      <PrivacyPolicy />
+    </div>
+  );
 };

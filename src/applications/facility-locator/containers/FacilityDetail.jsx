@@ -1,31 +1,28 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { fetchVAFacility } from '../actions';
-import { focusElement } from 'platform/utilities/ui';
 import AccessToCare from '../components/AccessToCare';
-import LocationAddress from '../components/search-results/LocationAddress';
-import LocationDirectionsLink from '../components/search-results/LocationDirectionsLink';
+import LocationAddress from '../components/search-results-items/common/LocationAddress';
+import LocationDirectionsLink from '../components/search-results-items/common/LocationDirectionsLink';
 import LocationHours from '../components/LocationHours';
 import LocationMap from '../components/LocationMap';
-import LocationPhoneLink from '../components/search-results/LocationPhoneLink';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LocationPhoneLink from '../components/search-results-items/common/LocationPhoneLink';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
-import FacilityTypeDescription from '../components/FacilityTypeDescription';
 import { OperatingStatus, FacilityType } from '../constants';
 import VABenefitsCall from '../components/VABenefitsCall';
+import { facilityLocatorShowOperationalHoursSpecialInstructions } from '../utils/featureFlagSelectors';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 class FacilityDetail extends Component {
+  headerRef = React.createRef();
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     this.props.fetchVAFacility(this.props.params.id, null);
-    window.scrollTo(0, 0);
-  }
-
-  componentDidMount() {
-    focusElement('.va-nav-breadcrumbs');
+    scrollTo(0);
   }
 
   componentDidUpdate(prevProps) {
@@ -37,6 +34,9 @@ class FacilityDetail extends Component {
       document.title = `${
         this.props.facility.attributes.name
       } | Veterans Affairs`;
+
+      // Need to wait until the data is loaded to focus
+      this.headerRef.current.focus();
     }
   }
 
@@ -73,7 +73,7 @@ class FacilityDetail extends Component {
     }
     if (operatingStatus.code === OperatingStatus.LIMITED) {
       operationStatusTitle = 'Limited services and hours';
-      alertClass = 'warning';
+      alertClass = 'info';
     }
     if (operatingStatus.code === OperatingStatus.CLOSED) {
       operationStatusTitle = 'Facility Closed';
@@ -111,10 +111,11 @@ class FacilityDetail extends Component {
     const isVBA = facilityType === FacilityType.VA_BENEFITS_FACILITY;
     return (
       <div>
-        <h1>{name}</h1>
+        <h1 ref={this.headerRef} tabIndex={-1}>
+          {name}
+        </h1>
         {this.showOperationStatus(operatingStatus, website, facilityType)}
         <div className="p1">
-          <FacilityTypeDescription from="FacilityDetail" location={facility} />
           <LocationAddress location={facility} />
         </div>
         <div>
@@ -146,7 +147,7 @@ class FacilityDetail extends Component {
   }
 
   render() {
-    const { facility, currentQuery } = this.props;
+    const { facility, currentQuery, showHoursSpecialInstructions } = this.props;
 
     if (!facility) {
       return null;
@@ -164,7 +165,7 @@ class FacilityDetail extends Component {
     }
 
     return (
-      <div className="row facility-detail all-details">
+      <div className="row facility-detail all-details" id="facility-detail-id">
         <div className="usa-width-two-thirds medium-8 columns">
           <div>
             {this.renderFacilityInfo()}
@@ -178,8 +179,11 @@ class FacilityDetail extends Component {
         <div className="usa-width-one-third medium-4 columns">
           <div>
             <LocationMap info={facility} />
-            <div className="mb2">
-              <LocationHours location={facility} />
+            <div className="vads-u-margin-bottom--4">
+              <LocationHours
+                location={facility}
+                showHoursSpecialInstructions={showHoursSpecialInstructions}
+              />
             </div>
           </div>
         </div>
@@ -196,6 +200,9 @@ function mapStateToProps(state) {
   return {
     facility: state.searchResult.selectedResult,
     currentQuery: state.searchQuery,
+    showHoursSpecialInstructions: facilityLocatorShowOperationalHoursSpecialInstructions(
+      state,
+    ),
   };
 }
 

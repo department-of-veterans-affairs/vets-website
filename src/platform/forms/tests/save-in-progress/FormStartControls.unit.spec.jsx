@@ -7,9 +7,12 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import { getFormDOM } from '../../../testing/unit/schemaform-utils';
 import { FormStartControls } from '../../save-in-progress/FormStartControls';
+import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
 describe('Schemaform <FormStartControls>', () => {
   const startPage = 'testing';
+  const wizardStorageKey = 'testKey';
+  const restartDestination = '/test-page';
   const oldDataLayer = global.window.dataLayer;
   let defaultRoutes;
 
@@ -18,6 +21,7 @@ describe('Schemaform <FormStartControls>', () => {
       'dummyProp',
       {
         formConfig: {
+          wizardStorageKey,
           customText: {
             startNewAppButtonText: '',
             continueAppButtonText: '',
@@ -29,6 +33,7 @@ describe('Schemaform <FormStartControls>', () => {
 
   afterEach(() => {
     global.window.dataLayer = oldDataLayer;
+    global.window.sessionStorage.removeItem(wizardStorageKey);
   });
 
   it('should render 1 button when not logged in', () => {
@@ -189,7 +194,7 @@ describe('Schemaform <FormStartControls>', () => {
         router={routerSpy}
         fetchInProgressForm={fetchSpy}
         prefillAvailable
-        routes={defaultRoutes}
+        routes={[{}, { formConfig: { wizardStorageKey } }]}
       />,
     );
     const formDOM = getFormDOM(tree);
@@ -224,6 +229,47 @@ describe('Schemaform <FormStartControls>', () => {
 
     expect(fetchSpy.called).to.be.true;
     expect(formDOM.querySelector('.va-modal-body')).to.be.null;
+  });
+
+  it('should show modal and remove form when starting over', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    const fetchSpy = sinon.spy();
+    const tree = ReactTestUtils.renderIntoDocument(
+      <FormStartControls
+        formId="1010ez"
+        migrations={[]}
+        router={routerSpy}
+        formSaved
+        removeInProgressForm={fetchSpy}
+        prefillAvailable
+        routes={[
+          {},
+          {
+            formConfig: {
+              wizardStorageKey,
+              saveInProgress: {
+                restartFormCallback: () => restartDestination,
+              },
+            },
+          },
+        ]}
+      />,
+    );
+    const formDOM = getFormDOM(tree);
+    document.body.appendChild(formDOM);
+    formDOM.click('.usa-button-secondary');
+
+    expect(formDOM.querySelector('.va-modal-body')).to.not.be.null;
+
+    formDOM.click('.va-modal-body .usa-button-primary');
+
+    expect(fetchSpy.called).to.be.true;
+    expect(formDOM.querySelector('.va-modal-body')).to.be.null;
+    expect(global.window.sessionStorage.getItem(wizardStorageKey)).to.equal(
+      WIZARD_STATUS_RESTARTING,
+    );
   });
 
   it('should not capture analytics events when starting the form if the `gaStartEventName` prop is explicitly removed', () => {
@@ -305,6 +351,33 @@ describe('Schemaform <FormStartControls>', () => {
     ]);
   });
 
+  it('should render the action link', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    const fetchSpy = sinon.spy();
+    const tree = ReactTestUtils.renderIntoDocument(
+      <FormStartControls
+        testActionLink
+        formId="1010ez"
+        migrations={[]}
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}
+        prefillAvailable
+        routes={[{}, { formConfig: { wizardStorageKey } }]}
+        ariaLabel="test aria-label"
+        ariaDescribedby="test-id"
+      />,
+    );
+    const formDOM = getFormDOM(tree);
+
+    expect(formDOM.className).to.contain('vads-c-action-link--green');
+    expect(formDOM.textContent).to.eq('Get Started');
+    expect(formDOM.getAttribute('aria-label')).to.eq('test aria-label');
+    expect(formDOM.getAttribute('aria-describedby')).to.eq('test-id');
+  });
+
   it('should display the startNewAppButtonText', () => {
     const routerSpy = {
       push: sinon.spy(),
@@ -370,5 +443,58 @@ describe('Schemaform <FormStartControls>', () => {
     expect(
       tree.dive(['ProgressButton', '.usa-button-primary']).text(),
     ).to.include('A custom continue app message');
+  });
+
+  it('should include aria-label & aria-describedby on sign in button', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    const fetchSpy = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <FormStartControls
+        formId="1010ez"
+        migrations={[]}
+        formSaved={false}
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}
+        routes={defaultRoutes}
+        ariaLabel="test aria-label"
+        ariaDescribedby="test-id"
+      />,
+    );
+
+    const button = tree.everySubTree('ProgressButton');
+    expect(button.length).to.equal(1);
+    expect(button[0].props.ariaLabel).to.eq('test aria-label');
+    expect(button[0].props.ariaDescribedby).to.eq('test-id');
+  });
+  it('should include aria-label & aria-describedby on all buttons when logged in with a saved form', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    const fetchSpy = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <FormStartControls
+        formId="1010ez"
+        migrations={[]}
+        formSaved
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}
+        routes={defaultRoutes}
+        ariaLabel="test aria-label"
+        ariaDescribedby="test-id"
+      />,
+    );
+
+    const buttons = tree.everySubTree('ProgressButton');
+    expect(buttons.length).to.equal(4);
+
+    // Modal buttons = last 2, do not include these aria-attributes
+    expect(buttons[0].props.ariaLabel).to.eq('test aria-label');
+    expect(buttons[0].props.ariaDescribedby).to.eq('test-id');
+    expect(buttons[1].props.ariaLabel).to.eq('test aria-label');
+    expect(buttons[1].props.ariaDescribedby).to.eq('test-id');
   });
 });

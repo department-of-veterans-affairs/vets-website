@@ -1,10 +1,10 @@
-import _ from 'lodash/fp';
+import set from 'platform/utilities/data/set';
 
 import AdditionalSourcesField from '../components/AdditionalSourcesField';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 export function additionalSourcesSchema(schema) {
-  return _.set(
+  return set(
     'items.required',
     ['name', 'amount'],
     schema.definitions.additionalSources,

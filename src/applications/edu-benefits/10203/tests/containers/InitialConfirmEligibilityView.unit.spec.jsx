@@ -12,7 +12,10 @@ const createStore = (data = {}) =>
       data: {
         'view:benefit': { chapter33: true },
         isEnrolledStem: true,
-        isPursuingTeachingCert: false,
+        'view:teachingCertClinicalTraining': {
+          isPursuingTeachingCert: false,
+          isPursuingClinicalTraining: false,
+        },
         benefitLeft: 'none',
         ...data,
       },
@@ -37,6 +40,16 @@ describe('<InitialConfirmEligibilityView>', () => {
       </Provider>,
     );
     expect(tree).to.not.be.undefined;
+    tree.unmount();
+  });
+
+  it('should render ExitApplicationButton', () => {
+    const tree = mount(
+      <Provider store={defaultStore}>
+        <InitialConfirmEligibilityView {...defaultProps} />
+      </Provider>,
+    );
+    expect(tree.find('ExitApplicationButton')).to.not.be.undefined;
     tree.unmount();
   });
 });

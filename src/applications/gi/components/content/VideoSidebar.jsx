@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AdditionalResourcesLinks } from './AdditionalResources';
+import { AdditionalResourcesLinks } from './AdditionalResourcesLinks';
 
 function VideoSidebar() {
   return (

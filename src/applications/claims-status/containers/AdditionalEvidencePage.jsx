@@ -3,11 +3,13 @@ import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import AddFilesForm from '../components/AddFilesForm';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
-import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
+import { setPageFocus, setUpPage } from '../utils/page';
 import { getScrollOptions } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 import {
   addFile,
@@ -24,7 +26,7 @@ import {
 
 const scrollToError = () => {
   const options = getScrollOptions({ offset: -25 });
-  Scroll.scroller.scrollTo('uploadError', options);
+  scrollTo('uploadError', options);
 };
 const Element = Scroll.Element;
 

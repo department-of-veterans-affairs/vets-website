@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { get, some, pull, startCase } from 'lodash';
-import classNames from 'classnames';
+import { get, some, pull } from 'lodash';
 import moment from 'moment';
-import recordEvent from 'platform/monitoring/record-event';
 
 import { formatServiceName } from '../utils/formatServiceName';
 
@@ -136,7 +134,7 @@ export default class AppointmentInfo extends Component {
     };
 
     return (
-      <div className="mb2">
+      <div className="vads-u-margin-bottom--4">
         <h4 className="highlight">Appointments</h4>
         <p>
           Current as of{' '}
@@ -147,7 +145,7 @@ export default class AppointmentInfo extends Component {
           </strong>
         </p>
         {this.anyWaitTimes(healthAccessAttrs, 'new') && (
-          <div className="mb2">
+          <div className="vads-u-margin-bottom--4">
             <h4>New patient wait times</h4>
             <p>
               The average number of days a Veteran who hasn’t been to this
@@ -160,7 +158,7 @@ export default class AppointmentInfo extends Component {
           </div>
         )}
         {this.anyWaitTimes(healthAccessAttrs, 'established') && (
-          <div className="mb2">
+          <div className="vads-u-margin-bottom--4">
             <h4>Existing patient wait times</h4>
             <p>
               The average number of days a patient who has already been to this

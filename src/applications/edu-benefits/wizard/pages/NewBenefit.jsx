@@ -1,5 +1,5 @@
 import React from 'react';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { pageNames } from './pageList';
 import { formIdSuffixes } from 'applications/static-pages/wizard/';
 
@@ -30,7 +30,7 @@ const NewBenefit = ({
   state = {},
   setReferredBenefit,
 }) => (
-  <ErrorableRadioButtons
+  <RadioButtons
     name={`${pageNames.newBenefit}`}
     label="Are you applying for a benefit or updating your program or place of training?"
     id={`${pageNames.newBenefit}`}

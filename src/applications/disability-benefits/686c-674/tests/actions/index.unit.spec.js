@@ -1,26 +1,14 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import {
   VERIFY_VA_FILE_NUMBER_SUCCEEDED,
   VERIFY_VA_FILE_NUMBER_FAILED,
   verifyVaFileNumber,
 } from '../../actions';
 
-let fetchMock;
-let oldFetch;
-
-const mockFetch = () => {
-  oldFetch = global.fetch;
-  fetchMock = sinon.stub();
-  global.fetch = fetchMock;
-};
-
-const unMockFetch = () => {
-  global.fetch = oldFetch;
-};
-
 describe('Verify VA file number actions: verifyVaFileNumber', () => {
-  beforeEach(mockFetch);
+  beforeEach(() => mockFetch());
 
   it('should fetch a va file number', () => {
     const verified = {
@@ -30,7 +18,7 @@ describe('Verify VA file number actions: verifyVaFileNumber', () => {
       },
     };
 
-    fetchMock.returns({
+    global.fetch.returns({
       catch: () => ({
         then: fn => fn({ ok: true, json: () => Promise.resolve(verified) }),
       }),
@@ -57,7 +45,7 @@ describe('Verify VA file number actions: verifyVaFileNumber', () => {
         },
       ],
     };
-    fetchMock.returns({
+    global.fetch.returns({
       catch: () => ({
         then: fn => fn({ ok: true, json: () => Promise.resolve(response) }),
       }),
@@ -74,5 +62,4 @@ describe('Verify VA file number actions: verifyVaFileNumber', () => {
     };
     thunk(dispatch);
   });
-  afterEach(unMockFetch);
 });

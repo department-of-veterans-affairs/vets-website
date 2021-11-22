@@ -1,11 +1,21 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
+import { useHistory } from 'react-router-dom';
+import { useQueryParams } from '../../utils/helpers';
 
-function PreviewBanner({ version, onViewLiveVersion, toolUrl = '/gids' }) {
+function PreviewBanner({ version, toolUrl = '/gids' }) {
   const when = moment(version.createdAt).format(
     'MMM D, YYYY [at] h:mm a [EST]',
   );
+
+  const history = useHistory();
+  const queryParams = useQueryParams();
+
+  const onViewLiveVersion = () => {
+    queryParams.delete('version');
+    history.push(queryParams.toString());
+  };
 
   return (
     <div className="gi-preview-banner">
@@ -35,8 +45,7 @@ function PreviewBanner({ version, onViewLiveVersion, toolUrl = '/gids' }) {
 
 PreviewBanner.propTypes = {
   version: PropTypes.object.isRequired,
-  toolUrl: PropTypes.string.isRequired,
-  onViewLiveVersion: PropTypes.func.isRequired,
+  toolUrl: PropTypes.string,
 };
 
 export default PreviewBanner;

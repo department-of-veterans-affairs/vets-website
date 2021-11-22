@@ -1,10 +1,11 @@
 import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/formation-react/OMBInfo';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from '../content/SaveInProgressIntro';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { connect } from 'react-redux';
-
 import { getRemainingEntitlement } from '../actions/post-911-gib-status';
 
 export class IntroductionPage extends React.Component {
@@ -18,36 +19,33 @@ export class IntroductionPage extends React.Component {
     return totalDays > 180;
   };
 
-  entitlementRemainingAlert() {
+  loginPrompt() {
     if (this.props.isLoggedIn) {
-      if (this.moreThanSixMonths(this.props?.remainingEntitlement)) {
+      if (
+        this.props.useEvss &&
+        this.moreThanSixMonths(this.props?.remainingEntitlement)
+      ) {
         return (
           <div
             id="entitlement-remaining-alert"
             className="usa-alert usa-alert-warning schemaform-sip-alert"
           >
             <div className="usa-alert-body">
-              <h3 className="usa-alert-heading">
-                It appears you're not eligible
-              </h3>
+              <h3 className="usa-alert-heading">You may not be eligible</h3>
               <div className="usa-alert-text">
                 <p>
-                  To be eligible for the Rogers STEM Scholarship, you must have
-                  less than 6 months of Post-9/11 GI Bill benefits left when you
-                  submit your application.
+                  You must have less than 6 months left of Post-9/11 GI Bill
+                  benefits when you submit your application.
                 </p>
                 <p>
-                  Our entitlement system shows you have the following benefits
-                  remaining:{' '}
+                  Our system shows you have{' '}
                   <strong>
                     {this.props?.remainingEntitlement.months} months,{' '}
-                    {this.props?.remainingEntitlement.days} days
+                    {this.props?.remainingEntitlement.days} days{' '}
                   </strong>
+                  remaining of GI Bill benefits.
                 </p>
-                <p>
-                  If you apply and you’re not eligible, your application will be
-                  denied.
-                </p>
+                <p>If you apply now, your application will be denied.</p>
               </div>
             </div>
           </div>
@@ -63,6 +61,8 @@ export class IntroductionPage extends React.Component {
         messages={this.props.route.formConfig.savedFormMessages}
         pageList={this.props.route.pageList}
         startText="Sign in or create an account"
+        unauthStartText="Sign in or create an account"
+        hideUnauthedStartLink
       />
     );
   }
@@ -79,7 +79,7 @@ export class IntroductionPage extends React.Component {
           Equal to VA Form 22-10203 (Application for Edith Nourse Rogers STEM
           Scholarship).
         </p>
-        {this.entitlementRemainingAlert()}
+        {this.loginPrompt()}
         <h4>Follow the steps below to apply for this scholarship</h4>
         <div className="process schemaform-process">
           <ol>
@@ -90,13 +90,13 @@ export class IntroductionPage extends React.Component {
               itemType="http://schema.org/HowToSection"
             >
               <div itemProp="name">
-                <h5>Determine eligibility</h5>
+                <h5>Determine your eligibility</h5>
               </div>
               <div itemProp="itemListElement">
                 <div className="vads-u-font-weight--bold">
                   <p>
                     To be eligible for the{' '}
-                    <a href="https://benefits.va.gov/gibill/fgib/stem.asp">
+                    <a href="/education/other-va-education-benefits/stem-scholarship/">
                       Edith Nourse Rogers STEM Scholarship
                     </a>
                     , you must meet all the requirements below.
@@ -108,18 +108,37 @@ export class IntroductionPage extends React.Component {
                     Post-9/11 GI Bill or Fry Scholarship benefits.
                   </li>
                   <li>
-                    <b>STEM degree:</b> You're enrolled in a bachelor’s degree
-                    program for science, technology, engineering, or math
-                    (STEM), <b>or</b> have already earned a STEM bachelor’s
-                    degree and are pursuing a teaching certification.{' '}
-                    <a href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf">
-                      See eligible programs
-                    </a>
+                    <b>STEM degree:</b>
+                    <ul id="circle" className="vads-u-margin-bottom--neg2">
+                      <li className="li-styling">
+                        You're enrolled in a bachelor’s degree program for
+                        science, technology, engineering, or math (STEM),{' '}
+                        <b>or</b>
+                      </li>{' '}
+                      <li className="li-styling">
+                        You've already earned a STEM bachelor’s degree and are
+                        working toward a teaching certification, <b>or</b>
+                      </li>{' '}
+                      <li className="vads-u-margin-bottom--neg2">
+                        {' '}
+                        You've already earned a STEM bachelor's or graduate
+                        degree and are pursuing a covered clinical training
+                        program for health care professionals. <br />
+                        <a
+                          aria-label="See eligible degree programs, opening in new tab"
+                          href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          See eligible degree and clinical training programs
+                        </a>
+                      </li>
+                    </ul>
                   </li>
                   <li>
                     <b>Remaining entitlement:</b> You've used all of your
-                    education benefits or are within 6 months of doing so when
-                    you submit your application.{' '}
+                    education benefits or are within 6 months of using all your
+                    benefits when you submit your application.{' '}
                     <a href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/">
                       Check your remaining benefits
                     </a>
@@ -177,14 +196,15 @@ export class IntroductionPage extends React.Component {
               </div>
               <div itemProp="itemListElement">
                 <p>
-                  We usually process claims within <b>30 days</b>. We’ll let you
-                  know by mail if we need more information.
+                  We usually decide on applications within <b>30 days</b>.
                 </p>
                 <p>
-                  We offer tools and counseling programs to help you make the
-                  most of your educational options.{' '}
-                  <a href="/education/about-gi-bill-benefits/how-to-use-benefits/">
-                    Learn about career counseling options
+                  You’ll get a Certificate of Eligibility (COE) or decision
+                  letter in the mail. If we’ve approved your application, you
+                  can bring the COE to the VA certifying official at your
+                  school.{' '}
+                  <a href="/education/after-you-apply/">
+                    Learn more about what happens after you apply
                   </a>
                 </p>
               </div>
@@ -200,8 +220,8 @@ export class IntroductionPage extends React.Component {
                 usually in the Registrar or Financial Aid office at the school.
               </p>
               <p>
-                If your application isn't approved, you’ll get a denial letter
-                in the mail.
+                If your application isn't approved, you'll get a denial letter
+                in the mail or a claim status notification by email.
               </p>
             </li>
           </ol>
@@ -212,11 +232,12 @@ export class IntroductionPage extends React.Component {
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the education application"
+          unauthStartText="Sign in or create an account"
         />
         <div
           className="omb-info--container"
           style={{ paddingLeft: '0px' }}
-          id="omb-info-container"
+          id="privacy_policy"
         >
           <OMBInfo resBurden={15} ombNumber="2900-0878" expDate="06/30/2023" />
         </div>
@@ -229,6 +250,7 @@ const mapStateToProps = state => {
   return {
     isLoggedIn: state.user.login.currentlyLoggedIn,
     remainingEntitlement: state.post911GIBStatus.remainingEntitlement,
+    useEvss: toggleValues(state)[FEATURE_FLAG_NAMES.stemSCOEmail],
   };
 };
 

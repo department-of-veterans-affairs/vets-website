@@ -1,8 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
 
+import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester,
   getFormDOM,
@@ -16,12 +18,15 @@ describe('Burials document upload', () => {
   } = formConfig.chapters.additionalInformation.pages.documentUpload;
 
   it('should render', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-      />,
+    const form = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{}}
+        />
+      </Provider>,
     );
     const formDOM = getFormDOM(form);
 
@@ -29,15 +34,17 @@ describe('Burials document upload', () => {
   });
 
   it('should render death certificate field', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{
-          burialAllowanceRequested: 'service',
-        }}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-      />,
+    const form = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{
+            burialAllowanceRequested: 'service',
+          }}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
     const formDOM = getFormDOM(form);
 
@@ -45,17 +52,19 @@ describe('Burials document upload', () => {
   });
 
   it('should render receipts field', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{
-          'view:claimedBenefits': {
-            transportation: true,
-          },
-        }}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-      />,
+    const form = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{
+            'view:claimedBenefits': {
+              transportation: true,
+            },
+          }}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
     const formDOM = getFormDOM(form);
 
@@ -63,15 +72,17 @@ describe('Burials document upload', () => {
   });
 
   it('should render DD214 warning if no tours of duty provided', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{
-          burialAllowanceRequested: 'service',
-        }}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-      />,
+    const form = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{
+            burialAllowanceRequested: 'service',
+          }}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
     const formDOM = getFormDOM(form);
 
@@ -79,16 +90,18 @@ describe('Burials document upload', () => {
   });
 
   it('should not render DD214 warning if tours of duty provided', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{
-          toursOfDuty: [{ from: '1995-05-06', to: '2005-04-05' }],
-          burialAllowanceRequested: 'service',
-        }}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-      />,
+    const form = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{
+            toursOfDuty: [{ from: '1995-05-06', to: '2005-04-05' }],
+            burialAllowanceRequested: 'service',
+          }}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
     const formDOM = getFormDOM(form);
 
@@ -97,19 +110,21 @@ describe('Burials document upload', () => {
 
   it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{
-          burialAllowanceRequested: 'service',
-          'view:claimedBenefits': {
-            transportation: true,
-          },
-        }}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+    const form = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{
+            burialAllowanceRequested: 'service',
+            'view:claimedBenefits': {
+              transportation: true,
+            },
+          }}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     const formDOM = getFormDOM(form);
@@ -122,32 +137,34 @@ describe('Burials document upload', () => {
 
   it('should submit with valid data', () => {
     const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{
-          burialAllowanceRequested: 'service',
-          'view:claimedBenefits': {
-            transportation: true,
-          },
-          deathCertificate: [
-            {
-              confirmationCode: 'testing',
+    const form = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{
+            burialAllowanceRequested: 'service',
+            'view:claimedBenefits': {
+              transportation: true,
             },
-          ],
-          transportationReceipts: [
-            {
-              confirmationCode: 'testing',
-            },
-            {
-              confirmationCode: 'testing2',
-            },
-          ],
-        }}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+            deathCertificate: [
+              {
+                confirmationCode: 'testing',
+              },
+            ],
+            transportationReceipts: [
+              {
+                confirmationCode: 'testing',
+              },
+              {
+                confirmationCode: 'testing2',
+              },
+            ],
+          }}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     const formDOM = getFormDOM(form);

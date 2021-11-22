@@ -3,7 +3,6 @@ import Checkbox from '../Checkbox';
 import PropTypes from 'prop-types';
 import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
-import environment from 'platform/utilities/environment';
 
 class CautionaryWarningsFilter extends React.Component {
   static propTypes = {
@@ -28,6 +27,7 @@ class CautionaryWarningsFilter extends React.Component {
           Warnings and school closings {this.renderProfileCautionFlagModal()}
         </p>
         <Checkbox
+          className="exclude-warnings-closings-checkbox"
           checked={this.props.excludeWarnings}
           name="excludeWarnings"
           label="Exclude results with warnings or closings"

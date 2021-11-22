@@ -1,36 +1,48 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { DISABILITY_526_V2_ROOT_URL } from 'applications/disability-benefits/all-claims/constants';
+
+import recordEvent from 'platform/monitoring/record-event';
+
 import { pageNames } from './pageList';
+import { formStartButton } from '../wizard-utils';
 
-function alertContent() {
+const FileClaimPage = ({ setWizardStatus }) => {
+  const label = 'File a disability claim online';
+  const linkText = 'Learn about other ways you can file a disability claim';
+
   return (
-    <>
-      <p>
-        Based on the information provided, you are ineligible to file a Benefits
-        Delivery at Discharge claim. Filing a BDD claim is only available{' '}
-        <b>180 to 90</b> days from separation.
+    <div
+      id={pageNames.fileClaimEarly}
+      className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2"
+    >
+      <p className="vads-u-margin-top--0">
+        Based on your separation date, you’ll file for disability benefits using{' '}
+        <strong>VA Form 21-526EZ</strong>.
       </p>
-      <p>However, you can still begin filing an original claim.</p>
-      <a
-        href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
-        className="usa-button-primary va-button-primary"
-      >
-        File a disability compensation claim
-      </a>
-    </>
+      {formStartButton({
+        setWizardStatus,
+        label,
+        ariaId: 'other_ways_to_file_526',
+        eventReason:
+          'wizard completed, starting 526 flow (less than 90 days to discharge)',
+      })}
+      <p id="other_ways_to_file_526" className="vads-u-margin-bottom--0">
+        <a
+          href="/disability/how-to-file-claim/"
+          onClick={() => {
+            recordEvent({
+              event: 'howToWizard-alert-link-click',
+              'howToWizard-alert-link-click-label': linkText,
+            });
+          }}
+        >
+          {linkText}
+        </a>
+      </p>
+    </div>
   );
-}
-
-const FileClaimEarlyPage = () => (
-  <AlertBox
-    status="warning"
-    headline="You are ineligible to file a BDD claim"
-    content={alertContent()}
-  />
-);
+};
 
 export default {
   name: pageNames.fileClaimEarly,
-  component: FileClaimEarlyPage,
+  component: FileClaimPage,
 };

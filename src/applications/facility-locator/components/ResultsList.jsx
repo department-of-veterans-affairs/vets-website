@@ -2,32 +2,45 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { facilityTypes } from '../config';
-import { MARKER_LETTERS } from '../constants';
+import {
+  MARKER_LETTERS,
+  CLINIC_URGENTCARE_SERVICE,
+  PHARMACY_RETAIL_SERVICE,
+  LocationType,
+  Error,
+  Covid19Vaccine,
+  EMERGENCY_CARE_SERVICES,
+} from '../constants';
 
-import { distBetween } from '../utils/facilityDistance';
 import { setFocus } from '../utils/helpers';
-
+import { recordSearchResultsEvents } from '../utils/analytics';
 import { updateSearchQuery, searchWithBounds } from '../actions';
 
-import SearchResult from './SearchResult';
 import DelayedRender from 'platform/utilities/ui/DelayedRender';
+import VaFacilityResult from './search-results-items/VaFacilityResult';
+import CCProviderResult from './search-results-items/CCProviderResult';
+import PharmacyResult from './search-results-items/PharmacyResult';
+import UrgentCareResult from './search-results-items/UrgentCareResult';
+import EmergencyCareResult from './search-results-items/EmergencyCareResult';
+import Covid19Result from './search-results-items/Covid19Result';
+import SearchResultMessage from './SearchResultMessage';
+import { covidVaccineSchedulingFrontend } from '../utils/featureFlagSelectors';
 
-const TIMEOUTS = new Set(['408', '504', '503']);
-
-class ResultsList extends Component {
+export class ResultsList extends Component {
   constructor(props) {
     super(props);
     this.searchResultTitle = React.createRef();
   }
+
   shouldComponentUpdate(nextProps) {
     return (
       nextProps.results !== this.props.results ||
-      nextProps.inProgress !== this.props.inProgress
+      nextProps.inProgress !== this.props.inProgress ||
+      nextProps.error !== this.props.error
     );
   }
 
@@ -37,140 +50,212 @@ class ResultsList extends Component {
     }
   }
 
+  /**
+   * Returns Result items by type
+   * @param query object
+   * @param results array list
+   * @returns [] list of results
+   */
+  renderResultItems(query, results) {
+    return results.map((result, index) => {
+      let item;
+      const services = result?.attributes?.detailedServices;
+      const walkInsAccepted = Array.isArray(services)
+        ? services[0]?.walkInsAccepted
+        : 'false';
+
+      const showHealthConnectNumber =
+        result?.attributes?.visn === '8' &&
+        query?.facilityType === 'health' &&
+        this.props.facilityLocatorShowHealthConnectNumber;
+
+      switch (query.facilityType) {
+        case 'health':
+        case 'cemetery':
+        case 'benefits':
+        case 'vet_center':
+          item =
+            query.serviceType === Covid19Vaccine ? (
+              <Covid19Result
+                location={result}
+                key={result.id}
+                index={index}
+                showCovidVaccineSchedulingLinks={
+                  this.props.showCovidVaccineSchedulingLinks
+                }
+                showCovidVaccineWalkInAvailabilityText={
+                  (walkInsAccepted || '').toLowerCase() === 'true'
+                }
+              />
+            ) : (
+              <VaFacilityResult
+                location={result}
+                query={query}
+                key={result.id}
+                index={index}
+                showHealthConnectNumber={showHealthConnectNumber}
+              />
+            );
+          break;
+        case 'provider':
+          // Support non va urgent care search through ccp option
+          if (query.serviceType === CLINIC_URGENTCARE_SERVICE) {
+            item = (
+              <UrgentCareResult
+                provider={result}
+                query={query}
+                key={result.id}
+              />
+            );
+          } else if (query.serviceType === PHARMACY_RETAIL_SERVICE) {
+            item = (
+              <PharmacyResult provider={result} query={query} key={result.id} />
+            );
+          } else if (EMERGENCY_CARE_SERVICES.includes(query.serviceType)) {
+            item = (
+              <EmergencyCareResult
+                provider={result}
+                query={query}
+                key={result.id}
+              />
+            );
+          } else {
+            item = (
+              <CCProviderResult
+                provider={result}
+                query={query}
+                key={result.id}
+              />
+            );
+          }
+          break;
+        case 'pharmacy':
+          item = (
+            <PharmacyResult provider={result} query={query} key={result.id} />
+          );
+          break;
+        case 'emergency_care':
+          if (result.type === LocationType.CC_PROVIDER) {
+            item = (
+              <EmergencyCareResult
+                provider={result}
+                query={query}
+                key={result.id}
+              />
+            );
+          } else {
+            item = (
+              <VaFacilityResult
+                location={result}
+                query={query}
+                key={result.id}
+                index={index}
+              />
+            );
+          }
+          break;
+        case 'urgent_care':
+          if (result.type === LocationType.CC_PROVIDER) {
+            item = (
+              <UrgentCareResult
+                provider={result}
+                query={query}
+                key={result.id}
+              />
+            );
+          } else {
+            item = (
+              <VaFacilityResult
+                location={result}
+                query={query}
+                key={result.id}
+                index={index}
+              />
+            );
+          }
+          break;
+        default:
+          item = null;
+      }
+
+      return item;
+    });
+  }
+
   render() {
     const {
       facilityTypeName,
       inProgress,
-      position,
       searchString,
       results,
-      error,
-      isMobile,
+      searchError,
+      pagination,
+      currentQuery,
       query,
     } = this.props;
 
+    const currentPage = pagination ? pagination.currentPage : 1;
     if (inProgress) {
       return (
         <div>
-          <LoadingIndicator
-            message={`Searching for ${facilityTypeName}
-            in ${searchString}`}
+          <va-loading-indicator
+            message={`Searching for ${facilityTypeName} in ${searchString}`}
           />
           <DelayedRender>
-            <AlertBox
-              isVisible
-              status="info"
-              headline="Please wait"
-              content="Your results should appear in less than a minute. Thank you for your patience."
-            />
+            <va-alert visible status="info">
+              <h3 slot="headline">Please wait</h3>
+              <div>
+                Your results should appear in less than a minute. Thank you for
+                your patience.
+              </div>
+            </va-alert>
           </DelayedRender>
         </div>
       );
     }
 
-    if (error) {
-      // For some reason, an error can be an HTTP response, or just a string.
-      if (Array.isArray(error)) {
-        const timedOut = error.find(err => TIMEOUTS.has(err.code));
-        if (timedOut) {
-          return (
-            <div
-              className="search-result-title facility-result"
-              ref={this.searchResultTitle}
-            >
-              <p>
-                We’re sorry. We couldn’t complete your request. We’re aware of
-                this problem, and we’re working to fix it as soon as possible.
-                Please try again later.
-              </p>
-              <p>
-                If you need care right away for a minor illness or injury,
-                select Urgent care under facility type, then select either VA or
-                community providers as the service type.
-              </p>
-              <p>
-                If you have a medical emergency, please go to your nearest
-                emergency room or call 911.
-              </p>
-            </div>
-          );
-        }
-      }
-
-      return (
-        <div
-          className="search-result-title facility-result"
-          ref={this.searchResultTitle}
-        >
-          <p>We’re sorry. We couldn’t complete your request.</p>
-          <p>
-            If you need care right away for a minor illness or injury, select
-            Urgent care under facility type, then select either VA or community
-            providers as the service type.
-          </p>
-          <p>
-            If you have a medical emergency, please go to your nearest emergency
-            room or call 911.
-          </p>
-        </div>
-      );
-    }
-
-    if (!results || results.length < 1) {
-      if (this.props.facilityTypeName === facilityTypes.provider) {
+    if (searchError) {
+      if (searchError.type === 'mapBox') {
         return (
-          <div
-            className="search-result-title facility-result"
-            ref={this.searchResultTitle}
-          >
-            We didn't find any facilities near you. <br />
-            <strong>To try again, please enter a different:</strong>
-            <ul className="vads-u-margin-y--1p5">
-              <li>
-                <strong>Search term</strong> (street, city, state, or postal
-                code), <strong>or</strong>
-              </li>
-              <li>
-                <strong>Service type</strong> (like “primary care”), and select
-                the option that best meets your needs
-              </li>
-            </ul>
-            Then click <strong>Search</strong>.
-          </div>
+          <SearchResultMessage
+            facilityType={facilityTypeName}
+            resultRef={this.searchResultTitle}
+            message={Error.LOCATION}
+          />
         );
       }
       return (
-        <div
-          className="search-result-title facility-result"
-          ref={this.searchResultTitle}
-        >
-          No facilities found. Please try entering a different search term
-          (Street, City, State or Postal code) and click search to find
-          facilities.
-        </div>
+        <SearchResultMessage
+          facilityType={facilityTypeName}
+          resultRef={this.searchResultTitle}
+          message={Error.DEFAULT}
+          error={searchError}
+        />
       );
     }
 
-    const currentLocation = position;
+    if (facilityTypeName && (!results || results.length < 1)) {
+      return (
+        <SearchResultMessage
+          facilityType={facilityTypeName}
+          resultsFound={results === 0}
+          resultRef={this.searchResultTitle}
+        />
+      );
+    } else if (!facilityTypeName || !currentQuery.facilityType) {
+      return <SearchResultMessage />;
+    }
+
     const markers = MARKER_LETTERS.values();
-    const sortedResults = results
+    const resultsData = results
       .map(result => {
-        const distance = currentLocation
-          ? distBetween(
-              currentLocation.latitude,
-              currentLocation.longitude,
-              result.attributes.lat,
-              result.attributes.long,
-            )
-          : null;
         return {
           ...result,
-          distance,
           resultItem: true,
           searchString,
+          currentPage,
         };
       })
-      .sort((resultA, resultB) => resultA.distance - resultB.distance)
       .map(result => {
         const markerText = markers.next().value;
         return {
@@ -178,28 +263,16 @@ class ResultsList extends Component {
           markerText,
         };
       });
-    return (
-      <div>
-        <div>
-          {sortedResults.map(
-            r =>
-              isMobile ? (
-                <div key={r.id} className="mobile-search-result">
-                  <SearchResult result={r} query={query} />
-                </div>
-              ) : (
-                <SearchResult key={r.id} result={r} query={query} />
-              ),
-          )}
-        </div>
-      </div>
-    );
+
+    if (resultsData.length > 0) {
+      recordSearchResultsEvents(this.props, resultsData);
+    }
+    return <div>{this.renderResultItems(query, resultsData)}</div>;
   }
 }
 
 ResultsList.propTypes = {
   results: PropTypes.array,
-  isMobile: PropTypes.bool,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -229,11 +302,16 @@ function mapStateToProps(state) {
     facilityTypeName,
     inProgress,
     results: state.searchResult.results,
-    error: state.searchResult.error,
+    searchError: state.searchResult.error,
     pagination: state.searchResult.pagination,
     position,
     searchString,
     selectedResult: state.searchResult.selectedResult,
+    resultTime: state.searchResult.resultTime,
+    showCovidVaccineSchedulingLinks: covidVaccineSchedulingFrontend(state),
+    facilityLocatorShowHealthConnectNumber: toggleValues(state)[
+      FEATURE_FLAG_NAMES.facilityLocatorShowHealthConnectNumber
+    ],
   };
 }
 

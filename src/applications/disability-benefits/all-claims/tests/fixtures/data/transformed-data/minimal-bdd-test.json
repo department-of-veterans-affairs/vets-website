@@ -5,7 +5,6 @@
         "primaryPhone": "4445551212",
         "emailAddress": "test2@test1.net"
       },
-      "servedInCombatZonePost911": false,
       "mailingAddress": {
         "country": "USA",
         "addressLine1": "123 Main",
@@ -28,13 +27,14 @@
           }
         ],
         "separationLocation": {
-          "separationLocationCode": "Fort Hood"
+          "separationLocationCode": "98283",
+          "separationLocationName": "AF Academy"
         }
       },
       "newPrimaryDisabilities": [
         {
           "cause": "NEW",
-          "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
+          "primaryDescription": "This disability is related to my military service.",
           "condition": "asthma",
           "classificationCode": "540"
         }

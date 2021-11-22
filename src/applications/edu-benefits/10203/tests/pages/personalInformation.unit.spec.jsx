@@ -24,7 +24,7 @@ describe('Edu 10203 personalInformation', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(12);
+    expect(form.find('input').length).to.equal(13);
     form.unmount();
   });
 
@@ -36,6 +36,7 @@ describe('Edu 10203 personalInformation', () => {
         onSubmit={onSubmit}
         data={{}}
         uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
       />,
     );
     const formDOM = findDOMNode(form);

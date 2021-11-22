@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
+import { render } from '@testing-library/react';
 import sinon from 'sinon';
 
 import DateWidget from '../../../src/js/widgets/DateWidget';
@@ -73,6 +74,21 @@ describe('Schemaform: DateWidget', () => {
     instance.handleBlur('day');
 
     expect(onBlur.calledOnce).to.be.true;
+  });
+  it('should be able to be disabled', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const tree = render(
+      <DateWidget disabled id="test" onChange={onChange} onBlur={onBlur} />,
+    );
+
+    const month = tree.getByLabelText('Month');
+    const day = tree.getByLabelText('Day');
+    const year = tree.getByLabelText('Year');
+
+    expect(month).to.have.attribute('disabled');
+    expect(day).to.have.attribute('disabled');
+    expect(year).to.have.attribute('disabled');
   });
   describe('Month/Year', () => {
     it('should render', () => {

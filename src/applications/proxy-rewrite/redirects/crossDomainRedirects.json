@@ -116,11 +116,6 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/compensation/agentorange-c123.asp",
-    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/c-123-aircraft/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/compensation/claims-postservice-exposures-asbestos.asp",
     "dest": "/disability/eligibility/hazardous-materials-exposure/asbestos/"
   },
@@ -536,32 +531,12 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0118.asp",
-    "dest": "/disability/compensation-rates/veteran-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/resources_comp0218.asp",
-    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/compensation/sb2019.asp",
     "dest": "/disability/compensation-rates/birth-defect-rates/"
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/compensation/sb2018.asp",
-    "dest": "/disability/compensation-rates/birth-defect-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/compensation/special_benefit_allowances_2019.asp",
-    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
-  },
-  {
-    "domain": "www.benefits.va.gov",
-    "src": "/compensation/special_benefit_allowances_2018.asp",
     "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
   },
   {
@@ -702,7 +677,7 @@
   {
     "domain": "www.benefits.va.gov",
     "src": "/gibill/reap.asp",
-    "dest": "/education/other-va-education-benefits/reap/"
+    "dest": "/education/about-gi-bill-benefits/post-9-11/"
   },
   {
     "domain": "www.benefits.va.gov",
@@ -1013,5 +988,233 @@
     "domain": "www.benefits.va.gov",
     "src": "/pension/current_protected_pension_rate_tables.asp",
     "dest": "/pension/protected-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0217.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0218.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0117.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0118.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2017.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2018.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2017.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2018.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/fgib/stem.asp",
+    "dest": "/education/other-va-education-benefits/stem-scholarship/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/agentorange-c123.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/PENSION/rates_survivor_pen18.asp",
+    "dest": "/pension/survivors-pension-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/PENSION/rates_survivor_pen17.asp",
+    "dest": "/pension/survivors-pension-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/PENSION/protected_pension_rate_tables_pen18.asp",
+    "dest": "/pension/protected-pension-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/PENSION/protected_pension_rate_tables_pen17.asp",
+    "dest": "/pension/protected-pension-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/PENSION/rates_veteran_pen18.asp",
+    "dest": "/pension/veterans-pension-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/PENSION/rates_veteran_pen17.asp",
+    "dest": "/pension/veterans-pension-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vocrehab/vre_process.asp",
+    "dest": "/careers-employment/vocational-rehabilitation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/INSURANCE/introCalc.asp",
+    "dest": "/resources/deciding-how-much-life-insurance-to-get/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/lifeins101.asp",
+    "dest": "/resources/deciding-how-much-life-insurance-to-get/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/INSURANCE/uninsurable.asp",
+    "dest": "/resources/life-insurance-if-you-have-preexisting-conditions/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/dividends_options.asp",
+    "dest": "/resources/life-insurance-dividend-payment-options/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/vrrap.asp",
+    "dest": "/education/other-va-education-benefits/veteran-rapid-retraining-assistance/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/",
+    "dest": "/altoona-health-care/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/DuBois.asp",
+    "dest": "/altoona-health-care/locations/dubois-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/Huntingdon_VA_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/altoona-health-care/locations/huntingdon-county-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/Indiana_VA_Outpatient_Clinic.asp",
+    "dest": "/altoona-health-care/locations/indiana-county-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/Johnstown.asp",
+    "dest": "/altoona-health-care/locations/johnstown-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/StateCollege.asp",
+    "dest": "/altoona-health-care/locations/state-college-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/services/covid-19-vaccines.asp",
+    "dest": "/altoona-health-care/programs/covid-19-vaccines/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/",
+    "dest": "/wilmington-health-care/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Atlantic_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/atlantic-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Cape_May_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/cape-may-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Cumberland_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/cumberland-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Kent_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/kent-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Sussex_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/sussex-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/services/covid-19-vaccines.asp",
+    "dest": "/wilmington-health-care/programs/covid-19-vaccines/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/",
+    "dest": "/wilkes-barre-health-care/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Allentown.asp",
+    "dest": "/wilkes-barre-health-care/locations/allentown-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Berwick.asp",
+    "dest": "/wilkes-barre-health-care/locations/columbia-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Bangor.asp",
+    "dest": "/wilkes-barre-health-care/locations/northampton-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Sayre.asp",
+    "dest": "/wilkes-barre-health-care/locations/sayre-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Tobyhanna.asp",
+    "dest": "/wilkes-barre-health-care/locations/tobyhanna-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Honesdale_Wayne_County.asp",
+    "dest": "/wilkes-barre-health-care/locations/wayne-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Williamsport.asp",
+    "dest": "/wilkes-barre-health-care/locations/williamsport-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/services/covid-19-vaccines.asp",
+    "dest": "/wilkes-barre-health-care/programs/covid-19-vaccines/"
   }
 ]

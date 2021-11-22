@@ -11,6 +11,21 @@ describe('VA Medical Records', () => {
     uiSchema,
   } = formConfig.chapters.supportingEvidence.pages.vaMedicalRecords;
 
+  const ratedDisabilities = [
+    {
+      name: 'Post traumatic stress disorder',
+      'view:selected': true,
+    },
+    {
+      name: 'Intervertebral disc syndrome',
+      'view:selected': true,
+    },
+    {
+      name: 'Diabetes Melitus',
+      'view:selected': true,
+    },
+  ];
+
   it('should render ', () => {
     const form = mount(
       <DefinitionTester
@@ -18,22 +33,13 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true,
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true,
-            },
-          ],
+          ratedDisabilities,
         }}
       />,
     );
 
     expect(form.find('input').length).to.equal(6);
-    expect(form.find('select').length).to.equal(4);
+    expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
 
@@ -45,16 +51,7 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true,
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true,
-            },
-          ],
+          ratedDisabilities,
           vaTreatmentFacilities: [],
         }}
         onSubmit={onSubmit}
@@ -62,8 +59,8 @@ describe('VA Medical Records', () => {
     );
 
     form.find('form').simulate('submit');
-    // Required fields: Facility name, related disability, and treatment start date
-    expect(form.find('.usa-input-error-message').length).to.equal(3);
+    // Required fields: Facility name and related disability
+    expect(form.find('.usa-input-error-message').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -76,25 +73,15 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true,
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true,
-            },
-          ],
+          ratedDisabilities,
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
               treatedDisabilityNames: {
-                'Diabetes Melitus': true,
+                diabetesmelitus: true,
               },
               treatmentDateRange: {
                 from: '2001-05-XX',
-                to: '2015-09-XX',
               },
               treatmentCenterAddress: {
                 country: 'USA',
@@ -128,25 +115,15 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true,
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true,
-            },
-          ],
+          ratedDisabilities,
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
               treatedDisabilityNames: {
-                'Diabetes Melitus': true,
+                diabetesmelitus: true,
               },
               treatmentDateRange: {
                 from: '2001-05-XX',
-                to: '2015-09-XX',
               },
               treatmentCenterAddress: {
                 country: 'USA',
@@ -157,8 +134,8 @@ describe('VA Medical Records', () => {
           ],
           serviceInformation: {
             servicePeriods: [
-              { dateRange: { from: '2012-01-12' } },
-              { dateRange: { from: '2001-05-30' } },
+              { dateRange: { from: '2012-01-12' }, serviceBranch: 'Army' },
+              { dateRange: { from: '2001-05-30' }, serviceBranch: 'Army' },
             ],
           },
         }}
@@ -180,25 +157,15 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true,
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true,
-            },
-          ],
+          ratedDisabilities,
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
               treatedDisabilityNames: {
-                'Diabetes Melitus': true,
+                diabetesmelitus: true,
               },
               treatmentDateRange: {
                 from: '2010-04-XX',
-                to: '2015-09-XX',
               },
               treatmentCenterAddress: {
                 country: 'USA',
@@ -226,25 +193,15 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true,
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true,
-            },
-          ],
+          ratedDisabilities,
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
               treatedDisabilityNames: {
-                'Diabetes Melitus': true,
+                diabetesmelitus: true,
               },
               treatmentDateRange: {
                 from: '2010-04-XX',
-                to: '2015-09-XX',
               },
               treatmentCenterAddress: {
                 country: 'USA',
@@ -272,25 +229,15 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          ratedDisabilities: [
-            {
-              name: 'Post traumatic stress disorder',
-              'view:selected': true,
-            },
-            {
-              name: 'Intervertebral disc syndrome',
-              'view:selected': true,
-            },
-          ],
+          ratedDisabilities,
           vaTreatmentFacilities: [
             {
               treatmentCenterName: 'Sommerset VA Clinic',
               treatedDisabilityNames: {
-                'Diabetes Melitus': true,
+                diabetesmelitus: true,
               },
               treatmentDateRange: {
                 from: '2010-04-XX',
-                to: '2015-09-XX',
               },
               treatmentCenterAddress: {
                 country: 'USA',

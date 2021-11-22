@@ -3,6 +3,7 @@ import { shallow } from 'enzyme';
 import {
   renderCautionAlert,
   renderSchoolClosingAlert,
+  renderStars,
 } from '../../utils/render';
 
 describe('renderSchoolClosingAlert', () => {
@@ -99,5 +100,23 @@ describe('renderCautionAlert', () => {
         .text(),
     ).to.equal(cautionFlags[1].title);
     tree.unmount();
+  });
+
+  describe('renderStars', () => {
+    it('should return null for an invalid rating', () => {
+      expect(renderStars(0)).to.equal(null);
+    });
+    it('should render 5 stars for a valid rating', () => {
+      const tree = shallow(renderStars(1.3));
+      expect(tree.find('i').length).to.equal(5);
+      tree.unmount();
+    });
+    it('should render correct type of stars', () => {
+      const tree = shallow(renderStars(3.5));
+      expect(tree.find('.fas.fa-star').length).to.equal(3);
+      expect(tree.find('.fa-star-half-alt').length).to.equal(1);
+      expect(tree.find('.far.fa-star').length).to.equal(1);
+      tree.unmount();
+    });
   });
 });

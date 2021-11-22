@@ -1,16 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '~/platform/utilities/ui';
+import { selectVAPContactInfo } from '~/platform/user/selectors';
 
 import { isAddressEmpty } from '../utils/helpers';
 import noAddressBanner from '../components/NoAddressBanner';
 
-import { TRANSACTION_CATEGORY_TYPES } from 'vet360/constants';
+import { TRANSACTION_CATEGORY_TYPES } from '@@vap-svc/constants';
 
-import Vet360InitializeID from 'vet360/containers/InitializeVet360ID';
-import Vet360PendingTransactionCategory from 'vet360/containers/Vet360PendingTransactionCategory';
-import MailingAddress from 'vet360/components/MailingAddress';
+import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
+import VAPServicePendingTransactionCategory from '@@vap-svc/containers/VAPServicePendingTransactionCategory';
+import MailingAddress from '@@vap-svc/components/MailingAddress';
 
 export class AddressSection extends React.Component {
   componentDidMount() {
@@ -30,13 +31,13 @@ export class AddressSection extends React.Component {
       <div className="step-content">
         <p>Downloaded documents will list your address as:</p>
         <div className="va-profile-wrapper">
-          <Vet360InitializeID>
-            <Vet360PendingTransactionCategory
+          <InitializeVAPServiceID>
+            <VAPServicePendingTransactionCategory
               categoryType={TRANSACTION_CATEGORY_TYPES.ADDRESS}
             >
               <MailingAddress />
-            </Vet360PendingTransactionCategory>
-          </Vet360InitializeID>
+            </VAPServicePendingTransactionCategory>
+          </InitializeVAPServiceID>
         </div>
         <p>
           When you download a letter, it will show this address. If this address
@@ -76,7 +77,7 @@ export class AddressSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    savedAddress: state.user.profile.vet360.mailingAddress,
+    savedAddress: selectVAPContactInfo(state)?.mailingAddress,
   };
 }
 

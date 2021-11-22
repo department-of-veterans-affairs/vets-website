@@ -5,8 +5,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-tabs";
 
-$color-inactive: #9b9b9b;
-
 .claim-list {
   margin-bottom: 2em;
 }
@@ -747,8 +745,8 @@ h1:focus {
       border-left-color: transparent;
 
       &::before {
-        background-color: $color-inactive;
-        color: $color-inactive;
+        background-color: $color-gray-light;
+        color: $color-gray-light;
       }
     }
   }
@@ -1204,4 +1202,17 @@ $marker-text-width: 9rem;
   margin-left: 1.4rem;
   margin-right: -0.6rem;
   font-size: 80%;
+}
+
+.stem-ad-list {
+  list-style-type: disc;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 2px;
+}
+.stem-ad-list-secondary {
+  list-style-type: "-";
+}
+.stem-ad-list-item {
+  padding-left: 14px;
 }

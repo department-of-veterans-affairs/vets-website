@@ -1,7 +1,6 @@
 $medium-phone-screen: 375px;
 /* OVERRIDE */
 .merger {
-
   // Begin new-grid override
   // Overrides some default properties with a
   // class name that makes it more clear we remove
@@ -41,8 +40,11 @@ $medium-phone-screen: 375px;
 
   #va-header-logo-menu {
     align-items: center;
+
+    @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
+      position: relative;
+    }
   }
-  $color-primary-lightest: #e1f3f8;
 
   @import "iconography";
   @import "modules/m-right-rail";
@@ -79,6 +81,7 @@ $medium-phone-screen: 375px;
     }
   }
 
+  .menu-rule,
   #menu-rule {
     border-bottom: 1px solid $color-white;
     margin-left: -0.55em;
@@ -136,12 +139,11 @@ $medium-phone-screen: 375px;
   }
 
   .va-nav-breadcrumbs-list {
-    padding-left: 0;
+    padding: 1em 0 0 0;
 
     li {
       list-style: none;
-      padding-bottom: 1em;
-      padding-top: 1em;
+      margin: 0 0 1.375em 0;
     }
   }
 
@@ -217,6 +219,7 @@ $medium-phone-screen: 375px;
       flex-direction: column;
     }
 
+    .menu-rule,
     #menu-rule {
       border-bottom: 0;
       padding-bottom: 0;
@@ -375,17 +378,18 @@ $medium-phone-screen: 375px;
     }
   }
 
-
-
+  va-accordion,
   .usa-accordion-bordered {
-    &.social, &.links {
+    &.social,
+    &.links {
       a {
         text-decoration: underline;
       }
-        .social-icon {
-          text-decoration: none;
-        }
+      .social-icon {
+        text-decoration: none;
+      }
 
+      va-accordion-item,
       .usa-accordion-content {
         h4:first-child {
           margin-top: 0px;
@@ -532,34 +536,20 @@ img[data-srcset] {
   position: relative;
 }
 
-.usa-grid > :last-child, .usa-grid-full > :last-child {
+.usa-grid > :last-child,
+.usa-grid-full > :last-child {
   &.half-em-bottom-margin {
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
   }
 }
 
 .inline-table-helper {
-  display: inline-table
-}
-
-.va-l-detail-page {
-  .usa-content {
-    p {
-      margin-top: 0
-    }
-  }
-
-  .usa-accordion-content {
-    h3 {
-      font-size: 1.7rem;
-      font-weight: 700;
-    }
-  }
+  display: inline-table;
 }
 
 .usa-accordion > ul li ul,
 .usa-accordion-bordered > ul li ul {
-    list-style: square;
+  list-style: square;
 }
 
 .no-left-button-right-radius-treatment {
@@ -583,4 +573,34 @@ img[data-srcset] {
 .clearfix-text {
   display: block;
   clear: both;
+}
+
+.va-u-outline--none:focus {
+  outline: none;
+}
+
+.image-detail {
+  width: 25%;
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+  .alt-text-container {
+    min-height: 200px;
+  }
+}
+
+.image-desc {
+  width: 50%;
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+}
+._acs._acsbadge--default {
+  background-color: $color-black !important;
+}
+
+.media-list-images {
+  @media (min-width: $small-screen) {
+    max-width: 50%;
+  }
 }

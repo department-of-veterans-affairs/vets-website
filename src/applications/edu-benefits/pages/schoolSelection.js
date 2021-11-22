@@ -1,4 +1,5 @@
-import _ from 'lodash/fp';
+import pick from 'lodash/pick';
+import get from 'platform/utilities/data/get';
 
 import * as educationProgram from '../definitions/educationProgram';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
@@ -19,11 +20,9 @@ export const schoolSelectionOptionsFor = {
       'trainingState',
       'educationalCounseling',
     ],
-    required: ['educationType'],
   },
   '1990e': {
     fields: ['educationProgram', 'educationObjective'],
-    required: ['educationType'],
   },
 };
 
@@ -34,7 +33,7 @@ export default function createSchoolSelectionPage(schema, options) {
     educationProgram: educationProgram.uiSchema,
     educationObjective: {
       'ui:title':
-        'Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)',
+        'Education or career goal (For example, “I want to get a bachelor’s degree in criminal justice” or “I want to get an HVAC technician certificate” or “I want to become a police officer.”)',
       'ui:widget': 'textarea',
     },
     nonVaAssistance: {
@@ -72,15 +71,13 @@ export default function createSchoolSelectionPage(schema, options) {
           'Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
         'ui:widget': 'yesNo',
         'ui:options': {
-          hideIf: formData =>
-            _.get('currentlyActiveDuty.yes', formData) === true,
+          hideIf: formData => get('currentlyActiveDuty.yes', formData) === true,
         },
       },
     },
   };
-  const pickFields = _.pick(fields);
 
-  const schemaProperties = pickFields(schema.properties);
+  const schemaProperties = pick(schema.properties, fields);
 
   if (schemaProperties.currentlyActiveDuty) {
     schemaProperties.currentlyActiveDuty = {
@@ -100,7 +97,7 @@ export default function createSchoolSelectionPage(schema, options) {
     );
   }
 
-  const uiSchema = pickFields(possibleUISchemaFields);
+  const uiSchema = pick(possibleUISchemaFields, fields);
   uiSchema['ui:order'] = fields;
   if (title) {
     uiSchema['ui:title'] = title;

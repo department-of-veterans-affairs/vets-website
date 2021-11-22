@@ -3,28 +3,20 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 
-import { focusElement } from '../../utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
-import { formTitles } from 'applications/personalization/dashboard/helpers';
 import FormStartControls from './FormStartControls';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
+import { savedMessage } from 'platform/forms-system/src/js/utilities/save-in-progress-messages';
 
 class FormSaved extends React.Component {
   constructor(props) {
     super(props);
-    const scroller = Scroll.scroller;
-    const scrollProps = props.scrollParams || window.VetsGov.scroll;
+    const scrollProps = props.scrollParams || getScrollOptions();
     this.scrollToTop = () => {
-      scroller.scrollTo(
-        'topScrollElement',
-        scrollProps || {
-          duration: 500,
-          delay: 0,
-          smooth: true,
-        },
-      );
+      scrollToTop('topScrollElement', scrollProps);
     };
     this.location = props.location || window.location;
   }
@@ -39,6 +31,9 @@ class FormSaved extends React.Component {
     }
   }
 
+  getResumeOnly = () => {
+    return this.props.route?.formConfig?.saveInProgress?.resumeOnly;
+  };
   render() {
     const { formId, lastSavedDate, expirationMessage } = this.props;
     const { profile } = this.props.user;
@@ -49,7 +44,7 @@ class FormSaved extends React.Component {
     const { success } = this.props.route.formConfig.savedFormMessages || {};
     const expirationDate = moment
       .unix(this.props.expirationDate)
-      .format('M/D/YYYY');
+      .format('MMMM D, YYYY');
     const appType =
       this.props.route.formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
@@ -57,16 +52,14 @@ class FormSaved extends React.Component {
       <div>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            <strong>
-              Your {formTitles[formId]} {appType} has been saved.
-            </strong>
+            <strong>{savedMessage(this.props.route.formConfig)}</strong>
             <br />
             {!!lastSavedDate &&
               !!expirationDate && (
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-metadata">
                     Last saved on{' '}
-                    {moment(lastSavedDate).format('M/D/YYYY [at] h:mm a')}
+                    {moment(lastSavedDate).format('MMMM D, YYYY [at] h:mm a')}
                   </span>
                   {expirationMessage || (
                     <p className="expires-container">
@@ -110,6 +103,7 @@ class FormSaved extends React.Component {
           removeInProgressForm={this.props.removeInProgressForm}
           prefillAvailable={prefillAvailable}
           formSaved
+          resumeOnly={this.getResumeOnly()}
         />
       </div>
     );

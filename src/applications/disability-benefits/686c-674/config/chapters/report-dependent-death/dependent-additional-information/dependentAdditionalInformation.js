@@ -1,9 +1,9 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import environment from 'platform/utilities/environment';
 import { TASK_KEYS } from '../../../constants';
 import {
   isChapterFieldRequired,
-  stateTitle,
-  cityTitle,
+  PensionIncomeRemovalQuestionTitle,
 } from '../../../helpers';
 import { deceasedDependents } from '../../../utilities';
 import DependentViewField from '../../../../components/DependentViewField';
@@ -30,6 +30,14 @@ export const uiSchema = {
         'Place of death',
         'reportDeath',
       ),
+      dependentIncome: {
+        'ui:options': {
+          hideIf: () => environment.isProduction(),
+          hideEmptyValueInReview: true,
+        },
+        'ui:title': PensionIncomeRemovalQuestionTitle,
+        'ui:widget': 'yesNo',
+      },
     },
   },
 };

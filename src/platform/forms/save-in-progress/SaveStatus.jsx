@@ -9,7 +9,12 @@ import {
 } from '../../forms-system/src/js/constants';
 
 function SaveStatus({
-  form: { lastSavedDate, autoSavedStatus },
+  form: {
+    lastSavedDate,
+    autoSavedStatus,
+    loadedData,
+    inProgressFormId = loadedData?.metadata?.inProgressFormId,
+  },
   formConfig,
   isLoggedIn,
   showLoginModal,
@@ -18,19 +23,28 @@ function SaveStatus({
   let savedAtMessage;
   if (lastSavedDate) {
     const savedAt = moment(lastSavedDate);
-    savedAtMessage = ` Last saved at ${savedAt.format(
-      'MMM D, YYYY [at] h:mm a',
+    savedAtMessage = ` It was last saved on ${savedAt.format(
+      'MMMM D, YYYY [at] h:mm a',
     )}`;
   } else {
     savedAtMessage = '';
   }
+
+  const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
+
+  const formIdMessage =
+    inProgressFormId && savedAtMessage ? (
+      <>
+        {' '}
+        Your {appType} ID number is <strong>{inProgressFormId}</strong>.
+      </>
+    ) : null;
 
   const hasError =
     saveErrors.has(autoSavedStatus) &&
     ((autoSavedStatus === SAVE_STATUSES.noAuth && !isLoggedIn) ||
       autoSavedStatus !== SAVE_STATUSES.noAuth);
 
-  const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
   const appSavedSuccessfullyMessage =
     formConfig?.customText?.appSavedSuccessfullyMessage ||
     APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE;
@@ -38,10 +52,13 @@ function SaveStatus({
   return (
     <div>
       {autoSavedStatus === SAVE_STATUSES.success && (
-        <div className="panel saved-success-container">
-          <i className="fa fa-check-circle saved-success-icon" />
-          {appSavedSuccessfullyMessage}
-          {savedAtMessage}
+        <div className="panel saved-success-container vads-u-display--flex">
+          <i className="fa fa-check-circle saved-success-icon vads-u-margin-top--0p5" />
+          <div>
+            {appSavedSuccessfullyMessage}
+            {savedAtMessage}
+            {formIdMessage}
+          </div>
         </div>
       )}
       {autoSavedStatus === SAVE_STATUSES.pending && (

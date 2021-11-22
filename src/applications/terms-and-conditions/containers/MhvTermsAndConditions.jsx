@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import appendQuery from 'append-query';
 
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { hasSession } from 'platform/user/profile/utilities';
 import { getScrollOptions } from 'platform/utilities/ui';
-
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import {
   acceptTerms,
   fetchLatestTerms,
@@ -17,7 +17,6 @@ import {
 } from '../actions';
 
 const ScrollElement = Scroll.Element;
-const scroller = Scroll.scroller;
 
 const TERMS_NAME = 'mhvac';
 
@@ -51,7 +50,7 @@ export class MhvTermsAndConditions extends React.Component {
   };
 
   handleAcceptanceSuccess = () => {
-    scroller.scrollTo('banner', getScrollOptions());
+    scrollTo('banner', getScrollOptions());
     recordEvent({ event: 'account-terms-transaction' });
     this.redirect();
   };

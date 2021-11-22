@@ -2,44 +2,22 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import Scroll from 'react-scroll';
-import {
-  FINISH_APP_LATER_DEFAULT_MESSAGE,
-  APP_TYPE_DEFAULT,
-} from '../../forms-system/src/js/constants';
 import debounce from '../../utilities/data/debounce';
 
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
 import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
 
-import CallHRC from '../../static-data/CallHRC';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import DowntimeNotification, {
   externalServiceStatus,
 } from '../../monitoring/DowntimeNotification';
 import get from '../../utilities/data/get';
-import { focusElement } from '../../utilities/ui';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
-import SaveFormLink from './SaveFormLink';
 import SaveStatus from './SaveStatus';
-import {
-  autoSaveForm,
-  saveAndRedirectToReturnUrl,
-  saveErrors,
-} from './actions';
+import { autoSaveForm } from './actions';
 import { getFormContext } from './selectors';
 import DowntimeMessage from './DowntimeMessage';
-
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo(
-    'topScrollElement',
-    window.VetsGov?.scroll || {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    },
-  );
-};
 
 class RoutedSavableReviewPage extends React.Component {
   constructor(props) {
@@ -48,7 +26,7 @@ class RoutedSavableReviewPage extends React.Component {
   }
 
   componentDidMount() {
-    scrollToTop();
+    scrollToTop('topScrollElement', getScrollOptions());
     focusElement('h2');
   }
 
@@ -56,89 +34,11 @@ class RoutedSavableReviewPage extends React.Component {
     const { form, user } = this.props;
     if (user.login.currentlyLoggedIn) {
       const data = form.data;
-      const { formId, version } = form;
+      const { formId, version, submission } = form;
       const returnUrl = this.props.location.pathname;
 
-      this.props.autoSaveForm(formId, data, version, returnUrl);
+      this.props.autoSaveForm(formId, data, version, returnUrl, submission);
     }
-  };
-
-  renderErrorMessage = () => {
-    const {
-      route,
-      formConfig,
-      user,
-      form,
-      location,
-      showLoginModal,
-    } = this.props;
-    const savedStatus = form.savedStatus;
-    const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
-    const CustomSubmissionError = formConfig?.submissionError;
-    const errorText = formConfig?.errorText;
-    const saveLink = (
-      <SaveFormLink
-        locationPathname={location.pathname}
-        form={form}
-        formConfig={route?.formConfig}
-        pageList={route.pageList}
-        user={user}
-        showLoginModal={showLoginModal}
-        saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-        toggleLoginModal={this.props.toggleLoginModal}
-      >
-        Save your {appType}
-      </SaveFormLink>
-    );
-
-    if (saveErrors.has(savedStatus)) {
-      return saveLink;
-    }
-
-    const DefaultErrorMessage = () => {
-      let InlineErrorComponent;
-      if (typeof errorText === 'function') {
-        InlineErrorComponent = errorText;
-      } else if (typeof errorText === 'string') {
-        InlineErrorComponent = () => <p>{errorText}</p>;
-      } else {
-        InlineErrorComponent = () => (
-          <p>
-            If it still doesn’t work, please <CallHRC />
-          </p>
-        );
-      }
-
-      return (
-        <div className="usa-alert usa-alert-error schemaform-failure-alert">
-          <div className="usa-alert-body">
-            <p className="schemaform-warning-header">
-              <strong>
-                We’re sorry. We can't submit your {appType} right now.
-              </strong>
-            </p>
-            <p>
-              We’re working to fix the problem. Please make sure you’re
-              connected to the Internet, and then try saving your {appType}{' '}
-              again. {saveLink}.
-            </p>
-            {!user.login.currentlyLoggedIn && (
-              <p>
-                If you don’t have an account, you’ll have to start over. Try
-                submitting your {appType} again tomorrow.
-              </p>
-            )}
-            <InlineErrorComponent />
-          </div>
-        </div>
-      );
-    };
-
-    return CustomSubmissionError ? (
-      <CustomSubmissionError location={location} form={form} user={user} />
-    ) : (
-      <DefaultErrorMessage />
-    );
   };
 
   renderDowntime = (downtime, children) => {
@@ -152,19 +52,9 @@ class RoutedSavableReviewPage extends React.Component {
   };
 
   render() {
-    const {
-      form,
-      formConfig,
-      formContext,
-      location,
-      pageList,
-      path,
-      user,
-    } = this.props;
-    const finishAppLaterMessage =
-      formConfig?.customText?.finishAppLaterMessage ||
-      FINISH_APP_LATER_DEFAULT_MESSAGE;
+    const { form, formConfig, formContext, pageList, path, user } = this.props;
     const downtimeDependencies = get('downtime.dependencies', formConfig) || [];
+
     return (
       <div>
         <ReviewChapters
@@ -183,7 +73,6 @@ class RoutedSavableReviewPage extends React.Component {
             formConfig={formConfig}
             pageList={pageList}
             path={path}
-            renderErrorMessage={this.renderErrorMessage}
           />
         </DowntimeNotification>
         <SaveStatus
@@ -193,18 +82,6 @@ class RoutedSavableReviewPage extends React.Component {
           form={form}
           formConfig={formConfig}
         />
-        <SaveFormLink
-          locationPathname={location.pathname}
-          form={form}
-          formConfig={formConfig}
-          user={user}
-          pageList={pageList}
-          showLoginModal={this.props.showLoginModal}
-          saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-          toggleLoginModal={this.props.toggleLoginModal}
-        >
-          {finishAppLaterMessage}
-        </SaveFormLink>
       </div>
     );
   }
@@ -237,7 +114,6 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = {
   autoSaveForm,
-  saveAndRedirectToReturnUrl,
   toggleLoginModal,
 };
 

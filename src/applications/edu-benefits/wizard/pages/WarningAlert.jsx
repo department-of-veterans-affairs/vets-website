@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
 import { pageNames } from './pageList';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { formIdSuffixes } from 'applications/static-pages/wizard/';
 
 const WarningAlert = ({
   setPageState,
   getPageStateFromPageName,
-  state = {},
   setReferredBenefit,
 }) => {
   const newBenefitAnswer = getPageStateFromPageName(pageNames.newBenefit)

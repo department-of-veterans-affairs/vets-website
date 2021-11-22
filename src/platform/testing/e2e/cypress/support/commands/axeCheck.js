@@ -12,28 +12,59 @@ const processAxeCheckResults = violations => {
 
   // Pluck specific keys to keep the table readable.
   const violationData = violations.map(
-    ({ id, impact, description, nodes }) => ({
-      id,
-      impact,
-      description,
-      nodes: nodes.length,
-    }),
+    ({ id, impact, description, nodes, help, helpUrl }) => [
+      ['id', id],
+      ['impact', impact],
+      ['description', description],
+      ['help', help],
+      ['help URL', helpUrl],
+      ['target', nodes.map(node => node.target).join('\n\n')],
+      ['html', nodes.map(node => node.html).join('\n\n')],
+      ['failure summary', nodes.map(node => node.failureSummary).join('\n\n')],
+      ['nodes', nodes.length],
+    ],
   );
 
   cy.task('log', violationMessage);
-  cy.task('table', violationData);
+  violationData.forEach(violation => cy.task('table', violation));
 };
 
 /**
- * Checks the current page for aXe violations.
- * @param {string} [context] - Selector for the container element to aXe check.
+ * Checks the passed selector and children for axe violations.
+ * @param {string} [context=main] - CSS/HTML selector for the container element to check with aXe.
+ * @param {Object} [tempOptions={}] - Rules object to enable _13647 exception or modify aXe config.
  */
-Cypress.Commands.add('axeCheck', (context = 'main') => {
-  Cypress.log();
+Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
+  const { _13647Exception } = tempOptions;
 
-  const options = {
-    includedImpacts: ['critical'],
+  /**
+   * Default required ruleset to meet Section 508 compliance.
+   * Do not remove values[] entries. Only add new rulesets like 'best-practices'.
+   *
+   * See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#axe-core-tags
+   * for available rulesets.
+   */
+  let axeBuilder = {
+    runOnly: {
+      type: 'tag',
+      values: ['section508', 'wcag2a', 'wcag2aa'],
+    },
+    rules: {
+      'color-contrast': {
+        enabled: false,
+      },
+    },
   };
 
-  cy.checkA11y(context, options, processAxeCheckResults);
+  /**
+   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+   */
+  axeBuilder = Object.assign(axeBuilder, tempOptions);
+
+  const axeConfig = _13647Exception
+    ? { includedImpacts: ['critical'] }
+    : axeBuilder;
+
+  Cypress.log();
+  cy.checkA11y(context, axeConfig, processAxeCheckResults);
 });

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -11,103 +11,106 @@ import { fetchProfile, setPageTitle, showModal, hideModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/VetTecInstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ServiceError from '../components/ServiceError';
+import { useQueryParams } from '../utils/helpers';
+import scrollTo from 'platform/utilities/ui/scrollTo';
+import environment from 'platform/utilities/environment';
 
-const { Element: ScrollElement, scroller } = Scroll;
+const { Element: ScrollElement } = Scroll;
 
-export class ProfilePage extends React.Component {
-  componentDidMount() {
-    this.props.fetchProfile(
-      this.props.params.facilityCode,
-      this.props.location.query.version,
-    );
-  }
+export function ProfilePage({
+  constants,
+  profile,
+  calculator,
+  dispatchFetchProfile,
+  dispatchSetPageTitle,
+  dispatchShowModal,
+  dispatchHideModal,
+  eligibility,
+  gibctEybBottomSheet,
+  gibctSchoolRatings,
+  match,
+}) {
+  const { facilityCode, preSelectedProgram } = match.params;
+  const queryParams = useQueryParams();
+  const version = queryParams.get('version');
+  const institutionName = _.get(profile, 'attributes.name');
 
-  componentDidUpdate(prevProps) {
-    const {
-      location: {
-        query: { version: uuid },
-      },
-      params: { facilityCode },
-      profile,
-    } = this.props;
+  useEffect(() => {
+    return () => {
+      dispatchHideModal();
+    };
+  }, []);
 
-    const institutionName = _.get(profile, 'attributes.name');
-    const shouldUpdateTitle = !_.isEqual(
-      institutionName,
-      prevProps?.profile?.attributes?.name,
-    );
-
-    if (shouldUpdateTitle) {
-      this.props.setPageTitle(`${institutionName} - GI Bill® Comparison Tool`);
-    }
-
-    if (profile.inProgress !== prevProps.profile.inProgress) {
-      scroller.scrollTo('profilePage', getScrollOptions());
-      focusElement('.profile-page h1');
-    }
-
-    if (prevProps.location.query.version !== uuid) {
-      this.props.fetchProfile(facilityCode, uuid);
-    }
-  }
-
-  componentWillUnmount() {
-    this.props.hideModal();
-  }
-
-  handleViewWarnings = () => {
-    this._cautionaryInfo.setState({ expanded: true });
-    focusElement('#viewWarnings');
-  };
-
-  render() {
-    const { constants, profile } = this.props;
-
-    let content;
-
-    if (profile.inProgress || _.isEmpty(profile.attributes)) {
-      content = <LoadingIndicator message="Loading your profile..." />;
-    } else {
-      const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
-
-      if (profile.attributes.vetTecProvider) {
-        content = (
-          <VetTecInstitutionProfile
-            institution={profile.attributes}
-            showModal={this.props.showModal}
-            preSelectedProgram={this.props.params.preSelectedProgram}
-            gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
-            selectedProgram={this.props.calculator.selectedProgram}
-          />
-        );
-      } else {
-        content = (
-          <InstitutionProfile
-            profile={profile}
-            isOJT={isOJT}
-            constants={constants}
-            showModal={this.props.showModal}
-            calculator={this.props.calculator}
-            eligibility={this.props.eligibility}
-            version={this.props.location.query.version}
-            gibctEstimateYourBenefits={this.props.gibctEstimateYourBenefits}
-            gibctEybBottomSheet={this.props.gibctEybBottomSheet}
-            gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
-            gibctFilterEnhancement={this.props.gibctFilterEnhancement}
-          />
-        );
+  useEffect(
+    () => {
+      if (institutionName) {
+        if (environment.isProduction())
+          dispatchSetPageTitle(`${institutionName} - GI Bill® Comparison Tool`);
+        else
+          dispatchSetPageTitle(
+            `${institutionName}: GI Bill® Comparison Tool | Veterans Affairs`,
+          );
       }
-    }
+    },
+    [dispatchSetPageTitle, institutionName],
+  );
 
-    return (
-      <ScrollElement
-        name="profilePage"
-        className="profile-page vads-u-padding-top--3"
-      >
-        {profile.error ? <ServiceError /> : content}
-      </ScrollElement>
-    );
+  useEffect(
+    () => {
+      scrollTo('profilePage', getScrollOptions());
+      focusElement('.profile-page h1');
+    },
+    [profile.inProgress],
+  );
+
+  useEffect(
+    () => {
+      dispatchFetchProfile(facilityCode, version);
+    },
+    [version],
+  );
+
+  let content;
+
+  if (profile.inProgress || _.isEmpty(profile.attributes)) {
+    content = <LoadingIndicator message="Loading your profile..." />;
+  } else {
+    const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
+
+    if (profile.attributes.vetTecProvider) {
+      content = (
+        <VetTecInstitutionProfile
+          institution={profile.attributes}
+          showModal={dispatchShowModal}
+          preSelectedProgram={preSelectedProgram}
+          selectedProgram={calculator.selectedProgram}
+        />
+      );
+    } else {
+      content = (
+        <InstitutionProfile
+          profile={profile}
+          isOJT={isOJT}
+          constants={constants}
+          showModal={dispatchShowModal}
+          calculator={calculator}
+          eligibility={eligibility}
+          version={version}
+          gibctEybBottomSheet={gibctEybBottomSheet}
+          gibctSchoolRatings={gibctSchoolRatings}
+        />
+      );
+    }
   }
+
+  return (
+    <ScrollElement
+      name="profilePage"
+      className="profile-page vads-u-padding-top--3"
+    >
+      {profile.error ? <ServiceError /> : content}
+    </ScrollElement>
+  );
 }
 
 const mapStateToProps = state => {
@@ -122,26 +125,20 @@ const mapStateToProps = state => {
     profile,
     calculator,
     eligibility,
-    gibctEstimateYourBenefits: toggleValues(state)[
-      FEATURE_FLAG_NAMES.gibctEstimateYourBenefits
-    ],
     gibctEybBottomSheet: toggleValues(state)[
       FEATURE_FLAG_NAMES.gibctEybBottomSheet
     ],
-    gibctCh33BenefitRateUpdate: toggleValues(state)[
-      FEATURE_FLAG_NAMES.gibctCh33BenefitRateUpdate
-    ],
-    gibctFilterEnhancement: toggleValues(state)[
-      FEATURE_FLAG_NAMES.gibctFilterEnhancement
+    gibctSchoolRatings: toggleValues(state)[
+      FEATURE_FLAG_NAMES.gibctSchoolRatings
     ],
   };
 };
 
 const mapDispatchToProps = {
-  fetchProfile,
-  setPageTitle,
-  showModal,
-  hideModal,
+  dispatchFetchProfile: fetchProfile,
+  dispatchSetPageTitle: setPageTitle,
+  dispatchShowModal: showModal,
+  dispatchHideModal: hideModal,
 };
 
 export default connect(

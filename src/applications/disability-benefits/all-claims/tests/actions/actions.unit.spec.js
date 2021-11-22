@@ -18,14 +18,8 @@ import {
   MVI_ADD_FAILED,
 } from '../../actions';
 
-const originalFetch = global.fetch;
-
 describe('ITF actions', () => {
   describe('fetchITF', () => {
-    afterEach(() => {
-      global.fetch = originalFetch;
-    });
-
     it('should dispatch a fetch succeeded action with data', () => {
       const mockData = { data: 'asdf' };
       mockApiRequest(mockData);
@@ -51,10 +45,6 @@ describe('ITF actions', () => {
   });
 
   describe('createITF', () => {
-    afterEach(() => {
-      global.fetch = originalFetch;
-    });
-
     it('should dispatch a fetch succeeded action with data', () => {
       const mockData = { data: 'asdf' };
       mockApiRequest(mockData);
@@ -86,10 +76,6 @@ describe('ITF actions', () => {
 
 describe('MVI action', () => {
   describe('MVI add person action', () => {
-    afterEach(() => {
-      global.fetch = originalFetch;
-    });
-
     it('should dispatch an add person succeeded action', () => {
       const mockData = { data: 'asdf' };
       mockApiRequest(mockData);

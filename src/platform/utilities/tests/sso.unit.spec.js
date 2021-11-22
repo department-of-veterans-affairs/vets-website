@@ -1,13 +1,15 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import localStorage from 'platform/utilities/storage/localStorage';
 import * as authUtils from 'platform/user/authentication/utilities';
 import * as keepAliveMod from 'platform/utilities/sso/keepAliveSSO';
 
 import { checkAutoSession, checkAndUpdateSSOeSession } from '../sso';
 import * as loginAttempted from '../sso/loginAttempted';
+import { keepAlive } from '../sso/keepAliveSSO';
+import { AUTH_EVENTS } from '../../user/authentication/constants';
 
 function setKeepAliveResponse(stub, sessionTimeout = 0, csid = null) {
   const response = new Response();
@@ -31,7 +33,8 @@ let oldWindow;
 
 const fakeWindow = () => {
   oldWindow = global.window;
-  global.window = {
+  global.window = Object.create(global.window);
+  Object.assign(global.window, {
     dataLayer: [],
     location: {
       get: () => global.window.location,
@@ -41,7 +44,7 @@ const fakeWindow = () => {
       pathname: '',
       search: '',
     },
-  };
+  });
 };
 
 describe('checkAutoSession', () => {
@@ -70,11 +73,11 @@ describe('checkAutoSession', () => {
     await checkAutoSession(true, 'X', profile);
 
     expect(global.window.location).to.eq(
-      'https://ehrm-va-test.patientportal.us.healtheintent.com/',
+      'https://staging-patientportal.myhealth.va.gov',
     );
   });
 
-  it('should do nothing if on "/sign-in/?application=myvahealth" and not verified', async () => {
+  it.skip('should do nothing if on "/sign-in/?application=myvahealth" and not verified', async () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       sessionAlive: true,
       ttl: 900,
@@ -109,6 +112,29 @@ describe('checkAutoSession', () => {
     expect(global.window.location).to.eq('http://localhost');
   });
 
+  it('should re login user before redirect to myvahealth because transactions are different', async () => {
+    sandbox.stub(keepAliveMod, 'keepAlive').returns({
+      sessionAlive: true,
+      ttl: 900,
+      authn: 'dslogon',
+      transactionid: 'X',
+    });
+    global.window.location.origin = 'http://localhost';
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=myvahealth';
+    const profile = { verified: true };
+
+    const auto = sandbox.stub(authUtils, 'login');
+    await checkAutoSession(true, 'Y', profile);
+
+    sinon.assert.calledOnce(auto);
+    sinon.assert.calledWith(auto, {
+      policy: 'custom',
+      queryParams: { authn: 'dslogon' },
+      clickedEvent: AUTH_EVENTS.SSO_LOGIN,
+    });
+  });
+
   it('should auto logout if user has logged in via SSOe and they do not have a SSOe session anymore', async () => {
     sandbox
       .stub(keepAliveMod, 'keepAlive')
@@ -118,7 +144,7 @@ describe('checkAutoSession', () => {
     await checkAutoSession(true, 'X');
 
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(auto, 'v1', 'sso-automatic-logout', {
+    sinon.assert.calledWith(auto, 'v1', AUTH_EVENTS.SSO_LOGOUT, {
       'auto-logout': 'true',
     });
   });
@@ -134,17 +160,22 @@ describe('checkAutoSession', () => {
     sinon.assert.notCalled(auto);
   });
 
-  it('should auto logout if user is logged in and they have a mismatched SSOe session', async () => {
+  it('should auto login if user is logged in and they have a mismatched SSOe session', async () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       sessionAlive: true,
       ttl: 900,
       authn: 'dslogon',
       transactionid: 'X',
     });
-    const auto = sandbox.stub(authUtils, 'logout');
+    const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession(true, 'Y');
 
     sinon.assert.calledOnce(auto);
+    sinon.assert.calledWith(auto, {
+      policy: 'custom',
+      queryParams: { authn: 'dslogon' },
+      clickedEvent: AUTH_EVENTS.SSO_LOGIN,
+    });
   });
 
   it('should not auto logout if user is logged in and they have a matched SSOe session', async () => {
@@ -187,13 +218,11 @@ describe('checkAutoSession', () => {
     await checkAutoSession();
 
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(
-      auto,
-      'custom',
-      'v1',
-      { authn: 'dslogon' },
-      'sso-automatic-login',
-    );
+    sinon.assert.calledWith(auto, {
+      policy: 'custom',
+      queryParams: { authn: 'dslogon' },
+      clickedEvent: AUTH_EVENTS.SSO_LOGIN,
+    });
   });
 
   it('should auto login if user is logged out, they have an mhv SSOe session, dont need to force auth', async () => {
@@ -208,13 +237,11 @@ describe('checkAutoSession', () => {
     await checkAutoSession();
 
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(
-      auto,
-      'custom',
-      'v1',
-      { authn: 'myhealthevet' },
-      'sso-automatic-login',
-    );
+    sinon.assert.calledWith(auto, {
+      policy: 'custom',
+      queryParams: { authn: 'myhealthevet' },
+      clickedEvent: AUTH_EVENTS.SSO_LOGIN,
+    });
   });
 
   it('should not auto login if user is logged out, they have a PIV SSOe session and dont need to force auth', async () => {
@@ -261,6 +288,10 @@ describe('checkAutoSession', () => {
 });
 
 describe('checkAndUpdateSSOeSession', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it('should should do nothing if there is not SSO session active', () => {
     expect(localStorage.getItem('sessionExpirationSSO')).to.be.null;
     checkAndUpdateSSOeSession();
@@ -276,7 +307,6 @@ describe('checkAndUpdateSSOeSession', () => {
     checkAndUpdateSSOeSession();
 
     expect(localStorage.getItem('sessionExpirationSSO')).to.equal('some value');
-    resetFetch();
   });
 
   it('should make a keepalive request for active SSO sessions below the timeout threshold', () => {
@@ -293,10 +323,109 @@ describe('checkAndUpdateSSOeSession', () => {
     expect(localStorage.getItem('sessionExpirationSSO')).to.not.equal(
       expiringSession,
     );
-    resetFetch();
   });
 
   afterEach(() => {
     localStorage.clear();
+  });
+});
+
+describe.skip('keepAlive', () => {
+  let sandbox;
+  let stubFetch;
+
+  before(() => {
+    sandbox = sinon.createSandbox();
+    stubFetch = sandbox.stub(global, 'fetch');
+  });
+
+  after(() => {
+    sandbox.restore();
+  });
+
+  it('should return an empty object on a type error', () => {
+    stubFetch.rejects('TypeError');
+    return keepAlive().then(res => expect(res).to.eql({}));
+  });
+
+  it('should return ttl 0 when not alive', () => {
+    const resp = new Response('{}', {
+      headers: {
+        'session-alive': 'false',
+        'session-timeout': '900',
+      },
+    });
+    stubFetch.resolves(resp);
+    return keepAlive().then(res => {
+      expect(res).to.eql({
+        ttl: 0,
+        transactionid: null,
+        authn: undefined,
+      });
+    });
+  });
+
+  it('should return active dslogon session', () => {
+    /* eslint-disable camelcase */
+    const resp = new Response('{}', {
+      headers: {
+        'session-alive': 'true',
+        'session-timeout': '900',
+        va_eauth_transactionid: 'X',
+        va_eauth_csid: 'DSLogon',
+      },
+    });
+    /* eslint-enable camelcase */
+    stubFetch.resolves(resp);
+    return keepAlive().then(res => {
+      expect(res).to.eql({
+        ttl: 900,
+        transactionid: 'X',
+        authn: 'dslogon',
+      });
+    });
+  });
+
+  it('should return active mhv session', () => {
+    /* eslint-disable camelcase */
+    const resp = new Response('{}', {
+      headers: {
+        'session-alive': 'true',
+        'session-timeout': '900',
+        va_eauth_transactionid: 'X',
+        va_eauth_csid: 'mhv',
+      },
+    });
+    /* eslint-enable camelcase */
+    stubFetch.resolves(resp);
+    return keepAlive().then(res => {
+      expect(res).to.eql({
+        ttl: 900,
+        transactionid: 'X',
+        authn: 'myhealthevet',
+      });
+    });
+  });
+
+  it('should return active idme session', () => {
+    /* eslint-disable camelcase */
+    const resp = new Response('{}', {
+      headers: {
+        'session-alive': 'true',
+        'session-timeout': '900',
+        va_eauth_transactionid: 'X',
+        va_eauth_csid: 'idme',
+        va_eauth_authncontextclassref: '/loa1',
+      },
+    });
+    /* eslint-enable camelcase */
+    stubFetch.resolves(resp);
+    return keepAlive().then(res => {
+      expect(res).to.eql({
+        ttl: 900,
+        transactionid: 'X',
+        authn: '/loa1',
+      });
+    });
   });
 });

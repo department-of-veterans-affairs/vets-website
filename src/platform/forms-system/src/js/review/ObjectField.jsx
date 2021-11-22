@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import { flow, groupBy } from 'lodash';
+import get from '../../../../utilities/data/get';
+import set from '../../../../utilities/data/set';
 
 import {
   getDefaultFormState,
@@ -8,6 +10,9 @@ import {
   shouldRender,
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+
+import { showReviewField } from '../helpers';
+import { isReactComponent } from 'platform/utilities/ui';
 
 /*
  * This is largely copied from the react-jsonschema-form library,
@@ -28,17 +33,29 @@ class ObjectField extends React.Component {
   constructor() {
     super();
     this.isRequired = this.isRequired.bind(this);
-    this.orderAndFilterProperties = _.flow(
+    this.orderAndFilterProperties = flow(
       properties =>
-        orderProperties(properties, _.get('ui:order', this.props.uiSchema)),
-      _.groupBy(item => {
-        const expandUnderField = _.get(
-          [item, 'ui:options', 'expandUnder'],
-          this.props.uiSchema,
-        );
-        return expandUnderField || item;
-      }),
-      _.values,
+        orderProperties(
+          properties,
+          this.props.uiSchema['ui:order']?.filter(
+            prop =>
+              // `view:*` properties will have been removed from the schema and
+              // values by the time they reach this component. This removes them
+              // from the ui:order so we don't trigger an error in the
+              // react-json-schema library for having "extraneous properties."
+              prop === '*' ||
+              Object.keys(this.props.schema.properties).includes(prop),
+          ),
+        ),
+      properties =>
+        groupBy(properties, item => {
+          const expandUnderField = get(
+            [item, 'ui:options', 'expandUnder'],
+            this.props.uiSchema,
+          );
+          return expandUnderField || item;
+        }),
+      properties => Object.values(properties),
     );
   }
 
@@ -55,7 +72,7 @@ class ObjectField extends React.Component {
             undefined,
             this.props.registry.definitions,
           );
-      this.props.onChange(_.set(name, value, formData));
+      this.props.onChange(set(name, value, formData));
     };
   }
 
@@ -94,36 +111,15 @@ class ObjectField extends React.Component {
         registry={this.props.registry}
       />
     );
-
-    const showField = propName => {
-      const hiddenOnSchema = schema.properties[propName]['ui:hidden'];
-      const collapsedOnSchema = schema.properties[propName]['ui:collapsed'];
-      const hideOnReviewIfFalse =
-        _.get([propName, 'ui:options', 'hideOnReviewIfFalse'], uiSchema) ===
-        true;
-      let hideOnReview = _.get(
-        [propName, 'ui:options', 'hideOnReview'],
-        uiSchema,
-      );
-      if (typeof hideOnReview === 'function') {
-        hideOnReview = hideOnReview(formData, formContext);
-      }
-      return (
-        (!hideOnReviewIfFalse || !!formData[propName]) &&
-        !hideOnReview &&
-        !hiddenOnSchema &&
-        !collapsedOnSchema
-      );
-    };
     let divWrapper = false;
 
     const renderedProperties = this.orderAndFilterProperties(properties).map(
-      (objectFields, index) => {
+      objectFields => {
         const [first, ...rest] = objectFields;
         // expand under functionality is controlled in the reducer by setting ui:collapsed, so
         // we can check if its expanded by seeing if there are any visible "children"
         const visible = rest.filter(
-          prop => !_.get(['properties', prop, 'ui:collapsed'], schema),
+          prop => !get(['properties', prop, 'ui:collapsed'], schema),
         );
         // Use div or dl to wrap content for array type schemas (e.g. bank info)
         // fixes axe issue on review-and-submit
@@ -136,50 +132,85 @@ class ObjectField extends React.Component {
           );
         });
         if (objectFields.length > 1 && visible.length > 0) {
-          return objectFields.filter(showField).map(renderField);
+          return objectFields
+            .filter(propName =>
+              showReviewField(
+                propName,
+                schema,
+                uiSchema,
+                formData,
+                formContext,
+              ),
+            )
+            .map(renderField);
         }
-        // eslint-disable-next-line sonarjs/no-extra-arguments
-        return showField(first) ? renderField(first, index) : null;
+        return showReviewField(first, schema, uiSchema, formData, formContext)
+          ? renderField(first)
+          : null;
       },
     );
 
-    if (isRoot) {
-      let title = formContext.pageTitle;
-      if (!formContext.hideTitle && typeof title === 'function') {
-        title = title(formData, formContext);
-      }
-      const editLabel =
-        _.get('ui:options.ariaLabelForEditButtonOnReview', uiSchema) ||
-        `Edit ${title}`;
+    let title = formContext?.pageTitle;
+    if (!formContext?.hideTitle && typeof title === 'function') {
+      // the `formData` is local to the object, not the page.
+      // A page would have access to properties that a child object wouldn't
+      title = isRoot && title(formData, formContext);
+    }
+    const uiOptions = uiSchema['ui:options'] || {};
+    const ariaLabel = uiOptions.itemAriaLabel;
+    const itemName =
+      (typeof ariaLabel === 'function' && ariaLabel(formData || {})) ||
+      formData[uiOptions.itemName] ||
+      uiOptions.itemName;
+    const editLabel = (itemName && `Edit ${itemName}`) || `Edit ${title}`;
 
-      const Tag = divWrapper ? 'div' : 'dl';
+    const Tag = divWrapper ? 'div' : 'dl';
+    const ObjectViewField = uiSchema?.['ui:objectViewField'];
 
+    const defaultEditButton = ({
+      label = editLabel,
+      onEdit = formContext?.onEdit,
+      text = 'Edit',
+    } = {}) => (
+      <button
+        type="button"
+        className="edit-btn primary-outline"
+        aria-label={label}
+        onClick={onEdit}
+      >
+        {text}
+      </button>
+    );
+
+    if (isReactComponent(ObjectViewField)) {
       return (
-        <>
-          {!formContext.hideHeaderRow && (
-            <div className="form-review-panel-page-header-row">
-              {title?.trim() &&
-                !formContext.hideTitle && (
-                  <h3 className="form-review-panel-page-header vads-u-font-size--h5">
-                    {title}
-                  </h3>
-                )}
-              <button
-                type="button"
-                className="edit-btn primary-outline"
-                aria-label={editLabel}
-                onClick={() => formContext.onEdit()}
-              >
-                Edit
-              </button>
-            </div>
-          )}
-          <Tag className="review">{renderedProperties}</Tag>
-        </>
+        <ObjectViewField
+          {...this.props}
+          renderedProperties={renderedProperties}
+          title={title}
+          defaultEditButton={defaultEditButton}
+        />
       );
     }
 
-    return <>{renderedProperties}</>;
+    return isRoot ? (
+      <>
+        {!formContext?.hideHeaderRow && (
+          <div className="form-review-panel-page-header-row">
+            {title?.trim() &&
+              !formContext?.hideTitle && (
+                <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+                  {title}
+                </h4>
+              )}
+            {defaultEditButton()}
+          </div>
+        )}
+        <Tag className="review">{renderedProperties}</Tag>
+      </>
+    ) : (
+      <>{renderedProperties}</>
+    );
   }
 }
 

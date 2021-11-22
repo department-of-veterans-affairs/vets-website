@@ -1,0 +1,67 @@
+import React from 'react';
+import { focusElement } from 'platform/utilities/ui';
+import classNames from 'classnames';
+import recordEvent from 'platform/monitoring/record-event';
+
+export default function LearnMoreLabel({
+  ariaLabel,
+  labelFor,
+  onClick,
+  text,
+  buttonId,
+  bold,
+  buttonClassName,
+}) {
+  let displayText = text && <React.Fragment>{text} </React.Fragment>;
+  if (labelFor && text) {
+    displayText = (
+      <label
+        className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block"
+        htmlFor={labelFor}
+      >
+        {text}
+      </label>
+    );
+  }
+
+  return (
+    <span
+      className={classNames(
+        buttonClassName,
+        'vads-u-margin--0',
+        'vads-u-display--inline-block',
+        {
+          'vads-u-font-weight--bold': bold,
+        },
+      )}
+      onClick={() => {
+        focusElement(labelFor);
+        recordEvent({
+          event: `Learn more clicked for ${labelFor}`,
+        });
+      }}
+    >
+      {bold ? <strong>{displayText}</strong> : displayText}
+      <span
+        className={classNames('vads-u-margin--0 vads-u-display--inline-block', {
+          'vads-u-font-weight--bold': bold,
+        })}
+      >
+        (
+        <button
+          id={buttonId}
+          aria-label={ariaLabel}
+          type="button"
+          className={classNames(
+            buttonClassName,
+            'va-button-link learn-more-button vads-u-margin--0',
+          )}
+          onClick={onClick}
+        >
+          Learn more
+        </button>
+        )
+      </span>
+    </span>
+  );
+}

@@ -1,20 +1,19 @@
-import 'platform/polyfills';
-import '../profile360/sass/user-profile.scss';
-import '../../claims-status/sass/claims-status.scss';
-import './sass/dashboard.scss';
-import './sass/dashboard-alert.scss';
-import './sass/messaging/messaging.scss';
-import '../preferences/sass/preferences.scss';
+import React from 'react';
 
-import startApp from 'platform/startup';
+import '~/platform/polyfills';
 
-import routes from './routes';
+import Dashboard from './components/Dashboard';
+
+import startApp from '~/platform/startup';
+
 import reducer from './reducers';
 import manifest from './manifest.json';
 
+const url = manifest.rootUrl;
+
 startApp({
-  url: manifest.rootUrl,
+  component: <Dashboard />,
+  url,
   reducer,
-  routes,
   entryName: manifest.entryName,
 });

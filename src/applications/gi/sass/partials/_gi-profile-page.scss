@@ -4,8 +4,8 @@
     margin-top: 0;
   }
   .info-flag {
-    color: #323a45;
-    background-color: #d6d7d9;
+    color: $color-gray-dark;
+    background-color: $color-gray-lighter;
     font-size: 0.9em;
     display: inline-block;
     padding: 0.1em 0.5em;
@@ -41,6 +41,72 @@
   .additional-resources-preferred-provider {
     position: relative;
     top: 2em;
+  }
+  @include media-maxwidth($medium-screen - 1) {
+    .ratings-heading {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  #school-ratings-accordion-content {
+    @include media-maxwidth($medium-screen - 1) {
+      padding-left: 0rem;
+      padding-right: 0rem;
+    }
+  }
+
+  .main-rating {
+    width: 160px;
+  }
+
+  @include media-maxwidth($medium-screen - 1) {
+    .about-ratings {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  .category-rating {
+    .rating {
+      max-width: 320px;
+      @include media-maxwidth($medium-screen - 1) {
+        max-width: none;
+      }
+    }
+
+    .category-main {
+      padding-left: 10px;
+      padding-right: 10px;
+      //@include media-maxwidth($small-screen - 1) {
+      //  width: 100px;
+      //}
+    }
+
+    .bar-outer {
+      width: 120px;
+      position: absolute;
+      top: 5px;
+      @include media-maxwidth($small-screen - 1) {
+        width: 100px;
+      }
+    }
+
+    .bar {
+      height: 16px;
+    }
+
+    button {
+      background-size: 12px;
+      background-color: transparent;
+      padding-left: 0;
+      padding-right: 0rem;
+      background-position: right 1rem center;
+
+      @include media-maxwidth($medium-screen - 1) {
+        background-position: right 1rem center;
+      }
+    }
   }
 
   .additional-resources {
@@ -123,8 +189,28 @@
 
   button.usa-accordion-button {
     text-align: left;
-    margin-top: 0.208em;
-    margin-bottom: 0.208em;
+  }
+
+  button.usa-accordion-button-ratings {
+    text-align: left;
+    margin-bottom: 1px;
+    margin-top: 1px;
+  }
+
+  .category-ratings-accordion-headings {
+    margin-bottom: 9px;
+    padding-top: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    @include media-maxwidth($medium-screen - 1) {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  button.usa-accordion-button-ratings:hover {
+    background-color: $color-gray-lightest;
   }
 
   .calculate-your-benefits {
@@ -175,6 +261,16 @@
       margin-top: 22.5px;
       margin-bottom: 7.5px;
     }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+      margin-top: 0;
+      li {
+        p {
+          margin: 0;
+        }
+      }
+    }
   }
 
   .program-name {
@@ -185,6 +281,12 @@
     .calculator-result {
       margin-top: 1.6rem;
     }
+  }
+  .eyb-h4 {
+    font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
+      serif;
+    font-size: 1.7rem;
+    font-weight: 700;
   }
 
   .per-term-section {
@@ -292,58 +394,145 @@
   }
 
   .school-locations {
+    padding-bottom: 1rem;
+
     table {
+      table-layout: fixed;
+      width: 100%;
       border: hidden;
       margin-top: 1.5em;
       margin-bottom: 0.5em;
     }
 
-    th {
-      border: hidden;
-      background: none;
-      white-space: nowrap;
-      padding-bottom: 0.5em;
-      padding-top: 0em;
-      clear: both;
-      font-weight: 700;
-      font-family: Bitter, Georgia, Cambria, Times New Roman, Times, serif;
-      line-height: 1.5;
-      margin-bottom: 0.5em;
-      margin-top: 1.5em;
+    thead {
+      th {
+        border: hidden;
+        background: none;
+        white-space: nowrap;
+        padding-bottom: 0.5em;
+        padding-top: 0;
+        clear: both;
+        font-weight: 700;
+        font-family: Bitter, Georgia, Cambria, Times New Roman, Times, serif;
+        line-height: 1.5;
+        margin-bottom: 0.5em;
+        margin-top: 1.5em;
+      }
     }
 
     td {
       border: hidden;
       font-size: 0.9em;
-      padding-top: 0em;
-      padding-bottom: 0em;
+      padding-top: 0;
+      padding-bottom: 0;
       vertical-align: top;
     }
 
-    .schoolName {
-      margin-bottom: 0em;
-      margin-top: 0em;
-      font-weight: bold;
+    td::first-letter {
+      text-transform: capitalize;
     }
 
-    .location-cell {
-      white-space: nowrap;
+    .school-name-cell {
+      border: hidden;
+      font-size: 0.9em;
+      padding-top: 0;
+      padding-bottom: 0;
+      vertical-align: top;
+
+      ::first-letter {
+        text-transform: capitalize;
+      }
+
+      .school-name {
+        margin-bottom: 0;
+        margin-top: 0;
+        font-weight: bold;
+        @include media-maxwidth($small-screen) {
+          margin-bottom: 0.8em;
+          margin-top: 0.8em;
+        }
+      }
     }
 
-    padding-bottom: 1rem;
-  }
+    .extension-row {
+      padding-left: 16px;
+      .extension-cell-label {
+        padding-left: 0.5em;
+        @include media-maxwidth($small-screen) {
+          margin-bottom: 0.8em;
+          margin-top: 0.8em;
+        }
+      }
+    }
 
-  .locations-list {
-    @media screen and (min-width: $medium-screen) {
+    .responsive-table-row-separator {
       display: none;
     }
 
-    .item {
-      padding-top: 1em;
+    .extension-row {
+      padding-left: 16px;
+      .extension-cell-label {
+        padding-left: 0.5em;
+      }
     }
 
-    .extension.item {
-      padding-left: 1em;
+    .estimated-housing-cell {
+      .estimated-housing-cell-title {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: $medium-screen) {
+      font-size: 1em;
+
+      td {
+        font-size: 1em;
+      }
+
+      .responsive-table-row-separator {
+        display: block;
+        margin: 0.7em 1em 0.5em;
+      }
+
+      .location-cell,
+      .estimated-housing-cell {
+        margin-left: -1px;
+        display: flex;
+      }
+
+      .location-cell dfn,
+      .estimated-housing-cell dfn {
+        padding-right: 0.2em;
+        white-space: nowrap;
+      }
+      .zipcode-margin {
+        @include media-maxwidth($small-screen) {
+          margin-left: 4.8em;
+        }
+      }
+
+      .extension-row {
+        .location-cell,
+        .school-name-cell,
+        .estimated-housing-cell {
+          padding-left: 1.3em;
+        }
+
+        .extension-cell-label {
+          padding-left: 0;
+        }
+
+        .location-cell,
+        .estimated-housing-cell {
+          margin-left: -2px;
+        }
+      }
+
+      .estimated-housing-cell {
+        .estimated-housing-cell-title {
+          display: inline;
+        }
+      }
     }
   }
 
@@ -368,15 +557,17 @@
   }
 
   .eyb-button {
-    &.usa-accordion-button[aria-expanded='false'] {
-      background-image: url('/img/arrow-up.png');
-      background-image: url('/img/arrow-up.svg');
+    &.usa-accordion-button[aria-expanded="false"] {
+      background-image: url("/img/arrow-up.png");
+      background-image: url("/img/arrow-up.svg");
     }
-    &.usa-accordion-button[aria-expanded='true'] {
-      background-image: url('/img/arrow-down.png');
-      background-image: url('/img/arrow-down.svg');
+    &.usa-accordion-button[aria-expanded="true"] {
+      background-image: url("/img/arrow-down.png");
+      background-image: url("/img/arrow-down.svg");
     }
   }
+
+  $shadow: rgba(0, 0, 0, 0.15);
 
   .eyb-sheet {
     background-color: $color-gray-lightest;
@@ -386,7 +577,7 @@
     width: 100%;
     z-index: 401;
     overflow: hidden;
-    box-shadow: -1px -1px 16px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: -1px -1px 16px 0 $shadow;
     max-height: 0%;
     // OUT
     transition: max-height 1.5s ease-in-out;
@@ -456,6 +647,9 @@
 
     &:focus {
       top: auto;
+      line-height: 50px;
+      margin-bottom: 1em;
+      position: relative;
     }
   }
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { shallow, mount } from 'enzyme';
-import { changeDropdown } from '../helpers/index.js';
+import { mount } from 'enzyme';
+import { changeDropdown } from 'platform/testing/unit/helpers';
 import {
   DefinitionTester,
   fillData,

@@ -15,11 +15,7 @@ export default function LoadingButton({
         aria-hidden="true"
         role="presentation"
       />
-      {loadingText && (
-        <span className="sr-only" role="status">
-          {loadingText}
-        </span>
-      )}
+      {!!loadingText && <span className="sr-only">{loadingText}</span>}
     </>
   ) : (
     children
@@ -31,6 +27,7 @@ export default function LoadingButton({
       {...props}
       disabled={isLoading || disabled}
       onClick={onClick}
+      aria-live="polite"
     >
       {contents}
     </button>

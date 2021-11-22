@@ -1,4 +1,4 @@
-export const vetFields = {
+export const veteranFields = {
   address: 'veteranAddress',
   alternativePhoneNumber: 'veteranAlternativePhoneNumber',
   dateOfBirth: 'veteranDateOfBirth',
@@ -19,48 +19,51 @@ export const vetFields = {
 export const primaryCaregiverFields = {
   address: 'primaryAddress',
   alternativePhoneNumber: 'primaryAlternativePhoneNumber',
-  champvaEnrolled: 'primaryChampvaEnrolled',
   dateOfBirth: 'primaryDateOfBirth',
   email: 'primaryEmail',
   fullName: 'primaryFullName',
   gender: 'primaryGender',
-  hasSecondaryCaregiverOneView: 'view:hasSecondaryCaregiverOne',
-  medicaidEnrolled: 'primaryMedicaidEnrolled',
-  medicareEnrolled: 'primaryMedicareEnrolled',
-  otherHealthInsurance: 'view:otherHealthInsurance',
-  otherHealthInsuranceName: 'primaryOtherHealthInsuranceName',
-  primaryHealthCareEnrollmentView: 'view:primaryHealthCareEnrollment',
+  hasSecondaryCaregiverOne: 'view:hasSecondaryCaregiverOne',
   primaryPhoneNumber: 'primaryPrimaryPhoneNumber',
   ssn: 'primarySsnOrTin',
-  tricareEnrolled: 'primaryTricareEnrolled',
   verifyEmail: 'view:primaryEmail',
   vetRelationship: 'primaryVetRelationship',
+  hasHealthInsurance: 'primaryHasHealthInsurance',
+  hasPrimaryCaregiver: 'view:hasPrimaryCaregiver',
 };
 
-export const secondaryCaregiverFields = {
-  secondaryOne: {
-    address: 'secondaryOneAddress',
-    alternativePhoneNumber: 'secondaryOneAlternativePhoneNumber',
-    dateOfBirth: 'secondaryOneDateOfBirth',
-    email: 'secondaryOneEmail',
-    fullName: 'secondaryOneFullName',
-    gender: 'secondaryOneGender',
-    hasSecondaryCaregiverTwoView: 'view:hassecondaryCaregiverTwo',
-    primaryPhoneNumber: 'secondaryOnePrimaryPhoneNumber',
-    ssn: 'secondaryOneSsnOrTin',
-    verifyEmail: 'view:secondaryOneEmail',
-    vetRelationship: 'secondaryOneVetRelationship',
-  },
-  secondaryTwo: {
-    address: 'secondaryTwoAddress',
-    alternativePhoneNumber: 'secondaryTwoAlternativePhoneNumber',
-    dateOfBirth: 'secondaryTwoDateOfBirth',
-    email: 'secondaryTwoEmail',
-    fullName: 'secondaryTwoFullName',
-    gender: 'secondaryTwoGender',
-    primaryPhoneNumber: 'secondaryTwoPrimaryPhoneNumber',
-    ssn: 'secondaryTwoSsnOrTin',
-    verifyEmail: 'view:secondaryTwoEmail',
-    vetRelationship: 'secondaryTwoVetRelationship',
-  },
+export const secondaryOneFields = {
+  address: 'secondaryOneAddress',
+  alternativePhoneNumber: 'secondaryOneAlternativePhoneNumber',
+  dateOfBirth: 'secondaryOneDateOfBirth',
+  email: 'secondaryOneEmail',
+  fullName: 'secondaryOneFullName',
+  gender: 'secondaryOneGender',
+  hasSecondaryCaregiverTwo: 'view:hasSecondaryCaregiverTwo',
+  primaryPhoneNumber: 'secondaryOnePrimaryPhoneNumber',
+  ssn: 'secondaryOneSsnOrTin',
+  verifyEmail: 'view:secondaryOneEmail',
+  vetRelationship: 'secondaryOneVetRelationship',
 };
+
+export const secondaryTwoFields = {
+  address: 'secondaryTwoAddress',
+  alternativePhoneNumber: 'secondaryTwoAlternativePhoneNumber',
+  dateOfBirth: 'secondaryTwoDateOfBirth',
+  email: 'secondaryTwoEmail',
+  fullName: 'secondaryTwoFullName',
+  gender: 'secondaryTwoGender',
+  primaryPhoneNumber: 'secondaryTwoPrimaryPhoneNumber',
+  ssn: 'secondaryTwoSsnOrTin',
+  verifyEmail: 'view:secondaryTwoEmail',
+  vetRelationship: 'secondaryTwoVetRelationship',
+};
+
+export const representativeFields = {
+  signAsRepresentativeYesNo: 'signAsRepresentativeYesNo',
+  documentUpload: 'signAsRepresentativeDocumentUpload',
+};
+
+export const ALLOWED_FILE_TYPES = ['pdf', 'jpg', 'jpeg', 'png'];
+export const MAX_FILE_SIZE_MB = 10;
+export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;

@@ -10,6 +10,8 @@ import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import UIDefinitions from '../schemas/2346UI';
 
+import manifest from '../manifest.json';
+
 const {
   email,
   date,
@@ -19,7 +21,6 @@ const {
 
 const {
   vetEmailField,
-  viewConfirmationEmailField,
   suppliesField,
   permanentAddressField,
   temporaryAddressField,
@@ -29,7 +30,6 @@ const {
 
 const {
   emailUI,
-  confirmationEmailUI,
   suppliesUI,
   permanentAddressUI,
   temporaryAddressUI,
@@ -135,6 +135,7 @@ const submit = form => {
 };
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/mdot/supplies`,
   submit,
@@ -145,6 +146,15 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: FooterInfo,
   formId: VA_FORM_IDS.FORM_VA_2346A,
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your hearing aid batteries and accessories (MDOT) is in progress.',
+      expired:
+        'Your saved hearing aid batteries and accessories (MDOT) has expired. If you want to apply for hearing aid batteries and accessories, please start a new order.',
+      saved: 'Your hearing aid batteries and accessories order has been saved.',
+    },
+  },
   version: 0,
   prefillEnabled: true,
   title: 'Order hearing aid batteries and accessories',
@@ -198,7 +208,6 @@ const formConfig = {
             [permanentAddressField]: permanentAddressUI,
             [temporaryAddressField]: temporaryAddressUI,
             [vetEmailField]: emailUI,
-            [viewConfirmationEmailField]: confirmationEmailUI,
             [viewCurrentAddressField]: currentAddressUI,
           },
           schema: {
@@ -207,7 +216,6 @@ const formConfig = {
               [permanentAddressField]: addressWithIsMilitaryBase,
               [temporaryAddressField]: addressWithIsMilitaryBase,
               [vetEmailField]: email,
-              [viewConfirmationEmailField]: email,
               [viewCurrentAddressField]: {
                 type: 'string',
                 enum: ['permanentAddress', 'temporaryAddress'],

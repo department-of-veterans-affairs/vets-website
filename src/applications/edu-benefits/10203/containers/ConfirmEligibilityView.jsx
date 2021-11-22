@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { isChapter33 } from '../helpers';
 import captureEvents from '../analytics-functions';
+import { ExitApplicationButton } from '../components/ExitApplicationButton';
 
 export class ConfirmEligibilityView extends React.Component {
   onChange = property => {
@@ -11,12 +12,6 @@ export class ConfirmEligibilityView extends React.Component {
       ...property,
     });
   };
-
-  inReviewEditMode = () => this.props.onReviewPage && this.props.reviewMode;
-  showNotApplyingToStemInformation = () =>
-    !this.props.onReviewPage &&
-    this.props.confirmEligibility !== undefined &&
-    !this.props.confirmEligibility;
 
   iconClass = indication =>
     classNames('fa', {
@@ -53,7 +48,7 @@ export class ConfirmEligibilityView extends React.Component {
     const { benefitLeft } = this.props;
     const check = benefitLeft !== 'moreThanSixMonths';
     const text =
-      'Have used all of your education benefits or are within 6 months of doing so when you submit your application';
+      'Have used all of your education benefits or are within 6 months of using all your benefits when you submit your application';
     const title = this.iconText(check);
     const iconTitle = `${title} ${text}`;
 
@@ -61,8 +56,13 @@ export class ConfirmEligibilityView extends React.Component {
   };
 
   renderEnrolledCheck = () => {
-    const { isEnrolledStem, isPursuingTeachingCert } = this.props;
-    const check = isEnrolledStem || isPursuingTeachingCert;
+    const {
+      isEnrolledStem,
+      isPursuingTeachingCert,
+      isPursuingClinicalTraining,
+    } = this.props;
+    const check =
+      isEnrolledStem || isPursuingTeachingCert || isPursuingClinicalTraining;
     const text = (
       <div>
         Are enrolled in a bachelor’s degree program for science, technology,
@@ -70,14 +70,39 @@ export class ConfirmEligibilityView extends React.Component {
         bachelor’s degree and are pursuing a teaching certification
       </div>
     );
+    const textElement = (
+      <div>
+        <p className="vads-u-margin-bottom--neg1px">Are:</p>
+        <ul className="circle vads-u-margin-y--0">
+          <li className="vads-u-margin-y--0">
+            Enrolled in a bachelor’s degree program for science, technology,
+            engineering, or math (STEM), <b>or</b>
+          </li>
+          <li className="vads-u-margin-y--0">
+            Have already earned a STEM bachelor’s degree and are working toward
+            a teaching certification, <b>or</b>
+          </li>
+          <li className="vads-u-margin-y--0">
+            Have already earned a STEM bachelor's or graduate degree and are
+            pursuing a covered clinical training program for health care
+            professionals
+          </li>
+        </ul>
+      </div>
+    );
     const title = this.iconText(check);
     const iconTitle = `${title} ${text}`;
-
-    return this.renderCheck(this.iconClass(check), iconTitle, title, text);
+    return this.renderCheck(
+      this.iconClass(check),
+      iconTitle,
+      title,
+      textElement,
+    );
   };
 
   renderChecks = () => (
-    <div>
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+    <div tabIndex="0">
       <div className="vads-u-margin-top--neg2p5">
         <h4>Based on your responses, you may not be eligible</h4>
       </div>
@@ -119,17 +144,14 @@ export class ConfirmEligibilityView extends React.Component {
                   <strong>Your remaining education benefits</strong>
                   <div className="usa-alert-text">
                     <p>
-                      Our entitlement system shows that you have more than 6
-                      months of education benefits remaining. You should apply
-                      when you have less than 6 months of entitlement left.
-                    </p>
-                    <p>
-                      Months you have left to use:{' '}
-                      <strong>
-                        {this.props.remainingEntitlement.months} months,{' '}
-                        {this.props.remainingEntitlement.days} days{' '}
-                      </strong>
-                    </p>
+                      You must have less than 6 months left of Post-9/11 GI Bill
+                      benefits when you submit your application. Our system
+                      shows you have{' '}
+                      <b>{this.props.remainingEntitlement.months} months</b>,{' '}
+                      <b>{this.props.remainingEntitlement.days} days</b>{' '}
+                      remaining of GI Bill benefits.
+                    </p>{' '}
+                    <p> If you apply now, your application will be denied.</p>
                   </div>
                 </div>
               </div>
@@ -140,18 +162,6 @@ export class ConfirmEligibilityView extends React.Component {
   };
 
   renderHeader = () => {
-    if (this.props.onReviewPage) {
-      return (
-        <div className="form-review-panel-page-header-row">
-          <h3 className="form-review-panel-page-header vads-u-font-size--h5">
-            Rogers STEM Scholarship eligibility summary
-            <div>
-              <hr className="edu-review-hr" />
-            </div>
-          </h3>
-        </div>
-      );
-    }
     return (
       <div className="vads-u-padding-bottom--1">
         <h3>Rogers STEM Scholarship eligibility summary</h3>
@@ -168,34 +178,29 @@ export class ConfirmEligibilityView extends React.Component {
           {this.renderChecks()}
           {this.renderConfirmEligibility()}
         </div>
-        <div className="vads-u-padding-y--4">
+        {/*  eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+        <div className="vads-u-padding-y--4" tabIndex="0">
           <b>
             You must meet the above requirements to qualify for the scholarship.
           </b>{' '}
           Please consider that ineligible applications delay the processing of
           benefits for eligible applicants.
         </div>
-        {!this.props.onReviewPage && (
-          <div>
-            <div className="vads-u-margin-top--neg2">
-              <a
-                className={'usa-button-primary va-button-primary'}
-                href="/education/about-gi-bill-benefits/"
-                target="self"
-                onClick={captureEvents.exitApplication()}
-              >
-                Exit application
-              </a>
-            </div>
-
-            <div>
-              <p>
-                If you'd still like to apply, you can continue with your
-                application.
-              </p>
-            </div>
+        <div>
+          <div className="vads-u-margin-top--neg2">
+            <ExitApplicationButton
+              formId={this.props.formId}
+              isLoggedIn={this.props.isLoggedIn}
+            />
           </div>
-        )}
+
+          <div>
+            <p>
+              If you'd still like to apply, you can continue with your
+              application.
+            </p>
+          </div>
+        </div>
       </div>
     );
   }
@@ -210,15 +215,20 @@ const mapStateToProps = (state, ownProps) => {
     isChapter33: isChapter33(state.form.data),
     benefitLeft: state?.form?.data.benefitLeft,
     isEnrolledStem: state?.form?.data.isEnrolledStem,
-    isPursuingTeachingCert: state?.form?.data?.isPursuingTeachingCert || false,
+    isPursuingTeachingCert:
+      state?.form?.data['view:teachingCertClinicalTraining']
+        ?.isPursuingTeachingCert || false,
+    isPursuingClinicalTraining:
+      state?.form?.data['view:teachingCertClinicalTraining']
+        ?.isPursuingClinicalTraining || false,
     confirmEligibility,
     errors,
     showErrors:
       errors.length > 0 &&
       ownProps?.formContext?.submitted &&
       confirmEligibility === undefined,
-    reviewMode: ownProps?.formContext?.reviewMode,
-    onReviewPage: ownProps?.formContext?.onReviewPage,
+    formId: state.form.formId,
+    isLoggedIn: state.user.login.currentlyLoggedIn,
   };
 };
 

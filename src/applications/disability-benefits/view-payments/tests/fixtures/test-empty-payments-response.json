@@ -1,0 +1,10 @@
+{
+  "data": {
+    "id": "",
+    "type": "bgs_va_payment_history_response",
+    "attributes": {
+      "payments": [],
+      "returnPayments": []
+    }
+  }
+}

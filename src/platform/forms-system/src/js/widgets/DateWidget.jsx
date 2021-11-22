@@ -1,9 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+
+import get from '../../../../utilities/data/get';
+import set from '../../../../utilities/data/set';
 
 import { months, days } from '../utilities/date';
-import { formatISOPartialDate, parseISODate } from '../helpers';
+import {
+  formatISOPartialDate,
+  parseISODate,
+  minYear,
+  maxYear,
+} from '../helpers';
 
 function getEmptyState(value) {
   return {
@@ -34,7 +41,7 @@ export default class DateWidget extends React.Component {
   }
 
   isTouched = ({ year, month, day }) => {
-    if (_.get('options.monthYear', this.props)) {
+    if (get('options.monthYear', this.props)) {
       return year && month;
     }
 
@@ -42,7 +49,7 @@ export default class DateWidget extends React.Component {
   };
 
   isIncomplete = ({ month, year, day }) => {
-    if (_.get('options.monthYear', this.props)) {
+    if (get('options.monthYear', this.props)) {
       return !year || !month;
     }
 
@@ -50,7 +57,7 @@ export default class DateWidget extends React.Component {
   };
 
   handleBlur(field) {
-    const newState = _.set(['touched', field], true, this.state);
+    const newState = set(['touched', field], true, this.state);
     this.setState(newState, () => {
       if (this.isTouched(newState.touched)) {
         this.props.onBlur(this.props.id);
@@ -59,8 +66,8 @@ export default class DateWidget extends React.Component {
   }
 
   handleChange(field, value) {
-    let newState = _.set(['value', field], value, this.state);
-    newState = _.set(['touched', field], true, newState);
+    let newState = set(['value', field], value, this.state);
+    newState = set(['touched', field], true, newState);
 
     this.setState(newState, () => {
       if (this.props.required && this.isIncomplete(newState.value)) {
@@ -72,7 +79,7 @@ export default class DateWidget extends React.Component {
   }
 
   render() {
-    const { id, options = {} } = this.props;
+    const { id, disabled, options = {} } = this.props;
     const { month, day, year } = this.state.value;
     let daysForSelectedMonth;
 
@@ -80,8 +87,9 @@ export default class DateWidget extends React.Component {
     if (month) {
       daysForSelectedMonth = days[month];
     }
+
     return (
-      <div className="usa-date-of-birth row">
+      <div className="usa-date-of-birth usa-datefields row">
         <div className="form-datefield-month">
           <label className="input-date-label" htmlFor={`${id}Month`}>
             Month
@@ -90,12 +98,13 @@ export default class DateWidget extends React.Component {
             name={`${id}Month`}
             id={`${id}Month`}
             value={month}
+            disabled={disabled}
             onChange={event => this.handleChange('month', event.target.value)}
           >
             <option value="" />
             {months.map(mnth => (
               <option key={mnth.value} value={mnth.value}>
-                {mnth.label}
+                {mnth.text}
               </option>
             ))}
           </select>
@@ -109,6 +118,7 @@ export default class DateWidget extends React.Component {
               name={`${id}Day`}
               id={`${id}Day`}
               value={day}
+              disabled={disabled}
               onChange={event => this.handleChange('day', event.target.value)}
             >
               <option value="" />
@@ -130,8 +140,9 @@ export default class DateWidget extends React.Component {
             autoComplete={options.autocomplete}
             name={`${id}Year`}
             id={`${id}Year`}
-            max="3000"
-            min="1900"
+            disabled={disabled}
+            max={maxYear}
+            min={minYear}
             pattern="[0-9]{4}"
             value={year}
             onBlur={() => this.handleBlur('year')}

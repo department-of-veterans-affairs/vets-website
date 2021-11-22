@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { handleScrollOnInputFocus } from '../utils/helpers';
 import { SMALL_SCREEN_WIDTH } from '../constants';
-import environment from 'platform/utilities/environment';
 
 class Dropdown extends React.Component {
   constructor(props) {
@@ -17,6 +16,14 @@ class Dropdown extends React.Component {
     }
   };
 
+  renderLabel = () => {
+    return typeof this.props.label === 'string' ? (
+      <label htmlFor={this.props.name}>{this.props.label}</label>
+    ) : (
+      <div className="vads-u-margin-top--3">{this.props.label}</div>
+    );
+  };
+
   render() {
     if (!this.props.visible) {
       return null;
@@ -29,7 +36,7 @@ class Dropdown extends React.Component {
         className={(this.props.className, disabledClass)}
         id={this.dropdownId}
       >
-        <label htmlFor={this.props.name}>{this.props.label}</label>
+        {this.renderLabel()}
         <select
           className={hideArrowsClass}
           id={this.props.name}
@@ -38,18 +45,24 @@ class Dropdown extends React.Component {
           value={this.props.value}
           onChange={this.props.onChange}
           disabled={this.props.disabled}
-          onFocus={
-            // prod flag for bah-8821
-            environment.isProduction()
-              ? this.handleFocus
-              : this.props.onFocus.bind(this, this.dropdownId)
-          }
+          onFocus={this.props.onFocus.bind(this, this.dropdownId)}
         >
-          {this.props.options.map(({ value, label }) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
+          {this.props.options.map(
+            ({ value, label }) =>
+              label && (
+                <option
+                  key={value}
+                  value={value}
+                  className={
+                    value === this.props.value
+                      ? 'vads-u-font-weight--bold'
+                      : 'vads-u-font-weight--normal'
+                  }
+                >
+                  {label}
+                </option>
+              ),
+          )}
         </select>
       </div>
     );

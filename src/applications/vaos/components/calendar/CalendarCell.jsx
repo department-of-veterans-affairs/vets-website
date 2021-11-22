@@ -3,25 +3,31 @@ import moment from 'moment';
 import classNames from 'classnames';
 import debounce from 'platform/utilities/data/debounce';
 import CalendarOptions from './CalendarOptions';
-import CalendarSelectedIndicator from './CalendarSelectedIndicator';
 
 const CalendarCell = ({
-  additionalOptions,
+  availableSlots,
   currentlySelectedDate,
   date,
   disabled,
   handleSelectOption,
   hasError,
   index,
-  inSelectedArray,
   maxSelections,
   onClick,
+  renderIndicator,
+  renderOptions,
+  renderSelectedLabel,
   selectedDates,
-  selectedIndicatorType,
+  id,
+  timezone,
+  showWeekends,
 }) => {
   const [optionsHeight, setOptionsHeight] = useState(0);
   const buttonRef = useRef(null);
   const optionsHeightRef = useRef(null);
+  const inSelectedArray = selectedDates?.some(selectedDate =>
+    selectedDate.startsWith(date),
+  );
 
   useEffect(
     () => {
@@ -30,7 +36,8 @@ const CalendarCell = ({
           if (optionsHeightRef?.current && buttonRef?.current) {
             const newHeight =
               optionsHeightRef.current.getBoundingClientRect().height +
-              buttonRef.current.getBoundingClientRect().height;
+              buttonRef.current.getBoundingClientRect().height +
+              10;
 
             if (newHeight !== optionsHeight) {
               setOptionsHeight(newHeight);
@@ -41,7 +48,8 @@ const CalendarCell = ({
         if (optionsHeightRef?.current && buttonRef?.current) {
           const newHeight =
             optionsHeightRef.current.getBoundingClientRect().height +
-            buttonRef.current.getBoundingClientRect().height;
+            buttonRef.current.getBoundingClientRect().height +
+            10;
 
           if (newHeight !== optionsHeight) {
             setOptionsHeight(newHeight);
@@ -63,7 +71,7 @@ const CalendarCell = ({
   if (date === null) {
     return (
       <div role="cell" className="vaos-calendar__calendar-day">
-        <button className=" vads-u-visibility--hidden" />
+        <button className="vads-u-padding--0 vads-u-visibility--hidden" />
       </div>
     );
   }
@@ -72,6 +80,13 @@ const CalendarCell = ({
   const momentDate = moment(date);
   const dateDay = momentDate.format('D');
   const ariaDate = momentDate.format('dddd, MMMM Do');
+  const buttonLabel = inSelectedArray
+    ? `${ariaDate}, ${
+        renderSelectedLabel
+          ? renderSelectedLabel(date, selectedDates)
+          : 'selected.'
+      }`
+    : ariaDate;
 
   const cssClasses = classNames('vaos-calendar__calendar-day', {
     'vaos-calendar__day--current': isCurrentlySelected,
@@ -93,19 +108,18 @@ const CalendarCell = ({
         id={`date-cell-${date}`}
         onClick={() => onClick(date)}
         disabled={disabled}
-        aria-label={ariaDate}
+        aria-label={buttonLabel}
         aria-expanded={isCurrentlySelected}
         type="button"
         ref={buttonRef}
       >
-        {inSelectedArray && (
-          <CalendarSelectedIndicator
-            date={date}
-            fieldName={additionalOptions?.fieldName}
-            selectedDates={selectedDates}
-            selectedIndicatorType={selectedIndicatorType}
-          />
-        )}
+        {inSelectedArray &&
+          !!renderIndicator &&
+          renderIndicator({ date, id, selectedDates })}
+        {inSelectedArray &&
+          !renderIndicator && (
+            <i className="fas fa-check vads-u-color--white vaos-calendar__fa-check-position" />
+          )}
         {dateDay}
         {isCurrentlySelected && (
           <span className="vaos-calendar__day--selected-triangle" />
@@ -113,7 +127,7 @@ const CalendarCell = ({
       </button>
       {isCurrentlySelected && (
         <CalendarOptions
-          additionalOptions={additionalOptions}
+          availableSlots={availableSlots}
           currentlySelectedDate={date}
           handleSelectOption={handleSelectOption}
           hasError={hasError}
@@ -121,6 +135,10 @@ const CalendarCell = ({
           optionsHeightRef={optionsHeightRef}
           selectedCellIndex={index}
           selectedDates={selectedDates}
+          renderOptions={renderOptions}
+          id={id}
+          timezone={timezone}
+          showWeekends={showWeekends}
         />
       )}
     </div>

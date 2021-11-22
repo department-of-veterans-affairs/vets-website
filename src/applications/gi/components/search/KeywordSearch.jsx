@@ -6,7 +6,6 @@ import Downshift from 'downshift';
 import classNames from 'classnames';
 import { WAIT_INTERVAL, KEY_CODES } from '../../constants';
 import { handleScrollOnInputFocus } from '../../utils/helpers';
-import environment from 'platform/utilities/environment';
 
 export class KeywordSearch extends React.Component {
   constructor(props) {
@@ -22,7 +21,7 @@ export class KeywordSearch extends React.Component {
     const { onFilterChange, autocomplete } = this.props;
     if ((e.which || e.keyCode) === KEY_CODES.enterKey) {
       e.target.blur();
-      onFilterChange(autocomplete.searchTerm);
+      onFilterChange('name', autocomplete.searchTerm);
     }
   };
 
@@ -45,8 +44,7 @@ export class KeywordSearch extends React.Component {
   };
 
   handleFetchSuggestion({ value }) {
-    const { version } = this.props.location.query;
-    this.props.onFetchAutocompleteSuggestions(value, version);
+    this.props.onFetchAutocompleteSuggestions(value, this.props.version);
   }
 
   handleSuggestionSelected = searchQuery => {
@@ -54,14 +52,16 @@ export class KeywordSearch extends React.Component {
       event: 'gibct-autosuggest',
       'gibct-autosuggest-value': searchQuery,
     });
-    this.props.onFilterChange(searchQuery);
+
+    if (this.props.searchOnAutcompleteSelection) {
+      this.props.onUpdateAutocompleteSearchTerm(searchQuery);
+    } else {
+      this.props.onFilterChange('name', searchQuery);
+    }
   };
 
   handleFocus = () => {
-    // prod flag for bah-8821
-    if (!environment.isProduction()) {
-      handleScrollOnInputFocus('keyword-search');
-    }
+    handleScrollOnInputFocus('keyword-search');
   };
 
   render() {
@@ -110,6 +110,7 @@ export class KeywordSearch extends React.Component {
           }) => (
             <div>
               <input
+                className="input-box-margin"
                 {...getInputProps({
                   type: 'text',
                   onChange: this.handleChange,
@@ -153,6 +154,7 @@ KeywordSearch.defaultProps = {
 
 KeywordSearch.propTypes = {
   label: PropTypes.string,
+  version: PropTypes.string,
   onClearAutocompleteSuggestions: PropTypes.func,
   onFetchAutocompleteSuggestions: PropTypes.func,
   onFilterChange: PropTypes.func,

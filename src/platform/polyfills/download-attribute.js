@@ -6,7 +6,7 @@ if (isInternetExplorer) {
   document.addEventListener('click', event => {
     const { target } = event;
 
-    if (target?.tagName === 'A' && target?.getAttribute('download')) {
+    if (target?.tagName === 'A' && target?.hasAttribute('download')) {
       const url = target.getAttribute('href');
       const isSameOrigin = url?.startsWith(window.location.origin);
 

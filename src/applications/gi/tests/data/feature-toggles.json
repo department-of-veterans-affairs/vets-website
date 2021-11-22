@@ -3,10 +3,6 @@
     "type": "feature_toggles",
     "features": [
       {
-        "name": "dashboardShowCovid19Alert",
-        "value": true
-      },
-      {
         "name": "facilityLocatorShowCommunityCares",
         "value": true
       },
@@ -48,14 +44,6 @@
       },
       {
         "name": "ssoe",
-        "value": true
-      },
-      {
-        "name": "eduBenefitsStemScholarship",
-        "value": false
-      },
-      {
-        "name": "gibctEstimateYourBenefits",
         "value": true
       },
       {

@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone, {
   CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 import { focusElement } from 'platform/utilities/ui';
 
-const SubmitError = () => {
+import DownLoadLink from './DownloadLink';
+
+const SubmitError = ({ form }) => {
   useEffect(() => {
     focusElement('.caregivers-error-message');
   }, []);
@@ -19,7 +21,7 @@ const SubmitError = () => {
         </p>
 
         <div>
-          <b className="vads-u-font-size--h5">What you can do now</b>
+          <strong className="vads-u-font-size--h5">What you can do now</strong>
 
           <p>
             Please review your application to make sure you entered your
@@ -29,12 +31,12 @@ const SubmitError = () => {
         </div>
 
         <div>
-          <p>Mail your applicaiton to:</p>
+          <p className="vads-u-margin-top--1p5">Mail your application to:</p>
 
           <p className="va-address-block vads-u-margin-bottom--2 vads-u-margin-x--0 vads-u-font-size--h4">
-            <b className="vads-u-font-size--h5">
+            <strong className="vads-u-font-size--h5">
               Program of Comprehensive Assistance for Family Caregivers
-            </b>
+            </strong>
             <br />
             Health Eligibility Center <br />
             2957 Clairmont Road NE, Ste 200 <br />
@@ -44,12 +46,14 @@ const SubmitError = () => {
 
         <div>
           If you have trouble downloading your application, call our
-          <a className="vads-u-margin-x--0p5" href="VA.gov">
+          <a className="vads-u-margin-x--0p5" href="https://www.va.gov/">
             VA.gov
           </a>
           help desk at <Telephone contact={CONTACTS.HELP_DESK} /> (TTY: 711).
           We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </div>
+
+        <DownLoadLink form={form} />
       </section>
     );
   };

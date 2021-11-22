@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 // Relative imports.
 import { FETCH_RESULTS, FETCH_RESULTS_SUCCESS } from '../constants';
-import { yellowRibbonReducer } from './index';
+import { yellowRibbonReducer } from '.';
 
 describe('Yellow Ribbon reducer', () => {
   it('returns the default state', () => {
@@ -19,6 +19,7 @@ describe('Yellow Ribbon reducer', () => {
       schoolIDs: [],
       schoolsLookup: {},
       showMobileForm: true,
+      isToolTipOpen: false,
       totalResults: undefined,
     });
   });
@@ -45,6 +46,7 @@ describe('Yellow Ribbon reducer', () => {
       schoolIDs: [],
       schoolsLookup: {},
       showMobileForm: false,
+      isToolTipOpen: false,
       totalResults: undefined,
     });
   });

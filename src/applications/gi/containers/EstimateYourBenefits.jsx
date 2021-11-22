@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 import classNames from 'classnames';
 
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
@@ -123,7 +123,6 @@ export class EstimateYourBenefits extends React.Component {
           onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
           estimatedBenefits={this.props.estimatedBenefits}
           updateEstimatedBenefits={this.updateEstimatedBenefits}
-          gibctCh33BenefitRateUpdate={this.props.gibctCh33BenefitRateUpdate}
         />
         <div className={spacerClassNames}>&nbsp;</div>
         <EstimatedBenefits

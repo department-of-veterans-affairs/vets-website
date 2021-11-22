@@ -6,7 +6,7 @@ import { checkAndUpdateSSOeSession } from '../sso';
 
 export function fetchAndUpdateSessionExpiration(...args) {
   // Only replace with custom fetch if not stubbed for unit testing
-  if (fetch.displayName !== 'stub') {
+  if (!fetch.isSinonProxy) {
     return fetch.apply(this, args).then(response => {
       const apiURL = environment.API_URL;
 
@@ -47,7 +47,8 @@ function isJson(response) {
  * @param {Function} **(DEPRECATED)** error - Callback to execute if the fetch fails to resolve.
  */
 export function apiRequest(resource, optionalSettings = {}, success, error) {
-  const baseUrl = `${environment.API_URL}/v0`;
+  const apiVersion = (optionalSettings && optionalSettings.apiVersion) || 'v0';
+  const baseUrl = `${environment.API_URL}/${apiVersion}`;
   const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
   const csrfTokenStored = localStorage.getItem('csrfToken');
 

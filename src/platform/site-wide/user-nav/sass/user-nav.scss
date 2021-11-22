@@ -38,18 +38,18 @@ span.sidelines {
     // Overwrite white header color.
     color: $color-gray-dark;
     padding-top: 0;
+    margin-right: 0;
+  }
+
+  &.new-modal-design .va-modal-body {
+    @include media($medium-screen) {
+      padding: 0 9em;
+    }
   }
 
   .va-modal-inner {
     max-width: 62.5em;
     width: 95vw;
-  }
-}
-
-#login-root {
-  .profile-nav {
-    display: flex;
-    align-items: center;
   }
 
   .login {
@@ -70,6 +70,16 @@ span.sidelines {
   }
 }
 
+#login-root {
+  .sitewide-search-drop-down-panel-button,
+  .sign-in-drop-down-panel-button {
+    border-top: none;
+    margin-right: 0;
+    padding: 8px 30px 8px 8px;
+    width: auto;
+  }
+}
+
 .verify,
 .login {
   button {
@@ -81,6 +91,14 @@ span.sidelines {
     font-size: 16px;
     margin: 1em 0;
     white-space: normal !important;
+
+    &.dslogon-button {
+      background: $color-primary-darker;
+
+      &:hover {
+        background: $color-primary-darkest;
+      }
+    }
 
     &.dslogon {
       background: $color-primary-darker;
@@ -101,15 +119,40 @@ span.sidelines {
       }
     }
 
-    img {
+    &.idme-button {
+      background: $color-green;
+
+      &:hover {
+        background: $color-green-darker;
+      }
+    }
+
+    &.logingov-button {
+      background: $color-secondary;
+
+      &:hover {
+        background: $color-secondary-darkest;
+      }
+    }
+
+    &.mhv-button {
+      background: $color-primary;
+
+      &:hover {
+        background: $color-primary-darker;
+      }
+    }
+
+    img,
+    svg {
       height: 1em;
       padding: 0 0.25em;
     }
   }
 
   .container {
-    padding: 2em 0;
     color: $color-base;
+    padding: 2em 0;
   }
 
   .logo {
@@ -144,7 +187,7 @@ span.sidelines {
     }
   }
 
-  h4+p {
+  h4 + p {
     margin-top: 0;
   }
 }
@@ -170,6 +213,12 @@ span.sidelines {
 
     p {
       margin: 0.5em 0;
+    }
+
+    &--v2 {
+      font-size: unset;
+      margin-bottom: unset;
+      max-width: 81ch;
     }
   }
 
@@ -269,4 +318,20 @@ span.sidelines {
 
 #help-menu {
   width: 21rem;
+}
+
+#create-account a {
+  border-top: 1px solid $color-gray-light;
+  border-bottom: 1px solid $color-gray-light;
+  padding-bottom: 1.16em;
+
+  &.logingov {
+    border-bottom: 0;
+  }
+}
+
+#sign-in-wrapper {
+  @include media($medium-screen) {
+    max-width: 330px;
+  }
 }

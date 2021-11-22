@@ -43,8 +43,9 @@ function TextareaWidget({
       />
       {!!schema.maxLength && (
         <div className={characterLimitClasses}>
-          {Math.abs(remainingCharacters)}{' '}
-          {isOverLimit ? 'characters over the limit' : 'characters remaining'}
+          {`${Math.abs(remainingCharacters)} ${
+            isOverLimit ? 'characters over the limit' : 'characters remaining'
+          }`}
         </div>
       )}
     </>

@@ -1,28 +1,36 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
-const Alert = ({ content }) => (
-  <div className="vads-l-grid-container vads-u-padding-bottom--5">
+import recordEvent from 'platform/monitoring/record-event';
+
+const titleLowerCase = (title = '') =>
+  `${title[0].toLowerCase() || ''}${title.slice(1)}`;
+
+const Alert = ({ title, content }) => (
+  <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
     <div className="usa-content">
-      <h1>File for Disability Compensation</h1>
-      <AlertBox isVisible content={content} status="error" />
+      <h1>{title}</h1>
+
+      <va-alert visible status="error">
+        {content}
+      </va-alert>
     </div>
   </div>
 );
 
-export const MissingServices = () => {
+export const MissingServices = ({ title }) => {
   const content = (
     <>
       <h2 className="vads-u-display--inline-block vads-u-font-size--h3 vads-u-margin-top--0">
         We need some information for your application
       </h2>
-      <p>
-        We need more information from you before you can file for disability
-        compensation. Please call Veterans Benefits Assistance at{' '}
+      <p className="vads-u-font-size--base">
+        We need more information from you before you can {titleLowerCase(title)}
+        . Please call Veterans Benefits Assistance at{' '}
         <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
         <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
         ), Monday through Friday, 8:00 a.m. to 9:00 p.m. ET to update your
@@ -30,24 +38,33 @@ export const MissingServices = () => {
       </p>
     </>
   );
-  return <Alert content={content} />;
+  recordEvent({
+    event: 'visible-alert-box',
+    'alert-box-type': 'warning',
+    'alert-box-heading': title,
+    'error-key': 'missing_526_or_original_claims_service',
+    'alert-box-full-width': false,
+    'alert-box-background-only': false,
+    'alert-box-closeable': false,
+  });
+  return <Alert title={title} content={content} />;
 };
 
-export const MissingId = ({ children }) => {
+export const MissingId = ({ title }) => {
   const content = (
     <>
       <h2 className="vads-u-display--inline-block vads-u-font-size--h3 vads-u-margin-top--0">
         We need more information for your application
       </h2>
-      <p>
+      <p className="vads-u-font-size--base">
         We don’t have all of your ID information for your account. We need this
-        information before you can file for disability compensation. To update
-        your account, please call Veterans Benefits Assistance at{' '}
+        information before you can {titleLowerCase(title)}. To update your
+        account, please call Veterans Benefits Assistance at{' '}
         <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:
         <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
-      <p>
+      <p className="vads-u-font-size--base">
         Tell the representative that you may be missing your{' '}
         <abbr title="Electronic Data Interchange Personal Identifier">
           EDIPI
@@ -60,5 +77,46 @@ export const MissingId = ({ children }) => {
       </p>
     </>
   );
-  return <Alert content={content} />;
+  recordEvent({
+    event: 'visible-alert-box',
+    'alert-box-type': 'warning',
+    'alert-box-heading': title,
+    'error-key': 'missing_edipi_or_birls_id',
+    'alert-box-full-width': false,
+    'alert-box-background-only': false,
+    'alert-box-closeable': false,
+  });
+  return <Alert title={title} content={content} />;
+};
+
+export const MissingDob = ({ title }) => {
+  const content = (
+    <>
+      <h2 className="vads-u-display--inline-block vads-u-font-size--h3 vads-u-margin-top--0">
+        We need some information for your application
+      </h2>
+      <p className="vads-u-font-size--base">
+        We’re sorry. We can’t find your date of birth in our records. You won’t
+        be able to continue your application for disability compensation until
+        you update your VA account with your date of birth.
+      </p>
+      <p className="vads-u-font-size--base">
+        Please call us at
+        <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
+        <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />) to
+        update your account. We’re here Monday through Friday, 8:00 a.m. to 9:00
+        9:00 p.m. ET.
+      </p>
+    </>
+  );
+  recordEvent({
+    event: 'visible-alert-box',
+    'alert-box-type': 'warning',
+    'alert-box-heading': title,
+    'error-key': 'missing_dob',
+    'alert-box-full-width': false,
+    'alert-box-background-only': false,
+    'alert-box-closeable': false,
+  });
+  return <Alert title={title} content={content} />;
 };

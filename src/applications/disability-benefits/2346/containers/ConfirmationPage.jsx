@@ -1,4 +1,4 @@
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -33,7 +33,7 @@ const ConfirmationPage = ({
       <span>Form 2346A</span>
       <h2 className="vads-u-font-size--h4">Your order has been submitted</h2>
       <p>
-        We'll send you an email confirming your order to{' '}
+        We’ll send you an email confirming your order to{' '}
         <strong>{vetEmail}</strong>.
       </p>
       <h3 className="vads-u-font-size--h4">Your order details</h3>
@@ -55,7 +55,7 @@ const ConfirmationPage = ({
           How long will it take to receive my order?
         </h4>
         <p>
-          You'll receive an email with your order tracking number within 1 to 2
+          You’ll receive an email with your order tracking number within 1 to 2
           business days.
         </p>{' '}
         <p>
@@ -92,7 +92,7 @@ const ConfirmationPage = ({
               level="2"
               content={
                 <p>
-                  We'll send you an email confirming your order to{' '}
+                  We’ll send you an email confirming your order to{' '}
                   <strong>{vetEmail}</strong>.
                 </p>
               }
@@ -161,7 +161,7 @@ const ConfirmationPage = ({
             <section className="order-timeframe-section">
               <h4>How long will it take to receive my order?</h4>
               <p>
-                You'll receive an email with your order tracking number within 1
+                You’ll receive an email with your order tracking number within 1
                 to 2 days of your order. Orders typically arrive within 7 to 10
                 business days.
               </p>
@@ -200,7 +200,7 @@ const ConfirmationPage = ({
                   <a
                     href={`${
                       environment.BASE_URL
-                    }/hearing-aid-batteries-and-accessories/introduction`}
+                    }/health-care/order-hearing-aid-batteries-and-accessories/order-form-2346/`}
                   >
                     place an order online
                   </a>
@@ -228,7 +228,7 @@ const ConfirmationPage = ({
             className="vads-u-margin-bottom--4"
             content={
               <div className="partial-submit-alert">
-                <p>At least one of the following items couldn't be ordered:</p>
+                <p>At least one of the following items couldn’t be ordered:</p>
                 <ul className="vads-u-margin-bottom--1">
                   {selectedProductArray?.map(product => {
                     if (product.productGroup === BATTERY) {
@@ -276,7 +276,7 @@ const ConfirmationPage = ({
               content={
                 <>
                   <p>
-                    Your order for hearing aid supplies wasn't submitted because
+                    Your order for hearing aid supplies wasn’t submitted because
                     something went wrong on our end.
                   </p>
                   <p className="vads-u-font-weight--bold vads-u-font-family--serif vads-u-margin-bottom--1">
@@ -390,9 +390,7 @@ const mapStateToProps = state => {
 
     isCompleteOrderSubmitted = failedSubmissions.length === 0;
   } else {
-    isEmptyOrder =
-      errors?.every(error => error.code === 'MDOT_supplies_not_selected') &&
-      selectedProductArray?.length === 0;
+    isEmptyOrder = selectedProductArray?.length === 0;
   }
 
   if (isPartiallySubmittedOrder || hasCompleteOrderFailed || isEmptyOrder) {

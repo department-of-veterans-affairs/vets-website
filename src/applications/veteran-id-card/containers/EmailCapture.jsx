@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { submitEmail, setEmail } from '../actions';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import ErrorableTextInput from '@department-of-veterans-affairs/formation-react/ErrorableTextInput';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
 class EmailCapture extends React.Component {
   constructor(props) {
@@ -53,7 +53,7 @@ class EmailCapture extends React.Component {
             <a href="/privacy-policy/">See our privacy policy</a>
           </p>
           <form onSubmit={this.handleSubmit}>
-            <ErrorableTextInput
+            <TextInput
               errorMessage={this.props.errors && this.props.errors[0].title}
               label={<span>Email address</span>}
               name="email"

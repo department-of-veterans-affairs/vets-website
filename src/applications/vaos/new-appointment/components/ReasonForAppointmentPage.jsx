@@ -1,0 +1,157 @@
+import React, { useEffect } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/component-library/Telephone';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import { validateWhiteSpace } from 'platform/forms/validations';
+import FormButtons from '../../components/FormButtons';
+import { getFormPageInfo } from '../redux/selectors';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { PURPOSE_TEXT, FACILITY_TYPES } from '../../utils/constants';
+import TextareaWidget from '../../components/TextareaWidget';
+import { useHistory } from 'react-router-dom';
+import PostFormFieldContent from '../../components/PostFormFieldContent';
+import NewTabAnchor from '../../components/NewTabAnchor';
+import InfoAlert from '../../components/InfoAlert';
+import {
+  openReasonForAppointment,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+  updateReasonForAppointmentData,
+} from '../redux/actions';
+
+const initialSchema = {
+  default: {
+    type: 'object',
+    required: ['reasonForAppointment', 'reasonAdditionalInfo'],
+    properties: {
+      reasonForAppointment: {
+        type: 'string',
+        enum: PURPOSE_TEXT.map(purpose => purpose.id),
+        enumNames: PURPOSE_TEXT.map(purpose => purpose.label),
+      },
+      reasonAdditionalInfo: {
+        type: 'string',
+      },
+    },
+  },
+  cc: {
+    type: 'object',
+    properties: {
+      reasonAdditionalInfo: {
+        type: 'string',
+      },
+    },
+  },
+};
+
+const uiSchema = {
+  default: {
+    reasonForAppointment: {
+      'ui:widget': 'radio',
+      'ui:title': 'Let us know why you’re making this appointment.',
+    },
+    reasonAdditionalInfo: {
+      'ui:widget': TextareaWidget,
+      'ui:options': {
+        rows: 5,
+      },
+      'ui:validations': [validateWhiteSpace],
+    },
+  },
+  cc: {
+    reasonAdditionalInfo: {
+      'ui:widget': TextareaWidget,
+      'ui:title':
+        'Please let us know any additional details about your symptoms that may be helpful for the community health provider to know. (Optional)',
+      'ui:options': {
+        rows: 5,
+      },
+      'ui:validations': [validateWhiteSpace],
+    },
+  },
+};
+
+const pageKey = 'reasonForAppointment';
+
+export default function ReasonForAppointmentPage() {
+  const dispatch = useDispatch();
+  const { schema, data, pageChangeInProgress } = useSelector(
+    state => getFormPageInfo(state, pageKey),
+    shallowEqual,
+  );
+  const history = useHistory();
+  const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+  const pageUISchema = isCommunityCare ? uiSchema.cc : uiSchema.default;
+  const pageInitialSchema = isCommunityCare
+    ? initialSchema.cc
+    : initialSchema.default;
+  const pageTitle = isCommunityCare
+    ? 'Tell us the reason for this appointment'
+    : 'Choose a reason for this appointment';
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
+    dispatch(
+      openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema),
+    );
+  }, []);
+
+  return (
+    <div>
+      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      {!!schema && (
+        <SchemaForm
+          name="Reason for appointment"
+          title="Reason for appointment"
+          schema={schema}
+          uiSchema={pageUISchema}
+          onSubmit={() =>
+            dispatch(routeToNextAppointmentPage(history, pageKey))
+          }
+          onChange={newData =>
+            dispatch(
+              updateReasonForAppointmentData(pageKey, pageUISchema, newData),
+            )
+          }
+          data={data}
+        >
+          <PostFormFieldContent>
+            <InfoAlert
+              status="warning"
+              headline="If you have an urgent medical need, please:"
+              className="vads-u-margin-y--3"
+              level="2"
+            >
+              <ul>
+                <li>
+                  Call <Telephone contact={CONTACTS['911']} />,{' '}
+                  <span className="vads-u-font-weight--bold">or</span>
+                </li>
+                <li>
+                  Call the Veterans Crisis hotline at{' '}
+                  <Telephone contact={CONTACTS.CRISIS_LINE} /> and select 1,{' '}
+                  <span className="vads-u-font-weight--bold">or</span>
+                </li>
+                <li>
+                  Go to your nearest emergency room or VA medical center.{' '}
+                  <NewTabAnchor href="/find-locations">
+                    Find your nearest VA medical center
+                  </NewTabAnchor>
+                </li>
+              </ul>
+            </InfoAlert>
+          </PostFormFieldContent>
+          <FormButtons
+            onBack={() =>
+              dispatch(routeToPreviousAppointmentPage(history, pageKey))
+            }
+            pageChangeInProgress={pageChangeInProgress}
+            loadingText="Page change in progress"
+          />
+        </SchemaForm>
+      )}
+    </div>
+  );
+}

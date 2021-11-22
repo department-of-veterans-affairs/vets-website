@@ -1,4 +1,4 @@
-import fullSchema from '../config/schema';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 import SelectArrayItemsWidget from '../components/SelectArrayItemsWidget';
@@ -9,8 +9,8 @@ import {
 } from '../content/unemployabilityDisabilities';
 import { oneDisabilityRequired } from '../validations';
 
-const { ratedDisabilities: disabilitiesSchema } = fullSchema.properties;
-const { condition } = fullSchema.properties.newDisabilities.items.properties;
+const { ratedDisabilities: disabilitiesSchema } = fullSchema.definitions;
+const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,

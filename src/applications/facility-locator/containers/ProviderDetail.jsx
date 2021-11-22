@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import { object, func } from 'prop-types';
 import { fetchProviderDetail } from '../actions';
 import { focusElement } from 'platform/utilities/ui';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import LocationMap from '../components/LocationMap';
-import LocationAddress from '../components/search-results/LocationAddress';
-import LocationPhoneLink from '../components/search-results/LocationPhoneLink';
-import LocationDirectionsLink from '../components/search-results/LocationDirectionsLink';
+import LocationAddress from '../components/search-results-items/common/LocationAddress';
+import LocationPhoneLink from '../components/search-results-items/common/LocationPhoneLink';
+import LocationDirectionsLink from '../components/search-results-items/common/LocationDirectionsLink';
 import AppointmentInfo from '../components/AppointmentInfo';
 import ProviderDetailBlock from '../components/ProviderDetailBlock';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 /**
  * Container component for the CC Provider Detail page
@@ -19,7 +20,7 @@ import ProviderDetailBlock from '../components/ProviderDetailBlock';
 class ProviderDetail extends Component {
   componentDidMount() {
     this.props.fetchProviderDetail(this.props.params.id);
-    window.scrollTo(0, 0);
+    scrollTo(0);
     focusElement('.va-nav-breadcrumbs');
   }
 
@@ -129,7 +130,7 @@ class ProviderDetail extends Component {
         <div className="usa-width-one-third medium-4 columns">
           <div>
             <LocationMap info={location} />
-            <div className="mb2">
+            <div className="vads-u-margin-bottom--4">
               <h4 className="highlight">About Community Care</h4>
               <div>
                 <a

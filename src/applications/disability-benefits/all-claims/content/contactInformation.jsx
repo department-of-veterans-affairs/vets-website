@@ -64,24 +64,22 @@ export const forwardingAddressDescription = () => (
   </p>
 );
 
-export const contactInfoDescription = ({
-  formName = 'disability claim',
-} = {}) => (
-  <p>
-    This is the contact information we have on file for you. We’ll send any
-    important information about your {formName} to this address. Any updates you
-    make here to your contact information will only apply to this application.
+export const contactInfoDescription = ({ formName = 'disability claim' }) => (
+  <p className="contact-info-description" id="contact-info">
+    This is the contact information we have on file for you. Please review it
+    make sure the information below is correct. We’ll send any important
+    information about your {formName} to your mailing address. After you submit
+    your claim, we’ll send you a confirmation email to your email address.
   </p>
 );
 
-export const contactInfoUpdateHelp = () => (
-  <div>
+export const contactInfoUpdateHelpDescription = () => (
+  <div className="contact-info-help-description" id="help-description">
     <p>
-      If you want to update your contact information for all your VA accounts,
-      please go to your profile page.
-    </p>
-    <p>
-      <a href="/profile">Go to my profile page</a>
+      Any updates you make here to your contact information will only apply to
+      this application. If you want to update your contact information for all
+      of your VA accounts,{' '}
+      <a href="/profile">please go to your profile page.</a>
     </p>
   </div>
 );

@@ -1,5 +1,8 @@
 import mapboxClient from '../components/MapboxClient';
-import { reverseGeocodeBox } from '../utils/mapHelpers';
+import {
+  reverseGeocodeBox,
+  searchCriteraFromCoords,
+} from '../utils/mapHelpers';
 import {
   SEARCH_STARTED,
   SEARCH_QUERY_UPDATED,
@@ -10,12 +13,24 @@ import {
   FETCH_SPECIALTIES_DONE,
   FETCH_SPECIALTIES_FAILED,
   CLEAR_SEARCH_RESULTS,
+  CLEAR_SEARCH_TEXT,
+  GEOCODE_STARTED,
+  GEOCODE_COMPLETE,
+  GEOCODE_FAILED,
+  GEOCODE_CLEAR_ERROR,
+  GEOLOCATE_USER,
+  MAP_MOVED,
 } from '../utils/actionTypes';
 import LocatorApi from '../api';
-import { LocationType, BOUNDING_RADIUS } from '../constants';
+import {
+  LocationType,
+  BOUNDING_RADIUS,
+  MAPBOX_QUERY_TYPES,
+  CountriesList,
+} from '../constants';
 
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import recordEvent from 'platform/monitoring/record-event';
+import { distBetween, radiusFromBoundingBox } from '../utils/facilityDistance';
 
 const mbxClient = mbxGeo(mapboxClient);
 /**
@@ -33,6 +48,11 @@ export const clearSearchResults = () => ({
   type: CLEAR_SEARCH_RESULTS,
 });
 
+export const mapMoved = currentRadius => ({
+  type: MAP_MOVED,
+  currentRadius,
+});
+
 /**
  * Get the details of a single VA facility.
  *
@@ -40,9 +60,8 @@ export const clearSearchResults = () => ({
  * @param {Object} location The actual location object if we already have it.
  *                 (This is a kinda hacky way to do a force update of the Redux
  *                  store to set the currently `selectedResult` but ¯\_(ツ)_/¯)
- * @param {number} api version number
  */
-export const fetchVAFacility = (id, location = null, apiVersion) => {
+export const fetchVAFacility = (id, location = null) => {
   if (location) {
     return {
       type: FETCH_LOCATION_DETAIL,
@@ -59,7 +78,7 @@ export const fetchVAFacility = (id, location = null, apiVersion) => {
     });
 
     try {
-      const data = await LocatorApi.fetchVAFacility(id, apiVersion);
+      const data = await LocatorApi.fetchVAFacility(id);
       dispatch({ type: FETCH_LOCATION_DETAIL, payload: data.data });
     } catch (error) {
       dispatch({ type: SEARCH_FAILED, error });
@@ -89,6 +108,66 @@ export const fetchProviderDetail = id => async dispatch => {
 };
 
 /**
+ * Handles all care request (mashup) - Urgent care and Emergency care
+ * @param {Object} parameters from the search request
+ * @returns {Object} An Object response (locations/providers)
+ */
+const returnAllCare = async params => {
+  const { address, bounds, locationType, page, center, radius } = params;
+  const isUrgentCare = locationType === LocationType.URGENT_CARE;
+  const vaData = await LocatorApi.searchWithBounds(
+    address,
+    bounds,
+    locationType,
+    isUrgentCare ? 'UrgentCare' : 'EmergencyCare',
+    page,
+    center,
+    radius,
+    true,
+  );
+
+  const nonVaData = await LocatorApi.searchWithBounds(
+    address,
+    bounds,
+    locationType,
+    isUrgentCare ? 'NonVAUrgentCare' : 'NonVAEmergencyCare',
+    page,
+    center,
+    radius,
+    true,
+  );
+
+  return {
+    meta: {
+      pagination: {
+        currentPage: 1,
+        nextPage: null,
+        prevPage: null,
+        totalPages: 1,
+      },
+    },
+    links: {},
+    data: [...nonVaData.data, ...vaData.data]
+      .map(location => {
+        const distance =
+          center &&
+          distBetween(
+            center[0],
+            center[1],
+            location.attributes.lat,
+            location.attributes.long,
+          );
+        return {
+          ...location,
+          distance,
+        };
+      })
+      .sort((resultA, resultB) => resultA.distance - resultB.distance)
+      .slice(0, 20),
+  };
+};
+
+/**
  * Handles the actual API call to get the type of locations closest to `address`
  * and/or within the given `bounds`.
  *
@@ -100,27 +179,64 @@ export const fetchProviderDetail = id => async dispatch => {
  * @param {Function} dispatch Redux's dispatch method
  * @param {number} api version number
  */
-const fetchLocations = async (
+export const fetchLocations = async (
   address = null,
   bounds,
   locationType,
   serviceType,
   page,
   dispatch,
-  apiVersion,
+  center,
+  radius,
 ) => {
+  let data = {};
+
+  const isUrgentCare = locationType === LocationType.URGENT_CARE;
+  const isEmergencyCare = locationType === LocationType.EMERGENCY_CARE;
+
   try {
-    const data = await LocatorApi.searchWithBounds(
-      address,
-      bounds,
-      locationType,
-      serviceType,
-      page,
-      apiVersion,
-    );
-    // Record event as soon as API return results
-    if (data.data && data.data.length > 0) {
-      recordEvent({ event: 'fl-search-results' });
+    if (
+      (isUrgentCare && (!serviceType || serviceType === 'AllUrgentCare')) ||
+      (isEmergencyCare && (!serviceType || serviceType === 'AllEmergencyCare'))
+    ) {
+      const allCare = await returnAllCare({
+        address,
+        bounds,
+        locationType,
+        page,
+        center,
+        radius,
+      });
+      data = allCare;
+    } else {
+      const dataList = await LocatorApi.searchWithBounds(
+        address,
+        bounds,
+        locationType,
+        serviceType,
+        page,
+        center,
+        radius,
+      );
+      data = { ...dataList };
+      if (dataList.data) {
+        data.data = dataList.data
+          .map(location => {
+            const distance =
+              center &&
+              distBetween(
+                center[0],
+                center[1],
+                location.attributes.lat,
+                location.attributes.long,
+              );
+            return {
+              ...location,
+              distance,
+            };
+          })
+          .sort((resultA, resultB) => resultA.distance - resultB.distance);
+      }
     }
     if (data.errors) {
       dispatch({ type: SEARCH_FAILED, error: data.errors });
@@ -128,7 +244,7 @@ const fetchLocations = async (
       dispatch({ type: FETCH_LOCATIONS, payload: data });
     }
   } catch (error) {
-    dispatch({ type: SEARCH_FAILED, error });
+    dispatch({ type: SEARCH_FAILED, error: error.message });
   }
 };
 
@@ -144,7 +260,8 @@ export const searchWithBounds = ({
   facilityType,
   serviceType,
   page = 1,
-  apiVersion,
+  center,
+  radius,
 }) => {
   const needsAddress = [
     LocationType.CC_PROVIDER,
@@ -179,7 +296,8 @@ export const searchWithBounds = ({
           serviceType,
           page,
           dispatch,
-          apiVersion,
+          center,
+          radius,
         );
       });
     } else {
@@ -190,7 +308,8 @@ export const searchWithBounds = ({
         serviceType,
         page,
         dispatch,
-        apiVersion,
+        center,
+        radius,
       );
     }
   };
@@ -214,10 +333,10 @@ export const genBBoxFromAddress = query => {
   }
 
   return dispatch => {
-    dispatch({ type: SEARCH_STARTED });
+    dispatch({ type: GEOCODE_STARTED });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
-    let types = ['place', 'region', 'postcode', 'locality', 'address'];
+    let types = MAPBOX_QUERY_TYPES;
     // check for postcode search
     const isPostcode = query.searchString.match(/^\s*\d{5}\s*$/);
 
@@ -227,9 +346,9 @@ export const genBBoxFromAddress = query => {
 
     mbxClient
       .forwardGeocode({
-        countries: ['us', 'pr', 'ph', 'gu', 'as', 'mp'],
+        countries: CountriesList,
         types,
-        autocomplete: false,
+        autocomplete: false, // set this to true when build the predictive search UI (feature-flipped)
         query: query.searchString,
       })
       .send()
@@ -239,6 +358,18 @@ export const genBBoxFromAddress = query => {
         const coordinates = features[0].center;
         const zipCode = zip.text || features[0].place_name;
         const featureBox = features[0].box;
+
+        dispatch({
+          type: GEOCODE_COMPLETE,
+          payload: query.usePredictiveGeolocation
+            ? features.map(feature => ({
+                placeName: feature.place_name,
+                placeType: feature.place_type[0],
+                bbox: feature.bbox,
+                center: feature.center,
+              }))
+            : [],
+        });
 
         let minBounds = [
           coordinates[0] - BOUNDING_RADIUS,
@@ -255,11 +386,16 @@ export const genBBoxFromAddress = query => {
             Math.max(featureBox[3], coordinates[1] + BOUNDING_RADIUS),
           ];
         }
+
+        const radius = radiusFromBoundingBox(features);
+
         dispatch({
           type: SEARCH_QUERY_UPDATED,
           payload: {
             ...query,
+            radius,
             context: zipCode,
+            id: Date.now(),
             inProgress: true,
             position: {
               latitude: coordinates[1],
@@ -272,10 +408,80 @@ export const genBBoxFromAddress = query => {
             bounds: minBounds,
             zoomLevel: features[0].id.split('.')[0] === 'region' ? 7 : 9,
             currentPage: 1,
+            mapBoxQuery: {
+              placeName: features[0].place_name,
+              placeType: features[0].place_type[0],
+            },
+            searchArea: null,
           },
         });
       })
-      .catch(error => dispatch({ type: SEARCH_FAILED, error }));
+      .catch(_ => {
+        dispatch({ type: GEOCODE_FAILED });
+        dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
+      });
+  };
+};
+
+/**
+ * Calculates a human readable location (address, zip, city, state) updated
+ * from the coordinates center of the map
+ */
+export const genSearchAreaFromCenter = query => {
+  const { lat, lng, currentMapBoundsDistance, currentBounds } = query;
+  return dispatch => {
+    if (currentMapBoundsDistance > 500) {
+      dispatch({ type: GEOCODE_FAILED });
+      dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
+    } else {
+      const types = MAPBOX_QUERY_TYPES;
+      mbxClient
+        .reverseGeocode({
+          countries: CountriesList,
+          types,
+          query: [lng, lat],
+        })
+        .send()
+        .then(({ body: { features } }) => {
+          const zip =
+            features[0].context.find(v => v.id.includes('postcode')) || {};
+          const location = zip.text || features[0].place_name;
+
+          // Radius is computed as the distance from the center point
+          // to the western edge of the bounding box
+          const radius = distBetween(lat, lng, lat, currentBounds[0]);
+
+          dispatch({
+            type: SEARCH_QUERY_UPDATED,
+            payload: {
+              radius,
+              searchString: location,
+              context: location,
+              searchArea: {
+                locationString: location,
+                locationCoords: {
+                  lng,
+                  lat,
+                },
+              },
+              mapBoxQuery: {
+                placeName: features[0].place_name,
+                placeType: features[0].place_type[0],
+              },
+              searchCoords: null,
+              bounds: currentBounds,
+              position: {
+                latitude: lat,
+                longitude: lng,
+              },
+            },
+          });
+        })
+        .catch(_ => {
+          dispatch({ type: GEOCODE_FAILED });
+          dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
+        });
+    }
   };
 };
 
@@ -299,4 +505,35 @@ export const getProviderSpecialties = () => async dispatch => {
     dispatch({ type: FETCH_SPECIALTIES_FAILED, error });
     return ['Services Temporarily Unavailable'];
   }
+};
+
+export const geolocateUser = () => async dispatch => {
+  const GEOLOCATION_TIMEOUT = 10000;
+  if (navigator?.geolocation?.getCurrentPosition) {
+    dispatch({ type: GEOLOCATE_USER });
+    navigator.geolocation.getCurrentPosition(
+      async currentPosition => {
+        const query = await searchCriteraFromCoords(
+          currentPosition.coords.longitude,
+          currentPosition.coords.latitude,
+        );
+        dispatch({ type: GEOCODE_COMPLETE });
+        dispatch(updateSearchQuery(query));
+      },
+      e => {
+        dispatch({ type: GEOCODE_FAILED, code: e.code });
+      },
+      { timeout: GEOLOCATION_TIMEOUT },
+    );
+  } else {
+    dispatch({ type: GEOCODE_FAILED, code: -1 });
+  }
+};
+
+export const clearGeocodeError = () => async dispatch => {
+  dispatch({ type: GEOCODE_CLEAR_ERROR });
+};
+
+export const clearSearchText = () => async dispatch => {
+  dispatch({ type: CLEAR_SEARCH_TEXT });
 };

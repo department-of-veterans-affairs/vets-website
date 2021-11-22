@@ -1,30 +1,32 @@
 import React from 'react';
 import { getRealFacilityId } from '../utils/appointment';
 import FacilityAddress from './FacilityAddress';
+import NewTabAnchor from './NewTabAnchor';
 
 export default function VAFacilityLocation({
   clinicName,
   facility,
   facilityName,
   facilityId,
+  clinicFriendlyName,
+  showCovidPhone,
+  isPhone,
 }) {
   let content = null;
 
   if (!facility && !facilityId) {
     content = (
-      <a href="/find-locations" rel="noopener noreferrer" target="_blank">
+      <NewTabAnchor href="/find-locations">
         Find facility information
-      </a>
+      </NewTabAnchor>
     );
   } else if (!facility) {
     content = (
-      <a
+      <NewTabAnchor
         href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
-        rel="noopener noreferrer"
-        target="_blank"
       >
         View facility information
-      </a>
+      </NewTabAnchor>
     );
   } else if (facility) {
     content = (
@@ -35,17 +37,34 @@ export default function VAFacilityLocation({
             <br />
           </>
         )}
-        <FacilityAddress facility={facility} showDirectionsLink />
+        <FacilityAddress
+          facility={facility}
+          showDirectionsLink
+          clinicName={clinicFriendlyName}
+          level={2}
+          showCovidPhone={showCovidPhone}
+        />
+      </>
+    );
+  }
+
+  const name = clinicName || facilityName || facility?.name;
+
+  if (isPhone) {
+    return (
+      <>
+        <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+          {name}
+        </h2>
+        <div>{content}</div>
       </>
     );
   }
 
   return (
-    <dl className="vads-u-margin--0">
-      <dt className="vads-u-font-weight--bold">
-        {clinicName || facilityName || facility?.name}
-      </dt>
-      <dd>{content}</dd>
-    </dl>
+    <>
+      {name}
+      <div>{content}</div>
+    </>
   );
 }

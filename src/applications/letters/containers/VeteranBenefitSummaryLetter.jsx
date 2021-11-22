@@ -190,7 +190,7 @@ function mapStateToProps(state) {
       serviceInfo: letterState.serviceInfo,
     },
     // default isVeteran to true for now - please see vets.gov-team issue #6250
-    // isVeteran: (state.user.profile.veteranStatus === 'OK' ? state.user.profile.isVeteran : true),
+    // isVeteran: (state.user.profile.veteranStatus.status === 'OK' ? state.user.profile.veteranStatus.isVeteran : true),
     isVeteran: true,
     optionsAvailable: letterState.optionsAvailable,
     requestOptions: letterState.requestOptions,

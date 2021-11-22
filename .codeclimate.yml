@@ -1,39 +1,22 @@
 version: "2"         # required to adjust maintainability checks
 checks:
   argument-count:
-    enabled: false
+    enabled: true
   complex-logic:
-    enabled: false
+    enabled: true
   file-lines:
-    enabled: false
+    enabled: true
   method-complexity:
-    enabled: false
+    enabled: true
   method-count:
-    enabled: false
+    enabled: true
   method-lines:
-    enabled: false
+    enabled: true
   nested-control-flow:
-    enabled: false
+    enabled: true
   return-statements:
-    enabled: false
+    enabled: true
   similar-code:
-    enabled: false
+    enabled: true
   identical-code:
-    enabled: false
-plugins:
-  eslint:
-    enabled: false
-exclude_patterns:
-- 'config/'
-- 'db/'
-- 'dist/'
-- 'features/'
-- '**/node_modules/'
-- 'script/'
-- '**/spec/'
-- '**/test/'
-- '**/tests/'
-- 'Tests/'
-- '**/vendor/'
-- '**/*_test.go'
-- '**/*.d.ts'
+    enabled: true

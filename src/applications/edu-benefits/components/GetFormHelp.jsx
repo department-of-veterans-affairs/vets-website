@@ -1,9 +1,8 @@
 import React from 'react';
-import CallHRC from 'platform/static-data/CallHRC';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 function GetFormHelp() {
   return (

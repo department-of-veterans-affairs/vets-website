@@ -1,5 +1,9 @@
 import _ from 'platform/utilities/data';
-import { SERVICE_CONNECTION_TYPES, disabilityActionTypes } from './constants';
+import {
+  SERVICE_CONNECTION_TYPES,
+  disabilityActionTypes,
+  MILITARY_CITIES,
+} from './constants';
 import { viewifyFields } from './utils';
 
 // ****************************************
@@ -52,9 +56,6 @@ export default function prefillTransformer(pages, formData, metadata) {
     const { veteran } = data;
 
     if (veteran) {
-      // Form 526 v1 data; transform into v2 format
-      // This transform already includes the attachments data (list of uploaded
-      // documents)
       const { emailAddress, primaryPhone, mailingAddress } = veteran;
       newData.phoneAndEmail = {};
       if (emailAddress) {
@@ -64,7 +65,19 @@ export default function prefillTransformer(pages, formData, metadata) {
         newData.phoneAndEmail.primaryPhone = primaryPhone;
       }
       if (mailingAddress) {
-        newData.mailingAddress = mailingAddress;
+        const onMilitaryBase = MILITARY_CITIES.includes(mailingAddress.city);
+        newData.mailingAddress = {
+          // strip out any extra data. Maybe left over from v1?
+          // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/19423
+          'view:livesOnMilitaryBase': onMilitaryBase,
+          country: mailingAddress.country || '',
+          addressLine1: mailingAddress.addressLine1 || '',
+          addressLine2: mailingAddress.addressLine2,
+          addressLine3: mailingAddress.addressLine3,
+          city: mailingAddress.city || '',
+          state: mailingAddress.state || '',
+          zipCode: mailingAddress.zipCode || '',
+        };
       }
     }
 

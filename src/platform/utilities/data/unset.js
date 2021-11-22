@@ -41,7 +41,7 @@ function baseUnset(arrayPath, object, level = 0) {
  * @param {Object} object
  * @return {Object} A new object with the appropriate value removed
  */
-export default function unset(path, object) {
+export default function unset(path, object = {}) {
   const arrayPath = Array.isArray(path) ? path : deconstructPath(path);
   checkValidPath(arrayPath);
   return baseUnset(arrayPath, object, 0);

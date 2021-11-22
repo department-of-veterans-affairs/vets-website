@@ -1,6 +1,13 @@
-import * as activeDuty from './activeDuty';
 import * as benefitSelection from './benefitSelection';
-import * as stem from './stem';
-import * as stemEligibility from './stemEligibility';
+import * as dependents from './dependents';
+import * as militaryHistory from './militaryHistory';
+import * as newSchool from './newSchool';
+import * as servicePeriods from './servicePeriods';
 
-export { activeDuty, benefitSelection, stem, stemEligibility };
+export {
+  benefitSelection,
+  dependents,
+  militaryHistory,
+  newSchool,
+  servicePeriods,
+};

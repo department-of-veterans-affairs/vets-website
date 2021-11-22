@@ -1,9 +1,5 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import {
-  isChapterFieldRequired,
-  stateTitle,
-  cityTitle,
-} from '../../../helpers';
+import { isChapterFieldRequired } from '../../../helpers';
 import { addSpouse } from '../../../utilities';
 import { marriageTypeInformation } from './helpers';
 

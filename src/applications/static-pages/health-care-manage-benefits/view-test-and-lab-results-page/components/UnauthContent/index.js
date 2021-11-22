@@ -1,11 +1,7 @@
 // Node modules.
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
-import CallToActionWidget from 'platform/site-wide/cta-widget';
-import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
+import CallToActionWidget from 'applications/static-pages/cta-widget';
 
 export const UnauthContent = () => (
   <>
@@ -36,36 +32,42 @@ export const UnauthContent = () => (
       </li>
       <li>Registered as a patient at a VA health facility</li>
     </ul>
-    <a href="/health-care/how-to-apply">
-      Find out how to apply for VA health care
-    </a>
+    <p>
+      <a href="/health-care/how-to-apply">
+        Find out how to apply for VA health care
+      </a>
+    </p>
     <p>
       <strong>And you must have one of these free accounts:</strong>
     </p>
-    <li>
-      A{' '}
-      <a href="https://www.myhealth.va.gov/mhv-portal-web/upgrade-account-to-premium#UpgradeToPremiumAccount">
-        Premium <strong>My HealtheVet</strong> account
-      </a>
-      , <strong>or</strong>
-    </li>
-    <li>
-      A Premium DS Logon account (used for eBenefits and milConnect),{' '}
-      <strong>or</strong>
-    </li>
-    <li>
-      A verified ID.me account that you can{' '}
-      <a href="https://api.id.me/en/registration/new">create here on VA.gov</a>
-    </li>
-    <p>
-      <strong>Note:</strong> If you sign in with a Basic or Advanced account,
-      you’ll find only the results you’ve entered yourself.
+    <ul>
+      <li>
+        A{' '}
+        <a href="https://www.myhealth.va.gov/mhv-portal-web/upgrade-account-to-premium#UpgradeToPremiumAccount">
+          Premium <strong>My HealtheVet</strong> account
+        </a>
+        , <strong>or</strong>
+      </li>
+      <li>
+        A Premium <strong>DS Logon</strong> account (used for eBenefits and
+        milConnect), <strong>or</strong>
+      </li>
+      <li>
+        A verified <strong>ID.me</strong> account that you can{' '}
+        <a href="https://api.id.me/en/registration/new">
+          create here on VA.gov
+        </a>
+      </li>
+    </ul>
+    <p className="vads-u-margin-bottom--0">
+      <strong>Note:</strong> If you sign in with a Basic account, you’ll find
+      only the results you’ve entered yourself.
     </p>
     <a
       href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types"
       rel="noreferrer noopener"
     >
-      Learn about the 3 different My HealtheVet account types
+      Learn about the 2 different My HealtheVet account types
     </a>
     <h2>Can I view all my VA lab and test information using this tool?</h2>
     <p>
@@ -107,7 +109,7 @@ export const UnauthContent = () => (
       href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types"
       rel="noreferrer noopener"
     >
-      Learn about the 3 different My HealtheVet account types
+      Learn about the 2 different My HealtheVet account types
     </a>
     <h2>Will my personal health information be protected?</h2>
     <p>
@@ -118,12 +120,6 @@ export const UnauthContent = () => (
       If you print or download anything from the website (like lab results),
       you’ll need to take responsibility for protecting that information.
     </p>
-    <a
-      href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information"
-      rel="noreferrer noopener"
-    >
-      Get tips for protecting your personal health information
-    </a>
     <h2>What if I have more questions?</h2>
     <p>You can:</p>
     <ul>

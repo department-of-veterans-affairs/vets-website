@@ -60,7 +60,6 @@ function wrapWithRouterContext(component) {
 function fillDate(formDOM, partialId, dateString) {
   const date = dateString.split('-');
   const inputs = Array.from(formDOM.querySelectorAll('input, select'));
-
   ReactTestUtils.Simulate.change(
     inputs.find(i => i.id === `${partialId}Month`),
     {
@@ -84,7 +83,19 @@ function fillDate(formDOM, partialId, dateString) {
   );
 }
 
-let oldFetch;
+/**
+ * Allows the user to change a dropdown input to the value provided
+ *
+ * @param {object} form
+ * @param {string} selector
+ * @param {string} value
+ */
+export function changeDropdown(form, selector, value) {
+  const field = form.find(selector);
+  field.simulate('change', {
+    target: { value },
+  });
+}
 
 /**
  * A function to mock the global fetch function and return
@@ -94,14 +105,8 @@ let oldFetch;
  * @param {boolean} [shouldResolve=true] Returns a rejected promise if this is false
  */
 export function mockFetch(returnVal, shouldResolve = true) {
-  // Only save global.fetch in oldFetch if global.fetch is the real fetch
-  // function rather than a sinon stub. Sinon stubs are objects with many
-  // properties; global.fetch has no properties
-  if (Object.keys(global.fetch).length === 0) {
-    oldFetch = global.fetch;
-  }
-
-  global.fetch = sinon.stub().callsFake(url => {
+  const fetchStub = sinon.stub(global, 'fetch');
+  fetchStub.callsFake(url => {
     let response = returnVal;
     if (!response) {
       response = new Response();
@@ -118,6 +123,7 @@ export function mockFetch(returnVal, shouldResolve = true) {
 export function setFetchJSONResponse(stub, data = null) {
   const response = new Response();
   response.ok = true;
+  response.url = 'https://dev-api.va.gov';
   if (data) {
     response.headers.set('Content-Type', 'application/json');
     response.json = () => Promise.resolve(data);
@@ -130,6 +136,7 @@ export function setFetchJSONFailure(stub, data) {
     headers: { 'content-type': ['application/json'] },
   });
   response.ok = false;
+  response.url = 'https://dev-api.va.gov';
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
 }
@@ -137,13 +144,15 @@ export function setFetchJSONFailure(stub, data) {
 export function setFetchBlobResponse(stub, data) {
   const response = new Response();
   response.ok = true;
+  response.url = 'https://dev-api.va.gov';
   response.blob = () => Promise.resolve(data);
   stub.resolves(response);
 }
 
 export function setFetchBlobFailure(stub, error) {
   const response = new Response();
-  response.ok = true;
+  response.ok = false;
+  response.url = 'https://dev-api.va.gov';
   response.blob = () => Promise.reject(new Error(error));
   stub.resolves(response);
 }
@@ -152,10 +161,8 @@ export function setFetchBlobFailure(stub, error) {
  * Resets the fetch mock set with mockFetch
  */
 export function resetFetch() {
-  // To prevent a really unlikely edge case where resetFetch() is called before
-  // mockFetch()
-  if (oldFetch) {
-    global.fetch = oldFetch;
+  if (global.fetch.isSinonProxy) {
+    global.fetch.restore();
   }
 }
 
@@ -165,6 +172,7 @@ const getApiRequestObject = returnVal => ({
   },
   ok: true,
   json: () => Promise.resolve(returnVal),
+  url: 'https://dev-api.va.gov',
 });
 
 /**
@@ -187,7 +195,7 @@ export function mockApiRequest(returnVal, shouldResolve = true) {
  * @param {Response[]} responses - An array of responses which subsequent fetch calls should return
  */
 export function mockMultipleApiRequests(responses) {
-  global.fetch = sinon.stub();
+  mockFetch();
   responses.forEach((res, index) => {
     const { response, shouldResolve } = res;
     const formattedResponse = getApiRequestObject(response);

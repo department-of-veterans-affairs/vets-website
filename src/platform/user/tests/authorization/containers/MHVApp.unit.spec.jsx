@@ -1,7 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { merge, set } from 'lodash/fp';
+import { merge } from 'lodash';
+import set from '../../../../utilities/data/set';
 import sinon from 'sinon';
 
 import backendServices from '../../../../user/profile/constants/backendServices';
@@ -106,7 +107,7 @@ describe('<MHVApp>', () => {
   });
 
   it('should show a success message after the user accepts T&C and gets upgraded', () => {
-    const newProps = merge(props, {
+    const newProps = merge({}, props, {
       mhvAccount: { ...props.mhvAccount, accountState: 'upgraded' },
       location: { ...props.location, query: { tc_accepted: true } }, // eslint-disable-line camelcase
       availableServices: ['rx'],
@@ -134,7 +135,7 @@ describe('<MHVApp>', () => {
   });
 
   it('should render children if user has the required service as an existing user', () => {
-    const newProps = merge(props, {
+    const newProps = merge({}, props, {
       mhvAccount: { accountState: 'existing' },
       availableServices: ['rx'],
     });
@@ -149,7 +150,7 @@ describe('<MHVApp>', () => {
   });
 
   it('should render children if user has the required service as a registered user', () => {
-    const newProps = merge(props, {
+    const newProps = merge({}, props, {
       mhvAccount: { accountState: 'registered' },
       availableServices: ['rx'],
     });

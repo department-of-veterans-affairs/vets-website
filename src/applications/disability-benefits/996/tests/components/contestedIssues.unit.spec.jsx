@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
@@ -9,7 +10,7 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 
-import { $, $$ } from '../../helpers';
+import { $, $$ } from '../../utils/ui';
 
 import formConfig from '../../config/form.js';
 import initialData from '../schema/initialData.js';
@@ -18,7 +19,7 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.contestedIssues.pages.contestedIssues;
+  } = formConfig.chapters.conditions.pages.contestedIssues;
 
   it('renders the contested issue selection field', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -31,7 +32,7 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
     );
     const formDOM = getFormDOM(form);
     expect(
-      $$('.widget-outline input[type="checkbox"]', formDOM).length,
+      $$('.widget-wrapper input[type="checkbox"]', formDOM).length,
     ).to.equal(initialData.contestedIssues.length);
   });
 
@@ -50,7 +51,7 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
     const formDOM = getFormDOM(form);
     formDOM.setCheckbox('#root_contestedIssues_0', true);
     submitForm(form);
-    expect($$('.usa-input-error', formDOM).length).to.equal(0);
+    expect($$('va-alert', formDOM).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 
@@ -66,7 +67,27 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
 
     const formDOM = getFormDOM(form);
     submitForm(form);
-    expect($$('.usa-input-error', formDOM).length).to.equal(1);
+    expect($$('va-alert', formDOM).length).to.equal(1);
+  });
+
+  // This page isn't required in v2 (but one MUST be selected between this page
+  // & the additional issues page)
+  it('allows submission when no conditions selected for HLR v2', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        schema={schema}
+        data={{ ...initialData, hlrV2: true }}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    const formDOM = getFormDOM(form);
+    submitForm(form);
+    expect($$('va-alert', formDOM).length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
   });
 
   it('renders the information about each disability', () => {
@@ -81,42 +102,21 @@ describe('Higher-Level Review 0996 choose contested issues', () => {
     );
 
     const formDOM = getFormDOM(form);
-    $$('.widget-outline label', formDOM).forEach((label, index) => {
+    $$('.widget-wrapper', formDOM).forEach((wrap, index) => {
       const data = issues[index].attributes;
-      expect($('h3', label).textContent).to.equal(data.ratingIssueSubjectText);
-      expect($('span', label).textContent).to.equal(data.description || '');
-      expect($('.widget-content p', label).textContent).to.equal(
+      expect($('label', wrap).textContent).to.contain(
+        data.ratingIssueSubjectText,
+      );
+      const content = $('.widget-content', wrap).textContent;
+      expect(content).to.contain(data.description || '');
+      expect(content).to.contain(
         `Current rating: ${data.ratingIssuePercentNumber}%`,
       );
+      expect(content).to.contain(
+        `Decision date: ${moment(data.approxDecisionDate).format(
+          'MMMM D, YYYY',
+        )}`,
+      );
     });
-  });
-
-  // Office for review section
-  it('should render the same office checkbox', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={initialData}
-        uiSchema={uiSchema}
-      />,
-    );
-    const formDOM = getFormDOM(form);
-    expect($('#root_sameOffice', formDOM)).to.not.be.false;
-  });
-
-  // "No" should be selected by default
-  it('should show info alert when checked', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={initialData}
-        uiSchema={uiSchema}
-      />,
-    );
-    const formDOM = getFormDOM(form);
-    formDOM.setCheckbox('#root_sameOffice', true);
-    expect($('#root_sameOfficeAlert__title', formDOM)).to.not.be.false;
   });
 });

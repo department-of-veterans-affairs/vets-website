@@ -3,18 +3,31 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { SearchResultsHeader } from '../../../components/SearchResultsHeader';
 import { LocationType } from '../../../constants';
+import { urgentCareServices, emergencyCareServices } from '../../../config';
 
 describe('SearchResultsHeader', () => {
-  const defaultStore = {
-    searchQuery: {
-      specialties: [{ foo: 'bar' }],
-    },
-  };
-
-  it('should not render header if results are empty', () => {
+  it('should not render header if context is not provided', () => {
     const wrapper = shallow(<SearchResultsHeader results={[]} />);
 
     expect(wrapper.find('h2').length).to.equal(0);
+    wrapper.unmount();
+  });
+
+  it('should render header if results are empty and context exists', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[]}
+        context="11111"
+        pagination={{ totalEntries: 0 }}
+      />,
+    );
+
+    expect(
+      wrapper
+        .find('h2')
+        .text()
+        .replace(/[^A-Za-z0-9" ]/g, ' '),
+    ).to.equal('No results found for "" near "11111"');
     wrapper.unmount();
   });
 
@@ -31,27 +44,79 @@ describe('SearchResultsHeader', () => {
         results={[{}]}
         facilityType={LocationType.HEALTH}
         context={'new york'}
+        pagination={{ totalEntries: 5 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Results for "VA health"\s+near\s+"new york"/,
+      /Showing 1 - 5 results for "VA health",\s+"All VA health services"\s+near\s+"new york"/,
     );
     wrapper.unmount();
   });
 
-  it('should render header with LocationType.HEALTH', () => {
+  it('should render header with LocationType.HEALTH, totalEntries = 1', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         facilityType={LocationType.HEALTH}
         serviceType="PrimaryCare"
         context="new york"
+        pagination={{ totalEntries: 1 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Results for "VA health",\s+"Primary care"\s+near\s+"new york"/,
+      /Showing 1 result for "VA health",\s+"Primary care"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
+  it('should render header with LocationType.HEALTH, totalEntries = 5', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.HEALTH}
+        serviceType="PrimaryCare"
+        context="new york"
+        pagination={{ totalEntries: 5 }}
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Showing 1 - 5 results for "VA health",\s+"Primary care"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
+  it('should render header with LocationType.HEALTH, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.HEALTH}
+        serviceType="PrimaryCare"
+        context="new york"
+        pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Showing 11 - 15 of 15 results for "VA health",\s+"Primary care"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
+  it('with LocationType.HEALTH, null serviceType', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.HEALTH}
+        context="new york"
+        pagination={{ totalEntries: 5 }}
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Showing 1 - 5 results for "VA health",\s+"All VA health services"\s+near\s+"new york"/,
     );
     wrapper.unmount();
   });
@@ -67,7 +132,69 @@ describe('SearchResultsHeader', () => {
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Results for "Urgent care",\s+"Community urgent care providers \(in VA’s network\)"\s+near\s+"new york"/,
+      new RegExp(
+        `Results for "Urgent care",\\s+"${
+          urgentCareServices.NonVAUrgentCare
+        }"\\s+near\\s+"new york"`,
+      ),
+    );
+    wrapper.unmount();
+  });
+
+  it('LocationType.URGENT_CARE, null serviceType', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.URGENT_CARE}
+        context="new york"
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      new RegExp(
+        `Results for "Urgent care",\\s+"${
+          urgentCareServices.AllUrgentCare
+        }"\\s+near\\s+"new york"`,
+      ),
+    );
+    wrapper.unmount();
+  });
+
+  it('should render header with LocationType.EMERGENCY_CARE', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.EMERGENCY_CARE}
+        serviceType="NonVAEmergencyCare"
+        context="new york"
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      new RegExp(
+        `Results for "Emergency Care",\\s+"${
+          emergencyCareServices.NonVAEmergencyCare
+        }"\\s+near\\s+"new york"`,
+      ),
+    );
+    wrapper.unmount();
+  });
+
+  it('LocationType.EMERGENCY_CARE, null serviceType', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.EMERGENCY_CARE}
+        context="new york"
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      new RegExp(
+        `Results for "Emergency Care",\\s+"${
+          emergencyCareServices.AllEmergencyCare
+        }"\\s+near\\s+"new york"`,
+      ),
     );
     wrapper.unmount();
   });
@@ -89,18 +216,117 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render header with LocationType.BENEFITS', () => {
+  it('should render header with LocationType.BENEFITS, totalEntries = 1', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
         facilityType={LocationType.BENEFITS}
         serviceType="ApplyingForBenefits"
         context="new york"
+        pagination={{ totalEntries: 1 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Results for "VA benefits",\s+"Applying for benefits"\s+near\s+"new york"/,
+      /Showing 1 result for "VA benefits",\s+"Applying for benefits"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
+  it('should render header with LocationType.BENEFITS, totalEntries = 5', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.BENEFITS}
+        serviceType="ApplyingForBenefits"
+        context="new york"
+        pagination={{ totalEntries: 5 }}
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Showing 1 - 5 results for "VA benefits",\s+"Applying for benefits"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
+  it('should render header with LocationType.BENEFITS, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.BENEFITS}
+        serviceType="ApplyingForBenefits"
+        context="new york"
+        pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Showing 11 - 15 of 15 results for "VA benefits",\s+"Applying for benefits"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
+  it('LocationType.BENEFITS, serviceType null', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.BENEFITS}
+        context="new york"
+        pagination={{ totalEntries: 5 }}
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Showing 1 - 5 results for "VA benefits",\s+"All VA benefit services"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
+  it('LocationType.CEMETARY, totalEntries = 1', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.CEMETARY}
+        context="new york"
+        pagination={{ totalEntries: 1 }}
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Showing 1 result for "VA cemeteries"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
+  it('LocationType.CEMETARY, totalEntries = 5', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.CEMETARY}
+        context="new york"
+        pagination={{ totalEntries: 5 }}
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Showing 1 - 5 results for "VA cemeteries"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
+  it('LocationType.CEMETARY, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.CEMETARY}
+        context="new york"
+        pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Showing 11 - 15 of 15 results for "VA cemeteries"\s+near\s+"new york"/,
     );
     wrapper.unmount();
   });

@@ -1,11 +1,5 @@
 import { expect } from 'chai';
-import {
-  getEnabledQuestions,
-  updateEnabledQuestions,
-  checkFormResult,
-  checkFormComplete,
-  checkFormStatus,
-} from './questionLogic';
+import { getEnabledQuestions, updateEnabledQuestions } from './questionLogic';
 
 describe('coronavirus-screener', () => {
   describe('questionLogic', () => {

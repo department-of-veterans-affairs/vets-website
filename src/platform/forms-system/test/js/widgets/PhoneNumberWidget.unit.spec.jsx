@@ -15,15 +15,15 @@ describe('Schemaform <PhoneNumberWidget>', () => {
 
   it('should render a "tel" type input', () => {
     const tree = SkinDeep.shallowRender(<PhoneNumberWidget />);
-    expect(tree.subTree('TextWidget').props.inputType).to.equal('tel');
+    expect(tree.subTree('TextWidget').props.type).to.equal('tel');
   });
 
-  it('should strip spaces, (, ), -, +, and x on change', () => {
+  it('should strip anything that is not a number on change', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <PhoneNumberWidget value="" onChange={onChange} />,
     );
-    tree.subTree('TextWidget').props.onChange('+(154) 945-56x77');
+    tree.subTree('TextWidget').props.onChange('+(154) 945-56x77~!@#$%^&*_=');
     expect(onChange.calledWith('1549455677')).to.be.true;
   });
 

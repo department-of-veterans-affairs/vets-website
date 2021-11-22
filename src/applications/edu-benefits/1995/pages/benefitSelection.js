@@ -4,7 +4,6 @@ import { benefitsLabels } from '../../utils/labels';
 
 const { benefit } = fullSchema.properties;
 
-// 1995-STEM related
 const displayBenefit = {
   ...benefit,
   enum: [...benefit.enum],
@@ -13,6 +12,16 @@ const displayBenefit = {
 displayBenefit.enum.splice(1, 0, 'fryScholarship');
 
 export const uiSchema = {
+  benefit: {
+    'ui:widget': 'radio',
+    'ui:title': 'Which benefit are you currently using?',
+    'ui:options': {
+      labels: benefitsLabels,
+    },
+  },
+};
+
+export const oldUiSchema = {
   benefit: {
     'ui:widget': 'radio',
     'ui:title':

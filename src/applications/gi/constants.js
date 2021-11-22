@@ -1,8 +1,16 @@
 // WAIT_INTERVAL is in milliseconds.
 export const WAIT_INTERVAL = 333;
 
+// ELIGIBILITY_LIFESPAN is in milliseconds
+export const ELIGIBILITY_LIFESPAN = 3600000;
+
+// QUERY_LIFESPAN is in milliseconds
+export const QUERY_LIFESPAN = 3600000;
+
 // SMALL_SCREEN_WIDTH is in pixels
 export const SMALL_SCREEN_WIDTH = 481;
+
+export const MINIMUM_RATING_COUNT = 5;
 
 export const KEY_CODES = Object.freeze({
   enterKey: 13,
@@ -46,5 +54,6 @@ export const ariaLabels = Object.freeze({
     majorityOfClasses: 'Learn more about the location-based housing allowance',
     militaryTuitionAssistance:
       'Learn more about how military tuition assistance affects your benefits',
+    inState: 'Learn more about qualifying for in-state tuition.',
   },
 });

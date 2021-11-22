@@ -2,7 +2,7 @@ import React from 'react';
 import Telephone, {
   CONTACTS,
   PATTERNS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const isChapterFieldRequired = (formData, option) =>
   formData[`view:selectable686Options`][option];
@@ -23,15 +23,18 @@ export const VerifiedAlert = (
 
 export const VaFileNumberMissingAlert = (
   <>
-    <h2 className="vads-u-margin-y--0 vads-u-font-size--lg">
+    <h2
+      slot="headline"
+      className="vads-u-font-size--h3 vads-u-margin-y--0 vads-u-font-size--lg"
+    >
       Your profile is missing some required information
     </h2>
-    <p>
+    <p className="vads-u-font-size--base">
       The personal information we have on file for your is missing your VA file
       number.
     </p>
-    <p>
-      You'll need to update your personal information. Please call Veterans
+    <p className="vads-u-font-size--base">
+      You’ll need to update your personal information. Please call Veterans
       Benefits Assistance at{' '}
       <a href="tel: 800-827-1000" aria-label="800. 8 2 7. 1000.">
         800-827-1000
@@ -43,19 +46,20 @@ export const VaFileNumberMissingAlert = (
 
 export const ServerErrorAlert = (
   <>
-    <h2 className="vads-u-margin-y--0 vads-u-font-size--lg">
+    <h2
+      slot="headline"
+      className="vads-u-font-size--h3 vads-u-margin-y--0 vads-u-font-size--lg"
+    >
       We’re sorry. Something went wrong on our end
     </h2>
-    <p>
+    <p className="vads-u-font-size--base">
       Please refresh this page or check back later. You can also sign out of
       VA.gov and try signing back into this page.
     </p>
-    <p>
+    <p className="vads-u-font-size--base">
       If you get this error again, please call the VA.gov help desk at{' '}
-      <a href="tel:8446982311" aria-label="8 4 4. 6 9 8. 2 3 1 1.">
-        844-698-2311
-      </a>{' '}
-      (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+      <Telephone contact={CONTACTS.VA_311} /> (TTY:{' '}
+      <Telephone contact={CONTACTS['711']} pattern={PATTERNS['3_DIGIT']} />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </>
@@ -66,14 +70,20 @@ export const isInsideListLoopReturn = (
   outerField,
   uiTitle,
   formChapter,
+  countryUiLabel,
+  stateUiLabel,
+  cityUiLabel,
 ) => {
   return {
     'ui:title': uiTitle,
     isOutsideUs: {
-      'ui:title': 'This occurred outside the US',
+      'ui:title': 'This occurred outside the U.S.',
+      'ui:options': {
+        hideOnReviewIfFalse: true,
+      },
     },
     country: {
-      'ui:title': 'Country',
+      'ui:title': countryUiLabel,
       'ui:required': (formData, index) =>
         formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs,
       'ui:options': {
@@ -86,7 +96,7 @@ export const isInsideListLoopReturn = (
       },
     },
     state: {
-      'ui:title': 'State',
+      'ui:title': stateUiLabel,
       'ui:required': (formData, index) =>
         !formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs,
       'ui:options': {
@@ -100,7 +110,7 @@ export const isInsideListLoopReturn = (
     },
     city: {
       'ui:required': formData => isChapterFieldRequired(formData, formChapter),
-      'ui:title': 'City',
+      'ui:title': cityUiLabel,
     },
   };
 };
@@ -110,14 +120,20 @@ export const isOutsideListLoopReturn = (
   outerField,
   uiTitle,
   formChapter,
+  countryUiLabel,
+  stateUiLabel,
+  cityUiLabel,
 ) => {
   return {
     'ui:title': uiTitle,
     isOutsideUs: {
-      'ui:title': 'This occurred outside the US',
+      'ui:title': 'This occurred outside the U.S.',
+      'ui:options': {
+        hideOnReviewIfFalse: true,
+      },
     },
     country: {
-      'ui:title': 'Country',
+      'ui:title': countryUiLabel,
       'ui:required': formData => formData?.[chapter]?.[outerField]?.isOutsideUs,
       'ui:options': {
         hideIf: formData => {
@@ -129,7 +145,7 @@ export const isOutsideListLoopReturn = (
       },
     },
     state: {
-      'ui:title': 'State',
+      'ui:title': stateUiLabel,
       'ui:required': formData =>
         !formData?.[chapter]?.[outerField]?.isOutsideUs,
       'ui:options': {
@@ -143,7 +159,15 @@ export const isOutsideListLoopReturn = (
     },
     city: {
       'ui:required': formData => isChapterFieldRequired(formData, formChapter),
-      'ui:title': 'City',
+      'ui:title': cityUiLabel,
     },
   };
 };
+
+export const PensionIncomeRemovalQuestionTitle = (
+  <p>
+    Did this dependent earn an income in the last 365 days? Answer this question{' '}
+    <strong>only</strong> if you are removing this dependent from your{' '}
+    <strong>pension</strong>.
+  </p>
+);

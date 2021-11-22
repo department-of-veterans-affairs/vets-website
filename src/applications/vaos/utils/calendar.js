@@ -1,204 +1,84 @@
-import moment from 'moment';
-import { FREE_BUSY_TYPES } from './constants';
+/*
+ * ICS files have a 75 character line limit. Longer fields need to be broken
+ * into 75 character chunks with a CRLF in between. They also apparenly need to have a tab
+ * character at the start of each new line, which is why I set the limit to 74
+ * 
+ * Additionally, any actual line breaks in the text need to be escaped
+ */
+export const ICS_LINE_LIMIT = 74;
 
-const DEFAULT_MAX_DAYS_AHEAD = 90;
+/**
+ * @summary Function that returns a collection of ICS key/value pairs.
+ * @description Only a subset of the ICS object specification is used.
+ * The following properties/keys are allowed:
+ *
+ * <ul>
+ * <li>BEGIN</li>
+ * <li>VERSION</li>
+ * <li>PRODID</li>
+ * <li>BEGIN</li>
+ * <li>UID</li>
+ * <li>SUMMARY</li>
+ * <li>DESCRIPTION</li>
+ * <li>LOCATION</li>
+ * <li>DTSTAMP</li>
+ * <li>DTSTART</li>
+ * <li>DTEND</li>
+ * <li>END</li>
+ * <li>END</li>
+ * </ul>
+ *
+ * Values are retreived from the returned collection using the defined keys. Values returned from
+ * the collection can be of type string or array for keys with multiply values. The following keys have
+ * multiple values:
+ *
+ * <ul>
+ * <li>BEGIN</li>
+ * <li>END</li>
+ * </ul>
+ *
+ * The following key:
+ * <ul>
+ * <li>FORMATTED_TEXT</li>
+ * </ul>
+ *
+ * is a special key used to access the formatted description text.
+ *
+ * @export
+ * @param {string} buffer - ICS calendar string
+ * @returns Returns a collection of ICS key/value pairs.
+ */
+export function getICSTokens(buffer) {
+  const map = new Map();
+  let tokens = buffer.split('\r\n');
 
-function pad(num, size) {
-  let s = num.toString();
-  while (s.length < size) s = `0${s}`;
-  return s;
-}
-
-export function getMaxMonth(maxDate, startMonth) {
-  const defaultMaxMonth = moment()
-    .add(DEFAULT_MAX_DAYS_AHEAD, 'days')
-    .format('YYYY-MM');
-
-  // If provided start month is beyond our default, set that month as max month
-  // This is needed in the case of direct schedule if the user selects a date
-  // beyond the max date
-  if (startMonth && startMonth > defaultMaxMonth) {
-    return startMonth;
-  }
-
-  if (
-    maxDate &&
-    moment(maxDate)
-      .startOf('month')
-      .isAfter(defaultMaxMonth)
-  ) {
-    return moment(maxDate)
-      .startOf('month')
-      .format('YYYY-MM');
-  }
-
-  // If no available dates array provided, set max to default from now
-  return defaultMaxMonth;
-}
-
-function getWeekdayOfFirstOfMonth(momentDate) {
-  return momentDate.startOf('month').format('d');
-}
-
-function getInitialBlankCells(momentDate) {
-  const firstWeekday = getWeekdayOfFirstOfMonth(momentDate);
-
-  if (firstWeekday === 0 || firstWeekday === 6) {
-    return [];
-  }
-
-  const blanks = [];
-  for (let i = 1; i < firstWeekday; i++) {
-    blanks.push(null);
-  }
-
-  return blanks;
-}
-
-export function getWeekdays(momentDate) {
-  let dayOfWeek = Number(getWeekdayOfFirstOfMonth(momentDate));
-  const daysToShow = [];
-
-  // Create array of weekdays
-  for (let i = 1; i <= momentDate.daysInMonth(); i++) {
-    if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-      daysToShow.push(
-        `${momentDate.format('YYYY')}-${momentDate.format('MM')}-${pad(i, 2)}`,
-      );
-    }
-    dayOfWeek = dayOfWeek + 1 > 6 ? 0 : dayOfWeek + 1;
-  }
-  return daysToShow;
-}
-
-function getCells(momentDate) {
-  const cells = [
-    ...getInitialBlankCells(momentDate),
-    ...getWeekdays(momentDate),
-  ];
-
-  // Add blank cells to end of month
-  while (cells.length % 5 !== 0) cells.push(null);
-
-  return cells;
-}
-
-export function getCalendarWeeks(momentDate) {
-  const dateCells = getCells(momentDate);
-  const weeks = [];
-  let currentWeek = [];
-
-  for (let index = 0; index < dateCells.length; index++) {
-    if (index > 0 && index % 5 === 0) {
-      weeks.push(currentWeek);
-      currentWeek = [dateCells[index]];
-    } else {
-      currentWeek.push(dateCells[index]);
-    }
-  }
-  weeks.push(currentWeek);
-  return weeks;
-}
-
-export function isDateInSelectedArray(date, selectedArray) {
-  return selectedArray?.filter(d => d.date === date)?.length > 0;
-}
-
-export function isDateOptionPairInSelectedArray(
-  dateObj,
-  selectedArray,
-  option,
-) {
-  for (let index = 0; index < selectedArray.length; index++) {
-    const currentDateObj = selectedArray[index];
-    if (
-      currentDateObj.date === dateObj.date &&
-      currentDateObj[option] === dateObj[option]
-    ) {
-      return true;
-    }
-  }
-  return false;
-}
-
-export function removeDateFromSelectedArray(date, selectedArray) {
-  return selectedArray.filter(d => d.date !== date);
-}
-
-export function removeDateOptionPairFromSelectedArray(
-  dateObj,
-  selectedArray,
-  fieldName,
-) {
-  return selectedArray.filter(
-    d =>
-      d.date !== dateObj.date ||
-      (d.date === dateObj.date && d[fieldName] !== dateObj[fieldName]),
+  // Split tokens into key/value pairs using lookbehind since it is possible
+  // for other text to contain the split character. The regex looks for a ':'
+  // preceeded by on the keywords.
+  tokens = tokens.map(t =>
+    t.split(
+      /(?<=BEGIN):|(?<=VERSION):|(?<=PRODID):|(?<=UID):|(?<=SUMMARY):|(?<=DESCRIPTION):|(?<=LOCATION):|(?<=DTSTAMP):|(?<=DTSTART):|(?<=DTEND):|(?<=END):/g,
+    ),
   );
-}
-
-function randomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-export function generateMockSlots() {
-  const times = [];
-  const today = moment();
-  const minuteSlots = ['00:00', '20:00', '40:00'];
-
-  while (times.length < 300) {
-    const daysToAdd = randomInt(1, 365);
-    const date = today
-      .clone()
-      .add(daysToAdd, 'day')
-      .format('YYYY-MM-DD');
-    const hour = `0${randomInt(9, 16)}`.slice(-2);
-    const minutes = minuteSlots[Math.floor(Math.random() * minuteSlots.length)];
-    const startDateTime = `${date}T${hour}:${minutes}.000+00:00`;
-    if (!times.includes(startDateTime)) {
-      times.push(startDateTime);
+  tokens.forEach(token => {
+    // Store duplicate keys values in an array...
+    if (map.has(token[0])) {
+      const value = map.get(token[0]);
+      if (Array.isArray(value)) {
+        value.push(token[1]);
+      } else {
+        map.set(token[0], [value, token[1]]);
+      }
+    } else if (token[0].startsWith('\t')) {
+      if (map.has('DESCRIPTION')) {
+        // Prepend to exisiting text
+        map.set('DESCRIPTION', `${map.get('DESCRIPTION')}${token[0]}`);
+      } else {
+        map.set('DESCRIPTION', token[0]);
+      }
+    } else {
+      map.set(token[0], token[1]);
     }
-  }
-
-  return times.sort().map(startDateTime => ({
-    startDateTime,
-    endDateTime: moment(startDateTime.replace('+00:00', ''))
-      .add(20, 'minutes')
-      .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-    bookingStatus: '1',
-    remainingAllowedOverBookings: '3',
-    availability: true,
-  }));
-}
-
-export function generateMockFHIRSlots() {
-  const times = [];
-  const today = moment();
-  const minuteSlots = [0, 20, 40];
-
-  while (times.length < 300) {
-    const minutes = minuteSlots[Math.floor(Math.random() * minuteSlots.length)];
-    const startDateTime = today
-      .clone()
-      .add(randomInt(1, 365), 'day')
-      .hour(randomInt(9, 16))
-      .minute(minutes)
-      .second(0)
-      .millisecond(0)
-      .toISOString();
-    if (!times.includes(startDateTime)) {
-      times.push(startDateTime);
-    }
-  }
-
-  return times.sort().map(start => ({
-    resource: {
-      start,
-      end: moment(start)
-        .add(20, 'minutes')
-        .toISOString(),
-      overbooked: false,
-      freeBusyType: FREE_BUSY_TYPES.free,
-    },
-  }));
+  });
+  return map;
 }

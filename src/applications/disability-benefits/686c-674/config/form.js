@@ -1,14 +1,15 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import environment from 'platform/utilities/environment';
+import FormFooter from 'platform/forms/components/FormFooter';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
 import { isChapterFieldRequired } from './helpers';
-import { customTransformForSubmit } from './utilities';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import FormFooter from 'platform/forms/components/FormFooter';
 import CustomPreSubmitInfo from '../components/CustomPreSubmitInfo';
 import GetFormHelp from '../components/GetFormHelp.jsx';
+import { customSubmit686 } from '../analytics/helpers';
 
 // Chapter imports
 import { formerSpouseInformation } from './chapters/report-divorce';
@@ -52,38 +53,59 @@ import {
   studentIncomeInformation,
   studentNetworthInformation,
 } from './chapters/674';
+import { householdIncome } from './chapters/household-income';
+
+import manifest from '../manifest.json';
 
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // NOTE: e2e tests will fail until the dependents_applications endpoint gets merged in to vets-api.
   // All e2e tests will be disabled until then. If you need to run an e2e test, temporarily change
   // dependents_appilcations to 21-686c.
   submitUrl: `${environment.API_URL}/v0/dependents_applications`,
-  trackingPrefix: 'disability-21-686c',
+  submit: customSubmit686,
+  trackingPrefix: 'disability-21-686c-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: CustomPreSubmitInfo,
   formId: VA_FORM_IDS.FORM_21_686C,
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your dependent status application (21-686c) is in progress.',
+      expired:
+        'Your saved dependent status application (21-686c) has expired. If you want to apply for dependent status, please start a new application.',
+      saved: 'Your dependent status application has been saved.',
+    },
+  },
   version: 1,
   migrations,
   prefillEnabled: true,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  downtime: {
+    dependencies: [
+      externalServices.bgs,
+      externalServices.global,
+      externalServices.mvi,
+      externalServices.vaProfile,
+      externalServices.vbms,
+    ],
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for declare or remove a dependent.',
     noAuth:
       'Please sign in again to continue your application for declare or remove a dependent.',
   },
-  title: 'Add or remove dependents from your VA benefits',
-  subTitle: 'VA Form 21-686c (and 21-674)',
+  title: 'Add or remove a dependent on your VA disability benefits',
+  subTitle: 'VA Form 21-686c (with 21P-527EZ and 21-674)',
   defaultDefinitions: { ...fullSchema.definitions },
-  transformForSubmit: customTransformForSubmit,
   chapters: {
     optionSelection: {
-      title: 'What do you want to do?',
+      title: 'What do you want to do',
       pages: {
         wizard: {
           hideHeaderRow: true,
@@ -94,8 +116,9 @@ const formConfig = {
         },
       },
     },
+
     veteranInformation: {
-      title: "Veteran's Information",
+      title: "Veteran's information",
       pages: {
         veteranInformation: {
           path: 'veteran-information',
@@ -141,7 +164,7 @@ const formConfig = {
         spouseMarriageHistory: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title: 'Information needed to add your spouse',
+          title: 'Information about your spouse’s former marriage(s)',
           path: 'current-spouse-marriage-history',
           uiSchema: spouseMarriageHistory.uiSchema,
           schema: spouseMarriageHistory.schema,
@@ -149,7 +172,7 @@ const formConfig = {
         spouseMarriageHistoryDetails: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title: 'Information needed to add your spouse',
+          title: 'Information about your spouse’s former marriage(s)',
           path: 'current-spouse-marriage-history/:index',
           showPagePerItem: true,
           arrayPath: 'spouseMarriageHistory',
@@ -188,7 +211,7 @@ const formConfig = {
       },
     },
     addChild: {
-      title: 'Information needed to add your child',
+      title: 'Information needed to add children',
       pages: {
         addChildInformation: {
           depends: formData =>
@@ -294,15 +317,11 @@ const formConfig = {
       },
     },
     reportDivorce: {
-      title: 'Information needed to report a divorce',
+      title: 'Information needed to remove a divorced spouse',
       pages: {
         formerSpouseDetails: {
           depends: formData =>
-            // if addSpouse is selected, divorce should not appear since the information is the same.
-            // otherwise, show reportDivorce.
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse)
-              ? false
-              : isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
+            isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
           title: 'Information needed to report a divorce',
           path: 'report-a-divorce',
           uiSchema: formerSpouseInformation.uiSchema,
@@ -312,7 +331,7 @@ const formConfig = {
     },
     reportStepchildNotInHousehold: {
       title:
-        'Information needed to report a stepchild is no longer part of your household',
+        'Information needed to remove a stepchild who has left your household',
       pages: {
         stepchildren: {
           depends: formData =>
@@ -343,7 +362,7 @@ const formConfig = {
       },
     },
     deceasedDependents: {
-      title: 'Report the death of a dependent',
+      title: 'Information needed to remove a dependent who has died',
       pages: {
         dependentInformation: {
           depends: formData =>
@@ -366,7 +385,7 @@ const formConfig = {
       },
     },
     reportChildMarriage: {
-      title: 'Information needed to report the marriage of a child under 18',
+      title: 'Information to remove a child under 18 who has married',
       pages: {
         childInformation: {
           depends: formData =>
@@ -384,7 +403,7 @@ const formConfig = {
     },
     reportChildStoppedAttendingSchool: {
       title:
-        'Information needed to report a child 18-23 years old stopped attending school',
+        'Information to remove a child 18 to 23 years old who has stopped attending school',
       pages: {
         childNoLongerInSchool: {
           depends: formData =>
@@ -397,6 +416,17 @@ const formConfig = {
           path: 'report-child-stopped-attending-school',
           uiSchema: reportChildStoppedAttendingSchool.uiSchema,
           schema: reportChildStoppedAttendingSchool.schema,
+        },
+      },
+    },
+    householdIncome: {
+      title: 'Your net worth',
+      pages: {
+        householdIncome: {
+          path: 'net-worth',
+          title: 'Your net worth',
+          uiSchema: householdIncome.uiSchema,
+          schema: householdIncome.schema,
         },
       },
     },

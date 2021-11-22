@@ -3,5 +3,5 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "order-form-2346",
   "rootUrl": "/health-care/order-hearing-aid-batteries-and-accessories/order-form-2346",
-  "e2eTestsDisabled": true
+  "e2eTestsDisabled": false
 }

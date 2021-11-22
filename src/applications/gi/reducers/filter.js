@@ -9,12 +9,13 @@ const INITIAL_STATE = Object.freeze({
   yellowRibbonScholarship: false,
   principlesOfExcellence: false,
   eightKeysToVeteranSuccess: false,
-  stemIndicator: false,
   typeName: 'ALL',
   preferredProvider: false,
   provider: [],
   excludeWarnings: false,
   excludeCautionFlags: false,
+  priorityEnrollment: false,
+  independentStudy: false,
 });
 
 export default function(state = INITIAL_STATE, action) {

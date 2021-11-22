@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { focusElement } from 'platform/utilities/ui';
+
 import {
   itfMessage,
   itfError,
@@ -20,7 +22,7 @@ export default class ITFBanner extends React.Component {
 
   render() {
     if (this.state.messageDismissed) {
-      return <>{this.props.children}</>;
+      return this.props.children;
     }
 
     let message;
@@ -54,14 +56,24 @@ export default class ITFBanner extends React.Component {
         );
     }
 
+    setTimeout(() => {
+      focusElement('.itf-wrapper');
+    });
+
     return (
-      <div className="usa-grid vads-u-margin-bottom--2">
-        {message}
-        {this.props.status !== 'error' && (
-          <button className="usa-button-primary" onClick={this.dismissMessage}>
-            Continue
-          </button>
-        )}
+      <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
+        <div className="usa-content">
+          <h1>{this.props.title}</h1>
+          {message}
+          {this.props.status !== 'error' && (
+            <button
+              className="usa-button-primary"
+              onClick={this.dismissMessage}
+            >
+              Continue
+            </button>
+          )}
+        </div>
       </div>
     );
   }
@@ -69,6 +81,7 @@ export default class ITFBanner extends React.Component {
 
 ITFBanner.propTypes = {
   status: PropTypes.oneOf(['error', 'itf-found', 'itf-created']).isRequired,
+  title: PropTypes.string,
   previousITF: PropTypes.object,
   currentExpDate: PropTypes.string,
   previousExpDate: PropTypes.string,

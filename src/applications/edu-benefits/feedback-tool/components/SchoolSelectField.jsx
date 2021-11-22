@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
-import Pagination from '@department-of-veterans-affairs/formation-react/Pagination';
-import LoadingIndicator from '@department-of-veterans-affairs/formation-react/LoadingIndicator';
-import ErrorableCheckbox from '@department-of-veterans-affairs/formation-react/ErrorableCheckbox';
+import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
 import {
@@ -35,7 +35,6 @@ import {
 import { transformSearchToolAddress } from '../helpers';
 
 const Element = Scroll.Element;
-const scroller = Scroll.scroller;
 
 export class SchoolSelectField extends React.Component {
   constructor(props) {
@@ -70,14 +69,6 @@ export class SchoolSelectField extends React.Component {
   componentWillUnmount() {
     this.debouncedSearchInstitutions.cancel();
   }
-
-  scrollToTop = () => {
-    scroller.scrollTo('schoolSearch', {
-      duration: 250,
-      delay: 0,
-      smooth: true,
-    });
-  };
 
   handleManualSchoolEntryToggled = currentValue => {
     this.props.onChange({
@@ -310,7 +301,7 @@ export class SchoolSelectField extends React.Component {
               </div>
             </div>
           </div>
-          <ErrorableCheckbox
+          <Checkbox
             checked={manualSchoolEntryChecked}
             onValueChange={() =>
               this.handleManualSchoolEntryToggled(manualSchoolEntryChecked)

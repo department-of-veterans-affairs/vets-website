@@ -22,16 +22,6 @@
   position: relative;
 }
 
-.edu-review-hr {
-  border: none;
-  height: 1px;
-  margin-right: -6px;
-  margin-top: 1.5em;
-  /* Set the hr color */
-  color: #a4a7ac; /* old IE */
-  background-color: #a4a7ac; /* Modern Browsers */
-}
-
 .edu-benefits-alert {
   margin-bottom: 23px;
 }
@@ -157,6 +147,9 @@
 .wizard-button[aria-expanded=true]:after {
   background-image: url(/img/arrow-up-white.svg);
 }
+.vettec-1990-button{
+  width: 16em;
+}
 
 @media print {
   .usa-width-two-thirds {
@@ -167,10 +160,11 @@
   .schemaform-subtitle {
     display: none;
   }
+  .pagebreak { page-break-before: always; }
 }
 
 div[data-chapter="benefitSelection"]{
   .form-review-panel-page {
-    margin-bottom:0px;
+    margin-bottom: 0px;
   }
 }

@@ -1,6 +1,27 @@
-import { pciuStates as PCIU_STATES } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+
+const { pciuStates: PCIU_STATES } = constants;
+
+import {
+  VA_FORM_IDS,
+  VA_FORM_IDS_IN_PROGRESS_FORMS_API,
+} from 'platform/forms/constants';
 
 import disabilityLabels from './content/disabilityLabels';
+
+export const PAGE_TITLES = {
+  ALL: 'File for disability compensation',
+  BDD: 'File a Benefits Delivery at Discharge claim',
+};
+
+export const PAGE_TITLE_SUFFIX = 'with VA Form 21-526EZ';
+export const DOCUMENT_TITLE_SUFFIX = ' | Veterans Affairs';
+
+export const START_TEXT = {
+  ALL: 'Start the Disability Compensation Application',
+  BDD: 'Start the Benefits Disability at Discharge Application',
+};
 
 export const itfStatuses = {
   active: 'active',
@@ -79,9 +100,12 @@ export const VA_FORM4142_URL =
 export const VA_FORM4192_URL =
   'https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf';
 
-export const TWENTY_FIVE_MB = 26214400;
+export const MAX_FILE_SIZE_MB = 50;
+export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
 
-export const FIFTY_MB = 52428800;
+export const MAX_PDF_FILE_SIZE_MB = 150;
+// binary based
+export const MAX_PDF_FILE_SIZE_BYTES = MAX_PDF_FILE_SIZE_MB * 1024 ** 2;
 
 export const PTSD_MATCHES = [
   'ptsd',
@@ -141,6 +165,17 @@ export const causeTypes = {
 
 export const specialIssueTypes = {
   POW: 'POW',
+};
+
+export const defaultDisabilityDescriptions = {
+  primaryDescription: 'This disability is related to my military service.',
+  causedByDisabilityDescription:
+    'This disability was caused by another condition.',
+  worsenedDescription: 'This disability was worsened by military service.',
+  worsenedEffects:
+    'This pre-existing disability was worsened by military service.',
+  vaMistreatmentDescription:
+    'This disability was caused by an injury or event that happened while I was receiving VA care.',
 };
 
 export const PTSD_CHANGE_LABELS = {
@@ -246,7 +281,54 @@ export const ANALYTICS_EVENTS = {
   },
 };
 
+// new /v0/disability_compensation_in_progress_forms/21-526EZ. Not using the
+// platform/forms/helpers/inProgressApi because the mock doesn't include the
+// environment.API_URL
+export const MOCK_SIPS_API =
+  VA_FORM_IDS_IN_PROGRESS_FORMS_API[VA_FORM_IDS.FORM_21_526EZ];
+
 export const NULL_CONDITION_STRING = 'Unknown Condition';
 
 // Moment date format
 export const DATE_FORMAT = 'LL';
+
+// sessionStorage key used to show the wizard has or hasn't been completed
+export const WIZARD_STATUS = 'wizardStatus526';
+// sessionStorage key used to determine if the form title should be set to BDD
+export const FORM_STATUS_BDD = 'formStatusBdd';
+
+export const SHOW_8940_4192 = 'showSubforms';
+
+// sessionStorage key used for the user entered separation date in the wizard
+// used by the first page of the form to populate the form data
+export const SAVED_SEPARATION_DATE = 'savedSeparationDate';
+
+export const EBEN_526_PATH =
+  'https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation';
+
+export const BDD_INFO_URL =
+  '/disability/how-to-file-claim/when-to-file/pre-discharge-claim/';
+
+// PDF upload limit feature
+export const PDF_SIZE_FEATURE = 'pdfSizeFeature';
+
+// maxLength from schema
+export const CHAR_LIMITS = [
+  'primaryDescription',
+  'causedByDisabilityDescription',
+  'worsenedDescription',
+  'worsenedEffects',
+  'vaMistreatmentDescription',
+  'vaMistreatmentLocation',
+  'vaMistreatmentDate',
+].reduce(
+  (list, key) => ({
+    ...list,
+    [key]:
+      fullSchema.definitions.newDisabilities.items.properties[key].maxLength,
+  }),
+  {},
+);
+
+// migration max string length
+export const MAX_HOUSING_STRING_LENGTH = 500;

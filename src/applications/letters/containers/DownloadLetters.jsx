@@ -1,16 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import findIndex from 'lodash/fp/findIndex';
+import findIndex from 'lodash/findIndex';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SegmentedProgressBar from '@department-of-veterans-affairs/formation-react/SegmentedProgressBar';
+import SegmentedProgressBar from '@department-of-veterans-affairs/component-library/SegmentedProgressBar';
 
-import StepHeader from '../components/StepHeader';
 import { chapters } from '../routes';
 
 export function DownloadLetters({ children, location }) {
-  const currentPageIndex = findIndex(['path', location.pathname], chapters);
+  const currentPageIndex = findIndex(chapters, ['path', location.pathname]);
   const currentStep = currentPageIndex + 1;
+  const total = chapters.length;
+  const headerText = `Step ${currentStep} of ${total}: ${
+    chapters[currentPageIndex].name
+  }`;
 
   return (
     <div className="usa-width-three-fourths letters">
@@ -19,14 +22,13 @@ export function DownloadLetters({ children, location }) {
         To receive some benefits, Veterans need a letter proving their status.
         You can download some of these benefit letters and documents online.
       </p>
-      <SegmentedProgressBar total={chapters.length} current={currentStep} />
-      <StepHeader
-        name={chapters[currentPageIndex].name}
-        current={currentStep}
-        steps="2"
-      >
+      <SegmentedProgressBar total={total} current={currentStep} />
+      <div className="section-content">
+        <h2 id="nav-form-header" className="vads-u-font-size--h4">
+          {headerText}
+        </h2>
         {children}
-      </StepHeader>
+      </div>
     </div>
   );
 }

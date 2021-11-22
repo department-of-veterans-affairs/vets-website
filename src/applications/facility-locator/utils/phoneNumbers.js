@@ -14,11 +14,13 @@
  */
 
 export const parsePhoneNumber = phone => {
+  const phoneUS = phone.replace(/^1-/, '');
   const re = /^(\d{3})[ -]*?(\d{3})[ -]*?(\d{4})\s?(\D*)?[ ]?(\d*)?/;
-  const extension = phone.replace(re, '$5').replace(/\D/g, '');
+  const extension = phoneUS.replace(re, '$5').replace(/\D/g, '');
   const formattedPhoneNumber = extension
-    ? phone.replace(re, '$1-$2-$3 x$5').replace(/x$/, '')
-    : phone.replace(re, '$1-$2-$3');
-  const contact = phone.replace(re, '$1$2$3');
+    ? phoneUS.replace(re, '$1-$2-$3 x$5').replace(/x$/, '')
+    : phoneUS.replace(re, '$1-$2-$3');
+  const contact = phoneUS.replace(re, '$1$2$3');
+
   return { formattedPhoneNumber, extension, contact };
 };

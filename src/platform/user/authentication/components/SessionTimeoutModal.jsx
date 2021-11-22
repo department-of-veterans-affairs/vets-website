@@ -1,10 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-import Modal from '@department-of-veterans-affairs/formation-react/Modal';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { logout } from 'platform/user/authentication/utilities';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import localStorage from 'platform/utilities/storage/localStorage';
@@ -70,7 +68,7 @@ class SessionTimeoutModal extends React.Component {
 
   signOut = () => {
     recordEvent({ event: 'logout-cta-manual-signout' });
-    logout(this.props.authenticatedWithSSOe ? 'v1' : 'v0');
+    logout('v1');
   };
 
   render() {
@@ -89,8 +87,8 @@ class SessionTimeoutModal extends React.Component {
           <div>SECONDS</div>
         </div>
         <p>
-          If you need more time, please click on the blue button below.
-          Otherwise, we’ll sign you out to protect your privacy.
+          If you need more time, please click I need more time below. Otherwise,
+          we’ll sign you out of your account to protect your privacy.
         </p>
         <div className="alert-actions">
           <button className="usa-button" onClick={this.extendSession}>
@@ -105,10 +103,4 @@ class SessionTimeoutModal extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-  };
-}
-
-export default connect(mapStateToProps)(SessionTimeoutModal);
+export default SessionTimeoutModal;

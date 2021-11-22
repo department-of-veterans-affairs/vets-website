@@ -1,0 +1,12 @@
+.header-search {
+  input {
+    max-width: unset;
+  }
+
+  button {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    height: 42px;
+    width: 45px;
+  }
+}

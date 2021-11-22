@@ -92,11 +92,10 @@ describe('Add new disabilities', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          claimType: {
+          'view:claimType': {
             'view:claimingNew': true,
             'view:claimingIncrease': false,
           },
-          'view:newDisabilities': true,
           newDisabilities: [],
           // previously selected rated disability
           ratedDisabilities: [{}, { 'view:selected': true }],
@@ -106,7 +105,7 @@ describe('Add new disabilities', () => {
       />,
     );
     form.find('form').simulate('submit');
-    const error = form.find('.usa-alert');
+    const error = form.find('va-alert');
     expect(error.length).to.equal(1);
     expect(error.text()).to.contain('add a new disability to claim');
     expect(onSubmit.called).to.be.false;
@@ -124,7 +123,6 @@ describe('Add new disabilities', () => {
             'view:claimingNew': true,
             'view:claimingIncrease': true,
           },
-          'view:newDisabilities': true,
           newDisabilities: [],
           // no rated disability selected
           ratedDisabilities: [{}, {}],
@@ -134,9 +132,65 @@ describe('Add new disabilities', () => {
       />,
     );
     form.find('form').simulate('submit');
-    const error = form.find('.usa-alert');
+    const error = form.find('va-alert');
     expect(error.length).to.equal(1);
     expect(error.text()).to.contain('add a new disability or choose a rated');
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('should not submit when an empty field is submitted', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          newDisabilities: [
+            {
+              condition: '',
+            },
+          ],
+        }}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    const error = form.find('.usa-input-error-message');
+    expect(error.length).to.equal(1);
+    expect(error.text()).to.include('enter a condition or select one');
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+  it('should not submit when "unknown condition" is submitted', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          newDisabilities: [
+            {
+              // case in-sensitive; specifically preventing this because it was
+              // previously the default text used when the user submitted an
+              // empty string
+              condition: 'UNKnowN COnDitioN',
+            },
+          ],
+        }}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    const error = form.find('.usa-input-error-message');
+    expect(error.length).to.equal(1);
+    expect(error.text()).to.include('enter a condition or select one');
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -148,12 +202,12 @@ describe('Add new disabilities', () => {
       vaTreatmentFacilities: [
         {
           treatedDisabilityNames: {
-            'something with-hyphens and allcaps': true,
+            somethingwithhyphensandallcaps: true,
           },
         },
       ],
       'view:isPow': {
-        powDisabilities: { 'something with-hyphens and allcaps': true },
+        powDisabilities: { somethingwithhyphensandallcaps: true },
       },
     });
 
@@ -189,12 +243,9 @@ describe('Add new disabilities', () => {
       );
       const result = updateFormData(oldData(), newData);
       expect(
-        result.vaTreatmentFacilities[0].treatedDisabilityNames[
-          'foo-with extraz'
-        ],
+        result.vaTreatmentFacilities[0].treatedDisabilityNames.foowithextraz,
       ).to.be.true;
-      expect(result['view:isPow'].powDisabilities['foo-with extraz']).to.be
-        .true;
+      expect(result['view:isPow'].powDisabilities.foowithextraz).to.be.true;
     });
 
     it('should remove a deleted disability from treatedDisabilityNames and powDisabilities', () => {

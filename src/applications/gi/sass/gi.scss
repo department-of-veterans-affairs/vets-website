@@ -1,15 +1,13 @@
-@import '~@department-of-veterans-affairs/formation/sass/shared-variables';
-@import '~@department-of-veterans-affairs/formation/sass/modules/m-modal';
-
-@import '~@department-of-veterans-affairs/formation/sass/modules/va-pagination';
-
-@import 'partials/gi-vet-tec';
-@import 'partials/gi-preview-banner';
-@import 'partials/gi-autocomplete';
-@import 'partials/gi-modal';
-@import 'partials/gi-landing-page';
-@import 'partials/gi-search-page';
-@import 'partials/gi-profile-page';
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+@import "partials/gi-vet-tec";
+@import "partials/gi-preview-banner";
+@import "partials/gi-autocomplete";
+@import "partials/gi-modal";
+@import "partials/gi-landing-page";
+@import "partials/gi-search-page";
+@import "partials/gi-profile-page";
 
 .gi-app {
   div.military-status-info {
@@ -151,7 +149,7 @@
     padding-top: 0.188em;
 
     .section-button {
-      border: 2px solid #aeb0b5 !important;
+      border: 2px solid $color-gray-light !important;
       margin: 0px;
     }
 

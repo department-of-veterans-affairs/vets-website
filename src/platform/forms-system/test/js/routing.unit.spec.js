@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 
-import { getNextPagePath, getPreviousPagePath } from '../../src/js/routing';
+import {
+  getNextPagePath,
+  getPreviousPagePath,
+  checkValidPagePath,
+  createRoutes,
+} from '../../src/js/routing';
 
 describe('Schemaform routing', () => {
   function getPageList(dependsCallback) {
@@ -114,5 +119,74 @@ describe('Schemaform routing', () => {
 
     const path = getPreviousPagePath(pageList, data, pathname);
     expect(path).to.equal('/testing/0/conditional-page');
+  });
+  describe('createRoutes', () => {
+    it('should create routes', () => {
+      const formConfig = {
+        disableSave: true,
+        chapters: {
+          firstChapter: {
+            pages: {
+              testPage: {
+                path: 'test-page',
+              },
+            },
+          },
+        },
+      };
+
+      const routes = createRoutes(formConfig);
+
+      expect(routes[0].path).to.equal('test-page');
+      expect(routes[1].path).to.equal('review-and-submit');
+    });
+    it('should create routes with intro', () => {
+      const formConfig = {
+        introduction: f => f,
+        chapters: {
+          firstChapter: {
+            pages: {
+              testPage: {
+                path: 'test-page',
+              },
+            },
+          },
+        },
+      };
+
+      const routes = createRoutes(formConfig);
+
+      expect(routes[0].path).to.equal('introduction');
+    });
+  });
+
+  describe('checkValidPagePath', () => {
+    it('should return true for plain paths', () => {
+      const pageList = getPageList();
+      const pathname = 'a-path'; // no leading `/` (on purpose?)
+      const data = {
+        arrayProp: [{}],
+      };
+      expect(checkValidPagePath(pageList, data, pathname)).to.be.true;
+    });
+    it('should return true for indexed paths', () => {
+      const pageList = getPageList();
+      const pathname = '/testing/0';
+      const data = {
+        arrayProp: [{}],
+      };
+      expect(checkValidPagePath(pageList, data, pathname)).to.be.true;
+    });
+    it('should return false for paths that are conditionally not met', () => {
+      const pathname = '/testing/0/conditional-page';
+      const data = {
+        arrayProp: [{ condition: false }],
+      };
+      const pageList = getPageList(
+        (formData, index) => formData.arrayProp[index].condition,
+      );
+
+      expect(checkValidPagePath(pageList, data, pathname)).to.be.false;
+    });
   });
 });

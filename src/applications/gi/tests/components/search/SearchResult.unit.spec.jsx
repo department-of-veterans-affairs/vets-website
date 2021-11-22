@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom';
 
 import { SearchResult } from '../../../components/search/SearchResult';
 
@@ -24,6 +25,7 @@ const result = {
   menonly: 0,
   relaffil: 71,
   womenonly: 1,
+  alias: 'BC',
 };
 
 const estimated = {
@@ -34,38 +36,10 @@ const estimated = {
 
 describe('<SearchResult>', () => {
   it('should render', () => {
-    const tree = shallow(
-      <SearchResult
-        estimated={estimated}
-        city={result.city}
-        name={result.name}
-        country={result.country}
-        state={result.state}
-        cautionFlags={result.cautionFlags}
-        schoolClosing={result.schoolClosing}
-      />,
-    );
-    const vdom = tree.html();
-    expect(vdom).to.not.be.undefined;
-    tree.unmount();
-  });
-
-  it('should render with gibctFilterEnhancement feature flag', () => {
-    const tree = shallow(
-      <SearchResult
-        estimated={estimated}
-        city={result.city}
-        name={result.name}
-        country={result.country}
-        state={result.state}
-        cautionFlags={result.cautionFlags}
-        schoolClosing={result.schoolClosing}
-        womenonly={result.womenonly}
-        menonly={result.menonly}
-        relaffil={result.relaffil}
-        hbcu={result.relaffil}
-        gibctFilterEnhancement
-      />,
+    const tree = mount(
+      <MemoryRouter>
+        <SearchResult estimated={estimated} {...result} />,
+      </MemoryRouter>,
     );
     const vdom = tree.html();
     expect(vdom).to.not.be.undefined;

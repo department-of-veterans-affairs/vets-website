@@ -1,31 +1,39 @@
-import React from 'react';
-import ErrorableRadioButtons from '@department-of-veterans-affairs/formation-react/ErrorableRadioButtons';
-import {
-  veteranPathPageNames,
-  serviceMemberPathPageNames,
-  otherPathPageNames,
-} from '../pageList';
+import React, { useEffect } from 'react';
+import { otherPathPageNames } from '../pageList';
+import { CAREERS_EMPLOYMENT_ROOT_URL } from 'applications/vre/28-1900/constants';
+import { recordNotificationEvent, fireLinkClickEvent } from '../helpers';
 
-const options = [
-  { value: veteranPathPageNames.isVeteran, label: 'Veteran' },
-  {
-    value: serviceMemberPathPageNames.isServiceMember,
-    label: 'Current service member',
-  },
-  { value: otherPathPageNames.isOther, label: 'Neither of these' },
-];
-
-const amOther = ({ setPageState, state = {} }) => (
-  <div className="feature">
-    <p>
-      To apply for VR&E benefits, you must be either a Veteran or active-duty
-      service member.
-    </p>
-    <a href="#">Find out about VA educational and career counseling</a>
-  </div>
-);
+const AmOther = props => {
+  const { setWizardStatus } = props;
+  useEffect(
+    () => {
+      setWizardStatus(false);
+    },
+    [setWizardStatus],
+  );
+  recordNotificationEvent('ineligibility - is not a Veteran or Service Member');
+  return (
+    <div
+      className="feature vads-u-background-color--gray-lightest"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <p id="ineligible-user-type-notice">
+        To apply for VR&E benefits, you must be either a Veteran or active-duty
+        service member.
+      </p>
+      <a
+        onClick={e => fireLinkClickEvent(e)}
+        href={CAREERS_EMPLOYMENT_ROOT_URL}
+        aria-describedby="ineligible-user-type-notice"
+      >
+        Find out about VA educational and career counseling
+      </a>
+    </div>
+  );
+};
 
 export default {
   name: otherPathPageNames.isOther,
-  component: amOther,
+  component: AmOther,
 };

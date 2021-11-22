@@ -1,26 +1,16 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
-// @import "~react-tabs/style/react-tabs.scss";
 @import "~leaflet/dist/leaflet.css";
 @import "~react-tabs/style/react-tabs";
 
-// TODO: These colors are not close enough to anything that already exists in
-// Formation. Perhaps the design should be reevaluated to see if Formation
-// colors could be used in place of these
-$facility-locator-color-info-bubble-border: #6495a3;
-$facility-locator-color-info-bubble-text: #818a8d;
-$facility-locator-color-gray: #ccc;
+$facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
 .facility-locator {
-
-  // TODO(css): Fix when #content .section h* is fixed
-  .highlight {
-    margin-bottom: 0.5em !important;
+  @media (max-width: $large-screen) {
+    margin: 0 12px;
   }
 
-  // TODO(css): Fix when #content .section h* is fixed
-  h4 {
-    padding: 0 !important;
+  @media (max-width: $small-screen) {
+    margin: 0;
   }
 
   .title-section {
@@ -36,30 +26,6 @@ $facility-locator-color-gray: #ccc;
     padding: 0 15px 15px;
   }
 
-  .flex-center {
-    display: flex;
-    align-items: center;
-  }
-
-  .leaflet-container {
-    height: 500px;
-    width: 100%;
-    z-index: 0;
-  }
-
-  .facility-phone-table {
-    border-collapse: collapse;
-  }
-
-  .pointer {
-    cursor: pointer;
-  }
-
-  .facility-phone-table td {
-    border: none;
-    outline: none;
-  }
-
   .p1 {
     padding: 0.5em 0;
   }
@@ -71,7 +37,7 @@ $facility-locator-color-gray: #ccc;
   i.fa {
     width: 18px;
     text-align: center;
-    margin-right: 15px;
+    margin-right: 8px;
     color: $color-link-default;
   }
 
@@ -80,19 +46,38 @@ $facility-locator-color-gray: #ccc;
     border-bottom: solid thin $color-gray-lightest;
   }
 
-  .search-result-title:focus {
-    @include focus-gold-light-outline(0);
-    outline-offset: 2px;
-    z-index: 3;
+  .desktop-map-container {
+    min-height: 78vh;
+    padding-left: 0;
+    width: calc(100% - 305px);
+    display: flex;
+    flex-direction: row;
+  }
+
+  .search-result-title {
+    padding: 4px;
+    margin: 4px;
+
+    :focus {
+      @include focus-gold-light-outline(0);
+      outline-offset: 2px;
+      z-index: 3;
+    }
   }
 
   .facility-result {
-    padding: 1em;
-    background: $color-white ;
+    padding: 22px 4px 34px;
+    background: $color-white;
+    border-top: solid 2px $color-gray-lighter;
     border-bottom: none;
 
+    @media screen and (max-width: $small-screen) {
+      // we already have a border from the tab-list on mobile
+      border-top: none;
+    }
+
     &.active {
-      box-shadow: inset 0px 0px 7px $color-link-default;
+      border: $focus-outline;
     }
 
     span.fa {
@@ -122,8 +107,10 @@ $facility-locator-color-gray: #ccc;
     }
   }
 
-  .facility-result+.facility-result {
-    border-top: solid 2px $color-gray-lighter;
+  @media screen and (max-width: $small-screen) {
+    .facility-result + .facility-result {
+      border-top: solid 1px $color-gray-light;
+    }
   }
 
   .leaflet-popup-content {
@@ -144,10 +131,6 @@ $facility-locator-color-gray: #ccc;
     p {
       margin: 0;
     }
-  }
-
-  .text-center {
-    text-align: center;
   }
 
   .tab {
@@ -172,7 +155,7 @@ $facility-locator-color-gray: #ccc;
     }
   }
 
-  .react-tabs [role=tab][aria-selected=true] {
+  .react-tabs [role="tab"][aria-selected="true"] {
     border-left-color: $color-black;
     border-right-color: $color-black;
   }
@@ -181,11 +164,25 @@ $facility-locator-color-gray: #ccc;
     padding: 0;
   }
 
-  .react-tabs__tab+.react-tabs__tab {
+  .react-tabs__tab + .react-tabs__tab {
     border-left: none;
   }
 
+  #search-results-title {
+    width: calc(100% - 8px);
+    margin-left: 4px;
+  }
+
+  .search-results-container {
+    width: 305px;
+    max-height: 78vh;
+    overflow-y: auto;
+  }
+
   .facility-search-results {
+    // remove black border
+    border-top: 1px solid $color-white;
+
     ol {
       padding: 0;
     }
@@ -229,77 +226,8 @@ $facility-locator-color-gray: #ccc;
     }
   }
 
-  .mobile-search-result {
-    padding: 1em 0;
-    border-top: none;
-  }
-
-  .mobile-search-result+.mobile-search-result {
-    border-top: solid 1px $color-gray-light;
-  }
-
   p {
     margin: 0.5em 0;
-  }
-
-  .map-marker {
-    background-position: center center;
-    font-size: 15px;
-    height: 60px;
-    margin-left: -25px;
-    margin-top: -25px;
-    text-align: center;
-    width: 60px;
-    z-index: 999;
-    color: $color-white;
-  }
-
-  .benefits-icon {
-    background-image: url("/img/icons/benefits-pin.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  .cemetery-icon {
-    background-image: url("/img/icons/cemetery-pin.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  .health-icon {
-    background-image: url("/img/icons/health-pin.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  .cc-provider-icon {
-    background-image: url("/img/icons/cc-provider-pin.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  .vet-center-icon {
-    background-image: url("/img/icons/vet-centers-pin.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  .numbered-icon {
-    height: 32px;
-    margin-left: -12px;
-    margin-top: -12px;
-    text-align: center;
-    padding-top: 3px;
-    width: 32px;
-    z-index: 999;
-    background: url("/img/icons/map-pin.svg") no-repeat center center;
-    background-size: contain;
-    color: $color-white;
-  }
-
-  .current-position-icon {
-    background: url("/img/icons/current-location-pin.svg") no-repeat center center;
-    background-size: contain;
   }
 
   .clearfix {
@@ -309,7 +237,7 @@ $facility-locator-color-gray: #ccc;
   }
 
   .search-controls-container {
-    padding: 1.4rem 0.9rem;
+    padding: 24px 16px 0 12px;
     border: solid thin $color-gray-lightest;
     background: $color-gray-lightest;
 
@@ -321,110 +249,75 @@ $facility-locator-color-gray: #ccc;
       display: flex;
       flex-direction: column;
 
-      @include media($small-screen) {
-        flex-direction: row;
+      input,
+      textarea,
+      select,
+      .input-container {
+        max-width: none;
+        margin-bottom: 24px;
+        padding: 0 0.7em;
 
-        .medium-1-2 {
-          width: 10% !important;
-          padding-top: 1px;
-        }
-
-        .medium-3-4 {
-          width: 28% !important;
-        }
-
-        .medium-3-5 {
-          width: 31% !important;
-        }
-
-        .large-1-2 {
-          width: 396px !important;
+        @media (min-width: $small-desktop-screen) {
+          max-width: 418px;
+          width: 418px;
+          margin-right: 18px;
         }
       }
 
-      @include media($medium-screen) {
-        input[type=submit] {
-          // The "columns:last-child" selector from Foundation adds
-          // a "float: right" to the submit button container,
-          // which pushes it too far to the right on tablets.
-          // The following is added as a workaround.
-          position: absolute;
-          right: 30px;
+      .input-container {
+        padding: 0;
+      }
+
+      input[type="submit"] {
+        width: 100%;
+        padding: 0 1rem;
+        margin-top: 0;
+
+        @media (min-width: $small-desktop-screen) {
+          margin-top: 27px;
+          min-width: 67px;
           width: auto;
         }
       }
 
-      @include media($small-desktop-screen) {
-        input[type=submit] {
-          position: relative;
-          width: 100%;
-          right: 0;
+      #location-input-field {
+        display: flex;
+        flex-direction: column;
+
+        @media (min-width: $small-desktop-screen) {
+          flex-direction: row;
         }
       }
 
-      input[type=submit] {
-        padding: 0 1rem;
-        margin-top: 2.5rem;
+      .use-my-location-link {
+        text-decoration: none;
+        background-color: transparent;
+        color: $color-link-default;
+        font-weight: normal;
+        padding: 0;
+        margin: 0 0 0 20px;
+
+        @media (max-width: $small-desktop-screen) {
+          margin: 1em 0;
+          text-align: left;
+        }
       }
-    }
 
-  }
+      .use-my-location-button {
+        width: 18px;
+        height: 18px;
+        background-image: url("/img/location-arrow-solid.svg");
+        background-repeat: no-repeat;
+        background-color: transparent;
+        padding: 0 1.5em 0 0;
+      }
 
-  .mb2 {
-    margin-bottom: 2em;
-  }
-
-  .scroller-left{
-    position: fixed;
-    left: 0;
-    background: $facility-locator-color-gray;
-  }
-
-
-  //TODO(css): Make this less specific
-  #content .section h4 {
-    padding: 0 0 .25em 0;
-  }
-
-  hr.light {
-    color: $color-gray-light;
-    margin: 0;
-    border: 1px solid $color-gray-light;
-  }
-
-  hr.title {
-    color: $color-primary-darker;
-    margin: 0 0 2rem;
-    border: 1px solid $color-primary-darker;
-  }
-
-  ul {
-    margin: 0;
-  }
-
-  input.full-width {
-    width: 100%;
-  }
-
-  ul {
-    margin: 0;
-  }
-
-  .facility-contact-link {
-    font-size: 2rem;
-    text-decoration: none;
-
-    i {
-      margin-right: 1rem;
-      width: 18px;
-    }
-  }
-
-  .facility-back-link {
-    margin-bottom: 1.5em;
-
-    i {
-      margin-right: 0.75rem;
+      #search-controls-bottom-row {
+        @media (min-width: $small-desktop-screen) {
+          display: flex;
+          flex-direction: row;
+        }
+      }
     }
   }
 
@@ -490,95 +383,14 @@ $facility-locator-color-gray: #ccc;
   }
 }
 
-#facility-dropdown {
-  background: $color-white;
-  border: 1px solid $color-black;
-  border-radius: 5px;
-  box-sizing: border-box;
-  cursor: pointer;
-  color: $color-base;
-  display: block;
-  font-size: 1.6rem;
-  height: 4.2rem;
-  line-height: 1.3;
-  margin: 0.2em 0;
-  max-width: 46rem;
-  position: relative;
-  width: 100%;
-
-  &.disabled {
-    cursor: default;
-    background-color: $color-gray-lightest;
+// Prevent error message div from colliding with facility-type
+#service-error {
+  @media (min-width: $small-desktop-screen) {
+    right: 0px;
   }
-
-  .dropdown {
-    background: $color-white;
-    border: solid 1px $color-black;
-    box-sizing: content-box;
-    font-size: 1.6rem;
-    left: -1px;
-    list-style: none;
-    max-height: 70vh;
-    overflow-y: auto;
-    padding: 0;
-    position: absolute;
-    width: 100%;
-    z-index: 1010;
-
-    .dropdown-option {
-      border-bottom: solid 1px $color-black;
-      z-index: 1011;
-      font-weight: bold;
-
-      &.selected,
-      &:hover {
-        color: $color-white;
-        background-color: $color-primary-darker;
-      }
-
-      &:last-child {
-        border-bottom: none;
-      }
-    }
-  }
-
-  .dropdown-option {
-    box-shadow: none;
-    line-height: 1.3;
-    margin: 0;
-    max-width: 100%;
-    overflow: hidden;
-    padding: 1rem 0.7em;
-    text-decoration: none;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .icon-option {
-    background-position: 0.5rem center;
-    padding-left: 4rem;
-  }
-
-  .dropdown-toggle {
-    color: $color-black;
-    margin: 0;
-    position: absolute;
-    right: 1rem;
-    top: 33%;
-  }
-}
-
-#facility-dropdown-toggle {
-  background-color: transparent;
-  color: inherit;
-  height: 100%;
-  text-align: left;
-  width: 100%;
 }
 
 #service-typeahead {
-  background: $color-white;
-  // border: 1px solid $color-black;
   border-radius: 0;
   box-sizing: border-box;
   cursor: pointer;
@@ -587,8 +399,7 @@ $facility-locator-color-gray: #ccc;
   font-size: 1.6rem;
   height: 4.2rem;
   line-height: 1.3;
-  margin: 0.2em 0;
-  max-width: 46rem;
+  margin: 0.2em 0 3rem;
   position: relative;
   width: 100%;
 
@@ -604,12 +415,17 @@ $facility-locator-color-gray: #ccc;
     font-size: 1.6rem;
     left: -1px;
     list-style: none;
-    max-height: 70vh;
+    max-height: 25vh;
     overflow-y: auto;
     padding: 0;
     position: absolute;
+    top: 44px;
     width: 100%;
     z-index: 1010;
+
+    @media (min-width: $small-desktop-screen) {
+      width: 418px;
+    }
 
     .dropdown-option {
       border-bottom: solid 1px $color-black;
@@ -645,151 +461,21 @@ $facility-locator-color-gray: #ccc;
   text-decoration: none;
 }
 
-.facility-phone-alt {
-  display: table;
-  margin-left: 33px;
-}
-
-.cc-info-link-span {
-  float: right;
-  text-align: right;
-  margin-top: -7.25rem;
-  margin-right: -10.5rem;
-}
-
-.cc-info-link {
-  display: inline-block;
-  font-size: 0.6rem;
-  background-image: none;
-  background-color: transparent;
-  text-align: right;
-  text-decoration: none;
-  text-align: right;
-  padding: 0 !important;
-  margin-bottom: 0;
-}
-
-.cc-info-link:hover, .cc-info-link:active {
-  background-color: transparent;
-}
-
-.cc-info-link-icon {
-  margin: 0 !important;
-  font-size: 2.0rem !important;
-  vertical-align: -0.2rem;
-  cursor: pointer;
-}
-
-#facility-dropdown-label {
-  position: relative;
-}
-
-.cc-info-close-btn {
-  background-color: transparent;
-  color: $color-gray-light;
-  padding: 0;
-  margin-right: 0 !important;
-  float: right;
-  font-weight: normal;
-  font-size: 130%;
-}
-.cc-info-close-btn:hover, .cc-info-close-btn:active {
-  background-color: transparent;
-}
-
-.cc-info-close-btn-icon {
-  margin-right: 0 !important;
-}
-
-#urgent-care-link {
-  font-weight: bold;
-}
-
 .current-pos-pin {
   border-radius: 50%;
   width: 23px;
   height: 23px;
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 4px 0 $facility-locator-shadow;
   border: solid 4px $color-white;
   background-color: $color-red-dark;
-}
-
-#infoBubble {
-  background-color: $color-aqua-lightest;
-  color: inherit;
-  text-align: left;
-  width: 115%;
-  position: absolute;
-  top: -7.1rem;
-  right: -7.1rem;
-  padding: 0.7rem;
-  box-shadow: 0px 0px 4px $color-gray-medium;
-  border-radius: 4px;
-  border: 1px solid $facility-locator-color-info-bubble-border;
-  z-index: 9999;
-
-  span {
-    float: right;
-    margin: 0px 0px 2px 4px;
-    font-size: 1.9rem;
-    font-family: Arial, sans-serif;
-    cursor: pointer;
-    color: $facility-locator-color-info-bubble-text;
-  }
-
-
-  h6 {
-    font-size: 1.6rem !important;
-    line-height: 1.9rem;
-    margin: 0 0 0.5rem 0;
-  }
-
-  p {
-    margin: 0 !important;
-    font-size: 1.3rem;
-    line-height: 1.7rem;
-  }
-
-  a {
-    font-size: 1.1rem;
-    float: right;
-  }
-}
-
-.no-marg-right {
-  margin-right: 0 !important;
-}
-
-.marg-left {
-  margin-left: 26px !important;
 }
 
 .no-marg-top {
   margin-top: 0 !important;
 }
 
-.width-35 {
-  width: 27% !important;
-}
-
 .bor-rad {
   border-radius: 5px;
-}
-
-.bor-none {
-  border: none !important;
-}
-
-.pull-right {
-  float: right;
-}
-
-.pull-left {
-  float: left;
-}
-
-.top-z {
-  z-index: 1000 !important;
 }
 
 .va-nav-breadcrumbs:focus {
@@ -797,13 +483,18 @@ $facility-locator-color-gray: #ccc;
 }
 
 .i-pin-card-map {
+  border-radius: 50%;
   background: $color-gray-dark;
   color: $color-white;
-  padding: 2px 8px;
-  border-radius: 50%;
-  font-size: 16px;
-  font-family: 'Source Sans Pro', sans-serif !important;
+  justify-content: center;
+  align-content: center;
+  display: inline-flex;
+  font-size: 15px;
+  padding-top: 1px;
+  width: 24px;
+  height: 24px;
 }
+
 .notice-marg-pad {
   padding: 0.5rem !important;
   margin-top: 0;
@@ -812,6 +503,7 @@ $facility-locator-color-gray: #ccc;
   width: 280px;
   height: 40px;
 }
+
 .icon-base {
   color: $color-base !important;
 }
@@ -819,4 +511,107 @@ $facility-locator-color-gray: #ccc;
 .facility-phone-group {
   display: flex;
   flex-direction: column;
+}
+
+#other-tools {
+  text-align: center;
+  margin: 22px auto;
+  clear: both;
+
+  @media (max-width: $small-screen) {
+    width: 260px;
+    white-space: pre-line;
+  }
+}
+
+#mapbox-gl-container {
+  max-height: 55vh;
+  height: 55vh;
+  display: flex;
+  justify-content: center;
+}
+
+#search-area-control-container {
+  z-index: 1;
+}
+
+#search-area-control {
+  cursor: pointer;
+  pointer-events: auto;
+
+  @media (max-width: $small-screen) {
+    height: 43px;
+  }
+}
+
+// Override design system default
+// because it will cause an axe failure
+.fl-disabled {
+  background-color: $color-gray-medium !important;
+}
+
+.mapboxgl-ctrl-top-center {
+  position: absolute;
+  pointer-events: none;
+  margin: 15px 0 0 15px;
+}
+
+.mapboxgl-ctrl-bottom-center {
+  bottom: 40px;
+  position: absolute;
+  pointer-events: none;
+}
+
+button.mapboxgl-ctrl-zoom-in {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 0;
+}
+
+button.mapboxgl-ctrl-zoom-out {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 0;
+}
+
+canvas.mapboxgl-canvas:focus {
+  outline: 2px solid $color-gold-light;
+  outline-offset: 2px;
+}
+
+.clear-button {
+  font-size: 16px;
+  display: inline-block;
+  top: -66px;
+  position: relative;
+  float: right;
+  width: 44px;
+  height: 44px;
+  background-color: transparent;
+  color: $color-black;
+  padding: 0;
+  margin: 0;
+  font-family: "Font Awesome 5 Free";
+
+  &:hover {
+    background-color: unset;
+    color: unset;
+  }
+}
+
+#street-city-state-zip {
+  font-weight: bold;
+  padding-right: 36px !important;
+}
+
+// Make focus styles on the Medallia 'Feedback' button consistent with focus styles in the survey
+.nebula_image_button.wcagOutline:focus {
+  outline: 2px solid rgb(249, 198, 66) !important;
+  outline-offset: 2px !important;
+  transition: none !important;
+}
+
+.search-result-emergency-care-subheader {
+  background: $color-aqua-lightest;
+  padding: 20px
 }

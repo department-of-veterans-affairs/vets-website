@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { func, string } from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Downshift from 'downshift';
-import classNames from 'classnames';
 import { getProviderSpecialties } from '../actions';
+import classNames from 'classnames';
+import MessagePromptDiv from './MessagePromptDiv';
 
+const MIN_SEARCH_CHARS = 2;
 /**
  * CC Providers' Service Types Typeahead
  */
@@ -13,6 +15,7 @@ class ServiceTypeAhead extends Component {
     super(props);
     this.state = {
       services: [],
+      isFocused: false,
     };
   }
 
@@ -35,15 +38,16 @@ class ServiceTypeAhead extends Component {
 
   handleOnSelect = selectedItem => {
     const value = selectedItem ? selectedItem.specialtyCode.trim() : null;
-    this.props.onSelect({
+    this.props.handleServiceTypeChange({
       target: { value },
+      selectedItem,
     });
   };
 
   optionClasses = selected => classNames('dropdown-option', { selected });
 
   getSpecialtyName = specialty => {
-    if (!specialty) return null;
+    if (!specialty) return '';
 
     return specialty.name;
   };
@@ -62,21 +66,89 @@ class ServiceTypeAhead extends Component {
     return false;
   };
 
-  render() {
-    const { defaultSelectedItem, services } = this.state;
+  matchingServices = inputValue => {
+    if (inputValue) {
+      return this.state.services.filter(specialty =>
+        this.shouldShow(inputValue, specialty),
+      );
+    } else return null;
+  };
 
+  renderSearchForAvailableServicePrompt = inputValue => {
+    const { isFocused } = this.state;
+    const { showError } = this.props;
+    if (
+      (isFocused && inputValue === '' && !showError) ||
+      (inputValue && inputValue.length < MIN_SEARCH_CHARS)
+    ) {
+      return (
+        <MessagePromptDiv
+          message="Search for an available service"
+          id="search-available-service-prompt"
+        />
+      );
+    } else return null;
+  };
+
+  renderServiceTypeDropdownOptions = (
+    getItemProps,
+    highlightedIndex,
+    inputValue,
+  ) => {
+    return (
+      <div className="dropdown" role="listbox">
+        {this.matchingServices(inputValue).map((specialty, index) => (
+          <div
+            key={this.getSpecialtyName(specialty)}
+            {...getItemProps({
+              item: specialty,
+              className: this.optionClasses(index === highlightedIndex),
+              role: 'option',
+              'aria-selected': index === highlightedIndex,
+            })}
+          >
+            {this.getSpecialtyName(specialty)}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  renderTryAnotherServicePrompt = inputValue => {
+    if (
+      inputValue &&
+      inputValue.length >= 2 &&
+      !this.matchingServices(inputValue).length
+    ) {
+      return (
+        <MessagePromptDiv
+          message="We couldn't find that, please try another service"
+          id="could-not-find-service-prompt"
+          waitBeforeShow={2000}
+        />
+      );
+    } else return null;
+  };
+
+  render() {
+    const { defaultSelectedItem } = this.state;
+    const { showError, currentQuery, handleServiceTypeChange } = this.props;
     return (
       <Downshift
         onChange={this.handleOnSelect}
-        defaultSelectedItem={defaultSelectedItem}
+        selectedItem={!window.Cypress ? defaultSelectedItem : undefined}
+        defaultSelectedItem={window.Cypress ? defaultSelectedItem : undefined}
+        defaultInputValue=""
         itemToString={this.getSpecialtyName}
-        onInputValueChange={(inputValue, stateAndHelpers) => {
-          const { selectedItem, clearSelection } = stateAndHelpers;
+        onInputValueChange={inputValue => {
           if (
-            selectedItem &&
-            inputValue !== this.getSpecialtyName(selectedItem)
+            currentQuery.serviceType &&
+            inputValue !== currentQuery.specialties[currentQuery.serviceType]
           ) {
-            clearSelection();
+            handleServiceTypeChange({
+              target: { value: '' },
+              selectedItem: null,
+            });
           }
         }}
       >
@@ -87,42 +159,49 @@ class ServiceTypeAhead extends Component {
           isOpen,
           inputValue,
           highlightedIndex,
-          selectedItem,
         }) => (
-          <div>
+          <div
+            id="service-error"
+            className={classNames('vads-u-margin--0', {
+              'usa-input-error': showError,
+            })}
+          >
             <label {...getLabelProps()} htmlFor="service-type-ahead-input">
               Service type{' '}
-              <span className="vads-u-color--secondary-dark">(*Required)</span>
+              <span className="form-required-span">(*Required)</span>
             </label>
+            {showError && (
+              <span className="usa-input-error-message" role="alert">
+                <span id="error-message">
+                  <span className="sr-only">Error</span>
+                  Please search for an available service.
+                </span>
+              </span>
+            )}
             <span id="service-typeahead">
               <input
                 {...getInputProps({
-                  placeholder: 'Like primary care, cardiology',
+                  placeholder: 'like Chiropractor or Optometrist',
+                  onFocus: () => this.setState({ isFocused: true }),
+                  disabled: currentQuery?.fetchSvcsInProgress,
                 })}
+                onBlur={() => {
+                  this.setState({ isFocused: false });
+                }}
                 id="service-type-ahead-input"
-                required
+                aria-describedby="could-not-find-service-prompt error-message"
               />
-              {isOpen && inputValue.length >= 2 ? (
-                <div className="dropdown" role="listbox">
-                  {services
-                    .filter(specialty => this.shouldShow(inputValue, specialty))
-                    .map((specialty, index) => (
-                      <div
-                        key={this.getSpecialtyName(specialty)}
-                        {...getItemProps({
-                          item: specialty,
-                          className: this.optionClasses(
-                            index === highlightedIndex,
-                          ),
-                          role: 'option',
-                          'aria-selected': index === highlightedIndex,
-                        })}
-                      >
-                        {this.getSpecialtyName(specialty)}
-                      </div>
-                    ))}
-                </div>
-              ) : null}
+
+              {this.renderSearchForAvailableServicePrompt(inputValue)}
+              {isOpen &&
+                inputValue &&
+                inputValue.length >= MIN_SEARCH_CHARS &&
+                this.renderServiceTypeDropdownOptions(
+                  getItemProps,
+                  highlightedIndex,
+                  inputValue,
+                )}
+              {this.renderTryAnotherServicePrompt(inputValue)}
             </span>
           </div>
         )}
@@ -132,14 +211,22 @@ class ServiceTypeAhead extends Component {
 }
 
 ServiceTypeAhead.propTypes = {
-  getProviderSpecialties: func.isRequired,
-  initialSelectedServiceType: string,
-  onSelect: func.isRequired,
+  getProviderSpecialties: PropTypes.func.isRequired,
+  initialSelectedServiceType: PropTypes.string,
+  handleServiceTypeChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
+  showError: PropTypes.bool,
 };
 
 const mapDispatch = { getProviderSpecialties };
 
+const mapStateToProps = state => {
+  return {
+    currentQuery: state.searchQuery,
+  };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatch,
 )(ServiceTypeAhead);

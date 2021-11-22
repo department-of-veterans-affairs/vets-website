@@ -7,19 +7,20 @@ import {
   getPOWValidationMessage,
   pathWithIndex,
   hasClaimedConditions,
-  increaseOnly,
+  isClaimingIncrease,
   hasRatedDisabilities,
   claimingRated,
-  isBDD,
+  showSeparationLocation,
+  sippableId,
 } from './utils';
 
 import {
   MILITARY_CITIES,
   MILITARY_STATE_VALUES,
   LOWERED_DISABILITY_DESCRIPTIONS,
+  NULL_CONDITION_STRING,
+  RESERVE_GUARD_TYPES,
 } from './constants';
-
-import separationLocations from './content/separationLocations';
 
 export const hasMilitaryRetiredPay = data =>
   _.get('view:hasMilitaryRetiredPay', data, false);
@@ -179,6 +180,34 @@ export const isInFuture = (err, fieldData) => {
   }
 };
 
+export const isLessThan180DaysInFuture = (errors, fieldData) => {
+  const enteredDate = moment(fieldData);
+  const in180Days = moment().add(180, 'days');
+  if (enteredDate.isValid()) {
+    if (enteredDate.isBefore()) {
+      errors.addError('Please enter a future separation date');
+    } else if (enteredDate.isSameOrAfter(in180Days)) {
+      errors.addError(
+        'Please enter a separation date less than 180 days in the future',
+      );
+    }
+  }
+};
+
+export const title10BeforeRad = (errors, pageData) => {
+  const { anticipatedSeparationDate, title10ActivationDate } =
+    pageData?.reservesNationalGuardService?.title10Activation || {};
+
+  const rad = moment(anticipatedSeparationDate);
+  const activation = moment(title10ActivationDate);
+
+  if (rad.isValid() && activation.isValid() && rad.isBefore(activation)) {
+    errors.reservesNationalGuardService.title10Activation.anticipatedSeparationDate.addError(
+      'Please enter an expected separation date that is after your activation date',
+    );
+  }
+};
+
 export const isValidYear = (err, fieldData) => {
   const parsedInt = Number.parseInt(fieldData, 10);
 
@@ -195,24 +224,31 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
   if (!_.get('servicePeriods.length', formData.serviceInformation, false)) {
     return;
   }
+  const { nationalGuard, reserve } = RESERVE_GUARD_TYPES;
 
+  // only check active duty periods
   const earliestServiceStartDate = formData.serviceInformation.servicePeriods
-    .map(period => new Date(period.dateRange.from))
-    .reduce((earliestDate, current) => {
-      if (current < earliestDate) {
-        return current;
-      }
-
-      return earliestDate;
-    });
+    .filter(
+      ({ serviceBranch = '' } = {}) =>
+        serviceBranch &&
+        !(
+          serviceBranch.includes(nationalGuard) ||
+          serviceBranch.includes(reserve)
+        ),
+    )
+    .map(period => moment(period.dateRange.from, 'YYYY-MM-DD'))
+    .reduce(
+      (earliestDate, current) =>
+        current.isBefore(earliestDate) ? current : earliestDate,
+      moment(),
+    );
 
   const treatmentStartDate = moment(fieldData, 'YYYY-MM');
-  const firstServiceStartDate = moment(earliestServiceStartDate);
   // If the moment is earlier than the moment passed to moment.diff(),
   // the return value will be negative.
-  if (treatmentStartDate.diff(firstServiceStartDate, 'month') < 0) {
+  if (treatmentStartDate.diff(earliestServiceStartDate, 'month') < 0) {
     err.addError(
-      'Your first treatment date needs to be after the start of your earliest service period.',
+      'Your first treatment date needs to be after the start of your earliest active duty service period.',
     );
   }
 }
@@ -228,12 +264,20 @@ export const hasMonthYear = (err, fieldData) => {
   }
 };
 
-export const isWithinServicePeriod = (errors, fieldData, formData) => {
-  const servicePeriods = _.get(
-    'serviceInformation.servicePeriods',
-    formData,
-    [],
-  );
+export const isWithinServicePeriod = (
+  errors,
+  fieldData,
+  formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
+  // formData === fieldData on review & submit - see #20301
+  const servicePeriods =
+    formData?.serviceInformation?.servicePeriods ||
+    appStateData?.serviceInformation?.servicePeriods ||
+    [];
   const inServicePeriod = servicePeriods.some(pos =>
     isWithinRange(fieldData, pos.dateRange),
   );
@@ -250,7 +294,18 @@ export const isWithinServicePeriod = (errors, fieldData, formData) => {
   }
 };
 
-export const validateDisabilityName = (err, fieldData) => {
+export const missingConditionMessage =
+  'Please enter a condition or select one from the suggested list';
+
+export const validateDisabilityName = (
+  err,
+  fieldData = '',
+  _formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
   // We're using a validator for length instead of adding a maxLength schema
   // property because the validator is only applied conditionally - when a user
   // chooses a disability from the list supplied to autosuggest, we don't care
@@ -263,6 +318,29 @@ export const validateDisabilityName = (err, fieldData) => {
   ) {
     err.addError('Condition names should be less than 256 characters');
   }
+
+  if (
+    !fieldData ||
+    fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase()
+  ) {
+    err.addError(missingConditionMessage);
+  }
+
+  // Alert Veteran to duplicates
+  const currentList =
+    appStateData?.newDisabilities?.map(disability =>
+      disability.condition?.toLowerCase(),
+    ) || [];
+  // look for full text duplicates
+  const itemLowerCased = fieldData?.toLowerCase() || '';
+  // look for duplicates that may occur from stripping out
+  const itemSippableId = sippableId(fieldData || '');
+  const itemCount = currentList.filter(
+    item => item === itemLowerCased || sippableId(item) === itemSippableId,
+  );
+  if (itemCount.length > 1) {
+    err.addError('Please enter a unique condition name');
+  }
 };
 
 export const requireDisability = (err, fieldData, formData) => {
@@ -273,14 +351,22 @@ export const requireDisability = (err, fieldData, formData) => {
   }
 };
 
+export const limitNewDisabilities = (err, fieldData, formData) => {
+  if (formData.newDisabilities?.length > 100) {
+    err.addError(
+      'You have reached the 100 condition limit. If you need to add another condition, you must remove a previously added condition.',
+    );
+  }
+};
+
 /**
  * Requires a rated disability to be entered if the increase only path has been selected.
  */
 export const requireRatedDisability = (err, fieldData, formData) => {
-  if (increaseOnly(formData) && !claimingRated(formData)) {
+  if (isClaimingIncrease(formData) && !claimingRated(formData)) {
     // The actual validation error is displayed as an alert field. The message
     // here will be shown on the review page
-    err.addError('Please selected a rated disability');
+    err.addError('Please select a rated disability');
   }
 };
 
@@ -299,11 +385,106 @@ export const requireNewDisability = (err, fieldData, formData) => {
   }
 };
 
-export const checkSeparationLocation = (errors, values = {}, formData) => {
-  const data = formData?.serviceInformation?.separationLocation?.label;
-  const isValid =
-    data && separationLocations.some(({ description }) => data === description);
-  if (!isValid && isBDD(formData)) {
-    errors.addError('Please select an option from the suggestions');
+export const requireSeparationLocation = (err, fieldData, formData) => {
+  if (showSeparationLocation(formData) && !fieldData?.id) {
+    err.addError('Please select a separation location from the suggestions');
+  }
+};
+
+// Originally used the function from platform/forms-system/src/js/validation.js,
+// but we need to ignore conditions that have been removed from the new
+// disabilities array; the form data for treatedDisabilityNames doesn't remove
+// previous entries and they may still be true - see
+// https://github.com/department-of-veterans-affairs/va.gov-team/issues/15368
+// the schema name is not altered, only the form data from SiPs
+export function validateBooleanGroup(
+  errors,
+  userGroup,
+  form,
+  schema,
+  errorMessages = {},
+) {
+  const { atLeastOne = 'Please choose at least one option' } = errorMessages;
+  const group = userGroup || {};
+  const props = schema?.properties || {};
+  if (
+    !Object.keys(group).filter(
+      item =>
+        group[item] === true && (props[item] || props[item.toLowerCase()]),
+    ).length
+  ) {
+    errors.addError(atLeastOne);
+  }
+}
+
+/* Military history validations */
+export const validateAge = (
+  errors,
+  dateString,
+  _formData,
+  _schema,
+  _uiSchema,
+  _currentIndex,
+  appStateData,
+) => {
+  if (moment(dateString).isBefore(moment(appStateData.dob).add(13, 'years'))) {
+    errors.addError('Your start date must be after your 13th birthday');
+  }
+};
+
+// partial matches for reserves
+// NOAA & Public Health Service are considered to be active duty
+const reservesList = ['Reserve', 'National Guard'];
+
+export const validateSeparationDate = (
+  errors,
+  dateString,
+  _formData,
+  _schema,
+  _uiSchema,
+  currentIndex,
+  appStateData,
+) => {
+  const { isBDD, servicePeriods = [] } = appStateData;
+  const branch = servicePeriods[currentIndex]?.serviceBranch || '';
+  const isReserves = reservesList.some(match => branch.includes(match));
+  const in90Days = moment().add(90, 'days');
+  if (!isBDD && !isReserves && moment(dateString).isSameOrAfter(in90Days)) {
+    errors.addError('Your separation date must be in the past');
+  } else if (
+    +isBDD &&
+    !isReserves &&
+    moment(dateString).isAfter(moment().add(180, 'days'))
+  ) {
+    errors.addError('Your separation date must be before 180 days from today');
+  }
+};
+
+export const validateTitle10StartDate = (
+  errors,
+  dateString,
+  _formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData = {},
+) => {
+  const startTimes = (appStateData.servicePeriods || [])
+    // include only reserve/guard service periods
+    .filter(period =>
+      reservesList.some(match => period.serviceBranch.includes(match)),
+    )
+    .map(period => period.dateRange.from)
+    .sort((a, b) => {
+      // string comparison of dates in the 'YYYY-MM-DD' format work as expected
+      if (a === b) {
+        return 0;
+      }
+      return b > a ? -1 : 1;
+    });
+  if (!startTimes[0] || dateString < startTimes[0]) {
+    errors.addError(
+      'Your activation date must be after your earliest service start date for the Reserve or the National Guard',
+    );
   }
 };

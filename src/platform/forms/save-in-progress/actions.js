@@ -2,9 +2,8 @@ import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../monitoring/record-event';
 import { logOut } from '../../user/authentication/actions';
-import environment from '../../utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from '../../utilities/api';
-import { sanitizeForm } from '../helpers';
+import { inProgressApi } from '../helpers';
 import { removeFormApi, saveFormApi } from './api';
 import { REMOVING_SAVED_FORM_SUCCESS } from '../../user/profile/actions';
 
@@ -64,12 +63,14 @@ export function setSaveFormStatus(
   status,
   lastSavedDate = null,
   expirationDate = null,
+  inProgressFormId = null,
 ) {
   return {
     type: statusActionsByType.get(saveType),
     status,
     lastSavedDate,
     expirationDate,
+    inProgressFormId,
   };
 }
 
@@ -108,16 +109,29 @@ export function setPrefillComplete() {
 }
 
 /**
+ * @typedef SaveInProgressData~metadata
+ * @type {Object}
+ * @property {Integer} version - form-specific migration version
+ * @property {Boolean} prefill - flag indicating if the save in progress data is
+ *   from prefill (true) or in-progress data (false)
+ * @property {String} returnUrl - path to form page, e.g. `/vet-info`
+ */
+/**
+ * @typedef SaveInProgressData
+ * @type {Object}
+ * @property {Object} formData - form-specific data
+ * @property {SaveInProgressData~metadata} metadata
+ */
+/**
  * Transforms the data from an old version of a form to be used in the latest
  *  version.
  *
- * @param  {Object}  savedData    The formData from the old version of the form.
- * @param  {Ingeter} savedVersion The version of the form the corresponding
- *                                 data was saved with.
- * @param  {Array}   migrations   An array of functions which transform the
- *                                 data saved to work with the current version.
- * @return {Object}               The modified formData which should work with
- *                                 the current version of the form.
+ * @param {SaveInProgressData} savedData The old version of the
+ *  save-in-progress data.
+ * @param {Array} migrations - An array of functions which transform the data
+ *  saved to work with the current version.
+ * @return {SaveInProgressData} The modified save-in-progress data which should
+ *  work with the current version of the form.
  */
 export function migrateFormData(savedData, migrations) {
   // migrations is an array that looks like this:
@@ -150,14 +164,37 @@ export function migrateFormData(savedData, migrations) {
 }
 
 /**
+ * @typedef Form~submission - copy of `form.submission` object which stores the
+ *   state of the form last submission attempt
+ * @type {Object}
+ * @property {Boolean|String} status - initialized as `false`, and may end up as
+ *   a string: 'submitPending', 'applicationSubmitted', 'validationError',
+ *  'clientError', 'throttledError', 'serverError', etc.
+ * @property {Boolean|String} errorMessage - initialized as `false`; Returns
+ *   actual server errorMessage
+ * @property {Object} errors - The errors object provided by the jsonschema
+ *   validation library; only available when there are form validation errors
+ *   prior to actual form submission to the server
+ * @property {Boolean} id - initialized as `false`; never altered. A submit ID
+ *   would not be available as the SiPs data is cleared after submission
+ * @property {Boolean|Number} timestamp - initialized as `false`; or contains
+ *   the number of milliseconds* since the Unix Epoch of the submission attempt
+ * @property {Boolean} hasAttemptedSubmit - flag indicating if the user had
+ *   attempted to submit a form
+ * @property {Number} extra - extra 'x-ratelimit-reset' data returned from a
+ *   rate limit ('throttledError) error (see submitToUrl function in the
+ *   forms-system actions file)
+ */
+/**
  * Saves the form data to the back end
  * @param  {String}  saveType  The type of save that's happening, auto or save and redirect
  * @param  {String}  formId    The form’s formId
  * @param  {Object}  formData  The data the user has entered so far
- * @param  {Ingeter} version   The form’s version
+ * @param  {Integer} version   The form’s version
  * @param  {String}  returnUrl The last URL the user was at before saving
+ * @param  {Form~submission} submission Form submission data
  */
-function saveForm(saveType, formId, formData, version, returnUrl) {
+function saveForm(saveType, formId, formData, version, returnUrl, submission) {
   const savedAt = Date.now();
 
   return (dispatch, getState) => {
@@ -172,6 +209,7 @@ function saveForm(saveType, formId, formData, version, returnUrl) {
       returnUrl,
       savedAt,
       trackingPrefix,
+      submission,
     )
       .then(json => {
         dispatch(
@@ -180,6 +218,7 @@ function saveForm(saveType, formId, formData, version, returnUrl) {
             SAVE_STATUSES.success,
             savedAt,
             json.data.attributes.metadata.expiresAt,
+            json.data.id,
           ),
         );
 
@@ -227,12 +266,13 @@ export function fetchInProgressForm(
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return (dispatch, getState) => {
     const trackingPrefix = getState().form.trackingPrefix;
+    const apiUrl = inProgressApi(formId);
 
     // Update UI while we’re waiting for the API
     dispatch(setFetchFormPending(prefill));
 
     // Query the api and return a promise (for navigation / error handling afterward)
-    return fetch(`${environment.API_URL}/v0/in_progress_forms/${formId}`, {
+    return fetch(apiUrl, {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -305,7 +345,8 @@ export function fetchInProgressForm(
           // related to SiP
           Sentry.captureException(e);
           Sentry.withScope(scope => {
-            scope.setExtra('formData', sanitizeForm(resBody.formData));
+            // TODO: move santitizing function to sentry config and make filtered parameters configurable by forms library users
+            // scope.setExtra('formData', sanitizeForm(resBody.formData));
             scope.setExtra('metadata', resBody.metadata);
             Sentry.captureMessage('vets_sip_error_migration');
           });

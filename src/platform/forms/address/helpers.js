@@ -1,5 +1,5 @@
 import ADDRESS_DATA from './data';
-import countries from 'platform/user/profile/vet360/constants/countries.json';
+import countries from '@@vap-svc/constants/countries.json';
 
 const STATE_NAMES = ADDRESS_DATA.states;
 

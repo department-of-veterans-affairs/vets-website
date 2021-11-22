@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import LocationPhoneLink from '../../../components/search-results/LocationPhoneLink';
+import LocationPhoneLink from '../../../components/search-results-items/common/LocationPhoneLink';
 
 describe('LocationPhoneLink', () => {
   it('should render null if bad phone number passed', () => {
@@ -12,7 +12,9 @@ describe('LocationPhoneLink', () => {
     const wrapper = shallow(
       <LocationPhoneLink location={locationWithBadPhone} />,
     );
-    expect(wrapper.html()).to.equal('<div class="facility-phone-group"></div>');
+    expect(wrapper.html()).to.equal(
+      '<div class="facility-phone-group vads-u-margin-top--2"></div>',
+    );
     wrapper.unmount();
   });
 

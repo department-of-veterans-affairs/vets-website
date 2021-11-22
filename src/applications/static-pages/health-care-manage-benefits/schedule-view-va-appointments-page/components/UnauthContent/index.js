@@ -1,48 +1,18 @@
 // Node modules.
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/formation-react/Telephone';
 // Relative imports.
-import CallToActionWidget from 'platform/site-wide/cta-widget';
+import CallToActionWidget from 'applications/static-pages/cta-widget';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 
 export const UnauthContent = () => (
   <>
-    <div className="usa-alert usa-alert-info" role="alert">
-      <div className="usa-alert-body">
-        <h3 className="usa-alert-heading" id="due-to-covid-19-you-can-only-r">
-          Due to COVID-19, you can only request an appointment online
-        </h3>
-        <p>
-          You can’t directly schedule an appointment online at this time. Once
-          you request your appointment, a scheduler will get back to you to
-          confirm your request.
-        </p>
-        <p>
-          To help us address the most urgent needs first, we ask that you don’t
-          request routine appointments right now.
-        </p>
-      </div>
-    </div>
-    <div className="processed-content">
-      <p>&nbsp;</p>
-      <p>
-        <strong>Please note:</strong> The fastest way to make all your VA
-        appointments is usually to call the VA or community care health facility
-        where you want to receive care. If you can’t keep an existing
-        appointment, please contact the facility as soon as possible to
-        reschedule or cancel.
-        <br />
-        <a href="/find-locations/">
-          Find your VA health facility’s phone number
-        </a>
-      </p>
-      <h2 id="view-schedule-or-cancel-a-va-a">
-        View, schedule, or cancel a VA appointment online
-      </h2>
-    </div>
     <CallToActionWidget appId="view-appointments" setFocus={false} />
+    <p data-testid="non-cerner-content">
+      <strong>Note:</strong> If you can’t keep an existing appointment, please
+      contact the facility as soon as you can to reschedule or cancel.
+      <br />
+      <a href="/find-locations/">Find your health facility’s phone number</a>
+    </p>
     <h2>How can the VA appointments tool help me manage my care?</h2>
     <p>
       This tool offers a secure, online way to schedule, view, and organize your
@@ -69,7 +39,7 @@ export const UnauthContent = () => (
       You can use this tool if you meet all of the requirements listed below.
     </p>
     <p>
-      <strong>All of these must be true. You’re</strong>
+      <strong>All of these must be true. You’re:</strong>
     </p>
     <ul>
       <li>
@@ -81,9 +51,11 @@ export const UnauthContent = () => (
       </li>
       <li>Registered or you’ve had an appointment at that facility before</li>
     </ul>
-    <a href="/health-care/how-to-apply/">
-      Find out how to apply for VA health care
-    </a>
+    <p>
+      <a href="/health-care/how-to-apply/">
+        Find out how to apply for VA health care
+      </a>
+    </p>
     <p>
       <strong>And, you must have one of these free accounts:</strong>
     </p>
@@ -99,11 +71,11 @@ export const UnauthContent = () => (
         , <strong>or</strong>
       </li>
       <li>
-        A Premium DS Logon account (used for eBenefits and milConnect),{' '}
-        <strong>or</strong>
+        A Premium <strong>DS Logon</strong> account (used for eBenefits and
+        milConnect), <strong>or</strong>
       </li>
       <li>
-        A verified ID.me account that you can{' '}
+        A verified <strong>ID.me</strong> account that you can{' '}
         <a href="https://api.id.me/en/registration/new">
           create here on VA.gov
         </a>
@@ -136,10 +108,10 @@ export const UnauthContent = () => (
       scheduling appointments online.
     </p>
     <a href="/find-locations">Find a VA health facility</a>
-    <h2>Can I use these tools to schedule community (non-VA) appointments?</h2>
+    <h2>Can I use this tool to schedule community (non-VA) appointments?</h2>
     <p>
       Yes. If you’re eligible to receive care from a community provider outside
-      of VA, you can use these tools to submit appointment requests. You must
+      of VA, you can use this tool to submit appointment requests. You must
       receive prior approval from us before getting care from a community
       provider. <br />
     </p>
@@ -148,22 +120,24 @@ export const UnauthContent = () => (
     </a>
     <br />
     <br />
-    <a href="find-locations/">Find a community provider in the VA network</a>
+    <a href="/find-locations/">Find a community provider in the VA network</a>
     <h2>Can I schedule appointments through VA secure messaging?</h2>
     <p>
       If you use secure messaging with your VA health care team, you may be able
       to use this service to schedule and cancel appointments.
     </p>
-    <a href="/health-care/secure-messaging/">
-      Learn more about secure messaging
-    </a>
+    <p>
+      <a href="/health-care/secure-messaging/">
+        Learn more about secure messaging
+      </a>
+    </p>
     <p>
       <strong>Please note:</strong> The fastest way to schedule appointments is
-      usually to call the VA health facility where you get care. To reschedule
-      or cancel an existing appointment, please contact your facility as soon as
+      usually to call the health facility where you get care. To reschedule or
+      cancel an existing appointment, please contact your facility as soon as
       possible.
     </p>
-    <a href="/find-locations">Find your VA health facility’s phone number</a>
+    <a href="/find-locations">Find your health facility’s phone number</a>
     <h2>Will my personal health information be protected?</h2>
     <p>
       Yes. This is a secure website. We follow strict security policies and
@@ -181,7 +155,12 @@ export const UnauthContent = () => (
       Get tips for protecting your personal health information
     </a>
     <h2>What if I have more questions?</h2>
-    <h3>For help scheduling a VA or community care appointment</h3>
+    <h3>For questions about scheduling an appointment</h3>
+    <p>Please call your VA or community care health facility.</p>
+    <p>
+      <a href="/find-locations/">Find your health facility’s phone number</a>
+    </p>
+    <h3>For questions about the VA appointments tool</h3>
     <p>
       Please call{' '}
       <a href="tel: 18774705947" aria-label="8 7 7. 4 7 0. 5 9 4 7.">
@@ -189,7 +168,7 @@ export const UnauthContent = () => (
       </a>{' '}
       (
       <a href="tel:711" aria-label="TTY. 7 1 1.">
-        711
+        TTY: 711
       </a>
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
@@ -201,9 +180,9 @@ export const UnauthContent = () => (
       </a>{' '}
       (
       <a href="tel:711" aria-label="TTY. 7 1 1.">
-        711
+        TTY: 711
       </a>
-      ). We’re here Monday through Saturday, 7:00 a.m. to 11:00 p.m. ET.
+      ). We’re here 24/7.
     </p>
     <MoreInfoAboutBenefits />
   </>

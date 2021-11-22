@@ -1,127 +1,181 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import reverse from 'lodash/reverse';
+import { Link, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Breadcrumbs from '@department-of-veterans-affairs/formation-react/Breadcrumbs';
-import AdditionalInfo from '@department-of-veterans-affairs/formation-react/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/formation-react/AlertBox';
-import { deductionCodes } from '../const';
-import HowDoIPay from './HowDoIPay';
-import NeedHelp from './NeedHelp';
 import moment from 'moment';
+import head from 'lodash/head';
 import last from 'lodash/last';
 import first from 'lodash/first';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import HowDoIPay from './HowDoIPay';
+import NeedHelp from './NeedHelp';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { setPageFocus, getCurrentDebt, currency } from '../utils/page';
+import { OnThisPageLinks } from './OnThisPageLinks';
+import { renderAdditionalInfo } from '../const/diary-codes';
+import HistoryTable from './HistoryTable';
+import {
+  deductionCodes,
+  renderWhyMightIHaveThisDebt,
+} from '../const/deduction-codes';
 
-const DebtDetails = ({ selectedDebt }) => {
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-  });
+const DebtDetails = ({ selectedDebt, debts }) => {
+  const approvedLetterCodes = ['100', '101', '102', '109', '117', '123', '130'];
+  const location = useLocation();
+  const currentDebt = getCurrentDebt(selectedDebt, debts, location);
+  const mostRecentHistory = head(currentDebt?.debtHistory);
+  const whyContent = renderWhyMightIHaveThisDebt(currentDebt.deductionCode);
+  const dateUpdated = last(currentDebt.debtHistory)?.date;
+  const dateFirstNotice = first(currentDebt.debtHistory)?.date;
+  const filteredHistory = currentDebt.debtHistory
+    ?.filter(history => approvedLetterCodes.includes(history.letterCode))
+    .reverse();
+  const hasFilteredHistory = filteredHistory && filteredHistory.length > 0;
+  const additionalInfo = renderAdditionalInfo(
+    currentDebt.diaryCode,
+    mostRecentHistory?.date,
+    currentDebt.benefitType,
+  );
+
+  useEffect(() => {
+    scrollToTop();
+    setPageFocus('h1');
+  }, []);
+
+  if (Object.keys(currentDebt).length === 0) {
+    window.location.replace('/manage-va-debt/your-debt');
+    return (
+      <div className="vads-u-font-family--sans vads-u-margin--0 vads-u-padding--1">
+        <LoadingIndicator
+          setFocus
+          message="Please wait while we load the application for you."
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
       <Breadcrumbs className="vads-u-font-family--sans">
         <a href="/">Home</a>
-        <a href="/debt-letters">Manage your VA debt</a>
-        <a href="/debt-letters/debt-list">Your VA debt</a>
+        <a href="/manage-va-debt">Manage your VA debt</a>
+        <a href="/manage-va-debt/your-debt">Your VA debt</a>
+        <a href="/manage-va-debt/your-debt/debt-detail">Details</a>
       </Breadcrumbs>
-      <h1 className="vads-u-font-family--serif vads-u-margin-bottom--2">
-        Your {deductionCodes[selectedDebt.deductionCode]} debt
+      <h1
+        className="vads-u-font-family--serif vads-u-margin-bottom--2"
+        tabIndex="-1"
+      >
+        Your {deductionCodes[currentDebt.deductionCode]}
       </h1>
-      <div className="vads-l-row">
+      <section className="vads-l-row">
         <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-right--2p5 vads-l-col--12 medium-screen:vads-l-col--8 vads-u-font-family--sans">
-          <p className="vads-u-font-size--h3 vads-u-font-family--serif vads-u-margin-top--0">
-            Updated on{' '}
-            {moment(last(selectedDebt.debtHistory).date).format('MMMM D, YYYY')}
-          </p>
-
-          <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
-            Date of first notice:
-          </p>
-          <p className="vads-u-margin-top--0">
-            {moment(first(selectedDebt.debtHistory).date).format(
-              'MMMM D, YYYY',
-            )}
-          </p>
-          <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
-            Original debt amount:
-          </p>
-          <p className="vads-u-margin-top--0">
-            {' '}
-            {formatter.format(parseFloat(selectedDebt.originalAr))}
-          </p>
-          <p className="vads-u-margin-y--0 vads-u-font-weight--bold">
-            Current balance:
-          </p>
-          <p className="vads-u-margin-top--0">
-            {' '}
-            {formatter.format(parseFloat(selectedDebt.currentAr))}
-          </p>
-          <AdditionalInfo triggerText="Why might I have this debt?">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi
-            excepturi fugit non sunt. Asperiores autem error ipsam magnam minus
-            modi nam obcaecati quasi, ratione rem repellendus reprehenderit ut
-            veritatis vitae.
-          </AdditionalInfo>
-
-          <AlertBox
-            className="vads-u-margin-y--4"
-            headline="Informational backgroundOnly alert"
-            content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id felis pulvinar ligula ultricies sollicitudin eget nec dui. Cras augue velit, pellentesque sit amet nisl ut, tristique suscipit sem. Cras sollicitudin auctor mattis."
-            status="info"
-            backgroundOnly
-          />
-
-          <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
-            Debt history
-          </h2>
-          <p className="vads-u-margin-y--2">
-            You can view the status or download the letters for this debt.
-          </p>
-          <p className="vads-u-margin-top--0">
-            <strong>Note:</strong> The content of the debt letters below may not
-            include recent updates to your debt reflected above. If you have any
-            questions about your debt history, please contact the Debt
-            Management Center at{' '}
-            <a href="tel: 800-827-0648" aria-label="800. 8 2 7. 0648.">
-              800-827-0648
-            </a>
-            {'.'}
-          </p>
-          {reverse(selectedDebt.debtHistory).map((debtEntry, index) => (
-            <div
-              className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-y--1p5 vads-u-border-bottom--3px vads-u-border-color--gray-lightest"
-              key={`${debtEntry.letterCode}-${index}`}
-            >
-              <h3 className="vads-u-margin-top--1">
-                {moment(debtEntry.date).format('MMMM D, YYYY')}
-              </h3>
-              <p className="vads-u-font-weight--bold vads-u-margin-y--0">
-                {debtEntry.status}
-              </p>
-              <p className="vads-u-margin-y--1">{debtEntry.description}</p>
-              {/* ToDo: Add link to actual debt letter download in VBMS */}
-              <a className="vads-u-margin-bottom--3" href="#">
-                Download and print the letter
-              </a>
+          {dateUpdated && (
+            <p className="va-introtext vads-u-margin-top--0">
+              Updated on
+              <span className="vads-u-margin-left--0p5">
+                {moment(dateUpdated, 'MM-DD-YYYY').format('MMMM D, YYYY')}
+              </span>
+            </p>
+          )}
+          <dl className="details-table">
+            <div className="details-row">
+              <dt className="details-title">Amount owed:</dt>
+              <dd className="details-data">
+                {currency.format(parseFloat(currentDebt.currentAr))}
+              </dd>
             </div>
-          ))}
-        </div>
-        <div className="vads-u-display--flex vads-u-flex-direction--column vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
+            <div className="details-row">
+              <dt className="details-title">Original amount:</dt>
+              <dd className="details-data">
+                {currency.format(parseFloat(currentDebt.originalAr))}
+              </dd>
+            </div>
+            {dateFirstNotice && (
+              <div className="details-row">
+                <dt className="details-title">Date of first notice:</dt>
+                <dd className="details-data">
+                  {moment(dateFirstNotice, 'MM-DD-YYYY').format('MMMM D, YYYY')}
+                </dd>
+              </div>
+            )}
+            <div className="details-row">
+              <dt className="details-title">Collection status:</dt>
+              <dd className="details-data">{additionalInfo.status}</dd>
+            </div>
+          </dl>
+          <va-alert
+            status="info"
+            class="vads-u-margin-bottom--4 vads-u-font-size--base"
+            background-only
+          >
+            {additionalInfo.nextStep}
+          </va-alert>
+          {whyContent && (
+            <AdditionalInfo triggerText="Why might I have this debt?">
+              {whyContent}
+            </AdditionalInfo>
+          )}
+          <OnThisPageLinks isDetailsPage hasHistory={hasFilteredHistory} />
+          {hasFilteredHistory && (
+            <>
+              <h2
+                id="debtLetterHistory"
+                className="vads-u-margin-top--5 vads-u-margin-bottom--0"
+              >
+                Debt letter history
+              </h2>
+              <p className="vads-u-margin-y--2">
+                You can view the status or download the letters for this debt.
+              </p>
+              <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+                <strong>Note:</strong> The content of the debt letters below may
+                not include recent updates to your debt reflected above. If you
+                have any questions about your debt history, please contact the
+                Debt Management Center at
+                <Telephone
+                  className="vads-u-margin-left--0p5"
+                  contact="8008270648"
+                />
+                .
+              </p>
+              <HistoryTable history={filteredHistory} />
+              <h3 id="downloadDebtLetters" className="vads-u-margin-top--0">
+                Download debt letters
+              </h3>
+              <p className="vads-u-margin-bottom--0">
+                You can download some of your letters for education,
+                compensation and pension debt.
+              </p>
+              <Link to="/debt-letters" className="vads-u-margin-top--1">
+                Download letters related to your VA debt
+              </Link>
+            </>
+          )}
           <HowDoIPay />
           <NeedHelp />
+          <Link className="vads-u-margin-top--4" to="/">
+            <i aria-hidden="true" className="fa fa-chevron-left" /> Return to
+            your list of debts.
+          </Link>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
 
-const mapStateToProps = state => ({
-  selectedDebt: state.debtLetters?.selectedDebt,
+const mapStateToProps = ({ debtLetters }) => ({
+  selectedDebt: debtLetters?.selectedDebt,
+  debts: debtLetters.debts,
 });
 
-DebtDetails.propTypes = {
-  selectedDebt: PropTypes.object.isRequired,
+DebtDetails.defaultProps = {
+  selectedDebt: {
+    debtHistory: [],
+  },
 };
 
 DebtDetails.propTypes = {
@@ -134,16 +188,7 @@ DebtDetails.propTypes = {
     ),
     deductionCode: PropTypes.string,
     originalAr: PropTypes.number,
-  }),
-};
-
-DebtDetails.defaultProps = {
-  selectedDebt: {
-    currentAr: 0,
-    debtHistory: [{ date: '' }],
-    deductionCode: '',
-    originalAr: 0,
-  },
+  }).isRequired,
 };
 
 export default connect(mapStateToProps)(DebtDetails);

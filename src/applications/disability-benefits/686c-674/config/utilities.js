@@ -1,9 +1,9 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import _ from 'platform/utilities/data';
+import cloneDeep from 'platform/utilities/data/cloneDeep';
 import { validateWhiteSpace } from 'platform/forms/validations';
 import {
   filterInactivePageData,
-  filterViewFields,
   getActivePages,
   getInactivePages,
   stringifyFormReplacer,
@@ -58,7 +58,6 @@ const customFormReplacer = (key, value) => {
       return _.omit('file', value);
     }
   }
-
   // Clean up empty objects in arrays
   if (Array.isArray(value)) {
     const newValues = value.filter(v => !!stringifyFormReplacer(key, v));
@@ -80,6 +79,7 @@ const {
   reportChildStoppedAttendingSchool,
   reportStepchildNotInHousehold,
   report674,
+  householdIncome,
 } = fullSchema.properties;
 
 export {
@@ -94,22 +94,26 @@ export {
   reportChildStoppedAttendingSchool,
   reportStepchildNotInHousehold,
   report674,
+  householdIncome,
   isServerError,
   isClientError,
 };
 
 export function customTransformForSubmit(formConfig, form) {
+  const payload = cloneDeep(form);
+  // manually delete view:confirmEmail, since in our case we actually want the other view fields
+  delete payload.data.veteranContactInformation['view:confirmEmail'];
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
-    form.data,
+    payload.data,
   );
-  const activePages = getActivePages(expandedPages, form.data);
-  const inactivePages = getInactivePages(expandedPages, form.data);
+  const activePages = getActivePages(expandedPages, payload.data);
+  const inactivePages = getInactivePages(expandedPages, payload.data);
   const withoutInactivePages = filterInactivePageData(
     inactivePages,
     activePages,
-    form,
+    payload,
   );
-  const withoutViewFields = filterViewFields(withoutInactivePages);
-  return JSON.stringify(withoutViewFields, customFormReplacer) || '{}';
+
+  return JSON.stringify(withoutInactivePages, customFormReplacer) || '{}';
 }

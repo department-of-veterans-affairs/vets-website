@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SystemDownView from '@department-of-veterans-affairs/formation-react/SystemDownView';
+import SystemDownView from '@department-of-veterans-affairs/component-library/SystemDownView';
 
 import EmailVICHelp from 'platform/static-data/EmailVICHelp';
 
 function RequiredVeteranView({ userProfile, children }) {
   let view;
 
-  if (userProfile.veteranStatus === 'SERVER_ERROR') {
+  if (userProfile.veteranStatus?.status === 'SERVER_ERROR') {
     // If eMIS status is null, show a system down message.
     view = (
       <SystemDownView
