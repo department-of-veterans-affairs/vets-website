@@ -21,6 +21,7 @@ import {
 import { CautionFlagAdditionalInfo } from '../../components/CautionFlagAdditionalInfo';
 import RatingsStars from '../../components/RatingsStars';
 import SchoolClassification from '../../components/SchoolClassification';
+import recordEvent from 'platform/monitoring/record-event';
 
 export function ResultCard({
   compare,
@@ -53,15 +54,44 @@ export function ResultCard({
     programLengthInHours,
   } = institution;
   const compareChecked = !!compare.search.institutions[facilityCode];
+  const compareLength = compare.search.loaded.length;
+
   const handleCompareUpdate = e => {
+    recordEvent({
+      event: location
+        ? `Checkbox Clicked: Added from location tab`
+        : `Checkbox Clicked: Added from name tab`,
+    });
+
+    if (compareLength < 3) {
+      recordEvent({
+        event: compareChecked
+          ? `Compare Checkbox click: ${compareLength - 1} in Comparison Drawer`
+          : `Compare Checkbox click: ${compareLength + 1} in Comparison Drawer`,
+      });
+    }
+
     if (e.target.checked && !compareChecked) {
-      if (compare.search.loaded.length === 3) {
+      if (compareLength === 3) {
         dispatchShowModal('comparisonLimit');
+        recordEvent({
+          event: `Compare Checkbox click: Comparison Limit Reached. More than 3 schools selected.`,
+        });
       } else {
         dispatchAddCompareInstitution(institution);
+        recordEvent({
+          event: `Compare Checkbox click: Added ${
+            institution.name
+          } to comparison tray`,
+        });
       }
     } else {
       dispatchRemoveCompareInstitution(facilityCode);
+      recordEvent({
+        event: `Compare Checkbox click: Removed ${
+          institution.name
+        } from comparison try`,
+      });
     }
   };
 
@@ -96,6 +126,12 @@ export function ResultCard({
         <Link
           to={profileLink}
           aria-labelledby={`${facilityCode}-label ${facilityCode}-classification`}
+          onClick={() =>
+            cautionFlags.length > 0 &&
+            recordEvent({
+              event: `Cautionary Warnings: ${name} profile link clicked`,
+            })
+          }
         >
           <h3
             className={nameClasses}
@@ -155,11 +191,11 @@ export function ResultCard({
       </p>
       <div className="vads-u-display--flex vads-u-margin-top--0 vads-u-margin-bottom--2">
         <div className="vads-u-flex--1">
-          <p className="secondary-info-label">Tuition benefit:</p>
+          <p className="secondary-info-label-large">Tuition benefit:</p>
           <p className="vads-u-margin-y--0">{tuition}</p>
         </div>
         <div className="vads-u-flex--1">
-          <p className="secondary-info-label">Housing benefit:</p>
+          <p className="secondary-info-label-large">Housing benefit:</p>
           <p className="vads-u-margin-y--0">
             {housing} /mo
             {employerProvider && '*'}
@@ -178,7 +214,7 @@ export function ResultCard({
   const schoolEmployerInstitutionDetails = (
     <>
       <div className="vads-u-flex--1">
-        <p className="secondary-info-label">
+        <p className="secondary-info-label-large">
           <strong>Accreditation:</strong>
         </p>
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--2p5">
@@ -189,7 +225,7 @@ export function ResultCard({
         </p>
       </div>
       <div className="vads-u-flex--1">
-        <p className="secondary-info-label">
+        <p className="secondary-info-label-large">
           <strong>GI Bill students:</strong>
         </p>
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--2p5">
@@ -213,7 +249,7 @@ export function ResultCard({
   const vettecInstitutionDetails = (
     <>
       <div className="vads-u-flex--1">
-        <p className="secondary-info-label">
+        <p className="secondary-info-label-large">
           <strong>Approved programs:</strong>
         </p>
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--2p5">
@@ -221,7 +257,7 @@ export function ResultCard({
         </p>
       </div>
       <div className="vads-u-flex--1">
-        <p className="secondary-info-label">
+        <p className="secondary-info-label-large">
           <strong>Program length:</strong>
         </p>
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--2p5">

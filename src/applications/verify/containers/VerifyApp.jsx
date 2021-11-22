@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import LoginGovSVG from 'applications/login/components/LoginGov';
+import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -16,16 +15,14 @@ import { focusElement } from '~/platform/utilities/ui';
 export class VerifyApp extends React.Component {
   constructor(props) {
     super(props);
-    const { profile } = this.props;
-    const serviceName = (profile.signIn || {}).serviceName;
 
-    const signinMethodLabels = {
+    this.signinMethodLabels = {
       dslogon: 'DS Logon',
       myhealthevet: 'My HealtheVet',
+      logingov: 'Login.gov',
     };
-
-    this.signInMethod = signinMethodLabels[serviceName] || 'ID.me';
   }
+
   componentDidMount() {
     if (!hasSession()) {
       window.location.replace('/');
@@ -53,11 +50,13 @@ export class VerifyApp extends React.Component {
     }
   }
 
-  renderVerifyButton() {
-    const { loginGovEnabled } = this.props;
+  renderVerifyButton(signInMethod) {
+    const verifyWithLoginGov =
+      this.signinMethodLabels.logingov === signInMethod;
+
     const renderOpts = {
-      copy: loginGovEnabled ? 'Login.gov' : 'ID.me',
-      renderImage: loginGovEnabled ? (
+      copy: verifyWithLoginGov ? 'Login.gov' : 'ID.me',
+      renderImage: verifyWithLoginGov ? (
         <LoginGovSVG />
       ) : (
         <img
@@ -68,7 +67,7 @@ export class VerifyApp extends React.Component {
         />
       ),
       className: `usa-button ${
-        loginGovEnabled ? 'logingov-button' : 'idme-button'
+        verifyWithLoginGov ? 'logingov-button' : 'idme-button'
       }`,
     };
 
@@ -84,6 +83,8 @@ export class VerifyApp extends React.Component {
 
   render() {
     const { profile } = this.props;
+    const signInMethod =
+      this.signinMethodLabels[(profile?.signIn?.serviceName)] || 'ID.me';
 
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
@@ -96,11 +97,9 @@ export class VerifyApp extends React.Component {
             <div className="columns small-12">
               <div>
                 <h1>Verify your identity</h1>
-                <AlertBox
-                  content={`You signed in with ${this.signInMethod}`}
-                  isVisible
-                  status="success"
-                />
+                <va-alert visible status="success">
+                  You signed in with {signInMethod}
+                </va-alert>
                 <p>
                   We'll need to verify your identity so that you can securely
                   access and manage your benefits.
@@ -116,7 +115,7 @@ export class VerifyApp extends React.Component {
                   This one-time process will take{' '}
                   <strong>5 - 10 minutes</strong> to complete.
                 </p>
-                {this.renderVerifyButton()}
+                {this.renderVerifyButton(signInMethod)}
               </div>
             </div>
           </div>

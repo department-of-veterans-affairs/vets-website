@@ -347,7 +347,7 @@
             }
           ]
         },
-        "description": "Upcomming phone appointment",
+        "description": "Upcoming phone appointment",
         "end": "2021-12-31T18:19:34",
         "id": "06aa456va",
         "kind": "phone",
@@ -363,6 +363,40 @@
         "slot": null,
         "start": "2021-12-31T18:19:34",
         "status": "booked",
+        "telehealth": null
+      }
+    },
+    {
+      "id": "11aa456ph",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": { "coding": [{ "code": "pat" }] },
+        "clinic": "308",
+        "comment": "New issue: Phone appointment",
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Cancelled phone appointment",
+        "end": "2021-12-30T18:19:34",
+        "id": "11aa456ph",
+        "kind": "phone",
+        "locationId": "983",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "practitioners": [],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reason": "New Issue",
+        "requestedPeriods": null,
+        "serviceType": "primaryCare",
+        "slot": null,
+        "start": "2021-12-30T18:19:34",
+        "status": "cancelled",
         "telehealth": null
       }
     },

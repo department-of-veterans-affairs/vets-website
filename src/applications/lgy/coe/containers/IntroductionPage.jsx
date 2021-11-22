@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { notLoggedInContent } from './introduction-content/notLoggedInContent.jsx';
 import COEIntroPageBox from './introduction-content/COEIntroPageBox';
 import LoggedInContent from './introduction-content/loggedInContent.jsx';
@@ -26,6 +27,10 @@ const IntroductionPage = props => {
   if (props.loggedIn && coeCallEnded.includes(props.status)) {
     content = (
       <div>
+        <FormTitle title="Request a VA home loan Certificate of Eligibility (COE)" />
+        <p className="vads-u-padding-bottom--3">
+          Request for a Certificate of Eligibility (VA Form 26-1880)
+        </p>
         <COEIntroPageBox coe={props.coe} status={props.status} />
         {props.coe.status !== COE_ELIGIBILITY_STATUS.denied && (
           <LoggedInContent parentProps={props} />

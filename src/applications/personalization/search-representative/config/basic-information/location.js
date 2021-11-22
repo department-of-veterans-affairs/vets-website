@@ -1,5 +1,6 @@
 export const schema = {
   type: 'object',
+  title: 'Where would you like to look for an accredited representative?',
   required: ['state'],
   properties: {
     city: {
@@ -15,7 +16,6 @@ export const schema = {
 };
 
 export const uiSchema = {
-  'ui:title': 'Where are you looking?',
   city: {
     'ui:title': 'City',
   },
@@ -23,6 +23,6 @@ export const uiSchema = {
     'ui:title': 'State',
   },
   postalCode: {
-    'ui:title': 'Postal Code',
+    'ui:title': 'Postal code',
   },
 };
