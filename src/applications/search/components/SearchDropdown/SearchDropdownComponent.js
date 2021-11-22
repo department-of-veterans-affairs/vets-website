@@ -133,7 +133,7 @@ class SearchDropdownComponent extends React.Component {
     inputClassName: '',
     suggestionsListClassName: '',
     suggestionClassName: '',
-    fetchingSuggestions: false,
+    fetchingSuggestions: true,
   };
 
   constructor(props) {
@@ -295,14 +295,16 @@ class SearchDropdownComponent extends React.Component {
     // if the last option is selected, cycle to the first option instead
     if (currentKeyPress === Keycodes.Down) {
       event.preventDefault();
-      if (activeIndex === undefined || activeIndex + 1 > max) {
-        this.focusIndex(0);
+      if (suggestions.length > 0) {
+        if (activeIndex === undefined || activeIndex + 1 > max) {
+          this.focusIndex(0);
 
+          return;
+        }
+
+        this.focusIndex(activeIndex + 1);
         return;
       }
-
-      this.focusIndex(activeIndex + 1);
-      return;
     }
 
     // previous
@@ -310,26 +312,33 @@ class SearchDropdownComponent extends React.Component {
     // if the first option is selected, cycle to the last option instead
     if (currentKeyPress === Keycodes.Up) {
       event.preventDefault();
-      if (activeIndex - 1 < 0) {
-        this.focusIndex(max);
 
+      if (suggestions.length > 0) {
+        if (activeIndex - 1 < 0) {
+          this.focusIndex(max);
+
+          return;
+        }
+        this.focusIndex(activeIndex - 1);
         return;
       }
-      this.focusIndex(activeIndex - 1);
-      return;
     }
 
     // first
     // when the HOME key is pressed, select the first option in the drop down menu
     if (currentKeyPress === Keycodes.Home) {
-      this.focusIndex(0);
+      if (suggestions.length > 0) {
+        this.focusIndex(0);
+      }
       return;
     }
 
     // last
     // when the END key is pressed, select the last option in the drop down menu
     if (currentKeyPress === Keycodes.End) {
-      this.focusIndex(max);
+      if (suggestions.length > 0) {
+        this.focusIndex(max);
+      }
       return;
     }
 
@@ -337,6 +346,7 @@ class SearchDropdownComponent extends React.Component {
     // when the ESCAPE key is pressed, close the drop down menu WITHOUT selecting any of the options
     if (currentKeyPress === Keycodes.Escape) {
       document.getElementById(`${this.props.id}-input-field`).focus();
+
       this.setState({ activeIndex: undefined, isOpen: false });
       return;
     }
