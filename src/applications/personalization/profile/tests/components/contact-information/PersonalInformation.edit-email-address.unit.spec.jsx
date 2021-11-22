@@ -6,7 +6,7 @@ import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
 import * as mocks from '@@profile/msw-mocks';
-import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
+import ContactInformation from '@@profile/components/contact-information/ContactInformation';
 
 import {
   createBasicInitialState,
@@ -21,7 +21,7 @@ const newUserNameRegex = new RegExp(newUserName);
 const newEmailAddress = `${newUserName}@domain.com`;
 const ui = (
   <MemoryRouter>
-    <PersonalInformation />
+    <ContactInformation />
   </MemoryRouter>
 );
 let view;

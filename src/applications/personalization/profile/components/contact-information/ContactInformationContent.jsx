@@ -3,14 +3,11 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
 
-import GenderAndDOBSection from './GenderAndDOBSection';
-import ContactInformationSection from '../contact-information/ContactInformationSection';
-import EmailInformationSection from '../contact-information/email-addresses/EmailInformationSection';
+import ContactInformationSection from './../contact-information/ContactInformationSection';
+import EmailInformationSection from './../contact-information/email-addresses/EmailInformationSection';
 
-const PersonalInformationContent = ({ hasVAPServiceError }) => (
+const ContactInformationContent = ({ hasVAPServiceError }) => (
   <>
-    <GenderAndDOBSection className="vads-u-margin-bottom--6" />
-
     {hasVAPServiceError ? (
       <div data-testid="vap-service-not-available-error">
         <AlertBox
@@ -34,4 +31,4 @@ const PersonalInformationContent = ({ hasVAPServiceError }) => (
   </>
 );
 
-export default memo(PersonalInformationContent);
+export default memo(ContactInformationContent);
