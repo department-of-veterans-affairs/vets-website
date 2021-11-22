@@ -1,6 +1,6 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
-import { makeApiCall } from '../../utils/api';
+import { makeApiCall } from '../../../utils/api';
 
 const v2 = {
   getSession: async token => {

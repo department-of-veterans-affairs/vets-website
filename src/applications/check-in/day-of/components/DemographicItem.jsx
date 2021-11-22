@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AddressBlock from './AddressBlock';
-import { formatDemographicString } from '../utils/formatters';
+import { formatDemographicString } from '../../utils/formatters';
 
 const DemographicItem = ({ demographic }) => {
   let demographicDisplay;

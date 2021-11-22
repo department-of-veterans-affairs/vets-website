@@ -11,6 +11,7 @@ import TypeHeader from './TypeHeader';
 import PrintLink from './PrintLink';
 import VAInstructions from './VAInstructions';
 import NoOnlineCancelAlert from './NoOnlineCancelAlert';
+import PhoneInstructions from './PhoneInstructions';
 
 function formatHeader(appointment) {
   if (appointment.vaos.isCOVIDVaccine) {
@@ -27,8 +28,8 @@ export default function DetailsVA({ appointment, facilityData }) {
 
   const facility = facilityData?.[locationId];
   const isCovid = appointment.vaos.isCOVIDVaccine;
-
   const header = formatHeader(appointment);
+  const isPhone = appointment.vaos.isPhoneAppointment;
 
   return (
     <>
@@ -43,6 +44,7 @@ export default function DetailsVA({ appointment, facilityData }) {
       <StatusAlert appointment={appointment} facility={facility} />
 
       <TypeHeader>{header}</TypeHeader>
+      <PhoneInstructions appointment={appointment} />
 
       <VAFacilityLocation
         facility={facility}
@@ -50,6 +52,7 @@ export default function DetailsVA({ appointment, facilityData }) {
         facilityId={locationId}
         clinicFriendlyName={appointment.location?.clinicName}
         showCovidPhone={isCovid}
+        isPhone={isPhone}
       />
 
       <VAInstructions appointment={appointment} />
