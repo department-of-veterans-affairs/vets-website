@@ -10,7 +10,7 @@ import manifest from './manifest.json';
 import { buildRoutes as buildRedesignedRoutes } from '../gi-sandbox/routes';
 import redesignedReducer from '../gi-sandbox/reducers';
 
-const redesignFlag = toggleValues(0).gi_sandbox_comparision_tool_toggle;
+const redesignFlag = toggleValues(0).giSandboxComparisonToolToggle;
 const page = redesignFlag
   ? { reducer: redesignedReducer, routes: buildRedesignedRoutes() }
   : { reducer, routes: buildRoutes() };
