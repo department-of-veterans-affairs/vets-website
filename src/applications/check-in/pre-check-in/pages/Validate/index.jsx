@@ -2,22 +2,56 @@ import React, { useState } from 'react';
 import BackToHome from '../../components/BackToHome';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
-import ValidateDisplay from './ValidateDisplay';
+import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
 
 export default function Index({ router }) {
   const { goToNextPage } = useFormRouting(router);
   const [isLoading, setIsLoading] = useState(false);
+  const [lastName, setLastName] = useState('');
+  const [last4Ssn, setLast4Ssn] = useState('');
+
+  const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
+  const [last4ErrorMessage, setLast4ErrorMessage] = useState();
   // @TODO: validate token on page load and either redirect to the next page or show this page
   const validateHandler = () => {
     setIsLoading(true);
-    goToNextPage();
+    setLastNameErrorMessage();
+    setLast4ErrorMessage();
+    if (!lastName || !last4Ssn) {
+      setIsLoading(false);
+
+      if (!lastName) {
+        setLastNameErrorMessage('Please enter your last name.');
+      }
+      if (!last4Ssn) {
+        setLast4ErrorMessage(
+          'Please enter the last 4 digits of your Social Security number.',
+        );
+      }
+    } else {
+      setTimeout(() => {
+        goToNextPage();
+      }, 2000);
+    }
   };
   return (
     <>
-      <h1>Prepare for your primary care appointment</h1>
       <ValidateDisplay
+        header="Start pre-check-in"
+        subTitle="We need to verify your identity so you can start pre check-in."
         validateHandler={validateHandler}
         isLoading={isLoading}
+        last4Input={{
+          last4ErrorMessage,
+          setLast4Ssn,
+          last4Ssn,
+        }}
+        lastNameInput={{
+          lastNameErrorMessage,
+          setLastName,
+          lastName,
+        }}
+        Footer={() => <div>{/* Footer */}</div>}
       />
       <BackToHome />
     </>

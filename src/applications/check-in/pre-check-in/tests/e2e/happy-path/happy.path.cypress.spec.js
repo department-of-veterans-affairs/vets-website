@@ -2,7 +2,7 @@ import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/featur
 import '../support/commands';
 import Timeouts from 'platform/testing/e2e/timeouts';
 
-describe('Check In Experience -- ', () => {
+describe('Pre-Check In Experience ', () => {
   beforeEach(function() {
     cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
   });
@@ -11,14 +11,24 @@ describe('Check In Experience -- ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('Feature is enabled', () => {
+  it('Happy Path', () => {
     cy.visitWithUUID();
     // page: Validate
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Prepare for your primary care appointment');
+      .and('have.text', 'Start pre-check-in');
 
-    cy.get('#react-root > button').click();
+    cy.get('[label="Your last name"]')
+      .shadow()
+      .find('input')
+      .type('Smith');
+
+    cy.get('[label="Last 4 digits of your Social Security number"]')
+      .shadow()
+      .find('input')
+      .type('4837');
+    cy.get('[data-testid=check-in-button]').click();
+
     // page: Introduction
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')

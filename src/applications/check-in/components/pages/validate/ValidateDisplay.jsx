@@ -1,14 +1,20 @@
-/* eslint-disable no-undef */
-/* eslint-disable react/jsx-no-undef */
 import React from 'react';
 
-export default function ValidateDisplay({ validateHandler, isLoading }) {
+import { VaTextInput } from 'web-components/react-bindings';
+
+export default function ValidateDisplay({
+  header = 'Check in at VA',
+  subTitle = 'We need some information to verify your identity so we can check you in.',
+  validateHandler,
+  isLoading,
+  lastNameInput: { lastNameErrorMessage, setLastName, lastName },
+  last4Input: { last4ErrorMessage, setLast4Ssn, last4Ssn },
+  Footer,
+}) {
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
-      <h1>Check in at VA</h1>
-      <p>
-        We need some information to verify your identity so we can check you in.
-      </p>
+      <h1>{header}</h1>
+      <p>{subTitle}</p>
       <form className="vads-u-margin-bottom--2p5" onSubmit={() => false}>
         <VaTextInput
           autoCorrect="false"
@@ -42,6 +48,7 @@ export default function ValidateDisplay({ validateHandler, isLoading }) {
         {' '}
         {isLoading ? <>Loading...</> : <>Continue</>}
       </button>
+      {Footer && <Footer />}
     </div>
   );
 }

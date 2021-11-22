@@ -15,6 +15,6 @@ describe('Check In Experience -- ', () => {
     cy.visitWithUUID();
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Prepare for your primary care appointment');
+      .and('have.text', 'Start pre-check-in');
   });
 });
