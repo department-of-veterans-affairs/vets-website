@@ -38,6 +38,7 @@ export default Object.freeze({
   facilityLocatorLatLongOnly: 'facility_locator_lat_long_only',
   facilityLocatorLighthouseCovidVaccineQuery:
     'facility_locator_lighthouse_covid_vaccine_query',
+  facilityLocatorShowHealthConnectNumber: 'facility_locator_show_health_connect_number',
   facilityLocatorPredictiveLocationSearch:
     'facility_locator_predictive_location_search',
   facilityLocatorRailsEngine: 'facility_locator_rails_engine',
@@ -53,6 +54,7 @@ export default Object.freeze({
   form10182Nod: 'form10182_nod',
   gibctEybBottomSheet: 'gibct_eyb_bottom_sheet',
   gibctSchoolRatings: 'gibct_school_ratings',
+  giSandboxComparisonToolToggle: 'gi_sandbox_comparision_tool_toggle',
   hlrv2: 'hlr_v2',
   loginGov: 'login_gov',
   loginGovCreateAccount: 'login_gov_create_account',
@@ -62,6 +64,7 @@ export default Object.freeze({
   loopPages: 'loop_pages',
   manageDependents: 'dependents_management',
   megaMenuMobileV2: 'mega_menu_mobile_v2',
+  omniChannelLink: 'omni_channel_link',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
   profileNotificationSettings: 'profile_notification_settings',
   profileEnhancements: 'profile_enhancements',
