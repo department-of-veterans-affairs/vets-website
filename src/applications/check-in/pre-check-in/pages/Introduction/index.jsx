@@ -7,8 +7,9 @@ import { format, add } from 'date-fns';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import { useFormRouting } from '../../hooks/useFormRouting';
+import BackToHome from '../../components/BackToHome';
 
-// @TODO Remove appointments once mock API merged in. Resolve answers to questions for UX team. Add unit test for intro.
+// @TODO Remove appointments once mock API merged in. Add cypress test for intro.
 const Introduction = props => {
   useEffect(() => {
     focusElement('h1');
@@ -36,26 +37,6 @@ const Introduction = props => {
   ];
   const accordionContent = [
     {
-      header: 'What happens after I answer the questions?',
-      body: (
-        <>
-          <p>
-            Changes to your contact information, insurance, next of kin, or
-            emergency contact will update your information across the VA.
-          </p>
-          <p>
-            If your provider requested additional questions, we’ll send your
-            answers to your provider through a secure electronic communication.
-            We’ll also ass the questionnaire to your medical record.
-          </p>
-          <p>
-            Your provider will review your answers and discuss them with you
-            during your appointment.
-          </p>
-        </>
-      ),
-    },
-    {
       header: 'Will VA protect my personal health information?',
       body: (
         <>
@@ -63,15 +44,21 @@ const Introduction = props => {
             We make every effort to keep your personal information private and
             secure.
           </p>
-          <a href="#">Read more about privacy and security on VA.gov</a>
+          <p>
+            <a href="/privacy-policy/">
+              Read more about privacy and security on VA.gov
+            </a>
+          </p>
           <p>
             You’re also responsible for protecting your personal health
             information. If you print or download your information—or share it
             electronically with others—you’ll need to take steps to protect it.
           </p>
-          <a href="#">
-            Get tips for protecting your personal health information
-          </a>
+          <p>
+            <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information">
+              Get tips for protecting your personal health information
+            </a>
+          </p>
         </>
       ),
     },
@@ -85,6 +72,12 @@ const Introduction = props => {
       <a
         className="vads-c-action-link--green"
         href="#"
+        onKeyDown={e => {
+          if (e.key === ' ') {
+            e.preventDefault();
+            goToNextPage();
+          }
+        }}
         onClick={e => {
           e.preventDefault();
           goToNextPage();
@@ -138,7 +131,6 @@ const Introduction = props => {
           </li>
         </ul>
       </va-featured-content>
-      <StartButton />
       <div>
         Expiration date:{' '}
         {format(add(appointmentsDateTime, { days: 1 }), 'M/dd/Y')}
@@ -154,6 +146,7 @@ const Introduction = props => {
         </a>
       </div>
       <Footer />
+      <BackToHome />
       <Modal
         onClose={() => setPrivacyActModalOpen(false)}
         visible={privacyActModalOpen}
