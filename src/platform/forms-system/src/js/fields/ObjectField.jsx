@@ -56,6 +56,7 @@ class ObjectField extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = this.getStateFromProps(props);
     this.onPropertyChange = this.onPropertyChange.bind(this);
     this.onPropertyBlur = this.onPropertyBlur.bind(this);
     this.isRequired = this.isRequired.bind(this);
@@ -147,9 +148,14 @@ class ObjectField extends React.Component {
 
   isRequired(name) {
     const { schema } = this.props;
-    return (
-      Array.isArray(schema.required) && schema.required.indexOf(name) !== -1
-    );
+    const schemaRequired =
+      Array.isArray(schema.required) && schema.required.indexOf(name) !== -1;
+
+    if (schemaRequired) {
+      return schemaRequired;
+    }
+
+    return false;
   }
 
   render() {
