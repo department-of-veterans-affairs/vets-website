@@ -242,6 +242,7 @@ export default {
       }
 
       // fetch appointment slots
+      dispatch(startDirectScheduleFlow());
       return 'preferredDate';
     },
   },
