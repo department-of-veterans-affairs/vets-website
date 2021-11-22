@@ -8,8 +8,9 @@ import BackButton from '../../components/BackButton';
 
 const Demographics = props => {
   const { router } = props;
-  const { goToNextPage, goToPreviousPage } = useFormRouting(router);
-  const path = router.location.pathname;
+  const { goToNextPage, goToPreviousPage, currentPage } = useFormRouting(
+    router,
+  );
   const demographicFields = [
     { title: 'Mailing address', key: 'mailingAddress' },
     { title: 'Home address', key: 'homeAddress' },
@@ -60,7 +61,7 @@ const Demographics = props => {
   //
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 check-in-demographics">
-      <BackButton action={goToPreviousPage} path={path} />
+      <BackButton action={goToPreviousPage} path={currentPage} />
       <h1>Is this your current contact information?</h1>
       <p className="vads-u-font-family--serif">
         If you need to make changes, please talk to a staff member when you
