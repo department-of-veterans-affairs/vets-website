@@ -430,7 +430,7 @@ class SearchDropdownComponent extends React.Component {
     }
   }
 
-  // select an option from the dropdown menu, updating the inputValue state and then fetch new suggestions
+  // select an option from the dropdown menu, updating the inputValue state
   selectOption(index) {
     const { suggestions } = this.state;
     const inputValue = suggestions[index];
