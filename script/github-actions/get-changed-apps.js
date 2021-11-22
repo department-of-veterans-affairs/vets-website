@@ -82,7 +82,10 @@ if (process.env.CHANGED_FILE_PATHS) {
   );
 
   const options = commandLineArgs([
-    // Use the --output option to specify output type. Entry names are the default.
+    // Use the --output-type option to specify output type.
+    // 'entry': The entry names of the changed apps.
+    // 'folder': The relative path of the changed apps root folders.
+    // 'url': The root URL of the changed apps.
     { name: 'output-type', type: String, defaultValue: 'entry' },
   ]);
   const outputType = options['output-type'];
