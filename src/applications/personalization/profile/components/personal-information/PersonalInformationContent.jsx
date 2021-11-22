@@ -4,8 +4,8 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
 
 import GenderAndDOBSection from './GenderAndDOBSection';
-import ContactInformationSection from './ContactInformationSection';
-import EmailInformationSection from './email-addresses/EmailInformationSection';
+import ContactInformationSection from '../contact-information/ContactInformationSection';
+import EmailInformationSection from '../contact-information/email-addresses/EmailInformationSection';
 
 const PersonalInformationContent = ({ hasVAPServiceError }) => (
   <>

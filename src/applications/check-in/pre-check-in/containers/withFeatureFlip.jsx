@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import { makeSelectFeatureToggles } from '../hooks/selectors';
+import { makeSelectFeatureToggles } from '../selectors';
 
 const withFeatureFlip = Component => {
   return props => {

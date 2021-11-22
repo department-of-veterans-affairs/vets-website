@@ -44,5 +44,5 @@ export const updateUrlParams = (
 
   history.push(url);
 
-  document.title = `Search Results: GI Bill® Comparison Tool | Veterans Affairs`;
+  document.title = `Search results: GI Bill® Comparison Tool | Veterans Affairs`;
 };
