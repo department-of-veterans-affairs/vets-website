@@ -43,29 +43,6 @@ function setFirstFields(id) {
   }
 }
 
-// This runs a series of steps that order properties and then group them into
-// expandable groups. If there are no expandable groups, then the end result of this
-// will be an array of single item arrays
-function orderAndFilterProperties(schema, uiSchema) {
-  const properties = Object.keys(schema.properties);
-  const orderedProperties = orderProperties(
-    properties,
-    _.get('ui:order', uiSchema),
-  );
-  const filteredProperties = orderedProperties.filter(
-    prop => !schema.properties[prop]['ui:hidden'],
-  );
-  const groupedProperties = _.groupBy(item => {
-    const expandUnderField = _.get(
-      [item, 'ui:options', 'expandUnder'],
-      uiSchema,
-    );
-    return expandUnderField || item;
-  }, filteredProperties);
-
-  return _.values(groupedProperties);
-}
-
 class ObjectField extends React.Component {
   static defaultProps = {
     uiSchema: {},
@@ -85,7 +62,7 @@ class ObjectField extends React.Component {
     this.SchemaField = pureWithDeepEquals(
       this.props.registry.fields.SchemaField,
     );
-    this.orderedProperties = orderAndFilterProperties(
+    this.orderedProperties = this.orderAndFilterProperties(
       props.schema,
       props.uiSchema,
     );
@@ -100,7 +77,7 @@ class ObjectField extends React.Component {
       this.props.schema !== nextProps.schema ||
       this.props.uiSchema !== nextProps.uiSchema
     ) {
-      this.orderedProperties = orderAndFilterProperties(
+      this.orderedProperties = this.orderAndFilterProperties(
         nextProps.schema,
         nextProps.uiSchema,
       );
@@ -366,13 +343,13 @@ class ObjectField extends React.Component {
           if (objectFields.length > 1) {
             const [first, ...rest] = objectFields;
             const visible = rest.filter(
-              prop => !_.get(['properties', prop, 'ui:collapsed'], schema),
+              prop => !schema.properties[prop]['ui:collapsed'],
             );
             return (
               <ExpandingGroup open={visible.length > 0} key={index}>
                 {renderProp(first)}
                 <div
-                  className={_.get(
+                  className={get(
                     [first, 'ui:options', 'expandUnderClassNames'],
                     uiSchema,
                   )}
@@ -385,10 +362,7 @@ class ObjectField extends React.Component {
 
           // if fields have expandUnder, but are the only item, that means the
           // field they’re expanding under is hidden, and they should be hidden, too
-          return !_.get(
-            [objectFields[0], 'ui:options', 'expandUnder'],
-            uiSchema,
-          )
+          return !get([objectFields[0], 'ui:options', 'expandUnder'], uiSchema)
             ? // eslint-disable-next-line sonarjs/no-extra-arguments
               renderProp(objectFields[0], index)
             : undefined;
