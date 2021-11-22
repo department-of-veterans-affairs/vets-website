@@ -354,16 +354,17 @@ class SearchDropdownComponent extends React.Component {
         return;
       }
       if (!submitOnEnter) {
-        this.selectOption(activeIndex);
         this.updateMenuState(false, true);
+        this.selectOption(activeIndex);
 
         return;
       }
       if (canSubmit) {
         this.setA11yDescriptionFlag(false);
-        onSuggestionSubmit(activeIndex, this.state);
         this.selectOption(activeIndex);
-        this.updateMenuState(false, true);
+        this.setState({ isOpen: false }, () => {
+          onSuggestionSubmit(activeIndex, this.state);
+        });
       }
     }
 
@@ -406,15 +407,16 @@ class SearchDropdownComponent extends React.Component {
 
     if (!submitOnClick) {
       this.setState({ activeIndex: index });
-      this.selectOption(index);
       this.updateMenuState(false, true);
+      this.selectOption(index);
       return;
     }
     if (canSubmit) {
       this.setA11yDescriptionFlag(false);
-      onSuggestionSubmit(index, this.state);
       this.selectOption(index);
-      this.updateMenuState(false, true);
+      this.setState({ isOpen: false }, () => {
+        onSuggestionSubmit(index, this.state);
+      });
     }
   }
 
@@ -704,7 +706,10 @@ class SearchDropdownComponent extends React.Component {
               data-e2e-id={`${id}-submit-button`}
               id={`${id}-submit-button`}
               tabIndex="0"
-              onClick={() => onInputSubmit(this.state)}
+              onClick={() => {
+                this.updateMenuState(false, false);
+                onInputSubmit(this.state);
+              }}
               onFocus={() => {
                 this.updateMenuState(false, false);
               }}
