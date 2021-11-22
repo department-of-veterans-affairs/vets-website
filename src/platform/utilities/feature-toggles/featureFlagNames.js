@@ -38,6 +38,7 @@ export default Object.freeze({
   facilityLocatorLatLongOnly: 'facility_locator_lat_long_only',
   facilityLocatorLighthouseCovidVaccineQuery:
     'facility_locator_lighthouse_covid_vaccine_query',
+  facilityLocatorShowHealthConnectNumber: 'facility_locator_show_health_connect_number',
   facilityLocatorPredictiveLocationSearch:
     'facility_locator_predictive_location_search',
   facilityLocatorRailsEngine: 'facility_locator_rails_engine',
