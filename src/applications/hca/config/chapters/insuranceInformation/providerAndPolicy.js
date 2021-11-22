@@ -36,7 +36,7 @@ const insuranceInfo = (
 
 const triCareInfo = (
   <>
-    <div className={'vads-u-padding-y--1'}>
+    <div className={'vads-u-padding-top--3 vads-u-padding-bottom--2'}>
       <AdditionalInfo triggerText="I have TRICARE. What’s my policy number?">
         <p>
           You can use your Department of Defense benefits number (DBN) or your
@@ -48,7 +48,7 @@ const triCareInfo = (
         </p>
       </AdditionalInfo>
     </div>
-    <p>Policy Number</p>
+    <div>Policy Number</div>
   </>
 );
 
@@ -73,11 +73,20 @@ export default {
             </span>
           ),
         },
+        insurancePolicyNumberOrCode: {
+          'ui:title': (
+            <span>
+              Provide either your insurance policy number or group code
+              <span className="schemaform-required-span vads-u-display--block">
+                (*Required)
+              </span>
+            </span>
+          ),
+        },
         insurancePolicyNumber: {
           'ui:title': (
             <span>
               Provide either your insurance policy number or group code
-              (*Required)
             </span>
           ),
           'ui:required': (formData, index) =>
@@ -89,10 +98,10 @@ export default {
         },
         insuranceGroupCode: {
           'ui:title': (
-            <>
+            <div className="orOption">
               <h4>or</h4>
-              <p>Group Code</p>
-            </>
+              <div>Group Code</div>
+            </div>
           ),
           'ui:required': (formData, index) =>
             !get(`providers[${index}].insurancePolicyNumber`, formData),
@@ -113,8 +122,8 @@ export default {
           required: [
             'insuranceName',
             'insurancePolicyHolderName',
-            // 'insurancePolicyNumber',
-            // 'insuranceGroupCode',
+            'insurancePolicyNumber',
+            'insuranceGroupCode',
           ],
         }),
       },

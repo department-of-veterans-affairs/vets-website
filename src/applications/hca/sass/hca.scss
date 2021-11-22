@@ -13,6 +13,21 @@
   padding-bottom: 5rem;
 }
 
+.schemaform-field-container div:nth-child(3) div > span {
+  transform: translateY(-96px);
+}
+
+.schemaform-field-container div:nth-child(4) div > span {
+  display: none
+}
+
+
+
+
+.orOption + span.schemaform-required-span {
+  display: none
+}
+
 .process-steps {
   margin-left: 0;
   padding-left: 0.8em;
