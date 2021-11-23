@@ -126,12 +126,10 @@ export function NewAppointment() {
               component={CommunityCarePreferencesPage}
             />
           )}
-        {hasResidentialAddress && (
-          <Route
-            path={`${match.url}/community-care-language`}
-            component={CommunityCareLanguagePage}
-          />
-        )}
+        <Route
+          path={`${match.url}/community-care-language`}
+          component={CommunityCareLanguagePage}
+        />
         <Route
           path={`${match.url}/choose-closest-city`}
           component={ClosestCityStatePage}

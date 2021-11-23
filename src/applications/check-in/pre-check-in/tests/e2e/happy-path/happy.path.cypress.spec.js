@@ -22,9 +22,11 @@ describe('Check In Experience -- ', () => {
     // page: Introduction
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Introduction');
+      .and('have.text', 'Answer pre check-in questions');
 
-    cy.get('#react-root > button').click();
+    cy.get('div[data-testid="intro-wrapper"] div[data-testid="start-button"] a')
+      .eq(0)
+      .click();
     // page: Demographics
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')

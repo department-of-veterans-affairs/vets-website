@@ -150,7 +150,7 @@ describe('<YourClaimsPageV2>', () => {
 
   it('should render an AskVAQuestions warning component', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
-    expect(wrapper.find('AskVAQuestions').length).to.equal(1);
+    expect(wrapper.find('Connect(AskVAQuestions)').length).to.equal(1);
     wrapper.unmount();
   });
 

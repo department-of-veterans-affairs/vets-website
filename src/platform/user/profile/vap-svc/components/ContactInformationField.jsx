@@ -36,8 +36,8 @@ import { ACTIVE_EDIT_VIEWS, FIELD_NAMES } from '@@vap-svc/constants';
 import VAPServiceTransaction from '@@vap-svc/components/base/VAPServiceTransaction';
 import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
 
-import ContactInformationEditView from '@@profile/components/personal-information/ContactInformationEditView';
-import ContactInformationView from '@@profile/components/personal-information/ContactInformationView';
+import ContactInformationEditView from '@@profile/components/contact-information/ContactInformationEditView';
+import ContactInformationView from '@@profile/components/contact-information/ContactInformationView';
 
 import { getInitialFormValues } from '@@profile/util/contact-information/formValues';
 
