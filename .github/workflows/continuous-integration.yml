@@ -292,17 +292,17 @@ jobs:
           -d '{"ref": "master"}' \
           --fail
 
-      - name: Archive contract test results
+      - name: Archive unit test results
         uses: actions/upload-artifact@v2
         with:
-          name: contract-test-report
+          name: unit-test-report
           path: mochawesome-report
 
-      - name: Archive contract test log
+      - name: Archive unit test log
         uses: actions/upload-artifact@v2
         if: ${{ failure() }}
         with:
-          name: contract-test-log
+          name: unit-test-log
           path: logs/pact.log
 
   security-audit:
