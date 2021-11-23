@@ -116,6 +116,8 @@ node('vetsgov-general-purpose') {
     }
   }
 
+  commonStages.archiveAll(dockerContainer, ref);
+
   // Run E2E tests
   stage('Integration') {
     if (commonStages.shouldBail() || !commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) { return }
@@ -159,5 +161,5 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  commonStages.archiveAll(dockerContainer, ref);
+  
 }
