@@ -2,7 +2,6 @@ import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/featur
 import '../support/commands';
 
 import validateVeteran from '../pages/ValidateVeteran';
-import introduction from '../pages/Introduction';
 
 describe('Pre-Check In Experience', () => {
   describe('Validate Page', () => {
@@ -11,23 +10,31 @@ describe('Pre-Check In Experience', () => {
         'GET',
         '/v0/feature_toggles*',
         generateFeatureToggles({
-          checkInExperienceUpdateInformationPageEnabled: false,
+          checkInExperienceUpdateInformationPageEnabled: true,
         }),
       );
-      validateVeteran.initializeApiWithTrimCheck();
+      validateVeteran.initializeApi();
     });
     afterEach(() => {
       cy.window().then(window => {
         window.sessionStorage.clear();
       });
     });
-    it('validation trims white space before posting', () => {
+    it('only allows typing 4 characters', () => {
       cy.visitPreCheckInWithUUID();
       validateVeteran.validatePageLoaded();
-      validateVeteran.validateVeteran('Smith        ', '1234          ');
-      validateVeteran.attemptToGoToNextPage();
+      validateVeteran.typeLast4('12345');
 
-      introduction.validatePageLoaded();
+      validateVeteran
+        .getLast4Input()
+        .should('be.visible')
+        .and('have.value', '1234');
+
+      cy.get('[label="Last 4 digits of your Social Security number"]')
+        .shadow()
+        .find('small')
+        .should('be.visible')
+        .and('have.text', '(Max. 4 characters)');
     });
   });
 });
