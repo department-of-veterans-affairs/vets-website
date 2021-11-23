@@ -39,7 +39,7 @@ const getAllowedApp = (file, allowList, outputType = 'entry') => {
   const entryName = manifest?.entryName;
 
   if (allowList.includes(entryName)) {
-    // Return either the app path, entry name, or root URL depending on the output type
+    // Return the app path, entry name, or root URL depending on the output type
     if (outputType === 'folder') {
       const appFolderName = file.split('/')[2];
       return `src/applications/${appFolderName}`;
@@ -76,10 +76,7 @@ const getChangedAppsString = (files, config, outputType = 'entry') => {
 };
 
 if (process.env.CHANGED_FILE_PATHS) {
-  // Filter changed files for testing
-  const changedFiles = process.env.CHANGED_FILE_PATHS.split(' ').filter(
-    filePath => filePath.startsWith('src/applications'),
-  );
+  const changedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
 
   const options = commandLineArgs([
     // Use the --output-type option to specify one of the following outputs:
