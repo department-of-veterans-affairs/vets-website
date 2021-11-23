@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 
 import ErrorMessage from '../ErrorMessage';
 
-describe('Pre check in', () => {
+describe('check-in', () => {
   describe('ErrorMessage', () => {
     it('Renders error message', () => {
       const component = render(<ErrorMessage />);
