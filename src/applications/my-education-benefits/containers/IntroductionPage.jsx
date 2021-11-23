@@ -22,7 +22,7 @@ export const IntroductionPage = ({ user, route }) => {
       messages={route.formConfig.savedFormMessages}
       pageList={route.pageList}
       hideUnauthedStartLink
-      startText="Start the education application"
+      startText="Start your application"
     />
   );
 
