@@ -1,24 +1,40 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import BackToHome from '../../components/BackToHome';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import DemographicItem from '../../../components/DemographicItem';
 import PropTypes from 'prop-types';
 import Footer from '../../components/Footer';
 import BackButton from '../../components/BackButton';
+import DemographicsDisplay from '../../../components/pages/DemographicsDisplay';
+import recordEvent from 'platform/monitoring/record-event';
 
 const Demographics = props => {
   const { router } = props;
   const { goToNextPage, goToPreviousPage, currentPage } = useFormRouting(
     router,
   );
-  const demographicFields = [
-    { title: 'Mailing address', key: 'mailingAddress' },
-    { title: 'Home address', key: 'homeAddress' },
-    { title: 'Home phone', key: 'homePhone' },
-    { title: 'Mobile phone', key: 'mobilePhone' },
-    { title: 'Work phone', key: 'workPhone' },
-    { title: 'Email address', key: 'emailAddress' },
-  ];
+  const yesClick = useCallback(
+    () => {
+      recordEvent({
+        event: 'cta-button-click',
+        'button-click-label': 'yes-to-demographic-information',
+      });
+      goToNextPage();
+    },
+    [goToNextPage],
+  );
+  const noClick = useCallback(
+    () => {
+      recordEvent({
+        event: 'cta-button-click',
+        'button-click-label': 'np-to-demographic-information',
+      });
+      goToNextPage();
+    },
+    [goToNextPage],
+  );
+  const subtitle =
+    'If you need to make changes, please talk to a staff member when you check in.';
+
   // Temp data
   const demographics = {
     nextOfKin1: {
@@ -60,51 +76,17 @@ const Demographics = props => {
   };
   //
   return (
-    <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 check-in-demographics">
+    <>
       <BackButton action={goToPreviousPage} path={currentPage} />
-      <h1>Is this your current contact information?</h1>
-      <p className="vads-u-font-family--serif">
-        If you need to make changes, please talk to a staff member when you
-        check in.
-      </p>
-      <div className="vads-u-border-color--primary vads-u-border-left--5px vads-u-margin-left--0p5 vads-u-padding-left--2">
-        <dl>
-          {demographicFields.map(demographicField => (
-            <React.Fragment key={demographicField.key}>
-              <dt className="vads-u-font-size--h3 vads-u-font-family--serif">
-                {demographicField.title}
-              </dt>
-              <dd>
-                {demographicField.key in demographics &&
-                demographics[demographicField.key] ? (
-                  <DemographicItem
-                    demographic={demographics[demographicField.key]}
-                  />
-                ) : (
-                  'Not available'
-                )}
-              </dd>
-            </React.Fragment>
-          ))}
-        </dl>
-      </div>
-      <button
-        onClick={() => goToNextPage()}
-        className={'usa-button-secondary'}
-        data-testid="yes-button"
-      >
-        Yes
-      </button>
-      <button
-        onClick={() => goToNextPage()}
-        className="usa-button-secondary vads-u-margin-top--2"
-        data-testid="no-button"
-      >
-        No
-      </button>
-      <Footer />
+      <DemographicsDisplay
+        yesAction={yesClick}
+        noAction={noClick}
+        subtitle={subtitle}
+        demographics={demographics}
+        Footer={Footer}
+      />
       <BackToHome />
-    </div>
+    </>
   );
 };
 
