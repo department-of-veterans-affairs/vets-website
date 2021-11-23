@@ -5,6 +5,8 @@ import groupBy from 'lodash/groupBy';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
+import environment from 'platform/utilities/environment';
+
 import {
   deepEquals,
   getDefaultFormState,
@@ -312,11 +314,81 @@ class ObjectField extends React.Component {
       </div>
     );
 
+    const accessibleFieldContent = (
+      <>
+        {hasTitleOrDescription && (
+          <>
+            {CustomTitleField && !showFieldLabel ? (
+              <CustomTitleField
+                id={`${id}__title`}
+                formData={formData}
+                formContext={formContext}
+                required={required}
+              />
+            ) : null}
+            {!CustomTitleField && title && !showFieldLabel ? (
+              <TitleField
+                id={`${id}__title`}
+                title={title}
+                required={required}
+                formContext={formContext}
+              />
+            ) : null}
+            {textDescription && <p>{textDescription}</p>}
+            {DescriptionField && (
+              <DescriptionField
+                formData={formData}
+                formContext={formContext}
+                options={uiSchema['ui:options']}
+              />
+            )}
+            {!textDescription && !DescriptionField && description}
+          </>
+        )}
+        {this.orderedProperties.map((objectFields, index) => {
+          if (objectFields.length > 1) {
+            const [first, ...rest] = objectFields;
+            const visible = rest.filter(
+              prop => !schema.properties[prop]['ui:collapsed'],
+            );
+            return (
+              <ExpandingGroup open={visible.length > 0} key={index}>
+                {renderProp(first)}
+                <div
+                  className={get(
+                    [first, 'ui:options', 'expandUnderClassNames'],
+                    uiSchema,
+                  )}
+                >
+                  {visible.map(renderProp)}
+                </div>
+              </ExpandingGroup>
+            );
+          }
+
+          // if fields have expandUnder, but are the only item, that means the
+          // field they’re expanding under is hidden, and they should be hidden, too
+          return !get([objectFields[0], 'ui:options', 'expandUnder'], uiSchema)
+            ? // eslint-disable-next-line sonarjs/no-extra-arguments
+              renderProp(objectFields[0], index)
+            : undefined;
+        })}
+      </>
+    );
+
     if (title && !forceDivWrapper) {
-      return <fieldset className={fieldsetClassNames}>{fieldContent}</fieldset>;
+      return (
+        <fieldset className={fieldsetClassNames}>
+          {environment.isProduction() ? fieldContent : accessibleFieldContent}
+        </fieldset>
+      );
     }
 
-    return <div className={fieldsetClassNames}>{fieldContent}</div>;
+    return (
+      <div className={fieldsetClassNames}>
+        {environment.isProduction() ? fieldContent : accessibleFieldContent}
+      </div>
+    );
   }
 }
 

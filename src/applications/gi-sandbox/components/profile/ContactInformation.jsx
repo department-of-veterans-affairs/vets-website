@@ -5,6 +5,7 @@ import { ScoContact } from './ScoContact';
 import LearnMoreLabel from '../LearnMoreLabel';
 import { ariaLabels } from '../../constants';
 import classNames from 'classnames';
+import recordEvent from 'platform/monitoring/record-event';
 
 export default function ContactInformation({ institution, showModal }) {
   const isOJT = institution.type && institution.type.toLowerCase() === 'ojt';
@@ -78,7 +79,12 @@ export default function ContactInformation({ institution, showModal }) {
         <strong>
           <LearnMoreLabel
             text={'Single point of contact for Veterans'}
-            onClick={() => showModal('singleContact')}
+            onClick={() => {
+              showModal('singleContact');
+              recordEvent({
+                event: ariaLabels.learnMore.singlePoint,
+              });
+            }}
             ariaLabel={ariaLabels.learnMore.singlePoint}
             buttonId={'singleContact-button'}
             buttonClassName="small-screen-font"
@@ -143,7 +149,12 @@ export default function ContactInformation({ institution, showModal }) {
         <strong>
           <LearnMoreLabel
             text={'VA Facility Code'}
-            onClick={() => showModal('facilityCode')}
+            onClick={() => {
+              showModal('facilityCode');
+              recordEvent({
+                event: ariaLabels.learnMore.singlePoint,
+              });
+            }}
             ariaLabel={ariaLabels.learnMore.facilityCode}
             buttonId={'facilityCode-button'}
             buttonClassName="small-screen-font"
@@ -158,7 +169,12 @@ export default function ContactInformation({ institution, showModal }) {
           <strong>
             <LearnMoreLabel
               text={'ED IPEDS code'}
-              onClick={() => showModal('ipedsCode')}
+              onClick={() => {
+                showModal('ipedsCode');
+                recordEvent({
+                  event: ariaLabels.learnMore.singlePoint,
+                });
+              }}
               ariaLabel={ariaLabels.learnMore.ipedsCode}
               buttonId={'ipedsCode-button'}
               buttonClassName="small-screen-font"
@@ -174,7 +190,12 @@ export default function ContactInformation({ institution, showModal }) {
           <strong>
             <LearnMoreLabel
               text={'ED OPE code'}
-              onClick={() => showModal('opeCode')}
+              onClick={() => {
+                showModal('opeCode');
+                recordEvent({
+                  event: ariaLabels.learnMore.singlePoint,
+                });
+              }}
               ariaLabel={ariaLabels.learnMore.opeCode}
               buttonId={'opeCode-button'}
               buttonClassName="small-screen-font"

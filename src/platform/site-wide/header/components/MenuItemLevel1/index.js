@@ -1,9 +1,10 @@
 // Node modules.
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
 import MenuItemLevel2 from '../MenuItemLevel2';
+import recordEvent from 'platform/monitoring/record-event';
 import { deriveMenuItemID, formatMenuItems } from '../../helpers';
 import { updateExpandedMenuIDAction } from '../../containers/Menu/actions';
 
@@ -18,16 +19,6 @@ export const MenuItemLevel1 = ({
   // Derive if we the menu item is expanded.
   const isExpanded = menuItemID === expandedMenuID;
 
-  // Focus item if expanded when coming from SubMenu.
-  useEffect(
-    () => {
-      if (isExpanded) {
-        document.getElementById(menuItemID)?.focus?.();
-      }
-    },
-    [isExpanded, menuItemID],
-  );
-
   // Do not render if we are missing necessary menu item data.
   if (!item?.menuSections && !item?.href && !item?.title) {
     return null;
@@ -38,7 +29,13 @@ export const MenuItemLevel1 = ({
     item.menuSections = formatMenuItems(item.menuSections); // eslint-disable-line no-param-reassign
   }
 
-  const toggleShowItems = () => {
+  const toggleShowItems = title => () => {
+    // Record event.
+    recordEvent({
+      event: 'nav-header-top-level',
+      'nav-header-action': `Navigation - Header - Open Top Level - ${title}`,
+    });
+
     // Update the expanded menu ID.
     updateExpandedMenuID(isExpanded ? undefined : menuItemID);
 
@@ -48,15 +45,6 @@ export const MenuItemLevel1 = ({
     // Scroll to the top of the header when toggling a menu item.
     if (header) {
       header.scrollIntoView();
-    }
-  };
-
-  const onButtonKeyDown = event => {
-    const isEnterKey = event.keyCode === 13;
-    const isSpaceKey = event.keyCode === 32;
-
-    if (isEnterKey || isSpaceKey) {
-      toggleShowItems();
     }
   };
 
@@ -88,8 +76,7 @@ export const MenuItemLevel1 = ({
             aria-expanded={isExpanded ? 'true' : 'false'}
             className="header-menu-item-button vads-u-background-color--primary-darker vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white"
             id={menuItemID}
-            onKeyDown={onButtonKeyDown}
-            onMouseUp={toggleShowItems}
+            onClick={toggleShowItems(item?.title)}
             type="button"
           >
             {item?.title}

@@ -1,3 +1,10 @@
+/**
+ * [TestRail-integrated] Spec for Mega-Menu
+ * @testrailinfo projectId 8
+ * @testrailinfo suiteId 9
+ * @testrailinfo groupId 2975
+ * @testrailinfo runName SH-e2e-MegaMenu
+ */
 // Relative imports.
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 
@@ -67,7 +74,7 @@ const testSecondMenuSection = isMobile => {
     '[data-e2e-id="about-va-1"]',
   );
   cy.checkMenuItem(
-    '[data-e2e-id="va-plans-budget-and-performance-2"]',
+    '[data-e2e-id="va-plans-budget-finances-and-performance-2"]',
     'performance',
     '[data-e2e-id="about-va-1"]',
   );
@@ -165,7 +172,7 @@ describe('Mega Menu', () => {
       cy.viewport(1280, 720);
     });
 
-    it('looks as expected unauthenticated', () => {
+    it('looks as expected unauthenticated - C12293', () => {
       // Visit the homepage.
       cy.visit('/');
 
@@ -180,7 +187,7 @@ describe('Mega Menu', () => {
       cy.get('[data-e2e-id="my-health-4"]').should('not.exist');
     });
 
-    it('looks as expected authenticated', () => {
+    it('looks as expected authenticated - C12294', () => {
       // Login as the mock user.
       cy.login(mockUser);
 
@@ -204,7 +211,7 @@ describe('Mega Menu', () => {
       cy.viewport('iphone-4');
     });
 
-    it('looks as expected unauthenticated', () => {
+    it('looks as expected unauthenticated - C12295', () => {
       // Visit the homepage.
       cy.visit('/');
 
@@ -216,7 +223,7 @@ describe('Mega Menu', () => {
       cy.get('[data-e2e-id="my-health-4"]').should('not.exist');
     });
 
-    it('looks as expected authenticated', () => {
+    it('looks as expected authenticated - C12296', () => {
       // Login as the mock user.
       cy.login(mockUser);
 
@@ -231,7 +238,7 @@ describe('Mega Menu', () => {
       cy.get('[data-e2e-id="my-health-4"]');
     });
 
-    it('traps focus inside mega menu when opened', () => {
+    it('traps focus inside mega menu when opened - C12297', () => {
       cy.visit('/');
 
       testMobileTabFocus();

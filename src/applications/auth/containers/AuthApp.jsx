@@ -58,6 +58,7 @@ class AuthMetrics {
       case 'mhv':
       case 'dslogon':
       case 'idme':
+      case 'logingov':
         recordEvent({ event: `login-success-${this.serviceName}` });
         this.compareLoginPolicy();
         break;
@@ -159,7 +160,7 @@ export class AuthApp extends React.Component {
           app: 'mhv',
         }),
       };
-      recordEvent({ event: `inbound-redirect-to-${app}` });
+      recordEvent({ event: `login-inbound-redirect-to-${app}` });
     }
 
     sessionStorage.removeItem(authnSettings.RETURN_URL);

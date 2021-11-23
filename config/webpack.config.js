@@ -294,6 +294,7 @@ module.exports = async (env = {}) => {
             options: {
               // Speed up compilation.
               cacheDirectory: '.babelcache',
+              cacheCompression: false,
               // Also see .babelrc
             },
           },
@@ -465,13 +466,14 @@ module.exports = async (env = {}) => {
     baseConfig.plugins.push(...scaffoldedHtml);
   }
 
+  // Open homepage or specific app in browser
   if (buildOptions.open) {
-    baseConfig.devServer.open = true;
-    baseConfig.devServer.openPage =
+    const target =
       buildOptions.openTo || buildOptions.entry
         ? // Assumes the first in the list has a rootUrl
           getEntryManifests(buildOptions.entry)[0].rootUrl
         : '';
+    baseConfig.devServer.open = { target };
   }
 
   if (isOptimizedBuild) {

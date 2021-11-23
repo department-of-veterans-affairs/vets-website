@@ -48,7 +48,7 @@ jobs:
 
       - name: Get app entries for changed files
         id: get-changed-apps
-        if: ${{ github.ref != 'refs/heads/master' && matrix.buildtype == 'vagovdev' }}
+        if: ${{ github.ref != 'refs/heads/master' && matrix.buildtype != 'vagovprod' }}
         run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
@@ -140,6 +140,7 @@ jobs:
         run: aws s3 cp coverage/test-coverage-report.json s3://apps.dev.va.gov/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
 
       - name: Get code coverage
+        if: ${{ always() }}
         id: code-coverage
         run: echo ::set-output name=MARKDOWN::$(node ./script/github-actions/code-coverage-format-report.js)
 
@@ -318,10 +319,15 @@ jobs:
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
 
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+        working-directory: testing-tools-team-dashboard-data
+
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: 14 # ${{ steps.get-node-version.outputs.NODE_VERSION }}
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline --production=false
@@ -444,7 +450,7 @@ jobs:
             node_modules
 
       - name: Start server
-        run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=3001 &
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
       - name: Run Cypress tests
         run: node script/github-actions/run-cypress-tests.js
@@ -743,7 +749,7 @@ jobs:
           TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
           TEST_RESULTS_TABLE_NAME: cypress_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
-
+          TEST_RETRIES_TABLE_NAME: cypress_retry_records
           # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
 
       - name: Upload Cypress E2E test videos to s3
@@ -775,7 +781,15 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
-    needs: [build, cypress-tests, unit-tests, contract-tests, security-audit, linting]
+    needs:
+      [
+        build,
+        cypress-tests,
+        unit-tests,
+        contract-tests,
+        security-audit,
+        linting,
+      ]
 
     # Archive should still run even when linting is skipped (as in PRs).
     # This if overrides the dependency on linting success to include skipped.

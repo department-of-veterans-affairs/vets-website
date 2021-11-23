@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-import { createAnalyticsSlug } from '../utils/analytics';
+import { createAnalyticsSlug } from '../../utils/analytics';
 import { goToNextPage, URLS } from '../utils/navigation';
 import { withRouter } from 'react-router';
 

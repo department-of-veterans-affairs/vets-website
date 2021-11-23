@@ -17,7 +17,7 @@ if (memorySet && memoryOptions.includes(memorySet)) {
 }
 
 // Building the watch commmand
-const watchCommand = `NODE_OPTIONS=--max-old-space-size=${memory} webpack-dev-server --config config/webpack.config.js --env.scaffold --env.watch ${process.argv
+const watchCommand = `NODE_OPTIONS=--max-old-space-size=${memory} webpack serve --config config/webpack.config.js --env scaffold ${process.argv
   .slice(2)
   .join(' ')}`;
 

@@ -25,7 +25,7 @@ describe('Header <MenuItemLevel2>', () => {
     wrapper.unmount();
   });
 
-  it('renders an item and updates the sub menu on mouseup', () => {
+  it('renders an item and updates the sub menu on click', () => {
     // Set up.
     const updateSubMenu = sinon.spy();
     const item = {
@@ -46,7 +46,7 @@ describe('Header <MenuItemLevel2>', () => {
     expect(wrapper.find('i.fa.fa-chevron-right')).to.have.length(1);
 
     // Set up.
-    wrapper.find('.header-menu-item-button').simulate('mouseup');
+    wrapper.find('.header-menu-item-button').simulate('click');
 
     // Assertions.
     expect(updateSubMenu.firstCall.args[0]).to.deep.equal({

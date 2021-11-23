@@ -1,4 +1,5 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 import AppealHelpSidebar from '../../../components/appeals-v2/AppealHelpSidebar';
@@ -6,7 +7,7 @@ import AppealHelpSidebar from '../../../components/appeals-v2/AppealHelpSidebar'
 describe('<AppealHelpSidebar>', () => {
   it('should render', () => {
     const props = { aoj: 'vba' };
-    const wrapper = mount(<AppealHelpSidebar {...props} />);
+    const wrapper = shallow(<AppealHelpSidebar {...props} />);
 
     expect(wrapper.find('AskVAQuestions')).to.not.be.false;
     wrapper.unmount();
@@ -14,7 +15,21 @@ describe('<AppealHelpSidebar>', () => {
 
   it('should render the vba version', () => {
     const props = { aoj: 'vba' };
-    const wrapper = mount(<AppealHelpSidebar {...props} />);
+    const mockStore = {
+      getState: () => ({
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          omni_channel_link: true,
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+    const wrapper = mount(
+      <Provider store={mockStore}>
+        <AppealHelpSidebar {...props} />
+      </Provider>,
+    );
 
     expect(wrapper.find('AskVAQuestions').text()).to.contain(
       'Call Veterans Affairs Benefits and Services',
