@@ -2,9 +2,12 @@ import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/featur
 import '../support/commands';
 import Timeouts from 'platform/testing/e2e/timeouts';
 
+import validateVeteran from '../pages/ValidateVeteran';
+
 describe('Pre-Check In Experience ', () => {
   beforeEach(function() {
     cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
+    validateVeteran.initializeApi();
   });
   afterEach(() => {
     cy.window().then(window => {
@@ -12,22 +15,11 @@ describe('Pre-Check In Experience ', () => {
     });
   });
   it('Happy Path', () => {
-    cy.visitPrCheckInWithUUID();
+    cy.visitPreCheckInWithUUID();
     // page: Validate
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'Start pre-check-in');
-
-    cy.get('[label="Your last name"]')
-      .shadow()
-      .find('input')
-      .type('Smith');
-
-    cy.get('[label="Last 4 digits of your Social Security number"]')
-      .shadow()
-      .find('input')
-      .type('4837');
-    cy.get('[data-testid=check-in-button]').click();
+    validateVeteran.validatePageLoaded();
+    validateVeteran.validateVeteran();
+    validateVeteran.attemptToGoToNextPage();
 
     // page: Introduction
     cy.get('h1', { timeout: Timeouts.slow })
