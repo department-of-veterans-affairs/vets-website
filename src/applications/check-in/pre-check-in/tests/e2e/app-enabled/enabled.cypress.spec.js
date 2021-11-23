@@ -12,7 +12,7 @@ describe('Check In Experience -- ', () => {
     });
   });
   it('Feature is enabled', () => {
-    cy.visitPrCheckInWithUUID();
+    cy.visitPreCheckInWithUUID();
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('have.text', 'Start pre-check-in');

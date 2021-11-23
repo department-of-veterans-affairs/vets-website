@@ -17,7 +17,7 @@ describe('Check In Experience -- ', () => {
     });
   });
   it('Feature is disabled', () => {
-    cy.visitPrCheckInWithUUID();
+    cy.visitPreCheckInWithUUID();
     cy.url().should('not.match', /check-in/);
   });
 });
