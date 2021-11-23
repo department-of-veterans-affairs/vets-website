@@ -3,6 +3,7 @@ import '../support/commands';
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 import validateVeteran from '../pages/ValidateVeteran';
+import introduction from '../pages/Introduction';
 
 describe('Pre-Check In Experience ', () => {
   beforeEach(function() {
@@ -19,31 +20,38 @@ describe('Pre-Check In Experience ', () => {
     // page: Validate
     validateVeteran.validatePageLoaded();
     validateVeteran.validateVeteran();
+    cy.injectAxe();
+    cy.axeCheck();
+
     validateVeteran.attemptToGoToNextPage();
 
     // page: Introduction
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'Answer pre check-in questions');
+    introduction.validatePageLoaded();
+    cy.injectAxe();
+    cy.axeCheck();
+    introduction.attemptToGoToNextPage();
 
-    cy.get('div[data-testid="intro-wrapper"] div[data-testid="start-button"] a')
-      .eq(0)
-      .click();
     // page: Demographics
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('have.text', 'Demographics');
-
+    cy.injectAxe();
+    cy.axeCheck();
     cy.get('#react-root > :nth-child(3)').click();
+
     // page: Next of Kin
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('have.text', 'Next of Kin');
-
+    cy.injectAxe();
+    cy.axeCheck();
     cy.get('#react-root > :nth-child(3)').click();
+
     // page: Confirmation
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('have.text', 'Confirmation');
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });
