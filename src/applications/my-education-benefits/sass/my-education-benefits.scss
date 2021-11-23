@@ -8,6 +8,11 @@
 @import "../../../platform/forms/sass/m-form-confirmation";
 @import "./m-review-box-field";
 
+// Introduction Page
+.omb-info {
+	margin: 4rem 0 3rem;
+}
+
 /* Form Styling Overrides
 ---------------------------------------------------------------------*/
 .schemaform-block-header {
@@ -68,11 +73,6 @@ fieldset.usa-input-error legend {
 	font-weight: bold;
 }
 /* END Form Styling Overrides ---------------------------------------*/
-
-.process p {
-	margin-bottom: 0;
-}
-
 
 // USA Alert
 va-alert {

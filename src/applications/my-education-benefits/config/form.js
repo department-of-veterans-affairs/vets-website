@@ -1016,7 +1016,7 @@ const formConfig = {
             },
             [formFields.incorrectServiceHistoryExplanation]: {
               'ui:title':
-                'Please explain what is incorrect and/or incomplete about your service history.',
+                'Please explain what is incorrect and/or incomplete about your service history (250 character limit)',
               'ui:options': {
                 expandUnder: 'view:serviceHistory',
                 hideIf: formData =>
@@ -1119,8 +1119,10 @@ const formConfig = {
                     to give up one other benefit you may be eligible for.
                   </p>
                   <p>
-                    You cannot change your decision after you submit this
-                    application.
+                    <strong>
+                      You cannot change your decision after you submit this
+                      application.
+                    </strong>
                   </p>
                   <AdditionalInfo triggerText="Why do I have to give up a benefit?">
                     <p>
