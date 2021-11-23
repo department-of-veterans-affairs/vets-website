@@ -64,6 +64,24 @@ const Introduction = props => {
     },
   ];
   const appointmentsDateTime = new Date(appointments[0].startTime);
+  const privacyStatement = (
+    <div>
+      <h3>Privacy Act Statement</h3>
+      <p>
+        We ask you to provide the information in this questionnaire to help with
+        your medical care (under law 38 U.S.C. Chapter 17). It’s your choice if
+        you want to provide this information. If you choose not to provide this
+        information, it may make it harder for us to prepare for your visit. But
+        it won’t have any effect on your eligibility for any VA benefits or
+        services. We may use and share the information you provide in this
+        questionnaire in the ways we’re allowed to by law. We may make a
+        “routine use” disclosure of the information as outlined in the Privacy
+        Act system of records notice in "24VA10A7 Patient Medical Record – VA”
+        and following the Veterans Health Administration (VHA) Notice of Privacy
+        Practices.
+      </p>
+    </div>
+  );
   const StartButton = () => (
     <div
       className="vads-u-margin-bottom--4 vads-u-display--block"
@@ -152,7 +170,7 @@ const Introduction = props => {
         visible={privacyActModalOpen}
         focusSelector="button"
         cssClass=""
-        contents={<p>TBD</p>}
+        contents={privacyStatement}
       />
     </div>
   );
