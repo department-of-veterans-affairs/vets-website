@@ -39,7 +39,7 @@ const getAllowedApp = (file, allowList, outputType = 'entry') => {
   const entryName = manifest?.entryName;
 
   if (allowList.includes(entryName)) {
-    // Return either app path, entry name, or root URL depending on output type
+    // Return either the app path, entry name, or root URL depending on the output type
     if (outputType === 'folder') {
       const appFolderName = file.split('/')[2];
       return `src/applications/${appFolderName}`;
