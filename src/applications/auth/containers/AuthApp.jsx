@@ -15,6 +15,7 @@ import {
   authnSettings,
   externalRedirects,
 } from 'platform/user/authentication/utilities';
+
 import {
   hasSession,
   setupProfileSession,
@@ -216,8 +217,9 @@ export class AuthApp extends React.Component {
             <p>
               Please try again, and this time, select “Accept” on the final page
               of the identity verification process. Or, if you don’t want to
-              verify your identity with ID.me, you can try signing in with your
-              premium DS Logon or premium My HealtheVet username and password.
+              verify your identity with Login.gov or ID.me, you can try signing
+              in with your premium DS Logon or premium My HealtheVet username
+              and password.
             </p>
             <button onClick={this.props.openLoginModal}>
               Try signing in again

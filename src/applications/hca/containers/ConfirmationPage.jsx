@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 
+import ServiceProvidersText from 'platform/user/authentication/components/ServiceProvidersText';
+
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('.schemaform-title > h1');
@@ -93,7 +95,7 @@ export class ConfirmationPage extends React.Component {
                 <strong>Sign in to VA.gov</strong>
               </p>
               <p>
-                You can sign in with your DS Logon, My HealteVet, or ID.me
+                You can sign in with your <ServiceProvidersText />
                 account. If you don’t have an account, you can create one now.
               </p>
             </li>

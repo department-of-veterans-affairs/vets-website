@@ -7,3 +7,13 @@ export const AUTH_EVENTS = {
   LOGOUT: 'logout-link-clicked',
   REGISTER: 'register-link-clicked',
 };
+
+export const SERVICE_PROVIDERS = {
+  logingov: { label: 'Login.gov', link: 'https://secure.login.gov/account' },
+  idme: { label: 'ID.me', link: 'https://wallet.id.me/settings' },
+  dslogon: {
+    label: 'DS Logon',
+    link: 'https://myaccess.dmdc.osd.mil/identitymanagement',
+  },
+  myhealthevet: { label: 'My HealtheVet', link: 'https://www.myhealth.va.gov' },
+};

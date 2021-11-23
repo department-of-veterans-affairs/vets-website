@@ -101,4 +101,24 @@ describe('Direct Deposit', () => {
       });
     },
   );
+  context(
+    'when user has 2FA set up but signed in with MHV/My HealtheVet',
+    () => {
+      beforeEach(() => {
+        const mockUser = makeUserObject({
+          serviceName: 'logingov',
+          loa: 3,
+          multifactor: true,
+        });
+        cy.intercept('GET', 'v0/user', mockUser);
+      });
+      it('should show a single "verify your account" alert and not call direct deposit APIs', () => {
+        cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
+
+        notIDme2FAAlertShown();
+
+        directDepositAPIsNotCalled();
+      });
+    },
+  );
 });

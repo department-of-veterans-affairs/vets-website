@@ -15,6 +15,8 @@ export const EXTERNAL_SERVICES = {
   icmhs: 'icmhs',
   // ID.me, identity provider
   idme: 'idme',
+  // Login.gov, identity provider
+  logingov: 'logingov',
   // My HealtheVet
   mhv: 'mhv',
   // Master Veteran Index (source of veteran profile info)

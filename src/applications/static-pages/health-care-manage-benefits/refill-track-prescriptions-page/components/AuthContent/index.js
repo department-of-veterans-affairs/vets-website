@@ -8,6 +8,7 @@ import Telephone, {
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
+import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
 
 export const AuthContent = ({
   authenticatedWithSSOe,
@@ -28,7 +29,7 @@ export const AuthContent = ({
     <div>
       <div itemScope itemType="http://schema.org/Question">
         <h2 itemProp="name" id="how-can-the-va-prescription-re">
-          How can VA's prescription tools help me manage my health care?
+          How can VA’s prescription tools help me manage my health care?
         </h2>
         <div
           itemProp="acceptedAnswer"
@@ -92,9 +93,9 @@ export const AuthContent = ({
                   <strong>and</strong>
                 </li>
                 <li>
-                  Have a refillable prescription from a VA doctor that
-                  you&apos;ve filled at a VA pharmacy and that&apos;s being
-                  handled by the VA Mail Order Pharmacy
+                  Have a refillable prescription from a VA doctor that you’ve
+                  filled at a VA pharmacy and that’s being handled by the VA
+                  Mail Order Pharmacy
                 </li>
               </ul>
               <p>
@@ -105,31 +106,7 @@ export const AuthContent = ({
               <p>
                 <strong>And you must have one of these free accounts:</strong>
               </p>
-              <ul>
-                <li>
-                  A{' '}
-                  <a
-                    href="https://www.myhealth.va.gov/mhv-portal-web/upgrade-account-to-premium#UpgradeToPremiumAccount"
-                    rel="noreferrer noopener"
-                  >
-                    Premium <strong>My HealtheVet account</strong>
-                  </a>
-                  , <strong>or</strong>
-                </li>
-                <li>
-                  A Premium <strong>DS Logon</strong> account (used for
-                  eBenefits and milConnect), <strong>or</strong>
-                </li>
-                <li>
-                  A verified <strong>ID.me</strong> account that you can{' '}
-                  <a
-                    href="https://api.id.me/en/registration/new"
-                    rel="noreferrer noopener"
-                  >
-                    create here on VA.gov
-                  </a>
-                </li>
-              </ul>
+              <ServiceProvidersList />
             </div>
           </div>
         </div>
@@ -146,13 +123,12 @@ export const AuthContent = ({
           <div itemProp="text">
             <div className="processed-content">
               <h3>
-                If you&apos;re refilling and tracking prescriptions on My
-                HealtheVet
+                If you’re refilling and tracking prescriptions on My HealtheVet
               </h3>
               <p>
-                On your Welcome page, you&apos;ll find a module for{' '}
-                <strong>Pharmacy</strong>. Within that module, you&apos;ll find
-                these 3 options:
+                On your Welcome page, you’ll find a module for{' '}
+                <strong>Pharmacy</strong>. Within that module, you’ll find these
+                3 options:
               </p>
               <ul>
                 <li>
@@ -166,17 +142,16 @@ export const AuthContent = ({
                 </li>
               </ul>
               <p>
-                Click on the link you want. You&apos;ll get instructions on the
-                next page to get started.
+                Click on the link you want. You’ll get instructions on the next
+                page to get started.
               </p>
 
               <h3>
-                If you&apos;re refilling and tracking prescriptions on My VA
-                Health
+                If you’re refilling and tracking prescriptions on My VA Health
               </h3>
               <p>
-                In the navigation menu, you&apos;ll find a section titled{' '}
-                <strong>Pharmacy</strong>. Within that section, you&apos;ll find
+                In the navigation menu, you’ll find a section titled{' '}
+                <strong>Pharmacy</strong>. Within that section, you’ll find
                 these 2 options:
               </p>
               <ul>
@@ -188,8 +163,8 @@ export const AuthContent = ({
                 </li>
               </ul>
               <p>
-                Choose the medication list you want. For each medication,
-                you&apos;ll then find options to refill and renew.
+                Choose the medication list you want. For each medication, you’ll
+                then find options to refill and renew.
               </p>
             </div>
           </div>
@@ -213,7 +188,7 @@ export const AuthContent = ({
                 </strong>
               </p>
               <ul>
-                <li>VA medicines that you&apos;ve refilled or renewed</li>
+                <li>VA medicines that you’ve refilled or renewed</li>
                 <li>Wound care supplies</li>
                 <li>Diabetic supplies</li>
                 <li>
@@ -223,16 +198,15 @@ export const AuthContent = ({
               </ul>
               <p>
                 Your VA health care team may decide not to ship medicines that
-                you don&apos;t need right away, medicines that aren&apos;t
-                commonly prescribed, or those that require you to be closely
-                monitored. In these cases, you&apos;ll need to pick up your
-                prescription from the VA health facility where you get care.
+                you don’t need right away, medicines that aren’t commonly
+                prescribed, or those that require you to be closely monitored.
+                In these cases, you’ll need to pick up your prescription from
+                the VA health facility where you get care.
               </p>
               <p>
-                You can&apos;t refill some medicines, like certain pain
-                medications and narcotics. You&apos;ll need to get a new
-                prescription from your VA provider each time you need more of
-                these medicines.
+                You can’t refill some medicines, like certain pain medications
+                and narcotics. You’ll need to get a new prescription from your
+                VA provider each time you need more of these medicines.
               </p>
               <p>
                 <strong>Note: </strong> If you receive care at both
@@ -258,12 +232,12 @@ export const AuthContent = ({
               <p>
                 Our mail order pharmacy will send your prescriptions to the
                 address we have on file for you. We ship to all addresses in the
-                United States and its territories. We don&apos;t ship
-                prescriptions to foreign countries.
+                United States and its territories. We don’t ship prescriptions
+                to foreign countries.
               </p>
               <p>
                 <strong>Important note:</strong> Changing your address within My
-                HealtheVet or My VA Health doesn&apos;t change your address for
+                HealtheVet or My VA Health doesn’t change your address for
                 prescription shipments.
               </p>
               <p>
@@ -275,9 +249,9 @@ export const AuthContent = ({
               <ul>
                 <li>
                   Go to your <a href="/profile/">VA.gov profile</a>.<br />
-                  Click <strong>Edit</strong> next to each address you'd like to
+                  Click <strong>Edit</strong> next to each address you’d like to
                   change, including your mailing and home address. Or if you
-                  haven't yet added an address, click on the link to add your
+                  haven’t yet added an address, click on the link to add your
                   address. Then fill out the form and click{' '}
                   <strong>Update</strong> to save your changes. You can also add
                   or edit other contact, personal, and military service
@@ -337,8 +311,8 @@ export const AuthContent = ({
               </p>
               <p>
                 If you print or download anything from the website (like
-                prescription details), you&apos;ll need to take responsibility
-                for protecting that information.
+                prescription details), you’ll need to take responsibility for
+                protecting that information.
                 <br />
                 <a
                   href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information"

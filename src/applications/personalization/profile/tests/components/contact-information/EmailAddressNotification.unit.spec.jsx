@@ -70,4 +70,20 @@ describe('EmailAddressNotification', () => {
     });
     wrapper.unmount();
   });
+
+  describe('when `signInServiceName` is `logingov`', () => {
+    const wrapper = shallow(
+      <EmailAddressNotification signInServiceName="logingov" />,
+    );
+
+    const anchor = wrapper.find('a');
+
+    it('should render the correct button text', () => {
+      expect(anchor.text().includes('Login.gov')).to.be.true;
+    });
+    it('should render the correct link url', () => {
+      expect(anchor.props().href).to.equal('https://secure.login.gov/account');
+    });
+    wrapper.unmount();
+  });
 });

@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 // Relative imports.
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 
+import ServiceProvidersText from 'platform/user/authentication/components/ServiceProvidersText';
+
 export const App = ({ loggedIn, show, toggleLoginModal }) => {
   if (!show) {
     return null;
@@ -24,8 +26,7 @@ export const App = ({ loggedIn, show, toggleLoginModal }) => {
         <p>With this tool, you can:</p>
       ) : (
         <p>
-          Try signing in with your <strong>DS Logon</strong>,{' '}
-          <strong>My HealtheVet</strong>, or <strong>ID.me</strong> account. If
+          Try signing in with your <ServiceProvidersText isBold /> account. If
           you don’t have any of those accounts, you can create one now. When you
           sign in or create an account, you’ll be able to:
         </p>
