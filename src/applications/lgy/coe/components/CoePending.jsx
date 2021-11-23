@@ -2,6 +2,7 @@ import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { CoeDocumentUpload } from './CoeDocumentUpload';
+import { CoeDocumentList } from './CoeDocumentList';
 
 export const CoePending = () => (
   <div className="row vads-u-margin-bottom--1">
@@ -17,6 +18,7 @@ export const CoePending = () => (
         </p>
       </va-alert>
       <CoeDocumentUpload />
+      <CoeDocumentList />
       <h2>How will I know if VA needs more information from me?</h2>
       <p className="vads-u-margin-bottom--0">
         If we need more information, we’ll notify you by email or mail. You can
