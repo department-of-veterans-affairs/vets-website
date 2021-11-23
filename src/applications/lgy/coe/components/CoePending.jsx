@@ -18,13 +18,7 @@ export const CoePending = () => (
         </p>
       </va-alert>
       <CoeDocumentUpload />
-      <CoeDocumentList />
-      <h2>How will I know if VA needs more information from me?</h2>
-      <p className="vads-u-margin-bottom--0">
-        If we need more information, we’ll notify you by email or mail. You can
-        also check the status of your application by returning to this page.
-      </p>
-      <a>Learn more about VA decision reviews and appeals</a>
+      <CoeDocumentList onUpload />
       <h2>Should I apply again?</h2>
       <p className="vads-u-margin-bottom--0">
         No. We’re reviewing your current application, and submitting a new
