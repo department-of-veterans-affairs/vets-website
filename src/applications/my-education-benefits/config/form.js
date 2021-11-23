@@ -1,4 +1,5 @@
 import React from 'react';
+import { createSelector } from 'reselect';
 
 // Example of an imported schema:
 // import fullSchema from '../22-1990-schema.json';
@@ -55,8 +56,6 @@ import {
   validateEmail,
   validateEffectiveDate,
 } from '../utils/validation';
-import DynamicPhoneRadioWidget from '../components/DynamicPhoneRadioWidget';
-import DynamicPhoneRadioReviewField from '../components/DynamicPhoneRadioReviewField';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
 
@@ -168,6 +167,8 @@ const formPages = {
     },
   },
 };
+
+const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
 
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;
@@ -781,16 +782,36 @@ const formConfig = {
                 </>
               ),
             },
-            'view:contactMethod': {
-              [formFields.contactMethod]: {
-                'ui:title':
-                  'How should we contact you if we have questions about your application?',
-                'ui:reviewField': DynamicPhoneRadioReviewField,
-                'ui:widget': DynamicPhoneRadioWidget,
-                'ui:errorMessages': {
-                  required:
-                    'Please select at least one way we can contact you.',
-                },
+            [formFields.contactMethod]: {
+              'ui:title':
+                'How should we contact you if we have questions about your application?',
+              'ui:widget': 'radio',
+              'ui:errorMessages': {
+                required: 'Please select at least one way we can contact you.',
+              },
+              'ui:options': {
+                updateSchema: (() => {
+                  const filterContactMethods = createSelector(
+                    form => form['view:phoneNumbers'].mobilePhoneNumber.phone,
+                    form => form['view:phoneNumbers'].phoneNumber.phone,
+                    (mobilePhoneNumber, homePhoneNumber) => {
+                      const invalidContactMethods = [];
+                      if (!mobilePhoneNumber) {
+                        invalidContactMethods.push('Mobile Phone');
+                      }
+                      if (!homePhoneNumber) {
+                        invalidContactMethods.push('Home Phone');
+                      }
+
+                      return {
+                        enum: contactMethods.filter(
+                          method => !invalidContactMethods.includes(method),
+                        ),
+                      };
+                    },
+                  );
+                  return form => filterContactMethods(form);
+                })(),
               },
             },
             'view:receiveTextMessages': {
@@ -916,14 +937,9 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              'view:contactMethod': {
-                type: 'object',
-                required: [formFields.contactMethod],
-                properties: {
-                  [formFields.contactMethod]: {
-                    type: 'string',
-                  },
-                },
+              [formFields.contactMethod]: {
+                type: 'string',
+                enum: contactMethods,
               },
               'view:receiveTextMessages': {
                 type: 'object',
@@ -951,6 +967,7 @@ const formConfig = {
                 properties: {},
               },
             },
+            required: [formFields.contactMethod],
           },
         },
       },
@@ -999,7 +1016,7 @@ const formConfig = {
             },
             [formFields.incorrectServiceHistoryExplanation]: {
               'ui:title':
-                'Please explain what is incorrect and/or incomplete about your service history.',
+                'Please explain what is incorrect and/or incomplete about your service history (250 character limit)',
               'ui:options': {
                 expandUnder: 'view:serviceHistory',
                 hideIf: formData =>
@@ -1102,8 +1119,10 @@ const formConfig = {
                     to give up one other benefit you may be eligible for.
                   </p>
                   <p>
-                    You cannot change your decision after you submit this
-                    application.
+                    <strong>
+                      You cannot change your decision after you submit this
+                      application.
+                    </strong>
                   </p>
                   <AdditionalInfo triggerText="Why do I have to give up a benefit?">
                     <p>

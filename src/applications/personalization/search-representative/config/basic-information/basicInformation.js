@@ -18,7 +18,7 @@ export const schema = {
 };
 
 export const uiSchema = {
-  'ui:description': 'Chech at least one',
+  'ui:description': 'Choose at least one',
   vso: {
     'ui:title': 'Veteran Service Organization (VS0)',
   },
