@@ -1,4 +1,9 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+dt{
+  font-weight: bold;
+}
+
 ol.pre-check-in--appointment-list{
   list-style: none;
   margin: 0;
