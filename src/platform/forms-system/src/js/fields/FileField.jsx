@@ -14,7 +14,10 @@ import {
   ShowPdfPassword,
   PasswordLabel,
   PasswordSuccess,
-  checkForEncryptedPdf,
+  readAndCheckFile,
+  checkTypeAndExtensionMatches,
+  checkIsEncryptedPdf,
+  FILE_TYPE_MISMATCH_ERROR,
 } from '../utilities/file';
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 
@@ -70,13 +73,6 @@ class FileField extends React.Component {
     }
   };
 
-  isFileEncrypted = async file =>
-    checkForEncryptedPdf(file)
-      .then(isEncrypted => isEncrypted)
-      // This _should_ only happen if a file is deleted after the user selects
-      // it for upload
-      .catch(() => false);
-
   /**
    * Add file to list and upload
    * @param {Event} event - DOM File upload event
@@ -97,32 +93,46 @@ class FileField extends React.Component {
         enableShortWorkflow,
       } = this.props;
       const uiOptions = uiSchema['ui:options'];
+      // needed for FileField unit tests
+      const mockReadAndCheckFile = uiOptions.mockReadAndCheckFile;
 
       let idx = index;
       if (idx === null) {
         idx = files.length === 0 ? 0 : files.length;
       }
 
+      const checks = { checkTypeAndExtensionMatches, checkIsEncryptedPdf };
+      // read file mock for unit testing
+      const checkResults = uiOptions.mockReadAndCheckFile
+        ? mockReadAndCheckFile()
+        : await readAndCheckFile(currentFile, checks);
+
+      if (!checkResults.checkTypeAndExtensionMatches) {
+        files[idx] = {
+          file: currentFile,
+          name: currentFile.name,
+          errorMessage: FILE_TYPE_MISMATCH_ERROR,
+        };
+        onChange(files);
+        return;
+      }
+
       // Check if the file is an encrypted PDF
       if (
         requestLockedPdfPassword && // feature flag
         currentFile.name?.endsWith('pdf') &&
-        !password
+        !password &&
+        checkResults.checkIsEncryptedPdf
       ) {
-        const isFileEncrypted =
-          uiOptions.isFileEncrypted || this.isFileEncrypted;
-        const needsPassword = await isFileEncrypted(currentFile);
-        if (needsPassword) {
-          files[idx] = {
-            file: currentFile,
-            name: currentFile.name,
-            isEncrypted: true,
-          };
+        files[idx] = {
+          file: currentFile,
+          name: currentFile.name,
+          isEncrypted: true,
+        };
 
-          onChange(files);
-          // wait for user to enter a password before uploading
-          return;
-        }
+        onChange(files);
+        // wait for user to enter a password before uploading
+        return;
       }
 
       this.uploadRequest = formContext.uploadFile(
