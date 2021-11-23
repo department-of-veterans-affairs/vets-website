@@ -22,29 +22,29 @@ node('vetsgov-general-purpose') {
       parallel (
         failFast: true,
 
-        buildDev: {
-          if (commonStages.shouldBail()) { return }
-          def envName = 'vagovdev'
+        // buildDev: {
+        //   if (commonStages.shouldBail()) { return }
+        //   def envName = 'vagovdev'
 
-          try {
-            // Try to build using fresh drupal content
-            commonStages.build(ref, dockerContainer, envName)
-          } catch (error) {
-            commonStages.build(ref, dockerContainer, envName)
-          }
-        },
+        //   try {
+        //     // Try to build using fresh drupal content
+        //     commonStages.build(ref, dockerContainer, envName)
+        //   } catch (error) {
+        //     commonStages.build(ref, dockerContainer, envName)
+        //   }
+        // },
 
-        buildStaging: {
-          if (commonStages.shouldBail()) { return }
-          def envName = 'vagovstaging'
+        // buildStaging: {
+        //   if (commonStages.shouldBail()) { return }
+        //   def envName = 'vagovstaging'
 
-          try {
-            // Try to build using fresh drupal content
-            commonStages.build(ref, dockerContainer, envName)
-          } catch (error) {
-            commonStages.build(ref, dockerContainer, envName)
-          }
-        },
+        //   try {
+        //     // Try to build using fresh drupal content
+        //     commonStages.build(ref, dockerContainer, envName)
+        //   } catch (error) {
+        //     commonStages.build(ref, dockerContainer, envName)
+        //   }
+        // },
 
         buildProd: {
           if (commonStages.shouldBail()) { return }
@@ -58,11 +58,11 @@ node('vetsgov-general-purpose') {
           }
         },
 
-        lint: {
-          dockerContainer.inside(commonStages.DOCKER_ARGS) {
-            sh "cd /application && npm --no-color run lint"
-          }
-        },
+        // lint: {
+        //   dockerContainer.inside(commonStages.DOCKER_ARGS) {
+        //     sh "cd /application && npm --no-color run lint"
+        //   }
+        // },
 
         // Check package.json for known vulnerabilities
         security: {
@@ -73,17 +73,17 @@ node('vetsgov-general-purpose') {
           }
         },
 
-        unit: {
-          dockerContainer.inside(commonStages.DOCKER_ARGS) {
-            sh "/cc-test-reporter before-build"
-            if (commonStages.isReviewable()) {
-                sh "cd /application && npm --no-color run test:unit -- --coverage --log-level trace"
-            } else {
-                sh "cd /application && npm --no-color run test:unit -- --coverage"
-            }
-            sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
-          }
-        },
+        // unit: {
+        //   dockerContainer.inside(commonStages.DOCKER_ARGS) {
+        //     sh "/cc-test-reporter before-build"
+        //     if (commonStages.isReviewable()) {
+        //         sh "cd /application && npm --no-color run test:unit -- --coverage --log-level trace"
+        //     } else {
+        //         sh "cd /application && npm --no-color run test:unit -- --coverage"
+        //     }
+        //     sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
+        //   }
+        // },
 
         reviewInstance: {
           if (commonStages.shouldBail()) { return }
@@ -111,7 +111,7 @@ node('vetsgov-general-purpose') {
       throw error
     } finally {
       dir("vets-website") {
-        step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
+        // step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
       }
     }
   }
@@ -127,37 +127,37 @@ node('vetsgov-general-purpose') {
             failFast: true,
             'cypress-1': {
               sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=0 vets-website run cy:test:docker"
-            },
-            'cypress-2': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress2-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress2-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=1 vets-website run cy:test:docker"
-            },
-            'cypress-3': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress3-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress3-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=2 vets-website run cy:test:docker"
-            },
-            'cypress-4': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress4-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress4-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=3 vets-website run cy:test:docker"
-            },
-            'cypress-5': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=4 vets-website run cy:test:docker"
-            },
-            'cypress-6': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=5 vets-website run cy:test:docker"
             }
+            // 'cypress-2': {
+            //   sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress2-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress2-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=1 vets-website run cy:test:docker"
+            // },
+            // 'cypress-3': {
+            //   sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress3-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress3-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=2 vets-website run cy:test:docker"
+            // },
+            // 'cypress-4': {
+            //   sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress4-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress4-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=3 vets-website run cy:test:docker"
+            // },
+            // 'cypress-5': {
+            //   sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=4 vets-website run cy:test:docker"
+            // },
+            // 'cypress-6': {
+            //   sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=5 vets-website run cy:test:docker"
+            // }
           )
         } catch (error) {
           // commonStages.slackNotify()
           throw error
         } finally {
           sh "docker-compose -p cypress-${env.EXECUTOR_NUMBER} down --remove-orphans"
-          sh "docker-compose -p cypress2-${env.EXECUTOR_NUMBER} down --remove-orphans"
-          sh "docker-compose -p cypress3-${env.EXECUTOR_NUMBER} down --remove-orphans"
-          sh "docker-compose -p cypress4-${env.EXECUTOR_NUMBER} down --remove-orphans"
-          sh "docker-compose -p cypress5-${env.EXECUTOR_NUMBER} down --remove-orphans"
-          sh "docker-compose -p cypress6-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          // sh "docker-compose -p cypress2-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          // sh "docker-compose -p cypress3-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          // sh "docker-compose -p cypress4-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          // sh "docker-compose -p cypress5-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          // sh "docker-compose -p cypress6-${env.EXECUTOR_NUMBER} down --remove-orphans"
         }
       }
     }
   }
 
-  // commonStages.archiveAll(dockerContainer, ref);
+  commonStages.archiveAll(dockerContainer, ref);
 }
