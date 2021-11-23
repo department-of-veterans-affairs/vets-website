@@ -7,21 +7,19 @@ const commandLineArgs = require('command-line-args');
 const changedAppsConfig = require('../../config/single-app-build.json');
 
 /**
- * Gets the entry name of the app that a file belongs to.
+ * Gets the manifest object of the app that a file belongs to.
  *
  * @param {string} filePath - Relative file path.
  * @returns {string} The entry name of an app.
  */
-const getEntryName = filePath => {
+const getManifest = filePath => {
   const root = path.join(__dirname, '../..');
   const appDirectory = filePath.split('/')[2];
   const fullPath = path.join(root, `./src/applications/${appDirectory}`);
 
-  const manifestFile = find
+  return find
     .fileSync(/manifest\.(json|js)$/, fullPath)
     .map(file => JSON.parse(fs.readFileSync(file)))[0];
-
-  return manifestFile?.entryName;
 };
 
 /**
@@ -37,14 +35,15 @@ const getEntryName = filePath => {
 const getAllowedApp = (file, allowList, outputType = 'entry') => {
   if (!file.startsWith('src/applications')) return null;
 
-  const entryName = getEntryName(file);
+  const manifest = getManifest(file);
+  const entryName = manifest?.entryName;
 
   if (allowList.includes(entryName)) {
-    // Return app path when 'app-folders' option is used
+    // Return either the app path, entry name, or root URL depending on the output type
     if (outputType === 'folder') {
       const appFolderName = file.split('/')[2];
       return `src/applications/${appFolderName}`;
-    }
+    } else if (outputType === 'url') return manifest?.rootUrl;
     return entryName;
   }
 
@@ -80,10 +79,13 @@ if (process.env.CHANGED_FILE_PATHS) {
   const changedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
 
   const options = commandLineArgs([
-    // Use the --get-folders option to get app folder paths. Entry names are the default.
-    { name: 'get-folders', type: Boolean, defaultValue: false },
+    // Use the --output-type option to specify one of the following outputs:
+    // 'entry': The entry names of the changed apps.
+    // 'folder': The relative path of the changed apps root folders.
+    // 'url': The root URLs of the changed apps.
+    { name: 'output-type', type: String, defaultValue: 'entry' },
   ]);
-  const outputType = options['get-folders'] ? 'folder' : 'entry';
+  const outputType = options['output-type'];
 
   const changedAppsString = getChangedAppsString(
     changedFiles,
