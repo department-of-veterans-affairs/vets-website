@@ -25,14 +25,29 @@ class ValidateVeteran {
       .and('have.text', 'Start pre-check-in');
   }
   validateVeteran(lastName = 'Smith', last4 = '1234') {
-    cy.get('[label="Your last name"]')
+    this.typeLastName(lastName);
+    this.typeLast4(last4);
+  }
+
+  getLastNameInput() {
+    return cy
+      .get('[label="Your last name"]')
       .shadow()
-      .find('input')
-      .type(lastName);
-    cy.get('[label="Last 4 digits of your Social Security number"]')
+      .find('input');
+  }
+
+  getLast4Input() {
+    return cy
+      .get('[label="Last 4 digits of your Social Security number"]')
       .shadow()
-      .find('input')
-      .type(last4);
+      .find('input');
+  }
+
+  typeLastName(lastName = 'Smith') {
+    this.getLast4Input().type(lastName);
+  }
+  typeLast4(last4 = '1234') {
+    this.getLast4Input().type(last4);
   }
 
   attemptToGoToNextPage() {
