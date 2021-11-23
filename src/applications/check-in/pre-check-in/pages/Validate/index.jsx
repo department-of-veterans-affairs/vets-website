@@ -4,6 +4,8 @@ import BackToHome from '../../components/BackToHome';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
 
+import { api } from '../../api';
+
 export default function Index({ router }) {
   const { goToNextPage } = useFormRouting(router);
   const [isLoading, setIsLoading] = useState(false);
@@ -12,7 +14,7 @@ export default function Index({ router }) {
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
-  const validateHandler = () => {
+  const validateHandler = async () => {
     setIsLoading(true);
     setLastNameErrorMessage();
     setLast4ErrorMessage();
@@ -28,7 +30,13 @@ export default function Index({ router }) {
         );
       }
     } else {
-      goToNextPage();
+      try {
+        await api.v2.postSession({ last4: last4Ssn, lastName });
+        goToNextPage();
+      } catch (e) {
+        setIsLoading(false);
+        // @TODO: add routing to error page | https://github.com/department-of-veterans-affairs/va.gov-team/issues/33195
+      }
     }
   };
   return (
