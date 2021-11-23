@@ -6,6 +6,8 @@ export default {
   CHAPTER_31_CTA: 'chapter-31-cta',
   CHAPTER_31_WIZARD: 'chapter-31-Wizard',
   CHAPTER_36_CTA: 'chapter-36-cta',
+  CMS_BANNER: 'cms-banner',
+  CMS_FULLWIDTH_BANNER_ALERT: 'cms-fullwidth-banner-alert',
   COE_ACCESS: 'coe_access',
   CORONAVIRUS_CHATBOT: 'va-coronavirus-chatbot',
   COVID_VACCINE_UPDATES_CTA: 'va-covid-vaccine-updates-cta',

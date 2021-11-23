@@ -68,7 +68,8 @@ import {
   createScoEventsWidget,
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
-
+import createBanner from './content-api/CreateBanner';
+import createFullWidthBannerAlert from './content-api/CreateFullwidthBannerAlert';
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
 
@@ -185,6 +186,9 @@ createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 createCOEAccess(store, widgetTypes.COE_ACCESS);
 createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 
+// Content API-driven widgets
+createBanner(store, widgetTypes.CMS_BANNER);
+createFullWidthBannerAlert(store, widgetTypes.CMS_FULLWIDTH_BANNER_ALERT);
 // Create the My VA Login widget only on the homepage.
 if (location.pathname === '/') {
   createMyVALoginWidget(store);
