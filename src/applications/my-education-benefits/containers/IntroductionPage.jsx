@@ -121,6 +121,11 @@ export const IntroductionPage = ({ user, route }) => {
         </ol>
       </div>
 
+      {user?.login?.currentlyLoggedIn ? (
+        <h3>Begin your application for education benefits</h3>
+      ) : (
+        <></>
+      )}
       {SaveInProgressComponent}
 
       <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="02/28/2023" />
