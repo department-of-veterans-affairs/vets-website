@@ -2,23 +2,31 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import mockSession from '../../../api/local-mock-api/mocks/v2/sessions.responses';
 
 class ValidateVeteran {
-  initializeApiWithTrimCheck(lastName = 'Smith', last4 = '1234') {
-    cy.intercept('POST', '/check_in/v2/sessions', req => {
-      expect(req.body.session.lastName).to.equal(lastName);
-      expect(req.body.session.last4).to.equal(last4);
+  initializeSessionPost = {
+    withSuccess: () => {
+      cy.intercept('POST', '/check_in/v2/sessions', req => {
+        req.reply(
+          mockSession.createMockSuccessResponse('some-token', 'read.full'),
+        );
+      });
+    },
+    withTrimCheck: (lastName = 'Smith', last4 = '1234') => {
+      cy.intercept('POST', '/check_in/v2/sessions', req => {
+        expect(req.body.session.lastName).to.equal(lastName);
+        expect(req.body.session.last4).to.equal(last4);
 
-      req.reply(
-        mockSession.createMockSuccessResponse('some-token', 'read.full'),
-      );
-    });
-  }
-  initializeApi() {
-    cy.intercept('POST', '/check_in/v2/sessions', req => {
-      req.reply(
-        mockSession.createMockSuccessResponse('some-token', 'read.full'),
-      );
-    });
-  }
+        req.reply(
+          mockSession.createMockSuccessResponse('some-token', 'read.full'),
+        );
+      });
+    },
+    withFailure: (errorCode = 400) => {
+      cy.intercept('POST', '/check_in/v2/sessions', req => {
+        req.reply(errorCode, mockSession.createMockFailedResponse());
+      });
+    },
+  };
+
   validatePageLoaded() {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
@@ -44,8 +52,9 @@ class ValidateVeteran {
   }
 
   typeLastName(lastName = 'Smith') {
-    this.getLast4Input().type(lastName);
+    this.getLastNameInput().type(lastName);
   }
+
   typeLast4(last4 = '1234') {
     this.getLast4Input().type(last4);
   }

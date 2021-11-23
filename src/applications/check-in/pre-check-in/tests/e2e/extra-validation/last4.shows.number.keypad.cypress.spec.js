@@ -13,7 +13,7 @@ describe('Pre-Check In Experience', () => {
           checkInExperienceUpdateInformationPageEnabled: true,
         }),
       );
-      validateVeteran.initializeApi();
+      validateVeteran.initializeSessionPost.withSuccess();
     });
     afterEach(() => {
       cy.window().then(window => {

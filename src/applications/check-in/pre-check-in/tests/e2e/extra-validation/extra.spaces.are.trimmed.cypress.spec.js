@@ -14,7 +14,7 @@ describe('Pre-Check In Experience', () => {
           checkInExperienceUpdateInformationPageEnabled: false,
         }),
       );
-      validateVeteran.initializeApiWithTrimCheck();
+      validateVeteran.initializeSessionPost.withTrimCheck();
     });
     afterEach(() => {
       cy.window().then(window => {

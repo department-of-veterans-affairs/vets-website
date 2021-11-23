@@ -7,7 +7,7 @@ describe('Pre-Check In Experience -- ', () => {
   describe('validation page', () => {
     beforeEach(function() {
       cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
-      validateVeteran.initializeApi();
+      validateVeteran.initializeSessionPost.withSuccess();
     });
     afterEach(() => {
       cy.window().then(window => {
