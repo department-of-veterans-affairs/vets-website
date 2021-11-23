@@ -18,7 +18,7 @@ describe('Check In Experience -- ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('C5755 - On page reload, the data should be pull from session storage and redirected to landing screen with data loaded', () => {
+  it.skip('C5755 - On page reload, the data should be pull from session storage and redirected to landing screen with data loaded', () => {
     cy.visitWithUUID();
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
