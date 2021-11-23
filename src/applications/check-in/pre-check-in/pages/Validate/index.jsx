@@ -12,7 +12,6 @@ export default function Index({ router }) {
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
-  // @TODO: validate token on page load and either redirect to the next page or show this page
   const validateHandler = () => {
     setIsLoading(true);
     setLastNameErrorMessage();
@@ -29,9 +28,7 @@ export default function Index({ router }) {
         );
       }
     } else {
-      setTimeout(() => {
-        goToNextPage();
-      }, 2000);
+      goToNextPage();
     }
   };
   return (
