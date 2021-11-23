@@ -1,7 +1,7 @@
 import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
 import '../support/commands';
 
-describe('Check In Experience -- ', () => {
+describe('Pre-Check In Experience', () => {
   beforeEach(function() {
     cy.intercept(
       'GET',

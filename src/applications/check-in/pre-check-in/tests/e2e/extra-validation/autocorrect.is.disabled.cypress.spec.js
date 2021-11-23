@@ -3,7 +3,7 @@ import '../support/commands';
 
 import validateVeteran from '../pages/ValidateVeteran';
 
-describe('Pre-Check In Experience -- ', () => {
+describe('Pre-Check In Experience', () => {
   describe('validation page', () => {
     beforeEach(function() {
       cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));

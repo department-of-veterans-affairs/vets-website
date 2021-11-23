@@ -4,7 +4,7 @@ import '../support/commands';
 import validateVeteran from '../pages/ValidateVeteran';
 import introduction from '../pages/Introduction';
 
-describe('Pre-Check In Experience -- ', () => {
+describe('Pre-Check In Experience', () => {
   describe('Validation Page', () => {
     beforeEach(function() {
       cy.intercept(
