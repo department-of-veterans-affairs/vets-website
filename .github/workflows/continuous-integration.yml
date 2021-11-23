@@ -230,6 +230,81 @@ jobs:
           name: contract-test-log
           path: logs/pact.log
 
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get Pact Broker password
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /dsva-vagov/pact-broker/utility/PACT_BROKER_BASIC_AUTH_PASSWORD
+          env_variable_name: PACT_BROKER_BASIC_AUTH_PASSWORD
+
+      - name: Get GitHub token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Create test results folder
+        run: mkdir -p test-results
+
+      - name: Run unit tests
+        run: yarn test:unit
+        env:
+          MOCHA_FILE: ./test-results/test-results.xml
+
+      - name: Print Pact failures
+        run: cat test-results/test-results.xml
+        if: ${{ failure() }}
+
+      - name: Run Pact publish
+        run: yarn pact:publish
+        env:
+          PACT_BROKER_BASIC_AUTH_USERNAME: pact-broker
+          PACT_BROKER_BASE_URL: https://dev.va.gov/_vfs/pact-broker/
+
+      - name: Run Pact verify
+        run: |
+          curl -v -X POST \
+          -H 'Authorization: token ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' \
+          -H 'Accept: application/vnd.github.v3+json' \
+          https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/8289333/dispatches \
+          -d '{"ref": "master"}' \
+          --fail
+
+      - name: Archive contract test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: contract-test-report
+          path: mochawesome-report
+
+      - name: Archive contract test log
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: contract-test-log
+          path: logs/pact.log
+
   security-audit:
     name: Security Audit
     runs-on: ubuntu-latest
