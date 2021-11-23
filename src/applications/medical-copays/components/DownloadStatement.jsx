@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
 
 const handleDownloadClick = date => {
   return recordEvent({
@@ -14,22 +13,6 @@ const handleDownloadClick = date => {
 };
 
 const DownloadStatement = ({ statementId, statementDate, fullName }) => {
-  const [downloadLink, setDownloadLink] = useState('');
-
-  useEffect(
-    () => {
-      apiRequest(
-        `${
-          environment.API_URL
-        }/v0/medical_copays/get_pdf_statement_by_id/${statementId}`,
-      ).then(payload => {
-        const url = window.URL.createObjectURL(new Blob([payload]));
-        setDownloadLink(url);
-      });
-    },
-    [statementId],
-  );
-
   const formattedStatementDate = moment(statementDate, 'MM-DD-YYYY').format(
     'MMMM D, YYYY',
   );
@@ -40,13 +23,17 @@ const DownloadStatement = ({ statementId, statementDate, fullName }) => {
     <article className="vads-u-padding--0">
       <div className="vads-u-margin-top--2">
         <a
+          onClick={() => handleDownloadClick(statementDate)}
           target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => handleDownloadClick(formattedStatementDate)}
-          download={downloadFileName}
-          href={downloadLink}
+          downloadFileName={downloadFileName}
+          href={encodeURI(
+            `${
+              environment.API_URL
+            }/v0/medical_copays/get_pdf_statement_by_id/${statementId}`,
+          )}
           type="application/pdf"
           className="vads-u-text-decoration--none"
+          rel="noreferrer"
         >
           <i
             aria-hidden="true"
