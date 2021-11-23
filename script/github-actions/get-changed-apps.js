@@ -82,7 +82,7 @@ if (process.env.CHANGED_FILE_PATHS) {
   );
 
   const options = commandLineArgs([
-    // Use the --output-type option to specify output type.
+    // Use the --output-type option to specify one of the following outputs:
     // 'entry': The entry names of the changed apps.
     // 'folder': The relative path of the changed apps root folders.
     // 'url': The root URL of the changed apps.
