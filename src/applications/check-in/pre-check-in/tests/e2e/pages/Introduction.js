@@ -1,6 +1,6 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
-class ValidateVeteran {
+class Introduction {
   initializeApi() {
     // @TODO: fill in once we are actually using the API
   }
@@ -16,4 +16,4 @@ class ValidateVeteran {
   }
 }
 
-export default new ValidateVeteran();
+export default new Introduction();
