@@ -4,6 +4,16 @@ import { loginGov } from 'platform/user/authentication/selectors';
 
 const initialCSPState = ['ID.me', 'DS Logon', 'My HealtheVet'];
 
+const FormatCSP = ({ isBold, or, comma, last, csp }) => {
+  let punctuatedCSP = csp;
+
+  if (comma) punctuatedCSP = `${punctuatedCSP},`;
+  if (or) punctuatedCSP = `or ${punctuatedCSP}`;
+  if (!last) punctuatedCSP = `${punctuatedCSP} `;
+
+  return isBold ? <strong>{`${punctuatedCSP} `}</strong> : punctuatedCSP;
+};
+
 const ServiceProviders = React.memo(({ isBold }) => {
   const [serviceProviders, setCSPs] = useState(initialCSPState);
   const loginGovEnabled = useSelector(state => loginGov(state));
@@ -17,43 +27,23 @@ const ServiceProviders = React.memo(({ isBold }) => {
     [loginGovEnabled],
   );
 
-  const splitItem = serviceProviders.length - 1;
-  const [startingCSPs, lastCSP] = [
-    [...serviceProviders.slice(0, splitItem)],
-    [...serviceProviders.slice(splitItem, serviceProviders.length)],
-  ];
+  return serviceProviders.map((csp, i) => {
+    const totalProviders = serviceProviders.length;
+    const last = i === totalProviders - 1;
+    const comma = !last && totalProviders > 2;
+    const or = totalProviders >= 2 && last;
 
-  if (serviceProviders.length === 2) {
     return (
-      <>
-        {isBold ? <strong>{startingCSPs[0]}</strong> : <>{startingCSPs[0]}</>}{' '}
-        and {isBold ? <strong>{lastCSP[0]}</strong> : <>{lastCSP[0]}</>}
-      </>
+      <FormatCSP
+        isBold={isBold}
+        or={or}
+        comma={comma}
+        last={last}
+        key={csp}
+        csp={csp}
+      />
     );
-  }
-
-  return (
-    <>
-      {isBold
-        ? startingCSPs.map(csp => (
-            <React.Fragment key={csp}>
-              <strong>{csp}</strong>,{' '}
-            </React.Fragment>
-          ))
-        : startingCSPs.map(csp => (
-            <React.Fragment key={csp}>{csp}, </React.Fragment>
-          ))}
-      {isBold
-        ? lastCSP.map(csp => (
-            <React.Fragment key={csp}>
-              and <strong>{csp}</strong>.
-            </React.Fragment>
-          ))
-        : lastCSP.map(csp => (
-            <React.Fragment key={csp}>and {csp}.</React.Fragment>
-          ))}
-    </>
-  );
+  });
 });
 
 export default ServiceProviders;

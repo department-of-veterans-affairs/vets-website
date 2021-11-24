@@ -12,7 +12,8 @@ import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import ProfileInfoTable from '../../ProfileInfoTable';
 
 const EmailInformationSection = ({ className, signInServiceName }) => {
-  const { link, label: buttonText } = SERVICE_PROVIDERS[signInServiceName];
+  const { link, label: buttonText } =
+    SERVICE_PROVIDERS[signInServiceName] || {};
 
   return (
     <div className={className}>
