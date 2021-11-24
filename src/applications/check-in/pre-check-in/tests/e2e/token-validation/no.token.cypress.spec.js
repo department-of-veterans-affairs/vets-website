@@ -1,0 +1,19 @@
+import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
+import '../support/commands';
+
+import error from '../pages/Error';
+
+describe('Pre-Check In Experience ', () => {
+  beforeEach(function() {
+    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
+  });
+  afterEach(() => {
+    cy.window().then(window => {
+      window.sessionStorage.clear();
+    });
+  });
+  it('No Token present', () => {
+    cy.visit(`/health-care/appointment-pre-check-in`);
+    error.validatePageLoaded();
+  });
+});
