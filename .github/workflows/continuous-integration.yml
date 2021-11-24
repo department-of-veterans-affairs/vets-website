@@ -191,37 +191,11 @@ jobs:
         env:
           MOCHA_FILE: ./test-results/test-results.xml
 
-      - name: Print Pact failures
-        run: cat test-results/test-results.xml
-        if: ${{ failure() }}
-
-      - name: Run Pact publish
-        run: yarn pact:publish
-        env:
-          PACT_BROKER_BASIC_AUTH_USERNAME: pact-broker
-          PACT_BROKER_BASE_URL: https://dev.va.gov/_vfs/pact-broker/
-
-      - name: Run Pact verify
-        run: |
-          curl -v -X POST \
-          -H 'Authorization: token ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' \
-          -H 'Accept: application/vnd.github.v3+json' \
-          https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/8289333/dispatches \
-          -d '{"ref": "master"}' \
-          --fail
-
       - name: Archive unit test results
         uses: actions/upload-artifact@v2
         with:
           name: unit-test-report
           path: mochawesome-report
-
-      - name: Archive unit test log
-        uses: actions/upload-artifact@v2
-        if: ${{ failure() }}
-        with:
-          name: unit-test-log
-          path: logs/pact.log
 
   contract-tests:
     name: Contract Tests
