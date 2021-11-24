@@ -10,6 +10,7 @@ import { GA_PREFIX } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import FormButtons from '../../components/FormButtons';
 import { selectPageChangeInProgress } from '../redux/selectors';
+import NewTabAnchor from '../../components/NewTabAnchor';
 
 const pageKey = 'planAhead';
 const pageTitle = 'COVID-19 vaccine appointment';
@@ -41,7 +42,17 @@ export default function PlanAheadPage() {
       <p>
         Want to get your vaccine without an appointment?
         <br />
-        Find out how to get your vaccine at a VA walk-in clinic
+        <NewTabAnchor
+          href="/health-care/covid-19-vaccine"
+          className="vads-u-margin-top--2"
+          onClick={() => {
+            recordEvent({
+              event: `${GA_PREFIX}-COVID-19-vaccines-at-VA-link-clicked`,
+            });
+          }}
+        >
+          Find out how to get your vaccine at a VA walk-in clinic
+        </NewTabAnchor>
       </p>
       <FormButtons
         pageChangeInProgress={pageChangeInProgress}
