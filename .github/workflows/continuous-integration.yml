@@ -803,6 +803,8 @@ jobs:
       - name: Create Unit Test report and post results to BigQuery
         run: yarn unit-mochawesome-to-bigquery
         working-directory: testing-tools-team-dashboard-data
+        with:
+          ref: rjohnson2011/fe-unit
         env:
           TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
 
