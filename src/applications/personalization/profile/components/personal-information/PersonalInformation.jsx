@@ -12,7 +12,10 @@ import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 
 import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
-import { cnpDirectDepositIsBlocked } from '@@profile/selectors';
+import {
+  cnpDirectDepositIsBlocked,
+  showProfileLGBTQEnhancements,
+} from '@@profile/selectors';
 import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
@@ -32,12 +35,15 @@ const PersonalInformation = ({
   clearSuccessAlert,
   hasUnsavedEdits,
   hasVAPServiceError,
-  showDirectDepositBlockedError,
   openEditModal,
+  shouldShowProfileLGBTQEnhancements,
+  showDirectDepositBlockedError,
 }) => {
   const lastLocation = useLastLocation();
   useEffect(() => {
-    document.title = `Personal And Contact Information | Veterans Affairs`;
+    if (shouldShowProfileLGBTQEnhancements)
+      document.title = `Personal Information | Veterans Affairs`;
+    else document.title = `Personal And Contact Information | Veterans Affairs`;
 
     return () => {
       clearSuccessAlert();
@@ -107,7 +113,11 @@ const PersonalInformation = ({
         message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
         when={hasUnsavedEdits}
       />
-      <Headline>Personal and contact information</Headline>
+      {shouldShowProfileLGBTQEnhancements ? (
+        <Headline>Personal information</Headline>
+      ) : (
+        <Headline>Personal and contact information</Headline>
+      )}
       <DowntimeNotification
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}
@@ -124,12 +134,14 @@ PersonalInformation.propTypes = {
   hasUnsavedEdits: PropTypes.bool.isRequired,
   hasVAPServiceError: PropTypes.bool,
   openEditModal: PropTypes.func.isRequired,
+  shouldShowProfileLGBTQEnhancements: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   showDirectDepositBlockedError: !!cnpDirectDepositIsBlocked(state),
   hasUnsavedEdits: state.vapService.hasUnsavedEdits,
   hasVAPServiceError: hasVAPServiceConnectionError(state),
+  shouldShowProfileLGBTQEnhancements: showProfileLGBTQEnhancements(state),
 });
 
 const mapDispatchToProps = {

@@ -133,7 +133,6 @@ class SearchDropdownComponent extends React.Component {
     inputClassName: '',
     suggestionsListClassName: '',
     suggestionClassName: '',
-    fetchingSuggestions: true,
   };
 
   constructor(props) {
@@ -147,6 +146,7 @@ class SearchDropdownComponent extends React.Component {
       suggestions: [],
       a11yStatusMessage: '',
       displayA11yDescriptionFlag: undefined,
+      fetchingSuggestions: true,
     };
   }
 
