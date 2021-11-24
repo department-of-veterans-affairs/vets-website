@@ -17,7 +17,7 @@ const IdentityNotVerified = () => {
       </p>
 
       <a
-        className="vads-c-action-lin--green vads-u-font-size--base"
+        className="vads-c-action-link--green vads-u-font-size--base"
         href="/verify"
         onClick={() => recordEvent({ event: AUTH_EVENTS.VERIFY })}
       >

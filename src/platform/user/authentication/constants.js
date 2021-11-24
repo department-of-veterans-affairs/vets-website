@@ -15,5 +15,6 @@ export const SERVICE_PROVIDERS = {
     label: 'DS Logon',
     link: 'https://myaccess.dmdc.osd.mil/identitymanagement',
   },
+  mhv: { label: 'My HealtheVet', link: 'https://www.myhealth.va.gov' },
   myhealthevet: { label: 'My HealtheVet', link: 'https://www.myhealth.va.gov' },
 };
