@@ -119,12 +119,17 @@ const Introduction = props => {
       <AppointmentBlock appointments={appointments} />
       <StartButton />
       {accordionContent && accordionContent.length ? (
-        <va-accordion bordered className="vads-u-margin-top--1">
+        <va-accordion
+          bordered
+          className="vads-u-margin-top--1"
+          data-testid="intro-accordion-group"
+        >
           {accordionContent.map((accordionItem, index) => (
             <va-accordion-item
               level="2"
               header={accordionItem.header}
               key={index}
+              data-testid="intro-accordion-item"
             >
               {accordionItem.body}
             </va-accordion-item>
@@ -151,7 +156,9 @@ const Introduction = props => {
       </va-featured-content>
       <div>
         Expiration date:{' '}
-        {format(add(appointmentsDateTime, { days: 1 }), 'M/dd/Y')}
+        <span data-testid="expiration-date">
+          {format(add(appointmentsDateTime, { days: -1 }), 'M/dd/Y')}
+        </span>
         <br />
         <a
           href="#"
