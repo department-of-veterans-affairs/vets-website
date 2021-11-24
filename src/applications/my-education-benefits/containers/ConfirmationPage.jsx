@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+// import scrollToTop from 'platform/utilities/ui/scrollToTop';
+// import { focusElement } from 'platform/utilities/ui';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import FormFooter from '../components/FormFooter';
+import { fetchClaimStatus } from '../actions';
 
 const approvedPage = (
   <div className="meb-confirmation-page meb-confirmation-page_approved">
@@ -259,78 +260,92 @@ const loadingPage = (
   </div>
 );
 
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    focusElement('.schemaform-title > h1');
-    scrollToTop('topScrollElement');
-  }
-
-  render() {
-    const { submission, data } = this.props.form;
-    const { response } = submission;
-    const name = data.veteranFullName;
-
-    const confirmationResult = 'pending';
-
-    switch (confirmationResult) {
-      case 'approved': {
-        return approvedPage;
+export const ConfirmationPage = ({ form, claimStatus, getClaimStatus }) => {
+  useEffect(
+    () => {
+      if (!claimStatus) {
+        getClaimStatus();
       }
-      case 'denied': {
-        return deniedPage;
-      }
-      case 'pending': {
-        return pendingPage;
-      }
-      case 'loading': {
-        return loadingPage;
-      }
-      default: {
-        return (
-          <div>
-            <h3 className="confirmation-page-title">Claim received</h3>
-            <p>
-              We usually process claims within <strong>a week</strong>.
-            </p>
-            <p>
-              We may contact you for more information or documents.
-              <br />
-              <i>Please print this page for your records.</i>
-            </p>
-            <div className="inset">
-              <h4>
-                My Education Benefits Claim{' '}
-                <span className="additional">(Form 22-1990)</span>
-              </h4>
-              {name ? (
-                <span>
-                  for {name.first} {name.middle} {name.last} {name.suffix}
-                </span>
-              ) : null}
+    },
+    [getClaimStatus, claimStatus],
+  );
 
-              {response ? (
-                <ul className="claim-list">
-                  <li>
-                    <strong>Date received</strong>
-                    <br />
-                    <span>
-                      {moment(response.timestamp).format('MMM D, YYYY')}
-                    </span>
-                  </li>
-                </ul>
-              ) : null}
-            </div>
+  // componentDidMount(() => {
+  //   focusElement('.schemaform-title > h1');
+  //   scrollToTop('topScrollElement');
+  // });
+
+  const { submission, data } = form;
+  const { response } = submission;
+  const name = data.veteranFullName;
+
+  const confirmationResult = claimStatus || 'pending';
+
+  switch (confirmationResult) {
+    case 'approved': {
+      return approvedPage;
+    }
+    case 'denied': {
+      return deniedPage;
+    }
+    case 'pending': {
+      return pendingPage;
+    }
+    case 'loading': {
+      return loadingPage;
+    }
+    default: {
+      return (
+        <div>
+          <h3 className="confirmation-page-title">Claim received</h3>
+          <p>
+            We usually process claims within <strong>a week</strong>.
+          </p>
+          <p>
+            We may contact you for more information or documents.
+            <br />
+            <i>Please print this page for your records.</i>
+          </p>
+          <div className="inset">
+            <h4>
+              My Education Benefits Claim{' '}
+              <span className="additional">(Form 22-1990)</span>
+            </h4>
+            {name ? (
+              <span>
+                for {name.first} {name.middle} {name.last} {name.suffix}
+              </span>
+            ) : null}
+
+            {response ? (
+              <ul className="claim-list">
+                <li>
+                  <strong>Date received</strong>
+                  <br />
+                  <span>
+                    {moment(response.timestamp).format('MMM D, YYYY')}
+                  </span>
+                </li>
+              </ul>
+            ) : null}
           </div>
-        );
-      }
+        </div>
+      );
     }
   }
-}
+};
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
+const mapStateToProps = state => {
+  const form = state.form || {};
+  const claimStatus = state.data?.claimStatus;
+  return { form, claimStatus };
+};
 
-export default connect(mapStateToProps)(ConfirmationPage);
+const mapDispatchToProps = {
+  getClaimStatus: fetchClaimStatus,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ConfirmationPage);
