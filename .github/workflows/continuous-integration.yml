@@ -734,7 +734,7 @@ jobs:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
-          ref: rjohnson2011/fe-unit
+          ref: fe-unit
 
       - name: Get Node version
         id: get-node-version
