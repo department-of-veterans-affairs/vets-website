@@ -35,7 +35,21 @@ const useFormRouting = (router = {}) => {
     },
     [pages, dispatchGoToNextPage, router, currentPage],
   );
-  return { goToPreviousPage, goToNextPage, currentPage, pages };
+  const goToErrorPage = useCallback(
+    () => {
+      dispatchGoToNextPage(URLS.ERROR);
+      router.push(URLS.ERROR);
+    },
+    [dispatchGoToNextPage, router],
+  );
+
+  return {
+    currentPage,
+    goToErrorPage,
+    goToPreviousPage,
+    goToNextPage,
+    pages,
+  };
 };
 
 export { useFormRouting };

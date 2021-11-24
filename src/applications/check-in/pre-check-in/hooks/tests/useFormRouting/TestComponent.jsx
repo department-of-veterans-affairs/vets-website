@@ -2,9 +2,13 @@ import React from 'react';
 import { useFormRouting } from '../../useFormRouting';
 
 export default function TestComponent({ router }) {
-  const { currentPage, goToPreviousPage, pages, goToNextPage } = useFormRouting(
-    router,
-  );
+  const {
+    currentPage,
+    goToPreviousPage,
+    pages,
+    goToNextPage,
+    goToErrorPage,
+  } = useFormRouting(router);
   return (
     <div>
       <h1>Test component for the useFormRouting hook</h1>
@@ -15,6 +19,9 @@ export default function TestComponent({ router }) {
       </button>
       <button onClick={goToNextPage} data-testid="next-button">
         Next
+      </button>
+      <button onClick={goToErrorPage} data-testid="error-button">
+        Error
       </button>
     </div>
   );

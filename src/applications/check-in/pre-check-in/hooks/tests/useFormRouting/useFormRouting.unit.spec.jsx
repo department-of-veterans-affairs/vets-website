@@ -190,5 +190,41 @@ describe('check-in', () => {
         expect(routingAction.payload.nextPage).to.equal(URLS.ERROR);
       });
     });
+    describe('goToErrorPage', () => {
+      let store;
+      beforeEach(() => {
+        const middleware = [];
+        const mockStore = configureStore(middleware);
+        const initState = {
+          preCheckInData: {
+            form: {
+              pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+              currentPage: 'first-page',
+            },
+          },
+        };
+        store = mockStore(initState);
+      });
+      it('should go to the error page - should redirect to error', () => {
+        const push = sinon.spy();
+        const component = render(
+          <Provider store={store}>
+            <TestComponent
+              router={{
+                push,
+              }}
+            />
+          </Provider>,
+        );
+
+        const button = component.getByTestId('error-button');
+        fireEvent.click(button);
+        expect(push.calledWith(URLS.ERROR)).to.be.true;
+        const routingAction = store
+          .getActions()
+          .find(action => action.type === GO_TO_NEXT_PAGE);
+        expect(routingAction.payload.nextPage).to.equal(URLS.ERROR);
+      });
+    });
   });
 });
