@@ -207,7 +207,8 @@ export default {
   ccPreferences: {
     url: '/new-appointment/community-care-preferences',
     next(state) {
-      if (selectHasVAPResidentialAddress(state)) {
+      const featureCCIteration = selectFeatureCCIterations(state);
+      if (featureCCIteration || selectHasVAPResidentialAddress(state)) {
         return 'ccLanguage';
       }
 
@@ -242,6 +243,7 @@ export default {
       }
 
       // fetch appointment slots
+      dispatch(startDirectScheduleFlow());
       return 'preferredDate';
     },
   },

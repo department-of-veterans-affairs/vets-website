@@ -676,4 +676,53 @@ describe('Schemaform: ObjectField', () => {
     expect(fieldsets.length).to.equal(0);
     expect(legends.length).to.equal(0);
   });
+
+  it('should not wrap legend tags in divs', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      type: 'object',
+      properties: {
+        prop1: {
+          type: 'boolean',
+        },
+        prop2: {
+          type: 'boolean',
+        },
+        prop3: {
+          type: 'boolean',
+        },
+        prop4: {
+          type: 'boolean',
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': () => <p>Test Title</p>,
+      'ui:options': {
+        forceDivWrapper: true,
+      },
+      prop1: { 'ui:title': 'title1' },
+      prop2: { 'ui:title': 'title2' },
+      prop3: { 'ui:title': 'title3' },
+      prop4: { 'ui:title': 'title4' },
+    };
+
+    const form = ReactTestUtils.renderIntoDocument(
+      <div>
+        <ObjectField
+          uiSchema={uiSchema}
+          schema={schema}
+          idSchema={{}}
+          formData={{}}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+      </div>,
+    );
+    const formDOM = getFormDOM(form);
+    // There are no `div`s between fieldset and legend
+    const divBetween = formDOM.querySelectorAll('fieldset div legend');
+    expect(divBetween.length).to.equal(0);
+  });
 });
