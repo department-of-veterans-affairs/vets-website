@@ -306,7 +306,6 @@ module.exports = async (env = {}) => {
             {
               loader: 'css-loader',
               options: {
-                url: false,
                 sourceMap: enableCSSSourcemaps,
               },
             },

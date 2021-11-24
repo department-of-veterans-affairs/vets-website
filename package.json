@@ -148,7 +148,7 @@
     "comment-parser": "^1.2.4",
     "copy-webpack-plugin": "^9.1.0",
     "cors": "^2.8.5",
-    "css-loader": "^6.5.1",
+    "css-loader": "3.6.0",
     "cssnano": "^5.0.8",
     "cy-mobile-commands": "^0.3.0",
     "cy-tr-reporter": "^1.2.5",
