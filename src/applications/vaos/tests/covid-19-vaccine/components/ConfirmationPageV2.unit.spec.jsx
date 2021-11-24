@@ -73,7 +73,7 @@ describe('VAOS vaccine flow <ConfirmationPageV2>', () => {
 
     expect(
       await screen.findByText(
-        /We've scheduled and confirmed your appointment./i,
+        /We’ve scheduled and confirmed your appointment./i,
       ),
     ).to.be.ok;
     expect(
@@ -98,7 +98,7 @@ describe('VAOS vaccine flow <ConfirmationPageV2>', () => {
     const screen = renderWithStoreAndRouter(<ConfirmationPageV2 />, { store });
     expect(
       await screen.findByText(
-        /We've scheduled and confirmed your appointment./i,
+        /We’ve scheduled and confirmed your appointment./i,
       ),
     ).to.be.ok;
     userEvent.click(screen.getByText(/Review your appointments/i));

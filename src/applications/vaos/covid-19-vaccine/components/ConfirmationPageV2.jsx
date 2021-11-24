@@ -50,7 +50,7 @@ function ConfirmationPageV2({
         {` ${getTimezoneAbbrByFacilityId(data.vaFacility)}`}
       </h1>
       <InfoAlert status="success" backgroundOnly>
-        <strong>We've scheduled and confirmed your appointment.</strong>
+        <strong>We’ve scheduled and confirmed your appointment.</strong>
         <br />
         <div className="vads-u-margin-y--1">
           <Link

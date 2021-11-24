@@ -138,7 +138,7 @@ export function reviewTest() {
 }
 
 export function confirmationPageV2Test(fullReason) {
-  cy.findByText("We've scheduled and confirmed your appointment.");
+  cy.findByText('We’ve scheduled and confirmed your appointment.');
   cy.findByText('VA Appointment');
   cy.findByText('Your reason for your visit');
   cy.findByText(fullReason);
