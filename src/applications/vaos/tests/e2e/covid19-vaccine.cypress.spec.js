@@ -49,7 +49,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     // Choose Clinic
     cy.url().should('include', '/choose-clinic');
     cy.axeCheckBestPractice();
-    cy.findByText(/Choose a clinic for your vaccination/);
+    cy.findByText(/Choose where you’d like to get your vaccine/);
     cy.get('#root_clinicId_0')
       .focus()
       .click();
