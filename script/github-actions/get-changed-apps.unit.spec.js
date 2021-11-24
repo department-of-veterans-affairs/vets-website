@@ -111,5 +111,14 @@ describe('getChangedAppsString', () => {
     expect(appString).to.equal('app1');
   });
 
+  it('should throw an error when an unknown output type is specified', () => {
+    const config = { allow: ['app1', 'app2'] };
+    const changedFiles = ['src/applications/app1', 'src/applications/app2'];
+
+    expect(() => {
+      getChangedAppsString(changedFiles, config, 'unknown');
+    }).to.throw('Invalid output type specified.');
+  });
+
   after(() => mockFs.restore());
 });

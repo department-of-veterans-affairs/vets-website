@@ -39,26 +39,29 @@ const getAllowedApp = (file, allowList, outputType = 'entry') => {
   const entryName = manifest?.entryName;
 
   if (allowList.includes(entryName)) {
-    // Return the app path, entry name, or root URL depending on the output type
-    if (outputType === 'folder') {
+    // Return the entry name, folder path, or root URL depending on the output type
+    if (outputType === 'entry') {
+      return entryName;
+    } else if (outputType === 'folder') {
       const appFolderName = file.split('/')[2];
       return `src/applications/${appFolderName}`;
-    } else if (outputType === 'url') return manifest?.rootUrl;
-    return entryName;
+    } else if (outputType === 'url') {
+      return manifest?.rootUrl;
+    } else throw new Error('Invalid output type specified.');
   }
 
   return null;
 };
 
 /**
- * Checks if an only changed apps build is possible by confirming that all
- * files are from apps on an allow list. If so, returns a comma-delimited
- * list of app entry names or relative paths. If not, returns an empty string.
+ * Checks if a changed apps build is possible by confirming that all
+ * files are from apps on an allow list. If so, returns a comma-delimited list
+ * of app entry names, relative paths, or URLs. If not, returns an empty string.
  *
  * @param {string[]} files - An array of relative file paths.
  * @param {Object} config - The changed apps build config.
- * @param {string} outputType - Determines whether app paths or entries should be returned.
- * @returns {string} A comma-delimited string of either app entry names or relative paths.
+ * @param {string} outputType - Determines what app information should be returned.
+ * @returns {string} A comma-delimited string of app entry names, relative paths or URLs.
  */
 const getChangedAppsString = (files, config, outputType = 'entry') => {
   const allowedApps = [];
