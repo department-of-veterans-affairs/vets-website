@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import BackToHome from '../../components/BackToHome';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import PropTypes from 'prop-types';
@@ -6,8 +7,10 @@ import Footer from '../../components/Footer';
 import BackButton from '../../components/BackButton';
 import DemographicsDisplay from '../../../components/pages/DemographicsDisplay';
 import recordEvent from 'platform/monitoring/record-event';
+import { recordAnswer } from '../../actions';
 
 const Demographics = props => {
+  const dispatch = useDispatch();
   const { router } = props;
   const { goToNextPage, goToPreviousPage, currentPage } = useFormRouting(
     router,
@@ -18,9 +21,10 @@ const Demographics = props => {
         event: 'cta-button-click',
         'button-click-label': 'yes-to-demographic-information',
       });
+      dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
       goToNextPage();
     },
-    [goToNextPage],
+    [goToNextPage, dispatch],
   );
   const noClick = useCallback(
     () => {
@@ -28,9 +32,10 @@ const Demographics = props => {
         event: 'cta-button-click',
         'button-click-label': 'np-to-demographic-information',
       });
+      dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
       goToNextPage();
     },
-    [goToNextPage],
+    [goToNextPage, dispatch],
   );
   const subtitle =
     'If you need to make changes, please talk to a staff member when you check in.';

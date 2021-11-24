@@ -2,7 +2,11 @@ import { expect } from 'chai';
 
 import reducer from './index';
 
-import { createInitFormAction, createGoToNextPageAction } from '../actions';
+import {
+  createInitFormAction,
+  createGoToNextPageAction,
+  recordAnswer,
+} from '../actions';
 
 // test init stat
 
@@ -75,6 +79,24 @@ describe('check-in', () => {
         });
         state = reducer.preCheckInData(undefined, action);
         expect(state.form.currentPage).to.equal('second-page');
+      });
+    });
+    describe('recordAnswer', () => {
+      let state = {};
+      beforeEach(() => {
+        const action = createInitFormAction({
+          pages: ['first-page', 'second-page', 'third-page'],
+          currentPage: 'first-page',
+        });
+        state = reducer.preCheckInData(undefined, action);
+      });
+      it('should record answer data', () => {
+        const demoAction = recordAnswer({ demographicsUpToDate: 'yes' });
+        state = reducer.preCheckInData(undefined, demoAction);
+        const nokAction = recordAnswer({ NextOfKinUpToDate: 'no' });
+        state = reducer.preCheckInData(state, nokAction);
+        expect(state.form.data.demographicsUpToDate).to.equal('yes');
+        expect(state.form.data.NextOfKinUpToDate).to.equal('no');
       });
     });
   });
