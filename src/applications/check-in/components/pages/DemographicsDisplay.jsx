@@ -22,7 +22,7 @@ export default function DemographicsDisplay({
       <h1>{header}</h1>
       <p className="vads-u-font-family--serif">{subtitle}</p>
       <div className="vads-u-border-color--primary vads-u-border-left--5px vads-u-margin-left--0p5 vads-u-padding-left--2">
-        <dl>
+        <dl data-testid="demographics-fields">
           {demographicFields.map(demographicField => (
             <React.Fragment key={demographicField.key}>
               <dt className="vads-u-font-size--h3 vads-u-font-family--serif">
