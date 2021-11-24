@@ -98,6 +98,14 @@ describe('check-in', () => {
         expect(state.form.data.demographicsUpToDate).to.equal('yes');
         expect(state.form.data.NextOfKinUpToDate).to.equal('no');
       });
+      it('should update old answers', () => {
+        const yesAction = recordAnswer({ demographicsUpToDate: 'yes' });
+        state = reducer.preCheckInData(undefined, yesAction);
+        expect(state.form.data.demographicsUpToDate).to.equal('yes');
+        const noAction = recordAnswer({ demographicsUpToDate: 'no' });
+        state = reducer.preCheckInData(state, noAction);
+        expect(state.form.data.demographicsUpToDate).to.equal('no');
+      });
     });
   });
 });
