@@ -10,7 +10,7 @@ const changedAppsConfig = require('../../config/single-app-build.json');
  * Gets the manifest object of the app that a file belongs to.
  *
  * @param {string} filePath - Relative file path.
- * @returns {string} The entry name of an app.
+ * @returns {Object} Application manifest.
  */
 const getManifest = filePath => {
   const root = path.join(__dirname, '../..');
@@ -23,14 +23,13 @@ const getManifest = filePath => {
 };
 
 /**
- * Gets either the entry name or relative path of the app
- * that a file belongs to. The app must be in the given allow list,
- * otherwise returns null.
+ * Gets the entry name, relative path, or URL of the app that a file belongs to.
+ * The app must be in the given allow list, otherwise returns null.
  *
  * @param {string} file - Relative file path.
  * @param {string[]} allowList - A list of application entry names.
- * @param {string} outputType - Determines whether the app's path or entry name should be returned.
- * @returns {string|null} Either the entry name or relative path app of an app. Otherwise null.
+ * @param {string} outputType - Determines what app information should be returned.
+ * @returns {string|null} The app information specified in the output type. Otherwise null.
  */
 const getAllowedApp = (file, allowList, outputType = 'entry') => {
   if (!file.startsWith('src/applications')) return null;
