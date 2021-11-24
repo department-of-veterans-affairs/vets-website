@@ -2,10 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 import { useDispatch } from 'react-redux';
 
-import { createForm, getTokenFromLocation } from '../../utils/navigation';
-import { createInitFormAction } from '../../actions';
+import { createForm, getTokenFromLocation, URLS } from '../../utils/navigation';
+import { createInitFormAction, createSetSession } from '../../actions';
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { isUUID } from '../../../utils/token-format-validator';
+import { isUUID, SCOPES } from '../../../utils/token-format-validator';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { useFormRouting } from '../../hooks/useFormRouting';
@@ -23,8 +23,16 @@ export default function Index(props) {
     },
     [dispatch],
   );
+
+  const setSession = useCallback(
+    (token, permissions) => {
+      dispatch(createSetSession({ token, permissions }));
+    },
+    [dispatch],
+  );
+
   const { router } = props;
-  const { goToErrorPage } = useFormRouting(router);
+  const { goToErrorPage, jumpToPage } = useFormRouting(router);
   const { clearCurrentSession, setCurrentToken } = useSessionStorage();
   useEffect(
     () => {
@@ -53,11 +61,17 @@ export default function Index(props) {
               goToErrorPage();
             } else {
               setCurrentToken(window, token);
-              // TODO: dispath to redux
               const pages = createForm({ hasConfirmedDemographics: false });
               const firstPage = pages[0];
               initForm(pages, firstPage);
-              // router.push(firstPage);
+              setSession(token, session.permissions);
+              if (session.permissions === SCOPES.READ_FULL) {
+                // redirect if already full access
+                jumpToPage(URLS.INTRODUCTION);
+              } else {
+                // TODO: dispatch to redux
+                jumpToPage(URLS.VERIFY);
+              }
             }
           })
           .catch(() => {
@@ -66,7 +80,15 @@ export default function Index(props) {
           });
       }
     },
-    [initForm, router, goToErrorPage, clearCurrentSession, setCurrentToken],
+    [
+      initForm,
+      router,
+      goToErrorPage,
+      clearCurrentSession,
+      setCurrentToken,
+      setSession,
+      jumpToPage,
+    ],
   );
   return (
     <>
