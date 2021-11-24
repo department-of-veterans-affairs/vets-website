@@ -5,6 +5,8 @@ import {
   createInitFormAction,
   GO_TO_NEXT_PAGE,
   createGoToNextPageAction,
+  SET_SESSION,
+  createSetSession,
 } from './index';
 
 describe('pre-check-in', () => {
@@ -27,6 +29,7 @@ describe('pre-check-in', () => {
         expect(action.payload.currentPage).to.equal('first-page');
       });
     });
+
     describe('createGoToNextPageAction', () => {
       it('should return correct action', () => {
         const action = createGoToNextPageAction({});
@@ -37,6 +40,20 @@ describe('pre-check-in', () => {
           nextPage: 'next-page',
         });
         expect(action.payload.nextPage).equal('next-page');
+      });
+    });
+    describe('createSetSession', () => {
+      it('should return correct action', () => {
+        const action = createSetSession({});
+        expect(action.type).to.equal(SET_SESSION);
+      });
+      it('should return correct structure', () => {
+        const action = createSetSession({
+          token: 'some-token',
+          permissions: 'some-permission',
+        });
+        expect(action.payload.token).to.equal('some-token');
+        expect(action.payload.permissions).to.equal('some-permission');
       });
     });
   });

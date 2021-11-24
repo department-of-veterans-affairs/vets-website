@@ -2,7 +2,11 @@ import { expect } from 'chai';
 
 import reducer from './index';
 
-import { createInitFormAction, createGoToNextPageAction } from '../actions';
+import {
+  createInitFormAction,
+  createGoToNextPageAction,
+  createSetSession,
+} from '../actions';
 
 // test init stat
 
@@ -75,6 +79,27 @@ describe('check-in', () => {
         });
         state = reducer.preCheckInData(undefined, action);
         expect(state.form.currentPage).to.equal('second-page');
+      });
+    });
+    describe('createSetSession', () => {
+      it('should return form structure', () => {
+        const action = createSetSession({
+          token: 'some-token',
+          permissions: 'some-permission',
+        });
+        const state = reducer.preCheckInData(undefined, action);
+        expect(state.context).haveOwnProperty('token');
+        expect(state.context).haveOwnProperty('permissions');
+      });
+
+      it('should set session context data', () => {
+        const action = createSetSession({
+          token: 'some-token',
+          permissions: 'some-permission',
+        });
+        const state = reducer.preCheckInData(undefined, action);
+        expect(state.context.token).to.equal('some-token');
+        expect(state.context.permissions).to.equal('some-permission');
       });
     });
   });

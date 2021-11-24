@@ -11,7 +11,7 @@ const initialState = {
   },
 };
 
-import { INIT_FORM, GO_TO_NEXT_PAGE } from '../actions';
+import { INIT_FORM, GO_TO_NEXT_PAGE, SET_SESSION } from '../actions';
 
 const preCheckInReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -22,6 +22,15 @@ const preCheckInReducer = (state = initialState, action) => {
           ...state.form,
           pages: action.payload.pages,
           currentPage: action.payload.currentPage,
+        },
+      };
+    case SET_SESSION:
+      return {
+        ...state,
+        context: {
+          ...state.context,
+          token: action.payload.token,
+          permissions: action.payload.permissions,
         },
       };
     case GO_TO_NEXT_PAGE:
