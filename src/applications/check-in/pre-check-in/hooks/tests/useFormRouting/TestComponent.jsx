@@ -8,6 +8,7 @@ export default function TestComponent({ router }) {
     pages,
     goToNextPage,
     goToErrorPage,
+    jumpToPage,
   } = useFormRouting(router);
   return (
     <div>
@@ -22,6 +23,12 @@ export default function TestComponent({ router }) {
       </button>
       <button onClick={goToErrorPage} data-testid="error-button">
         Error
+      </button>
+      <button
+        onClick={() => jumpToPage('introduction')}
+        data-testid="jump-button"
+      >
+        Jump
       </button>
     </div>
   );

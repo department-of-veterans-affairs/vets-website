@@ -17,6 +17,27 @@ const useFormRouting = (router = {}) => {
     [dispatch],
   );
 
+  const goToErrorPage = useCallback(
+    () => {
+      dispatchGoToNextPage(URLS.ERROR);
+      router.push(URLS.ERROR);
+    },
+    [dispatchGoToNextPage, router],
+  );
+
+  const jumpToPage = useCallback(
+    page => {
+      if (Object.values(URLS).includes(page)) {
+        const nextPage = page;
+        dispatchGoToNextPage(nextPage);
+        router.push(nextPage);
+      } else {
+        goToErrorPage();
+      }
+    },
+    [dispatchGoToNextPage, goToErrorPage, router],
+  );
+
   const goToNextPage = useCallback(
     () => {
       const currentPageIndex = pages.findIndex(page => page === currentPage);
@@ -35,17 +56,11 @@ const useFormRouting = (router = {}) => {
     },
     [pages, dispatchGoToNextPage, router, currentPage],
   );
-  const goToErrorPage = useCallback(
-    () => {
-      dispatchGoToNextPage(URLS.ERROR);
-      router.push(URLS.ERROR);
-    },
-    [dispatchGoToNextPage, router],
-  );
 
   return {
     currentPage,
     goToErrorPage,
+    jumpToPage,
     goToPreviousPage,
     goToNextPage,
     pages,
