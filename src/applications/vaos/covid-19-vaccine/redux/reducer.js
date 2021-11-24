@@ -369,7 +369,7 @@ export default function covid19VaccineReducer(state = initialState, action) {
         properties: {
           clinicId: {
             type: 'string',
-            title: 'Choose a clinic for your vaccination',
+            title: 'Choose where you’d like to get your vaccine.',
             enum: clinics.map(clinic => clinic.id),
             enumNames: clinics.map(clinic => clinic.serviceName),
           },
