@@ -34,10 +34,10 @@ describe('Pre-Check In Experience ', () => {
     // page: Demographics
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Demographics');
+      .and('have.text', 'Is this your current contact information?');
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('#react-root > :nth-child(3)').click();
+    cy.get('button[data-testid="yes-button"]').click();
 
     // page: Next of Kin
     cy.get('h1', { timeout: Timeouts.slow })

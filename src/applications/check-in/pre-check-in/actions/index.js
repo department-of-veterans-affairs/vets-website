@@ -18,3 +18,12 @@ export const createGoToNextPageAction = ({ nextPage }) => {
     payload: { nextPage },
   };
 };
+
+export const RECORD_ANSWER = 'RECORD_ANSWER';
+
+export const recordAnswer = answer => {
+  return {
+    type: RECORD_ANSWER,
+    payload: answer,
+  };
+};
