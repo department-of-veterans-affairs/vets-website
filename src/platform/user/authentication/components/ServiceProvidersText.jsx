@@ -4,16 +4,6 @@ import { loginGov } from 'platform/user/authentication/selectors';
 
 const initialCSPState = ['ID.me', 'DS Logon', 'My HealtheVet'];
 
-const FormatCSP = ({ isBold, or, comma, last, csp }) => {
-  let punctuatedCSP = csp;
-
-  if (comma) punctuatedCSP = `${punctuatedCSP},`;
-  if (or) punctuatedCSP = `or ${punctuatedCSP}`;
-  if (!last) punctuatedCSP = `${punctuatedCSP} `;
-
-  return isBold ? <strong>{`${punctuatedCSP} `}</strong> : punctuatedCSP;
-};
-
 const ServiceProviders = React.memo(({ isBold }) => {
   const [serviceProviders, setCSPs] = useState(initialCSPState);
   const loginGovEnabled = useSelector(state => loginGov(state));
@@ -32,16 +22,15 @@ const ServiceProviders = React.memo(({ isBold }) => {
     const last = i === totalProviders - 1;
     const comma = !last && totalProviders > 2;
     const or = totalProviders >= 2 && last;
+    const renderCSP = isBold ? <strong>{csp}</strong> : csp;
 
     return (
-      <FormatCSP
-        isBold={isBold}
-        or={or}
-        comma={comma}
-        last={last}
-        key={csp}
-        csp={csp}
-      />
+      <>
+        {or && 'or '}
+        {renderCSP}
+        {comma && ','}
+        {!last && ' '}
+      </>
     );
   });
 });
