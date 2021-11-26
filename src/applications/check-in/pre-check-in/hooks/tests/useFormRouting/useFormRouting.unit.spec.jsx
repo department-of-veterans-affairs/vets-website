@@ -241,7 +241,7 @@ describe('check-in', () => {
         };
         store = mockStore(initState);
       });
-      it('should render and set current page to jumped value', () => {
+      it('set current page to jumped value', () => {
         const push = sinon.spy();
         const component = render(
           <Provider store={store}>
@@ -255,7 +255,32 @@ describe('check-in', () => {
 
         const button = component.getByTestId('jump-button');
         fireEvent.click(button);
-        expect(push.calledWith(URLS.INTRODUCTION)).to.be.true;
+        expect(push.calledWith({ pathname: URLS.INTRODUCTION })).to.be.true;
+        const routingAction = store
+          .getActions()
+          .find(action => action.type === GO_TO_NEXT_PAGE);
+        expect(routingAction.payload.nextPage).to.equal(URLS.INTRODUCTION);
+      });
+      it('accept urls params', () => {
+        const push = sinon.spy();
+        const component = render(
+          <Provider store={store}>
+            <TestComponent
+              router={{
+                push,
+              }}
+            />
+          </Provider>,
+        );
+
+        const button = component.getByTestId('jump-with-params-button');
+        fireEvent.click(button);
+        expect(
+          push.calledWith({
+            pathname: URLS.INTRODUCTION,
+            search: '?id=1234&query=some-query',
+          }),
+        ).to.be.true;
         const routingAction = store
           .getActions()
           .find(action => action.type === GO_TO_NEXT_PAGE);

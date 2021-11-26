@@ -26,11 +26,28 @@ const useFormRouting = (router = {}) => {
   );
 
   const jumpToPage = useCallback(
-    page => {
+    (page, options = {}) => {
       if (Object.values(URLS).includes(page)) {
         const nextPage = page;
         dispatchGoToNextPage(nextPage);
-        router.push(nextPage);
+        // check for params
+        const query = {
+          pathname: nextPage,
+        };
+        const { params } = options;
+        if (params) {
+          // get all url keys
+          const keys = Object.keys(params.url);
+          const queryParams = keys
+            .map(key => `${key}=${params.url[key]}`)
+            .join('&');
+
+          // append to string
+          const search = queryParams ? `?${queryParams}` : '';
+          // add to query
+          query.search = search;
+        }
+        router.push(query);
       } else {
         goToErrorPage();
       }

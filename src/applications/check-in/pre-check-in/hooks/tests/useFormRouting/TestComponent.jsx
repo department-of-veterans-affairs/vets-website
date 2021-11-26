@@ -30,6 +30,16 @@ export default function TestComponent({ router }) {
       >
         Jump
       </button>
+      <button
+        onClick={() =>
+          jumpToPage('introduction', {
+            params: { url: { id: '1234', query: 'some-query' } },
+          })
+        }
+        data-testid="jump-with-params-button"
+      >
+        Jump with params
+      </button>
     </div>
   );
 }
