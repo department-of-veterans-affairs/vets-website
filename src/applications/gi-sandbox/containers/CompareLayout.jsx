@@ -17,6 +17,8 @@ import { showModal } from '../actions';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import { religiousAffiliations } from '../utils/data/religiousAffiliations';
 import recordEvent from 'platform/monitoring/record-event';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import Summary from '../components/content/additonal-info/Summary';
 
 const CompareLayout = ({
   calculated,
@@ -212,6 +214,9 @@ const CompareLayout = ({
           },
         ]}
       />
+      <AdditionalInfo triggerText="Additional information form comparison summary ">
+        <Summary />
+      </AdditionalInfo>
 
       <CompareGrid
         sectionLabel="Your estimated benefits"
