@@ -13,11 +13,11 @@ export default (store, widgetType) => {
       // Derive the props to pass to the widget.
       const pastEvents = window?.pastEvents?.entities || [];
       const allEventTeasers = window?.allEventTeasers?.entities || [];
-      const events = [...pastEvents, ...allEventTeasers];
+      const rawEvents = [...pastEvents, ...allEventTeasers];
 
       ReactDOM.render(
         <Provider store={store}>
-          <App events={events} />
+          <App rawEvents={rawEvents} />
         </Provider>,
         root,
       );
