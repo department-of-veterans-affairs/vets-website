@@ -297,7 +297,7 @@ export function ResultCard({
               />
             </div>
           )}
-          {!expanded && (
+          {expanded && (
             <>
               <div
                 className={classNames(
