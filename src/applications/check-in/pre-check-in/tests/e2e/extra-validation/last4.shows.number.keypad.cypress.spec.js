@@ -2,6 +2,7 @@ import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/featur
 import '../support/commands';
 
 import validateVeteran from '../pages/ValidateVeteran';
+import apiInitializer from '../support/ApiInitializer';
 
 describe('Pre-Check In Experience', () => {
   describe('Validate Page', () => {
@@ -13,6 +14,8 @@ describe('Pre-Check In Experience', () => {
           checkInExperienceUpdateInformationPageEnabled: true,
         }),
       );
+      apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+
       validateVeteran.initializeSessionPost.withSuccess();
     });
     afterEach(() => {

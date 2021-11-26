@@ -5,9 +5,13 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import validateVeteran from '../pages/ValidateVeteran';
 import introduction from '../pages/Introduction';
 
+import apiInitializer from '../support/ApiInitializer';
+
 describe('Pre-Check In Experience ', () => {
   beforeEach(function() {
     cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
+    apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+
     validateVeteran.initializeSessionPost.withSuccess();
   });
   afterEach(() => {

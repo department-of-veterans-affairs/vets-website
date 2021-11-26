@@ -4,6 +4,7 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import '../support/commands';
 
 import validateVeteran from '../pages/ValidateVeteran';
+import apiInitializer from '../support/ApiInitializer';
 
 describe.skip('Pre-Check In Experience -- Skipped', () => {
   // @TODO: un-skip when the error page is created.
@@ -14,6 +15,8 @@ describe.skip('Pre-Check In Experience -- Skipped', () => {
           mockSession.createMockSuccessResponse('some-token', 'read.basic'),
         );
       });
+      apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+
       validateVeteran.initializeSessionPost.withFailure();
       cy.intercept(
         'GET',

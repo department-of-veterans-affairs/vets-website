@@ -3,10 +3,14 @@ import '../support/commands';
 
 import validateVeteran from '../pages/ValidateVeteran';
 
+import apiInitializer from '../support/ApiInitializer';
+
 describe('Pre-Check In Experience', () => {
   describe('validation page', () => {
     beforeEach(function() {
       cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
+      apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+
       validateVeteran.initializeSessionPost.withSuccess();
     });
     afterEach(() => {

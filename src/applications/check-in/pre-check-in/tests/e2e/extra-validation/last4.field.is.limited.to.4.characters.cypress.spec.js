@@ -3,6 +3,8 @@ import '../support/commands';
 
 import validateVeteran from '../pages/ValidateVeteran';
 
+import apiInitializer from '../support/ApiInitializer';
+
 describe('Pre-Check In Experience', () => {
   describe('Validate Page', () => {
     beforeEach(function() {
@@ -13,6 +15,8 @@ describe('Pre-Check In Experience', () => {
           checkInExperienceUpdateInformationPageEnabled: true,
         }),
       );
+      apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+
       validateVeteran.initializeSessionPost.withSuccess();
     });
     afterEach(() => {
