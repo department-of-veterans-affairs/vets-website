@@ -1,6 +1,10 @@
 import { expect } from 'chai';
 
-import { makeSelectFeatureToggles, makeSelectForm } from './index';
+import {
+  makeSelectFeatureToggles,
+  makeSelectForm,
+  makeSelectCurrentContext,
+} from './index';
 
 describe('check-in', () => {
   describe('selector', () => {
@@ -34,6 +38,23 @@ describe('check-in', () => {
         expect(selectFeatureToggles(state)).to.eql({
           pages: [],
           currentPage: '',
+        });
+      });
+    });
+    describe('makeSelectCurrentContext', () => {
+      const state = {
+        preCheckInData: {
+          context: {
+            token: 'some-token',
+            permissions: 'some-permissions',
+          },
+        },
+      };
+      it('returns feature toggles', () => {
+        const selectCurrentContext = makeSelectCurrentContext();
+        expect(selectCurrentContext(state)).to.eql({
+          token: 'some-token',
+          permissions: 'some-permissions',
         });
       });
     });

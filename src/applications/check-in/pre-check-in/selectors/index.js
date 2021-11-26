@@ -22,4 +22,11 @@ const selectForm = createSelector(
 
 const makeSelectForm = () => selectForm;
 
-export { makeSelectFeatureToggles, makeSelectForm };
+const selectCurrentContext = createSelector(
+  state => state.preCheckInData,
+  data => data.context,
+);
+
+const makeSelectCurrentContext = () => selectCurrentContext;
+
+export { makeSelectFeatureToggles, makeSelectForm, makeSelectCurrentContext };
