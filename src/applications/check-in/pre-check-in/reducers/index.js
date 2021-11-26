@@ -11,7 +11,12 @@ const initialState = {
   },
 };
 
-import { INIT_FORM, GO_TO_NEXT_PAGE, SET_SESSION } from '../actions';
+import {
+  INIT_FORM,
+  GO_TO_NEXT_PAGE,
+  SET_SESSION,
+  RECORD_ANSWER,
+} from '../actions';
 
 const preCheckInReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -38,6 +43,13 @@ const preCheckInReducer = (state = initialState, action) => {
         ...state,
         form: { ...state.form, currentPage: action.payload.nextPage },
       };
+    case RECORD_ANSWER: {
+      const data = { ...state.form.data, ...action.payload };
+      return {
+        ...state,
+        form: { ...state.form, data },
+      };
+    }
     default:
       return { ...state };
   }

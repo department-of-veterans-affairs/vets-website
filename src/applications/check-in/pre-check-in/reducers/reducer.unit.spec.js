@@ -6,6 +6,7 @@ import {
   createInitFormAction,
   createGoToNextPageAction,
   createSetSession,
+  recordAnswer,
 } from '../actions';
 
 // test init stat
@@ -100,6 +101,32 @@ describe('check-in', () => {
         const state = reducer.preCheckInData(undefined, action);
         expect(state.context.token).to.equal('some-token');
         expect(state.context.permissions).to.equal('some-permission');
+      });
+    });
+    describe('recordAnswer', () => {
+      let state = {};
+      beforeEach(() => {
+        const action = createInitFormAction({
+          pages: ['first-page', 'second-page', 'third-page'],
+          currentPage: 'first-page',
+        });
+        state = reducer.preCheckInData(undefined, action);
+      });
+      it('should record answer data', () => {
+        const demoAction = recordAnswer({ demographicsUpToDate: 'yes' });
+        state = reducer.preCheckInData(undefined, demoAction);
+        const nokAction = recordAnswer({ NextOfKinUpToDate: 'no' });
+        state = reducer.preCheckInData(state, nokAction);
+        expect(state.form.data.demographicsUpToDate).to.equal('yes');
+        expect(state.form.data.NextOfKinUpToDate).to.equal('no');
+      });
+      it('should update old answers', () => {
+        const yesAction = recordAnswer({ demographicsUpToDate: 'yes' });
+        state = reducer.preCheckInData(undefined, yesAction);
+        expect(state.form.data.demographicsUpToDate).to.equal('yes');
+        const noAction = recordAnswer({ demographicsUpToDate: 'no' });
+        state = reducer.preCheckInData(state, noAction);
+        expect(state.form.data.demographicsUpToDate).to.equal('no');
       });
     });
   });

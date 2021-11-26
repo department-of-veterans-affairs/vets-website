@@ -1,9 +1,16 @@
 import React from 'react';
+import ErrorMessage from '../../../components/ErrorMessage';
+import BackToHome from '../../components/BackToHome';
+import Footer from '../../components/Footer';
 
-export default function index() {
+const Error = () => {
   return (
-    <div>
-      <h1>Error</h1>
+    <div className="vads-l-grid-container vads-u-padding-y--5 ">
+      <ErrorMessage />
+      <Footer />
+      <BackToHome />
     </div>
   );
-}
+};
+
+export default Error;

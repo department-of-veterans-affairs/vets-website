@@ -7,6 +7,8 @@ import {
   createGoToNextPageAction,
   SET_SESSION,
   createSetSession,
+  recordAnswer,
+  RECORD_ANSWER,
 } from './index';
 
 describe('pre-check-in', () => {
@@ -29,7 +31,6 @@ describe('pre-check-in', () => {
         expect(action.payload.currentPage).to.equal('first-page');
       });
     });
-
     describe('createGoToNextPageAction', () => {
       it('should return correct action', () => {
         const action = createGoToNextPageAction({});
@@ -54,6 +55,18 @@ describe('pre-check-in', () => {
         });
         expect(action.payload.token).to.equal('some-token');
         expect(action.payload.permissions).to.equal('some-permission');
+      });
+    });
+    describe('recordAnswer', () => {
+      it('should return correct action', () => {
+        const action = recordAnswer({});
+        expect(action.type).to.equal(RECORD_ANSWER);
+      });
+      it('should return correct structure', () => {
+        const action = recordAnswer({
+          demographicsUpToDate: 'yes',
+        });
+        expect(action.payload.demographicsUpToDate).equal('yes');
       });
     });
   });

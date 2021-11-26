@@ -1,18 +1,16 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 class Error {
-  initializeApi() {
-    // @TODO: fill in once we are actually using the API
-  }
   validatePageLoaded() {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Error');
-  }
-  attemptToGoToNextPage() {
-    cy.get('div[data-testid="intro-wrapper"] div[data-testid="start-button"] a')
-      .eq(0)
-      .click();
+      .and('have.text', 'We couldn’t check you in');
+    cy.get('div[data-testid="error-message"]')
+      .should('be.visible')
+      .and(
+        'have.text',
+        'We’re sorry. Something went wrong on our end. Check in with a staff member.',
+      );
   }
 }
 

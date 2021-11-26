@@ -9,7 +9,7 @@ import BackButton from '../components/BackButton';
 import BackToHome from '../components/BackToHome';
 import { focusElement } from 'platform/utilities/ui';
 import Footer from '../components/Footer';
-import DemographicItem from '../components/DemographicItem';
+import DemographicItem from '../../components/DemographicItem';
 import { seeStaffMessageUpdated } from '../actions';
 
 const NextOfKin = props => {
