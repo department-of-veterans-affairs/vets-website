@@ -7,7 +7,7 @@ import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay'
 import { api } from '../../api';
 
 export default function Index({ router }) {
-  const { goToNextPage } = useFormRouting(router);
+  const { goToNextPage, goToErrorPage } = useFormRouting(router);
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
@@ -35,7 +35,7 @@ export default function Index({ router }) {
         goToNextPage();
       } catch (e) {
         setIsLoading(false);
-        // @TODO: add routing to error page | https://github.com/department-of-veterans-affairs/va.gov-team/issues/33195
+        goToErrorPage();
       }
     }
   };
