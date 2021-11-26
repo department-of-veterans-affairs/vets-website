@@ -54,7 +54,7 @@ export default Object.freeze({
   form10182Nod: 'form10182_nod',
   gibctEybBottomSheet: 'gibct_eyb_bottom_sheet',
   gibctSchoolRatings: 'gibct_school_ratings',
-  giSandboxComparisonToolToggle: 'gi_sandbox_comparision_tool_toggle',
+  giSandboxComparisonToolToggle: 'gi_sandbox_comparison_tool_toggle',
   hlrv2: 'hlr_v2',
   loginGov: 'login_gov',
   loginGovCreateAccount: 'login_gov_create_account',

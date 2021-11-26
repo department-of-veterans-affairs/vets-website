@@ -6,11 +6,10 @@ import startApp from 'platform/startup/router';
 import { buildRoutes } from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';
-
 import { buildRoutes as buildRedesignedRoutes } from '../gi-sandbox/routes';
 import redesignedReducer from '../gi-sandbox/reducers';
 
-const redesignFlag = toggleValues(0).giSandboxComparisonToolToggle;
+const redesignFlag = state => toggleValues(state).giSandboxComparisonToolToggle;
 const page = redesignFlag
   ? { reducer: redesignedReducer, routes: buildRedesignedRoutes() }
   : { reducer, routes: buildRoutes() };
