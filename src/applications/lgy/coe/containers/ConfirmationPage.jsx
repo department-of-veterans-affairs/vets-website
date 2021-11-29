@@ -1,5 +1,5 @@
-import React from 'react';
 import moment from 'moment';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
@@ -20,9 +20,9 @@ export class ConfirmationPage extends React.Component {
     // const name = data.veteranFullName;
 
     const name = {
-      first: 'Jerek',
-      middle: 'Deacon',
-      last: 'Shoemaker',
+      first: 'Robert',
+      middle: 'John',
+      last: 'Jones',
       suffix: 'Jr.',
     };
 
