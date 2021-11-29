@@ -5,6 +5,8 @@ import validateVeteran from '../pages/ValidateVeteran';
 import introduction from '../pages/Introduction';
 import Demographics from '../pages/Demographics';
 
+import apiInitializer from '../support/ApiInitializer';
+
 describe('Pre-Check In Experience', () => {
   describe('Demographics Page', () => {
     beforeEach(function() {
@@ -15,7 +17,9 @@ describe('Pre-Check In Experience', () => {
           checkInExperienceUpdateInformationPageEnabled: true,
         }),
       );
-      validateVeteran.initializeSessionPost.withSuccess();
+      apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+
+      apiInitializer.initializeSessionPost.withSuccess();
       cy.visitPreCheckInWithUUID();
       validateVeteran.validateVeteran();
       validateVeteran.attemptToGoToNextPage();
