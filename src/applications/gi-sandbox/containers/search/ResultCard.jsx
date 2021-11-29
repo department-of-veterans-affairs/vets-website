@@ -297,7 +297,7 @@ export function ResultCard({
               />
             </div>
           )}
-          {expanded && (
+          {
             <>
               <div
                 className={classNames(
@@ -318,7 +318,7 @@ export function ResultCard({
                 </div>
               </div>
             </>
-          )}
+          }
 
           <div
             className={classNames(
