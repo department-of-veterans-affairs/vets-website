@@ -44,7 +44,7 @@ describe('Check In Experience -- ', () => {
           'Our staff can help you update your contact information.',
         );
     });
-    it('see staff page has BTSSS link', () => {
+    it.skip('see staff page has BTSSS link', () => {
       cy.visitWithUUID();
 
       cy.get('h1', { timeout: Timeouts.slow })
