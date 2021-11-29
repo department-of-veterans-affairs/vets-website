@@ -33,7 +33,7 @@ export default {
       case FETCH_CLAIM_STATUS_FAILURE:
         return {
           ...state,
-          claimStatus: action || {},
+          claimStatus: action?.response || {},
         };
       default:
         return state;

@@ -279,7 +279,7 @@ export const ConfirmationPage = ({ form, claimStatus, getClaimStatus }) => {
   const { response } = submission;
   const name = data.veteranFullName;
 
-  const confirmationResult = claimStatus || 'pending';
+  const confirmationResult = claimStatus || 'loading';
 
   switch (confirmationResult) {
     case 'approved': {

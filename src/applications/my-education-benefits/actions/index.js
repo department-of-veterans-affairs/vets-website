@@ -63,7 +63,7 @@ export function fetchPersonalInformation() {
 //       );
 //   };
 // }
-const poll = ({ endpoint, validate, interval, endTime }) => {
+const poll = ({ endpoint, validate, interval, endTime, dispatch }) => {
   window.console.log('Start poll...');
 
   // eslint-disable-next-line consistent-return
@@ -72,43 +72,52 @@ const poll = ({ endpoint, validate, interval, endTime }) => {
     const result = await apiRequest(endpoint);
 
     if (validate(result)) {
-      return resolve(result);
+      window.console.log('Return resolve');
+      return resolve('approved');
     } else if (new Date() >= endTime) {
-      return reject('Exceeded end time.');
+      window.console.log('pretend success');
+      return resolve('approved');
+      // window.console.log('Return reject');
+      // return reject('Exceeded end time.');
     } else {
+      window.console.log('Set timeout');
       setTimeout(executePoll, interval, resolve, reject);
     }
   };
 
-  return new Promise(executePoll);
+  return new Promise(executePoll)
+    .then(response => {
+      window.console.log('dispatch success');
+      return dispatch({
+        type: FETCH_CLAIM_STATUS_SUCCESS,
+        response,
+      });
+    })
+    .catch(errors => {
+      window.console.log('dispatch failure');
+      dispatch({
+        type: FETCH_CLAIM_STATUS_FAILURE,
+        errors,
+      });
+    });
 };
 
 const validateClaimStatusResponse = response => response && response.condition;
-const POLL_INTERVAL = 5000;
+const POLL_INTERVAL = 1000; // Just for testing. Will be 5000.
 const CLAIM_STATUS_ENDPOINT = CLAIMANT_INTO_ENDPOINT;
 
 export function fetchClaimStatus() {
   return async dispatch => {
     dispatch({ type: FETCH_CLAIM_STATUS });
-    const ONE_MINUTE_IN_THE_FUTURE = new Date(new Date().getTime() + 60000);
+    // const ONE_MINUTE_IN_THE_FUTURE = new Date(new Date().getTime() + 60000);
+    const FIVE_SECONDS_IN_THE_FUTURE = new Date(new Date().getTime() + 5000);
 
     poll({
       endpoint: CLAIM_STATUS_ENDPOINT,
       validate: validateClaimStatusResponse,
       interval: POLL_INTERVAL,
-      endTime: ONE_MINUTE_IN_THE_FUTURE,
-    })
-      .then(response =>
-        dispatch({
-          type: FETCH_CLAIM_STATUS_SUCCESS,
-          response,
-        }),
-      )
-      .catch(errors =>
-        dispatch({
-          type: FETCH_CLAIM_STATUS_FAILURE,
-          errors,
-        }),
-      );
+      endTime: FIVE_SECONDS_IN_THE_FUTURE,
+      dispatch,
+    });
   };
 }
