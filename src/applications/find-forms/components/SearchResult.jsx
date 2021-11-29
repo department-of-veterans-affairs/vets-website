@@ -240,6 +240,7 @@ const SearchResult = ({
       <div className="vads-u-margin-bottom--5">
         <a
           className="find-forms-max-content vads-u-text-decoration--none"
+          data-testid={`pdf-link-${id}`}
           rel="noreferrer noopener"
           href={showPDFInfoVersionOne && !doesCookieExist ? null : url}
           onClick={() => pdfDownloadHandler()}
