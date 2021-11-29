@@ -10,6 +10,7 @@ import { buildRoutes as buildRedesignedRoutes } from '../gi-sandbox/routes';
 import redesignedReducer from '../gi-sandbox/reducers';
 import createCommonStore from 'platform/startup/store';
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
+import environment from 'platform/utilities/environment';
 
 const REDESIGN_FEATURE_FLAG = 'gi_sandbox_comparison_tool_toggle';
 
@@ -17,7 +18,9 @@ const REDESIGN_FEATURE_FLAG = 'gi_sandbox_comparison_tool_toggle';
   const store = createCommonStore(reducer);
   await connectFeatureToggle(store.dispatch);
 
-  const isRedesign = toggleValues(store.getState())[REDESIGN_FEATURE_FLAG];
+  let isRedesign = toggleValues(store.getState())[REDESIGN_FEATURE_FLAG];
+
+  if (environment.isProduction()) isRedesign = false;
 
   const page = isRedesign
     ? { reducer: redesignedReducer, routes: buildRedesignedRoutes() }
