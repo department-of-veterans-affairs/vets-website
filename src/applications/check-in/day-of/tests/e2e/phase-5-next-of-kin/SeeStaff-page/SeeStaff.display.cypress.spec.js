@@ -44,5 +44,22 @@ describe('Check In Experience -- ', () => {
           'Our staff can help you update your contact information.',
         );
     });
+    it('see staff page has BTSSS link', () => {
+      cy.visitWithUUID();
+
+      cy.get('h1', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('have.text', 'Check in at VA');
+      cy.signIn();
+      cy.get('[data-testid=no-button]', { timeout: Timeouts.slow }).click();
+      cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
+      cy.get('a[data-testid="btsss-link"]').should(
+        'have.text',
+        'Find out how to request travel pay reimbursement',
+      );
+      cy.get('a[data-testid="btsss-link"]')
+        .invoke('attr', 'href')
+        .should('contain', '/health-care/get-reimbursed-for-travel-pay/');
+    });
   });
 });

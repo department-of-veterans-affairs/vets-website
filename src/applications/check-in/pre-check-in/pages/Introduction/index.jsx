@@ -7,8 +7,9 @@ import { format, add } from 'date-fns';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import { useFormRouting } from '../../hooks/useFormRouting';
+import BackToHome from '../../components/BackToHome';
 
-// @TODO Remove appointments once mock API merged in. Resolve answers to questions for UX team. Add unit test for intro.
+// @TODO Remove appointments once mock API merged in. Add cypress test for intro.
 const Introduction = props => {
   useEffect(() => {
     focusElement('h1');
@@ -36,26 +37,6 @@ const Introduction = props => {
   ];
   const accordionContent = [
     {
-      header: 'What happens after I answer the questions?',
-      body: (
-        <>
-          <p>
-            Changes to your contact information, insurance, next of kin, or
-            emergency contact will update your information across the VA.
-          </p>
-          <p>
-            If your provider requested additional questions, we’ll send your
-            answers to your provider through a secure electronic communication.
-            We’ll also ass the questionnaire to your medical record.
-          </p>
-          <p>
-            Your provider will review your answers and discuss them with you
-            during your appointment.
-          </p>
-        </>
-      ),
-    },
-    {
       header: 'Will VA protect my personal health information?',
       body: (
         <>
@@ -63,20 +44,44 @@ const Introduction = props => {
             We make every effort to keep your personal information private and
             secure.
           </p>
-          <a href="#">Read more about privacy and security on VA.gov</a>
+          <p>
+            <a href="/privacy-policy/">
+              Read more about privacy and security on VA.gov
+            </a>
+          </p>
           <p>
             You’re also responsible for protecting your personal health
             information. If you print or download your information—or share it
             electronically with others—you’ll need to take steps to protect it.
           </p>
-          <a href="#">
-            Get tips for protecting your personal health information
-          </a>
+          <p>
+            <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information">
+              Get tips for protecting your personal health information
+            </a>
+          </p>
         </>
       ),
     },
   ];
   const appointmentsDateTime = new Date(appointments[0].startTime);
+  const privacyStatement = (
+    <div>
+      <h3>Privacy Act Statement</h3>
+      <p>
+        We ask you to provide the information in this questionnaire to help with
+        your medical care (under law 38 U.S.C. Chapter 17). It’s your choice if
+        you want to provide this information. If you choose not to provide this
+        information, it may make it harder for us to prepare for your visit. But
+        it won’t have any effect on your eligibility for any VA benefits or
+        services. We may use and share the information you provide in this
+        questionnaire in the ways we’re allowed to by law. We may make a
+        “routine use” disclosure of the information as outlined in the Privacy
+        Act system of records notice in "24VA10A7 Patient Medical Record – VA”
+        and following the Veterans Health Administration (VHA) Notice of Privacy
+        Practices.
+      </p>
+    </div>
+  );
   const StartButton = () => (
     <div
       className="vads-u-margin-bottom--4 vads-u-display--block"
@@ -85,6 +90,12 @@ const Introduction = props => {
       <a
         className="vads-c-action-link--green"
         href="#"
+        onKeyDown={e => {
+          if (e.key === ' ') {
+            e.preventDefault();
+            goToNextPage();
+          }
+        }}
         onClick={e => {
           e.preventDefault();
           goToNextPage();
@@ -108,12 +119,17 @@ const Introduction = props => {
       <AppointmentBlock appointments={appointments} />
       <StartButton />
       {accordionContent && accordionContent.length ? (
-        <va-accordion bordered className="vads-u-margin-top--1">
+        <va-accordion
+          bordered
+          className="vads-u-margin-top--1"
+          data-testid="intro-accordion-group"
+        >
           {accordionContent.map((accordionItem, index) => (
             <va-accordion-item
               level="2"
               header={accordionItem.header}
               key={index}
+              data-testid="intro-accordion-item"
             >
               {accordionItem.body}
             </va-accordion-item>
@@ -138,10 +154,11 @@ const Introduction = props => {
           </li>
         </ul>
       </va-featured-content>
-      <StartButton />
       <div>
         Expiration date:{' '}
-        {format(add(appointmentsDateTime, { days: 1 }), 'M/dd/Y')}
+        <span data-testid="expiration-date">
+          {format(add(appointmentsDateTime, { days: -1 }), 'M/dd/Y')}
+        </span>
         <br />
         <a
           href="#"
@@ -154,12 +171,13 @@ const Introduction = props => {
         </a>
       </div>
       <Footer />
+      <BackToHome />
       <Modal
         onClose={() => setPrivacyActModalOpen(false)}
         visible={privacyActModalOpen}
         focusSelector="button"
         cssClass=""
-        contents={<p>TBD</p>}
+        contents={privacyStatement}
       />
     </div>
   );
