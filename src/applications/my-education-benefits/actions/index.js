@@ -39,30 +39,6 @@ export function fetchPersonalInformation() {
   };
 }
 
-// const delay = async (ms: number) => new Promise(res => setTimeout(res, ms));
-
-// function _fetchClaimStatus() {
-//   return async dispatch => {
-//     dispatch({ type: FETCH_CLAIM_STATUS });
-//     const claimantIntoEndpoint = `${
-//       environment.API_URL
-//     }/meb_api/v0/claimant_info`;
-
-//     return apiRequest(claimantIntoEndpoint)
-//       .then(response =>
-//         dispatch({
-//           type: FETCH_PERSONAL_INFORMATION_SUCCESS,
-//           response,
-//         }),
-//       )
-//       .catch(errors =>
-//         dispatch({
-//           type: FETCH_PERSONAL_INFORMATION_FAILED,
-//           errors,
-//         }),
-//       );
-//   };
-// }
 const poll = ({ endpoint, validate, interval, endTime, dispatch }) => {
   window.console.log('Start poll...');
 
