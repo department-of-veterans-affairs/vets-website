@@ -68,7 +68,6 @@ import {
   createScoEventsWidget,
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
-
 import createBanner from './content-api/CreateBanner';
 
 // Set the app name header when using the apiRequest helper
