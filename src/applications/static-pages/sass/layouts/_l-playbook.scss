@@ -1,13 +1,4 @@
-// Adds external icon to all links that begin
-// with http (including https)
-[href^=http] {
-  #playbook .primary &,
-  .coda & {
-    margin-right: .1em;
-    padding-right: 1.5em;
-  }
-}
-
+// https://www.va.gov/playbook/
 .tagline-content {
   p {
     font-size: 2.15em;
@@ -19,30 +10,7 @@
   }
 }
 
-// Blog / Playbook
-.page-playbook {
-
-  .vets-logo {
-    path, rect {
-      fill: $color-primary-darker;
-    }
-  }
-
-  .menu {
-    display: none !important;
-  }
-}
-
-.splash--hasimg {
-  // TODO: Remove !important when #content .splash is refactored
-  padding: 4em 0 !important;
-  background-position: top center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin-bottom: 1em;
-  padding: 6.1em 0 !important;
-}
-
+// https://www.va.gov/playbook/
 #playbook .splash {
   margin: 0;
   background: $color-white url(/img/design/background/thread.png) center center no-repeat;
@@ -52,77 +20,16 @@
   min-height: 14em;
 }
 
-
-// TODO: Remove !important from this block
-// Once the specificity of #content .splash h2 block/
-// gets reduced.
-.va-headingflag {
-  margin: .5em 0 !important;
-  padding: 0 !important;
-  margin: 0 0 2em 0 !important;
-  background: none !important;
-  color: $color-primary-darkest !important;
-
-  @include media($medium-large-screen) {
-    position: absolute !important;
-    margin: 1.35em 0 0 0 !important;
-    z-index: 100 !important;
-  }
-
-  a {
-    text-decoration: none;
-    margin: 0;
-    color: $color-primary-darkest;
-    background: $color-gold;
-    border-bottom: none;
-    padding: .5em .25em;
-    // Transition only these properties.
-    -webkit-transition-property: padding;
-    transition-property: padding;
-
-    &:hover {
-      padding: .5em .65em;
-    }
-  }
-
-  @include media($medium-large-screen) {
-    position: absolute;
-    margin: 1.35em 0 0 0;
-    z-index: 100;
-  }
-}
-
-.va-headingflag--tagline {
-  padding: 0;
-}
-
-#playbook {
-  h2 {background: none; font-size: 2.5em;}
-
-  .card a {
-    border-bottom: 2px solid $color-gray-lighter;
-    display: inline-block;
-    background: $color-link-default-hover;
-    &:hover {background: $color-link-default-hover;}
-  }
-}
-
+// https://www.va.gov/playbook/product-methodology/
 .process--playbook {
   padding: 0;
-
-  h4 {
-    padding-top: 1.5em;
-
-    span {
-      display: block;
-    }
-  }
 
   h6 {
     display: inline-block;
   }
 }
 
+// https://www.va.gov/playbook/product-methodology/
 .process-step--playbook {
   padding-top: 1.5em;
   border-left: 4px solid $olso-gray;
@@ -148,12 +55,7 @@
   &.list-nine {
     border-left: 0;
   }
-
-  &.list-nine {
-    border-left: 0;
-  }
 }
-
 
 .process-step--iterative {
   .list-four,
@@ -360,7 +262,6 @@
   }
 
   h4 {
-    color: inherit;
     font-size: 1.5em;
   }
 }

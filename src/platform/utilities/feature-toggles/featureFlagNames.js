@@ -64,6 +64,7 @@ export default Object.freeze({
   loopPages: 'loop_pages',
   manageDependents: 'dependents_management',
   megaMenuMobileV2: 'mega_menu_mobile_v2',
+  omniChannelLink: 'omni_channel_link',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
   profileNotificationSettings: 'profile_notification_settings',
   profileEnhancements: 'profile_enhancements',
