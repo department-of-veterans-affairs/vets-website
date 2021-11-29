@@ -18,7 +18,6 @@ import LearnMoreLabel from '../components/LearnMoreLabel';
 import { religiousAffiliations } from '../utils/data/religiousAffiliations';
 import recordEvent from 'platform/monitoring/record-event';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import Summary from '../components/content/additonal-info/Summary';
 
 const CompareLayout = ({
   calculated,
@@ -95,39 +94,13 @@ const CompareLayout = ({
             },
           },
           {
-            label: (
-              <LearnMoreLabel
-                text="Accreditation"
-                onClick={() => {
-                  dispatchShowModal('accreditation');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.accreditation
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.accreditation}
-              />
-            ),
+            label: 'Accreditation',
             className: 'capitalize-value',
             mapper: institution => naIfNull(institution.accreditationType),
           },
           {
-            label: (
-              <LearnMoreLabel
-                text="GI Bill students"
-                onClick={() => {
-                  dispatchShowModal('gibillstudents');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.numberOfStudents
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.numberOfStudents}
-                buttonId="GI-Bill-students-compare"
-              />
-            ),
+            label: 'GI Bill students',
+            className: 'capitalize-value',
             mapper: institution => naIfNull(institution.studentCount),
           },
           {
@@ -160,37 +133,13 @@ const CompareLayout = ({
             mapper: institution => naIfNull(institution.localeType),
           },
           {
-            label: (
-              <LearnMoreLabel
-                text="Size of institution"
-                onClick={() => {
-                  dispatchShowModal('sizeOfInstitution');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.sizeOfInstitution
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.sizeOfInstitution}
-              />
-            ),
+            label: 'Size of institution',
+            className: 'capitalize-value',
             mapper: institution => schoolSize(institution.undergradEnrollment),
           },
           {
-            label: (
-              <LearnMoreLabel
-                text="Specialized mission"
-                onClick={() => {
-                  dispatchShowModal('specializedMission');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.specializedMission
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.specializedMission}
-              />
-            ),
+            label: 'Specialized mission',
+            className: 'capitalize-value',
             mapper: institution => {
               const specialMission = [];
               if (institution.hbcu) {
@@ -214,8 +163,8 @@ const CompareLayout = ({
           },
         ]}
       />
-      <AdditionalInfo triggerText="Additional information form comparison summary ">
-        <Summary />
+      <AdditionalInfo triggerText="Additional information on Comparison Summary ">
+        <></>
       </AdditionalInfo>
 
       <CompareGrid
@@ -264,6 +213,9 @@ const CompareLayout = ({
           },
         ]}
       />
+      <AdditionalInfo triggerText="Additional information on payments made to institution">
+        <></>
+      </AdditionalInfo>
 
       <CompareGrid
         subSectionLabel="Payments made to you"
@@ -309,7 +261,6 @@ const CompareLayout = ({
           },
         ]}
       />
-
       {gibctSchoolRatings &&
         hasRatings && (
           <>
