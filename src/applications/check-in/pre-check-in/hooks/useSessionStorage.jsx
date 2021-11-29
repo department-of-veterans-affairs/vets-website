@@ -28,11 +28,7 @@ const useSessionStorage = (sessionNameSpace = 'health.care.pre.check.in') => {
       const key = CURRENT_UUID;
 
       const data = sessionStorage.getItem(key);
-      if (data) {
-        return JSON.parse(data);
-      } else {
-        return null;
-      }
+      return data ? JSON.parse(data) : null;
     },
     [SESSION_STORAGE_KEYS],
   );
