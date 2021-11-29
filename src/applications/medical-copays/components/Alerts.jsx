@@ -72,7 +72,7 @@ Alert.NoHealthcare = () => (
       You’re not enrolled in VA health care
     </h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
-      You can’t view copay balances at this time because our records show that
+      You can’t check copay balances at this time because our records show that
       you’re not enrolled in VA health care.
       <a
         href="https://va.gov/health-care/how-to-apply/"
@@ -100,7 +100,7 @@ Alert.NoHistory = () => (
       You haven’t received a copay bill in the past 6 months
     </h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
-      You can’t view copay balances at this time because our records show that
+      You can’t check copay balances at this time because our records show that
       you haven’t received a copay bill in the past 6 months.
     </p>
     <p>

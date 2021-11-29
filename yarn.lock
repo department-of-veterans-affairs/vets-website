@@ -6543,10 +6543,10 @@ cypress-wait-until@^1.7.2:
   resolved "https://registry.yarnpkg.com/cypress-wait-until/-/cypress-wait-until-1.7.2.tgz#7f534dd5a11c89b65359e7a0210f20d3dfc22107"
   integrity sha512-uZ+M8/MqRcpf+FII/UZrU7g1qYZ4aVlHcgyVopnladyoBrpoaMJ4PKZDrdOJ05H5RHbr7s9Tid635X3E+ZLU/Q==
 
-cypress@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-9.0.0.tgz#8c496f7f350e611604cc2f77b663fb81d0c235d2"
-  integrity sha512-/93SWBZTw7BjFZ+I9S8SqkFYZx7VhedDjTtRBmXO0VzTeDbmxgK/snMJm/VFjrqk/caWbI+XY4Qr80myDMQvYg==
+cypress@^9.1.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-9.1.0.tgz#5d23c1b363b7d4853009c74a422a083a8ad2601c"
+  integrity sha512-fyXcCN51vixkPrz/vO/Qy6WL3hKYJzCQFeWofOpGOFewVVXrGfmfSOGFntXpzWBXsIwPn3wzW0HOFw51jZajNQ==
   dependencies:
     "@cypress/request" "^2.88.7"
     "@cypress/xvfb" "^1.2.4"
@@ -6555,7 +6555,7 @@ cypress@^9.0.0:
     "@types/sizzle" "^2.3.2"
     arch "^2.2.0"
     blob-util "^2.0.2"
-    bluebird "^3.7.2"
+    bluebird "3.7.2"
     cachedir "^2.3.0"
     chalk "^4.1.0"
     check-more-types "^2.24.0"
