@@ -30,7 +30,7 @@ function confirmDDBlockedAlertIsShown() {
 
 function confirmDirectDepositIsAvailable() {
   // the DD item should exist in the sub nav
-  cy.findByRole('navigation', { name: /secondary/i }).within(() => {
+  cy.findByRole('navigation', { name: /profile/i }).within(() => {
     cy.findByRole('link', { name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT }).should(
       'exist',
     );
@@ -46,7 +46,7 @@ function confirmDirectDepositIsAvailable() {
 
 function confirmDirectDepositIsBlocked() {
   // the DD item should not exist in the sub nav
-  cy.findByRole('navigation', { name: /secondary/i }).within(() => {
+  cy.findByRole('navigation', { name: /profile/i }).within(() => {
     // Just a test to make sure we can access items in the sub nav to ensure
     // the following test isn't a false negative
     cy.findByRole('link', { name: /personal.*info/i }).should('exist');

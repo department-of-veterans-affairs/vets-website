@@ -2,9 +2,12 @@ import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/featur
 import '../support/commands';
 import Timeouts from 'platform/testing/e2e/timeouts';
 
-describe('Check In Experience -- ', () => {
+import apiInitializer from '../support/ApiInitializer';
+
+describe('Pre-Check In Experience', () => {
   beforeEach(function() {
     cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
+    apiInitializer.initializeSessionGet.withSuccessfulNewSession();
   });
   afterEach(() => {
     cy.window().then(window => {
@@ -12,9 +15,9 @@ describe('Check In Experience -- ', () => {
     });
   });
   it('Feature is enabled', () => {
-    cy.visitWithUUID();
+    cy.visitPreCheckInWithUUID();
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Prepare for your primary care appointment');
+      .and('have.text', 'Start pre-check-in');
   });
 });

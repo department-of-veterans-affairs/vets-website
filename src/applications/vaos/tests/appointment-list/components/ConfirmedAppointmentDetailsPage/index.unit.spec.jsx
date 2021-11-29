@@ -1523,7 +1523,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
 
     expect(screen.baseElement).to.contain('.usa-alert-success');
     expect(screen.baseElement).to.contain.text(
-      'Your appointment has been scheduled and is confirmed',
+      'Your appointment has been scheduled and is confirmed.',
     );
     expect(screen.baseElement).to.contain.text('View your appointments');
     expect(screen.baseElement).to.contain.text('New appointment');
