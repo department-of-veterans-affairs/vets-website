@@ -201,6 +201,10 @@ class ObjectField extends React.Component {
       'schemaform-block': title && !isRoot,
     });
 
+    const newFieldsetClassNames = classNames(fieldsetClassNames, {
+      'vads-u-margin-bottom--2': !environment.isProduction(),
+    });
+
     const pageIndex = formContext?.pagePerItemIndex;
     // Fix array nested ids (one-level deep)
     const processIds = (originalIds = {}) =>
@@ -378,14 +382,14 @@ class ObjectField extends React.Component {
 
     if (title && !forceDivWrapper) {
       return (
-        <fieldset className={fieldsetClassNames}>
+        <fieldset className={newFieldsetClassNames}>
           {environment.isProduction() ? fieldContent : accessibleFieldContent}
         </fieldset>
       );
     }
 
     return (
-      <div className={fieldsetClassNames}>
+      <div className={newFieldsetClassNames}>
         {environment.isProduction() ? fieldContent : accessibleFieldContent}
       </div>
     );
