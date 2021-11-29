@@ -18,7 +18,10 @@ describe('Pre-Check In Experience', () => {
       );
       apiInitializer.initializeSessionGet.withSuccessfulNewSession();
 
-      validateVeteran.initializeSessionPost.withTrimCheck();
+      apiInitializer.initializeSessionPost.withSuccess(req => {
+        expect(req.body.session.lastName).to.equal('Smith');
+        expect(req.body.session.last4).to.equal('1234');
+      });
     });
     afterEach(() => {
       cy.window().then(window => {
