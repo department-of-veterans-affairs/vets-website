@@ -317,9 +317,6 @@ export function createMilitaryClaimant(submissionForm) {
       suffix: submissionForm['view:userFullName'].userFullName.suffix,
       dateOfBirth: submissionForm.dateOfBirth,
       contactInfo: createContactInfo(submissionForm),
-      dobChanged: false, // TODO How to determine this?
-      firstAndLastNameChanged: false, // TODO How to determine this?
-      contactInfoChanged: false, // TODO How to determine this?
       notificationMethod: getNotificationMethod(
         submissionForm['view:receiveTextMessages'].receiveTextMessages,
       ),

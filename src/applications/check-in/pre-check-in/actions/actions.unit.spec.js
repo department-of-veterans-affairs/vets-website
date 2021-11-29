@@ -5,6 +5,8 @@ import {
   createInitFormAction,
   GO_TO_NEXT_PAGE,
   createGoToNextPageAction,
+  recordAnswer,
+  RECORD_ANSWER,
 } from './index';
 
 describe('pre-check-in', () => {
@@ -37,6 +39,18 @@ describe('pre-check-in', () => {
           nextPage: 'next-page',
         });
         expect(action.payload.nextPage).equal('next-page');
+      });
+    });
+    describe('recordAnswer', () => {
+      it('should return correct action', () => {
+        const action = recordAnswer({});
+        expect(action.type).to.equal(RECORD_ANSWER);
+      });
+      it('should return correct structure', () => {
+        const action = recordAnswer({
+          demographicsUpToDate: 'yes',
+        });
+        expect(action.payload.demographicsUpToDate).equal('yes');
       });
     });
   });
