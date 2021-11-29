@@ -3,9 +3,66 @@ import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
 // Relative imports.
 import { CTA_WIDGET_TYPES } from '../ctaWidgets';
 import { CallToActionWidget } from '../index';
+
+const defaultOptions = {
+  profile: {
+    loading: false,
+    verified: false,
+    multifactor: false,
+  },
+  mhvAccount: {
+    loading: false,
+  },
+  mviStatus: {},
+};
+
+const getData = ({ profile = {}, mhvAccount = {}, mviStatus = {} } = {}) => ({
+  props: {
+    profile: {
+      ...defaultOptions.profile,
+      ...profile,
+    },
+    mhvAccount: {
+      ...defaultOptions.mhvAccount,
+      ...mhvAccount,
+    },
+    mviStatus: {
+      ...defaultOptions.mviStatus,
+      ...mviStatus,
+    },
+    fetchMHVAccount: sinon.spy(),
+  },
+  mockStore: {
+    getState: () => ({
+      featureToggles: {
+        loading: false,
+      },
+      // login: {
+      //   currentlyLoggedIn: isLoggedIn,
+      // },
+      user: {
+        profile: {
+          ...defaultOptions.profile,
+          ...profile,
+        },
+        mhvAccount: {
+          ...defaultOptions.mhvAccount,
+          ...mhvAccount,
+        },
+        mviStatus: {
+          ...defaultOptions.mviStatus,
+          ...mviStatus,
+        },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  },
+});
 
 describe('<CallToActionWidget>', () => {
   it('should show loading state', () => {
@@ -22,6 +79,7 @@ describe('<CallToActionWidget>', () => {
         mviStatus={{}}
         featureToggles={{
           loading: false,
+          loginGov: false,
         }}
       />,
     );
@@ -51,23 +109,16 @@ describe('<CallToActionWidget>', () => {
     tree.unmount();
   });
   it('should show sign in state', () => {
+    const { props, mockStore } = getData();
     const tree = mount(
-      <CallToActionWidget
-        profile={{
-          loading: false,
-          verified: false,
-          multifactor: false,
-        }}
-        mhvAccount={{
-          loading: false,
-        }}
-        mviStatus={{}}
-        featureToggles={{
-          loading: false,
-        }}
-        ariaLabel="test aria-label"
-        ariaDescribedby="test-id"
-      />,
+      <Provider store={mockStore}>
+        <CallToActionWidget
+          {...props}
+          featureToggles={{ loading: false }}
+          ariaLabel="test aria-label"
+          ariaDescribedby="test-id"
+        />
+      </Provider>,
     );
 
     const signIn = tree.find('SignIn');
@@ -156,30 +207,33 @@ describe('<CallToActionWidget>', () => {
     });
 
     it('should fetch MHV account on update', () => {
-      const fetchMHVAccount = sinon.spy();
+      const { props, mockStore } = getData({ profile: { verified: true } });
       const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={fetchMHVAccount}
-          appId={CTA_WIDGET_TYPES.RX}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: false,
-          }}
-          mhvAccount={{
-            loading: false,
-          }}
-          mviStatus={{}}
-          featureToggles={{
-            loading: false,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            appId={CTA_WIDGET_TYPES.RX}
+            isLoggedIn={false}
+            {...props}
+            featureToggles={{ loading: false }}
+          />
+        </Provider>,
       );
-      expect(fetchMHVAccount.called).to.be.false;
+      expect(props.fetchMHVAccount.called).to.be.false;
 
-      tree.setProps({ isLoggedIn: true });
+      tree.setProps({
+        children: (
+          <Provider store={mockStore}>
+            <CallToActionWidget
+              appId={CTA_WIDGET_TYPES.RX}
+              isLoggedIn
+              {...props}
+              featureToggles={{ loading: false }}
+            />
+          </Provider>
+        ),
+      });
 
-      expect(fetchMHVAccount.called).to.be.true;
+      expect(props.fetchMHVAccount.called).to.be.true;
       tree.unmount();
     });
 
@@ -257,28 +311,38 @@ describe('<CallToActionWidget>', () => {
     });
 
     it('should open myhealthevet popup', () => {
+      const { props, mockStore } = getData({
+        profile: { loading: false, verified: true, multifactor: false },
+        mhvAccount: {
+          loading: false,
+          accountState: 'good',
+          accountLevel: 'Premium',
+        },
+        isLoggedIn: false,
+      });
       const tree = mount(
-        <CallToActionWidget
-          appId={CTA_WIDGET_TYPES.RX}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: false,
-          }}
-          mhvAccount={{
-            loading: false,
-            accountState: 'good',
-            accountLevel: 'Premium',
-          }}
-          mviStatus={{}}
-          featureToggles={{
-            loading: false,
-          }}
-        />,
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            appId={CTA_WIDGET_TYPES.RX}
+            {...props}
+            featureToggles={{ loading: false, loginGov: false }}
+          />
+          ,
+        </Provider>,
       );
 
       tree.setProps({
-        isLoggedIn: true,
+        children: (
+          <Provider store={mockStore}>
+            <CallToActionWidget
+              appId={CTA_WIDGET_TYPES.RX}
+              {...props}
+              isLoggedIn
+              featureToggles={{ loading: false, loginGov: false }}
+            />
+            ,
+          </Provider>
+        ),
       });
 
       expect(tree.find('OpenMyHealtheVet').exists()).to.be.true;
