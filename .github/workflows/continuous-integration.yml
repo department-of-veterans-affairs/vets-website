@@ -679,7 +679,7 @@ jobs:
     name: Testing Reports - Unit Tests
     runs-on: ubuntu-latest
     needs: [testing-reports-prep, unit-tests]
-    # if: ${{ always() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
+    if: ${{ always() }}
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
