@@ -2,18 +2,13 @@ import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/featur
 import '../support/commands';
 
 import validateVeteran from '../pages/ValidateVeteran';
+
 import apiInitializer from '../support/ApiInitializer';
 
-describe('Pre-Check In Experience', () => {
-  describe('Validate Page', () => {
+describe('Pre Check In Experience', () => {
+  describe('session', () => {
     beforeEach(function() {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          checkInExperienceUpdateInformationPageEnabled: true,
-        }),
-      );
+      cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
       apiInitializer.initializeSessionGet.withSuccessfulNewSession();
 
       apiInitializer.initializeSessionPost.withSuccess();
@@ -23,14 +18,18 @@ describe('Pre-Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('shows the numeric keypad on mobile devices', () => {
+    it('Data is saved to session storage', () => {
       cy.visitPreCheckInWithUUID();
       validateVeteran.validatePageLoaded();
-      cy.get('[label="Last 4 digits of your Social Security number"]').should(
-        'have.attr',
-        'inputmode',
-        'numeric',
-      );
+      cy.window().then(window => {
+        const data = window.sessionStorage.getItem(
+          'health.care.pre.check.in.current.uuid',
+        );
+        const sample = JSON.stringify({
+          token: '0429dda5-4165-46be-9ed1-1e652a8dfd83',
+        });
+        expect(data).to.equal(sample);
+      });
     });
   });
 });
