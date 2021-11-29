@@ -78,7 +78,7 @@ describe('pre-check-in', () => {
         const component = render(<TestComponent window={window} />);
         const button = component.getByTestId('get-button');
         fireEvent.click(button);
-        expect(component.getByTestId('from-session').innerHTML).to.equal('');
+        expect(component.getByTestId('from-session').innerHTML).to.be.empty;
       });
       it('key is found', () => {
         const window = {
