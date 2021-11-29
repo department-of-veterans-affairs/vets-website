@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import URLSearchParams from 'url-search-params';
 
 import { URLS } from '../utils/navigation';
 import { makeSelectForm } from '../selectors';
@@ -37,11 +38,7 @@ const useFormRouting = (router = {}) => {
         const { params } = options;
         if (params) {
           // get all url keys
-          const keys = Object.keys(params.url);
-          const queryParams = keys
-            .map(key => `${key}=${params.url[key]}`)
-            .join('&');
-
+          const queryParams = new URLSearchParams(params.url).toString();
           // append to string
           const search = queryParams ? `?${queryParams}` : '';
           // add to query
