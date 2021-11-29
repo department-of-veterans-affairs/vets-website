@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
-import moment from 'moment';
+import { format } from 'date-fns';
 import { connect } from 'react-redux';
 
-// import scrollToTop from 'platform/utilities/ui/scrollToTop';
-// import { focusElement } from 'platform/utilities/ui';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import FormFooter from '../components/FormFooter';
@@ -270,11 +268,6 @@ export const ConfirmationPage = ({ form, claimStatus, getClaimStatus }) => {
     [getClaimStatus, claimStatus],
   );
 
-  // componentDidMount(() => {
-  //   focusElement('.schemaform-title > h1');
-  //   scrollToTop('topScrollElement');
-  // });
-
   const { submission, data } = form;
   const { response } = submission;
   const name = data.veteranFullName;
@@ -322,9 +315,7 @@ export const ConfirmationPage = ({ form, claimStatus, getClaimStatus }) => {
                 <li>
                   <strong>Date received</strong>
                   <br />
-                  <span>
-                    {moment(response.timestamp).format('MMM D, YYYY')}
-                  </span>
+                  <span>{format(response.timestamp, 'MMM D, YYYY')}</span>
                 </li>
               </ul>
             ) : null}

@@ -40,37 +40,28 @@ export function fetchPersonalInformation() {
 }
 
 const poll = ({ endpoint, validate, interval, endTime, dispatch }) => {
-  window.console.log('Start poll...');
-
   // eslint-disable-next-line consistent-return
   const executePoll = async (resolve, reject) => {
-    window.console.log('- poll');
     const result = await apiRequest(endpoint);
 
     if (validate(result)) {
-      window.console.log('Return resolve');
       return resolve('approved');
     } else if (new Date() >= endTime) {
-      window.console.log('pretend success');
-      return resolve('approved');
-      // window.console.log('Return reject');
+      return resolve('approved'); // Temporary for testing.
       // return reject('Exceeded end time.');
     } else {
-      window.console.log('Set timeout');
       setTimeout(executePoll, interval, resolve, reject);
     }
   };
 
   return new Promise(executePoll)
     .then(response => {
-      window.console.log('dispatch success');
       return dispatch({
         type: FETCH_CLAIM_STATUS_SUCCESS,
         response,
       });
     })
     .catch(errors => {
-      window.console.log('dispatch failure');
       dispatch({
         type: FETCH_CLAIM_STATUS_FAILURE,
         errors,
