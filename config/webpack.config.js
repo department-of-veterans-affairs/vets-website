@@ -407,10 +407,6 @@ module.exports = async (env = {}) => {
         __API__: JSON.stringify(buildOptions.api),
       }),
 
-      new webpack.ProvidePlugin({
-        process: 'process/browser',
-      }),
-
       new StylelintPlugin({
         configFile: '.stylelintrc.json',
         exclude: ['node_modules', 'build', 'coverage', '.cache'],
