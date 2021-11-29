@@ -41,9 +41,6 @@ const getData = ({ profile = {}, mhvAccount = {}, mviStatus = {} } = {}) => ({
       featureToggles: {
         loading: false,
       },
-      // login: {
-      //   currentlyLoggedIn: isLoggedIn,
-      // },
       user: {
         profile: {
           ...defaultOptions.profile,
