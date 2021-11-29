@@ -12,10 +12,10 @@ const initialState = {
 };
 
 import {
-  INIT_FORM,
   GO_TO_NEXT_PAGE,
-  SET_SESSION,
+  INIT_FORM,
   RECORD_ANSWER,
+  SET_SESSION,
 } from '../actions';
 
 const preCheckInReducer = (state = initialState, action) => {

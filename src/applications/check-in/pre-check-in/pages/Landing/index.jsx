@@ -1,17 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react';
-
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { createForm, getTokenFromLocation, URLS } from '../../utils/navigation';
-import { createInitFormAction, createSetSession } from '../../actions';
-import { createAnalyticsSlug } from '../../../utils/analytics';
-import { isUUID, SCOPES } from '../../../utils/token-format-validator';
-
 import recordEvent from 'platform/monitoring/record-event';
+
+import { api } from '../../api';
+
+import { createInitFormAction, createSetSession } from '../../actions';
+
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 
-import { api } from '../../api';
+import { createAnalyticsSlug } from '../../../utils/analytics';
+import { createForm, getTokenFromLocation, URLS } from '../../utils/navigation';
+import { isUUID, SCOPES } from '../../../utils/token-format-validator';
 
 export default function Index(props) {
   const [loadMessage] = useState('Finding your appointment information');
@@ -81,13 +82,13 @@ export default function Index(props) {
       }
     },
     [
-      initForm,
-      router,
-      goToErrorPage,
       clearCurrentSession,
+      goToErrorPage,
+      initForm,
+      jumpToPage,
+      router,
       setCurrentToken,
       setSession,
-      jumpToPage,
     ],
   );
   return (

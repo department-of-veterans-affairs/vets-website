@@ -11,7 +11,7 @@ describe('Pre-Check In Experience', () => {
       cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
       apiInitializer.initializeSessionGet.withSuccessfulNewSession();
 
-      validateVeteran.initializeSessionPost.withSuccess();
+      apiInitializer.initializeSessionPost.withSuccess();
     });
     afterEach(() => {
       cy.window().then(window => {

@@ -16,7 +16,7 @@ describe('Pre-Check In Experience', () => {
       );
       apiInitializer.initializeSessionGet.withSuccessfulNewSession();
 
-      validateVeteran.initializeSessionPost.withSuccess();
+      apiInitializer.initializeSessionPost.withSuccess();
     });
     afterEach(() => {
       cy.window().then(window => {

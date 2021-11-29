@@ -1,13 +1,14 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import BackToHome from '../../components/BackToHome';
+import { api } from '../../api';
 
-import { useFormRouting } from '../../hooks/useFormRouting';
-import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
 import { createSetSession } from '../../actions';
 
-import { api } from '../../api';
+import BackToHome from '../../components/BackToHome';
+import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
+
+import { useFormRouting } from '../../hooks/useFormRouting';
 
 import { makeSelectCurrentContext } from '../../selectors';
 

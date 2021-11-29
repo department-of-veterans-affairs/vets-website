@@ -17,7 +17,7 @@ describe('Pre-Check In Experience', () => {
       });
       apiInitializer.initializeSessionGet.withSuccessfulNewSession();
 
-      validateVeteran.initializeSessionPost.withFailure();
+      apiInitializer.initializeSessionPost.withFailure();
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',

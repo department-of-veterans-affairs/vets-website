@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
 import {
+  makeSelectCurrentContext,
   makeSelectFeatureToggles,
   makeSelectForm,
-  makeSelectCurrentContext,
 } from './index';
 
 describe('check-in', () => {

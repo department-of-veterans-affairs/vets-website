@@ -5,10 +5,10 @@ export default function TestComponent({ router }) {
   const {
     currentPage,
     goToPreviousPage,
-    pages,
     goToNextPage,
     goToErrorPage,
     jumpToPage,
+    pages,
   } = useFormRouting(router);
   return (
     <div>
