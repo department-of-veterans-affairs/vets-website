@@ -4,7 +4,7 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 import { CoeDocumentUpload } from './CoeDocumentUpload';
 import { CoeDocumentList } from './CoeDocumentList';
 
-export const CoePending = () => (
+export const CoePending = props => (
   <div className="row vads-u-margin-bottom--1">
     <div className="medium-8 columns">
       <va-alert status="warning">
@@ -18,7 +18,7 @@ export const CoePending = () => (
         </p>
       </va-alert>
       <CoeDocumentUpload />
-      <CoeDocumentList onUpload />
+      <CoeDocumentList onUploadPage={props.onUploadPage} />
       <h2>Should I apply again?</h2>
       <p className="vads-u-margin-bottom--0">
         No. We’re reviewing your current application, and submitting a new
