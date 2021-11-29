@@ -17,7 +17,7 @@ describe('Pre Check In Experience', () => {
           token: 'the-old-id',
         });
         window.sessionStorage.setItem(
-          'health.care.check-in.current.uuid',
+          'health.care.pre.check.in.current.uuid',
           sample,
         );
       });
@@ -42,7 +42,7 @@ describe('Pre Check In Experience', () => {
 
       cy.window().then(window => {
         const data = window.sessionStorage.getItem(
-          'health.care.check-in.current.uuid',
+          'health.care.pre.check.in.current.uuid',
         );
         const sample = JSON.stringify({
           token: '0429dda5-4165-46be-9ed1-1e652a8dfd83',
