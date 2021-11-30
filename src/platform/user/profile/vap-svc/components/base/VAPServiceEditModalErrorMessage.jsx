@@ -1,7 +1,4 @@
 import React from 'react';
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
 import facilityLocator from '~/applications/facility-locator/manifest.json';
 
 import {
@@ -17,8 +14,6 @@ function hasError(codes, errors) {
 
 export default function VAPServiceEditModalErrorMessage({
   error: { errors = [] },
-  clearErrors,
-  title,
 }) {
   let content = null;
 
@@ -68,21 +63,20 @@ export default function VAPServiceEditModalErrorMessage({
     default:
       content = (
         <p>
-          We’re sorry. We can’t save your {title.toLowerCase()} at this time.
-          We’re working to fix this problem. Please try again or check back
-          soon.
+          We're sorry. We can't update your information right now. We're working
+          to fix this problem. Please check back later.
         </p>
       );
   }
 
   return (
-    <AlertBox
-      className="vads-u-margin-top--0"
-      content={<div className="columns">{content}</div>}
-      isVisible
-      onCloseAlert={clearErrors}
-      scrollOnShow
-      status={ALERT_TYPE.ERROR}
-    />
+    <div
+      className="va-profile-alert vads-u-margin-bottom--2 
+    vads-u-background-color--secondary-lightest vads-u-display--flex vads-u-padding-y--4 vads-u-padding-right--7 vads-u-padding-left--3 vads-u-width--full"
+    >
+      <i aria-hidden="true" role="img" />
+      <span className="sr-only">Alert: </span>
+      <div>{content}</div>
+    </div>
   );
 }

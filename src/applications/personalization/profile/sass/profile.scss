@@ -62,3 +62,20 @@
 .overflow-auto {
   overflow: auto;
 }
+
+.va-profile-alert {
+  i {
+    font-family: "Font Awesome 5 Free";
+    font-style: normal;
+    font-weight: 900;
+  }
+  i::before {
+    content: "\f05a";
+    display: flex;
+    margin-right: 1.6rem;
+    font-size: 2rem;
+  }
+  p {
+    margin: 0;
+  }
+}

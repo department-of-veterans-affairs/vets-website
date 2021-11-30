@@ -138,9 +138,9 @@ describe('Deleting email address', () => {
 
     // expect an error to be shown
     const alert = await view.findByTestId('delete-error-alert');
-    expect(alert).to.have.descendant('div.usa-alert-error');
+    expect(alert).to.have.descendant('div.va-profile-alert');
     expect(alert).to.contain.text(
-      `We’re sorry. We can’t save your contact email address at this time. We’re working to fix this problem. Please try again or check back soon.`,
+      `We're sorry. We can't update your information right now. We're working to fix this problem. Please check back later.`,
     );
   });
   it('should show an error if the deletion fails quickly', async () => {
@@ -163,9 +163,9 @@ describe('Deleting email address', () => {
 
     // expect an error to be shown
     const alert = await view.findByTestId('delete-error-alert');
-    expect(alert).to.have.descendant('div.usa-alert-error');
+    expect(alert).to.have.descendant('div.va-profile-alert');
     expect(alert).to.contain.text(
-      `We’re sorry. We can’t save your contact email address at this time. We’re working to fix this problem. Please try again or check back soon.`,
+      `We're sorry. We can't update your information right now. We're working to fix this problem. Please check back later.`,
     );
 
     // waiting to make sure it doesn't auto exit
