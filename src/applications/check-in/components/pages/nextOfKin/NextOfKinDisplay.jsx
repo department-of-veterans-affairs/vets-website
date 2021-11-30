@@ -21,7 +21,7 @@ export default function NextOfKinDisplay({
       <h1>{header}</h1>
       {subtitle && <p className="vads-u-font-family--serif">{subtitle}</p>}
       <div className="vads-u-border-color--primary vads-u-border-left--5px vads-u-margin-left--0p5 vads-u-padding-left--2">
-        <dl>
+        <dl data-testid="next-of-kin-fields">
           {nextOfKinFields.map(nextOfKinField => (
             <React.Fragment key={nextOfKinField.key}>
               <dt className="vads-u-font-weight--bold">
