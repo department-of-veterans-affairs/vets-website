@@ -1,7 +1,8 @@
 // Dependencies.
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
+import { Provider } from 'react-redux';
 // Relative imports.
 import { App } from '.';
 
@@ -13,14 +14,27 @@ describe('Medical Copays CTA <App>', () => {
   });
 
   it('renders what we expect when unauthenticated', () => {
-    const wrapper = shallow(<App loggedIn={false} show />);
+    const mockStore = {
+      getState: () => ({
+        featureToggles: {
+          loginGov: false,
+        },
+      }),
+      dispatch: () => {},
+      subscribe: () => {},
+    };
+    const wrapper = mount(
+      <Provider store={mockStore}>
+        <App loggedIn={false} show />
+      </Provider>,
+    );
     expect(wrapper.type()).to.not.equal(null);
     expect(wrapper.text()).includes(
       'Please sign in to review your VA copay balances',
     );
     expect(wrapper.text()).not.includes('Review your VA copay balances');
     expect(wrapper.text()).includes(
-      'If you don’t have any of those accounts, you can create one now. When you sign in or create an account, you’ll be able to:',
+      'If you don’t have any of these accounts, you can create a free ID.me account now. When you sign in or create an account, you’ll be able to:',
     );
     expect(wrapper.text()).not.includes('With this tool, you can:');
     expect(wrapper.text()).includes(
@@ -42,7 +56,7 @@ describe('Medical Copays CTA <App>', () => {
       'Please sign in to review your VA copay balances',
     );
     expect(wrapper.text()).not.includes(
-      'If you don’t have any of those accounts, you can create one now. When you sign in or create an account, you’ll be able to:',
+      'If you don’t have any of these accounts, you can create a free account now. When you sign in or create an account, you’ll be able to:',
     );
     expect(wrapper.text()).includes(
       'Review your balances for each of your medical facilities',

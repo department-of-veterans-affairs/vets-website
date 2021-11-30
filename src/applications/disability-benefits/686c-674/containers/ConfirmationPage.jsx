@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import { focusElement } from 'platform/utilities/ui';
-import ServiceProvidersText from 'platform/user/authentication/components/ServiceProvidersText';
+import ServiceProvidersText, {
+  ServiceProvidersCreateText,
+} from 'platform/user/authentication/components/ServiceProvidersText';
 
 import manifest from '../manifest.json';
 
@@ -89,9 +91,8 @@ export class ConfirmationPage extends React.Component {
             <li className="process-step list-one">
               <h3 className="vads-u-font-size--h4">Sign in to VA.gov</h3>
               <p>
-                You can sign in with your <ServiceProvidersText />
-                account. If you completed this form without signing in, and you
-                don’t have an account, you can create one now.
+                You can sign in with your existing <ServiceProvidersText />
+                account. <ServiceProvidersCreateText isFormBased />
               </p>
             </li>
             <li className="process-step list-two">

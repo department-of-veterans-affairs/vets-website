@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 
-import ServiceProvidersText from 'platform/user/authentication/components/ServiceProvidersText';
+import ServiceProvidersText, {
+  ServiceProvidersTextCreateAcct,
+} from 'platform/user/authentication/components/ServiceProvidersText';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -95,8 +97,8 @@ export class ConfirmationPage extends React.Component {
                 <strong>Sign in to VA.gov</strong>
               </p>
               <p>
-                You can sign in with your <ServiceProvidersText />
-                account. If you don’t have an account, you can create one now.
+                You can sign in with your existing <ServiceProvidersText />
+                account. <ServiceProvidersTextCreateAcct />
               </p>
             </li>
             <li className="process-step list-two">

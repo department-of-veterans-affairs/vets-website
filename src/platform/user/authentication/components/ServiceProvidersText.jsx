@@ -35,4 +35,31 @@ const ServiceProviders = React.memo(({ isBold }) => {
   });
 });
 
+export const ServiceProvidersTextCreateAcct = React.memo(
+  ({ isFormBased = false, hasExtraTodo = false }) => {
+    const loginGovEnabled = useSelector(state => loginGov(state));
+
+    const isFormComponent = isFormBased
+      ? 'completed this form without signing in, and you '
+      : null;
+    const showLoginGov = loginGovEnabled ? (
+      <>
+        <strong>Login.gov</strong> or{' '}
+      </>
+    ) : null;
+    const showExtraTodo = hasExtraTodo
+      ? ` When you sign in or create an account, you’ll be able to:`
+      : null;
+
+    return (
+      <>
+        If you {isFormComponent}
+        don’t have any of these accounts, you can create a free {showLoginGov}
+        <strong>ID.me</strong> account now.
+        {showExtraTodo}
+      </>
+    );
+  },
+);
+
 export default ServiceProviders;

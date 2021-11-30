@@ -2,7 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 
-import ServiceProvidersText from 'platform/user/authentication/components/ServiceProvidersText';
+import ServiceProvidersText, {
+  ServiceProvidersTextCreateAcct,
+} from 'platform/user/authentication/components/ServiceProvidersText';
 
 const UnverifiedPrefillAlert = props => (
   <div className="usa-alert usa-alert-info schemaform-sip-alert">
@@ -10,8 +12,8 @@ const UnverifiedPrefillAlert = props => (
       <h3 className="usa-alert-heading">Please sign in to submit a request</h3>
       <div className="usa-alert-text">
         <p>
-          Try signing in with your <ServiceProvidersText /> account. If you
-          don’t have any of those accounts, you can create one.
+          Sign in in with your existing <ServiceProvidersText /> account.{' '}
+          <ServiceProvidersTextCreateAcct />
         </p>
         <p>When you’re signed in to your VA.gov account:</p>
         <ul>

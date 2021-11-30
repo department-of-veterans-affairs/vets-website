@@ -8,7 +8,9 @@ import Telephone, {
 } from '@department-of-veterans-affairs/component-library/Telephone';
 import { focusElement } from 'platform/utilities/ui';
 
-import ServiceProvidersText from 'platform/user/authentication/components/ServiceProvidersText';
+import ServiceProvidersText, {
+  ServiceProvidersCreateText,
+} from 'platform/user/authentication/components/ServiceProvidersText';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -84,9 +86,8 @@ export class ConfirmationPage extends React.Component {
             <li className="process-step list-one vads-u-padding-bottom--1p5">
               <h3 className="vads-u-font-size--h5">Sign in to VA.gov</h3>
               <p>
-                You can sign in with your <ServiceProvidersText />
-                account. If you completed this form without signing in, and you
-                don’t have an account, you can create one now.
+                You can sign in with your existing <ServiceProvidersText />
+                account. <ServiceProvidersCreateText isFormBased />
               </p>
             </li>
             <li className="process-step list-two vads-u-padding-bottom--1p5">
