@@ -413,16 +413,7 @@ module.exports = async (env = {}) => {
         fix: true,
       }),
 
-      new MiniCssExtractPlugin({
-        filename: chunk => {
-          const { name } = chunk;
-
-          const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
-          if (isMedalliaStyleFile) return `[name].css`;
-
-          return `[name].css`;
-        },
-      }),
+      new MiniCssExtractPlugin(),
 
       new webpack.IgnorePlugin({
         resourceRegExp: /^\.\/locale$/,
