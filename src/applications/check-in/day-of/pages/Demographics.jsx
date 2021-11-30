@@ -7,7 +7,7 @@ import { goToNextPage, URLS } from '../utils/navigation';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import { seeStaffMessageUpdated } from '../actions';
-import DemographicsDisplay from '../../components/pages/DemographicsDisplay';
+import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
 
 const Demographics = props => {
   const {

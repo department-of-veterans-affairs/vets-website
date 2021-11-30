@@ -4,7 +4,7 @@ import DemographicItem from '../../DemographicItem';
 export default function NextOfKinDisplay({
   header = 'Is this your current next of kin information?',
   subtitle = '',
-  nextOfKin = [],
+  nextOfKin = {},
   yesAction = () => {},
   noAction = () => {},
   Footer,
@@ -24,7 +24,7 @@ export default function NextOfKinDisplay({
         <dl>
           {nextOfKinFields.map(nextOfKinField => (
             <React.Fragment key={nextOfKinField.key}>
-              <dt className="vads-u-font-size--h3 vads-u-font-family--serif">
+              <dt className="vads-u-font-weight--bold">
                 {nextOfKinField.title}
               </dt>
               <dd>
@@ -55,7 +55,7 @@ export default function NextOfKinDisplay({
       >
         No
       </button>
-      <Footer />
+      {Footer && <Footer />}
     </div>
   );
 }
