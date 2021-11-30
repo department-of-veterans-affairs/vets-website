@@ -26,9 +26,22 @@ describe('Medical Copays', () => {
   it('navigates to the detail page', () => {
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId(`updated-date`).contains('November 15, 2019');
+    cy.findByTestId(`status-alert`).contains(
+      'Pay your $15.00 balance or request help before December 15, 2019',
+    );
+    cy.findByTestId(`how-to-pay`).contains('How do I pay my VA copay bill?');
+    cy.findByTestId(`financial-help`).contains(
+      'How do I get financial help for my copays?',
+    );
+    cy.findByTestId(`dispute-charges`).contains(
+      'How do I dispute my copay charges?',
+    );
+    cy.findByTestId(`balance-questions`).contains(
+      'What to do if you have questions about your balance',
+    );
   });
 
-  it('download statements', () => {
+  it('displays download statements', () => {
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId(`download-statements`).should('exist');
     cy.findAllByText(/June 13, 2021 statement/i).should('exist');
