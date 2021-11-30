@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import BackToHome from '../../components/BackToHome';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import PropTypes from 'prop-types';
@@ -8,6 +8,8 @@ import BackButton from '../../components/BackButton';
 import DemographicsDisplay from '../../../components/pages/DemographicsDisplay';
 import recordEvent from 'platform/monitoring/record-event';
 import { recordAnswer } from '../../actions';
+
+import { makeSelectVeteranData } from '../../selectors';
 
 const Demographics = props => {
   const dispatch = useDispatch();
@@ -40,46 +42,9 @@ const Demographics = props => {
   const subtitle =
     'If you need to make changes, please talk to a staff member when you check in.';
 
-  // Temp data
-  const demographics = {
-    nextOfKin1: {
-      name: 'VETERAN,JONAH',
-      relationship: 'BROTHER',
-      phone: '1112223333',
-      workPhone: '4445556666',
-      address: {
-        street1: '123 Main St',
-        street2: 'Ste 234',
-        street3: '',
-        city: 'Los Angeles',
-        county: 'Los Angeles',
-        state: 'CA',
-        zip: '90089',
-        zip4: '',
-        country: 'USA',
-      },
-    },
-    mailingAddress: {
-      street1: '123 Turtle Trail',
-      street2: '',
-      street3: '',
-      city: 'Treetopper',
-      state: 'Tennessee',
-      zip: '101010',
-    },
-    homeAddress: {
-      street1: '445 Fine Finch Fairway',
-      street2: 'Apt 201',
-      city: 'Fairfence',
-      state: 'Florida',
-      zip: '445545',
-    },
-    homePhone: '5552223333',
-    mobilePhone: '5553334444',
-    workPhone: '5554445555',
-    emailAddress: 'kermit.frog@sesameenterprises.us',
-  };
-  //
+  const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { demographics } = useSelector(selectVeteranData);
+
   return (
     <>
       <BackButton action={goToPreviousPage} path={currentPage} />
