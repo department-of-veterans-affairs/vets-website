@@ -180,7 +180,10 @@ class ObjectField extends React.Component {
 
     // description and title setup
     const showFieldLabel = uiOptions.showFieldLabel;
-    const fieldsetClassNames = uiOptions.classNames;
+    const fieldsetClassNames = classNames(uiOptions.classNames, {
+      'vads-u-margin-bottom--2': !environment.isProduction(),
+    });
+
     const forceDivWrapper = !!uiOptions.forceDivWrapper;
     const title = uiSchema['ui:title'] || schema.title;
     const CustomTitleField = isReactComponent(title) ? title : null;
@@ -199,10 +202,6 @@ class ObjectField extends React.Component {
       'input-section': isRoot,
       'schemaform-field-container': true,
       'schemaform-block': title && !isRoot,
-    });
-
-    const newFieldsetClassNames = classNames(fieldsetClassNames, {
-      'vads-u-margin-bottom--2': !environment.isProduction(),
     });
 
     const pageIndex = formContext?.pagePerItemIndex;
@@ -382,14 +381,14 @@ class ObjectField extends React.Component {
 
     if (title && !forceDivWrapper) {
       return (
-        <fieldset className={newFieldsetClassNames}>
+        <fieldset className={fieldsetClassNames}>
           {environment.isProduction() ? fieldContent : accessibleFieldContent}
         </fieldset>
       );
     }
 
     return (
-      <div className={newFieldsetClassNames}>
+      <div className={fieldsetClassNames}>
         {environment.isProduction() ? fieldContent : accessibleFieldContent}
       </div>
     );
