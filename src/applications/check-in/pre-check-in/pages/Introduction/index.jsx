@@ -1,25 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import IntroductionDisplay from './IntroductionDisplay';
 
 import { api } from '../../api';
+
+import { setVeteranData } from '../../actions';
 
 // @TODO Remove appointments once mock API merged in. Add cypress test for intro.
 const Introduction = props => {
   const { router } = props;
   const [isLoading, setIsLoading] = useState(false);
   // select token from redux store
+  const dispatch = useDispatch();
+  const dispatchSetVeteranData = useCallback(
+    payload => {
+      dispatch(setVeteranData({ ...payload }));
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    // show loading screen
-    setIsLoading(true);
-    //  call get data from API
-    api.v2.getPreCheckInData().then(() => {
-      //  set data to state
-      // hide loading screen
-      setIsLoading(false);
-    });
-  }, []);
+  useEffect(
+    () => {
+      // show loading screen
+      setIsLoading(true);
+      //  call get data from API
+      api.v2.getPreCheckInData().then(json => {
+        const { payload } = json;
+        dispatchSetVeteranData(payload);
+        //  set data to state
+        // hide loading screen
+        setIsLoading(false);
+      });
+    },
+    [dispatchSetVeteranData],
+  );
   if (isLoading) {
     return <va-loading-indicator message="Loading your appointment details" />;
   } else {

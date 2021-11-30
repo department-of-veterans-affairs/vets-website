@@ -39,3 +39,12 @@ export const recordAnswer = answer => {
     payload: answer,
   };
 };
+
+export const SET_VETERAN_DATA = 'SET_VETERAN_DATA';
+
+export const setVeteranData = ({ appointments, demographics }) => {
+  return {
+    type: SET_VETERAN_DATA,
+    payload: { appointments, demographics },
+  };
+};
