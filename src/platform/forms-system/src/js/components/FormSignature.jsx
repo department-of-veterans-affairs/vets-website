@@ -36,7 +36,6 @@ export const FormSignature = ({
   showError,
   validations,
   onSectionComplete,
-  ariaLabelledBy,
 }) => {
   // Input states
   const [signature, setSignature] = useState({ value: '', dirty: false });
@@ -116,7 +115,6 @@ export const FormSignature = ({
         errorMessage={(showError || signature.dirty) && signatureError}
       />
       <Checkbox
-        aria-labelledby={ariaLabelledBy}
         label={checkboxLabel}
         required={required}
         onValueChange={setChecked}
