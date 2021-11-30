@@ -40,7 +40,10 @@ export const CoeDocumentList = props => {
                 Date Sent: {document.timestamp}
               </p>
               <a className="vads-u-margin--0" href="#">
-                <i className="fas fa-download vads-u-padding-right--1" />
+                <i
+                  aria-hidden="true"
+                  className="fas fa-download vads-u-padding-right--1"
+                />
                 {document.title} {document.type}
               </a>
             </div>
