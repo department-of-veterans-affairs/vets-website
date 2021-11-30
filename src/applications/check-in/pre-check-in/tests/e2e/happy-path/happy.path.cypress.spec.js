@@ -4,6 +4,7 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 
 import validateVeteran from '../pages/ValidateVeteran';
 import introduction from '../pages/Introduction';
+import demographics from '../pages/Demographics';
 
 import apiInitializer from '../support/ApiInitializer';
 
@@ -33,17 +34,14 @@ describe('Pre-Check In Experience ', () => {
 
     // page: Introduction
     introduction.validatePageLoaded();
+    introduction.countAppointmentList();
     cy.injectAxe();
     cy.axeCheck();
     introduction.attemptToGoToNextPage();
 
     // page: Demographics
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'Is this your current contact information?');
-    cy.injectAxe();
-    cy.axeCheck();
-    cy.get('button[data-testid="yes-button"]').click();
+    demographics.validatePageLoaded();
+    demographics.attemptToGoToNextPage();
 
     // page: Next of Kin
     cy.get('h1', { timeout: Timeouts.slow })
