@@ -7,6 +7,7 @@ import {
   basicInformation,
   location,
   organizationName,
+  representative,
   search,
   transitionPage,
 } from './imports';
@@ -42,6 +43,11 @@ const formConfig = {
           path: 'location',
           uiSchema: location.uiSchema,
           schema: location.schema,
+        },
+        representative: {
+          path: 'representative-name',
+          uiSchema: representative.uiSchema,
+          schema: representative.schema,
         },
         organizationName: {
           path: 'organization-name',

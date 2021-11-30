@@ -1,6 +1,7 @@
 const fs = require('fs');
 const webpackPreprocessor = require('@cypress/webpack-preprocessor');
 const table = require('table').table;
+const DefinePlugin = require('webpack').DefinePlugin;
 
 const tableConfig = {
   columns: {
@@ -18,6 +19,12 @@ module.exports = on => {
       const options = {
         webpackOptions: {
           ...webpackConfig,
+          plugins: [
+            new DefinePlugin({
+              __BUILDTYPE__: JSON.stringify(ENV),
+              __API__: JSON.stringify(''),
+            }),
+          ],
 
           // Expose some Node globals.
           node: {

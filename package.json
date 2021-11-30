@@ -152,7 +152,7 @@
     "cssnano": "^5.0.8",
     "cy-mobile-commands": "^0.3.0",
     "cy-tr-reporter": "^1.2.5",
-    "cypress": "^9.0.0",
+    "cypress": "^9.1.0",
     "cypress-axe": "^0.13.0",
     "cypress-multi-reporters": "^1.5.0",
     "cypress-plugin-tab": "^1.0.5",
@@ -314,7 +314,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#28b3ebc4236222c18760cfbd839c5d2e90e4c317",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7c75ec66abb2266abd0366831b64da70bc233576",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {

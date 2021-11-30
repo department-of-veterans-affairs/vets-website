@@ -5,6 +5,13 @@ import {
   checkInExperiencePreCheckInEnabled,
 } from './selectors';
 
+const selectCurrentContext = createSelector(
+  state => state.preCheckInData,
+  data => data.context,
+);
+
+const makeSelectCurrentContext = () => selectCurrentContext;
+
 const selectFeatureToggles = createSelector(
   state => ({
     isLoadingFeatureFlags: loadingFeatureFlags(state),
@@ -22,4 +29,4 @@ const selectForm = createSelector(
 
 const makeSelectForm = () => selectForm;
 
-export { makeSelectFeatureToggles, makeSelectForm };
+export { makeSelectCurrentContext, makeSelectFeatureToggles, makeSelectForm };
