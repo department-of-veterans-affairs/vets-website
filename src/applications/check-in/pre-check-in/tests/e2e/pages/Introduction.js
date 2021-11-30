@@ -1,9 +1,6 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 class Introduction {
-  initializeApi() {
-    // @TODO: fill in once we are actually using the API
-  }
   validatePageLoaded() {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
