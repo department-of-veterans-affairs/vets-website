@@ -19,18 +19,19 @@ const DownloadStatement = ({ statementId, statementDate, fullName }) => {
 
   const downloadFileName = `${fullName} Veterans Medical copay statement dated ${formattedStatementDate}.pdf`;
 
+  const pdfStatementUri = encodeURI(
+    `${
+      environment.API_URL
+    }/v0/medical_copays/get_pdf_statement_by_id/${statementId}?file_name=${downloadFileName}`,
+  );
+
   return (
     <article className="vads-u-padding--0">
       <div className="vads-u-margin-top--2">
         <a
           onClick={() => handleDownloadClick(statementDate)}
           target="_blank"
-          downloadFileName={downloadFileName}
-          href={encodeURI(
-            `${
-              environment.API_URL
-            }/v0/medical_copays/get_pdf_statement_by_id/${statementId}`,
-          )}
+          href={pdfStatementUri}
           type="application/pdf"
           className="vads-u-text-decoration--none"
           rel="noreferrer"
