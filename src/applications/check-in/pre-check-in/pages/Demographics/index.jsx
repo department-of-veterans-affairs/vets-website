@@ -32,7 +32,7 @@ const Demographics = props => {
     () => {
       recordEvent({
         event: 'cta-button-click',
-        'button-click-label': 'np-to-demographic-information',
+        'button-click-label': 'no-to-demographic-information',
       });
       dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
       goToNextPage();
