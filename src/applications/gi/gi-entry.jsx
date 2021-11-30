@@ -16,7 +16,7 @@ const REDESIGN_FEATURE_FLAG = 'gi_sandbox_comparison_tool_toggle';
 
 (async () => {
   const store = createCommonStore(reducer);
-  connectFeatureToggle(store.dispatch);
+  await connectFeatureToggle(store.dispatch);
 
   let isRedesign = toggleValues(store.getState())[REDESIGN_FEATURE_FLAG];
 

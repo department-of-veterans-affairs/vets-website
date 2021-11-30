@@ -1,4 +1,5 @@
 import { initApplicationMock } from './cypress-helpers';
+import { mockTogglesResponse } from './mock-feature_toggles';
 
 const institutionProfile = require('../data/institution-profile.json');
 const searchResults = require('../data/search-results.json');
@@ -10,6 +11,7 @@ describe('GI Bill Comparison Tool mobile view', () => {
     initApplicationMock(institutionProfile, searchResults);
 
     cy.visit('/gi-bill-comparison-tool');
+    cy.intercept('/v0/feature_toggles', mockTogglesResponse);
     cy.injectAxeThenAxeCheck();
   });
 

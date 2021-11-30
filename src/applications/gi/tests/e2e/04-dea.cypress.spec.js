@@ -8,6 +8,7 @@ import {
   enrolledOld,
 } from './gi-helpers';
 import { formatCurrency, formatNumber } from '../../utils/helpers';
+import { mockTogglesResponse } from './mock-feature_toggles';
 
 const institutionProfile = require('../data/institution-profile.json');
 const deaSearchResults = require('../data/dea-search-results.json');
@@ -25,6 +26,7 @@ describe('DEA benefit', () => {
     ).as('ojtProfile');
     initApplicationMock(institutionProfile, deaSearchResults);
     cy.visit('/gi-bill-comparison-tool');
+    cy.intercept('/v0/feature_toggles', mockTogglesResponse);
     cy.injectAxeThenAxeCheck();
   });
 

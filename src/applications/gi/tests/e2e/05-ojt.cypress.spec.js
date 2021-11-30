@@ -4,6 +4,7 @@ import {
   checkSectionAccordion,
   verifySearchResults,
 } from './gi-helpers';
+import { mockTogglesResponse } from './mock-feature_toggles';
 
 const ojtProfile = require('../data/ojt-profile.json');
 const ojtSearchResults = require('../data/ojt-search-results.json');
@@ -16,6 +17,7 @@ describe('OJT institution', () => {
 
     // Landing page
     cy.visit('/gi-bill-comparison-tool');
+    cy.intercept('/v0/feature_toggles', mockTogglesResponse);
     cy.injectAxeThenAxeCheck();
     cy.get('input[name*="category"][value="employer"]').check();
     cy.get('.keyword-search input[type="text"]').type(searchTerm);
