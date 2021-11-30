@@ -9,7 +9,7 @@ import Telephone, {
 import { focusElement } from 'platform/utilities/ui';
 
 import ServiceProvidersText, {
-  ServiceProvidersCreateText,
+  ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
 
 export class ConfirmationPage extends React.Component {
@@ -87,7 +87,7 @@ export class ConfirmationPage extends React.Component {
               <h3 className="vads-u-font-size--h5">Sign in to VA.gov</h3>
               <p>
                 You can sign in with your existing <ServiceProvidersText />
-                account. <ServiceProvidersCreateText isFormBased />
+                account. <ServiceProvidersTextCreateAcct isFormBased />
               </p>
             </li>
             <li className="process-step list-two vads-u-padding-bottom--1p5">

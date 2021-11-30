@@ -5,7 +5,7 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import { focusElement } from 'platform/utilities/ui';
 import ServiceProvidersText, {
-  ServiceProvidersCreateText,
+  ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
 
 import manifest from '../manifest.json';
@@ -92,7 +92,7 @@ export class ConfirmationPage extends React.Component {
               <h3 className="vads-u-font-size--h4">Sign in to VA.gov</h3>
               <p>
                 You can sign in with your existing <ServiceProvidersText />
-                account. <ServiceProvidersCreateText isFormBased />
+                account. <ServiceProvidersTextCreateAcct isFormBased />
               </p>
             </li>
             <li className="process-step list-two">
