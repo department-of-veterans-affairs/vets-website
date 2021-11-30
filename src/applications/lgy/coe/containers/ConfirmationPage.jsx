@@ -15,20 +15,8 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    // const { submission, data } = this.props.form;
-    // const { response } = submission;
-    // const name = data.veteranFullName;
-
-    const name = {
-      first: 'Robert',
-      middle: 'John',
-      last: 'Jones',
-      suffix: 'Jr.',
-    };
-
-    const response = {
-      timestamp: 1637783308000,
-    };
+    const { data, submission } = this.props.form;
+    const name = data.veteranFullName;
 
     return (
       <div>
@@ -54,11 +42,11 @@ export class ConfirmationPage extends React.Component {
             </span>
           )}
 
-          {response && (
+          {submission && (
             <ul className="claim-list">
               <li>
                 <h4>Date submitted</h4>
-                <span>{moment(response.timestamp).format('MMMM D, YYYY')}</span>
+                {moment(submission.timestamp).format('MMMM D, YYYY')}
               </li>
             </ul>
           )}
