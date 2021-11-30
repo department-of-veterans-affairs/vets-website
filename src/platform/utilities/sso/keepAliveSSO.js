@@ -69,17 +69,18 @@ export default async function keepAlive() {
     await resp.text();
     const alive = resp.headers.get('session-alive');
 
+    /**
+     * Use mapped authncontext for DS Logon and MHV
+     * Use `authncontextclassref` lookup for ID.me and Login.gov
+     */
+
     return {
       ttl: alive === 'true' ? Number(resp.headers.get('session-timeout')) : 0,
       transactionid: resp.headers.get('va_eauth_transactionid'),
-      /* for DSLogon or mhv, use a mapped authn context value, however for
-      * idme, we need to use the provided authncontextclassref as it could be
-      * for LOA1 or LOA3.  Any other csid values should be ignored, and we
-      * should return undefined
-      */
       authn: {
         DSLogon: 'dslogon',
         mhv: 'myhealthevet',
+        LOGINGOV: resp.headers.get('va_eauth_authncontextclassref'),
         idme: resp.headers.get('va_eauth_authncontextclassref'),
       }[resp.headers.get('va_eauth_csid')],
     };
