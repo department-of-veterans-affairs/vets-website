@@ -1,5 +1,4 @@
 import React from 'react';
-import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   login,
@@ -7,8 +6,7 @@ import {
   idmeSignupUrl,
 } from 'platform/user/authentication/utilities';
 import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
-
-const vaGovFullDomain = environment.BASE_URL;
+import IDMeSVG from 'platform/user/authentication/components/IDMeSVG';
 
 function loginHandler(loginType) {
   recordEvent({ event: `login-attempted-${loginType}` });
@@ -66,10 +64,7 @@ export default function NewDesignButtons({
         className="usa-button idme-button vads-u-margin-y--1p5 vads-u-padding-y--2"
         onClick={() => loginHandler('idme')}
       >
-        <img
-          alt="Sign in with ID.me"
-          src={`${vaGovFullDomain}/img/signin/idme-icon-white.svg`}
-        />
+        <IDMeSVG />
       </button>
       <button
         disabled={isDisabled}

@@ -1,8 +1,8 @@
 import mockFeatureTogglesDisabled from '../fixtures/toggle-ccp-disabled.json';
-import { LocationType } from '../../constants/index';
-import { facilityTypesOptions } from '../../config';
 import mockFacilityData from '../../constants/mock-facility-data.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
+
+const CC_PROVIDER = 'Community providers (in VA’s network)';
 
 describe('Facility Search - CCP (community care providers) disabled', () => {
   beforeEach(() => {
@@ -20,9 +20,7 @@ describe('Facility Search - CCP (community care providers) disabled', () => {
 
     cy.get('#facility-type-dropdown option').then(options => {
       const optionsWithoutCCP = [...options].map(o => o.text);
-      expect(optionsWithoutCCP).to.not.include(
-        facilityTypesOptions[LocationType.CC_PROVIDER],
-      );
+      expect(optionsWithoutCCP).to.not.include(CC_PROVIDER);
     });
   });
 });

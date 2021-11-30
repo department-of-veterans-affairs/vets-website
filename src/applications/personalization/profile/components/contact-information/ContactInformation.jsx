@@ -37,7 +37,7 @@ const ContactInformation = ({
 }) => {
   const lastLocation = useLastLocation();
   useEffect(() => {
-    document.title = `Personal And Contact Information | Veterans Affairs`;
+    document.title = `Contact Information | Veterans Affairs`;
 
     return () => {
       clearSuccessAlert();
@@ -107,7 +107,7 @@ const ContactInformation = ({
         message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
         when={hasUnsavedEdits}
       />
-      <Headline>Personal and contact information</Headline>
+      <Headline>Contact information</Headline>
       <DowntimeNotification
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}

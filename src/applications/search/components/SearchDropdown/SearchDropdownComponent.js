@@ -133,7 +133,6 @@ class SearchDropdownComponent extends React.Component {
     inputClassName: '',
     suggestionsListClassName: '',
     suggestionClassName: '',
-    fetchingSuggestions: true,
   };
 
   constructor(props) {
@@ -147,6 +146,7 @@ class SearchDropdownComponent extends React.Component {
       suggestions: [],
       a11yStatusMessage: '',
       displayA11yDescriptionFlag: undefined,
+      fetchingSuggestions: true,
     };
   }
 
@@ -642,6 +642,7 @@ class SearchDropdownComponent extends React.Component {
             aria-expanded={isOpen}
             aria-haspopup="listbox"
             aria-label={'Search'}
+            autoComplete="off"
             className={`vads-u-width--full search-dropdown-input-field ${
               fullWidthSuggestions
                 ? 'vads-u-margin--0 vads-u-display--block'
