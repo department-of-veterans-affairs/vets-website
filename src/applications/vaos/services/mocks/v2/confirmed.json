@@ -79,6 +79,50 @@
       }
     },
     {
+      "id": "22aa789cc",
+      "type": "cc_appointments",
+      "attributes": {
+        "cancelationReason": null,
+        "clinic": null,
+        "comment": "test",
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Cancelled community care appointment",
+        "end": null,
+        "id": "22aa789cc",
+        "kind": "cc",
+        "locationId": null,
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "practitioners": [
+          {
+            "identifier": {
+              "system": null,
+              "value": "1801312053"
+            },
+            "firstName": "Dr",
+            "lastName": "Hyde",
+            "practiceName": "Jeckle and Hyde"
+          }
+        ],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reason": null,
+        "requestedPeriods": null,
+        "serviceType": "audiology",
+        "slot": null,
+        "start": "2021-12-20T18:19:34",
+        "status": "cancelled",
+        "telehealth": null
+      }
+    },
+    {
       "id": "02aa456va",
       "type": "Appointment",
       "attributes": {
