@@ -4,8 +4,6 @@ describe('GI Keyboard Test', () => {
   it('Behaves as expected when a keyboard is used for interaction', () => {
     initApplicationMock();
     cy.visit('/gi-bill-comparison-tool/');
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(4000);
 
     // Assert the correct number of focusable elements in the form
     cy.hasFocusableCount('div.usa-width-two-thirds form', 14);
