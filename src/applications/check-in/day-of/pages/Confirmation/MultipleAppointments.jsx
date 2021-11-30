@@ -11,6 +11,7 @@ import Footer from '../../components/Footer';
 import AppointmentLocation from '../../components/AppointmentDisplay/AppointmentLocation';
 
 import { hasMoreAppointmentsToCheckInto } from '../../utils/appointment';
+import TravelPayReimbursementLink from '../../components/TravelPayReimbursementLink';
 
 const MultipleAppointments = props => {
   const { appointments, selectedAppointment, triggerRefresh } = props;
@@ -47,6 +48,7 @@ const MultipleAppointments = props => {
           when it’s time for your appointment to start.
         </p>
       </VaAlert>
+      <TravelPayReimbursementLink />
       {shouldShowBackButton && (
         <BackToAppointments
           appointments={appointments}

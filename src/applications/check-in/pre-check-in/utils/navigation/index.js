@@ -1,3 +1,10 @@
+/**
+ * @param {Object} location
+ * @param {Object} [location.query]
+ * @param {string} [location.query.id]
+ */
+const getTokenFromLocation = location => location?.query?.id;
+
 const URLS = Object.freeze({
   CONFIRMATION: 'complete',
   DEMOGRAPHICS: 'contact-information',
@@ -42,4 +49,4 @@ const createForm = ({ hasConfirmedDemographics = false }) => {
   return pages;
 };
 
-export { URLS, PRE_CHECK_IN_FORM_PAGES, createForm };
+export { URLS, PRE_CHECK_IN_FORM_PAGES, createForm, getTokenFromLocation };

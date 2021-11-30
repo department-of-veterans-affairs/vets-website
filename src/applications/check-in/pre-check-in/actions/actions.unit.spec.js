@@ -5,6 +5,8 @@ import {
   createInitFormAction,
   GO_TO_NEXT_PAGE,
   createGoToNextPageAction,
+  SET_SESSION,
+  createSetSession,
   recordAnswer,
   RECORD_ANSWER,
 } from './index';
@@ -39,6 +41,20 @@ describe('pre-check-in', () => {
           nextPage: 'next-page',
         });
         expect(action.payload.nextPage).equal('next-page');
+      });
+    });
+    describe('createSetSession', () => {
+      it('should return correct action', () => {
+        const action = createSetSession({});
+        expect(action.type).to.equal(SET_SESSION);
+      });
+      it('should return correct structure', () => {
+        const action = createSetSession({
+          token: 'some-token',
+          permissions: 'some-permission',
+        });
+        expect(action.payload.token).to.equal('some-token');
+        expect(action.payload.permissions).to.equal('some-permission');
       });
     });
     describe('recordAnswer', () => {

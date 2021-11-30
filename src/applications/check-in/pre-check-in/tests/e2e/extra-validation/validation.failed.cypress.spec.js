@@ -1,11 +1,12 @@
 import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
 import mockSession from '../../../api/local-mock-api/mocks/v2/sessions.responses';
-import Timeouts from 'platform/testing/e2e/timeouts';
 import '../support/commands';
 
 import validateVeteran from '../pages/ValidateVeteran';
+import error from '../pages/Error';
+import apiInitializer from '../support/ApiInitializer';
 
-describe.skip('Pre-Check In Experience -- Skipped', () => {
+describe('Pre-Check In Experience', () => {
   // @TODO: un-skip when the error page is created.
   describe('Validate Page', () => {
     beforeEach(function() {
@@ -14,7 +15,9 @@ describe.skip('Pre-Check In Experience -- Skipped', () => {
           mockSession.createMockSuccessResponse('some-token', 'read.basic'),
         );
       });
-      validateVeteran.initializeSessionPost.withFailure();
+      apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+
+      apiInitializer.initializeSessionPost.withFailure();
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
@@ -35,10 +38,8 @@ describe.skip('Pre-Check In Experience -- Skipped', () => {
       validateVeteran.typeLastName('Smith');
       validateVeteran.typeLast4('1234');
       validateVeteran.attemptToGoToNextPage();
-      // @TODO: update when the error page is created.
-      cy.get('h1', { timeout: Timeouts.slow })
-        .should('be.visible')
-        .and('contain', 'We couldn’t check you in');
+
+      error.validatePageLoaded();
     });
   });
 });
