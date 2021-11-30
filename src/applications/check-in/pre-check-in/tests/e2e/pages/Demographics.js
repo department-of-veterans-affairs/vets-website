@@ -26,15 +26,14 @@ class Demographics {
       .next()
       .should('have.text', 'Email address');
   }
-  // @TODO: update to match against mock api.
   validateDemographicData({
-    mailingAddress = '123 Turtle Trail Treetopper, Tennessee 10101',
-    homeAddress = '445 Fine Finch Fairway, Apt 201 Fairfence, Florida 44554',
+    mailingAddress = '123 Turtle TrailTreetopper, Tennessee 10101',
+    homeAddress = '445 Fine Finch Fairway, Apt 201Fairfence, Florida 44554',
     homePhone = '555-222-3333',
     mobilePhone = '555-333-4444',
     workPhone = '555-444-5555',
     email = 'kermit.frog@sesameenterprises.us',
-  }) {
+  } = {}) {
     cy.get("dl[data-testid='demographics-fields']")
       .find('dd:nth-of-type(1)')
       .should('have.text', mailingAddress)

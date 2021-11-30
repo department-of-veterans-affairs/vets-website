@@ -8,12 +8,12 @@ class Introduction {
   }
   validateMultipleAppointmentIntroText() {
     cy.get('p[data-testid="appointment-day-location"]').contains(
-      'Your appointments on November 16, 2021 at LOMA LINDA VA CLINIC.',
+      'Your appointments on November 30, 2021 at LOMA LINDA VA CLINIC.',
     );
   }
   validateSingleAppointmentIntroText() {
     cy.get('p[data-testid="appointment-day-location"]').contains(
-      'Your appointment is on November 16, 2021 at LOMA LINDA VA CLINIC.',
+      'Your appointment is on November 30, 2021 at LOMA LINDA VA CLINIC.',
     );
   }
   countAppointmentList(expectedLength) {
@@ -55,9 +55,13 @@ class Introduction {
         .should('not.be.visible');
     }
   }
-  validateExpirationDate() {
-    // @TODO update to use date from mock data with math.
-    cy.get('[data-testid="expiration-date"]').contains('11/15/2021');
+  validateExpirationDate(appointmentTime) {
+    const theDate = new Date(appointmentTime);
+    const theDateBefore = new Date(theDate.getTime());
+    theDateBefore.setDate(theDate.getDate() - 1);
+    cy.get('[data-testid="expiration-date"]').contains(
+      theDateBefore.toLocaleDateString(),
+    );
   }
   attemptToGoToNextPage() {
     cy.get('div[data-testid="intro-wrapper"] div[data-testid="start-button"] a')
