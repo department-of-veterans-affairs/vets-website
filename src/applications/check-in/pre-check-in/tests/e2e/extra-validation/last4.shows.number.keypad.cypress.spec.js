@@ -2,6 +2,7 @@ import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/featur
 import '../support/commands';
 
 import validateVeteran from '../pages/ValidateVeteran';
+import apiInitializer from '../support/ApiInitializer';
 
 describe('Pre-Check In Experience', () => {
   describe('Validate Page', () => {
@@ -13,7 +14,9 @@ describe('Pre-Check In Experience', () => {
           checkInExperienceUpdateInformationPageEnabled: true,
         }),
       );
-      validateVeteran.initializeSessionPost.withSuccess();
+      apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+
+      apiInitializer.initializeSessionPost.withSuccess();
     });
     afterEach(() => {
       cy.window().then(window => {

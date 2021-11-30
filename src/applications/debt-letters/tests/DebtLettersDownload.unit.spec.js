@@ -53,7 +53,7 @@ describe('DebtLettersDownload', () => {
       </MemoryRouter>,
     );
 
-    expect(wrapper.find(`DebtLetters`).length).to.equal(1);
+    expect(wrapper.find(`DebtLettersTable`).length).to.equal(1);
     expect(
       wrapper
         .find('DebtLettersTable')

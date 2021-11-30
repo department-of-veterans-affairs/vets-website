@@ -4,6 +4,8 @@ import '../support/commands';
 import validateVeteran from '../pages/ValidateVeteran';
 import introduction from '../pages/Introduction';
 
+import apiInitializer from '../support/ApiInitializer';
+
 describe('Pre-Check In Experience', () => {
   describe('Validate Page', () => {
     beforeEach(function() {
@@ -14,7 +16,12 @@ describe('Pre-Check In Experience', () => {
           checkInExperienceUpdateInformationPageEnabled: false,
         }),
       );
-      validateVeteran.initializeSessionPost.withTrimCheck();
+      apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+
+      apiInitializer.initializeSessionPost.withSuccess(req => {
+        expect(req.body.session.lastName).to.equal('Smith');
+        expect(req.body.session.last4).to.equal('1234');
+      });
     });
     afterEach(() => {
       cy.window().then(window => {

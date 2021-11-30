@@ -130,7 +130,7 @@ export function CompareGrid({
       <div
         role="table"
         aria-labelledby={sectionLabelId}
-        className={classNames('grid-data-parent', {
+        className={classNames('grid-data-parent', 'vads-u-margin-bottom--3', {
           'vads-l-row': !smallScreen,
         })}
       >

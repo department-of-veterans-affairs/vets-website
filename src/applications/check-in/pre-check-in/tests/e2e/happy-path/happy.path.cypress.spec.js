@@ -5,10 +5,14 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import validateVeteran from '../pages/ValidateVeteran';
 import introduction from '../pages/Introduction';
 
+import apiInitializer from '../support/ApiInitializer';
+
 describe('Pre-Check In Experience ', () => {
   beforeEach(function() {
     cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
-    validateVeteran.initializeSessionPost.withSuccess();
+    apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+
+    apiInitializer.initializeSessionPost.withSuccess();
   });
   afterEach(() => {
     cy.window().then(window => {
@@ -34,10 +38,10 @@ describe('Pre-Check In Experience ', () => {
     // page: Demographics
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Demographics');
+      .and('have.text', 'Is this your current contact information?');
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('#react-root > :nth-child(3)').click();
+    cy.get('button[data-testid="yes-button"]').click();
 
     // page: Next of Kin
     cy.get('h1', { timeout: Timeouts.slow })
