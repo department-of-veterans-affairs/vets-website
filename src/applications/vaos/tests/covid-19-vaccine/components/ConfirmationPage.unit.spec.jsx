@@ -84,7 +84,7 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
     expect(screen.baseElement).to.contain.text('Main phone: 307-778-7580');
     expect(screen.getByText(/add to calendar/i)).to.have.tagName('a');
 
-    expect(screen.getByText(/View your appointments/i)).to.have.attribute(
+    expect(screen.getByText(/Review your appointments/i)).to.have.attribute(
       'href',
       '/',
     );
