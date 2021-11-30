@@ -181,7 +181,7 @@ class ObjectField extends React.Component {
     // description and title setup
     const showFieldLabel = uiOptions.showFieldLabel;
     const fieldsetClassNames = classNames(uiOptions.classNames, {
-      'vads-u-margin-bottom--2': !environment.isProduction(),
+      'vads-u-margin-y--2': !environment.isProduction(),
     });
 
     const forceDivWrapper = !!uiOptions.forceDivWrapper;
