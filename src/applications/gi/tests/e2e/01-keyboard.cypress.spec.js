@@ -4,8 +4,8 @@ import { mockTogglesResponse } from './mock-feature_toggles';
 describe('GI Keyboard Test', () => {
   it('Behaves as expected when a keyboard is used for interaction', () => {
     initApplicationMock();
+    cy.intercept('GET', '/v0/feature_toggles*', mockTogglesResponse);
     cy.visit('/gi-bill-comparison-tool/');
-    cy.intercept('/v0/feature_toggles', mockTogglesResponse);
 
     // Assert the correct number of focusable elements in the form
     cy.hasFocusableCount('div.usa-width-two-thirds form', 14);

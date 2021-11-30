@@ -10,8 +10,8 @@ describe('GI Bill Comparison Tool mobile view', () => {
 
     initApplicationMock(institutionProfile, searchResults);
 
+    cy.intercept('GET', '/v0/feature_toggles*', mockTogglesResponse);
     cy.visit('/gi-bill-comparison-tool');
-    cy.intercept('/v0/feature_toggles', mockTogglesResponse);
     cy.injectAxeThenAxeCheck();
   });
 

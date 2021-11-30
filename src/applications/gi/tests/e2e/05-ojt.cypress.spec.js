@@ -16,8 +16,8 @@ describe('OJT institution', () => {
     initApplicationMock(ojtProfile, ojtSearchResults);
 
     // Landing page
+    cy.intercept('GET', '/v0/feature_toggles*', mockTogglesResponse);
     cy.visit('/gi-bill-comparison-tool');
-    cy.intercept('/v0/feature_toggles', mockTogglesResponse);
     cy.injectAxeThenAxeCheck();
     cy.get('input[name*="category"][value="employer"]').check();
     cy.get('.keyword-search input[type="text"]').type(searchTerm);

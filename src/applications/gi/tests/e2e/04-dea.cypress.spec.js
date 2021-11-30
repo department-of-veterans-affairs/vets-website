@@ -25,8 +25,8 @@ describe('DEA benefit', () => {
       ojtProfile,
     ).as('ojtProfile');
     initApplicationMock(institutionProfile, deaSearchResults);
+    cy.intercept('GET', '/v0/feature_toggles*', mockTogglesResponse);
     cy.visit('/gi-bill-comparison-tool');
-    cy.intercept('/v0/feature_toggles', mockTogglesResponse);
     cy.injectAxeThenAxeCheck();
   });
 
