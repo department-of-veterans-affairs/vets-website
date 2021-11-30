@@ -1,40 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import AppointmentBlock from '../../components/AppointmentBlock';
-import Footer from '../../components/Footer';
-import { focusElement } from 'platform/utilities/ui';
 import { format, add } from 'date-fns';
+
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-import { useFormRouting } from '../../hooks/useFormRouting';
+
+import { focusElement } from 'platform/utilities/ui';
+
+import AppointmentBlock from '../../components/AppointmentBlock';
+import Footer from '../../components/Footer';
 import BackToHome from '../../components/BackToHome';
 
-// @TODO Remove appointments once mock API merged in. Add cypress test for intro.
+import { useFormRouting } from '../../hooks/useFormRouting';
+
+import { makeSelectVeteranData } from '../../selectors';
+
+// @TODO  Add cypress test for intro.
 const IntroductionDisplay = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
   const { router } = props;
   const { goToNextPage } = useFormRouting(router);
+  const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { appointments } = useSelector(selectVeteranData);
+
   const [privacyActModalOpen, setPrivacyActModalOpen] = useState(false);
-  const appointments = [
-    {
-      facility: 'LOMA LINDA VA CLINIC',
-      clinicPhoneNumber: '5551234567',
-      clinicFriendlyName: 'TEST CLINIC',
-      clinicName: 'LOM ACC CLINIC TEST',
-      appointmentIen: 'some-ien',
-      startTime: '2021-11-16T21:39:36',
-    },
-    {
-      facility: 'LOMA LINDA VA CLINIC',
-      clinicPhoneNumber: '5551234567',
-      clinicFriendlyName: 'TEST CLINIC 2',
-      clinicName: 'LOM ACC CLINIC TEST',
-      appointmentIen: 'some-ien',
-      startTime: '2021-11-16T23:00:00',
-    },
-  ];
+
   const accordionContent = [
     {
       header: 'Will VA protect my personal health information?',
