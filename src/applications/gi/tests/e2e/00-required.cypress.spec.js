@@ -14,6 +14,8 @@ describe('Institution', () => {
   beforeEach(() => {
     initApplicationMock();
     cy.visit('/gi-bill-comparison-tool');
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(4000);
     cy.injectAxeThenAxeCheck();
   });
 
