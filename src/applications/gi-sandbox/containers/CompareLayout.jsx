@@ -11,16 +11,32 @@ import {
   upperCaseFirstLetterOnly,
 } from '../utils/helpers';
 import _ from 'lodash';
-import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
+import { MINIMUM_RATING_COUNT } from '../constants';
 import RatingsStars from '../components/RatingsStars';
 import { showModal } from '../actions';
-import LearnMoreLabel from '../components/LearnMoreLabel';
 import { religiousAffiliations } from '../utils/data/religiousAffiliations';
-import recordEvent from 'platform/monitoring/record-event';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import {
+  AccreditationModalContent,
+  GiBillStudentsModalContent,
+  SizeOfInstitutionsModalContent,
+  SpecializedMissionModalContent,
+  TuitionAndFeesModalContent,
+  HousingAllowanceSchoolModalContent,
+  BookStipendInfoModalContent,
+  CautionFlagsModalContent,
+  StudentComplaintsModalContent,
+  MilitaryTrainingCreditModalContent,
+  YellowRibbonModalContent,
+  StudentVeteranGroupModalContent,
+  PrinciplesOfExcellenceModalContent,
+  EightKeysModalContent,
+  MilitaryTuitionAssistanceModalContent,
+  PriorityEnrollmentModalContent,
+} from '../components/content/modals';
 
 const CompareLayout = ({
   calculated,
-  dispatchShowModal,
   estimated,
   hasRatings,
   institutions,
@@ -93,39 +109,13 @@ const CompareLayout = ({
             },
           },
           {
-            label: (
-              <LearnMoreLabel
-                text="Accreditation"
-                onClick={() => {
-                  dispatchShowModal('accreditation');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.accreditation
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.accreditation}
-              />
-            ),
+            label: 'Accreditation',
             className: 'capitalize-value',
             mapper: institution => naIfNull(institution.accreditationType),
           },
           {
-            label: (
-              <LearnMoreLabel
-                text="GI Bill students"
-                onClick={() => {
-                  dispatchShowModal('gibillstudents');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.numberOfStudents
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.numberOfStudents}
-                buttonId="GI-Bill-students-compare"
-              />
-            ),
+            label: 'GI Bill students',
+            className: 'capitalize-value',
             mapper: institution => naIfNull(institution.studentCount),
           },
           {
@@ -158,37 +148,13 @@ const CompareLayout = ({
             mapper: institution => naIfNull(institution.localeType),
           },
           {
-            label: (
-              <LearnMoreLabel
-                text="Size of institution"
-                onClick={() => {
-                  dispatchShowModal('sizeOfInstitution');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.sizeOfInstitution
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.sizeOfInstitution}
-              />
-            ),
+            label: 'Size of institution',
+            className: 'capitalize-value',
             mapper: institution => schoolSize(institution.undergradEnrollment),
           },
           {
-            label: (
-              <LearnMoreLabel
-                text="Specialized mission"
-                onClick={() => {
-                  dispatchShowModal('specializedMission');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.specializedMission
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.specializedMission}
-              />
-            ),
+            label: 'Specialized mission',
+            className: 'capitalize-value',
             mapper: institution => {
               const specialMission = [];
               if (institution.hbcu) {
@@ -212,6 +178,12 @@ const CompareLayout = ({
           },
         ]}
       />
+      <AdditionalInfo triggerText="Additional information on comparison summary fields">
+        <AccreditationModalContent />
+        <GiBillStudentsModalContent />
+        <SizeOfInstitutionsModalContent />
+        <SpecializedMissionModalContent />
+      </AdditionalInfo>
 
       <CompareGrid
         sectionLabel="Your estimated benefits"
@@ -221,20 +193,7 @@ const CompareLayout = ({
         smallScreen={smallScreen}
         fieldData={[
           {
-            label: (
-              <LearnMoreLabel
-                text="Tuition and fees"
-                onClick={() => {
-                  dispatchShowModal('tuitionAndFeesSchool');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.tuitionFees
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.tuitionFees}
-              />
-            ),
+            label: 'Tuition and fees',
             mapper: institution =>
               formatCurrency(
                 calculated[institution.facilityCode].outputs
@@ -259,6 +218,9 @@ const CompareLayout = ({
           },
         ]}
       />
+      <AdditionalInfo triggerText="Additional information on payments made to institution fields">
+        <TuitionAndFeesModalContent />
+      </AdditionalInfo>
 
       <CompareGrid
         subSectionLabel="Payments made to you"
@@ -267,44 +229,21 @@ const CompareLayout = ({
         smallScreen={smallScreen}
         fieldData={[
           {
-            label: (
-              <LearnMoreLabel
-                text="Housing allowance"
-                onClick={() => {
-                  dispatchShowModal('housingAllowanceSchool');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.housingAllowance
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.housingAllowance}
-              />
-            ),
+            label: 'Housing allowance',
             mapper: institution =>
               formatEstimate(estimated[institution.facilityCode].housing),
           },
           {
-            label: (
-              <LearnMoreLabel
-                text="Book stipend"
-                onClick={() => {
-                  dispatchShowModal('bookStipendInfo');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.bookStipend
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.bookStipend}
-              />
-            ),
+            label: 'Book stipend',
             mapper: institution =>
               formatEstimate(estimated[institution.facilityCode].books),
           },
         ]}
       />
-
+      <AdditionalInfo triggerText="Additional information on payments made to you fields">
+        <HousingAllowanceSchoolModalContent />
+        <BookStipendInfoModalContent />
+      </AdditionalInfo>
       {gibctSchoolRatings &&
         hasRatings && (
           <>
@@ -362,7 +301,6 @@ const CompareLayout = ({
                 },
               ]}
             />
-
             <CompareGrid
               subSectionLabel="Education ratings"
               institutions={institutions}
@@ -424,20 +362,7 @@ const CompareLayout = ({
         smallScreen={smallScreen}
         fieldData={[
           {
-            label: (
-              <LearnMoreLabel
-                text="Caution flags"
-                onClick={() => {
-                  dispatchShowModal('cautionFlags');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.cautionFlags
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.cautionFlags}
-              />
-            ),
+            label: 'Caution flags',
             className: institution =>
               classNames('caution-flag-display', {
                 none: institution.cautionFlags.length === 0,
@@ -490,24 +415,15 @@ const CompareLayout = ({
         smallScreen={smallScreen}
         fieldData={[
           {
-            label: (
-              <LearnMoreLabel
-                text="Student complaints"
-                onClick={() => {
-                  dispatchShowModal('studentComplaints');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.allCampusComplaints
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.allCampusComplaints}
-              />
-            ),
+            label: 'Student complaints',
             mapper: institution => +institution.complaints.mainCampusRollUp,
           },
         ]}
       />
+      <AdditionalInfo triggerText="Additional information on cautionary information fields">
+        <CautionFlagsModalContent />
+        <StudentComplaintsModalContent />
+      </AdditionalInfo>
 
       <CompareGrid
         sectionLabel="Academics"
@@ -521,24 +437,14 @@ const CompareLayout = ({
               programHours(institution.programLengthInHours),
           },
           {
-            label: (
-              <LearnMoreLabel
-                text="Credit for military training"
-                onClick={() => {
-                  dispatchShowModal('militaryTrainingCredit');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.militaryTrainingCredit
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.militaryTrainingCredit}
-              />
-            ),
+            label: 'Credit for military training',
             mapper: institution => boolYesNo(institution.creditForMilTraining),
           },
         ]}
       />
+      <AdditionalInfo triggerText="Additional information on academics fields">
+        <MilitaryTrainingCreditModalContent />
+      </AdditionalInfo>
 
       <CompareGrid
         sectionLabel="Veteran programs"
@@ -547,115 +453,39 @@ const CompareLayout = ({
         smallScreen={smallScreen}
         fieldData={[
           {
-            label: (
-              <LearnMoreLabel
-                text="Yellow Ribbon"
-                onClick={() => {
-                  dispatchShowModal('yribbon');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.yellowRibbonProgram
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.yellowRibbonProgram}
-                buttonId="veteran-programs-yellow-ribbon"
-              />
-            ),
+            label: 'Yellow Ribbon',
             mapper: institution => boolYesNo(institution.yr),
           },
           {
-            label: (
-              <LearnMoreLabel
-                text="Student Veteran Group"
-                onClick={() => {
-                  dispatchShowModal('vetgroups');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.studentVeteranGroup
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.studentVeteranGroup}
-                buttonId="student-veteran-group"
-              />
-            ),
+            label: 'Student Veteran Group',
             mapper: institution => boolYesNo(institution.studentVeteran),
           },
           {
-            label: (
-              <LearnMoreLabel
-                text="Principles of Excellence"
-                onClick={() => {
-                  dispatchShowModal('poe');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.principlesOfExcellence
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.principlesOfExcellence}
-                buttonId="principles-of-excellence"
-              />
-            ),
+            label: 'Principles of Excellence',
             mapper: institution => boolYesNo(institution.poe),
           },
           {
-            label: (
-              <LearnMoreLabel
-                text="8 Keys to Veteran Success"
-                onClick={() => {
-                  dispatchShowModal('eightKeys');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.eightKeys
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.eightKeys}
-                buttonId="eight-keys-to-veteran-success"
-              />
-            ),
+            label: '8 Keys to Veteran Success',
             mapper: institution => boolYesNo(institution.eightKeys),
           },
           {
-            label: (
-              <LearnMoreLabel
-                text="Military Tuition Assistance (TA)"
-                onClick={() => {
-                  dispatchShowModal('ta');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.militaryTuitionAssistance
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.militaryTuitionAssistance}
-                buttonId="military-tuition-assistance"
-              />
-            ),
+            label: 'Military Tuition Assistance (TA)',
             mapper: institution => boolYesNo(institution.dodmou),
           },
           {
-            label: (
-              <LearnMoreLabel
-                text="Priority Enrollment"
-                onClick={() => {
-                  dispatchShowModal('priorityEnrollment');
-                  recordEvent({
-                    event: `Learn more click: ${
-                      ariaLabels.learnMore.priorityEnrollment
-                    }`,
-                  });
-                }}
-                ariaLabel={ariaLabels.learnMore.priorityEnrollment}
-                buttonId="priority-enrollments"
-              />
-            ),
+            label: 'Priority Enrollment',
             mapper: institution => boolYesNo(institution.priorityEnrollment),
           },
         ]}
       />
+      <AdditionalInfo triggerText="Additional information on veteran programs fields">
+        <YellowRibbonModalContent />
+        <StudentVeteranGroupModalContent />
+        <PrinciplesOfExcellenceModalContent />
+        <EightKeysModalContent />
+        <MilitaryTuitionAssistanceModalContent />
+        <PriorityEnrollmentModalContent />
+      </AdditionalInfo>
     </div>
   );
 };
