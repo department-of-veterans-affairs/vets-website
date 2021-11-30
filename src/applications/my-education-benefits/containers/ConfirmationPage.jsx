@@ -5,9 +5,15 @@ import { connect } from 'react-redux';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import FormFooter from '../components/FormFooter';
-import { fetchClaimStatus } from '../actions';
+import {
+  fetchClaimStatus,
+  CLAIM_STATUS_RESPONSE_ELIGIBLE,
+  CLAIM_STATUS_RESPONSE_DENIED,
+  CLAIM_STATUS_RESPONSE_IN_PROGRESS,
+  CLAIM_STATUS_RESPONSE_ERROR,
+} from '../actions';
 
-const approvedPage = (
+const approvedPage = confirmationDate => (
   <div className="meb-confirmation-page meb-confirmation-page_approved">
     <va-alert onClose={function noRefCheck() {}} status="success">
       <h3 slot="headline">
@@ -31,10 +37,8 @@ const approvedPage = (
       <h3>Application for VA education benefits (Form 22-1990)</h3>
       <p>For Hector Oliver Stanley Jr.</p>
       <dl>
-        <dt>Confirmation number</dt>
-        <dd>V-EBC-8827</dd>
         <dt>Date received</dt>
-        <dd>September 8, 2021</dd>
+        <dd>{confirmationDate}</dd>
       </dl>
       <a
         className="usa-button meb-print"
@@ -100,7 +104,7 @@ const approvedPage = (
   </div>
 );
 
-const deniedPage = (
+const deniedPage = confirmationDate => (
   <div className="meb-confirmation-page meb-confirmation-page_denied">
     <va-alert onClose={function noRefCheck() {}} status="info">
       <h3 slot="headline">You’re not eligible for this benefit</h3>
@@ -122,10 +126,8 @@ const deniedPage = (
       <h3>Application for VA education benefits (Form 22-1990)</h3>
       <p>For Hector Oliver Stanley Jr.</p>
       <dl>
-        <dt>Confirmation number</dt>
-        <dd>V-EBC-8827</dd>
         <dt>Date received</dt>
-        <dd>September 8, 2021</dd>
+        <dd>{confirmationDate}</dd>
       </dl>
       <button
         className="usa-button meb-print"
@@ -159,7 +161,7 @@ const deniedPage = (
   </div>
 );
 
-const pendingPage = (
+const pendingPage = confirmationDate => (
   <div className="meb-confirmation-page meb-confirmation-page_denied">
     <va-alert onClose={function noRefCheck() {}} status="success">
       <h3 slot="headline">We’ve received your application</h3>
@@ -173,10 +175,8 @@ const pendingPage = (
       <h3>Application for VA education benefits (Form 22-1990)</h3>
       <p>For Hector Oliver Stanley Jr.</p>
       <dl>
-        <dt>Confirmation number</dt>
-        <dd>V-EBC-8827</dd>
         <dt>Date received</dt>
-        <dd>September 8, 2021</dd>
+        <dd>{confirmationDate}</dd>
       </dl>
       <button
         className="usa-button meb-print"
@@ -258,7 +258,7 @@ const loadingPage = (
   </div>
 );
 
-export const ConfirmationPage = ({ form, claimStatus, getClaimStatus }) => {
+export const ConfirmationPage = ({ claimStatus, getClaimStatus }) => {
   useEffect(
     () => {
       if (!claimStatus) {
@@ -268,68 +268,31 @@ export const ConfirmationPage = ({ form, claimStatus, getClaimStatus }) => {
     [getClaimStatus, claimStatus],
   );
 
-  const { submission, data } = form;
-  const { response } = submission;
-  const name = data.veteranFullName;
-
-  const confirmationResult = claimStatus || 'loading';
+  const confirmationResult = claimStatus?.claimStatus;
+  const confirmationDate = claimStatus?.receivedDate
+    ? format(new Date(claimStatus?.receivedDate), 'MMM d, yyyy')
+    : undefined;
 
   switch (confirmationResult) {
-    case 'approved': {
-      return approvedPage;
+    case CLAIM_STATUS_RESPONSE_ELIGIBLE: {
+      return approvedPage(confirmationDate);
     }
-    case 'denied': {
-      return deniedPage;
+    case CLAIM_STATUS_RESPONSE_DENIED: {
+      return deniedPage(confirmationDate);
     }
-    case 'pending': {
-      return pendingPage;
-    }
-    case 'loading': {
-      return loadingPage;
+    case CLAIM_STATUS_RESPONSE_IN_PROGRESS:
+    case CLAIM_STATUS_RESPONSE_ERROR: {
+      return pendingPage(confirmationDate);
     }
     default: {
-      return (
-        <div>
-          <h3 className="confirmation-page-title">Claim received</h3>
-          <p>
-            We usually process claims within <strong>a week</strong>.
-          </p>
-          <p>
-            We may contact you for more information or documents.
-            <br />
-            <i>Please print this page for your records.</i>
-          </p>
-          <div className="inset">
-            <h4>
-              My Education Benefits Claim{' '}
-              <span className="additional">(Form 22-1990)</span>
-            </h4>
-            {name ? (
-              <span>
-                for {name.first} {name.middle} {name.last} {name.suffix}
-              </span>
-            ) : null}
-
-            {response ? (
-              <ul className="claim-list">
-                <li>
-                  <strong>Date received</strong>
-                  <br />
-                  <span>{format(response.timestamp, 'MMM D, YYYY')}</span>
-                </li>
-              </ul>
-            ) : null}
-          </div>
-        </div>
-      );
+      return loadingPage;
     }
   }
 };
 
 const mapStateToProps = state => {
-  const form = state.form || {};
   const claimStatus = state.data?.claimStatus;
-  return { form, claimStatus };
+  return { claimStatus };
 };
 
 const mapDispatchToProps = {

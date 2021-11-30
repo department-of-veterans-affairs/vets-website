@@ -5,6 +5,8 @@ const CLAIMANT_INTO_ENDPOINT = `${
   environment.API_URL
 }/meb_api/v0/claimant_info`;
 
+const CLAIM_STATUS_ENDPOINT = `${environment.API_URL}/meb_api/v0/claim_status`;
+
 export const FETCH_PERSONAL_INFORMATION = 'FETCH_PERSONAL_INFORMATION';
 export const FETCH_PERSONAL_INFORMATION_SUCCESS =
   'FETCH_PERSONAL_INFORMATION_SUCCESS';
@@ -18,6 +20,14 @@ export const FETCH_MILITARY_INFORMATION_FAILED =
 export const FETCH_CLAIM_STATUS = 'FETCH_CLAIM_STATUS';
 export const FETCH_CLAIM_STATUS_SUCCESS = 'FETCH_CLAIM_STATUS_SUCCESS';
 export const FETCH_CLAIM_STATUS_FAILURE = 'FETCH_CLAIM_STATUS_FAILURE';
+
+export const CLAIM_STATUS_RESPONSE_ELIGIBLE = 'ELIGIBLE';
+export const CLAIM_STATUS_RESPONSE_DENIED = 'DENIED';
+export const CLAIM_STATUS_RESPONSE_IN_PROGRESS = 'INPROGRESS';
+export const CLAIM_STATUS_RESPONSE_ERROR = 'ERROR';
+
+const ONE_MINUTE_IN_THE_FUTURE = new Date(new Date().getTime() + 60000);
+const FIVE_SECONDS = 5000;
 
 export function fetchPersonalInformation() {
   return async dispatch => {
@@ -39,18 +49,27 @@ export function fetchPersonalInformation() {
   };
 }
 
-const poll = ({ endpoint, validate, interval, endTime, dispatch }) => {
+const poll = ({
+  endpoint,
+  validate = response => response && response.data,
+  interval = FIVE_SECONDS,
+  endTime = ONE_MINUTE_IN_THE_FUTURE,
+  dispatch,
+}) => {
   // eslint-disable-next-line consistent-return
   const executePoll = async (resolve, reject) => {
-    const result = await apiRequest(endpoint);
+    const response = await apiRequest(endpoint);
 
-    if (validate(result)) {
-      return resolve('approved');
+    if (validate(response)) {
+      return resolve(response.data);
     } else if (new Date() >= endTime) {
-      return reject('pending');
-    } else {
-      setTimeout(executePoll, interval, resolve, reject);
+      return resolve({
+        claimStatus: CLAIM_STATUS_RESPONSE_IN_PROGRESS,
+        receivedDate: Date.now(),
+      });
     }
+
+    setTimeout(executePoll, interval, resolve, reject);
   };
 
   return new Promise(executePoll)
@@ -68,20 +87,12 @@ const poll = ({ endpoint, validate, interval, endTime, dispatch }) => {
     });
 };
 
-const validateClaimStatusResponse = response => response && response.condition;
-const POLL_INTERVAL = 5000;
-const CLAIM_STATUS_ENDPOINT = CLAIMANT_INTO_ENDPOINT;
-
 export function fetchClaimStatus() {
   return async dispatch => {
     dispatch({ type: FETCH_CLAIM_STATUS });
-    const ONE_MINUTE_IN_THE_FUTURE = new Date(new Date().getTime() + 60000);
 
     poll({
       endpoint: CLAIM_STATUS_ENDPOINT,
-      validate: validateClaimStatusResponse,
-      interval: POLL_INTERVAL,
-      endTime: ONE_MINUTE_IN_THE_FUTURE,
       dispatch,
     });
   };
