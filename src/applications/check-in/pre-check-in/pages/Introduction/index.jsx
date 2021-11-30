@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import IntroductionDisplay from './IntroductionDisplay';
 
@@ -8,6 +8,8 @@ import { api } from '../../api';
 import { setVeteranData } from '../../actions';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
+
+import { makeSelectCurrentContext } from '../../selectors';
 
 // @TODO Remove appointments once mock API merged in. Add cypress test for intro.
 const Introduction = props => {
@@ -25,13 +27,16 @@ const Introduction = props => {
     [dispatch],
   );
 
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectCurrentContext);
+
   useEffect(
     () => {
       // show loading screen
       setIsLoading(true);
       //  call get data from API
       api.v2
-        .getPreCheckInData()
+        .getPreCheckInData(token)
         .then(json => {
           const { payload } = json;
           //  set data to state
@@ -43,7 +48,7 @@ const Introduction = props => {
           goToErrorPage();
         });
     },
-    [dispatchSetVeteranData, goToErrorPage],
+    [dispatchSetVeteranData, goToErrorPage, token],
   );
   if (isLoading) {
     return <va-loading-indicator message="Loading your appointment details" />;
