@@ -88,6 +88,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -101,10 +103,22 @@ jobs:
       - name: Create test results folder
         run: mkdir -p test-results
 
+      - name: List changed files
+        id: changed-files
+        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+
+      - name: Get app folders for changed files
+        id: get-changed-apps
+        if: ${{ github.ref != 'refs/heads/master' }}
+        run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder)
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+
       - name: Run unit tests
-        run: yarn test:unit --coverage
+        run: yarn test:unit ${APP_FOLDERS:+"{$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
           MOCHA_FILE: test-results/unit-tests.xml
+          APP_FOLDERS: ${{ steps.get-changed-apps.outputs.app_folders }}
 
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
