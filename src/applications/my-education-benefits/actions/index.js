@@ -51,10 +51,11 @@ export function fetchPersonalInformation() {
 
 const poll = ({
   endpoint,
-  validate = response => response && response.data,
+  validate,
   interval = FIVE_SECONDS,
   endTime = ONE_MINUTE_IN_THE_FUTURE,
   dispatch,
+  timeoutResponse,
 }) => {
   // eslint-disable-next-line consistent-return
   const executePoll = async (resolve, reject) => {
@@ -63,10 +64,7 @@ const poll = ({
     if (validate(response)) {
       return resolve(response.data);
     } else if (new Date() >= endTime) {
-      return resolve({
-        claimStatus: CLAIM_STATUS_RESPONSE_IN_PROGRESS,
-        receivedDate: Date.now(),
-      });
+      return resolve(timeoutResponse);
     }
 
     setTimeout(executePoll, interval, resolve, reject);
@@ -90,10 +88,18 @@ const poll = ({
 export function fetchClaimStatus() {
   return async dispatch => {
     dispatch({ type: FETCH_CLAIM_STATUS });
+    const timeoutResponse = {
+      claimStatus: CLAIM_STATUS_RESPONSE_IN_PROGRESS,
+      receivedDate: Date.now(),
+    };
 
     poll({
       endpoint: CLAIM_STATUS_ENDPOINT,
+      validate: response =>
+        response.data &&
+        response.data.claimStatus !== CLAIM_STATUS_RESPONSE_IN_PROGRESS,
       dispatch,
+      timeoutResponse,
     });
   };
 }
