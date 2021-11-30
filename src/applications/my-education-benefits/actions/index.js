@@ -47,8 +47,7 @@ const poll = ({ endpoint, validate, interval, endTime, dispatch }) => {
     if (validate(result)) {
       return resolve('approved');
     } else if (new Date() >= endTime) {
-      return resolve('approved'); // Temporary for testing.
-      // return reject('Exceeded end time.');
+      return reject('pending');
     } else {
       setTimeout(executePoll, interval, resolve, reject);
     }
@@ -70,20 +69,19 @@ const poll = ({ endpoint, validate, interval, endTime, dispatch }) => {
 };
 
 const validateClaimStatusResponse = response => response && response.condition;
-const POLL_INTERVAL = 1000; // Just for testing. Will be 5000.
+const POLL_INTERVAL = 5000;
 const CLAIM_STATUS_ENDPOINT = CLAIMANT_INTO_ENDPOINT;
 
 export function fetchClaimStatus() {
   return async dispatch => {
     dispatch({ type: FETCH_CLAIM_STATUS });
-    // const ONE_MINUTE_IN_THE_FUTURE = new Date(new Date().getTime() + 60000);
-    const FIVE_SECONDS_IN_THE_FUTURE = new Date(new Date().getTime() + 5000);
+    const ONE_MINUTE_IN_THE_FUTURE = new Date(new Date().getTime() + 60000);
 
     poll({
       endpoint: CLAIM_STATUS_ENDPOINT,
       validate: validateClaimStatusResponse,
       interval: POLL_INTERVAL,
-      endTime: FIVE_SECONDS_IN_THE_FUTURE,
+      endTime: ONE_MINUTE_IN_THE_FUTURE,
       dispatch,
     });
   };
