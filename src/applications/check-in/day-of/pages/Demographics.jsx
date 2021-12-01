@@ -18,7 +18,7 @@ const Demographics = props => {
     updateSeeStaffMessage,
     demographicsUpToDate,
   } = props;
-  const nextPage = () => {
+  const findNextPage = () => {
     if (isNextOfKinEnabled) {
       goToNextPage(router, URLS.NEXT_OF_KIN);
     } else if (isUpdatePageEnabled) {
@@ -27,16 +27,13 @@ const Demographics = props => {
       goToNextPage(router, URLS.DETAILS);
     }
   };
-  const yesClick = useCallback(
-    () => {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'yes-to-demographic-information',
-      });
-      nextPage();
-    },
-    [router],
-  );
+  const yesClick = useCallback(() => {
+    recordEvent({
+      event: 'cta-button-click',
+      'button-click-label': 'yes-to-demographic-information',
+    });
+    findNextPage();
+  }, []);
 
   const noClick = useCallback(
     () => {
@@ -67,7 +64,7 @@ const Demographics = props => {
     goToNextPage(router, URLS.ERROR);
     return <></>;
   } else if (demographicsUpToDate) {
-    nextPage();
+    findNextPage();
     return <></>;
   } else {
     return (
