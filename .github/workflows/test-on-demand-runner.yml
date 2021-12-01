@@ -105,7 +105,9 @@ jobs:
 
   test:
     name: Test
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-sS2-RCA1-v1.cer.pem
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -141,7 +143,6 @@ jobs:
 
       - name: CMS GovDelivery callback
         uses: fjogeleit/http-request-action@master
-        continue-on-error: true
         with:
           url: https://dev.cms.va.gov/api/govdelivery_bulletins/queue?EndTime=1638390897&src=gha&runId=${{ github.run_id }}&runNumber=${{ github.run_number }}
           method: GET
