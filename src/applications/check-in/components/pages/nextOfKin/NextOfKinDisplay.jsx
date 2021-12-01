@@ -7,6 +7,7 @@ export default function NextOfKinDisplay({
   nextOfKin = {},
   yesAction = () => {},
   noAction = () => {},
+  isSendingData = false,
   Footer,
 }) {
   const nextOfKinFields = [
@@ -41,20 +42,29 @@ export default function NextOfKinDisplay({
           ))}
         </dl>
       </div>
-      <button
-        onClick={yesAction}
-        className={'usa-button-secondary'}
-        data-testid="yes-button"
-      >
-        Yes
-      </button>
-      <button
-        onClick={noAction}
-        className="usa-button-secondary vads-u-margin-top--2"
-        data-testid="no-button"
-      >
-        No
-      </button>
+      {!isSendingData ? (
+        <>
+          <button
+            onClick={yesAction}
+            className={'usa-button-secondary'}
+            data-testid="yes-button"
+          >
+            Yes
+          </button>
+          <button
+            onClick={noAction}
+            className="usa-button-secondary vads-u-margin-top--2"
+            data-testid="no-button"
+          >
+            No
+          </button>
+        </>
+      ) : (
+        <>
+          <va-loading-indicator message={'Saving your responses...'} />
+        </>
+      )}
+
       {Footer && <Footer />}
     </div>
   );
