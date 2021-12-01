@@ -52,7 +52,7 @@ export const CoeDocumentList = props => {
       </>
     );
   }
-  if (props.onUploadPage) {
+  if (props.notOnUploadPage) {
     return (
       <>
         <h2>How will I know if VA needs more information from me?</h2>

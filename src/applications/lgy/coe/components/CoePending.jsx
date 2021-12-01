@@ -18,7 +18,7 @@ export const CoePending = props => (
         </p>
       </va-alert>
       <CoeDocumentUpload />
-      <CoeDocumentList onUploadPage={props.onUploadPage} />
+      <CoeDocumentList onUploadPage={props.notOnUploadPage} />
       <h2>Should I apply again?</h2>
       <p className="vads-u-margin-bottom--0">
         No. We’re reviewing your current application, and submitting a new
