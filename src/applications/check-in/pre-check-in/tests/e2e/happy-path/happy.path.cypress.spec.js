@@ -4,8 +4,8 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 
 import validateVeteran from '../pages/ValidateVeteran';
 import introduction from '../pages/Introduction';
-import demographics from '../pages/Demographics';
-
+import NextOfKin from '../pages/NextOfKin';
+import Demographics from '../pages/Demographics';
 import apiInitializer from '../support/ApiInitializer';
 
 describe('Pre-Check In Experience ', () => {
@@ -41,16 +41,16 @@ describe('Pre-Check In Experience ', () => {
     introduction.attemptToGoToNextPage();
 
     // page: Demographics
-    demographics.validatePageLoaded();
-    demographics.attemptToGoToNextPage();
-
-    // page: Next of Kin
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'Is this your current next of kin?');
+    Demographics.validatePageLoaded();
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('button[data-testid="yes-button"]').click();
+    Demographics.attemptToGoToNextPage();
+
+    // page: Next of Kin
+    NextOfKin.validatePageLoaded();
+    cy.injectAxe();
+    cy.axeCheck();
+    NextOfKin.attemptToGoToNextPage();
 
     // page: Confirmation
     cy.get('h1', { timeout: Timeouts.slow })
