@@ -11,10 +11,10 @@ import {
 } from '../redux/actions';
 
 const pageKey = 'secondDosePage';
-const pageTitle = 'When to expect a second dose';
+const pageTitle = 'When to plan for a second dose';
 
 export default function SecondDosePage() {
-  const { data, facility } = useSelector(
+  const { data } = useSelector(
     state => getReviewPage(state, pageKey),
     shallowEqual,
   );
@@ -33,14 +33,9 @@ export default function SecondDosePage() {
       <h1>{pageTitle}</h1>
       <div className="vads-u-margin-bottom--4">
         <p>
-          If you need a second dose, you may need to return to the{' '}
-          {facility.name} after the dates below, depending on which vaccine you
-          receive:
-        </p>
-        <p>
-          If you receive your first dose on{' '}
-          <strong>{moment(date1[0]).format('dddd, MMMM DD, YYYY')}</strong> and
-          receive:
+          If you get your first dose of a 2-dose vaccine on{' '}
+          <strong>{moment(date1[0]).format('dddd, MMMM DD, YYYY')}</strong>,
+          here’s when to plan to come back for your second dose.
         </p>
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
           Moderna

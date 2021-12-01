@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
@@ -89,7 +90,9 @@ export const IntroductionPage = ({ user, route }) => {
           </li>
           <li className="process-step list-two">
             <h4>Gather your information</h4>
-            <p>Here’s what you’ll need to apply:</p>
+            <p>
+              <strong>Here’s what you’ll need to apply</strong>:
+            </p>
             <ul>
               <li>Knowledge of your military service history</li>
               <li>Your current address and contact information</li>
@@ -121,12 +124,16 @@ export const IntroductionPage = ({ user, route }) => {
         </ol>
       </div>
 
-      {user?.login?.currentlyLoggedIn ? (
-        <h3>Begin your application for education benefits</h3>
-      ) : (
-        <></>
-      )}
+      {user?.login?.currentlyLoggedIn &&
+        !user.profile.savedForms.some(
+          p => p.form === VA_FORM_IDS.FORM_22_1990EZ,
+        ) && <h3>Begin your application for education benefits</h3>}
+
       {SaveInProgressComponent}
+
+      {!user?.login?.currentlyLoggedIn && (
+        <a href="#">Start your application without signing in</a>
+      )}
 
       <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="02/28/2023" />
     </div>
