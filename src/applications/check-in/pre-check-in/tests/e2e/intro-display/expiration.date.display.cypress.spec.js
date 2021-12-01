@@ -33,7 +33,7 @@ describe('Pre-Check In Experience', () => {
       });
     });
     it('expiration date is day before appointment', () => {
-      introduction.validateExpirationDate('11/30/2021');
+      introduction.validateExpirationDate(new Date());
     });
   });
 });

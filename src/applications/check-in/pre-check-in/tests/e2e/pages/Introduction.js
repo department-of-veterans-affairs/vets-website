@@ -1,4 +1,5 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
+import { format } from 'date-fns';
 
 class Introduction {
   validatePageLoaded() {
@@ -6,14 +7,20 @@ class Introduction {
       .should('be.visible')
       .and('have.text', 'Answer pre check-in questions');
   }
-  validateMultipleAppointmentIntroText() {
+  validateMultipleAppointmentIntroText(appointmentDate = new Date()) {
     cy.get('p[data-testid="appointment-day-location"]').contains(
-      'Your appointments on November 30, 2021 at LOMA LINDA VA CLINIC.',
+      `Your appointments on ${format(
+        appointmentDate,
+        'MMMM dd, Y',
+      )} at LOMA LINDA VA CLINIC.`,
     );
   }
-  validateSingleAppointmentIntroText() {
+  validateSingleAppointmentIntroText(appointmentDate = new Date()) {
     cy.get('p[data-testid="appointment-day-location"]').contains(
-      'Your appointment is on November 30, 2021 at LOMA LINDA VA CLINIC.',
+      `Your appointment on ${format(
+        appointmentDate,
+        'MMMM dd, Y',
+      )} at LOMA LINDA VA CLINIC.`,
     );
   }
   countAppointmentList(expectedLength) {
