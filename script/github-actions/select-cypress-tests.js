@@ -7,7 +7,8 @@ const { integrationFolder, testFiles } = require('../../config/cypress.json');
 const findImports = require('find-imports');
 
 const IS_MASTER_BUILD = process.env.IS_MASTER_BUILD === 'true';
-const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_URLS);
+const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
+const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);
 
 function getImports(filePath) {
   return findImports(filePath, {
@@ -152,7 +153,7 @@ function selectedTests(graph, pathsOfChangedFiles) {
 
   // Only run the mega menu test for changed apps builds,
   // otherwise run all tests in src/platform for full builds
-  if (IS_CHANGED_APPS_BUILD) {
+  if (IS_CHANGED_APPS_BUILD && APPS_HAVE_URLS) {
     const megaMenuTestPath = path.join(
       __dirname,
       '../..',

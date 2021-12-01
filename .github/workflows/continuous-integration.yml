@@ -401,10 +401,12 @@ jobs:
         id: changed-files
         run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
 
-      - name: Get app URLs for header test
+      - name: Get changed apps for header test
         id: get-changed-apps
         if: ${{ github.ref != 'refs/heads/master' }}
-        run: echo ::set-output name=app_urls::$(node script/github-actions/get-changed-apps.js --output-type url)
+        run: | 
+          echo ::set-output name=app_urls::$(node script/github-actions/get-changed-apps.js --output-type url)
+          echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
@@ -414,6 +416,7 @@ jobs:
           IS_MASTER_BUILD: ${{ env.IS_MASTER_BUILD }}
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
           APP_URLS: ${{ steps.get-changed-apps.outputs.app_urls }}
+          APP_ENTRIES: ${{ steps.get-changed-apps.outputs.app_entries }}
 
       - name: Set output of TESTS
         id: tests
