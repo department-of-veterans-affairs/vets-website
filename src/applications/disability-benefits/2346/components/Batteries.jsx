@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BATTERY } from '../constants';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 class Batteries extends Component {
   componentDidMount() {
@@ -190,15 +191,23 @@ class Batteries extends Component {
             </div>
           ))}
         {batterySupplies.length > 0 && (
-          <AdditionalInfo triggerText="What if I don't see my device?">
+          <AdditionalInfo triggerText="What if my device isn’t listed here?">
             <p>
-              You may not see your hearing aid device if you haven’t placed an
-              order for resupply items within the last 2 years. If you need to
-              order batteries, call the DLC Customer Service Section at{' '}
-              <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
-                303-273-6200
-              </a>{' '}
-              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+              Your hearing aid device may not be listed here if you haven’t
+              placed an order for resupply items within the last 2 years. If you
+              need to order batteries, call the DLC Customer Service Section at
+              <Telephone
+                contact={'303-273-6200'}
+                className="vads-u-margin--0p5"
+              />
+              or email
+              <a
+                href="mailto:dalc.css@va.gov"
+                className="vads-u-margin-left--0p5"
+              >
+                dalc.css@va.gov
+              </a>
+              .
             </p>
             <p>
               If you need a new hearing aid device, you'll need to call your

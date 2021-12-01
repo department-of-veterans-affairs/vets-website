@@ -65,6 +65,11 @@
     "widgetType": "manage-va-debt-cta"
   },
   {
+    "appName": "Pay Your VA Copay Bill",
+    "rootUrl": "/health-care/pay-copay-bill",
+    "widgetType": "medical-copays-cta"
+  },
+  {
     "appName": "Post-9/11 GI Bill Statement Of Benefits",
     "rootUrl": "/education/gi-bill/post-9-11/ch-33-benefit",
     "widgetType": "post-9-11-gi-bill-status"

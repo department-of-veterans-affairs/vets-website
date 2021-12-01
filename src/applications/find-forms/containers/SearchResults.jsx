@@ -287,8 +287,8 @@ export const SearchResults = ({
               open the PDF on a mobile device or fill it out in your browser.
             </p>{' '}
             <p>
-              If you just want to fill out a paper copy, open the PDF in your
-              browser and print it from there.
+              If you want to fill out a paper copy, open the PDF in your browser
+              and print it from there.
             </p>{' '}
             <a href="https://get.adobe.com/reader/" rel="noopener noreferrer">
               Get Acrobat Reader for free from Adobe

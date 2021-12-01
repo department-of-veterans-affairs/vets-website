@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import FacilityAddress from '../../../components/FacilityAddress';
-import InfoAlert from '../../../components/InfoAlert';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
 
@@ -105,16 +104,6 @@ export default function FacilitiesRadioWidget({
             </span>
           </button>
         )}
-
-      <InfoAlert
-        backgroundOnly
-        headline="Some COVID-19 vaccines require 2 doses"
-        level={2}
-        status="info"
-      >
-        If you get a vaccine that requires 2 doses, you'll need to return to the
-        same facility for your second dose.
-      </InfoAlert>
     </div>
   );
 }

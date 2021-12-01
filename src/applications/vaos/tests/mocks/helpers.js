@@ -291,7 +291,7 @@ export function mockVACancelFetches(id, reasons) {
  *
  * @export
  * @param {VARRequest} appointment Request object from var-resources that will be returned back
- *    from the mock with the status set to Cancelled
+ *    from the mock with the status set to Cancelled and cancelation reason set to patient
  */
 export function mockRequestCancelFetch(appointment) {
   setFetchJSONResponse(
@@ -304,6 +304,7 @@ export function mockRequestCancelFetch(appointment) {
         attributes: {
           ...appointment.attributes,
           status: 'Cancelled',
+          cancelationReason: { coding: [{ code: 'pat' }] },
         },
       },
     },
