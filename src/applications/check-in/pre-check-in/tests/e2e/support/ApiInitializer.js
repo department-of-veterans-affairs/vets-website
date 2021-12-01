@@ -51,6 +51,7 @@ class ApiInitializer {
         }
         req.reply(mockPreCheckIn.createMockSuccessResponse('some-token'));
       });
+      return mockPreCheckIn.createMockSuccessResponse('some-token');
     },
     withFailure: (errorCode = 400) => {
       cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {

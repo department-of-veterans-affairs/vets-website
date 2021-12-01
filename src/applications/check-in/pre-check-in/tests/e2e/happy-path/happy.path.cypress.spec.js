@@ -9,13 +9,14 @@ import demographics from '../pages/Demographics';
 import apiInitializer from '../support/ApiInitializer';
 
 describe('Pre-Check In Experience ', () => {
+  let apiData = {};
   beforeEach(function() {
     cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
     apiInitializer.initializeSessionGet.withSuccessfulNewSession();
 
     apiInitializer.initializeSessionPost.withSuccess();
 
-    apiInitializer.initializePreCheckInDataGet.withSuccess();
+    apiData = apiInitializer.initializePreCheckInDataGet.withSuccess();
   });
   afterEach(() => {
     cy.window().then(window => {
@@ -34,7 +35,7 @@ describe('Pre-Check In Experience ', () => {
 
     // page: Introduction
     introduction.validatePageLoaded();
-    introduction.countAppointmentList();
+    introduction.countAppointmentList(apiData.payload.appointments.length);
     cy.injectAxe();
     cy.axeCheck();
     introduction.attemptToGoToNextPage();
