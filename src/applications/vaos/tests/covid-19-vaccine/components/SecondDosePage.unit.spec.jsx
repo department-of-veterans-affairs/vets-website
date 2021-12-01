@@ -52,19 +52,25 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
     });
 
     expect(
-      await screen.getByText(/When to expect a second dose/i),
+      await screen.getByText(/When to plan for a second dose/i),
     ).to.have.tagName('h1');
+
     expect(
       screen.getByText(
-        /If you need a second dose, you may need to return to the Cheyenne VA Medical Center after the dates below, depending on which vaccine you receive:/i,
+        new RegExp(`If you get your first dose of a 2-dose vaccine on`, 'i'),
       ),
-    ).to.be.ok;
-    expect(
-      screen.getByText(new RegExp(`If you receive your first dose on`, 'i')),
     ).to.be.ok;
     expect(
       screen.getByText(
         new RegExp(`${start.clone().format('dddd, MMMM DD, YYYY')}`, 'i'),
+      ),
+    ).to.be.ok;
+    expect(
+      screen.getByText(
+        new RegExp(
+          `, here’s when to plan to come back for your second dose`,
+          'i',
+        ),
       ),
     ).to.be.ok;
     expect(screen.getByText('Moderna')).to.have.tagName('h2');
@@ -92,14 +98,6 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
         ),
       ),
     ).to.be.ok;
-  });
-
-  xit('should show additional message after user clicks the expand link', async () => {
-    const screen = renderWithStoreAndRouter(<SecondDosePage />, {
-      store,
-    });
-    userEvent.click(screen.getByText(/Can I choose which vaccine I will get/i));
-    expect(await screen.getByText(/Not at this time/i)).to.be.ok;
   });
 
   it('should continue to the correct page once continue to clicked', async () => {
