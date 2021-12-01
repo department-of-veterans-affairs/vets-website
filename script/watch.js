@@ -9,7 +9,7 @@ const memoryOptions = [1024, 2048, 3072, 4096, 5120, 6144, 7168, 8192];
 const memorySet = argv.env ? argv.env.memory : null;
 
 // Default memory setting
-let memory = '4096';
+let memory = '8192';
 
 // If the value passed isn't in the memoryOptions, use default
 if (memorySet && memoryOptions.includes(memorySet)) {
