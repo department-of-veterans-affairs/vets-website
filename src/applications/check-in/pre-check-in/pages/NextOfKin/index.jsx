@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import { focusElement } from 'platform/utilities/ui';
 import { useDispatch } from 'react-redux';
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
@@ -16,7 +17,9 @@ const NextOfKin = props => {
   const { goToNextPage, goToPreviousPage, currentPage } = useFormRouting(
     router,
   );
-
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
   const yesClick = useCallback(
     () => {
       recordEvent({
