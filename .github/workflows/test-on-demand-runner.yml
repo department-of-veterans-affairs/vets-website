@@ -146,7 +146,7 @@ jobs:
         continue-on-error: true
         with:
           url: https://dev.cms.va.gov/api/govdelivery_bulletins/queue?EndTime=1638390501&src=gha&runId=${{ github.run_id }}&runNumber=${{ github.run_number }}
-          method: POST
+          method: GET
           username: api
           password: ${{ env.CALLBACK_TOKEN }}
           timeout: 30000
