@@ -133,7 +133,7 @@ export function redirect(redirectUrl, clickedEvent) {
   // If the user is coming via the standalone sign-in, redirect to the home page.
   const returnUrl = externalRedirect
     ? standaloneRedirect()
-    : window.location.origin;
+    : window.location.href;
   sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 
