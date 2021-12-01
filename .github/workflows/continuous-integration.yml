@@ -794,6 +794,9 @@ jobs:
           name: unit-test-report
           path: testing-tools-team-dashboard-data/src/testing-reports/data
 
+      - name: Log artifact directory
+        run: ls testing-tools-team-dashboard-data/src/testing-reports/data
+
       - name: Upload Unit Test report to s3
         run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data/mochawesome.html s3://testing-tools-testing-reports/vets-website-unit-test-reports/${{env.UUID}}.html --acl public-read --region us-gov-west-1
 
