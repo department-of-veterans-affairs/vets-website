@@ -65,9 +65,11 @@ jobs:
   test-job:
     name: Test On Demand Runner
     needs: start-runner
-    runs-on: ubuntu-latest
+    runs-on: ${{ needs.start-runner.outputs.label }}
 
     env:
+      # Sandbox Drupal address is used on branches other than master.
+      DRUPAL_ADDRESS: https://cms-content-build-medc0xjkxm4jmpzxl3tfbcs7qcddsivh.ci.cms.va.gov
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
     steps:
@@ -114,7 +116,6 @@ jobs:
         method: POST
         username: api
         password: ${{ env.CALLBACK_TOKEN }}
-        preventFailureOnNoResponse: 'true'
         timeout: 30000
 
   stop-runner:
