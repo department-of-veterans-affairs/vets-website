@@ -111,6 +111,8 @@ jobs:
         method: POST
         username: api
         password: ${{ env.CALLBACK_TOKEN }}
+        preventFailureOnNoResponse: 'true'
+        timeout: 30000
 
   stop-runner:
     name: Stop on-demand-runner
