@@ -67,54 +67,12 @@ jobs:
     needs: start-runner
     runs-on: ${{ needs.start-runner.outputs.label }}
 
-    env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
-
     steps:
     - name: Checkout
       uses: actions/checkout@v2
 
     - name: Hello World
       run: echo 'Hello World!'
-
-    - name: Configure AWS credentials (1)
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-gov-west-1
-
-    - name: Get role from Parameter Store
-      uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-      with:
-        ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-        env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-    - name: Get Drupal token from Parameter Store
-      uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-      with:
-        ssm_parameter: /dsva-vagov/vets-website/dev/drupal-password
-        env_variable_name: CALLBACK_TOKEN
-
-    - name: Configure AWS Credentials (2)
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-gov-west-1
-        role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-        role-duration-seconds: 900
-        role-session-name: vsp-frontendteam-githubaction
-
-    - name: CMS GovDelivery callback
-      uses: fjogeleit/http-request-action@master
-      continue-on-error: true
-      with:
-        url: https://dev.cms.va.gov/api/govdelivery_bulletins/queue?EndTime=1638388441&src=gha&runId=${{ github.run_id }}&runNumber=${{ github.run_number }}
-        method: POST
-        username: api
-        password: ${{ env.CALLBACK_TOKEN }}
-        timeout: 30000
 
   stop-runner:
     name: Stop on-demand-runner
@@ -144,3 +102,51 @@ jobs:
           github-token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           label: ${{ needs.start-runner.outputs.label }}
           ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}
+
+  test:
+    name: Test
+    runs-on: self-hosted
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials (1)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get role from Parameter Store
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Get Drupal token from Parameter Store
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/dev/drupal-password
+          env_variable_name: CALLBACK_TOKEN
+
+      - name: Configure AWS Credentials (2)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+
+      - name: CMS GovDelivery callback
+        uses: fjogeleit/http-request-action@master
+        continue-on-error: true
+        with:
+          url: https://dev.cms.va.gov/api/govdelivery_bulletins/queue?EndTime=1638390501&src=gha&runId=${{ github.run_id }}&runNumber=${{ github.run_number }}
+          method: POST
+          username: api
+          password: ${{ env.CALLBACK_TOKEN }}
+          timeout: 30000
