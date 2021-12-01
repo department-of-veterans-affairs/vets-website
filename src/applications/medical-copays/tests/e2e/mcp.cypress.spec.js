@@ -44,6 +44,6 @@ describe('Medical Copays', () => {
   it('displays download statements', () => {
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId(`download-statements`).should('exist');
-    cy.findAllByText(/June 13, 2021 statement/i).should('exist');
+    cy.findAllByText(/November 15, 2019/i).should('exist');
   });
 });
