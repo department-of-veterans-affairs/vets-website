@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
-import URLSearchParams from 'url-search-params';
+import { Link, useParams } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import moment from 'moment';
@@ -24,16 +23,15 @@ import { selectRequestedAppointmentDetails } from '../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
-import InfoAlert from '../../components/InfoAlert';
 import {
   startAppointmentCancel,
   closeCancelAppointment,
   confirmCancelAppointment,
   fetchRequestDetails,
-  startNewAppointmentFlow,
 } from '../redux/actions';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import recordEvent from 'platform/monitoring/record-event';
+import RequestedStatusAlert from './RequestedStatusAlert';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -42,8 +40,6 @@ const TIME_TEXT = {
 };
 
 export default function RequestedAppointmentDetailsPage() {
-  const queryParams = new URLSearchParams(useLocation().search);
-  const showConfirmMsg = queryParams.get('confirmMsg');
   const { id } = useParams();
   const dispatch = useDispatch();
   const {
@@ -150,50 +146,7 @@ export default function RequestedAppointmentDetailsPage() {
       <h1>
         {canceled ? 'Canceled' : 'Pending'} {typeOfCareText} appointment
       </h1>
-      {!showConfirmMsg &&
-        !canceled && (
-          <InfoAlert backgroundOnly status="info">
-            The time and date of this appointment are still to be determined.
-          </InfoAlert>
-        )}
-      {showConfirmMsg && (
-        <InfoAlert backgroundOnly status={canceled ? 'error' : 'success'}>
-          {canceled && 'This request has been canceled'}
-          {!canceled && (
-            <>
-              <strong>Your appointment request has been submitted. </strong>
-              We will review your request and contact you to schedule the first
-              available appointment.
-              <br />
-              <div className=" vads-u-margin-top--1">
-                <Link
-                  to="/"
-                  onClick={() => {
-                    recordEvent({
-                      event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
-                    });
-                  }}
-                >
-                  View your appointments
-                </Link>
-              </div>
-              <div className=" vads-u-margin-top--1">
-                <Link
-                  to="/new-appointment"
-                  onClick={() => {
-                    recordEvent({
-                      event: `${GA_PREFIX}-schedule-another-appointment-button-clicked`,
-                    });
-                    dispatch(startNewAppointmentFlow());
-                  }}
-                >
-                  New appointment
-                </Link>
-              </div>
-            </>
-          )}
-        </InfoAlert>
-      )}
+      <RequestedStatusAlert appointment={appointment} facility={facility} />
       {!isCCRequest && (
         <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
           VA appointment
