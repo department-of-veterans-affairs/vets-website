@@ -65,7 +65,7 @@ jobs:
   test-job:
     name: Test On Demand Runner
     needs: start-runner
-    runs-on: ${{ needs.start-runner.outputs.label }}
+    runs-on: ubuntu-latest
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
