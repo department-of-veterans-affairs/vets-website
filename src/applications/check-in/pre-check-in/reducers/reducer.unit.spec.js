@@ -7,6 +7,7 @@ import {
   createGoToNextPageAction,
   createSetSession,
   recordAnswer,
+  setVeteranData,
 } from '../actions';
 
 // test init stat
@@ -127,6 +128,38 @@ describe('check-in', () => {
         const noAction = recordAnswer({ demographicsUpToDate: 'no' });
         state = reducer.preCheckInData(state, noAction);
         expect(state.form.data.demographicsUpToDate).to.equal('no');
+      });
+    });
+    describe('setVeteranData', () => {
+      it('should return form structure', () => {
+        const action = setVeteranData({
+          appointments: [],
+          demographics: {},
+        });
+        const state = reducer.preCheckInData(undefined, action);
+        expect(state).haveOwnProperty('veteranData');
+        expect(state.veteranData).haveOwnProperty('demographics');
+        expect(state).haveOwnProperty('appointments');
+      });
+
+      it('should set form data', () => {
+        const action = setVeteranData({
+          appointments: [
+            { appointmentIen: 'abc-123' },
+            {
+              appointmentIen: 'def-456',
+            },
+          ],
+          demographics: { lastName: 'Smith' },
+        });
+        const state = reducer.preCheckInData(undefined, action);
+        expect(state.veteranData.demographics).to.deep.equal({
+          lastName: 'Smith',
+        });
+        expect(state.appointments).to.deep.equal([
+          { appointmentIen: 'abc-123' },
+          { appointmentIen: 'def-456' },
+        ]);
       });
     });
   });
