@@ -15,6 +15,7 @@ import {
   TOKEN_WAS_VALIDATED,
   TRIGGER_REFRESH,
   SEE_STAFF_MESSAGE_UPDATED,
+  DEMOGRAPHICS_UPDATED,
 } from '../actions';
 
 const checkInReducer = (state = initialState, action) => {
@@ -50,6 +51,8 @@ const checkInReducer = (state = initialState, action) => {
       return { ...state, ...action.payload };
 
     case SEE_STAFF_MESSAGE_UPDATED:
+      return { ...state, ...action.payload };
+    case DEMOGRAPHICS_UPDATED:
       return { ...state, ...action.payload };
     default:
       return { ...state };

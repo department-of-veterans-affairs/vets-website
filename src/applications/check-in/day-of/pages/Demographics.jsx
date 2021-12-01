@@ -16,23 +16,26 @@ const Demographics = props => {
     isNextOfKinEnabled,
     router,
     updateSeeStaffMessage,
+    demographicsUpToDate,
   } = props;
-
+  const nextPage = () => {
+    if (isNextOfKinEnabled) {
+      goToNextPage(router, URLS.NEXT_OF_KIN);
+    } else if (isUpdatePageEnabled) {
+      goToNextPage(router, URLS.UPDATE_INSURANCE);
+    } else {
+      goToNextPage(router, URLS.DETAILS);
+    }
+  };
   const yesClick = useCallback(
     () => {
       recordEvent({
         event: 'cta-button-click',
         'button-click-label': 'yes-to-demographic-information',
       });
-      if (isNextOfKinEnabled) {
-        goToNextPage(router, URLS.NEXT_OF_KIN);
-      } else if (isUpdatePageEnabled) {
-        goToNextPage(router, URLS.UPDATE_INSURANCE);
-      } else {
-        goToNextPage(router, URLS.DETAILS);
-      }
+      nextPage();
     },
-    [isNextOfKinEnabled, isUpdatePageEnabled, router],
+    [router],
   );
 
   const noClick = useCallback(
@@ -62,6 +65,9 @@ const Demographics = props => {
     );
   } else if (!demographics) {
     goToNextPage(router, URLS.ERROR);
+    return <></>;
+  } else if (demographicsUpToDate) {
+    nextPage();
     return <></>;
   } else {
     return (
@@ -93,6 +99,7 @@ Demographics.propTypes = {
   isNextOfKinEnabled: PropTypes.bool,
   router: PropTypes.object,
   updateSeeStaffMessage: PropTypes.func,
+  demographicsUpToDate: PropTypes.bool,
 };
 
 export default connect(

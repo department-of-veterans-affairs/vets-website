@@ -90,3 +90,12 @@ export const seeStaffMessageUpdated = message => {
     payload: { seeStaffMessage: message },
   };
 };
+
+export const DEMOGRAPHICS_UPDATED = 'DEMOGRAPHICS_UPDATED';
+
+export const demographicsUpdated = updated => {
+  return {
+    type: DEMOGRAPHICS_UPDATED,
+    payload: { demographicsUpdated: updated },
+  };
+};
