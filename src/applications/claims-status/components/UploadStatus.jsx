@@ -1,4 +1,5 @@
 import React from 'react';
+import ProgressBar from '@department-of-veterans-affairs/component-library/ProgressBar';
 
 export default function UploadStatus({ progress, files, onCancel }) {
   return (
@@ -11,7 +12,7 @@ export default function UploadStatus({ progress, files, onCancel }) {
           Uploading {files} {files === 1 ? 'file' : 'files'}
           ...
         </h4>
-        <va-progress-bar percent={progress * 100} />
+        <ProgressBar percent={progress * 100} />
         Your files are uploading. Please do not close this window.
         <p>
           <a
