@@ -2,6 +2,7 @@
 import environment from 'platform/utilities/environment';
 import crossDomainRedirects from './crossDomainRedirects.json';
 
+// Test changed app build
 const deriveIsHostMatch = (redirect, currentWindow) => {
   const formattedRedirectHost = redirect?.domain
     ?.replace('www.', '')
