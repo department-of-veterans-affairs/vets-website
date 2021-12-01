@@ -166,6 +166,8 @@ const testDesktopMenuSections = () => {
   testFindLocationsLink();
 };
 
+const testURL = Cypress.env('app_url') || '/';
+
 describe('Mega Menu', () => {
   context('on desktop', () => {
     beforeEach(() => {
@@ -174,7 +176,7 @@ describe('Mega Menu', () => {
 
     it('looks as expected unauthenticated - C12293', () => {
       // Visit the homepage.
-      cy.visit('/');
+      cy.visit(testURL);
 
       // Back to home button should not appear on desktop.
       cy.findByTestId('mobile-home-nav-link').should('not.be.visible');
@@ -192,7 +194,7 @@ describe('Mega Menu', () => {
       cy.login(mockUser);
 
       // Visit the homepage.
-      cy.visit('/');
+      cy.visit(testURL);
 
       // Back to home button should not appear on desktop.
       cy.findByTestId('mobile-home-nav-link').should('not.be.visible');
@@ -213,7 +215,7 @@ describe('Mega Menu', () => {
 
     it('looks as expected unauthenticated - C12295', () => {
       // Visit the homepage.
-      cy.visit('/');
+      cy.visit(testURL);
 
       // Test the menu sections.
       testMobileMenuSections();
@@ -228,7 +230,7 @@ describe('Mega Menu', () => {
       cy.login(mockUser);
 
       // Visit the homepage.
-      cy.visit('/');
+      cy.visit(testURL);
 
       // Test the menu sections.
       testMobileMenuSections();
@@ -239,7 +241,7 @@ describe('Mega Menu', () => {
     });
 
     it('traps focus inside mega menu when opened - C12297', () => {
-      cy.visit('/');
+      cy.visit(testURL);
 
       testMobileTabFocus();
     });
