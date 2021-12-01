@@ -13,9 +13,9 @@ const Banner = ({ banners }) => {
             visible
             full-width
             closeable={banner.dismissible === 'dismiss' ? `true` : `false`}
-            status={banner.alertType}
+            status={banner.alert_type}
           >
-            <h3 slot="headline">{banner.header}</h3>
+            <h3 slot="headline">{banner.heading}</h3>
             {/* eslint-disable-next-line react/no-danger */}
             <div dangerouslySetInnerHTML={bodyContent()} />
           </va-alert>
