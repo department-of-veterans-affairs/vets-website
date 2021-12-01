@@ -20,6 +20,8 @@ describe('Pre-Check In Experience', () => {
       apiInitializer.initializeSessionGet.withSuccessfulNewSession();
 
       apiInitializer.initializeSessionPost.withSuccess();
+      apiInitializer.initializePreCheckInDataGet.withSuccess();
+
       cy.visitPreCheckInWithUUID();
       validateVeteran.validateVeteran();
       validateVeteran.attemptToGoToNextPage();
