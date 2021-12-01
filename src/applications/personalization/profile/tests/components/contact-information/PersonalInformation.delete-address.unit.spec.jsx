@@ -22,7 +22,7 @@ const ui = (
 );
 let view;
 let server;
-const errorText = `We're sorry. We can't update your information right now. We're working to fix this problem. Please check back later.`;
+const errorText = `We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please check back later.`;
 
 function getEditButton(addressName) {
   // Need to use `queryByRole` since the visible label is simply `Edit`, but

@@ -23,7 +23,7 @@ const ui = (
 );
 let view;
 let server;
-const errorText = `We're sorry. We can't update your information right now. We're working to fix this problem. Please check back later.`;
+const errorText = `We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please check back later.`;
 
 function getEditButton(addressName) {
   let editButton = view.queryByText(new RegExp(`add.*${addressName}`, 'i'), {

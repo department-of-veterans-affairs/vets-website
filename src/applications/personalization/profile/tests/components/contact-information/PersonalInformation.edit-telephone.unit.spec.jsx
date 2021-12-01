@@ -16,7 +16,7 @@ import {
 } from '../../unit-test-helpers';
 import { beforeEach } from 'mocha';
 
-const errorText = `We're sorry. We can't update your information right now. We're working to fix this problem. Please check back later.`;
+const errorText = `We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please check back later.`;
 const newAreaCode = '415';
 const newPhoneNumber = '555-0055';
 const ui = (

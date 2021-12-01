@@ -63,18 +63,22 @@
   overflow: auto;
 }
 
+.va-profile-alert.usa-alert-error::before {
+  content: "\f05a";
+}
+.va-profile-alert.usa-alert-error::before {
+  background: none;
+  display: block;
+  color: 000;
+  font-family: "Font Awesome 5 Free";
+  font-style: normal;
+  font-size: 2rem;
+  font-weight: 900;
+  margin-right: 4px;
+  position: static;
+  width: auto;
+}
 .va-profile-alert {
-  i {
-    font-family: "Font Awesome 5 Free";
-    font-style: normal;
-    font-weight: 900;
-  }
-  i::before {
-    content: "\f05a";
-    display: flex;
-    margin-right: 1.6rem;
-    font-size: 2rem;
-  }
   p {
     margin: 0;
   }

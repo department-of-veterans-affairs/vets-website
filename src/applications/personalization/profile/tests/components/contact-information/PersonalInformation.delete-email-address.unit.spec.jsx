@@ -20,6 +20,7 @@ const ui = (
 );
 let view;
 let server;
+const errorText = `We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please check back later.`;
 
 function getEditButton() {
   let editButton = view.queryByText(/add.*email address/i, {
@@ -139,9 +140,7 @@ describe('Deleting email address', () => {
     // expect an error to be shown
     const alert = await view.findByTestId('delete-error-alert');
     expect(alert).to.have.descendant('div.va-profile-alert');
-    expect(alert).to.contain.text(
-      `We're sorry. We can't update your information right now. We're working to fix this problem. Please check back later.`,
-    );
+    expect(alert).to.contain.text(errorText);
   });
   it('should show an error if the deletion fails quickly', async () => {
     server.use(...mocks.transactionPending);
@@ -164,9 +163,7 @@ describe('Deleting email address', () => {
     // expect an error to be shown
     const alert = await view.findByTestId('delete-error-alert');
     expect(alert).to.have.descendant('div.va-profile-alert');
-    expect(alert).to.contain.text(
-      `We're sorry. We can't update your information right now. We're working to fix this problem. Please check back later.`,
-    );
+    expect(alert).to.contain.text(errorText);
 
     // waiting to make sure it doesn't auto exit
     await wait(75);

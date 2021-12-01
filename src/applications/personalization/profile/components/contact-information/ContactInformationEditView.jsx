@@ -290,7 +290,7 @@ export class ContactInformationEditView extends Component {
               {error && (
                 <div
                   role="alert"
-                  className="vads-u-margin-bottom--2 vads-u-margin-top--4"
+                  className="vads-u-margin-bottom--2 vads-u-margin-top--2"
                   data-testid="edit-error-alert"
                 >
                   <VAPServiceEditModalErrorMessage error={error} />
