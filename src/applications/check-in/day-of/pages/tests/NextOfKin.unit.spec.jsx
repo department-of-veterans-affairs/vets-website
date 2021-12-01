@@ -99,14 +99,16 @@ describe('check in', () => {
     });
 
     it('shows the loading indicator', () => {
-      const component = render(
+      const { container } = render(
         <Provider store={store}>
           <NextOfKin isLoading />
         </Provider>,
       );
 
-      expect(component.getByText('Loading your appointments for today')).to
-        .exist;
+      expect(container.querySelector('va-loading-indicator')).to.have.attribute(
+        'message',
+        'Loading your appointments for today',
+      );
     });
 
     it('has a clickable no button', () => {
