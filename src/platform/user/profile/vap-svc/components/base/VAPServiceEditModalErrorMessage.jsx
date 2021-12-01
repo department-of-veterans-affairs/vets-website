@@ -1,5 +1,4 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import facilityLocator from '~/applications/facility-locator/manifest.json';
 
 import {
@@ -71,12 +70,17 @@ export default function VAPServiceEditModalErrorMessage({
   }
 
   return (
-    <AlertBox
-      className="va-profile-alert vads-u-margin-top--0"
-      backgroundOnly
-      content={<div className="columns">{content}</div>}
-      isVisible
-      status="error"
-    />
+    <div
+      className="va-profile-alert vads-u-margin-bottom--2 vads-u-margin-top--0
+  vads-u-background-color--secondary-lightest vads-u-display--flex vads-u-padding-y--4 vads-u-padding-right--7 vads-u-padding-left--3 vads-u-width--full"
+    >
+      <i
+        className="fas fa-info-circle vads-u-font-size--md vads-u-color--black vads-u-margin-right--2 vads-u-padding-top--0p5"
+        aria-hidden="true"
+        role="img"
+      />
+      <span className="sr-only">Alert: </span>
+      <div>{content}</div>
+    </div>
   );
 }

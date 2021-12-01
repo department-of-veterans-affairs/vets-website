@@ -63,21 +63,6 @@
   overflow: auto;
 }
 
-.va-profile-alert.usa-alert-error::before {
-  content: "\f05a";
-}
-.va-profile-alert.usa-alert-error::before {
-  background: none;
-  display: block;
-  color: 000;
-  font-family: "Font Awesome 5 Free";
-  font-style: normal;
-  font-size: 2rem;
-  font-weight: 900;
-  margin-right: 4px;
-  position: static;
-  width: auto;
-}
 .va-profile-alert {
   p {
     margin: 0;
