@@ -176,6 +176,8 @@ const responses = {
         attributes: {
           ...requestAttributes,
           status: 'Cancelled',
+          appointmentRequestDetailCode: ['DETCODE8'],
+          cancelationReason: { coding: [{ code: 'pat' }] },
         },
       },
     });

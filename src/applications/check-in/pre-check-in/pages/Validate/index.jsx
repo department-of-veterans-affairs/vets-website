@@ -1,13 +1,30 @@
-import React, { useState } from 'react';
-import BackToHome from '../../components/BackToHome';
-
-import { useFormRouting } from '../../hooks/useFormRouting';
-import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
+import React, { useCallback, useMemo, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { api } from '../../api';
 
+import { createSetSession } from '../../actions';
+
+import BackToHome from '../../components/BackToHome';
+import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
+
+import { useFormRouting } from '../../hooks/useFormRouting';
+
+import { makeSelectCurrentContext } from '../../selectors';
+
 export default function Index({ router }) {
-  const { goToNextPage } = useFormRouting(router);
+  const { goToNextPage, goToErrorPage } = useFormRouting(router);
+  const dispatch = useDispatch();
+  const setSession = useCallback(
+    (token, permissions) => {
+      dispatch(createSetSession({ token, permissions }));
+    },
+    [dispatch],
+  );
+
+  const selectContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectContext);
+
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
@@ -31,11 +48,16 @@ export default function Index({ router }) {
       }
     } else {
       try {
-        await api.v2.postSession({ last4: last4Ssn, lastName });
+        const resp = await api.v2.postSession({
+          token,
+          last4: last4Ssn,
+          lastName,
+        });
+        setSession(token, resp.permissions);
         goToNextPage();
       } catch (e) {
         setIsLoading(false);
-        // @TODO: add routing to error page | https://github.com/department-of-veterans-affairs/va.gov-team/issues/33195
+        goToErrorPage();
       }
     }
   };

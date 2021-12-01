@@ -185,10 +185,6 @@ yarn cy:run --spec "src/applications/a/tests/**/*,src/applications/b/tests/**/*"
 To **run Cypress tests from the command line on a specific browser**:
 
 ```sh
-yarn cy:run --headless --browser chrome
-yarn cy:run --headless --browser firefox
-
-# Without --headless, the test runner will open and run the test.
 yarn cy:run --browser chrome
 yarn cy:run --browser firefox
 ```
