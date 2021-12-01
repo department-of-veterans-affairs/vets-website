@@ -729,6 +729,7 @@ async function cancelRequestedAppointment(request) {
       ...request.vaos.apiData,
       status: CANCELLED_REQUEST,
       appointmentRequestDetailCode: ['DETCODE8'],
+      cancelationReason: { coding: [{ code: 'pat' }] },
     });
 
     recordEvent({
