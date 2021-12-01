@@ -135,7 +135,7 @@ export class ConnectedApps extends Component {
               key={`${app.attributes?.title}`}
               className="vads-u-margin-bottom--2"
               status={ALERT_TYPE.ERROR}
-              content={`We’re sorry. We can't disconnect this app from your VA.gov profile right now: ${
+              content={`We’re sorry. We can’t disconnect this app from your VA.gov profile right now: ${
                 app.attributes?.title
               }. We're working to fix this problem. Please check back later.`}
             />
