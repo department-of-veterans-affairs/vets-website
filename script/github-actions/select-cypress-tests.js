@@ -153,14 +153,16 @@ function selectedTests(graph, pathsOfChangedFiles) {
 
   // Only run the mega menu test for changed apps builds,
   // otherwise run all tests in src/platform for full builds
-  if (IS_CHANGED_APPS_BUILD && APPS_HAVE_URLS) {
+  if (IS_CHANGED_APPS_BUILD) {
     const megaMenuTestPath = path.join(
       __dirname,
       '../..',
       'src/platform/site-wide/mega-menu/tests/megaMenu.cypress.spec.js',
     );
 
-    if (fs.existsSync(megaMenuTestPath)) tests.push(megaMenuTestPath);
+    // Ensure changed apps have URLs to run header test on
+    if (APPS_HAVE_URLS && fs.existsSync(megaMenuTestPath))
+      tests.push(megaMenuTestPath);
   } else {
     const defaultTestsPattern = path.join(
       __dirname,
