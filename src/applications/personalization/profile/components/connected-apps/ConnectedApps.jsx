@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { isEmpty } from 'lodash';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import {
   deleteConnectedApp,
@@ -16,7 +18,6 @@ import { focusElement } from 'platform/utilities/ui';
 import Headline from '../ProfileSectionHeadline';
 import { AppDeletedAlert } from './AppDeletedAlert';
 import { ConnectedApp } from './ConnectedApp';
-import * as AlertBoxComponent from '@department-of-veterans-affairs/component-library/AlertBox';
 
 export class ConnectedApps extends Component {
   componentDidMount() {
@@ -133,7 +134,7 @@ export class ConnectedApps extends Component {
             <AlertBox
               key={`${app.attributes?.title}`}
               className="vads-u-margin-bottom--2"
-              status={AlertBoxComponent.ALERT_TYPE.ERROR}
+              status={ALERT_TYPE.ERROR}
               content={`We’re sorry. We can't disconnect this app from your VA.gov profile right now: ${
                 app.attributes?.title
               }. We're working to fix this problem. Please check back later.`}
