@@ -144,7 +144,7 @@ jobs:
       - name: CMS GovDelivery callback
         uses: fjogeleit/http-request-action@master
         with:
-          url: https://dev.cms.va.gov/api/govdelivery_bulletins/queue?EndTime=1638390897&src=gha&runId=${{ github.run_id }}&runNumber=${{ github.run_number }}
+          url: https://dev.cms.va.gov/api/govdelivery_bulletins/queue?EndTime=1638392518&src=gha&runId=${{ github.run_id }}&runNumber=${{ github.run_number }}
           method: GET
           username: api
           password: ${{ env.CALLBACK_TOKEN }}
