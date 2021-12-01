@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
+import recordEvent from 'platform/monitoring/record-event';
 import { deriveMenuItemID, formatSubMenuSections } from '../../helpers';
 import { updateSubMenuAction } from '../../containers/Menu/actions';
 
@@ -16,6 +17,8 @@ export const SubMenu = ({ subMenu, updateSubMenu }) => {
   }, []);
 
   const onBack = () => {
+    // Record analytic event.
+    recordEvent({ event: 'nav-header-back-to-menu' });
     updateSubMenu();
   };
 
