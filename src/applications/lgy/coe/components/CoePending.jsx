@@ -17,8 +17,8 @@ export const CoePending = props => (
           email or mail to let you know how to get your COE.
         </p>
       </va-alert>
-      <CoeDocumentUpload />
-      <CoeDocumentList onUploadPage={props.notOnUploadPage} />
+      {props.uploadsNeeded ? <CoeDocumentUpload /> : ''}
+      <CoeDocumentList notOnUploadPage={props.notOnUploadPage} />
       <h2>Should I apply again?</h2>
       <p className="vads-u-margin-bottom--0">
         No. We’re reviewing your current application, and submitting a new
