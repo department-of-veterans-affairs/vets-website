@@ -3,7 +3,7 @@ import React from 'react';
 import { MoreQuestions } from './MoreQuestions';
 
 export const CoeIneligible = () => (
-  <div className="row vads-u-margin-bottom--9">
+  <div className="row vads-u-margin-bottom--7">
     <div className="medium-8 columns">
       <va-alert status="info">
         <h2 slot="headline" className="vads-u-font-size--h3">

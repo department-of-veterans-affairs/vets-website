@@ -5,7 +5,7 @@ import { CoeDocumentList } from './CoeDocumentList';
 import { MoreQuestions } from './MoreQuestions';
 
 export const CoeAvailable = () => (
-  <div className="row vads-u-margin-bottom--9">
+  <div className="row vads-u-margin-bottom--7">
     <div className="medium-8 columns">
       <h2 className="vads-u-margin-top--0">Review and download your COE</h2>
       <p className="vads-u-margin-bottom--0">

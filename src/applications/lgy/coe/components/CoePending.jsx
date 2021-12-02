@@ -6,7 +6,7 @@ import { CoeDocumentList } from './CoeDocumentList';
 import { MoreQuestions } from './MoreQuestions';
 
 export const CoePending = props => (
-  <div className="row vads-u-margin-bottom--9">
+  <div className="row vads-u-margin-bottom--7">
     <div className="medium-8 columns">
       <va-alert status="warning">
         <h2 slot="headline" className="vads-u-font-size--h3">

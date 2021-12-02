@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { MoreQuestions } from './MoreQuestions';
 
 export const CoeEligible = props => (
-  <div className="row vads-u-margin-bottom--9">
+  <div className="row vads-u-margin-bottom--7">
     <div className="medium-8 columns">
       <va-alert status="success">
         <h2 slot="headline" className="vads-u-font-size--h3">
@@ -16,13 +16,14 @@ export const CoeEligible = props => (
         </p>
       </va-alert>
       <h2>Review and download your COE</h2>
-      <p className="vads-u-margin-bottom--0">
+      <p>
         You can download your COE right now. If you need help, go to our
         instructions for how to download and open a VA.gov PDF form.
+        <br />
+        <a href="/resources/how-to-download-and-open-a-vagov-pdf-form/">
+          Get instructions for downloading your PDF
+        </a>
       </p>
-      <a href="/resources/how-to-download-and-open-a-vagov-pdf-form/">
-        Get instructions for downloading your PDF
-      </a>
       <a
         className="vads-u-font-size--base vads-u-display--block vads-u-margin-top--2"
         href="#"
