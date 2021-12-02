@@ -1,4 +1,5 @@
 import React from 'react';
+import { CoeDocumentList } from './CoeDocumentList';
 
 export const CoeIneligible = () => (
   <div className="row vads-u-margin-bottom--1">
@@ -28,6 +29,7 @@ export const CoeIneligible = () => (
         we’ll complete our review.
       </p>
       <a href="/track-claims">Check your VA claim or appeal status</a>
+      <CoeDocumentList />
       <h2>What if I have more questions?</h2>
       <p className="vads-u-margin-bottom--0">
         Get answers to frequently asked questions about decision reviews.

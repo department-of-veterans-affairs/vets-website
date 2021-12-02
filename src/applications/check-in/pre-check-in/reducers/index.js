@@ -16,6 +16,7 @@ import {
   INIT_FORM,
   RECORD_ANSWER,
   SET_SESSION,
+  SET_VETERAN_DATA,
 } from '../actions';
 
 const preCheckInReducer = (state = initialState, action) => {
@@ -48,6 +49,13 @@ const preCheckInReducer = (state = initialState, action) => {
       return {
         ...state,
         form: { ...state.form, data },
+      };
+    }
+    case SET_VETERAN_DATA: {
+      return {
+        ...state,
+        appointments: action.payload.appointments,
+        veteranData: { demographics: action.payload.demographics },
       };
     }
     default:

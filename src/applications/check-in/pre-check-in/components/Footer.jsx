@@ -13,11 +13,11 @@ const Footer = () => (
       </span>{' '}
       call your VA provider.
       <br />
-      <a href="#">Contact your VA provider</a>.
+      <a href="/find-locations/">Contact your VA provider</a>.
     </p>
     <p>
       <span className="vads-u-font-weight--bold">
-        For questions about how to fill out your pre-check in tasks or if you
+        For questions about how to fill out your pre-check-in tasks or if you
         need help with the form,
       </span>{' '}
       please call our MyVA411 main information line at{' '}
