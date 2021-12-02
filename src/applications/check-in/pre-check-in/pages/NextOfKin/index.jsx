@@ -16,7 +16,11 @@ import NextOfKinDisplay from '../../../components/pages/nextOfKin/NextOfKinDispl
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 
-import { makeSelectCurrentContext, makeSelectForm } from '../../selectors';
+import {
+  makeSelectCurrentContext,
+  makeSelectVeteranData,
+  makeSelectForm,
+} from '../../selectors';
 
 const NextOfKin = props => {
   const { router } = props;
@@ -29,6 +33,10 @@ const NextOfKin = props => {
   const selectForm = useMemo(makeSelectForm, []);
   const { data } = useSelector(selectForm);
   const { demographicsUpToDate } = data;
+
+  const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { demographics } = useSelector(selectVeteranData);
+  const { nextOfKin1: nextOfKin } = demographics;
 
   const dispatch = useDispatch();
 
@@ -85,24 +93,6 @@ const NextOfKin = props => {
   const header = 'Is this your current next of kin?';
   const subtitle =
     'This helps us keep information about your next of kin up to date.';
-
-  const nextOfKin = {
-    name: 'VETERAN,JONAH',
-    relationship: 'BROTHER',
-    phone: '1112223333',
-    workPhone: '4445556666',
-    address: {
-      street1: '123 Main St',
-      street2: 'Ste 234',
-      street3: '',
-      city: 'Los Angeles',
-      county: 'Los Angeles',
-      state: 'CA',
-      zip: '90089',
-      zip4: '',
-      country: 'USA',
-    },
-  };
 
   return (
     <>
