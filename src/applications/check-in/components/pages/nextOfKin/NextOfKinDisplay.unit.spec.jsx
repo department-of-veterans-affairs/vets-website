@@ -100,6 +100,17 @@ describe('pre-check-in experience', () => {
         fireEvent.click(screen.getByTestId('no-button'));
         expect(noClick.calledOnce).to.be.true;
       });
+      it('renders the loading message', () => {
+        const screen = render(<NextOfKinDisplay isSendingData />);
+        expect(screen.queryByTestId('no-button')).to.not.exist;
+        expect(screen.queryByTestId('yes-button')).to.not.exist;
+        expect(screen.getByTestId('loading-message')).to.exist;
+      });
+      it('renders the buttons', () => {
+        const screen = render(<NextOfKinDisplay isSendingData={false} />);
+        expect(screen.getByTestId('no-button')).to.exist;
+        expect(screen.getByTestId('yes-button')).to.exist;
+      });
     });
   });
 });

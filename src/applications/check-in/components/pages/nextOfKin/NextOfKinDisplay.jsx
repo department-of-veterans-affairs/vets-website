@@ -61,7 +61,10 @@ export default function NextOfKinDisplay({
         </>
       ) : (
         <>
-          <va-loading-indicator message={'Saving your responses...'} />
+          <va-loading-indicator
+            data-testid="loading-message"
+            message={'Saving your responses...'}
+          />
         </>
       )}
 
