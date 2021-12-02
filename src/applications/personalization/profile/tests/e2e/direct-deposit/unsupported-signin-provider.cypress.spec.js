@@ -6,9 +6,9 @@ import { makeUserObject } from '~/applications/personalization/common/helpers';
 let getDD4CNPBankInfoStub;
 let getDD4EDUBankInfoStub;
 
-function notIDme2FAAlertShown() {
+function UnsupportedAccountAlertIsShown() {
   cy.findByRole('link', {
-    name: /create a verified account on ID\.me/i,
+    name: /ID\.me/i,
   }).should('exist');
   cy.findByText(
     /You’ll need to verify your identity.*to update.*your direct deposit information online/i,
@@ -48,6 +48,9 @@ describe('Direct Deposit', () => {
     cy.login();
   });
   context('when user is a non-2FA ID.me user', () => {
+    /* This case will probably never happen in real life. I believe that you
+    must set up 2FA when you verify your ID with ID.me, so a user should never
+    be LOA3 _without_ also having 2FA set up. */
     beforeEach(() => {
       const mockUser = makeUserObject({
         serviceName: 'idme',
@@ -59,7 +62,7 @@ describe('Direct Deposit', () => {
     it('should show a single "verify your account" alert and not call direct deposit APIs', () => {
       cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
 
-      notIDme2FAAlertShown();
+      UnsupportedAccountAlertIsShown();
 
       directDepositAPIsNotCalled();
     });
@@ -76,7 +79,7 @@ describe('Direct Deposit', () => {
     it('should show a single "verify your account" alert and not call direct deposit APIs', () => {
       cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
 
-      notIDme2FAAlertShown();
+      UnsupportedAccountAlertIsShown();
 
       directDepositAPIsNotCalled();
     });
@@ -95,7 +98,7 @@ describe('Direct Deposit', () => {
       it('should show a single "verify your account" alert and not call direct deposit APIs', () => {
         cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
 
-        notIDme2FAAlertShown();
+        UnsupportedAccountAlertIsShown();
 
         directDepositAPIsNotCalled();
       });
