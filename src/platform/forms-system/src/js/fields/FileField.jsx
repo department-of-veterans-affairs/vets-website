@@ -101,11 +101,21 @@ class FileField extends React.Component {
         idx = files.length === 0 ? 0 : files.length;
       }
 
+      let checkResults;
       const checks = { checkTypeAndExtensionMatches, checkIsEncryptedPdf };
-      // read file mock for unit testing
-      const checkResults = uiOptions.mockReadAndCheckFile
-        ? mockReadAndCheckFile()
-        : await readAndCheckFile(currentFile, checks);
+
+      if (currentFile.type === 'testing') {
+        // Skip read file for Cypress testing
+        checkResults = {
+          checkTypeAndExtensionMatches: () => true,
+          checkIsEncryptedPdf: () => false,
+        };
+      } else {
+        // read file mock for unit testing
+        checkResults = uiOptions.mockReadAndCheckFile
+          ? mockReadAndCheckFile()
+          : await readAndCheckFile(currentFile, checks);
+      }
 
       if (!checkResults.checkTypeAndExtensionMatches) {
         files[idx] = {
