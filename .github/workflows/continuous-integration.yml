@@ -791,7 +791,7 @@ jobs:
       - name: Download Unit Test Mochawesome test results
         uses: actions/download-artifact@v2
         with:
-          name: unit-test-report
+          name: unit-test-reportCrea
           path: testing-tools-team-dashboard-data/src/testing-reports/data
 
       - name: Log artifact directory
@@ -809,7 +809,7 @@ jobs:
         working-directory: testing-tools-team-dashboard-data
         env:
           TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
-
+          TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
       # -------------------------
       # | Unit Tests Summary |
       # -------------------------
