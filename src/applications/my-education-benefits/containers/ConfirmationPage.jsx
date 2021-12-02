@@ -36,6 +36,7 @@ const approvedPage = confirmationDate => (
         type="button"
         className="usa-button-primary va-button-primary"
         href={LETTER_URL}
+        download
       >
         Download your Certificate of Eligibility
       </a>
