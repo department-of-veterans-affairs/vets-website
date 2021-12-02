@@ -67,7 +67,7 @@ class Introduction {
     const theDateBefore = new Date(theDate.getTime());
     theDateBefore.setDate(theDate.getDate() - 1);
     cy.get('[data-testid="expiration-date"]').contains(
-      theDateBefore.toLocaleDateString(),
+      format(theDateBefore, 'M/dd/Y'),
     );
   }
   attemptToGoToNextPage() {
