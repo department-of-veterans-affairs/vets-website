@@ -45,7 +45,7 @@ const getAllowedApp = (file, allowList, outputType = 'entry') => {
       const appFolderName = file.split('/')[2];
       return `src/applications/${appFolderName}`;
     } else if (outputType === 'url') {
-      return manifest?.rootUrl;
+      return manifest?.rootUrl || '';
     } else throw new Error('Invalid output type specified.');
   }
 
@@ -67,8 +67,11 @@ const getChangedAppsString = (files, config, outputType = 'entry') => {
 
   for (const file of files) {
     const allowedApp = getAllowedApp(file, config.allow, outputType);
-    if (allowedApp) {
-      allowedApps.push(allowedApp);
+
+    if (allowedApp !== null) {
+      // Some allowed apps don't have URLs or other attributes, so only add to
+      // the list when the string of the allowed app's output type isn't empty
+      if (allowedApp.length) allowedApps.push(allowedApp);
     } else {
       return '';
     }
