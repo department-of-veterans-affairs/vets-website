@@ -132,7 +132,6 @@ function selectedTests(graph, pathsOfChangedFiles) {
     .map(filePath => filePath.split('/')[2]);
 
   [...new Set(applicationNames)].forEach(app => {
-    // Bypass if app has been from directory
     if (graph[app]) {
       // Lookup app in cross-app imports graph to reference which app's tests
       // should run
