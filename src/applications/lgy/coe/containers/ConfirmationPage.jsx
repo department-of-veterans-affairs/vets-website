@@ -61,7 +61,7 @@ export class ConfirmationPage extends React.Component {
 
         <h2>When will I hear back about my request for a COE?</h2>
         <div className="inset secondary">
-          <h2 className="vads-u-margin--0 vads-u-padding-bottom--1 vads-u-border-bottom--1px">
+          <h2 className="vads-u-margin--0 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-display--inline-block">
             Within 5 business days
           </h2>
           <p>
