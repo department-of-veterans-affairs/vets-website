@@ -20,8 +20,20 @@ describe('VAOS <ContactInfoPage>', () => {
     input = screen.getByLabelText(/^Your email address/);
     userEvent.type(input, 'joe.blow@gmail.com');
 
-    // it should display page heading
+    // it should display page heading and description
     expect(screen.getByText('Confirm your contact information')).to.be.ok;
+    expect(
+      screen.getByText(
+        /We’ll use this information to contact you about your appointment\. Any updates you make here will only apply to VA online appointment scheduling/i,
+      ),
+    ).to.be.ok;
+
+    expect(
+      screen.getByText(
+        /Want to update your contact information for more VA benefits and services\?/,
+      ),
+    ).to.be.ok;
+
     const button = await screen.findByText(/^Continue/);
 
     userEvent.click(button);
