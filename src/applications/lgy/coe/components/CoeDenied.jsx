@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { CoeDocumentList } from './CoeDocumentList';
 
 export const CoeDenied = () => (

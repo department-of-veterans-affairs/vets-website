@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { isLoggedIn } from 'platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
