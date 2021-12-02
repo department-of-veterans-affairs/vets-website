@@ -13,6 +13,10 @@ import {
   CLAIM_STATUS_RESPONSE_ERROR,
 } from '../actions';
 
+import environment from 'platform/utilities/environment';
+
+const LETTER_URL = `${environment.API_URL}/meb_api/v0/claim_letter`;
+
 const approvedPage = confirmationDate => (
   <div className="meb-confirmation-page meb-confirmation-page_approved">
     <va-alert onClose={function noRefCheck() {}} status="success">
@@ -25,9 +29,16 @@ const approvedPage = confirmationDate => (
         Eligibility is now available. A physical copy will also be mailed to
         your mailing address.
       </p>
-      <button type="button" className="usa-button-primary va-button-primary">
+      {/* <button type="button" className="usa-button-primary va-button-primary"> */}
+      {/*  Download your Certificate of Eligibility */}
+      {/* </button> */}
+      <a
+        type="button"
+        className="usa-button-primary va-button-primary"
+        href={LETTER_URL}
+      >
         Download your Certificate of Eligibility
-      </button>
+      </a>
       <a href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/ ">
         View a statement of your benefits
       </a>
