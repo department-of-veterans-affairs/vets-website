@@ -17,6 +17,8 @@ describe('Pre-Check In Experience ', () => {
     apiInitializer.initializeSessionPost.withSuccess();
 
     apiData = apiInitializer.initializePreCheckInDataGet.withSuccess();
+
+    apiInitializer.initializePreCheckInDataPost.withSuccess();
   });
   afterEach(() => {
     cy.window().then(window => {
