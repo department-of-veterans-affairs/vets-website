@@ -1,11 +1,11 @@
 import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
 import '../support/commands';
-import Timeouts from 'platform/testing/e2e/timeouts';
 
 import validateVeteran from '../pages/ValidateVeteran';
 import introduction from '../pages/Introduction';
 import NextOfKin from '../pages/NextOfKin';
 import Demographics from '../pages/Demographics';
+import confirmation from '../pages/Confirmation';
 import apiInitializer from '../support/ApiInitializer';
 
 describe('Pre-Check In Experience ', () => {
@@ -61,9 +61,7 @@ describe('Pre-Check In Experience ', () => {
     NextOfKin.attemptToGoToNextPage('no');
 
     // page: Confirmation
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'Confirmation');
+    confirmation.validatePageLoaded();
     cy.injectAxe();
     cy.axeCheck();
   });
