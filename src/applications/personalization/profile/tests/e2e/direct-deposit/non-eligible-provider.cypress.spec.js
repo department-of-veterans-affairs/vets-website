@@ -11,7 +11,7 @@ function notIDme2FAAlertShown() {
     name: /create a verified account on ID\.me/i,
   }).should('exist');
   cy.findByText(
-    /You’ll need to verify your identity with ID.me to update any of your direct deposit information online/i,
+    /You’ll need to verify your identity.*to update.*your direct deposit information online/i,
   )
     .should('exist')
     .closest('.usa-alert-continue')
