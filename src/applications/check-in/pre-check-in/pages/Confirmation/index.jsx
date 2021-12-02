@@ -25,7 +25,7 @@ const Confirmation = () => {
         You’ve completed pre check-in
       </h1>
       <AppointmentBlock appointments={appointments} />
-      {hasUpdates === true ? (
+      {hasUpdates ? (
         <va-alert
           background-only
           status="info"
@@ -40,12 +40,12 @@ const Confirmation = () => {
       ) : (
         <></>
       )}
-      <p className={hasUpdates === true ? `vads-u-padding-left--2` : ``}>
+      <p className={hasUpdates ? `vads-u-padding-left--2` : ``}>
         <a href="https://va.gov/health-care/schedule-view-va-appointments/appointments/">
           Go to your appointment
         </a>
       </p>
-      <p className={hasUpdates === true ? `vads-u-padding-left--2` : ``}>
+      <p className={hasUpdates ? `vads-u-padding-left--2` : ``}>
         Please bring your insurance cards with you to your appointment.
       </p>
       <h3 data-testid="appointment-questions">

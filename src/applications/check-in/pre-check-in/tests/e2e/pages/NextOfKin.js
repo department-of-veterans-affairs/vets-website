@@ -44,11 +44,8 @@ class NextOfKin {
       .next()
       .should('have.text', '444-555-6666');
   }
-  attemptToGoToNextPage() {
-    cy.get('button[data-testid="yes-button"]').click();
-  }
-  attemptToGoToNextPageNoButtonClicked() {
-    cy.get('button[data-testid="no-button"]').click();
+  attemptToGoToNextPage(button = 'yes') {
+    cy.get(`button[data-testid="${button}-button"]`).click();
   }
 }
 

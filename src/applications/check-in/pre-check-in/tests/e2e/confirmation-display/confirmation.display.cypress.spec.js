@@ -46,7 +46,7 @@ describe('Pre-Check In Experience', () => {
       Confirmation.validateConfirmNoUpdates();
     });
     it('Staff update alert message is visible', () => {
-      NextOfKin.attemptToGoToNextPageNoButtonClicked();
+      NextOfKin.attemptToGoToNextPage('no');
       Confirmation.validateConfirmWithUpdates();
     });
   });
