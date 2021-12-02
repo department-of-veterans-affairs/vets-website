@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+
 export const AppDeletedAlert = props => {
   useEffect(() => {
     focusElement('[data-focus-target]');
@@ -26,16 +28,21 @@ export const AppDeletedAlert = props => {
   );
   return (
     <div tabIndex="-1" data-focus-target className="vads-u-margin-y--4">
-      <div
-        className="va-profile-alert vads-u-margin-bottom--2 vads-u-background-color--green-lightest
-        vads-u-display--flex vads-u-padding-top--4 vads-u-padding-left--3 vads-u-width--full"
+      <AlertBox
+        status="success"
+        backgroundOnly
+        className="vads-u-padding-bottom--0"
       >
-        <i
-          aria-hidden="true"
-          className="fa fa-check-circle vads-u-padding-top--0p5 vads-u-margin-right--1"
-        />
-        <div>{alertMessage}</div>
-      </div>
+        <div className="vads-u-display--flex">
+          <i
+            aria-hidden="true"
+            className="fa fa-check-circle vads-u-padding-top--0p5 vads-u-margin-right--1"
+          />
+          <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
+            {alertMessage}
+          </p>
+        </div>
+      </AlertBox>
     </div>
   );
 };

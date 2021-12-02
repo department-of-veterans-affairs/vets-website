@@ -100,11 +100,9 @@ export class ConnectedApps extends Component {
 
         {deletedApps.map(app => (
           <AppDeletedAlert
-            id={app.id}
             title={app?.attributes?.title}
             privacyUrl={app?.attributes?.privacyUrl}
             key={app.id}
-            dismissAlert={this.dismissAlert}
           />
         ))}
 
