@@ -66,7 +66,7 @@ export default function Index({ router }) {
     <>
       <ValidateDisplay
         header="Start pre-check-in"
-        subTitle="We need to verify your identity so you can start pre check-in."
+        subTitle="We need to verify your identity so you can start pre-check-in."
         validateHandler={validateHandler}
         isLoading={isLoading}
         last4Input={{
