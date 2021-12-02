@@ -31,15 +31,23 @@ describe('Pre-Check In Experience', () => {
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       NextOfKin.validatePageLoaded();
-      NextOfKin.attemptToGoToNextPage();
     });
     afterEach(() => {
       cy.window().then(window => {
         window.sessionStorage.clear();
       });
     });
-    it('Confirmation page loads', () => {
-      Confirmation.validatePageLoaded();
+    it('Confirmation page content loads', () => {
+      NextOfKin.attemptToGoToNextPage();
+      Confirmation.validatePageContent();
+    });
+    it('Staff update alert message is not visible', () => {
+      NextOfKin.attemptToGoToNextPage();
+      Confirmation.validateConfirmNoUpdates();
+    });
+    it('Staff update alert message is visible', () => {
+      NextOfKin.attemptToGoToNextPageNoButtonClicked();
+      Confirmation.validateConfirmWithUpdates();
     });
   });
 });
