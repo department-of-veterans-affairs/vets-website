@@ -4,6 +4,8 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
+import ContactInformationField from '@@vap-svc/components/ContactInformationField';
+import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import ProfileInfoTable from '../ProfileInfoTable';
 
 const notSetText = 'This information is not available right now.';
@@ -67,11 +69,35 @@ const PersonalInformationSection = ({ gender, dob }) => (
     <ProfileInfoTable
       data={[
         { title: 'Date of birth', value: renderDOB(dob) },
-        { title: 'Preferred name', value: 'Sandy' },
-        { title: 'Pronouns', value: 'She/her' },
+        {
+          title: 'Preferred name',
+          id: FIELD_IDS[FIELD_NAMES.PREFERRED_NAME],
+          value: (
+            <ContactInformationField fieldName={FIELD_NAMES.PREFERRED_NAME} />
+          ),
+        },
+        {
+          title: 'Pronouns',
+          id: FIELD_IDS[FIELD_NAMES.PRONOUNS],
+          value: <ContactInformationField fieldName={FIELD_NAMES.PRONOUNS} />,
+        },
         { title: 'Sex assigned at birth', value: renderGender(gender) },
-        { title: 'Gender Identity', value: 'Woman' },
-        { title: 'Sexual Orientation', value: 'Straight or heterosexual' },
+        {
+          title: 'Gender Identity',
+          id: FIELD_IDS[FIELD_NAMES.GENDER_IDENTITY],
+          value: (
+            <ContactInformationField fieldName={FIELD_NAMES.GENDER_IDENTITY} />
+          ),
+        },
+        {
+          title: 'Sexual Orientation',
+          id: FIELD_IDS[FIELD_NAMES.SEXUAL_ORIENTATION],
+          value: (
+            <ContactInformationField
+              fieldName={FIELD_NAMES.SEXUAL_ORIENTATION}
+            />
+          ),
+        },
       ]}
       level={2}
     />

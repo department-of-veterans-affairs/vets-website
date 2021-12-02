@@ -29,6 +29,13 @@ export const addresses = [
   FIELD_NAMES.RESIDENTIAL_ADDRESS,
 ];
 
+export const personalInformation = [
+  FIELD_NAMES.PREFERRED_NAME,
+  FIELD_NAMES.PRONOUNS,
+  FIELD_NAMES.GENDER_IDENTITY,
+  FIELD_NAMES.SEXUAL_ORIENTATION,
+];
+
 export const getContactInfoFieldAttributes = fieldName => {
   let apiRoute;
   let convertCleanDataToPayload;
@@ -80,6 +87,26 @@ export const getContactInfoFieldAttributes = fieldName => {
     if (fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS) {
       title = FIELD_TITLES[FIELD_NAMES.RESIDENTIAL_ADDRESS];
     }
+  }
+
+  if (personalInformation.includes(fieldName)) {
+    apiRoute = '/'; // NOTE: DUMMY FORMS SCHEMA, API ROUTE, STUBS HERE
+    convertCleanDataToPayload = () => {};
+    uiSchema = {};
+    formSchema = {};
+  }
+
+  if (fieldName === FIELD_NAMES.PREFERRED_NAME) {
+    title = FIELD_TITLES[FIELD_NAMES.PREFERRED_NAME];
+  }
+  if (fieldName === FIELD_NAMES.PRONOUNS) {
+    title = FIELD_TITLES[FIELD_NAMES.PRONOUNS];
+  }
+  if (fieldName === FIELD_NAMES.GENDER_IDENTITY) {
+    title = FIELD_TITLES[FIELD_NAMES.GENDER_IDENTITY];
+  }
+  if (fieldName === FIELD_NAMES.SEXUAL_ORIENTATION) {
+    title = FIELD_TITLES[FIELD_NAMES.SEXUAL_ORIENTATION];
   }
 
   return {
