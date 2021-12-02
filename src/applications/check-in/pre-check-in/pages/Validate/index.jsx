@@ -7,6 +7,7 @@ import { createSetSession } from '../../actions';
 
 import BackToHome from '../../components/BackToHome';
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
+import Footer from '../../components/Footer';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 
@@ -78,7 +79,7 @@ export default function Index({ router }) {
           setLastName,
           lastName,
         }}
-        Footer={() => <div>{/* Footer */}</div>}
+        Footer={Footer}
       />
       <BackToHome />
     </>

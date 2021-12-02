@@ -5,7 +5,7 @@ class Introduction {
   validatePageLoaded() {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Answer pre check-in questions');
+      .and('have.text', 'Answer pre-check-in questions');
   }
   validateMultipleAppointmentIntroText(appointmentDate = new Date()) {
     cy.get('p[data-testid="appointment-day-location"]').contains(

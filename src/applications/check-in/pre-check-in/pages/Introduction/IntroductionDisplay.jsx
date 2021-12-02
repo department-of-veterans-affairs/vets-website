@@ -104,7 +104,7 @@ const IntroductionDisplay = props => {
       data-testid="intro-wrapper"
     >
       <h1 tabIndex="-1" className="vads-u-margin-top--2">
-        Answer pre check-in questions
+        Answer pre-check-in questions
       </h1>
       <p className="vads-u-font-family--serif">
         Your answers will help us better prepare for your needs.
