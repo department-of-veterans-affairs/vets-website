@@ -32,7 +32,7 @@ describe('Pre-Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('expiration date is day before appointment', () => {
+    it.skip('expiration date is day before appointment', () => {
       introduction.validateExpirationDate(new Date());
     });
   });
