@@ -17,11 +17,20 @@ const Confirmation = () => {
   const { data: formData } = useSelector(selectFormData);
   const hasUpdates = Object.values(formData).includes('no');
   return (
-    <div className="vads-l-grid-container vads-u-padding-bottom--3 vads-u-padding-top--3">
-      <h1>You’ve completed pre check-in</h1>
+    <div
+      className="vads-l-grid-container vads-u-padding-bottom--3 vads-u-padding-top--3"
+      data-testid="confirmation-wrapper"
+    >
+      <h1 tabIndex="-1" className="vads-u-margin-top--2">
+        You’ve completed pre check-in
+      </h1>
       <AppointmentBlock appointments={appointments} />
       {hasUpdates === true ? (
-        <va-alert background-only status="info">
+        <va-alert
+          background-only
+          status="info"
+          data-testid="confirmation-update-alert"
+        >
           {/** TODO INFO ICON */}
           <div>
             A staff member will help you on the day of your appointment to
