@@ -808,8 +808,8 @@ jobs:
         run: yarn unit-mochawesome-to-bigquery
         working-directory: testing-tools-team-dashboard-data
         env:
-          TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
-          TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
+          UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
+          UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
       # -------------------------
       # | Unit Tests Summary |
       # -------------------------
