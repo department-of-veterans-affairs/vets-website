@@ -7,6 +7,7 @@ import { createSetSession } from '../../actions';
 
 import BackToHome from '../../components/BackToHome';
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
+import Footer from '../../components/Footer';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 
@@ -65,7 +66,7 @@ export default function Index({ router }) {
     <>
       <ValidateDisplay
         header="Start pre-check-in"
-        subTitle="We need to verify your identity so you can start pre check-in."
+        subTitle="We need to verify your identity so you can start pre-check-in."
         validateHandler={validateHandler}
         isLoading={isLoading}
         last4Input={{
@@ -78,7 +79,7 @@ export default function Index({ router }) {
           setLastName,
           lastName,
         }}
-        Footer={() => <div>{/* Footer */}</div>}
+        Footer={Footer}
       />
       <BackToHome />
     </>
