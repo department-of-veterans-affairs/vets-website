@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import { CoeDocumentList } from './CoeDocumentList';
 
 export const CoeEligible = props => (
   <div className="row vads-u-margin-bottom--1">
@@ -48,6 +49,7 @@ export const CoeEligible = props => (
       <Link to="/introduction" onClick={props.clickHandler}>
         Make changes online COE with VA Form 26-1880
       </Link>
+      <CoeDocumentList />
       <h2>What if I have more questions?</h2>
       <p>
         If you have any questions that your lender can’t answer, please call

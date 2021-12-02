@@ -2,8 +2,9 @@ import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { CoeDocumentUpload } from './CoeDocumentUpload';
+import { CoeDocumentList } from './CoeDocumentList';
 
-export const CoePending = () => (
+export const CoePending = props => (
   <div className="row vads-u-margin-bottom--1">
     <div className="medium-8 columns">
       <va-alert status="warning">
@@ -16,13 +17,8 @@ export const CoePending = () => (
           email or mail to let you know how to get your COE.
         </p>
       </va-alert>
-      <CoeDocumentUpload />
-      <h2>How will I know if VA needs more information from me?</h2>
-      <p className="vads-u-margin-bottom--0">
-        If we need more information, we’ll notify you by email or mail. You can
-        also check the status of your application by returning to this page.
-      </p>
-      <a>Learn more about VA decision reviews and appeals</a>
+      {props.uploadsNeeded ? <CoeDocumentUpload /> : ''}
+      <CoeDocumentList notOnUploadPage={props.notOnUploadPage} />
       <h2>Should I apply again?</h2>
       <p className="vads-u-margin-bottom--0">
         No. We’re reviewing your current application, and submitting a new
