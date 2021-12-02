@@ -1,13 +1,12 @@
 import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 import { goToNextPage, URLS } from '../utils/navigation';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import { seeStaffMessageUpdated } from '../actions';
-import DemographicsDisplay from '../../components/pages/DemographicsDisplay';
+import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
 
 const Demographics = props => {
   const {
@@ -58,7 +57,9 @@ const Demographics = props => {
   );
 
   if (isLoading) {
-    return <LoadingIndicator message={'Loading your appointments for today'} />;
+    return (
+      <va-loading-indicator message="Loading your appointments for today" />
+    );
   } else if (!demographics) {
     goToNextPage(router, URLS.ERROR);
     return <></>;

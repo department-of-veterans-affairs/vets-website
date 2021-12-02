@@ -180,7 +180,10 @@ class ObjectField extends React.Component {
 
     // description and title setup
     const showFieldLabel = uiOptions.showFieldLabel;
-    const fieldsetClassNames = uiOptions.classNames;
+    const fieldsetClassNames = classNames(uiOptions.classNames, {
+      'vads-u-margin-y--2': !environment.isProduction(),
+    });
+
     const forceDivWrapper = !!uiOptions.forceDivWrapper;
     const title = uiSchema['ui:title'] || schema.title;
     const CustomTitleField = isReactComponent(title) ? title : null;
