@@ -68,10 +68,8 @@ const NextOfKin = props => {
       };
       try {
         await api.v2.postPreCheckInData({ ...preCheckInData });
-        // console.log(response);
         goToNextPage();
       } catch (error) {
-        // console.log(error);
         goToErrorPage();
       }
     },
