@@ -1,42 +1,62 @@
 import React from 'react';
-import { CoeDocumentList } from './CoeDocumentList';
+import { MoreQuestions } from './MoreQuestions';
 
 export const CoeIneligible = () => (
-  <div className="row vads-u-margin-bottom--1">
+  <div className="row vads-u-margin-bottom--9">
     <div className="medium-8 columns">
       <va-alert status="info">
         <h2 slot="headline" className="vads-u-font-size--h3">
-          We denied your request for a COE
+          We don’t have a COE on file for you
         </h2>
-        <p className="vads-u-font-size--base">
-          <strong>You applied on</strong> June 1, 2019
+        <p>
+          We can’t find a VA home loan Certificate of Eligibility for you. To
+          request a COE, you’ll need to fill out and submit a Request for a
+          Certificate of Eligibility (VA Form 26-1880)
         </p>
-        <p>We reviewed your application. You don’t qualify for a COE.</p>
+        <a href="/housing-assistance/home-loans/">
+          Learn more about VA-backed home loans
+        </a>
       </va-alert>
-      <h2>Can I appeal VA’s decision?</h2>
-      <p className="vads-u-margin-bottom--0">
-        If you disagree with our decision, and it’s dated on or after February
-        19, 2019, you can choose from 3 decision review options. These your
-        options: Supplemental Claim, Higher-Level Review, or Board Appeal.
+      <h2>Can I get a VA home loan COE?</h2>
+      <p>
+        You may be able to get a COE if you didn’t receive a dishonorable
+        discharge and you meet the minimum active-duty service requirement based
+        on when you served.
       </p>
-      <a href="/decision-reviews/">
-        Learn more about VA decision reviews and appeals
+      <a href="/housing-assistance/home-loans/eligibility/">
+        Find out about eligibility requirements for VA home loan programs.
       </a>
-      <h2>What if I appealed VA’s decision?</h2>
-      <p className="vads-u-margin-bottom--0">
-        If you have an appeal in progress, you can check it online. You’ll see
-        where your claim or appeal is in our review process, and when we think
-        we’ll complete our review.
+      <p>
+        If you already know you qualify for a VA home loan COE and you have all
+        the information we’ll need, you can request a COE online.
       </p>
-      <a href="/track-claims">Check your VA claim or appeal status</a>
-      <CoeDocumentList />
-      <h2>What if I have more questions?</h2>
-      <p className="vads-u-margin-bottom--0">
-        Get answers to frequently asked questions about decision reviews.
-      </p>
-      <a href="/decision-reviews/faq/">
-        See frequently asked questions about decision reviews.
+      <a
+        className="vads-c-action-link--green"
+        href="/housing-assistance/home-loans/apply-for-coe-form-26-1880/introduction"
+      >
+        Request a Certificate of Eligibility
       </a>
+      <h3>
+        You can also request a VA home loan COE through your lender or by mail
+      </h3>
+      <p>
+        In some cases, you can get your COE through your lender using our WebLGY
+        system. Ask your lender about this option.
+      </p>
+      <p>
+        To request a COE by mail, fill out a Request for a Certificate of
+        Eligibility (VA Form 26-1880) and mail it to the address listed on the
+        form. Please keep in mind that this may take longer than requesting a
+        COE online or through our WebLGY system.
+      </p>
+      <a href="/find-forms/about-form-26-1880/">
+        <i
+          aria-hidden="true"
+          className="fas fa-download vads-u-padding-right--1"
+        />
+        Download VA form 26-1880 (PDF)
+      </a>
+      <MoreQuestions />
     </div>
   </div>
 );

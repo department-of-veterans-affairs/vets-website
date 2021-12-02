@@ -1,20 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router';
+
+import { CoeDocumentList } from './CoeDocumentList';
 import { MoreQuestions } from './MoreQuestions';
 
-export const CoeEligible = props => (
+export const CoeAvailable = () => (
   <div className="row vads-u-margin-bottom--9">
     <div className="medium-8 columns">
-      <va-alert status="success">
-        <h2 slot="headline" className="vads-u-font-size--h3">
-          Congratulations on your automatic COE
-        </h2>
-        <p>
-          We have all the information we need, so you don’t need to fill out an
-          application. You can download your COE now.
-        </p>
-      </va-alert>
-      <h2>Review and download your COE</h2>
+      <h2 className="vads-u-margin-top--0">Review and download your COE</h2>
       <p className="vads-u-margin-bottom--0">
         You can download your COE right now. If you need help, go to our
         instructions for how to download and open a VA.gov PDF form.
@@ -28,6 +21,7 @@ export const CoeEligible = props => (
       >
         <i
           aria-hidden="true"
+          role="img"
           className="fas fa-download vads-u-padding-right--1"
         />
         Download your COE (PDF) 0.20MB
@@ -44,9 +38,10 @@ export const CoeEligible = props => (
         </li>
         <li>Request a restoration of entitlement</li>
       </ul>
-      <Link to="/introduction" onClick={props.clickHandler}>
-        Make changes to your COE online by filling out VA Form 26-1880
+      <Link to="/introduction">
+        Make changes to your COE only by filling out VA Form 26-1880
       </Link>
+      <CoeDocumentList />
       <MoreQuestions />
     </div>
   </div>

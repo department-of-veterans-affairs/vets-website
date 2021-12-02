@@ -7,7 +7,7 @@ export const SKIP_AUTOMATIC_COE_CHECK = 'SKIP_AUTOMATIC_COE_CHECK';
 const mockApiCall = () => {
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve({ status: 'pending' });
+      resolve({ status: 'eligible' });
     }, 2000);
   });
   //   return new Promise(reject => {
