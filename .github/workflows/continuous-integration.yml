@@ -48,7 +48,7 @@ jobs:
 
       - name: Get app entries for changed files
         id: get-changed-apps
-        if: ${{ github.ref != 'refs/heads/master' }}
+        if: ${{ github.ref != 'refs/heads/master' && matrix.buildtype != 'vagovprod }}
         run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
