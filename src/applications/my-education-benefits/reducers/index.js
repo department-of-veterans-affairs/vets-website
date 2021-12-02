@@ -7,6 +7,8 @@ import {
   FETCH_PERSONAL_INFORMATION_FAILED,
   // FETCH_MILITARY_INFORMATION_SUCCESS,
   // FETCH_MILITARY_INFORMATION_FAILED,
+  FETCH_CLAIM_STATUS_SUCCESS,
+  FETCH_CLAIM_STATUS_FAILURE,
 } from '../actions';
 
 const initialState = {
@@ -26,6 +28,12 @@ export default {
           ...state,
           formData: action?.response || {},
           // errors: action?.response?.errors || {},
+        };
+      case FETCH_CLAIM_STATUS_SUCCESS:
+      case FETCH_CLAIM_STATUS_FAILURE:
+        return {
+          ...state,
+          claimStatus: action?.response || {},
         };
       default:
         return state;
