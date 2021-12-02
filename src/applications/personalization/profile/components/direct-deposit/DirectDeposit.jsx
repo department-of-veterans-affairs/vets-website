@@ -205,11 +205,15 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
 };
 
 const mapStateToProps = state => {
+  const eligibleSignInServices = new Set(['idme', 'logingov']);
   const isLOA3 = isLOA3Selector(state);
   const is2faEnabled = isMultifactorEnabled(state);
-  const isIDme = signInServiceNameSelector(state) === 'idme';
+  const signInServiceName = signInServiceNameSelector(state);
+  const isUsingEligibleSignInService = eligibleSignInServices.has(
+    signInServiceName,
+  );
   return {
-    isVerifiedUser: isLOA3 && isIDme && is2faEnabled,
+    isVerifiedUser: isLOA3 && isUsingEligibleSignInService && is2faEnabled,
     cnpUiState: cnpDirectDepositUiState(state),
     eduUiState: eduDirectDepositUiState(state),
   };
