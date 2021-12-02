@@ -363,8 +363,8 @@ const ProfilePageHeader = ({
         </div>
       )}
 
-      {!expanded && !vetTecProvider && renderIconSection()}
-      {!expanded && vetTecProvider && renderVetTecIconSection()}
+      {!vetTecProvider && renderIconSection()}
+      {vetTecProvider && renderVetTecIconSection()}
 
       <div className="card-bottom-cell vads-u-flex--1 vads-u-margin--0 vads-u-border-top--4px vads-u-border-color--white">
         <CompareCheckbox

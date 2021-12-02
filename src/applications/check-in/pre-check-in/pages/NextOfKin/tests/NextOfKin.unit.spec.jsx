@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
-import NextOfKin from '../NextOfKin';
+import NextOfKin from '../';
 
 describe('pre-check-in', () => {
   describe('Next of kin page', () => {

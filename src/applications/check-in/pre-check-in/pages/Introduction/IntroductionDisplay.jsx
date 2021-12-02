@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { format, add } from 'date-fns';
+import { format, subDays } from 'date-fns';
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
@@ -16,7 +16,6 @@ import { useFormRouting } from '../../hooks/useFormRouting';
 
 import { makeSelectVeteranData } from '../../selectors';
 
-// @TODO  Add cypress test for intro.
 const IntroductionDisplay = props => {
   useEffect(() => {
     focusElement('h1');
@@ -104,7 +103,7 @@ const IntroductionDisplay = props => {
       data-testid="intro-wrapper"
     >
       <h1 tabIndex="-1" className="vads-u-margin-top--2">
-        Answer pre check-in questions
+        Answer pre-check-in questions
       </h1>
       <p className="vads-u-font-family--serif">
         Your answers will help us better prepare for your needs.
@@ -150,7 +149,7 @@ const IntroductionDisplay = props => {
       <div>
         Expiration date:{' '}
         <span data-testid="expiration-date">
-          {format(add(appointmentsDateTime, { days: -1 }), 'M/dd/Y')}
+          {format(subDays(appointmentsDateTime, 1), 'M/dd/Y')}
         </span>
         <br />
         <a
