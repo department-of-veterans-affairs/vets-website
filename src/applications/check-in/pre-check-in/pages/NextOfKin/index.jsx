@@ -16,7 +16,7 @@ import NextOfKinDisplay from '../../../components/pages/nextOfKin/NextOfKinDispl
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 
-import { makeSelectCurrentContext } from '../../selectors';
+import { makeSelectCurrentContext, makeSelectForm } from '../../selectors';
 
 const NextOfKin = props => {
   const { router } = props;
@@ -25,6 +25,10 @@ const NextOfKin = props => {
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
+
+  const selectForm = useMemo(makeSelectForm, []);
+  const { data } = useSelector(selectForm);
+  const { demographicsUpToDate } = data;
 
   const dispatch = useDispatch();
 
@@ -49,11 +53,9 @@ const NextOfKin = props => {
       dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
       // select the answers from state
       // send to API
-      // start here: use answers from redux
-      const demographicsAnswer = 'something';
       const preCheckInData = {
         uuid: token,
-        demographicsUpToDate: demographicsAnswer === 'yes',
+        demographicsUpToDate: demographicsUpToDate === 'yes',
         nextOfKinUpToDate: answer === 'yes',
       };
       try {
@@ -65,7 +67,7 @@ const NextOfKin = props => {
         goToErrorPage();
       }
     },
-    [dispatch, goToErrorPage, goToNextPage, token],
+    [dispatch, goToErrorPage, goToNextPage, token, demographicsUpToDate],
   );
 
   const yesClick = useCallback(
