@@ -61,7 +61,7 @@ const ConfirmRemoveModal = ({
           className="vads-u-margin-bottom--2"
           data-testid="delete-error-alert"
         >
-          <VAPServiceEditModalErrorMessage title={title} error={error} />
+          <VAPServiceEditModalErrorMessage error={error} />
         </div>
       )}
       <div>
