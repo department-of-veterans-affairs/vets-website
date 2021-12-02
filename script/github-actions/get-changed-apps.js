@@ -81,7 +81,6 @@ const getChangedAppsString = (files, config, outputType = 'entry') => {
 };
 
 if (process.env.CHANGED_FILE_PATHS) {
-  // Filter changed files for testing
   const changedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
 
   const options = commandLineArgs([
