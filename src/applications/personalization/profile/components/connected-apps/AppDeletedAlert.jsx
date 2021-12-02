@@ -3,40 +3,39 @@ import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-
 export const AppDeletedAlert = props => {
   useEffect(() => {
     focusElement('[data-focus-target]');
   }, []);
 
-  const { id, title, dismissAlert, privacyUrl } = props;
+  const { title, privacyUrl } = props;
   const privacyLink = (
     <a href={privacyUrl} target="_blank" rel="noopener noreferrer">
-      review the {title} privacy policy
+      Review the {title} privacy policy
     </a>
   );
   const alertMessage = (
-    <span>
-      We’ve disconnected {title}. This app can’t access any new information from
-      your VA.gov profile, but{' '}
-      <strong>
-        some apps may still store information you’ve already shared.
-      </strong>{' '}
-      To learn about how this app stores your information, including what
-      information it stores, if any, and what steps are available to you,{' '}
-      {privacyLink}.
-    </span>
+    <>
+      <span>
+        We disconnected {title} from your VA.gov profile. If you have questions
+        about data the app has already collected, review the app’s privacy
+        policy or contact customer support.
+      </span>
+      <p>{privacyLink}</p>.
+    </>
   );
-  const headline = `We’ve disconnected ${title}`;
   return (
     <div tabIndex="-1" data-focus-target className="vads-u-margin-y--4">
-      <AlertBox
-        status="success"
-        headline={headline}
-        content={alertMessage}
-        onCloseAlert={() => dismissAlert(id)}
-      />
+      <div
+        className="va-profile-alert vads-u-margin-bottom--2 vads-u-background-color--green-lightest
+        vads-u-display--flex vads-u-padding-top--4 vads-u-padding-left--3 vads-u-width--full"
+      >
+        <i
+          aria-hidden="true"
+          className="fa fa-check-circle vads-u-padding-top--0p5 vads-u-margin-right--1"
+        />
+        <div>{alertMessage}</div>
+      </div>
     </div>
   );
 };
