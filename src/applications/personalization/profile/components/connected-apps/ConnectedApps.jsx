@@ -132,13 +132,27 @@ export class ConnectedApps extends Component {
         {!isEmpty(disconnectErrorApps) &&
           disconnectErrorApps.map(app => (
             <AlertBox
-              key={`${app.attributes?.title}`}
-              className="vads-u-margin-bottom--2"
               status={ALERT_TYPE.ERROR}
-              content={`We’re sorry. We can’t disconnect this app from your VA.gov profile right now: ${
-                app.attributes?.title
-              }. We’re working to fix this problem. Please check back later.`}
-            />
+              backgroundOnly
+              className="vads-u-margin-bottom--2"
+              key={`${app.attributes?.title}`}
+            >
+              <div className="vads-u-display--flex">
+                <i
+                  aria-hidden="true"
+                  className="fa fa-exclamation-circle vads-u-padding-top--0p5 vads-u-margin-right--1"
+                />
+                <p
+                  className="vads-u-margin-y--0"
+                  role="alert"
+                  aria-live="polite"
+                >
+                  We’re sorry. We can’t disconnect this app from your VA.gov
+                  profile right now: {app.attributes?.title}. We’re working to
+                  fix this problem. Please check back later.
+                </p>
+              </div>
+            </AlertBox>
           ))}
 
         {activeApps.map(app => (
