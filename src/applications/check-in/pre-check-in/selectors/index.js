@@ -29,4 +29,19 @@ const selectForm = createSelector(
 
 const makeSelectForm = () => selectForm;
 
-export { makeSelectCurrentContext, makeSelectFeatureToggles, makeSelectForm };
+const selectVeteranData = createSelector(
+  state => state.preCheckInData,
+  data => ({
+    appointments: data.appointments,
+    demographics: data.veteranData.demographics,
+  }),
+);
+
+const makeSelectVeteranData = () => selectVeteranData;
+
+export {
+  makeSelectCurrentContext,
+  makeSelectFeatureToggles,
+  makeSelectForm,
+  makeSelectVeteranData,
+};

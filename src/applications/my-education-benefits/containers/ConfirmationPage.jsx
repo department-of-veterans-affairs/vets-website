@@ -270,7 +270,7 @@ export const ConfirmationPage = ({ claimStatus, getClaimStatus }) => {
 
   const confirmationResult = claimStatus?.claimStatus;
   const confirmationDate = claimStatus?.receivedDate
-    ? format(new Date(claimStatus?.receivedDate), 'MMM d, yyyy')
+    ? format(new Date(claimStatus?.receivedDate), 'MMMM d, yyyy')
     : undefined;
 
   switch (confirmationResult) {

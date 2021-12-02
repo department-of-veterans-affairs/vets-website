@@ -19,6 +19,9 @@ describe('Pre-Check In Experience', () => {
       apiInitializer.initializeSessionGet.withSuccessfulNewSession();
 
       apiInitializer.initializeSessionPost.withSuccess();
+
+      apiInitializer.initializePreCheckInDataGet.withSuccess();
+
       cy.visitPreCheckInWithUUID();
       validateVeteran.validateVeteran();
       validateVeteran.attemptToGoToNextPage();
@@ -30,7 +33,7 @@ describe('Pre-Check In Experience', () => {
       });
     });
     it('expiration date is day before appointment', () => {
-      introduction.validateExpirationDate();
+      introduction.validateExpirationDate(new Date());
     });
   });
 });
