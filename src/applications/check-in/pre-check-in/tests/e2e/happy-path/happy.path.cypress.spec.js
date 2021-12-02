@@ -55,7 +55,7 @@ describe('Pre-Check In Experience ', () => {
     // page: Confirmation
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Confirmation');
+      .and('have.text', 'You’ve completed pre check-in');
     cy.injectAxe();
     cy.axeCheck();
   });

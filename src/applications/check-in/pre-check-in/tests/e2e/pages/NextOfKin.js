@@ -47,6 +47,9 @@ class NextOfKin {
   attemptToGoToNextPage() {
     cy.get('button[data-testid="yes-button"]').click();
   }
+  attemptToGoToNextPageNoButtonClicked() {
+    cy.get('button[data-testid="no-button"]').click();
+  }
 }
 
 export default new NextOfKin();

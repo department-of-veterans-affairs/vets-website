@@ -48,7 +48,9 @@ const Confirmation = () => {
       <p className={hasUpdates === true ? `vads-u-padding-left--2` : ``}>
         Please bring your insurance cards with you to your appointment.
       </p>
-      <h3>What if I have questions about my appointment?</h3>
+      <h3 data-testid="appointment-questions">
+        What if I have questions about my appointment?
+      </h3>
       <p>Call your VA health care team:</p>
       {appointments.map((appointment, index) => {
         return (
