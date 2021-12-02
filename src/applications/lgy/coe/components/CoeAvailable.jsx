@@ -21,7 +21,6 @@ export const CoeAvailable = () => (
       >
         <i
           aria-hidden="true"
-          role="img"
           className="fas fa-download vads-u-padding-right--1"
         />
         Download your COE (PDF) 0.20MB

@@ -6,10 +6,10 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import { generateCoe } from '../actions';
 import { CoeAvailable } from '../components/CoeAvailable';
-import { CoeEligible } from '../components/CoeEligible';
 import { CoeDenied } from '../components/CoeDenied';
-import { CoePending } from '../components/CoePending';
+import { CoeEligible } from '../components/CoeEligible';
 import { CoeIneligible } from '../components/CoeIneligible';
+import { CoePending } from '../components/CoePending';
 import {
   CALLSTATUS,
   COE_FORM_NUMBER,
