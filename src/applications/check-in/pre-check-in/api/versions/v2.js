@@ -56,7 +56,7 @@ const v2 = {
     uuid,
     demographicsUpToDate,
     nextOfKinUpToDate,
-    checkInType,
+    checkInType = 'preCheckIn',
   }) => {
     const url = '/check_in/v2/pre_check_ins/';
     const headers = { 'Content-Type': 'application/json' };
