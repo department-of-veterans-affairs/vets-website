@@ -96,11 +96,7 @@ export default class AppointmentInfo extends Component {
             Specialty care:
             <ul className="vads-u-margin-top--1">
               {healthAccessSpecialty.map(k =>
-                renderStat(
-                  k.service,
-                  k.established ? k.established : k.new,
-                  true,
-                ),
+                renderStat(k.service, existing ? k.established : k.new, true),
               )}
             </ul>
           </li>
