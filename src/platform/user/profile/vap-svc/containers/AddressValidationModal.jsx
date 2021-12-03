@@ -199,8 +199,6 @@ class AddressValidationModal extends React.Component {
       confirmedSuggestions,
       transaction,
       transactionRequest,
-      title,
-      clearErrors,
     } = this.props;
 
     const resetDataAndCloseModal = () => {
@@ -237,11 +235,7 @@ class AddressValidationModal extends React.Component {
       >
         {error && (
           <div className="vads-u-margin-bottom--1">
-            <VAPServiceEditModalErrorMessage
-              title={title}
-              error={error}
-              clearErrors={clearErrors}
-            />
+            <VAPServiceEditModalErrorMessage error={error} />
           </div>
         )}
         <AlertBox

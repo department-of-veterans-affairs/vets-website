@@ -8,6 +8,7 @@ describe('Pre-Check In Experience ', () => {
   beforeEach(function() {
     cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
     apiInitializer.initializeSessionGet.withSuccessfulReturningSession();
+    apiInitializer.initializePreCheckInDataGet.withSuccess();
   });
   afterEach(() => {
     cy.window().then(window => {
