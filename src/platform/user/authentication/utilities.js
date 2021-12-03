@@ -210,7 +210,7 @@ function getExternalRedirectOptions() {
   const { application, to } = getQueryParams();
   const returnUrl = isExternalRedirect()
     ? standaloneRedirect()
-    : window.location.href;
+    : window.location;
 
   return { application, to, returnUrl };
 }
