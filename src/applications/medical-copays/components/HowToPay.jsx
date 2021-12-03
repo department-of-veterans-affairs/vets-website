@@ -17,6 +17,9 @@ export const HowToPay = ({ acctNum, facility }) => (
           <a
             className="vads-u-margin-left--0p25"
             href="https://www.pay.gov/public/form/start/25987221"
+            aria-label="Pay.gov - Opens in new window"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Pay.gov website
           </a>
@@ -32,6 +35,9 @@ export const HowToPay = ({ acctNum, facility }) => (
         <a
           className="vads-c-action-link--blue"
           href="https://www.pay.gov/public/form/start/25987221"
+          aria-label="Pay.gov - Opens in new window"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           Pay your copay bill online at pay.gov
         </a>
