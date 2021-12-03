@@ -81,8 +81,9 @@ export const WaitTimeAlert = ({
 
   if (momentPreferredDate.isValid() && momentNextAvailableDate.isValid()) {
     const showUrgentCareMessage = today.isSame(momentPreferredDate, 'day');
+    const hasNextAvailableApptDate = !!nextAvailableApptDate;
 
-    if (showUrgentCareMessage && nextAvailableApptDate) {
+    if (showUrgentCareMessage && hasNextAvailableApptDate) {
       return (
         <InfoAlert
           headline="Your appointment time"
@@ -118,7 +119,7 @@ export const WaitTimeAlert = ({
           </>
         </InfoAlert>
       );
-    } else {
+    } else if (!hasNextAvailableApptDate) {
       return (
         <InfoAlert
           headline="We couldn’t find an appointment for your selected date"
