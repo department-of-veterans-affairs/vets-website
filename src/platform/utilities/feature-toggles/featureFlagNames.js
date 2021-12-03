@@ -126,6 +126,7 @@ export default Object.freeze({
     'va_online_scheduling_facilities_service_v2',
   vaOnlineSchedulingVariantTesting: 'va_online_scheduling_variant_testing',
   vaOnlineSchedulingCCIterations: 'va_online_scheduling_cc_iterations',
+  vaOnlineSchedulingPocHealthApt: 'va_online_scheduling_poc_health_apt',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
   showEduBenefits1990EZWizard: 'show_edu_benefits_1990EZ_Wizard',
