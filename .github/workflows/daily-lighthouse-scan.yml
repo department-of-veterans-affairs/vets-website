@@ -126,11 +126,11 @@ jobs:
           service_account_key: ${{ env.BIGQUERY_SERVICE_CREDENTIALS }}
           export_default_credentials: true
 
-      - name: Copy lighthouse results file to Dashboard Data Repo
-        working-directory: testing-tools-team-dashboard-data
-        run: |
-          mkdir testing-tools-team-dashboard-data/src/testing-reports/data
-          cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}} testing-tools-team-dashboard-data/src/testing-reports/data
+      - name: Download Lighthouse results
+        uses: actions/download-artifact@v2
+        with:
+          name: lighthouse-results
+          path: testing-tools-team-dashboard-data/src/testing-reports/data
 
       - name: Log directory
         run: |
