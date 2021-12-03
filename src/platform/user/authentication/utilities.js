@@ -13,6 +13,12 @@ import { AUTH_EVENTS } from './constants';
 // want to resolve with the login app
 export const loginAppUrlRE = new RegExp('^/sign-in(/.*)?$');
 
+function normalPageRedirect() {
+  return loginAppUrlRE.test(window.location.pathname)
+    ? window.location.origin
+    : window.location.toString();
+}
+
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
   REDIRECT_EVENT: 'login-auth-redirect',
@@ -131,7 +137,10 @@ export function redirect(redirectUrl, clickedEvent) {
   let rUrl = redirectUrl;
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
-  const returnUrl = externalRedirect ? standaloneRedirect() : window.location;
+  const returnUrl = externalRedirect
+    ? standaloneRedirect()
+    : normalPageRedirect();
+
   sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 
@@ -210,7 +219,7 @@ function getExternalRedirectOptions() {
   const { application, to } = getQueryParams();
   const returnUrl = isExternalRedirect()
     ? standaloneRedirect()
-    : window.location;
+    : normalPageRedirect();
 
   return { application, to, returnUrl };
 }

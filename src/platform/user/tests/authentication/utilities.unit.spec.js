@@ -176,14 +176,13 @@ describe('sessionStorage', () => {
     expect(sessionStorage.getItem(authnSettings.RETURN_URL)).to.eq(returnUrl);
   });
 
-  it('should set sessionStorage to the standaloneRedirect url', () => {
-    const returnUrl = 'va.gov/sign-in/';
-    global.window.location = returnUrl;
+  it('should set sessionStorage on `/sign-in` page to homepage', () => {
+    const returnUrl = 'va.gov';
+    global.window.location.set(returnUrl);
+    global.window.pathname = '/sign-in/';
 
     login({ policy: 'idme' });
-    expect(sessionStorage.getItem(authnSettings.RETURN_URL)).to.include(
-      returnUrl,
-    );
+    expect(sessionStorage.getItem(authnSettings.RETURN_URL)).to.eq(returnUrl);
   });
 
   it('should set sessionStorage to the standaloneRedirect url', () => {
