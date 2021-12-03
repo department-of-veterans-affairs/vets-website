@@ -1,32 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-// import { mockBanners } from './api/mocks/mockData';
+import { CAPI_DOMAIN, BANNER_SOURCE } from './constants/';
 import { apiRequest } from 'platform/utilities/api';
 
-const CAPI_DOMAIN =
-  'https://pr6811-d2ogupvg2fodkdfjyl95sjzwzinh2zev.ci.cms.va.gov';
-
-export default function createBanner(store, widgetType) {
+export default async function createBanner(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
-  if (root) {
-    import('./Banner').then(module => {
-      const bannerData = [];
-      // This is messy and most likely needs to be refactored.
-      const handleBannersSuccess = banners => {
-        banners.data.forEach(item => bannerData.push(item.attributes));
-        const Banner = module.default;
-        ReactDOM.render(<Banner banners={bannerData} />, root);
-      };
-      const handleBannersError = error => {
-        throw new Error(error);
-      };
-      apiRequest(
-        `${CAPI_DOMAIN}/jsonapi/resource/banner-alerts?item-path=/family-member-benefits`,
-      )
-        .then(response => response.json())
-        .then(handleBannersSuccess)
-        .catch(handleBannersError);
-    });
+  // If root is not found, do nothing.
+  if (!root) {
+    return;
+  }
+  try {
+    const module = await import('./components/Banner');
+    const response = await apiRequest(`${CAPI_DOMAIN}${BANNER_SOURCE}`, null);
+    const { data } = await response.json();
+    const parsedData = data.map(banner => banner.attributes);
+    const Banner = module.default;
+    if (root) {
+      ReactDOM.render(<Banner banners={parsedData} />, root);
+    }
+  } catch (error) {
+    throw new Error(error);
   }
 }
