@@ -11,6 +11,7 @@ import { URLS } from './utils/navigation';
 
 import withFeatureFlip from './containers/withFeatureFlip';
 import withAuthorization from './containers/withAuthorization';
+import withForm from './containers/withForm';
 
 const routes = [
   {
@@ -20,11 +21,15 @@ const routes = [
   {
     path: URLS.VERIFY,
     component: Validate,
+    permissions: {
+      requiresForm: true,
+    },
   },
   {
     path: URLS.DEMOGRAPHICS,
     component: Demographics,
     permissions: {
+      requiresForm: true,
       requireAuthorization: true,
     },
   },
@@ -32,6 +37,7 @@ const routes = [
     path: URLS.NEXT_OF_KIN,
     component: NextOfKin,
     permissions: {
+      requiresForm: true,
       requireAuthorization: true,
     },
   },
@@ -39,6 +45,7 @@ const routes = [
     path: URLS.INTRODUCTION,
     component: Introduction,
     permissions: {
+      requiresForm: true,
       requireAuthorization: true,
     },
   },
@@ -46,6 +53,7 @@ const routes = [
     path: URLS.CONFIRMATION,
     component: Confirmation,
     permissions: {
+      requiresForm: true,
       requireAuthorization: true,
     },
   },
@@ -59,9 +67,17 @@ const createRoutesWithStore = () => {
   return (
     <Switch>
       {routes.map((route, i) => {
-        const component = route.permissions?.requireAuthorization
-          ? withAuthorization(route.component)
-          : route.component;
+        let component = route.component;
+        if (route.permissions) {
+          const { requiresForm, requireAuthorization } = route.permissions;
+          if (requiresForm) {
+            component = withForm(component);
+          }
+          if (requireAuthorization) {
+            component = withAuthorization(component);
+          }
+        }
+
         return (
           <Route
             path={`/${route.path}`}
