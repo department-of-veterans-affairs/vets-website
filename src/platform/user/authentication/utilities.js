@@ -131,9 +131,7 @@ export function redirect(redirectUrl, clickedEvent) {
   let rUrl = redirectUrl;
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
-  const returnUrl = externalRedirect
-    ? standaloneRedirect()
-    : window.location.href;
+  const returnUrl = externalRedirect ? standaloneRedirect() : window.location;
   sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 
@@ -212,7 +210,7 @@ function getExternalRedirectOptions() {
   const { application, to } = getQueryParams();
   const returnUrl = isExternalRedirect()
     ? standaloneRedirect()
-    : window.location.origin;
+    : window.location.href;
 
   return { application, to, returnUrl };
 }

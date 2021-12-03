@@ -9,6 +9,7 @@ import {
   signup,
   standaloneRedirect,
   externalRedirects,
+  authnSettings,
 } from '../../authentication/utilities';
 
 import {
@@ -161,6 +162,28 @@ describe('setLoginAttempted', () => {
     login({ policy: 'idme' });
     expect(getLoginAttempted()).to.be.null;
     expect(global.window.location).to.include('/v1/sessions/idme/new');
+  });
+});
+
+describe('sessionStorage', () => {
+  beforeEach(setup);
+
+  it('should sessionStorage to the return url', () => {
+    const returnUrl = 'va.gov/refill-rx';
+    global.window.location = returnUrl;
+
+    login({ policy: 'idme' });
+    expect(sessionStorage.getItem(authnSettings.RETURN_URL)).to.eq(returnUrl);
+  });
+
+  it('should set sessionStorage to the standaloneRedirect url', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=mhv&to=secure_messaging';
+
+    login({ policy: 'idme' });
+    expect(sessionStorage.getItem(authnSettings.RETURN_URL)).to.include(
+      `${externalRedirects.mhv}?deeplinking=secure_messaging`,
+    );
   });
 });
 
