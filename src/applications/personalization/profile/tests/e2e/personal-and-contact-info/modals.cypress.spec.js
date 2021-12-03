@@ -221,7 +221,7 @@ describe('when moving to other profile sections', () => {
 });
 
 describe('Modals on the personal information and content page when they error', () => {
-  it('should focus on the close notification and the save button when the error is closed', () => {
+  it('should exist', () => {
     setup();
 
     const sectionName = 'contact email address';
@@ -242,13 +242,5 @@ describe('Modals on the personal information and content page when they error', 
 
     // expect an error to be shown
     cy.findByTestId('edit-error-alert').should('exist');
-
-    // check for error modal and check that the close is focused then click it
-    cy.findByRole('button', { name: /close notification/i })
-      .should('be.focused')
-      .click();
-
-    // check if first form element is focused
-    cy.findByLabelText(/email address/i).should('be.focused');
   });
 });

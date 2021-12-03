@@ -8,6 +8,7 @@ import apiInitializer from '../support/ApiInitializer';
 
 describe('Pre-Check In Experience', () => {
   describe('Introduction Page', () => {
+    let apiData = {};
     beforeEach(function() {
       cy.intercept(
         'GET',
@@ -19,6 +20,9 @@ describe('Pre-Check In Experience', () => {
       apiInitializer.initializeSessionGet.withSuccessfulNewSession();
 
       apiInitializer.initializeSessionPost.withSuccess();
+
+      apiData = apiInitializer.initializePreCheckInDataGet.withSuccess();
+
       cy.visitPreCheckInWithUUID();
       validateVeteran.validateVeteran();
       validateVeteran.attemptToGoToNextPage();
@@ -30,7 +34,8 @@ describe('Pre-Check In Experience', () => {
       });
     });
     it('expiration date is day before appointment', () => {
-      introduction.validateExpirationDate();
+      const appointment = apiData.payload.appointments[0];
+      introduction.validateExpirationDate(appointment.startTime);
     });
   });
 });

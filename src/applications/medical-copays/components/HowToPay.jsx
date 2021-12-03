@@ -4,7 +4,7 @@ import Telephone, {
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const HowToPay = ({ acctNum, facility }) => (
-  <article className="vads-u-padding--0">
+  <article className="vads-u-padding--0" data-testid="how-to-pay">
     <h2 id="how-to-pay">How do I pay my VA copay bill?</h2>
     <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--3">
       You can pay your bill in any of these 4 ways:
@@ -83,8 +83,7 @@ export const HowToPay = ({ acctNum, facility }) => (
         </p>
         <ul>
           <li>Your full name</li>
-          <li>Your account number {acctNum}</li>
-          <li>The facility you’d like to pay [Facility name]</li>
+          <li>Your account number: {acctNum}</li>
         </ul>
         <p>
           <strong>Mail your payment and remittance stubs to:</strong>

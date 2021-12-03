@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const FinancialHelp = () => (
-  <article className="vads-u-padding--0">
+  <article className="vads-u-padding--0" data-testid="financial-help">
     <h2 id="how-to-get-financial-help">
       How do I get financial help for my copays?
     </h2>

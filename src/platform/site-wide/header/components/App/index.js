@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
+import recordEvent from 'platform/monitoring/record-event';
 import Header from '../Header';
 import { hideLegacyHeader, showLegacyHeader } from '../../helpers';
 
@@ -25,6 +26,12 @@ export const App = ({
     setIsDesktop(window.innerWidth >= MOBILE_BREAKPOINT_PX);
 
   useEffect(() => {
+    // Record analytic event.
+    recordEvent({
+      event: 'phased-roll-out-enabled',
+      'product-description': 'Header V2',
+    });
+
     // Set screen size listener.
     window.addEventListener('resize', deriveIsDesktop);
 

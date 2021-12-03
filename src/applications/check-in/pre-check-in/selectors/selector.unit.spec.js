@@ -4,6 +4,7 @@ import {
   makeSelectCurrentContext,
   makeSelectFeatureToggles,
   makeSelectForm,
+  makeSelectVeteranData,
 } from './index';
 
 describe('check-in', () => {
@@ -55,6 +56,41 @@ describe('check-in', () => {
         expect(selectCurrentContext(state)).to.eql({
           token: 'some-token',
           permissions: 'some-permissions',
+        });
+      });
+    });
+    describe('makeSelectVeteranData', () => {
+      const state = {
+        preCheckInData: {
+          veteranData: {
+            demographics: {
+              firstName: 'first',
+            },
+          },
+          appointments: [
+            {
+              appointmentIen: 'some-appointment-ien',
+            },
+            {
+              appointmentIen: 'some-appointment-ien-2',
+            },
+          ],
+        },
+      };
+      it('returns appointment and demographics data', () => {
+        const selectVeteranData = makeSelectVeteranData();
+        expect(selectVeteranData(state)).to.eql({
+          demographics: {
+            firstName: 'first',
+          },
+          appointments: [
+            {
+              appointmentIen: 'some-appointment-ien',
+            },
+            {
+              appointmentIen: 'some-appointment-ien-2',
+            },
+          ],
         });
       });
     });

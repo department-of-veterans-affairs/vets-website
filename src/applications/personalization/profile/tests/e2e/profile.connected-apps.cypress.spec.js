@@ -57,7 +57,7 @@ function disconnectApps(mobile = false) {
 
   // Check for the presence of the disconnect success alert
   cy.findByText(
-    /This app can’t access any new information from your VA.gov profile/i,
+    /If you have questions about data the app has already collected/i,
   ).should('exist');
 
   // One of the two apps should now be removed
