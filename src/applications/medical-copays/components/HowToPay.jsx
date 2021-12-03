@@ -95,7 +95,7 @@ export const HowToPay = ({ acctNum, facility }) => (
       </va-accordion-item>
       <va-accordion-item header="Option 4: Pay in person">
         <p>
-          Visit your nearest VA medical center, and ask for the agent cashier’s
+          Visit {facility?.facilityName}, and ask for the agent cashier’s
           office. Bring your payment stub, along with a check or money order
           made payable to "VA". Be sure to include your account number on the
           check or money order.
