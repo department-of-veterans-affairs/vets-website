@@ -143,7 +143,7 @@ const IntroductionDisplay = props => {
       ) : (
         ''
       )}
-      <div>
+      <div className="vads-u-margin-top--4">
         Expiration date:{' '}
         <span data-testid="expiration-date">
           {format(subDays(appointmentsDateTime, 1), 'M/dd/Y')}
