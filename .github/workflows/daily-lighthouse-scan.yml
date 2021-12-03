@@ -132,7 +132,7 @@ jobs:
 
       - name: Log directory
         run: |
-          echo ${{steps.lighthouse-checks.outputs.manifest}}
+          echo ${{steps.lighthouse-checks.outputs.manifest[0]}}
 
       - name: Upload Lighthouse results to BigQuery
         run: yarn lighthouse-to-bigquery
