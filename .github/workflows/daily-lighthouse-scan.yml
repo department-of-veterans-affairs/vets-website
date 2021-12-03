@@ -46,11 +46,11 @@ jobs:
           persist-credentials: false
           path: ./.github/actions/vsp-github-actions
 
-      - name: Get role from Parameter Store
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+      # - name: Get role from Parameter Store
+      #   uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+      #   with:
+      #     ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+      #     env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -71,11 +71,11 @@ jobs:
           # budgetPath: ./budget.json # test performance budgets
           uploadArtifacts: true # save results as an action artifacts
 
-      - name: Upload lighthouse report (JSON)
-        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.json --acl public-read --region us-gov-west-1
+      # - name: Upload lighthouse report (JSON)
+      #   run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.json --acl public-read --region us-gov-west-1
 
-      - name: Upload lighthouse report (HTML)
-        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.html --acl public-read --region us-gov-west-1
+      # - name: Upload lighthouse report (HTML)
+      #   run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.html --acl public-read --region us-gov-west-1
 
       # - name: Notify Slack
       #   if: ${{ always() }}
