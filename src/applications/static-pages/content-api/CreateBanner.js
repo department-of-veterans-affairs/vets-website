@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { CAPI_DOMAIN, BANNER_SOURCE } from './constants/';
 import { apiRequest } from 'platform/utilities/api';
 
-export default async function createBanner(store, widgetType) {
+export default async function createBanner(widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   // If root is not found, do nothing.
   if (!root) {
