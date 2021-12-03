@@ -1,7 +1,5 @@
 import React from 'react';
-import Telephone, {
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const HowToPay = ({ acctNum, facility }) => (
   <article className="vads-u-padding--0" data-testid="how-to-pay">
@@ -52,18 +50,10 @@ export const HowToPay = ({ acctNum, facility }) => (
       </va-accordion-item>
       <va-accordion-item header="Option 2: Pay by phone">
         <p>
-          Call us at <Telephone contact={'888-827-4817'} /> (or
-          <Telephone
-            className="vads-u-margin-x--0p5"
-            contact={'1-555-555-5555'}
-            pattern={PATTERNS.OUTSIDE_US}
-          />
-          if overseas) We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
-          ET.
+          Call us at <Telephone contact={'888-827-4817'} />. We’re here Monday
+          through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
-        <p>
-          You will need to provide an account number to pay this debt online:
-        </p>
+        <p>You will need to provide an account number.</p>
         <p>
           <strong>Account Number: </strong>
           {acctNum}
