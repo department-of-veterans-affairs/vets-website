@@ -93,9 +93,21 @@ const IntroductionDisplay = props => {
           goToNextPage();
         }}
       >
-        Start answering questions
+        Answer questions
       </a>
     </div>
+  );
+  const additionalFooterInfo = (
+    <>
+      <p>
+        <span className="vads-u-font-weight--bold">
+          If you need to talk to someone right away or need emergency care,
+        </span>{' '}
+        Call <Telephone contact="911" />,{' '}
+        <span className="vads-u-font-weight--bold">or</span> Call the Veterans
+        Crisis hotline at <Telephone contact="8002738255" /> and select 1
+      </p>
+    </>
   );
   return (
     <div
@@ -109,6 +121,7 @@ const IntroductionDisplay = props => {
         Your answers will help us better prepare for your needs.
       </p>
       <AppointmentBlock appointments={appointments} />
+      <h2 className="vads-u-margin-top--6">Start here</h2>
       <StartButton />
       {accordionContent && accordionContent.length ? (
         <va-accordion
@@ -130,22 +143,6 @@ const IntroductionDisplay = props => {
       ) : (
         ''
       )}
-      <va-featured-content>
-        <p>
-          <span className="vads-u-font-weight--bold">Note:</span> If you need to
-          talk to someone right away or need emergency care,
-        </p>
-        <ul>
-          <li>
-            Call <Telephone contact="911" />,{' '}
-            <span className="vads-u-font-weight--bold">or</span>
-          </li>
-          <li>
-            Call the Veterans Crisis hotline at{' '}
-            <Telephone contact="8002738255" /> and select 1
-          </li>
-        </ul>
-      </va-featured-content>
       <div>
         Expiration date:{' '}
         <span data-testid="expiration-date">
@@ -162,7 +159,7 @@ const IntroductionDisplay = props => {
           Privacy Act Statement
         </a>
       </div>
-      <Footer />
+      <Footer additionalInformation={additionalFooterInfo} />
       <BackToHome />
       <Modal
         onClose={() => setPrivacyActModalOpen(false)}
