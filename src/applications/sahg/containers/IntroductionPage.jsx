@@ -75,7 +75,7 @@ class IntroductionPage extends React.Component {
           startText="Start the Application"
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-          <OMBInfo resBurden={15} ombNumber="26-4555" expDate="12/31/2022" />
+          <OMBInfo resBurden={10} ombNumber="2900-0132" expDate="06/30/2024" />
         </div>
       </div>
     );
