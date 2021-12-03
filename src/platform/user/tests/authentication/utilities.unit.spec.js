@@ -177,6 +177,16 @@ describe('sessionStorage', () => {
   });
 
   it('should set sessionStorage to the standaloneRedirect url', () => {
+    const returnUrl = 'va.gov/sign-in/';
+    global.window.location = returnUrl;
+
+    login({ policy: 'idme' });
+    expect(sessionStorage.getItem(authnSettings.RETURN_URL)).to.include(
+      returnUrl,
+    );
+  });
+
+  it('should set sessionStorage to the standaloneRedirect url', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=mhv&to=secure_messaging';
 
