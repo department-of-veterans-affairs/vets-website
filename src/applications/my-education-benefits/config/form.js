@@ -59,6 +59,8 @@ import {
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
 
+import { ELIGIBILITY } from '../actions';
+
 const {
   fullName,
   // ssn,
@@ -169,6 +171,11 @@ const formPages = {
 };
 
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
+const benefits = [
+  ELIGIBILITY.CHAPTER30,
+  ELIGIBILITY.CHAPTER1606,
+  'CannotRelinquish',
+];
 
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;
@@ -489,17 +496,6 @@ const formConfig = {
               [formFields.dateOfBirth]: date,
             },
           },
-          // initialData: {
-          //   'view:userFullName': {
-          //     userFullName: {
-          //       first: 'Hector',
-          //       middle: 'Oliver',
-          //       last: 'Stanley',
-          //       suffix: 'Jr.',
-          //     },
-          //   },
-          //   dateOfBirth: '1992-07-23',
-          // },
         },
       },
     },
@@ -509,22 +505,6 @@ const formConfig = {
         [formPages.contactInformation.contactInformation]: {
           title: 'Phone numbers and email address',
           path: 'contact-information/email-phone',
-          // initialData: {
-          //   [formFields.viewPhoneNumbers]: {
-          //     mobilePhoneNumber: {
-          //       phone: '123-456-7890',
-          //       isInternational: false,
-          //     },
-          //     phoneNumber: {
-          //       phone: '098-765-4321',
-          //       isInternational: false,
-          //     },
-          //   },
-          //   [formFields.email]: {
-          //     email: 'hector.stanley@gmail.com',
-          //     confirmEmail: 'hector.stanley@gmail.com',
-          //   },
-          // },
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -630,18 +610,6 @@ const formConfig = {
         [formPages.contactInformation.mailingAddress]: {
           title: 'Mailing address',
           path: 'contact-information/mailing-address',
-          // initialData: {
-          //   'view:mailingAddress': {
-          //     livesOnMilitaryBase: false,
-          //     [formFields.address]: {
-          //       street: '2222 Avon Street',
-          //       street2: 'Apt 6',
-          //       city: 'Arlington',
-          //       state: 'VA',
-          //       postalCode: '22205',
-          //     },
-          //   },
-          // },
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -1052,52 +1020,6 @@ const formConfig = {
               },
             },
           },
-          initialData: {
-            // [formFields.toursOfDuty]: [
-            //   {
-            //     // applyPeriodToSelected: true,
-            //     dateRange: {
-            //       from: '2011-08-01',
-            //       to: '2014-07-30',
-            //     },
-            //     exclusionPeriods: [
-            //       {
-            //         from: '2011-08-01',
-            //         to: '2011-09-14',
-            //       },
-            //       {
-            //         from: '2011-11-01',
-            //         to: '2011-12-14',
-            //       },
-            //     ],
-            //     separationReason: 'Expiration term of service',
-            //     serviceBranch: 'Navy',
-            //     serviceCharacter: 'Honorable',
-            //     // serviceStatus: 'Active Duty',
-            //     trainingPeriods: [
-            //       {
-            //         from: '2011-08-01',
-            //         to: '2011-09-14',
-            //       },
-            //       {
-            //         from: '2011-11-01',
-            //         to: '2011-12-14',
-            //       },
-            //     ],
-            //   },
-            //   {
-            //     // applyPeriodToSelected: true,
-            //     dateRange: {
-            //       from: '2015-04-04',
-            //       to: '2017-10-12',
-            //     },
-            //     separationReason: 'Disability',
-            //     serviceBranch: 'Navy',
-            //     serviceCharacter: 'Honorable',
-            //     // serviceStatus: 'Active Duty',
-            //   },
-            // ],
-          },
         },
       },
     },
@@ -1108,6 +1030,7 @@ const formConfig = {
           path: 'benefit-selection',
           title: 'Benefit selection',
           subTitle: "You're applying for the Post-9/11 GI Bill®",
+          depends: formData => formData.eligibility?.veteranIsEligible,
           uiSchema: {
             'view:post911Notice': {
               'ui:description': (
@@ -1170,6 +1093,25 @@ const formConfig = {
                       'aria-describedby': 'CannotRelinquish',
                     },
                   },
+                  updateSchema: (() => {
+                    const filterEligibility = createSelector(
+                      state => state.eligibility,
+                      eligibility => {
+                        if (!eligibility) {
+                          return benefits;
+                        }
+
+                        return {
+                          enum: benefits.filter(
+                            benefit =>
+                              eligibility.chapter.includes(benefit) ||
+                              benefit === 'CannotRelinquish',
+                          ),
+                        };
+                      },
+                    );
+                    return (form, state) => filterEligibility(form, state);
+                  })(),
                 },
                 'ui:errorMessages': {
                   required: 'Please select an answer.',
@@ -1253,7 +1195,7 @@ const formConfig = {
                 properties: {
                   [formFields.benefitRelinquished]: {
                     type: 'string',
-                    enum: ['Chapter30', 'Chapter1606', 'CannotRelinquish'],
+                    enum: benefits,
                   },
                 },
               },
