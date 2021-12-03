@@ -1,68 +1,96 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { focusElement } from 'platform/utilities/ui';
-import { useDispatch } from 'react-redux';
+import recordEvent from 'platform/monitoring/record-event';
+
+import { recordAnswer } from '../../actions';
+
+import { api } from '../../api/';
+
+import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
-import BackButton from '../../components/BackButton';
-import recordEvent from 'platform/monitoring/record-event';
-import { recordAnswer } from '../../actions';
-import { useFormRouting } from '../../hooks/useFormRouting';
-import PropTypes from 'prop-types';
 import NextOfKinDisplay from '../../../components/pages/nextOfKin/NextOfKinDisplay';
+
+import { useFormRouting } from '../../hooks/useFormRouting';
+
+import {
+  makeSelectCurrentContext,
+  makeSelectVeteranData,
+  makeSelectForm,
+} from '../../selectors';
 
 const NextOfKin = props => {
   const { router } = props;
+
+  const [isSendingData, setIsSendingData] = useState(false);
+
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectCurrentContext);
+
+  const selectForm = useMemo(makeSelectForm, []);
+  const { data } = useSelector(selectForm);
+  const { demographicsUpToDate } = data;
+
+  const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { demographics } = useSelector(selectVeteranData);
+  const { nextOfKin1: nextOfKin } = demographics;
+
   const dispatch = useDispatch();
 
-  const { goToNextPage, goToPreviousPage, currentPage } = useFormRouting(
-    router,
-  );
+  const {
+    currentPage,
+    goToErrorPage,
+    goToNextPage,
+    goToPreviousPage,
+  } = useFormRouting(router);
+
   useEffect(() => {
     focusElement('h1');
   }, []);
-  const yesClick = useCallback(
-    () => {
+
+  const buttonClick = useCallback(
+    async answer => {
+      setIsSendingData(true);
       recordEvent({
         event: 'cta-button-click',
-        'button-click-label': 'yes-to-next-of-kin',
+        'button-click-label': `${answer}-to-next-of-kin`,
       });
-      dispatch(recordAnswer({ nextOfKinUpToDate: 'yes' }));
-      goToNextPage();
+      dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
+      // select the answers from state
+      // send to API
+      const preCheckInData = {
+        uuid: token,
+        demographicsUpToDate: demographicsUpToDate === 'yes',
+        nextOfKinUpToDate: answer === 'yes',
+      };
+      try {
+        await api.v2.postPreCheckInData({ ...preCheckInData });
+        goToNextPage();
+      } catch (error) {
+        goToErrorPage();
+      }
     },
-    [goToNextPage, dispatch],
+    [dispatch, goToErrorPage, goToNextPage, token, demographicsUpToDate],
+  );
+
+  const yesClick = useCallback(
+    () => {
+      buttonClick('yes');
+    },
+    [buttonClick],
   );
   const noClick = useCallback(
     () => {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'no-to-next-of-kin',
-      });
-      dispatch(recordAnswer({ nextOfKinUpToDate: 'no' }));
-      goToNextPage();
+      buttonClick('no');
     },
-    [goToNextPage, dispatch],
+    [buttonClick],
   );
   const header = 'Is this your current next of kin?';
   const subtitle =
     'This helps us keep information about your next of kin up to date.';
-
-  const nextOfKin = {
-    name: 'VETERAN,JONAH',
-    relationship: 'BROTHER',
-    phone: '1112223333',
-    workPhone: '4445556666',
-    address: {
-      street1: '123 Main St',
-      street2: 'Ste 234',
-      street3: '',
-      city: 'Los Angeles',
-      county: 'Los Angeles',
-      state: 'CA',
-      zip: '90089',
-      zip4: '',
-      country: 'USA',
-    },
-  };
 
   return (
     <>
@@ -74,6 +102,7 @@ const NextOfKin = props => {
         nextOfKin={nextOfKin}
         yesAction={yesClick}
         noAction={noClick}
+        isSendingData={isSendingData}
       />
       <BackToHome />
     </>

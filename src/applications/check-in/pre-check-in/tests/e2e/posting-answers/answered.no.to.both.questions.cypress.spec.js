@@ -5,7 +5,7 @@ import validateVeteran from '../pages/ValidateVeteran';
 import introduction from '../pages/Introduction';
 import NextOfKin from '../pages/NextOfKin';
 import Demographics from '../pages/Demographics';
-import Confirmation from '../pages/Confirmation';
+import confirmation from '../pages/Confirmation';
 import apiInitializer from '../support/ApiInitializer';
 
 describe('Pre-Check In Experience ', () => {
@@ -18,14 +18,20 @@ describe('Pre-Check In Experience ', () => {
 
     apiData = apiInitializer.initializePreCheckInDataGet.withSuccess();
 
-    apiInitializer.initializePreCheckInDataPost.withSuccess();
+    apiInitializer.initializePreCheckInDataPost.withSuccess(req => {
+      expect(req.body.preCheckIn.uuid).to.equal(
+        '0429dda5-4165-46be-9ed1-1e652a8dfd83',
+      );
+      expect(req.body.preCheckIn.demographicsUpToDate).to.equal(false);
+      expect(req.body.preCheckIn.nextOfKinUpToDate).to.equal(false);
+    });
   });
   afterEach(() => {
     cy.window().then(window => {
       window.sessionStorage.clear();
     });
   });
-  it('Happy Path', () => {
+  it('Answered no to both questions', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
     validateVeteran.validatePageLoaded();
@@ -46,16 +52,16 @@ describe('Pre-Check In Experience ', () => {
     Demographics.validatePageLoaded();
     cy.injectAxe();
     cy.axeCheck();
-    Demographics.attemptToGoToNextPage();
+    Demographics.attemptToGoToNextPage('no');
 
     // page: Next of Kin
     NextOfKin.validatePageLoaded();
     cy.injectAxe();
     cy.axeCheck();
-    NextOfKin.attemptToGoToNextPage();
+    NextOfKin.attemptToGoToNextPage('no');
 
     // page: Confirmation
-    Confirmation.validatePageLoaded();
+    confirmation.validatePageLoaded();
     cy.injectAxe();
     cy.axeCheck();
   });
