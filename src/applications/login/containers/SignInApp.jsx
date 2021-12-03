@@ -4,7 +4,7 @@ import appendQuery from 'append-query';
 import 'url-search-params-polyfill';
 
 import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
-import NewDesignButtons from 'platform/user/authentication/components/NewDesignButtons';
+import LoginButtons from 'platform/user/authentication/components/LoginButtons';
 import FedWarning from 'platform/user/authentication/components/FedWarning';
 import LogoutAlert from 'platform/user/authentication/components/LogoutAlert';
 
@@ -94,7 +94,7 @@ class SignInPage extends React.Component {
           this.downtimeBanner(props, globalDowntime, index),
         )}
         <div className="row">
-          <NewDesignButtons
+          <LoginButtons
             isDisabled={globalDowntime}
             loginGovEnabled={loginGovEnabled}
             loginGovMHVEnabled={loginGovMHVEnabled}

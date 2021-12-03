@@ -5,10 +5,8 @@ import { connect } from 'react-redux';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import FedWarning from 'platform/user/authentication/components/FedWarning';
-import NewDesignButtons from 'platform/user/authentication/components/NewDesignButtons';
-import OriginalDesignButtons from 'platform/user/authentication/components/OriginalDesignButtons';
+import LoginButtons from 'platform/user/authentication/components/LoginButtons';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
-import SignInDescription from 'platform/user/authentication/components/SignInDescription';
 
 // import { getCurrentGlobalDowntime } from 'platform/monitoring/DowntimeNotification/util/helpers';
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
@@ -53,43 +51,6 @@ export class SignInModal extends React.Component {
       recordEvent({ event: 'login-modal-closed' });
     }
   }
-
-  renderOriginalModal = ({ globalDowntime }) => {
-    return (
-      <div>
-        <div className="usa-width-one-half">
-          <div className="signin-actions-container">
-            <div className="top-banner">
-              <div>
-                <img
-                  aria-hidden="true"
-                  role="presentation"
-                  alt="ID.me"
-                  src={`${vaGovFullDomain}/img/signin/lock-icon.svg`}
-                />{' '}
-                Secured & powered by{' '}
-                <img
-                  aria-hidden="true"
-                  role="presentation"
-                  alt="ID.me"
-                  src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
-                />
-              </div>
-            </div>
-            <div className="signin-actions">
-              <h2 className="vads-u-font-size--sm vads-u-margin-top--0">
-                Sign in with an existing account
-              </h2>
-              <div>
-                <OriginalDesignButtons isDisabled={globalDowntime} />
-              </div>
-            </div>
-          </div>
-        </div>
-        <SignInDescription />
-      </div>
-    );
-  };
 
   downtimeBanner = (dependencies, headline, status, message, onRender) => (
     <ExternalServicesError dependencies={dependencies} onRender={onRender}>
@@ -195,7 +156,7 @@ export class SignInModal extends React.Component {
         </div>
         {this.renderDowntimeBanners()}
         <div className="row">
-          <NewDesignButtons
+          <LoginButtons
             loginGovEnabled={this.props.loginGovEnabled}
             loginGovCreateAccountEnabled={
               this.props.loginGovCreateAccountEnabled

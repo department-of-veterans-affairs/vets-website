@@ -19,7 +19,7 @@ function signupHandler(loginType) {
   recordEvent({ event: `register-link-clicked-${loginType}` });
 }
 
-export default function NewDesignButtons({
+export default function LoginButtons({
   isDisabled,
   externalApplication,
   loginGovEnabled,
