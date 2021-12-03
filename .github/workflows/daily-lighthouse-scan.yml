@@ -129,6 +129,7 @@ jobs:
       - name: Copy lighthouse results file to Dashboard Data Repo
         working-directory: testing-tools-team-dashboard-data
         run: |
+          mkdir testing-tools-team-dashboard-data/src/testing-reports/data
           cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}} testing-tools-team-dashboard-data/src/testing-reports/data
 
       - name: Log directory
