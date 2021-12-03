@@ -127,12 +127,13 @@ jobs:
           export_default_credentials: true
 
       - name: Copy lighthouse results file to Dashboard Data Repo
+        working-directory: testing-tools-team-dashboard-data
         run: |
           cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}} testing-tools-team-dashboard-data/src/testing-reports/data
 
       - name: Log directory
         run: |
-          ls /home/runner/work/vets-website/vets-website/.lighthouseci/
+          echo ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}}
 
       - name: Upload Lighthouse results to BigQuery
         run: yarn lighthouse-to-bigquery
