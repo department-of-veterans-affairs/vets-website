@@ -24,8 +24,7 @@ const ServiceProvidersList = React.memo(() => {
         </li>
       </ul>
       <p>
-        If you do not have one of these accounts, you will be able to create a
-        free{' '}
+        If you don’t have one of these accounts, you can create a free{' '}
         {loginGovEnabled && (
           <>
             <strong>Login.gov</strong> or{' '}
