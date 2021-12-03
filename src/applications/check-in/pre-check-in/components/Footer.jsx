@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
-const Footer = ({ additionalInformation = <> </> }) => (
+const Footer = ({ additionalInformation }) => (
   <footer>
     <h2 className="help-heading vads-u-font-size--lg vads-u-padding-bottom--1 vads-u-border-bottom--3px vads-u-border-color--primary">
       Need Help?
@@ -31,6 +31,12 @@ const Footer = ({ additionalInformation = <> </> }) => (
     {additionalInformation}
   </footer>
 );
+
+Footer.defaultProps = {
+  get additionalInformation() {
+    return '';
+  },
+};
 
 Footer.propTypes = {
   additionalInformation: PropTypes.node,
