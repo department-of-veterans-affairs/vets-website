@@ -90,23 +90,24 @@ export const getContactInfoFieldAttributes = fieldName => {
   }
 
   if (personalInformation.includes(fieldName)) {
+    // TODO: SHOULD I MOVE THIS IN TO IT'S OWN () => AND FILE OR SHOULD I NAME JUST NAME getContactInfoFieldAttributes DIFFERENTLY SINCE IT WILL WE CAN THEORETICALLY REUSE THE SAME CONTROLLER
     apiRoute = '/'; // NOTE: DUMMY FORMS SCHEMA, API ROUTE, STUBS HERE
     convertCleanDataToPayload = () => {};
     uiSchema = {};
     formSchema = {};
-  }
 
-  if (fieldName === FIELD_NAMES.PREFERRED_NAME) {
-    title = FIELD_TITLES[FIELD_NAMES.PREFERRED_NAME];
-  }
-  if (fieldName === FIELD_NAMES.PRONOUNS) {
-    title = FIELD_TITLES[FIELD_NAMES.PRONOUNS];
-  }
-  if (fieldName === FIELD_NAMES.GENDER_IDENTITY) {
-    title = FIELD_TITLES[FIELD_NAMES.GENDER_IDENTITY];
-  }
-  if (fieldName === FIELD_NAMES.SEXUAL_ORIENTATION) {
-    title = FIELD_TITLES[FIELD_NAMES.SEXUAL_ORIENTATION];
+    if (fieldName === FIELD_NAMES.PREFERRED_NAME) {
+      title = FIELD_TITLES[FIELD_NAMES.PREFERRED_NAME];
+    }
+    if (fieldName === FIELD_NAMES.PRONOUNS) {
+      title = FIELD_TITLES[FIELD_NAMES.PRONOUNS];
+    }
+    if (fieldName === FIELD_NAMES.GENDER_IDENTITY) {
+      title = FIELD_TITLES[FIELD_NAMES.GENDER_IDENTITY];
+    }
+    if (fieldName === FIELD_NAMES.SEXUAL_ORIENTATION) {
+      title = FIELD_TITLES[FIELD_NAMES.SEXUAL_ORIENTATION];
+    }
   }
 
   return {

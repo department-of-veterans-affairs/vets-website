@@ -4,7 +4,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-import ContactInformationField from '@@vap-svc/components/ContactInformationField';
+import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import ProfileInfoTable from '../ProfileInfoTable';
 
@@ -73,27 +73,35 @@ const PersonalInformationSection = ({ gender, dob }) => (
           title: 'Preferred name',
           id: FIELD_IDS[FIELD_NAMES.PREFERRED_NAME],
           value: (
-            <ContactInformationField fieldName={FIELD_NAMES.PREFERRED_NAME} />
+            <ProfileInformationFieldController
+              fieldName={FIELD_NAMES.PREFERRED_NAME}
+            />
           ),
         },
         {
           title: 'Pronouns',
           id: FIELD_IDS[FIELD_NAMES.PRONOUNS],
-          value: <ContactInformationField fieldName={FIELD_NAMES.PRONOUNS} />,
+          value: (
+            <ProfileInformationFieldController
+              fieldName={FIELD_NAMES.PRONOUNS}
+            />
+          ),
         },
         { title: 'Sex assigned at birth', value: renderGender(gender) },
         {
           title: 'Gender Identity',
           id: FIELD_IDS[FIELD_NAMES.GENDER_IDENTITY],
           value: (
-            <ContactInformationField fieldName={FIELD_NAMES.GENDER_IDENTITY} />
+            <ProfileInformationFieldController
+              fieldName={FIELD_NAMES.GENDER_IDENTITY}
+            />
           ),
         },
         {
           title: 'Sexual Orientation',
           id: FIELD_IDS[FIELD_NAMES.SEXUAL_ORIENTATION],
           value: (
-            <ContactInformationField
+            <ProfileInformationFieldController
               fieldName={FIELD_NAMES.SEXUAL_ORIENTATION}
             />
           ),

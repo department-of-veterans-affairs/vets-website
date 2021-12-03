@@ -12,7 +12,7 @@ import {
   phoneNumbers,
 } from '@@profile/util/contact-information/getContactInfoFieldAttributes';
 
-const ContactInformationView = props => {
+const ProfileInformationView = props => {
   const { data, fieldName, title } = props;
   if (!data) {
     return <span>Edit your profile to add a {title.toLowerCase()}.</span>;
@@ -72,9 +72,9 @@ const ContactInformationView = props => {
   return null;
 };
 
-ContactInformationView.propTypes = {
+ProfileInformationView.propTypes = {
   data: PropTypes.object,
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
 };
 
-export default ContactInformationView;
+export default ProfileInformationView;
