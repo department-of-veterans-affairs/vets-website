@@ -1,8 +1,8 @@
 import mockFeatureTogglesEnabled from '../fixtures/toggle-ccp-enabled.json';
-import { facilityTypesOptions } from '../../config';
-import { LocationType } from '../../constants';
 import mockFacilityData from '../../constants/mock-facility-data.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
+
+const CC_PROVIDER = 'Community providers (in VA’s network)';
 
 describe('Facility Search - CCP (community care providers) enabled', () => {
   beforeEach(() => {
@@ -19,13 +19,11 @@ describe('Facility Search - CCP (community care providers) enabled', () => {
     cy.injectAxe();
     cy.axeCheck();
     cy.get('#facility-type-dropdown')
-      .select(facilityTypesOptions[LocationType.CC_PROVIDER])
+      .select(CC_PROVIDER)
       .should('exist');
     cy.get('#facility-type-dropdown option').then(options => {
       const optionsWithoutCCP = [...options].map(o => o.text);
-      expect(optionsWithoutCCP).to.include(
-        facilityTypesOptions[LocationType.CC_PROVIDER],
-      );
+      expect(optionsWithoutCCP).to.include(CC_PROVIDER);
     });
   });
 
@@ -36,13 +34,11 @@ describe('Facility Search - CCP (community care providers) enabled', () => {
     cy.injectAxe();
     cy.axeCheck();
     cy.get('#facility-type-dropdown')
-      .select(facilityTypesOptions[LocationType.CC_PROVIDER])
+      .select(CC_PROVIDER)
       .should('exist');
     cy.get('#facility-type-dropdown option').then(options => {
       const optionsWithoutCCP = [...options].map(o => o.text);
-      expect(optionsWithoutCCP).to.include(
-        facilityTypesOptions[LocationType.CC_PROVIDER],
-      );
+      expect(optionsWithoutCCP).to.include(CC_PROVIDER);
     });
   });
 });

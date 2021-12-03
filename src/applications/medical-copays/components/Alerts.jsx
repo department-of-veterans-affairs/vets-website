@@ -8,7 +8,11 @@ import Telephone, {
 const Alert = ({ children }) => children;
 
 Alert.Error = () => (
-  <va-alert class="row vads-u-margin-bottom--5" status="error">
+  <va-alert
+    class="row vads-u-margin-bottom--5"
+    status="error"
+    data-testid="error-alert"
+  >
     <h2 slot="headline" className="vads-u-font-size--h3">
       We can’t access your current copay balances right now
     </h2>
@@ -44,7 +48,11 @@ Alert.Error = () => (
 );
 
 Alert.Maintenance = () => (
-  <va-alert class="row vads-u-margin-bottom--5" status="info">
+  <va-alert
+    class="row vads-u-margin-bottom--5"
+    status="info"
+    data-testid="maintenance-alert"
+  >
     <h2 slot="headline" className="vads-u-font-size--h3">
       Down for maintenance
     </h2>
@@ -55,12 +63,16 @@ Alert.Maintenance = () => (
 );
 
 Alert.NoHealthcare = () => (
-  <va-alert class="row vads-u-margin-bottom--5" status="warning">
+  <va-alert
+    class="row vads-u-margin-bottom--5"
+    status="warning"
+    data-testid="no-healthcare-alert"
+  >
     <h2 slot="headline" className="vads-u-font-size--h3">
       You’re not enrolled in VA health care
     </h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
-      You can’t view copay balances at this time because our records show that
+      You can’t check copay balances at this time because our records show that
       you’re not enrolled in VA health care.
       <a
         href="https://va.gov/health-care/how-to-apply/"
@@ -79,12 +91,16 @@ Alert.NoHealthcare = () => (
 );
 
 Alert.NoHistory = () => (
-  <va-alert class="row vads-u-margin-bottom--5" status="info">
+  <va-alert
+    class="row vads-u-margin-bottom--5"
+    status="info"
+    data-testid="no-history-alert"
+  >
     <h2 slot="headline" className="vads-u-font-size--h3">
       You haven’t received a copay bill in the past 6 months
     </h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
-      You can’t view copay balances at this time because our records show that
+      You can’t check copay balances at this time because our records show that
       you haven’t received a copay bill in the past 6 months.
     </p>
     <p>
@@ -102,7 +118,11 @@ Alert.NoHistory = () => (
 );
 
 Alert.Deceased = () => (
-  <va-alert class="row vads-u-margin-bottom--5" status="warning">
+  <va-alert
+    class="row vads-u-margin-bottom--5"
+    status="warning"
+    data-testid="deceased-alert"
+  >
     <h2 slot="headline" className="vads-u-font-size--h3">
       Our records show that this Veteran is deceased
     </h2>
@@ -118,7 +138,7 @@ Alert.Deceased = () => (
 );
 
 Alert.Status = ({ copay }) => (
-  <va-alert background-only status="info">
+  <va-alert background-only status="info" data-testid="status-alert">
     <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
       {/* using vads-u-margin-left here causes the word "before" 
       to wrap to the next line so we need a {' '} space here */}

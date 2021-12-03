@@ -54,7 +54,7 @@ describe('Header <LogoRow>', () => {
         setIsMenuOpen={setIsMenuOpen}
       />,
     );
-    wrapper.find('.header-menu-button').simulate('mouseup');
+    wrapper.find('.header-menu-button').simulate('click');
 
     // Assertions.
     expect(updateExpandedMenuID.called).to.be.true;

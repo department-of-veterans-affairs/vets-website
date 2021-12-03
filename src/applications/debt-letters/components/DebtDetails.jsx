@@ -129,7 +129,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
                 Debt letter history
               </h2>
               <p className="vads-u-margin-y--2">
-                You can view the status or download the letters for this debt.
+                You can check the status or download the letters for this debt.
               </p>
               <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
                 <strong>Note:</strong> The content of the debt letters below may

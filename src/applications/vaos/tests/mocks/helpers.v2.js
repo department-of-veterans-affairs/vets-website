@@ -119,7 +119,7 @@ export function mockVAOSParentSites(ids, data, children = false) {
  * @export
  * @param {Object} params
  * @param {VAOSAppointment} params.appointment Request object from the vaos service that will be returned back
- *    from the mock with the status set to Cancelled
+ *    from the mock with the status set to Cancelled and cancelation reason set to patient
  * @param {boolean} params.error Return an error response
  */
 export function mockAppointmentCancelFetch({ appointment, error = false }) {
@@ -135,6 +135,7 @@ export function mockAppointmentCancelFetch({ appointment, error = false }) {
         attributes: {
           ...appointment.attributes,
           status: 'cancelled',
+          cancelationReason: { coding: [{ code: 'pat' }] },
         },
       },
     });
@@ -218,8 +219,8 @@ export function mockSchedulingConfigurations(configs) {
  * @param {string} typeOfCareId The type of care id of the slots being requested
  * @param {string} preferredDate The preferred date chosen by the user, which determines the date range fetched,
  *    if startDate and endDate are not provided
- * @param {MomentDate} startDate The start date for the apppointment slots
- * @param {MomentDate} endDate The end date for the apppointment slots
+ * @param {MomentDate} startDate The start date for the appointment slots
+ * @param {MomentDate} endDate The end date for the appointment slots
  * @param {string} [length=20] The length of the appointment slots
  * @param {string} clinicId The VistA clinic id the slots are in
  * @param {Array<VARSlot>} slots The list of slots to return from the mock

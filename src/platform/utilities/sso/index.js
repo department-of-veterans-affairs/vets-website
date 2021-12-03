@@ -60,7 +60,11 @@ export async function checkAutoSession(
       // transaction id. If they don't match, it means we might have a different
       // user logged in. Thus, we should perform an auto login, which will
       // effectively logout the user then log them back in.
-      login('custom', 'v1', { authn }, AUTH_EVENTS.SSO_LOGIN);
+      login({
+        policy: 'custom',
+        queryParams: { authn },
+        clickedEvent: AUTH_EVENTS.SSO_LOGIN,
+      });
     } else if (
       loginAppUrlRE.test(window.location.pathname) &&
       ttl > 0 &&
@@ -77,7 +81,11 @@ export async function checkAutoSession(
     // c) has not previously tried to login (if the last attempt to login failed
     //    don't keep retrying)
     // d) we have a non empty type value from the keepalive call to login with
-    login('custom', 'v1', { authn }, AUTH_EVENTS.SSO_LOGIN);
+    login({
+      policy: 'custom',
+      queryParams: { authn },
+      clickedEvent: AUTH_EVENTS.SSO_LOGIN,
+    });
   }
 }
 

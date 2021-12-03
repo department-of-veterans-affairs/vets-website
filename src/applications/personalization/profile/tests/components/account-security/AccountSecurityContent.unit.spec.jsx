@@ -12,7 +12,7 @@ import ProfileInfoTable from '@@profile/components/ProfileInfoTable';
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import TwoFactorAuthorizationStatus from '@@profile/components/account-security/TwoFactorAuthorizationStatus';
 import MHVTermsAndConditionsStatus from '@@profile/components/account-security/MHVTermsAndConditionsStatus';
-import EmailAddressNotification from '@@profile/components/personal-information/email-addresses/EmailAddressNotification';
+import EmailAddressNotification from '@@profile/components/contact-information/email-addresses/EmailAddressNotification';
 import Verified from '@@profile/components/account-security/Verified';
 
 describe('AccountSecurityContent', () => {

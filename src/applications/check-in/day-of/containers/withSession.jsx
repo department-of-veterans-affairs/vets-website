@@ -7,10 +7,10 @@ import {
   getCurrentToken,
   setCurrentToken,
   clearCurrentSession,
-} from '../utils/session';
+} from '../../utils/session';
 import { api } from '../api';
 import { triggerRefresh, tokenWasValidated } from '../actions';
-import { SCOPES } from '../utils/token-format-validator';
+import { SCOPES } from '../../utils/token-format-validator';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { makeSelectCheckInData } from '../hooks/selectors';
 

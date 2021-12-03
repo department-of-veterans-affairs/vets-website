@@ -112,27 +112,32 @@ const DownloadLettersAlert = () => (
   </va-alert>
 );
 
+const DebtLettersView = ({
+  debtLinks,
+  isError,
+  isVBMSError,
+  hasDependentDebts,
+}) => {
+  const hasDebtLinks = !!debtLinks.length;
+
+  if (isError || isVBMSError) return <ErrorAlert />;
+  if (hasDependentDebts) return <DependentDebt />;
+  if (!hasDebtLinks) return <NoDebtLinks />;
+
+  return (
+    <>
+      <DebtLettersTable debtLinks={debtLinks} />
+      <MobileTableView debtLinks={debtLinks} />
+    </>
+  );
+};
+
 const DebtLettersDownload = ({
   debtLinks,
   isError,
   isVBMSError,
   hasDependentDebts,
 }) => {
-  const DebtLetters = () => {
-    const hasDebtLinks = !!debtLinks.length;
-
-    if (isError || isVBMSError) return <ErrorAlert />;
-    if (hasDependentDebts) return <DependentDebt />;
-    if (!hasDebtLinks) return <NoDebtLinks />;
-
-    return (
-      <>
-        <DebtLettersTable debtLinks={debtLinks} />
-        <MobileTableView debtLinks={debtLinks} />
-      </>
-    );
-  };
-
   useEffect(() => {
     scrollToTop();
     setPageFocus('h1');
@@ -165,23 +170,32 @@ const DebtLettersDownload = ({
         <DownloadLettersAlert />
 
         <h2>Your debt letters</h2>
-        <DebtLetters />
+        <DebtLettersView
+          debtLinks={debtLinks}
+          isError={isError}
+          isVBMSError={isVBMSError}
+          hasDependentDebts={hasDependentDebts}
+        />
         <div className="vads-u-margin-bottom--6 vads-u-margin-top--5">
           <h2 className="vads-u-margin-y--0">
-            What if I don’t see the letter I'm looking for?
+            What if the letter I’m looking for isn’t listed here?
           </h2>
-
           <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
-            If you’ve received a letter about a VA debt, but don’t see the
-            letter listed here call the Debt Management Center at
+            If you’ve received a letter about a VA debt that isn’t listed here,
+            call us at
             <Telephone
-              className="vads-u-margin-left--0p5"
-              contact="8008270648"
+              contact={'800-827-0648'}
+              className="vads-u-margin-x--0p5"
             />
-            . You can also call the Debt Management Center to get information
-            about your resolved debts.
+            (or
+            <Telephone
+              contact={'1-612-713-6415'}
+              pattern={PATTERNS.OUTSIDE_US}
+              className="vads-u-margin-x--0p5"
+            />
+            from overseas). You can also call us to get information about your
+            resolved debts.
           </p>
-
           <p className="vads-u-font-family--sans">
             For medical copay debt, please go to
             <a

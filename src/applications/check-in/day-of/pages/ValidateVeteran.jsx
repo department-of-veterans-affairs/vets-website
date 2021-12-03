@@ -2,17 +2,17 @@ import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
-import { VaTextInput } from 'web-components/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 
 import { api } from '../api';
 
 import { permissionsUpdated } from '../actions';
 import { goToNextPage, URLS } from '../utils/navigation';
-import { SCOPES } from '../utils/token-format-validator';
+import { SCOPES } from '../../utils/token-format-validator';
 
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
+import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 
 import { makeSelectContext } from '../hooks/selectors';
 
@@ -73,46 +73,26 @@ const ValidateVeteran = props => {
   }, []);
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
-      <h1>Check in at VA</h1>
-      <p>
-        We need some information to verify your identity so we can check you in.
-      </p>
-      <form className="vads-u-margin-bottom--2p5" onSubmit={() => false}>
-        <VaTextInput
-          autoCorrect="false"
-          error={lastNameErrorMessage}
-          label="Your last name"
-          name="last-name"
-          onVaChange={event => setLastName(event.detail.value)}
-          required
-          spellCheck="false"
-          value={lastName}
-        />
-        <VaTextInput
-          error={last4ErrorMessage}
-          inputmode="numeric"
-          label="Last 4 digits of your Social Security number"
-          maxlength="4"
-          onVaChange={event => setLast4Ssn(event.detail.value)}
-          name="last-4-ssn"
-          required
-          value={last4Ssn}
-        />
-      </form>
-      <button
-        type="button"
-        className="usa-button usa-button-big"
-        onClick={onClick}
-        data-testid="check-in-button"
-        disabled={isLoading}
-        aria-label="Check in now for your appointment"
-      >
-        {isLoading ? <>Loading...</> : <>Continue</>}
-      </button>
-      <Footer />
+    <>
+      <ValidateDisplay
+        header="Check in at VA"
+        subTitle="We need some information to verify your identity so we can check you in."
+        last4Input={{
+          last4ErrorMessage,
+          setLast4Ssn,
+          last4Ssn,
+        }}
+        lastNameInput={{
+          lastNameErrorMessage,
+          setLastName,
+          lastName,
+        }}
+        isLoading={isLoading}
+        validateHandler={onClick}
+        Footer={Footer}
+      />
       <BackToHome />
-    </div>
+    </>
   );
 };
 

@@ -183,6 +183,12 @@ dl.review .additional-issue.review-row {
   word-break: break-word;
 }
 
+@media screen and (min-width: 481px) {
+  .va-profile-wrapper button {
+    width: auto;
+  }
+}
+
 /* IE11 hack to fix edit button placement, see
  * https://github.com/department-of-veterans-affairs/va.gov-team/issues/25108
  */

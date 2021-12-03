@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 // Relative imports.
 import Logo from '../Logo';
 import UserNav from '../../../user-nav/containers/Main';
+import recordEvent from 'platform/monitoring/record-event';
 import { updateExpandedMenuIDAction } from '../../containers/Menu/actions';
 
 export const LogoRow = ({
@@ -13,6 +14,10 @@ export const LogoRow = ({
   updateExpandedMenuID,
 }) => {
   const onMenuToggle = () => {
+    // Record the analytic event.
+    recordEvent({ event: 'nav-header-menu-expand' });
+
+    // Update the state.
     updateExpandedMenuID();
     setIsMenuOpen(!isMenuOpen);
   };
@@ -24,6 +29,7 @@ export const LogoRow = ({
         aria-label="VA logo"
         className="header-logo vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center"
         href="/"
+        onClick={() => recordEvent({ event: 'nav-header-logo' })}
       >
         <Logo />
       </a>
@@ -37,8 +43,7 @@ export const LogoRow = ({
           aria-controls="header-nav-items"
           aria-expanded={isMenuOpen ? 'true' : 'false'}
           className="header-menu-button usa-button vads-u-background-color--gray-lightest vads-u-color--link-default vads-u-padding-y--1 vads-u-padding-x--1p5 vads-u-margin--0 vads-u-margin-left--2 vads-u-position--relative"
-          onMouseUp={onMenuToggle}
-          onKeyDown={event => event.keyCode === 13 && onMenuToggle()}
+          onClick={onMenuToggle}
           type="button"
         >
           {/* Menu | Close */}

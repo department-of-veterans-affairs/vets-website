@@ -57,7 +57,7 @@ export function GiBillApp({
           {constants.inProgress && <LoadingIndicator message="Loading..." />}
           {constants.error && <ServiceError />}
           {!(constants.error || constants.inProgress) && (
-            <DowntimeNotification appTitle={'GI Bill Comparison Tool'}>
+            <DowntimeNotification appTitle={'GI Bill® Comparison Tool'}>
               {children}
             </DowntimeNotification>
           )}

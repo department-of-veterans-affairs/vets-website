@@ -90,7 +90,7 @@ jobs:
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "Stand by, production deploy for vets-website coming up in ${{ needs.set-env.outputs.RELEASE_WAIT }} minutes. View what coming here: <https://github.com/${{ github.repository }}/compare/vets-website/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}>"}]'
+          attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "Stand by, production deploy for vets-website coming up in ${{ needs.set-env.outputs.RELEASE_WAIT }} minutes. View what coming here: <https://github.com/${{ github.repository }}/compare/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}>"}]'
           channel_id: ${{ env.CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -100,10 +100,24 @@ jobs:
     runs-on: ubuntu-latest
     needs: [set-env, notify-start, validate-build-status]
     steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get bot token from Parameter Store
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
 
       - name: Waiting to release
         run: |
