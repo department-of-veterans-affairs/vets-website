@@ -39,7 +39,9 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     border-radius: 50%;
     width: 28px;
     height: 24px;
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: $color-base;
     color: $color-gray-lightest;
     text-align: center;
