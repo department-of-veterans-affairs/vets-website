@@ -132,7 +132,7 @@ jobs:
 
       - name: Log directory
         run: |
-          ls testing-tools-team-dashboard-data/src/testing-reports/data
+          echo ${{steps.lighthouse-checks.outputs}}
 
       - name: Upload Lighthouse results to BigQuery
         run: yarn lighthouse-to-bigquery
