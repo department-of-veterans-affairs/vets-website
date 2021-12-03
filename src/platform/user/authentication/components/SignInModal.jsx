@@ -18,7 +18,6 @@ import {
   ssoe,
   loginGov,
   loginGovCreateAccount,
-  loginOldDesign,
 } from 'platform/user/authentication/selectors';
 import { login, signup } from 'platform/user/authentication/utilities';
 import { formatDowntime } from 'platform/utilities/date';
@@ -189,50 +188,25 @@ export class SignInModal extends React.Component {
       <div className="container">
         <div className="row">
           <div className="columns small-12">
-            <h1
-              className={`${!this.props.oldDesignEnabled &&
-                'vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2'}`}
-            >
+            <h1 className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2">
               Sign in
             </h1>
           </div>
         </div>
-        {this.props.oldDesignEnabled ? (
-          <div className="row medium-screen:vads-u-display--none mobile-explanation">
-            <div className="columns small-12">
-              <h2>
-                One site. A lifetime of benefits and services at your
-                fingertips.
-              </h2>
-            </div>
-          </div>
-        ) : null}
         {this.renderDowntimeBanners()}
-        {this.props.oldDesignEnabled ? (
-          this.renderOriginalModal({
-            globalDowntime,
-          })
-        ) : (
-          <div className="row">
-            <NewDesignButtons
-              loginGovEnabled={this.props.loginGovEnabled}
-              loginGovCreateAccountEnabled={
-                this.props.loginGovCreateAccountEnabled
-              }
-              isDisabled={globalDowntime}
-            />
-          </div>
-        )}
+        <div className="row">
+          <NewDesignButtons
+            loginGovEnabled={this.props.loginGovEnabled}
+            loginGovCreateAccountEnabled={
+              this.props.loginGovCreateAccountEnabled
+            }
+            isDisabled={globalDowntime}
+          />
+        </div>
         <div className="row">
           <div className="columns small-12">
             <div className="help-info">
-              <h2
-                className={`${
-                  !this.props.oldDesignEnabled
-                    ? 'vads-u-margin-top--0'
-                    : 'vads-u-font-size--md'
-                }`}
-              >
+              <h2 className="vads-u-margin-top--0">
                 Having trouble signing in?
               </h2>
               <p>
@@ -255,11 +229,10 @@ export class SignInModal extends React.Component {
                 .
               </p>
               <p>
-                <SubmitSignInForm startSentence />{' '}
-                {!this.props.oldDesignEnabled && ` We're here 24/7.`}
+                <SubmitSignInForm startSentence /> We're here 24/7.
               </p>
             </div>
-            <FedWarning oldDesignEnabled={this.props.oldDesignEnabled} />
+            <FedWarning />
           </div>
         </div>
       </div>
@@ -269,9 +242,7 @@ export class SignInModal extends React.Component {
   render() {
     return (
       <Modal
-        cssClass={`va-modal-large ${
-          !this.props.oldDesignEnabled ? 'new-modal-design' : ''
-        }`}
+        cssClass="va-modal-large new-modal-design"
         visible={this.props.visible}
         focusSelector="button"
         onClose={this.props.onClose}
@@ -293,7 +264,6 @@ function mapStateToProps(state) {
     useSSOe: ssoe(state),
     loginGovEnabled: loginGov(state),
     loginGovCreateAccountEnabled: loginGovCreateAccount(state),
-    oldDesignEnabled: loginOldDesign(state),
   };
 }
 
