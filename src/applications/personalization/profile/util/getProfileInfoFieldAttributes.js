@@ -4,13 +4,13 @@ import {
   emailConvertCleanDataToPayload,
   emailUiSchema,
   emailFormSchema,
-} from './emailUtils';
+} from './contact-information/emailUtils';
 import {
   phoneConvertCleanDataToPayload,
   phoneUiSchema,
   phoneFormSchema,
-} from './phoneUtils';
-import { addressConvertCleanDataToPayload } from './addressUtils';
+} from './contact-information/phoneUtils';
+import { addressConvertCleanDataToPayload } from './contact-information/addressUtils';
 
 import {
   getFormSchema as addressFormSchema,
@@ -36,7 +36,7 @@ export const personalInformation = [
   FIELD_NAMES.SEXUAL_ORIENTATION,
 ];
 
-export const getContactInfoFieldAttributes = fieldName => {
+export const getProfileInfoFieldAttributes = fieldName => {
   let apiRoute;
   let convertCleanDataToPayload;
   let title;
@@ -90,7 +90,6 @@ export const getContactInfoFieldAttributes = fieldName => {
   }
 
   if (personalInformation.includes(fieldName)) {
-    // TODO: SHOULD I MOVE THIS IN TO IT'S OWN () => AND FILE OR SHOULD I NAME JUST NAME getContactInfoFieldAttributes DIFFERENTLY SINCE IT WILL WE CAN THEORETICALLY REUSE THE SAME CONTROLLER
     apiRoute = '/'; // NOTE: DUMMY FORMS SCHEMA, API ROUTE, STUBS HERE
     convertCleanDataToPayload = () => {};
     uiSchema = {};
@@ -119,4 +118,4 @@ export const getContactInfoFieldAttributes = fieldName => {
   };
 };
 
-export default getContactInfoFieldAttributes;
+export default getProfileInfoFieldAttributes;

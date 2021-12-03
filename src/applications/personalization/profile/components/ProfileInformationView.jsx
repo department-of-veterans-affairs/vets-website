@@ -10,7 +10,7 @@ import * as VAP_SERVICE from '@@vap-svc/constants';
 import {
   addresses,
   phoneNumbers,
-} from '@@profile/util/contact-information/getContactInfoFieldAttributes';
+} from '@@profile/util/getProfileInfoFieldAttributes';
 
 const ProfileInformationView = props => {
   const { data, fieldName, title } = props;

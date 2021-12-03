@@ -41,7 +41,7 @@ import ProfileInformationView from '@@profile/components/ProfileInformationView'
 
 import { getInitialFormValues } from '@@profile/util/contact-information/formValues';
 
-import getContactInfoFieldAttributes from '~/applications/personalization/profile/util/contact-information/getContactInfoFieldAttributes';
+import getProfileInfoFieldAttributes from '~/applications/personalization/profile/util/getProfileInfoFieldAttributes';
 
 import CannotEditModal from './ContactInformationFieldInfo/CannotEditModal';
 import ConfirmCancelModal from './ContactInformationFieldInfo/ConfirmCancelModal';
@@ -469,7 +469,7 @@ export const mapStateToProps = (state, ownProps) => {
     uiSchema,
     formSchema,
     title,
-  } = getContactInfoFieldAttributes(fieldName);
+  } = getProfileInfoFieldAttributes(fieldName);
   return {
     hasUnsavedEdits: state.vapService.hasUnsavedEdits,
     analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
