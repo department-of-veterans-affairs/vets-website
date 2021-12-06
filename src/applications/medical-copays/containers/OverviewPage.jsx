@@ -43,15 +43,18 @@ const OverviewPage = () => {
           Your current copay balances
         </a>
       </Breadcrumbs>
+
       <h1>Your current copay balances</h1>
       {alertType ? (
         <Alert type={alertType} />
       ) : (
         <>
-          <p className="vads-u-font-size--lg">
-            Check your VA health care and prescription charges from each of your
-            facilities. Find out how to make payments or request financial help.
+          <p className="vads-u-font-size--lg vads-u-font-family--serif">
+            Check the balance of VA health care and prescription charges from
+            each of your facilities. Find out how to make payments or request
+            financial help.
           </p>
+
           <Balances statementData={statementData} />
           <BalanceQuestions />
           <FacilityContacts facilities={facilities} />
