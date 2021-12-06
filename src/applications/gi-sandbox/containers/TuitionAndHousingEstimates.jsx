@@ -103,10 +103,9 @@ export function TuitionAndHousingEstimates({
         value={onlineClasses}
         onChange={e => {
           recordEvent({
-            event: 'howToWizard-formChange',
-            'form-field-type': 'form-radio-buttons',
-            'form-field-label': 'Will you be taking any classes in person ?',
-            'form-field-value': e.target.value,
+            event: 'gibct-form-change',
+            'gibct-form-field': 'Will you be taking any classes in person ?',
+            'gibct-form-value': e.target.value,
           });
           setOnlineClasses(e.target.value);
         }}

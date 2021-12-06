@@ -56,10 +56,9 @@ export function FilterYourResults({
 
   const recordCheckboxEvent = e => {
     recordEvent({
-      event: 'howToWizard-formChange',
-      'form-field-type': 'form-checkbox',
-      'form-field-label': e.target.name,
-      'form-field-value': e.target.checked,
+      event: 'gibct-form-change',
+      'gibct-form-field': e.target.name,
+      'gibct-form-value': e.target.checked,
     });
   };
 
@@ -73,10 +72,9 @@ export function FilterYourResults({
 
   const onChange = e => {
     recordEvent({
-      event: 'howToWizard-formChange',
-      'form-field-type': 'form-dropdown',
-      'form-field-label': e.target.name,
-      'form-field-value': e.target.value,
+      event: 'gibct-form-change',
+      'gibct-form-field': e.target.name,
+      'gibct-form-value': e.target.value,
     });
     updateInstitutionFilters(e.target.name, e.target.value);
   };
