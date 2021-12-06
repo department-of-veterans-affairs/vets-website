@@ -1,14 +1,10 @@
-import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
-import sinon from 'sinon';
 
 import {
   getLoginAttempted,
   removeLoginAttempted,
 } from 'platform/utilities/sso/loginAttempted';
 import * as authUtilities from '../../authentication/utilities';
-import NewDesignButtons from '../../authentication/components/NewDesignButtons';
 import { CSP_IDS } from '../../authentication/constants';
 
 const setup = () => {
@@ -201,40 +197,5 @@ describe('loginAppUrlRE', () => {
   it('should not resolve to a login app url', () => {
     expect(authUtilities.loginAppUrlRE.test('/sign-in-faq')).to.be.false;
     expect(authUtilities.loginAppUrlRE.test('/sign-in-faq/')).to.be.false;
-  });
-});
-
-describe('login DOM ', () => {
-  const sandbox = sinon.createSandbox();
-
-  beforeEach(function() {
-    sandbox.spy(authUtilities, 'login');
-  });
-
-  it('login buttons should properly call login method', () => {
-    const loginButtons = mount(<NewDesignButtons />);
-
-    const testButton = button => {
-      const loginCSP = button.prop('data-csp');
-
-      const expectedArgs = {
-        idme: { policy: CSP_IDS.ID_ME },
-        logingov: { policy: CSP_IDS.LOGIN_GOV },
-        dslogon: { policy: CSP_IDS.DS_LOGON },
-        mhv: { policy: CSP_IDS.MHV },
-      };
-
-      button.simulate('click');
-
-      expect(authUtilities.login.calledOnce).to.be.true;
-      expect(authUtilities.login.getCall(0).args[0]).to.deep.equal(
-        expectedArgs[loginCSP],
-      );
-
-      sandbox.reset();
-    };
-
-    loginButtons.find('button').forEach(testButton);
-    loginButtons.unmount();
   });
 });
