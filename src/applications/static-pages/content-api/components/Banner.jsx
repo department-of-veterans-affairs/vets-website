@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Banner = ({ banners }) => {
-  if (!banners) return 'banner not found';
   return (
     <>
       {banners.map(
