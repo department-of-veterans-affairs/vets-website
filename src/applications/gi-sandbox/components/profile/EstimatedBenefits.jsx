@@ -109,10 +109,6 @@ export default function EstimatedBenefits({
           <LearnMoreLabel
             text={title}
             onClick={() => {
-              recordEvent({
-                event: `Learn more clicked for ${learnMoreAriaLabel} test`,
-              });
-
               if (modal) {
                 dispatchShowModal(modal);
               } else {

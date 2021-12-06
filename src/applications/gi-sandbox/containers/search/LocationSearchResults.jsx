@@ -396,11 +396,14 @@ function LocationSearchResults({
     () => {
       focusElement('#location-search-results-count');
       recordEvent({
-        event: 'onsite-search-results-change',
-        'search-page-path': '/?search=location',
+        event: 'view_search_results',
+        'search-page-path': document.location.pathname,
         'search-query': location,
         'search-results-total-count': count,
-        'search-selection': 'Search By Location',
+        'search-results-total-pages': undefined,
+        'search-selection': 'GIBCT',
+        'search-typeahead-enabled': false,
+        'search-location': 'Location',
         'sitewide-search-app-used': false,
         'type-ahead-option-keyword-selected': undefined,
         'type-ahead-option-position': undefined,

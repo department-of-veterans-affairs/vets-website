@@ -107,11 +107,6 @@ export function CautionaryInformation({ institution, showModal }) {
         bold
         text={'All campuses'}
         onClick={() => {
-          recordEvent({
-            event: `Learn more clicked for: ${
-              ariaLabels.learnMore.allCampusComplaints
-            }`,
-          });
           showModal('allCampuses');
         }}
         ariaLabel={ariaLabels.learnMore.allCampusComplaints}
