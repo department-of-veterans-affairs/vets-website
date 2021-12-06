@@ -79,7 +79,7 @@ describe('Forms library - Forms signature component', () => {
       expect(getByText(checkboxErrorText)).to.exist;
     });
 
-    it('should not show validation errors when showErrors is false', () => {
+    it('should not show validation errors when showError is false', () => {
       const { queryByText } = render(
         <FormSignature {...signatureProps} showError={false} required />,
       );

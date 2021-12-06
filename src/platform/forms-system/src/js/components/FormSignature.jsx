@@ -154,6 +154,9 @@ FormSignature.propTypes = {
    * validation message if the input is invalid, or undefined if the input is
    * valid.
    *
+   * Subsequent validation functions do not run if previous validators
+   * return an error message.
+   *
    * Validator function have the following signature:
    *   function validator(signatureValue: string, formData: Object): string | undefined
    */
