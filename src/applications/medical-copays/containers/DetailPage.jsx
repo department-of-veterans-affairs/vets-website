@@ -10,6 +10,7 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { Link } from 'react-router-dom';
 import Modals from '../components/Modals';
 import Alert from '../components/Alerts';
+import { OnThisPage } from '../components/OnThisPage';
 import { formatDate } from '../utils/helpers';
 
 const DetailPage = ({ match }) => {
@@ -58,9 +59,12 @@ const DetailPage = ({ match }) => {
             </span>
           </p>
 
-          <Alert type={'status'} copay={selectedCopay} />
+          <Alert
+            type={selectedCopay?.pHAmtDue === 0 ? 'zero-balance' : 'status'}
+            copay={selectedCopay}
+          />
 
-          <va-on-this-page />
+          <OnThisPage />
 
           <PDFStatementList />
 

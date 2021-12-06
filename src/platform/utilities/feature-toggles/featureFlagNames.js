@@ -12,6 +12,7 @@ export default Object.freeze({
   cernerOverride692: 'cerner_override_692',
   cernerOverride757: 'cerner_override_757',
   checkInExperienceEnabled: 'check_in_experience_enabled',
+  checkInExperienceEmergencyContactEnabled:'check_in_experience_emergency_contact_enabled',
   checkInExperienceDemographicsPageEnabled:
     'check_in_experience_demographics_page_enabled',
   checkInExperiencePreCheckInEnabled:
@@ -60,7 +61,6 @@ export default Object.freeze({
   loginGovCreateAccount: 'login_gov_create_account',
   loginGovMHV: 'login_gov_mhv',
   loginGovMyVAHealth: 'login_gov_myvahealth',
-  loginOldDesign: 'login_old_design',
   loopPages: 'loop_pages',
   manageDependents: 'dependents_management',
   megaMenuMobileV2: 'mega_menu_mobile_v2',
@@ -126,6 +126,7 @@ export default Object.freeze({
     'va_online_scheduling_facilities_service_v2',
   vaOnlineSchedulingVariantTesting: 'va_online_scheduling_variant_testing',
   vaOnlineSchedulingCCIterations: 'va_online_scheduling_cc_iterations',
+  vaOnlineSchedulingPocHealthApt: 'va_online_scheduling_poc_health_apt',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
   showEduBenefits1990EZWizard: 'show_edu_benefits_1990EZ_Wizard',

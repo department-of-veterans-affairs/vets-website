@@ -112,7 +112,7 @@ To share an app instance using the mock API running on Codespaces publicly, use 
 
 - Create the codespace as above and wait for it to build
 - Start the mock API in a Codespace terminal: `yarn mock-api --responses src/applications/check-in/api/local-mock-api/phase.3.js`
-- Start the app in another Codespace terminal: `yarn watch --env.api="https://${CODESPACE_NAME}-3000.githubpreview.dev" --env.entry check-in`
+- Start the app in another Codespace terminal: `yarn watch --env api="https://${CODESPACE_NAME}-3000.githubpreview.dev" --env entry=check-in`
 - Go to the "Ports" tab and make both port 3000 and 3001 public by right-clicking and selecting Privacy -> Public:
   <img width="999" alt="Screen Shot 2021-10-13 at 2 35 24 PM" src="https://user-images.githubusercontent.com/101649/137209007-c38ea216-1450-47f5-8d4a-7873f5cf82e1.png">
 - Hover over the "Local Address" on the line for port 3001 and click the globe icon to open the public URL in your browser.

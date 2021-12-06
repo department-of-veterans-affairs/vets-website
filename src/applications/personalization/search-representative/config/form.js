@@ -14,6 +14,9 @@ import {
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
+  customText: {
+    appType: 'search',
+  },
   urlPrefix: '/',
   submitUrl: '/v0/api',
   trackingPrefix: 'search-representative-',

@@ -211,6 +211,25 @@
           "maxLength": 51
         }
       }
+    },
+    "bankAccount": {
+      "type": "object",
+      "properties": {
+        "accountType": {
+          "type": "string",
+          "enum": [
+            "checking",
+            "savings"
+          ]
+        },
+        "routingNumber": {
+          "type": "string",
+          "pattern": "^\\d{9}$"
+        },
+        "accountNumber": {
+          "type": "string"
+        }
+      }
     }
   }
 }
