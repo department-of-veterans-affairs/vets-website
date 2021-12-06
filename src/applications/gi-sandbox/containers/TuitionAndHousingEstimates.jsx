@@ -88,10 +88,6 @@ export function TuitionAndHousingEstimates({
           <LearnMoreLabel
             text="Will you be taking any classes in person?"
             onClick={() => {
-              recordEvent({
-                event: 'gibct-form-help-text-clicked',
-                'help-text-label': 'Will you be taking any classes in person?',
-              });
               dispatchShowModal('onlineOnlyDistanceLearning');
             }}
             ariaLabel="Learn more about how we calculate your housing allowance based on where you take classes"

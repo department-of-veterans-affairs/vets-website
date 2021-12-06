@@ -178,9 +178,6 @@ export function CautionaryInformation({ institution, showModal }) {
             <LearnMoreLabel
               onClick={() => {
                 showModal('studentComplaints');
-                recordEvent({
-                  event: `Learn more link Clicked: for student complaints`,
-                });
               }}
               buttonId="student-complaints"
               buttonClassName="small-screen-font"

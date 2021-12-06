@@ -174,10 +174,6 @@ const ProfilePageHeader = ({
                 text={<>{_.capitalize(accreditationType)} Accreditation</>}
                 onClick={() => {
                   dispatchShowModal('typeAccredited');
-                  recordEvent({
-                    event: 'gibct-form-help-text-clicked',
-                    'help-text-label': 'Learn more about the accreditation',
-                  });
                 }}
                 ariaLabel={ariaLabels.learnMore.numberOfStudents}
                 buttonId={'typeAccredited-button'}
@@ -298,10 +294,6 @@ const ProfilePageHeader = ({
                 }
                 onClick={() => {
                   dispatchShowModal('preferredProviders');
-                  recordEvent({
-                    event: 'gibct-form-help-text-clicked',
-                    'help-text-label': 'Learn more about Preferred Providers',
-                  });
                 }}
                 ariaLabel={ariaLabels.learnMore.numberOfStudents}
                 buttonId={'preferredProviders-button'}
@@ -341,11 +333,6 @@ const ProfilePageHeader = ({
               buttonId={createId('GI Bill students profile')}
               onClick={() => {
                 dispatchShowModal('gibillstudents');
-                recordEvent({
-                  event: 'gibct-form-help-text-clicked',
-                  'help-text-label':
-                    'Learn more about the number of GI bill students',
-                });
               }}
               ariaLabel={ariaLabels.learnMore.numberOfStudents}
             />

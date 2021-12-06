@@ -230,11 +230,6 @@ export function FilterYourResults({
           <LearnMoreLabel
             text="Has no cautionary warnings"
             onClick={() => {
-              recordEvent({
-                event: 'gibct-form-help-text-clicked',
-                'help-text-label':
-                  'Learn more about cautionary warnings and school closures',
-              });
               dispatchShowModal('cautionaryWarnings');
             }}
             ariaLabel="Learn more about VA education and training programs"
@@ -248,10 +243,6 @@ export function FilterYourResults({
           <LearnMoreLabel
             text="Is accredited"
             onClick={() => {
-              recordEvent({
-                event: 'gibct-form-help-text-clicked',
-                'help-text-label': 'Learn more about accreditation',
-              });
               dispatchShowModal('accredited');
             }}
             ariaLabel="Learn more about VA education and training programs"

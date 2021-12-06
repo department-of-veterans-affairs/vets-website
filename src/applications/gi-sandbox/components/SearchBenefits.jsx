@@ -68,11 +68,6 @@ const SearchBenefits = ({
           <LearnMoreLabel
             text="Which GI Bill benefit do you want to use?"
             onClick={() => {
-              recordEvent({
-                event: 'gibct-form-help-text-clicked',
-                'help-text-label':
-                  'Learn more about VA education and training programs',
-              });
               dispatchShowModal('giBillChapter');
             }}
             ariaLabel="Learn more about VA education and training programs"
@@ -148,11 +143,6 @@ const SearchBenefits = ({
           <LearnMoreLabel
             text="Cumulative Post-9/11 active-duty service"
             onClick={() => {
-              recordEvent({
-                event: 'gibct-form-help-text-clicked',
-                'help-text-label':
-                  'Learn more about Cumulative Post-9/11 service',
-              });
               dispatchShowModal('cumulativeService');
             }}
             ariaLabel="Learn more about Cumulative Post-9/11 service"
