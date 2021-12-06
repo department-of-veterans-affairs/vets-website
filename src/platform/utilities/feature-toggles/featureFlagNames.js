@@ -61,7 +61,6 @@ export default Object.freeze({
   loginGovCreateAccount: 'login_gov_create_account',
   loginGovMHV: 'login_gov_mhv',
   loginGovMyVAHealth: 'login_gov_myvahealth',
-  loginOldDesign: 'login_old_design',
   loopPages: 'loop_pages',
   manageDependents: 'dependents_management',
   megaMenuMobileV2: 'mega_menu_mobile_v2',
