@@ -1,11 +1,12 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { focusElement } from 'platform/utilities/ui';
 import { useDispatch, useSelector } from 'react-redux';
 import BackToHome from '../../components/BackToHome';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import PropTypes from 'prop-types';
 import Footer from '../../components/Footer';
 import BackButton from '../../components/BackButton';
-import DemographicsDisplay from '../../../components/pages/DemographicsDisplay';
+import DemographicsDisplay from '../../../components/pages/demographics/DemographicsDisplay';
 import recordEvent from 'platform/monitoring/record-event';
 import { recordAnswer } from '../../actions';
 
@@ -17,6 +18,9 @@ const Demographics = props => {
   const { goToNextPage, goToPreviousPage, currentPage } = useFormRouting(
     router,
   );
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
   const yesClick = useCallback(
     () => {
       recordEvent({
@@ -32,7 +36,7 @@ const Demographics = props => {
     () => {
       recordEvent({
         event: 'cta-button-click',
-        'button-click-label': 'np-to-demographic-information',
+        'button-click-label': 'no-to-demographic-information',
       });
       dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
       goToNextPage();

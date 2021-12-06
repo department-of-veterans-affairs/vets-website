@@ -79,11 +79,6 @@ export class ContactInformationEditView extends Component {
     }
   }
 
-  clearErrorsAndShiftFocus(fieldName) {
-    this.props.clearTransactionRequest(fieldName);
-    this.focusOnFirstFormElement();
-  }
-
   componentDidMount() {
     const { getInitialFormValues } = this.props;
     this.onChangeFormDataAndSchemas(
@@ -266,20 +261,6 @@ export class ContactInformationEditView extends Component {
 
     return (
       <>
-        {error && (
-          <div
-            role="alert"
-            className="vads-u-margin-bottom--2"
-            data-testid="edit-error-alert"
-          >
-            <VAPServiceEditModalErrorMessage
-              title={title}
-              error={error}
-              clearErrors={() => this.clearErrorsAndShiftFocus(fieldName)}
-            />
-          </div>
-        )}
-
         {!!field && (
           <div
             ref={el => {
@@ -306,6 +287,15 @@ export class ContactInformationEditView extends Component {
               }
               onSubmit={onSubmit}
             >
+              {error && (
+                <div
+                  role="alert"
+                  className="vads-u-margin-y--2"
+                  data-testid="edit-error-alert"
+                >
+                  <VAPServiceEditModalErrorMessage error={error} />
+                </div>
+              )}
               <ContactInformationActionButtons
                 onCancel={onCancel}
                 title={title}

@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
-const Footer = () => (
+const Footer = ({ additionalInformation }) => (
   <footer>
     <h2 className="help-heading vads-u-font-size--lg vads-u-padding-bottom--1 vads-u-border-bottom--3px vads-u-border-color--primary">
       Need Help?
@@ -13,11 +14,11 @@ const Footer = () => (
       </span>{' '}
       call your VA provider.
       <br />
-      <a href="#">Contact your VA provider</a>.
+      <a href="/find-locations/">Contact your VA provider</a>.
     </p>
     <p>
       <span className="vads-u-font-weight--bold">
-        For questions about how to fill out your pre-check in tasks or if you
+        For questions about how to fill out your pre-check-in tasks or if you
         need help with the form,
       </span>{' '}
       please call our MyVA411 main information line at{' '}
@@ -27,7 +28,18 @@ const Footer = () => (
       If you have hearing loss, call{' '}
       <Telephone contact="711">TTY: 711</Telephone>.
     </p>
+    {additionalInformation}
   </footer>
 );
+
+Footer.defaultProps = {
+  get additionalInformation() {
+    return '';
+  },
+};
+
+Footer.propTypes = {
+  additionalInformation: PropTypes.node,
+};
 
 export default Footer;
