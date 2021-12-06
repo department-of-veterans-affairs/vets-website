@@ -1,10 +1,9 @@
 name: Lighthouse CI
 
 on:
-  push
-  # ? workflow_dispatch
-  # schedule:
-  #   - cron: '0 12 * * 1-5'
+  ? workflow_dispatch
+  schedule:
+    - cron: '0 12 * * 1-5'
 env:
   CHANNEL_ID: C02A8S3JPNZ
 
@@ -46,7 +45,7 @@ jobs:
           persist-credentials: false
           path: ./.github/actions/vsp-github-actions
 
-      - name: Get BigQuery service credentials
+      - name: Get BigQuery service credentials # Has to go before role is fetched from param store, otherwise permissions will be denied with the role configured.
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
@@ -77,22 +76,22 @@ jobs:
           # budgetPath: ./budget.json # test performance budgets
           uploadArtifacts: true # save results as an action artifacts
 
-      # - name: Upload lighthouse report (JSON)
-      #   run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.json --acl public-read --region us-gov-west-1
+      - name: Upload lighthouse report (JSON)
+        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.json --acl public-read --region us-gov-west-1
 
-      # - name: Upload lighthouse report (HTML)
-      #   run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.html --acl public-read --region us-gov-west-1
+      - name: Upload lighthouse report (HTML)
+        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.html --acl public-read --region us-gov-west-1
 
-      # - name: Notify Slack
-      #   if: ${{ always() }}
-      #   uses: ./.github/actions/vsp-github-actions/slack-socket
-      #   env:
-      #     SSL_CERT_DIR: /etc/ssl/certs
-      #   with:
-      #     slack_app_token: ${{ env.SLACK_APP_TOKEN }}
-      #     slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
-      #     attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}]'
-      #     channel_id: ${{ env.CHANNEL_ID }}
+      - name: Notify Slack
+        if: ${{ always() }}
+        uses: ./.github/actions/vsp-github-actions/slack-socket
+        env:
+          SSL_CERT_DIR: /etc/ssl/certs
+        with:
+          slack_app_token: ${{ env.SLACK_APP_TOKEN }}
+          slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
+          attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}]'
+          channel_id: ${{ env.CHANNEL_ID }}
 
       - name: Checkout Testing Tools Team Dashboard Data repo
         uses: actions/checkout@v2
