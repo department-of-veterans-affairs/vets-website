@@ -58,7 +58,10 @@ const DetailPage = ({ match }) => {
             </span>
           </p>
 
-          <Alert type={'status'} copay={selectedCopay} />
+          <Alert
+            type={selectedCopay?.pHAmtDue === 0 ? 'zero-balance' : 'status'}
+            copay={selectedCopay}
+          />
 
           <va-on-this-page />
 

@@ -83,8 +83,7 @@ export const HowToPay = ({ acctNum, facility }) => (
         </p>
         <ul>
           <li>Your full name</li>
-          <li>Your account number {acctNum}</li>
-          <li>The facility you’d like to pay [Facility name]</li>
+          <li>Your account number: {acctNum}</li>
         </ul>
         <p>
           <strong>Mail your payment and remittance stubs to:</strong>
