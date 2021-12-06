@@ -7,3 +7,10 @@ export const AUTH_EVENTS = {
   LOGOUT: 'logout-link-clicked',
   REGISTER: 'register-link-clicked',
 };
+
+export const CSP_IDS = {
+  MHV: 'mhv',
+  ID_ME: 'idme',
+  DS_LOGON: 'dslogon',
+  LOGIN_GOV: 'logingov',
+};
