@@ -167,7 +167,9 @@ const testDesktopMenuSections = () => {
 };
 
 // Use an app's URL if provided in the environment, otherwise use the homepage.
+// Unauthenticated tests are skipped for app URLs to avoid unexpected behavior.
 const testUrl = Cypress.env('app_url') || '/';
+const usingHomepageUrl = testUrl === '/';
 
 describe('Mega Menu', () => {
   context('on desktop', () => {
@@ -176,18 +178,21 @@ describe('Mega Menu', () => {
     });
 
     it('looks as expected unauthenticated - C12293', () => {
-      // Visit the home or app page.
-      cy.visit(testUrl);
+      // Skip unauthenticated test for app URLs to avoid unexpected behavior.
+      if (usingHomepageUrl) {
+        // Visit the homepage.
+        cy.visit(testUrl);
 
-      // Back to home button should not appear on desktop.
-      cy.findByTestId('mobile-home-nav-link').should('not.be.visible');
+        // Back to home button should not appear on desktop.
+        cy.findByTestId('mobile-home-nav-link').should('not.be.visible');
 
-      // Test the menu sections.
-      testDesktopMenuSections();
+        // Test the menu sections.
+        testDesktopMenuSections();
 
-      cy.get('[data-e2e-id="my-va-3"]');
-      // Authenticated links should not appear.
-      cy.get('[data-e2e-id="my-health-4"]').should('not.exist');
+        cy.get('[data-e2e-id="my-va-3"]');
+        // Authenticated links should not appear.
+        cy.get('[data-e2e-id="my-health-4"]').should('not.exist');
+      }
     });
 
     it('looks as expected authenticated - C12294', () => {
@@ -215,15 +220,18 @@ describe('Mega Menu', () => {
     });
 
     it('looks as expected unauthenticated - C12295', () => {
-      // Visit the home or app page.
-      cy.visit(testUrl);
+      // Skip unauthenticated test for app URLs to avoid unexpected behavior.
+      if (usingHomepageUrl) {
+        // Visit the homepage.
+        cy.visit(testUrl);
 
-      // Test the menu sections.
-      testMobileMenuSections();
+        // Test the menu sections.
+        testMobileMenuSections();
 
-      cy.get('[data-e2e-id="my-va-3"]');
-      // Authenticated links should not appear.
-      cy.get('[data-e2e-id="my-health-4"]').should('not.exist');
+        cy.get('[data-e2e-id="my-va-3"]');
+        // Authenticated links should not appear.
+        cy.get('[data-e2e-id="my-health-4"]').should('not.exist');
+      }
     });
 
     it('looks as expected authenticated - C12296', () => {
@@ -242,9 +250,12 @@ describe('Mega Menu', () => {
     });
 
     it('traps focus inside mega menu when opened - C12297', () => {
-      cy.visit(testUrl);
+      // Skip unauthenticated test for app URLs to avoid unexpected behavior.
+      if (usingHomepageUrl) {
+        cy.visit(testUrl);
 
-      testMobileTabFocus();
+        testMobileTabFocus();
+      }
     });
   });
 });
