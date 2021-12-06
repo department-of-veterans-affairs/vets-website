@@ -88,6 +88,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -101,10 +103,22 @@ jobs:
       - name: Create test results folder
         run: mkdir -p test-results
 
+      - name: List changed files
+        id: changed-files
+        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+
+      - name: Get app folders for changed files
+        id: get-changed-apps
+        if: ${{ github.ref != 'refs/heads/master' }}
+        run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder)
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+
       - name: Run unit tests
-        run: yarn test:unit --coverage
+        run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
           MOCHA_FILE: test-results/unit-tests.xml
+          APP_FOLDERS: ${{ steps.get-changed-apps.outputs.app_folders }}
 
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
@@ -358,6 +372,7 @@ jobs:
     outputs:
       tests: ${{ steps.tests.outputs.selected }}
       is_master_build: ${{ env.IS_MASTER_BUILD }}
+      app_urls: ${{ steps.get-changed-apps.outputs.app_urls }}
 
     steps:
       - name: Checkout
@@ -386,11 +401,22 @@ jobs:
         id: changed-files
         run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
 
+      - name: Get changed apps for header test
+        id: get-changed-apps
+        if: ${{ github.ref != 'refs/heads/master' }}
+        run: | 
+          echo ::set-output name=app_urls::$(node script/github-actions/get-changed-apps.js --output-type url)
+          echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+
       - name: Set TESTS variable
         run: node script/github-actions/select-cypress-tests.js
         env:
           IS_MASTER_BUILD: ${{ env.IS_MASTER_BUILD }}
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+          APP_URLS: ${{ steps.get-changed-apps.outputs.app_urls }}
+          APP_ENTRIES: ${{ steps.get-changed-apps.outputs.app_entries }}
 
       - name: Set output of TESTS
         id: tests
@@ -459,6 +485,7 @@ jobs:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
           TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
+          APP_URLS: ${{ needs.cypress-tests-prep.outputs.app_urls }}
 
       - name: Archive test videos
         uses: actions/upload-artifact@v2
