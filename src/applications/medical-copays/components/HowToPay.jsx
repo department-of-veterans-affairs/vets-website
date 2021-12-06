@@ -1,7 +1,5 @@
 import React from 'react';
-import Telephone, {
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const HowToPay = ({ acctNum, facility }) => (
   <article className="vads-u-padding--0" data-testid="how-to-pay">
@@ -17,6 +15,9 @@ export const HowToPay = ({ acctNum, facility }) => (
           <a
             className="vads-u-margin-left--0p25"
             href="https://www.pay.gov/public/form/start/25987221"
+            aria-label="Pay.gov - Opens in new window"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Pay.gov website
           </a>
@@ -32,6 +33,9 @@ export const HowToPay = ({ acctNum, facility }) => (
         <a
           className="vads-c-action-link--blue"
           href="https://www.pay.gov/public/form/start/25987221"
+          aria-label="Pay.gov - Opens in new window"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           Pay your copay bill online at pay.gov
         </a>
@@ -46,18 +50,10 @@ export const HowToPay = ({ acctNum, facility }) => (
       </va-accordion-item>
       <va-accordion-item header="Option 2: Pay by phone">
         <p>
-          Call us at <Telephone contact={'888-827-4817'} /> (or
-          <Telephone
-            className="vads-u-margin-x--0p5"
-            contact={'1-555-555-5555'}
-            pattern={PATTERNS.OUTSIDE_US}
-          />
-          if overseas) We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
-          ET.
+          Call us at <Telephone contact={'888-827-4817'} />. We’re here Monday
+          through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
-        <p>
-          You will need to provide an account number to pay this debt online:
-        </p>
+        <p>You will need to provide an account number.</p>
         <p>
           <strong>Account Number: </strong>
           {acctNum}
@@ -99,7 +95,7 @@ export const HowToPay = ({ acctNum, facility }) => (
       </va-accordion-item>
       <va-accordion-item header="Option 4: Pay in person">
         <p>
-          Visit your nearest VA medical center, and ask for the agent cashier’s
+          Visit {facility?.facilityName}, and ask for the agent cashier’s
           office. Bring your payment stub, along with a check or money order
           made payable to "VA". Be sure to include your account number on the
           check or money order.
