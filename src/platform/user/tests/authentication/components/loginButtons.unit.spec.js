@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 import sinon from 'sinon';
 
 import * as authUtilities from '../../../authentication/utilities';
-import NewDesignButtons from '../../../authentication/components/NewDesignButtons';
+import LoginButtons from '../../../authentication/components/LoginButtons';
 import { CSP_IDS } from '../../../authentication/constants';
 
 describe('login DOM ', () => {
@@ -19,7 +19,7 @@ describe('login DOM ', () => {
   });
 
   it('login buttons should properly call login method', () => {
-    const loginButtons = mount(<NewDesignButtons />);
+    const loginButtons = mount(<LoginButtons />);
 
     const testButton = button => {
       const loginCSP = button.prop('data-csp');
