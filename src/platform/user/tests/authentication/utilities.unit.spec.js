@@ -158,6 +158,43 @@ describe('setLoginAttempted', () => {
   });
 });
 
+describe('sessionStorage', () => {
+  beforeEach(setup);
+
+  it('should sessionStorage to the return url', () => {
+    const returnUrl = 'va.gov/refill-rx';
+    global.window.location = returnUrl;
+
+    authUtilities.login({ policy: 'idme' });
+    expect(
+      sessionStorage.getItem(authUtilities.authnSettings.RETURN_URL),
+    ).to.eq(returnUrl);
+  });
+
+  it('should set sessionStorage on `/sign-in` page to homepage', () => {
+    const returnUrl = 'va.gov';
+    global.window.location.set(returnUrl);
+    global.window.pathname = '/sign-in/';
+
+    authUtilities.login({ policy: 'idme' });
+    expect(
+      sessionStorage.getItem(authUtilities.authnSettings.RETURN_URL),
+    ).to.eq(returnUrl);
+  });
+
+  it('should set sessionStorage to the standaloneRedirect url', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=mhv&to=secure_messaging';
+
+    authUtilities.login({ policy: 'idme' });
+    expect(
+      sessionStorage.getItem(authUtilities.authnSettings.RETURN_URL),
+    ).to.include(
+      `${authUtilities.externalRedirects.mhv}?deeplinking=secure_messaging`,
+    );
+  });
+});
+
 describe('standaloneRedirect', () => {
   beforeEach(setup);
 
