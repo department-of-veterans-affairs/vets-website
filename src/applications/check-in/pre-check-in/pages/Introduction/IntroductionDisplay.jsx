@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { format, add } from 'date-fns';
+import { format, subDays } from 'date-fns';
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
@@ -16,7 +16,6 @@ import { useFormRouting } from '../../hooks/useFormRouting';
 
 import { makeSelectVeteranData } from '../../selectors';
 
-// @TODO  Add cypress test for intro.
 const IntroductionDisplay = props => {
   useEffect(() => {
     focusElement('h1');
@@ -94,9 +93,21 @@ const IntroductionDisplay = props => {
           goToNextPage();
         }}
       >
-        Start answering questions
+        Answer questions
       </a>
     </div>
+  );
+  const additionalFooterInfo = (
+    <>
+      <p>
+        <span className="vads-u-font-weight--bold">
+          If you need to talk to someone right away or need emergency care,
+        </span>{' '}
+        Call <Telephone contact="911" />,{' '}
+        <span className="vads-u-font-weight--bold">or</span> Call the Veterans
+        Crisis hotline at <Telephone contact="8002738255" /> and select 1
+      </p>
+    </>
   );
   return (
     <div
@@ -104,12 +115,13 @@ const IntroductionDisplay = props => {
       data-testid="intro-wrapper"
     >
       <h1 tabIndex="-1" className="vads-u-margin-top--2">
-        Answer pre check-in questions
+        Answer pre-check-in questions
       </h1>
       <p className="vads-u-font-family--serif">
         Your answers will help us better prepare for your needs.
       </p>
       <AppointmentBlock appointments={appointments} />
+      <h2 className="vads-u-margin-top--6">Start here</h2>
       <StartButton />
       {accordionContent && accordionContent.length ? (
         <va-accordion
@@ -131,26 +143,10 @@ const IntroductionDisplay = props => {
       ) : (
         ''
       )}
-      <va-featured-content>
-        <p>
-          <span className="vads-u-font-weight--bold">Note:</span> If you need to
-          talk to someone right away or need emergency care,
-        </p>
-        <ul>
-          <li>
-            Call <Telephone contact="911" />,{' '}
-            <span className="vads-u-font-weight--bold">or</span>
-          </li>
-          <li>
-            Call the Veterans Crisis hotline at{' '}
-            <Telephone contact="8002738255" /> and select 1
-          </li>
-        </ul>
-      </va-featured-content>
-      <div>
+      <div className="vads-u-margin-top--4">
         Expiration date:{' '}
         <span data-testid="expiration-date">
-          {format(add(appointmentsDateTime, { days: -1 }), 'M/dd/Y')}
+          {format(subDays(appointmentsDateTime, 1), 'M/dd/Y')}
         </span>
         <br />
         <a
@@ -163,7 +159,7 @@ const IntroductionDisplay = props => {
           Privacy Act Statement
         </a>
       </div>
-      <Footer />
+      <Footer additionalInformation={additionalFooterInfo} />
       <BackToHome />
       <Modal
         onClose={() => setPrivacyActModalOpen(false)}

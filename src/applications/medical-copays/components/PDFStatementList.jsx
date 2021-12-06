@@ -23,7 +23,7 @@ const PDFStatementList = () => {
     : `${userFullName.first} ${userFullName.last}`;
 
   return (
-    <section>
+    <section data-testid="download-statements">
       <h2 id="download-statements">Download your statements</h2>
       <p>
         Download your mailed statements for this facility from the past 6

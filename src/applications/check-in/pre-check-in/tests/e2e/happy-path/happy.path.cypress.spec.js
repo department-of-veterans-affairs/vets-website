@@ -1,11 +1,11 @@
 import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
 import '../support/commands';
-import Timeouts from 'platform/testing/e2e/timeouts';
 
 import validateVeteran from '../pages/ValidateVeteran';
 import introduction from '../pages/Introduction';
 import NextOfKin from '../pages/NextOfKin';
 import Demographics from '../pages/Demographics';
+import Confirmation from '../pages/Confirmation';
 import apiInitializer from '../support/ApiInitializer';
 
 describe('Pre-Check In Experience ', () => {
@@ -17,6 +17,8 @@ describe('Pre-Check In Experience ', () => {
     apiInitializer.initializeSessionPost.withSuccess();
 
     apiData = apiInitializer.initializePreCheckInDataGet.withSuccess();
+
+    apiInitializer.initializePreCheckInDataPost.withSuccess();
   });
   afterEach(() => {
     cy.window().then(window => {
@@ -53,9 +55,7 @@ describe('Pre-Check In Experience ', () => {
     NextOfKin.attemptToGoToNextPage();
 
     // page: Confirmation
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'Confirmation');
+    Confirmation.validatePageLoaded();
     cy.injectAxe();
     cy.axeCheck();
   });

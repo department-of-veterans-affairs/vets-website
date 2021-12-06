@@ -73,7 +73,7 @@ function replaceTags(fileContents, newTag) {
 
   return namedClosingTags
     .replace(new RegExp(`<${options.component}`, 'g'), `<${newTag}`)
-    .replace(`</${options.component}`, `</${newTag}`);
+    .replace(new RegExp(`</${options.component}`, 'g'), `</${newTag}`);
 }
 
 /**

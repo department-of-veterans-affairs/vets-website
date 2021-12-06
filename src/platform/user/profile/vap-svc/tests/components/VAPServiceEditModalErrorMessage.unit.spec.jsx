@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { expect } from 'chai';
 import VAPServiceEditModalErrorMessage from '../../components/base/VAPServiceEditModalErrorMessage';
 
@@ -17,13 +17,11 @@ describe('<VAPServiceEditModalErrorMessage />', () => {
         },
       ],
     };
-    const wrapper = shallow(
-      <VAPServiceEditModalErrorMessage error={invalidEmailError} title="" />,
+    const wrapper = mount(
+      <VAPServiceEditModalErrorMessage error={invalidEmailError} />,
     );
-    const alert = wrapper.find('AlertBox');
-    const alertContentText = alert?.prop('content')?.props?.children?.props
-      ?.children;
-    expect(alertContentText).to.include(
+    expect(wrapper.find('div.va-profile-alert')).to.have.lengthOf(1);
+    expect(wrapper.html()).to.include(
       'It looks like the email you entered isn’t valid. Please enter your email address again.',
     );
     wrapper.unmount();
@@ -40,13 +38,11 @@ describe('<VAPServiceEditModalErrorMessage />', () => {
         },
       ],
     };
-    const wrapper = shallow(
-      <VAPServiceEditModalErrorMessage error={invalidPhoneError} title="" />,
+    const wrapper = mount(
+      <VAPServiceEditModalErrorMessage error={invalidPhoneError} />,
     );
-    const alert = wrapper.find('AlertBox');
-    const alertContentText = alert.prop('content').props.children.props
-      .children;
-    expect(alertContentText).to.include(
+    expect(wrapper.find('div.va-profile-alert')).to.have.lengthOf(1);
+    expect(wrapper.html()).to.include(
       'currently only support U.S. area codes. Please provide a U.S.-based',
     );
     wrapper.unmount();
