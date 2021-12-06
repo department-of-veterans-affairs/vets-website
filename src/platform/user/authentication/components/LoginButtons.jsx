@@ -1,16 +1,13 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import {
-  login,
-  loginGovSignupUrl,
-  idmeSignupUrl,
-} from 'platform/user/authentication/utilities';
+import * as authUtilities from 'platform/user/authentication/utilities';
 import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
 import IDMeSVG from 'platform/user/authentication/components/IDMeSVG';
+import { CSP_IDS } from '../constants';
 
 function loginHandler(loginType) {
   recordEvent({ event: `login-attempted-${loginType}` });
-  login({
+  authUtilities.login({
     policy: loginType,
   });
 }
@@ -52,7 +49,8 @@ export default function LoginButtons({
           type="button"
           aria-label="Sign in with Login.gov"
           className="usa-button logingov-button vads-u-margin-y--1p5 vads-u-padding-y--2"
-          onClick={() => loginHandler('logingov')}
+          data-csp={CSP_IDS.LOGIN_GOV}
+          onClick={() => loginHandler(CSP_IDS.LOGIN_GOV)}
         >
           <LoginGovSVG />
         </button>
@@ -62,7 +60,8 @@ export default function LoginButtons({
         type="button"
         aria-label="Sign in with ID.me"
         className="usa-button idme-button vads-u-margin-y--1p5 vads-u-padding-y--2"
-        onClick={() => loginHandler('idme')}
+        data-csp={CSP_IDS.ID_ME}
+        onClick={() => loginHandler(CSP_IDS.ID_ME)}
       >
         <IDMeSVG />
       </button>
@@ -71,7 +70,8 @@ export default function LoginButtons({
         type="button"
         aria-label="Sign in with DS Logon"
         className="usa-button dslogon-button vads-u-margin-y--1p5 vads-u-padding-y--2"
-        onClick={() => loginHandler('dslogon')}
+        data-csp={CSP_IDS.DS_LOGON}
+        onClick={() => loginHandler(CSP_IDS.DS_LOGON)}
       >
         DS Logon
       </button>
@@ -80,7 +80,8 @@ export default function LoginButtons({
         type="button"
         aria-label="Sign in with My HealtheVet"
         className="usa-button mhv-button vads-u-margin-y--1p5 vads-u-padding-y--2"
-        onClick={() => loginHandler('mhv')}
+        data-csp={CSP_IDS.MHV}
+        onClick={() => loginHandler(CSP_IDS.MHV)}
       >
         My HealtheVet
       </button>
@@ -90,7 +91,7 @@ export default function LoginButtons({
           {showLoginGov() &&
             loginGovCreateAccountEnabled && (
               <a
-                href={loginGovSignupUrl()}
+                href={authUtilities.loginGovSignupUrl()}
                 className="vads-c-action-link--blue logingov"
                 disabled={isDisabled}
                 onClick={() => signupHandler('logingov')}
@@ -99,7 +100,7 @@ export default function LoginButtons({
               </a>
             )}
           <a
-            href={idmeSignupUrl()}
+            href={authUtilities.idmeSignupUrl()}
             className="vads-c-action-link--blue"
             disabled={isDisabled}
             onClick={() => signupHandler('idme')}
