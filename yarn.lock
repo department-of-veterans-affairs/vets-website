@@ -7822,6 +7822,14 @@ eslint-plugin-deprecate@^0.7.0:
   resolved "https://registry.npmjs.org/eslint-plugin-deprecate/-/eslint-plugin-deprecate-0.7.0.tgz"
   integrity sha512-MylhCqoH/SJ2MwzVgX0we6oE+lKPVwhOu9hAJ98vMCmbz3FNwqJ8XipdI23bCF7NHxUbhd6mdxFjywKE52pt7A==
 
+eslint-plugin-eslint-plugin@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-eslint-plugin/-/eslint-plugin-eslint-plugin-4.0.2.tgz#80f63080c0a5b444a949ef1ed5f79a4dc2ef4ef4"
+  integrity sha512-EUNNLrWvwQ7QU6GGYWGMw7IHGSIGDn5GCbnQlzFHH5ypgL1gR9Fk0dUnOpzyPaI+OLc6rAs7Askv+IPFUKJdOQ==
+  dependencies:
+    eslint-utils "^3.0.0"
+    estraverse "^5.2.0"
+
 eslint-plugin-fp@^2.3.0:
   version "2.3.0"
   resolved "https://registry.npmjs.org/eslint-plugin-fp/-/eslint-plugin-fp-2.3.0.tgz"
@@ -7934,6 +7942,8 @@ eslint-plugin-unicorn@^35.0.0:
 
 eslint-plugin-va@./script/eslint-plugin-va:
   version "1.0.3"
+  dependencies:
+    requireindex "^1.2.0"
 
 eslint-scope@5.1.1, eslint-scope@^5.1.1:
   version "5.1.1"
@@ -16130,6 +16140,11 @@ require-uncached@^1.0.2:
   dependencies:
     caller-path "^0.1.0"
     resolve-from "^1.0.0"
+
+requireindex@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/requireindex/-/requireindex-1.2.0.tgz#3463cdb22ee151902635aa6c9535d4de9c2ef1ef"
+  integrity sha512-L9jEkOi3ASd9PYit2cwRfyppc9NoABujTP8/5gFcbERmo5jUoAKovIC3fsF17pkTnGsrByysqX+Kxd2OTNI1ww==
 
 requires-port@^1.0.0:
   version "1.0.0"
