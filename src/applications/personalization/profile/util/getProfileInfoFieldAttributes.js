@@ -17,6 +17,11 @@ import {
   getUiSchema as addressUiSchema,
 } from '@@vap-svc/components/AddressField/address-schemas';
 
+import {
+  personalInformationFormSchemas,
+  personalInformationUiSchemas,
+} from './personal-information/personalInformationUtils';
+
 export const phoneNumbers = [
   FIELD_NAMES.HOME_PHONE,
   FIELD_NAMES.WORK_PHONE,
@@ -92,8 +97,8 @@ export const getProfileInfoFieldAttributes = fieldName => {
   if (personalInformation.includes(fieldName)) {
     apiRoute = '/'; // NOTE: DUMMY FORMS SCHEMA, API ROUTE, STUBS HERE
     convertCleanDataToPayload = () => {};
-    uiSchema = {};
-    formSchema = {};
+    uiSchema = personalInformationUiSchemas[fieldName];
+    formSchema = personalInformationFormSchemas[fieldName];
 
     if (fieldName === FIELD_NAMES.PREFERRED_NAME) {
       title = FIELD_TITLES[FIELD_NAMES.PREFERRED_NAME];
