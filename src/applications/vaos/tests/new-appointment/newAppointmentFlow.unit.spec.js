@@ -430,8 +430,9 @@ describe('VAOS newAppointmentFlow', () => {
             },
           },
         };
+        const dispatch = sinon.spy();
 
-        const nextState = newAppointmentFlow.clinicChoice.next(state);
+        const nextState = newAppointmentFlow.clinicChoice.next(state, dispatch);
 
         expect(nextState).to.equal('preferredDate');
       });

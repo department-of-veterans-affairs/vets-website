@@ -206,10 +206,10 @@ function VAFacilityPage({
     <div>
       {title}
       <p>
-        Below is a list of VA locations where you’re registered that offer{' '}
+        Here’s a list of VA facilities where you’re registered that offer{' '}
         COVID-19 vaccine appointments.
         {(sortByDistanceFromResidential || sortByDistanceFromCurrentLocation) &&
-          ' Locations closest to you are at the top of the list.'}
+          ' Locations closest to you are listed first.'}
       </p>
       {sortByDistanceFromResidential &&
         !requestingLocation && (

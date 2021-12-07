@@ -2,6 +2,8 @@
 
 const commonResponses = require('../../../../../platform/testing/local-dev-mock-api/common');
 const mockSessions = require('./mocks/v2/sessions.responses');
+const mockPatientPreCheckIns = require('./mocks/v2/patient.pre.check.in.responses');
+const mockPreCheckIns = require('./mocks/v2/pre.check.in.responses');
 
 const featureToggles = require('./mocks/feature.toggles');
 const delay = require('mocker-api/lib/delay');
@@ -21,6 +23,19 @@ const responses = {
       return res.status(400).json(mockSessions.createMockFailedResponse());
     }
     return res.json(mockSessions.mocks.post(req.body));
+  },
+  'GET /check_in/v2/pre_check_ins/:uuid': (req, res) => {
+    // TODO??: add check for queryString "/pre_check_ins/<uuid>?checkInType=preCheckIn"
+    const { uuid } = req.params;
+    return res.json(mockPatientPreCheckIns.createMockSuccessResponse(uuid));
+  },
+  'POST /check_in/v2/pre_check_ins/': (req, res) => {
+    const { uuid, checkInType } = req.body?.preCheckIn || {};
+    if (!uuid || checkInType !== 'preCheckIn') {
+      return res.status(500).json(mockPreCheckIns.createMockFailedResponse());
+    } else {
+      return res.json(mockPreCheckIns.createMockSuccessResponse({}));
+    }
   },
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { currency, calcDueDate } from '../utils/helpers';
+import { currency, calcDueDate, formatDate } from '../utils/helpers';
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -47,17 +47,33 @@ Alert.Error = () => (
   </va-alert>
 );
 
-Alert.Maintenance = () => (
+Alert.ZeroBalance = ({ copay }) => (
   <va-alert
     class="row vads-u-margin-bottom--5"
     status="info"
-    data-testid="maintenance-alert"
+    data-testid="zero-balance"
   >
     <h2 slot="headline" className="vads-u-font-size--h3">
-      Down for maintenance
+      You don’t need to make a payment at this time
     </h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
-      We’re sorry it’s not working right now.
+      Your balance is $0 and was updated on
+      <span className="vads-u-margin-x--0p5" data-testid="updated-date">
+        {formatDate(copay?.pSStatementDate)}
+      </span>
+      . You can
+      <a href="#download-statements" className="vads-u-margin--0p5">
+        download your previous statements
+      </a>
+      below.
+    </p>
+    <p>
+      If you receive new charges, we’ll send you a statement in the mail and
+      update your balance. Learn more about
+      <a href="#balance-questions" className="vads-u-margin--0p5">
+        what to do if you have questions about your balance
+      </a>
+      .
     </p>
   </va-alert>
 );
@@ -72,7 +88,7 @@ Alert.NoHealthcare = () => (
       You’re not enrolled in VA health care
     </h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
-      You can’t view copay balances at this time because our records show that
+      You can’t check copay balances at this time because our records show that
       you’re not enrolled in VA health care.
       <a
         href="https://va.gov/health-care/how-to-apply/"
@@ -100,7 +116,7 @@ Alert.NoHistory = () => (
       You haven’t received a copay bill in the past 6 months
     </h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
-      You can’t view copay balances at this time because our records show that
+      You can’t check copay balances at this time because our records show that
       you haven’t received a copay bill in the past 6 months.
     </p>
     <p>
@@ -187,6 +203,8 @@ const RenderAlert = ({ type, copay }) => {
       return <Alert.Deceased />;
     case 'status':
       return <Alert.Status copay={copay} />;
+    case 'zero-balance':
+      return <Alert.ZeroBalance copay={copay} />;
     default:
       return <Alert.Error />;
   }

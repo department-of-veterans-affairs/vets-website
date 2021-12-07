@@ -142,6 +142,15 @@ async function fetchPatientEligibilityFromVAR({
   return output;
 }
 
+function checkEligibilityReason(ineligibilityReasons, ineligibilityType) {
+  return !Array.isArray(ineligibilityReasons)
+    ? true
+    : !ineligibilityReasons.some(reason => {
+        const code = reason.coding[0].code;
+        return code === ineligibilityType;
+      });
+}
+
 const VAOS_SERVICE_PATIENT_HISTORY = 'patient-history-insufficient';
 const VAOS_SERVICE_REQUEST_LIMIT = 'facility-request-limit-exceeded';
 
@@ -190,8 +199,9 @@ export async function fetchPatientEligibility({
     } else if (results.direct) {
       output.direct = {
         eligible: results.direct.eligible,
-        hasRequiredAppointmentHistory: !results.direct.ineligibilityReasons.some(
-          reason => reason.coding[0].code === VAOS_SERVICE_PATIENT_HISTORY,
+        hasRequiredAppointmentHistory: checkEligibilityReason(
+          results.direct.ineligibilityReasons,
+          VAOS_SERVICE_PATIENT_HISTORY,
         ),
       };
     }
@@ -201,11 +211,13 @@ export async function fetchPatientEligibility({
     } else if (results.request) {
       output.request = {
         eligible: results.request.eligible,
-        hasRequiredAppointmentHistory: !results.request.ineligibilityReasons.some(
-          reason => reason.coding[0].code === VAOS_SERVICE_PATIENT_HISTORY,
+        hasRequiredAppointmentHistory: checkEligibilityReason(
+          results.request.ineligibilityReasons,
+          VAOS_SERVICE_PATIENT_HISTORY,
         ),
-        isEligibleForNewAppointmentRequest: !results.request.ineligibilityReasons.some(
-          reason => reason.coding[0].code === VAOS_SERVICE_REQUEST_LIMIT,
+        isEligibleForNewAppointmentRequest: checkEligibilityReason(
+          results.request.ineligibilityReasons,
+          VAOS_SERVICE_REQUEST_LIMIT,
         ),
       };
     }

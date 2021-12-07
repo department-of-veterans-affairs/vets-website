@@ -1,9 +1,7 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
-import { makeSelectFeatureToggles } from '../hooks/selectors';
+import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 
 const withFeatureFlip = Component => {
   return props => {
@@ -13,7 +11,7 @@ const withFeatureFlip = Component => {
     if (isLoadingFeatureFlags) {
       return (
         <>
-          <LoadingIndicator message="Loading your pre check in experience" />
+          <va-loading-indicator message="Loading your pre check in experience" />
         </>
       );
     } else if (!isPreCheckInEnabled) {

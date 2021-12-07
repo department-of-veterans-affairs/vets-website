@@ -6,6 +6,7 @@ import {
   collapseExpandAccordion,
   verifyVetTecSearchResults,
 } from './gi-helpers';
+import { mockTogglesResponse } from './mock-feature_toggles';
 
 describe('VETTEC', () => {
   beforeEach(() => {
@@ -13,6 +14,7 @@ describe('VETTEC', () => {
 
     initMockProfile(vetTecProfile);
 
+    cy.intercept('GET', '/v0/feature_toggles*', mockTogglesResponse);
     cy.visit('/gi-bill-comparison-tool');
     cy.injectAxeThenAxeCheck();
   });

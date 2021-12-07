@@ -41,6 +41,50 @@ const v2 = {
       ...json,
     };
   },
+  getPreCheckInData: async token => {
+    const url = '/check_in/v2/pre_check_ins/';
+    const json = await makeApiCall(
+      apiRequest(`${environment.API_URL}${url}${token}?checkInType=preCheckIn`),
+      'get-lorota-data',
+      token,
+    );
+    return {
+      ...json,
+    };
+  },
+  postPreCheckInData: async ({
+    uuid,
+    demographicsUpToDate,
+    nextOfKinUpToDate,
+    checkInType = 'preCheckIn',
+  }) => {
+    const url = '/check_in/v2/pre_check_ins/';
+    const headers = { 'Content-Type': 'application/json' };
+    const data = {
+      preCheckIn: {
+        uuid,
+        demographicsUpToDate,
+        nextOfKinUpToDate,
+        checkInType,
+      },
+    };
+    const body = JSON.stringify(data);
+    const settings = {
+      headers,
+      body,
+      method: 'POST',
+      mode: 'cors',
+    };
+
+    const json = await makeApiCall(
+      apiRequest(`${environment.API_URL}${url}`, settings),
+      'pre-check-in-user',
+      uuid,
+    );
+    return {
+      ...json,
+    };
+  },
 };
 
 export { v2 };

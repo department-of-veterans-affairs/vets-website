@@ -48,6 +48,11 @@ describe('VAOS <PlanAheadPage>', () => {
     expect(screen.baseElement).to.contain.text(
       'Find out how to get your vaccine at a VA walk-in clinic',
     );
+    expect(
+      await screen.findByRole('link', {
+        name: /Find out how to get your vaccine at a VA walk-in clinic/,
+      }),
+    ).to.be.ok;
   });
 
   it('should continue to the correct page once continue to clicked', async () => {

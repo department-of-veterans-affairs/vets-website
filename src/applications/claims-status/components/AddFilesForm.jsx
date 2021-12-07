@@ -13,7 +13,12 @@ import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { checkForEncryptedPdf } from 'platform/forms-system/src/js/utilities/file';
+import {
+  readAndCheckFile,
+  checkTypeAndExtensionMatches,
+  checkIsEncryptedPdf,
+  FILE_TYPE_MISMATCH_ERROR,
+} from 'platform/forms-system/src/js/utilities/file';
 
 import UploadStatus from './UploadStatus';
 import MailOrFax from './MailOrFax';
@@ -69,26 +74,36 @@ class AddFilesForm extends React.Component {
       : 'Please select a file first';
   };
 
-  isFileEncrypted = async file =>
-    checkForEncryptedPdf(file)
-      .then(isEncrypted => isEncrypted)
-      // This _should_ only happen if a file is deleted after the user selects
-      // it for upload
-      .catch(() => false);
-
   add = async files => {
     const file = files[0];
-    const { requestLockedPdfPassword, onAddFile, pdfSizeFeature } = this.props;
+    const {
+      requestLockedPdfPassword,
+      onAddFile,
+      pdfSizeFeature,
+      mockReadAndCheckFile,
+    } = this.props;
     const extraData = {};
     const hasPdfSizeLimit = isPdf(file) && pdfSizeFeature;
 
     if (isValidFile(file, pdfSizeFeature)) {
       // Check if the file is an encrypted PDF
+      const checks = { checkTypeAndExtensionMatches, checkIsEncryptedPdf };
+      const checkResults = mockReadAndCheckFile
+        ? mockReadAndCheckFile()
+        : await readAndCheckFile(file, checks);
+
+      if (!checkResults.checkTypeAndExtensionMatches) {
+        this.setState({
+          errorMessage: FILE_TYPE_MISMATCH_ERROR,
+        });
+        return;
+      }
+
       if (
         requestLockedPdfPassword && // feature flag
         file.name?.toLowerCase().endsWith('pdf')
       ) {
-        extraData.isEncrypted = await this.isFileEncrypted(file);
+        extraData.isEncrypted = checkResults.checkIsEncryptedPdf;
       }
 
       this.setState({ errorMessage: null });

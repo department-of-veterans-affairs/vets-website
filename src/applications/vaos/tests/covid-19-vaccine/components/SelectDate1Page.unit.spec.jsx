@@ -410,7 +410,10 @@ describe('VAOS vaccine flow <SelectDate1Page>', () => {
       store,
     });
 
-    await screen.findByText(/When choosing a date, make sure/i);
+    await screen.findByText(/Appointment times are in/i);
+    await screen.findByText(
+      /Note: If your vaccine requires 2 doses, you’ll need to come back for your second dose 3 to 4 weeks after the date you select/i,
+    );
 
     userEvent.click(screen.getByText(/continue/i));
     expect(await screen.findByRole('alert')).to.contain.text(
