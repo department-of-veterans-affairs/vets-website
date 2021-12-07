@@ -32,7 +32,7 @@ describe('IdentityNotVerified component', () => {
     it('renders the correct additional info component', () => {
       expect(view.queryByText(/We use ID\.me/i)).not.to.exist;
       fireEvent.click(
-        view.getByRole('button', /How will VA.gov verify my identity/i),
+        view.getByRole('link', /Learn how to verify your identity on VA.gov/i),
       );
       expect(view.getByText(/We use ID\.me/i)).to.exist;
     });
@@ -63,7 +63,7 @@ describe('IdentityNotVerified component', () => {
     it('renders the correct additional info component', () => {
       expect(view.queryByText(/We use ID\.me/i)).not.to.exist;
       fireEvent.click(
-        view.getByRole('button', /How will VA.gov verify my identity/i),
+        view.getByRole('link', /Learn how to verify your identity on VA.gov/i),
       );
       expect(view.getByText(/We use ID\.me/i)).to.exist;
     });
@@ -93,7 +93,7 @@ describe('IdentityNotVerified component', () => {
       expect(additionalInfoClickSpy.notCalled).to.be.true;
       expect(view.queryByText(/We use ID\.me/i)).not.to.exist;
       fireEvent.click(
-        view.getByRole('button', /How will VA.gov verify my identity/i),
+        view.getByRole('link', /Learn how to verify your identity on VA.gov/i),
       );
       expect(view.getByText(/We use ID\.me/i)).to.exist;
       expect(additionalInfoClickSpy.calledOnce).to.be.true;
