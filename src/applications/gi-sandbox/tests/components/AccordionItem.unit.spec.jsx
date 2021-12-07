@@ -27,7 +27,7 @@ describe('<AccordionItem>', () => {
       .at(0)
       .simulate('click');
     const recordedEvent = global.window.dataLayer[0];
-    expect(recordedEvent.event).to.eq('nav-accordion-collapse');
+    expect(recordedEvent.event).to.eq('int-accordion-collapse');
     wrapper.unmount();
   });
 
@@ -42,7 +42,7 @@ describe('<AccordionItem>', () => {
       .at(0)
       .simulate('click');
     const recordedEvent = global.window.dataLayer[0];
-    expect(recordedEvent.event).to.eq('nav-accordion-expand');
+    expect(recordedEvent.event).to.eq('int-accordion-expand');
     wrapper.unmount();
   });
 
@@ -57,7 +57,7 @@ describe('<AccordionItem>', () => {
       .at(0)
       .simulate('click');
     const recordedEvent = global.window.dataLayer[0];
-    expect(recordedEvent.event).to.eq('nav-accordion-collapse');
+    expect(recordedEvent.event).to.eq('int-accordion-collapse');
     expect(recordedEvent['accordion-size']).to.eq('small');
     wrapper.unmount();
   });
@@ -73,7 +73,7 @@ describe('<AccordionItem>', () => {
       .at(0)
       .simulate('click');
     const recordedEvent = global.window.dataLayer[0];
-    expect(recordedEvent.event).to.eq('nav-accordion-expand');
+    expect(recordedEvent.event).to.eq('int-accordion-expand');
     expect(recordedEvent['accordion-size']).to.eq('full-content-width');
     wrapper.unmount();
   });

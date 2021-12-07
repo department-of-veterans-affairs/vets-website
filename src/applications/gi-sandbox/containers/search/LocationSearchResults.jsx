@@ -193,7 +193,8 @@ function LocationSearchResults({
         mapMarkerClicked(markerClicked);
         setMarkerClicked(null);
         recordEvent({
-          event: `${markerClicked} map marker clicked`,
+          event: 'map-pin-click',
+          'map-location': markerClicked,
         });
       }
     },
