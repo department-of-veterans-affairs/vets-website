@@ -1,6 +1,6 @@
 import React from 'react';
-import BalanceCard from './BalanceCard';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
+import BalanceCard from './BalanceCard';
 
 export const Balances = ({ statementData }) => {
   const single = <h2>What you owe to your facility</h2>;
