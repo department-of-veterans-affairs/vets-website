@@ -25,6 +25,9 @@ const AppointmentBlock = props => {
       >
         {appointments.map((appointment, index) => {
           const appointmentDateTime = new Date(appointment.startTime);
+          const clinic = appointment.clinicFriendlyName
+            ? appointment.clinicFriendlyName
+            : appointment.clinicName;
           return (
             <li
               key={index}
@@ -48,7 +51,7 @@ const AppointmentBlock = props => {
                   className="pre-check-in--value"
                   data-testid="appointment-clinic"
                 >
-                  {appointment.clinicFriendlyName}
+                  {clinic}
                 </dd>
               </dl>
             </li>
