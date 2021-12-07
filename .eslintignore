@@ -8,4 +8,4 @@ tmp/*
 .nyc_output/*
 script/mocha.js
 script/cypress-testrail-helper/*
-script/eslint-plugin-va/.eslintrc.js
+script/eslint-plugin-va/*
