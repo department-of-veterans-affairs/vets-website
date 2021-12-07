@@ -19,15 +19,18 @@ const Demographics = props => {
     demographicsStatus,
   } = props;
   const { demographicsNeedsUpdate } = demographicsStatus;
-  const findNextPage = () => {
-    if (isNextOfKinEnabled) {
-      goToNextPage(router, URLS.NEXT_OF_KIN);
-    } else if (isUpdatePageEnabled) {
-      goToNextPage(router, URLS.UPDATE_INSURANCE);
-    } else {
-      goToNextPage(router, URLS.DETAILS);
-    }
-  };
+  const findNextPage = useCallback(
+    () => {
+      if (isNextOfKinEnabled) {
+        goToNextPage(router, URLS.NEXT_OF_KIN);
+      } else if (isUpdatePageEnabled) {
+        goToNextPage(router, URLS.UPDATE_INSURANCE);
+      } else {
+        goToNextPage(router, URLS.DETAILS);
+      }
+    },
+    [isNextOfKinEnabled, isUpdatePageEnabled, router],
+  );
   const yesClick = useCallback(
     () => {
       recordEvent({
@@ -65,7 +68,7 @@ const Demographics = props => {
         findNextPage();
       }
     },
-    [demographicsNeedsUpdate],
+    [demographicsNeedsUpdate, findNextPage],
   );
   if (isLoading) {
     return (

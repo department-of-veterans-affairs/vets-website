@@ -28,13 +28,16 @@ const NextOfKin = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
-  const findNextPage = () => {
-    if (isUpdatePageEnabled) {
-      goToNextPage(router, URLS.UPDATE_INSURANCE);
-    } else {
-      goToNextPage(router, URLS.DETAILS);
-    }
-  };
+  const findNextPage = useCallback(
+    () => {
+      if (isUpdatePageEnabled) {
+        goToNextPage(router, URLS.UPDATE_INSURANCE);
+      } else {
+        goToNextPage(router, URLS.DETAILS);
+      }
+    },
+    [isUpdatePageEnabled, router],
+  );
   const yesClick = useCallback(
     () => {
       recordEvent({
@@ -63,7 +66,7 @@ const NextOfKin = props => {
         findNextPage();
       }
     },
-    [nextOfKinNeedsUpdate],
+    [nextOfKinNeedsUpdate, findNextPage],
   );
   if (isLoading) {
     return (
