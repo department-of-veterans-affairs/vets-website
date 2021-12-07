@@ -20,10 +20,11 @@ const regexpApostrophe = new RegExp(
 
 const contentTypes = ['TemplateLiteral', 'JSXText', 'JSXAttribute'];
 
-const rule = {
+module.exports = {
   meta: {
     type: 'suggestion',
     fixable: 'code',
+    // eslint-disable-next-line eslint-plugin/require-meta-docs-url -- no documentation yet
     docs: {
       description,
       category: 'best practices',
@@ -31,15 +32,15 @@ const rule = {
     },
     schema: [],
   },
-  create: context => {
+  create: (context) => {
     const sourceCode = context.getSourceCode();
-    const replacer = node =>
-      node.value.replace(regexpApostrophe, match =>
+    const replacer = (node) =>
+      node.value.replace(regexpApostrophe, (match) =>
         match.replace(regexpReplacer, '’'),
       );
 
     return {
-      VariableDeclarator: outerNode => {
+      VariableDeclarator: (outerNode) => {
         const nodes = sourceCode.getTokens(outerNode);
         for (const node of nodes) {
           if (
@@ -49,7 +50,7 @@ const rule = {
             context.report({
               node,
               message,
-              fix: fixer => fixer.replaceText(node, replacer(node)),
+              fix: (fixer) => fixer.replaceText(node, replacer(node)),
             });
           }
         }
@@ -57,5 +58,3 @@ const rule = {
     };
   },
 };
-
-module.exports = rule;

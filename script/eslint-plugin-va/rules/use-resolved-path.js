@@ -4,7 +4,7 @@ const DEFAULTS = ['applications'];
 let ALIASPATH = '';
 
 function isIncluded(val, aliases) {
-  const isString = str => typeof str === 'string';
+  const isString = (str) => typeof str === 'string';
   let alias;
 
   if (!isString(val) || aliases === null) {
@@ -23,6 +23,7 @@ function isIncluded(val, aliases) {
 
 module.exports = {
   meta: {
+    // eslint-disable-next-line eslint-plugin/require-meta-docs-url -- no documentation yet
     docs: {
       description: MESSAGE,
       category: 'best practices',
