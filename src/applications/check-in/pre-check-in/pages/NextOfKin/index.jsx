@@ -67,8 +67,12 @@ const NextOfKin = props => {
         nextOfKinUpToDate: answer === 'yes',
       };
       try {
-        await api.v2.postPreCheckInData({ ...preCheckInData });
-        goToNextPage();
+        const resp = await api.v2.postPreCheckInData({ ...preCheckInData });
+        if (resp.data.error || resp.data.errors) {
+          goToErrorPage();
+        } else {
+          goToNextPage();
+        }
       } catch (error) {
         goToErrorPage();
       }
