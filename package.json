@@ -14,7 +14,6 @@
     "build:webpack:staging": "yarn build:webpack --env buildtype=vagovstaging",
     "build:webpack:dev": "yarn build:webpack --env buildtype=vagovdev",
     "build:webpack:local": "yarn build:webpack --env buildtype=localhost",
-    "debug:webpack:prod": "NODE_ENV=production NODE_OPTIONS=--max-old-space-size=4096 node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js --env buildtype=vagovprod",
     "cy:my-testrail-helper": "node ./script/cypress-testrail-helper",
     "cy:my-testrail-run": "cypress run --config-file config/my-cypress-testrail.json",
     "cy:open": "cypress open --config-file config/cypress.json",
