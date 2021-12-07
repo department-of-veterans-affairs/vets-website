@@ -10,7 +10,7 @@ import {
   receivedNextOfKinData,
   receivedMultipleAppointmentDetails,
   triggerRefresh,
-  demographicsUpdated,
+  receivedDemographicsStatus,
 } from '../actions';
 import { focusElement } from 'platform/utilities/ui';
 
@@ -28,7 +28,7 @@ const withLoadedData = Component => {
       appointments,
       demographics,
       nextOfKin,
-      demographicsUpToDate,
+      demographicsStatus,
     } = checkInData;
 
     useEffect(
@@ -77,7 +77,7 @@ const withLoadedData = Component => {
           nextOfKin={nextOfKin || {}}
           appointments={appointments || []}
           context={context || {}}
-          demographicsUpToDate={demographicsUpToDate || false}
+          demographicsStatus={demographicsStatus || {}}
         />
       </>
     );
@@ -97,11 +97,14 @@ const mapDispatchToProps = dispatch => {
   return {
     setSessionData: (payload, token) => {
       batch(() => {
-        const { appointments, demographics, demographicsUpToDate } = payload;
+        const {
+          appointments,
+          demographics,
+          patientDemographicsStatus,
+        } = payload;
         dispatch(triggerRefresh(false));
         dispatch(receivedMultipleAppointmentDetails(appointments, token));
-        dispatch(demographicsUpdated(demographicsUpToDate));
-
+        dispatch(receivedDemographicsStatus(patientDemographicsStatus));
         if (typeof demographics !== 'undefined') {
           dispatch(receivedDemographicsData(demographics));
           if ('nextOfKin1' in demographics) {

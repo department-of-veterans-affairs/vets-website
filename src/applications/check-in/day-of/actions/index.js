@@ -91,11 +91,11 @@ export const seeStaffMessageUpdated = message => {
   };
 };
 
-export const DEMOGRAPHICS_UPDATED = 'DEMOGRAPHICS_UPDATED';
+export const RECEIVED_DEMOGRAPHICS_STATUS = 'RECEIVED_DEMOGRAPHICS_STATUS';
 
-export const demographicsUpdated = updated => {
+export const receivedDemographicsStatus = status => {
   return {
-    type: DEMOGRAPHICS_UPDATED,
-    payload: { demographicsUpdated: updated },
+    type: RECEIVED_DEMOGRAPHICS_STATUS,
+    payload: { demographicsStatus: status },
   };
 };

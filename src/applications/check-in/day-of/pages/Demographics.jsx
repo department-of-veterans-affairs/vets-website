@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
@@ -16,8 +16,9 @@ const Demographics = props => {
     isNextOfKinEnabled,
     router,
     updateSeeStaffMessage,
-    demographicsUpToDate,
+    demographicsStatus,
   } = props;
+  const { demographicsNeedsUpdate } = demographicsStatus;
   const findNextPage = () => {
     if (isNextOfKinEnabled) {
       goToNextPage(router, URLS.NEXT_OF_KIN);
@@ -27,13 +28,16 @@ const Demographics = props => {
       goToNextPage(router, URLS.DETAILS);
     }
   };
-  const yesClick = useCallback(() => {
-    recordEvent({
-      event: 'cta-button-click',
-      'button-click-label': 'yes-to-demographic-information',
-    });
-    findNextPage();
-  }, []);
+  const yesClick = useCallback(
+    () => {
+      recordEvent({
+        event: 'cta-button-click',
+        'button-click-label': 'yes-to-demographic-information',
+      });
+      findNextPage();
+    },
+    [findNextPage],
+  );
 
   const noClick = useCallback(
     () => {
@@ -55,16 +59,20 @@ const Demographics = props => {
     },
     [router, updateSeeStaffMessage],
   );
-
+  useEffect(
+    () => {
+      if (demographicsNeedsUpdate === false) {
+        findNextPage();
+      }
+    },
+    [demographicsNeedsUpdate],
+  );
   if (isLoading) {
     return (
       <va-loading-indicator message="Loading your appointments for today" />
     );
   } else if (!demographics) {
     goToNextPage(router, URLS.ERROR);
-    return <></>;
-  } else if (demographicsUpToDate) {
-    findNextPage();
     return <></>;
   } else {
     return (
@@ -96,7 +104,7 @@ Demographics.propTypes = {
   isNextOfKinEnabled: PropTypes.bool,
   router: PropTypes.object,
   updateSeeStaffMessage: PropTypes.func,
-  demographicsUpToDate: PropTypes.bool,
+  demographicsStatus: PropTypes.object,
 };
 
 export default connect(

@@ -19,28 +19,31 @@ const NextOfKin = props => {
     isUpdatePageEnabled,
     router,
     updateSeeStaffMessage,
+    demographicsStatus,
   } = props;
-
+  const { nextOfKinNeedsUpdate } = demographicsStatus;
   const seeStaffMessage =
     'Our staff can help you update your next of kin information.';
 
   useEffect(() => {
     focusElement('h1');
   }, []);
-
+  const findNextPage = () => {
+    if (isUpdatePageEnabled) {
+      goToNextPage(router, URLS.UPDATE_INSURANCE);
+    } else {
+      goToNextPage(router, URLS.DETAILS);
+    }
+  };
   const yesClick = useCallback(
     () => {
       recordEvent({
         event: 'cta-button-click',
         'button-click-label': 'yes-to-next-of-kin-information',
       });
-      if (isUpdatePageEnabled) {
-        goToNextPage(router, URLS.UPDATE_INSURANCE);
-      } else {
-        goToNextPage(router, URLS.DETAILS);
-      }
+      findNextPage();
     },
-    [isUpdatePageEnabled, router],
+    [findNextPage],
   );
 
   const noClick = useCallback(
@@ -54,7 +57,14 @@ const NextOfKin = props => {
     },
     [router, updateSeeStaffMessage],
   );
-
+  useEffect(
+    () => {
+      if (nextOfKinNeedsUpdate === false) {
+        findNextPage();
+      }
+    },
+    [nextOfKinNeedsUpdate],
+  );
   if (isLoading) {
     return (
       <va-loading-indicator message="Loading your appointments for today" />
@@ -95,6 +105,7 @@ NextOfKin.propTypes = {
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
   updateSeeStaffMessage: PropTypes.func,
+  demographicsStatus: PropTypes.object,
 };
 
 export default connect(
