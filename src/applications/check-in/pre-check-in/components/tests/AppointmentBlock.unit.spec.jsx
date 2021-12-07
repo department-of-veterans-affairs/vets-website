@@ -16,7 +16,7 @@ const appointments = [
   {
     facility: 'LOMA LINDA VA CLINIC',
     clinicPhoneNumber: '5551234567',
-    clinicFriendlyName: 'TEST CLINIC 2',
+    clinicFriendlyName: '',
     clinicName: 'LOM ACC CLINIC TEST',
     appointmentIen: 'some-ien',
     startTime: '2021-11-16T23:00:00',
@@ -55,6 +55,14 @@ describe('pre-check-in', () => {
           .getByTestId('appointment-list-item-0')
           .querySelector('[data-testid="appointment-clinic"]'),
       ).to.have.text('TEST CLINIC');
+    });
+    it('Renders clinicName if no clinicFriendlyName', () => {
+      const screen = render(<AppointmentBlock appointments={appointments} />);
+      expect(
+        screen
+          .getByTestId('appointment-list-item-1')
+          .querySelector('[data-testid="appointment-clinic"]'),
+      ).to.have.text('LOM ACC CLINIC TEST');
     });
     it('check in button passes axeCheck', () => {
       axeCheck(<AppointmentBlock appointments={appointments} />);
