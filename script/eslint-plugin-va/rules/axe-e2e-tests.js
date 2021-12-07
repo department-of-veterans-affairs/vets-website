@@ -30,7 +30,7 @@ module.exports = {
           (node.callee.property.name === 'axeCheck' ||
             node.callee.property.name === 'injectAxeThenAxeCheck')
         ) {
-          // Found: cy.axeCheck()
+          // Found: cy.axeCheck() or cy.injectAxeThenAxeCheck()
           hasSeenAxeCheckCall = true;
         }
       },

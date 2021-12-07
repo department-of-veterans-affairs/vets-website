@@ -8,6 +8,7 @@ const ruleTester = new RuleTester();
 ruleTester.run('axe-e2e-tests', rule, {
   valid: [
     "it('does something', function() { cy.axeCheck(); });",
+    "it('does something', function() { cy.injectAxeThenAxeCheck(); });",
     "it('does something', function() { if(foo) { cy.axeCheck(); } });",
     "notIt('does something', function() {});",
   ],
