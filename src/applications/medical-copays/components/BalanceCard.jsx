@@ -21,6 +21,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => (
     >
       Copay balance for {facility} - {city}
     </p>
+
     {!!amount && (
       <div className="card-content">
         <i
@@ -40,6 +41,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => (
         </p>
       </div>
     )}
+
     <Link
       className="vads-u-font-size--sm"
       to={`/balance-details/${id}`}
