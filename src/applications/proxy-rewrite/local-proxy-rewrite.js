@@ -66,8 +66,8 @@ function fallbackToTeamSiteServer(buildOptions) {
 }
 
 function setupLocalProxyRewrite(devServer, buildOptions) {
-  devServer.use(injectLocalBundle());
-  devServer.use(fallbackToTeamSiteServer(buildOptions));
+  devServer.app.use(injectLocalBundle());
+  devServer.app.use(fallbackToTeamSiteServer(buildOptions));
 }
 
 module.exports = setupLocalProxyRewrite;

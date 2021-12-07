@@ -317,7 +317,10 @@ const responses = {
           type: req.query.type,
           clinicalServiceId: req.query.clinical_service_id,
           eligible: ineligibilityReasons.length === 0,
-          ineligibilityReasons,
+          ineligibilityReasons:
+            ineligibilityReasons.length === 0
+              ? undefined
+              : ineligibilityReasons,
         },
       },
     });
