@@ -1,7 +1,12 @@
-const requireIndex = require('requireindex');
-
 module.exports = {
-  rules: requireIndex(`${__dirname}/rules`),
+  rules: {
+    'proptypes-camel-cased': require('./rules/proptypes-camel-cased'),
+    'enzyme-unmount': require('./rules/enzyme-unmount.js'),
+    'use-resolved-path': require('./rules/use-resolved-path.js'),
+    'resolved-path-on-required': require('./rules/resolved-path-on-required.js'),
+    'axe-check-required': require('./rules/axe-e2e-tests.js'),
+    'correct-apostrophe': require('./rules/correct-apostrophe'),
+  },
   rulesConfig: {
     'proptypes-camel-cased': 2,
     'enzyme-unmount': 2,

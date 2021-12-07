@@ -16,16 +16,12 @@
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-eslint-plugin": "^4.0.2",
-    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.4.3",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.5.1"
   },
-  "dependencies": {
-    "requireindex": "^1.2.0"
-  },
+  "dependencies": {},
   "jest": {
     "coverageThreshold": {
       "global": {

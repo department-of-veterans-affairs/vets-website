@@ -94,9 +94,6 @@
     "Safari 10",
     "ie 11"
   ],
-  "workspaces": [
-    "script/eslint-plugin-va"
-  ],
   "devDependencies": {
     "@actions/core": "^1.6.0",
     "@babel/core": "^7.16.0",
