@@ -124,8 +124,8 @@ Cypress.Commands.add('getUpdateDemo', (version = defaultAPIVersion) => {
     const rv = mockPatientCheckIns[version].createMultipleAppointments(
       defaultUUID,
       1,
-      false,
       true,
+      false,
     );
     req.reply(rv);
   });
@@ -138,8 +138,8 @@ Cypress.Commands.add('getUpdateNOK', (version = defaultAPIVersion) => {
     const rv = mockPatientCheckIns[version].createMultipleAppointments(
       defaultUUID,
       1,
-      true,
       false,
+      true,
     );
     req.reply(rv);
   });
