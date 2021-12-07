@@ -6,7 +6,7 @@ module.exports = {
       recommended: false,
       url: 'https://github.com/department-of-veterans-affairs/vets-website/tree/master/script/eslint-plugin-va/docs/rules/axe-e2e-tests.md',
     },
-    type: 'problem',
+    type: 'suggestion',
     schema: [],
     messages: {
       missingAxeCheckCall:
