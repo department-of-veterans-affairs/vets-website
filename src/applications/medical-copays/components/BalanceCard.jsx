@@ -22,16 +22,25 @@ const BalanceCard = ({ id, amount, facility, city, date }) => (
       Copay balance for {facility} - {city}
     </p>
 
-    <div className="card-content">
-      <i aria-hidden="true" role="img" className="fa fa-exclamation-triangle" />
-      <p>
-        Pay your full balance or request financial help before
-        <strong className="vads-u-margin-x--0p5" data-testid={`due-date-${id}`}>
-          {calcDueDate(date, 30)}
-        </strong>
-        to avoid late charges, interest, or collection actions.
-      </p>
-    </div>
+    {!!amount && (
+      <div className="card-content">
+        <i
+          aria-hidden="true"
+          role="img"
+          className="fa fa-exclamation-triangle"
+        />
+        <p>
+          Pay your full balance or request financial help before
+          <strong
+            className="vads-u-margin-x--0p5"
+            data-testid={`due-date-${id}`}
+          >
+            {calcDueDate(date, 30)}
+          </strong>
+          to avoid late charges, interest, or collection actions.
+        </p>
+      </div>
+    )}
 
     <Link
       className="vads-u-font-size--sm"
