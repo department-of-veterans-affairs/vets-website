@@ -21,22 +21,12 @@ const UnsupportedAccountAlert = ({ isLoginGovSupported }) => {
           <>
             <p>
               We require this to protect your bank account information and
-              prevent fraud.
+              prevent fraud. If you have a verified Login.gov or ID.me account,
+              you can sign out and sign back in with that account. Then you can
+              update your direct deposit information online. If you don’t have
+              one of these accounts, you can create one now.
             </p>
             <p>
-              <strong>
-                Get help updating your direct deposit information.
-              </strong>{' '}
-              You can call us at <Telephone contact={CONTACTS.VA_BENEFITS} />{' '}
-              (TTY:{' '}
-              <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
-              ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
-            </p>
-            <p>
-              <strong>
-                Sign in with a verified ID.me or Login.gov account.
-              </strong>{' '}
-              You can create a verified account on{' '}
               <a
                 href="https://secure.login.gov/sign_up/enter_email"
                 target="_blank"
@@ -45,9 +35,10 @@ const UnsupportedAccountAlert = ({ isLoginGovSupported }) => {
                   recordEvent({ event: AUTH_EVENTS.MFA });
                 }}
               >
-                Login.gov
-              </a>{' '}
-              or{' '}
+                Create a Login.gov account
+              </a>
+            </p>
+            <p>
               <a
                 href="https://www.id.me/registration/new"
                 target="_blank"
@@ -56,11 +47,15 @@ const UnsupportedAccountAlert = ({ isLoginGovSupported }) => {
                   recordEvent({ event: AUTH_EVENTS.MFA });
                 }}
               >
-                ID.me
+                Create an ID.me account
               </a>
-              . Or, if you already have one, please sign out and sign back in
-              using your existing verified account. Then you can update your
-              direct deposit information online.
+            </p>
+            <p>
+              <strong>Note: </strong> If you need help updating your direct
+              deposit information, call us at{' '}
+              <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
+              <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+              ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
             </p>
           </>
         }
