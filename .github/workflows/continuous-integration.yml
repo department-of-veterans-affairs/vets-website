@@ -206,6 +206,7 @@ jobs:
           MOCHA_FILE: ./test-results/test-results.xml
 
       - name: Archive unit test results
+        if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
           name: unit-test-report
