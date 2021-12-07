@@ -18,7 +18,6 @@ function isIncluded(val, aliases) {
 
 module.exports = {
   meta: {
-    // eslint-disable-next-line eslint-plugin/require-meta-docs-url -- no documentation yet
     docs: {
       description: MESSAGE,
       category: 'best practices',

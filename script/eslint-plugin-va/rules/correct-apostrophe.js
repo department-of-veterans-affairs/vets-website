@@ -24,7 +24,6 @@ module.exports = {
   meta: {
     type: 'suggestion',
     fixable: 'code',
-    // eslint-disable-next-line eslint-plugin/require-meta-docs-url -- no documentation yet
     docs: {
       description,
       category: 'best practices',
