@@ -220,7 +220,10 @@ function exportVariables(tests) {
 }
 
 function run() {
-  const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
+  // FIlter files for testing
+  const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ').filter(
+    file => file.startsWith('src/applications'),
+  );
   const graph = dedupeGraph(buildGraph());
   const tests = selectTests(graph, pathsOfChangedFiles);
   exportVariables(tests);
