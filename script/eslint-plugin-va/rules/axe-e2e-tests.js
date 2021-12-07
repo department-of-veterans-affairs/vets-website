@@ -22,6 +22,7 @@ module.exports = {
         if (node.callee.type === 'Identifier' && node.callee.name === 'it') {
           // Entering new `it` test.
           currentItNode = node;
+          hasSeenAxeCheckCall = false;
         } else if (
           node.callee.type === 'MemberExpression' &&
           node.callee.object.type === 'Identifier' &&
