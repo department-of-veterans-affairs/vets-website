@@ -1,8 +1,9 @@
 // Node modules.
 import React from 'react';
-import PromoBanner from '@department-of-veterans-affairs/component-library/PromoBanner';
 // Relative imports.
+import App from './components/App';
 import startReactApp from '../../startup/react';
+import { formatPromoBannerType } from './helpers';
 
 // Are you looking for where this is used?
 // Search for `data-widget-type="promo-banner"` to find all the places this React widget is used.
@@ -19,10 +20,11 @@ export default () => {
 
       // Render the promoBanner.
       startReactApp(
-        <PromoBanner
+        <App
           href={promoBanner?.dataset?.link}
+          id={promoBanner?.dataset?.id}
           text={promoBanner?.dataset?.title}
-          type={promoBanner?.dataset?.type}
+          type={formatPromoBannerType(promoBanner?.dataset?.type)}
         />,
         promoBanner,
       );
