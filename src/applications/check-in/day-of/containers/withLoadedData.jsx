@@ -10,6 +10,7 @@ import {
   receivedNextOfKinData,
   receivedMultipleAppointmentDetails,
   triggerRefresh,
+  receivedDemographicsStatus,
 } from '../actions';
 import { focusElement } from 'platform/utilities/ui';
 
@@ -22,7 +23,13 @@ const withLoadedData = Component => {
     const { isSessionLoading, router, setSessionData } = props;
     const selectCheckInData = useMemo(makeSelectCheckInData, []);
     const checkInData = useSelector(selectCheckInData);
-    const { context, appointments, demographics, nextOfKin } = checkInData;
+    const {
+      context,
+      appointments,
+      demographics,
+      nextOfKin,
+      demographicsStatus,
+    } = checkInData;
 
     useEffect(
       () => {
@@ -70,6 +77,7 @@ const withLoadedData = Component => {
           nextOfKin={nextOfKin || {}}
           appointments={appointments || []}
           context={context || {}}
+          demographicsStatus={demographicsStatus || {}}
         />
       </>
     );
@@ -89,9 +97,14 @@ const mapDispatchToProps = dispatch => {
   return {
     setSessionData: (payload, token) => {
       batch(() => {
-        const { appointments, demographics } = payload;
+        const {
+          appointments,
+          demographics,
+          patientDemographicsStatus,
+        } = payload;
         dispatch(triggerRefresh(false));
         dispatch(receivedMultipleAppointmentDetails(appointments, token));
+        dispatch(receivedDemographicsStatus(patientDemographicsStatus));
         if (typeof demographics !== 'undefined') {
           dispatch(receivedDemographicsData(demographics));
           if ('nextOfKin1' in demographics) {
