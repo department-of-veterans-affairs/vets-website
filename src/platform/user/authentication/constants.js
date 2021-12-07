@@ -18,3 +18,10 @@ export const SERVICE_PROVIDERS = {
   mhv: { label: 'My HealtheVet', link: 'https://www.myhealth.va.gov' },
   myhealthevet: { label: 'My HealtheVet', link: 'https://www.myhealth.va.gov' },
 };
+
+export const CSP_IDS = {
+  MHV: 'mhv',
+  ID_ME: 'idme',
+  DS_LOGON: 'dslogon',
+  LOGIN_GOV: 'logingov',
+};

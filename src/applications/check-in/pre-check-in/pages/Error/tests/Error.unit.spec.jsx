@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
-import Error from '../Error';
+import Error from '../index';
 
 describe('check-in', () => {
   describe('Pre-check-in Error page', () => {

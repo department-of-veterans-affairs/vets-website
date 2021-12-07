@@ -311,6 +311,19 @@ const benefitOptionText = {
   },
 };
 
+/**
+ * EVSS sets dates to central time (T06:00:00.000+00:00), but adds the timezone
+ * offset after the "T" instead of after the "+". So we're going to strip off
+ * the time completely, see
+ * https://github.com/department-of-veterans-affairs/va.gov-team/issues/29762#issuecomment-920225928
+ * @param {String} date - ISO 8601 date format
+ * @returns {String} - ISO 8601 date format
+ */
+export function stripOffTime(date) {
+  const [ymd] = (date || '').split('T');
+  return ymd || '';
+}
+
 export function getBenefitOptionText(
   option,
   value,
@@ -345,7 +358,7 @@ export function getBenefitOptionText(
         </div>
         <div>
           The effective date of the last change to your current award was{' '}
-          <strong>{formatDateShort(awardEffectiveDate)}</strong>.
+          <strong>{formatDateShort(stripOffTime(awardEffectiveDate))}</strong>.
         </div>
       </div>
     );

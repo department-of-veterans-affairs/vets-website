@@ -1,5 +1,5 @@
 import React from 'react';
-import DemographicItem from '../DemographicItem';
+import DemographicItem from '../../DemographicItem';
 
 export default function DemographicsDisplay({
   header = 'Is this your current contact information?',
@@ -25,7 +25,7 @@ export default function DemographicsDisplay({
         <dl data-testid="demographics-fields">
           {demographicFields.map(demographicField => (
             <React.Fragment key={demographicField.key}>
-              <dt className="vads-u-font-size--h3 vads-u-font-family--serif">
+              <dt className="vads-u-font-weight--bold">
                 {demographicField.title}
               </dt>
               <dd>
@@ -56,7 +56,7 @@ export default function DemographicsDisplay({
       >
         No
       </button>
-      <Footer />
+      {Footer && <Footer />}
     </div>
   );
 }

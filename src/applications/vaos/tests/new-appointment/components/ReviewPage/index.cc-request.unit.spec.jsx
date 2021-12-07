@@ -52,10 +52,13 @@ describe('VAOS <ReviewPage> CC request', () => {
   let start;
 
   beforeEach(() => {
+    const featureState = { ...initialState };
+    featureState.featureToggles.vaOnlineSchedulingCCIterations = false;
     mockFetch();
+
     start = moment();
     store = createTestStore({
-      ...initialState,
+      ...featureState,
       newAppointment: {
         pages: {},
         data: {
@@ -227,9 +230,13 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
   let start;
 
   beforeEach(() => {
+    const featureState = { ...initialState };
+    featureState.featureToggles.vaOnlineSchedulingCCIterations = true;
+
     mockFetch();
     start = moment();
     store = createTestStore({
+      ...featureState,
       user: {
         profile: {
           facilities: [{ facilityId: '983', isCerner: false }],

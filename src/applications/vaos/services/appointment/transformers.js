@@ -505,7 +505,7 @@ export function transformPendingAppointment(appt) {
     id: appt.id,
     status: getRequestStatus(appt, isExpressCare),
     created,
-    cancelationReason: null,
+    cancelationReason: appt.cancelationReason?.coding[0].code || null,
     requestedPeriod,
     start: isExpressCare ? created : null,
     minutesDuration: 60,

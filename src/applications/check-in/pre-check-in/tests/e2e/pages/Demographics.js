@@ -1,9 +1,6 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 class Demographics {
-  initializeApi() {
-    // @TODO: fill in once we are actually using the API
-  }
   validatePageLoaded() {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
@@ -29,32 +26,35 @@ class Demographics {
       .next()
       .should('have.text', 'Email address');
   }
-  // @TODO: update to match against mock api.
-  validateDemographicData() {
+  validateDemographicData({
+    mailingAddress = '123 Turtle TrailTreetopper, Tennessee 10101',
+    homeAddress = '445 Fine Finch Fairway, Apt 201Fairfence, Florida 44554',
+    homePhone = '555-222-3333',
+    mobilePhone = '555-333-4444',
+    workPhone = '555-444-5555',
+    email = 'kermit.frog@sesameenterprises.us',
+  } = {}) {
     cy.get("dl[data-testid='demographics-fields']")
       .find('dd:nth-of-type(1)')
-      .should('have.text', '123 Turtle TrailTreetopper, Tennessee 10101')
+      .should('have.text', mailingAddress)
       .next()
       .next()
-      .should(
-        'have.text',
-        '445 Fine Finch Fairway, Apt 201Fairfence, Florida 44554',
-      )
+      .should('have.text', homeAddress)
       .next()
       .next()
-      .should('have.text', '555-222-3333')
+      .should('have.text', homePhone)
       .next()
       .next()
-      .should('have.text', '555-333-4444')
+      .should('have.text', mobilePhone)
       .next()
       .next()
-      .should('have.text', '555-444-5555')
+      .should('have.text', workPhone)
       .next()
       .next()
-      .should('have.text', 'kermit.frog@sesameenterprises.us');
+      .should('have.text', email);
   }
-  attemptToGoToNextPage() {
-    cy.get('button[data-testid="yes-button"]').click();
+  attemptToGoToNextPage(button = 'yes') {
+    cy.get(`button[data-testid="${button}-button"]`).click();
   }
 }
 
