@@ -57,7 +57,7 @@ describe('Pre-check in', () => {
         // The '-1' is for not showing the emergency contact page
         expect(form.length).to.equal(PRE_CHECK_IN_FORM_PAGES.length);
       });
-      it('should not return the demographics,  next of kin, emergency contact pages the pages when hasConfirmedDemographics is true and isEmergencyContact is true', () => {
+      it('should not return the demographics, next of kin, emergency contact pages when hasConfirmedDemographics is true and isEmergencyContact is true', () => {
         const form = createForm({
           hasConfirmedDemographics: true,
           isEmergencyContactEnabled: true,
