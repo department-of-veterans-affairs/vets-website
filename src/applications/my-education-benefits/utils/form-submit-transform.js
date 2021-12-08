@@ -391,8 +391,8 @@ export function createComments(submissionForm) {
 }
 
 export function createDirectDeposit(submissionForm) {
-  return submissionForm.bankAccount.accountType
-    ? submissionForm.bankAccount
+  return submissionForm?.bankAccount?.accountType
+    ? submissionForm?.bankAccount
     : {};
 }
 
