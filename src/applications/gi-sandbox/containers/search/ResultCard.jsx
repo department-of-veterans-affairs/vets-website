@@ -118,7 +118,6 @@ export function ResultCard({
           to={profileLink}
           aria-labelledby={`${facilityCode}-label ${facilityCode}-classification`}
           onClick={() =>
-            cautionFlags.length > 0 &&
             recordEvent({
               event: 'gibct-view-profile',
               'school-name': name,
