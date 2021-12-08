@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import { changeSearchTab, setPageTitle } from '../actions';
-import { PAGE_TITLE, TABS } from '../constants';
+import { TABS } from '../constants';
 import SearchTabs from '../components/search/SearchTabs';
 import { useQueryParams, isSmallScreen } from '../utils/helpers';
 import { useHistory } from 'react-router-dom';
@@ -14,7 +14,7 @@ import AccordionItem from '../components/AccordionItem';
 import { getSearchQueryChanged, updateUrlParams } from '../selectors/search';
 import classNames from 'classnames';
 import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
-import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 
 export function SearchPage({
   dispatchChangeSearchTab,
@@ -35,11 +35,7 @@ export function SearchPage({
 
   useEffect(
     () => {
-      document.title = `${
-        environment.isProduction()
-          ? `${PAGE_TITLE}: VA.gov`
-          : 'Compare institutions: GI Bill® Comparison Tool | Veterans Affairs'
-      }`;
+      document.title = 'GI Bill® Comparison Tool | Veterans Affairs';
     },
     [dispatchSetPageTitle],
   );
@@ -63,6 +59,9 @@ export function SearchPage({
   };
 
   const tabChange = selectedTab => {
+    recordEvent({
+      event: `Search By ${selectedTab} tab clicked`,
+    });
     dispatchChangeSearchTab(selectedTab);
     queryParams.set('search', selectedTab);
     history.push({ pathname: '/', search: queryParams.toString() });
@@ -117,16 +116,24 @@ export function SearchPage({
                   <AccordionItem
                     button="Search by name"
                     expanded={accordions[TABS.name]}
-                    onClick={expanded => accordionChange(TABS.name, expanded)}
+                    onClick={expanded => {
+                      accordionChange(TABS.name, expanded);
+                      recordEvent({
+                        event: `Search By Name tab clicked`,
+                      });
+                    }}
                   >
                     <NameSearchForm smallScreen />
                   </AccordionItem>
                   <AccordionItem
                     button="Search by location"
                     expanded={accordions[TABS.location]}
-                    onClick={expanded =>
-                      accordionChange(TABS.location, expanded)
-                    }
+                    onClick={expanded => {
+                      recordEvent({
+                        event: `Search By Location tab clicked`,
+                      });
+                      accordionChange(TABS.location, expanded);
+                    }}
                   >
                     <LocationSearchForm smallScreen />
                   </AccordionItem>

@@ -2,7 +2,14 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
+// import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+
+import configureMockStore from 'redux-mock-store';
+
 import EducationWizard from '../../components/EducationWizard';
+
+const mockStore = configureMockStore();
+const store = mockStore({});
 
 function getQuestion(tree, name) {
   return tree.find(name);
@@ -14,30 +21,30 @@ function answerQuestion(tree, name, value) {
 
 describe('<EducationWizard>', () => {
   it('should show button and no questions', () => {
-    const tree = mount(<EducationWizard />);
+    const tree = mount(<EducationWizard store={store} />);
 
     expect(tree.find('button').length).to.eq(1);
     expect(tree.find('.wizard-content-closed').length).to.eq(1);
     tree.unmount();
   });
   it('should show button and first question', () => {
-    const tree = mount(<EducationWizard />);
-    tree.setState({ open: true });
+    const tree = mount(<EducationWizard store={store} />);
     expect(tree.find('button').length).to.eq(1);
     expect(tree.find('RadioButtons').length).to.eq(1);
     tree.unmount();
   });
   it('should show own service question for new benefit', () => {
-    const tree = mount(<EducationWizard />);
-
-    tree.setState({ open: true });
+    const tree = mount(<EducationWizard store={store} />);
     expect(getQuestion(tree, '#newBenefit-0').length).to.eq(1);
     answerQuestion(tree, '#newBenefit-0', 'yes');
     expect(getQuestion(tree, 'serviceBenefitBasedOn')).not.to.be.undefined;
     tree.unmount();
   });
   it('should show 1990 button', () => {
-    const tree = mount(<EducationWizard />);
+    const myStore = mockStore({
+      showEduBenefits1990EZWizard: true,
+    });
+    const tree = mount(<EducationWizard store={myStore} />);
 
     answerQuestion(tree, '#newBenefit-0', 'yes');
     answerQuestion(tree, '#serviceBenefitBasedOn-0', 'own');
@@ -51,8 +58,9 @@ describe('<EducationWizard>', () => {
     ).to.be.true;
     tree.unmount();
   });
+  //
   it('should show 0994 button', () => {
-    const tree = mount(<EducationWizard />);
+    const tree = mount(<EducationWizard store={store} />);
 
     answerQuestion(tree, '#newBenefit-0', 'yes');
     answerQuestion(tree, '#serviceBenefitBasedOn-0', 'own');
@@ -67,7 +75,7 @@ describe('<EducationWizard>', () => {
     tree.unmount();
   });
   it('should show 10203 button', () => {
-    const tree = mount(<EducationWizard />);
+    const tree = mount(<EducationWizard store={store} />);
     answerQuestion(tree, '#newBenefit-2', 'extend');
     answerQuestion(tree, '#applyForScholarship-0', 'yes');
     expect(
@@ -79,7 +87,7 @@ describe('<EducationWizard>', () => {
     tree.unmount();
   });
   it('should show 5495 button', () => {
-    const tree = mount(<EducationWizard />);
+    const tree = mount(<EducationWizard store={store} />);
     answerQuestion(tree, '#newBenefit-1', 'no');
     answerQuestion(tree, '#transferredEduBenefits-2', 'fry');
     expect(
@@ -91,7 +99,7 @@ describe('<EducationWizard>', () => {
     tree.unmount();
   });
   it('should show 1990N button', () => {
-    const tree = mount(<EducationWizard />);
+    const tree = mount(<EducationWizard store={store} />);
 
     answerQuestion(tree, '#newBenefit-0', 'yes');
     answerQuestion(tree, '#serviceBenefitBasedOn-0', 'own');
@@ -106,7 +114,7 @@ describe('<EducationWizard>', () => {
     tree.unmount();
   });
   it('should show 5490 button', () => {
-    const tree = mount(<EducationWizard />);
+    const tree = mount(<EducationWizard store={store} />);
 
     answerQuestion(tree, '#newBenefit-0', 'yes');
     answerQuestion(tree, '#serviceBenefitBasedOn-1', 'other');
@@ -120,7 +128,7 @@ describe('<EducationWizard>', () => {
     tree.unmount();
   });
   it('should show 1990E button', () => {
-    const tree = mount(<EducationWizard />);
+    const tree = mount(<EducationWizard store={store} />);
 
     answerQuestion(tree, '#newBenefit-0', 'yes');
     answerQuestion(tree, '#serviceBenefitBasedOn-1', 'other');
@@ -135,7 +143,7 @@ describe('<EducationWizard>', () => {
     tree.unmount();
   });
   it('should show transfer warning', () => {
-    const tree = mount(<EducationWizard />);
+    const tree = mount(<EducationWizard store={store} />);
 
     answerQuestion(tree, '#newBenefit-0', 'yes');
     answerQuestion(tree, '#serviceBenefitBasedOn-1', 'other');
@@ -151,7 +159,7 @@ describe('<EducationWizard>', () => {
     tree.unmount();
   });
   it('should record user events for newBenefit', () => {
-    const tree = mount(<EducationWizard />);
+    const tree = mount(<EducationWizard store={store} />);
     expect(global.window.dataLayer.length).to.equal(0);
     answerQuestion(tree, '#newBenefit-0', 'yes');
     expect(global.window.dataLayer.length).to.equal(1);
@@ -175,7 +183,7 @@ describe('<EducationWizard>', () => {
   });
 
   it('should record user events for STEM section links', () => {
-    const tree = mount(<EducationWizard />);
+    const tree = mount(<EducationWizard store={store} />);
     expect(global.window.dataLayer.length).to.equal(0);
     answerQuestion(tree, '#newBenefit-2', 'extend');
     expect(global.window.dataLayer.length).to.equal(1);
@@ -211,7 +219,7 @@ describe('<EducationWizard>', () => {
   });
 
   it('should record user events on application submission', () => {
-    const tree = mount(<EducationWizard />);
+    const tree = mount(<EducationWizard store={store} />);
     expect(global.window.dataLayer.length).to.equal(0);
     answerQuestion(tree, '#newBenefit-2', 'extend');
     expect(global.window.dataLayer.length).to.equal(1);

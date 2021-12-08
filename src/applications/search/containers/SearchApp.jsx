@@ -114,6 +114,7 @@ class SearchApp extends React.Component {
       path: document.location.pathname,
       userInput,
       typeaheadEnabled: false,
+      searchLocation: 'Search Results Page',
       keywordSelected: undefined,
       keywordPosition: undefined,
       suggestionsList: undefined,
@@ -222,6 +223,7 @@ class SearchApp extends React.Component {
       path: document.location.pathname,
       inputValue,
       typeaheadEnabled: true,
+      searchLocation: 'Search Results Page',
       keywordSelected: undefined,
       keywordPosition: undefined,
       suggestionsList: validSuggestions,
@@ -261,6 +263,7 @@ class SearchApp extends React.Component {
       path: document.location.pathname,
       inputValue,
       typeaheadEnabled: true,
+      searchLocation: 'Search Results Page',
       keywordSelected: validSuggestions[index],
       keywordPosition: index + 1,
       suggestionsList: validSuggestions,
@@ -354,7 +357,13 @@ class SearchApp extends React.Component {
             <SearchDropdownComponent
               buttonText="Search"
               canSubmit
-              className="search-results-page-dropdown"
+              id="search-results-page-dropdown"
+              componentClassName=""
+              containerClassName=""
+              buttonClassName=""
+              inputClassName=""
+              suggestionsListClassName=""
+              suggestionClassName=""
               formatSuggestions
               fullWidthSuggestions={false}
               mobileResponsive

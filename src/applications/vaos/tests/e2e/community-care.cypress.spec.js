@@ -257,7 +257,7 @@ describe('VAOS community care flow', () => {
 
   it('should submit form with provider chosen from list and submit request', () => {
     initCommunityCareMock();
-    mockFeatureToggles();
+    mockFeatureToggles({ featureCCIteration: true });
     cy.visit(
       'health-care/schedule-view-va-appointments/appointments/new-appointment/',
     );
@@ -311,16 +311,25 @@ describe('VAOS community care flow', () => {
     // Click continue button
     cy.get('.usa-button').click();
 
+    // What's the closest city to you step
+    cy.url().should(
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/choose-closest-city',
+    );
+    cy.axeCheckBestPractice();
+
+    // Select city
+    cy.get('#root_communityCareSystemId_0').click();
+    cy.get('#root_communityCareSystemId_0').should('be.checked');
+    cy.get('.usa-button').click();
+
     // Tell us your community care preferences step
     cy.url().should(
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/community-care-preferences',
     );
     cy.axeCheckBestPractice();
-    // Select city
-    cy.get('#root_communityCareSystemId_0').click();
-    cy.get('#root_communityCareSystemId_0').should('be.checked');
-    cy.findByText(/Choose a provider/i).click();
+    cy.findByText(/Choose a provider/).click();
 
     cy.findByLabelText(/doe, jane/i).click();
     cy.axeCheckBestPractice();
@@ -465,6 +474,7 @@ describe('VAOS community care flow using VAOS service', () => {
     mockFeatureToggles({
       v2Requests: true,
       v2Facilities: true,
+      featureCCIteration: true,
     });
     cy.login(mockUser);
     cy.route({
@@ -545,7 +555,7 @@ describe('VAOS community care flow using VAOS service', () => {
     }).as('appointmentRequests');
     cy.route({
       method: 'GET',
-      url: '/vaos/v2/appointments/25956',
+      url: '/vaos/v2/appointments/25956*',
       response: {
         data: requests.data.find(r => r.id === '25956'),
       },
@@ -601,16 +611,25 @@ describe('VAOS community care flow using VAOS service', () => {
     // Click continue button
     cy.get('.usa-button').click();
 
+    // What's the closest city to you step
+    cy.url().should(
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/choose-closest-city',
+    );
+    cy.axeCheckBestPractice();
+
+    // Select city
+    cy.get('#root_communityCareSystemId_0').click();
+    cy.get('#root_communityCareSystemId_0').should('be.checked');
+    cy.get('.usa-button').click();
+
     // Tell us your community care preferences step
     cy.url().should(
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/community-care-preferences',
     );
     cy.axeCheckBestPractice();
-    // Select city
-    cy.get('#root_communityCareSystemId_0').click();
-    cy.get('#root_communityCareSystemId_0').should('be.checked');
-    cy.findByText(/Choose a provider/i).click();
+    cy.findByText(/Choose a provider/).click();
 
     cy.findByLabelText(/doe, jane/i).click();
     cy.axeCheckBestPractice();

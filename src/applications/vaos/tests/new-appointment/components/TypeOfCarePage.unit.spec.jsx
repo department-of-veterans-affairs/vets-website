@@ -59,7 +59,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     // Verify alert is shown
     expect(
       screen.getByRole('heading', {
-        name: /not seeing the type of care you need\?/i,
+        name: /Is the type of care you need not listed here\?/i,
       }),
     ).to.exist;
     expect(
@@ -72,7 +72,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect(global.window.dataLayer[0]).to.eql({
       'alert-box-click-label': 'Find a VA location',
-      'alert-box-heading': 'Not seeing the type of care you need',
+      'alert-box-heading': 'Is the type of care you need not listed here',
       'alert-box-subheading': undefined,
       'alert-box-type': 'informational',
       event: 'nav-alert-box-link-click',

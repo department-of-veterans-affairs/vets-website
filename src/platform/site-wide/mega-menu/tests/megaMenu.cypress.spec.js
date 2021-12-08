@@ -1,3 +1,10 @@
+/**
+ * [TestRail-integrated] Spec for Mega-Menu
+ * @testrailinfo projectId 8
+ * @testrailinfo suiteId 9
+ * @testrailinfo groupId 2975
+ * @testrailinfo runName SH-e2e-MegaMenu
+ */
 // Relative imports.
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 
@@ -67,7 +74,7 @@ const testSecondMenuSection = isMobile => {
     '[data-e2e-id="about-va-1"]',
   );
   cy.checkMenuItem(
-    '[data-e2e-id="va-plans-budget-and-performance-2"]',
+    '[data-e2e-id="va-plans-budget-finances-and-performance-2"]',
     'performance',
     '[data-e2e-id="about-va-1"]',
   );
@@ -159,33 +166,41 @@ const testDesktopMenuSections = () => {
   testFindLocationsLink();
 };
 
+// Use an app's URL if provided in the environment, otherwise use the homepage.
+// Unauthenticated tests are skipped for app URLs to avoid unexpected behavior.
+const testUrl = Cypress.env('app_url') || '/';
+const usingHomepageUrl = testUrl === '/';
+
 describe('Mega Menu', () => {
   context('on desktop', () => {
     beforeEach(() => {
       cy.viewport(1280, 720);
     });
 
-    it('looks as expected unauthenticated', () => {
-      // Visit the homepage.
-      cy.visit('/');
+    it('looks as expected unauthenticated - C12293', () => {
+      // Skip unauthenticated test for app URLs to avoid unexpected behavior.
+      if (usingHomepageUrl) {
+        // Visit the homepage.
+        cy.visit(testUrl);
 
-      // Back to home button should not appear on desktop.
-      cy.findByTestId('mobile-home-nav-link').should('not.be.visible');
+        // Back to home button should not appear on desktop.
+        cy.findByTestId('mobile-home-nav-link').should('not.be.visible');
 
-      // Test the menu sections.
-      testDesktopMenuSections();
+        // Test the menu sections.
+        testDesktopMenuSections();
 
-      cy.get('[data-e2e-id="my-va-3"]');
-      // Authenticated links should not appear.
-      cy.get('[data-e2e-id="my-health-4"]').should('not.exist');
+        cy.get('[data-e2e-id="my-va-3"]');
+        // Authenticated links should not appear.
+        cy.get('[data-e2e-id="my-health-4"]').should('not.exist');
+      }
     });
 
-    it('looks as expected authenticated', () => {
+    it('looks as expected authenticated - C12294', () => {
       // Login as the mock user.
       cy.login(mockUser);
 
-      // Visit the homepage.
-      cy.visit('/');
+      // Visit the home or app page.
+      cy.visit(testUrl);
 
       // Back to home button should not appear on desktop.
       cy.findByTestId('mobile-home-nav-link').should('not.be.visible');
@@ -204,24 +219,27 @@ describe('Mega Menu', () => {
       cy.viewport('iphone-4');
     });
 
-    it('looks as expected unauthenticated', () => {
-      // Visit the homepage.
-      cy.visit('/');
+    it('looks as expected unauthenticated - C12295', () => {
+      // Skip unauthenticated test for app URLs to avoid unexpected behavior.
+      if (usingHomepageUrl) {
+        // Visit the homepage.
+        cy.visit(testUrl);
 
-      // Test the menu sections.
-      testMobileMenuSections();
+        // Test the menu sections.
+        testMobileMenuSections();
 
-      cy.get('[data-e2e-id="my-va-3"]');
-      // Authenticated links should not appear.
-      cy.get('[data-e2e-id="my-health-4"]').should('not.exist');
+        cy.get('[data-e2e-id="my-va-3"]');
+        // Authenticated links should not appear.
+        cy.get('[data-e2e-id="my-health-4"]').should('not.exist');
+      }
     });
 
-    it('looks as expected authenticated', () => {
+    it('looks as expected authenticated - C12296', () => {
       // Login as the mock user.
       cy.login(mockUser);
 
-      // Visit the homepage.
-      cy.visit('/');
+      // Visit the home or app page.
+      cy.visit(testUrl);
 
       // Test the menu sections.
       testMobileMenuSections();
@@ -231,10 +249,13 @@ describe('Mega Menu', () => {
       cy.get('[data-e2e-id="my-health-4"]');
     });
 
-    it('traps focus inside mega menu when opened', () => {
-      cy.visit('/');
+    it('traps focus inside mega menu when opened - C12297', () => {
+      // Skip unauthenticated test for app URLs to avoid unexpected behavior.
+      if (usingHomepageUrl) {
+        cy.visit(testUrl);
 
-      testMobileTabFocus();
+        testMobileTabFocus();
+      }
     });
   });
 });

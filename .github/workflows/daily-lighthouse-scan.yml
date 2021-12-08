@@ -25,6 +25,137 @@ jobs:
           JSON=$(jq '[.[] | (if .template.vagovprod then {rootUrl: .rootUrl} else empty end)]' ./content-build/src/applications/registry.json)
           echo ::set-output name=registries::$(jq --argjson arr1 "$CUSTOM_URLS" --argjson arr2 "$JSON" -n '$arr2 + $arr1 | unique_by(.rootUrl)')
 
+  tt-lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials (1)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get Slack app token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/github_actions_slack_socket_token
+          env_variable_name: SLACK_APP_TOKEN
+
+      - name: Get Slack bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/github_actions_slack_bot_user_token
+          env_variable_name: SLACK_BOT_TOKEN
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Checkout VSP actions
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/vsp-github-actions
+          ref: refs/heads/main
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          persist-credentials: false
+          path: ./.github/actions/vsp-github-actions
+
+      - name: Get BigQuery service credentials # Has to go before role is fetched from param store, otherwise permissions will be denied with the role configured.
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
+          env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
+
+      - name: Get role from Parameter Store
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+
+      - name: Audit URLs using Lighthouse
+        id: lighthouse-checks
+        uses: treosh/lighthouse-ci-action@v8
+        with:
+          urls: |
+            https://www.va.gov/
+          # budgetPath: ./budget.json # test performance budgets
+          uploadArtifacts: true # save results as an action artifacts
+
+      - name: Upload lighthouse report (JSON)
+        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.json --acl public-read --region us-gov-west-1
+
+      - name: Upload lighthouse report (HTML)
+        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.html --acl public-read --region us-gov-west-1
+
+      - name: Notify Slack
+        if: ${{ always() }}
+        uses: ./.github/actions/vsp-github-actions/slack-socket
+        env:
+          SSL_CERT_DIR: /etc/ssl/certs
+        with:
+          slack_app_token: ${{ env.SLACK_APP_TOKEN }}
+          slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
+          attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}]'
+          channel_id: ${{ env.CHANNEL_ID }}
+
+      - name: Checkout Testing Tools Team Dashboard Data repo
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: testing-tools-team-dashboard-data
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+        working-directory: testing-tools-team-dashboard-data
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      # TODO: Potentially use install composite
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+        working-directory: testing-tools-team-dashboard-data
+
+      - name: Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: vsp-analytics-and-insights
+          service_account_key: ${{ env.BIGQUERY_SERVICE_CREDENTIALS }}
+          export_default_credentials: true
+
+      - name: Download Lighthouse results
+        uses: actions/download-artifact@v2
+        with:
+          name: lighthouse-results
+          path: testing-tools-team-dashboard-data/src/testing-reports/data
+
+      - name: Log directory
+        run: |
+          echo ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}}
+          ls testing-tools-team-dashboard-data/src/testing-reports/data
+      - name: Upload Lighthouse results to BigQuery
+        run: yarn lighthouse-to-bigquery
+        working-directory: testing-tools-team-dashboard-data
+
+
   lighthouse:
     needs: get-registries
     runs-on: ubuntu-latest

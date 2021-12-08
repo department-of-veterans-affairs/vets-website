@@ -1,11 +1,14 @@
 /* eslint-disable no-param-reassign */
 const core = require('@actions/core');
+const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
 const { integrationFolder, testFiles } = require('../../config/cypress.json');
 const findImports = require('find-imports');
 
 const IS_MASTER_BUILD = process.env.IS_MASTER_BUILD === 'true';
+const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
+const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);
 
 function getImports(filePath) {
   return findImports(filePath, {
@@ -129,9 +132,11 @@ function selectedTests(graph, pathsOfChangedFiles) {
     .map(filePath => filePath.split('/')[2]);
 
   [...new Set(applicationNames)].forEach(app => {
-    // Lookup app in cross-app imports graph to reference which app's tests
-    // should run
-    applications.push(...graph[app].appsToTest);
+    if (graph[app]) {
+      // Lookup app in cross-app imports graph to reference which app's tests
+      // should run
+      applications.push(...graph[app].appsToTest);
+    }
   });
 
   [...new Set(applications)].forEach(app => {
@@ -145,15 +150,29 @@ function selectedTests(graph, pathsOfChangedFiles) {
     tests.push(...glob.sync(selectedTestsPattern));
   });
 
-  // Always run the tests in src/platform
-  const defaultTestsPattern = path.join(
-    __dirname,
-    '../..',
-    'src/platform',
-    '**/tests/**/*.cypress.spec.js?(x)',
-  );
+  // Only run the mega menu test for changed apps builds,
+  // otherwise run all tests in src/platform for full builds
+  if (IS_CHANGED_APPS_BUILD) {
+    const megaMenuTestPath = path.join(
+      __dirname,
+      '../..',
+      'src/platform/site-wide/mega-menu/tests/megaMenu.cypress.spec.js',
+    );
 
-  tests.push(...glob.sync(defaultTestsPattern));
+    // Ensure changed apps have URLs to run header test on
+    if (APPS_HAVE_URLS && fs.existsSync(megaMenuTestPath))
+      tests.push(megaMenuTestPath);
+  } else {
+    const defaultTestsPattern = path.join(
+      __dirname,
+      '../..',
+      'src/platform',
+      '**/tests/**/*.cypress.spec.js?(x)',
+    );
+
+    tests.push(...glob.sync(defaultTestsPattern));
+  }
+
   return tests;
 }
 
@@ -197,38 +216,7 @@ function selectTests(graph, pathsOfChangedFiles) {
 }
 
 function exportVariables(tests) {
-  const numTests = tests.length;
-
-  // core.exportVariable() exports variable to GitHub Actions workflow
-  if (numTests === 0) {
-    core.exportVariable('NUM_CONTAINERS', 0);
-  } else if (numTests <= 20) {
-    core.exportVariable('NUM_CONTAINERS', 1);
-    core.exportVariable('CI_NODE_INDEX', [0]);
-  } else if (numTests <= 40) {
-    core.exportVariable('NUM_CONTAINERS', 2);
-    core.exportVariable('CI_NODE_INDEX', [0, 1]);
-  } else if (numTests <= 60) {
-    core.exportVariable('NUM_CONTAINERS', 3);
-    core.exportVariable('CI_NODE_INDEX', [0, 1, 2]);
-  } else if (numTests <= 80) {
-    core.exportVariable('NUM_CONTAINERS', 4);
-    core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3]);
-  } else if (numTests <= 100) {
-    core.exportVariable('NUM_CONTAINERS', 5);
-    core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4]);
-  } else if (numTests <= 120) {
-    core.exportVariable('NUM_CONTAINERS', 6);
-    core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5]);
-  } else if (numTests <= 140) {
-    core.exportVariable('NUM_CONTAINERS', 7);
-    core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6]);
-  } else {
-    core.exportVariable('NUM_CONTAINERS', 8);
-    core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6, 7]);
-  }
-
-  if (numTests > 0) core.exportVariable('TESTS', tests);
+  core.exportVariable('TESTS', tests);
 }
 
 function run() {

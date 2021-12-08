@@ -922,7 +922,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     it('should verify Video Connect at home calendar ics file format', async () => {
       const appointment = getVideoAppointmentMock();
-      const startDate = moment.utc().add(3, 'days');
+      const startDate = moment(getTimezoneTestDate()).add(3, 'days');
       appointment.attributes = {
         ...appointment.attributes,
         facilityId: '983',
@@ -975,9 +975,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const ics = decodeURIComponent(
         screen
           .getByRole('link', {
-            name: `Add ${startDate.format(
-              'MMMM D, YYYY',
-            )} appointment to your calendar`,
+            name: `Add ${moment(startDate)
+              .tz('America/Denver')
+              .format('MMMM D, YYYY')} appointment to your calendar`,
           })
           .getAttribute('href')
           .replace('data:text/calendar;charset=utf-8,', ''),
@@ -1032,7 +1032,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     it('should verify Video Connect at VA location calendar ics file format', async () => {
       const appointment = getVideoAppointmentMock();
-      const startDate = moment.utc().add(3, 'days');
+      const startDate = moment(getTimezoneTestDate()).add(3, 'days');
       appointment.attributes = {
         ...appointment.attributes,
         facilityId: '983',
@@ -1081,9 +1081,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const ics = decodeURIComponent(
         screen
           .getByRole('link', {
-            name: `Add ${startDate.format(
-              'MMMM D, YYYY',
-            )} appointment to your calendar`,
+            name: `Add ${moment(startDate)
+              .tz('America/Denver')
+              .format('MMMM D, YYYY')} appointment to your calendar`,
           })
           .getAttribute('href')
           .replace('data:text/calendar;charset=utf-8,', ''),
@@ -1147,7 +1147,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     it('should verify Video Connect at ATLAS calendar ics file format', async () => {
       // Given a user with an ATLAS video appointment
-      const startDate = moment.utc().add(3, 'days');
+      const startDate = moment(getTimezoneTestDate()).add(3, 'days');
       const appointment = getVideoAppointmentMock({
         facilityId: '983',
         startDate: startDate.format(),
@@ -1204,9 +1204,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const ics = decodeURIComponent(
         screen
           .getByRole('link', {
-            name: `Add ${startDate.format(
-              'MMMM D, YYYY',
-            )} appointment to your calendar`,
+            name: `Add ${moment(startDate)
+              .tz('America/Denver')
+              .format('MMMM D, YYYY')} appointment to your calendar`,
           })
           .getAttribute('href')
           .replace('data:text/calendar;charset=utf-8,', ''),
@@ -1329,9 +1329,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const ics = decodeURIComponent(
         screen
           .getByRole('link', {
-            name: `Add ${startDate.format(
-              'MMMM D, YYYY',
-            )} appointment to your calendar`,
+            name: `Add ${startDate
+              .tz('America/Denver')
+              .format('MMMM D, YYYY')} appointment to your calendar`,
           })
           .getAttribute('href')
           .replace('data:text/calendar;charset=utf-8,', ''),

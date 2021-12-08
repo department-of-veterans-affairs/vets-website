@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function() {
+export default function SpecializedMissionModalContent() {
   return (
     <>
       <h3>Specialized mission</h3>

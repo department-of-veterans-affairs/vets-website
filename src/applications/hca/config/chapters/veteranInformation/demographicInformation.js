@@ -1,41 +1,52 @@
-import { genderLabels } from 'platform/static-data/labels';
+import React from 'react';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import { maritalStatuses } from 'platform/static-data/options-for-select';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
 import DemographicField from '../../../components/DemographicField';
 
 const {
-  gender,
   isAmericanIndianOrAlaskanNative,
   isAsian,
   isBlackOrAfricanAmerican,
   isNativeHawaiianOrOtherPacificIslander,
   isSpanishHispanicLatino,
   isWhite,
+  hasDemographicNoAnswer,
 } = fullSchemaHca.properties;
+
+const DemographicInfoDescription = props => {
+  return (
+    <>
+      <PrefillMessage {...props} />
+
+      <div>
+        <p className="vads-u-margin-bottom--1">
+          What is your race, ethnicity, or origin? (Please check all that
+          apply.)
+        </p>
+
+        <p className="vads-u-color--gray-medium vads-u-margin-top--0 vads-u-margin-bottom--0">
+          Information is gathered for statistical purposes only.
+        </p>
+      </div>
+    </>
+  );
+};
 
 export default {
   uiSchema: {
-    'ui:description': PrefillMessage,
-    gender: {
-      'ui:title': 'Gender',
-      'ui:options': {
-        labels: genderLabels,
-      },
-    },
-    maritalStatus: {
-      'ui:title': 'Marital status',
-    },
+    'ui:description': DemographicInfoDescription,
     'view:demographicCategories': {
       'ui:field': DemographicField,
-      'ui:title': 'Which categories best describe you?',
-      'ui:description': 'You may check more than one.',
-      isSpanishHispanicLatino: {
-        'ui:title': 'Spanish, Hispanic, or Latino',
-      },
+      'ui:title': ' ',
       isAmericanIndianOrAlaskanNative: {
         'ui:title': 'American Indian or Alaskan Native',
+      },
+      isSpanishHispanicLatino: {
+        'ui:title': ' Hispanic, Latino, or Spanish',
+      },
+      isAsian: {
+        'ui:title': 'Asian',
       },
       isBlackOrAfricanAmerican: {
         'ui:title': 'Black or African American',
@@ -43,32 +54,28 @@ export default {
       isNativeHawaiianOrOtherPacificIslander: {
         'ui:title': 'Native Hawaiian or Other Pacific Islander',
       },
-      isAsian: {
-        'ui:title': 'Asian',
-      },
       isWhite: {
         'ui:title': 'White',
+      },
+      hasDemographicNoAnswer: {
+        'ui:title': 'Prefer not to answer',
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['gender', 'maritalStatus'],
     properties: {
-      gender,
-      maritalStatus: {
-        type: 'string',
-        enum: maritalStatuses,
-      },
       'view:demographicCategories': {
         type: 'object',
+        required: [],
         properties: {
-          isSpanishHispanicLatino,
           isAmericanIndianOrAlaskanNative,
-          isBlackOrAfricanAmerican,
-          isNativeHawaiianOrOtherPacificIslander,
           isAsian,
+          isBlackOrAfricanAmerican,
+          isSpanishHispanicLatino,
+          isNativeHawaiianOrOtherPacificIslander,
           isWhite,
+          hasDemographicNoAnswer,
         },
       },
     },

@@ -41,6 +41,23 @@ export const titleCase = str => {
     .join(' ');
 };
 
+export const sortStatementsByDate = statements => {
+  return statements.sort((a, b) => {
+    const aDate = formatDate(a.pSProcessDateOutput);
+    const bDate = formatDate(b.pSProcessDateOutput);
+
+    if (aDate > bDate) {
+      return 1;
+    }
+
+    if (aDate < bDate) {
+      return -1;
+    }
+
+    return 0;
+  });
+};
+
 export const transform = data => {
   return data.map(statement => {
     const { station } = statement;

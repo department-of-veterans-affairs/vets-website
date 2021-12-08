@@ -310,16 +310,13 @@ export function getNotificationMethod(notificationMethod) {
 export function createMilitaryClaimant(submissionForm) {
   return {
     claimant: {
-      claimantId: 0, // TODO Where will this come from
+      claimantId: submissionForm.claimantId,
       firstName: submissionForm['view:userFullName'].userFullName.first,
       middleName: submissionForm['view:userFullName'].userFullName.middle,
       lastName: submissionForm['view:userFullName'].userFullName.last,
       suffix: submissionForm['view:userFullName'].userFullName.suffix,
       dateOfBirth: submissionForm.dateOfBirth,
       contactInfo: createContactInfo(submissionForm),
-      dobChanged: false, // TODO How to determine this?
-      firstAndLastNameChanged: false, // TODO How to determine this?
-      contactInfoChanged: false, // TODO How to determine this?
       notificationMethod: getNotificationMethod(
         submissionForm['view:receiveTextMessages'].receiveTextMessages,
       ),

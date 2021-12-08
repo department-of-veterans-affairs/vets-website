@@ -1,13 +1,8 @@
 export const schema = {
   type: 'object',
+  title: 'Do you know the name of the organization?',
   properties: {
     organizationName: {
-      type: 'string',
-    },
-    lastNameOfPerson: {
-      type: 'string',
-    },
-    firstNameOfPerson: {
       type: 'string',
     },
   },
@@ -16,11 +11,5 @@ export const schema = {
 export const uiSchema = {
   organizationName: {
     'ui:title': 'Organization name',
-  },
-  lastNameOfPerson: {
-    'ui:title': 'Last name of person',
-  },
-  firstNameOfPerson: {
-    'ui:title': 'First name of person',
   },
 };

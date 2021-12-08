@@ -385,12 +385,13 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       id: '1234',
       appointmentRequestDetailCode: ['DETCODE8'],
       status: 'Cancelled',
+      cancelationReason: { coding: [{ code: 'pat' }] },
     });
 
     fireEvent.click(screen.getByText(/continue/i));
 
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
-    expect(screen.baseElement).to.contain.text('Canceled');
+    expect(screen.baseElement).to.contain.text('You canceled this appointment');
     expect(screen.baseElement).not.to.contain.text(alertText);
   });
 
@@ -891,6 +892,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     };
 
     mockSingleVAOSRequestFetch({ request: appointment });
+    mockAppointmentCancelFetch({ appointment });
     mockFacilityFetchByVersion({
       facility: createMockFacilityByVersion({ id: '442GC', version: 0 }),
       version: 0,
@@ -922,8 +924,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     const cancelData = JSON.parse(
       global.fetch
         .getCalls()
-        // Looks for second appointments/1234 call, because first is GET, second is PUT
-        .filter(call => call.args[0].endsWith('appointments/1234'))[1].args[1]
+        .filter(call => call.args[0].endsWith('appointments/1234'))[0].args[1]
         .body,
     );
     expect(cancelData).to.deep.equal({
@@ -933,7 +934,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     fireEvent.click(screen.getByText(/continue/i));
 
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
-    expect(screen.baseElement).to.contain.text('Canceled');
+    expect(screen.baseElement).to.contain.text('You canceled this appointment');
   });
 
   it('should handle error when canceling', async () => {

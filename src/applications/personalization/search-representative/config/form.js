@@ -7,11 +7,16 @@ import {
   basicInformation,
   location,
   organizationName,
+  representative,
   search,
+  transitionPage,
 } from './imports';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
+  customText: {
+    appType: 'search',
+  },
   urlPrefix: '/',
   submitUrl: '/v0/api',
   trackingPrefix: 'search-representative-',
@@ -33,7 +38,7 @@ const formConfig = {
       title: '',
       pages: {
         representativeType: {
-          path: 'representstive-type',
+          path: 'representative-type',
           uiSchema: basicInformation.uiSchema,
           schema: basicInformation.schema,
         },
@@ -41,6 +46,11 @@ const formConfig = {
           path: 'location',
           uiSchema: location.uiSchema,
           schema: location.schema,
+        },
+        representative: {
+          path: 'representative-name',
+          uiSchema: representative.uiSchema,
+          schema: representative.schema,
         },
         organizationName: {
           path: 'organization-name',
@@ -51,6 +61,11 @@ const formConfig = {
           path: 'search-for-representative',
           uiSchema: search.uiSchema,
           schema: search.schema,
+        },
+        transitionPage: {
+          path: 'more-information',
+          uiSchema: transitionPage.uiSchema,
+          schema: transitionPage.schema,
         },
       },
     },

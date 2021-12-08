@@ -9,6 +9,7 @@ import * as keepAliveMod from 'platform/utilities/sso/keepAliveSSO';
 import { checkAutoSession, checkAndUpdateSSOeSession } from '../sso';
 import * as loginAttempted from '../sso/loginAttempted';
 import { keepAlive } from '../sso/keepAliveSSO';
+import { AUTH_EVENTS } from '../../user/authentication/constants';
 
 function setKeepAliveResponse(stub, sessionTimeout = 0, csid = null) {
   const response = new Response();
@@ -127,13 +128,11 @@ describe('checkAutoSession', () => {
     await checkAutoSession(true, 'Y', profile);
 
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(
-      auto,
-      'custom',
-      'v1',
-      { authn: 'dslogon' },
-      'sso-automatic-login',
-    );
+    sinon.assert.calledWith(auto, {
+      policy: 'custom',
+      queryParams: { authn: 'dslogon' },
+      clickedEvent: AUTH_EVENTS.SSO_LOGIN,
+    });
   });
 
   it('should auto logout if user has logged in via SSOe and they do not have a SSOe session anymore', async () => {
@@ -145,7 +144,7 @@ describe('checkAutoSession', () => {
     await checkAutoSession(true, 'X');
 
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(auto, 'v1', 'sso-automatic-logout', {
+    sinon.assert.calledWith(auto, 'v1', AUTH_EVENTS.SSO_LOGOUT, {
       'auto-logout': 'true',
     });
   });
@@ -172,13 +171,11 @@ describe('checkAutoSession', () => {
     await checkAutoSession(true, 'Y');
 
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(
-      auto,
-      'custom',
-      'v1',
-      { authn: 'dslogon' },
-      'sso-automatic-login',
-    );
+    sinon.assert.calledWith(auto, {
+      policy: 'custom',
+      queryParams: { authn: 'dslogon' },
+      clickedEvent: AUTH_EVENTS.SSO_LOGIN,
+    });
   });
 
   it('should not auto logout if user is logged in and they have a matched SSOe session', async () => {
@@ -221,13 +218,11 @@ describe('checkAutoSession', () => {
     await checkAutoSession();
 
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(
-      auto,
-      'custom',
-      'v1',
-      { authn: 'dslogon' },
-      'sso-automatic-login',
-    );
+    sinon.assert.calledWith(auto, {
+      policy: 'custom',
+      queryParams: { authn: 'dslogon' },
+      clickedEvent: AUTH_EVENTS.SSO_LOGIN,
+    });
   });
 
   it('should auto login if user is logged out, they have an mhv SSOe session, dont need to force auth', async () => {
@@ -242,13 +237,11 @@ describe('checkAutoSession', () => {
     await checkAutoSession();
 
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(
-      auto,
-      'custom',
-      'v1',
-      { authn: 'myhealthevet' },
-      'sso-automatic-login',
-    );
+    sinon.assert.calledWith(auto, {
+      policy: 'custom',
+      queryParams: { authn: 'myhealthevet' },
+      clickedEvent: AUTH_EVENTS.SSO_LOGIN,
+    });
   });
 
   it('should not auto login if user is logged out, they have a PIV SSOe session and dont need to force auth', async () => {
