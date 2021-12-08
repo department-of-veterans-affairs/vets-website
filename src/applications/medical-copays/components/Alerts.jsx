@@ -1,5 +1,5 @@
 import React from 'react';
-import { currency, calcDueDate } from '../utils/helpers';
+import { currency, calcDueDate, formatDate } from '../utils/helpers';
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -8,7 +8,11 @@ import Telephone, {
 const Alert = ({ children }) => children;
 
 Alert.Error = () => (
-  <va-alert class="row vads-u-margin-bottom--5" status="error">
+  <va-alert
+    class="row vads-u-margin-bottom--5"
+    status="error"
+    data-testid="error-alert"
+  >
     <h2 slot="headline" className="vads-u-font-size--h3">
       We can’t access your current copay balances right now
     </h2>
@@ -43,24 +47,48 @@ Alert.Error = () => (
   </va-alert>
 );
 
-Alert.Maintenance = () => (
-  <va-alert class="row vads-u-margin-bottom--5" status="info">
+Alert.ZeroBalance = ({ copay }) => (
+  <va-alert
+    class="row vads-u-margin-bottom--5"
+    status="info"
+    data-testid="zero-balance"
+  >
     <h2 slot="headline" className="vads-u-font-size--h3">
-      Down for maintenance
+      You don’t need to make a payment at this time
     </h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
-      We’re sorry it’s not working right now.
+      Your balance is $0 and was updated on
+      <span className="vads-u-margin-x--0p5" data-testid="updated-date">
+        {formatDate(copay?.pSStatementDate)}
+      </span>
+      . You can
+      <a href="#download-statements" className="vads-u-margin--0p5">
+        download your previous statements
+      </a>
+      below.
+    </p>
+    <p>
+      If you receive new charges, we’ll send you a statement in the mail and
+      update your balance. Learn more about
+      <a href="#balance-questions" className="vads-u-margin--0p5">
+        what to do if you have questions about your balance
+      </a>
+      .
     </p>
   </va-alert>
 );
 
 Alert.NoHealthcare = () => (
-  <va-alert class="row vads-u-margin-bottom--5" status="warning">
+  <va-alert
+    class="row vads-u-margin-bottom--5"
+    status="warning"
+    data-testid="no-healthcare-alert"
+  >
     <h2 slot="headline" className="vads-u-font-size--h3">
       You’re not enrolled in VA health care
     </h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
-      You can’t view copay balances at this time because our records show that
+      You can’t check copay balances at this time because our records show that
       you’re not enrolled in VA health care.
       <a
         href="https://va.gov/health-care/how-to-apply/"
@@ -79,12 +107,16 @@ Alert.NoHealthcare = () => (
 );
 
 Alert.NoHistory = () => (
-  <va-alert class="row vads-u-margin-bottom--5" status="info">
+  <va-alert
+    class="row vads-u-margin-bottom--5"
+    status="info"
+    data-testid="no-history-alert"
+  >
     <h2 slot="headline" className="vads-u-font-size--h3">
       You haven’t received a copay bill in the past 6 months
     </h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
-      You can’t view copay balances at this time because our records show that
+      You can’t check copay balances at this time because our records show that
       you haven’t received a copay bill in the past 6 months.
     </p>
     <p>
@@ -102,7 +134,11 @@ Alert.NoHistory = () => (
 );
 
 Alert.Deceased = () => (
-  <va-alert class="row vads-u-margin-bottom--5" status="warning">
+  <va-alert
+    class="row vads-u-margin-bottom--5"
+    status="warning"
+    data-testid="deceased-alert"
+  >
     <h2 slot="headline" className="vads-u-font-size--h3">
       Our records show that this Veteran is deceased
     </h2>
@@ -118,7 +154,7 @@ Alert.Deceased = () => (
 );
 
 Alert.Status = ({ copay }) => (
-  <va-alert background-only status="info">
+  <va-alert background-only status="info" data-testid="status-alert">
     <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
       {/* using vads-u-margin-left here causes the word "before" 
       to wrap to the next line so we need a {' '} space here */}
@@ -167,6 +203,8 @@ const RenderAlert = ({ type, copay }) => {
       return <Alert.Deceased />;
     case 'status':
       return <Alert.Status copay={copay} />;
+    case 'zero-balance':
+      return <Alert.ZeroBalance copay={copay} />;
     default:
       return <Alert.Error />;
   }

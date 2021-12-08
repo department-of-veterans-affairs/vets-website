@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-import { createAnalyticsSlug } from '../utils/analytics';
+import { createAnalyticsSlug } from '../../utils/analytics';
 import { goToNextPage, URLS } from '../utils/navigation';
 import { withRouter } from 'react-router';
 
@@ -20,7 +20,7 @@ const BackToAppointments = ({ router, triggerRefresh }) => {
     <>
       <nav
         aria-live="polite"
-        className="va-nav-breadcrumbs va-nav-breadcrumbs--mobile vads-u-margin-top--3"
+        className="va-nav-breadcrumbs va-nav-breadcrumbs--mobile vads-u-margin-top--2 vads-u-padding-left--0"
       >
         <a
           onClick={e => handleClick(e)}

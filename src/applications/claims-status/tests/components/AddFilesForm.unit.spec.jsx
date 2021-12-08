@@ -3,6 +3,11 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import {
+  fileTypeSignatures,
+  FILE_TYPE_MISMATCH_ERROR,
+} from 'platform/forms-system/src/js/utilities/file';
+
 import { AddFilesForm } from '../../components/AddFilesForm';
 import {
   MAX_FILE_SIZE_BYTES,
@@ -297,6 +302,10 @@ describe('<AddFilesForm>', () => {
     const onFieldChange = sinon.spy();
     const onCancel = sinon.spy();
     const onDirtyFields = sinon.spy();
+    const mockReadAndCheckFile = () => ({
+      checkIsEncryptedPdf: false,
+      checkTypeAndExtensionMatches: true,
+    });
 
     const tree = SkinDeep.shallowRender(
       <AddFilesForm
@@ -308,11 +317,13 @@ describe('<AddFilesForm>', () => {
         onFieldChange={onFieldChange}
         onCancel={onCancel}
         onDirtyFields={onDirtyFields}
+        mockReadAndCheckFile={mockReadAndCheckFile}
       />,
     );
     tree.getMountedInstance().add([
       {
         name: 'something.jpg',
+        type: fileTypeSignatures.jpg.mime,
         size: 9999,
       },
     ]);
@@ -329,6 +340,10 @@ describe('<AddFilesForm>', () => {
     const onFieldChange = sinon.spy();
     const onCancel = sinon.spy();
     const onDirtyFields = sinon.spy();
+    const mockReadAndCheckFile = () => ({
+      checkIsEncryptedPdf: false,
+      checkTypeAndExtensionMatches: true,
+    });
 
     // valid size larger than max non-PDF size, but smaller than max PDF size
     const validPdfFileSize =
@@ -344,17 +359,64 @@ describe('<AddFilesForm>', () => {
         onFieldChange={onFieldChange}
         onCancel={onCancel}
         onDirtyFields={onDirtyFields}
+        mockReadAndCheckFile={mockReadAndCheckFile}
         pdfSizeFeature
       />,
     );
     tree.getMountedInstance().add([
       {
         name: 'something.pdf',
+        type: fileTypeSignatures.pdf.mime,
         size: validPdfFileSize,
       },
     ]);
     expect(onAddFile.called).to.be.true;
     expect(tree.getMountedInstance().state.errorMessage).to.be.null;
+  });
+
+  it('should return an error when the file extension & format do not match', () => {
+    const files = [];
+    const field = { value: '', dirty: false };
+    const onSubmit = sinon.spy();
+    const onAddFile = sinon.spy();
+    const onRemoveFile = sinon.spy();
+    const onFieldChange = sinon.spy();
+    const onCancel = sinon.spy();
+    const onDirtyFields = sinon.spy();
+    const mockReadAndCheckFile = () => ({
+      checkIsEncryptedPdf: false,
+      checkTypeAndExtensionMatches: false,
+    });
+
+    // valid size larger than max non-PDF size, but smaller than max PDF size
+    const validPdfFileSize =
+      MAX_FILE_SIZE_BYTES + (MAX_PDF_SIZE_BYTES - MAX_FILE_SIZE_BYTES) / 2;
+
+    const tree = SkinDeep.shallowRender(
+      <AddFilesForm
+        files={files}
+        field={field}
+        onSubmit={onSubmit}
+        onAddFile={onAddFile}
+        onRemoveFile={onRemoveFile}
+        onFieldChange={onFieldChange}
+        onCancel={onCancel}
+        onDirtyFields={onDirtyFields}
+        mockReadAndCheckFile={mockReadAndCheckFile}
+        pdfSizeFeature
+      />,
+    );
+    tree.getMountedInstance().add([
+      {
+        name: 'something.pdf',
+        type: fileTypeSignatures.pdf.mime,
+        size: validPdfFileSize,
+      },
+    ]);
+    expect(onAddFile.called).to.be.false;
+    expect(tree.getMountedInstance().state.errorMessage).to.eq(
+      FILE_TYPE_MISMATCH_ERROR,
+    );
   });
 
   it('should return an error message when no files present and field is dirty', () => {

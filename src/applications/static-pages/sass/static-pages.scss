@@ -24,41 +24,6 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 @import "modules/m-facility-events";
 
 //=============================
-// Home page only styles.
-//=============================
-
-.popular-container {
-  background: $color-white;
-  padding: 0 1rem;
-
-  > h3 {
-    padding: 2.4rem 0;
-    text-align: center;
-  }
-
-  .popular-container-links {
-    @include media($medium-large-screen) {
-      display: flex;
-      justify-content: space-between;
-    }
-  }
-
-  .usa-button.usa-button-secondary {
-    width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-
-    @include media($medium-large-screen) {
-      flex: 0 1 32%;
-    }
-  }
-}
-
-#nav-wrap {
-  z-index: $top-layer + 1;
-}
-
-//=============================
 // Additional information styles
 //=============================
 

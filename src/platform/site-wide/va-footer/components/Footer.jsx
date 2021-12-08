@@ -33,6 +33,8 @@ class Footer extends Component {
       }, 250),
       false,
     );
+
+    this.props.onFooterLoad?.();
   }
 
   render() {

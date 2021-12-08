@@ -85,8 +85,8 @@ const getRoutes = options => {
       requiresLOA3: true,
       requiresMVI: true,
     };
-    routes.splice(0, 1, personalInformation);
-    routes.splice(1, 0, contactInformation);
+    routes.splice(0, 1, personalInformation); // replace default personalInformation at index 0
+    routes.splice(1, 0, contactInformation); // add contact at index 1
   }
 
   return routes;

@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
-import { ContactInformationEditView } from '@@profile/components/personal-information/ContactInformationEditView';
+import { ContactInformationEditView } from '@@profile/components/contact-information/ContactInformationEditView';
 
 describe('<ContactInformationEditView/>', () => {
   let props = null;

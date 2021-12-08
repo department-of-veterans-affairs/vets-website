@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { isLoggedIn } from 'platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import { generateCoe } from '../actions';
+import { CoeAvailable } from '../components/CoeAvailable';
+import { CoeDenied } from '../components/CoeDenied';
 import { CoeEligible } from '../components/CoeEligible';
 import { CoeIneligible } from '../components/CoeIneligible';
 import { CoePending } from '../components/CoePending';
-import { CoeNotApplicable } from '../components/CoeNotApplicable';
 import {
   CALLSTATUS,
   COE_FORM_NUMBER,
@@ -39,31 +40,39 @@ const EligibilityApp = props => {
   let content;
 
   if (generateAutoCoeStatus === CALLSTATUS.idle || profileIsUpdating) {
-    content = <LoadingIndicator message="Loading application..." />;
+    content = <va-loading-indictator message="Loading application..." />;
   } else if (generateAutoCoeStatus === CALLSTATUS.pending) {
     content = (
-      <LoadingIndicator message="Checking automatic COE eligibility..." />
+      <va-loading-indictator message="Checking automatic COE eligibility..." />
     );
   } else if (
     generateAutoCoeStatus === CALLSTATUS.success ||
     (generateAutoCoeStatus === CALLSTATUS.skip && coe)
   ) {
     switch (coe.status) {
+      case COE_ELIGIBILITY_STATUS.available:
+        content = <CoeAvailable />;
+        break;
       case COE_ELIGIBILITY_STATUS.eligible:
         content = <CoeEligible clickHandler={clickHandler} />;
         break;
       case COE_ELIGIBILITY_STATUS.ineligible:
         content = <CoeIneligible />;
         break;
+      case COE_ELIGIBILITY_STATUS.denied:
+        content = <CoeDenied />;
+        break;
       case COE_ELIGIBILITY_STATUS.pending:
+        content = <CoePending notOnUploadPage />;
+        break;
       case COE_ELIGIBILITY_STATUS.pendingUpload:
-        content = <CoePending />;
+        content = <CoePending uploadsNeeded />;
         break;
       default:
-        content = <CoeNotApplicable />;
+        content = <CoeIneligible />;
     }
   } else {
-    content = <CoeNotApplicable />;
+    content = <CoeIneligible />;
   }
 
   return (
@@ -73,8 +82,7 @@ const EligibilityApp = props => {
         user={props.user}
       >
         <header className="row vads-u-padding-x--1">
-          <FormTitle title="Apply for a VA home loan Certificate of Eligibility" />
-          <p>Request for a Certificate of Eligibility (VA Form 26-1880)</p>
+          <FormTitle title="Your VA home loan COE" />
         </header>
         {content}
       </RequiredLoginView>

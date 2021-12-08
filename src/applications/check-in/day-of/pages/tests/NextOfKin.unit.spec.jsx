@@ -37,11 +37,16 @@ describe('check in', () => {
       phone: '5553334444',
       workPhone: '5554445555',
     };
-
+    const demographicsStatus = {
+      nextOfKinNeedsUpdate: true,
+    };
     it('renders', () => {
       const component = render(
         <Provider store={store}>
-          <NextOfKin nextOfKin={nextOfKin} />
+          <NextOfKin
+            nextOfKin={nextOfKin}
+            demographicsStatus={demographicsStatus}
+          />
         </Provider>,
       );
 
@@ -60,7 +65,10 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <NextOfKin nextOfKin={partialNextOfKin} />
+          <NextOfKin
+            nextOfKin={partialNextOfKin}
+            demographicsStatus={demographicsStatus}
+          />
         </Provider>,
       );
 
@@ -77,7 +85,10 @@ describe('check in', () => {
     it('passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
-          <NextOfKin nextOfKin={nextOfKin} />
+          <NextOfKin
+            nextOfKin={nextOfKin}
+            demographicsStatus={demographicsStatus}
+          />
         </Provider>,
       );
     });
@@ -91,7 +102,10 @@ describe('check in', () => {
 
       render(
         <Provider store={store}>
-          <NextOfKin router={mockRouter} />
+          <NextOfKin
+            router={mockRouter}
+            demographicsStatus={demographicsStatus}
+          />
         </Provider>,
       );
 
@@ -99,14 +113,16 @@ describe('check in', () => {
     });
 
     it('shows the loading indicator', () => {
-      const component = render(
+      const { container } = render(
         <Provider store={store}>
-          <NextOfKin isLoading />
+          <NextOfKin isLoading demographicsStatus={demographicsStatus} />
         </Provider>,
       );
 
-      expect(component.getByText('Loading your appointments for today')).to
-        .exist;
+      expect(container.querySelector('va-loading-indicator')).to.have.attribute(
+        'message',
+        'Loading your appointments for today',
+      );
     });
 
     it('has a clickable no button', () => {
@@ -120,7 +136,11 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <NextOfKin nextOfKin={nextOfKin} router={mockRouter} />
+          <NextOfKin
+            nextOfKin={nextOfKin}
+            router={mockRouter}
+            demographicsStatus={demographicsStatus}
+          />
         </Provider>,
       );
 
@@ -141,7 +161,11 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <NextOfKin nextOfKin={nextOfKin} router={mockRouter} />
+          <NextOfKin
+            nextOfKin={nextOfKin}
+            router={mockRouter}
+            demographicsStatus={demographicsStatus}
+          />
         </Provider>,
       );
 
@@ -166,6 +190,7 @@ describe('check in', () => {
             nextOfKin={nextOfKin}
             isUpdatePageEnabled
             router={mockRouter}
+            demographicsStatus={demographicsStatus}
           />
         </Provider>,
       );
@@ -186,7 +211,11 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <NextOfKin nextOfKin={nextOfKin} router={mockRouter} />
+          <NextOfKin
+            nextOfKin={nextOfKin}
+            router={mockRouter}
+            demographicsStatus={demographicsStatus}
+          />
         </Provider>,
       );
 
@@ -194,6 +223,25 @@ describe('check in', () => {
         component.getByText('Is this your current next of kin information?'),
       ).to.exist;
       component.getByTestId('yes-button').click();
+    });
+    it('skips to the next page when needs update is false', () => {
+      const push = sinon.spy();
+      const mockRouter = {
+        push,
+        params: {},
+      };
+
+      render(
+        <Provider store={store}>
+          <NextOfKin
+            router={mockRouter}
+            nextOfKin={nextOfKin}
+            demographicsStatus={{ nextOfKinNeedsUpdate: false }}
+          />
+        </Provider>,
+      );
+
+      sinon.assert.calledOnce(push);
     });
   });
 });

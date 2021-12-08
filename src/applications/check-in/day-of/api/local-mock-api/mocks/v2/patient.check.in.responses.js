@@ -32,6 +32,14 @@ const createMockSuccessResponse = (data, hasBeenValidated) => {
           appointmentIen: 'some-ien',
         },
       ],
+      patientDemographicsStatus: {
+        demographicsNeedsUpdate: true,
+        demographicsConfirmedAt: null,
+        nextOfKinNeedsUpdate: true,
+        nextOfKinConfirmedAt: null,
+        emergencyContactNeedsUpdate: true,
+        emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
+      },
     },
   };
   if (hasBeenValidated) {
@@ -79,6 +87,8 @@ const createAppointment = (
 const createMultipleAppointments = (
   token,
   numberOfCheckInAbledAppointments = 2,
+  demographicsNeedsUpdate = true,
+  nextOfKinNeedsUpdate = true,
 ) => {
   const rv = {
     id: token || defaultUUID,
@@ -129,6 +139,14 @@ const createMultipleAppointments = (
           `TEST CLINIC-L`,
         ),
       ],
+      patientDemographicsStatus: {
+        demographicsNeedsUpdate,
+        demographicsConfirmedAt: null,
+        nextOfKinNeedsUpdate,
+        nextOfKinConfirmedAt: null,
+        emergencyContactNeedsUpdate: true,
+        emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
+      },
     },
   };
   for (let i = 0; i < numberOfCheckInAbledAppointments; i++) {

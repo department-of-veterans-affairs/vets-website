@@ -13,9 +13,15 @@ import { AUTH_EVENTS } from './constants';
 // want to resolve with the login app
 export const loginAppUrlRE = new RegExp('^/sign-in(/.*)?$');
 
+function normalPageRedirect() {
+  return loginAppUrlRE.test(window.location.pathname)
+    ? window.location.origin
+    : window.location.toString();
+}
+
 export const authnSettings = {
   RETURN_URL: 'authReturnUrl',
-  REDIRECT_EVENT: 'auth-redirect',
+  REDIRECT_EVENT: 'login-auth-redirect',
 };
 
 export const getQueryParams = () => {
@@ -133,7 +139,8 @@ export function redirect(redirectUrl, clickedEvent) {
   // If the user is coming via the standalone sign-in, redirect to the home page.
   const returnUrl = externalRedirect
     ? standaloneRedirect()
-    : window.location.origin;
+    : normalPageRedirect();
+
   sessionStorage.setItem(authnSettings.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 
@@ -159,12 +166,12 @@ export function redirect(redirectUrl, clickedEvent) {
   }
 }
 
-export function login(
+export function login({
   policy,
   version = 'v1',
   queryParams = {},
   clickedEvent = AUTH_EVENTS.MODAL_LOGIN,
-) {
+}) {
   const url = sessionTypeUrl({ type: policy, version, queryParams });
 
   if (!isExternalRedirect()) {
@@ -212,7 +219,7 @@ function getExternalRedirectOptions() {
   const { application, to } = getQueryParams();
   const returnUrl = isExternalRedirect()
     ? standaloneRedirect()
-    : window.location.origin;
+    : normalPageRedirect();
 
   return { application, to, returnUrl };
 }

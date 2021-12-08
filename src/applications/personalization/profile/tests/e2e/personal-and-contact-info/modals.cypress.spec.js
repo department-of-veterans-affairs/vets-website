@@ -182,8 +182,46 @@ describe('Modals on the personal information and content page after editing', ()
   });
 });
 
+describe('when moving to other profile sections', () => {
+  it('should exit edit mode if opened', () => {
+    setup();
+
+    const sectionName = 'contact email address';
+
+    cy.intercept(
+      '/v0/profile/email_addresses',
+      transactionCompletedWithNoChanges,
+    );
+
+    // Open edit view
+    cy.findByRole('button', {
+      name: new RegExp(`edit ${sectionName}`, 'i'),
+    }).click({
+      force: true,
+    });
+
+    cy.findByRole('link', {
+      name: /military information/i,
+    }).click({
+      // using force: true since there are times when the click does not
+      // register and the bank info form does not open
+      force: true,
+    });
+    cy.findByRole('link', {
+      name: /personal.*information/i,
+    }).click({
+      // using force: true since there are times when the click does not
+      // register and the bank info form does not open
+      force: true,
+    });
+    cy.findByRole('button', {
+      name: new RegExp(`edit ${sectionName}`, 'i'),
+    }).should('exist');
+  });
+});
+
 describe('Modals on the personal information and content page when they error', () => {
-  it('should focus on the close notification and the save button when the error is closed', () => {
+  it('should exist', () => {
     setup();
 
     const sectionName = 'contact email address';
@@ -204,13 +242,5 @@ describe('Modals on the personal information and content page when they error', 
 
     // expect an error to be shown
     cy.findByTestId('edit-error-alert').should('exist');
-
-    // check for error modal and check that the close is focused then click it
-    cy.findByRole('button', { name: /close notification/i })
-      .should('be.focused')
-      .click();
-
-    // check if first form element is focused
-    cy.findByLabelText(/email address/i).should('be.focused');
   });
 });

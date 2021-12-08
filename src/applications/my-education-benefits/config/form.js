@@ -1,4 +1,5 @@
 import React from 'react';
+import { createSelector } from 'reselect';
 
 // Example of an imported schema:
 // import fullSchema from '../22-1990-schema.json';
@@ -55,10 +56,11 @@ import {
   validateEmail,
   validateEffectiveDate,
 } from '../utils/validation';
-import DynamicPhoneRadioWidget from '../components/DynamicPhoneRadioWidget';
-import DynamicPhoneRadioReviewField from '../components/DynamicPhoneRadioReviewField';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
+import merge from 'lodash/merge';
+import createDirectDepositPage from '../../edu-benefits/pages/directDeposit';
+import { directDepositDescription } from '../../edu-benefits/1990/helpers';
 
 const {
   fullName,
@@ -67,7 +69,6 @@ const {
   dateRange,
   usaPhone,
   email,
-  // bankAccount,
   toursOfDuty,
 } = commonDefinitions;
 
@@ -115,7 +116,6 @@ const formPages = {
   },
   serviceHistory: 'serviceHistory',
   benefitSelection: 'benefitSelection',
-  // directDeposit: 'directDeposit',
   additionalConsiderations: {
     activeDutyKicker: {
       name: 'active-duty-kicker',
@@ -167,7 +167,10 @@ const formPages = {
       },
     },
   },
+  directDeposit: 'directDeposit',
 };
+
+const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
 
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;
@@ -200,6 +203,18 @@ function phoneUISchema(category) {
     isInternational: {
       'ui:title': `This ${category} phone number is international`,
       'ui:reviewField': YesNoReviewField,
+      'ui:options': {
+        hideIf: formData => {
+          if (category === 'mobile') {
+            if (!formData['view:phoneNumbers'].mobilePhoneNumber.phone) {
+              return true;
+            }
+          } else if (!formData['view:phoneNumbers'].phoneNumber.phone) {
+            return true;
+          }
+          return false;
+        },
+      },
     },
   };
 }
@@ -769,16 +784,36 @@ const formConfig = {
                 </>
               ),
             },
-            'view:contactMethod': {
-              [formFields.contactMethod]: {
-                'ui:title':
-                  'How should we contact you if we have questions about your application?',
-                'ui:reviewField': DynamicPhoneRadioReviewField,
-                'ui:widget': DynamicPhoneRadioWidget,
-                'ui:errorMessages': {
-                  required:
-                    'Please select at least one way we can contact you.',
-                },
+            [formFields.contactMethod]: {
+              'ui:title':
+                'How should we contact you if we have questions about your application?',
+              'ui:widget': 'radio',
+              'ui:errorMessages': {
+                required: 'Please select at least one way we can contact you.',
+              },
+              'ui:options': {
+                updateSchema: (() => {
+                  const filterContactMethods = createSelector(
+                    form => form['view:phoneNumbers'].mobilePhoneNumber.phone,
+                    form => form['view:phoneNumbers'].phoneNumber.phone,
+                    (mobilePhoneNumber, homePhoneNumber) => {
+                      const invalidContactMethods = [];
+                      if (!mobilePhoneNumber) {
+                        invalidContactMethods.push('Mobile Phone');
+                      }
+                      if (!homePhoneNumber) {
+                        invalidContactMethods.push('Home Phone');
+                      }
+
+                      return {
+                        enum: contactMethods.filter(
+                          method => !invalidContactMethods.includes(method),
+                        ),
+                      };
+                    },
+                  );
+                  return form => filterContactMethods(form);
+                })(),
               },
             },
             'view:receiveTextMessages': {
@@ -904,14 +939,9 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              'view:contactMethod': {
-                type: 'object',
-                required: [formFields.contactMethod],
-                properties: {
-                  [formFields.contactMethod]: {
-                    type: 'string',
-                  },
-                },
+              [formFields.contactMethod]: {
+                type: 'string',
+                enum: contactMethods,
               },
               'view:receiveTextMessages': {
                 type: 'object',
@@ -939,6 +969,7 @@ const formConfig = {
                 properties: {},
               },
             },
+            required: [formFields.contactMethod],
           },
         },
       },
@@ -987,7 +1018,7 @@ const formConfig = {
             },
             [formFields.incorrectServiceHistoryExplanation]: {
               'ui:title':
-                'Please explain what is incorrect and/or incomplete about your service history.',
+                'Please explain what is incorrect and/or incomplete about your service history (250 character limit)',
               'ui:options': {
                 expandUnder: 'view:serviceHistory',
                 hideIf: formData =>
@@ -1090,8 +1121,10 @@ const formConfig = {
                     to give up one other benefit you may be eligible for.
                   </p>
                   <p>
-                    You cannot change your decision after you submit this
-                    application.
+                    <strong>
+                      You cannot change your decision after you submit this
+                      application.
+                    </strong>
                   </p>
                   <AdditionalInfo triggerText="Why do I have to give up a benefit?">
                     <p>
@@ -1285,6 +1318,21 @@ const formConfig = {
             formFields.loanPayment,
           ),
         },
+      },
+    },
+    bankAccountInfoChapter: {
+      title: 'Personal Information',
+      pages: {
+        [formPages.directDeposit]: merge(
+          {},
+          createDirectDepositPage(fullSchema),
+          {
+            path: 'direct-deposit',
+            uiSchema: {
+              'ui:description': directDepositDescription,
+            },
+          },
+        ),
       },
     },
   },

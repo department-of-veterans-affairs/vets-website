@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
+import recordEvent from 'platform/monitoring/record-event';
 import { deriveMenuItemID, formatSubMenuSections } from '../../helpers';
 import { updateSubMenuAction } from '../../containers/Menu/actions';
 
@@ -16,6 +17,8 @@ export const SubMenu = ({ subMenu, updateSubMenu }) => {
   }, []);
 
   const onBack = () => {
+    // Record analytic event.
+    recordEvent({ event: 'nav-header-back-to-menu' });
     updateSubMenu();
   };
 
@@ -29,8 +32,7 @@ export const SubMenu = ({ subMenu, updateSubMenu }) => {
           <button
             className="header-menu-item-button vads-u-background-color--gray-lightest vads-u-display--flex vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default vads-u-align-items--center"
             id="header-back-to-menu"
-            onKeyDown={event => event.keyCode === 13 && onBack()}
-            onMouseUp={onBack}
+            onClick={onBack}
             type="button"
           >
             <i

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Prompt } from 'react-router-dom';
 import { useLastLocation } from 'react-router-last-location';
 import { connect } from 'react-redux';
+import { openModal } from '@@vap-svc/actions';
 
 import DowntimeNotification, {
   externalServices,
@@ -11,7 +12,10 @@ import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 
 import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
-import { cnpDirectDepositIsBlocked } from '@@profile/selectors';
+import {
+  cnpDirectDepositIsBlocked,
+  showProfileLGBTQEnhancements,
+} from '@@profile/selectors';
 import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
@@ -31,11 +35,15 @@ const PersonalInformation = ({
   clearSuccessAlert,
   hasUnsavedEdits,
   hasVAPServiceError,
+  openEditModal,
+  shouldShowProfileLGBTQEnhancements,
   showDirectDepositBlockedError,
 }) => {
   const lastLocation = useLastLocation();
   useEffect(() => {
-    document.title = `Personal And Contact Information | Veterans Affairs`;
+    if (shouldShowProfileLGBTQEnhancements)
+      document.title = `Personal Information | Veterans Affairs`;
+    else document.title = `Personal And Contact Information | Veterans Affairs`;
 
     return () => {
       clearSuccessAlert();
@@ -90,13 +98,26 @@ const PersonalInformation = ({
     [hasUnsavedEdits],
   );
 
+  useEffect(
+    () => {
+      return () => {
+        openEditModal(null);
+      };
+    },
+    [openEditModal],
+  );
+
   return (
     <>
       <Prompt
         message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
         when={hasUnsavedEdits}
       />
-      <Headline>Personal and contact information</Headline>
+      {shouldShowProfileLGBTQEnhancements ? (
+        <Headline>Personal information</Headline>
+      ) : (
+        <Headline>Personal and contact information</Headline>
+      )}
       <DowntimeNotification
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}
@@ -112,16 +133,20 @@ PersonalInformation.propTypes = {
   showDirectDepositBlockedError: PropTypes.bool.isRequired,
   hasUnsavedEdits: PropTypes.bool.isRequired,
   hasVAPServiceError: PropTypes.bool,
+  openEditModal: PropTypes.func.isRequired,
+  shouldShowProfileLGBTQEnhancements: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   showDirectDepositBlockedError: !!cnpDirectDepositIsBlocked(state),
   hasUnsavedEdits: state.vapService.hasUnsavedEdits,
   hasVAPServiceError: hasVAPServiceConnectionError(state),
+  shouldShowProfileLGBTQEnhancements: showProfileLGBTQEnhancements(state),
 });
 
 const mapDispatchToProps = {
   clearSuccessAlert: clearMostRecentlySavedField,
+  openEditModal: openModal,
 };
 
 export default connect(

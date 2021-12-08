@@ -80,7 +80,7 @@ describe('VAOS vaccine flow <ClinicChoicePage>', () => {
     });
 
     await screen.findByText(
-      /Clinics at Cheyenne VA Medical Center offer vaccine appointments at different times./i,
+      /Cheyenne VA Medical Center clinics offer vaccine appointments at different times./i,
     );
 
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');

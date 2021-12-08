@@ -593,7 +593,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
             locationId: appointment.location.stationId,
             id: appointment.location.clinicId,
           });
-          appointment.location.clinicName = clinic.serviceName;
+          appointment.location.clinicName = clinic?.serviceName;
         } catch (e) {
           // We don't want to show an overall error on this page just
           // because we don't have a clinic name, so capture the error and continue

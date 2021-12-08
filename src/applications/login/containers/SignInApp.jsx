@@ -4,23 +4,23 @@ import appendQuery from 'append-query';
 import 'url-search-params-polyfill';
 
 import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
-import SignInButtons from '../components/SignInButtons';
-import SignInDescription from '../components/SignInDescription';
-import FedWarning from '../components/FedWarning';
-import LogoutAlert from '../components/LogoutAlert';
+import LoginButtons from 'platform/user/authentication/components/LoginButtons';
+import FedWarning from 'platform/user/authentication/components/FedWarning';
+import LogoutAlert from 'platform/user/authentication/components/LogoutAlert';
 
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
-import environment from 'platform/utilities/environment';
+
 import {
   isAuthenticatedWithSSOe,
   loginGov,
+  loginGovMHV,
+  loginGovMyVAHealth,
+  loginGovCreateAccount,
 } from 'platform/user/authentication/selectors';
 import { selectProfile, isProfileLoading } from 'platform/user/selectors';
 
 import downtimeBanners from '../utilities/downtimeBanners';
-
-const vaGovFullDomain = environment.BASE_URL;
 
 class SignInPage extends React.Component {
   state = {
@@ -28,16 +28,14 @@ class SignInPage extends React.Component {
   };
 
   componentDidUpdate() {
-    const searchParams = new URLSearchParams(window.location.search);
-    const application = searchParams.get('application');
+    const { router, location } = this.props;
+    const application = location?.query?.application;
     if (
       this.props.isAuthenticatedWithSSOe &&
       !this.props.profile.verified &&
       application === 'myvahealth'
     ) {
-      this.props.router.push(
-        appendQuery('/verify', window.location.search.slice(1)),
-      );
+      router.push(appendQuery('/verify', window.location.search.slice(1)));
     }
   }
 
@@ -70,9 +68,16 @@ class SignInPage extends React.Component {
 
   render() {
     const { globalDowntime } = this.state;
-    const { query } = this.props.location;
-    const { loginGovEnabled } = this.props;
+    const {
+      loginGovEnabled,
+      loginGovMHVEnabled,
+      loginGovMyVAHealthEnabled,
+      loginGovCreateAccountEnabled,
+      location,
+    } = this.props;
+    const { query } = location;
     const loggedOut = query.auth === 'logged_out';
+    const externalApplication = query.application;
 
     return (
       <>
@@ -80,79 +85,28 @@ class SignInPage extends React.Component {
         <div className="row">
           {loggedOut && <LogoutAlert />}
           <div className="columns small-12">
-            <h1
-              className={`${
-                loginGovEnabled
-                  ? 'vads-u-margin-top--2 medium-screen:vads-u-margin-bottom--2'
-                  : 'medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--5'
-              }`}
-            >
+            <h1 className="vads-u-margin-top--2 medium-screen:vads-u-margin-bottom--2">
               Sign in
             </h1>
           </div>
         </div>
-        {!loginGovEnabled && (
-          <div className="row medium-screen:vads-u-display--none mobile-explanation">
-            <div className="columns small-12">
-              <h2 className="vads-u-margin-top--0">
-                One sign in. A lifetime of benefits and services at your
-                fingertips.
-              </h2>
-            </div>
-          </div>
-        )}
         {downtimeBanners.map((props, index) =>
           this.downtimeBanner(props, globalDowntime, index),
         )}
         <div className="row">
-          {!loginGovEnabled ? (
-            <>
-              <div className="usa-width-one-half">
-                <div className="signin-actions-container">
-                  <div className="top-banner">
-                    <div>
-                      <img
-                        aria-hidden="true"
-                        role="presentation"
-                        alt="ID.me"
-                        src={`${vaGovFullDomain}/img/signin/lock-icon.svg`}
-                      />{' '}
-                      Secured & powered by{' '}
-                      <img
-                        aria-hidden="true"
-                        role="presentation"
-                        alt="ID.me"
-                        src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
-                      />
-                    </div>
-                  </div>
-                  <div className="signin-actions">
-                    <h2 className="vads-u-font-size--sm vads-u-margin-top--0">
-                      Sign in with an existing account
-                    </h2>
-                    <SignInButtons isDisabled={globalDowntime} />
-                  </div>
-                </div>
-              </div>
-              <SignInDescription />
-            </>
-          ) : (
-            <SignInButtons
-              isDisabled={globalDowntime}
-              loginGovEnabled={loginGovEnabled}
-            />
-          )}
+          <LoginButtons
+            isDisabled={globalDowntime}
+            loginGovEnabled={loginGovEnabled}
+            loginGovMHVEnabled={loginGovMHVEnabled}
+            loginGovMyVAHealthEnabled={loginGovMyVAHealthEnabled}
+            loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
+            externalApplication={externalApplication}
+          />
         </div>
         <div className="row">
           <div className="columns small-12">
             <div className="help-info">
-              <h2
-                className={`${
-                  loginGovEnabled
-                    ? 'vads-u-margin-top--0'
-                    : 'vads-u-font-size--md'
-                }`}
-              >
+              <h2 className="vads-u-margin-top--0">
                 Having trouble signing in?
               </h2>
               <p>
@@ -170,12 +124,10 @@ class SignInPage extends React.Component {
                 .
               </p>
               <p>
-                <SubmitSignInForm startSentence />{' '}
-                {loginGovEnabled && `We're here 24/7.`}
+                <SubmitSignInForm startSentence /> We're here 24/7.
               </p>
             </div>
-            {!loginGovEnabled && <hr />}
-            <FedWarning loginGovEnabled={loginGovEnabled} />
+            <FedWarning />
           </div>
         </div>
       </>
@@ -187,6 +139,9 @@ const mapStateToProps = state => ({
   profile: selectProfile(state),
   profileLoading: isProfileLoading(state),
   loginGovEnabled: loginGov(state),
+  loginGovMHVEnabled: loginGovMHV(state),
+  loginGovMyVAHealthEnabled: loginGovMyVAHealth(state),
+  loginGovCreateAccountEnabled: loginGovCreateAccount(state),
   isAuthenticatedWithSSOe: isAuthenticatedWithSSOe(state),
 });
 

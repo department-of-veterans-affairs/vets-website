@@ -19,9 +19,9 @@ export const GET_HELP_REVIEW_REQUEST_URL =
 export const PROFILE_URL = '/profile';
 export const LEGACY_APPEALS_URL = '/decision-reviews/legacy-appeals/';
 
-// 8622 is the ID of the <li> wrapping the "Find addresses for other benefit
-// types" accordion
-export const BENEFIT_OFFICES_URL = `${HLR_INFO_URL}#find-addresses`;
+// 8622 is the ID of the <va-accordion-item> with a header of the "Find
+// addresses for other benefit types"
+export const BENEFIT_OFFICES_URL = `${HLR_INFO_URL}#find-addresses-for-other-benef-8622`;
 
 export const CONTESTABLE_ISSUES_API =
   '/higher_level_reviews/contestable_issues/';

@@ -92,8 +92,10 @@ export default function SearchBar({
             aria-label="Search resources and support articles or all of VA.gov"
           >
             <fieldset className="fieldset-input vads-u-margin--0">
-              <legend className="vads-u-font-size--md vads-u-font-family--serif">
-                Search resources and support articles or all of VA.gov
+              <legend>
+                <h2 className="vads-u-font-size--md vads-u-font-family--serif vads-u-margin--0">
+                  Search resources and support articles or all of VA.gov
+                </h2>
               </legend>
               <label
                 className="vads-u-visibility--screen-reader"
