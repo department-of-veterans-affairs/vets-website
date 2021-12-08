@@ -152,7 +152,7 @@
     "cssnano": "^5.0.8",
     "cy-mobile-commands": "^0.3.0",
     "cy-tr-reporter": "^1.2.5",
-    "cypress": "^9.1.0",
+    "cypress": "^9.1.1",
     "cypress-axe": "^0.13.0",
     "cypress-multi-reporters": "^1.5.0",
     "cypress-plugin-tab": "^1.0.5",
@@ -250,7 +250,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/component-library": "^3.7.2",
+    "@department-of-veterans-affairs/component-library": "^3.9.0",
     "@department-of-veterans-affairs/formation": "6.17.3",
     "@department-of-veterans-affairs/formulate": "0.0.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",

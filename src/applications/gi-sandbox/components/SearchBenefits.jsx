@@ -42,10 +42,9 @@ const SearchBenefits = ({
         visible
         onChange={e => {
           recordEvent({
-            event: 'howToWizard-formChange',
-            'form-field-type': 'form-dropdown',
-            'form-field-label': `What's your military status?`,
-            'form-field-value': e.target.value,
+            event: 'gibct-form-change',
+            'gibct-form-field': `What's your military status?`,
+            'gibct-form-value': e.target.value,
           });
           setMilitaryStatus(e.target.value);
         }}
@@ -69,11 +68,6 @@ const SearchBenefits = ({
           <LearnMoreLabel
             text="Which GI Bill benefit do you want to use?"
             onClick={() => {
-              recordEvent({
-                event: 'gibct-form-help-text-clicked',
-                'help-text-label':
-                  'Learn more about VA education and training programs',
-              });
               dispatchShowModal('giBillChapter');
             }}
             ariaLabel="Learn more about VA education and training programs"
@@ -106,33 +100,31 @@ const SearchBenefits = ({
         visible
         onChange={e => {
           recordEvent({
-            event: 'howToWizard-formChange',
-            'form-field-type': 'form-dropdown',
-            'form-field-label': 'Which GI Bill benefit do you want to use?',
-            'form-field-value': e.target.value,
+            event: 'gibct-form-change',
+            'gibct-form-field': 'Which GI Bill benefit do you want to use?',
+            'gibct-form-value': e.target.value,
           });
           setGiBillChapter(e.target.value);
         }}
       />
 
-      {militaryStatus === 'active duty' &&
-        chapter33Check && (
-          <div className="military-status-info warning form-group">
-            <i className="fa fa-warning" />
-            <a
-              title="Post 9/11 GI Bill"
-              href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
-              id="anch_378"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Post 9/11 GI Bill
-            </a>{' '}
-            recipients serving on Active Duty (or transferee spouses of a
-            service member on active duty) are not eligible to receive a monthly
-            housing allowance.
-          </div>
-        )}
+      {militaryStatus === 'active duty' && chapter33Check && (
+        <div className="military-status-info warning form-group">
+          <i className="fa fa-warning" />
+          <a
+            title="Post 9/11 GI Bill"
+            href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
+            id="anch_378"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Post 9/11 GI Bill
+          </a>{' '}
+          recipients serving on Active Duty (or transferee spouses of a service
+          member on active duty) are not eligible to receive a monthly housing
+          allowance.
+        </div>
+      )}
 
       {giBillChapter === '31' && (
         <div className="military-status-info info form-group">
@@ -150,11 +142,6 @@ const SearchBenefits = ({
           <LearnMoreLabel
             text="Cumulative Post-9/11 active-duty service"
             onClick={() => {
-              recordEvent({
-                event: 'gibct-form-help-text-clicked',
-                'help-text-label':
-                  'Learn more about Cumulative Post-9/11 service',
-              });
               dispatchShowModal('cumulativeService');
             }}
             ariaLabel="Learn more about Cumulative Post-9/11 service"
@@ -186,10 +173,9 @@ const SearchBenefits = ({
         visible={chapter33Check}
         onChange={e => {
           recordEvent({
-            event: 'howToWizard-formChange',
-            'form-field-type': 'form-dropdown',
-            'form-field-label': 'Cumulative Post-9/11 active-duty service',
-            'form-field-value': e.target.value,
+            event: 'gibct-form-change',
+            'gibct-form-field': 'Cumulative Post-9/11 active-duty service',
+            'gibct-form-value': e.target.value,
           });
           setCumulativeService(e.target.value);
         }}

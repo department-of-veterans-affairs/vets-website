@@ -88,10 +88,6 @@ export function TuitionAndHousingEstimates({
           <LearnMoreLabel
             text="Will you be taking any classes in person?"
             onClick={() => {
-              recordEvent({
-                event: 'gibct-form-help-text-clicked',
-                'help-text-label': 'Will you be taking any classes in person?',
-              });
               dispatchShowModal('onlineOnlyDistanceLearning');
             }}
             ariaLabel="Learn more about how we calculate your housing allowance based on where you take classes"
@@ -99,14 +95,16 @@ export function TuitionAndHousingEstimates({
           />
         }
         name="inPersonClasses"
-        options={[{ value: 'no', label: 'Yes' }, { value: 'yes', label: 'No' }]}
+        options={[
+          { value: 'no', label: 'Yes' },
+          { value: 'yes', label: 'No' },
+        ]}
         value={onlineClasses}
         onChange={e => {
           recordEvent({
-            event: 'howToWizard-formChange',
-            'form-field-type': 'form-radio-buttons',
-            'form-field-label': 'Will you be taking any classes in person ?',
-            'form-field-value': e.target.value,
+            event: 'gibct-form-change',
+            'gibct-form-field': 'Will you be taking any classes in person ?',
+            'gibct-form-value': e.target.value,
           });
           setOnlineClasses(e.target.value);
         }}

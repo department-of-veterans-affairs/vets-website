@@ -133,9 +133,9 @@ function CalculateYourBenefitsForm({
       field === 'giBillBenefit'
     ) {
       recordEvent({
-        event: 'int-radio-button-option-click',
-        'radio-button-label': field,
-        'radio-button-optionLabel': value,
+        event: 'gibct-form-change',
+        'gibct-form-field': field,
+        'gibct-form-value': value,
       });
     }
   };
@@ -273,9 +273,6 @@ function CalculateYourBenefitsForm({
       text={text}
       onClick={() => {
         showModal(modal);
-        recordEvent({
-          event: `Learn more help text clicked for: ${labelFor}`,
-        });
       }}
       ariaLabel={ariaLabel}
       labelFor={labelFor}
@@ -988,7 +985,10 @@ function CalculateYourBenefitsForm({
           buttonId: 'used-gi-bill-learn-more',
         })}
         name="giBillBenefit"
-        options={[{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }]}
+        options={[
+          { value: 'yes', label: 'Yes' },
+          { value: 'no', label: 'No' },
+        ]}
         value={inputs.giBillBenefit}
         onChange={handleInputChange}
         onBlur={handleInputBlur}

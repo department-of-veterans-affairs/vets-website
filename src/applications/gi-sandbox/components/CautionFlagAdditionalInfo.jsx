@@ -24,11 +24,11 @@ export const CautionFlagAdditionalInfo = ({
           className="caution-flag-toggle"
           onClick={() => {
             toggleExpansion(!expanded);
-            recordEvent(
-              !expanded
-                ? { event: 'caution-flag-additional-info-expand' }
-                : { event: 'caution-flag-additional-info-collapsed' },
-            );
+            const event = !expanded ? 'expand' : 'collapse';
+            recordEvent({
+              event: `int-additional-info-${event}}`,
+              'additionalInfo-click-label': headline,
+            });
           }}
         >
           <div className="vads-u-display--flex">
@@ -57,9 +57,8 @@ export const CautionFlagAdditionalInfo = ({
           <div>
             <ul className="vads-u-padding-right--4">
               {validFlags
-                .sort(
-                  (a, b) =>
-                    a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1,
+                .sort((a, b) =>
+                  a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1,
                 )
                 .map((flag, index) => (
                   <li

@@ -39,17 +39,14 @@ export default function SchoolLocations({
   const [viewAll, setViewAll] = useState(false);
   const [viewableRowCount, setViewableRowCount] = useState(initialViewableRows);
 
-  useEffect(
-    () => {
-      // Necessary so screen reader users are aware that the school locations table has changed.
-      if (focusedElementIndex) {
-        document
-          .getElementsByClassName('school-name-cell')
-          [focusedElementIndex].focus();
-      }
-    },
-    [focusedElementIndex],
-  );
+  useEffect(() => {
+    // Necessary so screen reader users are aware that the school locations table has changed.
+    if (focusedElementIndex) {
+      document
+        .getElementsByClassName('school-name-cell')
+        [focusedElementIndex].focus();
+    }
+  }, [focusedElementIndex]);
 
   const institutionIsBeingViewed = facilityCode =>
     facilityCode === institution.facilityCode;
@@ -72,13 +69,21 @@ export default function SchoolLocations({
     setViewableRowCount(totalRowCount);
     setViewAll(true);
     setFocusedElementIndex(previousRowCount);
-    recordEvent({ event: 'view-all-locations-click' });
+    recordEvent({
+      event: 'cta-button-click',
+      'button-click-label': 'View All',
+      'button-type': 'link',
+    });
   };
 
   const handleViewLessClicked = () => {
     if (onViewLess) {
       onViewLess();
-      recordEvent({ event: 'view-less-locations-click' });
+      recordEvent({
+        event: 'cta-button-click',
+        'button-click-label': 'View Less',
+        'button-type': 'link',
+      });
     }
 
     setViewableRowCount(initialRowCount);
@@ -96,7 +101,11 @@ export default function SchoolLocations({
 
     setViewableRowCount(newViewableRowCount);
     setFocusedElementIndex(previousRowCount);
-    recordEvent({ event: 'view-more-locations-click' });
+    recordEvent({
+      event: 'cta-button-click',
+      'button-click-label': 'Show Next n',
+      'button-type': 'link',
+    });
   };
 
   const schoolLocationTableInfo = (

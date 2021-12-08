@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -13,6 +13,7 @@ import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { createForm, getTokenFromLocation, URLS } from '../../utils/navigation';
 import { isUUID, SCOPES } from '../../../utils/token-format-validator';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 export default function Index(props) {
   const [loadMessage] = useState('Finding your appointment information');
@@ -35,62 +36,67 @@ export default function Index(props) {
   const { router } = props;
   const { goToErrorPage, jumpToPage } = useFormRouting(router);
   const { clearCurrentSession, setCurrentToken } = useSessionStorage();
-  useEffect(
-    () => {
-      const token = getTokenFromLocation(router.location);
-      if (!token) {
-        recordEvent({
-          event: createAnalyticsSlug('landing-page-launched-no-token'),
-        });
-        goToErrorPage();
-      }
 
-      if (!isUUID(token)) {
-        recordEvent({
-          event: createAnalyticsSlug('malformed-token'),
-        });
-        goToErrorPage();
-      }
-      if (token && isUUID(token)) {
-        // call the sessions api
-        api.v2
-          .getSession(token)
-          .then(session => {
-            // if successful, dispatch session data  into redux and current window
-            if (session.error || session.errors) {
-              clearCurrentSession(window);
-              goToErrorPage();
-            } else {
-              setCurrentToken(window, token);
-              const pages = createForm({ hasConfirmedDemographics: false });
-              const firstPage = pages[0];
-              initForm(pages, firstPage);
-              setSession(token, session.permissions);
-              if (session.permissions === SCOPES.READ_FULL) {
-                // redirect if already full access
-                jumpToPage(URLS.INTRODUCTION);
-              } else {
-                // TODO: dispatch to redux
-                jumpToPage(URLS.VERIFY);
-              }
-            }
-          })
-          .catch(() => {
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isEmergencyContactEnabled } = useSelector(selectFeatureToggles);
+
+  useEffect(() => {
+    const token = getTokenFromLocation(router.location);
+    if (!token) {
+      recordEvent({
+        event: createAnalyticsSlug('landing-page-launched-no-token'),
+      });
+      goToErrorPage();
+    }
+
+    if (!isUUID(token)) {
+      recordEvent({
+        event: createAnalyticsSlug('malformed-token'),
+      });
+      goToErrorPage();
+    }
+    if (token && isUUID(token)) {
+      // call the sessions api
+      api.v2
+        .getSession(token)
+        .then(session => {
+          // if successful, dispatch session data  into redux and current window
+          if (session.error || session.errors) {
             clearCurrentSession(window);
             goToErrorPage();
-          });
-      }
-    },
-    [
-      clearCurrentSession,
-      goToErrorPage,
-      initForm,
-      jumpToPage,
-      router,
-      setCurrentToken,
-      setSession,
-    ],
-  );
+          } else {
+            setCurrentToken(window, token);
+            const pages = createForm({
+              hasConfirmedDemographics: false,
+              isEmergencyContactEnabled,
+            });
+            const firstPage = pages[0];
+            initForm(pages, firstPage);
+            setSession(token, session.permissions);
+            if (session.permissions === SCOPES.READ_FULL) {
+              // redirect if already full access
+              jumpToPage(URLS.INTRODUCTION);
+            } else {
+              // TODO: dispatch to redux
+              jumpToPage(URLS.VERIFY);
+            }
+          }
+        })
+        .catch(() => {
+          clearCurrentSession(window);
+          goToErrorPage();
+        });
+    }
+  }, [
+    clearCurrentSession,
+    goToErrorPage,
+    initForm,
+    isEmergencyContactEnabled,
+    jumpToPage,
+    router,
+    setCurrentToken,
+    setSession,
+  ]);
   return (
     <>
       <va-loading-indicator message={loadMessage} />
