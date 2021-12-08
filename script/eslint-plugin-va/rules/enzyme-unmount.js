@@ -1,7 +1,7 @@
 let shallowMountNode = null;
 let unmountNode = null;
 module.exports = {
-  create: (context) => ({
+  create: context => ({
     "CallExpression[callee.name='it'] > ArrowFunctionExpression Identifier[name=/shallow|mount|unmount/]":
       (node) => {
         if (node.name === 'shallow' || node.name === 'mount') {

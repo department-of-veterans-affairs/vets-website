@@ -4,7 +4,7 @@ module.exports = {
       description: 'Cypress E2E tests must include at least one axeCheck call.',
       category: 'Best Practices',
       recommended: false,
-      url: 'https://github.com/department-of-veterans-affairs/vets-website/tree/master/script/eslint-plugin-va/docs/rules/axe-e2e-tests.md',
+      url: 'https://depo-platform-documentation.scrollhelp.site/developer-docs/A11y-Testing.1935409178.html',
     },
     type: 'suggestion',
     schema: [],

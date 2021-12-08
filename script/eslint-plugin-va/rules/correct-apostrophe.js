@@ -31,15 +31,15 @@ module.exports = {
     },
     schema: [],
   },
-  create: (context) => {
+  create: context => {
     const sourceCode = context.getSourceCode();
-    const replacer = (node) =>
+    const replacer = node =>
       node.value.replace(regexpApostrophe, (match) =>
         match.replace(regexpReplacer, '’'),
       );
 
     return {
-      VariableDeclarator: (outerNode) => {
+      VariableDeclarator: outerNode => {
         const nodes = sourceCode.getTokens(outerNode);
         for (const node of nodes) {
           if (
@@ -49,7 +49,7 @@ module.exports = {
             context.report({
               node,
               message,
-              fix: (fixer) => fixer.replaceText(node, replacer(node)),
+              fix: fixer => fixer.replaceText(node, replacer(node)),
             });
           }
         }

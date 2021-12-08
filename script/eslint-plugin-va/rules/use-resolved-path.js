@@ -4,7 +4,7 @@ const DEFAULTS = ['applications'];
 let ALIASPATH = '';
 
 function isIncluded(val, aliases) {
-  const isString = (str) => typeof str === 'string';
+  const isString = str => typeof str === 'string';
   let alias;
 
   if (!isString(val) || aliases === null) {
