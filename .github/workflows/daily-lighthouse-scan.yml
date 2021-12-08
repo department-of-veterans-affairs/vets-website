@@ -193,7 +193,7 @@ jobs:
     name: Notify Success
     runs-on: ubuntu-latest
     if: ${{ always() }}
-    needs: lighthouse
+    needs: [lighthouse-scan, lighthouse-scan-registries]
 
     steps:
       - name: Checkout
