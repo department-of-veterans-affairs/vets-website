@@ -21,9 +21,12 @@ jobs:
           path: ./content-build
       - id: set-matrix
         run: |
-          CUSTOM_URLS='[{"rootUrl": "/"}]'
-          JSON=$(jq '[.[] | (if .template.vagovprod then {rootUrl: .rootUrl} else empty end)]' ./content-build/src/applications/registry.json)
-          echo ::set-output name=registries::$(jq --argjson arr1 "$CUSTOM_URLS" --argjson arr2 "$JSON" -n '$arr2 + $arr1 | unique_by(.rootUrl)')
+          # CUSTOM_URLS='[{"rootUrl": "/"}]'
+          # JSON=$(jq '[.[] | (if .template.vagovprod then {rootUrl: .rootUrl} else empty end)]' ./content-build/src/applications/registry.json)
+          # echo ::set-output name=registries::$(jq --argjson arr1 "$CUSTOM_URLS" --argjson arr2 "$JSON" -n '$arr2 + $arr1 | unique_by(.rootUrl)')
+          CUSTOM_URLS='["/"]'
+          JSON=$(jq '[.[] | select((.rootUrl | IN("/health-care/health-questionnaires/questionnaires/answer-questions", "/health-care/health-questionnaires/questionnaires") | not) and .template.vagovprod) | .rootUrl ]' ./content-build/src/applications/registry.json)
+          echo ::set-output name=registries::$(jq --argjson arr1 "$CUSTOM_URLS" --argjson arr2 "$JSON" -n '$arr2 + $arr1')
 
   # tt-lighthouse:
   #   runs-on: ubuntu-latest
@@ -192,7 +195,6 @@ jobs:
       # TODO: Add flag to handle behind auth, skipping some urls
       - name: Audit URLs using Lighthouse on ${{ matrix.registry['rootUrl'] }}
         id: lighthouse-checks
-        if: ${{ matrix.registry['rootUrl'] != '/health-care/health-questionnaires/questionnaires/answer-questions' && matrix.registry['rootUrl'] != '/health-care/health-questionnaires/questionnaires' }}
         uses: treosh/lighthouse-ci-action@v8
         with:
           urls: |
@@ -200,11 +202,9 @@ jobs:
           uploadArtifacts: true # save results as an action artifacts
 
       - name: Upload lighthouse report (JSON)
-        if: ${{ matrix.registry['rootUrl'] != '/health-care/health-questionnaires/questionnaires/answer-questions' && matrix.registry['rootUrl'] != '/health-care/health-questionnaires/questionnaires' }}
         run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath }} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.registry['rootUrl'] }}.json --acl public-read --region us-gov-west-1
 
       - name: Upload lighthouse report (HTML)
-        if: ${{ matrix.registry['rootUrl'] != '/health-care/health-questionnaires/questionnaires/answer-questions' && matrix.registry['rootUrl'] != '/health-care/health-questionnaires/questionnaires' }}
         run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath }} s3://vetsgov-website-builds-s3-upload/lighthouse/archive${{ matrix.registry['rootUrl'] }}.html --acl public-read --region us-gov-west-1
 
   notify-slack:
