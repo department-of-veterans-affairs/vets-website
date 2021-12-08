@@ -189,11 +189,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # - name: Notify Slack
-      #   uses: ./.github/workflows/slack-notify
-      #   continue-on-error: true
-      #   with:
-      #     attachments: '[{"mrkdwn_in": ["text"], "text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}]'
-      #     channel_id: ${{ env.CHANNEL_ID }}
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Notify Slack
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          attachments: '[{"mrkdwn_in": ["text"], "text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}]'
+          channel_id: ${{ env.CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
