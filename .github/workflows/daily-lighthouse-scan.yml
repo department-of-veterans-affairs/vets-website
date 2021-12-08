@@ -31,7 +31,7 @@ jobs:
                       | not) and .template.vagovprod) | .rootUrl ]' ./content-build/src/applications/registry.json)
           echo ::set-output name=registries::$(jq --argjson arr1 "$CUSTOM_URLS" --argjson arr2 "$JSON" -n '$arr2 + $arr1')
 
-  # tt-lighthouse:
+  # lighthouse-scan:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - name: Configure AWS credentials (1)
@@ -142,7 +142,7 @@ jobs:
   #       working-directory: testing-tools-team-dashboard-data
 
 
-  lighthouse:
+  lighthouse-scan-registries:
     needs: get-registries
     runs-on: ubuntu-latest
     strategy:
