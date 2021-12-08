@@ -67,29 +67,36 @@ const ProfilePageHeader = ({
 
   const compareChecked = !!compare.search.institutions[facilityCode];
   const compareLength = compare.search.loaded.length;
-  let compareAction = '(not set)';
 
   const handleCompareUpdate = e => {
     if (e.target.checked && !compareChecked) {
       if (compare.search.loaded.length === 3) {
-        compareAction = 'Limit Reached';
+        recordEvent({
+          event: 'gibct-form-change',
+          'gibct-form-field': 'compareCheckbox',
+          'gibct-form-value': `Limit Reached | ${compareLength}`,
+          'school-name': institution.name,
+        });
         dispatchShowModal('comparisonLimit');
       } else {
-        compareAction = 'Add';
+        recordEvent({
+          event: 'gibct-form-change',
+          'gibct-form-field': 'compareCheckbox',
+          'gibct-form-value': `Add | ${compareLength}`,
+          'school-name': institution.name,
+        });
         dispatchAddCompareInstitution(institution);
       }
     } else {
-      compareAction = 'Remove';
+      recordEvent({
+        event: 'gibct-form-change',
+        'gibct-form-field': 'compareCheckbox',
+        'gibct-form-value': `Remove | ${compareLength}`,
+        'school-name': institution.name,
+      });
       dispatchRemoveCompareInstitution(facilityCode);
     }
   };
-
-  recordEvent({
-    event: 'gibct-form-change',
-    'gibct-form-field': 'compareCheckbox',
-    'gibct-form-value': `${compareAction} | ${compareLength}`,
-    'school-name': institution.name,
-  });
 
   const main = facilityMap.main.institution;
 
