@@ -2,10 +2,10 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
-import NextOfKin from '../';
+import EmergencyContact from '../index';
 
 describe('pre-check-in', () => {
-  describe('Next of kin page', () => {
+  describe('Emergency Contact page', () => {
     let store;
     beforeEach(() => {
       const middleware = [];
@@ -14,7 +14,7 @@ describe('pre-check-in', () => {
         preCheckInData: {
           veteranData: {
             demographics: {
-              nextOfKin1: {
+              emergencyContact: {
                 name: 'VETERAN,JONAH',
                 relationship: 'BROTHER',
                 phone: '1112223333',
@@ -36,7 +36,7 @@ describe('pre-check-in', () => {
           form: {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
             currentPage: 'third-page',
-            data: { demographicsUpToDate: 'yes' },
+            data: { demographicsUpToDate: 'yes', nextOfKinUpToDate: 'no' },
           },
           context: {
             token: 'token',
@@ -48,7 +48,7 @@ describe('pre-check-in', () => {
     it('page passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
-          <NextOfKin router={{ push: () => {} }} />
+          <EmergencyContact router={{ push: () => {} }} />
         </Provider>,
       );
     });
