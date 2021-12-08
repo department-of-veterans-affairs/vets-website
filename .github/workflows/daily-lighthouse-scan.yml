@@ -14,19 +14,22 @@ jobs:
     outputs:
       registries: ${{ steps.set-matrix.outputs.registries }}
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@master
         with:
           repository: department-of-veterans-affairs/content-build
           ref: refs/heads/master
           path: ./content-build
-      - id: set-matrix
+        
+      - name: Get registries
+        id: set-matrix
         run: |
-          # CUSTOM_URLS='[{"rootUrl": "/"}]'
-          # JSON=$(jq '[.[] | (if .template.vagovprod then {rootUrl: .rootUrl} else empty end)]' ./content-build/src/applications/registry.json)
-          # echo ::set-output name=registries::$(jq --argjson arr1 "$CUSTOM_URLS" --argjson arr2 "$JSON" -n '$arr2 + $arr1 | unique_by(.rootUrl)')
           CUSTOM_URLS='["/"]'
-          JSON=$(jq '[.[] | select((.rootUrl | IN("/health-care/health-questionnaires/questionnaires/answer-questions", "/health-care/health-questionnaires/questionnaires") | not) and .template.vagovprod) | .rootUrl ]' ./content-build/src/applications/registry.json)
-          echo ::set-output name=registries::$(jq --argjson arr1 "$CUSTOM_URLS" --argjson arr2 "$JSON" -n '$arr2 + $arr1')
+          # To remove
+          JSON=$(jq '[.[]
+                      | select((.rootUrl | IN("/health-care/health-questionnaires/questionnaires/answer-questions", "/health-care/health-questionnaires/questionnaires") | not) and .template.vagovprod)
+                      | .rootUrl ]' ./content-build/src/applications/registry.json)
+          echo ::set-output name=registries::$(jq --argjson arr1 "$CUSTOM_URLS" --argjson arr2 "$JSON" -n '$arr2 + $arr1 | unique_by(.rootUrl)')
 
   # tt-lighthouse:
   #   runs-on: ubuntu-latest
@@ -192,8 +195,7 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
-      # TODO: Add flag to handle behind auth, skipping some urls
-      - name: Audit URLs using Lighthouse on ${{ matrix.registry['rootUrl'] }}
+      - name: Audit URLs using Lighthouse on ${{ matrix.registry }}
         id: lighthouse-checks
         uses: treosh/lighthouse-ci-action@v8
         with:
@@ -216,6 +218,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
       # - name: Notify Slack
       #   uses: ./.github/workflows/slack-notify
       #   continue-on-error: true
