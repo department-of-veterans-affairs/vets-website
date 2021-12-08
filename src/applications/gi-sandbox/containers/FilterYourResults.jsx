@@ -131,7 +131,12 @@ export function FilterYourResults({
       });
       recordCheckboxEvent(e);
     } else {
-      onChangeCheckbox(e);
+      dispatchFilterChange({
+        ...filters,
+        vettec: true,
+        preferredProvider: false,
+      });
+      recordCheckboxEvent(e);
     }
   };
 
@@ -141,11 +146,16 @@ export function FilterYourResults({
       dispatchFilterChange({
         ...filters,
         vettec: true,
-        preferredProvider: false,
+        preferredProvider: true,
       });
       recordCheckboxEvent(e);
     } else {
-      onChangeCheckbox(e);
+      dispatchFilterChange({
+        ...filters,
+        vettec: true,
+        preferredProvider: false,
+      });
+      recordCheckboxEvent(e);
     }
   };
 
