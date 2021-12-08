@@ -25,7 +25,7 @@ jobs:
         id: set-matrix
         run: |
           CUSTOM_URLS='["/"]'
-          # To omit urls from being scanned in lighthouse, add rootUrl inside IN() functionality
+          # To omit urls from being scanned in lighthouse, add rootUrl inside IN() function
           JSON=$(jq '[.[]
                       | select((.rootUrl | IN("/health-care/health-questionnaires/questionnaires/answer-questions", "/health-care/health-questionnaires/questionnaires")
                       | not) and .template.vagovprod) | .rootUrl ]' ./content-build/src/applications/registry.json)
@@ -59,16 +59,7 @@ jobs:
   #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
   #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-  #     - name: Checkout VSP actions
-  #       uses: actions/checkout@v2
-  #       with:
-  #         repository: department-of-veterans-affairs/vsp-github-actions
-  #         ref: refs/heads/main
-  #         token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-  #         persist-credentials: false
-  #         path: ./.github/actions/vsp-github-actions
-
-  #     - name: Get BigQuery service credentials # Has to go before role is fetched from param store, otherwise permissions will be denied with the role configured.
+  #     - name: Get BigQuery service credentials
   #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
   #       with:
   #         ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
@@ -104,17 +95,6 @@ jobs:
 
   #     - name: Upload lighthouse report (HTML)
   #       run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.html --acl public-read --region us-gov-west-1
-
-  #     - name: Notify Slack
-  #       if: ${{ always() }}
-  #       uses: ./.github/actions/vsp-github-actions/slack-socket
-  #       env:
-  #         SSL_CERT_DIR: /etc/ssl/certs
-  #       with:
-  #         slack_app_token: ${{ env.SLACK_APP_TOKEN }}
-  #         slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
-  #         attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}]'
-  #         channel_id: ${{ env.CHANNEL_ID }}
 
   #     - name: Checkout Testing Tools Team Dashboard Data repo
   #       uses: actions/checkout@v2
@@ -212,7 +192,7 @@ jobs:
   notify-slack:
     name: Notify Success
     runs-on: ubuntu-latest
-    if: ${{ success() }}
+    if: ${{ always() }}
     needs: lighthouse
 
     steps:
@@ -223,7 +203,7 @@ jobs:
       #   uses: ./.github/workflows/slack-notify
       #   continue-on-error: true
       #   with:
-      #     attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}]'
+      #     attachments: '[{"mrkdwn_in": ["text"], "text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}]'
       #     channel_id: ${{ env.CHANNEL_ID }}
       #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
