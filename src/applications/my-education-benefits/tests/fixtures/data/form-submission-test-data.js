@@ -140,4 +140,9 @@ export const submissionForm = {
   veteranDateOfBirth: '1989-11-11',
   veteranSocialSecurityNumber: '111111111',
   privacyAgreementAccepted: true,
+  bankAccount: {
+    accountType: 'Savings',
+    accountNumber: '123456',
+    routingNumber: '322271627',
+  },
 };
