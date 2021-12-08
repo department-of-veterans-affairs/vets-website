@@ -120,7 +120,9 @@ export function ResultCard({
           onClick={() =>
             cautionFlags.length > 0 &&
             recordEvent({
-              event: `Cautionary Warnings: ${name} profile link clicked`,
+              event: 'gibct-view-profile',
+              'school-name': name,
+              'has-warnings': cautionFlags.length > 0,
             })
           }
         >
