@@ -27,8 +27,10 @@ jobs:
           CUSTOM_URLS='["/"]'
           # To omit urls from being scanned in lighthouse, add rootUrl inside IN() function
           JSON=$(jq '[.[]
-                      | select((.rootUrl | IN("/health-care/health-questionnaires/questionnaires/answer-questions", "/health-care/health-questionnaires/questionnaires")
-                      | not) and .template.vagovprod) | .rootUrl ]' ./content-build/src/applications/registry.json)
+                      | select((.rootUrl
+                                | IN("/health-care/health-questionnaires/questionnaires/answer-questions", "/health-care/health-questionnaires/questionnaires")
+                                | not) and .template.vagovprod) 
+                      | .rootUrl ]' ./content-build/src/applications/registry.json)
           echo ::set-output name=registries::$(jq --argjson arr1 "$CUSTOM_URLS" --argjson arr2 "$JSON" -n '$arr2 + $arr1')
 
   # lighthouse-scan:
@@ -40,18 +42,6 @@ jobs:
   #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
   #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   #         aws-region: us-gov-west-1
-
-  #     - name: Get Slack app token
-  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-  #       with:
-  #         ssm_parameter: /devops/github_actions_slack_socket_token
-  #         env_variable_name: SLACK_APP_TOKEN
-
-  #     - name: Get Slack bot token
-  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-  #       with:
-  #         ssm_parameter: /devops/github_actions_slack_bot_user_token
-  #         env_variable_name: SLACK_BOT_TOKEN
 
   #     - name: Get va-vsp-bot token
   #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
