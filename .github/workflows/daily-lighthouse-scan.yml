@@ -127,6 +127,7 @@ jobs:
         run: |
           echo ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}}
           ls testing-tools-team-dashboard-data/src/testing-reports/data
+
       - name: Upload Lighthouse results to BigQuery
         run: yarn lighthouse-to-bigquery
         working-directory: testing-tools-team-dashboard-data
