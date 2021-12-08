@@ -43,7 +43,7 @@ const PersonalInformationSection = ({ gender, dob }) => (
       </AdditionalInfo>
     </div>
     <div className="vads-u-margin-bottom--3">
-      <AdditionalInfo triggerText="How do I update my name. date of birth, or sex assigned at birth?">
+      <AdditionalInfo triggerText="How do I update my name, date of birth, or sex assigned at birth?">
         <h2 className="vads-u-font-size--h5 vads-u-margin-top--3">
           If you’re enrolled in the VA health care program
         </h2>

@@ -1,15 +1,6 @@
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import RadioWidget from 'platform/forms-system/src/js/widgets/RadioWidget';
 
-const pronounsLabels = [
-  'He/him/his',
-  'She/her/hers',
-  'They/them/theirs',
-  'Ze/zir/zirs',
-  'Use my preferred name',
-  'Prefer not to answer',
-  'Pronouns not listed here',
-];
 const genderOptions = [
   'woman',
   'man',
@@ -65,13 +56,13 @@ export const personalInformationFormSchemas = {
       pronouns: {
         type: 'object',
         properties: {
-          'he/him/his': { type: 'boolean' },
-          'she/her/hers': { type: 'boolean' },
-          'they/them/theirs': { type: 'boolean' },
-          'ze/zir/zirs': { type: 'boolean' },
-          preferredName: { type: 'boolean' },
-          preferNotToAnswer: { type: 'boolean' },
-          pronounsNotListed: { type: 'boolean' },
+          'He/him/his': { type: 'boolean' },
+          'She/her/hers': { type: 'boolean' },
+          'They/them/theirs': { type: 'boolean' },
+          'Ze/zir/zirs': { type: 'boolean' },
+          'Use my preferred name': { type: 'boolean' },
+          'Prefer not to answer': { type: 'boolean' },
+          'Pronouns not listed here': { type: 'boolean' },
         },
       },
     },
@@ -110,40 +101,10 @@ export const personalInformationUiSchemas = {
     },
   },
   pronouns: {
-    'ui:description': 'Select all of your pronouns',
-    'ui:widget': 'checkbox',
-    'ui:options': {
-      labels: {
-        'he/him/his': pronounsLabels[0],
-        'she/her/hers': pronounsLabels[1],
-        'they/them/theirs': pronounsLabels[2],
-        'ze/zir/zirs': pronounsLabels[3],
-        preferredName: pronounsLabels[4],
-        preferNotToAnswer: pronounsLabels[5],
-        pronounsNotListed: pronounsLabels[6],
-      },
+    pronouns: {
+      'ui:description': 'Select all of your pronouns',
+      'ui:widget': 'checkbox',
     },
-    // 'he/him/his': {
-    //   'ui:title': pronounsLabels[0],
-    // },
-    // 'she/her/hers': {
-    //   'ui:title': pronounsLabels[1],
-    // },
-    // 'they/them/theirs': {
-    //   'ui:title': pronounsLabels[2],
-    // },
-    // 'ze/zir/zirs': {
-    //   'ui:title': pronounsLabels[3],
-    // },
-    // preferredName: {
-    //   'ui:title': pronounsLabels[4],
-    // },
-    // preferNotToAnswer: {
-    //   'ui:title': pronounsLabels[5],
-    // },
-    // pronounsNotListed: {
-    //   'ui:title': pronounsLabels[6],
-    // },
   },
   genderIdentity: {
     genderIdentity: {
