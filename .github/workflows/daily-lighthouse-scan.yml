@@ -26,9 +26,7 @@ jobs:
         run: |
           CUSTOM_URLS='["/"]'
           # To remove
-          JSON=$(jq '[.[]
-                      | select((.rootUrl | IN("/health-care/health-questionnaires/questionnaires/answer-questions", "/health-care/health-questionnaires/questionnaires") | not) and .template.vagovprod)
-                      | .rootUrl ]' ./content-build/src/applications/registry.json)
+          JSON=$(jq '[.[] | select((.rootUrl | IN("/health-care/health-questionnaires/questionnaires/answer-questions", "/health-care/health-questionnaires/questionnaires") | not) and .template.vagovprod) | .rootUrl ]' ./content-build/src/applications/registry.json)
           echo ::set-output name=registries::$(jq --argjson arr1 "$CUSTOM_URLS" --argjson arr2 "$JSON" -n '$arr2 + $arr1 | unique_by(.rootUrl)')
 
   # tt-lighthouse:
