@@ -32,15 +32,15 @@ const PRE_CHECK_IN_FORM_PAGES = Object.freeze([
   },
   {
     url: URLS.NEXT_OF_KIN,
-    order: 4,
+    order: 3,
   },
   {
     url: URLS.EMERGENCY_CONTACT,
-    order: 5,
+    order: 4,
   },
   {
     url: URLS.CONFIRMATION,
-    order: 6,
+    order: 5,
   },
 ]);
 
@@ -50,9 +50,12 @@ const createForm = ({
 }) => {
   let pages = PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
   if (hasConfirmedDemographics) {
-    pages = pages.filter(
-      page => page !== URLS.DEMOGRAPHICS && page !== URLS.NEXT_OF_KIN,
-    );
+    const skippedPages = [
+      URLS.DEMOGRAPHICS,
+      URLS.NEXT_OF_KIN,
+      URLS.EMERGENCY_CONTACT,
+    ];
+    pages = pages.filter(page => !skippedPages.includes(page));
   }
   if (!isEmergencyContactEnabled) {
     pages = pages.filter(page => page !== URLS.EMERGENCY_CONTACT);
