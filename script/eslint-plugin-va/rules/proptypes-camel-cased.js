@@ -11,7 +11,7 @@ module.exports = {
     schema: [],
   },
   create: context => ({
-    MemberExpression: (node) => {
+    MemberExpression: node => {
       if (node.property.name === 'PropTypes') {
         context.report({
           node,

@@ -34,7 +34,7 @@ module.exports = {
   create: context => {
     const sourceCode = context.getSourceCode();
     const replacer = node =>
-      node.value.replace(regexpApostrophe, (match) =>
+      node.value.replace(regexpApostrophe, match =>
         match.replace(regexpReplacer, '’'),
       );
 
