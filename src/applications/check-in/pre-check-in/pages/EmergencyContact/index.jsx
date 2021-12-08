@@ -87,18 +87,12 @@ const EmergencyContact = props => {
     ],
   );
 
-  const yesClick = useCallback(
-    () => {
-      buttonClick('yes');
-    },
-    [buttonClick],
-  );
-  const noClick = useCallback(
-    () => {
-      buttonClick('no');
-    },
-    [buttonClick],
-  );
+  const yesClick = useCallback(() => {
+    buttonClick('yes');
+  }, [buttonClick]);
+  const noClick = useCallback(() => {
+    buttonClick('no');
+  }, [buttonClick]);
 
   return (
     <>

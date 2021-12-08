@@ -216,20 +216,15 @@ export function FilterYourResults({
     );
   };
 
-  useEffect(
-    () => {
-      if (showAllSchoolTypes) {
-        setFocusByName(
-          `${INSTITUTION_TYPES[SEE_LESS_SIZE].toUpperCase()}-label`,
-        );
-      } else {
-        setFocusByName(
-          `${INSTITUTION_TYPES[SEE_LESS_SIZE - 1].toUpperCase()}-label`,
-        );
-      }
-    },
-    [showAllSchoolTypes],
-  );
+  useEffect(() => {
+    if (showAllSchoolTypes) {
+      setFocusByName(`${INSTITUTION_TYPES[SEE_LESS_SIZE].toUpperCase()}-label`);
+    } else {
+      setFocusByName(
+        `${INSTITUTION_TYPES[SEE_LESS_SIZE - 1].toUpperCase()}-label`,
+      );
+    }
+  }, [showAllSchoolTypes]);
 
   const schoolAttributes = () => {
     const options = [
@@ -481,7 +476,4 @@ const mapDispatchToProps = {
   dispatchFilterChange: filterChange,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(FilterYourResults);
+export default connect(mapStateToProps, mapDispatchToProps)(FilterYourResults);

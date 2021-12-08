@@ -985,7 +985,10 @@ function CalculateYourBenefitsForm({
           buttonId: 'used-gi-bill-learn-more',
         })}
         name="giBillBenefit"
-        options={[{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }]}
+        options={[
+          { value: 'yes', label: 'Yes' },
+          { value: 'no', label: 'No' },
+        ]}
         value={inputs.giBillBenefit}
         onChange={handleInputChange}
         onBlur={handleInputBlur}

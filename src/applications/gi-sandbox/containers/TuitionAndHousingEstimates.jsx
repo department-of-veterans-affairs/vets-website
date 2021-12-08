@@ -95,7 +95,10 @@ export function TuitionAndHousingEstimates({
           />
         }
         name="inPersonClasses"
-        options={[{ value: 'no', label: 'Yes' }, { value: 'yes', label: 'No' }]}
+        options={[
+          { value: 'no', label: 'Yes' },
+          { value: 'yes', label: 'No' },
+        ]}
         value={onlineClasses}
         onChange={e => {
           recordEvent({

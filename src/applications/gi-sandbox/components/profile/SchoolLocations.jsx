@@ -39,17 +39,14 @@ export default function SchoolLocations({
   const [viewAll, setViewAll] = useState(false);
   const [viewableRowCount, setViewableRowCount] = useState(initialViewableRows);
 
-  useEffect(
-    () => {
-      // Necessary so screen reader users are aware that the school locations table has changed.
-      if (focusedElementIndex) {
-        document
-          .getElementsByClassName('school-name-cell')
-          [focusedElementIndex].focus();
-      }
-    },
-    [focusedElementIndex],
-  );
+  useEffect(() => {
+    // Necessary so screen reader users are aware that the school locations table has changed.
+    if (focusedElementIndex) {
+      document
+        .getElementsByClassName('school-name-cell')
+        [focusedElementIndex].focus();
+    }
+  }, [focusedElementIndex]);
 
   const institutionIsBeingViewed = facilityCode =>
     facilityCode === institution.facilityCode;

@@ -349,7 +349,4 @@ const mapDispatchToProps = {
   dispatchShowModal: showModal,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ResultCard);
+export default connect(mapStateToProps, mapDispatchToProps)(ResultCard);

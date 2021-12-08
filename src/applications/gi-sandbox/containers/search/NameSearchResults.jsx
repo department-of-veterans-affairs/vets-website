@@ -29,37 +29,31 @@ export function NameSearchResults({
   const history = useHistory();
   const [usedFilters, setUsedFilters] = useState(filtersChanged);
 
-  useEffect(
-    () => {
-      setUsedFilters(getFiltersChanged(filters));
-    },
-    [search.name.results],
-  );
+  useEffect(() => {
+    setUsedFilters(getFiltersChanged(filters));
+  }, [search.name.results]);
 
-  useEffect(
-    () => {
-      focusElement('#name-search-results-count');
-      // Avoid blank searches or double events
-      if (name && count !== null) {
-        recordEvent({
-          event: 'view_search_results',
-          'search-page-path': document.location.pathname,
-          'search-query': name,
-          'search-results-total-count': count,
-          'search-results-total-pages': totalPages,
-          'search-selection': 'GIBCT',
-          'search-typeahead-enabled': false,
-          'search-location': 'Name',
-          'sitewide-search-app-used': false,
-          'type-ahead-option-keyword-selected': undefined,
-          'type-ahead-option-position': undefined,
-          'type-ahead-options-list': undefined,
-          'type-ahead-options-count': undefined,
-        });
-      }
-    },
-    [results, name, totalPages, count],
-  );
+  useEffect(() => {
+    focusElement('#name-search-results-count');
+    // Avoid blank searches or double events
+    if (name && count !== null) {
+      recordEvent({
+        event: 'view_search_results',
+        'search-page-path': document.location.pathname,
+        'search-query': name,
+        'search-results-total-count': count,
+        'search-results-total-pages': totalPages,
+        'search-selection': 'GIBCT',
+        'search-typeahead-enabled': false,
+        'search-location': 'Name',
+        'sitewide-search-app-used': false,
+        'type-ahead-option-keyword-selected': undefined,
+        'type-ahead-option-position': undefined,
+        'type-ahead-options-list': undefined,
+        'type-ahead-options-count': undefined,
+      });
+    }
+  }, [results, name, totalPages, count]);
   const fetchPage = page => {
     dispatchFetchSearchByNameResults(name, page, filters, version);
     updateUrlParams(
@@ -76,63 +70,59 @@ export function NameSearchResults({
 
   return (
     <>
-      {name !== '' &&
-        name !== null && (
-          <div className="row vads-u-padding--0 vads-u-margin--0">
-            {smallScreen && <MobileFilterControls />}
-            <p
-              className="vads-u-padding-x--1p5 small-screen:vads-u-padding-x--0"
-              id="name-search-results-count"
-            >
-              Showing {count} search results for "<strong>{name}</strong>"
-            </p>
+      {name !== '' && name !== null && (
+        <div className="row vads-u-padding--0 vads-u-margin--0">
+          {smallScreen && <MobileFilterControls />}
+          <p
+            className="vads-u-padding-x--1p5 small-screen:vads-u-padding-x--0"
+            id="name-search-results-count"
+          >
+            Showing {count} search results for "<strong>{name}</strong>"
+          </p>
 
-            {!smallScreen && (
-              <div className="column small-4 vads-u-padding--0">
-                <TuitionAndHousingEstimates smallScreen={smallScreen} />
-                <FilterYourResults smallScreen={smallScreen} />
+          {!smallScreen && (
+            <div className="column small-4 vads-u-padding--0">
+              <TuitionAndHousingEstimates smallScreen={smallScreen} />
+              <FilterYourResults smallScreen={smallScreen} />
+            </div>
+          )}
+          <div className="column small-12 medium-8 name-search-cards-padding">
+            {inProgress && (
+              <LoadingIndicator message="Loading search results..." />
+            )}
+
+            {!inProgress && count > 0 && (
+              <div className="vads-l-row">
+                {results.map(institution => (
+                  <ResultCard
+                    institution={institution}
+                    key={institution.facilityCode}
+                    version={preview.version}
+                  />
+                ))}
               </div>
             )}
-            <div className="column small-12 medium-8 name-search-cards-padding">
-              {inProgress && (
-                <LoadingIndicator message="Loading search results..." />
-              )}
 
-              {!inProgress &&
-                count > 0 && (
-                  <div className="vads-l-row">
-                    {results.map(institution => (
-                      <ResultCard
-                        institution={institution}
-                        key={institution.facilityCode}
-                        version={preview.version}
-                      />
-                    ))}
-                  </div>
-                )}
+            {!inProgress && count === 0 && usedFilters && (
+              <p>
+                We didn't find any institutions based on the filters you've
+                applied. Please update the filters and search again.
+              </p>
+            )}
 
-              {!inProgress &&
-                count === 0 &&
-                usedFilters && (
-                  <p>
-                    We didn't find any institutions based on the filters you've
-                    applied. Please update the filters and search again.
-                  </p>
-                )}
-
-              {!inProgress && (
-                <Pagination
-                  className="vads-u-border-top--0"
-                  onPageSelect={fetchPage}
-                  page={currentPage}
-                  pages={totalPages}
-                  maxPageListLength={5}
-                  showLastPage
-                />
-              )}
-            </div>
+            {!inProgress && (
+              <Pagination
+                className="vads-u-border-top--0"
+                onPageSelect={fetchPage}
+                page={currentPage}
+                pages={totalPages}
+                maxPageListLength={5}
+                showLastPage
+              />
+            )}
           </div>
-        )}
+        </div>
+      )}
     </>
   );
 }
@@ -149,7 +139,4 @@ const mapDispatchToProps = {
   dispatchFetchSearchByNameResults: fetchSearchByNameResults,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(NameSearchResults);
+export default connect(mapStateToProps, mapDispatchToProps)(NameSearchResults);

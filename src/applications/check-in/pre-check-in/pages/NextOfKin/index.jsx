@@ -96,18 +96,12 @@ const NextOfKin = props => {
     ],
   );
 
-  const yesClick = useCallback(
-    () => {
-      buttonClick('yes');
-    },
-    [buttonClick],
-  );
-  const noClick = useCallback(
-    () => {
-      buttonClick('no');
-    },
-    [buttonClick],
-  );
+  const yesClick = useCallback(() => {
+    buttonClick('yes');
+  }, [buttonClick]);
+  const noClick = useCallback(() => {
+    buttonClick('no');
+  }, [buttonClick]);
   const header = 'Is this your current next of kin?';
   const subtitle =
     'This helps us keep information about your next of kin up to date.';

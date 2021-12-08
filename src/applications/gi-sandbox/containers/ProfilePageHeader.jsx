@@ -229,9 +229,7 @@ const ProfilePageHeader = ({
           <IconWithInfo icon="phone" present={hasVetTecPhone}>
             {'   '}{' '}
             <a
-              href={`tel:${programs[0].phoneAreaCode}${
-                programs[0].phoneNumber
-              }`}
+              href={`tel:${programs[0].phoneAreaCode}${programs[0].phoneNumber}`}
             >
               {`${programs[0].phoneAreaCode}-${programs[0].phoneNumber}`}
             </a>
@@ -375,7 +373,4 @@ const mapDispatchToProps = {
   dispatchShowModal: showModal,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ProfilePageHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePageHeader);

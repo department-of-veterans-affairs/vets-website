@@ -33,12 +33,9 @@ export function SearchPage({
   });
   const { version } = preview;
 
-  useEffect(
-    () => {
-      document.title = 'GI Bill® Comparison Tool | Veterans Affairs';
-    },
-    [dispatchSetPageTitle],
-  );
+  useEffect(() => {
+    document.title = 'GI Bill® Comparison Tool | Veterans Affairs';
+  }, [dispatchSetPageTitle]);
 
   useEffect(() => {
     const checkSize = () => {
@@ -111,31 +108,30 @@ export function SearchPage({
               </div>
             )}
             {!error && !smallScreen && tabbedResults[tab]}
-            {!error &&
-              smallScreen && (
-                <div>
-                  <AccordionItem
-                    button="Search by name"
-                    expanded={accordions[TABS.name]}
-                    onClick={expanded => {
-                      accordionChange(TABS.name, expanded);
-                    }}
-                  >
-                    <NameSearchForm smallScreen />
-                  </AccordionItem>
-                  <AccordionItem
-                    button="Search by location"
-                    expanded={accordions[TABS.location]}
-                    onClick={expanded => {
-                      accordionChange(TABS.location, expanded);
-                    }}
-                  >
-                    <LocationSearchForm smallScreen />
-                  </AccordionItem>
+            {!error && smallScreen && (
+              <div>
+                <AccordionItem
+                  button="Search by name"
+                  expanded={accordions[TABS.name]}
+                  onClick={expanded => {
+                    accordionChange(TABS.name, expanded);
+                  }}
+                >
+                  <NameSearchForm smallScreen />
+                </AccordionItem>
+                <AccordionItem
+                  button="Search by location"
+                  expanded={accordions[TABS.location]}
+                  onClick={expanded => {
+                    accordionChange(TABS.location, expanded);
+                  }}
+                >
+                  <LocationSearchForm smallScreen />
+                </AccordionItem>
 
-                  {!error && smallScreen && tabbedResults[tab]}
-                </div>
-              )}
+                {!error && smallScreen && tabbedResults[tab]}
+              </div>
+            )}
           </div>
         </div>
       </span>
@@ -156,7 +152,4 @@ const mapDispatchToProps = {
   dispatchSetPageTitle: setPageTitle,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SearchPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
