@@ -6,6 +6,7 @@ import introduction from '../pages/Introduction';
 import NextOfKin from '../pages/NextOfKin';
 import Demographics from '../pages/Demographics';
 import Confirmation from '../pages/Confirmation';
+import EmergencyContact from '../pages/EmergencyContact';
 import apiInitializer from '../support/ApiInitializer';
 
 describe('Pre-Check In Experience ', () => {
@@ -15,7 +16,7 @@ describe('Pre-Check In Experience ', () => {
       'GET',
       '/v0/feature_toggles*',
       generateFeatureToggles({
-        emergencyContactEnabled: false,
+        emergencyContactEnabled: true,
       }),
     );
     apiInitializer.initializeSessionGet.withSuccessfulNewSession();
@@ -31,7 +32,7 @@ describe('Pre-Check In Experience ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('Happy Path', () => {
+  it('Happy Path w/Emergency Contact', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
     validateVeteran.validatePageLoaded();
@@ -59,6 +60,12 @@ describe('Pre-Check In Experience ', () => {
     cy.injectAxe();
     cy.axeCheck();
     NextOfKin.attemptToGoToNextPage();
+
+    // page: Emergency Contact
+    EmergencyContact.validatePageLoaded();
+    cy.injectAxe();
+    cy.axeCheck();
+    EmergencyContact.attemptToGoToNextPage();
 
     // page: Confirmation
     Confirmation.validatePageLoaded();

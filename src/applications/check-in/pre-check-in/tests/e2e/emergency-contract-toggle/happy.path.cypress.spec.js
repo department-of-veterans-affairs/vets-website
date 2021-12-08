@@ -31,7 +31,7 @@ describe('Pre-Check In Experience ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('Happy Path', () => {
+  it('Emergency Contact disabled', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
     validateVeteran.validatePageLoaded();
