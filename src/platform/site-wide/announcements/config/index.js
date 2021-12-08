@@ -1,9 +1,16 @@
 // Relative imports.
+import AfghanistanPromoBanner from '../components/AfghanistanPromoBanner';
 import ExploreVAModal from '../components/ExploreVAModal';
 import SingleSignOnInfoModal from '../components/SingleSignOnInfoModal';
 
 const config = {
   announcements: [
+    {
+      name: 'afghanistan-banner-v2',
+      // All pages.
+      paths: /(.)/,
+      component: AfghanistanPromoBanner,
+    },
     {
       name: 'explore-va',
       // All pages.
