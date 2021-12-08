@@ -76,6 +76,7 @@ export function ResultCard({
     event: 'gibct-form-change',
     'gibct-form-field': 'compareCheckbox',
     'gibct-form-value': `${compareAction} | ${compareLength}`,
+    'school-name': institution.name,
   });
 
   const [expanded, toggleExpansion] = useState(false);

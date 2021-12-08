@@ -88,6 +88,7 @@ const ProfilePageHeader = ({
     event: 'gibct-form-change',
     'gibct-form-field': 'compareCheckbox',
     'gibct-form-value': `${compareAction} | ${compareLength}`,
+    'school-name': institution.name,
   });
 
   const main = facilityMap.main.institution;
