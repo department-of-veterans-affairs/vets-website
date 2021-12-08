@@ -153,6 +153,12 @@ jobs:
         if: ${{ github.ref == 'refs/heads/master' }}
         run: aws s3 cp coverage/test-coverage-report.json s3://apps.dev.va.gov/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
 
+      - name: Archive coverage test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-test-report
+          path: coverage-report
+
       - name: Get code coverage
         if: ${{ always() }}
         id: code-coverage
