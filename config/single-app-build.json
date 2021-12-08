@@ -1,6 +1,6 @@
 {
   "allow": {
     "entryNames": ["vaos"],
-    "groupedAppsFolders": ["src/applications/edu-benefits"]
+    "groupedAppsFolders": ["src/applications/health-care-questionnaire"]
   }
 }
