@@ -176,8 +176,7 @@ const responses = {
         attributes: {
           ...requestAttributes,
           status: 'Cancelled',
-          appointmentRequestDetailCode: ['DETCODE8'],
-          cancelationReason: { coding: [{ code: 'pat' }] },
+          appointmentRequestDetailCode: [{ detailCode: { code: 'DETCODE8' } }],
         },
       },
     });
@@ -418,7 +417,7 @@ const responses = {
         { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
         { name: 'vaGlobalDowntimeNotification', value: false },
-        { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
+        { name: 'vaOnlineSchedulingVAOSServiceRequests', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
         { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },

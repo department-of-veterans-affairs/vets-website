@@ -383,9 +383,8 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(cancelData).to.deep.equal({
       ...appointment.attributes,
       id: '1234',
-      appointmentRequestDetailCode: ['DETCODE8'],
+      appointmentRequestDetailCode: [{ detailCode: { code: 'DETCODE8' } }],
       status: 'Cancelled',
-      cancelationReason: { coding: [{ code: 'pat' }] },
     });
 
     fireEvent.click(screen.getByText(/continue/i));
