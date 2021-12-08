@@ -7,46 +7,44 @@ const commandLineArgs = require('command-line-args');
 const changedAppsConfig = require('../../config/single-app-build.json');
 
 /**
- * Gets the manifest object of the app that a file belongs to.
+ * Gets the manifest of all apps in the root app folder that a file belongs to.
  *
  * @param {string} filePath - Relative file path.
- * @returns {Object} Application manifest.
+ * @returns {Array} Application manifests.
  */
-const getManifest = filePath => {
+const getManifests = filePath => {
   const root = path.join(__dirname, '../..');
   const appDirectory = filePath.split('/')[2];
   const fullPath = path.join(root, `./src/applications/${appDirectory}`);
 
   return find
     .fileSync(/manifest\.(json|js)$/, fullPath)
-    .map(file => JSON.parse(fs.readFileSync(file)))[0];
+    .map(file => JSON.parse(fs.readFileSync(file)));
 };
 
 /**
- * Gets the entry name, relative path, or URL of the app that a file belongs to.
- * The app must be in the given allow list, otherwise returns null.
+ * Gets the sliced manifest(s) of a file's root app folder. The app or
+ * root app folder must be on the given allow list, otherwise returns null.
  *
  * @param {string} file - Relative file path.
- * @param {string[]} allowList - A list of application entry names.
- * @param {string} outputType - Determines what app information should be returned.
- * @returns {string|null} The app information specified in the output type. Otherwise null.
+ * @param {Object} allowList - Lists of entry names and root app paths to check against.
+ * @returns {Array|null} Sliced manifests of apps that are allowed. Otherwise null.
  */
-const getAllowedApp = (file, allowList, outputType = 'entry') => {
+const getAllowedApps = (file, allowList) => {
   if (!file.startsWith('src/applications')) return null;
 
-  const manifest = getManifest(file);
-  const entryName = manifest?.entryName;
+  const manifests = getManifests(file);
+  const rootAppPath = `src/applications/${file.split('/')[2]}`;
 
-  if (allowList.includes(entryName)) {
-    // Return the entry name, folder path, or root URL depending on the output type
-    if (outputType === 'entry') {
-      return entryName;
-    } else if (outputType === 'folder') {
-      const appFolderName = file.split('/')[2];
-      return `src/applications/${appFolderName}`;
-    } else if (outputType === 'url') {
-      return manifest?.rootUrl || '';
-    } else throw new Error('Invalid output type specified.');
+  if (
+    allowList.groupedAppsFolders.includes(rootAppPath) ||
+    (manifests.length === 1 &&
+      allowList.entryNames.includes(manifests[0].entryName))
+  ) {
+    return manifests.map(manifest => ({
+      entryName: manifest.entryName,
+      rootUrl: manifest.rootUrl,
+    }));
   }
 
   return null;
@@ -63,21 +61,25 @@ const getAllowedApp = (file, allowList, outputType = 'entry') => {
  * @returns {string} A comma-delimited string of app entry names, relative paths or URLs.
  */
 const getChangedAppsString = (files, config, outputType = 'entry') => {
-  const allowedApps = [];
+  const outputTypeStrings = [];
 
   for (const file of files) {
-    const allowedApp = getAllowedApp(file, config.allow, outputType);
+    const allowedApps = getAllowedApps(file, config.allow);
 
-    if (allowedApp !== null) {
-      // Some allowed apps don't have URLs or other attributes, so only add to
-      // the list when the string of the allowed app's output type isn't empty
-      if (allowedApp.length) allowedApps.push(allowedApp);
-    } else {
-      return '';
-    }
+    if (allowedApps) {
+      allowedApps.forEach(app => {
+        if (outputType === 'entry') {
+          outputTypeStrings.push(app.entryName);
+        } else if (outputType === 'folder') {
+          outputTypeStrings.push(`src/applications/${file.split('/')[2]}`);
+        } else if (outputType === 'url') {
+          if (app.rootUrl) outputTypeStrings.push(app.rootUrl);
+        } else throw new Error('Invalid output type specified.');
+      });
+    } else return '';
   }
 
-  return [...new Set(allowedApps)].join(',');
+  return [...new Set(outputTypeStrings)].join(',');
 };
 
 if (process.env.CHANGED_FILE_PATHS) {
