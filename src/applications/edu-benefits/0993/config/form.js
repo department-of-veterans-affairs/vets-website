@@ -18,6 +18,7 @@ import { prefillTransformer, tabIndexedTitle, transform } from '../helpers';
 
 import manifest from '../manifest.json';
 
+// Test changed app builds
 const { fullName } = fullSchema0993.definitions;
 const {
   claimantSocialSecurityNumber,

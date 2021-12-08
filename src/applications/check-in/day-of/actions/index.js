@@ -1,6 +1,5 @@
 export const RECEIVED_APPOINTMENT_DETAILS = 'RECEIVED_APPOINTMENT_DETAILS';
 
-// Testing changed app build
 export const receivedMultipleAppointmentDetails = payload => {
   const data = { appointments: [...payload] };
 

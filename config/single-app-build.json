@@ -1,6 +1,6 @@
 {
   "allow": {
     "entryNames": ["vaos"],
-    "groupedAppsFolders": ["src/applications/check-in"]
+    "groupedAppsFolders": ["src/applications/edu-benefits"]
   }
 }
