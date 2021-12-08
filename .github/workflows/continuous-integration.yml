@@ -159,6 +159,12 @@ jobs:
           name: coverage-test-report
           path: coverage-report
 
+      - name: Download Coverage Test results
+        uses: actions/download-artifact@v2
+        with:
+          name: coverage-test-report
+          path: testing-tools-team-dashboard-data/src/testing-reports/data
+
       - name: Get code coverage
         if: ${{ always() }}
         id: code-coverage
