@@ -110,9 +110,9 @@ node('vetsgov-general-purpose') {
       // commonStages.slackNotify()
       throw error
     } finally {
-      dir("vets-website") {
-        step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
-      }
+      // dir("vets-website") {
+      //   step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
+      // }
     }
   }
 
