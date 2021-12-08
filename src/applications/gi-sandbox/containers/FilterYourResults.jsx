@@ -56,10 +56,9 @@ export function FilterYourResults({
 
   const recordCheckboxEvent = e => {
     recordEvent({
-      event: 'howToWizard-formChange',
-      'form-field-type': 'form-checkbox',
-      'form-field-label': e.target.name,
-      'form-field-value': e.target.checked,
+      event: 'gibct-form-change',
+      'gibct-form-field': e.target.name,
+      'gibct-form-value': e.target.checked,
     });
   };
 
@@ -73,10 +72,9 @@ export function FilterYourResults({
 
   const onChange = e => {
     recordEvent({
-      event: 'howToWizard-formChange',
-      'form-field-type': 'form-dropdown',
-      'form-field-label': e.target.name,
-      'form-field-value': e.target.value,
+      event: 'gibct-form-change',
+      'gibct-form-field': e.target.name,
+      'gibct-form-value': e.target.value,
     });
     updateInstitutionFilters(e.target.name, e.target.value);
   };
@@ -242,11 +240,6 @@ export function FilterYourResults({
           <LearnMoreLabel
             text="Has no cautionary warnings"
             onClick={() => {
-              recordEvent({
-                event: 'gibct-form-help-text-clicked',
-                'help-text-label':
-                  'Learn more about cautionary warnings and school closures',
-              });
               dispatchShowModal('cautionaryWarnings');
             }}
             ariaLabel="Learn more about VA education and training programs"
@@ -260,10 +253,6 @@ export function FilterYourResults({
           <LearnMoreLabel
             text="Is accredited"
             onClick={() => {
-              recordEvent({
-                event: 'gibct-form-help-text-clicked',
-                'help-text-label': 'Learn more about accreditation',
-              });
               dispatchShowModal('accredited');
             }}
             ariaLabel="Learn more about VA education and training programs"
