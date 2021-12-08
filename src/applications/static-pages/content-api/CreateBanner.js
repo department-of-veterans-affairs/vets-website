@@ -9,7 +9,11 @@ export default async function createBanner(store, widgetType) {
     return;
   }
   try {
-    const response = await apiRequest(`${CAPI_DOMAIN}${BANNER_PATH}`, null);
+    const pathname = window.location.pathname;
+    const response = await apiRequest(
+      `${CAPI_DOMAIN}${BANNER_PATH}${pathname}`,
+      null,
+    );
     const { data } = await response.json();
     const { default: Banner } = await import('./components/Banner');
     const banners = data.map(banner => banner.attributes);
