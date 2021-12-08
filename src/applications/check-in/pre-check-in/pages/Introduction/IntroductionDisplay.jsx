@@ -103,8 +103,8 @@ const IntroductionDisplay = props => {
         <span className="vads-u-font-weight--bold">
           If you need to talk to someone right away or need emergency care,
         </span>{' '}
-        Call <Telephone contact="911" />,{' '}
-        <span className="vads-u-font-weight--bold">or</span> Call the Veterans
+        call <Telephone contact="911" />,{' '}
+        <span className="vads-u-font-weight--bold">or</span> call the Veterans
         Crisis hotline at <Telephone contact="8002738255" /> and select 1
       </p>
     </>

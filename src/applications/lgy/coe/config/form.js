@@ -56,7 +56,8 @@ const formConfig = {
       saved: 'Your Certificate of Eligibility application has been saved.',
     },
   },
-  title: 'Certificate of Eligibility VA Form 26-1880',
+  title: 'Request a VA home loan Certificate of Eligibility (COE)',
+  subTitle: 'VA Form 26-1880',
   defaultDefinitions: {
     ...fullSchema.definitions,
   },

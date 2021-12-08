@@ -50,6 +50,6 @@ describe('Chatbot buttons', () => {
       });
     cy.injectAxeThenAxeCheck();
 
-    // Note: This test requires the real API. Run locally with yarn watch --env.api=https://dev-api.va.gov
+    // Note: This test requires the real API. Run locally with yarn watch --env api=https://dev-api.va.gov
   });
 });

@@ -628,14 +628,6 @@ export const mockTogglesResponse = {
         value: true,
       },
       {
-        name: 'loginOldDesign',
-        value: true,
-      },
-      {
-        name: 'login_old_design',
-        value: true,
-      },
-      {
         name: 'loopPages',
         value: true,
       },
