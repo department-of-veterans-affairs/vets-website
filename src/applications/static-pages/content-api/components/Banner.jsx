@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { DISMISSED_ANNOUNCEMENTS } from '../constants';
 
 const Banner = ({ banners }) => {
+  const [isHidden, setIsHidden] = useState(
+    (sessionStorage.getItem(DISMISSED_ANNOUNCEMENTS) || '') !== '',
+  );
   return (
     <>
       {banners.map(
@@ -8,12 +12,16 @@ const Banner = ({ banners }) => {
           const bodyContent = () => {
             return { __html: text };
           };
-          return (
+          return isHidden ? null : (
             <va-alert
               key={index}
               visible
               full-width
               closeable={dismissible === 'dismiss' ? `true` : `false`}
+              onClose={() => {
+                setIsHidden(true);
+                sessionStorage.setItem(DISMISSED_ANNOUNCEMENTS, 'hidden');
+              }}
               status={alertType}
             >
               <h3 slot="headline">{heading}</h3>
