@@ -95,11 +95,17 @@ export const getProfileInfoFieldAttributes = fieldName => {
   }
 
   if (personalInformation.includes(fieldName)) {
-    apiRoute = '/'; // NOTE: DUMMY FORMS SCHEMA, API ROUTE, STUBS HERE
-    convertCleanDataToPayload = () => {};
+    apiRoute = '/'; // TODO: DUMMY API ROUTE
+    convertCleanDataToPayload = payload => {
+      // console.log(payload);
+      // TODO: this function will need to be changed so it can be used for the Data transformation for the API call. See https://github.com/department-of-veterans-affairs/vets-website/blob/Profile-31685-newpersonalinfosection/src/applications/personalization/profile/components/ProfileInformationEditView.jsx#L180
+      return payload;
+    };
     uiSchema = personalInformationUiSchemas[fieldName];
     formSchema = personalInformationFormSchemas[fieldName];
 
+    // console.log(fieldName, ' uiSchema => ', uiSchema);
+    // console.log(fieldName, ' formSchema => ', formSchema);
     if (fieldName === FIELD_NAMES.PREFERRED_NAME) {
       title = FIELD_TITLES[FIELD_NAMES.PREFERRED_NAME];
     }
