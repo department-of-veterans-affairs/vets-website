@@ -39,21 +39,24 @@ export function NameSearchResults({
   useEffect(
     () => {
       focusElement('#name-search-results-count');
-      recordEvent({
-        event: 'view_search_results',
-        'search-page-path': document.location.pathname,
-        'search-query': name,
-        'search-results-total-count': count,
-        'search-results-total-pages': totalPages,
-        'search-selection': 'GIBCT',
-        'search-typeahead-enabled': false,
-        'search-location': 'Name',
-        'sitewide-search-app-used': false,
-        'type-ahead-option-keyword-selected': undefined,
-        'type-ahead-option-position': undefined,
-        'type-ahead-options-list': undefined,
-        'type-ahead-options-count': undefined,
-      });
+      // Avoid blank searches or double events
+      if (name && count !== null) {
+        recordEvent({
+          event: 'view_search_results',
+          'search-page-path': document.location.pathname,
+          'search-query': name,
+          'search-results-total-count': count,
+          'search-results-total-pages': totalPages,
+          'search-selection': 'GIBCT',
+          'search-typeahead-enabled': false,
+          'search-location': 'Name',
+          'sitewide-search-app-used': false,
+          'type-ahead-option-keyword-selected': undefined,
+          'type-ahead-option-position': undefined,
+          'type-ahead-options-list': undefined,
+          'type-ahead-options-count': undefined,
+        });
+      }
     },
     [results, name, totalPages, count],
   );
