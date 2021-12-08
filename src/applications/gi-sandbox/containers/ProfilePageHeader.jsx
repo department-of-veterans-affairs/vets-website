@@ -82,7 +82,7 @@ const ProfilePageHeader = ({
         recordEvent({
           event: 'gibct-form-change',
           'gibct-form-field': 'compareCheckbox',
-          'gibct-form-value': `Add | ${compareLength}`,
+          'gibct-form-value': `Add | ${compareLength + 1}`,
           'school-name': institution.name,
         });
         dispatchAddCompareInstitution(institution);
@@ -91,7 +91,7 @@ const ProfilePageHeader = ({
       recordEvent({
         event: 'gibct-form-change',
         'gibct-form-field': 'compareCheckbox',
-        'gibct-form-value': `Remove | ${compareLength}`,
+        'gibct-form-value': `Remove | ${compareLength - 1}`,
         'school-name': institution.name,
       });
       dispatchRemoveCompareInstitution(facilityCode);
