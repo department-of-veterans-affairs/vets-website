@@ -87,13 +87,13 @@ describe('COVID-19 Research Form', () => {
 
       cy.get('[name="consentAgreementAccepted"]').check();
 
-      cy.intercept('POST', '**/covid-research/volunteer/create', {
-        status: 200,
-      }).as('response');
+      // cy.intercept('POST', '**/covid-research/volunteer/create', {
+      //   status: 200,
+      // }).as('response');
 
       cy.get('.usa-button-primary').contains('Submit volunteer form');
       cy.get('.usa-button-primary').click();
-      cy.wait('@response');
+      // cy.wait('@response');
 
       // Confirmation page
       cy.url().should('include', 'coronavirus-research/volunteer/confirmation');
