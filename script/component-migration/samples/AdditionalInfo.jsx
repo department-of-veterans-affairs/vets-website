@@ -1,5 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import ProfileInfoTable from '../../../src/applications/personalization/profile/components/ProfileInfoTable';
 
 export const Sample = () => (
   <AdditionalInfo
@@ -26,5 +27,92 @@ export const SampleOther = () => (
       The United States is automatically chosen as your country if you live on a
       military base outside of the country.
     </span>
+  </AdditionalInfo>
+);
+
+export const Sample3 = ({ className = 'sample' }) => (
+  <div className={className}>
+    <div className="vads-u-margin-bottom--2">
+      <AdditionalInfo triggerText="How do I update my personal information?">
+        <h2 className="vads-u-font-size--h5 vads-u-margin-top--3">
+          If you’re enrolled in the VA health care program
+        </h2>
+        <p className="vads-u-margin-y--1">
+          Please contact your nearest VA medical center to update your personal
+          information.
+        </p>
+        <a href="/find-locations/?facilityType=health">
+          Find your nearest VA medical center{' '}
+        </a>
+        <h2 className="vads-u-font-size--h5 vads-u-margin-top--3 vads-u-margin-bottom--1">
+          If you receive VA benefits, but aren’t enrolled in VA health care
+        </h2>
+        <p className="vads-u-margin-y--1">
+          Please contact your nearest VA regional office to update your personal
+          information
+        </p>
+        <a href="/find-locations/?facilityType=benefits">
+          Find your nearest VA regional office
+        </a>
+      </AdditionalInfo>
+    </div>
+    <ProfileInfoTable
+      title="Personal information"
+      data={[
+        { title: 'Date of birth', value: 'N/A' },
+        { title: 'Gender', value: 'N/A' },
+      ]}
+      className="vads-u-margin-bottom--3"
+      level={2}
+    />
+  </div>
+);
+
+export const Sample4 = () => (
+  <div className="vads-u-margin-y--3 available-connected-apps">
+    <AdditionalInfo
+      triggerText={`What other third-party apps can I connect to my profile?`}
+    >
+      To find out what other third-party apps are available to connect to your
+      profile,{' '}
+      <a href="/resources/find-apps-you-can-use" onClick={null}>
+        go to the app directory
+      </a>
+    </AdditionalInfo>
+  </div>
+);
+
+export const Sample5 = () => (
+  <AdditionalInfo
+    triggerText="What if I don’t have a bank account?"
+    onClick={null}
+  >
+    <p>
+      The Veterans{' '}
+      <a
+        href="https://veteransbenefitsbanking.org/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Benefits Banking Program (VBBP)
+      </a>{' '}
+      provides a list of Veteran-friendly banks and credit unions. They’ll work
+      with you to set up an account, or help you qualify for an account, so you
+      can use direct deposit.
+    </p>
+
+    <p>
+      To get started, call one of the participating banks or credit unions
+      listed on the VBBP website. Be sure to mention the Veterans Benefits
+      Banking Program.
+    </p>
+
+    <p>
+      <strong>Note:</strong> The Department of the Treasury requires us to make
+      electronic payments. If you don’t want to use direct deposit, you’ll need
+      to call the Department of the Treasury at ? Ask to talk with a
+      representative who handles waiver requests. They can answer any questions
+      or concerns you may have.
+    </p>
   </AdditionalInfo>
 );
