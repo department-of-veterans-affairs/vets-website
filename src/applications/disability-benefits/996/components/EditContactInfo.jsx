@@ -1,7 +1,7 @@
 import React from 'react';
 
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
-import ContactInformationField from '@@vap-svc/components/ContactInformationField';
+import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 
 const buildPage = ({ title, field, goToPath }) => (
@@ -15,7 +15,7 @@ const buildPage = ({ title, field, goToPath }) => (
   >
     <InitializeVAPServiceID>
       <h3>{title}</h3>
-      <ContactInformationField
+      <ProfileInformationFieldController
         forceEditView
         fieldName={FIELD_NAMES[field]}
         isDeleteDisabled

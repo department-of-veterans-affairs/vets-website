@@ -43,8 +43,8 @@ export const titleCase = str => {
 
 export const sortStatementsByDate = statements => {
   return statements.sort((a, b) => {
-    const aDate = formatDate(a.pSProcessDateOutput);
-    const bDate = formatDate(b.pSProcessDateOutput);
+    const aDate = formatDate(a.pSStatementDate);
+    const bDate = formatDate(b.pSStatementDate);
 
     if (aDate > bDate) {
       return 1;

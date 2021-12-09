@@ -37,7 +37,9 @@ export default function LearnMoreLabel({
       onClick={() => {
         focusElement(labelFor);
         recordEvent({
-          event: `Learn more clicked for ${labelFor}`,
+          event: 'cta-button-click',
+          'button-click-label': `${ariaLabel || labelFor}`,
+          'button-type': 'link',
         });
       }}
     >

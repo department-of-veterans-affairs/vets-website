@@ -6,7 +6,7 @@ const AppointmentBlock = props => {
   const { appointments } = props;
 
   const appointmentString =
-    appointments.length > 1 ? 'appointments' : 'appointment is';
+    appointments.length > 1 ? 'appointments are' : 'appointment is';
   const appointmentsDateTime = new Date(appointments[0].startTime);
   const appointmentsDay = format(appointmentsDateTime, 'MMMM dd, Y');
   const appointmentFacility = appointments[0].facility;

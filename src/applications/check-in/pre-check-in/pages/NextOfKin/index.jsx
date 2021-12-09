@@ -22,6 +22,8 @@ import {
   makeSelectForm,
 } from '../../selectors';
 
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+
 const NextOfKin = props => {
   const { router } = props;
 
@@ -37,6 +39,9 @@ const NextOfKin = props => {
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
   const { nextOfKin1: nextOfKin } = demographics;
+
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isEmergencyContactEnabled } = useSelector(selectFeatureToggles);
 
   const dispatch = useDispatch();
 
@@ -60,24 +65,35 @@ const NextOfKin = props => {
       });
       dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
       // select the answers from state
-      // send to API
-      const preCheckInData = {
-        uuid: token,
-        demographicsUpToDate: demographicsUpToDate === 'yes',
-        nextOfKinUpToDate: answer === 'yes',
-      };
-      try {
-        const resp = await api.v2.postPreCheckInData({ ...preCheckInData });
-        if (resp.data.error || resp.data.errors) {
+      if (isEmergencyContactEnabled) {
+        goToNextPage();
+      } else {
+        // send to API
+        const preCheckInData = {
+          uuid: token,
+          demographicsUpToDate: demographicsUpToDate === 'yes',
+          nextOfKinUpToDate: answer === 'yes',
+        };
+        try {
+          const resp = await api.v2.postPreCheckInData({ ...preCheckInData });
+          if (resp.data.error || resp.data.errors) {
+            goToErrorPage();
+          } else {
+            goToNextPage();
+          }
+        } catch (error) {
           goToErrorPage();
-        } else {
-          goToNextPage();
         }
-      } catch (error) {
-        goToErrorPage();
       }
     },
-    [dispatch, goToErrorPage, goToNextPage, token, demographicsUpToDate],
+    [
+      dispatch,
+      goToErrorPage,
+      goToNextPage,
+      isEmergencyContactEnabled,
+      token,
+      demographicsUpToDate,
+    ],
   );
 
   const yesClick = useCallback(
