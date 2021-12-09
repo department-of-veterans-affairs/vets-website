@@ -11,7 +11,13 @@ import apiInitializer from '../support/ApiInitializer';
 describe('Pre-Check In Experience ', () => {
   let apiData = {};
   beforeEach(function() {
-    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
+    cy.intercept(
+      'GET',
+      '/v0/feature_toggles*',
+      generateFeatureToggles({
+        emergencyContactEnabled: false,
+      }),
+    );
     apiInitializer.initializeSessionGet.withSuccessfulNewSession();
 
     apiInitializer.initializeSessionPost.withSuccess();

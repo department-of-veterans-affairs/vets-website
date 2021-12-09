@@ -58,6 +58,9 @@ import {
 } from '../utils/validation';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
+import merge from 'lodash/merge';
+import createDirectDepositPage from '../../edu-benefits/pages/directDeposit';
+import { directDepositDescription } from '../../edu-benefits/1990/helpers';
 
 const {
   fullName,
@@ -66,7 +69,6 @@ const {
   dateRange,
   usaPhone,
   email,
-  // bankAccount,
   toursOfDuty,
 } = commonDefinitions;
 
@@ -114,7 +116,6 @@ const formPages = {
   },
   serviceHistory: 'serviceHistory',
   benefitSelection: 'benefitSelection',
-  // directDeposit: 'directDeposit',
   additionalConsiderations: {
     activeDutyKicker: {
       name: 'active-duty-kicker',
@@ -166,6 +167,7 @@ const formPages = {
       },
     },
   },
+  directDeposit: 'directDeposit',
 };
 
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
@@ -1316,6 +1318,21 @@ const formConfig = {
             formFields.loanPayment,
           ),
         },
+      },
+    },
+    bankAccountInfoChapter: {
+      title: 'Personal Information',
+      pages: {
+        [formPages.directDeposit]: merge(
+          {},
+          createDirectDepositPage(fullSchema),
+          {
+            path: 'direct-deposit',
+            uiSchema: {
+              'ui:description': directDepositDescription,
+            },
+          },
+        ),
       },
     },
   },

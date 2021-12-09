@@ -10,7 +10,7 @@ class NextOfKin {
       .and('have.text', 'Is this your current next of kin?');
   }
   validateNextOfKinFields() {
-    cy.get("dl[data-testid='next-of-kin-fields']")
+    cy.get('.confirmable-page dl')
       .find('dt:nth-of-type(1)')
       .should('have.text', 'Name')
       .next()
@@ -28,7 +28,7 @@ class NextOfKin {
   }
   // @TODO: update to match against mock api.
   validateNextOfKinData() {
-    cy.get("dl[data-testid='next-of-kin-fields']")
+    cy.get('.confirmable-page dl')
       .find('dd:nth-of-type(1)')
       .should('have.text', 'VETERAN,JONAH')
       .next()

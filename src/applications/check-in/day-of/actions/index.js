@@ -90,3 +90,12 @@ export const seeStaffMessageUpdated = message => {
     payload: { seeStaffMessage: message },
   };
 };
+
+export const RECEIVED_DEMOGRAPHICS_STATUS = 'RECEIVED_DEMOGRAPHICS_STATUS';
+
+export const receivedDemographicsStatus = status => {
+  return {
+    type: RECEIVED_DEMOGRAPHICS_STATUS,
+    payload: { demographicsStatus: status },
+  };
+};
