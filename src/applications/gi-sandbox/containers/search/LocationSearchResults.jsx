@@ -401,7 +401,7 @@ function LocationSearchResults({
         recordEvent({
           event: 'view_search_results',
           'search-page-path': document.location.pathname,
-          'search-query': location,
+          'search-query': '[redacted]',
           'search-results-total-count': count,
           'search-results-total-pages': undefined,
           'search-selection': 'GIBCT',
