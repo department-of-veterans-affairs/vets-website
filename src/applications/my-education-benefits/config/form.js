@@ -1345,7 +1345,7 @@ const formConfig = {
                       <img
                         key="1a"
                         src="/img/check-sample.png"
-                        alt="If you don't have a printed check, you can sign in to your online banking institution for this information"
+                        alt="Example of a check showing where the account and routing numbers are"
                       />
                       <p key="2b">
                         If you don’t have a printed check, you can sign in to
