@@ -17,7 +17,7 @@ const COEPending = props => {
               ? "You'll need to upload documents before we can make a decision on your COE application."
               : "If you qualify for a Certificate of Eligibility, we'll notify you by email to let you know how to get your COE."}
           </p>
-          <a href="/housing-assistance/home-loans/apply-for-coe-form-26-1880/eligibility">
+          <a href="/housing-assistance/home-loans/request-coe-form-26-1880/eligibility">
             Go to your VA home loan COE page to review the details of your COE
           </a>
         </div>

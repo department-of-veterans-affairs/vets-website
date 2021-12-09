@@ -7,7 +7,7 @@ const COEDenied = () => (
       <div>
         <p>You requested a COE on:  June 30, 2021</p>
         <p>We reviewed your request. You don’t qualify for a COE.</p>
-        <a href="/housing-assistance/home-loans/apply-for-coe-form-26-1880/eligibility">
+        <a href="/housing-assistance/home-loans/request-coe-form-26-1880/eligibility">
           Go to your VA home loan COE page to see status details
         </a>
       </div>

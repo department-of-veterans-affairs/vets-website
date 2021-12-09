@@ -33,7 +33,7 @@ export const CoeIneligible = () => (
       </p>
       <a
         className="vads-c-action-link--green"
-        href="/housing-assistance/home-loans/apply-for-coe-form-26-1880/introduction"
+        href="/housing-assistance/home-loans/request-coe-form-26-1880/introduction"
       >
         Request a Certificate of Eligibility
       </a>

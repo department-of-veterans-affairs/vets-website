@@ -10,7 +10,7 @@ const COEAvailable = () => (
           You have a COE available so you don’t need to fill out a request. You
           can review the details about your COE status or download your COE now.
         </p>
-        <a href="/housing-assistance/home-loans/apply-for-coe-form-26-1880/eligibility">
+        <a href="/housing-assistance/home-loans/request-coe-form-26-1880/eligibility">
           Go to your VA home loan COE page to review the details of your COE
           status
         </a>
