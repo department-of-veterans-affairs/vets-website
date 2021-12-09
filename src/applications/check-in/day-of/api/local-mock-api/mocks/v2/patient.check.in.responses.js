@@ -94,6 +94,23 @@ const createMultipleAppointments = (
     id: token || defaultUUID,
     payload: {
       demographics: {
+        emergencyContact: {
+          name: 'Bugs Bunny',
+          workPhone: '',
+          relationship: 'Estranged Uncle',
+          phone: '5558675309',
+          address: {
+            zip: '87102',
+            country: 'USA',
+            street3: '',
+            city: 'Albuquerque',
+            county: null,
+            street1: '123 fake street',
+            zip4: '',
+            street2: '',
+            state: 'New Mexico',
+          },
+        },
         nextOfKin1: {
           name: 'VETERAN,JONAH',
           relationship: 'BROTHER',
