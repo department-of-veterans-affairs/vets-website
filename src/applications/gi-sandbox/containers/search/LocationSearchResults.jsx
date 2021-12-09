@@ -193,7 +193,8 @@ function LocationSearchResults({
         mapMarkerClicked(markerClicked);
         setMarkerClicked(null);
         recordEvent({
-          event: `${markerClicked} map marker clicked`,
+          event: 'map-pin-click',
+          'map-location': markerClicked,
         });
       }
     },
@@ -395,18 +396,24 @@ function LocationSearchResults({
   useEffect(
     () => {
       focusElement('#location-search-results-count');
-      recordEvent({
-        event: 'onsite-search-results-change',
-        'search-page-path': '/?search=location',
-        'search-query': location,
-        'search-results-total-count': count,
-        'search-selection': 'Search By Location',
-        'sitewide-search-app-used': false,
-        'type-ahead-option-keyword-selected': undefined,
-        'type-ahead-option-position': undefined,
-        'type-ahead-options-list': undefined,
-        'type-ahead-options-count': undefined,
-      });
+      // Avoid blank searches or double events
+      if (location && count !== null) {
+        recordEvent({
+          event: 'view_search_results',
+          'search-page-path': document.location.pathname,
+          'search-query': '[redacted]',
+          'search-results-total-count': count,
+          'search-results-total-pages': undefined,
+          'search-selection': 'GIBCT',
+          'search-typeahead-enabled': false,
+          'search-location': 'Location',
+          'sitewide-search-app-used': false,
+          'type-ahead-option-keyword-selected': undefined,
+          'type-ahead-option-position': undefined,
+          'type-ahead-options-list': undefined,
+          'type-ahead-options-count': undefined,
+        });
+      }
     },
     [results],
   );
