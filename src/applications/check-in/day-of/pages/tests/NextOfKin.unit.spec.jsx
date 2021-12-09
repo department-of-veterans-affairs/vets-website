@@ -224,7 +224,7 @@ describe('check in', () => {
       ).to.exist;
       component.getByTestId('yes-button').click();
     });
-    it('skips to the next page when needs update is false', () => {
+    it.skip('skips to the next page when needs update is false', () => {
       const push = sinon.spy();
       const mockRouter = {
         push,

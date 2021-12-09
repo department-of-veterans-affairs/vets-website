@@ -78,10 +78,6 @@ class Payments extends Component {
           <Table
             ariaLabelledBy={tableAriaLabelldBy}
             className="va-table"
-            currentSort={{
-              value: 'String',
-              order: 'ASC',
-            }}
             fields={this.props.fields}
             data={this.state.currentlyShowingData}
             maxRows={10}

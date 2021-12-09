@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "My Education Benefits (22-1990)",
+  "title": "Apply for Specially Adapted Housing Grant (26-4555)",
   "type": "object",
   "additionalProperties": false,
   "definitions": {
@@ -209,29 +209,6 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 51
-        }
-      }
-    },
-    "bankAccount": {
-      "type": "object",
-      "properties": {
-        "accountType": {
-          "type": "string",
-          "enum": [
-            "checking",
-            "savings"
-          ]
-        },
-        "routingNumber": {
-          "type": "string",
-          "pattern": "^\\d{9}$"
-        },
-        "accountNumber": {
-          "type": "string"
-        },
-        "learnMore": {
-          "type": "object",
-          "properties": {}
         }
       }
     }

@@ -10095,7 +10095,7 @@ https-browserify@~0.0.0:
   resolved "https://registry.npmjs.org/https-browserify/-/https-browserify-0.0.1.tgz"
   integrity sha1-P5E2XKvmC3ftDruiS0VOPgnZWoI=
 
-https-proxy-agent@^1.0.0, https-proxy-agent@^2.2.3, https-proxy-agent@^4.0.0, https-proxy-agent@^5.0.0:
+https-proxy-agent@^2.2.3, https-proxy-agent@^4.0.0, https-proxy-agent@^5.0.0:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/https-proxy-agent/-/https-proxy-agent-2.2.4.tgz#4ee7a737abd92678a293d9b34a1af4d0d08c787b"
   integrity sha512-OmvfoQ53WLjtA9HeYP9RNrWMJzzAz1JGaSFr1nijg0PVR1JaD/xbJq1mdEIIlxGpXp9eSe/O2LgU9DJmTPd0Eg==
@@ -16527,12 +16527,6 @@ sass-loader@^8.0.2:
     schema-utils "^2.6.1"
     semver "^6.3.0"
 
-saucelabs@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.npmjs.org/saucelabs/-/saucelabs-1.4.0.tgz"
-  dependencies:
-    https-proxy-agent "^1.0.0"
-
 sax@^1.2.4:
   version "1.2.4"
   resolved "https://registry.npmjs.org/sax/-/sax-1.2.4.tgz"
@@ -18894,9 +18888,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#7c75ec66abb2266abd0366831b64da70bc233576":
-  version "20.17.1"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7c75ec66abb2266abd0366831b64da70bc233576"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#daa6f14539b167dc179cd4495159d58eade30211":
+  version "20.18.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#daa6f14539b167dc179cd4495159d58eade30211"
 
 vfile-message@^2.0.0:
   version "2.0.4"

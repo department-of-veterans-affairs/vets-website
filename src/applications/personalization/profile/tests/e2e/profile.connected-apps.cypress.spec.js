@@ -7,20 +7,22 @@ import mockConnectedApps from '../fixtures/connected-apps/mock-connected-apps.js
  * @param {boolean} mobile - test on a mobile viewport or not
  */
 
-function disconnectApps(mobile = false) {
+function disconnectApps(mobile = false, error = false) {
   cy.server();
   cy.route('GET', 'v0/profile/connected_applications', mockConnectedApps);
 
   cy.route({
     method: 'DELETE',
     url: 'v0/profile/connected_applications/0oa3s6dlvxgsZr62p2p7',
-    response: {},
+    response: error ? { errors: [{ code: 5, status: 500 }] } : {},
+    status: error ? 500 : 200,
   }).as('connectedAppDelete1');
 
   cy.route({
     method: 'DELETE',
     url: 'v0/profile/connected_applications/10oa3s6dlvxgsZr62p2p7',
-    response: {},
+    response: error ? { errors: [{ code: 5, status: 500 }] } : {},
+    status: error ? 500 : 200,
   }).as('connectedAppDelete2');
 
   cy.visit(PROFILE_PATHS.CONNECTED_APPLICATIONS);
@@ -52,7 +54,8 @@ function disconnectApps(mobile = false) {
   cy.findByTestId('confirm-disconnect-Apple Health').click({
     force: true,
   });
-
+}
+function checkForSuccess() {
   cy.wait('@connectedAppDelete1');
 
   // Check for the presence of the disconnect success alert
@@ -79,15 +82,37 @@ function disconnectApps(mobile = false) {
   cy.findByText(/Go to app directory/i).should('exist');
 }
 
+function checkForErrors() {
+  cy.wait('@connectedAppDelete1');
+
+  // Check for the presence of the disconnect error alert
+  cy.findByText(/We’re sorry. We can’t disconnect.*from your VA.gov/i).should(
+    'exist',
+  );
+
+  // The apps should not be removed
+  cy.get('.connected-app').should('have.length', 2);
+}
+
 describe('Connected applications', () => {
   beforeEach(() => {
     cy.login(mockUser);
   });
   it('should successfully disconnect apps on Desktop', () => {
     disconnectApps(false);
+    checkForSuccess();
   });
 
   it('should successfully disconnect apps on mobile', () => {
     disconnectApps(true);
+    checkForSuccess();
+  });
+  it('should show error message when it can’t disconnect apps on Desktop', () => {
+    disconnectApps(false, true);
+    checkForErrors();
+  });
+
+  it('should show error message when it can’t disconnect apps on mobile', () => {
+    disconnectApps(true, true);
   });
 });
