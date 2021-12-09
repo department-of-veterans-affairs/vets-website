@@ -29,7 +29,7 @@ jobs:
           JSON=$(jq '[.[]
                       | select((.rootUrl
                                 | IN("/health-care/health-questionnaires/questionnaires/answer-questions", "/health-care/health-questionnaires/questionnaires")
-                                | not) and .template.vagovprod) 
+                                | not) and .template.vagovprod != false) 
                       | .rootUrl ]' ./content-build/src/applications/registry.json)
           echo ::set-output name=registries::$(jq --argjson arr1 "$CUSTOM_URLS" --argjson arr2 "$JSON" -n '$arr2 + $arr1')
 
@@ -175,10 +175,10 @@ jobs:
           uploadArtifacts: true # save results as an action artifacts
 
       - name: Upload lighthouse report (JSON)
-        run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath }} s3://vetsgov-website-builds-s3-upload/lighthouse/${{ matrix.registry }}.json --acl public-read --region us-gov-west-1
+        run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath }} s3://vetsgov-website-builds-s3-upload/lighthouse${{ matrix.registry == '/' && '/homepage' || matrix.registry }}.json --acl public-read --region us-gov-west-1
 
       - name: Upload lighthouse report (HTML)
-        run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath }} s3://vetsgov-website-builds-s3-upload/lighthouse/${{ matrix.registry }}.html --acl public-read --region us-gov-west-1
+        run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath }} s3://vetsgov-website-builds-s3-upload/lighthouse${{ matrix.registry == '/' && '/homepage' || matrix.registry }}.html --acl public-read --region us-gov-west-1
 
   notify-slack:
     name: Notify Success
