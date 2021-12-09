@@ -9,42 +9,40 @@ import BackToHome from '../components/BackToHome';
 import { focusElement } from 'platform/utilities/ui';
 import Footer from '../components/Footer';
 import { seeStaffMessageUpdated } from '../actions';
-import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
+import EmergencyContactDisplay from '../../components/pages/emergencyContact/EmergencyContactDisplay';
 
-const NextOfKin = props => {
+const EmergencyContact = props => {
   const {
-    nextOfKin,
+    emergencyContact,
     isLoading,
-    isEmergencyContactEnabled,
     isDemographicsPageEnabled,
     isUpdatePageEnabled,
     router,
     updateSeeStaffMessage,
     demographicsStatus,
   } = props;
-  const { nextOfKinNeedsUpdate } = demographicsStatus;
+  const { emergencyContactNeedsUpdate } = demographicsStatus;
   const seeStaffMessage =
-    'Our staff can help you update your next of kin information.';
+    'Our staff can help you update your emergency contact information.';
+
   useEffect(() => {
     focusElement('h1');
   }, []);
   const findNextPage = useCallback(
     () => {
-      if (isEmergencyContactEnabled) {
-        goToNextPage(router, URLS.EMERGENCY_CONTACT);
-      } else if (isUpdatePageEnabled) {
+      if (isUpdatePageEnabled) {
         goToNextPage(router, URLS.UPDATE_INSURANCE);
       } else {
         goToNextPage(router, URLS.DETAILS);
       }
     },
-    [isEmergencyContactEnabled, isUpdatePageEnabled, router],
+    [isUpdatePageEnabled, router],
   );
   const yesClick = useCallback(
     () => {
       recordEvent({
         event: 'cta-button-click',
-        'button-click-label': 'yes-to-next-of-kin-information',
+        'button-click-label': 'yes-to-emergency-contact-information',
       });
       findNextPage();
     },
@@ -55,7 +53,7 @@ const NextOfKin = props => {
     () => {
       recordEvent({
         event: 'cta-button-click',
-        'button-click-label': 'no-to-next-of-kin-information',
+        'button-click-label': 'no-to-emergency-contact-information',
       });
       updateSeeStaffMessage(seeStaffMessage);
       goToNextPage(router, URLS.SEE_STAFF);
@@ -64,17 +62,17 @@ const NextOfKin = props => {
   );
   useEffect(
     () => {
-      if (nextOfKinNeedsUpdate === false) {
+      if (emergencyContactNeedsUpdate === false) {
         findNextPage();
       }
     },
-    [nextOfKinNeedsUpdate, findNextPage],
+    [emergencyContactNeedsUpdate, findNextPage],
   );
   if (isLoading) {
     return (
       <va-loading-indicator message="Loading your appointments for today" />
     );
-  } else if (!nextOfKin) {
+  } else if (!emergencyContact) {
     goToNextPage(router, URLS.ERROR);
     return <></>;
   } else {
@@ -83,8 +81,8 @@ const NextOfKin = props => {
         {(isUpdatePageEnabled || isDemographicsPageEnabled) && (
           <BackButton router={router} />
         )}
-        <NextOfKinDisplay
-          nextOfKin={nextOfKin}
+        <EmergencyContactDisplay
+          data={emergencyContact}
           yesAction={yesClick}
           noAction={noClick}
           Footer={Footer}
@@ -103,10 +101,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-NextOfKin.propTypes = {
-  nextOfKin: PropTypes.object,
+EmergencyContact.propTypes = {
+  emergencyContact: PropTypes.object,
   isLoading: PropTypes.bool,
-  isEmergencyContactEnabled: PropTypes.bool,
   isDemographicsPageEnabled: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
@@ -117,4 +114,4 @@ NextOfKin.propTypes = {
 export default connect(
   null,
   mapDispatchToProps,
-)(NextOfKin);
+)(EmergencyContact);
