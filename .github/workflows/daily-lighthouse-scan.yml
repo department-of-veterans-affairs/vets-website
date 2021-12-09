@@ -26,12 +26,12 @@ jobs:
         run: |
           CUSTOM_URLS='["/"]'
           # To omit urls from being scanned in lighthouse, add rootUrl inside IN() function
-          JSON=$(jq '[.[]
+          REGISTRY_ARRAY=$(jq '[.[]
                       | select((.rootUrl
                                 | IN("/health-care/health-questionnaires/questionnaires/answer-questions", "/health-care/health-questionnaires/questionnaires")
                                 | not) and .template.vagovprod != false) 
                       | .rootUrl ]' ./content-build/src/applications/registry.json)
-          echo ::set-output name=registries::$(jq --argjson arr1 "$CUSTOM_URLS" --argjson arr2 "$JSON" -n '$arr2 + $arr1')
+          echo ::set-output name=registries::$(jq --argjson CUSTOM_URLS "$CUSTOM_URLS" --argjson REGISTRY_ARRAY "$REGISTRY_ARRAY" -n '$REGISTRY_ARRAY + $CUSTOM_URLS | sort')
 
   lighthouse-scan:
     runs-on: ubuntu-latest
