@@ -26,12 +26,12 @@ jobs:
         run: |
           CUSTOM_URLS='["/"]'
           # To omit urls from being scanned in lighthouse, add rootUrl inside IN() function
-          JSON=$(jq '[.[]
+          REGISTRY_ARRAY=$(jq '[.[]
                       | select((.rootUrl
                                 | IN("/health-care/health-questionnaires/questionnaires/answer-questions", "/health-care/health-questionnaires/questionnaires")
                                 | not) and .template.vagovprod != false) 
                       | .rootUrl ]' ./content-build/src/applications/registry.json)
-          echo ::set-output name=registries::$(jq --argjson arr1 "$CUSTOM_URLS" --argjson arr2 "$JSON" -n '$arr2 + $arr1')
+          echo ::set-output name=registries::$(jq --argjson CUSTOM_URLS "$CUSTOM_URLS" --argjson REGISTRY_ARRAY "$REGISTRY_ARRAY" -n '$REGISTRY_ARRAY + $CUSTOM_URLS | sort')
 
   lighthouse-scan:
     runs-on: ubuntu-latest
@@ -171,7 +171,7 @@ jobs:
         uses: treosh/lighthouse-ci-action@v8
         with:
           urls: |
-            https://va.gov${{ matrix.registry }}
+            https://www.va.gov${{ matrix.registry }}
           uploadArtifacts: true # save results as an action artifacts
 
       - name: Upload lighthouse report (JSON)
@@ -181,7 +181,7 @@ jobs:
         run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath }} s3://vetsgov-website-builds-s3-upload/lighthouse${{ matrix.registry == '/' && '/homepage' || matrix.registry }}.html --acl public-read --region us-gov-west-1
 
   notify-slack:
-    name: Notify Success
+    name: Notify Slack
     runs-on: ubuntu-latest
     if: ${{ always() }}
     needs: [lighthouse-scan, lighthouse-scan-registries]
@@ -194,7 +194,7 @@ jobs:
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
-          attachments: '[{"mrkdwn_in": ["text"], "text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}]'
+          attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}]'
           channel_id: ${{ env.CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
