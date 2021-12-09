@@ -40,7 +40,7 @@ const getAllowedApps = (filePath, allow) => {
   const manifests = getManifests(filePath);
 
   const isAllowed =
-    allow.rootAppPaths.includes(rootAppPath) ||
+    allow.rootAppFolders.includes(rootAppFolder) ||
     (manifests.length === 1 &&
       allow.entryNames.includes(manifests[0].entryName));
 

@@ -1,6 +1,6 @@
 {
   "allow": {
     "entryNames": ["vaos"],
-    "rootAppPaths": ["src/applications/health-care-questionnaire"]
+    "rootAppFolders": ["health-care-questionnaire"]
   }
 }
