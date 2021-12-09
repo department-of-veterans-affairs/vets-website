@@ -1,11 +1,9 @@
-import { merge } from 'lodash';
-
 // In a real app this would be imported from `vets-json-schema`:
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
+// import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -24,7 +22,7 @@ const {
   date,
   dateRange,
   usaPhone,
-  bankAccount,
+  // bankAccount,
   toursOfDuty,
 } = fullSchema.definitions;
 
@@ -35,7 +33,7 @@ const formFields = {
   toursOfDuty: 'toursOfDuty',
   viewNoDirectDeposit: 'view:noDirectDeposit',
   viewStopWarning: 'view:stopWarning',
-  bankAccount: 'bankAccount',
+  // bankAccount: 'bankAccount',
   accountType: 'accountType',
   accountNumber: 'accountNumber',
   routingNumber: 'routingNumber',
@@ -169,25 +167,25 @@ const formConfig = {
             [formFields.viewNoDirectDeposit]: {
               'ui:title': 'I don’t want to use direct deposit',
             },
-            [formFields.bankAccount]: merge(bankAccountUI, {
-              'ui:order': [
-                formFields.accountType,
-                formFields.accountNumber,
-                formFields.routingNumber,
-              ],
-              'ui:options': {
-                hideIf: formData => !hasDirectDeposit(formData),
-              },
-              [formFields.accountType]: {
-                'ui:required': hasDirectDeposit,
-              },
-              [formFields.accountNumber]: {
-                'ui:required': hasDirectDeposit,
-              },
-              [formFields.routingNumber]: {
-                'ui:required': hasDirectDeposit,
-              },
-            }),
+            // [formFields.bankAccount]: merge(bankAccountUI, {
+            //   'ui:order': [
+            //     formFields.accountType,
+            //     formFields.accountNumber,
+            //     formFields.routingNumber,
+            //   ],
+            //   'ui:options': {
+            //     hideIf: formData => !hasDirectDeposit(formData),
+            //   },
+            //   [formFields.accountType]: {
+            //     'ui:required': hasDirectDeposit,
+            //   },
+            //   [formFields.accountNumber]: {
+            //     'ui:required': hasDirectDeposit,
+            //   },
+            //   [formFields.routingNumber]: {
+            //     'ui:required': hasDirectDeposit,
+            //   },
+            // }),
             [formFields.viewStopWarning]: {
               'ui:description': directDepositWarning,
               'ui:options': {
@@ -201,7 +199,7 @@ const formConfig = {
               [formFields.viewNoDirectDeposit]: {
                 type: 'boolean',
               },
-              [formFields.bankAccount]: bankAccount,
+              // [formFields.bankAccount]: bankAccount,
               [formFields.viewStopWarning]: {
                 type: 'object',
                 properties: {},
