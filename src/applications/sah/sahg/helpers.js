@@ -10,6 +10,7 @@ export const directDepositWarning = (
       href="http://www.usdirectexpress.com"
       target="_blank"
       rel="noopener noreferrer"
+      aria-label="www.usdirectexpress.com (opens in new window)"
     >
       www.usdirectexpress.com
     </a>{' '}
