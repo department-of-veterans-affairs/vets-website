@@ -228,6 +228,10 @@
         },
         "accountNumber": {
           "type": "string"
+        },
+        "learnMore": {
+          "type": "object",
+          "properties": {}
         }
       }
     }
