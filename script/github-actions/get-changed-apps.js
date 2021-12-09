@@ -27,7 +27,7 @@ const getManifests = filePath => {
  * name or root folder must be on the given allow list, otherwise returns null.
  *
  * @param {string} filePath - Relative file path.
- * @param {Object} allow - Lists of entry names and root app paths to check against.
+ * @param {Object} allow - Lists of entry names and root app folders to check against.
  * @returns {Object[]|null} Sliced manifests of allowed apps. Otherwise null.
  */
 const getAllowedApps = (filePath, allow) => {
@@ -58,7 +58,7 @@ const getAllowedApps = (filePath, allow) => {
 /**
  * Checks if a changed apps build is possible by confirming that all
  * files are from apps on an allow list. If so, returns a comma-delimited string
- * of app entry names, relative paths, or URLs. If not, returns an empty string.
+ * of app entry names, relative paths, or URLs; otherwise returns an empty string.
  *
  * @param {string[]} filePaths - An array of relative file paths.
  * @param {Object} config - The changed apps build config.
