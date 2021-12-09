@@ -89,6 +89,7 @@ const createMultipleAppointments = (
   numberOfCheckInAbledAppointments = 2,
   demographicsNeedsUpdate = true,
   nextOfKinNeedsUpdate = true,
+  emergencyContactNeedsUpdate = true,
 ) => {
   const rv = {
     id: token || defaultUUID,
@@ -161,8 +162,8 @@ const createMultipleAppointments = (
         demographicsConfirmedAt: null,
         nextOfKinNeedsUpdate,
         nextOfKinConfirmedAt: null,
-        emergencyContactNeedsUpdate: true,
-        emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
+        emergencyContactNeedsUpdate,
+        emergencyContactConfirmedAt: null,
       },
     },
   };
