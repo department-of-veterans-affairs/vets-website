@@ -14,11 +14,11 @@ const changedAppsConfig = require('../../config/changed-apps-build.json');
  */
 const getManifests = filePath => {
   const root = path.join(__dirname, '../..');
-  const appDirectory = filePath.split('/')[2];
-  const fullPath = path.join(root, `./src/applications/${appDirectory}`);
+  const rootAppFolder = filePath.split('/')[2];
+  const fullAppPath = path.join(root, './src/applications', rootAppFolder);
 
   return find
-    .fileSync(/manifest\.(json|js)$/, fullPath)
+    .fileSync(/manifest\.(json|js)$/, fullAppPath)
     .map(file => JSON.parse(fs.readFileSync(file)));
 };
 
