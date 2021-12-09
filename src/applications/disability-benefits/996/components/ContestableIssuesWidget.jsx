@@ -1,0 +1,228 @@
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Link } from 'react-router';
+
+import set from 'platform/utilities/data/set';
+import { setData } from 'platform/forms-system/src/js/actions';
+import { scrollAndFocus } from 'platform/utilities/ui';
+
+import { IssueCard } from './IssueCardV2';
+import { SELECTED, MAX_SELECTIONS, LAST_HLR_ITEM } from '../constants';
+import { NoneSelectedAlert, MaxSelectionsAlert } from '../content/addIssue';
+import {
+  getSelected,
+  someSelected,
+  isEmptyObject,
+  calculateIndexOffset,
+} from '../utils/helpers';
+
+/**
+ * ContestableIssuesWidget (HLR v2)
+ * Form system parameters passed into this widget
+ * @typedef {Object}
+ * @property {Boolean} autofocus - should auto focus
+ * @property {Boolean} disabled -  is disabled?
+ * @property {Object} formContext -  state
+ * @property {String} id - ID base for form elements
+ * @property {String} label - label text
+ * @property {func} onBlur - blur callback
+ * @property {func} onChange - on change callback
+ * @property {Object} options - ui:options
+ * @property {String} placeholder - placeholder text
+ * @property {Boolean} readonly - readonly state
+ * @property {Object} registry - contains definitions, fields, widgets & templates
+ * @property {Boolean} required - Show required flag
+ * @property {Object} schema - array schema
+ * @property {Object[]} value - array value
+ */
+const ContestableIssuesWidget = props => {
+  const {
+    value = [],
+    id,
+    options,
+    formContext = {},
+    additionalIssues,
+    setFormData,
+    formData,
+  } = props;
+
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [scrollToRef, setScrollToRef] = useState(null);
+
+  const onReviewPage = formContext?.onReviewPage || false;
+  // inReviewMode = true (review page view, not in edit mode)
+  // inReviewMode = false (in edit mode)
+  const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
+  const showCheckbox = !onReviewPage || (onReviewPage && !inReviewMode);
+  // index={index} upon return from add issue page - scroll & focus target
+  const scrollId =
+    !onReviewPage && window.sessionStorage.getItem(LAST_HLR_ITEM);
+  useEffect(
+    () => {
+      if (scrollId !== null && scrollToRef) {
+        scrollAndFocus(scrollToRef);
+        setScrollToRef(null);
+        window.sessionStorage.removeItem(LAST_HLR_ITEM);
+      }
+    },
+    [scrollId, scrollToRef],
+  );
+
+  // combine all issues for viewing
+  const items = value
+    .map(item => ({
+      ...item.attributes,
+      [SELECTED]: item[SELECTED],
+    }))
+    .concat(additionalIssues);
+
+  const itemsLength = items.length;
+  const hasSelected = someSelected(value);
+
+  if (!itemsLength) {
+    return onReviewPage && inReviewMode ? (
+      <>
+        <dt>
+          <strong>No eligible issues found</strong>
+        </dt>
+        <dd />
+      </>
+    ) : null; // h2 shown on page (not review & submit page)
+  }
+
+  if (onReviewPage && inReviewMode && !hasSelected) {
+    return (
+      <>
+        <dt>No issues selected</dt>
+        <dd />
+      </>
+    );
+  }
+
+  const onChange = (index, event) => {
+    let { checked } = event.target;
+    if (checked && getSelected(formData).length + 1 > MAX_SELECTIONS) {
+      setShowErrorModal(true);
+      event.preventDefault(); // prevent checking
+      checked = false;
+    } else if (index < value.length) {
+      // contestable issue check toggle
+      const changedItems = set(`[${index}].${SELECTED}`, checked, props.value);
+      props.onChange(changedItems);
+    } else {
+      // additional issue check toggle
+      const adjustedIndex = calculateIndexOffset(index, value.length);
+      const updatedAdditionalIssues = additionalIssues.map(
+        (issue, indx) =>
+          adjustedIndex === indx ? { ...issue, [SELECTED]: checked } : issue,
+      );
+      setFormData({
+        ...formData,
+        additionalIssues: updatedAdditionalIssues,
+      });
+    }
+  };
+
+  const onRemoveIssue = index => {
+    const adjustedIndex = calculateIndexOffset(index, value.length);
+    const updatedAdditionalIssues = additionalIssues.filter(
+      (issue, indx) => adjustedIndex !== indx,
+    );
+
+    // Focus management: target the previous issue if the last one was removed
+    const focusIndex =
+      index + (adjustedIndex >= updatedAdditionalIssues.length ? -1 : 0);
+
+    window.sessionStorage.setItem(LAST_HLR_ITEM, focusIndex);
+
+    setFormData({
+      ...formData,
+      additionalIssues: updatedAdditionalIssues,
+    });
+  };
+
+  const content = items.map((item, index) => {
+    const itemIsSelected = !!item[SELECTED];
+    const hideCard = (inReviewMode && !itemIsSelected) || isEmptyObject(item);
+
+    // Don't show un-selected ratings in review mode
+    return hideCard ? null : (
+      <div
+        key={index}
+        id={`issue-${index}`}
+        ref={ref => {
+          if (scrollId && ref?.id === `issue-${scrollId}`) {
+            setScrollToRef(ref);
+          }
+        }}
+      >
+        <IssueCard
+          id={id}
+          index={index}
+          item={item}
+          options={options}
+          onChange={onChange}
+          showCheckbox={showCheckbox}
+          onRemove={
+            // Don't allow editing or removing API-loaded issues
+            item.ratingIssueSubjectText ? null : () => onRemoveIssue(index)
+          }
+        />
+      </div>
+    );
+  });
+
+  return (
+    <>
+      {formContext.submitted && !hasSelected && NoneSelectedAlert}
+      {onReviewPage && inReviewMode ? (
+        content
+      ) : (
+        <>
+          <dl className="review vads-u-border-bottom--1px">{content}</dl>
+          <Link
+            to={{ pathname: '/add-issue', search: `?index=${items.length}` }}
+          >
+            Add a new issue
+          </Link>
+        </>
+      )}
+      {showErrorModal && (
+        <MaxSelectionsAlert
+          showModal
+          closeModal={() => setShowErrorModal(false)}
+        />
+      )}
+    </>
+  );
+};
+
+ContestableIssuesWidget.propTypes = {
+  id: PropTypes.string,
+  options: PropTypes.shape({}),
+  formContext: PropTypes.shape({
+    onReviewPage: PropTypes.bool,
+    reviewMode: PropTypes.bool,
+    submitted: PropTypes.bool,
+  }),
+  value: PropTypes.array,
+  formData: PropTypes.shape({}),
+  additionalIssues: PropTypes.array,
+  setFormData: PropTypes.func,
+};
+
+const mapStateToProps = state => ({
+  formData: state.form?.data || {},
+  additionalIssues: state.form?.data.additionalIssues || [],
+});
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export { ContestableIssuesWidget };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ContestableIssuesWidget);

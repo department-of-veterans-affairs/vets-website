@@ -26,3 +26,37 @@ export const getDate = ({
   const dateObj = moment(date);
   return dateObj.isValid() ? dateObj.add(offset).format(pattern) : date;
 };
+
+/**
+ * @typedef SimpleDate~entry
+ * @property {Boolean} dirty - Indicates of the field has been touched
+ * @property {String} value - Value of the field
+ */
+/**
+ * @typedef SinpleDate~date - SimpleDate object
+ * @property {SimpleDate~entry} month
+ * @property {SimpleDate~entry} day
+ * @property {SimpleDate~entry} year
+ */
+/**
+ * Convert SimpleDate object to 'YYYY-MM-DD' string
+ * @param {SimpleDate~date} date - date object
+ * @returns {String} - formatted as 'YYYY-MM-DD'
+ */
+export const getIsoDateFromSimpleDate = date =>
+  `${date.year.value}-${date.month.value}-${date.day.value}`;
+
+/**
+ * Convert date string to SimpleDate object
+ * @param {String} date - 'YYYY-MM-DD'
+ * @returns {SimpleDate~date}
+ */
+export const getSimpleDateFromIso = date => {
+  const [year, month, day] = (date || '').split('-');
+  const fullDate = year && month && day;
+  return {
+    year: { value: fullDate ? year : '', dirty: false },
+    month: { value: fullDate ? month : '', dirty: false },
+    day: { value: fullDate ? day : '', dirty: false },
+  };
+};

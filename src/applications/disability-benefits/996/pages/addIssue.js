@@ -1,12 +1,12 @@
-import AddIssuesField from '../components/AddIssuesField';
+import AddIssue from '../components/AddIssue';
 
 import {
-  AdditionalIssuesLabel,
+  addIssueLabel,
   missingIssueErrorMessage,
   missingIssuesErrorMessage,
-} from '../content/additionalIssues';
+} from '../content/addIssue';
 
-import { IssueCard } from '../components/IssueCard';
+import { IssueCard } from '../components/IssueCardV1';
 import {
   requireIssue,
   validateDate,
@@ -15,17 +15,17 @@ import {
   maxIssues,
 } from '../validations/issues';
 import { SELECTED } from '../constants';
-import { setInitialEditMode, showAddIssuesPage } from '../utils/helpers';
+import { setInitialEditMode } from '../utils/helpers';
 
 import dateUiSchema from 'platform/forms-system/src/js/definitions/date';
 
 export default {
   uiSchema: {
-    'ui:title': AdditionalIssuesLabel,
+    'ui:title': addIssueLabel,
     'ui:validations': [requireIssue, validAdditionalIssue, maxIssues],
-    additionalIssues: {
+    addIssue: {
       'ui:title': '',
-      'ui:field': AddIssuesField,
+      'ui:field': AddIssue,
       'ui:options': {
         viewField: IssueCard,
         itemName: 'issue',
@@ -33,10 +33,9 @@ export default {
         setInitialEditMode,
         updateSchema: (formData, schema) => ({
           ...schema,
-          minItems: showAddIssuesPage(formData) ? 1 : 0,
+          minItems: 1,
         }),
       },
-      'ui:required': showAddIssuesPage,
       'ui:errorMessages': {
         required: missingIssuesErrorMessage,
         atLeastOne: missingIssuesErrorMessage,
@@ -60,7 +59,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      additionalIssues: {
+      addIssue: {
         type: 'array',
         maxItems: 100,
         minItems: 1,
@@ -70,6 +69,7 @@ export default {
           properties: {
             issue: {
               type: 'string',
+              maxLength: 140,
             },
             decisionDate: {
               type: 'string',

@@ -9,15 +9,26 @@ import {
 import { $, areaOfDisagreementWorkAround } from '../utils/ui';
 import { getSelected, hasSomeSelected, hasDuplicates } from '../utils/helpers';
 import {
+  missingIssueErrorMessage,
   missingIssuesErrorMessageText,
   uniqueIssueErrorMessage,
-  maxSelected,
-} from '../content/additionalIssues';
+  maxSelectedErrorMessage,
+  maxLengthErrorMessage,
+} from '../content/addIssues';
 import {
   missingAreaOfDisagreementErrorMessage,
   missingAreaOfDisagreementOtherErrorMessage,
 } from '../content/areaOfDisagreement';
-import { MAX_SELECTIONS } from '../constants';
+import { MAX_SELECTIONS, MAX_ISSUE_NAME_LENGTH } from '../constants';
+
+export const checkValidations = (validations, data, fullData) => {
+  const errors = { errorMessages: [] };
+  errors.addError = message => errors.errorMessages.push(message);
+  validations.map(validation =>
+    validation(errors, data, fullData, null, null, null, fullData),
+  );
+  return errors.errorMessages;
+};
 
 export const requireIssue = (
   errors,
@@ -37,6 +48,24 @@ export const requireIssue = (
   }
 };
 
+export const selectionRequired = (
+  errors,
+  _fieldData,
+  formData = {},
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
+  // formData === pageData on review & submit page. It should include the entire
+  // formData. see https://github.com/department-of-veterans-affairs/vsp-support/issues/162
+  // Fall back to formData for unit testing
+  const data = Object.keys(appStateData || {}).length ? appStateData : formData;
+  if (errors && !hasSomeSelected(data)) {
+    errors.addError(missingIssuesErrorMessageText);
+  }
+};
+
 const minDate = moment()
   .subtract(1, 'year')
   .startOf('day');
@@ -46,7 +75,9 @@ const maxDate = moment().endOf('day');
 export const validateDate = (errors, dateString) => {
   const { day, month, year } = parseISODate(dateString);
   const date = moment(dateString);
-  if (year?.length >= 4 && !isValidYear(year)) {
+  if (dateString === 'XXXX-XX-XX') {
+    errors.addError('Please enter a decision date');
+  } else if (year?.length >= 4 && !isValidYear(year)) {
     errors.addError(
       `Please enter a year between ${minDate.year()} and ${maxDate.year()}`,
     );
@@ -80,19 +111,6 @@ export const isValidDate = dateString => {
   };
   validateDate(errors, dateString);
   return isValid;
-};
-
-export const contactInfoValidation = (errors, _fieldData, formData) => {
-  const { veteran = {} } = formData;
-  if (!veteran.email) {
-    errors.addError('Please add an email address to your profile');
-  }
-  if (!veteran.phone?.phoneNumber) {
-    errors.addError('Please add a phone number to your profile');
-  }
-  if (!veteran.address?.addressLine1) {
-    errors.addError('Please add an address to your profile');
-  }
 };
 
 export const validAdditionalIssue = (
@@ -129,7 +147,19 @@ export const uniqueIssue = (
 
 export const maxIssues = (error, data) => {
   if (getSelected(data).length > MAX_SELECTIONS) {
-    error.addError(maxSelected);
+    error.addError(maxSelectedErrorMessage);
+  }
+};
+
+export const missingIssueName = (error, data) => {
+  if (!data) {
+    error.addError(missingIssueErrorMessage);
+  }
+};
+
+export const maxNameLength = (error, data) => {
+  if (data.length > MAX_ISSUE_NAME_LENGTH) {
+    error.addError(maxLengthErrorMessage);
   }
 };
 
