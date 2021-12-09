@@ -728,7 +728,7 @@ async function cancelRequestedAppointment(request) {
     const updatedRequest = await updateRequest({
       ...request.vaos.apiData,
       status: CANCELLED_REQUEST,
-      appointmentRequestDetailCode: [{ detailCode: { code: 'DETCODE8' } }],
+      appointmentRequestDetailCode: ['DETCODE8'],
     });
 
     recordEvent({
