@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "lint": "eslint . --cache",
-    "test": "jest --coverage"
+    "test": "jest"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
