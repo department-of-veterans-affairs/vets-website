@@ -4,14 +4,7 @@ import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
-const formFields = {
-  firstName: 'firstName',
-};
+import CustomPage from '../containers/CustomPage';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -21,13 +14,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '235',
-  saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your benefits application (235) is in progress.',
-    //   expired: 'Your saved benefits application (235) has expired. If you want to apply for benefits, please start a new application.',
-    //   saved: 'Your benefits application has been saved.',
-    // },
-  },
+  saveInProgress: {},
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
@@ -43,7 +30,11 @@ const formConfig = {
         page1: {
           path: 'first-name',
           title: 'Personal Information - Page 1',
-          uiSchema: {
+          CustomPage,
+          CustomPageReview: null,
+          schema: { type: 'object', properties: {} },
+          uiSchema: {},
+          /* uiSchema: {
             [formFields.firstName]: {
               'ui:title': 'First Name',
             },
@@ -56,7 +47,7 @@ const formConfig = {
                 type: 'string',
               },
             },
-          },
+          }, */
         },
       },
     },
