@@ -26,7 +26,7 @@ import {
 } from '@@vap-svc/util/transactions';
 import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
-import { getEditButtonId } from '@@vap-svc/components/ContactInformationField';
+import { getEditButtonId } from '@@vap-svc/components/ProfileInformationFieldController';
 
 import {
   selectCurrentlyOpenEditModal,
@@ -38,9 +38,9 @@ import {
 
 import { transformInitialFormValues } from '@@profile/util/contact-information/formValues';
 
-import ContactInformationActionButtons from './ContactInformationActionButtons';
+import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
-export class ContactInformationEditView extends Component {
+export class ProfileInformationEditView extends Component {
   static propTypes = {
     activeEditView: PropTypes.string,
     analyticsSectionName: PropTypes.oneOf(
@@ -296,7 +296,7 @@ export class ContactInformationEditView extends Component {
                   <VAPServiceEditModalErrorMessage error={error} />
                 </div>
               )}
-              <ContactInformationActionButtons
+              <ProfileInformationActionButtons
                 onCancel={onCancel}
                 title={title}
                 analyticsSectionName={analyticsSectionName}
@@ -323,7 +323,7 @@ export class ContactInformationEditView extends Component {
                     </button>
                   )}
                 </div>
-              </ContactInformationActionButtons>
+              </ProfileInformationActionButtons>
             </SchemaForm>
           </div>
         )}
@@ -376,4 +376,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ContactInformationEditView);
+)(ProfileInformationEditView);

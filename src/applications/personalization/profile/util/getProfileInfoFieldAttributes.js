@@ -4,18 +4,23 @@ import {
   emailConvertCleanDataToPayload,
   emailUiSchema,
   emailFormSchema,
-} from './emailUtils';
+} from './contact-information/emailUtils';
 import {
   phoneConvertCleanDataToPayload,
   phoneUiSchema,
   phoneFormSchema,
-} from './phoneUtils';
-import { addressConvertCleanDataToPayload } from './addressUtils';
+} from './contact-information/phoneUtils';
+import { addressConvertCleanDataToPayload } from './contact-information/addressUtils';
 
 import {
   getFormSchema as addressFormSchema,
   getUiSchema as addressUiSchema,
 } from '@@vap-svc/components/AddressField/address-schemas';
+
+import {
+  personalInformationFormSchemas,
+  personalInformationUiSchemas,
+} from './personal-information/personalInformationUtils';
 
 export const phoneNumbers = [
   FIELD_NAMES.HOME_PHONE,
@@ -29,7 +34,14 @@ export const addresses = [
   FIELD_NAMES.RESIDENTIAL_ADDRESS,
 ];
 
-export const getContactInfoFieldAttributes = fieldName => {
+export const personalInformation = [
+  FIELD_NAMES.PREFERRED_NAME,
+  FIELD_NAMES.PRONOUNS,
+  FIELD_NAMES.GENDER_IDENTITY,
+  FIELD_NAMES.SEXUAL_ORIENTATION,
+];
+
+export const getProfileInfoFieldAttributes = fieldName => {
   let apiRoute;
   let convertCleanDataToPayload;
   let title;
@@ -82,6 +94,32 @@ export const getContactInfoFieldAttributes = fieldName => {
     }
   }
 
+  if (personalInformation.includes(fieldName)) {
+    apiRoute = '/'; // TODO: DUMMY API ROUTE
+    convertCleanDataToPayload = payload => {
+      // console.log(payload);
+      // TODO: this function will need to be changed so it can be used for the Data transformation for the API call. See https://github.com/department-of-veterans-affairs/vets-website/blob/Profile-31685-newpersonalinfosection/src/applications/personalization/profile/components/ProfileInformationEditView.jsx#L180
+      return payload;
+    };
+    uiSchema = personalInformationUiSchemas[fieldName];
+    formSchema = personalInformationFormSchemas[fieldName];
+
+    // console.log(fieldName, ' uiSchema => ', uiSchema);
+    // console.log(fieldName, ' formSchema => ', formSchema);
+    if (fieldName === FIELD_NAMES.PREFERRED_NAME) {
+      title = FIELD_TITLES[FIELD_NAMES.PREFERRED_NAME];
+    }
+    if (fieldName === FIELD_NAMES.PRONOUNS) {
+      title = FIELD_TITLES[FIELD_NAMES.PRONOUNS];
+    }
+    if (fieldName === FIELD_NAMES.GENDER_IDENTITY) {
+      title = FIELD_TITLES[FIELD_NAMES.GENDER_IDENTITY];
+    }
+    if (fieldName === FIELD_NAMES.SEXUAL_ORIENTATION) {
+      title = FIELD_TITLES[FIELD_NAMES.SEXUAL_ORIENTATION];
+    }
+  }
+
   return {
     apiRoute,
     convertCleanDataToPayload,
@@ -91,4 +129,4 @@ export const getContactInfoFieldAttributes = fieldName => {
   };
 };
 
-export default getContactInfoFieldAttributes;
+export default getProfileInfoFieldAttributes;
