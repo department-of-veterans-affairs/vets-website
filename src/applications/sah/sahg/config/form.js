@@ -1,9 +1,7 @@
 import { merge } from 'lodash';
 
-// Example of an imported schema:
-import fullSchema from '../26-4555-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
+import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
@@ -14,8 +12,7 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as address from 'platform/forms-system/src/js/definitions/address';
-
-// import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import manifest from '../manifest.json';
 
@@ -77,7 +74,7 @@ const formConfig = {
   trackingPrefix: 'sahg-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '26-4555',
+  formId: VA_FORM_IDS.FORM_26_455,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your housing grant application (26-4555) is in progress.',
