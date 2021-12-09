@@ -74,7 +74,7 @@ const formConfig = {
   trackingPrefix: 'sahg-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: VA_FORM_IDS.FORM_26_455,
+  formId: VA_FORM_IDS.FORM_26_4555,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your housing grant application (26-4555) is in progress.',
