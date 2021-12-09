@@ -3,10 +3,6 @@ import { merge } from 'lodash';
 // In a real app this would be imported from `vets-json-schema`:
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
@@ -19,10 +15,6 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
 import { directDepositWarning } from '../helpers';
 import toursOfDutyUI from '../definitions/toursOfDuty';
 
@@ -34,7 +26,7 @@ const {
   usaPhone,
   bankAccount,
   toursOfDuty,
-} = commonDefinitions;
+} = fullSchema.definitions;
 
 // Define all the fields in the form to aid reuse
 const formFields = {
