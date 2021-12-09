@@ -22,68 +22,68 @@ node('vetsgov-general-purpose') {
       parallel (
         failFast: true,
 
-        // buildDev: {
-        //   if (commonStages.shouldBail()) { return }
-        //   def envName = 'vagovdev'
+        buildDev: {
+          if (commonStages.shouldBail()) { return }
+          def envName = 'vagovdev'
 
-        //   try {
-        //     // Try to build using fresh drupal content
-        //     commonStages.build(ref, dockerContainer, envName)
-        //   } catch (error) {
-        //     commonStages.build(ref, dockerContainer, envName)
-        //   }
-        // },
+          try {
+            // Try to build using fresh drupal content
+            commonStages.build(ref, dockerContainer, envName)
+          } catch (error) {
+            commonStages.build(ref, dockerContainer, envName)
+          }
+        },
 
-        // buildStaging: {
-        //   if (commonStages.shouldBail()) { return }
-        //   def envName = 'vagovstaging'
+        buildStaging: {
+          if (commonStages.shouldBail()) { return }
+          def envName = 'vagovstaging'
 
-        //   try {
-        //     // Try to build using fresh drupal content
-        //     commonStages.build(ref, dockerContainer, envName)
-        //   } catch (error) {
-        //     commonStages.build(ref, dockerContainer, envName)
-        //   }
-        // },
+          try {
+            // Try to build using fresh drupal content
+            commonStages.build(ref, dockerContainer, envName)
+          } catch (error) {
+            commonStages.build(ref, dockerContainer, envName)
+          }
+        },
 
-        // buildProd: {
-        //   if (commonStages.shouldBail()) { return }
-        //   def envName = 'vagovprod'
+        buildProd: {
+          if (commonStages.shouldBail()) { return }
+          def envName = 'vagovprod'
 
-        //   try {
-        //     // Try to build using fresh drupal content
-        //     commonStages.build(ref, dockerContainer, envName)
-        //   } catch (error) {
-        //     commonStages.build(ref, dockerContainer, envName)
-        //   }
-        // },
+          try {
+            // Try to build using fresh drupal content
+            commonStages.build(ref, dockerContainer, envName)
+          } catch (error) {
+            commonStages.build(ref, dockerContainer, envName)
+          }
+        },
 
-        // lint: {
-        //   dockerContainer.inside(commonStages.DOCKER_ARGS) {
-        //     sh "cd /application && npm --no-color run lint"
-        //   }
-        // },
+        lint: {
+          dockerContainer.inside(commonStages.DOCKER_ARGS) {
+            sh "cd /application && npm --no-color run lint"
+          }
+        },
 
         // Check package.json for known vulnerabilities
-        // security: {
-        //   retry(3) {
-        //     dockerContainer.inside(commonStages.DOCKER_ARGS) {
-        //       sh "cd /application && npm run security-check"
-        //     }
-        //   }
-        // },
+        security: {
+          retry(3) {
+            dockerContainer.inside(commonStages.DOCKER_ARGS) {
+              sh "cd /application && npm run security-check"
+            }
+          }
+        },
 
-        // unit: {
-        //   dockerContainer.inside(commonStages.DOCKER_ARGS) {
-        //     sh "/cc-test-reporter before-build"
-        //     if (commonStages.isReviewable()) {
-        //         sh "cd /application && npm --no-color run test:unit -- --coverage --log-level trace"
-        //     } else {
-        //         sh "cd /application && npm --no-color run test:unit -- --coverage"
-        //     }
-        //     sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
-        //   }
-        // },
+        unit: {
+          dockerContainer.inside(commonStages.DOCKER_ARGS) {
+            sh "/cc-test-reporter before-build"
+            if (commonStages.isReviewable()) {
+                sh "cd /application && npm --no-color run test:unit -- --coverage --log-level trace"
+            } else {
+                sh "cd /application && npm --no-color run test:unit -- --coverage"
+            }
+            sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
+          }
+        },
 
         reviewInstance: {
           if (commonStages.shouldBail()) { return }
@@ -110,9 +110,9 @@ node('vetsgov-general-purpose') {
       // commonStages.slackNotify()
       throw error
     } finally {
-      // dir("vets-website") {
-      //   step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
-      // }
+      dir("vets-website") {
+        step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
+      }
     }
   }
 
