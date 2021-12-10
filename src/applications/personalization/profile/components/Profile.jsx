@@ -41,7 +41,6 @@ import {
   cnpDirectDepositIsSetUp,
   eduDirectDepositInformation,
   eduDirectDepositIsSetUp,
-  showNotificationSettings,
   showProfileLGBTQEnhancements,
 } from '@@profile/selectors';
 import {
@@ -158,7 +157,6 @@ class Profile extends Component {
   mainContent = () => {
     const routesOptions = {
       removeDirectDeposit: !this.props.shouldShowDirectDeposit,
-      removeNotificationSettings: !this.props.shouldShowNotificationSettings,
       shouldShowProfileLGBTQEnhancements: this.props
         .shouldShowProfileLGBTQEnhancements,
     };
@@ -367,7 +365,6 @@ const mapStateToProps = state => {
     shouldFetchEDUDirectDepositInformation,
     shouldFetchTotalDisabilityRating,
     shouldShowDirectDeposit: shouldShowDirectDeposit(),
-    shouldShowNotificationSettings: showNotificationSettings(state),
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
     ),
