@@ -24,8 +24,8 @@ import AddIssue from '../components/AddIssue';
 import veteranInformation from '../pages/veteranInformation';
 import contactInfo from '../pages/contactInformation';
 import homeless from '../pages/homeless';
-import contestedIssuesPage from '../pages/contestedIssues';
-import contestableIssuesPage from '../pages/contestableIssuesPage';
+import contestedIssuesPage from '../pages/contestedIssuesV1';
+import contestableIssuesPage from '../pages/contestableIssues';
 import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
 import optIn from '../pages/optIn';
@@ -44,7 +44,7 @@ import {
   appStateSelector,
   getIssueName,
 } from '../utils/helpers';
-// import initialData from '../tests/schema/initialData';
+import initialData from '../tests/schema/initialData';
 
 import manifest from '../manifest.json';
 
@@ -111,6 +111,7 @@ const formConfig = {
           path: 'veteran-information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
+          initialData,
         },
         homeless: {
           title: 'Homelessness question',

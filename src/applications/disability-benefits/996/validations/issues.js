@@ -10,11 +10,13 @@ import { $, areaOfDisagreementWorkAround } from '../utils/ui';
 import { getSelected, hasSomeSelected, hasDuplicates } from '../utils/helpers';
 import {
   missingIssueErrorMessage,
-  missingIssuesErrorMessageText,
   uniqueIssueErrorMessage,
-  maxSelectedErrorMessage,
   maxLengthErrorMessage,
-} from '../content/addIssues';
+} from '../content/addIssue';
+import {
+  noneSelected,
+  maxSelectedErrorMessage,
+} from '../content/contestableIssues';
 import {
   missingAreaOfDisagreementErrorMessage,
   missingAreaOfDisagreementOtherErrorMessage,
@@ -28,24 +30,6 @@ export const checkValidations = (validations, data, fullData) => {
     validation(errors, data, fullData, null, null, null, fullData),
   );
   return errors.errorMessages;
-};
-
-export const requireIssue = (
-  errors,
-  _fieldData,
-  formData = {},
-  _schema,
-  _uiSchema,
-  _index,
-  appStateData,
-) => {
-  // formData === pageData on review & submit page. It should include the entire
-  // formData. see https://github.com/department-of-veterans-affairs/vsp-support/issues/162
-  // Fall back to formData for unit testing
-  const data = Object.keys(appStateData || {}).length ? appStateData : formData;
-  if (errors && errors?.additionalIssues?.addError && !hasSomeSelected(data)) {
-    errors.additionalIssues.addError(missingIssuesErrorMessageText);
-  }
 };
 
 export const selectionRequired = (
@@ -62,7 +46,7 @@ export const selectionRequired = (
   // Fall back to formData for unit testing
   const data = Object.keys(appStateData || {}).length ? appStateData : formData;
   if (errors && !hasSomeSelected(data)) {
-    errors.addError(missingIssuesErrorMessageText);
+    errors.addError(noneSelected);
   }
 };
 
@@ -111,23 +95,6 @@ export const isValidDate = dateString => {
   };
   validateDate(errors, dateString);
   return isValid;
-};
-
-export const validAdditionalIssue = (
-  errors,
-  { additionalIssues = [] } = {},
-) => {
-  if (errors.addError) {
-    additionalIssues.forEach(entry => {
-      if (
-        !entry.issue ||
-        !entry.decisionDate ||
-        !isValidDate(entry.decisionDate)
-      ) {
-        errors.addError(missingIssuesErrorMessageText);
-      }
-    });
-  }
 };
 
 // Alert Veteran to duplicates based on name & decision date

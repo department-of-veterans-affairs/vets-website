@@ -1,6 +1,6 @@
 import React from 'react';
-import moment from 'moment';
 
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Telephone, {
   CONTACTS,
@@ -12,7 +12,7 @@ import {
   BOARD_APPEALS_URL,
   COVID_FAQ_URL,
   DECISION_REVIEWS_URL,
-  NULL_CONDITION_STRING,
+  MAX_SELECTIONS,
 } from '../constants';
 import DownloadLink from './DownloadLink';
 
@@ -40,49 +40,6 @@ export const ContestableIssuesTitle = props => {
         Select the issue(s) you’d like us to review:
       </legend>
     </>
-  );
-};
-
-/**
- * @typedef {Object} Disability
- * @property {String} diagnosticCode
- * @property {String} issue
- * @property {String} percentNumber
- * @param {Disability} disability
- */
-export const disabilityOption = ({ attributes }) => {
-  const {
-    ratingIssueSubjectText,
-    description,
-    ratingIssuePercentNumber,
-    approxDecisionDate,
-  } = attributes;
-  // May need to throw an error to Sentry if any of these don't exist
-  // A valid rated disability *can* have a rating percentage of 0%
-  const showPercentNumber = (ratingIssuePercentNumber || '') !== '';
-
-  return (
-    <div className="widget-content">
-      <span className="vads-u-font-weight--bold">
-        {typeof ratingIssueSubjectText === 'string'
-          ? ratingIssueSubjectText
-          : NULL_CONDITION_STRING}
-      </span>
-      {description && (
-        <p className="vads-u-margin-bottom--0">{description || ''}</p>
-      )}
-      {showPercentNumber && (
-        <p className="vads-u-margin-bottom--0">
-          Current rating: <strong>{ratingIssuePercentNumber}%</strong>
-        </p>
-      )}
-      {approxDecisionDate && (
-        <p>
-          Decision date:{' '}
-          <strong>{moment(approxDecisionDate).format('MMM D, YYYY')}</strong>
-        </p>
-      )}
-    </div>
   );
 };
 
@@ -157,10 +114,31 @@ export const disabilitiesExplanation = (
   </AdditionalInfo>
 );
 
+export const maxSelectedErrorMessage =
+  'You’ve reached the maximum number of allowed selected issues';
+
+// Not setting "visible" as a variable since we're controlling rendering at a
+// higher level
+export const MaxSelectionsAlert = ({ closeModal }) => (
+  <Modal
+    title={maxSelectedErrorMessage}
+    status="warning"
+    onClose={closeModal}
+    visible
+  >
+    You are limited to {MAX_SELECTIONS} selected issues for each Higher-Level
+    Review request. If you would like to select more than {MAX_SELECTIONS},
+    please submit this request and create a new request for the remaining
+    issues.
+  </Modal>
+);
+
+export const noneSelected = 'Please select at least one issue';
+
 /**
  * Shows the alert box only if the form has been submitted
  */
-export const ContestedIssuesAlert = ({ className = '' }) => {
+export const NoneSelectedAlert = ({ className = '' }) => {
   setTimeout(() => scrollToTop(), 300);
   return (
     <va-alert status="error">
@@ -168,7 +146,7 @@ export const ContestedIssuesAlert = ({ className = '' }) => {
         slot="headline"
         className={`eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2 ${className}`}
       >
-        Please choose an eligible issue so we can process your request
+        Please select at least one issue, so we can process your request
       </h3>
     </va-alert>
   );

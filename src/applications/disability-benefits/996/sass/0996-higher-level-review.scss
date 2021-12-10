@@ -281,6 +281,7 @@ article[data-location="contested-issues"] {
   }
 }
 
+/* Add issue loop page */
 article[data-location="add-issue"] {
   .usa-input-error {
     margin-top: 0;
@@ -291,6 +292,9 @@ article[data-location="add-issue"] {
   /* override !important normal weight on legend */
   .input-error-date legend {
     font-weight: bold !important;
+  }
+  #add-hlr-issue {
+    margin-top: 0;
   }
 }
 

@@ -9,7 +9,10 @@ import { scrollAndFocus } from 'platform/utilities/ui';
 
 import { IssueCard } from './IssueCardV2';
 import { SELECTED, MAX_SELECTIONS, LAST_HLR_ITEM } from '../constants';
-import { NoneSelectedAlert, MaxSelectionsAlert } from '../content/addIssue';
+import {
+  NoneSelectedAlert,
+  MaxSelectionsAlert,
+} from '../content/contestableIssues';
 import {
   getSelected,
   someSelected,

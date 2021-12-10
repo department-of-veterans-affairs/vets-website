@@ -133,6 +133,7 @@ const AddIssue = props => {
           </button>
           <button
             type="button"
+            id="submit"
             className="vads-u-width--auto"
             onClick={event => {
               event.preventDefault();

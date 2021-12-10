@@ -8,7 +8,10 @@ import {
 import { selectionRequired, maxIssues } from '../validations/issues';
 import { SELECTED } from '../constants';
 
-const contestableIssuesPage = {
+/**
+ * contestable issues with add issue link (list loop)
+ */
+const contestableIssues = {
   uiSchema: {
     'ui:title': ContestableIssuesTitle,
     'ui:options': {
@@ -49,4 +52,4 @@ const contestableIssuesPage = {
   },
 };
 
-export default contestableIssuesPage;
+export default contestableIssues;
