@@ -89,11 +89,29 @@ const createMultipleAppointments = (
   numberOfCheckInAbledAppointments = 2,
   demographicsNeedsUpdate = true,
   nextOfKinNeedsUpdate = true,
+  emergencyContactNeedsUpdate = true,
 ) => {
   const rv = {
     id: token || defaultUUID,
     payload: {
       demographics: {
+        emergencyContact: {
+          name: 'Bugs Bunny',
+          workPhone: '',
+          relationship: 'Estranged Uncle',
+          phone: '5558675309',
+          address: {
+            zip: '87102',
+            country: 'USA',
+            street3: '',
+            city: 'Albuquerque',
+            county: null,
+            street1: '123 fake street',
+            zip4: '',
+            street2: '',
+            state: 'New Mexico',
+          },
+        },
         nextOfKin1: {
           name: 'VETERAN,JONAH',
           relationship: 'BROTHER',
@@ -144,8 +162,8 @@ const createMultipleAppointments = (
         demographicsConfirmedAt: null,
         nextOfKinNeedsUpdate,
         nextOfKinConfirmedAt: null,
-        emergencyContactNeedsUpdate: true,
-        emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
+        emergencyContactNeedsUpdate,
+        emergencyContactConfirmedAt: null,
       },
     },
   };

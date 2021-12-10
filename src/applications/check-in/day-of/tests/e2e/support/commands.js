@@ -119,6 +119,24 @@ Cypress.Commands.add('getNoUpdateDemoAndNOK', (version = defaultAPIVersion) => {
     req.reply(mockCheckIn[version].createMockSuccessResponse({}));
   });
 });
+Cypress.Commands.add(
+  'getNoUpdateDemoNOKAndEC',
+  (version = defaultAPIVersion) => {
+    cy.intercept('GET', `/check_in/${version}/patient_check_ins/*`, req => {
+      const rv = mockPatientCheckIns[version].createMultipleAppointments(
+        defaultUUID,
+        1,
+        false,
+        false,
+        false,
+      );
+      req.reply(rv);
+    });
+    cy.intercept('POST', `/check_in/${version}/patient_check_ins/`, req => {
+      req.reply(mockCheckIn[version].createMockSuccessResponse({}));
+    });
+  },
+);
 Cypress.Commands.add('getUpdateDemo', (version = defaultAPIVersion) => {
   cy.intercept('GET', `/check_in/${version}/patient_check_ins/*`, req => {
     const rv = mockPatientCheckIns[version].createMultipleAppointments(

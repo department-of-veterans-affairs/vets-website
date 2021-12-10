@@ -53,18 +53,13 @@ export const personalInformationFormSchemas = {
   pronouns: {
     type: 'object',
     properties: {
-      pronouns: {
-        type: 'object',
-        properties: {
-          'He/him/his': { type: 'boolean' },
-          'She/her/hers': { type: 'boolean' },
-          'They/them/theirs': { type: 'boolean' },
-          'Ze/zir/zirs': { type: 'boolean' },
-          'Use my preferred name': { type: 'boolean' },
-          'Prefer not to answer': { type: 'boolean' },
-          'Pronouns not listed here': { type: 'boolean' },
-        },
-      },
+      heHimHis: { type: 'boolean' },
+      sheHerHers: { type: 'boolean' },
+      theyThemTheirs: { type: 'boolean' },
+      zeZirZirs: { type: 'boolean' },
+      useMyPreferredName: { type: 'boolean' },
+      preferNotToAnswer: { type: 'boolean' },
+      pronounsNotListed: { type: 'boolean' },
     },
     required: [],
   },
@@ -101,9 +96,16 @@ export const personalInformationUiSchemas = {
     },
   },
   pronouns: {
-    pronouns: {
-      'ui:description': 'Select all of your pronouns',
-      'ui:widget': 'checkbox',
+    'ui:description': 'Select all of your pronouns',
+    'ui:widget': 'checkbox',
+    heHimHis: { 'ui:title': 'He/him/his' },
+    sheHerHers: { 'ui:title': 'She/her/hers' },
+    theyThemTheirs: { 'ui:title': 'They/them/theirs' },
+    zeZirZirs: { 'ui:title': 'Ze/zir/zirs' },
+    useMyPreferredName: { 'ui:title': 'Use my preferred name' },
+    preferNotToAnswer: { 'ui:title': 'Prefer not to answer' },
+    pronounsNotListed: {
+      'ui:title': 'Pronouns not listed here',
     },
   },
   genderIdentity: {
