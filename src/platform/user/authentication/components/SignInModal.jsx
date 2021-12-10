@@ -140,9 +140,7 @@ export class SignInModal extends React.Component {
       <div className="row">
         <div className="columns">
           <div className="logo">
-            <a href="/">
-              <img alt="VA.gov" className="va-header-logo" src={logoSrc} />
-            </a>
+            <img alt="VA.gov" className="va-header-logo" src={logoSrc} />
           </div>
         </div>
       </div>
@@ -170,7 +168,7 @@ export class SignInModal extends React.Component {
               <h2 className="vads-u-margin-top--0">
                 Having trouble signing in?
               </h2>
-              <p>
+              <p className="vads-u-font-size--base">
                 Get answers to common questions about{' '}
                 <a
                   href="/resources/signing-in-to-vagov/"
@@ -189,7 +187,7 @@ export class SignInModal extends React.Component {
                 </a>
                 .
               </p>
-              <p>
+              <p className="vads-u-font-size--base">
                 <SubmitSignInForm startSentence /> We're here 24/7.
               </p>
             </div>
