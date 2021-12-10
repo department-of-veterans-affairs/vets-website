@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function FedWarning() {
   return (
-    <div className="vads-u-padding-bottom--2p5 fed-warning--v2">
+    <div className="vads-u-padding-bottom--2p5 fed-warning--v2 vads-u-color--gray-dark">
       <h2 className="vads-u-margin-top--0">Terms of use</h2>
       <p className="vads-u-font-size--base">
         When you sign in to VA.gov, you’re using a United States federal

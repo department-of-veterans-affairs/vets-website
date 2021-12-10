@@ -147,7 +147,7 @@ export class SignInModal extends React.Component {
       <div className="container">
         <div className="row">
           <div className="columns small-12">
-            <h1 className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2">
+            <h1 className="vads-u-margin-top--2 vads-u-color--gray-dark medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2">
               Sign in
             </h1>
           </div>
@@ -164,7 +164,7 @@ export class SignInModal extends React.Component {
         </div>
         <div className="row">
           <div className="columns small-12">
-            <div className="help-info">
+            <div className="help-info vads-u-color--gray-dark">
               <h2 className="vads-u-margin-top--0">
                 Having trouble signing in?
               </h2>
