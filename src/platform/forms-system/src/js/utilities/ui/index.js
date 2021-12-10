@@ -10,13 +10,6 @@ export function focusElement(selectorOrElement, options) {
   const el = $(selectorOrElement);
 
   if (el) {
-    // added back in below conditional for confirmation of broken test coverage
-    if (el.tabIndex === 0) {
-      el.setAttribute('tabindex', '0');
-    }
-    if (el.tabIndex < 0) {
-      el.setAttribute('tabindex', '-1');
-    }
     el.focus(options);
   }
 }
