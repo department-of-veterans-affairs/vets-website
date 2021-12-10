@@ -87,9 +87,9 @@ function educationInfoIsShown(view, shown = true) {
   }
 }
 
-function educationInfoIsHidden(view) {
-  educationInfoIsShown(view, false);
-}
+// function educationInfoIsHidden(view) {
+//   educationInfoIsShown(view, false);
+// }
 
 function healthCareInfoIsHidden(view) {
   healthCareInfoIsShown(view, false);
@@ -635,7 +635,8 @@ describe('ApplyForBenefits component', () => {
           });
           healthCareInfoIsShown(view);
           claimsInfoIsShown(view);
-          educationInfoIsHidden(view);
+          educationInfoIsShown(view);
+          // educationInfoIsHidden(view);
         });
       },
     );
@@ -667,7 +668,8 @@ describe('ApplyForBenefits component', () => {
         });
         claimsInfoIsShown(view);
         healthCareInfoIsHidden(view);
-        educationInfoIsHidden(view);
+        educationInfoIsShown(view);
+        // educationInfoIsHidden(view);
       });
     });
   });
