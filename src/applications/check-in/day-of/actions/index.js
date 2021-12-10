@@ -37,6 +37,15 @@ export const receivedNextOfKinData = nextOfKin => {
     payload: { nextOfKin },
   };
 };
+export const RECEIVED_EMERGENCY_CONTACT_DATA =
+  'RECEIVED_EMERGENCY_CONTACT_DATA';
+
+export const receivedEmergencyContact = emergencyContact => {
+  return {
+    type: RECEIVED_EMERGENCY_CONTACT_DATA,
+    payload: { emergencyContact },
+  };
+};
 
 export const SET_TOKEN_CONTEXT = 'SET_TOKEN_CONTEXT';
 
