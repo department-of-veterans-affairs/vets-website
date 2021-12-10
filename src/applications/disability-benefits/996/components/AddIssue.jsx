@@ -123,6 +123,7 @@ const AddIssue = props => {
         <p>
           <button
             type="button"
+            id="cancel"
             className="usa-button-secondary vads-u-width--auto"
             onClick={event => {
               event.preventDefault();

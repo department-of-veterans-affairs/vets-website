@@ -67,7 +67,7 @@ export const SAVED_CLAIM_TYPE = 'hlrClaimType';
 export const WIZARD_STATUS = 'wizardStatus996';
 export const LAST_HLR_ITEM = 'lastHlrItem'; // focus management across pages
 
-export const MAX_SELECTIONS = 3; // 100;
+export const MAX_SELECTIONS = 100;
 
 // Values from benefitTypes in vets-json-schema constants
 const supportedBenefitTypes = [

@@ -22,7 +22,10 @@ import DownloadLink from './DownloadLink';
 export const ContestableIssuesTitle = props => {
   if (props?.formData?.contestedIssues?.length === 0) {
     return (
-      <h2 className="vads-u-font-size--h4" name="eligibleScrollElement">
+      <h2
+        className="vads-u-font-size--h4 vads-u-margin-top--0"
+        name="eligibleScrollElement"
+      >
         Sorry, we couldn’t find any eligible issues
       </h2>
     );
@@ -138,15 +141,17 @@ export const noneSelected = 'Please select at least one issue';
 /**
  * Shows the alert box only if the form has been submitted
  */
-export const NoneSelectedAlert = ({ className = '' }) => {
+export const NoneSelectedAlert = ({ count }) => {
   setTimeout(() => scrollToTop(), 300);
   return (
     <va-alert status="error">
       <h3
         slot="headline"
-        className={`eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2 ${className}`}
+        className="eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2"
       >
-        Please select at least one issue, so we can process your request
+        {`Please ${
+          count === 0 ? 'add, and select,' : 'select'
+        } at least one issue, so we can process your request`}
       </h3>
     </va-alert>
   );

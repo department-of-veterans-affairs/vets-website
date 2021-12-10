@@ -80,19 +80,7 @@ const ContestableIssuesWidget = props => {
     }))
     .concat(additionalIssues);
 
-  const itemsLength = items.length;
-  const hasSelected = someSelected(value);
-
-  if (!itemsLength) {
-    return onReviewPage && inReviewMode ? (
-      <>
-        <dt>
-          <strong>No eligible issues found</strong>
-        </dt>
-        <dd />
-      </>
-    ) : null; // h2 shown on page (not review & submit page)
-  }
+  const hasSelected = someSelected(items);
 
   if (onReviewPage && inReviewMode && !hasSelected) {
     return (
@@ -178,7 +166,8 @@ const ContestableIssuesWidget = props => {
 
   return (
     <>
-      {formContext.submitted && !hasSelected && NoneSelectedAlert}
+      {formContext.submitted &&
+        !hasSelected && <NoneSelectedAlert count={value.length} />}
       {onReviewPage && inReviewMode ? (
         content
       ) : (
