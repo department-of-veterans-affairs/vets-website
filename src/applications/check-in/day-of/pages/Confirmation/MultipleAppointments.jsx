@@ -9,8 +9,6 @@ import BackToHome from '../../components/BackToHome';
 import BackToAppointments from '../../components/BackToAppointments';
 import Footer from '../../components/Footer';
 import AppointmentLocation from '../../components/AppointmentDisplay/AppointmentLocation';
-
-import { hasMoreAppointmentsToCheckInto } from '../../utils/appointment';
 import TravelPayReimbursementLink from '../../components/TravelPayReimbursementLink';
 
 const MultipleAppointments = props => {
@@ -19,11 +17,6 @@ const MultipleAppointments = props => {
   const appointment = selectedAppointment;
   const appointmentDateTime = new Date(appointment.startTime);
   const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
-  const shouldShowBackButton = hasMoreAppointmentsToCheckInto(
-    appointments,
-    selectedAppointment,
-  );
-
   return (
     <div
       className="vads-l-grid-container vads-u-padding-y--5"
@@ -49,12 +42,10 @@ const MultipleAppointments = props => {
         </p>
       </VaAlert>
       <TravelPayReimbursementLink />
-      {shouldShowBackButton && (
-        <BackToAppointments
-          appointments={appointments}
-          triggerRefresh={triggerRefresh}
-        />
-      )}
+      <BackToAppointments
+        appointments={appointments}
+        triggerRefresh={triggerRefresh}
+      />
       <Footer />
       <BackToHome />
     </div>
