@@ -4,11 +4,36 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 12 * * 1-5'
+
 env:
   CHANNEL_ID: C02A8S3JPNZ
 
 jobs:
-  lighthouse:
+  get-registries:
+    runs-on: ubuntu-latest
+    outputs:
+      registries: ${{ steps.set-matrix.outputs.registries }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          repository: department-of-veterans-affairs/content-build
+          ref: refs/heads/master
+          path: ./content-build
+        
+      - name: Get registries
+        id: set-matrix
+        run: |
+          CUSTOM_URLS='["/"]'
+          # To omit urls from being scanned in lighthouse, add rootUrl inside IN() function
+          REGISTRY_ARRAY=$(jq '[.[]
+                      | select((.rootUrl
+                                | IN("/health-care/health-questionnaires/questionnaires/answer-questions", "/health-care/health-questionnaires/questionnaires")
+                                | not) and .template.vagovprod != false) 
+                      | .rootUrl ]' ./content-build/src/applications/registry.json)
+          echo ::set-output name=registries::$(jq --argjson CUSTOM_URLS "$CUSTOM_URLS" --argjson REGISTRY_ARRAY "$REGISTRY_ARRAY" -n '$REGISTRY_ARRAY + $CUSTOM_URLS | sort')
+
+  lighthouse-scan:
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS credentials (1)
@@ -18,34 +43,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
 
-      - name: Get Slack app token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /devops/github_actions_slack_socket_token
-          env_variable_name: SLACK_APP_TOKEN
-
-      - name: Get Slack bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /devops/github_actions_slack_bot_user_token
-          env_variable_name: SLACK_BOT_TOKEN
-
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Checkout VSP actions
-        uses: actions/checkout@v2
-        with:
-          repository: department-of-veterans-affairs/vsp-github-actions
-          ref: refs/heads/main
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          persist-credentials: false
-          path: ./.github/actions/vsp-github-actions
-
-      - name: Get BigQuery service credentials # Has to go before role is fetched from param store, otherwise permissions will be denied with the role configured.
+      - name: Get BigQuery service credentials
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
@@ -81,17 +85,6 @@ jobs:
 
       - name: Upload lighthouse report (HTML)
         run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.html --acl public-read --region us-gov-west-1
-
-      - name: Notify Slack
-        if: ${{ always() }}
-        uses: ./.github/actions/vsp-github-actions/slack-socket
-        env:
-          SSL_CERT_DIR: /etc/ssl/certs
-        with:
-          slack_app_token: ${{ env.SLACK_APP_TOKEN }}
-          slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
-          attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}]'
-          channel_id: ${{ env.CHANNEL_ID }}
 
       - name: Checkout Testing Tools Team Dashboard Data repo
         uses: actions/checkout@v2
@@ -138,3 +131,70 @@ jobs:
       - name: Upload Lighthouse results to BigQuery
         run: yarn lighthouse-to-bigquery
         working-directory: testing-tools-team-dashboard-data
+
+
+  lighthouse-scan-registries:
+    needs: get-registries
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        registry: ${{ fromJson(needs.get-registries.outputs.registries) }}
+
+    steps:
+      - name: Configure AWS credentials (1)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get role from Parameter Store
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Configure AWS Credentials (2)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+
+      - name: Audit URLs using Lighthouse on ${{ matrix.registry }}
+        id: lighthouse-checks
+        uses: treosh/lighthouse-ci-action@v8
+        with:
+          urls: |
+            https://www.va.gov${{ matrix.registry }}
+          uploadArtifacts: true # save results as an action artifacts
+
+      - name: Upload lighthouse report (JSON)
+        run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath }} s3://vetsgov-website-builds-s3-upload/lighthouse${{ matrix.registry == '/' && '/homepage' || matrix.registry }}.json --acl public-read --region us-gov-west-1
+
+      - name: Upload lighthouse report (HTML)
+        run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath }} s3://vetsgov-website-builds-s3-upload/lighthouse${{ matrix.registry == '/' && '/homepage' || matrix.registry }}.html --acl public-read --region us-gov-west-1
+
+  notify-slack:
+    name: Notify Slack
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: [lighthouse-scan, lighthouse-scan-registries]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Notify Slack
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}]'
+          channel_id: ${{ env.CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

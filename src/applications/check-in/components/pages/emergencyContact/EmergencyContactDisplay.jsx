@@ -1,7 +1,7 @@
 import React from 'react';
 import ConfirmablePage from '../ConfirmablePage';
 
-export default function EmergencyContact({
+export default function EmergencyContactDisplay({
   data = {},
   yesAction = () => {},
   noAction = () => {},

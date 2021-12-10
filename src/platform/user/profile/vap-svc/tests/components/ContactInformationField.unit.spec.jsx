@@ -4,12 +4,12 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
-  ContactInformationField,
+  ProfileInformationFieldController,
   mapStateToProps,
-} from '@@vap-svc/components/ContactInformationField';
+} from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 
-describe('<ContactInformationField/>', () => {
+describe('<ProfileInformationFieldController/>', () => {
   let props = null;
   let component = null;
 
@@ -46,10 +46,12 @@ describe('<ContactInformationField/>', () => {
       isEmpty: true,
     };
 
-    component = enzyme.shallow(<ContactInformationField {...isEmptyProps} />);
+    component = enzyme.shallow(
+      <ProfileInformationFieldController {...isEmptyProps} />,
+    );
     expect(
-      component.find('ContactInformationView'),
-      'the ContactInformationView was rendered',
+      component.find('ProfileInformationView'),
+      'the ProfileInformationView was rendered',
     ).to.have.lengthOf(1);
 
     expect(
@@ -59,35 +61,41 @@ describe('<ContactInformationField/>', () => {
     component.unmount();
   });
 
-  it('renders the ContactInformationEditView', () => {
+  it('renders the ProfileInformationEditView', () => {
     props.showEditView = true;
-    component = enzyme.shallow(<ContactInformationField {...props} />);
+    component = enzyme.shallow(
+      <ProfileInformationFieldController {...props} />,
+    );
 
     expect(
-      component.find('Connect(ContactInformationEditView)'),
-      'the ContactInformationEditView was rendered',
+      component.find('Connect(ProfileInformationEditView)'),
+      'the ProfileInformationEditView was rendered',
     ).to.have.lengthOf(1);
 
     component.unmount();
   });
-  it('renders the ContactInformationEditView when forceEditView is set', () => {
+  it('renders the ProfileInformationEditView when forceEditView is set', () => {
     props.forceEditView = true;
-    component = enzyme.shallow(<ContactInformationField {...props} />);
+    component = enzyme.shallow(
+      <ProfileInformationFieldController {...props} />,
+    );
 
     expect(
-      component.find('Connect(ContactInformationEditView)'),
-      'the ContactInformationEditView was rendered',
+      component.find('Connect(ProfileInformationEditView)'),
+      'the ProfileInformationEditView was rendered',
     ).to.have.lengthOf(1);
 
     component.unmount();
   });
 
-  it('renders the ContactInformationView', () => {
-    component = enzyme.shallow(<ContactInformationField {...props} />);
+  it('renders the ProfileInformationView', () => {
+    component = enzyme.shallow(
+      <ProfileInformationFieldController {...props} />,
+    );
 
     expect(
-      component.find('ContactInformationView'),
-      'the ContactInformationView was rendered',
+      component.find('ProfileInformationView'),
+      'the ProfileInformationView was rendered',
     ).to.have.lengthOf(1);
 
     component.unmount();
@@ -95,7 +103,7 @@ describe('<ContactInformationField/>', () => {
 
   it('hides the remove button', () => {
     component = enzyme.shallow(
-      <ContactInformationField {...props} isDeleteDisabled />,
+      <ProfileInformationFieldController {...props} isDeleteDisabled />,
     );
 
     expect(
@@ -110,16 +118,19 @@ describe('<ContactInformationField/>', () => {
     const cancelCallbackSpy = sinon.spy();
     props.forceEditView = true;
     component = enzyme.shallow(
-      <ContactInformationField {...props} cancelCallback={cancelCallbackSpy} />,
+      <ProfileInformationFieldController
+        {...props}
+        cancelCallback={cancelCallbackSpy}
+      />,
     );
 
     expect(
-      component.find('Connect(ContactInformationEditView)'),
-      'the ContactInformationEditView was rendered',
+      component.find('Connect(ProfileInformationEditView)'),
+      'the ProfileInformationEditView was rendered',
     ).to.have.lengthOf(1);
 
     component
-      .find('Connect(ContactInformationEditView)')
+      .find('Connect(ProfileInformationEditView)')
       .props()
       .onCancel();
 
@@ -135,11 +146,11 @@ describe('<ContactInformationField/>', () => {
       transactionRequest: {},
       successCallback: successCallbackSpy,
     };
-    component = enzyme.shallow(<ContactInformationField {...data} />);
+    component = enzyme.shallow(<ProfileInformationFieldController {...data} />);
 
     expect(
-      component.find('Connect(ContactInformationEditView)'),
-      'the ContactInformationEditView was rendered',
+      component.find('Connect(ProfileInformationEditView)'),
+      'the ProfileInformationEditView was rendered',
     ).to.have.lengthOf(1);
 
     data.transactionRequest = null; // non-address success
@@ -159,11 +170,11 @@ describe('<ContactInformationField/>', () => {
       transaction: { data: { attributes: { transactionStatus: '' } } },
       successCallback: successCallbackSpy,
     };
-    component = enzyme.shallow(<ContactInformationField {...data} />);
+    component = enzyme.shallow(<ProfileInformationFieldController {...data} />);
 
     expect(
-      component.find('Connect(ContactInformationEditView)'),
-      'the ContactInformationEditView was rendered',
+      component.find('Connect(ProfileInformationEditView)'),
+      'the ProfileInformationEditView was rendered',
     ).to.have.lengthOf(1);
 
     const newData = {
@@ -281,7 +292,7 @@ describe('mapStateToProps', () => {
         expect(mappedProps.showValidationView).to.be.false;
       });
     });
-    describe("when this ContactInformationField's `fieldName` does not match address validation type", () => {
+    describe("when this ProfileInformationFieldController's `fieldName` does not match address validation type", () => {
       it('sets `showValidationView` to `false`', () => {
         const state = showValidationModalState();
         const mappedProps = mapStateToProps(state, {

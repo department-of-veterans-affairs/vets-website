@@ -18,7 +18,7 @@ const renderGender = gender => {
 
 const renderDOB = dob => (dob ? moment(dob).format('LL') : notSetText);
 
-const GenderAndDOBSection = ({ gender, dob, className }) => (
+const LegacyGenderAndDOBSection = ({ gender, dob, className }) => (
   <div className={className}>
     <div className="vads-u-margin-bottom--2">
       <AdditionalInfo triggerText="How do I update my personal information?">
@@ -56,7 +56,7 @@ const GenderAndDOBSection = ({ gender, dob, className }) => (
   </div>
 );
 
-GenderAndDOBSection.propTypes = {
+LegacyGenderAndDOBSection.propTypes = {
   className: PropTypes.string,
   gender: PropTypes.string.isRequired,
   dob: PropTypes.string.isRequired,
@@ -67,4 +67,4 @@ const mapStateToProps = state => ({
   dob: state.vaProfile?.personalInformation?.birthDate,
 });
 
-export default connect(mapStateToProps)(GenderAndDOBSection);
+export default connect(mapStateToProps)(LegacyGenderAndDOBSection);

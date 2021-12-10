@@ -21,7 +21,7 @@ describe('Check In Experience -- ', () => {
         window.sessionStorage.clear();
       });
     });
-    it.skip('confirm page has BTSSS link', () => {
+    it('confirm page has BTSSS link', () => {
       cy.visitWithUUID();
       cy.get('h1', { timeout: Timeouts.slow })
         .should('be.visible')

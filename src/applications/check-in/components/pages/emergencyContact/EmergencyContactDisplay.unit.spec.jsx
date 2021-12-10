@@ -2,22 +2,22 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-import EmergencyContact from './EmergencyContact';
+import EmergencyContactDisplay from './EmergencyContactDisplay';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 describe('pre-check-in experience', () => {
   describe('shared components', () => {
-    describe('EmergencyContact', () => {
+    describe('EmergencyContactDisplay', () => {
       it('passes axeCheck', () => {
-        axeCheck(<EmergencyContact />);
+        axeCheck(<EmergencyContactDisplay />);
       });
       it('renders with default values', () => {
-        const { getByText } = render(<EmergencyContact />);
+        const { getByText } = render(<EmergencyContactDisplay />);
         expect(getByText('Is this your current emergency contact?')).to.exist;
       });
       it('renders the footer if footer is supplied', () => {
         const { getByText } = render(
-          <EmergencyContact Footer={() => <div>foo</div>} />,
+          <EmergencyContactDisplay Footer={() => <div>foo</div>} />,
         );
         expect(getByText('foo')).to.exist;
       });
@@ -38,7 +38,7 @@ describe('pre-check-in experience', () => {
           phone: '5552223333',
         };
         const { getByText } = render(
-          <EmergencyContact data={emergencyContact} />,
+          <EmergencyContactDisplay data={emergencyContact} />,
         );
         expect(getByText('Address')).to.exist;
         expect(getByText('Phone')).to.exist;
@@ -54,13 +54,13 @@ describe('pre-check-in experience', () => {
 
       it('fires the yes function', () => {
         const yesClick = sinon.spy();
-        const screen = render(<EmergencyContact yesAction={yesClick} />);
+        const screen = render(<EmergencyContactDisplay yesAction={yesClick} />);
         fireEvent.click(screen.getByTestId('yes-button'));
         expect(yesClick.calledOnce).to.be.true;
       });
       it('fires the no function', () => {
         const noClick = sinon.spy();
-        const screen = render(<EmergencyContact noAction={noClick} />);
+        const screen = render(<EmergencyContactDisplay noAction={noClick} />);
         fireEvent.click(screen.getByTestId('no-button'));
         expect(noClick.calledOnce).to.be.true;
       });
