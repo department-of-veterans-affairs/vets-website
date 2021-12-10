@@ -9,6 +9,8 @@ import {
   TOKEN_WAS_VALIDATED,
   permissionsUpdated,
   PERMISSIONS_UPDATED,
+  receivedEmergencyContact,
+  RECEIVED_EMERGENCY_CONTACT_DATA,
   receivedDemographicsData,
   RECEIVED_DEMOGRAPHICS_DATA,
   triggerRefresh,
@@ -141,6 +143,17 @@ describe('check in actions', () => {
         expect(action.payload).to.haveOwnProperty('demographicsStatus');
         expect(action.payload.demographicsStatus.demographicsNeedsUpdate).to.be
           .true;
+      });
+    });
+    describe('receivedEmergencyContact', () => {
+      it('should return correct action', () => {
+        const action = receivedEmergencyContact({ name: 'Jimmy' });
+        expect(action.type).to.equal(RECEIVED_EMERGENCY_CONTACT_DATA);
+      });
+      it('should return correct structure', () => {
+        const action = receivedEmergencyContact({ name: 'Jimmy' });
+        expect(action.payload).to.haveOwnProperty('emergencyContact');
+        expect(action.payload.emergencyContact.name).to.equal('Jimmy');
       });
     });
   });

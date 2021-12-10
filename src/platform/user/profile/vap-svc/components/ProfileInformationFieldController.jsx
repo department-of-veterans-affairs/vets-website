@@ -36,12 +36,12 @@ import { ACTIVE_EDIT_VIEWS, FIELD_NAMES } from '@@vap-svc/constants';
 import VAPServiceTransaction from '@@vap-svc/components/base/VAPServiceTransaction';
 import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
 
-import ContactInformationEditView from '@@profile/components/contact-information/ContactInformationEditView';
-import ContactInformationView from '@@profile/components/contact-information/ContactInformationView';
+import ProfileInformationEditView from '@@profile/components/ProfileInformationEditView';
+import ProfileInformationView from '@@profile/components/ProfileInformationView';
 
 import { getInitialFormValues } from '@@profile/util/contact-information/formValues';
 
-import getContactInfoFieldAttributes from '~/applications/personalization/profile/util/contact-information/getContactInfoFieldAttributes';
+import getProfileInfoFieldAttributes from '~/applications/personalization/profile/util/getProfileInfoFieldAttributes';
 
 import CannotEditModal from './ContactInformationFieldInfo/CannotEditModal';
 import ConfirmCancelModal from './ContactInformationFieldInfo/ConfirmCancelModal';
@@ -71,7 +71,7 @@ const classes = {
   editButton: editButtonClasses.join(' '),
 };
 
-class ContactInformationField extends React.Component {
+class ProfileInformationFieldController extends React.Component {
   static propTypes = {
     activeEditView: PropTypes.string,
     analyticsSectionName: PropTypes.oneOf(
@@ -329,7 +329,7 @@ class ContactInformationField extends React.Component {
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
-        <ContactInformationView
+        <ProfileInformationView
           data={data}
           fieldName={fieldName}
           title={title}
@@ -376,7 +376,7 @@ class ContactInformationField extends React.Component {
 
     if (showEditView || forceEditView) {
       content = (
-        <ContactInformationEditView
+        <ProfileInformationEditView
           getInitialFormValues={() =>
             getInitialFormValues({
               fieldName,
@@ -469,7 +469,7 @@ export const mapStateToProps = (state, ownProps) => {
     uiSchema,
     formSchema,
     title,
-  } = getContactInfoFieldAttributes(fieldName);
+  } = getProfileInfoFieldAttributes(fieldName);
   return {
     hasUnsavedEdits: state.vapService.hasUnsavedEdits,
     analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
@@ -511,10 +511,9 @@ const mapDispatchToProps = {
   createTransaction,
 };
 
-const ContactInformationFieldContainer = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ContactInformationField);
+)(ProfileInformationFieldController);
 
-export default ContactInformationFieldContainer;
-export { ContactInformationField };
+export { ProfileInformationFieldController };

@@ -15,6 +15,7 @@ const NextOfKin = props => {
   const {
     nextOfKin,
     isLoading,
+    isEmergencyContactEnabled,
     isDemographicsPageEnabled,
     isUpdatePageEnabled,
     router,
@@ -24,19 +25,20 @@ const NextOfKin = props => {
   const { nextOfKinNeedsUpdate } = demographicsStatus;
   const seeStaffMessage =
     'Our staff can help you update your next of kin information.';
-
   useEffect(() => {
     focusElement('h1');
   }, []);
   const findNextPage = useCallback(
     () => {
-      if (isUpdatePageEnabled) {
+      if (isEmergencyContactEnabled) {
+        goToNextPage(router, URLS.EMERGENCY_CONTACT);
+      } else if (isUpdatePageEnabled) {
         goToNextPage(router, URLS.UPDATE_INSURANCE);
       } else {
         goToNextPage(router, URLS.DETAILS);
       }
     },
-    [isUpdatePageEnabled, router],
+    [isEmergencyContactEnabled, isUpdatePageEnabled, router],
   );
   const yesClick = useCallback(
     () => {
@@ -104,6 +106,7 @@ const mapDispatchToProps = dispatch => {
 NextOfKin.propTypes = {
   nextOfKin: PropTypes.object,
   isLoading: PropTypes.bool,
+  isEmergencyContactEnabled: PropTypes.bool,
   isDemographicsPageEnabled: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,

@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import { createId } from '../../utils/helpers';
 import _ from 'lodash';
 import LearnMoreLabel from '../LearnMoreLabel';
-import recordEvent from 'platform/monitoring/record-event';
 
 export default function EstimatedBenefits({
   outputs,
@@ -109,10 +108,6 @@ export default function EstimatedBenefits({
           <LearnMoreLabel
             text={title}
             onClick={() => {
-              recordEvent({
-                event: `Learn more clicked for ${learnMoreAriaLabel} test`,
-              });
-
               if (modal) {
                 dispatchShowModal(modal);
               } else {
@@ -210,10 +205,6 @@ export default function EstimatedBenefits({
                   text="Book stipend"
                   onClick={() => {
                     dispatchShowModal('bookStipendInfo');
-                    recordEvent({
-                      event: 'gibct-form-help-text-clicked',
-                      'help-text-label': 'Learn more about the book stipend',
-                    });
                   }}
                   ariaLabel="Learn more about the book stipend"
                   buttonId="book-stipend-learn-more"

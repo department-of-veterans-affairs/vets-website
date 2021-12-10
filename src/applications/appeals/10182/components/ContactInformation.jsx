@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
-import ContactInformationField from '@@vap-svc/components/ContactInformationField';
+import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 
 import { selectProfile } from '~/platform/user/selectors';
@@ -104,17 +104,17 @@ export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
       >
         <InitializeVAPServiceID>
           <h3>Mobile phone number</h3>
-          <ContactInformationField
+          <ProfileInformationFieldController
             fieldName={FIELD_NAMES.MOBILE_PHONE}
             isDeleteDisabled
           />
           <h3>Email address</h3>
-          <ContactInformationField
+          <ProfileInformationFieldController
             fieldName={FIELD_NAMES.EMAIL}
             isDeleteDisabled
           />
           <h3>Mailing address</h3>
-          <ContactInformationField
+          <ProfileInformationFieldController
             fieldName={FIELD_NAMES.MAILING_ADDRESS}
             isDeleteDisabled
           />

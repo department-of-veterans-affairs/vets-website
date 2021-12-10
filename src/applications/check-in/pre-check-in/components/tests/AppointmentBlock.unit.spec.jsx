@@ -27,7 +27,7 @@ describe('pre-check-in', () => {
     it('Renders appointment day and facility for multiple appointments', () => {
       const screen = render(<AppointmentBlock appointments={appointments} />);
       expect(screen.getByTestId('appointment-day-location')).to.have.text(
-        'Your appointments on November 16, 2021 at LOMA LINDA VA CLINIC.',
+        'Your appointments are on November 16, 2021 at LOMA LINDA VA CLINIC.',
       );
       expect(screen.getByTestId('appointment-list-item-0')).to.exist;
       expect(screen.getByTestId('appointment-list-item-1')).to.exist;

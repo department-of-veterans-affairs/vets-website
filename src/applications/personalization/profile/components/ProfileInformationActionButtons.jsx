@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function ContactInformationActionButtons(props) {
+function ProfileInformationActionButtons(props) {
   return (
     <div className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-flex-direction--column">
       {props.children}
@@ -9,9 +9,9 @@ function ContactInformationActionButtons(props) {
   );
 }
 
-ContactInformationActionButtons.propTypes = {
+ProfileInformationActionButtons.propTypes = {
   title: PropTypes.string.isRequired,
   isLoading: PropTypes.bool,
 };
 
-export default ContactInformationActionButtons;
+export default ProfileInformationActionButtons;

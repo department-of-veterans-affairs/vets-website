@@ -6,6 +6,7 @@ import { goToNextPage, URLS } from '../utils/navigation';
 import { getCurrentToken } from '../../utils/session';
 import { api } from '../api';
 import {
+  receivedEmergencyContact,
   receivedDemographicsData,
   receivedNextOfKinData,
   receivedMultipleAppointmentDetails,
@@ -29,6 +30,7 @@ const withLoadedData = Component => {
       demographics,
       nextOfKin,
       demographicsStatus,
+      emergencyContact,
     } = checkInData;
 
     useEffect(
@@ -77,6 +79,7 @@ const withLoadedData = Component => {
           nextOfKin={nextOfKin || {}}
           appointments={appointments || []}
           context={context || {}}
+          emergencyContact={emergencyContact || {}}
           demographicsStatus={demographicsStatus || {}}
         />
       </>
@@ -109,6 +112,9 @@ const mapDispatchToProps = dispatch => {
           dispatch(receivedDemographicsData(demographics));
           if ('nextOfKin1' in demographics) {
             dispatch(receivedNextOfKinData(demographics.nextOfKin1));
+          }
+          if ('emergencyContact' in demographics) {
+            dispatch(receivedEmergencyContact(demographics.emergencyContact));
           }
         }
       });
