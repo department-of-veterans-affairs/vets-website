@@ -114,25 +114,21 @@ export function ResultCard({
   const nameCityStateHeader = (
     <>
       <div>
-        <Link
-          to={profileLink}
-          aria-labelledby={`${facilityCode}-label ${facilityCode}-classification`}
-          onClick={() =>
-            recordEvent({
-              event: 'gibct-view-profile',
-              'school-name': name,
-              'has-warnings': cautionFlags.length > 0,
-            })
-          }
-        >
-          <h3
-            className={nameClasses}
-            aria-label={`${institution.name}, `}
-            id={`${institution.facilityCode}-label`}
+        <h3 className={nameClasses}>
+          <Link
+            to={profileLink}
+            aria-labelledby={`${facilityCode}-label ${facilityCode}-classification`}
+            onClick={() =>
+              recordEvent({
+                event: 'gibct-view-profile',
+                'school-name': name,
+                'has-warnings': cautionFlags.length > 0,
+              })
+            }
           >
             {name}
-          </h3>
-        </Link>
+          </Link>
+        </h3>
       </div>
       <p className="vads-u-padding--0">
         {city}
