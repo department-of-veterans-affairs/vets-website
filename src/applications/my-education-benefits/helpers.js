@@ -224,9 +224,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
   // if (!state.data?.formData) {
   //   fetchPersonalInformation();
   // }
-
-  const claimant = state.data?.formData?.data?.claimant || {};
-  const serviceData = state.data?.formData?.serviceData || {};
+  const claimant = state.data?.formData?.data?.attributes?.claimant || {};
+  const serviceData = state.data?.formData?.data?.attributes?.serviceData || {};
   const contactInfo = claimant?.contactInfo || {};
 
   const newData = {
