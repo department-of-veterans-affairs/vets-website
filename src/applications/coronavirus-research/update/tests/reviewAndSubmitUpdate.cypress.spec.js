@@ -7,7 +7,7 @@ describe('COVID-19 Research Form', () => {
       cy.injectAxe();
     });
 
-    it('should load form page', () => {
+    it.skip('should load form page', () => {
       cy.url().should('include', 'coronavirus-research/volunteer/update');
       cy.axeCheck();
       cy.get('h1').contains(
