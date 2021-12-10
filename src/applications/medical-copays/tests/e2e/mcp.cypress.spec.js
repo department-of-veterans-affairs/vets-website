@@ -1,3 +1,10 @@
+/**
+ * [TestRail-integrated] Spec for Medical Copays
+ * @testrailinfo projectId 7
+ * @testrailinfo suiteId 8
+ * @testrailinfo groupId 3090
+ * @testrailinfo runName MCP-e2e-Main
+ */
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockCopays from './fixtures/mocks/copays.json';
 import mockUser from './fixtures/mocks/mock-user.json';
@@ -14,7 +21,7 @@ describe.skip('Medical Copays', () => {
     cy.axeCheck();
   });
 
-  it('displays copay balances', () => {
+  it('displays copay balances - C12576', () => {
     cy.findAllByText(/Your current copay balances/i).should('exist');
     cy.findByTestId(`balance-card-${id}`).should('exist');
     cy.findByTestId(`amount-${id}`).contains('$15.00');
@@ -23,7 +30,7 @@ describe.skip('Medical Copays', () => {
     );
   });
 
-  it('navigates to the detail page', () => {
+  it('navigates to the detail page - C12577', () => {
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId(`updated-date`).contains('November 15, 2019');
     cy.findByTestId(`status-alert`).contains(
@@ -41,7 +48,7 @@ describe.skip('Medical Copays', () => {
     );
   });
 
-  it('displays download statements', () => {
+  it('displays download statements - C12578', () => {
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId(`download-statements`).should('exist');
     cy.findAllByText(/November 15, 2019/i).should('exist');
