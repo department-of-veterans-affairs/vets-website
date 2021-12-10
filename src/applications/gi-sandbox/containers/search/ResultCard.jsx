@@ -114,7 +114,11 @@ export function ResultCard({
   const nameCityStateHeader = (
     <>
       <div>
-        <h3 className={nameClasses}>
+        <h3
+          className={nameClasses}
+          aria-label={`${institution.name}, `}
+          id={`${institution.facilityCode}-label`}
+        >
           <Link
             to={profileLink}
             aria-labelledby={`${facilityCode}-label ${facilityCode}-classification`}
