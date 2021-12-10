@@ -267,7 +267,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
         contactInfo?.countryCode !== 'US' &&
         contactInfo?.addressType === 'MILITARY_OVERSEAS',
     },
-    toursOfDuty: transformServiceHistory(serviceData),
+    toursOfDuty: transformServiceHistory(serviceData[0]),
+    // Needs to be an update to map over array of multiple service data objects
     // 'view:toursOfDutyCorrect': {
     //   toursOfDutyCorrect: serviceHistory?.data?.toursOfDutyIncorrect,
     // },
