@@ -44,7 +44,7 @@ export const getDate = ({
  * @returns {String} - formatted as 'YYYY-MM-DD'
  */
 export const getIsoDateFromSimpleDate = date =>
-  `${date.year.value}-${date.month.value}-${date.day.value}`;
+  [date.year.value, date.month.value, date.day.value].filter(Boolean).join('-');
 
 /**
  * Convert date string to SimpleDate object

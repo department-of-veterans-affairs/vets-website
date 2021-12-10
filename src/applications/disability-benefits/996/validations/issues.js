@@ -8,11 +8,7 @@ import {
 
 import { $, areaOfDisagreementWorkAround } from '../utils/ui';
 import { getSelected, hasSomeSelected, hasDuplicates } from '../utils/helpers';
-import {
-  missingIssueErrorMessage,
-  uniqueIssueErrorMessage,
-  maxLengthErrorMessage,
-} from '../content/addIssue';
+import { issueErrorMessages } from '../content/addIssue';
 import {
   noneSelected,
   maxSelectedErrorMessage,
@@ -59,20 +55,19 @@ const maxDate = moment().endOf('day');
 export const validateDate = (errors, dateString) => {
   const { day, month, year } = parseISODate(dateString);
   const date = moment(dateString);
-  if (dateString === 'XXXX-XX-XX') {
-    errors.addError('Please enter a decision date');
+
+  if (dateString === 'XXXX-XX-XX' || dateString === '') {
+    errors.addError(issueErrorMessages.missingDecisionDate);
   } else if (year?.length >= 4 && !isValidYear(year)) {
     errors.addError(
-      `Please enter a year between ${minDate.year()} and ${maxDate.year()}`,
+      issueErrorMessages.invalidDateRange(minDate.year(), maxDate.year()),
     );
   } else if (!isValidPartialDate(day, month, year)) {
-    errors.addError('Please provide a valid date');
+    errors.addError(issueErrorMessages.invalidDate);
   } else if (date.isAfter(maxDate)) {
-    errors.addError('Please add a past decision date');
+    errors.addError(issueErrorMessages.pastDate);
   } else if (date.isBefore(minDate)) {
-    errors.addError(
-      'Please add an issue with a decision date less than a year old',
-    );
+    errors.addError(issueErrorMessages.newerDate);
   }
   if ($('body.modal-open')) {
     // prevent contact page modal "update" button from acting like the
@@ -108,7 +103,7 @@ export const uniqueIssue = (
   appStateData,
 ) => {
   if (errors?.addError && hasDuplicates(appStateData)) {
-    errors.addError(uniqueIssueErrorMessage);
+    errors.addError(issueErrorMessages.uniqueIssue);
   }
 };
 
@@ -120,13 +115,13 @@ export const maxIssues = (error, data) => {
 
 export const missingIssueName = (error, data) => {
   if (!data) {
-    error.addError(missingIssueErrorMessage);
+    error.addError(issueErrorMessages.missingIssue);
   }
 };
 
 export const maxNameLength = (error, data) => {
   if (data.length > MAX_ISSUE_NAME_LENGTH) {
-    error.addError(maxLengthErrorMessage);
+    error.addError(issueErrorMessages.maxLength);
   }
 };
 

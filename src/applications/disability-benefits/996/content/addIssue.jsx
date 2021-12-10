@@ -2,8 +2,18 @@ import React from 'react';
 
 import { MAX_ISSUE_NAME_LENGTH } from '../constants';
 
-export const missingIssueErrorMessage = 'Please add the name of an issue';
-export const uniqueIssueErrorMessage = 'Please enter a unique condition name';
+export const issueErrorMessages = {
+  missingIssue: 'Please add the name of an issue',
+  uniqueIssue: 'Please enter a unique condition name',
+  maxLength: `Please enter less than ${MAX_ISSUE_NAME_LENGTH} characters for this issue name`,
+
+  invalidDate: 'Please provide a valid date',
+  missingDecisionDate: 'Please enter a decision date',
+  invalidDateRange: (min, max) =>
+    `Please enter a year between ${min} and ${max}`,
+  pastDate: 'Please add a past decision date',
+  newerDate: 'Please add an issue with a decision date less than a year old',
+};
 
 export const issueNameLabel = 'Name of issue';
 export const dateOfDecisionLabel = 'Date of decision';
@@ -21,5 +31,3 @@ export const addIssueLabel = (
     </p>
   </>
 );
-
-export const maxLengthErrorMessage = `Please enter less than ${MAX_ISSUE_NAME_LENGTH} characters for this issue name`;
