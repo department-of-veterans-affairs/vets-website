@@ -1,30 +1,17 @@
-import { merge } from 'lodash';
-
-// Example of an imported schema:
-import fullSchema from '../26-4555-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
-
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
+// import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as address from 'platform/forms-system/src/js/definitions/address';
-
-// import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
 
 import { directDepositWarning } from '../helpers';
 import toursOfDutyUI from '../definitions/toursOfDuty';
@@ -35,9 +22,9 @@ const {
   date,
   dateRange,
   usaPhone,
-  bankAccount,
+  // bankAccount,
   toursOfDuty,
-} = commonDefinitions;
+} = fullSchema.definitions;
 
 // Define all the fields in the form to aid reuse
 const formFields = {
@@ -46,7 +33,7 @@ const formFields = {
   toursOfDuty: 'toursOfDuty',
   viewNoDirectDeposit: 'view:noDirectDeposit',
   viewStopWarning: 'view:stopWarning',
-  bankAccount: 'bankAccount',
+  // bankAccount: 'bankAccount',
   accountType: 'accountType',
   accountNumber: 'accountNumber',
   routingNumber: 'routingNumber',
@@ -77,7 +64,7 @@ const formConfig = {
   trackingPrefix: 'sahg-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '26-4555',
+  formId: VA_FORM_IDS.FORM_26_4555,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your housing grant application (26-4555) is in progress.',
@@ -180,25 +167,25 @@ const formConfig = {
             [formFields.viewNoDirectDeposit]: {
               'ui:title': 'I don’t want to use direct deposit',
             },
-            [formFields.bankAccount]: merge(bankAccountUI, {
-              'ui:order': [
-                formFields.accountType,
-                formFields.accountNumber,
-                formFields.routingNumber,
-              ],
-              'ui:options': {
-                hideIf: formData => !hasDirectDeposit(formData),
-              },
-              [formFields.accountType]: {
-                'ui:required': hasDirectDeposit,
-              },
-              [formFields.accountNumber]: {
-                'ui:required': hasDirectDeposit,
-              },
-              [formFields.routingNumber]: {
-                'ui:required': hasDirectDeposit,
-              },
-            }),
+            // [formFields.bankAccount]: merge(bankAccountUI, {
+            //   'ui:order': [
+            //     formFields.accountType,
+            //     formFields.accountNumber,
+            //     formFields.routingNumber,
+            //   ],
+            //   'ui:options': {
+            //     hideIf: formData => !hasDirectDeposit(formData),
+            //   },
+            //   [formFields.accountType]: {
+            //     'ui:required': hasDirectDeposit,
+            //   },
+            //   [formFields.accountNumber]: {
+            //     'ui:required': hasDirectDeposit,
+            //   },
+            //   [formFields.routingNumber]: {
+            //     'ui:required': hasDirectDeposit,
+            //   },
+            // }),
             [formFields.viewStopWarning]: {
               'ui:description': directDepositWarning,
               'ui:options': {
@@ -212,7 +199,7 @@ const formConfig = {
               [formFields.viewNoDirectDeposit]: {
                 type: 'boolean',
               },
-              [formFields.bankAccount]: bankAccount,
+              // [formFields.bankAccount]: bankAccount,
               [formFields.viewStopWarning]: {
                 type: 'object',
                 properties: {},
