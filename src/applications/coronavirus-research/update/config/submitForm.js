@@ -8,9 +8,7 @@ const submitForm = (form, formConfig, submissionId) => {
       previousSubmissionId: submissionId,
     },
   };
-
   const body = formConfig.transformForSubmit(formConfig, formWithSubmissionId);
-
   const formData = form.data;
   const uiSchema = formConfig.chapters.chapter1.pages.page1.uiSchema;
 
@@ -59,6 +57,7 @@ const submitForm = (form, formConfig, submissionId) => {
     'relationship-to-va': getFormattedTrueSelectValues('VETERAN'),
     gender: getFormattedTrueSelectValues('GENDER'),
     'race-ethnicity-origin': getFormattedTrueSelectValues('RACE_ETHNICITY'),
+    previousSubmissionId: submissionId,
   };
 
   return submitToUrl(

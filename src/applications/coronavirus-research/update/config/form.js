@@ -73,7 +73,7 @@ const formConfig = {
     error: ConsentError(),
   },
   submit: (form, config) => {
-    submitForm(form, config, submissionId);
+    return submitForm(form, config, submissionId);
   },
   chapters: {
     chapter1: {
