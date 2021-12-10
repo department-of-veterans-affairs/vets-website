@@ -22,6 +22,7 @@ describe('Pre-Check In Experience', () => {
         expect(req.body.session.lastName).to.equal('Smith');
         expect(req.body.session.last4).to.equal('1234');
       });
+      apiInitializer.initializePreCheckInDataGet.withSuccess();
     });
     afterEach(() => {
       cy.window().then(window => {

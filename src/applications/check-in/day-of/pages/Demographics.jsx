@@ -1,13 +1,12 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 import { goToNextPage, URLS } from '../utils/navigation';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import { seeStaffMessageUpdated } from '../actions';
-import DemographicsDisplay from '../../components/pages/DemographicsDisplay';
+import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
 
 const Demographics = props => {
   const {
@@ -17,14 +16,11 @@ const Demographics = props => {
     isNextOfKinEnabled,
     router,
     updateSeeStaffMessage,
+    demographicsStatus,
   } = props;
-
-  const yesClick = useCallback(
+  const { demographicsNeedsUpdate } = demographicsStatus;
+  const findNextPage = useCallback(
     () => {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'yes-to-demographic-information',
-      });
       if (isNextOfKinEnabled) {
         goToNextPage(router, URLS.NEXT_OF_KIN);
       } else if (isUpdatePageEnabled) {
@@ -34,6 +30,16 @@ const Demographics = props => {
       }
     },
     [isNextOfKinEnabled, isUpdatePageEnabled, router],
+  );
+  const yesClick = useCallback(
+    () => {
+      recordEvent({
+        event: 'cta-button-click',
+        'button-click-label': 'yes-to-demographic-information',
+      });
+      findNextPage();
+    },
+    [findNextPage],
   );
 
   const noClick = useCallback(
@@ -56,9 +62,18 @@ const Demographics = props => {
     },
     [router, updateSeeStaffMessage],
   );
-
+  useEffect(
+    () => {
+      if (demographicsNeedsUpdate === false) {
+        findNextPage();
+      }
+    },
+    [demographicsNeedsUpdate, findNextPage],
+  );
   if (isLoading) {
-    return <LoadingIndicator message={'Loading your appointments for today'} />;
+    return (
+      <va-loading-indicator message="Loading your appointments for today" />
+    );
   } else if (!demographics) {
     goToNextPage(router, URLS.ERROR);
     return <></>;
@@ -92,6 +107,7 @@ Demographics.propTypes = {
   isNextOfKinEnabled: PropTypes.bool,
   router: PropTypes.object,
   updateSeeStaffMessage: PropTypes.func,
+  demographicsStatus: PropTypes.object,
 };
 
 export default connect(

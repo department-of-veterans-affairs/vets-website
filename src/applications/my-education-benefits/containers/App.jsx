@@ -17,7 +17,7 @@ export const App = ({
   formData,
   setFormData,
   getPersonalInfo,
-  userFullName,
+  firstName,
 }) => {
   useEffect(
     () => {
@@ -27,7 +27,7 @@ export const App = ({
       //   // redirect
       //   return;
       // }
-      if (!userFullName || !userFullName?.first) {
+      if (!firstName) {
         getPersonalInfo();
       }
       // The following works and sets data after the initial form load.
@@ -48,7 +48,7 @@ export const App = ({
       //   cleanup
       // }
     },
-    [formData, setFormData, userFullName, getPersonalInfo],
+    [formData, setFormData, firstName, getPersonalInfo],
   );
 
   return (
@@ -66,13 +66,13 @@ export const App = ({
 };
 
 const mapStateToProps = state => {
-  // const profile = selectProfile(state);
   const formData = state.form?.data || {};
-  const userFullName = state.data?.formData?.userFullName; // state.user.profile?.userFullName,
+  const firstName = state.data?.formData?.data?.claimant?.firstName;
+  const eligibility = state.data?.eligibility;
   // const showNod = noticeOfDisagreementFeature(state);
   // const loggedIn = isLoggedIn(state);
   // const { toursOfDuty } = state;
-  return { formData, userFullName };
+  return { formData, firstName, eligibility };
 };
 
 const mapDispatchToProps = {

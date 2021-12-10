@@ -19,7 +19,7 @@ export default function CalendarWeekdayHeader({ showFullWeek = false }) {
   return (
     <div role="rowgroup">
       <div
-        className="vaos-calendar__weekday-container vads-u-display--flex vads-u-justify-content--space-between"
+        className="vaos-calendar__weekday-container vads-u-display--flex vads-u-justify-content--space-around"
         role="row"
       >
         {daysToRender.map((day, index) => (

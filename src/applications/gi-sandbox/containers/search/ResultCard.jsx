@@ -57,41 +57,32 @@ export function ResultCard({
   const compareLength = compare.search.loaded.length;
 
   const handleCompareUpdate = e => {
-    recordEvent({
-      event: location
-        ? `Checkbox Clicked: Added from location tab`
-        : `Checkbox Clicked: Added from name tab`,
-    });
-
-    if (compareLength < 3) {
-      recordEvent({
-        event: compareChecked
-          ? `Compare Checkbox click: ${compareLength - 1} in Comparison Drawer`
-          : `Compare Checkbox click: ${compareLength + 1} in Comparison Drawer`,
-      });
-    }
-
     if (e.target.checked && !compareChecked) {
       if (compareLength === 3) {
+        recordEvent({
+          event: 'gibct-form-change',
+          'gibct-form-field': 'compareCheckbox',
+          'gibct-form-value': `Limit Reached | ${compareLength}`,
+          'school-name': institution.name,
+        });
         dispatchShowModal('comparisonLimit');
-        recordEvent({
-          event: `Compare Checkbox click: Comparison Limit Reached. More than 3 schools selected.`,
-        });
       } else {
-        dispatchAddCompareInstitution(institution);
         recordEvent({
-          event: `Compare Checkbox click: Added ${
-            institution.name
-          } to comparison tray`,
+          event: 'gibct-form-change',
+          'gibct-form-field': 'compareCheckbox',
+          'gibct-form-value': `Add | ${compareLength + 1}`,
+          'school-name': institution.name,
         });
+        dispatchAddCompareInstitution(institution);
       }
     } else {
-      dispatchRemoveCompareInstitution(facilityCode);
       recordEvent({
-        event: `Compare Checkbox click: Removed ${
-          institution.name
-        } from comparison try`,
+        event: 'gibct-form-change',
+        'gibct-form-field': 'compareCheckbox',
+        'gibct-form-value': `Remove | ${compareLength - 1}`,
+        'school-name': institution.name,
       });
+      dispatchRemoveCompareInstitution(facilityCode);
     }
   };
 
@@ -123,24 +114,25 @@ export function ResultCard({
   const nameCityStateHeader = (
     <>
       <div>
-        <Link
-          to={profileLink}
-          aria-labelledby={`${facilityCode}-label ${facilityCode}-classification`}
-          onClick={() =>
-            cautionFlags.length > 0 &&
-            recordEvent({
-              event: `Cautionary Warnings: ${name} profile link clicked`,
-            })
-          }
+        <h3
+          className={nameClasses}
+          aria-label={`${institution.name}, `}
+          id={`${institution.facilityCode}-label`}
         >
-          <h3
-            className={nameClasses}
-            aria-label={`${institution.name}, `}
-            id={`${institution.facilityCode}-label`}
+          <Link
+            to={profileLink}
+            aria-labelledby={`${facilityCode}-label ${facilityCode}-classification`}
+            onClick={() =>
+              recordEvent({
+                event: 'gibct-view-profile',
+                'school-name': name,
+                'has-warnings': cautionFlags.length > 0,
+              })
+            }
           >
             {name}
-          </h3>
-        </Link>
+          </Link>
+        </h3>
       </div>
       <p className="vads-u-padding--0">
         {city}

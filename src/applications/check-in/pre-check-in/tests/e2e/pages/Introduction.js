@@ -1,22 +1,26 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
+import { format, subDays } from 'date-fns';
 
 class Introduction {
-  initializeApi() {
-    // @TODO: fill in once we are actually using the API
-  }
   validatePageLoaded() {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Answer pre check-in questions');
+      .and('have.text', 'Answer pre-check-in questions');
   }
-  validateMultipleAppointmentIntroText() {
+  validateMultipleAppointmentIntroText(appointmentDate = new Date()) {
     cy.get('p[data-testid="appointment-day-location"]').contains(
-      'Your appointments on November 16, 2021 at LOMA LINDA VA CLINIC.',
+      `Your appointments are on ${format(
+        appointmentDate,
+        'MMMM dd, Y',
+      )} at LOMA LINDA VA CLINIC.`,
     );
   }
-  validateSingleAppointmentIntroText() {
+  validateSingleAppointmentIntroText(appointmentDate = new Date()) {
     cy.get('p[data-testid="appointment-day-location"]').contains(
-      'Your appointment is on November 16, 2021 at LOMA LINDA VA CLINIC.',
+      `Your appointment on ${format(
+        appointmentDate,
+        'MMMM dd, Y',
+      )} at LOMA LINDA VA CLINIC.`,
     );
   }
   countAppointmentList(expectedLength) {
@@ -58,9 +62,10 @@ class Introduction {
         .should('not.be.visible');
     }
   }
-  validateExpirationDate() {
-    // @TODO update to use date from mock data with math.
-    cy.get('[data-testid="expiration-date"]').contains('11/15/2021');
+  validateExpirationDate(appointmentTime) {
+    cy.get('[data-testid="expiration-date"]').contains(
+      format(subDays(appointmentTime, 1), 'M/dd/Y'),
+    );
   }
   attemptToGoToNextPage() {
     cy.get('div[data-testid="intro-wrapper"] div[data-testid="start-button"] a')

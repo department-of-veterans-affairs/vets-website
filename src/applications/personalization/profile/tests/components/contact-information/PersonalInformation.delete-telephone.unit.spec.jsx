@@ -22,6 +22,7 @@ const ui = (
 );
 let view;
 let server;
+const errorText = `We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please check back later.`;
 
 function getEditButton(numberName) {
   let editButton = view.queryByText(new RegExp(`add.*${numberName}`, 'i'), {
@@ -120,10 +121,8 @@ async function testTransactionCreationFails(numberName) {
 
   // expect an error to be shown
   const alert = await view.findByTestId('delete-error-alert');
-  expect(alert).to.have.descendant('div.usa-alert-error');
-  expect(alert).to.contain.text(
-    `We’re sorry. We can’t save your ${numberName.toLowerCase()} at this time. We’re working to fix this problem. Please try again or check back soon.`,
-  );
+  expect(alert).to.have.descendant('div.va-profile-alert');
+  expect(alert).to.contain.text(errorText);
 
   // make sure that Delete Modal is not automatically exited
   await wait(75);
@@ -153,10 +152,8 @@ async function testQuickFailure(numberName) {
 
   // expect an error to be shown
   const alert = await view.findByTestId('delete-error-alert');
-  expect(alert).to.have.descendant('div.usa-alert-error');
-  expect(alert).to.contain.text(
-    `We’re sorry. We can’t save your ${numberName.toLowerCase()} at this time. We’re working to fix this problem. Please try again or check back soon.`,
-  );
+  expect(alert).to.have.descendant('div.va-profile-alert');
+  expect(alert).to.contain.text(errorText);
 
   // waiting to make sure it doesn't auto exit
   await wait(75);
