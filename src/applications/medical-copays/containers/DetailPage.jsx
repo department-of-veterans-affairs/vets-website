@@ -44,7 +44,7 @@ const DetailPage = ({ match }) => {
         </a>
       </Breadcrumbs>
 
-      <h1 className="vads-u-margin-bottom--1">
+      <h1 className="vads-u-margin-bottom--1" data-testid="detail-page-title">
         Your copay bill for {selectedCopay?.station.facilityName}
       </h1>
 
