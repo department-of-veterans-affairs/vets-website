@@ -116,7 +116,7 @@
     "@octokit/rest": "^18.11.0",
     "@pact-foundation/pact": "^9.16.4",
     "@sentry/browser": "^6.13.2",
-    "@testing-library/cypress": "^7.0.7",
+    "@testing-library/cypress": "^8.0.2",
     "@testing-library/dom": "^7.26.6",
     "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.2.2",
