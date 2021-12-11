@@ -12,10 +12,6 @@ import mockUser from './fixtures/mocks/mock-user.json';
 describe('Medical Copays', () => {
   const id = 'f4385298-08a6-42f8-a86f-50e97033fb85';
 
-  before(function() {
-    if (Cypress.env('CI')) this.skip();
-  });
-
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
