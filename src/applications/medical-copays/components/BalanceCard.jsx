@@ -9,14 +9,14 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       data-testid={`balance-card-${id}`}
     >
       <h3
-        aria-describedby="copay-balance"
+        aria-describedby={`copay-balance-${id}`}
         className="card-balance vads-u-margin-top--0"
         data-testid={`amount-${id}`}
       >
         {currency(amount)}
       </h3>
       <p
-        id="copay-balance"
+        id={`copay-balance-${id}`}
         className="card-heading vads-u-margin-top--0"
         data-testid={`facility-city-${id}`}
       >
