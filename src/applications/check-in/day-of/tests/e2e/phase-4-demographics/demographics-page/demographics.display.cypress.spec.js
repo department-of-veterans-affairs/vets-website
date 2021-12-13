@@ -32,13 +32,13 @@ describe('Check In Experience -- ', () => {
       cy.get('h1', { timeout: Timeouts.slow })
         .should('be.visible')
         .and('have.text', 'Is this your current contact information?');
-      cy.get('.check-in-demographics > p', { timeout: Timeouts.slow })
+      cy.get('.confirmable-page > p', { timeout: Timeouts.slow })
         .should('be.visible')
         .and(
           'have.text',
           'We can better follow up with you after your appointment when we have your current information.',
         );
-      cy.get('.check-in-demographics dl')
+      cy.get('.confirmable-page dl')
         .find('dt:nth-child(1)')
         .should('have.text', 'Mailing address')
         .next()

@@ -27,7 +27,7 @@ export default function RequestedStatusAlert({ appointment, facility }) {
   if (showConfirmMsg) {
     return (
       <InfoAlert backgroundOnly status={canceled ? 'error' : 'success'}>
-        {canceled && 'This request has been canceled'}
+        {canceled && `${who || 'Facility'} canceled this appointment.`}
         {!canceled && (
           <>
             <strong>Your appointment request has been submitted. </strong>

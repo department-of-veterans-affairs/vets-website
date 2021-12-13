@@ -1,17 +1,9 @@
 import React from 'react';
 
-export default function FedWarning({ oldDesignEnabled }) {
+export default function FedWarning() {
   return (
-    <div
-      className={`${
-        !oldDesignEnabled
-          ? 'vads-u-padding-bottom--2p5 fed-warning--v2'
-          : 'fed-warning'
-      }`}
-    >
-      {!oldDesignEnabled && (
-        <h2 className="vads-u-margin-top--0">Terms of use</h2>
-      )}
+    <div className="vads-u-padding-bottom--2p5 fed-warning--v2">
+      <h2 className="vads-u-margin-top--0">Terms of use</h2>
       <p>
         When you sign in to VA.gov, you’re using a United States federal
         government information system.

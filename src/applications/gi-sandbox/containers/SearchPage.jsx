@@ -60,7 +60,8 @@ export function SearchPage({
 
   const tabChange = selectedTab => {
     recordEvent({
-      event: `Search By ${selectedTab} tab clicked`,
+      event: 'nav-tab-click',
+      'tab-text': `Search by ${selectedTab}`,
     });
     dispatchChangeSearchTab(selectedTab);
     queryParams.set('search', selectedTab);
@@ -118,9 +119,6 @@ export function SearchPage({
                     expanded={accordions[TABS.name]}
                     onClick={expanded => {
                       accordionChange(TABS.name, expanded);
-                      recordEvent({
-                        event: `Search By Name tab clicked`,
-                      });
                     }}
                   >
                     <NameSearchForm smallScreen />
@@ -129,9 +127,6 @@ export function SearchPage({
                     button="Search by location"
                     expanded={accordions[TABS.location]}
                     onClick={expanded => {
-                      recordEvent({
-                        event: `Search By Location tab clicked`,
-                      });
                       accordionChange(TABS.location, expanded);
                     }}
                   >

@@ -628,14 +628,6 @@ export const mockTogglesResponse = {
         value: true,
       },
       {
-        name: 'loginOldDesign',
-        value: true,
-      },
-      {
-        name: 'login_old_design',
-        value: true,
-      },
-      {
         name: 'loopPages',
         value: true,
       },
@@ -682,14 +674,6 @@ export const mockTogglesResponse = {
       {
         name: 'pre_entry_covid19_screener',
         value: false,
-      },
-      {
-        name: 'profileNotificationSettings',
-        value: true,
-      },
-      {
-        name: 'profile_notification_settings',
-        value: true,
       },
       {
         name: 'profileEnhancements',

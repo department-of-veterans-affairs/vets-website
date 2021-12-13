@@ -15,32 +15,40 @@ const NextOfKin = props => {
   const {
     nextOfKin,
     isLoading,
+    isEmergencyContactEnabled,
     isDemographicsPageEnabled,
     isUpdatePageEnabled,
     router,
     updateSeeStaffMessage,
+    demographicsStatus,
   } = props;
-
+  const { nextOfKinNeedsUpdate } = demographicsStatus;
   const seeStaffMessage =
     'Our staff can help you update your next of kin information.';
-
   useEffect(() => {
     focusElement('h1');
   }, []);
-
+  const findNextPage = useCallback(
+    () => {
+      if (isEmergencyContactEnabled) {
+        goToNextPage(router, URLS.EMERGENCY_CONTACT);
+      } else if (isUpdatePageEnabled) {
+        goToNextPage(router, URLS.UPDATE_INSURANCE);
+      } else {
+        goToNextPage(router, URLS.DETAILS);
+      }
+    },
+    [isEmergencyContactEnabled, isUpdatePageEnabled, router],
+  );
   const yesClick = useCallback(
     () => {
       recordEvent({
         event: 'cta-button-click',
         'button-click-label': 'yes-to-next-of-kin-information',
       });
-      if (isUpdatePageEnabled) {
-        goToNextPage(router, URLS.UPDATE_INSURANCE);
-      } else {
-        goToNextPage(router, URLS.DETAILS);
-      }
+      findNextPage();
     },
-    [isUpdatePageEnabled, router],
+    [findNextPage],
   );
 
   const noClick = useCallback(
@@ -54,7 +62,14 @@ const NextOfKin = props => {
     },
     [router, updateSeeStaffMessage],
   );
-
+  useEffect(
+    () => {
+      if (nextOfKinNeedsUpdate === false) {
+        findNextPage();
+      }
+    },
+    [nextOfKinNeedsUpdate, findNextPage],
+  );
   if (isLoading) {
     return (
       <va-loading-indicator message="Loading your appointments for today" />
@@ -91,10 +106,12 @@ const mapDispatchToProps = dispatch => {
 NextOfKin.propTypes = {
   nextOfKin: PropTypes.object,
   isLoading: PropTypes.bool,
+  isEmergencyContactEnabled: PropTypes.bool,
   isDemographicsPageEnabled: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
   updateSeeStaffMessage: PropTypes.func,
+  demographicsStatus: PropTypes.object,
 };
 
 export default connect(

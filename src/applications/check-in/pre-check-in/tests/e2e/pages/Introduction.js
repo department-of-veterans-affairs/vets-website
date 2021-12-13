@@ -9,7 +9,7 @@ class Introduction {
   }
   validateMultipleAppointmentIntroText(appointmentDate = new Date()) {
     cy.get('p[data-testid="appointment-day-location"]').contains(
-      `Your appointments on ${format(
+      `Your appointments are on ${format(
         appointmentDate,
         'MMMM dd, Y',
       )} at LOMA LINDA VA CLINIC.`,
