@@ -28,7 +28,7 @@ import {
 import { fetchEDUPaymentInformation as fetchEDUPaymentInformationAction } from '@@profile/actions/paymentInformation';
 import {
   eduDirectDepositInformation,
-  eduDirectDepositIsSetUp,
+  // eduDirectDepositIsSetUp,
 } from '@@profile/selectors';
 
 import ApplicationsInProgress from './ApplicationsInProgress';
@@ -231,7 +231,8 @@ const mapStateToProps = state => {
   const hasLoadedAllData = hasLoadedESRData && hasLoadedDD4EDUData;
 
   return {
-    hasDD4EDU: eduDirectDepositIsSetUp(state),
+    // temporary while the endpoint is being worked on
+    hasDD4EDU: false, // eduDirectDepositIsSetUp(state),
     hasHCAInProgress,
     hasEDUInProgress,
     hasLoadedAllData,

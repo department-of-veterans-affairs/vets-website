@@ -244,7 +244,7 @@ describe('check in', () => {
       sinon.assert.calledOnce(push);
     });
 
-    it('skips to the emergency contact page when needs update is false and emergency contact page is enabled', () => {
+    it.skip('skips to the emergency contact page when needs update is false and emergency contact page is enabled', () => {
       const push = sinon.spy();
       const mockRouter = {
         push,
