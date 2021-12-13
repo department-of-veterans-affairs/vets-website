@@ -41,7 +41,7 @@ const OverviewPage = () => {
           Your current copay balances
         </a>
       </Breadcrumbs>
-      <h1>Your current copay balances</h1>
+      <h1 data-testid="overview-page-title">Your current copay balances</h1>
       {alertType ? (
         <Alert type={alertType} />
       ) : (

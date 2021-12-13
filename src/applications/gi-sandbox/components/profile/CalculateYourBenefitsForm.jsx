@@ -1002,6 +1002,8 @@ function CalculateYourBenefitsForm({
           aria-label="Skip to your estimated benefits"
           href="#estimated-benefits"
           id="skip-to-eyb"
+          tabIndex="0"
+          role="button"
         >
           Skip to your estimated benefits
         </a>
