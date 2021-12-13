@@ -7,7 +7,7 @@ describe('COVID-19 Research Form', () => {
       cy.injectAxe();
     });
 
-    it('should load form page', () => {
+    it.skip('should load form page', () => {
       cy.url().should('include', 'coronavirus-research/volunteer/update');
       cy.axeCheck();
       cy.get('h1').contains(
@@ -16,7 +16,7 @@ describe('COVID-19 Research Form', () => {
       cy.axeCheck();
     });
 
-    it('should successfully submit the Covid Research form', () => {
+    it.skip('should successfully submit the Covid Research form', () => {
       cy.fixture(
         path.join(__dirname, 'fixtures', 'reviewAndSubmitData.json'),
       ).then(dataElements => {
