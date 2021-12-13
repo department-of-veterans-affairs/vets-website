@@ -20,6 +20,7 @@ const OverviewPage = () => {
   useEffect(
     () => {
       scrollToTop();
+      setAlertType(null);
       if (!statementData?.length) {
         setAlertType('no-history');
       }
