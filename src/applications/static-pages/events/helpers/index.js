@@ -1,5 +1,5 @@
 // Node modules.
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { orderBy, isEmpty } from 'lodash';
 
 const nextWeekDay = moment()
@@ -10,6 +10,57 @@ const nextMonthDay = moment()
   .add('1', 'month')
   .startOf('month')
   .format('MMM D');
+
+export const monthOptions = [
+  { value: '', label: 'Month' },
+  { value: '01', label: 'January' },
+  { value: '02', label: 'February' },
+  { value: '03', label: 'March' },
+  { value: '04', label: 'April' },
+  { value: '05', label: 'May' },
+  { value: '06', label: 'June' },
+  { value: '07', label: 'July' },
+  { value: '08', label: 'August' },
+  { value: '09', label: 'September' },
+  { value: '10', label: 'October' },
+  { value: '11', label: 'November' },
+  { value: '12', label: 'December' },
+];
+
+export const dayOptions = [
+  { value: '', label: 'Day' },
+  { value: '01', label: '1' },
+  { value: '02', label: '2' },
+  { value: '03', label: '3' },
+  { value: '04', label: '4' },
+  { value: '05', label: '5' },
+  { value: '06', label: '6' },
+  { value: '07', label: '7' },
+  { value: '08', label: '8' },
+  { value: '09', label: '9' },
+  { value: '10', label: '10' },
+  { value: '11', label: '11' },
+  { value: '12', label: '12' },
+  { value: '13', label: '13' },
+  { value: '14', label: '14' },
+  { value: '15', label: '15' },
+  { value: '16', label: '16' },
+  { value: '17', label: '17' },
+  { value: '18', label: '18' },
+  { value: '19', label: '19' },
+  { value: '20', label: '20' },
+  { value: '21', label: '21' },
+  { value: '22', label: '22' },
+  { value: '23', label: '23' },
+  { value: '24', label: '24' },
+  { value: '25', label: '25' },
+  { value: '26', label: '26' },
+  { value: '27', label: '27' },
+  { value: '28', label: '28' },
+  { value: '29', label: '29' },
+  { value: '30', label: '30' },
+  { value: '31', label: '31' },
+];
 
 export const filterByOptions = [
   {
@@ -38,35 +89,60 @@ export const filterByOptions = [
   },
 ];
 
+export const defaultSelectedOption = filterByOptions?.find(
+  option => option.value === 'upcoming',
+);
+
+export const convertEventTimesToUnix = events => {
+  // Escape early if there are no events.
+  if (isEmpty(events)) {
+    return [];
+  }
+
+  return events?.map(event => {
+    const startsAtUnix = moment
+      .tz(
+        event?.fieldDatetimeRangeTimezone?.value * 1000,
+        event?.fieldDatetimeRangeTimezone?.timezone || 'UTC',
+      )
+      .unix();
+    const endsAtUnix = moment
+      .tz(
+        event?.fieldDatetimeRangeTimezone?.endValue * 1000,
+        event?.fieldDatetimeRangeTimezone?.timezone || 'UTC',
+      )
+      .unix();
+
+    return {
+      ...event,
+      startsAtUnix,
+      endsAtUnix,
+    };
+  });
+};
+
 export const filterEvents = (events, filterBy, options = {}) => {
   // Escape early if there are no events.
   if (isEmpty(events)) {
     return [];
   }
 
-  const sortedEvents = orderBy(
-    events,
-    ['fieldDatetimeRangeTimezone', 'value'],
-    ['asc'],
-  );
-
-  // Give back the raw events if the filterBy is not provided.
-  if (!filterBy) {
-    return sortedEvents;
-  }
+  // Format event timestamps to unix and sort events by startsAt.
+  const formattedEvents = convertEventTimesToUnix(events);
+  const sortedEvents = orderBy(formattedEvents, ['startsAtUnix'], ['asc']);
 
   // Filter the events.
   switch (filterBy) {
     // Upcoming events.
     case 'upcoming':
       return sortedEvents?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isAfter(),
+        moment(event?.startsAtUnix * 1000).isAfter(),
       );
 
     // Next week.
     case 'next-week':
       return sortedEvents?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isAfter(
+        moment(event?.startsAtUnix * 1000).isAfter(
           moment()
             .add('7', 'days')
             .startOf('week'),
@@ -76,7 +152,7 @@ export const filterEvents = (events, filterBy, options = {}) => {
     // Next month.
     case 'next-month':
       return sortedEvents?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isAfter(
+        moment(event?.startsAtUnix * 1000).isAfter(
           moment()
             .add('1', 'month')
             .startOf('month'),
@@ -86,19 +162,19 @@ export const filterEvents = (events, filterBy, options = {}) => {
     // Past events.
     case 'past':
       return sortedEvents?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isBefore(),
+        moment(event?.startsAtUnix * 1000).isBefore(),
       );
 
     // Custom dates.
     case 'specific-date':
     case 'custom-date-range':
       // Return sorted events if the custom dates are not provided.
-      if (!options?.startDate || !options?.endDate) return sortedEvents;
+      if (!options?.startsAtUnix || !options?.endsAtUnix) return sortedEvents;
 
       return sortedEvents?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isBetween(
-          options?.startAt,
-          options?.endAt,
+        moment(event?.startsAtUnix * 1000).isBetween(
+          options?.startsAtUnix * 1000,
+          options?.endsAtUnix * 1000,
         ),
       );
 

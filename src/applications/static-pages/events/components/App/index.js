@@ -5,16 +5,14 @@ import moment from 'moment';
 import { sample } from 'lodash';
 import { connect } from 'react-redux';
 // Relative imports.
+import Search from '../Search';
 import {
+  defaultSelectedOption,
   filterByOptions,
   filterEvents,
   hideLegacyEvents,
   showLegacyEvents,
 } from '../../helpers';
-
-const defaultSelectedOption = filterByOptions?.find(
-  option => option.value === 'upcoming',
-);
 
 export const App = ({ rawEvents, showEventsV2 }) => {
   // Derive state.
@@ -40,8 +38,34 @@ export const App = ({ rawEvents, showEventsV2 }) => {
     // Set selected option.
     setSelectedOption(newSelectedOption);
 
+    // Derive startDateMonth, startDateDay, endDateMonth, and endDateDay values.
+    const startDateMonth = event?.target?.startDateMonth?.value;
+    const startDateDay = event?.target?.startDateDay?.value;
+    const endDateMonth = event?.target?.endDateMonth?.value;
+    const endDateDay = event?.target?.endDateDay?.value;
+
+    // Derive startsAtUnix.
+    const startsAtUnix =
+      startDateMonth && startDateDay
+        ? moment(`${startDateMonth}/${startDateDay}`, 'MM/DD').unix()
+        : undefined;
+
+    // Derive endsAtUnix.
+    let endsAtUnix = startsAtUnix
+      ? moment(startsAtUnix * 1000)
+          .clone()
+          .add(1, 'day')
+          .unix()
+      : undefined;
+    if (endDateMonth && endDateDay) {
+      endsAtUnix = moment(`${endDateMonth}/${endDateDay}`, 'MM/DD').unix();
+    }
+
     // Filter events.
-    const filteredEvents = filterEvents(rawEvents, newSelectedOption?.value);
+    const filteredEvents = filterEvents(rawEvents, newSelectedOption?.value, {
+      startsAtUnix,
+      endsAtUnix,
+    });
 
     // Set events.
     setEvents(filteredEvents);
@@ -61,33 +85,7 @@ export const App = ({ rawEvents, showEventsV2 }) => {
       </p>
 
       {/* Search */}
-      <form
-        className="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-padding-x--1 vads-u-padding-y--1p5"
-        onSubmit={onSearch}
-      >
-        {/* Filter by */}
-        <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-margin-y--1">
-          <label
-            className="vads-u-margin--0 vads-u-margin-right--1"
-            htmlFor="filterBy"
-            style={{ flexShrink: 0 }}
-          >
-            Filter by
-          </label>
-          <select name="filterBy" id="filterBy">
-            {filterByOptions?.map(option => (
-              <option key={option?.value} value={option?.value}>
-                {option?.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Submit */}
-        <button className="usa-button-primary" type="submit">
-          Filter events
-        </button>
-      </form>
+      <Search onSearch={onSearch} />
 
       {/* Showing 10 results for All upcoming */}
       {events && (
@@ -102,17 +100,16 @@ export const App = ({ rawEvents, showEventsV2 }) => {
         {events?.map(event => {
           // Derive event properties.
           const entityUrl = event?.entityUrl;
-          const fieldDatetimeRangeTimezone = event?.fieldDatetimeRangeTimezone;
+          const startsAtUnix = event?.startsAtUnix;
+          const endsAtUnix = event?.endsAtUnix;
           const fieldDescription = event?.fieldDescription;
           const title = event?.title;
 
           // Derive starts at and ends at.
-          const formattedStartsAt = moment(
-            fieldDatetimeRangeTimezone?.value * 1000,
-          ).format('ddd MMM D, YYYY, h:mm a');
-          const formattedEndsAt = moment(
-            fieldDatetimeRangeTimezone?.endValue * 1000,
-          ).format('h:mm a');
+          const formattedStartsAt = moment(startsAtUnix * 1000).format(
+            'ddd MMM D, YYYY, h:mm a',
+          );
+          const formattedEndsAt = moment(endsAtUnix * 1000).format('h:mm a');
 
           return (
             <div
