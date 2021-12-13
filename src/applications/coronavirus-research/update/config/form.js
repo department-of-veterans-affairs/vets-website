@@ -29,7 +29,7 @@ const getSubmissionIdFromUrl = (window, key = 'id') => {
   if (paramId === null) {
     window.location.replace(`${environment.BASE_URL}/coronavirus-research/`);
   }
-  return paramId || null;
+  return paramId;
 };
 
 const submissionId = getSubmissionIdFromUrl(window);
