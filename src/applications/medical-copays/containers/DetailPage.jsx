@@ -69,7 +69,7 @@ const DetailPage = ({ match }) => {
           <PDFStatementList />
 
           <HowToPay
-            acctNum={selectedCopay?.pHCernerAccountNumber}
+            acctNum={selectedCopay?.pHAccountNumber}
             facility={selectedCopay?.station}
           />
 
