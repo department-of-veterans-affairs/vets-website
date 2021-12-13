@@ -38,7 +38,7 @@ export const issueName = ({ formData, formContext } = {}) => {
         {`${titlePrefix} ${getIssueName(formData)}?`}
       </Header>
       {date && (
-        <span className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans">
+        <span className="decision-date vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans">
           Decision date: {date}
         </span>
       )}
