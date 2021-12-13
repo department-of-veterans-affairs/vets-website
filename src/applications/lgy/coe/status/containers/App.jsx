@@ -40,10 +40,10 @@ const App = props => {
   let content;
 
   if (generateAutoCoeStatus === CALLSTATUS.idle || profileIsUpdating) {
-    content = <va-loading-indictator message="Loading application..." />;
+    content = <va-loading-indicator message="Loading application..." />;
   } else if (generateAutoCoeStatus === CALLSTATUS.pending) {
     content = (
-      <va-loading-indictator message="Checking automatic COE eligibility..." />
+      <va-loading-indicator message="Checking automatic COE eligibility..." />
     );
   } else if (
     generateAutoCoeStatus === CALLSTATUS.success ||
