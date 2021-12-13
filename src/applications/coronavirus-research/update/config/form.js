@@ -8,7 +8,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import { uiSchema } from '../pages/covidResearchUISchema';
-// import { VA_FORM_IDS } from 'platform/forms/constants';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import {
   ConsentNotice,
   ConsentLabel,
@@ -43,7 +43,7 @@ const formConfig = {
   transformForSubmit: transform,
 
   // TODO - Add new form ID to VA_FORM_IDS
-  formId: 'COVID_VACCINE_TRIAL_UPDATE',
+  formId: VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL_UPDATE,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your [savedFormDescription] is in progress.',
