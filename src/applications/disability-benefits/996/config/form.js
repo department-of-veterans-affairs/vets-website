@@ -38,13 +38,10 @@ import informalConferenceTimes from '../pages/informalConferenceTimes';
 import informalConferenceTime from '../pages/informalConferenceTimeV2';
 
 import { errorMessages, WIZARD_STATUS } from '../constants';
-import {
-  apiVersion1,
-  apiVersion2,
-  appStateSelector,
-  getIssueName,
-} from '../utils/helpers';
-import initialData from '../tests/schema/initialData';
+import { apiVersion1, apiVersion2, appStateSelector } from '../utils/helpers';
+import { getIssueTitle } from '../content/areaOfDisagreement';
+
+// import initialData from '../tests/schema/initialData';
 
 import manifest from '../manifest.json';
 
@@ -111,7 +108,7 @@ const formConfig = {
           path: 'veteran-information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
-          initialData,
+          // initialData,
         },
         homeless: {
           title: 'Homelessness question',
@@ -167,7 +164,7 @@ const formConfig = {
           schema: contestedIssuesPage.schema,
         },
         // v2 - show contested + added issues
-        constestableIssues: {
+        contestableIssues: {
           title: ' ',
           path: 'contestable-issues',
           depends: apiVersion2,
@@ -187,7 +184,7 @@ const formConfig = {
           schema: addIssue.schema,
         },
         areaOfDisagreementFollowUp: {
-          title: getIssueName,
+          title: getIssueTitle,
           path: 'area-of-disagreement/:index',
           depends: apiVersion2,
           showPagePerItem: true,
