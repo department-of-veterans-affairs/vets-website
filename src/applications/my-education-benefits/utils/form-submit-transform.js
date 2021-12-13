@@ -390,11 +390,18 @@ export function createComments(submissionForm) {
   }
 }
 
+export function createDirectDeposit(submissionForm) {
+  return submissionForm?.bankAccount?.accountType
+    ? submissionForm?.bankAccount
+    : {};
+}
+
 export function createSubmissionForm(submissionForm) {
   return {
     militaryClaimant: createMilitaryClaimant(submissionForm),
     relinquishedBenefit: createRelinquishedBenefit(submissionForm),
     additionalConsiderations: createAdditionalConsiderations(submissionForm),
     comments: createComments(submissionForm),
+    directDeposit: createDirectDeposit(submissionForm),
   };
 }

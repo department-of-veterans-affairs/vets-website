@@ -5,10 +5,8 @@ import { connect } from 'react-redux';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import FedWarning from 'platform/user/authentication/components/FedWarning';
-import NewDesignButtons from 'platform/user/authentication/components/NewDesignButtons';
-import OriginalDesignButtons from 'platform/user/authentication/components/OriginalDesignButtons';
+import LoginButtons from 'platform/user/authentication/components/LoginButtons';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
-import SignInDescription from 'platform/user/authentication/components/SignInDescription';
 
 // import { getCurrentGlobalDowntime } from 'platform/monitoring/DowntimeNotification/util/helpers';
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
@@ -18,7 +16,6 @@ import {
   ssoe,
   loginGov,
   loginGovCreateAccount,
-  loginOldDesign,
 } from 'platform/user/authentication/selectors';
 import { login, signup } from 'platform/user/authentication/utilities';
 import { formatDowntime } from 'platform/utilities/date';
@@ -54,43 +51,6 @@ export class SignInModal extends React.Component {
       recordEvent({ event: 'login-modal-closed' });
     }
   }
-
-  renderOriginalModal = ({ globalDowntime }) => {
-    return (
-      <div>
-        <div className="usa-width-one-half">
-          <div className="signin-actions-container">
-            <div className="top-banner">
-              <div>
-                <img
-                  aria-hidden="true"
-                  role="presentation"
-                  alt="ID.me"
-                  src={`${vaGovFullDomain}/img/signin/lock-icon.svg`}
-                />{' '}
-                Secured & powered by{' '}
-                <img
-                  aria-hidden="true"
-                  role="presentation"
-                  alt="ID.me"
-                  src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
-                />
-              </div>
-            </div>
-            <div className="signin-actions">
-              <h2 className="vads-u-font-size--sm vads-u-margin-top--0">
-                Sign in with an existing account
-              </h2>
-              <div>
-                <OriginalDesignButtons isDisabled={globalDowntime} />
-              </div>
-            </div>
-          </div>
-        </div>
-        <SignInDescription />
-      </div>
-    );
-  };
 
   downtimeBanner = (dependencies, headline, status, message, onRender) => (
     <ExternalServicesError dependencies={dependencies} onRender={onRender}>
@@ -189,50 +149,25 @@ export class SignInModal extends React.Component {
       <div className="container">
         <div className="row">
           <div className="columns small-12">
-            <h1
-              className={`${!this.props.oldDesignEnabled &&
-                'vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2'}`}
-            >
+            <h1 className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2">
               Sign in
             </h1>
           </div>
         </div>
-        {this.props.oldDesignEnabled ? (
-          <div className="row medium-screen:vads-u-display--none mobile-explanation">
-            <div className="columns small-12">
-              <h2>
-                One site. A lifetime of benefits and services at your
-                fingertips.
-              </h2>
-            </div>
-          </div>
-        ) : null}
         {this.renderDowntimeBanners()}
-        {this.props.oldDesignEnabled ? (
-          this.renderOriginalModal({
-            globalDowntime,
-          })
-        ) : (
-          <div className="row">
-            <NewDesignButtons
-              loginGovEnabled={this.props.loginGovEnabled}
-              loginGovCreateAccountEnabled={
-                this.props.loginGovCreateAccountEnabled
-              }
-              isDisabled={globalDowntime}
-            />
-          </div>
-        )}
+        <div className="row">
+          <LoginButtons
+            loginGovEnabled={this.props.loginGovEnabled}
+            loginGovCreateAccountEnabled={
+              this.props.loginGovCreateAccountEnabled
+            }
+            isDisabled={globalDowntime}
+          />
+        </div>
         <div className="row">
           <div className="columns small-12">
             <div className="help-info">
-              <h2
-                className={`${
-                  !this.props.oldDesignEnabled
-                    ? 'vads-u-margin-top--0'
-                    : 'vads-u-font-size--md'
-                }`}
-              >
+              <h2 className="vads-u-margin-top--0">
                 Having trouble signing in?
               </h2>
               <p>
@@ -255,11 +190,10 @@ export class SignInModal extends React.Component {
                 .
               </p>
               <p>
-                <SubmitSignInForm startSentence />{' '}
-                {!this.props.oldDesignEnabled && ` We're here 24/7.`}
+                <SubmitSignInForm startSentence /> We're here 24/7.
               </p>
             </div>
-            <FedWarning oldDesignEnabled={this.props.oldDesignEnabled} />
+            <FedWarning />
           </div>
         </div>
       </div>
@@ -269,9 +203,7 @@ export class SignInModal extends React.Component {
   render() {
     return (
       <Modal
-        cssClass={`va-modal-large ${
-          !this.props.oldDesignEnabled ? 'new-modal-design' : ''
-        }`}
+        cssClass="va-modal-large new-modal-design"
         visible={this.props.visible}
         focusSelector="button"
         onClose={this.props.onClose}
@@ -293,7 +225,6 @@ function mapStateToProps(state) {
     useSSOe: ssoe(state),
     loginGovEnabled: loginGov(state),
     loginGovCreateAccountEnabled: loginGovCreateAccount(state),
-    oldDesignEnabled: loginOldDesign(state),
   };
 }
 

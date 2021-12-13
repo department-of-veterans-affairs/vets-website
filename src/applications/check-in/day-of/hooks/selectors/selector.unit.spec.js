@@ -3,7 +3,6 @@ import cloneDeep from 'platform/utilities/data/cloneDeep';
 
 import {
   makeSelectCheckInData,
-  makeSelectFeatureToggles,
   makeSelectContext,
   makeSelectConfirmationData,
   makeSelectAppointmentListData,
@@ -69,18 +68,7 @@ describe('check-in', () => {
         expect(selectCheckInData(partialState)).to.eql({});
       });
     });
-    describe('makeSelectFeatureToggles', () => {
-      it('returns feature toggles', () => {
-        const selectFeatureToggles = makeSelectFeatureToggles();
-        expect(selectFeatureToggles(state)).to.eql({
-          isCheckInEnabled: true,
-          isDemographicsPageEnabled: true,
-          isLoadingFeatureFlags: false,
-          isNextOfKinEnabled: false,
-          isUpdatePageEnabled: true,
-        });
-      });
-    });
+
     describe('makeSelectContext', () => {
       it('returns check-in context', () => {
         const selectContext = makeSelectContext();

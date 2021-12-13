@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import DownloadStatements from '../components/DownloadStatements';
+import PDFStatementList from '../components/PDFStatementList';
 import BalanceQuestions from '../components/BalanceQuestions';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
@@ -10,6 +10,7 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { Link } from 'react-router-dom';
 import Modals from '../components/Modals';
 import Alert from '../components/Alerts';
+import { OnThisPage } from '../components/OnThisPage';
 import { formatDate } from '../utils/helpers';
 
 const DetailPage = ({ match }) => {
@@ -42,9 +43,11 @@ const DetailPage = ({ match }) => {
           Your copay details
         </a>
       </Breadcrumbs>
+
       <h1 className="vads-u-margin-bottom--1">
         Your copay bill for {selectedCopay?.station.facilityName}
       </h1>
+
       {alertType ? (
         <Alert type={alertType} />
       ) : (
@@ -55,22 +58,34 @@ const DetailPage = ({ match }) => {
               {formatDate(selectedCopay?.pSStatementDate)}
             </span>
           </p>
-          <Alert type={'status'} copay={selectedCopay} />
-          <va-on-this-page />
-          <DownloadStatements />
+
+          <Alert
+            type={selectedCopay?.pHAmtDue === 0 ? 'zero-balance' : 'status'}
+            copay={selectedCopay}
+          />
+
+          <OnThisPage />
+
+          <PDFStatementList />
+
           <HowToPay
             acctNum={selectedCopay?.pHCernerAccountNumber}
             facility={selectedCopay?.station}
           />
+
           <FinancialHelp />
+
           <DisputeCharges />
+
           <BalanceQuestions
             facilityLocation={selectedCopay?.station.facilityName}
             facilityPhone={selectedCopay?.station.teLNum}
           />
+
           <Modals title="Notice of rights and responsibilities">
             <Modals.Rights />
           </Modals>
+
           <Link className="vads-u-font-size--sm" to="/">
             <i
               className="fa fa-chevron-left vads-u-margin-right--1"

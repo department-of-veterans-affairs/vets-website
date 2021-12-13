@@ -23,6 +23,7 @@ const ui = (
 );
 let view;
 let server;
+const errorText = `We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please check back later.`;
 
 function getEditButton(addressName) {
   let editButton = view.queryByText(new RegExp(`add.*${addressName}`, 'i'), {
@@ -135,10 +136,8 @@ async function testAddressValidation500(addressName) {
 
   // expect an error to be shown
   const alert = await view.findByTestId('edit-error-alert');
-  expect(alert).to.have.descendant('div.usa-alert-error');
-  expect(alert).to.contain.text(
-    `We’re sorry. We can’t save your ${addressName.toLowerCase()} at this time. We’re working to fix this problem. Please try again or check back soon.`,
-  );
+  expect(alert).to.have.descendant('div.va-profile-alert');
+  expect(alert).to.contain.text(errorText);
 
   // make sure that edit mode is not automatically exited
   await wait(75);
@@ -155,10 +154,8 @@ async function testTransactionCreationFails(addressName) {
 
   // expect an error to be shown
   const alert = await view.findByTestId('edit-error-alert');
-  expect(alert).to.have.descendant('div.usa-alert-error');
-  expect(alert).to.contain.text(
-    `We’re sorry. We can’t save your ${addressName.toLowerCase()} at this time. We’re working to fix this problem. Please try again or check back soon.`,
-  );
+  expect(alert).to.have.descendant('div.va-profile-alert');
+  expect(alert).to.contain.text(errorText);
 
   // make sure that edit mode is not automatically exited
   await wait(75);
@@ -175,10 +172,8 @@ async function testQuickFailure(addressName) {
 
   // expect an error to be shown
   const alert = await view.findByTestId('edit-error-alert');
-  expect(alert).to.have.descendant('div.usa-alert-error');
-  expect(alert).to.contain.text(
-    `We’re sorry. We can’t save your ${addressName.toLowerCase()} at this time. We’re working to fix this problem. Please try again or check back soon.`,
-  );
+  expect(alert).to.have.descendant('div.va-profile-alert');
+  expect(alert).to.contain.text(errorText);
 
   // make sure that edit mode is not automatically exited
   await wait(75);

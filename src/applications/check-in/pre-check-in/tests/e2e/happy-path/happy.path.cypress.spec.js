@@ -1,18 +1,30 @@
 import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
 import '../support/commands';
-import Timeouts from 'platform/testing/e2e/timeouts';
 
 import validateVeteran from '../pages/ValidateVeteran';
 import introduction from '../pages/Introduction';
-
+import NextOfKin from '../pages/NextOfKin';
+import Demographics from '../pages/Demographics';
+import Confirmation from '../pages/Confirmation';
 import apiInitializer from '../support/ApiInitializer';
 
 describe('Pre-Check In Experience ', () => {
+  let apiData = {};
   beforeEach(function() {
-    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
+    cy.intercept(
+      'GET',
+      '/v0/feature_toggles*',
+      generateFeatureToggles({
+        emergencyContactEnabled: false,
+      }),
+    );
     apiInitializer.initializeSessionGet.withSuccessfulNewSession();
 
     apiInitializer.initializeSessionPost.withSuccess();
+
+    apiData = apiInitializer.initializePreCheckInDataGet.withSuccess();
+
+    apiInitializer.initializePreCheckInDataPost.withSuccess();
   });
   afterEach(() => {
     cy.window().then(window => {
@@ -31,30 +43,25 @@ describe('Pre-Check In Experience ', () => {
 
     // page: Introduction
     introduction.validatePageLoaded();
+    introduction.countAppointmentList(apiData.payload.appointments.length);
     cy.injectAxe();
     cy.axeCheck();
     introduction.attemptToGoToNextPage();
 
     // page: Demographics
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'Is this your current contact information?');
+    Demographics.validatePageLoaded();
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('button[data-testid="yes-button"]').click();
+    Demographics.attemptToGoToNextPage();
 
     // page: Next of Kin
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'Next of Kin');
+    NextOfKin.validatePageLoaded();
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('#react-root > :nth-child(3)').click();
+    NextOfKin.attemptToGoToNextPage();
 
     // page: Confirmation
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'Confirmation');
+    Confirmation.validatePageLoaded();
     cy.injectAxe();
     cy.axeCheck();
   });

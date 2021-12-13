@@ -6,7 +6,7 @@ import Telephone, {
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
 const BalanceQuestions = ({ facilityLocation, facilityPhone }) => (
-  <article className="vads-u-padding--0">
+  <article className="vads-u-padding--0" data-testid="balance-questions">
     <h2 id="balance-questions">
       What to do if you have questions about your balance
     </h2>

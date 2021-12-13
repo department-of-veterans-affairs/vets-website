@@ -4,6 +4,7 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceUpdateInformationPageEnabled = false,
     checkInExperienceDemographicsPageEnabled = false,
     checkInExperienceNextOfKinEnabled = false,
+    emergencyContactEnabled = false,
   } = toggles;
 
   return {
@@ -25,6 +26,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'check_in_experience_next_of_kin_enabled',
           value: checkInExperienceNextOfKinEnabled,
+        },
+        {
+          name: 'check_in_experience_emergency_contact_enabled',
+          value: emergencyContactEnabled,
         },
       ],
     },

@@ -123,7 +123,12 @@ const PersonalInformation = ({
         dependencies={[externalServices.mvi, externalServices.vaProfile]}
       >
         {showDirectDepositBlockedError && <PaymentInformationBlocked />}
-        <PersonalInformationContent hasVAPServiceError={hasVAPServiceError} />
+        <PersonalInformationContent
+          hasVAPServiceError={hasVAPServiceError}
+          shouldShowProfileLGBTQEnhancements={
+            shouldShowProfileLGBTQEnhancements
+          }
+        />
       </DowntimeNotification>
     </>
   );

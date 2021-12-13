@@ -43,11 +43,16 @@ describe('check in', () => {
       workPhone: '5554445555',
       emailAddress: 'kermit.frog@sesameenterprises.us',
     };
-
+    const demographicsStatus = {
+      demographicsNeedsUpdate: true,
+    };
     it('renders', () => {
       const component = render(
         <Provider store={store}>
-          <Demographics demographics={demographics} />
+          <Demographics
+            demographics={demographics}
+            demographicsStatus={demographicsStatus}
+          />
         </Provider>,
       );
 
@@ -66,7 +71,10 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <Demographics demographics={partialDemographics} />
+          <Demographics
+            demographics={partialDemographics}
+            demographicsStatus={demographicsStatus}
+          />
         </Provider>,
       );
 
@@ -82,7 +90,10 @@ describe('check in', () => {
     it('passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
-          <Demographics demographics={demographics} />
+          <Demographics
+            demographics={demographics}
+            demographicsStatus={demographicsStatus}
+          />
         </Provider>,
       );
     });
@@ -96,7 +107,10 @@ describe('check in', () => {
 
       render(
         <Provider store={store}>
-          <Demographics router={mockRouter} />
+          <Demographics
+            router={mockRouter}
+            demographicsStatus={demographicsStatus}
+          />
         </Provider>,
       );
 
@@ -104,14 +118,16 @@ describe('check in', () => {
     });
 
     it('shows the loading indicator', () => {
-      const component = render(
+      const { container } = render(
         <Provider store={store}>
-          <Demographics isLoading />
+          <Demographics isLoading demographicsStatus={demographicsStatus} />
         </Provider>,
       );
 
-      expect(component.getByText('Loading your appointments for today')).to
-        .exist;
+      expect(container.querySelector('va-loading-indicator')).to.have.attribute(
+        'message',
+        'Loading your appointments for today',
+      );
     });
 
     it('has a clickable no button', () => {
@@ -125,7 +141,11 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <Demographics demographics={demographics} router={mockRouter} />
+          <Demographics
+            demographics={demographics}
+            router={mockRouter}
+            demographicsStatus={demographicsStatus}
+          />
         </Provider>,
       );
 
@@ -145,7 +165,11 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <Demographics demographics={demographics} router={mockRouter} />
+          <Demographics
+            demographics={demographics}
+            router={mockRouter}
+            demographicsStatus={demographicsStatus}
+          />
         </Provider>,
       );
 
@@ -169,6 +193,7 @@ describe('check in', () => {
             demographics={demographics}
             isUpdatePageEnabled
             router={mockRouter}
+            demographicsStatus={demographicsStatus}
           />
         </Provider>,
       );
@@ -188,13 +213,36 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <Demographics demographics={demographics} router={mockRouter} />
+          <Demographics
+            demographics={demographics}
+            router={mockRouter}
+            demographicsStatus={demographicsStatus}
+          />
         </Provider>,
       );
 
       expect(component.getByText('Is this your current contact information?'))
         .to.exist;
       component.getByTestId('yes-button').click();
+    });
+    it.skip('skips to the next page when needs update is false', () => {
+      const push = sinon.spy();
+      const mockRouter = {
+        push,
+        params: {},
+      };
+
+      render(
+        <Provider store={store}>
+          <Demographics
+            router={mockRouter}
+            demographics={demographics}
+            demographicsStatus={{ demographicsNeedsUpdate: false }}
+          />
+        </Provider>,
+      );
+
+      sinon.assert.calledOnce(push);
     });
   });
 });
