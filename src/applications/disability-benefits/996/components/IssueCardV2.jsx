@@ -4,6 +4,8 @@ import moment from 'moment';
 import { Link } from 'react-router';
 
 import { SELECTED, FORMAT_READABLE } from '../constants';
+import { getIssueName } from '../utils/helpers';
+
 /** HLR v1 card */
 /**
  * IssueCardContent
@@ -95,26 +97,32 @@ export const IssueCard = ({
 
   const itemIsSelected = item[SELECTED];
   const isEditable = !!item.issue;
-  const issueName = item.issue || item.ratingIssueSubjectText;
+  const issueName = getIssueName(item);
 
   const wrapperClass = [
     'review-row',
     'widget-wrapper-v2',
-    'vads-u-border-top--1px',
     isEditable ? 'additional-issue' : '',
     showCheckbox ? '' : 'checkbox-hidden',
-    `vads-u-padding-top--${showCheckbox ? 3 : 0}`,
+    showCheckbox ? 'vads-u-padding-top--3' : '',
     'vads-u-padding-right--3',
     'vads-u-margin-bottom--0',
   ].join(' ');
 
-  // item.issue = additional item
-  // item.ratingIssuesSubjectText = eligible issue from API
-  const title = (
-    <div className="widget-title vads-u-font-size--md vads-u-font-weight--bold vads-u-line-height--1">
-      {issueName}
-    </div>
-  );
+  const titleClass = [
+    'widget-title',
+    'vads-u-font-size--md',
+    'vads-u-font-weight--bold',
+    'vads-u-line-height--1',
+  ].join(' ');
+
+  const removeButtonClass = [
+    'remove-issue',
+    'usa-button-secondary',
+    'vads-u-width--auto',
+    'vads-u-margin-left--2',
+    'vads-u-margin-top--0',
+  ].join(' ');
 
   const editControls =
     showCheckbox && isEditable ? (
@@ -131,7 +139,7 @@ export const IssueCard = ({
         </Link>
         <button
           type="button"
-          className="usa-button-secondary vads-u-width--auto vads-u-margin-left--2 vads-u-margin-top--0"
+          className={removeButtonClass}
           aria-label={`remove ${issueName}`}
           onClick={event => {
             event.preventDefault();
@@ -171,7 +179,7 @@ export const IssueCard = ({
         } widget-content vads-u-font-weight--normal`}
         data-index={index}
       >
-        {title}
+        <div className={titleClass}>{issueName}</div>
         <IssueCardContent {...item} />
         {editControls}
       </dd>

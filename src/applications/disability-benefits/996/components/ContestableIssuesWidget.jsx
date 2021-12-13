@@ -139,28 +139,23 @@ const ContestableIssuesWidget = props => {
 
     // Don't show un-selected ratings in review mode
     return hideCard ? null : (
-      <div
-        key={index}
-        id={`issue-${index}`}
+      <IssueCard
+        id={id}
+        index={index}
+        item={item}
+        options={options}
+        onChange={onChange}
+        showCheckbox={showCheckbox}
+        onRemove={
+          // Don't allow editing or removing API-loaded issues
+          item.ratingIssueSubjectText ? null : () => onRemoveIssue(index)
+        }
         ref={ref => {
-          if (scrollId && ref?.id === `issue-${scrollId}`) {
+          if (scrollId && ref?.id === scrollId) {
             setScrollToRef(ref);
           }
         }}
-      >
-        <IssueCard
-          id={id}
-          index={index}
-          item={item}
-          options={options}
-          onChange={onChange}
-          showCheckbox={showCheckbox}
-          onRemove={
-            // Don't allow editing or removing API-loaded issues
-            item.ratingIssueSubjectText ? null : () => onRemoveIssue(index)
-          }
-        />
-      </div>
+      />
     );
   });
 
@@ -174,6 +169,7 @@ const ContestableIssuesWidget = props => {
         <>
           <dl className="review vads-u-border-bottom--1px">{content}</dl>
           <Link
+            className="add-new-issue"
             to={{ pathname: '/add-issue', search: `?index=${items.length}` }}
           >
             Add a new issue

@@ -374,6 +374,14 @@ article[data-location="review-and-submit"] {
   .normal-weight-in-review {
     font-weight: normal;
   }
+  dl.review .widget-wrapper-v2.checkbox-hidden {
+    margin-top: 1rem;
+
+    dt.widget-checkbox-wrap {
+      width: 0;
+      min-width: 0;
+    }
+  }
 }
 
 @media (max-width: $small-screen) {
