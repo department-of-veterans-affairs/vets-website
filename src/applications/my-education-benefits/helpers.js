@@ -264,7 +264,6 @@ export function prefillTransformer(pages, formData, metadata, state) {
         contactInfo?.addressType === 'MILITARY_OVERSEAS',
     },
     toursOfDuty: serviceData.map(transformServiceHistory),
-    // Needs to be an update to map over array of multiple service data objects
     // 'view:toursOfDutyCorrect': {
     //   toursOfDutyCorrect: serviceHistory?.data?.toursOfDutyIncorrect,
     // },
