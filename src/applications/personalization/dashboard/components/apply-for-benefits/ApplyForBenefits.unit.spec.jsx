@@ -301,7 +301,7 @@ describe('ApplyForBenefits component', () => {
           fetchCalls.some(call => {
             return call.args[0].includes('v0/profile/ch33_bank_accounts');
           }),
-        ).to.be.true;
+        ).to.be.false;
         // make sure we are fetching ESR data
         expect(
           fetchCalls.some(call => {
