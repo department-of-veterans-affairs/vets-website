@@ -18,6 +18,7 @@ import GetFormHelp from '../components/GetFormHelp';
 import ErrorMessage from '../components/ErrorMessage';
 import DowntimeMessage from '../components/DowntimeMessage';
 import IntroductionPage from '../containers/IntroductionPage';
+import VeteranNameDobPage from '../containers/VeteranNameDobPage.jsx';
 import { prefillTransformer, transform } from '../helpers';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { createDependentSchema } from '../definitions/dependent';
@@ -26,7 +27,7 @@ import { createDependentSchema } from '../definitions/dependent';
 import birthInformation from './chapters/veteranInformation/birthInformation';
 import americanIndian from './chapters/veteranInformation/americanIndian';
 import birthSex from './chapters/veteranInformation/birthSex';
-import veteranInformation from './chapters/veteranInformation/personalnformation';
+// import veteranInformation from './chapters/veteranInformation/personalnformation';
 import demographicInformation from './chapters/veteranInformation/demographicInformation';
 import maritalStatus from './chapters/veteranInformation/maritalStatus';
 import veteranAddress from './chapters/veteranInformation/veteranAddress';
@@ -131,9 +132,13 @@ const formConfig = {
         veteranInformation: {
           path: 'veteran-information/personal-information',
           title: 'Veteran information',
-          initialData: {},
+          CustomPage: VeteranNameDobPage,
+          CustomPageReview: null,
+          schema: { type: 'object', properties: {} },
+          uiSchema: {},
+          /* initialData: {},
           uiSchema: veteranInformation.uiSchema,
-          schema: veteranInformation.schema,
+          schema: veteranInformation.schema, */
         },
         birthInformation: {
           path: 'veteran-information/birth-information',
