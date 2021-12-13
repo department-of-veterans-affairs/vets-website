@@ -4,7 +4,7 @@ import {
   FIELD_NAMES,
   USA,
 } from '@@vap-svc/constants';
-import { addresses, phoneNumbers } from './getContactInfoFieldAttributes';
+import { addresses, phoneNumbers } from '../getProfileInfoFieldAttributes';
 import pickBy from 'lodash/pickBy';
 
 const isOverseasMilitaryMailingAddress = data =>

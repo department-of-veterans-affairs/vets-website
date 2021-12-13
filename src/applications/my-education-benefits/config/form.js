@@ -58,6 +58,10 @@ import {
 } from '../utils/validation';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
+import merge from 'lodash/merge';
+import createDirectDepositPage from '../../edu-benefits/pages/directDeposit';
+import { directDepositDescription } from '../../edu-benefits/1990/helpers';
+import bankAccountUI from 'platform/forms/definitions/bankAccount';
 
 const {
   fullName,
@@ -66,7 +70,6 @@ const {
   dateRange,
   usaPhone,
   email,
-  // bankAccount,
   toursOfDuty,
 } = commonDefinitions;
 
@@ -114,7 +117,6 @@ const formPages = {
   },
   serviceHistory: 'serviceHistory',
   benefitSelection: 'benefitSelection',
-  // directDeposit: 'directDeposit',
   additionalConsiderations: {
     activeDutyKicker: {
       name: 'active-duty-kicker',
@@ -166,6 +168,7 @@ const formPages = {
       },
     },
   },
+  directDeposit: 'directDeposit',
 };
 
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
@@ -1316,6 +1319,45 @@ const formConfig = {
             formFields.loanPayment,
           ),
         },
+      },
+    },
+    bankAccountInfoChapter: {
+      title: 'Personal Information',
+      pages: {
+        [formPages.directDeposit]: merge(
+          {},
+          createDirectDepositPage(fullSchema),
+          {
+            path: 'direct-deposit',
+            uiSchema: {
+              'ui:description': directDepositDescription,
+              bankAccount: {
+                ...bankAccountUI,
+                'ui:order': [
+                  'accountType',
+                  'accountNumber',
+                  'routingNumber',
+                  'learnMore',
+                ],
+                learnMore: {
+                  'ui:description': (
+                    <va-additional-info trigger="Learn More">
+                      <img
+                        key="1a"
+                        src="/img/check-sample.png"
+                        alt="Example of a check showing where the account and routing numbers are"
+                      />
+                      <p key="2b">
+                        If you don’t have a printed check, you can sign in to
+                        your online banking institution for this information
+                      </p>
+                    </va-additional-info>
+                  ),
+                },
+              },
+            },
+          },
+        ),
       },
     },
   },

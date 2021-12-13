@@ -12,7 +12,10 @@ import {
   isLOA3 as isLOA3Selector,
   isMultifactorEnabled,
 } from '~/platform/user/selectors';
-import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
+import {
+  loginGov,
+  signInServiceName as signInServiceNameSelector,
+} from '~/platform/user/authentication/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 
@@ -22,7 +25,7 @@ import {
 } from '@@profile/selectors';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
-import SetUpVerifiedIDMeAlert from '../alerts/SetUpVerifiedIDMeAlert';
+import UnsupportedAccountAlert from '../alerts/UnsupportedAccountAlert';
 
 import Headline from '../ProfileSectionHeadline';
 
@@ -61,7 +64,12 @@ const SuccessMessage = ({ benefit }) => {
   return content;
 };
 
-const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
+const DirectDeposit = ({
+  cnpUiState,
+  eduUiState,
+  isLoginGovSupported,
+  isVerifiedUser,
+}) => {
   const [
     recentlySavedBankInfo,
     setRecentlySavedBankInfoForBenefit,
@@ -188,7 +196,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
           />
         </DowntimeNotification>
       ) : (
-        <SetUpVerifiedIDMeAlert />
+        <UnsupportedAccountAlert isLoginGovSupported={isLoginGovSupported} />
       )}
       <FraudVictimAlert status={ALERT_TYPE.INFO} />
       {showBankInformation ? (
@@ -205,11 +213,16 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
 };
 
 const mapStateToProps = state => {
+  const eligibleSignInServices = new Set(['idme', 'logingov']);
   const isLOA3 = isLOA3Selector(state);
   const is2faEnabled = isMultifactorEnabled(state);
-  const isIDme = signInServiceNameSelector(state) === 'idme';
+  const signInServiceName = signInServiceNameSelector(state);
+  const isUsingEligibleSignInService = eligibleSignInServices.has(
+    signInServiceName,
+  );
   return {
-    isVerifiedUser: isLOA3 && isIDme && is2faEnabled,
+    isLoginGovSupported: loginGov(state),
+    isVerifiedUser: isLOA3 && isUsingEligibleSignInService && is2faEnabled,
     cnpUiState: cnpDirectDepositUiState(state),
     eduUiState: eduDirectDepositUiState(state),
   };

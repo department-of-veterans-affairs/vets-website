@@ -15,7 +15,7 @@ import {
 } from '../../unit-test-helpers';
 import { beforeEach } from 'mocha';
 
-const errorText = `We’re sorry. We can’t save your contact email address at this time. We’re working to fix this problem. Please try again or check back soon.`;
+const errorText = `We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please check back later.`;
 const newUserName = 'newemailaddress';
 const newUserNameRegex = new RegExp(newUserName);
 const newEmailAddress = `${newUserName}@domain.com`;

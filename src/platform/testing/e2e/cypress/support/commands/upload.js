@@ -11,7 +11,10 @@ Cypress.Commands.add(
     cy.fixture(fileName, 'base64')
       .then(content => Cypress.Blob.base64StringToBlob(content, fileType))
       .then(blob => {
-        const testFile = new File([blob], fileName);
+        const testFile = new File([blob], fileName, {
+          // skip asynchronous file checks in e2e upload tests
+          type: 'testing',
+        });
         const dataTransfer = new DataTransfer();
 
         dataTransfer.items.add(testFile);

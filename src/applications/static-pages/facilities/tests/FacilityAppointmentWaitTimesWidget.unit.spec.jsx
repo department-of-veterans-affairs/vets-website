@@ -12,7 +12,7 @@ describe('facilities <FacilityAppointmentWaitTimesWidget>', () => {
     tree.unmount();
   });
 
-  it('should render facility patient satisfaction score data', () => {
+  it('should render new and existing patient appointment wait time data for primary care service', () => {
     const tree = shallow(
       <FacilityAppointmentWaitTimesWidget
         loading={false}
@@ -44,6 +44,28 @@ describe('facilities <FacilityAppointmentWaitTimesWidget>', () => {
       '#facility-primarycare-existing-patient-wait-time',
     );
     expect(existingPatientWaitTime.text()).to.contain('3 days');
+
+    tree.unmount();
+  });
+
+  it('should render new and existing patient appointment wait time data for mental health care service', () => {
+    const tree = shallow(
+      <FacilityAppointmentWaitTimesWidget
+        loading={false}
+        facility={mockFacilityLocatorApiResponse.data[0]}
+        service="MentalHealthCare"
+      />,
+    );
+
+    const newPatientWaitTime = tree.find(
+      '#facility-mentalhealthcare-new-patient-wait-time',
+    );
+    expect(newPatientWaitTime.text()).to.contain('6 days');
+
+    const existingPatientWaitTime = tree.find(
+      '#facility-mentalhealthcare-existing-patient-wait-time',
+    );
+    expect(existingPatientWaitTime.text()).to.contain('7 days');
 
     tree.unmount();
   });

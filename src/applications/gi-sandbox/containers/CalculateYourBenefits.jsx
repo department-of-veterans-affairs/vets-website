@@ -15,7 +15,6 @@ import { getCalculatedBenefits } from '../selectors/calculator';
 import CalculateYourBenefitsForm from '../components/profile/CalculateYourBenefitsForm';
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import EstimateYourBenefitsSummarySheet from '../components/profile/EstimateYourBenefitsSummarySheet';
-import recordEvent from 'platform/monitoring/record-event';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 
 export function CalculateYourBenefits({
@@ -187,11 +186,6 @@ export function CalculateYourBenefits({
             <LearnMoreLabel
               text={'Protection against late VA payments'}
               onClick={() => {
-                recordEvent({
-                  event: 'gibct-modal-displayed',
-                  'gibct-modal-displayed':
-                    'protection-against-late-va-payments',
-                });
                 dispatchShowModal('section103');
               }}
               buttonClassName="small-screen-font"
@@ -209,10 +203,6 @@ export function CalculateYourBenefits({
             <LearnMoreLabel
               text={'Yellow Ribbon Program'}
               onClick={() => {
-                recordEvent({
-                  event: 'gibct-modal-displayed',
-                  'gibct-modal-displayed': 'yribbon',
-                });
                 dispatchShowModal('yribbon');
               }}
               buttonClassName="small-screen-font"
@@ -228,10 +218,6 @@ export function CalculateYourBenefits({
             <LearnMoreLabel
               text={'Veteran Rapid Retraining Assistance Program (VRRAP)'}
               onClick={() => {
-                recordEvent({
-                  event: 'gibct-modal-displayed',
-                  'gibct-modal-displayed': 'vrrap',
-                });
                 dispatchShowModal('vrrap');
               }}
               buttonClassName="small-screen-font"

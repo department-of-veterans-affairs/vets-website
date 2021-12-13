@@ -39,7 +39,7 @@ describe('Check In Experience -- ', () => {
         .should('be.visible')
         .and('have.text', 'Is this your current next of kin information?');
 
-      cy.get('.check-in-next-of-kin dl')
+      cy.get('.confirmable-page dl')
         .find('dt:nth-child(1)')
         .should('have.text', 'Name')
         .next()
