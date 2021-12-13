@@ -95,10 +95,10 @@ describe('The My VA Dashboard', () => {
       cy.login(makeMockUser());
       cy.visit(manifest.rootUrl);
     });
-    it('should show info about disability benefits benefits, but not health care or education benefits', () => {
+    it('should show info about disability benefits benefits and education benefits, but not health care', () => {
       sectionHeadingsExist();
 
-      cy.findAllByTestId('benefit-of-interest').should('have.length', 1);
+      cy.findAllByTestId('benefit-of-interest').should('have.length', 2);
 
       healthCareInfoExists(false);
       disabilityCompensationExists(true);
