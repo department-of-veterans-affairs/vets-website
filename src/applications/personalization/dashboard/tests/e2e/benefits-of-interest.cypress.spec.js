@@ -102,7 +102,7 @@ describe('The My VA Dashboard', () => {
 
       healthCareInfoExists(false);
       disabilityCompensationExists(true);
-      educationBenefitExists(false);
+      educationBenefitExists(true);
 
       cy.injectAxe();
       cy.axeCheck();
