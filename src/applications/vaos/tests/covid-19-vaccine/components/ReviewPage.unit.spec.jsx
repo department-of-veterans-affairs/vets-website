@@ -291,6 +291,9 @@ describe('VAOS vaccine flow with VAOS service <ReviewPage>', () => {
     mockAppointmentSubmitV2({
       id: 'fake_id',
     });
+    expect(screen.baseElement).to.contain.text(
+      'Make sure the information is correct. Then confirm your appointment.',
+    );
 
     // When the user confirms their appointment
     userEvent.click(screen.getByText(/Confirm appointment/i));

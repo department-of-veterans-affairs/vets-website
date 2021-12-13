@@ -36,6 +36,34 @@ export function NameSearchResults({
     [search.name.results],
   );
 
+  // We use the Pagination component from the VA Component Library. This doesn't seem to handle
+  // visual focus so after page load, let's grab the anchor tags for the 3 pagination elements
+  // and add href="#" to them (this is all that is needed to force visual focus and tabability)
+  useEffect(() => {
+    const paginationPrev = document.getElementsByClassName(
+      'va-pagination-prev',
+    );
+    const paginationInner = document.getElementsByClassName(
+      'va-pagination-inner',
+    );
+    const paginationNext = document.getElementsByClassName(
+      'va-pagination-next',
+    );
+
+    if (paginationInner.length > 0) {
+      const anchors = [
+        ...paginationPrev[0].getElementsByTagName('a'),
+        ...paginationInner[0].getElementsByTagName('a'),
+        ...paginationNext[0].getElementsByTagName('a'),
+      ];
+      if (anchors) {
+        for (const a of anchors) {
+          a.href = '#';
+        }
+      }
+    }
+  });
+
   useEffect(
     () => {
       focusElement('#name-search-results-count');

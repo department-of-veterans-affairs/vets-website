@@ -7,26 +7,20 @@ import Balances from '../components/Balances';
 import BalanceQuestions from '../components/BalanceQuestions';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import Alert from '../components/Alerts';
-import { sortStatementsByDate } from '../utils/helpers';
+import { sortStatementsByDate, rmvDupFacilities } from '../utils/helpers';
 
 const OverviewPage = () => {
   const statementData = useSelector(({ mcp }) => mcp.statements);
-  const statementsByDate = sortStatementsByDate(statementData);
-  const statementsByUniqueFacility = uniqBy(statementsByDate, 'pSFacilityNum');
+  const facilities = rmvDupFacilities(statementData);
+  const sortedStatements = sortStatementsByDate(statementData);
+  const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
   const error = useSelector(({ mcp }) => mcp.error);
   const [alertType, setAlertType] = useState(null);
-
-  // remove duplicate facilities with matching facility numbers
-  const facilities = statementData
-    .map(({ station }) => station)
-    .filter(
-      (val, index, arr) =>
-        arr.findIndex(temp => temp.facilitYNum === val.facilitYNum) === index,
-    );
 
   useEffect(
     () => {
       scrollToTop();
+      setAlertType(null);
       if (!statementData?.length) {
         setAlertType('no-history');
       }
@@ -47,7 +41,7 @@ const OverviewPage = () => {
           Your current copay balances
         </a>
       </Breadcrumbs>
-      <h1>Your current copay balances</h1>
+      <h1 data-testid="overview-page-title">Your current copay balances</h1>
       {alertType ? (
         <Alert type={alertType} />
       ) : (
