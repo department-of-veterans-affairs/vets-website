@@ -1,5 +1,6 @@
 import environment from 'platform/utilities/environment';
-import fullSchema from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
+// import fullSchema from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
+import fullSchema from './temp-COVID-VACCINE-TRIAL-schema.json';
 
 import definitions from 'vets-json-schema/dist/definitions.json';
 
@@ -100,7 +101,10 @@ const formConfig = {
               },
               diagnosed: fullSchema.properties.diagnosed,
               DIAGNOSED_DETAILS: fullSchema.properties.DIAGNOSED_DETAILS,
+              DIAGNOSED_SYMPTOMS: fullSchema.properties.DIAGNOSED_SYMPTOMS,
               closeContactPositive: fullSchema.properties.closeContactPositive,
+              vaccinated: fullSchema.properties.vaccinated,
+              VACCINATED_PLAN: fullSchema.properties.VACCINATED_PLAN,
               hospitalized: fullSchema.properties.hospitalized,
               smokeOrVape: fullSchema.properties.smokeOrVape,
               HEALTH_HISTORY: fullSchema.properties.HEALTH_HISTORY,

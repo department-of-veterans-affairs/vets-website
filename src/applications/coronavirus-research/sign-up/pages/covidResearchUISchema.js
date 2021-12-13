@@ -16,6 +16,10 @@ const conditionalValidateBooleanGroup = (errors, pageData) => {
   if (diagnosed) {
     validateBooleanGroup(errors.DIAGNOSED_DETAILS, DIAGNOSED_DETAILS);
   }
+  const { vaccinated, VACCINATED_PLAN } = pageData;
+  if (vaccinated) {
+    validateBooleanGroup(errors.VACCINATED_PLAN, VACCINATED_PLAN);
+  }
 };
 
 export const uiSchema = {
@@ -98,6 +102,75 @@ export const uiSchema = {
       'ui:reviewField': CustomReviewField,
     },
   },
+  DIAGNOSED_SYMPTOMS: {
+    'ui:options': {
+      showFieldLabel: true,
+      expandUnder: 'diagnosed',
+    },
+    'ui:title': (
+      <span>
+        <strong>
+          Have you experienced/are you still experiencing any of the following
+          symptoms at least 4 weeks after the onset of your COVID-19 illness?
+        </strong>
+        <br />
+        (Please check all that apply.)
+        <br />
+      </span>
+    ),
+    'DIAGNOSED_SYMPTOMS::FATIGUE': {
+      'ui:title': 'Ongoing or debilitating fatigue',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::TACHYCARDIA': {
+      'ui:title': 'Tachycardia (fast heartbeat/hear flutters)',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::BREATHING': {
+      'ui:title': 'Shortness of breath/difficulty breathing/chest pain',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::NUMBNESS': {
+      'ui:title': 'Numbness/tingling',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::FOCUS': {
+      'ui:title': 'Difficulty concentrating or focusing (Brain fog)',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::HEADACHE': {
+      'ui:title': 'Headache',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::SLEEP': {
+      'ui:title': 'Difficulty Sleeping',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::CLOTS': {
+      'ui:title': 'Blood clots/clotting issues',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::DIZZINESS': {
+      'ui:title': 'Dizziness (vertigo)',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::VISION': {
+      'ui:title': 'Blurred vision',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::ANXIETY': {
+      'ui:title': 'Anxiety/depression',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::TASTE_SMELL': {
+      'ui:title': 'Loss of Taste/loss of smell',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::GI': {
+      'ui:title': 'GI symptoms (heart burn, loss of appetite, abdominal pain)',
+      'ui:reviewField': CustomReviewField,
+    },
+  },
   closeContactPositive: {
     'ui:title': (
       <span>
@@ -118,6 +191,40 @@ export const uiSchema = {
         YES: 'Yes',
         NO: 'No',
         UNSURE: "I don't know",
+      },
+      classNames: '',
+    },
+  },
+  vaccinated: {
+    'ui:title': (
+      <span>
+        <strong>Have you received a COVID-19 vaccine?</strong>
+      </span>
+    ),
+    'ui:reviewField': CustomReviewYesNo,
+    'ui:widget': 'yesNo',
+    'ui:options': {
+      classNames: '',
+    },
+  },
+  VACCINATED_PLAN: {
+    'ui:title': (
+      <span>
+        <strong>Do you plan to be vaccinated?</strong>
+      </span>
+    ),
+    'ui:reviewField': CustomReviewRadio,
+    'ui:widget': 'radio',
+    'ui:options': {
+      showFieldLabel: true,
+      expandUnder: 'vaccinated',
+      expandUnderCondition: false,
+      labels: {
+        DEFINITELY: 'Will definitely get vaccinated',
+        PROBABLY_YES: 'Will probably get vaccinated',
+        PROBABLY_NO: 'Will probably NOT get vaccinated',
+        DEFINITELY_NO: 'Will definitely NOT get vaccinated',
+        UNSURE: 'Not yet decided',
       },
       classNames: '',
     },
