@@ -43,7 +43,7 @@ const OverviewPage = () => {
       </Breadcrumbs>
       <h1 data-testid="overview-page-title">Your current copay balances</h1>
       {alertType ? (
-        <Alert type={alertType} />
+        <Alert type={alertType} error={error} />
       ) : (
         <>
           <p className="vads-u-font-size--lg">
