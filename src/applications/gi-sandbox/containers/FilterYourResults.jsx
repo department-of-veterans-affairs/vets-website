@@ -255,6 +255,7 @@ export function FilterYourResults({
             onClick={() => {
               dispatchShowModal('accredited');
             }}
+            buttonId={'accredited-button'}
             ariaLabel="Learn more about VA education and training programs"
           />
         ),
