@@ -275,7 +275,7 @@ describe('ApplyForBenefits component', () => {
       mockFetch();
     });
     context('when user is not a VA patient and has 2FA set up', () => {
-      it('should fetch ESR and DD4EDU data and show a loading spinner', async () => {
+      it('should fetch ESR and not fetch DD4EDU data and show a loading spinner', async () => {
         const initialState = {
           user: {
             profile: {
@@ -296,7 +296,7 @@ describe('ApplyForBenefits component', () => {
         // wait here before confirming that fetch was called
         await wait(1);
         const fetchCalls = global.fetch.getCalls();
-        // make sure we are fetching DD4EDU info
+        // make sure we are not fetching DD4EDU info
         expect(
           fetchCalls.some(call => {
             return call.args[0].includes('v0/profile/ch33_bank_accounts');
