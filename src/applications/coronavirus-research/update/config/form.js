@@ -25,7 +25,11 @@ const getSubmissionIdFromUrl = (window, key = 'id') => {
   if (!window) return null;
   if (!window.location) return null;
   const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(key);
+  const paramId = urlParams.get(key);
+  if (paramId === null) {
+    window.location.replace(`${environment.BASE_URL}/coronavirus-research/`);
+  }
+  return paramId || null;
 };
 
 const submissionId = getSubmissionIdFromUrl(window);

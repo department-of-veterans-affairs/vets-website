@@ -7,7 +7,7 @@ describe('COVID-19 Research Form', () => {
       cy.injectAxe();
     });
 
-    it.skip('should load form page', () => {
+    it('should load form page', () => {
       cy.url().should('include', 'coronavirus-research/volunteer/update');
       cy.axeCheck();
       cy.get('h1').contains(
@@ -16,8 +16,7 @@ describe('COVID-19 Research Form', () => {
       cy.axeCheck();
     });
 
-    // TODO enable this when we figure out why confirm page is failing on success
-    it.skip('should successfully submit the Covid Research form', () => {
+    it('should successfully submit the Covid Research form', () => {
       cy.fixture(
         path.join(__dirname, 'fixtures', 'reviewAndSubmitData.json'),
       ).then(dataElements => {
@@ -97,7 +96,10 @@ describe('COVID-19 Research Form', () => {
       cy.wait('@response');
 
       // Confirmation page
-      cy.url().should('include', 'coronavirus-research/volunteer/confirmation');
+      cy.url().should(
+        'include',
+        'coronavirus-research/volunteer/update/confirmation',
+      );
       cy.axeCheck();
 
       cy.get('.confirmation-page-title').contains(
