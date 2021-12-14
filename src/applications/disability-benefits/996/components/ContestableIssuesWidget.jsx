@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { scrollAndFocus } from 'platform/utilities/ui';
 
 import { IssueCard } from './IssueCardV2';
 import { SELECTED, MAX_SELECTIONS, LAST_HLR_ITEM } from '../constants';
@@ -51,26 +50,12 @@ const ContestableIssuesWidget = props => {
   } = props;
 
   const [showErrorModal, setShowErrorModal] = useState(false);
-  const [scrollToRef, setScrollToRef] = useState(null);
 
   const onReviewPage = formContext?.onReviewPage || false;
   // inReviewMode = true (review page view, not in edit mode)
   // inReviewMode = false (in edit mode)
   const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
   const showCheckbox = !onReviewPage || (onReviewPage && !inReviewMode);
-  // index={index} upon return from add issue page - scroll & focus target
-  const scrollId =
-    !onReviewPage && window.sessionStorage.getItem(LAST_HLR_ITEM);
-  useEffect(
-    () => {
-      if (scrollId !== null && scrollToRef) {
-        scrollAndFocus(scrollToRef);
-        setScrollToRef(null);
-        window.sessionStorage.removeItem(LAST_HLR_ITEM);
-      }
-    },
-    [scrollId, scrollToRef],
-  );
 
   // combine all issues for viewing
   const items = value
@@ -122,9 +107,9 @@ const ContestableIssuesWidget = props => {
     );
 
     // Focus management: target the previous issue if the last one was removed
+    // Done internally within the issue card component
     const focusIndex =
       index + (adjustedIndex >= updatedAdditionalIssues.length ? -1 : 0);
-
     window.sessionStorage.setItem(LAST_HLR_ITEM, focusIndex);
 
     setFormData({
@@ -141,6 +126,7 @@ const ContestableIssuesWidget = props => {
     return hideCard ? null : (
       <IssueCard
         id={id}
+        key={index}
         index={index}
         item={item}
         options={options}
@@ -150,11 +136,6 @@ const ContestableIssuesWidget = props => {
           // Don't allow editing or removing API-loaded issues
           item.ratingIssueSubjectText ? null : () => onRemoveIssue(index)
         }
-        ref={ref => {
-          if (scrollId && ref?.id === scrollId) {
-            setScrollToRef(ref);
-          }
-        }}
       />
     );
   });

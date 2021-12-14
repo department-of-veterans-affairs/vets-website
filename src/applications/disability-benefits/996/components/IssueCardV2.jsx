@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Link } from 'react-router';
 
-import { SELECTED, FORMAT_READABLE } from '../constants';
-import { getIssueName } from '../utils/helpers';
+import { scrollAndFocus } from 'platform/utilities/ui';
+
+import { SELECTED, FORMAT_READABLE, LAST_HLR_ITEM } from '../constants';
 
 /** HLR v1 card */
 /**
@@ -94,10 +95,23 @@ export const IssueCard = ({
   // ui:options
   const appendId = options.appendId ? `_${options.appendId}` : '';
   const elementId = `${id}_${index}${appendId}`;
+  const scrollId = `issue-${window.sessionStorage.getItem(LAST_HLR_ITEM)}`;
+
+  const wrapRef = useRef(null);
+
+  useEffect(
+    () => {
+      if (scrollId === wrapRef?.current.id) {
+        scrollAndFocus(wrapRef.current);
+        window.sessionStorage.removeItem(LAST_HLR_ITEM);
+      }
+    },
+    [scrollId, wrapRef, index],
+  );
 
   const itemIsSelected = item[SELECTED];
   const isEditable = !!item.issue;
-  const issueName = getIssueName(item);
+  const issueName = item.issue || item.ratingIssueSubjectText;
 
   const wrapperClass = [
     'review-row',
@@ -152,7 +166,12 @@ export const IssueCard = ({
     ) : null;
 
   return (
-    <div className={wrapperClass} key={index}>
+    <div
+      id={`issue-${index}`}
+      className={wrapperClass}
+      key={index}
+      ref={wrapRef}
+    >
       <dt className="widget-checkbox-wrap">
         {showCheckbox ? (
           <>
