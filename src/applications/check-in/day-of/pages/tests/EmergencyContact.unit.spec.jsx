@@ -166,7 +166,7 @@ describe('check in', () => {
       expect(push.calledOnce).to.be.true;
     });
 
-    it('skips to the next page when needs update is false', () => {
+    it.skip('skips to the next page when needs update is false', () => {
       const push = sinon.spy();
       const mockRouter = {
         push,
