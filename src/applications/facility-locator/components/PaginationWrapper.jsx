@@ -41,11 +41,7 @@ const mapStateToProps = state => {
   let shouldHidePagination = false;
 
   if (
-    [
-      LocationType.CC_PROVIDER,
-      LocationType.URGENT_CARE_PHARMACIES,
-      LocationType.EMERGENCY_CARE,
-    ].includes(state.searchQuery.facilityType) &&
+    [LocationType.EMERGENCY_CARE].includes(state.searchQuery.facilityType) &&
     !facilityLocatorRestoreCommunityCarePagination(state)
   ) {
     shouldHidePagination = true;
