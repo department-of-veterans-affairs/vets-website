@@ -9,6 +9,7 @@ export default function EstimatedBenefits({
   calculator,
   isOJT,
   dispatchShowModal,
+  estimatedBenefitsRef,
 }) {
   const month = (
     <React.Fragment key="months">
@@ -152,7 +153,11 @@ export default function EstimatedBenefits({
   return (
     <div className="medium-6 columns">
       <div className="your-estimated-benefits">
-        <h3 id="estimated-benefits small-screen-header" tabIndex="-1">
+        <h3
+          ref={estimatedBenefitsRef}
+          id="estimated-benefits small-screen-header"
+          tabIndex="-1"
+        >
           Your estimated benefits
         </h3>
         <div aria-atomic="true" aria-live="polite" role="status">
