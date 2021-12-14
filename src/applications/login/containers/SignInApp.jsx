@@ -21,7 +21,7 @@ import {
 import { selectProfile, isProfileLoading } from 'platform/user/selectors';
 
 import downtimeBanners from '../utilities/downtimeBanners';
-import { CSP_IDS } from 'platform/user/authentication/constants';
+import { EXTERNAL_APPS } from 'platform/user/authentication/constants';
 
 class SignInPage extends React.Component {
   state = {
@@ -34,7 +34,7 @@ class SignInPage extends React.Component {
     if (
       this.props.isAuthenticatedWithSSOe &&
       !this.props.profile.verified &&
-      application === CSP_IDS.CERNER
+      application === EXTERNAL_APPS.MY_VA_HEALTH
     ) {
       router.push(appendQuery('/verify', window.location.search.slice(1)));
     }
