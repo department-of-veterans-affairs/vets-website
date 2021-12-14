@@ -23,6 +23,7 @@ const DetailPage = ({ match }) => {
   useEffect(
     () => {
       scrollToTop();
+      setAlertType(null);
       if (error) {
         setAlertType('error');
       }
@@ -49,7 +50,7 @@ const DetailPage = ({ match }) => {
       </h1>
 
       {alertType ? (
-        <Alert type={alertType} />
+        <Alert type={alertType} error={error} />
       ) : (
         <>
           <p className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--5">
