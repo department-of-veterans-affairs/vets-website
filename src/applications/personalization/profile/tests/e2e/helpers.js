@@ -58,12 +58,7 @@ export const mockFeatureToggles = () => {
     statusCode: 200,
     body: {
       data: {
-        features: [
-          {
-            name: 'profile_notification_settings',
-            value: true,
-          },
-        ],
+        features: [{}],
       },
     },
   });

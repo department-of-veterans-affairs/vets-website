@@ -243,5 +243,27 @@ describe('check in', () => {
 
       sinon.assert.calledOnce(push);
     });
+
+    it.skip('skips to the emergency contact page when needs update is false and emergency contact page is enabled', () => {
+      const push = sinon.spy();
+      const mockRouter = {
+        push,
+        params: {},
+      };
+
+      render(
+        <Provider store={store}>
+          <NextOfKin
+            router={mockRouter}
+            nextOfKin={nextOfKin}
+            demographicsStatus={{ nextOfKinNeedsUpdate: false }}
+            isEmergencyContactEnabled
+          />
+        </Provider>,
+      );
+
+      expect(push.calledOnce).to.be.true;
+      expect(push.calledWith('emergency-contact')).to.be.true;
+    });
   });
 });

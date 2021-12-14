@@ -3,16 +3,19 @@ import '../../support/commands';
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('Check In Experience -- ', () => {
-  describe('phase 3 -- ', () => {
+  describe('phase 5 -- ', () => {
     beforeEach(function() {
       cy.authenticate();
-      cy.getSingleAppointment();
+      cy.getNoUpdateDemoNOKAndEC();
       cy.successfulCheckin();
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
         generateFeatureToggles({
           checkInExperienceUpdateInformationPageEnabled: false,
+          checkInExperienceDemographicsPageEnabled: true,
+          checkInExperienceNextOfKinEnabled: true,
+          emergencyContactEnabled: true,
         }),
       );
     });
@@ -21,35 +24,17 @@ describe('Check In Experience -- ', () => {
         window.sessionStorage.clear();
       });
     });
-    it('confirm page toggles -- on', () => {
+    it('skip demographics,  next of kin and emergency update path', () => {
       cy.visitWithUUID();
       cy.get('h1', { timeout: Timeouts.slow })
         .should('be.visible')
         .and('have.text', 'Check in at VA');
-      cy.injectAxe();
-      cy.axeCheck();
       cy.signIn();
+
       cy.get('h1', { timeout: Timeouts.slow })
         .should('be.visible')
         .and('have.text', 'Your appointments');
       cy.get('.appointment-list').should('have.length', 1);
-      cy.injectAxe();
-      cy.axeCheck();
-      cy.get(':nth-child(2) > [data-testid=check-in-button]').click();
-
-      cy.get('[data-testid=multiple-appointments-confirm]', {
-        timeout: Timeouts.slow,
-      }).should('be.visible');
-
-      cy.get('va-alert > h1', { timeout: Timeouts.slow })
-        .should('be.visible')
-        .and('include.text', 'checked in');
-      cy.injectAxe();
-      cy.axeCheck();
-
-      cy.get('[data-testid=go-to-appointments-button]', {
-        timeout: Timeouts.slow,
-      }).should('not.exist');
     });
   });
 });

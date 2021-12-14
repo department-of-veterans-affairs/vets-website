@@ -9,6 +9,7 @@ import {
   APPOINTMENT_WAS_CHECKED_INTO,
   PERMISSIONS_UPDATED,
   RECEIVED_APPOINTMENT_DETAILS,
+  RECEIVED_EMERGENCY_CONTACT_DATA,
   RECEIVED_DEMOGRAPHICS_DATA,
   RECEIVED_NEXT_OF_KIN_DATA,
   SET_TOKEN_CONTEXT,
@@ -43,13 +44,14 @@ const checkInReducer = (state = initialState, action) => {
       }
       return { ...state, ...payload };
     }
+    case RECEIVED_EMERGENCY_CONTACT_DATA:
+      return { ...state, ...action.payload };
     case RECEIVED_DEMOGRAPHICS_DATA:
       return { ...state, ...action.payload };
     case RECEIVED_NEXT_OF_KIN_DATA:
       return { ...state, ...action.payload };
     case TOKEN_WAS_VALIDATED:
       return { ...state, ...action.payload };
-
     case SEE_STAFF_MESSAGE_UPDATED:
       return { ...state, ...action.payload };
     case RECEIVED_DEMOGRAPHICS_STATUS:
