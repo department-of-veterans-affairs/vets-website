@@ -14,8 +14,15 @@ import {
 
 const ProfileInformationView = props => {
   const { data, fieldName, title } = props;
+
+  const titleLower = title.toLowerCase();
+
+  // decide whether to use 'a', or nothing
+  const titleFormatted =
+    titleLower !== 'pronouns' ? `a ${titleLower}` : titleLower;
+
   if (!data) {
-    return <span>Edit your profile to add a {title.toLowerCase()}.</span>;
+    return <span>Edit your profile to add {titleFormatted}.</span>;
   }
 
   if (fieldName === FIELD_NAMES.EMAIL) {
