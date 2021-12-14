@@ -94,6 +94,7 @@ export const Sample5 = () => (
         href="https://veteransbenefitsbanking.org/"
         target="_blank"
         rel="noreferrer"
+        aria-label="Benefits Banking Program (VBBP) - Opens in a new window"
       >
         Benefits Banking Program (VBBP)
       </a>{' '}
