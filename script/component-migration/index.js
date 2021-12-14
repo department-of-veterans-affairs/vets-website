@@ -29,7 +29,7 @@ function handleError(error) {
  * @param {string} componentString String of the component, from opening to closing tag
  * @param {Object} propMap Map of original prop name (key) to what the translated component should have instead
  */
-function translateProps(componentString, propMap, newTag) {
+function translateProps(componentString, propMap) {
   let translatedComp = componentString;
 
   // We want any `children` or `content` props to be the first to migrate,
@@ -43,7 +43,7 @@ function translateProps(componentString, propMap, newTag) {
     .forEach(([prop, newValue]) => {
       translatedComp =
         typeof newValue === 'function'
-          ? newValue(translatedComp, prop, newTag)
+          ? newValue(translatedComp, prop)
           : translatedComp.replace(prop, newValue);
     });
 
@@ -109,7 +109,7 @@ function migrateFile(fname, data) {
     // Next, replace the props
     migratedFile = migratedFile.replace(
       component,
-      translateProps(component, propMap, newTag),
+      translateProps(component, propMap),
     );
   });
 
