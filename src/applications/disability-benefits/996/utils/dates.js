@@ -44,7 +44,13 @@ export const getDate = ({
  * @returns {String} - formatted as 'YYYY-MM-DD'
  */
 export const getIsoDateFromSimpleDate = date =>
-  [date.year.value, date.month.value, date.day.value].filter(Boolean).join('-');
+  [
+    date.year.value ? date.year.value : '',
+    date.month.value ? `00${date.month.value}`.slice(-2) : '',
+    date.day.value ? `00${date.day.value}`.slice(-2) : '',
+  ]
+    .filter(Boolean)
+    .join('-');
 
 /**
  * Convert date string to SimpleDate object
@@ -56,7 +62,7 @@ export const getSimpleDateFromIso = date => {
   const fullDate = year && month && day;
   return {
     year: { value: fullDate ? year : '', dirty: false },
-    month: { value: fullDate ? month : '', dirty: false },
-    day: { value: fullDate ? day : '', dirty: false },
+    month: { value: fullDate ? parseInt(month, 10) : '', dirty: false },
+    day: { value: fullDate ? parseInt(day, 10) : '', dirty: false },
   };
 };

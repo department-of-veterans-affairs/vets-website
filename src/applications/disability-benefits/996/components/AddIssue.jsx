@@ -30,15 +30,15 @@ const ISSUES_PAGE = '/contestable-issues';
 const REVIEW_AND_SUBMIT = '/review-and-submit';
 
 const AddIssue = props => {
-  const { data, goToPath, onReviewPage, setFormData } = props;
+  const { data, goToPath, onReviewPage, setFormData, testingIndex } = props;
   const { contestedIssues = [], additionalIssues = [] } = data || {};
 
   const allIssues = contestedIssues.concat(additionalIssues);
 
-  // get index from url '/add-issue?index={index}'
+  // get index from url '/add-issue?index={index}' or testingIndex
   const searchIndex = new URLSearchParams(window.location.search);
-  let index = searchIndex.get('index');
-  if (!index || index < contestedIssues.length) {
+  let index = parseInt(searchIndex.get('index') || testingIndex, 10);
+  if (isNaN(index) || index < contestedIssues.length) {
     index = allIssues.length;
   }
   const currentData = allIssues[index] || {};
@@ -51,6 +51,7 @@ const AddIssue = props => {
 
   const nameValidations = [missingIssueName, maxNameLength, uniqueIssue];
   const dateValidations = [validateDate];
+  const uniqueValidations = [uniqueIssue];
 
   const [name, setName] = useState(currentData.issue || '');
   const [nameTouched, setNameTouched] = useState(false);
@@ -60,18 +61,29 @@ const AddIssue = props => {
     getSimpleDateFromIso(currentData.decisionDate),
   );
 
-  const nameErrorMessage =
-    checkValidations(nameValidations, name) ||
-    checkValidations([uniqueIssue], name, allIssues); // TODO
+  // check name
+  const nameErrorMessage = checkValidations(nameValidations, name);
+  // check dates
   const dateErrorMessage = checkValidations(
     dateValidations,
     getIsoDateFromSimpleDate(date),
   );
+  // check name & date combo uniqueness
+  const uniqueErrorMessage = checkValidations(uniqueValidations, '', {
+    contestedIssues,
+    additionalIssues: [
+      // remove current issue from list - clicking "update issue" won't show
+      // unique issue error message
+      ...additionalIssues.filter((_, indx) => index === indx),
+      { issue: name, decisionDate: getIsoDateFromSimpleDate(date) },
+    ],
+  });
+  const showError = nameErrorMessage[0] || uniqueErrorMessage[0];
 
   // submit issue with validation
   const addOrUpdateIssue = () => {
     setSubmitted(true);
-    if (nameErrorMessage.length < 1 && dateErrorMessage.length < 1) {
+    if (!showError && dateErrorMessage.length === 0) {
       const offsetIndex = calculateIndexOffset(index, contestedIssues.length);
       const selectedCount =
         getSelected(data).length + (currentData[SELECTED] ? 0 : 1);
@@ -104,11 +116,7 @@ const AddIssue = props => {
           value={name}
           onVaChange={event => setName(event.detail.value)}
           onBlur={() => setNameTouched(true)}
-          error={
-            (submitted || nameTouched) && nameErrorMessage.length
-              ? nameErrorMessage[0]
-              : null
-          }
+          error={(submitted || nameTouched) && showError ? showError : null}
         />
         <br />
         <SimpleDate

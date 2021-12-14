@@ -19,6 +19,13 @@ import {
 } from '../content/areaOfDisagreement';
 import { MAX_SELECTIONS, MAX_ISSUE_NAME_LENGTH } from '../constants';
 
+/**
+ *
+ * @param {Function[]} validations - array of validation functions
+ * @param {*} data - field data passed to the validation function
+ * @param {*} fullData - full and appStateData passed to validation function
+ * @returns {String[]} - error messages
+ */
 export const checkValidations = (validations, data, fullData) => {
   const errors = { errorMessages: [] };
   errors.addError = message => errors.errorMessages.push(message);

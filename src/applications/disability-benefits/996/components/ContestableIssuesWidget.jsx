@@ -67,10 +67,12 @@ const ContestableIssuesWidget = props => {
 
   const hasSelected = someSelected(items);
 
-  if (onReviewPage && inReviewMode && !hasSelected) {
+  if (onReviewPage && inReviewMode && items.length && !hasSelected) {
     return (
       <>
-        <dt>No issues selected</dt>
+        <dt>
+          <NoneSelectedAlert count={items.length} />
+        </dt>
         <dd />
       </>
     );
