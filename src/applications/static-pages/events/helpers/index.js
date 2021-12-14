@@ -103,13 +103,13 @@ export const convertEventTimesToUnix = events => {
     const startsAtUnix = moment
       .tz(
         event?.fieldDatetimeRangeTimezone?.value * 1000,
-        event?.fieldDatetimeRangeTimezone?.timezone || 'UTC',
+        event?.fieldDatetimeRangeTimezone?.timezone || 'America/New_York',
       )
       .unix();
     const endsAtUnix = moment
       .tz(
         event?.fieldDatetimeRangeTimezone?.endValue * 1000,
-        event?.fieldDatetimeRangeTimezone?.timezone || 'UTC',
+        event?.fieldDatetimeRangeTimezone?.timezone || 'America/New_York',
       )
       .unix();
 
