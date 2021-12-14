@@ -1,0 +1,6 @@
+{
+  "appName": "Mock Form",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "mock-form",
+  "rootUrl": "/mock-form"
+}
