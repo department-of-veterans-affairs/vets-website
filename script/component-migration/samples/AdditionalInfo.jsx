@@ -7,6 +7,7 @@ export const Sample = () => (
     className="vads-u-margin-bottom--2"
     triggerText="Why aren’t all my issues listed here?"
     disableAnalytics
+    onClick={null}
   >
     <p className="vads-u-margin-top--0">
       If you don’t see your issue or decision listed here, it may not be in our
@@ -23,7 +24,7 @@ export const SampleOther = () => (
     disableAnalytics
     status="info"
   >
-    <span>
+    <span onClick={null}>
       The United States is automatically chosen as your country if you live on a
       military base outside of the country.
     </span>
