@@ -3,7 +3,7 @@ function additionalInfoReplacement() {
     const noProp = componentString;
     const regex = new RegExp(
       `(?<=<${newTag}.+?)(${propName}=["{].+?[}"])(?=.+?>)`,
-      's',
+      'ms',
     );
     noProp.replace(regex, '');
     return noProp;
