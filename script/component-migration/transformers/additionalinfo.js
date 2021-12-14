@@ -1,21 +1,19 @@
 function additionalInfoReplacement() {
-  const removeProp = (componentString, propName, newTag) => {
-    const noProp = componentString;
-    const regex = new RegExp(
-      `(?<=<${newTag}.+?)(${propName}=["{].+?[}"])(?=.+?>)`,
-      'ms',
-    );
-    noProp.replace(regex, '');
-    return noProp;
+  // eslint-disable-next-line no-unused-vars
+  const removeProp = (componentString, propName) => {
+    const component = componentString;
+    const regex = new RegExp(`(?<!>)(${propName}=["{](.)+?["}])`, 'ms');
+    component.replace(regex, '');
+    return component;
   };
 
   return [
     'va-additional-info',
     {
-      className: removeProp,
+      // className: removeProp,
       triggerText: 'trigger',
       disableAnalytics: 'disable-analytics',
-      onClick: 'onclick',
+      // onClick: removeProp,
     },
   ];
 }
