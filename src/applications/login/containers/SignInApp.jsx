@@ -86,7 +86,7 @@ class SignInPage extends React.Component {
         <div className="row">
           {loggedOut && <LogoutAlert />}
           <div className="columns small-12">
-            <h1 className="vads-u-margin-top--2 medium-screen:vads-u-margin-bottom--2">
+            <h1 className="vads-u-margin-top--2 medium-screen:vads-u-margin-bottom--2 vads-u-color--gray-dark">
               Sign in
             </h1>
           </div>
@@ -106,11 +106,11 @@ class SignInPage extends React.Component {
         </div>
         <div className="row">
           <div className="columns small-12">
-            <div className="help-info">
+            <div className="help-info vads-u-color--gray-dark">
               <h2 className="vads-u-margin-top--0">
                 Having trouble signing in?
               </h2>
-              <p>
+              <p className="vads-u-font-size--base">
                 Get answers to common questions about{' '}
                 <a href="/resources/signing-in-to-vagov/" target="_blank">
                   signing in
@@ -124,7 +124,7 @@ class SignInPage extends React.Component {
                 </a>
                 .
               </p>
-              <p>
+              <p className="vads-u-font-size--base">
                 <SubmitSignInForm startSentence /> We're here 24/7.
               </p>
             </div>

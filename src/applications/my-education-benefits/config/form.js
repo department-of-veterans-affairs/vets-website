@@ -467,7 +467,7 @@ const formConfig = {
             required: [formFields.dateOfBirth],
             properties: {
               claimantId: {
-                type: 'string',
+                type: 'integer',
               },
               'view:subHeadings': {
                 type: 'object',

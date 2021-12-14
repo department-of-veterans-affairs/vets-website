@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 
 import * as Sentry from '@sentry/browser';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -502,7 +501,7 @@ export class AuthApp extends React.Component {
     const view = this.state.error ? (
       this.renderError()
     ) : (
-      <LoadingIndicator message={`Signing in to VA.gov...`} />
+      <va-loading-indicator message={`Signing in to VA.gov...`} />
     );
 
     return <div className="row vads-u-padding-y--5">{view}</div>;

@@ -241,4 +241,16 @@ describe('Direct Deposit section', () => {
     confirmDirectDepositIsAvailable();
     confirmDDBlockedAlertIsNotShown();
   });
+  it('should not be blocked if the ch33 bank account endpoint is delayed', () => {
+    cy.intercept('GET', 'v0/user', mockUserInEVSS);
+    cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPEnrolled);
+    cy.intercept('GET', 'v0/profile/ch33_bank_accounts', {
+      statusCode: 503,
+      delay: 180000,
+    });
+    cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+
+    confirmDirectDepositIsAvailable();
+    confirmDDBlockedAlertIsNotShown();
+  });
 });

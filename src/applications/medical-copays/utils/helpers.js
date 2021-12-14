@@ -41,21 +41,24 @@ export const titleCase = str => {
     .join(' ');
 };
 
+// receiving formatted date strings in the response
+// so we need to convert back to moment before sorting
 export const sortStatementsByDate = statements => {
-  return statements.sort((a, b) => {
-    const aDate = formatDate(a.pSStatementDate);
-    const bDate = formatDate(b.pSStatementDate);
+  const format = 'MM-DD-YYYY';
+  return statements.sort(
+    (a, b) =>
+      moment(b.pSStatementDate, format) - moment(a.pSStatementDate, format),
+  );
+};
 
-    if (aDate > bDate) {
-      return 1;
-    }
-
-    if (aDate < bDate) {
-      return -1;
-    }
-
-    return 0;
-  });
+// remove duplicate facilities with matching facility numbers
+export const rmvDupFacilities = statementData => {
+  return statementData
+    .map(({ station }) => station)
+    .filter(
+      (val, index, arr) =>
+        arr.findIndex(temp => temp.facilitYNum === val.facilitYNum) === index,
+    );
 };
 
 export const transform = data => {
