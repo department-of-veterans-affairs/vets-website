@@ -57,6 +57,11 @@ module.exports = {
           '@department-of-veterans-affairs/component-library/LoadingIndicator',
         use: '<va-loading-indicator>',
       },
+      {
+        name:
+          '@department-of-veterans-affairs/component-library/AdditionalInfo',
+        use: '<va-additional-info>',
+      },
     ],
 
     // "func-names": 2,
