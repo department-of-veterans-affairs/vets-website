@@ -1,5 +1,3 @@
-import { CSP_IDS } from 'platform/user/authentication/constants';
-
 const letters = {
   data: {
     attributes: {
@@ -161,7 +159,7 @@ const mockUserData = {
         loa: { current: 3, highest: 3 },
         multifactor: true,
         verified: true,
-        signIn: { serviceName: CSP_IDS.ID_ME, accountType: 'N/A', ssoe: true },
+        signIn: { serviceName: 'idme', accountType: 'N/A', ssoe: true },
         authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
       },
       vaProfile: {
