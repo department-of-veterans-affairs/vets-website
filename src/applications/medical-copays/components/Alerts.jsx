@@ -1,5 +1,6 @@
 import React from 'react';
 import { currency, calcDueDate, formatDate } from '../utils/helpers';
+import recordEvent from 'platform/monitoring/record-event';
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -193,19 +194,47 @@ Alert.Status = ({ copay }) => (
   </va-alert>
 );
 
-const RenderAlert = ({ type, copay }) => {
+const RenderAlert = ({ type, copay, error }) => {
   switch (type) {
-    case 'no-health-care':
-      return <Alert.NoHealthcare />;
-    case 'no-history':
-      return <Alert.NoHistory />;
-    case 'deceased':
-      return <Alert.Deceased />;
     case 'status':
       return <Alert.Status copay={copay} />;
+    case 'no-health-care':
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'warning',
+        'alert-box-heading': 'You’re not enrolled in VA health care',
+      });
+      return <Alert.NoHealthcare />;
+    case 'no-history':
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'info',
+        'alert-box-heading':
+          'You haven’t received a copay bill in the past 6 months',
+      });
+      return <Alert.NoHistory />;
+    case 'deceased':
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'warning',
+        'alert-box-heading': 'Our records show that this Veteran is deceased',
+      });
+      return <Alert.Deceased />;
     case 'zero-balance':
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'info',
+        'alert-box-heading': 'You don’t need to make a payment at this time',
+      });
       return <Alert.ZeroBalance copay={copay} />;
     default:
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'error',
+        'alert-box-heading':
+          'We can’t access your current copay balances right now',
+        'error-key': error?.status || '',
+      });
       return <Alert.Error />;
   }
 };
