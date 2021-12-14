@@ -169,19 +169,6 @@ export const getSelectedCheckboxes = (uiSchema, formData) =>
     .map(selectedCheckboxKey => uiSchema[selectedCheckboxKey]['ui:title'])
     .join(', ');
 
-// function transformPhone(phone) {
-//   const isInternational = phone?.isInternational;
-//   let phoneNumber = phone?.areaCode + phone?.phoneNumber;
-//   phoneNumber = isInternational
-//     ? phone?.countryCode + phoneNumber
-//     : phoneNumber;
-
-//   return {
-//     phone: phoneNumber,
-//     isInternational,
-//   };
-// }
-
 function transformServiceHistory(serviceHistory) {
   return {
     dateRange: {
@@ -203,7 +190,6 @@ function transformServiceHistory(serviceHistory) {
     serviceBranch: serviceHistory?.branchOfService,
     serviceCharacter: serviceHistory?.characterOfService,
     separationReason: serviceHistory?.reasonForSeparation,
-    // toursOfDutyIncorrect: serviceHistory.disagreeWithServicePeriod,
   };
 }
 
@@ -217,11 +203,8 @@ function mapNotificaitonMethod(notificationMethod) {
 }
 
 export function prefillTransformer(pages, formData, metadata, state) {
-  // if (!state.data?.formData) {
-  //   fetchPersonalInformation();
-  // }
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
-  const serviceData = state.data?.formData?.data?.attributes?.serviceData || {};
+  const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
   const contactInfo = claimant?.contactInfo || {};
 
   const newData = {
@@ -264,9 +247,6 @@ export function prefillTransformer(pages, formData, metadata, state) {
         contactInfo?.addressType === 'MILITARY_OVERSEAS',
     },
     toursOfDuty: serviceData.map(transformServiceHistory),
-    // 'view:toursOfDutyCorrect': {
-    //   toursOfDutyCorrect: serviceHistory?.data?.toursOfDutyIncorrect,
-    // },
   };
 
   if (claimant?.suffix) {
