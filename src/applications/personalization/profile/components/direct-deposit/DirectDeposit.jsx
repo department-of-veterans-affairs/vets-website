@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
@@ -157,26 +157,30 @@ const DirectDeposit = ({
     <>
       <Headline>Direct deposit information</Headline>
       <div id="success" role="alert" aria-atomic="true">
-        <ReactCSSTransitionGroup
-          transitionName="form-expanding-group-inner"
-          transitionAppear
-          transitionAppearTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
-          transitionEnterTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
-          transitionLeaveTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
-        >
+        <TransitionGroup>
           {!!recentlySavedBankInfo && (
-            <div data-testid="bankInfoUpdateSuccessAlert">
-              <AlertBox
-                status={ALERT_TYPE.SUCCESS}
-                backgroundOnly
-                className="vads-u-margin-top--0 vads-u-margin-bottom--2"
-                scrollOnShow
-              >
-                <SuccessMessage benefit={recentlySavedBankInfo} />
-              </AlertBox>
-            </div>
+            <CSSTransition
+              classNames="form-expanding-group-inner"
+              appear
+              timeout={{
+                appear: bankInfoUpdatedAlertSettings.FADE_SPEED,
+                enter: bankInfoUpdatedAlertSettings.FADE_SPEED,
+                exit: bankInfoUpdatedAlertSettings.FADE_SPEED,
+              }}
+            >
+              <div data-testid="bankInfoUpdateSuccessAlert">
+                <AlertBox
+                  status={ALERT_TYPE.SUCCESS}
+                  backgroundOnly
+                  className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+                  scrollOnShow
+                >
+                  <SuccessMessage benefit={recentlySavedBankInfo} />
+                </AlertBox>
+              </div>
+            </CSSTransition>
           )}
-        </ReactCSSTransitionGroup>
+        </TransitionGroup>
       </div>
       <Prompt
         message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
