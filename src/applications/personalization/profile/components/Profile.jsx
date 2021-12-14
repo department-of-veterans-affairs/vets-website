@@ -54,6 +54,7 @@ import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 
 class Profile extends Component {
   componentDidMount() {
@@ -270,7 +271,10 @@ Profile.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const signInServicesEligibleForDD = new Set(['idme', 'logingov']);
+  const signInServicesEligibleForDD = new Set([
+    CSP_IDS.ID_ME,
+    CSP_IDS.LOGIN_GOV,
+  ]);
   const isEvssAvailableSelector = createIsServiceAvailableSelector(
     backendServices.EVSS_CLAIMS,
   );

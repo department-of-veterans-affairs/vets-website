@@ -16,9 +16,9 @@ const TwoFactorAuthorizationStatus = ({ isMultifactorEnabled }) => {
     );
   }
 
-  const mfaHandler = (version = 'v1') => {
+  const mfaHandler = () => {
     recordEvent({ event: AUTH_EVENTS.MFA });
-    mfa(version);
+    mfa();
   };
 
   return (
@@ -29,7 +29,7 @@ const TwoFactorAuthorizationStatus = ({ isMultifactorEnabled }) => {
         gets your password.
       </p>
       <p className="vads-u-margin-bottom--0">
-        <button className="va-button-link" onClick={() => mfaHandler('v1')}>
+        <button className="va-button-link" onClick={() => mfaHandler()}>
           Set up 2-factor authentication
         </button>
       </p>

@@ -15,6 +15,7 @@ import mockDD4EDUEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-enrolled.
 import mockDD4EDUNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enrolled.json';
 
 import { makeUserObject } from '~/applications/personalization/common/helpers';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 
 function confirmDDBlockedAlertIsNotShown() {
   cy.findByRole('heading', { name: /^Profile$/ });
@@ -126,7 +127,7 @@ describe('Direct Deposit section', () => {
   it('should be blocked if the Login.gov user is not enrolled in or eligible for DD4CNP and not signed up for DD4EDU', () => {
     mockUserInEVSS = makeUserObject({
       services: ['evss-claims'],
-      serviceName: 'logingov',
+      serviceName: CSP_IDS.LOGIN_GOV,
     });
     cy.intercept('GET', 'v0/user', mockUserInEVSS);
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEligible);
@@ -218,7 +219,7 @@ describe('Direct Deposit section', () => {
   it('should not be blocked if they are a Login.gov user and are eligible for DD4CNP', () => {
     mockUserInEVSS = makeUserObject({
       services: ['evss-claims'],
-      serviceName: 'logingov',
+      serviceName: CSP_IDS.LOGIN_GOV,
     });
     cy.intercept('GET', 'v0/user', mockUserInEVSS);
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEnrolled);

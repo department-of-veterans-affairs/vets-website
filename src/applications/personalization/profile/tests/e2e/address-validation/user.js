@@ -1,3 +1,5 @@
+import { CSP_IDS } from 'platform/user/authentication/constants';
+
 const userObject = {
   data: {
     id: '',
@@ -39,7 +41,7 @@ const userObject = {
         multifactor: true,
         verified: true,
         signIn: {
-          serviceName: 'idme',
+          serviceName: CSP_IDS.ID_ME,
           accountType: 'N/A',
         },
         authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',

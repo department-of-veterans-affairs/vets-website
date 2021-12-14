@@ -12,7 +12,11 @@ import {
 import mockKeepAlive from './mockKeepAliveSSO';
 import { keepAlive as liveKeepAlive } from './keepAliveSSO';
 import { getLoginAttempted } from './loginAttempted';
-import { AUTH_EVENTS } from 'platform/user/authentication/constants';
+import {
+  AUTH_EVENTS,
+  API_VERSION,
+  POLICY_TYPES,
+} from 'platform/user/authentication/constants';
 
 const keepAliveThreshold = 5 * 60 * 1000; // 5 minutes, in milliseconds
 
@@ -54,14 +58,14 @@ export async function checkAutoSession(
       // could also be undefined if we failed to get a response from the SSOe server,
       // in which case we don't want to logout the user, because we don't know
       // their SSOe status.
-      logout('v1', AUTH_EVENTS.SSO_LOGOUT, { 'auto-logout': 'true' });
+      logout(API_VERSION, AUTH_EVENTS.SSO_LOGOUT, { 'auto-logout': 'true' });
     } else if (transactionid && transactionid !== ssoeTransactionId) {
       // compare the transaction id from the keepalive endpoint with the existing
       // transaction id. If they don't match, it means we might have a different
       // user logged in. Thus, we should perform an auto login, which will
       // effectively logout the user then log them back in.
       login({
-        policy: 'custom',
+        policy: POLICY_TYPES.CUSTOM,
         queryParams: { authn },
         clickedEvent: AUTH_EVENTS.SSO_LOGIN,
       });
@@ -82,7 +86,7 @@ export async function checkAutoSession(
     //    don't keep retrying)
     // d) we have a non empty type value from the keepalive call to login with
     login({
-      policy: 'custom',
+      policy: POLICY_TYPES.CUSTOM,
       queryParams: { authn },
       clickedEvent: AUTH_EVENTS.SSO_LOGIN,
     });

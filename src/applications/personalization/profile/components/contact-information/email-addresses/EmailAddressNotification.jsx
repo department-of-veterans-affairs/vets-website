@@ -1,21 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 
 const EmailAddressNotification = ({ signInServiceName }) => {
   let link;
   let buttonText;
 
-  if (signInServiceName === 'idme') {
+  if (signInServiceName === CSP_IDS.ID_ME) {
     link = 'https://wallet.id.me/settings';
     buttonText = 'ID.me';
   }
 
-  if (signInServiceName === 'dslogon') {
+  if (signInServiceName === CSP_IDS.DS_LOGON) {
     link = 'https://myaccess.dmdc.osd.mil/identitymanagement';
     buttonText = 'DS Logon';
   }
 
-  if (signInServiceName === 'mhv' || signInServiceName === 'myhealthevet') {
+  if (
+    signInServiceName === CSP_IDS.MHV ||
+    signInServiceName === CSP_IDS.MHV_VERBOSE
+  ) {
     link = 'https://www.myhealth.va.gov';
     buttonText = 'My HealtheVet';
   }

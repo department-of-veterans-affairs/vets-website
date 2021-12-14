@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 /* eslint-disable camelcase */
 
 const mockUser = {
@@ -7,7 +8,7 @@ const mockUser = {
     attributes: {
       profile: {
         sign_in: {
-          service_name: 'idme',
+          service_name: CSP_IDS.ID_ME,
         },
         email: 'fake@fake.com',
         loa: { current: 3 },

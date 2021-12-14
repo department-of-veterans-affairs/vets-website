@@ -457,22 +457,18 @@ export class CallToActionWidget extends Component {
     }
   };
 
-  authVersion() {
-    return 'v1';
-  }
-
   signOut = () => {
     recordEvent({ event: 'logout-link-clicked-createcta-mhv' });
-    logout(this.authVersion());
+    logout();
   };
 
   mfaHandler = () => {
     recordEvent({ event: AUTH_EVENTS.MFA });
-    mfa(this.authVersion());
+    mfa();
   };
 
   verifyHandler = () => {
-    verify(this.authVersion());
+    verify();
   };
 
   render() {

@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import { mapRawUserDataToState } from '~/platform/user/profile/utilities';
 import { VA_FORM_IDS } from '~/platform/forms/constants';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
 
 /* eslint-disable camelcase */
 function createDefaultData() {
@@ -12,7 +13,7 @@ function createDefaultData() {
       },
       profile: {
         sign_in: {
-          service_name: 'idme',
+          service_name: CSP_IDS.ID_ME,
         },
         email: 'fake@fake.com',
         loa: { current: 3 },
