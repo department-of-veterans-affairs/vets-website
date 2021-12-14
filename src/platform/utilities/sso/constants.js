@@ -15,7 +15,7 @@ export const CSP_AUTHN = {
 };
 
 export const AUTHN_HEADERS = {
-  ID_ME: 'va_eauth_authncontextclassref',
+  AUTHN_CONTEXT: 'va_eauth_authncontextclassref',
   CSP: 'va_eauth_csid',
   TRANSACTION_ID: 'va_eauth_transactionid',
   TIMEOUT: 'session-timeout',

@@ -25,6 +25,7 @@ function setKeepAliveResponse(stub, sessionTimeout = 0, csid = null) {
     {
       DSLogon: 'NOT_FOUND ',
       mhv: 'NOT_FOUND ',
+      LOGINGOV: 'http://idmanagement.gov/ns/assurance/ial/2',
       idme: 'http://idmanagement.gov/ns/assurance/loa/3',
     }[csid],
   );
@@ -429,6 +430,29 @@ describe.skip('keepAlive', () => {
         ttl: 900,
         transactionid: 'X',
         authn: '/loa1',
+      });
+    });
+  });
+
+  it('should return active logingov session', () => {
+    /* eslint-disable camelcase */
+    const resp = new Response('{}', {
+      headers: {
+        'session-alive': 'true',
+        'session-timeout': '900',
+        va_eauth_transactionid: 'X',
+        va_eauth_csid: 'LOGINGOV',
+        va_eauth_authncontextclassref:
+          'http://idmanagement.gov/ns/assurance/ial/2',
+      },
+    });
+    /* eslint-enable camelcase */
+    stubFetch.resolves(resp);
+    return keepAlive().then(res => {
+      expect(res).to.eql({
+        ttl: 900,
+        transactionid: 'X',
+        authn: 'http://idmanagement.gov/ns/assurance/ial/2',
       });
     });
   });

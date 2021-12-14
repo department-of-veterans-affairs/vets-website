@@ -225,14 +225,25 @@ describe('check in', () => {
         .to.exist;
       component.getByTestId('yes-button').click();
     });
-    it.skip('skips to the next page when needs update is false', () => {
+    it('skips to the next page when needs update is false', () => {
       const push = sinon.spy();
       const mockRouter = {
         push,
         params: {},
       };
 
-      render(
+      const { rerender } = render(
+        <Provider store={store}>
+          <Demographics
+            router={mockRouter}
+            demographics={demographics}
+            demographicsStatus={{ demographicsNeedsUpdate: false }}
+          />
+        </Provider>,
+      );
+      // this is testing something in the useEffect of the component and we need to
+      // rerender the component to gurauntee the useEffect runs
+      rerender(
         <Provider store={store}>
           <Demographics
             router={mockRouter}
@@ -242,7 +253,7 @@ describe('check in', () => {
         </Provider>,
       );
 
-      sinon.assert.calledOnce(push);
+      expect(push.called).to.be.true;
     });
   });
 });

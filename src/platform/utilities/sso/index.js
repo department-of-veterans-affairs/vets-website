@@ -42,6 +42,12 @@ export async function ssoKeepAliveSession() {
   return { ttl, transactionid, authn };
 }
 
+/**
+ *
+ * @param {*} loggedIn checks if user is loggedIn
+ * @param {*} ssoeTransactionId transactionId received from eAuth
+ * @param {*} profile profile of current user (for verified)
+ */
 export async function checkAutoSession(
   loggedIn,
   ssoeTransactionId,
@@ -49,21 +55,27 @@ export async function checkAutoSession(
 ) {
   const { ttl, transactionid, authn } = await ssoKeepAliveSession();
 
+  /**
+   * Ensure user is authenticated with SSOe by verifying
+   * loggedIn status and transaction ID
+   */
   if (loggedIn && ssoeTransactionId) {
-    // being logged in is not enough, we also need to make sure that the user
-    // has been authenticated with SSOe, otherwise we don't want to perform any
-    // auto login/logout operations.
     if (ttl === 0) {
-      // explicitly check to see if the TTL for the SSOe session is 0, as it
-      // could also be undefined if we failed to get a response from the SSOe server,
-      // in which case we don't want to logout the user, because we don't know
-      // their SSOe status.
-      logout(API_VERSION, AUTH_EVENTS.SSO_LOGOUT, { 'auto-logout': 'true' });
+      /**
+       * Check if TTL is 0
+       * TTL: 0 = Session invalid
+       * TTL: > 0 and < 900 = Session valid
+       * TTL: undefined, can't verify SSOe status
+       */
+      logout(API_VERSION, AUTH_EVENTS.SSO_LOGOUT, {
+        'auto-logout': 'true',
+      });
     } else if (transactionid && transactionid !== ssoeTransactionId) {
-      // compare the transaction id from the keepalive endpoint with the existing
-      // transaction id. If they don't match, it means we might have a different
-      // user logged in. Thus, we should perform an auto login, which will
-      // effectively logout the user then log them back in.
+      /**
+       * Compare transaction ID with ssoeTransactionID
+       * transactionID (eAuth) !== ssoeTransaction: Different user logged in
+       * and perform an auto-login with the new session. (Auto logout and re-logins)
+       */
       login({
         policy: POLICY_TYPES.CUSTOM,
         queryParams: { authn },
@@ -74,17 +86,21 @@ export async function checkAutoSession(
       ttl > 0 &&
       profile.verified
     ) {
-      // the user is in the login app, but already logged in with SSOe
-      // and verified, redirect them back to their return url
+      /**
+       * Unified Sign-in page
+       * If user has an SSOe session & is verified, redirect them
+       * to the specified return url
+       */
       window.location = standaloneRedirect() || window.location.origin;
     }
   } else if (!loggedIn && ttl > 0 && !getLoginAttempted() && authn) {
-    // only attempt an auto login if the user is
-    // a) does not have a VA.gov session
-    // b) has an SSOe session
-    // c) has not previously tried to login (if the last attempt to login failed
-    //    don't keep retrying)
-    // d) we have a non empty type value from the keepalive call to login with
+    /**
+     * Create an auto-login when the following are true
+     * 1. No active VA.gov session
+     * 2. Active SSOe session
+     * 3. No previously attempted to login (sessionStorage `setLoginAttempted` is false)
+     * 4. Have a non-empty type value from eAuth keepalive endpoint
+     */
     login({
       policy: POLICY_TYPES.CUSTOM,
       queryParams: { authn },

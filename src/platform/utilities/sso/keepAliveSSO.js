@@ -53,19 +53,19 @@ export default async function keepAlive() {
     await resp.text();
     const alive = resp.headers.get(AUTHN_HEADERS.ALIVE);
 
+    /**
+     * Use mapped authncontext for DS Logon and MHV
+     * Use `authncontextclassref` lookup for ID.me and Login.gov
+     */
+
     return {
-      ttl:
-        alive === 'true' ? Number(resp.headers.get(AUTHN_HEADERS.TIMEOUT)) : 0,
+      ttl: alive === 'true' ? Number(resp.headers.get(AUTHN_HEADERS.ALIVE)) : 0,
       transactionid: resp.headers.get(AUTHN_HEADERS.TRANSACTION_ID),
-      /* for DSLogon or mhv, use a mapped authn context value, however for
-      * idme, we need to use the provided authncontextclassref as it could be
-      * for LOA1 or LOA3.  Any other csid values should be ignored, and we
-      * should return undefined
-      */
       authn: {
         DSLogon: CSP_AUTHN.DS_LOGON,
         mhv: CSP_AUTHN.MHV,
-        idme: resp.headers.get(AUTHN_HEADERS.ID_ME),
+        LOGINGOV: resp.headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
+        idme: resp.headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
       }[resp.headers.get(AUTHN_HEADERS.CSP)],
     };
   } catch (err) {
