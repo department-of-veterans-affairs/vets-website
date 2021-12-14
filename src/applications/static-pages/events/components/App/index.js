@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import Search from '../Search';
 import {
   defaultSelectedOption,
+  deriveEndsAtUnix,
+  deriveStartsAtUnix,
   filterByOptions,
   filterEvents,
   hideLegacyEvents,
@@ -45,21 +47,10 @@ export const App = ({ rawEvents, showEventsV2 }) => {
     const endDateDay = event?.target?.endDateDay?.value;
 
     // Derive startsAtUnix.
-    const startsAtUnix =
-      startDateMonth && startDateDay
-        ? moment(`${startDateMonth}/${startDateDay}`, 'MM/DD').unix()
-        : undefined;
+    const startsAtUnix = deriveStartsAtUnix(startDateMonth, startDateDay);
 
     // Derive endsAtUnix.
-    let endsAtUnix = startsAtUnix
-      ? moment(startsAtUnix * 1000)
-          .clone()
-          .add(1, 'day')
-          .unix()
-      : undefined;
-    if (endDateMonth && endDateDay) {
-      endsAtUnix = moment(`${endDateMonth}/${endDateDay}`, 'MM/DD').unix();
-    }
+    const endsAtUnix = deriveEndsAtUnix(startsAtUnix, endDateMonth, endDateDay);
 
     // Filter events.
     const filteredEvents = filterEvents(rawEvents, newSelectedOption?.value, {

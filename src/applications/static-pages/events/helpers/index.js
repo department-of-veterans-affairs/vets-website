@@ -142,27 +142,33 @@ export const filterEvents = (events, filterBy, options = {}) => {
     // Next week.
     case 'next-week':
       return sortedEvents?.filter(event =>
-        moment(event?.startsAtUnix * 1000).isAfter(
+        moment(event?.startsAtUnix * 1000).isBetween(
           moment()
             .add('7', 'days')
             .startOf('week'),
+          moment()
+            .add('7', 'days')
+            .endOf('week'),
         ),
       );
 
     // Next month.
     case 'next-month':
       return sortedEvents?.filter(event =>
-        moment(event?.startsAtUnix * 1000).isAfter(
+        moment(event?.startsAtUnix * 1000).isBetween(
           moment()
             .add('1', 'month')
             .startOf('month'),
+          moment()
+            .add('1', 'month')
+            .endOf('month'),
         ),
       );
 
     // Past events.
     case 'past':
       return sortedEvents?.filter(event =>
-        moment(event?.startsAtUnix * 1000).isBefore(),
+        moment(event?.endsAtUnix * 1000).isBefore(),
       );
 
     // Custom dates.
@@ -182,6 +188,54 @@ export const filterEvents = (events, filterBy, options = {}) => {
     default:
       return sortedEvents;
   }
+};
+
+export const deriveStartsAtUnix = (startDateMonth, startDateDay) => {
+  // Escape early if arguments are missing.
+  if (!startDateMonth || !startDateDay) {
+    return undefined;
+  }
+
+  // Derive the startsAt moment.
+  const startsAt = moment(`${startDateMonth}/${startDateDay}`, 'MM/DD').startOf(
+    'day',
+  );
+
+  // If the startsAt is in the past, we need to increase it by a year (since there are only month/day fields).
+  if (startsAt.isBefore(moment())) {
+    startsAt.add(1, 'year').unix();
+  }
+
+  return startsAt.unix();
+};
+
+export const deriveEndsAtUnix = (startsAtUnix, endDateMonth, endDateDay) => {
+  // Set a default value for endsAt.
+  let endsAt = undefined;
+
+  // Make the endsAt the end of the day if there is a start value.
+  if (startsAtUnix) {
+    endsAt = moment(startsAtUnix * 1000)
+      .clone()
+      .endOf('day');
+  }
+
+  // If there are endsAt fields provided, use those.
+  if (endDateMonth && endDateDay) {
+    endsAt = moment(`${endDateMonth}/${endDateDay}`, 'MM/DD').endOf('day');
+  }
+
+  // If the endsAt is in the past, we need to increase it by a year (since there are only month/day fields).
+  if (endsAt.isBefore(moment())) {
+    endsAt.add(1, 'year').unix();
+  }
+
+  // If the endsAt is before the startsAt, we need to increase it by another year (since there are only month/day fields).
+  if (endsAt.isBefore(startsAtUnix * 1000)) {
+    endsAt.add(1, 'year').unix();
+  }
+
+  return endsAt.unix();
 };
 
 export const hideLegacyEvents = () => {

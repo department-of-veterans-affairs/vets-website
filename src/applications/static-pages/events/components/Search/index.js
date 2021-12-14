@@ -14,6 +14,26 @@ const Search = ({ onSearch }) => {
   const [selectedOption, setSelectedOption] = useState(defaultSelectedOption);
   const [startDateMonth, setStartDateMonth] = useState('');
   const [startDateDay, setStartDateDay] = useState('');
+  const [endDateMonth, setEndDateMonth] = useState('');
+  const [endDateDay, setEndDateDay] = useState('');
+
+  const onFilterByChange = event => {
+    const filterByOption = event?.target?.value;
+
+    // Escape early if they selected the same field.
+    if (filterByOption === selectedOption) {
+      return;
+    }
+
+    // Reset fields.
+    setStartDateMonth('');
+    setStartDateDay('');
+    setEndDateMonth('');
+    setEndDateDay('');
+
+    // Update the selected option.
+    setSelectedOption(filterByOption);
+  };
 
   return (
     <form
@@ -32,7 +52,7 @@ const Search = ({ onSearch }) => {
         <select
           id="filterBy"
           name="filterBy"
-          onChange={event => setSelectedOption(event.target.value)}
+          onChange={onFilterByChange}
           value={selectedOption}
         >
           {filterByOptions?.map(option => (
@@ -43,7 +63,9 @@ const Search = ({ onSearch }) => {
         </select>
       </div>
 
+      {/* ==================== */}
       {/* Specific date fields */}
+      {/* ==================== */}
       {selectedOption === 'specific-date' && (
         <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-bottom--1">
           {/* Month */}
@@ -88,10 +110,100 @@ const Search = ({ onSearch }) => {
         </div>
       )}
 
+      {/* ======================== */}
       {/* Custom date range fields */}
-      {/* {selectedOption === 'custom-date-range' && (
+      {/* ======================== */}
+      {selectedOption === 'custom-date-range' && (
+        <>
+          {/* Start date */}
+          <label className="vads-u-margin--0">Start date</label>
+          <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-bottom--1">
+            {/* Start date | Month */}
+            <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-right--1p5">
+              <label className="vads-u-margin--0" htmlFor="startDateMonth">
+                {/* The asterisk is superscript u+002A */}
+                *Month
+              </label>
+              <select
+                id="startDateMonth"
+                name="startDateMonth"
+                onChange={event => setStartDateMonth(event.target.value)}
+                value={startDateMonth}
+              >
+                {monthOptions?.map(option => (
+                  <option key={option?.value} value={option?.value}>
+                    {option?.label}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-      )} */}
+            {/* Start date | Day */}
+            <div className="vads-u-display--flex vads-u-flex-direction--column">
+              <label className="vads-u-margin--0" htmlFor="startDateDay">
+                {/* The asterisk is superscript u+002A */}
+                *Day
+              </label>
+              <select
+                id="startDateDay"
+                name="startDateDay"
+                onChange={event => setStartDateDay(event.target.value)}
+                value={startDateDay}
+              >
+                {dayOptions?.map(option => (
+                  <option key={option?.value} value={option?.value}>
+                    {option?.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* End date */}
+          <label className="vads-u-margin--0">End date</label>
+          <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-bottom--1">
+            {/* End date | Month */}
+            <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-right--1p5">
+              <label className="vads-u-margin--0" htmlFor="endDateMonth">
+                {/* The asterisk is superscript u+002A */}
+                *Month
+              </label>
+              <select
+                id="endDateMonth"
+                name="endDateMonth"
+                onChange={event => setEndDateMonth(event.target.value)}
+                value={endDateMonth}
+              >
+                {monthOptions?.map(option => (
+                  <option key={option?.value} value={option?.value}>
+                    {option?.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* End date | Day */}
+            <div className="vads-u-display--flex vads-u-flex-direction--column">
+              <label className="vads-u-margin--0" htmlFor="endDateDay">
+                {/* The asterisk is superscript u+002A */}
+                *Day
+              </label>
+              <select
+                id="endDateDay"
+                name="endDateDay"
+                onChange={event => setEndDateDay(event.target.value)}
+                value={endDateDay}
+              >
+                {dayOptions?.map(option => (
+                  <option key={option?.value} value={option?.value}>
+                    {option?.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </>
+      )}
 
       {/* Submit */}
       <button className="usa-button-primary" type="submit">
