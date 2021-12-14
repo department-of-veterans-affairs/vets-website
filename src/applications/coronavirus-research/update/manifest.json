@@ -1,0 +1,6 @@
+{
+  "appName": "Coronavirus Research - Update",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "coronavirus-research-update",
+  "rootUrl": "/coronavirus-research/volunteer/update"
+}

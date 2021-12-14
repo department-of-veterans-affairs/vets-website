@@ -19,8 +19,8 @@ export default function Description({ data, flowType }) {
       </h2>
       {isDirectSchedule && (
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
-          Please review the information before confirming your appointment. If
-          you need to update any details, click Edit to go back to the screen
+          Make sure the information is correct. Then confirm your appointment.
+          If you need to update any details, click Edit to go back to the screen
           where you entered the information. After you update your information,
           you’ll need to go through the tool again to schedule your appointment.
         </p>
