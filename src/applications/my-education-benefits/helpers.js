@@ -183,32 +183,28 @@ export const getSelectedCheckboxes = (uiSchema, formData) =>
 // }
 
 function transformServiceHistory(serviceHistory) {
-  return [
-    {
-      dateRange: {
-        from: moment(serviceHistory?.beginDate).format(DATE_TIMESTAMP),
-        to: moment(serviceHistory?.endDate).format(DATE_TIMESTAMP),
-      },
-      exclusionPeriods: serviceHistory?.exclusionPeriods?.map(
-        exclusionPeriod => {
-          return {
-            from: moment(exclusionPeriod.beginDate).format(DATE_TIMESTAMP),
-            to: moment(exclusionPeriod.endDate).format(DATE_TIMESTAMP),
-          };
-        },
-      ),
-      trainingPeriods: serviceHistory?.trainingPeriods?.map(exclusionPeriod => {
-        return {
-          from: moment(exclusionPeriod.beginDate).format(DATE_TIMESTAMP),
-          to: moment(exclusionPeriod.endDate).format(DATE_TIMESTAMP),
-        };
-      }),
-      serviceBranch: serviceHistory?.branchOfService,
-      serviceCharacter: serviceHistory?.characterOfService,
-      separationReason: serviceHistory?.reasonForSeparation,
-      // toursOfDutyIncorrect: serviceHistory.disagreeWithServicePeriod,
+  return {
+    dateRange: {
+      from: moment(serviceHistory?.beginDate).format(DATE_TIMESTAMP),
+      to: moment(serviceHistory?.endDate).format(DATE_TIMESTAMP),
     },
-  ];
+    exclusionPeriods: serviceHistory?.exclusionPeriods?.map(exclusionPeriod => {
+      return {
+        from: moment(exclusionPeriod.beginDate).format(DATE_TIMESTAMP),
+        to: moment(exclusionPeriod.endDate).format(DATE_TIMESTAMP),
+      };
+    }),
+    trainingPeriods: serviceHistory?.trainingPeriods?.map(exclusionPeriod => {
+      return {
+        from: moment(exclusionPeriod.beginDate).format(DATE_TIMESTAMP),
+        to: moment(exclusionPeriod.endDate).format(DATE_TIMESTAMP),
+      };
+    }),
+    serviceBranch: serviceHistory?.branchOfService,
+    serviceCharacter: serviceHistory?.characterOfService,
+    separationReason: serviceHistory?.reasonForSeparation,
+    // toursOfDutyIncorrect: serviceHistory.disagreeWithServicePeriod,
+  };
 }
 
 function mapNotificaitonMethod(notificationMethod) {
@@ -267,8 +263,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
         contactInfo?.countryCode !== 'US' &&
         contactInfo?.addressType === 'MILITARY_OVERSEAS',
     },
-    toursOfDuty: transformServiceHistory(serviceData[0]),
-    // Needs to be an update to map over array of multiple service data objects
+    toursOfDuty: serviceData.map(transformServiceHistory),
     // 'view:toursOfDutyCorrect': {
     //   toursOfDutyCorrect: serviceHistory?.data?.toursOfDutyIncorrect,
     // },
