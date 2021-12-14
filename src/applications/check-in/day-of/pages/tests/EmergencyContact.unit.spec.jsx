@@ -173,7 +173,7 @@ describe('check in', () => {
         params: {},
       };
 
-      render(
+      const { rerender } = render(
         <Provider store={store}>
           <EmergencyContact
             router={mockRouter}
@@ -183,7 +183,17 @@ describe('check in', () => {
         </Provider>,
       );
 
-      expect(push.calledOnce).to.be.true;
+      rerender(
+        <Provider store={store}>
+          <EmergencyContact
+            router={mockRouter}
+            emergencyContact={data}
+            demographicsStatus={{ emergencyContactNeedsUpdate: false }}
+          />
+        </Provider>,
+      );
+
+      expect(push.called).to.be.true;
     });
   });
 });
