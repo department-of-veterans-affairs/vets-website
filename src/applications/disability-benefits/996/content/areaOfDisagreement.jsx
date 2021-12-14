@@ -9,6 +9,18 @@ export const missingAreaOfDisagreementErrorMessage =
 export const missingAreaOfDisagreementOtherErrorMessage =
   'Please enter a reason for disagreement';
 
+const titlePrefix = 'What do you disagree with regarding';
+
+/**
+ * Title for review & submit page, text string returned
+ * @param {*} data - item data (contestable issue or added issue)
+ * @returns {String} - ObjectField error if not a string
+ */
+export const getIssueTitle = data => {
+  const date = moment(getIssueDate(data), FORMAT_YMD).format(FORMAT_READABLE);
+  return `${titlePrefix} ${getIssueName(data)} (${date})?`;
+};
+
 // formContext.pagePerItemIndex is undefined here? Use index added to data :(
 export const issueName = ({ formData, formContext } = {}) => {
   const index = formContext.pagePerItemIndex || formData.index;
@@ -17,13 +29,19 @@ export const issueName = ({ formData, formContext } = {}) => {
   const date = moment(getIssueDate(formData), FORMAT_YMD).format(
     FORMAT_READABLE,
   );
-  const title = `${getIssueName(formData)}${date ? ` (${date})` : ''}`;
   return (
     <legend
       className="schemaform-block-title schemaform-title-underline"
       aria-describedby={`area-of-disagreement-label-${index}`}
     >
-      <Header className="vads-u-margin-top--0">{title}</Header>
+      <Header className="vads-u-margin-top--0">
+        {`${titlePrefix} ${getIssueName(formData)}?`}
+      </Header>
+      {date && (
+        <span className="decision-date vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans">
+          Decision date: {date}
+        </span>
+      )}
     </legend>
   );
 };

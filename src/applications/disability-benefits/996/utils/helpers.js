@@ -171,30 +171,11 @@ export const someSelected = issues =>
 export const hasSomeSelected = ({ contestedIssues, additionalIssues } = {}) =>
   someSelected(contestedIssues) || someSelected(additionalIssues);
 
-export const showAddIssuesPage = formData => {
-  const hasSelectedIssues = formData.contestedIssues?.length
-    ? someSelected(formData.contestedIssues)
-    : false;
-  const noneToAdd = formData['view:hasIssuesToAdd'] !== false;
-  // are we past the informal conference page?
-  if (formData.informalConference && !hasSomeSelected(formData)) {
-    // nothing is selected, we need to show the additional issues page!
-    return true;
-  }
-  return noneToAdd || !hasSelectedIssues;
-};
-
-export const showAddIssueQuestion = ({ contestedIssues }) =>
-  // additional issues yes/no question:
-  // SHOW: if contestable issues selected. HIDE: if no contestable issues are
-  // selected or, there are no contestable issues
-  contestedIssues?.length ? someSelected(contestedIssues) : false;
-
 export const getSelected = formData => {
   const eligibleIssues = (formData?.contestedIssues || []).filter(
     issue => issue[SELECTED],
   );
-  const addedIssues = formData['view:hasIssuesToAdd']
+  const addedIssues = formData.hlrV2
     ? (formData?.additionalIssues || []).filter(issue => issue[SELECTED])
     : [];
   // include index to help with error messaging
@@ -255,3 +236,13 @@ export const getItemSchema = (schema, index) => {
   }
   return itemSchema.additionalItems;
 };
+
+/**
+ * Calculate the index offset for the additional issue
+ * @param {Number} index - index of data in combined array of contestable issues
+ *   and additional issues
+ * @param {Number} contestableIssuesLength - contestable issues array length
+ * @returns {Number}
+ */
+export const calculateIndexOffset = (index, contestableIssuesLength) =>
+  index - contestableIssuesLength;
