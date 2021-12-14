@@ -88,8 +88,6 @@ export function CalculateYourBenefits({
   const estimatedBenefitsRef = useRef();
   const focusHandler = () => {
     estimatedBenefitsRef.current.focus();
-    // eslint-disable-next-line no-console
-    console.log(`clicked: ${estimatedBenefitsRef}`);
   };
 
   if (isEmpty(estimatedBenefits)) {
