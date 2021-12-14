@@ -16,7 +16,7 @@ function additionalInfoReplacement() {
   return [
     'va-additional-info',
     {
-      className: removeProp,
+      // className: removeProp,
       triggerText: 'trigger',
       disableAnalytics: 'disable-analytics',
       onClick: removeProp,
