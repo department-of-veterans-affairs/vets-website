@@ -273,7 +273,6 @@ describe('Form0996App', () => {
     };
     const formData = {
       hlrV2: true,
-      'view:hasIssuesToAdd': true,
       benefitType: 'compensation',
       contestedIssues: contestableIssues.issues,
       additionalIssues: [{ issue: 'other issue', [SELECTED]: true }],
