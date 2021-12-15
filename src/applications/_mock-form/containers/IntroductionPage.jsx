@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+
+import { focusElement } from 'platform/utilities/ui';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -13,10 +14,13 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Mock Form" />
-        <p>Equal to VA Form 00-1234 (Mock Form).</p>
+        <FormTitle
+          title="Mock Form"
+          subTitle="Equal to VA Form 00-1234 (Mock Form)"
+        />
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          verifyRequiredPrefill={false}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the Application"
@@ -68,6 +72,7 @@ class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro
           buttonOnly
+          verifyRequiredPrefill={false}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the Application"

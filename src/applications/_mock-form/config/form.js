@@ -89,7 +89,7 @@ const formConfig = {
     notFound: 'Please start over to apply for Mock form.',
     noAuth: 'Please sign in again to continue your application for Mock form.',
   },
-  title: 'Complex Form',
+  title: 'Mock Form',
   defaultDefinitions: {
     fullName,
     ssn,
@@ -99,7 +99,7 @@ const formConfig = {
   },
   chapters: {
     applicantInformationChapter: {
-      title: 'Applicant Information',
+      title: 'Applicant Information (Basic Form elements)',
       pages: {
         [formPages.applicantInformation]: {
           path: 'applicant-information',
@@ -120,7 +120,7 @@ const formConfig = {
       },
     },
     serviceHistoryChapter: {
-      title: 'Service History',
+      title: 'Service History (Simple array loop)',
       pages: {
         [formPages.serviceHistory]: {
           path: 'service-history',
@@ -138,7 +138,7 @@ const formConfig = {
       },
     },
     additionalInformationChapter: {
-      title: 'Additional Information',
+      title: 'Additional Information (manual method)',
       pages: {
         [formPages.contactInformation]: {
           path: 'contact-information',

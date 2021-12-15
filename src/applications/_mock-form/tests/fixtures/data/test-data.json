@@ -1,4 +1,46 @@
 {
   "data": {
+    "bankAccount": {
+      "accountType": "checking",
+      "routingNumber": "456789000",
+      "accountNumber": "33345678"
+    },
+    "address": {
+      "street": "123 Main Street",
+      "street2": "Line 2",
+      "city": "Big City",
+      "country": "USA",
+      "state": "AL",
+      "postalCode": "87654"
+    },
+    "email": "home@home.com",
+    "altEmail": "work@work.com",
+    "phoneNumber": "2345678900",
+    "toursOfDuty": [
+      {
+        "dateRange": {
+          "from": "2000-01-01",
+          "to": "2010-01-02"
+        },
+        "serviceBranch": "Army",
+        "serviceStatus": "Active duty",
+        "applyPeriodToSelected": true
+      },
+      {
+        "dateRange": {
+          "from": "2010-01-10",
+          "to": "2015-01-11"
+        },
+        "serviceBranch": "Army Reserve",
+        "serviceStatus": "Inactive"
+      }
+    ],
+    "fullName": {
+      "first": "First",
+      "middle": "Middle",
+      "last": "Last",
+      "suffix": "III"
+    },
+    "ssn": "987654321"
   }
 }
