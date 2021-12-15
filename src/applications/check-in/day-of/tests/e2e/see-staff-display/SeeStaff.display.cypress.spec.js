@@ -17,9 +17,7 @@ describe('Check In Experience -- ', () => {
         generateFeatureToggles({
           checkInExperienceMultipleAppointmentSupport: true,
           checkInExperienceUpdateInformationPageEnabled: false,
-          checkInExperienceDemographicsPageEnabled: true,
           emergencyContactEnabled: true,
-          checkInExperienceNextOfKinEnabled: true,
         }),
       );
       cy.visitWithUUID();
