@@ -210,6 +210,11 @@ export const deriveStartsAtUnix = (startDateMonth, startDateDay) => {
 };
 
 export const deriveEndsAtUnix = (startsAtUnix, endDateMonth, endDateDay) => {
+  // Escape early if arguments are missing.
+  if (!startsAtUnix && (!endDateMonth || !endDateDay)) {
+    return undefined;
+  }
+
   // Set a default value for endsAt.
   let endsAt = undefined;
 
