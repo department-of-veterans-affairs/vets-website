@@ -30,6 +30,7 @@ export const validatePhone = (errors, phone) => {
   }
 };
 
+/* v2 validations */
 export const contactInfoValidation = (errors, _fieldData, formData) => {
   const { veteran = {}, homeless } = formData;
   if (!veteran.email) {

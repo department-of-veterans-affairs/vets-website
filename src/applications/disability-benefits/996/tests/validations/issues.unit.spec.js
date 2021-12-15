@@ -2,12 +2,19 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getDate } from '../../utils/dates';
-import { SELECTED, MAX_SELECTIONS } from '../../constants';
+import {
+  SELECTED,
+  MAX_SELECTIONS,
+  MAX_ISSUE_NAME_LENGTH,
+} from '../../constants';
 
 import {
   uniqueIssue,
   maxIssues,
   areaOfDisagreementRequired,
+  selectionRequired,
+  missingIssueName,
+  maxNameLength,
 } from '../../validations/issues';
 
 describe('uniqueIssue', () => {
@@ -83,6 +90,43 @@ describe('maxIssues', () => {
   });
 });
 
+describe('selectionRequired', () => {
+  const _ = null;
+  const getData = (selectContested = false, selectAdditional = false) => ({
+    contestedIssues: [
+      {
+        attributes: {
+          ratingIssueSubjectText: 'test',
+          approxDecisionDate: '2021-01-01',
+        },
+        [SELECTED]: selectContested,
+      },
+    ],
+    additionalIssues: [
+      {
+        issue: 'test 2',
+        decisionDate: '2021-01-01',
+        [SELECTED]: selectAdditional,
+      },
+    ],
+  });
+  it('should show an error when no issues are selected', () => {
+    const errors = { addError: sinon.spy() };
+    selectionRequired(errors, _, getData());
+    expect(errors.addError.called).to.be.true;
+  });
+  it('should show not show an error when a contested issue is selected', () => {
+    const errors = { addError: sinon.spy() };
+    selectionRequired(errors, _, getData(true));
+    expect(errors.addError.called).to.be.false;
+  });
+  it('should show not show an error when an additional issue is selected', () => {
+    const errors = { addError: sinon.spy() };
+    selectionRequired(errors, _, getData(false, true));
+    expect(errors.addError.called).to.be.false;
+  });
+});
+
 describe('areaOfDisagreementRequired', () => {
   it('should show an error with no selections', () => {
     const errors = { addError: sinon.spy() };
@@ -107,6 +151,32 @@ describe('areaOfDisagreementRequired', () => {
       disagreementOptions: { other: true },
       otherEntry: 'foo',
     });
+    expect(errors.addError.called).to.be.false;
+  });
+});
+
+describe('missingIssueName', () => {
+  it('should show an error when a name is missing', () => {
+    const errors = { addError: sinon.spy() };
+    missingIssueName(errors);
+    expect(errors.addError.called).to.be.true;
+  });
+  it('should show an error when a name is missing', () => {
+    const errors = { addError: sinon.spy() };
+    missingIssueName(errors, 'test');
+    expect(errors.addError.called).to.be.false;
+  });
+});
+
+describe('maxNameLength', () => {
+  it('should show an error when a name is too long', () => {
+    const errors = { addError: sinon.spy() };
+    maxNameLength(errors, 'ab '.repeat(MAX_ISSUE_NAME_LENGTH / 2));
+    expect(errors.addError.called).to.be.true;
+  });
+  it('should show an error when a name is not too long', () => {
+    const errors = { addError: sinon.spy() };
+    maxNameLength(errors, 'test');
     expect(errors.addError.called).to.be.false;
   });
 });
