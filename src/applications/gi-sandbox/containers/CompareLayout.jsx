@@ -373,7 +373,9 @@ const CompareLayout = ({
                 <div className="vads-u-display--flex">                  
                   {hasFlags && (
                     <div className="caution-flag-icon vads-u-flex--1">
-                      <i aria-hidden="true" className={`fa fa-exclamation-triangle`} />
+                      <i 
+                        aria-hidden="true" 
+                        className={`fa fa-exclamation-triangle`} />
                     </div>
                   )}
                   <div className="vads-u-flex--4">
