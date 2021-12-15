@@ -40,7 +40,8 @@ export const ContactInfoDescription = ({
 
   const list = readableList(missingInfo);
   const plural = missingInfo.length > 1;
-  const phoneNumber = `${mobilePhone?.areaCode}${mobilePhone?.phoneNumber}`;
+  const phoneNumber = `${mobilePhone?.areaCode ||
+    ''}${mobilePhone?.phoneNumber || ''}`;
   const phoneExt = mobilePhone?.extension;
 
   useEffect(
