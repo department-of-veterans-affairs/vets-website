@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import { SELECTED, FORMAT_READABLE } from '../constants';
-
+/** HLR v1 card */
 /**
  * IssueCardContent
  * @param {String} description - contestable issue description

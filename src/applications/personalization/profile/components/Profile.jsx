@@ -39,7 +39,6 @@ import {
   cnpDirectDepositInformation,
   cnpDirectDepositIsBlocked,
   cnpDirectDepositIsSetUp,
-  eduDirectDepositInformation,
   eduDirectDepositIsSetUp,
   showProfileLGBTQEnhancements,
 } from '@@profile/selectors';
@@ -319,9 +318,6 @@ const mapStateToProps = state => {
   const hasLoadedCNPPaymentInformation =
     !isInMVI || cnpDirectDepositInformation(state);
 
-  const hasLoadedEDUPaymentInformation =
-    !isInMVI || eduDirectDepositInformation(state);
-
   const hasLoadedTotalDisabilityRating =
     !isInMVI || (state.totalRating && !state.totalRating.loading);
 
@@ -336,9 +332,6 @@ const mapStateToProps = state => {
         : true) &&
       (shouldFetchCNPDirectDepositInformation
         ? hasLoadedCNPPaymentInformation
-        : true) &&
-      (shouldFetchEDUDirectDepositInformation
-        ? hasLoadedEDUPaymentInformation
         : true));
 
   const showLoader =

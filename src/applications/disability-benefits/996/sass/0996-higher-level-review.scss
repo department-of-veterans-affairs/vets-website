@@ -24,9 +24,10 @@
   white-space: nowrap;
 }
 
+fieldset.vads-u-margin-y--2,
 /* Wizard */
 .wizard-content-inner .fieldset-input:first-child {
-  margin-top: 0;
+  margin-top: 0 !important;
 }
 
 /* Fix margins around the form back & continue buttons */
@@ -71,11 +72,123 @@ article[data-location="contact-information"] {
  * This could go in the schemaform css, it's used in form 526 & HLR
  */
 dl.review {
+  /* v1 cards */
   .widget-wrapper {
     position: relative;
 
-    h4 {
+    dt.widget-checkbox-wrap {
+      margin: 0;
+      width: 0;
+      min-width: auto; /* IE11 */
+      min-width: unset;
+
+      [type="checkbox"] {
+        width: 1.8rem;
+        height: 1.8rem;
+        margin: 0;
+      }
+    }
+
+    .widget-title {
+      margin: 1.5rem 2rem 0 5rem;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: calc(100% - 7rem);
+    }
+
+    dd.widget-content {
+      margin-inline-start: 5rem; /* override user agent */
+      text-align: left;
+      margin: 3rem 3.5rem 0 5rem;
+    }
+
+    dd.widget-content.widget-edit {
       margin-top: 0;
+      margin-right: 0;
+      display: flex;
+
+      .widget-content-wrap {
+        margin-top: 3rem;
+        margin-right: 0.5rem;
+        width: 100%;
+      }
+
+      .edit {
+        margin-top: 2rem;
+        /* position the edit button above the overlapping label */
+        position: relative;
+        z-index: 1;
+        align-self: center;
+      }
+    }
+
+    /* v1 new issues cards tweak */
+    .additional-issue.review-row {
+      flex-direction: column;
+
+      dd {
+        padding-left: 0;
+      }
+    }
+  }
+
+  /* v2 cards */
+  .widget-wrapper-v2 {
+    display: flex;
+
+    dt.widget-checkbox-wrap {
+      margin: 0;
+      width: 5rem;
+      min-width: 5rem;
+
+      [type="checkbox"] {
+        width: 1.8rem;
+        height: 1.8rem;
+        margin: 0;
+      }
+    }
+
+    dt label {
+      margin-top: 0;
+    }
+
+    .widget-title {
+      margin: 0;
+      white-space: nowrap;
+      text-transform: capitalize;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: calc(100% - 7rem);
+    }
+
+    dd.widget-content {
+      width: 100%;
+      margin-inline-start: 0; /* override user agent */
+      text-align: left;
+      margin: 0;
+    }
+    dd.widget-content.widget-edit {
+      margin-top: 0;
+      margin-right: 0;
+      display: flex;
+
+      .widget-content-wrap {
+        margin-top: 3rem;
+        margin-right: 0.5rem;
+        width: 100%;
+      }
+
+      .edit {
+        margin-top: 2rem;
+        /* position the edit button above the overlapping label */
+        position: relative;
+        z-index: 1;
+        align-self: center;
+      }
+    }
+    .change-issue-link:visited {
+      color: inherit;
     }
   }
 
@@ -102,53 +215,6 @@ dl.review {
     }
   }
 
-  dt.widget-checkbox-wrap {
-    margin: 0;
-    width: 0;
-    min-width: auto; /* IE11 */
-    min-width: unset;
-
-    [type="checkbox"] {
-      width: 1.8rem;
-      height: 1.8rem;
-      margin: 0;
-    }
-  }
-
-  .widget-title {
-    margin: 1.5rem 2rem 0 5rem;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    width: calc(100% - 7rem);
-  }
-
-  dd.widget-content {
-    margin-inline-start: 5rem; /* override user agent */
-    text-align: left;
-    margin: 3rem 3.5rem 0 5rem;
-  }
-
-  dd.widget-content.widget-edit {
-    margin-top: 0;
-    margin-right: 0;
-    display: flex;
-
-    .widget-content-wrap {
-      margin-top: 3rem;
-      margin-right: 0.5rem;
-      width: 100%;
-    }
-
-    .edit {
-      margin-top: 2rem;
-      /* position the edit button above the overlapping label */
-      position: relative;
-      z-index: 1;
-      align-self: center;
-    }
-  }
-
   .checkbox-hidden {
     dt.widget-checkbox-wrap {
       width: 0;
@@ -167,14 +233,6 @@ dl.review {
   }
 }
 
-/* new issues cards tweak */
-dl.review .additional-issue.review-row {
-  flex-direction: column;
-
-  dd {
-    padding-left: 0;
-  }
-}
 .usa-input-error #root_additionalIssues_0_decisionDate-label {
   font-weight: bold;
 }
@@ -223,9 +281,20 @@ article[data-location="contested-issues"] {
   }
 }
 
-article[data-location="additional-issues"] {
-  dl.review .review-row.editing {
-    justify-content: start;
+/* Add issue loop page */
+article[data-location="add-issue"] {
+  .usa-input-error {
+    margin-top: 0;
+  }
+  legend {
+    padding-bottom: 0;
+  }
+  /* override !important normal weight on legend */
+  .input-error-date legend {
+    font-weight: bold !important;
+  }
+  #add-hlr-issue {
+    margin-top: 0;
   }
 }
 
@@ -304,6 +373,14 @@ article[data-location="informal-conference/availability"] {
 article[data-location="review-and-submit"] {
   .normal-weight-in-review {
     font-weight: normal;
+  }
+  dl.review .widget-wrapper-v2.checkbox-hidden {
+    margin-top: 1rem;
+
+    dt.widget-checkbox-wrap {
+      width: 0;
+      min-width: 0;
+    }
   }
 }
 
