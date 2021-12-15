@@ -27,10 +27,10 @@ describe('Burial claim test', () => {
 
     // Claimant Information
     cy.get('input[name="root_claimantFullName_first"]');
-    cy.get('.progress-bar-segmented div.progress-segment:nth-child(1)').should(
-      'have.class',
-      'progress-segment-complete',
-    );
+    cy.get('va-segmented-progress-bar')
+      .shadow()
+      .find('.progress-bar-segmented div.progress-segment:nth-child(1)')
+      .should('have.class', 'progress-segment-complete');
     cy.fillName('root_claimantFullName', testData.data.claimantFullName);
     cy.selectRadio('root_relationship_type', testData.data.relationship.type);
     if (testData.data.relationship.type === 'other') {
@@ -115,10 +115,10 @@ describe('Burial claim test', () => {
       }
     });
 
-    cy.get('.progress-bar-segmented div.progress-segment:nth-child(3)').should(
-      'have.class',
-      'progress-segment-complete',
-    );
+    cy.get('va-segmented-progress-bar')
+      .shadow()
+      .find('.progress-bar-segmented div.progress-segment:nth-child(3)')
+      .should('have.class', 'progress-segment-complete');
 
     cy.axeCheck();
     cy.get('.form-panel .usa-button-primary').click();
@@ -144,10 +144,10 @@ describe('Burial claim test', () => {
 
     // Benefit Selection
     cy.get('label[for="root_view:claimedBenefits_burialAllowance"]');
-    cy.get('.progress-bar-segmented div.progress-segment:nth-child(4)').should(
-      'have.class',
-      'progress-segment-complete',
-    );
+    cy.get('va-segmented-progress-bar')
+      .shadow()
+      .find('.progress-bar-segmented div.progress-segment:nth-child(4)')
+      .should('have.class', 'progress-segment-complete');
     cy.clickIf(
       'input[name="root_view:claimedBenefits_burialAllowance"]',
       testData.data['view:claimedBenefits'].burialAllowance,
@@ -220,10 +220,10 @@ describe('Burial claim test', () => {
 
     // Additional Information
     cy.get('select[name="root_claimantAddress_country"]');
-    cy.get('.progress-bar-segmented div.progress-segment:nth-child(5)').should(
-      'have.class',
-      'progress-segment-complete',
-    );
+    cy.get('va-segmented-progress-bar')
+      .shadow()
+      .find('.progress-bar-segmented div.progress-segment:nth-child(5)')
+      .should('have.class', 'progress-segment-complete');
     if (!testData.data.relationship['view:isEntity']) {
       cy.fill(
         'input[name="root_officialPosition"]',
@@ -242,10 +242,10 @@ describe('Burial claim test', () => {
     cy.get('.form-panel .usa-button-primary').click();
     cy.url().should('not.contain', '/documents');
 
-    cy.get('.progress-bar-segmented div.progress-segment:nth-child(6)').should(
-      'have.class',
-      'progress-segment-complete',
-    );
+    cy.get('va-segmented-progress-bar')
+      .shadow()
+      .find('.progress-bar-segmented div.progress-segment:nth-child(6)')
+      .should('have.class', 'progress-segment-complete');
 
     // Review and Submit
 
