@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 import moment from 'moment';
+
 import RatedDisabilityListItem from './RatedDisabilityListItem';
 import { isServerError } from '../util';
 
@@ -95,7 +95,7 @@ class RatedDisabilityList extends React.Component {
 
   render() {
     if (!this.props.ratedDisabilities) {
-      return <LoadingIndicator message="Loading your information..." />;
+      return <va-loading-indicator message="Loading your information..." />;
     }
     if (
       this.props?.ratedDisabilities?.errors ||

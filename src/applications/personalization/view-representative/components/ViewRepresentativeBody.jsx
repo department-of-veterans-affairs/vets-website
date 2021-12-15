@@ -1,16 +1,16 @@
 import React from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+
 import { ViewRepresentativeDetails } from './ViewRepresentativeDetails';
 
 const ViewRepresentativeBody = props => {
   const { loading, representative, error } = props.representative;
   let content;
   if (loading) {
-    content = <LoadingIndicator message="Loading your representative" />;
+    content = <va-loading-indicator message="Loading your representative" />;
   } else if (error) {
     content = (
       <va-alert status="error">

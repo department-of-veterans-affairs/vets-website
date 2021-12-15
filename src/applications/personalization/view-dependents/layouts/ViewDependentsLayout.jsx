@@ -1,5 +1,5 @@
 import React from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import ViewDependentsLists from './ViewDependentsLists';
 import ViewDependentsSidebar from '../components/ViewDependentsSidebar/ViewDependentsSidebar';
 import ViewDependentsHeader from '../components/ViewDependentsHeader/ViewDependentsHeader';
@@ -16,7 +16,9 @@ function ViewDependentsLayout(props) {
   let mainContent;
 
   if (props.loading) {
-    mainContent = <LoadingIndicator message="Loading your information..." />;
+    mainContent = (
+      <va-loading-indicator message="Loading your information..." />
+    );
   } else if (props.error && isServerError(props.error.code)) {
     mainContent = <va-alert status="error">{errorFragment}</va-alert>;
   } else if (props.error && isClientError(props.error.code)) {

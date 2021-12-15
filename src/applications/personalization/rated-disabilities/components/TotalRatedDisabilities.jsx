@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import {
   errorMessage,
   missingTotalMessage,
@@ -18,7 +18,7 @@ const TotalRatedDisabilities = props => {
   // If there is a rating, display the rating and content
   if (loading) {
     content = (
-      <LoadingIndicator message="Loading your total disability rating..." />
+      <va-loading-indicator message="Loading your total disability rating..." />
     );
   } else if (errorCode && isServerError(errorCode)) {
     content = errorMessage();
