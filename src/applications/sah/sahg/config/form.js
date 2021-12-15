@@ -1,5 +1,6 @@
 // In a real app this would be imported from `vets-json-schema`:
-import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
+// import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
+import fullSchema from '../schema.js';
 
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -79,7 +80,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for housing grant.',
   },
-  title: 'Complex Form',
+  title:
+    'Apply for a Specially Adapted Housing Grant or Special Home Adaptation Grant',
   defaultDefinitions: {
     fullName,
     ssn,
@@ -89,7 +91,7 @@ const formConfig = {
   },
   chapters: {
     applicantInformationChapter: {
-      title: 'Applicant Information',
+      title: 'Your Personal Information',
       pages: {
         [formPages.applicantInformation]: {
           path: 'applicant-information',
