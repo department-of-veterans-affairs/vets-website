@@ -62,6 +62,10 @@ module.exports = {
           '@department-of-veterans-affairs/component-library/AdditionalInfo',
         use: '<va-additional-info>',
       },
+      {
+        name: '@department-of-veterans-affairs/component-library/ProgressBar',
+        use: '<va-progress-bar>',
+      },
     ],
 
     // "func-names": 2,
