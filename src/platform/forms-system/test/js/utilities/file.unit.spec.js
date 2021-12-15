@@ -193,6 +193,10 @@ describe('checkTypeAndExtensionMatches', () => {
     });
     expect(checkTypeAndExtensionMatches(file)).to.be.true;
   });
+  it('should return true for text files with txt extension and no signature', () => {
+    const file = getFile({ name: 'valid.txt', size: 95 });
+    expect(checkTypeAndExtensionMatches(file)).to.be.true;
+  });
 });
 
 describe('arrayIncludesArray', () => {

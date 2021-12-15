@@ -89,16 +89,13 @@ export default function checkTypeAndExtensionMatches({ file, result }) {
   const match = extension && fileTypeSignatures[extension];
   const signature = match?.sig;
 
-  if (typeof signature !== 'undefined' && match?.mime === file.type) {
-    if (extension === 'txt') return true;
-    else {
-      return arrayIncludesArray(
-        result,
-        Array.isArray(signature)
-          ? signature
-          : [...signature].map(str => str.charCodeAt(0)),
-      );
-    }
-  }
-  return false;
+  if (extension === 'txt') return true;
+  else if (signature && match?.mime === file.type) {
+    return arrayIncludesArray(
+      result,
+      Array.isArray(signature)
+        ? signature
+        : [...signature].map(str => str.charCodeAt(0)),
+    );
+  } else return false;
 }
