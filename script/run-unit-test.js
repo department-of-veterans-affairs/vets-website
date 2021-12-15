@@ -13,7 +13,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'log-level', type: String, defaultValue: 'debug' },
   { name: 'app-folder', type: String, defaultValue: null },
   { name: 'coverage', type: Boolean, defaultValue: false },
-  { name: 'reporter', type: String, defaultValue: null },
+  { name: 'reporter', type: String, defaultValue: 'spec' },
   { name: 'help', alias: 'h', type: Boolean, defaultValue: false },
   { name: 'config', type: String, defaultValue: null },
   {
@@ -62,7 +62,7 @@ const configFile = options.config ? options.config : 'config/mocha.json';
 runCommand(
   `LOG_LEVEL=${options[
     'log-level'
-  ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} --recursive ${options.path
+  ].toLowerCase()} ${testRunner} --parallel --max-old-space-size=4096 --config ${configFile} --recursive ${options.path
     .map(p => `'${p}'`)
     .join(' ')}`,
 );
