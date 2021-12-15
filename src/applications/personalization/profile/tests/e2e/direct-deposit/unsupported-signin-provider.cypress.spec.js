@@ -2,6 +2,7 @@ import { PROFILE_PATHS } from '@@profile/constants';
 import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
 
 import { makeUserObject } from '~/applications/personalization/common/helpers';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 
 let getDD4CNPBankInfoStub;
 let getDD4EDUBankInfoStub;
@@ -53,7 +54,7 @@ describe('Direct Deposit', () => {
     be LOA3 _without_ also having 2FA set up. */
     beforeEach(() => {
       const mockUser = makeUserObject({
-        serviceName: 'idme',
+        serviceName: CSP_IDS.ID_ME,
         loa: 3,
         multifactor: false,
       });
@@ -70,7 +71,7 @@ describe('Direct Deposit', () => {
   context('when user has 2FA set up but signed in with DSLogon', () => {
     beforeEach(() => {
       const mockUser = makeUserObject({
-        serviceName: 'dslogon',
+        serviceName: CSP_IDS.DS_LOGON,
         loa: 3,
         multifactor: true,
       });
@@ -89,7 +90,7 @@ describe('Direct Deposit', () => {
     () => {
       beforeEach(() => {
         const mockUser = makeUserObject({
-          serviceName: 'mhv',
+          serviceName: CSP_IDS.MHV,
           loa: 3,
           multifactor: true,
         });

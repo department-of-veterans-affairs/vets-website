@@ -34,6 +34,7 @@ import PaymentHistory from './PaymentHistory';
 import BankInfo from './BankInfo';
 import { benefitTypes } from '~/applications/personalization/common/constants';
 import { Prompt } from 'react-router-dom';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 
 const SuccessMessage = ({ benefit }) => {
   let content = null;
@@ -213,7 +214,7 @@ const DirectDeposit = ({
 };
 
 const mapStateToProps = state => {
-  const eligibleSignInServices = new Set(['idme', 'logingov']);
+  const eligibleSignInServices = new Set([CSP_IDS.ID_ME, CSP_IDS.LOGIN_GOV]);
   const isLOA3 = isLOA3Selector(state);
   const is2faEnabled = isMultifactorEnabled(state);
   const signInServiceName = signInServiceNameSelector(state);

@@ -11,9 +11,13 @@ import Telephone, {
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import {
-  authnSettings,
-  externalRedirects,
-} from 'platform/user/authentication/utilities';
+  AUTHN_SETTINGS,
+  EXTERNAL_APPS,
+  EXTERNAL_REDIRECTS,
+  CSP_IDS,
+  POLICY_TYPES,
+  AUTH_EVENTS,
+} from 'platform/user/authentication/constants';
 import {
   hasSession,
   setupProfileSession,
@@ -39,7 +43,7 @@ class AuthMetrics {
     // if the backend is returning an accurate service_name
 
     const attemptedLoginPolicy =
-      this.type === 'mhv' ? 'myhealthevet' : this.type;
+      this.type === CSP_IDS.MHV ? CSP_IDS.MHV_VERBOSE : this.type;
 
     if (this.serviceName !== attemptedLoginPolicy) {
       recordEvent({
@@ -50,25 +54,17 @@ class AuthMetrics {
 
   recordGAAuthEvents = () => {
     switch (this.type) {
-      case 'signup':
+      case POLICY_TYPES.SIGNUP:
         recordEvent({ event: `register-success-${this.serviceName}` });
         break;
-      case 'custom': /* type=custom is used for SSOe auto login */
-      case 'mhv':
-      case 'dslogon':
-      case 'idme':
-      case 'logingov':
+      case POLICY_TYPES.CUSTOM: /* type=custom is used for SSOe auto login */
+      case CSP_IDS.MHV:
+      case CSP_IDS.DS_LOGON:
+      case CSP_IDS.ID_ME:
+      case CSP_IDS.LOGIN_GOV:
         recordEvent({ event: `login-success-${this.serviceName}` });
         this.compareLoginPolicy();
         break;
-      /*
-      case 'mfa':
-        recordEvent({ event: `multifactor-success-${this.serviceName}` });
-        break;
-      case 'verify':
-        recordEvent({ event: `verify-success-${this.serviceName}` });
-        break;
-      */
       default:
         recordEvent({ event: `login-or-register-success-${this.serviceName}` });
         Sentry.withScope(scope => {
@@ -116,13 +112,13 @@ export class AuthApp extends React.Component {
       Sentry.captureMessage(`User fetch error: ${error.message}`);
     });
 
-    recordEvent({ event: `login-error-user-fetch` });
+    recordEvent({ event: AUTH_EVENTS.ERROR_USER_FETCH });
 
     this.setState({ error: true });
   };
 
   handleAuthForceNeeded = () => {
-    recordEvent({ event: `login-failed-force-needed` });
+    recordEvent({ event: AUTH_EVENTS.ERROR_FORCE_NEEDED });
     this.redirect();
   };
 
@@ -136,11 +132,11 @@ export class AuthApp extends React.Component {
   };
 
   redirect = (userProfile = {}) => {
-    const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL) || '';
+    const returnUrl = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '';
 
     // Enforce LOA3 for external redirects to My VA Health
     if (
-      returnUrl.includes(externalRedirects.myvahealth) &&
+      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH]) &&
       !userProfile.verified
     ) {
       window.location.replace('/sign-in/verify');
@@ -148,21 +144,23 @@ export class AuthApp extends React.Component {
     }
 
     if (
-      returnUrl.includes(externalRedirects.mhv) ||
-      returnUrl.includes(externalRedirects.myvahealth)
+      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]) ||
+      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])
     ) {
       const { app } = {
-        ...(returnUrl.includes(externalRedirects.myvahealth) && {
-          app: 'myvahealth',
+        ...(returnUrl.includes(
+          EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH],
+        ) && {
+          app: CSP_IDS.CERNER,
         }),
-        ...(returnUrl.includes(externalRedirects.mhv) && {
-          app: 'mhv',
+        ...(returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]) && {
+          app: CSP_IDS.MHV,
         }),
       };
       recordEvent({ event: `login-inbound-redirect-to-${app}` });
     }
 
-    sessionStorage.removeItem(authnSettings.RETURN_URL);
+    sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
 
     const postAuthUrl = returnUrl
       ? appendQuery(returnUrl, 'postLogin=true')

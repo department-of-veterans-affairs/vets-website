@@ -1,4 +1,5 @@
 import { mockContactInformation } from 'platform/user/profile/vap-svc/util/local-vapsvc.js';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 
 const basicUser = {
   data: {
@@ -36,7 +37,7 @@ const basicUser = {
         multifactor: true,
         verified: true,
         signIn: {
-          serviceName: 'idme',
+          serviceName: CSP_IDS.ID_ME,
           accountType: 'N/A',
         },
         authnContext: 'http://idmanagement.gov/ns/assurance/loa/3/vets',
