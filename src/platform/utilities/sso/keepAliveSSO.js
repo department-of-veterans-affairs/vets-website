@@ -57,7 +57,6 @@ export default async function keepAlive() {
      * Use mapped authncontext for DS Logon and MHV
      * Use `authncontextclassref` lookup for ID.me and Login.gov
      */
-
     return {
       ttl:
         alive === 'true' ? Number(resp.headers.get(AUTHN_HEADERS.TIMEOUT)) : 0,
