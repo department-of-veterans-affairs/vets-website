@@ -1,11 +1,10 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 import { loanIntent } from '../../schemaImports';
 
 const LoanIntentHelpText = () => (
   <>
-    <AdditionalInfo status="info" triggerText="Which one should I choose?">
+    <va-additional-info trigger="Which one should I choose?">
       <span>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
@@ -15,7 +14,7 @@ const LoanIntentHelpText = () => (
         occaecat cupidatat non proident, sunt in culpa qui officia deserunt
         mollit anim id est laborum.
       </span>
-    </AdditionalInfo>
+    </va-additional-info>
   </>
 );
 

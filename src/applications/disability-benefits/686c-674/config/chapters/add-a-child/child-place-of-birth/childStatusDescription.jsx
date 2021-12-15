@@ -1,4 +1,3 @@
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import React from 'react';
 
 export const childStatusDescription = (
@@ -11,7 +10,7 @@ export const childStatusDescription = (
       or if you don’t live in the U.S. or a territory of the U.S., we require
       additional evidence to establish a dependent.
     </p>
-    <AdditionalInfo triggerText="What are some examples of additional evidence?">
+    <va-additional-info trigger="What are some examples of additional evidence?">
       <p className="vads-u-margin-bottom--4">
         If you <strong>don’t live in the U.S.</strong> or a territory of the
         U.S., you’ll need to provide a copy of each child’s birth certificate
@@ -32,6 +31,6 @@ export const childStatusDescription = (
         <li>The interlocutory decree of adoptions, or</li>
         <li>The revised birth certificate</li>
       </ul>
-    </AdditionalInfo>
+    </va-additional-info>
   </div>
 );

@@ -1,9 +1,8 @@
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import React from 'react';
 
 export const notSelfSufficientDescription = (
   <div>
-    <AdditionalInfo triggerText="What does VA mean by &quot;not capable of self-support?&quot;">
+    <va-additional-info trigger="What does VA mean by &quot;not capable of self-support?&quot;">
       <p className="vads-u-margin-bottom--4">
         To be considered a <strong>child not capable of self-support,</strong>{' '}
         the child must be:
@@ -27,6 +26,6 @@ export const notSelfSufficientDescription = (
           impairment
         </li>
       </ul>
-    </AdditionalInfo>
+    </va-additional-info>
   </div>
 );

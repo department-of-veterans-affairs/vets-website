@@ -1,5 +1,4 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -78,7 +77,7 @@ export const ViewRepresentativeDetails = props => (
       test results). A representative can also provide added support, like help
       getting transportation or emergency funds.
     </p>
-    <AdditionalInfo triggerText="What are some examples of what a representative can do?">
+    <va-additional-info trigger="What are some examples of what a representative can do?">
       <ul>
         <li className="vads-u-margin-top--3">
           Financial support (monthly payments)
@@ -93,7 +92,7 @@ export const ViewRepresentativeDetails = props => (
         <li className="vads-u-margin-top--2">Health care</li>
         <li className="vads-u-margin-top--2">Burial benefits</li>
       </ul>
-    </AdditionalInfo>
+    </va-additional-info>
 
     <p>
       VSOs work on behalf of Veterans and service members, as well as their
