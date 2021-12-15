@@ -1,4 +1,4 @@
-// import { apiRequest } from 'platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 
 export const GENERATE_AUTOMATIC_COE_STARTED = 'GENERATE_AUTOMATIC_COE_STARTED';
 export const GENERATE_AUTOMATIC_COE_SUCCEEDED =
@@ -6,17 +6,12 @@ export const GENERATE_AUTOMATIC_COE_SUCCEEDED =
 export const GENERATE_AUTOMATIC_COE_FAILED = 'GENERATE_AUTOMATIC_COE_FAILED';
 export const SKIP_AUTOMATIC_COE_CHECK = 'SKIP_AUTOMATIC_COE_CHECK';
 
-// const COE_STATUS_URI = '/coe/status';
-
-const mockAPICall = async () => {
-  return { status: 'pending' };
-};
+const COE_STATUS_URI = '/coe/status';
 
 export const getCoeStatus = async () => {
   try {
-    return mockAPICall();
-    // const response = await apiRequest(COE_STATUS_URI);
-    // return response.data.attributes;
+    const response = await apiRequest(COE_STATUS_URI);
+    return response.data.attributes;
   } catch (error) {
     return error;
   }
