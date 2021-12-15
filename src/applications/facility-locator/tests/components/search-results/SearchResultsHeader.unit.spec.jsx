@@ -207,11 +207,12 @@ describe('SearchResultsHeader', () => {
         serviceType="foo"
         context="new york"
         specialtyMap={{ foo: 'test' }}
+        pagination={{ totalEntries: 5 }}
       />,
     );
 
     expect(wrapper.find('h2').text()).to.match(
-      /Results for "Community providers \(in VA’s network\)",\s+"test"\s+near\s+"new york"/,
+      /Showing 1 - 5 results for "Community providers \(in VA’s network\)",\s+"test"\s+near\s+"new york"/,
     );
     wrapper.unmount();
   });
