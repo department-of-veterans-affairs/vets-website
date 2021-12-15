@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { sortStatementsByDate } from '../utils/helpers';
 
 import DownloadStatements from './DownloadStatement';
 
@@ -18,6 +19,9 @@ const PDFStatementList = () => {
   const facilityCopays = statements?.filter(
     ({ pSFacilityNum }) => pSFacilityNum === facilityNumber,
   );
+
+  const sortedFacilityCopays = sortStatementsByDate(facilityCopays);
+
   const fullName = userFullName.middle
     ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
     : `${userFullName.first} ${userFullName.last}`;
@@ -30,7 +34,7 @@ const PDFStatementList = () => {
         months.
       </p>
 
-      {facilityCopays.map(statement => (
+      {sortedFacilityCopays.map(statement => (
         <DownloadStatements
           key={statement.id}
           statementId={statement.id}

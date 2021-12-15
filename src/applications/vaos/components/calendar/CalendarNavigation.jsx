@@ -28,7 +28,7 @@ const CalendarNavigation = ({
       {momentMonth.format('MMMM YYYY')}
     </h2>
     <button
-      className="vaos-calendar__nav-links-button vads-u-display--flex vads-u-justify-content--flex-end vads-u-align-items--center vads-u-font-weight--normal vads-u-padding--0 vads-u-margin-bottom--0 vads-u-margin-top--0p5  vads-u-color--primary"
+      className="vaos-calendar__nav-links-button vads-u-display--flex vads-u-justify-content--flex-end vads-u-align-items--center vads-u-font-weight--normal vads-u-padding--0 vads-u-margin-bottom--0 vads-u-margin-top--0p5  vads-u-color--primary vads-u-margin-right--0"
       onClick={nextOnClick}
       disabled={nextDisabled}
       type="button"

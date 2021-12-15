@@ -1,11 +1,14 @@
 /* eslint-disable no-param-reassign */
 const core = require('@actions/core');
+const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
 const { integrationFolder, testFiles } = require('../../config/cypress.json');
 const findImports = require('find-imports');
 
 const IS_MASTER_BUILD = process.env.IS_MASTER_BUILD === 'true';
+const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
+const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);
 
 function getImports(filePath) {
   return findImports(filePath, {
@@ -129,7 +132,6 @@ function selectedTests(graph, pathsOfChangedFiles) {
     .map(filePath => filePath.split('/')[2]);
 
   [...new Set(applicationNames)].forEach(app => {
-    // Bypass if app has been from directory
     if (graph[app]) {
       // Lookup app in cross-app imports graph to reference which app's tests
       // should run
@@ -148,15 +150,29 @@ function selectedTests(graph, pathsOfChangedFiles) {
     tests.push(...glob.sync(selectedTestsPattern));
   });
 
-  // Always run the tests in src/platform
-  const defaultTestsPattern = path.join(
-    __dirname,
-    '../..',
-    'src/platform',
-    '**/tests/**/*.cypress.spec.js?(x)',
-  );
+  // Only run the mega menu test for changed apps builds,
+  // otherwise run all tests in src/platform for full builds
+  if (IS_CHANGED_APPS_BUILD) {
+    const megaMenuTestPath = path.join(
+      __dirname,
+      '../..',
+      'src/platform/site-wide/mega-menu/tests/megaMenu.cypress.spec.js',
+    );
 
-  tests.push(...glob.sync(defaultTestsPattern));
+    // Ensure changed apps have URLs to run header test on
+    if (APPS_HAVE_URLS && fs.existsSync(megaMenuTestPath))
+      tests.push(megaMenuTestPath);
+  } else {
+    const defaultTestsPattern = path.join(
+      __dirname,
+      '../..',
+      'src/platform',
+      '**/tests/**/*.cypress.spec.js?(x)',
+    );
+
+    tests.push(...glob.sync(defaultTestsPattern));
+  }
+
   return tests;
 }
 

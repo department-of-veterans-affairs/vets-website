@@ -17,14 +17,11 @@ import {
   registerCypressHelpers,
 } from '../helpers';
 
-import mockFeatureToggles from './feature-toggles.json';
-
 registerCypressHelpers();
 
 describe('Notification Settings - Load Errors', () => {
   beforeEach(() => {
     mockNotificationSettingsAPIs();
-    cy.intercept('/v0/feature_toggles?*', mockFeatureToggles);
   });
   context('when VA Profile contact info is not available', () => {
     it('should show an error message and not even try to fetch current notification preferences - C9491', () => {

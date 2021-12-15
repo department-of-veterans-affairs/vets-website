@@ -36,23 +36,55 @@ export function NameSearchResults({
     [search.name.results],
   );
 
+  // We use the Pagination component from the VA Component Library. This doesn't seem to handle
+  // visual focus so after page load, let's grab the anchor tags for the 3 pagination elements
+  // and add href="#" to them (this is all that is needed to force visual focus and tabability)
+  useEffect(() => {
+    const paginationPrev = document.getElementsByClassName(
+      'va-pagination-prev',
+    );
+    const paginationInner = document.getElementsByClassName(
+      'va-pagination-inner',
+    );
+    const paginationNext = document.getElementsByClassName(
+      'va-pagination-next',
+    );
+
+    if (paginationInner.length > 0) {
+      const anchors = [
+        ...paginationPrev[0].getElementsByTagName('a'),
+        ...paginationInner[0].getElementsByTagName('a'),
+        ...paginationNext[0].getElementsByTagName('a'),
+      ];
+      if (anchors) {
+        for (const a of anchors) {
+          a.href = '#';
+        }
+      }
+    }
+  });
+
   useEffect(
     () => {
       focusElement('#name-search-results-count');
-
-      recordEvent({
-        event: 'onsite-search-results-change',
-        'search-page-path': '/?search=name',
-        'search-query': name,
-        'search-results-total-count': count,
-        'search-results-total-pages': totalPages,
-        'search-selection': 'Search By Name',
-        'sitewide-search-app-used': false,
-        'type-ahead-option-keyword-selected': undefined,
-        'type-ahead-option-position': undefined,
-        'type-ahead-options-list': undefined,
-        'type-ahead-options-count': undefined,
-      });
+      // Avoid blank searches or double events
+      if (name && count !== null) {
+        recordEvent({
+          event: 'view_search_results',
+          'search-page-path': document.location.pathname,
+          'search-query': name,
+          'search-results-total-count': count,
+          'search-results-total-pages': totalPages,
+          'search-selection': 'GIBCT',
+          'search-typeahead-enabled': false,
+          'search-location': 'Name',
+          'sitewide-search-app-used': false,
+          'type-ahead-option-keyword-selected': undefined,
+          'type-ahead-option-position': undefined,
+          'type-ahead-options-list': undefined,
+          'type-ahead-options-count': undefined,
+        });
+      }
     },
     [results, name, totalPages, count],
   );

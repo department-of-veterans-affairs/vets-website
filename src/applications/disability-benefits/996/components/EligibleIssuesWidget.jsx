@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import set from 'platform/utilities/data/set';
 
-import { IssueCard } from './IssueCard';
+import { IssueCard } from './IssueCardV1';
 import { SELECTED } from '../constants';
 import { someSelected, isEmptyObject } from '../utils/helpers';
 import { ContestedIssuesAlert } from '../content/contestedIssues';

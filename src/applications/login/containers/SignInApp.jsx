@@ -4,28 +4,23 @@ import appendQuery from 'append-query';
 import 'url-search-params-polyfill';
 
 import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
-import OriginalDesignButtons from 'platform/user/authentication/components/OriginalDesignButtons';
-import NewDesignButtons from 'platform/user/authentication/components/NewDesignButtons';
-import SignInDescription from 'platform/user/authentication/components/SignInDescription';
+import LoginButtons from 'platform/user/authentication/components/LoginButtons';
 import FedWarning from 'platform/user/authentication/components/FedWarning';
 import LogoutAlert from 'platform/user/authentication/components/LogoutAlert';
 
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
-import environment from 'platform/utilities/environment';
+
 import {
   isAuthenticatedWithSSOe,
   loginGov,
   loginGovMHV,
   loginGovMyVAHealth,
   loginGovCreateAccount,
-  loginOldDesign,
 } from 'platform/user/authentication/selectors';
 import { selectProfile, isProfileLoading } from 'platform/user/selectors';
 
 import downtimeBanners from '../utilities/downtimeBanners';
-
-const vaGovFullDomain = environment.BASE_URL;
 
 class SignInPage extends React.Component {
   state = {
@@ -78,7 +73,6 @@ class SignInPage extends React.Component {
       loginGovMHVEnabled,
       loginGovMyVAHealthEnabled,
       loginGovCreateAccountEnabled,
-      oldDesignEnabled,
       location,
     } = this.props;
     const { query } = location;
@@ -91,86 +85,31 @@ class SignInPage extends React.Component {
         <div className="row">
           {loggedOut && <LogoutAlert />}
           <div className="columns small-12">
-            <h1
-              className={`${
-                !oldDesignEnabled
-                  ? 'vads-u-margin-top--2 medium-screen:vads-u-margin-bottom--2'
-                  : 'medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--5'
-              }`}
-            >
+            <h1 className="vads-u-margin-top--2 medium-screen:vads-u-margin-bottom--2 vads-u-color--gray-dark">
               Sign in
             </h1>
           </div>
         </div>
-        {oldDesignEnabled && (
-          <div className="row medium-screen:vads-u-display--none mobile-explanation">
-            <div className="columns small-12">
-              <h2 className="vads-u-margin-top--0">
-                One sign in. A lifetime of benefits and services at your
-                fingertips.
-              </h2>
-            </div>
-          </div>
-        )}
         {downtimeBanners.map((props, index) =>
           this.downtimeBanner(props, globalDowntime, index),
         )}
         <div className="row">
-          {oldDesignEnabled ? (
-            <>
-              <div className="usa-width-one-half">
-                <div className="signin-actions-container">
-                  <div className="top-banner">
-                    <div>
-                      <img
-                        aria-hidden="true"
-                        role="presentation"
-                        alt="ID.me"
-                        src={`${vaGovFullDomain}/img/signin/lock-icon.svg`}
-                      />{' '}
-                      Secured & powered by{' '}
-                      <img
-                        aria-hidden="true"
-                        role="presentation"
-                        alt="ID.me"
-                        src={`${vaGovFullDomain}/img/signin/idme-icon-dark.svg`}
-                      />
-                    </div>
-                  </div>
-                  <div className="signin-actions">
-                    <h2 className="vads-u-font-size--sm vads-u-margin-top--0">
-                      Sign in with an existing account
-                    </h2>
-                    <OriginalDesignButtons isDisabled={globalDowntime} />
-                  </div>
-                </div>
-              </div>
-              <SignInDescription />
-            </>
-          ) : (
-            <NewDesignButtons
-              isDisabled={globalDowntime}
-              loginGovEnabled={loginGovEnabled}
-              loginGovMHVEnabled={loginGovMHVEnabled}
-              loginGovMyVAHealthEnabled={loginGovMyVAHealthEnabled}
-              loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
-              externalApplication={externalApplication}
-            />
-          )}
+          <LoginButtons
+            isDisabled={globalDowntime}
+            loginGovEnabled={loginGovEnabled}
+            loginGovMHVEnabled={loginGovMHVEnabled}
+            loginGovMyVAHealthEnabled={loginGovMyVAHealthEnabled}
+            loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
+            externalApplication={externalApplication}
+          />
         </div>
         <div className="row">
           <div className="columns small-12">
-            <div className="help-info">
-              <h2
-                className={`${
-                  !oldDesignEnabled
-                    ? 'vads-u-margin-top--0'
-                    : 'vads-u-font-size--md'
-                }`}
-              >
+            <div className="help-info vads-u-color--gray-dark">
+              <h2 className="vads-u-margin-top--0">
                 Having trouble signing in?
               </h2>
-              <p>
+              <p className="vads-u-font-size--base">
                 Get answers to common questions about{' '}
                 <a href="/resources/signing-in-to-vagov/" target="_blank">
                   signing in
@@ -184,13 +123,11 @@ class SignInPage extends React.Component {
                 </a>
                 .
               </p>
-              <p>
-                <SubmitSignInForm startSentence />{' '}
-                {!oldDesignEnabled && `We're here 24/7.`}
+              <p className="vads-u-font-size--base">
+                <SubmitSignInForm startSentence /> We're here 24/7.
               </p>
             </div>
-            {oldDesignEnabled && <hr />}
-            <FedWarning oldDesignEnabled={oldDesignEnabled} />
+            <FedWarning />
           </div>
         </div>
       </>
@@ -205,7 +142,6 @@ const mapStateToProps = state => ({
   loginGovMHVEnabled: loginGovMHV(state),
   loginGovMyVAHealthEnabled: loginGovMyVAHealth(state),
   loginGovCreateAccountEnabled: loginGovCreateAccount(state),
-  oldDesignEnabled: loginOldDesign(state),
   isAuthenticatedWithSSOe: isAuthenticatedWithSSOe(state),
 });
 

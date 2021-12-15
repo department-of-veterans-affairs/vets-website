@@ -53,7 +53,7 @@ export default function ReviewPage() {
     <div>
       <h1>{pageTitle}</h1>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
-        Please review the information before confirming your appointment.
+        Make sure the information is correct. Then confirm your appointment.
       </p>
       <h2 className="vads-u-margin-bottom--0 vads-u-margin-top--3 vads-u-font-size--h3">
         COVID-19 vaccine

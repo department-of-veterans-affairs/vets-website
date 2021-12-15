@@ -1,5 +1,6 @@
 import React from 'react';
-import { currency, calcDueDate } from '../utils/helpers';
+import { currency, calcDueDate, formatDate } from '../utils/helpers';
+import recordEvent from 'platform/monitoring/record-event';
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -47,17 +48,33 @@ Alert.Error = () => (
   </va-alert>
 );
 
-Alert.Maintenance = () => (
+Alert.ZeroBalance = ({ copay }) => (
   <va-alert
     class="row vads-u-margin-bottom--5"
     status="info"
-    data-testid="maintenance-alert"
+    data-testid="zero-balance"
   >
     <h2 slot="headline" className="vads-u-font-size--h3">
-      Down for maintenance
+      You don’t need to make a payment at this time
     </h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
-      We’re sorry it’s not working right now.
+      Your balance is $0 and was updated on
+      <span className="vads-u-margin-x--0p5" data-testid="updated-date">
+        {formatDate(copay?.pSStatementDate)}
+      </span>
+      . You can
+      <a href="#download-statements" className="vads-u-margin--0p5">
+        download your previous statements
+      </a>
+      below.
+    </p>
+    <p>
+      If you receive new charges, we’ll send you a statement in the mail and
+      update your balance. Learn more about
+      <a href="#balance-questions" className="vads-u-margin--0p5">
+        what to do if you have questions about your balance
+      </a>
+      .
     </p>
   </va-alert>
 );
@@ -177,17 +194,47 @@ Alert.Status = ({ copay }) => (
   </va-alert>
 );
 
-const RenderAlert = ({ type, copay }) => {
+const RenderAlert = ({ type, copay, error }) => {
   switch (type) {
-    case 'no-health-care':
-      return <Alert.NoHealthcare />;
-    case 'no-history':
-      return <Alert.NoHistory />;
-    case 'deceased':
-      return <Alert.Deceased />;
     case 'status':
       return <Alert.Status copay={copay} />;
+    case 'no-health-care':
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'warning',
+        'alert-box-heading': 'You’re not enrolled in VA health care',
+      });
+      return <Alert.NoHealthcare />;
+    case 'no-history':
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'info',
+        'alert-box-heading':
+          'You haven’t received a copay bill in the past 6 months',
+      });
+      return <Alert.NoHistory />;
+    case 'deceased':
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'warning',
+        'alert-box-heading': 'Our records show that this Veteran is deceased',
+      });
+      return <Alert.Deceased />;
+    case 'zero-balance':
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'info',
+        'alert-box-heading': 'You don’t need to make a payment at this time',
+      });
+      return <Alert.ZeroBalance copay={copay} />;
     default:
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'error',
+        'alert-box-heading':
+          'We can’t access your current copay balances right now',
+        'error-key': error?.status || '',
+      });
       return <Alert.Error />;
   }
 };
