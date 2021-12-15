@@ -261,7 +261,7 @@ module.exports = {
       },
     },
     {
-      files: ['**/*.e2e.spec.js'],
+      files: ['**/*.cypress.spec.js'],
       rules: {
         'va/axe-check-required': 1,
       },
