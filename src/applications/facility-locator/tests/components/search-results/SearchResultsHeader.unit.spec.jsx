@@ -199,7 +199,73 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render header with LocationType.CC_PROVIDER', () => {
+  it('should render header with LocationType.URGENT_CARE_PHARMACIES, totalEntries = 1', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.URGENT_CARE_PHARMACIES}
+        context="new york"
+        pagination={{ totalEntries: 1 }}
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Showing 1 result for "Community pharmacies \(in VA’s network\)"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
+  it('should render header with LocationType.URGENT_CARE_PHARMACIES, totalEntries = 5', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.URGENT_CARE_PHARMACIES}
+        context="new york"
+        pagination={{ totalEntries: 5 }}
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Showing 1 - 5 results for "Community pharmacies \(in VA’s network\)"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
+  it('should render header with LocationType.URGENT_CARE_PHARMACIES, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.URGENT_CARE_PHARMACIES}
+        context="new york"
+        pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Showing 11 - 15 of 15 results for "Community pharmacies \(in VA’s network\)"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
+  it('should render header with LocationType.CC_PROVIDER, totalEntries = 1', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.CC_PROVIDER}
+        serviceType="foo"
+        context="new york"
+        specialtyMap={{ foo: 'test' }}
+        pagination={{ totalEntries: 1 }}
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Showing 1 result for "Community providers \(in VA’s network\)",\s+"test"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
+  it('should render header with LocationType.CC_PROVIDER, totalEntries = 5', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[{}]}
@@ -213,6 +279,24 @@ describe('SearchResultsHeader', () => {
 
     expect(wrapper.find('h2').text()).to.match(
       /Showing 1 - 5 results for "Community providers \(in VA’s network\)",\s+"test"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+
+  it('should render header with LocationType.CC_PROVIDER, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.CC_PROVIDER}
+        serviceType="foo"
+        context="new york"
+        specialtyMap={{ foo: 'test' }}
+        pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Showing 11 - 15 of 15 results for "Community providers \(in VA’s network\)",\s+"test"\s+near\s+"new york"/,
     );
     wrapper.unmount();
   });
