@@ -42,7 +42,6 @@ node('vetsgov-general-purpose') {
         stringParam(name: 'source_repo', value: 'vets-website'),
       ], wait: false
     } catch (error) {
-      // commonStages.slackNotify()
       throw error
     }
   }
