@@ -37,6 +37,7 @@ module.exports = {
     __BUILDTYPE__: true,
     __API__: true,
     __MEGAMENU_CONFIG__: true,
+    __REGISTRY__: true,
   },
   rules: {
     /* || Eslint main rules || */
