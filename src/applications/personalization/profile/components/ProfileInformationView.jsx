@@ -19,7 +19,7 @@ const ProfileInformationView = props => {
 
   // decide whether to use 'a', or nothing
   const titleFormatted =
-    titleLower !== 'pronouns' ? `a ${titleLower}` : titleLower;
+    fieldName !== FIELD_NAMES.PRONOUNS ? `a ${titleLower}` : titleLower;
 
   if (!data) {
     return <span>Edit your profile to add {titleFormatted}.</span>;
@@ -74,6 +74,10 @@ const ProfileInformationView = props => {
         )}
       </div>
     );
+  }
+
+  if (fieldName === FIELD_NAMES.PREFERRED_NAME) {
+    return data;
   }
 
   return null;

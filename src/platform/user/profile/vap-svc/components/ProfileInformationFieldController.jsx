@@ -28,6 +28,7 @@ import {
   selectVAPServiceTransaction,
   selectEditViewData,
   selectMostRecentlyUpdatedField,
+  selectVAProfilePersonalInformation,
 } from '@@vap-svc/selectors';
 
 import { isVAPatient } from '~/platform/user/selectors';
@@ -450,11 +451,14 @@ class ProfileInformationFieldController extends React.Component {
 
 export const mapStateToProps = (state, ownProps) => {
   const { fieldName } = ownProps;
+
   const { transaction, transactionRequest } = selectVAPServiceTransaction(
     state,
     fieldName,
   );
-  const data = selectVAPContactInfoField(state, fieldName);
+  const data =
+    selectVAPContactInfoField(state, fieldName) ||
+    selectVAProfilePersonalInformation(state, fieldName);
   const isEmpty = !data;
   const addressValidationType = selectAddressValidationType(state);
   const activeEditView = selectCurrentlyOpenEditModal(state);

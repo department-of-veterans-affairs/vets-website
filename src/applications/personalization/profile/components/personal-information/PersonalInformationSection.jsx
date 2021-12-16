@@ -75,6 +75,7 @@ const PersonalInformationSection = ({ gender, dob }) => (
           value: (
             <ProfileInformationFieldController
               fieldName={FIELD_NAMES.PREFERRED_NAME}
+              data={{ preferredName: 'Frank' }}
             />
           ),
         },
@@ -120,6 +121,10 @@ PersonalInformationSection.propTypes = {
 const mapStateToProps = state => ({
   gender: state.vaProfile?.personalInformation?.gender,
   dob: state.vaProfile?.personalInformation?.birthDate,
+  preferredName: state.vaProfile?.personalInformation?.preferredName,
+  pronouns: state.vaProfile?.personalInformation?.pronouns,
+  genderIdentity: state.vaProfile?.personalInformation?.genderIdentity,
+  sexualOrientation: state.vaProfile?.personalInformation?.sexualOrientation,
 });
 
 export default connect(mapStateToProps)(PersonalInformationSection);
