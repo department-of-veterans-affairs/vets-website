@@ -94,12 +94,9 @@ export const SearchResultsHeader = ({
         className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
         tabIndex="-1"
       >
-        {[
-          LocationType.URGENT_CARE,
-          LocationType.EMERGENCY_CARE,
-          LocationType.URGENT_CARE_PHARMACIES,
-          LocationType.CC_PROVIDER,
-        ].includes(facilityType)
+        {[LocationType.URGENT_CARE, LocationType.EMERGENCY_CARE].includes(
+          facilityType,
+        )
           ? messagePrefix
           : handleNumberOfResults()}{' '}
         for &quot;
