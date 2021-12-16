@@ -19,6 +19,15 @@ const Results = ({
   results,
   totalResults,
 }) => {
+  // Show no results found message.
+  if (!results?.length) {
+    return (
+      <p className="vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-bottom--1">
+        No results found for <strong>{query}</strong>.
+      </p>
+    );
+  }
+
   // Derive values for "Displayed x-x out of x results."
   const resultsStartNumber = deriveResultsStartNumber(page, perPage);
   const resultsEndNumber = deriveResultsEndNumber(page, perPage, totalResults);
