@@ -17,7 +17,7 @@ import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 import { makeSelectContext } from '../hooks/selectors';
 
 const ValidateVeteran = props => {
-  const { isUpdatePageEnabled, router, setPermissions } = props;
+  const { router, setPermissions } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
@@ -51,11 +51,7 @@ const ValidateVeteran = props => {
           setPermissions(data);
           // routing
 
-          if (isUpdatePageEnabled) {
-            goToNextPage(router, URLS.UPDATE_INSURANCE);
-          } else {
-            goToNextPage(router, URLS.DEMOGRAPHICS);
-          }
+          goToNextPage(router, URLS.DEMOGRAPHICS);
         })
         .catch(() => {
           goToNextPage(router, URLS.ERROR);

@@ -13,8 +13,7 @@ let hasBeenValidated = false;
 const responses = {
   ...commonResponses,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
-    checkInExperienceUpdateInformationPageEnabled: false,
-
+    checkInExperienceUpdateInformationPageEnabled: true,
     emergencyContactEnabled: true,
   }),
   // v2
