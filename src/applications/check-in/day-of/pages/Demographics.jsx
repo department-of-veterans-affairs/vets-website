@@ -95,7 +95,6 @@ const mapDispatchToProps = dispatch => {
 Demographics.propTypes = {
   demographics: PropTypes.object,
   isLoading: PropTypes.bool,
-  isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
   updateSeeStaffMessage: PropTypes.func,
   demographicsStatus: PropTypes.object,

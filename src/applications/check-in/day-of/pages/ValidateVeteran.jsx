@@ -94,7 +94,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 ValidateVeteran.propTypes = {
-  isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
   setPermissions: PropTypes.func,
 };

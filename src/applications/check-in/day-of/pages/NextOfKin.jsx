@@ -79,7 +79,7 @@ const NextOfKin = props => {
   } else {
     return (
       <>
-        {isUpdatePageEnabled && <BackButton router={router} />}
+        <BackButton router={router} />
         <NextOfKinDisplay
           nextOfKin={nextOfKin}
           yesAction={yesClick}

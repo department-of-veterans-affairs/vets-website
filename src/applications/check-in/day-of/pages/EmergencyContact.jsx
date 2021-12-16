@@ -77,7 +77,7 @@ const EmergencyContact = props => {
   } else {
     return (
       <>
-        {isUpdatePageEnabled && <BackButton router={router} />}
+        <BackButton router={router} />
         <EmergencyContactDisplay
           data={emergencyContact}
           yesAction={yesClick}
