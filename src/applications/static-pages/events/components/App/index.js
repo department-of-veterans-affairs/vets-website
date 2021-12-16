@@ -89,30 +89,32 @@ export const App = ({ rawEvents, showEventsV2 }) => {
 
   hideLegacyEvents();
   return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--1p5">
-      {/* Title */}
-      <h1 className="vads-u-margin--0 vads-">Outreach events</h1>
+    <main className="usa-grid usa-grid-full">
+      <div className="usa-width-three-fourths vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--1p5 vads-u-padding-bottom--2">
+        {/* Title */}
+        <h1 className="vads-u-margin--0 vads-">Outreach events</h1>
 
-      {/* Description */}
-      <p className="va-introtext">
-        VA benefits can help Veterans and their families buy homes, earn
-        degrees, start careers, stay healthy, and more. Join an event for
-        conversation and information.
-      </p>
+        {/* Description */}
+        <p className="va-introtext">
+          VA benefits can help Veterans and their families buy homes, earn
+          degrees, start careers, stay healthy, and more. Join an event for
+          conversation and information.
+        </p>
 
-      {/* Search */}
-      <Search onSearch={onSearch} />
+        {/* Search */}
+        <Search onSearch={onSearch} />
 
-      {/* Results */}
-      <Results
-        onPageSelect={onPageSelect}
-        page={page}
-        perPage={perPage}
-        query={selectedOption?.label}
-        results={results}
-        totalResults={events?.length || 0}
-      />
-    </div>
+        {/* Results */}
+        <Results
+          onPageSelect={onPageSelect}
+          page={page}
+          perPage={perPage}
+          query={selectedOption?.label}
+          results={results}
+          totalResults={events?.length || 0}
+        />
+      </div>
+    </main>
   );
 };
 

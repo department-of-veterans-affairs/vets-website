@@ -80,7 +80,7 @@ const Search = ({ onSearch }) => {
 
   return (
     <form
-      className="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-padding-x--1 vads-u-padding-y--1p5"
+      className="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-x--2"
       onSubmit={onSubmitHandler}
     >
       {/* Filter by */}
@@ -310,7 +310,10 @@ const Search = ({ onSearch }) => {
       )}
 
       {/* Submit */}
-      <button className="usa-button-primary" type="submit">
+      <button
+        className="usa-button usa-button-primary medium-screen:vads-u-margin-top--1"
+        type="submit"
+      >
         Filter events
       </button>
     </form>
