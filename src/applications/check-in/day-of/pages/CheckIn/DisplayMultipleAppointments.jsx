@@ -15,7 +15,6 @@ const DisplayMultipleAppointments = props => {
   const {
     appointments,
     getMultipleAppointments,
-    isDemographicsPageEnabled,
     isUpdatePageEnabled,
     router,
     token,
@@ -35,9 +34,7 @@ const DisplayMultipleAppointments = props => {
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
-      {(isUpdatePageEnabled || isDemographicsPageEnabled) && (
-        <BackButton router={router} />
-      )}
+      {isUpdatePageEnabled && <BackButton router={router} />}
       <h1 tabIndex="-1" className="vads-u-margin-top--2">
         Your appointments
       </h1>
@@ -83,7 +80,6 @@ const DisplayMultipleAppointments = props => {
 DisplayMultipleAppointments.propTypes = {
   appointments: PropTypes.array,
   getMultipleAppointments: PropTypes.func,
-  isDemographicsPageEnabled: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
   token: PropTypes.string,

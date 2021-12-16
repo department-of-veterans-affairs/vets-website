@@ -145,7 +145,6 @@ describe('check-in', () => {
               router={mockRouter}
               token={token}
               appointments={appointments}
-              isDemographicsPageEnabled
             />
           </Provider>,
         );
