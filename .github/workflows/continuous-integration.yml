@@ -279,6 +279,9 @@ jobs:
           path: |
             .cache/yarn
             node_modules
+      
+      - name: Verify dependencies
+        run: yarn install --check-files
 
       - name: Annotate ESLint results
         run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js .
