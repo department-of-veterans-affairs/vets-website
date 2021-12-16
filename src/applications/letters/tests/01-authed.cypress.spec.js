@@ -36,24 +36,22 @@ describe('Authed Letter Test', () => {
     cy.get('.view-letters-button')
       .click()
       .then(() => {
-        cy.get('.usa-accordion-bordered').should('exist');
-        cy.get('.usa-accordion-bordered').should('have.length', 5);
+        cy.get('va-accordion').should('exist');
+        cy.get('va-accordion-item').should('have.length', 5);
       });
 
-    cy.get(`.usa-accordion-bordered:nth-of-type(1)`)
+    cy.get(`va-accordion-item:nth-of-type(1)`)
       .click()
       .then(() => {
         cy.get('.va-button-primary').should('exist');
       });
 
-    cy.get(`.usa-accordion-bordered:nth-of-type(2)`).click();
-    cy.get(`.usa-accordion-bordered:nth-of-type(3)`).click();
-    cy.get(`.usa-accordion-bordered:nth-of-type(4)`).click();
-    cy.get(`.usa-accordion-bordered:nth-of-type(5)`).click();
+    cy.get(`va-accordion-item:nth-of-type(2)`).click();
+    cy.get(`va-accordion-item:nth-of-type(3)`).click();
+    cy.get(`va-accordion-item:nth-of-type(4)`).click();
+    cy.get(`va-accordion-item:nth-of-type(5)`).click();
 
-    cy.get(
-      `.usa-accordion-bordered:nth-of-type(5) .usa-accordion-content`,
-    ).should('be.visible');
+    cy.get(`va-accordion-item:nth-of-type(5)`).should('be.visible');
 
     cy.axeCheck();
 
@@ -65,7 +63,7 @@ describe('Authed Letter Test', () => {
         cy.get('.view-letters-button').click();
         cy.url().should('contain', '/letters/letter-list');
         cy.get('.step-content');
-        cy.get('.step-content div.form-review-panel:nth-of-type(4) button')
+        cy.get('.step-content va-accordion-item:nth-of-type(4)')
           .click() // open the bsl accordion
           .then(() => {
             cy.get('#militaryService');
@@ -95,10 +93,11 @@ describe('Authed Letter Test', () => {
       });
     });
     // collapse the bsl accordion
-    cy.get(
-      '.step-content div.form-review-panel:nth-of-type(4) .usa-accordion-button',
-    ).click();
-    cy.get('#militaryService').should('not.exist');
+    cy.get('.step-content va-accordion-item:nth-of-type(4)')
+      .shadow()
+      .find('button')
+      .click();
+    cy.get('#militaryService').should('not.be.visible');
 
     // poke the back button
     cy.get('.step-content p:nth-of-type(4) a').click();
