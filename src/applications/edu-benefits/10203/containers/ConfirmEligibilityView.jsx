@@ -83,7 +83,7 @@ export class ConfirmEligibilityView extends React.Component {
             a teaching certification, <b>or</b>
           </li>
           <li className="vads-u-margin-y--0">
-            Have already earned a STEM bachelor’s or graduate degree and are
+            Have already earned a STEM bachelor's or graduate degree and are
             pursuing a covered clinical training program for health care
             professionals
           </li>

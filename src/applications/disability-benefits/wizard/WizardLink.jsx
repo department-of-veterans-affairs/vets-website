@@ -14,7 +14,7 @@ const WizardLink = ({ showWizard, module }) => {
   const { Wizard, pages } = module.default;
   return showWizard ? (
     <a href={`${manifest.rootUrl}/start`} className="vads-c-action-link--green">
-      Let’s get started
+      Let&apos;s get started
     </a>
   ) : (
     <Wizard pages={pages} expander buttonText="Let's get started" />

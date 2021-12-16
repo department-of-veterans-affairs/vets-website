@@ -44,7 +44,7 @@ const VetTec = () => {
               pattern={PATTERNS['3_DIGIT']}
               className="vads-u-margin-x--0p5"
             />
-            ) and leave a detailed message. We’ll call you back as soon as
+            ) and leave a detailed message. We'll call you back as soon as
             possible.
           </li>
           <li>

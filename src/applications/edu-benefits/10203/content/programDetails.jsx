@@ -6,7 +6,7 @@ export const schoolStudentIdTitle = (
       <strong>Your student ID and contact details</strong>
     </p>
     <p className="school-details-notice">
-      These details will help us review your application faster, but aren’t
+      These details will help us review your application faster, but aren't
       required.
     </p>
   </div>
