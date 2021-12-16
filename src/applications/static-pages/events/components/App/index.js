@@ -30,8 +30,6 @@ export const App = ({ rawEvents, showEventsV2 }) => {
   }
 
   const onSearch = event => {
-    event.preventDefault();
-
     // Derive selected option.
     const newSelectedOption = filterByOptions.find(
       option => option?.value === event?.target?.filterBy?.value,

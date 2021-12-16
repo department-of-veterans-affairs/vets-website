@@ -123,10 +123,8 @@ export const filterEvents = (
 
     // Next week.
     case 'next-week':
-      return sortedEvents?.filter(event => {
-        return moment(
-          event?.fieldDatetimeRangeTimezone?.value * 1000,
-        ).isBetween(
+      return sortedEvents?.filter(event =>
+        moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isBetween(
           now
             .clone()
             .add('7', 'days')
@@ -135,8 +133,8 @@ export const filterEvents = (
             .clone()
             .add('7', 'days')
             .endOf('week'),
-        );
-      });
+        ),
+      );
 
     // Next month.
     case 'next-month':

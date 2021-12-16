@@ -17,6 +17,12 @@ const Search = ({ onSearch }) => {
   const [endDateMonth, setEndDateMonth] = useState('');
   const [endDateDay, setEndDateDay] = useState('');
 
+  // Derive errors state.
+  const [startDateMonthError, setStartDateMonthError] = useState(false);
+  const [startDateDayError, setStartDateDayError] = useState(false);
+  const [endDateMonthError, setEndDateMonthError] = useState(false);
+  const [endDateDayError, setEndDateDayError] = useState(false);
+
   const onFilterByChange = event => {
     const filterByOption = event?.target?.value;
 
@@ -30,15 +36,48 @@ const Search = ({ onSearch }) => {
     setStartDateDay('');
     setEndDateMonth('');
     setEndDateDay('');
+    setStartDateMonthError(false);
+    setStartDateDayError(false);
+    setEndDateMonthError(false);
+    setEndDateDayError(false);
 
     // Update the selected option.
     setSelectedOption(filterByOption);
   };
 
+  const onSubmitHandler = event => {
+    event.preventDefault();
+
+    // Escape early with error if we are missing a required field.
+    if (
+      selectedOption === 'specific-date' &&
+      (!startDateMonth || !startDateDay)
+    ) {
+      setStartDateMonthError(!startDateMonth);
+      setStartDateDayError(!startDateDay);
+      return;
+    }
+
+    // Escape early with error if we are missing a required field.
+    if (
+      selectedOption === 'custom-date-range' &&
+      (!startDateMonth || !startDateDay || !endDateMonth || !endDateDay)
+    ) {
+      setStartDateMonthError(!startDateMonth);
+      setStartDateDayError(!startDateDay);
+      setEndDateMonthError(!endDateMonth);
+      setEndDateDayError(!endDateDay);
+      return;
+    }
+
+    // Allow the event to be submitted.
+    onSearch(event);
+  };
+
   return (
     <form
       className="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-padding-x--1 vads-u-padding-y--1p5"
-      onSubmit={onSearch}
+      onSubmit={onSubmitHandler}
     >
       {/* Filter by */}
       <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--1">
@@ -67,13 +106,22 @@ const Search = ({ onSearch }) => {
       {/* Specific date fields */}
       {/* ==================== */}
       {selectedOption === 'specific-date' && (
-        <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-bottom--1">
+        <div
+          className={`vads-u-display--flex vads-u-flex-direction--row vads-u-margin-bottom--1 vads-u-margin-top--0${
+            startDateMonthError || startDateDayError ? ' usa-input-error' : ''
+          }`}
+        >
           {/* Month */}
-          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-right--1p5">
+          <div className="vads-u-display--flex vads-u-flex-direction--column">
             <label className="vads-u-margin--0" htmlFor="startDateMonth">
               {/* The asterisk is superscript u+002A */}
               *Month
             </label>
+            {startDateMonthError && (
+              <span className="usa-input-error-message" role="alert">
+                <span className="sr-only">Error</span> Missing month
+              </span>
+            )}
             <select
               id="startDateMonth"
               name="startDateMonth"
@@ -89,11 +137,22 @@ const Search = ({ onSearch }) => {
           </div>
 
           {/* Day */}
-          <div className="vads-u-display--flex vads-u-flex-direction--column">
+          <div
+            className={`vads-u-display--flex vads-u-flex-direction--column${
+              startDateMonthError
+                ? ' vads-u-margin-left--3'
+                : ' vads-u-margin-left--1p5'
+            }`}
+          >
             <label className="vads-u-margin--0" htmlFor="startDateDay">
               {/* The asterisk is superscript u+002A */}
               *Day
             </label>
+            {startDateDayError && (
+              <span className="usa-input-error-message" role="alert">
+                <span className="sr-only">Error</span> Missing day
+              </span>
+            )}
             <select
               id="startDateDay"
               name="startDateDay"
@@ -114,16 +173,30 @@ const Search = ({ onSearch }) => {
       {/* Custom date range fields */}
       {/* ======================== */}
       {selectedOption === 'custom-date-range' && (
-        <>
+        <div
+          className={`vads-u-display--flex vads-u-flex-direction--column vads-u-margin-top--0${
+            startDateDayError ||
+            startDateMonthError ||
+            endDateDayError ||
+            endDateMonthError
+              ? ' usa-input-error'
+              : ''
+          }`}
+        >
           {/* Start date */}
           <label className="vads-u-margin--0">Start date</label>
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-bottom--1">
             {/* Start date | Month */}
-            <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-right--1p5">
+            <div className="vads-u-display--flex vads-u-flex-direction--column">
               <label className="vads-u-margin--0" htmlFor="startDateMonth">
                 {/* The asterisk is superscript u+002A */}
                 *Month
               </label>
+              {startDateMonthError && (
+                <span className="usa-input-error-message" role="alert">
+                  <span className="sr-only">Error</span> Missing month
+                </span>
+              )}
               <select
                 id="startDateMonth"
                 name="startDateMonth"
@@ -139,11 +212,22 @@ const Search = ({ onSearch }) => {
             </div>
 
             {/* Start date | Day */}
-            <div className="vads-u-display--flex vads-u-flex-direction--column">
+            <div
+              className={`vads-u-display--flex vads-u-flex-direction--column${
+                startDateMonthError
+                  ? ' vads-u-margin-left--3'
+                  : ' vads-u-margin-left--1p5'
+              }`}
+            >
               <label className="vads-u-margin--0" htmlFor="startDateDay">
                 {/* The asterisk is superscript u+002A */}
                 *Day
               </label>
+              {startDateDayError && (
+                <span className="usa-input-error-message" role="alert">
+                  <span className="sr-only">Error</span> Missing day
+                </span>
+              )}
               <select
                 id="startDateDay"
                 name="startDateDay"
@@ -163,11 +247,16 @@ const Search = ({ onSearch }) => {
           <label className="vads-u-margin--0">End date</label>
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-bottom--1">
             {/* End date | Month */}
-            <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-right--1p5">
+            <div className="vads-u-display--flex vads-u-flex-direction--column">
               <label className="vads-u-margin--0" htmlFor="endDateMonth">
                 {/* The asterisk is superscript u+002A */}
                 *Month
               </label>
+              {endDateMonthError && (
+                <span className="usa-input-error-message" role="alert">
+                  <span className="sr-only">Error</span> Missing month
+                </span>
+              )}
               <select
                 id="endDateMonth"
                 name="endDateMonth"
@@ -183,11 +272,22 @@ const Search = ({ onSearch }) => {
             </div>
 
             {/* End date | Day */}
-            <div className="vads-u-display--flex vads-u-flex-direction--column">
+            <div
+              className={`vads-u-display--flex vads-u-flex-direction--column${
+                endDateMonthError
+                  ? ' vads-u-margin-left--3'
+                  : ' vads-u-margin-left--1p5'
+              }`}
+            >
               <label className="vads-u-margin--0" htmlFor="endDateDay">
                 {/* The asterisk is superscript u+002A */}
                 *Day
               </label>
+              {endDateDayError && (
+                <span className="usa-input-error-message" role="alert">
+                  <span className="sr-only">Error</span> Missing day
+                </span>
+              )}
               <select
                 id="endDateDay"
                 name="endDateDay"
@@ -202,7 +302,7 @@ const Search = ({ onSearch }) => {
               </select>
             </div>
           </div>
-        </>
+        </div>
       )}
 
       {/* Submit */}
