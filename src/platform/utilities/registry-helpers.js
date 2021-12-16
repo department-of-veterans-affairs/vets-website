@@ -6,7 +6,7 @@
  */
 export const getAppUrl = entryName => {
   // Global app registry defined in the Webpack config
-  const appRegistry = __REGISTRY__;
+  const appRegistry = []; // __REGISTRY__;
   const app = appRegistry.find(entry => entry.entryName === entryName);
 
   if (!app) {
