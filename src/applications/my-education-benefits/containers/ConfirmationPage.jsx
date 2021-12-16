@@ -131,7 +131,7 @@ const deniedPage = confirmationDate => (
       </p>
       <a
         type="button"
-        className="usa-button-primary va-button-primary"
+        className="usa-button meb-print"
         href={LETTER_URL}
         download
       >
