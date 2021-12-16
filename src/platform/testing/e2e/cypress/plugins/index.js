@@ -26,7 +26,7 @@ module.exports = on => {
             new DefinePlugin({
               __BUILDTYPE__: JSON.stringify(ENV),
               __API__: JSON.stringify(''),
-              __REGISTRY__: {},
+              __REGISTRY__: null,
             }),
             new ProvidePlugin({
               process: 'process/browser',
