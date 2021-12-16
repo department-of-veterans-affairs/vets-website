@@ -274,11 +274,7 @@ jobs:
       - name: Install dependencies
         uses: ./.github/workflows/install
         with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
+          skip-cache: true
       
       - name: Verify dependencies
         run: yarn install --check-files
