@@ -2,10 +2,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { sample } from 'lodash';
 // Relative imports.
 import {
+  deriveMostRecentDate,
   deriveResultsEndNumber,
   deriveResultsStartNumber,
 } from '../../helpers';
@@ -43,16 +44,25 @@ const Results = ({
           {results?.map(event => {
             // Derive event properties.
             const entityUrl = event?.entityUrl;
-            const startsAtUnix = event?.fieldDatetimeRangeTimezone?.value;
-            const endsAtUnix = event?.fieldDatetimeRangeTimezone?.endValue;
             const fieldDescription = event?.fieldDescription;
             const title = event?.title;
+
+            // Derive the most recent date.
+            const mostRecentDate = deriveMostRecentDate(
+              event?.fieldDatetimeRangeTimezone,
+            );
+            const startsAtUnix = mostRecentDate?.value;
+            const endsAtUnix = mostRecentDate?.endValue;
+            const timezone = mostRecentDate?.timezone;
 
             // Derive starts at and ends at.
             const formattedStartsAt = moment(startsAtUnix * 1000).format(
               'ddd MMM D, YYYY, h:mm a',
             );
             const formattedEndsAt = moment(endsAtUnix * 1000).format('h:mm a');
+            const endsAtTimezone = moment
+              .tz(endsAtUnix * 1000, timezone)
+              .format('z');
 
             return (
               <div
@@ -74,9 +84,23 @@ const Results = ({
                   <p className="vads-u-margin--0 vads-u-margin-right--0p5">
                     <strong>When:</strong>
                   </p>
-                  <p className="vads-u-margin--0">
-                    {formattedStartsAt} - {formattedEndsAt}
-                  </p>
+                  <div className="vads-u-display--flex vads-u-flex-direction--column">
+                    {/* Starts at and ends at */}
+                    <p className="vads-u-margin--0">
+                      {formattedStartsAt} - {formattedEndsAt} {endsAtTimezone}
+                    </p>
+
+                    {/* Repeats */}
+                    {event?.fieldDatetimeRangeTimezone?.length > 1 && (
+                      <p className="vads-u-margin--0">
+                        <i
+                          className="fa fa-sync vads-u-font-size--sm vads-u-margin-right--0p5"
+                          aria-hidden="true"
+                        />{' '}
+                        Repeats
+                      </p>
+                    )}
+                  </div>
                 </div>
 
                 {/* Where */}
@@ -118,13 +142,13 @@ Results.propTypes = {
   query: PropTypes.string.isRequired,
   results: PropTypes.arrayOf(
     PropTypes.shape({
-      entityUrl: PropTypes.string.isRequired,
+      entityUrl: PropTypes.object.isRequired,
       fieldDatetimeRangeTimezone: PropTypes.shape({
         endValue: PropTypes.number.isRequired,
         timezone: PropTypes.string,
         value: PropTypes.number.isRequired,
       }).isRequired,
-      fieldDescription: PropTypes.string.isRequired,
+      fieldDescription: PropTypes.string,
       title: PropTypes.string.isRequired,
     }),
   ).isRequired,

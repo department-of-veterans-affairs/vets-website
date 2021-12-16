@@ -1,15 +1,6 @@
 // Node modules.
 import moment from 'moment-timezone';
-import { orderBy, isEmpty } from 'lodash';
-
-const nextWeekDay = moment()
-  .add('7', 'days')
-  .startOf('week')
-  .format('MMM D');
-const nextMonthDay = moment()
-  .add('1', 'month')
-  .startOf('month')
-  .format('MMM D');
+import { isArray, sortBy, filter, orderBy, isEmpty } from 'lodash';
 
 export const monthOptions = [
   { value: '', label: 'Month' },
@@ -68,18 +59,6 @@ export const filterByOptions = [
     value: 'upcoming',
   },
   {
-    label: `Next week (Starting ${nextWeekDay})`,
-    value: 'next-week',
-  },
-  {
-    label: `Next month (Starting ${nextMonthDay})`,
-    value: 'next-month',
-  },
-  {
-    label: 'Past events',
-    value: 'past',
-  },
-  {
     label: 'Specific date',
     value: 'specific-date',
   },
@@ -87,11 +66,45 @@ export const filterByOptions = [
     label: 'Custom date range',
     value: 'custom-date-range',
   },
+  {
+    label: 'Past events',
+    value: 'past',
+  },
 ];
 
 export const defaultSelectedOption = filterByOptions?.find(
   option => option.value === 'upcoming',
 );
+
+export const deriveMostRecentDate = (
+  fieldDatetimeRangeTimezone,
+  now = moment().unix(), // This is done so that we can mock the current time in tests.
+) => {
+  // Escape early if no fieldDatetimeRangeTimezone was passed.
+  if (!fieldDatetimeRangeTimezone) return fieldDatetimeRangeTimezone;
+
+  // Return back fieldDatetimeRangeTimezone if it is already a singular most recent date.
+  if (!isArray(fieldDatetimeRangeTimezone)) {
+    return fieldDatetimeRangeTimezone;
+  }
+
+  // Return back fieldDatetimeRangeTimezone's first item if it only has 1 item.
+  if (fieldDatetimeRangeTimezone?.length === 1) {
+    return fieldDatetimeRangeTimezone[0];
+  }
+
+  // Derive date times relative to now.
+  const dates = sortBy(fieldDatetimeRangeTimezone, 'endValue');
+  const futureDates = filter(dates, date => date?.endValue - now > 0);
+
+  // Return the most recent past date if there are no future dates.
+  if (isEmpty(futureDates)) {
+    return dates[dates?.length - 1];
+  }
+
+  // Return the most recent future date if there are future dates.
+  return futureDates[0];
+};
 
 export const deriveResults = (events, page, perPage) => {
   // Escape early if we do not have events, page, or perPage.
