@@ -120,14 +120,14 @@ jobs:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.app_folders }}
 
+      - name: Generate coverage report by app
+        run: node script/app-coverage-report.js > test-results/coverage_report.txt
+
       - name: Upload Coverage Report Artifact
         uses: actions/upload-artifact@v2
         with:
           name: unit-test-coverage-report
           path: coverage/test-coverage-report.json
-
-      - name: Generate coverage report by app
-        run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
       - name: Configure AWS credentials (1)
         if: ${{ github.ref == 'refs/heads/master' }}
