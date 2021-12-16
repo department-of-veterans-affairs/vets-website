@@ -120,6 +120,12 @@ jobs:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.app_folders }}
 
+      - name: Upload Coverage Report Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: unit-test-coverage-report
+          path: coverage/test-coverage-report.json
+
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
@@ -404,7 +410,7 @@ jobs:
       - name: Get changed apps for header test
         id: get-changed-apps
         if: ${{ github.ref != 'refs/heads/master' }}
-        run: | 
+        run: |
           echo ::set-output name=app_urls::$(node script/github-actions/get-changed-apps.js --output-type url)
           echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
         env:
