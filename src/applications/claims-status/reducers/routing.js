@@ -1,5 +1,3 @@
-import _ from 'lodash/fp';
-
 import { SET_LAST_PAGE } from '../actions/index.jsx';
 
 const initialState = {
@@ -12,10 +10,11 @@ export default function routingReducer(state = initialState, action) {
     const lastPage = state.history.length
       ? state.history[state.history.length - 1]
       : null;
-    return _.assign(state, {
+    return {
+      ...state,
       lastPage,
       history: state.history.concat(action.page.substr(1)),
-    });
+    };
   }
   return state;
 }

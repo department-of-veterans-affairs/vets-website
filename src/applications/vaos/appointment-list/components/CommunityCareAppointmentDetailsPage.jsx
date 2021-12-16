@@ -5,21 +5,20 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import moment from '../../lib/moment-tz';
 
-import { FETCH_STATUS } from '../../utils/constants';
+import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { fetchConfirmedAppointmentDetails } from '../redux/actions';
 import AppointmentDateTime from './AppointmentDateTime';
 import AddToCalendar from '../../components/AddToCalendar';
 import FacilityAddress from '../../components/FacilityAddress';
-import PageLayout from './AppointmentsPage/PageLayout';
+import PageLayout from './PageLayout';
 import ErrorMessage from '../../components/ErrorMessage';
 import { selectCommunityCareDetailsInfo } from '../redux/selectors';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import Breadcrumbs from '../../components/Breadcrumbs';
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
+import InfoAlert from '../../components/InfoAlert';
 import { getCalendarData } from '../../services/appointment';
+import StatusAlert from './ConfirmedAppointmentDetailsPage/StatusAlert';
 
 export default function CommunityCareAppointmentDetailsPage() {
   const { id } = useParams();
@@ -77,13 +76,14 @@ export default function CommunityCareAppointmentDetailsPage() {
   }
 
   const header = 'Community care';
-  const { providerName, practiceName } =
+  const { name, providerName, practiceName } =
     appointment.communityCareProvider || {};
   const calendarData = getCalendarData({
     facility: appointment.communityCareProvider,
     appointment,
   });
   const isPastAppointment = appointment.vaos.isPastAppointment;
+  const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
 
   return (
     <PageLayout>
@@ -95,15 +95,7 @@ export default function CommunityCareAppointmentDetailsPage() {
         <AppointmentDateTime appointment={appointment} />
       </h1>
 
-      {isPastAppointment && (
-        <AlertBox
-          status={ALERT_TYPE.WARNING}
-          className="vads-u-display--block"
-          backgroundOnly
-        >
-          This appointment occurred in the past.
-        </AlertBox>
-      )}
+      <StatusAlert appointment={appointment} />
 
       <h2
         className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
@@ -114,15 +106,15 @@ export default function CommunityCareAppointmentDetailsPage() {
         </span>
       </h2>
 
-      {(!!providerName || !!practiceName) && (
+      {(!!providerName || !!practiceName || !!name) && (
         <>
-          {providerName || practiceName}
+          {providerName || practiceName || name}
           <br />
         </>
       )}
       <FacilityAddress
         facility={appointment.communityCareProvider}
-        showDirectionsLink={!!appointment.communityCareProvider.address}
+        showDirectionsLink={!!appointment.communityCareProvider?.address}
         level={2}
       />
 
@@ -137,25 +129,26 @@ export default function CommunityCareAppointmentDetailsPage() {
         )}
       </div>
 
-      {!isPastAppointment && (
-        <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-          <i
-            aria-hidden="true"
-            className="far fa-calendar vads-u-margin-right--1 vads-u-color--link-default"
-          />
-          <AddToCalendar
-            summary={calendarData.summary}
-            description={{
-              text: calendarData.text,
-              phone: calendarData.phone,
-              additionalText: calendarData.additionalText,
-            }}
-            location={calendarData.location}
-            duration={appointment.minutesDuration}
-            startDateTime={moment.parseZone(appointment.start)}
-          />
-        </div>
-      )}
+      {!isPastAppointment &&
+        !isCanceled && (
+          <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
+            <i
+              aria-hidden="true"
+              className="far fa-calendar vads-u-margin-right--1 vads-u-color--link-default"
+            />
+            <AddToCalendar
+              summary={calendarData.summary}
+              description={{
+                text: calendarData.text,
+                phone: calendarData.phone,
+                additionalText: calendarData.additionalText,
+              }}
+              location={calendarData.location}
+              duration={appointment.minutesDuration}
+              startDateTime={moment.parseZone(appointment.start)}
+            />
+          </div>
+        )}
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
         <i
@@ -168,15 +161,14 @@ export default function CommunityCareAppointmentDetailsPage() {
       </div>
 
       {!isPastAppointment && (
-        <AlertBox
-          status={ALERT_TYPE.INFO}
-          className="vads-u-display--block"
-          headline="Need to make changes?"
+        <InfoAlert
           backgroundOnly
+          headline="Need to make changes?"
+          status="info"
         >
           Contact this provider if you need to reschedule or cancel your
           appointment.
-        </AlertBox>
+        </InfoAlert>
       )}
     </PageLayout>
   );

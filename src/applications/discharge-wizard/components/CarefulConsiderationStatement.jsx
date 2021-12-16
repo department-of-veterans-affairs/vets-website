@@ -1,10 +1,10 @@
-// Dependencies
+// Dependencies imports
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-// Relative Imports
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+// Relative imports
+import AlertMessage from './AlertMessage';
 
 const reasonStatement = formValues => {
   const reason = formValues['4_reason'];
@@ -89,7 +89,9 @@ const priorServiceStatement = formValues => {
   switch (formValues['12_priorService']) {
     case '1':
       return (
-        <AlertBox
+        <AlertMessage
+          isVisible
+          status="info"
           content={
             <div>
               <h4 className="usa-alert-heading">
@@ -110,50 +112,50 @@ const priorServiceStatement = formValues => {
               </p>
             </div>
           }
-          isVisible
-          status="info"
         />
       );
     case '2':
       return (
-        <AlertBox
+        <AlertMessage
+          isVisible
+          status="info"
           content={
-            <div>
+            <div className="usa-alert-text">
               <h4 className="usa-alert-heading">
                 You can apply for VA benefits using your honorable
                 characterization.
               </h4>
-              <p>
-                Because you served honorably in one period of service, you can
-                apply for VA benefits using that honorable characterization. You
-                earned your benefits during the period in which you served
-                honorably. You don’t need a DD214 to apply for VA benefits—you
-                only need to specifically mention this period of honorable
-                service. (VA may do a Character of Discharge review to confirm
-                your eligibility.)
-              </p>
-              <p>
-                The only exception is for service-connected disability
-                compensation. If your disability began during your less than
-                honorable period of service, you won’t be eligible to earn
-                disability compensation unless you get that discharge upgraded.
-                The instructions below this box tell you how to apply to an
-                upgrade or correction for your final, less than honorable period
-                of service.
-              </p>
-              <p>
-                If you want a DD214 for your period of honorable service for
-                other reasons, unrelated to applying for VA benefits, you can
-                request one.{' '}
-                <Link to="/request-dd214" target="_blank">
-                  Find out how to request a DD214 for your period of honorable
-                  service
-                </Link>
-              </p>
+              <div className="vads-u-font-size--base">
+                <p className="vads-u-margin-top--2">
+                  Because you served honorably in one period of service, you can
+                  apply for VA benefits using that honorable characterization.
+                  You earned your benefits during the period in which you served
+                  honorably. You don’t need a DD214 to apply for VA benefits—you
+                  only need to specifically mention this period of honorable
+                  service. (VA may do a Character of Discharge review to confirm
+                  your eligibility.)
+                </p>
+                <p>
+                  The only exception is for service-connected disability
+                  compensation. If your disability began during your less than
+                  honorable period of service, you won’t be eligible to earn
+                  disability compensation unless you get that discharge
+                  upgraded. The instructions below this box tell you how to
+                  apply to an upgrade or correction for your final, less than
+                  honorable period of service.
+                </p>
+                <p>
+                  If you want a DD214 for your period of honorable service for
+                  other reasons, unrelated to applying for VA benefits, you can
+                  request one.{' '}
+                  <Link to="/request-dd214" target="_blank">
+                    Find out how to request a DD214 for your period of honorable
+                    service
+                  </Link>
+                </p>
+              </div>
             </div>
           }
-          isVisible
-          status="info"
         />
       );
     default:
@@ -162,10 +164,10 @@ const priorServiceStatement = formValues => {
 };
 
 const CarefulConsiderationStatement = ({ formValues }) => (
-  <div>
+  <>
     {reasonStatement(formValues)}
     {priorServiceStatement(formValues)}
-  </div>
+  </>
 );
 
 CarefulConsiderationStatement.propTypes = {

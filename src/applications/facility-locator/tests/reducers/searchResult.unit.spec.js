@@ -43,6 +43,25 @@ describe('facilities reducer', () => {
     expect(state.pagination.currentPage).to.eql(1);
   });
 
+  it('should clear error after a successful search', () => {
+    const state = SearchResultReducer(
+      { ...INITIAL_STATE, error: true },
+      {
+        type: FETCH_LOCATIONS,
+        payload: {
+          data: [{ name: 'selectedResult1' }, { name: 'selectedResult2' }],
+          meta: {
+            pagination: {
+              currentPage: 1,
+            },
+          },
+        },
+      },
+    );
+
+    expect(state.error).to.be.null;
+  });
+
   it('should handle fetching state to build a search query object', () => {
     const state = SearchResultReducer(INITIAL_STATE, {
       type: FETCH_LOCATIONS,

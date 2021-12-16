@@ -2,6 +2,7 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 import React from 'react';
 import { Link } from 'react-router-dom';
 import newAppointmentFlow from '../../newAppointmentFlow';
+import { FLOW_TYPES } from '../../../utils/constants';
 
 function formatBestTimetoCall(bestTime) {
   const times = [];
@@ -29,7 +30,7 @@ function formatBestTimetoCall(bestTime) {
   return output.toLowerCase();
 }
 
-export default function ContactDetailSection({ data }) {
+export default function ContactDetailSection({ data, flowType }) {
   return (
     <>
       <div className="vads-l-grid-container vads-u-padding--0">
@@ -40,8 +41,12 @@ export default function ContactDetailSection({ data }) {
               {data.email}
               <br />
               <Telephone notClickable contact={data.phoneNumber} />
-              <br />
-              <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
+              {flowType !== FLOW_TYPES.DIRECT && (
+                <>
+                  <br />
+                  <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
+                </>
+              )}
             </span>
           </div>
           <div>

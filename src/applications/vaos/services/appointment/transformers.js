@@ -8,10 +8,18 @@ import {
   APPOINTMENT_TYPES,
   PURPOSE_TEXT,
   EXPRESS_CARE,
-  UNABLE_TO_REACH_VETERAN_DETCODE,
+  TYPE_OF_VISIT,
+  TYPES_OF_EYE_CARE,
+  TYPES_OF_SLEEP_CARE,
+  AUDIOLOGY_TYPES_OF_CARE,
+  TYPES_OF_CARE,
+  CANCELLATION_REASONS,
 } from '../../utils/constants';
-import { getTimezoneBySystemId } from '../../utils/timezone';
-import { transformATLASLocation } from '../location/transformers';
+import { getTimezoneByFacilityId } from '../../utils/timezone';
+import {
+  transformATLASLocation,
+  transformCommunityProvider,
+} from '../location/transformers';
 
 import {
   CANCELLED_APPOINTMENT_SET,
@@ -151,7 +159,7 @@ function getMomentConfirmedDate(appt) {
       .utcOffset(offset);
   }
 
-  const timezone = getTimezoneBySystemId(appt.facilityId)?.timezone;
+  const timezone = getTimezoneByFacilityId(appt.sta6aid || appt.facilityId);
 
   return timezone
     ? moment(appt.startDate).tz(timezone)
@@ -283,13 +291,14 @@ function setVideoData(appt) {
       : null,
     atlasConfirmationCode: videoData.tasInfo?.confirmationCode,
     duration: videoData.duration,
-    status: videoData.status.code,
   };
 }
 
 function getCommunityCareData(appt) {
   if (!isCommunityCare(appt)) {
-    return {};
+    return {
+      communityCareProvider: null,
+    };
   }
 
   const apptType = getAppointmentType(appt);
@@ -321,25 +330,10 @@ function getCommunityCareData(appt) {
               : null,
           }
         : null,
-    preferredCommunityCareProviders: appt.ccAppointmentRequest?.preferredProviders?.map(
-      provider => {
-        return {
-          providerName: `${provider.firstName || ''} ${provider.lastName ||
-            ''}`,
-          firstName: provider.firstName,
-          lastName: provider.lastName,
-          practiceName: provider.practiceName,
-          address: provider.address
-            ? {
-                line: [provider.address.street],
-                city: provider.address.city,
-                state: provider.address.state,
-                postalCode: provider.address.zipCode,
-              }
-            : null,
-        };
-      },
-    ),
+    preferredCommunityCareProviders:
+      appt.ccAppointmentRequest?.preferredProviders?.map(provider =>
+        transformCommunityProvider(provider),
+      ) || null,
   };
 }
 
@@ -352,26 +346,28 @@ function getCommunityCareData(appt) {
  */
 function setLocation(appt) {
   const type = getAppointmentType(appt);
+  const location = {
+    vistaId: null,
+    stationId: null,
+    clinicId: null,
+    clinicName: null,
+  };
 
-  switch (type) {
-    case APPOINTMENT_TYPES.vaAppointment: {
-      return {
-        vistaId: appt.facilityId,
-        clinicId: appt.clinicId,
-        stationId: appt.sta6aid,
-        clinicName:
-          appt.clinicFriendlyName || appt.vdsAppointments?.[0]?.clinic?.name,
-      };
-    }
-    case APPOINTMENT_TYPES.request: {
-      return {
-        vistaId: appt.facility?.facilityCode?.substring(0, 3),
-        stationId: appt.facility?.facilityCode,
-      };
-    }
-    default:
-      return {};
+  if (type === APPOINTMENT_TYPES.vaAppointment) {
+    location.vistaId = appt.facilityId;
+    location.clinicId = appt.clinicId;
+    location.stationId = appt.sta6aid;
+    location.clinicName =
+      appt.clinicFriendlyName ||
+      appt.vdsAppointments?.[0]?.clinic?.name ||
+      appt.vvsAppointments?.[0]?.patients?.[0]?.location?.clinic?.name ||
+      null;
+  } else if (type === APPOINTMENT_TYPES.request) {
+    location.vistaId = appt.facility?.facilityCode?.substring(0, 3);
+    location.stationId = appt.facility?.facilityCode;
   }
+
+  return location;
 }
 
 /**
@@ -416,9 +412,17 @@ export function transformConfirmedAppointment(appt) {
   const isPast = isPastAppointment(appt);
   const isCC = isCommunityCare(appt);
   const videoData = setVideoData(appt);
+
+  const CANCELLATION_REASON_MAP = new Map([
+    ['CANCELLED BY PATIENT', 'pat'],
+    ['CANCELLED BY CLINIC', 'prov'],
+    [null, null],
+  ]);
+
   return {
     resourceType: 'Appointment',
-    id: appt.id,
+    // Temporary fix until https://issues.mobilehealth.va.gov/browse/VAOSR-2058 is complete
+    id: appt.id || appt.vvsAppointments[0].id || null,
     status: getConfirmedStatus(appt, isPast),
     description: getVistaStatus(appt),
     start,
@@ -426,7 +430,10 @@ export function transformConfirmedAppointment(appt) {
     comment:
       appt.instructionsToVeteran ||
       (!appt.communityCare && appt.vdsAppointments?.[0]?.bookingNote) ||
-      appt.vvsAppointments?.[0]?.instructionsTitle,
+      appt.vvsAppointments?.[0]?.instructionsTitle ||
+      null,
+    cancelationReason:
+      CANCELLATION_REASON_MAP.get(getVistaStatus(appt)) || null,
     location: setLocation(appt),
     videoData,
     ...getCommunityCareData(appt),
@@ -435,13 +442,24 @@ export function transformConfirmedAppointment(appt) {
       isPastAppointment: isPast,
       appointmentType: getAppointmentType(appt),
       isCommunityCare: isCC,
+      isExpressCare: false,
       timeZone: isCC ? appt.timeZone : null,
-      isPhoneAppointment: appt.phoneOnly,
+      isPhoneAppointment: appt.phoneOnly || false,
       // CDQC is the standard COVID vaccine char4 code
       isCOVIDVaccine: appt.char4 === 'CDQC',
       apiData: appt,
     },
   };
+}
+
+/**
+ * Gets the type of visit that matches our array of visit constant
+ *
+ * @param {Object} appt VAOS Service appointment object
+ * @returns {String} type of visit string
+ */
+function getTypeOfVisit(appt) {
+  return TYPE_OF_VISIT.find(type => type.serviceName === appt.visitType)?.name;
 }
 
 /**
@@ -456,6 +474,19 @@ export function transformConfirmedAppointments(appointments) {
   return appointments.map(appt => transformConfirmedAppointment(appt));
 }
 
+function getTypeOfCareById(id) {
+  const allTypesOfCare = [
+    ...TYPES_OF_EYE_CARE,
+    ...TYPES_OF_SLEEP_CARE,
+    ...AUDIOLOGY_TYPES_OF_CARE,
+    ...TYPES_OF_CARE,
+  ];
+
+  return allTypesOfCare.find(
+    care => care.idV2 === id || care.ccId === id || care.id === id,
+  );
+}
+
 /**
  * Transforms a VAR appointment request to FHIR appointment resource
  *
@@ -467,9 +498,6 @@ export function transformPendingAppointment(appt) {
   const isCC = isCommunityCare(appt);
   const isExpressCare = appt.typeOfCareId === EXPRESS_CARE;
   const requestedPeriod = getRequestedPeriods(appt);
-  const unableToReachVeteran = appt.appointmentRequestDetailCode?.some(
-    detail => detail.detailCode?.code === UNABLE_TO_REACH_VETERAN_DETCODE,
-  );
   const created = moment.parseZone(appt.date).format('YYYY-MM-DD');
   const isVideo = appt.visitType === 'Video Conference';
 
@@ -478,17 +506,19 @@ export function transformPendingAppointment(appt) {
     id: appt.id,
     status: getRequestStatus(appt, isExpressCare),
     created,
-    cancelationReason: unableToReachVeteran
-      ? UNABLE_TO_REACH_VETERAN_DETCODE
-      : null,
+    cancelationReason:
+      appt.appointmentRequestDetailCode?.[0]?.detailCode.code === 'DETCODE8'
+        ? CANCELLATION_REASONS.patient
+        : null,
+
     requestedPeriod,
-    start: isExpressCare ? created : undefined,
+    start: isExpressCare ? created : null,
     minutesDuration: 60,
     type: {
       coding: [
         {
           code: appt.typeOfCareId,
-          display: appt.appointmentType,
+          display: getTypeOfCareById(appt.typeOfCareId)?.name,
         },
       ],
     },
@@ -500,13 +530,18 @@ export function transformPendingAppointment(appt) {
     videoData: {
       isVideo,
     },
+    requestVisitType: getTypeOfVisit(appt),
     ...getCommunityCareData(appt),
     vaos: {
       isVideo,
+      isPastAppointment: false,
       appointmentType: getAppointmentType(appt),
       isCommunityCare: isCC,
       isExpressCare,
+      isPhoneAppointment: false,
+      isCOVIDVaccine: false,
       apiData: appt,
+      timeZone: null,
     },
   };
 }

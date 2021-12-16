@@ -1,6 +1,6 @@
 import vapService from '@@vap-svc/reducers';
 
-import _ from 'lodash/fp';
+import set from 'platform/utilities/data/set';
 import {
   benefitOptionsMap,
   optionsToAlwaysDisplay,
@@ -41,9 +41,9 @@ function letters(state = initialState, action) {
   switch (action.type) {
     case GET_LETTERS_SUCCESS: {
       const letterDownloadStatus = {};
-      _.forEach(letter => {
+      action.data.data.attributes.letters.forEach(letter => {
         letterDownloadStatus[letter.letterType] = DOWNLOAD_STATUSES.pending;
-      }, action.data.data.attributes.letters);
+      });
 
       return {
         ...state,
@@ -54,31 +54,31 @@ function letters(state = initialState, action) {
       };
     }
     case BACKEND_SERVICE_ERROR:
-      return _.set(
+      return set(
         'lettersAvailability',
         AVAILABILITY_STATUSES.backendServiceError,
         state,
       );
     case BACKEND_AUTHENTICATION_ERROR:
-      return _.set(
+      return set(
         'lettersAvailability',
         AVAILABILITY_STATUSES.backendAuthenticationError,
         state,
       );
     case INVALID_ADDRESS_PROPERTY:
-      return _.set(
+      return set(
         'lettersAvailability',
         AVAILABILITY_STATUSES.invalidAddressProperty,
         state,
       );
     case GET_LETTERS_FAILURE:
-      return _.set(
+      return set(
         'lettersAvailability',
         AVAILABILITY_STATUSES.unavailable,
         state,
       );
     case LETTER_ELIGIBILITY_ERROR:
-      return _.set(
+      return set(
         'lettersAvailability',
         AVAILABILITY_STATUSES.letterEligibilityError,
         state,
@@ -106,9 +106,9 @@ function letters(state = initialState, action) {
       // Set all request body options to true so that on page load, all options
       // are checked.
       const requestOptions = { militaryService: true };
-      _.forEach(option => {
+      possibleOptions.forEach(option => {
         requestOptions[benefitOptionsMap[option]] = true;
-      }, possibleOptions);
+      });
 
       return {
         ...state,
@@ -119,27 +119,23 @@ function letters(state = initialState, action) {
       };
     }
     case GET_BENEFIT_SUMMARY_OPTIONS_FAILURE:
-      return _.set('optionsAvailable', false, state);
+      return set('optionsAvailable', false, state);
     case UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION:
-      return _.set(
-        ['requestOptions', action.propertyPath],
-        action.value,
-        state,
-      );
+      return set(['requestOptions', action.propertyPath], action.value, state);
     case GET_LETTER_PDF_DOWNLOADING:
-      return _.set(
+      return set(
         ['letterDownloadStatus', action.data],
         DOWNLOAD_STATUSES.downloading,
         state,
       );
     case GET_LETTER_PDF_SUCCESS:
-      return _.set(
+      return set(
         ['letterDownloadStatus', action.data],
         DOWNLOAD_STATUSES.success,
         state,
       );
     case GET_LETTER_PDF_FAILURE:
-      return _.set(
+      return set(
         ['letterDownloadStatus', action.data],
         DOWNLOAD_STATUSES.failure,
         state,

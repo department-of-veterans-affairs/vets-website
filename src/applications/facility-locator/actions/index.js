@@ -25,7 +25,7 @@ import LocatorApi from '../api';
 import {
   LocationType,
   BOUNDING_RADIUS,
-  TypeList,
+  MAPBOX_QUERY_TYPES,
   CountriesList,
 } from '../constants';
 
@@ -108,28 +108,29 @@ export const fetchProviderDetail = id => async dispatch => {
 };
 
 /**
- * Handles all urgent care request (mashup)
+ * Handles all care request (mashup) - Urgent care and Emergency care
  * @param {Object} parameters from the search request
  * @returns {Object} An Object response (locations/providers)
  */
-const returnAllUrgentCare = async params => {
+const returnAllCare = async params => {
   const { address, bounds, locationType, page, center, radius } = params;
-  const urgentCareVaData = await LocatorApi.searchWithBounds(
+  const isUrgentCare = locationType === LocationType.URGENT_CARE;
+  const vaData = await LocatorApi.searchWithBounds(
     address,
     bounds,
     locationType,
-    'UrgentCare',
+    isUrgentCare ? 'UrgentCare' : 'EmergencyCare',
     page,
     center,
     radius,
     true,
   );
 
-  const urgentCareNonVaData = await LocatorApi.searchWithBounds(
+  const nonVaData = await LocatorApi.searchWithBounds(
     address,
     bounds,
     locationType,
-    'NonVAUrgentCare',
+    isUrgentCare ? 'NonVAUrgentCare' : 'NonVAEmergencyCare',
     page,
     center,
     radius,
@@ -146,7 +147,7 @@ const returnAllUrgentCare = async params => {
       },
     },
     links: {},
-    data: [...urgentCareNonVaData.data, ...urgentCareVaData.data]
+    data: [...nonVaData.data, ...vaData.data]
       .map(location => {
         const distance =
           center &&
@@ -190,12 +191,15 @@ export const fetchLocations = async (
 ) => {
   let data = {};
 
+  const isUrgentCare = locationType === LocationType.URGENT_CARE;
+  const isEmergencyCare = locationType === LocationType.EMERGENCY_CARE;
+
   try {
     if (
-      locationType === LocationType.URGENT_CARE &&
-      (!serviceType || serviceType === 'AllUrgentCare')
+      (isUrgentCare && (!serviceType || serviceType === 'AllUrgentCare')) ||
+      (isEmergencyCare && (!serviceType || serviceType === 'AllEmergencyCare'))
     ) {
-      const allUrgentCareList = await returnAllUrgentCare({
+      const allCare = await returnAllCare({
         address,
         bounds,
         locationType,
@@ -203,7 +207,7 @@ export const fetchLocations = async (
         center,
         radius,
       });
-      data = allUrgentCareList;
+      data = allCare;
     } else {
       const dataList = await LocatorApi.searchWithBounds(
         address,
@@ -215,22 +219,24 @@ export const fetchLocations = async (
         radius,
       );
       data = { ...dataList };
-      data.data = dataList.data
-        .map(location => {
-          const distance =
-            center &&
-            distBetween(
-              center[0],
-              center[1],
-              location.attributes.lat,
-              location.attributes.long,
-            );
-          return {
-            ...location,
-            distance,
-          };
-        })
-        .sort((resultA, resultB) => resultA.distance - resultB.distance);
+      if (dataList.data) {
+        data.data = dataList.data
+          .map(location => {
+            const distance =
+              center &&
+              distBetween(
+                center[0],
+                center[1],
+                location.attributes.lat,
+                location.attributes.long,
+              );
+            return {
+              ...location,
+              distance,
+            };
+          })
+          .sort((resultA, resultB) => resultA.distance - resultB.distance);
+      }
     }
     if (data.errors) {
       dispatch({ type: SEARCH_FAILED, error: data.errors });
@@ -238,7 +244,7 @@ export const fetchLocations = async (
       dispatch({ type: FETCH_LOCATIONS, payload: data });
     }
   } catch (error) {
-    dispatch({ type: SEARCH_FAILED, error });
+    dispatch({ type: SEARCH_FAILED, error: error.message });
   }
 };
 
@@ -330,7 +336,7 @@ export const genBBoxFromAddress = query => {
     dispatch({ type: GEOCODE_STARTED });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
-    let types = TypeList;
+    let types = MAPBOX_QUERY_TYPES;
     // check for postcode search
     const isPostcode = query.searchString.match(/^\s*\d{5}\s*$/);
 
@@ -428,7 +434,7 @@ export const genSearchAreaFromCenter = query => {
       dispatch({ type: GEOCODE_FAILED });
       dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
     } else {
-      const types = TypeList;
+      const types = MAPBOX_QUERY_TYPES;
       mbxClient
         .reverseGeocode({
           countries: CountriesList,

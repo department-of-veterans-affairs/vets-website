@@ -1,10 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash/fp';
+import get from 'platform/utilities/data/get';
+import set from 'platform/utilities/data/set';
 import Scroll from 'react-scroll';
-import { scrollToFirstError, focusElement } from 'platform/utilities/ui';
+import {
+  scrollToFirstError,
+  focusElement,
+  getScrollOptions,
+} from 'platform/utilities/ui';
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 import {
   toIdSchema,
@@ -14,7 +20,6 @@ import {
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 
 const Element = Scroll.Element;
-const scroller = Scroll.scroller;
 
 function ReviewSources({ sources }) {
   return (
@@ -70,7 +75,7 @@ export default class AdditionalSourcesField extends React.Component {
 
   onItemChange(indexToChange, value, fullItem = false) {
     const path = fullItem ? [indexToChange] : [indexToChange, 'amount'];
-    const newItems = _.set(path, value, this.props.formData || []);
+    const newItems = set(path, value, this.props.formData || []);
 
     this.props.onChange(newItems);
   }
@@ -85,9 +90,9 @@ export default class AdditionalSourcesField extends React.Component {
   }
 
   scrollToRow(index) {
-    scroller.scrollTo(
+    scrollTo(
       `additional_${index}`,
-      window.VetsGov?.scroll || {
+      getScrollOptions() || {
         duration: 500,
         delay: 0,
         smooth: true,
@@ -99,7 +104,7 @@ export default class AdditionalSourcesField extends React.Component {
 
   handleUpdate(index) {
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
-      this.setState(_.set(['editStates', index], false, this.state), () => {
+      this.setState(set(['editStates', index], false, this.state), () => {
         this.scrollToRow(index);
       });
     } else {
@@ -184,7 +189,7 @@ export default class AdditionalSourcesField extends React.Component {
                           required
                           schema={itemSchema}
                           uiSchema={uiSchema.items}
-                          errorSchema={_.get([index], errorSchema) || {}}
+                          errorSchema={get([index], errorSchema) || {}}
                           idSchema={itemIdSchema}
                           formData={itemData}
                           onChange={value =>
@@ -227,7 +232,7 @@ export default class AdditionalSourcesField extends React.Component {
                   name="amount"
                   schema={itemSchema.properties.amount}
                   uiSchema={currencyUI(itemData.name)}
-                  errorSchema={_.get([index, 'amount'], errorSchema) || {}}
+                  errorSchema={get([index, 'amount'], errorSchema) || {}}
                   idSchema={itemIdSchema.amount}
                   formData={itemData.amount}
                   onChange={value => this.onItemChange(index, value)}

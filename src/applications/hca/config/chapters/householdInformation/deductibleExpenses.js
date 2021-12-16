@@ -1,4 +1,4 @@
-import { set } from 'lodash/fp';
+import set from 'platform/utilities/data/set';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 

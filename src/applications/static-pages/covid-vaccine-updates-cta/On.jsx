@@ -1,7 +1,5 @@
 import React from 'react';
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
+import * as AlertBoxComponent from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import { connect } from 'react-redux';
 import {
@@ -9,7 +7,7 @@ import {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import recordEvent from 'platform/monitoring/record-event';
-import { rootUrl as covidVaccineFormUrl } from 'applications/coronavirus-vaccination/manifest.json';
+import constantsCoronavirusVaccination from 'applications/coronavirus-vaccination/manifest.json';
 
 const recordButtonClick = buttonClickLabel => {
   recordEvent({
@@ -22,6 +20,8 @@ const recordButtonClick = buttonClickLabel => {
 
 function OnState({ copy }) {
   if (!copy) return null;
+
+  const AlertBox = AlertBoxComponent.default;
   return (
     <>
       <DowntimeNotification
@@ -31,7 +31,7 @@ function OnState({ copy }) {
         <div />
       </DowntimeNotification>
       <AlertBox
-        status={ALERT_TYPE.INFO}
+        status={AlertBoxComponent.ALERT_TYPE.INFO}
         headline={copy.headline}
         content={
           <>
@@ -84,7 +84,7 @@ function OnState({ copy }) {
                 onClick={() => {
                   recordButtonClick(copy.buttonText);
                 }}
-                href={covidVaccineFormUrl}
+                href={constantsCoronavirusVaccination.rootUrl}
                 className="usa-button-primary"
               >
                 {copy.buttonText}

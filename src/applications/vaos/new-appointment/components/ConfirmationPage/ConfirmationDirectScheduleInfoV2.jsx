@@ -1,17 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from '../../../lib/moment-tz.js';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event.js';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import AddToCalendar from '../../../components/AddToCalendar';
+import InfoAlert from '../../../components/InfoAlert';
 import {
   formatFacilityAddress,
   getFacilityPhone,
 } from '../../../services/location';
 import {
-  getTimezoneAbbrBySystemId,
-  getTimezoneBySystemId,
+  getTimezoneAbbrByFacilityId,
+  getTimezoneByFacilityId,
 } from '../../../utils/timezone';
 import { GA_PREFIX, PURPOSE_TEXT } from '../../../utils/constants';
 
@@ -20,11 +20,10 @@ export default function ConfirmationDirectScheduleInfoV2({
   facilityDetails,
   clinic,
   slot,
-  systemId,
 }) {
-  const timezone = getTimezoneBySystemId(systemId);
+  const timezone = getTimezoneByFacilityId(data.vaFacility);
   const momentDate = timezone
-    ? moment(slot.start).tz(timezone.timezone, true)
+    ? moment(slot.start).tz(timezone, true)
     : moment(slot.start);
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
 
@@ -32,9 +31,9 @@ export default function ConfirmationDirectScheduleInfoV2({
     <>
       <h1 className="vads-u-font-size--h2">
         {momentDate.format('dddd, MMMM D, YYYY [at] h:mm a')}
-        {` ${getTimezoneAbbrBySystemId(systemId)}`}
+        {` ${getTimezoneAbbrByFacilityId(data.vaFacility)}`}
       </h1>
-      <AlertBox status="success" backgroundOnly>
+      <InfoAlert status="success" backgroundOnly>
         <strong>Your appointment has been scheduled and is confirmed.</strong>
         <br />
         <div className="vads-u-margin-y--1">
@@ -52,7 +51,7 @@ export default function ConfirmationDirectScheduleInfoV2({
         <div>
           <Link to="/new-appointment">New appointment</Link>
         </div>
-      </AlertBox>
+      </InfoAlert>
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
           <h2
@@ -65,7 +64,6 @@ export default function ConfirmationDirectScheduleInfoV2({
             facility={facilityDetails}
             facilityName={facilityDetails?.name}
             facilityId={facilityDetails.id}
-            isHomepageRefresh
             clinicFriendlyName={clinic.serviceName}
           />
         </div>

@@ -5,7 +5,13 @@ import { LocationType } from '../../../constants';
 import { parsePhoneNumber } from '../../../utils/phoneNumbers';
 import CCProviderPhoneLink from './CCProviderPhoneLink';
 
-export const renderPhoneNumber = (title, subTitle = null, phone, from) => {
+export const renderPhoneNumber = (
+  title,
+  subTitle = null,
+  phone,
+  from,
+  location,
+) => {
   if (!phone) {
     return null;
   }
@@ -18,12 +24,14 @@ export const renderPhoneNumber = (title, subTitle = null, phone, from) => {
     return null;
   }
 
+  const phoneNumberId = `${location.id}-${title.replaceAll(/\s+/g, '')}`;
+
   return (
     <div>
       {from === 'FacilityDetail' && (
         <i aria-hidden="true" role="presentation" className="fa fa-phone" />
       )}
-      {title && <strong>{title}: </strong>}
+      {title && <strong id={phoneNumberId}>{title}: </strong>}
       {subTitle}
       <Telephone
         className={
@@ -31,6 +39,7 @@ export const renderPhoneNumber = (title, subTitle = null, phone, from) => {
         }
         contact={contact}
         extension={extension}
+        ariaDescribedById={phoneNumberId}
       >
         {formattedPhoneNumber}
       </Telephone>
@@ -41,7 +50,12 @@ export const renderPhoneNumber = (title, subTitle = null, phone, from) => {
 // NOTE: Do not use this component to display Covid19 appointment phone numbers.
 // Use Covid19PhoneLink instead.
 
-const LocationPhoneLink = ({ location, from, query }) => {
+const LocationPhoneLink = ({
+  location,
+  from,
+  query,
+  showHealthConnectNumber = false,
+}) => {
   const isProvider = location.type === LocationType.CC_PROVIDER;
   const { phone } = location.attributes;
 
@@ -57,9 +71,24 @@ const LocationPhoneLink = ({ location, from, query }) => {
 
   return (
     <div className="facility-phone-group vads-u-margin-top--2">
-      {renderPhoneNumber('Main number', null, phone.main, from)}
+      {renderPhoneNumber('Main number', null, phone.main, from, location)}
+      {showHealthConnectNumber && <div style={{ minHeight: '20px' }} />}
+      {showHealthConnectNumber &&
+        renderPhoneNumber(
+          'VA health connect',
+          null,
+          '877-741-3400',
+          from,
+          location,
+        )}
       {phone.mentalHealthClinic && <div style={{ minHeight: '20px' }} />}
-      {renderPhoneNumber('Mental health', null, phone.mentalHealthClinic, from)}
+      {renderPhoneNumber(
+        'Mental health',
+        null,
+        phone.mentalHealthClinic,
+        from,
+        location,
+      )}
     </div>
   );
 };
@@ -68,6 +97,7 @@ LocationPhoneLink.propTypes = {
   location: PropTypes.object,
   from: PropTypes.string,
   query: PropTypes.object,
+  showHealthConnectNumber: PropTypes.string,
 };
 
 export default LocationPhoneLink;

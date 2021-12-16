@@ -27,7 +27,7 @@ describe('Edu 5490 benefitHistory', () => {
     );
     expect(
       ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input').length,
-    ).to.equal(7);
+    ).to.equal(6);
   });
 
   it('should expand options conditionally', () => {
@@ -45,7 +45,7 @@ describe('Edu 5490 benefitHistory', () => {
     // Re-tested here for posterity; can be removed before merging
     expect(
       Array.from(formDOM.querySelectorAll('input,select')).length,
-    ).to.equal(7);
+    ).to.equal(6);
 
     const inputs = Array.from(formDOM.querySelectorAll('input'));
     const claimed = inputs.find(
@@ -80,7 +80,7 @@ describe('Edu 5490 benefitHistory', () => {
     // Should expand to 16
     expect(
       Array.from(formDOM.querySelectorAll('input,select')).length,
-    ).to.equal(17);
+    ).to.equal(16);
 
     expect(claimed.checked).to.be.true;
 

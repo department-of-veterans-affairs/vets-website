@@ -1,4 +1,4 @@
-import merge from 'lodash/fp/merge';
+import merge from 'lodash/merge';
 
 import environment from '../../utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from '../../utilities/api';
@@ -23,7 +23,7 @@ export function savedFormRequest(
     credentials: 'include',
   };
 
-  const settings = merge(defaultSettings, optionalSettings);
+  const settings = merge({}, defaultSettings, optionalSettings);
   return fetch(url, settings)
     .then(response => {
       const data = isJson(response)

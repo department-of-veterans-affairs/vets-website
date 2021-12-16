@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Relative imports
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import AlertMessage from '../AlertMessage';
 import { board, formData } from '../../helpers';
 
 const StepOne = ({ formValues }) => {
@@ -169,7 +169,7 @@ const StepOne = ({ formValues }) => {
         >
           Download Form {form.num}
         </a>
-        <AlertBox
+        <AlertMessage
           content={
             <div>
               <h4 className="usa-alert-heading">

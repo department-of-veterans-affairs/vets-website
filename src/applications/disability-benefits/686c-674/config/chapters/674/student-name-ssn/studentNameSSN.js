@@ -26,6 +26,9 @@ export const uiSchema = {
       },
       middle: {
         'ui:title': 'Student’s middle name',
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
       },
       last: {
         'ui:required': formData =>
@@ -37,6 +40,7 @@ export const uiSchema = {
         'ui:title': 'Student’s suffix',
         'ui:options': {
           widgetClassNames: 'form-select-medium',
+          hideEmptyValueInReview: true,
         },
       },
     },

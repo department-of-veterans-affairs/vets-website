@@ -33,7 +33,7 @@ describe('VAOS <CommunityCareLanguagePage>', () => {
 
     expect((await screen.findAllByRole('combobox')).length).to.equal(1);
 
-    expect(screen.baseElement).to.contain.text('Select the preferred language');
+    expect(screen.baseElement).to.contain.text('Choose a preferred language');
   });
 
   it('should show validation for VA medical request', async () => {
@@ -42,7 +42,9 @@ describe('VAOS <CommunityCareLanguagePage>', () => {
       store,
     });
 
-    await screen.findByLabelText(/select the preferred language/i);
+    await screen.findByLabelText(
+      /Select your language preference for your community care provider/i,
+    );
     fireEvent.click(screen.getByText(/Continue/));
     expect(await screen.findByRole('alert')).to.contain.text(
       'Please provide a response',
@@ -55,7 +57,9 @@ describe('VAOS <CommunityCareLanguagePage>', () => {
       store,
     });
 
-    await screen.findByLabelText(/select the preferred language/i);
+    await screen.findByLabelText(
+      /Select your language preference for your community care provider/i,
+    );
     userEvent.selectOptions(screen.getByRole('combobox'), [
       screen.getByText(/English/i),
     ]);
@@ -74,7 +78,9 @@ describe('VAOS <CommunityCareLanguagePage>', () => {
       store,
     });
 
-    await screen.findByLabelText(/select the preferred language/i);
+    await screen.findByLabelText(
+      /Select your language preference for your community care provider/i,
+    );
     userEvent.selectOptions(screen.getByRole('combobox'), [
       screen.getByText(/English/i),
     ]);

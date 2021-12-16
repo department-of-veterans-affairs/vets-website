@@ -334,15 +334,22 @@ export const addressUISchema = (
   const addressDescription = (
     <>
       <p>
-        Any updates you make here to your address will apply only to this
-        application.
+        Any updates you make here will only change your mailing address for this
+        request.
       </p>
       <p>
-        To update your address for all of your VA accounts, you’ll need to go to
-        your profile page.{' '}
-        <a href="https://va.gov/profile">
-          View the address that's on file in your profile.
+        If you want to change your address for other VA benefits and services,
+        <a href="https://va.gov/profile" className="vads-u-margin-left--0p5">
+          go to your VA.gov profile
         </a>
+        . Or
+        <a
+          href="https://www.va.gov/resources/change-your-address-on-file-with-va"
+          className="vads-u-margin-left--0p5"
+        >
+          find out how to change your address on file with VA
+        </a>
+        .
       </p>
     </>
   );

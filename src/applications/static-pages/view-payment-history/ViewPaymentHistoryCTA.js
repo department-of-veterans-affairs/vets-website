@@ -1,5 +1,5 @@
 import React from 'react';
-import CallToActionWidget from 'platform/site-wide/cta-widget';
+import CallToActionWidget from 'applications/static-pages/cta-widget';
 
 const ViewPaymentHistoryCTA = () => (
   <div>

@@ -1,8 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ViewDependentsListItem from '../ViewDependentsList/ViewDependentsListItem';
 
+const RemoveDependentSuccessMessage = () => (
+  <p
+    aria-live="polite"
+    className="vads-u-background-color--green-lightest vads-u-padding--2"
+  >
+    We’ll update your information for this dependent. If we need you to give us
+    more information or documents, we’ll contact you by mail.
+  </p>
+);
 function ViewDependentsList(props) {
   let mainContent;
   const manageDependentsToggle = props?.manageDependentsToggle ?? null;
@@ -21,17 +31,19 @@ function ViewDependentsList(props) {
     ));
   } else {
     mainContent = (
-      <h2 className="vads-u-font-size--h3">
+      <p className="vads-u-background-color--gray-lightest vads-u-padding--2p5">
         {props?.isAward
           ? `There are no dependents associated with your VA benefits`
-          : `There are no dependents in this list`}
-      </h2>
+          : `We have no record of dependents who are not on your VA benefits.`}
+      </p>
     );
   }
 
   return (
     <>
-      <h2>{props.header}</h2>
+      <h2 className={props.isAward ? 'vads-u-margin-top--1p5' : null}>
+        {props.header}
+      </h2>
       <p>{props.subHeader}</p>
       <a
         className="vads-u-display--block vads-u-margin-bottom--4"
@@ -39,16 +51,29 @@ function ViewDependentsList(props) {
       >
         {props.linkText}
       </a>
+      {manageDependentsToggle &&
+        props?.submittedDependents?.length > 0 && (
+          <RemoveDependentSuccessMessage />
+        )}
       {mainContent}
     </>
   );
 }
 
+const mapStateToProps = state => ({
+  submittedDependents: state?.removeDependents?.submittedDependents,
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(ViewDependentsList);
+
+export { ViewDependentsList };
 ViewDependentsList.propTypes = {
   dependents: PropTypes.array,
   header: PropTypes.string,
   subHeader: PropTypes.object,
   manageDependentsToggle: PropTypes.bool,
+  submittedDependents: PropTypes.array,
 };
-
-export default ViewDependentsList;

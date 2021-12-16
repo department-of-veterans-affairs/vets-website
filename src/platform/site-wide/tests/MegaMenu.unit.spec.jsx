@@ -143,7 +143,7 @@ let megaMenu;
 describe('<MegaMenu>', () => {
   beforeEach(() => {
     div = document.createElement('div');
-    div.setAttribute('id', 'mega-menu');
+    div.setAttribute('class', 'mega-menu');
     document.body.appendChild(div);
 
     megaMenu = mount(
@@ -151,6 +151,9 @@ describe('<MegaMenu>', () => {
         data={data}
         toggleDropDown={title => {
           title;
+        }}
+        toggleDisplayHidden={hidden => {
+          hidden;
         }}
         updateCurrentSection={title => {
           title;
@@ -249,6 +252,9 @@ describe('<MegaMenu>', () => {
         data={data}
         toggleDropDown={title => {
           title;
+        }}
+        toggleDisplayHidden={hidden => {
+          hidden;
         }}
         updateCurrentSection={title => {
           title;

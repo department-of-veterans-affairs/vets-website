@@ -129,7 +129,7 @@ export const SearchResult = ({ school, onSearchResultClick }) => (
         className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif vads-u-margin--0"
         data-e2e-id="result-title"
       >
-        {deriveNameLabel(school)}
+        <h3 className="vads-u-margin--0">{deriveNameLabel(school)}</h3>
       </dd>
 
       {/* School Location */}

@@ -23,9 +23,9 @@ const Waivers = () => {
           Based on the information you provided, this isn’t the form you need.
         </h2>
         <p>
-          <strong>
+          <strong className="vads-u-margin-x--0p5">
             To ask our Committee of Waivers and Compromises to reconsider your
-            waiver,{' '}
+            waiver,
           </strong>
           you’ll need to tell us why you think we should reconsider.
         </p>
@@ -34,21 +34,18 @@ const Waivers = () => {
           <li>
             <strong>Online: </strong>
             <a
-              href="https://iris.custhelp.va.gov/app/ask"
+              href="https://www.va.gov/contact-us/"
+              className="vads-u-margin-left--0p5"
               onClick={() => {
                 recordEvent({
                   event: 'howToWizard-alert-link-click',
                   'howToWizard-alert-link-click-label':
-                    'Go to our online question form (called IRIS)',
+                    'Contact us through Ask VA',
                 });
               }}
             >
-              Go to our online question form (called IRIS)
+              Contact us through Ask VA
             </a>
-            . On the IRIS page, select <strong>Debt Management Center</strong>,
-            your debt type, and <strong>Waiver</strong> within the Topic
-            dropdown. For Inquiry Type, select <strong>Question</strong>. Write
-            your request in the <strong>Question</strong> section.
           </li>
           <li>
             <strong>Phone: </strong>

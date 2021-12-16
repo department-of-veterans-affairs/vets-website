@@ -44,6 +44,9 @@ export const uiSchema = {
           },
           middle: {
             'ui:title': 'Middle name',
+            'ui:options': {
+              hideEmptyValueInReview: true,
+            },
           },
           last: {
             'ui:title': 'Last name',
@@ -53,6 +56,7 @@ export const uiSchema = {
           suffix: {
             'ui:options': {
               hideIf: () => true,
+              hideEmptyValueInReview: true,
             },
           },
         },

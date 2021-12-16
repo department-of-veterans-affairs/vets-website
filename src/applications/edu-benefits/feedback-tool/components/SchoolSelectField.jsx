@@ -35,7 +35,6 @@ import {
 import { transformSearchToolAddress } from '../helpers';
 
 const Element = Scroll.Element;
-const scroller = Scroll.scroller;
 
 export class SchoolSelectField extends React.Component {
   constructor(props) {
@@ -70,14 +69,6 @@ export class SchoolSelectField extends React.Component {
   componentWillUnmount() {
     this.debouncedSearchInstitutions.cancel();
   }
-
-  scrollToTop = () => {
-    scroller.scrollTo('schoolSearch', {
-      duration: 250,
-      delay: 0,
-      smooth: true,
-    });
-  };
 
   handleManualSchoolEntryToggled = currentValue => {
     this.props.onChange({

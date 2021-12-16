@@ -144,8 +144,8 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
     <div aria-atomic="true" aria-live="polite" role="status">
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul
-        className="out-of-pocket-tuition"
         aria-label="Out-of-pocket tuition"
+        className="out-of-pocket-tuition"
         role="list"
       >
         <CalculatorResultRow
@@ -174,8 +174,8 @@ export const EstimatedBenefits = ({ profile, outputs, calculator }) => (
       </ul>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul
-        className="total-paid-to-you"
         aria-label="Total paid to you"
+        className="total-paid-to-you"
         role="list"
       >
         <CalculatorResultRow

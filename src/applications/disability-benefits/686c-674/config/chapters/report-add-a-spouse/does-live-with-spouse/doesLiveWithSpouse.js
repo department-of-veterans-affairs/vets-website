@@ -49,6 +49,7 @@ export const uiSchema = {
     spouseIncome: {
       'ui:options': {
         hideIf: () => environment.isProduction(),
+        hideEmptyValueInReview: true,
       },
       'ui:title': 'Did your spouse have income in the last 365 days?',
       'ui:description':

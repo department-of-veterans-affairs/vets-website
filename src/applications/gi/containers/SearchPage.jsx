@@ -30,8 +30,10 @@ import ServiceError from '../components/ServiceError';
 import { renderSearchResultsHeader } from '../utils/render';
 import { isMobileView, useQueryParams } from '../utils/helpers';
 import { searchWithFilters } from '../utils/search';
+import scrollTo from 'platform/utilities/ui/scrollTo';
+import environment from 'platform/utilities/environment';
 
-const { Element: ScrollElement, scroller } = Scroll;
+const { Element: ScrollElement } = Scroll;
 
 export function SearchPage({
   autocomplete,
@@ -54,14 +56,23 @@ export function SearchPage({
   const history = useHistory();
   const queryParams = useQueryParams();
 
-  const searchTerm = autocomplete.term;
-  const title = searchTerm ? `SearchResults - ${searchTerm}` : 'Search Results';
+  const searchTerm = autocomplete.term
+    ? autocomplete.term
+    : autocomplete.searchTerm;
+
+  const legacyTitle = searchTerm
+    ? `SearchResults - ${searchTerm}`
+    : 'Search Results';
+  const newTitle = `Search results: GI Bill® Comparison Tool | Veterans Affairs`;
 
   useEffect(
     () => {
-      dispatchSetPageTitle(title);
+      dispatchSetPageTitle(
+        `${environment.isProduction() ? legacyTitle : newTitle}`,
+      );
     },
-    [title],
+
+    [dispatchSetPageTitle, legacyTitle, newTitle],
   );
 
   useEffect(
@@ -74,7 +85,6 @@ export function SearchPage({
           'onlineOnly',
           'principlesOfExcellence',
           'eightKeysToVeteranSuccess',
-          'stemIndicator',
           'priorityEnrollment',
           'independentStudy',
           'preferredProvider',
@@ -126,7 +136,7 @@ export function SearchPage({
   useEffect(
     () => {
       if (!isMobileView()) {
-        scroller.scrollTo('searchPage', getScrollOptions());
+        scrollTo('searchPage', getScrollOptions());
       }
     },
     [search.inProgress],

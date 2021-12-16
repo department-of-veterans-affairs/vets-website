@@ -2,7 +2,7 @@ import {
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
-} from '~/applications/personalization/dashboard-2/constants';
+} from '~/applications/personalization/dashboard/constants';
 
 const initialState = {
   data: [],

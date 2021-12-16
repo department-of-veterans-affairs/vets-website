@@ -11,10 +11,7 @@ import {
   isMultifactorEnabled as isMultifactorEnabledSelector,
   selectProfile,
 } from 'platform/user/selectors';
-import {
-  isAuthenticatedWithSSOe as authenticatedWithSSOeSelector,
-  signInServiceName as signInServiceNameSelector,
-} from 'platform/user/authentication/selectors';
+import { signInServiceName as signInServiceNameSelector } from 'platform/user/authentication/selectors';
 
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
@@ -22,7 +19,7 @@ import IdentityNotVerified from '~/applications/personalization/components/Ident
 import ProfileInfoTable from '../ProfileInfoTable';
 import TwoFactorAuthorizationStatus from './TwoFactorAuthorizationStatus';
 import MHVTermsAndConditionsStatus from './MHVTermsAndConditionsStatus';
-import EmailAddressNotification from '../personal-information/email-addresses/EmailAddressNotification';
+import EmailAddressNotification from '../contact-information/email-addresses/EmailAddressNotification';
 import Verified from './Verified';
 
 export const AccountSecurityContent = ({
@@ -33,7 +30,6 @@ export const AccountSecurityContent = ({
   showWeHaveVerifiedYourID,
   showMPIConnectionError,
   showNotInMPIError,
-  isAuthenticatedWithSSOe,
   signInServiceName,
 }) => {
   const securitySections = [
@@ -43,7 +39,6 @@ export const AccountSecurityContent = ({
       value: (
         <TwoFactorAuthorizationStatus
           isMultifactorEnabled={isMultifactorEnabled}
-          isAuthenticatedWithSSOe={isAuthenticatedWithSSOe}
         />
       ),
     },
@@ -103,6 +98,7 @@ export const AccountSecurityContent = ({
         headline="Have questions about signing in to VA.gov?"
         className="medium-screen:vads-u-margin-top--4"
         backgroundOnly
+        level={2}
       >
         <div className="vads-u-display--flex vads-u-flex-direction--column">
           <p>
@@ -111,7 +107,9 @@ export const AccountSecurityContent = ({
             security on VA.gov.
           </p>
 
-          <h4>Go to FAQs about these topics:</h4>
+          <h3 className="vads-u-font-size--h4">
+            Go to FAQs about these topics:
+          </h3>
           <a
             href="/resources/signing-in-to-vagov/"
             className="vads-u-margin-y--1"
@@ -170,7 +168,6 @@ AccountSecurityContent.propTypes = {
   }),
   showMHVTermsAndConditions: PropTypes.bool.isRequired,
   signInServiceName: PropTypes.string.isRequired,
-  authenticatedWithSSOe: PropTypes.bool.isRequired,
 };
 
 export const mapStateToProps = state => {
@@ -195,7 +192,6 @@ export const mapStateToProps = state => {
     showNotInMPIError,
     showMHVTermsAndConditions,
     signInServiceName: signInServiceNameSelector(state),
-    isAuthenticatedWithSSOe: authenticatedWithSSOeSelector(state),
   };
 };
 

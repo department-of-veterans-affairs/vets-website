@@ -33,16 +33,28 @@ const VeteranInfoBox = ({
           </p>
           <p className="vads-u-margin--1px">VA File number: {fileNumber}</p>
           <p className="vads-u-margin--1px">
-            Date of birth: {moment(dateOfBirth).format('DD/MM/YYYY')}
+            Date of birth:
+            <span className="vads-u-margin-left--0p5">
+              {moment(dateOfBirth, 'YYYY-MM-DD').format('DD/MM/YYYY')}
+            </span>
           </p>
         </div>
       </div>
       <p>
         <strong>Note: </strong>
         If you need to update your personal information, call our VA benefits
-        hotline at <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
-        <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />) ,
-        Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        hotline at
+        <Telephone
+          contact={CONTACTS.VA_BENEFITS}
+          className="vads-u-margin-x--0p5"
+        />
+        (TTY:
+        <Telephone
+          contact={CONTACTS[711]}
+          pattern={PATTERNS['3_DIGIT']}
+          className="vads-u-margin-left--0p5"
+        />
+        ), Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </div>
   );

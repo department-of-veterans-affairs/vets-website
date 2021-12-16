@@ -1,6 +1,8 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
+import transactionCompletedWithNoChanges from '@@profile/tests/fixtures/transactions/no-changes-transaction.json';
+import transactionCompletedWithError from '@@profile/tests/fixtures/transactions/error-transaction.json';
 
 const setup = (mobile = false) => {
   if (mobile) {
@@ -101,7 +103,7 @@ describe('Modals on the personal information and content page', () => {
     checkModals({
       otherSectionName: 'mailing address',
       editLineId: 'root_emailAddress',
-      sectionName: 'email address',
+      sectionName: 'contact email address',
     });
   });
 
@@ -140,7 +142,105 @@ describe('Modals on the personal information and content page', () => {
     checkModals({
       otherSectionName: 'mailing address',
       editLineId: 'root_emailAddress',
-      sectionName: 'email address',
+      sectionName: 'contact email address',
     });
+  });
+});
+
+describe('Modals on the personal information and content page after editing', () => {
+  it('should allow the ability to reopen the edit modal when the transaction completes', () => {
+    setup();
+
+    const sectionName = 'contact email address';
+
+    cy.intercept(
+      '/v0/profile/email_addresses',
+      transactionCompletedWithNoChanges,
+    );
+
+    // Open edit view
+    cy.findByRole('button', {
+      name: new RegExp(`edit ${sectionName}`, 'i'),
+    }).click({
+      force: true,
+    });
+
+    // Click on Update in the current section
+    cy.findByTestId('save-edit-button').click({
+      force: true,
+    });
+
+    // find edit button and click it
+    cy.findByRole('button', {
+      name: new RegExp(`edit ${sectionName}`, 'i'),
+    }).click({
+      force: true,
+    });
+
+    // verify input exists
+    cy.findByLabelText(/email address/i);
+  });
+});
+
+describe('when moving to other profile sections', () => {
+  it('should exit edit mode if opened', () => {
+    setup();
+
+    const sectionName = 'contact email address';
+
+    cy.intercept(
+      '/v0/profile/email_addresses',
+      transactionCompletedWithNoChanges,
+    );
+
+    // Open edit view
+    cy.findByRole('button', {
+      name: new RegExp(`edit ${sectionName}`, 'i'),
+    }).click({
+      force: true,
+    });
+
+    cy.findByRole('link', {
+      name: /military information/i,
+    }).click({
+      // using force: true since there are times when the click does not
+      // register and the bank info form does not open
+      force: true,
+    });
+    cy.findByRole('link', {
+      name: /personal.*information/i,
+    }).click({
+      // using force: true since there are times when the click does not
+      // register and the bank info form does not open
+      force: true,
+    });
+    cy.findByRole('button', {
+      name: new RegExp(`edit ${sectionName}`, 'i'),
+    }).should('exist');
+  });
+});
+
+describe('Modals on the personal information and content page when they error', () => {
+  it('should exist', () => {
+    setup();
+
+    const sectionName = 'contact email address';
+
+    cy.intercept('/v0/profile/email_addresses', transactionCompletedWithError);
+
+    // Open edit view
+    cy.findByRole('button', {
+      name: new RegExp(`edit ${sectionName}`, 'i'),
+    }).click({
+      force: true,
+    });
+
+    // Click on Update in the current section
+    cy.findByTestId('save-edit-button').click({
+      force: true,
+    });
+
+    // expect an error to be shown
+    cy.findByTestId('edit-error-alert').should('exist');
   });
 });

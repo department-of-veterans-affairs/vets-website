@@ -33,6 +33,7 @@ function PaymentHistory() {
       className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
       title="VA payment history"
       data={tableData}
+      level={2}
     />
   );
 }

@@ -20,8 +20,8 @@ import State from '../../components/State';
 import FacilityPhone from '../../components/FacilityPhone';
 import { getFacilityIdFromLocation } from '../../services/location/index';
 import { getRealFacilityId } from '../../utils/appointment';
+import InfoAlert from '../../components/InfoAlert';
 import NewTabAnchor from '../../components/NewTabAnchor';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 import { hasValidCovidPhoneNumber } from '../../services/appointment';
 
@@ -74,24 +74,21 @@ export default function ContactFacilitiesPage() {
       {canUseVaccineFlow && (
         <>
           <h1>{pageTitle}</h1>
-          <AlertBox
-            className="vads-u-margin-top--0"
-            level="2"
-            status="warning"
+          <InfoAlert
             backgroundOnly
-            headline="If you got your first dose:"
+            headline="Call to schedule your second dose"
+            status="warning"
           >
+            <p>Here's what to know:</p>
             <ul>
+              <li>You must receive the same vaccine for both doses.</li>
               <li>
-                <strong>At a VA health facility,</strong> call that facility to
-                schedule your second dose.
-              </li>
-              <li>
-                <strong>Outside of VA,</strong> you'll need to go to the same
-                location to get your second dose.
+                We encourage you to go to the same location for both doses. But
+                even if you got your first dose outside of VA, you can go to any
+                VA facility that offers the same type of vaccine.
               </li>
             </ul>
-          </AlertBox>
+          </InfoAlert>
         </>
       )}
       {!canUseVaccineFlow && (
@@ -106,7 +103,12 @@ export default function ContactFacilitiesPage() {
       <h2 className="vads-u-font-size--h3" id="vaos-facilities-label">
         Your facilities
       </h2>
-      <ul className="usa-unstyled-list" aria-labelledby="vaos-facilities-label">
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul
+        aria-labelledby="vaos-facilities-label"
+        className="usa-unstyled-list"
+        role="list"
+      >
         {facilities.slice(0, facilitiesToShow).map(facility => (
           <li key={facility.id} className="vads-u-margin-top--2">
             <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
@@ -138,10 +140,12 @@ export default function ContactFacilitiesPage() {
         ))}
       </ul>
       {!canUseVaccineFlow && (
-        <div className="feature">
-          <h2 className="vads-u-font-size--h3">
-            Find a vaccine walk-in clinic near you
-          </h2>
+        <InfoAlert
+          backgroundOnly
+          className="vads-u-margin-bottom--3"
+          headline="Find a vaccine walk-in clinic near you"
+          status="info"
+        >
           <p>
             You can go to a VA facility's vaccine clinic during walk-in hours to
             get the COVID-19 vaccine. You don't need an appointment, but be sure
@@ -157,7 +161,7 @@ export default function ContactFacilitiesPage() {
           >
             Find VA facilities near you that offer COVID-19 vaccines
           </a>
-        </div>
+        </InfoAlert>
       )}
       <ProgressButton
         onButtonClick={() =>

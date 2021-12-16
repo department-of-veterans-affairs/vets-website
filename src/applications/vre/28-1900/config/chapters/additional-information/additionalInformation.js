@@ -1,6 +1,6 @@
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
-import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
+import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAddress';
 
 const { newAddress, isMoving, yearsOfEducation } = fullSchema.properties;
 

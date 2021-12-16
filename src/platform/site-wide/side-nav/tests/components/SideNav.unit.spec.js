@@ -5,6 +5,7 @@ import { expect } from 'chai';
 import { uniqueId } from 'lodash';
 // Relative
 import SideNav from '../../components/SideNav';
+import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 describe('<SideNav>', () => {
   const firstID = uniqueId('sidenav_');
@@ -46,4 +47,6 @@ describe('<SideNav>', () => {
     expect(wrapper.type()).to.not.equal(null);
     wrapper.unmount();
   });
+
+  it('should pass axe check', () => axeCheck(<SideNav {...defaultProps} />));
 });

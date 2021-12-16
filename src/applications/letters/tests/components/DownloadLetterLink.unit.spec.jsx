@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import _ from 'lodash/fp';
+import set from 'platform/utilities/data/set';
 
 import { getFormDOM } from 'platform/testing/unit/schemaform-utils';
 import { DownloadLetterLink } from '../../components/DownloadLetterLink.jsx';
@@ -35,7 +35,7 @@ describe('<DownloadLetterLink>', () => {
     global.window.dataLayer = [];
 
     const getLetterPdf = sinon.spy();
-    const props = _.set('getLetterPdf', getLetterPdf, defaultProps);
+    const props = set('getLetterPdf', getLetterPdf, defaultProps);
     const component = ReactTestUtils.renderIntoDocument(
       <DownloadLetterLink {...props} />,
     );

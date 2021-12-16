@@ -366,12 +366,16 @@ describe('Schemaform <FormStartControls>', () => {
         fetchInProgressForm={fetchSpy}
         prefillAvailable
         routes={[{}, { formConfig: { wizardStorageKey } }]}
+        ariaLabel="test aria-label"
+        ariaDescribedby="test-id"
       />,
     );
     const formDOM = getFormDOM(tree);
 
     expect(formDOM.className).to.contain('vads-c-action-link--green');
     expect(formDOM.textContent).to.eq('Get Started');
+    expect(formDOM.getAttribute('aria-label')).to.eq('test aria-label');
+    expect(formDOM.getAttribute('aria-describedby')).to.eq('test-id');
   });
 
   it('should display the startNewAppButtonText', () => {
@@ -439,5 +443,58 @@ describe('Schemaform <FormStartControls>', () => {
     expect(
       tree.dive(['ProgressButton', '.usa-button-primary']).text(),
     ).to.include('A custom continue app message');
+  });
+
+  it('should include aria-label & aria-describedby on sign in button', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    const fetchSpy = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <FormStartControls
+        formId="1010ez"
+        migrations={[]}
+        formSaved={false}
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}
+        routes={defaultRoutes}
+        ariaLabel="test aria-label"
+        ariaDescribedby="test-id"
+      />,
+    );
+
+    const button = tree.everySubTree('ProgressButton');
+    expect(button.length).to.equal(1);
+    expect(button[0].props.ariaLabel).to.eq('test aria-label');
+    expect(button[0].props.ariaDescribedby).to.eq('test-id');
+  });
+  it('should include aria-label & aria-describedby on all buttons when logged in with a saved form', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    const fetchSpy = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <FormStartControls
+        formId="1010ez"
+        migrations={[]}
+        formSaved
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}
+        routes={defaultRoutes}
+        ariaLabel="test aria-label"
+        ariaDescribedby="test-id"
+      />,
+    );
+
+    const buttons = tree.everySubTree('ProgressButton');
+    expect(buttons.length).to.equal(4);
+
+    // Modal buttons = last 2, do not include these aria-attributes
+    expect(buttons[0].props.ariaLabel).to.eq('test aria-label');
+    expect(buttons[0].props.ariaDescribedby).to.eq('test-id');
+    expect(buttons[1].props.ariaLabel).to.eq('test aria-label');
+    expect(buttons[1].props.ariaDescribedby).to.eq('test-id');
   });
 });

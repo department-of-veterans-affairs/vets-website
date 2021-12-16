@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { facilityTypes } from '../config';
 import {
@@ -14,6 +13,7 @@ import {
   LocationType,
   Error,
   Covid19Vaccine,
+  EMERGENCY_CARE_SERVICES,
 } from '../constants';
 
 import { setFocus } from '../utils/helpers';
@@ -25,13 +25,12 @@ import VaFacilityResult from './search-results-items/VaFacilityResult';
 import CCProviderResult from './search-results-items/CCProviderResult';
 import PharmacyResult from './search-results-items/PharmacyResult';
 import UrgentCareResult from './search-results-items/UrgentCareResult';
+import EmergencyCareResult from './search-results-items/EmergencyCareResult';
 import Covid19Result from './search-results-items/Covid19Result';
 import SearchResultMessage from './SearchResultMessage';
 import { covidVaccineSchedulingFrontend } from '../utils/featureFlagSelectors';
 
-const TIMEOUTS = new Set(['408', '504', '503']);
-
-class ResultsList extends Component {
+export class ResultsList extends Component {
   constructor(props) {
     super(props);
     this.searchResultTitle = React.createRef();
@@ -58,8 +57,18 @@ class ResultsList extends Component {
    * @returns [] list of results
    */
   renderResultItems(query, results) {
-    return results.map((r, index) => {
+    return results.map((result, index) => {
       let item;
+      const services = result?.attributes?.detailedServices;
+      const walkInsAccepted = Array.isArray(services)
+        ? services[0]?.walkInsAccepted
+        : 'false';
+
+      const showHealthConnectNumber =
+        result?.attributes?.visn === '8' &&
+        query?.facilityType === 'health' &&
+        this.props.facilityLocatorShowHealthConnectNumber;
+
       switch (query.facilityType) {
         case 'health':
         case 'cemetery':
@@ -68,44 +77,98 @@ class ResultsList extends Component {
           item =
             query.serviceType === Covid19Vaccine ? (
               <Covid19Result
-                location={r}
-                key={r.id}
+                location={result}
+                key={result.id}
                 index={index}
                 showCovidVaccineSchedulingLinks={
                   this.props.showCovidVaccineSchedulingLinks
                 }
+                showCovidVaccineWalkInAvailabilityText={
+                  (walkInsAccepted || '').toLowerCase() === 'true'
+                }
               />
             ) : (
               <VaFacilityResult
-                location={r}
+                location={result}
                 query={query}
-                key={r.id}
+                key={result.id}
                 index={index}
+                showHealthConnectNumber={showHealthConnectNumber}
               />
             );
           break;
         case 'provider':
           // Support non va urgent care search through ccp option
           if (query.serviceType === CLINIC_URGENTCARE_SERVICE) {
-            item = <UrgentCareResult provider={r} query={query} key={r.id} />;
+            item = (
+              <UrgentCareResult
+                provider={result}
+                query={query}
+                key={result.id}
+              />
+            );
           } else if (query.serviceType === PHARMACY_RETAIL_SERVICE) {
-            item = <PharmacyResult provider={r} query={query} key={r.id} />;
+            item = (
+              <PharmacyResult provider={result} query={query} key={result.id} />
+            );
+          } else if (EMERGENCY_CARE_SERVICES.includes(query.serviceType)) {
+            item = (
+              <EmergencyCareResult
+                provider={result}
+                query={query}
+                key={result.id}
+              />
+            );
           } else {
-            item = <CCProviderResult provider={r} query={query} key={r.id} />;
+            item = (
+              <CCProviderResult
+                provider={result}
+                query={query}
+                key={result.id}
+              />
+            );
           }
           break;
         case 'pharmacy':
-          item = <PharmacyResult provider={r} query={query} key={r.id} />;
+          item = (
+            <PharmacyResult provider={result} query={query} key={result.id} />
+          );
           break;
-        case 'urgent_care':
-          if (r.type === LocationType.CC_PROVIDER) {
-            item = <UrgentCareResult provider={r} query={query} key={r.id} />;
+        case 'emergency_care':
+          if (result.type === LocationType.CC_PROVIDER) {
+            item = (
+              <EmergencyCareResult
+                provider={result}
+                query={query}
+                key={result.id}
+              />
+            );
           } else {
             item = (
               <VaFacilityResult
-                location={r}
+                location={result}
                 query={query}
-                key={r.id}
+                key={result.id}
+                index={index}
+              />
+            );
+          }
+          break;
+        case 'urgent_care':
+          if (result.type === LocationType.CC_PROVIDER) {
+            item = (
+              <UrgentCareResult
+                provider={result}
+                query={query}
+                key={result.id}
+              />
+            );
+          } else {
+            item = (
+              <VaFacilityResult
+                location={result}
+                query={query}
+                key={result.id}
                 index={index}
               />
             );
@@ -125,50 +188,48 @@ class ResultsList extends Component {
       inProgress,
       searchString,
       results,
-      error,
-      pagination: { currentPage },
+      searchError,
+      pagination,
       currentQuery,
       query,
     } = this.props;
 
+    const currentPage = pagination ? pagination.currentPage : 1;
     if (inProgress) {
       return (
         <div>
-          <LoadingIndicator
-            message={`Searching for ${facilityTypeName}
-            in ${searchString}`}
+          <va-loading-indicator
+            message={`Searching for ${facilityTypeName} in ${searchString}`}
           />
           <DelayedRender>
-            <AlertBox
-              isVisible
-              status="info"
-              headline="Please wait"
-              content="Your results should appear in less than a minute. Thank you for your patience."
-            />
+            <va-alert visible status="info">
+              <h3 slot="headline">Please wait</h3>
+              <div>
+                Your results should appear in less than a minute. Thank you for
+                your patience.
+              </div>
+            </va-alert>
           </DelayedRender>
         </div>
       );
     }
 
-    if (error && Array.isArray(error)) {
-      const timedOut = error.find(err => TIMEOUTS.has(err.code));
-      if (timedOut) {
+    if (searchError) {
+      if (searchError.type === 'mapBox') {
         return (
           <SearchResultMessage
             facilityType={facilityTypeName}
             resultRef={this.searchResultTitle}
-            message={Error.DEFAULT}
-            error={error}
+            message={Error.LOCATION}
           />
         );
       }
-    } else if (currentQuery.error && currentQuery.error.type === 'mapBox') {
       return (
         <SearchResultMessage
           facilityType={facilityTypeName}
           resultRef={this.searchResultTitle}
-          message={Error.LOCATION}
-          error={error}
+          message={Error.DEFAULT}
+          error={searchError}
         />
       );
     }
@@ -241,13 +302,16 @@ function mapStateToProps(state) {
     facilityTypeName,
     inProgress,
     results: state.searchResult.results,
-    error: state.searchResult.error,
+    searchError: state.searchResult.error,
     pagination: state.searchResult.pagination,
     position,
     searchString,
     selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
     showCovidVaccineSchedulingLinks: covidVaccineSchedulingFrontend(state),
+    facilityLocatorShowHealthConnectNumber: toggleValues(state)[
+      FEATURE_FLAG_NAMES.facilityLocatorShowHealthConnectNumber
+    ],
   };
 }
 

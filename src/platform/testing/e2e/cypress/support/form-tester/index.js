@@ -141,12 +141,13 @@ const performPageActions = (pathname, _13647Exception = false) => {
 
   cy.execHook(pathname).then(({ hookExecuted, postHook }) => {
     const shouldAutofill = !pathname.match(
-      /\/(introduction|confirmation|review-and-submit)$/,
+      /\/(start|introduction|confirmation|review-and-submit)$/,
     );
 
     if (!hookExecuted && shouldAutofill) cy.fillPage();
 
     cy.expandAccordions();
+    cy.injectAxe();
     cy.axeCheck('main', { _13647Exception });
 
     const postHookPromise = new Promise(resolve => {
@@ -201,7 +202,7 @@ const defaultPostHook = pathname => {
   }
 
   // No-op on introduction and confirmation pages.
-  if (pathname.match(/\/(introduction|confirmation)$/)) {
+  if (pathname.match(/\/(start|introduction|confirmation)$/)) {
     return () => {};
   }
 

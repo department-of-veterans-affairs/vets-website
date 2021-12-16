@@ -4,10 +4,12 @@ const appType = formConfig =>
   formConfig.customText?.appType || APP_TYPE_DEFAULT;
 
 export function inProgressMessage(formConfig) {
-  const defaultMessage = `Your ${appType(formConfig)} is in progress.`;
+  const defaultMessage = `Your ${appType(formConfig)} is in progress`;
   const message = formConfig.saveInProgress?.messages?.inProgress;
 
-  return typeof message === 'string' ? message : defaultMessage;
+  return typeof message === 'string'
+    ? message.replace(/\.$/, '') // remove any trailing period
+    : defaultMessage;
 }
 
 export function expiredMessage(formConfig) {

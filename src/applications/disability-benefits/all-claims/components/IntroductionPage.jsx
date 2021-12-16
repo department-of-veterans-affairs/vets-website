@@ -10,18 +10,19 @@ import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { selectAvailableServices } from 'platform/user/selectors';
+import { isLoggedIn } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { itfNotice } from '../content/introductionPage';
-import { originalClaimsFeature } from '../config/selectors';
-import fileOriginalClaimPage from '../../wizard/pages/file-original-claim';
 import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';
 import {
   BDD_INFO_URL,
   DISABILITY_526_V2_ROOT_URL,
   WIZARD_STATUS,
+  PAGE_TITLE_SUFFIX,
+  DOCUMENT_TITLE_SUFFIX,
 } from '../constants';
+import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -30,28 +31,14 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
-    const { formConfig, pageList } = this.props.route;
-    const services = selectAvailableServices(this.props) || [];
-    const allowOriginalClaim =
-      this.props.allowOriginalClaim || this.props.testOriginalClaim;
-    const allowContinue = services.includes('original-claim')
-      ? allowOriginalClaim // original claim feature flag
-      : true; // services.includes('form526'); // <- "form526" service should
-    // be required to proceed; not changing this now in case it breaks something
+    const { route, loggedIn } = this.props;
+    const { formConfig, pageList } = route;
 
     const isBDDForm = this.props.isBDDForm;
-    const pageTitle = getPageTitle(isBDDForm);
+    const pageTitle = `${getPageTitle(isBDDForm)} ${PAGE_TITLE_SUFFIX}`;
     const startText = getStartText(isBDDForm);
+    document.title = `${pageTitle}${DOCUMENT_TITLE_SUFFIX}`;
 
-    // Remove this once form526_original_claims feature flag is removed
-    if (!allowContinue) {
-      return (
-        <div className="schemaform-intro">
-          <FormTitle title={pageTitle} subTitle={formConfig.subTitle} />
-          <fileOriginalClaimPage.component props={this.props} />
-        </div>
-      );
-    }
     const subwayTitle = `Follow the steps below to file ${
       isBDDForm
         ? 'a BDD claim.'
@@ -60,7 +47,7 @@ class IntroductionPage extends React.Component {
 
     return (
       <div className="schemaform-intro">
-        <FormTitle title={`${pageTitle} with VA Form 21-526EZ`} />
+        <FormTitle title={pageTitle} />
         {isBDDForm ? (
           <>
             <h2 className="vads-u-font-size--h4">
@@ -85,34 +72,44 @@ class IntroductionPage extends React.Component {
         )}
         <SaveInProgressIntro
           hideUnauthedStartLink
+          headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           formId={this.props.formId}
+          formConfig={formConfig}
           pageList={pageList}
           startText={startText}
           retentionPeriod="1 year"
           downtime={formConfig.downtime}
+          ariaDescribedby="main-content"
         />
         {itfNotice}
-        <h2 className="vads-u-font-size--h4">{subwayTitle}</h2>
+        <h2 id="main-content" className="vads-u-font-size--h4">
+          {subwayTitle}
+        </h2>
         <div className="process schemaform-process">
-          <p className="vads-u-margin-top--0">
-            if you don’t think this is the right form for you,{' '}
-            <a
-              href={
-                this.props.showWizard
-                  ? DISABILITY_526_V2_ROOT_URL
-                  : '/disability/how-to-file-claim/'
-              }
-              className="va-button-link"
-              onClick={() => {
-                sessionStorage.removeItem(WIZARD_STATUS);
-                recordEvent({ event: 'howToWizard-start-over' });
-              }}
-            >
-              go back and answer questions again
-            </a>
-            .
-          </p>
+          {loggedIn && (
+            <p id="restart-wizard" className="vads-u-margin-top--0">
+              if you don’t think this is the right form for you,{' '}
+              <a
+                aria-describedby="restart-wizard"
+                href={
+                  this.props.showWizard
+                    ? `${DISABILITY_526_V2_ROOT_URL}/start`
+                    : '/disability/how-to-file-claim/'
+                }
+                onClick={() => {
+                  sessionStorage.setItem(
+                    WIZARD_STATUS,
+                    WIZARD_STATUS_RESTARTING,
+                  );
+                  recordEvent({ event: 'howToWizard-start-over' });
+                }}
+              >
+                go back and answer questions again
+              </a>
+              .
+            </p>
+          )}
           <ol>
             <li className="process-step list-one">
               <h3 className="vads-u-font-size--h4">Prepare</h3>
@@ -255,6 +252,7 @@ class IntroductionPage extends React.Component {
           buttonOnly
           prefillEnabled={formConfig.prefillEnabled}
           formId={this.props.formId}
+          formConfig={formConfig}
           pageList={pageList}
           startText={startText}
           downtime={formConfig.downtime}
@@ -270,8 +268,7 @@ class IntroductionPage extends React.Component {
 
 const mapStateToProps = state => ({
   formId: state.form.formId,
-  user: state.user,
-  allowOriginalClaim: originalClaimsFeature(state),
+  loggedIn: isLoggedIn(state),
   showWizard: show526Wizard(state),
   isBDDForm: isBDD(state?.form?.data),
 });
@@ -284,8 +281,7 @@ IntroductionPage.propTypes = {
     }),
     pageList: PropTypes.array.isRequired,
   }).isRequired,
-  user: PropTypes.shape({}),
-  allowOriginalClaim: PropTypes.bool,
+  loggedIn: PropTypes.bool,
   showWizard: PropTypes.bool,
   isBDDForm: PropTypes.bool,
 };

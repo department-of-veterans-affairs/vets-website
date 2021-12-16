@@ -41,7 +41,7 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
     'ui:order': [
       'bankAccount',
       'declineDirectDeposit',
-      'view:directDespositInfo',
+      'view:directDepositInfo',
       'view:bankInfoHelpText',
     ],
     bankAccount: {
@@ -66,8 +66,13 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
         'accountNumber',
       ],
       'view:paymentText': {
-        'ui:description':
-          'We make payments only through direct deposit, also called electronic funds transfer (EFT).',
+        'ui:description': (
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+          <div tabIndex="0">
+            We make payments only through direct deposit, also called electronic
+            funds transfer (EFT).
+          </div>
+        ),
       },
       accountType: {
         ...bankAccountUI.accountType,
@@ -100,7 +105,7 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
         widgetClassNames: 'vads-u-margin-top--4',
       },
     },
-    'view:directDespositInfo': {
+    'view:directDepositInfo': {
       'ui:description': directDepositAlert({
         affectedBenefits,
         unaffectedBenefits,
@@ -161,7 +166,7 @@ const schema = optionalFields => {
           },
         },
       },
-      'view:directDespositInfo': { type: 'object', properties: {} },
+      'view:directDepositInfo': { type: 'object', properties: {} },
       'view:bankInfoHelpText': { type: 'object', properties: {} },
     },
   };

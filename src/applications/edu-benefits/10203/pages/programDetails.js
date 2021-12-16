@@ -1,6 +1,6 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import { countries } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 import environment from 'platform/utilities/environment';
 
 import {
@@ -39,9 +39,8 @@ export const uiSchema = {
   },
   // prod flag 24612
   schoolName: {
-    'ui:title': environment.isProduction()
-      ? 'What’s the name of the school where you plan on using the Rogers STEM Scholarship?'
-      : 'What’s the name of the school or training institution where you plan on using the Rogers STEM Scholarship?',
+    'ui:title':
+      'What’s the name of the school or training institution where you plan on using the Rogers STEM Scholarship?',
   },
   schoolCity: {
     'ui:title': 'City',
@@ -56,18 +55,15 @@ export const uiSchema = {
     },
   },
   schoolStudentId: {
-    'ui:title': environment.isProduction()
-      ? 'Your school student ID number'
-      : 'Your student ID number',
+    'ui:title': 'Your student ID number',
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
     },
   },
   schoolEmailAddress: {
     ...emailUI(),
-    'ui:title': environment.isProduction()
-      ? 'Your school email address (This email address usually ends with .edu)'
-      : 'Your student email address (This email address usually ends with .edu)',
+    'ui:title':
+      'Your student email address (This email address usually ends with .edu)',
   },
   'view:stemApplicantSco': {
     'ui:description': environment.isProduction() ? null : stemApplicantSco,
@@ -85,8 +81,8 @@ export const schema = {
     schoolCountry: {
       default: 'USA',
       type: 'string',
-      enum: countries.map(country => country.value),
-      enumNames: countries.map(country => country.label),
+      enum: constants.countries.map(country => country.value),
+      enumNames: constants.countries.map(country => country.label),
     },
     'view:field': {
       type: 'object',

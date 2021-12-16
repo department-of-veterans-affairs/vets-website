@@ -80,7 +80,6 @@ class CopyMailingAddress extends React.Component {
       <div className="copy-mailing-address-to-residential-address">
         <div className="form-checkbox-buttons form-checkbox">
           <input
-            autoComplete="false"
             checked={areHomeMailingAddressesEqual()}
             id="copy-mailing-address-to-residential-address"
             name="copy-mailing-address-to-residential-address"

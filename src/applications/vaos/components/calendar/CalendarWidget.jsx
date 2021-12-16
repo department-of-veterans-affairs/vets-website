@@ -44,30 +44,16 @@ function getFirstDayOfMonth(momentDate) {
  * Gets the maximum month based on inputs
  *
  * @param {string} maxDate YYYY-DD-MM
- * @param {string} startMonth YYYY-MM
- * @returns {string|Moment} YYYY-MM
+ * @returns {string} YYYY-MM
  */
-export function getMaxMonth(maxDate, startMonth) {
+export function getMaxMonth(maxDate) {
   const defaultMaxMonth = moment()
     .add(DEFAULT_MAX_DAYS_AHEAD, 'days')
     .format('YYYY-MM');
+  const maxMonth = moment(maxDate).startOf('month');
 
-  // If provided start month is beyond our default, set that month as max month
-  // This is needed in the case of direct schedule if the user selects a date
-  // beyond the max date
-  if (startMonth && startMonth > defaultMaxMonth) {
-    return startMonth;
-  }
-
-  if (
-    maxDate &&
-    moment(maxDate)
-      .startOf('month')
-      .isAfter(defaultMaxMonth)
-  ) {
-    return moment(maxDate)
-      .startOf('month')
-      .format('YYYY-MM');
+  if (maxDate && maxMonth.isAfter(defaultMaxMonth)) {
+    return maxMonth.format('YYYY-MM');
   }
 
   // If no available dates array provided, set max to default from now
@@ -282,7 +268,7 @@ function CalendarWidget({
     return null;
   });
   const currentDate = moment();
-  const maxMonth = getMaxMonth(maxDate, startMonth);
+  const maxMonth = getMaxMonth(maxDate);
   const [months, setMonths] = useState([moment(startMonth || minDate)]);
   const exceededMaximumSelections = value.length > maxSelections;
   const hasError = (required && showValidation) || exceededMaximumSelections;

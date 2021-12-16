@@ -46,7 +46,13 @@ function RatedDisabilitiesApp(props) {
       >
         <DowntimeNotification
           appTitle="Rated Disabilities"
-          dependencies={[externalServices.evss]}
+          dependencies={[
+            externalServices.evss,
+            externalServices.global,
+            externalServices.mvi,
+            externalServices.vaProfile,
+            externalServices.vbms,
+          ]}
         >
           <RatedDisabilityView
             fetchRatedDisabilities={props.fetchRatedDisabilities}

@@ -87,19 +87,15 @@
         "value": false
       },
       {
-        "name": "ssoeInbound",
+        "name": "ssoe_inbound",
         "value": false
       },
       {
-        "name": "ssoeEbenefitsLinks",
+        "name": "ssoe_ebenefits_links",
         "value": false
       },
       {
         "name": "eduBenefitsStemScholarship",
-        "value": false
-      },
-      {
-        "name": "form526OriginalClaims",
         "value": false
       },
       {
@@ -128,10 +124,6 @@
       },
       {
         "name": "gibctCh33BenefitRateUpdate",
-        "value": false
-      },
-      {
-        "name": "form526BenefitsDeliveryAtDischarge",
         "value": false
       },
       {
@@ -167,7 +159,7 @@
         "value": false
       },
       {
-        "name": "showHealthcareExperienceQuestionnaire",
+        "name": "show_healthcare_experience_questionnaire",
         "value": false
       },
       {

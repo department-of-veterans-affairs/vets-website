@@ -102,7 +102,7 @@
           "incidentDescription": "Something.",
           "personsInvolved": [
             {
-              "name": { "first": "Guy", "last": "Fellows" },
+              "name": { "first": "Guy", "middle": "", "last": "Fellows" },
               "injuryDeath": "woundedInAction",
               "injuryDeathDate": "1900-01-01"
             }

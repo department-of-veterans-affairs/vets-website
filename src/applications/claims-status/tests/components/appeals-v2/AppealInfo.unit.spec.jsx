@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 import { merge } from 'lodash';
+import { Provider } from 'react-redux';
 import { AppealInfo } from '../../../containers/AppealInfo';
 import { mockData } from '../../../utils/helpers';
 import {
@@ -71,7 +72,21 @@ describe('<AppealInfo/>', () => {
   it('should render CopyOfExam block', () => {
     const children = <span className="test">Child Goes Here</span>;
     const props = merge({}, { children }, defaultProps);
-    const wrapper = mount(<AppealInfo {...props} />);
+    const mockStore = {
+      getState: () => ({
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          omni_channel_link: true,
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+    const wrapper = mount(
+      <Provider store={mockStore}>
+        <AppealInfo {...props} />
+      </Provider>,
+    );
     expect(wrapper.find('CopyOfExam').length).to.equal(1);
     wrapper.unmount();
   });

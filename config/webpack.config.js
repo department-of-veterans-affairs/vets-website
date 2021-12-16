@@ -13,8 +13,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
-const ManifestPlugin = require('webpack-manifest-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
+const StylelintPlugin = require('stylelint-webpack-plugin');
 
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
@@ -157,36 +158,38 @@ async function generateHtmlFiles(buildPath) {
   const appRegistry = JSON.parse(scaffoldAssets['registry.json']);
   const loadInlineScript = filename => scaffoldAssets[filename];
 
-  // Modifies the style tags output from HTML Webpack Plugin
-  // to match the order and attributes of style tags from real content.
-  const modifyStyleTags = pluginStyleTags =>
-    pluginStyleTags
-      .reduce(
-        (tags, tag) =>
-          // Puts style.css before the app-specific stylesheet.
-          tag.attributes.href.match(/style/) ? [tag, ...tags] : [...tags, tag],
-        [],
-      )
-      .join('');
+  // Modify the script and style tags output from HTML Webpack Plugin
+  // to match the order and attributes of tags from real content.
+  const modifyScriptAndStyleTags = originalTags => {
+    let scriptTags = [];
+    let styleTags = [];
 
-  // Modifies the script tags output from HTML Webpack Plugin
-  // to match the order and attributes of script tags from real content.
-  const modifyScriptTags = pluginScriptTags =>
-    pluginScriptTags
-      .reduce((tags, tag) => {
+    originalTags.forEach(tag => {
+      if (tag.attributes.src?.match(/style/)) {
         // Exclude style.entry.js, which gets included with the style chunk.
-        if (tag.attributes.src.match(/style/)) return tags;
+      } else if (tag.attributes.src?.match(/polyfills/)) {
+        // Force polyfills.entry.js to be first since vendor.entry.js gets
+        // put first even with chunksSortMode: 'manual'. Also set nomodule
+        // so IE polyfills don't load in newer browsers
+        const tagWithNoModule = {
+          ...tag,
+          attributes: { ...tag.attributes, nomodule: true },
+        };
+        scriptTags = [tagWithNoModule, ...scriptTags];
+      } else if (tag.attributes.href?.match(/style/)) {
+        // Put style.css before the app-specific stylesheet
+        styleTags = [tag, ...styleTags];
+      } else if (tag.attributes.src) {
+        scriptTags.push(tag);
+      } else if (tag.attributes.href) {
+        styleTags.push(tag);
+      } else {
+        throw new Error('Unexpected tag in <head>:', tag);
+      }
+    });
 
-        // Force polyfills.entry.js to be first (and set `nomodules`), since
-        // vendor.entry.js gets put first even with chunksSortMode: 'manual'.
-        return tag.attributes.src.match(/polyfills/)
-          ? [
-              { ...tag, attributes: { ...tag.attributes, nomodule: true } },
-              ...tags,
-            ]
-          : [...tags, tag];
-      }, [])
-      .join('');
+    return [...styleTags, ...scriptTags].join('');
+  };
 
   /* eslint-disable no-nested-ternary */
   const generateHtmlFile = ({
@@ -210,8 +213,7 @@ async function generateHtmlFiles(buildPath) {
 
         // Helper functions
         loadInlineScript,
-        modifyScriptTags,
-        modifyStyleTags,
+        modifyScriptAndStyleTags,
 
         // Default template metadata.
         breadcrumbs_override: [], // eslint-disable-line camelcase
@@ -292,6 +294,7 @@ module.exports = async (env = {}) => {
             options: {
               // Speed up compilation.
               cacheDirectory: '.babelcache',
+              cacheCompression: false,
               // Also see .babelrc
             },
           },
@@ -299,9 +302,7 @@ module.exports = async (env = {}) => {
         {
           test: /\.(sa|sc|c)ss$/,
           use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-            },
+            MiniCssExtractPlugin.loader,
             {
               loader: 'css-loader',
               options: {
@@ -310,12 +311,6 @@ module.exports = async (env = {}) => {
             },
             {
               loader: 'postcss-loader',
-              options: {
-                // use cssnano to minimize css only on optimized builds
-                plugins: isOptimizedBuild
-                  ? () => [require('autoprefixer'), require('cssnano')]
-                  : () => [require('autoprefixer')],
-              },
             },
             {
               loader: 'sass-loader',
@@ -337,7 +332,11 @@ module.exports = async (env = {}) => {
         {
           test: /\.svg/,
           use: {
-            loader: 'svg-url-loader?limit=1024',
+            loader: 'svg-url-loader',
+            options: {
+              limit: 1024,
+              publicPath: './',
+            },
           },
         },
         {
@@ -372,6 +371,10 @@ module.exports = async (env = {}) => {
     },
     resolve: {
       extensions: ['.js', '.jsx'],
+      fallback: {
+        path: require.resolve('path-browserify'),
+      },
+      symlinks: false,
     },
     optimization: {
       minimizer: [
@@ -383,9 +386,7 @@ module.exports = async (env = {}) => {
             },
             warnings: false,
           },
-          // cache: true,
-          parallel: 3,
-          sourceMap: true,
+          parallel: true,
         }),
       ],
       splitChunks: {
@@ -406,18 +407,18 @@ module.exports = async (env = {}) => {
         __API__: JSON.stringify(buildOptions.api),
       }),
 
-      new MiniCssExtractPlugin({
-        moduleFilename: chunk => {
-          const { name } = chunk;
-
-          const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
-          if (isMedalliaStyleFile) return `[name].css`;
-
-          return `[name].css`;
-        },
+      new StylelintPlugin({
+        configFile: '.stylelintrc.json',
+        exclude: ['node_modules', 'build', 'coverage', '.cache'],
+        fix: true,
       }),
 
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new MiniCssExtractPlugin(),
+
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^\.\/locale$/,
+        contextRegExp: /moment$/,
+      }),
 
       new WebpackBar(),
     ],
@@ -426,9 +427,9 @@ module.exports = async (env = {}) => {
 
   if (!buildOptions.watch) {
     baseConfig.plugins.push(
-      new ManifestPlugin({
+      new WebpackManifestPlugin({
         fileName: 'file-manifest.json',
-        filter: ({ path: filePath }) => !filePath.includes('/generated/..'),
+        filter: ({ isChunk }) => isChunk,
       }),
     );
   }
@@ -451,13 +452,14 @@ module.exports = async (env = {}) => {
     baseConfig.plugins.push(...scaffoldedHtml);
   }
 
+  // Open homepage or specific app in browser
   if (buildOptions.open) {
-    baseConfig.devServer.open = true;
-    baseConfig.devServer.openPage =
+    const target =
       buildOptions.openTo || buildOptions.entry
         ? // Assumes the first in the list has a rootUrl
           getEntryManifests(buildOptions.entry)[0].rootUrl
         : '';
+    baseConfig.devServer.open = { target };
   }
 
   if (isOptimizedBuild) {
@@ -470,10 +472,10 @@ module.exports = async (env = {}) => {
       }),
     );
 
-    baseConfig.plugins.push(new webpack.HashedModuleIdsPlugin());
+    // baseConfig.plugins.optimization.moduleIds = 'deterministic';
     baseConfig.mode = 'production';
   } else {
-    baseConfig.devtool = '#eval-source-map';
+    baseConfig.devtool = 'eval-source-map';
 
     // The eval-source-map devtool doesn't seem to work for CSS, so we
     // add a separate plugin for CSS source maps.

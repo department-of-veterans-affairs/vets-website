@@ -85,14 +85,13 @@ def setup() {
 
     dir("vets-website") {
       sh "mkdir -p build"
-      sh "mkdir -p logs/selenium"
       sh "mkdir -p coverage"
       sh "mkdir -p temp"
 
       dockerImage = docker.build(DOCKER_TAG)
       retry(5) {
         dockerImage.inside(DOCKER_ARGS) {
-          sh "cd /application && yarn install --frozen-lockfile --production=false"
+          sh "cd /application && rm -rf node_modules && yarn install --frozen-lockfile --production=false"
         }
       }
       return dockerImage
@@ -116,12 +115,14 @@ def archive(dockerContainer, String ref, String envName) {
     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
                      usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
       sh "echo \"${buildDetails}\" > /application/build/${envName}/BUILD.txt"
-      if(envName == 'vagovdev' || envName == 'vagovstaging') {
-        sh "tar -C /application/build/${envName} -cf /application/build/apps.${envName}.tar.bz2 ."
-        sh "aws s3 cp /application/build/apps.${envName}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/${ref}/${envName}.tar.bz2 --acl public-read --region us-gov-west-1 --quiet"
+      // if(envName == 'vagovstaging') {
+      //   sh "tar -C /application/build/${envName} -cf /application/build/apps.${envName}.tar.bz2 ."
+      //   sh "aws s3 cp /application/build/apps.${envName}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/${ref}/${envName}.tar.bz2 --acl public-read --region us-gov-west-1 --quiet"
+      // }
+      if(envName == 'vagovprod') {
+        sh "tar -C /application/build/${envName} -cf /application/build/${envName}.tar.bz2 ."
+        sh "aws s3 cp /application/build/${envName}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${envName}.tar.bz2 --acl public-read --region us-gov-west-1 --quiet"
       }
-      sh "tar -C /application/build/${envName} -cf /application/build/${envName}.tar.bz2 ."
-      sh "aws s3 cp /application/build/${envName}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${envName}.tar.bz2 --acl public-read --region us-gov-west-1 --quiet"
     }
   }
 }
@@ -144,7 +145,7 @@ def archiveAll(dockerContainer, String ref) {
       parallel archives
 
     } catch (error) {
-      slackNotify()
+      // slackNotify()
       throw error
     }
   }

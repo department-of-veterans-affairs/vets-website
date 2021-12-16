@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash/fp';
+import cloneDeep from '../../../utilities/data/cloneDeep';
 import ReactDOM /* , { act } */ from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
@@ -83,7 +83,7 @@ describe('Schemaform <SipsDevModal>', () => {
 
   it('should replace the form data & include return url', () => {
     setLoc();
-    const data = _.cloneDeep(props);
+    const data = cloneDeep(props);
     const newData = {
       page1: { foo: true },
       page2: { bar: 'ok' },
@@ -115,7 +115,7 @@ describe('Schemaform <SipsDevModal>', () => {
   });
   it('should replace the form data from maximal-test.json & include return url', () => {
     setLoc();
-    const data = _.cloneDeep(props);
+    const data = cloneDeep(props);
     const newData = {
       data: {
         page1: { foo: true },
@@ -150,7 +150,7 @@ describe('Schemaform <SipsDevModal>', () => {
 
   it('should merge partial data into the form data & include return url', () => {
     setLoc();
-    const data = _.cloneDeep(props);
+    const data = cloneDeep(props);
     data.form.data = {
       page1: { foo: true },
       page2: { bar: 'ok' },
@@ -184,7 +184,7 @@ describe('Schemaform <SipsDevModal>', () => {
   });
   it('should unwrap "data" & merge partial data into the form data & include return url', () => {
     setLoc();
-    const data = _.cloneDeep(props);
+    const data = cloneDeep(props);
     data.form.data = {
       page1: { foo: true },
       page2: { bar: 'ok' },

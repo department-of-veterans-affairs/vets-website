@@ -4,7 +4,7 @@ import FormQuestion from './FormQuestion';
 import FormResult from './FormResult';
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
-import { isEqual } from 'lodash/fp';
+import { isEqual } from 'lodash';
 import {
   getEnabledQuestions,
   checkFormStatus,

@@ -6,10 +6,9 @@ import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import uiSchema from '../../../src/js/definitions/dateRange';
-import {
-  dateRange as schema,
-  date,
-} from 'vets-json-schema/dist/definitions.json';
+import definitions from 'vets-json-schema/dist/definitions.json';
+
+const { dateRange: schema, date } = definitions;
 
 function fillDate(find, toFrom, day, month, year) {
   ReactTestUtils.Simulate.change(find(`#root_${toFrom}Day`), {

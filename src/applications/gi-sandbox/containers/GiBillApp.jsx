@@ -4,33 +4,47 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
 import {
-  changeSearchTab,
   enterPreviewMode,
   exitPreviewMode,
   fetchConstants,
+  updateQueryParams,
 } from '../actions';
 import GiBillBreadcrumbs from '../components/GiBillBreadcrumbs';
 import PreviewBanner from '../components/PreviewBanner';
 import Modals from './Modals';
-import { useQueryParams } from '../utils/helpers';
+import { scrollToFocusedElement, useQueryParams } from '../utils/helpers';
 import ServiceError from '../components/ServiceError';
+import AboutThisTool from '../components/content/AboutThisTool';
+import Disclaimer from '../components/content/Disclaimer';
+import { useLocation } from 'react-router-dom';
+import Covid19Banner from '../components/content/Covid19Banner';
+import CompareDrawer from './CompareDrawer';
 
 export function GiBillApp({
   constants,
   children,
+  preview,
+  compare,
   dispatchEnterPreviewMode,
   dispatchExitPreviewMode,
   dispatchFetchConstants,
-  dispatchChangeSearchTab,
-  preview,
+  dispatchUpdateQueryParams,
 }) {
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
   const versionChange = version && version !== preview.version?.id;
   const shouldExitPreviewMode = preview.display && !version;
   const shouldEnterPreviewMode = !preview.display && versionChange;
+  const location = useLocation();
 
-  const tab = queryParams.get('search');
+  useEffect(() => {
+    document.title = 'GI Bill® Comparison Tool | Veterans Affairs';
+    document.addEventListener('focus', scrollToFocusedElement, true);
+
+    return () => {
+      document.removeEventListener('focus', scrollToFocusedElement);
+    };
+  }, []);
 
   useEffect(
     () => {
@@ -41,16 +55,36 @@ export function GiBillApp({
       } else {
         dispatchFetchConstants();
       }
-
-      if (tab) {
-        dispatchChangeSearchTab(tab);
-      }
     },
     [shouldExitPreviewMode, shouldEnterPreviewMode],
   );
 
+  useEffect(() => {
+    const params = {};
+    for (const [key, value] of queryParams.entries()) {
+      if (key.includes('[]')) {
+        const arrayKey = key.replace('[]', '');
+        if (!params[arrayKey]) {
+          params[arrayKey] = [];
+        }
+        params[arrayKey].push(value);
+      } else {
+        params[key] = value;
+      }
+    }
+    dispatchUpdateQueryParams(params);
+  }, []);
+
+  const onProfilePage = location.pathname.includes('/institution');
+  const onComparePage = location.pathname.includes('/compare');
+  const showDisclaimer = onComparePage || !compare.open;
+
   return (
     <div className="gi-app" role="application">
+      {(location.pathname === '/' ||
+        location.pathname === '/gi-bill-comparison-tool-sandbox') && (
+        <Covid19Banner />
+      )}
       <div>
         <div>
           {preview.display && <PreviewBanner version={preview.version} />}
@@ -58,10 +92,20 @@ export function GiBillApp({
           {constants.inProgress && <LoadingIndicator message="Loading..." />}
           {constants.error && <ServiceError />}
           {!(constants.error || constants.inProgress) && (
-            <DowntimeNotification appTitle={'GI Bill Comparison Tool'}>
+            <DowntimeNotification appTitle={'GI Bill® Comparison Tool'}>
               {children}
             </DowntimeNotification>
           )}
+          {!showDisclaimer && <div style={{ height: '12px' }}>&nbsp;</div>}
+          {showDisclaimer && (
+            <div className="row vads-u-padding--1p5 small-screen:vads-u-padding--0">
+              <>
+                <AboutThisTool />
+                <Disclaimer />
+              </>
+            </div>
+          )}
+          {!onComparePage && <CompareDrawer alwaysDisplay={onProfilePage} />}
           <Modals />
         </div>
       </div>
@@ -73,19 +117,17 @@ GiBillApp.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-const mapStateToProps = state => {
-  const { constants, preview } = state;
-  return {
-    constants,
-    preview,
-  };
-};
+const mapStateToProps = state => ({
+  constants: state.constants,
+  preview: state.preview,
+  compare: state.compare,
+});
 
 const mapDispatchToProps = {
   dispatchEnterPreviewMode: enterPreviewMode,
   dispatchExitPreviewMode: exitPreviewMode,
   dispatchFetchConstants: fetchConstants,
-  dispatchChangeSearchTab: changeSearchTab,
+  dispatchUpdateQueryParams: updateQueryParams,
 };
 
 export default connect(

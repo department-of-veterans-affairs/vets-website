@@ -1,27 +1,33 @@
+import React from 'react';
 import ItemLoop from '../../../../components/ItemLoop';
 import TableDetailsView from '../../../../components/TableDetailsView';
 import CustomReviewField from '../../../../components/CustomReviewField';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { validateCurrency } from '../../../../utils/validations';
 import Typeahead from '../../../../components/Typeahead';
 import {
   formatOptions,
   incomeTypes,
 } from '../../../../constants/typeaheadOptions';
-import _ from 'lodash/fp';
 
 export const uiSchema = {
-  'ui:title': 'Your spouse information',
-  'ui:description':
-    'Tell us how much you get each month for each type of income.',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        Your spouse information
+      </legend>
+      <p className="vads-u-padding-top--2">
+        Tell us how much you get each month for each type of income.
+      </p>
+    </>
+  ),
   additionalIncome: {
     spouse: {
-      spouseAdditionalIncomeRecords: {
+      spAddlIncome: {
         'ui:field': ItemLoop,
         'ui:options': {
           viewType: 'table',
           viewField: TableDetailsView,
           doNotScroll: true,
-          showSave: true,
           itemName: 'income',
           keepInPageOnReview: true,
         },
@@ -35,15 +41,24 @@ export const uiSchema = {
             'ui:reviewField': CustomReviewField,
             'ui:options': {
               idPrefix: 'spouse_other_income',
-              classNames: 'input-size-4',
+              widgetClassNames: 'input-size-4',
               getOptions: () => formatOptions(incomeTypes),
             },
+            'ui:errorMessages': {
+              required: 'Please enter the type of income.',
+            },
           },
-          amount: _.merge(currencyUI('Monthly amount'), {
+          amount: {
+            'ui:title': 'Monthly amount',
             'ui:options': {
+              classNames: 'schemaform-currency-input',
               widgetClassNames: 'input-size-2',
             },
-          }),
+            'ui:errorMessages': {
+              required: 'Please enter the monthly income amount.',
+            },
+            'ui:validations': [validateCurrency],
+          },
         },
       },
     },
@@ -58,7 +73,7 @@ export const schema = {
         spouse: {
           type: 'object',
           properties: {
-            spouseAdditionalIncomeRecords: {
+            spAddlIncome: {
               type: 'array',
               items: {
                 type: 'object',
@@ -68,7 +83,7 @@ export const schema = {
                     type: 'string',
                   },
                   amount: {
-                    type: 'number',
+                    type: 'string',
                   },
                 },
               },

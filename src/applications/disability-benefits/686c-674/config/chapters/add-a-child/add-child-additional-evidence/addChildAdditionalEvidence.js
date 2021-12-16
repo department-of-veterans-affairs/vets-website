@@ -17,7 +17,7 @@ export const uiSchema = {
       hideOnReview: true,
     },
   },
-  supportingDocuments: fileUploadUI('Additional Evidence needed', {
+  childSupportingDocuments: fileUploadUI('Additional Evidence needed', {
     buttonText: 'Upload supporting documents',
     fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
     showFieldLabel: false,

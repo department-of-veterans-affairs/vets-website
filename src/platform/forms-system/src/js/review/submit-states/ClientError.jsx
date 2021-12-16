@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import Scroll from 'react-scroll';
 import Back from './Back';
 import ProgressButton from '../../components/ProgressButton';
@@ -7,21 +7,22 @@ import PropTypes from 'prop-types';
 import { Column, Row } from 'platform/forms/components/common/grid';
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export default function ClientError(props) {
   const { buttonText, formConfig, onBack, onSubmit, testId } = props;
   const Element = Scroll.Element;
-  const scroller = Scroll.scroller;
   const scrollToError = () => {
-    scroller.scrollTo(
-      'errorScrollElement',
-      window.VetsGov?.scroll || {
-        duration: 500,
-        delay: 0,
-        smooth: true,
-      },
-    );
+    scrollTo('errorScrollElement', getScrollOptions());
   };
+  let ariaDescribedBy = null;
+  // If no ariaDescribedBy is passed down from form.js,
+  // a null value will properly not render the aria label.
+  if (formConfig?.ariaDescribedBySubmit !== null) {
+    ariaDescribedBy = formConfig?.ariaDescribedBySubmit;
+  } else {
+    ariaDescribedBy = null;
+  }
 
   useEffect(() => {
     focusElement('.schemaform-failure-alert');
@@ -47,6 +48,7 @@ export default function ClientError(props) {
         </Column>
         <Column classNames="small-6 medium-5">
           <ProgressButton
+            ariaDescribedBy={ariaDescribedBy}
             onButtonClick={onSubmit}
             buttonText={buttonText}
             buttonClass="usa-button-primary"

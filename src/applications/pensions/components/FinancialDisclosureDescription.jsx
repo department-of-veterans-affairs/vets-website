@@ -1,10 +1,9 @@
 import React from 'react';
-import Scroll from 'react-scroll';
 
-const scroller = Scroll.scroller;
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 function scrollToPage(key) {
-  scroller.scrollTo(`${key}ScrollElement`, {
+  scrollTo(`${key}ScrollElement`, {
     duration: 500,
     delay: 2,
     smooth: true,

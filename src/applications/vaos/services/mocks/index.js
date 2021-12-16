@@ -24,7 +24,18 @@ const requestEligibilityCriteria = require('./var/request_eligibility_criteria.j
 const directBookingEligibilityCriteria = require('./var/direct_booking_eligibility_criteria.json');
 const generateMockSlots = require('./var/slots.js');
 
+// v2
+const requestsV2 = require('./v2/requests.json');
+const facilitiesV2 = require('./v2/facilities.json');
+const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
+const schedulingConfigurations = require('./v2/scheduling_configurations.json');
+const appointmentSlotsV2 = require('./v2/slots.json');
+const clinicsV2 = require('./v2/clinics.json');
+const confirmedV2 = require('./v2/confirmed.json');
+
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
+const mockAppts = [];
+let currentMockId = 1;
 
 const responses = {
   'GET /vaos/v0/appointments': (req, res) => {
@@ -135,7 +146,13 @@ const responses = {
     });
   },
   'GET /v1/facilities/va': facilityData,
-  'GET /v1/facilities/ccp': ccProviders,
+  'GET /facilities_api/v1/ccp/provider': ccProviders,
+  'GET /v1/facilities/ccp/:id': (req, res) => {
+    const provider = ccProviders.data.find(p => p.id === req.params.id);
+    return res.json({
+      data: provider,
+    });
+  },
   'GET /vaos/v0/facilities/:id/available_appointments': varSlots,
   'GET /vaos/v0/facilities/:id/cancel_reasons': cancelReasons,
   'GET /vaos/v0/request_eligibility_criteria': requestEligibilityCriteria,
@@ -159,6 +176,7 @@ const responses = {
         attributes: {
           ...requestAttributes,
           status: 'Cancelled',
+          appointmentRequestDetailCode: [{ detailCode: { code: 'DETCODE8' } }],
         },
       },
     });
@@ -171,13 +189,156 @@ const responses = {
   },
   'PUT /vaos/v0/preferences': { data: { attributes: {} } },
   'POST /vaos/v2/appointments': (req, res) => {
+    const submittedAppt = {
+      id: `mock${currentMockId}`,
+      attributes: {
+        ...req.body,
+        start: req.body.slot ? req.body.slot.start : null,
+      },
+    };
+    currentMockId++;
+    mockAppts.push(submittedAppt);
+    return res.json({ data: submittedAppt });
+  },
+  'PUT /vaos/v2/appointments/:id': (req, res) => {
+    // TODO: also check through confirmed mocks, when those exist
+    const appointments = requestsV2.data
+      .concat(confirmedV2.data)
+      .concat(mockAppts);
+
+    let appt = appointments.find(item => item.id === req.params.id);
+    if (req.body.status === 'cancelled') {
+      appt = {
+        ...appt,
+        attributes: {
+          ...appt.attributes,
+          cancelationReason: { coding: [{ code: 'pat' }] },
+        },
+      };
+    }
+
     return res.json({
       data: {
-        id: '8a4886886e4c8e22016e6613216d001g',
+        id: req.params.id,
         attributes: {
+          ...appt.attributes,
           ...req.body,
         },
       },
+    });
+  },
+  'GET /vaos/v2/appointments': (req, res) => {
+    if (req.query.statuses?.includes('proposed')) {
+      return res.json(requestsV2);
+    } else if (req.query.statuses?.includes('booked')) {
+      return res.json(confirmedV2);
+    }
+
+    return res.json({ data: [] });
+  },
+  'GET /vaos/v2/appointments/:id': (req, res) => {
+    const appointments = {
+      data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
+    };
+    return res.json({
+      data: appointments.data.find(appt => appt.id === req.params.id),
+    });
+  },
+  'GET /vaos/v2/scheduling/configurations': (req, res) => {
+    if (req.query.cc_enabled === 'true') {
+      return res.json(schedulingConfigurationsCC);
+    }
+
+    return res.json(schedulingConfigurations);
+  },
+  'GET /vaos/v2/facilities/:id': (req, res) => {
+    return res.json({
+      data: facilitiesV2.data.find(facility => facility.id === req.params.id),
+    });
+  },
+  'GET /vaos/v2/facilities': (req, res) => {
+    const ids = req.query.ids;
+    const children = req.query.children;
+
+    return res.json({
+      data: facilitiesV2.data.filter(
+        facility =>
+          ids.includes(facility.id) ||
+          (children && ids.some(id => facility.id.startsWith(id))),
+      ),
+    });
+  },
+  'GET /vaos/v2/locations/:facility_id/clinics/:clinic_id/slots': appointmentSlotsV2,
+  'GET /vaos/v2/patients': (req, res) => {
+    return res.json({
+      data: {
+        attributes: {
+          hasRequiredAppointmentHistory:
+            !req.query.facility_id.startsWith('984') ||
+            req.query.clinical_service === 'primaryCare',
+          isEligibleForNewAppointmentRequest: req.query.facility_id.startsWith(
+            '983',
+          ),
+        },
+      },
+    });
+  },
+  'GET /vaos/v2/eligibility': (req, res) => {
+    const isDirect = req.query.type === 'direct';
+    const ineligibilityReasons = [];
+
+    if (
+      isDirect &&
+      (req.query.facility_id.startsWith('984') &&
+        req.query.clinical_service_id !== 'primaryCare')
+    ) {
+      ineligibilityReasons.push({
+        coding: [
+          {
+            code: 'patient-history-insufficient',
+          },
+        ],
+      });
+    }
+    if (!isDirect && !req.query.facility_id.startsWith('983')) {
+      ineligibilityReasons.push({
+        coding: [
+          {
+            code: 'facility-request-limit-exceeded',
+          },
+        ],
+      });
+    }
+
+    return res.json({
+      data: {
+        attributes: {
+          type: req.query.type,
+          clinicalServiceId: req.query.clinical_service_id,
+          eligible: ineligibilityReasons.length === 0,
+          ineligibilityReasons:
+            ineligibilityReasons.length === 0
+              ? undefined
+              : ineligibilityReasons,
+        },
+      },
+    });
+  },
+  'GET /vaos/v2/locations/:id/clinics': (req, res) => {
+    if (req.query.clinic_ids) {
+      return res.json({
+        data: clinicsV2.data.filter(clinic =>
+          req.query.clinic_ids.includes(clinic.id),
+        ),
+      });
+    }
+
+    if (req.params.id === '983') {
+      return res.json(clinicsV2);
+    }
+
+    return res.json({
+      data: [],
     });
   },
   'GET /v0/user': {
@@ -253,19 +414,20 @@ const responses = {
         { name: 'vaOnlineSchedulingDirect', value: true },
         { name: 'vaOnlineSchedulingPast', value: true },
         { name: 'vaOnlineSchedulingExpressCare', value: true },
-        { name: 'vaOnlineSchedulingExpressCareNew', value: true },
         { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
-        { name: 'vaOnlineSchedulingProviderSelection', value: true },
-        { name: 'vaOnlineSchedulingCheetah', value: true },
-        { name: 'vaOnlineSchedulingHomepageRefresh', value: true },
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
         { name: 'vaGlobalDowntimeNotification', value: false },
-        { name: 'vaOnlineSchedulingVAOSServiceRequests', value: false },
+        { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
+        { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
+        { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
+        { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
+        { name: 'vaOnlineSchedulingVariantTesting', value: false },
+        { name: 'vaOnlineSchedulingCCIterations', value: true },
+        { name: 'vaOnlineSchedulingPocHealthApt', value: true },
         { name: 'ssoe', value: true },
-        { name: 'ssoeInbound', value: false },
-        { name: 'ssoeEbenefitsLinks', value: false },
+        { name: 'ssoe_inbound', value: false },
+        { name: 'ssoe_ebenefits_links', value: false },
         { name: 'edu_section_103', value: true },
-        { name: 'form526OriginalClaims', value: false },
         { name: 'vaViewDependentsAccess', value: false },
         { name: 'gibctEybBottomSheet', value: true },
       ],

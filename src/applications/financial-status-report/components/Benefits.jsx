@@ -5,12 +5,7 @@ import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
-
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2,
-});
+import { currency } from '../utils/helpers';
 
 const BenefitCard = ({ received, title }) => {
   return (
@@ -21,7 +16,7 @@ const BenefitCard = ({ received, title }) => {
 
       <div className="vads-u-margin-bottom--1">
         <span>Amount received last month: </span>
-        {formatter.format(parseFloat(received))}
+        {currency(received)}
       </div>
     </section>
   );
@@ -32,15 +27,23 @@ const NoBenefits = () => {
     <section className="usa-alert background-color-only">
       <div className="vads-u-margin-bottom--1">
         <h4 className="vads-u-margin--0">
-          Our records show you don't get any monthly benefit payments
+          Our records show you don’t get any monthly benefit payments
         </h4>
       </div>
 
       <p>
-        If this information isn’t right, call our VA benefits hotline at{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
-        <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />) ,
-        Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        If this information isn’t right, call our VA benefits hotline at
+        <Telephone
+          contact={CONTACTS.VA_BENEFITS}
+          className="vads-u-margin-x--0p5"
+        />
+        (TTY:
+        <Telephone
+          contact={CONTACTS[711]}
+          pattern={PATTERNS['3_DIGIT']}
+          className="vads-u-margin-x--0p5"
+        />
+        ) , Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </section>
   );
@@ -67,9 +70,18 @@ const Benefits = ({ pending, income }) => {
       )}
       <p>
         <strong>Note:</strong> If this information isn’t right, call our VA
-        benefits hotline at <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
-        <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />) ,
-        Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        benefits hotline at
+        <Telephone
+          contact={CONTACTS.VA_BENEFITS}
+          className="vads-u-margin-x--0p5"
+        />
+        (TTY:
+        <Telephone
+          contact={CONTACTS[711]}
+          pattern={PATTERNS['3_DIGIT']}
+          className="vads-u-margin-left--0p5"
+        />
+        ) , Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </>
   ) : (

@@ -63,3 +63,7 @@ export const representativeFields = {
   signAsRepresentativeYesNo: 'signAsRepresentativeYesNo',
   documentUpload: 'signAsRepresentativeDocumentUpload',
 };
+
+export const ALLOWED_FILE_TYPES = ['pdf', 'jpg', 'jpeg', 'png'];
+export const MAX_FILE_SIZE_MB = 10;
+export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;

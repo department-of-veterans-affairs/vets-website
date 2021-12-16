@@ -15,7 +15,8 @@ const AdditionalInstructions = ({
   return (
     <section>
       <div className="usa-accordion accordion-container">
-        <ul className="usa-unstyled-list">
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+        <ul className="usa-unstyled-list" role="list">
           <li itemScope itemType="http://schema.org/Question">
             <button
               className="usa-button-unstyled usa-accordion-button"

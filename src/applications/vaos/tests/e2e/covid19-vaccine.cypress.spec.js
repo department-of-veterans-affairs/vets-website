@@ -9,10 +9,10 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
   it('should submit form', () => {
     initAppointmentListMock();
     initVaccineAppointmentMock();
+    mockFeatureToggles();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
-    cy.get('.va-modal-body button').click();
-    cy.findAllByRole('tab').should('exist');
+
     // Start flow
     cy.findByText('Start scheduling').click();
 
@@ -41,7 +41,6 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
 
     // Choose VA Flat Facility
     cy.url().should('include', '/choose-facility');
-    cy.findByText(/Some COVID-19 vaccines require 2 doses/i).should('exist');
     cy.axeCheckBestPractice();
     cy.findByLabelText(/cheyenne/i).click();
     cy.findByText(/Continue/).click();
@@ -49,7 +48,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     // Choose Clinic
     cy.url().should('include', '/choose-clinic');
     cy.axeCheckBestPractice();
-    cy.findByText(/Choose a clinic for your vaccination/);
+    cy.findByText(/Choose where you’d like to get your vaccine/);
     cy.get('#root_clinicId_0')
       .focus()
       .click();
@@ -106,113 +105,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     });
 
     // Confirmation page
-    cy.findByText('We’ve scheduled your appointment');
-    cy.findByText('COVID-19 Vaccine');
-    cy.axeCheckBestPractice();
-  });
-
-  it('should submit form with homepage refresh feature toggle on', () => {
-    initAppointmentListMock();
-    initVaccineAppointmentMock();
-    mockFeatureToggles({ homepageRefresh: true });
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
-    cy.injectAxe();
-    cy.get('.va-modal-body button').click();
-
-    // Start flow
-    cy.findByText('Start scheduling').click();
-
-    // Select COVID-19 vaccine appointment type
-    cy.get('input[value="covid"]')
-      .focus()
-      .check();
-
-    // Start vaccine flow
-    cy.findByText(/Continue/).click();
-
-    // Plan ahead page
-    cy.url().should('include', '/new-covid-19-vaccine-appointment');
-    cy.axeCheckBestPractice();
-    cy.contains('button', 'Continue')
-      .focus()
-      .click();
-
-    // Screener page
-    cy.url().should('include', '/confirm-doses-received');
-    cy.axeCheckBestPractice();
-    cy.get('#root_hasReceivedDoseNo')
-      .focus()
-      .click();
-    cy.findByText(/Continue/).click();
-
-    // Choose VA Flat Facility
-    cy.url().should('include', '/choose-facility');
-    cy.findByText(/Some COVID-19 vaccines require 2 doses/i).should('exist');
-    cy.axeCheckBestPractice();
-    cy.findByLabelText(/cheyenne/i).click();
-    cy.findByText(/Continue/).click();
-
-    // Choose Clinic
-    cy.url().should('include', '/choose-clinic');
-    cy.axeCheckBestPractice();
-    cy.findByText(/Choose a clinic for your vaccination/);
-    cy.get('#root_clinicId_0')
-      .focus()
-      .click();
-    cy.findByText(/Continue/).click();
-
-    // Select time slot
-    cy.url().should('include', '/select-date');
-    cy.findByText(/Finding appointment availability.../i).should('not.exist');
-    cy.contains('button', 'Next')
-      .focus()
-      .click();
-    cy.get(
-      '.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])',
-    ).click();
-    cy.get(
-      '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
-    ).click();
-    cy.axeCheckBestPractice();
-    cy.findByText(/Continue/).click();
-
-    // Second dose page
-    cy.url().should('include', '/second-dose-info');
-    cy.axeCheckBestPractice();
-    cy.findByText(/Continue/).click();
-
-    // Contact info
-    cy.url().should('include', '/contact-info');
-    cy.axeCheckBestPractice();
-    cy.findByText(/Continue/).click();
-
-    // Review
-    cy.url().should('include', '/review');
-    cy.axeCheckBestPractice();
-    cy.findByText('Confirm appointment').click();
-
-    // Check form requestBody is as expected
-    cy.wait('@appointmentSubmission').should(xhr => {
-      const request = xhr.requestBody;
-
-      expect(request.clinic.siteCode).to.eq('983');
-      expect(request.clinic.clinicId).to.eq('455');
-      expect(request).to.have.property(
-        'desiredDate',
-        `${moment()
-          .add(1, 'day')
-          .add(1, 'months')
-          .startOf('month')
-          .day(9)
-          .startOf('day')
-          .format('YYYY-MM-DD')}T00:00:00+00:00`,
-      );
-      expect(request).to.have.property('dateTime');
-      expect(request).to.have.property('preferredEmail', 'veteran@gmail.com');
-    });
-
-    // Confirmation page
-    cy.findByText('Your appointment has been scheduled and is confirmed.');
+    cy.findByText('We’ve scheduled and confirmed your appointment.');
     cy.findAllByText('COVID-19 vaccine');
     cy.findByText('Clinic:');
     cy.axeCheckBestPractice();
@@ -223,8 +116,6 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     initVaccineAppointmentMock();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
-    cy.get('.va-modal-body button').click();
-    cy.findAllByRole('tab').should('exist');
     // Start flow
     cy.findByText('Start scheduling').click();
 

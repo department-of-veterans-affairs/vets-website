@@ -4,10 +4,11 @@ import { api } from '../config';
 
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 
-import { buildSearchFilters, rubyifyKeys } from '../utils/helpers';
+import { rubyifyKeys, searchCriteriaFromCoords } from '../utils/helpers';
 import { TypeList } from '../constants';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import mapboxClient from '../components/MapboxClient';
+import { buildSearchFilters } from '../selectors/filters';
 
 const mbxClient = mbxGeo(mapboxClient);
 
@@ -16,6 +17,7 @@ export const AUTOCOMPLETE_STARTED = 'AUTOCOMPLETE_STARTED';
 export const AUTOCOMPLETE_FAILED = 'AUTOCOMPLETE_FAILED';
 export const BENEFICIARY_ZIP_CODE_CHANGED = 'BENEFICIARY_ZIP_CODE_CHANGED';
 export const CALCULATOR_INPUTS_CHANGED = 'CALCULATOR_INPUTS_CHANGED';
+export const COMPARE_DRAWER_OPENED = 'COMPARE_DRAWER_OPENED';
 export const DISPLAY_MODAL = 'DISPLAY_MODAL';
 export const ELIGIBILITY_CHANGED = 'ELIGIBILITY_CHANGED';
 export const ENTER_PREVIEW_MODE = 'ENTER_PREVIEW_MODE';
@@ -29,13 +31,19 @@ export const FETCH_CONSTANTS_SUCCEEDED = 'FETCH_CONSTANTS_SUCCEEDED';
 export const FETCH_PROFILE_FAILED = 'FETCH_PROFILE_FAILED';
 export const FETCH_PROFILE_STARTED = 'FETCH_PROFILE_STARTED';
 export const FETCH_PROFILE_SUCCEEDED = 'FETCH_PROFILE_SUCCEEDED';
+export const FILTERS_CHANGED = 'FILTERS_CHANGED';
 export const FILTER_TOGGLED = 'FILTER_TOGGLED';
+export const GEOCODE_COMPLETE = 'GEOCODE_COMPLETE';
 export const GEOCODE_STARTED = 'GEOCODE_STARTED';
 export const GEOCODE_FAILED = 'GEOCODE_FAILED';
+export const GEOCODE_LOCATION_FAILED = 'GEOCODE_LOCATION_FAILED';
 export const GEOCODE_SUCCEEDED = 'GEOCODE_SUCCEEDED';
+export const GEOLOCATE_USER = 'GEOLOCATE_USER';
+export const GEOCODE_CLEAR_ERROR = 'GEOCODE_CLEAR_ERROR';
 export const INSTITUTION_FILTERS_CHANGED = 'INSTITUTION_FILTERS_CHANGED';
 export const LOCATION_AUTOCOMPLETE_SUCCEEDED =
   'LOCATION_AUTOCOMPLETE_SUCCEEDED';
+export const MAP_CHANGED = 'MAP_CHANGED';
 export const NAME_AUTOCOMPLETE_SUCCEEDED = 'NAME_AUTOCOMPLETE_SUCCEEDED';
 export const REMOVE_COMPARE_INSTITUTION = 'REMOVE_COMPARE_INSTITUTION';
 export const SEARCH_BY_FACILITY_CODES_SUCCEEDED =
@@ -43,13 +51,17 @@ export const SEARCH_BY_FACILITY_CODES_SUCCEEDED =
 export const SEARCH_BY_NAME_SUCCEEDED = 'SEARCH_BY_NAME_SUCCEEDED';
 export const SEARCH_BY_LOCATION_SUCCEEDED = 'SEARCH_BY_LOCATION_SUCCEEDED';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
+export const SEARCH_QUERY_UPDATED = 'SEARCH_QUERY_UPDATED';
 export const SEARCH_STARTED = 'SEARCH_STARTED';
+export const FETCH_COMPARE_FAILED = 'FETCH_COMPARE_FAILED';
 export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
 export const UPDATE_AUTOCOMPLETE_NAME = 'UPDATE_AUTOCOMPLETE_NAME';
 export const UPDATE_AUTOCOMPLETE_LOCATION = 'UPDATE_AUTOCOMPLETE_LOCATION';
+export const UPDATE_COMPARE_DETAILS = 'UPDATE_COMPARE_DETAILS';
 export const UPDATE_CURRENT_SEARCH_TAB = 'UPDATE_CURRENT_TAB';
 export const UPDATE_ESTIMATED_BENEFITS = 'UPDATE_ESTIMATED_BENEFITS';
-export const UPDATE_ROUTE = 'UPDATE_ROUTE';
+
+export const UPDATE_QUERY_PARAMS = 'UPDATE_QUERY_PARAMS';
 
 export function enterPreviewMode(version) {
   return {
@@ -140,18 +152,18 @@ export function fetchConstants(version) {
   };
 }
 
-export function eligibilityChange(eligibility) {
-  return { type: ELIGIBILITY_CHANGED, payload: eligibility };
+export function eligibilityChange(fields) {
+  return { type: ELIGIBILITY_CHANGED, payload: { ...fields } };
 }
 
-export function institutionFilterChange(filters) {
-  return { type: INSTITUTION_FILTERS_CHANGED, payload: filters };
+export function filterChange(filters) {
+  return { type: FILTERS_CHANGED, payload: filters };
 }
 
 export function updateEligibilityAndFilters(eligibility, filters) {
   return dispatch => {
     dispatch({ type: ELIGIBILITY_CHANGED, payload: eligibility });
-    dispatch({ type: INSTITUTION_FILTERS_CHANGED, payload: filters });
+    dispatch({ type: FILTERS_CHANGED, payload: filters });
   };
 }
 
@@ -213,8 +225,8 @@ export function updateEstimatedBenefits(estimatedBenefits) {
   return { type: UPDATE_ESTIMATED_BENEFITS, estimatedBenefits };
 }
 
-export function fetchSearchByNameResults(name, filters, version) {
-  const params = { name, ...rubyifyKeys(buildSearchFilters(filters)) };
+export function fetchSearchByNameResults(name, page, filters, version) {
+  const params = { name, page, ...rubyifyKeys(buildSearchFilters(filters)) };
   if (version) {
     params.version = version;
   }
@@ -268,6 +280,10 @@ export function changeSearchTab(tab) {
 }
 
 export function fetchNameAutocompleteSuggestions(name, filterFields, version) {
+  if (name === '' || name === null || name === undefined) {
+    return { type: NAME_AUTOCOMPLETE_SUCCEEDED, payload: [] };
+  }
+
   const url = appendQuery(`${api.url}/institutions/autocomplete`, {
     term: name,
     ...rubyifyKeys(filterFields),
@@ -295,6 +311,10 @@ export function fetchNameAutocompleteSuggestions(name, filterFields, version) {
 }
 
 export function fetchLocationAutocompleteSuggestions(location) {
+  if (location === '' || location === null || location === undefined) {
+    return { type: LOCATION_AUTOCOMPLETE_SUCCEEDED, payload: [] };
+  }
+
   return dispatch => {
     dispatch({ type: AUTOCOMPLETE_STARTED });
 
@@ -340,12 +360,18 @@ export function fetchSearchByLocationCoords(
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
-      payload: { location, latitude, longitude },
+      payload: { location, latitude, longitude, distance },
     });
 
     return fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
+          dispatch(
+            updateEligibilityAndFilters(
+              { expanded: false },
+              { expanded: false },
+            ),
+          );
           return res.json();
         }
 
@@ -416,7 +442,7 @@ export function fetchSearchByLocationResults(
   };
 }
 
-export function fetchSearchByFacilityCodes(facilityCodes, filters, version) {
+export function fetchCompareDetails(facilityCodes, filters, version) {
   const params = rubyifyKeys({
     facilityCodes,
     ...buildSearchFilters(filters),
@@ -427,25 +453,22 @@ export function fetchSearchByFacilityCodes(facilityCodes, filters, version) {
   const url = appendQuery(`${api.url}/institutions/search`, params);
 
   return dispatch => {
-    dispatch({ type: SEARCH_STARTED, payload: { name } });
-
     return fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
           return res.json();
         }
-
         throw new Error(res.statusText);
       })
       .then(payload => {
         dispatch({
-          type: SEARCH_BY_FACILITY_CODES_SUCCEEDED,
-          payload,
+          type: UPDATE_COMPARE_DETAILS,
+          payload: payload.data,
         });
       })
       .catch(err => {
         dispatch({
-          type: SEARCH_FAILED,
+          type: FETCH_COMPARE_FAILED,
           payload: err.message,
         });
       });
@@ -461,5 +484,49 @@ export function addCompareInstitution(institution) {
 export function removeCompareInstitution(facilityCode) {
   return dispatch => {
     dispatch({ type: REMOVE_COMPARE_INSTITUTION, payload: facilityCode });
+  };
+}
+
+export const geolocateUser = () => async dispatch => {
+  const GEOLOCATION_TIMEOUT = 10000;
+  if (navigator?.geolocation?.getCurrentPosition) {
+    dispatch({ type: GEOLOCATE_USER });
+    navigator.geolocation.getCurrentPosition(
+      async currentPosition => {
+        const query = await searchCriteriaFromCoords(
+          currentPosition.coords.longitude,
+          currentPosition.coords.latitude,
+        );
+        dispatch({ type: GEOCODE_COMPLETE, payload: { ...query } });
+      },
+      e => {
+        dispatch({ type: GEOCODE_LOCATION_FAILED, code: e.code });
+      },
+      { timeout: GEOLOCATION_TIMEOUT },
+    );
+  } else {
+    dispatch({ type: GEOCODE_LOCATION_FAILED, code: -1 });
+  }
+};
+
+export const clearGeocodeError = () => async dispatch => {
+  dispatch({ type: GEOCODE_CLEAR_ERROR });
+};
+
+export function updateQueryParams(queryParams) {
+  return dispatch => {
+    dispatch({ type: UPDATE_QUERY_PARAMS, payload: queryParams });
+  };
+}
+
+export function compareDrawerOpened(open) {
+  return dispatch => {
+    dispatch({ type: COMPARE_DRAWER_OPENED, payload: open });
+  };
+}
+
+export function mapChanged(mapState) {
+  return dispatch => {
+    dispatch({ type: MAP_CHANGED, payload: mapState });
   };
 }

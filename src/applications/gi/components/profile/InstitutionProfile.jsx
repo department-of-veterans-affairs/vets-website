@@ -5,7 +5,6 @@ import React from 'react';
 import AccordionItem from '../AccordionItem';
 import HeadingSummary from './HeadingSummary';
 import Programs from './Programs';
-import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
 import SchoolLocations from './SchoolLocations';
 import CautionaryInformation from './CautionaryInformation';
@@ -15,6 +14,7 @@ import EstimateYourBenefits from '../../containers/EstimateYourBenefits';
 import { convertRatingToStars } from '../../utils/helpers';
 import SchoolRatings from './SchoolRatings';
 import { MINIMUM_RATING_COUNT } from '../../constants';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export class InstitutionProfile extends React.Component {
   static propTypes = {
@@ -32,7 +32,7 @@ export class InstitutionProfile extends React.Component {
       facilityMap.main.branches.length > 0);
 
   scrollToLocations = () => {
-    scroller.scrollTo('school-locations', getScrollOptions());
+    scrollTo('school-locations', getScrollOptions());
   };
 
   render() {

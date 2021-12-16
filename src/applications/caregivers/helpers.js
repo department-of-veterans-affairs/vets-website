@@ -1,7 +1,6 @@
-import { mapValues } from 'lodash/fp';
+import { isEmpty, mapValues } from 'lodash';
 import caregiverFacilities from 'vets-json-schema/dist/caregiverProgramFacilities.json';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { isEmpty } from 'lodash';
 import {
   primaryCaregiverFields,
   secondaryOneFields,
@@ -25,9 +24,8 @@ export const medicalCenterLabels = Object.keys(caregiverFacilities).reduce(
 );
 
 // Turns the facility list for each state into an array of strings
-export const medicalCentersByState = mapValues(
-  val => val.map(center => center.code),
-  caregiverFacilities,
+export const medicalCentersByState = mapValues(caregiverFacilities, val =>
+  val.map(center => center.code),
 );
 
 // transforms forData to match fullSchema structure for backend submission
@@ -215,4 +213,27 @@ export const shouldHideAlert = formData => {
   if (isSecondaryOneUndefined) return true;
   if (!hasPrimary && !hasSecondary) return false;
   return false;
+};
+
+/**
+ * Converts an array of items into a sentence with a conjunction
+ *
+ * Note: returns blank string if items is not an array or is empty
+ * @export
+ * @param {Array<string>} items
+ * @param {string} conjunction
+ * @param {Function} transform mapper function
+ * @returns {string}
+ */
+export const arrayToSentenceString = (items, conjunction, transform) => {
+  if (!Array.isArray(items) || items.length < 1) return '';
+
+  return items.reduce((accumulator, val, index) => {
+    const item = typeof transform === 'function' ? transform(val) : val;
+
+    if (index === 0) return item.toString();
+
+    const seperator = index < items.length - 1 ? ',' : `, ${conjunction}`;
+    return `${accumulator}${seperator} ${item}`;
+  }, '');
 };

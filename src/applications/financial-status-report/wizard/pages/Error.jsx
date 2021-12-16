@@ -19,9 +19,9 @@ const DebtError = () => {
         Based on the information you provided, this isn’t the form you need.
       </h2>
       <p>
-        <strong>
+        <strong className="vads-u-margin-x--0p5">
           If you think your debt or the amount of your debt is due to an error,
-        </strong>{' '}
+        </strong>
         you can dispute it. Submit a written statement to tell us why you
         dispute the debt.
       </p>
@@ -30,20 +30,18 @@ const DebtError = () => {
         <li>
           <strong>Online: </strong>
           <a
-            href="https://iris.custhelp.va.gov/app/ask"
+            href="https://www.va.gov/contact-us/"
+            className="vads-u-margin-left--0p5"
             onClick={() => {
               recordEvent({
                 event: 'howToWizard-alert-link-click',
                 'howToWizard-alert-link-click-label':
-                  'Go to our online question form (called IRIS)',
+                  'Contact us through Ask VA',
               });
             }}
           >
-            Go to our online question form (called IRIS)
+            Contact us through Ask VA
           </a>
-          . On the IRIS page, select <strong>Debt Management Center</strong>,
-          your debt type, and <strong>Dispute</strong> within the Topic
-          dropdown. For Inquiry Type, select <strong>Question</strong>.
         </li>
         <li>
           <strong>Mail: </strong>
@@ -59,10 +57,10 @@ const DebtError = () => {
         consider the request.
       </p>
       <p>
-        We encourage you to submit your dispute statement within{' '}
-        <strong>30 days</strong>. If we receive the statement within 30 days, we
-        won’t add late fees and interest, or take other collection action, while
-        we review your dispute.
+        We encourage you to submit your dispute statement within
+        <strong className="vads-u-margin-left--0p5">30 days</strong>. If we
+        receive the statement within 30 days, we won’t add late fees and
+        interest, or take other collection action, while we review your dispute.
       </p>
     </div>
   );

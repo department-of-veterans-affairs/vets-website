@@ -22,6 +22,7 @@ import { calculateFilters } from '../selectors/search';
 import { isVetTecSelected, useQueryParams } from '../utils/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 import BenefitsForm from '../components/profile/BenefitsForm';
+import environment from 'platform/utilities/environment';
 
 export function LandingPage({
   autocomplete,
@@ -36,9 +37,18 @@ export function LandingPage({
   eligibility,
   filters,
 }) {
-  useEffect(() => {
-    dispatchSetPageTitle(`GI Bill® Comparison Tool: VA.gov`);
-  }, []);
+  useEffect(
+    () => {
+      dispatchSetPageTitle(
+        `${
+          environment.isProduction()
+            ? 'GI Bill® Comparison Tool: VA.gov'
+            : 'GI Bill® Comparison Tool | Veterans Affairs'
+        }`,
+      );
+    },
+    [dispatchSetPageTitle],
+  );
 
   const location = useLocation();
   const history = useHistory();

@@ -1,24 +1,43 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import Back from './Back';
 import ProgressButton from '../../components/ProgressButton';
-import PropTypes from 'prop-types';
 import { Column, Row } from 'platform/forms/components/common/grid';
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
+import ErrorLinks from './ErrorLinks';
 
-export default function ValidationError(props) {
+function ValidationError(props) {
   const { appType, buttonText, formConfig, onBack, onSubmit, testId } = props;
+  let ariaDescribedBy = null;
+  // If no ariaDescribedBy is passed down from form.js,
+  // a null value will properly not render the aria label.
+  if (formConfig?.ariaDescribedBySubmit !== null) {
+    ariaDescribedBy = formConfig?.ariaDescribedBySubmit;
+  } else {
+    ariaDescribedBy = null;
+  }
+
+  const alert = formConfig.showReviewErrors ? (
+    <ErrorLinks appType={appType} testId={testId} />
+  ) : (
+    <ErrorMessage
+      active
+      title={`We’re sorry. Some information in your ${appType} is missing or not valid.`}
+    >
+      <p>
+        Please check each section of your {appType} to make sure you’ve filled
+        out all the information that is required.
+      </p>
+    </ErrorMessage>
+  );
 
   return (
     <>
       <Row>
         <Column role="alert" testId={testId}>
-          <ErrorMessage
-            active
-            title={`We’re sorry. Some information in your ${appType} is missing or not valid.`}
-            message={`Please check each section of your ${appType} to make sure you’ve
-              filled out all the information that is required.`}
-          />
+          {alert}
         </Column>
       </Row>
       <PreSubmitSection formConfig={formConfig} />
@@ -28,6 +47,7 @@ export default function ValidationError(props) {
         </Column>
         <Column classNames="small-6 medium-5">
           <ProgressButton
+            ariaDescribedBy={ariaDescribedBy}
             onButtonClick={onSubmit}
             buttonText={buttonText}
             buttonClass="usa-button-primary"
@@ -48,3 +68,5 @@ ValidationError.propTypes = {
   onBack: PropTypes.func,
   onSubmit: PropTypes.func,
 };
+
+export default ValidationError;

@@ -20,8 +20,7 @@
           "phoneNumber": "8001111",
           "phoneNumberExt": "2"
         },
-        "emailAddressText": "user@example.com",
-        "representativesName": "Tony Danza"
+        "emailAddressText": "user@example.com"
       },
       "boardReviewOption": "evidence_submission",
       "timezone": "America/Los_Angeles",
@@ -33,29 +32,29 @@
       "type": "contestableIssue",
       "attributes": {
         "issue": "tinnitus - 10%",
-        "decisionDate": "2020-01-01",
+        "decisionDate": "2021-06-01",
         "decisionIssueId": 1,
         "ratingIssueReferenceId": "2",
         "ratingDecisionReferenceId": "3",
-        "disagreementReason": "service connection,effective date,disability evaluation,this is an other entry"
+        "disagreementArea": "service connection,effective date,disability evaluation,this is an other entry"
       }
     },
     {
       "type": "contestableIssue",
       "attributes": {
         "issue": "left knee - 0%",
-        "decisionDate": "2020-01-02",
+        "decisionDate": "2021-06-02",
         "decisionIssueId": 4,
         "ratingIssueReferenceId": "5",
-        "disagreementReason": "effective date"
+        "disagreementArea": "effective date"
       }
     },
     {
       "type": "contestableIssue",
       "attributes": {
         "issue": "right shoulder",
-        "decisionDate": "2020-01-06",
-        "disagreementReason": "disability evaluation,this is another other entry"
+        "decisionDate": "2021-06-06",
+        "disagreementArea": "disability evaluation,this is another other entry"
       }
     }
   ],

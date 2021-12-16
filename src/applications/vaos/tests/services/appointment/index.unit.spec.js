@@ -9,7 +9,7 @@ import {
 import {
   isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
-  getBookedAppointments,
+  fetchAppointments,
   getAppointmentRequests,
   FUTURE_APPOINTMENTS_HIDDEN_SET,
 } from '../../../services/appointment';
@@ -24,7 +24,7 @@ import {
 const now = moment();
 
 describe('VAOS Appointment service', () => {
-  describe('getBookedAppointments', () => {
+  describe('fetchAppointments', () => {
     it('should make successful request', async () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, confirmed);
@@ -32,7 +32,7 @@ describe('VAOS Appointment service', () => {
       const startDate = '2020-05-01';
       const endDate = '2020-06-30';
 
-      const data = await getBookedAppointments({
+      const data = await fetchAppointments({
         startDate,
         endDate,
       });
@@ -60,7 +60,7 @@ describe('VAOS Appointment service', () => {
 
       let error;
       try {
-        await getBookedAppointments({
+        await fetchAppointments({
           startDate,
           endDate,
         });

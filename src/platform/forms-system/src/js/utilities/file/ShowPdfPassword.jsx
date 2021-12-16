@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
-const ShowPdfPassword = ({ file, index, onSubmitPassword }) => {
+const ShowPdfPassword = ({
+  file,
+  index,
+  onSubmitPassword,
+  ariaDescribedby = null,
+}) => {
   const [fieldObj, setFieldObj] = useState({
     dirty: false,
     charMax: 255,
@@ -22,6 +27,7 @@ const ShowPdfPassword = ({ file, index, onSubmitPassword }) => {
         onValueChange={updatedField => {
           setFieldObj(updatedField);
         }}
+        ariaDescribedBy={ariaDescribedby}
       />
       <button
         type="button"
@@ -37,6 +43,7 @@ const ShowPdfPassword = ({ file, index, onSubmitPassword }) => {
             });
           }
         }}
+        aria-describedby={ariaDescribedby}
       >
         Add password
       </button>

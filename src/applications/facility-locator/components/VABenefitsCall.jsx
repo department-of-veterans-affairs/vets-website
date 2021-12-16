@@ -18,14 +18,6 @@ export default function VABenefitsCall() {
         loss, call TTY:{' '}
         <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
       </p>
-      <p className="p1">
-        <strong>For other benefit questions</strong>, use our online customer
-        service tool called{' '}
-        <a href="https://iris.custhelp.va.gov/">
-          IRIS (Inquiry Routing & Information System)
-        </a>
-        .
-      </p>
     </div>
   );
 }

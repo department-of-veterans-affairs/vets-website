@@ -9,6 +9,7 @@ import {
   characterOfServiceContent,
   optionsToAlwaysDisplay,
   getBenefitOptionText,
+  stripOffTime,
 } from '../utils/helpers.jsx';
 import { formatDateShort } from 'platform/utilities/date';
 import CallVBACenter from 'platform/static-data/CallVBACenter';
@@ -48,8 +49,8 @@ export class VeteranBenefitSummaryLetter extends React.Component {
             ]
           }
         </td>
-        <td>{formatDateShort(service.enteredDate)}</td>
-        <td>{formatDateShort(service.releasedDate)}</td>
+        <td>{formatDateShort(stripOffTime(service.enteredDate))}</td>
+        <td>{formatDateShort(stripOffTime(service.releasedDate))}</td>
       </tr>
     ));
 

@@ -1,25 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
-import { setData } from 'platform/forms-system/src/js/actions';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import { setData } from 'platform/forms-system/src/js/actions';
+import { deductionCodes } from '../../debt-letters/const/deduction-codes';
+import { currency } from '../utils/helpers';
 import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2,
-});
-
-const ExpandedContent = ({ debt, updateDebts, error }) => {
-  const inputError = error && !debt.resolution?.offerToPay;
-  const checkboxError = error && !debt.resolution?.agreeToWaiver;
+const ExpandedContent = ({
+  index,
+  debt,
+  updateDebts,
+  submitted,
+  errorSchema,
+}) => {
+  const currentSchema = errorSchema[index];
+  const inputErrMsg = currentSchema?.resolution?.offerToPay?.__errors[0];
+  const checkboxErrMsg = currentSchema?.resolution?.agreeToWaiver?.__errors[0];
   const objKey = 'offerToPay';
 
   switch (debt.resolution?.resolutionType) {
@@ -27,12 +29,12 @@ const ExpandedContent = ({ debt, updateDebts, error }) => {
       return (
         <div className="currency-input">
           <TextInput
+            name="extended-payment-resolution-amount"
             additionalClass="input-size-3"
             label="How much can you pay monthly on this debt?"
             field={{ value: debt.resolution?.offerToPay || '' }}
             onValueChange={({ value }) => updateDebts(objKey, value, debt)}
-            errorMessage={inputError && 'Please enter an amount'}
-            required
+            errorMessage={submitted && inputErrMsg}
           />
         </div>
       );
@@ -40,12 +42,12 @@ const ExpandedContent = ({ debt, updateDebts, error }) => {
       return (
         <div className="currency-input">
           <TextInput
+            name="compromise-resolution-amount"
             additionalClass="input-size-3"
             label="What is your offer for a one-time payment?"
             field={{ value: debt.resolution?.offerToPay || '' }}
             onValueChange={({ value }) => updateDebts(objKey, value, debt)}
-            errorMessage={inputError && 'Please enter an amount'}
-            required
+            errorMessage={submitted && inputErrMsg}
           />
         </div>
       );
@@ -53,19 +55,24 @@ const ExpandedContent = ({ debt, updateDebts, error }) => {
       return (
         <>
           <Checkbox
+            name="agree-to-waiver"
             label="By checking this box, I’m agreeing that I understand how a debt waiver may affect my VA education benefits. If VA grants me a waiver, this will reduce any remaining education benefit entitlement I may have."
             checked={debt.resolution?.agreeToWaiver || false}
             onValueChange={value => updateDebts('agreeToWaiver', value, debt)}
-            errorMessage={checkboxError && 'Please provide a response'}
-            required
+            errorMessage={submitted && checkboxErrMsg}
           />
           <p>
-            Note: If you have questions about this, call us at{' '}
-            <Telephone contact={CONTACTS.DMC || '800-827-0648'} /> (or{' '}
+            Note: If you have questions about this, call us at
+            <Telephone
+              contact={CONTACTS.DMC || '800-827-0648'}
+              className="vads-u-margin-x--0p5"
+            />
+            (or
             <Telephone
               contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
               pattern={PATTERNS.OUTSIDE_US}
-            />{' '}
+              className="vads-u-margin-x--0p5"
+            />
             from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00
             p.m. ET.
           </p>
@@ -79,16 +86,8 @@ const ResolutionDebtCards = ({
   selectedDebts,
   setDebts,
   formContext,
+  errorSchema,
 }) => {
-  const [error, setError] = useState(false);
-
-  useEffect(
-    () => {
-      setError(formContext.submitted);
-    },
-    [formContext.submitted],
-  );
-
   const updateDebts = (objKey, value, debt) => {
     setDebts({
       ...formData,
@@ -118,12 +117,14 @@ const ResolutionDebtCards = ({
   return (
     <>
       <h4 className="resolution-options-debt-title">Your selected debts</h4>
-      {selectedDebts.map(debt => {
+      {selectedDebts.map((debt, index) => {
         const objKey = 'resolutionType';
-        const radioError = error && !debt.resolution?.resolutionType;
+        const submitted = formContext.submitted;
+        const radioError = submitted && !debt.resolution?.resolutionType;
+        const type = debt.resolution?.resolutionType;
+        const compPenWaiver = debt.deductionCode === '30' && type === 'Waiver';
         const title = deductionCodes[debt.deductionCode] || debt.benefitType;
-        const subTitle =
-          debt.currentAr && formatter.format(parseFloat(debt.currentAr));
+        const subTitle = currency(debt?.currentAr);
 
         return (
           <div
@@ -136,7 +137,7 @@ const ResolutionDebtCards = ({
               {subTitle}
             </p>
             <ExpandingGroup
-              open={debt.resolution?.resolutionType}
+              open={type && !compPenWaiver}
               additionalClass="form-expanding-group-active-radio"
             >
               <RadioButtons
@@ -146,13 +147,17 @@ const ResolutionDebtCards = ({
                 options={['Waiver', 'Extended monthly payments', 'Compromise']}
                 value={{ value: debt.resolution?.resolutionType }}
                 onValueChange={({ value }) => updateDebts(objKey, value, debt)}
-                errorMessage={radioError && 'Please provide a response'}
+                errorMessage={
+                  radioError && 'Please select a debt resolution option.'
+                }
                 required
               />
               <ExpandedContent
+                index={index}
                 debt={debt}
                 updateDebts={updateDebts}
-                error={error}
+                submitted={submitted}
+                errorSchema={errorSchema}
               />
             </ExpandingGroup>
           </div>

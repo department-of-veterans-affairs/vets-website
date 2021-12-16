@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Alert from './Alert';
 
 const SearchResultMessage = ({
   message,
@@ -8,25 +9,17 @@ const SearchResultMessage = ({
   resultRef,
   facilityType,
 }) => {
-  if (facilityType && error) {
+  if (error) {
     return (
-      <div className="search-result-title" ref={resultRef}>
-        <p>{message}</p>
-        <p>
-          If you need care right away for a minor illness or injury, select
-          Urgent care under facility type, then select either VA or community
-          providers as the service type.
-        </p>
-        <p>
-          If you have a medical emergency, please go to your nearest emergency
-          room or call 911.
-        </p>
-      </div>
+      <Alert
+        displayType="warning"
+        title="Find VA locations isn’t working right now"
+        description={message}
+      />
     );
   } else if (facilityType && !resultsFound) {
     return (
       <div className="search-result-title" ref={resultRef}>
-        We didn't find any facilities near you. <br />
         <strong>For better results:</strong>
         <ul className="vads-u-margin-y--1p5">
           <li>
@@ -39,7 +32,7 @@ const SearchResultMessage = ({
         </ul>
         Then click the <strong>“Search this area of map”</strong> button.
         <p />
-        If we still haven't found any facilities near you,{' '}
+        If we still haven’t found any facilities near you,{' '}
         <strong>please enter a different:</strong>
         <ul className="vads-u-margin-y--1p5">
           <li>

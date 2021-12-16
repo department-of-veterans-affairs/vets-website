@@ -15,25 +15,15 @@ import {
 } from './actions';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isInProgressPath } from '../helpers';
 import { getSaveInProgressState } from './selectors';
 import environment from 'platform/utilities/environment';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
-
+import { getScrollOptions } from 'platform/utilities/ui';
 import { restartShouldRedirect } from 'platform/site-wide/wizard';
 
 const Element = Scroll.Element;
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo(
-    'topScrollElement',
-    window.VetsGov?.scroll || {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    },
-  );
-};
 
 /*
  * Primary component for a schema generated form app.
@@ -150,7 +140,7 @@ class RoutedSavableApp extends React.Component {
       (oldProps.savedStatus !== this.props.savedStatus &&
         this.props.savedStatus === SAVE_STATUSES.pending)
     ) {
-      scrollToTop();
+      scrollToTop('topScrollElement', getScrollOptions());
     }
 
     if (

@@ -501,4 +501,96 @@ describe('<AutosuggestField>', () => {
     expect(onChange.called).to.be.true;
     tree.unmount();
   });
+
+  it('should highlight results if highlightText is true in ui:options', done => {
+    const onChange = sinon.spy();
+    const props = {
+      uiSchema: {
+        'ui:options': {
+          freeInput: true,
+          highlightText: true,
+          labels: {
+            AL: 'Label 1',
+            BC: 'LABEL 2',
+          },
+        },
+      },
+      schema: {
+        type: 'string',
+        enum: ['AL', 'BC'],
+      },
+      formContext: { reviewMode: false },
+      idSchema: { $id: 'id' },
+      onChange,
+      onBlur: () => {},
+    };
+    const wrapper = mount(<AutosuggestField {...props} />);
+
+    // Input something not in options
+    const input = wrapper.find('input');
+    input.simulate('focus');
+    input.simulate('change', {
+      target: {
+        value: 'Bel',
+      },
+    });
+
+    setTimeout(() => {
+      expect(wrapper.find('.autosuggest-list')).to.exist;
+      const firstItem = wrapper.find('.autosuggest-item').first();
+      const highlight = firstItem.find('.autosuggest-highlight').text();
+      expect(firstItem.text()).to.equal('Label 1');
+      expect(highlight).to.equal('bel');
+
+      const lastItem = wrapper.find('.autosuggest-item').last();
+      const highlight2 = lastItem.find('.autosuggest-highlight').text();
+      expect(lastItem.text()).to.equal('LABEL 2');
+      expect(highlight2).to.equal('BEL');
+      wrapper.unmount();
+      done();
+    });
+  });
+  it('should not throw an error if the value includes regexp special characters', done => {
+    const onChange = sinon.spy();
+    const props = {
+      uiSchema: {
+        'ui:options': {
+          freeInput: true,
+          highlightText: true,
+          labels: {
+            AL: 'Label(1)',
+            BC: 'LABEL 2',
+          },
+        },
+      },
+      schema: {
+        type: 'string',
+        enum: ['AL', 'BC'],
+      },
+      formContext: { reviewMode: false },
+      idSchema: { $id: 'id' },
+      onChange,
+      onBlur: () => {},
+    };
+    const wrapper = mount(<AutosuggestField {...props} />);
+
+    // Input something not in options
+    const input = wrapper.find('input');
+    input.simulate('focus');
+    input.simulate('change', {
+      target: {
+        value: 'Bel(',
+      },
+    });
+
+    setTimeout(() => {
+      expect(wrapper.find('.autosuggest-list')).to.exist;
+      const firstItem = wrapper.find('.autosuggest-item').last();
+      const highlight = firstItem.find('.autosuggest-highlight').text();
+      expect(firstItem.text()).to.equal('Label(1)');
+      expect(highlight).to.equal('bel(');
+      wrapper.unmount();
+      done();
+    });
+  });
 });

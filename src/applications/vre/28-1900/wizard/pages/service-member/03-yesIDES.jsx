@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { serviceMemberPathPageNames } from '../pageList';
 import { WIZARD_STATUS } from 'applications/vre/28-1900/constants';
+import recordEvent from 'platform/monitoring/record-event';
 
 const YesIDES = props => {
   const { setWizardStatus } = props;
@@ -20,8 +21,7 @@ const YesIDES = props => {
     >
       <p className="vads-u-margin--0" id="orientation-complete-notification">
         <span className="vads-u-display--block vads-u-margin-y--1">
-          Based on your answers, you probably qualify to apply for VR&E
-          benefits.
+          Based on your answers, you can apply for VR&E benefits.
         </span>
         <strong>Before you apply,</strong> please go through the VR&E
         orientation below. If you already know you want to apply for VR&E, you
@@ -31,6 +31,9 @@ const YesIDES = props => {
       <Link
         aria-describedby="orientation-complete-notification"
         onClick={() => {
+          recordEvent({
+            event: 'howToWizard-skip-orientation',
+          });
           sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
         }}
         to="/"

@@ -26,6 +26,9 @@ export const uiSchema = {
         },
         middle: {
           'ui:title': 'Stepchild’s middle name',
+          'ui:options': {
+            hideEmptyValueInReview: true,
+          },
         },
         last: {
           'ui:title': 'Stepchild’s last name',
@@ -39,6 +42,7 @@ export const uiSchema = {
           'ui:title': 'Stepchild’s suffix',
           'ui:options': {
             widgetClassNames: 'usa-input-medium',
+            hideEmptyValueInReview: true,
           },
         },
       },

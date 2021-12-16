@@ -5,7 +5,8 @@ import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink
 import { apiRequest as commonApiClient } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import { formatDateShort } from 'platform/utilities/date';
-import { BENEFIT_OPTIONS, ADDRESS_TYPES, MILITARY_STATES } from './constants';
+import { ADDRESS_TYPES_ALTERNATE } from '@@vap-svc/constants';
+import { BENEFIT_OPTIONS } from './constants';
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}`;
@@ -180,7 +181,7 @@ const benefitOptionText = {
     false: {
       veteran: (
         <div>
-          You <strong>don't have</strong> one or more service-connected
+          You <strong>don’t have</strong> one or more service-connected
           disabilities.
         </div>
       ),
@@ -248,13 +249,13 @@ const benefitOptionText = {
     false: {
       veteran: (
         <div>
-          You <strong>aren't</strong> considered to be totally and permanently
+          You <strong>aren’t</strong> considered to be totally and permanently
           disabled solely due to your service-connected disabilities.
         </div>
       ),
       dependent: (
         <div>
-          The Veteran <strong>wasn't</strong> totally and permanently disabled.
+          The Veteran <strong>wasn’t</strong> totally and permanently disabled.
         </div>
       ),
     },
@@ -272,7 +273,7 @@ const benefitOptionText = {
       veteran: undefined,
       dependent: (
         <div>
-          The Veteran <strong>didn't</strong> die as a result of a
+          The Veteran <strong>didn’t</strong> die as a result of a
           service-connected disability.
         </div>
       ),
@@ -310,6 +311,19 @@ const benefitOptionText = {
   },
 };
 
+/**
+ * EVSS sets dates to central time (T06:00:00.000+00:00), but adds the timezone
+ * offset after the "T" instead of after the "+". So we're going to strip off
+ * the time completely, see
+ * https://github.com/department-of-veterans-affairs/va.gov-team/issues/29762#issuecomment-920225928
+ * @param {String} date - ISO 8601 date format
+ * @returns {String} - ISO 8601 date format
+ */
+export function stripOffTime(date) {
+  const [ymd] = (date || '').split('T');
+  return ymd || '';
+}
+
 export function getBenefitOptionText(
   option,
   value,
@@ -344,7 +358,7 @@ export function getBenefitOptionText(
         </div>
         <div>
           The effective date of the last change to your current award was{' '}
-          <strong>{formatDateShort(awardEffectiveDate)}</strong>.
+          <strong>{formatDateShort(stripOffTime(awardEffectiveDate))}</strong>.
         </div>
       </div>
     );
@@ -384,24 +398,6 @@ export const benefitOptionsMap = {
 };
 
 /**
- * Infers the address type from the address supplied and returns the address
- *  with the "new" type.
- */
-export function inferAddressType(address) {
-  let type = ADDRESS_TYPES.domestic;
-  if (
-    address.countryName !== 'USA' &&
-    address.countryName !== 'United States'
-  ) {
-    type = ADDRESS_TYPES.international;
-  } else if (MILITARY_STATES.has(address.stateCode)) {
-    type = ADDRESS_TYPES.military;
-  }
-
-  return Object.assign({}, address, { type });
-}
-
-/**
  * When address the address type changes, we may need to clear out some fields
  *  so validation doesn't fail because we're sending information that's no longer
  *  accurate (compared to what the user sees).
@@ -409,7 +405,7 @@ export function inferAddressType(address) {
 export function resetDisallowedAddressFields(address) {
   const newAddress = Object.assign({}, address);
   // International addresses don't allow state or zip
-  if (address.type === ADDRESS_TYPES.international) {
+  if (address.type === ADDRESS_TYPES_ALTERNATE.international) {
     newAddress.state = '';
     newAddress.zipCode = '';
   }

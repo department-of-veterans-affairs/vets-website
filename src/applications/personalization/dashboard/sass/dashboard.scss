@@ -1,37 +1,23 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-linkslist";
-@import "../../../../platform/forms/sass/m-applications";
+@import "../../../../../node_modules/@department-of-veterans-affairs/formation/sass/shared-variables";
 
-#dashboard-title {
-  margin-top: 1.5em;
+[tabindex="-1"]:focus {
   outline: 0;
 }
 
-.profile-section {
-  .section-header:first-of-type {
-    margin-top: 0;
-    margin-bottom: 1em;
+.cta-link:nth-of-type(1) {
+  border-top: 1px solid $color-primary-alt-light;
+
+  @media (max-width: $small-screen) {
+    margin-top: units(2.5);
   }
 }
 
-.appointment-item {
-  h4:first-child {
-    margin-top: 0;
-  }
+.cta-link {
+  display: block;
+  border-bottom: 1px solid $color-primary-alt-light;
 
-  background: $color-gray-lightest;
-  padding: 1.5rem 2rem;
-  margin-bottom: 2rem;
-
-  .appointment-info {
-    h4:first-child {
-      margin-top: 0;
-    }
-
-    p {
-      margin-bottom: 0;
-    }
-
-    padding: 0 2rem;
+  &:hover {
+    background-color: $color-gray-lightest;
+    cursor: pointer;
   }
 }

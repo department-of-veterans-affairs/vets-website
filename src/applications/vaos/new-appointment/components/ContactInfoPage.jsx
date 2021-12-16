@@ -8,6 +8,7 @@ import {
   selectVAPHomePhoneString,
   selectVAPMobilePhoneString,
 } from 'platform/user/selectors';
+import recordEvent from 'platform/monitoring/record-event';
 import FormButtons from '../../components/FormButtons';
 
 import {
@@ -23,7 +24,7 @@ import {
 } from '../redux/actions';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import useFormState from '../../hooks/useFormState';
-import { FLOW_TYPES } from '../../utils/constants';
+import { FLOW_TYPES, GA_PREFIX } from '../../utils/constants';
 
 const initialSchema = {
   type: 'object',
@@ -54,15 +55,42 @@ const initialSchema = {
   },
 };
 
+function recordPopulatedEvents(email, phone) {
+  recordEvent({
+    event: `${GA_PREFIX}-contact-info-email-${
+      email ? 'populated' : 'not-populated'
+    }`,
+  });
+  recordEvent({
+    event: `${GA_PREFIX}-contact-info-phone-${
+      phone ? 'populated' : 'not-populated'
+    }`,
+  });
+}
+
+function recordChangedEvents(email, phone, data) {
+  if (email) {
+    recordEvent({
+      event: `${GA_PREFIX}-contact-info-email-${
+        email !== data.email ? 'changed' : 'not-changed'
+      }`,
+    });
+  }
+
+  if (phone) {
+    recordEvent({
+      event: `${GA_PREFIX}-contact-info-phone-${
+        phone !== data.phoneNumber ? 'changed' : 'not-changed'
+      }`,
+    });
+  }
+}
+
 const phoneConfig = phoneUI('Your phone number');
 const pageKey = 'contactInfo';
-const pageTitle = 'Your contact information';
+const pageTitle = 'Confirm your contact information';
 
 export default function ContactInfoPage() {
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-  }, []);
   const history = useHistory();
   const dispatch = useDispatch();
   const pageChangeInProgress = useSelector(selectPageChangeInProgress);
@@ -72,18 +100,22 @@ export default function ContactInfoPage() {
   const mobilePhone = useSelector(selectVAPMobilePhoneString);
   const flowType = useSelector(getFlowType);
 
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
+    recordPopulatedEvents(email, mobilePhone || homePhone);
+  }, []);
+
   const uiSchema = {
     'ui:description': (
       <>
         <p>
-          This is the contact information we have on file for you. We’ll use
-          this information to contact you about scheduling your appointment. You
-          can update your contact information here, but the updates will only
-          apply to this tool.
+          This is the information we’ll use to contact you about your
+          appointment. You can update your contact information here, but the
+          updates will only apply to this tool.
         </p>
         <p className="vads-u-margin-y--2">
-          If you want to update your contact information for all your VA
-          accounts, please{' '}
+          To update your contact information for all your VA accounts, please{' '}
           <NewTabAnchor href="/profile">go to your profile page</NewTabAnchor>.
         </p>
       </>
@@ -106,27 +138,19 @@ export default function ContactInfoPage() {
         hideIf: () => flowType === FLOW_TYPES.DIRECT,
       },
       morning: {
-        'ui:title': 'Morning (8 a.m. – noon)',
-        'ui:options': {
-          widgetClassNames: 'vaos-form__checkbox',
-        },
+        'ui:title': 'Morning (8:00 a.m. – noon)',
+        'ui:options': { widgetClassNames: 'vaos-form__checkbox' },
       },
       afternoon: {
-        'ui:title': 'Afternoon (noon – 4 p.m.)',
-        'ui:options': {
-          widgetClassNames: 'vaos-form__checkbox',
-        },
+        'ui:title': 'Afternoon (noon – 4:00 p.m.)',
+        'ui:options': { widgetClassNames: 'vaos-form__checkbox' },
       },
       evening: {
-        'ui:title': 'Evening (4 p.m. – 8 p.m.)',
-        'ui:options': {
-          widgetClassNames: 'vaos-form__checkbox',
-        },
+        'ui:title': 'Evening (4:00 p.m. – 8:00 p.m.)',
+        'ui:options': { widgetClassNames: 'vaos-form__checkbox' },
       },
     },
-    email: {
-      'ui:title': 'Your email address',
-    },
+    email: { 'ui:title': 'Your email address' },
   };
 
   const { data, schema, setData } = useFormState({
@@ -148,9 +172,10 @@ export default function ContactInfoPage() {
           title="Contact info"
           schema={schema}
           uiSchema={uiSchema}
-          onSubmit={() =>
-            dispatch(routeToNextAppointmentPage(history, pageKey, data))
-          }
+          onSubmit={() => {
+            recordChangedEvents(email, mobilePhone || homePhone, data);
+            dispatch(routeToNextAppointmentPage(history, pageKey, data));
+          }}
           onChange={newData => setData(newData)}
           data={data}
         >

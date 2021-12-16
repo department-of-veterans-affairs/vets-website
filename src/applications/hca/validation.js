@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { get } from 'lodash/fp';
+import get from 'platform/utilities/data/get';
 
 import {
   convertToDateField,

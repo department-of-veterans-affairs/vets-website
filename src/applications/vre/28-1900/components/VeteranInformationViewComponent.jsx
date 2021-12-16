@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
@@ -26,12 +25,12 @@ const VeteranInformationViewComponent = props => {
   }
   const alertContent = (
     <dl className="vads-u-margin--0 vads-u-padding-left--2">
-      <dt className="vads-u-line-height--4 vads-u-padding-bottom--2">
+      <dt className="vads-u-line-height--4 vads-u-padding-bottom--2 vads-u-font-size--base">
         <strong>
           {first} {last}
         </strong>
       </dt>
-      <dd className="vads-u-line-height--4 vads-u-padding-bottom--2">
+      <dd className="vads-u-line-height--4 vads-u-padding-bottom--2 vads-u-font-size--base">
         Date of birth: {dateOfBirthFormatted}
       </dd>
       <dd className="vads-u-line-height--4">Gender: {genderFull}</dd>
@@ -42,12 +41,7 @@ const VeteranInformationViewComponent = props => {
       {profile?.userFullName?.first && profile?.userFullName?.last ? (
         <div>
           <p>This is the personal information we have on file for you.</p>
-          <AlertBox
-            className="vads-u-padding--0 vads-u-background-color--white vads-u-border-color--primary vads-u-border-left--5px"
-            content={alertContent}
-            status="info"
-            isVisible
-          />
+          <va-alert status="info">{alertContent}</va-alert>
           <p>
             <strong>Note:</strong> If you need to update your personal
             information, please call Veterans Benefits Assistance at{' '}

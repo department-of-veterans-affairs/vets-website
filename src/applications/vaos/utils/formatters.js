@@ -8,7 +8,7 @@ export function titleCase(str) {
 
 export function sentenceCase(str) {
   return str
-    .split(' ')
+    ?.split(' ')
     .map((word, index) => {
       if (/^[^a-z]*$/.test(word)) {
         return word;

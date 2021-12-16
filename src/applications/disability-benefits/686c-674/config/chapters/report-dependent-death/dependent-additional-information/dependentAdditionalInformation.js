@@ -33,6 +33,7 @@ export const uiSchema = {
       dependentIncome: {
         'ui:options': {
           hideIf: () => environment.isProduction(),
+          hideEmptyValueInReview: true,
         },
         'ui:title': PensionIncomeRemovalQuestionTitle,
         'ui:widget': 'yesNo',

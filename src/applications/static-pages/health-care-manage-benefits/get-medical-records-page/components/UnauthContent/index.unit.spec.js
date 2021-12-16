@@ -26,7 +26,7 @@ describe('Get Medical Records Page <UnauthContent>', () => {
     );
     expect(text).to.include('What if I have more questions?');
     expect(text).to.include(
-      "What's VHIE, and how can it help me manage my health?",
+      'What’s VHIE, and how can it help me manage my health?',
     );
     expect(text).to.include('How do I opt out?');
     expect(text).to.include('If I opt out, how can I opt back in?');

@@ -13,6 +13,9 @@ import parentFacilities from '../../services/mocks/var/facilities.json';
 
 import newAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 import { FACILITY_TYPES } from '../../utils/constants';
+import { mockParentSites, mockSupportedCCSites } from '../mocks/helpers';
+import { mockFacilitiesFetchByVersion } from '../mocks/fetch';
+import { getParentSiteMock } from '../mocks/v0';
 
 const userState = {
   user: {
@@ -36,11 +39,14 @@ describe('VAOS newAppointmentFlow', () => {
     describe('next page', () => {
       it('should be vaFacility page if no systems have CC support', async () => {
         mockFetch();
+        mockFacilitiesFetchByVersion({ version: 0 });
+        mockParentSites(['983'], [getParentSiteMock({ id: '983' })]);
+        mockSupportedCCSites(['983'], []);
 
         const state = {
           user: {
             profile: {
-              facilities: [],
+              facilities: [{ facilityId: '983' }],
             },
           },
           featureToggles: {
@@ -304,7 +310,7 @@ describe('VAOS newAppointmentFlow', () => {
     });
   });
 
-  describe('vaFacility page', () => {
+  describe('vaFacilityV2 page', () => {
     const defaultState = {
       featureToggles: {
         loading: false,
@@ -329,6 +335,7 @@ describe('VAOS newAppointmentFlow', () => {
         eligibility: {
           '983_323': {},
         },
+        facilities: {},
       },
       user: {
         profile: {
@@ -362,7 +369,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
         const dispatch = sinon.spy();
 
-        const nextState = await newAppointmentFlow.vaFacility.next(
+        const nextState = await newAppointmentFlow.vaFacilityV2.next(
           state,
           dispatch,
         );
@@ -370,31 +377,6 @@ describe('VAOS newAppointmentFlow', () => {
           'newAppointment/START_DIRECT_SCHEDULE_FLOW',
         );
         expect(nextState).to.equal('clinicChoice');
-      });
-      it('should throw error if not eligible for requests or direct', async () => {
-        const state = {
-          ...defaultState,
-          newAppointment: {
-            ...defaultState.newAppointment,
-            eligibility: {
-              '983_323': {
-                direct: false,
-                request: false,
-              },
-            },
-          },
-        };
-        const dispatch = sinon.spy();
-
-        try {
-          await newAppointmentFlow.vaFacility.next(state, dispatch);
-          // Should throw an error above
-          expect(false).to.be.true;
-        } catch (e) {
-          expect(e.message).to.equal(
-            'Veteran not eligible for direct scheduling or requests',
-          );
-        }
       });
       it('should be requestDateTime if not direct eligible', async () => {
         const state = {
@@ -411,7 +393,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
         const dispatch = sinon.spy();
 
-        const nextState = await newAppointmentFlow.vaFacility.next(
+        const nextState = await newAppointmentFlow.vaFacilityV2.next(
           state,
           dispatch,
         );
@@ -422,19 +404,6 @@ describe('VAOS newAppointmentFlow', () => {
 
   describe('requestDateTime page', () => {
     describe('next page', () => {
-      it('should be ccPreferences if in the CC flow', () => {
-        const state = {
-          newAppointment: {
-            data: {
-              facilityType: FACILITY_TYPES.COMMUNITY_CARE,
-            },
-          },
-        };
-
-        const nextState = newAppointmentFlow.requestDateTime.next(state);
-
-        expect(nextState).to.equal('ccPreferences');
-      });
       it('should be reasonForAppointment if in the VA flow', () => {
         const state = {
           newAppointment: {
@@ -461,8 +430,9 @@ describe('VAOS newAppointmentFlow', () => {
             },
           },
         };
+        const dispatch = sinon.spy();
 
-        const nextState = newAppointmentFlow.clinicChoice.next(state);
+        const nextState = newAppointmentFlow.clinicChoice.next(state, dispatch);
 
         expect(nextState).to.equal('preferredDate');
       });
@@ -487,7 +457,7 @@ describe('VAOS newAppointmentFlow', () => {
 
   describe('ccPreferences page', () => {
     describe('next page', () => {
-      it('should be reasonForAppointment if provider selection is disabled', () => {
+      it('should be reasonForAppointment if user has no address on file', () => {
         const state = {
           featureToggles: {
             loading: false,
@@ -499,20 +469,7 @@ describe('VAOS newAppointmentFlow', () => {
         );
       });
 
-      it('should be reasonForAppointment if provider selection is enabled but user has no address on file', () => {
-        const state = {
-          featureToggles: {
-            loading: false,
-            vaOnlineSchedulingProviderSelection: true,
-          },
-        };
-
-        expect(newAppointmentFlow.ccPreferences.next(state)).to.equal(
-          'reasonForAppointment',
-        );
-      });
-
-      it('should be ccLanguage if provider selection is enabled', () => {
+      it('should be ccLanguage if user has an address on file', () => {
         const state = {
           user: {
             profile: {
@@ -525,7 +482,6 @@ describe('VAOS newAppointmentFlow', () => {
           },
           featureToggles: {
             loading: false,
-            vaOnlineSchedulingProviderSelection: true,
           },
         };
 

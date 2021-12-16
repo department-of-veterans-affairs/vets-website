@@ -21,7 +21,7 @@ export const VreCommunicationInformation = (
       </li>
     </ul>
     <p>
-      Please let us know which options work best for you and we'll call or email
+      Please let us know which options work best for you and we’ll call or email
       you with more details.
     </p>
   </section>
@@ -29,7 +29,7 @@ export const VreCommunicationInformation = (
 
 export const AppointmentPreferencesInformation = (
   <section>
-    <p>
+    <p id="appointment-time-desc">
       Please tell us the time you prefer to meet with your counselor. We’ll make
       every effort to assign a counselor who is available to meet during your
       preferred hours.

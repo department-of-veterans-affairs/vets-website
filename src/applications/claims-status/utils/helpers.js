@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 import * as Sentry from '@sentry/browser';
 
 import environment from 'platform/utilities/environment';
@@ -255,7 +255,8 @@ export function makeAuthRequest(
   onError,
 ) {
   const csrfTokenStored = localStorage.getItem('csrfToken');
-  const options = _.merge(
+  const options = merge(
+    {},
     {
       method: 'GET',
       credentials: 'include',
@@ -891,3 +892,10 @@ export const mockData = {
     },
   ],
 };
+
+// returns the value rounded to the nearest interval
+// ex: roundToNearest({interval: 5000, value: 13000}) => 15000
+// ex: roundToNearest({interval: 5000, value: 6500}) => 5000
+export function roundToNearest({ interval, value }) {
+  return Math.round(value / interval) * interval;
+}

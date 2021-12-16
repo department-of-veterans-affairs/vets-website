@@ -1,12 +1,14 @@
 import {
-  selectUseFlatFacilityPage,
-  selectUseProviderSelection,
+  selectFeatureCCIterations,
+  selectHasVAPResidentialAddress,
+  selectRegisteredCernerFacilityIds,
 } from '../redux/selectors';
 import {
   getChosenFacilityInfo,
   getFormData,
   getNewAppointment,
   getTypeOfCare,
+  selectCommunityCareSupportedSites,
   selectEligibility,
 } from './redux/selectors';
 import {
@@ -16,7 +18,10 @@ import {
   TYPES_OF_CARE,
   COVID_VACCINE_ID,
 } from '../utils/constants';
-import { getSiteIdFromFacilityId } from '../services/location';
+import {
+  getSiteIdFromFacilityId,
+  isCernerLocation,
+} from '../services/location';
 import {
   checkEligibility,
   showEligibilityModal,
@@ -33,7 +38,6 @@ const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
 const EYE_CARE = 'EYE';
 const PODIATRY = 'tbd-podiatry';
-const VA_FACILITY_V1_KEY = 'vaFacility';
 const VA_FACILITY_V2_KEY = 'vaFacilityV2';
 
 function isCCAudiology(state) {
@@ -70,34 +74,28 @@ function isCovidVaccine(state) {
   return getFormData(state).typeOfCareId === COVID_VACCINE_ID;
 }
 
-function getFacilityPageKey(state) {
-  return selectUseFlatFacilityPage(state)
-    ? VA_FACILITY_V2_KEY
-    : VA_FACILITY_V1_KEY;
-}
-
 async function vaFacilityNext(state, dispatch) {
   let eligibility = selectEligibility(state);
 
-  if (selectUseFlatFacilityPage(state)) {
-    // Fetch eligibility if we haven't already
-    if (!eligibility) {
-      const location = getChosenFacilityInfo(state);
-      const siteId = getSiteIdFromFacilityId(location.id);
+  const location = getChosenFacilityInfo(state);
+  const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
+  const isCerner = isCernerLocation(location?.id, cernerSiteIds);
 
-      eligibility = await dispatch(
-        checkEligibility({
-          location,
-          siteId,
-          showModal: true,
-        }),
-      );
-    }
+  if (isCerner) {
+    return 'scheduleCerner';
+  }
 
-    if (!eligibility.direct && !eligibility.request) {
-      dispatch(showEligibilityModal());
-      return VA_FACILITY_V2_KEY;
-    }
+  // Fetch eligibility if we haven't already
+  if (!eligibility) {
+    const siteId = getSiteIdFromFacilityId(location.id);
+
+    eligibility = await dispatch(
+      checkEligibility({
+        location,
+        siteId,
+        showModal: true,
+      }),
+    );
   }
 
   if (eligibility.direct) {
@@ -110,7 +108,8 @@ async function vaFacilityNext(state, dispatch) {
     return 'requestDateTime';
   }
 
-  throw new Error('Veteran not eligible for direct scheduling or requests');
+  dispatch(showEligibilityModal());
+  return VA_FACILITY_V2_KEY;
 }
 
 export default {
@@ -158,7 +157,7 @@ export default {
       }
 
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-      return getFacilityPageKey(state);
+      return VA_FACILITY_V2_KEY;
     },
   },
   typeOfFacility: {
@@ -173,12 +172,12 @@ export default {
         return 'requestDateTime';
       }
 
-      return getFacilityPageKey(state);
+      return VA_FACILITY_V2_KEY;
     },
   },
   typeOfSleepCare: {
     url: '/new-appointment/choose-sleep-care',
-    next: getFacilityPageKey,
+    next: VA_FACILITY_V2_KEY,
   },
   typeOfEyeCare: {
     url: '/new-appointment/choose-eye-care',
@@ -195,7 +194,7 @@ export default {
       }
 
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-      return getFacilityPageKey(state);
+      return VA_FACILITY_V2_KEY;
     },
   },
   audiologyCareType: {
@@ -208,7 +207,8 @@ export default {
   ccPreferences: {
     url: '/new-appointment/community-care-preferences',
     next(state) {
-      if (selectUseProviderSelection(state)) {
+      const featureCCIteration = selectFeatureCCIterations(state);
+      if (featureCCIteration || selectHasVAPResidentialAddress(state)) {
         return 'ccLanguage';
       }
 
@@ -219,6 +219,10 @@ export default {
     url: '/new-appointment/community-care-language',
     next: 'reasonForAppointment',
   },
+  ccClosestCity: {
+    url: '/new-appointment/choose-closest-city',
+    next: 'ccPreferences',
+  },
   vaFacility: {
     url: '/new-appointment/va-facility',
     next: vaFacilityNext,
@@ -226,6 +230,9 @@ export default {
   vaFacilityV2: {
     url: '/new-appointment/va-facility-2',
     next: vaFacilityNext,
+  },
+  scheduleCerner: {
+    url: '/new-appointment/how-to-schedule',
   },
   clinicChoice: {
     url: '/new-appointment/clinics',
@@ -236,6 +243,7 @@ export default {
       }
 
       // fetch appointment slots
+      dispatch(startDirectScheduleFlow());
       return 'preferredDate';
     },
   },
@@ -250,7 +258,15 @@ export default {
   requestDateTime: {
     url: '/new-appointment/request-date',
     next(state) {
-      if (isCCFacility(state)) {
+      const supportedSites = selectCommunityCareSupportedSites(state);
+      const featureCCIteration = selectFeatureCCIterations(state);
+      if (
+        isCCFacility(state) &&
+        supportedSites.length > 1 &&
+        featureCCIteration
+      ) {
+        return 'ccClosestCity';
+      } else if (isCCFacility(state)) {
         return 'ccPreferences';
       }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import AlertBox, {
@@ -12,7 +12,10 @@ import {
   isLOA3 as isLOA3Selector,
   isMultifactorEnabled,
 } from '~/platform/user/selectors';
-import { isAuthenticatedWithSSOe as isAuthenticatedWithSSOeSelector } from '~/platform/user/authentication/selectors';
+import {
+  loginGov,
+  signInServiceName as signInServiceNameSelector,
+} from '~/platform/user/authentication/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 
@@ -22,19 +25,15 @@ import {
 } from '@@profile/selectors';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
-import SetUp2FAAlert from '../alerts/SetUp2FAAlert';
+import UnsupportedAccountAlert from '../alerts/UnsupportedAccountAlert';
 
 import Headline from '../ProfileSectionHeadline';
 
 import FraudVictimAlert from './FraudVictimAlert';
 import PaymentHistory from './PaymentHistory';
-import BankInfoCNP from './BankInfoCNP';
-import BankInfoEDU from './BankInfoEDU';
-
-export const benefitTypes = {
-  CNP: 'compensation and pension benefits',
-  EDU: 'education benefits',
-};
+import BankInfo from './BankInfo';
+import { benefitTypes } from '~/applications/personalization/common/constants';
+import { Prompt } from 'react-router-dom';
 
 const SuccessMessage = ({ benefit }) => {
   let content = null;
@@ -68,14 +67,19 @@ const SuccessMessage = ({ benefit }) => {
 const DirectDeposit = ({
   cnpUiState,
   eduUiState,
-  is2faEnabled,
-  isAuthenticatedWithSSOe,
-  isLOA3,
+  isLoginGovSupported,
+  isVerifiedUser,
 }) => {
   const [
     recentlySavedBankInfo,
     setRecentlySavedBankInfoForBenefit,
   ] = React.useState('');
+
+  const [cnpFormIsDirty, setCnpFormIsDirty] = React.useState(false);
+
+  const [eduFormIsDirty, setEduFormIsDirty] = React.useState(false);
+
+  const allFormsAreEmpty = eduFormIsDirty && cnpFormIsDirty;
 
   const isSavingCNPBankInfo = cnpUiState.isSaving;
   const wasSavingCNPBankInfo = usePrevious(cnpUiState.isSaving);
@@ -83,7 +87,7 @@ const DirectDeposit = ({
   const isSavingEDUBankInfo = eduUiState.isSaving;
   const wasSavingEDUBankInfo = usePrevious(eduUiState.isSaving);
   const eduSaveError = eduUiState.responseError;
-  const showSetUp2FactorAuthentication = isLOA3 && !is2faEnabled;
+  const showBankInformation = isVerifiedUser;
 
   const bankInfoUpdatedAlertSettings = {
     FADE_SPEED: window.Cypress ? 1 : 500,
@@ -136,6 +140,19 @@ const DirectDeposit = ({
     ],
   );
 
+  useEffect(
+    () => {
+      // Show alert when navigating away
+      if (!allFormsAreEmpty) {
+        window.onbeforeunload = () => true;
+        return;
+      }
+
+      window.onbeforeunload = undefined;
+    },
+    [allFormsAreEmpty],
+  );
+
   return (
     <>
       <Headline>Direct deposit information</Headline>
@@ -161,11 +178,11 @@ const DirectDeposit = ({
           )}
         </ReactCSSTransitionGroup>
       </div>
-
-      {showSetUp2FactorAuthentication && (
-        <SetUp2FAAlert isAuthenticatedWithSSOe={isAuthenticatedWithSSOe} />
-      )}
-      {!showSetUp2FactorAuthentication && (
+      <Prompt
+        message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
+        when={!allFormsAreEmpty}
+      />
+      {showBankInformation ? (
         <DowntimeNotification
           appTitle="direct deposit"
           render={handleDowntimeForSection(
@@ -173,25 +190,39 @@ const DirectDeposit = ({
           )}
           dependencies={[externalServices.evss]}
         >
-          <BankInfoCNP />
+          <BankInfo
+            type={benefitTypes.CNP}
+            setFormIsDirty={setCnpFormIsDirty}
+          />
         </DowntimeNotification>
+      ) : (
+        <UnsupportedAccountAlert isLoginGovSupported={isLoginGovSupported} />
       )}
       <FraudVictimAlert status={ALERT_TYPE.INFO} />
-      {!showSetUp2FactorAuthentication && (
+      {showBankInformation ? (
         <>
-          <BankInfoEDU />
+          <BankInfo
+            type={benefitTypes.EDU}
+            setFormIsDirty={setEduFormIsDirty}
+          />
           <PaymentHistory />
         </>
-      )}
+      ) : null}
     </>
   );
 };
 
 const mapStateToProps = state => {
+  const eligibleSignInServices = new Set(['idme', 'logingov']);
+  const isLOA3 = isLOA3Selector(state);
+  const is2faEnabled = isMultifactorEnabled(state);
+  const signInServiceName = signInServiceNameSelector(state);
+  const isUsingEligibleSignInService = eligibleSignInServices.has(
+    signInServiceName,
+  );
   return {
-    is2faEnabled: isMultifactorEnabled(state),
-    isAuthenticatedWithSSOe: isAuthenticatedWithSSOeSelector(state),
-    isLOA3: isLOA3Selector(state),
+    isLoginGovSupported: loginGov(state),
+    isVerifiedUser: isLOA3 && isUsingEligibleSignInService && is2faEnabled,
     cnpUiState: cnpDirectDepositUiState(state),
     eduUiState: eduDirectDepositUiState(state),
   };

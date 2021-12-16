@@ -1,4 +1,3 @@
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
 import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
@@ -160,6 +159,69 @@ describe('Schemaform review <ArrayField>', () => {
       'Add another item name',
     );
   });
+
+  it('should call handleAdd in edit mode with no data', () => {
+    const schema = {
+      type: 'array',
+      items: [
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            field: {
+              type: 'string',
+            },
+          },
+        },
+      ],
+      additionalItems: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string',
+          },
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      items: {},
+      'ui:options': {
+        viewField: f => f,
+        itemName: 'item name',
+      },
+    };
+    const tree = SkinDeep.shallowRender(
+      <ArrayField
+        pageKey="page1"
+        arrayData={[]}
+        path={['thingList']}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={{}}
+        registry={registry}
+        formContext={{ onReviewPage: true }}
+        pageTitle=""
+        editing={false} // Not already in edit mode
+        requiredSchema={requiredSchema}
+      />,
+    );
+    tree.getMountedInstance().componentDidMount();
+    expect(tree.everySubTree('.schemaform-array-row-title')[0].text()).to.equal(
+      'New item name',
+    );
+    expect(tree.everySubTree('button')[2].text()).to.equal(
+      'Add another item name',
+    );
+  });
+
   it('should render array warning', () => {
     // If it's a BasicArrayField with a set minItems, make sure it doesn't break
     //  if no items are found; it should render a validation warning instead.
@@ -509,9 +571,10 @@ describe('Schemaform review <ArrayField>', () => {
 
     const instance = tree.getMountedInstance();
 
-    const newProps = _.assign(instance.props, {
+    const newProps = {
+      ...instance.props,
       arrayData: [],
-    });
+    };
 
     instance.UNSAFE_componentWillReceiveProps(newProps);
 

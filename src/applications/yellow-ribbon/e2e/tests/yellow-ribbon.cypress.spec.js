@@ -7,19 +7,22 @@ const SELECTORS = {
   SEARCH_FORM: '[data-e2e-id="search-form"]',
   SEARCH_RESULTS: '[data-e2e-id="search-results"]',
   SEARCH_RESULT_TITLE: '[data-e2e-id="result-title"]',
-  ERROR_ALERT_BOX: '.usa-alert.usa-alert-error',
+  ALERT_BOX_ERROR: 'va-alert[status="error"]',
+  ALERT_BOX_INFO: 'va-alert[status="info"]',
 };
 
 function axeTestPage() {
   cy.injectAxe();
-  cy.axeCheck();
+  cy.axeCheck('main', {
+    rules: {
+      'aria-roles': {
+        enabled: false,
+      },
+    },
+  });
 }
 
 describe('functionality of Yellow Ribbons', () => {
-  before(function() {
-    if (Cypress.env('CIRCLECI')) this.skip();
-  });
-
   it('search the form and expect dom to have elements on success', () => {
     cy.server();
     cy.route({
@@ -77,10 +80,15 @@ describe('functionality of Yellow Ribbons', () => {
     );
 
     // Ensure Alert Box exists
-    cy.get(`${SELECTORS.APP} .usa-alert.usa-alert-info`);
+    cy.get(`${SELECTORS.APP} ${SELECTORS.ALERT_BOX_INFO}`);
     // Ensure Alert Box Closes
-    cy.get(`${SELECTORS.APP} .usa-alert.usa-alert-info button`).click();
-    cy.get(`${SELECTORS.APP} .usa-alert.usa-alert-info`).should('not.exist');
+    cy.get(`${SELECTORS.APP} ${SELECTORS.ALERT_BOX_INFO}`)
+      .shadow()
+      .find('button')
+      .click();
+    cy.get(`${SELECTORS.APP} ${SELECTORS.ALERT_BOX_INFO}`)
+      .shadow()
+      .should('not.exist');
   });
 
   it('search the form and expect dom to have elements on error', () => {
@@ -116,10 +124,16 @@ describe('functionality of Yellow Ribbons', () => {
     cy.wait('@getSchoolsInYR');
 
     // Ensure ERROR Alert Box exists
-    cy.get(`${SELECTORS.ERROR_ALERT_BOX}`)
-      // Check Headline.
-      .should('contain', 'Something went wrong')
-      // Check contain error message
+    cy.get(`${SELECTORS.APP} ${SELECTORS.ALERT_BOX_ERROR}`);
+
+    // Check Error Headline.
+    cy.get(`${SELECTORS.APP} ${SELECTORS.ALERT_BOX_ERROR}`)
+      .find('h3')
+      .should('contain', 'Something went wrong');
+
+    // Check contain error message
+    cy.get(`${SELECTORS.APP} ${SELECTORS.ALERT_BOX_ERROR}`)
+      .find('div')
       .should(
         'contain',
         'We’re sorry. Something went wrong on our end. Please try again later.',

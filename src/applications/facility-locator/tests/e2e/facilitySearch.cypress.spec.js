@@ -1,11 +1,48 @@
-import mockFacilityDataV1 from '../../constants/mock-facility-data-v1.json';
+import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1.json';
+import mockFacilityDataV1 from '../../constants/mock-facility-v1.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockLaLocation from '../../constants/mock-la-location.json';
+import mockServices from '../../constants/mock-provider-services.json';
+
+const CC_PROVIDER = 'Community providers (in VA’s network)';
+const healthServices = {
+  All: 'All VA health services',
+  PrimaryCare: 'Primary care',
+  MentalHealthCare: 'Mental health care',
+  DentalServices: 'Dental services',
+  UrgentCare: 'Urgent care',
+  EmergencyCare: 'Emergency care',
+  Audiology: 'Audiology',
+  Cardiology: 'Cardiology',
+  Dermatology: 'Dermatology',
+  Gastroenterology: 'Gastroenterology',
+  Gynecology: 'Gynecology',
+  Ophthalmology: 'Ophthalmology',
+  Optometry: 'Optometry',
+  Orthopedics: 'Orthopedics',
+  Urology: 'Urology',
+  WomensHealth: "Women's health",
+  Podiatry: 'Podiatry',
+  Nutrition: 'Nutrition',
+  CaregiverSupport: 'Caregiver support',
+};
 
 Cypress.Commands.add('verifyOptions', () => {
   // Va facilities have services available
   cy.get('#facility-type-dropdown').select('VA health');
   cy.get('#service-type-dropdown').should('not.have.attr', 'disabled');
+  const hServices = Object.keys(healthServices);
+
+  for (let i = 0; i < hServices.length; i++) {
+    cy.get('#service-type-dropdown')
+      .children()
+      .eq(i)
+      .then($option => {
+        const value = $option.attr('value');
+        expect(value).to.equal(hServices[i]);
+      });
+  }
+
   cy.get('#facility-type-dropdown').select('Urgent care');
   cy.get('#service-type-dropdown').should('not.have.attr', 'disabled');
   cy.get('#facility-type-dropdown').select('VA benefits');
@@ -32,10 +69,23 @@ Cypress.Commands.add('verifyOptions', () => {
 
 describe('Facility VA search', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles?*', []);
+    cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
     cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/v1/facilities/va?*', mockFacilityDataV1).as(
-      'searchFacilities',
+    cy.intercept('GET', '/facilities_api/v1/ccp/specialties', mockServices).as(
+      'mockServices',
+    );
+    cy.intercept(
+      'GET',
+      '/facilities_api/v1/ccp/provider?**',
+      mockFacilitiesSearchResultsV1,
+    ).as('searchFacilitiesCCP');
+    cy.intercept(
+      'GET',
+      '/facilities_api/v1/va?type=**',
+      mockFacilitiesSearchResultsV1,
+    ).as('searchFacilitiesVA');
+    cy.intercept('GET', '/facilities_api/v1/va/vba**', mockFacilityDataV1).as(
+      'facilityDetail',
     );
   });
 
@@ -62,7 +112,6 @@ describe('Facility VA search', () => {
     cy.get('.i-pin-card-map').contains('C');
     cy.get('.i-pin-card-map').contains('D');
 
-    cy.get('.va-pagination').should('exist');
     cy.get('#other-tools').should('exist');
   });
 
@@ -81,7 +130,7 @@ describe('Facility VA search', () => {
         cy.intercept(
           'GET',
           '/v1/facilities/va/vha_674BY',
-          mockFacilityDataV1,
+          mockFacilitiesSearchResultsV1,
         ).as('fetchFacility');
 
         cy.findByText(/austin va clinic/i, { selector: 'a' })
@@ -122,14 +171,29 @@ describe('Facility VA search', () => {
       });
   });
 
-  it('does not show search result header if no results are found', () => {
-    cy.visit('/find-locations?fail=true');
+  it('shows search result header even when no results are found', () => {
+    cy.visit('/find-locations');
+    cy.intercept('GET', '/facilities_api/v1/ccp/provider?**', {
+      data: [],
+      meta: { pagination: { totalEntries: 0 } },
+    }).as('searchFacilities');
 
-    cy.get('#search-results-subheader').should('not.exist');
-    cy.get('#other-tools').should('not.exist');
+    cy.get('#street-city-state-zip').type('27606');
+    cy.get('#facility-type-dropdown').select(CC_PROVIDER);
+    cy.get('#service-type-ahead-input').type('General');
+    cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
+
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(3000);
+
+    cy.focused().contains(
+      'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
+    );
+    cy.get('#other-tools').should('exist');
   });
 
-  it('finds va benefits facility in Los Angeles and views its page', () => {
+  it('finds va benefits facility and views its page', () => {
     cy.intercept('GET', '/geocoding/**/*', mockLaLocation).as('caLocation');
 
     cy.visit('/find-locations');
@@ -145,11 +209,16 @@ describe('Facility VA search', () => {
 
     cy.axeCheck();
 
-    cy.get('.facility-result a').contains('Los Angeles Ambulatory Care Center');
-    cy.findByText(/Los Angeles Ambulatory Care Center/i, { selector: 'a' })
+    cy.get('.facility-result a').contains(
+      'VetSuccess on Campus at Los Angeles City College',
+    );
+    cy.findByText(/VetSuccess on Campus at Los Angeles City College/i, {
+      selector: 'a',
+    })
       .first()
       .click({ waitForAnimations: true });
-    cy.get('h1').contains('Los Angeles Ambulatory Care Center');
+    // Note - we're using mock data so the names don't match.
+    cy.get('h1').contains('Austin VA Clinic');
     cy.get('.p1')
       .first()
       .should('exist');
@@ -175,5 +244,22 @@ describe('Facility VA search', () => {
       .then(searchString => expect(searchString).to.equal('27606'));
     // If Use My Location is triggered and fails, it will trigger a modal alert:
     cy.get('#va-modal-title').should('not.exist');
+  });
+
+  it('finds VA emergency care', () => {
+    cy.visit('/find-locations');
+
+    cy.get('#street-city-state-zip').type('Alexandria Virginia');
+    cy.get('#facility-type-dropdown').select('Emergency care');
+    cy.get('#service-type-dropdown').select('VA emergency care');
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('#search-results-subheader').contains(
+      'Results for "Emergency Care", "VA emergency care" near "Alexandria, Virginia"',
+    );
+    cy.get('.search-result-emergency-care-subheader').should('exist');
+    cy.get('.facility-result h3 a').contains('Alexandria Vet Center');
+
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });

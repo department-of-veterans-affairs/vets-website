@@ -4,7 +4,7 @@ import ViewRepresentativeBody from './ViewRepresentativeBody';
 const ViewRepresentativeLayout = props => {
   return (
     <div className="vads-l-row">
-      <main className="vads-l-col--12 medium-screen:vads-l-col--8">
+      <div className="vads-l-col--12 medium-screen:vads-l-col--8">
         <header>
           <h1>View your representative for VA claims</h1>
           <ViewRepresentativeBody
@@ -12,7 +12,7 @@ const ViewRepresentativeLayout = props => {
             searchRepresentative={props.searchRepresentative}
           />
         </header>
-      </main>
+      </div>
     </div>
   );
 };

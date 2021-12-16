@@ -46,6 +46,53 @@ describe('Schemaform <TextWidget>', () => {
     ).to.equal('date');
     tree.unmount();
   });
+  it('should render ariaDescribedby attribute', () => {
+    const onChange = sinon.spy();
+    const tree = mount(
+      <TextWidget
+        id="1"
+        value="testing"
+        schema={{ type: 'string' }}
+        required
+        disabled={false}
+        onChange={onChange}
+        options={{
+          ariaDescribedby: 'test-id',
+        }}
+      />,
+    );
+    expect(
+      tree
+        .find('input')
+        .getDOMNode()
+        .getAttribute('aria-describedby'),
+    ).to.equal('test-id');
+    tree.unmount();
+  });
+  it('should render ariaDescribedby attribute with pagePerItemIndex', () => {
+    const onChange = sinon.spy();
+    const tree = mount(
+      <TextWidget
+        id="1"
+        value="testing"
+        schema={{ type: 'string' }}
+        required
+        disabled={false}
+        onChange={onChange}
+        formContext={{ pagePerItemIndex: 2 }}
+        options={{
+          ariaDescribedby: 'test_id',
+        }}
+      />,
+    );
+    expect(
+      tree
+        .find('input')
+        .getDOMNode()
+        .getAttribute('aria-describedby'),
+    ).to.equal('test_id_2');
+    tree.unmount();
+  });
   it('should render empty string when undefined', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(

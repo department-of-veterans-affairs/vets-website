@@ -1,21 +1,54 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
+import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
+import { FIELD_NAMES } from '@@vap-svc/constants';
 
-import { formatAddress } from 'platform/forms/address/helpers';
-import titleCase from 'platform/utilities/data/titleCase';
+import { selectProfile } from '~/platform/user/selectors';
 
-import { PROFILE_URL } from '../constants';
+import { readableList } from '../utils/helpers';
 
-const addBrAfter = line => line && [line, <br key={line} />];
+export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
+  const [hadError, setHadError] = useState(false);
 
-export const ContactInfoDescription = ({ veteran }) => {
-  const { email, phone, address } = veteran || {};
-  const { street, cityStateZip, country } = formatAddress(address || {});
-  // phone.phoneType is in all caps
-  const phoneType = titleCase((phone.phoneType || '').toLowerCase());
+  /* use vapContactInfo because it comes directly from the profile. We're using
+   * VAP components to render the information along with an edit button. Editing
+   * and updating will refresh the store user > profile > vapContactInfo. Once
+   * that is done, the FormApp outer wrapper _should_ automatically update the
+   * formData.veteran for email, phone & address - the validation function then
+   * checks for these values and prevents or allows advancement in the form -
+   * this is convoluted but it's the only way to block the form system continue
+   * button to prevent continuing on in the form when we're missing essential
+   * details; this also prevents the modal with a nested form from causing the
+   * page to advance upon updating the modal content
+   */
+  const { email = {}, mobilePhone = {}, mailingAddress = {} } =
+    profile?.vapContactInfo || {};
+  const { submitted } = formContext || {};
+
+  // Don't require an address if the Veteran is homeless
+  const requireAddress = homeless ? '' : 'address';
+
+  const missingInfo = [
+    email?.emailAddress ? '' : 'email',
+    mobilePhone?.phoneNumber ? '' : 'phone',
+    mailingAddress.addressLine1 ? '' : requireAddress,
+  ].filter(Boolean);
+
+  const list = readableList(missingInfo);
+  const plural = missingInfo.length > 1;
+
+  useEffect(
+    () => {
+      if (missingInfo.length) {
+        // page had an error flag, so we know when to show a success alert
+        setHadError(true);
+      }
+    },
+    [missingInfo],
+  );
 
   return (
     <>
@@ -23,70 +56,105 @@ export const ContactInfoDescription = ({ veteran }) => {
         This is the contact information we have on file for you. We’ll send any
         updates or information about your Board Appeal request to this address.
       </p>
-      <p className="vads-u-margin-top--1p5">
-        You can{' '}
-        <a href={PROFILE_URL} target="_blank" rel="noopener noreferrer">
-          update this contact information in your VA.gov profile (opens in new
-          tab)
-        </a>
-        .
-      </p>
-      {(!phoneType || !street) && (
-        <p className="vads-u-margin-top--1p5">
-          <strong>Note:</strong> A phone number and mailing address is required
-          for this application.
-        </p>
+      {hadError &&
+        missingInfo.length === 0 && (
+          <div className="vads-u-margin-top--1p5">
+            <va-alert status="success" background-only>
+              <div className="vads-u-font-size--base">
+                The missing information has been added to your application. You
+                may continue.
+              </div>
+            </va-alert>
+          </div>
+        )}
+      {missingInfo.length > 0 && (
+        <>
+          <p className="vads-u-margin-top--1p5">
+            <strong>Note:</strong>
+            {missingInfo[0].startsWith('p') ? ' A ' : ' An '}
+            {list} {plural ? 'are' : 'is'} required for this application.
+          </p>
+          {submitted && (
+            <div className="vads-u-margin-top--1p5" role="alert">
+              <va-alert status="error" background-only>
+                <div className="vads-u-font-size--base">
+                  We still don’t have your {list}. Please edit and update the
+                  field.
+                </div>
+              </va-alert>
+            </div>
+          )}
+          <div className="vads-u-margin-top--1p5" role="alert">
+            <va-alert status="warning" background-only>
+              <div className="vads-u-font-size--base">
+                Your {list} {plural ? 'are' : 'is'} missing. Please edit and
+                update the {plural ? 'fields' : 'field'}.
+              </div>
+            </va-alert>
+          </div>
+        </>
       )}
-      <div className="blue-bar-block">
-        <h3 className="vads-u-font-size--h4">Phone &amp; email</h3>
-        <p>
-          <strong>{phoneType} phone</strong>:{' '}
-          <Telephone
-            contact={`${phone?.areaCode || ''}${phone?.phoneNumber || ''}`}
-            extension={phone?.extension}
-            notClickable
+      <div
+        className="va-profile-wrapper blue-bar-block vads-u-margin-y--4"
+        onSubmit={event => {
+          // This prevents this nested form submit event from passing to the
+          // outer form and causing a page advance
+          event.stopPropagation();
+        }}
+      >
+        <InitializeVAPServiceID>
+          <h3>Mobile phone number</h3>
+          <ProfileInformationFieldController
+            fieldName={FIELD_NAMES.MOBILE_PHONE}
+            isDeleteDisabled
           />
-        </p>
-        <p>
-          <strong>Email address</strong>: {email || ''}
-        </p>
-        <h3 className="vads-u-font-size--h4">Mailing address</h3>
-        <p>
-          {addBrAfter(street)}
-          {addBrAfter(cityStateZip)}
-          {country}
-        </p>
+          <h3>Email address</h3>
+          <ProfileInformationFieldController
+            fieldName={FIELD_NAMES.EMAIL}
+            isDeleteDisabled
+          />
+          <h3>Mailing address</h3>
+          <ProfileInformationFieldController
+            fieldName={FIELD_NAMES.MAILING_ADDRESS}
+            isDeleteDisabled
+          />
+        </InitializeVAPServiceID>
       </div>
     </>
   );
 };
 
 ContactInfoDescription.propTypes = {
-  veteran: PropTypes.shape({
-    email: PropTypes.string,
-    phone: PropTypes.shape({
-      countryCode: PropTypes.string,
-      areaCode: PropTypes.string,
-      phoneNumber: PropTypes.string,
-      extension: PropTypes.string,
-    }),
-    address: PropTypes.shape({
-      addressType: PropTypes.string,
-      addressLine1: PropTypes.string,
-      addressLine2: PropTypes.string,
-      addressLine3: PropTypes.string,
-      city: PropTypes.string,
-      province: PropTypes.string,
-      stateCode: PropTypes.string,
-      countryCodeIso3: PropTypes.string,
-      zipCode: PropTypes.string,
-      internationalPostalCode: PropTypes.string,
+  profile: PropTypes.shape({
+    vapContactInfo: PropTypes.shape({
+      email: PropTypes.shape({
+        emailAddress: PropTypes.string,
+      }),
+      mobilePhone: PropTypes.shape({
+        countryCode: PropTypes.string,
+        areaCode: PropTypes.string,
+        phoneNumber: PropTypes.string,
+        extension: PropTypes.string,
+      }),
+      address: PropTypes.shape({
+        addressLine1: PropTypes.string,
+        addressLine2: PropTypes.string,
+        addressLine3: PropTypes.string,
+        city: PropTypes.string,
+        province: PropTypes.string,
+        stateCode: PropTypes.string,
+        countryCodeIso3: PropTypes.string,
+        zipCode: PropTypes.string,
+        internationalPostalCode: PropTypes.string,
+      }),
     }),
   }).isRequired,
+  homeless: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
-  veteran: state.form?.data.veteran,
+  homeless: state.form.data.homeless,
+  profile: selectProfile(state),
 });
 
 export default connect(mapStateToProps)(ContactInfoDescription);

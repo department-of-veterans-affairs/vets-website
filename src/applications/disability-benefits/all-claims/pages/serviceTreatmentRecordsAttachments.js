@@ -4,9 +4,6 @@ import { validateFileField } from 'platform/forms-system/src/js/validation';
 import { ancillaryFormUploadUi } from '../utils';
 import { UploadDescription } from '../content/fileUploadDescriptions';
 
-// import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import fullSchema from '../config/schema';
-
 const fileUploadUi = ancillaryFormUploadUi(
   'Upload your service treatment records',
   '',
@@ -15,8 +12,6 @@ const fileUploadUi = ancillaryFormUploadUi(
     addAnotherLabel: 'Add another document',
   },
 );
-
-const { serviceTreatmentRecordsAttachments } = fullSchema.properties;
 
 export const uiSchema = {
   // 'view:uploadServiceTreatmentRecordsQualifier'
@@ -39,6 +34,28 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    serviceTreatmentRecordsAttachments,
+    serviceTreatmentRecordsAttachments: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['name', 'attachmentId'],
+        properties: {
+          name: {
+            type: 'string',
+          },
+          confirmationCode: {
+            type: 'string',
+          },
+          attachmentId: {
+            type: 'string',
+            enum: ['L450', 'L451'],
+            enumNames: [
+              'STR - Dental - Photocopy',
+              'STR - Medical - Photocopy',
+            ],
+          },
+        },
+      },
+    },
   },
 };

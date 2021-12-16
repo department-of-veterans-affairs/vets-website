@@ -1,19 +1,15 @@
+/**
+ * Shared components used by the VAOS application.
+ * @module components
+ */
 import React from 'react';
 import moment from 'moment';
 import guid from 'simple-guid';
-
-/*
- * ICS files have a 75 character line limit. Longer fields need to be broken
- * into 75 character chunks with a CRLF in between. They also apparenly need to have a tab
- * character at the start of each new line, which is why I set the limit to 74
- * 
- * Additionally, any actual line breaks in the text need to be escaped
- */
-const ICS_LINE_LIMIT = 74;
+import { ICS_LINE_LIMIT } from '../utils/calendar';
 
 function formatDescription(description, location = '') {
-  if (!description) {
-    return description;
+  if (!description || !description.text) {
+    return 'DESCRIPTION:';
   }
 
   const chunked = [];
@@ -82,6 +78,11 @@ function generateICS(
   const endDate = moment(endDateTime)
     .utc()
     .format('YYYYMMDDTHHmmss[Z]');
+
+  let loc = '';
+  if (location) {
+    loc = location.replace(/,/g, '\\,');
+  }
   return [
     `BEGIN:VCALENDAR`,
     `VERSION:2.0`,
@@ -90,11 +91,7 @@ function generateICS(
     `UID:${guid()}`,
     `SUMMARY:${summary}`,
     `${formatDescription(description, location)}`,
-    `LOCATION:${
-      summary.startsWith('Phone')
-        ? 'Phone call'
-        : location?.replace(/,/g, '\\,')
-    }`,
+    `LOCATION:${summary.startsWith('Phone') ? 'Phone call' : loc}`,
     `DTSTAMP:${startDate}`,
     `DTSTART:${startDate}`,
     `DTEND:${endDate}`,
@@ -103,6 +100,19 @@ function generateICS(
   ].join('\r\n');
 }
 
+/**
+ * Component to add a link to download a calendar ics file.
+ *
+ * @param {string} summary - Calendar event summary.
+ * @param {Object} description - Calendar event description.
+ * @param {string} description.text - Description text.
+ * @param {string} description.providerName - Provider name
+ * @param {string} description.phone - Provider phone
+ * @param {string} description.additionalText - Additional text
+ * @param {string} [location='']
+ * @param {string} startDateTime - Calendar event start date
+ * @param {string} duration - Calendar event duration.
+ */
 export default function AddToCalendar({
   summary = '',
   description,

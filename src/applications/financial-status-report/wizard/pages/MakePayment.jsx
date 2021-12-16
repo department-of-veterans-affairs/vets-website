@@ -41,10 +41,10 @@ const MakePayment = () => {
           </a>
         </p>
         <p>
-          Be sure to make a payment or request help within{' '}
-          <strong>30 days</strong> of when you receive your first debt letter
-          from us. This will help you avoid late fees, interest, or other
-          collection action.
+          Be sure to make a payment or request help within
+          <strong className="vads-u-margin-x--0p5">30 days</strong> of when you
+          receive your first debt letter from us. This will help you avoid late
+          fees, interest, or other collection action.
         </p>
       </div>
     </DelayedLiveRegion>

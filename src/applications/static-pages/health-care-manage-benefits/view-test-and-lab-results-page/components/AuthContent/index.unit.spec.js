@@ -20,8 +20,8 @@ describe('View Test + Lab Results Page <AuthContent>', () => {
     expect(text).to.include(
       'If you receive care at any other VA medical center',
     );
-    expect(text).to.include("If you're viewing results on My HealtheVet");
-    expect(text).to.include("If you're viewing results on My VA Health");
+    expect(text).to.include('If you’re viewing results on My HealtheVet');
+    expect(text).to.include('If you’re viewing results on My VA Health');
     expect(text).to.include('For My HealtheVet questions');
     expect(text).to.include('For My VA Health questions');
 

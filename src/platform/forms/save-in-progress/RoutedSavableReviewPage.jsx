@@ -2,36 +2,22 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import Scroll from 'react-scroll';
-import { FINISH_APP_LATER_DEFAULT_MESSAGE } from '../../forms-system/src/js/constants';
 import debounce from '../../utilities/data/debounce';
 
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
 import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
 
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import DowntimeNotification, {
   externalServiceStatus,
 } from '../../monitoring/DowntimeNotification';
 import get from '../../utilities/data/get';
-import { focusElement } from '../../utilities/ui';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
-import SaveFormLink from './SaveFormLink';
 import SaveStatus from './SaveStatus';
-import { autoSaveForm, saveAndRedirectToReturnUrl } from './actions';
+import { autoSaveForm } from './actions';
 import { getFormContext } from './selectors';
 import DowntimeMessage from './DowntimeMessage';
-
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo(
-    'topScrollElement',
-    window.VetsGov?.scroll || {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    },
-  );
-};
 
 class RoutedSavableReviewPage extends React.Component {
   constructor(props) {
@@ -40,7 +26,7 @@ class RoutedSavableReviewPage extends React.Component {
   }
 
   componentDidMount() {
-    scrollToTop();
+    scrollToTop('topScrollElement', getScrollOptions());
     focusElement('h2');
   }
 
@@ -66,19 +52,9 @@ class RoutedSavableReviewPage extends React.Component {
   };
 
   render() {
-    const {
-      form,
-      formConfig,
-      formContext,
-      location,
-      pageList,
-      path,
-      user,
-    } = this.props;
-    const finishAppLaterMessage =
-      formConfig?.customText?.finishAppLaterMessage ||
-      FINISH_APP_LATER_DEFAULT_MESSAGE;
+    const { form, formConfig, formContext, pageList, path, user } = this.props;
     const downtimeDependencies = get('downtime.dependencies', formConfig) || [];
+
     return (
       <div>
         <ReviewChapters
@@ -106,18 +82,6 @@ class RoutedSavableReviewPage extends React.Component {
           form={form}
           formConfig={formConfig}
         />
-        <SaveFormLink
-          locationPathname={location.pathname}
-          form={form}
-          formConfig={formConfig}
-          user={user}
-          pageList={pageList}
-          showLoginModal={this.props.showLoginModal}
-          saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-          toggleLoginModal={this.props.toggleLoginModal}
-        >
-          {finishAppLaterMessage}
-        </SaveFormLink>
       </div>
     );
   }
@@ -150,7 +114,6 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = {
   autoSaveForm,
-  saveAndRedirectToReturnUrl,
   toggleLoginModal,
 };
 

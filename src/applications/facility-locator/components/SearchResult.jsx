@@ -10,7 +10,7 @@ export const urgentCareCall = query => {
     <p>
       {' '}
       Before going to a clinic for urgent care, please call the facility to
-      confirm that it's open and able to provide the care you need.{' '}
+      confirm that it’s open and able to provide the care you need.{' '}
     </p>
   );
 
@@ -29,7 +29,7 @@ export const urgentCareCall = query => {
 
   return null;
 };
-// revert to stateless component given: 19fd5178f
+
 const SearchResult = ({ result, query }) => (
   <div className="facility-result" id={result.id}>
     <LocationInfoBlock location={result} from={'SearchResult'} query={query} />

@@ -1,17 +1,18 @@
-import React from 'react';
-import { isWideScreen } from '../../../utilities/accessibility/index';
+// Node modules.
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { debounce } from 'lodash';
+// Relative imports.
 import CrisisPanel from './CrisisPanel';
 import DesktopLinks from './DesktopLinks';
-import MobileLinks from './MobileLinks';
 import LanguageSupport from './LanguageSupport';
+import MobileLinks from './MobileLinks';
 import { createLinkGroups } from '../helpers';
-import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
-import { connect } from 'react-redux';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { isWideScreen } from '../../../utilities/accessibility/index';
 import { langSelectedAction } from 'applications/static-pages/i18Select/actions';
+import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 
-class Footer extends React.Component {
+class Footer extends Component {
   constructor(props) {
     super(props);
     this.linkObj = createLinkGroups(props.footerData);
@@ -19,23 +20,23 @@ class Footer extends React.Component {
       isMobile: !isWideScreen(),
     };
   }
+
   componentDidMount() {
-    // TODO: debounce
     window.addEventListener(
       'resize',
-      () => {
+      debounce(() => {
         if (this.state.isMobile !== !isWideScreen()) {
           this.setState({
             isMobile: !isWideScreen(),
           });
         }
-      },
+      }, 250),
       false,
     );
-    if (this.props.handleFooterDidMount) {
-      this.props.handleFooterDidMount();
-    }
+
+    this.props.onFooterLoad?.();
   }
+
   render() {
     return (
       <div>
@@ -45,14 +46,12 @@ class Footer extends React.Component {
             visible={this.state.isMobile}
             links={this.linkObj}
             langConfig={{
-              showLangSupport: this.props.showLangSupport,
               dispatchLanguageSelection: this.props.dispatchLanguageSelection,
               languageCode: this.props.languageCode,
             }}
           />
           {!this.state.isMobile && (
             <LanguageSupport
-              showLangSupport={this.props.showLangSupport}
               isDesktop
               dispatchLanguageSelection={this.props.dispatchLanguageSelection}
               languageCode={this.props.languageCode}
@@ -79,13 +78,10 @@ class Footer extends React.Component {
   }
 }
 const mapDispatchToProps = dispatch => ({
-  dispatchLanguageSelection: lang => {
-    return dispatch(langSelectedAction(lang));
-  },
+  dispatchLanguageSelection: lang => dispatch(langSelectedAction(lang)),
 });
 
 const mapStateToProps = state => ({
-  showLangSupport: toggleValues(state)[FEATURE_FLAG_NAMES.languageSupport],
   languageCode: state.i18State.lang,
 });
 

@@ -3,19 +3,12 @@ import React from 'react';
 export default {
   required: true,
   notice: (
-    <>
-      <div className="vads-u-margin-y--2p5">
-        <strong>By submitting this form</strong> you certify that you are the
-        claimant and the information you gave above is true and correct to the
-        best of your knowledge and belief.
-      </div>
-      <div className="vads-u-margin-y--1p5">
-        <strong>Note:</strong> According to federal law, there are criminal
-        penalties, including a fine and/or imprisonment for up to 5 years, for
-        withholding information or for providing incorrect information. (See 18
-        U.S.C. 1001)
-      </div>
-    </>
+    <div className="vads-u-margin-y--1p5">
+      <strong>Note:</strong> According to federal law, there are criminal
+      penalties, including a fine and/or imprisonment for up to 5 years, for
+      withholding information or for providing incorrect information. (See 18
+      U.S.C. 1001)
+    </div>
   ),
   field: 'privacyAgreementAccepted',
   label: (

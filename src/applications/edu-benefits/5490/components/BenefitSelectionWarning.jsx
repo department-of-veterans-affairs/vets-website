@@ -1,5 +1,4 @@
 import React from 'react';
-import environment from 'platform/utilities/environment';
 
 export default function BenefitSelectionWarning(chapter, relationship) {
   let warningText = '';
@@ -24,45 +23,26 @@ export default function BenefitSelectionWarning(chapter, relationship) {
             </li>
             <li>Any other criteria as listed in 38 U.S.C. § 3501(a)(1)</li>
           </ul>
-          based on any other criteria as listed in 38 U.S.C. § 3501(a)(1).
         </div>
       );
     } else {
       // spouse
-      // prod flag #25122
-      warningText = environment.isProduction() ? (
-        <div>
-          I understand that I am choosing to receive Fry Scholarship benefits
-          instead of any DEA benefits for which I am currently eligible. This
-          includes DEA benefits based on the death of the qualifying individual
-          on this application, based on the death of any other individuals not
-          listed on this application, based on:
-          <ul>
-            <li>
-              a spouse who has a permanent and total service-connected
-              disability, or
-            </li>
-            <li>
-              based on any other criteria as listed in 38 U.S.C. § 3501(a)(1).
-            </li>
-          </ul>
-        </div>
-      ) : (
+      warningText = (
         <div>
           I understand that I am choosing to receive Fry Scholarship benefits
           instead of any DEA benefits for which I am currently eligible. This
           includes DEA benefits based on:
           <ul>
             <li>
-              the death of the qualifying individual listed in this application
+              The death of the qualifying individual listed in this application
               and/or the qualifying death of any others not listed, or
             </li>
             <li>
-              a spouse who has a permanent and total service-connected
+              A spouse who has a permanent and total service-connected
               disability, or
             </li>
             <li>
-              based on any other criteria as listed in 38 U.S.C. § 3501(a)(1) .
+              Based on any other criteria as listed in 38 U.S.C. § 3501(a)(1).
             </li>
           </ul>
         </div>
@@ -80,7 +60,9 @@ export default function BenefitSelectionWarning(chapter, relationship) {
   }
   return (
     <div className="usa-alert usa-alert-info usa-content edu-warning-single-line">
-      <div className="usa-alert-body">{warningText}</div>
+      <div className="usa-alert-body">
+        <span id="conditional-warning-text">{warningText}</span>
+      </div>
     </div>
   );
 }

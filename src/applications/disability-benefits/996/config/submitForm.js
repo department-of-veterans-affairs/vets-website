@@ -1,3 +1,4 @@
+import environment from 'platform/utilities/environment';
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
@@ -20,9 +21,12 @@ const submitForm = (form, formConfig) => {
     ? formConfig.transformForSubmit(formConfig, form)
     : transformForSubmit(formConfig, form);
 
+  const version = form.data.hlrV2 ? '1' : '0';
+  const url = `${environment.API_URL}/v${version}/${submitUrl}`;
+
   // eventData for analytics
   const eventData = buildEventData(form.data);
-  return submitToUrl(body, submitUrl, trackingPrefix, eventData);
+  return submitToUrl(body, url, trackingPrefix, eventData);
 };
 
 export default submitForm;

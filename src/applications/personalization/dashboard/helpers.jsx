@@ -26,6 +26,7 @@ import disability526Manifest from 'applications/disability-benefits/all-claims/m
 import hlrManifest from 'applications/disability-benefits/996/manifest.json';
 import mdotManifest from 'applications/disability-benefits/2346/manifest.json';
 import fsrManifest from 'applications/financial-status-report/manifest.json';
+import mebManifest from 'applications/my-education-benefits/manifest.json';
 
 export const formBenefits = {
   [VA_FORM_IDS.FORM_21_526EZ]: 'disability compensation',
@@ -36,6 +37,7 @@ export const formBenefits = {
   [VA_FORM_IDS.FORM_22_0994]: 'VET TEC',
   [VA_FORM_IDS.FORM_22_1990]: 'education benefits',
   [VA_FORM_IDS.FORM_22_1990E]: 'education benefits',
+  [VA_FORM_IDS.FORM_22_1990EZ]: 'education benefits',
   [VA_FORM_IDS.FORM_22_1990N]: 'education benefits',
   [VA_FORM_IDS.FORM_22_1995]: 'education benefits',
   [VA_FORM_IDS.FORM_22_5490]: 'education benefits',
@@ -94,6 +96,7 @@ export const formLinks = {
   [VA_FORM_IDS.FORM_22_0994]: `${edu0994Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_1990]: `${edu1990Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_1990E]: `${edu1990eManifest.rootUrl}/`,
+  [VA_FORM_IDS.FORM_22_1990EZ]: `${mebManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_1990N]: `${edu1990nManifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_1995]: `${edu1995Manifest.rootUrl}/`,
   [VA_FORM_IDS.FORM_22_5490]: `${edu5490Manifest.rootUrl}/`,
@@ -116,6 +119,7 @@ export const trackingPrefixes = {
   [VA_FORM_IDS.FORM_22_0994]: 'edu-0994-',
   [VA_FORM_IDS.FORM_22_1990]: 'edu-',
   [VA_FORM_IDS.FORM_22_1990E]: 'edu-1990e-',
+  [VA_FORM_IDS.FORM_22_1990EZ]: 'edu-1990ez-',
   [VA_FORM_IDS.FORM_22_1990N]: 'edu-1990n-',
   [VA_FORM_IDS.FORM_22_1995]: 'edu-1995-',
   [VA_FORM_IDS.FORM_22_5490]: 'edu-5490-',
@@ -139,6 +143,7 @@ export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_22_0994,
   VA_FORM_IDS.FORM_22_1990,
   VA_FORM_IDS.FORM_22_1990E,
+  VA_FORM_IDS.FORM_22_1990EZ,
   VA_FORM_IDS.FORM_22_1990N,
   VA_FORM_IDS.FORM_22_1995,
   VA_FORM_IDS.FORM_22_5490,
@@ -158,10 +163,11 @@ export const presentableFormIDs = Object.keys(formBenefits).reduce(
   (prefixedIDs, formID) => {
     if (formID === VA_FORM_IDS.FEEDBACK_TOOL) {
       prefixedIDs[formID] = 'FEEDBACK TOOL'; // eslint-disable-line no-param-reassign
+    } else if (formID === VA_FORM_IDS.FORM_10_10EZ) {
+      prefixedIDs[formID] = `FORM 10-10EZ`; // eslint-disable-line no-param-reassign
     } else {
       prefixedIDs[formID] = `FORM ${formID}`; // eslint-disable-line no-param-reassign
     }
-    // TODO: add an exception for 1010ez since that form ID is lowercase and lacks a dash?
     return prefixedIDs;
   },
   {},

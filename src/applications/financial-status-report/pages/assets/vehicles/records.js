@@ -1,15 +1,8 @@
 import React from 'react';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
-import CustomReviewField from '../../../components/CustomReviewField';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import Typeahead from '../../../components/Typeahead';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import {
-  formatOptions,
-  vehicleTypes,
-} from '../../../constants/typeaheadOptions';
-import _ from 'lodash/fp';
+import { validateCurrency } from '../../../utils/validations';
 
 const VehicleInfo = (
   <AdditionalInfo triggerText="What if I don’t know the estimated value of my car or other vehicle?">
@@ -33,26 +26,17 @@ export const uiSchema = {
       'ui:options': {
         viewField: CardDetailsView,
         doNotScroll: true,
-        showSave: true,
         itemName: 'vehicle',
         keepInPageOnReview: true,
       },
       items: {
-        type: {
-          'ui:title': 'Type of vehicle',
-          'ui:field': Typeahead,
-          'ui:reviewField': CustomReviewField,
-          'ui:options': {
-            idPrefix: 'vehicles',
-            classNames:
-              'input-size-7 vads-u-margin-top--3 vads-u-margin-bottom--3',
-            getOptions: () => formatOptions(vehicleTypes),
-          },
-        },
         make: {
           'ui:title': 'Vehicle make',
           'ui:options': {
             widgetClassNames: 'input-size-7 vads-u-margin-bottom--3',
+          },
+          'ui:errorMessages': {
+            required: 'Please enter the type of vehicle.',
           },
         },
         model: {
@@ -67,11 +51,17 @@ export const uiSchema = {
             widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
           },
         },
-        resaleValue: _.merge(currencyUI('Estimated value'), {
+        resaleValue: {
+          'ui:title': 'Estimated value',
           'ui:options': {
+            classNames: 'schemaform-currency-input',
             widgetClassNames: 'input-size-5 vads-u-margin-bottom--3',
           },
-        }),
+          'ui:errorMessages': {
+            required: 'Please enter the estimated value.',
+          },
+          'ui:validations': [validateCurrency],
+        },
       },
     },
   },
@@ -92,11 +82,8 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
-            required: ['type', 'resaleValue'],
+            required: ['make', 'resaleValue'],
             properties: {
-              type: {
-                type: 'string',
-              },
               make: {
                 type: 'string',
               },
@@ -107,7 +94,7 @@ export const schema = {
                 type: 'string',
               },
               resaleValue: {
-                type: 'number',
+                type: 'string',
               },
             },
           },

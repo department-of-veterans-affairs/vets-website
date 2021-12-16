@@ -1,6 +1,8 @@
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
+import { validateCurrentOrPastDate } from 'platform/forms-system/src/js/validation';
+
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
 import ArrayField from '../components/ArrayField';
 import { isValidServicePeriod, formatDate } from '../utils';
@@ -12,7 +14,10 @@ const dateRangeUISchema = dateRangeUI(
   'End of service must be after start of service',
 );
 
-dateRangeUISchema.from['ui:validations'].push(validateAge);
+dateRangeUISchema.from['ui:validations'].push(
+  validateAge,
+  validateCurrentOrPastDate,
+);
 dateRangeUISchema.to['ui:validations'].push(validateSeparationDate);
 
 const itemAriaLabel = data => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash/fp';
+import dropWhile from 'lodash/dropWhile';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
@@ -7,6 +7,8 @@ import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
+import { connect } from 'react-redux';
+import { showEduBenefits1990EZWizard } from '../selectors/educationWizard';
 
 const levels = [
   ['newBenefit'],
@@ -17,7 +19,7 @@ const levels = [
   ['applyForScholarship'],
 ];
 
-export default class EducationWizard extends React.Component {
+class EducationWizard extends React.Component {
   constructor(props) {
     super(props);
 
@@ -37,6 +39,9 @@ export default class EducationWizard extends React.Component {
         break;
       case '10203':
         url = `/education/other-va-education-benefits/stem-scholarship/apply-for-scholarship-form-22-10203`;
+        break;
+      case '22-1990':
+        url = `/education/apply-for-benefits-form-22-1990`;
         break;
       default:
         url = `/education/apply-for-education-benefits/application/${form}`;
@@ -70,7 +75,7 @@ export default class EducationWizard extends React.Component {
     // everything at that level and beyond, so we don't see questions from
     // different branches
     const fields = [].concat(
-      ..._.dropWhile(level => !level.includes(field), levels),
+      ...dropWhile(levels, level => !level.includes(field)),
     );
     fields.forEach(laterField => {
       if (laterField !== field) {
@@ -137,7 +142,10 @@ export default class EducationWizard extends React.Component {
       sponsorTransferredBenefits,
       vetTecBenefit,
       applyForScholarship,
+      post911GIBill,
     } = this.state;
+    const { showWizard } = this.props;
+
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
       'va-button-primary': !this.state.open,
     });
@@ -330,6 +338,26 @@ export default class EducationWizard extends React.Component {
                   </div>
                 </div>
               )}
+            {showWizard &&
+              newBenefit === 'yes' &&
+              serviceBenefitBasedOn === 'own' &&
+              nationalCallToService === 'no' &&
+              vetTecBenefit === 'no' && (
+                <RadioButtons
+                  additionalFieldsetClass="wizard-fieldset"
+                  name="post911GIBill"
+                  id="post911GIBill"
+                  options={[
+                    { label: 'Yes', value: 'yes' },
+                    { label: 'No', value: 'no' },
+                  ]}
+                  onValueChange={({ value }) =>
+                    this.answerQuestion('post911GIBill', value)
+                  }
+                  value={{ value: post911GIBill }}
+                  label="Are you applying for the post- 9/11 GI Bill?"
+                />
+              )}
             {newBenefit === 'yes' &&
               nationalCallToService === 'yes' && (
                 <div>
@@ -390,11 +418,17 @@ export default class EducationWizard extends React.Component {
                           science, technology, engineering, or math (STEM),{' '}
                           <b>or</b>
                         </li>{' '}
-                        <li>
-                          {' '}
+                        <li className="li-styling">
                           You've already earned a STEM bachelor’s degree and are
-                          pursuing a teaching certification.{' '}
+                          working toward a teaching certification, <b>or</b>
+                        </li>{' '}
+                        <li className="li-styling">
+                          {' '}
+                          You've already earned a STEM bachelor's or graduate
+                          degree and are pursuing a covered clinical training
+                          program for health care professionals. <br />
                           <a
+                            aria-label="See eligible degree and clinical training programs, opening in new tab"
                             href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
                             rel="noopener noreferrer"
                             target="_blank"
@@ -405,7 +439,7 @@ export default class EducationWizard extends React.Component {
                               })
                             }
                           >
-                            See eligible degree programs
+                            See eligible degree and clinical training programs
                           </a>
                         </li>
                       </ul>
@@ -458,26 +492,45 @@ export default class EducationWizard extends React.Component {
                 </div>
               </div>
             )}
-            {newBenefit === 'yes' &&
+            {showWizard &&
+              (post911GIBill === 'yes' &&
+                newBenefit === 'yes' &&
+                serviceBenefitBasedOn === 'own' &&
+                nationalCallToService === 'no' &&
+                vetTecBenefit === 'no' &&
+                this.getButton('22-1990'))}
+            {showWizard &&
+              (post911GIBill === 'no' &&
+                newBenefit === 'yes' &&
+                nationalCallToService === 'no' &&
+                vetTecBenefit === 'no' &&
+                this.getButton('1990'))}
+            {!showWizard &&
+              newBenefit === 'yes' &&
               nationalCallToService === 'no' &&
               vetTecBenefit === 'no' &&
               this.getButton('1990')}
-            {newBenefit === 'yes' &&
+            {!showWizard &&
+              newBenefit === 'yes' &&
               nationalCallToService === 'no' &&
               vetTecBenefit === 'yes' &&
               this.getButton('0994')}
-            {newBenefit === 'no' &&
+            {!showWizard &&
+              newBenefit === 'no' &&
               (transferredEduBenefits === 'transferred' ||
                 transferredEduBenefits === 'own') &&
               this.getButton('1995')}
-            {newBenefit === 'no' &&
+            {!showWizard &&
+              newBenefit === 'no' &&
               transferredEduBenefits === 'fry' &&
               this.getButton('5495')}
-            {newBenefit === 'yes' &&
+            {!showWizard &&
+              newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'other' &&
               sponsorDeceasedDisabledMIA === 'yes' &&
               this.getButton('5490')}
-            {newBenefit === 'yes' &&
+            {!showWizard &&
+              newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'other' &&
               sponsorDeceasedDisabledMIA === 'no' &&
               sponsorTransferredBenefits !== null &&
@@ -488,3 +541,9 @@ export default class EducationWizard extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  showWizard: showEduBenefits1990EZWizard(state),
+});
+
+export default connect(mapStateToProps)(EducationWizard);

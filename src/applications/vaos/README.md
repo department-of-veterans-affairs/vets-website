@@ -4,6 +4,14 @@ This is the front end source for the VAOS application. Veterans can schedule, re
 
 It is a React/Redux application that makes heavy use of MomentJS. Tests are written with React Testing Library and Cypress.
 
+## Quick start
+
+1. Clone vets-website locally and run `yarn install`
+2. Run `yarn watch`
+3. In a separate terminal run `yarn mock-api --responses src/applications/vaos/services/mocks/index.js`
+4. Open http://localhost:3001 and type `localStorage.setItem('hasSession', true)` into the dev console
+5. Open http://localhost:3001/health-care/schedule-view-va-appointments/appointments/
+
 ## Frontend Documentation
 
 Documentation for the frontend of the VAOS application is generated using [JSDoc](https://jsdoc.app/).
@@ -34,7 +42,7 @@ npx nodemon --exec "yarn jsdoc -c src/applications/vaos/jsdoc.json" --watch src/
 
 ## Organization
 
-The application has four major sections
+The application has three major sections
 
 - /appointment-list
   - The code for the appointment list and detail pages
@@ -70,3 +78,11 @@ Those services are:
   - VA facility data
 - Community care provider search (PPMS)
   - Community care provider listing
+
+### Mock API
+
+Local development of the application requires use of the [mock API](https://github.com/department-of-veterans-affairs/vets-website#running-a-mock-api-for-local-development). Run the following command to provide the mock API VAOS specific mock data:
+
+```
+yarn mock-api --responses src/applications/vaos/services/mocks/index.js
+```

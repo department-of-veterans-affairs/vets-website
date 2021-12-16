@@ -75,7 +75,7 @@ const ResourcesAndSupportSearchApp = () => {
     paginationSummary = (
       <>
         Showing {startIndex + 1} - {endIndex} of {results.length} results for "
-        <strong>{query}</strong>"
+        <strong className="vads-u-font-family--sans">{query}</strong>"
       </>
     );
   } else if (!query) {
@@ -110,19 +110,19 @@ const ResourcesAndSupportSearchApp = () => {
         {articles && (
           <>
             <h1 className="vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
-              Search results
+              Resources and Support Search Results
             </h1>
             <SearchBar
               onSearch={onSearch}
               userInput={userInput}
               onInputChange={setUserInput}
             />
-            <p
-              className="vads-u-padding-x--1 large-screen:vads-u-padding-x--0"
+            <h2
+              className="vads-u-padding-x--1 vads-u-font-family--sans large-screen:vads-u-padding-x--0 vads-u-font-size--sm vads-u-margin-y--2 vads-u-font-weight--normal"
               id="pagination-summary"
             >
               {paginationSummary}
-            </p>
+            </h2>
             <SearchResultList
               query={query}
               results={currentPageOfResults}

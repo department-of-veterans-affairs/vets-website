@@ -53,11 +53,11 @@ export const SearchResult = ({
         <dfn className="sr-only">Article type: </dfn>
         {articleTypes[article.entityBundle]}
       </div>
-      <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+      <h3 className="vads-u-margin-top--0">
         <a onClick={onSearchResultClick} href={article.entityUrl.path}>
           {article.title}
         </a>
-      </h2>
+      </h3>
       <p className="vads-u-margin-bottom--0">
         {truncate(article.introText, { length: 190 })}
       </p>

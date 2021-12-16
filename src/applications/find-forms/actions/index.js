@@ -3,7 +3,6 @@ import URLSearchParams from 'url-search-params';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
 import { fetchFormsApi } from '../api';
-import { correctSearchTerm } from '../helpers';
 import { MAX_PAGE_LIST_LENGTH } from '../containers/SearchResults';
 import {
   FETCH_FORMS,
@@ -27,14 +26,9 @@ export const fetchFormsFailure = error => ({
   type: FETCH_FORMS_FAILURE,
 });
 
-export const fetchFormsSuccess = (
+export const fetchFormsSuccess = (results, hasOnlyRetiredForms) => ({
   results,
   hasOnlyRetiredForms,
-  useLighthouseSearchAlgo,
-) => ({
-  results,
-  hasOnlyRetiredForms,
-  useLighthouseSearchAlgo,
   type: FETCH_FORMS_SUCCESS,
 });
 
@@ -79,10 +73,6 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
   const location = options?.location || window.location;
   const history = options?.history || window.history;
   const mockRequest = options?.mockRequest || false;
-  let q = query;
-  if (!options?.useLighthouseSearchAlgo) {
-    q = correctSearchTerm(query);
-  }
 
   // Change the `fetching` state in our store.
   dispatch(fetchFormsAction(query));
@@ -101,7 +91,7 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
 
   try {
     // Attempt to make the API request to retreive forms.
-    const resultsDetails = await fetchFormsApi(q, { mockRequest });
+    const resultsDetails = await fetchFormsApi(query, { mockRequest });
 
     // Derive the total number of pages.
     const totalPages = Math.ceil(
@@ -116,6 +106,7 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
       'search-results-total-pages': totalPages, // populate with total number of search result pages returned
       'search-selection': 'Find forms', // populate with 'Find forms' for all searches from /find-forms page
       'search-typeahead-enabled': false, // populate with boolean false, remains consistent since type ahead won't feature here
+      'search-location': 'Find A Form', // the location of the search
       'sitewide-search-app-used': false, // this is not the sitewide search app
       'type-ahead-option-keyword-selected': undefined, // populate with undefined since type ahead won't feature here
       'type-ahead-option-position': undefined, // populate with undefined since type ahead won't feature here
@@ -123,13 +114,11 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
       'type-ahead-options-count': undefined,
     });
 
-    const useLighthouseSearchAlgo = options?.useLighthouseSearchAlgo || null;
     // If we are here, the API request succeeded.
     dispatch(
       fetchFormsSuccess(
         resultsDetails.results,
         resultsDetails.hasOnlyRetiredForms,
-        useLighthouseSearchAlgo,
       ),
     );
   } catch (error) {

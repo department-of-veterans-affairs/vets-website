@@ -1,4 +1,6 @@
-import { merge, set, get } from 'lodash/fp';
+import merge from 'lodash/merge';
+import get from 'platform/utilities/data/get';
+import set from 'platform/utilities/data/set';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
@@ -59,6 +61,7 @@ export default {
           (!isVeteranMarried(formData) && !isVeteranSeparated(formData)),
       },
       spouseGrossIncome: merge(
+        {},
         currencyUI('Spouse\u2019s gross annual income from employment'),
         {
           'ui:required': formData => hasVeteranBeenMarried(formData),
@@ -66,6 +69,7 @@ export default {
         },
       ),
       spouseNetIncome: merge(
+        {},
         currencyUI(
           'Spouse\u2019s net income from your farm, ranch, property or business',
         ),
@@ -75,6 +79,7 @@ export default {
         },
       ),
       spouseOtherIncome: merge(
+        {},
         currencyUI('Spouse\u2019s other income amount'),
         {
           'ui:required': formData => hasVeteranBeenMarried(formData),
@@ -109,7 +114,7 @@ export default {
           spouseOtherIncome,
         },
       },
-      dependents: merge(dependents, {
+      dependents: merge({}, dependents, {
         minItems: 1,
       }),
     },

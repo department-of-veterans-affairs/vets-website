@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import { getClaimType } from '../utils/helpers';
-import { setUpPage, isTab, scrollToTop, setFocus } from '../utils/page';
+import { setUpPage, isTab, setFocus } from '../utils/page';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 class DetailsPage extends React.Component {
   componentDidMount() {

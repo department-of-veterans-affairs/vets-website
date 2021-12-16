@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import merge from 'lodash/merge';
 
 import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 
@@ -98,13 +98,9 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        applicantInformation: applicantInformation(
-          fullSchema1990e,
-          // Production flag for 24718:
-          !environment.isProduction() && {
-            labels: { relationship: relationshipLabels },
-          },
-        ),
+        applicantInformation: applicantInformation(fullSchema1990e, {
+          labels: { relationship: relationshipLabels },
+        }),
         additionalBenefits: additionalBenefits(fullSchema1990e),
       },
     },
@@ -141,7 +137,7 @@ const formConfig = {
           title: 'Sponsor information',
           path: 'sponsor/information',
           uiSchema: {
-            veteranFullName: _.merge(fullNameUISchema, {
+            veteranFullName: merge({}, fullNameUISchema, {
               first: {
                 'ui:title': "Sponsor's first name",
               },
@@ -155,7 +151,7 @@ const formConfig = {
                 'ui:title': "Sponsor's suffix",
               },
             }),
-            'view:veteranId': _.merge(personId.uiSchema(), {
+            'view:veteranId': merge({}, personId.uiSchema(), {
               veteranSocialSecurityNumber: {
                 'ui:title': "Sponsor's Social Security number",
               },

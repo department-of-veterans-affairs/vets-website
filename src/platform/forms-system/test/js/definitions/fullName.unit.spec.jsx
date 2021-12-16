@@ -5,12 +5,12 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import uiSchema from '../../../src/js/definitions/fullName';
-import { fullName as schema } from 'vets-json-schema/dist/definitions.json';
+import definitions from 'vets-json-schema/dist/definitions.json';
 
 describe('Schemaform definition fullName', () => {
   it('should render fullName', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} uiSchema={uiSchema} />,
+      <DefinitionTester schema={definitions.fullName} uiSchema={uiSchema} />,
     );
 
     const formDOM = findDOMNode(form);

@@ -98,6 +98,60 @@ describe('Review PreSubmitSection component', () => {
 
     tree.unmount();
   });
+  it('should render save link', () => {
+    const form = createForm();
+    const formConfig = getFormConfig();
+
+    const store = {
+      getState: () => ({
+        form,
+        user: { login: { currentlyLoggedIn: true } },
+        location: { pathname: '/review-and-submit' },
+        navigation: { showLoginModal: false },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
+    const tree = render(
+      <Provider store={store}>
+        <PreSubmitSection formConfig={formConfig} />
+      </Provider>,
+    );
+
+    expect(tree.getByText('Finish this application later.')).to.exist;
+
+    tree.unmount();
+  });
+  it('should render a custom save link', () => {
+    const form = createForm();
+    const formConfig = {
+      ...getFormConfig(),
+      customText: {
+        finishAppLaterMessage: 'custom save link',
+      },
+    };
+    const store = {
+      getState: () => ({
+        form,
+        user: { login: { currentlyLoggedIn: true } },
+        location: { pathname: '/review-and-submit' },
+        navigation: { showLoginModal: false },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
+    const tree = render(
+      <Provider store={store}>
+        <PreSubmitSection formConfig={formConfig} />
+      </Provider>,
+    );
+
+    expect(tree.getByText('custom save link')).to.exist;
+
+    tree.unmount();
+  });
 
   it('should render a CustomComponent', () => {
     const form = createForm({

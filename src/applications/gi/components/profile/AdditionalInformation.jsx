@@ -144,20 +144,21 @@ export class AdditionalInformation extends React.Component {
           &nbsp;
           {institution.independentStudy ? 'Yes' : 'No'}
         </div>
-        <div aria-live="off">
-          <strong>
-            <button
-              id="stemIndicator-button"
-              type="button"
-              className="va-button-link learn-more-button"
-              onClick={this.props.onShowModal.bind(this, 'stemIndicator')}
-            >
-              Rogers STEM Scholarship:
-            </button>
-          </strong>
-          &nbsp;
-          {institution.stemIndicator ? 'Yes' : 'No'}
-        </div>
+        {institution.vrrap !== null && (
+          <div>
+            <strong>
+              <button
+                id="vrrap-button"
+                type="button"
+                className="va-button-link learn-more-button"
+                onClick={this.props.onShowModal.bind(this, 'vrrap')}
+              >
+                Veteran Rapid Retraining Assistance Program (VRRAP):
+              </button>
+            </strong>
+            &nbsp; {institution.vrrap ? 'Yes' : 'No'}
+          </div>
+        )}
         <div>
           <strong>
             <button

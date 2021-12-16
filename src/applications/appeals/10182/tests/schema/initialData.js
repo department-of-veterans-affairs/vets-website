@@ -5,8 +5,6 @@ export default {
     // email, address & phone from profile data
   },
   homeless: false,
-  'view:hasRep': true,
-  representativeName: 'George Jetson',
   boardReviewOption: '',
   hearingTypePreference: '',
   socOptIn: true,

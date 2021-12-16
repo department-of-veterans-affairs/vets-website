@@ -14,7 +14,7 @@ export const uiSchema = {
       hideOnReview: true,
     },
     'ui:errorMessages': {
-      required: 'Please select at least one debt',
+      required: 'Please select at least one debt.',
     },
   },
 };

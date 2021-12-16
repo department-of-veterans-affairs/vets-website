@@ -75,6 +75,7 @@ const submitFormFor = eventName =>
       req.setRequestHeader('X-Key-Inflection', 'camel');
       req.setRequestHeader('Content-Type', 'application/json');
       req.setRequestHeader('X-CSRF-Token', csrfTokenStored);
+      req.setRequestHeader('Source-App-Name', window.appName);
 
       // Log an error after the timeout fires
       timer = setTimeout(() => {

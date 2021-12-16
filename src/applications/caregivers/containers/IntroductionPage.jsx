@@ -11,7 +11,10 @@ import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 import { links } from 'applications/caregivers/definitions/content';
 import { withRouter } from 'react-router';
-import { CaregiverSupportInfo } from 'applications/caregivers/components/AdditionalInfo';
+import {
+  CaregiverSupportInfo,
+  CaregiversPrivacyActStatement,
+} from 'applications/caregivers/components/AdditionalInfo';
 import {
   DowntimeNotification,
   externalServices,
@@ -83,7 +86,7 @@ export const IntroductionPage = ({
               </li>
 
               <li className="call-to-action-bullet">
-                The Veteran&apos;s Social Security number or tax identification
+                The Veteran’s Social Security number or tax identification
                 number (This is required for the online application only.) If
                 you’d like to apply without providing this information, you can
                 download the paper form
@@ -114,7 +117,7 @@ export const IntroductionPage = ({
               <p data-testid="poa-info-note">
                 <strong>Note:</strong> A legal representative, or someone with
                 power of attorney, can fill out this application on behalf of
-                the Veteran. They’ll need to sign the application. They'll also
+                the Veteran. They’ll need to sign the application. They’ll also
                 have a chance to submit documentation to show their status as a
                 legal representative.
               </p>
@@ -270,7 +273,9 @@ export const IntroductionPage = ({
         </a>
 
         <div className="omb-info--container vads-u-padding-left--0  vads-u-margin-top--4">
-          <OMBInfo resBurden={15} ombNumber="2900-0768" expDate="04/30/2024" />
+          <OMBInfo resBurden={15} ombNumber="2900-0768" expDate="04/30/2024">
+            <CaregiversPrivacyActStatement />
+          </OMBInfo>
         </div>
       </DowntimeNotification>
     </div>

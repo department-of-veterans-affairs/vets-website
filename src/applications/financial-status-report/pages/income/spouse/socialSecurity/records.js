@@ -1,5 +1,4 @@
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import _ from 'lodash/fp';
+import { validateCurrency } from '../../../../utils/validations';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
@@ -8,16 +7,19 @@ export const uiSchema = {
       'ui:options': {
         classNames: 'no-wrap',
       },
-      socialSecurityAmount: _.merge(
-        currencyUI(
+      socialSecAmt: {
+        'ui:title':
           'How much does your spouse get for Social Security each month?',
-        ),
-        {
-          'ui:options': {
-            widgetClassNames: 'input-size-3',
-          },
+        'ui:options': {
+          classNames: 'schemaform-currency-input',
+          widgetClassNames: 'input-size-3',
         },
-      ),
+        'ui:errorMessages': {
+          required:
+            'Please enter your spouse’s Social Security benefits information.',
+        },
+        'ui:validations': [validateCurrency],
+      },
     },
   },
 };
@@ -30,10 +32,10 @@ export const schema = {
       properties: {
         spouse: {
           type: 'object',
-          required: ['socialSecurityAmount'],
+          required: ['socialSecAmt'],
           properties: {
-            socialSecurityAmount: {
-              type: 'number',
+            socialSecAmt: {
+              type: 'string',
             },
           },
         },

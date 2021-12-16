@@ -40,6 +40,10 @@ $medium-phone-screen: 375px;
 
   #va-header-logo-menu {
     align-items: center;
+
+    @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
+      position: relative;
+    }
   }
 
   @import "iconography";
@@ -77,6 +81,7 @@ $medium-phone-screen: 375px;
     }
   }
 
+  .menu-rule,
   #menu-rule {
     border-bottom: 1px solid $color-white;
     margin-left: -0.55em;
@@ -134,12 +139,11 @@ $medium-phone-screen: 375px;
   }
 
   .va-nav-breadcrumbs-list {
-    padding-left: 0;
+    padding: 1em 0 0 0;
 
     li {
       list-style: none;
-      padding-bottom: 1em;
-      padding-top: 1em;
+      margin: 0 0 1.375em 0;
     }
   }
 
@@ -215,6 +219,7 @@ $medium-phone-screen: 375px;
       flex-direction: column;
     }
 
+    .menu-rule,
     #menu-rule {
       border-bottom: 0;
       padding-bottom: 0;

@@ -14,11 +14,10 @@ export const otherToolsLink = () => (
 export const coronavirusUpdate = (
   <>
     Please call first to confirm services or ask about getting help by phone or
-    video. We require everyone entering a VA facility to wear a{' '}
-    <a href="/coronavirus-veteran-frequently-asked-questions/#more-health-care-questions">
-      mask that covers their mouth and nose.
-    </a>{' '}
-    Get answers to questions about COVID-19 and VA benefits and services with
-    our <a href="/coronavirus-chatbot/">coronavirus chatbot</a>.
+    video. We follow CDC{' '}
+    <a href="/coronavirus-veteran-frequently-asked-questions/#more-coronavirus-specific-conc">
+      guidelines for wearing masks at our facilities
+    </a>
+    .
   </>
 );

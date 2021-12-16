@@ -10,6 +10,7 @@ import mockLocations from './fixtures/mocks/separation-locations.json';
 import mockPayment from './fixtures/mocks/payment-information.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUpload from './fixtures/mocks/document-upload.json';
+import mockUser from './fixtures/mocks/user.json';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
@@ -18,8 +19,10 @@ import {
   MOCK_SIPS_API,
   WIZARD_STATUS,
   FORM_STATUS_BDD,
+  SHOW_8940_4192,
   SAVED_SEPARATION_DATE,
 } from '../constants';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
 const todayPlus120 = moment()
   .add(120, 'days')
@@ -33,9 +36,9 @@ const testConfig = createTestConfig(
     dataSets: [
       'full-781-781a-8940-test.json',
       'maximal-test',
-      'maximal-bdd-test',
+      // 'maximal-bdd-test',
       'minimal-test',
-      'minimal-bdd-test',
+      // 'minimal-bdd-test',
       'newOnly-test',
       'secondary-new-test.json',
       'upload-781-781a-8940-test.json',
@@ -46,6 +49,11 @@ const testConfig = createTestConfig(
     },
 
     pageHooks: {
+      start: () => {
+        // skip wizard
+        cy.findByText(/apply now/i).click();
+      },
+
       introduction: () => {
         cy.get('@testData').then(data => {
           if (data['view:isBddData']) {
@@ -53,26 +61,9 @@ const testConfig = createTestConfig(
               SAVED_SEPARATION_DATE,
               todayPlus120.join('-'),
             );
-            cy.get('[type="radio"][value="bdd"]').check({
-              waitForAnimations: true,
-            });
-            cy.get('select[name="discharge-dateMonth"]').select(
-              todayPlus120[1],
-            );
-            cy.get('select[name="discharge-dateDay"]').select(todayPlus120[2]);
-            cy.get('input[name="discharge-dateYear"]')
-              .clear()
-              .type(todayPlus120[0]);
           } else {
-            cy.get('[type="radio"][value="appeals"]').check({
-              waitForAnimations: true,
-            });
-            cy.get('[type="radio"][value="file-claim"]').check({
-              waitForAnimations: true,
-            });
+            window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
           }
-          // close wizard & render intro page content
-          cy.get('.va-button-primary').click({ waitForAnimations: true });
           // Start form
           cy.findAllByText(/start/i, { selector: 'button' })
             .first()
@@ -94,6 +85,26 @@ const testConfig = createTestConfig(
             );
             cy.get('select[name$="_dateRange_toDay"]').select(todayPlus120[2]);
             cy.get('input[name$="_dateRange_toYear"]')
+              .clear()
+              .type(todayPlus120[0]);
+          }
+        });
+      },
+
+      'review-veteran-details/military-service-history/federal-orders': () => {
+        cy.get('@testData').then(data => {
+          cy.fillPage();
+          if (
+            data.serviceInformation.reservesNationalGuardService[
+              'view:isTitle10Activated'
+            ]
+          ) {
+            // active title 10 activation puts this into BDD flow
+            cy.get('select[name$="SeparationDateMonth"]').select(
+              todayPlus120[1],
+            );
+            cy.get('select[name$="SeparationDateDay"]').select(todayPlus120[2]);
+            cy.get('input[name$="SeparationDateYear"]')
               .clear()
               .type(todayPlus120[0]);
           }
@@ -134,7 +145,11 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
-      cy.login();
+      window.sessionStorage.setItem(SHOW_8940_4192, 'true');
+      window.sessionStorage.removeItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+      window.sessionStorage.removeItem(FORM_STATUS_BDD);
+
+      cy.login(mockUser);
 
       cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
 
@@ -170,8 +185,6 @@ const testConfig = createTestConfig(
       // Pre-fill with the expected ratedDisabilities,
       // but without view:selected, since that's not pre-filled
       cy.get('@testData').then(data => {
-        window.sessionStorage.removeItem(WIZARD_STATUS);
-        window.sessionStorage.removeItem(FORM_STATUS_BDD);
         const sanitizedRatedDisabilities = (data.ratedDisabilities || []).map(
           ({ 'view:selected': _, ...obj }) => obj,
         );

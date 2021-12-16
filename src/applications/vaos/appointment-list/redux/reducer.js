@@ -62,7 +62,9 @@ export default function appointmentsReducer(state = initialState, action) {
     case FETCH_FUTURE_APPOINTMENTS:
       return {
         ...state,
-        pendingStatus: FETCH_STATUS.loading,
+        pendingStatus: action.includeRequests
+          ? FETCH_STATUS.loading
+          : state.pendingStatus,
         confirmedStatus: FETCH_STATUS.loading,
       };
     case FETCH_FUTURE_APPOINTMENTS_SUCCEEDED: {
@@ -220,12 +222,13 @@ export default function appointmentsReducer(state = initialState, action) {
           appt,
         );
         newAppt.description = 'CANCELLED BY PATIENT';
+        newAppt.cancelationReason = 'pat';
 
         return { ...newAppt, status: APPOINTMENT_STATUS.cancelled };
       });
 
       const pending = state.pending?.map(appt => {
-        if (appt !== appointmentToCancel) {
+        if (appt.id !== appointmentToCancel.id) {
           return appt;
         }
 
@@ -238,6 +241,7 @@ export default function appointmentsReducer(state = initialState, action) {
         const updatedAppointment = action.updatedAppointment || {
           ...appointmentDetails[appointmentToCancel.id],
           description: 'CANCELLED BY PATIENT',
+          cancelationReason: 'pat',
           status: APPOINTMENT_STATUS.cancelled,
           vaos: {
             ...appointmentDetails[appointmentToCancel.id].vaos,

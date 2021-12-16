@@ -219,11 +219,9 @@ class AddressValidationView extends React.Component {
     const {
       addressFromUser,
       addressValidationError,
-      clearErrors,
       confirmedSuggestions,
       resetAddressValidation,
       suggestedAddresses,
-      title,
       transaction,
       transactionRequest,
       validationKey,
@@ -254,23 +252,23 @@ class AddressValidationView extends React.Component {
     return (
       <>
         {error && (
-          <div className="vads-u-margin-bottom--1">
-            <VAPServiceEditModalErrorMessage
-              title={title}
-              error={error}
-              clearErrors={clearErrors}
-            />
+          <div className="vads-u-margin-bottom--1" role="alert">
+            <VAPServiceEditModalErrorMessage error={error} />
           </div>
         )}
-        <AlertBox
-          className="vads-u-margin-bottom--1 vads-u-margin-top--0"
-          level={4}
-          status="warning"
-          headline={addressValidationMessage.headline}
-          scrollOnShow
-        >
-          <addressValidationMessage.ModalText editFunction={this.onEditClick} />
-        </AlertBox>
+        <div role="alert">
+          <AlertBox
+            className="vads-u-margin-bottom--1 vads-u-margin-top--0"
+            level={4}
+            status="warning"
+            headline={addressValidationMessage.headline}
+            scrollOnShow
+          >
+            <addressValidationMessage.ModalText
+              editFunction={this.onEditClick}
+            />
+          </AlertBox>
+        </div>
         <form onSubmit={this.onSubmit}>
           <span className="vads-u-font-weight--bold">You entered:</span>
           {this.renderAddressOption(addressFromUser)}

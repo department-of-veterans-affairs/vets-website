@@ -3,7 +3,7 @@ import { focusElement } from 'platform/utilities/ui';
 import OMBInfoShared from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import CallToActionWidget from 'platform/site-wide/cta-widget';
+import CallToActionWidget from 'applications/static-pages/cta-widget';
 import WizardContainer from '../../wizard/containers/WizardContainer';
 import { connect } from 'react-redux';
 import { showEduBenefits0994Wizard } from '../../selectors/educationWizard';

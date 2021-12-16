@@ -9,6 +9,7 @@ import * as keepAliveMod from 'platform/utilities/sso/keepAliveSSO';
 import { checkAutoSession, checkAndUpdateSSOeSession } from '../sso';
 import * as loginAttempted from '../sso/loginAttempted';
 import { keepAlive } from '../sso/keepAliveSSO';
+import { AUTH_EVENTS } from '../../user/authentication/constants';
 
 function setKeepAliveResponse(stub, sessionTimeout = 0, csid = null) {
   const response = new Response();
@@ -20,6 +21,7 @@ function setKeepAliveResponse(stub, sessionTimeout = 0, csid = null) {
     {
       DSLogon: 'NOT_FOUND ',
       mhv: 'NOT_FOUND ',
+      LOGINGOV: 'http://idmanagement.gov/ns/assurance/ial/2',
       idme: 'http://idmanagement.gov/ns/assurance/loa/3',
     }[csid],
   );
@@ -72,11 +74,11 @@ describe('checkAutoSession', () => {
     await checkAutoSession(true, 'X', profile);
 
     expect(global.window.location).to.eq(
-      'https://staging-patientportal.myhealth.va.gov/',
+      'https://staging-patientportal.myhealth.va.gov',
     );
   });
 
-  it('should do nothing if on "/sign-in/?application=myvahealth" and not verified', async () => {
+  it.skip('should do nothing if on "/sign-in/?application=myvahealth" and not verified', async () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       sessionAlive: true,
       ttl: 900,
@@ -127,13 +129,11 @@ describe('checkAutoSession', () => {
     await checkAutoSession(true, 'Y', profile);
 
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(
-      auto,
-      'custom',
-      'v1',
-      { authn: 'dslogon' },
-      'sso-automatic-login',
-    );
+    sinon.assert.calledWith(auto, {
+      policy: 'custom',
+      queryParams: { authn: 'dslogon' },
+      clickedEvent: AUTH_EVENTS.SSO_LOGIN,
+    });
   });
 
   it('should auto logout if user has logged in via SSOe and they do not have a SSOe session anymore', async () => {
@@ -145,7 +145,7 @@ describe('checkAutoSession', () => {
     await checkAutoSession(true, 'X');
 
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(auto, 'v1', 'sso-automatic-logout', {
+    sinon.assert.calledWith(auto, 'v1', AUTH_EVENTS.SSO_LOGOUT, {
       'auto-logout': 'true',
     });
   });
@@ -172,13 +172,11 @@ describe('checkAutoSession', () => {
     await checkAutoSession(true, 'Y');
 
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(
-      auto,
-      'custom',
-      'v1',
-      { authn: 'dslogon' },
-      'sso-automatic-login',
-    );
+    sinon.assert.calledWith(auto, {
+      policy: 'custom',
+      queryParams: { authn: 'dslogon' },
+      clickedEvent: AUTH_EVENTS.SSO_LOGIN,
+    });
   });
 
   it('should not auto logout if user is logged in and they have a matched SSOe session', async () => {
@@ -221,13 +219,11 @@ describe('checkAutoSession', () => {
     await checkAutoSession();
 
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(
-      auto,
-      'custom',
-      'v1',
-      { authn: 'dslogon' },
-      'sso-automatic-login',
-    );
+    sinon.assert.calledWith(auto, {
+      policy: 'custom',
+      queryParams: { authn: 'dslogon' },
+      clickedEvent: AUTH_EVENTS.SSO_LOGIN,
+    });
   });
 
   it('should auto login if user is logged out, they have an mhv SSOe session, dont need to force auth', async () => {
@@ -242,13 +238,11 @@ describe('checkAutoSession', () => {
     await checkAutoSession();
 
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(
-      auto,
-      'custom',
-      'v1',
-      { authn: 'myhealthevet' },
-      'sso-automatic-login',
-    );
+    sinon.assert.calledWith(auto, {
+      policy: 'custom',
+      queryParams: { authn: 'myhealthevet' },
+      clickedEvent: AUTH_EVENTS.SSO_LOGIN,
+    });
   });
 
   it('should not auto login if user is logged out, they have a PIV SSOe session and dont need to force auth', async () => {
@@ -432,6 +426,29 @@ describe.skip('keepAlive', () => {
         ttl: 900,
         transactionid: 'X',
         authn: '/loa1',
+      });
+    });
+  });
+
+  it('should return active logingov session', () => {
+    /* eslint-disable camelcase */
+    const resp = new Response('{}', {
+      headers: {
+        'session-alive': 'true',
+        'session-timeout': '900',
+        va_eauth_transactionid: 'X',
+        va_eauth_csid: 'LOGINGOV',
+        va_eauth_authncontextclassref:
+          'http://idmanagement.gov/ns/assurance/ial/2',
+      },
+    });
+    /* eslint-enable camelcase */
+    stubFetch.resolves(resp);
+    return keepAlive().then(res => {
+      expect(res).to.eql({
+        ttl: 900,
+        transactionid: 'X',
+        authn: 'http://idmanagement.gov/ns/assurance/ial/2',
       });
     });
   });

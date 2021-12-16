@@ -12,25 +12,21 @@ const processAxeCheckResults = violations => {
 
   // Pluck specific keys to keep the table readable.
   const violationData = violations.map(
-    ({ id, impact, description, nodes }) => ({
-      id,
-      impact,
-      description,
-      nodes: nodes.length,
-    }),
+    ({ id, impact, description, nodes, help, helpUrl }) => [
+      ['id', id],
+      ['impact', impact],
+      ['description', description],
+      ['help', help],
+      ['help URL', helpUrl],
+      ['target', nodes.map(node => node.target).join('\n\n')],
+      ['html', nodes.map(node => node.html).join('\n\n')],
+      ['failure summary', nodes.map(node => node.failureSummary).join('\n\n')],
+      ['nodes', nodes.length],
+    ],
   );
-  cy.task('log', violationMessage);
-  cy.task('table', violationData);
-  cy.task(
-    'log',
-    `
-Nodes with violations:
 
-${violations
-      .map(v => `${v.id}:\n${v.nodes?.map(n => n.target[0]).join('\n')}`)
-      .join('\n\n')}
-`,
-  );
+  cy.task('log', violationMessage);
+  violationData.forEach(violation => cy.task('table', violation));
 };
 
 /**

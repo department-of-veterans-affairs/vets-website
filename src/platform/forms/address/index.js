@@ -1,10 +1,10 @@
-import { states, countries } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 
 // states.USA_OTHER = states.USA.concat([{ label: 'Other', value: 'Other' }]).sort(
 //   (a, b) => a.label.localeCompare(b.label),
 // );
 
-export { countries, states };
+export const { countries, states } = constants;
 
 export function isValidUSZipCode(value) {
   return /(^\d{5}$)|(^\d{5}[ -]{0,1}\d{4}$)/.test(value);

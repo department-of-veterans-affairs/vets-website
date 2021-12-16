@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
-import Scroll from 'react-scroll';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import classNames from 'classnames';
+
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import ManageDependents from '../../manage-dependents/containers/ManageDependentsApp';
-
-const scroller = Scroll.scroller;
-const scrollToTop = el => {
-  scroller.scrollTo(el, {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
 
 function ViewDependentsListItem(props) {
   const [open, setOpen] = useState(false);
@@ -26,6 +19,8 @@ function ViewDependentsListItem(props) {
     ssn,
     dateOfBirth,
     stateKey,
+    openFormlett,
+    submittedDependents,
   } = props;
 
   const handleClick = () => {
@@ -51,43 +46,52 @@ function ViewDependentsListItem(props) {
         <dt
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
           tabIndex="-1"
-          className="vads-l-col--12 vads-u-margin--0 vads-u-font-size--lg vads-u-font-weight--bold mng-dependents-name"
+          className="vads-u-font-family--serif vads-l-col--12 vads-u-margin--0 vads-u-font-size--lg vads-u-font-weight--bold mng-dependents-name"
         >
           {firstName} {lastName}
         </dt>
-
+        {manageDependentsToggle &&
+          submittedDependents.includes(stateKey) && (
+            <dd
+              aria-live="polite"
+              className="vads-l-col--12 vads-u-margin-y--1p5"
+            >
+              <dfn title="status">
+                <i
+                  aria-hidden="true"
+                  role="img"
+                  className="fas fa-exclamation-triangle"
+                />{' '}
+                Status:
+              </dfn>{' '}
+              Removal of dependent pending
+            </dd>
+          )}
         <dd className="vads-l-col--12 vads-u-margin--0">
-          <dfn title="relationship" className="vads-u-font-weight--bold">
-            Relationship:
-          </dfn>{' '}
-          {relationship}
+          <dfn title="relationship">Relationship:</dfn> {relationship}
         </dd>
 
         {ssn ? (
           <dd className="vads-l-col--12 vads-u-margin--0">
-            <dfn title="ssn" className="vads-u-font-weight--bold">
-              SSN:
-            </dfn>{' '}
-            {ssn}
+            <dfn title="ssn">SSN:</dfn> {ssn.replace(/[0-9](?=.{4,}$)/g, '*')}
           </dd>
         ) : null}
 
         {dateOfBirth ? (
           <dd className="vads-l-col--12 vads-u-margin--0">
-            <dfn title="birthdate" className="vads-u-font-weight--bold">
-              Date of birth:{' '}
-            </dfn>
+            <dfn title="birthdate">Date of birth: </dfn>
             {moment(dateOfBirth).format('MMMM D, YYYY')}
           </dd>
         ) : null}
       </dl>
       {manageDependentsToggle && (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <div className="vads-l-col--12">
           {!open && (
             <button
               type="button"
               onClick={handleClick}
               className="usa-button-secondary vads-u-background-color--white"
+              disabled={openFormlett || submittedDependents.includes(stateKey)}
             >
               Remove this dependent
             </button>
@@ -117,6 +121,18 @@ function ViewDependentsListItem(props) {
   );
 }
 
+const mapStateToProps = state => ({
+  openFormlett: state?.removeDependents?.openFormlett,
+  submittedDependents: state?.removeDependents?.submittedDependents,
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(ViewDependentsListItem);
+
+export { ViewDependentsListItem };
+
 ViewDependentsListItem.propTypes = {
   firstName: PropTypes.string,
   lastName: PropTypes.string,
@@ -125,5 +141,3 @@ ViewDependentsListItem.propTypes = {
   dateOfBirth: PropTypes.string,
   stateKey: PropTypes.number,
 };
-
-export default ViewDependentsListItem;

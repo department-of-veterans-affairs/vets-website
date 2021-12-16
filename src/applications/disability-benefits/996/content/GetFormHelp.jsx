@@ -3,13 +3,15 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
+import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
+
 const GetFormHelp = () => (
   <>
     <p className="help-talk">
       If you have questions or need help filling out this form, please call our{' '}
-      <span aria-label="My. VA. 4 1 1.">MYVA411</span> main information line at{' '}
+      {srSubstitute('MYVA411', 'My V. A. 4 1 1.')} main information line at{' '}
       <Telephone contact={CONTACTS.HELP_DESK} /> and select 0. We’re here{' '}
-      <abbr title="24 hours a day, 7 days a week">24/7</abbr>.
+      {srSubstitute('24/7', '24 hours a day, 7 days a week')}.
     </p>
     <p className="u-vads-margin-bottom--0">
       If you have hearing loss, call TTY:{' '}

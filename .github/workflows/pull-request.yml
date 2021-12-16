@@ -1,6 +1,8 @@
 name: Pull Request
 
-on: [pull_request]
+on:
+  pull_request:
+    types: [ready_for_review, synchronize, reopened, opened]
 
 env:
   BOT_NAME: va-vfs-bot
@@ -31,7 +33,7 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get bot token from Parameter Store
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /devops/VA_VFS_BOT_GITHUB_TOKEN
           env_variable_name: GITHUB_TOKEN
@@ -44,9 +46,14 @@ jobs:
             ~/.cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline
+          max_attempts: 3
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
@@ -69,6 +76,7 @@ jobs:
   icon-check:
     name: Icon Check
     runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.draft == false }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -90,7 +98,7 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get bot token from Parameter Store
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /devops/VA_VFS_BOT_GITHUB_TOKEN
           env_variable_name: GITHUB_TOKEN
@@ -103,9 +111,14 @@ jobs:
             ~/.cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline
+          max_attempts: 3
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
@@ -150,7 +163,7 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get bot token from Parameter Store
-        uses: marvinpinto/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /devops/VA_VFS_BOT_GITHUB_TOKEN
           env_variable_name: GITHUB_TOKEN
@@ -163,9 +176,14 @@ jobs:
             ~/.cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline
+          max_attempts: 3
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
@@ -210,9 +228,14 @@ jobs:
             ~/.cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --frozen-lockfile --prefer-offline
+          max_attempts: 3
+          timeout_minutes: 7
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 

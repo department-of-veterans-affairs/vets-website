@@ -18,7 +18,11 @@ export function FacilityPatientSatisfactionScoresWidget(props) {
 
   const facility = props.facility.attributes;
 
-  if (Object.values(facility.feedback.health).length === 0) return null;
+  if (
+    Object.values(facility.feedback.health).length === 0 ||
+    Object.values(facility.feedback.health).some(x => x <= 0)
+  )
+    return null;
 
   return (
     <div>
@@ -102,7 +106,7 @@ export function FacilityPatientSatisfactionScoresWidget(props) {
         className="vads-u-padding-top--2"
         id="facility-patient-satisfaction-scores-effective-date"
       >
-        Current as of {formatDateLong(facility.feedback.health.effectiveDate)}
+        Current as of {formatDateLong(facility.feedback.effectiveDate)}
       </p>
       <p>
         <a href="https://www.accesstocare.va.gov/">

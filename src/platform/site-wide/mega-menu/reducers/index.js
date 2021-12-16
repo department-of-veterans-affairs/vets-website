@@ -1,5 +1,3 @@
-// import _ from 'lodash/fp';
-
 import {
   TOGGLE_PANEL_OPEN,
   UPDATE_CURRENT_SECTION,

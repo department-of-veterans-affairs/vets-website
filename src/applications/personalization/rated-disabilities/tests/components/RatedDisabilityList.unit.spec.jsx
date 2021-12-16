@@ -1,12 +1,9 @@
 import React from 'react';
 import moment from 'moment';
-import sinon from 'sinon';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
 import RatedDisabilityList from '../../components/RatedDisabilityList';
-import RatedDisabilityListItem from '../../components/RatedDisabilityListItem';
 
 describe('<RatedDisabilityList/>', () => {
   const ratedDisabilities = {
@@ -32,64 +29,47 @@ describe('<RatedDisabilityList/>', () => {
   };
   const fetchRatedDisabilities = () => {};
   it('should render', () => {
-    const stub = sinon.stub(RatedDisabilityList.prototype, 'componentDidMount');
-    const wrapper = shallow(
+    const wrapper = render(
       <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilities}
-        componentDidMount={stub}
       />,
     );
     expect(
-      wrapper
-        .find('div')
-        .first()
-        .hasClass('vads-l-row'),
-    ).to.be.true;
-    expect(stub.calledOnce).to.be.true;
-    wrapper.unmount();
+      wrapper.getByRole('heading', {
+        level: 2,
+        name: 'Your individual ratings',
+      }),
+    ).to.exist;
   });
   it('should convert disability data into a readable format', () => {
-    const wrapper = shallow(
+    const wrapper = render(
       <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilities}
       />,
     );
-    const instance = wrapper.instance();
     const date = moment(
       ratedDisabilities.ratedDisabilities[0].effectiveDate,
     ).format('DD/MM/YYYY');
-    const data = instance.formalizeData(ratedDisabilities.ratedDisabilities);
-    expect(data[0].effectiveDate).to.equal(date);
-    wrapper.unmount();
+    expect(wrapper.getByText(date)).to.exist;
   });
 
   it('should render a rated disabilities list', () => {
-    const spy = sinon.spy(RatedDisabilityList.prototype, 'formalizeData');
-    const wrapper = shallow(
+    const wrapper = render(
       <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilities}
       />,
     );
     const disability = ratedDisabilities.ratedDisabilities[0].name;
-    // shallow render the child component.
-    const list = wrapper.find(RatedDisabilityListItem).shallow();
     expect(
-      wrapper
-        .find('h2')
-        .first()
-        .text(),
-    ).to.contain('Your individual ratings');
-    expect(
-      list
-        .find('dt')
-        .first()
-        .text(),
-    ).to.contain(disability);
-    expect(spy.calledOnce).to.be.true;
-    wrapper.unmount();
+      wrapper.getByRole('heading', {
+        level: 2,
+        name: 'Your individual ratings',
+      }),
+    ).to.exist;
+    expect(wrapper.getByText(disability)).to.exist;
   });
 
   it('should display a 500 alert', () => {
@@ -100,20 +80,18 @@ describe('<RatedDisabilityList/>', () => {
         },
       ],
     };
-    const wrapper = shallow(
+    const wrapper = render(
       <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilitiesErr}
       />,
     );
-    const alert = wrapper.find(AlertBox).shallow();
     expect(
-      alert
-        .find('h2')
-        .first()
-        .text(),
-    ).to.equal('We’re sorry. Something went wrong on our end');
-    wrapper.unmount();
+      wrapper.getByRole('heading', {
+        level: 2,
+        name: 'We’re sorry. Something went wrong on our end',
+      }),
+    ).to.exist;
   });
 
   it('should display a 400 alert', () => {
@@ -124,20 +102,18 @@ describe('<RatedDisabilityList/>', () => {
         },
       ],
     };
-    const wrapper = shallow(
+    const wrapper = render(
       <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilitiesErr}
       />,
     );
-    const alert = wrapper.find(AlertBox).shallow();
     expect(
-      alert
-        .find('h2')
-        .first()
-        .text(),
-    ).to.equal('We don’t have rated disabilities on file for you');
-    wrapper.unmount();
+      wrapper.getByRole('heading', {
+        level: 2,
+        name: 'We don’t have rated disabilities on file for you',
+      }),
+    ).to.exist;
   });
 
   it('should display a 400 alert if rated disabilities is an empty array', () => {
@@ -145,19 +121,17 @@ describe('<RatedDisabilityList/>', () => {
       ratedDisabilities: [],
     };
 
-    const wrapper = shallow(
+    const wrapper = render(
       <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilitiesEmpty}
       />,
     );
-    const alert = wrapper.find(AlertBox).shallow();
     expect(
-      alert
-        .find('h2')
-        .first()
-        .text(),
-    ).to.equal('We don’t have rated disabilities on file for you');
-    wrapper.unmount();
+      wrapper.getByRole('heading', {
+        level: 2,
+        name: 'We don’t have rated disabilities on file for you',
+      }),
+    ).to.exist;
   });
 });

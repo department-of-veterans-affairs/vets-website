@@ -152,6 +152,7 @@
           "view:descriptionInfo": {}
         }
       ],
+      "ratedDisabilities": [],
       "view:disabilitiesClarification": {},
       "serviceInformation": {
         "reservesNationalGuardService": {

@@ -1,7 +1,15 @@
-import _, { snakeCase } from 'lodash';
+import { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
+
 import constants from 'vets-json-schema/dist/constants.json';
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import mapboxClient from '../components/MapboxClient';
+
+import { scroller } from 'react-scroll';
+import { getScrollOptions } from 'platform/utilities/ui';
+
+const mbxClient = mbxGeo(mapboxClient);
 import { SMALL_SCREEN_WIDTH } from '../constants';
 
 /**
@@ -145,29 +153,9 @@ export const handleInputFocusWithPotentialOverLap = (
 };
 
 export const addAllOption = options => [
-  { optionValue: 'ALL', optionLabel: 'ALL' },
+  { optionValue: 'ALL', optionLabel: 'All' },
   ...options,
 ];
-
-/**
- * Recursively convert number to A to AA to AAA to... to ZZZZZZZZZZZ
- * Uses https://en.wikipedia.org/wiki/Base36 to convert numbers to alphanumeric values
- *
- * @param number
- * @returns {string}
- */
-export const numberToLetter = number => {
-  // handle multiples of 26 when modding
-  // since 0 and 26 both have a remainder of 0 need to handle special case
-  const numberToConvert = number !== 0 && number % 26 === 0 ? 26 : number % 26;
-  const letter = (numberToConvert + 9).toString(36).toUpperCase();
-
-  if (number / 26 > 1) {
-    // Use Math.floor as a float returns incorrect letter string
-    return `${numberToLetter(Math.floor(number / 26))}${letter}`;
-  }
-  return letter;
-};
 
 export const getStateNameForCode = stateCode => {
   const stateLabel = constants.states.USA.find(
@@ -186,31 +174,68 @@ export const sortOptionsByStateName = (stateA, stateB) => {
   return 0;
 };
 
-export const buildSearchFilters = filters => {
-  const clonedFilters = _.cloneDeep(filters);
-  delete clonedFilters.expanded;
+export const searchCriteriaFromCoords = async (longitude, latitude) => {
+  const response = await mbxClient
+    .reverseGeocode({
+      query: [longitude, latitude],
+      types: ['address'],
+    })
+    .send();
 
-  // default state is checked so these will only be present if their corresponding boxes are unchecked
-  const excludeBooleanFlip = ['schools', 'employers', 'vettec'];
+  const features = response.body.features;
+  const placeName = features[0].place_name;
 
-  const hasAllValue = ['country', 'state', 'type'];
-  const searchFilters = {};
+  return {
+    searchString: placeName,
+    position: { longitude, latitude },
+  };
+};
 
-  // boolean fields
-  Object.entries(clonedFilters)
-    .filter(([_field, value]) => value === true)
-    .filter(([field, _value]) => !excludeBooleanFlip.includes(field))
-    .forEach(([field]) => {
-      searchFilters[field] = clonedFilters[field];
-    });
+export const schoolSize = enrollment => {
+  if (!enrollment) return 'Unknown';
+  if (enrollment <= 2000) {
+    return 'Small';
+  } else if (enrollment <= 15000) {
+    return 'Medium';
+  }
+  return 'Large';
+};
 
-  hasAllValue.filter(field => clonedFilters[field] !== 'ALL').forEach(field => {
-    searchFilters[field] = clonedFilters[field];
-  });
+export function isURL(str) {
+  const pattern = new RegExp(
+    '^(https?:\\/\\/)?' + // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$',
+    'i',
+  ); // fragment locator
+  return !!pattern.test(str);
+}
 
-  excludeBooleanFlip.filter(field => !clonedFilters[field]).forEach(field => {
-    searchFilters[`exclude_${field}`] = !clonedFilters[field];
-  });
+export const upperCaseFirstLetterOnly = str =>
+  str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
-  return searchFilters;
+export const naIfNull = value => {
+  return value || 'N/A';
+};
+
+export const boolYesNo = field => {
+  return field ? 'Yes' : 'No';
+};
+
+export const isSmallScreen = () => matchMedia('(max-width: 480px)').matches;
+
+export const scrollToFocusedElement = () => {
+  const compareDrawerHeight = document.getElementById('compare-drawer')
+    ?.clientHeight;
+  const activeElementBounding = document.activeElement.getBoundingClientRect();
+
+  if (
+    compareDrawerHeight &&
+    activeElementBounding.bottom > window.innerHeight - compareDrawerHeight
+  ) {
+    scroller.scrollTo(document.activeElement.id, getScrollOptions());
+  }
 };

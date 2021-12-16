@@ -31,7 +31,7 @@ export function getBasicContactInfoState() {
   return {
     email: {
       createdAt: '2020-07-30T23:38:04.000+00:00',
-      emailAddress: 'me@me.com',
+      emailAddress: 'alongusername@me.com',
       effectiveEndDate: null,
       effectiveStartDate: '2020-07-30T23:38:03.000+00:00',
       id: 115097,

@@ -1,0 +1,74 @@
+import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
+import '../support/commands';
+import mockPatientCheckIns from '../../../api/local-mock-api/mocks/v2/patient.check.in.responses';
+import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
+import Appointments from '../pages/Appointments';
+
+describe('Check In Experience -- ', () => {
+  describe('Appointment display -- ', () => {
+    beforeEach(() => {
+      cy.authenticate();
+      const rv1 = mockPatientCheckIns.createMultipleAppointments();
+      const earliest = mockPatientCheckIns.createAppointment();
+      earliest.startTime = '2021-08-19T03:00:00';
+      const midday = mockPatientCheckIns.createAppointment();
+      midday.startTime = '2021-08-19T13:00:00';
+      const latest = mockPatientCheckIns.createAppointment();
+      latest.startTime = '2027-08-19T18:00:00';
+      rv1.payload.appointments = [latest, earliest, midday];
+
+      const rv2 = mockPatientCheckIns.createMultipleAppointments();
+      const newLatest = mockPatientCheckIns.createAppointment();
+      newLatest.startTime = '2027-08-19T17:00:00';
+      rv2.payload.appointments = [newLatest, earliest, midday];
+      const responses = [rv1, rv2];
+
+      cy.intercept(
+        {
+          method: 'GET',
+          url: '/check_in/v2/patient_check_ins/*',
+        },
+        req => {
+          req.reply(responses.shift());
+        },
+      ).as('testid');
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          checkInExperienceLowAuthenticationEnabled: true,
+          checkInExperienceUpdateInformationPageEnabled: false,
+        }),
+      );
+      cy.visitWithUUID();
+      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      Appointments.validatePageLoaded();
+    });
+    afterEach(() => {
+      cy.window().then(window => {
+        window.sessionStorage.clear();
+      });
+    });
+    it('Veterans may refresh their appointments', () => {
+      cy.viewport(550, 750);
+      Appointments.validateAppointmentLength(3);
+      Appointments.validateAppointmentTime(3, '6:00 p.m.');
+      Appointments.validateUpdateDate();
+      cy.injectAxe();
+      cy.axeCheck();
+      cy.scrollTo('bottom')
+        .window()
+        .its('scrollY')
+        .should('not.equal', 0);
+      Appointments.refreshAppointments();
+      cy.window()
+        .its('scrollY')
+        .should('equal', 0);
+      cy.injectAxe();
+      cy.axeCheck();
+      Appointments.validateAppointmentTime(3, '5:00 p.m.');
+    });
+  });
+});

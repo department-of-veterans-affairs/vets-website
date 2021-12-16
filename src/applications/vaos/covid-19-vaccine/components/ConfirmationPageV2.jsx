@@ -2,29 +2,27 @@ import React, { useEffect } from 'react';
 import moment from '../../lib/moment-tz.js';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event.js';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import {
-  getTimezoneAbbrBySystemId,
-  getTimezoneBySystemId,
+  getTimezoneAbbrByFacilityId,
+  getTimezoneByFacilityId,
 } from '../../utils/timezone.js';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants.js';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
 import { selectConfirmationPage } from '../redux/selectors.js';
-import AddToCalendar from 'applications/vaos/components/AddToCalendar';
+import AddToCalendar from '../../components/AddToCalendar';
+import InfoAlert from '../../components/InfoAlert';
 import {
   formatFacilityAddress,
   getFacilityPhone,
-} from 'applications/vaos/services/location';
+} from '../../services/location';
 
 const pageTitle = 'We’ve scheduled your appointment';
 
 function ConfirmationPageV2({
   clinic,
-  systemId,
+  data,
   facilityDetails,
   slot,
   submitStatus,
@@ -38,9 +36,9 @@ function ConfirmationPageV2({
     return <Redirect to="/" />;
   }
 
-  const timezone = getTimezoneBySystemId(systemId);
+  const timezone = getTimezoneByFacilityId(data.vaFacility);
   const momentDate = timezone
-    ? moment(slot.start).tz(timezone.timezone, true)
+    ? moment(slot.start).tz(timezone, true)
     : moment(slot.start);
 
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
@@ -49,10 +47,10 @@ function ConfirmationPageV2({
     <div>
       <h1 className="vads-u-font-size--h2">
         {momentDate.format('dddd, MMMM D, YYYY [at] h:mm a')}
-        {` ${getTimezoneAbbrBySystemId(systemId)}`}
+        {` ${getTimezoneAbbrByFacilityId(data.vaFacility)}`}
       </h1>
-      <AlertBox status="success" backgroundOnly>
-        <strong>Your appointment has been scheduled and is confirmed.</strong>
+      <InfoAlert status="success" backgroundOnly>
+        <strong>We’ve scheduled and confirmed your appointment.</strong>
         <br />
         <div className="vads-u-margin-y--1">
           <Link
@@ -63,13 +61,13 @@ function ConfirmationPageV2({
               });
             }}
           >
-            View your appointments
+            Review your appointments
           </Link>
         </div>
         <div>
-          <Link to="/new-appointment">New appointment</Link>
+          <Link to="/new-appointment">Schedule a new appointment</Link>
         </div>
-      </AlertBox>
+      </InfoAlert>
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
           <h2
@@ -82,7 +80,6 @@ function ConfirmationPageV2({
             facility={facilityDetails}
             facilityName={facilityDetails?.name}
             facilityId={facilityDetails.id}
-            isHomepageRefresh
             clinicFriendlyName={clinic?.serviceName}
             showCovidPhone
           />
@@ -117,15 +114,10 @@ function ConfirmationPageV2({
           Print
         </button>
       </div>
-      <AlertBox
-        status={ALERT_TYPE.INFO}
-        className="vads-u-display--block"
-        headline="Need to make changes?"
-        backgroundOnly
-      >
+      <InfoAlert status="info" headline="Need to make changes?" backgroundOnly>
         Contact this provider if you need to reschedule or cancel your
         appointment.
-      </AlertBox>
+      </InfoAlert>
     </div>
   );
 }

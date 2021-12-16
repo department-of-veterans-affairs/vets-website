@@ -1,4 +1,4 @@
-import _ from 'lodash/fp'; // eslint-disable-line no-restricted-imports
+import range from 'lodash/range';
 import moment from 'moment';
 
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
@@ -21,7 +21,7 @@ export function isValidSSN(value) {
     return false;
   }
 
-  const noBadSameDigitNumber = _.range(0, 10).every(i => {
+  const noBadSameDigitNumber = range(0, 10).every(i => {
     const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
     return !sameDigitRegex.test(value);
   });

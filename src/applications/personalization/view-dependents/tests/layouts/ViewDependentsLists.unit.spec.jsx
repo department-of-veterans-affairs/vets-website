@@ -1,6 +1,7 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
+import removeDependents from '../../manage-dependents/redux/reducers';
 import ViewDependentsLists from '../../layouts/ViewDependentsLists';
 
 describe('<ViewDependentsLists />', () => {
@@ -30,15 +31,11 @@ describe('<ViewDependentsLists />', () => {
   };
 
   it('should render', () => {
-    const wrapper = mount(
-      <ViewDependentsLists
-        loading={false}
-        onAwardDependents={mockState.onAwardDependents}
-        notOnAwardDependents={mockState.notOnAwardDependents}
-      />,
-    );
+    const screen = renderInReduxProvider(<ViewDependentsLists />, {
+      mockState,
+      reducers: removeDependents,
+    });
 
-    expect(wrapper.find('ViewDependentsList').length).to.equal(2);
-    wrapper.unmount();
+    expect(screen.findByText(/Billy Blank/)).to.exist;
   });
 });

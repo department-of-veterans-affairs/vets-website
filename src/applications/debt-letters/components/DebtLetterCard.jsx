@@ -2,53 +2,59 @@ import React from 'react';
 import moment from 'moment';
 import head from 'lodash/head';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
-
-import { deductionCodes } from '../const/deduction-codes';
-import { bindActionCreators } from 'redux';
-import { setActiveDebt } from '../actions';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { deductionCodes } from '../const/deduction-codes';
+import { setActiveDebt as setDebt } from '../actions';
 import { renderAdditionalInfo } from '../const/diary-codes';
+import { currency } from '../utils/page';
 
-const DebtLetterCard = props => {
-  const { debt } = props;
-  const mostRecentHistory = head(debt.debtHistory);
+const DebtLetterCard = ({ debt, setActiveDebt }) => {
+  // TODO: currently we do not have a debtID so we need to make one by combining fileNumber and diaryCode
+  const mostRecentHistory = head(debt?.debtHistory);
 
   const debtCardHeading =
     deductionCodes[debt.deductionCode] || debt.benefitType;
 
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-  });
-
   const additionalInfo = renderAdditionalInfo(
     debt.diaryCode,
-    mostRecentHistory.date,
+    mostRecentHistory?.date,
     debt.benefitType,
   );
 
   return (
     <article className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
       <h3 className="vads-u-margin--0">{debtCardHeading}</h3>
+
       {mostRecentHistory && (
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
-          Updated on {moment(mostRecentHistory.date).format('MMMM D, YYYY')}
+          Updated on
+          <span className="vads-u-margin-x--0p5">
+            {moment(mostRecentHistory.date, 'MM-DD-YYYY').format(
+              'MMMM D, YYYY',
+            )}
+          </span>
         </p>
       )}
+
       <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
         <strong>Amount owed: </strong>
-        {debt.currentAr && formatter.format(parseFloat(debt.currentAr))}
+        {debt.currentAr && currency.format(parseFloat(debt.currentAr))}
       </p>
+
       {additionalInfo.status && (
         <div
           className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans"
           data-testid="diary-codes-status"
         >
-          {additionalInfo.status}
+          <p className="vads-u-margin-bottom--0">
+            <strong>Status: </strong>
+            {additionalInfo.status}
+          </p>
         </div>
       )}
+
       {additionalInfo && (
         <div
           className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans"
@@ -57,13 +63,17 @@ const DebtLetterCard = props => {
           {additionalInfo.nextStep}
         </div>
       )}
+
       <Link
         className="usa-button"
-        onClick={() => props.setActiveDebt(debt)}
-        to="/debt-detail"
+        onClick={() => setActiveDebt(debt)}
+        to={`/debt-detail/${debt.fileNumber + debt.deductionCode}`}
       >
         Go to debt details
-        <i className="fa fa-chevron-right vads-u-font-size--sm vads-u-margin-left--0p5" />
+        <i
+          aria-hidden="true"
+          className="fa fa-chevron-right vads-u-font-size--sm vads-u-margin-left--0p5"
+        />
       </Link>
     </article>
   );
@@ -96,7 +106,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ setActiveDebt }, dispatch),
+  ...bindActionCreators({ setActiveDebt: setDebt }, dispatch),
 });
 
 export default connect(

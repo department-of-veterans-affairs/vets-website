@@ -30,7 +30,12 @@ export const uiSchema = {
             TASK_KEYS.reportMarriageOfChildUnder18,
           ),
       },
-      middle: { 'ui:title': 'Middle name' },
+      middle: {
+        'ui:title': 'Middle name',
+        'ui:options': {
+          hideEmptyValueInReview: true,
+        },
+      },
       last: {
         'ui:title': 'Last name before marriage',
         'ui:errorMessages': { required: 'Please enter a last name' },
@@ -42,7 +47,10 @@ export const uiSchema = {
       },
       suffix: {
         'ui:title': 'Suffix',
-        'ui:options': { widgetClassNames: 'form-select-medium' },
+        'ui:options': {
+          widgetClassNames: 'form-select-medium',
+          hideEmptyValueInReview: true,
+        },
       },
     },
     ssn: {
@@ -71,6 +79,7 @@ export const uiSchema = {
     dependentIncome: {
       'ui:options': {
         hideIf: () => environment.isProduction(),
+        hideEmptyValueInReview: true,
       },
       'ui:title': PensionIncomeRemovalQuestionTitle,
       'ui:widget': 'yesNo',

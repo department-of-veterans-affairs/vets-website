@@ -1,4 +1,5 @@
-import _ from 'lodash/fp';
+import orderBy from 'lodash/orderBy';
+import set from 'platform/utilities/data/set';
 import moment from 'moment';
 import { appealTypes } from '../utils/appeals-v2-helpers';
 
@@ -75,10 +76,10 @@ function sortList(list, sortProperty) {
   const sortOrder = sortProperty === 'claimType' ? 'asc' : 'desc';
   const sortFunc = el => {
     if (appealTypes.includes(el.type)) {
-      const events = _.orderBy(
+      const events = orderBy(
+        el.attributes.events,
         [e => moment(e.date).unix()],
         'desc',
-        el.attributes.events,
       );
       const lastEvent = events[0];
       const firstEvent = events[events.length - 1];
@@ -95,7 +96,7 @@ function sortList(list, sortProperty) {
     return sortPropertyFn[sortProperty] && sortPropertyFn[sortProperty](el);
   };
 
-  return _.orderBy([sortFunc, 'id'], sortOrder, list);
+  return orderBy(list, [sortFunc, 'id'], sortOrder);
 }
 
 function getVisibleRows(list, currentPage) {
@@ -114,13 +115,14 @@ export default function claimsReducer(state = initialState, action) {
         filterList(state.appeals.concat(action.claims), action.filter),
         state.sortProperty,
       );
-      return _.assign(state, {
+      return {
+        ...state,
         claims: action.claims,
         visibleList,
         visibleRows: getVisibleRows(visibleList, state.page),
         pages: getTotalPages(visibleList),
         claimsLoading: false,
-      });
+      };
     }
     // Fall-through until we handle v2 appeals solely in the appeals reducer
     case FETCH_APPEALS_SUCCESS:
@@ -133,58 +135,62 @@ export default function claimsReducer(state = initialState, action) {
         filterList(state.claims, action.filter).concat(visibleAppeals),
         state.sortProperty,
       );
-      return _.assign(state, {
+      return {
+        ...state,
         appeals: action.appeals,
         visibleList,
         visibleRows: getVisibleRows(visibleList, state.page),
         pages: getTotalPages(visibleList),
         appealsLoading: false,
-      });
+      };
     }
     case FILTER_CLAIMS: {
       const visibleList = sortList(
         filterList(state.appeals.concat(state.claims), action.filter),
         state.sortProperty,
       );
-      return _.assign(state, {
+      return {
+        ...state,
         visibleList,
         visibleRows: getVisibleRows(visibleList, 1),
         page: 1,
         pages: getTotalPages(visibleList),
-      });
+      };
     }
     case SORT_CLAIMS: {
       const visibleList = sortList(state.visibleList, action.sortProperty);
-      return _.assign(state, {
+      return {
+        ...state,
         sortProperty: action.sortProperty,
         visibleList,
         visibleRows: getVisibleRows(visibleList, 1),
         page: 1,
         pages: getTotalPages(visibleList),
-      });
+      };
     }
     case CHANGE_CLAIMS_PAGE: {
-      return _.assign(state, {
+      return {
+        ...state,
         page: action.page,
         visibleRows: getVisibleRows(state.visibleList, action.page),
-      });
+      };
     }
     case SHOW_CONSOLIDATED_MODAL: {
-      return _.set('consolidatedModal', action.visible, state);
+      return set('consolidatedModal', action.visible, state);
     }
     case HIDE_30_DAY_NOTICE: {
-      return _.set('show30DayNotice', false, state);
+      return set('show30DayNotice', false, state);
     }
     case FETCH_APPEALS: {
-      return _.set('appealsLoading', true, state);
+      return set('appealsLoading', true, state);
     }
     case FETCH_CLAIMS: {
-      return _.set('claimsLoading', true, state);
+      return set('claimsLoading', true, state);
     }
     case SET_CLAIMS_UNAVAILABLE:
-      return _.set('claimsLoading', false, state);
+      return set('claimsLoading', false, state);
     case SET_APPEALS_UNAVAILABLE:
-      return _.set('appealsLoading', false, state);
+      return set('appealsLoading', false, state);
     default:
       return state;
   }

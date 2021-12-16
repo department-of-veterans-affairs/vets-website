@@ -1,11 +1,22 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
+export const hasEvidenceLabel =
+  'Is there any evidence that you’d like us to review as part of your claim?';
+
 export const evidenceTypeTitle = (
   <h3 className="vads-u-font-size--h4">
-    What type of evidence do you want us to review as part of your claim?
+    What type of evidence do you want to submit as part of your claim?
   </h3>
 );
+
+export const privateMedicalRecords = 'Private medical records';
+export const evidenceLayStatements = `Additional VA forms, medical records,
+  separation documents (DD Form 214), supporting (lay) statements, or other
+  evidence`;
+
+export const evidenceTypeError =
+  'Please select at least one type of supporting evidence';
 
 export const evidenceTypeHelp = (
   <AdditionalInfo triggerText="Which evidence type should I choose?">

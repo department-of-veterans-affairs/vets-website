@@ -160,7 +160,7 @@ export const questions = [
       en: 'In the past 14 days, have you traveled outside of New England?',
       es: 'En los últimos 14 días, ¿ha viajado fuera de Nueva Inglaterra?',
     },
-    customId: ['523', '650', '689', '402', '405', '631', '518', '608', '478'],
+    customId: ['523', '650', '689', '402', '405', '631', '608', '478'],
   },
   {
     id: 'travel-ny',

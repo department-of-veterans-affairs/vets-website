@@ -44,6 +44,8 @@ describe('PersonalInformation', () => {
 
   it('should render the correct contact based on what exists in the Redux state', () => {
     initialState = createBasicInitialState();
+    initialState.user.profile.vapContactInfo.email.emailAddress =
+      'alongusername@gmail.com';
 
     const {
       residentialAddress,
@@ -80,9 +82,7 @@ describe('PersonalInformation', () => {
     expect(view.getByText('804-205-5544, ext. 17747')).to.exist;
     expect(view.getByText('214-718-2112', { exact: false })).to.exist;
 
-    expect(
-      view.getByText(/please add your fax number/i, { selector: 'button' }),
-    ).to.exist;
-    expect(view.getByText('me@me.com')).to.exist;
+    expect(view.getByText(/to add a fax number/i)).to.exist;
+    expect(view.getByText(/alongusername/)).to.exist;
   });
 });

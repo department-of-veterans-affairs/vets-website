@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import FormButtons from '../../components/FormButtons';
@@ -12,6 +11,7 @@ import { addressSchema, getAddressUISchema } from '../fields/addressFields';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import NewTabAnchor from '../../components/NewTabAnchor';
+import InfoAlert from '../../components/InfoAlert';
 
 const initialSchema = {
   type: 'object',
@@ -130,13 +130,13 @@ const uiSchema = {
     },
     'view:textObject': {
       'ui:description': (
-        <AlertBox
+        <InfoAlert
           status="info"
           headline="We’ll try to schedule your appointment with your preferred provider"
         >
           If we can’t schedule this appointment with them, we’ll schedule it
           with another provider close to your home.
-        </AlertBox>
+        </InfoAlert>
       ),
     },
   },

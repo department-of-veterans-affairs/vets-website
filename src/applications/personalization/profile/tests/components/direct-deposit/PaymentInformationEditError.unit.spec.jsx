@@ -283,7 +283,7 @@ describe('<PaymentInformationEditError />', () => {
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We’re sorry. We couldn’t update your direct deposit bank information because your mailing address is missing or invalid. Please go back to <a href="/profile/personal-information">your profile</a> and fill in this required information.',
+      'We’re sorry. We couldn’t update your direct deposit bank information because your mailing address is missing or invalid. Please go back to <a href="/profile/personal-information#edit-mailing-address">your profile</a> and fill in this required information.',
     );
     wrapper.unmount();
   });
@@ -295,7 +295,7 @@ describe('<PaymentInformationEditError />', () => {
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We’re sorry. We couldn’t update your direct deposit bank information because your work phone number is missing or invalid. Please go back to <a href="/profile/personal-information">your profile</a> and fill in this required information.',
+      'We’re sorry. We couldn’t update your direct deposit bank information because your work phone number is missing or invalid. Please go back to <a href="/profile/personal-information#edit-work-phone-number">your profile</a> and fill in this required information.',
     );
     wrapper.unmount();
 
@@ -305,7 +305,7 @@ describe('<PaymentInformationEditError />', () => {
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We’re sorry. We couldn’t update your direct deposit bank information because your home phone number is missing or invalid. Please go back to <a href="/profile/personal-information">your profile</a> and fill in this required information.',
+      'We’re sorry. We couldn’t update your direct deposit bank information because your home phone number is missing or invalid. Please go back to <a href="/profile/personal-information#edit-home-phone-number">your profile</a> and fill in this required information.',
     );
     wrapper.unmount();
   });

@@ -10,19 +10,19 @@ const LocationOperationStatus = ({ operatingStatus }) => {
   if (operatingStatus.code === OperatingStatus.NOTICE) {
     infoMsg = 'Facility notice';
     classNameAlert = 'usa-alert-info';
-    iconType = 'circle';
+    iconType = 'info';
   }
 
   if (operatingStatus.code === OperatingStatus.LIMITED) {
     infoMsg = 'Limited services and hours';
-    classNameAlert = 'usa-alert-warning';
-    iconType = 'triangle';
+    classNameAlert = 'usa-alert-info';
+    iconType = 'info';
   }
 
   if (operatingStatus.code === OperatingStatus.CLOSED) {
     infoMsg = 'Facility Closed';
     classNameAlert = 'usa-alert-error';
-    iconType = 'circle';
+    iconType = 'exclamation';
   }
 
   return (
@@ -32,7 +32,7 @@ const LocationOperationStatus = ({ operatingStatus }) => {
       <i
         aria-hidden="true"
         role="img"
-        className={`fa fa-exclamation-${iconType} vads-u-margin-top--1 icon-base`}
+        className={`fa fa-${iconType}-circle vads-u-margin-top--1 vads-u-margin-bottom--1 icon-base`}
       />
       <span className="sr-only">Alert: </span>
       <div className="usa-alert-body">{infoMsg}</div>

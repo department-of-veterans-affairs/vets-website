@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { set } from 'lodash/fp';
+import set from 'platform/utilities/data/set';
 import sinon from 'sinon';
 
 import { MhvTermsAndConditions } from '../../containers/MhvTermsAndConditions';

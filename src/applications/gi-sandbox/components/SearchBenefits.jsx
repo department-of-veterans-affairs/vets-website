@@ -2,6 +2,7 @@ import React from 'react';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import Dropdown from './Dropdown';
 import LearnMoreLabel from './LearnMoreLabel';
+import recordEvent from 'platform/monitoring/record-event';
 
 const SearchBenefits = ({
   cumulativeService,
@@ -20,6 +21,7 @@ const SearchBenefits = ({
   setMilitaryStatus,
   setSpouseActiveDuty,
 }) => {
+  const chapter33Check = giBillChapter === '33a' || giBillChapter === '33b';
   return (
     <div>
       <Dropdown
@@ -38,11 +40,18 @@ const SearchBenefits = ({
         value={militaryStatus}
         alt="What's your military status?"
         visible
-        onChange={e => setMilitaryStatus(e.target.value)}
+        onChange={e => {
+          recordEvent({
+            event: 'gibct-form-change',
+            'gibct-form-field': `What's your military status?`,
+            'gibct-form-value': e.target.value,
+          });
+          setMilitaryStatus(e.target.value);
+        }}
       />
 
       <Dropdown
-        label="Is your spouse on active duty?"
+        label="Is your spouse currently on active duty?"
         name="spouseActiveDuty"
         options={[
           { optionValue: 'yes', optionLabel: 'Yes' },
@@ -58,13 +67,16 @@ const SearchBenefits = ({
         label={
           <LearnMoreLabel
             text="Which GI Bill benefit do you want to use?"
-            onClick={() => dispatchShowModal('giBillChapter')}
+            onClick={() => {
+              dispatchShowModal('giBillChapter');
+            }}
             ariaLabel="Learn more about VA education and training programs"
           />
         }
         name="giBillChapter"
         options={[
-          { optionValue: '33', optionLabel: 'Post-9/11 GI Bill (Ch 33)' },
+          { optionValue: '33a', optionLabel: 'Post-9/11 GI Bill (Ch 33)' },
+          { optionValue: '33b', optionLabel: 'Fry Scholarship (Ch 33)' },
           {
             optionValue: '30',
             optionLabel: 'Montgomery GI Bill (Ch 30)',
@@ -75,21 +87,29 @@ const SearchBenefits = ({
           },
           {
             optionValue: '31',
-            optionLabel: 'Veteran Readiness and Employment',
+            optionLabel: 'Veteran Readiness and Employment (VR&E) (Ch 31)',
           },
           {
             optionValue: '35',
-            optionLabel: 'Dependents Educational Assistance (DEA)',
+            optionLabel:
+              "Survivors' and Dependents' Educational Assistance (DEA) (Ch 35)",
           },
         ]}
         value={giBillChapter}
         alt="Which GI Bill benefit do you want to use?"
         visible
-        onChange={e => setGiBillChapter(e.target.value)}
+        onChange={e => {
+          recordEvent({
+            event: 'gibct-form-change',
+            'gibct-form-field': 'Which GI Bill benefit do you want to use?',
+            'gibct-form-value': e.target.value,
+          });
+          setGiBillChapter(e.target.value);
+        }}
       />
 
       {militaryStatus === 'active duty' &&
-        giBillChapter === '33' && (
+        chapter33Check && (
           <div className="military-status-info warning form-group">
             <i className="fa fa-warning" />
             <a
@@ -122,7 +142,9 @@ const SearchBenefits = ({
         label={
           <LearnMoreLabel
             text="Cumulative Post-9/11 active-duty service"
-            onClick={() => dispatchShowModal('cumulativeService')}
+            onClick={() => {
+              dispatchShowModal('cumulativeService');
+            }}
             ariaLabel="Learn more about Cumulative Post-9/11 service"
           />
         }
@@ -149,8 +171,15 @@ const SearchBenefits = ({
         ]}
         value={cumulativeService}
         alt="Cumulative Post-9/11 active-duty service"
-        visible={giBillChapter === '33'}
-        onChange={e => setCumulativeService(e.target.value)}
+        visible={chapter33Check}
+        onChange={e => {
+          recordEvent({
+            event: 'gibct-form-change',
+            'gibct-form-field': 'Cumulative Post-9/11 active-duty service',
+            'gibct-form-value': e.target.value,
+          });
+          setCumulativeService(e.target.value);
+        }}
       />
       <Dropdown
         label={

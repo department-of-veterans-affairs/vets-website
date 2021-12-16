@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { expect } from 'chai';
@@ -13,11 +14,16 @@ import {
   mockCommunityCareEligibility,
   mockParentSites,
 } from '../../mocks/helpers';
+import {
+  mockVAOSParentSites,
+  mockV2CommunityCareEligibility,
+} from '../../mocks/helpers.v2';
 
 import TypeOfCarePage from '../../../new-appointment/components/TypeOfCarePage';
 import { NewAppointment } from '../../../new-appointment';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
+import { createMockFacilityByVersion } from '../../mocks/data';
 
 const initialState = {
   featureToggles: {
@@ -39,17 +45,21 @@ describe('VAOS <TypeOfCarePage>', () => {
   beforeEach(() => mockFetch());
   it('should show type of care page with all care types', async () => {
     const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(
-      <Route component={TypeOfCarePage} />,
-      { store },
-    );
+    mockParentSites(['983'], []);
+    mockCommunityCareEligibility({
+      parentSites: [],
+      supportedSites: [],
+      careType: 'PrimaryCare',
+      eligible: false,
+    });
+    const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
 
-    expect((await screen.findAllByRole('radio')).length).to.equal(11);
+    expect((await screen.findAllByRole('radio')).length).to.equal(12);
 
     // Verify alert is shown
     expect(
       screen.getByRole('heading', {
-        name: /not seeing the type of care you need\?/i,
+        name: /Is the type of care you need not listed here\?/i,
       }),
     ).to.exist;
     expect(
@@ -62,7 +72,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect(global.window.dataLayer[0]).to.eql({
       'alert-box-click-label': 'Find a VA location',
-      'alert-box-heading': 'Not seeing the type of care you need',
+      'alert-box-heading': 'Is the type of care you need not listed here',
       'alert-box-subheading': undefined,
       'alert-box-type': 'informational',
       event: 'nav-alert-box-link-click',
@@ -73,11 +83,10 @@ describe('VAOS <TypeOfCarePage>', () => {
         /To use some of the tool’s features, you need a home address on file/i,
       ),
     ).to.not.exist;
-    expect(screen.queryByLabelText(/COVID-19 vaccine/i)).to.not.exist;
 
     fireEvent.click(screen.getByText(/Continue/));
 
-    expect(await screen.findByText('Please choose a type of care')).to.exist;
+    expect(await screen.findByText('What care do you need?')).to.exist;
     expect(screen.history.push.called).to.not.be.true;
 
     fireEvent.click(await screen.findByLabelText(/primary care/i));
@@ -91,10 +100,14 @@ describe('VAOS <TypeOfCarePage>', () => {
 
   it('should save type of care choice on page change', async () => {
     const store = createTestStore(initialState);
-    let screen = renderWithStoreAndRouter(
-      <Route component={TypeOfCarePage} />,
-      { store },
-    );
+    mockParentSites(['983'], []);
+    mockCommunityCareEligibility({
+      parentSites: [],
+      supportedSites: [],
+      careType: 'PrimaryCare',
+      eligible: false,
+    });
+    let screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
 
     fireEvent.click(await screen.findByLabelText(/primary care/i));
     await waitFor(() => {
@@ -130,14 +143,18 @@ describe('VAOS <TypeOfCarePage>', () => {
       { store },
     );
 
-    expect((await screen.findAllByRole('radio')).length).to.equal(10);
+    expect((await screen.findAllByRole('radio')).length).to.equal(11);
   });
   it('should not allow users who are not CC eligible to use Podiatry', async () => {
     const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(
-      <Route component={TypeOfCarePage} />,
-      { store },
-    );
+    mockParentSites(['983'], []);
+    mockCommunityCareEligibility({
+      parentSites: [],
+      supportedSites: [],
+      careType: 'PrimaryCare',
+      eligible: false,
+    });
+    const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
 
     fireEvent.click(await screen.findByLabelText(/podiatry/i));
     fireEvent.click(screen.getByText(/Continue/));
@@ -149,7 +166,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     await waitFor(
       () => expect(screen.queryByText(/podiatry appointments/i)).not.to.exist,
     );
-    expect(screen.getByText(/please choose a type of care/i)).to.exist;
+    expect(screen.getByText(/what care do you need?/i)).to.exist;
   });
 
   it('should open facility type page when CC eligible and has a support parent site', async () => {
@@ -361,7 +378,6 @@ describe('VAOS <TypeOfCarePage>', () => {
       ...initialState,
       featureToggles: {
         vaOnlineSchedulingCommunityCare: true,
-        vaOnlineSchedulingCheetah: true,
       },
     });
     const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
@@ -375,5 +391,71 @@ describe('VAOS <TypeOfCarePage>', () => {
         '/new-covid-19-vaccine-appointment',
       ),
     );
+  });
+
+  describe('using VAOS service', () => {
+    it('should open facility type page when CC eligible and has a supported parent site', async () => {
+      mockVAOSParentSites(
+        ['983'],
+        [
+          createMockFacilityByVersion({ id: '983', isParent: true }),
+          createMockFacilityByVersion({ id: '983GC', isParent: true }),
+        ],
+        true,
+      );
+      mockV2CommunityCareEligibility({
+        parentSites: ['983', '983GC'],
+        supportedSites: ['983GC'],
+        careType: 'PrimaryCare',
+      });
+      const store = createTestStore({
+        ...initialState,
+        featureToggles: {
+          vaOnlineSchedulingCommunityCare: true,
+          vaOnlineSchedulingFacilitiesServiceV2: true,
+        },
+      });
+      const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
+
+      fireEvent.click(await screen.findByLabelText(/primary care/i));
+      fireEvent.click(screen.getByText(/Continue/));
+      await waitFor(() =>
+        expect(screen.history.push.lastCall?.args[0]).to.equal(
+          '/new-appointment/choose-facility-type',
+        ),
+      );
+    });
+
+    it('should skip facility type page if eligible for CC but no supported sites', async () => {
+      mockVAOSParentSites(
+        ['983'],
+        [
+          createMockFacilityByVersion({ id: '983', isParent: true }),
+          createMockFacilityByVersion({ id: '983GC', isParent: true }),
+        ],
+        true,
+      );
+      mockV2CommunityCareEligibility({
+        parentSites: ['983', '983GC'],
+        supportedSites: [],
+        careType: 'PrimaryCare',
+      });
+      const store = createTestStore({
+        ...initialState,
+        featureToggles: {
+          vaOnlineSchedulingCommunityCare: true,
+          vaOnlineSchedulingVAOSServiceRequests: true,
+        },
+      });
+      const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
+
+      fireEvent.click(await screen.findByLabelText(/primary care/i));
+      fireEvent.click(screen.getByText(/Continue/));
+      await waitFor(() =>
+        expect(screen.history.push.lastCall?.args[0]).to.equal(
+          '/new-appointment/va-facility-2',
+        ),
+      );
+    });
   });
 });

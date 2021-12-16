@@ -5,30 +5,47 @@ import { getAvailableClinics } from '../var';
 import { transformAvailableClinics } from './transformers';
 import { mapToFHIRErrors } from '../utils';
 import { getSupportedLocationsByTypeOfCare } from '../location';
+import { getClinics } from '../vaos';
+import { transformClinicsV2 } from './transformers.v2';
 
 /**
  * Method to get available HealthcareService objects.
  *
  * @param {Object} params
  * @param {string} params.facilityId The VistA facility id
- * @param {string} params.typeOfCareId An id for the type of care to check for the chosen organization
+ * @param {TypeOfCare} params.typeOfCare The type of care to check for the chosen organization
  * @param {string} params.systemId The VistA 3 digit site id
  *
  * @returns {Array<HealthCareService>} An a collection of HealthcareService objects.
  */
 export async function getAvailableHealthcareServices({
   facilityId,
-  typeOfCareId,
+  typeOfCare,
   systemId,
+  useV2 = false,
 }) {
   try {
-    const clinics = await getAvailableClinics(
-      facilityId,
-      typeOfCareId,
-      systemId,
-    );
+    let clinics = null;
+    if (useV2) {
+      const clinicData = await getClinics({
+        locationId: facilityId,
+        typeOfCareId: typeOfCare.idV2,
+      });
+      clinics = transformClinicsV2(clinicData);
+    } else {
+      const clinicData = await getAvailableClinics(
+        facilityId,
+        typeOfCare.id,
+        systemId,
+      );
+      clinics = transformAvailableClinics(
+        facilityId,
+        typeOfCare.id,
+        clinicData,
+      );
+    }
 
-    return transformAvailableClinics(facilityId, typeOfCareId, clinics).sort(
+    return clinics.sort(
       (a, b) =>
         a.serviceName.toUpperCase() < b.serviceName.toUpperCase() ? -1 : 1,
     );
@@ -64,6 +81,30 @@ export async function getSupportedHealthcareServicesAndLocations({
   });
 
   return results.filter(item => item.resourceType === 'Location');
+}
+/**
+ * Fetches a single clinic based on the id provided from the v2 endpoints
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} params.locationId The location or facility id of the clinic
+ * @param {string} params.id The clinic id
+ */
+export async function fetchHealthcareServiceById({ locationId, id }) {
+  try {
+    const results = await getClinics({
+      locationId,
+      clinicIds: [id],
+    });
+
+    return transformClinicsV2(results)[0];
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
 }
 
 /**

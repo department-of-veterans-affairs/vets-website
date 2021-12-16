@@ -11,6 +11,7 @@ import { transform } from '../submit-transformer';
 import { prefillTransformer } from '../prefill-transformer';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../../components/GetFormHelp';
+import analytics from '../analytics/analytics-functions';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -54,7 +55,10 @@ const formConfig = {
     form: {
       title: 'VRRAP application',
       pages: {
-        application,
+        application: {
+          ...application,
+          onContinue: analytics.application,
+        },
       },
     },
   },

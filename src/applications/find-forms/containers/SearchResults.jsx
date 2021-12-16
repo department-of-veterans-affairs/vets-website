@@ -1,8 +1,8 @@
 // Dependencies.
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { connect } from 'react-redux';
 import Select from '@department-of-veterans-affairs/component-library/Select';
@@ -15,12 +15,9 @@ import {
   updateSortByPropertyNameThunk,
   updatePaginationAction,
 } from '../actions';
-import {
-  getFindFormsAppState,
-  applyLighthouseFormsSearchLogic,
-  applySearchUIUXEnhancements,
-} from '../helpers/selectors';
-import { FAF_SORT_OPTIONS, FAF_TEST_OPTION_CLOSEST_MATCH } from '../constants';
+import { doesCookieExist, setCookie } from '../helpers';
+import { showPDFModal, getFindFormsAppState } from '../helpers/selectors';
+import { FAF_SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
 
 export const MAX_PAGE_LIST_LENGTH = 10;
@@ -54,30 +51,31 @@ export const SearchResults = ({
   sortByPropertyName,
   hasOnlyRetiredForms,
   startIndex,
-  useLighthouseSearchAlgo,
+  showPDFInfoVersionOne,
   updatePagination,
   updateSortByPropertyName,
-  useSearchUIUXEnhancements,
 }) => {
   const prevProps = usePreviousProps({
     fetching,
-    useLighthouseSearchAlgo,
   });
-
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    pdfSelected: '',
+    pdfUrl: '',
+    pdfLabel: '',
+    doesCookieExist: false,
+  });
   useEffect(() => {
     const justRefreshed = prevProps?.fetching && !fetching;
     if (justRefreshed) {
       focusElement('[data-forms-focus]');
     }
-
-    // NOTE: This is only for testing Lighthouse Search Algorithm
-    if (
-      prevProps?.useLighthouseSearchAlgo === undefined &&
-      useLighthouseSearchAlgo === true
-    ) {
-      updateSortByPropertyName(FAF_TEST_OPTION_CLOSEST_MATCH, results);
-    }
   });
+  useEffect(() => {
+    if (doesCookieExist()) {
+      setModalState({ ...modalState, doesCookieExist: doesCookieExist() });
+    }
+  }, []);
 
   const onPageSelect = p => {
     // Derive the new start index.
@@ -96,6 +94,7 @@ export const SearchResults = ({
 
   const setSortByPropertyNameState = formMetaInfo => state => {
     if (state?.value) {
+      // console.log('AA: ', state.value, ' | ', results);
       updateSortByPropertyName(state.value, results);
 
       recordEvent({
@@ -111,6 +110,42 @@ export const SearchResults = ({
     }
   };
 
+  const toggleModalState = async (
+    pdfSelected,
+    pdfUrl,
+    pdfLabel,
+    closingModal,
+  ) => {
+    if (!doesCookieExist() || closingModal) {
+      if (!doesCookieExist()) {
+        setCookie();
+        setModalState({
+          isOpen: !modalState.isOpen,
+          pdfSelected,
+          pdfUrl,
+          pdfLabel,
+        });
+      }
+      if (closingModal) {
+        /**
+         * This is set here due to a race condition where:
+         * 1. the state would be updated to the cookie would exist which would fire the href download
+         * 2. we open the modal because the cookie did not exist at the time of the browser click event
+         */
+        setModalState({
+          ...modalState,
+          isOpen: !modalState.isOpen,
+          doesCookieExist: true,
+        });
+        recordEvent({
+          event: 'int-modal-click',
+          'modal-status': 'closed',
+          'modal-title': 'Download this PDF and open it in Acrobat Reader',
+        });
+      }
+    }
+  };
+
   // Show loading indicator if we are fetching.
   if (fetching) {
     return <LoadingIndicator setFocus message="Loading search results..." />;
@@ -119,11 +154,10 @@ export const SearchResults = ({
   // Show the error alert box if there was an error.
   if (error) {
     return (
-      <AlertBox
-        headline="Something went wrong"
-        content={error}
-        status="error"
-      />
+      <va-alert status="error">
+        <h3 slot="headline">Something went wrong</h3>
+        <div className="usa-alert-text vads-u-font-size--base">{error}</div>
+      </va-alert>
     );
   }
 
@@ -140,7 +174,7 @@ export const SearchResults = ({
     vads-u-margin-top--1p5 vads-u-font-weight--normal va-u-outline--none"
         data-forms-focus
       >
-        The form you're looking for has been retired or is no longer valid, and
+        The form you’re looking for has been retired or is no longer valid, and
         has been removed from the VA forms database.
       </p>
     );
@@ -154,8 +188,8 @@ export const SearchResults = ({
         data-forms-focus
       >
         No results were found for "<strong>{query}</strong>
-        ." Try using fewer words or broadening your search. If you&apos;re
-        looking for non-VA forms, go to the{' '}
+        ." Try using fewer words or broadening your search. If you’re looking
+        for non-VA forms, go to the{' '}
         <a
           href="https://www.gsa.gov/reference/forms"
           rel="noopener noreferrer"
@@ -167,11 +201,6 @@ export const SearchResults = ({
       </p>
     );
   }
-
-  // Derive sort options
-  const DEFAULT_SORT_OPTIONS = useLighthouseSearchAlgo
-    ? [FAF_TEST_OPTION_CLOSEST_MATCH, ...FAF_SORT_OPTIONS]
-    : FAF_SORT_OPTIONS;
 
   // Derive the last index.
   const lastIndex = startIndex + MAX_PAGE_LIST_LENGTH;
@@ -194,12 +223,17 @@ export const SearchResults = ({
     .slice(startIndex, lastIndex)
     .map((form, index) => (
       <SearchResult
+        doesCookieExist={modalState.doesCookieExist}
         key={form.id}
         form={form}
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
-        useSearchUIUXEnhancements={useSearchUIUXEnhancements}
+        showPDFInfoVersionOne={showPDFInfoVersionOne}
+        toggleModalState={toggleModalState}
       />
     ));
+
+  // modal state variables
+  const { isOpen, pdfSelected, pdfUrl, pdfLabel } = modalState;
 
   return (
     <>
@@ -210,24 +244,10 @@ export const SearchResults = ({
         >
           {/* eslint-disable-next-line jsx-a11y/aria-role */}
           <span role="text">
-            {useSearchUIUXEnhancements ? (
-              <>
-                Showing <span>{startLabel}</span> &ndash;{' '}
-                <span>{lastLabel}</span> of <span>{results.length}</span>{' '}
-                results for "{' '}
-              </>
-            ) : (
-              <>
-                Showing{' '}
-                <span className="vads-u-font-weight--bold">{startLabel}</span>{' '}
-                &ndash;{' '}
-                <span className="vads-u-font-weight--bold">{lastLabel}</span> of{' '}
-                <span className="vads-u-font-weight--bold">
-                  {results.length}
-                </span>{' '}
-                results for "{' '}
-              </>
-            )}
+            <>
+              Showing <span>{startLabel}</span> &ndash; <span>{lastLabel}</span>{' '}
+              of <span>{results.length}</span> results for "{' '}
+            </>
             <span className="vads-u-font-weight--bold">{query}</span>"
           </span>
         </h2>
@@ -239,12 +259,58 @@ export const SearchResults = ({
           includeBlankOption={false}
           name="findFormsSortBySelect"
           onValueChange={setSortByPropertyNameState(formMetaInfo)}
-          options={DEFAULT_SORT_OPTIONS}
+          options={FAF_SORT_OPTIONS}
           value={{ value: sortByPropertyName }}
         />
       </div>
 
-      <dl className="vads-l-grid-container--full">{searchResults}</dl>
+      <ul className="vads-l-grid-container--full usa-unstyled-list vads-u-margin-top--2">
+        {searchResults}
+      </ul>
+
+      {/*  */}
+      <div
+        className="pdf-alert-modal"
+        style={{
+          height: '500px',
+        }}
+      >
+        <Modal
+          onClose={() => toggleModalState(pdfSelected, pdfUrl, pdfLabel, true)}
+          title="Download this PDF and open it in Acrobat Reader"
+          visible={isOpen}
+        >
+          <>
+            <p>
+              Download this PDF to your desktop computer or laptop. Then use
+              Adobe Acrobat Reader to open and fill out the form. Don’t try to
+              open the PDF on a mobile device or fill it out in your browser.
+            </p>{' '}
+            <p>
+              If you want to fill out a paper copy, open the PDF in your browser
+              and print it from there.
+            </p>{' '}
+            <a href="https://get.adobe.com/reader/" rel="noopener noreferrer">
+              Get Acrobat Reader for free from Adobe
+            </a>
+            <a
+              href={pdfUrl}
+              className="usa-button vads-u-margin-top--2"
+              rel="noreferrer noopener"
+              role="button"
+              onClick={() => {
+                recordEvent(
+                  `Download VA form ${pdfSelected} ${pdfLabel}`,
+                  pdfUrl,
+                  'pdf',
+                );
+              }}
+            >
+              Download VA Form {pdfSelected}
+            </a>
+          </>
+        </Modal>
+      </div>
 
       {/* Pagination Row */}
       {results.length > MAX_PAGE_LIST_LENGTH && (
@@ -271,7 +337,7 @@ SearchResults.propTypes = {
   hasOnlyRetiredForms: PropTypes.bool.isRequired,
   sortByPropertyName: PropTypes.string,
   startIndex: PropTypes.number.isRequired,
-  useLighthouseSearchAlgo: PropTypes.bool,
+  showPDFInfoVersionOne: PropTypes.bool,
   // From mapDispatchToProps.
   updateSortByPropertyName: PropTypes.func,
   updatePagination: PropTypes.func.isRequired,
@@ -286,8 +352,7 @@ const mapStateToProps = state => ({
   query: getFindFormsAppState(state).query,
   results: getFindFormsAppState(state).results,
   startIndex: getFindFormsAppState(state).startIndex,
-  useLighthouseSearchAlgo: applyLighthouseFormsSearchLogic(state),
-  useSearchUIUXEnhancements: applySearchUIUXEnhancements(state),
+  showPDFInfoVersionOne: showPDFModal(state),
 });
 
 const mapDispatchToProps = dispatch => ({

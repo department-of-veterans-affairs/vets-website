@@ -34,6 +34,7 @@ export const uiSchema = {
           'ui:title': 'Child’s middle name',
           'ui:options': {
             useDlWrap: true,
+            hideEmptyValueInReview: true,
           },
         },
         last: {
@@ -49,6 +50,7 @@ export const uiSchema = {
           'ui:options': {
             widgetClassNames: 'usa-input-medium',
             useDlWrap: true,
+            hideEmptyValueInReview: true,
           },
         },
       },
@@ -59,6 +61,7 @@ export const uiSchema = {
           isChapterFieldRequired(formData, TASK_KEYS.addChild),
         'ui:options': {
           useDlWrap: true,
+          widgetClassNames: 'usa-input-medium',
         },
       },
       birthDate: merge(currentOrPastDateUI("Child's date of birth"), {

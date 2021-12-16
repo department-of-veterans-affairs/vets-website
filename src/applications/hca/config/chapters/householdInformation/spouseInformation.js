@@ -1,4 +1,3 @@
-import { assign } from 'lodash/fp';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -53,9 +52,10 @@ export default {
       'ui:title': 'Spouse\u2019s Social Security number',
     },
     spouseDateOfBirth: currentOrPastDateUI('Spouse\u2019s date of birth'),
-    dateOfMarriage: assign(currentOrPastDateUI('Date of marriage'), {
+    dateOfMarriage: {
+      ...currentOrPastDateUI('Date of marriage'),
       'ui:validations': [validateMarriageDate],
-    }),
+    },
     cohabitedLastYear: {
       'ui:title': 'Did your spouse live with you last year?',
       'ui:widget': 'yesNo',

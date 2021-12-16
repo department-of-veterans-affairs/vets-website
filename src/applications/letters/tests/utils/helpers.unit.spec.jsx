@@ -1,14 +1,13 @@
 import { expect } from 'chai';
-import _ from 'lodash/fp';
 import SkinDeep from 'skin-deep';
 
-import { ADDRESS_TYPES, MILITARY_STATES } from '../../utils/constants';
+import { ADDRESS_TYPES_ALTERNATE } from '@@vap-svc/constants';
 
 import {
   getBenefitOptionText,
-  inferAddressType,
   resetDisallowedAddressFields,
   isAddressEmpty,
+  stripOffTime,
 } from '../../utils/helpers';
 
 const address = {
@@ -16,7 +15,7 @@ const address = {
   addressOne: '123 Main St N',
   stateCode: 'MA',
   zipCode: '12345',
-  type: ADDRESS_TYPES.domestic,
+  type: ADDRESS_TYPES_ALTERNATE.domestic,
   city: 'Bygtowne',
 };
 
@@ -24,99 +23,76 @@ describe('Letters helpers: ', () => {
   describe('getBenefitOptionText', () => {
     // The following tests check for options that should be available / not available given certain conditions
     it('should be defined for both veterans and dependents', () => {
-      _.forEach(
-        option => {
-          expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
-        },
-        ['hasChapter35Eligibility'],
-      );
+      ['hasChapter35Eligibility'].forEach(option => {
+        expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
+      });
     });
 
     it('should only be defined for veterans', () => {
-      _.forEach(
-        option => {
-          expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, true, false)).to.be.undefined;
-        },
-        [
-          'hasNonServiceConnectedPension',
-          'hasServiceConnectedDisabilities',
-          'hasAdaptedHousing',
-          'hasIndividualUnemployabilityGranted',
-          'hasSpecialMonthlyCompensation',
-        ],
-      );
+      [
+        'hasNonServiceConnectedPension',
+        'hasServiceConnectedDisabilities',
+        'hasAdaptedHousing',
+        'hasIndividualUnemployabilityGranted',
+        'hasSpecialMonthlyCompensation',
+      ].forEach(option => {
+        expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, true, false)).to.be.undefined;
+      });
     });
 
     it('should only be defined for dependents', () => {
-      _.forEach(
-        option => {
-          expect(getBenefitOptionText(option, true, true)).to.be.undefined;
-          expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
-        },
-        [
-          'hasSurvivorsIndemnityCompensationAward',
-          'hasSurvivorsPensionAward',
-          'hasDeathResultOfDisability',
-        ],
-      );
+      [
+        'hasSurvivorsIndemnityCompensationAward',
+        'hasSurvivorsPensionAward',
+        'hasDeathResultOfDisability',
+      ].forEach(option => {
+        expect(getBenefitOptionText(option, true, true)).to.be.undefined;
+        expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
+      });
     });
 
     it('should only be defined for veterans if value is true', () => {
-      _.forEach(
-        option => {
-          expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, false, true)).to.be.undefined;
-        },
-        [
-          'hasNonServiceConnectedPension',
-          'hasAdaptedHousing',
-          'hasIndividualUnemployabilityGranted',
-          'hasSpecialMonthlyCompensation',
-        ],
-      );
+      [
+        'hasNonServiceConnectedPension',
+        'hasAdaptedHousing',
+        'hasIndividualUnemployabilityGranted',
+        'hasSpecialMonthlyCompensation',
+      ].forEach(option => {
+        expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, false, true)).to.be.undefined;
+      });
     });
 
     it('should only be defined for dependents if value is true', () => {
-      _.forEach(
-        option => {
-          expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, false, false)).to.be.undefined;
-        },
-        ['hasSurvivorsIndemnityCompensationAward', 'hasSurvivorsPensionAward'],
-      );
+      [
+        'hasSurvivorsIndemnityCompensationAward',
+        'hasSurvivorsPensionAward',
+      ].forEach(option => {
+        expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, false, false)).to.be.undefined;
+      });
     });
 
     it('should be defined whether value is true or false', () => {
       // For both veterans and dependents
-      _.forEach(
-        option => {
-          expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, false, true)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, false, false)).not.to.be
-            .undefined;
-        },
-        ['hasChapter35Eligibility'],
-      );
+      ['hasChapter35Eligibility'].forEach(option => {
+        expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, false, true)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, false, false)).not.to.be.undefined;
+      });
       // For veterans only
-      _.forEach(
-        option => {
-          expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, false, true)).not.to.be.undefined;
-        },
-        ['hasServiceConnectedDisabilities'],
-      );
+      ['hasServiceConnectedDisabilities'].forEach(option => {
+        expect(getBenefitOptionText(option, true, true)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, false, true)).not.to.be.undefined;
+      });
       // For dependents only
-      _.forEach(
-        option => {
-          expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, false, false)).not.to.be
-            .undefined;
-        },
-        ['hasDeathResultOfDisability'],
-      );
+      ['hasDeathResultOfDisability'].forEach(option => {
+        expect(getBenefitOptionText(option, true, false)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, false, false)).not.to.be.undefined;
+      });
     });
 
     // Special cases for non-boolean options
@@ -133,15 +109,12 @@ describe('Letters helpers: ', () => {
     });
 
     it('should only be defined if value is valid', () => {
-      _.forEach(
-        option => {
-          expect(getBenefitOptionText(option, 0, true)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, 20, true)).not.to.be.undefined;
-          expect(getBenefitOptionText(option, undefined, true)).to.be.undefined;
-          expect(getBenefitOptionText(option, null, true)).to.be.undefined;
-        },
-        ['monthlyAwardAmount', 'serviceConnectedPercentage'],
-      );
+      ['monthlyAwardAmount', 'serviceConnectedPercentage'].forEach(option => {
+        expect(getBenefitOptionText(option, 0, true)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, 20, true)).not.to.be.undefined;
+        expect(getBenefitOptionText(option, undefined, true)).to.be.undefined;
+        expect(getBenefitOptionText(option, null, true)).to.be.undefined;
+      });
     });
 
     it('should include the awardEffectiveDate in the text for monthlyAward', () => {
@@ -152,40 +125,10 @@ describe('Letters helpers: ', () => {
     });
   });
 
-  describe('inferAddressType', () => {
-    it("should set the type to international if USA isn't selected", () => {
-      const newAddress = Object.assign({}, address, { countryName: 'Uganda' });
-      expect(inferAddressType(newAddress).type).to.equal(
-        ADDRESS_TYPES.international,
-      );
-    });
-
-    it('should set the type to military if a military stateCode is chosen', () => {
-      const newAddress = Object.assign({}, address);
-      Array.from(MILITARY_STATES).forEach(code => {
-        newAddress.stateCode = code;
-        expect(inferAddressType(newAddress).type).to.equal(
-          ADDRESS_TYPES.military,
-        );
-      });
-    });
-
-    it('should set the type to domestic if the countryName is "United States"', () => {
-      const newAddress = { ...address, countryName: 'United States' };
-      expect(inferAddressType(newAddress).type).to.equal(
-        ADDRESS_TYPES.domestic,
-      );
-    });
-
-    it('should set the type to domestic if none of the above are true', () => {
-      expect(inferAddressType(address).type).to.equal(ADDRESS_TYPES.domestic);
-    });
-  });
-
   describe('resetDisallowedAddressFields', () => {
     it('should clear state and zipCode for international addresses', () => {
       const internationalAddress = Object.assign({}, address, {
-        type: ADDRESS_TYPES.international,
+        type: ADDRESS_TYPES_ALTERNATE.international,
       });
       const resetAddress = resetDisallowedAddressFields(internationalAddress);
 
@@ -200,5 +143,25 @@ describe('Letters helpers: ', () => {
     // type & countryName are ignored
     expect(isAddressEmpty({ type: 'foo', countryName: 'bar' })).to.be.true;
     expect(isAddressEmpty({ foo: 'bar' })).to.be.false;
+  });
+
+  // reset time to midnight
+  describe('stripOffTime', () => {
+    it('should return an empty string', () => {
+      expect(stripOffTime()).to.equal('');
+      expect(stripOffTime('')).to.equal('');
+      expect(stripOffTime(null)).to.equal('');
+    });
+    it('should replace time offsets with all zeros', () => {
+      expect(stripOffTime('2017-12-01T06:00:00.000+00:00')).to.equal(
+        '2017-12-01',
+      );
+      expect(stripOffTime('1965-01-01T06:00:00.000+00:00')).to.equal(
+        '1965-01-01',
+      );
+      expect(stripOffTime('1972-10-01T05:00:00.000+00:00')).to.equal(
+        '1972-10-01',
+      );
+    });
   });
 });

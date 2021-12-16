@@ -32,14 +32,12 @@ const uiSchema = {
   'ui:description': (
     <>
       <p>
-        This is the contact information we have on file for you. We’ll use this
-        information to contact you about scheduling your appointment. You can
-        update your contact information here, but the updates will only apply to
-        this tool.
+        This is the information we’ll use to contact you about your appointment.
+        You can update your contact information here, but the updates will only
+        apply to this tool.
       </p>
       <p className="vads-u-margin-y--2">
-        If you want to update your contact information for all your VA accounts,
-        please{' '}
+        To update your contact information for all your VA accounts, please{' '}
         <NewTabAnchor href="/profile">go to your profile page</NewTabAnchor>.
       </p>
     </>

@@ -1,30 +1,28 @@
-const Timeouts = require('platform/testing/e2e/timeouts');
-
 describe('Education Application Wizard', () => {
   it('Goes through the education wizard', () => {
     // Ensure education apply-wizard page renders.
     // Open education apply wizard
     cy.visit(`/education/how-to-apply/`)
-      .get('body', { timeout: Timeouts.normal })
+      .get('body')
       .should('be.visible');
     cy.injectAxeThenAxeCheck();
 
     cy.get('.wizard-button')
       .click()
-      .get('label[for="newBenefit-0"]', { timeout: Timeouts.normal })
+      .get('label[for="newBenefit-0"]')
       .should('be.visible');
     cy.axeCheck();
 
     // Create a new application
     cy.get('input[id="newBenefit-0"]')
       .click()
-      .get('label[for="serviceBenefitBasedOn-0"]', { timeout: Timeouts.normal })
+      .get('label[for="serviceBenefitBasedOn-0"]')
       .should('be.visible');
 
     // Select veteran
     cy.get('input[id="serviceBenefitBasedOn-0"]')
       .click()
-      .get('label[for="nationalCallToService-0"]', { timeout: Timeouts.normal })
+      .get('label[for="nationalCallToService-0"]')
       .should('be.visible');
 
     // Select national call to service
@@ -49,9 +47,7 @@ describe('Education Application Wizard', () => {
 
     cy.get('main .usa-alert-warning').should('not.exist');
 
-    cy.get('label[for="sponsorDeceasedDisabledMIA-0"]', {
-      timeout: Timeouts.normal,
-    }).should('be.visible');
+    cy.get('label[for="sponsorDeceasedDisabledMIA-0"]').should('be.visible');
 
     cy.injectAxeThenAxeCheck();
 
@@ -73,16 +69,14 @@ describe('Education Application Wizard', () => {
     cy.get('#apply-now-link').should('not.exist');
 
     cy.get('#sponsorDeceasedDisabledMIA-1')
-      .get('label[for="sponsorTransferredBenefits-0"]', {
-        timeout: Timeouts.normal,
-      })
+      .get('label[for="sponsorTransferredBenefits-0"]')
       .should('be.visible');
     cy.axeCheck();
 
     // Select transfer
     cy.get('#sponsorTransferredBenefits-0')
       .click()
-      .get('#apply-now-link', { timeout: Timeouts.normal })
+      .get('#apply-now-link')
       .should('be.visible');
 
     cy.get('#apply-now-link')
@@ -94,7 +88,7 @@ describe('Education Application Wizard', () => {
     // Select non-transfer
     cy.get('#sponsorTransferredBenefits-1')
       .click()
-      .get('#apply-now-link', { timeout: Timeouts.normal })
+      .get('#apply-now-link')
       .should('be.visible');
 
     cy.get('#apply-now-link')
@@ -106,15 +100,13 @@ describe('Education Application Wizard', () => {
     // Update an existing application
     cy.get('#newBenefit-1')
       .click()
-      .get('label[for="transferredEduBenefits-0"]', {
-        timeout: Timeouts.normal,
-      })
+      .get('label[for="transferredEduBenefits-0"]')
       .should('be.visible');
     cy.get('#apply-now-link').should('not.exist');
     // Select dependent
     cy.get('#transferredEduBenefits-2')
       .click()
-      .get('#apply-now-link', { timeout: Timeouts.normal })
+      .get('#apply-now-link')
       .should('be.visible');
     cy.get('main .usa-alert-warning').should('not.exist');
 
@@ -126,7 +118,7 @@ describe('Education Application Wizard', () => {
       );
     cy.get('#transferredEduBenefits-0')
       .click()
-      .get('#apply-now-link', { timeout: Timeouts.normal })
+      .get('#apply-now-link')
       .should('be.visible');
 
     cy.get('#apply-now-link')
@@ -135,7 +127,7 @@ describe('Education Application Wizard', () => {
         'contain',
         '/education/apply-for-education-benefits/application/1995',
       );
-    cy.get('#apply-now-link').click({ timeout: Timeouts.normal });
+    cy.get('#apply-now-link').click();
 
     cy.url().should(
       'contain',

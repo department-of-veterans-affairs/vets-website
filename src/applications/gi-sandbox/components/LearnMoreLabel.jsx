@@ -1,7 +1,17 @@
 import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
+import classNames from 'classnames';
+import recordEvent from 'platform/monitoring/record-event';
 
-const LearnMoreLabel = ({ ariaLabel, labelFor, onClick, text }) => {
+export default function LearnMoreLabel({
+  ariaLabel,
+  labelFor,
+  onClick,
+  text,
+  buttonId,
+  bold,
+  buttonClassName,
+}) {
   let displayText = text && <React.Fragment>{text} </React.Fragment>;
   if (labelFor && text) {
     displayText = (
@@ -16,16 +26,38 @@ const LearnMoreLabel = ({ ariaLabel, labelFor, onClick, text }) => {
 
   return (
     <span
-      className="vads-u-margin--0 vads-u-display--inline-block "
-      onClick={focusElement(labelFor)}
+      className={classNames(
+        buttonClassName,
+        'vads-u-margin--0',
+        'vads-u-display--inline-block',
+        {
+          'vads-u-font-weight--bold': bold,
+        },
+      )}
+      onClick={() => {
+        focusElement(labelFor);
+        recordEvent({
+          event: 'cta-button-click',
+          'button-click-label': `${ariaLabel || labelFor}`,
+          'button-type': 'link',
+        });
+      }}
     >
-      {displayText}
-      <span className="vads-u-margin--0 vads-u-display--inline-block ">
+      {bold ? <strong>{displayText}</strong> : displayText}
+      <span
+        className={classNames('vads-u-margin--0 vads-u-display--inline-block', {
+          'vads-u-font-weight--bold': bold,
+        })}
+      >
         (
         <button
+          id={buttonId}
           aria-label={ariaLabel}
           type="button"
-          className="va-button-link learn-more-button vads-u-margin--0"
+          className={classNames(
+            buttonClassName,
+            'va-button-link learn-more-button vads-u-margin--0',
+          )}
           onClick={onClick}
         >
           Learn more
@@ -34,6 +66,4 @@ const LearnMoreLabel = ({ ariaLabel, labelFor, onClick, text }) => {
       </span>
     </span>
   );
-};
-
-export default LearnMoreLabel;
+}

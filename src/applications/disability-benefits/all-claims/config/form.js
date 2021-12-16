@@ -33,7 +33,6 @@ import {
   hasNewPtsdDisability,
   increaseOnly,
   isDisabilityPtsd,
-  directToCorrectForm,
   DISABILITY_SHARED_CONFIG,
   isBDD,
   isUploadingSTR,
@@ -43,9 +42,7 @@ import {
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
-
 import prefillTransformer from '../prefill-transformer';
-
 import { transform } from '../submit-transformer';
 
 import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
@@ -106,8 +103,6 @@ import {
   workBehaviorChanges,
 } from '../pages';
 
-import { form526BDDFeature } from '../config/selectors';
-
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
 import { ptsd781NameTitle } from '../content/ptsdClassification';
@@ -124,6 +119,7 @@ import {
 } from '../constants';
 
 import migrations from '../migrations';
+import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
 
@@ -149,6 +145,10 @@ const formConfig = {
   },
   formId: VA_FORM_IDS.FORM_21_526EZ,
   wizardStorageKey: WIZARD_STATUS,
+  customText: {
+    appAction: 'filing',
+    appContinuing: 'for disability compensation',
+  },
   saveInProgress: {
     messages: {
       inProgress:
@@ -158,7 +158,6 @@ const formConfig = {
       saved: 'Your disability compensation application has been saved.',
     },
   },
-  onFormLoaded: directToCorrectForm,
   version: migrations.length,
   migrations,
   prefillTransformer,
@@ -176,6 +175,9 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
+  // Don't show error links on the review page in production
+  showReviewErrors: !environment.isProduction(),
+  reviewErrors,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
@@ -192,6 +194,12 @@ const formConfig = {
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
         },
+        contactInformation: {
+          title: 'Veteran contact information',
+          path: 'contact-information',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
+        },
         alternateNames: {
           title: 'Service under another name',
           path: 'alternate-names',
@@ -207,14 +215,13 @@ const formConfig = {
           onContinue: captureEvents.militaryHistory,
           appStateSelector: state => ({
             dob: state.user.profile.dob,
-            allowBDD:
-              form526BDDFeature(state) && state.form.data?.['view:isBddData'],
+            isBDD: state.form.data?.['view:isBddData'],
             servicePeriods:
               state.form.data?.serviceInformation?.servicePeriods || [],
           }),
         },
         reservesNationalGuardService: {
-          title: 'Reserves and National Guard service',
+          title: 'Reserve and National Guard service',
           path:
             'review-veteran-details/military-service-history/reserves-national-guard',
           depends: formData =>
@@ -229,6 +236,10 @@ const formConfig = {
           depends: form => hasGuardOrReservePeriod(form.serviceInformation),
           uiSchema: federalOrders.uiSchema,
           schema: federalOrders.schema,
+          appStateSelector: state => ({
+            servicePeriods:
+              state.form.data?.serviceInformation?.servicePeriods || [],
+          }),
         },
         separationLocation: {
           title: 'Separation location',
@@ -656,12 +667,6 @@ const formConfig = {
     additionalInformation: {
       title: 'Additional information',
       pages: {
-        contactInformation: {
-          title: 'Veteran contact information',
-          path: 'contact-information',
-          uiSchema: contactInformation.uiSchema,
-          schema: contactInformation.schema,
-        },
         paymentInformation: {
           title: 'Payment information',
           path: 'payment-information',

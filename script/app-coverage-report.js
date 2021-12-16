@@ -19,7 +19,8 @@ const printCoverage = coverageResults => {
 
   // Add each app coverage result to the table
   Object.values(coverageResults).forEach(cov => {
-    const appLocation = cov.path.substr(0, cov.path.lastIndexOf('/'));
+    const appLocation =
+      cov.path.substr(0, cov.path.lastIndexOf('/')) || 'All Files';
 
     coverageTable.push({
       [appLocation]: [
@@ -34,7 +35,7 @@ const printCoverage = coverageResults => {
   console.log(coverageTable.toString());
 };
 
-const generateCoverage = (rootDir, coverageSummary) => {
+const generateAppCoverage = (rootDir, coverageSummary) => {
   // Get application manifests & entry names
   const manifests = getAppManifests(path.join(__dirname, '../'));
 
@@ -80,6 +81,35 @@ const generateCoverage = (rootDir, coverageSummary) => {
     }, initialCoverage);
 };
 
+const generateCoverage = (rootDir, coverageSummary) => {
+  const appCoverage = generateAppCoverage(rootDir, coverageSummary);
+
+  return {
+    'all-files': {
+      path: '/',
+      ...coverageSummary.total,
+    },
+    ...appCoverage,
+  };
+};
+
+const logCoverage = coverageResults => {
+  // convert coverageResults JSON object to prettified string
+  const data = JSON.stringify(coverageResults, null, 4);
+
+  // write coverageResults string to file
+  const outputFile = path.join(
+    __dirname,
+    '../coverage/test-coverage-report.json',
+  );
+  fs.writeFile(outputFile, data, err => {
+    if (err) {
+      throw err;
+    }
+    console.log('JSON data is saved.');
+  });
+};
+
 // Root directory of application folders
 const applicationDir = path.join(__dirname, '../src/applications/');
 
@@ -90,6 +120,7 @@ if (fs.existsSync(path.join(__dirname, '../coverage/coverage-summary.json'))) {
   );
   // Generate and print coverage
   const appCoverages = generateCoverage(applicationDir, coverageSummaryJson);
+  logCoverage(appCoverages);
   printCoverage(appCoverages);
 } else {
   console.log('./coverage/coverage-summary.json not found.');

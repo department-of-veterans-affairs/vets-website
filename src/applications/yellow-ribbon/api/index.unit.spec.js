@@ -1,7 +1,7 @@
 // Dependencies.
 import { expect } from 'chai';
 // Relative imports.
-import { fetchResultsApi } from './index';
+import { fetchResultsApi } from '.';
 
 describe('Yellow Ribbon api functions', () => {
   describe('fetchResultsApi', () => {

@@ -50,7 +50,7 @@ describe('When there is a known issue connecting to VA Profile', () => {
     cy.findByText(/^Mailing address$/i).should('not.exist');
     cy.findByText(/^Residential address$/i).should('not.exist');
     cy.findByText(/^Phone numbers$/i).should('not.exist');
-    cy.findByText(/^How will you use my contact information\?$/i).should(
+    cy.findByText(/^Learn how to verify your identity on VA.gov\?$/i).should(
       'not.exist',
     );
     cy.findByText(/^Contact email address$/i).should('not.exist');

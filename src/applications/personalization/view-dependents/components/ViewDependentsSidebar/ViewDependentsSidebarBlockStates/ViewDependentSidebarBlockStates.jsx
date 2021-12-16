@@ -1,13 +1,13 @@
 import React from 'react';
 
 export const firstSidebarBlock = {
-  heading: 'When do I need to declare or modify a dependent?',
+  heading: 'When should I notify VA about dependents on my benefits?',
   content: (
     <>
       <p>
         You need to let VA know when there is a{' '}
-        <strong>change in a dependent's status.</strong>
-        Changes in status could include:
+        <strong>change in a dependent’s status.</strong> Changes in status could
+        include:
       </p>
       <ul>
         <li>The birth or adoption of a child</li>
@@ -15,6 +15,9 @@ export const firstSidebarBlock = {
         <li>If a child becomes seriously disabled</li>
         <li>If your child is over 18 and is not attending school</li>
       </ul>
+      <a href="/disability/add-remove-dependent/">
+        Find out more about dependents and your benefits
+      </a>
     </>
   ),
 };
@@ -29,11 +32,8 @@ export const secondSidebarBlock = {
         claims and appeals process. A VSO can answer your questions or even file
         a claim for you.
       </p>
-      <a
-        href="/disability/get-help-filing-claim/"
-        aria-label="Get help filing a claim"
-      >
-        Get help filing a claim
+      <a href="/disability/get-help-filing-claim/">
+        Get help filing your claim or appeal
       </a>
     </>
   ),
@@ -44,7 +44,7 @@ export const thirdSidebarBlock = {
   content: (
     <>
       <p>
-        You can call us at <a href="tel:8008271000">800-827-1000</a>. We're here
+        You can call us at <a href="tel:8008271000">800-827-1000</a>. We’re here
         Monday through Friday, 8:00 a.m. to 9:00 p.m. E.T.
       </p>
     </>

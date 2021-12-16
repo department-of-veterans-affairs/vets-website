@@ -1,3 +1,34 @@
+import React from 'react';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/component-library/Telephone';
+
+export const LOADING_STATUS = {
+  failed: 'failed',
+  pending: 'pending',
+  success: 'success',
+};
+
+export const ServerErrorFragment = () => (
+  <>
+    <h2 className="vads-u-font-size--h3 vads-u-margin--0">
+      We’re sorry. Something went wrong on our end
+    </h2>
+    <p className="vads-u-font-size--base">
+      There was a problem removing your dependent. Please refresh this page or
+      check back later. You can also sign out of VA.gov and try signing back
+      into this page.
+    </p>
+    <p className="vads-u-font-size--base">
+      If you get this error again, please call the VA.gov help desk at{' '}
+      <Telephone contact={CONTACTS.VA_311} />{' '}
+      <Telephone contact={CONTACTS['711']} pattern={PATTERNS['3_DIGIT']} />
+      ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+    </p>
+  </>
+);
+
 const buildVeteranInformation = vetContactInfo => {
   const {
     countryCodeIso3: countryName,
@@ -58,7 +89,7 @@ const formatDateString = date => {
   return `${dateFragments[2]}-${dateFragments[0]}-${dateFragments[1]}`;
 };
 
-const transformForSubmit = formData => {
+const adaptPayload = formData => {
   const payload = {};
   const {
     fullName: { firstName: first, lastName: last },
@@ -161,10 +192,10 @@ const transformForSubmit = formData => {
   return payload;
 };
 
-export const submitToApi = (formData, vetContactInfo, userInfo) => {
+export const transformForSubmit = (formData, vetContactInfo, userInfo) => {
   const mergedFormData = { ...formData, ...userInfo };
   return {
     veteranContactInformation: buildVeteranInformation(vetContactInfo),
-    ...transformForSubmit(mergedFormData),
+    ...adaptPayload(mergedFormData),
   };
 };

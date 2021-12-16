@@ -1,33 +1,45 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import _ from 'lodash/fp';
 
 import dateUI from 'platform/forms-system/src/js/definitions/date';
-import { title10DatesRequired, isInFuture } from '../utils';
+import { validateDate } from 'platform/forms-system/src/js/validation';
+
+import { title10DatesRequired } from '../utils';
+import {
+  title10BeforeRad,
+  isLessThan180DaysInFuture,
+  validateTitle10StartDate,
+} from '../validations';
 
 const {
   title10Activation,
 } = fullSchema.properties.serviceInformation.properties.reservesNationalGuardService.properties;
 
+const activationDate = dateUI('Activation date');
+activationDate['ui:validations'].push(validateTitle10StartDate);
+
 export const uiSchema = {
   'ui:title': 'Federal Orders',
   serviceInformation: {
+    'ui:validations': [title10BeforeRad],
     reservesNationalGuardService: {
       'view:isTitle10Activated': {
         'ui:title':
-          'Are you currently activated on federal orders in the Reserves or the National Guard?',
+          'Are you currently activated on federal orders in the Reserve or the National Guard?',
         'ui:widget': 'yesNo',
       },
       title10Activation: {
         'ui:options': {
           expandUnder: 'view:isTitle10Activated',
         },
-        title10ActivationDate: _.merge(dateUI('Activation date'), {
+        title10ActivationDate: {
+          ...activationDate,
           'ui:required': title10DatesRequired,
-        }),
-        anticipatedSeparationDate: _.merge(dateUI('Expected separation date'), {
-          'ui:validations': [isInFuture],
+        },
+        anticipatedSeparationDate: {
+          ...dateUI('Expected separation date'),
+          'ui:validations': [validateDate, isLessThan180DaysInFuture],
           'ui:required': title10DatesRequired,
-        }),
+        },
       },
     },
   },

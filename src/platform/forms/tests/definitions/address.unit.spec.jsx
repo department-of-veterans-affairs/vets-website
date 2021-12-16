@@ -13,8 +13,9 @@ import {
   requireStateWithCountry,
   requireStateWithData,
 } from '../../definitions/address';
-import { address } from 'vets-json-schema/dist/definitions.json';
+import definitions from 'vets-json-schema/dist/definitions.json';
 
+const { address } = definitions;
 const addressSchema = {
   definitions: {
     address,

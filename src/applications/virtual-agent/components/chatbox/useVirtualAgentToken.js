@@ -29,6 +29,7 @@ function useWaitForCsrfToken(props) {
 
 export default function useVirtualAgentToken(props) {
   const [token, setToken] = useState('');
+  const [apiSession, setApiSession] = useState('');
   const [csrfTokenLoading, csrfTokenLoadingError] = useWaitForCsrfToken(props);
   const [loadingStatus, setLoadingStatus] = useState(LOADING);
 
@@ -50,6 +51,7 @@ export default function useVirtualAgentToken(props) {
           const response = await retryOnce(callVirtualAgentTokenApi);
 
           setToken(response.token);
+          setApiSession(response.apiSession);
           setLoadingStatus(COMPLETE);
         } catch (ex) {
           Sentry.captureException(
@@ -63,5 +65,5 @@ export default function useVirtualAgentToken(props) {
     [csrfTokenLoading, csrfTokenLoadingError],
   );
 
-  return { token, loadingStatus };
+  return { token, loadingStatus, apiSession };
 }

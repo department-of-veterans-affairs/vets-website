@@ -8,7 +8,7 @@ import {
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
   INITIAL_SORT_STATE,
-  FAF_TEST_OPTION_CLOSEST_MATCH,
+  FAF_OPTION_CLOSEST_MATCH,
   UPDATE_HOW_TO_SORT,
   UPDATE_PAGINATION,
   UPDATE_RESULTS,
@@ -21,7 +21,7 @@ const initialState = {
   query: '',
   sortByPropertyName: INITIAL_SORT_STATE,
   results: null,
-  lighthouseTestSearchResults: null,
+  closestMatchSearchResults: null,
   hasOnlyRetiredForms: false,
   startIndex: 0,
 };
@@ -40,10 +40,10 @@ export default (state = initialState, action) => {
         ...state,
         fetching: false,
         hasOnlyRetiredForms: action.hasOnlyRetiredForms,
-        lighthouseTestSearchResults: action.results,
+        closestMatchSearchResults: action.results,
         results:
-          state.sortByPropertyName === FAF_TEST_OPTION_CLOSEST_MATCH
-            ? action.results // NOTE: This is only for testing Lighthouse Search Algorithm
+          state.sortByPropertyName === FAF_OPTION_CLOSEST_MATCH
+            ? action.results
             : clonedResults.sort((a, b) =>
                 sortTheResults(state.sortByPropertyName, a, b),
               ),
@@ -57,8 +57,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         results:
-          state.sortByPropertyName === FAF_TEST_OPTION_CLOSEST_MATCH
-            ? state.lighthouseTestSearchResults // NOTE: This is only for testing Lighthouse Search Algorithm
+          state.sortByPropertyName === FAF_OPTION_CLOSEST_MATCH
+            ? state.closestMatchSearchResults
             : clonedResults.sort((a, b) =>
                 sortTheResults(state.sortByPropertyName, a, b),
               ),

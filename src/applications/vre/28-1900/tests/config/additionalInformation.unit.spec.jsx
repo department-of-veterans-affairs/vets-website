@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { changeDropdown } from '../../../../disability-benefits/686c-674/tests/helpers';
+import { changeDropdown } from 'platform/testing/unit/helpers';
 
 import {
   DefinitionTester,

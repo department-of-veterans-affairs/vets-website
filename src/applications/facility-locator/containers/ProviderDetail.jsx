@@ -10,6 +10,7 @@ import LocationPhoneLink from '../components/search-results-items/common/Locatio
 import LocationDirectionsLink from '../components/search-results-items/common/LocationDirectionsLink';
 import AppointmentInfo from '../components/AppointmentInfo';
 import ProviderDetailBlock from '../components/ProviderDetailBlock';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 /**
  * Container component for the CC Provider Detail page
@@ -19,7 +20,7 @@ import ProviderDetailBlock from '../components/ProviderDetailBlock';
 class ProviderDetail extends Component {
   componentDidMount() {
     this.props.fetchProviderDetail(this.props.params.id);
-    window.scrollTo(0, 0);
+    scrollTo(0);
     focusElement('.va-nav-breadcrumbs');
   }
 

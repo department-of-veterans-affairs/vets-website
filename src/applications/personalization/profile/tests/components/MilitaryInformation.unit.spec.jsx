@@ -254,15 +254,14 @@ describe('MilitaryInformation', () => {
         initialState,
       });
 
-      expect(view.getByText(/We can’t access your military information/i)).to
-        .exist;
-      expect(
-        view.getByText(
-          /We’re sorry. We can’t find your Department of Defense \(DoD\) ID. We need this to access your military service records. Please call us at/i,
-        ),
-      ).to.exist;
-      expect(view.getByText(/Find your nearest VA regional office/i)).to.exist;
-      expect(view.getByText(/Get instructions from our help center/i)).to.exist;
+      view.getByText(/We can’t access your military information/i);
+      view.getByText(
+        /We’re sorry. We can’t find your Department of Defense \(DoD\) ID. We need this to access your military service records/i,
+      );
+      view.getByText('800-538-9552');
+      view.getByRole('link', {
+        name: /Find your nearest VA regional office/i,
+      });
     });
   });
   describe('when another error occurs', () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
-import ExpandableOperatingStatus from '../../../shared/ExpandableOperatingStatus';
+import ExpandableOperatingStatus from './ExpandableOperatingStatus';
 import { buildOperatingStatusProps } from '../buildOperatingStatusProps';
 
 function VetCenterInfoSection(props) {
@@ -15,6 +15,8 @@ function VetCenterInfoSection(props) {
     opStatus: props.vetCenter.fieldOperatingStatusFacility,
     opStatusExtra: props.vetCenter.fieldOperatingStatusMoreInfo,
   };
+
+  const opStatusConfig = buildOperatingStatusProps(attrs);
 
   const renderPhone = phoneNumber => {
     if (!phoneNumber) return null;
@@ -38,9 +40,11 @@ function VetCenterInfoSection(props) {
           {props.vetCenter.title}
         </h3>
       )}
-      <div className="vads-u-margin-bottom--1">
-        <ExpandableOperatingStatus {...buildOperatingStatusProps(attrs)} />
-      </div>
+      {opStatusConfig && (
+        <div className="vads-u-margin-bottom--1">
+          <ExpandableOperatingStatus {...opStatusConfig} />
+        </div>
+      )}
       <h4 className="force-small-header vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
         {props.vetCenter.entityBundle === 'vet_center_cap'
           ? 'Located at'
@@ -59,7 +63,7 @@ function VetCenterInfoSection(props) {
         </address>
         <div>
           <a
-            onCLick={() => {
+            onClick={() => {
               recordEvent({
                 event: 'directions-link-click',
                 'vet-center-facility-name': props.vetCenter.title,

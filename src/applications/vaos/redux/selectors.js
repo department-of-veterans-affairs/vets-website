@@ -13,6 +13,10 @@ export const selectIsCernerPatient = state =>
   selectPatientFacilities(state)?.some(
     f => f.isCerner && f.usesCernerAppointments,
   );
+export const selectRegisteredCernerFacilityIds = state =>
+  selectPatientFacilities(state)
+    ?.filter(f => f.isCerner && f.usesCernerAppointments)
+    .map(f => f.facilityId) || [];
 
 export const selectIsRegisteredToSacramentoVA = state =>
   selectPatientFacilities(state)?.some(f => f.facilityId === '612');
@@ -27,30 +31,15 @@ export const selectFeatureCommunityCare = state =>
   toggleValues(state).vaOnlineSchedulingCommunityCare;
 export const selectFeatureDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingDirect;
-export const selectFeatureExpressCareNewRequest = state =>
-  toggleValues(state).vaOnlineSchedulingExpressCareNew;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
-export const selectFeatureCovid19Vaccine = state =>
-  toggleValues(state).vaOnlineSchedulingCheetah;
 // Use flat facility page for non Cerner patients
 export const selectUseFlatFacilityPage = state => !selectIsCernerPatient(state);
 
-const selectFeatureProviderSelection = state =>
-  toggleValues(state).vaOnlineSchedulingProviderSelection;
-export const selectUseProviderSelection = state =>
-  selectFeatureProviderSelection(state) &&
+export const selectHasVAPResidentialAddress = state =>
   !!selectVAPResidentialAddress(state)?.addressLine1;
-
-export const selectIsWelcomeModalDismissed = state =>
-  state.announcements.dismissed.some(
-    announcement => announcement === 'welcome-to-new-vaos',
-  );
 
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
-
-export const selectFeatureHomepageRefresh = state =>
-  toggleValues(state).vaOnlineSchedulingHomepageRefresh;
 
 export const selectFeatureFacilitySelectionV22 = state =>
   toggleValues(state).vaOnlineFacilitySelectionV22;
@@ -67,5 +56,14 @@ export const selectFeatureVAOSServiceVAAppointments = state =>
 export const selectFeatureVAOSServiceCCAppointments = state =>
   toggleValues(state).vaOnlineSchedulingVAOSServiceCCAppointments;
 
+export const selectFeatureFacilitiesServiceV2 = state =>
+  toggleValues(state).vaOnlineSchedulingFacilitiesServiceV2;
+
 export const selectFeatureVariantTesting = state =>
   toggleValues(state).vaOnlineSchedulingVariantTesting;
+
+export const selectFeatureCCIterations = state =>
+  toggleValues(state).vaOnlineSchedulingCCIterations;
+
+export const selectFeaturePocHealthApt = state =>
+  toggleValues(state).vaOnlineSchedulingPocHealthApt;

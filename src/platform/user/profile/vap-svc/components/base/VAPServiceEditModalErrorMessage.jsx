@@ -1,13 +1,12 @@
 import React from 'react';
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import facilityLocator from '~/applications/facility-locator/manifest.json';
 
 import {
   DECEASED_ERROR_CODES,
   INVALID_EMAIL_ADDRESS_ERROR_CODES,
   LOW_CONFIDENCE_ADDRESS_ERROR_CODES,
+  INVALID_PHONE_ERROR_CODES,
 } from '@@vap-svc/util/transactions';
 
 function hasError(codes, errors) {
@@ -16,8 +15,6 @@ function hasError(codes, errors) {
 
 export default function VAPServiceEditModalErrorMessage({
   error: { errors = [] },
-  clearErrors,
-  title,
 }) {
   let content = null;
 
@@ -55,23 +52,41 @@ export default function VAPServiceEditModalErrorMessage({
       );
       break;
 
+    case hasError(INVALID_PHONE_ERROR_CODES, errors):
+      content = (
+        <p>
+          We can’t make this update because we currently only support U.S. area
+          codes. Please provide a U.S.-based phone number.
+        </p>
+      );
+      break;
+
     default:
       content = (
         <p>
-          We’re sorry. We couldn’t update your {title.toLowerCase()}. Please try
-          again.
+          We’re sorry. We can’t update your information right now. We’re working
+          to fix this problem. Please check back later.
         </p>
       );
   }
 
   return (
     <AlertBox
-      className="vads-u-margin-top--0"
-      content={<div className="columns">{content}</div>}
-      isVisible
-      onCloseAlert={clearErrors}
-      scrollOnShow
-      status={ALERT_TYPE.ERROR}
-    />
+      backgroundOnly
+      status="error"
+      className="va-profile-alert vads-u-margin-y--1"
+    >
+      <div className="vads-u-display--flex">
+        <i
+          className="fas fa-info-circle vads-u-font-size--md vads-u-color--black vads-u-margin-right--2 vads-u-padding-top--0p5"
+          aria-hidden="true"
+          role="img"
+        />
+        <span className="sr-only">Alert: </span>
+        <div role="alert" aria-live="polite">
+          {content}
+        </div>
+      </div>
+    </AlertBox>
   );
 }

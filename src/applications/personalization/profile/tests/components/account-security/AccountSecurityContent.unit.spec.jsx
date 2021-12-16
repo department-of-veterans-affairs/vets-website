@@ -12,7 +12,7 @@ import ProfileInfoTable from '@@profile/components/ProfileInfoTable';
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import TwoFactorAuthorizationStatus from '@@profile/components/account-security/TwoFactorAuthorizationStatus';
 import MHVTermsAndConditionsStatus from '@@profile/components/account-security/MHVTermsAndConditionsStatus';
-import EmailAddressNotification from '@@profile/components/personal-information/email-addresses/EmailAddressNotification';
+import EmailAddressNotification from '@@profile/components/contact-information/email-addresses/EmailAddressNotification';
 import Verified from '@@profile/components/account-security/Verified';
 
 describe('AccountSecurityContent', () => {
@@ -118,7 +118,7 @@ describe('AccountSecurityContent', () => {
     const firstAlertBoxLink = alertBox.find('a').first();
     const secondAlertBoxLink = alertBox.find('a').at(1);
     const thirdAlertBoxLink = alertBox.find('a').at(2);
-    const alertBoxSubtitle = alertBox.find('h4');
+    const alertBoxSubtitle = alertBox.find('h3');
     expect(alertBox.type()).to.equal(AlertBox);
     expect(alertBox.prop('status')).to.equal('info');
     expect(alertBox.prop('headline')).to.equal(

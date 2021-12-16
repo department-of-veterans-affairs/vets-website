@@ -5,7 +5,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { apiRequest } from 'platform/utilities/api';
-import { makeAuthRequest } from '../utils/helpers';
+import { makeAuthRequest, roundToNearest } from '../utils/helpers';
 import {
   getErrorStatus,
   USER_FORBIDDEN_ERROR,
@@ -108,12 +108,10 @@ export function fetchAppealsSuccess(response) {
 export function getAppealsV2() {
   return dispatch => {
     dispatch({ type: FETCH_APPEALS_PENDING });
-    return apiRequest(
-      '/appeals',
-      null,
-      appeals => dispatch(fetchAppealsSuccess(appeals)),
-      response => {
-        const status = getErrorStatus(response);
+    return apiRequest('/appeals')
+      .then(appeals => dispatch(fetchAppealsSuccess(appeals)))
+      .catch(error => {
+        const status = getErrorStatus(error);
         const action = { type: '' };
         switch (status) {
           case '403':
@@ -137,8 +135,7 @@ export function getAppealsV2() {
           Sentry.captureException(`vets_appeals_v2_err_get_appeals ${status}`);
         });
         return dispatch(action);
-      },
-    );
+      });
   };
 }
 
@@ -192,6 +189,30 @@ export function getSyncStatus(claimsAsyncResponse) {
   return get('meta.syncStatus', claimsAsyncResponse, null);
 }
 
+const recordClaimsAPIEvent = ({ startTime, success, error }) => {
+  const event = {
+    event: 'api_call',
+    'api-name': 'GET claims',
+    'api-status': success ? 'successful' : 'failed',
+  };
+  if (error) {
+    event['error-key'] = error;
+  }
+  if (startTime) {
+    const apiLatencyMs = roundToNearest({
+      interval: 5000,
+      value: Date.now() - startTime,
+    });
+    event['api-latency-ms'] = apiLatencyMs;
+  }
+  recordEvent(event);
+  if (event['error-key']) {
+    recordEvent({
+      'error-key': undefined,
+    });
+  }
+};
+
 export function getClaimsV2(options = {}) {
   // Throw an error if an unsupported value is on the `options` object
   const recognizedOptions = ['poll', 'pollingExpiration'];
@@ -205,6 +226,7 @@ export function getClaimsV2(options = {}) {
     }
   });
   const { poll = pollRequest, pollingExpiration } = options;
+  const startTimestampMs = Date.now();
   return dispatch => {
     dispatch({ type: FETCH_CLAIMS_PENDING });
 
@@ -219,9 +241,30 @@ export function getClaimsV2(options = {}) {
             );
           });
         }
+        // This onError callback will be called with a null response arg when
+        // the API takes too long to return data
+        if (response === null) {
+          recordClaimsAPIEvent({
+            startTime: startTimestampMs,
+            success: false,
+            error: '504 Timed out - API took too long',
+          });
+        } else {
+          recordClaimsAPIEvent({
+            startTime: startTimestampMs,
+            success: false,
+            error: errorCode,
+          });
+        }
         dispatch({ type: FETCH_CLAIMS_ERROR });
       },
-      onSuccess: response => dispatch(fetchClaimsSuccess(response)),
+      onSuccess: response => {
+        recordClaimsAPIEvent({
+          startTime: startTimestampMs,
+          success: true,
+        });
+        dispatch(fetchClaimsSuccess(response));
+      },
       pollingExpiration,
       pollingInterval: window.VetsGov.pollTimeout || 5000,
       shouldFail: response => getSyncStatus(response) === 'FAILED',

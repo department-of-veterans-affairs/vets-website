@@ -45,8 +45,19 @@ class MenuSection extends React.Component {
   }
 
   render() {
-    const show = this.getCurrentSection(this.props) === this.props.title;
-    const isPlainLink = !!this.props.href;
+    const {
+      columnThreeLinkClicked,
+      href,
+      linkClicked,
+      links,
+      mobileMediaQuery,
+      smallDesktopMediaQuery,
+      title,
+    } = this.props;
+
+    const currentSection = this.getCurrentSection(this.props);
+    const show = currentSection === title;
+    const isPlainLink = !!href;
 
     let button = null;
     let submenu = null;
@@ -54,37 +65,41 @@ class MenuSection extends React.Component {
     if (isPlainLink) {
       button = (
         <a
-          href={this.props.href}
-          onClick={this.props.linkClicked}
           className="vetnav-level2"
+          data-e2e-id={`vetnav-level2--${_.kebabCase(title)}`}
+          href={href}
+          onClick={linkClicked}
+          tabIndex={currentSection && !show ? -1 : undefined}
         >
-          {this.props.title}
+          {title}
         </a>
       );
     } else {
       button = (
         <button
           {...this.state.title}
-          className="vetnav-level2"
-          aria-controls={show ? this.getId(this.props.title) : null}
+          aria-controls={show ? this.getId(title) : null}
           aria-expanded={show}
+          className="vetnav-level2"
+          data-e2e-id={`vetnav-level2--${_.kebabCase(title)}`}
           onClick={() => this.updateCurrentSection()}
+          tabIndex={currentSection && !show ? -1 : undefined}
         >
-          {this.props.title}
+          {title}
         </button>
       );
 
       submenu = (
         <SubMenu
-          id={this.getId(this.props.title)}
-          data={this.props.links}
-          navTitle={this.props.title}
+          id={this.getId(title)}
+          data={links}
+          navTitle={title}
           show={show}
           handleBackToMenu={() => this.handleBackToMenu()}
-          linkClicked={this.props.linkClicked}
-          mobileMediaQuery={this.props.mobileMediaQuery}
-          smallDesktopMediaQuery={this.props.smallDesktopMediaQuery}
-          columnThreeLinkClicked={this.props.columnThreeLinkClicked}
+          linkClicked={linkClicked}
+          mobileMediaQuery={mobileMediaQuery}
+          smallDesktopMediaQuery={smallDesktopMediaQuery}
+          columnThreeLinkClicked={columnThreeLinkClicked}
         />
       );
     }

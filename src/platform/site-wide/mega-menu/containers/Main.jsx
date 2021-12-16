@@ -1,20 +1,24 @@
 // Node modules.
 import React, { Component } from 'react';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 // Relative imports.
 import MY_VA_LINK from '../constants/MY_VA_LINK';
 import MegaMenu from '../components/MegaMenu';
-import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users.json';
+import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users';
 import recordEvent from '../../../monitoring/record-event';
 import { isLoggedIn } from '../../../user/selectors';
 import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
-import { selectShowDashboard2 } from 'applications/personalization/dashboard-2/selectors';
 import {
   toggleMobileDisplayHidden,
   togglePanelOpen,
   updateCurrentSection,
 } from '../actions';
+
+const tabbableSelectors =
+  'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 export function flagCurrentPageInTopLevelLinks(
   links = [],
@@ -63,7 +67,7 @@ export class Main extends Component {
     ).isRequired,
     display: PropTypes.object,
     loggedIn: PropTypes.bool.isRequired,
-    showDashboard2: PropTypes.bool.isRequired,
+    isMegaMenuMobileV2Enabled: PropTypes.bool,
   };
 
   toggleDropDown = currentDropdown => {
@@ -107,6 +111,37 @@ export class Main extends Component {
     this.props.toggleMobileDisplayHidden(hidden);
   };
 
+  focusTrap = event => {
+    const buttonContainer = document.getElementById('va-nav-controls');
+    const megaMenuContainer = document.getElementById('mega-menu-mobile');
+    const focusable = [
+      ...Array.from(buttonContainer.querySelectorAll(tabbableSelectors)).filter(
+        el =>
+          el.getAttribute('tabindex') !== '-1' &&
+          el.getAttribute('hidden') === null,
+      ),
+      ...Array.from(
+        megaMenuContainer.querySelectorAll(tabbableSelectors),
+      ).filter(
+        el =>
+          el.getAttribute('tabindex') !== '-1' &&
+          el.getAttribute('hidden') === null,
+      ),
+    ];
+    const firstEl = focusable[0];
+    const lastEl = focusable[focusable.length - 1];
+
+    if (event.code === 'Tab') {
+      if (event.shiftKey && document.activeElement === firstEl) {
+        event.preventDefault();
+        lastEl.focus();
+      } else if (!event.shiftKey && document.activeElement === lastEl) {
+        event.preventDefault();
+        firstEl.focus();
+      }
+    }
+  };
+
   render() {
     const childProps = {
       ...this.props,
@@ -117,21 +152,33 @@ export class Main extends Component {
       columnThreeLinkClicked: this.columnThreeLinkClicked,
     };
 
+    this.mobileMediaQuery = window.matchMedia('(max-width: 767px)');
+    const megaMenuMobileContainer = document.getElementById('mega-menu-mobile');
+
+    if (this.mobileMediaQuery.matches && megaMenuMobileContainer) {
+      if (!this.props.display.hidden) {
+        document.body.addEventListener('keydown', this.focusTrap);
+      } else {
+        document.body.removeEventListener('keydown', this.focusTrap);
+      }
+
+      return createPortal(
+        <MegaMenu {...childProps} />,
+        megaMenuMobileContainer,
+      );
+    }
+
     return <MegaMenu {...childProps} />;
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
   const loggedIn = isLoggedIn(state);
-  const showDashboard2 = selectShowDashboard2(state);
 
   // Derive the default mega menu links (both auth + unauth).
   const defaultLinks = ownProps?.megaMenuData ? [...ownProps.megaMenuData] : [];
 
-  // Add the My VA link to default links if we are showing dashboard 2 or if we are logged in.
-  if (showDashboard2 || loggedIn) {
-    defaultLinks.push(MY_VA_LINK);
-  }
+  defaultLinks.push(MY_VA_LINK);
 
   const data = flagCurrentPageInTopLevelLinks(
     getAuthorizedLinkData(loggedIn, defaultLinks),
@@ -143,7 +190,6 @@ const mapStateToProps = (state, ownProps) => {
     data,
     display: state.megaMenu?.display,
     loggedIn,
-    showDashboard2,
   };
 };
 

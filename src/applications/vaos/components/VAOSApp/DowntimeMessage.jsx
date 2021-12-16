@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 import { dismissDowntimeWarning } from 'platform/monitoring/DowntimeNotification/actions';
 import FullWidthLayout from '../FullWidthLayout';
+import InfoAlert from '../InfoAlert';
 
 const appTitle = 'VA online scheduling tool';
 
@@ -21,10 +21,9 @@ export default function DowntimeMessage({
   if (status === externalServiceStatus.down) {
     return (
       <FullWidthLayout>
-        <AlertBox
+        <InfoAlert
           className="vads-u-margin-bottom--4"
           headline="The VA appointments tool is down for maintenance"
-          isVisible
           status="warning"
         >
           <p>
@@ -35,7 +34,7 @@ export default function DowntimeMessage({
             center. Use the <a href="/find-locations">VA facility locator</a> to
             find contact information for your medical center.
           </p>
-        </AlertBox>
+        </InfoAlert>
       </FullWidthLayout>
     );
   }

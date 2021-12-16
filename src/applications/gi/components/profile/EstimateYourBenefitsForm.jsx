@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
-import { scroller } from 'react-scroll';
 import classNames from 'classnames';
 
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
@@ -17,6 +16,7 @@ import {
   isCountryInternational,
   locationInfo,
   handleInputFocusWithPotentialOverLap,
+  isURL,
 } from '../../utils/helpers';
 import { renderLearnMoreLabel } from '../../utils/render';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
@@ -24,6 +24,7 @@ import Checkbox from '../Checkbox';
 import { ariaLabels } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 class EstimateYourBenefitsForm extends React.Component {
   constructor(props) {
@@ -110,7 +111,7 @@ class EstimateYourBenefitsForm extends React.Component {
     ) {
       this.toggleLearningFormatAndSchedule(true);
       setTimeout(() => {
-        scroller.scrollTo('beneficiary-zip-question', getScrollOptions());
+        scrollTo('beneficiary-zip-question', getScrollOptions());
         focusElement('input[name=beneficiaryZIPCode]');
       }, 50);
     } else {
@@ -336,6 +337,19 @@ class EstimateYourBenefitsForm extends React.Component {
    */
   renderInState = () => {
     if (!this.props.displayedInputs.inState) return null;
+    const { inStateTuitionInformation } = this.props.profile.attributes;
+
+    const label = this.renderLearnMoreLabel({
+      text: 'Are you an in-state student?',
+      modal:
+        isURL(inStateTuitionInformation) &&
+        inStateTuitionInformation !==
+          'Contact the School Certifying Official (SCO) for requirements'
+          ? 'inStateWithLink'
+          : 'inStateWithoutLink',
+      ariaLabel: ariaLabels.learnMore.inState,
+    });
+
     return (
       <ExpandingGroup
         open={
@@ -344,7 +358,7 @@ class EstimateYourBenefitsForm extends React.Component {
         }
       >
         <RadioButtons
-          label="Are you an in-state student?"
+          label={label}
           name="inState"
           options={[
             { value: 'yes', label: 'Yes' },

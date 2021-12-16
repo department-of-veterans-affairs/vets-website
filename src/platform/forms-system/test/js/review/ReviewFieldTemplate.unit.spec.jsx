@@ -48,11 +48,17 @@ describe('Schemaform ReviewFieldTemplate', () => {
       'ui:description': () => <span>Blah</span>,
     };
     const tree = SkinDeep.shallowRender(
-      <ReviewFieldTemplate schema={{ type: 'string' }} uiSchema={uiSchema} />,
+      <ReviewFieldTemplate
+        schema={{ type: 'string' }}
+        uiSchema={uiSchema}
+        formContext={{ pagePerItemIndex: 2 }}
+      />,
     );
 
-    expect(tree.subTree('dt').text()).to.contain('Label');
-    expect(tree.subTree('dt').text()).to.contain('uiDescription');
+    const dt = tree.subTree('dt');
+    expect(dt.text()).to.contain('Label');
+    expect(dt.text()).to.contain('uiDescription');
+    expect(dt.props.children[2].props.index).to.eq(2);
   });
   it('should render just children for object type', () => {
     const tree = SkinDeep.shallowRender(

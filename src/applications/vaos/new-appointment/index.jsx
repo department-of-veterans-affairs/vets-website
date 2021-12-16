@@ -7,10 +7,10 @@ import {
   useLocation,
   Redirect,
 } from 'react-router-dom';
+// import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import {
-  selectUseFlatFacilityPage,
+  selectFeatureCCIterations,
   selectIsCernerOnlyPatient,
-  selectUseProviderSelection,
 } from '../redux/selectors';
 import newAppointmentReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
@@ -23,9 +23,9 @@ import TypeOfAudiologyCarePage from './components/TypeOfAudiologyCarePage';
 import PreferredDatePage from './components/PreferredDatePage';
 import DateTimeRequestPage from './components/DateTimeRequestPage';
 import DateTimeSelectPage from './components/DateTimeSelectPage';
-import VAFacilityPage from './components/VAFacilityPage';
 import VAFacilityPageV2 from './components/VAFacilityPage/VAFacilityPageV2';
 import CommunityCarePreferencesPage from './components/CommunityCarePreferencesPage';
+import ClosestCityStatePage from './components/ClosestCityStatePage';
 import CommunityCareLanguagePage from './components/CommunityCareLanguagePage';
 import CommunityCareProviderSelectionPage from './components/CommunityCareProviderSelectionPage';
 import ClinicChoicePage from './components/ClinicChoicePage';
@@ -36,17 +36,13 @@ import TypeOfFacilityPage from './components/TypeOfFacilityPage';
 import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
+import ScheduleCernerPage from './components/ScheduleCernerPage';
+import useVariantSortMethodTracking from './hooks/useVariantSortMethodTracking';
 
 export function NewAppointment() {
-  const isCernerOnlyPatient = useSelector(state =>
-    selectIsCernerOnlyPatient(state),
-  );
-  const flatFacilityPageEnabled = useSelector(state =>
-    selectUseFlatFacilityPage(state),
-  );
-  const providerSelectionEnabled = useSelector(state =>
-    selectUseProviderSelection(state),
-  );
+  const isCernerOnlyPatient = useSelector(selectIsCernerOnlyPatient);
+  const featureCCIteration = useSelector(selectFeatureCCIterations);
+
   const match = useRouteMatch();
   const location = useLocation();
 
@@ -64,6 +60,8 @@ export function NewAppointment() {
       !location.pathname.endsWith('new-appointment') &&
       !location.pathname.endsWith('confirmation'),
   });
+
+  useVariantSortMethodTracking({ skip: shouldRedirectToStart });
 
   if (shouldRedirectToStart) {
     return <Redirect to="/new-appointment" />;
@@ -105,33 +103,34 @@ export function NewAppointment() {
           path={`${match.url}/select-date`}
           component={DateTimeSelectPage}
         />
-        {!flatFacilityPageEnabled && (
-          <Route path={`${match.url}/va-facility`} component={VAFacilityPage} />
-        )}
-        {flatFacilityPageEnabled && (
-          <Route
-            path={`${match.url}/va-facility-2`}
-            component={VAFacilityPageV2}
-          />
-        )}
-        {!providerSelectionEnabled && (
-          <Route
-            path={`${match.url}/community-care-preferences`}
-            component={CommunityCarePreferencesPage}
-          />
-        )}
-        {providerSelectionEnabled && (
+        <Route
+          path={`${match.url}/va-facility-2`}
+          component={VAFacilityPageV2}
+        />
+        <Route
+          path={`${match.url}/how-to-schedule`}
+          component={ScheduleCernerPage}
+        />
+        {featureCCIteration && (
           <Route
             path={`${match.url}/community-care-preferences`}
             component={CommunityCareProviderSelectionPage}
           />
         )}
-        {providerSelectionEnabled && (
+        {!featureCCIteration && (
           <Route
-            path={`${match.url}/community-care-language`}
-            component={CommunityCareLanguagePage}
+            path={`${match.url}/community-care-preferences`}
+            component={CommunityCarePreferencesPage}
           />
         )}
+        <Route
+          path={`${match.url}/community-care-language`}
+          component={CommunityCareLanguagePage}
+        />
+        <Route
+          path={`${match.url}/choose-closest-city`}
+          component={ClosestCityStatePage}
+        />
         <Route path={`${match.url}/clinics`} component={ClinicChoicePage} />
         <Route
           path={`${match.url}/reason-appointment`}

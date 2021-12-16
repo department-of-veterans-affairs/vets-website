@@ -10,9 +10,11 @@ import {
   noticeOfDisagreementFeature,
   issuesNeedUpdating,
   getSelected,
-  getIssueName,
-  copyAreaOfDisagreementOptions,
+  getIssueNameAndDate,
+  processContestableIssues,
 } from '../utils/helpers';
+
+import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
 
 import { showWorkInProgress } from '../content/WorkInProgressMessage';
 
@@ -29,9 +31,8 @@ export const FormApp = ({
   getContestableIssues,
   contestableIssues = {},
 }) => {
-  const { email = {}, mobilePhone = {}, homePhone = {}, mailingAddress = {} } =
+  const { email = {}, mobilePhone = {}, mailingAddress = {} } =
     profile?.vapContactInfo || {};
-  const phone = mobilePhone?.phoneNumber ? mobilePhone : homePhone;
 
   // Update profile data changes in the form data dynamically
   useEffect(
@@ -43,7 +44,7 @@ export const FormApp = ({
           getContestableIssues();
         } else if (
           email?.emailAddress !== veteran.email ||
-          phone?.updatedAt !== veteran.phone?.updatedAt ||
+          mobilePhone?.updatedAt !== veteran.phone?.updatedAt ||
           mailingAddress?.updatedAt !== veteran.address?.updatedAt ||
           issuesNeedUpdating(
             contestableIssues?.issues,
@@ -55,17 +56,19 @@ export const FormApp = ({
             veteran: {
               ...veteran,
               address: mailingAddress,
-              phone,
+              phone: mobilePhone,
               email: email?.emailAddress,
             },
-            contestableIssues: contestableIssues?.issues || [],
+            contestableIssues: processContestableIssues(
+              contestableIssues?.issues,
+            ),
           });
         } else if (
           areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
           !areaOfDisagreement.every(
             (entry, index) =>
-              getIssueName(entry) ===
-              getIssueName(formData.areaOfDisagreement[index]),
+              getIssueNameAndDate(entry) ===
+              getIssueNameAndDate(formData.areaOfDisagreement[index]),
           )
         ) {
           setFormData({
@@ -83,7 +86,7 @@ export const FormApp = ({
       showNod,
       loggedIn,
       email,
-      phone,
+      mobilePhone,
       mailingAddress,
       formData,
       setFormData,

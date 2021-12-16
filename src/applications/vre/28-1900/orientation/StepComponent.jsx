@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { orientationSteps } from './utils';
 
@@ -47,7 +48,11 @@ const StepComponent = props => {
                   <h5 className="vads-u-font-size--h4">{entry.title}</h5>
                   <ul>
                     {entry.items.map((item, idx) => {
-                      return <li key={idx}>{item}</li>;
+                      return (
+                        <li className="vads-u-padding-bottom--2" key={idx}>
+                          {item}
+                        </li>
+                      );
                     })}
                   </ul>
                 </li>
@@ -64,6 +69,9 @@ const StepComponent = props => {
           to="/"
           className="vads-c-action-link--green vads-u-padding-left--0"
           onClick={() => {
+            recordEvent({
+              event: 'howToWizard-complete-orientation',
+            });
             clickHandler(WIZARD_STATUS_COMPLETE);
           }}
         >

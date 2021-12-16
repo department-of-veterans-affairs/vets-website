@@ -2,47 +2,58 @@ import stub from '../../constants/stub.json';
 
 const SELECTORS = {
   APP: '[data-e2e-id="search-app"]',
-  SEARCH_FORM: '[data-e2e-id="search-form"]',
+  SEARCH_INPUT: '[data-e2e-id="search-results-page-dropdown-input-field"]',
+  SEARCH_BUTTON: '[data-e2e-id="search-results-page-dropdown-submit-button"]',
   SEARCH_RESULTS: '[data-e2e-id="search-results"]',
   SEARCH_RESULTS_EMPTY: '[data-e2e-id="search-results-empty"]',
   SEARCH_RESULTS_TITLE: '[data-e2e-id="result-title"]',
   ERROR_ALERT_BOX: '[data-e2e-id="alert-box"]',
 };
 
-function axeTestPage() {
-  cy.injectAxe();
-  cy.axeCheck();
-}
+const enableDropdownComponent = () => {
+  cy.route({
+    method: 'GET',
+    status: 200,
+    url: '/v0/feature_toggles*',
+    response: {
+      data: {
+        features: [
+          {
+            name: 'search_dropdown_component_enabled',
+            value: true,
+          },
+        ],
+      },
+    },
+  });
+};
 
 describe('Sitewide Search smoke test', () => {
-  before(function() {
-    if (Cypress.env('CIRCLECI')) this.skip();
+  beforeEach(function() {
+    cy.server();
   });
 
   it('successfully searches and renders results from the global search', () => {
-    cy.server();
-    cy.route({
-      method: 'GET',
-      response: stub,
-      status: 200,
-      url: '/v0/search?query=benefits',
-    }).as('getSearchResults');
-
+    enableDropdownComponent();
+    cy.intercept('GET', '/v0/search?query=benefits', {
+      body: stub,
+      statusCode: 200,
+    }).as('getSearchResultsGlobal');
     // navigate to page
     cy.visit('/search?query=benefits');
-    axeTestPage();
+    cy.injectAxeThenAxeCheck();
 
     // Ensure App is present
-    cy.get(SELECTORS.APP);
+    cy.get(SELECTORS.APP).should('exist');
 
-    // Ensure form is present
-    cy.get(SELECTORS.SEARCH_FORM);
+    cy.get(`${SELECTORS.SEARCH_INPUT}`).should('exist');
+    cy.get(`${SELECTORS.SEARCH_BUTTON}`).should('exist');
 
     // Await search results
-    cy.wait('@getSearchResults');
+    cy.wait('@getSearchResultsGlobal');
 
     // A11y check the search results.
-    axeTestPage();
+    cy.axeCheck();
 
     // Check results to see if variety of nodes exist.
     cy.get(SELECTORS.SEARCH_RESULTS_TITLE)
@@ -55,33 +66,31 @@ describe('Sitewide Search smoke test', () => {
   });
 
   it('successfully searches and renders results from the results page', () => {
-    cy.server();
-    cy.route({
-      method: 'GET',
-      response: stub,
-      status: 200,
-      url: '/v0/search?query=benefits&page=1',
-    }).as('getSearchResults');
+    enableDropdownComponent();
+    cy.intercept('GET', '/v0/search?query=*', {
+      body: stub,
+      statusCode: 200,
+    }).as('getSearchResultsPage');
 
     // navigate to page
-    cy.visit('/search/?query=X');
-    axeTestPage();
+    cy.visit('/search/?query=');
+    cy.injectAxeThenAxeCheck();
 
     // Ensure App is present
-    cy.get(SELECTORS.APP);
+    cy.get(SELECTORS.APP).should('exist');
 
-    // Ensure form is present
-    cy.get(SELECTORS.SEARCH_FORM);
+    cy.get(`${SELECTORS.SEARCH_INPUT}`).should('exist');
+    cy.get(`${SELECTORS.SEARCH_INPUT}`).focus();
+    cy.get(`${SELECTORS.SEARCH_INPUT}`).clear();
+    cy.get(`${SELECTORS.SEARCH_INPUT}`).type('benefits');
+    cy.get(`${SELECTORS.SEARCH_BUTTON}`).should('exist');
+    cy.get(`${SELECTORS.SEARCH_BUTTON}`).click();
 
     // Await search results
-
-    cy.get(`${SELECTORS.SEARCH_FORM} input[name="query"]`).clear();
-    cy.get(`${SELECTORS.SEARCH_FORM} input[name="query"]`).type('benefits');
-    cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`).click();
-    cy.wait('@getSearchResults');
+    cy.wait('@getSearchResultsPage');
 
     // A11y check the search results.
-    axeTestPage();
+    cy.axeCheck();
 
     // Check results to see if variety of nodes exist.
     cy.get(SELECTORS.SEARCH_RESULTS_TITLE)
@@ -94,37 +103,33 @@ describe('Sitewide Search smoke test', () => {
   });
 
   it('fails to search and has an error', () => {
-    cy.server();
-    cy.route({
-      method: 'GET',
-      response: [],
-      status: 500,
-      url: '/v0/search?query=benefits',
-    }).as('getSearchResults');
-
+    enableDropdownComponent();
+    cy.intercept('GET', '/v0/search?query=benefits', {
+      body: [],
+      statusCode: 500,
+    }).as('getSearchResultsFailed');
     // navigate to page
     cy.visit('/search/?query=benefits');
-    axeTestPage();
+    cy.injectAxeThenAxeCheck();
 
     // Ensure App is present
-    cy.get(SELECTORS.APP);
+    cy.get(SELECTORS.APP).should('exist');
 
-    // Ensure form is present
-    cy.get(SELECTORS.SEARCH_FORM);
+    cy.get(`${SELECTORS.SEARCH_INPUT}`).should('exist');
+    cy.get(`${SELECTORS.SEARCH_BUTTON}`).should('exist');
 
     // Fill out and submit the form.
-    // cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`).click();
-    cy.wait('@getSearchResults');
+    cy.wait('@getSearchResultsFailed');
 
     // Ensure ERROR Alert Box exists
-    cy.get(SELECTORS.SEARCH_RESULTS_EMPTY)
+    cy.get(SELECTORS.ERROR_ALERT_BOX)
       // Check contain error message
       .should(
         'contain',
-        'Sorry, no results found. Try again using different (or fewer) words.',
+        "We’re sorry. Something went wrong on our end, and your search didn't go through. Please try again",
       );
 
     // A11y check the search results.
-    axeTestPage();
+    cy.axeCheck();
   });
 });

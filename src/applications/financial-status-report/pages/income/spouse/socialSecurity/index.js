@@ -8,6 +8,10 @@ export const uiSchema = {
       'ui:options': {
         classNames: 'no-wrap',
       },
+      'ui:errorMessages': {
+        required:
+          'Please enter your spouse’s Social Security benefits information.',
+      },
     },
   },
 };

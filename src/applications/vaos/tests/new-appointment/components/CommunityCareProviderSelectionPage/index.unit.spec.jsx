@@ -3,12 +3,13 @@ import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
-
 import { mockFetch } from 'platform/testing/unit/helpers';
 
 import {
   createTestStore,
   renderWithStoreAndRouter,
+  setClosestCity,
+  setCommunityCareFlow,
   setTypeOfCare,
   setTypeOfFacility,
 } from '../../../mocks/setup';
@@ -45,6 +46,7 @@ const initialState = {
     },
   },
 };
+
 describe('VAOS <CommunityCareProviderSelectionPage>', () => {
   beforeEach(() => {
     mockFetch();
@@ -187,7 +189,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Verify provider list count and get load more button
     expect(screen.baseElement).to.contain.text(
-      '123 big sky stCincinnati, OH 45220',
+      '123 big sky stCincinnati, OhioOH 45220',
     );
 
     expect(await screen.findByText(/Displaying 1 to 5 of 16 providers/i)).to.be
@@ -198,19 +200,31 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     expect(await screen.findByText(/displaying 1 to 10 of 16 providers/i)).to
       .exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
-    expect(document.activeElement.id).to.equal('root_communityCareProvider_6');
+    await waitFor(() => {
+      expect(document.activeElement.id).to.equal(
+        'root_communityCareProvider_6',
+      );
+    });
 
     userEvent.click(await screen.findByText(/\+ 5 more providers/i));
     expect(await screen.findByText(/displaying 1 to 15 of 16 providers/i)).to
       .exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(17);
-    expect(document.activeElement.id).to.equal('root_communityCareProvider_11');
+    await waitFor(() => {
+      expect(document.activeElement.id).to.equal(
+        'root_communityCareProvider_11',
+      );
+    });
 
     userEvent.click(await screen.findByText(/\+ 1 more providers/i));
     expect(await screen.findByText(/displaying 1 to 16 of 16 providers/i)).to
       .exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(18);
-    expect(document.activeElement.id).to.equal('root_communityCareProvider_16');
+    await waitFor(() => {
+      expect(document.activeElement.id).to.equal(
+        'root_communityCareProvider_16',
+      );
+    });
     // Choose Provider
     userEvent.click(await screen.findByText(/AJADI, ADEDIWURA/i));
     userEvent.click(
@@ -284,6 +298,276 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     expect(await screen.findByText(/Choose a provider/i));
     expect(screen.baseElement).not.to.contain.text(
       'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
+    );
+  });
+
+  it('should display choose provider when remove provider clicked', async () => {
+    const testState = {
+      ...initialState,
+      newAppointment: {
+        pages: {},
+        data: {
+          communityCareProvider: {
+            id: '1952935777',
+            identifier: [
+              {
+                system: 'PPMS',
+                value: '1952935777',
+              },
+            ],
+            resourceType: 'Location',
+            address: {
+              line: ['7700 LITTLE RIVER TPKE STE 102'],
+              city: 'ANNANDALE',
+              state: 'VA',
+              postalCode: '22003-2400',
+            },
+            name: 'OH, JANICE',
+            position: {
+              longitude: -77.211165,
+              latitude: 38.833571,
+            },
+            telecom: [
+              {
+                system: 'phone',
+                value: '703-752-4623',
+              },
+            ],
+            distanceFromResidentialAddress: 2409,
+          },
+          communityCareSystemId: '983',
+          facilityType: 'communityCare',
+          typeOfCareId: '323',
+          selectedDates: ['2021-12-08T00:00:00.000'],
+        },
+        facilities: {},
+        facilityDetails: {},
+        clinics: {},
+        eligibility: {},
+        parentFacilities: [
+          {
+            resourceType: 'Location',
+            id: '983',
+            vistaId: '983',
+            name: 'Cheyenne VA Medical Center',
+            identifier: [
+              {
+                system: 'http://med.va.gov/fhir/urn',
+                value: 'urn:va:division:983:983',
+              },
+              {
+                system: 'urn:oid:2.16.840.1.113883.6.233',
+                value: '983',
+              },
+            ],
+            telecom: [
+              {
+                system: 'phone',
+                value: '307-778-7550',
+              },
+            ],
+            position: {
+              longitude: -104.786159,
+              latitude: 41.148179,
+            },
+            address: {
+              line: ['2360 East Pershing Boulevard'],
+              city: 'Cheyenne',
+              state: 'WY',
+              postalCode: '82001-5356',
+            },
+          },
+          {
+            resourceType: 'Location',
+            id: '984',
+            vistaId: '984',
+            name: 'Dayton VA Medical Center',
+            identifier: [
+              {
+                system: 'http://med.va.gov/fhir/urn',
+                value: 'urn:va:division:984:984',
+              },
+              {
+                system: 'urn:oid:2.16.840.1.113883.6.233',
+                value: '984',
+              },
+            ],
+            telecom: [
+              {
+                system: 'phone',
+                value: '937-268-6511',
+              },
+            ],
+            position: {
+              longitude: '-84.2651895',
+              latitude: '39.7424427',
+            },
+            address: {
+              line: ['4100 West Third Street'],
+              city: 'Dayton',
+              state: 'OH',
+              postalCode: '45428-9000',
+            },
+          },
+        ],
+        ccEnabledSystems: [
+          {
+            resourceType: 'Location',
+            id: '983',
+            vistaId: '983',
+            name: 'Cheyenne VA Medical Center',
+            identifier: [
+              {
+                system: 'http://med.va.gov/fhir/urn',
+                value: 'urn:va:division:983:983',
+              },
+              {
+                system: 'urn:oid:2.16.840.1.113883.6.233',
+                value: '983',
+              },
+            ],
+            telecom: [
+              {
+                system: 'phone',
+                value: '307-778-7550',
+              },
+            ],
+            position: {
+              longitude: -104.786159,
+              latitude: 41.148179,
+            },
+            address: {
+              line: ['2360 East Pershing Boulevard'],
+              city: 'Cheyenne',
+              state: 'WY',
+              postalCode: '82001-5356',
+            },
+          },
+          {
+            resourceType: 'Location',
+            id: '984',
+            vistaId: '984',
+            name: 'Dayton VA Medical Center',
+            identifier: [
+              {
+                system: 'http://med.va.gov/fhir/urn',
+                value: 'urn:va:division:984:984',
+              },
+              {
+                system: 'urn:oid:2.16.840.1.113883.6.233',
+                value: '984',
+              },
+            ],
+            telecom: [
+              {
+                system: 'phone',
+                value: '937-268-6511',
+              },
+            ],
+            position: {
+              longitude: '-84.2651895',
+              latitude: '39.7424427',
+            },
+            address: {
+              line: ['4100 West Third Street'],
+              city: 'Dayton',
+              state: 'OH',
+              postalCode: '45428-9000',
+            },
+          },
+        ],
+        pageChangeInProgress: false,
+        previousPages: {
+          typeOfCare: 'home',
+          typeOfFacility: 'typeOfCare',
+          requestDateTime: 'typeOfFacility',
+          ccClosestCity: 'requestDateTime',
+          ccPreferences: 'ccClosestCity',
+        },
+        childFacilitiesStatus: 'notStarted',
+        parentFacilitiesStatus: 'succeeded',
+        eligibilityStatus: 'notStarted',
+        facilityDetailsStatus: 'notStarted',
+        pastAppointments: null,
+        appointmentSlotsStatus: 'notStarted',
+        availableSlots: null,
+        fetchedAppointmentSlotMonths: [],
+        submitStatus: 'notStarted',
+        isCCEligible: true,
+        hideUpdateAddressAlert: false,
+        requestLocationStatus: 'notStarted',
+        communityCareProviders: {},
+        requestStatus: 'notStarted',
+        currentLocation: {},
+        ccProviderPageSortMethod: 'distanceFromResidentialAddress',
+        facilityPageSortMethod: null,
+        flowType: 'request',
+        selectedCCFacility: {
+          resourceType: 'Location',
+          id: '983',
+          vistaId: '983',
+          name: 'Cheyenne VA Medical Center',
+          identifier: [
+            {
+              system: 'http://med.va.gov/fhir/urn',
+              value: 'urn:va:division:983:983',
+            },
+            {
+              system: 'urn:oid:2.16.840.1.113883.6.233',
+              value: '983',
+            },
+          ],
+          telecom: [
+            {
+              system: 'phone',
+              value: '307-778-7550',
+            },
+          ],
+          position: {
+            longitude: -104.786159,
+            latitude: 41.148179,
+          },
+          address: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
+
+      user: {
+        profile: {
+          facilities: [...initialState.user.profile.facilities],
+          vapContactInfo: {
+            residentialAddress: null,
+          },
+        },
+      },
+    };
+
+    const store = createTestStore(testState);
+
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+
+    // Remove Provider
+    userEvent.click(await screen.findByRole('button', { name: /remove/i }));
+    userEvent.click(
+      await screen.findByText(
+        /Are you sure you want to remove this provider\?/i,
+      ),
+    );
+    userEvent.click(
+      await screen.findByRole('button', { name: /Yes, remove provider/i }),
+    );
+    expect(await screen.findByText(/Choose a provider/i));
+    expect(screen.baseElement).not.to.contain.text(
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102',
     );
   });
 
@@ -487,7 +771,14 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(await screen.findByText(/Choose a provider/i));
 
     // Choose Provider based on current location
-    userEvent.click(await screen.findByText(/use your current location$/i));
+    const currentLocButton = await screen.findByText(
+      /use your current location$/i,
+    );
+    await screen.findByText(/Displaying 1 to /i);
+    userEvent.click(currentLocButton);
+    await screen.findByText(
+      /You can choose a provider based on your current location/i,
+    );
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
@@ -552,6 +843,23 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // remove the page and change the type of care
     await cleanup();
+
+    // Mock CC calls for Podiatry, now that we've switched
+    mockCommunityCareEligibility({
+      parentSites: ['983', '983GJ', '983GC'],
+      supportedSites: ['983', '983GJ'],
+      careType: 'Podiatry',
+    });
+    mockCCProviderFetch(
+      initialState.user.profile.vapContactInfo.residentialAddress,
+      ['213E00000X', '213EG0000X', '213EP1101X', '213ES0131X', '213ES0103X'],
+      calculateBoundingBox(
+        initialState.user.profile.vapContactInfo.residentialAddress.latitude,
+        initialState.user.profile.vapContactInfo.residentialAddress.longitude,
+        60,
+      ),
+      CC_PROVIDERS_DATA,
+    );
     await setTypeOfCare(store, /podiatry/i);
 
     screen = renderWithStoreAndRouter(<CommunityCareProviderSelectionPage />, {
@@ -591,6 +899,9 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Choose Provider
     userEvent.click(await screen.findByText(/Choose a provider/i));
+    await waitFor(() =>
+      expect(screen.getAllByRole('radio').length).to.equal(7),
+    );
     userEvent.click(await screen.findByText(/use your current location/i));
 
     expect(
@@ -634,5 +945,48 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     await waitFor(() =>
       expect(screen.getAllByRole('radio').length).to.equal(3),
     );
+  });
+
+  it('should not display closest city question when using iterations toggle', async () => {
+    // Given a user with two supported sites
+    // And the CC iterations toggle is on
+    // And type of care is selected
+    const store = await setCommunityCareFlow({
+      toggles: {
+        vaOnlineSchedulingCCIterations: true,
+      },
+      parentSites: [
+        { id: '983', address: { city: 'Bozeman', state: 'MT' } },
+        { id: '984', address: { city: 'Belgrade', state: 'MT' } },
+      ],
+    });
+
+    // Belgrade is the 2nd of three options so the expectation is
+    // that it should be selected when we get to the CommunityCareProviderSelectionPage.
+    await setClosestCity(store, /Belgrade/i);
+
+    // When the page is displayed
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+
+    // Then the heading will display type of provider requested
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /Request a Primary care provider/i,
+      }),
+    ).to.be.ok;
+    expect(
+      await screen.findByText(/We’ll call you to confirm your provider choice/),
+    ).to.be.ok;
+
+    // And the closest city/state question is not shown
+    expect(screen.queryByLabelText('Bozeman, MT')).not.to.exist;
+    expect(screen.queryByLabelText('Belgrade, MT')).not.to.exist;
+    expect(screen.queryByText(/closest city and state/i)).not.to.exist;
   });
 });

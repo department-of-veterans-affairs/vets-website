@@ -1,11 +1,11 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import State from '../../../components/State';
 import NewTabAnchor from '../../../components/NewTabAnchor';
+import InfoAlert from '../../../components/InfoAlert';
 
 export default function VAFacilityInfoMessage({ facility }) {
   return (
-    <AlertBox
+    <InfoAlert
       status="info"
       headline="We found one facility that accepts online scheduling for this care"
     >
@@ -22,6 +22,6 @@ export default function VAFacilityInfoMessage({ facility }) {
         </NewTabAnchor>
         .
       </p>
-    </AlertBox>
+    </InfoAlert>
   );
 }

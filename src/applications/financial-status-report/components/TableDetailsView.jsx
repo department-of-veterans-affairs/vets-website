@@ -1,20 +1,22 @@
 import React from 'react';
+import { currency } from '../utils/helpers';
 
-const TableDetailsView = ({ formData, onEdit, index }) => {
+const TableDetailsView = ({ formData, onEdit }) => {
   const values = formData && Object.values(formData);
   const keys = formData && Object.keys(formData);
 
-  const formatter = value => {
-    if (typeof value === 'string') {
-      return value;
+  const format = value => {
+    const isNumber = !isNaN(value);
+    if (isNumber) {
+      return currency(value);
     }
-    return `$${value?.toFixed(2)}`;
+    return value;
   };
 
   const renderDetails = data => {
     return data?.map((key, i) => (
       <td key={`${key}-${i}`} className="vads-u-border--0">
-        {formatter(values[i])}
+        {format(values[i])}
       </td>
     ));
   };
@@ -23,11 +25,7 @@ const TableDetailsView = ({ formData, onEdit, index }) => {
     <tr className="vads-u-border-bottom--1px">
       {renderDetails(keys)}
       <td className="vads-u-border--0">
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={e => onEdit(e, index)}
-        >
+        <a target="_blank" rel="noopener noreferrer" onClick={() => onEdit()}>
           <span aria-hidden="true">Edit</span>
         </a>
       </td>

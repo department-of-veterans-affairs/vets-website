@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import { USA_MILITARY_BRANCHES } from './constants';
+import { PROFILE_PATHS, USA_MILITARY_BRANCHES } from './constants';
+import { FIELD_IDS } from '@@vap-svc/constants';
 
 /**
  * Prefixes the serviceBranch with 'United States' if it's a valid US military
@@ -54,4 +55,13 @@ export const transformServiceHistoryEntryIntoTableRow = entry => {
       </>
     ),
   };
+};
+
+export const getContactInfoDeepLinkURL = (
+  fieldName,
+  focusOnEditButton = false,
+) => {
+  const targetId = FIELD_IDS[fieldName];
+  const fragment = focusOnEditButton ? `edit-${targetId}` : targetId;
+  return `${PROFILE_PATHS.PERSONAL_INFORMATION}#${fragment}`;
 };

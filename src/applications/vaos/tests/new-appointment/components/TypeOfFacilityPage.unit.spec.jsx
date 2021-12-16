@@ -22,10 +22,10 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: VA facility page with a single-site user', () => {
+describe('VAOS <TypeOfFacilityPage>', () => {
   beforeEach(() => mockFetch());
 
-  it('should show page', async () => {
+  it('should show form fields', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<TypeOfFacilityPage />, {
       store,

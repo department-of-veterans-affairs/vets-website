@@ -24,6 +24,7 @@ const createformReducer = (options = {}) =>
 // Return fresh objects from templates for use with individual tests
 // Default setup: Valid (but empty) form, privacy agreement not set
 const createFormConfig = options => ({
+  ariaDescribedBySubmit: '22-0994-submit-application',
   urlPrefix: '/',
   trackingPrefix: 'test-',
   prefillEnabled: true,
@@ -109,12 +110,10 @@ const createStore = (options = {}) => {
 };
 
 describe('Schemaform review: SubmitController', () => {
-  beforeEach(() => {
+  before(() => {
     testkit.reset();
   });
-  afterEach(() => {
-    testkit.reset();
-  });
+
   it('should route to confirmation page after submit', () => {
     const form = createForm();
     const formConfig = createFormConfig();

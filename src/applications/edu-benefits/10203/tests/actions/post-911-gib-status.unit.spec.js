@@ -8,7 +8,7 @@ const GET_REMAINING_ENTITLEMENT_SUCCESS = 'GET_REMAINING_ENTITLEMENT_SUCCESS';
 let oldWindow;
 const setup = () => {
   mockFetch();
-  setFetchJSONResponse(global.fetch.onCall(0), {});
+  oldWindow = global.window;
   global.window = Object.create(global.window);
   Object.assign(global.window, {
     dataLayer: [],

@@ -10,7 +10,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import {
   selectFeatureApplication,
   selectFeatureToggleLoading,
-  selectUseFlatFacilityPage,
 } from '../../redux/selectors';
 import AppUnavailable from './AppUnavailable';
 import DowntimeMessage from './DowntimeMessage';
@@ -21,20 +20,12 @@ export default function VAOSApp({ children }) {
   const loadingFeatureToggles = useSelector(state =>
     selectFeatureToggleLoading(state),
   );
-  const useFlatFacilityPage = useSelector(state =>
-    selectUseFlatFacilityPage(state),
-  );
-  useEffect(
-    () => {
-      if (useFlatFacilityPage) {
-        recordEvent({
-          event: 'phased-roll-out-enabled',
-          'product-description': 'VAOS - Facility Selection v2',
-        });
-      }
-    },
-    [useFlatFacilityPage],
-  );
+  useEffect(() => {
+    recordEvent({
+      event: 'phased-roll-out-enabled',
+      'product-description': 'VAOS - Facility Selection v2',
+    });
+  }, []);
 
   return (
     <>

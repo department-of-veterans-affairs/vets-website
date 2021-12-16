@@ -1,31 +1,50 @@
-import React from 'react';
+// Node modules.
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
-
-import { isInProgressPath } from 'platform/forms/helpers';
+// Relative imports.
+import AutoSSO from './AutoSSO';
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
-import { initializeProfile } from 'platform/user/profile/actions';
-import { hasSession } from 'platform/user/profile/utilities';
-import { isLoggedIn, isProfileLoading, isLOA3 } from 'platform/user/selectors';
-
-import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
-import { updateLoggedInStatus } from 'platform/user/authentication/actions';
+import SearchHelpSignIn from '../components/SearchHelpSignIn';
+import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
+import SignInModal from 'platform/user/authentication/components/SignInModal';
 import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
+import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
+import { hasSession } from 'platform/user/profile/utilities';
+import { initializeProfile } from 'platform/user/profile/actions';
+import { isInProgressPath } from 'platform/forms/helpers';
+import { isLoggedIn, isProfileLoading, isLOA3 } from 'platform/user/selectors';
+import { selectUserGreeting } from '../selectors';
 import {
   toggleFormSignInModal,
   toggleLoginModal,
   toggleSearchHelpUserMenu,
 } from 'platform/site-wide/user-nav/actions';
+import { updateLoggedInStatus } from 'platform/user/authentication/actions';
 
-import SearchHelpSignIn from '../components/SearchHelpSignIn';
-import { selectUserGreeting } from '../selectors';
+export class Main extends Component {
+  static propTypes = {
+    isHeaderV2: PropTypes.bool,
+    // From mapStateToProps.
+    currentlyLoggedIn: PropTypes.bool,
+    isLOA3: PropTypes.bool,
+    isProfileLoading: PropTypes.bool,
+    shouldConfirmLeavingForm: PropTypes.bool,
+    showFormSignInModal: PropTypes.bool,
+    showLoginModal: PropTypes.bool,
+    userGreeting: PropTypes.array,
+    utilitiesMenuIsOpen: PropTypes.object,
+    // From mapDispatchToProps.
+    getBackendStatuses: PropTypes.func.isRequired,
+    initializeProfile: PropTypes.func.isRequired,
+    toggleFormSignInModal: PropTypes.func.isRequired,
+    toggleLoginModal: PropTypes.func.isRequired,
+    toggleSearchHelpUserMenu: PropTypes.func.isRequired,
+    updateLoggedInStatus: PropTypes.func.isRequired,
+  };
 
-import AutoSSO from './AutoSSO';
-import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
-import SignInModal from 'platform/user/authentication/components/SignInModal';
-
-export class Main extends React.Component {
   componentDidMount() {
     // Close any open modals when navigating to different routes within an app.
     window.addEventListener('popstate', this.closeModals);
@@ -148,13 +167,14 @@ export class Main extends React.Component {
     return (
       <div className="profile-nav-container">
         <SearchHelpSignIn
+          isHeaderV2={this.props.isHeaderV2}
           isLOA3={this.props.isLOA3}
           isLoggedIn={this.props.currentlyLoggedIn}
           isMenuOpen={this.props.utilitiesMenuIsOpen}
           isProfileLoading={this.props.isProfileLoading}
           onSignInSignUp={this.signInSignUp}
-          userGreeting={this.props.userGreeting}
           toggleMenu={this.props.toggleSearchHelpUserMenu}
+          userGreeting={this.props.userGreeting}
         />
         <FormSignInModal
           onClose={this.closeFormSignInModal}
@@ -193,8 +213,8 @@ export const mapStateToProps = state => {
 
   return {
     currentlyLoggedIn: isLoggedIn(state),
-    isProfileLoading: isProfileLoading(state),
     isLOA3: isLOA3(state),
+    isProfileLoading: isProfileLoading(state),
     shouldConfirmLeavingForm,
     userGreeting: selectUserGreeting(state),
     ...state.navigation,

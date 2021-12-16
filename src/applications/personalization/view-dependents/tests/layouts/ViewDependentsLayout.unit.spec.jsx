@@ -1,13 +1,9 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { mount } from 'enzyme';
 import { expect } from 'chai';
-
-import createCommonStore from 'platform/startup/store';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
 import ViewDependentsLayout from '../../layouts/ViewDependentsLayout';
-
-const defaultStore = createCommonStore();
+import removeDependents from '../../manage-dependents/redux/reducers';
 
 describe('<ViewDependentsLayout />', () => {
   const mockState = {
@@ -36,66 +32,43 @@ describe('<ViewDependentsLayout />', () => {
   };
 
   it('should render', () => {
-    const wrapper = mount(
-      <Provider store={defaultStore}>
-        <ViewDependentsLayout
-          loading={false}
-          error={false}
-          onAwardDependents={mockState.onAwardDependents}
-          notOnAwardDependents={mockState.notOnAwardDependents}
-        />
-      </Provider>,
-    );
+    const screen = renderInReduxProvider(<ViewDependentsLayout />, {
+      mockState,
+      reducers: removeDependents,
+    });
 
-    expect(wrapper.find('div.large-screen:vads-u-padding-left--6')).to.exist;
-    wrapper.unmount();
+    expect(screen.findByText(/Billy Blank/)).to.exist;
   });
 
   it('should show an info alert when there are no dependents', () => {
-    const wrapper = mount(
-      <Provider store={defaultStore}>
-        <ViewDependentsLayout
-          loading={false}
-          error={false}
-          onAwardDependents={null}
-          notOnAwardDependents={null}
-        />
-      </Provider>,
-    );
+    const screen = renderInReduxProvider(<ViewDependentsLayout />, {
+      initialState: {},
+      reducers: removeDependents,
+    });
 
-    expect(wrapper.find('div.usa-alert-info')).to.exist;
-    wrapper.unmount();
-  });
-
-  it('should show an info alert when there is a 400 error', () => {
-    const wrapper = mount(
-      <Provider store={defaultStore}>
-        <ViewDependentsLayout
-          loading={false}
-          error={400}
-          onAwardDependents={mockState.onAwardDependents}
-          notOnAwardDependents={mockState.notOnAwardDependents}
-        />
-      </Provider>,
-    );
-
-    expect(wrapper.find('div.usa-alert-info')).to.exist;
-    wrapper.unmount();
+    expect(
+      screen.findByRole('heading', {
+        name: 'We don’t have dependents information on file for you',
+      }),
+    ).to.exist;
   });
 
   it('should show an error alert when there is a 500 error', () => {
-    const wrapper = mount(
-      <Provider store={defaultStore}>
-        <ViewDependentsLayout
-          loading={false}
-          error={500}
-          onAwardDependents={mockState.onAwardDependents}
-          notOnAwardDependents={mockState.notOnAwardDependents}
-        />
-      </Provider>,
-    );
+    const screen = renderInReduxProvider(<ViewDependentsLayout />, {
+      initialState: {
+        errors: [
+          {
+            code: 500,
+          },
+        ],
+      },
+      reducers: removeDependents,
+    });
 
-    expect(wrapper.find('div.usa-alert-error')).to.exist;
-    wrapper.unmount();
+    expect(
+      screen.findByRole('heading', {
+        name: 'We’re sorry. Something went wrong on our end',
+      }),
+    ).to.exist;
   });
 });

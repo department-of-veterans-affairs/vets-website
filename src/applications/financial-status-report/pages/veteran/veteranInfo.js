@@ -21,7 +21,7 @@ export const schema = {
               type: 'string',
             },
             ssnLastFour: {
-              type: 'number',
+              type: 'string',
             },
             dob: {
               type: 'string',

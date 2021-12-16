@@ -1,6 +1,9 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
+export const facilitiesPpmsSuppressAll = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.facilitiesPpmsSuppressAll];
+
 export const facilitiesPpmsSuppressPharmacies = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.facilitiesPpmsSuppressPharmacies];
 
@@ -25,5 +28,10 @@ export const facilityLocatorShowOperationalHoursSpecialInstructions = state =>
 export const covidVaccineSchedulingFrontend = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.covidVaccineSchedulingFrontend];
 
-export const facilityLocatorRailsEngine = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.facilityLocatorRailsEngine];
+export const facilityLocatorLatLongOnly = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.facilityLocatorLatLongOnly];
+
+export const facilityLocatorRestoreCommunityCarePagination = state =>
+  toggleValues(state)[
+    FEATURE_FLAG_NAMES.facilityLocatorRestoreCommunityCarePagination
+  ];

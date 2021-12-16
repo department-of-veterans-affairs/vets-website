@@ -33,13 +33,13 @@ class SelectArrayItemsWidget extends React.Component {
     this.props.onChange(items);
   };
 
-  processRatedDisabilityUpdates = () => {
+  processRatedDisabilityUpdates = updatedDisabilities => {
     const { formId, value, formData, metadata } = this.props;
 
     // Whenever the rated disabilities are updated, `updatedRatedDisabilities`
     // is added to the data. This bit of code ensures that exactly matching
     // previously selected entries are still selected
-    const updatedItems = formData[this.updatedKeyValue].map(newValue => {
+    const updatedItems = updatedDisabilities.map(newValue => {
       const hasItem = (value || []).find(oldValue =>
         this.keyConstants.every(key => oldValue?.[key] === newValue?.[key]),
       );
@@ -82,9 +82,10 @@ class SelectArrayItemsWidget extends React.Component {
       formData,
     } = this.props;
 
+    const updatedDisabilities = formData[this.updatedKeyValue];
     // rated disabilities updated on the backend
-    if (Array.isArray(formData[this.updatedKeyValue])) {
-      this.processRatedDisabilityUpdates();
+    if (Array.isArray(updatedDisabilities) && updatedDisabilities.length) {
+      this.processRatedDisabilityUpdates(updatedDisabilities);
     }
 
     // Need customTitle to set error message above title.
@@ -226,7 +227,7 @@ SelectArrayItemsWidget.propTypes = {
   value: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      ratingPercentage: PropTypes.number.isRequired,
+      ratingPercentage: PropTypes.number,
       decisionCode: PropTypes.string.isRequired,
       decisionText: PropTypes.string.isRequired,
     }),
@@ -234,7 +235,7 @@ SelectArrayItemsWidget.propTypes = {
   updatedRatedDisabilities: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      ratingPercentage: PropTypes.number.isRequired,
+      ratingPercentage: PropTypes.number,
       decisionCode: PropTypes.string.isRequired,
       decisionText: PropTypes.string.isRequired,
     }),
