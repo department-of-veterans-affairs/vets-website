@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import PDFStatementList from '../components/PDFStatementList';
 import BalanceQuestions from '../components/BalanceQuestions';
 import DisputeCharges from '../components/DisputeCharges';
@@ -33,18 +32,6 @@ const DetailPage = ({ match }) => {
 
   return (
     <>
-      <Breadcrumbs className="vads-u-font-family--sans no-wrap">
-        <a href="/">Home</a>
-        <a href="/health-care">Health care</a>
-        <a href="/health-care/pay-copay-bill">Pay your VA copay bill</a>
-        <a href="/health-care/pay-copay-bill/your-current-balances">
-          Your current copay balances
-        </a>
-        <a href="/health-care/pay-copay-bill/your-current-balances/balance-details">
-          Your copay details
-        </a>
-      </Breadcrumbs>
-
       <h1 className="vads-u-margin-bottom--1" data-testid="detail-page-title">
         Your copay bill for {selectedCopay?.station.facilityName}
       </h1>
