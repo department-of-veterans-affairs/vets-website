@@ -137,7 +137,7 @@ jobs:
     name: Notify Slack
     runs-on: ubuntu-latest
     if: ${{ always() }}
-    needs: [lighthouse-scan, lighthouse-scan-registries]
+    needs: [lighthouse-scan-registries]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
