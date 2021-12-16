@@ -114,14 +114,9 @@ export function ResultCard({
   const nameCityStateHeader = (
     <>
       <div>
-        <h3
-          className={nameClasses}
-          aria-label={`${institution.name}, `}
-          id={`${institution.facilityCode}-label`}
-        >
+        <h3 className={nameClasses} id={`label-${institution.facilityCode}`}>
           <Link
             to={profileLink}
-            aria-labelledby={`${facilityCode}-label ${facilityCode}-classification`}
             onClick={() =>
               recordEvent({
                 event: 'gibct-view-profile',
@@ -131,6 +126,9 @@ export function ResultCard({
             }
           >
             {name}
+            <span className="vads-u-visibility--screen-reader">
+              {`${institution.name}`}
+            </span>
           </Link>
         </h3>
       </div>
@@ -324,6 +322,7 @@ export function ResultCard({
             <div className="card-bottom-cell vads-u-flex--1 vads-u-margin--0">
               <CompareCheckbox
                 institution={name}
+                facilityCode={institution.facilityCode}
                 compareChecked={compareChecked}
                 handleCompareUpdate={handleCompareUpdate}
               />
