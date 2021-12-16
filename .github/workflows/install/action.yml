@@ -18,10 +18,6 @@ inputs:
     description: path for actions/cache@v2
     required: false
     default: ''
-  skip-cache:
-    description: skip dependency caching
-    required: false
-    default: false
 
 runs:
   using: composite
@@ -37,7 +33,6 @@ runs:
         node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
     - name: Cache dependencies
-      if: ${{ !inputs.skip-cache }}
       id: cache-dependencies
       uses: actions/cache@v2
       with:
