@@ -154,7 +154,7 @@ async function getScaffoldAssets() {
  * @return {HtmlWebpackPlugin[]} - Array of HtmlWebpackPlugin instances,
  *   representing the HTML files to generate for each app and widget.
  */
-async function generateHtmlFiles(buildPath, scaffoldAssets) {
+function generateHtmlFiles(buildPath, scaffoldAssets) {
   const appRegistry = JSON.parse(scaffoldAssets['registry.json']);
   const loadInlineScript = filename => scaffoldAssets[filename];
 
@@ -451,7 +451,7 @@ module.exports = async (env = {}) => {
 
   // Optionally generate mocked HTML pages for apps without running content build.
   if (buildOptions.scaffold) {
-    const scaffoldedHtml = await generateHtmlFiles(buildPath, scaffoldAssets);
+    const scaffoldedHtml = generateHtmlFiles(buildPath, scaffoldAssets);
     baseConfig.plugins.push(...scaffoldedHtml);
   }
 
