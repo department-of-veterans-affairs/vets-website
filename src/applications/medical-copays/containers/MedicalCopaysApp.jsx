@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { mcpFeatureToggle, renderBreadcrumbs } from '../utils/helpers';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
+import AlertPage from '../components/AlertPage';
 import { getStatements } from '../actions';
 
 const MedicalCopaysApp = ({ children }) => {
@@ -12,7 +14,11 @@ const MedicalCopaysApp = ({ children }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const profileLoading = useSelector(state => isProfileLoading(state));
   const fetchPending = useSelector(({ mcp }) => mcp.pending);
+  const statementData = useSelector(({ mcp }) => mcp.statements);
+  const error = useSelector(({ mcp }) => mcp.error);
   const { pathname } = useLocation();
+
+  const [alertType, setAlertType] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -23,6 +29,20 @@ const MedicalCopaysApp = ({ children }) => {
       }
     },
     [userLoggedIn], // eslint-disable-line react-hooks/exhaustive-deps
+  );
+
+  useEffect(
+    () => {
+      scrollToTop();
+      setAlertType(null);
+      if (!statementData?.length) {
+        setAlertType('no-history');
+      }
+      if (error) {
+        setAlertType('error');
+      }
+    },
+    [error, statementData],
   );
 
   if (showMCP === false || (!profileLoading && !userLoggedIn)) {
@@ -41,7 +61,15 @@ const MedicalCopaysApp = ({ children }) => {
           <Breadcrumbs className="vads-u-font-family--sans no-wrap">
             {renderBreadcrumbs(pathname)}
           </Breadcrumbs>
-          {children}
+          {alertType ? (
+            <AlertPage
+              pathname={pathname}
+              alertType={alertType}
+              error={error}
+            />
+          ) : (
+            children
+          )}
         </div>
       </div>
     </div>
