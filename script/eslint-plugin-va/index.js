@@ -25,5 +25,6 @@ module.exports = {
     ],
     'axe-check-required': 1,
     'correct-apostrophe': 1,
+    'cypress-viewport-deprecated': 1,
   },
 };
