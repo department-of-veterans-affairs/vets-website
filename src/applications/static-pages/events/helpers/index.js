@@ -68,11 +68,11 @@ export const filterByOptions = [
     value: 'upcoming',
   },
   {
-    label: `Next Week (Starting ${nextWeekDay})`,
+    label: `Next week (Starting ${nextWeekDay})`,
     value: 'next-week',
   },
   {
-    label: `Next Month (Starting ${nextMonthDay})`,
+    label: `Next month (Starting ${nextMonthDay})`,
     value: 'next-month',
   },
   {
@@ -92,6 +92,41 @@ export const filterByOptions = [
 export const defaultSelectedOption = filterByOptions?.find(
   option => option.value === 'upcoming',
 );
+
+export const deriveResults = (events, page, perPage) => {
+  // Escape early if we do not have events, page, or perPage.
+  if (isEmpty(events) || !page || !perPage) {
+    return events;
+  }
+
+  // Derive the start and end indexes.
+  const start = (page - 1) * perPage;
+  const end = start + perPage;
+
+  // Return the results.
+  return events?.slice(start, end);
+};
+
+export const deriveResultsStartNumber = (page, perPage) => {
+  // Derive the end number.
+  const endNumber = page * perPage;
+
+  // Derive the start number.
+  return endNumber - (perPage - 1);
+};
+
+export const deriveResultsEndNumber = (page, perPage, totalResults) => {
+  // Derive the end number.
+  const endNumber = page * perPage;
+
+  // If the end number is more than the total results, just show the total results.
+  if (endNumber > totalResults) {
+    return totalResults;
+  }
+
+  // Show the end number.
+  return endNumber;
+};
 
 export const filterEvents = (
   events,

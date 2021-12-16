@@ -1,14 +1,15 @@
 // Node modules.
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import { sample } from 'lodash';
 import { connect } from 'react-redux';
 // Relative imports.
+import Results from '../Results';
 import Search from '../Search';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import {
   defaultSelectedOption,
   deriveEndsAtUnix,
+  deriveResults,
   deriveStartsAtUnix,
   filterByOptions,
   filterEvents,
@@ -16,11 +17,17 @@ import {
   showLegacyEvents,
 } from '../../helpers';
 
+// Derive constants.
+const perPage = 10;
+
 export const App = ({ rawEvents, showEventsV2 }) => {
-  // Derive state.
-  const [events, setEvents] = useState(
-    filterEvents(rawEvents, defaultSelectedOption?.value),
-  );
+  // Derive our default events.
+  const defaultEvents = filterEvents(rawEvents, defaultSelectedOption?.value);
+
+  // Derive our state.
+  const [events, setEvents] = useState(defaultEvents);
+  const [page, setPage] = useState(1);
+  const [results, setResults] = useState(deriveResults(events, page, perPage));
   const [selectedOption, setSelectedOption] = useState(defaultSelectedOption);
 
   // If the feature toggle is disabled, do not render.
@@ -29,6 +36,7 @@ export const App = ({ rawEvents, showEventsV2 }) => {
     return null;
   }
 
+  // On search handler.
   const onSearch = event => {
     // Derive selected option.
     const newSelectedOption = filterByOptions.find(
@@ -58,6 +66,25 @@ export const App = ({ rawEvents, showEventsV2 }) => {
 
     // Set events.
     setEvents(filteredEvents);
+
+    // Reset pagination.
+    const newPage = 1;
+    setPage(newPage);
+
+    // Derive and set the new results.
+    setResults(deriveResults(filteredEvents, newPage, perPage));
+  };
+
+  // On pagination change handler.
+  const onPageSelect = newPage => {
+    // Update the page.
+    setPage(newPage);
+
+    // Derive and set the new results.
+    setResults(deriveResults(events, newPage, perPage));
+
+    // Scroll to top.
+    scrollToTop();
   };
 
   hideLegacyEvents();
@@ -76,72 +103,15 @@ export const App = ({ rawEvents, showEventsV2 }) => {
       {/* Search */}
       <Search onSearch={onSearch} />
 
-      {/* Showing 10 results for All upcoming */}
-      {events && (
-        <p className="vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-bottom--1">
-          Showing {events?.length} results for{' '}
-          <strong>{selectedOption?.label}</strong>
-        </p>
-      )}
-
       {/* Results */}
-      <div className="vads-u-display--flex vads-u-flex-direction--column">
-        {events?.map(event => {
-          // Derive event properties.
-          const entityUrl = event?.entityUrl;
-          const startsAtUnix = event?.fieldDatetimeRangeTimezone?.value;
-          const endsAtUnix = event?.fieldDatetimeRangeTimezone?.endValue;
-          const fieldDescription = event?.fieldDescription;
-          const title = event?.title;
-
-          // Derive starts at and ends at.
-          const formattedStartsAt = moment(startsAtUnix * 1000).format(
-            'ddd MMM D, YYYY, h:mm a',
-          );
-          const formattedEndsAt = moment(endsAtUnix * 1000).format('h:mm a');
-
-          return (
-            <div
-              className="vads-u-display--flex vads-u-flex-direction--column vads-u-border-top--1px vads-u-border-color--gray-light vads-u-padding-y--4"
-              key={`${title}-${entityUrl?.path}`}
-            >
-              {/* Title */}
-              <h2 className="vads-u-margin--0 vads-u-font-size--h4">
-                <a href={entityUrl.path}>{title}</a>
-              </h2>
-
-              {/* Description */}
-              <p className="vads-u-margin--0 vads-u-margin-y--1">
-                {fieldDescription}
-              </p>
-
-              {/* When */}
-              <div className="vads-u-display--flex vads-u-flex-direction--row">
-                <p className="vads-u-margin--0 vads-u-margin-right--0p5">
-                  <strong>When:</strong>
-                </p>
-                <p className="vads-u-margin--0">
-                  {formattedStartsAt} - {formattedEndsAt}
-                </p>
-              </div>
-
-              {/* Where */}
-              <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--1">
-                <p className="vads-u-margin--0 vads-u-margin-right--0p5">
-                  <strong>Where:</strong>
-                </p>
-                <p className="vads-u-margin--0">
-                  {sample([
-                    'West Bend, Wisconsin',
-                    'Austin, Texas',
-                    'This is an online event.',
-                  ])}
-                </p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      <Results
+        onPageSelect={onPageSelect}
+        page={page}
+        perPage={perPage}
+        query={selectedOption?.label}
+        results={results}
+        totalResults={events?.length || 0}
+      />
     </div>
   );
 };
