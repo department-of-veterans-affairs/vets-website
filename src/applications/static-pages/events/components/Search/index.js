@@ -70,8 +70,12 @@ const Search = ({ onSearch }) => {
       return;
     }
 
-    // Allow the event to be submitted.
+    // Allow the event to be submitted and clear errors.
     onSearch(event);
+    setStartDateMonthError(false);
+    setStartDateDayError(false);
+    setEndDateMonthError(false);
+    setEndDateDayError(false);
   };
 
   return (
