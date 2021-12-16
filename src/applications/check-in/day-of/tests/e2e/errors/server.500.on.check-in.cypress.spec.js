@@ -2,6 +2,8 @@ import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/featur
 import mockCheckIn from '../../../api/local-mock-api/mocks/v2/check.in.responses';
 import '../support/commands';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
+import Demographics from '../../../../tests/e2e/pages/Demographics';
+import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import Error from '../../../../tests/e2e/pages/Error';
 import Appointments from '../pages/Appointments';
 
@@ -23,6 +25,8 @@ describe('Check In Experience -- ', () => {
     ValidateVeteran.validatePageLoaded('Check in at VA');
     ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPage();
+    Demographics.attemptToGoToNextPage();
+    NextOfKin.attemptToGoToNextPage();
     Appointments.validatePageLoaded();
     Appointments.attemptCheckIn(2);
   });

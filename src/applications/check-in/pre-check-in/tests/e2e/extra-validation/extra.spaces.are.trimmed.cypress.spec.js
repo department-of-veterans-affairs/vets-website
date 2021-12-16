@@ -31,10 +31,10 @@ describe('Pre-Check In Experience', () => {
     });
     it('validation trims white space before posting', () => {
       cy.visitPreCheckInWithUUID();
+      cy.injectAxeThenAxeCheck();
       validateVeteran.validatePageLoaded();
       validateVeteran.validateVeteran('Smith        ', '1234          ');
       validateVeteran.attemptToGoToNextPage();
-
       introduction.validatePageLoaded();
     });
   });

@@ -2,6 +2,8 @@ import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/featur
 import '../support/commands';
 import mockPatientCheckIns from '../../../api/local-mock-api/mocks/v2/patient.check.in.responses';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
+import Demographics from '../../../../tests/e2e/pages/Demographics';
+import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import Appointments from '../pages/Appointments';
 
 describe('Check In Experience -- ', () => {
@@ -36,7 +38,6 @@ describe('Check In Experience -- ', () => {
         'GET',
         '/v0/feature_toggles*',
         generateFeatureToggles({
-          checkInExperienceLowAuthenticationEnabled: true,
           checkInExperienceUpdateInformationPageEnabled: false,
         }),
       );
@@ -44,6 +45,8 @@ describe('Check In Experience -- ', () => {
       ValidateVeteran.validatePageLoaded('Check in at VA');
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      Demographics.attemptToGoToNextPage();
+      NextOfKin.attemptToGoToNextPage();
       Appointments.validatePageLoaded();
     });
     afterEach(() => {
