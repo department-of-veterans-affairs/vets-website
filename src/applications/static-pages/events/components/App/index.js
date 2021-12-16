@@ -91,8 +91,8 @@ export const App = ({ rawEvents, showEventsV2 }) => {
         {events?.map(event => {
           // Derive event properties.
           const entityUrl = event?.entityUrl;
-          const startsAtUnix = event?.startsAtUnix;
-          const endsAtUnix = event?.endsAtUnix;
+          const startsAtUnix = event?.fieldDatetimeRangeTimezone?.value;
+          const endsAtUnix = event?.fieldDatetimeRangeTimezone?.endValue;
           const fieldDescription = event?.fieldDescription;
           const title = event?.title;
 
@@ -128,7 +128,7 @@ export const App = ({ rawEvents, showEventsV2 }) => {
               </div>
 
               {/* Where */}
-              <div className="vads-u-display--flex vads-u-flex-direction--row">
+              <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--1">
                 <p className="vads-u-margin--0 vads-u-margin-right--0p5">
                   <strong>Where:</strong>
                 </p>

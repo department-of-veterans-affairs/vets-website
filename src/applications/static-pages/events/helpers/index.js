@@ -93,73 +93,61 @@ export const defaultSelectedOption = filterByOptions?.find(
   option => option.value === 'upcoming',
 );
 
-export const convertEventTimesToUnix = events => {
-  // Escape early if there are no events.
-  if (isEmpty(events)) {
-    return [];
-  }
-
-  return events?.map(event => {
-    const startsAtUnix = moment
-      .tz(
-        event?.fieldDatetimeRangeTimezone?.value * 1000,
-        event?.fieldDatetimeRangeTimezone?.timezone || 'America/New_York',
-      )
-      .unix();
-    const endsAtUnix = moment
-      .tz(
-        event?.fieldDatetimeRangeTimezone?.endValue * 1000,
-        event?.fieldDatetimeRangeTimezone?.timezone || 'America/New_York',
-      )
-      .unix();
-
-    return {
-      ...event,
-      startsAtUnix,
-      endsAtUnix,
-    };
-  });
-};
-
-export const filterEvents = (events, filterBy, options = {}) => {
+export const filterEvents = (
+  events,
+  filterBy,
+  options = {},
+  now = moment(),
+) => {
   // Escape early if there are no events.
   if (isEmpty(events)) {
     return [];
   }
 
   // Format event timestamps to unix and sort events by startsAt.
-  const formattedEvents = convertEventTimesToUnix(events);
-  const sortedEvents = orderBy(formattedEvents, ['startsAtUnix'], ['asc']);
+  const sortedEvents = orderBy(
+    events,
+    ['fieldDatetimeRangeTimezone', 'value'],
+    ['asc'],
+  );
 
   // Filter the events.
   switch (filterBy) {
     // Upcoming events.
     case 'upcoming':
       return sortedEvents?.filter(event =>
-        moment(event?.startsAtUnix * 1000).isAfter(),
+        moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isAfter(
+          now.clone(),
+        ),
       );
 
     // Next week.
     case 'next-week':
-      return sortedEvents?.filter(event =>
-        moment(event?.startsAtUnix * 1000).isBetween(
-          moment()
+      return sortedEvents?.filter(event => {
+        return moment(
+          event?.fieldDatetimeRangeTimezone?.value * 1000,
+        ).isBetween(
+          now
+            .clone()
             .add('7', 'days')
             .startOf('week'),
-          moment()
+          now
+            .clone()
             .add('7', 'days')
             .endOf('week'),
-        ),
-      );
+        );
+      });
 
     // Next month.
     case 'next-month':
       return sortedEvents?.filter(event =>
-        moment(event?.startsAtUnix * 1000).isBetween(
-          moment()
+        moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isBetween(
+          now
+            .clone()
             .add('1', 'month')
             .startOf('month'),
-          moment()
+          now
+            .clone()
             .add('1', 'month')
             .endOf('month'),
         ),
@@ -168,7 +156,9 @@ export const filterEvents = (events, filterBy, options = {}) => {
     // Past events.
     case 'past':
       return sortedEvents?.filter(event =>
-        moment(event?.endsAtUnix * 1000).isBefore(),
+        moment(event?.fieldDatetimeRangeTimezone?.endValue * 1000).isBefore(
+          now.clone(),
+        ),
       );
 
     // Custom dates.
@@ -177,14 +167,19 @@ export const filterEvents = (events, filterBy, options = {}) => {
       // Return sorted events if the custom dates are not provided.
       if (!options?.startsAtUnix || !options?.endsAtUnix) return sortedEvents;
 
-      return sortedEvents?.filter(event =>
-        moment(event?.startsAtUnix * 1000).isBetween(
-          options?.startsAtUnix * 1000,
-          options?.endsAtUnix * 1000,
-        ),
+      return sortedEvents?.filter(
+        event =>
+          moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isBetween(
+            options?.startsAtUnix * 1000,
+            options?.endsAtUnix * 1000,
+          ) ||
+          moment(event?.fieldDatetimeRangeTimezone?.endValue * 1000).isBetween(
+            options?.startsAtUnix * 1000,
+            options?.endsAtUnix * 1000,
+          ),
       );
 
-    // Default, just give back raw events.
+    // Default, just give back sorted events.
     default:
       return sortedEvents;
   }
