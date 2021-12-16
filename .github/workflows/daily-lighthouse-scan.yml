@@ -1,9 +1,10 @@
 name: Lighthouse CI
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 12 * * 1-5'
+  push
+  # workflow_dispatch:
+  # schedule:
+  #   - cron: '0 12 * * 1-5'
 
 env:
   CHANNEL_ID: C02A8S3JPNZ
@@ -20,7 +21,7 @@ jobs:
           repository: department-of-veterans-affairs/content-build
           ref: refs/heads/master
           path: ./content-build
-        
+
       - name: Get registries
         id: set-matrix
         run: |
@@ -92,6 +93,7 @@ jobs:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
+          ref: expand-lighthouse
 
       - name: Get Node version
         id: get-node-version
@@ -131,7 +133,6 @@ jobs:
       - name: Upload Lighthouse results to BigQuery
         run: yarn lighthouse-to-bigquery
         working-directory: testing-tools-team-dashboard-data
-
 
   lighthouse-scan-registries:
     needs: get-registries
