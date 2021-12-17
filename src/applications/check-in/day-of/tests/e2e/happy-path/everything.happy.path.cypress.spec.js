@@ -19,8 +19,7 @@ describe('Check In Experience -- ', () => {
         '/v0/feature_toggles*',
         generateFeatureToggles({
           checkInExperienceUpdateInformationPageEnabled: true,
-          checkInExperienceDemographicsPageEnabled: true,
-          checkInExperienceNextOfKinEnabled: true,
+
           emergencyContactEnabled: true,
         }),
       );

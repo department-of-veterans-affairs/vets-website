@@ -16,7 +16,6 @@ const NextOfKin = props => {
     nextOfKin,
     isLoading,
     isEmergencyContactEnabled,
-    isDemographicsPageEnabled,
     isUpdatePageEnabled,
     router,
     updateSeeStaffMessage,
@@ -80,9 +79,7 @@ const NextOfKin = props => {
   } else {
     return (
       <>
-        {(isUpdatePageEnabled || isDemographicsPageEnabled) && (
-          <BackButton router={router} />
-        )}
+        <BackButton router={router} />
         <NextOfKinDisplay
           nextOfKin={nextOfKin}
           yesAction={yesClick}
@@ -107,7 +104,6 @@ NextOfKin.propTypes = {
   nextOfKin: PropTypes.object,
   isLoading: PropTypes.bool,
   isEmergencyContactEnabled: PropTypes.bool,
-  isDemographicsPageEnabled: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
   updateSeeStaffMessage: PropTypes.func,
