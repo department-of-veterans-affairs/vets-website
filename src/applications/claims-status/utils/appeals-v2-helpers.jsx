@@ -747,8 +747,6 @@ export function getStatusContents(appeal, name = {}) {
                 PO Box 4444
                 <br />
                 Janesville, WI 53547-4444
-                <br />
-                Fax 844-531-7818
               </p>
             </div>
           )}
