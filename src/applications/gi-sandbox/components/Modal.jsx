@@ -204,7 +204,6 @@ class Modal extends React.Component {
             this.element = el;
           }}
         >
-          {closeButton}
           <div className={bodyClass}>
             <div role="document">
               {title && (
@@ -216,6 +215,7 @@ class Modal extends React.Component {
             </div>
             {this.renderAlertActions()}
           </div>
+          {closeButton}
         </div>
       </div>
     );
@@ -288,7 +288,7 @@ Modal.propTypes = {
 
 Modal.defaultProps = {
   clickToClose: false,
-  focusSelector: 'button, input, select, a',
+  focusSelector: 'h3, button, input, select, a',
 };
 
 export default Modal;
