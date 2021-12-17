@@ -33,7 +33,7 @@ jobs:
                       | .rootUrl ]' ./content-build/src/applications/registry.json)
           echo ::set-output name=registries::$(jq --argjson CUSTOM_URLS "$CUSTOM_URLS" --argjson REGISTRY_ARRAY "$REGISTRY_ARRAY" -n '$REGISTRY_ARRAY + $CUSTOM_URLS | sort')
 
-  lighthouse-scan-registries:
+  lighthouse:
     needs: get-registries
     runs-on: ubuntu-latest
     strategy:
@@ -136,7 +136,7 @@ jobs:
     name: Notify Slack
     runs-on: ubuntu-latest
     if: ${{ always() }}
-    needs: [lighthouse-scan-registries]
+    needs: [lighthouse]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
