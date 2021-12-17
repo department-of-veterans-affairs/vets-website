@@ -7,22 +7,32 @@ import Results from '../Results';
 import Search from '../Search';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import {
-  defaultSelectedOption,
-  deriveEndsAtUnix,
+  deriveDefaultSelectedOption,
+  deriveFilteredEvents,
   deriveResults,
-  deriveStartsAtUnix,
   filterByOptions,
-  filterEvents,
   hideLegacyEvents,
   showLegacyEvents,
+  updateQueryParams,
 } from '../../helpers';
 
 // Derive constants.
 const perPage = 10;
 
 export const App = ({ rawEvents, showEventsV2 }) => {
-  // Derive our default events.
-  const defaultEvents = filterEvents(rawEvents, defaultSelectedOption?.value);
+  // Derive the query params on the URL.
+  const queryParams = new URLSearchParams(window.location.search);
+
+  // Derive our default state values.
+  const defaultSelectedOption = deriveDefaultSelectedOption();
+  const defaultEvents = deriveFilteredEvents({
+    endDateDay: queryParams.get('endDateDay') || undefined,
+    endDateMonth: queryParams.get('endDateMonth') || undefined,
+    rawEvents,
+    selectedOption: defaultSelectedOption,
+    startDateDay: queryParams.get('startDateDay') || undefined,
+    startDateMonth: queryParams.get('startDateMonth') || undefined,
+  });
 
   // Derive our state.
   const [events, setEvents] = useState(defaultEvents);
@@ -35,6 +45,15 @@ export const App = ({ rawEvents, showEventsV2 }) => {
     showLegacyEvents();
     return null;
   }
+
+  const updateDisplayedResults = filteredEvents => {
+    // Reset pagination.
+    const newPage = 1;
+    setPage(newPage);
+
+    // Derive and set the new results.
+    setResults(deriveResults(filteredEvents, newPage, perPage));
+  };
 
   // On search handler.
   const onSearch = event => {
@@ -52,27 +71,30 @@ export const App = ({ rawEvents, showEventsV2 }) => {
     const endDateMonth = event?.target?.endDateMonth?.value;
     const endDateDay = event?.target?.endDateDay?.value;
 
-    // Derive startsAtUnix.
-    const startsAtUnix = deriveStartsAtUnix(startDateMonth, startDateDay);
-
-    // Derive endsAtUnix.
-    const endsAtUnix = deriveEndsAtUnix(startsAtUnix, endDateMonth, endDateDay);
-
-    // Filter events.
-    const filteredEvents = filterEvents(rawEvents, newSelectedOption?.value, {
-      startsAtUnix,
-      endsAtUnix,
+    // Derive filteredEvents.
+    const filteredEvents = deriveFilteredEvents({
+      endDateDay,
+      endDateMonth,
+      rawEvents,
+      selectedOption: newSelectedOption,
+      startDateDay,
+      startDateMonth,
     });
 
     // Set events.
     setEvents(filteredEvents);
 
-    // Reset pagination.
-    const newPage = 1;
-    setPage(newPage);
+    // Update displayed results.
+    updateDisplayedResults(filteredEvents);
 
-    // Derive and set the new results.
-    setResults(deriveResults(filteredEvents, newPage, perPage));
+    // Update query params.
+    updateQueryParams({
+      endDateDay,
+      endDateMonth,
+      selectedOption: newSelectedOption?.value,
+      startDateDay,
+      startDateMonth,
+    });
   };
 
   // On pagination change handler.

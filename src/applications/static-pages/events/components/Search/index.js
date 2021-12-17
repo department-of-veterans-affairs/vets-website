@@ -4,18 +4,32 @@ import PropTypes from 'prop-types';
 // Relative imports.
 import {
   dayOptions,
-  defaultSelectedOption,
+  deriveDefaultSelectedOption,
   filterByOptions,
   monthOptions,
 } from '../../helpers';
 
 const Search = ({ onSearch }) => {
+  // Derive the query params on the URL.
+  const queryParams = new URLSearchParams(window.location.search);
+
+  // Derive the default selected option.
+  const defaultSelectedOption = deriveDefaultSelectedOption();
+
   // Derive the state.
   const [selectedOption, setSelectedOption] = useState(defaultSelectedOption);
-  const [startDateMonth, setStartDateMonth] = useState('');
-  const [startDateDay, setStartDateDay] = useState('');
-  const [endDateMonth, setEndDateMonth] = useState('');
-  const [endDateDay, setEndDateDay] = useState('');
+  const [startDateMonth, setStartDateMonth] = useState(
+    queryParams.get('startDateMonth') || '',
+  );
+  const [startDateDay, setStartDateDay] = useState(
+    queryParams.get('startDateDay') || '',
+  );
+  const [endDateMonth, setEndDateMonth] = useState(
+    queryParams.get('endDateMonth') || '',
+  );
+  const [endDateDay, setEndDateDay] = useState(
+    queryParams.get('endDateDay') || '',
+  );
 
   // Derive errors state.
   const [startDateMonthError, setStartDateMonthError] = useState(false);
@@ -24,10 +38,12 @@ const Search = ({ onSearch }) => {
   const [endDateDayError, setEndDateDayError] = useState(false);
 
   const onFilterByChange = event => {
-    const filterByOption = event?.target?.value;
+    const filterByOption = filterByOptions?.find(
+      option => option?.value === event?.target?.value,
+    );
 
     // Escape early if they selected the same field.
-    if (filterByOption === selectedOption) {
+    if (filterByOption?.value === selectedOption?.value) {
       return;
     }
 
@@ -50,7 +66,7 @@ const Search = ({ onSearch }) => {
 
     // Escape early with error if we are missing a required field.
     if (
-      selectedOption === 'specific-date' &&
+      selectedOption?.value === 'specific-date' &&
       (!startDateMonth || !startDateDay)
     ) {
       setStartDateMonthError(!startDateMonth);
@@ -60,7 +76,7 @@ const Search = ({ onSearch }) => {
 
     // Escape early with error if we are missing a required field.
     if (
-      selectedOption === 'custom-date-range' &&
+      selectedOption?.value === 'custom-date-range' &&
       (!startDateMonth || !startDateDay || !endDateMonth || !endDateDay)
     ) {
       setStartDateMonthError(!startDateMonth);
@@ -96,7 +112,7 @@ const Search = ({ onSearch }) => {
           id="filterBy"
           name="filterBy"
           onChange={onFilterByChange}
-          value={selectedOption}
+          value={selectedOption?.value}
         >
           {filterByOptions?.map(option => (
             <option key={option?.value} value={option?.value}>
@@ -109,7 +125,7 @@ const Search = ({ onSearch }) => {
       {/* ==================== */}
       {/* Specific date fields */}
       {/* ==================== */}
-      {selectedOption === 'specific-date' && (
+      {selectedOption?.value === 'specific-date' && (
         <div
           className={`vads-u-display--flex vads-u-flex-direction--row vads-u-margin-bottom--1 vads-u-margin-top--0${
             startDateMonthError || startDateDayError ? ' usa-input-error' : ''
@@ -176,7 +192,7 @@ const Search = ({ onSearch }) => {
       {/* ======================== */}
       {/* Custom date range fields */}
       {/* ======================== */}
-      {selectedOption === 'custom-date-range' && (
+      {selectedOption?.value === 'custom-date-range' && (
         <div
           className={`vads-u-display--flex vads-u-flex-direction--column vads-u-margin-top--0${
             startDateDayError ||

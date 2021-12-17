@@ -72,9 +72,18 @@ export const filterByOptions = [
   },
 ];
 
-export const defaultSelectedOption = filterByOptions?.find(
-  option => option.value === 'upcoming',
-);
+export const deriveDefaultSelectedOption = () => {
+  // Derive the query params on the URL.
+  const queryParams = new URLSearchParams(window.location.search);
+
+  // Derive the default selected option.
+  return filterByOptions?.find(
+    option =>
+      queryParams.get('selectedOption')
+        ? option.value === queryParams.get('selectedOption')
+        : option.value === 'upcoming',
+  );
+};
 
 export const deriveMostRecentDate = (
   fieldDatetimeRangeTimezone,
@@ -316,4 +325,49 @@ export const showLegacyEvents = () => {
   if (legacyEvents.classList.contains('vads-u-display--none')) {
     legacyEvents.classList.remove('vads-u-display--none');
   }
+};
+
+export const updateQueryParams = (queryParamsLookup = {}) => {
+  // Derive the query params on the URL.
+  const queryParams = new URLSearchParams(window.location.search);
+
+  // Set/Delete query params.
+  Object.entries(queryParamsLookup).forEach(([key, value]) => {
+    // Set the query param.
+    if (value) {
+      queryParams.set(key, value);
+      return;
+    }
+
+    // Remove the query param.
+    queryParams.delete(key);
+  });
+
+  // Update the URL with the new query params.
+  window.history.replaceState(
+    {},
+    '',
+    `${window.location.pathname}?${queryParams}`,
+  );
+};
+
+export const deriveFilteredEvents = ({
+  endDateDay,
+  endDateMonth,
+  rawEvents,
+  selectedOption,
+  startDateDay,
+  startDateMonth,
+}) => {
+  // Derive startsAtUnix.
+  const startsAtUnix = deriveStartsAtUnix(startDateMonth, startDateDay);
+
+  // Derive endsAtUnix.
+  const endsAtUnix = deriveEndsAtUnix(startsAtUnix, endDateMonth, endDateDay);
+
+  // Filter events.
+  return filterEvents(rawEvents, selectedOption?.value, {
+    startsAtUnix,
+    endsAtUnix,
+  });
 };
