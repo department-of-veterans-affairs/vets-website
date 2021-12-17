@@ -14,7 +14,7 @@ const MedicalCopaysApp = ({ children }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const profileLoading = useSelector(state => isProfileLoading(state));
   const fetchPending = useSelector(({ mcp }) => mcp.pending);
-  const statementData = useSelector(({ mcp }) => mcp.statements);
+  const statements = useSelector(({ mcp }) => mcp.statements);
   const error = useSelector(({ mcp }) => mcp.error);
   const [alertType, setAlertType] = useState(null);
   const { pathname } = useLocation();
@@ -33,8 +33,7 @@ const MedicalCopaysApp = ({ children }) => {
     () => {
       scrollToTop();
       setAlertType(null);
-      if (profileLoading || fetchPending) return;
-      if (!error && !statementData?.length) {
+      if (statements && !statements?.length) {
         setAlertType('no-history');
       }
       if (error?.code === '403') {
@@ -44,7 +43,7 @@ const MedicalCopaysApp = ({ children }) => {
         setAlertType('error');
       }
     },
-    [fetchPending, profileLoading, error, statementData],
+    [fetchPending, profileLoading, error, statements],
   );
 
   if (showMCP === false || (!profileLoading && !userLoggedIn)) {

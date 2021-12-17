@@ -8,9 +8,9 @@ import { sortStatementsByDate, rmvDupFacilities } from '../utils/helpers';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 const OverviewPage = () => {
-  const statementData = useSelector(({ mcp }) => mcp.statements);
-  const facilities = rmvDupFacilities(statementData);
-  const sortedStatements = sortStatementsByDate(statementData);
+  const statements = useSelector(({ mcp }) => mcp.statements) ?? [];
+  const facilities = rmvDupFacilities(statements);
+  const sortedStatements = sortStatementsByDate(statements);
   const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const OverviewPage = () => {
         Check your VA health care and prescription charges from each of your
         facilities. Find out how to make payments or request financial help.
       </p>
-      <Balances statementData={statementsByUniqueFacility} />
+      <Balances statements={statementsByUniqueFacility} />
       <BalanceQuestions />
       <FacilityContacts facilities={facilities} />
     </>

@@ -9,7 +9,7 @@ const PDFStatementList = () => {
   const { pathname } = useLocation();
   const selectedId = pathname.replace('/balance-details/', '');
   const userFullName = useSelector(({ user }) => user.profile.userFullName);
-  const statements = useSelector(({ mcp }) => mcp.statements);
+  const statements = useSelector(({ mcp }) => mcp.statements) ?? [];
 
   // get selected statement
   const [selectedCopay] = statements?.filter(({ id }) => id === selectedId);

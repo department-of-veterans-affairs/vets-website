@@ -14,8 +14,8 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 const DetailPage = ({ match }) => {
   const selectedId = match.params.id;
-  const statementData = useSelector(({ mcp }) => mcp.statements);
-  const [selectedCopay] = statementData?.filter(({ id }) => id === selectedId);
+  const statements = useSelector(({ mcp }) => mcp.statements) ?? [];
+  const [selectedCopay] = statements?.filter(({ id }) => id === selectedId);
   const acctNum = selectedCopay?.pHAccountNumber
     ? selectedCopay?.pHAccountNumber
     : selectedCopay?.pHCernerAccountNumber;
