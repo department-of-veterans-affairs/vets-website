@@ -15,11 +15,8 @@ describe('Check In Experience -- ', () => {
         'GET',
         '/v0/feature_toggles*',
         generateFeatureToggles({
-          checkInExperienceMultipleAppointmentSupport: true,
           checkInExperienceUpdateInformationPageEnabled: false,
-          checkInExperienceDemographicsPageEnabled: true,
           emergencyContactEnabled: true,
-          checkInExperienceNextOfKinEnabled: true,
         }),
       );
       cy.visitWithUUID();
@@ -38,29 +35,28 @@ describe('Check In Experience -- ', () => {
       Demographics.attemptToGoToNextPage('no');
       SeeStaff.validatePageLoaded();
       SeeStaff.validateMessage();
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
     it('see staff page has BTSSS link', () => {
       Demographics.attemptToGoToNextPage('no');
       SeeStaff.validatePageLoaded();
       SeeStaff.validateBTSSSLink();
+      cy.injectAxeThenAxeCheck();
     });
     it('back link goes back to previous page', () => {
       Demographics.attemptToGoToNextPage('no');
       SeeStaff.validatePageLoaded();
       SeeStaff.validateBackButton();
+      cy.injectAxeThenAxeCheck();
     });
     it('see staff display with next of kin message', () => {
       Demographics.attemptToGoToNextPage();
-      NextOfKin.attemptToGoToNextPage();
       NextOfKin.attemptToGoToNextPage('no');
       SeeStaff.validatePageLoaded();
       SeeStaff.validateMessage(
-        'Our staff can help you update your emergency contact information.',
+        'Our staff can help you update your next of kin information.',
       );
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
     it('see staff display with emergency contact message', () => {
       Demographics.attemptToGoToNextPage();
@@ -70,8 +66,7 @@ describe('Check In Experience -- ', () => {
       SeeStaff.validateMessage(
         'Our staff can help you update your emergency contact information.',
       );
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

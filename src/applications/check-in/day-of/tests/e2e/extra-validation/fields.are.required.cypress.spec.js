@@ -1,7 +1,7 @@
 import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
 import '../support/commands';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import Appointments from '../pages/Appointments';
+import Demographics from '../../../../tests/e2e/pages/Demographics';
 
 describe('Check In Experience -- ', () => {
   describe('extra validation -- ', () => {
@@ -19,11 +19,12 @@ describe('Check In Experience -- ', () => {
       });
     });
     it('validation failed shows error messages', () => {
+      cy.injectAxeThenAxeCheck();
       ValidateVeteran.getLastNameError();
       ValidateVeteran.getLast4Error();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
-      Appointments.validatePageLoaded();
+      Demographics.validatePageLoaded();
     });
   });
 });

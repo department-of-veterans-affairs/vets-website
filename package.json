@@ -176,7 +176,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-sonarjs": "^0.10.0",
     "eslint-plugin-unicorn": "^35.0.0",
-    "eslint-plugin-va": "./script/eslint-plugin-va",
+    "eslint-plugin-va": "file:./script/eslint-plugin-va",
     "express-history-api-fallback": "^2.2.1",
     "figlet": "^1.5.2",
     "file-loader": "^6.2.0",
@@ -249,7 +249,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/component-library": "^3.10.0",
+    "@department-of-veterans-affairs/component-library": "^3.10.1",
     "@department-of-veterans-affairs/formation": "6.17.3",
     "@department-of-veterans-affairs/formulate": "0.0.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
