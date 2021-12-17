@@ -15,7 +15,6 @@ const EmergencyContact = props => {
   const {
     emergencyContact,
     isLoading,
-    isDemographicsPageEnabled,
     isUpdatePageEnabled,
     router,
     updateSeeStaffMessage,
@@ -78,9 +77,7 @@ const EmergencyContact = props => {
   } else {
     return (
       <>
-        {(isUpdatePageEnabled || isDemographicsPageEnabled) && (
-          <BackButton router={router} />
-        )}
+        <BackButton router={router} />
         <EmergencyContactDisplay
           data={emergencyContact}
           yesAction={yesClick}
@@ -104,7 +101,6 @@ const mapDispatchToProps = dispatch => {
 EmergencyContact.propTypes = {
   emergencyContact: PropTypes.object,
   isLoading: PropTypes.bool,
-  isDemographicsPageEnabled: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
   updateSeeStaffMessage: PropTypes.func,

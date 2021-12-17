@@ -61,13 +61,16 @@ describe('check-in', () => {
         },
       };
 
-      const screen = render(
+      const { container } = render(
         <Provider store={store}>
           <CheckIn isLoading router={mockRouter} />
         </Provider>,
       );
 
-      expect(screen.getByText('Loading your appointments for today')).to.exist;
+      expect(container.querySelector('va-loading-indicator')).to.have.attribute(
+        'message',
+        'Loading your appointments for today',
+      );
     });
     it('refreshes appointments', () => {
       const mockRouter = {

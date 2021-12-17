@@ -2130,13 +2130,13 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^3.10.0":
-  version "3.10.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.10.0.tgz#bea0c23e584aeedb0fee366d1991dcadf18429e9"
-  integrity sha512-tYiCN6w/XrITGXK2Tl2oEIFN6WcLeG2VqGzHxsuWFhHFAH5hdwnId5nZwqK2TFQlGWZFoPRTD7DT5+apmkgOCQ==
+"@department-of-veterans-affairs/component-library@^3.10.1":
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.10.1.tgz#3026de04a3561d94b366b898ed09f6c63e4b8722"
+  integrity sha512-sz/IqToMMb0VeTx7rscLes267jamwL6MO+k0DiVoZcTW7gVB2Hr2PGUfUwP29gcTodekz3yng8+M6HUdwYkK8w==
   dependencies:
     "@department-of-veterans-affairs/react-components" "3.3.0"
-    "@department-of-veterans-affairs/web-components" "0.19.0"
+    "@department-of-veterans-affairs/web-components" "0.19.1"
     date-fns-tz "^1.1.1"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
@@ -2198,10 +2198,10 @@
     react-is "^17.0.1"
     setimmediate "^1.0.5"
 
-"@department-of-veterans-affairs/web-components@0.19.0":
-  version "0.19.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-0.19.0.tgz#23e0557539f8c4b63f68b5fe68572ac1f64e5065"
-  integrity sha512-k+8QywitYPlPfKBOyxrs/l4eSwx/7uKf4zlRvO0VmL9NPsTT8tj6WO4tIBVv58qZP3SpjvgpYomMLP3hT90cTQ==
+"@department-of-veterans-affairs/web-components@0.19.1":
+  version "0.19.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-0.19.1.tgz#7366350964c3cd8c98826dba36ad216619456fb2"
+  integrity sha512-uJX8/JQBjFaIZp2CNi9sjd+iIDVxW3najAeEQwvL5NeWzgM91msE8P0Q8b7Loegmj5MLYgIc30mE9cjSZv9GtA==
   dependencies:
     "@stencil/core" "^2.10.0"
     "@stencil/postcss" "^2.0.0"
@@ -7964,8 +7964,8 @@ eslint-plugin-unicorn@^35.0.0:
     safe-regex "^2.1.1"
     semver "^7.3.5"
 
-eslint-plugin-va@./script/eslint-plugin-va:
-  version "1.0.3"
+"eslint-plugin-va@file:./script/eslint-plugin-va":
+  version "1.0.4"
 
 eslint-scope@5.1.1, eslint-scope@^5.1.1:
   version "5.1.1"

@@ -12,8 +12,6 @@ const Demographics = props => {
   const {
     demographics,
     isLoading,
-    isUpdatePageEnabled,
-    isNextOfKinEnabled,
     router,
     updateSeeStaffMessage,
     demographicsStatus,
@@ -21,15 +19,9 @@ const Demographics = props => {
   const { demographicsNeedsUpdate } = demographicsStatus;
   const findNextPage = useCallback(
     () => {
-      if (isNextOfKinEnabled) {
-        goToNextPage(router, URLS.NEXT_OF_KIN);
-      } else if (isUpdatePageEnabled) {
-        goToNextPage(router, URLS.UPDATE_INSURANCE);
-      } else {
-        goToNextPage(router, URLS.DETAILS);
-      }
+      goToNextPage(router, URLS.NEXT_OF_KIN);
     },
-    [isNextOfKinEnabled, isUpdatePageEnabled, router],
+    [router],
   );
   const yesClick = useCallback(
     () => {
@@ -103,8 +95,6 @@ const mapDispatchToProps = dispatch => {
 Demographics.propTypes = {
   demographics: PropTypes.object,
   isLoading: PropTypes.bool,
-  isUpdatePageEnabled: PropTypes.bool,
-  isNextOfKinEnabled: PropTypes.bool,
   router: PropTypes.object,
   updateSeeStaffMessage: PropTypes.func,
   demographicsStatus: PropTypes.object,
