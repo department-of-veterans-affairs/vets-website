@@ -22,13 +22,14 @@ const Confirmation = () => {
       data-testid="confirmation-wrapper"
     >
       <h1 tabIndex="-1" className="vads-u-margin-top--2">
-        You’ve completed pre check-in
+        You’ve completed pre-check-in
       </h1>
       <AppointmentBlock appointments={appointments} />
       {hasUpdates ? (
         <va-alert
           background-only
           status="info"
+          show-icon
           data-testid="confirmation-update-alert"
         >
           {/** TODO INFO ICON */}
