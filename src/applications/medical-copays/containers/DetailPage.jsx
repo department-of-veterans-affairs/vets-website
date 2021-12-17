@@ -26,49 +26,48 @@ const DetailPage = ({ match }) => {
       <h1 className="vads-u-margin-bottom--1" data-testid="detail-page-title">
         Your copay bill for {selectedCopay?.station.facilityName}
       </h1>
-      <>
-        <p className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--5">
-          Updated on
-          <span className="vads-u-margin-x--0p5" data-testid="updated-date">
-            {formatDate(selectedCopay?.pSStatementDate)}
-          </span>
-        </p>
 
-        <Alert
-          type={selectedCopay?.pHAmtDue === 0 ? 'zero-balance' : 'status'}
-          copay={selectedCopay}
+      <p className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--5">
+        Updated on
+        <span className="vads-u-margin-x--0p5" data-testid="updated-date">
+          {formatDate(selectedCopay?.pSStatementDate)}
+        </span>
+      </p>
+
+      <Alert
+        type={selectedCopay?.pHAmtDue === 0 ? 'zero-balance' : 'status'}
+        copay={selectedCopay}
+      />
+
+      <OnThisPage />
+
+      <PDFStatementList />
+
+      <HowToPay
+        acctNum={selectedCopay?.pHAccountNumber}
+        facility={selectedCopay?.station}
+      />
+
+      <FinancialHelp />
+
+      <DisputeCharges />
+
+      <BalanceQuestions
+        facilityLocation={selectedCopay?.station.facilityName}
+        facilityPhone={selectedCopay?.station.teLNum}
+      />
+
+      <Modals title="Notice of rights and responsibilities">
+        <Modals.Rights />
+      </Modals>
+
+      <Link className="vads-u-font-size--sm" to="/">
+        <i
+          className="fa fa-chevron-left vads-u-margin-right--1"
+          aria-hidden="true"
         />
-
-        <OnThisPage />
-
-        <PDFStatementList />
-
-        <HowToPay
-          acctNum={selectedCopay?.pHAccountNumber}
-          facility={selectedCopay?.station}
-        />
-
-        <FinancialHelp />
-
-        <DisputeCharges />
-
-        <BalanceQuestions
-          facilityLocation={selectedCopay?.station.facilityName}
-          facilityPhone={selectedCopay?.station.teLNum}
-        />
-
-        <Modals title="Notice of rights and responsibilities">
-          <Modals.Rights />
-        </Modals>
-
-        <Link className="vads-u-font-size--sm" to="/">
-          <i
-            className="fa fa-chevron-left vads-u-margin-right--1"
-            aria-hidden="true"
-          />
-          <strong>Return to copay balances</strong>
-        </Link>
-      </>
+        <strong>Return to copay balances</strong>
+      </Link>
     </>
   );
 };

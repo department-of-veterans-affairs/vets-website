@@ -174,7 +174,7 @@ Alert.Status = ({ copay }) => (
   </va-alert>
 );
 
-const RenderAlert = ({ type, copay, error }) => {
+const Alerts = ({ type, copay, error }) => {
   switch (type) {
     case 'status':
       return <Alert.Status copay={copay} />;
@@ -212,4 +212,4 @@ const RenderAlert = ({ type, copay, error }) => {
   }
 };
 
-export default RenderAlert;
+export default Alerts;

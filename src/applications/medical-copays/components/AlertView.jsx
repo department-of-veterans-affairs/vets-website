@@ -1,7 +1,7 @@
 import React from 'react';
 import Alert from '../components/Alerts';
 
-const AlertPage = ({ pathname, alertType, error }) => {
+const AlertView = ({ pathname, alertType, error }) => {
   const overview = 'Your current copay balances';
   const details = 'Copay bill details';
 
@@ -13,4 +13,4 @@ const AlertPage = ({ pathname, alertType, error }) => {
   );
 };
 
-export default AlertPage;
+export default AlertView;

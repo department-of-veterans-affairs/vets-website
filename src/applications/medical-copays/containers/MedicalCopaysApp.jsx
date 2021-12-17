@@ -6,7 +6,7 @@ import Breadcrumbs from '@department-of-veterans-affairs/component-library/Bread
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
-import AlertPage from '../components/AlertPage';
+import AlertView from '../components/AlertView';
 import { getStatements } from '../actions';
 
 const MedicalCopaysApp = ({ children }) => {
@@ -33,6 +33,7 @@ const MedicalCopaysApp = ({ children }) => {
     () => {
       scrollToTop();
       setAlertType(null);
+      if (profileLoading || fetchPending) return;
       if (!error && !statementData?.length) {
         setAlertType('no-history');
       }
@@ -43,7 +44,7 @@ const MedicalCopaysApp = ({ children }) => {
         setAlertType('error');
       }
     },
-    [error, statementData],
+    [fetchPending, profileLoading, error, statementData],
   );
 
   if (showMCP === false || (!profileLoading && !userLoggedIn)) {
@@ -63,7 +64,7 @@ const MedicalCopaysApp = ({ children }) => {
             {renderBreadcrumbs(pathname)}
           </Breadcrumbs>
           {alertType ? (
-            <AlertPage
+            <AlertView
               pathname={pathname}
               alertType={alertType}
               error={error}
