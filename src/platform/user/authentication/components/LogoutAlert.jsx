@@ -1,11 +1,14 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
 export default function LogoutAlert() {
-  const content = (
-    <>
+  return (
+    <va-alert
+      headline="You have successfully signed out."
+      status="success"
+      className="vads-u-margin-bottom--6"
+    >
       <strong>Looking for other VA benefits or services?</strong>
       <a
         href="/"
@@ -24,14 +27,6 @@ export default function LogoutAlert() {
       <EbenefitsLink className="vads-u-display--block vads-u-margin-y--1">
         eBenefits
       </EbenefitsLink>
-    </>
-  );
-  return (
-    <AlertBox
-      headline="You have successfully signed out."
-      content={content}
-      status="success"
-      className="vads-u-margin-bottom--6"
-    />
+    </va-alert>
   );
 }

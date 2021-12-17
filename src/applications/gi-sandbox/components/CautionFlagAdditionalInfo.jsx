@@ -24,11 +24,11 @@ export const CautionFlagAdditionalInfo = ({
           className="caution-flag-toggle"
           onClick={() => {
             toggleExpansion(!expanded);
-            recordEvent(
-              !expanded
-                ? { event: 'caution-flag-additional-info-expand' }
-                : { event: 'caution-flag-additional-info-collapsed' },
-            );
+            const event = !expanded ? 'expand' : 'collapse';
+            recordEvent({
+              event: `int-additional-info-${event}}`,
+              'additionalInfo-click-label': headline,
+            });
           }}
         >
           <div className="vads-u-display--flex">

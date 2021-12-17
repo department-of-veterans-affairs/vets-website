@@ -1,10 +1,6 @@
 import React from 'react';
-import environment from 'platform/utilities/environment';
 
 function TravelPayReimbursementLink() {
-  if (environment.isProduction()) {
-    return '';
-  }
   return (
     <div className="vads-u-margin-top--3">
       <a

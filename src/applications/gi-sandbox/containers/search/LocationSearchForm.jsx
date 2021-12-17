@@ -212,7 +212,7 @@ export function LocationSearchForm({
                     <button
                       onClick={() => {
                         recordEvent({
-                          event: 'use-my-location-clicked',
+                          event: 'map-use-my-location',
                         });
                         dispatchGeolocateUser();
                       }}

@@ -740,7 +740,7 @@ export default function formReducer(state = initialState, action) {
         : FACILITY_SORT_METHODS.distanceFromFacility;
 
       const selectedCCFacility =
-        !hasResidentialCoordinates && state.ccEnabledSystems.length > 1
+        !hasResidentialCoordinates && state.ccEnabledSystems?.length > 1
           ? state.ccEnabledSystems.find(
               system => system.id === state.data?.communityCareSystemId,
             )

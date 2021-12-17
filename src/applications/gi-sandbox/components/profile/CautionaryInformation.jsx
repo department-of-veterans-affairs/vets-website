@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import recordEvent from 'platform/monitoring/record-event';
 import CautionFlagDetails from './CautionFlagDetails';
 import SchoolClosingDetails from './SchoolClosingDetails';
 import LearnMoreLabel from '../LearnMoreLabel';
@@ -84,12 +83,6 @@ export function CautionaryInformation({ institution, showModal }) {
               href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#CF"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => {
-                recordEvent({
-                  event: 'education-navigation',
-                  'edu-action': 'about-this-tool',
-                });
-              }}
             >
               visit the About this Tool Page
             </a>
@@ -107,11 +100,6 @@ export function CautionaryInformation({ institution, showModal }) {
         bold
         text={'All campuses'}
         onClick={() => {
-          recordEvent({
-            event: `Learn more clicked for: ${
-              ariaLabels.learnMore.allCampusComplaints
-            }`,
-          });
           showModal('allCampuses');
         }}
         ariaLabel={ariaLabels.learnMore.allCampusComplaints}
@@ -183,9 +171,6 @@ export function CautionaryInformation({ institution, showModal }) {
             <LearnMoreLabel
               onClick={() => {
                 showModal('studentComplaints');
-                recordEvent({
-                  event: `Learn more link Clicked: for student complaints`,
-                });
               }}
               buttonId="student-complaints"
               buttonClassName="small-screen-font"

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
@@ -12,27 +12,26 @@ const Demographics = props => {
   const {
     demographics,
     isLoading,
-    isUpdatePageEnabled,
-    isNextOfKinEnabled,
     router,
     updateSeeStaffMessage,
+    demographicsStatus,
   } = props;
-
+  const { demographicsNeedsUpdate } = demographicsStatus;
+  const findNextPage = useCallback(
+    () => {
+      goToNextPage(router, URLS.NEXT_OF_KIN);
+    },
+    [router],
+  );
   const yesClick = useCallback(
     () => {
       recordEvent({
         event: 'cta-button-click',
         'button-click-label': 'yes-to-demographic-information',
       });
-      if (isNextOfKinEnabled) {
-        goToNextPage(router, URLS.NEXT_OF_KIN);
-      } else if (isUpdatePageEnabled) {
-        goToNextPage(router, URLS.UPDATE_INSURANCE);
-      } else {
-        goToNextPage(router, URLS.DETAILS);
-      }
+      findNextPage();
     },
-    [isNextOfKinEnabled, isUpdatePageEnabled, router],
+    [findNextPage],
   );
 
   const noClick = useCallback(
@@ -55,7 +54,14 @@ const Demographics = props => {
     },
     [router, updateSeeStaffMessage],
   );
-
+  useEffect(
+    () => {
+      if (demographicsNeedsUpdate === false) {
+        findNextPage();
+      }
+    },
+    [demographicsNeedsUpdate, findNextPage],
+  );
   if (isLoading) {
     return (
       <va-loading-indicator message="Loading your appointments for today" />
@@ -89,10 +95,9 @@ const mapDispatchToProps = dispatch => {
 Demographics.propTypes = {
   demographics: PropTypes.object,
   isLoading: PropTypes.bool,
-  isUpdatePageEnabled: PropTypes.bool,
-  isNextOfKinEnabled: PropTypes.bool,
   router: PropTypes.object,
   updateSeeStaffMessage: PropTypes.func,
+  demographicsStatus: PropTypes.object,
 };
 
 export default connect(

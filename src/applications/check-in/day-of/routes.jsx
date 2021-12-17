@@ -5,6 +5,7 @@ import CheckIn from './pages/CheckIn';
 import Confirmation from './pages/Confirmation';
 import Demographics from './pages/Demographics';
 import NextOfKin from './pages/NextOfKin';
+import EmergencyContact from './pages/EmergencyContact';
 import Error from './pages/Error';
 import SeeStaff from './pages/SeeStaff';
 import Landing from './pages/Landing';
@@ -32,6 +33,12 @@ const createRoutesWithStore = () => {
       <Route
         path={`/${URLS.NEXT_OF_KIN}`}
         component={withFeatureFlip(withLoadedData(withSession(NextOfKin)))}
+      />
+      <Route
+        path={`/${URLS.EMERGENCY_CONTACT}`}
+        component={withFeatureFlip(
+          withLoadedData(withSession(EmergencyContact)),
+        )}
       />
       <Route
         path={`/${URLS.UPDATE_INSURANCE}`}

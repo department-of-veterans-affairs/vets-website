@@ -49,7 +49,9 @@ export default function({
   const handleOnChange = e => {
     setShowDifferences(e.target.checked);
     recordEvent({
-      event: `Radio checkbox clicked: Compare schools highlight differences`,
+      event: 'gibct-form-change',
+      'gibct-form-field': 'Highlight differences',
+      'gibct-form-value': e.target.checked,
     });
   };
 

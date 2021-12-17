@@ -13,6 +13,7 @@ import {
   TYPES_OF_SLEEP_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_CARE,
+  CANCELLATION_REASONS,
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import {
@@ -505,7 +506,11 @@ export function transformPendingAppointment(appt) {
     id: appt.id,
     status: getRequestStatus(appt, isExpressCare),
     created,
-    cancelationReason: appt.cancelationReason?.coding[0].code || null,
+    cancelationReason:
+      appt.appointmentRequestDetailCode?.[0]?.detailCode.code === 'DETCODE8'
+        ? CANCELLATION_REASONS.patient
+        : null,
+
     requestedPeriod,
     start: isExpressCare ? created : null,
     minutesDuration: 60,

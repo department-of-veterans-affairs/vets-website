@@ -2,7 +2,6 @@ import React from 'react';
 import { ariaLabels } from '../../constants';
 import { upperCaseFirstLetterOnly } from '../../utils/helpers';
 import LearnMoreLabel from '../LearnMoreLabel';
-import recordEvent from 'platform/monitoring/record-event';
 
 export default function Academics({ institution, onShowModal }) {
   const accredited = institution.accredited && institution.accreditationType;
@@ -14,10 +13,6 @@ export default function Academics({ institution, onShowModal }) {
           text={'Accreditation'}
           onClick={() => {
             onShowModal('accreditation');
-            recordEvent({
-              event: 'gibct-form-help-text-clicked',
-              'help-text-label': 'Learn more about the accreditation',
-            });
           }}
           ariaLabel={ariaLabels.learnMore.accreditation}
           buttonId={'accreditation-button'}
@@ -53,10 +48,6 @@ export default function Academics({ institution, onShowModal }) {
           text={'Credit for military training'}
           onClick={() => {
             onShowModal('militaryTrainingCredit');
-            recordEvent({
-              event: 'gibct-form-help-text-clicked',
-              'help-text-label': 'Learn more about Military Training Credit',
-            });
           }}
           ariaLabel={ariaLabels.learnMore.militaryTrainingCredit}
           buttonId={'creditTraining-button'}
@@ -76,10 +67,6 @@ export default function Academics({ institution, onShowModal }) {
           text={'Independent study'}
           onClick={() => {
             onShowModal('independentStudy');
-            recordEvent({
-              event: 'gibct-form-help-text-clicked',
-              'help-text-label': 'Learn more about Independent Study',
-            });
           }}
           ariaLabel={ariaLabels.learnMore.independentStudy}
           buttonId={'independentStudy-button'}
@@ -99,10 +86,6 @@ export default function Academics({ institution, onShowModal }) {
           text={'Priority Enrollment'}
           onClick={() => {
             onShowModal('priorityEnrollment');
-            recordEvent({
-              event: 'gibct-form-help-text-clicked',
-              'help-text-label': 'Learn more about priority enrollment',
-            });
           }}
           ariaLabel={ariaLabels.learnMore.priorityEnrollment}
           buttonClassName="small-screen-font"

@@ -20,6 +20,16 @@ export default function SelectedProvider({
   );
   const [showRemoveProviderModal, setShowRemoveProviderModal] = useState(false);
 
+  const srSortMethod = () => {
+    if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
+      return 'from your current location';
+    } else if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
+      return 'from your home address';
+    } else {
+      return 'from closest VA facility';
+    }
+  };
+
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--2 medium-screen:vads-u-padding--3">
       {!providerSelected && (
@@ -57,11 +67,7 @@ export default function SelectedProvider({
           </span>
           <span className="vads-u-display--block vads-u-font-size--sm">
             {formData[sortMethod]} miles{' '}
-            <span className="sr-only">
-              {sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
-                ? 'from your current location'
-                : 'from your home address'}
-            </span>
+            <span className="sr-only">{srSortMethod()}</span>
           </span>
           <div className="vads-u-display--flex vads-u-margin-top--1">
             <button
@@ -91,6 +97,7 @@ export default function SelectedProvider({
         <RemoveProviderModal
           provider={formData}
           address={address}
+          distanceInMiles={formData[sortMethod]}
           onClose={response => {
             setShowRemoveProviderModal(false);
             if (response === true) {

@@ -1,7 +1,7 @@
 import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
 import '../support/commands';
 
-import error from '../pages/Error';
+import error from '../../../../tests/e2e/pages/Error';
 import apiInitializer from '../support/ApiInitializer';
 
 describe('Pre-Check In Experience ', () => {

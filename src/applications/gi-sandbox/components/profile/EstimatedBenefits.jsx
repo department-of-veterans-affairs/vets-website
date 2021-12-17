@@ -3,13 +3,13 @@ import classNames from 'classnames';
 import { createId } from '../../utils/helpers';
 import _ from 'lodash';
 import LearnMoreLabel from '../LearnMoreLabel';
-import recordEvent from 'platform/monitoring/record-event';
 
 export default function EstimatedBenefits({
   outputs,
   calculator,
   isOJT,
   dispatchShowModal,
+  estimatedBenefitsRef,
 }) {
   const month = (
     <React.Fragment key="months">
@@ -109,10 +109,6 @@ export default function EstimatedBenefits({
           <LearnMoreLabel
             text={title}
             onClick={() => {
-              recordEvent({
-                event: `Learn more clicked for ${learnMoreAriaLabel} test`,
-              });
-
               if (modal) {
                 dispatchShowModal(modal);
               } else {
@@ -157,7 +153,11 @@ export default function EstimatedBenefits({
   return (
     <div className="medium-6 columns">
       <div className="your-estimated-benefits">
-        <h3 id="estimated-benefits small-screen-header" tabIndex="-1">
+        <h3
+          ref={estimatedBenefitsRef}
+          id="estimated-benefits small-screen-header"
+          tabIndex="-1"
+        >
           Your estimated benefits
         </h3>
         <div aria-atomic="true" aria-live="polite" role="status">
@@ -210,10 +210,6 @@ export default function EstimatedBenefits({
                   text="Book stipend"
                   onClick={() => {
                     dispatchShowModal('bookStipendInfo');
-                    recordEvent({
-                      event: 'gibct-form-help-text-clicked',
-                      'help-text-label': 'Learn more about the book stipend',
-                    });
                   }}
                   ariaLabel="Learn more about the book stipend"
                   buttonId="book-stipend-learn-more"

@@ -8,6 +8,7 @@ const getTokenFromLocation = location => location?.query?.id;
 const URLS = Object.freeze({
   CONFIRMATION: 'complete',
   DEMOGRAPHICS: 'contact-information',
+  EMERGENCY_CONTACT: 'emergency-contact',
   ERROR: 'error',
   INTRODUCTION: 'introduction',
   LANDING: '',
@@ -31,6 +32,10 @@ const PRE_CHECK_IN_FORM_PAGES = Object.freeze([
   },
   {
     url: URLS.NEXT_OF_KIN,
+    order: 3,
+  },
+  {
+    url: URLS.EMERGENCY_CONTACT,
     order: 4,
   },
   {
@@ -39,12 +44,21 @@ const PRE_CHECK_IN_FORM_PAGES = Object.freeze([
   },
 ]);
 
-const createForm = ({ hasConfirmedDemographics = false }) => {
+const createForm = ({
+  hasConfirmedDemographics = false,
+  isEmergencyContactEnabled = false,
+}) => {
   let pages = PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
   if (hasConfirmedDemographics) {
-    pages = pages.filter(
-      page => page !== URLS.DEMOGRAPHICS && page !== URLS.NEXT_OF_KIN,
-    );
+    const skippedPages = [
+      URLS.DEMOGRAPHICS,
+      URLS.NEXT_OF_KIN,
+      URLS.EMERGENCY_CONTACT,
+    ];
+    pages = pages.filter(page => !skippedPages.includes(page));
+  }
+  if (!isEmergencyContactEnabled) {
+    pages = pages.filter(page => page !== URLS.EMERGENCY_CONTACT);
   }
   return pages;
 };

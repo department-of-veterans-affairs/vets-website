@@ -243,6 +243,7 @@ const SearchResult = ({
           data-testid={`pdf-link-${id}`}
           rel="noreferrer noopener"
           href={showPDFInfoVersionOne && !doesCookieExist ? null : url}
+          tabIndex="0"
           onClick={() => pdfDownloadHandler()}
           {...linkProps}
         >

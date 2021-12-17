@@ -676,14 +676,6 @@ export const mockTogglesResponse = {
         value: false,
       },
       {
-        name: 'profileNotificationSettings',
-        value: true,
-      },
-      {
-        name: 'profile_notification_settings',
-        value: true,
-      },
-      {
         name: 'profileEnhancements',
         value: true,
       },

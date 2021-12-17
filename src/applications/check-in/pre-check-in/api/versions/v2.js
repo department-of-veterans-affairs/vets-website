@@ -56,6 +56,7 @@ const v2 = {
     uuid,
     demographicsUpToDate,
     nextOfKinUpToDate,
+    emergencyContactUpToDate,
     checkInType = 'preCheckIn',
   }) => {
     const url = '/check_in/v2/pre_check_ins/';
@@ -65,6 +66,7 @@ const v2 = {
         uuid,
         demographicsUpToDate,
         nextOfKinUpToDate,
+        emergencyContactUpToDate,
         checkInType,
       },
     };

@@ -17,7 +17,6 @@ import Academics from './Academics';
 import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 import BackToTop from '../BackToTop';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import recordEvent from 'platform/monitoring/record-event';
 
 export default function InstitutionProfile({
   institution,
@@ -67,50 +66,31 @@ export default function InstitutionProfile({
           <JumpLink
             label="Calculate your benefits"
             jumpToId="calculate-your-benefits"
-            onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
           />
           <JumpLink
             label="Getting started with benefits"
             jumpToId="getting-started-with-benefits"
-            onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
           />
           {displayStars && (
-            <JumpLink
-              label="Veteran ratings"
-              jumpToId="veteran-ratings"
-              onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
-            />
+            <JumpLink label="Veteran ratings" jumpToId="veteran-ratings" />
           )}
           <JumpLink
             label="Cautionary information"
             jumpToId="cautionary-information"
-            onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
           />
           {shouldShowSchoolLocations(institution.facilityMap) && (
-            <JumpLink
-              label="School locations"
-              jumpToId="school-locations"
-              onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
-            />
+            <JumpLink label="School locations" jumpToId="school-locations" />
           )}
-          {!isOJT && (
-            <JumpLink
-              label="Academics"
-              jumpToId="academics"
-              onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
-            />
-          )}
+          {!isOJT && <JumpLink label="Academics" jumpToId="academics" />}
           {!isOJT && (
             <JumpLink
               label="Veteran programs and support"
               jumpToId="veteran-programs-and-support"
-              onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
             />
           )}
           <JumpLink
             label="Contact information"
             jumpToId="contact-information"
-            onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
           />
         </div>
       </div>

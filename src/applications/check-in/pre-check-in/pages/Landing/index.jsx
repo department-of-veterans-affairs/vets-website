@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -13,6 +13,7 @@ import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { createForm, getTokenFromLocation, URLS } from '../../utils/navigation';
 import { isUUID, SCOPES } from '../../../utils/token-format-validator';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 export default function Index(props) {
   const [loadMessage] = useState('Finding your appointment information');
@@ -35,6 +36,10 @@ export default function Index(props) {
   const { router } = props;
   const { goToErrorPage, jumpToPage } = useFormRouting(router);
   const { clearCurrentSession, setCurrentToken } = useSessionStorage();
+
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isEmergencyContactEnabled } = useSelector(selectFeatureToggles);
+
   useEffect(
     () => {
       const token = getTokenFromLocation(router.location);
@@ -62,7 +67,10 @@ export default function Index(props) {
               goToErrorPage();
             } else {
               setCurrentToken(window, token);
-              const pages = createForm({ hasConfirmedDemographics: false });
+              const pages = createForm({
+                hasConfirmedDemographics: false,
+                isEmergencyContactEnabled,
+              });
               const firstPage = pages[0];
               initForm(pages, firstPage);
               setSession(token, session.permissions);
@@ -85,6 +93,7 @@ export default function Index(props) {
       clearCurrentSession,
       goToErrorPage,
       initForm,
+      isEmergencyContactEnabled,
       jumpToPage,
       router,
       setCurrentToken,

@@ -371,23 +371,29 @@ const CompareLayout = ({
               const hasFlags = institution.cautionFlags.length > 0;
               return (
                 <div className="vads-u-display--flex">
-                  <div className="caution-flag-icon vads-u-flex--1">
-                    {!hasFlags && <i className={`fa fa-check`} />}
-                    {hasFlags && <i className={`fa fa-exclamation-triangle`} />}
-                  </div>
+                  {hasFlags && (
+                    <div className="caution-flag-icon vads-u-flex--1">
+                      <i
+                        aria-hidden="true"
+                        className={`fa fa-exclamation-triangle`}
+                      />
+                    </div>
+                  )}
                   <div className="vads-u-flex--4">
-                    <div className="caution-header">
-                      {!hasFlags && (
+                    {!hasFlags && (
+                      <div>
                         <span>This school doesn’t have any caution flags</span>
-                      )}
-                      {hasFlags && (
+                      </div>
+                    )}
+                    {hasFlags && (
+                      <div className="caution-header">
                         <span>
                           This school has {institution.cautionFlags.length}{' '}
                           cautionary warning
                           {institution.cautionFlags.length > 1 && 's'}
                         </span>
-                      )}
-                    </div>
+                      </div>
+                    )}
                     {hasFlags && (
                       <div>
                         <ul>

@@ -72,13 +72,21 @@ export default function SchoolLocations({
     setViewableRowCount(totalRowCount);
     setViewAll(true);
     setFocusedElementIndex(previousRowCount);
-    recordEvent({ event: 'view-all-locations-click' });
+    recordEvent({
+      event: 'cta-button-click',
+      'button-click-label': 'View All',
+      'button-type': 'link',
+    });
   };
 
   const handleViewLessClicked = () => {
     if (onViewLess) {
       onViewLess();
-      recordEvent({ event: 'view-less-locations-click' });
+      recordEvent({
+        event: 'cta-button-click',
+        'button-click-label': 'View Less',
+        'button-type': 'link',
+      });
     }
 
     setViewableRowCount(initialRowCount);
@@ -96,7 +104,11 @@ export default function SchoolLocations({
 
     setViewableRowCount(newViewableRowCount);
     setFocusedElementIndex(previousRowCount);
-    recordEvent({ event: 'view-more-locations-click' });
+    recordEvent({
+      event: 'cta-button-click',
+      'button-click-label': 'Show Next n',
+      'button-type': 'link',
+    });
   };
 
   const schoolLocationTableInfo = (

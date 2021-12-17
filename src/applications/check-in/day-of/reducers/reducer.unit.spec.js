@@ -5,16 +5,54 @@ import reducer from './index';
 import {
   appointmentWAsCheckedInto,
   receivedMultipleAppointmentDetails,
+  receivedEmergencyContact,
   receivedDemographicsData,
   receivedNextOfKinData,
   tokenWasValidated,
   permissionsUpdated,
   triggerRefresh,
   seeStaffMessageUpdated,
+  receivedDemographicsStatus,
 } from '../actions';
 
 describe('check-in', () => {
   describe('reducer', () => {
+    describe('receivedEmergencyContact', () => {
+      it('should create basic structure', () => {
+        const action = receivedEmergencyContact({});
+        const state = reducer.checkInData(undefined, action);
+        expect(state).haveOwnProperty('emergencyContact');
+      });
+
+      it('should set emergency contact information', () => {
+        const data = {
+          name: 'VETERAN,JONAH',
+          relationship: 'BROTHER',
+          phone: '1112223333',
+          workPhone: '4445556666',
+          address: {
+            street1: '123 Main St',
+            street2: 'Ste 234',
+            street3: '',
+            city: 'Los Angeles',
+            county: 'Los Angeles',
+            state: 'CA',
+            zip: '90089',
+            zip4: '',
+            country: 'USA',
+          },
+        };
+        const action = receivedEmergencyContact(data);
+        const state = reducer.checkInData(undefined, action);
+        expect(state).haveOwnProperty('emergencyContact');
+        expect(state.emergencyContact).to.be.an('object');
+        expect(state.emergencyContact).haveOwnProperty('name');
+        expect(state.emergencyContact).haveOwnProperty('relationship');
+        expect(state.emergencyContact).haveOwnProperty('phone');
+        expect(state.emergencyContact).haveOwnProperty('workPhone');
+        expect(state.emergencyContact).haveOwnProperty('address');
+      });
+    });
     describe('receivedDemographicsData', () => {
       it('should create basic structure', () => {
         const action = receivedDemographicsData({});
@@ -175,6 +213,47 @@ describe('check-in', () => {
         const state = reducer.checkInData(undefined, action);
         expect(state).haveOwnProperty('seeStaffMessage');
         expect(state.seeStaffMessage).to.equal('This is a message');
+      });
+    });
+
+    describe('receivedDemographicsStatus', () => {
+      it('should create basic structure', () => {
+        const action = receivedDemographicsStatus({});
+        const state = reducer.checkInData(undefined, action);
+        expect(state).haveOwnProperty('demographicsStatus');
+      });
+
+      it('should have the correct fields', () => {
+        const data = {
+          demographicsNeedsUpdate: true,
+          demographicsConfirmedAt: null,
+          nextOfKinNeedsUpdate: false,
+          nextOfKinConfirmedAt: null,
+          emergencyContactNeedsUpdate: true,
+          emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
+        };
+        const action = receivedDemographicsStatus(data);
+        const state = reducer.checkInData(undefined, action);
+        expect(state).haveOwnProperty('demographicsStatus');
+        expect(state.demographicsStatus).to.be.an('object');
+        expect(state.demographicsStatus).haveOwnProperty(
+          'demographicsNeedsUpdate',
+        );
+        expect(state.demographicsStatus).haveOwnProperty(
+          'demographicsConfirmedAt',
+        );
+        expect(state.demographicsStatus).haveOwnProperty(
+          'nextOfKinNeedsUpdate',
+        );
+        expect(state.demographicsStatus).haveOwnProperty(
+          'nextOfKinConfirmedAt',
+        );
+        expect(state.demographicsStatus).haveOwnProperty(
+          'emergencyContactNeedsUpdate',
+        );
+        expect(state.demographicsStatus).haveOwnProperty(
+          'emergencyContactConfirmedAt',
+        );
       });
     });
   });

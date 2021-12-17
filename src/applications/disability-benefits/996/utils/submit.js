@@ -176,7 +176,7 @@ export const getContestedIssues = ({ contestedIssues = [] }) =>
  */
 export const addIncludedIssues = formData => {
   const issues = getContestedIssues(formData);
-  if (formData['view:hasIssuesToAdd']) {
+  if (formData.hlrV2) {
     return issues.concat(
       (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
         if (issue[SELECTED] && issue.issue && issue.decisionDate) {

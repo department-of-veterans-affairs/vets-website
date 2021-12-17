@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
-import ContactInformationField from '@@vap-svc/components/ContactInformationField';
+import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 
 import { signInServiceName as signInServiceNameSelector } from 'platform/user/authentication/selectors';
 
@@ -47,7 +47,11 @@ const EmailInformationSection = ({ className, signInServiceName }) => {
               </>
             ),
             id: FIELD_IDS[FIELD_NAMES.EMAIL],
-            value: <ContactInformationField fieldName={FIELD_NAMES.EMAIL} />,
+            value: (
+              <ProfileInformationFieldController
+                fieldName={FIELD_NAMES.EMAIL}
+              />
+            ),
           },
           {
             title: 'Sign-in email',

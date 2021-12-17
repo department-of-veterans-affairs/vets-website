@@ -26,15 +26,8 @@ describe('IdentityNotVerified component', () => {
     });
     it('renders the correct CTA', () => {
       expect(
-        view.getByRole('link', { name: /Verify your identity/i }),
+        view.getByRole('link', { name: 'Verify your identity' }),
       ).to.have.attr('href', '/verify');
-    });
-    it('renders the correct additional info component', () => {
-      expect(view.queryByText(/We use ID\.me/i)).not.to.exist;
-      fireEvent.click(
-        view.getByRole('button', /How will VA.gov verify my identity/i),
-      );
-      expect(view.getByText(/We use ID\.me/i)).to.exist;
     });
   });
   describe('when passed alertHeadline and alertContent props', () => {
@@ -57,15 +50,8 @@ describe('IdentityNotVerified component', () => {
     });
     it('renders the correct CTA', () => {
       expect(
-        view.getByRole('link', { name: /Verify your identity/i }),
+        view.getByRole('link', { name: 'Verify your identity' }),
       ).to.have.attr('href', '/verify');
-    });
-    it('renders the correct additional info component', () => {
-      expect(view.queryByText(/We use ID\.me/i)).not.to.exist;
-      fireEvent.click(
-        view.getByRole('button', /How will VA.gov verify my identity/i),
-      );
-      expect(view.getByText(/We use ID\.me/i)).to.exist;
     });
   });
   describe('when passed alertHeadline and additionalInfoClickHandler props', () => {
@@ -91,11 +77,11 @@ describe('IdentityNotVerified component', () => {
     });
     it('clicking on the correct additional info component fires the passed in additionalInfoClickHandler', () => {
       expect(additionalInfoClickSpy.notCalled).to.be.true;
-      expect(view.queryByText(/We use ID\.me/i)).not.to.exist;
       fireEvent.click(
-        view.getByRole('button', /How will VA.gov verify my identity/i),
+        view.getByRole('link', {
+          name: /Learn how to verify your identity on VA.gov/i,
+        }),
       );
-      expect(view.getByText(/We use ID\.me/i)).to.exist;
       expect(additionalInfoClickSpy.calledOnce).to.be.true;
     });
   });

@@ -38,6 +38,9 @@ const Introduction = props => {
       api.v2
         .getPreCheckInData(token)
         .then(json => {
+          if (json.error) {
+            goToErrorPage();
+          }
           const { payload } = json;
           //  set data to state
           dispatchSetVeteranData(payload);

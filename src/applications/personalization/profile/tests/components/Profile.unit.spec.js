@@ -285,7 +285,6 @@ describe('mapStateToProps', () => {
       'shouldFetchEDUDirectDepositInformation',
       'shouldFetchTotalDisabilityRating',
       'shouldShowDirectDeposit',
-      'shouldShowNotificationSettings',
       'isDowntimeWarningDismissed',
       'shouldShowProfileLGBTQEnhancements',
     ];

@@ -24,10 +24,9 @@ export default function AccordionItem({
     }
 
     const event = !displayExpanded ? 'expand' : 'collapse';
-    const size = section ? 'small' : 'full-content-width';
     recordEvent({
-      event: `nav-accordion-${event}`,
-      'accordion-size': size,
+      event: `int-accordion-${event}`,
+      'accordion-header': button,
     });
   };
 

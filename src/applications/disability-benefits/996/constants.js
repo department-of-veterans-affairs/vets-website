@@ -65,6 +65,7 @@ export const FORMAT_READABLE = 'LL';
 // session storage keys
 export const SAVED_CLAIM_TYPE = 'hlrClaimType';
 export const WIZARD_STATUS = 'wizardStatus996';
+export const LAST_HLR_ITEM = 'lastHlrItem'; // focus management across pages
 
 export const MAX_SELECTIONS = 100;
 

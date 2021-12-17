@@ -37,6 +37,15 @@ export const receivedNextOfKinData = nextOfKin => {
     payload: { nextOfKin },
   };
 };
+export const RECEIVED_EMERGENCY_CONTACT_DATA =
+  'RECEIVED_EMERGENCY_CONTACT_DATA';
+
+export const receivedEmergencyContact = emergencyContact => {
+  return {
+    type: RECEIVED_EMERGENCY_CONTACT_DATA,
+    payload: { emergencyContact },
+  };
+};
 
 export const SET_TOKEN_CONTEXT = 'SET_TOKEN_CONTEXT';
 
@@ -88,5 +97,14 @@ export const seeStaffMessageUpdated = message => {
   return {
     type: SEE_STAFF_MESSAGE_UPDATED,
     payload: { seeStaffMessage: message },
+  };
+};
+
+export const RECEIVED_DEMOGRAPHICS_STATUS = 'RECEIVED_DEMOGRAPHICS_STATUS';
+
+export const receivedDemographicsStatus = status => {
+  return {
+    type: RECEIVED_DEMOGRAPHICS_STATUS,
+    payload: { demographicsStatus: status },
   };
 };
