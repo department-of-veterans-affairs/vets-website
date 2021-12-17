@@ -48,36 +48,44 @@ Alert.Error = () => (
   </va-alert>
 );
 
-Alert.ZeroBalance = ({ copay }) => (
-  <va-alert
-    class="row vads-u-margin-bottom--5"
-    status="info"
-    data-testid="zero-balance"
-  >
-    <h2 slot="headline" className="vads-u-font-size--h3">
-      You don’t need to make a payment at this time
-    </h2>
-    <p className="vads-u-font-size--base vads-u-font-family--sans">
-      Your balance is $0 and was updated on
-      <span className="vads-u-margin-x--0p5" data-testid="updated-date">
-        {formatDate(copay?.pSStatementDate)}
-      </span>
-      . You can
-      <a href="#download-statements" className="vads-u-margin--0p5">
-        download your previous statements
-      </a>
-      below.
-    </p>
-    <p>
-      If you receive new charges, we’ll send you a statement in the mail and
-      update your balance. Learn more about
-      <a href="#balance-questions" className="vads-u-margin--0p5">
-        what to do if you have questions about your balance
-      </a>
-      .
-    </p>
-  </va-alert>
-);
+Alert.ZeroBalance = ({ copay }) => {
+  const statementDate = formatDate(copay?.pSStatementDate);
+
+  return (
+    <va-alert
+      class="row vads-u-margin-bottom--5"
+      status="info"
+      data-testid="zero-balance"
+    >
+      <h2 slot="headline" className="vads-u-font-size--h3">
+        You don’t need to make a payment at this time
+      </h2>
+      <p className="vads-u-font-size--base vads-u-font-family--sans">
+        Your balance is $0 and was updated on
+        <time
+          dateTime={statementDate}
+          className="vads-u-margin-x--0p5"
+          data-testid="updated-date"
+        >
+          {statementDate}
+        </time>
+        . You can
+        <a href="#download-statements" className="vads-u-margin--0p5">
+          download your previous statements
+        </a>
+        below.
+      </p>
+      <p>
+        If you receive new charges, we’ll send you a statement in the mail and
+        update your balance. Learn more about
+        <a href="#balance-questions" className="vads-u-margin--0p5">
+          what to do if you have questions about your balance
+        </a>
+        .
+      </p>
+    </va-alert>
+  );
+};
 
 Alert.NoHealthcare = () => (
   <va-alert

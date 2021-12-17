@@ -16,6 +16,7 @@ const DetailPage = ({ match }) => {
   const selectedId = match.params.id;
   const statements = useSelector(({ mcp }) => mcp.statements) ?? [];
   const [selectedCopay] = statements?.filter(({ id }) => id === selectedId);
+  const statementDate = formatDate(selectedCopay?.pSStatementDate);
   const acctNum = selectedCopay?.pHAccountNumber
     ? selectedCopay?.pHAccountNumber
     : selectedCopay?.pHCernerAccountNumber;
@@ -32,9 +33,13 @@ const DetailPage = ({ match }) => {
 
       <p className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--5">
         Updated on
-        <span className="vads-u-margin-x--0p5" data-testid="updated-date">
-          {formatDate(selectedCopay?.pSStatementDate)}
-        </span>
+        <time
+          dateTime={statementDate}
+          className="vads-u-margin-x--0p5"
+          data-testid="updated-date"
+        >
+          {statementDate}
+        </time>
       </p>
 
       <Alert
