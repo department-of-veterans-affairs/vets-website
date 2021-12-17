@@ -36,10 +36,12 @@ export const areaOfDisagreementWorkAround = (hasSelection, index) => {
   const label = $(`#area-of-disagreement-label-${index}`);
   if (label) {
     const showError = label.dataset.submitted === 'true' && !hasSelection;
+    const wrapper = label?.nextElementSibling;
     label.classList.toggle('usa-input-error', showError);
-    label.parentElement.nextElementSibling.classList.toggle(
-      'usa-input-error',
-      showError,
-    );
+    if (wrapper) {
+      wrapper.classList.toggle('usa-input-error', showError);
+      // remove 3rem top margin added by usa-input-error
+      wrapper.classList.add('vads-u-margin-top--0');
+    }
   }
 };
