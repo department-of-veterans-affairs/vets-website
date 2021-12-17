@@ -16,10 +16,8 @@ const MedicalCopaysApp = ({ children }) => {
   const fetchPending = useSelector(({ mcp }) => mcp.pending);
   const statementData = useSelector(({ mcp }) => mcp.statements);
   const error = useSelector(({ mcp }) => mcp.error);
-  const { pathname } = useLocation();
-
   const [alertType, setAlertType] = useState(null);
-
+  const { pathname } = useLocation();
   const dispatch = useDispatch();
 
   useEffect(
@@ -35,8 +33,11 @@ const MedicalCopaysApp = ({ children }) => {
     () => {
       scrollToTop();
       setAlertType(null);
-      if (!statementData?.length) {
+      if (!error && !statementData?.length) {
         setAlertType('no-history');
+      }
+      if (error?.code === '403') {
+        setAlertType('no-health-care');
       }
       if (error) {
         setAlertType('error');
