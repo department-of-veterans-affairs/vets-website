@@ -246,7 +246,7 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('ProgressBar').exists()).to.be.true;
+    expect(tree.find('va-progress-bar').exists()).to.be.true;
     const button = tree.find('button');
     expect(button.text()).to.equal('Cancel');
     expect(button.prop('aria-describedby')).to.eq('field_file_name_0');
@@ -289,12 +289,12 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('ProgressBar').props().percent).to.equal(0);
+    expect(tree.find('va-progress-bar').props().percent).to.equal(0);
 
     tree.instance().updateProgress(20);
     tree.update();
 
-    expect(tree.find('ProgressBar').props().percent).to.equal(20);
+    expect(tree.find('va-progress-bar').props().percent).to.equal(20);
     tree.unmount();
   });
   it('should render error', () => {
