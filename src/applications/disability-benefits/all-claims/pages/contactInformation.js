@@ -108,7 +108,7 @@ export const uiSchema = {
         updateSchema: (formData, schema, uiSchemaCountry) => {
           const uiSchemaDisabled = uiSchemaCountry;
 
-          if (formData.mailingAddress['view:livesOnMilitaryBase']) {
+          if (formData.mailingAddress?.['view:livesOnMilitaryBase']) {
             const formDataMailingAddress = formData.mailingAddress;
             formDataMailingAddress.country = USA;
 
@@ -150,7 +150,7 @@ export const uiSchema = {
       },
       'ui:options': {
         replaceSchema: formData => {
-          if (formData.mailingAddress['view:livesOnMilitaryBase'] === true) {
+          if (formData.mailingAddress?.['view:livesOnMilitaryBase'] === true) {
             return {
               type: 'string',
               title: 'APO/FPO/DPO',
@@ -177,11 +177,11 @@ export const uiSchema = {
       'ui:title': 'State',
       'ui:options': {
         hideIf: formData =>
-          !formData.mailingAddress['view:livesOnMilitaryBase'] &&
+          !formData.mailingAddress?.['view:livesOnMilitaryBase'] &&
           formData.mailingAddress.country !== USA,
         updateSchema: formData => {
           if (
-            formData.mailingAddress['view:livesOnMilitaryBase'] ||
+            formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
             MILITARY_CITIES.includes(formData.mailingAddress.city)
           ) {
             return {
@@ -196,7 +196,7 @@ export const uiSchema = {
         },
       },
       'ui:required': formData =>
-        formData.mailingAddress['view:livesOnMilitaryBase'] ||
+        formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
         formData.mailingAddress.country === USA,
       'ui:validations': [
         {
@@ -214,7 +214,7 @@ export const uiSchema = {
       'ui:title': 'Postal code',
       'ui:validations': [validateZIP],
       'ui:required': formData =>
-        formData.mailingAddress['view:livesOnMilitaryBase'] ||
+        formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
         formData.mailingAddress.country === USA,
       'ui:errorMessages': {
         required: 'Please enter a postal code',
@@ -224,7 +224,7 @@ export const uiSchema = {
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',
         hideIf: formData =>
-          !formData.mailingAddress['view:livesOnMilitaryBase'] &&
+          !formData.mailingAddress?.['view:livesOnMilitaryBase'] &&
           formData.mailingAddress.country !== USA,
       },
     },
