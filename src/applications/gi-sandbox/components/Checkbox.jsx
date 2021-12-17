@@ -18,6 +18,7 @@ const Checkbox = ({
   labelAriaLabel,
   inputAriaLabelledBy,
   inputAriaLabel,
+  screenReaderOnly,
 }) => {
   const inputId = _.uniqueId('errorable-checkbox-');
   const hasErrors = !!errorMessage;
@@ -55,6 +56,11 @@ const Checkbox = ({
       >
         {label}
         {required && <span className="form-required-span">*</span>}
+        {screenReaderOnly && (
+          <span className="vads-u-visibility--screen-reader">
+            {screenReaderOnly}
+          </span>
+        )}
       </label>
       {hasErrors && (
         <span className="usa-input-error-message" role="alert" id={errorSpanId}>
