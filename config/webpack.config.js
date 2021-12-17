@@ -260,7 +260,7 @@ module.exports = async (env = {}) => {
   const entryFiles = Object.assign({}, apps, globalEntryFiles);
   const isOptimizedBuild = [VAGOVSTAGING, VAGOVPROD].includes(buildtype);
   const scaffoldAssets = await getScaffoldAssets();
-  // const appRegistry = JSON.parse(scaffoldAssets['registry.json']);
+  const appRegistry = JSON.parse(scaffoldAssets['registry.json']);
 
   // enable css sourcemaps for all non-localhost builds
   // or if build options include local-css-sourcemaps or entry
@@ -407,6 +407,7 @@ module.exports = async (env = {}) => {
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(buildtype),
         __API__: JSON.stringify(buildOptions.api),
+        __REGISTRY__: JSON.stringify(appRegistry),
       }),
 
       new StylelintPlugin({

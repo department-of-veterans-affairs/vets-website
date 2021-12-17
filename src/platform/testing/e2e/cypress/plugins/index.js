@@ -11,13 +11,13 @@ const tableConfig = {
   },
 };
 
-module.exports = on => {
+module.exports = async on => {
   const ENV = 'localhost';
   const publicPath = '/generated/';
   let outputOptions = {};
 
   // Import our own Webpack config.
-  require('../../../../../../config/webpack.config.js')(ENV).then(
+  await require('../../../../../../config/webpack.config.js')(ENV).then(
     webpackConfig => {
       const options = {
         webpackOptions: {
@@ -26,6 +26,7 @@ module.exports = on => {
             new DefinePlugin({
               __BUILDTYPE__: JSON.stringify(ENV),
               __API__: JSON.stringify(''),
+              __REGISTRY__: JSON.stringify(''),
             }),
             new ProvidePlugin({
               process: 'process/browser',
