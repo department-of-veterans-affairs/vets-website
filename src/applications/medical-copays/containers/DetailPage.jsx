@@ -16,6 +16,9 @@ const DetailPage = ({ match }) => {
   const selectedId = match.params.id;
   const statementData = useSelector(({ mcp }) => mcp.statements);
   const [selectedCopay] = statementData?.filter(({ id }) => id === selectedId);
+  const acctNum = selectedCopay?.pHAccountNumber
+    ? selectedCopay?.pHAccountNumber
+    : selectedCopay?.pHCernerAccountNumber;
 
   useEffect(() => {
     scrollToTop();
@@ -43,10 +46,7 @@ const DetailPage = ({ match }) => {
 
       <PDFStatementList />
 
-      <HowToPay
-        acctNum={selectedCopay?.pHAccountNumber}
-        facility={selectedCopay?.station}
-      />
+      <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />
 
       <FinancialHelp />
 
