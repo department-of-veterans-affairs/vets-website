@@ -1216,5 +1216,10 @@
     "domain": "www.wilkes-barre.va.gov",
     "src": "/services/covid-19-vaccines.asp",
     "dest": "/wilkes-barre-health-care/programs/covid-19-vaccines/"
+  },
+  {
+    "domain": "www.beckley.va.gov",
+    "src": "/locations/princeton_vet_center.asp",
+    "dest": "/princeton-vet-center/"
   }
 ]

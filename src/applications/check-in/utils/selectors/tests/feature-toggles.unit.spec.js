@@ -25,8 +25,6 @@ describe('check-in', () => {
           isCheckInEnabled: true,
           isPreCheckInEnabled: true,
           isEmergencyContactEnabled: false,
-          isDemographicsPageEnabled: true,
-          isNextOfKinEnabled: false,
           isUpdatePageEnabled: true,
         });
       });

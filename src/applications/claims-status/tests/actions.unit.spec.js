@@ -44,9 +44,9 @@ import {
   setAdditionalEvidenceNotification,
   setUnavailable,
   SHOW_CONSOLIDATED_MODAL,
-  SHOW_MAIL_OR_FAX,
+  SHOW_MAIL_MESSAGE,
   showConsolidatedMessage,
-  showMailOrFaxModal,
+  showMailMessageModal,
   SUBMIT_DECISION_REQUEST,
   submitRequest,
   UPDATE_FIELD,
@@ -166,12 +166,12 @@ describe('Actions', () => {
       });
     });
   });
-  describe('showMailOrFaxModal', () => {
+  describe('showMailMessageModal', () => {
     it('should return the correct action object', () => {
-      const action = showMailOrFaxModal(true);
+      const action = showMailMessageModal(true);
 
       expect(action).to.eql({
-        type: SHOW_MAIL_OR_FAX,
+        type: SHOW_MAIL_MESSAGE,
         visible: true,
       });
     });

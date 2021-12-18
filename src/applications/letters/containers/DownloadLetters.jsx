@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import findIndex from 'lodash/findIndex';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SegmentedProgressBar from '@department-of-veterans-affairs/component-library/SegmentedProgressBar';
 
 import { chapters } from '../routes';
 
@@ -22,7 +21,7 @@ export function DownloadLetters({ children, location }) {
         To receive some benefits, Veterans need a letter proving their status.
         You can download some of these benefit letters and documents online.
       </p>
-      <SegmentedProgressBar total={total} current={currentStep} />
+      <va-segmented-progress-bar total={total} current={currentStep} />
       <div className="section-content">
         <h2 id="nav-form-header" className="vads-u-font-size--h4">
           {headerText}

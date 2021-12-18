@@ -1,7 +1,7 @@
 import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
 import '../support/commands';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import Appointments from '../pages/Appointments';
+import Demographics from '../../../../tests/e2e/pages/Demographics';
 import mockSession from '../../../api/local-mock-api/mocks/v2/sessions.responses';
 
 describe('Check In Experience -- ', () => {
@@ -34,9 +34,10 @@ describe('Check In Experience -- ', () => {
       });
     });
     it('validation trims white space before posting', () => {
+      cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran('Smith           ', '4837          ');
       ValidateVeteran.attemptToGoToNextPage();
-      Appointments.validatePageLoaded();
+      Demographics.validatePageLoaded();
     });
   });
 });

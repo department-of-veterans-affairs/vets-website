@@ -37,6 +37,7 @@ function CalculateYourBenefitsForm({
   profile,
   showModal,
   updateEstimatedBenefits,
+  focusHandler,
 }) {
   const [invalidZip, setInvalidZip] = useState('');
   const [inputUpdated, setInputUpdated] = useState(false);
@@ -1004,6 +1005,7 @@ function CalculateYourBenefitsForm({
           id="skip-to-eyb"
           tabIndex="0"
           role="button"
+          onClick={focusHandler}
         >
           Skip to your estimated benefits
         </a>

@@ -16,8 +16,6 @@ describe('Check In Experience', () => {
         '/v0/feature_toggles*',
         generateFeatureToggles({
           checkInExperienceUpdateInformationPageEnabled: false,
-          checkInExperienceDemographicsPageEnabled: true,
-          checkInExperienceNextOfKinEnabled: true,
         }),
       );
       cy.visitWithUUID();

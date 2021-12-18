@@ -1,4 +1,3 @@
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import React from 'react';
 
 export const marriageTypeInformation = (
@@ -8,10 +7,10 @@ export const marriageTypeInformation = (
       <span className="vads-u-color--gray-dark vads-u-font-weight--bold">
         Ceremonial,
       </span>{' '}
-      or if you don't live in the U.S. or a territory of the U.S., we require
+      or if you don’t live in the U.S. or a territory of the U.S., we require
       additional evidence to establish a spouse.
     </p>
-    <AdditionalInfo triggerText="Additional evidence needed to add spouse">
+    <va-additional-info trigger="Additional evidence needed to add spouse">
       <p>
         Examples of additional information includes a copy of the public record,
         or a copy of the church record that shows:
@@ -37,6 +36,6 @@ export const marriageTypeInformation = (
         </li>
         <li>Other evidence that may be considered</li>
       </ul>
-    </AdditionalInfo>
+    </va-additional-info>
   </div>
 );
