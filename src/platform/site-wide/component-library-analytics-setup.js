@@ -36,6 +36,7 @@ const analyticsEvents = {
   TextInput: [{ action: 'blur', event: 'int-text-input-blur' }],
   'va-checkbox': [{ action: 'change', event: 'int-checkbox-option-click' }],
   'va-text-input': [{ action: 'blur', event: 'int-text-input-blur' }],
+  'va-select': [{ action: 'change', event: 'int-select-box-option-click' }],
 };
 
 export function subscribeComponentAnalyticsEvents(
