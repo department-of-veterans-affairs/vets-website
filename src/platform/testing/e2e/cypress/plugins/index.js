@@ -11,13 +11,13 @@ const tableConfig = {
   },
 };
 
-module.exports = async on => {
+module.exports = on => {
   const ENV = 'localhost';
   const publicPath = '/generated/';
   let outputOptions = {};
 
   // Import our own Webpack config.
-  await require('../../../../../../config/webpack.config.js')(ENV).then(
+  require('../../../../../../config/webpack.config.js')(ENV).then(
     webpackConfig => {
       // Get the original DefinePlugin so we can use __REGISTRY__
       const definePlugin = webpackConfig.plugins.find(
