@@ -135,7 +135,7 @@ export function mockAppointmentCancelFetch({ appointment, error = false }) {
         attributes: {
           ...appointment.attributes,
           status: 'cancelled',
-          appointmentRequestDetailCode: [{ detailCode: { code: 'DETCODE8' } }],
+          cancelationReason: { coding: [{ code: 'pat' }] },
         },
       },
     });
