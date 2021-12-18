@@ -19,6 +19,13 @@ module.exports = async on => {
   // Import our own Webpack config.
   await require('../../../../../../config/webpack.config.js')(ENV).then(
     webpackConfig => {
+      // Get the original DefinePlugin so we can use __REGISTRY__
+      const definePlugin = webpackConfig.plugins.find(
+        plugin => plugin.constructor.name === 'DefinePlugin',
+      );
+
+      const appRegistry = definePlugin.definitions.__REGISTRY__;
+
       const options = {
         webpackOptions: {
           ...webpackConfig,
@@ -26,7 +33,7 @@ module.exports = async on => {
             new DefinePlugin({
               __BUILDTYPE__: JSON.stringify(ENV),
               __API__: JSON.stringify(''),
-              __REGISTRY__: JSON.stringify(''),
+              __REGISTRY__: appRegistry,
             }),
             new ProvidePlugin({
               process: 'process/browser',
