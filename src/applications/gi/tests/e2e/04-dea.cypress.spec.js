@@ -26,7 +26,7 @@ describe('DEA benefit', () => {
     ).as('ojtProfile');
     initApplicationMock(institutionProfile, deaSearchResults);
     cy.intercept('GET', '/v0/feature_toggles*', mockTogglesResponse);
-    cy.visit('/gi-bill-comparison-tool');
+    cy.visit('/education/gi-bill-comparison-tool');
     cy.injectAxeThenAxeCheck();
   });
 
@@ -109,7 +109,7 @@ describe('DEA benefit', () => {
     });
 
     // Back to the landing page
-    breadCrumb('/gi-bill-comparison-tool/');
+    breadCrumb('/education/gi-bill-comparison-tool/');
 
     // Search again
     cy.get('.keyword-search input[type="text"]').type(searchTerm);

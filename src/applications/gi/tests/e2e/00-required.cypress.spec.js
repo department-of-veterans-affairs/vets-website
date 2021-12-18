@@ -15,7 +15,7 @@ describe('Institution', () => {
   beforeEach(() => {
     initApplicationMock();
     cy.intercept('GET', '/v0/feature_toggles*', mockTogglesResponse);
-    cy.visit('/gi-bill-comparison-tool');
+    cy.visit('/education/gi-bill-comparison-tool');
     cy.injectAxeThenAxeCheck();
   });
 
