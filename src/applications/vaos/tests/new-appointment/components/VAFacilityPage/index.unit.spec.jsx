@@ -579,7 +579,7 @@ describe('VAOS <VAFacilityPage>', () => {
         /Why isn.t my facility listed/i,
       );
       userEvent.click(additionalInfoButton);
-      expect(await screen.findByText(/Facility that is disabled/i)).to.be.ok;
+      await screen.findByText(/Facility that is disabled/i);
       expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT');
       expect(screen.getByText(/80\.4 miles/i)).to.be.ok;
       expect(screen.getByText(/555-555-5555, ext\. 1234/i)).to.be.ok;
