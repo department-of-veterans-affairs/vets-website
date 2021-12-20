@@ -15,6 +15,7 @@ const MedicalCopaysApp = ({ children }) => {
   const profileLoading = useSelector(state => isProfileLoading(state));
   const fetchPending = useSelector(({ mcp }) => mcp.pending);
   const statements = useSelector(({ mcp }) => mcp.statements);
+  const facility = useSelector(({ mcp }) => mcp.facility);
   const error = useSelector(({ mcp }) => mcp.error);
   const [alertType, setAlertType] = useState(null);
   const { pathname } = useLocation();
@@ -26,7 +27,7 @@ const MedicalCopaysApp = ({ children }) => {
         dispatch(getStatements());
       }
     },
-    [userLoggedIn], // eslint-disable-line react-hooks/exhaustive-deps
+    [dispatch, userLoggedIn],
   );
 
   useEffect(
@@ -36,11 +37,11 @@ const MedicalCopaysApp = ({ children }) => {
       if (statements && !statements?.length) {
         setAlertType('no-history');
       }
-      if (error?.code === '403') {
-        setAlertType('no-health-care');
-      }
       if (error) {
         setAlertType('error');
+      }
+      if (error?.code === '403') {
+        setAlertType('no-health-care');
       }
     },
     [fetchPending, profileLoading, error, statements],
@@ -60,7 +61,7 @@ const MedicalCopaysApp = ({ children }) => {
       <div className="vads-l-row vads-u-margin-x--neg2p5">
         <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--8">
           <Breadcrumbs className="vads-u-font-family--sans no-wrap">
-            {renderBreadcrumbs(pathname)}
+            {renderBreadcrumbs(pathname, facility)}
           </Breadcrumbs>
           {alertType ? (
             <AlertView

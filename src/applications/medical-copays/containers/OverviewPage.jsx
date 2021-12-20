@@ -19,7 +19,7 @@ const OverviewPage = () => {
 
   return (
     <>
-      <h1 data-testid="overview-page-title">Your current copay balances</h1>
+      <h1 data-testid="overview-page-title">Current copay balances</h1>
       <p className="vads-u-font-size--lg">
         Check your VA health care and prescription charges from each of your
         facilities. Find out how to make payments or request financial help.

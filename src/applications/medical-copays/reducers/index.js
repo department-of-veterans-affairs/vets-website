@@ -2,12 +2,14 @@ import {
   MCP_STATEMENTS_FETCH_INIT,
   MCP_STATEMENTS_FETCH_SUCCESS,
   MCP_STATEMENTS_FETCH_FAILURE,
+  MCP_STATEMENTS_FACILITY,
 } from '../actions';
 
 const initialState = {
   pending: false,
   error: null,
   statements: null,
+  facility: null,
 };
 
 export const medicalCopaysReducer = (state = initialState, action) => {
@@ -28,6 +30,12 @@ export const medicalCopaysReducer = (state = initialState, action) => {
         ...state,
         pending: false,
         error: action.error,
+      };
+    case MCP_STATEMENTS_FACILITY:
+      return {
+        ...state,
+        pending: false,
+        facility: action.facility,
       };
     default:
       return state;

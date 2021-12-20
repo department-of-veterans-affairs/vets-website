@@ -61,7 +61,7 @@ export const rmvDupFacilities = statements => {
     );
 };
 
-export const renderBreadcrumbs = pathname => {
+export const renderBreadcrumbs = (pathname, facility) => {
   const links = [
     <a key="1" href="/">
       Home
@@ -73,7 +73,7 @@ export const renderBreadcrumbs = pathname => {
       Pay your VA copay bill
     </a>,
     <a key="4" href="/health-care/pay-copay-bill/your-current-balances">
-      Your current copay balances
+      Current copay balances
     </a>,
   ];
 
@@ -83,7 +83,7 @@ export const renderBreadcrumbs = pathname => {
         key="5"
         href="/health-care/pay-copay-bill/your-current-balances/balance-details"
       >
-        Your copay details
+        Copay bill for {facility}
       </a>,
     );
   }

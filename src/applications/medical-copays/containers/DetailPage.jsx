@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PDFStatementList from '../components/PDFStatementList';
 import BalanceQuestions from '../components/BalanceQuestions';
 import DisputeCharges from '../components/DisputeCharges';
@@ -11,8 +11,10 @@ import Alert from '../components/Alerts';
 import { OnThisPage } from '../components/OnThisPage';
 import { formatDate } from '../utils/helpers';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { MCP_STATEMENTS_FACILITY } from '../actions';
 
 const DetailPage = ({ match }) => {
+  const dispatch = useDispatch();
   const selectedId = match.params.id;
   const statements = useSelector(({ mcp }) => mcp.statements) ?? [];
   const [selectedCopay] = statements?.filter(({ id }) => id === selectedId);
@@ -21,14 +23,21 @@ const DetailPage = ({ match }) => {
     ? selectedCopay?.pHAccountNumber
     : selectedCopay?.pHCernerAccountNumber;
 
-  useEffect(() => {
-    scrollToTop();
-  }, []);
+  useEffect(
+    () => {
+      scrollToTop();
+      if (selectedCopay) {
+        const facility = selectedCopay.station.facilityName;
+        dispatch({ type: MCP_STATEMENTS_FACILITY, facility });
+      }
+    },
+    [dispatch, selectedCopay],
+  );
 
   return (
     <>
-      <h1 className="vads-u-margin-bottom--1" data-testid="detail-page-title">
-        Your copay bill for {selectedCopay?.station.facilityName}
+      <h1 data-testid="detail-page-title">
+        Copay bill for {selectedCopay?.station.facilityName}
       </h1>
 
       <p className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--5">
