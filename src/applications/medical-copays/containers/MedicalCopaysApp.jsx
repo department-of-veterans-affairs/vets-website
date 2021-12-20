@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { mcpFeatureToggle, renderBreadcrumbs } from '../utils/helpers';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import { mcpFeatureToggle } from '../utils/helpers';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -15,7 +14,6 @@ const MedicalCopaysApp = ({ children }) => {
   const profileLoading = useSelector(state => isProfileLoading(state));
   const fetchPending = useSelector(({ mcp }) => mcp.pending);
   const statements = useSelector(({ mcp }) => mcp.statements);
-  const facility = useSelector(({ mcp }) => mcp.facility);
   const error = useSelector(({ mcp }) => mcp.error);
   const [alertType, setAlertType] = useState(null);
   const { pathname } = useLocation();
@@ -60,9 +58,6 @@ const MedicalCopaysApp = ({ children }) => {
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 vads-u-margin-bottom--5">
       <div className="vads-l-row vads-u-margin-x--neg2p5">
         <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--8">
-          <Breadcrumbs className="vads-u-font-family--sans no-wrap">
-            {renderBreadcrumbs(pathname, facility)}
-          </Breadcrumbs>
           {alertType ? (
             <AlertView
               pathname={pathname}

@@ -61,36 +61,6 @@ export const rmvDupFacilities = statements => {
     );
 };
 
-export const renderBreadcrumbs = (pathname, facility) => {
-  const links = [
-    <a key="1" href="/">
-      Home
-    </a>,
-    <a key="2" href="/health-care">
-      Health care
-    </a>,
-    <a key="3" href="/health-care/pay-copay-bill">
-      Pay your VA copay bill
-    </a>,
-    <a key="4" href="/health-care/pay-copay-bill/your-current-balances">
-      Current copay balances
-    </a>,
-  ];
-
-  if (pathname.includes('balance-details')) {
-    links.push(
-      <a
-        key="5"
-        href="/health-care/pay-copay-bill/your-current-balances/balance-details"
-      >
-        Copay bill for {facility}
-      </a>,
-    );
-  }
-
-  return links;
-};
-
 export const transform = data => {
   return data.map(statement => {
     const { station } = statement;

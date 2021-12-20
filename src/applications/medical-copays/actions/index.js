@@ -5,7 +5,6 @@ import { transform } from '../utils/helpers';
 export const MCP_STATEMENTS_FETCH_INIT = 'MCP_STATEMENTS_FETCH_INIT';
 export const MCP_STATEMENTS_FETCH_SUCCESS = 'MCP_STATEMENTS_FETCH_SUCCESS';
 export const MCP_STATEMENTS_FETCH_FAILURE = 'MCP_STATEMENTS_FETCH_FAILURE';
-export const MCP_STATEMENTS_FACILITY = 'MCP_STATEMENTS_FACILITY';
 
 export const getStatements = () => {
   return dispatch => {
