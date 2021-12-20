@@ -190,6 +190,26 @@
         "UNSURE"
       ]
     },
+    "VACCINATED_DETAILS": {
+      "type": "string",
+      "enum": [
+        "Moderna",
+        "Pfizer",
+        "Johnson & Johnson",
+        "Novavax",
+        "Astra Zeneca",
+        "Don't know/Don't remember"
+      ]
+    },
+    "VACCINATED_DATE1": {
+      "$ref": "#/definitions/date"
+    },
+    "VACCINATED_DATE2": {
+      "$ref": "#/definitions/date"
+    },
+    "VACCINATED_SECOND": {
+      "type": "boolean"
+    },
     "hospitalized": {
       "type": "boolean"
     },
@@ -283,6 +303,9 @@
           "type": "boolean"
         }
       }
+    },
+    "FACILITY": {
+      "type": "boolean"
     },
     "GENDER": {
       "type": "object",
@@ -379,6 +402,7 @@
     "TRANSPORTATION",
     "closeContact",
     "VETERAN",
+    "FACILITY",
     "GENDER",
     "RACE_ETHNICITY"
   ]

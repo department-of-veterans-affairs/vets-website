@@ -105,6 +105,10 @@ const formConfig = {
               closeContactPositive: fullSchema.properties.closeContactPositive,
               vaccinated: fullSchema.properties.vaccinated,
               VACCINATED_PLAN: fullSchema.properties.VACCINATED_PLAN,
+              VACCINATED_DETAILS: fullSchema.properties.VACCINATED_DETAILS,
+              VACCINATED_DATE1: date,
+              VACCINATED_DATE2: date,
+              VACCINATED_SECOND: fullSchema.properties.VACCINATED_SECOND,
               hospitalized: fullSchema.properties.hospitalized,
               smokeOrVape: fullSchema.properties.smokeOrVape,
               HEALTH_HISTORY: fullSchema.properties.HEALTH_HISTORY,
@@ -136,6 +140,7 @@ const formConfig = {
               zipCode: usaPostalCode,
               veteranDateOfBirth: date,
               VETERAN: fullSchema.properties.VETERAN,
+              FACILITY: fullSchema.properties.FACILITY,
               GENDER: fullSchema.properties.GENDER,
               GENDER_SELF_IDENTIFY_DETAILS:
                 fullSchema.properties.GENDER_SELF_IDENTIFY_DETAILS,

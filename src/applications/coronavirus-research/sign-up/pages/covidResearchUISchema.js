@@ -10,15 +10,27 @@ import CustomReviewField from '../containers/CustomReviewField';
 import CustomReviewDOBField from '../containers/CustomReviewDOBField';
 import CustomReviewRadio from '../containers/customReviewRadio';
 import CustomReviewYesNo from '../containers/customReviewYesNo';
+import get from 'platform/utilities/data/get';
 
 const conditionalValidateBooleanGroup = (errors, pageData) => {
   const { diagnosed, DIAGNOSED_DETAILS } = pageData;
   if (diagnosed) {
     validateBooleanGroup(errors.DIAGNOSED_DETAILS, DIAGNOSED_DETAILS);
   }
-  const { vaccinated, VACCINATED_PLAN } = pageData;
+  const {
+    vaccinated,
+    VACCINATED_PLAN,
+    VACCINATED_DETAILS,
+    VACCINATED_SECOND,
+    VACCINATED_DATE1,
+    VACCINATED_DATE2,
+  } = pageData;
   if (vaccinated) {
     validateBooleanGroup(errors.VACCINATED_PLAN, VACCINATED_PLAN);
+    validateBooleanGroup(errors.VACCINATED_DETAILS, VACCINATED_DETAILS);
+    validateBooleanGroup(errors.VACCINATED_SECOND, VACCINATED_SECOND);
+    validateBooleanGroup(errors.VACCINATED_DATE1, VACCINATED_DATE1);
+    validateBooleanGroup(errors.VACCINATED_DATE2, VACCINATED_DATE2);
   }
 };
 
@@ -226,6 +238,59 @@ export const uiSchema = {
         DEFINITELY_NO: 'Will definitely NOT get vaccinated',
         UNSURE: 'Not yet decided',
       },
+      classNames: '',
+    },
+  },
+  VACCINATED_DETAILS: {
+    'ui:title': (
+      <span>
+        <strong>Which vaccine did you receive?</strong>
+      </span>
+    ),
+    'ui:reviewField': CustomReviewRadio,
+    'ui:widget': 'radio',
+    'ui:options': {
+      showFieldLabel: true,
+      expandUnder: 'vaccinated',
+      expandUnderCondition: true,
+      classNames: '',
+      enum: [
+        'Moderna',
+        'Pfizer',
+        'Johnson & Johnson',
+        'Novavax',
+        'Astra Zeneca',
+        "Don't know/Don't remember",
+      ],
+    },
+  },
+  VACCINATED_DATE1: {
+    ...currentOrPastDateUI('Month/Year of 1st dose'),
+    'ui:options': {
+      expandUnder: 'vaccinated',
+      hideIf: formData => get('VACCINATED_DETAILS', formData) === undefined,
+      classNames: '',
+    },
+  },
+  VACCINATED_DATE2: {
+    ...currentOrPastDateUI(
+      'Month/Year of 2nd dose (or future date if scheduled)',
+    ),
+    'ui:options': {
+      expandUnder: 'vaccinated',
+      hideIf: formData =>
+        get('VACCINATED_DETAILS', formData) === undefined ||
+        get('VACCINATED_DETAILS', formData) === 'Johnson & Johnson',
+      classNames: '',
+    },
+  },
+  VACCINATED_SECOND: {
+    'ui:title': <span>Did not get second dose</span>,
+    'ui:options': {
+      expandUnder: 'vaccinated',
+      hideIf: formData =>
+        get('VACCINATED_DETAILS', formData) === undefined ||
+        get('VACCINATED_DETAILS', formData) === 'Johnson & Johnson',
       classNames: '',
     },
   },
@@ -548,6 +613,18 @@ export const uiSchema = {
     'VETERAN::NONE_OF_ABOVE': {
       'ui:title': 'None of the above',
       'ui:reviewField': CustomReviewField,
+    },
+  },
+  FACILITY: {
+    'ui:title': (
+      <span>
+        <strong>Do you receive care at a VA facility?</strong>
+      </span>
+    ),
+    'ui:reviewField': CustomReviewYesNo,
+    'ui:widget': 'yesNo',
+    'ui:options': {
+      classNames: '',
     },
   },
   GENDER: {
