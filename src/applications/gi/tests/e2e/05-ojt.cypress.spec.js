@@ -17,7 +17,7 @@ describe('OJT institution', () => {
 
     // Landing page
     cy.intercept('GET', '/v0/feature_toggles*', mockTogglesResponse);
-    cy.visit('/education/gi-bill-comparison-tool');
+    cy.visit('/gi-bill-comparison-tool');
     cy.injectAxeThenAxeCheck();
     cy.get('input[name*="category"][value="employer"]').check();
     cy.get('.keyword-search input[type="text"]').type(searchTerm);
