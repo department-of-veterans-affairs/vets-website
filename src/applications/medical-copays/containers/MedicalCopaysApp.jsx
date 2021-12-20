@@ -42,7 +42,7 @@ const MedicalCopaysApp = ({ children }) => {
         setAlertType('no-health-care');
       }
     },
-    [fetchPending, profileLoading, error, statements],
+    [statements, error],
   );
 
   if (showMCP === false || (!profileLoading && !userLoggedIn)) {
