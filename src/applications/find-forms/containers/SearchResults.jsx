@@ -291,7 +291,7 @@ export const SearchResults = ({
           initialFocusSelector={'#va-modal-title'}
           visible={isOpen}
         >
-          <>
+          <div className="vads-u-display--flex vads-u-flex-direction--column">
             <p>
               Download this PDF to your desktop computer or laptop. Then use
               Adobe Acrobat Reader to open and fill out the form. Don’t try to
@@ -306,9 +306,9 @@ export const SearchResults = ({
             </a>
             <a
               href={pdfUrl}
-              className="usa-button vads-u-margin-top--2"
+              className="vads-u-margin-top--2"
               rel="noreferrer noopener"
-              role="button"
+              target="_blank"
               onClick={() => {
                 recordEvent(
                   `Download VA form ${pdfSelected} ${pdfLabel}`,
@@ -317,9 +317,17 @@ export const SearchResults = ({
                 );
               }}
             >
-              Download VA Form {pdfSelected}
+              <i
+                aria-hidden="true"
+                className="fas fa-download fa-lg vads-u-margin-right--1"
+                role="presentation"
+              />
+
+              <span className="vads-u-text-decoration--underline">
+                Download VA Form {pdfSelected}
+              </span>
             </a>
-          </>
+          </div>
         </Modal>
       </div>
 
