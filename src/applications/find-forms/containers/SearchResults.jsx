@@ -1,7 +1,6 @@
 // Dependencies.
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { connect } from 'react-redux';
@@ -65,6 +64,8 @@ export const SearchResults = ({
     pdfLabel: '',
     doesCookieExist: false,
   });
+  const [prevFocusedLink, setPrevFocusedLink] = useState('');
+
   useEffect(() => {
     const justRefreshed = prevProps?.fetching && !fetching;
     if (justRefreshed) {
@@ -148,7 +149,9 @@ export const SearchResults = ({
 
   // Show loading indicator if we are fetching.
   if (fetching) {
-    return <LoadingIndicator setFocus message="Loading search results..." />;
+    return (
+      <va-loading-indicator setFocus message={'Loading search results...'} />
+    );
   }
 
   // Show the error alert box if there was an error.
@@ -229,6 +232,7 @@ export const SearchResults = ({
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
         showPDFInfoVersionOne={showPDFInfoVersionOne}
         toggleModalState={toggleModalState}
+        setPrevFocusedLink={setPrevFocusedLink}
       />
     ));
 
@@ -276,8 +280,12 @@ export const SearchResults = ({
         }}
       >
         <Modal
-          onClose={() => toggleModalState(pdfSelected, pdfUrl, pdfLabel, true)}
+          onClose={() => {
+            toggleModalState(pdfSelected, pdfUrl, pdfLabel, true);
+            document.getElementById(prevFocusedLink).focus();
+          }}
           title="Download this PDF and open it in Acrobat Reader"
+          initialFocusSelector={'#va-modal-title'}
           visible={isOpen}
         >
           <>
