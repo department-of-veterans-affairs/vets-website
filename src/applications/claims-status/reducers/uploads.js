@@ -8,7 +8,7 @@ import {
   DONE_UPLOADING,
   SET_UPLOAD_ERROR,
   UPDATE_FIELD,
-  SHOW_MAIL_OR_FAX,
+  SHOW_MAIL_MESSAGE,
   CANCEL_UPLOAD,
   SET_FIELDS_DIRTY,
   SET_UPLOADER,
@@ -23,7 +23,7 @@ const initialState = {
   uploadComplete: false,
   uploadError: false,
   uploadField: makeField(''),
-  showMailOrFax: false,
+  showMailMessage: false,
   uploader: null,
 };
 
@@ -86,8 +86,8 @@ export default function claimDetailReducer(state = initialState, action) {
     case UPDATE_FIELD: {
       return set(action.path, action.field, state);
     }
-    case SHOW_MAIL_OR_FAX: {
-      return set('showMailOrFax', action.visible, state);
+    case SHOW_MAIL_MESSAGE: {
+      return set('showMailMessage', action.visible, state);
     }
     case CANCEL_UPLOAD: {
       return {

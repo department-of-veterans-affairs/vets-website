@@ -1,7 +1,7 @@
 import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
 import '../support/commands';
 
-import validateVeteran from '../pages/ValidateVeteran';
+import validateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import introduction from '../pages/Introduction';
 
 import apiInitializer from '../support/ApiInitializer';
@@ -31,10 +31,10 @@ describe('Pre-Check In Experience', () => {
     });
     it('validation trims white space before posting', () => {
       cy.visitPreCheckInWithUUID();
+      cy.injectAxeThenAxeCheck();
       validateVeteran.validatePageLoaded();
       validateVeteran.validateVeteran('Smith        ', '1234          ');
       validateVeteran.attemptToGoToNextPage();
-
       introduction.validatePageLoaded();
     });
   });

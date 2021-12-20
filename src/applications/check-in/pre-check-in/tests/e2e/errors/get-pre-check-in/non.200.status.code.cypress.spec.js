@@ -1,8 +1,8 @@
 import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
 import '../../support/commands';
 
-import validateVeteran from '../../pages/ValidateVeteran';
-import Error from '../../pages/Error';
+import validateVeteran from '../../../../../tests/e2e/pages/ValidateVeteran';
+import Error from '../../../../../tests/e2e/pages/Error';
 
 import apiInitializer from '../../support/ApiInitializer';
 

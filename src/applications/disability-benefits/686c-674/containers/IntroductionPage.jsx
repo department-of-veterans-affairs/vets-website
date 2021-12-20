@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
@@ -38,7 +37,7 @@ class IntroductionPage extends React.Component {
     // Case 2: User is logged in and they have a valid va file number.
     // Case 3: User is logged in and they do not have a valid va file number.
     if (dependentsToggle === undefined) {
-      content = <LoadingIndicator message="Loading..." />;
+      content = <va-loading-indicator message="Loading..." />;
     } else if (!dependentsToggle) {
       content = (
         <>
@@ -87,7 +86,7 @@ class IntroductionPage extends React.Component {
       );
     } else if (user?.login?.currentlyLoggedIn && isLoading) {
       ctaState = (
-        <LoadingIndicator message="Verifying veteran account information..." />
+        <va-loading-indicator message="Verifying veteran account information..." />
       );
       content = (
         <div className="schemaform-intro">

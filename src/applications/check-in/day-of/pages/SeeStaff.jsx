@@ -23,7 +23,7 @@ const SeeStaff = props => {
         Check in with a staff member
       </h1>
       {message ? (
-        <>{message}</>
+        <span>{message}</span>
       ) : (
         <p>Our staff can help you update your contact information.</p>
       )}

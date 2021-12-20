@@ -15,12 +15,7 @@ const selectFeatureToggles = createSelector(
     isEmergencyContactEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceEmergencyContactEnabled
     ],
-    isDemographicsPageEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceDemographicsPageEnabled
-    ],
-    isNextOfKinEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceNextOfKinEnabled
-    ],
+
     isUpdatePageEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceUpdateInformationPageEnabled
     ],

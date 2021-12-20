@@ -1341,17 +1341,27 @@ const formConfig = {
                 ],
                 learnMore: {
                   'ui:description': (
-                    <va-additional-info trigger="Learn More">
+                    <>
                       <img
-                        key="1a"
+                        style={{ marginTop: '1rem' }}
                         src="/img/check-sample.png"
                         alt="Example of a check showing where the account and routing numbers are"
                       />
-                      <p key="2b">
-                        If you don’t have a printed check, you can sign in to
-                        your online banking institution for this information
+                      <p>Where can I find these numbers?</p>
+                      <p>
+                        The bank routing number is the first 9 digits on the
+                        bottom left corner of a printed check. Your account
+                        number is the second set of numbers on the bottom of a
+                        printed check, just to the right of the bank routing
+                        number.
                       </p>
-                    </va-additional-info>
+                      <va-additional-info trigger="Learn More">
+                        <p key="2b">
+                          If you don’t have a printed check, you can sign in to
+                          your online banking institution for this information
+                        </p>
+                      </va-additional-info>
+                    </>
                   ),
                 },
               },
