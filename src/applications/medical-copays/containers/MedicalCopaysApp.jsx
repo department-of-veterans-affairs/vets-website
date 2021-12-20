@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { mcpFeatureToggle, renderBreadcrumbs } from '../utils/helpers';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import { mcpFeatureToggle } from '../utils/helpers';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -26,7 +25,7 @@ const MedicalCopaysApp = ({ children }) => {
         dispatch(getStatements());
       }
     },
-    [userLoggedIn], // eslint-disable-line react-hooks/exhaustive-deps
+    [dispatch, userLoggedIn],
   );
 
   useEffect(
@@ -36,14 +35,14 @@ const MedicalCopaysApp = ({ children }) => {
       if (statements && !statements?.length) {
         setAlertType('no-history');
       }
-      if (error?.code === '403') {
-        setAlertType('no-health-care');
-      }
       if (error) {
         setAlertType('error');
       }
+      if (error?.code === '403') {
+        setAlertType('no-health-care');
+      }
     },
-    [fetchPending, profileLoading, error, statements],
+    [statements, error],
   );
 
   if (showMCP === false || (!profileLoading && !userLoggedIn)) {
@@ -59,9 +58,6 @@ const MedicalCopaysApp = ({ children }) => {
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 vads-u-margin-bottom--5">
       <div className="vads-l-row vads-u-margin-x--neg2p5">
         <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--8">
-          <Breadcrumbs className="vads-u-font-family--sans no-wrap">
-            {renderBreadcrumbs(pathname)}
-          </Breadcrumbs>
           {alertType ? (
             <AlertView
               pathname={pathname}
