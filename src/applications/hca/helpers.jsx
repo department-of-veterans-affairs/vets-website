@@ -498,6 +498,60 @@ export const isEssentialAcaCoverageDescription = (
     </div>
   </div>
 );
+export const NO_POLICY_OR_GROUP_ERROR = 'no-policy-or-group-error';
+export const healthInsuranceCoverageQuestionDescription = (
+  <div className="vads-u-margin-bottom--3">
+    <div className="hca-tooltip-wrapper">
+      <AdditionalInfo triggerText="Why we ask this information">
+        We ask for this information for billing purposes only. Your health
+        insurance coverage doesn’t affect the VA health care benefits you can
+        get.
+        <ul>
+          Giving us your health insurance information helps you for these
+          reasons:
+          <li>
+            We must bill your private health insurance provider for any care,
+            supplies, or medicines we provide to treat your
+            non-service-connected conditions. If you have a VA copayment, we may
+            be able to use the payments from your provider to cover some or all
+            of your copayment.
+          </li>
+          <li>
+            Your private insurance provider may apply your VA health care
+            charges toward your annual deductible. Your annual deductible is the
+            amount of money you pay toward your care each year before your
+            insurance starts to pay for care.
+          </li>
+        </ul>
+      </AdditionalInfo>
+    </div>
+  </div>
+);
+export const hasTricareWhatIsMyPolicyNumberDescription = (
+  <div>
+    <div className="hca-tooltip-wrapper">
+      <AdditionalInfo triggerText="I have TRICARE. What’s my policy number?">
+        <p>
+          You can use your Department of Defense benefits number (DBN) or your
+          Social Security number as your policy number.{' '}
+        </p>
+        <p>
+          Your DBN is an 11-digit number. You’ll find this number on the back of
+          your military ID card.
+        </p>
+      </AdditionalInfo>
+    </div>
+  </div>
+);
+export const healthInsuranceDescription = (
+  <section className="vads-u-margin-bottom--3">
+    <p>
+      Health insurance includes any coverage that you get through a spouse or
+      significant other. Health insurance also includes Medicare, private
+      insurance, or insurance from your employer.
+    </p>
+  </section>
+);
 export const medicaidDescription = (
   <section className="vads-u-margin-bottom--3">
     <p>
