@@ -35,8 +35,8 @@ export default function ExpandingGroup({
             classNames="form-expanding-group-inner"
             timeout={{
               enter: 700,
+              exit: 700,
             }}
-            exit={false}
           >
             <div key="removable-group" className={additionalClass}>
               {children[1]}
