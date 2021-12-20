@@ -84,10 +84,11 @@ export const personalInformationFormSchemas = {
         type: 'string',
         enum: sexualOrientationOptions,
       },
+      sexualOrientationNotListedText: {
+        type: 'string',
+      },
     },
-    sexualOrientationNotListedText: {
-      type: 'string',
-    },
+
     required: [],
   },
 };
