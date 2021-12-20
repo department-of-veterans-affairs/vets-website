@@ -67,7 +67,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue to sign up for our coronavirus research volunteer list.',
   },
-  title: 'Update your information in our coronavirus research volunteer list',
+  title: 'Coronavirus research volunteer list survey update',
   defaultDefinitions: {},
   preSubmitInfo: {
     required: true,
@@ -81,7 +81,7 @@ const formConfig = {
   },
   chapters: {
     chapter1: {
-      title: 'Your information',
+      title: 'Update your information',
       pages: {
         page1: {
           path: 'update-form',
@@ -110,15 +110,6 @@ const formConfig = {
                   },
                 },
               },
-              healthHeaderText: {
-                type: 'object',
-                properties: {
-                  'view:healthText': {
-                    type: 'object',
-                    properties: {},
-                  },
-                },
-              },
               vaccinated: fullSchema.properties.vaccinated,
               VACCINATED_PLAN: fullSchema.properties.VACCINATED_PLAN,
               VACCINATED_DETAILS: fullSchema.properties.VACCINATED_DETAILS,
@@ -127,6 +118,7 @@ const formConfig = {
               VACCINATED_SECOND: fullSchema.properties.VACCINATED_SECOND,
               diagnosed: fullSchema.properties.diagnosed,
               DIAGNOSED_DETAILS: fullSchema.properties.DIAGNOSED_DETAILS,
+              DIAGNOSED_SYMPTOMS: fullSchema.properties.DIAGNOSED_SYMPTOMS,
               ELIGIBLE: fullSchema.properties.ELIGIBLE,
               FACILITY: fullSchema.properties.FACILITY,
               zipCode: usaPostalCode,

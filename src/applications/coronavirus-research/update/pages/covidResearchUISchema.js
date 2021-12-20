@@ -17,15 +17,11 @@ const conditionalValidateBooleanGroup = (errors, pageData) => {
     VACCINATED_PLAN,
     VACCINATED_DETAILS,
     VACCINATED_SECOND,
-    VACCINATED_DATE1,
-    VACCINATED_DATE2,
   } = pageData;
   if (vaccinated) {
     validateBooleanGroup(errors.VACCINATED_PLAN, VACCINATED_PLAN);
     validateBooleanGroup(errors.VACCINATED_DETAILS, VACCINATED_DETAILS);
     validateBooleanGroup(errors.VACCINATED_SECOND, VACCINATED_SECOND);
-    validateBooleanGroup(errors.VACCINATED_DATE1, VACCINATED_DATE1);
-    validateBooleanGroup(errors.VACCINATED_DATE2, VACCINATED_DATE2);
   }
 };
 
@@ -34,19 +30,11 @@ export const uiSchema = {
     'view:descriptionText': {
       'ui:description': (
         <span>
-          Thank you for your interest in volunteering for coronavirus disease
-          research at VA. Please answer the questions below, and we’ll add you
-          to our volunteer list. If we think you may be eligible for one of our
-          COVID-19 studies, we’ll contact you to tell you more about it so you
-          can decide if you want to join. You don’t need to be a Veteran to
-          volunteer.
-          <p>
-            <b>Note:</b> We won’t share your information with anyone outside of
-            VA. To learn more before volunteering,{' '}
-            <a href="/coronavirus-research">
-              read about volunteering for coronavirus research at VA.
-            </a>
-          </p>
+          Thank you for your volunteering to receive information on coronavirus
+          disease (COVID-19) research at VA. Please answer the questions below,
+          and we’ll update your information. If we think you may be eligible for
+          one of our COVID-19 studies, we’ll contact you to tell you more about
+          it so you can decide if you want to join.
         </span>
       ),
     },
@@ -61,12 +49,6 @@ export const uiSchema = {
       classNames: 'schemaform-block-title schemaform-block-subtitle',
     },
   },
-  healthHeaderText: {
-    'view:healthText': {
-      'ui:description': <h2>Help us understand your health</h2>,
-    },
-  },
-  'ui:validations': [conditionalValidateBooleanGroup],
   vaccinated: {
     'ui:title': (
       <span>
@@ -196,6 +178,85 @@ export const uiSchema = {
       'ui:reviewField': CustomReviewField,
     },
   },
+  DIAGNOSED_SYMPTOMS: {
+    'ui:options': {
+      showFieldLabel: true,
+      expandUnder: 'diagnosed',
+    },
+    'ui:title': (
+      <span>
+        <strong>
+          Have you experienced/are you still experiencing any of the following
+          symptoms at least 4 weeks after the onset of your COVID-19 illness?
+        </strong>
+        <br />
+        (Please check all that apply.)
+        <br />
+      </span>
+    ),
+    'DIAGNOSED_SYMPTOMS::FATIGUE': {
+      'ui:title': 'Ongoing or debilitating fatigue',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::TACHYCARDIA': {
+      'ui:title': 'Tachycardia (fast heartbeat/hear flutters)',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::BREATHING': {
+      'ui:title': 'Shortness of breath/difficulty breathing/chest pain',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::NUMBNESS': {
+      'ui:title': 'Numbness/tingling',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::FOCUS': {
+      'ui:title': 'Difficulty concentrating or focusing (Brain fog)',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::HEADACHE': {
+      'ui:title': 'Headache',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::SLEEP': {
+      'ui:title': 'Difficulty Sleeping',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::CLOTS': {
+      'ui:title': 'Blood clots/clotting issues',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::DIZZINESS': {
+      'ui:title': 'Dizziness (vertigo)',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::VISION': {
+      'ui:title': 'Blurred vision',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::ANXIETY': {
+      'ui:title': 'Anxiety/depression',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::TASTE_SMELL': {
+      'ui:title': 'Loss of Taste/loss of smell',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::GI': {
+      'ui:title': 'GI symptoms (heart burn, loss of appetite, abdominal pain)',
+      'ui:reviewField': CustomReviewField,
+    },
+  },
+  zipCode: {
+    'ui:title': 'Zip code where you currently live',
+    'ui:errorMessages': {
+      required: 'Please enter a zip code',
+      pattern: 'Please enter a valid 5- or 9-digit zip code (dashes allowed)',
+    },
+    'ui:options': {
+      classNames: 'input-width',
+    },
+  },
   ELIGIBLE: {
     'ui:title': (
       <span>
@@ -220,15 +281,6 @@ export const uiSchema = {
       classNames: '',
     },
   },
-  zipCode: {
-    'ui:title': 'Zip code where you currently live',
-    'ui:errorMessages': {
-      required: 'Please enter a zip code',
-      pattern: 'Please enter a valid 5- or 9-digit zip code (dashes allowed)',
-    },
-    'ui:options': {
-      classNames: 'input-width',
-    },
-  },
+  'ui:validations': [conditionalValidateBooleanGroup],
 };
 export const schema = {};
