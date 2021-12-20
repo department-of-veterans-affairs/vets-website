@@ -9,7 +9,7 @@ import {
   monthOptions,
 } from '../../helpers';
 
-const Search = ({ onSearch }) => {
+export const Search = ({ onSearch }) => {
   // Derive the query params on the URL.
   const queryParams = new URLSearchParams(window.location.search);
 

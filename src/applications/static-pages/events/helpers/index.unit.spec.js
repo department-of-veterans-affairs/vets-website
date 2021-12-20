@@ -4,7 +4,6 @@ import { expect } from 'chai';
 // Relative imports.
 import {
   dayOptions,
-  defaultSelectedOption,
   deriveEndsAtUnix,
   deriveMostRecentDate,
   deriveStartsAtUnix,
@@ -18,15 +17,6 @@ import {
 describe('dayOptions', () => {
   it('returns what we expect', () => {
     expect(dayOptions).to.have.lengthOf(32);
-  });
-});
-
-describe('defaultSelectedOption', () => {
-  it('returns what we expect with no arguments', () => {
-    expect(defaultSelectedOption).to.deep.equal({
-      label: 'All upcoming',
-      value: 'upcoming',
-    });
   });
 });
 

@@ -11,7 +11,7 @@ import {
   deriveResultsStartNumber,
 } from '../../helpers';
 
-const Results = ({
+export const Results = ({
   onPageSelect,
   page,
   perPage,
