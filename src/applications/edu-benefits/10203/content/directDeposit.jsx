@@ -11,7 +11,7 @@ export const directDepositDescription = () => {
         Scholarship, we’ll need to know where to deposit the funds.
       </p>
       <img
-        src="/img/direct-deposit-check-guide.png"
+        src="/img/direct-deposit-check-guide.svg"
         alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
       />
     </div>
