@@ -14,7 +14,11 @@ import {
   updateSortByPropertyNameThunk,
   updatePaginationAction,
 } from '../actions';
-import { doesCookieExist, setCookie } from '../helpers';
+import {
+  doesCookieExist,
+  setCookie,
+  deriveDefaultModalState,
+} from '../helpers';
 import { showPDFModal, getFindFormsAppState } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
@@ -57,13 +61,8 @@ export const SearchResults = ({
   const prevProps = usePreviousProps({
     fetching,
   });
-  const [modalState, setModalState] = useState({
-    isOpen: false,
-    pdfSelected: '',
-    pdfUrl: '',
-    pdfLabel: '',
-    doesCookieExist: false,
-  });
+  const [modalState, setModalState] = useState(deriveDefaultModalState());
+
   const [prevFocusedLink, setPrevFocusedLink] = useState('');
 
   useEffect(() => {
@@ -72,9 +71,13 @@ export const SearchResults = ({
       focusElement('[data-forms-focus]');
     }
   });
+
   useEffect(() => {
     if (doesCookieExist()) {
-      setModalState({ ...modalState, doesCookieExist: doesCookieExist() });
+      setModalState({
+        ...deriveDefaultModalState(),
+        doesCookieExist: doesCookieExist(),
+      });
     }
   }, []);
 
