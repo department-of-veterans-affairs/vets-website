@@ -60,6 +60,9 @@ export const personalInformationFormSchemas = {
       useMyPreferredName: { type: 'boolean' },
       preferNotToAnswer: { type: 'boolean' },
       pronounsNotListed: { type: 'boolean' },
+      pronounsNotListedText: {
+        type: 'string',
+      },
     },
     required: [],
   },
@@ -69,9 +72,6 @@ export const personalInformationFormSchemas = {
       genderIdentity: {
         type: 'string',
         enum: genderOptions,
-      },
-      genderIdentityNotListed: {
-        type: 'string',
       },
     },
     required: [],
@@ -84,6 +84,9 @@ export const personalInformationFormSchemas = {
         type: 'string',
         enum: sexualOrientationOptions,
       },
+    },
+    sexualOrientationNotListedText: {
+      type: 'string',
     },
     required: [],
   },
