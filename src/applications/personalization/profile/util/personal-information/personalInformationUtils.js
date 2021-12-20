@@ -70,9 +70,13 @@ export const personalInformationFormSchemas = {
         type: 'string',
         enum: genderOptions,
       },
+      genderIdentityNotListed: {
+        type: 'string',
+      },
     },
     required: [],
   },
+
   sexualOrientation: {
     type: 'object',
     properties: {
@@ -89,7 +93,7 @@ export const personalInformationUiSchemas = {
   preferredName: {
     preferredName: {
       'ui:widget': TextWidget,
-      'ui:title': `Provide your preferred name (25 characters maximum)`,
+      'ui:title': `Provide your preferred name (100 characters maximum)`,
       'ui:errorMessages': {
         pattern: 'Preferred name required',
       },
@@ -106,6 +110,10 @@ export const personalInformationUiSchemas = {
     preferNotToAnswer: { 'ui:title': 'Prefer not to answer' },
     pronounsNotListed: {
       'ui:title': 'Pronouns not listed here',
+    },
+    pronounsNotListedText: {
+      'ui:title':
+        'If not listed, please provide your preferred pronouns (255 characters maximum)',
     },
   },
   genderIdentity: {
@@ -124,6 +132,10 @@ export const personalInformationUiSchemas = {
       'ui:options': {
         labels: sexualOrientationLabels,
       },
+    },
+    sexualOrientationNotListedText: {
+      'ui:title':
+        'If not listed, please provide your sexual orientation (255 characters maximum)',
     },
   },
 };
