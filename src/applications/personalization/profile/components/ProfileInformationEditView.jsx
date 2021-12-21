@@ -315,6 +315,7 @@ export class ProfileInformationEditView extends Component {
 
                   {!isLoading && (
                     <button
+                      data-testid="cancel-edit-button"
                       type="button"
                       className="usa-button-secondary small-screen:vads-u-margin-top--0"
                       onClick={onCancel}
