@@ -63,6 +63,8 @@ import createDirectDepositPage from '../../edu-benefits/pages/directDeposit';
 import { directDepositDescription } from '../../edu-benefits/1990/helpers';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 
+import { vagovprod } from 'site/constants/buckets';
+
 const {
   fullName,
   // ssn,
@@ -1344,7 +1346,7 @@ const formConfig = {
                     <>
                       <img
                         style={{ marginTop: '1rem' }}
-                        src="/img/check-sample.png"
+                        src={`${vagovprod}/img/check-sample.png`}
                         alt="Example of a check showing where the account and routing numbers are"
                       />
                       <p>Where can I find these numbers?</p>
