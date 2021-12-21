@@ -24,7 +24,7 @@ const withLoadedData = Component => {
     const { isSessionLoading, router, setSessionData } = props;
     const selectCheckInData = useMemo(makeSelectCheckInData, []);
     const checkInData = useSelector(selectCheckInData);
-    const { getCurrentToken } = useSessionToken('health.care.check.in');
+    const { getCurrentToken } = useSessionToken('health.care.check-in');
     const {
       context,
       appointments,

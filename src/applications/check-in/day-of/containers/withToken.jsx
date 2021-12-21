@@ -13,7 +13,7 @@ const withToken = Component => {
     const checkInData = useSelector(selectCheckInData);
     const { context } = checkInData;
     const shouldRedirect = !context || !context.token;
-    const { getCurrentToken } = useSessionToken('health.care.check.in');
+    const { getCurrentToken } = useSessionToken('health.care.check-in');
     useEffect(
       () => {
         if (shouldRedirect) {

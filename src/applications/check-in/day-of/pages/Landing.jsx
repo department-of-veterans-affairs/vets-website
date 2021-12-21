@@ -26,8 +26,8 @@ const Landing = props => {
   } = props;
 
   const [loadMessage] = useState('Finding your appointment information');
-  const { clearCurrentSession } = useSessionStorage('health.care.pre.check.in');
-  const { setCurrentToken } = useSessionToken('health.care.check.in');
+  const { clearCurrentSession } = useSessionStorage('health.care.pre.check-in');
+  const { setCurrentToken } = useSessionToken('health.care.check-in');
   useEffect(
     () => {
       const token = getTokenFromLocation(location);

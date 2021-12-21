@@ -17,9 +17,9 @@ const withSession = Component => {
     const { router, setAuthenticatedSession, setToken } = props;
     const selectCheckInData = useMemo(makeSelectCheckInData, []);
     const checkInData = useSelector(selectCheckInData);
-    const { clearCurrentSession } = useSessionStorage('health.care.check.in');
+    const { clearCurrentSession } = useSessionStorage('health.care.check-in');
     const { setCurrentToken, getCurrentToken } = useSessionToken(
-      'health.care.check.in',
+      'health.care.check-in',
     );
     const { context } = checkInData;
 
