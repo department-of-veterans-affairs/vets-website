@@ -26,12 +26,17 @@
 @import "modules/m-vet-nav";
 @import "modules/m-downtime-notification";
 @import "modules/m-layers";
-@import "modules/m-facilities";
 @import "modules/m-homepage";
 @import "modules/m-veteran-banner";
 @import "modules/m-cta-widget";
 @import "modules/m-side-nav";
 @import "modules/m-responsive-table";
 @import "modules/m-campaign-landing-page";
+
+@import "modules/facilities/m-facilities";
+@import "modules/facilities/m-facility-detail";
+@import "modules/facilities/m-facilities-general";
+@import "modules/facilities/m-operating-status";
+@import "modules/facilities/m-facility-events";
 
 @import "shame";

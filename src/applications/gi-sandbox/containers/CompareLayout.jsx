@@ -364,7 +364,8 @@ const CompareLayout = ({
           {
             label: 'Caution flags',
             className: institution =>
-              classNames('caution-flag-display', {
+              classNames({
+                'caution-flag-display': institution.cautionFlags.length > 0,
                 none: institution.cautionFlags.length === 0,
               }),
             mapper: institution => {

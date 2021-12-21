@@ -33,26 +33,19 @@ describe('Pre-Check In Experience', () => {
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       NextOfKin.validatePageLoaded();
+      NextOfKin.attemptToGoToNextPage();
+      Confirmation.validatePageContent();
     });
-    afterEach(() => {
+    it('reloads of confirmation page should redirect back to verify page', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.reload();
+      validateVeteran.validatePageLoaded();
+
+      // moved afterEach here to
+      // avoid async clearing of session storage
       cy.window().then(window => {
         window.sessionStorage.clear();
       });
-    });
-    it('Confirmation page content loads', () => {
-      NextOfKin.attemptToGoToNextPage();
-      Confirmation.validatePageContent();
-      cy.injectAxeThenAxeCheck();
-    });
-    it('Staff update alert message is not visible', () => {
-      NextOfKin.attemptToGoToNextPage();
-      Confirmation.validateConfirmNoUpdates();
-      cy.injectAxeThenAxeCheck();
-    });
-    it('Staff update alert message is visible', () => {
-      NextOfKin.attemptToGoToNextPage('no');
-      Confirmation.validateConfirmWithUpdates();
-      cy.injectAxeThenAxeCheck();
     });
   });
 });

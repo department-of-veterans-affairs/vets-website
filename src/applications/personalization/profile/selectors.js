@@ -80,4 +80,4 @@ export const militaryInformationLoadError = state => {
 };
 
 export const showProfileLGBTQEnhancements = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.profileEnhancements];
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileEnhancements] || false;

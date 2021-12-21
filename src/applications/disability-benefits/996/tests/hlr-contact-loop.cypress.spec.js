@@ -1,3 +1,11 @@
+/**
+ * [TestRail-integrated] Spec for Higher Level Review - Wizard
+ * @testrailinfo projectId 5
+ * @testrailinfo suiteId 6
+ * @testrailinfo groupId 3256
+ * @testrailinfo runName HLR-e2e-ContactLoop
+ */
+
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
 import { BASE_URL, WIZARD_STATUS, CONTESTABLE_ISSUES_API } from '../constants';
@@ -74,7 +82,7 @@ describe('HLR contact info loop', () => {
       .click();
   };
 
-  it('should edit info on a new page & cancel returns to contact info page', () => {
+  it('should edit info on a new page & cancel returns to contact info page - C12883', () => {
     getToContactPage();
 
     // Contact info
@@ -115,7 +123,7 @@ describe('HLR contact info loop', () => {
    * info page, but this isn't working... I think I'm missing an intermediate
    * step here?
 
-  it.skip('should edit info on a new page, update & return to contact info page', () => {
+  it.skip('should edit info on a new page, update & return to contact info page - C12884', () => {
     getToContactPage();
 
     // Contact info
