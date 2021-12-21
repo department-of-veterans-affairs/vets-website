@@ -90,7 +90,7 @@ const PersonalInformationSection = ({ gender, dob }) => (
         },
         { title: 'Sex assigned at birth', value: renderGender(gender) },
         {
-          title: 'Gender Identity',
+          title: 'Gender identity',
           id: FIELD_IDS[FIELD_NAMES.GENDER_IDENTITY],
           value: (
             <ProfileInformationFieldController
@@ -99,7 +99,7 @@ const PersonalInformationSection = ({ gender, dob }) => (
           ),
         },
         {
-          title: 'Sexual Orientation',
+          title: 'Sexual orientation',
           id: FIELD_IDS[FIELD_NAMES.SEXUAL_ORIENTATION],
           value: (
             <ProfileInformationFieldController

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -102,7 +101,9 @@ class ViewPaymentsLists extends Component {
     let content;
     // If the app is loading, show a loading LoadingIndicator
     if (this.props.isLoading) {
-      content = <LoadingIndicator message="Loading payment information..." />;
+      content = (
+        <va-loading-indicator message="Loading payment information..." />
+      );
     } else if (!this.props.isIdentityVerified) {
       // if user is not LOA3, render an AlertBox that asks them to verify their identity
       return <IdentityNotVerified />;

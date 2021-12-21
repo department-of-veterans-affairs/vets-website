@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { isLoggedIn, isLOA3 as isLOA3Selector } from 'platform/user/selectors';
@@ -47,7 +45,7 @@ function FormApp(props) {
   );
 
   if (isLoading) {
-    return <LoadingIndicator message="Loading your information..." />;
+    return <va-loading-indicator message="Loading your information..." />;
   }
 
   // if a user has a saved form but starts a new session, keep them here instead of
@@ -68,7 +66,7 @@ function FormApp(props) {
   // else if a user is trying to access parts of the form unauthenticated, redirect them to the intro page.
   if (!wizardStatus) {
     router.push('/start');
-    return <LoadingIndicator message="Loading VRE Orientation..." />;
+    return <va-loading-indicator message="Loading VRE Orientation..." />;
   } else if (!loggedIn && CHAPTER_NAMES.includes(formPath)) {
     router.push('/introduction');
   }

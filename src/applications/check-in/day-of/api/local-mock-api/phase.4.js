@@ -14,7 +14,6 @@ const responses = {
   ...commonResponses,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     checkInExperienceUpdateInformationPageEnabled: false,
-    checkInExperienceDemographicsPageEnabled: true,
   }),
   // v2
   'GET /check_in/v2/sessions/:uuid': (req, res) => {

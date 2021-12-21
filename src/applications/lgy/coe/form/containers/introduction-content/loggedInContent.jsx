@@ -1,5 +1,4 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
@@ -77,9 +76,9 @@ const LoggedInContent = props => (
               proof of your honorable service.
             </li>
           </ul>
-          <AdditionalInfo triggerText="What's a statement of service?">
+          <va-additional-info trigger="What's a statement of service?">
             <p>hey</p>
-          </AdditionalInfo>
+          </va-additional-info>
         </li>
         <li className="process-step list-three">
           <h3>Start your application</h3>
@@ -87,9 +86,9 @@ const LoggedInContent = props => (
             Complete the form to request a VA home loan Certificate of
             Eligibility. It should take about 15 minutes.
           </p>
-          <AdditionalInfo triggerText="What happens after I request a COE?">
+          <va-additional-info trigger="What happens after I request a COE?">
             <p>hey</p>
-          </AdditionalInfo>
+          </va-additional-info>
         </li>
       </ol>
       <div className="vads-u-margin-bottom--4">

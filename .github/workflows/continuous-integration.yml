@@ -123,6 +123,12 @@ jobs:
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
+      - name: Upload Coverage Report Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: unit-test-coverage-report
+          path: coverage/test-coverage-report.json
+
       - name: Configure AWS credentials (1)
         if: ${{ github.ref == 'refs/heads/master' }}
         uses: aws-actions/configure-aws-credentials@v1
@@ -404,7 +410,7 @@ jobs:
       - name: Get changed apps for header test
         id: get-changed-apps
         if: ${{ github.ref != 'refs/heads/master' }}
-        run: | 
+        run: |
           echo ::set-output name=app_urls::$(node script/github-actions/get-changed-apps.js --output-type url)
           echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
         env:
@@ -654,6 +660,103 @@ jobs:
           conclusion: ${{ needs.contract-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+
+  testing-reports-unit-tests-coverage:
+    name: Testing Reports - Unit Tests Coverage
+    runs-on: ubuntu-latest
+    needs: [testing-reports-prep, unit-tests]
+    if: ${{ always() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # ------------------------
+      # | Upload BigQuery Data |
+      # ------------------------
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Checkout Testing Tools Team Dashboard Data repo
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: testing-tools-team-dashboard-data
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+        working-directory: testing-tools-team-dashboard-data
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      # TODO: Potentially use install composite
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+        working-directory: testing-tools-team-dashboard-data
+
+      - name: Get BigQuery service credentials
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
+          env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
+
+      - name: Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: vsp-analytics-and-insights
+          service_account_key: ${{ env.BIGQUERY_SERVICE_CREDENTIALS }}
+          export_default_credentials: true
+
+      - name: Get AWS IAM role
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Set UUID for Mochawesome reports
+        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+
+      - name: Configure AWS Credentials (2)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+
+      # --------------------------------------
+      # | Publish Unit Test Coverage Report       |
+      # -------------------------------------
+
+      - name: Download Unit Test Coverage Report
+        uses: actions/download-artifact@v2
+        with:
+          name: unit-test-coverage-report
+          path: testing-tools-team-dashboard-data/src/testing-reports/data
+
+      - name: Process Coverage Report and post results to BigQuery
+        run: yarn unit-coverage-to-bigquery
+        working-directory: testing-tools-team-dashboard-data
 
   testing-reports-cypress:
     name: Testing Reports - Cypress E2E Tests

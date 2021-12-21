@@ -9,7 +9,7 @@ import { someSelected, isEmptyObject } from '../utils/helpers';
 import { ContestedIssuesAlert } from '../content/contestedIssues';
 
 /**
- * EligibleIssuesWidget
+ * EligibleIssuesWidget (HLR v1)
  * Form system parameters passed into this widget
  * @typedef {Object}
  * @property {Boolean} autofocus - should auto focus
@@ -69,7 +69,6 @@ const EligibleIssuesWidget = props => {
     );
   }
 
-  // HLR v1 only
   const showError = required && formContext.submitted && !hasSelected;
   const wrapperClass = showError ? 'usa-input-error vads-u-margin-top--0' : '';
 
