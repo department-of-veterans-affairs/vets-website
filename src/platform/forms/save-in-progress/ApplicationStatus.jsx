@@ -100,7 +100,7 @@ export class ApplicationStatus extends React.Component {
         : `Deleting your ${appType}.`;
 
       return (
-        <div className="sip-application-status">
+        <div className="sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
           <LoadingIndicator message={message} />
         </div>
       );
@@ -137,7 +137,7 @@ export class ApplicationStatus extends React.Component {
           .format('MMMM D, YYYY [at] h:mm a');
 
         return (
-          <div className="usa-alert usa-alert-info background-color-only sip-application-status">
+          <div className="usa-alert usa-alert-info background-color-only sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
             <h5 className="form-title saved">Your {appType} is in progress</h5>
             <span className="saved-form-item-metadata">
               Your {formDescriptions[formId]} is in progress.
@@ -201,7 +201,7 @@ export class ApplicationStatus extends React.Component {
         );
       }
       return (
-        <div className="usa-alert usa-alert-warning background-color-only sip-application-status">
+        <div className="usa-alert usa-alert-warning background-color-only sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
           <h5 className="form-title saved">Your {appType} has expired</h5>
           <span className="saved-form-item-metadata">
             Your saved {formDescriptions[formId]} has expired. If you want to
@@ -257,7 +257,7 @@ export class ApplicationStatus extends React.Component {
           <h2 itemProp="name">{applyHeading}</h2>
           <div itemProp="itemListElement">
             {this.props.additionalText && <p>{this.props.additionalText}</p>}
-            <div className="sip-application-status">
+            <div className="sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
               <a
                 className="usa-button-primary va-button-primary"
                 href={formLinks[formId]}
