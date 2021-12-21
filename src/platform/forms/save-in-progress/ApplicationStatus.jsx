@@ -100,7 +100,7 @@ export class ApplicationStatus extends React.Component {
         : `Deleting your ${appType}.`;
 
       return (
-        <div className="sip-application-status">
+        <div className="sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
           <LoadingIndicator message={message} />
         </div>
       );
