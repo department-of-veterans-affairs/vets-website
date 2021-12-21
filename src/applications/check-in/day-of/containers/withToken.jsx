@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import { goToNextPage, URLS } from '../utils/navigation';
-import { getCurrentToken } from '../../utils/session';
+import { useSessionToken } from '../../hooks/useSessionToken';
 import { makeSelectCheckInData } from '../hooks/selectors';
 
 const withToken = Component => {
@@ -13,6 +13,7 @@ const withToken = Component => {
     const checkInData = useSelector(selectCheckInData);
     const { context } = checkInData;
     const shouldRedirect = !context || !context.token;
+    const { getCurrentToken } = useSessionToken('health.care.check.in');
     useEffect(
       () => {
         if (shouldRedirect) {
@@ -25,7 +26,7 @@ const withToken = Component => {
           }
         }
       },
-      [shouldRedirect, router],
+      [shouldRedirect, router, getCurrentToken],
     );
     if (shouldRedirect) {
       return <></>;

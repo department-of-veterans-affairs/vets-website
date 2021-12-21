@@ -8,7 +8,8 @@ import { api } from '../../api';
 import { createInitFormAction, createSetSession } from '../../actions';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useSessionToken } from '../../../hooks/useSessionToken';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { createForm, getTokenFromLocation, URLS } from '../../utils/navigation';
@@ -35,7 +36,8 @@ export default function Index(props) {
 
   const { router } = props;
   const { goToErrorPage, jumpToPage } = useFormRouting(router);
-  const { clearCurrentSession, setCurrentToken } = useSessionStorage();
+  const { clearCurrentSession } = useSessionStorage();
+  const { setCurrentToken } = useSessionToken();
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isEmergencyContactEnabled } = useSelector(selectFeatureToggles);

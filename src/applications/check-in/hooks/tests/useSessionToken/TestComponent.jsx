@@ -1,25 +1,14 @@
 import React, { useState } from 'react';
-import { useSessionStorage } from '../../useSessionStorage';
+import { useSessionToken } from '../../useSessionToken';
 
 export default function TestComponent({ window, sessionNameSpace, token }) {
-  const {
-    clearCurrentSession,
-    getCurrentToken,
-    setCurrentToken,
-  } = useSessionStorage(sessionNameSpace);
+  const { getCurrentToken, setCurrentToken } = useSessionToken(
+    sessionNameSpace,
+  );
   const [fromSession, setFromSession] = useState();
   return (
     <div>
-      <h1>Test component for the useSessionStorage hook</h1>
-
-      <button
-        onClick={() => {
-          clearCurrentSession(window);
-        }}
-        data-testid="clear-button"
-      >
-        clear
-      </button>
+      <h1>Test component for the useSessionToken hook</h1>
       <button
         onClick={() => {
           setFromSession(getCurrentToken(window));

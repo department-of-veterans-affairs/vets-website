@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect, batch, useSelector } from 'react-redux';
 import { compose } from 'redux';
 import { goToNextPage, URLS } from '../utils/navigation';
-import { getCurrentToken } from '../../utils/session';
+import { useSessionToken } from '../../hooks/useSessionToken';
 import { api } from '../api';
 import {
   receivedEmergencyContact,
@@ -24,6 +24,7 @@ const withLoadedData = Component => {
     const { isSessionLoading, router, setSessionData } = props;
     const selectCheckInData = useMemo(makeSelectCheckInData, []);
     const checkInData = useSelector(selectCheckInData);
+    const { getCurrentToken } = useSessionToken('health.care.check.in');
     const {
       context,
       appointments,
@@ -68,7 +69,14 @@ const withLoadedData = Component => {
           isCancelled = true;
         };
       },
-      [appointments, router, context, setSessionData, isSessionLoading],
+      [
+        appointments,
+        router,
+        context,
+        setSessionData,
+        isSessionLoading,
+        getCurrentToken,
+      ],
     );
     return (
       <>

@@ -3,11 +3,8 @@ import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import { compose } from 'redux';
 import { goToNextPage, URLS } from '../utils/navigation';
-import {
-  getCurrentToken,
-  setCurrentToken,
-  clearCurrentSession,
-} from '../../utils/session';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useSessionToken } from '../../hooks/useSessionToken';
 import { api } from '../api';
 import { triggerRefresh, tokenWasValidated } from '../actions';
 import { SCOPES } from '../../utils/token-format-validator';
@@ -20,7 +17,10 @@ const withSession = Component => {
     const { router, setAuthenticatedSession, setToken } = props;
     const selectCheckInData = useMemo(makeSelectCheckInData, []);
     const checkInData = useSelector(selectCheckInData);
-
+    const { clearCurrentSession } = useSessionStorage('health.care.check.in');
+    const { setCurrentToken, getCurrentToken } = useSessionToken(
+      'health.care.check.in',
+    );
     const { context } = checkInData;
 
     useEffect(
@@ -59,7 +59,15 @@ const withSession = Component => {
           }
         }
       },
-      [router, context, setAuthenticatedSession, setToken],
+      [
+        router,
+        context,
+        setAuthenticatedSession,
+        setToken,
+        getCurrentToken,
+        clearCurrentSession,
+        setCurrentToken,
+      ],
     );
 
     if (isLoading) {

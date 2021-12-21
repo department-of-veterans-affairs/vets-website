@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { makeSelectCurrentContext } from '../selectors';
 
 import { useFormRouting } from '../hooks/useFormRouting';
-import { useSessionStorage } from '../hooks/useSessionStorage';
+import { useSessionToken } from '../../hooks/useSessionToken';
 
 import { SCOPES } from '../../utils/token-format-validator';
 import { URLS } from '../utils/navigation';
@@ -16,7 +16,7 @@ const withAuthorization = Component => {
     const { token, permissions } = useSelector(selectCurrentContext);
 
     const { jumpToPage, goToErrorPage } = useFormRouting(router);
-    const { getCurrentToken } = useSessionStorage();
+    const { getCurrentToken } = useSessionToken();
 
     useEffect(
       () => {
