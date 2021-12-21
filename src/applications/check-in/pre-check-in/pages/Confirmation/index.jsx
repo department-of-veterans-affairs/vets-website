@@ -35,7 +35,6 @@ const Confirmation = () => {
             show-icon
             data-testid="confirmation-update-alert"
           >
-            {/** TODO INFO ICON */}
             <div>
               A staff member will help you on the day of your appointment to
               update your information.
