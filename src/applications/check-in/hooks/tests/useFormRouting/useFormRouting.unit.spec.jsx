@@ -8,7 +8,18 @@ import { render, fireEvent } from '@testing-library/react';
 
 import TestComponent from './TestComponent';
 import { GO_TO_NEXT_PAGE } from '../../../actions';
-import { URLS } from '../../../utils/navigation';
+
+const URLS = Object.freeze({
+  CONFIRMATION: 'complete',
+  DEMOGRAPHICS: 'contact-information',
+  EMERGENCY_CONTACT: 'emergency-contact',
+  ERROR: 'error',
+  INTRODUCTION: 'introduction',
+  LANDING: '',
+  NEXT_OF_KIN: 'next-of-kin',
+  SEE_STAFF: 'see-staff',
+  VERIFY: 'verify',
+});
 
 describe('check-in', () => {
   describe('useFormRouting', () => {
@@ -18,7 +29,7 @@ describe('check-in', () => {
         const middleware = [];
         const mockStore = configureStore(middleware);
         const initState = {
-          preCheckInData: {
+          checkInData: {
             form: {
               pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
               currentPage: 'first-page',
@@ -49,7 +60,7 @@ describe('check-in', () => {
         const middleware = [];
         const mockStore = configureStore(middleware);
         const initState = {
-          preCheckInData: {
+          checkInData: {
             form: {
               pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
               currentPage: 'first-page',
@@ -87,7 +98,7 @@ describe('check-in', () => {
         const middleware = [];
         const mockStore = configureStore(middleware);
         const initState = {
-          preCheckInData: {
+          checkInData: {
             form: {
               pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
               currentPage: 'fourth-page',
@@ -124,7 +135,7 @@ describe('check-in', () => {
         const middleware = [];
         const mockStore = configureStore(middleware);
         const initState = {
-          preCheckInData: {
+          checkInData: {
             form: {
               pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
               currentPage: 'third-page',
@@ -160,7 +171,7 @@ describe('check-in', () => {
         const middleware = [];
         const mockStore = configureStore(middleware);
         const initState = {
-          preCheckInData: {
+          checkInData: {
             form: {
               pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
               currentPage: 'first-page',
@@ -196,7 +207,7 @@ describe('check-in', () => {
         const middleware = [];
         const mockStore = configureStore(middleware);
         const initState = {
-          preCheckInData: {
+          checkInData: {
             form: {
               pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
               currentPage: 'first-page',
@@ -232,7 +243,7 @@ describe('check-in', () => {
         const middleware = [];
         const mockStore = configureStore(middleware);
         const initState = {
-          preCheckInData: {
+          checkInData: {
             form: {
               pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
               currentPage: 'first-page',

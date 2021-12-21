@@ -2,11 +2,10 @@ import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 
-import { URLS } from '../utils/navigation';
 import { makeSelectForm } from '../selectors';
 import { createGoToNextPageAction } from '../actions';
 
-const useFormRouting = (router = {}) => {
+const useFormRouting = (router = {}, URLS) => {
   const selectForm = useMemo(makeSelectForm, []);
   const { pages, currentPage } = useSelector(selectForm);
 
