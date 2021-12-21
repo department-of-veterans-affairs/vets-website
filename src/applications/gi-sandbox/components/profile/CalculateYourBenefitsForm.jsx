@@ -38,6 +38,7 @@ function CalculateYourBenefitsForm({
   showModal,
   updateEstimatedBenefits,
   focusHandler,
+  classesOutsideUSChecked,
 }) {
   const [invalidZip, setInvalidZip] = useState('');
   const [inputUpdated, setInputUpdated] = useState(false);
@@ -48,7 +49,7 @@ function CalculateYourBenefitsForm({
     scholarshipsAndOtherFunding: false,
   });
 
-  const displayExtensionBeneficiaryZipcode = !inputs.classesOutsideUS;
+  const displayExtensionBeneficiaryZipcode = !classesOutsideUSChecked;
 
   const getExtensions = () => {
     const facilityMap = profile.attributes.facilityMap;
@@ -842,7 +843,7 @@ function CalculateYourBenefitsForm({
             "I'll be taking classes outside of the U.S. and U.S. territories"
           }
           onChange={handleHasClassesOutsideUSChange}
-          checked={inputs.classesOutsideUS}
+          checked={classesOutsideUSChecked}
           name={'classesOutsideUS'}
         />
       );
