@@ -14,7 +14,7 @@ const useSessionStorage = (sessionNameSpace = 'health.care.pre.check.in') => {
     window => {
       const { sessionStorage } = window;
       Object.keys(SESSION_STORAGE_KEYS).forEach(key => {
-        sessionStorage.removeItem(key);
+        sessionStorage.removeItem(SESSION_STORAGE_KEYS[key]);
       });
     },
     [SESSION_STORAGE_KEYS],
