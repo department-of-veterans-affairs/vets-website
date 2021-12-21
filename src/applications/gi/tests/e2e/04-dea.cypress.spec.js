@@ -14,7 +14,7 @@ const institutionProfile = require('../data/institution-profile.json');
 const deaSearchResults = require('../data/dea-search-results.json');
 const ojtProfile = require('../data/ojt-profile.json');
 
-describe('DEA benefit', () => {
+describe.skip('DEA benefit', () => {
   const ojtFacilityCode = deaSearchResults.data[0].attributes.facility_code;
   const facilityCode = deaSearchResults.data[1].attributes.facility_code;
 

@@ -8,7 +8,7 @@ import {
 } from './gi-helpers';
 import { mockTogglesResponse } from './mock-feature_toggles';
 
-describe('VETTEC', () => {
+describe.skip('VETTEC', () => {
   beforeEach(() => {
     cy.intercept('/v0/gi/institution_programs/search', vetTecSearchResults);
 

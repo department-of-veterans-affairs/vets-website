@@ -9,7 +9,7 @@ import { mockTogglesResponse } from './mock-feature_toggles';
 const ojtProfile = require('../data/ojt-profile.json');
 const ojtSearchResults = require('../data/ojt-search-results.json');
 
-describe('OJT institution', () => {
+describe.skip('OJT institution', () => {
   it('path is valid without errors', () => {
     const searchTerm = ojtProfile.data.attributes.name;
     const facilityCode = ojtProfile.data.attributes.facility_code;

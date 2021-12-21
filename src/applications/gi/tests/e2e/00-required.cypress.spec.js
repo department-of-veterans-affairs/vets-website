@@ -11,7 +11,7 @@ import { mockTogglesResponse } from './mock-feature_toggles';
 
 const institutionAttributes = institutionProfile.data.attributes;
 
-describe('Institution', () => {
+describe.skip('Institution', () => {
   beforeEach(() => {
     initApplicationMock();
     cy.intercept('GET', '/v0/feature_toggles*', mockTogglesResponse);
