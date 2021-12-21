@@ -10,7 +10,7 @@ const genderOptions = [
   'preferNotToAnswer',
   'genderNotListed',
 ];
-const genderLabels = {
+export const genderLabels = {
   woman: 'Woman',
   man: 'Man',
   transgenderWoman: 'Transgender woman',
@@ -20,7 +20,7 @@ const genderLabels = {
   genderNotListed: 'A gender not listed here',
 };
 const sexualOrientationOptions = [
-  'lesBianGayHomosexual',
+  'lesbianGayHomosexual',
   'straightOrHeterosexual',
   'bisexual',
   'queer',
@@ -28,8 +28,8 @@ const sexualOrientationOptions = [
   'preferNotToAnswer',
   'sexualOrientationNotListed',
 ];
-const sexualOrientationLabels = {
-  lesBianGayHomosexual: 'Lesbian, gay, or homosexual',
+export const sexualOrientationLabels = {
+  lesbianGayHomosexual: 'Lesbian, gay, or homosexual',
   straightOrHeterosexual: 'Straight or heterosexual',
   bisexual: 'Bisexual',
   queer: 'Queer',
@@ -37,6 +37,17 @@ const sexualOrientationLabels = {
   preferNotToAnswer: 'Prefer not to answer',
   sexualOrientationNotListed: 'A sexual orientation not listed here',
 };
+
+export const pronounsLabels = {
+  heHimHis: 'He/him/his',
+  sheHerHers: 'She/her/hers',
+  theyThemTheirs: 'They/them/theirs',
+  zeZirZirs: 'Ze/zir/zirs',
+  useMyPreferredName: 'Use my preferred name',
+  preferNotToAnswer: 'Prefer not to answer',
+  pronounsNotListed: 'Pronouns not listed here',
+};
+
 export const personalInformationFormSchemas = {
   preferredName: {
     type: 'object',
@@ -142,4 +153,32 @@ export const personalInformationUiSchemas = {
         'If not listed, please provide your sexual orientation (255 characters maximum)',
     },
   },
+};
+
+export const formatPronouns = (pronounValues, pronounsNotListedText) => {
+  if (pronounValues.length === 1) {
+    return pronounValues.includes('pronounsNotListed')
+      ? pronounsNotListedText
+      : pronounsLabels[pronounValues[0]];
+  }
+
+  return pronounValues
+    .map(pronounKey => {
+      return pronounKey === 'pronounsNotListed'
+        ? pronounsNotListedText
+        : pronounsLabels[pronounKey];
+    })
+    .join(', ');
+};
+
+export const formatGenderIdentity = genderKey => genderLabels?.[genderKey];
+
+export const formatSexualOrientation = (
+  sexualOrientationKey,
+  sexualOrientationNotListedText,
+) => {
+  if (sexualOrientationKey !== 'sexualOrientationNotListed') {
+    return sexualOrientationLabels[sexualOrientationKey];
+  }
+  return sexualOrientationNotListedText;
 };

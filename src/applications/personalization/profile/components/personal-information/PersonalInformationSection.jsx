@@ -75,7 +75,7 @@ const PersonalInformationSection = ({ gender, dob }) => (
           value: (
             <ProfileInformationFieldController
               fieldName={FIELD_NAMES.PREFERRED_NAME}
-              data={{ preferredName: 'Frank' }}
+              isDeleteDisabled
             />
           ),
         },
@@ -85,6 +85,7 @@ const PersonalInformationSection = ({ gender, dob }) => (
           value: (
             <ProfileInformationFieldController
               fieldName={FIELD_NAMES.PRONOUNS}
+              isDeleteDisabled
             />
           ),
         },
@@ -95,6 +96,7 @@ const PersonalInformationSection = ({ gender, dob }) => (
           value: (
             <ProfileInformationFieldController
               fieldName={FIELD_NAMES.GENDER_IDENTITY}
+              isDeleteDisabled
             />
           ),
         },
@@ -104,6 +106,7 @@ const PersonalInformationSection = ({ gender, dob }) => (
           value: (
             <ProfileInformationFieldController
               fieldName={FIELD_NAMES.SEXUAL_ORIENTATION}
+              isDeleteDisabled
             />
           ),
         },

@@ -459,6 +459,7 @@ export const mapStateToProps = (state, ownProps) => {
   const data =
     selectVAPContactInfoField(state, fieldName) ||
     selectVAProfilePersonalInformation(state, fieldName);
+
   const isEmpty = !data;
   const addressValidationType = selectAddressValidationType(state);
   const activeEditView = selectCurrentlyOpenEditModal(state);

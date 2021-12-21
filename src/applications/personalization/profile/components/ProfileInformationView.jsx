@@ -10,7 +10,14 @@ import * as VAP_SERVICE from '@@vap-svc/constants';
 import {
   addresses,
   phoneNumbers,
+  personalInformation,
 } from '@@profile/util/getProfileInfoFieldAttributes';
+
+import {
+  formatPronouns,
+  formatGenderIdentity,
+  formatSexualOrientation,
+} from '@@profile/util/personal-information/personalInformationUtils';
 
 const ProfileInformationView = props => {
   const { data, fieldName, title } = props;
@@ -76,8 +83,20 @@ const ProfileInformationView = props => {
     );
   }
 
-  if (fieldName === FIELD_NAMES.PREFERRED_NAME) {
-    return data;
+  if (personalInformation.includes(fieldName)) {
+    if (fieldName === 'preferredName') return data[fieldName];
+
+    if (fieldName === 'pronouns') {
+      return formatPronouns(data[fieldName], data?.pronounsNotListedText);
+    }
+    if (fieldName === 'genderIdentity') {
+      return formatGenderIdentity(data[fieldName]);
+    }
+
+    return formatSexualOrientation(
+      data[fieldName],
+      data?.sexualOrientationNotListedText,
+    );
   }
 
   return null;
