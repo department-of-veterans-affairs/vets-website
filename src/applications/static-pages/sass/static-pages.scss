@@ -16,31 +16,3 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-homepage-hero";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-linkslist";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-next-previous";
-
-//=============================
-// Additional information styles
-//=============================
-
-.additional-info-title {
-  border-bottom-right-radius: 0px;
-}
-
-.form-expanding-group {
-  &.form-expanding-group-open {
-    > span {
-      display: inline;
-    }
-  }
-  > span {
-    display: none;
-  }
-
-  &.form-expanding-group-open.borderless-alert {
-    border: none;
-    padding-left: 2rem;
-
-    ul {
-      padding-left: 1.5em;
-    }
-  }
-}
