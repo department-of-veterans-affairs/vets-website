@@ -4,7 +4,7 @@ import { connect, batch, useSelector } from 'react-redux';
 import { compose } from 'redux';
 import { goToNextPage, URLS } from '../utils/navigation';
 import { getCurrentToken } from '../../utils/session';
-import { api } from '../api';
+import { api } from '../../api';
 import {
   receivedEmergencyContact,
   receivedDemographicsData,

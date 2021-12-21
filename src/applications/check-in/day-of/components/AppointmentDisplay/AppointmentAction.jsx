@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { api } from '../../api';
+import { api } from '../../../api';
 
 import { goToNextPage, URLS } from '../../utils/navigation';
 import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';

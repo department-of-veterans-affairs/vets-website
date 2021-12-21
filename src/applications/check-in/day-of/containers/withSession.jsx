@@ -8,10 +8,9 @@ import {
   setCurrentToken,
   clearCurrentSession,
 } from '../../utils/session';
-import { api } from '../api';
+import { api } from '../../api';
 import { triggerRefresh, tokenWasValidated } from '../actions';
 import { SCOPES } from '../../utils/token-format-validator';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { makeSelectCheckInData } from '../hooks/selectors';
 
 const withSession = Component => {
@@ -65,7 +64,7 @@ const withSession = Component => {
     if (isLoading) {
       return (
         <>
-          <LoadingIndicator message={'Finding your session'} />
+          <va-loading-indicator message={'Finding your session'} />
         </>
       );
     } else {

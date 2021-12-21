@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { api } from '../../api';
+import { api } from '../../../api';
 
 import { createSetSession } from '../../actions';
 
