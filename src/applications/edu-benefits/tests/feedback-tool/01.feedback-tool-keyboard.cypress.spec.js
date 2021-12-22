@@ -41,7 +41,7 @@ describe('Feedback Tool Keyboard Test', () => {
 
     cy.get('input#root_onBehalfOf_0').should('be.focused');
 
-    cy.repeatKey('Tab', 3);
+    cy.repeatKey('Tab', 2);
     cy.realPress('Enter');
 
     cy.get('input[name="root_fullName_first"]').should('be.visible');
