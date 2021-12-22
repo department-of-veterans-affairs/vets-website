@@ -1,4 +1,3 @@
-/* eslint-disable cypress/no-unnecessary-waiting */
 import manifest from '../../feedback-tool/manifest.json';
 
 describe('Feedback Tool Keyboard Test', () => {
