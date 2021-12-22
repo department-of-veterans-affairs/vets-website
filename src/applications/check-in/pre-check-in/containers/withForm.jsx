@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { makeSelectForm } from '../selectors';
 
 import { useFormRouting } from '../hooks/useFormRouting';
-import { useSessionToken } from '../../hooks/useSessionToken';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { URLS } from '../utils/navigation';
 
 const withForm = Component => {
@@ -14,7 +14,7 @@ const withForm = Component => {
     const form = useSelector(selectForm);
 
     const { jumpToPage, goToErrorPage } = useFormRouting(router);
-    const { getCurrentToken } = useSessionToken();
+    const { getCurrentToken } = useSessionStorage();
 
     useEffect(
       () => {

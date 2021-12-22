@@ -33,11 +33,24 @@ const useSessionStorage = (sessionNameSpace = 'health.care.pre.check.in') => {
     return data ? JSON.parse(data) : null;
   };
 
+  const setCurrentToken = useCallback(
+    (window, token) => {
+      setSessionKey(window, SESSION_STORAGE_KEYS.CURRENT_UUID, { token });
+    },
+    [SESSION_STORAGE_KEYS],
+  );
+
+  const getCurrentToken = useCallback(
+    window => {
+      return getSessionKey(window, SESSION_STORAGE_KEYS.CURRENT_UUID);
+    },
+    [SESSION_STORAGE_KEYS],
+  );
+
   return {
     clearCurrentSession,
-    getSessionKey,
-    setSessionKey,
-    SESSION_STORAGE_KEYS,
+    setCurrentToken,
+    getCurrentToken,
   };
 };
 

@@ -3,10 +3,9 @@ import { useSessionStorage } from '../../useSessionStorage';
 
 export default function TestComponent({ window, sessionNameSpace, token }) {
   const {
-    SESSION_STORAGE_KEYS,
     clearCurrentSession,
-    getSessionKey,
-    setSessionKey,
+    getCurrentToken,
+    setCurrentToken,
   } = useSessionStorage(sessionNameSpace);
   const [fromSession, setFromSession] = useState();
   return (
@@ -23,9 +22,7 @@ export default function TestComponent({ window, sessionNameSpace, token }) {
       </button>
       <button
         onClick={() => {
-          setFromSession(
-            getSessionKey(window, SESSION_STORAGE_KEYS.CURRENT_UUID),
-          );
+          setFromSession(getCurrentToken(window));
         }}
         data-testid="get-button"
       >
@@ -33,7 +30,7 @@ export default function TestComponent({ window, sessionNameSpace, token }) {
       </button>
       <button
         onClick={() => {
-          setSessionKey(window, SESSION_STORAGE_KEYS.CURRENT_UUID, { token });
+          setCurrentToken(window, token);
         }}
         data-testid="set-button"
       >

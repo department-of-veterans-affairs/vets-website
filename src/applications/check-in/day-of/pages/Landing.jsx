@@ -8,10 +8,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { getTokenFromLocation, URLS, goToNextPage } from '../utils/navigation';
 import { api } from '../api';
 import { tokenWasValidated, triggerRefresh } from '../actions';
-
 import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { useSessionToken } from '../../hooks/useSessionToken';
-
 import { createAnalyticsSlug } from '../../utils/analytics';
 import { isUUID, SCOPES } from '../../utils/token-format-validator';
 
@@ -26,8 +23,9 @@ const Landing = props => {
   } = props;
 
   const [loadMessage] = useState('Finding your appointment information');
-  const { clearCurrentSession } = useSessionStorage('health.care.pre.check-in');
-  const { setCurrentToken } = useSessionToken('health.care.check-in');
+  const { clearCurrentSession, setCurrentToken } = useSessionStorage(
+    'health.care.check-in',
+  );
   useEffect(
     () => {
       const token = getTokenFromLocation(location);

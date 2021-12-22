@@ -4,7 +4,6 @@ import { connect, useSelector } from 'react-redux';
 import { compose } from 'redux';
 import { goToNextPage, URLS } from '../utils/navigation';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { useSessionToken } from '../../hooks/useSessionToken';
 import { api } from '../api';
 import { triggerRefresh, tokenWasValidated } from '../actions';
 import { SCOPES } from '../../utils/token-format-validator';
@@ -17,10 +16,11 @@ const withSession = Component => {
     const { router, setAuthenticatedSession, setToken } = props;
     const selectCheckInData = useMemo(makeSelectCheckInData, []);
     const checkInData = useSelector(selectCheckInData);
-    const { clearCurrentSession } = useSessionStorage('health.care.check-in');
-    const { setCurrentToken, getCurrentToken } = useSessionToken(
-      'health.care.check-in',
-    );
+    const {
+      clearCurrentSession,
+      setCurrentToken,
+      getCurrentToken,
+    } = useSessionStorage('health.care.check-in');
     const { context } = checkInData;
 
     useEffect(
