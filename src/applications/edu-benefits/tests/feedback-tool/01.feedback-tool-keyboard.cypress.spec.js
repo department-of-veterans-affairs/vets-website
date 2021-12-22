@@ -41,7 +41,8 @@ describe('Feedback Tool Keyboard Test', () => {
 
     cy.get('input#root_onBehalfOf_0').should('be.focused');
 
-    cy.repeatKey('Tab', 2);
+    cy.realPress('Tab');
+    cy.realPress('Tab');
     cy.realPress('Enter');
 
     cy.get('input[name="root_fullName_first"]').should('be.visible');
@@ -180,5 +181,6 @@ describe('Feedback Tool Keyboard Test', () => {
     cy.get('input[type="checkbox"]');
     cy.repeatKey('Tab', 5);
     cy.allyEvaluateCheckboxes(['input[type="checkbox"]']);
+    cy.axeCheck();
   });
 });
