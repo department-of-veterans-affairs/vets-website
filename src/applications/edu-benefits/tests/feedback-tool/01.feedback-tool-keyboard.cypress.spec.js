@@ -181,6 +181,5 @@ describe('Feedback Tool Keyboard Test', () => {
     cy.get('input[type="checkbox"]');
     cy.repeatKey('Tab', 5);
     cy.allyEvaluateCheckboxes(['input[type="checkbox"]']);
-    cy.axeCheck();
   });
 });
