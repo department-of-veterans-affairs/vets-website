@@ -31,4 +31,8 @@ const mocks = {
   },
 };
 
-module.exports = { createMockSuccessResponse, createMockFailedResponse, mocks };
+module.exports = {
+  createMockSuccessResponse,
+  createMockFailedResponse,
+  ...mocks,
+};

@@ -13,12 +13,14 @@ let hasBeenValidated = false;
 const responses = {
   ...commonResponses,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
-    checkInExperienceUpdateInformationPageEnabled: true,
+    checkInExperienceEnabled: true,
+    preCheckInEnabled: true,
+    checkInExperienceUpdateInformationPageEnabled: false,
     emergencyContactEnabled: true,
   }),
   // v2
   'GET /check_in/v2/sessions/:uuid': (req, res) => {
-    return res.json(sessions.get.mocks.get(req.params));
+    return res.json(sessions.get(req.params));
   },
   'POST /check_in/v2/sessions': (req, res) => {
     const { last4, lastName } = req.body?.session || {};
