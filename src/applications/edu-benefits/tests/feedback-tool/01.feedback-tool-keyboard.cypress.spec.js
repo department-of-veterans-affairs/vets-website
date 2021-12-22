@@ -1,3 +1,4 @@
+/* eslint-disable cypress/no-unnecessary-waiting */
 import manifest from '../../feedback-tool/manifest.json';
 
 describe('Feedback Tool Keyboard Test', () => {
@@ -40,6 +41,8 @@ describe('Feedback Tool Keyboard Test', () => {
     );
 
     cy.get('input#root_onBehalfOf_0').should('be.focused');
+
+    cy.wait(1000);
 
     cy.realPress('Tab');
     cy.realPress('Tab');
