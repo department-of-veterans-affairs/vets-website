@@ -23,8 +23,8 @@ const createMockFailedResponse = () => {
 const mocks = {
   get: {
     createMockSuccessResponse: params => {
-      const { uuid } = params;
-      return createMockSuccessResponse(uuid, 'read.none');
+      const { uuid, permissions = 'read.none' } = params;
+      return createMockSuccessResponse(uuid, permissions);
     },
     createMockFailedResponse,
   },

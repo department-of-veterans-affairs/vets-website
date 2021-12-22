@@ -62,7 +62,10 @@ class ApiInitializer {
     withSuccessfulReturningSession: () => {
       cy.intercept('GET', '/check_in/v2/sessions/*', req => {
         req.reply(
-          session.get.createMockSuccessResponse('some-token', 'read.full'),
+          session.get.createMockSuccessResponse({
+            uuid: 'some-token',
+            permissions: 'read.full',
+          }),
         );
       });
     },
