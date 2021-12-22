@@ -1,0 +1,129 @@
+import session from '../mocks/v2/sessions';
+import preCheckInData from '../mocks/v2/pre-check-in-data/';
+import featureToggles from '../mocks/v2/feature-toggles';
+
+class ApiInitializer {
+  initializeFeatureToggle = {
+    withAppsDisabled: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: false,
+          preCheckInEnabled: false,
+        }),
+      );
+    },
+    withCurrentFeatures: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: true,
+          preCheckInEnabled: true,
+          checkInExperienceUpdateInformationPageEnabled: false,
+          emergencyContactEnabled: true,
+        }),
+      );
+    },
+    withoutEmergencyContact: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: true,
+          preCheckInEnabled: true,
+          checkInExperienceUpdateInformationPageEnabled: false,
+          emergencyContactEnabled: false,
+        }),
+      );
+    },
+    withAllFeatures: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: true,
+          preCheckInEnabled: true,
+          checkInExperienceUpdateInformationPageEnabled: true,
+          emergencyContactEnabled: true,
+        }),
+      );
+    },
+  };
+  initializeSessionGet = {
+    withSuccessfulNewSession: () => {
+      cy.intercept('GET', '/check_in/v2/sessions/*', req => {
+        req.reply(
+          session.get.createMockSuccessResponse('some-token', 'read.basic'),
+        );
+      });
+    },
+    withSuccessfulReturningSession: () => {
+      cy.intercept('GET', '/check_in/v2/sessions/*', req => {
+        req.reply(
+          session.get.createMockSuccessResponse('some-token', 'read.full'),
+        );
+      });
+    },
+    withFailure: (errorCode = 400) => {
+      cy.intercept('GET', '/check_in/v2/sessions/*', req => {
+        req.reply(errorCode, session.get.createMockFailedResponse());
+      });
+    },
+  };
+
+  initializeSessionPost = {
+    withSuccess: extraValidation => {
+      cy.intercept('POST', '/check_in/v2/sessions', req => {
+        if (extraValidation) {
+          extraValidation(req);
+        }
+        req.reply(
+          session.post.createMockSuccessResponse('some-token', 'read.full'),
+        );
+      });
+    },
+
+    withFailure: (errorCode = 400) => {
+      cy.intercept('POST', '/check_in/v2/sessions', req => {
+        req.reply(errorCode, session.post.createMockFailedResponse());
+      });
+    },
+  };
+
+  initializePreCheckInDataGet = {
+    withSuccess: extraValidation => {
+      cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
+        if (extraValidation) {
+          extraValidation(req);
+        }
+        req.reply(preCheckInData.get.createMockSuccessResponse('some-token'));
+      });
+      return preCheckInData.get.createMockSuccessResponse('some-token');
+    },
+    withFailure: (errorCode = 400) => {
+      cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
+        req.reply(errorCode, preCheckInData.get.createMockFailedResponse());
+      });
+    },
+  };
+
+  initializePreCheckInDataPost = {
+    withSuccess: extraValidation => {
+      cy.intercept('POST', '/check_in/v2/pre_check_ins/', req => {
+        if (extraValidation) {
+          extraValidation(req);
+        }
+        req.reply(preCheckInData.post.createMockSuccessResponse('some-token'));
+      });
+    },
+    withFailure: (errorCode = 400) => {
+      cy.intercept('POST', '/check_in/v2/pre_check_ins/', req => {
+        req.reply(errorCode, preCheckInData.post.createMockFailedResponse());
+      });
+    },
+  };
+}
+
+export default new ApiInitializer();

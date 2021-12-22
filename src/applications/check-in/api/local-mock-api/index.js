@@ -20,15 +20,15 @@ const responses = {
   }),
   // v2
   'GET /check_in/v2/sessions/:uuid': (req, res) => {
-    return res.json(sessions.get(req.params));
+    return res.json(sessions.get.createMockSuccessResponse(req.params));
   },
   'POST /check_in/v2/sessions': (req, res) => {
     const { last4, lastName } = req.body?.session || {};
     if (!last4 || !lastName) {
-      return res.status(400).json(sessions.createMockFailedResponse());
+      return res.status(400).json(sessions.post.createMockFailedResponse());
     }
     hasBeenValidated = true;
-    return res.json(sessions.post(req.body));
+    return res.json(sessions.post.createMockSuccessResponse(req.body));
   },
   'GET /check_in/v2/patient_check_ins/:uuid': (req, res) => {
     const { uuid } = req.params;

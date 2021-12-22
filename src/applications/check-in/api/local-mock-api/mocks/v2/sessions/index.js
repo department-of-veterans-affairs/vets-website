@@ -21,18 +21,22 @@ const createMockFailedResponse = () => {
 };
 
 const mocks = {
-  get: params => {
-    const { uuid } = params;
-    return createMockSuccessResponse(uuid, 'read.none');
+  get: {
+    createMockSuccessResponse: params => {
+      const { uuid } = params;
+      return createMockSuccessResponse(uuid, 'read.none');
+    },
+    createMockFailedResponse,
   },
-  post: body => {
-    const { id } = body;
-    return createMockSuccessResponse(id, 'read.full');
+  post: {
+    createMockSuccessResponse: body => {
+      const { id } = body;
+      return createMockSuccessResponse(id, 'read.full');
+    },
+    createMockFailedResponse,
   },
 };
 
 module.exports = {
-  createMockSuccessResponse,
-  createMockFailedResponse,
   ...mocks,
 };
