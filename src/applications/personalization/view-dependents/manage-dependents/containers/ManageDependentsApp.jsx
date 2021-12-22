@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import PropTypes from 'prop-types';
+
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
@@ -126,7 +126,7 @@ const ManageDependents = props => {
       </SchemaForm>
     </div>
   ) : (
-    <LoadingIndicator message="Loading the form..." />
+    <va-loading-indicator message="Loading the form..." />
   );
 };
 

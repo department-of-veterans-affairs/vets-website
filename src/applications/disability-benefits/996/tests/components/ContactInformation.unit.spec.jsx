@@ -56,6 +56,22 @@ describe('Veteran information review content', () => {
     tree.unmount();
   });
 
+  it('should not throw JS error when contact info value is null', () => {
+    const data = getData();
+    data.profile.vapContactInfo = {
+      mobilePhone: null,
+      mailingAddress: null,
+      email: null,
+    };
+
+    const tree = shallow(<ContactInfoDescription {...data} />);
+
+    expect(tree.find('PhoneField')).to.exist;
+    expect(tree.find('EmailField')).to.exist;
+    expect(tree.find('MailingAddress')).to.exist;
+    tree.unmount();
+  });
+
   it('should render contact information main loop', () => {
     const data = getData({ loopPages: true });
     const tree = shallow(<ContactInfoDescription {...data} />);

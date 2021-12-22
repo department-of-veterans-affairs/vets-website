@@ -54,7 +54,7 @@ export const DONE_UPLOADING = 'DONE_UPLOADING';
 export const SET_PROGRESS = 'SET_PROGRESS';
 export const SET_UPLOAD_ERROR = 'SET_UPLOAD_ERROR';
 export const UPDATE_FIELD = 'UPDATE_FIELD';
-export const SHOW_MAIL_OR_FAX = 'SHOW_MAIL_OR_FAX';
+export const SHOW_MAIL_MESSAGE = 'SHOW_MAIL_MESSAGE';
 export const CANCEL_UPLOAD = 'CANCEL_UPLOAD';
 export const SET_FIELDS_DIRTY = 'SET_FIELD_DIRTY';
 export const SHOW_CONSOLIDATED_MODAL = 'SHOW_CONSOLIDATED_MODAL';
@@ -572,9 +572,9 @@ export function updateField(path, field) {
   };
 }
 
-export function showMailOrFaxModal(visible) {
+export function showMailMessageModal(visible) {
   return {
-    type: SHOW_MAIL_OR_FAX,
+    type: SHOW_MAIL_MESSAGE,
     visible,
   };
 }

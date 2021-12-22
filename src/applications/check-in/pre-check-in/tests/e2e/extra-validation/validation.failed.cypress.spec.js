@@ -2,8 +2,8 @@ import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/featur
 import mockSession from '../../../api/local-mock-api/mocks/v2/sessions.responses';
 import '../support/commands';
 
-import validateVeteran from '../pages/ValidateVeteran';
-import error from '../pages/Error';
+import validateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
+import error from '../../../../tests/e2e/pages/Error';
 import apiInitializer from '../support/ApiInitializer';
 
 describe('Pre-Check In Experience', () => {

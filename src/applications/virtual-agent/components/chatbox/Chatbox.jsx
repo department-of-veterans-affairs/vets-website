@@ -35,8 +35,8 @@ function useWebChat(props) {
 //   return true;
 // }
 
-function showBot(loggedIn, accepted, minute, props) {
-  if (!loggedIn) {
+function showBot(loggedIn, requireAuth, accepted, minute, props) {
+  if (!loggedIn && requireAuth) {
     return <ConnectedSignInAlert />;
   } else if (!accepted) {
     return <ChatboxDisclaimer />;
@@ -48,6 +48,9 @@ function showBot(loggedIn, accepted, minute, props) {
 export default function Chatbox(props) {
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
   const isAccepted = useSelector(state => state.virtualAgentData.termsAccepted);
+  const requireAuth = useSelector(
+    state => state.featureToggles.virtualAgentAuth,
+  );
 
   const ONE_MINUTE = 60 * 1000;
   return (
@@ -57,7 +60,7 @@ export default function Chatbox(props) {
           VA Virtual Agent (beta)
         </h2>
       </div>
-      {showBot(isLoggedIn, isAccepted, ONE_MINUTE, props)}
+      {showBot(isLoggedIn, requireAuth, isAccepted, ONE_MINUTE, props)}
     </div>
   );
 }

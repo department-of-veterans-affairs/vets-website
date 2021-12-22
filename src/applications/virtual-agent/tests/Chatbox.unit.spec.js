@@ -594,6 +594,9 @@ describe('App', () => {
       virtualAgentData: {
         termsAccepted: true,
       },
+      featureToggles: {
+        virtualAgentAuth: true,
+      },
     };
 
     it('displays a login widget', async () => {
@@ -647,6 +650,45 @@ describe('App', () => {
       const alertText = wrapper.queryByText('Loading Virtual Agent');
 
       expect(alertText).to.not.exist;
+    });
+  });
+
+  describe('virtualAgentAuth is toggled false', () => {
+    const initialStateAuthNotRequired = {
+      navigation: {
+        showLoginModal: false,
+        utilitiesMenuIsOpen: { search: false },
+      },
+      user: {
+        login: {
+          currentlyLoggedIn: false,
+        },
+      },
+      virtualAgentData: {
+        termsAccepted: false,
+      },
+      featureToggles: {
+        virtualAgentAuth: false,
+      },
+    };
+
+    it('displays disclaimer', async () => {
+      loadWebChat();
+      mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+
+      const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
+        initialState: initialStateAuthNotRequired,
+        reducers: virtualAgentReducer,
+      });
+
+      await waitFor(
+        () =>
+          expect(
+            wrapper.getByText(
+              'This virtual agent is still in development and cannot help with personal, medical or mental health emergencies. Thank you for understanding.',
+            ),
+          ).to.exist,
+      );
     });
   });
 });

@@ -802,6 +802,14 @@ export function submitAppointmentOrRequest(history) {
         newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
       const eventType = isCommunityCare ? 'community-care' : 'request';
       const flow = isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST;
+      const today = moment().format('YYYYMMDD');
+      const daysFromPreference = ['null', 'null', 'null'];
+      const diffDays = Object.values(data.selectedDates).map(item =>
+        moment(item, 'YYYYMMDD').diff(today, 'days'),
+      );
+      // takes daysFromPreference array then replace those values from diffDays array
+      daysFromPreference.splice(0, diffDays.length, ...diffDays);
+
       let requestBody;
       if (isCommunityCare) {
         additionalEventData = {
@@ -812,6 +820,7 @@ export function submitAppointmentOrRequest(history) {
             data.communityCareProvider?.identifier
               ? 1
               : 0,
+          'vaos-number-of-days-from-preference': daysFromPreference.join('-'),
         };
       }
 
@@ -823,6 +832,7 @@ export function submitAppointmentOrRequest(history) {
           .sort()
           .join('-')
           .toLowerCase(),
+        'vaos-number-of-days-from-preference': daysFromPreference.join('-'),
       };
 
       recordEvent({

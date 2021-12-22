@@ -22,7 +22,7 @@ describe('Events <App>', () => {
     const wrapper = shallow(<App showEventsV2 />);
 
     // Assertions.
-    expect(wrapper.text()).includes('Filter by');
+    expect(wrapper.text()).includes('Outreach events');
 
     // Clean up.
     wrapper.unmount();

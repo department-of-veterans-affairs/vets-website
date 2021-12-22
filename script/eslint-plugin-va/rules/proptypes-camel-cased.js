@@ -1,6 +1,6 @@
 const MESSAGE =
   'The PropTypes library is capitalized, but the class property needs to be camel cased';
-const rule = {
+module.exports = {
   meta: {
     type: 'problem',
     docs: {
@@ -20,4 +20,3 @@ const rule = {
     },
   }),
 };
-module.exports = rule;

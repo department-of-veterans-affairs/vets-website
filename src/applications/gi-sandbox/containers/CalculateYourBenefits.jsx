@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 import classNames from 'classnames';
-
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import {
   calculatorInputChange,
@@ -85,6 +84,11 @@ export function CalculateYourBenefits({
     }
   };
 
+  const estimatedBenefitsRef = useRef();
+  const focusHandler = () => {
+    estimatedBenefitsRef.current.focus();
+  };
+
   if (isEmpty(estimatedBenefits)) {
     return <LoadingIndicator message="Loading your estimated benefits..." />;
   }
@@ -126,6 +130,7 @@ export function CalculateYourBenefits({
           updateEstimatedBenefits={() =>
             dispatchUpdateEstimatedBenefits(calculated.outputs)
           }
+          focusHandler={focusHandler}
         />
         <div className={spacerClassNames}>&nbsp;</div>
         <EstimatedBenefits
@@ -134,6 +139,7 @@ export function CalculateYourBenefits({
           calculator={inputs}
           isOJT={isOJT}
           dispatchShowModal={dispatchShowModal}
+          estimatedBenefitsRef={estimatedBenefitsRef}
         />
         {gibctEybBottomSheet && (
           <div>
