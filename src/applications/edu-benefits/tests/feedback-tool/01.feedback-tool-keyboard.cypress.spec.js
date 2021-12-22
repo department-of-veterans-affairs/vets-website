@@ -42,8 +42,7 @@ describe('Feedback Tool Keyboard Test', () => {
     cy.get('input#root_onBehalfOf_0').should('be.focused');
     cy.get('input#root_anonymousEmail').should('not.exist');
 
-    cy.realPress('Tab');
-    cy.realPress('Tab');
+    cy.repeatKey('Tab', 2);
     cy.realPress('Enter');
 
     cy.get('input[name="root_fullName_first"]').should('be.visible');
