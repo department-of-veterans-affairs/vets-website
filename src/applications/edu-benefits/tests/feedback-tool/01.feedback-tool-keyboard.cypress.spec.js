@@ -40,7 +40,6 @@ describe('Feedback Tool Keyboard Test', () => {
     );
 
     cy.get('input#root_onBehalfOf_0').should('be.focused');
-
     cy.get('input#root_anonymousEmail').should('not.exist');
 
     cy.realPress('Tab');
