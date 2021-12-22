@@ -869,7 +869,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: cypress-video-artifacts
-          path: testing-tools-team-dashboard-data/cypress-reports/videos/${{ env.UUID }}
+          path: testing-tools-team-dashboard-data/videos/${{ env.UUID }}
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
