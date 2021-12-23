@@ -1,6 +1,6 @@
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 
-import '../support/commands';
+import '../../../../tests/e2e/commands';
 
 describe('Pre-Check In Experience', () => {
   beforeEach(function() {

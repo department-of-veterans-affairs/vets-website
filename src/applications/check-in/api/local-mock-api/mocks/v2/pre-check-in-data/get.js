@@ -1,4 +1,4 @@
-const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
+const defaultUUID = '0429dda5-4165-46be-9ed1-1e652a8dfd83';
 
 const createMockSuccessResponse = token => {
   const mockTime = new Date();

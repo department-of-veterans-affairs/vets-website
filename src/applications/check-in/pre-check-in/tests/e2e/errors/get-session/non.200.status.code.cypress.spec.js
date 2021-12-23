@@ -1,4 +1,4 @@
-import '../../support/commands';
+import '../../../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../../../api/local-mock-api/e2e/ApiInitializer';
 import Error from '../../../../../tests/e2e/pages/Error';
