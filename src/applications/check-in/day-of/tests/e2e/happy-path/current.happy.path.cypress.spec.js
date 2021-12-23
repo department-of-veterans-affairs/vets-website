@@ -1,4 +1,4 @@
-import '../support/commands';
+import '../../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
@@ -8,19 +8,23 @@ import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Appointments from '../pages/Appointments';
 import Confirmation from '../pages/Confirmation';
 
-describe('Check In Experience -- ', () => {
-  describe('happy path -- ', () => {
+describe('Check In Experience', () => {
+  describe('happy path', () => {
     beforeEach(function() {
-      cy.getSingleAppointment();
-      cy.successfulCheckin();
       const {
         initializeFeatureToggle,
         initializeSessionGet,
         initializeSessionPost,
+        initializeCheckInDataGet,
+        initializeCheckInDataPost,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
+      initializeCheckInDataGet.withSuccess({
+        numberOfCheckInAbledAppointments: 1,
+      });
+      initializeCheckInDataPost.withSuccess();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -30,32 +34,31 @@ describe('Check In Experience -- ', () => {
     it('happy path', () => {
       cy.visitWithUUID();
       ValidateVeteran.validatePageLoaded('Check in at VA');
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
+
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
+
       Demographics.attemptToGoToNextPage();
       NextOfKin.validatePageLoaded(
         'Is this your current next of kin information?',
       );
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
+
       NextOfKin.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
+
       EmergencyContact.attemptToGoToNextPage();
       Appointments.validatePageLoaded();
       Appointments.validateAppointmentLength(3);
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
+
       Appointments.attemptCheckIn(2);
       Confirmation.validatePageLoaded();
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

@@ -1,32 +1,38 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import mockCheckIn from '../../../api/local-mock-api/mocks/v2/check.in.responses';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
+
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
+import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
+
 import Error from '../../../../tests/e2e/pages/Error';
 import Appointments from '../pages/Appointments';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
-    cy.authenticate();
-    cy.getSingleAppointment();
-    cy.intercept('POST', '/check_in/v2/patient_check_ins/', req => {
-      req.reply(500, mockCheckIn.createMockFailedResponse({}));
+    const {
+      initializeFeatureToggle,
+      initializeSessionGet,
+      initializeSessionPost,
+      initializeCheckInDataGet,
+      initializeCheckInDataPost,
+    } = ApiInitializer;
+    initializeFeatureToggle.withCurrentFeatures();
+    initializeSessionGet.withSuccessfulNewSession();
+    initializeSessionPost.withSuccess();
+    initializeCheckInDataGet.withSuccess({
+      numberOfCheckInAbledAppointments: 1,
     });
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        checkInExperienceUpdateInformationPageEnabled: false,
-      }),
-    );
+    initializeCheckInDataPost.withFailure(500);
+
     cy.visitWithUUID();
     ValidateVeteran.validatePageLoaded('Check in at VA');
     ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPage();
     Demographics.attemptToGoToNextPage();
     NextOfKin.attemptToGoToNextPage();
+    EmergencyContact.attemptToGoToNextPage();
     Appointments.validatePageLoaded();
     Appointments.attemptCheckIn(2);
   });

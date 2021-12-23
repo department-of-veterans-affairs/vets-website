@@ -1,30 +1,27 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
+
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
-import mockSession from '../../../api/local-mock-api/mocks/v2/sessions.responses';
 
 describe('Check In Experience -- ', () => {
   describe('extra validation -- ', () => {
     beforeEach(function() {
-      cy.authenticate();
-      cy.intercept('POST', '/check_in/v2/sessions', req => {
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+        initializeCheckInDataGet,
+      } = ApiInitializer;
+      initializeFeatureToggle.withCurrentFeatures();
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess(req => {
         expect(req.body.session.lastName).to.equal('Smith');
         expect(req.body.session.last4).to.equal('4837');
-
-        req.reply(
-          mockSession.createMockSuccessResponse('some-token', 'read.full'),
-        );
       });
-      cy.getAppointments();
-      cy.successfulCheckin();
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          checkInExperienceUpdateInformationPageEnabled: false,
-        }),
-      );
+      initializeCheckInDataGet.withSuccess({
+        numberOfCheckInAbledAppointments: 1,
+      });
       cy.visitWithUUID();
       ValidateVeteran.validatePageLoaded('Check in at VA');
     });
