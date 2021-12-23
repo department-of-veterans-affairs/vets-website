@@ -5,7 +5,7 @@ const CLAIMANT_INTO_ENDPOINT = `${
   environment.API_URL
 }/meb_api/v0/claimant_info`;
 
-const CLAIM_STATUS_ENDPOINT = `${environment.API_URL}/meb_api/v0/claim_status`;
+const CLAIM_STATUS_ENDPOINT = `${environment.API_URL}/meb_api/v0/claim_status/`;
 
 export const FETCH_PERSONAL_INFORMATION = 'FETCH_PERSONAL_INFORMATION';
 export const FETCH_PERSONAL_INFORMATION_SUCCESS =
@@ -85,7 +85,7 @@ const poll = ({
     });
 };
 
-export function fetchClaimStatus() {
+export function fetchClaimStatus(claimantId) {
   return async dispatch => {
     dispatch({ type: FETCH_CLAIM_STATUS });
     const timeoutResponse = {
@@ -94,10 +94,11 @@ export function fetchClaimStatus() {
     };
 
     poll({
-      endpoint: CLAIM_STATUS_ENDPOINT,
+      endpoint: CLAIM_STATUS_ENDPOINT + claimantId,
       validate: response =>
         response.data &&
-        response.data.claimStatus !== CLAIM_STATUS_RESPONSE_IN_PROGRESS,
+        response.data.attributes.claimStatus !==
+          CLAIM_STATUS_RESPONSE_IN_PROGRESS,
       dispatch,
       timeoutResponse,
     });

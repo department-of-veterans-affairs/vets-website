@@ -278,14 +278,14 @@ const loadingPage = (
   </div>
 );
 
-export const ConfirmationPage = ({ claimStatus, getClaimStatus }) => {
+export const ConfirmationPage = ({ formData, claimStatus, getClaimStatus }) => {
   useEffect(
     () => {
       if (!claimStatus) {
-        getClaimStatus();
+        getClaimStatus(formData.claimantId);
       }
     },
-    [getClaimStatus, claimStatus],
+    [formData, getClaimStatus, claimStatus],
   );
 
   const confirmationResult = claimStatus?.claimStatus;
@@ -311,8 +311,9 @@ export const ConfirmationPage = ({ claimStatus, getClaimStatus }) => {
 };
 
 const mapStateToProps = state => {
-  const claimStatus = state.data?.claimStatus;
-  return { claimStatus };
+  const formData = state.form?.data || {};
+  const claimStatus = state?.claimStatus;
+  return { formData, claimStatus };
 };
 
 const mapDispatchToProps = {
