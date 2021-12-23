@@ -2,7 +2,8 @@ import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect, batch, useSelector } from 'react-redux';
 import { compose } from 'redux';
-import { goToNextPage, URLS } from '../utils/navigation';
+import { URLS } from '../utils/navigation';
+import { useFormRouting } from '../../hooks/useFormRouting';
 import { getCurrentToken } from '../../utils/session';
 import { api } from '../api';
 import {
@@ -20,8 +21,8 @@ import { makeSelectCheckInData } from '../hooks/selectors';
 const withLoadedData = Component => {
   const Wrapped = ({ ...props }) => {
     const [isLoading, setIsLoading] = useState();
-
     const { isSessionLoading, router, setSessionData } = props;
+    const { goToErrorPage } = useFormRouting(router, URLS);
     const selectCheckInData = useMemo(makeSelectCheckInData, []);
     const checkInData = useSelector(selectCheckInData);
     const {
@@ -38,7 +39,7 @@ const withLoadedData = Component => {
         let isCancelled = false;
         const session = getCurrentToken(window);
         if (!context || !session) {
-          goToNextPage(router, URLS.ERROR);
+          goToErrorPage();
         } else {
           // check if appointments is empty or if a refresh is staged
           const { token } = session;
@@ -60,7 +61,7 @@ const withLoadedData = Component => {
                 }
               })
               .catch(() => {
-                goToNextPage(router, URLS.ERROR);
+                goToErrorPage();
               });
           }
         }
@@ -68,7 +69,14 @@ const withLoadedData = Component => {
           isCancelled = true;
         };
       },
-      [appointments, router, context, setSessionData, isSessionLoading],
+      [
+        appointments,
+        router,
+        context,
+        setSessionData,
+        isSessionLoading,
+        goToErrorPage,
+      ],
     );
     return (
       <>

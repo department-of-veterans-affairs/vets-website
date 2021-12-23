@@ -7,7 +7,8 @@ import { focusElement } from 'platform/utilities/ui';
 import { api } from '../api';
 
 import { permissionsUpdated } from '../actions';
-import { goToNextPage, URLS } from '../utils/navigation';
+import { URLS } from '../utils/navigation';
+import { useFormRouting } from '../../hooks/useFormRouting';
 import { SCOPES } from '../../utils/token-format-validator';
 
 import BackToHome from '../components/BackToHome';
@@ -18,6 +19,8 @@ import { makeSelectContext } from '../hooks/selectors';
 
 const ValidateVeteran = props => {
   const { router, setPermissions } = props;
+  const { goToNextPage, goToErrorPage } = useFormRouting(router, URLS);
+
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
@@ -50,11 +53,10 @@ const ValidateVeteran = props => {
           // update sessions with new permissions
           setPermissions(data);
           // routing
-
-          goToNextPage(router, URLS.DEMOGRAPHICS);
+          goToNextPage();
         })
         .catch(() => {
-          goToNextPage(router, URLS.ERROR);
+          goToErrorPage();
         });
     }
   };
