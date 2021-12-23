@@ -22,7 +22,10 @@ const EmergencyContact = props => {
     demographicsStatus,
   } = props;
   const { emergencyContactNeedsUpdate } = demographicsStatus;
-  const { goToNextPage, jumpToPage, goToErrorPage } = useFormRouting;
+  const { goToNextPage, jumpToPage, goToErrorPage } = useFormRouting(
+    router,
+    URLS,
+  );
   const seeStaffMessage =
     'Our staff can help you update your emergency contact information.';
 
