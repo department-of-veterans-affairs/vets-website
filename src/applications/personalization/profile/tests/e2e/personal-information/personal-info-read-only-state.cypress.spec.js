@@ -1,7 +1,7 @@
 import { PROFILE_PATHS_LGBTQ_ENHANCEMENT } from '@@profile/constants';
 
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
-import mockPersonalInformationEnhanced from '@@profile/tests/fixtures/personal-information-success.json';
+import mockPersonalInformationEnhanced from '@@profile/tests/fixtures/personal-information-success-enhanced.json';
 import mockServiceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
 import mockProfileEnhancementsToggles from '@@profile/tests/fixtures/personal-information-feature-toggles.json';
@@ -30,30 +30,21 @@ const setup = () => {
 };
 
 describe('Content on the personal information page', () => {
-  it('should render as expected', () => {
+  it('should render personal information as expected', () => {
     setup();
+    // Check preferred name
+    cy.findByText('Wes').should('exist');
 
-    cy.findByText('Date of birth').should('exist');
-    cy.findByText('May 6, 1986').should('exist');
-
-    cy.findByText('Preferred name').should('exist');
-    cy.findByText('Edit your profile to add a preferred name.').should('exist');
-
-    cy.findByText('Pronouns').should('exist');
-    cy.findByText('Edit your profile to add pronouns.').should('exist');
-
-    cy.findByText('Sex assigned at birth').should('exist');
-    cy.findByText('Male').should('exist');
-
-    cy.findByText('Gender identity').should('exist');
-    cy.findByText('Edit your profile to add a gender identity.').should(
+    // Check pronouns
+    cy.findByText('He/him/his, They/them/theirs, Other/pronouns/here').should(
       'exist',
     );
 
-    cy.findByText('Sexual orientation').should('exist');
-    cy.findByText('Edit your profile to add a sexual orientation.').should(
-      'exist',
-    );
+    // Check gender identity
+    cy.findByText('Man').should('exist');
+
+    // Check sexual orientation
+    cy.findByText('Some other orientation').should('exist');
 
     cy.axeCheck();
   });
