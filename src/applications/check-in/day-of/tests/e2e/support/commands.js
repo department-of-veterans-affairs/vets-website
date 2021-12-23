@@ -1,39 +1,26 @@
-import mockCheckInV2 from '../../../api/local-mock-api/mocks/v2/check.in.responses';
-import mockSessionV2 from '../../../api/local-mock-api/mocks/v2/sessions.responses';
-import mockPatientCheckInsV2 from '../../../api/local-mock-api/mocks/v2/patient.check.in.responses';
+import checkInData from '../../../../api/local-mock-api/mocks/v2/check-in-data';
+import session from '../../../../api/local-mock-api/mocks/v2/sessions';
 
 const mockCheckIn = {
-  v2: mockCheckInV2,
+  v2: checkInData.post,
 };
 const mockSession = {
-  v2: mockSessionV2,
+  v2: session,
 };
 const mockPatientCheckIns = {
-  v2: mockPatientCheckInsV2,
+  v2: checkInData.get,
 };
 
 const defaultAPIVersion = 'v2';
 const defaultUUID = mockPatientCheckIns[defaultAPIVersion].defaultUUID;
 
-Cypress.Commands.add('authenticate', (version = defaultAPIVersion) => {
-  cy.intercept('GET', `/check_in/${version}/sessions/*`, req => {
-    req.reply(
-      mockSession[version].createMockSuccessResponse(
-        'some-token',
-        'read.basic',
-      ),
-    );
-  });
-  cy.intercept('POST', `/check_in/${version}/sessions`, req => {
-    req.reply(
-      mockSession[version].createMockSuccessResponse('some-token', 'read.full'),
-    );
-  });
-});
 Cypress.Commands.add('alreadyAuthenticated', (version = defaultAPIVersion) => {
   cy.intercept('GET', `/check_in/${version}/sessions/*`, req => {
     req.reply(
-      mockSession[version].createMockSuccessResponse('some-token', 'read.full'),
+      mockSession[version].get.createMockSuccessResponse({
+        uuid: 'some-token',
+        permissions: 'read.full',
+      }),
     );
   });
 });

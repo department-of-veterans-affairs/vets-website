@@ -1,5 +1,6 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
 import '../support/commands';
+
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
@@ -10,18 +11,16 @@ import Confirmation from '../pages/Confirmation';
 describe('Check In Experience -- ', () => {
   describe('happy path -- ', () => {
     beforeEach(function() {
-      cy.authenticate();
       cy.getSingleAppointment();
       cy.successfulCheckin();
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          checkInExperienceUpdateInformationPageEnabled: false,
-
-          emergencyContactEnabled: true,
-        }),
-      );
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+      } = ApiInitializer;
+      initializeFeatureToggle.withCurrentFeatures();
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
     });
     afterEach(() => {
       cy.window().then(window => {
