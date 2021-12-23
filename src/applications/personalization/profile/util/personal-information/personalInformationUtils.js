@@ -10,7 +10,7 @@ const genderOptions = [
   'preferNotToAnswer',
   'genderNotListed',
 ];
-export const genderLabels = {
+const genderLabels = {
   woman: 'Woman',
   man: 'Man',
   transgenderWoman: 'Transgender woman',
@@ -28,7 +28,7 @@ const sexualOrientationOptions = [
   'preferNotToAnswer',
   'sexualOrientationNotListed',
 ];
-export const sexualOrientationLabels = {
+const sexualOrientationLabels = {
   lesbianGayHomosexual: 'Lesbian, gay, or homosexual',
   straightOrHeterosexual: 'Straight or heterosexual',
   bisexual: 'Bisexual',
@@ -38,7 +38,7 @@ export const sexualOrientationLabels = {
   sexualOrientationNotListed: 'A sexual orientation not listed here',
 };
 
-export const pronounsLabels = {
+const pronounsLabels = {
   heHimHis: 'He/him/his',
   sheHerHers: 'She/her/hers',
   theyThemTheirs: 'They/them/theirs',
@@ -155,7 +155,13 @@ export const personalInformationUiSchemas = {
   },
 };
 
-export const formatPronouns = (pronounValues, pronounsNotListedText) => {
+export const formatPronouns = (pronounValues, pronounsNotListedText = '') => {
+  if (pronounValues.includes('pronounsNotListed') && !pronounsNotListedText) {
+    throw new Error(
+      'pronounsNotListedText must be provided if pronounsNotListed is in selected pronouns array',
+    );
+  }
+
   if (pronounValues.length === 1) {
     return pronounValues.includes('pronounsNotListed')
       ? pronounsNotListedText
@@ -175,8 +181,17 @@ export const formatGenderIdentity = genderKey => genderLabels?.[genderKey];
 
 export const formatSexualOrientation = (
   sexualOrientationKey,
-  sexualOrientationNotListedText,
+  sexualOrientationNotListedText = '',
 ) => {
+  if (
+    sexualOrientationKey === 'sexualOrientationNotListed' &&
+    !sexualOrientationNotListedText
+  ) {
+    throw new Error(
+      'sexualOrientationNotListedText must be provided if sexualOrientationNotListed is selected',
+    );
+  }
+
   if (sexualOrientationKey !== 'sexualOrientationNotListed') {
     return sexualOrientationLabels[sexualOrientationKey];
   }

@@ -30,10 +30,21 @@ const setup = () => {
 };
 
 describe('Content on the personal information page', () => {
-  it('should render as expected', () => {
+  it('should render personal information as expected', () => {
     setup();
-    // Check full name
-    cy.findByText(/Wesley Watson Ford/i).should('exist');
+    // Check preferred name
+    cy.findByText('Wes').should('exist');
+
+    // Check pronouns
+    cy.findByText('He/him/his, They/them/theirs, Other/pronouns/here').should(
+      'exist',
+    );
+
+    // Check gender identity
+    cy.findByText('Man').should('exist');
+
+    // Check sexual orientation
+    cy.findByText('Some other orientation').should('exist');
 
     cy.axeCheck();
   });

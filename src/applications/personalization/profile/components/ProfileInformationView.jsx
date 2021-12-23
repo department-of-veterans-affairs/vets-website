@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as Sentry from '@sentry/browser';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { formatAddress } from '~/platform/forms/address/helpers';
@@ -83,20 +84,31 @@ const ProfileInformationView = props => {
     );
   }
 
-  if (personalInformation.includes(fieldName)) {
+  // handle personal information field data and format accordingly for display
+  if (fieldName in data && personalInformation.includes(fieldName)) {
     if (fieldName === 'preferredName') return data[fieldName];
 
     if (fieldName === 'pronouns') {
-      return formatPronouns(data[fieldName], data?.pronounsNotListedText);
+      try {
+        return formatPronouns(data[fieldName], data?.pronounsNotListedText);
+      } catch (err) {
+        Sentry.captureException(err);
+        return null;
+      }
     }
     if (fieldName === 'genderIdentity') {
       return formatGenderIdentity(data[fieldName]);
     }
 
-    return formatSexualOrientation(
-      data[fieldName],
-      data?.sexualOrientationNotListedText,
-    );
+    try {
+      return formatSexualOrientation(
+        data[fieldName],
+        data?.sexualOrientationNotListedText,
+      );
+    } catch (err) {
+      Sentry.captureException(err);
+      return null;
+    }
   }
 
   return null;

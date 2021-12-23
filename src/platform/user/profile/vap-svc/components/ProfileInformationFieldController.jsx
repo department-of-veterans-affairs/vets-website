@@ -28,8 +28,9 @@ import {
   selectVAPServiceTransaction,
   selectEditViewData,
   selectMostRecentlyUpdatedField,
-  selectVAProfilePersonalInformation,
 } from '@@vap-svc/selectors';
+
+import { selectVAProfilePersonalInformation } from '@@profile/selectors';
 
 import { isVAPatient } from '~/platform/user/selectors';
 

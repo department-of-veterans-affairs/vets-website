@@ -22,10 +22,6 @@ export function selectVAPContactInfoField(state, fieldName) {
   return selectVAPContactInfo(state)[fieldName];
 }
 
-export function selectVAProfilePersonalInformation(state) {
-  return state?.vaProfile?.personalInformation;
-}
-
 export function selectVAPServiceTransaction(state, fieldName) {
   const {
     vapService: {
