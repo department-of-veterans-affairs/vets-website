@@ -1,5 +1,6 @@
 import session from '../mocks/v2/sessions';
 import preCheckInData from '../mocks/v2/pre-check-in-data/';
+import checkInData from '../mocks/v2/check-in-data';
 import featureToggles from '../mocks/v2/feature-toggles';
 
 class ApiInitializer {
@@ -124,6 +125,63 @@ class ApiInitializer {
     withFailure: (errorCode = 400) => {
       cy.intercept('POST', '/check_in/v2/pre_check_ins/', req => {
         req.reply(errorCode, preCheckInData.post.createMockFailedResponse());
+      });
+    },
+  };
+
+  initializeCheckInDataGet = {
+    withSuccess: ({
+      extraValidation = null,
+      appointments = null,
+      token = checkInData.get.defaultUUID,
+      numberOfCheckInAbledAppointments = 2,
+      demographicsNeedsUpdate = true,
+      nextOfKinNeedsUpdate = true,
+      emergencyContactNeedsUpdate = true,
+    } = {}) => {
+      cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
+        const rv = checkInData.get.createMultipleAppointments(
+          token,
+          numberOfCheckInAbledAppointments,
+          demographicsNeedsUpdate,
+          nextOfKinNeedsUpdate,
+          emergencyContactNeedsUpdate,
+        );
+        if (appointments && appointments.length) {
+          const customAppointments = [];
+          appointments.forEach(appointment => {
+            const createdAppointment = checkInData.get.createAppointment();
+            customAppointments.push(
+              Object.assign(createdAppointment, appointment),
+            );
+          });
+          rv.payload.appointments = customAppointments;
+        }
+        if (extraValidation) {
+          extraValidation(req);
+        }
+        req.reply(rv);
+      });
+    },
+    withFailure: (errorCode = 400) => {
+      cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
+        req.reply(errorCode, checkInData.get.createMockFailedResponse());
+      });
+    },
+  };
+
+  initializeCheckInDataPost = {
+    withSuccess: extraValidation => {
+      cy.intercept('POST', `/check_in/v2/patient_check_ins/`, req => {
+        if (extraValidation) {
+          extraValidation(req);
+        }
+        req.reply(checkInData.post.createMockSuccessResponse());
+      });
+    },
+    withFailure: (errorCode = 400) => {
+      cy.intercept('POST', `/check_in/v2/patient_check_ins/`, req => {
+        req.reply(errorCode, checkInData.post.createMockFailedResponse({}));
       });
     },
   };
