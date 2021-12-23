@@ -23,32 +23,32 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { createDependentSchema } from '../definitions/dependent';
 
 // chapter 1 Veteran Information
-// import birthInformation from './chapters/veteranInformation/birthInformation';
-// import americanIndian from './chapters/veteranInformation/americanIndian';
-// import birthSex from './chapters/veteranInformation/birthSex';
+import birthInformation from './chapters/veteranInformation/birthInformation';
+import americanIndian from './chapters/veteranInformation/americanIndian';
+import birthSex from './chapters/veteranInformation/birthSex';
 import veteranInformation from './chapters/veteranInformation/personalnformation';
-// import demographicInformation from './chapters/veteranInformation/demographicInformation';
-// import maritalStatus from './chapters/veteranInformation/maritalStatus';
-// import veteranAddress from './chapters/veteranInformation/veteranAddress';
-// import veteranGender from './chapters/veteranInformation/veteranGender';
-// import veteranHomeAddress from './chapters/veteranInformation/veteranHomeAddress';
-// import contactInformation from './chapters/veteranInformation/contactInformation';
+import demographicInformation from './chapters/veteranInformation/demographicInformation';
+import maritalStatus from './chapters/veteranInformation/maritalStatus';
+import veteranAddress from './chapters/veteranInformation/veteranAddress';
+import veteranGender from './chapters/veteranInformation/veteranGender';
+import veteranHomeAddress from './chapters/veteranInformation/veteranHomeAddress';
+import contactInformation from './chapters/veteranInformation/contactInformation';
 
 // chapter 2 Military Service
-// import serviceInformation from './chapters/militaryService/serviceInformation';
-// import additionalInformation from './chapters/militaryService/additionalInformation';
-// import documentUpload from './chapters/militaryService/documentUpload';
+import serviceInformation from './chapters/militaryService/serviceInformation';
+import additionalInformation from './chapters/militaryService/additionalInformation';
+import documentUpload from './chapters/militaryService/documentUpload';
 
 // chapter 3 VA Benefits
-// import basicInformation from './chapters/vaBenefits/basicInformation';
-// import pensionInformation from './chapters/vaBenefits/pensionInformation';
+import basicInformation from './chapters/vaBenefits/basicInformation';
+import pensionInformation from './chapters/vaBenefits/pensionInformation';
 
 // chapter 4 Household Information
-// import financialDisclosure from './chapters/householdInformation/financialDisclosure';
-// import spouseInformation from './chapters/householdInformation/spouseInformation';
-// import dependentInformation from './chapters/householdInformation/dependentInformation';
-// import annualIncome from './chapters/householdInformation/annualIncome';
-// import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
+import financialDisclosure from './chapters/householdInformation/financialDisclosure';
+import spouseInformation from './chapters/householdInformation/spouseInformation';
+import dependentInformation from './chapters/householdInformation/dependentInformation';
+import annualIncome from './chapters/householdInformation/annualIncome';
+import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
 
 // chapter 5 Insurance Information
 import medicaid from './chapters/insuranceInformation/medicaid';
@@ -138,166 +138,166 @@ const formConfig = {
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
-        // birthInformation: {
-        //   path: 'veteran-information/birth-information',
-        //   title: 'Veteran information',
-        //   initialData: {},
-        //   uiSchema: birthInformation.uiSchema,
-        //   schema: birthInformation.schema,
-        // },
-        // birthSex: {
-        //   path: 'veteran-information/birth-sex',
-        //   title: 'Veteran information',
-        //   initialData: {},
-        //   uiSchema: birthSex.uiSchema,
-        //   schema: birthSex.schema,
-        // },
-        // veteranGender: {
-        //   path: 'veteran-information/veteran-gender',
-        //   title: 'Veteran information',
-        //   initialData: {},
-        //   depends: formData => formData['view:caregiverSIGIEnabled'],
-        //   uiSchema: veteranGender.uiSchema,
-        //   schema: veteranGender.schema,
-        // },
-        // maritalStatus: {
-        //   path: 'veteran-information/marital-status',
-        //   title: 'Veteran information',
-        //   initialData: {},
-        //   uiSchema: maritalStatus.uiSchema,
-        //   schema: maritalStatus.schema,
-        // },
-        // demographicInformation: {
-        //   path: 'veteran-information/demographic-information',
-        //   title: 'Veteran information',
-        //   initialData: {
-        //     'view:demographicCategories': {
-        //       isSpanishHispanicLatino: false,
-        //     },
-        //   },
-        //   uiSchema: demographicInformation.uiSchema,
-        //   schema: demographicInformation.schema,
-        // },
-        // americanIndian: {
-        //   path: 'veteran-information/american-indian',
-        //   title: 'Veteran information',
-        //   initialData: {},
-        //   depends: formData => formData['view:hcaAmericanIndianEnabled'],
-        //   uiSchema: americanIndian.uiSchema,
-        //   schema: americanIndian.schema,
-        // },
-        // veteranAddress: {
-        //   path: 'veteran-information/veteran-address',
-        //   title: 'Mailing address',
-        //   initialData: {},
-        //   uiSchema: veteranAddress.uiSchema,
-        //   schema: veteranAddress.schema,
-        // },
-        // veteranHomeAddress: {
-        //   path: 'veteran-information/veteran-home-address',
-        //   title: 'Home address',
-        //   initialData: {},
-        //   depends: formData => !formData['view:doesMailingMatchHomeAddress'],
-        //   uiSchema: veteranHomeAddress.uiSchema,
-        //   schema: veteranHomeAddress.schema,
-        // },
-        // contactInformation: {
-        //   path: 'veteran-information/contact-information',
-        //   title: 'Contact information',
-        //   initialData: {},
-        //   uiSchema: contactInformation.uiSchema,
-        //   schema: contactInformation.schema,
-        // },
+        birthInformation: {
+          path: 'veteran-information/birth-information',
+          title: 'Veteran information',
+          initialData: {},
+          uiSchema: birthInformation.uiSchema,
+          schema: birthInformation.schema,
+        },
+        birthSex: {
+          path: 'veteran-information/birth-sex',
+          title: 'Veteran information',
+          initialData: {},
+          uiSchema: birthSex.uiSchema,
+          schema: birthSex.schema,
+        },
+        veteranGender: {
+          path: 'veteran-information/veteran-gender',
+          title: 'Veteran information',
+          initialData: {},
+          depends: formData => formData['view:caregiverSIGIEnabled'],
+          uiSchema: veteranGender.uiSchema,
+          schema: veteranGender.schema,
+        },
+        maritalStatus: {
+          path: 'veteran-information/marital-status',
+          title: 'Veteran information',
+          initialData: {},
+          uiSchema: maritalStatus.uiSchema,
+          schema: maritalStatus.schema,
+        },
+        demographicInformation: {
+          path: 'veteran-information/demographic-information',
+          title: 'Veteran information',
+          initialData: {
+            'view:demographicCategories': {
+              isSpanishHispanicLatino: false,
+            },
+          },
+          uiSchema: demographicInformation.uiSchema,
+          schema: demographicInformation.schema,
+        },
+        americanIndian: {
+          path: 'veteran-information/american-indian',
+          title: 'Veteran information',
+          initialData: {},
+          depends: formData => formData['view:hcaAmericanIndianEnabled'],
+          uiSchema: americanIndian.uiSchema,
+          schema: americanIndian.schema,
+        },
+        veteranAddress: {
+          path: 'veteran-information/veteran-address',
+          title: 'Mailing address',
+          initialData: {},
+          uiSchema: veteranAddress.uiSchema,
+          schema: veteranAddress.schema,
+        },
+        veteranHomeAddress: {
+          path: 'veteran-information/veteran-home-address',
+          title: 'Home address',
+          initialData: {},
+          depends: formData => !formData['view:doesMailingMatchHomeAddress'],
+          uiSchema: veteranHomeAddress.uiSchema,
+          schema: veteranHomeAddress.schema,
+        },
+        contactInformation: {
+          path: 'veteran-information/contact-information',
+          title: 'Contact information',
+          initialData: {},
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
+        },
       },
     },
-    // militaryService: {
-    //   title: 'Military Service',
-    //   pages: {
-    //     serviceInformation: {
-    //       path: 'military-service/service-information',
-    //       title: 'Service periods',
-    //       uiSchema: serviceInformation.uiSchema,
-    //       schema: serviceInformation.schema,
-    //     },
-    //     additionalInformation: {
-    //       path: 'military-service/additional-information',
-    //       title: 'Service history',
-    //       uiSchema: additionalInformation.uiSchema,
-    //       schema: additionalInformation.schema,
-    //     },
-    //     documentUpload: {
-    //       title: 'Upload your discharge papers',
-    //       path: 'military-service/documents',
-    //       depends: formData => !formData['view:isUserInMvi'],
-    //       editModeOnReviewPage: true,
-    //       uiSchema: documentUpload.uiSchema,
-    //       schema: documentUpload.schema,
-    //     },
-    //   },
-    // },
-    // vaBenefits: {
-    //   title: 'VA Benefits',
-    //   pages: {
-    //     vaBenefits: {
-    //       path: 'va-benefits/basic-information',
-    //       title: 'VA benefits',
-    //       uiSchema: basicInformation.uiSchema,
-    //       schema: basicInformation.schema,
-    //     },
-    //     vaPension: {
-    //       path: 'va-benefits/pension-information',
-    //       title: 'VA pension',
-    //       uiSchema: pensionInformation.uiSchema,
-    //       schema: pensionInformation.schema,
-    //       depends: ({ vaCompensationType }) => vaCompensationType === 'none',
-    //     },
-    //   },
-    // },
-    // householdInformation: {
-    //   title: 'Household Information',
-    //   pages: {
-    //     financialDisclosure: {
-    //       path: 'household-information/financial-disclosure',
-    //       title: 'Financial disclosure',
-    //       uiSchema: financialDisclosure.uiSchema,
-    //       schema: financialDisclosure.schema,
-    //     },
-    //     spouseInformation: {
-    //       path: 'household-information/spouse-information',
-    //       title: 'Spouse\u2019s information',
-    //       initialData: {},
-    //       depends: formData =>
-    //         formData.discloseFinancialInformation &&
-    //         formData.maritalStatus &&
-    //         (formData.maritalStatus.toLowerCase() === 'married' ||
-    //           formData.maritalStatus.toLowerCase() === 'separated'),
-    //       uiSchema: spouseInformation.uiSchema,
-    //       schema: spouseInformation.schema,
-    //     },
-    //     dependentInformation: {
-    //       path: 'household-information/dependent-information',
-    //       title: 'Dependent information',
-    //       depends: data => data.discloseFinancialInformation,
-    //       uiSchema: dependentInformation.uiSchema,
-    //       schema: dependentInformation.schema,
-    //     },
-    //     annualIncome: {
-    //       path: 'household-information/annual-income',
-    //       title: 'Annual income',
-    //       initialData: {},
-    //       depends: data => data.discloseFinancialInformation,
-    //       uiSchema: annualIncome.uiSchema,
-    //       schema: annualIncome.schema,
-    //     },
-    //     deductibleExpenses: {
-    //       path: 'household-information/deductible-expenses',
-    //       title: 'Deductible expenses',
-    //       depends: data => data.discloseFinancialInformation,
-    //       uiSchema: deductibleExpenses.uiSchema,
-    //       schema: deductibleExpenses.schema,
-    //     },
-    //   },
-    // },
+    militaryService: {
+      title: 'Military Service',
+      pages: {
+        serviceInformation: {
+          path: 'military-service/service-information',
+          title: 'Service periods',
+          uiSchema: serviceInformation.uiSchema,
+          schema: serviceInformation.schema,
+        },
+        additionalInformation: {
+          path: 'military-service/additional-information',
+          title: 'Service history',
+          uiSchema: additionalInformation.uiSchema,
+          schema: additionalInformation.schema,
+        },
+        documentUpload: {
+          title: 'Upload your discharge papers',
+          path: 'military-service/documents',
+          depends: formData => !formData['view:isUserInMvi'],
+          editModeOnReviewPage: true,
+          uiSchema: documentUpload.uiSchema,
+          schema: documentUpload.schema,
+        },
+      },
+    },
+    vaBenefits: {
+      title: 'VA Benefits',
+      pages: {
+        vaBenefits: {
+          path: 'va-benefits/basic-information',
+          title: 'VA benefits',
+          uiSchema: basicInformation.uiSchema,
+          schema: basicInformation.schema,
+        },
+        vaPension: {
+          path: 'va-benefits/pension-information',
+          title: 'VA pension',
+          uiSchema: pensionInformation.uiSchema,
+          schema: pensionInformation.schema,
+          depends: ({ vaCompensationType }) => vaCompensationType === 'none',
+        },
+      },
+    },
+    householdInformation: {
+      title: 'Household Information',
+      pages: {
+        financialDisclosure: {
+          path: 'household-information/financial-disclosure',
+          title: 'Financial disclosure',
+          uiSchema: financialDisclosure.uiSchema,
+          schema: financialDisclosure.schema,
+        },
+        spouseInformation: {
+          path: 'household-information/spouse-information',
+          title: 'Spouse\u2019s information',
+          initialData: {},
+          depends: formData =>
+            formData.discloseFinancialInformation &&
+            formData.maritalStatus &&
+            (formData.maritalStatus.toLowerCase() === 'married' ||
+              formData.maritalStatus.toLowerCase() === 'separated'),
+          uiSchema: spouseInformation.uiSchema,
+          schema: spouseInformation.schema,
+        },
+        dependentInformation: {
+          path: 'household-information/dependent-information',
+          title: 'Dependent information',
+          depends: data => data.discloseFinancialInformation,
+          uiSchema: dependentInformation.uiSchema,
+          schema: dependentInformation.schema,
+        },
+        annualIncome: {
+          path: 'household-information/annual-income',
+          title: 'Annual income',
+          initialData: {},
+          depends: data => data.discloseFinancialInformation,
+          uiSchema: annualIncome.uiSchema,
+          schema: annualIncome.schema,
+        },
+        deductibleExpenses: {
+          path: 'household-information/deductible-expenses',
+          title: 'Deductible expenses',
+          depends: data => data.discloseFinancialInformation,
+          uiSchema: deductibleExpenses.uiSchema,
+          schema: deductibleExpenses.schema,
+        },
+      },
+    },
     insuranceInformation: {
       title: 'Insurance Information',
       pages: {
@@ -328,17 +328,12 @@ const formConfig = {
           title: 'Other coverage',
           uiSchema: generalQuestion.uiSchema,
           schema: generalQuestion.schema,
-          // uiSchema: general.uiSchema,
-          // schema: general.schema,
         },
         generalProvider: {
           path: 'insurance-information/general-provider',
-          title: 'Other coverage',
           depends: formData => formData.isCoveredByHealthInsurance,
           uiSchema: generalProvider.uiSchema,
           schema: generalProvider.schema,
-          // uiSchema: general.uiSchema,
-          // schema: general.schema,
         },
         vaFacility: {
           path: 'insurance-information/va-facility',

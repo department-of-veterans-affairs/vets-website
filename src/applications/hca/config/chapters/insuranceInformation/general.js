@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import React from 'react';
 import merge from 'lodash/merge';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
@@ -9,10 +8,7 @@ import {
   healthInsuranceDescription,
   healthInsuranceCoverageQuestionDescription,
   hasTricareWhatIsMyPolicyNumberDescription,
-  NO_POLICY_OR_GROUP_ERROR,
 } from '../../../helpers';
-
-import PolicyOrGroupTitleComponent from '../../../components/PolicyOrGroupTitleComponent';
 
 const { provider } = fullSchemaHca.definitions;
 const { isCoveredByHealthInsurance } = fullSchemaHca.properties;
@@ -40,7 +36,7 @@ export const generalProvider = {
     'ui:description': healthInsuranceCoverageQuestionDescription,
     providers: {
       'ui:options': {
-        itemName: 'Insurance Policy',
+        itemName: 'insurance policy',
         viewField: InsuranceProviderView,
       },
       'ui:errorMessages': {
@@ -55,35 +51,55 @@ export const generalProvider = {
           'ui:title': 'Name of policyholder',
         },
         'view:policyOrGroupDesc': {
-          'ui:description': <PolicyOrGroupTitleComponent />,
+          'ui:description': (
+            <div className="vads-u-margin-top--6 vads-u-margin-bottom--2 schemaform-block-title schemaform-block-subtitle">
+              {' '}
+              Provide either your insurance policy number or group code.{' '}
+              <span className="schemaform-required-span vads-u-font-weight--normal">
+                (*Required)
+              </span>
+            </div>
+          ),
         },
         'view:hasTricare': {
           'ui:description': hasTricareWhatIsMyPolicyNumberDescription,
         },
         insurancePolicyNumber: {
-          'ui:title': 'Policy number',
+          'ui:title': (
+            <div>
+              <p className="vads-u-margin-bottom--1">Policy number</p>
+              <p className="vads-u-color--gray vads-u-margin-top--0 vads-u-margin-bottom--0">
+                Either this or the group code is required
+              </p>
+            </div>
+          ),
         },
         'view:or': {
           'ui:description': (
-            <div
-              className="schemaform-block-title schemaform-block-subtitle"
-              style={{ marginBottom: '-20px' }}
-            >
+            <div className="schemaform-block-title schemaform-block-subtitle vads-u-margin-bottom--neg2p5">
               <strong>or</strong>
             </div>
           ),
         },
         insuranceGroupCode: {
-          'ui:title': 'Group code',
+          'ui:title': (
+            <div>
+              <p className="vads-u-margin-bottom--1">Group code</p>
+              <p className="vads-u-color--gray vads-u-margin-top--0 vads-u-margin-bottom--0">
+                Either this or the policy number is required
+              </p>
+            </div>
+          ),
         },
         'ui:validations': [
           (errors, field) => {
             if (!field.insurancePolicyNumber && !field.insuranceGroupCode) {
-              errors.insuranceGroupCode.addError('');
-              errors.insurancePolicyNumber.addError('');
-              field['view:policyOrGroupDesc'][NO_POLICY_OR_GROUP_ERROR] = true;
-            } else {
-              delete field['view:policyOrGroupDesc'][NO_POLICY_OR_GROUP_ERROR];
+              errors.insuranceGroupCode.addError(
+                'Group code (either this or the policy number is required)',
+              );
+              errors.insurancePolicyNumber.addError(
+                'Policy number (either this or the group code is required)',
+              );
             }
           },
         ],

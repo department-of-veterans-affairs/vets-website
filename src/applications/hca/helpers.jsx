@@ -498,17 +498,20 @@ export const isEssentialAcaCoverageDescription = (
     </div>
   </div>
 );
-export const NO_POLICY_OR_GROUP_ERROR = 'no-policy-or-group-error';
 export const healthInsuranceCoverageQuestionDescription = (
   <div className="vads-u-margin-bottom--3">
     <div className="hca-tooltip-wrapper">
       <AdditionalInfo triggerText="Why we ask this information">
-        We ask for this information for billing purposes only. Your health
-        insurance coverage doesn’t affect the VA health care benefits you can
-        get.
-        <ul>
+        <p>
+          We ask for this information for billing purposes only. Your health
+          insurance coverage doesn’t affect the VA health care benefits you can
+          get.
+        </p>
+        <p>
           Giving us your health insurance information helps you for these
           reasons:
+        </p>
+        <ul>
           <li>
             We must bill your private health insurance provider for any care,
             supplies, or medicines we provide to treat your
