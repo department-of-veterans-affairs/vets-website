@@ -54,11 +54,13 @@ import deductibleExpenses from './chapters/householdInformation/deductibleExpens
 import medicaid from './chapters/insuranceInformation/medicaid';
 import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
-import {
-  generalQuestion,
-  generalProvider,
-} from './chapters/insuranceInformation/general';
+// import {
+//   generalQuestion,
+//   generalProvider,
+// } from './chapters/insuranceInformation/general';
 import vaFacility from './chapters/insuranceInformation/vaFacility';
+import general from './chapters/insuranceInformation/general';
+import generalProvider from './chapters/insuranceInformation/generalProvider';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
 
@@ -326,11 +328,12 @@ const formConfig = {
         generalQuestion: {
           path: 'insurance-information/general-question',
           title: 'Other coverage',
-          uiSchema: generalQuestion.uiSchema,
-          schema: generalQuestion.schema,
+          uiSchema: general.uiSchema,
+          schema: general.schema,
         },
         generalProvider: {
           path: 'insurance-information/general-provider',
+          title: '',
           depends: formData => formData.isCoveredByHealthInsurance,
           uiSchema: generalProvider.uiSchema,
           schema: generalProvider.schema,
