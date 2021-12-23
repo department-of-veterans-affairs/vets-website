@@ -231,6 +231,7 @@ export const SearchResults = ({
       <SearchResult
         doesCookieExist={modalState.doesCookieExist}
         key={form.id}
+        id={form.id}
         form={form}
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
         showPDFInfoVersionOne={showPDFInfoVersionOne}

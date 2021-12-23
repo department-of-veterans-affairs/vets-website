@@ -247,6 +247,11 @@ const SearchResult = ({
           rel="noreferrer noopener"
           href={showPDFInfoVersionOne && !doesCookieExist ? null : url}
           tabIndex="0"
+          onKeyDown={event => {
+            if ((event.which || event.keycode) === 13) {
+              pdfDownloadHandler();
+            }
+          }}
           onClick={() => pdfDownloadHandler()}
           {...linkProps}
         >
