@@ -272,7 +272,7 @@ class SearchDropdownComponent extends React.Component {
     } = this.props;
     const max = suggestions.length - 1;
 
-    const currentKeyPress = event.which || event.keycode;
+    const currentKeyPress = event.which || event.keyCode;
 
     // if the menu is not open and the DOWN arrow key is pressed, open the menu
     if (!isOpen && currentKeyPress === Keycodes.Down) {
