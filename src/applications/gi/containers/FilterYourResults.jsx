@@ -328,21 +328,19 @@ export function FilterYourResults({
           >
             {name}
           </h3>
-          <ExpandingGroup open={schools}>
-            <Checkbox
-              checked={schools}
-              name="schools"
-              label="Schools"
-              onChange={handleSchoolChange}
-              className="expanding-header-checkbox"
-              inputAriaLabelledBy={legendId}
-            />
-            <div className="school-types expanding-group-children">
-              {excludedSchoolTypesGroup()}
-              {schoolAttributes()}
-              {specialMissions()}
-            </div>
-          </ExpandingGroup>
+          <Checkbox
+            checked={schools}
+            name="schools"
+            label="Schools"
+            onChange={handleSchoolChange}
+            className="expanding-header-checkbox"
+            inputAriaLabelledBy={legendId}
+          />
+          <div className="school-types expanding-group-children">
+            {excludedSchoolTypesGroup()}
+            {schoolAttributes()}
+            {specialMissions()}
+          </div>
         </div>
         <Checkbox
           checked={employers}
