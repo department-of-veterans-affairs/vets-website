@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { goToNextPage, URLS } from '../utils/navigation';
+import { URLS } from '../utils/navigation';
+import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../components/BackButton';
 import BackToHome from '../components/BackToHome';
 import { focusElement } from 'platform/utilities/ui';
@@ -22,6 +23,8 @@ const NextOfKin = props => {
     demographicsStatus,
   } = props;
   const { nextOfKinNeedsUpdate } = demographicsStatus;
+  const { jumpToPage, goToNextPage } = useFormRouting(router, URLS);
+
   const seeStaffMessage =
     'Our staff can help you update your next of kin information.';
   useEffect(() => {
@@ -30,14 +33,14 @@ const NextOfKin = props => {
   const findNextPage = useCallback(
     () => {
       if (isEmergencyContactEnabled) {
-        goToNextPage(router, URLS.EMERGENCY_CONTACT);
+        goToNextPage();
       } else if (isUpdatePageEnabled) {
-        goToNextPage(router, URLS.UPDATE_INSURANCE);
+        jumpToPage(URLS.UPDATE_INSURANCE);
       } else {
-        goToNextPage(router, URLS.DETAILS);
+        jumpToPage(URLS.DETAILS);
       }
     },
-    [isEmergencyContactEnabled, isUpdatePageEnabled, router],
+    [isEmergencyContactEnabled, isUpdatePageEnabled, jumpToPage, goToNextPage],
   );
   const yesClick = useCallback(
     () => {
@@ -57,9 +60,9 @@ const NextOfKin = props => {
         'button-click-label': 'no-to-next-of-kin-information',
       });
       updateSeeStaffMessage(seeStaffMessage);
-      goToNextPage(router, URLS.SEE_STAFF);
+      jumpToPage(URLS.SEE_STAFF);
     },
-    [router, updateSeeStaffMessage],
+    [updateSeeStaffMessage, jumpToPage],
   );
   useEffect(
     () => {

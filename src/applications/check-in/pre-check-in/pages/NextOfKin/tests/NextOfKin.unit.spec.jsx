@@ -11,7 +11,7 @@ describe('pre-check-in', () => {
       const middleware = [];
       const mockStore = configureStore(middleware);
       const initState = {
-        preCheckInData: {
+        checkInData: {
           veteranData: {
             demographics: {
               nextOfKin1: {

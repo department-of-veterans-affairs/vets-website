@@ -2,7 +2,8 @@ import React, { useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
-import { goToNextPage, URLS } from '../utils/navigation';
+import { URLS } from '../utils/navigation';
+import { useFormRouting } from '../../hooks/useFormRouting';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import { seeStaffMessageUpdated } from '../actions';
@@ -17,11 +18,12 @@ const Demographics = props => {
     demographicsStatus,
   } = props;
   const { demographicsNeedsUpdate } = demographicsStatus;
+  const { goToNextPage, jumpToPage } = useFormRouting(router, URLS);
   const findNextPage = useCallback(
     () => {
-      goToNextPage(router, URLS.NEXT_OF_KIN);
+      goToNextPage();
     },
-    [router],
+    [goToNextPage],
   );
   const yesClick = useCallback(
     () => {
@@ -50,9 +52,9 @@ const Demographics = props => {
         </>
       );
       updateSeeStaffMessage(seeStaffMessage);
-      goToNextPage(router, URLS.SEE_STAFF);
+      jumpToPage(URLS.SEE_STAFF);
     },
-    [router, updateSeeStaffMessage],
+    [updateSeeStaffMessage, jumpToPage],
   );
   useEffect(
     () => {
