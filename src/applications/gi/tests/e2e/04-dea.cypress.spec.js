@@ -14,7 +14,7 @@ const institutionProfile = require('../data/institution-profile.json');
 const deaSearchResults = require('../data/dea-search-results.json');
 const ojtProfile = require('../data/ojt-profile.json');
 
-describe.skip('DEA benefit', () => {
+describe('DEA benefit', () => {
   const ojtFacilityCode = deaSearchResults.data[0].attributes.facility_code;
   const facilityCode = deaSearchResults.data[1].attributes.facility_code;
 
@@ -26,7 +26,7 @@ describe.skip('DEA benefit', () => {
     ).as('ojtProfile');
     initApplicationMock(institutionProfile, deaSearchResults);
     cy.intercept('GET', '/v0/feature_toggles*', mockTogglesResponse);
-    cy.visit('/education/gi-bill-comparison-tool');
+    cy.visit('/gi-bill-comparison-tool');
     cy.injectAxeThenAxeCheck();
   });
 
@@ -109,7 +109,7 @@ describe.skip('DEA benefit', () => {
     });
 
     // Back to the landing page
-    breadCrumb('/education/gi-bill-comparison-tool/');
+    breadCrumb('/gi-bill-comparison-tool/');
 
     // Search again
     cy.get('.keyword-search input[type="text"]').type(searchTerm);
