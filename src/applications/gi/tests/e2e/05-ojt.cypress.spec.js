@@ -9,7 +9,7 @@ import { mockTogglesResponse } from './mock-feature_toggles';
 const ojtProfile = require('../data/ojt-profile.json');
 const ojtSearchResults = require('../data/ojt-search-results.json');
 
-describe('OJT institution', () => {
+describe.skip('OJT institution', () => {
   it('path is valid without errors', () => {
     const searchTerm = ojtProfile.data.attributes.name;
     const facilityCode = ojtProfile.data.attributes.facility_code;
@@ -17,7 +17,7 @@ describe('OJT institution', () => {
 
     // Landing page
     cy.intercept('GET', '/v0/feature_toggles*', mockTogglesResponse);
-    cy.visit('/gi-bill-comparison-tool');
+    cy.visit('/education/gi-bill-comparison-tool');
     cy.injectAxeThenAxeCheck();
     cy.get('input[name*="category"][value="employer"]').check();
     cy.get('.keyword-search input[type="text"]').type(searchTerm);
