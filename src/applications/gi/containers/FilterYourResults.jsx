@@ -51,7 +51,7 @@ export function FilterYourResults({
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
 
-  const [showAllSchoolTypes, setShowAllSchoolTypes] = useState(false);
+  const [showAllSchoolTypes] = useState(true);
   const SEE_LESS_SIZE = 4;
 
   const recordCheckboxEvent = e => {
@@ -196,22 +196,6 @@ export function FilterYourResults({
           onChange={handleExcludedSchoolTypesChange}
           options={options}
         />
-        {!showAllSchoolTypes && (
-          <button
-            className="va-button-link see-more-less"
-            onClick={() => setShowAllSchoolTypes(true)}
-          >
-            See more...
-          </button>
-        )}
-        {showAllSchoolTypes && (
-          <button
-            className="va-button-link see-more-less"
-            onClick={() => setShowAllSchoolTypes(false)}
-          >
-            See less...
-          </button>
-        )}
       </div>
     );
   };
