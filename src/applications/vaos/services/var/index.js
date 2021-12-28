@@ -236,7 +236,7 @@ export function submitAppointment(appointment) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(appointment),
-  });
+  }).then(parseApiObject);
 }
 
 export function sendRequestMessage(id, messageText) {

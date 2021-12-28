@@ -181,7 +181,19 @@ const responses = {
       },
     });
   },
-  'POST /vaos/v0/appointments': {},
+  'POST /vaos/v0/appointments': (req, res) => {
+    // TODO added mock id to v0 new appointments
+    const submittedAppt = {
+      id: `mockV0${currentMockId}`,
+      attributes: {
+        ...req.body,
+        start: req.body.slot ? req.body.slot.start : null,
+      },
+    };
+    currentMockId++;
+    mockAppts.push(submittedAppt);
+    return res.json({ data: submittedAppt });
+  },
   'POST /vaos/v0/appointment_requests/:id/messages': {
     data: {
       attributes: {},
@@ -418,7 +430,7 @@ const responses = {
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
         { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
-        { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
+        { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: false },
         { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
