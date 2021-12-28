@@ -590,11 +590,9 @@ jobs:
       # | Contract Tests Summary |
       # -------------------------
 
-      - name: Contract test results
-        if: ${{ always() }}
-        uses: LouisBrunner/checks-action@v1.1.1
+      - name: Publish Contract test results
+        uses: ./.github/workflows/publish-results
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           name: Contract Tests Summary
           conclusion: ${{ needs.contract-tests.result }}
           output: |
