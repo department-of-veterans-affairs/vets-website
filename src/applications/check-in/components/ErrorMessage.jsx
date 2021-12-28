@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 
 const ErrorMessage = ({
   header = 'We couldn’t check you in',
-  message = 'We’re sorry. Something went wrong on our end. Check in with a staff member.',
+  message = (
+    <p>
+      We’re sorry. Something went wrong on our end. Check in with a staff
+      member.
+    </p>
+  ),
   showAlert = true,
 }) => {
   useEffect(() => {
@@ -15,7 +20,7 @@ const ErrorMessage = ({
       <h1 tabIndex="-1" slot="headline">
         {header}
       </h1>
-      <p data-testid="error-message">{message}</p>
+      <div data-testid="error-message">{message}</div>
     </>
   );
   if (showAlert) {
@@ -26,7 +31,7 @@ const ErrorMessage = ({
 
 ErrorMessage.propTypes = {
   header: PropTypes.string,
-  message: PropTypes.string,
+  message: PropTypes.node,
   showAlert: PropTypes.bool,
 };
 
