@@ -8,14 +8,14 @@ import {
 } from './gi-helpers';
 import { mockTogglesResponse } from './mock-feature_toggles';
 
-describe('VETTEC', () => {
+describe.skip('VETTEC', () => {
   beforeEach(() => {
     cy.intercept('/v0/gi/institution_programs/search', vetTecSearchResults);
 
     initMockProfile(vetTecProfile);
 
     cy.intercept('GET', '/v0/feature_toggles*', mockTogglesResponse);
-    cy.visit('/gi-bill-comparison-tool');
+    cy.visit('/education/gi-bill-comparison-tool');
     cy.injectAxeThenAxeCheck();
   });
 

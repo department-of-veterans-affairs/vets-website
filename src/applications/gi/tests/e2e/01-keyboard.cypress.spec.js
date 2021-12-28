@@ -1,7 +1,7 @@
 import { initApplicationMock } from './cypress-helpers';
 import { mockTogglesResponse } from './mock-feature_toggles';
 
-describe('GI Keyboard Test', () => {
+describe.skip('GI Keyboard Test', () => {
   it('Behaves as expected when a keyboard is used for interaction', () => {
     initApplicationMock();
     cy.intercept('GET', '/v0/feature_toggles*', mockTogglesResponse);
