@@ -1,13 +1,21 @@
 import { useCallback, useMemo } from 'react';
 
-const useSessionStorage = (sessionNameSpace = 'health.care.pre.check.in') => {
+const useSessionStorage = (isPreCheckIn = true) => {
+  const SESSION_NAMESPACES = {
+    preCheckIn: 'health.care.pre.check.in',
+    dayOf: 'health.care.check-in',
+  };
+
   const SESSION_STORAGE_KEYS = useMemo(
     () => {
+      const namespace = isPreCheckIn
+        ? SESSION_NAMESPACES.preCheckIn
+        : SESSION_NAMESPACES.dayOf;
       return {
-        CURRENT_UUID: `${sessionNameSpace}.current.uuid`,
+        CURRENT_UUID: `${namespace}.current.uuid`,
       };
     },
-    [sessionNameSpace],
+    [isPreCheckIn],
   );
 
   const clearCurrentSession = useCallback(

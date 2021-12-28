@@ -20,7 +20,7 @@ const withSession = Component => {
       clearCurrentSession,
       setCurrentToken,
       getCurrentToken,
-    } = useSessionStorage('health.care.check-in');
+    } = useSessionStorage(false);
     const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
     const { context } = checkInData;
 

@@ -25,7 +25,7 @@ const withLoadedData = Component => {
     const { goToErrorPage } = useFormRouting(router, URLS);
     const selectCheckInData = useMemo(makeSelectCheckInData, []);
     const checkInData = useSelector(selectCheckInData);
-    const { getCurrentToken } = useSessionStorage('health.care.check-in');
+    const { getCurrentToken } = useSessionStorage(false);
     const {
       context,
       appointments,

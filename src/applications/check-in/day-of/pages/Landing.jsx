@@ -26,9 +26,7 @@ const Landing = props => {
   const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
 
   const [loadMessage] = useState('Finding your appointment information');
-  const { clearCurrentSession, setCurrentToken } = useSessionStorage(
-    'health.care.check-in',
-  );
+  const { clearCurrentSession, setCurrentToken } = useSessionStorage(false);
   const dispatch = useDispatch();
   const initForm = useCallback(
     (pages, firstPage) => {

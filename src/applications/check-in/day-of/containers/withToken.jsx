@@ -15,7 +15,7 @@ const withToken = Component => {
     const checkInData = useSelector(selectCheckInData);
     const { context } = checkInData;
     const shouldRedirect = !context || !context.token;
-    const { getCurrentToken } = useSessionStorage('health.care.check-in');
+    const { getCurrentToken } = useSessionStorage(false);
     useEffect(
       () => {
         if (shouldRedirect) {

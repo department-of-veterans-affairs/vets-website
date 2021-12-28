@@ -11,7 +11,7 @@ const withForm = Component => {
     const { router } = props;
     const selectForm = useMemo(makeSelectForm, []);
     const form = useSelector(selectForm);
-    const { getCurrentToken } = useSessionStorage('health.care.check-in');
+    const { getCurrentToken } = useSessionStorage(false);
     const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
 
     useEffect(
