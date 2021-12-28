@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { makeSelectForm } from '../../selectors';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { getCurrentToken } from '../../hooks/useSessionStorage';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { URLS } from '../utils/navigation';
 
 const withForm = Component => {
@@ -11,13 +11,13 @@ const withForm = Component => {
     const { router } = props;
     const selectForm = useMemo(makeSelectForm, []);
     const form = useSelector(selectForm);
-
+    const { getCurrentToken } = useSessionStorage();
     const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
 
     useEffect(
       () => {
         if (!form || !form.pages || form.pages.length === 0) {
-          const token = getCurrentToken(window)?.token;
+          const token = getCurrentToken(window);
           if (token) {
             jumpToPage(URLS.LANDING, { params: { url: { id: token } } });
           } else {
