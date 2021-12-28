@@ -11,13 +11,13 @@ const withForm = Component => {
     const { router } = props;
     const selectForm = useMemo(makeSelectForm, []);
     const form = useSelector(selectForm);
-    const { getCurrentToken } = useSessionStorage();
+    const { getCurrentToken } = useSessionStorage('health.care.check-in');
     const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
 
     useEffect(
       () => {
         if (!form || !form.pages || form.pages.length === 0) {
-          const token = getCurrentToken(window);
+          const token = getCurrentToken(window)?.token;
           if (token) {
             jumpToPage(URLS.LANDING, { params: { url: { id: token } } });
           } else {

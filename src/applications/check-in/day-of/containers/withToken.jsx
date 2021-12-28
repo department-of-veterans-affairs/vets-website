@@ -19,9 +19,8 @@ const withToken = Component => {
     useEffect(
       () => {
         if (shouldRedirect) {
-          const session = getCurrentToken(window);
-          if (session) {
-            const { token } = session;
+          const token = getCurrentToken(window)?.token;
+          if (token) {
             jumpToPage(URLS.LANDING, { params: { url: { id: token } } });
           } else {
             goToErrorPage();

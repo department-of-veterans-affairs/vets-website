@@ -18,7 +18,7 @@ const withForm = Component => {
     useEffect(
       () => {
         if (!form || !form.pages || form.pages.length === 0) {
-          const token = getCurrentToken(window);
+          const token = getCurrentToken(window)?.token;
           if (token) {
             jumpToPage(URLS.LANDING, { params: { url: { id: token } } });
           } else {
