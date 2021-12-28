@@ -591,8 +591,10 @@ jobs:
       # -------------------------
 
       - name: Publish Contract test results
-        uses: ./.github/workflows/publish-results
+        if: ${{ always() }}
+        uses: LouisBrunner/checks-action@v1.1.1
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           name: Contract Tests Summary
           conclusion: ${{ needs.contract-tests.result }}
           output: |
