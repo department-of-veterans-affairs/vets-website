@@ -31,4 +31,3 @@ runs:
         timeout_minutes: 7
       env:
         YARN_CACHE_FOLDER: .cache/yarn
-      working-directory: testing-tools-team-dashboard-data
