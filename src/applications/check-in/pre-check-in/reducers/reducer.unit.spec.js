@@ -2,21 +2,16 @@ import { expect } from 'chai';
 
 import reducer from './index';
 
-import {
-  createInitFormAction,
-  createGoToNextPageAction,
-  createSetSession,
-  recordAnswer,
-  setVeteranData,
-} from '../actions';
+import { createSetSession, recordAnswer, setVeteranData } from '../actions';
 
+import { createInitFormAction, createGoToNextPageAction } from '../../actions';
 // test init stat
 
 describe('check-in', () => {
   describe('reducer', () => {
     describe('initial state and default actions', () => {
       it('should return the init state with no action', () => {
-        const state = reducer.preCheckInData(undefined, {});
+        const state = reducer.checkInData(undefined, {});
         expect(state).to.deep.equal({
           appointments: [],
           veteranData: {
@@ -37,7 +32,7 @@ describe('check-in', () => {
           pages: ['first-page', 'second-page', 'third-page'],
           currentPage: 'first-page',
         });
-        const state = reducer.preCheckInData(undefined, action);
+        const state = reducer.checkInData(undefined, action);
         expect(state).haveOwnProperty('form');
         expect(state.form).haveOwnProperty('pages');
         expect(state.form).haveOwnProperty('currentPage');
@@ -48,7 +43,7 @@ describe('check-in', () => {
           pages: ['first-page', 'second-page', 'third-page'],
           firstPage: 'first-page',
         });
-        const state = reducer.preCheckInData(undefined, action);
+        const state = reducer.checkInData(undefined, action);
         expect(state.form.data).to.deep.equal({});
         expect(state.form.pages).to.deep.equal([
           'first-page',
@@ -65,13 +60,13 @@ describe('check-in', () => {
           pages: ['first-page', 'second-page', 'third-page'],
           currentPage: 'first-page',
         });
-        state = reducer.preCheckInData(undefined, action);
+        state = reducer.checkInData(undefined, action);
       });
       it('should return form structure', () => {
         const action = createGoToNextPageAction({
           nextPage: 'second-page',
         });
-        state = reducer.preCheckInData(undefined, action);
+        state = reducer.checkInData(undefined, action);
         expect(state.form).haveOwnProperty('currentPage');
       });
 
@@ -79,7 +74,7 @@ describe('check-in', () => {
         const action = createGoToNextPageAction({
           nextPage: 'second-page',
         });
-        state = reducer.preCheckInData(undefined, action);
+        state = reducer.checkInData(undefined, action);
         expect(state.form.currentPage).to.equal('second-page');
       });
     });
@@ -89,7 +84,7 @@ describe('check-in', () => {
           token: 'some-token',
           permissions: 'some-permission',
         });
-        const state = reducer.preCheckInData(undefined, action);
+        const state = reducer.checkInData(undefined, action);
         expect(state.context).haveOwnProperty('token');
         expect(state.context).haveOwnProperty('permissions');
       });
@@ -99,7 +94,7 @@ describe('check-in', () => {
           token: 'some-token',
           permissions: 'some-permission',
         });
-        const state = reducer.preCheckInData(undefined, action);
+        const state = reducer.checkInData(undefined, action);
         expect(state.context.token).to.equal('some-token');
         expect(state.context.permissions).to.equal('some-permission');
       });
@@ -111,22 +106,22 @@ describe('check-in', () => {
           pages: ['first-page', 'second-page', 'third-page'],
           currentPage: 'first-page',
         });
-        state = reducer.preCheckInData(undefined, action);
+        state = reducer.checkInData(undefined, action);
       });
       it('should record answer data', () => {
         const demoAction = recordAnswer({ demographicsUpToDate: 'yes' });
-        state = reducer.preCheckInData(undefined, demoAction);
+        state = reducer.checkInData(undefined, demoAction);
         const nokAction = recordAnswer({ NextOfKinUpToDate: 'no' });
-        state = reducer.preCheckInData(state, nokAction);
+        state = reducer.checkInData(state, nokAction);
         expect(state.form.data.demographicsUpToDate).to.equal('yes');
         expect(state.form.data.NextOfKinUpToDate).to.equal('no');
       });
       it('should update old answers', () => {
         const yesAction = recordAnswer({ demographicsUpToDate: 'yes' });
-        state = reducer.preCheckInData(undefined, yesAction);
+        state = reducer.checkInData(undefined, yesAction);
         expect(state.form.data.demographicsUpToDate).to.equal('yes');
         const noAction = recordAnswer({ demographicsUpToDate: 'no' });
-        state = reducer.preCheckInData(state, noAction);
+        state = reducer.checkInData(state, noAction);
         expect(state.form.data.demographicsUpToDate).to.equal('no');
       });
     });
@@ -136,7 +131,7 @@ describe('check-in', () => {
           appointments: [],
           demographics: {},
         });
-        const state = reducer.preCheckInData(undefined, action);
+        const state = reducer.checkInData(undefined, action);
         expect(state).haveOwnProperty('veteranData');
         expect(state.veteranData).haveOwnProperty('demographics');
         expect(state).haveOwnProperty('appointments');
@@ -152,7 +147,7 @@ describe('check-in', () => {
           ],
           demographics: { lastName: 'Smith' },
         });
-        const state = reducer.preCheckInData(undefined, action);
+        const state = reducer.checkInData(undefined, action);
         expect(state.veteranData.demographics).to.deep.equal({
           lastName: 'Smith',
         });

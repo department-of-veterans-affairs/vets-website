@@ -1,21 +1,21 @@
 import { createSelector } from 'reselect';
 
 const selectCurrentContext = createSelector(
-  state => state.preCheckInData,
+  state => state.checkInData,
   data => data.context,
 );
 
 const makeSelectCurrentContext = () => selectCurrentContext;
 
 const selectForm = createSelector(
-  state => state.preCheckInData,
+  state => state.checkInData,
   data => data.form,
 );
 
 const makeSelectForm = () => selectForm;
 
 const selectVeteranData = createSelector(
-  state => state.preCheckInData,
+  state => state.checkInData,
   data => ({
     appointments: data.appointments,
     demographics: data.veteranData.demographics,

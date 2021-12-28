@@ -75,6 +75,7 @@ const PersonalInformationSection = ({ gender, dob }) => (
           value: (
             <ProfileInformationFieldController
               fieldName={FIELD_NAMES.PREFERRED_NAME}
+              isDeleteDisabled
             />
           ),
         },
@@ -84,25 +85,28 @@ const PersonalInformationSection = ({ gender, dob }) => (
           value: (
             <ProfileInformationFieldController
               fieldName={FIELD_NAMES.PRONOUNS}
+              isDeleteDisabled
             />
           ),
         },
         { title: 'Sex assigned at birth', value: renderGender(gender) },
         {
-          title: 'Gender Identity',
+          title: 'Gender identity',
           id: FIELD_IDS[FIELD_NAMES.GENDER_IDENTITY],
           value: (
             <ProfileInformationFieldController
               fieldName={FIELD_NAMES.GENDER_IDENTITY}
+              isDeleteDisabled
             />
           ),
         },
         {
-          title: 'Sexual Orientation',
+          title: 'Sexual orientation',
           id: FIELD_IDS[FIELD_NAMES.SEXUAL_ORIENTATION],
           value: (
             <ProfileInformationFieldController
               fieldName={FIELD_NAMES.SEXUAL_ORIENTATION}
+              isDeleteDisabled
             />
           ),
         },
@@ -120,6 +124,10 @@ PersonalInformationSection.propTypes = {
 const mapStateToProps = state => ({
   gender: state.vaProfile?.personalInformation?.gender,
   dob: state.vaProfile?.personalInformation?.birthDate,
+  preferredName: state.vaProfile?.personalInformation?.preferredName,
+  pronouns: state.vaProfile?.personalInformation?.pronouns,
+  genderIdentity: state.vaProfile?.personalInformation?.genderIdentity,
+  sexualOrientation: state.vaProfile?.personalInformation?.sexualOrientation,
 });
 
 export default connect(mapStateToProps)(PersonalInformationSection);

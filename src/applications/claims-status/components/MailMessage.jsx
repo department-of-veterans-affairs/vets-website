@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default function MailOrFax({ onClose }) {
+export default function MailMessage({ onClose }) {
   return (
     <div>
-      <h3 className="claims-status-upload-header">Mail and Fax Instructions</h3>
+      <h3 className="claims-status-upload-header">Mail Instructions</h3>
       <button
         className="va-modal-close"
         type="button"
@@ -22,7 +22,7 @@ export default function MailOrFax({ onClose }) {
         <li>Make copies of the documents.</li>
         <li>Make sure you write your name and claim number on every page.</li>
         <li>
-          Mail or fax them to the{' '}
+          Mail them to the{' '}
           <a
             target="_blank"
             rel="noopener noreferrer"
@@ -36,6 +36,6 @@ export default function MailOrFax({ onClose }) {
   );
 }
 
-MailOrFax.propTypes = {
+MailMessage.propTypes = {
   onClose: PropTypes.func.isRequired,
 };

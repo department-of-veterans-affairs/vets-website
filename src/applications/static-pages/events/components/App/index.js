@@ -1,26 +1,43 @@
 // Node modules.
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import { sample } from 'lodash';
 import { connect } from 'react-redux';
 // Relative imports.
+import Results from '../Results';
+import Search from '../Search';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import {
+  deriveDefaultSelectedOption,
+  deriveFilteredEvents,
+  deriveResults,
   filterByOptions,
-  filterEvents,
   hideLegacyEvents,
   showLegacyEvents,
+  updateQueryParams,
 } from '../../helpers';
 
-const defaultSelectedOption = filterByOptions?.find(
-  option => option.value === 'upcoming',
-);
+// Derive constants.
+const perPage = 10;
 
 export const App = ({ rawEvents, showEventsV2 }) => {
-  // Derive state.
-  const [events, setEvents] = useState(
-    filterEvents(rawEvents, defaultSelectedOption?.value),
-  );
+  // Derive the query params on the URL.
+  const queryParams = new URLSearchParams(window.location.search);
+
+  // Derive our default state values.
+  const defaultSelectedOption = deriveDefaultSelectedOption();
+  const defaultEvents = deriveFilteredEvents({
+    endDateDay: queryParams.get('endDateDay') || undefined,
+    endDateMonth: queryParams.get('endDateMonth') || undefined,
+    rawEvents,
+    selectedOption: defaultSelectedOption,
+    startDateDay: queryParams.get('startDateDay') || undefined,
+    startDateMonth: queryParams.get('startDateMonth') || undefined,
+  });
+
+  // Derive our state.
+  const [events, setEvents] = useState(defaultEvents);
+  const [page, setPage] = useState(1);
+  const [results, setResults] = useState(deriveResults(events, page, perPage));
   const [selectedOption, setSelectedOption] = useState(defaultSelectedOption);
 
   // If the feature toggle is disabled, do not render.
@@ -29,9 +46,17 @@ export const App = ({ rawEvents, showEventsV2 }) => {
     return null;
   }
 
-  const onSearch = event => {
-    event.preventDefault();
+  const updateDisplayedResults = filteredEvents => {
+    // Reset pagination.
+    const newPage = 1;
+    setPage(newPage);
 
+    // Derive and set the new results.
+    setResults(deriveResults(filteredEvents, newPage, perPage));
+  };
+
+  // On search handler.
+  const onSearch = event => {
     // Derive selected option.
     const newSelectedOption = filterByOptions.find(
       option => option?.value === event?.target?.filterBy?.value,
@@ -40,123 +65,78 @@ export const App = ({ rawEvents, showEventsV2 }) => {
     // Set selected option.
     setSelectedOption(newSelectedOption);
 
-    // Filter events.
-    const filteredEvents = filterEvents(rawEvents, newSelectedOption?.value);
+    // Derive startDateMonth, startDateDay, endDateMonth, and endDateDay values.
+    const startDateMonth = event?.target?.startDateMonth?.value;
+    const startDateDay = event?.target?.startDateDay?.value;
+    const endDateMonth = event?.target?.endDateMonth?.value;
+    const endDateDay = event?.target?.endDateDay?.value;
+
+    // Derive filteredEvents.
+    const filteredEvents = deriveFilteredEvents({
+      endDateDay,
+      endDateMonth,
+      rawEvents,
+      selectedOption: newSelectedOption,
+      startDateDay,
+      startDateMonth,
+    });
 
     // Set events.
     setEvents(filteredEvents);
+
+    // Update displayed results.
+    updateDisplayedResults(filteredEvents);
+
+    // Update query params.
+    updateQueryParams({
+      endDateDay,
+      endDateMonth,
+      selectedOption: newSelectedOption?.value,
+      startDateDay,
+      startDateMonth,
+    });
+  };
+
+  // On pagination change handler.
+  const onPageSelect = newPage => {
+    // Update the page.
+    setPage(newPage);
+
+    // Derive and set the new results.
+    setResults(deriveResults(events, newPage, perPage));
+
+    // Scroll to top.
+    scrollToTop();
   };
 
   hideLegacyEvents();
   return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--1p5">
-      {/* Title */}
-      <h1 className="vads-u-margin--0 vads-">Outreach events</h1>
+    <main className="usa-grid usa-grid-full">
+      <div className="usa-width-three-fourths vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--1p5 vads-u-padding-bottom--2">
+        {/* Title */}
+        <h1 className="vads-u-margin--0 vads-">Outreach events</h1>
 
-      {/* Description */}
-      <p className="va-introtext">
-        VA benefits can help Veterans and their families buy homes, earn
-        degrees, start careers, stay healthy, and more. Join an event for
-        conversation and information.
-      </p>
-
-      {/* Search */}
-      <form
-        className="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-padding-x--1 vads-u-padding-y--1p5"
-        onSubmit={onSearch}
-      >
-        {/* Filter by */}
-        <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-margin-y--1">
-          <label
-            className="vads-u-margin--0 vads-u-margin-right--1"
-            htmlFor="filterBy"
-            style={{ flexShrink: 0 }}
-          >
-            Filter by
-          </label>
-          <select name="filterBy" id="filterBy">
-            {filterByOptions?.map(option => (
-              <option key={option?.value} value={option?.value}>
-                {option?.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Submit */}
-        <button className="usa-button-primary" type="submit">
-          Filter events
-        </button>
-      </form>
-
-      {/* Showing 10 results for All upcoming */}
-      {events && (
-        <p className="vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-bottom--1">
-          Showing {events?.length} results for{' '}
-          <strong>{selectedOption?.label}</strong>
+        {/* Description */}
+        <p className="va-introtext">
+          VA benefits can help Veterans and their families buy homes, earn
+          degrees, start careers, stay healthy, and more. Join an event for
+          conversation and information.
         </p>
-      )}
 
-      {/* Results */}
-      <div className="vads-u-display--flex vads-u-flex-direction--column">
-        {events?.map(event => {
-          // Derive event properties.
-          const entityUrl = event?.entityUrl;
-          const fieldDatetimeRangeTimezone = event?.fieldDatetimeRangeTimezone;
-          const fieldDescription = event?.fieldDescription;
-          const title = event?.title;
+        {/* Search */}
+        <Search onSearch={onSearch} />
 
-          // Derive starts at and ends at.
-          const formattedStartsAt = moment(
-            fieldDatetimeRangeTimezone?.value * 1000,
-          ).format('ddd MMM D, YYYY, h:mm a');
-          const formattedEndsAt = moment(
-            fieldDatetimeRangeTimezone?.endValue * 1000,
-          ).format('h:mm a');
-
-          return (
-            <div
-              className="vads-u-display--flex vads-u-flex-direction--column vads-u-border-top--1px vads-u-border-color--gray-light vads-u-padding-y--4"
-              key={`${title}-${entityUrl?.path}`}
-            >
-              {/* Title */}
-              <h2 className="vads-u-margin--0 vads-u-font-size--h4">
-                <a href={entityUrl.path}>{title}</a>
-              </h2>
-
-              {/* Description */}
-              <p className="vads-u-margin--0 vads-u-margin-y--1">
-                {fieldDescription}
-              </p>
-
-              {/* When */}
-              <div className="vads-u-display--flex vads-u-flex-direction--row">
-                <p className="vads-u-margin--0 vads-u-margin-right--0p5">
-                  <strong>When:</strong>
-                </p>
-                <p className="vads-u-margin--0">
-                  {formattedStartsAt} - {formattedEndsAt}
-                </p>
-              </div>
-
-              {/* Where */}
-              <div className="vads-u-display--flex vads-u-flex-direction--row">
-                <p className="vads-u-margin--0 vads-u-margin-right--0p5">
-                  <strong>Where:</strong>
-                </p>
-                <p className="vads-u-margin--0">
-                  {sample([
-                    'West Bend, Wisconsin',
-                    'Austin, Texas',
-                    'This is an online event.',
-                  ])}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+        {/* Results */}
+        <Results
+          onPageSelect={onPageSelect}
+          page={page}
+          perPage={perPage}
+          query={selectedOption?.label}
+          results={results}
+          totalResults={events?.length || 0}
+        />
       </div>
-    </div>
+    </main>
   );
 };
 

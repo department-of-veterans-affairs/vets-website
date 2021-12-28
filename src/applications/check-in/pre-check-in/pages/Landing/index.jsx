@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { api } from '../../api';
+import { createInitFormAction } from '../../../actions';
+import { createSetSession } from '../../actions';
 
-import { createInitFormAction, createSetSession } from '../../actions';
-
-import { useFormRouting } from '../../hooks/useFormRouting';
+import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
@@ -34,7 +34,7 @@ export default function Index(props) {
   );
 
   const { router } = props;
-  const { goToErrorPage, jumpToPage } = useFormRouting(router);
+  const { goToErrorPage, jumpToPage } = useFormRouting(router, URLS);
   const { clearCurrentSession, setCurrentToken } = useSessionStorage();
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);

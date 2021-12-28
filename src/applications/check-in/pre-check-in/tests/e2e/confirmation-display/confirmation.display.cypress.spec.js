@@ -42,14 +42,17 @@ describe('Pre-Check In Experience', () => {
     it('Confirmation page content loads', () => {
       NextOfKin.attemptToGoToNextPage();
       Confirmation.validatePageContent();
+      cy.injectAxeThenAxeCheck();
     });
     it('Staff update alert message is not visible', () => {
       NextOfKin.attemptToGoToNextPage();
       Confirmation.validateConfirmNoUpdates();
+      cy.injectAxeThenAxeCheck();
     });
     it('Staff update alert message is visible', () => {
       NextOfKin.attemptToGoToNextPage('no');
       Confirmation.validateConfirmWithUpdates();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

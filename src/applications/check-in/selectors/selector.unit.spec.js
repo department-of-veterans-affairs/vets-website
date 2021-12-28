@@ -10,7 +10,7 @@ describe('check-in', () => {
   describe('selector', () => {
     describe('makeSelectForm', () => {
       const state = {
-        preCheckInData: {
+        checkInData: {
           form: {
             pages: [],
             currentPage: '',
@@ -27,7 +27,7 @@ describe('check-in', () => {
     });
     describe('makeSelectCurrentContext', () => {
       const state = {
-        preCheckInData: {
+        checkInData: {
           context: {
             token: 'some-token',
             permissions: 'some-permissions',
@@ -44,7 +44,7 @@ describe('check-in', () => {
     });
     describe('makeSelectVeteranData', () => {
       const state = {
-        preCheckInData: {
+        checkInData: {
           veteranData: {
             demographics: {
               firstName: 'first',

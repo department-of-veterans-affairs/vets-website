@@ -127,7 +127,7 @@ export function ResultCard({
           >
             {name}
             <span className="vads-u-visibility--screen-reader">
-              {`${institution.name}`}
+              {`classification-${institution.facilityCode}`}
             </span>
           </Link>
         </h3>

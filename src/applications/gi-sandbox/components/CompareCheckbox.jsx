@@ -15,6 +15,7 @@ export default function CompareCheckbox({
         checked={compareChecked}
         onChange={handleCompareUpdate}
         name={name}
+        showArialLabelledBy={false}
         screenReaderOnly={name}
       />
     </div>

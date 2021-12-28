@@ -29,9 +29,6 @@ const approvedPage = confirmationDate => (
         Eligibility is now available. A physical copy will also be mailed to
         your mailing address.
       </p>
-      {/* <button type="button" className="usa-button-primary va-button-primary"> */}
-      {/*  Download your Certificate of Eligibility */}
-      {/* </button> */}
       <a
         type="button"
         className="usa-button-primary va-button-primary"
@@ -64,7 +61,10 @@ const approvedPage = confirmationDate => (
     <h2>What happens next?</h2>
     <ul>
       <li>
-        Download a copy of your <a href="#">Certificate of Eligibility</a>.
+        Download a copy of your{' '}
+        <a href={LETTER_URL} download>
+          Certificate of Eligibility
+        </a>
       </li>
       <li>
         Use our <a href="/gi-bill-comparison-tool/ ">GI Bill Comparison Tool</a>{' '}
@@ -129,7 +129,12 @@ const deniedPage = confirmationDate => (
         Your denial letter, which explains why you are ineligible, is now
         available. A physical copy will also be mailed to your mailing address.{' '}
       </p>
-      <a className="usa-button" href="/records/download-va-letters/">
+      <a
+        type="button"
+        className="usa-button meb-print"
+        href={LETTER_URL}
+        download
+      >
         Download your letter
       </a>
     </va-alert>
@@ -153,7 +158,10 @@ const deniedPage = confirmationDate => (
     <h2>What happens next?</h2>
     <ul>
       <li>
-        Download a copy of your <a href="#">Denial Letter</a>.
+        Download a copy of your{' '}
+        <a href={LETTER_URL} download>
+          Denial Letter
+        </a>
       </li>
       <li>
         We will review your eligibility for other VA education benefit programs.
