@@ -13,6 +13,7 @@ runs:
 
     - name: Get Node version
       id: get-node-version
+      shell: bash
       run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
       working-directory: testing-tools-team-dashboard-data
 
