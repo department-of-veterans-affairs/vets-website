@@ -5,7 +5,7 @@ class Error {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('have.text', 'We couldn’t check you in');
-    cy.get('p[data-testid="error-message"]', { timeout: Timeouts.slow })
+    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
       .and(
         'have.text',
