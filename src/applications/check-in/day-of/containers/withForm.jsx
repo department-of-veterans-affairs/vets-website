@@ -25,7 +25,7 @@ const withForm = Component => {
           }
         }
       },
-      [goToErrorPage, jumpToPage, form],
+      [goToErrorPage, jumpToPage, form, getCurrentToken],
     );
 
     return (
