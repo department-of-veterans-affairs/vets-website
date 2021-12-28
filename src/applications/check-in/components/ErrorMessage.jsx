@@ -1,21 +1,33 @@
 import React, { useEffect } from 'react';
 import { focusElement } from 'platform/utilities/ui';
+import PropTypes from 'prop-types';
 
-const ErrorMessage = () => {
+const ErrorMessage = ({
+  header = 'We couldn’t check you in',
+  message = 'We’re sorry. Something went wrong on our end. Check in with a staff member.',
+  showAlert = true,
+}) => {
   useEffect(() => {
     focusElement('h1');
   }, []);
-  return (
-    <va-alert status="error">
+  const body = (
+    <>
       <h1 tabIndex="-1" slot="headline">
-        We couldn’t check you in
+        {header}
       </h1>
-      <p data-testid="error-message">
-        We’re sorry. Something went wrong on our end. Check in with a staff
-        member.
-      </p>
-    </va-alert>
+      <p data-testid="error-message">{message}</p>
+    </>
   );
+  if (showAlert) {
+    return <va-alert status="error">{body}</va-alert>;
+  }
+  return { body };
+};
+
+ErrorMessage.propTypes = {
+  header: PropTypes.string,
+  message: PropTypes.string,
+  showAlert: PropTypes.bool,
 };
 
 export default ErrorMessage;
