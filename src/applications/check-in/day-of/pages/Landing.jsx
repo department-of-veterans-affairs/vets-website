@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { connect, useDispatch } from 'react-redux';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-import { getTokenFromLocation, URLS, goToNextPage } from '../utils/navigation';
+import { getTokenFromLocation, URLS, createForm } from '../utils/navigation';
+import { createInitFormAction } from '../../actions';
+import { useFormRouting } from '../../hooks/useFormRouting';
 import { api } from '../api';
 import { tokenWasValidated, triggerRefresh } from '../actions';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
@@ -20,11 +21,20 @@ const Landing = props => {
     setAppointment,
     setAuthenticatedSession,
     setToken,
+    isEmergencyContactEnabled,
   } = props;
+  const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
 
   const [loadMessage] = useState('Finding your appointment information');
   const { clearCurrentSession, setCurrentToken } = useSessionStorage(
     'health.care.check-in',
+  );
+  const dispatch = useDispatch();
+  const initForm = useCallback(
+    (pages, firstPage) => {
+      dispatch(createInitFormAction({ pages, firstPage }));
+    },
+    [dispatch],
   );
   useEffect(
     () => {
@@ -33,14 +43,14 @@ const Landing = props => {
         recordEvent({
           event: createAnalyticsSlug('landing-page-launched-no-token'),
         });
-        goToNextPage(router, URLS.ERROR);
+        goToErrorPage();
       }
 
       if (!isUUID(token)) {
         recordEvent({
           event: createAnalyticsSlug('malformed-token'),
         });
-        goToNextPage(router, URLS.ERROR);
+        goToErrorPage();
       }
 
       if (token) {
@@ -49,27 +59,32 @@ const Landing = props => {
           .then(session => {
             if (session.errors || session.error) {
               clearCurrentSession(window);
-              goToNextPage(router, URLS.ERROR);
+              goToErrorPage();
             } else {
               // if session with read.full exists, go to check in page
               setCurrentToken(window, token);
+              const pages = createForm({
+                hasConfirmedDemographics: false,
+                isEmergencyContactEnabled,
+              });
+              const firstPage = pages[0];
+              initForm(pages, firstPage);
               if (session.permissions === SCOPES.READ_FULL) {
                 setAuthenticatedSession(token);
-                goToNextPage(router, URLS.DETAILS);
+                jumpToPage(URLS.DETAILS);
               } else {
                 setToken(token);
-                goToNextPage(router, URLS.VALIDATION_NEEDED);
+                jumpToPage(URLS.VALIDATION_NEEDED);
               }
             }
           })
           .catch(() => {
             clearCurrentSession(window);
-            goToNextPage(router, URLS.ERROR);
+            goToErrorPage();
           });
       }
     },
     [
-      router,
       location,
       setAppointment,
       setToken,
@@ -77,11 +92,15 @@ const Landing = props => {
       setAuthenticatedSession,
       clearCurrentSession,
       setCurrentToken,
+      jumpToPage,
+      goToErrorPage,
+      initForm,
+      isEmergencyContactEnabled,
     ],
   );
   return (
     <>
-      <LoadingIndicator message={loadMessage} />
+      <va-loading-indicator message={loadMessage} />
     </>
   );
 };
@@ -106,6 +125,7 @@ Landing.propTypes = {
   setAppointment: PropTypes.func,
   setAuthenticatedSession: PropTypes.func,
   setToken: PropTypes.func,
+  isEmergencyContactEnabled: PropTypes.bool,
 };
 
 export default connect(

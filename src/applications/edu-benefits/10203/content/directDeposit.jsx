@@ -1,5 +1,6 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import environment from 'platform/utilities/environment';
 
 export const directDepositDescription = () => {
   return (
@@ -11,7 +12,11 @@ export const directDepositDescription = () => {
         Scholarship, we’ll need to know where to deposit the funds.
       </p>
       <img
-        src="https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/img/direct-deposit-check-guide.svg"
+        src={
+          environment.isProduction()
+            ? 'https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/img/direct-deposit-check-guide.svg'
+            : 'https://staging-va-gov-assets.s3-us-gov-west-1.amazonaws.com/img/direct-deposit-check-guide.svg'
+        }
         alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
       />
     </div>

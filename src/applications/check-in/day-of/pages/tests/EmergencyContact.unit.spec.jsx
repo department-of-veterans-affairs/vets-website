@@ -20,6 +20,10 @@ describe('check in', () => {
           context: {
             token: '',
           },
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+            currentPage: 'first-page',
+          },
         },
       };
       store = mockStore(initState);
