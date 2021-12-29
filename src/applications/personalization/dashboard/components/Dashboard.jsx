@@ -51,7 +51,7 @@ import CTALink from './CTALink';
 import BenefitPaymentsAndDebt from './benefit-payments-and-debts/BenefitPaymentsAndDebt';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import DismissableDebts from './benefit-payments-and-debts/DismissableDebts';
+import DismissibleDebts from './benefit-payments-and-debts/DismissibleDebts';
 
 const renderWidgetDowntimeNotification = (downtime, children) => {
   if (downtime.status === externalServiceStatus.down) {
@@ -98,7 +98,7 @@ const DashboardHeader = ({ showBenefitPaymentsAndDebt, debts, debtsError }) => {
         }}
       />
       {showBenefitPaymentsAndDebt && (
-        <DismissableDebts debts={debts} hasError={debtsError} />
+        <DismissibleDebts debts={debts} hasError={debtsError} />
       )}
     </div>
   );
