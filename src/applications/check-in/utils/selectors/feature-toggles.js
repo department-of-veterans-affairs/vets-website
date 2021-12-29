@@ -15,9 +15,11 @@ const selectFeatureToggles = createSelector(
     isEmergencyContactEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceEmergencyContactEnabled
     ],
-
     isUpdatePageEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceUpdateInformationPageEnabled
+    ],
+    isPaymentAndDebtSectionEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.showPaymentAndDebtSection
     ],
   }),
   toggles => toggles,
