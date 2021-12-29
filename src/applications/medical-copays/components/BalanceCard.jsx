@@ -50,6 +50,11 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
           className="vads-u-font-size--sm"
           to={`/balance-details/${id}`}
           data-testid={`detail-link-${id}`}
+          aria-label={
+            amount
+              ? `Check details and resolve bill for ${facility} in ${city}`
+              : `Check details for ${facility} in ${city}`
+          }
         >
           <strong>
             {amount ? 'Check details and resolve this bill' : 'Check details'}
