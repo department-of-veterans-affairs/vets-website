@@ -4,7 +4,7 @@ import { connect, useSelector } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
 
-import { api } from '../api';
+import { api } from '../../api';
 
 import { permissionsUpdated } from '../actions';
 import { URLS } from '../utils/navigation';

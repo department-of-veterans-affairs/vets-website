@@ -1,26 +1,33 @@
-import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
-import '../../support/commands';
+import '../../../../../tests/e2e/commands';
 
-import validateVeteran from '../../../../../tests/e2e/pages/ValidateVeteran';
-import introduction from '../../pages/Introduction';
-import NextOfKin from '../../../../../tests/e2e/pages/NextOfKin';
+import ApiInitializer from '../../../../../api/local-mock-api/e2e/ApiInitializer';
+import ValidateVeteran from '../../../../../tests/e2e/pages/ValidateVeteran';
+import Introduction from '../../pages/Introduction';
 import Demographics from '../../../../../tests/e2e/pages/Demographics';
+import NextOfKin from '../../../../../tests/e2e/pages/NextOfKin';
+import EmergencyContact from '../../../../../tests/e2e/pages/EmergencyContact';
 import Error from '../../../../../tests/e2e/pages/Error';
-import apiInitializer from '../../support/ApiInitializer';
 
 describe('Pre-Check In Experience ', () => {
   describe('Error handling', () => {
     describe('POST /check_in/v2/pre_check_ins/', () => {
       let apiData = {};
       beforeEach(function() {
-        cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
-        apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+        const {
+          initializeFeatureToggle,
+          initializeSessionGet,
+          initializeSessionPost,
+          initializePreCheckInDataGet,
+          initializePreCheckInDataPost,
+        } = ApiInitializer;
+        initializeFeatureToggle.withCurrentFeatures();
+        initializeSessionGet.withSuccessfulNewSession();
 
-        apiInitializer.initializeSessionPost.withSuccess();
+        initializeSessionPost.withSuccess();
 
-        apiData = apiInitializer.initializePreCheckInDataGet.withSuccess();
+        apiData = initializePreCheckInDataGet.withSuccess();
 
-        apiInitializer.initializePreCheckInDataPost.withFailure(200);
+        initializePreCheckInDataPost.withFailure(200);
       });
       afterEach(() => {
         cy.window().then(window => {
@@ -30,34 +37,35 @@ describe('Pre-Check In Experience ', () => {
       it('error in the body', () => {
         cy.visitPreCheckInWithUUID();
         // page: Validate
-        validateVeteran.validatePageLoaded();
-        validateVeteran.validateVeteran();
-        cy.injectAxe();
-        cy.axeCheck();
+        ValidateVeteran.validatePageLoaded();
+        ValidateVeteran.validateVeteran();
+        cy.injectAxeThenAxeCheck();
 
-        validateVeteran.attemptToGoToNextPage();
+        ValidateVeteran.attemptToGoToNextPage();
 
         // page: Introduction
-        introduction.validatePageLoaded();
-        introduction.countAppointmentList(apiData.payload.appointments.length);
-        cy.injectAxe();
-        cy.axeCheck();
-        introduction.attemptToGoToNextPage();
+        Introduction.validatePageLoaded();
+        Introduction.countAppointmentList(apiData.payload.appointments.length);
+        cy.injectAxeThenAxeCheck();
+        Introduction.attemptToGoToNextPage();
 
         // page: Demographics
         Demographics.validatePageLoaded();
-        cy.injectAxe();
-        cy.axeCheck();
+        cy.injectAxeThenAxeCheck();
         Demographics.attemptToGoToNextPage();
 
         // page: Next of Kin
         NextOfKin.validatePageLoaded();
-        cy.injectAxe();
-        cy.axeCheck();
+        cy.injectAxeThenAxeCheck();
         NextOfKin.attemptToGoToNextPage();
+
+        EmergencyContact.validatePageLoaded();
+        cy.injectAxeThenAxeCheck();
+        EmergencyContact.attemptToGoToNextPage();
 
         // page: Confirmation
         Error.validatePageLoaded();
+        cy.injectAxeThenAxeCheck();
       });
     });
   });

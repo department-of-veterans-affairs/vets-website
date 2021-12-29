@@ -1,29 +1,37 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
+
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
+import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Appointments from '../pages/Appointments';
 import Error from '../../../../tests/e2e/pages/Error';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
-    cy.authenticate();
-    cy.getSingleAppointment();
-    cy.failedCheckin();
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        checkInExperienceUpdateInformationPageEnabled: false,
-      }),
-    );
+    const {
+      initializeFeatureToggle,
+      initializeSessionGet,
+      initializeSessionPost,
+      initializeCheckInDataGet,
+      initializeCheckInDataPost,
+    } = ApiInitializer;
+    initializeFeatureToggle.withCurrentFeatures();
+    initializeSessionGet.withSuccessfulNewSession();
+    initializeSessionPost.withSuccess();
+    initializeCheckInDataGet.withSuccess({
+      numberOfCheckInAbledAppointments: 1,
+    });
+    initializeCheckInDataPost.withFailure(200);
+
     cy.visitWithUUID();
     ValidateVeteran.validatePageLoaded('Check in at VA');
     ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPage();
     Demographics.attemptToGoToNextPage();
     NextOfKin.attemptToGoToNextPage();
+    EmergencyContact.attemptToGoToNextPage();
     Appointments.validatePageLoaded();
   });
   afterEach(() => {

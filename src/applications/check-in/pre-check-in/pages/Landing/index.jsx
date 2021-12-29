@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-import { api } from '../../api';
+import { api } from '../../../api';
+
 import { createInitFormAction } from '../../../actions';
 import { createSetSession } from '../../actions';
 

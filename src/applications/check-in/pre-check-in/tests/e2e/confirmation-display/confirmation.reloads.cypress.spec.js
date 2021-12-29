@@ -1,45 +1,48 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
 
-import validateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import introduction from '../pages/Introduction';
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
+import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
+import Introduction from '../pages/Introduction';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
+import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Confirmation from '../pages/Confirmation';
-import apiInitializer from '../support/ApiInitializer';
 
 describe('Pre-Check In Experience', () => {
   describe('Next of kin Page', () => {
     beforeEach(function() {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          checkInExperienceUpdateInformationPageEnabled: true,
-        }),
-      );
-      apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+        initializePreCheckInDataGet,
+        initializePreCheckInDataPost,
+      } = ApiInitializer;
+      initializeFeatureToggle.withCurrentFeatures();
+      initializeSessionGet.withSuccessfulNewSession();
 
-      apiInitializer.initializeSessionPost.withSuccess();
-      apiInitializer.initializePreCheckInDataGet.withSuccess();
+      initializeSessionPost.withSuccess();
+      initializePreCheckInDataGet.withSuccess();
 
-      apiInitializer.initializePreCheckInDataPost.withSuccess();
+      initializePreCheckInDataPost.withSuccess();
 
       cy.visitPreCheckInWithUUID();
-      validateVeteran.validateVeteran();
-      validateVeteran.attemptToGoToNextPage();
-      introduction.validatePageLoaded();
-      introduction.attemptToGoToNextPage();
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      Introduction.validatePageLoaded();
+      Introduction.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       NextOfKin.validatePageLoaded();
       NextOfKin.attemptToGoToNextPage();
+      EmergencyContact.validatePageLoaded();
+      EmergencyContact.attemptToGoToNextPage();
       Confirmation.validatePageContent();
     });
     it('reloads of confirmation page should redirect back to verify page', () => {
       cy.injectAxeThenAxeCheck();
       cy.reload();
-      validateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePageLoaded();
 
       // moved afterEach here to
       // avoid async clearing of session storage

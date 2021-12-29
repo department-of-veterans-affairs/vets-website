@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { api } from '../../api';
 import { connect, useDispatch } from 'react-redux';
-
 import recordEvent from 'platform/monitoring/record-event';
-
 import { getTokenFromLocation, URLS, createForm } from '../utils/navigation';
 import { createInitFormAction } from '../../actions';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { api } from '../api';
 import { tokenWasValidated, triggerRefresh } from '../actions';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { createAnalyticsSlug } from '../../utils/analytics';

@@ -1,30 +1,21 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import mockSession from '../../../api/local-mock-api/mocks/v2/sessions.responses';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
 
-import validateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import error from '../../../../tests/e2e/pages/Error';
-import apiInitializer from '../support/ApiInitializer';
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
+import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
+import Error from '../../../../tests/e2e/pages/Error';
 
 describe('Pre-Check In Experience', () => {
   // @TODO: un-skip when the error page is created.
   describe('Validate Page', () => {
     beforeEach(function() {
-      cy.intercept('GET', '/check_in/v2/sessions/*', req => {
-        req.reply(
-          mockSession.createMockSuccessResponse('some-token', 'read.basic'),
-        );
-      });
-      apiInitializer.initializeSessionGet.withSuccessfulNewSession();
-
-      apiInitializer.initializeSessionPost.withFailure();
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          checkInExperienceUpdateInformationPageEnabled: true,
-        }),
-      );
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+      } = ApiInitializer;
+      initializeFeatureToggle.withCurrentFeatures();
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -33,13 +24,14 @@ describe('Pre-Check In Experience', () => {
     });
     it('validation failed with failed response from server', () => {
       cy.visitPreCheckInWithUUID();
-      validateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
 
-      validateVeteran.typeLastName('Smith');
-      validateVeteran.typeLast4('1234');
-      validateVeteran.attemptToGoToNextPage();
+      ValidateVeteran.typeLastName('Smith');
+      ValidateVeteran.typeLast4('1234');
+      ValidateVeteran.attemptToGoToNextPage();
 
-      error.validatePageLoaded();
+      Error.validatePageLoaded();
     });
   });
 });

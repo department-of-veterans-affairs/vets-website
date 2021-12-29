@@ -2,10 +2,10 @@ import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect, batch, useSelector } from 'react-redux';
 import { compose } from 'redux';
+import { api } from '../../api';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { URLS } from '../utils/navigation';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { api } from '../api';
 import {
   receivedEmergencyContact,
   receivedDemographicsData,

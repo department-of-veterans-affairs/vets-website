@@ -1,21 +1,20 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import mockSession from '../../../api/local-mock-api/mocks/v2/sessions.responses';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
+
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Error from '../../../../tests/e2e/pages/Error';
 
 describe('Check In Experience -- ', () => {
   describe('extra validation -- ', () => {
     beforeEach(function() {
-      cy.intercept('GET', '/check_in/v2/sessions/*', req => {
-        req.reply(
-          mockSession.createMockSuccessResponse('some-token', 'read.basic'),
-        );
-      });
-      cy.intercept('POST', '/check_in/v2/sessions', req => {
-        req.reply(400, mockSession.createMockFailedResponse());
-      });
-      cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+      } = ApiInitializer;
+      initializeFeatureToggle.withCurrentFeatures();
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withFailure();
       cy.visitWithUUID();
       ValidateVeteran.validatePageLoaded('Check in at VA');
       ValidateVeteran.validateVeteran();
@@ -28,6 +27,7 @@ describe('Check In Experience -- ', () => {
     });
     it('validation failed with failed response from server', () => {
       Error.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

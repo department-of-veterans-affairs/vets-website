@@ -1,4 +1,4 @@
-import { createApiEvent } from '../analytics';
+import { createApiEvent } from '../../utils/analytics';
 import recordEvent from 'platform/monitoring/record-event';
 
 /**

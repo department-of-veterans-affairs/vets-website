@@ -1,24 +1,28 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
+
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import Appointments from '../pages/Appointments';
 import Confirmation from '../pages/Confirmation';
 
-describe('Check In Experience -- ', () => {
-  describe('Appointment display -- ', () => {
+describe('Check In Experience', () => {
+  describe('Appointment display', () => {
     beforeEach(function() {
-      cy.authenticate();
-      cy.getAppointments();
-      cy.successfulCheckin();
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          checkInExperienceUpdateInformationPageEnabled: false,
-        }),
-      );
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+        initializeCheckInDataGet,
+        initializeCheckInDataPost,
+      } = ApiInitializer;
+      initializeFeatureToggle.withoutEmergencyContact();
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
+      initializeCheckInDataGet.withSuccess();
+      initializeCheckInDataPost.withSuccess();
+
       cy.visitWithUUID();
       ValidateVeteran.validatePageLoaded('Check in at VA');
       ValidateVeteran.validateVeteran();
@@ -34,12 +38,10 @@ describe('Check In Experience -- ', () => {
     });
     it('The second appointment is selected', () => {
       Appointments.validateAppointmentLength(4);
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
       Appointments.attemptCheckIn(3);
       Confirmation.validatePageLoaded();
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });
