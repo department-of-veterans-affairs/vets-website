@@ -112,6 +112,7 @@ export const Search = ({ onSearch }) => {
           id="filterBy"
           name="filterBy"
           onChange={onFilterByChange}
+          style={{ maxWidth: 'unset' }}
           value={selectedOption?.value}
         >
           {filterByOptions?.map(option => (
