@@ -20,6 +20,10 @@ describe('check in', () => {
           context: {
             token: '',
           },
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+            currentPage: 'first-page',
+          },
         },
       };
       store = mockStore(initState);
@@ -253,40 +257,6 @@ describe('check in', () => {
       );
 
       expect(push.called).to.be.true;
-    });
-
-    it('skips to the emergency contact page when needs update is false and emergency contact page is enabled', () => {
-      const push = sinon.spy();
-      const mockRouter = {
-        push,
-        params: {},
-      };
-
-      const { rerender } = render(
-        <Provider store={store}>
-          <NextOfKin
-            router={mockRouter}
-            nextOfKin={nextOfKin}
-            demographicsStatus={{ nextOfKinNeedsUpdate: false }}
-            isEmergencyContactEnabled
-          />
-        </Provider>,
-      );
-
-      // this is testing something in the useEffect of the component and we need to
-      // rerender the component to gurauntee the useEffect runs
-      rerender(
-        <Provider store={store}>
-          <NextOfKin
-            router={mockRouter}
-            nextOfKin={nextOfKin}
-            demographicsStatus={{ nextOfKinNeedsUpdate: false }}
-          />
-        </Provider>,
-      );
-
-      expect(push.called).to.be.true;
-      expect(push.calledWith('emergency-contact')).to.be.true;
     });
   });
 });

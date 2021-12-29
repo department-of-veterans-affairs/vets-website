@@ -7,7 +7,7 @@ import TestComponent from './TestComponent';
 
 describe('pre-check-in', () => {
   describe('useSessionStorage', () => {
-    describe('custom name space', () => {
+    describe('default namespace', () => {
       const removeItem = sinon.spy();
       const window = {
         sessionStorage: {
@@ -16,14 +16,14 @@ describe('pre-check-in', () => {
       };
 
       const component = render(
-        <TestComponent window={window} sessionNameSpace="custom-name-space" />,
+        <TestComponent window={window} sessionNameSpace />,
       );
       const button = component.getByTestId('clear-button');
       fireEvent.click(button);
 
       expect(removeItem.called).to.be.true;
-      expect(removeItem.calledWith('custom-name-space.current.uuid')).to.be
-        .true;
+      expect(removeItem.calledWith('health.care.pre.check.in.current.uuid')).to
+        .be.true;
     });
     describe('clearCurrentSession', () => {
       it('should clear the named space session', () => {

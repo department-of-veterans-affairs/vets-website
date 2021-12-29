@@ -12,6 +12,12 @@ export const formatServiceName = service => {
     .toLowerCase()
     .replace(/veteran/g, 'Veteran')
     .replace(/covid19 vaccine/g, 'COVID-19 vaccines')
+    .replace(/E benefits/g, 'eBenefits')
+    .replace(/V a home loan help/g, 'VA home loan help')
+    .replace(
+      /Integrated disability evaluation system assistance/g,
+      'Integrated Disability Evaluation System assistance (IDES)',
+    )
     .trim();
   return lowerCaseService.charAt(0).toUpperCase() + lowerCaseService.slice(1);
 };

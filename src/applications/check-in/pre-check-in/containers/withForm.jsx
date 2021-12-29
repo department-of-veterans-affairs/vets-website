@@ -1,10 +1,10 @@
 import React, { useMemo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { makeSelectForm } from '../selectors';
+import { makeSelectForm } from '../../selectors';
 
-import { useFormRouting } from '../hooks/useFormRouting';
-import { useSessionStorage } from '../hooks/useSessionStorage';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useFormRouting } from '../../hooks/useFormRouting';
 import { URLS } from '../utils/navigation';
 
 const withForm = Component => {
@@ -12,8 +12,7 @@ const withForm = Component => {
     const { router } = props;
     const selectForm = useMemo(makeSelectForm, []);
     const form = useSelector(selectForm);
-
-    const { jumpToPage, goToErrorPage } = useFormRouting(router);
+    const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
     const { getCurrentToken } = useSessionStorage();
 
     useEffect(

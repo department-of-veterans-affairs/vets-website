@@ -14,13 +14,14 @@ import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
 import EmergencyContactDisplay from '../../../components/pages/emergencyContact/EmergencyContactDisplay';
 
-import { useFormRouting } from '../../hooks/useFormRouting';
+import { useFormRouting } from '../../../hooks/useFormRouting';
+import { URLS } from '../../utils/navigation';
 
 import {
   makeSelectCurrentContext,
   makeSelectVeteranData,
   makeSelectForm,
-} from '../../selectors';
+} from '../../../selectors';
 
 const EmergencyContact = props => {
   const { router } = props;
@@ -44,7 +45,7 @@ const EmergencyContact = props => {
     goToErrorPage,
     goToNextPage,
     goToPreviousPage,
-  } = useFormRouting(router);
+  } = useFormRouting(router, URLS);
 
   useEffect(() => {
     focusElement('h1');

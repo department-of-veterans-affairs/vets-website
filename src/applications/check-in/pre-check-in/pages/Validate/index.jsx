@@ -9,12 +9,13 @@ import BackToHome from '../../components/BackToHome';
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
 import Footer from '../../components/Footer';
 
-import { useFormRouting } from '../../hooks/useFormRouting';
+import { useFormRouting } from '../../../hooks/useFormRouting';
+import { URLS } from '../../utils/navigation';
 
-import { makeSelectCurrentContext } from '../../selectors';
+import { makeSelectCurrentContext } from '../../../selectors';
 
 export default function Index({ router }) {
-  const { goToNextPage, goToErrorPage } = useFormRouting(router);
+  const { goToNextPage, goToErrorPage } = useFormRouting(router, URLS);
   const dispatch = useDispatch();
   const setSession = useCallback(
     (token, permissions) => {

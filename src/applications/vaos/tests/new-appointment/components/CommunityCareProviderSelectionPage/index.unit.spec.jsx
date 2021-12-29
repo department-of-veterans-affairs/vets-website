@@ -156,7 +156,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       ),
     );
     expect(await screen.baseElement).to.contain.text(
-      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400397.3 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400',
     );
 
     userEvent.click(screen.getByText(/Continue/i));
@@ -230,11 +230,10 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(
       await screen.getByRole('button', { name: /choose provider/i }),
     );
-    expect(screen.baseElement).to.contain.text('Selected Provider');
+    expect(screen.baseElement).to.contain.text('Selected provider');
     expect(screen.baseElement).to.contain.text(
       'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
     );
-    expect(screen.baseElement).to.contain.text('408.5 miles');
 
     // Change Provider
     userEvent.click(
@@ -246,7 +245,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     );
 
     expect(screen.baseElement).to.contain.text(
-      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400397.3 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400',
     );
 
     // Cancel Selection (not clearing of a selected provider)
@@ -257,7 +256,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       .exist;
     userEvent.click(await screen.findByRole('button', { name: /cancel/i }));
     expect(screen.baseElement).to.contain.text(
-      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400397.3 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400',
     );
   });
 
@@ -283,7 +282,6 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     expect(screen.baseElement).to.contain.text(
       'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
     );
-    expect(screen.baseElement).to.contain.text('408.5 miles');
 
     // Remove Provider
     userEvent.click(await screen.findByRole('button', { name: /remove/i }));
@@ -802,7 +800,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     );
 
     expect(screen.baseElement).to.contain.text(
-      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-24007019.4 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400',
     );
   });
 

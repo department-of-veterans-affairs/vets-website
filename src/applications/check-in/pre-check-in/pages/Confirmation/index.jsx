@@ -5,7 +5,7 @@ import { focusElement } from 'platform/utilities/ui';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import AppointmentBlock from '../../components/AppointmentBlock';
-import { makeSelectVeteranData, makeSelectForm } from '../../selectors';
+import { makeSelectVeteranData, makeSelectForm } from '../../../selectors';
 
 const Confirmation = () => {
   useEffect(() => {

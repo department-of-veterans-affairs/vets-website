@@ -39,7 +39,7 @@ function sitemapURLs() {
         // This is here because aXe bug flags the custom select component on this page
         '/find-locations/',
         // This is here because an aXe bug flags the autosuggest component on this page
-        '/gi-bill-comparison-tool/',
+        '/education/gi-bill-comparison-tool/',
         /* Using the Microsoft Healthbot framework, the chatbot currently violates
         two rules in the WCAG 2.0(A) ruleset: aria-valid-attr-value and aria-required-children.
         There are open Github issues with Microsoft to address these.

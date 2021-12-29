@@ -5,10 +5,11 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { api } from '../../../api';
 
-import { createInitFormAction, createSetSession } from '../../actions';
+import { createInitFormAction } from '../../../actions';
+import { createSetSession } from '../../actions';
 
-import { useFormRouting } from '../../hooks/useFormRouting';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { createForm, getTokenFromLocation, URLS } from '../../utils/navigation';
@@ -34,7 +35,7 @@ export default function Index(props) {
   );
 
   const { router } = props;
-  const { goToErrorPage, jumpToPage } = useFormRouting(router);
+  const { goToErrorPage, jumpToPage } = useFormRouting(router, URLS);
   const { clearCurrentSession, setCurrentToken } = useSessionStorage();
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);

@@ -144,6 +144,7 @@ const SearchResult = ({
   formMetaInfo,
   showPDFInfoVersionOne,
   toggleModalState,
+  setPrevFocusedLink,
 }) => {
   // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
@@ -183,6 +184,7 @@ const SearchResult = ({
     recordGAEventHelper({ ...formMetaInfo, eventTitle, eventUrl, eventType });
 
   const pdfDownloadHandler = () => {
+    setPrevFocusedLink(`pdf-link-${id}`);
     if (showPDFInfoVersionOne) {
       if (!doesCookieExist) {
         recordEvent({
@@ -241,9 +243,15 @@ const SearchResult = ({
         <a
           className="find-forms-max-content vads-u-text-decoration--none"
           data-testid={`pdf-link-${id}`}
+          id={`pdf-link-${id}`}
           rel="noreferrer noopener"
           href={showPDFInfoVersionOne && !doesCookieExist ? null : url}
           tabIndex="0"
+          onKeyDown={event => {
+            if (event.keyCode === 13) {
+              pdfDownloadHandler();
+            }
+          }}
           onClick={() => pdfDownloadHandler()}
           {...linkProps}
         >
