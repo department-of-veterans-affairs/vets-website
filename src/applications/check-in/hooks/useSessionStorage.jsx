@@ -1,16 +1,11 @@
 import { useCallback, useMemo } from 'react';
 
 const useSessionStorage = (isPreCheckIn = true) => {
-  const SESSION_NAMESPACES = Object.freeze({
-    preCheckIn: 'health.care.pre.check.in',
-    dayOf: 'health.care.check-in',
-  });
-
   const SESSION_STORAGE_KEYS = useMemo(
     () => {
       const namespace = isPreCheckIn
-        ? SESSION_NAMESPACES.preCheckIn
-        : SESSION_NAMESPACES.dayOf;
+        ? 'health.care.pre.check.in'
+        : 'health.care.check-in';
       return {
         CURRENT_UUID: `${namespace}.current.uuid`,
       };
