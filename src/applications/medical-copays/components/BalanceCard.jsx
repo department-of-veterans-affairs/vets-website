@@ -47,7 +47,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       {/* if no statement no link if has statements put link */}
       {amount ? (
         <Link
-          className="vads-u-font-size--sm"
+          className="vads-u-font-size--sm vads-u-font-weight--bold"
           to={`/balance-details/${id}`}
           data-testid={`detail-link-${id}`}
           aria-label={
@@ -56,9 +56,8 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
               : `Check details for ${facility} in ${city}`
           }
         >
-          <strong>
-            {amount ? 'Check details and resolve this bill' : 'Check details'}
-          </strong>
+          {amount ? 'Check details and resolve this bill' : 'Check details'}
+
           <i
             className="fa fa-chevron-right vads-u-margin-left--1"
             aria-hidden="true"
