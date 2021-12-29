@@ -13,6 +13,7 @@ describe('check-in', () => {
         check_in_experience_update_information_page_enabled: true,
         check_in_experience_next_of_kin_enabled: false,
         check_in_experience_emergency_contact_enabled: false,
+        show_payment_and_debt_section: false,
         loading: false,
       },
     };
@@ -26,6 +27,7 @@ describe('check-in', () => {
           isPreCheckInEnabled: true,
           isEmergencyContactEnabled: false,
           isUpdatePageEnabled: true,
+          isPaymentAndDebtSectionEnabled: false,
         });
       });
     });
