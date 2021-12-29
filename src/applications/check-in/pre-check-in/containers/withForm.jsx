@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 
 import { makeSelectForm } from '../../selectors';
 
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { useSessionStorage } from '../hooks/useSessionStorage';
 import { URLS } from '../utils/navigation';
 
 const withForm = Component => {

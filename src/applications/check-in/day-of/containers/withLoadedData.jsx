@@ -2,9 +2,9 @@ import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect, batch, useSelector } from 'react-redux';
 import { compose } from 'redux';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { URLS } from '../utils/navigation';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { getCurrentToken } from '../../utils/session';
 import { api } from '../api';
 import {
   receivedEmergencyContact,
@@ -25,6 +25,7 @@ const withLoadedData = Component => {
     const { goToErrorPage } = useFormRouting(router, URLS);
     const selectCheckInData = useMemo(makeSelectCheckInData, []);
     const checkInData = useSelector(selectCheckInData);
+    const { getCurrentToken } = useSessionStorage(false);
     const {
       context,
       appointments,
@@ -75,6 +76,7 @@ const withLoadedData = Component => {
         context,
         setSessionData,
         isSessionLoading,
+        getCurrentToken,
         goToErrorPage,
       ],
     );

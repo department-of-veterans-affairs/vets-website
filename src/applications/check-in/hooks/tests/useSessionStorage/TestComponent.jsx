@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useSessionStorage } from '../../useSessionStorage';
 
-export default function TestComponent({ window, sessionNameSpace, token }) {
+export default function TestComponent({ window, isPreCheckIn, token }) {
   const {
     clearCurrentSession,
     getCurrentToken,
     setCurrentToken,
-  } = useSessionStorage(sessionNameSpace);
+  } = useSessionStorage(isPreCheckIn);
   const [fromSession, setFromSession] = useState();
   return (
     <div>

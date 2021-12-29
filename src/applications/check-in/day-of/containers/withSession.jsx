@@ -2,12 +2,8 @@ import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import { compose } from 'redux';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { URLS } from '../utils/navigation';
-import {
-  getCurrentToken,
-  setCurrentToken,
-  clearCurrentSession,
-} from '../../utils/session';
 import { api } from '../api';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { triggerRefresh, tokenWasValidated } from '../actions';
@@ -20,6 +16,11 @@ const withSession = Component => {
     const { router, setAuthenticatedSession, setToken } = props;
     const selectCheckInData = useMemo(makeSelectCheckInData, []);
     const checkInData = useSelector(selectCheckInData);
+    const {
+      clearCurrentSession,
+      setCurrentToken,
+      getCurrentToken,
+    } = useSessionStorage(false);
     const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
     const { context } = checkInData;
 
@@ -66,6 +67,9 @@ const withSession = Component => {
         context,
         setAuthenticatedSession,
         setToken,
+        getCurrentToken,
+        clearCurrentSession,
+        setCurrentToken,
         goToErrorPage,
         jumpToPage,
       ],

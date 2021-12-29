@@ -9,7 +9,7 @@ import { createInitFormAction } from '../../actions';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { api } from '../api';
 import { tokenWasValidated, triggerRefresh } from '../actions';
-import { setCurrentToken, clearCurrentSession } from '../../utils/session';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { createAnalyticsSlug } from '../../utils/analytics';
 import { isUUID, SCOPES } from '../../utils/token-format-validator';
 
@@ -26,6 +26,7 @@ const Landing = props => {
   const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
 
   const [loadMessage] = useState('Finding your appointment information');
+  const { clearCurrentSession, setCurrentToken } = useSessionStorage(false);
   const dispatch = useDispatch();
   const initForm = useCallback(
     (pages, firstPage) => {
@@ -87,6 +88,8 @@ const Landing = props => {
       setToken,
       isUpdatePageEnabled,
       setAuthenticatedSession,
+      clearCurrentSession,
+      setCurrentToken,
       jumpToPage,
       goToErrorPage,
       initForm,

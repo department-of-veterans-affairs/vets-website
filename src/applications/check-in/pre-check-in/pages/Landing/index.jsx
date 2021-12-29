@@ -7,8 +7,8 @@ import { api } from '../../api';
 import { createInitFormAction } from '../../../actions';
 import { createSetSession } from '../../actions';
 
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { createForm, getTokenFromLocation, URLS } from '../../utils/navigation';
