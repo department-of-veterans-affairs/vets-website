@@ -5,6 +5,16 @@ import { INITIAL_STATE } from '../reducers/filters';
 export const FILTERS_EXCLUDED_FLIP = ['schools', 'employers', 'vettec'];
 export const FILTERS_IGNORE_ALL = ['country', 'state', 'specialMission'];
 
+// The exclude filters are seen as includes so we're flipping them to match their presentation
+export const FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP = [
+  'PUBLIC',
+  'FOR PROFIT',
+  'PRIVATE',
+  'FOREIGN',
+  'FLIGHT',
+  'CORRESPONDENCE',
+];
+
 const omitNonFilters = filters => _.omit(filters, ['expanded', 'search']);
 
 export const getFiltersChanged = filters => {
@@ -38,6 +48,10 @@ export const buildSearchFilters = filters => {
         field.slice(1).toLowerCase()}`;
       searchFilters[excludeField] = !clonedFilters[field];
     },
+  );
+
+  clonedFilters.excludedSchoolTypes = FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP.filter(
+    exclusion => !clonedFilters.excludedSchoolTypes.includes(exclusion),
   );
 
   if (clonedFilters.excludedSchoolTypes.length > 0) {
