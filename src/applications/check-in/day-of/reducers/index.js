@@ -1,4 +1,4 @@
-import { removeTimeZone } from '../utils/appointment';
+import { removeTimeZone } from '../../utils/appointment';
 
 const initialState = {
   appointments: [],
