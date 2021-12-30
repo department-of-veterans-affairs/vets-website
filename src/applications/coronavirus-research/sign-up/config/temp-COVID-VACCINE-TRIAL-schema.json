@@ -193,12 +193,12 @@
     "VACCINATED_DETAILS": {
       "type": "string",
       "enum": [
-        "Moderna",
-        "Pfizer",
-        "Johnson & Johnson",
-        "Novavax",
-        "Astra Zeneca",
-        "Don't know/Don't remember"
+        "MODERNA",
+        "PFIZER",
+        "JOHNSON",
+        "NOVAVAX",
+        "ASTRA",
+        "UNKNOWN"
       ]
     },
     "VACCINATED_DATE1": {
@@ -304,9 +304,6 @@
         }
       }
     },
-    "FACILITY": {
-      "type": "boolean"
-    },
     "GENDER": {
       "type": "object",
       "properties": {
@@ -378,7 +375,7 @@
     "veteranDateOfBirth": {
       "$ref": "#/definitions/date"
     },
-    "zipCode": {
+    "zipcode": {
       "$ref": "#/definitions/usaPostalCode"
     },
     "phone": {
@@ -389,7 +386,7 @@
     "email",
     "veteranFullName",
     "veteranDateOfBirth",
-    "zipCode",
+    "zipcode",
     "phone",
     "residentsInHome",
     "HEALTH_HISTORY",
@@ -402,7 +399,6 @@
     "TRANSPORTATION",
     "closeContact",
     "VETERAN",
-    "FACILITY",
     "GENDER",
     "RACE_ETHNICITY"
   ]

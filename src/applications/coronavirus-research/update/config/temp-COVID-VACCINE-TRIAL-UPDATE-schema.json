@@ -30,12 +30,12 @@
         "VACCINATED_DETAILS": {
             "type": "string",
             "enum": [
-                "Moderna",
-                "Pfizer",
-                "Johnson & Johnson",
-                "Novavax",
-                "Astra Zeneca",
-                "Don't know/Don't remember"
+              "MODERNA",
+              "PFIZER",
+              "JOHNSON",
+              "NOVAVAX",
+              "ASTRA",
+              "UNKNOWN"
             ]
         },
         "VACCINATED_DATE1": {

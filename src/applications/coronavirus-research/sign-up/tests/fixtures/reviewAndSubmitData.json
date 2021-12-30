@@ -23,6 +23,50 @@
       "type": "radio"
     },
     {
+      "labelId": "root_vaccinated-label",
+      "labelName": "Have you received a COVID-19 vaccine?",
+      "fieldId": "root_vaccinatedYes",
+      "fieldName": "Yes",
+      "type": "radio"
+    },
+    {
+      "labelId": "root_VACCINATED_DETAILS-label",
+      "labelName": "Which vaccine did you receive?",
+      "fieldId": "root_VACCINATED_DETAILS_1",
+      "fieldName": "Pfizer",
+      "type": "radio"
+    },
+    {
+      "fieldId": "root_VACCINATED_DATE1Month",
+      "fieldName": "5",
+      "type": "dropDown"
+    },
+    {
+      "fieldId": "root_VACCINATED_DATE1Day",
+      "fieldName": "10",
+      "type": "dropDown"
+    },
+    {
+      "fieldId": "root_VACCINATED_DATE1Year",
+      "fieldName": "2021",
+      "type": "text"
+    },
+    {
+      "fieldId": "root_VACCINATED_DATE2Month",
+      "fieldName": "8",
+      "type": "dropDown"
+    },
+    {
+      "fieldId": "root_VACCINATED_DATE2Day",
+      "fieldName": "15",
+      "type": "dropDown"
+    },
+    {
+      "fieldId": "root_VACCINATED_DATE2Year",
+      "fieldName": "2021",
+      "type": "text"
+    },
+    {
       "labelId": "root_hospitalized-label",
       "labelName": "In the past 6 months, have you had to stay overnight in a hospital for treatment, care, or testing?",
       "fieldId": "root_hospitalizedYes",
@@ -44,7 +88,6 @@
       "fieldName": "Allergy to any vaccines|Compromised immune system (including due to HIV/AIDS)",
       "type": "select"
     },
-
     {
       "labelId": "root_EMPLOYMENT_STATUS-label",
       "labelName": "Which work situation describes you?",
@@ -134,7 +177,7 @@
     },
     {
       "labelName": "Zip code where you currently live",
-      "fieldId": "root_zipCode",
+      "fieldId": "root_zipcode",
       "fieldName": "12345",
       "type": "text"
     },

@@ -6,7 +6,6 @@ import definitions from 'vets-json-schema/dist/definitions.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
 import { uiSchema } from '../pages/covidResearchUISchema';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import {
@@ -137,10 +136,9 @@ const formConfig = {
               veteranFullName: fullName,
               email,
               phone: usaPhone,
-              zipCode: usaPostalCode,
+              zipcode: usaPostalCode,
               veteranDateOfBirth: date,
               VETERAN: fullSchema.properties.VETERAN,
-              FACILITY: fullSchema.properties.FACILITY,
               GENDER: fullSchema.properties.GENDER,
               GENDER_SELF_IDENTIFY_DETAILS:
                 fullSchema.properties.GENDER_SELF_IDENTIFY_DETAILS,

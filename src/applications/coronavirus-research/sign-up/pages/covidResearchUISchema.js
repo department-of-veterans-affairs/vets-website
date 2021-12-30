@@ -17,21 +17,6 @@ const conditionalValidateBooleanGroup = (errors, pageData) => {
   if (diagnosed) {
     validateBooleanGroup(errors.DIAGNOSED_DETAILS, DIAGNOSED_DETAILS);
   }
-  const {
-    vaccinated,
-    VACCINATED_PLAN,
-    VACCINATED_DETAILS,
-    VACCINATED_SECOND,
-    VACCINATED_DATE1,
-    VACCINATED_DATE2,
-  } = pageData;
-  if (vaccinated) {
-    validateBooleanGroup(errors.VACCINATED_PLAN, VACCINATED_PLAN);
-    validateBooleanGroup(errors.VACCINATED_DETAILS, VACCINATED_DETAILS);
-    validateBooleanGroup(errors.VACCINATED_SECOND, VACCINATED_SECOND);
-    validateBooleanGroup(errors.VACCINATED_DATE1, VACCINATED_DATE1);
-    validateBooleanGroup(errors.VACCINATED_DATE2, VACCINATED_DATE2);
-  }
 };
 
 export const uiSchema = {
@@ -247,21 +232,21 @@ export const uiSchema = {
         <strong>Which vaccine did you receive?</strong>
       </span>
     ),
-    'ui:reviewField': CustomReviewRadio,
     'ui:widget': 'radio',
+    'ui:reviewField': CustomReviewRadio,
     'ui:options': {
       showFieldLabel: true,
       expandUnder: 'vaccinated',
       expandUnderCondition: true,
+      labels: {
+        MODERNA: 'Moderna',
+        PFIZER: 'Pfizer',
+        JOHNSON: 'Johnson & Johnson',
+        NOVAVAX: 'Novavax',
+        ASTRA: 'Astra Zeneca',
+        UNKNOWN: "Don't know/Don't remember",
+      },
       classNames: '',
-      enum: [
-        'Moderna',
-        'Pfizer',
-        'Johnson & Johnson',
-        'Novavax',
-        'Astra Zeneca',
-        "Don't know/Don't remember",
-      ],
     },
   },
   VACCINATED_DATE1: {
@@ -271,6 +256,7 @@ export const uiSchema = {
       hideIf: formData => get('VACCINATED_DETAILS', formData) === undefined,
       classNames: '',
     },
+    'ui:reviewField': CustomReviewDOBField,
   },
   VACCINATED_DATE2: {
     ...currentOrPastDateUI(
@@ -283,15 +269,19 @@ export const uiSchema = {
         get('VACCINATED_DETAILS', formData) === 'Johnson & Johnson',
       classNames: '',
     },
+    'ui:reviewField': CustomReviewDOBField,
   },
   VACCINATED_SECOND: {
     'ui:title': <span>Did not get second dose</span>,
+    'ui:reviewField': CustomReviewField,
+    'ui:widget': 'checkbox',
     'ui:options': {
+      hideLabelText: true,
+      hideOnReview: true,
       expandUnder: 'vaccinated',
       hideIf: formData =>
         get('VACCINATED_DETAILS', formData) === undefined ||
         get('VACCINATED_DETAILS', formData) === 'Johnson & Johnson',
-      classNames: '',
     },
   },
   hospitalized: {
@@ -560,7 +550,7 @@ export const uiSchema = {
     ),
     'ui:reviewField': CustomReviewDOBField,
   },
-  zipCode: {
+  zipcode: {
     'ui:title': 'Zip code where you currently live',
     'ui:errorMessages': {
       required: 'Please enter a zip code',
@@ -613,18 +603,6 @@ export const uiSchema = {
     'VETERAN::NONE_OF_ABOVE': {
       'ui:title': 'None of the above',
       'ui:reviewField': CustomReviewField,
-    },
-  },
-  FACILITY: {
-    'ui:title': (
-      <span>
-        <strong>Do you receive care at a VA facility?</strong>
-      </span>
-    ),
-    'ui:reviewField': CustomReviewYesNo,
-    'ui:widget': 'yesNo',
-    'ui:options': {
-      classNames: '',
     },
   },
   GENDER: {
