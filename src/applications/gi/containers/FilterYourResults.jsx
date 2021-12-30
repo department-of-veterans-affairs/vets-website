@@ -106,7 +106,8 @@ export function FilterYourResults({
     }
   };
 
-  const handleExcludedSchoolTypesChange = e => {
+  const handleIncludedSchoolTypesChange = e => {
+    // The filter consumes these as exclusions
     const name = e.target.name;
     const checked = e.target.checked;
     const newExcluded = _.cloneDeep(excludedSchoolTypes);
@@ -190,10 +191,10 @@ export function FilterYourResults({
         <CheckboxGroup
           label={
             <div className="vads-u-margin-left--neg0p25">
-              Exclude these school types:
+              Include these school types:
             </div>
           }
-          onChange={handleExcludedSchoolTypesChange}
+          onChange={handleIncludedSchoolTypesChange}
           options={options}
         />
       </div>
