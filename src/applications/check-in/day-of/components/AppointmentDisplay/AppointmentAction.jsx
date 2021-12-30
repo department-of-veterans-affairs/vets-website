@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { api } from '../../../api';
 
 import { URLS } from '../../utils/navigation';
@@ -12,9 +12,16 @@ import format from 'date-fns/format';
 import { appointmentWAsCheckedInto } from '../../actions';
 
 const AppointmentAction = props => {
-  const { appointment, router, setSelectedAppointment, token } = props;
+  const { appointment, router, token } = props;
 
   const [isCheckingIn, setIsCheckingIn] = useState(false);
+  const dispatch = useDispatch();
+  const setSelectedAppointment = useCallback(
+    appt => {
+      dispatch(appointmentWAsCheckedInto(appt));
+    },
+    [dispatch],
+  );
 
   const defaultMessage =
     'Online check-in isn’t available for this appointment. Check in with a staff member.';
@@ -135,22 +142,10 @@ const AppointmentAction = props => {
   return <p data-testid="no-status-given-message">{defaultMessage}</p>;
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setSelectedAppointment: appointment => {
-      dispatch(appointmentWAsCheckedInto(appointment));
-    },
-  };
-};
-
 AppointmentAction.propTypes = {
   appointment: PropTypes.object,
   router: PropTypes.object,
-  setSelectedAppointment: PropTypes.func,
   token: PropTypes.string,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(AppointmentAction);
+export default AppointmentAction;

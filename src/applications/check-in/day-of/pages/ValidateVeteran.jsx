@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
 
@@ -18,7 +18,13 @@ import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 import { makeSelectContext } from '../hooks/selectors';
 
 const ValidateVeteran = props => {
-  const { router, setPermissions } = props;
+  const { router } = props;
+  const dispatch = useDispatch();
+  const setPermissions = useCallback(
+    data => dispatch(permissionsUpdated(data, SCOPES.READ_FULL)),
+    [dispatch],
+  );
+
   const { goToNextPage, goToErrorPage } = useFormRouting(router, URLS);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -88,19 +94,8 @@ const ValidateVeteran = props => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setPermissions: data =>
-      dispatch(permissionsUpdated(data, SCOPES.READ_FULL)),
-  };
-};
-
 ValidateVeteran.propTypes = {
   router: PropTypes.object,
-  setPermissions: PropTypes.func,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ValidateVeteran);
+export default ValidateVeteran;
