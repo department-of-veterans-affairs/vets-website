@@ -8,7 +8,7 @@ import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
 import recordEvent from 'platform/monitoring/record-event';
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { sortAppointmentsByStartTime } from '../../utils/appointment';
+import { sortAppointmentsByStartTime } from '../../../utils/appointment';
 import { focusElement } from 'platform/utilities/ui';
 
 const DisplayMultipleAppointments = props => {
