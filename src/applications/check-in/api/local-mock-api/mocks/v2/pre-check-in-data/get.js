@@ -88,6 +88,14 @@ const createMockSuccessResponse = token => {
           checkedInTime: '',
         },
       ],
+      patientDemographicsStatus: {
+        demographicsNeedsUpdate: false,
+        demographicsConfirmedAt: null,
+        nextOfKinNeedsUpdate: false,
+        nextOfKinConfirmedAt: null,
+        emergencyContactNeedsUpdate: false,
+        emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
+      },
     },
   };
 };

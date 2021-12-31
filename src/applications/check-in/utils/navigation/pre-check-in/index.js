@@ -63,4 +63,30 @@ const createForm = ({
   return pages;
 };
 
-export { URLS, PRE_CHECK_IN_FORM_PAGES, createForm, getTokenFromLocation };
+const updateForm = ({
+  hasConfirmedDemographics = false,
+  hasConfirmedNextOfKin = false,
+  hasConfirmedEmergencyContact = false,
+}) => {
+  let pages = PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
+  const skippedPages = [];
+  if (hasConfirmedDemographics) {
+    skippedPages.push(URLS.DEMOGRAPHICS);
+  }
+  if (hasConfirmedNextOfKin) {
+    skippedPages.push(URLS.NEXT_OF_KIN);
+  }
+  if (hasConfirmedEmergencyContact) {
+    skippedPages.push(URLS.EMERGENCY_CONTACT);
+  }
+  pages = pages.filter(page => !skippedPages.includes(page));
+  return pages;
+};
+
+export {
+  URLS,
+  PRE_CHECK_IN_FORM_PAGES,
+  createForm,
+  getTokenFromLocation,
+  updateForm,
+};

@@ -1,3 +1,5 @@
+import { updateForm } from '../pre-check-in/utils/navigation';
+
 export const INIT_FORM = 'INIT_FORM';
 
 export const createInitFormAction = ({ pages, firstPage }) => {
@@ -16,5 +18,21 @@ export const createGoToNextPageAction = ({ nextPage }) => {
   return {
     type: GO_TO_NEXT_PAGE,
     payload: { nextPage },
+  };
+};
+
+export const UPDATE_FORM = 'UPDATE_FORM';
+
+export const updateFormAction = ({ patientDemographicsStatus }) => {
+  const pages = updateForm({
+    hasConfirmedDemographics: !patientDemographicsStatus.demographicsNeedsUpdate,
+    hasConfirmedNextOfKin: !patientDemographicsStatus.nextOfKinNeedsUpdate,
+    hasConfirmedEmergencyContact: !patientDemographicsStatus.emergencyContactNeedsUpdate,
+  });
+  return {
+    type: UPDATE_FORM,
+    payload: {
+      pages,
+    },
   };
 };

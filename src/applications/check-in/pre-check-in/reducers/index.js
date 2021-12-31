@@ -13,7 +13,7 @@ const initialState = {
 
 import { RECORD_ANSWER, SET_SESSION, SET_VETERAN_DATA } from '../actions';
 
-import { GO_TO_NEXT_PAGE, INIT_FORM } from '../../actions';
+import { GO_TO_NEXT_PAGE, INIT_FORM, UPDATE_FORM } from '../../actions';
 
 const preCheckInReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -54,6 +54,14 @@ const preCheckInReducer = (state = initialState, action) => {
         veteranData: { demographics: action.payload.demographics },
       };
     }
+    case UPDATE_FORM:
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          pages: action.payload.pages,
+        },
+      };
     default:
       return { ...state };
   }
