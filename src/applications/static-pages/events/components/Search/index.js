@@ -331,7 +331,7 @@ export const Search = ({ onSearch }) => {
         className="usa-button usa-button-primary medium-screen:vads-u-margin-top--1"
         type="submit"
       >
-        Filter events
+        Apply filter
       </button>
     </form>
   );
