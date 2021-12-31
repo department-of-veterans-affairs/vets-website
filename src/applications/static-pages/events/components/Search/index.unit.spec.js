@@ -12,6 +12,7 @@ describe('Events <Search>', () => {
 
     // Assertions.
     expect(wrapper.text()).includes('Filter by');
+    expect(wrapper.text()).includes('Filter events');
 
     // Clean up.
     wrapper.unmount();
