@@ -1,17 +1,17 @@
 .events {
   form {
     .filter-by {
-      @media (max-width: 640px) {
+      @media (max-width: 481px) {
         max-width: unset;
       }
 
-      @media (min-width: 640px) {
+      @media (min-width: 481px) {
         max-width: 198px;
       }
     }
 
     button[type="submit"] {
-      @media (min-width: 640px) {
+      @media (min-width: 481px) {
         max-width: fit-content;
       }
     }
