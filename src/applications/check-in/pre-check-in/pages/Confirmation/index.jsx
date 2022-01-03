@@ -58,7 +58,7 @@ const Confirmation = () => {
         {appointments.map((appointment, index) => {
           return (
             <p key={index}>
-              {appointment.clinicFriendlyName} at{' '}
+              {appointment.clinicFriendlyName || appointment.clinicName} at{' '}
               <Telephone contact={appointment.clinicPhoneNumber} />
             </p>
           );
