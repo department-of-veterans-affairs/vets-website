@@ -65,6 +65,7 @@ describe('Pre-Check In Experience ', () => {
 
         // page: Confirmation
         Error.validatePageLoaded();
+        Error.validateDatePreCheckInDateShows();
         cy.injectAxeThenAxeCheck();
       });
     });
