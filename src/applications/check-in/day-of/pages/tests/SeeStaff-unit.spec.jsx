@@ -18,6 +18,10 @@ describe('check in', () => {
         checkInData: {
           seeStaffMessage: 'message test',
         },
+        form: {
+          pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+          currentPage: 'first-page',
+        },
       };
       store = mockStore(initState);
     });

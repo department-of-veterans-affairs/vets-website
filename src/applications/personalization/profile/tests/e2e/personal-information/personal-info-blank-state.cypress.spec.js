@@ -1,7 +1,7 @@
 import { PROFILE_PATHS_LGBTQ_ENHANCEMENT } from '@@profile/constants';
 
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
-import mockPersonalInformationEnhanced from '@@profile/tests/fixtures/personal-information-success-enhanced.json';
+import mockPersonalInformationEnhanced from '@@profile/tests/fixtures/personal-information-success.json';
 import mockServiceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
 import mockProfileEnhancementsToggles from '@@profile/tests/fixtures/personal-information-feature-toggles.json';

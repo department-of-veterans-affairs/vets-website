@@ -1,20 +1,21 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
+
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import Appointments from '../pages/Appointments';
 import Confirmation from '../pages/Confirmation';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
-    cy.alreadyAuthenticated();
-    cy.getAppointments();
-    cy.successfulCheckin();
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        checkInExperienceUpdateInformationPageEnabled: false,
-      }),
-    );
+    const {
+      initializeFeatureToggle,
+      initializeSessionGet,
+      initializeCheckInDataGet,
+      initializeCheckInDataPost,
+    } = ApiInitializer;
+    initializeFeatureToggle.withoutEmergencyContact();
+    initializeSessionGet.withSuccessfulReturningSession();
+    initializeCheckInDataGet.withSuccess();
+    initializeCheckInDataPost.withSuccess();
   });
   afterEach(() => {
     cy.window().then(window => {

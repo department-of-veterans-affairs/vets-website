@@ -22,6 +22,10 @@ describe('check-in', () => {
             facilityName: 'Acme VA',
             clinicName: 'Green Team Clinic1',
           },
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+            currentPage: 'first-page',
+          },
         },
       };
       const store = mockStore(initState);

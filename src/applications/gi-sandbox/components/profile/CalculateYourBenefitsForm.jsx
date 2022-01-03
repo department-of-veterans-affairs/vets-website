@@ -48,7 +48,7 @@ function CalculateYourBenefitsForm({
     scholarshipsAndOtherFunding: false,
   });
 
-  const displayExtensionBeneficiaryZipcode = !inputs.classesOutsideUS;
+  const displayExtensionBeneficiaryZipcode = !inputs.classesoutsideus;
 
   const getExtensions = () => {
     const facilityMap = profile.attributes.facilityMap;
@@ -842,7 +842,7 @@ function CalculateYourBenefitsForm({
             "I'll be taking classes outside of the U.S. and U.S. territories"
           }
           onChange={handleHasClassesOutsideUSChange}
-          checked={inputs.classesOutsideUS}
+          checked={inputs.classesoutsideus}
           name={'classesOutsideUS'}
         />
       );

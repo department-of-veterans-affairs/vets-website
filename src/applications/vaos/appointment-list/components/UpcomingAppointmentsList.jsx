@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import InfoAlert from '../../components/InfoAlert';
 import recordEvent from 'platform/monitoring/record-event';
 import { getUpcomingAppointmentListInfo } from '../redux/selectors';
@@ -48,8 +48,8 @@ export default function UpcomingAppointmentsList() {
   ) {
     return (
       <div className="vads-u-margin-y--8">
-        <LoadingIndicator
-          setFocus={hasTypeChanged}
+        <va-loading-indicator
+          set-focus={hasTypeChanged}
           message="Loading your upcoming appointments..."
         />
       </div>
