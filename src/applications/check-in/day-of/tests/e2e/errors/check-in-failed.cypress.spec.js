@@ -6,7 +6,7 @@ import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Appointments from '../pages/Appointments';
-import Error from '../../../../tests/e2e/pages/Error';
+import Error from '../pages/Error';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
