@@ -16,12 +16,17 @@ const Error = () => {
   const { appointments } = useSelector(selectVeteranData);
   // if date exists, then show date
   const messages = [
-    'We’re sorry. Something went wrong on our end. Please try again.',
+    {
+      text: 'We’re sorry. Something went wrong on our end. Please try again.',
+    },
   ];
   if (appointments && appointments.length > 0 && appointments[0].startTime) {
     const preCheckIn = sub(new Date(appointments[0].startTime), { days: 1 });
     const date = format(new Date(preCheckIn), 'MM/dd/yy');
-    messages.push(<p key="date">You can pre-check in online until {date}.</p>);
+    messages.push({
+      text: `You can pre-check in online until ${date}.`,
+      testId: 'date-message',
+    });
   }
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 ">
@@ -30,7 +35,11 @@ const Error = () => {
         message={
           <>
             {messages.map((message, index) => {
-              return <p key={index}>{message}</p>;
+              return (
+                <p key={index} data-testid={message.testId}>
+                  {message.text}
+                </p>
+              );
             })}
           </>
         }
