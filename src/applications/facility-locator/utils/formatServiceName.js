@@ -13,6 +13,7 @@ export const formatServiceName = service => {
     .replace(/\s+/g, ' ')
     .toLowerCase()
     .replace(/veteran/g, 'Veteran')
+    .replace(/assistance/g, 'help')
     .replace(/covid19 vaccine/g, 'COVID-19 vaccines')
     .replace(/e benefits/g, 'eBenefits')
     .replace(
@@ -26,7 +27,7 @@ export const formatServiceName = service => {
       return benefitsServices.eBenefitsRegistrationAssistance;
     case 'v a home loan assistance':
       return benefitsServices.VAHomeLoanAssistance;
-    case 'integrated disability evaluation system assistance':
+    case 'integrated disability evaluation system help':
       return benefitsServices.IntegratedDisabilityEvaluationSystemAssistance;
     case 'pre discharge claim assistance':
       return benefitsServices.PreDischargeClaimAssistance;
