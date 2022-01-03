@@ -1,5 +1,6 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
+
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Appointments from '../pages/Appointments';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
@@ -8,21 +9,25 @@ import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 describe('Check In Experience -- ', () => {
   describe('Appointment display -- ', () => {
     beforeEach(function() {
-      cy.authenticate();
       const appointments = [
         { startTime: '2021-08-19T03:00:00' },
         { startTime: '2021-08-19T13:00:00' },
         { startTime: '2021-08-19T18:00:00' },
       ];
-      cy.getAppointments(appointments);
-      cy.successfulCheckin();
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          checkInExperienceUpdateInformationPageEnabled: false,
-        }),
-      );
+
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+        initializeCheckInDataGet,
+        initializeCheckInDataPost,
+      } = ApiInitializer;
+      initializeFeatureToggle.withoutEmergencyContact();
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
+      initializeCheckInDataGet.withSuccess({ appointments });
+      initializeCheckInDataPost.withSuccess();
+
       cy.visitWithUUID();
       ValidateVeteran.validatePageLoaded('Check in at VA');
       ValidateVeteran.validateVeteran();
@@ -40,8 +45,7 @@ describe('Check In Experience -- ', () => {
       Appointments.validateAppointmentLength(3);
       Appointments.validateAppointmentTime();
       Appointments.validateAppointmentTime(3, '6:00 p.m.');
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

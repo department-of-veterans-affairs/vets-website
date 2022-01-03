@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-import { api } from '../../api';
+import { api } from '../../../api';
+
 import { createInitFormAction } from '../../../actions';
 import { createSetSession } from '../../actions';
 
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { createForm, getTokenFromLocation, URLS } from '../../utils/navigation';

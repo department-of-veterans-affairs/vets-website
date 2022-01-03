@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import IntroductionDisplay from './IntroductionDisplay';
 
-import { api } from '../../api';
+import { api } from '../../../api';
 
 import { setVeteranData } from '../../actions';
 

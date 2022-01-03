@@ -1,14 +1,9 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
-import { compose } from 'redux';
+import { useDispatch, useSelector, batch } from 'react-redux';
+import { api } from '../../api';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { URLS } from '../utils/navigation';
-import {
-  getCurrentToken,
-  setCurrentToken,
-  clearCurrentSession,
-} from '../../utils/session';
-import { api } from '../api';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { triggerRefresh, tokenWasValidated } from '../actions';
 import { SCOPES } from '../../utils/token-format-validator';
@@ -17,9 +12,33 @@ import { makeSelectCheckInData } from '../hooks/selectors';
 const withSession = Component => {
   const Wrapped = ({ ...props }) => {
     const [isLoading, setIsLoading] = useState();
-    const { router, setAuthenticatedSession, setToken } = props;
+
+    const { router } = props;
+
+    const dispatch = useDispatch();
+
+    const setToken = useCallback(
+      token => {
+        batch(() => {
+          dispatch(tokenWasValidated(undefined, token, SCOPES.READ_BASIC));
+          dispatch(triggerRefresh());
+        });
+      },
+      [dispatch],
+    );
+
+    const setAuthenticatedSession = useCallback(
+      token => dispatch(tokenWasValidated(undefined, token, SCOPES.READ_FULL)),
+      [dispatch],
+    );
+
     const selectCheckInData = useMemo(makeSelectCheckInData, []);
     const checkInData = useSelector(selectCheckInData);
+    const {
+      clearCurrentSession,
+      setCurrentToken,
+      getCurrentToken,
+    } = useSessionStorage(false);
     const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
     const { context } = checkInData;
 
@@ -66,6 +85,9 @@ const withSession = Component => {
         context,
         setAuthenticatedSession,
         setToken,
+        getCurrentToken,
+        clearCurrentSession,
+        setCurrentToken,
         goToErrorPage,
         jumpToPage,
       ],
@@ -95,22 +117,4 @@ const withSession = Component => {
   return Wrapped;
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setToken: token => {
-      dispatch(tokenWasValidated(undefined, token, SCOPES.READ_BASIC));
-      dispatch(triggerRefresh());
-    },
-    setAuthenticatedSession: token =>
-      dispatch(tokenWasValidated(undefined, token, SCOPES.READ_FULL)),
-  };
-};
-
-const composedWrapper = compose(
-  connect(
-    null,
-    mapDispatchToProps,
-  ),
-  withSession,
-);
-export default composedWrapper;
+export default withSession;

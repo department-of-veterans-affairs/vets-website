@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 
 import { makeSelectCurrentContext } from '../../selectors';
 
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { useSessionStorage } from '../hooks/useSessionStorage';
 
 import { SCOPES } from '../../utils/token-format-validator';
 import { URLS } from '../utils/navigation';

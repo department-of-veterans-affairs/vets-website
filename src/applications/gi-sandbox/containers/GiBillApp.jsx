@@ -82,7 +82,7 @@ export function GiBillApp({
   return (
     <div className="gi-app" role="application">
       {(location.pathname === '/' ||
-        location.pathname === '/gi-bill-comparison-tool-sandbox') && (
+        location.pathname === '/education/gi-bill-comparison-tool-sandbox') && (
         <Covid19Banner />
       )}
       <div>

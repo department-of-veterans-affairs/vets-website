@@ -1,5 +1,7 @@
 import { isLoggedIn } from 'platform/user/selectors';
-import constants from 'applications/personalization/dashboard/manifest.json';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
+
+const dashboardUrl = getAppUrl('dashboard');
 
 export default function createMyVALoginWidget(store) {
   const root = document.getElementById('myva-login');
@@ -7,7 +9,7 @@ export default function createMyVALoginWidget(store) {
   const homePageStoreListener = () => {
     if (root && isLoggedIn(store.getState())) {
       root.innerHTML =
-        `<a href="${constants.rootUrl}" class="homepage-button">` +
+        `<a href="${dashboardUrl}" class="homepage-button">` +
         '<div class="icon-wrapper">' +
         '<i class="fas fa-user-circle homepage-button-icon"></i>' +
         '</div>' +

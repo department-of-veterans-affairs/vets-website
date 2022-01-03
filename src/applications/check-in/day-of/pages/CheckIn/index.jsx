@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { triggerRefresh } from '../../actions';
 
@@ -9,17 +9,18 @@ import DisplayMultipleAppointments from './DisplayMultipleAppointments';
 import { makeSelectAppointmentListData } from '../../hooks/selectors';
 
 const CheckIn = props => {
-  const { appointments, isLoading, refreshAppointments, router } = props;
+  const { appointments, isLoading, router } = props;
   const appointment = appointments ? appointments[0] : {};
   const selectAppointmentListData = useMemo(makeSelectAppointmentListData, []);
   const { context } = useSelector(selectAppointmentListData);
   const { token } = context;
+  const dispatch = useDispatch();
 
   const getMultipleAppointments = useCallback(
     () => {
-      refreshAppointments();
+      dispatch(triggerRefresh());
     },
-    [refreshAppointments],
+    [dispatch],
   );
 
   if (isLoading || !appointment) {
@@ -38,20 +39,10 @@ const CheckIn = props => {
   }
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    refreshAppointments: () => dispatch(triggerRefresh()),
-  };
-};
-
 CheckIn.propTypes = {
   appointments: PropTypes.array,
   isLoading: PropTypes.bool,
-  refreshAppointments: PropTypes.func,
   router: PropTypes.object,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(CheckIn);
+export default CheckIn;

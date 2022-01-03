@@ -1,16 +1,18 @@
-import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
-import '../../support/commands';
+import '../../../../../tests/e2e/commands';
 
+import ApiInitializer from '../../../../../api/local-mock-api/e2e/ApiInitializer';
 import Error from '../../../../../tests/e2e/pages/Error';
-
-import apiInitializer from '../../support/ApiInitializer';
 
 describe('Pre-Check In Experience ', () => {
   describe('Error handling', () => {
     describe('GET /check_in/v2/session/', () => {
       beforeEach(function() {
-        cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
-        apiInitializer.initializeSessionGet.withFailure(400);
+        const {
+          initializeFeatureToggle,
+          initializeSessionGet,
+        } = ApiInitializer;
+        initializeFeatureToggle.withCurrentFeatures();
+        initializeSessionGet.withFailure(400);
       });
       afterEach(() => {
         cy.window().then(window => {

@@ -1,6 +1,5 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import React, { useCallback, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import MultipleAppointment from './MultipleAppointments';
 
@@ -8,7 +7,15 @@ import { triggerRefresh } from '../../actions';
 
 import { makeSelectConfirmationData } from '../../hooks/selectors';
 
-const Confirmation = ({ refreshAppointments }) => {
+const Confirmation = () => {
+  const dispatch = useDispatch();
+  const refreshAppointments = useCallback(
+    () => {
+      dispatch(triggerRefresh());
+    },
+    [dispatch],
+  );
+
   const selectConfirmationData = useMemo(makeSelectConfirmationData, []);
   const { appointments, selectedAppointment } = useSelector(
     selectConfirmationData,
@@ -23,19 +30,4 @@ const Confirmation = ({ refreshAppointments }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    refreshAppointments: () => {
-      dispatch(triggerRefresh());
-    },
-  };
-};
-
-Confirmation.propTypes = {
-  refreshAppointments: PropTypes.func,
-};
-
-export default connect(
-  undefined,
-  mapDispatchToProps,
-)(Confirmation);
+export default Confirmation;
