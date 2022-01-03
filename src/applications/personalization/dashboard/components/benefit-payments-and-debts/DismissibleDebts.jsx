@@ -7,7 +7,8 @@ import '../../sass/user-profile.scss';
 
 export const Debts = ({ debts, hasError }) => {
   const debtsCount = debts?.length || 0;
-  if (debtsCount < 1) {
+  const [dismissed, setDismissed] = React.useState(false);
+  if (debtsCount < 1 || dismissed) {
     return null;
   }
   if (hasError) {
@@ -55,7 +56,7 @@ export const Debts = ({ debts, hasError }) => {
             className="dismissible-close"
             type="button"
             aria-label="Close this modal"
-            onClick={() => {}}
+            onClick={() => setDismissed(true)}
           >
             <i className="fas fa-times" aria-hidden="true" />
           </button>

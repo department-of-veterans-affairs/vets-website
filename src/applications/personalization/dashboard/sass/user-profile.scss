@@ -17,6 +17,7 @@ button.dismissible-close {
   padding: 5px 0 0 0;
   &:hover {
     color: $color-link-default;
+    background-color: transparent;
   }
 }
 
