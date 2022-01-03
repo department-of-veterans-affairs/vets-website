@@ -75,6 +75,7 @@ import {
   FORM_SUBMIT_SUCCEEDED,
 } from '../../redux/sitewide';
 import { fetchFlowEligibilityAndClinics } from '../../services/patient';
+import { transformConfirmedAppointment } from '../../services/appointment/transformers';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -748,10 +749,19 @@ export function submitAppointmentOrRequest(history) {
           appointment = await createAppointment({
             appointment: transformFormToVAOSAppointment(getState()),
           });
+          // console.log('appointment v2: ', appointment);
         } else {
           const appointmentBody = transformFormToAppointment(getState());
-          await submitAppointment(appointmentBody);
+          const result = await submitAppointment({
+            appointment: appointmentBody,
+          });
+          // console.log('result from v0 submitAppointment POST', result);
+          appointment = transformConfirmedAppointment(result);
 
+          // console.log(
+          //   'appointment v0 after transformConfirmedAppointment: ',
+          //   appointment,
+          // );
           try {
             await buildPreferencesDataAndUpdate(data.email);
           } catch (error) {
@@ -772,11 +782,7 @@ export function submitAppointmentOrRequest(history) {
         });
         resetDataLayer();
 
-        if (featureVAOSServiceVAAppointments) {
-          history.push(`/va/${appointment.id}?confirmMsg=true`);
-        } else {
-          history.push('/new-appointment/confirmation');
-        }
+        history.push(`/va/${appointment.id}?confirmMsg=true`);
       } catch (error) {
         const extraData = {
           vaFacility: data?.vaFacility,

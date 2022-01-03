@@ -182,7 +182,7 @@ const responses = {
     });
   },
   'POST /vaos/v0/appointments': (req, res) => {
-    // TODO added mock id to v0 new appointments
+    // added mock id to v0 new appointments
     const submittedAppt = {
       id: `mockV0${currentMockId}`,
       attributes: {
