@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { usePrevious } from 'platform/utilities/react-hooks';
 
@@ -144,7 +144,7 @@ export default function VAFacilityPageV2() {
 
   if (isLoading) {
     return (
-      <LoadingIndicator message="Finding available locations for your appointment..." />
+      <va-loading-indicator message="Finding available locations for your appointment..." />
     );
   }
 
@@ -230,7 +230,7 @@ export default function VAFacilityPageV2() {
       {pageHeader}
       {requestingLocation && (
         <div className="vads-u-padding-bottom--2">
-          <LoadingIndicator message="Finding your location. Be sure to allow your browser to find your current location." />
+          <va-loading-indicator message="Finding your location. Be sure to allow your browser to find your current location." />
         </div>
       )}
       {childFacilitiesStatus === FETCH_STATUS.succeeded &&
