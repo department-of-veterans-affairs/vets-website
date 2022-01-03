@@ -10,6 +10,7 @@ import {
   ProfileUnconnected as Profile,
   mapStateToProps,
 } from '../../components/Profile';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 
 describe('Profile', () => {
   let defaultProps;
@@ -184,7 +185,7 @@ describe('mapStateToProps', () => {
       servedInMilitary: true,
     },
     signIn: {
-      serviceName: 'idme',
+      serviceName: CSP_IDS.ID_ME,
     },
     loa: {
       current: 3,
