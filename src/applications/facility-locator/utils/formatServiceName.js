@@ -23,15 +23,15 @@ export const formatServiceName = service => {
     .trim();
 
   switch (lowerCaseService) {
-    case 'eBenefits registration assistance':
+    case 'eBenefits registration help':
       return benefitsServices.eBenefitsRegistrationAssistance;
-    case 'v a home loan assistance':
+    case 'v a home loan help':
       return benefitsServices.VAHomeLoanAssistance;
     case 'integrated disability evaluation system help':
       return benefitsServices.IntegratedDisabilityEvaluationSystemAssistance;
-    case 'pre discharge claim assistance':
+    case 'pre discharge claim help':
       return benefitsServices.PreDischargeClaimAssistance;
-    case 'homeless assistance':
+    case 'homeless help':
       return benefitsServices.HomelessAssistance;
     default:
       return (
