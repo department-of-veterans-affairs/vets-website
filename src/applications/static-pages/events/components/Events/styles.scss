@@ -1,0 +1,19 @@
+.events {
+  form {
+    .filter-by {
+      @media (max-width: 640px) {
+        max-width: unset;
+      }
+
+      @media (min-width: 640px) {
+        max-width: 198px;
+      }
+    }
+
+    button[type="submit"] {
+      @media (min-width: 640px) {
+        max-width: fit-content;
+      }
+    }
+  }
+}

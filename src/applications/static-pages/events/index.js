@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 // Related imports.
+import './components/Events/styles.scss';
 import App from './components/App';
 
 export default (store, widgetType) => {
