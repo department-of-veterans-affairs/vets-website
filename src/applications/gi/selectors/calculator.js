@@ -521,7 +521,7 @@ const getDerivedValues = createSelector(
     const hasClassesOutsideUS =
       (isCountryInternational(institutionCountry) &&
         !useBeneficiaryLocationRate) ||
-      inputs.classesOutsideUS;
+      inputs.classesoutsideus;
 
     // Calculate Housing Allowance for Term #1 - getHousingAllowTerm1
     if (

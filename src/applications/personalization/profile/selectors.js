@@ -81,3 +81,32 @@ export const militaryInformationLoadError = state => {
 
 export const showProfileLGBTQEnhancements = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileEnhancements] || false;
+
+export function selectVAProfilePersonalInformation(state, fieldName) {
+  const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];
+
+  if (fieldValue) {
+    const result = {};
+    result[fieldName] = fieldValue;
+
+    // handle custom sexual orientation text value
+    if (fieldValue === 'sexualOrientationNotListed') {
+      result.sexualOrientationNotListedText =
+        state?.vaProfile?.personalInformation?.sexualOrientationNotListedText;
+    }
+
+    // handle custom pronouns text value
+    if (
+      fieldName === 'pronouns' &&
+      Array.isArray(fieldValue) &&
+      fieldValue.includes('pronounsNotListed')
+    ) {
+      result.pronounsNotListedText =
+        state?.vaProfile?.personalInformation?.pronounsNotListedText;
+    }
+
+    return result;
+  }
+
+  return null;
+}

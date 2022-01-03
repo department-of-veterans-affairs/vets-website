@@ -11,28 +11,6 @@ const getTokenFromLocation = location => location?.query?.id;
  * @param {Object} [params]
  * @param {Object} [params.url]
  */
-const goToNextPage = (router, target, params) => {
-  if (params) {
-    const query = {
-      pathname: target,
-    };
-    if (params.url) {
-      // get all url keys
-      const keys = Object.keys(params.url);
-      const queryParams = keys
-        .map(key => `${key}=${params.url[key]}`)
-        .join('&');
-
-      // append to string
-      const search = queryParams ? `?${queryParams}` : '';
-      // add to query
-      query.search = search;
-    }
-    router.push(query);
-  } else {
-    router.push(target);
-  }
-};
 
 const URLS = Object.freeze({
   COMPLETE: 'complete',
@@ -47,4 +25,54 @@ const URLS = Object.freeze({
   VALIDATION_NEEDED: 'verify',
 });
 
-export { getTokenFromLocation, goToNextPage, URLS };
+const CHECK_IN_FORM_PAGES = Object.freeze([
+  {
+    url: URLS.VALIDATION_NEEDED,
+    order: 0,
+  },
+  {
+    url: URLS.DEMOGRAPHICS,
+    order: 1,
+  },
+  {
+    url: URLS.NEXT_OF_KIN,
+    order: 2,
+  },
+  {
+    url: URLS.EMERGENCY_CONTACT,
+    order: 3,
+  },
+  {
+    url: URLS.UPDATE_INSURANCE,
+    order: 4,
+  },
+  {
+    url: URLS.DETAILS,
+    order: 5,
+  },
+  {
+    url: URLS.COMPLETE,
+    order: 6,
+  },
+]);
+
+const createForm = ({
+  hasConfirmedDemographics = false,
+  isEmergencyContactEnabled = false,
+}) => {
+  let pages = CHECK_IN_FORM_PAGES.map(page => page.url);
+  if (hasConfirmedDemographics) {
+    const skippedPages = [
+      URLS.DEMOGRAPHICS,
+      URLS.NEXT_OF_KIN,
+      URLS.EMERGENCY_CONTACT,
+    ];
+    pages = pages.filter(page => !skippedPages.includes(page));
+  }
+  if (!isEmergencyContactEnabled) {
+    pages = pages.filter(page => page !== URLS.EMERGENCY_CONTACT);
+  }
+  return pages;
+};
+
+export { URLS, CHECK_IN_FORM_PAGES, createForm, getTokenFromLocation };

@@ -1,17 +1,20 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
 
-import validateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-
-import apiInitializer from '../support/ApiInitializer';
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
+import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 
 describe('Pre Check In Experience', () => {
   describe('session', () => {
     beforeEach(function() {
-      cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
-      apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+      } = ApiInitializer;
+      initializeFeatureToggle.withoutEmergencyContact();
+      initializeSessionGet.withSuccessfulNewSession();
 
-      apiInitializer.initializeSessionPost.withSuccess();
+      initializeSessionPost.withSuccess();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -20,7 +23,7 @@ describe('Pre Check In Experience', () => {
     });
     it('Data is saved to session storage', () => {
       cy.visitPreCheckInWithUUID();
-      validateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePageLoaded();
       cy.window().then(window => {
         const data = window.sessionStorage.getItem(
           'health.care.pre.check.in.current.uuid',
@@ -29,6 +32,7 @@ describe('Pre Check In Experience', () => {
           token: '0429dda5-4165-46be-9ed1-1e652a8dfd83',
         });
         expect(data).to.equal(sample);
+        cy.injectAxeThenAxeCheck();
       });
     });
   });

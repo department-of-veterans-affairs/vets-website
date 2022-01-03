@@ -11,7 +11,7 @@ describe('pre-check-in', () => {
     let store;
     beforeEach(() => {
       const initState = {
-        preCheckInData: {
+        checkInData: {
           appointments: [
             {
               facility: 'LOMA LINDA VA CLINIC',

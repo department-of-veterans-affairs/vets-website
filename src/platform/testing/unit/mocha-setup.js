@@ -28,6 +28,7 @@ configure({ defaultHidden: true });
 global.__BUILDTYPE__ = process.env.BUILDTYPE || ENVIRONMENTS.VAGOVDEV;
 global.__API__ = null;
 global.__MEGAMENU_CONFIG__ = null;
+global.__REGISTRY__ = [];
 
 chai.use(chaiAsPromised);
 chai.use(chaiDOM);
