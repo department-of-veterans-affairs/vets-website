@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { api } from '../../api';
 import { useDispatch, batch } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
-import { getTokenFromLocation, URLS, createForm } from '../utils/navigation';
+import {
+  getTokenFromLocation,
+  URLS,
+  createForm,
+} from '../../utils/navigation/day-of';
 import { createInitFormAction } from '../../actions';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { tokenWasValidated, triggerRefresh } from '../actions';

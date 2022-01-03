@@ -15,7 +15,7 @@ import Footer from '../../components/Footer';
 import EmergencyContactDisplay from '../../../components/pages/emergencyContact/EmergencyContactDisplay';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { URLS } from '../../utils/navigation';
+import { URLS } from '../../../utils/navigation/pre-check-in';
 
 import {
   makeSelectCurrentContext,
