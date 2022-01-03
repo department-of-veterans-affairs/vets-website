@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 
 import {
@@ -63,7 +63,7 @@ export default function ContactFacilitiesPage() {
   }
 
   if (loadingFacilities) {
-    return <LoadingIndicator setFocus message="Finding locations" />;
+    return <va-loading-indicator set-focus message="Finding locations" />;
   }
 
   const facilitiesToShow =

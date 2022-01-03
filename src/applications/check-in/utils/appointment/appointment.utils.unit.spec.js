@@ -5,7 +5,7 @@ import {
   removeTimeZone,
 } from './index';
 
-import { get } from '../../../api/local-mock-api/mocks/v2/check-in-data';
+import { get } from '../../api/local-mock-api/mocks/v2/check-in-data';
 
 describe('check in', () => {
   const { createAppointment, createMultipleAppointments } = get;

@@ -295,9 +295,7 @@ export const deriveEndsAtUnix = (startsAtUnix, endDateMonth, endDateDay) => {
 
 export const hideLegacyEvents = () => {
   // Derive the legacy events page.
-  const legacyEvents = document.querySelector(
-    'div[data-template="event_listing.drupal.liquid"]',
-  );
+  const legacyEvents = document.querySelector('div[id="events-v1"]');
 
   // Escape early if the legacy events page doesn't exist.
   if (!legacyEvents) {
@@ -312,9 +310,7 @@ export const hideLegacyEvents = () => {
 
 export const showLegacyEvents = () => {
   // Derive the legacy events page.
-  const legacyEvents = document.querySelector(
-    'div[data-template="event_listing.drupal.liquid"]',
-  );
+  const legacyEvents = document.querySelector('div[id="events-v1"]');
 
   // Escape early if the legacy events page doesn't exist.
   if (!legacyEvents) {

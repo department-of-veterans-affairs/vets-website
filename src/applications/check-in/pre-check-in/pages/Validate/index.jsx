@@ -10,7 +10,7 @@ import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay'
 import Footer from '../../components/Footer';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { URLS } from '../../utils/navigation';
+import { URLS } from '../../../utils/navigation/pre-check-in';
 
 import { makeSelectCurrentContext } from '../../../selectors';
 

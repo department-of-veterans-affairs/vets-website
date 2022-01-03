@@ -112,6 +112,7 @@ export const Search = ({ onSearch }) => {
           id="filterBy"
           name="filterBy"
           onChange={onFilterByChange}
+          style={{ maxWidth: 'unset' }}
           value={selectedOption?.value}
         >
           {filterByOptions?.map(option => (
@@ -330,7 +331,7 @@ export const Search = ({ onSearch }) => {
         className="usa-button usa-button-primary medium-screen:vads-u-margin-top--1"
         type="submit"
       >
-        Filter events
+        Apply filter
       </button>
     </form>
   );

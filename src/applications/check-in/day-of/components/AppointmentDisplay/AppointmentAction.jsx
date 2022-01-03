@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { api } from '../../../api';
 
-import { URLS } from '../../utils/navigation';
+import { URLS } from '../../../utils/navigation/day-of';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
+import { ELIGIBILITY, areEqual } from '../../../utils/appointment/eligibility';
 import recordEvent from 'platform/monitoring/record-event';
 import format from 'date-fns/format';
 
