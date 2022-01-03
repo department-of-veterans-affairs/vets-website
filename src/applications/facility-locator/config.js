@@ -223,7 +223,7 @@ export const benefitsServices = {
   InsuranceClaimAssistanceAndFinancialCounseling:
     'Insurance claim help and financial counseling',
   IntegratedDisabilityEvaluationSystemAssistance:
-    'Integrated Disability Evaluation System Help (IDEH)',
+    'Integrated Disability Evaluation System Help (IDES)',
   Pensions: 'Pensions',
   PreDischargeClaimAssistance: 'Pre-discharge claim help',
   TransitionAssistance: 'Transition help',
