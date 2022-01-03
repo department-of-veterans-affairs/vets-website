@@ -7,7 +7,7 @@ import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { useFormRouting } from '../../hooks/useFormRouting';
 
 import { SCOPES } from '../../utils/token-format-validator';
-import { URLS } from '../utils/navigation';
+import { URLS } from '../../utils/navigation/pre-check-in';
 
 const withAuthorization = Component => {
   return props => {

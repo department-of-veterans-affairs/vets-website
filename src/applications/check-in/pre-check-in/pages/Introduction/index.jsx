@@ -8,7 +8,7 @@ import { api } from '../../../api';
 import { setVeteranData } from '../../actions';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { URLS } from '../../utils/navigation';
+import { URLS } from '../../../utils/navigation/pre-check-in';
 
 import { makeSelectCurrentContext } from '../../../selectors';
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, batch, useSelector } from 'react-redux';
 import { api } from '../../api';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { URLS } from '../utils/navigation';
+import { URLS } from '../../utils/navigation/day-of';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import {
   receivedEmergencyContact,
