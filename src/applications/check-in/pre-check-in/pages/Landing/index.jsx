@@ -12,7 +12,11 @@ import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { createForm, getTokenFromLocation, URLS } from '../../utils/navigation';
+import {
+  createForm,
+  getTokenFromLocation,
+  URLS,
+} from '../../../utils/navigation/pre-check-in';
 import { isUUID, SCOPES } from '../../../utils/token-format-validator';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 

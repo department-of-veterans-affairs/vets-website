@@ -1,10 +1,11 @@
 import React from 'react';
+
 import recordEvent from 'platform/monitoring/record-event';
-import manifest from 'applications/disability-benefits/686c-674/manifest.json';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 import { errorFragment } from '../../layouts/helpers';
 
-const { rootUrl: form686RootUrl } = manifest;
+const form686Url = getAppUrl('686C-674');
 
 const CALLSTATUS = {
   pending: 'pending',
@@ -83,7 +84,7 @@ function ViewDependentsHeader(props) {
         </p>
         {props.dependentsToggle && (
           <a
-            href={form686RootUrl}
+            href={form686Url}
             className="usa-button-primary va-button-primary"
             onClick={handleClick}
           >

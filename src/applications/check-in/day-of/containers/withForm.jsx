@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { makeSelectForm } from '../../selectors';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { URLS } from '../utils/navigation';
+import { URLS } from '../../utils/navigation/day-of';
 
 const withForm = Component => {
   const Wrapped = ({ ...props }) => {
