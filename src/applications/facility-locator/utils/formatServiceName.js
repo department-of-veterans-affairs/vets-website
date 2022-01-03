@@ -20,18 +20,21 @@ export const formatServiceName = service => {
       'Integrated Disability Evaluation System assistance (IDES)',
     )
     .trim();
-  if (lowerCaseService === 'eBenefits registration assistance') {
-    return benefitsServices.eBenefitsRegistrationAssistance;
-  } else if (lowerCaseService === 'v a home loan assistance') {
-    return benefitsServices.VAHomeLoanAssistance;
-  } else if (
-    lowerCaseService === 'integrated disability evaluation system assistance'
-  ) {
-    return 'Integrated Disability Evaluation System Assistance (IDES)';
-  } else if (lowerCaseService === 'pre discharge claim assistance') {
-    return benefitsServices.PreDischargeClaimAssistance;
-  } else if (lowerCaseService === 'homeless assistance') {
-    return benefitsServices.HomelessAssistance;
+
+  switch (lowerCaseService) {
+    case 'eBenefits registration assistance':
+      return benefitsServices.eBenefitsRegistrationAssistance;
+    case 'v a home loan assistance':
+      return benefitsServices.VAHomeLoanAssistance;
+    case 'integrated disability evaluation system assistance':
+      return benefitsServices.IntegratedDisabilityEvaluationSystemAssistance;
+    case 'pre discharge claim assistance':
+      return benefitsServices.PreDischargeClaimAssistance;
+    case 'homeless assistance':
+      return benefitsServices.HomelessAssistance;
+    default:
+      return (
+        lowerCaseService.charAt(0).toUpperCase() + lowerCaseService.slice(1)
+      );
   }
-  return lowerCaseService.charAt(0).toUpperCase() + lowerCaseService.slice(1);
 };
