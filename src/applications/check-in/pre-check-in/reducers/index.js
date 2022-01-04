@@ -11,9 +11,14 @@ const initialState = {
   },
 };
 
-import { RECORD_ANSWER, SET_SESSION, SET_VETERAN_DATA } from '../actions';
+import {
+  RECORD_ANSWER,
+  SET_SESSION,
+  SET_VETERAN_DATA,
+  UPDATE_FORM,
+} from '../actions';
 
-import { GO_TO_NEXT_PAGE, INIT_FORM, UPDATE_FORM } from '../../actions';
+import { GO_TO_NEXT_PAGE, INIT_FORM } from '../../actions';
 
 const preCheckInReducer = (state = initialState, action) => {
   switch (action.type) {
