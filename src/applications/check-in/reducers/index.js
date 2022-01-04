@@ -55,7 +55,7 @@ import { GO_TO_NEXT_PAGE, INIT_FORM } from '../actions/navigation';
 
 import { gotToNextPageHandler, initFormHandler } from './navigation';
 
-const handler = {
+const handler = Object.freeze({
   [INIT_FORM]: initFormHandler,
   [SET_SESSION]: setSessionHandler,
   [GO_TO_NEXT_PAGE]: gotToNextPageHandler,
@@ -76,9 +76,9 @@ const handler = {
   default: state => {
     return { ...state };
   },
-};
+});
 
-const preCheckInReducer = (state = initialState, action) => {
+const checkInReducer = (state = initialState, action) => {
   // console.log('handling action: ', action.type, { action });
   if (handler[action.type]) {
     return handler[action.type](state, action);
@@ -87,5 +87,5 @@ const preCheckInReducer = (state = initialState, action) => {
 };
 
 export default {
-  checkInData: preCheckInReducer,
+  checkInData: checkInReducer,
 };
