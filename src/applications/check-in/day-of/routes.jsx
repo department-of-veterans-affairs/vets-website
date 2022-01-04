@@ -17,7 +17,7 @@ import withLoadedData from './containers/withLoadedData';
 import withSession from './containers/withSession';
 import withToken from './containers/withToken';
 import withForm from './containers/withForm';
-import { URLS } from './utils/navigation';
+import { URLS } from '../utils/navigation/day-of';
 
 const routes = [
   {

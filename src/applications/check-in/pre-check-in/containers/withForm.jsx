@@ -5,7 +5,7 @@ import { makeSelectForm } from '../../selectors';
 
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { URLS } from '../utils/navigation';
+import { URLS } from '../../utils/navigation/pre-check-in';
 
 const withForm = Component => {
   return props => {

@@ -1,8 +1,8 @@
 import { getAppUrl } from 'platform/utilities/registry-helpers';
-import mockDependents from 'applications/personalization/view-dependents/tests/e2e/fixtures/mock-dependents.json';
-import mockDiaries from './fixtures/diaries.json';
 
 import { RETRIEVE_DIARIES } from '../utils';
+import mockDependents from './fixtures/mock-dependents.json';
+import mockDiaries from './fixtures/diaries.json';
 
 const DEPENDENTS_ENDPOINT = 'v0/dependents_applications/show';
 const viewDependentsUrl = getAppUrl('dependents-view-dependents');

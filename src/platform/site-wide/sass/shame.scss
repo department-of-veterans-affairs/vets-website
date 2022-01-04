@@ -604,3 +604,23 @@ img[data-srcset] {
     max-width: 50%;
   }
 }
+
+.events {
+  form {
+    .filter-by {
+      @media (max-width: $small-screen) {
+        max-width: unset;
+      }
+
+      @media (min-width: $small-screen) {
+        max-width: 198px;
+      }
+    }
+
+    button[type="submit"] {
+      @media (min-width: $small-screen) {
+        max-width: fit-content;
+      }
+    }
+  }
+}

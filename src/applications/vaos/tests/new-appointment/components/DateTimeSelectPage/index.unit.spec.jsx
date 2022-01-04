@@ -84,7 +84,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
       },
     );
 
-    const overlay = screen.queryByText(/Finding appointment availability.../i);
+    const overlay = screen.queryByTestId('loadingIndicator');
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
     }
@@ -126,7 +126,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     });
 
     // NOTE: progressbar does not have an accessible name to query by
-    expect(screen.getByRole('progressbar')).to.be.ok;
+    expect(screen.getByTestId('loadingIndicator')).to.be.ok;
   });
 
   it('should display error message if slots call fails', async () => {
@@ -154,7 +154,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     );
 
     // 1. Wait for progressbar to disappear
-    const overlay = screen.queryByText(/Finding appointment availability.../i);
+    const overlay = screen.queryByTestId('loadingIndicator');
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
     }
@@ -220,7 +220,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     );
 
     // 1. Wait for progressbar to disappear
-    let overlay = screen.queryByText(/Finding appointment availability.../i);
+    let overlay = screen.queryByTestId('loadingIndicator');
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
     }
@@ -260,7 +260,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     });
 
     // 3. Wait for progressbar to disappear
-    overlay = screen.queryByText(/Finding appointment availability.../i);
+    overlay = screen.queryByTestId('loadingIndicator');
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
     }
@@ -325,7 +325,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     });
 
     // 1. Wait for progressbar to disappear
-    const overlay = screen.queryByText(/Finding appointment availability.../i);
+    const overlay = screen.queryByTestId('loadingIndicator');
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
     }
@@ -637,7 +637,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     );
 
     // 1. Wait for progressbar to disappear
-    const overlay = screen.queryByText(/Finding appointment availability.../i);
+    const overlay = screen.queryByTestId('loadingIndicator');
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
     }
@@ -726,7 +726,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
       },
     );
 
-    let overlay = screen.queryByText(/Finding appointment availability.../i);
+    let overlay = screen.queryByTestId('loadingIndicator');
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
     }
@@ -742,7 +742,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     // Need to move two months to trigger second fetch
     userEvent.click(screen.getByText(/^Next/));
     userEvent.click(screen.getByText(/^Next/));
-    overlay = screen.queryByText(/Finding appointment availability.../i);
+    overlay = screen.queryByTestId('loadingIndicator');
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
     }

@@ -99,7 +99,7 @@ export const Events = ({ rawEvents }) => {
   };
 
   return (
-    <div className="usa-width-three-fourths vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--1p5 medium-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
+    <div className="events usa-width-three-fourths vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--1p5 medium-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
       {/* Title */}
       <h1 className="vads-u-margin--0 vads-">Outreach events</h1>
 
