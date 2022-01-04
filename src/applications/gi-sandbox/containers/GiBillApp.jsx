@@ -6,7 +6,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
 
 import { enterPreviewMode, exitPreviewMode, fetchConstants } from '../actions';
-import Modals from '../containers/Modals';
+import Modals from './Modals';
 import PreviewBanner from '../components/heading/PreviewBanner';
 import GiBillBreadcrumbs from '../components/heading/GiBillBreadcrumbs';
 import AboutThisTool from '../components/content/AboutThisTool';

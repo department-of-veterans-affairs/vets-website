@@ -17,7 +17,7 @@ import {
   UPDATE_CURRENT_SEARCH_TAB,
   UPDATE_QUERY_PARAMS,
 } from '../actions';
-import { normalizedInstitutionAttributes } from '../../gi/reducers/utility';
+import { normalizedInstitutionAttributes } from './utility';
 import { TABS } from '../constants';
 
 export const INITIAL_STATE = {

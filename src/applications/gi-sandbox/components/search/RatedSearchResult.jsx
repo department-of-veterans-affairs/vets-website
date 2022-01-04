@@ -16,7 +16,7 @@ import {
   renderStars,
 } from '../../utils/render';
 
-import ScorecardTags from '../../components/ScorecardTags';
+import ScorecardTags from '../ScorecardTags';
 
 export function RatedSearchResult({
   schoolClosing,
