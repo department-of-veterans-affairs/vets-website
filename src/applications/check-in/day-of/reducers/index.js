@@ -22,9 +22,9 @@ import {
   TRIGGER_REFRESH,
   SEE_STAFF_MESSAGE_UPDATED,
   RECEIVED_DEMOGRAPHICS_STATUS,
-} from '../actions';
+} from '../../actions/day-of';
 
-import { GO_TO_NEXT_PAGE, INIT_FORM } from '../../actions';
+import { GO_TO_NEXT_PAGE, INIT_FORM } from '../../actions/navigation';
 
 const checkInReducer = (state = initialState, action) => {
   switch (action.type) {

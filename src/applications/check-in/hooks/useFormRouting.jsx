@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 
 import { makeSelectForm } from '../selectors';
-import { createGoToNextPageAction } from '../actions';
+import { createGoToNextPageAction } from '../actions/navigation';
 
 const useFormRouting = (router = {}, URLS) => {
   const selectForm = useMemo(makeSelectForm, []);

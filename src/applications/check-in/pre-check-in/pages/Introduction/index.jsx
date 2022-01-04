@@ -5,7 +5,7 @@ import IntroductionDisplay from './IntroductionDisplay';
 
 import { api } from '../../../api';
 
-import { setVeteranData } from '../../actions';
+import { setVeteranData } from '../../../actions/pre-check-in';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { URLS } from '../../../utils/navigation/pre-check-in';

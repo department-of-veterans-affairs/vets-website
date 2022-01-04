@@ -15,9 +15,9 @@ import {
   RECORD_ANSWER,
   SET_SESSION,
   SET_VETERAN_DATA,
-} from '../pre-check-in/actions';
+} from '../actions/pre-check-in';
 
-import { GO_TO_NEXT_PAGE, INIT_FORM } from '../actions';
+import { GO_TO_NEXT_PAGE, INIT_FORM } from '../actions/navigation';
 
 import {
   gotToNextPageHandler,

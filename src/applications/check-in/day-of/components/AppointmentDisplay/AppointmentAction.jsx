@@ -9,7 +9,7 @@ import { ELIGIBILITY, areEqual } from '../../../utils/appointment/eligibility';
 import recordEvent from 'platform/monitoring/record-event';
 import format from 'date-fns/format';
 
-import { appointmentWAsCheckedInto } from '../../actions';
+import { appointmentWAsCheckedInto } from '../../../actions/day-of';
 
 const AppointmentAction = props => {
   const { appointment, router, token } = props;
