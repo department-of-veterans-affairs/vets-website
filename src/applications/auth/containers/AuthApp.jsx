@@ -10,6 +10,7 @@ import Telephone, {
 
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { loginGov } from 'platform/user/authentication/selectors';
 import {
   AUTHN_SETTINGS,
   EXTERNAL_APPS,
@@ -213,8 +214,10 @@ export class AuthApp extends React.Component {
             <p>
               Please try again, and this time, select “Accept” on the final page
               of the identity verification process. Or, if you don’t want to
-              verify your identity with ID.me, you can try signing in with your
-              premium DS Logon or premium My HealtheVet username and password.
+              verify your identity with{' '}
+              {this.props.loginGovEnabled && `Login.gov or `}
+              ID.me, you can try signing in with your premium DS Logon or
+              premium My HealtheVet username and password.
             </p>
             <button onClick={this.props.openLoginModal}>
               Try signing in again
@@ -512,7 +515,11 @@ const mapDispatchToProps = dispatch => ({
   openLoginModal: () => dispatch(toggleLoginModal(true)),
 });
 
+const mapStateToProps = state => ({
+  loginGovEnabled: loginGov(state),
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(AuthApp);
