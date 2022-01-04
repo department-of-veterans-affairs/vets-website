@@ -32,6 +32,7 @@ import createViewPaymentHistoryCTA from './view-payment-history/createViewPaymen
 import facilityReducer from './facilities/reducers';
 // Other widgets.
 import createAskVAWidget from './ask-va';
+import createHowDoYouRateWidget from './how-do-you-rate';
 import createApplicationStatus from './widget-creators/createApplicationStatus';
 import createCOEAccess from './coe-access/createCOEAccess';
 import createCallToActionWidget from './widget-creators/createCallToActionWidget';
@@ -161,6 +162,7 @@ createCovidVaccineUpdatesWidget(store, widgetTypes.COVID_VACCINE_UPDATES_CTA);
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 form686CTA(store, widgetTypes.FORM_686_CTA);
 createAskVAWidget(store, widgetTypes.ASK_VA);
+createHowDoYouRateWidget(store, widgetTypes.HOW_DO_YOU_RATE);
 createEventsPage(store, widgetTypes.EVENTS);
 createMedicalCopaysCTA(store, widgetTypes.MEDICAL_COPAYS_CTA);
 createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
