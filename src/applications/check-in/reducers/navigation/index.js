@@ -4,7 +4,7 @@ const initFormHandler = (state, action) => {
     form: {
       ...state.form,
       pages: action.payload.pages,
-      currentPage: action.payload.pages[0].id,
+      currentPage: action.payload.currentPage,
     },
   };
 };
