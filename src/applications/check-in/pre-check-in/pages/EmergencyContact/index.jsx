@@ -7,20 +7,21 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { recordAnswer } from '../../actions';
 
-import { api } from '../../api/';
+import { api } from '../../../api';
 
 import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
 import EmergencyContactDisplay from '../../../components/pages/emergencyContact/EmergencyContactDisplay';
 
-import { useFormRouting } from '../../hooks/useFormRouting';
+import { useFormRouting } from '../../../hooks/useFormRouting';
+import { URLS } from '../../../utils/navigation/pre-check-in';
 
 import {
   makeSelectCurrentContext,
   makeSelectVeteranData,
   makeSelectForm,
-} from '../../selectors';
+} from '../../../selectors';
 
 const EmergencyContact = props => {
   const { router } = props;
@@ -44,7 +45,7 @@ const EmergencyContact = props => {
     goToErrorPage,
     goToNextPage,
     goToPreviousPage,
-  } = useFormRouting(router);
+  } = useFormRouting(router, URLS);
 
   useEffect(() => {
     focusElement('h1');

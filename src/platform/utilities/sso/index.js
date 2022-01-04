@@ -68,7 +68,9 @@ export async function checkAutoSession(
        * TTL: > 0 and < 900 = Session valid
        * TTL: undefined, can't verify SSOe status
        */
-      logout(API_VERSION, AUTH_EVENTS.SSO_LOGOUT, { 'auto-logout': 'true' });
+      logout(API_VERSION, AUTH_EVENTS.SSO_LOGOUT, {
+        'auto-logout': 'true',
+      });
     } else if (transactionid && transactionid !== ssoeTransactionId) {
       /**
        * Compare transaction ID with ssoeTransactionID

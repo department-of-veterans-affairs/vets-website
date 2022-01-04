@@ -16,49 +16,97 @@ import withFeatureFlip from './containers/withFeatureFlip';
 import withLoadedData from './containers/withLoadedData';
 import withSession from './containers/withSession';
 import withToken from './containers/withToken';
-import { URLS } from './utils/navigation';
+import withForm from './containers/withForm';
+import { URLS } from '../utils/navigation/day-of';
+
+const routes = [
+  {
+    path: URLS.LANDING,
+    component: Landing,
+  },
+  {
+    path: URLS.VALIDATION_NEEDED,
+    component: withToken(ValidateVeteran),
+    permissions: {
+      requiresForm: true,
+    },
+  },
+  {
+    path: URLS.DEMOGRAPHICS,
+    component: withLoadedData(withSession(Demographics)),
+    permissions: {
+      requiresForm: true,
+    },
+  },
+  {
+    path: URLS.NEXT_OF_KIN,
+    component: withLoadedData(withSession(NextOfKin)),
+    permissions: {
+      requiresForm: true,
+    },
+  },
+  {
+    path: URLS.EMERGENCY_CONTACT,
+    component: withLoadedData(withSession(EmergencyContact)),
+    permissions: {
+      requiresForm: true,
+    },
+  },
+  {
+    path: URLS.UPDATE_INSURANCE,
+    component: withLoadedData(withSession(UpdateInformationQuestion)),
+    permissions: {
+      requiresForm: true,
+    },
+  },
+  {
+    path: URLS.DETAILS,
+    component: withLoadedData(withSession(CheckIn)),
+    permissions: {
+      requiresForm: true,
+    },
+  },
+  {
+    path: URLS.COMPLETE,
+    component: withLoadedData(withSession(Confirmation)),
+    permissions: {
+      requiresForm: true,
+    },
+  },
+  {
+    path: URLS.SEE_STAFF,
+    component: withLoadedData(withSession(SeeStaff)),
+    permissions: {
+      requiresForm: true,
+    },
+  },
+  {
+    path: URLS.ERROR,
+    component: Error,
+  },
+];
 
 const createRoutesWithStore = () => {
   return (
     <Switch>
-      <Route path="/" component={withFeatureFlip(Landing)} />
-      <Route
-        path={`/${URLS.VALIDATION_NEEDED}`}
-        component={withFeatureFlip(withToken(ValidateVeteran))}
-      />
-      <Route
-        path={`/${URLS.DEMOGRAPHICS}`}
-        component={withFeatureFlip(withLoadedData(withSession(Demographics)))}
-      />
-      <Route
-        path={`/${URLS.NEXT_OF_KIN}`}
-        component={withFeatureFlip(withLoadedData(withSession(NextOfKin)))}
-      />
-      <Route
-        path={`/${URLS.EMERGENCY_CONTACT}`}
-        component={withFeatureFlip(
-          withLoadedData(withSession(EmergencyContact)),
-        )}
-      />
-      <Route
-        path={`/${URLS.UPDATE_INSURANCE}`}
-        component={withFeatureFlip(
-          withLoadedData(withSession(UpdateInformationQuestion)),
-        )}
-      />
-      <Route
-        path={`/${URLS.DETAILS}`}
-        component={withFeatureFlip(withLoadedData(withSession(CheckIn)))}
-      />
-      <Route
-        path={`/${URLS.COMPLETE}`}
-        component={withFeatureFlip(withLoadedData(withSession(Confirmation)))}
-      />
-      <Route
-        path={`/${URLS.SEE_STAFF}`}
-        component={withFeatureFlip(withLoadedData(withSession(SeeStaff)))}
-      />
-      <Route path={`/${URLS.ERROR}`} component={withFeatureFlip(Error)} />
+      {routes.map((route, i) => {
+        let component = route.component;
+        if (route.permissions) {
+          const { requiresForm } = route.permissions;
+          if (requiresForm) {
+            component = withForm(component);
+          }
+        }
+
+        return (
+          <Route
+            path={`/${route.path}`}
+            component={withFeatureFlip(component)}
+            key={i}
+          />
+        );
+      })}
+      <Route path="*" component={Error} />
     </Switch>
   );
 };

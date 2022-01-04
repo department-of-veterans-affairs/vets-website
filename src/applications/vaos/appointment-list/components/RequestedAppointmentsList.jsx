@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import recordEvent from 'platform/monitoring/record-event';
 import {
   fetchPendingAppointments,
@@ -47,8 +47,8 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
   ) {
     return (
       <div className="vads-u-margin-y--8">
-        <LoadingIndicator
-          setFocus={hasTypeChanged}
+        <va-loading-indicator
+          set-focus={hasTypeChanged}
           message="Loading your appointment requests..."
         />
       </div>

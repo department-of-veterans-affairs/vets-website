@@ -8,7 +8,7 @@ import unset from '../../../../utilities/data/unset';
 import classNames from 'classnames';
 
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import ProgressBar from '@department-of-veterans-affairs/component-library/ProgressBar';
+
 import { focusElement } from '../utilities/ui';
 import {
   ShowPdfPassword,
@@ -380,7 +380,7 @@ class FileField extends React.Component {
                     <div className="schemaform-file-uploading">
                       <strong id={fileId}>{file.name}</strong>
                       <br />
-                      <ProgressBar percent={this.state.progress} />
+                      <va-progress-bar percent={this.state.progress} />
                       <button
                         type="button"
                         className="usa-button-secondary vads-u-width--auto"

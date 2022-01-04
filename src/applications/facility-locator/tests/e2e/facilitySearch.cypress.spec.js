@@ -173,9 +173,10 @@ describe('Facility VA search', () => {
 
   it('shows search result header even when no results are found', () => {
     cy.visit('/find-locations');
-    cy.intercept('GET', '/facilities_api/v1/ccp/provider?**', { data: [] }).as(
-      'searchFacilities',
-    );
+    cy.intercept('GET', '/facilities_api/v1/ccp/provider?**', {
+      data: [],
+      meta: { pagination: { totalEntries: 0 } },
+    }).as('searchFacilities');
 
     cy.get('#street-city-state-zip').type('27606');
     cy.get('#facility-type-dropdown').select(CC_PROVIDER);

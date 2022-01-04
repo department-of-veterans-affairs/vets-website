@@ -64,8 +64,8 @@ export default async function keepAlive() {
       authn: {
         DSLogon: CSP_AUTHN.DS_LOGON,
         mhv: CSP_AUTHN.MHV,
-        LOGINGOV: resp.headers.get(AUTHN_HEADERS.AUTHNCONTEXTCLASSREF),
-        idme: resp.headers.get(AUTHN_HEADERS.AUTHNCONTEXTCLASSREF),
+        LOGINGOV: resp.headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
+        idme: resp.headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
       }[resp.headers.get(AUTHN_HEADERS.CSP)],
     };
   } catch (err) {

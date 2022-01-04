@@ -24,7 +24,6 @@ export const CSP_IDS = {
   ID_ME: 'idme',
   DS_LOGON: 'dslogon',
   LOGIN_GOV: 'logingov',
-  CERNER: 'myvahealth',
 };
 
 export const AUTHN_SETTINGS = {
@@ -34,7 +33,7 @@ export const AUTHN_SETTINGS = {
 
 export const EXTERNAL_APPS = {
   MHV: CSP_IDS.MHV,
-  MY_VA_HEALTH: CSP_IDS.CERNER,
+  MY_VA_HEALTH: 'myvahealth',
 };
 
 export const MY_VA_HEALTH_LINKS = {

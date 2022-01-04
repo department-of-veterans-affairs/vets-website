@@ -141,7 +141,7 @@ describe('Form0996App', () => {
 
     tree.setProps();
     expect(tree.find('h1').text()).to.contain('Loading your previous decision');
-    expect(getIssues.called).to.be.true;
+    expect(getIssues.calledOnce).to.be.true;
     tree.unmount();
   });
   it('should not call API if not logged in', () => {
@@ -187,7 +187,7 @@ describe('Form0996App', () => {
     );
 
     tree.setProps();
-    expect(getIssues.called).to.be.true;
+    expect(getIssues.calledOnce).to.be.true;
 
     tree.unmount();
   });

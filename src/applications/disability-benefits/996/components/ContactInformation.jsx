@@ -35,13 +35,13 @@ export const ContactInfoDescription = ({
   const missingInfo = [
     email?.emailAddress ? '' : 'email',
     mobilePhone?.phoneNumber ? '' : 'phone',
-    mailingAddress.addressLine1 ? '' : requireAddress,
+    mailingAddress?.addressLine1 ? '' : requireAddress,
   ].filter(Boolean);
 
   const list = readableList(missingInfo);
   const plural = missingInfo.length > 1;
-
-  const phoneNumber = `${mobilePhone.areaCode}${mobilePhone?.phoneNumber}`;
+  const phoneNumber = `${mobilePhone?.areaCode ||
+    ''}${mobilePhone?.phoneNumber || ''}`;
   const phoneExt = mobilePhone?.extension;
 
   useEffect(

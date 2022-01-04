@@ -20,7 +20,7 @@ jobs:
           repository: department-of-veterans-affairs/content-build
           ref: refs/heads/master
           path: ./content-build
-        
+
       - name: Get registries
         id: set-matrix
         run: |
@@ -33,8 +33,15 @@ jobs:
                       | .rootUrl ]' ./content-build/src/applications/registry.json)
           echo ::set-output name=registries::$(jq --argjson CUSTOM_URLS "$CUSTOM_URLS" --argjson REGISTRY_ARRAY "$REGISTRY_ARRAY" -n '$REGISTRY_ARRAY + $CUSTOM_URLS | sort')
 
-  lighthouse-scan:
+  lighthouse:
+    needs: get-registries
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        registry: ${{ fromJson(needs.get-registries.outputs.registries) }}
+
     steps:
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
@@ -61,7 +68,7 @@ jobs:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
-      - name: Configure AWS Credentials
+      - name: Configure AWS Credentials (2)
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -71,20 +78,19 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
-      - name: Audit URLs using Lighthouse
+      - name: Audit URLs using Lighthouse on ${{ matrix.registry }}
         id: lighthouse-checks
         uses: treosh/lighthouse-ci-action@v8
         with:
           urls: |
-            https://www.va.gov/
-          # budgetPath: ./budget.json # test performance budgets
+            https://www.va.gov${{ matrix.registry }}
           uploadArtifacts: true # save results as an action artifacts
 
       - name: Upload lighthouse report (JSON)
-        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.json --acl public-read --region us-gov-west-1
+        run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath }} s3://vetsgov-website-builds-s3-upload/lighthouse${{ matrix.registry == '/' && '/homepage' || matrix.registry }}.json --acl public-read --region us-gov-west-1
 
       - name: Upload lighthouse report (HTML)
-        run: aws s3 cp ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath}} s3://vetsgov-website-builds-s3-upload/lighthouse/homepage.html --acl public-read --region us-gov-west-1
+        run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath }} s3://vetsgov-website-builds-s3-upload/lighthouse${{ matrix.registry == '/' && '/homepage' || matrix.registry }}.html --acl public-read --region us-gov-west-1
 
       - name: Checkout Testing Tools Team Dashboard Data repo
         uses: actions/checkout@v2
@@ -117,79 +123,23 @@ jobs:
           service_account_key: ${{ env.BIGQUERY_SERVICE_CREDENTIALS }}
           export_default_credentials: true
 
-      - name: Download Lighthouse results
-        uses: actions/download-artifact@v2
-        with:
-          name: lighthouse-results
-          path: testing-tools-team-dashboard-data/src/testing-reports/data
-
-      - name: Log directory
+      - name: Copy results file to data dir
         run: |
-          echo ${{fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath}}
-          ls testing-tools-team-dashboard-data/src/testing-reports/data
+          mkdir testing-tools-team-dashboard-data/src/testing-reports/data
+          cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath }} testing-tools-team-dashboard-data/src/testing-reports/data
 
       - name: Upload Lighthouse results to BigQuery
         run: yarn lighthouse-to-bigquery
         working-directory: testing-tools-team-dashboard-data
 
-
-  lighthouse-scan-registries:
-    needs: get-registries
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      max-parallel: 8
-      matrix:
-        registry: ${{ fromJson(needs.get-registries.outputs.registries) }}
-
-    steps:
-      - name: Configure AWS credentials (1)
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-
-      - name: Get role from Parameter Store
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-      - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-
-      - name: Audit URLs using Lighthouse on ${{ matrix.registry }}
-        id: lighthouse-checks
-        uses: treosh/lighthouse-ci-action@v8
-        with:
-          urls: |
-            https://www.va.gov${{ matrix.registry }}
-          uploadArtifacts: true # save results as an action artifacts
-
-      - name: Upload lighthouse report (JSON)
-        run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath }} s3://vetsgov-website-builds-s3-upload/lighthouse${{ matrix.registry == '/' && '/homepage' || matrix.registry }}.json --acl public-read --region us-gov-west-1
-
-      - name: Upload lighthouse report (HTML)
-        run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath }} s3://vetsgov-website-builds-s3-upload/lighthouse${{ matrix.registry == '/' && '/homepage' || matrix.registry }}.html --acl public-read --region us-gov-west-1
-
   notify-slack:
     name: Notify Slack
     runs-on: ubuntu-latest
     if: ${{ always() }}
-    needs: [lighthouse-scan, lighthouse-scan-registries]
-
+    needs: [lighthouse]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
         continue-on-error: true

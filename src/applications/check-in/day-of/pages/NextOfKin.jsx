@@ -1,9 +1,10 @@
-import React, { useEffect, useCallback } from 'react';
-import { connect } from 'react-redux';
+import React, { useCallback, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { goToNextPage, URLS } from '../utils/navigation';
+import { URLS } from '../../utils/navigation/day-of';
+import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../components/BackButton';
 import BackToHome from '../components/BackToHome';
 import { focusElement } from 'platform/utilities/ui';
@@ -16,29 +17,36 @@ const NextOfKin = props => {
     nextOfKin,
     isLoading,
     isEmergencyContactEnabled,
-    isDemographicsPageEnabled,
     isUpdatePageEnabled,
     router,
-    updateSeeStaffMessage,
     demographicsStatus,
   } = props;
   const { nextOfKinNeedsUpdate } = demographicsStatus;
+  const { jumpToPage, goToNextPage } = useFormRouting(router, URLS);
+
   const seeStaffMessage =
     'Our staff can help you update your next of kin information.';
+  const dispatch = useDispatch();
+  const updateSeeStaffMessage = useCallback(
+    message => {
+      dispatch(seeStaffMessageUpdated(message));
+    },
+    [dispatch],
+  );
   useEffect(() => {
     focusElement('h1');
   }, []);
   const findNextPage = useCallback(
     () => {
       if (isEmergencyContactEnabled) {
-        goToNextPage(router, URLS.EMERGENCY_CONTACT);
+        goToNextPage();
       } else if (isUpdatePageEnabled) {
-        goToNextPage(router, URLS.UPDATE_INSURANCE);
+        jumpToPage(URLS.UPDATE_INSURANCE);
       } else {
-        goToNextPage(router, URLS.DETAILS);
+        jumpToPage(URLS.DETAILS);
       }
     },
-    [isEmergencyContactEnabled, isUpdatePageEnabled, router],
+    [isEmergencyContactEnabled, isUpdatePageEnabled, jumpToPage, goToNextPage],
   );
   const yesClick = useCallback(
     () => {
@@ -58,9 +66,9 @@ const NextOfKin = props => {
         'button-click-label': 'no-to-next-of-kin-information',
       });
       updateSeeStaffMessage(seeStaffMessage);
-      goToNextPage(router, URLS.SEE_STAFF);
+      jumpToPage(URLS.SEE_STAFF);
     },
-    [router, updateSeeStaffMessage],
+    [updateSeeStaffMessage, jumpToPage],
   );
   useEffect(
     () => {
@@ -80,9 +88,7 @@ const NextOfKin = props => {
   } else {
     return (
       <>
-        {(isUpdatePageEnabled || isDemographicsPageEnabled) && (
-          <BackButton router={router} />
-        )}
+        <BackButton router={router} />
         <NextOfKinDisplay
           nextOfKin={nextOfKin}
           yesAction={yesClick}
@@ -95,26 +101,13 @@ const NextOfKin = props => {
   }
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    updateSeeStaffMessage: seeStaffMessage => {
-      dispatch(seeStaffMessageUpdated(seeStaffMessage));
-    },
-  };
-};
-
 NextOfKin.propTypes = {
   nextOfKin: PropTypes.object,
   isLoading: PropTypes.bool,
   isEmergencyContactEnabled: PropTypes.bool,
-  isDemographicsPageEnabled: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
-  updateSeeStaffMessage: PropTypes.func,
   demographicsStatus: PropTypes.object,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(NextOfKin);
+export default NextOfKin;

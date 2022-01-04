@@ -37,6 +37,7 @@ module.exports = {
     __BUILDTYPE__: true,
     __API__: true,
     __MEGAMENU_CONFIG__: true,
+    __REGISTRY__: true,
   },
   rules: {
     /* || Eslint main rules || */
@@ -61,6 +62,10 @@ module.exports = {
         name:
           '@department-of-veterans-affairs/component-library/AdditionalInfo',
         use: '<va-additional-info>',
+      },
+      {
+        name: '@department-of-veterans-affairs/component-library/ProgressBar',
+        use: '<va-progress-bar>',
       },
     ],
 
@@ -261,9 +266,10 @@ module.exports = {
       },
     },
     {
-      files: ['**/*.e2e.spec.js'],
+      files: ['**/*.cypress.spec.js'],
       rules: {
         'va/axe-check-required': 1,
+        'va/cypress-viewport-deprecated': 1,
       },
     },
   ],

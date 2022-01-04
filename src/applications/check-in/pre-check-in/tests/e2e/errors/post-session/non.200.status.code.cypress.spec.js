@@ -1,20 +1,22 @@
-import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
-import '../../support/commands';
+import '../../../../../tests/e2e/commands';
 
-import validateVeteran from '../../pages/ValidateVeteran';
-
-import Error from '../../pages/Error';
-
-import apiInitializer from '../../support/ApiInitializer';
+import ApiInitializer from '../../../../../api/local-mock-api/e2e/ApiInitializer';
+import ValidateVeteran from '../../../../../tests/e2e/pages/ValidateVeteran';
+import Error from '../../../../../tests/e2e/pages/Error';
 
 describe('Pre-Check In Experience ', () => {
   describe('Error handling', () => {
     describe('POST /check_in/v2/session/', () => {
       beforeEach(function() {
-        cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
-        apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+        const {
+          initializeFeatureToggle,
+          initializeSessionGet,
+          initializeSessionPost,
+        } = ApiInitializer;
+        initializeFeatureToggle.withCurrentFeatures();
+        initializeSessionGet.withSuccessfulNewSession();
 
-        apiInitializer.initializeSessionPost.withFailure(400);
+        initializeSessionPost.withFailure(400);
       });
       afterEach(() => {
         cy.window().then(window => {
@@ -24,12 +26,11 @@ describe('Pre-Check In Experience ', () => {
       it('bad status code (400)', () => {
         cy.visitPreCheckInWithUUID();
         // page: Validate
-        validateVeteran.validatePageLoaded();
-        validateVeteran.validateVeteran();
-        cy.injectAxe();
-        cy.axeCheck();
+        ValidateVeteran.validatePageLoaded();
+        ValidateVeteran.validateVeteran();
+        cy.injectAxeThenAxeCheck();
 
-        validateVeteran.attemptToGoToNextPage();
+        ValidateVeteran.attemptToGoToNextPage();
 
         Error.validatePageLoaded();
       });

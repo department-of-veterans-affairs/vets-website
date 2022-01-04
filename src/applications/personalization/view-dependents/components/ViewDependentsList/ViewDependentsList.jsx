@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import ViewDependentsListItem from '../ViewDependentsList/ViewDependentsListItem';
 
 const RemoveDependentSuccessMessage = () => (
@@ -18,7 +18,7 @@ function ViewDependentsList(props) {
   const manageDependentsToggle = props?.manageDependentsToggle ?? null;
   if (props.loading) {
     mainContent = (
-      <LoadingIndicator message="Loading your dependents" setFocus />
+      <va-loading-indicator message="Loading your dependents" setFocus />
     );
   } else if (props.dependents && props.dependents.length > 0) {
     mainContent = props.dependents.map((dependent, index) => (

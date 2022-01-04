@@ -49,7 +49,9 @@ export function GiBillApp({
   return (
     <div className="gi-app">
       {(location.pathname === '/' ||
-        location.pathname === '/gi-bill-comparison-tool') && <Covid19Banner />}
+        location.pathname === '/education/gi-bill-comparison-tool') && (
+        <Covid19Banner />
+      )}
       <div className="row">
         <div className="columns small-12">
           {preview.display && <PreviewBanner version={preview.version} />}

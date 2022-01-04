@@ -1,8 +1,13 @@
-import { removeTimeZone } from '../utils/appointment';
+import { removeTimeZone } from '../../utils/appointment';
 
 const initialState = {
   appointments: [],
   context: {},
+  form: {
+    pages: [],
+    currentPage: '',
+    data: {},
+  },
 };
 
 import {
@@ -19,8 +24,24 @@ import {
   RECEIVED_DEMOGRAPHICS_STATUS,
 } from '../actions';
 
+import { GO_TO_NEXT_PAGE, INIT_FORM } from '../../actions';
+
 const checkInReducer = (state = initialState, action) => {
   switch (action.type) {
+    case INIT_FORM:
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          pages: action.payload.pages,
+          currentPage: action.payload.currentPage,
+        },
+      };
+    case GO_TO_NEXT_PAGE:
+      return {
+        ...state,
+        form: { ...state.form, currentPage: action.payload.nextPage },
+      };
     case APPOINTMENT_WAS_CHECKED_INTO:
       return {
         ...state,

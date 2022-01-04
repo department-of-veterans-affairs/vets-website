@@ -18,6 +18,8 @@ const Checkbox = ({
   labelAriaLabel,
   inputAriaLabelledBy,
   inputAriaLabel,
+  screenReaderOnly,
+  showArialLabelledBy,
 }) => {
   const inputId = _.uniqueId('errorable-checkbox-');
   const hasErrors = !!errorMessage;
@@ -26,6 +28,9 @@ const Checkbox = ({
   const ariaLabelledBy = [inputAriaLabelledBy, labelId].filter(
     ariaId => ariaId !== null && ariaId !== undefined,
   );
+  const ariaLabelledByContent = inputAriaLabel
+    ? null
+    : ariaLabelledBy.join(' ');
 
   return (
     <div
@@ -42,7 +47,7 @@ const Checkbox = ({
         onChange={onChange}
         onFocus={onFocus}
         aria-label={inputAriaLabel}
-        aria-labelledby={inputAriaLabel ? null : ariaLabelledBy.join(' ')}
+        aria-labelledby={showArialLabelledBy ? ariaLabelledByContent : null}
       />
       <label
         className={classNames('gi-checkbox-label', {
@@ -55,6 +60,11 @@ const Checkbox = ({
       >
         {label}
         {required && <span className="form-required-span">*</span>}
+        {screenReaderOnly && (
+          <span className="vads-u-visibility--screen-reader">
+            {screenReaderOnly}
+          </span>
+        )}
       </label>
       {hasErrors && (
         <span className="usa-input-error-message" role="alert" id={errorSpanId}>

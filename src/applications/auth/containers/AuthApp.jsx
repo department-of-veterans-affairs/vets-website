@@ -151,7 +151,7 @@ export class AuthApp extends React.Component {
         ...(returnUrl.includes(
           EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH],
         ) && {
-          app: CSP_IDS.CERNER,
+          app: EXTERNAL_APPS.MY_VA_HEALTH,
         }),
         ...(returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]) && {
           app: CSP_IDS.MHV,
