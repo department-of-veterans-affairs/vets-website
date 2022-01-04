@@ -9,6 +9,7 @@ import {
   handleScrollOnInputFocus,
   isCountryInternational,
   isCountryUSA,
+  isVetTecSelected,
   rubyifyKeys,
   sortOptionsByStateName,
 } from '../../utils/helpers';
@@ -29,11 +30,17 @@ describe('GIBCT helpers:', () => {
     });
   });
 
+  describe('isVetTecSelected', () => {
+    it('should recognize VET TEC', () => {
+      expect(isVetTecSelected({ category: 'vettec' })).to.be.true;
+    });
+  });
+
   describe('addAllOption', () => {
     it('should add ALL option', () => {
       const options = [{ label: 'TEST', value: 'TEST' }];
       expect(addAllOption(options).length).to.equal(2);
-      expect(addAllOption(options)[0].optionLabel).to.equal('All');
+      expect(addAllOption(options)[0].label).to.equal('ALL');
     });
   });
 

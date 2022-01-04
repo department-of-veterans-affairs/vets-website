@@ -1,0 +1,30 @@
+.filter-your-results {
+  .expanding-header-checkbox {
+    .gi-checkbox-label {
+      margin-top: 0;
+    }
+  }
+
+  .form-expanding-group {
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+
+  .school-types {
+    .gi-checkbox-label {
+      margin-top: 12px;
+    }
+
+    .see-more-less {
+      float: right;
+    }
+  }
+
+  .expanding-group-children {
+    padding-left: 28px;
+
+    .gi-checkbox-label {
+      margin-top: 12px;
+    }
+  }
+}

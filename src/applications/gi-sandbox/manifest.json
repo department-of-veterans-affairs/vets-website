@@ -1,5 +1,5 @@
 {
-  "appName": "CT Redesign Sandbox",
+  "appName": "GI Bill Comparison Tool",
   "entryFile": "./gi-entry.jsx",
   "entryName": "gi-sandbox",
   "rootUrl": "/education/gi-bill-comparison-tool-sandbox"
