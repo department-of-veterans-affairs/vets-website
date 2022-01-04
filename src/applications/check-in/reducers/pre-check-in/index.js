@@ -1,14 +1,3 @@
-const initFormHander = (state, action) => {
-  return {
-    ...state,
-    form: {
-      ...state.form,
-      pages: action.payload.pages,
-      currentPage: action.payload.pages[0].id,
-    },
-  };
-};
-
 const setSessionHandler = (state, action) => {
   return {
     ...state,
@@ -17,13 +6,6 @@ const setSessionHandler = (state, action) => {
       token: action.payload.token,
       permissions: action.payload.permissions,
     },
-  };
-};
-
-const gotToNextPageHandler = (state, action) => {
-  return {
-    ...state,
-    form: { ...state.form, currentPage: action.payload.nextPage },
   };
 };
 
@@ -43,10 +25,4 @@ const setVeteranDataHandler = (state, action) => {
   };
 };
 
-export {
-  initFormHander,
-  setSessionHandler,
-  gotToNextPageHandler,
-  recordAnswerHandler,
-  setVeteranDataHandler,
-};
+export { setSessionHandler, recordAnswerHandler, setVeteranDataHandler };

@@ -17,22 +17,61 @@ import {
   SET_VETERAN_DATA,
 } from '../actions/pre-check-in';
 
-import { GO_TO_NEXT_PAGE, INIT_FORM } from '../actions/navigation';
-
 import {
-  gotToNextPageHandler,
-  initFormHander,
   recordAnswerHandler,
   setSessionHandler,
   setVeteranDataHandler,
 } from './pre-check-in';
 
+import {
+  APPOINTMENT_WAS_CHECKED_INTO,
+  PERMISSIONS_UPDATED,
+  RECEIVED_APPOINTMENT_DETAILS,
+  RECEIVED_EMERGENCY_CONTACT_DATA,
+  RECEIVED_DEMOGRAPHICS_DATA,
+  RECEIVED_NEXT_OF_KIN_DATA,
+  SET_TOKEN_CONTEXT,
+  TOKEN_WAS_VALIDATED,
+  TRIGGER_REFRESH,
+  SEE_STAFF_MESSAGE_UPDATED,
+  RECEIVED_DEMOGRAPHICS_STATUS,
+} from '../actions/day-of';
+
+import {
+  appointmentWasCheckedIntoHandler,
+  permissionsUpdatedHandler,
+  receivedAppointmentDetailsHandler,
+  receivedEmergencyContactDataHandler,
+  receivedDemographicsDataHandler,
+  receivedNextOfKinDataHandler,
+  setTokenContextHandler,
+  tokenWasValidatedHandler,
+  triggerRefreshHandler,
+  seeStaffMessageUpdatedHandler,
+  receivedDemographicsStatusHandler,
+} from './day-of';
+
+import { GO_TO_NEXT_PAGE, INIT_FORM } from '../actions/navigation';
+
+import { gotToNextPageHandler, initFormHandler } from './navigation';
+
 const handler = {
-  [INIT_FORM]: initFormHander,
+  [INIT_FORM]: initFormHandler,
   [SET_SESSION]: setSessionHandler,
   [GO_TO_NEXT_PAGE]: gotToNextPageHandler,
   [RECORD_ANSWER]: recordAnswerHandler,
   [SET_VETERAN_DATA]: setVeteranDataHandler,
+  [APPOINTMENT_WAS_CHECKED_INTO]: appointmentWasCheckedIntoHandler,
+  [PERMISSIONS_UPDATED]: permissionsUpdatedHandler,
+  [RECEIVED_APPOINTMENT_DETAILS]: receivedAppointmentDetailsHandler,
+  [RECEIVED_EMERGENCY_CONTACT_DATA]: receivedEmergencyContactDataHandler,
+  [RECEIVED_DEMOGRAPHICS_DATA]: receivedDemographicsDataHandler,
+  [RECEIVED_NEXT_OF_KIN_DATA]: receivedNextOfKinDataHandler,
+  [SET_TOKEN_CONTEXT]: setTokenContextHandler,
+  [TOKEN_WAS_VALIDATED]: tokenWasValidatedHandler,
+  [TRIGGER_REFRESH]: triggerRefreshHandler,
+  [SEE_STAFF_MESSAGE_UPDATED]: seeStaffMessageUpdatedHandler,
+  [RECEIVED_DEMOGRAPHICS_STATUS]: receivedDemographicsStatusHandler,
 
   default: state => {
     return { ...state };
