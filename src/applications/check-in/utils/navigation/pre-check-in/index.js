@@ -72,17 +72,17 @@ const updateForm = patientDemographicsStatus => {
       needsUpdate: demographicsNeedsUpdate,
     },
     {
-      url: URLS.EMERGENCY_CONTACT,
+      url: URLS.NEXT_OF_KIN,
       confirmedAt: nextOfKinConfirmedAt,
       needsUpdate: nextOfKinNeedsUpdate,
     },
     {
-      url: URLS.NEXT_OF_KIN,
+      url: URLS.EMERGENCY_CONTACT,
       confirmedAt: emergencyContactConfirmedAt,
       needsUpdate: emergencyContactNeedsUpdate,
     },
   ];
-  const timeTillExpire = 24;
+  const hoursTillExpire = 24;
 
   const now = Date.now();
 
@@ -92,13 +92,12 @@ const updateForm = patientDemographicsStatus => {
       : null;
     if (
       pageLastUpdated &&
-      Math.abs(now - pageLastUpdated) / 36e5 <= timeTillExpire &&
+      Math.abs(now - pageLastUpdated) / 36e5 <= hoursTillExpire &&
       page.needsUpdate === false
     ) {
-      skippedPages.push(URLS.DEMOGRAPHICS);
+      skippedPages.push(page.url);
     }
   });
-
   pages = pages.filter(page => !skippedPages.includes(page));
   return pages;
 };
