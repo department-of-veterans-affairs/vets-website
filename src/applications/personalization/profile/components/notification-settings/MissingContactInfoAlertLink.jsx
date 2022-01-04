@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
+import { showProfileLGBTQEnhancements } from '@@profile/selectors';
 import { getContactInfoDeepLinkURL } from '@@profile/helpers';
 
 import { FIELD_NAMES } from '@@vap-svc/constants';
@@ -11,30 +13,44 @@ export const MISSING_CONTACT_INFO = {
   MOBILE: 'MOBILE',
 };
 
-const linkMap = {
-  [MISSING_CONTACT_INFO.ALL]: {
-    linkText: 'Update your contact information',
-    linkTarget: getContactInfoDeepLinkURL('phoneNumbers', false),
-  },
-  [MISSING_CONTACT_INFO.EMAIL]: {
-    linkText: 'Add an email address to your profile',
-    linkTarget: getContactInfoDeepLinkURL(FIELD_NAMES.EMAIL, true),
-  },
-  [MISSING_CONTACT_INFO.MOBILE]: {
-    linkText: 'Add a mobile phone number to your profile',
-    linkTarget: getContactInfoDeepLinkURL(FIELD_NAMES.MOBILE_PHONE, true),
-  },
+// const getDeepLinkBasedOnFlag = flag => {
+//   if (flag) return;
+// };
+
+const makeLinkMap = (missingInfo, flag = false) => {
+  const linkMap = {
+    [MISSING_CONTACT_INFO.ALL]: {
+      linkText: 'Update your contact information',
+      linkTarget: getContactInfoDeepLinkURL('phoneNumbers', false, flag),
+    },
+    [MISSING_CONTACT_INFO.EMAIL]: {
+      linkText: 'Add an email address to your profile',
+      linkTarget: getContactInfoDeepLinkURL(FIELD_NAMES.EMAIL, true, flag),
+    },
+    [MISSING_CONTACT_INFO.MOBILE]: {
+      linkText: 'Add a mobile phone number to your profile',
+      linkTarget: getContactInfoDeepLinkURL(
+        FIELD_NAMES.MOBILE_PHONE,
+        true,
+        flag,
+      ),
+    },
+  };
+  return linkMap[missingInfo];
 };
 
-const AddContactInfoLink = ({ missingInfo }) => {
+const AddContactInfoLink = ({
+  missingInfo,
+  shouldShowProfileLGBTQEnhancements,
+}) => {
   const linkInfo = React.useMemo(
     () => {
-      return linkMap[missingInfo];
+      return makeLinkMap(missingInfo, shouldShowProfileLGBTQEnhancements);
     },
-    [missingInfo],
+    [missingInfo, shouldShowProfileLGBTQEnhancements],
   );
   return (
-    <Link to={linkInfo.linkTarget}>
+    <Link to={linkInfo.linkTarget} data-testid="add-contact-info-link">
       <strong>{linkInfo.linkText}</strong>{' '}
       <i
         aria-hidden="true"
@@ -44,4 +60,8 @@ const AddContactInfoLink = ({ missingInfo }) => {
   );
 };
 
-export default AddContactInfoLink;
+const mapStateToProps = state => ({
+  shouldShowProfileLGBTQEnhancements: showProfileLGBTQEnhancements(state),
+});
+
+export default connect(mapStateToProps)(AddContactInfoLink);
