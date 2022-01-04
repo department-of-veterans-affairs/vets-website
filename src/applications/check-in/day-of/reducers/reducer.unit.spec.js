@@ -13,7 +13,7 @@ import {
   triggerRefresh,
   seeStaffMessageUpdated,
   receivedDemographicsStatus,
-} from '../actions';
+} from '../../actions/day-of';
 
 describe('check-in', () => {
   describe('reducer', () => {

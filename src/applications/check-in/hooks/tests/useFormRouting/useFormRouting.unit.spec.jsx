@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import { render, fireEvent } from '@testing-library/react';
 
 import TestComponent from './TestComponent';
-import { GO_TO_NEXT_PAGE } from '../../../actions';
+import { GO_TO_NEXT_PAGE } from '../../../actions/navigation';
 
 const URLS = Object.freeze({
   CONFIRMATION: 'complete',
