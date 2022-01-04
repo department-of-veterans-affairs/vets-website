@@ -6,8 +6,7 @@ import BurialModalContent from 'platform/forms/components/OMBInfoModalContent/Bu
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import environment from 'platform/utilities/environment';
-
-import facilityLocator from '../../facility-locator/manifest.json';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -47,7 +46,7 @@ class IntroductionPage extends React.Component {
                   The name of the VA national cemetery where you’d prefer to be
                   buried.
                   <br />
-                  <a href={facilityLocator.rootUrl}>
+                  <a href={getAppUrl('facilities')}>
                     Find a VA national cemetery
                   </a>
                   .
