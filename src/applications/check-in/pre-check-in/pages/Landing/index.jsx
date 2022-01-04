@@ -73,7 +73,6 @@ export default function Index(props) {
             } else {
               setCurrentToken(window, token);
               const pages = createForm({
-                hasConfirmedDemographics: false,
                 isEmergencyContactEnabled,
               });
               const firstPage = pages[0];

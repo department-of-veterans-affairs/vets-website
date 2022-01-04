@@ -24,11 +24,7 @@ export const createGoToNextPageAction = ({ nextPage }) => {
 export const UPDATE_FORM = 'UPDATE_FORM';
 
 export const updateFormAction = ({ patientDemographicsStatus }) => {
-  const pages = updateForm({
-    hasConfirmedDemographics: !patientDemographicsStatus.demographicsNeedsUpdate,
-    hasConfirmedNextOfKin: !patientDemographicsStatus.nextOfKinNeedsUpdate,
-    hasConfirmedEmergencyContact: !patientDemographicsStatus.emergencyContactNeedsUpdate,
-  });
+  const pages = updateForm(patientDemographicsStatus);
   return {
     type: UPDATE_FORM,
     payload: {

@@ -44,41 +44,61 @@ const PRE_CHECK_IN_FORM_PAGES = Object.freeze([
   },
 ]);
 
-const createForm = ({
-  hasConfirmedDemographics = false,
-  isEmergencyContactEnabled = false,
-}) => {
+const createForm = ({ isEmergencyContactEnabled = false }) => {
   let pages = PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
-  if (hasConfirmedDemographics) {
-    const skippedPages = [
-      URLS.DEMOGRAPHICS,
-      URLS.NEXT_OF_KIN,
-      URLS.EMERGENCY_CONTACT,
-    ];
-    pages = pages.filter(page => !skippedPages.includes(page));
-  }
   if (!isEmergencyContactEnabled) {
     pages = pages.filter(page => page !== URLS.EMERGENCY_CONTACT);
   }
   return pages;
 };
 
-const updateForm = ({
-  hasConfirmedDemographics = false,
-  hasConfirmedNextOfKin = false,
-  hasConfirmedEmergencyContact = false,
-}) => {
+const updateForm = patientDemographicsStatus => {
   let pages = PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
   const skippedPages = [];
-  if (hasConfirmedDemographics) {
-    skippedPages.push(URLS.DEMOGRAPHICS);
-  }
-  if (hasConfirmedNextOfKin) {
-    skippedPages.push(URLS.NEXT_OF_KIN);
-  }
-  if (hasConfirmedEmergencyContact) {
-    skippedPages.push(URLS.EMERGENCY_CONTACT);
-  }
+
+  const {
+    demographicsNeedsUpdate,
+    demographicsConfirmedAt,
+    nextOfKinNeedsUpdate,
+    nextOfKinConfirmedAt,
+    emergencyContactNeedsUpdate,
+    emergencyContactConfirmedAt,
+  } = patientDemographicsStatus;
+
+  const skipablePages = [
+    {
+      url: URLS.DEMOGRAPHICS,
+      confirmedAt: demographicsConfirmedAt,
+      needsUpdate: demographicsNeedsUpdate,
+    },
+    {
+      url: URLS.EMERGENCY_CONTACT,
+      confirmedAt: nextOfKinConfirmedAt,
+      needsUpdate: nextOfKinNeedsUpdate,
+    },
+    {
+      url: URLS.NEXT_OF_KIN,
+      confirmedAt: emergencyContactConfirmedAt,
+      needsUpdate: emergencyContactNeedsUpdate,
+    },
+  ];
+  const timeTillExpire = 24;
+
+  const now = Date.now();
+
+  skipablePages.forEach(page => {
+    const pageLastUpdated = page.confirmedAt
+      ? new Date(page.confirmedAt)
+      : null;
+    if (
+      pageLastUpdated &&
+      Math.abs(now - pageLastUpdated) / 36e5 <= timeTillExpire &&
+      page.needsUpdate === false
+    ) {
+      skippedPages.push(URLS.DEMOGRAPHICS);
+    }
+  });
+
   pages = pages.filter(page => !skippedPages.includes(page));
   return pages;
 };
