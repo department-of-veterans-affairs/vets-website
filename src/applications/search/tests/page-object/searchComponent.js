@@ -68,12 +68,6 @@ class SearchComponent {
     });
   };
 
-  /** Injects and adds Axe check */
-  axeTestPage = () => {
-    cy.injectAxe();
-    cy.axeCheck();
-  };
-
   /** Opens the dropdown and checks its length is 5 */
   confirmDropDown = () => {
     cy.get('#search-header-dropdown-listbox').should('be.visible');
