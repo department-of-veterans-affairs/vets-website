@@ -59,7 +59,8 @@ export default async function keepAlive() {
      */
 
     return {
-      ttl: alive === 'true' ? Number(resp.headers.get(AUTHN_HEADERS.ALIVE)) : 0,
+      ttl:
+        alive === 'true' ? Number(resp.headers.get(AUTHN_HEADERS.TIMEOUT)) : 0,
       transactionid: resp.headers.get(AUTHN_HEADERS.TRANSACTION_ID),
       authn: {
         DSLogon: CSP_AUTHN.DS_LOGON,
