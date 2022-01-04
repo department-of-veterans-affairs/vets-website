@@ -19,7 +19,6 @@ import {
 import { getSiteIdFromFacilityId } from '../../services/location';
 import {
   selectHasVAPResidentialAddress,
-  selectFeatureCCIterations,
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
   selectRegisteredCernerFacilityIds,
@@ -47,12 +46,11 @@ export function getAppointmentLength(state) {
 }
 
 export function getFormPageInfo(state, pageKey) {
-  const showCCIterations = selectFeatureCCIterations(state);
   return {
     schema: getNewAppointment(state).pages[pageKey],
     data: getFormData(state),
     pageChangeInProgress: getNewAppointment(state).pageChangeInProgress,
-    showCCIterations,
+    showCCIterations: true,
   };
 }
 
@@ -200,7 +198,6 @@ export function selectCernerOrgIds(state) {
 }
 
 export function selectProviderSelectionInfo(state) {
-  const showCCIterations = selectFeatureCCIterations(state);
   const {
     communityCareProviders,
     data,
@@ -232,7 +229,7 @@ export function selectProviderSelectionInfo(state) {
     requestLocationStatus,
     requestStatus,
     selectedCCFacility,
-    showCCIterations,
+    showCCIterations: true,
     sortMethod: updatedSortMethod,
     typeOfCareName: typeOfCare.name,
   };

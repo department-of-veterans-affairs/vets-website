@@ -199,7 +199,7 @@ export function createPastVAAppointments() {
 export function mockFeatureToggles({
   v2Requests = false,
   v2Facilities = false,
-  featureCCIteration = false,
+  featureCCIteration = true,
 } = {}) {
   cy.route({
     method: 'GET',

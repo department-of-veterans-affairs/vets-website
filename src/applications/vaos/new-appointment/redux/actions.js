@@ -13,7 +13,6 @@ import {
   selectRegisteredCernerFacilityIds,
   selectFeatureFacilitiesServiceV2,
   selectFeatureVAOSServiceVAAppointments,
-  selectFeatureCCIterations,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -644,7 +643,6 @@ export function openCommunityCareProviderSelectionPage(page, uiSchema, schema) {
       page,
       uiSchema,
       schema,
-      featureCCIteration: selectFeatureCCIterations(getState()),
       residentialAddress: selectVAPResidentialAddress(getState()),
     });
   };

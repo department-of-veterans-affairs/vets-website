@@ -53,7 +53,6 @@ describe('VAOS <ReviewPage> CC request', () => {
 
   beforeEach(() => {
     const featureState = { ...initialState };
-    featureState.featureToggles.vaOnlineSchedulingCCIterations = false;
     mockFetch();
 
     start = moment();
@@ -231,7 +230,6 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
 
   beforeEach(() => {
     const featureState = { ...initialState };
-    featureState.featureToggles.vaOnlineSchedulingCCIterations = true;
 
     mockFetch();
     start = moment();

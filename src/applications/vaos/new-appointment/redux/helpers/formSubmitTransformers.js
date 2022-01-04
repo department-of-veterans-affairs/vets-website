@@ -8,7 +8,6 @@ import {
   TYPE_OF_VISIT,
   LANGUAGES,
 } from '../../../utils/constants';
-import { selectFeatureCCIterations } from '../../../redux/selectors';
 import {
   getTypeOfCare,
   getFormData,
@@ -116,12 +115,10 @@ export function transformFormToVARequest(state) {
 
 export function transformFormToCCRequest(state) {
   const data = getFormData(state);
-  const featureCCIteration = selectFeatureCCIterations(state);
   const provider = data.communityCareProvider;
   let preferredProviders = [];
 
   if (
-    featureCCIteration &&
     !!data.communityCareProvider &&
     Object.keys(data.communityCareProvider).length
   ) {

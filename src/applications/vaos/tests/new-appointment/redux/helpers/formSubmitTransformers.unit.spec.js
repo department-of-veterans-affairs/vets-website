@@ -67,9 +67,7 @@ describe('VAOS data transformation', () => {
         },
         flowType: FLOW_TYPES.REQUEST,
       },
-      featureToggles: {
-        vaOnlineSchedulingCCIterations: true,
-      },
+      featureToggles: {},
     };
     const data = transformFormToVARequest(state);
     expect(data).to.deep.equal({
@@ -161,9 +159,7 @@ describe('VAOS data transformation', () => {
         },
         flowType: FLOW_TYPES.REQUEST,
       },
-      featureToggles: {
-        vaOnlineSchedulingCCIterations: true,
-      },
+      featureToggles: {},
     };
     const data = transformFormToVARequest(state);
     expect(data).to.deep.equal({
@@ -537,9 +533,7 @@ describe('VAOS data transformation', () => {
           ],
         },
       },
-      featureToggles: {
-        vaOnlineSchedulingCCIterations: true,
-      },
+      featureToggles: {},
     };
     const data = transformFormToAppointment(state);
     expect(data).to.deep.equal({
@@ -624,9 +618,7 @@ describe('VAOS data transformation', () => {
         },
         flowType: FLOW_TYPES.REQUEST,
       },
-      featureToggles: {
-        vaOnlineSchedulingCCIterations: true,
-      },
+      featureToggles: {},
     };
     const data = transformFormToVARequest(state);
     expect(data).to.deep.equal({
@@ -737,9 +729,7 @@ describe('VAOS data transformation', () => {
         pastAppointments: null,
         submitStatus: 'succeeded',
       },
-      featureToggles: {
-        vaOnlineSchedulingCCIterations: true,
-      },
+      featureToggles: {},
     };
     const data = transformFormToCCRequest(state);
     expect(data).to.deep.equal({
@@ -857,9 +847,7 @@ describe('VAOS data transformation', () => {
         pastAppointments: null,
         submitStatus: 'succeeded',
       },
-      featureToggles: {
-        vaOnlineSchedulingCCIterations: true,
-      },
+      featureToggles: {},
     };
     const data = transformFormToCCRequest(state);
     expect(data).to.deep.equal({

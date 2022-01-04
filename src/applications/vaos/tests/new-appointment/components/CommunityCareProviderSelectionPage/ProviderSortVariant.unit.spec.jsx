@@ -31,7 +31,6 @@ import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCommunityCare: true,
-    vaOnlineSchedulingCCIterations: true,
   },
   user: {
     profile: {
