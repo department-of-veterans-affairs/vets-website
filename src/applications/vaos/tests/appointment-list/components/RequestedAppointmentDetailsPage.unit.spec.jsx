@@ -385,7 +385,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       id: '1234',
       appointmentRequestDetailCode: ['DETCODE8'],
       status: 'Cancelled',
-      cancelationReason: { coding: [{ code: 'pat' }] },
     });
 
     fireEvent.click(screen.getByText(/continue/i));

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import moment from '../../lib/moment-tz';
 
@@ -70,7 +69,7 @@ export default function CommunityCareAppointmentDetailsPage() {
   if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
       <FullWidthLayout>
-        <LoadingIndicator setFocus message="Loading your appointment..." />
+        <va-loading-indicator set-focus message="Loading your appointment..." />
       </FullWidthLayout>
     );
   }

@@ -9,14 +9,14 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       data-testid={`balance-card-${id}`}
     >
       <h3
-        aria-describedby="copay-balance"
+        aria-describedby={`copay-balance-${id}`}
         className="card-balance vads-u-margin-top--0"
         data-testid={`amount-${id}`}
       >
         {currency(amount)}
       </h3>
       <p
-        id="copay-balance"
+        id={`copay-balance-${id}`}
         className="card-heading vads-u-margin-top--0"
         data-testid={`facility-city-${id}`}
       >
@@ -47,13 +47,17 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       {/* if no statement no link if has statements put link */}
       {amount ? (
         <Link
-          className="vads-u-font-size--sm"
+          className="vads-u-font-size--sm vads-u-font-weight--bold"
           to={`/balance-details/${id}`}
           data-testid={`detail-link-${id}`}
+          aria-label={
+            amount
+              ? `Check details and resolve bill for ${facility} in ${city}`
+              : `Check details for ${facility} in ${city}`
+          }
         >
-          <strong>
-            {amount ? 'Check details and resolve this bill' : 'Check details'}
-          </strong>
+          {amount ? 'Check details and resolve this bill' : 'Check details'}
+
           <i
             className="fa fa-chevron-right vads-u-margin-left--1"
             aria-hidden="true"

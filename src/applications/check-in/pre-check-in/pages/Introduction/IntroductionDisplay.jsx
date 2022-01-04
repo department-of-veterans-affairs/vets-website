@@ -12,16 +12,16 @@ import AppointmentBlock from '../../components/AppointmentBlock';
 import Footer from '../../components/Footer';
 import BackToHome from '../../components/BackToHome';
 
-import { useFormRouting } from '../../hooks/useFormRouting';
+import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import { makeSelectVeteranData } from '../../selectors';
+import { makeSelectVeteranData } from '../../../selectors';
 
 const IntroductionDisplay = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
-  const { router } = props;
-  const { goToNextPage } = useFormRouting(router);
+  const { router, URLS } = props;
+  const { goToNextPage } = useFormRouting(router, URLS);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
 
@@ -103,8 +103,8 @@ const IntroductionDisplay = props => {
         <span className="vads-u-font-weight--bold">
           If you need to talk to someone right away or need emergency care,
         </span>{' '}
-        Call <Telephone contact="911" />,{' '}
-        <span className="vads-u-font-weight--bold">or</span> Call the Veterans
+        call <Telephone contact="911" />,{' '}
+        <span className="vads-u-font-weight--bold">or</span> call the Veterans
         Crisis hotline at <Telephone contact="8002738255" /> and select 1
       </p>
     </>

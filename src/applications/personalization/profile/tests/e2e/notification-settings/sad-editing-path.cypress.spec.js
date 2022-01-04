@@ -18,14 +18,11 @@ import {
   registerCypressHelpers,
 } from '../helpers';
 
-import mockFeatureToggles from './feature-toggles.json';
-
 registerCypressHelpers();
 
 describe('Updating Notification Settings', () => {
   beforeEach(() => {
     mockNotificationSettingsAPIs();
-    cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
     cy.intercept('GET', '/v0/profile/communication_preferences', {
       statusCode: 200,
       body: mockCommunicationPreferences,

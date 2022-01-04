@@ -11,14 +11,21 @@ const tableConfig = {
   },
 };
 
-module.exports = on => {
+module.exports = async on => {
   const ENV = 'localhost';
   const publicPath = '/generated/';
   let outputOptions = {};
 
   // Import our own Webpack config.
-  require('../../../../../../config/webpack.config.js')(ENV).then(
+  await require('../../../../../../config/webpack.config.js')(ENV).then(
     webpackConfig => {
+      // Get the original DefinePlugin so we can use __REGISTRY__
+      const definePlugin = webpackConfig.plugins.find(
+        plugin => plugin.constructor.name === 'DefinePlugin',
+      );
+
+      const appRegistry = definePlugin.definitions.__REGISTRY__;
+
       const options = {
         webpackOptions: {
           ...webpackConfig,
@@ -26,6 +33,7 @@ module.exports = on => {
             new DefinePlugin({
               __BUILDTYPE__: JSON.stringify(ENV),
               __API__: JSON.stringify(''),
+              __REGISTRY__: appRegistry,
             }),
             new ProvidePlugin({
               process: 'process/browser',

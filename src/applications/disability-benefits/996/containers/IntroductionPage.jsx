@@ -17,10 +17,7 @@ import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import { WIZARD_STATUS_NOT_STARTED } from 'platform/site-wide/wizard';
 
-import {
-  getContestableIssues as getContestableIssuesAction,
-  FETCH_CONTESTABLE_ISSUES_INIT,
-} from '../actions';
+import { FETCH_CONTESTABLE_ISSUES_INIT } from '../actions';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 
@@ -43,7 +40,13 @@ export class IntroductionPage extends React.Component {
   }
 
   getCallToActionContent = ({ last } = {}) => {
-    const { loggedIn, route, contestableIssues, delay = 250 } = this.props;
+    const {
+      loggedIn,
+      route,
+      contestableIssues,
+      delay = 250,
+      hlrV2,
+    } = this.props;
 
     if (contestableIssues?.error) {
       return showContestableIssueError(contestableIssues, delay);
@@ -63,8 +66,10 @@ export class IntroductionPage extends React.Component {
     }
 
     const { formId, prefillEnabled, savedFormMessages } = route.formConfig;
+    // Allow starting the form with no contestable Issues in HLR v2
+    const lengthCheck = hlrV2 ? -1 : 0;
 
-    if (!loggedIn || contestableIssues?.issues?.length > 0) {
+    if (!loggedIn || contestableIssues?.issues?.length > lengthCheck) {
       return (
         <SaveInProgressIntro
           formId={formId}
@@ -238,7 +243,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   toggleLoginModal,
-  getContestableIssues: getContestableIssuesAction,
 };
 
 export default connect(

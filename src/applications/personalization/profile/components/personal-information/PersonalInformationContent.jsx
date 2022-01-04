@@ -3,13 +3,19 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
 
-import GenderAndDOBSection from './GenderAndDOBSection';
+import LegacyGenderAndDOBSection from './LegacyGenderAndDOBSection';
 import ContactInformationSection from '../contact-information/ContactInformationSection';
 import EmailInformationSection from '../contact-information/email-addresses/EmailInformationSection';
+import PersonalInformationSection from '../personal-information/PersonalInformationSection';
 
-const PersonalInformationContent = ({ hasVAPServiceError }) => (
+const PersonalInformationContent = ({
+  hasVAPServiceError,
+  shouldShowProfileLGBTQEnhancements,
+}) => (
   <>
-    <GenderAndDOBSection className="vads-u-margin-bottom--6" />
+    {!shouldShowProfileLGBTQEnhancements && (
+      <LegacyGenderAndDOBSection className="vads-u-margin-bottom--6" />
+    )}
 
     {hasVAPServiceError ? (
       <div data-testid="vap-service-not-available-error">
@@ -21,14 +27,20 @@ const PersonalInformationContent = ({ hasVAPServiceError }) => (
         >
           <p>
             We’re sorry. Something went wrong on our end. We can’t display your
-            contact information. Please refresh the page or try again later.
+            personal information. Please refresh the page or try again later.
           </p>
         </AlertBox>
       </div>
     ) : (
       <InitializeVAPServiceID>
-        <ContactInformationSection className="vads-u-margin-bottom--6" />
-        <EmailInformationSection />
+        {shouldShowProfileLGBTQEnhancements ? (
+          <PersonalInformationSection />
+        ) : (
+          <>
+            <ContactInformationSection />
+            <EmailInformationSection />
+          </>
+        )}
       </InitializeVAPServiceID>
     )}
   </>

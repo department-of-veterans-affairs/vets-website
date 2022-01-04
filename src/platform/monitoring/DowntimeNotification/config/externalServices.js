@@ -48,4 +48,6 @@ export default {
   vic: 'vic',
   // veteran readiness and employment
   vre: 'vre',
+  // veteran benefit services (used to source medical copay debt)
+  vbs: 'vbs',
 };

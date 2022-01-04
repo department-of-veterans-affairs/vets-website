@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import FedWarning from 'platform/user/authentication/components/FedWarning';
-import LoginButtons from 'platform/user/authentication/components/LoginButtons';
+import LoginContainer from 'platform/user/authentication/components/LoginContainer';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 
 // import { getCurrentGlobalDowntime } from 'platform/monitoring/DowntimeNotification/util/helpers';
@@ -140,23 +140,21 @@ export class SignInModal extends React.Component {
       <div className="row">
         <div className="columns">
           <div className="logo">
-            <a href="/">
-              <img alt="VA.gov" className="va-header-logo" src={logoSrc} />
-            </a>
+            <img alt="VA.gov" className="va-header-logo" src={logoSrc} />
           </div>
         </div>
       </div>
       <div className="container">
         <div className="row">
           <div className="columns small-12">
-            <h1 className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2">
+            <h1 className="vads-u-margin-top--2 vads-u-color--gray-dark medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2">
               Sign in
             </h1>
           </div>
         </div>
         {this.renderDowntimeBanners()}
         <div className="row">
-          <LoginButtons
+          <LoginContainer
             loginGovEnabled={this.props.loginGovEnabled}
             loginGovCreateAccountEnabled={
               this.props.loginGovCreateAccountEnabled
@@ -166,11 +164,11 @@ export class SignInModal extends React.Component {
         </div>
         <div className="row">
           <div className="columns small-12">
-            <div className="help-info">
+            <div className="help-info vads-u-color--gray-dark">
               <h2 className="vads-u-margin-top--0">
                 Having trouble signing in?
               </h2>
-              <p>
+              <p className="vads-u-font-size--base">
                 Get answers to common questions about{' '}
                 <a
                   href="/resources/signing-in-to-vagov/"
@@ -189,7 +187,7 @@ export class SignInModal extends React.Component {
                 </a>
                 .
               </p>
-              <p>
+              <p className="vads-u-font-size--base">
                 <SubmitSignInForm startSentence /> We're here 24/7.
               </p>
             </div>

@@ -12,7 +12,8 @@ export default function JumpLink({ label, jumpToId }) {
   const handleClick = e => {
     jumpLinkClicked(e);
     recordEvent({
-      event: `Nav jumplink clicked to: ${label}`,
+      event: 'nav-jumplink-click',
+      'click-text': label,
     });
   };
 

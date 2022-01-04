@@ -126,9 +126,9 @@ export default function BackToTop({
               onClick={() => {
                 scrollToTop();
                 recordEvent({
-                  event: 'button_click Back to top',
-                  'button-text': 'Back to top',
-                  'button-type': 'Default|Back to Top',
+                  event: 'cta-button-click',
+                  'button-click-label': 'Back to top',
+                  'button-type': 'default',
                 });
               }}
             >

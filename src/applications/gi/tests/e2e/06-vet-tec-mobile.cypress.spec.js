@@ -9,7 +9,7 @@ describe.skip('VETTEC', () => {
 
     initMockProfile(vetTecProfile);
 
-    cy.visit('/gi-bill-comparison-tool').injectAxe();
+    cy.visit('/education/gi-bill-comparison-tool').injectAxe();
     cy.axeCheck();
   });
 

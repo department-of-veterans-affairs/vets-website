@@ -47,7 +47,7 @@ export default function SchoolClassification({
     <>
       <div
         className={schoolClassificationClasses}
-        id={`${facilityCode}-classification`}
+        id={`classification-${facilityCode}`}
       >
         <p className={schoolClassificationPTagClasses}>
           <strong>

@@ -119,7 +119,7 @@ export function mockVAOSParentSites(ids, data, children = false) {
  * @export
  * @param {Object} params
  * @param {VAOSAppointment} params.appointment Request object from the vaos service that will be returned back
- *    from the mock with the status set to Cancelled and cancelation reason set to patient
+ *    from the mock with the status set to Cancelled
  * @param {boolean} params.error Return an error response
  */
 export function mockAppointmentCancelFetch({ appointment, error = false }) {

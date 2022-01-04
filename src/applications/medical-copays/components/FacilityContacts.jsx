@@ -3,9 +3,9 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 
 const FacilityContacts = ({ facilities }) => (
   <>
-    <h5>Contact information for your VA health care facilities:</h5>
+    <h4>Contact information for your VA health care facilities:</h4>
     <ul>
-      {facilities.map(facility => (
+      {facilities?.map(facility => (
         <li key={facility.facilitYNum}>
           {facility.facilityName}:
           <Telephone

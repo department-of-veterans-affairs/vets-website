@@ -149,12 +149,12 @@ async function getScaffoldAssets() {
  * Generates HTML files for each app and widget.
  *
  * @param {String} buildPath - Path to the overall build destination.
+ * @param {Object} scaffoldAssets - Map of scaffold asset filenames to file contents.
  *
  * @return {HtmlWebpackPlugin[]} - Array of HtmlWebpackPlugin instances,
  *   representing the HTML files to generate for each app and widget.
  */
-async function generateHtmlFiles(buildPath) {
-  const scaffoldAssets = await getScaffoldAssets();
+function generateHtmlFiles(buildPath, scaffoldAssets) {
   const appRegistry = JSON.parse(scaffoldAssets['registry.json']);
   const loadInlineScript = filename => scaffoldAssets[filename];
 
@@ -259,6 +259,8 @@ module.exports = async (env = {}) => {
   const apps = getEntryPoints(buildOptions.entry);
   const entryFiles = Object.assign({}, apps, globalEntryFiles);
   const isOptimizedBuild = [VAGOVSTAGING, VAGOVPROD].includes(buildtype);
+  const scaffoldAssets = await getScaffoldAssets();
+  const appRegistry = JSON.parse(scaffoldAssets['registry.json']);
 
   // enable css sourcemaps for all non-localhost builds
   // or if build options include local-css-sourcemaps or entry
@@ -405,6 +407,7 @@ module.exports = async (env = {}) => {
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(buildtype),
         __API__: JSON.stringify(buildOptions.api),
+        __REGISTRY__: JSON.stringify(appRegistry),
       }),
 
       new StylelintPlugin({
@@ -448,7 +451,7 @@ module.exports = async (env = {}) => {
 
   // Optionally generate mocked HTML pages for apps without running content build.
   if (buildOptions.scaffold) {
-    const scaffoldedHtml = await generateHtmlFiles(buildPath);
+    const scaffoldedHtml = generateHtmlFiles(buildPath, scaffoldAssets);
     baseConfig.plugins.push(...scaffoldedHtml);
   }
 

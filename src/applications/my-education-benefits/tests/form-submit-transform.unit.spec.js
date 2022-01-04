@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { submissionForm } from './fixtures/data/form-submission-test-data';
 import {
+  createDirectDeposit,
   createAdditionalConsiderations,
   createComments,
   createContactInfo,
@@ -329,5 +330,11 @@ describe('form submit transform', () => {
         expect(comments.disagreeWithServicePeriod).to.eql(false);
       },
     );
+  });
+  describe('has a bank account capture method', () => {
+    it('should return with users bank savings account number, if they decide to enroll', () => {
+      const bankAccount = createDirectDeposit(mockSubmissionForm);
+      expect(bankAccount.accountType).to.eql('Savings');
+    });
   });
 });

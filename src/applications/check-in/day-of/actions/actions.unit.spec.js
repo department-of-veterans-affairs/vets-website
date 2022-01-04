@@ -9,6 +9,8 @@ import {
   TOKEN_WAS_VALIDATED,
   permissionsUpdated,
   PERMISSIONS_UPDATED,
+  receivedEmergencyContact,
+  RECEIVED_EMERGENCY_CONTACT_DATA,
   receivedDemographicsData,
   RECEIVED_DEMOGRAPHICS_DATA,
   triggerRefresh,
@@ -17,6 +19,8 @@ import {
   RECEIVED_NEXT_OF_KIN_DATA,
   SEE_STAFF_MESSAGE_UPDATED,
   seeStaffMessageUpdated,
+  RECEIVED_DEMOGRAPHICS_STATUS,
+  receivedDemographicsStatus,
 } from './index';
 
 describe('check in actions', () => {
@@ -125,6 +129,31 @@ describe('check in actions', () => {
       it('should return correct structure', () => {
         const action = seeStaffMessageUpdated('test');
         expect(action.payload.seeStaffMessage).to.equal('test');
+      });
+    });
+    describe('receivedDemographicsStatus', () => {
+      it('should return correct action', () => {
+        const action = receivedDemographicsStatus({});
+        expect(action.type).to.equal(RECEIVED_DEMOGRAPHICS_STATUS);
+      });
+      it('should return correct structure', () => {
+        const action = receivedDemographicsStatus({
+          demographicsNeedsUpdate: true,
+        });
+        expect(action.payload).to.haveOwnProperty('demographicsStatus');
+        expect(action.payload.demographicsStatus.demographicsNeedsUpdate).to.be
+          .true;
+      });
+    });
+    describe('receivedEmergencyContact', () => {
+      it('should return correct action', () => {
+        const action = receivedEmergencyContact({ name: 'Jimmy' });
+        expect(action.type).to.equal(RECEIVED_EMERGENCY_CONTACT_DATA);
+      });
+      it('should return correct structure', () => {
+        const action = receivedEmergencyContact({ name: 'Jimmy' });
+        expect(action.payload).to.haveOwnProperty('emergencyContact');
+        expect(action.payload.emergencyContact.name).to.equal('Jimmy');
       });
     });
   });

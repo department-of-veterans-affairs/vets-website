@@ -1,6 +1,5 @@
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
-import localStorage from '~/platform/utilities/storage/localStorage';
 import {
   cnpDirectDepositBankInfo,
   isEligibleForCNPDirectDeposit,
@@ -80,21 +79,34 @@ export const militaryInformationLoadError = state => {
   return state.vaProfile?.militaryInformation?.serviceHistory?.error;
 };
 
-export const showNotificationSettings = state => {
-  const LSProfileNotificationSetting = localStorage.getItem(
-    'PROFILE_NOTIFICATION_SETTINGS', // true or false
-  );
-  const FFProfileNotificationSettings = toggleValues(state)[
-    FEATURE_FLAG_NAMES.profileNotificationSettings
-  ];
-  // local setting takes precedent over FF
-  if (LSProfileNotificationSetting === 'false') {
-    return false;
-  } else if (LSProfileNotificationSetting === 'true') {
-    return true;
-  }
-  return !!FFProfileNotificationSettings;
-};
-
 export const showProfileLGBTQEnhancements = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.profileEnhancements];
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileEnhancements] || false;
+
+export function selectVAProfilePersonalInformation(state, fieldName) {
+  const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];
+
+  if (fieldValue) {
+    const result = {};
+    result[fieldName] = fieldValue;
+
+    // handle custom sexual orientation text value
+    if (fieldValue === 'sexualOrientationNotListed') {
+      result.sexualOrientationNotListedText =
+        state?.vaProfile?.personalInformation?.sexualOrientationNotListedText;
+    }
+
+    // handle custom pronouns text value
+    if (
+      fieldName === 'pronouns' &&
+      Array.isArray(fieldValue) &&
+      fieldValue.includes('pronounsNotListed')
+    ) {
+      result.pronounsNotListedText =
+        state?.vaProfile?.personalInformation?.pronounsNotListedText;
+    }
+
+    return result;
+  }
+
+  return null;
+}

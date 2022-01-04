@@ -37,6 +37,7 @@ function CalculateYourBenefitsForm({
   profile,
   showModal,
   updateEstimatedBenefits,
+  focusHandler,
 }) {
   const [invalidZip, setInvalidZip] = useState('');
   const [inputUpdated, setInputUpdated] = useState(false);
@@ -47,7 +48,7 @@ function CalculateYourBenefitsForm({
     scholarshipsAndOtherFunding: false,
   });
 
-  const displayExtensionBeneficiaryZipcode = !inputs.classesOutsideUS;
+  const displayExtensionBeneficiaryZipcode = !inputs.classesoutsideus;
 
   const getExtensions = () => {
     const facilityMap = profile.attributes.facilityMap;
@@ -133,9 +134,9 @@ function CalculateYourBenefitsForm({
       field === 'giBillBenefit'
     ) {
       recordEvent({
-        event: 'int-radio-button-option-click',
-        'radio-button-label': field,
-        'radio-button-optionLabel': value,
+        event: 'gibct-form-change',
+        'gibct-form-field': field,
+        'gibct-form-value': value,
       });
     }
   };
@@ -273,9 +274,6 @@ function CalculateYourBenefitsForm({
       text={text}
       onClick={() => {
         showModal(modal);
-        recordEvent({
-          event: `Learn more help text clicked for: ${labelFor}`,
-        });
       }}
       ariaLabel={ariaLabel}
       labelFor={labelFor}
@@ -844,7 +842,7 @@ function CalculateYourBenefitsForm({
             "I'll be taking classes outside of the U.S. and U.S. territories"
           }
           onChange={handleHasClassesOutsideUSChange}
-          checked={inputs.classesOutsideUS}
+          checked={inputs.classesoutsideus}
           name={'classesOutsideUS'}
         />
       );
@@ -1005,6 +1003,9 @@ function CalculateYourBenefitsForm({
           aria-label="Skip to your estimated benefits"
           href="#estimated-benefits"
           id="skip-to-eyb"
+          tabIndex="0"
+          role="button"
+          onClick={focusHandler}
         >
           Skip to your estimated benefits
         </a>

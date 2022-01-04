@@ -1,38 +1,40 @@
-import React, { useCallback } from 'react';
-import { connect } from 'react-redux';
+import React, { useCallback, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
-import { goToNextPage, URLS } from '../utils/navigation';
+import { URLS } from '../../utils/navigation/day-of';
+import { useFormRouting } from '../../hooks/useFormRouting';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import { seeStaffMessageUpdated } from '../actions';
 import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
 
 const Demographics = props => {
-  const {
-    demographics,
-    isLoading,
-    isUpdatePageEnabled,
-    isNextOfKinEnabled,
-    router,
-    updateSeeStaffMessage,
-  } = props;
-
+  const { demographics, isLoading, router, demographicsStatus } = props;
+  const dispatch = useDispatch();
+  const updateSeeStaffMessage = useCallback(
+    seeStaffMessage => {
+      dispatch(seeStaffMessageUpdated(seeStaffMessage));
+    },
+    [dispatch],
+  );
+  const { demographicsNeedsUpdate } = demographicsStatus;
+  const { goToNextPage, jumpToPage } = useFormRouting(router, URLS);
+  const findNextPage = useCallback(
+    () => {
+      goToNextPage();
+    },
+    [goToNextPage],
+  );
   const yesClick = useCallback(
     () => {
       recordEvent({
         event: 'cta-button-click',
         'button-click-label': 'yes-to-demographic-information',
       });
-      if (isNextOfKinEnabled) {
-        goToNextPage(router, URLS.NEXT_OF_KIN);
-      } else if (isUpdatePageEnabled) {
-        goToNextPage(router, URLS.UPDATE_INSURANCE);
-      } else {
-        goToNextPage(router, URLS.DETAILS);
-      }
+      findNextPage();
     },
-    [isNextOfKinEnabled, isUpdatePageEnabled, router],
+    [findNextPage],
   );
 
   const noClick = useCallback(
@@ -51,11 +53,18 @@ const Demographics = props => {
         </>
       );
       updateSeeStaffMessage(seeStaffMessage);
-      goToNextPage(router, URLS.SEE_STAFF);
+      jumpToPage(URLS.SEE_STAFF);
     },
-    [router, updateSeeStaffMessage],
+    [updateSeeStaffMessage, jumpToPage],
   );
-
+  useEffect(
+    () => {
+      if (demographicsNeedsUpdate === false) {
+        findNextPage();
+      }
+    },
+    [demographicsNeedsUpdate, findNextPage],
+  );
   if (isLoading) {
     return (
       <va-loading-indicator message="Loading your appointments for today" />
@@ -78,24 +87,11 @@ const Demographics = props => {
   }
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    updateSeeStaffMessage: seeStaffMessage => {
-      dispatch(seeStaffMessageUpdated(seeStaffMessage));
-    },
-  };
-};
-
 Demographics.propTypes = {
   demographics: PropTypes.object,
   isLoading: PropTypes.bool,
-  isUpdatePageEnabled: PropTypes.bool,
-  isNextOfKinEnabled: PropTypes.bool,
   router: PropTypes.object,
-  updateSeeStaffMessage: PropTypes.func,
+  demographicsStatus: PropTypes.object,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Demographics);
+export default Demographics;

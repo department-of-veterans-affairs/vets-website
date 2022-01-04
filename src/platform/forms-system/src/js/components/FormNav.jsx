@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import uniq from 'lodash/uniq';
 
-import SegmentedProgressBar from '@department-of-veterans-affairs/component-library/SegmentedProgressBar';
-
 import {
   createFormPageList,
   createPageList,
@@ -97,7 +95,7 @@ export default function FormNav(props) {
 
   return (
     <div>
-      <SegmentedProgressBar total={chapters.length} current={current} />
+      <va-segmented-progress-bar total={chapters.length} current={current} />
       <div className="schemaform-chapter-progress">
         <div
           aria-valuenow={current}

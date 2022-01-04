@@ -57,7 +57,10 @@ export default function InstitutionProfile({
             label="Cautionary information"
             jumpToId="cautionary-information"
           />
-          <JumpLink label="Veteran programs" jumpToId="veteran-programs" />
+          <JumpLink
+            label="Veteran programs"
+            jumpToId="profile-veteran-programs"
+          />
           <JumpLink
             label="Get started with CareerScope"
             jumpToId="get-started-with-career-scope"
@@ -101,7 +104,7 @@ export default function InstitutionProfile({
           onShowModal={showModal}
         />
       </ProfileSection>
-      <ProfileSection label="Veteran programs" id="veteran-programs">
+      <ProfileSection label="Veteran programs" id="profile-veteran-programs">
         <VetTecVeteranPrograms
           institution={institution}
           onShowModal={showModal}
