@@ -1,4 +1,5 @@
 import React from 'react';
+import getSeconds from 'date-fns/getSeconds';
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
@@ -44,7 +45,9 @@ class SessionTimeoutModal extends React.Component {
     const expirationTime = new Date(expirationDate).getTime();
     if (isNaN(expirationTime)) return;
 
-    const countdown = Math.floor((expirationTime - Date.now()) / 1000);
+    const countdown = Math.floor(
+      getSeconds(expirationDate) - getSeconds(new Date()),
+    );
     if (countdown < 0) this.expireSession();
     else if (countdown <= MODAL_DURATION) this.setState({ countdown });
   };
