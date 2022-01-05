@@ -1,6 +1,6 @@
 // Node modules.
 import moment from 'moment-timezone';
-import { isArray, sortBy, filter, orderBy, isEmpty } from 'lodash';
+import { isArray, sortBy, filter, isEmpty } from 'lodash';
 
 export const monthOptions = [
   { value: '', label: 'Month' },
@@ -161,12 +161,20 @@ export const filterEvents = (
     return [];
   }
 
-  // Format event timestamps to unix and sort events by startsAt.
-  const sortedEvents = orderBy(
-    events,
-    ['fieldDatetimeRangeTimezone', 'value'],
-    ['asc'],
-  );
+  // Sort events by startsAt.
+  const sortedEvents = events?.sort((event1, event2) => {
+    if (filterBy === 'past') {
+      return (
+        event2?.fieldDatetimeRangeTimezone?.value -
+        event1?.fieldDatetimeRangeTimezone?.value
+      );
+    }
+
+    return (
+      event1?.fieldDatetimeRangeTimezone?.value -
+      event2?.fieldDatetimeRangeTimezone?.value
+    );
+  });
 
   // Filter the events.
   switch (filterBy) {
