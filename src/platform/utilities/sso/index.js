@@ -1,4 +1,3 @@
-// import moment from 'moment';
 import addSeconds from 'date-fns/addSeconds';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 import environment from 'platform/utilities/environment';
@@ -116,7 +115,7 @@ export function checkAndUpdateSSOeSession() {
     const sessionExpiration = localStorage.getItem('sessionExpirationSSO');
 
     const remainingSessionTime = differenceInSeconds(
-      sessionExpiration,
+      new Date(sessionExpiration),
       new Date(),
     );
     if (remainingSessionTime <= keepAliveThreshold) {
