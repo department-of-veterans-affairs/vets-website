@@ -97,15 +97,15 @@ class ApiInitializer {
   };
 
   initializePreCheckInDataGet = {
-    withSuccess: (
-      extraValidation,
+    withSuccess: ({
+      extraValidation = null,
       demographicsNeedsUpdate = true,
       demographicsConfirmedAt = null,
       nextOfKinNeedsUpdate = true,
       nextOfKinConfirmedAt = null,
       emergencyContactNeedsUpdate = true,
       emergencyContactConfirmedAt = null,
-    ) => {
+    } = {}) => {
       cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
         if (extraValidation) {
           extraValidation(req);

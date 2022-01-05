@@ -5,7 +5,7 @@ import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Introduction from '../pages/Introduction';
 import Confirmation from '../pages/Confirmation';
 
-describe('Check In Experience', () => {
+describe('Pre Check In Experience', () => {
   describe('update skip path', () => {
     beforeEach(function() {
       const now = Date.now();

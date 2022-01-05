@@ -7,7 +7,7 @@ import Confirmation from '../pages/Confirmation';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 
-describe('Check In Experience', () => {
+describe('Pre Check In Experience', () => {
   describe('update skip path', () => {
     beforeEach(function() {
       const now = Date.now();
