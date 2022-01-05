@@ -65,8 +65,12 @@ export function LocationSearchForm({
   );
 
   const validateSearchTerm = searchTerm => {
+    const invalidZipCodePattern = /^\d{6,}$/;
+
     if (searchTerm.trim() === '') {
       setError('Please fill in a city, state, or postal code.');
+    } else if (invalidZipCodePattern.test(searchTerm)) {
+      setError('Please enter a valid postal code.');
     } else if (error !== null) {
       setError(null);
     }
