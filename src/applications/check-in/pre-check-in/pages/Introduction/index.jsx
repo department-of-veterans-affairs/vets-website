@@ -14,8 +14,7 @@ import { makeSelectCurrentContext } from '../../../selectors';
 
 // @TODO Remove appointments once mock API merged in. Add cypress test for intro.
 const Introduction = props => {
-  const { router } = props;
-
+  const { router, isEmergencyContactEnabled } = props;
   const [isLoading, setIsLoading] = useState(true);
 
   const { goToErrorPage } = useFormRouting(router, URLS);
@@ -24,9 +23,9 @@ const Introduction = props => {
   const dispatchSetVeteranData = useCallback(
     payload => {
       dispatch(setVeteranData({ ...payload }));
-      dispatch(updateFormAction({ ...payload }));
+      dispatch(updateFormAction({ ...payload, isEmergencyContactEnabled }));
     },
-    [dispatch],
+    [dispatch, isEmergencyContactEnabled],
   );
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);

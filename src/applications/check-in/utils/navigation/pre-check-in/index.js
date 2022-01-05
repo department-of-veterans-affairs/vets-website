@@ -52,10 +52,12 @@ const createForm = ({ isEmergencyContactEnabled = false }) => {
   return pages;
 };
 
-const updateForm = patientDemographicsStatus => {
+const updateForm = (patientDemographicsStatus, isEmergencyContactEnabled) => {
   let pages = PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
+  if (!isEmergencyContactEnabled) {
+    pages = pages.filter(page => page !== URLS.EMERGENCY_CONTACT);
+  }
   const skippedPages = [];
-
   const {
     demographicsNeedsUpdate,
     demographicsConfirmedAt,
