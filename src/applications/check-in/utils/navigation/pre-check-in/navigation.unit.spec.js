@@ -54,7 +54,7 @@ describe('Pre-check in', () => {
           emergencyContactNeedsUpdate: false,
           emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
         };
-        const pages = updateForm(patientDemographicsStatus);
+        const pages = updateForm(patientDemographicsStatus, true);
         expect(pages.find(page => page === URLS.DEMOGRAPHICS)).to.be.undefined;
       });
       it('should not skip a page that has been updated within the time window but is flagged for an update', () => {
@@ -66,7 +66,7 @@ describe('Pre-check in', () => {
           emergencyContactNeedsUpdate: false,
           emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
         };
-        const pages = updateForm(patientDemographicsStatus);
+        const pages = updateForm(patientDemographicsStatus, true);
         expect(pages.find(page => page === URLS.NEXT_OF_KIN)).to.exist;
       });
       it("should not skip a page that hasn't been updated within the time window", () => {
@@ -78,7 +78,7 @@ describe('Pre-check in', () => {
           emergencyContactNeedsUpdate: false,
           emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
         };
-        const pages = updateForm(patientDemographicsStatus);
+        const pages = updateForm(patientDemographicsStatus, true);
         expect(pages.find(page => page === URLS.EMERGENCY_CONTACT)).to.exist;
       });
       it('should not skip a page that has no last updated date string', () => {
@@ -90,7 +90,7 @@ describe('Pre-check in', () => {
           emergencyContactNeedsUpdate: false,
           emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
         };
-        const pages = updateForm(patientDemographicsStatus);
+        const pages = updateForm(patientDemographicsStatus, true);
         expect(pages.find(page => page === URLS.DEMOGRAPHICS)).to.exist;
       });
     });
