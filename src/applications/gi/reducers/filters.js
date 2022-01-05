@@ -33,7 +33,14 @@ export default function(state = INITIAL_STATE, action) {
     case UPDATE_QUERY_PARAMS: {
       const queryParams = action.payload;
       const onLoadState = {
-        excludedSchoolTypes: [],
+        excludedSchoolTypes: [
+          'PUBLIC',
+          'FOR PROFIT',
+          'PRIVATE',
+          'FOREIGN',
+          'FLIGHT',
+          'CORRESPONDENCE',
+        ],
       };
 
       Object.keys(INITIAL_STATE).forEach(key => {
