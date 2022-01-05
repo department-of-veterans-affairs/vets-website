@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import SchoolLocations from '../../../components/profile/SchoolLocations';
-import sinon from 'sinon';
 import { getDefaultState } from '../../helpers';
 import ResponsiveTable from '../../../components/ResponsiveTable';
 
@@ -223,78 +222,6 @@ describe('<SchoolLocations>', () => {
     );
     const facilityTable = wrapper.find(ResponsiveTable);
     expect(facilityTable.props().data).to.have.length(2);
-    wrapper.unmount();
-  });
-
-  it('should handle view more and view less clicks', () => {
-    const testState = {
-      ...defaultState,
-      profile: {
-        ...defaultState.profile,
-        attributes: {
-          facilityMap: {
-            main: {
-              institution: {
-                type: 'FOR PROFIT',
-                facilityCode: '100',
-                institution: 'MAIN FACILITY',
-                physicalCity: 'Test',
-                physicalState: 'TN',
-                physicalCountry: 'USA',
-                physicalZip: '12345',
-                country: 'USA',
-                dodBah: '100',
-              },
-              extensions: [],
-              branches: [],
-            },
-          },
-        },
-      },
-    };
-
-    for (let i = 0; i < 15; i++) {
-      testState.profile.attributes.facilityMap.main.extensions.push({
-        type: 'FOR PROFIT',
-        facilityCode: i,
-        institution: `EXTENSION {i}`,
-        physicalCity: 'Test',
-        physicalState: 'TN',
-        physicalCountry: 'USA',
-        physicalZip: '12345',
-        country: 'USA',
-        dodBah: '100',
-      });
-    }
-
-    const onViewLess = sinon.spy();
-
-    const wrapper = shallow(
-      <SchoolLocations
-        institution={testState.profile.attributes}
-        facilityMap={testState.profile.attributes.facilityMap}
-        calculator={testState.calculator}
-        eligibility={testState.eligibility}
-        constants={testState.constants}
-        onViewLess={onViewLess}
-      />,
-    );
-
-    expect(wrapper.state().viewableRowCount).to.eq(10);
-    wrapper
-      .find('button')
-      .at(0)
-      .simulate('click');
-    expect(wrapper.state().viewableRowCount).to.eq(
-      testState.profile.attributes.facilityMap.main.extensions.length + 1,
-    );
-    wrapper
-      .find('button')
-      .at(0)
-      .simulate('click');
-    expect(wrapper.state().viewableRowCount).to.eq(10);
-    expect(onViewLess.called).to.be.true;
-
     wrapper.unmount();
   });
 });

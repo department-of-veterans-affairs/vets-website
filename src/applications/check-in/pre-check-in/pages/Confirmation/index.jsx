@@ -5,7 +5,7 @@ import { focusElement } from 'platform/utilities/ui';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import AppointmentBlock from '../../components/AppointmentBlock';
-import { makeSelectVeteranData, makeSelectForm } from '../../selectors';
+import { makeSelectVeteranData, makeSelectForm } from '../../../selectors';
 
 const Confirmation = () => {
   useEffect(() => {
@@ -58,7 +58,7 @@ const Confirmation = () => {
         {appointments.map((appointment, index) => {
           return (
             <p key={index}>
-              {appointment.clinicFriendlyName} at{' '}
+              {appointment.clinicFriendlyName || appointment.clinicName} at{' '}
               <Telephone contact={appointment.clinicPhoneNumber} />
             </p>
           );

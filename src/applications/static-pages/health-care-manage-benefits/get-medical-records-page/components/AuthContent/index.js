@@ -8,6 +8,7 @@ import Telephone, {
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
+import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
 
 const AuthContent = ({
   authenticatedWithSSOe,
@@ -121,27 +122,7 @@ const AuthContent = ({
     <p>
       <strong>And you must have one of these free accounts:</strong>
     </p>
-    <ul>
-      <li>
-        A{' '}
-        <a href="https://www.myhealth.va.gov/mhv-portal-web/upgrade-account-to-premium#UpgradeToPremiumAccount">
-          Premium <strong>My HealtheVet</strong> account
-        </a>
-        , <strong>or</strong>
-      </li>
-      <li>
-        A Premium <strong>DS Logon</strong> account (used for eBenefits and
-        milConnect), <strong>or</strong>
-      </li>
-      <li>
-        A verified
-        <strong> ID.me </strong>
-        account that you can{' '}
-        <a href="https://api.id.me/en/registration/new">
-          create here on VA.gov
-        </a>
-      </li>
-    </ul>
+    <ServiceProvidersList />
     <a
       href="https://www.myhealth.va.gov/mhv-portal-web/my-healthevet-offers-three-account-types"
       rel="noreferrer noopener"

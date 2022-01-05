@@ -19,7 +19,7 @@ export class PersonalizationDropdown extends React.Component {
     // Prevent double clicking of "Sign Out"
     if (!this.signOutDisabled) {
       this.signOutDisabled = true;
-      logout('v1');
+      logout();
     }
   };
 

@@ -11,7 +11,7 @@ import { getRealFacilityId } from '../../utils/appointment';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import InfoAlert from '../../components/InfoAlert';
 import useIsInitialLoad from '../../hooks/useIsInitialLoad';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import {
   getAppointmentSlots,
   onCalendarChange,
@@ -176,8 +176,9 @@ export default function SelectDate1Page() {
             timezone={timezone}
             disabled={loadingSlots}
             disabledMessage={
-              <LoadingIndicator
-                setFocus
+              <va-loading-indicator
+                data-testid="loadingIndicator"
+                set-focus
                 message="Finding appointment availability..."
               />
             }

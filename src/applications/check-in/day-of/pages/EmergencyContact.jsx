@@ -1,9 +1,10 @@
-import React, { useEffect, useCallback } from 'react';
-import { connect } from 'react-redux';
+import React, { useCallback, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { goToNextPage, URLS } from '../utils/navigation';
+import { URLS } from '../../utils/navigation/day-of';
+import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../components/BackButton';
 import BackToHome from '../components/BackToHome';
 import { focusElement } from 'platform/utilities/ui';
@@ -17,25 +18,34 @@ const EmergencyContact = props => {
     isLoading,
     isUpdatePageEnabled,
     router,
-    updateSeeStaffMessage,
     demographicsStatus,
   } = props;
   const { emergencyContactNeedsUpdate } = demographicsStatus;
+  const { goToNextPage, jumpToPage, goToErrorPage } = useFormRouting(
+    router,
+    URLS,
+  );
   const seeStaffMessage =
     'Our staff can help you update your emergency contact information.';
-
+  const dispatch = useDispatch();
+  const updateSeeStaffMessage = useCallback(
+    message => {
+      dispatch(seeStaffMessageUpdated(message));
+    },
+    [dispatch],
+  );
   useEffect(() => {
     focusElement('h1');
   }, []);
   const findNextPage = useCallback(
     () => {
       if (isUpdatePageEnabled) {
-        goToNextPage(router, URLS.UPDATE_INSURANCE);
+        goToNextPage();
       } else {
-        goToNextPage(router, URLS.DETAILS);
+        jumpToPage(URLS.DETAILS);
       }
     },
-    [isUpdatePageEnabled, router],
+    [isUpdatePageEnabled, goToNextPage, jumpToPage],
   );
   const yesClick = useCallback(
     () => {
@@ -55,9 +65,9 @@ const EmergencyContact = props => {
         'button-click-label': 'no-to-emergency-contact-information',
       });
       updateSeeStaffMessage(seeStaffMessage);
-      goToNextPage(router, URLS.SEE_STAFF);
+      jumpToPage(URLS.SEE_STAFF);
     },
-    [router, updateSeeStaffMessage],
+    [updateSeeStaffMessage, jumpToPage],
   );
   useEffect(
     () => {
@@ -72,7 +82,7 @@ const EmergencyContact = props => {
       <va-loading-indicator message="Loading your appointments for today" />
     );
   } else if (!emergencyContact) {
-    goToNextPage(router, URLS.ERROR);
+    goToErrorPage();
     return <></>;
   } else {
     return (
@@ -90,24 +100,12 @@ const EmergencyContact = props => {
   }
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    updateSeeStaffMessage: seeStaffMessage => {
-      dispatch(seeStaffMessageUpdated(seeStaffMessage));
-    },
-  };
-};
-
 EmergencyContact.propTypes = {
   emergencyContact: PropTypes.object,
   isLoading: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
-  updateSeeStaffMessage: PropTypes.func,
   demographicsStatus: PropTypes.object,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(EmergencyContact);
+export default EmergencyContact;

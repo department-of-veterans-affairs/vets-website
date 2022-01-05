@@ -9,11 +9,15 @@ describe('<KeywordSearch>', () => {
   it('should render', () => {
     const tree = mount(
       <KeywordSearch
-        inputValue="hello"
+        label="test"
         location={{ query: 'test' }}
-        suggestions={[{ label: 1 }, { label: 2 }]}
+        autocomplete={{
+          searchTerm: 'hello',
+          suggestions: [{ a: 1 }, { b: 2 }],
+        }}
+        onClearAutocompleteSuggestions={() => {}}
         onFetchAutocompleteSuggestions={() => {}}
-        onSelection={() => {}}
+        onFilterChange={() => {}}
         onUpdateAutocompleteSearchTerm={() => {}}
       />,
     );
@@ -24,15 +28,22 @@ describe('<KeywordSearch>', () => {
   });
 
   it('should open suggestion list when input is filled with text', () => {
+    const onChange = sinon.spy();
+    const validateSearchQuery = sinon.spy();
     const tree = mount(
       <KeywordSearch
-        inputValue="test"
+        label="test"
         location={{ query: 'test' }}
-        suggestions={[{ label: 'item1' }, { label: 'item2' }]}
-        onChange={() => {}}
+        autocomplete={{
+          searchTerm: '',
+          suggestions: [{ label: 'item1' }, { label: 'item2' }],
+        }}
+        onChange={onChange}
+        onClearAutocompleteSuggestions={() => {}}
         onFetchAutocompleteSuggestions={() => {}}
-        onSelection={() => {}}
+        onFilterChange={() => {}}
         onUpdateAutocompleteSearchTerm={() => {}}
+        validateSearchQuery={validateSearchQuery}
       />,
     );
 
@@ -47,16 +58,23 @@ describe('<KeywordSearch>', () => {
   });
 
   it('should call on select when an suggestion is selected', () => {
-    const onSelection = sinon.spy();
-    const suggestions = [{ label: 'item1' }, { label: 'item2' }];
+    const onChange = sinon.spy();
+    const onFilterChange = sinon.spy();
+    const validateSearchQuery = sinon.spy();
     const tree = mount(
       <KeywordSearch
+        label="test"
         location={{ query: 'test' }}
-        suggestions={suggestions}
-        onChange={() => {}}
+        autocomplete={{
+          searchTerm: '',
+          suggestions: [{ label: 'item1' }, { label: 'item2' }],
+        }}
+        onChange={onChange}
+        onClearAutocompleteSuggestions={() => {}}
         onFetchAutocompleteSuggestions={() => {}}
-        onSelection={onSelection}
+        onFilterChange={onFilterChange}
         onUpdateAutocompleteSearchTerm={() => {}}
+        validateSearchQuery={validateSearchQuery}
       />,
     );
 
@@ -64,23 +82,32 @@ describe('<KeywordSearch>', () => {
     input.simulate('focus');
     input.simulate('change', { target: { value: 'item' } });
 
-    const items = tree.find('.suggestion');
-    items.at(1).simulate('click');
-    expect(onSelection.called).to.be.true;
-    expect(onSelection.args[0]).to.deep.equal([suggestions[1]]);
+    const suggestions = tree.find('.suggestion');
+    suggestions.at(1).simulate('click');
+    expect(onFilterChange.called).to.be.true;
+    expect(onFilterChange.args[0]).to.deep.equal(['name', 'item2']);
     tree.unmount();
   });
 
-  it('should not call on select when a suggestion is not selected', () => {
-    const onSelection = sinon.spy();
+  it('should not call on select when a suggestion is selected', () => {
+    const onChange = sinon.spy();
+    const onFilterChange = sinon.spy();
+    const validateSearchQuery = sinon.spy();
     const tree = mount(
       <KeywordSearch
+        label="test"
         location={{ query: 'test' }}
-        suggestions={[{ label: 'item1' }, { label: 'item2' }]}
-        onChange={() => {}}
+        autocomplete={{
+          searchTerm: '',
+          suggestions: [{ label: 'item1' }, { label: 'item2' }],
+        }}
+        onChange={onChange}
+        searchOnAutcompleteSelection
+        onClearAutocompleteSuggestions={() => {}}
         onFetchAutocompleteSuggestions={() => {}}
-        onSelection={onSelection}
+        onFilterChange={onFilterChange}
         onUpdateAutocompleteSearchTerm={() => {}}
+        validateSearchQuery={validateSearchQuery}
       />,
     );
 
@@ -88,7 +115,9 @@ describe('<KeywordSearch>', () => {
     input.simulate('focus');
     input.simulate('change', { target: { value: 'item' } });
 
-    expect(onSelection.called).to.be.false;
+    const suggestions = tree.find('.suggestion');
+    suggestions.at(1).simulate('click');
+    expect(onFilterChange.called).to.be.false;
     tree.unmount();
   });
 });

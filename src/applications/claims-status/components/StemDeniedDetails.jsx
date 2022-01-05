@@ -218,7 +218,7 @@ const StemDeniedDetails = ({
           Search for a VA form.
         </p>
         <a
-          href="https://www.va.gov/gi-bill-comparison-tool"
+          href="https://www.va.gov/education/gi-bill-comparison-tool"
           onClick={() => {
             recordResourceLinkClick(
               'GI Bill® Comparison Tool',

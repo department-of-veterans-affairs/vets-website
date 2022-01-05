@@ -12,16 +12,16 @@ import AppointmentBlock from '../../components/AppointmentBlock';
 import Footer from '../../components/Footer';
 import BackToHome from '../../components/BackToHome';
 
-import { useFormRouting } from '../../hooks/useFormRouting';
+import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import { makeSelectVeteranData } from '../../selectors';
+import { makeSelectVeteranData } from '../../../selectors';
 
 const IntroductionDisplay = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
-  const { router } = props;
-  const { goToNextPage } = useFormRouting(router);
+  const { router, URLS } = props;
+  const { goToNextPage } = useFormRouting(router, URLS);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
 

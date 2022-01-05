@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import IntroductionDisplay from './IntroductionDisplay';
 
-import { api } from '../../api';
+import { api } from '../../../api';
 
 import { setVeteranData } from '../../actions';
 
-import { useFormRouting } from '../../hooks/useFormRouting';
+import { useFormRouting } from '../../../hooks/useFormRouting';
+import { URLS } from '../../../utils/navigation/pre-check-in';
 
-import { makeSelectCurrentContext } from '../../selectors';
+import { makeSelectCurrentContext } from '../../../selectors';
 
 // @TODO Remove appointments once mock API merged in. Add cypress test for intro.
 const Introduction = props => {
@@ -17,7 +18,7 @@ const Introduction = props => {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const { goToErrorPage } = useFormRouting(router);
+  const { goToErrorPage } = useFormRouting(router, URLS);
   // select token from redux store
   const dispatch = useDispatch();
   const dispatchSetVeteranData = useCallback(

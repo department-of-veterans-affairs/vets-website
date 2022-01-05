@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import recordEvent from 'platform/monitoring/record-event';
 import {
   FETCH_STATUS,
@@ -122,12 +122,12 @@ export default function ProviderList({
       {loadingProviders &&
         !loadingLocations && (
           <div className="vads-u-padding-bottom--2">
-            <LoadingIndicator message="Loading the list of providers." />
+            <va-loading-indicator message="Loading the list of providers." />
           </div>
         )}
       {loadingLocations && (
         <div className="vads-u-padding-bottom--2">
-          <LoadingIndicator message="Finding your location. Be sure to allow your browser to find your current location." />
+          <va-loading-indicator message="Finding your location. Be sure to allow your browser to find your current location." />
         </div>
       )}
       {requestLocationFailed && (

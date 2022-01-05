@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect, batch, useSelector } from 'react-redux';
-import { compose } from 'redux';
-import { goToNextPage, URLS } from '../utils/navigation';
-import { getCurrentToken } from '../../utils/session';
-import { api } from '../api';
+import { useDispatch, batch, useSelector } from 'react-redux';
+import { api } from '../../api';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { URLS } from '../../utils/navigation/day-of';
+import { useFormRouting } from '../../hooks/useFormRouting';
 import {
   receivedEmergencyContact,
   receivedDemographicsData,
@@ -20,10 +20,11 @@ import { makeSelectCheckInData } from '../hooks/selectors';
 const withLoadedData = Component => {
   const Wrapped = ({ ...props }) => {
     const [isLoading, setIsLoading] = useState();
-
-    const { isSessionLoading, router, setSessionData } = props;
+    const { isSessionLoading, router } = props;
+    const { goToErrorPage } = useFormRouting(router, URLS);
     const selectCheckInData = useMemo(makeSelectCheckInData, []);
     const checkInData = useSelector(selectCheckInData);
+    const { getCurrentToken } = useSessionStorage(false);
     const {
       context,
       appointments,
@@ -33,12 +34,38 @@ const withLoadedData = Component => {
       emergencyContact,
     } = checkInData;
 
+    const dispatch = useDispatch();
+    const setSessionData = useCallback(
+      (payload, token) => {
+        batch(() => {
+          const {
+            appointments: appts,
+            demographics: demo,
+            patientDemographicsStatus,
+          } = payload;
+          dispatch(triggerRefresh(false));
+          dispatch(receivedMultipleAppointmentDetails(appts, token));
+          dispatch(receivedDemographicsStatus(patientDemographicsStatus));
+          if (typeof demo !== 'undefined') {
+            dispatch(receivedDemographicsData(demo));
+            if ('nextOfKin1' in demo) {
+              dispatch(receivedNextOfKinData(demo.nextOfKin1));
+            }
+            if ('emergencyContact' in demo) {
+              dispatch(receivedEmergencyContact(demo.emergencyContact));
+            }
+          }
+        });
+      },
+      [dispatch],
+    );
+
     useEffect(
       () => {
         let isCancelled = false;
         const session = getCurrentToken(window);
         if (!context || !session) {
-          goToNextPage(router, URLS.ERROR);
+          goToErrorPage();
         } else {
           // check if appointments is empty or if a refresh is staged
           const { token } = session;
@@ -60,7 +87,7 @@ const withLoadedData = Component => {
                 }
               })
               .catch(() => {
-                goToNextPage(router, URLS.ERROR);
+                goToErrorPage();
               });
           }
         }
@@ -68,7 +95,15 @@ const withLoadedData = Component => {
           isCancelled = true;
         };
       },
-      [appointments, router, context, setSessionData, isSessionLoading],
+      [
+        appointments,
+        router,
+        context,
+        setSessionData,
+        isSessionLoading,
+        getCurrentToken,
+        goToErrorPage,
+      ],
     );
     return (
       <>
@@ -96,37 +131,4 @@ const withLoadedData = Component => {
   return Wrapped;
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setSessionData: (payload, token) => {
-      batch(() => {
-        const {
-          appointments,
-          demographics,
-          patientDemographicsStatus,
-        } = payload;
-        dispatch(triggerRefresh(false));
-        dispatch(receivedMultipleAppointmentDetails(appointments, token));
-        dispatch(receivedDemographicsStatus(patientDemographicsStatus));
-        if (typeof demographics !== 'undefined') {
-          dispatch(receivedDemographicsData(demographics));
-          if ('nextOfKin1' in demographics) {
-            dispatch(receivedNextOfKinData(demographics.nextOfKin1));
-          }
-          if ('emergencyContact' in demographics) {
-            dispatch(receivedEmergencyContact(demographics.emergencyContact));
-          }
-        }
-      });
-    },
-  };
-};
-
-const composedWrapper = compose(
-  connect(
-    null,
-    mapDispatchToProps,
-  ),
-  withLoadedData,
-);
-export default composedWrapper;
+export default withLoadedData;

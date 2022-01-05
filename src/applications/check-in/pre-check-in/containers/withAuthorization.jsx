@@ -1,13 +1,13 @@
 import React, { useMemo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { makeSelectCurrentContext } from '../selectors';
+import { makeSelectCurrentContext } from '../../selectors';
 
-import { useFormRouting } from '../hooks/useFormRouting';
-import { useSessionStorage } from '../hooks/useSessionStorage';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useFormRouting } from '../../hooks/useFormRouting';
 
 import { SCOPES } from '../../utils/token-format-validator';
-import { URLS } from '../utils/navigation';
+import { URLS } from '../../utils/navigation/pre-check-in';
 
 const withAuthorization = Component => {
   return props => {
@@ -15,7 +15,7 @@ const withAuthorization = Component => {
     const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
     const { token, permissions } = useSelector(selectCurrentContext);
 
-    const { jumpToPage, goToErrorPage } = useFormRouting(router);
+    const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
     const { getCurrentToken } = useSessionStorage();
 
     useEffect(

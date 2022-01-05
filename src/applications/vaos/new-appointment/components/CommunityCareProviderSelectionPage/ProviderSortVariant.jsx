@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import Select from '@department-of-veterans-affairs/component-library/Select';
+import { VaSelect } from 'web-components/react-bindings';
 import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../../utils/constants';
 import { selectProviderSelectionInfo } from '../../redux/selectors';
 import {
@@ -58,13 +58,13 @@ export default function ProviderSortVariant({
     [selectedCCFacility, sortMethod],
   );
 
-  const handleValueChange = option => {
-    if (Object.values(FACILITY_SORT_METHODS).includes(option.value)) {
-      setSelectedSortMethod(option.value);
-      dispatch(updateCCProviderSortMethod(option.value));
+  const onValueChange = option => {
+    if (Object.values(FACILITY_SORT_METHODS).includes(option.detail.value)) {
+      setSelectedSortMethod(option.detail.value);
+      dispatch(updateCCProviderSortMethod(option.detail.value));
     } else {
       const selectedFacility = ccEnabledSystems.find(
-        facility => facility.id === option.value,
+        facility => facility.id === option.detail.value,
       );
       setSelectedSortMethod(selectedFacility.id);
       dispatch(
@@ -92,6 +92,15 @@ export default function ProviderSortVariant({
     });
   }
 
+  // format optons for new component
+  const options = sortOptions.map((s, i) => {
+    return (
+      <option key={i} value={s.value}>
+        {s.label}
+      </option>
+    );
+  });
+
   return (
     <div className="vads-u-margin-bottom--3">
       {notLoading &&
@@ -108,14 +117,15 @@ export default function ProviderSortVariant({
             {communityCareProviderList.length} providers
           </p>
         )}
-      <Select
+      <VaSelect
         label="Show providers closest to"
         name="sort"
-        onValueChange={handleValueChange}
-        options={hasUserAddress ? sortOptions : sortOptions.slice(1)}
-        value={{ dirty: false, value: selectedSortMethod }}
-        includeBlankOption={false}
-      />
+        onVaSelect={onValueChange}
+        value={selectedSortMethod}
+        data-testid="providersSelect"
+      >
+        {hasUserAddress ? options : options.slice(1)}
+      </VaSelect>
       {!hasUserAddress && (
         <p>
           Note: To show providers near your home, you need to add your home

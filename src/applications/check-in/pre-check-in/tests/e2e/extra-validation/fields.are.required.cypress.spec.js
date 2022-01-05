@@ -1,26 +1,23 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
 
-import validateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import introduction from '../pages/Introduction';
-
-import apiInitializer from '../support/ApiInitializer';
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
+import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
+import Introduction from '../pages/Introduction';
 
 describe('Pre-Check In Experience', () => {
   describe('Validation Page', () => {
     beforeEach(function() {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          checkInExperienceUpdateInformationPageEnabled: true,
-        }),
-      );
-      apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+        initializePreCheckInDataGet,
+      } = ApiInitializer;
+      initializeFeatureToggle.withCurrentFeatures();
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
 
-      apiInitializer.initializeSessionPost.withSuccess();
-
-      apiInitializer.initializePreCheckInDataGet.withSuccess();
+      initializePreCheckInDataGet.withSuccess();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -29,8 +26,10 @@ describe('Pre-Check In Experience', () => {
     });
     it('validation failed shows error messages', () => {
       cy.visitPreCheckInWithUUID();
-      validateVeteran.validatePageLoaded();
-      validateVeteran.attemptToGoToNextPage();
+      ValidateVeteran.validatePageLoaded();
+
+      ValidateVeteran.attemptToGoToNextPage();
+      cy.injectAxeThenAxeCheck();
 
       cy.get('[label="Your last name"]')
         .shadow()
@@ -44,9 +43,9 @@ describe('Pre-Check In Experience', () => {
           'Please enter the last 4 digits of your Social Security number',
         );
 
-      validateVeteran.validateVeteran();
-      validateVeteran.attemptToGoToNextPage();
-      introduction.validatePageLoaded();
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      Introduction.validatePageLoaded();
     });
   });
 });

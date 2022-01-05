@@ -12,7 +12,7 @@ import { getCalculatedBenefits } from '../selectors/vetTecCalculator';
 import VetTecEstimateYourBenefitsForm from '../components/vet-tec/VetTecEstimateYourBenefitsForm';
 import PropTypes from 'prop-types';
 import { ariaLabels } from '../constants';
-import LearnMoreLabel from '../components/LearnMoreLabel';
+import { renderLearnMoreLabel } from '../utils/render';
 
 export class VetTecEstimateYourBenefits extends React.Component {
   constructor(props) {
@@ -26,13 +26,14 @@ export class VetTecEstimateYourBenefits extends React.Component {
 
   housingAllowanceClassName =
     'small-4 columns vads-u-text-align--right small-screen:vads-u-padding-left--7';
-  renderLearnMoreLabel = ({ text, modal, ariaLabel }) => (
-    <LearnMoreLabel
-      text={text}
-      onClick={() => this.props.showModal(modal)}
-      ariaLabel={ariaLabel}
-    />
-  );
+  renderLearnMoreLabel = ({ text, modal, ariaLabel }) =>
+    renderLearnMoreLabel({
+      text,
+      modal,
+      ariaLabel,
+      showModal: this.props.showModal,
+      component: this,
+    });
 
   renderCalculatorForm = () => {
     return (
@@ -170,7 +171,7 @@ export class VetTecEstimateYourBenefits extends React.Component {
           </div>
         </div>
 
-        <div className="row calculator-result vads-u-padding-bottom--2p5">
+        <div className="row calculator-result">
           <div className="small-8 columns">
             <div>Online monthly rate:</div>
           </div>

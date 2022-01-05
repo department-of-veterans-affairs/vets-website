@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
+import LearnMoreLabel from '../LearnMoreLabel';
 
 export class VetTecVeteranPrograms extends React.Component {
   programs = () => {
@@ -14,7 +15,7 @@ export class VetTecVeteranPrograms extends React.Component {
         text: 'Student Veteran Group',
         link: {
           href: firstProgram.studentVetGroupWebsite,
-          text: 'Site',
+          text: 'Visit the site',
         },
         available: !!firstProgram.studentVetGroup,
       },
@@ -33,7 +34,9 @@ export class VetTecVeteranPrograms extends React.Component {
   };
 
   renderProgramLabel = (program, index) => {
-    const icon = program.available ? 'fa fa-check' : 'fa fa-remove';
+    const icon = program.available
+      ? 'fa fa-check vads-u-padding-right--1'
+      : 'fa fa-remove';
 
     const link =
       (program.available &&
@@ -52,20 +55,16 @@ export class VetTecVeteranPrograms extends React.Component {
           </span>
         )) ||
       '';
-    const label = program.modal ? (
-      <button
-        type="button"
-        className="va-button-link learn-more-button"
-        onClick={this.props.onShowModal.bind(this, program.modal)}
-      >
-        {program.text}
-      </button>
-    ) : (
-      program.text
-    );
     return (
       <div key={index}>
-        <i className={icon} aria-hidden="true" /> {label} {link}
+        <i className={icon} aria-hidden="true" />
+        <LearnMoreLabel
+          text={program.text}
+          onClick={this.props.onShowModal.bind(this, program.modal)}
+          ariaLabel={program.ariaLabel}
+          bold
+        />{' '}
+        {link}
       </div>
     );
   };
@@ -77,7 +76,7 @@ export class VetTecVeteranPrograms extends React.Component {
     return (
       <div className="programs row">
         {availablePrograms.length > 0 ? (
-          <div className="usa-width-one-half medium-6 large-6 column vads-u-margin-top--2">
+          <div className="usa-width-one-half medium-6 large-6 vads-u-margin-top--2">
             {availablePrograms.map((program, index) =>
               this.renderProgramLabel(program, index),
             )}
