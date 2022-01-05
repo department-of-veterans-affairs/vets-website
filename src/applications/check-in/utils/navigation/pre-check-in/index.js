@@ -3,6 +3,9 @@
  * @param {Object} [location.query]
  * @param {string} [location.query.id]
  */
+
+import { differenceInHours } from 'date-fns';
+
 const getTokenFromLocation = location => location?.query?.id;
 
 const URLS = Object.freeze({
@@ -43,6 +46,13 @@ const PRE_CHECK_IN_FORM_PAGES = Object.freeze([
     order: 5,
   },
 ]);
+const now = Date.now();
+
+const isWithInHours = (hours, pageLastUpdated) => {
+  const hoursAgo = differenceInHours(now, pageLastUpdated);
+
+  return hoursAgo <= hours;
+};
 
 const createForm = () => {
   return PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
@@ -80,9 +90,6 @@ const updateForm = (patientDemographicsStatus, isEmergencyContactEnabled) => {
       needsUpdate: emergencyContactNeedsUpdate,
     },
   ];
-  const hoursTillExpire = 24;
-
-  const now = Date.now();
 
   skipablePages.forEach(page => {
     const pageLastUpdated = page.confirmedAt
@@ -90,7 +97,7 @@ const updateForm = (patientDemographicsStatus, isEmergencyContactEnabled) => {
       : null;
     if (
       pageLastUpdated &&
-      Math.abs(now - pageLastUpdated) / 36e5 <= hoursTillExpire &&
+      isWithInHours(24, pageLastUpdated) &&
       page.needsUpdate === false
     ) {
       skippedPages.push(page.url);
