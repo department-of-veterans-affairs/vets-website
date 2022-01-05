@@ -71,7 +71,7 @@ export const HowToPay = ({ acctNum, facility }) => (
         <p>
           <strong>Note: </strong> You’ll find these stubs at the bottom of each
           statement. If you don’t have your most recent statement, you can
-          download and print it below or include a note listing the facility
+          download and print it above or include a note listing the facility
           you’d like to pay.
         </p>
         <p>
