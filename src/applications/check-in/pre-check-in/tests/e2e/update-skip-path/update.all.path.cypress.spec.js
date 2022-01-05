@@ -53,6 +53,7 @@ describe('Pre Check In Experience', () => {
       EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();
       Confirmation.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

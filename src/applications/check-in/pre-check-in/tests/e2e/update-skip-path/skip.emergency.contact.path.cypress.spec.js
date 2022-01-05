@@ -50,6 +50,7 @@ describe('Pre Check In Experience', () => {
       NextOfKin.validatePageLoaded();
       NextOfKin.attemptToGoToNextPage();
       Confirmation.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });
