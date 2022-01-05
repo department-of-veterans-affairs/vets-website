@@ -1,14 +1,7 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 
-const checkBoxElements = [
-  'HEALTH_HISTORY',
-  'TRANSPORTATION',
-  'EMPLOYMENT_STATUS',
-  'VETERAN',
-  'GENDER',
-  'RACE_ETHNICITY',
-];
+const checkBoxElements = [];
 
 const NONE_OF_ABOVE = 'NONE_OF_ABOVE';
 
