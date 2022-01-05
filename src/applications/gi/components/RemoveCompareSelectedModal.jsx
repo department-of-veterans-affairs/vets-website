@@ -12,16 +12,16 @@ export default function RemoveCompareSelectedModal({
       onClose={() => onClose()}
       primaryButton={{
         action: onRemove,
-        text: 'Remove',
+        text: 'Yes',
       }}
       secondaryButton={{
         action: onCancel,
-        text: 'Cancel',
+        text: 'No',
       }}
-      title="Remove Institution?"
+      title="Remove Institution from comparison"
       visible={name}
     >
-      <p>Remove {name} from your comparison?</p>
+      <p>Do you want to remove {name} from your comparison?</p>
     </Modal>
   );
 }
