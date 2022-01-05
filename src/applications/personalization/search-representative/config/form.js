@@ -4,13 +4,18 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
+  addressChangeAuthorization,
   basicInformation,
+  contactInformation,
+  disclosureAuthorization,
   location,
   organizationName,
   representative,
   search,
+  serviceFileInformation,
   transitionPage,
-} from './imports';
+  personalInformation,
+} from './chapters';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -66,6 +71,61 @@ const formConfig = {
           path: 'more-information',
           uiSchema: transitionPage.uiSchema,
           schema: transitionPage.schema,
+        },
+      },
+    },
+    personalInformation: {
+      title: 'Your personal information',
+      pages: {
+        personalInformation: {
+          path: 'personal-information',
+          uiSchema: personalInformation.uiSchema,
+          schema: personalInformation.schema,
+        },
+      },
+    },
+    serviceFileInformation: {
+      title: 'Your service file information',
+      pages: {
+        serviceFileInformation: {
+          path: 'service-file-information',
+          uiSchema: serviceFileInformation.uiSchema,
+          schema: serviceFileInformation.schema,
+        },
+      },
+    },
+    contactInformation: {
+      title: 'Your contact information',
+      pages: {
+        mailingAddress: {
+          path: 'mailing-address',
+          uiSchema: contactInformation.mailingAddress.uiSchema,
+          schema: contactInformation.mailingAddress.schema,
+        },
+        additionalInformation: {
+          path: 'additional-contact-information',
+          uiSchema: contactInformation.additionalInformation.uiSchema,
+          schema: contactInformation.additionalInformation.schema,
+        },
+      },
+    },
+    disclosureAuthorization: {
+      title: 'Authorization to disclose protected treatment records',
+      pages: {
+        disclosureAuthorization: {
+          path: 'disclosure-authorization',
+          uiSchema: disclosureAuthorization.uiSchema,
+          schema: disclosureAuthorization.schema,
+        },
+      },
+    },
+    addressChangeAuthorization: {
+      title: 'Authorization to change your address',
+      pages: {
+        addressChangeAuthorization: {
+          path: 'address-change-authorization',
+          uiSchema: addressChangeAuthorization.uiSchema,
+          schema: addressChangeAuthorization.schema,
         },
       },
     },
