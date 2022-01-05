@@ -750,7 +750,7 @@ export function submitAppointmentOrRequest(history) {
           });
         } else {
           const appointmentBody = transformFormToAppointment(getState());
-          appointment = await await submitAppointment(appointmentBody);
+          appointment = await submitAppointment(appointmentBody);
 
           try {
             await buildPreferencesDataAndUpdate(data.email);
