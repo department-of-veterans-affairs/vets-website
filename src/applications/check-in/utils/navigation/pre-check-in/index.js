@@ -44,12 +44,8 @@ const PRE_CHECK_IN_FORM_PAGES = Object.freeze([
   },
 ]);
 
-const createForm = ({ isEmergencyContactEnabled = false }) => {
-  let pages = PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
-  if (!isEmergencyContactEnabled) {
-    pages = pages.filter(page => page !== URLS.EMERGENCY_CONTACT);
-  }
-  return pages;
+const createForm = () => {
+  return PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
 };
 
 const updateForm = (patientDemographicsStatus, isEmergencyContactEnabled) => {
