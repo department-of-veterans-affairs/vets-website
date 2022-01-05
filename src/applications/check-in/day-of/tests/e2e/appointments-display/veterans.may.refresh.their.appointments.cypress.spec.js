@@ -1,26 +1,27 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
-import mockPatientCheckIns from '../../../api/local-mock-api/mocks/v2/patient.check.in.responses';
+import '../../../../tests/e2e/commands';
+
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import Appointments from '../pages/Appointments';
 
+import checkInData from '../../../../api/local-mock-api/mocks/v2/check-in-data';
+
 describe('Check In Experience -- ', () => {
   describe('Appointment display -- ', () => {
     beforeEach(() => {
-      cy.authenticate();
-      const rv1 = mockPatientCheckIns.createMultipleAppointments();
-      const earliest = mockPatientCheckIns.createAppointment();
+      const rv1 = checkInData.get.createMultipleAppointments();
+      const earliest = checkInData.get.createAppointment();
       earliest.startTime = '2021-08-19T03:00:00';
-      const midday = mockPatientCheckIns.createAppointment();
+      const midday = checkInData.get.createAppointment();
       midday.startTime = '2021-08-19T13:00:00';
-      const latest = mockPatientCheckIns.createAppointment();
+      const latest = checkInData.get.createAppointment();
       latest.startTime = '2027-08-19T18:00:00';
       rv1.payload.appointments = [latest, earliest, midday];
 
-      const rv2 = mockPatientCheckIns.createMultipleAppointments();
-      const newLatest = mockPatientCheckIns.createAppointment();
+      const rv2 = checkInData.get.createMultipleAppointments();
+      const newLatest = checkInData.get.createAppointment();
       newLatest.startTime = '2027-08-19T17:00:00';
       rv2.payload.appointments = [newLatest, earliest, midday];
       const responses = [rv1, rv2];
@@ -34,13 +35,15 @@ describe('Check In Experience -- ', () => {
           req.reply(responses.shift());
         },
       ).as('testid');
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          checkInExperienceUpdateInformationPageEnabled: false,
-        }),
-      );
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+      } = ApiInitializer;
+      initializeFeatureToggle.withoutEmergencyContact();
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
+
       cy.visitWithUUID();
       ValidateVeteran.validatePageLoaded('Check in at VA');
       ValidateVeteran.validateVeteran();
@@ -55,12 +58,10 @@ describe('Check In Experience -- ', () => {
       });
     });
     it('Veterans may refresh their appointments', () => {
-      cy.viewport(550, 750);
       Appointments.validateAppointmentLength(3);
       Appointments.validateAppointmentTime(3, '6:00 p.m.');
       Appointments.validateUpdateDate();
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
       cy.scrollTo('bottom')
         .window()
         .its('scrollY')
@@ -69,8 +70,7 @@ describe('Check In Experience -- ', () => {
       cy.window()
         .its('scrollY')
         .should('equal', 0);
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
       Appointments.validateAppointmentTime(3, '5:00 p.m.');
     });
   });

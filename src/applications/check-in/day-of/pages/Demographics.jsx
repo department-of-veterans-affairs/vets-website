@@ -1,27 +1,30 @@
 import React, { useCallback, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
-import { goToNextPage, URLS } from '../utils/navigation';
+import { URLS } from '../../utils/navigation/day-of';
+import { useFormRouting } from '../../hooks/useFormRouting';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import { seeStaffMessageUpdated } from '../actions';
 import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
 
 const Demographics = props => {
-  const {
-    demographics,
-    isLoading,
-    router,
-    updateSeeStaffMessage,
-    demographicsStatus,
-  } = props;
+  const { demographics, isLoading, router, demographicsStatus } = props;
+  const dispatch = useDispatch();
+  const updateSeeStaffMessage = useCallback(
+    seeStaffMessage => {
+      dispatch(seeStaffMessageUpdated(seeStaffMessage));
+    },
+    [dispatch],
+  );
   const { demographicsNeedsUpdate } = demographicsStatus;
+  const { goToNextPage, jumpToPage } = useFormRouting(router, URLS);
   const findNextPage = useCallback(
     () => {
-      goToNextPage(router, URLS.NEXT_OF_KIN);
+      goToNextPage();
     },
-    [router],
+    [goToNextPage],
   );
   const yesClick = useCallback(
     () => {
@@ -50,9 +53,9 @@ const Demographics = props => {
         </>
       );
       updateSeeStaffMessage(seeStaffMessage);
-      goToNextPage(router, URLS.SEE_STAFF);
+      jumpToPage(URLS.SEE_STAFF);
     },
-    [router, updateSeeStaffMessage],
+    [updateSeeStaffMessage, jumpToPage],
   );
   useEffect(
     () => {
@@ -84,23 +87,11 @@ const Demographics = props => {
   }
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    updateSeeStaffMessage: seeStaffMessage => {
-      dispatch(seeStaffMessageUpdated(seeStaffMessage));
-    },
-  };
-};
-
 Demographics.propTypes = {
   demographics: PropTypes.object,
   isLoading: PropTypes.bool,
   router: PropTypes.object,
-  updateSeeStaffMessage: PropTypes.func,
   demographicsStatus: PropTypes.object,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Demographics);
+export default Demographics;

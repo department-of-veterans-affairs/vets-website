@@ -8,7 +8,7 @@ import EmergencyContact from './pages/EmergencyContact';
 import Confirmation from './pages/Confirmation';
 import Landing from './pages/Landing';
 import Error from './pages/Error';
-import { URLS } from './utils/navigation';
+import { URLS } from '../utils/navigation/pre-check-in';
 
 import withFeatureFlip from './containers/withFeatureFlip';
 import withAuthorization from './containers/withAuthorization';

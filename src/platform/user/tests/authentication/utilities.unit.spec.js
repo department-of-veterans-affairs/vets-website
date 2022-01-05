@@ -5,7 +5,13 @@ import {
   removeLoginAttempted,
 } from 'platform/utilities/sso/loginAttempted';
 import * as authUtilities from '../../authentication/utilities';
-import { CSP_IDS } from '../../authentication/constants';
+import {
+  AUTHN_SETTINGS,
+  CSP_IDS,
+  EXTERNAL_APPS,
+  EXTERNAL_REDIRECTS,
+  API_VERSION,
+} from '../../authentication/constants';
 
 const setup = () => {
   global.window.location = {
@@ -27,11 +33,11 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include(
       '/v1/sessions/idme_signup/new?op=signup',
     );
-    authUtilities.signup({ version: 'v1', csp: CSP_IDS.ID_ME });
+    authUtilities.signup({ version: API_VERSION, csp: CSP_IDS.ID_ME });
     expect(global.window.location).to.include(
       '/v1/sessions/idme_signup/new?op=signup',
     );
-    authUtilities.signup({ version: 'v1', csp: CSP_IDS.LOGIN_GOV });
+    authUtilities.signup({ version: API_VERSION, csp: CSP_IDS.LOGIN_GOV });
     expect(global.window.location).to.include(
       '/v1/sessions/logingov_signup/new',
     );
@@ -52,23 +58,23 @@ describe('authentication URL helpers', () => {
   });
 
   it('should redirect for logout v1', () => {
-    authUtilities.logout('v1');
+    authUtilities.logout(API_VERSION);
     expect(global.window.location).to.include('/v1/sessions/slo/new');
   });
 
   it('should redirect for logout with custom event', () => {
-    authUtilities.logout('v1', 'custom-event');
+    authUtilities.logout(API_VERSION, 'custom-event');
     expect(global.window.location).to.include('/v1/sessions/slo/new');
     expect(global.window.dataLayer[0].event).to.eq('custom-event');
   });
 
   it('should redirect for MFA v1', () => {
-    authUtilities.mfa('v1');
+    authUtilities.mfa(API_VERSION);
     expect(global.window.location).to.include('/v1/sessions/mfa/new');
   });
 
   it('should redirect for verify v1', () => {
-    authUtilities.verify('v1');
+    authUtilities.verify(API_VERSION);
     expect(global.window.location).to.include('/v1/sessions/verify/new');
   });
 
@@ -87,7 +93,7 @@ describe('authentication URL helpers', () => {
     authUtilities.login({ policy: CSP_IDS.ID_ME });
     expect(global.window.location).to.include(
       `/v1/sessions/idme/new?skip_dupe=mhv&redirect=${
-        authUtilities.externalRedirects.mhv
+        EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]
       }&postLogin=true`,
     );
   });
@@ -99,7 +105,7 @@ describe('authentication URL helpers', () => {
     authUtilities.login({ policy: CSP_IDS.ID_ME });
     expect(global.window.location).to.include(
       `/v1/sessions/idme/new?skip_dupe=mhv&redirect=${
-        authUtilities.externalRedirects.mhv
+        EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]
       }?deeplinking=secure_messaging&postLogin=true`,
     );
   });
@@ -165,10 +171,8 @@ describe('sessionStorage', () => {
     const returnUrl = 'va.gov/refill-rx';
     global.window.location = returnUrl;
 
-    authUtilities.login({ policy: 'idme' });
-    expect(
-      sessionStorage.getItem(authUtilities.authnSettings.RETURN_URL),
-    ).to.eq(returnUrl);
+    authUtilities.login({ policy: CSP_IDS.ID_ME });
+    expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.eq(returnUrl);
   });
 
   it('should set sessionStorage on `/sign-in` page to homepage', () => {
@@ -176,21 +180,17 @@ describe('sessionStorage', () => {
     global.window.location.set(returnUrl);
     global.window.pathname = '/sign-in/';
 
-    authUtilities.login({ policy: 'idme' });
-    expect(
-      sessionStorage.getItem(authUtilities.authnSettings.RETURN_URL),
-    ).to.eq(returnUrl);
+    authUtilities.login({ policy: CSP_IDS.ID_ME });
+    expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.eq(returnUrl);
   });
 
   it('should set sessionStorage to the standaloneRedirect url', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=mhv&to=secure_messaging';
 
-    authUtilities.login({ policy: 'idme' });
-    expect(
-      sessionStorage.getItem(authUtilities.authnSettings.RETURN_URL),
-    ).to.include(
-      `${authUtilities.externalRedirects.mhv}?deeplinking=secure_messaging`,
+    authUtilities.login({ policy: CSP_IDS.ID_ME });
+    expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.include(
+      `${EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]}?deeplinking=secure_messaging`,
     );
   });
 });
@@ -211,7 +211,7 @@ describe('standaloneRedirect', () => {
   it.skip('should return a plain url when no `to` search query is provided', () => {
     global.window.location.search = '?application=myvahealth';
     expect(authUtilities.standaloneRedirect()).to.equal(
-      authUtilities.externalRedirects.myvahealth,
+      EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH],
     );
   });
 
@@ -219,7 +219,7 @@ describe('standaloneRedirect', () => {
     global.window.location.search =
       '?application=myvahealth&to=/some/sub/route\r\n';
     expect(authUtilities.standaloneRedirect()).to.equal(
-      `${authUtilities.externalRedirects.myvahealth}/some/sub/route`,
+      `${EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH]}/some/sub/route`,
     );
   });
 });

@@ -9,7 +9,11 @@ import * as keepAliveMod from 'platform/utilities/sso/keepAliveSSO';
 import { checkAutoSession, checkAndUpdateSSOeSession } from '../sso';
 import * as loginAttempted from '../sso/loginAttempted';
 import { keepAlive } from '../sso/keepAliveSSO';
-import { AUTH_EVENTS } from '../../user/authentication/constants';
+import {
+  API_VERSION,
+  AUTH_EVENTS,
+  CSP_IDS,
+} from '../../user/authentication/constants';
 
 function setKeepAliveResponse(stub, sessionTimeout = 0, csid = null) {
   const response = new Response();
@@ -64,7 +68,7 @@ describe('checkAutoSession', () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       sessionAlive: true,
       ttl: 900,
-      authn: 'dslogon',
+      authn: CSP_IDS.DS_LOGON,
       transactionid: 'X',
     });
     global.window.location.origin = 'http://localhost';
@@ -82,7 +86,7 @@ describe('checkAutoSession', () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       sessionAlive: true,
       ttl: 900,
-      authn: 'dslogon',
+      authn: CSP_IDS.DS_LOGON,
       transactionid: 'X',
     });
     global.window.location.origin = 'http://localhost';
@@ -100,7 +104,7 @@ describe('checkAutoSession', () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       sessionAlive: true,
       ttl: 900,
-      authn: 'dslogon',
+      authn: CSP_IDS.DS_LOGON,
       transactionid: 'X',
     });
     global.window.location.origin = 'http://localhost';
@@ -117,7 +121,7 @@ describe('checkAutoSession', () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       sessionAlive: true,
       ttl: 900,
-      authn: 'dslogon',
+      authn: CSP_IDS.DS_LOGON,
       transactionid: 'X',
     });
     global.window.location.origin = 'http://localhost';
@@ -131,7 +135,7 @@ describe('checkAutoSession', () => {
     sinon.assert.calledOnce(auto);
     sinon.assert.calledWith(auto, {
       policy: 'custom',
-      queryParams: { authn: 'dslogon' },
+      queryParams: { authn: CSP_IDS.DS_LOGON },
       clickedEvent: AUTH_EVENTS.SSO_LOGIN,
     });
   });
@@ -145,7 +149,7 @@ describe('checkAutoSession', () => {
     await checkAutoSession(true, 'X');
 
     sinon.assert.calledOnce(auto);
-    sinon.assert.calledWith(auto, 'v1', AUTH_EVENTS.SSO_LOGOUT, {
+    sinon.assert.calledWith(auto, API_VERSION, AUTH_EVENTS.SSO_LOGOUT, {
       'auto-logout': 'true',
     });
   });
@@ -165,7 +169,7 @@ describe('checkAutoSession', () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       sessionAlive: true,
       ttl: 900,
-      authn: 'dslogon',
+      authn: CSP_IDS.DS_LOGON,
       transactionid: 'X',
     });
     const auto = sandbox.stub(authUtils, 'login');
@@ -174,7 +178,7 @@ describe('checkAutoSession', () => {
     sinon.assert.calledOnce(auto);
     sinon.assert.calledWith(auto, {
       policy: 'custom',
-      queryParams: { authn: 'dslogon' },
+      queryParams: { authn: CSP_IDS.DS_LOGON },
       clickedEvent: AUTH_EVENTS.SSO_LOGIN,
     });
   });
@@ -183,7 +187,7 @@ describe('checkAutoSession', () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       sessionAlive: true,
       ttl: 900,
-      authn: 'dslogon',
+      authn: CSP_IDS.DS_LOGON,
       transactionid: 'Y',
     });
     const auto = sandbox.stub(authUtils, 'logout');
@@ -213,7 +217,7 @@ describe('checkAutoSession', () => {
   it('should auto login if user is logged out, they have an idme SSOe session, have not previously tried to login', async () => {
     sandbox
       .stub(keepAliveMod, 'keepAlive')
-      .returns({ sessionAlive: true, ttl: 900, authn: 'dslogon' });
+      .returns({ sessionAlive: true, ttl: 900, authn: CSP_IDS.DS_LOGON });
     sandbox.stub(loginAttempted, 'getLoginAttempted').returns(undefined);
     const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();
@@ -221,7 +225,7 @@ describe('checkAutoSession', () => {
     sinon.assert.calledOnce(auto);
     sinon.assert.calledWith(auto, {
       policy: 'custom',
-      queryParams: { authn: 'dslogon' },
+      queryParams: { authn: CSP_IDS.DS_LOGON },
       clickedEvent: AUTH_EVENTS.SSO_LOGIN,
     });
   });
@@ -230,7 +234,7 @@ describe('checkAutoSession', () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       sessionAlive: true,
       ttl: 900,
-      authn: 'myhealthevet',
+      authn: CSP_IDS.MHV_VERBOSE,
       transactionid: 'X',
     });
     sandbox.stub(loginAttempted, 'getLoginAttempted').returns(undefined);
@@ -240,7 +244,7 @@ describe('checkAutoSession', () => {
     sinon.assert.calledOnce(auto);
     sinon.assert.calledWith(auto, {
       policy: 'custom',
-      queryParams: { authn: 'myhealthevet' },
+      queryParams: { authn: CSP_IDS.MHV_VERBOSE },
       clickedEvent: AUTH_EVENTS.SSO_LOGIN,
     });
   });
@@ -277,7 +281,7 @@ describe('checkAutoSession', () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       sessionAlive: true,
       ttl: 900,
-      authn: 'dslogon',
+      authn: CSP_IDS.DS_LOGON,
       transactionid: 'X',
     });
     sandbox.stub(loginAttempted, 'getLoginAttempted').returns(true);
@@ -373,7 +377,7 @@ describe.skip('keepAlive', () => {
         'session-alive': 'true',
         'session-timeout': '900',
         va_eauth_transactionid: 'X',
-        va_eauth_csid: 'DSLogon',
+        va_eauth_csid: CSP_IDS.DS_LOGON,
       },
     });
     /* eslint-enable camelcase */
@@ -382,7 +386,7 @@ describe.skip('keepAlive', () => {
       expect(res).to.eql({
         ttl: 900,
         transactionid: 'X',
-        authn: 'dslogon',
+        authn: CSP_IDS.DS_LOGON,
       });
     });
   });
@@ -394,7 +398,7 @@ describe.skip('keepAlive', () => {
         'session-alive': 'true',
         'session-timeout': '900',
         va_eauth_transactionid: 'X',
-        va_eauth_csid: 'mhv',
+        va_eauth_csid: CSP_IDS.MHV,
       },
     });
     /* eslint-enable camelcase */
@@ -403,7 +407,7 @@ describe.skip('keepAlive', () => {
       expect(res).to.eql({
         ttl: 900,
         transactionid: 'X',
-        authn: 'myhealthevet',
+        authn: CSP_IDS.MHV_VERBOSE,
       });
     });
   });
@@ -415,7 +419,7 @@ describe.skip('keepAlive', () => {
         'session-alive': 'true',
         'session-timeout': '900',
         va_eauth_transactionid: 'X',
-        va_eauth_csid: 'idme',
+        va_eauth_csid: CSP_IDS.ID_ME,
         va_eauth_authncontextclassref: '/loa1',
       },
     });

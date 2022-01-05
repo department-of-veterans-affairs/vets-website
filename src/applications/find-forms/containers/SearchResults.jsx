@@ -1,7 +1,6 @@
 // Dependencies.
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { connect } from 'react-redux';
@@ -15,7 +14,11 @@ import {
   updateSortByPropertyNameThunk,
   updatePaginationAction,
 } from '../actions';
-import { doesCookieExist, setCookie } from '../helpers';
+import {
+  doesCookieExist,
+  setCookie,
+  deriveDefaultModalState,
+} from '../helpers';
 import { showPDFModal, getFindFormsAppState } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
@@ -58,22 +61,23 @@ export const SearchResults = ({
   const prevProps = usePreviousProps({
     fetching,
   });
-  const [modalState, setModalState] = useState({
-    isOpen: false,
-    pdfSelected: '',
-    pdfUrl: '',
-    pdfLabel: '',
-    doesCookieExist: false,
-  });
+  const [modalState, setModalState] = useState(deriveDefaultModalState());
+
+  const [prevFocusedLink, setPrevFocusedLink] = useState('');
+
   useEffect(() => {
     const justRefreshed = prevProps?.fetching && !fetching;
     if (justRefreshed) {
       focusElement('[data-forms-focus]');
     }
   });
+
   useEffect(() => {
     if (doesCookieExist()) {
-      setModalState({ ...modalState, doesCookieExist: doesCookieExist() });
+      setModalState({
+        ...deriveDefaultModalState(),
+        doesCookieExist: doesCookieExist(),
+      });
     }
   }, []);
 
@@ -148,7 +152,9 @@ export const SearchResults = ({
 
   // Show loading indicator if we are fetching.
   if (fetching) {
-    return <LoadingIndicator setFocus message="Loading search results..." />;
+    return (
+      <va-loading-indicator setFocus message={'Loading search results...'} />
+    );
   }
 
   // Show the error alert box if there was an error.
@@ -229,6 +235,7 @@ export const SearchResults = ({
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
         showPDFInfoVersionOne={showPDFInfoVersionOne}
         toggleModalState={toggleModalState}
+        setPrevFocusedLink={setPrevFocusedLink}
       />
     ));
 
@@ -276,11 +283,15 @@ export const SearchResults = ({
         }}
       >
         <Modal
-          onClose={() => toggleModalState(pdfSelected, pdfUrl, pdfLabel, true)}
+          onClose={() => {
+            toggleModalState(pdfSelected, pdfUrl, pdfLabel, true);
+            document.getElementById(prevFocusedLink).focus();
+          }}
           title="Download this PDF and open it in Acrobat Reader"
+          initialFocusSelector={'#va-modal-title'}
           visible={isOpen}
         >
-          <>
+          <div className="vads-u-display--flex vads-u-flex-direction--column">
             <p>
               Download this PDF to your desktop computer or laptop. Then use
               Adobe Acrobat Reader to open and fill out the form. Don’t try to
@@ -295,9 +306,9 @@ export const SearchResults = ({
             </a>
             <a
               href={pdfUrl}
-              className="usa-button vads-u-margin-top--2"
+              className="vads-u-margin-top--2"
               rel="noreferrer noopener"
-              role="button"
+              target="_blank"
               onClick={() => {
                 recordEvent(
                   `Download VA form ${pdfSelected} ${pdfLabel}`,
@@ -306,9 +317,17 @@ export const SearchResults = ({
                 );
               }}
             >
-              Download VA Form {pdfSelected}
+              <i
+                aria-hidden="true"
+                className="fas fa-download fa-lg vads-u-margin-right--1"
+                role="presentation"
+              />
+
+              <span className="vads-u-text-decoration--underline">
+                Download VA Form {pdfSelected}
+              </span>
             </a>
-          </>
+          </div>
         </Modal>
       </div>
 

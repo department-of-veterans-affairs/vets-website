@@ -68,7 +68,7 @@ class SessionTimeoutModal extends React.Component {
 
   signOut = () => {
     recordEvent({ event: 'logout-cta-manual-signout' });
-    logout('v1');
+    logout();
   };
 
   render() {

@@ -1,24 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 
 const EmailAddressNotification = ({ signInServiceName }) => {
-  let link;
-  let buttonText;
-
-  if (signInServiceName === 'idme') {
-    link = 'https://wallet.id.me/settings';
-    buttonText = 'ID.me';
-  }
-
-  if (signInServiceName === 'dslogon') {
-    link = 'https://myaccess.dmdc.osd.mil/identitymanagement';
-    buttonText = 'DS Logon';
-  }
-
-  if (signInServiceName === 'mhv' || signInServiceName === 'myhealthevet') {
-    link = 'https://www.myhealth.va.gov';
-    buttonText = 'My HealtheVet';
-  }
+  const { link, label: buttonText } =
+    SERVICE_PROVIDERS[signInServiceName] || {};
 
   return (
     <>

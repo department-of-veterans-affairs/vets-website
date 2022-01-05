@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import FedWarning from 'platform/user/authentication/components/FedWarning';
-import LoginButtons from 'platform/user/authentication/components/LoginButtons';
+import LoginContainer from 'platform/user/authentication/components/LoginContainer';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 
 // import { getCurrentGlobalDowntime } from 'platform/monitoring/DowntimeNotification/util/helpers';
@@ -154,7 +154,7 @@ export class SignInModal extends React.Component {
         </div>
         {this.renderDowntimeBanners()}
         <div className="row">
-          <LoginButtons
+          <LoginContainer
             loginGovEnabled={this.props.loginGovEnabled}
             loginGovCreateAccountEnabled={
               this.props.loginGovCreateAccountEnabled

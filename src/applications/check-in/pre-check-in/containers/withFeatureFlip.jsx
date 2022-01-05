@@ -11,7 +11,7 @@ const withFeatureFlip = Component => {
     if (isLoadingFeatureFlags) {
       return (
         <>
-          <va-loading-indicator message="Loading your pre check in experience" />
+          <va-loading-indicator message="Loading your pre-check-in experience" />
         </>
       );
     } else if (!isPreCheckInEnabled) {

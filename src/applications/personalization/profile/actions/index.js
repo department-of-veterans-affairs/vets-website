@@ -36,6 +36,7 @@ export function fetchHero() {
 export function fetchPersonalInformation() {
   return async dispatch => {
     dispatch({ type: FETCH_PERSONAL_INFORMATION });
+
     const response = await getData('/profile/personal_information');
 
     if (response.errors || response.error) {
