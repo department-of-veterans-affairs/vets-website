@@ -749,24 +749,16 @@ export function submitAppointmentOrRequest(history) {
           appointment = await createAppointment({
             appointment: transformFormToVAOSAppointment(getState()),
           });
-          // console.log('appointment v2: ', appointment);
         } else {
           const appointmentBody = transformFormToAppointment(getState());
           const result = await submitAppointment({
             appointment: appointmentBody,
           });
-          // console.log('result from v0 submitAppointment POST', result);
           appointment = transformConfirmedAppointment(result);
 
-          // console.log(
-          //   'appointment v0 after transformConfirmedAppointment: ',
-          //   appointment,
-          // );
           try {
             await buildPreferencesDataAndUpdate(data.email);
           } catch (error) {
-            // These are ancillary updates, the request went through if the first submit
-            // succeeded
             captureError(error);
           }
         }

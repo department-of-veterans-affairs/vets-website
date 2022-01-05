@@ -184,13 +184,11 @@ const responses = {
   'POST /vaos/v0/appointments': (req, res) => {
     // added mock id to v0 new appointments
     const submittedAppt = {
-      id: `mockV0${currentMockId}`,
+      id: 'mockV0',
       attributes: {
         ...req.body,
-        start: req.body.slot ? req.body.slot.start : null,
       },
     };
-    currentMockId++;
     mockAppts.push(submittedAppt);
     return res.json({ data: submittedAppt });
   },

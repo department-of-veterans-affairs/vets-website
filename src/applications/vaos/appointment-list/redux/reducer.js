@@ -236,8 +236,9 @@ export default function appointmentsReducer(state = initialState, action) {
       });
 
       let appointmentDetails = state.appointmentDetails;
+      const apptDetails = appointmentDetails?.[appointmentToCancel.id];
 
-      if (appointmentDetails?.[appointmentToCancel.id]) {
+      if (apptDetails) {
         const updatedAppointment = action.updatedAppointment || {
           ...appointmentDetails[appointmentToCancel.id],
           description: 'CANCELLED BY PATIENT',

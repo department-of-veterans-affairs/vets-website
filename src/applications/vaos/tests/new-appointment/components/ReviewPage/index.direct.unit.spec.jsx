@@ -169,7 +169,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
   });
 
   it('should submit successfully', async () => {
-    mockAppointmentSubmit({});
+    mockAppointmentSubmit({ id: 'fake_id' });
     mockPreferences('test@va.gov');
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -181,14 +181,14 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
     userEvent.click(screen.getByText(/Confirm appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-appointment/confirmation',
+        '/va/fake_id?confirmMsg=true',
       );
     });
     const submitData = JSON.parse(global.fetch.getCall(0).args[1].body);
 
-    expect(submitData.clinic.siteCode).to.equal('983');
-    expect(submitData.clinic.clinicId).to.equal('455');
-    expect(submitData.dateTime).to.equal(`${start.format()}+00:00`);
+    expect(submitData.appointment.clinic.siteCode).to.equal('983');
+    expect(submitData.appointment.clinic.clinicId).to.equal('455');
+    expect(submitData.appointment.dateTime).to.equal(`${start.format()}+00:00`);
   });
 
   it('should show appropriate message on bad request submit error', async () => {
