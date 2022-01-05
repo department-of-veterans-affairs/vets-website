@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   recordAnswerHandler,
   setSessionHandler,
-  // setVeteranDataHandler,
+  setVeteranDataHandler,
 } from './index';
 
 import { createInitFormAction } from '../../actions/navigation';
@@ -11,7 +11,7 @@ import { createInitFormAction } from '../../actions/navigation';
 import {
   createSetSession,
   recordAnswer,
-  // setVeteranData,
+  setVeteranData,
 } from '../../actions/pre-check-in';
 
 import appReducer from '../index';
@@ -94,6 +94,60 @@ describe('check in', () => {
         });
       });
     });
-    describe('setVeteranDataHandler', () => {});
+    describe('setVeteranDataHandler', () => {
+      describe('setVeteranData', () => {
+        it('should return form structure', () => {
+          const action = setVeteranData({
+            appointments: [],
+            demographics: {},
+          });
+          const state = setVeteranDataHandler({}, action);
+          expect(state).haveOwnProperty('veteranData');
+          expect(state.veteranData).haveOwnProperty('demographics');
+          expect(state).haveOwnProperty('appointments');
+        });
+
+        it('should set form data', () => {
+          const action = setVeteranData({
+            appointments: [
+              { appointmentIen: 'abc-123' },
+              {
+                appointmentIen: 'def-456',
+              },
+            ],
+            demographics: { lastName: 'Smith' },
+          });
+          const state = setVeteranDataHandler({}, action);
+          expect(state.veteranData.demographics).to.deep.equal({
+            lastName: 'Smith',
+          });
+          expect(state.appointments).to.deep.equal([
+            { appointmentIen: 'abc-123' },
+            { appointmentIen: 'def-456' },
+          ]);
+        });
+      });
+      describe('reducer is called; finds the correct handler', () => {
+        it('should return the correct state', () => {
+          const action = setVeteranData({
+            appointments: [
+              { appointmentIen: 'abc-123' },
+              {
+                appointmentIen: 'def-456',
+              },
+            ],
+            demographics: { lastName: 'Smith' },
+          });
+          const state = appReducer.checkInData(undefined, action);
+          expect(state.veteranData.demographics).to.deep.equal({
+            lastName: 'Smith',
+          });
+          expect(state.appointments).to.deep.equal([
+            { appointmentIen: 'abc-123' },
+            { appointmentIen: 'def-456' },
+          ]);
+        });
+      });
+    });
   });
 });
