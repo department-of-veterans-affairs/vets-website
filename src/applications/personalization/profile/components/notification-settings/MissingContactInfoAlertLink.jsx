@@ -13,10 +13,6 @@ export const MISSING_CONTACT_INFO = {
   MOBILE: 'MOBILE',
 };
 
-// const getDeepLinkBasedOnFlag = flag => {
-//   if (flag) return;
-// };
-
 const makeLinkMap = (missingInfo, flag = false) => {
   const linkMap = {
     [MISSING_CONTACT_INFO.ALL]: {
