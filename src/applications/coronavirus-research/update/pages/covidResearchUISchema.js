@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import monthYear from 'platform/forms-system/src/js/definitions/monthYear';
+import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
 import CustomReviewField from '../containers/CustomReviewField';
 import CustomReviewDOBField from '../containers/CustomReviewDOBField';
 import CustomReviewRadio from '../containers/customReviewRadio';
@@ -97,19 +98,19 @@ export const uiSchema = {
     },
   },
   VACCINATED_DATE1: {
-    ...currentOrPastDateUI('Month/Year of 1st dose'),
+    ...currentOrPastMonthYearUI('Month/Year of 1st dose'),
     'ui:options': {
       expandUnder: 'vaccinated',
+      monthYear: true,
       hideIf: formData => get('VACCINATED_DETAILS', formData) === undefined,
       classNames: '',
     },
     'ui:reviewField': CustomReviewDOBField,
   },
   VACCINATED_DATE2: {
-    ...currentOrPastDateUI(
-      'Month/Year of 2nd dose (or future date if scheduled)',
-    ),
+    ...monthYear('Month/Year of 2nd dose (or future date if scheduled)'),
     'ui:options': {
+      monthYear: true,
       expandUnder: 'vaccinated',
       hideIf: formData =>
         get('VACCINATED_DETAILS', formData) === undefined ||
