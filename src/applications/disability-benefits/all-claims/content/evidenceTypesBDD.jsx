@@ -1,5 +1,4 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 export const hasEvidenceLabel =
   'Is there any evidence that you’d like us to review as part of your claim?';
@@ -19,7 +18,7 @@ export const evidenceTypeError =
   'Please select at least one type of supporting evidence';
 
 export const evidenceTypeHelp = (
-  <AdditionalInfo triggerText="Which evidence type should I choose?">
+  <va-additional-info trigger="Which evidence type should I choose?">
     <h4>Types of evidence</h4>
     <h5>Private medical records</h5>
     <p>
@@ -37,5 +36,5 @@ export const evidenceTypeHelp = (
       Posttraumatic Stress Disorder or military sexual trauma—could benefit from
       a lay or buddy statement.
     </p>
-  </AdditionalInfo>
+  </va-additional-info>
 );

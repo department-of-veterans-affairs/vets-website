@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { VaAdditionalInfo } from 'web-components/react-bindings';
 import { recordEventOnce } from 'platform/monitoring/record-event';
 import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
 
@@ -20,8 +20,9 @@ export const otherSourcesDescription = (
 );
 
 export const otherSourcesHelpText = (
-  <AdditionalInfo
-    triggerText="Which should I choose"
+  <VaAdditionalInfo
+    trigger="Which should I choose"
+    disableAnalytics
     onClick={() =>
       recordEventOnce(
         ANALYTICS_EVENTS.openedPtsd781aOtherSourcesHelp,
@@ -47,5 +48,5 @@ export const otherSourcesHelpText = (
       Choose "No" if you don’t need help getting this evidence for your claim
     </h4>
     <p>You’ll have a chance to upload them later in the application.</p>
-  </AdditionalInfo>
+  </VaAdditionalInfo>
 );
