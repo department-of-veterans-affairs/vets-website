@@ -185,10 +185,9 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
       );
     });
     const submitData = JSON.parse(global.fetch.getCall(0).args[1].body);
-
-    expect(submitData.appointment.clinic.siteCode).to.equal('983');
-    expect(submitData.appointment.clinic.clinicId).to.equal('455');
-    expect(submitData.appointment.dateTime).to.equal(`${start.format()}+00:00`);
+    expect(submitData.clinic.siteCode).to.equal('983');
+    expect(submitData.clinic.clinicId).to.equal('455');
+    expect(submitData.dateTime).to.equal(`${start.format()}+00:00`);
   });
 
   it('should show appropriate message on bad request submit error', async () => {

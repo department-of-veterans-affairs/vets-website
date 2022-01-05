@@ -751,9 +751,7 @@ export function submitAppointmentOrRequest(history) {
           });
         } else {
           const appointmentBody = transformFormToAppointment(getState());
-          const result = await submitAppointment({
-            appointment: appointmentBody,
-          });
+          const result = await await submitAppointment(appointmentBody);
           appointment = transformConfirmedAppointment(result);
 
           try {
