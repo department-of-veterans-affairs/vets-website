@@ -75,7 +75,6 @@ import {
   FORM_SUBMIT_SUCCEEDED,
 } from '../../redux/sitewide';
 import { fetchFlowEligibilityAndClinics } from '../../services/patient';
-import { transformConfirmedAppointment } from '../../services/appointment/transformers';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -751,8 +750,7 @@ export function submitAppointmentOrRequest(history) {
           });
         } else {
           const appointmentBody = transformFormToAppointment(getState());
-          const result = await await submitAppointment(appointmentBody);
-          appointment = transformConfirmedAppointment(result);
+          appointment = await await submitAppointment(appointmentBody);
 
           try {
             await buildPreferencesDataAndUpdate(data.email);
