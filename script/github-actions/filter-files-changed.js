@@ -8,3 +8,4 @@ const filteredSCSSFiles = files
 
 console.log(`::set-output name=JSFILES::${filteredJSFiles}`);
 console.log(`::set-output name=SCSSFILES::${filteredSCSSFiles}`);
+console.log(`::args are::${args}`);
