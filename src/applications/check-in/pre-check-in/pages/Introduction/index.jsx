@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, batch } from 'react-redux';
 import PropTypes from 'prop-types';
 import IntroductionDisplay from './IntroductionDisplay';
 
@@ -22,8 +22,10 @@ const Introduction = props => {
   const dispatch = useDispatch();
   const dispatchSetVeteranData = useCallback(
     payload => {
-      dispatch(setVeteranData({ ...payload }));
-      dispatch(updateFormAction({ ...payload, isEmergencyContactEnabled }));
+      batch(() => {
+        dispatch(setVeteranData({ ...payload }));
+        dispatch(updateFormAction({ ...payload, isEmergencyContactEnabled }));
+      });
     },
     [dispatch, isEmergencyContactEnabled],
   );
@@ -31,29 +33,26 @@ const Introduction = props => {
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
 
-  useEffect(
-    () => {
-      // show loading screen
-      setIsLoading(true);
-      //  call get data from API
-      api.v2
-        .getPreCheckInData(token)
-        .then(json => {
-          if (json.error) {
-            goToErrorPage();
-          }
-          const { payload } = json;
-          //  set data to state
-          dispatchSetVeteranData(payload);
-          // hide loading screen
-          setIsLoading(false);
-        })
-        .catch(() => {
+  useEffect(() => {
+    // show loading screen
+    setIsLoading(true);
+    //  call get data from API
+    api.v2
+      .getPreCheckInData(token)
+      .then(json => {
+        if (json.error) {
           goToErrorPage();
-        });
-    },
-    [dispatchSetVeteranData, goToErrorPage, token],
-  );
+        }
+        const { payload } = json;
+        //  set data to state
+        dispatchSetVeteranData(payload);
+        // hide loading screen
+        setIsLoading(false);
+      })
+      .catch(() => {
+        goToErrorPage();
+      });
+  }, [dispatchSetVeteranData, goToErrorPage, token]);
   if (isLoading) {
     return <va-loading-indicator message="Loading your appointment details" />;
   } else {
