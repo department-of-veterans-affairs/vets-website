@@ -1,3 +1,5 @@
+import { updateForm } from '../../utils/navigation/pre-check-in';
+
 export const SET_SESSION = 'SET_SESSION';
 
 export const createSetSession = ({ token, permissions }) => {
@@ -25,5 +27,23 @@ export const setVeteranData = ({ appointments, demographics }) => {
   return {
     type: SET_VETERAN_DATA,
     payload: { appointments, demographics },
+  };
+};
+
+export const UPDATE_FORM = 'UPDATE_FORM';
+
+export const updateFormAction = ({
+  patientDemographicsStatus,
+  isEmergencyContactEnabled = false,
+}) => {
+  const pages = updateForm(
+    patientDemographicsStatus,
+    isEmergencyContactEnabled,
+  );
+  return {
+    type: UPDATE_FORM,
+    payload: {
+      pages,
+    },
   };
 };

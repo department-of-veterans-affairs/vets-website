@@ -3,6 +3,9 @@
  * @param {Object} [location.query]
  * @param {string} [location.query.id]
  */
+
+import { differenceInHours } from 'date-fns';
+
 const getTokenFromLocation = location => location?.query?.id;
 
 const URLS = Object.freeze({
@@ -43,24 +46,71 @@ const PRE_CHECK_IN_FORM_PAGES = Object.freeze([
     order: 5,
   },
 ]);
+const now = Date.now();
 
-const createForm = ({
-  hasConfirmedDemographics = false,
-  isEmergencyContactEnabled = false,
-}) => {
+const isWithInHours = (hours, pageLastUpdated) => {
+  const hoursAgo = differenceInHours(now, pageLastUpdated);
+
+  return hoursAgo <= hours;
+};
+
+const createForm = () => {
+  return PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
+};
+
+const updateForm = (patientDemographicsStatus, isEmergencyContactEnabled) => {
   let pages = PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
-  if (hasConfirmedDemographics) {
-    const skippedPages = [
-      URLS.DEMOGRAPHICS,
-      URLS.NEXT_OF_KIN,
-      URLS.EMERGENCY_CONTACT,
-    ];
-    pages = pages.filter(page => !skippedPages.includes(page));
-  }
   if (!isEmergencyContactEnabled) {
     pages = pages.filter(page => page !== URLS.EMERGENCY_CONTACT);
   }
+  const skippedPages = [];
+  const {
+    demographicsNeedsUpdate,
+    demographicsConfirmedAt,
+    nextOfKinNeedsUpdate,
+    nextOfKinConfirmedAt,
+    emergencyContactNeedsUpdate,
+    emergencyContactConfirmedAt,
+  } = patientDemographicsStatus;
+
+  const skipablePages = [
+    {
+      url: URLS.DEMOGRAPHICS,
+      confirmedAt: demographicsConfirmedAt,
+      needsUpdate: demographicsNeedsUpdate,
+    },
+    {
+      url: URLS.NEXT_OF_KIN,
+      confirmedAt: nextOfKinConfirmedAt,
+      needsUpdate: nextOfKinNeedsUpdate,
+    },
+    {
+      url: URLS.EMERGENCY_CONTACT,
+      confirmedAt: emergencyContactConfirmedAt,
+      needsUpdate: emergencyContactNeedsUpdate,
+    },
+  ];
+
+  skipablePages.forEach(page => {
+    const pageLastUpdated = page.confirmedAt
+      ? new Date(page.confirmedAt)
+      : null;
+    if (
+      pageLastUpdated &&
+      isWithInHours(24, pageLastUpdated) &&
+      page.needsUpdate === false
+    ) {
+      skippedPages.push(page.url);
+    }
+  });
+  pages = pages.filter(page => !skippedPages.includes(page));
   return pages;
 };
 
-export { URLS, PRE_CHECK_IN_FORM_PAGES, createForm, getTokenFromLocation };
+export {
+  URLS,
+  PRE_CHECK_IN_FORM_PAGES,
+  createForm,
+  getTokenFromLocation,
+  updateForm,
+};
