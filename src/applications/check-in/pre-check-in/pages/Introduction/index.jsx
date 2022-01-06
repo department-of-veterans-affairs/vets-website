@@ -12,7 +12,6 @@ import { URLS } from '../../../utils/navigation/pre-check-in';
 
 import { makeSelectCurrentContext } from '../../../selectors';
 
-// @TODO Remove appointments once mock API merged in. Add cypress test for intro.
 const Introduction = props => {
   const { router, isEmergencyContactEnabled } = props;
   const [isLoading, setIsLoading] = useState(true);
