@@ -16,4 +16,14 @@ const gotToNextPageHandler = (state, action) => {
   };
 };
 
-export { initFormHandler, gotToNextPageHandler };
+const updateFormHandler = (state, action) => {
+  return {
+    ...state,
+    form: {
+      ...state.form,
+      pages: action.payload.pages,
+    },
+  };
+};
+
+export { initFormHandler, gotToNextPageHandler, updateFormHandler };

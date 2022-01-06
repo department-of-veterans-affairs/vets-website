@@ -51,9 +51,13 @@ import {
   receivedDemographicsStatusHandler,
 } from './day-of';
 
-import { GO_TO_NEXT_PAGE, INIT_FORM } from '../actions/navigation';
+import { GO_TO_NEXT_PAGE, INIT_FORM, UPDATE_FORM } from '../actions/navigation';
 
-import { gotToNextPageHandler, initFormHandler } from './navigation';
+import {
+  gotToNextPageHandler,
+  initFormHandler,
+  updateFormHandler,
+} from './navigation';
 
 const handler = Object.freeze({
   [INIT_FORM]: initFormHandler,
@@ -72,6 +76,7 @@ const handler = Object.freeze({
   [TRIGGER_REFRESH]: triggerRefreshHandler,
   [SEE_STAFF_MESSAGE_UPDATED]: seeStaffMessageUpdatedHandler,
   [RECEIVED_DEMOGRAPHICS_STATUS]: receivedDemographicsStatusHandler,
+  [UPDATE_FORM]: updateFormHandler,
 
   default: state => {
     return { ...state };
