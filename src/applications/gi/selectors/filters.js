@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { INITIAL_STATE } from '../reducers/filters';
+import environment from 'platform/utilities/environment';
 
 // default state is checked so these will only be present if their corresponding boxes are unchecked
 export const FILTERS_EXCLUDED_FLIP = ['schools', 'employers', 'vettec'];
@@ -50,9 +51,10 @@ export const buildSearchFilters = filters => {
     },
   );
 
-  clonedFilters.excludedSchoolTypes = FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP.filter(
-    exclusion => !clonedFilters.excludedSchoolTypes.includes(exclusion),
-  );
+  if (!environment.isProduction())
+    clonedFilters.excludedSchoolTypes = FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP.filter(
+      exclusion => !clonedFilters.excludedSchoolTypes.includes(exclusion),
+    );
 
   if (clonedFilters.excludedSchoolTypes.length > 0) {
     searchFilters.excludedSchoolTypes = clonedFilters.excludedSchoolTypes;

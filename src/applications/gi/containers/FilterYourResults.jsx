@@ -6,6 +6,7 @@ import Dropdown from '../components/Dropdown';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import environment from 'platform/utilities/environment';
 
 import {
   getStateNameForCode,
@@ -51,7 +52,7 @@ export function FilterYourResults({
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
 
-  const [showAllSchoolTypes] = useState(true);
+  const [showAllSchoolTypes, setShowAllSchoolTypes] = useState(false);
   const SEE_LESS_SIZE = 4;
 
   const recordCheckboxEvent = e => {
@@ -175,7 +176,7 @@ export function FilterYourResults({
   };
 
   const excludedSchoolTypesGroup = () => {
-    const options = (showAllSchoolTypes
+    const options = (showAllSchoolTypes || !environment.isProduction()
       ? INSTITUTION_TYPES
       : INSTITUTION_TYPES.slice(0, SEE_LESS_SIZE)
     ).map(type => {
@@ -186,7 +187,35 @@ export function FilterYourResults({
       };
     });
 
-    return (
+    return environment.isProduction() ? (
+      <div className="vads-u-margin-bottom--5">
+        <CheckboxGroup
+          label={
+            <div className="vads-u-margin-left--neg0p25">
+              Exclude these school types:
+            </div>
+          }
+          onChange={handleIncludedSchoolTypesChange}
+          options={options}
+        />
+        {!showAllSchoolTypes && (
+          <button
+            className="va-button-link see-more-less"
+            onClick={() => setShowAllSchoolTypes(true)}
+          >
+            See more...
+          </button>
+        )}
+        {showAllSchoolTypes && (
+          <button
+            className="va-button-link see-more-less"
+            onClick={() => setShowAllSchoolTypes(false)}
+          >
+            See less...
+          </button>
+        )}
+      </div>
+    ) : (
       <div className="vads-u-margin-bottom--5">
         <CheckboxGroup
           label={
@@ -313,19 +342,21 @@ export function FilterYourResults({
           >
             {name}
           </h3>
-          <Checkbox
-            checked={schools}
-            name="schools"
-            label="Schools"
-            onChange={handleSchoolChange}
-            className="expanding-header-checkbox"
-            inputAriaLabelledBy={legendId}
-          />
-          <div className="school-types expanding-group-children">
-            {excludedSchoolTypesGroup()}
-            {schoolAttributes()}
-            {specialMissions()}
-          </div>
+          <ExpandingGroup open={schools}>
+            <Checkbox
+              checked={schools}
+              name="schools"
+              label="Schools"
+              onChange={handleSchoolChange}
+              className="expanding-header-checkbox"
+              inputAriaLabelledBy={legendId}
+            />
+            <div className="school-types expanding-group-children">
+              {excludedSchoolTypesGroup()}
+              {schoolAttributes()}
+              {specialMissions()}
+            </div>
+          </ExpandingGroup>
         </div>
         <Checkbox
           checked={employers}
