@@ -91,16 +91,35 @@ export function FilterYourResults({
     const checked = e.target.checked;
 
     if (!checked) {
-      dispatchFilterChange({
-        ...filters,
-        schools: false,
-        excludedSchoolTypes: [],
-        excludeCautionFlags: false,
-        accredited: false,
-        studentVeteran: false,
-        yellowRibbonScholarship: false,
-        specialMission: 'ALL',
-      });
+      if (environment.isProduction())
+        dispatchFilterChange({
+          ...filters,
+          schools: false,
+          excludedSchoolTypes: [],
+          excludeCautionFlags: false,
+          accredited: false,
+          studentVeteran: false,
+          yellowRibbonScholarship: false,
+          specialMission: 'ALL',
+        });
+      else
+        dispatchFilterChange({
+          ...filters,
+          schools: false,
+          excludedSchoolTypes: [
+            'PUBLIC',
+            'FOR PROFIT',
+            'PRIVATE',
+            'FOREIGN',
+            'FLIGHT',
+            'CORRESPONDENCE',
+          ],
+          excludeCautionFlags: false,
+          accredited: false,
+          studentVeteran: false,
+          yellowRibbonScholarship: false,
+          specialMission: 'ALL',
+        });
       recordCheckboxEvent(e);
     } else {
       onChangeCheckbox(e);
