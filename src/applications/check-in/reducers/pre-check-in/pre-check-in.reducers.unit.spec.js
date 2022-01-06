@@ -6,13 +6,13 @@ import {
   setVeteranDataHandler,
 } from './index';
 
-import { createInitFormAction } from '../../actions/navigation';
-
 import {
   createSetSession,
   recordAnswer,
   setVeteranData,
 } from '../../actions/pre-check-in';
+
+import { createInitFormAction } from '../../actions/navigation';
 
 import appReducer from '../index';
 

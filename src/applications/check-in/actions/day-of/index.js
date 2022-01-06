@@ -13,7 +13,7 @@ export const receivedMultipleAppointmentDetails = payload => {
 
 export const APPOINTMENT_WAS_CHECKED_INTO = 'APPOINTMENT_WAS_CHECKED_INTO';
 
-export const appointmentWAsCheckedInto = appointment => {
+export const appointmentWasCheckedInto = appointment => {
   return {
     type: APPOINTMENT_WAS_CHECKED_INTO,
     payload: { appointment },
