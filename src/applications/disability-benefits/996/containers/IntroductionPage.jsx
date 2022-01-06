@@ -143,7 +143,7 @@ export class IntroductionPage extends React.Component {
             Follow the steps below to request a Higher-Level Review.
           </h2>
           <p className="vads-u-margin-top--2">
-            if you don’t think this is the right form for you,{' '}
+            If you don’t think this is the right form for you,{' '}
             <a
               href={`${BASE_URL}/start`}
               className="va-button-link"
