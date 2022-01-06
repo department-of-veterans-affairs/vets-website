@@ -22,7 +22,7 @@ const useFormRouting = (router = {}, URLS) => {
       dispatchGoToNextPage(URLS.ERROR);
       router.push(URLS.ERROR);
     },
-    [dispatchGoToNextPage, router],
+    [URLS.ERROR, dispatchGoToNextPage, router],
   );
 
   const jumpToPage = useCallback(
@@ -48,7 +48,7 @@ const useFormRouting = (router = {}, URLS) => {
         goToErrorPage();
       }
     },
-    [dispatchGoToNextPage, goToErrorPage, router],
+    [URLS, dispatchGoToNextPage, goToErrorPage, router],
   );
 
   const goToNextPage = useCallback(
@@ -58,7 +58,7 @@ const useFormRouting = (router = {}, URLS) => {
       dispatchGoToNextPage(nextPage);
       router.push(nextPage);
     },
-    [pages, dispatchGoToNextPage, router, currentPage],
+    [pages, URLS.ERROR, dispatchGoToNextPage, router, currentPage],
   );
   const goToPreviousPage = useCallback(
     () => {
@@ -67,7 +67,7 @@ const useFormRouting = (router = {}, URLS) => {
       dispatchGoToNextPage(nextPage);
       router.push(nextPage);
     },
-    [pages, dispatchGoToNextPage, router, currentPage],
+    [pages, URLS.ERROR, dispatchGoToNextPage, router, currentPage],
   );
 
   return {
