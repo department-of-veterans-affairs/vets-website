@@ -125,6 +125,14 @@
         },
         "zipCode": {
             "$ref": "#/definitions/usaPostalCode"
+        },
+        "vaLocation": {
+            "type": "object",
+            "properties": {
+                "preferredFacility": {
+                    "type": "string"
+                }
+            }
         }
     },
     "required": [

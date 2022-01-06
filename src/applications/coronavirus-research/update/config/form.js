@@ -122,6 +122,7 @@ const formConfig = {
               ELIGIBLE: fullSchema.properties.ELIGIBLE,
               FACILITY: fullSchema.properties.FACILITY,
               zipCode: usaPostalCode,
+              vaLocation: fullSchema.properties.vaLocation,
             },
           },
         },
