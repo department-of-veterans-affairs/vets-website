@@ -8,9 +8,9 @@ import {
   URLS,
   createForm,
 } from '../../utils/navigation/day-of';
-import { createInitFormAction } from '../../actions';
+import { createInitFormAction } from '../../actions/navigation';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { tokenWasValidated, triggerRefresh } from '../actions';
+import { tokenWasValidated, triggerRefresh } from '../../actions/day-of';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { createAnalyticsSlug } from '../../utils/analytics';
 import { isUUID, SCOPES } from '../../utils/token-format-validator';

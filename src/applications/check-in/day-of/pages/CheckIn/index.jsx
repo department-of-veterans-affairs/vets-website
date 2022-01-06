@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { triggerRefresh } from '../../actions';
+import { triggerRefresh } from '../../../actions/day-of';
 
 import DisplayMultipleAppointments from './DisplayMultipleAppointments';
 

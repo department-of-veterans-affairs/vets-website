@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { recordAnswer } from '../../actions';
+import { recordAnswer } from '../../../actions/pre-check-in';
 
 import { api } from '../../../api';
 
