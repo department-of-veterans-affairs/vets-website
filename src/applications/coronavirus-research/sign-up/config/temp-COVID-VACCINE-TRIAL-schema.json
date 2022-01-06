@@ -45,6 +45,10 @@
       "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
       "type": "string"
     },
+    "monthYear": {
+      "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
+      "type": "string"
+    },
     "usaPostalCode": {
       "type": "string",
       "pattern": "^(\\d{5})(?:[-](\\d{4}))?$"
@@ -122,6 +126,9 @@
         },
         "DIAGNOSED_DETAILS::DIFFERENT_METHOD": {
           "type": "boolean"
+        },
+        "DIAGNOSED_DETAILS::NONE_OF_ABOVE": {
+          "type": "boolean"
         }
       }
     },
@@ -166,6 +173,9 @@
         },
         "DIAGNOSED_SYMPTOMS::GI": {
           "type": "boolean"
+        },
+        "DIAGNOSED_SYMPTOMS::NONE_OF_ABOVE": {
+          "type": "boolean"
         }
       }
     },
@@ -202,10 +212,10 @@
       ]
     },
     "VACCINATED_DATE1": {
-      "$ref": "#/definitions/date"
+      "$ref": "#/definitions/monthYear"
     },
     "VACCINATED_DATE2": {
-      "$ref": "#/definitions/date"
+      "$ref": "#/definitions/monthYear"
     },
     "VACCINATED_SECOND": {
       "type": "boolean"

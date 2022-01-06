@@ -19,6 +19,7 @@ import { updateData, transform } from './formHelper';
 import manifest from '../manifest.json';
 
 const { fullName, email, usaPhone, date, usaPostalCode } = definitions;
+const { monthYear } = fullSchema.definitions;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -49,7 +50,7 @@ const formConfig = {
       'Please sign in again to continue to sign up for our coronavirus research volunteer list.',
   },
   title: 'Sign up for our coronavirus research volunteer list',
-  defaultDefinitions: {},
+  defaultDefinitions: { monthYear },
   preSubmitInfo: {
     required: true,
     field: 'consentAgreementAccepted',
@@ -105,8 +106,8 @@ const formConfig = {
               vaccinated: fullSchema.properties.vaccinated,
               VACCINATED_PLAN: fullSchema.properties.VACCINATED_PLAN,
               VACCINATED_DETAILS: fullSchema.properties.VACCINATED_DETAILS,
-              VACCINATED_DATE1: date,
-              VACCINATED_DATE2: date,
+              VACCINATED_DATE1: monthYear,
+              VACCINATED_DATE2: monthYear,
               VACCINATED_SECOND: fullSchema.properties.VACCINATED_SECOND,
               hospitalized: fullSchema.properties.hospitalized,
               smokeOrVape: fullSchema.properties.smokeOrVape,

@@ -42,11 +42,6 @@
       "type": "dropDown"
     },
     {
-      "fieldId": "root_VACCINATED_DATE1Day",
-      "fieldName": "10",
-      "type": "dropDown"
-    },
-    {
       "fieldId": "root_VACCINATED_DATE1Year",
       "fieldName": "2021",
       "type": "text"
@@ -54,11 +49,6 @@
     {
       "fieldId": "root_VACCINATED_DATE2Month",
       "fieldName": "8",
-      "type": "dropDown"
-    },
-    {
-      "fieldId": "root_VACCINATED_DATE2Day",
-      "fieldName": "15",
       "type": "dropDown"
     },
     {

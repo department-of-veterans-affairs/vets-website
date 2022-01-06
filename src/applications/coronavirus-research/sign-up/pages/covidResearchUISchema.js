@@ -98,6 +98,10 @@ export const uiSchema = {
       'ui:title': 'With a different method',
       'ui:reviewField': CustomReviewField,
     },
+    'DIAGNOSED_DETAILS::NONE_OF_ABOVE': {
+      'ui:title': 'None of the above',
+      'ui:reviewField': CustomReviewField,
+    },
   },
   DIAGNOSED_SYMPTOMS: {
     'ui:options': {
@@ -165,6 +169,10 @@ export const uiSchema = {
     },
     'DIAGNOSED_SYMPTOMS::GI': {
       'ui:title': 'GI symptoms (heart burn, loss of appetite, abdominal pain)',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::NONE_OF_ABOVE': {
+      'ui:title': 'None of the above',
       'ui:reviewField': CustomReviewField,
     },
   },
@@ -253,6 +261,7 @@ export const uiSchema = {
     ...currentOrPastDateUI('Month/Year of 1st dose'),
     'ui:options': {
       expandUnder: 'vaccinated',
+      monthYear: true,
       hideIf: formData => get('VACCINATED_DETAILS', formData) === undefined,
       classNames: '',
     },
@@ -264,6 +273,7 @@ export const uiSchema = {
     ),
     'ui:options': {
       expandUnder: 'vaccinated',
+      monthYear: true,
       hideIf: formData =>
         get('VACCINATED_DETAILS', formData) === undefined ||
         get('VACCINATED_DETAILS', formData) === 'Johnson & Johnson',

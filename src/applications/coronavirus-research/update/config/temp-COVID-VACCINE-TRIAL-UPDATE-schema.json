@@ -64,6 +64,9 @@
                 },
                 "DIAGNOSED_DETAILS::DIFFERENT_METHOD": {
                     "type": "boolean"
+                },
+                "DIAGNOSED_DETAILS::NONE_OF_ABOVE": {
+                  "type": "boolean"
                 }
             }
         },
@@ -108,6 +111,9 @@
                 },
                 "DIAGNOSED_SYMPTOMS::GI": {
                     "type": "boolean"
+                },
+                "DIAGNOSED_SYMPTOMS::NONE_OF_ABOVE": {
+                  "type": "boolean"
                 }
             }
         },

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import monthYear from 'platform/forms-system/src/js/definitions/monthYear';
 import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
 import CustomReviewField from '../containers/CustomReviewField';
 import CustomReviewDOBField from '../containers/CustomReviewDOBField';
@@ -108,7 +107,9 @@ export const uiSchema = {
     'ui:reviewField': CustomReviewDOBField,
   },
   VACCINATED_DATE2: {
-    ...monthYear('Month/Year of 2nd dose (or future date if scheduled)'),
+    ...currentOrPastMonthYearUI(
+      'Month/Year of 2nd dose (or future date if scheduled)',
+    ),
     'ui:options': {
       monthYear: true,
       expandUnder: 'vaccinated',
@@ -171,6 +172,10 @@ export const uiSchema = {
     },
     'DIAGNOSED_DETAILS::DIFFERENT_METHOD': {
       'ui:title': 'With a different method',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_DETAILS::NONE_OF_ABOVE': {
+      'ui:title': 'None of the above',
       'ui:reviewField': CustomReviewField,
     },
   },
@@ -240,6 +245,10 @@ export const uiSchema = {
     },
     'DIAGNOSED_SYMPTOMS::GI': {
       'ui:title': 'GI symptoms (heart burn, loss of appetite, abdominal pain)',
+      'ui:reviewField': CustomReviewField,
+    },
+    'DIAGNOSED_SYMPTOMS::NONE_OF_ABOVE': {
+      'ui:title': 'None of the above',
       'ui:reviewField': CustomReviewField,
     },
   },
