@@ -5,6 +5,7 @@ import {
   getTokenFromLocation,
   PRE_CHECK_IN_FORM_PAGES,
   URLS,
+  updateForm,
 } from './index';
 
 describe('Pre-check in', () => {
@@ -27,53 +28,86 @@ describe('Pre-check in', () => {
       });
     });
     describe('createForm', () => {
-      it('should return all the pages when hasConfirmedDemographics is false', () => {
-        const form = createForm({
-          hasConfirmedDemographics: false,
-        });
+      it('should return all the pages when initialized', () => {
+        const form = createForm();
+        expect(form.length).to.equal(PRE_CHECK_IN_FORM_PAGES.length);
+      });
+    });
+    describe('updateForm', () => {
+      const now = Date.now();
+      const today = new Date(now);
+      it('should return all pages without emergency contact page', () => {
+        const patientDemographicsStatus = {
+          demographicsNeedsUpdate: true,
+          demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          nextOfKinNeedsUpdate: true,
+          nextOfKinConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          emergencyContactNeedsUpdate: true,
+          emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
+        };
+        const form = updateForm(patientDemographicsStatus, false);
         // The '-1' is for not showing the emergency contact page
         expect(form.length).to.equal(PRE_CHECK_IN_FORM_PAGES.length - 1);
       });
-      it('should not return the demographics, next of kin, emergency contact pages when hasConfirmedDemographics is true', () => {
-        const form = createForm({ hasConfirmedDemographics: true });
-        const skippedPages = [
-          URLS.DEMOGRAPHICS,
-          URLS.NEXT_OF_KIN,
-          URLS.EMERGENCY_CONTACT,
-        ];
-        expect(form.length).to.equal(
-          PRE_CHECK_IN_FORM_PAGES.length - skippedPages.length,
-        );
-        expect(form.find(page => page === URLS.DEMOGRAPHICS)).to.be.undefined;
-        expect(form.find(page => page === URLS.NEXT_OF_KIN)).to.be.undefined;
-        expect(form.find(page => page === URLS.EMERGENCY_CONTACT)).to.be
-          .undefined;
-      });
       it('should return all pages with emergency contact page', () => {
-        const form = createForm({
-          hasConfirmedDemographics: false,
-          isEmergencyContactEnabled: true,
-        });
-        // The '-1' is for not showing the emergency contact page
+        const patientDemographicsStatus = {
+          demographicsNeedsUpdate: true,
+          demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          nextOfKinNeedsUpdate: true,
+          nextOfKinConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          emergencyContactNeedsUpdate: true,
+          emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
+        };
+        const form = updateForm(patientDemographicsStatus, true);
         expect(form.length).to.equal(PRE_CHECK_IN_FORM_PAGES.length);
       });
-      it('should not return the demographics, next of kin, emergency contact pages when hasConfirmedDemographics is true and isEmergencyContact is true', () => {
-        const form = createForm({
-          hasConfirmedDemographics: true,
-          isEmergencyContactEnabled: true,
-        });
-        const skippedPages = [
-          URLS.DEMOGRAPHICS,
-          URLS.NEXT_OF_KIN,
-          URLS.EMERGENCY_CONTACT,
-        ];
-        expect(form.length).to.equal(
-          PRE_CHECK_IN_FORM_PAGES.length - skippedPages.length,
-        );
+      it("should skip a page that has been updated within the time window and isn't flagged for an update", () => {
+        const patientDemographicsStatus = {
+          demographicsNeedsUpdate: false,
+          demographicsConfirmedAt: today.toISOString(),
+          nextOfKinNeedsUpdate: true,
+          nextOfKinConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          emergencyContactNeedsUpdate: false,
+          emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
+        };
+        const form = updateForm(patientDemographicsStatus, true);
         expect(form.find(page => page === URLS.DEMOGRAPHICS)).to.be.undefined;
-        expect(form.find(page => page === URLS.NEXT_OF_KIN)).to.be.undefined;
-        expect(form.find(page => page === URLS.EMERGENCY_CONTACT)).to.be
-          .undefined;
+      });
+      it('should not skip a page that has been updated within the time window but is flagged for an update', () => {
+        const patientDemographicsStatus = {
+          demographicsNeedsUpdate: true,
+          demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          nextOfKinNeedsUpdate: true,
+          nextOfKinConfirmedAt: today.toISOString(),
+          emergencyContactNeedsUpdate: false,
+          emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
+        };
+        const form = updateForm(patientDemographicsStatus, true);
+        expect(form.find(page => page === URLS.NEXT_OF_KIN)).to.exist;
+      });
+      it("should not skip a page that hasn't been updated within the time window", () => {
+        const patientDemographicsStatus = {
+          demographicsNeedsUpdate: true,
+          demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          nextOfKinNeedsUpdate: true,
+          nextOfKinConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          emergencyContactNeedsUpdate: false,
+          emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
+        };
+        const form = updateForm(patientDemographicsStatus, true);
+        expect(form.find(page => page === URLS.EMERGENCY_CONTACT)).to.exist;
+      });
+      it('should not skip a page that has no last updated date string', () => {
+        const patientDemographicsStatus = {
+          demographicsNeedsUpdate: false,
+          demographicsConfirmedAt: null,
+          nextOfKinNeedsUpdate: true,
+          nextOfKinConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          emergencyContactNeedsUpdate: false,
+          emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
+        };
+        const form = updateForm(patientDemographicsStatus, true);
+        expect(form.find(page => page === URLS.DEMOGRAPHICS)).to.exist;
       });
     });
   });
