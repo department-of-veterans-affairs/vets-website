@@ -1,4 +1,5 @@
 import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 
 export function makeUserObject(options = {}) {
   const services = options.services || ['vet360'];
@@ -28,7 +29,7 @@ export function makeUserObject(options = {}) {
           multifactor: options.multifactor ?? true,
           verified: true,
           signIn: {
-            serviceName: options.serviceName || 'idme',
+            serviceName: options.serviceName || CSP_IDS.ID_ME,
             accountType: 'N/A',
             ssoe: true,
           },

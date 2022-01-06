@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { makeSelectForm } from '../../selectors';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { getCurrentToken } from '../../utils/session';
-import { URLS } from '../utils/navigation';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { URLS } from '../../utils/navigation/day-of';
 
 const withForm = Component => {
   const Wrapped = ({ ...props }) => {
     const { router } = props;
     const selectForm = useMemo(makeSelectForm, []);
     const form = useSelector(selectForm);
-
+    const { getCurrentToken } = useSessionStorage(false);
     const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
 
     useEffect(
@@ -25,7 +25,7 @@ const withForm = Component => {
           }
         }
       },
-      [goToErrorPage, jumpToPage, form],
+      [goToErrorPage, jumpToPage, form, getCurrentToken],
     );
 
     return (

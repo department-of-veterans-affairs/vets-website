@@ -12,7 +12,11 @@ import {
 import mockKeepAlive from './mockKeepAliveSSO';
 import { keepAlive as liveKeepAlive } from './keepAliveSSO';
 import { getLoginAttempted } from './loginAttempted';
-import { AUTH_EVENTS } from 'platform/user/authentication/constants';
+import {
+  AUTH_EVENTS,
+  API_VERSION,
+  POLICY_TYPES,
+} from 'platform/user/authentication/constants';
 
 const keepAliveThreshold = 5 * 60 * 1000; // 5 minutes, in milliseconds
 
@@ -63,7 +67,7 @@ export async function checkAutoSession(
        * TTL: > 0 and < 900 = Session valid
        * TTL: undefined, can't verify SSOe status
        */
-      logout('v1', AUTH_EVENTS.SSO_LOGOUT, {
+      logout(API_VERSION, AUTH_EVENTS.SSO_LOGOUT, {
         'auto-logout': 'true',
       });
     } else if (transactionid && transactionid !== ssoeTransactionId) {
@@ -73,7 +77,7 @@ export async function checkAutoSession(
        * and perform an auto-login with the new session. (Auto logout and re-logins)
        */
       login({
-        policy: 'custom',
+        policy: POLICY_TYPES.CUSTOM,
         queryParams: { authn },
         clickedEvent: AUTH_EVENTS.SSO_LOGIN,
       });
@@ -98,7 +102,7 @@ export async function checkAutoSession(
      * 4. Have a non-empty type value from eAuth keepalive endpoint
      */
     login({
-      policy: 'custom',
+      policy: POLICY_TYPES.CUSTOM,
       queryParams: { authn },
       clickedEvent: AUTH_EVENTS.SSO_LOGIN,
     });

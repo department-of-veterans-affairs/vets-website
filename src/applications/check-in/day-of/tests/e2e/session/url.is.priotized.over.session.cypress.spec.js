@@ -1,17 +1,14 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
+
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 
-describe('Check In Experience -- ', () => {
+describe('Check In Experience', () => {
   beforeEach(function() {
-    cy.authenticate();
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        checkInExperienceUpdateInformationPageEnabled: false,
-      }),
-    );
+    const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
+    initializeFeatureToggle.withCurrentFeatures();
+    initializeSessionGet.withSuccessfulNewSession();
+
     cy.window().then(window => {
       const sample = JSON.stringify({
         token: 'the-old-id',
@@ -38,6 +35,7 @@ describe('Check In Experience -- ', () => {
       expect(data).to.equal(sample);
     });
     cy.visitWithUUID();
+    cy.injectAxeThenAxeCheck();
     ValidateVeteran.validatePageLoaded('Check in at VA');
     cy.window().then(window => {
       const data = window.sessionStorage.getItem(

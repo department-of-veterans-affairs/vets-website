@@ -1,31 +1,49 @@
 import { snakeCase } from 'lodash';
-import constants from 'vets-json-schema/dist/constants.json';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
+
+import constants from 'vets-json-schema/dist/constants.json';
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import mapboxClient from '../components/MapboxClient';
+
+import { scroller } from 'react-scroll';
+import { getScrollOptions } from 'platform/utilities/ui';
+
+const mbxClient = mbxGeo(mapboxClient);
 import { SMALL_SCREEN_WIDTH } from '../constants';
+
+/**
+ * Snake-cases field names
+ * @param query {Object} an object containing query fields
+ * @returns {Object} query object with updated field names
+ */
+export const rubyifyKeys = query =>
+  Object.keys(query).reduce(
+    (queryParams, key) => ({
+      ...queryParams,
+      [snakeCase(key)]: query[key],
+    }),
+    {},
+  );
 
 export const formatNumber = value => {
   const str = (+value).toString();
   return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
 };
 
-export const formatCurrency = value => {
-  if (isNaN(value)) {
-    return value;
-  }
-  return `$${formatNumber(Math.round(+value))}`;
-};
-
-export const isVetTecSelected = filters => filters.category === 'vettec';
-
-export const addAllOption = options => [
-  { value: 'ALL', label: 'ALL' },
-  ...options,
-];
+export const isPresent = value => value && value !== '';
 
 export const createId = name => name?.toLowerCase().replace(/\s/g, '-');
-export const isCountryUSA = country => country?.toUpperCase() === 'USA';
+
+export const isMobileView = () => window.innerWidth <= SMALL_SCREEN_WIDTH;
+
+export const isCountryUSA = country => country.toUpperCase() === 'USA';
+
 export const isCountryInternational = country => !isCountryUSA(country);
+
+export function useQueryParams() {
+  return new URLSearchParams(useLocation().search);
+}
 
 export const locationInfo = (city, state, country) => {
   let address = '';
@@ -55,37 +73,40 @@ export const phoneInfo = (areaCode, phoneNumber) => {
   return providerPhone;
 };
 
-/**
- * Snake-cases field names
- * @param query {Object} an object containing query fields
- * @returns {Object} query object with updated field names
- */
-export const rubyifyKeys = query =>
-  Object.keys(query).reduce(
-    (queryParams, key) => ({
-      ...queryParams,
-      [snakeCase(key)]: query[key],
-    }),
-    {},
-  );
+export function convertRatingToStars(rating) {
+  const ratingValue = parseFloat(rating);
 
-export const isPresent = value => value && value !== '';
+  if (!ratingValue || isNaN(ratingValue)) {
+    return null;
+  }
 
-export const getStateNameForCode = stateCode => {
-  const stateLabel = constants.states.USA.find(
-    state => state.value.toUpperCase() === stateCode.toUpperCase(),
-  );
-  return stateLabel !== undefined ? stateLabel.label : stateCode.toUpperCase();
+  const rounded = ratingValue.toFixed(1);
+  let full = parseInt(rounded.split('.')[0], 10);
+  const firstDecimal = parseInt(rounded.split('.')[1], 10);
+
+  let half = false;
+
+  if (firstDecimal > 7) {
+    full++;
+  } else if (firstDecimal >= 3) {
+    half = true;
+  }
+
+  return { full, half, display: rounded };
+}
+
+export const handleScrollOnInputFocus = fieldId => {
+  const field = document.getElementById(fieldId);
+  if (field && isMobileView()) {
+    field.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
 };
 
-export const sortOptionsByStateName = (stateA, stateB) => {
-  if (stateA.label < stateB.label) {
-    return -1;
+export const formatCurrency = value => {
+  if (isNaN(value)) {
+    return value;
   }
-  if (stateA.label > stateB.label) {
-    return 1;
-  }
-  return 0;
+  return `$${formatNumber(Math.round(+value))}`;
 };
 
 export const removeNonNumberCharacters = value =>
@@ -94,15 +115,6 @@ export const removeNonNumberCharacters = value =>
 export const formatDollarAmount = value => {
   const output = value != null ? removeNonNumberCharacters(value) : 0;
   return formatCurrency(output);
-};
-
-export const isMobileView = () => window.innerWidth <= SMALL_SCREEN_WIDTH;
-
-export const handleScrollOnInputFocus = fieldId => {
-  const field = document.getElementById(fieldId);
-  if (field && isMobileView()) {
-    field.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
 };
 
 export const handleInputFocusWithPotentialOverLap = (
@@ -140,31 +152,54 @@ export const handleInputFocusWithPotentialOverLap = (
   }
 };
 
-export function useQueryParams() {
-  return new URLSearchParams(useLocation().search);
-}
+export const addAllOption = options => [
+  { optionValue: 'ALL', optionLabel: 'All' },
+  ...options,
+];
 
-export function convertRatingToStars(rating) {
-  const ratingValue = parseFloat(rating);
+export const getStateNameForCode = stateCode => {
+  const stateLabel = constants.states.USA.find(
+    state => state.value.toUpperCase() === stateCode.toUpperCase(),
+  );
+  return stateLabel !== undefined ? stateLabel.label : stateCode.toUpperCase();
+};
 
-  if (!ratingValue || isNaN(ratingValue)) {
-    return null;
+export const sortOptionsByStateName = (stateA, stateB) => {
+  if (stateA.label < stateB.label) {
+    return -1;
   }
-
-  const rounded = ratingValue.toFixed(1);
-  let full = parseInt(rounded.split('.')[0], 10);
-  const firstDecimal = parseInt(rounded.split('.')[1], 10);
-
-  let half = false;
-
-  if (firstDecimal > 7) {
-    full++;
-  } else if (firstDecimal >= 3) {
-    half = true;
+  if (stateA.label > stateB.label) {
+    return 1;
   }
+  return 0;
+};
 
-  return { full, half, display: rounded };
-}
+export const searchCriteriaFromCoords = async (longitude, latitude) => {
+  const response = await mbxClient
+    .reverseGeocode({
+      query: [longitude, latitude],
+      types: ['address'],
+    })
+    .send();
+
+  const features = response.body.features;
+  const placeName = features[0].place_name;
+
+  return {
+    searchString: placeName,
+    position: { longitude, latitude },
+  };
+};
+
+export const schoolSize = enrollment => {
+  if (!enrollment) return 'Unknown';
+  if (enrollment <= 2000) {
+    return 'Small';
+  } else if (enrollment <= 15000) {
+    return 'Medium';
+  }
+  return 'Large';
+};
 
 export function isURL(str) {
   const pattern = new RegExp(
@@ -178,3 +213,29 @@ export function isURL(str) {
   ); // fragment locator
   return !!pattern.test(str);
 }
+
+export const upperCaseFirstLetterOnly = str =>
+  str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+export const naIfNull = value => {
+  return value || 'N/A';
+};
+
+export const boolYesNo = field => {
+  return field ? 'Yes' : 'No';
+};
+
+export const isSmallScreen = () => matchMedia('(max-width: 480px)').matches;
+
+export const scrollToFocusedElement = () => {
+  const compareDrawerHeight = document.getElementById('compare-drawer')
+    ?.clientHeight;
+  const activeElementBounding = document.activeElement.getBoundingClientRect();
+
+  if (
+    compareDrawerHeight &&
+    activeElementBounding.bottom > window.innerHeight - compareDrawerHeight
+  ) {
+    scroller.scrollTo(document.activeElement.id, getScrollOptions());
+  }
+};

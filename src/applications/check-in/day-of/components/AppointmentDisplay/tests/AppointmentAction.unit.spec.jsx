@@ -8,7 +8,7 @@ import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import AppointmentAction from '../AppointmentAction';
 
-import { ELIGIBILITY } from '../../../utils/appointment/eligibility';
+import { ELIGIBILITY } from '../../../../utils/appointment/eligibility';
 
 describe('check-in', () => {
   describe('AppointmentAction', () => {

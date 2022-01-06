@@ -2,31 +2,9 @@ import React from 'react';
 import * as Sentry from '@sentry/browser';
 import { isPlainObject } from 'lodash';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-
-import { VA_FORM_IDS } from 'platform/forms/constants.js';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
-
-import hcaManifest from 'applications/hca/manifest.json';
-import dependentStatusManifest from 'applications/disability-benefits/686c-674/manifest.json';
-import feedbackManifest from 'applications/edu-benefits/feedback-tool/manifest.json';
-import burialsManifest from 'applications/burials/manifest.json';
-import edu1990Manifest from 'applications/edu-benefits/1990/manifest.json';
-import edu1995Manifest from 'applications/edu-benefits/1995/manifest.json';
-import edu1990eManifest from 'applications/edu-benefits/1990e/manifest.json';
-import edu1990nManifest from 'applications/edu-benefits/1990n/manifest.json';
-import edu5490Manifest from 'applications/edu-benefits/5490/manifest.json';
-import edu5495Manifest from 'applications/edu-benefits/5495/manifest.json';
-import edu0993Manifest from 'applications/edu-benefits/0993/manifest.json';
-import edu0994Manifest from 'applications/edu-benefits/0994/manifest.json';
-import edu10203Manifest from 'applications/edu-benefits/10203/manifest.json';
-import preneedManifest from 'applications/pre-need/manifest.json';
-import pensionManifest from 'applications/pensions/manifest.json';
-import disability526Manifest from 'applications/disability-benefits/all-claims/manifest.json';
-import hlrManifest from 'applications/disability-benefits/996/manifest.json';
-import mdotManifest from 'applications/disability-benefits/2346/manifest.json';
-import fsrManifest from 'applications/financial-status-report/manifest.json';
-import mebManifest from 'applications/my-education-benefits/manifest.json';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 export const formBenefits = {
   [VA_FORM_IDS.FORM_21_526EZ]: 'disability compensation',
@@ -88,26 +66,26 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
 );
 
 export const formLinks = {
-  [VA_FORM_IDS.FORM_21_526EZ]: `${disability526Manifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_21P_527EZ]: `${pensionManifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_21P_530]: `${burialsManifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_10_10EZ]: `${hcaManifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_22_0993]: `${edu0993Manifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_22_0994]: `${edu0994Manifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_22_1990]: `${edu1990Manifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_22_1990E]: `${edu1990eManifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_22_1990EZ]: `${mebManifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_22_1990N]: `${edu1990nManifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_22_1995]: `${edu1995Manifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_22_5490]: `${edu5490Manifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_22_5495]: `${edu5495Manifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_22_10203]: `${edu10203Manifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_40_10007]: `${preneedManifest.rootUrl}/`,
-  [VA_FORM_IDS.FEEDBACK_TOOL]: `${feedbackManifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_21_686C]: `${dependentStatusManifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_20_0996]: `${hlrManifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_VA_2346A]: `${mdotManifest.rootUrl}/`,
-  [VA_FORM_IDS.FORM_5655]: `${fsrManifest.rootUrl}/`,
+  [VA_FORM_IDS.FEEDBACK_TOOL]: `${getAppUrl('feedback-tool')}/`,
+  [VA_FORM_IDS.FORM_10_10EZ]: `${getAppUrl('hca')}/`,
+  [VA_FORM_IDS.FORM_20_0996]: `${getAppUrl('0996-higher-level-review')}/`,
+  [VA_FORM_IDS.FORM_21_526EZ]: `${getAppUrl('526EZ-all-claims')}/`,
+  [VA_FORM_IDS.FORM_21_686C]: `${getAppUrl('686C-674')}/`,
+  [VA_FORM_IDS.FORM_21P_527EZ]: `${getAppUrl('pensions')}/`,
+  [VA_FORM_IDS.FORM_21P_530]: `${getAppUrl('burials')}/`,
+  [VA_FORM_IDS.FORM_22_0993]: `${getAppUrl('0993-edu-benefits')}/`,
+  [VA_FORM_IDS.FORM_22_0994]: `${getAppUrl('0994-edu-benefits')}/`,
+  [VA_FORM_IDS.FORM_22_1990]: `${getAppUrl('1990-edu-benefits')}/`,
+  [VA_FORM_IDS.FORM_22_1990E]: `${getAppUrl('1990e-edu-benefits')}/`,
+  [VA_FORM_IDS.FORM_22_1990EZ]: `${getAppUrl('1990ez-edu-benefits')}/`,
+  [VA_FORM_IDS.FORM_22_1990N]: `${getAppUrl('1990n-edu-benefits')}/`,
+  [VA_FORM_IDS.FORM_22_1995]: `${getAppUrl('1995-edu-benefits')}/`,
+  [VA_FORM_IDS.FORM_22_5490]: `${getAppUrl('5490-edu-benefits')}/`,
+  [VA_FORM_IDS.FORM_22_5495]: `${getAppUrl('5495-edu-benefits')}/`,
+  [VA_FORM_IDS.FORM_22_10203]: `${getAppUrl('10203-edu-benefits')}/`,
+  [VA_FORM_IDS.FORM_40_10007]: `${getAppUrl('pre-need')}/`,
+  [VA_FORM_IDS.FORM_5655]: `${getAppUrl('request-debt-help-form-5655')}/`,
+  [VA_FORM_IDS.FORM_VA_2346A]: `${getAppUrl('order-form-2346')}/`,
 };
 
 export const trackingPrefixes = {
@@ -246,7 +224,7 @@ export const renderWidgetDowntimeNotification = (appName, sectionTitle) => (
     return (
       <div>
         <h2>{sectionTitle}</h2>
-        <AlertBox
+        <va-alert
           content={
             <div>
               <h4 className="usa-alert-heading">

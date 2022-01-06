@@ -1,9 +1,9 @@
-import React, { useEffect, useCallback } from 'react';
-import { connect } from 'react-redux';
+import React, { useCallback, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { URLS } from '../utils/navigation';
+import { URLS } from '../../utils/navigation/day-of';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../components/BackButton';
 import BackToHome from '../components/BackToHome';
@@ -18,7 +18,6 @@ const EmergencyContact = props => {
     isLoading,
     isUpdatePageEnabled,
     router,
-    updateSeeStaffMessage,
     demographicsStatus,
   } = props;
   const { emergencyContactNeedsUpdate } = demographicsStatus;
@@ -28,7 +27,13 @@ const EmergencyContact = props => {
   );
   const seeStaffMessage =
     'Our staff can help you update your emergency contact information.';
-
+  const dispatch = useDispatch();
+  const updateSeeStaffMessage = useCallback(
+    message => {
+      dispatch(seeStaffMessageUpdated(message));
+    },
+    [dispatch],
+  );
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -95,24 +100,12 @@ const EmergencyContact = props => {
   }
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    updateSeeStaffMessage: seeStaffMessage => {
-      dispatch(seeStaffMessageUpdated(seeStaffMessage));
-    },
-  };
-};
-
 EmergencyContact.propTypes = {
   emergencyContact: PropTypes.object,
   isLoading: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
-  updateSeeStaffMessage: PropTypes.func,
   demographicsStatus: PropTypes.object,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(EmergencyContact);
+export default EmergencyContact;

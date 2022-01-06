@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { createAnalyticsSlug } from '../../utils/analytics';
-import { URLS } from '../utils/navigation';
+import { URLS } from '../../utils/navigation/day-of';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { withRouter } from 'react-router';
 

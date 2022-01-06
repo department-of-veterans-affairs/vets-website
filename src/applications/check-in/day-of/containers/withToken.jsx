@@ -2,9 +2,9 @@ import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { URLS } from '../utils/navigation';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { URLS } from '../../utils/navigation/day-of';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { getCurrentToken } from '../../utils/session';
 import { makeSelectCheckInData } from '../hooks/selectors';
 
 const withToken = Component => {
@@ -15,19 +15,19 @@ const withToken = Component => {
     const checkInData = useSelector(selectCheckInData);
     const { context } = checkInData;
     const shouldRedirect = !context || !context.token;
+    const { getCurrentToken } = useSessionStorage(false);
     useEffect(
       () => {
         if (shouldRedirect) {
-          const session = getCurrentToken(window);
-          if (session) {
-            const { token } = session;
+          const token = getCurrentToken(window)?.token;
+          if (token) {
             jumpToPage(URLS.LANDING, { params: { url: { id: token } } });
           } else {
             goToErrorPage();
           }
         }
       },
-      [shouldRedirect, router, jumpToPage, goToErrorPage],
+      [shouldRedirect, router, jumpToPage, goToErrorPage, getCurrentToken],
     );
     if (shouldRedirect) {
       return <></>;

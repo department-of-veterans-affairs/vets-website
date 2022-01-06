@@ -7,27 +7,13 @@ import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 
 import { signInServiceName as signInServiceNameSelector } from 'platform/user/authentication/selectors';
+import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 
 import ProfileInfoTable from '../../ProfileInfoTable';
 
 const EmailInformationSection = ({ className, signInServiceName }) => {
-  let link;
-  let buttonText;
-
-  if (signInServiceName === 'idme') {
-    link = 'https://wallet.id.me/settings';
-    buttonText = 'ID.me';
-  }
-
-  if (signInServiceName === 'dslogon') {
-    link = 'https://myaccess.dmdc.osd.mil/identitymanagement';
-    buttonText = 'DS Logon';
-  }
-
-  if (signInServiceName === 'mhv' || signInServiceName === 'myhealthevet') {
-    link = 'https://www.myhealth.va.gov';
-    buttonText = 'My HealtheVet';
-  }
+  const { link, label: buttonText } =
+    SERVICE_PROVIDERS[signInServiceName] || {};
 
   return (
     <div className={className}>
