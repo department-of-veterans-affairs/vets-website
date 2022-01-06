@@ -11,23 +11,23 @@ import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json
 import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 
 describe('The My VA Dashboard - Payments and Debt', () => {
-  beforeEach(() => {
-    mockLocalStorage();
-    cy.login(mockUser);
-    cy.visit('my-va/');
-    cy.intercept('/v0/profile/service_history', serviceHistory);
-    cy.intercept('/v0/profile/full_name', fullName);
-    cy.intercept('/v0/evss_claims_async', claimsSuccess());
-    cy.intercept('/v0/appeals', appealsSuccess());
-    cy.intercept(
-      '/v0/disability_compensation_form/rating_info',
-      disabilityRating,
-    );
-    cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
-  });
-  context("when it can't show payment and debt section", () => {
-    it('when the current benefits payment shows up', () => {
+  describe('when the feature is hidden', () => {
+    beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
+      mockLocalStorage();
+      cy.login(mockUser);
+      cy.visit('my-va/');
+      cy.intercept('/v0/profile/service_history', serviceHistory);
+      cy.intercept('/v0/profile/full_name', fullName);
+      cy.intercept('/v0/evss_claims_async', claimsSuccess());
+      cy.intercept('/v0/appeals', appealsSuccess());
+      cy.intercept(
+        '/v0/disability_compensation_form/rating_info',
+        disabilityRating,
+      );
+      cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
+    });
+    it('the payment and debt section does not show up', () => {
       // make sure that the Payment and Debt section is shown
       cy.findByTestId('dashboard-section-payment-and-debts').should(
         'not.exist',
@@ -44,8 +44,29 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       cy.axeCheck();
     });
   });
-  context('when it can show payment and debt section', () => {
-    it('when the current benefits payment shows up and they have payments in the last 30 days', () => {
+  describe('when the feature is not hidden', () => {
+    beforeEach(() => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          showPaymentAndDebtSection: true,
+        }),
+      );
+      mockLocalStorage();
+      cy.login(mockUser);
+      cy.visit('my-va/');
+      cy.intercept('/v0/profile/service_history', serviceHistory);
+      cy.intercept('/v0/profile/full_name', fullName);
+      cy.intercept('/v0/evss_claims_async', claimsSuccess());
+      cy.intercept('/v0/appeals', appealsSuccess());
+      cy.intercept(
+        '/v0/disability_compensation_form/rating_info',
+        disabilityRating,
+      );
+      cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
+    });
+    it('and they have payments in the last 30 days', () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
@@ -68,7 +89,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       cy.injectAxe();
       cy.axeCheck();
     });
-    it('when the current benefits payment shows up and they have no payments in the last 30 days', () => {
+    it('and they have no payments in the last 30 days', () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
