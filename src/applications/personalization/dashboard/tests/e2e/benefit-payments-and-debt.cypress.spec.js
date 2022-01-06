@@ -1,4 +1,4 @@
-import { generateFeatureToggles } from '../../../../check-in/day-of/api/local-mock-api/mocks/feature.toggles';
+import { generateFeatureToggles } from 'applications/check-in/api/local-mock-api/mocks/v2/feature-toggles';
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
