@@ -9,7 +9,6 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 import {
   contactInfoDescription,
@@ -90,15 +89,12 @@ export const uiSchema = {
     'view:livesOnMilitaryBaseInfo': {
       'ui:description': () => (
         <div className="vads-u-padding-x--2p5">
-          <AdditionalInfo
-            status="info"
-            triggerText="Learn more about military base addresses"
-          >
+          <va-additional-info trigger="Learn more about military base addresses">
             <span>
               The United States is automatically chosen as your country if you
               live on a military base outside of the country.
             </span>
-          </AdditionalInfo>
+          </va-additional-info>
         </div>
       ),
     },

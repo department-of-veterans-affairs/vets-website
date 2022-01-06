@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { VaAdditionalInfo } from 'web-components/react-bindings';
 
 import { recordEventOnce } from 'platform/monitoring/record-event';
 
@@ -22,8 +22,9 @@ export const dateDescription = (
 
 export const dateFieldsDescription = (
   <div className="additional-info-title-help vads-u-margin-top--4">
-    <AdditionalInfo
-      triggerText="How are these dates different?"
+    <VaAdditionalInfo
+      trigger="How are these dates different?"
+      disableAnalytics
       onClick={helpClicked}
     >
       <h4 className="vads-u-font-size--h5">
@@ -45,6 +46,6 @@ export const dateFieldsDescription = (
         This is the date when started to reduce your work hours or to take time
         off from work due to your service-connected disability.
       </p>
-    </AdditionalInfo>
+    </VaAdditionalInfo>
   </div>
 );

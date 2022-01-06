@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { VaAdditionalInfo } from 'web-components/react-bindings';
 
 import Telephone, {
   CONTACTS,
@@ -32,8 +32,9 @@ const recordITFHelpEvent = () =>
   });
 
 const expander = (
-  <AdditionalInfo
-    triggerText="What is an Intent to File?"
+  <VaAdditionalInfo
+    trigger="What is an Intent to File?"
+    disableAnalytics
     onClick={recordITFHelpEvent}
   >
     <p className="vads-u-font-size--base">
@@ -42,7 +43,7 @@ const expander = (
       could start getting benefits while you prepare your disability claim and
       gather supporting documents.
     </p>
-  </AdditionalInfo>
+  </VaAdditionalInfo>
 );
 
 export const claimsIntakeAddress = (

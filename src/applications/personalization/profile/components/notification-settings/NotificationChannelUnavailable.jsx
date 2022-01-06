@@ -1,6 +1,8 @@
 import React from 'react';
 
-import AddContactInfoLink, { MISSING_CONTACT_INFO } from './AddContactInfoLink';
+import AddContactInfoLink from './AddContactInfoLink';
+
+import { MISSING_CONTACT_INFO } from '@@vap-svc/constants';
 
 const NotificationChannelUnavailable = ({ channelType }) => {
   const missingInfo = React.useMemo(
