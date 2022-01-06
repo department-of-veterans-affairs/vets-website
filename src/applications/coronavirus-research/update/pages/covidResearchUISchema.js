@@ -7,6 +7,8 @@ import CustomReviewField from '../containers/CustomReviewField';
 import CustomReviewRadio from '../containers/customReviewRadio';
 import CustomReviewYesNo from '../containers/customReviewYesNo';
 import get from 'platform/utilities/data/get';
+// import { facilityUiSchema } from '../config/va-location/va-location';
+import DynamicRadioWidget from '../config/va-location/DynamicRadioWidget.jsx';
 
 const conditionalValidateBooleanGroup = (errors, pageData) => {
   const { diagnosed, DIAGNOSED_DETAILS } = pageData;
@@ -25,6 +27,10 @@ const conditionalValidateBooleanGroup = (errors, pageData) => {
     validateBooleanGroup(errors.VACCINATED_SECOND, VACCINATED_SECOND);
   }
 };
+
+function vaLocationReviewWidget({ value }) {
+  return <span>{value ? value?.split('|')[0] : `None`}</span>;
+}
 
 export const uiSchema = {
   descriptionText: {
@@ -248,16 +254,6 @@ export const uiSchema = {
       'ui:reviewField': CustomReviewField,
     },
   },
-  zipCode: {
-    'ui:title': 'Zip code where you currently live',
-    'ui:errorMessages': {
-      required: 'Please enter a zip code',
-      pattern: 'Please enter a valid 5- or 9-digit zip code (dashes allowed)',
-    },
-    'ui:options': {
-      classNames: 'input-width',
-    },
-  },
   ELIGIBLE: {
     'ui:title': (
       <span>
@@ -280,6 +276,33 @@ export const uiSchema = {
     'ui:widget': 'yesNo',
     'ui:options': {
       classNames: '',
+    },
+  },
+  zipCode: {
+    'ui:title': 'Zip code where you primarily receive VA care',
+    'ui:errorMessages': {
+      required: 'Please enter a zip code',
+      pattern: 'Please enter a valid 5- or 9-digit zip code (dashes allowed)',
+    },
+    'ui:options': {
+      classNames: 'input-width',
+      expandUnder: 'FACILITY',
+    },
+  },
+  vaLocation: {
+    preferredFacility: {
+      'ui:title': 'Selected VA medical center',
+      'ui:widget': DynamicRadioWidget,
+      'ui:options': {
+        hideLabelText: true,
+        // expandUnder: 'FACILITY',
+        // expandUnderCondition: true,
+        hideIf: formData =>
+          get('zipCode', formData) === undefined ||
+          get('zipCode', formData).length < 5,
+      },
+      'ui:reviewWidget': vaLocationReviewWidget,
+      'ui:required': () => true,
     },
   },
   'ui:validations': [conditionalValidateBooleanGroup],
