@@ -50,7 +50,6 @@ export function getFormPageInfo(state, pageKey) {
     schema: getNewAppointment(state).pages[pageKey],
     data: getFormData(state),
     pageChangeInProgress: getNewAppointment(state).pageChangeInProgress,
-    showCCIterations: true,
   };
 }
 
@@ -229,7 +228,6 @@ export function selectProviderSelectionInfo(state) {
     requestLocationStatus,
     requestStatus,
     selectedCCFacility,
-    showCCIterations: true,
     sortMethod: updatedSortMethod,
     typeOfCareName: typeOfCare.name,
   };
