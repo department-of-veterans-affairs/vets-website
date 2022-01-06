@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { VaAdditionalInfo } from 'web-components/react-bindings';
 import { recordEventOnce } from 'platform/monitoring/record-event';
 import {
   ANALYTICS_EVENTS,
@@ -24,8 +24,9 @@ export const PtsdDateDescription = ({ formType }) => {
         Please tell us when this event happened. If it happened over a period of
         time, please tell us when it started.
       </p>
-      <AdditionalInfo
-        triggerText="What if I can’t remember the date?"
+      <VaAdditionalInfo
+        trigger="What if I can’t remember the date?"
+        disableAnalytics
         onClick={() =>
           ptsdDateEvent &&
           recordEventOnce(ptsdDateEvent, HELP_TEXT_CLICKED_EVENT)
@@ -40,7 +41,7 @@ export const PtsdDateDescription = ({ formType }) => {
           the time of year or whether the event happened early or late in your
           military service.
         </p>
-      </AdditionalInfo>
+      </VaAdditionalInfo>
     </div>
   );
 };
