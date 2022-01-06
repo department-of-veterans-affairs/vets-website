@@ -1,5 +1,4 @@
 const VA_FORM_IDS = require('platform/forms/constants').VA_FORM_IDS;
-const CSP_IDS = require('platform/user/authentication/constants').CSP_IDS;
 
 /* eslint-disable camelcase */
 const mockUser = {
@@ -7,7 +6,7 @@ const mockUser = {
     attributes: {
       profile: {
         sign_in: {
-          service_name: CSP_IDS.ID_ME,
+          service_name: 'idme',
         },
         email: 'fake@fake.com',
         loa: { current: 3 },
