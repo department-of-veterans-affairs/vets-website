@@ -1,4 +1,4 @@
-import { CSP_IDS } from 'platform/user/authentication/constants';
+const CSP_IDS = require('platform/user/authentication/constants').CSP_IDS;
 
 /* eslint-disable camelcase */
 const responses = {
