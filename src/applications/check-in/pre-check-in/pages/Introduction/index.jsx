@@ -32,26 +32,29 @@ const Introduction = props => {
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
 
-  useEffect(() => {
-    // show loading screen
-    setIsLoading(true);
-    //  call get data from API
-    api.v2
-      .getPreCheckInData(token)
-      .then(json => {
-        if (json.error) {
+  useEffect(
+    () => {
+      // show loading screen
+      setIsLoading(true);
+      //  call get data from API
+      api.v2
+        .getPreCheckInData(token)
+        .then(json => {
+          if (json.error) {
+            goToErrorPage();
+          }
+          const { payload } = json;
+          //  set data to state
+          dispatchSetVeteranData(payload);
+          // hide loading screen
+          setIsLoading(false);
+        })
+        .catch(() => {
           goToErrorPage();
-        }
-        const { payload } = json;
-        //  set data to state
-        dispatchSetVeteranData(payload);
-        // hide loading screen
-        setIsLoading(false);
-      })
-      .catch(() => {
-        goToErrorPage();
-      });
-  }, [dispatchSetVeteranData, goToErrorPage, token]);
+        });
+    },
+    [dispatchSetVeteranData, goToErrorPage, token],
+  );
   if (isLoading) {
     return <va-loading-indicator message="Loading your appointment details" />;
   } else {
