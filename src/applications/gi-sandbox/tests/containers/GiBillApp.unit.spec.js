@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { MemoryRouter } from 'react-router-dom';
 import { mount } from 'enzyme';
 import createCommonStore from 'platform/startup/store';
-import { GiBillApp } from 'applications/gi/containers/GiBillApp';
+import { GiBillApp } from 'applications/gi-sandbox/containers/GiBillApp';
 import reducer from '../../reducers';
 import { Provider } from 'react-redux';
 

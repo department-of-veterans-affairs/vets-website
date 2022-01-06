@@ -6,7 +6,7 @@ import Introduction from '../../pages/Introduction';
 import Demographics from '../../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../../tests/e2e/pages/EmergencyContact';
-import Error from '../../../../../tests/e2e/pages/Error';
+import Error from '../../pages/Error';
 
 describe('Pre-Check In Experience ', () => {
   describe('Error handling', () => {
@@ -65,6 +65,7 @@ describe('Pre-Check In Experience ', () => {
 
         // page: Confirmation
         Error.validatePageLoaded();
+        Error.validateDatePreCheckInDateShows();
         cy.injectAxeThenAxeCheck();
       });
     });

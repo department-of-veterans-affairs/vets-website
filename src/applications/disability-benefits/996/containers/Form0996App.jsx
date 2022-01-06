@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -39,13 +39,17 @@ export const Form0996App = ({
 }) => {
   const { email = {}, mobilePhone = {}, mailingAddress = {} } =
     profile?.vapContactInfo || {};
+  // Make sure we're only loading issues once - see
+  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
+  const [isLoadingIssues, setIsLoadingIssues] = useState(false);
 
   useEffect(
     () => {
       if (loggedIn && getHlrWizardStatus() === WIZARD_STATUS_COMPLETE) {
         const { veteran = {} } = formData || {};
         const areaOfDisagreement = getSelected(formData);
-        if (!contestableIssues?.status) {
+        if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
+          setIsLoadingIssues(true);
           const benefitType =
             sessionStorage.getItem(SAVED_CLAIM_TYPE) || formData.benefitType;
           getContestableIssues({ benefitType, hlrV2 });
@@ -105,6 +109,7 @@ export const Form0996App = ({
       setFormData,
       hlrV2,
       contestableIssues,
+      isLoadingIssues,
       getContestableIssues,
     ],
   );

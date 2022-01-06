@@ -29,6 +29,13 @@ const downtimeBanners = [
     message:
       'We’re sorry. We’re working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or services, please check back soon.',
   },
+  {
+    dependencies: [EXTERNAL_SERVICES.logingov],
+    headline: 'You may have trouble signing in with Login.gov',
+    status: 'warning',
+    message:
+      'We’re sorry. We’re working to fix some problems with our Login.gov sign in process. If you’d like to sign in to VA.gov with your Login.gov username and password, please check back later.',
+  },
 ];
 
 export default downtimeBanners;

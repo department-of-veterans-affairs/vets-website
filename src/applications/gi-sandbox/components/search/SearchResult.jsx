@@ -13,7 +13,7 @@ import {
   renderSchoolClosingAlert,
 } from '../../utils/render';
 
-import ScorecardTags from '../../components/ScorecardTags';
+import ScorecardTags from '../ScorecardTags';
 
 export function SearchResult({
   schoolClosing,

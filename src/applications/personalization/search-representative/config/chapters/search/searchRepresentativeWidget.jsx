@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { fetchRepresentativeSearchResults } from '../../actions';
+import { fetchRepresentativeSearchResults } from '../../../actions';
 import SearchRepresentativeResult from './searchRepresentativeResult';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { chunk } from 'lodash';

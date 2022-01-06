@@ -1,5 +1,6 @@
-/* eslint-disable camelcase */
+import { CSP_IDS } from 'platform/user/authentication/constants';
 
+/* eslint-disable camelcase */
 const commonResponses = require('../../../../../platform/testing/local-dev-mock-api/common');
 
 // const cancelledAppointmentCompletedQuestionnaire = require('../mock-data/fhir/cancelled.appointment.completed.primary.care.questionnaire.json');
@@ -17,7 +18,7 @@ const responses = {
       attributes: {
         profile: {
           sign_in: {
-            service_name: 'idme',
+            service_name: CSP_IDS.ID_ME,
           },
           email: 'fake@fake.com',
           loa: { current: 3 },

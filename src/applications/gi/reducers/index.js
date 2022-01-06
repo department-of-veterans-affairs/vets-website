@@ -1,25 +1,25 @@
-import ModalDisplayReducer from './modals';
-import PageTitleReducer from './title';
-import PreviewModeReducer from './preview';
-import CalculatorConstantsReducer from './constants';
-import EligibilityReducer from './eligibility';
-import AutocompleteReducer from './autocomplete';
-import SearchReducer from './search';
-import InstitutionDetailsFilterReducer from './filter';
-import ProfileReducer from './profile';
-import CalculatorReducer from './calculator';
+import autocomplete from './autocomplete';
+import calculator from './calculator';
+import compare from './compare';
+import constants from './constants';
+import eligibility from './eligibility';
+import filters from './filters';
+import modals from './modals';
+import preview from './preview';
+import profile from './profile';
+import search from './search';
 
 const rootReducer = {
-  modals: ModalDisplayReducer,
-  pageTitle: PageTitleReducer,
-  preview: PreviewModeReducer,
-  constants: CalculatorConstantsReducer,
-  eligibility: EligibilityReducer,
-  autocomplete: AutocompleteReducer,
-  search: SearchReducer,
-  filters: InstitutionDetailsFilterReducer,
-  profile: ProfileReducer,
-  calculator: CalculatorReducer,
+  autocomplete,
+  calculator,
+  compare,
+  constants,
+  eligibility,
+  filters,
+  modals,
+  preview,
+  profile,
+  search,
 };
 
 export default rootReducer;

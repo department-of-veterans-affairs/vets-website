@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { VaAdditionalInfo } from 'web-components/react-bindings';
 import { recordEventOnce } from 'platform/monitoring/record-event';
 import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
 
@@ -16,8 +16,9 @@ export const limitedConsentTextTitle = (
 
 const { openedLimitedConsentHelp } = ANALYTICS_EVENTS;
 export const limitedConsentDescription = (
-  <AdditionalInfo
-    triggerText="What does this mean?"
+  <VaAdditionalInfo
+    trigger="What does this mean?"
+    disableAnalytics
     onClick={() =>
       recordEventOnce(openedLimitedConsentHelp, HELP_TEXT_CLICKED_EVENT)
     }
@@ -27,7 +28,7 @@ export const limitedConsentDescription = (
       specify. Limiting consent could add to the time it takes to get your
       private medical records.
     </p>
-  </AdditionalInfo>
+  </VaAdditionalInfo>
 );
 
 export const recordReleaseDescription = () => (

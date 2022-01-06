@@ -1,3 +1,5 @@
+import { benefitsServices } from '../config';
+
 /**
  * Returns a Lighthouse API service name in Sentence case.
  * e.g. MentalHealth => Mental health
@@ -11,13 +13,29 @@ export const formatServiceName = service => {
     .replace(/\s+/g, ' ')
     .toLowerCase()
     .replace(/veteran/g, 'Veteran')
+    .replace(/assistance/g, 'help')
     .replace(/covid19 vaccine/g, 'COVID-19 vaccines')
-    .replace(/E benefits/g, 'eBenefits')
-    .replace(/V a home loan help/g, 'VA home loan help')
+    .replace(/e benefits/g, 'eBenefits')
     .replace(
       /Integrated disability evaluation system assistance/g,
       'Integrated Disability Evaluation System assistance (IDES)',
     )
     .trim();
-  return lowerCaseService.charAt(0).toUpperCase() + lowerCaseService.slice(1);
+
+  switch (lowerCaseService) {
+    case 'eBenefits registration help':
+      return benefitsServices.eBenefitsRegistrationAssistance;
+    case 'v a home loan help':
+      return benefitsServices.VAHomeLoanAssistance;
+    case 'integrated disability evaluation system help':
+      return benefitsServices.IntegratedDisabilityEvaluationSystemAssistance;
+    case 'pre discharge claim help':
+      return benefitsServices.PreDischargeClaimAssistance;
+    case 'homeless help':
+      return benefitsServices.HomelessAssistance;
+    default:
+      return (
+        lowerCaseService.charAt(0).toUpperCase() + lowerCaseService.slice(1)
+      );
+  }
 };
