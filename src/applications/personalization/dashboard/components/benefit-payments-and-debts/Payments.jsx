@@ -4,8 +4,7 @@ import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
 import moment from 'moment';
 
-export const Payments = ({ payments, hasError }) => {
-  const lastPayment = payments?.[0];
+export const Payments = ({ lastPayment, hasError }) => {
   if (hasError) {
     return (
       <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5">
@@ -26,9 +25,9 @@ export const Payments = ({ payments, hasError }) => {
                   href="/va-payment-history/payments/"
                   onClick={() =>
                     recordEvent({
-                      event: 'profile-navigation',
-                      'profile-action': 'view-link',
-                      'profile-section': 'view-payment-history',
+                      event: 'nav-linkslist',
+                      'links-list-header': 'View your payment history',
+                      'links-list-section-header': 'Benefit payments and debts',
                     })
                   }
                 />
@@ -62,18 +61,16 @@ export const Payments = ({ payments, hasError }) => {
 
 Payments.propTypes = {
   hasError: PropTypes.bool,
-  payments: PropTypes.arrayOf(
-    PropTypes.shape({
-      payCheckAmount: PropTypes.string.isRequired,
-      payCheckDt: PropTypes.string.isRequired,
-      payCheckId: PropTypes.string.isRequired,
-      payCheckReturnFiche: PropTypes.string.isRequired,
-      payCheckType: PropTypes.string.isRequired,
-      paymentMethod: PropTypes.string.isRequired,
-      bankName: PropTypes.string.isRequired,
-      accountNumber: PropTypes.string.isRequired,
-    }),
-  ),
+  lastPayment: PropTypes.shape({
+    payCheckAmount: PropTypes.string.isRequired,
+    payCheckDt: PropTypes.string.isRequired,
+    payCheckId: PropTypes.string.isRequired,
+    payCheckReturnFiche: PropTypes.string.isRequired,
+    payCheckType: PropTypes.string.isRequired,
+    paymentMethod: PropTypes.string.isRequired,
+    bankName: PropTypes.string.isRequired,
+    accountNumber: PropTypes.string.isRequired,
+  }),
 };
 
 export default Payments;

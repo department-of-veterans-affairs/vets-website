@@ -35,7 +35,6 @@ import IdentityNotVerified from '~/applications/personalization/components/Ident
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
 import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
 import { fetchDebts } from 'applications/financial-status-report/actions';
-import debtsSuccess from '../tests/fixtures/debts.json';
 
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
@@ -311,10 +310,8 @@ const mapStateToProps = state => {
     showMPIConnectionError,
     showNotInMPIError,
     showBenefitPaymentsAndDebt,
-    debts: debtsSuccess.debts, // state.fsr.debts
-    debtsError: false, // state.fsr.isError
-    // not sure if pending debts is needed yet
-    pendingDebts: [], // state.fsr.pendingDebts
+    debts: state.fsr.debts || [],
+    debtsError: state.fsr.isError || false,
   };
 };
 

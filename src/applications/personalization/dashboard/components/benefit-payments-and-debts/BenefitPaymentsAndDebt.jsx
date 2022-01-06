@@ -6,9 +6,9 @@ import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import { getAllPayments } from 'applications/disability-benefits/view-payments/actions';
 import IconCTALink from '../IconCTALink';
 import recordEvent from '~/platform/monitoring/record-event';
-import paymentsSuccess from '../../tests/fixtures/test-payments-response.json';
 
 import Debts from './Debts';
+import moment from 'moment';
 
 const BenefitPaymentsAndDebt = ({
   payments,
@@ -23,6 +23,9 @@ const BenefitPaymentsAndDebt = ({
     },
     [getPayments],
   );
+  const lastPayment = payments
+    ?.filter(p => moment(p.payCheckDt) > moment().subtract(31, 'days'))
+    .sort((a, b) => moment(b.payCheckDt) - moment(a.payCheckDt))[0];
 
   return (
     <div
@@ -31,15 +34,37 @@ const BenefitPaymentsAndDebt = ({
     >
       <h2>Benefit payments and debts</h2>
       <div className="vads-l-row">
-        {(payments || debts) && (
-          <DashboardWidgetWrapper>
-            {debts && <Debts debts={debts} hasError={debtsError} />}
-            {payments && (
-              <Payments payments={payments} hasError={paymentsError} />
-            )}
-          </DashboardWidgetWrapper>
-        )}
+        {lastPayment &&
+          (payments || debts) && (
+            <DashboardWidgetWrapper>
+              {debts && <Debts debts={debts} hasError={debtsError} />}
+              {payments && (
+                <Payments lastPayment={lastPayment} hasError={paymentsError} />
+              )}
+            </DashboardWidgetWrapper>
+          )}
         <DashboardWidgetWrapper>
+          {!lastPayment && (
+            <>
+              {debts && <Debts debts={debts} hasError={debtsError} />}
+              <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
+                You haven’t received any payments in the past 30 days.
+              </p>
+              <IconCTALink
+                href={'/va-payment-history/payments/'}
+                icon="user-check"
+                newTab
+                text="View your payment history"
+                onClick={() => {
+                  recordEvent({
+                    event: 'nav-linkslist',
+                    'links-list-header': 'View your payment history',
+                    'links-list-section-header': 'Benefit payments and debts',
+                  });
+                }}
+              />
+            </>
+          )}
           <IconCTALink
             href={'/profile/direct-deposit'}
             icon="dollar-sign"
@@ -62,8 +87,8 @@ const BenefitPaymentsAndDebt = ({
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = state => {
   return {
-    payments: paymentsSuccess.data.attributes.payments, // state.allPayments.payments,
-    paymentsError: false, // state.allPayments.error,
+    payments: state.allPayments.payments?.payments || [],
+    paymentsError: state.allPayments.error,
   };
 };
 
