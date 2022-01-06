@@ -1,6 +1,5 @@
-import { CSP_IDS } from 'platform/user/authentication/constants';
-
 const VA_FORM_IDS = require('platform/forms/constants').VA_FORM_IDS;
+const CSP_IDS = require('platform/user/authentication/constants').CSP_IDS;
 
 /* eslint-disable camelcase */
 const mockUser = {
