@@ -61,7 +61,7 @@ const Introduction = props => {
   if (isLoading) {
     return <va-loading-indicator message="Loading your appointment details" />;
   } else {
-    return <IntroductionDisplay router={router} />;
+    return <IntroductionDisplay router={router} URLS={URLS} />;
   }
 };
 
