@@ -1,17 +1,14 @@
 import moment from 'moment';
 import { getPatientInstruction } from '../appointment';
 import {
-  TYPES_OF_CARE,
   APPOINTMENT_TYPES,
   PURPOSE_TEXT,
   TYPE_OF_VISIT,
-  TYPES_OF_EYE_CARE,
-  TYPES_OF_SLEEP_CARE,
-  AUDIOLOGY_TYPES_OF_CARE,
   COVID_VACCINE_ID,
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers.v2';
+import { getTypeOfCareById } from '../../utils/appointment';
 
 function getAppointmentType(appt) {
   if (appt.kind === 'cc' && appt.start) {
@@ -23,19 +20,6 @@ function getAppointmentType(appt) {
   }
 
   return APPOINTMENT_TYPES.vaAppointment;
-}
-
-function getTypeOfCareById(id) {
-  const allTypesOfCare = [
-    ...TYPES_OF_EYE_CARE,
-    ...TYPES_OF_SLEEP_CARE,
-    ...AUDIOLOGY_TYPES_OF_CARE,
-    ...TYPES_OF_CARE,
-  ];
-
-  return allTypesOfCare.find(
-    care => care.idV2 === id || care.ccId === id || care.id === id,
-  );
 }
 
 /**

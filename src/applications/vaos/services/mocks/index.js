@@ -289,8 +289,8 @@ const responses = {
 
     if (
       isDirect &&
-      (req.query.facility_id.startsWith('984') &&
-        req.query.clinical_service_id !== 'primaryCare')
+      req.query.facility_id.startsWith('984') &&
+      req.query.clinical_service_id !== 'primaryCare'
     ) {
       ineligibilityReasons.push({
         coding: [

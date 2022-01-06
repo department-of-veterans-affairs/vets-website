@@ -97,6 +97,7 @@ describe('VAOS <ConfirmationDirectScheduleInfoV2>', () => {
         new RegExp(start.format('MMMM D, YYYY [at] h:mm a'), 'i'),
       ),
     ).to.be.ok;
+    expect(screen.getByText('Primary care')).to.be.ok;
     expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.be.ok;
     expect(screen.getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
     expect(screen.baseElement).to.contain.text(
