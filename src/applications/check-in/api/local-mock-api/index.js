@@ -9,6 +9,7 @@ const sessions = require('./mocks/v2/sessions/index');
 const featureToggles = require('./mocks/v2/feature-toggles/index');
 
 let hasBeenValidated = false;
+const mockUser = Object.freeze({ lastName: 'Smith', last4: '1234' });
 
 const responses = {
   ...commonResponses,
@@ -25,6 +26,9 @@ const responses = {
   'POST /check_in/v2/sessions': (req, res) => {
     const { last4, lastName } = req.body?.session || {};
     if (!last4 || !lastName) {
+      return res.status(400).json(sessions.post.createMockFailedResponse());
+    }
+    if (last4 !== mockUser.last4 || lastName !== mockUser.lastName) {
       return res.status(400).json(sessions.post.createMockFailedResponse());
     }
     hasBeenValidated = true;
