@@ -21,6 +21,7 @@ const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 export const LoginContainer = props => {
   const {
     externalApplication,
+    isUnifiedSignIn,
     loggedOut,
     loginGovEnabled,
     loginGovCreateAccountEnabled,
@@ -31,13 +32,15 @@ export const LoginContainer = props => {
   return (
     <section className="login">
       <div className="container">
-        <div className="row">
-          <div className="columns">
-            <div className="logo">
-              <img alt="VA.gov" className="va-header-logo" src={logoSrc} />
+        {!isUnifiedSignIn && (
+          <div className="row">
+            <div className="columns">
+              <div className="logo">
+                <img alt="VA.gov" className="va-header-logo" src={logoSrc} />
+              </div>
             </div>
           </div>
-        </div>
+        )}
         <div className="container">
           <LoginHeader loggedOut={loggedOut} />
           <LoginActions

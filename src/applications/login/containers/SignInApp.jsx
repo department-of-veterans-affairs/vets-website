@@ -34,6 +34,7 @@ class SignInPage extends React.Component {
       <>
         <AutoSSO />
         <LoginContainer
+          isUnifiedSignIn
           externalApplication={externalApplication}
           loggedOut={loggedOut}
         />

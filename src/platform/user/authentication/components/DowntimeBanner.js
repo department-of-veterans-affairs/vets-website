@@ -45,7 +45,8 @@ export const DowntimeBanner = ({ dependencies, headline, status, message }) => (
     <div className="downtime-notification row">
       <div className="columns small-12">
         <div className="form-warning-banner">
-          <va-alert headline={headline} visible status={status}>
+          <va-alert visible status={status}>
+            <h2 slot="headline">{headline}</h2>
             {message}
           </va-alert>
           <br />
