@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollAndFocus } from 'platform/utilities/ui';
 
 import {
   BOARD_APPEALS_URL,
@@ -141,17 +141,28 @@ export const noneSelected = 'Please select at least one issue';
  * Shows the alert box only if the form has been submitted
  */
 export const NoneSelectedAlert = ({ count }) => {
-  setTimeout(() => scrollToTop(), 300);
+  const wrapAlert = useRef(null);
+
+  useEffect(
+    () => {
+      if (wrapAlert?.current) {
+        scrollAndFocus(wrapAlert.current);
+      }
+    },
+    [wrapAlert],
+  );
   return (
-    <va-alert status="error">
-      <h3
-        slot="headline"
-        className="eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2"
-      >
-        {`Please ${
-          count === 0 ? 'add, and select,' : 'select'
-        } at least one issue, so we can process your request`}
-      </h3>
-    </va-alert>
+    <div ref={wrapAlert}>
+      <va-alert status="error">
+        <h3
+          slot="headline"
+          className="eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2"
+        >
+          {`Please ${
+            count === 0 ? 'add, and select,' : 'select'
+          } at least one issue, so we can process your request`}
+        </h3>
+      </va-alert>
+    </div>
   );
 };
