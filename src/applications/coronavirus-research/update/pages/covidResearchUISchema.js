@@ -78,6 +78,7 @@ export const uiSchema = {
       },
       classNames: '',
     },
+    'ui:required': formData => !formData.vaccinated,
   },
   VACCINATED_DETAILS: {
     'ui:title': (
@@ -101,6 +102,7 @@ export const uiSchema = {
       },
       classNames: '',
     },
+    'ui:required': formData => formData.vaccinated,
   },
   VACCINATED_DATE1: {
     ...currentOrPastMonthYearUI('Month/Year of 1st dose'),
@@ -292,6 +294,7 @@ export const uiSchema = {
       classNames: 'input-width',
       expandUnder: 'FACILITY',
     },
+    'ui:required': formData => formData.FACILITY,
   },
   vaLocation: {
     preferredFacility: {
@@ -306,7 +309,9 @@ export const uiSchema = {
           get('zipCode', formData).length < 5,
       },
       'ui:reviewWidget': vaLocationReviewWidget,
-      'ui:required': () => true,
+      'ui:required': formData =>
+        get('zipCode', formData) !== undefined &&
+        get('zipCode', formData).length >= 5,
     },
   },
   'ui:validations': [conditionalValidateBooleanGroup],
