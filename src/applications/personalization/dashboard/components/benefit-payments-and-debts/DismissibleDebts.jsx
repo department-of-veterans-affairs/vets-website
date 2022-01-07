@@ -53,7 +53,7 @@ export const Debts = ({ debts, hasError }) => {
             }
           />
           <button
-            className="dismissible-close"
+            className="vads-u-color--black vads-u-margin--0 vads-u-font-size--base vads-u-background-color--transparent vads-u-padding-x--0 vads-u-padding-bottom--0 vads-u-padding-top--0p5 dismissible-close"
             type="button"
             aria-label="Close this modal"
             onClick={() => setDismissed(true)}

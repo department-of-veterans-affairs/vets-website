@@ -9,12 +9,7 @@
 }
 
 button.dismissible-close {
-  font-size: 16px;
-  color: $color-black;
   float: right;
-  background-color: transparent;
-  margin: 0;
-  padding: 5px 0 0 0;
   &:hover {
     color: $color-link-default;
     background-color: transparent;
