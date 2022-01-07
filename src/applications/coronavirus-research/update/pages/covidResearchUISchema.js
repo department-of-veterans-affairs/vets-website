@@ -3,7 +3,6 @@ import React from 'react';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
 import CustomReviewField from '../containers/CustomReviewField';
-import CustomReviewDOBField from '../containers/CustomReviewDOBField';
 import CustomReviewRadio from '../containers/customReviewRadio';
 import CustomReviewYesNo from '../containers/customReviewYesNo';
 import get from 'platform/utilities/data/get';
@@ -112,7 +111,6 @@ export const uiSchema = {
       hideIf: formData => get('VACCINATED_DETAILS', formData) === undefined,
       classNames: '',
     },
-    'ui:reviewField': CustomReviewDOBField,
   },
   VACCINATED_DATE2: {
     ...currentOrPastMonthYearUI(
@@ -126,7 +124,6 @@ export const uiSchema = {
         get('VACCINATED_DETAILS', formData) === 'JOHNSON',
       classNames: '',
     },
-    'ui:reviewField': CustomReviewDOBField,
   },
   VACCINATED_SECOND: {
     'ui:title': <span>Did not get second dose</span>,
