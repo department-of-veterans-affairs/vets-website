@@ -226,4 +226,11 @@ function run() {
   exportVariables(tests);
 }
 
-run();
+if (process.env.CHANGED_FILE_PATHS) {
+  run();
+}
+
+module.exports = {
+  buildGraph,
+  dedupeGraph,
+};
