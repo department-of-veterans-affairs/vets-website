@@ -17,10 +17,6 @@ describe('getFiltersChanged', () => {
 });
 
 describe('buildSearchFilters', () => {
-  // it('returns an empty object for initial state', () => {
-  //   expect(buildSearchFilters(defaultState.filters)).to.be.empty;
-  // });
-
   it('returns boolean fields whose values are true', () => {
     const filters = {
       ...defaultState.filters,
