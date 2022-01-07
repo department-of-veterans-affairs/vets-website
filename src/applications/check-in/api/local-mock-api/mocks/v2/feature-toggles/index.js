@@ -4,7 +4,6 @@ const generateFeatureToggles = (toggles = {}) => {
     preCheckInEnabled = true,
     checkInExperienceUpdateInformationPageEnabled = false,
     emergencyContactEnabled = false,
-    showPaymentAndDebtSection = false,
   } = toggles;
 
   return {
@@ -27,10 +26,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'check_in_experience_emergency_contact_enabled',
           value: emergencyContactEnabled,
-        },
-        {
-          name: 'show_payment_and_debt_section',
-          value: showPaymentAndDebtSection,
         },
       ],
     },

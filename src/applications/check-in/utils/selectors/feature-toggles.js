@@ -18,9 +18,6 @@ const selectFeatureToggles = createSelector(
     isUpdatePageEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceUpdateInformationPageEnabled
     ],
-    isPaymentAndDebtSectionEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.showPaymentAndDebtSection
-    ],
   }),
   toggles => toggles,
 );

@@ -1,4 +1,3 @@
-import { generateFeatureToggles } from 'applications/check-in/api/local-mock-api/mocks/v2/feature-toggles';
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
@@ -9,11 +8,17 @@ import { paymentsSuccess } from '../fixtures/test-payments-response';
 import debtsSuccess from '../fixtures/debts.json';
 import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
 import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 
 describe('The My VA Dashboard - Payments and Debt', () => {
   describe('when the feature is hidden', () => {
     beforeEach(() => {
-      cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          type: 'feature_toggles',
+          features: [],
+        },
+      });
       mockLocalStorage();
       cy.login(mockUser);
       cy.visit('my-va/');
@@ -46,13 +51,17 @@ describe('The My VA Dashboard - Payments and Debt', () => {
   });
   describe('when the feature is not hidden', () => {
     beforeEach(() => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          showPaymentAndDebtSection: true,
-        }),
-      );
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          type: 'feature_toggles',
+          features: [
+            {
+              name: featureFlagNames.showPaymentAndDebtSection,
+              value: true,
+            },
+          ],
+        },
+      });
       mockLocalStorage();
       cy.login(mockUser);
       cy.visit('my-va/');
@@ -67,13 +76,6 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
     });
     it('and they have payments in the last 30 days', () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          showPaymentAndDebtSection: true,
-        }),
-      );
       cy.intercept('/v0/profile/payment_history', paymentsSuccess(true));
       cy.intercept('/v0/debts', debtsSuccess);
       // make sure that the Payment and Debt section is shown
@@ -90,13 +92,6 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       cy.axeCheck();
     });
     it('and they have no payments in the last 30 days', () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          showPaymentAndDebtSection: true,
-        }),
-      );
       cy.intercept('/v0/profile/payment_history', paymentsSuccess());
       cy.intercept('/v0/debts', debtsSuccess);
       // make sure that the Payment and Debt section is shown
