@@ -51,16 +51,6 @@ export const sortStatementsByDate = statements => {
   );
 };
 
-// remove duplicate facilities with matching facility numbers
-export const rmvDupFacilities = statements => {
-  return statements
-    .map(({ station }) => station)
-    .filter(
-      (val, index, arr) =>
-        arr.findIndex(temp => temp.facilitYNum === val.facilitYNum) === index,
-    );
-};
-
 export const transform = data => {
   return data.map(statement => {
     const { station } = statement;
