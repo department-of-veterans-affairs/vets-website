@@ -23,7 +23,7 @@ describe('Pre-Check In Experience ', () => {
           window.sessionStorage.clear();
         });
       });
-      it.skip('error in the body', () => {
+      it('error in the body', () => {
         // temporarily skipped due to header mismatch failing master deploy.
         cy.visitPreCheckInWithUUID();
         // page: Validate

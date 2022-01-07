@@ -35,6 +35,21 @@ describe('Schemaform helpers:', () => {
         day: '3',
         year: '2003',
       });
+      expect(parseISODate('2003-02-XX')).to.eql({
+        month: '2',
+        day: '',
+        year: '2003',
+      });
+      expect(parseISODate('2003-02')).to.eql({
+        month: '2',
+        day: '',
+        year: '2003',
+      });
+      expect(parseISODate('2003')).to.eql({
+        month: '',
+        day: '',
+        year: '2003',
+      });
     });
   });
   describe('formatISOPartialDate', () => {
