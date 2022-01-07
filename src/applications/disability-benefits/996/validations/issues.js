@@ -1,10 +1,7 @@
 import moment from 'moment';
 
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
-import {
-  isValidYear,
-  isValidPartialDate,
-} from 'platform/forms-system/src/js/utilities/validations';
+import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
 
 import { $, areaOfDisagreementWorkAround } from '../utils/ui';
 import { getSelected, hasSomeSelected, hasDuplicates } from '../utils/helpers';
@@ -17,7 +14,11 @@ import {
   missingAreaOfDisagreementErrorMessage,
   missingAreaOfDisagreementOtherErrorMessage,
 } from '../content/areaOfDisagreement';
-import { MAX_SELECTIONS, MAX_ISSUE_NAME_LENGTH } from '../constants';
+import {
+  FORMAT_YMD,
+  MAX_SELECTIONS,
+  MAX_ISSUE_NAME_LENGTH,
+} from '../constants';
 
 /**
  *
@@ -61,16 +62,15 @@ const maxDate = moment().endOf('day');
 
 export const validateDate = (errors, dateString) => {
   const { day, month, year } = parseISODate(dateString);
-  const date = moment(dateString);
-
+  const date = moment(dateString, FORMAT_YMD);
   if (dateString === 'XXXX-XX-XX' || dateString === '') {
     errors.addError(issueErrorMessages.missingDecisionDate);
+  } else if (!day || !month) {
+    errors.addError(issueErrorMessages.invalidDate);
   } else if (year?.length >= 4 && !isValidYear(year)) {
     errors.addError(
       issueErrorMessages.invalidDateRange(minDate.year(), maxDate.year()),
     );
-  } else if (!isValidPartialDate(day, month, year)) {
-    errors.addError(issueErrorMessages.invalidDate);
   } else if (date.isAfter(maxDate)) {
     errors.addError(issueErrorMessages.pastDate);
   } else if (date.isBefore(minDate)) {

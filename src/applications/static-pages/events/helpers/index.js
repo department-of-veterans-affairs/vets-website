@@ -251,9 +251,12 @@ export const deriveStartsAtUnix = (startDateMonth, startDateDay) => {
   }
 
   // Derive the startsAt moment.
-  const startsAt = moment(`${startDateMonth}/${startDateDay}`, 'MM/DD').startOf(
-    'day',
-  );
+  let startsAt = moment(`${startDateMonth}/${startDateDay}`, 'MM/DD');
+
+  // If startsAt is today, then set it to now + 1 hour.
+  if (startsAt.isSame(moment(), 'day')) {
+    startsAt = moment().add(1, 'hour');
+  }
 
   // If the startsAt is in the past, we need to increase it by a year (since there are only month/day fields).
   if (startsAt.isBefore(moment())) {
