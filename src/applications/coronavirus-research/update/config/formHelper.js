@@ -73,6 +73,12 @@ export function transform(formConfig, form) {
         transformedForm.data[elementName][filteredKey] = false;
       });
   });
+  transformedForm.data.VACCINATED_DATE1 = form.data.VACCINATED_DATE1
+    ? form.data.VACCINATED_DATE1.substring(0, 7)
+    : null;
+  transformedForm.data.VACCINATED_DATE2 = form.data.VACCINATED_DATE2
+    ? form.data.VACCINATED_DATE2.substring(0, 7)
+    : null;
   return transformForSubmit(formConfig, transformedForm);
 }
 
