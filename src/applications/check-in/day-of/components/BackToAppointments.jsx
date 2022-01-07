@@ -4,17 +4,19 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { createAnalyticsSlug } from '../../utils/analytics';
-import { goToNextPage, URLS } from '../utils/navigation';
+import { URLS } from '../../utils/navigation/day-of';
+import { useFormRouting } from '../../hooks/useFormRouting';
 import { withRouter } from 'react-router';
 
 const BackToAppointments = ({ router, triggerRefresh }) => {
+  const { jumpToPage } = useFormRouting(router, URLS);
   const handleClick = e => {
     e.preventDefault();
     recordEvent({
       event: createAnalyticsSlug('back-button-clicked'),
     });
     triggerRefresh();
-    goToNextPage(router, URLS.DETAILS);
+    jumpToPage(URLS.DETAILS);
   };
   return (
     <>

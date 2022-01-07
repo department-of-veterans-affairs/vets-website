@@ -10,6 +10,10 @@ import { focusElement } from 'platform/utilities/ui';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes/';
 import { downloadPDF } from '../actions';
 
+import ServiceProvidersText, {
+  ServiceProvidersTextCreateAcct,
+} from 'platform/user/authentication/components/ServiceProvidersText';
+
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
@@ -106,8 +110,8 @@ const ConfirmationPage = ({ form, download }) => {
           <li className="process-step list-one">
             <h4>Sign in to VA.gov</h4>
             <p>
-              You can sign in with your DS Logon, My HealthyVet, or ID.me
-              account.
+              You can sign in with your existing <ServiceProvidersText />
+              account. <ServiceProvidersTextCreateAcct />
             </p>
           </li>
           <li className="process-step list-two">

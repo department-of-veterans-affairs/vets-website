@@ -637,7 +637,7 @@ class SearchApp extends React.Component {
               <li>
                 <a
                   className="right-nav-link"
-                  href="https://www.index.va.gov/search/va/bva.jsp"
+                  href="https://search.usa.gov/search?affiliate=bvadecisions"
                   onClick={() =>
                     recordEvent({
                       event: 'nav-searchresults',
@@ -647,21 +647,6 @@ class SearchApp extends React.Component {
                   }
                 >
                   Look up Board of Veterans' Appeals (BVA) decisions
-                </a>
-              </li>
-              <li>
-                <a
-                  className="right-nav-link"
-                  href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.benefits.va.gov/warms"
-                  onClick={() =>
-                    recordEvent({
-                      event: 'nav-searchresults',
-                      'nav-path':
-                        'More VA Search Tools -> Search VA reference materials',
-                    })
-                  }
-                >
-                  Search VA reference materials (WARMS)
                 </a>
               </li>
               <li>

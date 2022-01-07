@@ -20,6 +20,10 @@ describe('check-in', () => {
           context: {
             token: 'some-token',
           },
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+            currentPage: 'first-page',
+          },
           appointments: [
             {
               clinicPhone: '555-867-5309',

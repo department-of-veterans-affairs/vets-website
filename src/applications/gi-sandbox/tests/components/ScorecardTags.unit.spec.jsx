@@ -1,13 +1,26 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import SkinDeep from 'skin-deep';
 
 import ScorecardTags from '../../components/ScorecardTags';
 
-describe('<ScorecardTags/>', () => {
+const props = {
+  profile: {
+    attributes: {
+      menonly: 1,
+      womenonly: 0,
+      relaffil: 23,
+      hbcu: 1,
+    },
+  },
+};
+
+describe('<ScorecardTags>', () => {
   it('should render', () => {
-    const wrapper = shallow(<ScorecardTags />);
-    expect(wrapper.html()).to.not.be.undefined;
-    wrapper.unmount();
+    const tree = SkinDeep.shallowRender(
+      <ScorecardTags styling="info-flag " it={props} />,
+    );
+    const vdom = tree.getRenderOutput();
+    expect(vdom).to.not.be.undefined;
   });
 });

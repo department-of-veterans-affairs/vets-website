@@ -1,20 +1,21 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { api } from '../../api';
+import { api } from '../../../api';
 
-import { createSetSession } from '../../actions';
+import { createSetSession } from '../../../actions/pre-check-in';
 
 import BackToHome from '../../components/BackToHome';
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
 import Footer from '../../components/Footer';
 
-import { useFormRouting } from '../../hooks/useFormRouting';
+import { useFormRouting } from '../../../hooks/useFormRouting';
+import { URLS } from '../../../utils/navigation/pre-check-in';
 
-import { makeSelectCurrentContext } from '../../selectors';
+import { makeSelectCurrentContext } from '../../../selectors';
 
 export default function Index({ router }) {
-  const { goToNextPage, goToErrorPage } = useFormRouting(router);
+  const { goToNextPage, goToErrorPage } = useFormRouting(router, URLS);
   const dispatch = useDispatch();
   const setSession = useCallback(
     (token, permissions) => {
@@ -66,7 +67,7 @@ export default function Index({ router }) {
     <>
       <ValidateDisplay
         header="Start pre-check-in"
-        subTitle="We need to verify your identity so you can start pre-check-in."
+        subtitle="We need to verify your identity so you can start pre-check-in."
         validateHandler={validateHandler}
         isLoading={isLoading}
         last4Input={{

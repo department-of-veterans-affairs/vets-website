@@ -24,7 +24,7 @@ import {
 import CommunityCareProviderSelectionPage from '../../../../new-appointment/components/CommunityCareProviderSelectionPage';
 import { calculateBoundingBox } from '../../../../utils/address';
 import { CC_PROVIDERS_DATA } from './cc_providers_data';
-import { GA_PREFIX } from '../../../../utils/constants';
+import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -156,7 +156,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       ),
     );
     expect(await screen.baseElement).to.contain.text(
-      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400397.3 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400',
     );
 
     userEvent.click(screen.getByText(/Continue/i));
@@ -222,11 +222,10 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(
       await screen.getByRole('button', { name: /choose provider/i }),
     );
-    expect(screen.baseElement).to.contain.text('Selected Provider');
+    expect(screen.baseElement).to.contain.text('Selected provider');
     expect(screen.baseElement).to.contain.text(
       'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
     );
-    expect(screen.baseElement).to.contain.text('408.5 miles');
 
     // Change Provider
     userEvent.click(
@@ -238,7 +237,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     );
 
     expect(screen.baseElement).to.contain.text(
-      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400397.3 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400',
     );
 
     // Cancel Selection (not clearing of a selected provider)
@@ -249,7 +248,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       .exist;
     userEvent.click(await screen.findByRole('button', { name: /cancel/i }));
     expect(screen.baseElement).to.contain.text(
-      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400397.3 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400',
     );
   });
 
@@ -277,7 +276,6 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     expect(screen.baseElement).to.contain.text(
       'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
     );
-    expect(screen.baseElement).to.contain.text('408.5 miles');
 
     // Remove Provider
     userEvent.click(await screen.findByRole('button', { name: /remove/i }));
@@ -657,7 +655,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
         60,
       ),
       CC_PROVIDERS_DATA,
-      true,
+      // true,
     );
 
     await setTypeOfCare(store, /primary care/i);
@@ -674,12 +672,14 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(
       await screen.findByRole('button', { name: /Choose a provider/i }),
     );
-    userEvent.selectOptions(
-      screen.getByRole('combobox', {
-        name: /Show providers closest to/i,
-      }),
-      ['distanceFromCurrentLocation'],
-    );
+    // await waitFor(async () => {
+    expect(await screen.findByText(/Displaying 1 to/i)).to.be.ok;
+    // });
+    const providersSelect = await screen.findByTestId('providersSelect');
+    // call VaSelect custom event for onChange handling
+    providersSelect.__events.vaSelect({
+      detail: { value: FACILITY_SORT_METHODS.distanceFromCurrentLocation },
+    });
 
     await waitFor(async () => {
       expect(
@@ -806,7 +806,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     );
 
     expect(screen.baseElement).to.contain.text(
-      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400397.3 miles',
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400',
     );
   });
 
@@ -911,12 +911,12 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     await waitFor(() =>
       expect(screen.getAllByRole('radio').length).to.equal(5),
     );
-    userEvent.selectOptions(
-      screen.getByRole('combobox', {
-        name: /Show providers closest to/i,
-      }),
-      ['distanceFromCurrentLocation'],
-    );
+
+    const providersSelect = await screen.findByTestId('providersSelect');
+    // call VaSelect custom event for onChange handling
+    providersSelect.__events.vaSelect({
+      detail: { value: FACILITY_SORT_METHODS.distanceFromCurrentLocation },
+    });
 
     expect(
       await screen.findByRole('heading', {

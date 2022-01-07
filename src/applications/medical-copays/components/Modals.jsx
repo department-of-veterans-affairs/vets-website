@@ -72,7 +72,7 @@ Modals.Rights = () => (
       </li>
       <li>
         By Mail: Make check or money order payable to "VA" and include account
-        number and payment stub Submit to: Department of Veterans Affairs, P.O.
+        number and payment stub. Submit to: Department of Veterans Affairs, P.O.
         Box 3978, Portland, OR 97208-3978
       </li>
     </ul>
@@ -278,15 +278,15 @@ Modals.Rights = () => (
     <p>
       When you provide a check as payment, you authorize VA to either use
       information from your check to make a one-time electronic fund transfer
-      from your account or to process the payment asa check transaction. When VA
-      uses information from your check to make an electronic transfer, funds may
-      be withdrawn from your account as soon as the day we process your payment,
-      and you will not receive your check back from the financial institution. A
-      Privacy Act Statement required by 5 U.S.C & 552a(e)(3) stating our
-      authority for soliciting and collecting the information from your check,
-      and explaining the purposes and routine uses which will be made of your
-      check information, VA Notice of Privacy Practices, IB 10-163 is available
-      online at
+      from your account or to process the payment as a check transaction. When
+      VA uses information from your check to make an electronic transfer, funds
+      may be withdrawn from your account as soon as the day we process your
+      payment, and you will not receive your check back from the financial
+      institution. A Privacy Act Statement required by 5 U.S.C & 552a(e)(3)
+      stating our authority for soliciting and collecting the information from
+      your check, and explaining the purposes and routine uses which will be
+      made of your check information, VA Notice of Privacy Practices, IB 10-163
+      is available online at
       <a
         className="vads-u-margin--0p5"
         href="http://www.va.gov/vhapublications"
