@@ -276,7 +276,7 @@ export const uiSchema = {
       monthYear: true,
       hideIf: formData =>
         get('VACCINATED_DETAILS', formData) === undefined ||
-        get('VACCINATED_DETAILS', formData) === 'Johnson & Johnson',
+        get('VACCINATED_DETAILS', formData) === 'JOHNSON',
       classNames: '',
     },
     'ui:reviewField': CustomReviewDOBField,
@@ -291,7 +291,7 @@ export const uiSchema = {
       expandUnder: 'vaccinated',
       hideIf: formData =>
         get('VACCINATED_DETAILS', formData) === undefined ||
-        get('VACCINATED_DETAILS', formData) === 'Johnson & Johnson',
+        get('VACCINATED_DETAILS', formData) === 'JOHNSON',
     },
   },
   hospitalized: {
