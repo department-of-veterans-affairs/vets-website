@@ -1,5 +1,3 @@
-import { CSP_IDS } from 'platform/user/authentication/constants';
-
 /* eslint-disable camelcase */
 const commonResponses = require('../../../../../platform/testing/local-dev-mock-api/common');
 
@@ -18,7 +16,7 @@ const responses = {
       attributes: {
         profile: {
           sign_in: {
-            service_name: CSP_IDS.ID_ME,
+            service_name: 'idme',
           },
           email: 'fake@fake.com',
           loa: { current: 3 },

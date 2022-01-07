@@ -1,6 +1,14 @@
 const defaultUUID = '0429dda5-4165-46be-9ed1-1e652a8dfd83';
 
-const createMockSuccessResponse = token => {
+const createMockSuccessResponse = (
+  token,
+  demographicsNeedsUpdate = false,
+  demographicsConfirmedAt = null,
+  nextOfKinNeedsUpdate = false,
+  nextOfKinConfirmedAt = null,
+  emergencyContactNeedsUpdate = false,
+  emergencyContactConfirmedAt = null,
+) => {
   const mockTime = new Date();
   return {
     id: token || defaultUUID,
@@ -88,6 +96,14 @@ const createMockSuccessResponse = token => {
           checkedInTime: '',
         },
       ],
+      patientDemographicsStatus: {
+        demographicsNeedsUpdate,
+        demographicsConfirmedAt,
+        nextOfKinNeedsUpdate,
+        nextOfKinConfirmedAt,
+        emergencyContactNeedsUpdate,
+        emergencyContactConfirmedAt,
+      },
     },
   };
 };

@@ -24,6 +24,7 @@ describe('Pre-Check In Experience ', () => {
         });
       });
       it('error in the body', () => {
+        // temporarily skipped due to header mismatch failing master deploy.
         cy.visitPreCheckInWithUUID();
         // page: Validate
         ValidateVeteran.validatePageLoaded();
