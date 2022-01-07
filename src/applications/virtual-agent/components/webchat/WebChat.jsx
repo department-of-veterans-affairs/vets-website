@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import MarkdownRenderer from './markdownRenderer';
 import GreetUser from './makeBotGreetUser';
 import environment from 'platform/utilities/environment';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
+import useTimeoutAt from './useTimeoutAt';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
@@ -21,13 +22,44 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
         GreetUser.makeBotGreetUser(
           csrfToken,
           apiSession,
-          environment.API_URL,
+          '76a5-2601-241-8f80-54b0-8549-f157-2895-500b.ngrok.io',
           environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
         ),
       ),
     [createStore],
   );
+
+  const IDLE_TIMEOUT = 30000;
+
+  const [botStore, setBotStore] = useState(store);
+  const [timer, setTimer] = useState(() => Date.now() + IDLE_TIMEOUT);
+
+  const updateBot = useCallback(
+    () => {
+      (function() {
+        console.log('updating bot');
+        console.log('old store: ', botStore.getState());
+
+        setBotStore(
+          createStore(
+            {},
+            GreetUser.makeBotGreetUser(
+              csrfToken,
+              apiSession,
+              '76a5-2601-241-8f80-54b0-8549-f157-2895-500b.ngrok.io',
+              'fabulous-friday',
+              userFirstName === '' ? 'noFirstNameFound' : userFirstName,
+            ),
+          ),
+        );
+        console.log('new store: ', botStore.getState());
+      })();
+    },
+    [setTimer, setBotStore],
+  );
+
+  useTimeoutAt(updateBot, timer);
 
   const directLine = useMemo(
     () =>
@@ -67,7 +99,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
       <ReactWebChat
         styleOptions={styleOptions}
         directLine={directLine}
-        store={store}
+        store={botStore}
         renderMarkdown={renderMarkdown}
       />
     </div>
