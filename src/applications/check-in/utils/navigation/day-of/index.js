@@ -61,7 +61,9 @@ const createForm = ({
   isEmergencyContactEnabled = false,
   isUpdatePageEnabled = false,
 }) => {
-  let pages = CHECK_IN_FORM_PAGES.map(page => page.url);
+  let pages = [...CHECK_IN_FORM_PAGES]
+    .sort((a, b) => a.order - b.order)
+    .map(page => page.url);
   if (hasConfirmedDemographics) {
     const skippedPages = [
       URLS.DEMOGRAPHICS,
