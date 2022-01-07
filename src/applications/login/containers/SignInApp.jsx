@@ -11,10 +11,6 @@ import { selectProfile } from 'platform/user/selectors';
 import { EXTERNAL_APPS } from 'platform/user/authentication/constants';
 
 class SignInPage extends React.Component {
-  state = {
-    globalDowntime: false,
-  };
-
   componentDidUpdate() {
     const { router, location, authenticatedWithSSOe, profile } = this.props;
     const { query } = location;

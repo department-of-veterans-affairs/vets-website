@@ -3,7 +3,7 @@ import React from 'react';
 import LogoutAlert from 'platform/user/authentication/components/LogoutAlert';
 import DowntimeBanners from 'platform/user/authentication/components/DowntimeBanner';
 
-export default ({ loggedOut, globalDowntime }) => {
+export default ({ loggedOut }) => {
   return (
     <>
       <div className="row">
@@ -14,7 +14,7 @@ export default ({ loggedOut, globalDowntime }) => {
           </h1>
         </div>
       </div>
-      <DowntimeBanners globalDowntime={globalDowntime} />
+      <DowntimeBanners />
     </>
   );
 };

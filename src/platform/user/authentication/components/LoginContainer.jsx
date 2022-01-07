@@ -24,7 +24,6 @@ export const LoginContainer = props => {
     loggedOut,
     loginGovEnabled,
     loginGovCreateAccountEnabled,
-    globalDowntime,
     loginGovMHVEnabled,
     loginGovMyVAHealthEnabled,
   } = props;
@@ -40,9 +39,8 @@ export const LoginContainer = props => {
           </div>
         </div>
         <div className="container">
-          <LoginHeader globalDowntime={globalDowntime} loggedOut={loggedOut} />
+          <LoginHeader loggedOut={loggedOut} />
           <LoginActions
-            isDisabled={globalDowntime}
             externalApplication={externalApplication}
             loginGovEnabled={loginGovEnabled}
             loginGovMHVEnabled={loginGovMHVEnabled}

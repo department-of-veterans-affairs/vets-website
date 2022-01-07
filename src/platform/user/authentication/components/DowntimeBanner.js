@@ -1,7 +1,6 @@
 import React from 'react';
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
-import { formatDowntime } from 'platform/utilities/date';
 
 export const downtimeBannersConfig = [
   {
@@ -49,27 +48,7 @@ export const DowntimeBanner = ({ dependencies, headline, status, message }) => (
   </ExternalServicesError>
 );
 
-export const GlobalDowntimeBanner = ({ globalDowntime }) => (
-  <div className="vads-u-margin-bottom--4">
-    <va-alert
-      headline="You may have trouble signing in or using some tools or services"
-      status="warning"
-      visible
-    >
-      <p>
-        We’re doing some work on VA.gov right now. We hope to finish our work by{' '}
-        {formatDowntime(globalDowntime.endTIme)}. If you have trouble signing in
-        or using any tool or services, check back after then.
-      </p>
-    </va-alert>
-  </div>
-);
-
-export default ({ globalDowntime }) =>
-  globalDowntime ? (
-    <GlobalDowntimeBanner globalDowntime={globalDowntime} />
-  ) : (
-    downtimeBannersConfig.map((props, i) => (
-      <DowntimeBanner {...props} key={`downtime-banner-${i}`} />
-    ))
-  );
+export default () =>
+  downtimeBannersConfig.map((props, i) => (
+    <DowntimeBanner {...props} key={`downtime-banner-${i}`} />
+  ));
