@@ -167,7 +167,7 @@ jobs:
       - name: Publish test results
         if: ${{ always() }}
         continue-on-error: true
-        uses: mikepenz/action-junit-report@v2.6.0
+        uses: mikepenz/action-junit-report@v2.8.4
         with:
           check_name: 'Unit Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
