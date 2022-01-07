@@ -1,6 +1,6 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
 
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import validateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
@@ -8,16 +8,17 @@ import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 describe('Check In Experience', () => {
   describe('Next of kin Page', () => {
     beforeEach(function() {
-      cy.authenticate();
-      cy.getAppointments();
-      cy.successfulCheckin();
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          checkInExperienceUpdateInformationPageEnabled: false,
-        }),
-      );
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+        initializeCheckInDataGet,
+      } = ApiInitializer;
+      initializeFeatureToggle.withoutEmergencyContact();
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
+      initializeCheckInDataGet.withSuccess();
+
       cy.visitWithUUID();
       validateVeteran.validateVeteran();
       validateVeteran.attemptToGoToNextPage();
@@ -35,6 +36,7 @@ describe('Check In Experience', () => {
     it('next of kin display', () => {
       NextOfKin.validateNextOfKinFields();
       NextOfKin.validateNextOfKinData();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

@@ -67,7 +67,10 @@ const approvedPage = confirmationDate => (
         </a>
       </li>
       <li>
-        Use our <a href="/gi-bill-comparison-tool/ ">GI Bill Comparison Tool</a>{' '}
+        Use our{' '}
+        <a href="/education/gi-bill-comparison-tool/ ">
+          GI Bill Comparison Tool
+        </a>{' '}
         to help you decide which education program and school is best for you.
       </li>
       <li>
@@ -241,7 +244,10 @@ const pendingPage = confirmationDate => (
         <a href="/change-direct-deposit/">your VA.gov profile</a>.
       </li>
       <li>
-        Use our <a href="/gi-bill-comparison-tool/ ">GI Bill Comparison Tool</a>{' '}
+        Use our{' '}
+        <a href="/education/gi-bill-comparison-tool/ ">
+          GI Bill Comparison Tool
+        </a>{' '}
         to help you decide which education program and school is best for you.
       </li>
       <li>

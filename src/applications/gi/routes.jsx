@@ -1,32 +1,27 @@
 import GiBillApp from './containers/GiBillApp';
-import LandingPage from './containers/LandingPage';
 import SearchPage from './containers/SearchPage';
-import VetTecSearchPage from './containers/VetTecSearchPage';
-import ProfilePage from './containers/ProfilePage';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import React from 'react';
+import ComparePage from './containers/ComparePage';
+import ProfilePage from './containers/ProfilePage';
 
 export const buildRoutes = () => {
   return (
     <GiBillApp>
       <Switch>
-        <Route
-          path="/search"
-          render={({ match }) => <SearchPage match={match} />}
+        <Redirect
+          from="/profile/:facilityCode"
+          to="/institution/:facilityCode"
         />
         <Route
-          path="/program-search"
-          render={({ match }) => <VetTecSearchPage match={match} />}
-        />
-        <Route
-          path="/profile/:facilityCode/:preSelectedProgram"
+          path="/institution/:facilityCode"
           render={({ match }) => <ProfilePage match={match} />}
         />
         <Route
-          path="/profile/:facilityCode"
-          render={({ match }) => <ProfilePage match={match} />}
+          path="/compare"
+          render={({ match }) => <ComparePage match={match} />}
         />
-        <Route path="/" render={({ match }) => <LandingPage match={match} />} />
+        <Route path="/" render={({ match }) => <SearchPage match={match} />} />
       </Switch>
     </GiBillApp>
   );

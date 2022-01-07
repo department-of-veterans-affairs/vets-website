@@ -4,10 +4,16 @@
 @import "partials/gi-vet-tec";
 @import "partials/gi-preview-banner";
 @import "partials/gi-autocomplete";
+@import "partials/gi-compare-drawer";
+@import "partials/gi-compare-page";
 @import "partials/gi-modal";
-@import "partials/gi-landing-page";
 @import "partials/gi-search-page";
 @import "partials/gi-profile-page";
+@import "partials/gi-search-controls";
+@import "partials/gi-search-form";
+@import "partials/gi-search-location";
+@import "partials/gi-back-to-top";
+@import "partials/gi-filter";
 
 .gi-app {
   div.military-status-info {
@@ -28,7 +34,6 @@
       padding-right: 0.4em;
     }
   }
-
   .about-this-tool {
     margin-top: 1em;
 
@@ -91,10 +96,7 @@
 
   h1:focus,
   h2:focus,
-  h3:focus {
-    outline: none;
-  }
-
+  h3:focus,
   nav {
     margin-left: 0.5rem;
   }
@@ -165,4 +167,98 @@
       margin-bottom: 0.625em;
     }
   }
+
+  .caution-flag-toggle {
+    display: block;
+    color: $color-gray-dark;
+    background-color: transparent;
+    padding: 0px;
+    margin: 0px;
+
+    i {
+      font-size: 16px;
+    }
+  }
+}
+
+.section-item,
+.accordion-item {
+  margin-bottom: 5px;
+  list-style-type: none !important;
+
+  h2.accordion-button-wrapper {
+    margin: 0;
+  }
+}
+
+.school-classification {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.school-header {
+  background-color: rgb(63, 87, 166);
+}
+.employer-header {
+  background-color: rgb(34, 130, 127);
+}
+.vettec-header {
+  background-color: rgb(162, 56, 55);
+}
+
+.preferred-provider-text {
+  font-size: 14px;
+}
+
+.asterisk-text {
+  font-size: 12px;
+}
+
+.capitalize-value {
+  text-transform: capitalize;
+}
+
+.main-title {
+  padding-right: 9em;
+  @media (max-width: 1004px) {
+    padding-right: 0;
+    text-align: left;
+  }
+  @media (max-width: $small-screen) {
+    text-align: center;
+  }
+}
+
+.tool-description {
+  text-align: center;
+  padding-bottom: 2em;
+  padding-right: 9em;
+
+  @media (max-width: 1004px) {
+    padding-right: 0;
+    text-align: left;
+  }
+
+  @media (max-width: $small-screen) {
+    padding-left: 20px;
+    padding-bottom: 1em;
+    padding-right: 0;
+  }
+}
+
+.small-screen-font {
+  @media (max-width: $small-screen) {
+    font-size: 15px;
+  }
+}
+.small-screen-header {
+  @media (max-width: $small-screen) {
+    font-size: 17px;
+  }
+}
+.card-bottom-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }

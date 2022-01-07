@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import classnames from 'classnames';
 
 /*
@@ -28,18 +28,22 @@ export default function ExpandingGroup({
   return (
     <div className={classNames}>
       {children[0]}
-      <ReactCSSTransitionGroup
-        id={expandedContentId}
-        transitionName="form-expanding-group-inner"
-        transitionEnterTimeout={700}
-        transitionLeave={false}
-      >
+      <TransitionGroup>
         {open ? (
-          <div key="removable-group" className={additionalClass}>
-            {children[1]}
-          </div>
+          <CSSTransition
+            id={expandedContentId}
+            classNames="form-expanding-group-inner"
+            timeout={{
+              enter: 700,
+            }}
+            exit={false}
+          >
+            <div key="removable-group" className={additionalClass}>
+              {children[1]}
+            </div>
+          </CSSTransition>
         ) : null}
-      </ReactCSSTransitionGroup>
+      </TransitionGroup>
     </div>
   );
 }

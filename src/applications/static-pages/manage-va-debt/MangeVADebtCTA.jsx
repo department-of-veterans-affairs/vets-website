@@ -1,7 +1,9 @@
 import React from 'react';
-import debtLettersManifest from '../../debt-letters/manifest.json';
-import fsrManifest from '../../financial-status-report/manifest.json';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+
+const debtLettersUrl = getAppUrl('your-debt');
+const fsrUrl = getAppUrl('request-debt-help-form-5655');
 
 const ManageVADebtCTA = () => (
   <>
@@ -19,7 +21,7 @@ const ManageVADebtCTA = () => (
     <a
       className="usa-button-primary va-button-primary"
       target="_self"
-      href={debtLettersManifest.rootUrl}
+      href={debtLettersUrl}
     >
       Manage your VA debt
     </a>
@@ -28,7 +30,7 @@ const ManageVADebtCTA = () => (
     <a
       className="usa-button-primary va-button-primary"
       target="_self"
-      href={fsrManifest.rootUrl}
+      href={fsrUrl}
     >
       Request help with VA debt
     </a>

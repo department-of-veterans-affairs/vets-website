@@ -7,7 +7,9 @@ import {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import recordEvent from 'platform/monitoring/record-event';
-import constantsCoronavirusVaccination from 'applications/coronavirus-vaccination/manifest.json';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
+
+const coronaVirusVaccinationUrl = getAppUrl('coronavirus-vaccination');
 
 const recordButtonClick = buttonClickLabel => {
   recordEvent({
@@ -84,7 +86,7 @@ function OnState({ copy }) {
                 onClick={() => {
                   recordButtonClick(copy.buttonText);
                 }}
-                href={constantsCoronavirusVaccination.rootUrl}
+                href={coronaVirusVaccinationUrl}
                 className="usa-button-primary"
               >
                 {copy.buttonText}

@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import RatedDisabilityList from './RatedDisabilityList';
-import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
-import facilityLocator from 'applications/facility-locator/manifest.json';
+
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+
+import { getAppUrl } from 'platform/utilities/registry-helpers';
+
+import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
 import { OnThisPageLink } from './OnThisPageLink';
+import RatedDisabilityList from './RatedDisabilityList';
+
+const facilityLocatorUrl = getAppUrl('facilities');
 
 class RatedDisabilityView extends React.Component {
   static propTypes = {
@@ -40,10 +45,7 @@ class RatedDisabilityView extends React.Component {
             help.
           </p>
           <p>
-            <a
-              className="vads-u-font-size--base"
-              href={facilityLocator.rootUrl}
-            >
+            <a className="vads-u-font-size--base" href={facilityLocatorUrl}>
               Find your nearest VA medical center
             </a>
           </p>

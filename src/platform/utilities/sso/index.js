@@ -1,4 +1,5 @@
-import moment from 'moment';
+import addSeconds from 'date-fns/addSeconds';
+import differenceInSeconds from 'date-fns/differenceInSeconds';
 import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
 import { hasSessionSSO } from '../../user/profile/utilities';
@@ -12,7 +13,11 @@ import {
 import mockKeepAlive from './mockKeepAliveSSO';
 import { keepAlive as liveKeepAlive } from './keepAliveSSO';
 import { getLoginAttempted } from './loginAttempted';
-import { AUTH_EVENTS } from 'platform/user/authentication/constants';
+import {
+  AUTH_EVENTS,
+  API_VERSION,
+  POLICY_TYPES,
+} from 'platform/user/authentication/constants';
 
 const keepAliveThreshold = 5 * 60 * 1000; // 5 minutes, in milliseconds
 
@@ -25,7 +30,7 @@ export async function ssoKeepAliveSession() {
   if (ttl > 0) {
     // ttl is positive, user has an active session
     // ttl is in seconds, add from now
-    const expirationTime = moment().add(ttl, 's');
+    const expirationTime = addSeconds(new Date(), ttl);
     localStorage.setItem('sessionExpirationSSO', expirationTime);
     localStorage.setItem('hasSessionSSO', true);
   } else if (ttl === 0) {
@@ -63,7 +68,7 @@ export async function checkAutoSession(
        * TTL: > 0 and < 900 = Session valid
        * TTL: undefined, can't verify SSOe status
        */
-      logout('v1', AUTH_EVENTS.SSO_LOGOUT, {
+      logout(API_VERSION, AUTH_EVENTS.SSO_LOGOUT, {
         'auto-logout': 'true',
       });
     } else if (transactionid && transactionid !== ssoeTransactionId) {
@@ -73,7 +78,7 @@ export async function checkAutoSession(
        * and perform an auto-login with the new session. (Auto logout and re-logins)
        */
       login({
-        policy: 'custom',
+        policy: POLICY_TYPES.CUSTOM,
         queryParams: { authn },
         clickedEvent: AUTH_EVENTS.SSO_LOGIN,
       });
@@ -98,7 +103,7 @@ export async function checkAutoSession(
      * 4. Have a non-empty type value from eAuth keepalive endpoint
      */
     login({
-      policy: 'custom',
+      policy: POLICY_TYPES.CUSTOM,
       queryParams: { authn },
       clickedEvent: AUTH_EVENTS.SSO_LOGIN,
     });
@@ -109,7 +114,10 @@ export function checkAndUpdateSSOeSession() {
   if (hasSessionSSO()) {
     const sessionExpiration = localStorage.getItem('sessionExpirationSSO');
 
-    const remainingSessionTime = moment(sessionExpiration).diff(moment());
+    const remainingSessionTime = differenceInSeconds(
+      new Date(sessionExpiration),
+      new Date(),
+    );
     if (remainingSessionTime <= keepAliveThreshold) {
       ssoKeepAliveSession();
     }
