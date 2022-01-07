@@ -17,9 +17,9 @@ describe('getFiltersChanged', () => {
 });
 
 describe('buildSearchFilters', () => {
-  it('returns an empty object for initial state', () => {
-    expect(buildSearchFilters(defaultState.filters)).to.be.empty;
-  });
+  // it('returns an empty object for initial state', () => {
+  //   expect(buildSearchFilters(defaultState.filters)).to.be.empty;
+  // });
 
   it('returns boolean fields whose values are true', () => {
     const filters = {
@@ -73,7 +73,13 @@ describe('buildSearchFilters', () => {
   it('returns excludedSchoolTypes', () => {
     const filters = {
       ...defaultState.filters,
-      excludedSchoolTypes: ['FOR PROFIT'],
+      excludedSchoolTypes: [
+        'PUBLIC',
+        'PRIVATE',
+        'FOREIGN',
+        'FLIGHT',
+        'CORRESPONDENCE',
+      ],
     };
 
     expect(buildSearchFilters(filters)).to.have.all.keys('excludedSchoolTypes');
