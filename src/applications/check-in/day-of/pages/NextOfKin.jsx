@@ -13,14 +13,7 @@ import { seeStaffMessageUpdated } from '../../actions/day-of';
 import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
 
 const NextOfKin = props => {
-  const {
-    nextOfKin,
-    isLoading,
-    isEmergencyContactEnabled,
-    isUpdatePageEnabled,
-    router,
-    demographicsStatus,
-  } = props;
+  const { nextOfKin, isLoading, router, demographicsStatus } = props;
   const { nextOfKinNeedsUpdate } = demographicsStatus;
   const { jumpToPage, goToNextPage } = useFormRouting(router, URLS);
 
@@ -36,27 +29,16 @@ const NextOfKin = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
-  const findNextPage = useCallback(
-    () => {
-      if (isEmergencyContactEnabled) {
-        goToNextPage();
-      } else if (isUpdatePageEnabled) {
-        jumpToPage(URLS.UPDATE_INSURANCE);
-      } else {
-        jumpToPage(URLS.DETAILS);
-      }
-    },
-    [isEmergencyContactEnabled, isUpdatePageEnabled, jumpToPage, goToNextPage],
-  );
+
   const yesClick = useCallback(
     () => {
       recordEvent({
         event: 'cta-button-click',
         'button-click-label': 'yes-to-next-of-kin-information',
       });
-      findNextPage();
+      goToNextPage();
     },
-    [findNextPage],
+    [goToNextPage],
   );
 
   const noClick = useCallback(
@@ -73,10 +55,10 @@ const NextOfKin = props => {
   useEffect(
     () => {
       if (nextOfKinNeedsUpdate === false) {
-        findNextPage();
+        goToNextPage();
       }
     },
-    [nextOfKinNeedsUpdate, findNextPage],
+    [nextOfKinNeedsUpdate, goToNextPage],
   );
   if (isLoading) {
     return (

@@ -87,6 +87,7 @@ const Landing = props => {
                 isEmergencyContactEnabled,
               });
               const firstPage = pages[0];
+
               initForm(pages, firstPage);
               if (session.permissions === SCOPES.READ_FULL) {
                 setAuthenticatedSession(token);
