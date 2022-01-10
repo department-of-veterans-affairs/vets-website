@@ -141,7 +141,7 @@ export const Search = ({ onSearch }) => {
             </label>
             {startDateMonthError && (
               <p
-                className="vads-u-color--secondary vads-u-margin--0"
+                className="vads-u-color--secondary vads-u-margin--0 vads-u-font-size--bold"
                 role="alert"
               >
                 <span className="sr-only">Error</span> Missing month
@@ -174,7 +174,7 @@ export const Search = ({ onSearch }) => {
             </label>
             {startDateDayError && (
               <p
-                className="vads-u-color--secondary vads-u-margin--0"
+                className="vads-u-color--secondary vads-u-margin--0 vads-u-font-size--bold"
                 role="alert"
               >
                 <span className="sr-only">Error</span> Missing day
@@ -223,7 +223,7 @@ export const Search = ({ onSearch }) => {
               </label>
               {startDateMonthError && (
                 <p
-                  className="vads-u-color--secondary vads-u-margin--0"
+                  className="vads-u-color--secondary vads-u-margin--0 vads-u-font-size--bold"
                   role="alert"
                 >
                   <span className="sr-only">Error</span> Missing month
@@ -256,7 +256,7 @@ export const Search = ({ onSearch }) => {
               </label>
               {startDateDayError && (
                 <p
-                  className="vads-u-color--secondary vads-u-margin--0"
+                  className="vads-u-color--secondary vads-u-margin--0 vads-u-font-size--bold"
                   role="alert"
                 >
                   <span className="sr-only">Error</span> Missing day
@@ -293,7 +293,7 @@ export const Search = ({ onSearch }) => {
               </label>
               {endDateMonthError && (
                 <p
-                  className="vads-u-color--secondary vads-u-margin--0"
+                  className="vads-u-color--secondary vads-u-margin--0 vads-u-font-size--bold"
                   role="alert"
                 >
                   <span className="sr-only">Error</span> Missing month
@@ -326,7 +326,7 @@ export const Search = ({ onSearch }) => {
               </label>
               {endDateDayError && (
                 <p
-                  className="vads-u-color--secondary vads-u-margin--0"
+                  className="vads-u-color--secondary vads-u-margin--0 vads-u-font-size--bold"
                   role="alert"
                 >
                   <span className="sr-only">Error</span> Missing day
