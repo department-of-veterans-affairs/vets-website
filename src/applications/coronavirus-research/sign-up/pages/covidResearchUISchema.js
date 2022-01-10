@@ -74,6 +74,7 @@ export const uiSchema = {
       showFieldLabel: true,
       expandUnder: 'diagnosed',
     },
+    'ui:required': formData => formData.diagnosed,
     'ui:title': (
       <span>
         <strong>How were you diagnosed?</strong>
@@ -108,6 +109,7 @@ export const uiSchema = {
       showFieldLabel: true,
       expandUnder: 'diagnosed',
     },
+    'ui:required': formData => formData.diagnosed,
     'ui:title': (
       <span>
         <strong>
@@ -233,6 +235,7 @@ export const uiSchema = {
       },
       classNames: '',
     },
+    'ui:required': formData => !formData.vaccinated,
   },
   VACCINATED_DETAILS: {
     'ui:title': (
@@ -256,6 +259,7 @@ export const uiSchema = {
       },
       classNames: '',
     },
+    'ui:required': formData => formData.vaccinated,
   },
   VACCINATED_DATE1: {
     ...currentOrPastDateUI('Month/Year of 1st dose'),
@@ -266,6 +270,7 @@ export const uiSchema = {
       classNames: '',
     },
     'ui:reviewField': CustomReviewDOBField,
+    'ui:required': formData => formData.vaccinated,
   },
   VACCINATED_DATE2: {
     ...currentOrPastDateUI(
