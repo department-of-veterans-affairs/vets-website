@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 
 const AnalyticsOptOut = () => {
   const gaProperty = 'UA-XXXX-Y';
@@ -17,7 +18,7 @@ const AnalyticsOptOut = () => {
 
   const handleOptOut = () => {
     // record event and run opt out
-    // recordEvent({ event: 'analytics-opt-out', 'internal-user': 'true' });
+    recordEvent({ event: 'analytics-opt-out', 'internal-user': 'true' });
     gaOptOut();
   };
 
