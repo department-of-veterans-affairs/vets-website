@@ -2,6 +2,7 @@ import React from 'react';
 
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
+import MonthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 import CustomReviewField from '../containers/CustomReviewField';
 import CustomReviewRadio from '../containers/customReviewRadio';
 import CustomReviewYesNo from '../containers/customReviewYesNo';
@@ -113,9 +114,7 @@ export const uiSchema = {
     },
   },
   VACCINATED_DATE2: {
-    ...currentOrPastMonthYearUI(
-      'Month/Year of 2nd dose (or future date if scheduled)',
-    ),
+    ...MonthYearUI('Month/Year of 2nd dose (or future date if scheduled)'),
     'ui:options': {
       monthYear: true,
       expandUnder: 'vaccinated',
