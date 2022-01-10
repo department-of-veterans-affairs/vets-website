@@ -6,12 +6,12 @@
  * @testrailinfo runName HCA-e2e-AIQ
  */
 
-import manifest from '../manifest.json';
-import featureToggles from './mocks/feature-toggles-aiq.json';
-import mockUserAiq from './fixtures/mocks/mockUserAiq';
-import enrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
-import prefillAiq from './fixtures/mocks/mockPrefillAiq.json';
-import minTestData from './schema/minimal-test.json';
+import manifest from '../../manifest.json';
+import featureToggles from './fixtures/feature-toggles-aiq.json';
+import mockUserAiq from './fixtures/mockUserAiq';
+import enrollmentStatus from './fixtures/mockEnrollmentStatus.json';
+import prefillAiq from './fixtures/mockPrefillAiq.json';
+import minTestData from '../schema/minimal-test.json';
 import moment from 'moment';
 
 describe('HCA-AIQ', () => {
@@ -186,6 +186,7 @@ describe('HCA-AIQ', () => {
       .check();
     cy.findByText(/submit/i, { selector: 'button' }).click();
     cy.wait('@mockSubmit').then(interception => {
+      // check submitted AIQ value.
       cy.wrap(JSON.parse(interception.request.body.form))
         .its('sigiIsAmericanIndian')
         .should('be.true');
