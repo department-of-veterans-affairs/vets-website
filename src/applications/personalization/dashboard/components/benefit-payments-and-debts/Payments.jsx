@@ -52,7 +52,7 @@ export const Payments = ({ lastPayment, hasError }) => {
         </p>
         <CTALink
           text="View your payment history"
-          href="/health-care/schedule-view-va-appointments/appointments"
+          href="/va-payment-history/payments/"
         />
       </div>
     </div>
