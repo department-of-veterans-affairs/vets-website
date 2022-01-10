@@ -34,7 +34,6 @@ export default {
       items: {
         insuranceName: {
           'ui:title': 'Name of insurance provider',
-          'ui:autofocus': true,
         },
         insurancePolicyHolderName: {
           'ui:title':
