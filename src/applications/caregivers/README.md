@@ -49,7 +49,10 @@ This uses the Caregivers API, the main controller is [here](https://github.com/d
 
 ### Feature toggles
 
-We currently have a feature toggle for document uploads, `can_upload_10_10cg_poa`. Its currently conditional enabled for a `Percentage Of Actors`.
+Key | Description
+--- | ---
+`can_upload_10_10cg_poa` | Whether the ability to upload attachments is enabled
+`caregiver_mulesoft`  | Whether 10-10CG data is submitted to Salesforce (legacy) or MuleSoft. If true, submit to MuleSoft.
 
 ### How to test new features?
 
