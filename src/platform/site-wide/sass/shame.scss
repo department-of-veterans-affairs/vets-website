@@ -607,6 +607,15 @@ img[data-srcset] {
 
 .events {
   form {
+    .form-left-error-bar {
+      background: $color-secondary;
+      height: 100%;
+      left: -24px;
+      top: 0;
+      position: absolute;
+      width: 5px;
+    }
+
     .filter-by {
       @media (max-width: $small-screen) {
         max-width: unset;
