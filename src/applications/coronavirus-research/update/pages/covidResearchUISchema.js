@@ -112,6 +112,7 @@ export const uiSchema = {
       hideIf: formData => get('VACCINATED_DETAILS', formData) === undefined,
       classNames: '',
     },
+    'ui:required': formData => formData.vaccinated,
   },
   VACCINATED_DATE2: {
     ...MonthYearUI('Month/Year of 2nd dose (or future date if scheduled)'),
@@ -123,6 +124,7 @@ export const uiSchema = {
         get('VACCINATED_DETAILS', formData) === 'JOHNSON',
       classNames: '',
     },
+    // 'ui:required': formData => formData.VACCINATED_DETAILS != 'JOHNSON'
   },
   VACCINATED_SECOND: {
     'ui:title': <span>Did not get second dose</span>,
@@ -154,6 +156,7 @@ export const uiSchema = {
       showFieldLabel: true,
       expandUnder: 'diagnosed',
     },
+    'ui:required': formData => formData.diagnosed,
     'ui:title': (
       <span>
         <strong>How were you diagnosed?</strong>
@@ -188,6 +191,7 @@ export const uiSchema = {
       showFieldLabel: true,
       expandUnder: 'diagnosed',
     },
+    'ui:required': formData => formData.diagnosed,
     'ui:title': (
       <span>
         <strong>
