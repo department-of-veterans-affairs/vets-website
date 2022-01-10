@@ -97,14 +97,40 @@ class ApiInitializer {
   };
 
   initializePreCheckInDataGet = {
-    withSuccess: extraValidation => {
+    withSuccess: ({
+      extraValidation = null,
+      demographicsNeedsUpdate = true,
+      demographicsConfirmedAt = null,
+      nextOfKinNeedsUpdate = true,
+      nextOfKinConfirmedAt = null,
+      emergencyContactNeedsUpdate = true,
+      emergencyContactConfirmedAt = null,
+    } = {}) => {
       cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
         if (extraValidation) {
           extraValidation(req);
         }
-        req.reply(preCheckInData.get.createMockSuccessResponse('some-token'));
+        req.reply(
+          preCheckInData.get.createMockSuccessResponse(
+            'some-token',
+            demographicsNeedsUpdate,
+            demographicsConfirmedAt,
+            nextOfKinNeedsUpdate,
+            nextOfKinConfirmedAt,
+            emergencyContactNeedsUpdate,
+            emergencyContactConfirmedAt,
+          ),
+        );
       });
-      return preCheckInData.get.createMockSuccessResponse('some-token');
+      return preCheckInData.get.createMockSuccessResponse(
+        'some-token',
+        demographicsNeedsUpdate,
+        demographicsConfirmedAt,
+        nextOfKinNeedsUpdate,
+        nextOfKinConfirmedAt,
+        emergencyContactNeedsUpdate,
+        emergencyContactConfirmedAt,
+      );
     },
     withFailure: (errorCode = 400) => {
       cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {

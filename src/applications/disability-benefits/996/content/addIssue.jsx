@@ -23,7 +23,8 @@ export const addIssueLabel = (
     <span className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans">
       Add an issue and our decision date on this issue. You can find the
       decision date on your decision notice (the letter you got in the mail from
-      us).
+      us). You can request a Higher-Level Review up to 1 year from the date on
+      your decision notice.
     </span>
     <p className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans">
       <strong>Note:</strong> You can only add an issue that you’ve already

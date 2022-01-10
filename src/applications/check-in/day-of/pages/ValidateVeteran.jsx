@@ -6,8 +6,8 @@ import { focusElement } from 'platform/utilities/ui';
 
 import { api } from '../../api';
 
-import { permissionsUpdated } from '../actions';
 import { URLS } from '../../utils/navigation/day-of';
+import { permissionsUpdated } from '../../actions/day-of';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { SCOPES } from '../../utils/token-format-validator';
 

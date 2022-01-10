@@ -18,7 +18,7 @@ export default function RemoveCompareSelectedModal({
         action: onCancel,
         text: 'No',
       }}
-      title="Remove Institution from comparison"
+      title="Remove institution from comparison"
       visible={name}
     >
       <p>Do you want to remove {name} from your comparison?</p>

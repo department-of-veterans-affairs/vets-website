@@ -6,7 +6,7 @@ import { URLS } from '../../utils/navigation/day-of';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
-import { seeStaffMessageUpdated } from '../actions';
+import { seeStaffMessageUpdated } from '../../actions/day-of';
 import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
 
 const Demographics = props => {

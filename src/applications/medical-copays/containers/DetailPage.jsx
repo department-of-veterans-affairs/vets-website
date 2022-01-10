@@ -40,9 +40,7 @@ const DetailPage = ({ match }) => {
           {title}
         </a>
       </Breadcrumbs>
-
       <h1 data-testid="detail-page-title">{title}</h1>
-
       <p className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--5">
         Updated on
         <time
@@ -53,31 +51,22 @@ const DetailPage = ({ match }) => {
           {statementDate}
         </time>
       </p>
-
       <Alert
         type={selectedCopay?.pHAmtDue === 0 ? 'zero-balance' : 'status'}
         copay={selectedCopay}
       />
-
       <OnThisPage />
-
       <PDFStatementList />
-
       <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />
-
       <FinancialHelp />
-
       <DisputeCharges />
-
       <BalanceQuestions
         facilityLocation={selectedCopay?.station.facilityName}
         facilityPhone={selectedCopay?.station.teLNum}
       />
-
       <Modals title="Notice of rights and responsibilities">
         <Modals.Rights />
       </Modals>
-
       <Link className="vads-u-font-size--sm" to="/">
         <i
           className="fa fa-chevron-left vads-u-margin-right--1"

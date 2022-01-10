@@ -151,7 +151,7 @@ export function formatReviewDate(dateString, monthYear = false) {
 }
 export function parseISODate(dateString) {
   if (typeof dateString === 'string') {
-    const [year, month, day] = dateString.split('-', 3);
+    const [year = 'XXXX', month = 'XX', day = 'XX'] = dateString.split('-', 3);
 
     return {
       month: month === 'XX' ? '' : Number(month).toString(),
