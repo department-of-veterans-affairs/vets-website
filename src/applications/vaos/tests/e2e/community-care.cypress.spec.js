@@ -92,7 +92,7 @@ describe('VAOS community care flow', () => {
     cy.get('#root_communityCareProvider_1').should('be.checked');
     cy.get('.form-radio-buttons > button').click();
     // Verify selected provider
-    cy.get('#providerPostSelectionHeader').contains('Selected Provider');
+    cy.get('#providerPostSelectionHeader').contains(/Selected provider/i);
     // Click continue button
     cy.get('.usa-button').click();
 
