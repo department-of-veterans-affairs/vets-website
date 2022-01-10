@@ -68,6 +68,8 @@ import {
   createScoEventsWidget,
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
+// analytics opt out page
+import createAnalyticsOptOutPage from './analytics-opt-out/';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -189,6 +191,9 @@ createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 if (location.pathname === '/') {
   createMyVALoginWidget(store);
 }
+
+// Create analytics opt out page
+createAnalyticsOptOutPage();
 
 /* eslint-disable no-unused-vars,camelcase */
 const lazyLoad = new LazyLoad({
