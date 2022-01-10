@@ -193,7 +193,7 @@ if (location.pathname === '/') {
 }
 
 // Create analytics opt out page
-createAnalyticsOptOutPage();
+createAnalyticsOptOutPage(store, widgetTypes.ANALYTICS_OPT_OUT);
 
 /* eslint-disable no-unused-vars,camelcase */
 const lazyLoad = new LazyLoad({
