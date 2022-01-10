@@ -1,14 +1,9 @@
 import { expect } from 'chai';
 
-import {
-  gotToNextPageHandler,
-  initFormHandler,
-  updateFormHandler,
-} from './index';
+import { gotToNextPageHandler, initFormHandler } from './index';
 import {
   createInitFormAction,
   createGoToNextPageAction,
-  updateFormAction,
 } from '../../actions/navigation';
 
 import appReducer from '../index';
@@ -85,6 +80,7 @@ describe('check in', () => {
         });
       });
     });
+<<<<<<< HEAD
     describe('updateFormAction', () => {
       describe('updateFormHandler', () => {
         it('should return the correct structure', () => {
@@ -116,5 +112,7 @@ describe('check in', () => {
         });
       });
     });
+=======
+>>>>>>> Updated unit tests.
   });
 });

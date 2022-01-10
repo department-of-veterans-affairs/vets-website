@@ -41,16 +41,11 @@ describe('check in', () => {
       phone: '5553334444',
       workPhone: '5554445555',
     };
-    const demographicsStatus = {
-      emergencyContactNeedsUpdate: true,
-    };
+
     it('renders', () => {
       const component = render(
         <Provider store={store}>
-          <EmergencyContact
-            emergencyContact={data}
-            demographicsStatus={demographicsStatus}
-          />
+          <EmergencyContact emergencyContact={data} />
         </Provider>,
       );
 
@@ -67,10 +62,7 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <EmergencyContact
-            emergencyContact={partialData}
-            demographicsStatus={demographicsStatus}
-          />
+          <EmergencyContact emergencyContact={partialData} />
         </Provider>,
       );
 
@@ -84,10 +76,7 @@ describe('check in', () => {
     it('passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
-          <EmergencyContact
-            emergencyContact={data}
-            demographicsStatus={demographicsStatus}
-          />
+          <EmergencyContact emergencyContact={data} />
         </Provider>,
       );
     });
@@ -101,10 +90,7 @@ describe('check in', () => {
 
       render(
         <Provider store={store}>
-          <EmergencyContact
-            router={mockRouter}
-            demographicsStatus={demographicsStatus}
-          />
+          <EmergencyContact router={mockRouter} />
         </Provider>,
       );
 
@@ -114,7 +100,7 @@ describe('check in', () => {
     it('shows the loading indicator', () => {
       const { container } = render(
         <Provider store={store}>
-          <EmergencyContact isLoading demographicsStatus={demographicsStatus} />
+          <EmergencyContact isLoading />
         </Provider>,
       );
 
@@ -135,11 +121,7 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <EmergencyContact
-            emergencyContact={data}
-            router={mockRouter}
-            demographicsStatus={demographicsStatus}
-          />
+          <EmergencyContact emergencyContact={data} router={mockRouter} />
         </Provider>,
       );
 
@@ -158,46 +140,12 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <EmergencyContact
-            emergencyContact={data}
-            router={mockRouter}
-            demographicsStatus={demographicsStatus}
-          />
+          <EmergencyContact emergencyContact={data} router={mockRouter} />
         </Provider>,
       );
 
       component.getByTestId('yes-button').click();
       expect(push.calledOnce).to.be.true;
-    });
-
-    it('skips to the next page when needs update is false', () => {
-      const push = sinon.spy();
-      const mockRouter = {
-        push,
-        params: {},
-      };
-
-      const { rerender } = render(
-        <Provider store={store}>
-          <EmergencyContact
-            router={mockRouter}
-            emergencyContact={data}
-            demographicsStatus={{ emergencyContactNeedsUpdate: false }}
-          />
-        </Provider>,
-      );
-
-      rerender(
-        <Provider store={store}>
-          <EmergencyContact
-            router={mockRouter}
-            emergencyContact={data}
-            demographicsStatus={{ emergencyContactNeedsUpdate: false }}
-          />
-        </Provider>,
-      );
-
-      expect(push.called).to.be.true;
     });
   });
 });

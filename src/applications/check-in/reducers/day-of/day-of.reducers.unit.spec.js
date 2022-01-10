@@ -13,6 +13,8 @@ import {
   triggerRefreshHandler,
 } from './index';
 
+import { updateFormHandler } from '../navigation';
+
 import {
   appointmentWasCheckedInto,
   permissionsUpdated,
@@ -24,6 +26,7 @@ import {
   setTokenContext,
   tokenWasValidated,
   triggerRefresh,
+  updateFormAction,
 } from '../../actions/day-of';
 
 import appReducer from '../index';
@@ -462,6 +465,39 @@ describe('check in', () => {
           const action = triggerRefresh(true);
           const state = appReducer.checkInData(undefined, action);
           expect(state.context.shouldRefresh).to.equal(true);
+        });
+      });
+    });
+    describe('updateFormAction', () => {
+      describe('updateFormHandler', () => {
+        it('should return the correct structure', () => {
+          const action = updateFormAction({
+            patientDemographicsStatus: {},
+            isEmergencyContactEnabled: false,
+          });
+          const state = updateFormHandler({}, action);
+          expect(state).haveOwnProperty('form');
+          expect(state.form).haveOwnProperty('pages');
+        });
+      });
+      describe('reducer is called; finds the correct handler', () => {
+        it('should set form data', () => {
+          const action = updateFormAction({
+            patientDemographicsStatus: {},
+            isEmergencyContactEnabled: false,
+          });
+          const state = appReducer.checkInData(undefined, action);
+          expect(state).haveOwnProperty('form');
+          expect(state.form).haveOwnProperty('pages');
+          expect(state.form).haveOwnProperty('currentPage');
+          expect(state.form.pages).to.deep.equal([
+            'verify',
+            'contact-information',
+            'next-of-kin',
+            'update-information',
+            'details',
+            'complete',
+          ]);
         });
       });
     });

@@ -41,16 +41,10 @@ describe('check in', () => {
       phone: '5553334444',
       workPhone: '5554445555',
     };
-    const demographicsStatus = {
-      nextOfKinNeedsUpdate: true,
-    };
     it('renders', () => {
       const component = render(
         <Provider store={store}>
-          <NextOfKin
-            nextOfKin={nextOfKin}
-            demographicsStatus={demographicsStatus}
-          />
+          <NextOfKin nextOfKin={nextOfKin} />
         </Provider>,
       );
 
@@ -69,10 +63,7 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <NextOfKin
-            nextOfKin={partialNextOfKin}
-            demographicsStatus={demographicsStatus}
-          />
+          <NextOfKin nextOfKin={partialNextOfKin} />
         </Provider>,
       );
 
@@ -89,10 +80,7 @@ describe('check in', () => {
     it('passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
-          <NextOfKin
-            nextOfKin={nextOfKin}
-            demographicsStatus={demographicsStatus}
-          />
+          <NextOfKin nextOfKin={nextOfKin} />
         </Provider>,
       );
     });
@@ -106,10 +94,7 @@ describe('check in', () => {
 
       render(
         <Provider store={store}>
-          <NextOfKin
-            router={mockRouter}
-            demographicsStatus={demographicsStatus}
-          />
+          <NextOfKin router={mockRouter} />
         </Provider>,
       );
 
@@ -119,7 +104,7 @@ describe('check in', () => {
     it('shows the loading indicator', () => {
       const { container } = render(
         <Provider store={store}>
-          <NextOfKin isLoading demographicsStatus={demographicsStatus} />
+          <NextOfKin isLoading />
         </Provider>,
       );
 
@@ -140,11 +125,7 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <NextOfKin
-            nextOfKin={nextOfKin}
-            router={mockRouter}
-            demographicsStatus={demographicsStatus}
-          />
+          <NextOfKin nextOfKin={nextOfKin} router={mockRouter} />
         </Provider>,
       );
 
@@ -165,11 +146,7 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <NextOfKin
-            nextOfKin={nextOfKin}
-            router={mockRouter}
-            demographicsStatus={demographicsStatus}
-          />
+          <NextOfKin nextOfKin={nextOfKin} router={mockRouter} />
         </Provider>,
       );
 
@@ -194,7 +171,6 @@ describe('check in', () => {
             nextOfKin={nextOfKin}
             isUpdatePageEnabled
             router={mockRouter}
-            demographicsStatus={demographicsStatus}
           />
         </Provider>,
       );
@@ -215,11 +191,7 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <NextOfKin
-            nextOfKin={nextOfKin}
-            router={mockRouter}
-            demographicsStatus={demographicsStatus}
-          />
+          <NextOfKin nextOfKin={nextOfKin} router={mockRouter} />
         </Provider>,
       );
 
@@ -227,36 +199,6 @@ describe('check in', () => {
         component.getByText('Is this your current next of kin information?'),
       ).to.exist;
       component.getByTestId('yes-button').click();
-    });
-    it('skips to the next page when needs update is false', () => {
-      const push = sinon.spy();
-      const mockRouter = {
-        push,
-        params: {},
-      };
-
-      const { rerender } = render(
-        <Provider store={store}>
-          <NextOfKin
-            router={mockRouter}
-            nextOfKin={nextOfKin}
-            demographicsStatus={{ nextOfKinNeedsUpdate: false }}
-          />
-        </Provider>,
-      );
-      // this is testing something in the useEffect of the component and we need to
-      // rerender the component to gurauntee the useEffect runs
-      rerender(
-        <Provider store={store}>
-          <NextOfKin
-            router={mockRouter}
-            nextOfKin={nextOfKin}
-            demographicsStatus={{ nextOfKinNeedsUpdate: false }}
-          />
-        </Provider>,
-      );
-
-      expect(push.called).to.be.true;
     });
   });
 });
