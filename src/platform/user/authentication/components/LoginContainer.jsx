@@ -38,7 +38,7 @@ export default function LoginContainer({
       <LoginButton csp={CSP_IDS.MHV} isDisabled={isDisabled} />
       <div id="create-account">
         <h2 className="vads-u-margin-top--3">Or create an account</h2>
-        <div className="vads-u-display--flex vads-u-flex-direction--column">
+        <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
           {showLoginGov() &&
             loginGovCreateAccountEnabled && (
               <CreateAccountLink
