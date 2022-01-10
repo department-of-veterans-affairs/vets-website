@@ -16,7 +16,7 @@ const responses = {
     checkInExperienceEnabled: true,
     preCheckInEnabled: true,
     checkInExperienceUpdateInformationPageEnabled: false,
-    emergencyContactEnabled: false,
+    emergencyContactEnabled: true,
   }),
   // v2
   'GET /check_in/v2/sessions/:uuid': (req, res) => {
