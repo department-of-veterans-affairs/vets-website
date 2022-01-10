@@ -10,7 +10,6 @@ const AnalyticsOptOut = () => {
 
   const gaOptOut = () => {
     // set cookie, and window variable as per google documentation, set optedOut state to true
-    // console.log('GA opt-out fired');
     document.cookie = `${disableStr}=true;`;
     window[disableStr] = true;
     setOptedOut(true);
