@@ -3,15 +3,15 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import formConfig from '../config/form';
-import manifest from '../manifest.json';
-import featureToggles from './mocks/feature-toggles.json';
+import formConfig from '../../config/form';
+import manifest from '../../manifest.json';
+import featureToggles from './fixtures/feature-toggles.json';
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     dataSets: ['maximal-test', 'minimal-test', 'foreign-address-test'],
-    fixtures: { data: path.join(__dirname, 'schema') },
+    fixtures: { data: path.join(__dirname, 'fixtures/schema') },
 
     pageHooks: {
       introduction: ({ afterHook }) => {
