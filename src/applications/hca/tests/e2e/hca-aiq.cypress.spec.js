@@ -6,79 +6,16 @@
  * @testrailinfo runName HCA-e2e-AIQ
  */
 
+import moment from 'moment';
+
 import manifest from '../../manifest.json';
 import featureToggles from './fixtures/feature-toggles-aiq.json';
 import mockUserAiq from './fixtures/mockUserAiq';
 import enrollmentStatus from './fixtures/mockEnrollmentStatus.json';
 import prefillAiq from './fixtures/mockPrefillAiq.json';
-import minTestData from '../schema/minimal-test.json';
-import moment from 'moment';
+import * as aiqHelpers from './helpers-aiq';
 
 describe('HCA-AIQ', () => {
-  const mockUserAttrs = mockUserAiq.data.attributes;
-  const testData = minTestData.data;
-  const goToNextPage = pagePath => {
-    // Clicks Continue button, and optionally checks destination path.
-    cy.findAllByText(/continue/i, { selector: 'button' })
-      .first()
-      .scrollIntoView()
-      .click();
-    if (pagePath) {
-      cy.location('pathname').should('include', pagePath);
-    }
-  };
-  const advanceToAiqPage = () => {
-    cy.findAllByText(/start.+application/i, { selector: 'button' })
-      .first()
-      .click();
-    cy.wait('@mockSip');
-    cy.location('pathname').should(
-      'include',
-      '/veteran-information/personal-information',
-    );
-    goToNextPage('/veteran-information/birth-information');
-    goToNextPage('/veteran-information/birth-sex');
-    goToNextPage('/veteran-information/marital-status');
-    cy.get('select#root_maritalStatus').select(testData.maritalStatus);
-    goToNextPage('/veteran-information/demographic-information');
-    goToNextPage('/veteran-information/american-indian');
-  };
-  const advanceToReviewPage = () => {
-    goToNextPage('/veteran-information/veteran-address');
-    cy.get('[type=radio]')
-      .first()
-      .scrollIntoView()
-      .check('Y');
-    goToNextPage('/veteran-information/contact-information');
-    cy.wait('@mockSip');
-    cy.get('[name*="emailConfirmation"]')
-      .scrollIntoView()
-      .type(mockUserAttrs.profile.email);
-    goToNextPage('/military-service/service-information');
-    goToNextPage('/military-service/additional-information');
-    goToNextPage('/va-benefits/basic-information');
-    cy.get('[name="root_vaCompensationType"]').check('none');
-    goToNextPage('/va-benefits/pension-information');
-    cy.get('[name="root_vaPensionType"]').check('No');
-    goToNextPage('/household-information/financial-disclosure');
-    cy.get('[name="root_discloseFinancialInformation"]').check('N');
-    goToNextPage('/insurance-information/medicaid');
-    cy.get('[name="root_isMedicaidEligible"]').check('N');
-    goToNextPage('/insurance-information/medicare');
-    cy.get('[name="root_isEnrolledMedicarePartA"]').check('N');
-    goToNextPage('/insurance-information/general');
-    cy.get('[name="root_isCoveredByHealthInsurance"]').check('N');
-    goToNextPage('/insurance-information/va-facility');
-    cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
-      testData['view:preferredFacility']['view:facilityState'],
-    );
-    cy.wait('@mockSip');
-    cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]').select(
-      testData['view:preferredFacility'].vaMedicalFacility,
-    );
-    goToNextPage('review-and-submit');
-  };
-
   before(function() {
     if (Cypress.env('CI')) this.skip();
   });
@@ -113,12 +50,12 @@ describe('HCA-AIQ', () => {
       .should('exist');
 
     // Advance to AIQ page
-    advanceToAiqPage();
+    aiqHelpers.advanceToAiqPage();
     cy.injectAxe();
     cy.axeCheck();
 
     // Check required-field error-message
-    goToNextPage();
+    aiqHelpers.goToNextPage();
     cy.get('#root_sigiIsAmericanIndian-error-message').should('be.visible');
 
     // Select No
@@ -164,7 +101,7 @@ describe('HCA-AIQ', () => {
       });
 
     // Continue to next page
-    goToNextPage('/veteran-information/veteran-address');
+    aiqHelpers.goToNextPage('/veteran-information/veteran-address');
 
     // Back & select Yes
     cy.findByText(/back/i, { selector: 'button' }).click();
@@ -175,7 +112,7 @@ describe('HCA-AIQ', () => {
     cy.get('#root_sigiIsAmericanIndianYes').check();
 
     // Finish, review, & submit
-    advanceToReviewPage();
+    aiqHelpers.advanceToReviewPage();
     cy.findByText(/veteran information/i, { selector: 'button' }).click();
     cy.findByText(/american indian/i, { selector: 'dt' })
       .next('dd')
