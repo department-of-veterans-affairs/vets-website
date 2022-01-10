@@ -28,6 +28,7 @@ export default {
   HEALTH_CARE_APP_STATUS: 'health-care-app-status',
   HIGHER_LEVEL_REVIEW_APP_STATUS: 'higher-level-review-status',
   HOMEPAGE_BANNER: 'homepage-banner',
+  HOW_DO_YOU_RATE: 'how-do-you-rate',
   I_18_SELECT: 'i18-select',
   MAINTENANCE_BANNER: 'maintenance-banner',
   MANAGE_VA_DEBT_CTA: 'manage-va-debt-cta',
