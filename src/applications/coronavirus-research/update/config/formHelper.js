@@ -75,10 +75,11 @@ export function transform(formConfig, form) {
   });
   transformedForm.data.VACCINATED_DATE1 = form.data.VACCINATED_DATE1
     ? form.data.VACCINATED_DATE1.substring(0, 7)
-    : null;
+    : undefined;
   transformedForm.data.VACCINATED_DATE2 = form.data.VACCINATED_DATE2
     ? form.data.VACCINATED_DATE2.substring(0, 7)
-    : null;
+    : undefined;
+
   return transformForSubmit(formConfig, transformedForm);
 }
 
