@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
@@ -10,7 +10,7 @@ import { seeStaffMessageUpdated } from '../../actions/day-of';
 import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
 
 const Demographics = props => {
-  const { demographics, isLoading, router, demographicsStatus } = props;
+  const { demographics, isLoading, router } = props;
   const dispatch = useDispatch();
   const updateSeeStaffMessage = useCallback(
     seeStaffMessage => {
@@ -18,7 +18,6 @@ const Demographics = props => {
     },
     [dispatch],
   );
-  const { demographicsNeedsUpdate } = demographicsStatus;
   const { goToNextPage, jumpToPage } = useFormRouting(router, URLS);
   const findNextPage = useCallback(
     () => {
@@ -57,14 +56,7 @@ const Demographics = props => {
     },
     [updateSeeStaffMessage, jumpToPage],
   );
-  useEffect(
-    () => {
-      if (demographicsNeedsUpdate === false) {
-        findNextPage();
-      }
-    },
-    [demographicsNeedsUpdate, findNextPage],
-  );
+
   if (isLoading) {
     return (
       <va-loading-indicator message="Loading your appointments for today" />
@@ -91,7 +83,6 @@ Demographics.propTypes = {
   demographics: PropTypes.object,
   isLoading: PropTypes.bool,
   router: PropTypes.object,
-  demographicsStatus: PropTypes.object,
 };
 
 export default Demographics;

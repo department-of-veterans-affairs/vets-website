@@ -13,14 +13,11 @@ import { seeStaffMessageUpdated } from '../../actions/day-of';
 import EmergencyContactDisplay from '../../components/pages/emergencyContact/EmergencyContactDisplay';
 
 const EmergencyContact = props => {
-  const { emergencyContact, isLoading, router, demographicsStatus } = props;
-  const { emergencyContactNeedsUpdate } = demographicsStatus;
-  const {
-    goToNextPage,
-    jumpToPage,
-    goToErrorPage,
-    goToPreviousPage,
-  } = useFormRouting(router, URLS);
+  const { emergencyContact, isLoading, isUpdatePageEnabled, router } = props;
+  const { goToNextPage, jumpToPage, goToErrorPage } = useFormRouting(
+    router,
+    URLS,
+  );
   const seeStaffMessage =
     'Our staff can help you update your emergency contact information.';
   const dispatch = useDispatch();
@@ -55,14 +52,6 @@ const EmergencyContact = props => {
       jumpToPage(URLS.SEE_STAFF);
     },
     [updateSeeStaffMessage, jumpToPage],
-  );
-  useEffect(
-    () => {
-      if (emergencyContactNeedsUpdate === false) {
-        goToNextPage();
-      }
-    },
-    [emergencyContactNeedsUpdate, goToNextPage],
   );
   if (isLoading) {
     return (

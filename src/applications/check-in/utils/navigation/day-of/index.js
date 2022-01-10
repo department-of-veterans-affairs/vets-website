@@ -12,6 +12,8 @@ const getTokenFromLocation = location => location?.query?.id;
  * @param {Object} [params.url]
  */
 
+import { updateFormPages } from '..';
+
 const URLS = Object.freeze({
   COMPLETE: 'complete',
   EMERGENCY_CONTACT: 'emergency-contact',
@@ -77,5 +79,21 @@ const createForm = ({
   }
   return pages;
 };
+const updateForm = (patientDemographicsStatus, isEmergencyContactEnabled) => {
+  const pages = CHECK_IN_FORM_PAGES.map(page => page.url);
 
-export { URLS, CHECK_IN_FORM_PAGES, createForm, getTokenFromLocation };
+  return updateFormPages(
+    patientDemographicsStatus,
+    isEmergencyContactEnabled,
+    pages,
+    URLS,
+  );
+};
+
+export {
+  URLS,
+  CHECK_IN_FORM_PAGES,
+  createForm,
+  getTokenFromLocation,
+  updateForm,
+};

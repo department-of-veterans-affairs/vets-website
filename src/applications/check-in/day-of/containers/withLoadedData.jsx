@@ -11,7 +11,7 @@ import {
   receivedNextOfKinData,
   receivedMultipleAppointmentDetails,
   triggerRefresh,
-  receivedDemographicsStatus,
+  updateFormAction,
 } from '../../actions/day-of';
 import { focusElement } from 'platform/utilities/ui';
 
@@ -33,7 +33,7 @@ const withLoadedData = Component => {
       demographicsStatus,
       emergencyContact,
     } = checkInData;
-
+    const { isEmergencyContactEnabled } = props;
     const dispatch = useDispatch();
     const setSessionData = useCallback(
       (payload, token) => {
@@ -45,7 +45,12 @@ const withLoadedData = Component => {
           } = payload;
           dispatch(triggerRefresh(false));
           dispatch(receivedMultipleAppointmentDetails(appts, token));
-          dispatch(receivedDemographicsStatus(patientDemographicsStatus));
+          dispatch(
+            updateFormAction({
+              patientDemographicsStatus,
+              isEmergencyContactEnabled,
+            }),
+          );
           if (typeof demo !== 'undefined') {
             dispatch(receivedDemographicsData(demo));
             if ('nextOfKin1' in demo) {
@@ -57,7 +62,7 @@ const withLoadedData = Component => {
           }
         });
       },
-      [dispatch],
+      [dispatch, isEmergencyContactEnabled],
     );
 
     useEffect(
@@ -126,6 +131,7 @@ const withLoadedData = Component => {
     isSessionLoading: PropTypes.bool,
     router: PropTypes.object,
     setSessionData: PropTypes.func,
+    isEmergencyContactEnabled: PropTypes.bool,
   };
 
   return Wrapped;

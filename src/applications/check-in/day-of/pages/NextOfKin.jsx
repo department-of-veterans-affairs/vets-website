@@ -17,14 +17,8 @@ const NextOfKin = props => {
     nextOfKin,
     isLoading,
     router,
-    demographicsStatus,
-    isUpdatePageEnabled,
   } = props;
-  const { nextOfKinNeedsUpdate } = demographicsStatus;
-  const { jumpToPage, goToNextPage, goToPreviousPage } = useFormRouting(
-    router,
-    URLS,
-  );
+  const { jumpToPage, goToNextPage } = useFormRouting(router, URLS);
 
   const seeStaffMessage =
     'Our staff can help you update your next of kin information.';
@@ -60,14 +54,6 @@ const NextOfKin = props => {
       jumpToPage(URLS.SEE_STAFF);
     },
     [updateSeeStaffMessage, jumpToPage],
-  );
-  useEffect(
-    () => {
-      if (nextOfKinNeedsUpdate === false) {
-        goToNextPage();
-      }
-    },
-    [nextOfKinNeedsUpdate, goToNextPage, isUpdatePageEnabled, jumpToPage],
   );
   if (isLoading) {
     return (

@@ -56,10 +56,6 @@ const seeStaffMessageUpdatedHandler = (state, action) => {
   return { ...state, ...action.payload };
 };
 
-const receivedDemographicsStatusHandler = (state, action) => {
-  return { ...state, ...action.payload };
-};
-
 export {
   appointmentWasCheckedIntoHandler,
   permissionsUpdatedHandler,
@@ -71,5 +67,4 @@ export {
   receivedNextOfKinDataHandler,
   tokenWasValidatedHandler,
   seeStaffMessageUpdatedHandler,
-  receivedDemographicsStatusHandler,
 };
