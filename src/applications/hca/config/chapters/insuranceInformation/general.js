@@ -33,11 +33,12 @@ export default {
       },
       items: {
         insuranceName: {
-          'ui:title': 'Name of provider',
+          'ui:title': 'Name of insurance provider',
           'ui:autofocus': true,
         },
         insurancePolicyHolderName: {
-          'ui:title': 'Name of policyholder',
+          'ui:title':
+            'Name of policyholder (the person whose name the policy is in)',
         },
         'view:policyOrGroupDesc': {
           'ui:description': (
