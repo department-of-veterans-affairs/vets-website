@@ -70,6 +70,7 @@ export default Object.freeze({
   searchTypeaheadEnabled: 'search_typeahead_enabled',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
   show526Wizard: 'show526_wizard',
+  showPaymentAndDebtSection: 'show_payment_and_debt_section',
   showEduBenefits0994Wizard: 'show_edu_benefits_0994_wizard',
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
   showEduBenefits1990NWizard: 'show_edu_benefits_1990n_wizard',

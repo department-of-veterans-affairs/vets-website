@@ -157,3 +157,9 @@ export const VAP_SERVICE_INITIALIZATION_STATUS = {
 export const ACTIVE_EDIT_VIEWS = {
   ADDRESS_VALIDATION: 'addressValidation',
 };
+
+export const MISSING_CONTACT_INFO = {
+  ALL: 'ALL',
+  EMAIL: 'EMAIL',
+  MOBILE: 'MOBILE',
+};
