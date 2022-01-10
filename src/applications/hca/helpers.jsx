@@ -501,7 +501,7 @@ export const isEssentialAcaCoverageDescription = (
 export const healthInsuranceCoverageQuestionDescription = (
   <div className="vads-u-margin-bottom--3">
     <div className="hca-tooltip-wrapper">
-      <AdditionalInfo triggerText="Why we ask this information">
+      <va-additional-info trigger="Why we ask this information">
         <p>
           We ask for this information for billing purposes only. Your health
           insurance coverage doesn’t affect the VA health care benefits you can
@@ -526,14 +526,14 @@ export const healthInsuranceCoverageQuestionDescription = (
             insurance starts to pay for care.
           </li>
         </ul>
-      </AdditionalInfo>
+      </va-additional-info>
     </div>
   </div>
 );
 export const hasTricareWhatIsMyPolicyNumberDescription = (
   <div>
     <div className="hca-tooltip-wrapper">
-      <AdditionalInfo triggerText="I have TRICARE. What’s my policy number?">
+      <va-additional-info trigger="I have TRICARE. What’s my policy number?">
         <p>
           You can use your Department of Defense benefits number (DBN) or your
           Social Security number as your policy number.{' '}
@@ -542,7 +542,7 @@ export const hasTricareWhatIsMyPolicyNumberDescription = (
           Your DBN is an 11-digit number. You’ll find this number on the back of
           your military ID card.
         </p>
-      </AdditionalInfo>
+      </va-additional-info>
     </div>
   </div>
 );

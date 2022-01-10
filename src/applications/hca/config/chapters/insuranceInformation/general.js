@@ -67,7 +67,7 @@ export default {
         'view:or': {
           'ui:description': (
             <div className="schemaform-block-title schemaform-block-subtitle vads-u-margin-bottom--neg2p5">
-              <strong>or</strong>
+              or
             </div>
           ),
         },
