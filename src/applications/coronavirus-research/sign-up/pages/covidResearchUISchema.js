@@ -6,6 +6,7 @@ import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import MonthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 import CustomReviewField from '../containers/CustomReviewField';
 import CustomReviewDOBField from '../containers/CustomReviewDOBField';
 import CustomReviewRadio from '../containers/customReviewRadio';
@@ -269,13 +270,10 @@ export const uiSchema = {
       hideIf: formData => get('VACCINATED_DETAILS', formData) === undefined,
       classNames: '',
     },
-    'ui:reviewField': CustomReviewDOBField,
     'ui:required': formData => formData.vaccinated,
   },
   VACCINATED_DATE2: {
-    ...currentOrPastDateUI(
-      'Month/Year of 2nd dose (or future date if scheduled)',
-    ),
+    ...MonthYearUI('Month/Year of 2nd dose (or future date if scheduled)'),
     'ui:options': {
       expandUnder: 'vaccinated',
       monthYear: true,
@@ -284,7 +282,7 @@ export const uiSchema = {
         get('VACCINATED_DETAILS', formData) === 'JOHNSON',
       classNames: '',
     },
-    'ui:reviewField': CustomReviewDOBField,
+    'ui:required': formData => formData.VACCINATED_SECOND !== true,
   },
   VACCINATED_SECOND: {
     'ui:title': <span>Did not get second dose</span>,
@@ -298,6 +296,7 @@ export const uiSchema = {
         get('VACCINATED_DETAILS', formData) === undefined ||
         get('VACCINATED_DETAILS', formData) === 'JOHNSON',
     },
+    'ui:required': formData => formData.VACCINATED_DATE2 === undefined,
   },
   hospitalized: {
     'ui:title': (

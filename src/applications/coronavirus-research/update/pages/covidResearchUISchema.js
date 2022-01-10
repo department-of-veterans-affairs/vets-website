@@ -124,7 +124,7 @@ export const uiSchema = {
         get('VACCINATED_DETAILS', formData) === 'JOHNSON',
       classNames: '',
     },
-    // 'ui:required': formData => formData.VACCINATED_DETAILS != 'JOHNSON'
+    'ui:required': formData => formData.VACCINATED_SECOND !== true,
   },
   VACCINATED_SECOND: {
     'ui:title': <span>Did not get second dose</span>,
@@ -138,6 +138,7 @@ export const uiSchema = {
         get('VACCINATED_DETAILS', formData) === undefined ||
         get('VACCINATED_DETAILS', formData) === 'JOHNSON',
     },
+    'ui:required': formData => formData.VACCINATED_DATE2 === undefined,
   },
   diagnosed: {
     'ui:title': (
