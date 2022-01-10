@@ -13,7 +13,13 @@ import { seeStaffMessageUpdated } from '../../actions/day-of';
 import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
 
 const NextOfKin = props => {
-  const { nextOfKin, isLoading, router, demographicsStatus } = props;
+  const {
+    nextOfKin,
+    isLoading,
+    router,
+    demographicsStatus,
+    isUpdatePageEnabled,
+  } = props;
   const { nextOfKinNeedsUpdate } = demographicsStatus;
   const { jumpToPage, goToNextPage } = useFormRouting(router, URLS);
 
@@ -58,7 +64,7 @@ const NextOfKin = props => {
         goToNextPage();
       }
     },
-    [nextOfKinNeedsUpdate, goToNextPage],
+    [nextOfKinNeedsUpdate, goToNextPage, isUpdatePageEnabled, jumpToPage],
   );
   if (isLoading) {
     return (
@@ -86,7 +92,6 @@ const NextOfKin = props => {
 NextOfKin.propTypes = {
   nextOfKin: PropTypes.object,
   isLoading: PropTypes.bool,
-  isEmergencyContactEnabled: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
   demographicsStatus: PropTypes.object,

@@ -85,6 +85,7 @@ const Landing = props => {
               const pages = createForm({
                 hasConfirmedDemographics: false,
                 isEmergencyContactEnabled,
+                isUpdatePageEnabled,
               });
               const firstPage = pages[0];
 
