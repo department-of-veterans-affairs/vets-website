@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 import { scrollAndFocus } from 'platform/utilities/ui';
 
 import { SELECTED, FORMAT_READABLE, LAST_HLR_ITEM } from '../constants';
+import { replaceDescriptionContent } from '../utils/replace';
 
 /** HLR v1 card */
 /**
@@ -31,7 +32,11 @@ export const IssueCardContent = ({
 
   return (
     <div className="widget-content-wrap">
-      {description && <p className="vads-u-margin-bottom--0">{description}</p>}
+      {description && (
+        <p className="vads-u-margin-bottom--0">
+          {replaceDescriptionContent(description)}
+        </p>
+      )}
       {showPercentNumber && (
         <p className="vads-u-margin-bottom--0">
           Current rating: <strong>{ratingIssuePercentNumber}%</strong>
