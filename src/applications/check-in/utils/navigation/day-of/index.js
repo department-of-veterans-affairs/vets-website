@@ -58,26 +58,8 @@ const CHECK_IN_FORM_PAGES = Object.freeze([
   },
 ]);
 
-const createForm = ({
-  hasConfirmedDemographics = false,
-  isUpdatePageEnabled = false,
-}) => {
-  let pages = [...CHECK_IN_FORM_PAGES]
-    .sort((a, b) => a.order - b.order)
-    .map(page => page.url);
-  if (hasConfirmedDemographics) {
-    const skippedPages = [
-      URLS.DEMOGRAPHICS,
-      URLS.NEXT_OF_KIN,
-      URLS.EMERGENCY_CONTACT,
-    ];
-    pages = pages.filter(page => !skippedPages.includes(page));
-  }
-
-  if (!isUpdatePageEnabled) {
-    pages = pages.filter(page => page !== URLS.UPDATE_INSURANCE);
-  }
-  return pages;
+const createForm = () => {
+  return CHECK_IN_FORM_PAGES.map(page => page.url);
 };
 const updateForm = (patientDemographicsStatus, isEmergencyContactEnabled) => {
   const pages = CHECK_IN_FORM_PAGES.map(page => page.url);
