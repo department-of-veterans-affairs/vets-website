@@ -7,13 +7,13 @@ import {
   addressChangeAuthorization,
   basicInformation,
   contactInformation,
-  disclosureAuthorization,
   location,
   organizationName,
   representative,
   search,
   serviceFileInformation,
   transitionPage,
+  treatmentDisclosureAuthorization,
   personalInformation,
 } from './chapters';
 
@@ -102,12 +102,12 @@ const formConfig = {
         },
       },
     },
-    disclosureAuthorization: {
+    treatmentDisclosureAuthorization: {
       title: 'Authorization to disclose protected treatment records',
       pages: {
-        disclosureAuthorization: {
-          path: 'disclosure-authorization',
-          ...disclosureAuthorization,
+        treatmentDisclosureAuthorization: {
+          path: 'treatment-disclosure-authorization',
+          ...treatmentDisclosureAuthorization,
         },
       },
     },

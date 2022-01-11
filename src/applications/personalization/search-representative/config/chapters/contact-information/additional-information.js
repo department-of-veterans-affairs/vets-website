@@ -16,7 +16,7 @@ export const schema = {
       maxLength: 256,
       format: 'email',
     },
-    confirmEmail: {
+    'view:confirmEmail': {
       type: 'string',
       maxLength: 256,
       format: 'email',
@@ -26,9 +26,12 @@ export const schema = {
 };
 
 export const uiSchema = {
-  phone: phoneUI(),
+  phone: {
+    ...phoneUI(),
+    'ui:title': 'Phone number',
+  },
   email: emailUI(),
-  confirmEmail: Object.assign({}, emailUI(), {
+  'view:confirmEmail': Object.assign({}, emailUI(), {
     'ui:title': 'Confirm email address',
     'ui:required': () => true,
     'ui:validations': [
