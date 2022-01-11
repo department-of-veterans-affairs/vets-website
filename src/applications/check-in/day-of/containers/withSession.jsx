@@ -5,7 +5,7 @@ import { api } from '../../api';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { URLS } from '../../utils/navigation/day-of';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { triggerRefresh, tokenWasValidated } from '../actions';
+import { triggerRefresh, tokenWasValidated } from '../../actions/day-of';
 import { SCOPES } from '../../utils/token-format-validator';
 import { makeSelectCheckInData } from '../hooks/selectors';
 

@@ -3,9 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import moment from 'moment-timezone';
-import { sample } from 'lodash';
 // Relative imports.
 import {
+  deriveEventLocations,
   deriveMostRecentDate,
   deriveResultsEndNumber,
   deriveResultsStartNumber,
@@ -75,6 +75,9 @@ export const Results = ({
               .tz(endsAtUnix * 1000, timezone)
               .format('z');
 
+            // Derive the event locations.
+            const locations = deriveEventLocations(event);
+
             return (
               <div
                 className="vads-u-display--flex vads-u-flex-direction--column vads-u-border-top--1px vads-u-border-color--gray-light vads-u-padding-y--4"
@@ -115,18 +118,21 @@ export const Results = ({
                 </div>
 
                 {/* Where */}
-                <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--1">
-                  <p className="vads-u-margin--0 vads-u-margin-right--0p5">
-                    <strong>Where:</strong>
-                  </p>
-                  <p className="vads-u-margin--0">
-                    {sample([
-                      'West Bend, Wisconsin',
-                      'Austin, Texas',
-                      'This is an online event.',
-                    ])}
-                  </p>
-                </div>
+                {locations?.length > 0 && (
+                  <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--1">
+                    <p className="vads-u-margin--0 vads-u-margin-right--0p5">
+                      <strong>Where:</strong>
+                    </p>
+
+                    <div className="vads-u-display--flex vads-u-flex-direction--column">
+                      {locations?.map(location => (
+                        <p className="vads-u-margin--0" key={location}>
+                          {location}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })}

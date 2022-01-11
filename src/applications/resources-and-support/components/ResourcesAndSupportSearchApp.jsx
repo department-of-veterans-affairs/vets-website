@@ -5,7 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import URLSearchParams from 'url-search-params';
 import { focusElement } from 'platform/utilities/ui';
-import searchSettings from 'applications/search/manifest.json';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 // Relative imports.
 import SearchBar from './SearchBar';
 import SearchResultList from './SearchResultList';
@@ -86,9 +86,7 @@ const ResourcesAndSupportSearchApp = () => {
         We didn’t find any resources and support articles for "
         <strong>{query}</strong>
         ." Try using different words or{' '}
-        <a
-          href={`${searchSettings.rootUrl}/?query=${encodeURIComponent(query)}`}
-        >
+        <a href={`${getAppUrl('search')}/?query=${encodeURIComponent(query)}`}>
           search all of VA.gov
         </a>
         .

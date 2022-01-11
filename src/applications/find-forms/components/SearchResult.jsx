@@ -62,15 +62,15 @@ export const deriveLatestIssue = (d1, d2) => {
   return moment(date2Formatted).format(FORM_MOMENT_PRESENTATION_DATE_FORMAT);
 };
 
-const deriveLanguageTranslation = (lang = 'en', whichNode, id) => {
+const deriveLanguageTranslation = (lang = 'en', whichNode, formName) => {
   const languages = {
     es: {
-      goToOnlineTool: `Llene el formulario VA ${id} en línea.`,
-      downloadVaForm: `Descargar el formulario VA ${id}`,
+      goToOnlineTool: `Llene el formulario VA ${formName} en línea.`,
+      downloadVaForm: `Descargar el formulario VA ${formName}`,
     },
     en: {
-      goToOnlineTool: `Fill out VA Form ${id} online`,
-      downloadVaForm: `Download VA Form ${id}`,
+      goToOnlineTool: `Fill out VA Form ${formName} online`,
+      downloadVaForm: `Download VA Form ${formName}`,
     },
   };
 
@@ -154,6 +154,7 @@ const SearchResult = ({
   const {
     attributes: {
       firstIssuedOn,
+      formName,
       formType,
       formToolUrl,
       formDetailsUrl,
@@ -192,12 +193,12 @@ const SearchResult = ({
           'modal-status': 'opened',
           'modal-title': 'Download this PDF and open it in Acrobat Reader',
         });
-        toggleModalState(id, url, pdfLabel);
+        toggleModalState(formName, url, pdfLabel);
       } else {
-        recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf');
+        recordGAEvent(`Download VA form ${formName} ${pdfLabel}`, url, 'pdf');
       }
     } else {
-      recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf');
+      recordGAEvent(`Download VA form ${formName} ${pdfLabel}`, url, 'pdf');
     }
   };
 
@@ -209,6 +210,7 @@ const SearchResult = ({
         lang={language}
         title={title}
         recordGAEvent={recordGAEvent}
+        formName={formName}
       />
       <div className="vads-u-margin-y--1 vsa-from-last-updated">
         <span className="vads-u-font-weight--bold">Form last updated:</span>{' '}
@@ -234,7 +236,7 @@ const SearchResult = ({
               lang={language}
               className="vads-u-text-decoration--underline vads-u-font-weight--bold"
             >
-              {deriveLanguageTranslation(language, 'goToOnlineTool', id)}
+              {deriveLanguageTranslation(language, 'goToOnlineTool', formName)}
             </span>
           </a>
         </div>
@@ -262,7 +264,7 @@ const SearchResult = ({
           />
 
           <span lang={language} className="vads-u-text-decoration--underline">
-            {deriveLanguageTranslation(language, 'downloadVaForm', id)}
+            {deriveLanguageTranslation(language, 'downloadVaForm', formName)}
           </span>
         </a>
       </div>

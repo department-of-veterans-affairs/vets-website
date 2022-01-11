@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import {
-  appointmentWAsCheckedInto,
+  appointmentWasCheckedInto,
   APPOINTMENT_WAS_CHECKED_INTO,
   receivedMultipleAppointmentDetails,
   RECEIVED_APPOINTMENT_DETAILS,
@@ -70,15 +70,15 @@ describe('check in actions', () => {
         expect(action.payload.scope).to.equal('some-scope');
       });
     });
-    describe('appointmentWAsCheckedInto', () => {
+    describe('appointmentWasCheckedInto', () => {
       it('should return correct action', () => {
-        const action = appointmentWAsCheckedInto({
+        const action = appointmentWasCheckedInto({
           appointmentIen: 'some-ien',
         });
         expect(action.type).to.equal(APPOINTMENT_WAS_CHECKED_INTO);
       });
       it('should return correct structure', () => {
-        const action = appointmentWAsCheckedInto({
+        const action = appointmentWasCheckedInto({
           appointmentIen: 'some-ien',
         });
         expect(action.payload).to.haveOwnProperty('appointment');

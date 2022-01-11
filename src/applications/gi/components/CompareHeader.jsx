@@ -97,12 +97,12 @@ export default function({
               key={index}
             >
               <div className="compare-header institution-header">
-                <div>
+                <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-height--full">
                   <SchoolClassification
                     institution={institution}
                     displayTraits={false}
                   />
-                  <div className="header-fields">
+                  <div className="header-fields vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-height--full">
                     <div className="institution-name">
                       <Link
                         to={{
@@ -121,20 +121,22 @@ export default function({
                         </span>
                       </Link>
                     </div>
+                    <div className="compare-action">
+                      <button
+                        type="button"
+                        className="usa-button-secondary"
+                        onClick={() => {
+                          setPromptingFacilityCode(institution.facilityCode);
+                        }}
+                        aria-label={`Remove ${
+                          institution.name
+                        } from comparison`}
+                      >
+                        Remove
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="compare-action">
-                <button
-                  type="button"
-                  className="va-button-link learn-more-button"
-                  onClick={() => {
-                    setPromptingFacilityCode(institution.facilityCode);
-                  }}
-                  aria-label={`Remove ${institution.name} from comparison`}
-                >
-                  Remove
-                </button>
               </div>
             </div>
           );

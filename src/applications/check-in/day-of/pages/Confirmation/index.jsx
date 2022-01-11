@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import MultipleAppointment from './MultipleAppointments';
 
-import { triggerRefresh } from '../../actions';
+import { triggerRefresh } from '../../../actions/day-of';
 
 import { makeSelectConfirmationData } from '../../hooks/selectors';
 
