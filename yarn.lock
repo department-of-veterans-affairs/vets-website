@@ -1868,7 +1868,7 @@
     core-js-pure "^3.0.0"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@7.14.5", "@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.13", "@babel/runtime@^7.12.5", "@babel/runtime@^7.14.6", "@babel/runtime@^7.15.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+"@babel/runtime@7.14.5", "@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.13", "@babel/runtime@^7.12.5", "@babel/runtime@^7.14.6", "@babel/runtime@^7.15.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
   version "7.16.3"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.16.3.tgz#b86f0db02a04187a3c17caa77de69840165d42d5"
   integrity sha512-WBwekcqacdY2e9AF/Q7WLFUWmdJGJTkbjqTjoMDgXkVZ3ZRUvOPsLb5KdwISoQVsbP+DQzVZW4Zhci0DvpbNTQ==
@@ -2130,13 +2130,13 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^3.10.0":
-  version "3.10.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.10.0.tgz#bea0c23e584aeedb0fee366d1991dcadf18429e9"
-  integrity sha512-tYiCN6w/XrITGXK2Tl2oEIFN6WcLeG2VqGzHxsuWFhHFAH5hdwnId5nZwqK2TFQlGWZFoPRTD7DT5+apmkgOCQ==
+"@department-of-veterans-affairs/component-library@^3.11.2":
+  version "3.11.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.11.2.tgz#cfb2b3ea8cacf937f61c71f1e58b0960b39ae48f"
+  integrity sha512-jQDnFt7BpIaagmQZwAuOvytlptgP4LiWjWaQ/cYAdwm91tFzviiIFtxUzUik+VUQTvqCHDDGh5NJwjOrb6jAdA==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "3.3.0"
-    "@department-of-veterans-affairs/web-components" "0.19.0"
+    "@department-of-veterans-affairs/react-components" "3.3.1"
+    "@department-of-veterans-affairs/web-components" "0.20.1"
     date-fns-tz "^1.1.1"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
@@ -2168,17 +2168,13 @@
     yeoman-generator "^4.11.0"
     yosay "^2.0.1"
 
-"@department-of-veterans-affairs/react-components@3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-3.3.0.tgz#2dc641c00f90ca118880b54127cd49eb6fe036d5"
-  integrity sha512-gsbbwpMabh/RIKOLS+sL+pbgAlrjS3U/UH+2sojDjN7vugeQPWdxKSTOSGjFd0i7d3M/ByjsC8ubZE6486Qk5Q==
+"@department-of-veterans-affairs/react-components@3.3.1":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-3.3.1.tgz#de33392eec5978ef533e878acd66fa1c93c60b1e"
+  integrity sha512-AJC7L+yw6nD1DFbKKswaKswATXq9Uc8ihkjpT+2QqVeX/ATHi7glP9wgLQOQWOlmT9DEXikQOjQfCXdL7FKfEQ==
   dependencies:
     classnames "^2.2.6"
-    core-js "^3.9.0"
-    date-fns "^2.17.0"
-    date-fns-tz "^1.1.1"
     lodash "^4.17.15"
-    moment "^2.23.0"
     number-to-words "^1.2.4"
     prop-types "^15.6.2"
     react-focus-lock "^2.5.1"
@@ -2198,10 +2194,10 @@
     react-is "^17.0.1"
     setimmediate "^1.0.5"
 
-"@department-of-veterans-affairs/web-components@0.19.0":
-  version "0.19.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-0.19.0.tgz#23e0557539f8c4b63f68b5fe68572ac1f64e5065"
-  integrity sha512-k+8QywitYPlPfKBOyxrs/l4eSwx/7uKf4zlRvO0VmL9NPsTT8tj6WO4tIBVv58qZP3SpjvgpYomMLP3hT90cTQ==
+"@department-of-veterans-affairs/web-components@0.20.1":
+  version "0.20.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-0.20.1.tgz#69840f06697c716443949dc767fa89a95dacf79d"
+  integrity sha512-QYn81vfqjre2xQyzIVZxYpB63+yRBm9JCI12TAcJxbYe51PT8RI2P+zateK/vutiiJMNwcbqmtxsVuq3yM+7Uw==
   dependencies:
     "@stencil/core" "^2.10.0"
     "@stencil/postcss" "^2.0.0"
@@ -6146,11 +6142,6 @@ core-js@^3.18.0:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.18.0.tgz#9af3f4a6df9ba3428a3fb1b171f1503b3f40cc49"
   integrity sha512-WJeQqq6jOYgVgg4NrXKL0KLQhi0CT4ZOCvFL+3CQ5o7I6J8HkT5wd53EadMfqTDp1so/MT1J+w2ujhWcCJtN7w==
 
-core-js@^3.9.0:
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.9.1.tgz#cec8de593db8eb2a85ffb0dbdeb312cb6e5460ae"
-  integrity sha512-gSjRvzkxQc1zjM/5paAmL4idJBFzuJoo+jDjF1tStYFMV2ERfD02HhahhCGXUyHxQRG4yFKVSdO6g62eoRMcDg==
-
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
@@ -6531,10 +6522,10 @@ cypress-wait-until@^1.7.2:
   resolved "https://registry.yarnpkg.com/cypress-wait-until/-/cypress-wait-until-1.7.2.tgz#7f534dd5a11c89b65359e7a0210f20d3dfc22107"
   integrity sha512-uZ+M8/MqRcpf+FII/UZrU7g1qYZ4aVlHcgyVopnladyoBrpoaMJ4PKZDrdOJ05H5RHbr7s9Tid635X3E+ZLU/Q==
 
-cypress@^9.1.1:
-  version "9.1.1"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-9.1.1.tgz#26720ca5a22077cd85f49745616b7a08152a298f"
-  integrity sha512-yWcYD8SEQ8F3okFbRPqSDj5V0xhrZBT5QRIH+P1J2vYvtEmZ4KGciHE7LCcZZLILOrs7pg4WNCqkj/XRvReQlQ==
+cypress@^9.2.0:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-9.2.0.tgz#727c20b4662167890db81d5f6ba615231835b17d"
+  integrity sha512-Jn26Tprhfzh/a66Sdj9SoaYlnNX6Mjfmj5PHu2a7l3YHXhrgmavM368wjCmgrxC6KHTOv9SpMQGhAJn+upDViA==
   dependencies:
     "@cypress/request" "^2.88.10"
     "@cypress/xvfb" "^1.2.4"
@@ -6632,11 +6623,6 @@ date-fns-tz@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/date-fns-tz/-/date-fns-tz-1.1.1.tgz"
   integrity sha512-5PR604TlyvpiNXtvn+PZCcCazsI8fI1am3/aimNFN8CMqHQ0KRl+6hB46y4mDbB7bk3+caEx3qHhS7Ewac/FIg==
-
-date-fns@^2.17.0:
-  version "2.17.0"
-  resolved "https://registry.npmjs.org/date-fns/-/date-fns-2.17.0.tgz"
-  integrity sha512-ZEhqxUtEZeGgg9eHNSOAJ8O9xqSgiJdrL0lzSSfMF54x6KXWJiOH/xntSJ9YomJPrYH/p08t6gWjGWq1SDJlSA==
 
 date-fns@^2.24.0:
   version "2.24.0"
@@ -7087,6 +7073,14 @@ dom-helpers@^3.2.0:
   integrity sha512-LnuPJ+dwqKDIyotW1VzmOZ5TONUN7CwkCR5hrgawTUbkBGYdeoNLZo6nNfGkCrjtE1nXXaj7iMMpDa8/d9WoIA==
   dependencies:
     "@babel/runtime" "^7.1.2"
+
+dom-helpers@^5.0.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-5.2.1.tgz#d9400536b2bf8225ad98fe052e029451ac40e902"
+  integrity sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==
+  dependencies:
+    "@babel/runtime" "^7.8.7"
+    csstype "^3.0.2"
 
 dom-serializer@0:
   version "0.1.0"
@@ -7964,8 +7958,8 @@ eslint-plugin-unicorn@^35.0.0:
     safe-regex "^2.1.1"
     semver "^7.3.5"
 
-eslint-plugin-va@./script/eslint-plugin-va:
-  version "1.0.3"
+"eslint-plugin-va@file:./script/eslint-plugin-va":
+  version "1.0.4"
 
 eslint-scope@5.1.1, eslint-scope@^5.1.1:
   version "5.1.1"
@@ -13057,7 +13051,7 @@ moment-timezone@^0.5.33:
   dependencies:
     moment ">= 2.9.0"
 
-"moment@>= 2.9.0", moment@^2.19.3, moment@^2.23.0:
+"moment@>= 2.9.0", moment@^2.19.3:
   version "2.24.0"
   resolved "https://registry.npmjs.org/moment/-/moment-2.24.0.tgz"
   integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
@@ -15699,6 +15693,16 @@ react-transition-group@1, react-transition-group@^1.0.0:
     loose-envify "^1.3.1"
     prop-types "^15.5.6"
     warning "^3.0.0"
+
+react-transition-group@^4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.2.tgz#8b59a56f09ced7b55cbd53c36768b922890d5470"
+  integrity sha512-/RNYfRAMlZwDSr6z4zNKV6xu53/e2BuaBbGhbyYIXTrmgu/bGHzmqOs7mJSJBHy9Ud+ApHx3QjrkKSp1pxvlFg==
+  dependencies:
+    "@babel/runtime" "^7.5.5"
+    dom-helpers "^5.0.1"
+    loose-envify "^1.4.0"
+    prop-types "^15.6.2"
 
 react@^16.13.1:
   version "16.14.0"

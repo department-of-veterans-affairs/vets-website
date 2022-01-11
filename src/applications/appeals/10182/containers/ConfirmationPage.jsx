@@ -42,13 +42,8 @@ export class ConfirmationPage extends React.Component {
         <h2 className="confirmation-page-title vads-u-font-size--h3">
           Your request has been submitted
         </h2>
-        <p>
-          We may contact you for more information or documents.
-          <br className="screen-only" />
-          <em className="screen-only">
-            Please print this page for your records.
-          </em>
-        </p>
+        <p>We may contact you for more information or documents.</p>
+        <p className="screen-only">Please print this page for your records.</p>
         <div className="inset">
           <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
             Request a Board Appeal{' '}

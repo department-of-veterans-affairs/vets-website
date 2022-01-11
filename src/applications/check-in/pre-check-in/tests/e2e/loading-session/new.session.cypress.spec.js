@@ -1,13 +1,13 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
 
-import validateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import apiInitializer from '../support/ApiInitializer';
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
+import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 
 describe('Pre-Check In Experience ', () => {
   beforeEach(function() {
-    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
-    apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+    const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
+    initializeFeatureToggle.withCurrentFeatures();
+    initializeSessionGet.withSuccessfulNewSession();
   });
   afterEach(() => {
     cy.window().then(window => {
@@ -16,7 +16,7 @@ describe('Pre-Check In Experience ', () => {
   });
   it('a new sessions redirects to validate page', () => {
     cy.visitPreCheckInWithUUID();
-    // page: Validate
-    validateVeteran.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+    ValidateVeteran.validatePageLoaded();
   });
 });

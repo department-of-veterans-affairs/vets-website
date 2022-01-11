@@ -1,6 +1,6 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import facilityLocator from '~/applications/facility-locator/manifest.json';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 import {
   DECEASED_ERROR_CODES,
@@ -36,7 +36,7 @@ export default function VAPServiceEditModalErrorMessage({
             deceased. If this isn’t true, please contact your nearest VA medical
             center.
           </p>
-          <a href={facilityLocator.rootUrl}>
+          <a href={getAppUrl('facilities')}>
             Find your nearest VA medical center
           </a>
         </div>

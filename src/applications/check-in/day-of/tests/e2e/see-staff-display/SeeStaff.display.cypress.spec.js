@@ -1,28 +1,28 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
+
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import SeeStaff from '../pages/SeeStaff';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 
-describe('Check In Experience -- ', () => {
-  describe('See Staff display -- ', () => {
+describe('Check In Experience', () => {
+  describe('See Staff display', () => {
     beforeEach(function() {
-      cy.authenticate();
-      cy.getAppointments();
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          checkInExperienceMultipleAppointmentSupport: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
-          checkInExperienceDemographicsPageEnabled: true,
-          emergencyContactEnabled: true,
-          checkInExperienceNextOfKinEnabled: true,
-        }),
-      );
-      cy.visitWithUUID();
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+        initializeCheckInDataGet,
+        initializeCheckInDataPost,
+      } = ApiInitializer;
+      initializeFeatureToggle.withCurrentFeatures();
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
+      initializeCheckInDataGet.withSuccess();
+      initializeCheckInDataPost.withSuccess();
+
       cy.visitWithUUID();
       ValidateVeteran.validatePageLoaded('Check in at VA');
       ValidateVeteran.validateVeteran();
@@ -38,40 +38,38 @@ describe('Check In Experience -- ', () => {
       Demographics.attemptToGoToNextPage('no');
       SeeStaff.validatePageLoaded();
       SeeStaff.validateMessage();
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
     it('see staff page has BTSSS link', () => {
       Demographics.attemptToGoToNextPage('no');
       SeeStaff.validatePageLoaded();
       SeeStaff.validateBTSSSLink();
+      cy.injectAxeThenAxeCheck();
     });
     it('back link goes back to previous page', () => {
       Demographics.attemptToGoToNextPage('no');
       SeeStaff.validatePageLoaded();
       SeeStaff.validateBackButton();
+      cy.injectAxeThenAxeCheck();
     });
     it('see staff display with next of kin message', () => {
       Demographics.attemptToGoToNextPage();
-      NextOfKin.attemptToGoToNextPage();
+      EmergencyContact.attemptToGoToNextPage();
       NextOfKin.attemptToGoToNextPage('no');
       SeeStaff.validatePageLoaded();
       SeeStaff.validateMessage(
-        'Our staff can help you update your emergency contact information.',
+        'Our staff can help you update your next of kin information.',
       );
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
     it('see staff display with emergency contact message', () => {
       Demographics.attemptToGoToNextPage();
-      NextOfKin.attemptToGoToNextPage();
       EmergencyContact.attemptToGoToNextPage('no');
       SeeStaff.validatePageLoaded();
       SeeStaff.validateMessage(
         'Our staff can help you update your emergency contact information.',
       );
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

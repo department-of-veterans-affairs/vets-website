@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
 import resourcesSettings from '../manifest.json';
-import searchSettings from 'applications/search/manifest.json';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
+
+const searchUrl = getAppUrl('search');
 
 export default function SearchBar({
   onInputChange,
@@ -75,9 +77,7 @@ export default function SearchBar({
         {/* Search form */}
         <form
           action={
-            isGlobalSearch
-              ? `${searchSettings.rootUrl}/`
-              : `${resourcesSettings.rootUrl}/`
+            isGlobalSearch ? `${searchUrl}/` : `${resourcesSettings.rootUrl}/`
           }
           className={`${
             expanded ? 'va-border-bottom-radius--5px ' : 'vads-u-display--none '

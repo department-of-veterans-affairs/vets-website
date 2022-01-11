@@ -48,36 +48,44 @@ Alert.Error = () => (
   </va-alert>
 );
 
-Alert.ZeroBalance = ({ copay }) => (
-  <va-alert
-    class="row vads-u-margin-bottom--5"
-    status="info"
-    data-testid="zero-balance"
-  >
-    <h2 slot="headline" className="vads-u-font-size--h3">
-      You don’t need to make a payment at this time
-    </h2>
-    <p className="vads-u-font-size--base vads-u-font-family--sans">
-      Your balance is $0 and was updated on
-      <span className="vads-u-margin-x--0p5" data-testid="updated-date">
-        {formatDate(copay?.pSStatementDate)}
-      </span>
-      . You can
-      <a href="#download-statements" className="vads-u-margin--0p5">
-        download your previous statements
-      </a>
-      below.
-    </p>
-    <p>
-      If you receive new charges, we’ll send you a statement in the mail and
-      update your balance. Learn more about
-      <a href="#balance-questions" className="vads-u-margin--0p5">
-        what to do if you have questions about your balance
-      </a>
-      .
-    </p>
-  </va-alert>
-);
+Alert.ZeroBalance = ({ copay }) => {
+  const statementDate = formatDate(copay?.pSStatementDate);
+
+  return (
+    <va-alert
+      class="row vads-u-margin-bottom--5"
+      status="info"
+      data-testid="zero-balance"
+    >
+      <h2 slot="headline" className="vads-u-font-size--h3">
+        You don’t need to make a payment at this time
+      </h2>
+      <p className="vads-u-font-size--base vads-u-font-family--sans">
+        Your balance is $0 and was updated on
+        <time
+          dateTime={statementDate}
+          className="vads-u-margin-x--0p5"
+          data-testid="updated-date"
+        >
+          {statementDate}
+        </time>
+        . You can
+        <a href="#download-statements" className="vads-u-margin--0p5">
+          download your previous statements
+        </a>
+        below.
+      </p>
+      <p>
+        If you receive new charges, we’ll send you a statement in the mail and
+        update your balance. Learn more about
+        <a href="#balance-questions" className="vads-u-margin--0p5">
+          what to do if you have questions about your balance
+        </a>
+        .
+      </p>
+    </va-alert>
+  );
+};
 
 Alert.NoHealthcare = () => (
   <va-alert
@@ -134,26 +142,6 @@ Alert.NoHistory = () => (
   </va-alert>
 );
 
-Alert.Deceased = () => (
-  <va-alert
-    class="row vads-u-margin-bottom--5"
-    status="warning"
-    data-testid="deceased-alert"
-  >
-    <h2 slot="headline" className="vads-u-font-size--h3">
-      Our records show that this Veteran is deceased
-    </h2>
-    <p className="vads-u-font-size--base vads-u-font-family--sans">
-      We can’t show copay statements for this Veteran.
-    </p>
-    <p>
-      If this information is incorrect, please call Veterans Benefits Assistance
-      at <Telephone contact={'800-827-1000'} />, Monday through Friday, 8:00
-      a.m. to 9:00 p.m. ET.
-    </p>
-  </va-alert>
-);
-
 Alert.Status = ({ copay }) => (
   <va-alert background-only status="info" data-testid="status-alert">
     <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
@@ -194,7 +182,7 @@ Alert.Status = ({ copay }) => (
   </va-alert>
 );
 
-const RenderAlert = ({ type, copay, error }) => {
+const Alerts = ({ type, copay, error }) => {
   switch (type) {
     case 'status':
       return <Alert.Status copay={copay} />;
@@ -213,13 +201,6 @@ const RenderAlert = ({ type, copay, error }) => {
           'You haven’t received a copay bill in the past 6 months',
       });
       return <Alert.NoHistory />;
-    case 'deceased':
-      recordEvent({
-        event: 'visible-alert-box',
-        'alert-box-type': 'warning',
-        'alert-box-heading': 'Our records show that this Veteran is deceased',
-      });
-      return <Alert.Deceased />;
     case 'zero-balance':
       recordEvent({
         event: 'visible-alert-box',
@@ -239,4 +220,4 @@ const RenderAlert = ({ type, copay, error }) => {
   }
 };
 
-export default RenderAlert;
+export default Alerts;

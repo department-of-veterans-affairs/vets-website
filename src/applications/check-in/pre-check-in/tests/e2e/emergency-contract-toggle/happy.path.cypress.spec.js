@@ -1,30 +1,30 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
 
-import validateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import introduction from '../pages/Introduction';
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
+import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
+import Introduction from '../pages/Introduction';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import Confirmation from '../pages/Confirmation';
-import apiInitializer from '../support/ApiInitializer';
 
 describe('Pre-Check In Experience ', () => {
   let apiData = {};
   beforeEach(function() {
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        emergencyContactEnabled: false,
-      }),
-    );
-    apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+    const {
+      initializeFeatureToggle,
+      initializeSessionGet,
+      initializeSessionPost,
+      initializePreCheckInDataGet,
+      initializePreCheckInDataPost,
+    } = ApiInitializer;
+    initializeFeatureToggle.withoutEmergencyContact();
+    initializeSessionGet.withSuccessfulNewSession();
 
-    apiInitializer.initializeSessionPost.withSuccess();
+    initializeSessionPost.withSuccess();
 
-    apiData = apiInitializer.initializePreCheckInDataGet.withSuccess();
+    apiData = initializePreCheckInDataGet.withSuccess();
 
-    apiInitializer.initializePreCheckInDataPost.withSuccess();
+    initializePreCheckInDataPost.withSuccess();
   });
   afterEach(() => {
     cy.window().then(window => {
@@ -34,19 +34,19 @@ describe('Pre-Check In Experience ', () => {
   it('Emergency Contact disabled', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
-    validateVeteran.validatePageLoaded();
-    validateVeteran.validateVeteran();
+    ValidateVeteran.validatePageLoaded();
+    ValidateVeteran.validateVeteran();
     cy.injectAxe();
     cy.axeCheck();
 
-    validateVeteran.attemptToGoToNextPage();
+    ValidateVeteran.attemptToGoToNextPage();
 
     // page: Introduction
-    introduction.validatePageLoaded();
-    introduction.countAppointmentList(apiData.payload.appointments.length);
+    Introduction.validatePageLoaded();
+    Introduction.countAppointmentList(apiData.payload.appointments.length);
     cy.injectAxe();
     cy.axeCheck();
-    introduction.attemptToGoToNextPage();
+    Introduction.attemptToGoToNextPage();
 
     // page: Demographics
     Demographics.validatePageLoaded();

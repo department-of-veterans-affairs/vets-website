@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import recordEvent from 'platform/monitoring/record-event';
 import { getPastAppointmentListInfo } from '../../redux/selectors';
 import {
@@ -154,8 +154,8 @@ export default function PastAppointmentsListNew() {
       <>
         {dropdown}
         <div className="vads-u-margin-y--8">
-          <LoadingIndicator
-            setFocus={hasTypeChanged || !isInitialMount}
+          <va-loading-indicator
+            set-focus={hasTypeChanged || !isInitialMount}
             message="Loading your past appointments..."
           />
         </div>
@@ -171,8 +171,8 @@ export default function PastAppointmentsListNew() {
       <>
         {dropdown}
         <div className="vads-u-margin-y--8">
-          <LoadingIndicator
-            setFocus={hasTypeChanged || !isInitialMount}
+          <va-loading-indicator
+            set-focus={hasTypeChanged || !isInitialMount}
             message="Loading your past appointments..."
           />
         </div>

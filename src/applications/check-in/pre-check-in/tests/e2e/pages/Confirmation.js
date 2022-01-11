@@ -4,13 +4,13 @@ class Confirmation {
   validatePageLoaded() {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'You’ve completed pre check-in');
+      .and('have.text', 'You’ve completed pre-check-in');
   }
 
   validatePageContent() {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'You’ve completed pre check-in');
+      .and('have.text', 'You’ve completed pre-check-in');
     cy.get("[data-testid='confirmation-wrapper']");
     cy.get("p[data-testid='appointment-day-location']");
     cy.get("[data-testid='appointment-list']");

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import moment from '../../../lib/moment-tz';
@@ -89,7 +88,7 @@ export default function ConfirmedAppointmentDetailsPage() {
   if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
       <FullWidthLayout>
-        <LoadingIndicator setFocus message="Loading your appointment..." />
+        <va-loading-indicator set-focus message="Loading your appointment..." />
       </FullWidthLayout>
     );
   }
