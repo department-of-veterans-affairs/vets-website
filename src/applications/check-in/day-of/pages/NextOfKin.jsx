@@ -9,17 +9,16 @@ import BackButton from '../components/BackButton';
 import BackToHome from '../components/BackToHome';
 import { focusElement } from 'platform/utilities/ui';
 import Footer from '../components/Footer';
-import { seeStaffMessageUpdated } from '../actions';
+import { seeStaffMessageUpdated } from '../../actions/day-of';
 import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
 
 const NextOfKin = props => {
   const {
     nextOfKin,
     isLoading,
-    isEmergencyContactEnabled,
-    isUpdatePageEnabled,
     router,
     demographicsStatus,
+    isUpdatePageEnabled,
   } = props;
   const { nextOfKinNeedsUpdate } = demographicsStatus;
   const { jumpToPage, goToNextPage } = useFormRouting(router, URLS);
@@ -36,27 +35,16 @@ const NextOfKin = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
-  const findNextPage = useCallback(
-    () => {
-      if (isEmergencyContactEnabled) {
-        goToNextPage();
-      } else if (isUpdatePageEnabled) {
-        jumpToPage(URLS.UPDATE_INSURANCE);
-      } else {
-        jumpToPage(URLS.DETAILS);
-      }
-    },
-    [isEmergencyContactEnabled, isUpdatePageEnabled, jumpToPage, goToNextPage],
-  );
+
   const yesClick = useCallback(
     () => {
       recordEvent({
         event: 'cta-button-click',
         'button-click-label': 'yes-to-next-of-kin-information',
       });
-      findNextPage();
+      goToNextPage();
     },
-    [findNextPage],
+    [goToNextPage],
   );
 
   const noClick = useCallback(
@@ -73,10 +61,10 @@ const NextOfKin = props => {
   useEffect(
     () => {
       if (nextOfKinNeedsUpdate === false) {
-        findNextPage();
+        goToNextPage();
       }
     },
-    [nextOfKinNeedsUpdate, findNextPage],
+    [nextOfKinNeedsUpdate, goToNextPage, isUpdatePageEnabled, jumpToPage],
   );
   if (isLoading) {
     return (
@@ -104,7 +92,6 @@ const NextOfKin = props => {
 NextOfKin.propTypes = {
   nextOfKin: PropTypes.object,
   isLoading: PropTypes.bool,
-  isEmergencyContactEnabled: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
   demographicsStatus: PropTypes.object,

@@ -1,9 +1,14 @@
 import _ from 'lodash';
 import { INITIAL_STATE } from '../reducers/filters';
+import environment from 'platform/utilities/environment';
 
 // default state is checked so these will only be present if their corresponding boxes are unchecked
 export const FILTERS_EXCLUDED_FLIP = ['schools', 'employers', 'vettec'];
 export const FILTERS_IGNORE_ALL = ['country', 'state', 'specialMission'];
+
+// The exclude filters are seen as includes so we're flipping them to match their presentation
+export const FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP =
+  INITIAL_STATE.excludedSchoolTypes;
 
 const omitNonFilters = filters => _.omit(filters, ['expanded', 'search']);
 
@@ -39,6 +44,11 @@ export const buildSearchFilters = filters => {
       searchFilters[excludeField] = !clonedFilters[field];
     },
   );
+
+  if (!environment.isProduction())
+    clonedFilters.excludedSchoolTypes = FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP.filter(
+      exclusion => !clonedFilters.excludedSchoolTypes.includes(exclusion),
+    );
 
   if (clonedFilters.excludedSchoolTypes.length > 0) {
     searchFilters.excludedSchoolTypes = clonedFilters.excludedSchoolTypes;

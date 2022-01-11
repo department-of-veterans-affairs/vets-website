@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { api } from '../../../api';
 
-import { createSetSession } from '../../actions';
+import { createSetSession } from '../../../actions/pre-check-in';
 
 import BackToHome from '../../components/BackToHome';
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';

@@ -5,8 +5,8 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { api } from '../../../api';
 
-import { createInitFormAction } from '../../../actions';
-import { createSetSession } from '../../actions';
+import { createInitFormAction } from '../../../actions/navigation';
+import { createSetSession } from '../../../actions/pre-check-in';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';

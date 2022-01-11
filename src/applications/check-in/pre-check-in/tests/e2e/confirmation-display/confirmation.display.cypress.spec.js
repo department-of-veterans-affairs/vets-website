@@ -33,8 +33,7 @@ describe('Pre-Check In Experience', () => {
       Introduction.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
-      NextOfKin.validatePageLoaded();
-      NextOfKin.attemptToGoToNextPage();
+
       EmergencyContact.validatePageLoaded();
     });
     afterEach(() => {
@@ -44,16 +43,22 @@ describe('Pre-Check In Experience', () => {
     });
     it('Confirmation page content loads', () => {
       EmergencyContact.attemptToGoToNextPage();
+      NextOfKin.validatePageLoaded();
+      NextOfKin.attemptToGoToNextPage();
       Confirmation.validatePageContent();
       cy.injectAxeThenAxeCheck();
     });
     it('Staff update alert message is not visible', () => {
       EmergencyContact.attemptToGoToNextPage();
+      NextOfKin.validatePageLoaded();
+      NextOfKin.attemptToGoToNextPage();
       Confirmation.validateConfirmNoUpdates();
       cy.injectAxeThenAxeCheck();
     });
     it('Staff update alert message is visible', () => {
-      EmergencyContact.attemptToGoToNextPage('no');
+      EmergencyContact.attemptToGoToNextPage();
+      NextOfKin.validatePageLoaded();
+      NextOfKin.attemptToGoToNextPage('no');
       Confirmation.validateConfirmWithUpdates();
       cy.injectAxeThenAxeCheck();
     });

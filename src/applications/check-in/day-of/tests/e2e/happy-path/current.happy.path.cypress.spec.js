@@ -33,25 +33,26 @@ describe('Check In Experience', () => {
     });
     it('happy path', () => {
       cy.visitWithUUID();
+
       ValidateVeteran.validatePageLoaded('Check in at VA');
       cy.injectAxeThenAxeCheck();
-
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
-
       Demographics.attemptToGoToNextPage();
+
+      EmergencyContact.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      EmergencyContact.attemptToGoToNextPage();
+
       NextOfKin.validatePageLoaded(
         'Is this your current next of kin information?',
       );
       cy.injectAxeThenAxeCheck();
-
       NextOfKin.attemptToGoToNextPage();
-      EmergencyContact.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
 
-      EmergencyContact.attemptToGoToNextPage();
       Appointments.validatePageLoaded();
       Appointments.validateAppointmentLength(3);
       cy.injectAxeThenAxeCheck();

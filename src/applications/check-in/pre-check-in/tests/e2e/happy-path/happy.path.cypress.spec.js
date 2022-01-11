@@ -37,7 +37,6 @@ describe('Pre-Check In Experience ', () => {
     ValidateVeteran.validatePageLoaded();
     ValidateVeteran.validateVeteran();
     cy.injectAxeThenAxeCheck();
-
     ValidateVeteran.attemptToGoToNextPage();
 
     // page: Introduction
@@ -50,13 +49,11 @@ describe('Pre-Check In Experience ', () => {
     // page: Demographics
     Demographics.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
-
     Demographics.attemptToGoToNextPage();
 
     // page: Next of Kin
     NextOfKin.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
-
     NextOfKin.attemptToGoToNextPage();
 
     // page: Confirmation
