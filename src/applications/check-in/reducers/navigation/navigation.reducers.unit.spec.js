@@ -109,6 +109,7 @@ describe('check in', () => {
             'verify',
             'introduction',
             'contact-information',
+            'emergency-contact',
             'next-of-kin',
             'complete',
           ]);
