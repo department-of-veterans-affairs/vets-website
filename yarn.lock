@@ -2130,12 +2130,12 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^3.11.1":
-  version "3.11.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.11.1.tgz#ca25b141845c0067d36a29c77419ea5efa26545c"
-  integrity sha512-3DEgNlkEC733SO7vNtwq3eNDYChxspfLhyWR1JeShFneG8oLTr+tddpyUKUvd8yy7rYnPYcsujn4rELCJ2OsHQ==
+"@department-of-veterans-affairs/component-library@^3.11.2":
+  version "3.11.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.11.2.tgz#cfb2b3ea8cacf937f61c71f1e58b0960b39ae48f"
+  integrity sha512-jQDnFt7BpIaagmQZwAuOvytlptgP4LiWjWaQ/cYAdwm91tFzviiIFtxUzUik+VUQTvqCHDDGh5NJwjOrb6jAdA==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "3.3.0"
+    "@department-of-veterans-affairs/react-components" "3.3.1"
     "@department-of-veterans-affairs/web-components" "0.20.1"
     date-fns-tz "^1.1.1"
     react-focus-on "^3.5.1"
@@ -2168,17 +2168,13 @@
     yeoman-generator "^4.11.0"
     yosay "^2.0.1"
 
-"@department-of-veterans-affairs/react-components@3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-3.3.0.tgz#2dc641c00f90ca118880b54127cd49eb6fe036d5"
-  integrity sha512-gsbbwpMabh/RIKOLS+sL+pbgAlrjS3U/UH+2sojDjN7vugeQPWdxKSTOSGjFd0i7d3M/ByjsC8ubZE6486Qk5Q==
+"@department-of-veterans-affairs/react-components@3.3.1":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-3.3.1.tgz#de33392eec5978ef533e878acd66fa1c93c60b1e"
+  integrity sha512-AJC7L+yw6nD1DFbKKswaKswATXq9Uc8ihkjpT+2QqVeX/ATHi7glP9wgLQOQWOlmT9DEXikQOjQfCXdL7FKfEQ==
   dependencies:
     classnames "^2.2.6"
-    core-js "^3.9.0"
-    date-fns "^2.17.0"
-    date-fns-tz "^1.1.1"
     lodash "^4.17.15"
-    moment "^2.23.0"
     number-to-words "^1.2.4"
     prop-types "^15.6.2"
     react-focus-lock "^2.5.1"
@@ -6146,11 +6142,6 @@ core-js@^3.18.0:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.18.0.tgz#9af3f4a6df9ba3428a3fb1b171f1503b3f40cc49"
   integrity sha512-WJeQqq6jOYgVgg4NrXKL0KLQhi0CT4ZOCvFL+3CQ5o7I6J8HkT5wd53EadMfqTDp1so/MT1J+w2ujhWcCJtN7w==
 
-core-js@^3.9.0:
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.9.1.tgz#cec8de593db8eb2a85ffb0dbdeb312cb6e5460ae"
-  integrity sha512-gSjRvzkxQc1zjM/5paAmL4idJBFzuJoo+jDjF1tStYFMV2ERfD02HhahhCGXUyHxQRG4yFKVSdO6g62eoRMcDg==
-
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
@@ -6632,11 +6623,6 @@ date-fns-tz@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/date-fns-tz/-/date-fns-tz-1.1.1.tgz"
   integrity sha512-5PR604TlyvpiNXtvn+PZCcCazsI8fI1am3/aimNFN8CMqHQ0KRl+6hB46y4mDbB7bk3+caEx3qHhS7Ewac/FIg==
-
-date-fns@^2.17.0:
-  version "2.17.0"
-  resolved "https://registry.npmjs.org/date-fns/-/date-fns-2.17.0.tgz"
-  integrity sha512-ZEhqxUtEZeGgg9eHNSOAJ8O9xqSgiJdrL0lzSSfMF54x6KXWJiOH/xntSJ9YomJPrYH/p08t6gWjGWq1SDJlSA==
 
 date-fns@^2.24.0:
   version "2.24.0"
@@ -13065,7 +13051,7 @@ moment-timezone@^0.5.33:
   dependencies:
     moment ">= 2.9.0"
 
-"moment@>= 2.9.0", moment@^2.19.3, moment@^2.23.0:
+"moment@>= 2.9.0", moment@^2.19.3:
   version "2.24.0"
   resolved "https://registry.npmjs.org/moment/-/moment-2.24.0.tgz"
   integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
