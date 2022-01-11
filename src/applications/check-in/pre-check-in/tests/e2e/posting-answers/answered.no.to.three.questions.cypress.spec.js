@@ -61,17 +61,17 @@ describe('Pre-Check In Experience ', () => {
 
     Demographics.attemptToGoToNextPage('no');
 
-    // page: Next of Kin
-    NextOfKin.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
-
-    NextOfKin.attemptToGoToNextPage('no');
-
     // page: Emergency Contact
     EmergencyContact.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
 
     EmergencyContact.attemptToGoToNextPage('no');
+
+    // page: Next of Kin
+    NextOfKin.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+
+    NextOfKin.attemptToGoToNextPage('no');
 
     // page: Confirmation
     Confirmation.validatePageLoaded();
