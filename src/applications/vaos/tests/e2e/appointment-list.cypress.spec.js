@@ -5,7 +5,7 @@ import {
 } from './vaos-cypress-helpers';
 import Timeouts from 'platform/testing/e2e/timeouts';
 
-describe.skip('VAOS appointment list', () => {
+describe('VAOS appointment list', () => {
   beforeEach(() => {
     initAppointmentListMock();
     mockFeatureToggles();
@@ -49,7 +49,7 @@ describe.skip('VAOS appointment list', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('va phone appointment', () => {
+    it.skip('va phone appointment', () => {
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/Phone call/i)
