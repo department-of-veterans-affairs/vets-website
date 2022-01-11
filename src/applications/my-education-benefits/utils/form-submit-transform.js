@@ -309,19 +309,17 @@ export function getNotificationMethod(notificationMethod) {
 
 export function createMilitaryClaimant(submissionForm) {
   return {
-    claimant: {
-      claimantId: submissionForm.claimantId,
-      firstName: submissionForm['view:userFullName'].userFullName.first,
-      middleName: submissionForm['view:userFullName'].userFullName.middle,
-      lastName: submissionForm['view:userFullName'].userFullName.last,
-      suffix: submissionForm['view:userFullName'].userFullName.suffix,
-      dateOfBirth: submissionForm.dateOfBirth,
-      contactInfo: createContactInfo(submissionForm),
-      notificationMethod: getNotificationMethod(
-        submissionForm['view:receiveTextMessages'].receiveTextMessages,
-      ),
-      preferredContact: submissionForm['view:contactMethod'].contactMethod,
-    },
+    claimantId: submissionForm.claimantId,
+    firstName: submissionForm['view:userFullName'].userFullName.first,
+    middleName: submissionForm['view:userFullName'].userFullName.middle,
+    lastName: submissionForm['view:userFullName'].userFullName.last,
+    suffix: submissionForm['view:userFullName'].userFullName.suffix,
+    dateOfBirth: submissionForm.dateOfBirth,
+    contactInfo: createContactInfo(submissionForm),
+    notificationMethod: getNotificationMethod(
+      submissionForm['view:receiveTextMessages'].receiveTextMessages,
+    ),
+    preferredContact: submissionForm['view:contactMethod'].contactMethod,
   };
 }
 
@@ -401,7 +399,7 @@ export function createDirectDeposit(submissionForm) {
 
 export function createSubmissionForm(submissionForm) {
   return {
-    militaryClaimant: createMilitaryClaimant(submissionForm),
+    claimant: createMilitaryClaimant(submissionForm),
     relinquishedBenefit: createRelinquishedBenefit(submissionForm),
     additionalConsiderations: createAdditionalConsiderations(submissionForm),
     comments: createComments(submissionForm),
