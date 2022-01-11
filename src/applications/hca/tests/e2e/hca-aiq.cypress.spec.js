@@ -42,7 +42,95 @@ describe('HCA-AIQ', () => {
     }).as('mockSubmit');
   });
 
-  it('works with AIQ page - C12901', () => {
+  /* eslint-disable va/axe-check-required */
+  // AXE check in last test (toggle-section).
+  it('works with AIQ (Yes selected) - C12901', () => {
+    cy.visit(manifest.rootUrl);
+    cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+    cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
+      .first()
+      .should('exist');
+
+    // Advance to AIQ page
+    aiqHelpers.advanceToAiqPage();
+
+    // Check required-field error-message
+    aiqHelpers.goToNextPage();
+    cy.get('#root_sigiIsAmericanIndian-error-message').should('be.visible');
+
+    // Select Yes
+    cy.get('#root_sigiIsAmericanIndianYes[type="radio"]').check();
+
+    // Finish, review, & submit
+    aiqHelpers.advanceFromAiqToReviewPage();
+    cy.findByText(/veteran information/i, { selector: 'button' }).click();
+    cy.findByText(/american indian/i, { selector: 'dt' })
+      .next('dd')
+      .find('span:first-child')
+      .should('have.text', 'Yes');
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .check();
+    cy.findByText(/submit/i, { selector: 'button' }).click();
+    cy.wait('@mockSubmit').then(interception => {
+      // check submitted AIQ value.
+      cy.wrap(JSON.parse(interception.request.body.form))
+        .its('sigiIsAmericanIndian')
+        .should('be.true');
+    });
+    cy.location('pathname').should('include', '/confirmation');
+  });
+
+  it('works with AIQ (No selected) - C13159', () => {
+    cy.visit(manifest.rootUrl);
+    cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+    cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
+      .first()
+      .should('exist');
+
+    // Advance to AIQ page
+    aiqHelpers.advanceToAiqPage();
+
+    // Select No
+    cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
+
+    // Finish, review, & submit
+    aiqHelpers.advanceFromAiqToReviewPage();
+    cy.findByText(/veteran information/i, { selector: 'button' }).click();
+    cy.findByText(/american indian/i, { selector: 'dt' })
+      .next('dd')
+      .find('span:first-child')
+      .should('have.text', 'No');
+    cy.get('[name="privacyAgreementAccepted"]')
+      .scrollIntoView()
+      .check();
+    cy.findByText(/submit/i, { selector: 'button' }).click();
+    cy.wait('@mockSubmit').then(interception => {
+      // check submitted AIQ value.
+      cy.wrap(JSON.parse(interception.request.body.form))
+        .its('sigiIsAmericanIndian')
+        .should('be.false');
+    });
+    cy.location('pathname').should('include', '/confirmation');
+  });
+
+  it('displays error message for required field - C13160', () => {
+    cy.visit(manifest.rootUrl);
+    cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+    cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
+      .first()
+      .should('exist');
+
+    // Advance to AIQ page
+    aiqHelpers.advanceToAiqPage();
+
+    // Continue w/o selecting yes/no
+    aiqHelpers.goToNextPage();
+    cy.get('#root_sigiIsAmericanIndian-error-message').should('be.visible');
+  });
+  /* eslint-enable va/axe-check-required */
+
+  it('expands/collapses toggle-section - C13161', () => {
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
     cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
@@ -53,14 +141,6 @@ describe('HCA-AIQ', () => {
     aiqHelpers.advanceToAiqPage();
     cy.injectAxe();
     cy.axeCheck();
-
-    // Check required-field error-message
-    aiqHelpers.goToNextPage();
-    cy.get('#root_sigiIsAmericanIndian-error-message').should('be.visible');
-
-    // Select No
-    cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
-    cy.get('#root_sigiIsAmericanIndian-error-message').should('not.exist');
 
     // Check more-info toggle
     // expand
@@ -79,6 +159,8 @@ describe('HCA-AIQ', () => {
             cy.get(acId)
               .children()
               .should('have.length.gt', 0);
+            cy.injectAxe();
+            cy.axeCheck();
           });
       });
     // collapse
@@ -99,35 +181,5 @@ describe('HCA-AIQ', () => {
               .should('have.length', 0);
           });
       });
-
-    // Continue to next page
-    aiqHelpers.goToNextPage('/veteran-information/veteran-address');
-
-    // Back & select Yes
-    cy.findByText(/back/i, { selector: 'button' }).click();
-    cy.location('pathname').should(
-      'include',
-      '/veteran-information/american-indian',
-    );
-    cy.get('#root_sigiIsAmericanIndianYes').check();
-
-    // Finish, review, & submit
-    aiqHelpers.advanceToReviewPage();
-    cy.findByText(/veteran information/i, { selector: 'button' }).click();
-    cy.findByText(/american indian/i, { selector: 'dt' })
-      .next('dd')
-      .find('span:first-child')
-      .should('have.text', 'Yes');
-    cy.get('[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .check();
-    cy.findByText(/submit/i, { selector: 'button' }).click();
-    cy.wait('@mockSubmit').then(interception => {
-      // check submitted AIQ value.
-      cy.wrap(JSON.parse(interception.request.body.form))
-        .its('sigiIsAmericanIndian')
-        .should('be.true');
-    });
-    cy.location('pathname').should('include', '/confirmation');
   });
 });

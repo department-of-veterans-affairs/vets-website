@@ -30,7 +30,7 @@ export const advanceToAiqPage = () => {
   goToNextPage('/veteran-information/demographic-information');
   goToNextPage('/veteran-information/american-indian');
 };
-export const advanceToReviewPage = () => {
+export const advanceFromAiqToReviewPage = () => {
   goToNextPage('/veteran-information/veteran-address');
   cy.get('[type=radio]')
     .first()
