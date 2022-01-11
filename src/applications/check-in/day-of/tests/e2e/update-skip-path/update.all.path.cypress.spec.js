@@ -34,15 +34,15 @@ describe('Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('update demographics, next of kin path, and emergency contact', () => {
+    it('update demographics and emergency contact and next of kin', () => {
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
+      EmergencyContact.validatePageLoaded();
+      EmergencyContact.attemptToGoToNextPage();
       NextOfKin.validatePageLoaded(
         'Is this your current next of kin information?',
       );
       NextOfKin.attemptToGoToNextPage();
-      EmergencyContact.validatePageLoaded();
-      EmergencyContact.attemptToGoToNextPage();
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });

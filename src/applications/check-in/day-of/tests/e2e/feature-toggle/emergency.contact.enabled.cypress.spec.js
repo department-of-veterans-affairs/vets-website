@@ -3,7 +3,6 @@ import '../../../../tests/e2e/commands';
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
-import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 
 describe('Check In Experience -- ', () => {
@@ -35,10 +34,6 @@ describe('Check In Experience -- ', () => {
       ValidateVeteran.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
-      NextOfKin.validatePageLoaded(
-        'Is this your current next of kin information?',
-      );
-      NextOfKin.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
     });
   });

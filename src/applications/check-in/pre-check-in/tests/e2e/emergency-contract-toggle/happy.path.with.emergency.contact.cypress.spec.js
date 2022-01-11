@@ -3,7 +3,6 @@ import '../../../../tests/e2e/commands';
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Introduction from '../pages/Introduction';
-import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 
@@ -44,21 +43,13 @@ describe('Pre-Check In Experience ', () => {
     // page: Introduction
     Introduction.validatePageLoaded();
     Introduction.countAppointmentList(apiData.payload.appointments.length);
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
     Introduction.attemptToGoToNextPage();
 
     // page: Demographics
     Demographics.validatePageLoaded();
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
     Demographics.attemptToGoToNextPage();
-
-    // page: Next of Kin
-    NextOfKin.validatePageLoaded();
-    cy.injectAxe();
-    cy.axeCheck();
-    NextOfKin.attemptToGoToNextPage();
 
     // page: Emergency Contact
     EmergencyContact.validatePageLoaded();

@@ -35,11 +35,11 @@ const CHECK_IN_FORM_PAGES = Object.freeze([
     order: 1,
   },
   {
-    url: URLS.NEXT_OF_KIN,
+    url: URLS.EMERGENCY_CONTACT,
     order: 2,
   },
   {
-    url: URLS.EMERGENCY_CONTACT,
+    url: URLS.NEXT_OF_KIN,
     order: 3,
   },
   {
@@ -59,8 +59,11 @@ const CHECK_IN_FORM_PAGES = Object.freeze([
 const createForm = ({
   hasConfirmedDemographics = false,
   isEmergencyContactEnabled = false,
+  isUpdatePageEnabled = false,
 }) => {
-  let pages = CHECK_IN_FORM_PAGES.map(page => page.url);
+  let pages = [...CHECK_IN_FORM_PAGES]
+    .sort((a, b) => a.order - b.order)
+    .map(page => page.url);
   if (hasConfirmedDemographics) {
     const skippedPages = [
       URLS.DEMOGRAPHICS,
@@ -69,8 +72,12 @@ const createForm = ({
     ];
     pages = pages.filter(page => !skippedPages.includes(page));
   }
+
   if (!isEmergencyContactEnabled) {
     pages = pages.filter(page => page !== URLS.EMERGENCY_CONTACT);
+  }
+  if (!isUpdatePageEnabled) {
+    pages = pages.filter(page => page !== URLS.UPDATE_INSURANCE);
   }
   return pages;
 };
