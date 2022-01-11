@@ -154,8 +154,7 @@ describe('HCA-AIQ', () => {
           .parent()
           .invoke('attr', 'aria-controls')
           .then(ariaCtrlsId => {
-            // eslint-disable-next-line prefer-template
-            const acId = '#' + ariaCtrlsId;
+            const acId = `#${ariaCtrlsId}`;
             cy.get(acId)
               .children()
               .should('have.length.gt', 0);
@@ -174,8 +173,7 @@ describe('HCA-AIQ', () => {
           .parent()
           .invoke('attr', 'aria-controls')
           .then(ariaCtrlsId => {
-            // eslint-disable-next-line prefer-template
-            const acId = '#' + ariaCtrlsId;
+            const acId = `#${ariaCtrlsId}`;
             cy.get(acId)
               .children()
               .should('have.length', 0);
