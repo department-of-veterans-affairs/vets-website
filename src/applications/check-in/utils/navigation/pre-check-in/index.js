@@ -60,6 +60,7 @@ const updateForm = (patientDemographicsStatus, isEmergencyContactEnabled) => {
   return updateFormPages(
     patientDemographicsStatus,
     isEmergencyContactEnabled,
+    false,
     pages,
     URLS,
   );

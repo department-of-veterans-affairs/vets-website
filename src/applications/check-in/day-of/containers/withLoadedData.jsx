@@ -33,7 +33,10 @@ const withLoadedData = Component => {
       demographicsStatus,
       emergencyContact,
     } = checkInData;
-    const { isEmergencyContactEnabled } = props;
+    const {
+      isEmergencyContactEnabled,
+      checkInExperienceUpdateInformationPageEnabled,
+    } = props;
     const dispatch = useDispatch();
     const setSessionData = useCallback(
       (payload, token) => {
@@ -49,6 +52,7 @@ const withLoadedData = Component => {
             updateFormAction({
               patientDemographicsStatus,
               isEmergencyContactEnabled,
+              checkInExperienceUpdateInformationPageEnabled,
             }),
           );
           if (typeof demo !== 'undefined') {
@@ -132,6 +136,7 @@ const withLoadedData = Component => {
     router: PropTypes.object,
     setSessionData: PropTypes.func,
     isEmergencyContactEnabled: PropTypes.bool,
+    checkInExperienceUpdateInformationPageEnabled: PropTypes.bool,
   };
 
   return Wrapped;
