@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 
-const useSessionStorage = (isPreCheckIn = true) => {
+const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
   const SESSION_STORAGE_KEYS = useMemo(
     () => {
       const namespace = isPreCheckIn
@@ -8,6 +8,7 @@ const useSessionStorage = (isPreCheckIn = true) => {
         : 'health.care.check-in';
       return {
         CURRENT_UUID: `${namespace}.current.uuid`,
+        VALIDATE_ATTEMPTS: `${namespace}.validate.attempts`,
       };
     },
     [isPreCheckIn],
@@ -50,10 +51,33 @@ const useSessionStorage = (isPreCheckIn = true) => {
     [SESSION_STORAGE_KEYS],
   );
 
+  const incrementValidateAttempts = window => {
+    const validateAttempts =
+      getSessionKey(window, SESSION_STORAGE_KEYS.VALIDATE_ATTEMPTS) ?? 0;
+    setSessionKey(
+      window,
+      SESSION_STORAGE_KEYS.VALIDATE_ATTEMPTS,
+      validateAttempts + 1,
+    );
+  };
+
+  const getValidateAttempts = window => {
+    const validateAttempts =
+      getSessionKey(window, SESSION_STORAGE_KEYS.VALIDATE_ATTEMPTS) ?? 0;
+    const isMaxValidateAttempts = validateAttempts >= maxValidateAttempts - 1;
+    const remainingValidateAttempts = maxValidateAttempts - validateAttempts;
+    return {
+      isMaxValidateAttempts,
+      remainingValidateAttempts,
+    };
+  };
+
   return {
     clearCurrentSession,
     setCurrentToken,
     getCurrentToken,
+    incrementValidateAttempts,
+    getValidateAttempts,
   };
 };
 

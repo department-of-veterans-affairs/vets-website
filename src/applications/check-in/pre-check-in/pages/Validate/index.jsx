@@ -14,6 +14,8 @@ import { URLS } from '../../../utils/navigation/pre-check-in';
 
 import { makeSelectCurrentContext } from '../../../selectors';
 
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
+
 export default function Index({ router }) {
   const { goToNextPage, goToErrorPage } = useFormRouting(router, URLS);
   const dispatch = useDispatch();
@@ -33,6 +35,15 @@ export default function Index({ router }) {
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
+
+  const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
+    true,
+  );
+  const {
+    isMaxValidateAttempts,
+    remainingValidateAttempts,
+  } = getValidateAttempts(window);
+  const [showValidateError, setShowValidateError] = useState(false);
   const validateHandler = async () => {
     setIsLoading(true);
     setLastNameErrorMessage();
@@ -59,10 +70,21 @@ export default function Index({ router }) {
         goToNextPage();
       } catch (e) {
         setIsLoading(false);
-        goToErrorPage();
+        if (isMaxValidateAttempts) {
+          goToErrorPage();
+        } else {
+          if (!showValidateError) {
+            setShowValidateError(true);
+          }
+          incrementValidateAttempts(window);
+        }
       }
     }
   };
+  const validateErrorMessage =
+    remainingValidateAttempts <= 1
+      ? "We're sorry. We couldn't match your information to our records. Please try again or call us at 800-698-2411 (TTY: 711) for help signing in."
+      : 'Sorry, we couldn’t find an account that matches that last name or SSN. Please try again.';
   return (
     <>
       <ValidateDisplay
@@ -81,6 +103,8 @@ export default function Index({ router }) {
           lastName,
         }}
         Footer={Footer}
+        showValidateError={showValidateError}
+        validateErrorMessage={validateErrorMessage}
       />
       <BackToHome />
     </>
