@@ -1,5 +1,3 @@
-const VA_FORM_IDS = require('platform/forms/constants').VA_FORM_IDS;
-
 /* eslint-disable camelcase */
 const mockUserAiq = {
   data: {
