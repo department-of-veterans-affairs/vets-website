@@ -21,7 +21,7 @@ export async function onDownloadLinkClick(event, reduxStore, listenerFunction) {
   event.preventDefault();
   const link = event.target;
   const downloadUrl = link.href;
-  const formNumber = link.dataset.formNumber;
+  const formName = link.dataset.formName;
 
   // Default to true in case we encounter an error
   // determining validity through the API.
@@ -31,8 +31,10 @@ export async function onDownloadLinkClick(event, reduxStore, listenerFunction) {
   let form = null;
 
   try {
-    const forms = await fetchFormsApi(formNumber);
-    form = forms.results.find(f => f.id === formNumber);
+    const forms = await fetchFormsApi(formName);
+    form = forms.results.find(
+      f => f.attributes.formName === link.dataset.formName,
+    );
     formPdfIsValid = form?.attributes.validPdf;
 
     const isSameOrigin = downloadUrl?.startsWith(window.location.origin);
@@ -49,7 +51,7 @@ export async function onDownloadLinkClick(event, reduxStore, listenerFunction) {
 
     sentryLogger(
       form,
-      formNumber,
+      formName,
       downloadUrl,
       'Find Forms - Form Detail - onDownloadLinkClick function error',
     );
@@ -58,7 +60,7 @@ export async function onDownloadLinkClick(event, reduxStore, listenerFunction) {
   return DownloadPDFGuidance({
     downloadUrl,
     form,
-    formNumber,
+    formNumber: formName,
     formPdfIsValid,
     formPdfUrlIsValid,
     link,

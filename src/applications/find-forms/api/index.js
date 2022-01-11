@@ -16,7 +16,6 @@ export const fetchFormsApi = async (query, options = {}) => {
   if (query) {
     FORMS_URL = appendQuery(FORMS_URL, { query });
   }
-
   // Make the request for the forms.
   if (!mockRequest) {
     response = await apiRequest(FORMS_URL);
