@@ -12,7 +12,7 @@ import {
   receivedMultipleAppointmentDetails,
   triggerRefresh,
   receivedDemographicsStatus,
-} from '../actions';
+} from '../../actions/day-of';
 import { focusElement } from 'platform/utilities/ui';
 
 import { makeSelectCheckInData } from '../hooks/selectors';

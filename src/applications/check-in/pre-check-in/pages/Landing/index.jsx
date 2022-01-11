@@ -5,8 +5,8 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { api } from '../../../api';
 
-import { createInitFormAction } from '../../../actions';
-import { createSetSession } from '../../actions';
+import { createInitFormAction } from '../../../actions/navigation';
+import { createSetSession } from '../../../actions/pre-check-in';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
@@ -72,10 +72,7 @@ export default function Index(props) {
               goToErrorPage();
             } else {
               setCurrentToken(window, token);
-              const pages = createForm({
-                hasConfirmedDemographics: false,
-                isEmergencyContactEnabled,
-              });
+              const pages = createForm();
               const firstPage = pages[0];
               initForm(pages, firstPage);
               setSession(token, session.permissions);

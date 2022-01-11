@@ -8,7 +8,7 @@ import Footer from '../../components/Footer';
 import BackButton from '../../components/BackButton';
 import DemographicsDisplay from '../../../components/pages/demographics/DemographicsDisplay';
 import recordEvent from 'platform/monitoring/record-event';
-import { recordAnswer } from '../../actions';
+import { recordAnswer } from '../../../actions/pre-check-in';
 import { URLS } from '../../../utils/navigation/pre-check-in';
 
 import { makeSelectVeteranData } from '../../../selectors';

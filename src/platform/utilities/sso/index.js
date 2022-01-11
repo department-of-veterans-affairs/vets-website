@@ -1,4 +1,5 @@
-import moment from 'moment';
+import addSeconds from 'date-fns/addSeconds';
+import differenceInSeconds from 'date-fns/differenceInSeconds';
 import environment from 'platform/utilities/environment';
 import localStorage from '../storage/localStorage';
 import { hasSessionSSO } from '../../user/profile/utilities';
@@ -29,7 +30,7 @@ export async function ssoKeepAliveSession() {
   if (ttl > 0) {
     // ttl is positive, user has an active session
     // ttl is in seconds, add from now
-    const expirationTime = moment().add(ttl, 's');
+    const expirationTime = addSeconds(new Date(), ttl);
     localStorage.setItem('sessionExpirationSSO', expirationTime);
     localStorage.setItem('hasSessionSSO', true);
   } else if (ttl === 0) {
@@ -113,7 +114,10 @@ export function checkAndUpdateSSOeSession() {
   if (hasSessionSSO()) {
     const sessionExpiration = localStorage.getItem('sessionExpirationSSO');
 
-    const remainingSessionTime = moment(sessionExpiration).diff(moment());
+    const remainingSessionTime = differenceInSeconds(
+      new Date(sessionExpiration),
+      new Date(),
+    );
     if (remainingSessionTime <= keepAliveThreshold) {
       ssoKeepAliveSession();
     }

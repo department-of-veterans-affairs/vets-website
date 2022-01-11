@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
@@ -96,9 +95,10 @@ export const Form526Entry = ({
     const message = restarting
       ? 'Please wait while we restart the application for you.'
       : 'Please wait while we load the application for you.';
+    const label = restarting ? 'restarting' : 'loading';
     return (
       <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-        <LoadingIndicator message={message} />
+        <va-loading-indicator message={message} label={label} />
       </h1>
     );
   };

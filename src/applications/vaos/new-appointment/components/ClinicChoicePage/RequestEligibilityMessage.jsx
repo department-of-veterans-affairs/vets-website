@@ -72,8 +72,8 @@ export default function RequestEligibilityMessage({
             </p>
             <ul>
               <li>
-                Go to <Link to="/">your appointment list</Link> and cancel open
-                requests, or
+                Go to <Link to="/requested">your appointment list </Link>
+                and cancel open requests, or
               </li>
               {facilityDetails && (
                 <li>

@@ -9,17 +9,11 @@ import BackButton from '../components/BackButton';
 import BackToHome from '../components/BackToHome';
 import { focusElement } from 'platform/utilities/ui';
 import Footer from '../components/Footer';
-import { seeStaffMessageUpdated } from '../actions';
+import { seeStaffMessageUpdated } from '../../actions/day-of';
 import EmergencyContactDisplay from '../../components/pages/emergencyContact/EmergencyContactDisplay';
 
 const EmergencyContact = props => {
-  const {
-    emergencyContact,
-    isLoading,
-    isUpdatePageEnabled,
-    router,
-    demographicsStatus,
-  } = props;
+  const { emergencyContact, isLoading, router, demographicsStatus } = props;
   const { emergencyContactNeedsUpdate } = demographicsStatus;
   const { goToNextPage, jumpToPage, goToErrorPage } = useFormRouting(
     router,
@@ -37,25 +31,16 @@ const EmergencyContact = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
-  const findNextPage = useCallback(
-    () => {
-      if (isUpdatePageEnabled) {
-        goToNextPage();
-      } else {
-        jumpToPage(URLS.DETAILS);
-      }
-    },
-    [isUpdatePageEnabled, goToNextPage, jumpToPage],
-  );
+
   const yesClick = useCallback(
     () => {
       recordEvent({
         event: 'cta-button-click',
         'button-click-label': 'yes-to-emergency-contact-information',
       });
-      findNextPage();
+      goToNextPage();
     },
-    [findNextPage],
+    [goToNextPage],
   );
 
   const noClick = useCallback(
@@ -72,10 +57,10 @@ const EmergencyContact = props => {
   useEffect(
     () => {
       if (emergencyContactNeedsUpdate === false) {
-        findNextPage();
+        goToNextPage();
       }
     },
-    [emergencyContactNeedsUpdate, findNextPage],
+    [emergencyContactNeedsUpdate, goToNextPage],
   );
   if (isLoading) {
     return (

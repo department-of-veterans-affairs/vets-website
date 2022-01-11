@@ -37,7 +37,7 @@ export default function StatusAlert({ appointment, facility }) {
   } else if (showConfirmMsg) {
     return (
       <InfoAlert backgroundOnly status="success">
-        <strong>Your appointment has been scheduled and is confirmed.</strong>
+        <strong>We’ve scheduled and confirmed your appointment.</strong>
         <br />
         <div className="vads-u-margin-y--1">
           <Link
@@ -48,11 +48,11 @@ export default function StatusAlert({ appointment, facility }) {
               });
             }}
           >
-            View your appointments
+            Review your appointments
           </Link>
         </div>
         <div>
-          <Link to="/new-appointment">New appointment</Link>
+          <Link to="/new-appointment">Schedule a new appointment</Link>
         </div>
       </InfoAlert>
     );
