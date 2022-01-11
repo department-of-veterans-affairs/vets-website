@@ -70,7 +70,7 @@ const formConfig = {
           ...contactInformation.mailingAddress,
         },
         additionalInformation: {
-          path: 'additional-information',
+          path: 'additional-contact-information',
           ...contactInformation.additionalInformation,
         },
       },
