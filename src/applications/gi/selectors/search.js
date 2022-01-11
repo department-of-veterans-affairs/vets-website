@@ -1,7 +1,9 @@
+/* eslint-disable sonarjs/no-collapsible-if */
 import _ from 'lodash';
 import { INITIAL_STATE } from '../reducers/search';
 import appendQuery from 'append-query';
 import { buildSearchFilters } from './filters';
+import environment from 'platform/utilities/environment';
 
 export const getSearchQueryChanged = query => {
   return !_.isEqual(query, INITIAL_STATE.query);
@@ -22,7 +24,9 @@ export const updateUrlParams = (
     searchQuery.name !== null &&
     searchQuery.name !== undefined
   ) {
-    queryParams.name = searchQuery.name;
+    if (environment.isProduction() || tab === 'name') {
+      queryParams.name = searchQuery.name;
+    }
   }
 
   if (
@@ -30,7 +34,9 @@ export const updateUrlParams = (
     searchQuery.location !== null &&
     searchQuery.location !== undefined
   ) {
-    queryParams.location = searchQuery.location;
+    if (environment.isProduction() || tab === 'location') {
+      queryParams.location = searchQuery.location;
+    }
   }
 
   if (version) {
