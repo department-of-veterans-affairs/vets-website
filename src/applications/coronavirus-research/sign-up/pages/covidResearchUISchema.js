@@ -279,13 +279,14 @@ export const uiSchema = {
       monthYear: true,
       hideIf: formData =>
         get('VACCINATED_DETAILS', formData) === undefined ||
-        get('VACCINATED_DETAILS', formData) === 'JOHNSON',
+        get('VACCINATED_DETAILS', formData) === 'JOHNSON' ||
+        formData.VACCINATED_SECOND === true,
       classNames: '',
     },
     'ui:required': formData =>
-      get('VACCINATED_DETAILS', formData) !== undefined &&
-      formData.VACCINATED_SECOND !== true &&
-      get('VACCINATED_DETAILS', formData) !== 'JOHNSON',
+      (formData.VACCINATED_SECOND === undefined ||
+        formData.VACCINATED_SECOND === false) &&
+      formData.vaccinated,
   },
   VACCINATED_SECOND: {
     'ui:title': <span>Did not get second dose</span>,
@@ -297,12 +298,11 @@ export const uiSchema = {
       expandUnder: 'vaccinated',
       hideIf: formData =>
         get('VACCINATED_DETAILS', formData) === undefined ||
-        get('VACCINATED_DETAILS', formData) === 'JOHNSON',
+        get('VACCINATED_DETAILS', formData) === 'JOHNSON' ||
+        formData.VACCINATED_DATE2 !== undefined,
     },
     'ui:required': formData =>
-      get('VACCINATED_DETAILS', formData) !== undefined &&
-      formData.VACCINATED_DATE2 !== true &&
-      get('VACCINATED_DETAILS', formData) !== 'JOHNSON',
+      formData.VACCINATED_DATE2 === undefined && formData.vaccinated,
   },
   hospitalized: {
     'ui:title': (
