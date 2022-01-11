@@ -37,6 +37,8 @@ export default function OtherTextField(props) {
     'aria-describedby': addIndex(props.options?.ariaDescribedby || null),
   };
 
+  // this new component allows a text field to have a border and 'belong' to a field above it
+  // mostly used for checkbox and radio button groups with and other option
   return (
     <div className="vads-u-border-left--5px vads-u-padding-y--0p5 vads-u-padding-left--1 vads-u-border-color--primary-alt">
       <label className="vads-u-margin--0" htmlFor={props.id}>
