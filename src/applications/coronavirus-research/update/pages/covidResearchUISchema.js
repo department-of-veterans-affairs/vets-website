@@ -143,8 +143,8 @@ export const uiSchema = {
     },
     'ui:required': formData =>
       get('VACCINATED_DETAILS', formData) !== undefined &&
-      formData.VACCINATED_DATE2 !== true &&
-      get('VACCINATED_DETAILS', formData) !== 'JOHNSON',
+      get('VACCINATED_DETAILS', formData) !== 'JOHNSON' &&
+      formData.VACCINATED_DATE2 === undefined,
   },
   diagnosed: {
     'ui:title': (
