@@ -5,7 +5,7 @@ import {
 } from './vaos-cypress-helpers';
 import Timeouts from 'platform/testing/e2e/timeouts';
 
-describe('VAOS appointment list', () => {
+describe.skip('VAOS appointment list', () => {
   beforeEach(() => {
     initAppointmentListMock();
     mockFeatureToggles();
