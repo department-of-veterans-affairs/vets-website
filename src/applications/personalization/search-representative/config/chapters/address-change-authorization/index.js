@@ -1,7 +1,7 @@
 import AuthorizationLimits from '../../../components/AuthorizationLimits';
 
 const authorizationTitle =
-  'Do you authorize your accredited representative to change your address in your VA.gov proifle?';
+  'Do you authorize your accredited representative to change your address in your VA.gov profile?';
 
 export const schema = {
   type: 'object',
