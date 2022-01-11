@@ -17,6 +17,8 @@ import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 
 import { makeSelectContext } from '../hooks/selectors';
 
+import { useSessionStorage } from '../../hooks/useSessionStorage';
+
 const ValidateVeteran = props => {
   const { router } = props;
   const dispatch = useDispatch();
@@ -36,6 +38,15 @@ const ValidateVeteran = props => {
 
   const selectContext = useMemo(makeSelectContext, []);
   const { token } = useSelector(selectContext);
+
+  const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
+    false,
+  );
+  const {
+    isMaxValidateAttempts,
+    remainingValidateAttempts,
+  } = getValidateAttempts(window);
+  const [showValidateError, setShowValidateError] = useState(false);
 
   const onClick = async () => {
     setLastNameErrorMessage();
@@ -62,14 +73,25 @@ const ValidateVeteran = props => {
           goToNextPage();
         })
         .catch(() => {
-          goToErrorPage();
+          setIsLoading(false);
+          if (isMaxValidateAttempts) {
+            goToErrorPage();
+          } else {
+            if (!showValidateError) {
+              setShowValidateError(true);
+            }
+            incrementValidateAttempts(window);
+          }
         });
     }
   };
   useEffect(() => {
     focusElement('h1');
   }, []);
-
+  const validateErrorMessage =
+    remainingValidateAttempts <= 1
+      ? "We're sorry. We couldn't match your information to our records. Please try again or call us at 800-698-2411 (TTY: 711) for help signing in."
+      : "Sorry, we couldn't find an account that matches that last name or SSN. Please try again.";
   return (
     <>
       <ValidateDisplay
@@ -88,6 +110,8 @@ const ValidateVeteran = props => {
         isLoading={isLoading}
         validateHandler={onClick}
         Footer={Footer}
+        showValidateError={showValidateError}
+        validateErrorMessage={validateErrorMessage}
       />
       <BackToHome />
     </>
