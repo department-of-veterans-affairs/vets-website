@@ -1,4 +1,4 @@
-// const CSP_IDS = require('platform/user/authentication/constants').CSP_IDS;
+const CSP_IDS = require('platform/user/authentication/constants').CSP_IDS;
 
 /* eslint-disable camelcase */
 const responses = {
@@ -7,7 +7,7 @@ const responses = {
       attributes: {
         profile: {
           sign_in: {
-            service_name: 'idme',
+            service_name: CSP_IDS.ID_ME,
           },
           email: 'fake@fake.com',
           loa: { current: 3 },
