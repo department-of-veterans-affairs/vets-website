@@ -125,6 +125,7 @@ jobs:
 
       - name: Upload Coverage Report Artifact
         uses: actions/upload-artifact@v2
+        if: ${{ always() }}
         with:
           name: unit-test-coverage-report
           path: coverage/test-coverage-report.json
