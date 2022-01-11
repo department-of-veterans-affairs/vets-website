@@ -1,5 +1,6 @@
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import RadioWidget from 'platform/forms-system/src/js/widgets/RadioWidget';
+import OtherTextField from '@@profile/components/personal-information/OtherTextField';
 
 const genderOptions = [
   'woman',
@@ -127,8 +128,13 @@ export const personalInformationUiSchemas = {
       'ui:title': 'Pronouns not listed here',
     },
     pronounsNotListedText: {
-      'ui:title':
-        'If not listed, please provide your preferred pronouns (255 characters maximum)',
+      'ui:options': {
+        widgetClassNames: 'my-class-here',
+        hideLabelText: true,
+        widget: OtherTextField,
+        title:
+          'If not listed, please provide your preferred pronouns (255 characters maximum)',
+      },
     },
   },
   genderIdentity: {
