@@ -188,14 +188,14 @@ const Alerts = ({ type, copay, error }) => {
       return <Alert.Status copay={copay} />;
     case 'no-health-care':
       recordEvent({
-        event: 'visible-alert-box',
+        event: 'mcp-alert-box',
         'alert-box-type': 'warning',
         'alert-box-heading': 'You’re not enrolled in VA health care',
       });
       return <Alert.NoHealthcare />;
     case 'no-history':
       recordEvent({
-        event: 'visible-alert-box',
+        event: 'mcp-alert-box',
         'alert-box-type': 'info',
         'alert-box-heading':
           'You haven’t received a copay bill in the past 6 months',
@@ -203,14 +203,14 @@ const Alerts = ({ type, copay, error }) => {
       return <Alert.NoHistory />;
     case 'zero-balance':
       recordEvent({
-        event: 'visible-alert-box',
+        event: 'mcp-alert-box',
         'alert-box-type': 'info',
         'alert-box-heading': 'You don’t need to make a payment at this time',
       });
       return <Alert.ZeroBalance copay={copay} />;
     default:
       recordEvent({
-        event: 'visible-alert-box',
+        event: 'mcp-alert-box',
         'alert-box-type': 'error',
         'alert-box-heading':
           'We can’t access your current copay balances right now',
