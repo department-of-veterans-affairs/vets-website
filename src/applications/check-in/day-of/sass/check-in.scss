@@ -36,17 +36,6 @@ h1.question:focus {
   border-bottom: 3px solid $color-blue;
 }
 
-dl.appointment-summary{
-  display: grid;
-  grid-template-columns: min-content auto;
-  grid-template-rows: auto auto auto;
-  dd.appointment-details{
-    font-size: 24px;
-    grid-column-start: 1;
-    grid-column-end: 3;
-  }
-}
-
 .va-nav-breadcrumbs-list li{
   display: initial;
 }
@@ -69,16 +58,21 @@ ol.appointment-list{
       display: grid;
       grid-template-columns: min-content auto;
       grid-template-rows: auto auto auto;
+      dd.appointment-details{
+        font-size: 24px;
+        grid-column-start: 1;
+        grid-column-end: 3;
+      }
       dd.appointment-time{
         font-size: 2.4rem;
         grid-row: 1;
         grid-column-start: 1;
         grid-column-end: 3;
       }
-      dt.clinic-label{
+      dt.facility-label{
         grid-row: 2;
        }
-      dd.clinic-name{
+      dd.facility-name{
         grid-row: 2;
       }
     }
