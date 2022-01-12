@@ -11,12 +11,16 @@ const isWithInHours = (hours, pageLastUpdated) => {
 const updateFormPages = (
   patientDemographicsStatus,
   isEmergencyContactEnabled,
+  checkInExperienceUpdateInformationPageEnabled,
   pages,
   URLS,
 ) => {
   let newPages = pages;
   if (!isEmergencyContactEnabled) {
     newPages = pages.filter(page => page !== URLS.EMERGENCY_CONTACT);
+  }
+  if (!checkInExperienceUpdateInformationPageEnabled) {
+    newPages = pages.filter(page => page !== URLS.UPDATE_INSURANCE);
   }
   const skippedPages = [];
   const {

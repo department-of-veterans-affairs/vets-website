@@ -25,6 +25,7 @@ const URLS = Object.freeze({
   SEE_STAFF: 'see-staff',
   UPDATE_INSURANCE: 'update-information',
   VALIDATION_NEEDED: 'verify',
+  LOADING: 'loading-appointments',
 });
 
 const CHECK_IN_FORM_PAGES = Object.freeze([
@@ -33,40 +34,49 @@ const CHECK_IN_FORM_PAGES = Object.freeze([
     order: 0,
   },
   {
-    url: URLS.DEMOGRAPHICS,
+    url: URLS.LOADING,
     order: 1,
   },
   {
-    url: URLS.EMERGENCY_CONTACT,
+    url: URLS.DEMOGRAPHICS,
     order: 2,
   },
   {
-    url: URLS.NEXT_OF_KIN,
+    url: URLS.EMERGENCY_CONTACT,
     order: 3,
   },
   {
-    url: URLS.UPDATE_INSURANCE,
+    url: URLS.NEXT_OF_KIN,
     order: 4,
   },
   {
-    url: URLS.DETAILS,
+    url: URLS.UPDATE_INSURANCE,
     order: 5,
   },
   {
-    url: URLS.COMPLETE,
+    url: URLS.DETAILS,
     order: 6,
+  },
+  {
+    url: URLS.COMPLETE,
+    order: 7,
   },
 ]);
 
 const createForm = () => {
   return CHECK_IN_FORM_PAGES.map(page => page.url);
 };
-const updateForm = (patientDemographicsStatus, isEmergencyContactEnabled) => {
+const updateForm = (
+  patientDemographicsStatus,
+  isEmergencyContactEnabled,
+  checkInExperienceUpdateInformationPageEnabled,
+) => {
   const pages = CHECK_IN_FORM_PAGES.map(page => page.url);
 
   return updateFormPages(
     patientDemographicsStatus,
     isEmergencyContactEnabled,
+    checkInExperienceUpdateInformationPageEnabled,
     pages,
     URLS,
   );

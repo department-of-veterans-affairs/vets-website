@@ -9,10 +9,11 @@ import DisplayMultipleAppointments from './DisplayMultipleAppointments';
 import { makeSelectAppointmentListData } from '../../hooks/selectors';
 
 const CheckIn = props => {
-  const { appointments, isLoading, router } = props;
-  const appointment = appointments ? appointments[0] : {};
+  const { router } = props;
   const selectAppointmentListData = useMemo(makeSelectAppointmentListData, []);
-  const { context } = useSelector(selectAppointmentListData);
+  const { context, appointments } = useSelector(selectAppointmentListData);
+  const appointment = appointments ? appointments[0] : {};
+
   const { token } = context;
   const dispatch = useDispatch();
 
@@ -23,7 +24,7 @@ const CheckIn = props => {
     [dispatch],
   );
 
-  if (isLoading || !appointment) {
+  if (!appointment) {
     return (
       <va-loading-indicator message={'Loading your appointments for today'} />
     );
