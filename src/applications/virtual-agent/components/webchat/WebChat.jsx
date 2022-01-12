@@ -15,11 +15,15 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     _.upperFirst(_.toLower(state.user.profile.userFullName.first)),
   );
 
-  const IDLE_TIMEOUT = 30000;
+  const IDLE_TIMEOUT = 1800000;
+  const staticTimeout = 3600000;
 
   const [botDirectLine, setBotDirectLine] = useState();
   const [botStore, setBotStore] = useState();
   const [timer, setTimer] = useState(() => Date.now() + IDLE_TIMEOUT);
+  const [staticTime, setStaticTime] = useState(
+    () => Date.now() + staticTimeout,
+  );
 
   const GreetUser = {
     makeBotGreetUser: (
@@ -55,16 +59,26 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
           type: 'DIRECT_LINE/POST_ACTIVITY',
         });
       }
-      if (
-        action.type === 'DIRECT_LINE/CONNECT_FULFILLED' ||
-        action.type === 'WEB_CHAT/SUBMIT_SEND_BOX'
-      ) {
+      if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
         // Reset the timer when the connection established, or the user sends an activity
+        setTimer(Date.now() + IDLE_TIMEOUT);
+        setStaticTime(Date.now() + staticTimeout);
+      }
+      if (action.type === 'WEB_CHAT/SUBMIT_SEND_BOX') {
         setTimer(Date.now() + IDLE_TIMEOUT);
       }
       return next(action);
     },
   };
+
+  // Timer printouts
+  useEffect(
+    () => {
+    console.log('-------30 seconds: ', timer - Date.now());
+      console.log('-------60 seconds: ', staticTime - Date.now());
+    },
+    [timer, staticTime],
+  );
 
   const updateBot = useCallback(
     () => {
@@ -76,7 +90,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
             GreetUser.makeBotGreetUser(
               csrfToken,
               apiSession,
-              'http://6242-2603-7000-4500-a05-c1af-f806-818e-5721.ngrok.io',
+              'http://ccaa-2601-249-8a00-2440-8c3b-63d0-6a86-c037.ngrok.io',
               environment.BASE_URL,
               userFirstName === '' ? 'noFirstNameFound' : userFirstName,
             ),
@@ -94,7 +108,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
         );
       })();
     },
-    [setTimer, setBotStore],
+    [setTimer, setBotStore, setStaticTime],
   );
 
   useEffect(updateBot, [updateBot]);
@@ -109,6 +123,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   );
 
   useTimeoutAt(updateBot, timer);
+  useTimeoutAt(updateBot, staticTime);
 
   const styleOptions = {
     hideUploadButton: true,
