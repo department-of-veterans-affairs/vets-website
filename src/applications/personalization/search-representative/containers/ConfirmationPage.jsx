@@ -1,8 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -51,4 +50,4 @@ export class ConfirmationPage extends React.Component {
   }
 }
 
-export default connect(null)(ConfirmationPage);
+export default ConfirmationPage;

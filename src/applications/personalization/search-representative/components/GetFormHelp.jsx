@@ -4,7 +4,7 @@ import Telephone, {
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-export const GetFormHelp = () => (
+const GetFormHelp = () => (
   <p className="help-talk">
     If you have questions about selecting a representative, please call our
     MYVA411 main information line at: <Telephone contact={'800-698-2411'} /> and
@@ -12,3 +12,5 @@ export const GetFormHelp = () => (
     <Telephone contact={CONTACTS['711']} pattern={PATTERNS['3_DIGIT']} />.
   </p>
 );
+
+export default GetFormHelp;

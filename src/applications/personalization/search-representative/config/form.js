@@ -1,6 +1,6 @@
 import manifest from '../manifest.json';
 
-import { GetFormHelp } from '../components/GetFormHelp';
+import GetFormHelp from '../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
