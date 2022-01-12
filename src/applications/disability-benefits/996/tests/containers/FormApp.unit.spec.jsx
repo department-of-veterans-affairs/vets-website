@@ -112,7 +112,7 @@ describe('Form0996App', () => {
       </Provider>,
     );
 
-    expect(tree.find('h1').text()).to.contain('restart');
+    expect(tree.find('va-loading-indicator').html()).to.contain('restart');
     expect(tree.find('va-loading-indicator')).to.have.lengthOf(1);
     expect(routerPushSpy.called).to.be.true;
     expect(routerPushSpy.args[0][0]).to.eq('/start');
@@ -140,7 +140,9 @@ describe('Form0996App', () => {
     );
 
     tree.setProps();
-    expect(tree.find('h1').text()).to.contain('Loading your previous decision');
+    expect(tree.find('va-loading-indicator').html()).to.contain(
+      'Loading your previous decision',
+    );
     expect(getIssues.calledOnce).to.be.true;
     tree.unmount();
   });
