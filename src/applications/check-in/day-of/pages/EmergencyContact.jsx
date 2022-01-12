@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { URLS } from '../../utils/navigation/day-of';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import BackButton from '../components/BackButton';
+import BackButton from '../../components/BackButton';
 import BackToHome from '../components/BackToHome';
 import { focusElement } from 'platform/utilities/ui';
 import Footer from '../components/Footer';
@@ -15,10 +15,12 @@ import EmergencyContactDisplay from '../../components/pages/emergencyContact/Eme
 const EmergencyContact = props => {
   const { emergencyContact, isLoading, router, demographicsStatus } = props;
   const { emergencyContactNeedsUpdate } = demographicsStatus;
-  const { goToNextPage, jumpToPage, goToErrorPage } = useFormRouting(
-    router,
-    URLS,
-  );
+  const {
+    goToNextPage,
+    jumpToPage,
+    goToErrorPage,
+    goToPreviousPage,
+  } = useFormRouting(router, URLS);
   const seeStaffMessage =
     'Our staff can help you update your emergency contact information.';
   const dispatch = useDispatch();
@@ -72,7 +74,7 @@ const EmergencyContact = props => {
   } else {
     return (
       <>
-        <BackButton router={router} />
+        <BackButton router={router} action={goToPreviousPage} />
         <EmergencyContactDisplay
           data={emergencyContact}
           yesAction={yesClick}
