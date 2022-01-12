@@ -16,12 +16,7 @@ import { createAnalyticsSlug } from '../../utils/analytics';
 import { isUUID, SCOPES } from '../../utils/token-format-validator';
 
 const Landing = props => {
-  const {
-    isUpdatePageEnabled,
-    location,
-    router,
-    isEmergencyContactEnabled,
-  } = props;
+  const { isUpdatePageEnabled, location, router } = props;
   const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
 
   const [loadMessage] = useState('Finding your appointment information');
@@ -84,7 +79,7 @@ const Landing = props => {
               setCurrentToken(window, token);
               const pages = createForm({
                 hasConfirmedDemographics: false,
-                isEmergencyContactEnabled,
+
                 isUpdatePageEnabled,
               });
               const firstPage = pages[0];
@@ -116,7 +111,6 @@ const Landing = props => {
       jumpToPage,
       goToErrorPage,
       initForm,
-      isEmergencyContactEnabled,
     ],
   );
   return (
@@ -130,7 +124,6 @@ Landing.propTypes = {
   isUpdatePageEnabled: PropTypes.bool,
   location: PropTypes.object,
   router: PropTypes.object,
-  isEmergencyContactEnabled: PropTypes.bool,
 };
 
 export default Landing;

@@ -12,7 +12,6 @@ export default Object.freeze({
   cernerOverride692: 'cerner_override_692',
   cernerOverride757: 'cerner_override_757',
   checkInExperienceEnabled: 'check_in_experience_enabled',
-  checkInExperienceEmergencyContactEnabled: 'check_in_experience_emergency_contact_enabled',
   checkInExperiencePreCheckInEnabled:
     'check_in_experience_pre_check_in_enabled',
   checkInExperienceUpdateInformationPageEnabled:

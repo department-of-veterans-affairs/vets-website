@@ -6,7 +6,7 @@ import Error from '../pages/Error';
 describe('Pre-Check In Experience ', () => {
   beforeEach(function() {
     const { initializeFeatureToggle } = ApiInitializer;
-    initializeFeatureToggle.withoutEmergencyContact();
+    initializeFeatureToggle.withCurrentFeatures();
   });
   afterEach(() => {
     cy.window().then(window => {
