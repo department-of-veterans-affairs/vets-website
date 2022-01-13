@@ -19,7 +19,6 @@ const LoadingPage = props => {
   const {
     isSessionLoading,
     router,
-    isEmergencyContactEnabled,
     checkInExperienceUpdateInformationPageEnabled,
   } = props;
   const { goToErrorPage, goToNextPage } = useFormRouting(router, URLS);
@@ -41,7 +40,6 @@ const LoadingPage = props => {
         dispatch(
           updateFormAction({
             patientDemographicsStatus,
-            isEmergencyContactEnabled,
             checkInExperienceUpdateInformationPageEnabled,
           }),
         );
@@ -56,11 +54,7 @@ const LoadingPage = props => {
         }
       });
     },
-    [
-      dispatch,
-      isEmergencyContactEnabled,
-      checkInExperienceUpdateInformationPageEnabled,
-    ],
+    [dispatch, checkInExperienceUpdateInformationPageEnabled],
   );
 
   useEffect(
@@ -113,7 +107,6 @@ const LoadingPage = props => {
 LoadingPage.propTypes = {
   isSessionLoading: PropTypes.bool,
   router: PropTypes.object,
-  isEmergencyContactEnabled: PropTypes.bool,
   checkInExperienceUpdateInformationPageEnabled: PropTypes.bool,
 };
 

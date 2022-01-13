@@ -106,11 +106,11 @@ export const UPDATE_DAY_OF_CHECK_IN_FORM = 'UPDATE_DAY_OF_CHECK_IN_FORM';
 
 export const updateFormAction = ({
   patientDemographicsStatus,
-  isEmergencyContactEnabled = false,
+  checkInExperienceUpdateInformationPageEnabled = false,
 }) => {
   const pages = updateForm(
     patientDemographicsStatus,
-    isEmergencyContactEnabled,
+    checkInExperienceUpdateInformationPageEnabled,
   );
   return {
     type: UPDATE_DAY_OF_CHECK_IN_FORM,

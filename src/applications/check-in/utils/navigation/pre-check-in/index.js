@@ -34,11 +34,11 @@ const PRE_CHECK_IN_FORM_PAGES = Object.freeze([
     order: 2,
   },
   {
-    url: URLS.NEXT_OF_KIN,
+    url: URLS.EMERGENCY_CONTACT,
     order: 4,
   },
   {
-    url: URLS.EMERGENCY_CONTACT,
+    url: URLS.NEXT_OF_KIN,
     order: 3,
   },
   {
@@ -54,16 +54,10 @@ const createForm = () => {
   return getPagesInOrder().map(page => page.url);
 };
 
-const updateForm = (patientDemographicsStatus, isEmergencyContactEnabled) => {
+const updateForm = patientDemographicsStatus => {
   const pages = PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
 
-  return updateFormPages(
-    patientDemographicsStatus,
-    isEmergencyContactEnabled,
-    false,
-    pages,
-    URLS,
-  );
+  return updateFormPages(patientDemographicsStatus, false, pages, URLS);
 };
 
 export {

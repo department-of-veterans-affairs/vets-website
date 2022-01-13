@@ -17,25 +17,6 @@ describe('Global check in', () => {
         EMERGENCY_CONTACT: 'emergency-contact',
         NEXT_OF_KIN: 'next-of-kin',
       };
-      it('should return all pages without emergency contact page', () => {
-        const patientDemographicsStatus = {
-          demographicsNeedsUpdate: true,
-          demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
-          nextOfKinNeedsUpdate: true,
-          nextOfKinConfirmedAt: '2022-01-04T00:00:00.000-05:00',
-          emergencyContactNeedsUpdate: true,
-          emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
-        };
-        const form = updateFormPages(
-          patientDemographicsStatus,
-          false,
-          false,
-          testPages,
-          URLS,
-        );
-        // The '-1' is for not showing the emergency contact page
-        expect(form.length).to.equal(testPages.length - 1);
-      });
       it('should return all pages with emergency contact page', () => {
         const patientDemographicsStatus = {
           demographicsNeedsUpdate: true,
@@ -47,7 +28,6 @@ describe('Global check in', () => {
         };
         const form = updateFormPages(
           patientDemographicsStatus,
-          true,
           false,
           testPages,
           URLS,
@@ -65,7 +45,6 @@ describe('Global check in', () => {
         };
         const form = updateFormPages(
           patientDemographicsStatus,
-          true,
           false,
           testPages,
           URLS,
@@ -83,7 +62,6 @@ describe('Global check in', () => {
         };
         const form = updateFormPages(
           patientDemographicsStatus,
-          true,
           false,
           testPages,
           URLS,
@@ -101,7 +79,6 @@ describe('Global check in', () => {
         };
         const form = updateFormPages(
           patientDemographicsStatus,
-          true,
           false,
           testPages,
           URLS,
@@ -119,7 +96,6 @@ describe('Global check in', () => {
         };
         const form = updateFormPages(
           patientDemographicsStatus,
-          true,
           false,
           testPages,
           URLS,

@@ -14,10 +14,13 @@ import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay'
 import { makeSelectDemographicData } from '../hooks/selectors';
 
 const NextOfKin = props => {
-  const { isEmergencyContactEnabled, isUpdatePageEnabled, router } = props;
+  const { router } = props;
   const selectDemographicData = useMemo(makeSelectDemographicData, []);
   const { nextOfKin } = useSelector(selectDemographicData);
-  const { jumpToPage, goToNextPage } = useFormRouting(router, URLS);
+  const { jumpToPage, goToNextPage, goToPreviousPage } = useFormRouting(
+    router,
+    URLS,
+  );
 
   const seeStaffMessage =
     'Our staff can help you update your next of kin information.';
@@ -75,8 +78,6 @@ const NextOfKin = props => {
 };
 
 NextOfKin.propTypes = {
-  isEmergencyContactEnabled: PropTypes.bool,
-  isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
 };
 

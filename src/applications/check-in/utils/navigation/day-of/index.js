@@ -68,14 +68,12 @@ const createForm = () => {
 };
 const updateForm = (
   patientDemographicsStatus,
-  isEmergencyContactEnabled,
   checkInExperienceUpdateInformationPageEnabled,
 ) => {
   const pages = CHECK_IN_FORM_PAGES.map(page => page.url);
 
   return updateFormPages(
     patientDemographicsStatus,
-    isEmergencyContactEnabled,
     checkInExperienceUpdateInformationPageEnabled,
     pages,
     URLS,

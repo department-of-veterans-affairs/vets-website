@@ -14,13 +14,15 @@ import EmergencyContactDisplay from '../../components/pages/emergencyContact/Eme
 import { makeSelectDemographicData } from '../hooks/selectors';
 
 const EmergencyContact = props => {
-  const { isUpdatePageEnabled, router } = props;
+  const { router } = props;
   const selectDemographicData = useMemo(makeSelectDemographicData, []);
   const { emergencyContact } = useSelector(selectDemographicData);
-  const { goToNextPage, jumpToPage, goToErrorPage } = useFormRouting(
-    router,
-    URLS,
-  );
+  const {
+    goToNextPage,
+    jumpToPage,
+    goToErrorPage,
+    goToPreviousPage,
+  } = useFormRouting(router, URLS);
   const seeStaffMessage =
     'Our staff can help you update your emergency contact information.';
   const dispatch = useDispatch();

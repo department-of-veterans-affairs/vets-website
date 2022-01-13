@@ -80,39 +80,5 @@ describe('check in', () => {
         });
       });
     });
-<<<<<<< HEAD
-    describe('updateFormAction', () => {
-      describe('updateFormHandler', () => {
-        it('should return the correct structure', () => {
-          const action = updateFormAction({
-            patientDemographicsStatus: {},
-          });
-          const state = updateFormHandler({}, action);
-          expect(state).haveOwnProperty('form');
-          expect(state.form).haveOwnProperty('pages');
-        });
-      });
-      describe('reducer is called; finds the correct handler', () => {
-        it('should set form data', () => {
-          const action = updateFormAction({
-            patientDemographicsStatus: {},
-          });
-          const state = appReducer.checkInData(undefined, action);
-          expect(state).haveOwnProperty('form');
-          expect(state.form).haveOwnProperty('pages');
-          expect(state.form).haveOwnProperty('currentPage');
-          expect(state.form.pages).to.deep.equal([
-            'verify',
-            'introduction',
-            'contact-information',
-            'emergency-contact',
-            'next-of-kin',
-            'complete',
-          ]);
-        });
-      });
-    });
-=======
->>>>>>> Updated unit tests.
   });
 });
