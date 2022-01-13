@@ -16,11 +16,8 @@ import { makeSelectCheckInData } from '../../hooks/selectors';
 import { api } from '../../../api';
 
 const LoadingPage = props => {
-  const {
-    isSessionLoading,
-    router,
-    checkInExperienceUpdateInformationPageEnabled,
-  } = props;
+  const { isSessionLoading, router, isUpdatePageEnabled } = props;
+
   const { goToErrorPage, goToNextPage } = useFormRouting(router, URLS);
   const selectCheckInData = useMemo(makeSelectCheckInData, []);
   const checkInData = useSelector(selectCheckInData);
@@ -41,7 +38,7 @@ const LoadingPage = props => {
         dispatch(
           updateFormAction({
             patientDemographicsStatus,
-            checkInExperienceUpdateInformationPageEnabled,
+            checkInExperienceUpdateInformationPageEnabled: isUpdatePageEnabled,
           }),
         );
         if (typeof demo !== 'undefined') {
@@ -56,7 +53,7 @@ const LoadingPage = props => {
         setUpdatedData(true);
       });
     },
-    [dispatch, checkInExperienceUpdateInformationPageEnabled, setUpdatedData],
+    [dispatch, isUpdatePageEnabled, setUpdatedData],
   );
 
   useEffect(
@@ -116,7 +113,7 @@ const LoadingPage = props => {
 LoadingPage.propTypes = {
   isSessionLoading: PropTypes.bool,
   router: PropTypes.object,
-  checkInExperienceUpdateInformationPageEnabled: PropTypes.bool,
+  isUpdatePageEnabled: PropTypes.bool,
 };
 
 export default LoadingPage;
