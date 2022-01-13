@@ -12,7 +12,6 @@ export default Object.freeze({
   cernerOverride692: 'cerner_override_692',
   cernerOverride757: 'cerner_override_757',
   checkInExperienceEnabled: 'check_in_experience_enabled',
-  checkInExperienceEmergencyContactEnabled:'check_in_experience_emergency_contact_enabled',
   checkInExperiencePreCheckInEnabled:
     'check_in_experience_pre_check_in_enabled',
   checkInExperienceUpdateInformationPageEnabled:
@@ -123,7 +122,6 @@ export default Object.freeze({
   vaOnlineSchedulingFacilitiesServiceV2:
     'va_online_scheduling_facilities_service_v2',
   vaOnlineSchedulingVariantTesting: 'va_online_scheduling_variant_testing',
-  vaOnlineSchedulingCCIterations: 'va_online_scheduling_cc_iterations',
   vaOnlineSchedulingPocHealthApt: 'va_online_scheduling_poc_health_apt',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',

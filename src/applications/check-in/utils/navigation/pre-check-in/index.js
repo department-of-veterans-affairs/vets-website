@@ -61,11 +61,8 @@ const createForm = () => {
   return getPagesInOrder().map(page => page.url);
 };
 
-const updateForm = (patientDemographicsStatus, isEmergencyContactEnabled) => {
+const updateForm = patientDemographicsStatus => {
   let pages = getPagesInOrder().map(page => page.url);
-  if (!isEmergencyContactEnabled) {
-    pages = pages.filter(page => page !== URLS.EMERGENCY_CONTACT);
-  }
   const skippedPages = [];
   const {
     demographicsNeedsUpdate,

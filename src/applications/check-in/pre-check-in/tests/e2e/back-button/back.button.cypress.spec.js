@@ -5,7 +5,7 @@ import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Introduction from '../pages/Introduction';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
-import Confirmation from '../pages/Confirmation';
+import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 
 describe('Pre-Check In Experience ', () => {
   let apiData = {};
@@ -17,27 +17,21 @@ describe('Pre-Check In Experience ', () => {
       initializePreCheckInDataGet,
       initializePreCheckInDataPost,
     } = ApiInitializer;
-    initializeFeatureToggle.withoutEmergencyContact();
+    initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
 
     initializeSessionPost.withSuccess();
 
     apiData = initializePreCheckInDataGet.withSuccess();
 
-    initializePreCheckInDataPost.withSuccess(req => {
-      expect(req.body.preCheckIn.uuid).to.equal(
-        '0429dda5-4165-46be-9ed1-1e652a8dfd83',
-      );
-      expect(req.body.preCheckIn.demographicsUpToDate).to.equal(false);
-      expect(req.body.preCheckIn.nextOfKinUpToDate).to.equal(false);
-    });
+    initializePreCheckInDataPost.withSuccess();
   });
   afterEach(() => {
     cy.window().then(window => {
       window.sessionStorage.clear();
     });
   });
-  it('Answered no to both questions', () => {
+  it('Happy Path w/Emergency Contact', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
     ValidateVeteran.validatePageLoaded();
@@ -50,23 +44,22 @@ describe('Pre-Check In Experience ', () => {
     Introduction.validatePageLoaded();
     Introduction.countAppointmentList(apiData.payload.appointments.length);
     cy.injectAxeThenAxeCheck();
-
     Introduction.attemptToGoToNextPage();
 
     // page: Demographics
     Demographics.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
+    Demographics.attemptToGoToNextPage();
 
-    Demographics.attemptToGoToNextPage('no');
+    // page: Emergency Contact
+    EmergencyContact.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+    EmergencyContact.attemptToGoToNextPage();
 
     // page: Next of Kin
     NextOfKin.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
+    cy.get('[data-testid="back-button"]').click();
 
-    NextOfKin.attemptToGoToNextPage('no');
-
-    // page: Confirmation
-    Confirmation.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
+    EmergencyContact.validatePageLoaded();
   });
 });

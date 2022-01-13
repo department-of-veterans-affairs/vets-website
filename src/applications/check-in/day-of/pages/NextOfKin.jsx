@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { URLS } from '../../utils/navigation/day-of';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import BackButton from '../components/BackButton';
+import BackButton from '../../components/BackButton';
 import BackToHome from '../components/BackToHome';
 import { focusElement } from 'platform/utilities/ui';
 import Footer from '../components/Footer';
@@ -21,7 +21,10 @@ const NextOfKin = props => {
     isUpdatePageEnabled,
   } = props;
   const { nextOfKinNeedsUpdate } = demographicsStatus;
-  const { jumpToPage, goToNextPage } = useFormRouting(router, URLS);
+  const { jumpToPage, goToNextPage, goToPreviousPage } = useFormRouting(
+    router,
+    URLS,
+  );
 
   const seeStaffMessage =
     'Our staff can help you update your next of kin information.';
@@ -76,7 +79,7 @@ const NextOfKin = props => {
   } else {
     return (
       <>
-        <BackButton router={router} />
+        <BackButton router={router} action={goToPreviousPage} />
         <NextOfKinDisplay
           nextOfKin={nextOfKin}
           yesAction={yesClick}

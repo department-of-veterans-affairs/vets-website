@@ -136,8 +136,7 @@ export const Search = ({ onSearch }) => {
           {/* Month */}
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             <label className="vads-u-margin--0" htmlFor="startDateMonth">
-              {/* The asterisk is superscript u+002A */}
-              *Month
+              Month <span className="vads-u-color--secondary">(*Required)</span>
             </label>
             {startDateMonthError && (
               <p
@@ -169,8 +168,7 @@ export const Search = ({ onSearch }) => {
           {/* Day */}
           <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-left--1">
             <label className="vads-u-margin--0" htmlFor="startDateDay">
-              {/* The asterisk is superscript u+002A */}
-              *Day
+              Day <span className="vads-u-color--secondary">(*Required)</span>
             </label>
             {startDateDayError && (
               <p
@@ -218,8 +216,8 @@ export const Search = ({ onSearch }) => {
             {/* Start date | Month */}
             <div className="vads-u-display--flex vads-u-flex-direction--column">
               <label className="vads-u-margin--0" htmlFor="startDateMonth">
-                {/* The asterisk is superscript u+002A */}
-                *Month
+                Month{' '}
+                <span className="vads-u-color--secondary">(*Required)</span>
               </label>
               {startDateMonthError && (
                 <p
@@ -251,8 +249,7 @@ export const Search = ({ onSearch }) => {
             {/* Start date | Day */}
             <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-left--1">
               <label className="vads-u-margin--0" htmlFor="startDateDay">
-                {/* The asterisk is superscript u+002A */}
-                *Day
+                Day <span className="vads-u-color--secondary">(*Required)</span>
               </label>
               {startDateDayError && (
                 <p
@@ -288,8 +285,8 @@ export const Search = ({ onSearch }) => {
             {/* End date | Month */}
             <div className="vads-u-display--flex vads-u-flex-direction--column">
               <label className="vads-u-margin--0" htmlFor="endDateMonth">
-                {/* The asterisk is superscript u+002A */}
-                *Month
+                Month{' '}
+                <span className="vads-u-color--secondary">(*Required)</span>
               </label>
               {endDateMonthError && (
                 <p
@@ -321,8 +318,7 @@ export const Search = ({ onSearch }) => {
             {/* End date | Day */}
             <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-left--1">
               <label className="vads-u-margin--0" htmlFor="endDateDay">
-                {/* The asterisk is superscript u+002A */}
-                *Day
+                Day <span className="vads-u-color--secondary">(*Required)</span>
               </label>
               {endDateDayError && (
                 <p

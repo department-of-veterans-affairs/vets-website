@@ -58,7 +58,6 @@ const CHECK_IN_FORM_PAGES = Object.freeze([
 
 const createForm = ({
   hasConfirmedDemographics = false,
-  isEmergencyContactEnabled = false,
   isUpdatePageEnabled = false,
 }) => {
   let pages = [...CHECK_IN_FORM_PAGES]
@@ -73,9 +72,6 @@ const createForm = ({
     pages = pages.filter(page => !skippedPages.includes(page));
   }
 
-  if (!isEmergencyContactEnabled) {
-    pages = pages.filter(page => page !== URLS.EMERGENCY_CONTACT);
-  }
   if (!isUpdatePageEnabled) {
     pages = pages.filter(page => page !== URLS.UPDATE_INSURANCE);
   }
