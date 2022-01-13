@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { URLS } from '../../utils/navigation/day-of';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import BackButton from '../components/BackButton';
+import BackButton from '../../components/BackButton';
 import BackToHome from '../components/BackToHome';
 import { focusElement } from 'platform/utilities/ui';
 import Footer from '../components/Footer';
@@ -16,13 +16,15 @@ const NextOfKin = props => {
   const {
     nextOfKin,
     isLoading,
-    isEmergencyContactEnabled,
-    isUpdatePageEnabled,
     router,
     demographicsStatus,
+    isUpdatePageEnabled,
   } = props;
   const { nextOfKinNeedsUpdate } = demographicsStatus;
-  const { jumpToPage, goToNextPage } = useFormRouting(router, URLS);
+  const { jumpToPage, goToNextPage, goToPreviousPage } = useFormRouting(
+    router,
+    URLS,
+  );
 
   const seeStaffMessage =
     'Our staff can help you update your next of kin information.';
@@ -36,27 +38,16 @@ const NextOfKin = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
-  const findNextPage = useCallback(
-    () => {
-      if (isEmergencyContactEnabled) {
-        goToNextPage();
-      } else if (isUpdatePageEnabled) {
-        jumpToPage(URLS.UPDATE_INSURANCE);
-      } else {
-        jumpToPage(URLS.DETAILS);
-      }
-    },
-    [isEmergencyContactEnabled, isUpdatePageEnabled, jumpToPage, goToNextPage],
-  );
+
   const yesClick = useCallback(
     () => {
       recordEvent({
         event: 'cta-button-click',
         'button-click-label': 'yes-to-next-of-kin-information',
       });
-      findNextPage();
+      goToNextPage();
     },
-    [findNextPage],
+    [goToNextPage],
   );
 
   const noClick = useCallback(
@@ -73,10 +64,10 @@ const NextOfKin = props => {
   useEffect(
     () => {
       if (nextOfKinNeedsUpdate === false) {
-        findNextPage();
+        goToNextPage();
       }
     },
-    [nextOfKinNeedsUpdate, findNextPage],
+    [nextOfKinNeedsUpdate, goToNextPage, isUpdatePageEnabled, jumpToPage],
   );
   if (isLoading) {
     return (
@@ -88,7 +79,7 @@ const NextOfKin = props => {
   } else {
     return (
       <>
-        <BackButton router={router} />
+        <BackButton router={router} action={goToPreviousPage} />
         <NextOfKinDisplay
           nextOfKin={nextOfKin}
           yesAction={yesClick}
@@ -104,7 +95,6 @@ const NextOfKin = props => {
 NextOfKin.propTypes = {
   nextOfKin: PropTypes.object,
   isLoading: PropTypes.bool,
-  isEmergencyContactEnabled: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
   demographicsStatus: PropTypes.object,

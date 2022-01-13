@@ -35,11 +35,11 @@ const PRE_CHECK_IN_FORM_PAGES = Object.freeze([
   },
   {
     url: URLS.NEXT_OF_KIN,
-    order: 3,
+    order: 4,
   },
   {
     url: URLS.EMERGENCY_CONTACT,
-    order: 4,
+    order: 3,
   },
   {
     url: URLS.CONFIRMATION,
@@ -54,15 +54,15 @@ const isWithInHours = (hours, pageLastUpdated) => {
   return hoursAgo <= hours;
 };
 
+const getPagesInOrder = () =>
+  [...PRE_CHECK_IN_FORM_PAGES].sort((a, b) => a.order - b.order);
+
 const createForm = () => {
-  return PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
+  return getPagesInOrder().map(page => page.url);
 };
 
-const updateForm = (patientDemographicsStatus, isEmergencyContactEnabled) => {
-  let pages = PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
-  if (!isEmergencyContactEnabled) {
-    pages = pages.filter(page => page !== URLS.EMERGENCY_CONTACT);
-  }
+const updateForm = patientDemographicsStatus => {
+  let pages = getPagesInOrder().map(page => page.url);
   const skippedPages = [];
   const {
     demographicsNeedsUpdate,
@@ -111,6 +111,7 @@ export {
   URLS,
   PRE_CHECK_IN_FORM_PAGES,
   createForm,
+  getPagesInOrder,
   getTokenFromLocation,
   updateForm,
 };

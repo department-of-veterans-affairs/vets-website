@@ -251,9 +251,12 @@ export const deriveStartsAtUnix = (startDateMonth, startDateDay) => {
   }
 
   // Derive the startsAt moment.
-  const startsAt = moment(`${startDateMonth}/${startDateDay}`, 'MM/DD').startOf(
-    'day',
-  );
+  let startsAt = moment(`${startDateMonth}/${startDateDay}`, 'MM/DD');
+
+  // If startsAt is today, then set it to now + 1 hour.
+  if (startsAt.isSame(moment(), 'day')) {
+    startsAt = moment().add(1, 'hour');
+  }
 
   // If the startsAt is in the past, we need to increase it by a year (since there are only month/day fields).
   if (startsAt.isBefore(moment())) {
@@ -295,6 +298,40 @@ export const deriveEndsAtUnix = (startsAtUnix, endDateMonth, endDateDay) => {
   }
 
   return endsAt.unix();
+};
+
+export const deriveEventLocations = event => {
+  const locations = [];
+
+  // Escape early if there is no event.
+  if (!event) {
+    return locations;
+  }
+
+  if (event?.fieldLocationHumanreadable) {
+    locations.push(event?.fieldLocationHumanreadable);
+  }
+
+  if (event?.fieldAddress?.addressLine1) {
+    locations.push(event?.fieldAddress?.addressLine1);
+  }
+
+  if (event?.fieldAddress?.addressLine2) {
+    locations.push(event?.fieldAddress?.addressLine2);
+  }
+
+  if (
+    event?.fieldAddress?.locality &&
+    event?.fieldAddress?.administrativeArea
+  ) {
+    locations.push(
+      `${event?.fieldAddress?.locality}, ${
+        event?.fieldAddress?.administrativeArea
+      }`,
+    );
+  }
+
+  return locations;
 };
 
 export const hideLegacyEvents = () => {

@@ -15,13 +15,14 @@ describe('Check In Experience -- ', () => {
         initializeCheckInDataGet,
         initializeCheckInDataPost,
       } = ApiInitializer;
-      initializeFeatureToggle.withoutEmergencyContact();
+      initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataGet.withSuccess({
         numberOfCheckInAbledAppointments: 1,
         demographicsNeedsUpdate: false,
         nextOfKinNeedsUpdate: true,
+        emergencyContactNeedsUpdate: false,
       });
       initializeCheckInDataPost.withSuccess();
 

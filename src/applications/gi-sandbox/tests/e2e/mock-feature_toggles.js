@@ -908,6 +908,10 @@ export const mockTogglesResponse = {
         value: false,
       },
       {
+        name: 'show_payment_and_debt_section',
+        value: false,
+      },
+      {
         name: 'spoolTestingError2',
         value: false,
       },

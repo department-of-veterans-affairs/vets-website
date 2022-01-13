@@ -45,26 +45,22 @@ describe('Pre-Check In Experience ', () => {
     Introduction.validatePageLoaded();
     Introduction.countAppointmentList(apiData.payload.appointments.length);
     cy.injectAxeThenAxeCheck();
-
     Introduction.attemptToGoToNextPage();
 
     // page: Demographics
     Demographics.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
-
     Demographics.attemptToGoToNextPage();
-
-    // page: Next of Kin
-    NextOfKin.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
-
-    NextOfKin.attemptToGoToNextPage();
 
     // page: Emergency Contact
     EmergencyContact.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
-
     EmergencyContact.attemptToGoToNextPage();
+
+    // page: Next of Kin
+    NextOfKin.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+    NextOfKin.attemptToGoToNextPage();
 
     // page: Confirmation
     Confirmation.validatePageLoaded();

@@ -23,14 +23,8 @@ export const createGoToNextPageAction = ({ nextPage }) => {
 
 export const UPDATE_FORM = 'UPDATE_FORM';
 
-export const updateFormAction = ({
-  patientDemographicsStatus,
-  isEmergencyContactEnabled = false,
-}) => {
-  const pages = updateForm(
-    patientDemographicsStatus,
-    isEmergencyContactEnabled,
-  );
+export const updateFormAction = ({ patientDemographicsStatus }) => {
+  const pages = updateForm(patientDemographicsStatus);
   return {
     type: UPDATE_FORM,
     payload: {

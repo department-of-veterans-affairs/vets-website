@@ -72,7 +72,11 @@ describe('pre-check-in experience', () => {
         expect(getByText('foo-title')).to.exist;
         expect(getByText('Not available')).to.exist;
       });
-
+      it('renders the yes and no buttons with the usa-button-big css class', () => {
+        const { getByTestId } = render(<ConfirmablePage />);
+        expect(getByTestId('yes-button')).to.have.class('usa-button-big');
+        expect(getByTestId('no-button')).to.have.class('usa-button-big');
+      });
       it('fires the yes function', () => {
         const yesClick = sinon.spy();
         const screen = render(<ConfirmablePage yesAction={yesClick} />);
