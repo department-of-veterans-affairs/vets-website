@@ -25,12 +25,8 @@ const analyticsEvents = {
   LoadingIndicator: [
     { action: 'displayed', event: 'loading-indicator-displayed' },
   ],
-  ProgressBar: [{ action: 'change', event: 'nav-progress-bar-change' }],
   PromoBanner: [{ action: 'linkClick', event: 'nav-promo-banner-link-click' }],
   RadioButtons: [{ action: 'change', event: 'int-radio-button-option-click' }],
-  SegmentedProgressBar: [
-    { action: 'change', event: 'nav-segmented-progress-bar-change' },
-  ],
   Select: [{ action: 'change', event: 'int-select-box-option-click' }],
   TextArea: [{ action: 'blur', event: 'int-text-area-blur' }],
   TextInput: [{ action: 'blur', event: 'int-text-input-blur' }],
