@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { URLS } from '../../../utils/navigation/day-of';
@@ -27,6 +27,7 @@ const LoadingPage = props => {
   const { getCurrentToken } = useSessionStorage(false);
   const { context, appointments } = checkInData;
   const dispatch = useDispatch();
+  const [updatedData, setUpdatedData] = useState(false);
   const setSessionData = useCallback(
     (payload, token) => {
       batch(() => {
@@ -52,21 +53,21 @@ const LoadingPage = props => {
             dispatch(receivedEmergencyContact(demo.emergencyContact));
           }
         }
+        setUpdatedData(true);
       });
     },
-    [dispatch, checkInExperienceUpdateInformationPageEnabled],
+    [dispatch, checkInExperienceUpdateInformationPageEnabled, setUpdatedData],
   );
 
   useEffect(
     () => {
       let isCancelled = false;
       const session = getCurrentToken(window);
-      if (!context || !session) {
+      if (!context) {
         goToErrorPage();
       } else {
         // check if appointments is empty or if a refresh is staged
         const { token } = session;
-
         if (
           Object.keys(context).length === 0 ||
           context.shouldRefresh ||
@@ -77,7 +78,6 @@ const LoadingPage = props => {
             .then(json => {
               if (!isCancelled) {
                 setSessionData(json.payload, token);
-                goToNextPage();
               }
             })
             .catch(() => {
@@ -99,6 +99,15 @@ const LoadingPage = props => {
       goToErrorPage,
       goToNextPage,
     ],
+  );
+
+  useEffect(
+    () => {
+      if (updatedData) {
+        goToNextPage();
+      }
+    },
+    [updatedData, goToNextPage],
   );
 
   return <va-loading-indicator message="Loading your appointments for today" />;

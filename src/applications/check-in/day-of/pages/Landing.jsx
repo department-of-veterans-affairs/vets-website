@@ -83,7 +83,7 @@ const Landing = props => {
               initForm(pages, firstPage);
               if (session.permissions === SCOPES.READ_FULL) {
                 setAuthenticatedSession(token);
-                jumpToPage(URLS.DETAILS);
+                jumpToPage(URLS.LOADING);
               } else {
                 setToken(token);
                 jumpToPage(URLS.VALIDATION_NEEDED);
