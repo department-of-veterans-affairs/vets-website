@@ -2130,12 +2130,12 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^3.11.2":
-  version "3.11.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.11.2.tgz#cfb2b3ea8cacf937f61c71f1e58b0960b39ae48f"
-  integrity sha512-jQDnFt7BpIaagmQZwAuOvytlptgP4LiWjWaQ/cYAdwm91tFzviiIFtxUzUik+VUQTvqCHDDGh5NJwjOrb6jAdA==
+"@department-of-veterans-affairs/component-library@^3.11.5-2":
+  version "3.11.5-2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-3.11.5-2.tgz#c8f6c27a2733a8b0b6034733cae88dd0042d562f"
+  integrity sha512-/2BrNAYH6EloIePapfSvNBc9ffDqjt30gJ9YpFNjTjTU4MzywENPqAUnr+4h3Pyqmitn2hHMrhHtzcmzjuQ8Ow==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "3.3.1"
+    "@department-of-veterans-affairs/react-components" "3.3.3"
     "@department-of-veterans-affairs/web-components" "0.20.1"
     date-fns-tz "^1.1.1"
     react-focus-on "^3.5.1"
@@ -2168,10 +2168,10 @@
     yeoman-generator "^4.11.0"
     yosay "^2.0.1"
 
-"@department-of-veterans-affairs/react-components@3.3.1":
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-3.3.1.tgz#de33392eec5978ef533e878acd66fa1c93c60b1e"
-  integrity sha512-AJC7L+yw6nD1DFbKKswaKswATXq9Uc8ihkjpT+2QqVeX/ATHi7glP9wgLQOQWOlmT9DEXikQOjQfCXdL7FKfEQ==
+"@department-of-veterans-affairs/react-components@3.3.3":
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-3.3.3.tgz#7830f316a1854338a48a985394e938224453515d"
+  integrity sha512-KBwiMLIZsfdU02wtdWUXgbNwofnkv7Jbc7V/bk8shOmNDBeAu5FtHGKnxxBXqBHxHfQAghRTWDCC7FN1JDef5g==
   dependencies:
     classnames "^2.2.6"
     lodash "^4.17.15"
