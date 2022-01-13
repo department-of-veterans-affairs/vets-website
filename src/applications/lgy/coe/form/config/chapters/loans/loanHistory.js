@@ -58,7 +58,7 @@ export const uiSchema = {
           pattern: 'Date loan ended must be after the start of the loan',
           required: 'Please enter a date',
         },
-        closing: {
+        from: {
           'ui:title': 'Closing date of your loan',
           'ui:widget': 'date',
           'ui:validations': [validateDate],
