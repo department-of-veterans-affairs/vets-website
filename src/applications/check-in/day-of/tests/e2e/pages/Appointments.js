@@ -43,7 +43,7 @@ class Appointments {
       timeout: Timeouts.slow,
     }).should(
       'contain',
-      'Your appointment started more than 10 minutes ago. We can’t check you in online. Ask a staff member for help.',
+      'Your appointment started more than 5 minutes ago. We can’t check you in online. Ask a staff member for help.',
     );
   }
   validateUnknownStatus(appointmentNumber = 1) {
