@@ -21,7 +21,16 @@ const responses = {
           is_veteran: true,
           served_in_military: true,
         },
-        in_progress_forms: [],
+        in_progress_forms: [
+          {
+            form: 'XX-123',
+            last_updated: 1501608808,
+            metadata: {
+              last_updated: 1506792808,
+              expires_at: 9999999999,
+            },
+          },
+        ],
         prefills_available: ['21-526EZ'],
         services: [
           'facilities',
