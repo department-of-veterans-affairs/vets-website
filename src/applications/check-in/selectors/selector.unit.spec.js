@@ -13,7 +13,6 @@ describe('check-in', () => {
         checkInData: {
           form: {
             pages: [],
-            currentPage: '',
           },
         },
       };
@@ -21,7 +20,6 @@ describe('check-in', () => {
         const selectFeatureToggles = makeSelectForm();
         expect(selectFeatureToggles(state)).to.eql({
           pages: [],
-          currentPage: '',
         });
       });
     });

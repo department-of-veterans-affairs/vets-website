@@ -1,4 +1,8 @@
-const createMockRouter = ({ push = () => {}, currentPage = '' } = {}) => {
+const createMockRouter = ({
+  push = () => {},
+  currentPage = '',
+  params = {},
+} = {}) => {
   const pathname =
     currentPage && !currentPage.startsWith('/')
       ? `/${currentPage}`
@@ -8,6 +12,7 @@ const createMockRouter = ({ push = () => {}, currentPage = '' } = {}) => {
     location: {
       pathname,
     },
+    params,
   };
 };
 

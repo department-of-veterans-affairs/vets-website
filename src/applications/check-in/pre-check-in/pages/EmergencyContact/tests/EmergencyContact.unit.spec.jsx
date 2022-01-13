@@ -4,6 +4,8 @@ import configureStore from 'redux-mock-store';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import EmergencyContact from '../index';
 
+import { createMockRouter } from '../../../../tests/unit/mocks/router';
+
 describe('pre-check-in', () => {
   describe('Emergency Contact page', () => {
     let store;
@@ -35,7 +37,6 @@ describe('pre-check-in', () => {
           },
           form: {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'third-page',
             data: { demographicsUpToDate: 'yes', nextOfKinUpToDate: 'no' },
           },
           context: {
@@ -48,7 +49,7 @@ describe('pre-check-in', () => {
     it('page passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
-          <EmergencyContact router={{ push: () => {} }} />
+          <EmergencyContact router={createMockRouter()} />
         </Provider>,
       );
     });

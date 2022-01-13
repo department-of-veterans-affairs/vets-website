@@ -75,7 +75,6 @@ describe('check in', () => {
         beforeEach(() => {
           const action = createInitFormAction({
             pages: ['first-page', 'second-page', 'third-page'],
-            currentPage: 'first-page',
           });
           state = appReducer.checkInData(undefined, action);
         });

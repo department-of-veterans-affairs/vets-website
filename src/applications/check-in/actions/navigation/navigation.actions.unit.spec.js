@@ -24,7 +24,6 @@ describe('check-in', () => {
           'first-page',
           'second-page',
         ]);
-        expect(action.payload.currentPage).to.equal('first-page');
       });
     });
     describe('createGoToNextPageAction', () => {
