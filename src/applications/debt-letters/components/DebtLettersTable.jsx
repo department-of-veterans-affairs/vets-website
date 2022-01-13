@@ -1,17 +1,84 @@
-import React, { useState } from 'react';
+import React from 'react';
+import Table from '@department-of-veterans-affairs/component-library/Table';
 import moment from 'moment';
-import orderBy from 'lodash/orderBy';
-
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
-export const DebtLettersTable = ({ debtLinks }) => {
-  const [sortBy, setSortBy] = useState('date');
-  const [direction, setDirection] = useState('desc');
+const ErrorAlert = () => (
+  <div
+    className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
+    role="alert"
+  >
+    <div className="usa-alert-body">
+      <h3 className="usa-alert-heading">
+        Your debt letters are currently unavailable.
+      </h3>
+      <p className="vads-u-font-family--sans">
+        You can’t download your debt letters because something went wrong on our
+        end.
+      </p>
+      <h4>What you can do</h4>
+      <p className="vads-u-font-family--sans vads-u-margin-y--0">
+        You can check back later or call the Debt Management Center at
+        <Telephone className="vads-u-margin-x--0p5" contact="8008270648" /> to
+        find out more information about how to resolve your debt.
+      </p>
+    </div>
+  </div>
+);
 
-  const sortedDebtLinks = orderBy(debtLinks, [sortBy], direction);
+const DependentDebt = () => (
+  <div
+    className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
+    role="alert"
+  >
+    <div className="usa-alert-body">
+      <h3 className="usa-alert-heading">
+        Your debt letters are currently unavailable.
+      </h3>
+      <p className="vads-u-font-family--sans">
+        You can’t download your debt letters because something went wrong on our
+        end.
+      </p>
+      <h4>What you can do</h4>
+      <p className="vads-u-font-family--sans vads-u-margin-y--0">
+        If you need to access debt letters that were mailed to you, call the
+        Debt Management Center at <Telephone contact="8008270648" />.
+      </p>
+    </div>
+  </div>
+);
 
-  const handleDownloadClick = (type, date) => {
+const NoDebtLinks = () => (
+  <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
+    <div className="usa-alert-body">
+      <h3 className="usa-alert-heading">You don’t have any VA debt letters</h3>
+      <p className="vads-u-font-family--sans">
+        Our records show you don’t have any debt letters related to VA benefits.
+        If you think this is an error, please contact the Debt Management Center
+        at <Telephone contact="8008270648" />.
+      </p>
+      <p className="vads-u-font-family--sans vads-u-margin-y--0">
+        If you have VA health care copay debt, go to our
+        <a className="vads-u-margin-x--0p5" href="/health-care/pay-copay-bill/">
+          Pay your VA copay bill
+        </a>
+        page to learn about your payment options.
+      </p>
+    </div>
+  </div>
+);
+
+const DebtLettersTable = ({
+  debtLinks,
+  isError,
+  isVBMSError,
+  hasDependentDebts,
+}) => {
+  const hasDebtLinks = !!debtLinks.length;
+
+  const handleDownload = (type, date) => {
     return recordEvent({
       event: 'bam-debt-letter-download',
       'letter-type': type,
@@ -19,110 +86,72 @@ export const DebtLettersTable = ({ debtLinks }) => {
     });
   };
 
-  const toggleDirection = column => {
-    if (column !== sortBy) {
-      setSortBy(column);
-    }
-    if (direction === 'desc') {
-      return setDirection('asc');
-    }
-    return setDirection('desc');
+  const tableData = debtLinks.map(debt => {
+    const recvDate = moment(debt.receivedAt, 'YYYY-MM-DD').format(
+      'MMM D, YYYY',
+    );
+
+    return {
+      date: moment(debt.date, 'YYYY-MM-DD').format('MMM D, YYYY'),
+      type: debt.typeDescription,
+      action: (
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => handleDownload(debt.typeDescription, recvDate)}
+          download={`${debt.typeDescription} dated ${recvDate}`}
+          href={encodeURI(
+            `${environment.API_URL}/v0/debt_letters/${debt.documentId}`,
+          )}
+        >
+          <i
+            aria-hidden="true"
+            role="img"
+            className="fas fa-download vads-u-padding-right--1"
+          />
+          <span aria-hidden="true">Download letter </span>
+          <span className="sr-only">
+            Download {debt.typeDescription} dated
+            <time dateTime={recvDate} className="vads-u-margin-left--0p5">
+              {recvDate}
+            </time>
+          </span>
+          <dfn>
+            <abbr title="Portable Document Format">(PDF)</abbr>
+          </dfn>
+        </a>
+      ),
+    };
+  });
+
+  const tableSort = {
+    order: 'DESC',
+    value: 'date',
   };
 
-  return (
-    <table
-      className="vads-u-display--none vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0 medium-screen:vads-u-display--block"
-      role="table"
-    >
-      <thead>
-        <tr role="row">
-          <th
-            className="vads-u-border--0 vads-u-padding-left--3"
-            onClick={() => toggleDirection('date')}
-            tabIndex="-1"
-            scope="row"
-          >
-            Date
-            <i
-              aria-hidden="true"
-              className="fas fa-sort vads-u-margin-left--0p5"
-            />
-          </th>
-          <th
-            className="vads-u-border--0"
-            onClick={() => toggleDirection('typeDescription')}
-            tabIndex="-1"
-            scope="row"
-          >
-            Type
-            <i
-              className="fas fa-sort vads-u-margin-left--0p5"
-              aria-hidden="true"
-            />
-          </th>
-          <th className="vads-u-border--0" scope="row">
-            Action
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {sortedDebtLinks.map(debtLetter => (
-          <tr
-            key={debtLetter.documentId}
-            className="vads-u-border-top--1px vads-u-border-bottom--1px"
-            role="row"
-          >
-            <td className="vads-u-border--0 vads-u-padding-left--3">
-              {moment(debtLetter.receivedAt, 'YYYY-MM-DD').format(
-                'MMM D, YYYY',
-              )}
-            </td>
-            <td className="vads-u-border--0">{debtLetter.typeDescription}</td>
+  const tableFields = [
+    {
+      label: 'Date',
+      value: 'date',
+      sortable: true,
+    },
+    {
+      label: 'Type',
+      value: 'type',
+    },
+    {
+      label: 'Action',
+      value: 'action',
+    },
+  ];
 
-            <td className="vads-u-border--0">
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() =>
-                  handleDownloadClick(
-                    debtLetter.typeDescription,
-                    moment(debtLetter.receivedAt, 'YYYY-MM-DD').format(
-                      'MMM D, YYYY',
-                    ),
-                  )
-                }
-                download={`${debtLetter.typeDescription} dated ${moment(
-                  debtLetter.receivedAt,
-                  'YYYY-MM-DD',
-                ).format('MMM D, YYYY')}`}
-                href={encodeURI(
-                  `${environment.API_URL}/v0/debt_letters/${
-                    debtLetter.documentId
-                  }`,
-                )}
-              >
-                <i
-                  aria-hidden="true"
-                  role="img"
-                  className="fas fa-download vads-u-padding-right--1"
-                />
-                <span aria-hidden="true">Download letter </span>
-                <span className="sr-only">
-                  Download {debtLetter.typeDescription} dated
-                  <span className="vads-u-margin-left--0p5">
-                    {moment(debtLetter.receivedAt, 'YYYY-MM-DD').format(
-                      'MMM D, YYYY',
-                    )}
-                  </span>
-                </span>
-                <dfn>
-                  <abbr title="Portable Document Format">(PDF)</abbr>
-                </dfn>
-              </a>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+  if (isError || isVBMSError) return <ErrorAlert />;
+  if (hasDependentDebts) return <DependentDebt />;
+  if (!hasDebtLinks) return <NoDebtLinks />;
+
+  return (
+    <Table data={tableData} currentSort={tableSort} fields={tableFields} />
   );
 };
+
+export default DebtLettersTable;
