@@ -15,6 +15,8 @@ describe('Check In Experience -- ', () => {
         initializeCheckInDataGet,
         initializeCheckInDataPost,
       } = ApiInitializer;
+      const now = Date.now();
+      const today = new Date(now);
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
@@ -22,7 +24,9 @@ describe('Check In Experience -- ', () => {
         numberOfCheckInAbledAppointments: 1,
         demographicsNeedsUpdate: true,
         nextOfKinNeedsUpdate: false,
+        nextOfKinConfirmedAt: today.toISOString(),
         emergencyContactNeedsUpdate: false,
+        emergencyContactConfirmedAt: today.toISOString(),
       });
       initializeCheckInDataPost.withSuccess();
 
