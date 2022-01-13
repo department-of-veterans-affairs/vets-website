@@ -73,6 +73,20 @@ describe('check-in', () => {
             },
             token: 'foo',
           },
+          emergencyContact: {
+            name: 'Bugs Bunny',
+            phone: '5558675309',
+          },
+          nextOfKin: {
+            name: 'VETERAN,JONAH',
+            phone: '1112223333',
+          },
+          demographics: {
+            homePhone: '5552223333',
+            mobilePhone: '5553334444',
+            workPhone: '5554445555',
+            emailAddress: 'kermit.frog@sesameenterprises.us',
+          },
           seeStaffMessage: 'Test message',
         });
       });
