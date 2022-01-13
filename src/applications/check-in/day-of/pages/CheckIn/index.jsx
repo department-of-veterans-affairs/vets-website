@@ -1,8 +1,10 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { triggerRefresh } from '../../../actions/day-of';
+import { api } from '../../../api';
+import { useFormRouting } from '../../../hooks/useFormRouting';
+import { URLS } from '../../../utils/navigation/day-of';
+import { receivedMultipleAppointmentDetails } from '../../../actions/day-of';
 
 import DisplayMultipleAppointments from './DisplayMultipleAppointments';
 
@@ -10,6 +12,7 @@ import { makeSelectAppointmentListData } from '../../hooks/selectors';
 
 const CheckIn = props => {
   const { router } = props;
+  const { goToErrorPage } = useFormRouting(router, URLS);
   const selectAppointmentListData = useMemo(makeSelectAppointmentListData, []);
   const { context, appointments } = useSelector(selectAppointmentListData);
   const appointment = appointments ? appointments[0] : {};
@@ -19,9 +22,31 @@ const CheckIn = props => {
 
   const getMultipleAppointments = useCallback(
     () => {
-      dispatch(triggerRefresh());
+      let isCancelled = false;
+      if (!context) {
+        goToErrorPage();
+      } else {
+        api.v2
+          .getCheckInData(token)
+          .then(json => {
+            if (!isCancelled) {
+              dispatch(
+                receivedMultipleAppointmentDetails(
+                  json.payload.appointments,
+                  token,
+                ),
+              );
+            }
+          })
+          .catch(() => {
+            goToErrorPage();
+          });
+      }
+      return () => {
+        isCancelled = true;
+      };
     },
-    [dispatch],
+    [dispatch, context, goToErrorPage],
   );
 
   if (!appointment) {
