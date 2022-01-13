@@ -46,7 +46,7 @@ const CheckIn = props => {
         isCancelled = true;
       };
     },
-    [dispatch, context, goToErrorPage],
+    [dispatch, context, goToErrorPage, token],
   );
 
   if (!appointment) {
