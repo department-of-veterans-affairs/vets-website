@@ -6,7 +6,6 @@ const initialState = {
   context: {},
   form: {
     pages: [],
-    currentPage: '',
     data: {},
   },
 };

@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import URLSearchParams from 'url-search-params';
 
 import { makeSelectForm } from '../selectors';
@@ -7,9 +8,10 @@ import { createGoToNextPageAction } from '../actions/navigation';
 
 const useFormRouting = (router = {}, URLS) => {
   const selectForm = useMemo(makeSelectForm, []);
-  const { pages, currentPage } = useSelector(selectForm);
+  const { pages } = useSelector(selectForm);
 
   const dispatch = useDispatch();
+
   const dispatchGoToNextPage = useCallback(
     nextPage => {
       dispatch(createGoToNextPageAction({ nextPage }));
@@ -51,27 +53,37 @@ const useFormRouting = (router = {}, URLS) => {
     [URLS, dispatchGoToNextPage, goToErrorPage, router],
   );
 
+  const getCurrentPageFromRouter = useCallback(
+    () => {
+      // substring to remove the leading /
+      return router.location.pathname.substring(1);
+    },
+    [router],
+  );
+
   const goToNextPage = useCallback(
     () => {
-      const currentPageIndex = pages.findIndex(page => page === currentPage);
+      const here = getCurrentPageFromRouter();
+      const currentPageIndex = pages.findIndex(page => page === here);
       const nextPage = pages[currentPageIndex + 1] ?? URLS.ERROR;
       dispatchGoToNextPage(nextPage);
       router.push(nextPage);
     },
-    [pages, URLS.ERROR, dispatchGoToNextPage, router, currentPage],
+    [getCurrentPageFromRouter, pages, URLS.ERROR, dispatchGoToNextPage, router],
   );
   const goToPreviousPage = useCallback(
     () => {
-      const currentPageIndex = pages.findIndex(page => page === currentPage);
+      const here = getCurrentPageFromRouter();
+      const currentPageIndex = pages.findIndex(page => page === here);
       const nextPage = pages[currentPageIndex - 1] ?? URLS.ERROR;
       dispatchGoToNextPage(nextPage);
       router.push(nextPage);
     },
-    [pages, URLS.ERROR, dispatchGoToNextPage, router, currentPage],
+    [getCurrentPageFromRouter, pages, URLS.ERROR, dispatchGoToNextPage, router],
   );
 
   return {
-    currentPage,
+    getCurrentPageFromRouter,
     goToErrorPage,
     jumpToPage,
     goToPreviousPage,

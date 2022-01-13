@@ -4,15 +4,15 @@ const initFormHandler = (state, action) => {
     form: {
       ...state.form,
       pages: action.payload.pages,
-      currentPage: action.payload.currentPage,
     },
   };
 };
 
-const gotToNextPageHandler = (state, action) => {
+// no longer needed?
+const gotToNextPageHandler = state => {
   return {
     ...state,
-    form: { ...state.form, currentPage: action.payload.nextPage },
+    form: { ...state.form },
   };
 };
 
