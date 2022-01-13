@@ -396,7 +396,7 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
       serviceType: 'primaryCare',
       comment: 'Follow-up/Routine: I need an appt',
       extension: {
-        desiredDate: '2021-05-06',
+        desiredDate: '2021-05-06T00:00:00+00:00',
       },
       contact: {
         telecom: [
