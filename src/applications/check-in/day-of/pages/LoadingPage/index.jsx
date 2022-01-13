@@ -58,7 +58,6 @@ const LoadingPage = props => {
 
   useEffect(
     () => {
-      let isCancelled = false;
       const session = getCurrentToken(window);
       if (!context) {
         goToErrorPage();
@@ -73,18 +72,13 @@ const LoadingPage = props => {
           api.v2
             .getCheckInData(token)
             .then(json => {
-              if (!isCancelled) {
-                setSessionData(json.payload, token);
-              }
+              setSessionData(json.payload, token);
             })
             .catch(() => {
               goToErrorPage();
             });
         }
       }
-      return () => {
-        isCancelled = true;
-      };
     },
     [
       appointments,

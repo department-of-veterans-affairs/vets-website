@@ -22,29 +22,23 @@ const CheckIn = props => {
 
   const getMultipleAppointments = useCallback(
     () => {
-      let isCancelled = false;
       if (!context) {
         goToErrorPage();
       } else {
         api.v2
           .getCheckInData(token)
           .then(json => {
-            if (!isCancelled) {
-              dispatch(
-                receivedMultipleAppointmentDetails(
-                  json.payload.appointments,
-                  token,
-                ),
-              );
-            }
+            dispatch(
+              receivedMultipleAppointmentDetails(
+                json.payload.appointments,
+                token,
+              ),
+            );
           })
           .catch(() => {
             goToErrorPage();
           });
       }
-      return () => {
-        isCancelled = true;
-      };
     },
     [dispatch, context, goToErrorPage, token],
   );
