@@ -8,7 +8,6 @@ import {
   TYPE_OF_VISIT,
   LANGUAGES,
 } from '../../../utils/constants';
-import { selectFeatureCCIterations } from '../../../redux/selectors';
 import {
   getTypeOfCare,
   getFormData,
@@ -116,12 +115,10 @@ export function transformFormToVARequest(state) {
 
 export function transformFormToCCRequest(state) {
   const data = getFormData(state);
-  const featureCCIteration = selectFeatureCCIterations(state);
   const provider = data.communityCareProvider;
   let preferredProviders = [];
 
   if (
-    featureCCIteration &&
     !!data.communityCareProvider &&
     Object.keys(data.communityCareProvider).length
   ) {
@@ -134,25 +131,6 @@ export function transformFormToCCRequest(state) {
           zipCode: provider.address.postalCode,
         },
         practiceName: provider.name,
-      },
-    ];
-  } else if (data.hasCommunityCareProvider) {
-    const street = `${provider.address.street}, ${provider.address.street2}`;
-    preferredProviders = [
-      {
-        address: {
-          street,
-          city: provider.address.city,
-          state: provider.address.state,
-          zipCode: provider.address.postalCode,
-        },
-        firstName: provider.firstName,
-        lastName: provider.lastName,
-        practiceName: provider.practiceName,
-        providerStreet: street,
-        providerCity: provider.address.city,
-        providerState: provider.address.state,
-        providerZipCode1: provider.address.postalCode,
       },
     ];
   }
