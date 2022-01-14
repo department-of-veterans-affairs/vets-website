@@ -8,7 +8,7 @@ const initFormHandler = (state, action) => {
   };
 };
 
-// no longer needed?
+// TODO: no longer needed?
 const gotToNextPageHandler = state => {
   return {
     ...state,
