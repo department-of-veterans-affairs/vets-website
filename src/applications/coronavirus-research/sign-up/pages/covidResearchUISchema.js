@@ -6,12 +6,14 @@ import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
 import MonthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 import CustomReviewField from '../containers/CustomReviewField';
 import CustomReviewDOBField from '../containers/CustomReviewDOBField';
 import CustomReviewRadio from '../containers/customReviewRadio';
 import CustomReviewYesNo from '../containers/customReviewYesNo';
 import get from 'platform/utilities/data/get';
+import DynamicRadioWidget from '../config/va-location/DynamicRadioWidget.jsx';
 
 const conditionalValidateBooleanGroup = (errors, pageData) => {
   const { diagnosed, DIAGNOSED_DETAILS } = pageData;
@@ -19,6 +21,10 @@ const conditionalValidateBooleanGroup = (errors, pageData) => {
     validateBooleanGroup(errors.DIAGNOSED_DETAILS, DIAGNOSED_DETAILS);
   }
 };
+
+function vaLocationReviewWidget({ value }) {
+  return <span>{value ? value?.split('|')[0] : `None`}</span>;
+}
 
 export const uiSchema = {
   descriptionText: {
@@ -307,6 +313,134 @@ export const uiSchema = {
       formData.vaccinated &&
       get('VACCINATED_DETAILS', formData) !== 'JOHNSON',
   },
+  VACCINATED_ADDITIONAL1: {
+    'ui:title': (
+      <span>
+        <strong>
+          Have you received any additional vaccine doses (including boosters)?
+        </strong>
+      </span>
+    ),
+    'ui:reviewField': CustomReviewYesNo,
+    'ui:widget': 'yesNo',
+    'ui:options': {
+      expandUnder: 'vaccinated',
+      expandUnderCondition: true,
+      classNames: '',
+    },
+    'ui:required': formData => formData.vaccinated,
+  },
+  VACCINATED_ADDITIONAL_DETAILS1: {
+    'ui:title': (
+      <span>
+        <strong>If Yes, which vaccine did you receive?</strong>
+      </span>
+    ),
+    'ui:widget': 'radio',
+    'ui:reviewField': CustomReviewRadio,
+    'ui:options': {
+      showFieldLabel: true,
+      expandUnder: 'vaccinated',
+      hideIf: formData =>
+        get('VACCINATED_ADDITIONAL1', formData) === undefined ||
+        !formData.VACCINATED_ADDITIONAL1,
+      labels: {
+        MODERNA: 'Moderna',
+        PFIZER: 'Pfizer',
+        OTHER: 'Other',
+        UNKNOWN: "Don't know/Don't remember",
+      },
+      classNames: '',
+    },
+    'ui:required': formData => formData.VACCINATED_ADDITIONAL1,
+  },
+  VACCINATED_ADDITIONAL_OTHER1: {
+    'ui:title': 'Which vaccine?',
+    'ui:options': {
+      expandUnder: 'vaccinated',
+      hideIf: formData =>
+        get('VACCINATED_ADDITIONAL_DETAILS1', formData) === undefined ||
+        !formData.VACCINATED_ADDITIONAL1 ||
+        get('VACCINATED_ADDITIONAL_DETAILS1', formData) !== 'OTHER',
+      classNames: '',
+    },
+    'ui:required': formData =>
+      get('VACCINATED_ADDITIONAL_DETAILS1', formData) === 'OTHER',
+  },
+  VACCINATED_ADDITIONAL_DATE1: {
+    ...currentOrPastMonthYearUI('Month/Year of 1st dose'),
+    'ui:options': {
+      expandUnder: 'vaccinated',
+      monthYear: true,
+      hideIf: formData =>
+        get('VACCINATED_ADDITIONAL_DETAILS1', formData) === undefined ||
+        !formData.VACCINATED_ADDITIONAL1,
+      classNames: '',
+    },
+    'ui:required': formData => formData.VACCINATED_ADDITIONAL1,
+  },
+  VACCINATED_ADDITIONAL2: {
+    'ui:title': <span>Enter another dose</span>,
+    'ui:reviewField': CustomReviewField,
+    'ui:widget': 'checkbox',
+    'ui:options': {
+      hideLabelText: true,
+      hideOnReview: true,
+      expandUnder: 'vaccinated',
+      hideIf: formData =>
+        get('VACCINATED_ADDITIONAL_DETAILS1', formData) === undefined ||
+        !formData.VACCINATED_ADDITIONAL1,
+    },
+  },
+  VACCINATED_ADDITIONAL_DETAILS2: {
+    'ui:title': (
+      <span>
+        <strong>If Yes, which vaccine did you receive?</strong>
+      </span>
+    ),
+    'ui:widget': 'radio',
+    'ui:reviewField': CustomReviewRadio,
+    'ui:options': {
+      showFieldLabel: true,
+      expandUnder: 'vaccinated',
+      hideIf: formData =>
+        get('VACCINATED_ADDITIONAL2', formData) === undefined ||
+        !formData.VACCINATED_ADDITIONAL2,
+      labels: {
+        MODERNA: 'Moderna',
+        PFIZER: 'Pfizer',
+        OTHER: 'Other',
+        UNKNOWN: "Don't know/Don't remember",
+      },
+      classNames: '',
+    },
+    'ui:required': formData => formData.VACCINATED_ADDITIONAL2,
+  },
+  VACCINATED_ADDITIONAL_OTHER2: {
+    'ui:title': 'Which vaccine?',
+    'ui:options': {
+      expandUnder: 'vaccinated',
+      hideIf: formData =>
+        get('VACCINATED_ADDITIONAL_DETAILS2', formData) === undefined ||
+        !formData.VACCINATED_ADDITIONAL2 ||
+        get('VACCINATED_ADDITIONAL_DETAILS2', formData) !== 'OTHER',
+      classNames: '',
+    },
+    'ui:required': formData =>
+      get('VACCINATED_ADDITIONAL_DETAILS2', formData) === 'OTHER',
+  },
+  VACCINATED_ADDITIONAL_DATE2: {
+    ...currentOrPastMonthYearUI('Month/Year of 1st dose'),
+    'ui:options': {
+      expandUnder: 'vaccinated',
+      monthYear: true,
+      hideIf: formData =>
+        get('VACCINATED_ADDITIONAL_DETAILS2', formData) === undefined ||
+        !formData.VACCINATED_ADDITIONAL2,
+      classNames: '',
+    },
+    'ui:required': formData => formData.VACCINATED_ADDITIONAL2,
+  },
   hospitalized: {
     'ui:title': (
       <span>
@@ -573,7 +707,7 @@ export const uiSchema = {
     ),
     'ui:reviewField': CustomReviewDOBField,
   },
-  zipcode: {
+  zipCode: {
     'ui:title': 'Zip code where you currently live',
     'ui:errorMessages': {
       required: 'Please enter a zip code',
@@ -626,6 +760,49 @@ export const uiSchema = {
     'VETERAN::NONE_OF_ABOVE': {
       'ui:title': 'None of the above',
       'ui:reviewField': CustomReviewField,
+    },
+  },
+  ELIGIBLE: {
+    'ui:title': (
+      <span>
+        <strong>Are you eligible to receive care at a VA facility?</strong>
+      </span>
+    ),
+    'ui:reviewField': CustomReviewYesNo,
+    'ui:widget': 'yesNo',
+    'ui:options': {
+      classNames: '',
+    },
+  },
+  FACILITY: {
+    'ui:title': (
+      <span>
+        <strong>Do you receive care at a VA facility?</strong>
+      </span>
+    ),
+    'ui:reviewField': CustomReviewYesNo,
+    'ui:widget': 'yesNo',
+    'ui:options': {
+      classNames: '',
+    },
+  },
+  vaLocation: {
+    preferredFacility: {
+      'ui:title': 'Selected VA medical center',
+      'ui:widget': DynamicRadioWidget,
+      'ui:options': {
+        hideLabelText: true,
+        // expandUnder: 'FACILITY',
+        // expandUnderCondition: true,
+        hideIf: formData =>
+          get('zipCode', formData) === undefined ||
+          get('zipCode', formData).length < 5 ||
+          !formData.FACILITY,
+      },
+      'ui:reviewWidget': vaLocationReviewWidget,
+      'ui:required': formData =>
+        get('zipCode', formData) !== undefined &&
+        get('zipCode', formData).length >= 5,
     },
   },
   GENDER: {

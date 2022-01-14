@@ -149,6 +149,134 @@ export const uiSchema = {
       formData.vaccinated &&
       get('VACCINATED_DETAILS', formData) !== 'JOHNSON',
   },
+  VACCINATED_ADDITIONAL1: {
+    'ui:title': (
+      <span>
+        <strong>
+          Have you received any additional vaccine doses (including boosters)?
+        </strong>
+      </span>
+    ),
+    'ui:reviewField': CustomReviewYesNo,
+    'ui:widget': 'yesNo',
+    'ui:options': {
+      expandUnder: 'vaccinated',
+      expandUnderCondition: true,
+      classNames: '',
+    },
+    'ui:required': formData => formData.vaccinated,
+  },
+  VACCINATED_ADDITIONAL_DETAILS1: {
+    'ui:title': (
+      <span>
+        <strong>If Yes, which vaccine did you receive?</strong>
+      </span>
+    ),
+    'ui:widget': 'radio',
+    'ui:reviewField': CustomReviewRadio,
+    'ui:options': {
+      showFieldLabel: true,
+      expandUnder: 'vaccinated',
+      hideIf: formData =>
+        get('VACCINATED_ADDITIONAL1', formData) === undefined ||
+        !formData.VACCINATED_ADDITIONAL1,
+      labels: {
+        MODERNA: 'Moderna',
+        PFIZER: 'Pfizer',
+        OTHER: 'Other',
+        UNKNOWN: "Don't know/Don't remember",
+      },
+      classNames: '',
+    },
+    'ui:required': formData => formData.VACCINATED_ADDITIONAL1,
+  },
+  VACCINATED_ADDITIONAL_OTHER1: {
+    'ui:title': 'Which vaccine?',
+    'ui:options': {
+      expandUnder: 'vaccinated',
+      hideIf: formData =>
+        get('VACCINATED_ADDITIONAL_DETAILS1', formData) === undefined ||
+        !formData.VACCINATED_ADDITIONAL1 ||
+        get('VACCINATED_ADDITIONAL_DETAILS1', formData) !== 'OTHER',
+      classNames: '',
+    },
+    'ui:required': formData =>
+      get('VACCINATED_ADDITIONAL_DETAILS1', formData) === 'OTHER',
+  },
+  VACCINATED_ADDITIONAL_DATE1: {
+    ...currentOrPastMonthYearUI('Month/Year of 1st dose'),
+    'ui:options': {
+      expandUnder: 'vaccinated',
+      monthYear: true,
+      hideIf: formData =>
+        get('VACCINATED_ADDITIONAL_DETAILS1', formData) === undefined ||
+        !formData.VACCINATED_ADDITIONAL1,
+      classNames: '',
+    },
+    'ui:required': formData => formData.VACCINATED_ADDITIONAL1,
+  },
+  VACCINATED_ADDITIONAL2: {
+    'ui:title': <span>Enter another dose</span>,
+    'ui:reviewField': CustomReviewField,
+    'ui:widget': 'checkbox',
+    'ui:options': {
+      hideLabelText: true,
+      hideOnReview: true,
+      expandUnder: 'vaccinated',
+      hideIf: formData =>
+        get('VACCINATED_ADDITIONAL_DETAILS1', formData) === undefined ||
+        !formData.VACCINATED_ADDITIONAL1,
+    },
+  },
+  VACCINATED_ADDITIONAL_DETAILS2: {
+    'ui:title': (
+      <span>
+        <strong>If Yes, which vaccine did you receive?</strong>
+      </span>
+    ),
+    'ui:widget': 'radio',
+    'ui:reviewField': CustomReviewRadio,
+    'ui:options': {
+      showFieldLabel: true,
+      expandUnder: 'vaccinated',
+      hideIf: formData =>
+        get('VACCINATED_ADDITIONAL2', formData) === undefined ||
+        !formData.VACCINATED_ADDITIONAL2,
+      labels: {
+        MODERNA: 'Moderna',
+        PFIZER: 'Pfizer',
+        OTHER: 'Other',
+        UNKNOWN: "Don't know/Don't remember",
+      },
+      classNames: '',
+    },
+    'ui:required': formData => formData.VACCINATED_ADDITIONAL2,
+  },
+  VACCINATED_ADDITIONAL_OTHER2: {
+    'ui:title': 'Which vaccine?',
+    'ui:options': {
+      expandUnder: 'vaccinated',
+      hideIf: formData =>
+        get('VACCINATED_ADDITIONAL_DETAILS2', formData) === undefined ||
+        !formData.VACCINATED_ADDITIONAL2 ||
+        get('VACCINATED_ADDITIONAL_DETAILS2', formData) !== 'OTHER',
+      classNames: '',
+    },
+    'ui:required': formData =>
+      get('VACCINATED_ADDITIONAL_DETAILS2', formData) === 'OTHER',
+  },
+  VACCINATED_ADDITIONAL_DATE2: {
+    ...currentOrPastMonthYearUI('Month/Year of 1st dose'),
+    'ui:options': {
+      expandUnder: 'vaccinated',
+      monthYear: true,
+      hideIf: formData =>
+        get('VACCINATED_ADDITIONAL_DETAILS2', formData) === undefined ||
+        !formData.VACCINATED_ADDITIONAL2,
+      classNames: '',
+    },
+    'ui:required': formData => formData.VACCINATED_ADDITIONAL2,
+  },
   diagnosed: {
     'ui:title': (
       <span>
