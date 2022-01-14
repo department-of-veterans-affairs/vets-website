@@ -1,64 +1,43 @@
 import React from 'react';
 import Helpdesk from './HelpdeskContact';
+import { AUTH_ERROR } from 'platform/user/authentication/constants';
 
 export default function RenderErrorContainer({
-  code = '007',
-  auth = '',
+  code = AUTH_ERROR.DEFAULT,
+  auth = AUTH_ERROR.FAIL,
   recordEvent = () => ({}),
   loginGovEnabled = false,
   openLoginModal = () => ({}),
 }) {
-  let header = 'We couldn’t sign you in';
   let alertContent;
   let troubleshootingContent;
 
-  if (auth === 'fail') {
+  if (auth === AUTH_ERROR.FAIL) {
     recordEvent({
       event: code ? `login-error-code-${code}` : `login-error-no-code`,
     });
   }
 
   switch (code) {
-    case '900':
-      alertContent = (
-        <p>
-          We’re sorry. It looks like you did something unexpected while trying
-          to identity proof with Login.gov. For your security we signed you out.
-          Please reach out to our help desk and provide them with the Code 900.
-        </p>
-      );
-      troubleshootingContent = (
-        <>
-          <h3>What you can do:</h3>
-          <p>
-            Please try again, and this time, select “Accept” on the final page
-            of the identity verification process. Or, if you don’t want to
-            verify your identity with {loginGovEnabled && `Login.gov or `}
-            ID.me, you can try signing in with your premium DS Logon or premium
-            My HealtheVet username and password.
-          </p>
-          <button onClick={openLoginModal}>Try signing in again</button>
-        </>
-      );
-      break;
-
     // Authorization was denied by user
-    case '001':
+    case AUTH_ERROR.USER_DENIED:
       alertContent = (
         <p>
           We’re sorry. We couldn’t complete the identity verification process.
-          It looks like you selected “Deny” when we asked for your permission to
-          share your information with VA.gov. We can’t give you access to all
-          the tools on VA.gov without sharing your information with the site.
+          It looks like you selected <strong>“Deny”</strong> when we asked for
+          your permission to share your information with VA.gov. We can’t give
+          you access to all the tools on VA.gov without sharing your information
+          with the site.
         </p>
       );
       troubleshootingContent = (
         <>
           <h3>What you can do:</h3>
           <p>
-            Please try again, and this time, select “Accept” on the final page
-            of the identity verification process. Or, if you don’t want to
-            verify your identity with {loginGovEnabled && `Login.gov or `}
+            Please try again, and this time, select <strong>“Accept”</strong> on
+            the final page of the identity verification process. Or, if you
+            don’t want to verify your identity with{' '}
+            {loginGovEnabled && `Login.gov or `}
             ID.me, you can try signing in with your premium DS Logon or premium
             My HealtheVet username and password.
           </p>
@@ -68,12 +47,11 @@ export default function RenderErrorContainer({
       break;
 
     // User's clock is incorrect
-    case '002':
-      header = 'Please update your computer’s time settings';
+    case AUTH_ERROR.USER_CLOCK_MISMATCH:
       alertContent = (
         <p>
           We’re sorry. It looks like your computer’s clock isn’t showing the
-          right time, and that’s causing a problem in how it communicates with
+          correct time, and that’s causing a problem in how it communicates with
           our system.
         </p>
       );
@@ -89,11 +67,11 @@ export default function RenderErrorContainer({
       break;
 
     // Server error
-    case '003':
+    case AUTH_ERROR.SERVER_CLOCK_MISMATCH:
       alertContent = (
         <p>
           We’re sorry. Something went wrong on our end, and we couldn’t sign you
-          in. Please try signing in again.
+          in. Please try signing in again in a few minutes.
         </p>
       );
       troubleshootingContent = (
@@ -106,8 +84,7 @@ export default function RenderErrorContainer({
       break;
 
     // We're having trouble matching the user with MVI
-    case '004':
-      header = 'Please try again later';
+    case AUTH_ERROR.MVI_MISMATCH:
       alertContent = (
         <p>
           We’re sorry. Something went wrong on our end, and we couldn’t sign you
@@ -124,8 +101,7 @@ export default function RenderErrorContainer({
       break;
 
     // Session expired error
-    case '005':
-      header = 'We’ve signed you out of VA.gov';
+    case AUTH_ERROR.SESSION_EXPIRED:
       alertContent = (
         <p>
           We take your privacy very seriously. You didn’t take any action on
@@ -142,9 +118,27 @@ export default function RenderErrorContainer({
       );
       break;
 
+    case AUTH_ERROR.LOGINGOV_PROOFING_FAIL:
+      alertContent = (
+        <p>
+          We’re sorry. It looks like you did something unexpected while trying
+          to identity proof with Login.gov. For your security we signed you out.
+        </p>
+      );
+      troubleshootingContent = (
+        <>
+          <h3>What you can do:</h3>
+          <p>
+            Please try again, and this time, select “Accept” on the final page
+            of the Login.gov identity verification process.
+          </p>
+          <button onClick={openLoginModal}>Try signing in again</button>
+        </>
+      );
+      break;
+
     // Multiple MHV ID error
-    case '101':
-      header = 'We can’t sign you in';
+    case AUTH_ERROR.MULTIPLE_MHVIDS:
       alertContent = (
         <p>
           We’re having trouble signing you in to VA.gov right now because we
@@ -199,8 +193,7 @@ export default function RenderErrorContainer({
       break;
 
     // Multiple EDIPI error
-    case '102':
-      header = 'We can’t sign you in';
+    case AUTH_ERROR.MULTIPLE_EDIPIS:
       alertContent = (
         <p>
           We’re having trouble signing you in to VA.gov right now because we
@@ -216,13 +209,42 @@ export default function RenderErrorContainer({
       break;
 
     // ICN mismatch error
-    case '103':
-      header = 'We can’t sign you in';
+    case AUTH_ERROR.ICN_MISMATCH:
       alertContent = (
         <p>
           We’re having trouble signing you in right now because your My
           HealtheVet account number doesn’t match the account number on your
           VA.gov account.
+        </p>
+      );
+      troubleshootingContent = (
+        <>
+          <h3>To fix this issue:</h3>
+          <Helpdesk />
+        </>
+      );
+      break;
+
+    case AUTH_ERROR.UUID_MISSING:
+      alertContent = (
+        <p>
+          We’re having trouble signing you in right now because one of your
+          account numbers is mission for your VA.gov account.
+        </p>
+      );
+      troubleshootingContent = (
+        <>
+          <h3>To fix this issue:</h3>
+          <Helpdesk />
+        </>
+      );
+      break;
+
+    case AUTH_ERROR.MULTIPLE_CORPIDS:
+      alertContent = (
+        <p>
+          We’re having trouble signing you in to VA.gov right now because we
+          found more than one account number for you.
         </p>
       );
       troubleshootingContent = (
@@ -257,7 +279,7 @@ export default function RenderErrorContainer({
             <li>
               Make sure you have cookies enabled in your browser settings.
               Depending on which browser you’re using, you’ll usually find this
-              information in the “Tools,” “Settings,” or “Preferences” menu.
+              information in the “Tools,” “Settings,” or “Preferences” menu.
             </li>
             <li>
               <p>
@@ -267,7 +289,7 @@ export default function RenderErrorContainer({
               </p>
               <p>
                 <a
-                  href="https://www.google.com/chrome/?brand=CHBD&gclid=Cj0KCQiAsdHhBRCwARIsAAhRhsk_uwlqzTaYptK2zKbuv-5g5Zk9V_qaKTe1Y5ptlxudmMG_Y7XqyDkaAs0HEALw_wcB&gclsrc=aw.ds"
+                  href="https://www.google.com/chrome/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -289,15 +311,18 @@ export default function RenderErrorContainer({
               you’ve updated your browser with the latest updates.
             </li>
           </ul>
-          <Helpdesk />
+          <Helpdesk>
+            If you’ve taken the steps above and still can’t sign in,
+          </Helpdesk>
         </>
       );
   }
 
   return (
     <div className="usa-content columns small-12">
-      <h1>{header}</h1>
+      <h1>We can’t sign you in</h1>
       <va-alert visible status="error">
+        <h3 slot="headline">Error code: {code}</h3>
         {alertContent}
       </va-alert>
       {troubleshootingContent}
