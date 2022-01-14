@@ -12,9 +12,6 @@ const selectFeatureToggles = createSelector(
     isPreCheckInEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperiencePreCheckInEnabled
     ],
-    isEmergencyContactEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceEmergencyContactEnabled
-    ],
     isUpdatePageEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceUpdateInformationPageEnabled
     ],

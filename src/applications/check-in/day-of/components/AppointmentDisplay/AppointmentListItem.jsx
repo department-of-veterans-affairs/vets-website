@@ -13,28 +13,28 @@ const AppointmentListItem = props => {
     <li className="appointment-item vads-u-padding--2">
       <dl className="appointment-summary vads-u-margin--0 vads-u-padding--0">
         <dd
-          className="appointment-time vads-u-font-family--serif vads-u-font-weight--bold"
+          className="appointment-time vads-u-font-family--serif vads-u-font-weight--bold vads-u-margin-bottom--1 "
           data-testid="appointment-time"
         >
           {appointmentTime}
         </dd>
-        <dt className="clinic-label vads-u-font-size--h6 vads-u-margin--0 vads-u-margin-right--1 vads-u-font-family--serif vads-u-font-weight--bold">
-          Clinic:{' '}
-        </dt>
-        <dd
-          data-testid="clinic-name"
-          className="clinic-name vads-u-font-size--h6 vads-u-font-weight--bold vads-u-font-family--serif"
-        >
-          <AppointmentLocation appointment={appointment} />
-        </dd>
-        <dt className="facility-label vads-u-margin--0 vads-u-margin-right--1 vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--h6">
+        <dt className="facility-label vads-u-margin--0 vads-u-margin-right--1 vads-u-font-family--serif vads-u-font-weight--bold ">
           Facility:{' '}
         </dt>
         <dd
           data-testid="facility-name"
-          className="facility-name vads-u-font-weight--bold vads-u-font-family--serif vads-u-font-size--h6"
+          className="facility-name vads-u-font-weight--bold vads-u-font-family--serif "
         >
           {appointment.facility}
+        </dd>
+        <dt className="clinic-label  vads-u-margin--0 vads-u-margin-right--1 vads-u-margin-bottom--1 vads-u-font-family--serif vads-u-font-weight--bold">
+          Clinic:{' '}
+        </dt>
+        <dd
+          data-testid="clinic-name"
+          className="clinic-name  vads-u-font-weight--bold vads-u-font-family--serif"
+        >
+          <AppointmentLocation appointment={appointment} />
         </dd>
       </dl>
       <AppointmentAction

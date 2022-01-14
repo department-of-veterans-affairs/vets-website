@@ -4,6 +4,7 @@ import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Introduction from '../pages/Introduction';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
+import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import Confirmation from '../pages/Confirmation';
 
@@ -17,7 +18,7 @@ describe('Pre-Check In Experience ', () => {
       initializePreCheckInDataGet,
       initializePreCheckInDataPost,
     } = ApiInitializer;
-    initializeFeatureToggle.withoutEmergencyContact();
+    initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
 
     initializeSessionPost.withSuccess();
@@ -50,6 +51,11 @@ describe('Pre-Check In Experience ', () => {
     Demographics.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
     Demographics.attemptToGoToNextPage();
+
+    // page: Emergency Contact
+    EmergencyContact.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+    EmergencyContact.attemptToGoToNextPage();
 
     // page: Next of Kin
     NextOfKin.validatePageLoaded();

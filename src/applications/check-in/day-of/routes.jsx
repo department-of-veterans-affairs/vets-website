@@ -11,9 +11,9 @@ import SeeStaff from './pages/SeeStaff';
 import Landing from './pages/Landing';
 import UpdateInformationQuestion from './pages/UpdateInformationQuestion';
 import ValidateVeteran from './pages/ValidateVeteran';
+import LoadingPage from './pages/LoadingPage';
 
 import withFeatureFlip from './containers/withFeatureFlip';
-import withLoadedData from './containers/withLoadedData';
 import withSession from './containers/withSession';
 import withToken from './containers/withToken';
 import withForm from './containers/withForm';
@@ -33,49 +33,56 @@ const routes = [
   },
   {
     path: URLS.DEMOGRAPHICS,
-    component: withLoadedData(withSession(Demographics)),
+    component: withSession(Demographics),
     permissions: {
       requiresForm: true,
     },
   },
   {
     path: URLS.NEXT_OF_KIN,
-    component: withLoadedData(withSession(NextOfKin)),
+    component: withSession(NextOfKin),
     permissions: {
       requiresForm: true,
     },
   },
   {
     path: URLS.EMERGENCY_CONTACT,
-    component: withLoadedData(withSession(EmergencyContact)),
+    component: withSession(EmergencyContact),
     permissions: {
       requiresForm: true,
     },
   },
   {
     path: URLS.UPDATE_INSURANCE,
-    component: withLoadedData(withSession(UpdateInformationQuestion)),
+    component: withSession(UpdateInformationQuestion),
     permissions: {
       requiresForm: true,
     },
   },
   {
     path: URLS.DETAILS,
-    component: withLoadedData(withSession(CheckIn)),
+    component: withSession(CheckIn),
     permissions: {
       requiresForm: true,
     },
   },
   {
     path: URLS.COMPLETE,
-    component: withLoadedData(withSession(Confirmation)),
+    component: withSession(Confirmation),
     permissions: {
       requiresForm: true,
     },
   },
   {
     path: URLS.SEE_STAFF,
-    component: withLoadedData(withSession(SeeStaff)),
+    component: withSession(SeeStaff),
+    permissions: {
+      requiresForm: true,
+    },
+  },
+  {
+    path: URLS.LOADING,
+    component: withSession(LoadingPage),
     permissions: {
       requiresForm: true,
     },

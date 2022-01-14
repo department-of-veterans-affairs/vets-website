@@ -27,18 +27,6 @@ class ApiInitializer {
         }),
       );
     },
-    withoutEmergencyContact: () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          checkInExperienceEnabled: true,
-          preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
-          emergencyContactEnabled: false,
-        }),
-      );
-    },
     withAllFeatures: () => {
       cy.intercept(
         'GET',
@@ -162,16 +150,22 @@ class ApiInitializer {
       token = checkInData.get.defaultUUID,
       numberOfCheckInAbledAppointments = 2,
       demographicsNeedsUpdate = true,
+      demographicsConfirmedAt = null,
       nextOfKinNeedsUpdate = true,
+      nextOfKinConfirmedAt = null,
       emergencyContactNeedsUpdate = true,
+      emergencyContactConfirmedAt = null,
     } = {}) => {
       cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
         const rv = checkInData.get.createMultipleAppointments(
           token,
           numberOfCheckInAbledAppointments,
           demographicsNeedsUpdate,
+          demographicsConfirmedAt,
           nextOfKinNeedsUpdate,
+          nextOfKinConfirmedAt,
           emergencyContactNeedsUpdate,
+          emergencyContactConfirmedAt,
         );
         if (appointments && appointments.length) {
           const customAppointments = [];
