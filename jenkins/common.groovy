@@ -1,9 +1,3 @@
-VAGOV_BUILDTYPES = [
-  'vagovdev',
-  'vagovstaging',
-  'vagovprod'
-]
-
 DEV_BRANCH = 'master'
 STAGING_BRANCH = 'master'
 PROD_BRANCH = 'master'
@@ -20,13 +14,6 @@ def isReviewable() {
   return !IS_DEV_BRANCH && !IS_STAGING_BRANCH && !IS_PROD_BRANCH
 }
 
-def isDeployable() {
-  return (IS_DEV_BRANCH ||
-          IS_STAGING_BRANCH) &&
-    !env.CHANGE_TARGET &&
-    !currentBuild.nextBuild // if there's a later build on this job (branch), don't deploy
-}
-
 def shouldBail() {
   // abort the job if we're not on deployable branch (usually master) and there's a newer build going now
   return !IS_DEV_BRANCH &&
@@ -34,42 +21,6 @@ def shouldBail() {
     !IS_PROD_BRANCH &&
     !env.CHANGE_TARGET &&
     currentBuild.nextBuild
-}
-
-def runDeploy(String jobName, String ref, boolean waitForDeploy) {
-  build job: jobName, parameters: [
-    booleanParam(name: 'notify_slack', value: true),
-    stringParam(name: 'ref', value: ref),
-  ], wait: waitForDeploy
-}
-
-def buildDetails(String buildtype, String ref, Long buildtime) {
-  return """\
-BUILDTYPE=${buildtype}
-NODE_ENV=production
-BRANCH_NAME=${env.BRANCH_NAME}
-CHANGE_TARGET=${env.CHANGE_TARGET}
-BUILD_ID=${env.BUILD_ID}
-BUILD_NUMBER=${env.BUILD_NUMBER}
-REF=${ref}
-BUILDTIME=${buildtime}
-"""
-}
-
-def slackNotify() {
-  if (IS_DEV_BRANCH || IS_STAGING_BRANCH || IS_PROD_BRANCH) {
-    message = "vets-website ${env.BRANCH_NAME} branch CI failed. |${env.RUN_DISPLAY_URL}".stripMargin()
-    slackSend message: message,
-      color: 'danger',
-      failOnError: true
-  }
-}
-
-def slackIntegrationNotify() {
-  message = "(Testing): integration tests failed. |${env.RUN_DISPLAY_URL}".stripMargin()
-  slackSend message: message,
-    color: 'danger',
-    failOnError: true
 }
 
 def setup() {
@@ -95,58 +46,6 @@ def setup() {
         }
       }
       return dockerImage
-    }
-  }
-}
-
-def build(String ref, dockerContainer, String envName) {
-  dockerContainer.inside(DOCKER_ARGS) {
-    def buildLogPath = "/application/${envName}-build.log"
-
-    sh "cd /application && jenkins/build.sh --envName ${envName} --buildLog ${buildLogPath} --verbose"
-  }
-}
-
-def archive(dockerContainer, String ref, String envName) {
-  def long buildtime = System.currentTimeMillis() / 1000L;
-  def buildDetails = buildDetails(envName, ref, buildtime)
-
-  dockerContainer.inside(DOCKER_ARGS) {
-    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
-                     usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-      sh "echo \"${buildDetails}\" > /application/build/${envName}/BUILD.txt"
-      // if(envName == 'vagovstaging') {
-      //   sh "tar -C /application/build/${envName} -cf /application/build/apps.${envName}.tar.bz2 ."
-      //   sh "aws s3 cp /application/build/apps.${envName}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/${ref}/${envName}.tar.bz2 --acl public-read --region us-gov-west-1 --quiet"
-      // }
-      if(envName == 'vagovprod') {
-        sh "tar -C /application/build/${envName} -cf /application/build/${envName}.tar.bz2 ."
-        sh "aws s3 cp /application/build/${envName}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${ref}/${envName}.tar.bz2 --acl public-read --region us-gov-west-1 --quiet"
-      }
-    }
-  }
-}
-
-def archiveAll(dockerContainer, String ref) {
-  stage("Archive") {
-    if (shouldBail()) { return }
-
-    try {
-      def archives = [:]
-
-      for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
-        def envName = VAGOV_BUILDTYPES.get(i)
-
-        archives[envName] = {
-          archive(dockerContainer, ref, envName)
-        }
-      }
-
-      parallel archives
-
-    } catch (error) {
-      // slackNotify()
-      throw error
     }
   }
 }

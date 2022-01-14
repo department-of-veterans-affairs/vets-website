@@ -4,6 +4,7 @@ import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Appointments from '../pages/Appointments';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
+import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 
 describe('Check In Experience -- ', () => {
@@ -16,7 +17,7 @@ describe('Check In Experience -- ', () => {
         initializeSessionPost,
         initializeCheckInDataGet,
       } = ApiInitializer;
-      initializeFeatureToggle.withoutEmergencyContact();
+      initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataGet.withSuccess({ appointments });
@@ -25,6 +26,7 @@ describe('Check In Experience -- ', () => {
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       Demographics.attemptToGoToNextPage();
+      EmergencyContact.attemptToGoToNextPage();
       NextOfKin.attemptToGoToNextPage();
     });
     afterEach(() => {

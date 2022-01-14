@@ -4,7 +4,6 @@ import {
   appointmentWasCheckedIntoHandler,
   permissionsUpdatedHandler,
   receivedDemographicsDataHandler,
-  receivedDemographicsStatusHandler,
   receivedEmergencyContactDataHandler,
   receivedAppointmentDetailsHandler,
   receivedNextOfKinDataHandler,
@@ -14,11 +13,12 @@ import {
   triggerRefreshHandler,
 } from './index';
 
+import { updateFormHandler } from '../navigation';
+
 import {
   appointmentWasCheckedInto,
   permissionsUpdated,
   receivedDemographicsData,
-  receivedDemographicsStatus,
   receivedEmergencyContact,
   receivedMultipleAppointmentDetails,
   receivedNextOfKinData,
@@ -26,6 +26,7 @@ import {
   setTokenContext,
   tokenWasValidated,
   triggerRefresh,
+  updateFormAction,
 } from '../../actions/day-of';
 
 import appReducer from '../index';
@@ -157,82 +158,6 @@ describe('check in', () => {
           expect(state.demographics).haveOwnProperty('mobilePhone');
           expect(state.demographics).haveOwnProperty('workPhone');
           expect(state.demographics).haveOwnProperty('emailAddress');
-        });
-      });
-    });
-    describe('receivedDemographicsStatus', () => {
-      describe('receivedDemographicsStatusHandler', () => {
-        it('should create basic structure', () => {
-          const action = receivedDemographicsStatus({});
-          const state = receivedDemographicsStatusHandler({}, action);
-          expect(state).haveOwnProperty('demographicsStatus');
-        });
-
-        it('should have the correct fields', () => {
-          const data = {
-            demographicsNeedsUpdate: true,
-            demographicsConfirmedAt: null,
-            nextOfKinNeedsUpdate: false,
-            nextOfKinConfirmedAt: null,
-            emergencyContactNeedsUpdate: true,
-            emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
-          };
-          const action = receivedDemographicsStatus(data);
-          const state = receivedDemographicsStatusHandler({}, action);
-          expect(state).haveOwnProperty('demographicsStatus');
-          expect(state.demographicsStatus).to.be.an('object');
-          expect(state.demographicsStatus).haveOwnProperty(
-            'demographicsNeedsUpdate',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'demographicsConfirmedAt',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'nextOfKinNeedsUpdate',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'nextOfKinConfirmedAt',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'emergencyContactNeedsUpdate',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'emergencyContactConfirmedAt',
-          );
-        });
-      });
-      describe('reducer is called;', () => {
-        it('calls the correct handler', () => {
-          const data = {
-            demographicsNeedsUpdate: true,
-            demographicsConfirmedAt: null,
-            nextOfKinNeedsUpdate: false,
-            nextOfKinConfirmedAt: null,
-            emergencyContactNeedsUpdate: true,
-            emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
-          };
-          const action = receivedDemographicsStatus(data);
-          const state = appReducer.checkInData(undefined, action);
-          expect(state).haveOwnProperty('demographicsStatus');
-          expect(state.demographicsStatus).to.be.an('object');
-          expect(state.demographicsStatus).haveOwnProperty(
-            'demographicsNeedsUpdate',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'demographicsConfirmedAt',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'nextOfKinNeedsUpdate',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'nextOfKinConfirmedAt',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'emergencyContactNeedsUpdate',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'emergencyContactConfirmedAt',
-          );
         });
       });
     });
@@ -540,6 +465,38 @@ describe('check in', () => {
           const action = triggerRefresh(true);
           const state = appReducer.checkInData(undefined, action);
           expect(state.context.shouldRefresh).to.equal(true);
+        });
+      });
+    });
+    describe('updateFormAction', () => {
+      describe('updateFormHandler', () => {
+        it('should return the correct structure', () => {
+          const action = updateFormAction({
+            patientDemographicsStatus: {},
+          });
+          const state = updateFormHandler({}, action);
+          expect(state).haveOwnProperty('form');
+          expect(state.form).haveOwnProperty('pages');
+        });
+      });
+      describe('reducer is called; finds the correct handler', () => {
+        it('should set form data', () => {
+          const action = updateFormAction({
+            patientDemographicsStatus: {},
+          });
+          const state = appReducer.checkInData(undefined, action);
+          expect(state).haveOwnProperty('form');
+          expect(state.form).haveOwnProperty('pages');
+          expect(state.form).haveOwnProperty('currentPage');
+          expect(state.form.pages).to.deep.equal([
+            'verify',
+            'loading-appointments',
+            'contact-information',
+            'emergency-contact',
+            'next-of-kin',
+            'details',
+            'complete',
+          ]);
         });
       });
     });

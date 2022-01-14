@@ -422,7 +422,6 @@ const responses = {
         { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
-        { name: 'vaOnlineSchedulingCCIterations', value: true },
         { name: 'vaOnlineSchedulingPocHealthApt', value: true },
         { name: 'ssoe', value: true },
         { name: 'ssoe_inbound', value: false },

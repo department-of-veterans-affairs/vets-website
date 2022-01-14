@@ -4,7 +4,7 @@
  * @param {string} [location.query.id]
  */
 
-import { differenceInHours } from 'date-fns';
+import { updateFormPages } from '..';
 
 const getTokenFromLocation = location => location?.query?.id;
 
@@ -34,83 +34,37 @@ const PRE_CHECK_IN_FORM_PAGES = Object.freeze([
     order: 2,
   },
   {
-    url: URLS.NEXT_OF_KIN,
-    order: 3,
-  },
-  {
     url: URLS.EMERGENCY_CONTACT,
     order: 4,
+  },
+  {
+    url: URLS.NEXT_OF_KIN,
+    order: 3,
   },
   {
     url: URLS.CONFIRMATION,
     order: 5,
   },
 ]);
-const now = Date.now();
 
-const isWithInHours = (hours, pageLastUpdated) => {
-  const hoursAgo = differenceInHours(now, pageLastUpdated);
-
-  return hoursAgo <= hours;
-};
+const getPagesInOrder = () =>
+  [...PRE_CHECK_IN_FORM_PAGES].sort((a, b) => a.order - b.order);
 
 const createForm = () => {
-  return PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
+  return getPagesInOrder().map(page => page.url);
 };
 
-const updateForm = (patientDemographicsStatus, isEmergencyContactEnabled) => {
-  let pages = PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
-  if (!isEmergencyContactEnabled) {
-    pages = pages.filter(page => page !== URLS.EMERGENCY_CONTACT);
-  }
-  const skippedPages = [];
-  const {
-    demographicsNeedsUpdate,
-    demographicsConfirmedAt,
-    nextOfKinNeedsUpdate,
-    nextOfKinConfirmedAt,
-    emergencyContactNeedsUpdate,
-    emergencyContactConfirmedAt,
-  } = patientDemographicsStatus;
+const updateForm = patientDemographicsStatus => {
+  const pages = PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
 
-  const skipablePages = [
-    {
-      url: URLS.DEMOGRAPHICS,
-      confirmedAt: demographicsConfirmedAt,
-      needsUpdate: demographicsNeedsUpdate,
-    },
-    {
-      url: URLS.NEXT_OF_KIN,
-      confirmedAt: nextOfKinConfirmedAt,
-      needsUpdate: nextOfKinNeedsUpdate,
-    },
-    {
-      url: URLS.EMERGENCY_CONTACT,
-      confirmedAt: emergencyContactConfirmedAt,
-      needsUpdate: emergencyContactNeedsUpdate,
-    },
-  ];
-
-  skipablePages.forEach(page => {
-    const pageLastUpdated = page.confirmedAt
-      ? new Date(page.confirmedAt)
-      : null;
-    if (
-      pageLastUpdated &&
-      isWithInHours(24, pageLastUpdated) &&
-      page.needsUpdate === false
-    ) {
-      skippedPages.push(page.url);
-    }
-  });
-  pages = pages.filter(page => !skippedPages.includes(page));
-  return pages;
+  return updateFormPages(patientDemographicsStatus, false, pages, URLS);
 };
 
 export {
   URLS,
   PRE_CHECK_IN_FORM_PAGES,
   createForm,
+  getPagesInOrder,
   getTokenFromLocation,
   updateForm,
 };

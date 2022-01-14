@@ -127,23 +127,31 @@ export const Search = ({ onSearch }) => {
       {/* Specific date fields */}
       {/* ==================== */}
       {selectedOption?.value === 'specific-date' && (
-        <div
-          className={`vads-u-display--flex vads-u-flex-direction--row vads-u-margin-bottom--1 vads-u-margin-top--0${
-            startDateMonthError || startDateDayError ? ' usa-input-error' : ''
-          }`}
-        >
+        <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-bottom--1 vads-u-margin-top--0 vads-u-position--relative">
+          {/* Left error bar */}
+          {(startDateMonthError || startDateDayError) && (
+            <div className="form-left-error-bar" />
+          )}
+
           {/* Month */}
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             <label className="vads-u-margin--0" htmlFor="startDateMonth">
-              {/* The asterisk is superscript u+002A */}
-              *Month
+              Month <span className="vads-u-color--secondary">(*Required)</span>
             </label>
             {startDateMonthError && (
-              <span className="usa-input-error-message" role="alert">
+              <p
+                className="vads-u-color--secondary vads-u-margin--0 vads-u-font-size--bold"
+                role="alert"
+              >
                 <span className="sr-only">Error</span> Missing month
-              </span>
+              </p>
             )}
             <select
+              className={
+                startDateMonthError
+                  ? 'vads-u-border-color--secondary vads-u-border--3px'
+                  : ''
+              }
               id="startDateMonth"
               name="startDateMonth"
               onChange={event => setStartDateMonth(event.target.value)}
@@ -158,23 +166,24 @@ export const Search = ({ onSearch }) => {
           </div>
 
           {/* Day */}
-          <div
-            className={`vads-u-display--flex vads-u-flex-direction--column${
-              startDateMonthError
-                ? ' vads-u-margin-left--3'
-                : ' vads-u-margin-left--1p5'
-            }`}
-          >
+          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-left--1">
             <label className="vads-u-margin--0" htmlFor="startDateDay">
-              {/* The asterisk is superscript u+002A */}
-              *Day
+              Day <span className="vads-u-color--secondary">(*Required)</span>
             </label>
             {startDateDayError && (
-              <span className="usa-input-error-message" role="alert">
+              <p
+                className="vads-u-color--secondary vads-u-margin--0 vads-u-font-size--bold"
+                role="alert"
+              >
                 <span className="sr-only">Error</span> Missing day
-              </span>
+              </p>
             )}
             <select
+              className={
+                startDateDayError
+                  ? 'vads-u-border-color--secondary vads-u-border--3px'
+                  : ''
+              }
               id="startDateDay"
               name="startDateDay"
               onChange={event => setStartDateDay(event.target.value)}
@@ -194,31 +203,36 @@ export const Search = ({ onSearch }) => {
       {/* Custom date range fields */}
       {/* ======================== */}
       {selectedOption?.value === 'custom-date-range' && (
-        <div
-          className={`vads-u-display--flex vads-u-flex-direction--column vads-u-margin-top--0${
+        <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-top--0 vads-u-position--relative">
+          {/* Left error bar */}
+          {(startDateMonthError ||
             startDateDayError ||
-            startDateMonthError ||
-            endDateDayError ||
-            endDateMonthError
-              ? ' usa-input-error'
-              : ''
-          }`}
-        >
+            endDateMonthError ||
+            endDateDayError) && <div className="form-left-error-bar" />}
+
           {/* Start date */}
           <label className="vads-u-margin--0">Start date</label>
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-bottom--1">
             {/* Start date | Month */}
             <div className="vads-u-display--flex vads-u-flex-direction--column">
               <label className="vads-u-margin--0" htmlFor="startDateMonth">
-                {/* The asterisk is superscript u+002A */}
-                *Month
+                Month{' '}
+                <span className="vads-u-color--secondary">(*Required)</span>
               </label>
               {startDateMonthError && (
-                <span className="usa-input-error-message" role="alert">
+                <p
+                  className="vads-u-color--secondary vads-u-margin--0 vads-u-font-size--bold"
+                  role="alert"
+                >
                   <span className="sr-only">Error</span> Missing month
-                </span>
+                </p>
               )}
               <select
+                className={
+                  startDateMonthError
+                    ? 'vads-u-border-color--secondary vads-u-border--3px'
+                    : ''
+                }
                 id="startDateMonth"
                 name="startDateMonth"
                 onChange={event => setStartDateMonth(event.target.value)}
@@ -233,23 +247,24 @@ export const Search = ({ onSearch }) => {
             </div>
 
             {/* Start date | Day */}
-            <div
-              className={`vads-u-display--flex vads-u-flex-direction--column${
-                startDateMonthError
-                  ? ' vads-u-margin-left--3'
-                  : ' vads-u-margin-left--1p5'
-              }`}
-            >
+            <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-left--1">
               <label className="vads-u-margin--0" htmlFor="startDateDay">
-                {/* The asterisk is superscript u+002A */}
-                *Day
+                Day <span className="vads-u-color--secondary">(*Required)</span>
               </label>
               {startDateDayError && (
-                <span className="usa-input-error-message" role="alert">
+                <p
+                  className="vads-u-color--secondary vads-u-margin--0 vads-u-font-size--bold"
+                  role="alert"
+                >
                   <span className="sr-only">Error</span> Missing day
-                </span>
+                </p>
               )}
               <select
+                className={
+                  startDateDayError
+                    ? 'vads-u-border-color--secondary vads-u-border--3px'
+                    : ''
+                }
                 id="startDateDay"
                 name="startDateDay"
                 onChange={event => setStartDateDay(event.target.value)}
@@ -270,15 +285,23 @@ export const Search = ({ onSearch }) => {
             {/* End date | Month */}
             <div className="vads-u-display--flex vads-u-flex-direction--column">
               <label className="vads-u-margin--0" htmlFor="endDateMonth">
-                {/* The asterisk is superscript u+002A */}
-                *Month
+                Month{' '}
+                <span className="vads-u-color--secondary">(*Required)</span>
               </label>
               {endDateMonthError && (
-                <span className="usa-input-error-message" role="alert">
+                <p
+                  className="vads-u-color--secondary vads-u-margin--0 vads-u-font-size--bold"
+                  role="alert"
+                >
                   <span className="sr-only">Error</span> Missing month
-                </span>
+                </p>
               )}
               <select
+                className={
+                  endDateMonthError
+                    ? 'vads-u-border-color--secondary vads-u-border--3px'
+                    : ''
+                }
                 id="endDateMonth"
                 name="endDateMonth"
                 onChange={event => setEndDateMonth(event.target.value)}
@@ -293,23 +316,24 @@ export const Search = ({ onSearch }) => {
             </div>
 
             {/* End date | Day */}
-            <div
-              className={`vads-u-display--flex vads-u-flex-direction--column${
-                endDateMonthError
-                  ? ' vads-u-margin-left--3'
-                  : ' vads-u-margin-left--1p5'
-              }`}
-            >
+            <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-left--1">
               <label className="vads-u-margin--0" htmlFor="endDateDay">
-                {/* The asterisk is superscript u+002A */}
-                *Day
+                Day <span className="vads-u-color--secondary">(*Required)</span>
               </label>
               {endDateDayError && (
-                <span className="usa-input-error-message" role="alert">
+                <p
+                  className="vads-u-color--secondary vads-u-margin--0 vads-u-font-size--bold"
+                  role="alert"
+                >
                   <span className="sr-only">Error</span> Missing day
-                </span>
+                </p>
               )}
               <select
+                className={
+                  endDateDayError
+                    ? 'vads-u-border-color--secondary vads-u-border--3px'
+                    : ''
+                }
                 id="endDateDay"
                 name="endDateDay"
                 onChange={event => setEndDateDay(event.target.value)}

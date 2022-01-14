@@ -12,45 +12,40 @@ import EmergencyContact from '../EmergencyContact';
 describe('check in', () => {
   describe('EmergencyContact', () => {
     let store;
-    beforeEach(() => {
-      const middleware = [];
-      const mockStore = configureStore(middleware);
-      const initState = {
-        checkInData: {
-          context: {
-            token: '',
-          },
-          form: {
-            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'first-page',
-          },
+    const initState = {
+      checkInData: {
+        context: {
+          token: '',
         },
-      };
+        form: {
+          pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+          currentPage: 'first-page',
+        },
+        emergencyContact: {
+          address: {
+            street1: '445 Fine Finch Fairway',
+            street2: 'Apt 201',
+            city: 'Fairfence',
+            state: 'Florida',
+            zip: '445545',
+          },
+          name: 'Leslie',
+          relationship: 'Aunt',
+          phone: '5553334444',
+          workPhone: '5554445555',
+        },
+      },
+    };
+    const middleware = [];
+    const mockStore = configureStore(middleware);
+    beforeEach(() => {
       store = mockStore(initState);
     });
-    const data = {
-      address: {
-        street1: '445 Fine Finch Fairway',
-        street2: 'Apt 201',
-        city: 'Fairfence',
-        state: 'Florida',
-        zip: '445545',
-      },
-      name: 'Leslie',
-      relationship: 'Aunt',
-      phone: '5553334444',
-      workPhone: '5554445555',
-    };
-    const demographicsStatus = {
-      emergencyContactNeedsUpdate: true,
-    };
+
     it('renders', () => {
       const component = render(
         <Provider store={store}>
-          <EmergencyContact
-            emergencyContact={data}
-            demographicsStatus={demographicsStatus}
-          />
+          <EmergencyContact />
         </Provider>,
       );
 
@@ -59,18 +54,25 @@ describe('check in', () => {
     });
 
     it('shows emergency contact felids, with message for empty data', () => {
-      const partialData = {
-        ...data,
-        phone: '',
-        relationship: '',
+      const updatedStore = {
+        checkInData: {
+          context: {
+            token: '',
+          },
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+            currentPage: 'first-page',
+          },
+          emergencyContact: {
+            ...initState.checkInData.emergencyContact,
+            phone: '',
+            relationship: '',
+          },
+        },
       };
-
       const component = render(
-        <Provider store={store}>
-          <EmergencyContact
-            emergencyContact={partialData}
-            demographicsStatus={demographicsStatus}
-          />
+        <Provider store={mockStore(updatedStore)}>
+          <EmergencyContact />
         </Provider>,
       );
 
@@ -84,10 +86,7 @@ describe('check in', () => {
     it('passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
-          <EmergencyContact
-            emergencyContact={data}
-            demographicsStatus={demographicsStatus}
-          />
+          <EmergencyContact />
         </Provider>,
       );
     });
@@ -98,30 +97,24 @@ describe('check in', () => {
         push,
         params: {},
       };
-
+      const updatedStore = {
+        checkInData: {
+          context: {
+            token: '',
+          },
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+            currentPage: 'first-page',
+          },
+        },
+      };
       render(
-        <Provider store={store}>
-          <EmergencyContact
-            router={mockRouter}
-            demographicsStatus={demographicsStatus}
-          />
+        <Provider store={mockStore(updatedStore)}>
+          <EmergencyContact router={mockRouter} />
         </Provider>,
       );
 
       expect(push.calledOnce).to.be.true;
-    });
-
-    it('shows the loading indicator', () => {
-      const { container } = render(
-        <Provider store={store}>
-          <EmergencyContact isLoading demographicsStatus={demographicsStatus} />
-        </Provider>,
-      );
-
-      expect(container.querySelector('va-loading-indicator')).to.have.attribute(
-        'message',
-        'Loading your appointments for today',
-      );
     });
 
     it('has a clickable no button', () => {
@@ -135,11 +128,7 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <EmergencyContact
-            emergencyContact={data}
-            router={mockRouter}
-            demographicsStatus={demographicsStatus}
-          />
+          <EmergencyContact router={mockRouter} />
         </Provider>,
       );
 
@@ -158,46 +147,12 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <EmergencyContact
-            emergencyContact={data}
-            router={mockRouter}
-            demographicsStatus={demographicsStatus}
-          />
+          <EmergencyContact router={mockRouter} />
         </Provider>,
       );
 
       component.getByTestId('yes-button').click();
       expect(push.calledOnce).to.be.true;
-    });
-
-    it('skips to the next page when needs update is false', () => {
-      const push = sinon.spy();
-      const mockRouter = {
-        push,
-        params: {},
-      };
-
-      const { rerender } = render(
-        <Provider store={store}>
-          <EmergencyContact
-            router={mockRouter}
-            emergencyContact={data}
-            demographicsStatus={{ emergencyContactNeedsUpdate: false }}
-          />
-        </Provider>,
-      );
-
-      rerender(
-        <Provider store={store}>
-          <EmergencyContact
-            router={mockRouter}
-            emergencyContact={data}
-            demographicsStatus={{ emergencyContactNeedsUpdate: false }}
-          />
-        </Provider>,
-      );
-
-      expect(push.called).to.be.true;
     });
   });
 });

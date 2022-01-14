@@ -90,8 +90,6 @@ To run locally for a BE developer, you can use the following commands
 Be sure to have the follow toggles set correctly.
 
 - `check_in_experience_enabled`
-- `check_in_experience_multiple_appointment_support`
-- `check_in_experience_demographics_page_enabled`
 
 #### Steps to see the app
 
@@ -133,16 +131,14 @@ We are currently using the endpoints that are mocked in `src/applications/check-
 
 We are currently using an HOC located at `src/applications/check-in/containers/withFeatureFlip.jsx` to control the feature flips. The whole app is wrapped around one, and each new feature should have its own toggle.
 
+Though we have the HOC, its now considered best practice to query redux using the useSelector hook.
+
 #### Current toggles
 
 - `check_in_experience_enabled` : Enables or disabled the whole app on va.gov
   - when to sunset: never;
-- `check_in_experience_demographics_page_enabled`: Enables or disabled the demographics page
-  - when to sunset: when the demographics page is deployed in production;
 - `check_in_experience_update_information_page_enabled` : Enables or disabled the update information page
   - when to sunset: when we expand to multiple facilities and address the edge cases around it
-- `check_in_experience_next_of_kin_enabled` : Enables or disabled the next of kin page
-  - when to sunset: When phase-5 is complete
 
 ### How to test this?
 

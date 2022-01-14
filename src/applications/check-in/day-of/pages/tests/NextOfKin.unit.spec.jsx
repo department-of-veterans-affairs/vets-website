@@ -12,45 +12,40 @@ import NextOfKin from '../NextOfKin';
 describe('check in', () => {
   describe('Next of Kin', () => {
     let store;
-    beforeEach(() => {
-      const middleware = [];
-      const mockStore = configureStore(middleware);
-      const initState = {
-        checkInData: {
-          context: {
-            token: '',
-          },
-          form: {
-            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'first-page',
-          },
+    const initState = {
+      checkInData: {
+        context: {
+          token: '',
         },
-      };
+        form: {
+          pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+          currentPage: 'first-page',
+        },
+        nextOfKin: {
+          address: {
+            street1: '445 Fine Finch Fairway',
+            street2: 'Apt 201',
+            city: 'Fairfence',
+            state: 'Florida',
+            zip: '445545',
+          },
+          name: 'Kin, Next',
+          relationship: 'child',
+          phone: '5553334444',
+          workPhone: '5554445555',
+        },
+      },
+    };
+    const middleware = [];
+    const mockStore = configureStore(middleware);
+    beforeEach(() => {
       store = mockStore(initState);
     });
-    const nextOfKin = {
-      address: {
-        street1: '445 Fine Finch Fairway',
-        street2: 'Apt 201',
-        city: 'Fairfence',
-        state: 'Florida',
-        zip: '445545',
-      },
-      name: 'Kin, Next',
-      relationship: 'child',
-      phone: '5553334444',
-      workPhone: '5554445555',
-    };
-    const demographicsStatus = {
-      nextOfKinNeedsUpdate: true,
-    };
+
     it('renders', () => {
       const component = render(
         <Provider store={store}>
-          <NextOfKin
-            nextOfKin={nextOfKin}
-            demographicsStatus={demographicsStatus}
-          />
+          <NextOfKin />
         </Provider>,
       );
 
@@ -62,17 +57,27 @@ describe('check in', () => {
     });
 
     it('shows "Not available" for unavailable fields', () => {
-      const partialNextOfKin = {
-        address: nextOfKin.address,
-        phone: nextOfKin.phone,
+      const updatedStore = {
+        checkInData: {
+          context: {
+            token: '',
+          },
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+            currentPage: 'first-page',
+          },
+          nextOfKin: {
+            ...initState.checkInData.nextOfKin,
+            name: '',
+            relationship: '',
+            workPhone: '',
+          },
+        },
       };
 
       const component = render(
-        <Provider store={store}>
-          <NextOfKin
-            nextOfKin={partialNextOfKin}
-            demographicsStatus={demographicsStatus}
-          />
+        <Provider store={mockStore(updatedStore)}>
+          <NextOfKin />
         </Provider>,
       );
 
@@ -89,10 +94,7 @@ describe('check in', () => {
     it('passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
-          <NextOfKin
-            nextOfKin={nextOfKin}
-            demographicsStatus={demographicsStatus}
-          />
+          <NextOfKin />
         </Provider>,
       );
     });
@@ -103,30 +105,24 @@ describe('check in', () => {
         push,
         params: {},
       };
-
+      const updatedStore = {
+        checkInData: {
+          context: {
+            token: '',
+          },
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+            currentPage: 'first-page',
+          },
+        },
+      };
       render(
-        <Provider store={store}>
-          <NextOfKin
-            router={mockRouter}
-            demographicsStatus={demographicsStatus}
-          />
+        <Provider store={mockStore(updatedStore)}>
+          <NextOfKin router={mockRouter} />
         </Provider>,
       );
 
       sinon.assert.calledOnce(push);
-    });
-
-    it('shows the loading indicator', () => {
-      const { container } = render(
-        <Provider store={store}>
-          <NextOfKin isLoading demographicsStatus={demographicsStatus} />
-        </Provider>,
-      );
-
-      expect(container.querySelector('va-loading-indicator')).to.have.attribute(
-        'message',
-        'Loading your appointments for today',
-      );
     });
 
     it('has a clickable no button', () => {
@@ -140,11 +136,7 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <NextOfKin
-            nextOfKin={nextOfKin}
-            router={mockRouter}
-            demographicsStatus={demographicsStatus}
-          />
+          <NextOfKin router={mockRouter} />
         </Provider>,
       );
 
@@ -165,11 +157,7 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <NextOfKin
-            nextOfKin={nextOfKin}
-            router={mockRouter}
-            demographicsStatus={demographicsStatus}
-          />
+          <NextOfKin router={mockRouter} />
         </Provider>,
       );
 
@@ -190,12 +178,7 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <NextOfKin
-            nextOfKin={nextOfKin}
-            isUpdatePageEnabled
-            router={mockRouter}
-            demographicsStatus={demographicsStatus}
-          />
+          <NextOfKin isUpdatePageEnabled router={mockRouter} />
         </Provider>,
       );
 
@@ -215,11 +198,7 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <NextOfKin
-            nextOfKin={nextOfKin}
-            router={mockRouter}
-            demographicsStatus={demographicsStatus}
-          />
+          <NextOfKin router={mockRouter} />
         </Provider>,
       );
 
@@ -227,36 +206,6 @@ describe('check in', () => {
         component.getByText('Is this your current next of kin information?'),
       ).to.exist;
       component.getByTestId('yes-button').click();
-    });
-    it('skips to the next page when needs update is false', () => {
-      const push = sinon.spy();
-      const mockRouter = {
-        push,
-        params: {},
-      };
-
-      const { rerender } = render(
-        <Provider store={store}>
-          <NextOfKin
-            router={mockRouter}
-            nextOfKin={nextOfKin}
-            demographicsStatus={{ nextOfKinNeedsUpdate: false }}
-          />
-        </Provider>,
-      );
-      // this is testing something in the useEffect of the component and we need to
-      // rerender the component to gurauntee the useEffect runs
-      rerender(
-        <Provider store={store}>
-          <NextOfKin
-            router={mockRouter}
-            nextOfKin={nextOfKin}
-            demographicsStatus={{ nextOfKinNeedsUpdate: false }}
-          />
-        </Provider>,
-      );
-
-      expect(push.called).to.be.true;
     });
   });
 });
