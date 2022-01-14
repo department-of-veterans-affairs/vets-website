@@ -16,10 +16,12 @@ import { makeSelectVeteranData } from '../../../selectors';
 const Demographics = props => {
   const dispatch = useDispatch();
   const { router } = props;
-  const { goToNextPage, goToPreviousPage, currentPage } = useFormRouting(
-    router,
-    URLS,
-  );
+  const {
+    goToNextPage,
+    goToPreviousPage,
+    getCurrentPageFromRouter,
+  } = useFormRouting(router, URLS);
+  const currentPage = getCurrentPageFromRouter();
   useEffect(() => {
     focusElement('h1');
   }, []);

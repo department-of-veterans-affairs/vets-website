@@ -1,11 +1,6 @@
 import { expect } from 'chai';
 
-import {
-  INIT_FORM,
-  createInitFormAction,
-  GO_TO_NEXT_PAGE,
-  createGoToNextPageAction,
-} from './index';
+import { INIT_FORM, createInitFormAction } from './index';
 
 describe('check-in', () => {
   describe('actions', () => {
@@ -24,19 +19,6 @@ describe('check-in', () => {
           'first-page',
           'second-page',
         ]);
-        expect(action.payload.currentPage).to.equal('first-page');
-      });
-    });
-    describe('createGoToNextPageAction', () => {
-      it('should return correct action', () => {
-        const action = createGoToNextPageAction({});
-        expect(action.type).to.equal(GO_TO_NEXT_PAGE);
-      });
-      it('should return correct structure', () => {
-        const action = createGoToNextPageAction({
-          nextPage: 'next-page',
-        });
-        expect(action.payload.nextPage).equal('next-page');
       });
     });
   });
