@@ -130,8 +130,26 @@ export default function RenderErrorContainer({
         <>
           <h3>What you can do:</h3>
           <p>
-            Please try again, and this time, select “Accept” on the final page
-            of the Login.gov identity verification process.
+            You were unable to create an account at login.gov or failed to log
+            in to your account.
+          </p>
+          <p>
+            For problems with your login.gov account, please review{' '}
+            <a
+              href="https://www.login.gov/help/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Login.gov's Help Section
+            </a>
+            or contact them at{' '}
+            <a
+              href="https://www.login.gov/contact"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Login.gov/contact.
+            </a>
           </p>
           <button onClick={openLoginModal}>Try signing in again</button>
         </>
