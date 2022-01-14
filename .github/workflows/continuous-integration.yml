@@ -302,7 +302,7 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     outputs:
-      app_list: ${{ env.APPLICATION_LIST }}
+      app_list: ${{ steps.set-app-list.outputs.app_list }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -319,6 +319,10 @@ jobs:
       - name: Generate new application list
         run: yarn generate-app-list
       # exports app list and assigns to environmental variable at this step
+
+      - name: Set Output
+        id: set-app-list
+        run: echo '::set-output name=app_list::${{ env.APPLICATION_LIST }}'
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
