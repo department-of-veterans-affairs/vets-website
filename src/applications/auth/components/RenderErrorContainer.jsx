@@ -19,7 +19,7 @@ export default function RenderErrorContainer({
   }
 
   switch (code) {
-    // Authorization was denied by user
+    // User denied Authorization (ID Proofing)
     case AUTH_ERROR.USER_DENIED:
       alertContent = (
         <p>
@@ -46,7 +46,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    // User's clock is incorrect
+    // User's system time mismatch
     case AUTH_ERROR.USER_CLOCK_MISMATCH:
       alertContent = (
         <p>
@@ -66,7 +66,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    // Server error
+    // Server time mismatch
     case AUTH_ERROR.SERVER_CLOCK_MISMATCH:
       alertContent = (
         <p>
@@ -83,7 +83,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    // We're having trouble matching the user with MVI
+    // MVI Mismatch
     case AUTH_ERROR.MVI_MISMATCH:
       alertContent = (
         <p>
@@ -100,7 +100,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    // Session expired error
+    // Session expired
     case AUTH_ERROR.SESSION_EXPIRED:
       alertContent = (
         <p>
@@ -118,6 +118,7 @@ export default function RenderErrorContainer({
       );
       break;
 
+    // Failure to Proof (Login.gov)
     case AUTH_ERROR.LOGINGOV_PROOFING_FAIL:
       alertContent = (
         <p>
@@ -137,7 +138,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    // Multiple MHV ID error
+    // Multiple MHV IDs (IENs) error
     case AUTH_ERROR.MULTIPLE_MHVIDS:
       alertContent = (
         <p>
@@ -192,7 +193,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    // Multiple EDIPI error
+    // Multiple EDIPIs
     case AUTH_ERROR.MULTIPLE_EDIPIS:
       alertContent = (
         <p>
@@ -208,7 +209,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    // ICN mismatch error
+    // ICN Mismatch
     case AUTH_ERROR.ICN_MISMATCH:
       alertContent = (
         <p>
@@ -225,6 +226,7 @@ export default function RenderErrorContainer({
       );
       break;
 
+    // UUID Missing (Login.gov or ID.me)
     case AUTH_ERROR.UUID_MISSING:
       alertContent = (
         <p>
@@ -240,6 +242,7 @@ export default function RenderErrorContainer({
       );
       break;
 
+    // Multiple Corp IDs
     case AUTH_ERROR.MULTIPLE_CORPIDS:
       alertContent = (
         <p>
