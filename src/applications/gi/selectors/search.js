@@ -19,14 +19,14 @@ export const updateUrlParams = (
   const queryParams = {
     search: tab,
   };
+
   if (
     searchQuery.name !== '' &&
     searchQuery.name !== null &&
     searchQuery.name !== undefined
   ) {
-    if (environment.isProduction() || tab === 'name') {
+    if (environment.isProduction() || queryParams.name === 'name')
       queryParams.name = searchQuery.name;
-    }
   }
 
   if (
@@ -34,9 +34,8 @@ export const updateUrlParams = (
     searchQuery.location !== null &&
     searchQuery.location !== undefined
   ) {
-    if (environment.isProduction() || tab === 'location') {
+    if (environment.isProduction() || queryParams.name === 'location')
       queryParams.location = searchQuery.location;
-    }
   }
 
   if (version) {
