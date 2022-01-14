@@ -7,7 +7,7 @@ export const schema = {
   type: 'object',
   title,
   properties: {
-    phone: {
+    phoneNumber: {
       type: 'string',
       pattern: '^\\d{10}$',
     },
@@ -22,11 +22,11 @@ export const schema = {
       format: 'email',
     },
   },
-  required: ['phone', 'email'],
+  required: ['phoneNumber', 'email'],
 };
 
 export const uiSchema = {
-  phone: {
+  phoneNumber: {
     ...phoneUI(),
     'ui:title': 'Phone number',
   },
@@ -38,7 +38,8 @@ export const uiSchema = {
       {
         validator: (errors, fieldData, formData) => {
           if (
-            formData.email.toLowerCase() !== formData.confirmEmail.toLowerCase()
+            formData.email.toLowerCase() !==
+            formData['view:confirmEmail'].toLowerCase()
           ) {
             errors.addError(
               'This email does not match your previously entered email',

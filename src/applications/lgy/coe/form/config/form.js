@@ -77,13 +77,13 @@ const formConfig = {
     contactInformationChapter: {
       title: 'Your contact information',
       pages: {
-        applicantContactInformation: {
+        mailingAddress: {
           path: 'mailing-address',
           title: mailingAddress.title,
           uiSchema: mailingAddress.uiSchema,
           schema: mailingAddress.schema,
         },
-        applicantCommunicationPreferences: {
+        additionalInformation: {
           path: 'additional-contact-information',
           title: additionalInformation.title,
           uiSchema: additionalInformation.uiSchema,
