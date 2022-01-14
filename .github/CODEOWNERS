@@ -21,10 +21,10 @@ src/platform/user/authentication @department-of-veterans-affairs/vsp-identity
 src/platform/utilities/sso @department-of-veterans-affairs/vsp-identity
 src/platform/site-wide/user-nav/components/SearchHelpSignIn.jsx @department-of-veterans-affairs/vsp-identity
 
-# VSP Testing Tools
-src/platform/testing/contract/ @department-of-veterans-affairs/vsp-testing
-src/platform/testing/e2e/ @department-of-veterans-affairs/vsp-testing
-config/cypress.json @department-of-veterans-affairs/vsp-testing
+# VSP QA Standards
+src/platform/testing/contract/ @department-of-veterans-affairs/qa-standards
+src/platform/testing/e2e/ @department-of-veterans-affairs/qa-standards
+config/cypress.json @department-of-veterans-affairs/qa-standards
 
 # VSA ----
 

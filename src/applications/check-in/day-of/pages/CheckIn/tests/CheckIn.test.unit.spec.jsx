@@ -22,7 +22,6 @@ describe('check-in', () => {
           },
           form: {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'first-page',
           },
           appointments: [
             {
@@ -58,24 +57,7 @@ describe('check-in', () => {
         </Provider>,
       );
     });
-    it('shows the loading indicator', () => {
-      const mockRouter = {
-        params: {
-          token: 'token-123',
-        },
-      };
 
-      const { container } = render(
-        <Provider store={store}>
-          <CheckIn isLoading router={mockRouter} />
-        </Provider>,
-      );
-
-      expect(container.querySelector('va-loading-indicator')).to.have.attribute(
-        'message',
-        'Loading your appointments for today',
-      );
-    });
     it('refreshes appointments', () => {
       const mockRouter = {
         params: {

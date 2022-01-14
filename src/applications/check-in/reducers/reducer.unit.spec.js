@@ -15,7 +15,6 @@ describe('check in', () => {
           context: {},
           form: {
             pages: [],
-            currentPage: '',
             data: {},
           },
         });
