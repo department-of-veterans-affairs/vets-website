@@ -130,18 +130,18 @@ export default function RenderErrorContainer({
         <>
           <h3>What you can do:</h3>
           <p>
-            You were unable to create an account at login.gov or failed to log
-            in to your account.
+            You were unable to create an account at Login.gov or failed to sign
+            you into your account.
           </p>
           <p>
-            For problems with your login.gov account, please review{' '}
+            For problems with your Login.gov account, please review{' '}
             <a
               href="https://www.login.gov/help/"
               target="_blank"
               rel="noopener noreferrer"
             >
               Login.gov's Help Section
-            </a>
+            </a>{' '}
             or contact them at{' '}
             <a
               href="https://www.login.gov/contact"
@@ -151,6 +151,9 @@ export default function RenderErrorContainer({
               Login.gov/contact.
             </a>
           </p>
+          <Helpdesk>
+            If you’ve taken the steps above and still can’t sign in,
+          </Helpdesk>
           <button onClick={openLoginModal}>Try signing in again</button>
         </>
       );
