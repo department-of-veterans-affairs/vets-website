@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-collapsible-if */
 import _ from 'lodash';
 import { INITIAL_STATE } from '../reducers/search';
 import appendQuery from 'append-query';
@@ -23,19 +22,19 @@ export const updateUrlParams = (
   if (
     searchQuery.name !== '' &&
     searchQuery.name !== null &&
-    searchQuery.name !== undefined
+    searchQuery.name !== undefined &&
+    (environment.isProduction() || queryParams.name === 'name')
   ) {
-    if (environment.isProduction() || queryParams.name === 'name')
-      queryParams.name = searchQuery.name;
+    queryParams.name = searchQuery.name;
   }
 
   if (
     searchQuery.location !== '' &&
     searchQuery.location !== null &&
-    searchQuery.location !== undefined
+    searchQuery.location !== undefined &&
+    (environment.isProduction() || queryParams.name === 'location')
   ) {
-    if (environment.isProduction() || queryParams.name === 'location')
-      queryParams.location = searchQuery.location;
+    queryParams.location = searchQuery.location;
   }
 
   if (version) {
