@@ -7,10 +7,10 @@ const selectFeatureToggles = createSelector(
   state => ({
     isLoadingFeatureFlags: state?.featureToggles?.loading,
     isCovidVaccineTrialsIntakeEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.covidVaccineUpdatesForm
+      FEATURE_FLAG_NAMES.covidVolunteerIntakeEnabled
     ],
     isCovidVaccineTrialsUpdateEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.covidVaccineUpdatesForm
+      FEATURE_FLAG_NAMES.covidVolunteerUpdateEnabled
     ],
   }),
   toggles => toggles,
