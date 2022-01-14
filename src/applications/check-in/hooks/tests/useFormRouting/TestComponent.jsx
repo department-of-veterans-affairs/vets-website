@@ -14,13 +14,14 @@ export default function TestComponent({ router }) {
     VERIFY: 'verify',
   });
   const {
-    currentPage,
+    getCurrentPageFromRouter,
     goToPreviousPage,
     goToNextPage,
     goToErrorPage,
     jumpToPage,
     pages,
   } = useFormRouting(router, URLS);
+  const currentPage = getCurrentPageFromRouter();
   return (
     <div>
       <h1>Test component for the useFormRouting hook</h1>
