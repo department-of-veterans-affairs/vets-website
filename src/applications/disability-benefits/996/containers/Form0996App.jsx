@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
@@ -124,7 +122,7 @@ export const Form0996App = ({
     router.push('/start');
     content = (
       <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-        <LoadingIndicator message="Please wait while we restart the application for you." />
+        <va-loading-indicator message="Please wait while we restart the application for you." />
       </h1>
     );
   } else if (
@@ -134,8 +132,8 @@ export const Form0996App = ({
   ) {
     content = (
       <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-        <LoadingIndicator
-          setFocus
+        <va-loading-indicator
+          set-focus
           message="Loading your previous decisions..."
         />
       </h1>

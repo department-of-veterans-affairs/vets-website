@@ -300,6 +300,40 @@ export const deriveEndsAtUnix = (startsAtUnix, endDateMonth, endDateDay) => {
   return endsAt.unix();
 };
 
+export const deriveEventLocations = event => {
+  const locations = [];
+
+  // Escape early if there is no event.
+  if (!event) {
+    return locations;
+  }
+
+  if (event?.fieldLocationHumanreadable) {
+    locations.push(event?.fieldLocationHumanreadable);
+  }
+
+  if (event?.fieldAddress?.addressLine1) {
+    locations.push(event?.fieldAddress?.addressLine1);
+  }
+
+  if (event?.fieldAddress?.addressLine2) {
+    locations.push(event?.fieldAddress?.addressLine2);
+  }
+
+  if (
+    event?.fieldAddress?.locality &&
+    event?.fieldAddress?.administrativeArea
+  ) {
+    locations.push(
+      `${event?.fieldAddress?.locality}, ${
+        event?.fieldAddress?.administrativeArea
+      }`,
+    );
+  }
+
+  return locations;
+};
+
 export const hideLegacyEvents = () => {
   // Derive the legacy events page.
   const legacyEvents = document.querySelector('div[id="events-v1"]');

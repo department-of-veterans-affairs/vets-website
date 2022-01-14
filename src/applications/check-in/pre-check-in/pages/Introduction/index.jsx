@@ -16,7 +16,7 @@ import { URLS } from '../../../utils/navigation/pre-check-in';
 import { makeSelectCurrentContext } from '../../../selectors';
 
 const Introduction = props => {
-  const { router, isEmergencyContactEnabled } = props;
+  const { router } = props;
   const [isLoading, setIsLoading] = useState(true);
 
   const { goToErrorPage } = useFormRouting(router, URLS);
@@ -26,10 +26,10 @@ const Introduction = props => {
     payload => {
       batch(() => {
         dispatch(setVeteranData({ ...payload }));
-        dispatch(updateFormAction({ ...payload, isEmergencyContactEnabled }));
+        dispatch(updateFormAction({ ...payload }));
       });
     },
-    [dispatch, isEmergencyContactEnabled],
+    [dispatch],
   );
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);

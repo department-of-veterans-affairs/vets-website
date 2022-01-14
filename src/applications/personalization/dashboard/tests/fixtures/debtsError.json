@@ -1,0 +1,19 @@
+{
+  "errors": [
+    {
+      "title": "Debt Letters Failure",
+      "detail": {
+        "messages": [
+          {
+            "code": "",
+            "key": "",
+            "severity": "INFO",
+            "text": ""
+          }
+        ]
+      },
+      "code": "DEBTS_ERROR",
+      "status": "400"
+    }
+  ]
+}

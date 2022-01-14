@@ -1,11 +1,6 @@
 // In a real app this would be imported from `vets-json-schema`:
-import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
-
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-// import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
+// import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
+// import fullSchema from '../schema.js';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import manifest from '../manifest.json';
@@ -13,47 +8,13 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { directDepositWarning } from '../helpers';
-import toursOfDutyUI from '../definitions/toursOfDuty';
-
-const {
-  fullName,
-  ssn,
-  date,
-  dateRange,
-  usaPhone,
-  // bankAccount,
-  toursOfDuty,
-} = fullSchema.definitions;
-
-// Define all the fields in the form to aid reuse
-const formFields = {
-  fullName: 'fullName',
-  ssn: 'ssn',
-  toursOfDuty: 'toursOfDuty',
-  viewNoDirectDeposit: 'view:noDirectDeposit',
-  viewStopWarning: 'view:stopWarning',
-  // bankAccount: 'bankAccount',
-  accountType: 'accountType',
-  accountNumber: 'accountNumber',
-  routingNumber: 'routingNumber',
-  address: 'address',
-  email: 'email',
-  altEmail: 'altEmail',
-  phoneNumber: 'phoneNumber',
-};
-
-function hasDirectDeposit(formData) {
-  return formData[formFields.viewNoDirectDeposit] !== true;
-}
-
-// Define all the form pages to help ensure uniqueness across all form chapters
-const formPages = {
-  applicantInformation: 'applicantInformation',
-  serviceHistory: 'serviceHistory',
-  contactInformation: 'contactInformation',
-  directDeposit: 'directDeposit',
-};
+import {
+  contactInformation,
+  serviceFileInformation,
+  personalInformation,
+  currentLivingSituation,
+  previousApplications,
+} from '../chapters';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -79,133 +40,90 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for housing grant.',
   },
-  title: 'Complex Form',
-  defaultDefinitions: {
-    fullName,
-    ssn,
-    date,
-    dateRange,
-    usaPhone,
-  },
+  title:
+    'Apply for a Specially Adapted Housing Grant or Special Home Adaptation Grant',
+  defaultDefinitions: {},
   chapters: {
-    applicantInformationChapter: {
-      title: 'Applicant Information',
+    personalInformation: {
+      title: 'Your personal information',
       pages: {
-        [formPages.applicantInformation]: {
-          path: 'applicant-information',
-          title: 'Applicant Information',
-          uiSchema: {
-            [formFields.fullName]: fullNameUI,
-            [formFields.ssn]: ssnUI,
-          },
-          schema: {
-            type: 'object',
-            required: [formFields.fullName],
-            properties: {
-              [formFields.fullName]: fullName,
-              [formFields.ssn]: ssn,
-            },
-          },
+        personalInformation: {
+          path: 'personal-information',
+          ...personalInformation,
         },
       },
     },
-    serviceHistoryChapter: {
-      title: 'Service History',
+    serviceFileInformation: {
+      title: 'Your service file information',
       pages: {
-        [formPages.serviceHistory]: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: {
-            [formFields.toursOfDuty]: toursOfDutyUI,
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              [formFields.toursOfDuty]: toursOfDuty,
-            },
-          },
+        serviceFileInformation: {
+          path: 'service-file-information',
+          ...serviceFileInformation,
         },
       },
     },
-    additionalInformationChapter: {
-      title: 'Additional Information',
+    contactInformation: {
+      title: 'Your contact information',
       pages: {
-        [formPages.contactInformation]: {
-          path: 'contact-information',
-          title: 'Contact Information',
-          uiSchema: {
-            [formFields.address]: address.uiSchema('Mailing address'),
-            [formFields.email]: {
-              'ui:title': 'Primary email',
-            },
-            [formFields.altEmail]: {
-              'ui:title': 'Secondary email',
-            },
-            [formFields.phoneNumber]: phoneUI('Daytime phone'),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              [formFields.address]: address.schema(fullSchema, true),
-              [formFields.email]: {
-                type: 'string',
-                format: 'email',
-              },
-              [formFields.altEmail]: {
-                type: 'string',
-                format: 'email',
-              },
-              [formFields.phoneNumber]: usaPhone,
-            },
-          },
+        mailingAddress: {
+          path: 'mailing-address',
+          ...contactInformation.mailingAddress,
         },
-        [formPages.directDeposit]: {
-          path: 'direct-deposit',
-          title: 'Direct Deposit',
-          uiSchema: {
-            'ui:title': 'Direct deposit',
-            [formFields.viewNoDirectDeposit]: {
-              'ui:title': 'I don’t want to use direct deposit',
-            },
-            // [formFields.bankAccount]: merge(bankAccountUI, {
-            //   'ui:order': [
-            //     formFields.accountType,
-            //     formFields.accountNumber,
-            //     formFields.routingNumber,
-            //   ],
-            //   'ui:options': {
-            //     hideIf: formData => !hasDirectDeposit(formData),
-            //   },
-            //   [formFields.accountType]: {
-            //     'ui:required': hasDirectDeposit,
-            //   },
-            //   [formFields.accountNumber]: {
-            //     'ui:required': hasDirectDeposit,
-            //   },
-            //   [formFields.routingNumber]: {
-            //     'ui:required': hasDirectDeposit,
-            //   },
-            // }),
-            [formFields.viewStopWarning]: {
-              'ui:description': directDepositWarning,
-              'ui:options': {
-                hideIf: hasDirectDeposit,
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              [formFields.viewNoDirectDeposit]: {
-                type: 'boolean',
-              },
-              // [formFields.bankAccount]: bankAccount,
-              [formFields.viewStopWarning]: {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+        additionalInformation: {
+          path: 'additional-contact-information',
+          ...contactInformation.additionalInformation,
+        },
+      },
+    },
+    previousApplications: {
+      title: 'Your previous applications for specially adapted housing',
+      pages: {
+        appliedForSpeciallyAdaptedHousing: {
+          path: 'applied-for-specially-adapted-housing',
+          ...previousApplications.appliedForSpeciallyAdaptedHousing.default,
+        },
+        speciallyAdaptedHousingApplicationDate: {
+          path: 'specially-adapted-housing-application-date',
+          ...previousApplications.appliedForSpeciallyAdaptedHousing
+            .applicationDate,
+        },
+        speciallyAdaptedHousingApplicationAddress: {
+          path: 'specially-adapted-housing-application-address',
+          ...previousApplications.appliedForSpeciallyAdaptedHousing
+            .applicationAddress,
+        },
+        appliedForHomeImprovement: {
+          path: 'applied-for-home-improvement',
+          ...previousApplications.appliedForHomeImprovement.default,
+        },
+        homeImprovementApplicationDate: {
+          path: 'home-improvement-application-date',
+          ...previousApplications.appliedForHomeImprovement.applicationDate,
+        },
+        homeImprovementApplicationAddress: {
+          path: 'home-improvement-application-address',
+          ...previousApplications.appliedForHomeImprovement.applicationAddress,
+        },
+      },
+    },
+    currentLivingSituation: {
+      title: 'Your current living situation',
+      pages: {
+        confinement: {
+          path: 'confinement',
+          ...currentLivingSituation.confinement,
+        },
+        facilityInformation: {
+          path: 'facility-information',
+          ...currentLivingSituation.facilityInformation,
+        },
+        facilityAddress: {
+          path: 'facility-address',
+          ...currentLivingSituation.facilityAddress,
+        },
+        additionalComments: {
+          path: 'additional-comments',
+          ...currentLivingSituation.additionalComments,
         },
       },
     },

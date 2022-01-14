@@ -87,8 +87,8 @@ const disabilitiesList = (
       <DownloadLink content={'Download VA Form 20-0996'} />
     </p>
     <p className="vads-u-margin-top--2p5">
-      To learn more about how COVID-19 affect claims or appeals, please visit
-      our <a href={COVID_FAQ_URL}>Coronavirus FAQ page</a>.
+      To learn more about how COVID-19 may affect claims or appeals, please
+      visit our <a href={COVID_FAQ_URL}>coronavirus FAQ page</a>.
     </p>
     <p className="vads-u-padding-bottom--2p5">
       To learn more about decision review options, please visit our{' '}

@@ -45,13 +45,13 @@ describe('Pre Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('update demographics, next of kin path, and emergency contact', () => {
+    it('update demographics && emergency contact && next of kin', () => {
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
-      NextOfKin.validatePageLoaded();
-      NextOfKin.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();
+      NextOfKin.validatePageLoaded();
+      NextOfKin.attemptToGoToNextPage();
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });

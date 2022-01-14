@@ -7,6 +7,7 @@ import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
+import environment from 'platform/utilities/environment';
 
 import { disabilityActionTypes } from '../constants';
 
@@ -80,11 +81,17 @@ class SelectArrayItemsWidget extends React.Component {
       required,
       formContext,
       formData,
+      testUpdatedRatedDisabilities,
     } = this.props;
 
     const updatedDisabilities = formData[this.updatedKeyValue];
     // rated disabilities updated on the backend
-    if (Array.isArray(updatedDisabilities) && updatedDisabilities.length) {
+    if (
+      // allows for save-in-progress testing
+      (environment.isProduction() || testUpdatedRatedDisabilities) &&
+      Array.isArray(updatedDisabilities) &&
+      updatedDisabilities.length
+    ) {
       this.processRatedDisabilityUpdates(updatedDisabilities);
     }
 
@@ -260,6 +267,7 @@ SelectArrayItemsWidget.propTypes = {
   }),
   setData: PropTypes.func,
   autoSaveForm: PropTypes.func,
+  testUpdatedRatedDisabilities: PropTypes.bool,
 };
 
 SelectArrayItemsWidget.defaultProps = {
