@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import MarkdownRenderer from './markdownRenderer';
 // import GreetUser from './makeBotGreetUser';
 import environment from 'platform/utilities/environment';
@@ -27,13 +27,15 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
 
   const GreetUser = {
     makeBotGreetUser: (
+      // eslint-disable-next-line no-shadow
       csrfToken,
+      // eslint-disable-next-line no-shadow
       apiSession,
       apiURL,
       baseURL,
+      // eslint-disable-next-line no-shadow
       userFirstName,
     ) => ({ dispatch }) => next => action => {
-      console.log('action received :', action.type);
       if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
         dispatch({
           meta: {
@@ -72,18 +74,17 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   };
 
   // Timer printouts
-  useEffect(
-    () => {
-    console.log('-------30 seconds: ', timer - Date.now());
-      console.log('-------60 seconds: ', staticTime - Date.now());
-    },
-    [timer, staticTime],
-  );
+  // useEffect(
+  //   () => {
+  //   console.log('-------30 seconds: ', timer - Date.now());
+  //     console.log('-------60 seconds: ', staticTime - Date.now());
+  //   },
+  //   [timer, staticTime],
+  // );
 
   const updateBot = useCallback(
     () => {
       (function() {
-        console.log('in update');
         setBotStore(
           createStore(
             {},

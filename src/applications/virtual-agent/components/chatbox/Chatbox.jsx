@@ -92,7 +92,6 @@ const ConnectedSignInAlert = connect(
 )(SignInAlert);
 
 function App(props) {
-  console.log('app starting up')
   const { token, WebChatFramework, loadingStatus, apiSession } = useWebChat(
     props,
   );
