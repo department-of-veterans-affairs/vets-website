@@ -89,7 +89,7 @@ function updateGraph(graph, appName, importerFilePath, importeeFilePath) {
 
 function buildGraph() {
   const graph = {};
-  const files = ['src/applications/**/*.*'];
+  const files = ['src/applications/**/*.*', '!src/applications/*.*'];
   const imports = getImports(files);
 
   Object.keys(imports).forEach(importerFilePath => {
