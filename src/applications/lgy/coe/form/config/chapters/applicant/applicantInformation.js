@@ -1,5 +1,24 @@
+import React from 'react';
+
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+
 import fullNameUI from 'platform/forms/definitions/fullName';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+
+const description = () => (
+  <>
+    <p>
+      This is the personal information we have on file for you. If you notice
+      any errors, please correct them now. Any updates you make will change the
+      information on this request only.
+    </p>
+    <p>
+      <strong>Note:</strong> If you need to update your personal information
+      with VA, you can call us at <Telephone contact={'800-827-1000'} />. We’re
+      here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET
+    </p>
+  </>
+);
 
 export const schema = {
   type: 'object',
@@ -38,6 +57,7 @@ export const schema = {
 };
 
 export const uiSchema = {
+  'ui:description': description,
   fullName: fullNameUI,
   dateOfBirth: currentOrPastDateUI('Date of birth'),
 };

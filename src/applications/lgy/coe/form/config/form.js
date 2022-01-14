@@ -66,7 +66,7 @@ const formConfig = {
       title: 'Your Information',
       pages: {
         applicantInformationSummary: {
-          path: 'applicant-information-summary',
+          path: 'applicant-information',
           title: 'Your personal informaton on file',
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
