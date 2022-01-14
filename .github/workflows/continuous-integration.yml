@@ -342,6 +342,8 @@ jobs:
       - name: Upload app list to BigQuery
         run: yarn generate-app-list
         working-directory: testing-tools-team-dashboard-data
+        env:
+          APPLICATION_LIST: ${{ outputs.app_list }}
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
