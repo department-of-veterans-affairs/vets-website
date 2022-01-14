@@ -1,5 +1,5 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
-import mockUser from '../fixtures/mocks/mockUser';
+import mockUserSaved from '../fixtures/mocks/mockUserSaved';
 import mockXX123Get from '../fixtures/mocks/mockXX123Get';
 import mockXX123Put from '../fixtures/mocks/mockXX123Put';
 
@@ -18,7 +18,7 @@ describe('SIP Review Test', () => {
     });
     cy.intercept('GET', '/v0/in_progress_forms/XX-123', mockXX123Get);
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', mockXX123Put);
-    cy.login(mockUser);
+    cy.login(mockUserSaved);
 
     cy.visit(reviewUrl);
     cy.get('body').should('be.visible');
@@ -36,6 +36,8 @@ describe('SIP Review Test', () => {
         cy.fill('input[name="root_veteranFullName_first"]', 'Jane');
         cy.get('.saved-success-container');
       });
+
+    cy.injectAxeThenAxeCheck();
 
     cy.get('.schemaform-sip-save-link').click();
 
