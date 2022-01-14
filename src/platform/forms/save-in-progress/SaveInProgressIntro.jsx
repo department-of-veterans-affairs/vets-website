@@ -113,11 +113,7 @@ class SaveInProgressIntro extends React.Component {
 
         if (!isExpired) {
           const lastSavedDateTime =
-            savedAt &&
-            `and was last saved on ${format(
-              savedAt,
-              "MMMM d, yyyy', at' h:mm aaaa z",
-            )}`;
+            savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa z");
 
           const H = `h${this.props.headingLevel}`;
           includesFormControls = true;
@@ -125,7 +121,8 @@ class SaveInProgressIntro extends React.Component {
             <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
               <div className="schemaform-sip-alert-title">
                 <H className="usa-alert-heading vads-u-font-size--h3">
-                  {inProgressMessage} {lastSavedDateTime}
+                  {inProgressMessage} {savedAt && 'and was last saved on '}
+                  {lastSavedDateTime}
                 </H>
               </div>
               <div className="saved-form-metadata-container">
