@@ -109,8 +109,8 @@ Alert.NoHealthcare = () => (
     </p>
     <p>
       If you think this is incorrect, call our toll-free hotline at
-      <Telephone contact={'877-222-8387'} className="vads-u-margin-x--0p5" />,
-      Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      <Telephone contact={'877-222-8387'} className="vads-u-margin-left--0p5" />
+      , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </va-alert>
 );
@@ -162,7 +162,7 @@ Alert.Status = ({ copay }) => (
     </p>
     <p>
       <a className="vads-c-action-link--blue" href="#how-to-pay">
-        Learn how to pay your copay bill
+        Pay your copay bill
       </a>
     </p>
     <p>
@@ -176,8 +176,8 @@ Alert.Status = ({ copay }) => (
     <p>
       You may need to continue making payments while we review your request.
       Call us at
-      <Telephone contact={'866-400-1238'} className="vads-u-margin-x--0p5" />,
-      Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      <Telephone contact={'866-400-1238'} className="vads-u-margin-left--0p5" />
+      , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </va-alert>
 );

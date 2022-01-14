@@ -38,7 +38,12 @@ import informalConferenceTimes from '../pages/informalConferenceTimes';
 import informalConferenceTime from '../pages/informalConferenceTimeV2';
 
 import { errorMessages, WIZARD_STATUS } from '../constants';
-import { apiVersion1, apiVersion2, appStateSelector } from '../utils/helpers';
+import {
+  apiVersion1,
+  apiVersion2,
+  appStateSelector,
+  mayHaveLegacyAppeals,
+} from '../utils/helpers';
 import { getIssueTitle } from '../content/areaOfDisagreement';
 
 // import initialData from '../tests/schema/initialData';
@@ -198,7 +203,8 @@ const formConfig = {
           path: 'opt-in',
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
-          depends: apiVersion2,
+          depends: formData =>
+            apiVersion2(formData) && mayHaveLegacyAppeals(formData),
           initialData: {
             socOptIn: false,
           },

@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -11,10 +11,12 @@ import { focusElement } from 'platform/utilities/ui';
 import Footer from '../components/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import EmergencyContactDisplay from '../../components/pages/emergencyContact/EmergencyContactDisplay';
+import { makeSelectDemographicData } from '../hooks/selectors';
 
 const EmergencyContact = props => {
-  const { emergencyContact, isLoading, router, demographicsStatus } = props;
-  const { emergencyContactNeedsUpdate } = demographicsStatus;
+  const { router } = props;
+  const selectDemographicData = useMemo(makeSelectDemographicData, []);
+  const { emergencyContact } = useSelector(selectDemographicData);
   const {
     goToNextPage,
     jumpToPage,
@@ -56,19 +58,8 @@ const EmergencyContact = props => {
     },
     [updateSeeStaffMessage, jumpToPage],
   );
-  useEffect(
-    () => {
-      if (emergencyContactNeedsUpdate === false) {
-        goToNextPage();
-      }
-    },
-    [emergencyContactNeedsUpdate, goToNextPage],
-  );
-  if (isLoading) {
-    return (
-      <va-loading-indicator message="Loading your appointments for today" />
-    );
-  } else if (!emergencyContact) {
+
+  if (!emergencyContact) {
     goToErrorPage();
     return <></>;
   } else {
@@ -88,11 +79,8 @@ const EmergencyContact = props => {
 };
 
 EmergencyContact.propTypes = {
-  emergencyContact: PropTypes.object,
-  isLoading: PropTypes.bool,
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
-  demographicsStatus: PropTypes.object,
 };
 
 export default EmergencyContact;
