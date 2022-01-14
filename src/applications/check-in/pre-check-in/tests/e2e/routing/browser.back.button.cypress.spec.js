@@ -4,9 +4,9 @@ import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Introduction from '../pages/Introduction';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
+import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import Confirmation from '../pages/Confirmation';
-import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 
 describe('Pre-Check In Experience ', () => {
   let apiData = {};
@@ -32,19 +32,19 @@ describe('Pre-Check In Experience ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('Happy Path w/Emergency Contact', () => {
+  it('Browser back button still works with routing', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
     ValidateVeteran.validatePageLoaded();
     ValidateVeteran.validateVeteran();
     cy.injectAxeThenAxeCheck();
-
     ValidateVeteran.attemptToGoToNextPage();
 
     // page: Introduction
     Introduction.validatePageLoaded();
     Introduction.countAppointmentList(apiData.payload.appointments.length);
     cy.injectAxeThenAxeCheck();
+
     Introduction.attemptToGoToNextPage();
 
     // page: Demographics
@@ -60,10 +60,15 @@ describe('Pre-Check In Experience ', () => {
     // page: Next of Kin
     NextOfKin.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
-    NextOfKin.attemptToGoToNextPage();
 
-    // page: Confirmation
+    cy.go('back');
+    cy.go('back');
+    Demographics.validatePageLoaded();
+    Demographics.attemptToGoToNextPage();
+    EmergencyContact.validatePageLoaded();
+    EmergencyContact.attemptToGoToNextPage();
+    NextOfKin.validatePageLoaded();
+    NextOfKin.attemptToGoToNextPage();
     Confirmation.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
   });
 });

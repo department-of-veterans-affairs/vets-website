@@ -9,6 +9,8 @@ import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import NextOfKin from '../NextOfKin';
 
+import { createMockRouter } from '../../../tests/unit/mocks/router';
+
 describe('check in', () => {
   describe('Next of Kin', () => {
     let store;
@@ -19,7 +21,6 @@ describe('check in', () => {
         },
         form: {
           pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-          currentPage: 'first-page',
         },
         nextOfKin: {
           address: {
@@ -101,10 +102,10 @@ describe('check in', () => {
 
     it('goes to the error page when the next of kin data is unavailable', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
         params: {},
-      };
+      });
       const updatedStore = {
         checkInData: {
           context: {
@@ -127,12 +128,12 @@ describe('check in', () => {
 
     it('has a clickable no button', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
         params: {
           token: 'token-123',
         },
-      };
+      });
 
       const component = render(
         <Provider store={store}>
@@ -148,12 +149,12 @@ describe('check in', () => {
 
     it('has a clickable yes button', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
         params: {
           token: 'token-123',
         },
-      };
+      });
 
       const component = render(
         <Provider store={store}>
@@ -169,12 +170,12 @@ describe('check in', () => {
 
     it('has a clickable yes button with update page enabled', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
         params: {
           token: 'token-123',
         },
-      };
+      });
 
       const component = render(
         <Provider store={store}>
@@ -189,12 +190,12 @@ describe('check in', () => {
     });
     it('has a clickable yes button', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
         params: {
           token: 'token-123',
         },
-      };
+      });
 
       const component = render(
         <Provider store={store}>
