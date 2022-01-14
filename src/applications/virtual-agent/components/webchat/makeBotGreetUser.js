@@ -6,7 +6,6 @@ const GreetUser = {
     baseURL,
     userFirstName,
   ) => ({ dispatch }) => next => action => {
-    console.log('action received :', action.type)
     if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
       dispatch({
         meta: {

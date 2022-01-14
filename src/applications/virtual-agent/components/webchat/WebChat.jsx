@@ -73,15 +73,6 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     },
   };
 
-  // Timer printouts
-  // useEffect(
-  //   () => {
-  //   console.log('-------30 seconds: ', timer - Date.now());
-  //     console.log('-------60 seconds: ', staticTime - Date.now());
-  //   },
-  //   [timer, staticTime],
-  // );
-
   const updateBot = useCallback(
     () => {
       (function() {
@@ -98,8 +89,6 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
           ),
         );
 
-        // console.log('botStore in updateBot: ', botStore.getState())
-
         setBotDirectLine(
           createDirectLine({
             token,
@@ -113,15 +102,6 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   );
 
   useEffect(updateBot, [updateBot]);
-
-  useEffect(
-    () => {
-      if (botStore) {
-        console.log('botStore in UseEffect: ', botStore.getState());
-      }
-    },
-    [botStore],
-  );
 
   useTimeoutAt(updateBot, timer);
   useTimeoutAt(updateBot, staticTime);
