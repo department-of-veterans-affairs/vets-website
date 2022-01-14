@@ -320,10 +320,6 @@ jobs:
         run: yarn generate-app-list
       # exports app list and assigns to environmental variable at this step
 
-      - name: Set app output
-        run: |
-          echo "::set-output name=app_list::${{ env.APPLICATION_LIST }}"
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -513,7 +509,8 @@ jobs:
       # ----------------
       # | Notify Slack |
       # ----------------
-
+      - name: Log Needs
+        run: echo "${{ needs.testing-reports-prep }}"
       - name: Notify Slack about Contract test failures
         if: ${{ github.ref == 'refs/heads/master' && needs.contract-tests.result == 'failure' }}
         uses: ./.github/workflows/slack-notify
