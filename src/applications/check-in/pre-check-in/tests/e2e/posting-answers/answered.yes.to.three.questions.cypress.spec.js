@@ -59,15 +59,15 @@ describe('Pre-Check In Experience ', () => {
     cy.injectAxeThenAxeCheck();
     Demographics.attemptToGoToNextPage();
 
-    // page: Next of Kin
-    NextOfKin.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
-    NextOfKin.attemptToGoToNextPage();
-
     // page: Emergency Contact
     EmergencyContact.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
     EmergencyContact.attemptToGoToNextPage();
+
+    // page: Next of Kin
+    NextOfKin.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+    NextOfKin.attemptToGoToNextPage();
 
     // page: Confirmation
     Confirmation.validatePageLoaded();

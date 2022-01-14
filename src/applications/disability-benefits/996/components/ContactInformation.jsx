@@ -57,28 +57,25 @@ export const ContactInfoDescription = ({
   // loop to separate pages vs profile contact modals
   const contactSection = loopPages ? (
     <>
-      <h3>Mobile phone number</h3>
+      <h4 className="vads-u-font-size--h3">Mobile phone number</h4>
       <Telephone contact={phoneNumber} extension={phoneExt} notClickable />
       <p>
-        <Link to="/edit-mobile-phone">
+        <Link to="/edit-mobile-phone" aria-label="Edit mobile phone number">
           Edit
-          <span className="sr-only">mobile phone number</span>
         </Link>
       </p>
-      <h3>Email address</h3>
+      <h4 className="vads-u-font-size--h3">Email address</h4>
       <span>{email?.emailAddress || ''}</span>
       <p>
-        <Link to="/edit-email-address">
+        <Link to="/edit-email-address" aria-label="Edit email address">
           Edit
-          <span className="sr-only">email address</span>
         </Link>
       </p>
-      <h3>Mailing address</h3>
+      <h4 className="vads-u-font-size--h3">Mailing address</h4>
       <AddressView data={mailingAddress} />
       <p>
-        <Link to="/edit-mailing-address">
+        <Link to="/edit-mailing-address" aria-label="Edit mailing address">
           Edit
-          <span className="sr-only">mailing address</span>
         </Link>
       </p>
     </>

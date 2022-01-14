@@ -10,9 +10,8 @@ function loginHandler(loginType) {
   });
 }
 
-export default ({ csp, isDisabled }) => (
+export default ({ csp }) => (
   <button
-    disabled={isDisabled}
     type="button"
     aria-label={`Sign in with ${CSP_CONTENT[csp].COPY}`}
     className={`usa-button ${csp}-button vads-u-margin-y--1p5 vads-u-padding-y--2`}

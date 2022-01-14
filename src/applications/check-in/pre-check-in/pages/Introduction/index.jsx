@@ -1,21 +1,22 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, batch } from 'react-redux';
 import PropTypes from 'prop-types';
 import IntroductionDisplay from './IntroductionDisplay';
 
 import { api } from '../../../api';
 
-import { setVeteranData } from '../../actions';
+import {
+  setVeteranData,
+  updateFormAction,
+} from '../../../actions/pre-check-in';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { URLS } from '../../../utils/navigation/pre-check-in';
 
 import { makeSelectCurrentContext } from '../../../selectors';
 
-// @TODO Remove appointments once mock API merged in. Add cypress test for intro.
 const Introduction = props => {
   const { router } = props;
-
   const [isLoading, setIsLoading] = useState(true);
 
   const { goToErrorPage } = useFormRouting(router, URLS);
@@ -23,7 +24,10 @@ const Introduction = props => {
   const dispatch = useDispatch();
   const dispatchSetVeteranData = useCallback(
     payload => {
-      dispatch(setVeteranData({ ...payload }));
+      batch(() => {
+        dispatch(setVeteranData({ ...payload }));
+        dispatch(updateFormAction({ ...payload }));
+      });
     },
     [dispatch],
   );
@@ -57,7 +61,7 @@ const Introduction = props => {
   if (isLoading) {
     return <va-loading-indicator message="Loading your appointment details" />;
   } else {
-    return <IntroductionDisplay router={router} />;
+    return <IntroductionDisplay router={router} URLS={URLS} />;
   }
 };
 

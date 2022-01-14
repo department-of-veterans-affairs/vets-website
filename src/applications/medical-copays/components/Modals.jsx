@@ -7,7 +7,11 @@ const Modals = ({ children, title }) => {
 
   return (
     <div className="vads-u-margin-top--3 vads-u-margin-bottom--3">
-      <button className="va-button-link" onClick={() => setVisible(true)}>
+      <button
+        type="button"
+        className="usa-button-secondary"
+        onClick={() => setVisible(true)}
+      >
         {title}
       </button>
       <Modal

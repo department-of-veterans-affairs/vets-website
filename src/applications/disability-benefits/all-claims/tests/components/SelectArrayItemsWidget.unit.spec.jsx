@@ -149,6 +149,7 @@ describe('<SelectArrayItemsWidget>', () => {
           ratingPercentage: 20,
         },
       ],
+      testUpdatedRatedDisabilities: true,
       formData: {
         updatedRatedDisabilities: [{}],
       },
@@ -212,6 +213,7 @@ describe('<SelectArrayItemsWidget>', () => {
           'view:selected': true,
         },
       ],
+      testUpdatedRatedDisabilities: true,
       formData: {
         updatedRatedDisabilities: [
           {
@@ -294,6 +296,7 @@ describe('<SelectArrayItemsWidget>', () => {
     const setDataSpy = sinon.spy();
     const initialProps = {
       value: [],
+      testUpdatedRatedDisabilities: true,
       formData: {
         updatedRatedDisabilities: [
           {

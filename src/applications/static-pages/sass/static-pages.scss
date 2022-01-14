@@ -1,5 +1,11 @@
 $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
-@import "modules/m-drupal-sidebarnav";
+// ----- VA LAYOUTS (GRIDS/HEADER/FOOTER) ---- //
+@import "layouts/l-playbook";
+
+// ----- Modules that only affect non-React pages. ---- //
+@import "modules/m-card";
+@import "modules/m-piano-key";
+
 @import "modules/m-education-wizard";

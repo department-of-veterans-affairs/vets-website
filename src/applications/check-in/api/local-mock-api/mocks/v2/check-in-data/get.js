@@ -1,6 +1,15 @@
 const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
 
-const createMockSuccessResponse = (data, hasBeenValidated) => {
+const createMockSuccessResponse = (
+  data,
+  hasBeenValidated,
+  demographicsNeedsUpdate = false,
+  demographicsConfirmedAt = null,
+  nextOfKinNeedsUpdate = false,
+  nextOfKinConfirmedAt = null,
+  emergencyContactNeedsUpdate = false,
+  emergencyContactConfirmedAt = null,
+) => {
   const rv = {
     id: data.id || defaultUUID,
     payload: {
@@ -33,12 +42,12 @@ const createMockSuccessResponse = (data, hasBeenValidated) => {
         },
       ],
       patientDemographicsStatus: {
-        demographicsNeedsUpdate: true,
-        demographicsConfirmedAt: null,
-        nextOfKinNeedsUpdate: true,
-        nextOfKinConfirmedAt: null,
-        emergencyContactNeedsUpdate: true,
-        emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
+        demographicsNeedsUpdate,
+        demographicsConfirmedAt,
+        nextOfKinNeedsUpdate,
+        nextOfKinConfirmedAt,
+        emergencyContactNeedsUpdate,
+        emergencyContactConfirmedAt,
       },
     },
   };
@@ -87,9 +96,12 @@ const createAppointment = (
 const createMultipleAppointments = (
   token,
   numberOfCheckInAbledAppointments = 2,
-  demographicsNeedsUpdate = true,
-  nextOfKinNeedsUpdate = true,
-  emergencyContactNeedsUpdate = true,
+  demographicsNeedsUpdate = false,
+  demographicsConfirmedAt = null,
+  nextOfKinNeedsUpdate = false,
+  nextOfKinConfirmedAt = null,
+  emergencyContactNeedsUpdate = false,
+  emergencyContactConfirmedAt = null,
 ) => {
   const rv = {
     id: token || defaultUUID,
@@ -159,11 +171,11 @@ const createMultipleAppointments = (
       ],
       patientDemographicsStatus: {
         demographicsNeedsUpdate,
-        demographicsConfirmedAt: null,
+        demographicsConfirmedAt,
         nextOfKinNeedsUpdate,
-        nextOfKinConfirmedAt: null,
+        nextOfKinConfirmedAt,
         emergencyContactNeedsUpdate,
-        emergencyContactConfirmedAt: null,
+        emergencyContactConfirmedAt,
       },
     },
   };

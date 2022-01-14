@@ -4,7 +4,7 @@ import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import Appointments from '../pages/Appointments';
 import Confirmation from '../pages/Confirmation';
 
-describe('Check In Experience -- ', () => {
+describe('Check In Experience', () => {
   beforeEach(function() {
     const {
       initializeFeatureToggle,
@@ -12,9 +12,18 @@ describe('Check In Experience -- ', () => {
       initializeCheckInDataGet,
       initializeCheckInDataPost,
     } = ApiInitializer;
-    initializeFeatureToggle.withoutEmergencyContact();
+    initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulReturningSession();
-    initializeCheckInDataGet.withSuccess();
+    const now = Date.now();
+    const today = new Date(now);
+    initializeCheckInDataGet.withSuccess({
+      demographicsNeedsUpdate: false,
+      demographicsConfirmedAt: today.toISOString(),
+      nextOfKinNeedsUpdate: false,
+      nextOfKinConfirmedAt: today.toISOString(),
+      emergencyContactNeedsUpdate: false,
+      emergencyContactConfirmedAt: today.toISOString(),
+    });
     initializeCheckInDataPost.withSuccess();
   });
   afterEach(() => {

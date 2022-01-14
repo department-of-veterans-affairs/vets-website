@@ -4,12 +4,20 @@ import {
   SEARCH_STARTED,
 } from '../actions';
 import { FILTERS_EXCLUDED_FLIP } from '../selectors/filters';
+import environment from 'platform/utilities/environment';
 
 export const INITIAL_STATE = Object.freeze({
   expanded: false,
   search: false,
   schools: true,
-  excludedSchoolTypes: [],
+  excludedSchoolTypes: [
+    'PUBLIC',
+    'FOR PROFIT',
+    'PRIVATE',
+    'FOREIGN',
+    'FLIGHT',
+    'CORRESPONDENCE',
+  ],
   excludeCautionFlags: false,
   accredited: false,
   studentVeteran: false,
@@ -32,9 +40,21 @@ export default function(state = INITIAL_STATE, action) {
 
     case UPDATE_QUERY_PARAMS: {
       const queryParams = action.payload;
-      const onLoadState = {
-        excludedSchoolTypes: [],
-      };
+      let environmentBasedLoadState;
+      if (environment.isProduction())
+        environmentBasedLoadState = { excludedSchoolTypes: [] };
+      else
+        environmentBasedLoadState = {
+          excludedSchoolTypes: [
+            'PUBLIC',
+            'FOR PROFIT',
+            'PRIVATE',
+            'FOREIGN',
+            'FLIGHT',
+            'CORRESPONDENCE',
+          ],
+        };
+      const onLoadState = environmentBasedLoadState;
 
       Object.keys(INITIAL_STATE).forEach(key => {
         let value = queryParams[key];

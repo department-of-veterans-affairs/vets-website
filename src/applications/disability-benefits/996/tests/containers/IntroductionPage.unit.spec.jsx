@@ -186,7 +186,7 @@ describe('IntroductionPage', () => {
     };
 
     const tree = shallow(<IntroductionPage {...props} />);
-    const loading = tree.find('LoadingIndicator').first();
+    const loading = tree.find('va-loading-indicator').first();
     expect(loading.props().message).to.contain(
       'Loading your previous decisions',
     );

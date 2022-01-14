@@ -3,6 +3,9 @@
  * @param {Object} [location.query]
  * @param {string} [location.query.id]
  */
+
+import { updateFormPages } from '..';
+
 const getTokenFromLocation = location => location?.query?.id;
 
 const URLS = Object.freeze({
@@ -31,12 +34,12 @@ const PRE_CHECK_IN_FORM_PAGES = Object.freeze([
     order: 2,
   },
   {
-    url: URLS.NEXT_OF_KIN,
-    order: 3,
-  },
-  {
     url: URLS.EMERGENCY_CONTACT,
     order: 4,
+  },
+  {
+    url: URLS.NEXT_OF_KIN,
+    order: 3,
   },
   {
     url: URLS.CONFIRMATION,
@@ -44,23 +47,24 @@ const PRE_CHECK_IN_FORM_PAGES = Object.freeze([
   },
 ]);
 
-const createForm = ({
-  hasConfirmedDemographics = false,
-  isEmergencyContactEnabled = false,
-}) => {
-  let pages = PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
-  if (hasConfirmedDemographics) {
-    const skippedPages = [
-      URLS.DEMOGRAPHICS,
-      URLS.NEXT_OF_KIN,
-      URLS.EMERGENCY_CONTACT,
-    ];
-    pages = pages.filter(page => !skippedPages.includes(page));
-  }
-  if (!isEmergencyContactEnabled) {
-    pages = pages.filter(page => page !== URLS.EMERGENCY_CONTACT);
-  }
-  return pages;
+const getPagesInOrder = () =>
+  [...PRE_CHECK_IN_FORM_PAGES].sort((a, b) => a.order - b.order);
+
+const createForm = () => {
+  return getPagesInOrder().map(page => page.url);
 };
 
-export { URLS, PRE_CHECK_IN_FORM_PAGES, createForm, getTokenFromLocation };
+const updateForm = patientDemographicsStatus => {
+  const pages = PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
+
+  return updateFormPages(patientDemographicsStatus, false, pages, URLS);
+};
+
+export {
+  URLS,
+  PRE_CHECK_IN_FORM_PAGES,
+  createForm,
+  getPagesInOrder,
+  getTokenFromLocation,
+  updateForm,
+};

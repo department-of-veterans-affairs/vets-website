@@ -44,20 +44,21 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
 
       Demographics.attemptToGoToNextPage();
-      NextOfKin.validatePageLoaded(
-        'Is this your current next of kin information?',
-      );
-      cy.injectAxeThenAxeCheck();
-
-      NextOfKin.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
 
       EmergencyContact.attemptToGoToNextPage();
+
+      NextOfKin.validatePageLoaded(
+        'Is this your current next of kin information?',
+      );
+      cy.injectAxeThenAxeCheck();
+      NextOfKin.attemptToGoToNextPage();
+
       UpdateInformation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
-
       UpdateInformation.attemptToGoToNextPage('no');
+
       Appointments.validatePageLoaded();
       Appointments.validateAppointmentLength(3);
       cy.injectAxeThenAxeCheck();
