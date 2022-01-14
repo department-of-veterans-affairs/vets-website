@@ -12,6 +12,8 @@ const getTokenFromLocation = location => location?.query?.id;
  * @param {Object} [params.url]
  */
 
+import { updateFormPages } from '..';
+
 const URLS = Object.freeze({
   COMPLETE: 'complete',
   EMERGENCY_CONTACT: 'emergency-contact',
@@ -23,6 +25,7 @@ const URLS = Object.freeze({
   SEE_STAFF: 'see-staff',
   UPDATE_INSURANCE: 'update-information',
   VALIDATION_NEEDED: 'verify',
+  LOADING: 'loading-appointments',
 });
 
 const CHECK_IN_FORM_PAGES = Object.freeze([
@@ -31,51 +34,56 @@ const CHECK_IN_FORM_PAGES = Object.freeze([
     order: 0,
   },
   {
-    url: URLS.DEMOGRAPHICS,
+    url: URLS.LOADING,
     order: 1,
   },
   {
-    url: URLS.EMERGENCY_CONTACT,
+    url: URLS.DEMOGRAPHICS,
     order: 2,
   },
   {
-    url: URLS.NEXT_OF_KIN,
+    url: URLS.EMERGENCY_CONTACT,
     order: 3,
   },
   {
-    url: URLS.UPDATE_INSURANCE,
+    url: URLS.NEXT_OF_KIN,
     order: 4,
   },
   {
-    url: URLS.DETAILS,
+    url: URLS.UPDATE_INSURANCE,
     order: 5,
   },
   {
-    url: URLS.COMPLETE,
+    url: URLS.DETAILS,
     order: 6,
+  },
+  {
+    url: URLS.COMPLETE,
+    order: 7,
   },
 ]);
 
-const createForm = ({
-  hasConfirmedDemographics = false,
-  isUpdatePageEnabled = false,
-}) => {
-  let pages = [...CHECK_IN_FORM_PAGES]
-    .sort((a, b) => a.order - b.order)
-    .map(page => page.url);
-  if (hasConfirmedDemographics) {
-    const skippedPages = [
-      URLS.DEMOGRAPHICS,
-      URLS.NEXT_OF_KIN,
-      URLS.EMERGENCY_CONTACT,
-    ];
-    pages = pages.filter(page => !skippedPages.includes(page));
-  }
+const createForm = () => {
+  return CHECK_IN_FORM_PAGES.map(page => page.url);
+};
+const updateForm = (
+  patientDemographicsStatus,
+  checkInExperienceUpdateInformationPageEnabled,
+) => {
+  const pages = CHECK_IN_FORM_PAGES.map(page => page.url);
 
-  if (!isUpdatePageEnabled) {
-    pages = pages.filter(page => page !== URLS.UPDATE_INSURANCE);
-  }
-  return pages;
+  return updateFormPages(
+    patientDemographicsStatus,
+    checkInExperienceUpdateInformationPageEnabled,
+    pages,
+    URLS,
+  );
 };
 
-export { URLS, CHECK_IN_FORM_PAGES, createForm, getTokenFromLocation };
+export {
+  URLS,
+  CHECK_IN_FORM_PAGES,
+  createForm,
+  getTokenFromLocation,
+  updateForm,
+};

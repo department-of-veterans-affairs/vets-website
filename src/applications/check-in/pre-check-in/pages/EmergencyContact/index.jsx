@@ -28,12 +28,11 @@ const EmergencyContact = props => {
   const dispatch = useDispatch();
 
   const {
-    currentPage,
-
+    getCurrentPageFromRouter,
     goToNextPage,
     goToPreviousPage,
   } = useFormRouting(router, URLS);
-
+  const currentPage = getCurrentPageFromRouter();
   useEffect(() => {
     focusElement('h1');
   }, []);

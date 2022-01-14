@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -11,16 +11,12 @@ import { focusElement } from 'platform/utilities/ui';
 import Footer from '../components/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
+import { makeSelectDemographicData } from '../hooks/selectors';
 
 const NextOfKin = props => {
-  const {
-    nextOfKin,
-    isLoading,
-    router,
-    demographicsStatus,
-    isUpdatePageEnabled,
-  } = props;
-  const { nextOfKinNeedsUpdate } = demographicsStatus;
+  const { router } = props;
+  const selectDemographicData = useMemo(makeSelectDemographicData, []);
+  const { nextOfKin } = useSelector(selectDemographicData);
   const { jumpToPage, goToNextPage, goToPreviousPage } = useFormRouting(
     router,
     URLS,
@@ -61,19 +57,8 @@ const NextOfKin = props => {
     },
     [updateSeeStaffMessage, jumpToPage],
   );
-  useEffect(
-    () => {
-      if (nextOfKinNeedsUpdate === false) {
-        goToNextPage();
-      }
-    },
-    [nextOfKinNeedsUpdate, goToNextPage, isUpdatePageEnabled, jumpToPage],
-  );
-  if (isLoading) {
-    return (
-      <va-loading-indicator message="Loading your appointments for today" />
-    );
-  } else if (!nextOfKin) {
+
+  if (!nextOfKin) {
     goToNextPage(router, URLS.ERROR);
     return <></>;
   } else {
@@ -93,11 +78,7 @@ const NextOfKin = props => {
 };
 
 NextOfKin.propTypes = {
-  nextOfKin: PropTypes.object,
-  isLoading: PropTypes.bool,
-  isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
-  demographicsStatus: PropTypes.object,
 };
 
 export default NextOfKin;

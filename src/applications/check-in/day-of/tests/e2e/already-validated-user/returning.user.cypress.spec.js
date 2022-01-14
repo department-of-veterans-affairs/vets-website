@@ -14,7 +14,16 @@ describe('Check In Experience', () => {
     } = ApiInitializer;
     initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulReturningSession();
-    initializeCheckInDataGet.withSuccess();
+    const now = Date.now();
+    const today = new Date(now);
+    initializeCheckInDataGet.withSuccess({
+      demographicsNeedsUpdate: false,
+      demographicsConfirmedAt: today.toISOString(),
+      nextOfKinNeedsUpdate: false,
+      nextOfKinConfirmedAt: today.toISOString(),
+      emergencyContactNeedsUpdate: false,
+      emergencyContactConfirmedAt: today.toISOString(),
+    });
     initializeCheckInDataPost.withSuccess();
   });
   afterEach(() => {
