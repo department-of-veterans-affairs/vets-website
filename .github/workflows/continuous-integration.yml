@@ -510,7 +510,7 @@ jobs:
       # | Notify Slack |
       # ----------------
       - name: Log Needs
-        run: echo "${{ needs.testing-reports-prep }}"
+        run: echo "${{ needs.testing-reports-prep.outputs }}"
       - name: Notify Slack about Contract test failures
         if: ${{ github.ref == 'refs/heads/master' && needs.contract-tests.result == 'failure' }}
         uses: ./.github/workflows/slack-notify
