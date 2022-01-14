@@ -8,6 +8,14 @@
   margin-bottom: 6em;
 }
 
+button.dismissible-close {
+  float: right;
+  &:hover {
+    color: $color-link-default;
+    background-color: transparent;
+  }
+}
+
 .profile-section {
   margin-top: 1.5em;
   margin-bottom: 1.5em;

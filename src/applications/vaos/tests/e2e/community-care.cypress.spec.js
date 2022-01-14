@@ -69,67 +69,30 @@ describe('VAOS community care flow', () => {
     // Click continue button
     cy.get('.usa-button').click();
 
+    // What's the closest city to you step
+    cy.url().should(
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/choose-closest-city',
+    );
+    cy.axeCheckBestPractice();
+    cy.get('#root_communityCareSystemId_0').click();
+    cy.get('#root_communityCareSystemId_0').should('be.checked');
+    // Click continue button
+    cy.get('.usa-button').click();
+
     // Tell us your community care preferences step
     cy.url().should(
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/community-care-preferences',
     );
     cy.axeCheckBestPractice();
-    // Select city
-    cy.get('#root_communityCareSystemId_0').click();
-    cy.get('#root_communityCareSystemId_0').should('be.checked');
-    // Select preferred language
-    cy.get('#root_preferredLanguage').select('english');
-    cy.get('#root_preferredLanguage').should('have.value', 'english');
-    // Select preferred care provider
-    cy.get('#root_hasCommunityCareProviderYes').click();
-    cy.get('#root_hasCommunityCareProviderYes').should('be.checked');
-    // Set care provider information values
-    cy.get('#root_communityCareProvider_practiceName').type('practice name');
-    cy.get('#root_communityCareProvider_practiceName').should(
-      'have.value',
-      'practice name',
-    );
-    cy.get('#root_communityCareProvider_firstName').type('firstname');
-    cy.get('#root_communityCareProvider_firstName').should(
-      'have.value',
-      'firstname',
-    );
-    cy.get('#root_communityCareProvider_lastName').type('lastname');
-    cy.get('#root_communityCareProvider_lastName').should(
-      'have.value',
-      'lastname',
-    );
-    cy.get('#root_communityCareProvider_address_street').type('address1');
-    cy.get('#root_communityCareProvider_address_street').should(
-      'have.value',
-      'address1',
-    );
-    cy.get('#root_communityCareProvider_address_street2').type('address2');
-    cy.get('#root_communityCareProvider_address_street2').should(
-      'have.value',
-      'address2',
-    );
-    cy.get('#root_communityCareProvider_address_city').type('city');
-    cy.get('#root_communityCareProvider_address_city').should(
-      'have.value',
-      'city',
-    );
-    cy.get('#root_communityCareProvider_address_state').select('Illinois');
-    cy.get('#root_communityCareProvider_address_state').should(
-      'have.value',
-      'IL',
-    );
-    cy.get('#root_communityCareProvider_address_postalCode').type('60613');
-    cy.get('#root_communityCareProvider_address_postalCode').should(
-      'have.value',
-      '60613',
-    );
-    cy.get('#root_communityCareProvider_phone').type('1234567890');
-    cy.get('#root_communityCareProvider_phone').should(
-      'have.value',
-      '1234567890',
-    );
+    cy.get('[aria-describedby=providerSelectionDescription]').click();
+    // Choose a provider
+    cy.get('#root_communityCareProvider_1').click();
+    cy.get('#root_communityCareProvider_1').should('be.checked');
+    cy.get('.form-radio-buttons > button').click();
+    // Verify selected provider
+    cy.get('#providerPostSelectionHeader').contains(/Selected provider/i);
     // Click continue button
     cy.get('.usa-button').click();
 
@@ -211,18 +174,12 @@ describe('VAOS community care flow', () => {
       expect(Cypress._.values(request.preferredProviders)).to.deep.eq([
         {
           address: {
-            city: 'city',
-            state: 'IL',
-            street: 'address1, address2',
-            zipCode: '60613',
+            city: 'WASHINGTON',
+            state: 'DC',
+            street: '1012 14TH ST NW STE 700',
+            zipCode: '20005-3477',
           },
-          firstName: 'firstname',
-          lastName: 'lastname',
-          practiceName: 'practice name',
-          providerCity: 'city',
-          providerState: 'IL',
-          providerStreet: 'address1, address2',
-          providerZipCode1: '60613',
+          practiceName: 'Doe, Jane',
         },
       ]);
       expect(request).to.have.property(
@@ -257,7 +214,6 @@ describe('VAOS community care flow', () => {
 
   it('should submit form with provider chosen from list and submit request', () => {
     initCommunityCareMock();
-    mockFeatureToggles({ featureCCIteration: true });
     cy.visit(
       'health-care/schedule-view-va-appointments/appointments/new-appointment/',
     );
@@ -474,7 +430,6 @@ describe('VAOS community care flow using VAOS service', () => {
     mockFeatureToggles({
       v2Requests: true,
       v2Facilities: true,
-      featureCCIteration: true,
     });
     cy.login(mockUser);
     cy.route({

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { api } from '../../../api';
 
-import { createSetSession } from '../../actions';
+import { createSetSession } from '../../../actions/pre-check-in';
 
 import BackToHome from '../../components/BackToHome';
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
@@ -67,7 +67,7 @@ export default function Index({ router }) {
     <>
       <ValidateDisplay
         header="Start pre-check-in"
-        subTitle="We need to verify your identity so you can start pre-check-in."
+        subtitle="We need to verify your identity so you can start pre-check-in."
         validateHandler={validateHandler}
         isLoading={isLoading}
         last4Input={{

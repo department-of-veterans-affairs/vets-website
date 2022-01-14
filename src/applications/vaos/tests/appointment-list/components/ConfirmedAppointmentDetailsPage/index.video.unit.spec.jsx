@@ -57,7 +57,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       MockDate.reset();
     });
     it('should show info and disabled link if ad hoc and more than 30 minutes in the future', async () => {
+      // Given a video appointment
       const appointment = getVideoAppointmentMock();
+      // And the appointment is more than 30 minutes in the future
       const startDate = moment.utc().add(3, 'days');
       appointment.attributes = {
         ...appointment.attributes,
@@ -101,11 +103,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const facility = createMockCheyenneFacilityByVersion({ version: 0 });
       mockFacilitiesFetchByVersion({ facilities: [facility] });
       mockFacilityFetchByVersion({ facility, version: 0 });
-
+      // When the appointment list page is displayed
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
       });
-
+      // And the user select the appointment to display the appointment details page
       fireEvent.click(await screen.findByText(/Details/));
 
       await screen.findByText(/Cheyenne VA medical center/i);
@@ -121,11 +123,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       expect(screen.getByRole('link', { name: /VA online scheduling/ })).to.be
         .ok;
-
+      // Then the appointment details will display
       expect(screen.baseElement).to.contain.text('VA Video Connect at home');
 
       expect(screen.baseElement).to.contain.text(
-        'You can join this meeting from your home or anywhere you have a secure Internet connnection.',
+        'You can join this meeting from your home or anywhere you have a secure Internet connection.',
       );
       expect(screen.baseElement).to.contain.text(
         'You can join VA Video Connect up to 30 minutes prior to the start time.',
@@ -151,8 +153,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       ).to.be.ok;
       expect(screen.getByText(/Print/)).to.be.ok;
       expect(screen.baseElement).to.not.contain.text('Reschedule');
-
-      expect(screen.baseElement).to.contain.text('Prepare for video visit');
+      expect(screen.baseElement).to.contain.text('video experience');
 
       expect(screen.baseElement).to.contain.text(
         'Contact this facility if you need to reschedule or cancel your appointment',
@@ -161,7 +162,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     });
 
     it('should show active link if 30 minutes in the future', async () => {
+      // Given a video appointment
       const appointment = getVideoAppointmentMock();
+      // And the appointment is 30 minutes or less into the future
       const startDate = moment.utc().add(30, 'minutes');
       appointment.attributes = {
         ...appointment.attributes,
@@ -212,11 +215,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         cc: [],
         requests: [],
       });
-
+      // When appointment list page is displayed
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
       });
-
+      // And user clicks on the appointment to view its details
       fireEvent.click(await screen.findByText(/Details/));
 
       await screen.findByText(/Cheyenne VA medical center/i);
@@ -232,7 +235,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       expect(screen.queryByText(/You don’t have any appointments/i)).not.to
         .exist;
-
+      // Then the join appointment link is clickable
       expect(screen.getByText(/join appointment/i)).to.have.attribute(
         'aria-disabled',
         'false',
@@ -1498,6 +1501,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       });
     });
     it('should reveal video visit instructions', async () => {
+      // Given a video appointment
       const startDate = moment.utc().add(30, 'minutes');
       const appointment = getVideoAppointmentMock();
       appointment.attributes = {
@@ -1543,11 +1547,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         cc: [],
         requests: [],
       });
-
+      // When the appointment list page is displayed
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
       });
-
+      // And the user click details to view appointment detail page
       fireEvent.click(await screen.findByText(/Details/));
 
       await screen.findByText(/Cheyenne VA medical center/i);
@@ -1563,13 +1567,14 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       expect(screen.queryByText(/You don’t have any appointments/i)).not.to
         .exist;
-      expect(screen.queryByText(/before your appointment/i)).to.not.exist;
-
-      fireEvent.click(await screen.findByText(/Prepare for video visit/i));
-
-      expect(await screen.findByText('Before your appointment:')).to.be.ok;
+      // Then the video instructions will be display
+      expect(
+        await screen.findByText(/To have the best possible video experience/),
+      ).to.be.ok;
     });
+
     it('should reveal medication review instructions', async () => {
+      // Given a video appointment
       const startDate = moment.utc().add(30, 'minutes');
       const appointment = getVideoAppointmentMock();
       appointment.attributes = {
@@ -1578,6 +1583,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         clinicId: null,
         startDate: startDate.format(),
       };
+      // And has a medical review attribute
       appointment.attributes.vvsAppointments[0] = {
         ...appointment.attributes.vvsAppointments[0],
         dateTime: startDate.format(),
@@ -1591,11 +1597,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         cc: [],
         requests: [],
       });
-
+      // When the appointment list is displayed
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
       });
-
+      // And the user click details to view appointment detail page
       fireEvent.click(await screen.findByText(/Details/));
 
       await screen.findByText(/Cheyenne VA medical center/i);
@@ -1611,10 +1617,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       expect(screen.queryByText(/You don’t have any appointments/i)).not.to
         .exist;
-      expect(screen.queryByText(/before your appointment/i)).to.not.exist;
-
-      fireEvent.click(screen.getByText(/Prepare for video visit/i));
-
+      // Then the review medication instructions will display
       expect(
         await screen.findByText(
           /your provider will want to review all the medications/,

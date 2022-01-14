@@ -155,7 +155,7 @@ export function transformFormToVAOSAppointment(state) {
     clinic: getClinicId(clinic),
     slot,
     extension: {
-      desiredDate: data.preferredDate,
+      desiredDate: `${data.preferredDate}T00:00:00+00:00`,
     },
     locationId: data.vaFacility,
     serviceType: typeOfCare.idV2,

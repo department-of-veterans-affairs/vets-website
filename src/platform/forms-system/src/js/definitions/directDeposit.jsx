@@ -56,6 +56,7 @@ const uiSchema = ({ affectedBenefits, unaffectedBenefits, optionalFields }) => {
         itemNameAction: 'Update',
         startInEdit: data => !data?.['view:hasPrefilledBank'],
         volatileData: true,
+        ariaLabel: 'Save direct deposit information',
       },
       'ui:order': [
         'view:paymentText',

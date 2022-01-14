@@ -18,6 +18,17 @@ export const AUTH_EVENTS = {
   ERROR_FORCE_NEEDED: 'login-failed-force-needed',
 };
 
+export const SERVICE_PROVIDERS = {
+  logingov: { label: 'Login.gov', link: 'https://secure.login.gov/account' },
+  idme: { label: 'ID.me', link: 'https://wallet.id.me/settings' },
+  dslogon: {
+    label: 'DS Logon',
+    link: 'https://myaccess.dmdc.osd.mil/identitymanagement',
+  },
+  mhv: { label: 'My HealtheVet', link: 'https://www.myhealth.va.gov' },
+  myhealthevet: { label: 'My HealtheVet', link: 'https://www.myhealth.va.gov' },
+};
+
 export const CSP_IDS = {
   MHV: 'mhv',
   MHV_VERBOSE: 'myhealthevet',

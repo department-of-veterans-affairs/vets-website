@@ -9,7 +9,7 @@ import { ELIGIBILITY, areEqual } from '../../../utils/appointment/eligibility';
 import recordEvent from 'platform/monitoring/record-event';
 import format from 'date-fns/format';
 
-import { appointmentWAsCheckedInto } from '../../actions';
+import { appointmentWasCheckedInto } from '../../../actions/day-of';
 
 const AppointmentAction = props => {
   const { appointment, router, token } = props;
@@ -18,7 +18,7 @@ const AppointmentAction = props => {
   const dispatch = useDispatch();
   const setSelectedAppointment = useCallback(
     appt => {
-      dispatch(appointmentWAsCheckedInto(appt));
+      dispatch(appointmentWasCheckedInto(appt));
     },
     [dispatch],
   );
@@ -94,7 +94,7 @@ const AppointmentAction = props => {
     ) {
       return (
         <p data-testid="too-late-message">
-          Your appointment started more than 10 minutes ago. We can’t check you
+          Your appointment started more than 5 minutes ago. We can’t check you
           in online. Ask a staff member for help.
         </p>
       );

@@ -89,7 +89,7 @@ export default class DateWidget extends React.Component {
     }
 
     return (
-      <div className="usa-date-of-birth usa-datefields row">
+      <div className="usa-date-of-birth usa-datefields">
         <div className="form-datefield-month">
           <label className="input-date-label" htmlFor={`${id}Month`}>
             Month

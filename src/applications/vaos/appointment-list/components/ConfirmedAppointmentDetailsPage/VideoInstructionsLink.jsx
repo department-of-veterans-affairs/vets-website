@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import React from 'react';
 import { VideoVisitInstructions } from './VideoVisitInstructions';
 
 import { isVideoHome } from '../../../services/appointment';
 
 export default function VideoInstructionsLink({ appointment }) {
-  const [showMoreOpen, setShowMoreOpen] = useState(false);
-
   const { isAtlas } = appointment.videoData;
   const isHome = isVideoHome(appointment);
   const showVideoInstructions =
@@ -19,12 +16,9 @@ export default function VideoInstructionsLink({ appointment }) {
 
   return (
     <div className="vads-u-margin-top--2">
-      <AdditionalInfo
-        onClick={() => setShowMoreOpen(!showMoreOpen)}
-        triggerText="Prepare for video visit"
-      >
+      <va-additional-info trigger="Prepare for video visit">
         <VideoVisitInstructions instructionsType={appointment.comment} />
-      </AdditionalInfo>
+      </va-additional-info>
     </div>
   );
 }
