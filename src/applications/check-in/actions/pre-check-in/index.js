@@ -30,12 +30,12 @@ export const setVeteranData = ({ appointments, demographics }) => {
   };
 };
 
-export const UPDATE_FORM = 'UPDATE_FORM';
+export const UPDATE_PRE_CHECK_IN_FORM = 'UPDATE_PRE_CHECK_IN_FORM';
 
 export const updateFormAction = ({ patientDemographicsStatus }) => {
   const pages = updateForm(patientDemographicsStatus);
   return {
-    type: UPDATE_FORM,
+    type: UPDATE_PRE_CHECK_IN_FORM,
     payload: {
       pages,
     },
