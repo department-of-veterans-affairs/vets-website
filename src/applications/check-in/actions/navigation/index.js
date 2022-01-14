@@ -8,12 +8,3 @@ export const createInitFormAction = ({ pages }) => {
     },
   };
 };
-
-export const GO_TO_NEXT_PAGE = 'GO_TO_NEXT_PAGE';
-
-export const createGoToNextPageAction = ({ nextPage }) => {
-  return {
-    type: GO_TO_NEXT_PAGE,
-    payload: { nextPage },
-  };
-};

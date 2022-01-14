@@ -8,14 +8,6 @@ const initFormHandler = (state, action) => {
   };
 };
 
-// TODO: no longer needed?
-const gotToNextPageHandler = state => {
-  return {
-    ...state,
-    form: { ...state.form },
-  };
-};
-
 const updateFormHandler = (state, action) => {
   return {
     ...state,
@@ -26,4 +18,4 @@ const updateFormHandler = (state, action) => {
   };
 };
 
-export { initFormHandler, gotToNextPageHandler, updateFormHandler };
+export { initFormHandler, updateFormHandler };
