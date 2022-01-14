@@ -1,7 +1,7 @@
 import moment from 'moment';
 /* eslint-disable camelcase */
 
-const mock1010Getv2 = {
+const mockXX123Get = {
   formData: {
     veteranFullName: {
       first: 'Micky',
@@ -20,4 +20,4 @@ const mock1010Getv2 = {
   },
 };
 
-export default mock1010Getv2;
+export default mockXX123Get;

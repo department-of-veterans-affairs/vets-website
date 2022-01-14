@@ -1,7 +1,7 @@
 import moment from 'moment';
 /* eslint-disable camelcase */
 
-const mock1010Putv2 = {
+const mockXX123Put = {
   data: {
     attributes: {
       metadata: {
@@ -17,4 +17,4 @@ const mock1010Putv2 = {
   },
 };
 
-export default mock1010Putv2;
+export default mockXX123Put;
