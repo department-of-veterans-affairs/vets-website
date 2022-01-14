@@ -5,10 +5,11 @@ import { createMockRouter } from './index';
 describe('Pre check in', () => {
   describe('unit test utils', () => {
     describe('createMockRouter', () => {
-      it('returns an object with push as a function and location as an object', () => {
+      it('returns an object with push as a function, location and params as an object', () => {
         const result = createMockRouter();
         expect(result.push).to.be.a('function');
         expect(result.location).to.be.an('object');
+        expect(result.params).to.be.an('object');
       });
       it('should return custom push function that was passed in', () => {
         const push = () => {};
