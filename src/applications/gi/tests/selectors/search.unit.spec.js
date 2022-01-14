@@ -50,10 +50,10 @@ describe('updateUrlParams', () => {
     spy(history, 'push');
 
     const query = { ...defaultState.search.query, location: 'nowhere, ka' };
-    updateUrlParams(history, TABS.name, query, defaultState.filters);
+    updateUrlParams(history, TABS.location, query, defaultState.filters);
     expect(history.push.calledOnce).to.be.true;
     expect(history.push.getCall(0).args[0]).to.equal(
-      '/?search=name&location=nowhere%2C%20ka',
+      '/?search=location&location=nowhere%2C%20ka',
     );
   });
 
@@ -65,10 +65,10 @@ describe('updateUrlParams', () => {
       ...defaultState.search.query,
       location: 'nowhere, ka',
     };
-    updateUrlParams(history, TABS.name, query, defaultState.filters, 1);
+    updateUrlParams(history, TABS.location, query, defaultState.filters, 1);
     expect(history.push.calledOnce).to.be.true;
     expect(history.push.getCall(0).args[0]).to.equal(
-      '/?search=name&location=nowhere%2C%20ka&version=1',
+      '/?search=location&location=nowhere%2C%20ka&version=1',
     );
   });
 
