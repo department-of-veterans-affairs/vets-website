@@ -67,9 +67,7 @@ describe('VAOS data transformation', () => {
         },
         flowType: FLOW_TYPES.REQUEST,
       },
-      featureToggles: {
-        vaOnlineSchedulingCCIterations: true,
-      },
+      featureToggles: {},
     };
     const data = transformFormToVARequest(state);
     expect(data).to.deep.equal({
@@ -161,9 +159,7 @@ describe('VAOS data transformation', () => {
         },
         flowType: FLOW_TYPES.REQUEST,
       },
-      featureToggles: {
-        vaOnlineSchedulingCCIterations: true,
-      },
+      featureToggles: {},
     };
     const data = transformFormToVARequest(state);
     expect(data).to.deep.equal({
@@ -225,10 +221,9 @@ describe('VAOS data transformation', () => {
           communityCareProvider: {
             firstName: 'asdf',
             lastName: 'asdf',
-            practiceName: 'Practice',
+            name: 'Practice',
             address: {
-              street: '456 elm st',
-              street2: 'sfasdf',
+              line: ['456 elm st', 'sfasdf'],
               state: 'MA',
               city: 'northampton',
               postalCode: '01050',
@@ -269,9 +264,7 @@ describe('VAOS data transformation', () => {
         pastAppointments: null,
         submitStatus: 'succeeded',
       },
-      featureToggles: {
-        vaOnlineSchedulingCCIterations: false,
-      },
+      featureToggles: {},
     };
     const data = transformFormToCCRequest(state);
     expect(data).to.deep.equal({
@@ -296,12 +289,6 @@ describe('VAOS data transformation', () => {
             zipCode: '01050',
           },
           practiceName: 'Practice',
-          firstName: 'asdf',
-          lastName: 'asdf',
-          providerStreet: '456 elm st, sfasdf',
-          providerCity: 'northampton',
-          providerState: 'MA',
-          providerZipCode1: '01050',
         },
       ],
       newMessage: 'asdf',
@@ -351,10 +338,9 @@ describe('VAOS data transformation', () => {
           communityCareProvider: {
             firstName: 'asdf',
             lastName: 'asdf',
-            practiceName: 'Practice',
+            name: 'Practice',
             address: {
-              street: '456 elm st',
-              street2: 'sfasdf',
+              line: ['456 elm st', 'sfasdf'],
               state: 'MA',
               city: 'northampton',
               postalCode: '01050',
@@ -396,9 +382,7 @@ describe('VAOS data transformation', () => {
         pastAppointments: null,
         submitStatus: 'succeeded',
       },
-      featureToggles: {
-        vaOnlineSchedulingCCIterations: false,
-      },
+      featureToggles: {},
     };
     const data = transformFormToCCRequest(state);
     expect(data).to.deep.equal({
@@ -423,12 +407,6 @@ describe('VAOS data transformation', () => {
             zipCode: '01050',
           },
           practiceName: 'Practice',
-          firstName: 'asdf',
-          lastName: 'asdf',
-          providerStreet: '456 elm st, sfasdf',
-          providerCity: 'northampton',
-          providerState: 'MA',
-          providerZipCode1: '01050',
         },
       ],
       newMessage: 'asdf',
@@ -537,9 +515,7 @@ describe('VAOS data transformation', () => {
           ],
         },
       },
-      featureToggles: {
-        vaOnlineSchedulingCCIterations: true,
-      },
+      featureToggles: {},
     };
     const data = transformFormToAppointment(state);
     expect(data).to.deep.equal({
@@ -624,9 +600,7 @@ describe('VAOS data transformation', () => {
         },
         flowType: FLOW_TYPES.REQUEST,
       },
-      featureToggles: {
-        vaOnlineSchedulingCCIterations: true,
-      },
+      featureToggles: {},
     };
     const data = transformFormToVARequest(state);
     expect(data).to.deep.equal({
@@ -737,9 +711,7 @@ describe('VAOS data transformation', () => {
         pastAppointments: null,
         submitStatus: 'succeeded',
       },
-      featureToggles: {
-        vaOnlineSchedulingCCIterations: true,
-      },
+      featureToggles: {},
     };
     const data = transformFormToCCRequest(state);
     expect(data).to.deep.equal({
@@ -857,9 +829,7 @@ describe('VAOS data transformation', () => {
         pastAppointments: null,
         submitStatus: 'succeeded',
       },
-      featureToggles: {
-        vaOnlineSchedulingCCIterations: true,
-      },
+      featureToggles: {},
     };
     const data = transformFormToCCRequest(state);
     expect(data).to.deep.equal({

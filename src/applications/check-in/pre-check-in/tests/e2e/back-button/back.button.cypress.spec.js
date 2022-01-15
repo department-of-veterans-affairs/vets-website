@@ -3,6 +3,7 @@ import '../../../../tests/e2e/commands';
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Introduction from '../pages/Introduction';
+import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 
@@ -30,13 +31,12 @@ describe('Pre-Check In Experience ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('Emergency Contact Enabled', () => {
+  it('Happy Path w/Emergency Contact', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
     ValidateVeteran.validatePageLoaded();
     ValidateVeteran.validateVeteran();
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
 
     ValidateVeteran.attemptToGoToNextPage();
 
@@ -52,6 +52,14 @@ describe('Pre-Check In Experience ', () => {
     Demographics.attemptToGoToNextPage();
 
     // page: Emergency Contact
+    EmergencyContact.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+    EmergencyContact.attemptToGoToNextPage();
+
+    // page: Next of Kin
+    NextOfKin.validatePageLoaded();
+    cy.get('[data-testid="back-button"]').click();
+
     EmergencyContact.validatePageLoaded();
   });
 });

@@ -9,7 +9,7 @@ import { recordAnswer } from '../../../actions/pre-check-in';
 
 import { api } from '../../../api/';
 
-import BackButton from '../../components/BackButton';
+import BackButton from '../../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
 import NextOfKinDisplay from '../../../components/pages/nextOfKin/NextOfKinDisplay';
@@ -42,12 +42,12 @@ const NextOfKin = props => {
   const dispatch = useDispatch();
 
   const {
-    currentPage,
+    getCurrentPageFromRouter,
     goToErrorPage,
     goToNextPage,
     goToPreviousPage,
   } = useFormRouting(router, URLS);
-
+  const currentPage = getCurrentPageFromRouter();
   useEffect(() => {
     focusElement('h1');
   }, []);

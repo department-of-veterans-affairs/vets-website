@@ -4,6 +4,7 @@ import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Introduction from '../pages/Introduction';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
+import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import Confirmation from '../pages/Confirmation';
 
@@ -17,33 +18,26 @@ describe('Pre-Check In Experience ', () => {
       initializePreCheckInDataGet,
       initializePreCheckInDataPost,
     } = ApiInitializer;
-    initializeFeatureToggle.withoutEmergencyContact();
+    initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
 
     initializeSessionPost.withSuccess();
 
     apiData = initializePreCheckInDataGet.withSuccess();
 
-    initializePreCheckInDataPost.withSuccess(req => {
-      expect(req.body.preCheckIn.uuid).to.equal(
-        '0429dda5-4165-46be-9ed1-1e652a8dfd83',
-      );
-      expect(req.body.preCheckIn.demographicsUpToDate).to.equal(false);
-      expect(req.body.preCheckIn.nextOfKinUpToDate).to.equal(false);
-    });
+    initializePreCheckInDataPost.withSuccess();
   });
   afterEach(() => {
     cy.window().then(window => {
       window.sessionStorage.clear();
     });
   });
-  it('Answered no to both questions', () => {
+  it('Browser back button still works with routing', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
     ValidateVeteran.validatePageLoaded();
     ValidateVeteran.validateVeteran();
     cy.injectAxeThenAxeCheck();
-
     ValidateVeteran.attemptToGoToNextPage();
 
     // page: Introduction
@@ -56,17 +50,25 @@ describe('Pre-Check In Experience ', () => {
     // page: Demographics
     Demographics.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
+    Demographics.attemptToGoToNextPage();
 
-    Demographics.attemptToGoToNextPage('no');
+    // page: Emergency Contact
+    EmergencyContact.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
+    EmergencyContact.attemptToGoToNextPage();
 
     // page: Next of Kin
     NextOfKin.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
 
-    NextOfKin.attemptToGoToNextPage('no');
-
-    // page: Confirmation
+    cy.go('back');
+    cy.go('back');
+    Demographics.validatePageLoaded();
+    Demographics.attemptToGoToNextPage();
+    EmergencyContact.validatePageLoaded();
+    EmergencyContact.attemptToGoToNextPage();
+    NextOfKin.validatePageLoaded();
+    NextOfKin.attemptToGoToNextPage();
     Confirmation.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
   });
 });

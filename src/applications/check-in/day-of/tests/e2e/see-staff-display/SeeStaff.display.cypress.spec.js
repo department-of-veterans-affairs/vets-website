@@ -50,6 +50,8 @@ describe('Check In Experience', () => {
       Demographics.attemptToGoToNextPage('no');
       SeeStaff.validatePageLoaded();
       SeeStaff.validateBackButton();
+      SeeStaff.selectBackButton();
+      Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });
     it('see staff display with next of kin message', () => {

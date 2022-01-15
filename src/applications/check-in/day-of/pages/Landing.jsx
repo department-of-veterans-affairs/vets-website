@@ -16,12 +16,7 @@ import { createAnalyticsSlug } from '../../utils/analytics';
 import { isUUID, SCOPES } from '../../utils/token-format-validator';
 
 const Landing = props => {
-  const {
-    isUpdatePageEnabled,
-    location,
-    router,
-    isEmergencyContactEnabled,
-  } = props;
+  const { isUpdatePageEnabled, location, router } = props;
   const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
 
   const [loadMessage] = useState('Finding your appointment information');
@@ -82,17 +77,13 @@ const Landing = props => {
             } else {
               // if session with read.full exists, go to check in page
               setCurrentToken(window, token);
-              const pages = createForm({
-                hasConfirmedDemographics: false,
-                isEmergencyContactEnabled,
-                isUpdatePageEnabled,
-              });
+              const pages = createForm();
               const firstPage = pages[0];
 
               initForm(pages, firstPage);
               if (session.permissions === SCOPES.READ_FULL) {
                 setAuthenticatedSession(token);
-                jumpToPage(URLS.DETAILS);
+                jumpToPage(URLS.LOADING);
               } else {
                 setToken(token);
                 jumpToPage(URLS.VALIDATION_NEEDED);
@@ -116,7 +107,6 @@ const Landing = props => {
       jumpToPage,
       goToErrorPage,
       initForm,
-      isEmergencyContactEnabled,
     ],
   );
   return (
@@ -130,7 +120,6 @@ Landing.propTypes = {
   isUpdatePageEnabled: PropTypes.bool,
   location: PropTypes.object,
   router: PropTypes.object,
-  isEmergencyContactEnabled: PropTypes.bool,
 };
 
 export default Landing;

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -58,8 +57,8 @@ export class IntroductionPage extends React.Component {
         contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT)
     ) {
       return (
-        <LoadingIndicator
-          setFocus
+        <va-loading-indicator
+          set-focus
           message="Loading your previous decisions..."
         />
       );

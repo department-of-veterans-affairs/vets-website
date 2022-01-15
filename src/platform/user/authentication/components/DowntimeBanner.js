@@ -1,8 +1,10 @@
+import React from 'react';
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
+import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 
-const downtimeBanners = [
+export const downtimeBannersConfig = [
   {
-    dependencies: [EXTERNAL_SERVICES.idme],
+    dependencies: [EXTERNAL_SERVICES.idme, EXTERNAL_SERVICES.ssoe],
     headline: 'Our sign in process isn’t working right now',
     status: 'error',
     message:
@@ -38,4 +40,23 @@ const downtimeBanners = [
   },
 ];
 
-export default downtimeBanners;
+export const DowntimeBanner = ({ dependencies, headline, status, message }) => (
+  <ExternalServicesError dependencies={dependencies}>
+    <div className="downtime-notification row">
+      <div className="columns small-12">
+        <div className="form-warning-banner">
+          <va-alert visible status={status}>
+            <h2 slot="headline">{headline}</h2>
+            {message}
+          </va-alert>
+          <br />
+        </div>
+      </div>
+    </div>
+  </ExternalServicesError>
+);
+
+export default () =>
+  downtimeBannersConfig.map((props, i) => (
+    <DowntimeBanner {...props} key={`downtime-banner-${i}`} />
+  ));
