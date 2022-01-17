@@ -103,9 +103,16 @@ describe('SIP Finish Later', () => {
     }).as('401Form');
     cy.get('.schemaform-sip-save-link').click();
 
-    cy.get('.usa-alert-error').should(
-      'contain',
-      'Sorry, you’re no longer signed in',
+    cy.url().should('contain', 'first-page');
+    cy.get('input[name="root_veteranFullName_first"]').should(
+      'have.attr',
+      'value',
+      'Micky',
+    );
+    cy.get('input[name="root_veteranFullName_last"]').should(
+      'have.attr',
+      'value',
+      'Mouse',
     );
   });
 });
