@@ -511,8 +511,7 @@ jobs:
       # ----------------
 
       - name: Notify Slack about Contract test failures
-        # if: ${{ github.ref == 'refs/heads/master' && needs.contract-tests.result == 'failure' }}
-        if: ${{ always() }}
+        if: ${{ github.ref == 'refs/heads/master' && needs.contract-tests.result == 'failure' }}
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         env:
@@ -968,9 +967,8 @@ jobs:
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-latest
-    if: ${{ always() }}
-    # if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
-    # needs: deploy
+    if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
+    needs: deploy
     env:
       DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
 
