@@ -4,6 +4,7 @@ import * as Sentry from '@sentry/browser';
 // Relative imports.
 import './analytics';
 import 'platform/polyfills';
+import './sass/static-pages.scss';
 import alertsBuildShow from './widget-creators/alerts-dismiss-view';
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import icsCreate from './widget-creators/ics-generator';
