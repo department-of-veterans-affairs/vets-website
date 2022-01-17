@@ -21,7 +21,6 @@ describe('check-in', () => {
         checkInData: {
           form: {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'first-page',
           },
         },
       };

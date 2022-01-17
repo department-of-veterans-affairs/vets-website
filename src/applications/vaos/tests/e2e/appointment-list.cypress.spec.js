@@ -49,7 +49,7 @@ describe('VAOS appointment list', () => {
       cy.axeCheckBestPractice();
     });
 
-    it.skip('va phone appointment', () => {
+    it('va phone appointment', () => {
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/Phone call/i)

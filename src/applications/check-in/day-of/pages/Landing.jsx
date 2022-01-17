@@ -77,17 +77,13 @@ const Landing = props => {
             } else {
               // if session with read.full exists, go to check in page
               setCurrentToken(window, token);
-              const pages = createForm({
-                hasConfirmedDemographics: false,
-
-                isUpdatePageEnabled,
-              });
+              const pages = createForm();
               const firstPage = pages[0];
 
               initForm(pages, firstPage);
               if (session.permissions === SCOPES.READ_FULL) {
                 setAuthenticatedSession(token);
-                jumpToPage(URLS.DETAILS);
+                jumpToPage(URLS.LOADING);
               } else {
                 setToken(token);
                 jumpToPage(URLS.VALIDATION_NEEDED);

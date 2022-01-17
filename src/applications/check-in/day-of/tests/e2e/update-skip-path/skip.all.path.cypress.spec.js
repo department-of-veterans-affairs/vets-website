@@ -7,6 +7,8 @@ import Appointments from '../pages/Appointments';
 describe('Check In Experience', () => {
   describe('update skip path', () => {
     beforeEach(function() {
+      const now = Date.now();
+      const today = new Date(now);
       const {
         initializeFeatureToggle,
         initializeSessionGet,
@@ -20,8 +22,11 @@ describe('Check In Experience', () => {
       initializeCheckInDataGet.withSuccess({
         numberOfCheckInAbledAppointments: 1,
         demographicsNeedsUpdate: false,
+        demographicsConfirmedAt: today.toISOString(),
         nextOfKinNeedsUpdate: false,
+        nextOfKinConfirmedAt: today.toISOString(),
         emergencyContactNeedsUpdate: false,
+        emergencyContactConfirmedAt: today.toISOString(),
       });
       initializeCheckInDataPost.withSuccess();
 

@@ -20,7 +20,6 @@ describe('check-in', () => {
           context: {},
           form: {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'first-page',
           },
         },
       };
