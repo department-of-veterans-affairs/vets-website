@@ -487,7 +487,6 @@ describe('check in', () => {
           const state = appReducer.checkInData(undefined, action);
           expect(state).haveOwnProperty('form');
           expect(state.form).haveOwnProperty('pages');
-          expect(state.form).haveOwnProperty('currentPage');
           expect(state.form.pages).to.deep.equal([
             'verify',
             'loading-appointments',

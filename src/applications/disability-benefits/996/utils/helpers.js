@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { SELECTED } from '../constants';
+import { SELECTED, LEGACY_TYPE } from '../constants';
 import { isValidDate } from '../validations/issues';
 
 /**
@@ -26,7 +26,7 @@ export const isVersion1Data = formData => !!formData?.zipCode5;
 /**
  * @typedef ContestableIssues
  * @type {Array<Object>}
- * @property {ContestableIssueItem}
+ * @property {ContestableIssueItem|LegacyAppealsItem}
  */
 /**
  * @typedef ContestableIssueItem
@@ -63,7 +63,8 @@ export const isVersion1Data = formData => !!formData?.zipCode5;
  * - remove issues more than one year past their decision date
  * - remove issues that are deferred
  * @prop {ContestableIssues} - Array of both eligible & ineligible contestable
- *  issues
+ *  issues, plus legacy issues
+ * @return {ContestableIssues} - filtered list
  */
 export const getEligibleContestableIssues = issues => {
   const today = moment().startOf('day');
@@ -84,6 +85,54 @@ export const getEligibleContestableIssues = issues => {
     return date.add(1, 'years').isAfter(today);
   });
 };
+
+/**
+ * @typedef LegacyAppealsItem
+ * @type {Object}
+ * @property {String} type - always set to "legacyAppeals"
+ * @property {LegacyAppealsAttributes} attributes - essential properties
+ * @property {Boolean} 'view:selected' - internal boolean indicating that the
+ *   issue has been selected by the user
+ */
+/**
+ * @typedef LegacyAppealsAttributes
+ * @type {Object}
+ * @property {String} decisionDate - decision date (ISO)
+ * @property {String} latestSocSsocDate - SOC/SSOC date (ISO)
+ * @property {String} veteranFullName - First & Last name
+ * @property {LegacyAppealsIssue} issues - list of legacy issues
+ */
+/**
+ * @typedef LegacyAppealsIssue
+ * @param {String} summary - issue summary
+ */
+/** Find legacy appeal array included with contestable issues & return length
+ * Note: we are using the length of this array instead of trying to do a 1:1
+ * coorelation of contestable issues to legacy issues since we're only getting a
+ * summary and not a matching name or date (at least in the mock data).
+ * @prop {ContestableIssues} issues - Array of both eligible & ineligible
+ *  contestable issues, plus legacy issues
+ * @return {Number} - length of legacy array
+ */
+export const getLegacyAppealsLength = issues =>
+  (issues || []).reduce((count, issue) => {
+    if (issue.type === LEGACY_TYPE) {
+      // add just-in-case there is more than one legacy type entry
+      return count + (issue.attributes?.issues?.length || 0);
+    }
+    return count;
+  }, 0);
+
+/**
+ * Are there any legacy appeals in the API, or did the Veteran manually add an
+ * issue of unknown legacy status?
+ * @param {Number} legacyCount - legacy appeal array size
+ * @returns {Boolean}
+ */
+export const mayHaveLegacyAppeals = ({
+  legacyCount = 0,
+  additionalIssues,
+} = {}) => legacyCount > 0 || additionalIssues?.length > 0;
 
 /**
  * Get issue name/title from either a manually added issue or issue loaded from
