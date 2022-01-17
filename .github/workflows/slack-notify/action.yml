@@ -32,8 +32,8 @@ runs:
         env_variable_name: SLACK_BOT_TOKEN
 
     - name: Notify Slack
-      uses: slackapi/slack-github-action@v1.16.0
-      envx:
+      uses: slackapi/slack-github-action@v1.17.0
+      env:
         SLACK_BOT_TOKEN: ${{ env.SLACK_BOT_TOKEN }}
       with:
         payload: ${{ inputs.attachments }}
