@@ -1,5 +1,5 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
-import mockUserSaved from '../fixtures/mocks/mockUserSaved';
+import mockUser from '../fixtures/mocks/mockUser';
 import mockXX123Get from '../fixtures/mocks/mockXX123Get';
 import mockXX123Put from '../fixtures/mocks/mockXX123Put';
 
@@ -17,7 +17,7 @@ describe('SIP Load Fail Test', () => {
     });
     cy.intercept('GET', '/v0/in_progress_forms/XX-123', mockXX123Get);
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', mockXX123Put);
-    cy.login(mockUserSaved);
+    cy.login(mockUser);
 
     cy.visit('/mock-sip-form');
     cy.get('body').should('be.visible');

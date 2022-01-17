@@ -1,6 +1,6 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 import moment from 'moment';
-import mockUserNew from '../fixtures/mocks/mockUserNew';
+import mockUser from '../fixtures/mocks/mockUser';
 import mockXX123Get from '../fixtures/mocks/mockXX123Get';
 import mockXX123Put from '../fixtures/mocks/mockXX123Put';
 
@@ -18,7 +18,7 @@ describe('SIP Autosave Test', () => {
     });
     cy.intercept('GET', '/v0/in_progress_forms/XX-123', mockXX123Get);
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', mockXX123Put);
-    cy.login(mockUserNew);
+    cy.login(mockUser);
 
     cy.visit('/mock-sip-form');
     cy.get('body').should('be.visible');
@@ -35,6 +35,11 @@ describe('SIP Autosave Test', () => {
     cy.url().should('contain', '/first-page');
 
     cy.get('.schemaform-sip-save-link').should('be.visible');
+    cy.get('input[name="root_email"]').should(
+      'have.attr',
+      'value',
+      'test@test.com',
+    );
     cy.fill('input[name="root_veteranFullName_first"]', 'Larry');
     cy.get('.saved-success-container').should('be.visible');
     cy.get('.main .usa-button-primary').click();

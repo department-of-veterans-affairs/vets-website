@@ -1,5 +1,5 @@
 import moment from 'moment';
-import mockUserNew from '../fixtures/mocks/mockUserNew';
+import mockUser from '../fixtures/mocks/mockUser';
 import mockXX123Get from '../fixtures/mocks/mockXX123Get';
 import mockXX123Put from '../fixtures/mocks/mockXX123Put';
 import Timeouts from 'platform/testing/e2e/timeouts';
@@ -19,7 +19,7 @@ describe('SIP Finish Later', () => {
     });
     cy.intercept('GET', '/v0/in_progress_forms/XX-123', mockXX123Get);
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', mockXX123Put);
-    cy.login(mockUserNew);
+    cy.login(mockUser);
 
     cy.visit('/mock-sip-form');
     cy.get('body').should('be.visible');
@@ -37,6 +37,11 @@ describe('SIP Finish Later', () => {
     cy.url().should('contain', '/first-page');
 
     cy.get('.schemaform-sip-save-link');
+    cy.get('input[name="root_email"]').should(
+      'have.attr',
+      'value',
+      'test@test.com',
+    );
 
     // save and finish a form later
     cy.fill('input[name="root_veteranFullName_first"]', 'Larry');
@@ -97,6 +102,8 @@ describe('SIP Finish Later', () => {
     cy.url().should('contain', '/first-page');
 
     // test 401 error when saving
+    cy.fill('input[name="root_veteranFullName_first"]', 'Micky');
+    cy.fill('input[name="root_veteranFullName_last"]', 'Mouse');
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
       body: {},
       statusCode: 401,

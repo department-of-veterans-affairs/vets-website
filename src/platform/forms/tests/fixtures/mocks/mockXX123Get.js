@@ -3,10 +3,6 @@ import moment from 'moment';
 
 const mockXX123Get = {
   formData: {
-    veteranFullName: {
-      first: 'Micky',
-      last: 'Mouse',
-    },
     email: 'test@test.com',
   },
   metadata: {
