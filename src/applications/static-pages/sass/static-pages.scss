@@ -1,9 +1,1 @@
-$formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-
-// ----- VA LAYOUTS (GRIDS/HEADER/FOOTER) ---- //
-@import "layouts/l-playbook";
-
-// ----- Modules that only affect non-React pages. ---- //
-@import "modules/m-card";
-@import "modules/m-piano-key";
+/* File to be removed in later PR */
