@@ -511,13 +511,14 @@ jobs:
       # ----------------
 
       - name: Notify Slack about Contract test failures
-        if: ${{ github.ref == 'refs/heads/master' && needs.contract-tests.result == 'failure' }}
+        # if: ${{ github.ref == 'refs/heads/master' && needs.contract-tests.result == 'failure' }}
+        if: ${{ always() }}
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> Contract tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
+          attachments: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> Contract tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
           channel_id: C026PD47Z19 #gha-test-status
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -686,7 +687,7 @@ jobs:
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> E2E tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
+          attachments: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> E2E tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
           channel_id: C026PD47Z19 #gha-test-status
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -967,8 +968,9 @@ jobs:
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
-    needs: deploy
+    if: ${{ always() }}
+    # if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
+    # needs: deploy
     env:
       DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
 
@@ -980,7 +982,7 @@ jobs:
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
-          channel_id: ${{ env.DEVOPS_CHANNEL_ID }}
+          attachments: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
+          channel_id: C026PD47Z19
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
