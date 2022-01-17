@@ -45,14 +45,14 @@ const ConfirmablePage = ({
         <>
           <button
             onClick={yesAction}
-            className={'usa-button-secondary'}
+            className={'usa-button-secondary usa-button-big'}
             data-testid="yes-button"
           >
             Yes
           </button>
           <button
             onClick={noAction}
-            className="usa-button-secondary vads-u-margin-top--2"
+            className="usa-button-secondary vads-u-margin-top--2 usa-button-big"
             data-testid="no-button"
           >
             No

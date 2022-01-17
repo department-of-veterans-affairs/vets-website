@@ -53,7 +53,6 @@ describe('VAOS <ReviewPage> CC request', () => {
 
   beforeEach(() => {
     const featureState = { ...initialState };
-    featureState.featureToggles.vaOnlineSchedulingCCIterations = false;
     mockFetch();
 
     start = moment();
@@ -71,11 +70,11 @@ describe('VAOS <ReviewPage> CC request', () => {
           preferredLanguage: 'english',
           hasCommunityCareProvider: true,
           communityCareProvider: {
-            practiceName: 'Community medical center',
+            name: 'Community medical center',
             firstName: 'Jane',
             lastName: 'Doe',
             address: {
-              street: '123 big sky st',
+              line: ['123 big sky st'],
               city: 'Bozeman',
               state: 'MT',
               postalCode: '59715',
@@ -167,9 +166,11 @@ describe('VAOS <ReviewPage> CC request', () => {
 
     expect(providerHeading).to.contain.text('Preferred provider');
     expect(screen.baseElement).to.contain.text('Community medical center');
-    expect(screen.baseElement).to.contain.text('Jane Doe');
     expect(screen.baseElement).to.contain.text('123 big sky st');
     expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT 59715');
+    expect(screen.baseElement).to.contain.text(
+      'Prefers provider to speak English',
+    );
 
     expect(additionalHeading).to.contain.text('Additional details');
     expect(screen.baseElement).to.contain.text('I need an appt');
@@ -231,7 +232,6 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
 
   beforeEach(() => {
     const featureState = { ...initialState };
-    featureState.featureToggles.vaOnlineSchedulingCCIterations = true;
 
     mockFetch();
     start = moment();

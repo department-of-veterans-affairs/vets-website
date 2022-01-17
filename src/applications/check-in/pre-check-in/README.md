@@ -85,6 +85,8 @@ To share an app instance using the mock API running on Codespaces publicly, use 
 
 We are currently using an HOC located at `src/applications/pre-check-in/containers/withFeatureFlip.jsx` to control the feature flips. The whole app is wrapped around one, and each new feature should have its own toggle.
 
+Though we have the HOC, its now considered best practice to query redux using the useSelector hook.
+
 #### Current toggles
 
 - `check_in_experience_pre_check_in_enabled` : Enables or disabled the whole app on va.gov

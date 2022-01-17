@@ -7,7 +7,8 @@ import sinon from 'sinon';
 import { render, fireEvent } from '@testing-library/react';
 
 import TestComponent from './TestComponent';
-import { GO_TO_NEXT_PAGE } from '../../../actions/navigation';
+
+import { createMockRouter } from '../../../tests/unit/mocks/router';
 
 const URLS = Object.freeze({
   CONFIRMATION: 'complete',
@@ -32,17 +33,21 @@ describe('check-in', () => {
           checkInData: {
             form: {
               pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-              currentPage: 'first-page',
             },
           },
         };
         store = mockStore(initState);
       });
 
-      it('should get the current pages from redux', () => {
+      it('should get the current pages from router', () => {
         const component = render(
           <Provider store={store}>
-            <TestComponent router={{ push: () => {} }} />
+            <TestComponent
+              router={createMockRouter({
+                push: () => {},
+                currentPage: 'first-page',
+              })}
+            />
           </Provider>,
         );
 
@@ -63,7 +68,6 @@ describe('check-in', () => {
           checkInData: {
             form: {
               pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-              currentPage: 'first-page',
             },
           },
         };
@@ -74,9 +78,10 @@ describe('check-in', () => {
         const component = render(
           <Provider store={store}>
             <TestComponent
-              router={{
+              router={createMockRouter({
                 push,
-              }}
+                currentPage: 'first-page',
+              })}
             />
           </Provider>,
         );
@@ -85,10 +90,6 @@ describe('check-in', () => {
         fireEvent.click(button);
 
         expect(push.calledWith('second-page')).to.be.true;
-        const routingAction = store
-          .getActions()
-          .find(action => action.type === GO_TO_NEXT_PAGE);
-        expect(routingAction.payload.nextPage).to.equal('second-page');
       });
     });
     describe('goToNextPage', () => {
@@ -101,7 +102,6 @@ describe('check-in', () => {
           checkInData: {
             form: {
               pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-              currentPage: 'fourth-page',
             },
           },
         };
@@ -112,9 +112,10 @@ describe('check-in', () => {
         const component = render(
           <Provider store={store}>
             <TestComponent
-              router={{
+              router={createMockRouter({
                 push,
-              }}
+                currentPage: 'fourth-page',
+              })}
             />
           </Provider>,
         );
@@ -123,10 +124,6 @@ describe('check-in', () => {
         fireEvent.click(button);
 
         expect(push.calledWith(URLS.ERROR)).to.be.true;
-        const routingAction = store
-          .getActions()
-          .find(action => action.type === GO_TO_NEXT_PAGE);
-        expect(routingAction.payload.nextPage).to.equal(URLS.ERROR);
       });
     });
     describe('goToPreviousPage', () => {
@@ -138,7 +135,6 @@ describe('check-in', () => {
           checkInData: {
             form: {
               pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-              currentPage: 'third-page',
             },
           },
         };
@@ -149,9 +145,10 @@ describe('check-in', () => {
         const component = render(
           <Provider store={store}>
             <TestComponent
-              router={{
+              router={createMockRouter({
                 push,
-              }}
+                currentPage: 'third-page',
+              })}
             />
           </Provider>,
         );
@@ -159,10 +156,6 @@ describe('check-in', () => {
         const button = component.getByTestId('prev-button');
         fireEvent.click(button);
         expect(push.calledWith('second-page')).to.be.true;
-        const routingAction = store
-          .getActions()
-          .find(action => action.type === GO_TO_NEXT_PAGE);
-        expect(routingAction.payload.nextPage).to.equal('second-page');
       });
     });
     describe('goToPreviousPage', () => {
@@ -174,7 +167,6 @@ describe('check-in', () => {
           checkInData: {
             form: {
               pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-              currentPage: 'first-page',
             },
           },
         };
@@ -185,9 +177,10 @@ describe('check-in', () => {
         const component = render(
           <Provider store={store}>
             <TestComponent
-              router={{
+              router={createMockRouter({
                 push,
-              }}
+                currentPage: 'first-page',
+              })}
             />
           </Provider>,
         );
@@ -195,10 +188,6 @@ describe('check-in', () => {
         const button = component.getByTestId('prev-button');
         fireEvent.click(button);
         expect(push.calledWith(URLS.ERROR)).to.be.true;
-        const routingAction = store
-          .getActions()
-          .find(action => action.type === GO_TO_NEXT_PAGE);
-        expect(routingAction.payload.nextPage).to.equal(URLS.ERROR);
       });
     });
     describe('goToErrorPage', () => {
@@ -210,7 +199,6 @@ describe('check-in', () => {
           checkInData: {
             form: {
               pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-              currentPage: 'first-page',
             },
           },
         };
@@ -221,9 +209,10 @@ describe('check-in', () => {
         const component = render(
           <Provider store={store}>
             <TestComponent
-              router={{
+              router={createMockRouter({
                 push,
-              }}
+                currentPage: 'first-page',
+              })}
             />
           </Provider>,
         );
@@ -231,10 +220,6 @@ describe('check-in', () => {
         const button = component.getByTestId('error-button');
         fireEvent.click(button);
         expect(push.calledWith(URLS.ERROR)).to.be.true;
-        const routingAction = store
-          .getActions()
-          .find(action => action.type === GO_TO_NEXT_PAGE);
-        expect(routingAction.payload.nextPage).to.equal(URLS.ERROR);
       });
     });
     describe('jumpToPage', () => {
@@ -246,7 +231,6 @@ describe('check-in', () => {
           checkInData: {
             form: {
               pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-              currentPage: 'first-page',
             },
           },
         };
@@ -257,9 +241,10 @@ describe('check-in', () => {
         const component = render(
           <Provider store={store}>
             <TestComponent
-              router={{
+              router={createMockRouter({
                 push,
-              }}
+                currentPage: 'first-page',
+              })}
             />
           </Provider>,
         );
@@ -267,19 +252,16 @@ describe('check-in', () => {
         const button = component.getByTestId('jump-button');
         fireEvent.click(button);
         expect(push.calledWith({ pathname: URLS.INTRODUCTION })).to.be.true;
-        const routingAction = store
-          .getActions()
-          .find(action => action.type === GO_TO_NEXT_PAGE);
-        expect(routingAction.payload.nextPage).to.equal(URLS.INTRODUCTION);
       });
       it('accept urls params', () => {
         const push = sinon.spy();
         const component = render(
           <Provider store={store}>
             <TestComponent
-              router={{
+              router={createMockRouter({
                 push,
-              }}
+                currentPage: 'first-page',
+              })}
             />
           </Provider>,
         );
@@ -292,10 +274,6 @@ describe('check-in', () => {
             search: '?id=1234&query=some-query',
           }),
         ).to.be.true;
-        const routingAction = store
-          .getActions()
-          .find(action => action.type === GO_TO_NEXT_PAGE);
-        expect(routingAction.payload.nextPage).to.equal(URLS.INTRODUCTION);
       });
     });
   });

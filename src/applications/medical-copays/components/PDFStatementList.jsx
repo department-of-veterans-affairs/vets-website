@@ -28,10 +28,10 @@ const PDFStatementList = () => {
 
   return (
     <section data-testid="download-statements">
-      <h2 id="download-statements">Download your statements</h2>
+      <h2 id="download-statements">Your statements</h2>
       <p>
-        Download your mailed statements for this facility from the past 6
-        months.
+        Download your mailed statements from the past 6 months for this
+        facility.
       </p>
 
       {sortedFacilityCopays.map(statement => (

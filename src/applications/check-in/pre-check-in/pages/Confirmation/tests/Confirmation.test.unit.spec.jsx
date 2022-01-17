@@ -31,7 +31,6 @@ describe('pre-check-in', () => {
             veteranData: { demographics: {} },
             form: {
               pages: [],
-              currentPage: 'complete',
               data: {
                 demographicsUpToDate: 'yes',
                 nextOfKinUpToDate: 'yes',
@@ -101,7 +100,6 @@ describe('pre-check-in', () => {
             veteranData: { demographics: {} },
             form: {
               pages: [],
-              currentPage: 'complete',
               data: {
                 demographicsUpToDate: 'yes',
                 nextOfKinUpToDate: 'yes',

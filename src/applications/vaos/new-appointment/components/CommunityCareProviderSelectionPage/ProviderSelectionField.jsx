@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ProviderSelect from './ProviderSelect';
 import ProviderList from './ProviderList';
-import { selectFeatureCCIterations } from '../../../redux/selectors';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
 
@@ -20,9 +18,6 @@ export default function ProviderSelectionField({
   );
 
   const providerSelected = 'id' in formData;
-  const showCCIterations = useSelector(state =>
-    selectFeatureCCIterations(state),
-  );
   const descriptionText =
     'We’ll call you to confirm your provider choice or to help you choose a provider if you skip this step.';
 
@@ -46,7 +41,7 @@ export default function ProviderSelectionField({
   if (!showProvidersList) {
     return (
       <>
-        {showCCIterations && <p>{descriptionText}</p>}
+        {<p>{descriptionText}</p>}
         <ProviderSelect
           formData={formData}
           initialProviderDisplayCount={INITIAL_PROVIDER_DISPLAY_COUNT}
@@ -62,7 +57,7 @@ export default function ProviderSelectionField({
 
   return (
     <>
-      {showCCIterations && <p>{descriptionText}</p>}
+      {<p>{descriptionText}</p>}
       <ProviderList
         checkedProvider={checkedProvider}
         idSchema={idSchema}

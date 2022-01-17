@@ -52,6 +52,15 @@ describe('transformRelatedDisabilities', () => {
 });
 
 describe('stringifyRelatedDisabilities', () => {
+  it('should return an empty object if undefined', () => {
+    expect(stringifyRelatedDisabilities({})).to.be.empty;
+  });
+  it('should return an empty object with an empty array', () => {
+    const formData = {
+      vaTreatmentFacilities: [],
+    };
+    expect(stringifyRelatedDisabilities(formData)).to.be.empty;
+  });
   it('should return an array of strings', () => {
     const formData = {
       newDisabilities: [

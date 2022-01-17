@@ -3,7 +3,11 @@ import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/de
 import dateUI from 'platform/forms-system/src/js/definitions/monthYear';
 
 import { treatmentView } from '../content/vaMedicalRecords';
-import { queryForFacilities, makeSchemaForAllDisabilities } from '../utils';
+import {
+  queryForFacilities,
+  makeSchemaForAllDisabilities,
+  hasVAEvidence,
+} from '../utils';
 import {
   validateMilitaryTreatmentCity,
   validateMilitaryTreatmentState,
@@ -28,6 +32,10 @@ export const uiSchema = {
       itemAriaLabel: data => data.treatmentCenterName,
       viewField: treatmentView,
       showSave: true,
+      updateSchema: (formData, schema) => ({
+        ...schema,
+        minItems: hasVAEvidence(formData) ? 1 : 0,
+      }),
     },
     items: {
       'ui:order': [
@@ -103,6 +111,7 @@ export const schema = {
     },
     vaTreatmentFacilities: {
       ...vaTreatmentFacilities,
+      minItems: 0, // fixes validation issue
       items: {
         type: 'object',
         required: ['treatmentCenterName', 'treatedDisabilityNames'],
