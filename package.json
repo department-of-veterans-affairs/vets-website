@@ -351,6 +351,7 @@
     "**/ansi-regex": "^5.0.1",
     "**/yargs-parser": "13.1.2",
     "@babel/runtime": "^7.15.4",
+    "**/shelljs": "^0.8.5",
     "punycode": "1.4.1"
   }
 }
