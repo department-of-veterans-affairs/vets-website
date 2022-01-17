@@ -1,5 +1,5 @@
 import moment from 'moment';
-import mockUserSaved from '../fixtures/mocks/mockUserSaved';
+import mockUserNew from '../fixtures/mocks/mockUserNew';
 import mockXX123Get from '../fixtures/mocks/mockXX123Get';
 import mockXX123Put from '../fixtures/mocks/mockXX123Put';
 import Timeouts from 'platform/testing/e2e/timeouts';
@@ -19,7 +19,7 @@ describe('SIP Finish Later', () => {
     });
     cy.intercept('GET', '/v0/in_progress_forms/XX-123', mockXX123Get);
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', mockXX123Put);
-    cy.login(mockUserSaved);
+    cy.login(mockUserNew);
 
     cy.visit('/mock-sip-form');
     cy.get('body').should('be.visible');
