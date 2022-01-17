@@ -226,7 +226,7 @@ function run() {
   exportVariables(tests);
 }
 
-if (process.env.CHANGED_FILE_PATHS || process.env.IS_MASTER_BUILD) {
+if (process.env.CHANGED_FILE_PATHS || IS_MASTER_BUILD) {
   run();
 }
 
