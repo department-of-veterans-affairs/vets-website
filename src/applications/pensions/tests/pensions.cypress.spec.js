@@ -14,7 +14,7 @@ const fillAdditionalSources = ({ additionalSources }) => {
   cy.findByText(/add another/i).click();
   cy.findByLabelText(/source/i).type(name);
   cy.findByLabelText(/amount/i).type(amount);
-  // cy.findByText(/^Save$/).click();
+  cy.findByText(/^Save$/).click();
 };
 
 const fillNetWorth = data => {
