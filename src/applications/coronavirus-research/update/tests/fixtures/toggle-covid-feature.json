@@ -3,7 +3,7 @@
     "type": "feature_toggles",
     "features": [
       {
-        "name": "covid_volunteer_intake_enabled",
+        "name": "covid_volunteer_update_enabled",
         "value": true
       }
     ]

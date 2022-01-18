@@ -86,12 +86,6 @@
       "fieldId": "root_FACILITYNo",
       "fieldName": "No",
       "type": "radio"
-    },
-    {
-      "labelName": "Zip code where you currently live",
-      "fieldId": "root_zipcode",
-      "fieldName": "12345",
-      "type": "text"
     }
   ]
 }

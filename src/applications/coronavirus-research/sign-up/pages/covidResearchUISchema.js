@@ -802,7 +802,8 @@ export const uiSchema = {
       'ui:reviewWidget': vaLocationReviewWidget,
       'ui:required': formData =>
         get('zipCode', formData) !== undefined &&
-        get('zipCode', formData).length >= 5,
+        get('zipCode', formData).length >= 5 &&
+        formData.FACILITY,
     },
   },
   GENDER: {
