@@ -101,7 +101,7 @@ jobs:
             node_modules
 
       - name: Create test results folder
-        run: mkdir -p test-results && touch coverage/test-coverage-report.json
+        run: mkdir -p test-results && mkdir -p coverage && touch coverage/test-coverage-report.json
 
       - name: List changed files
         id: changed-files
