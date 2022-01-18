@@ -90,7 +90,7 @@ jobs:
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "Stand by, production deploy for vets-website coming up in ${{ needs.set-env.outputs.RELEASE_WAIT }} minutes. View what coming here: <https://github.com/${{ github.repository }}/compare/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}>"}]'
+          payload: '{"attachments": [{"color": "#07711E","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "Stand by, production deploy for vets-website coming up in ${{ needs.set-env.outputs.RELEASE_WAIT }} minutes. View what coming here: <https://github.com/${{ github.repository }}/compare/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}>"}}]}]}'
           channel_id: ${{ env.CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -204,7 +204,7 @@ jobs:
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> Production deploy for vets-website has failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> Production deploy for vets-website has failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
           channel_id: ${{ env.CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
