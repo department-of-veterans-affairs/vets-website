@@ -15,7 +15,7 @@ import {
   uiSchema as addressUISchema,
   schema as addressSchema,
 } from 'platform/forms/definitions/address';
-import _ from 'lodash';
+import { get, merge } from 'lodash';
 
 const {
   veteranFullName,
@@ -35,7 +35,7 @@ const {
 const addressUiSchema = addressUISchema('Mailing address', false, false);
 const address = addressSchema(fullSchema, false);
 const hasNotSelectedProgram = form =>
-  !_.get(form['view:programSelection'], 'hasSelectedProgram', true);
+  !get(form['view:programSelection'], 'hasSelectedProgram', true);
 
 const path = 'apply';
 const title = 'VRRAP application';
@@ -65,7 +65,7 @@ const uiSchema = {
       mobilePhone: phoneUI('Mobile phone number'),
       alternatePhone: phoneUI('Home phone number'),
       email: emailUI(),
-      'view:confirmEmail': _.merge(emailUI('Confirm email address'), {
+      'view:confirmEmail': merge(emailUI('Confirm email address'), {
         'ui:options': {
           hideOnReview: true,
         },

@@ -4,7 +4,7 @@ import React from 'react';
 import AdditionalResources from '../content/AdditionalResources';
 import { locationInfo, phoneInfo, isPresent } from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
-import _ from 'lodash';
+import { get } from 'lodash';
 
 const IconWithInfo = ({ icon, iconClassName, children, present }) => {
   if (!present) return null;
@@ -29,7 +29,7 @@ export const VetTecHeadingSummary = ({ institution, showModal }) => {
     institution.country,
   );
 
-  const firstProgram = _.get(institution, 'programs[0]', {
+  const firstProgram = get(institution, 'programs[0]', {
     providerWebsite: '',
     phoneAreaCode: '',
     phoneNumber: '',

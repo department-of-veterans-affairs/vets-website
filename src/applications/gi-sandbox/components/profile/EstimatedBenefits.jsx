@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { createId } from '../../utils/helpers';
-import _ from 'lodash';
+import { snakeCase } from 'lodash';
 
 const month = (
   <React.Fragment key="months">
@@ -90,7 +90,7 @@ const perTermSections = (outputs, calculator) => {
     if (!visible) return null;
 
     const learnMoreLink = `http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#${section.toLowerCase()}`;
-    const headerId = `${_.snakeCase(title)}_header`;
+    const headerId = `${snakeCase(title)}_header`;
     return (
       <div key={section} className="per-term-section">
         <div className="link-header">

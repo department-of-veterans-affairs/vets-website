@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
-import _ from 'lodash';
+import { get, isEmpty } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
@@ -33,7 +33,7 @@ export function ProfilePage({
   const { facilityCode, preSelectedProgram } = match.params;
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
-  const institutionName = _.get(profile, 'attributes.name');
+  const institutionName = get(profile, 'attributes.name');
 
   useEffect(() => {
     return () => {
@@ -72,7 +72,7 @@ export function ProfilePage({
 
   let content;
 
-  if (profile.inProgress || _.isEmpty(profile.attributes)) {
+  if (profile.inProgress || isEmpty(profile.attributes)) {
     content = <LoadingIndicator message="Loading your profile..." />;
   } else {
     const isOJT = profile.attributes.type.toLowerCase() === 'ojt';

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { get } from 'lodash';
 import React from 'react';
 
 import { ScoContact } from './ScoContact';
@@ -9,7 +9,7 @@ import classNames from 'classnames';
 export default function ContactInformation({ institution, showModal }) {
   const isOJT = institution.type && institution.type.toLowerCase() === 'ojt';
 
-  const versionedSchoolCertifyingOfficials = _.get(
+  const versionedSchoolCertifyingOfficials = get(
     institution,
     'versionedSchoolCertifyingOfficials',
     [],

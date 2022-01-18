@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { get } from 'lodash';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
@@ -27,7 +27,7 @@ const mailingAddressStartInEdit = formData => {
 };
 
 const isRequiredForAddressUi = formData => {
-  const { country } = _.get(formData, 'mailingAddress', {});
+  const { country } = get(formData, 'mailingAddress', {});
   return country && country === 'USA';
 };
 

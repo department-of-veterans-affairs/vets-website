@@ -5,7 +5,7 @@ import {
 } from 'platform/forms/definitions/address';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import _ from 'lodash';
+import { merge } from 'lodash';
 import {
   daytimePhoneAreaCodeTitle,
   dependentCountryError,
@@ -52,7 +52,7 @@ export const dependentInformationUI = dependentInformationDisplayed => ({
       required: dependentLastNameError,
     },
   },
-  [formFields.address]: _.merge(uiSchema('', false, null, true), {
+  [formFields.address]: merge(uiSchema('', false, null, true), {
     'ui:order': ['country', 'street', 'street2', 'city', 'state', 'postalCode'],
     'ui:validations': [validateStreet, validateCity],
     street: {
@@ -76,7 +76,7 @@ export const dependentInformationUI = dependentInformationDisplayed => ({
     },
   }),
   [formFields.phone]: phoneUI(daytimePhoneAreaCodeTitle),
-  [formFields.email]: _.merge(emailUI(dependentEmail), {
+  [formFields.email]: merge(emailUI(dependentEmail), {
     'ui:required': formData => dependentInformationDisplayed(formData),
     'ui:errorMessages': {
       required: dependentEmailError,

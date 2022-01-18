@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash';
+import { isArray, isString, uniqueId } from 'lodash';
 
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import { handleScrollOnInputFocus } from '../utils/helpers';
@@ -20,7 +20,7 @@ import { handleScrollOnInputFocus } from '../utils/helpers';
 class RadioButtons extends React.Component {
   constructor(props) {
     super(props);
-    this.inputId = _.uniqueId('radio-buttons-');
+    this.inputId = uniqueId('radio-buttons-');
   }
 
   handleChange = domEvent => {
@@ -33,14 +33,14 @@ class RadioButtons extends React.Component {
   };
 
   renderOptions = () => {
-    const options = _.isArray(this.props.options) ? this.props.options : [];
+    const options = isArray(this.props.options) ? this.props.options : [];
     const storedValue = this.props.value;
     return options.map((obj, index) => {
       let optionLabel;
       let optionValue;
       let optionAdditional;
       let learnMore;
-      if (_.isString(obj)) {
+      if (isString(obj)) {
         optionLabel = obj;
         optionValue = obj;
       } else {

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { cloneDeep, isEqual, omit } from 'lodash';
 import { INITIAL_STATE } from '../reducers/filters';
 import environment from 'platform/utilities/environment';
 
@@ -10,14 +10,14 @@ export const FILTERS_IGNORE_ALL = ['country', 'state', 'specialMission'];
 export const FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP =
   INITIAL_STATE.excludedSchoolTypes;
 
-const omitNonFilters = filters => _.omit(filters, ['expanded', 'search']);
+const omitNonFilters = filters => omit(filters, ['expanded', 'search']);
 
 export const getFiltersChanged = filters => {
-  return !_.isEqual(omitNonFilters(filters), omitNonFilters(INITIAL_STATE));
+  return !isEqual(omitNonFilters(filters), omitNonFilters(INITIAL_STATE));
 };
 
 export const buildSearchFilters = filters => {
-  const clonedFilters = _.cloneDeep(filters);
+  const clonedFilters = cloneDeep(filters);
   delete clonedFilters.expanded;
   delete clonedFilters.search;
 

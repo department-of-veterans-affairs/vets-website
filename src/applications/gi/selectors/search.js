@@ -1,10 +1,10 @@
-import _ from 'lodash';
+import { isEqual } from 'lodash';
 import { INITIAL_STATE } from '../reducers/search';
 import appendQuery from 'append-query';
 import { buildSearchFilters } from './filters';
 
 export const getSearchQueryChanged = query => {
-  return !_.isEqual(query, INITIAL_STATE.query);
+  return !isEqual(query, INITIAL_STATE.query);
 };
 
 export const updateUrlParams = (

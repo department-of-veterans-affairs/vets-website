@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Column from './Column';
-import _ from 'lodash';
+import { kebabCase } from 'lodash';
 import ArrowRightBlueSVG from './arrow-right-blue';
 
 const getColumns = (mobileMediaQuery, columns) => {
@@ -41,7 +41,7 @@ const SubMenu = ({
       >
         <button
           className="back-button"
-          aria-controls={`vetnav-${_.kebabCase(navTitle)}`}
+          aria-controls={`vetnav-${kebabCase(navTitle)}`}
           onClick={() => handleBackToMenu()}
         >
           Back to Menu
@@ -50,7 +50,7 @@ const SubMenu = ({
         {seeAllLink && (
           <div className="panel-bottom-link">
             <a
-              data-e2e-id={`${_.kebabCase(seeAllLink.text)}`}
+              data-e2e-id={`${kebabCase(seeAllLink.text)}`}
               href={seeAllLink.href}
               onClick={linkClicked.bind(null, seeAllLink)}
             >

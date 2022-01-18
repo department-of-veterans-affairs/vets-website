@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash';
+import { uniqueId } from 'lodash';
 import { handleScrollOnInputFocus, createId } from '../utils/helpers';
 
 const CheckboxGroup = ({ errorMessage, label, onChange, onFocus, options }) => {
-  const inputId = _.uniqueId('checkbox-group-');
+  const inputId = uniqueId('checkbox-group-');
 
   const renderOptions = () => {
     const displayOptions = Array.isArray(options) ? options : [];

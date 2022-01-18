@@ -10,7 +10,7 @@ import {
   schoolSize,
   upperCaseFirstLetterOnly,
 } from '../utils/helpers';
-import _ from 'lodash';
+import { isFinite } from 'lodash';
 import { MINIMUM_RATING_COUNT } from '../constants';
 import RatingsStars from '../components/RatingsStars';
 import { showModal } from '../actions';
@@ -125,7 +125,7 @@ const CompareLayout = ({
                 return 'N/A';
               }
 
-              return _.isFinite(institution.highestDegree)
+              return isFinite(institution.highestDegree)
                 ? `${institution.highestDegree} year`
                 : `${institution.highestDegree} program`;
             },

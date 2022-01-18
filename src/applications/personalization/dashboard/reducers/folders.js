@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { kebabCase } from 'lodash';
 import set from '~/platform/utilities/data/set';
 
 import {
@@ -33,7 +33,7 @@ const initialState = {
   },
 };
 
-const folderKey = folderName => _.kebabCase(folderName);
+const folderKey = folderName => kebabCase(folderName);
 
 export default function folders(state = initialState, action) {
   switch (action.type) {

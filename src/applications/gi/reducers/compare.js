@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { omit } from 'lodash';
 import {
   ADD_COMPARE_INSTITUTION,
   FETCH_COMPARE_FAILED,
@@ -48,7 +48,7 @@ export default function(state = INITIAL_STATE, action) {
             facilityCode => facilityCode !== action.payload,
           ),
           institutions: {
-            ..._.omit(state.search.institutions, action.payload),
+            ...omit(state.search.institutions, action.payload),
           },
         },
         details: {
@@ -56,7 +56,7 @@ export default function(state = INITIAL_STATE, action) {
             facilityCode => facilityCode !== action.payload,
           ),
           institutions: {
-            ..._.omit(state.details.institutions, action.payload),
+            ...omit(state.details.institutions, action.payload),
           },
         },
         selected: state.selected.filter(

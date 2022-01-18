@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
-import _ from 'lodash';
+import { get, isEmpty } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
@@ -32,7 +32,7 @@ export function ProfilePage({
   const { facilityCode } = match.params;
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
-  const institutionName = _.get(profile, 'attributes.name');
+  const institutionName = get(profile, 'attributes.name');
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export function ProfilePage({
 
   let content;
 
-  const loadingProfile = profile.inProgress || _.isEmpty(profile.attributes);
+  const loadingProfile = profile.inProgress || isEmpty(profile.attributes);
   if (loadingProfile) {
     content = <LoadingIndicator message="Loading your profile..." />;
   } else {

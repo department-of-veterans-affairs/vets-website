@@ -8,7 +8,7 @@ import React, {
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import _ from 'lodash';
+import { difference } from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
@@ -282,8 +282,8 @@ export function ComparePage({
 
 const mapStateToProps = state => {
   const allLoaded =
-    _.difference(state.compare.selected, state.compare.details.loaded)
-      .length === 0;
+    difference(state.compare.selected, state.compare.details.loaded).length ===
+    0;
   const estimated = {};
   const calculated = {};
 

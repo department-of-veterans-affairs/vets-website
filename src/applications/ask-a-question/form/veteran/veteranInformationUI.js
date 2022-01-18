@@ -5,7 +5,7 @@ import {
 } from 'platform/forms/definitions/address';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import _ from 'lodash';
+import { merge } from 'lodash';
 import {
   daytimePhoneAreaCodeTitle,
   veteranEmail,
@@ -53,7 +53,7 @@ export const veteranInformationUI = requireIfDisplayed => ({
       required: veteranLastNameError,
     },
   },
-  [formFields.address]: _.merge(uiSchema('', false, null, true), {
+  [formFields.address]: merge(uiSchema('', false, null, true), {
     'ui:order': ['country', 'street', 'street2', 'city', 'state', 'postalCode'],
     'ui:validations': [validateStreet, validateCity],
     'ui:options': {
@@ -78,12 +78,12 @@ export const veteranInformationUI = requireIfDisplayed => ({
       'ui:title': zipCodeTitle,
     },
   }),
-  [formFields.phone]: _.merge(phoneUI(daytimePhoneAreaCodeTitle), {
+  [formFields.phone]: merge(phoneUI(daytimePhoneAreaCodeTitle), {
     'ui:options': {
       hideIf: formData => veteranIsDeceased(formData),
     },
   }),
-  [formFields.email]: _.merge(emailUI(veteranEmail), {
+  [formFields.email]: merge(emailUI(veteranEmail), {
     'ui:required': formData =>
       requireIfDisplayed(formData) && veteranIsAlive(formData),
     'ui:options': {

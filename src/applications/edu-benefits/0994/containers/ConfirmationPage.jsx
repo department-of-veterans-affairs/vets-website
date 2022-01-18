@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { get } from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
@@ -25,7 +25,7 @@ class ConfirmationPage extends React.Component {
     const form = this.props.form;
     const { submission, formId } = form;
 
-    const appliedForVaEducationBenefits = _.get(
+    const appliedForVaEducationBenefits = get(
       form.data,
       'appliedForVaEducationBenefits',
       true,

@@ -1,9 +1,9 @@
-import _ from 'lodash';
+import { cloneDeep } from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 export function transform(formConfig, form) {
   const benefitsTransform = formData => {
-    const clonedData = _.cloneDeep(formData);
+    const clonedData = cloneDeep(formData);
     const benefits = clonedData['view:benefit'];
 
     if (benefits.chapter33 || benefits.fryScholarship) {
@@ -20,7 +20,7 @@ export function transform(formConfig, form) {
   };
 
   const entitlementTransform = formData => {
-    const clonedData = _.cloneDeep(formData);
+    const clonedData = cloneDeep(formData);
     delete clonedData['view:remainingEntitlement'];
     return clonedData;
   };

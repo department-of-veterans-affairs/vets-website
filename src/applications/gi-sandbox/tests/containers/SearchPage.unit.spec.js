@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { pick } from 'lodash';
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -155,7 +155,7 @@ describe('<SearchPage>', () => {
       .join('&')}`;
 
     const dispatchFetchInstitutionSearchResults = queryStore => {
-      const queryCheck = _.pick(query, [
+      const queryCheck = pick(query, [
         ...stringSearchParams,
         ...stringFilterParams,
         ...booleanFilterParams,

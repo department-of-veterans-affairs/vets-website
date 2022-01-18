@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash';
+import { uniqueId } from 'lodash';
 import { handleScrollOnInputFocus } from '../utils/helpers';
 
 /**
@@ -13,7 +13,7 @@ import { handleScrollOnInputFocus } from '../utils/helpers';
 class CheckboxGroup extends React.Component {
   constructor(props) {
     super(props);
-    this.inputId = _.uniqueId('checkbox-group-');
+    this.inputId = uniqueId('checkbox-group-');
   }
 
   handleChange = domEvent => {

@@ -1,16 +1,16 @@
 import recordEvent from 'platform/monitoring/record-event';
-import _ from 'lodash';
+import { get } from 'lodash';
 
 export default {
   application: formData => {
-    if (_.get(formData, 'view:directDeposit.declineDirectDeposit', false)) {
+    if (get(formData, 'view:directDeposit.declineDirectDeposit', false)) {
       recordEvent({
         event: 'int-checkbox-option-click',
         'checkbox-label': 'I don’t want to use direct deposit',
       });
     }
 
-    const hasSelectedProgram = _.get(
+    const hasSelectedProgram = get(
       formData,
       'view:programSelection.hasSelectedProgram',
       null,
@@ -25,7 +25,7 @@ export default {
       });
     }
 
-    const providerName = _.get(
+    const providerName = get(
       formData,
       'view:programSelection.providerName',
       null,
@@ -39,7 +39,7 @@ export default {
       });
     }
 
-    const programName = _.get(
+    const programName = get(
       formData,
       'view:programSelection.programName',
       null,
@@ -52,7 +52,7 @@ export default {
       });
     }
 
-    const programState = _.get(
+    const programState = get(
       formData,
       'view:programSelection.programState',
       null,

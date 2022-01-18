@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { merge } from 'lodash';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
@@ -31,22 +31,19 @@ const formFields = {
 const contactInformationPage = {
   uiSchema: {
     [formFields.fullName]: fullNameUI,
-    [formFields.email]: _.merge(emailUI(), {
+    [formFields.email]: merge(emailUI(), {
       'ui:required': (formData, _index) =>
         formData.preferredContactMethod === 'email',
       'ui:errorMessages': {
         required: emailAddressError,
       },
     }),
-    [formFields.verifyEmail]: _.merge(
-      confirmationEmailUI('', formFields.email),
-      {
-        'ui:errorMessages': {
-          required: verifyEmailAddressError,
-        },
+    [formFields.verifyEmail]: merge(confirmationEmailUI('', formFields.email), {
+      'ui:errorMessages': {
+        required: verifyEmailAddressError,
       },
-    ),
-    [formFields.phone]: _.merge(phoneUI(phoneTitle), {
+    }),
+    [formFields.phone]: merge(phoneUI(phoneTitle), {
       'ui:required': (formData, _index) =>
         formData.preferredContactMethod === 'phone',
       'ui:errorMessages': {

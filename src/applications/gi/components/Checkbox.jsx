@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash';
+import { uniqueId } from 'lodash';
 import classNames from 'classnames';
 
 import { createId, handleScrollOnInputFocus } from '../utils/helpers';
@@ -21,7 +21,7 @@ const Checkbox = ({
   screenReaderOnly,
   showArialLabelledBy,
 }) => {
-  const inputId = _.uniqueId('errorable-checkbox-');
+  const inputId = uniqueId('errorable-checkbox-');
   const hasErrors = !!errorMessage;
   const errorSpanId = hasErrors ? `${inputId}-error-message` : undefined;
   const labelId = `${createId(name)}-label`;

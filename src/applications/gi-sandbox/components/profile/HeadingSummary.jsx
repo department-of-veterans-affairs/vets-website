@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash';
+import { capitalize, isFinite } from 'lodash';
 import classNames from 'classnames';
 
 import AdditionalResources from '../content/AdditionalResources';
@@ -134,7 +134,7 @@ class HeadingSummary extends React.Component {
                 present={it.type !== 'ojt' && it.highestDegree}
               >
                 {'  '}
-                {_.isFinite(it.highestDegree)
+                {isFinite(it.highestDegree)
                   ? `${it.highestDegree} year`
                   : it.highestDegree}{' '}
                 program
@@ -150,14 +150,14 @@ class HeadingSummary extends React.Component {
                 present={it.type && it.type !== 'ojt'}
               >
                 {'   '}
-                {_.capitalize(it.type)} school
+                {capitalize(it.type)} school
               </IconWithInfo>
               <IconWithInfo
                 icon="map"
                 present={it.localeType && it.type && it.type !== 'ojt'}
               >
                 {'   '}
-                {_.capitalize(it.localeType)} locale
+                {capitalize(it.localeType)} locale
               </IconWithInfo>
               <IconWithInfo icon="users" present={it.type && it.type !== 'ojt'}>
                 {'   '}

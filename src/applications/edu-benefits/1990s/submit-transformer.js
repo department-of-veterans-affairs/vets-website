@@ -1,16 +1,16 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import _ from 'lodash';
+import { cloneDeep } from 'lodash';
 
 export function transform(formConfig, form) {
   const directDepositTransform = formData => {
-    const clonedData = _.cloneDeep(formData);
+    const clonedData = cloneDeep(formData);
     delete clonedData['view:directDeposit'].declineDirectDeposit;
 
     return clonedData;
   };
 
   const reviewPageTransform = formData => {
-    const clonedData = _.cloneDeep(formData);
+    const clonedData = cloneDeep(formData);
     delete clonedData.AGREED;
 
     return clonedData;

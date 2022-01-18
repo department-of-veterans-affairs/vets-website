@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import MenuSection from './MenuSection';
 import SubMenu from './SubMenu';
-import _ from 'lodash';
+import { kebabCase } from 'lodash';
 
 export default class MegaMenu extends React.Component {
   componentDidMount() {
@@ -158,7 +158,7 @@ export default class MegaMenu extends React.Component {
               </li>
               {data.map((item, i) => (
                 <li
-                  key={`${_.kebabCase(item.title)}-${i}`}
+                  key={`${kebabCase(item.title)}-${i}`}
                   className={`${item.className || ''} ${
                     item.currentPage ? 'current-page' : ''
                   }`}
@@ -168,9 +168,9 @@ export default class MegaMenu extends React.Component {
                   {item.menuSections ? (
                     <button
                       aria-expanded={currentDropdown === item.title}
-                      aria-controls={`vetnav-${_.kebabCase(item.title)}`}
+                      aria-controls={`vetnav-${kebabCase(item.title)}`}
                       className="vetnav-level1"
-                      data-e2e-id={`${_.kebabCase(item.title)}-${i}`}
+                      data-e2e-id={`${kebabCase(item.title)}-${i}`}
                       onClick={() => this.toggleDropDown(item.title)}
                       tabIndex={
                         currentSection && currentSection !== item.title
@@ -183,7 +183,7 @@ export default class MegaMenu extends React.Component {
                   ) : (
                     <a
                       className="vetnav-level1"
-                      data-e2e-id={`${_.kebabCase(item.title)}-${i}`}
+                      data-e2e-id={`${kebabCase(item.title)}-${i}`}
                       href={item.href}
                       onClick={linkClicked.bind(null, item)}
                       target={item.target || null}
@@ -197,7 +197,7 @@ export default class MegaMenu extends React.Component {
                     </a>
                   )}
                   <div
-                    id={`vetnav-${_.kebabCase(item.title)}`}
+                    id={`vetnav-${kebabCase(item.title)}`}
                     className="vetnav-panel"
                     hidden={currentDropdown !== item.title}
                   >

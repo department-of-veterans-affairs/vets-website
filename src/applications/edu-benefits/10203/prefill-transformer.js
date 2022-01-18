@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { omit } from 'lodash';
 
 export function prefillTransformer(pages, formData, metadata) {
   const { homePhone, mobilePhone, email, remainingEntitlement } = formData;
@@ -8,7 +8,7 @@ export function prefillTransformer(pages, formData, metadata) {
     : 0;
 
   const newFormData = {
-    ..._.omit(formData, [
+    ...omit(formData, [
       'homePhone',
       'mobilePhone',
       'email',

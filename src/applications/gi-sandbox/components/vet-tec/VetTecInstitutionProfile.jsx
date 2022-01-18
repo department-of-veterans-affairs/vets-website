@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
+import { get } from 'lodash';
 
 import AccordionItem from '../AccordionItem';
 import VetTecAdditionalInformation from './VetTecAdditionalInformation';
@@ -25,7 +25,7 @@ const VetTecInstitutionProfile = ({
   const program =
     selectedProgram ||
     preSelectedProgram ||
-    _.get(institution, 'programs[0].description', '');
+    get(institution, 'programs[0].description', '');
 
   return (
     <div>

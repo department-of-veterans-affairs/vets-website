@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
+import { map } from 'lodash';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
@@ -82,7 +82,7 @@ class ConfirmationPage extends React.Component {
             <li>
               <strong>Benefits claimed</strong>
               <br />
-              {_.map(
+              {map(
                 benefits,
                 (isRequested, benefitName) =>
                   isRequested && (
@@ -108,7 +108,7 @@ class ConfirmationPage extends React.Component {
               <strong>Your claim was sent to</strong>
               <br />
               <address className="schemaform-address-view">
-                {_.map(response.regionalOffice, (line, index) => (
+                {map(response.regionalOffice, (line, index) => (
                   <p key={index}>{line}</p>
                 ))}
               </address>

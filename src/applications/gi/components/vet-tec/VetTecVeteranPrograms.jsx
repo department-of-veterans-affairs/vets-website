@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash';
+import { get } from 'lodash';
 import LearnMoreLabel from '../LearnMoreLabel';
 
 export class VetTecVeteranPrograms extends React.Component {
   programs = () => {
     const { institution } = this.props;
 
-    const firstProgram = _.get(institution, 'programs[0]', {});
+    const firstProgram = get(institution, 'programs[0]', {});
 
     return [
       {

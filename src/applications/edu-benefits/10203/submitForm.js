@@ -1,6 +1,6 @@
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import _ from 'lodash';
+import { get } from 'lodash';
 
 const submitForm = (form, formConfig) => {
   const body = formConfig.transformForSubmit
@@ -23,7 +23,7 @@ const submitForm = (form, formConfig) => {
     'edu-school-state': form.data.schoolState,
     'active-duty': form.data.isActiveDuty ? 'Yes' : 'No',
     'contact-method-preference': form.data.preferredContactMethod,
-    'direct-deposit-account-type': _.get(
+    'direct-deposit-account-type': get(
       form.data.bankAccount,
       'accountType',
       'none',

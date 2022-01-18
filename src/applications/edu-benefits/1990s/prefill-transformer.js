@@ -1,5 +1,5 @@
 import { prefillBankInformation } from 'platform/forms-system/src/js/definitions/directDeposit';
-import _ from 'lodash';
+import { get, omit } from 'lodash';
 import { deviewifyFields } from './utils';
 
 export function prefillTransformer(pages, formData, metadata) {
@@ -35,7 +35,7 @@ export function prefillTransformer(pages, formData, metadata) {
       ...bankAccount,
       bankName: bankAccount?.bankName || 'fakeBank', // so that the check in the function doesn't fail if no bankName, omitted down below
     });
-    const prefillBankAccount = _.get(
+    const prefillBankAccount = get(
       prefillBankInfo,
       'view:originalBankAccount',
       {},
@@ -52,7 +52,7 @@ export function prefillTransformer(pages, formData, metadata) {
       'view:directDeposit': {
         bankAccount: {
           ...prefillBankInfo.bankAccount,
-          ...deviewifyFields(_.omit(originalBankAccount, ['view:bankName'])),
+          ...deviewifyFields(omit(originalBankAccount, ['view:bankName'])),
         },
       },
     };

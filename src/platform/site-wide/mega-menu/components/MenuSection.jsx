@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SubMenu from './SubMenu';
-import _ from 'lodash';
+import { kebabCase } from 'lodash';
 
 class MenuSection extends React.Component {
   constructor() {
@@ -19,7 +19,7 @@ class MenuSection extends React.Component {
   }
 
   getId(title) {
-    return `vetnav-${_.kebabCase(title)}-ms`;
+    return `vetnav-${kebabCase(title)}-ms`;
   }
 
   updateCurrentSection() {
@@ -66,7 +66,7 @@ class MenuSection extends React.Component {
       button = (
         <a
           className="vetnav-level2"
-          data-e2e-id={`vetnav-level2--${_.kebabCase(title)}`}
+          data-e2e-id={`vetnav-level2--${kebabCase(title)}`}
           href={href}
           onClick={linkClicked}
           tabIndex={currentSection && !show ? -1 : undefined}
@@ -81,7 +81,7 @@ class MenuSection extends React.Component {
           aria-controls={show ? this.getId(title) : null}
           aria-expanded={show}
           className="vetnav-level2"
-          data-e2e-id={`vetnav-level2--${_.kebabCase(title)}`}
+          data-e2e-id={`vetnav-level2--${kebabCase(title)}`}
           onClick={() => this.updateCurrentSection()}
           tabIndex={currentSection && !show ? -1 : undefined}
         >

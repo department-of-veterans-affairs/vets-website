@@ -4,7 +4,7 @@ import {
   directDepositAlert,
   paymentText,
 } from '../content/directDeposit';
-import _ from 'lodash';
+import { get } from 'lodash';
 import PaymentReviewView from '../components/PaymentReviewView';
 import { hasNewBankInformation } from '../utils';
 import PaymentView from '../components/PaymentView';
@@ -23,7 +23,7 @@ const bankFieldIsRequired = form =>
   !form['view:directDeposit'].declineDirectDeposit;
 
 const startInEdit = data =>
-  !_.get(data, 'view:hasPrefilledBank', false) && !hasNewBankInformation(data);
+  !get(data, 'view:hasPrefilledBank', false) && !hasNewBankInformation(data);
 
 export const uiSchema = {
   ...directDepositUiSchema,

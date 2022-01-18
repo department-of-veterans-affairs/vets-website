@@ -18,7 +18,7 @@ import { showModal, filterChange } from '../actions';
 import { connect } from 'react-redux';
 import { TABS, INSTITUTION_TYPES } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
-import _ from 'lodash';
+import { cloneDeep } from 'lodash';
 import { updateUrlParams } from '../selectors/search';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -130,7 +130,7 @@ export function FilterYourResults({
     // The filter consumes these as exclusions
     const name = e.target.name;
     const checked = e.target.checked;
-    const newExcluded = _.cloneDeep(excludedSchoolTypes);
+    const newExcluded = cloneDeep(excludedSchoolTypes);
     recordCheckboxEvent(e);
     updateInstitutionFilters(
       'excludedSchoolTypes',

@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
+import { merge } from 'lodash';
 
 import fullNameUI from 'platform/forms/definitions/fullName';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
@@ -350,7 +350,7 @@ export const uiSchema = {
       'ui:description': <h2>Your contact and personal information</h2>,
     },
   },
-  veteranFullName: _.merge(fullNameUI, {
+  veteranFullName: merge(fullNameUI, {
     first: {
       'ui:title': 'First name',
     },

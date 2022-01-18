@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import _ from 'lodash';
+import { isEqual } from 'lodash';
 
 export function CompareGrid({
   className,
@@ -163,7 +163,7 @@ export function CompareGrid({
             let allEqual = true;
 
             for (let i = 0; i < rowValues.length - 1 && allEqual; i++) {
-              allEqual = _.isEqual(rowValues[i], rowValues[i + 1]);
+              allEqual = isEqual(rowValues[i], rowValues[i + 1]);
             }
 
             const displayDiff = showDifferences && !allEqual;

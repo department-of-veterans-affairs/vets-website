@@ -1,14 +1,14 @@
-import _ from 'lodash';
+import { camelCase, isArray, isPlainObject, reduce } from 'lodash';
 
 export default function objectKeysToCamelCase(obj) {
-  return _.reduce(
+  return reduce(
     obj,
     (result, value, key) => {
       const finalValue =
-        _.isPlainObject(value) || _.isArray(value)
+        isPlainObject(value) || isArray(value)
           ? objectKeysToCamelCase(value)
           : value;
-      return { ...result, [_.camelCase(key)]: finalValue };
+      return { ...result, [camelCase(key)]: finalValue };
     },
     {},
   );

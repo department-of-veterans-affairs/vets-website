@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
+import { get } from 'lodash';
 
 import VetTecApprovedProgramsList from './VetTecApprovedProgramsList';
 import ContactInformation from '../profile/ContactInformation';
@@ -21,7 +21,7 @@ export default function InstitutionProfile({
   smallScreen,
 }) {
   const program =
-    selectedProgram || _.get(institution, 'programs[0].description', '');
+    selectedProgram || get(institution, 'programs[0].description', '');
 
   const institutionProfileId = 'institution-profile';
   const profilePageHeaderId = 'profile-page-header';

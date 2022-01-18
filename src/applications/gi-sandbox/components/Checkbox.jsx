@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash';
+import { isUndefined, uniqueId } from 'lodash';
 import classNames from 'classnames';
 
 import { handleScrollOnInputFocus } from '../utils/helpers';
@@ -22,7 +22,7 @@ import { handleScrollOnInputFocus } from '../utils/helpers';
 class Checkbox extends React.Component {
   constructor(props) {
     super(props);
-    this.inputId = _.uniqueId('errorable-checkbox-');
+    this.inputId = uniqueId('errorable-checkbox-');
   }
 
   handleFocus = e => {
@@ -51,7 +51,7 @@ class Checkbox extends React.Component {
     }
 
     let className = `form-checkbox${hasErrors ? ' usa-input-error' : ''}`;
-    if (!_.isUndefined(this.props.className)) {
+    if (!isUndefined(this.props.className)) {
       className = `${className} ${this.props.className}`;
     }
     return (

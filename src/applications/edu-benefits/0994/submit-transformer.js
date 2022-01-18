@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { cloneDeep, get } from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 export function transform(formConfig, form) {
@@ -6,14 +6,14 @@ export function transform(formConfig, form) {
     JSON.parse(transformForSubmit(formConfig, form));
 
   const prefillTransforms = formData => {
-    let clonedData = _.cloneDeep(formData);
+    let clonedData = cloneDeep(formData);
 
     delete clonedData.bankAccountType;
     delete clonedData.bankAccountNumber;
     delete clonedData.bankRoutingNumber;
     delete clonedData.bankName;
 
-    const prefillBankAccount = _.get(clonedData, 'prefillBankAccount', {});
+    const prefillBankAccount = get(clonedData, 'prefillBankAccount', {});
     const { bankAccountType } = prefillBankAccount;
     if (bankAccountType && bankAccountType.length > 0) {
       clonedData = {
@@ -30,7 +30,7 @@ export function transform(formConfig, form) {
 
   const addPhoneAndEmail = formData => {
     if (form.data['view:phoneAndEmail']) {
-      const clonedData = _.cloneDeep(formData);
+      const clonedData = cloneDeep(formData);
       const { dayTimePhone, nightTimePhone, emailAddress } = form.data[
         'view:phoneAndEmail'
       ];
@@ -47,7 +47,7 @@ export function transform(formConfig, form) {
 
   const transformHighTechnologyEmploymentType = formData => {
     if (form.data['view:salaryEmploymentTypes']) {
-      const clonedData = _.cloneDeep(formData);
+      const clonedData = cloneDeep(formData);
       const { currentSalary, highTechnologyEmploymentType } = form.data[
         'view:salaryEmploymentTypes'
       ];
@@ -69,7 +69,7 @@ export function transform(formConfig, form) {
 
   const transformProgramSelection = formData => {
     if (formData.vetTecPrograms) {
-      const clonedData = _.cloneDeep(formData);
+      const clonedData = cloneDeep(formData);
       const vetTecPrograms = clonedData.vetTecPrograms.map(program => {
         let location = undefined;
 

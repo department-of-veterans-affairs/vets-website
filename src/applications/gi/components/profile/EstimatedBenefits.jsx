@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { createId } from '../../utils/helpers';
-import _ from 'lodash';
+import { snakeCase } from 'lodash';
 import LearnMoreLabel from '../LearnMoreLabel';
 
 export default function EstimatedBenefits({
@@ -102,7 +102,7 @@ export default function EstimatedBenefits({
       if (!visible) return null;
 
       const learnMoreLink = `http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#${section.toLowerCase()}`;
-      const headerId = `${_.snakeCase(title)}_header`;
+      const headerId = `${snakeCase(title)}_header`;
 
       return (
         <div key={section} className="per-term-section">

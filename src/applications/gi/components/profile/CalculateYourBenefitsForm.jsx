@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import _ from 'lodash';
+import { get } from 'lodash';
 import classNames from 'classnames';
 
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
@@ -1099,7 +1099,7 @@ function CalculateYourBenefitsForm({
   };
 
   const renderLearningFormat = () => {
-    const isOjt = _.get(profile, 'attributes.type', '').toLowerCase() === 'ojt';
+    const isOjt = get(profile, 'attributes.type', '').toLowerCase() === 'ojt';
     const name = isOjt
       ? 'Learning format and schedule'
       : 'Learning format and location';

@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
+import { uniqueId } from 'lodash';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { FORMAT_DATE_READABLE } from '../constants';
@@ -34,7 +34,7 @@ export default class AccordionField extends React.Component {
 
   constructor(props) {
     super(props);
-    this.id = _.uniqueId('meb-accordion-field-');
+    this.id = uniqueId('meb-accordion-field-');
 
     // Throw an error if there’s no viewComponent (should be React component)
     if (

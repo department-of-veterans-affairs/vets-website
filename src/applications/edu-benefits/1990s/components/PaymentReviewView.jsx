@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { get } from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import mask from 'platform/forms-system/src/js/utilities/ui/mask-string';
@@ -16,12 +16,12 @@ export class PaymentReviewView extends React.Component {
     const { formData, name } = this.state;
     let value = formData;
     if (formData === undefined) {
-      const bankAccount = _.get(
+      const bankAccount = get(
         this.props.data,
         'view:directDeposit.bankAccount',
         {},
       );
-      value = _.get(bankAccount, name, '');
+      value = get(bankAccount, name, '');
     } else if (name === 'accountNumber' || name === 'routingNumber') {
       value = mask(value, 4);
     } else if (name === 'accountType' && value.length > 0) {

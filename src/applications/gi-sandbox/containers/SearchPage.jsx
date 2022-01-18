@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
-import _ from 'lodash';
+import { omit } from 'lodash';
 import classNames from 'classnames';
 import { useHistory, useLocation } from 'react-router-dom';
 
@@ -117,7 +117,7 @@ export function SearchPage({
         });
 
         // Update form selections based on query.
-        const institutionFilter = _.omit(query, stringSearchParams);
+        const institutionFilter = omit(query, stringSearchParams);
 
         // Convert string to bool for params associated with checkboxes.
         booleanFilterParams.forEach(filterKey => {
@@ -155,7 +155,7 @@ export function SearchPage({
     if (value) {
       dispatchFetchInstitutionAutocompleteSuggestions(
         value,
-        _.omit(search.query, 'name'),
+        omit(search.query, 'name'),
         version,
       );
     }

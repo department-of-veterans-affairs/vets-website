@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
+import { pick } from 'lodash';
 import { shallow } from 'enzyme';
 import LocationDirectionsLink from '../../../components/search-results-items/common/LocationDirectionsLink';
 import { expect } from 'chai';
@@ -18,7 +18,7 @@ const verifyLink = data => {
   );
 
   const anchorProps = wrapper.find('a').props();
-  const testProps = _.pick(anchorProps, ['href', 'rel', 'target']);
+  const testProps = pick(anchorProps, ['href', 'rel', 'target']);
 
   expect(testProps).to.eql({
     href:

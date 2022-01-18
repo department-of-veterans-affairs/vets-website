@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import { capitalize, isFinite } from 'lodash';
 import classNames from 'classnames';
 import {
   addCompareInstitution,
@@ -145,7 +145,7 @@ const ProfilePageHeader = ({
               present={lowerType !== 'ojt' && highestDegree}
             >
               {'  '}
-              {_.isFinite(highestDegree)
+              {isFinite(highestDegree)
                 ? `${highestDegree} year`
                 : highestDegree}{' '}
               program
@@ -159,12 +159,12 @@ const ProfilePageHeader = ({
               present={lowerType && lowerType !== 'ojt'}
             >
               {'   '}
-              {_.capitalize(lowerType)} school
+              {capitalize(lowerType)} school
             </IconWithInfo>
             <IconWithInfo icon="award" present={accreditationType}>
               {'   '}
               <LearnMoreLabel
-                text={<>{_.capitalize(accreditationType)} Accreditation</>}
+                text={<>{capitalize(accreditationType)} Accreditation</>}
                 onClick={() => {
                   dispatchShowModal('typeAccredited');
                 }}
@@ -188,7 +188,7 @@ const ProfilePageHeader = ({
               present={localeType && lowerType && lowerType !== 'ojt'}
             >
               {'   '}
-              {_.capitalize(localeType)} locale
+              {capitalize(localeType)} locale
             </IconWithInfo>
             <IconWithInfo icon="globe" present={website}>
               <a
@@ -244,7 +244,7 @@ const ProfilePageHeader = ({
               }
             >
               {'   '}
-              {_.capitalize(programs[0].schoolLocale)} locale
+              {capitalize(programs[0].schoolLocale)} locale
             </IconWithInfo>
           )}
           <IconWithInfo icon="globe" present={programs.length > 0}>

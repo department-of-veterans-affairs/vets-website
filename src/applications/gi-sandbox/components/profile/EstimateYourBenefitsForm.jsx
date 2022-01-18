@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import _ from 'lodash';
+import { get } from 'lodash';
 import classNames from 'classnames';
 
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
@@ -1228,7 +1228,7 @@ class EstimateYourBenefitsForm extends React.Component {
 
   render() {
     const isOjt =
-      _.get(this.props, 'profile.attributes.type', '').toLowerCase() === 'ojt';
+      get(this.props, 'profile.attributes.type', '').toLowerCase() === 'ojt';
 
     let sectionCount = 2;
     if (!this.hideSchoolCostsAndCalendar()) sectionCount += 1;
