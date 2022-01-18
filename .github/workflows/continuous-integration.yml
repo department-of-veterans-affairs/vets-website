@@ -308,7 +308,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Print Output
-        run: echo "${{ toJSON(job.outputs) }}"
+        run: echo "${{ toJSON(github.job.outputs) }}"
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -322,10 +322,6 @@ jobs:
       - name: Generate new application list
         run: yarn generate-app-list
       # exports app list and assigns to environmental variable at this step
-
-      - name: Set Output
-        id: set-app-list
-        run: echo '::set-output name=app_list::${{ env.APPLICATION_LIST }}'
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
