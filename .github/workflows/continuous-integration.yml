@@ -323,6 +323,17 @@ jobs:
         run: yarn generate-app-list
       # exports app list and assigns to environmental variable at this step
 
+      - name: Write application list to file
+        shell: bash
+        run: |
+          ${{ env.APPLICATION_LIST }} > app-list.txt
+
+      - name: Upload Application List as Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: app-list
+          path: app-list.txt
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -508,6 +519,16 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Download App List Artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: app-list
+
+      - shell: bash
+        run: |
+          app_list=`cat app-list.txt`
+          echo $app_list
 
       - name: Print Output
         run: echo "${{ toJSON(needs.testing-reports-prep.outputs) }}"
