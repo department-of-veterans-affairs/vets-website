@@ -255,6 +255,7 @@ jobs:
 
       - name: Run Stylelint
         if: ${{ steps.get-lint-files.outputs.SCSSFILES != '' }}
+        continue-on-error: true
         run: yarn run stylelint verbose --output-file stylelint-report.json --formatter json ${{ steps.get-lint-files.outputs.SCSSFILES }}
 
       - name: Annotate Stylelint results
