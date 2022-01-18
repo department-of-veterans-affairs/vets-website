@@ -19,6 +19,7 @@ describe('createInvalidPdfAlert', () => {
           attributes: {
             deletedAt: null,
             validPdf: true,
+            formName: '10-10EZ',
           },
         },
         {
@@ -27,6 +28,7 @@ describe('createInvalidPdfAlert', () => {
           attributes: {
             deletedAt: '2020-08-18T00:00:00.000Z',
             validPdf: false,
+            formName: 'VA0927b',
           },
         },
       ],

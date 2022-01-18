@@ -4,6 +4,7 @@ import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Introduction from '../pages/Introduction';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
+import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 
 describe('Pre-Check In Experience', () => {
@@ -15,7 +16,7 @@ describe('Pre-Check In Experience', () => {
         initializeSessionPost,
         initializePreCheckInDataGet,
       } = ApiInitializer;
-      initializeFeatureToggle.withoutEmergencyContact();
+      initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
 
       initializeSessionPost.withSuccess();
@@ -29,6 +30,7 @@ describe('Pre-Check In Experience', () => {
       Introduction.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
+      EmergencyContact.attemptToGoToNextPage();
     });
     afterEach(() => {
       cy.window().then(window => {

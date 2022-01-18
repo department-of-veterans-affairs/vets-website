@@ -50,10 +50,13 @@ describe('Check In Experience', () => {
       Demographics.attemptToGoToNextPage('no');
       SeeStaff.validatePageLoaded();
       SeeStaff.validateBackButton();
+      SeeStaff.selectBackButton();
+      Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });
     it('see staff display with next of kin message', () => {
       Demographics.attemptToGoToNextPage();
+      EmergencyContact.attemptToGoToNextPage();
       NextOfKin.attemptToGoToNextPage('no');
       SeeStaff.validatePageLoaded();
       SeeStaff.validateMessage(
@@ -63,7 +66,6 @@ describe('Check In Experience', () => {
     });
     it('see staff display with emergency contact message', () => {
       Demographics.attemptToGoToNextPage();
-      NextOfKin.attemptToGoToNextPage();
       EmergencyContact.attemptToGoToNextPage('no');
       SeeStaff.validatePageLoaded();
       SeeStaff.validateMessage(

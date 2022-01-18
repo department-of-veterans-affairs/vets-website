@@ -10,7 +10,7 @@ export const OnThisPage = () => (
           role="img"
           className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm"
         />
-        Download your statements
+        Your statements
       </a>
       <a href="#how-to-pay" className="vads-u-margin-y--1">
         <i

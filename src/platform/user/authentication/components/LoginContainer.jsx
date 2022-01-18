@@ -1,54 +1,70 @@
 import React from 'react';
-import { CSP_IDS } from '../constants';
-import LoginButton from './LoginButton';
-import CreateAccountLink from './CreateAccountLink';
+import { connect } from 'react-redux';
 
-export default function LoginContainer({
-  isDisabled,
-  externalApplication,
-  loginGovEnabled,
-  loginGovCreateAccountEnabled,
-  loginGovMHVEnabled,
-  loginGovMyVAHealthEnabled,
-}) {
-  const externalLoginGovSupport = {
-    mhv: loginGovMHVEnabled,
-    myvahealth: loginGovMyVAHealthEnabled,
-  };
+import {
+  ssoe,
+  loginGov,
+  loginGovCreateAccount,
+  loginGovMyVAHealth,
+  loginGovMHV,
+} from 'platform/user/authentication/selectors';
+import {
+  LoginHeader,
+  LoginActions,
+  LoginInfo,
+} from 'platform/user/authentication/components';
+import environment from 'platform/utilities/environment';
 
-  const showLoginGov = () => {
-    if (!loginGovEnabled) {
-      return false;
-    }
+const vaGovFullDomain = environment.BASE_URL;
+const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 
-    if (!Object.keys(externalLoginGovSupport).includes(externalApplication)) {
-      return true;
-    }
-
-    return externalLoginGovSupport[externalApplication];
-  };
+export const LoginContainer = props => {
+  const {
+    externalApplication,
+    isUnifiedSignIn,
+    loggedOut,
+    loginGovEnabled,
+    loginGovCreateAccountEnabled,
+    loginGovMHVEnabled,
+    loginGovMyVAHealthEnabled,
+  } = props;
 
   return (
-    <div className="columns small-12" id="sign-in-wrapper">
-      {showLoginGov() && (
-        <LoginButton csp={CSP_IDS.LOGIN_GOV} isDisabled={isDisabled} />
-      )}
-      <LoginButton csp={CSP_IDS.ID_ME} isDisabled={isDisabled} />
-      <LoginButton csp={CSP_IDS.DS_LOGON} isDisabled={isDisabled} />
-      <LoginButton csp={CSP_IDS.MHV} isDisabled={isDisabled} />
-      <div id="create-account">
-        <h2 className="vads-u-margin-top--3">Or create an account</h2>
-        <div className="vads-u-display--flex vads-u-flex-direction--column">
-          {showLoginGov() &&
-            loginGovCreateAccountEnabled && (
-              <CreateAccountLink
-                csp={CSP_IDS.LOGIN_GOV}
-                isDisabled={isDisabled}
-              />
-            )}
-          <CreateAccountLink csp={CSP_IDS.ID_ME} isDisabled={isDisabled} />
+    <section className="login">
+      <div className="container">
+        {!isUnifiedSignIn && (
+          <div className="row">
+            <div className="columns">
+              <div className="logo">
+                <img alt="VA.gov" className="va-header-logo" src={logoSrc} />
+              </div>
+            </div>
+          </div>
+        )}
+        <div className="container">
+          <LoginHeader loggedOut={loggedOut} />
+          <LoginActions
+            externalApplication={externalApplication}
+            loginGovEnabled={loginGovEnabled}
+            loginGovMHVEnabled={loginGovMHVEnabled}
+            loginGovMyVAHealthEnabled={loginGovMyVAHealthEnabled}
+            loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
+          />
+          <LoginInfo />
         </div>
       </div>
-    </div>
+    </section>
   );
+};
+
+function mapStateToProps(state) {
+  return {
+    useSSOe: ssoe(state),
+    loginGovEnabled: loginGov(state),
+    loginGovMHVEnabled: loginGovMHV(state),
+    loginGovMyVAHealthEnabled: loginGovMyVAHealth(state),
+    loginGovCreateAccountEnabled: loginGovCreateAccount(state),
+  };
 }
+
+export default connect(mapStateToProps)(LoginContainer);

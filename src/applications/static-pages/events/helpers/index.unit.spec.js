@@ -5,6 +5,7 @@ import { expect } from 'chai';
 import {
   dayOptions,
   deriveEndsAtUnix,
+  deriveEventLocations,
   deriveMostRecentDate,
   deriveStartsAtUnix,
   filterByOptions,
@@ -283,6 +284,38 @@ describe('filterEvents', () => {
         now.clone(),
       ),
     ).to.deep.equal([nextWeekEvent]);
+  });
+});
+
+describe('deriveEventLocations', () => {
+  it('returns an array with no arguments passed to it', () => {
+    expect(deriveEventLocations()).to.deep.equal([]);
+  });
+
+  it('handles when fieldLocationHumanreadable is truthy', () => {
+    expect(
+      deriveEventLocations({ fieldLocationHumanreadable: 'foo' }),
+    ).to.deep.equal(['foo']);
+  });
+
+  it('handles when fieldAddress?.addressLine1 is truthy', () => {
+    expect(
+      deriveEventLocations({ fieldAddress: { addressLine1: 'foo' } }),
+    ).to.deep.equal(['foo']);
+  });
+
+  it('handles when fieldAddress?.addressLine2 is truthy', () => {
+    expect(
+      deriveEventLocations({ fieldAddress: { addressLine2: 'foo' } }),
+    ).to.deep.equal(['foo']);
+  });
+
+  it('handles when fieldAddress?.locality is truthy', () => {
+    expect(
+      deriveEventLocations({
+        fieldAddress: { locality: 'foo', administrativeArea: 'bar' },
+      }),
+    ).to.deep.equal(['foo, bar']);
   });
 });
 

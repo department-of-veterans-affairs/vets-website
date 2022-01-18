@@ -29,7 +29,6 @@ import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCommunityCare: true,
-    vaOnlineSchedulingCCIterations: true,
   },
   user: {
     profile: {
@@ -137,7 +136,11 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
 
     expect(await screen.findByText(/Displaying 1 to 5 of 16 providers/i)).to.be
       .ok;
-    expect(screen.getAllByRole('radio').length).to.equal(5);
+
+    const radioButtons = screen
+      .getAllByRole('radio')
+      .filter(element => element.name.startsWith('root_communityCareProvider'));
+    expect(radioButtons.length).to.equal(5);
   });
 
   it('should notify user that the browser is blocked from using current location information', async () => {
@@ -343,9 +346,15 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     );
     // Then providers should be displayed by distance from current location
     // should eventually be one provider
-    await waitFor(() =>
-      expect(screen.getAllByRole('radio').length).to.equal(1),
-    );
+    await waitFor(() => {
+      const radioButtons = screen
+        .getAllByRole('radio')
+        .filter(element =>
+          element.name.startsWith('root_communityCareProvider'),
+        );
+
+      expect(radioButtons.length).to.equal(1);
+    });
   });
 
   it('should sort providers by distance from selected facility in ascending order', async () => {

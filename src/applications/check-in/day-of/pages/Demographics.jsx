@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { URLS } from '../../utils/navigation/day-of';
@@ -8,9 +8,17 @@ import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
+import { makeSelectDemographicData } from '../hooks/selectors';
 
 const Demographics = props => {
-  const { demographics, isLoading, router, demographicsStatus } = props;
+  const selectDemographicData = useMemo(makeSelectDemographicData, []);
+  const { demographics } = useSelector(selectDemographicData);
+  const { router } = props;
+  const { goToNextPage, jumpToPage, goToErrorPage } = useFormRouting(
+    router,
+    URLS,
+  );
+
   const dispatch = useDispatch();
   const updateSeeStaffMessage = useCallback(
     seeStaffMessage => {
@@ -18,23 +26,16 @@ const Demographics = props => {
     },
     [dispatch],
   );
-  const { demographicsNeedsUpdate } = demographicsStatus;
-  const { goToNextPage, jumpToPage } = useFormRouting(router, URLS);
-  const findNextPage = useCallback(
-    () => {
-      goToNextPage();
-    },
-    [goToNextPage],
-  );
+
   const yesClick = useCallback(
     () => {
       recordEvent({
         event: 'cta-button-click',
         'button-click-label': 'yes-to-demographic-information',
       });
-      findNextPage();
+      goToNextPage();
     },
-    [findNextPage],
+    [goToNextPage],
   );
 
   const noClick = useCallback(
@@ -57,20 +58,9 @@ const Demographics = props => {
     },
     [updateSeeStaffMessage, jumpToPage],
   );
-  useEffect(
-    () => {
-      if (demographicsNeedsUpdate === false) {
-        findNextPage();
-      }
-    },
-    [demographicsNeedsUpdate, findNextPage],
-  );
-  if (isLoading) {
-    return (
-      <va-loading-indicator message="Loading your appointments for today" />
-    );
-  } else if (!demographics) {
-    goToNextPage(router, URLS.ERROR);
+
+  if (!demographics) {
+    goToErrorPage();
     return <></>;
   } else {
     return (
@@ -88,10 +78,7 @@ const Demographics = props => {
 };
 
 Demographics.propTypes = {
-  demographics: PropTypes.object,
-  isLoading: PropTypes.bool,
   router: PropTypes.object,
-  demographicsStatus: PropTypes.object,
 };
 
 export default Demographics;

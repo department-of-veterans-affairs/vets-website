@@ -34,7 +34,7 @@ export default function ConfirmationDirectScheduleInfoV2({
         {` ${getTimezoneAbbrByFacilityId(data.vaFacility)}`}
       </h1>
       <InfoAlert status="success" backgroundOnly>
-        <strong>Your appointment has been scheduled and is confirmed.</strong>
+        <strong>We’ve scheduled and confirmed your appointment.</strong>
         <br />
         <div className="vads-u-margin-y--1">
           <Link
@@ -45,11 +45,11 @@ export default function ConfirmationDirectScheduleInfoV2({
               });
             }}
           >
-            View your appointments
+            Review your appointments
           </Link>
         </div>
         <div>
-          <Link to="/new-appointment">New appointment</Link>
+          <Link to="/new-appointment">Schedule a new appointment</Link>
         </div>
       </InfoAlert>
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
