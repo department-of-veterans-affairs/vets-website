@@ -302,7 +302,7 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     outputs:
-      app_list: ${{ env.APPLICTION_LIST }}
+      app_list: ${{ env.APPLICATION_LIST }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
