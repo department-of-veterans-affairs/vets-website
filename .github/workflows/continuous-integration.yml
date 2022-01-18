@@ -121,7 +121,7 @@ jobs:
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.app_folders }}
 
       - name: Generate coverage report by app
-        run: node script/app-coverage-report.js && node script/app-coverage-report.js > test-results/coverage_report.txt
+        run: touch ./coverage/test-coverage-report.json && node script/app-coverage-report.js && node script/app-coverage-report.js > test-results/coverage_report.txt
 
       - name: Upload Coverage Report Artifact
         uses: actions/upload-artifact@v2
