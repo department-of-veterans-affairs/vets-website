@@ -308,7 +308,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Print Output
-        run: echo "${{ toJSON(needs.testing-reports-prep) }}"
+        run: echo "${{ toJSON(jobs.testing-reports-prep) }}"
 
       - name: Install dependencies
         uses: ./.github/workflows/install
