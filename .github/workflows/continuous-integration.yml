@@ -526,16 +526,14 @@ jobs:
         shell: bash
         run: |
           echo "APPLICATION_LIST=`cat app-list/app-list.txt`" >> $GITHUB_ENV
-          echo ${{ env.APPLICATION_LIST }}
 
-      - name: Print Output
-        run: echo "${{ toJSON(needs.testing-reports-prep.outputs) }}"
+      - name: Print Application List
+        run: echo "${{ env.APPLICATION_LIST }}"
 
       # ----------------
       # | Notify Slack |
       # ----------------
-      - name: Log Needs
-        run: echo "${{ needs.testing-reports-prep.outputs.app_list }}"
+
       - name: Notify Slack about Contract test failures
         if: ${{ github.ref == 'refs/heads/master' && needs.contract-tests.result == 'failure' }}
         uses: ./.github/workflows/slack-notify
