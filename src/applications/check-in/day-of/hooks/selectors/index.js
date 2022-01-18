@@ -49,10 +49,25 @@ const selectSeeStaffMessage = createSelector(
 
 const makeSelectSeeStaffMessage = () => selectSeeStaffMessage;
 
+const selectDemographicData = createSelector(
+  state => {
+    return {
+      demographics: state.checkInData?.demographics,
+      nextOfKin: state.checkInData?.nextOfKin,
+      emergencyContact: state.checkInData?.emergencyContact,
+    };
+  },
+  data =>
+    data.demographics || data.nextOfKin || data.emergencyContact ? data : {},
+);
+
+const makeSelectDemographicData = () => selectDemographicData;
+
 export {
   makeSelectCheckInData,
   makeSelectConfirmationData,
   makeSelectAppointmentListData,
   makeSelectContext,
   makeSelectSeeStaffMessage,
+  makeSelectDemographicData,
 };

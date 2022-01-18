@@ -1,11 +1,13 @@
 import moment from 'moment';
 import { expect } from 'chai';
 
-import { SELECTED } from '../../constants';
+import { SELECTED, LEGACY_TYPE } from '../../constants';
 import { getDate } from '../../utils/dates';
 
 import {
   getEligibleContestableIssues,
+  getLegacyAppealsLength,
+  mayHaveLegacyAppeals,
   apiVersion1,
   apiVersion2,
   isVersion1Data,
@@ -76,6 +78,63 @@ describe('getEligibleContestableIssues', () => {
         ineligibleIssue,
       ]),
     ).to.deep.equal([eligibleIssue]);
+  });
+});
+
+describe('getLegacyAppealsLength', () => {
+  it('should return 0 with no issues', () => {
+    expect(getLegacyAppealsLength()).to.equal(0);
+  });
+  it('should return 0 with no legacy issues', () => {
+    expect(
+      getLegacyAppealsLength([{ type: 'one' }, { type: LEGACY_TYPE }]),
+    ).to.equal(0);
+    expect(
+      getLegacyAppealsLength([
+        { type: 'one' },
+        { type: LEGACY_TYPE, attributes: {} },
+      ]),
+    ).to.equal(0);
+    expect(
+      getLegacyAppealsLength([
+        { type: 'one' },
+        { type: LEGACY_TYPE, attributes: { issues: [] } },
+      ]),
+    ).to.equal(0);
+  });
+  it('should return a value > 0 with legacy issues', () => {
+    expect(
+      getLegacyAppealsLength([
+        { type: 'one' },
+        { type: LEGACY_TYPE, attributes: { issues: [{}, {}] } },
+      ]),
+    ).to.equal(2);
+    expect(
+      getLegacyAppealsLength([
+        { type: 'one' },
+        { type: LEGACY_TYPE, attributes: { issues: [{}, {}] } },
+        { type: LEGACY_TYPE, attributes: { issues: [] } },
+        { type: LEGACY_TYPE, attributes: { issues: [{}] } },
+      ]),
+    ).to.equal(3);
+  });
+});
+
+describe('mayHaveLegacyAppeals', () => {
+  it('should return false if there is no data', () => {
+    expect(mayHaveLegacyAppeals()).to.be.false;
+  });
+  it('should return false if there is no legacy & no additional issues', () => {
+    expect(mayHaveLegacyAppeals({ legacyCount: 0, additionalIssues: [] })).to.be
+      .false;
+  });
+  it('should return true if there are some legacy issues & no additional issues', () => {
+    expect(mayHaveLegacyAppeals({ legacyCount: 1, additionalIssues: [] })).to.be
+      .true;
+  });
+  it('should return true if there is no legacy & some additional issues', () => {
+    expect(mayHaveLegacyAppeals({ legacyCount: 0, additionalIssues: [{}] })).to
+      .be.true;
   });
 });
 

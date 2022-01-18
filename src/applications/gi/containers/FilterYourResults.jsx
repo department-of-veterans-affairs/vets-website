@@ -6,6 +6,7 @@ import Dropdown from '../components/Dropdown';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import environment from 'platform/utilities/environment';
 
 import {
   getStateNameForCode,
@@ -90,23 +91,43 @@ export function FilterYourResults({
     const checked = e.target.checked;
 
     if (!checked) {
-      dispatchFilterChange({
-        ...filters,
-        schools: false,
-        excludedSchoolTypes: [],
-        excludeCautionFlags: false,
-        accredited: false,
-        studentVeteran: false,
-        yellowRibbonScholarship: false,
-        specialMission: 'ALL',
-      });
+      if (environment.isProduction())
+        dispatchFilterChange({
+          ...filters,
+          schools: false,
+          excludedSchoolTypes: [],
+          excludeCautionFlags: false,
+          accredited: false,
+          studentVeteran: false,
+          yellowRibbonScholarship: false,
+          specialMission: 'ALL',
+        });
+      else
+        dispatchFilterChange({
+          ...filters,
+          schools: false,
+          excludedSchoolTypes: [
+            'PUBLIC',
+            'FOR PROFIT',
+            'PRIVATE',
+            'FOREIGN',
+            'FLIGHT',
+            'CORRESPONDENCE',
+          ],
+          excludeCautionFlags: false,
+          accredited: false,
+          studentVeteran: false,
+          yellowRibbonScholarship: false,
+          specialMission: 'ALL',
+        });
       recordCheckboxEvent(e);
     } else {
       onChangeCheckbox(e);
     }
   };
 
-  const handleExcludedSchoolTypesChange = e => {
+  const handleIncludedSchoolTypesChange = e => {
+    // The filter consumes these as exclusions
     const name = e.target.name;
     const checked = e.target.checked;
     const newExcluded = _.cloneDeep(excludedSchoolTypes);
@@ -174,7 +195,7 @@ export function FilterYourResults({
   };
 
   const excludedSchoolTypesGroup = () => {
-    const options = (showAllSchoolTypes
+    const options = (showAllSchoolTypes || !environment.isProduction()
       ? INSTITUTION_TYPES
       : INSTITUTION_TYPES.slice(0, SEE_LESS_SIZE)
     ).map(type => {
@@ -185,7 +206,7 @@ export function FilterYourResults({
       };
     });
 
-    return (
+    return environment.isProduction() ? (
       <div className="vads-u-margin-bottom--5">
         <CheckboxGroup
           label={
@@ -193,7 +214,7 @@ export function FilterYourResults({
               Exclude these school types:
             </div>
           }
-          onChange={handleExcludedSchoolTypesChange}
+          onChange={handleIncludedSchoolTypesChange}
           options={options}
         />
         {!showAllSchoolTypes && (
@@ -212,6 +233,18 @@ export function FilterYourResults({
             See less...
           </button>
         )}
+      </div>
+    ) : (
+      <div className="vads-u-margin-bottom--5">
+        <CheckboxGroup
+          label={
+            <div className="vads-u-margin-left--neg0p25">
+              Include these school types:
+            </div>
+          }
+          onChange={handleIncludedSchoolTypesChange}
+          options={options}
+        />
       </div>
     );
   };

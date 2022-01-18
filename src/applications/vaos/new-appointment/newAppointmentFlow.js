@@ -1,5 +1,4 @@
 import {
-  selectFeatureCCIterations,
   selectHasVAPResidentialAddress,
   selectRegisteredCernerFacilityIds,
 } from '../redux/selectors';
@@ -207,8 +206,7 @@ export default {
   ccPreferences: {
     url: '/new-appointment/community-care-preferences',
     next(state) {
-      const featureCCIteration = selectFeatureCCIterations(state);
-      if (featureCCIteration || selectHasVAPResidentialAddress(state)) {
+      if (selectHasVAPResidentialAddress(state)) {
         return 'ccLanguage';
       }
 
@@ -259,12 +257,7 @@ export default {
     url: '/new-appointment/request-date',
     next(state) {
       const supportedSites = selectCommunityCareSupportedSites(state);
-      const featureCCIteration = selectFeatureCCIterations(state);
-      if (
-        isCCFacility(state) &&
-        supportedSites.length > 1 &&
-        featureCCIteration
-      ) {
+      if (isCCFacility(state) && supportedSites.length > 1) {
         return 'ccClosestCity';
       } else if (isCCFacility(state)) {
         return 'ccPreferences';
