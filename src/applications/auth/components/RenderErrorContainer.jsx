@@ -22,7 +22,7 @@ export default function RenderErrorContainer({
     // User denied Authorization (ID Proofing)
     case AUTH_ERROR.USER_DENIED:
       alertContent = (
-        <p>
+        <p className="vads-u-margin-top--0">
           We’re sorry. We couldn’t complete the identity verification process.
           It looks like you selected <strong>“Deny”</strong> when we asked for
           your permission to share your information with VA.gov. We can’t give
@@ -49,7 +49,7 @@ export default function RenderErrorContainer({
     // User's system time mismatch
     case AUTH_ERROR.USER_CLOCK_MISMATCH:
       alertContent = (
-        <p>
+        <p className="vads-u-margin-top--0">
           We’re sorry. It looks like your computer’s clock isn’t showing the
           correct time, and that’s causing a problem in how it communicates with
           our system.
@@ -68,27 +68,11 @@ export default function RenderErrorContainer({
 
     // Server time mismatch
     case AUTH_ERROR.SERVER_CLOCK_MISMATCH:
-      alertContent = (
-        <p>
-          We’re sorry. Something went wrong on our end, and we couldn’t sign you
-          in. Please try signing in again in a few minutes.
-        </p>
-      );
-      troubleshootingContent = (
-        <>
-          <h3>What you can do:</h3>
-          <Helpdesk />
-          <button onClick={openLoginModal}>Try signing in again</button>
-        </>
-      );
-      break;
-
-    // MVI Mismatch
     case AUTH_ERROR.MVI_MISMATCH:
       alertContent = (
-        <p>
+        <p className="vads-u-margin-top--0">
           We’re sorry. Something went wrong on our end, and we couldn’t sign you
-          in. Please try again later.
+          in. Please try signing in again in a few minutes.
         </p>
       );
       troubleshootingContent = (
@@ -103,7 +87,7 @@ export default function RenderErrorContainer({
     // Session expired
     case AUTH_ERROR.SESSION_EXPIRED:
       alertContent = (
-        <p>
+        <p className="vads-u-margin-top--0">
           We take your privacy very seriously. You didn’t take any action on
           VA.gov for 30 minutes, so we signed you out of the site to protect
           your personal information.
@@ -121,18 +105,15 @@ export default function RenderErrorContainer({
     // Failure to Proof (Login.gov)
     case AUTH_ERROR.LOGINGOV_PROOFING_FAIL:
       alertContent = (
-        <p>
-          We’re sorry. It looks like you did something unexpected while trying
-          to identity proof with Login.gov. For your security we signed you out.
+        <p className="vads-u-margin-top--0">
+          We’re sorry. You were unable to create an account at Login.gov or
+          failed to sign you into your account.
         </p>
       );
       troubleshootingContent = (
         <>
           <h3>What you can do:</h3>
-          <p>
-            You were unable to create an account at Login.gov or failed to sign
-            you into your account.
-          </p>
+          <p />
           <p>
             For problems with your Login.gov account, please review{' '}
             <a
@@ -162,7 +143,7 @@ export default function RenderErrorContainer({
     // Multiple MHV IDs (IENs) error
     case AUTH_ERROR.MULTIPLE_MHVIDS:
       alertContent = (
-        <p>
+        <p className="vads-u-margin-top--0">
           We’re having trouble signing you in to VA.gov right now because we
           found more than one My HealtheVet account for you.
         </p>
@@ -217,7 +198,7 @@ export default function RenderErrorContainer({
     // Multiple EDIPIs
     case AUTH_ERROR.MULTIPLE_EDIPIS:
       alertContent = (
-        <p>
+        <p className="vads-u-margin-top--0">
           We’re having trouble signing you in to VA.gov right now because we
           found more than one DoD ID number for you.
         </p>
@@ -233,7 +214,7 @@ export default function RenderErrorContainer({
     // ICN Mismatch
     case AUTH_ERROR.ICN_MISMATCH:
       alertContent = (
-        <p>
+        <p className="vads-u-margin-top--0">
           We’re having trouble signing you in right now because your My
           HealtheVet account number doesn’t match the account number on your
           VA.gov account.
@@ -250,9 +231,9 @@ export default function RenderErrorContainer({
     // UUID Missing (Login.gov or ID.me)
     case AUTH_ERROR.UUID_MISSING:
       alertContent = (
-        <p>
+        <p className="vads-u-margin-top--0">
           We’re having trouble signing you in right now because one of your
-          account numbers is mission for your VA.gov account.
+          account numbers is missing for your VA.gov account.
         </p>
       );
       troubleshootingContent = (
@@ -266,7 +247,7 @@ export default function RenderErrorContainer({
     // Multiple Corp IDs
     case AUTH_ERROR.MULTIPLE_CORPIDS:
       alertContent = (
-        <p>
+        <p className="vads-u-margin-top--0">
           We’re having trouble signing you in to VA.gov right now because we
           found more than one account number for you.
         </p>
@@ -282,7 +263,7 @@ export default function RenderErrorContainer({
     // Catch all generic error
     default:
       alertContent = (
-        <p>
+        <p className="vads-u-margin-top--0">
           We’re sorry. Something went wrong on our end, and we couldn’t sign you
           in.
         </p>
@@ -346,10 +327,12 @@ export default function RenderErrorContainer({
     <div className="usa-content columns small-12">
       <h1>We can’t sign you in</h1>
       <va-alert visible status="error">
-        <h3 slot="headline">Error code: {code}</h3>
         {alertContent}
       </va-alert>
       {troubleshootingContent}
+      <p>
+        <em>Error code: {code}</em>
+      </p>
     </div>
   );
 }
