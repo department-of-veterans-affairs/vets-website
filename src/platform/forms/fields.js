@@ -1,4 +1,4 @@
-import { has, keys, isPlainObject, mapValues, isArray } from 'lodash';
+import { has, keys, isPlainObject, mapValues } from 'lodash';
 
 /**
  * Represents an input field value.
@@ -20,7 +20,7 @@ export function dirtyAllFields(field) {
     return makeField(field.value, true);
   } else if (isPlainObject(field)) {
     return mapValues(field, (value, _k) => dirtyAllFields(value));
-  } else if (isArray(field)) {
+  } else if (Array.isArray(field)) {
     return field.map(dirtyAllFields);
   }
 
