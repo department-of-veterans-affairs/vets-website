@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { get, toLower, startCase } from 'lodash';
+import { find, get, toLower, startCase } from 'lodash';
 import * as Sentry from '@sentry/browser';
 import { Link } from 'react-router';
 import Decision from '../components/appeals-v2/Decision';
