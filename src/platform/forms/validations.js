@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { range } from 'lodash';
 import { dateToMoment } from '../utilities/date';
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
 
@@ -159,7 +159,7 @@ function isValidSSN(value) {
     return false;
   }
 
-  const noBadSameDigitNumber = _.range(0, 10).every(i => {
+  const noBadSameDigitNumber = range(0, 10).every(i => {
     const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
     return !sameDigitRegex.test(value);
   });
