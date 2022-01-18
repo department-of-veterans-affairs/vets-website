@@ -1,6 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { currency, calcDueDate, formatDate } from '../utils/helpers';
+import {
+  currency,
+  calcDueDate,
+  formatDate,
+  verifyCurrentBalance,
+} from '../utils/helpers';
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -34,7 +39,7 @@ const PastDueContent = ({ id, date, amount }) => (
 );
 
 const BalanceCard = ({ id, amount, facility, city, date }) => {
-  const isCurrentBalance = true;
+  const isCurrentBalance = verifyCurrentBalance(date);
   const linkText = isCurrentBalance
     ? `Check details and resolve this bill`
     : `Check details`;
