@@ -307,9 +307,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Print Output
-        run: echo "${{ toJSON(github.job.outputs) }}"
-
       - name: Install dependencies
         uses: ./.github/workflows/install
         with:
@@ -326,7 +323,7 @@ jobs:
       - name: Write application list to file
         shell: bash
         run: |
-          ${{ env.APPLICATION_LIST }} > app-list.txt
+          echo "${{ env.APPLICATION_LIST }}" > app-list.txt
 
       - name: Upload Application List as Artifact
         uses: actions/upload-artifact@v1
