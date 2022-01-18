@@ -503,8 +503,8 @@ jobs:
     needs: [testing-reports-prep, contract-tests]
     if: ${{ always() && (needs.contract-tests.result == 'success' || needs.contract-tests.result == 'failure') }}
     continue-on-error: true
-    env:
-      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+    # env:
+    #   APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
       - name: Set IS_MASTER_BUILD
         run: |
@@ -522,10 +522,11 @@ jobs:
         with:
           name: app-list
 
-      - shell: bash
+      - name: Set Github ENV Variable for Application List
+        shell: bash
         run: |
-          app_list=`cat app-list/app-list.txt`
-          echo $app_list
+          echo "APPLICATION_LIST=`cat app-list/app-list.txt`" >> $GITHUB_ENV
+          echo ${{ APPLICATION_LIST }}
 
       - name: Print Output
         run: echo "${{ toJSON(needs.testing-reports-prep.outputs) }}"
