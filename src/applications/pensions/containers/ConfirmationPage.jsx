@@ -49,7 +49,7 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h2 role="asdfgadfafda" className="confirmation-page-title">Claim submitted</h2>
+        <h3 className="confirmation-page-title">Claim submitted</h3>
         <p>
           We process claims in the order we receive them. Please print this page
           for your records.
