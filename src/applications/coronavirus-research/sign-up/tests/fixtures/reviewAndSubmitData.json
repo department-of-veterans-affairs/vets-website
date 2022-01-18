@@ -53,6 +53,30 @@
     },
     {
       "fieldId": "root_VACCINATED_DATE2Year",
+      "fieldName": "2020",
+      "type": "text"
+    },
+    {
+      "labelId": "root_VACCINATED_ADDITIONAL1-label",
+      "labelName": "Have you received any additional vaccine doses (including boosters)?",
+      "fieldId": "root_VACCINATED_ADDITIONAL1Yes",
+      "fieldName": "Yes",
+      "type": "radio"
+    },
+    {
+      "labelId": "root_VACCINATED_ADDITIONAL_DETAILS1-label",
+      "labelName": "If Yes, which vaccine did you receive?",
+      "fieldId": "root_VACCINATED_ADDITIONAL_DETAILS1_1",
+      "fieldName": "Pfizer",
+      "type": "radio"
+    },
+    {
+      "fieldId": "root_VACCINATED_ADDITIONAL_DATE1Month",
+      "fieldName": "5",
+      "type": "dropDown"
+    },
+    {
+      "fieldId": "root_VACCINATED_ADDITIONAL_DATE1Year",
       "fieldName": "2021",
       "type": "text"
     },
@@ -117,6 +141,20 @@
       "type": "select"
     },
     {
+      "labelId": "root_ELIGIBLE-label",
+      "labelName": "Are you eligible to receive care at a VA facility?",
+      "fieldId": "root_ELIGIBLENo",
+      "fieldName": "No",
+      "type": "radio"
+    },
+    {
+      "labelId": "root_FACILITY-label",
+      "labelName": "Do you receive care at a VA facility?",
+      "fieldId": "root_FACILITYNo",
+      "fieldName": "No",
+      "type": "radio"
+    },
+    {
       "labelId": "root_GENDER-label",
       "labelName": "What is your gender?",
       "reviewLabelName": "Gender:",
@@ -167,7 +205,7 @@
     },
     {
       "labelName": "Zip code where you currently live",
-      "fieldId": "root_zipcode",
+      "fieldId": "root_zipCode",
       "fieldName": "12345",
       "type": "text"
     },

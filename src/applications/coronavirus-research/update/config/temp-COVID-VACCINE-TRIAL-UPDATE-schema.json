@@ -47,6 +47,46 @@
         "VACCINATED_SECOND": {
             "type": "boolean"
         },
+        "VACCINATED_ADDITIONAL1": {
+            "type": "boolean"
+        },
+        "VACCINATED_ADDITIONAL_DETAILS1": {
+            "type": "string",
+            "enum": [
+                "MODERNA",
+                "PFIZER",
+                "OTHER",
+                "UNKNOWN"
+            ]
+        },
+        "VACCINATED_ADDITIONAL_OTHER1": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
+        },
+        "VACCINATED_ADDITIONAL_DATE1": {
+            "$ref": "#/definitions/date"
+        },
+        "VACCINATED_ADDITIONAL2": {
+            "type": "boolean"
+        },
+        "VACCINATED_ADDITIONAL_DETAILS2": {
+            "type": "string",
+            "enum": [
+                "MODERNA",
+                "PFIZER",
+                "OTHER",
+                "UNKNOWN"
+            ]
+        },
+        "VACCINATED_ADDITIONAL_OTHER2": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
+        },
+        "VACCINATED_ADDITIONAL_DATE2": {
+            "$ref": "#/definitions/date"
+        },
         "diagnosed": {
             "type": "boolean"
         },

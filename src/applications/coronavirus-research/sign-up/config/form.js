@@ -109,6 +109,20 @@ const formConfig = {
               VACCINATED_DATE1: monthYear,
               VACCINATED_DATE2: monthYear,
               VACCINATED_SECOND: fullSchema.properties.VACCINATED_SECOND,
+              VACCINATED_ADDITIONAL1:
+                fullSchema.properties.VACCINATED_ADDITIONAL1,
+              VACCINATED_ADDITIONAL_DETAILS1:
+                fullSchema.properties.VACCINATED_ADDITIONAL_DETAILS1,
+              VACCINATED_ADDITIONAL_OTHER1:
+                fullSchema.properties.VACCINATED_ADDITIONAL_OTHER1,
+              VACCINATED_ADDITIONAL_DATE1: date,
+              VACCINATED_ADDITIONAL2:
+                fullSchema.properties.VACCINATED_ADDITIONAL2,
+              VACCINATED_ADDITIONAL_DETAILS2:
+                fullSchema.properties.VACCINATED_ADDITIONAL_DETAILS2,
+              VACCINATED_ADDITIONAL_OTHER2:
+                fullSchema.properties.VACCINATED_ADDITIONAL_OTHER2,
+              VACCINATED_ADDITIONAL_DATE2: date,
               hospitalized: fullSchema.properties.hospitalized,
               smokeOrVape: fullSchema.properties.smokeOrVape,
               HEALTH_HISTORY: fullSchema.properties.HEALTH_HISTORY,
@@ -137,9 +151,12 @@ const formConfig = {
               veteranFullName: fullName,
               email,
               phone: usaPhone,
-              zipcode: usaPostalCode,
+              zipCode: usaPostalCode,
               veteranDateOfBirth: date,
               VETERAN: fullSchema.properties.VETERAN,
+              ELIGIBLE: fullSchema.properties.ELIGIBLE,
+              FACILITY: fullSchema.properties.FACILITY,
+              vaLocation: fullSchema.properties.vaLocation,
               GENDER: fullSchema.properties.GENDER,
               GENDER_SELF_IDENTIFY_DETAILS:
                 fullSchema.properties.GENDER_SELF_IDENTIFY_DETAILS,

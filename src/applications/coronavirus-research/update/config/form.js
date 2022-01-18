@@ -116,6 +116,20 @@ const formConfig = {
               VACCINATED_DATE1: date,
               VACCINATED_DATE2: date,
               VACCINATED_SECOND: fullSchema.properties.VACCINATED_SECOND,
+              VACCINATED_ADDITIONAL1:
+                fullSchema.properties.VACCINATED_ADDITIONAL1,
+              VACCINATED_ADDITIONAL_DETAILS1:
+                fullSchema.properties.VACCINATED_ADDITIONAL_DETAILS1,
+              VACCINATED_ADDITIONAL_OTHER1:
+                fullSchema.properties.VACCINATED_ADDITIONAL_OTHER1,
+              VACCINATED_ADDITIONAL_DATE1: date,
+              VACCINATED_ADDITIONAL2:
+                fullSchema.properties.VACCINATED_ADDITIONAL2,
+              VACCINATED_ADDITIONAL_DETAILS2:
+                fullSchema.properties.VACCINATED_ADDITIONAL_DETAILS2,
+              VACCINATED_ADDITIONAL_OTHER2:
+                fullSchema.properties.VACCINATED_ADDITIONAL_OTHER2,
+              VACCINATED_ADDITIONAL_DATE2: date,
               diagnosed: fullSchema.properties.diagnosed,
               DIAGNOSED_DETAILS: fullSchema.properties.DIAGNOSED_DETAILS,
               DIAGNOSED_SYMPTOMS: fullSchema.properties.DIAGNOSED_SYMPTOMS,
