@@ -524,7 +524,7 @@ jobs:
 
       - shell: bash
         run: |
-          app_list=`cat app-list.txt`
+          app_list=`cat app-list/app-list.txt`
           echo $app_list
 
       - name: Print Output
