@@ -23,7 +23,6 @@ describe('check-in', () => {
           },
           form: {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'first-page',
           },
         },
       };

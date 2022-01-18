@@ -34,44 +34,34 @@ describe('Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('see staff display with demographics message', () => {
-      Demographics.attemptToGoToNextPage('no');
-      SeeStaff.validatePageLoaded();
-      SeeStaff.validateMessage();
+
+    it('Navigation routing hitting no on every page', () => {
       cy.injectAxeThenAxeCheck();
-    });
-    it('see staff page has BTSSS link', () => {
       Demographics.attemptToGoToNextPage('no');
+
       SeeStaff.validatePageLoaded();
-      SeeStaff.validateBTSSSLink();
-      cy.injectAxeThenAxeCheck();
-    });
-    it('back link goes back to previous page', () => {
-      Demographics.attemptToGoToNextPage('no');
-      SeeStaff.validatePageLoaded();
-      SeeStaff.validateBackButton();
       SeeStaff.selectBackButton();
+
       Demographics.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
-    });
-    it('see staff display with next of kin message', () => {
       Demographics.attemptToGoToNextPage();
-      EmergencyContact.attemptToGoToNextPage();
-      NextOfKin.attemptToGoToNextPage('no');
-      SeeStaff.validatePageLoaded();
-      SeeStaff.validateMessage(
-        'Our staff can help you update your next of kin information.',
-      );
-      cy.injectAxeThenAxeCheck();
-    });
-    it('see staff display with emergency contact message', () => {
-      Demographics.attemptToGoToNextPage();
+
+      EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage('no');
+
       SeeStaff.validatePageLoaded();
-      SeeStaff.validateMessage(
-        'Our staff can help you update your emergency contact information.',
-      );
-      cy.injectAxeThenAxeCheck();
+      SeeStaff.selectBackButton();
+
+      EmergencyContact.validatePageLoaded();
+      EmergencyContact.attemptToGoToNextPage();
+
+      NextOfKin.validatePage.dayOf();
+      NextOfKin.attemptToGoToNextPage('no');
+
+      SeeStaff.validatePageLoaded();
+      SeeStaff.selectBackButton();
+
+      NextOfKin.validatePage.dayOf();
+      NextOfKin.attemptToGoToNextPage();
     });
   });
 });

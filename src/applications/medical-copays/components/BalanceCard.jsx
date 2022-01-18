@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { currency, calcDueDate } from '../utils/helpers';
+import { currency, calcDueDate, formatDate } from '../utils/helpers';
 
 const BalanceCard = ({ id, amount, facility, city, date }) => {
   return (
@@ -31,7 +31,8 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
             className="fa fa-exclamation-triangle"
           />
           <p>
-            Pay your full balance or request financial help before
+            Your balance was updated on {formatDate(date)}. Pay your full
+            balance or request financial help before
             <strong
               className="vads-u-margin-x--0p5"
               data-testid={`due-date-${id}`}

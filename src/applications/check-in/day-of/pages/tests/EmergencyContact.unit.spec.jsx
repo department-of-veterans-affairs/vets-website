@@ -9,6 +9,8 @@ import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import EmergencyContact from '../EmergencyContact';
 
+import { createMockRouter } from '../../../tests/unit/mocks/router';
+
 describe('check in', () => {
   describe('EmergencyContact', () => {
     let store;
@@ -19,7 +21,6 @@ describe('check in', () => {
         },
         form: {
           pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-          currentPage: 'first-page',
         },
         emergencyContact: {
           address: {
@@ -93,10 +94,10 @@ describe('check in', () => {
 
     it('goes to the error page when the data is unavailable', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
         params: {},
-      };
+      });
       const updatedStore = {
         checkInData: {
           context: {
@@ -138,12 +139,12 @@ describe('check in', () => {
 
     it('has a clickable yes button', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
         params: {
           token: 'token-123',
         },
-      };
+      });
 
       const component = render(
         <Provider store={store}>

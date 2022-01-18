@@ -34,6 +34,7 @@ export const Form0996App = ({
   hlrV2,
   getContestableIssues,
   contestableIssues = {},
+  legacyCount,
 }) => {
   const { email = {}, mobilePhone = {}, mailingAddress = {} } =
     profile?.vapContactInfo || {};
@@ -61,7 +62,8 @@ export const Form0996App = ({
           issuesNeedUpdating(
             contestableIssues?.issues,
             formData?.contestedIssues,
-          )
+          ) ||
+          contestableIssues.legacyCount !== formData.legacyCount
         ) {
           setFormData({
             ...formData,
@@ -77,6 +79,7 @@ export const Form0996App = ({
             contestedIssues: processContestableIssues(
               contestableIssues?.issues,
             ),
+            legacyCount: contestableIssues?.legacyCount || 0,
           });
         } else if (
           formData.hlrV2 && // easier to test formData.hlrV2 with SiP menu
@@ -109,6 +112,7 @@ export const Form0996App = ({
       contestableIssues,
       isLoadingIssues,
       getContestableIssues,
+      legacyCount,
     ],
   );
 
@@ -166,6 +170,7 @@ const mapStateToProps = state => ({
   savedForms: state.user?.profile?.savedForms || [],
   hlrV2: state.featureToggles?.hlrV2,
   contestableIssues: state.contestableIssues || {},
+  legacyCount: state.legacyCount || 0,
 });
 
 const mapDispatchToProps = {

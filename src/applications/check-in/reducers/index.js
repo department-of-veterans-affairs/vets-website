@@ -6,7 +6,6 @@ const initialState = {
   context: {},
   form: {
     pages: [],
-    currentPage: '',
     data: {},
   },
 };
@@ -51,18 +50,13 @@ import {
   seeStaffMessageUpdatedHandler,
 } from './day-of';
 
-import { GO_TO_NEXT_PAGE, INIT_FORM } from '../actions/navigation';
+import { INIT_FORM } from '../actions/navigation';
 
-import {
-  gotToNextPageHandler,
-  initFormHandler,
-  updateFormHandler,
-} from './navigation';
+import { initFormHandler, updateFormHandler } from './navigation';
 
 const handler = Object.freeze({
   [INIT_FORM]: initFormHandler,
   [SET_SESSION]: setSessionHandler,
-  [GO_TO_NEXT_PAGE]: gotToNextPageHandler,
   [RECORD_ANSWER]: recordAnswerHandler,
   [SET_VETERAN_DATA]: setVeteranDataHandler,
   [APPOINTMENT_WAS_CHECKED_INTO]: appointmentWasCheckedIntoHandler,

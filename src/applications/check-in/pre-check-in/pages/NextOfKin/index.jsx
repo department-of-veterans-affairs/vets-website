@@ -42,12 +42,12 @@ const NextOfKin = props => {
   const dispatch = useDispatch();
 
   const {
-    currentPage,
+    getCurrentPageFromRouter,
     goToErrorPage,
     goToNextPage,
     goToPreviousPage,
   } = useFormRouting(router, URLS);
-
+  const currentPage = getCurrentPageFromRouter();
   useEffect(() => {
     focusElement('h1');
   }, []);
