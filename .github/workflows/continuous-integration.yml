@@ -527,7 +527,7 @@ jobs:
         run: |
           app_list=`cat app-list/app-list.txt`
           echo "APPLICATION_LIST=$(app_list)" >> $GITHUB_ENV
-          echo ${{ APPLICATION_LIST }}
+          echo ${{ env.APPLICATION_LIST }}
 
       - name: Print Output
         run: echo "${{ toJSON(needs.testing-reports-prep.outputs) }}"
