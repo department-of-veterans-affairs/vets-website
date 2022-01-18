@@ -3,7 +3,6 @@ import LazyLoad from 'vanilla-lazyload/dist/lazyload';
 import * as Sentry from '@sentry/browser';
 // Relative imports.
 import './analytics';
-import './sass/static-pages.scss';
 import 'platform/polyfills';
 import alertsBuildShow from './widget-creators/alerts-dismiss-view';
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
@@ -63,6 +62,9 @@ import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
 import createVetCentersHours from './facilities/createVetCentersHours';
+import createVetCentersHoursOne from './facilities/createVetCentersHoursOne';
+import createVetCentersHoursTwo from './facilities/createVetCentersHoursTwo';
+import createVetCentersHoursThree from './facilities/createVetCentersHoursThree';
 import dependencyVerificationReducer from './dependency-verification/reducers/index';
 import {
   createScoEventsWidget,
@@ -138,6 +140,9 @@ createResourcesAndSupportSearchWidget(
   widgetTypes.RESOURCES_AND_SUPPORT_SEARCH,
 );
 createVetCentersHours(store);
+createVetCentersHoursOne(store);
+createVetCentersHoursTwo(store);
+createVetCentersHoursThree(store);
 createExpandableOperatingStatus(store);
 createNearByVetCenters(store);
 createFacilityListWidget();

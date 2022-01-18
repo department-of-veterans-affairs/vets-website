@@ -1,3 +1,5 @@
+import { updateForm } from '../../utils/navigation/day-of';
+
 export const RECEIVED_APPOINTMENT_DETAILS = 'RECEIVED_APPOINTMENT_DETAILS';
 
 export const receivedMultipleAppointmentDetails = payload => {
@@ -100,11 +102,20 @@ export const seeStaffMessageUpdated = message => {
   };
 };
 
-export const RECEIVED_DEMOGRAPHICS_STATUS = 'RECEIVED_DEMOGRAPHICS_STATUS';
+export const UPDATE_DAY_OF_CHECK_IN_FORM = 'UPDATE_DAY_OF_CHECK_IN_FORM';
 
-export const receivedDemographicsStatus = status => {
+export const updateFormAction = ({
+  patientDemographicsStatus,
+  checkInExperienceUpdateInformationPageEnabled = false,
+}) => {
+  const pages = updateForm(
+    patientDemographicsStatus,
+    checkInExperienceUpdateInformationPageEnabled,
+  );
   return {
-    type: RECEIVED_DEMOGRAPHICS_STATUS,
-    payload: { demographicsStatus: status },
+    type: UPDATE_DAY_OF_CHECK_IN_FORM,
+    payload: {
+      pages,
+    },
   };
 };

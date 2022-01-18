@@ -62,7 +62,7 @@ function generateWebpackDevConfig(buildOptions) {
       // Needed to write the landing pages to disk so webpack-dev-server will actually serve them
       writeToDisk: true,
     },
-    onBeforeSetupMiddleware: devServer => {
+    setupMiddlewares: (middlewares, devServer) => {
       // We're doing this because some of the pages
       // that we are redirecting end with asp and we want
       // those to be treated as html
@@ -74,6 +74,8 @@ function generateWebpackDevConfig(buildOptions) {
       if (buildOptions['local-proxy-rewrite']) {
         setupLocalProxyRewrite(devServer, buildOptions);
       }
+
+      return middlewares;
     },
   };
 }

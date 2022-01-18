@@ -747,7 +747,7 @@ export default function formReducer(state = initialState, action) {
           : state.ccEnabledSystems[0];
 
       const typeOfCare = getTypeOfCare(formData);
-      let initialSchema = set(
+      const initialSchema = set(
         'properties.communityCareProvider.title',
         `Request a ${typeOfCare.name} provider. (Optional)`,
         action.schema,
@@ -757,34 +757,6 @@ export default function formReducer(state = initialState, action) {
           ...formData,
           communityCareSystemId: state.ccEnabledSystems[0].id,
         };
-        initialSchema = unset(
-          'properties.communityCareSystemId',
-          initialSchema,
-        );
-      } else if (action.featureCCIteration) {
-        initialSchema = unset(
-          'properties.communityCareProvider.title',
-          initialSchema,
-        );
-        initialSchema = unset(
-          'properties.communityCareSystemId',
-          initialSchema,
-        );
-      } else if (!action.featureCCIteration) {
-        initialSchema = set(
-          'properties.communityCareSystemId.enum',
-          state.ccEnabledSystems.map(system => system.id),
-          initialSchema,
-        );
-        initialSchema.properties.communityCareSystemId.enumNames = state.ccEnabledSystems.map(
-          system => `${system.address?.city}, ${system.address?.state}`,
-        );
-        initialSchema.required = ['communityCareSystemId'];
-      } else {
-        initialSchema = unset(
-          'properties.communityCareSystemId',
-          initialSchema,
-        );
       }
       const { data, schema } = setupFormData(
         formData,

@@ -1,35 +1,25 @@
 import { useCallback, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+
 import URLSearchParams from 'url-search-params';
 
 import { makeSelectForm } from '../selectors';
-import { createGoToNextPageAction } from '../actions/navigation';
 
 const useFormRouting = (router = {}, URLS) => {
   const selectForm = useMemo(makeSelectForm, []);
-  const { pages, currentPage } = useSelector(selectForm);
-
-  const dispatch = useDispatch();
-  const dispatchGoToNextPage = useCallback(
-    nextPage => {
-      dispatch(createGoToNextPageAction({ nextPage }));
-    },
-    [dispatch],
-  );
+  const { pages } = useSelector(selectForm);
 
   const goToErrorPage = useCallback(
     () => {
-      dispatchGoToNextPage(URLS.ERROR);
       router.push(URLS.ERROR);
     },
-    [URLS.ERROR, dispatchGoToNextPage, router],
+    [URLS.ERROR, router],
   );
 
   const jumpToPage = useCallback(
     (page, options = {}) => {
       if (Object.values(URLS).includes(page)) {
         const nextPage = page;
-        dispatchGoToNextPage(nextPage);
         // check for params
         const query = {
           pathname: nextPage,
@@ -48,30 +38,38 @@ const useFormRouting = (router = {}, URLS) => {
         goToErrorPage();
       }
     },
-    [URLS, dispatchGoToNextPage, goToErrorPage, router],
+    [URLS, goToErrorPage, router],
+  );
+
+  const getCurrentPageFromRouter = useCallback(
+    () => {
+      // substring to remove the leading /
+      return router.location.pathname.substring(1);
+    },
+    [router],
   );
 
   const goToNextPage = useCallback(
     () => {
-      const currentPageIndex = pages.findIndex(page => page === currentPage);
+      const here = getCurrentPageFromRouter();
+      const currentPageIndex = pages.findIndex(page => page === here);
       const nextPage = pages[currentPageIndex + 1] ?? URLS.ERROR;
-      dispatchGoToNextPage(nextPage);
       router.push(nextPage);
     },
-    [pages, URLS.ERROR, dispatchGoToNextPage, router, currentPage],
+    [getCurrentPageFromRouter, pages, URLS.ERROR, router],
   );
   const goToPreviousPage = useCallback(
     () => {
-      const currentPageIndex = pages.findIndex(page => page === currentPage);
+      const here = getCurrentPageFromRouter();
+      const currentPageIndex = pages.findIndex(page => page === here);
       const nextPage = pages[currentPageIndex - 1] ?? URLS.ERROR;
-      dispatchGoToNextPage(nextPage);
       router.push(nextPage);
     },
-    [pages, URLS.ERROR, dispatchGoToNextPage, router, currentPage],
+    [getCurrentPageFromRouter, pages, URLS.ERROR, router],
   );
 
   return {
-    currentPage,
+    getCurrentPageFromRouter,
     goToErrorPage,
     jumpToPage,
     goToPreviousPage,

@@ -7,13 +7,13 @@ import {
   addressChangeAuthorization,
   basicInformation,
   contactInformation,
-  disclosureAuthorization,
   location,
   organizationName,
   representative,
   search,
   serviceFileInformation,
   transitionPage,
+  treatmentDisclosureAuthorization,
   personalInformation,
 } from './chapters';
 
@@ -44,13 +44,11 @@ const formConfig = {
       pages: {
         representativeType: {
           path: 'representative-type',
-          uiSchema: basicInformation.uiSchema,
-          schema: basicInformation.schema,
+          ...basicInformation,
         },
         location: {
           path: 'location',
-          uiSchema: location.uiSchema,
-          schema: location.schema,
+          ...location,
         },
         representative: {
           path: 'representative-name',
@@ -59,8 +57,7 @@ const formConfig = {
         },
         organizationName: {
           path: 'organization-name',
-          uiSchema: organizationName.uiSchema,
-          schema: organizationName.schema,
+          ...organizationName,
         },
         searchRepresentative: {
           path: 'search-for-representative',
@@ -79,8 +76,7 @@ const formConfig = {
       pages: {
         personalInformation: {
           path: 'personal-information',
-          uiSchema: personalInformation.uiSchema,
-          schema: personalInformation.schema,
+          ...personalInformation,
         },
       },
     },
@@ -89,8 +85,7 @@ const formConfig = {
       pages: {
         serviceFileInformation: {
           path: 'service-file-information',
-          uiSchema: serviceFileInformation.uiSchema,
-          schema: serviceFileInformation.schema,
+          ...serviceFileInformation,
         },
       },
     },
@@ -99,23 +94,20 @@ const formConfig = {
       pages: {
         mailingAddress: {
           path: 'mailing-address',
-          uiSchema: contactInformation.mailingAddress.uiSchema,
-          schema: contactInformation.mailingAddress.schema,
+          ...contactInformation.mailingAddress,
         },
         additionalInformation: {
           path: 'additional-contact-information',
-          uiSchema: contactInformation.additionalInformation.uiSchema,
-          schema: contactInformation.additionalInformation.schema,
+          ...contactInformation.additionalInformation,
         },
       },
     },
-    disclosureAuthorization: {
+    treatmentDisclosureAuthorization: {
       title: 'Authorization to disclose protected treatment records',
       pages: {
-        disclosureAuthorization: {
-          path: 'disclosure-authorization',
-          uiSchema: disclosureAuthorization.uiSchema,
-          schema: disclosureAuthorization.schema,
+        treatmentDisclosureAuthorization: {
+          path: 'treatment-disclosure-authorization',
+          ...treatmentDisclosureAuthorization,
         },
       },
     },
@@ -124,8 +116,7 @@ const formConfig = {
       pages: {
         addressChangeAuthorization: {
           path: 'address-change-authorization',
-          uiSchema: addressChangeAuthorization.uiSchema,
-          schema: addressChangeAuthorization.schema,
+          ...addressChangeAuthorization,
         },
       },
     },
