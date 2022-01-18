@@ -302,7 +302,7 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     outputs:
-      app_list: ${{ steps.set-app-list.outputs.app_list }}
+      app_list: ${{ env.APPLICTION_LIST }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -509,6 +509,9 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Print Output
+        run: echo "${{ toJSON(needs.testing-reports-prep.outputs) }}"
 
       # ----------------
       # | Notify Slack |
