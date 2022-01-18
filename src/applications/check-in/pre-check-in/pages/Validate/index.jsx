@@ -1,5 +1,7 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+
+import { focusElement } from 'platform/utilities/ui';
 
 import { api } from '../../../api';
 
@@ -34,12 +36,9 @@ export default function Index({ router }) {
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
   const validateHandler = async () => {
-    setIsLoading(true);
     setLastNameErrorMessage();
     setLast4ErrorMessage();
     if (!lastName || !last4Ssn) {
-      setIsLoading(false);
-
       if (!lastName) {
         setLastNameErrorMessage('Please enter your last name.');
       }
@@ -49,6 +48,7 @@ export default function Index({ router }) {
         );
       }
     } else {
+      setIsLoading(true);
       try {
         const resp = await api.v2.postSession({
           token,
@@ -63,6 +63,10 @@ export default function Index({ router }) {
       }
     }
   };
+
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
   return (
     <>
       <ValidateDisplay

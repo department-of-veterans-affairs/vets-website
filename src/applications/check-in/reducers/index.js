@@ -20,13 +20,10 @@ import { recordAnswerHandler, setVeteranDataHandler } from './pre-check-in';
 
 import {
   APPOINTMENT_WAS_CHECKED_INTO,
-  PERMISSIONS_UPDATED,
   RECEIVED_APPOINTMENT_DETAILS,
   RECEIVED_EMERGENCY_CONTACT_DATA,
   RECEIVED_DEMOGRAPHICS_DATA,
   RECEIVED_NEXT_OF_KIN_DATA,
-  SET_TOKEN_CONTEXT,
-  TOKEN_WAS_VALIDATED,
   TRIGGER_REFRESH,
   SEE_STAFF_MESSAGE_UPDATED,
   UPDATE_DAY_OF_CHECK_IN_FORM,
@@ -34,13 +31,10 @@ import {
 
 import {
   appointmentWasCheckedIntoHandler,
-  permissionsUpdatedHandler,
   receivedAppointmentDetailsHandler,
   receivedEmergencyContactDataHandler,
   receivedDemographicsDataHandler,
   receivedNextOfKinDataHandler,
-  setTokenContextHandler,
-  tokenWasValidatedHandler,
   triggerRefreshHandler,
   seeStaffMessageUpdatedHandler,
 } from './day-of';
@@ -55,11 +49,7 @@ import { setSessionHandler } from './authentication';
 
 const handler = Object.freeze({
   [INIT_FORM]: initFormHandler,
-  // pre-check-in; this is what I want to use
   [SET_SESSION]: setSessionHandler,
-  // day-of; this is going away
-  [PERMISSIONS_UPDATED]: permissionsUpdatedHandler,
-
   [RECORD_ANSWER]: recordAnswerHandler,
   [SET_VETERAN_DATA]: setVeteranDataHandler,
   [APPOINTMENT_WAS_CHECKED_INTO]: appointmentWasCheckedIntoHandler,
@@ -67,8 +57,6 @@ const handler = Object.freeze({
   [RECEIVED_EMERGENCY_CONTACT_DATA]: receivedEmergencyContactDataHandler,
   [RECEIVED_DEMOGRAPHICS_DATA]: receivedDemographicsDataHandler,
   [RECEIVED_NEXT_OF_KIN_DATA]: receivedNextOfKinDataHandler,
-  [SET_TOKEN_CONTEXT]: setTokenContextHandler,
-  [TOKEN_WAS_VALIDATED]: tokenWasValidatedHandler,
   [TRIGGER_REFRESH]: triggerRefreshHandler,
   [SEE_STAFF_MESSAGE_UPDATED]: seeStaffMessageUpdatedHandler,
   [UPDATE_PRE_CHECK_IN_FORM]: updateFormHandler,
