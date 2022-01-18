@@ -10,6 +10,7 @@ import { updateUrlParams } from '../../selectors/search';
 import { useHistory } from 'react-router-dom';
 import { TABS } from '../../constants';
 import recordEvent from 'platform/monitoring/record-event';
+import { FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP } from '../../selectors/filters';
 
 export function NameSearchForm({
   autocomplete,
@@ -27,6 +28,10 @@ export function NameSearchForm({
 
   const doSearch = value => {
     dispatchFetchSearchByNameResults(value, 1, filters, version);
+    const clonedFilters = filters;
+    clonedFilters.excludedSchoolTypes = FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP.filter(
+      exclusion => !clonedFilters.excludedSchoolTypes.includes(exclusion),
+    );
 
     updateUrlParams(
       history,
@@ -35,7 +40,7 @@ export function NameSearchForm({
         ...search.query,
         name: value,
       },
-      filters,
+      clonedFilters,
       version,
     );
   };

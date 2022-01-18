@@ -33,10 +33,10 @@ describe('Pre-Check In Experience', () => {
       Introduction.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
-      NextOfKin.validatePageLoaded();
-      NextOfKin.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();
+      NextOfKin.validatePageLoaded();
+      NextOfKin.attemptToGoToNextPage();
       Confirmation.validatePageContent();
     });
     it('reloads of confirmation page should redirect back to verify page', () => {

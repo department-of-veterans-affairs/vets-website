@@ -1,3 +1,10 @@
+/**
+ * [TestRail-integrated] Spec for My VA - Benefits Payments & Debt
+ * @testrailinfo projectId 4
+ * @testrailinfo suiteId 5
+ * @testrailinfo groupId 3376
+ * @testrailinfo runName MyVA-e2e-PmtsDebt
+ */
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
@@ -32,8 +39,8 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       );
       cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
     });
-    it('the payment and debt section does not show up', () => {
-      // make sure that the Payment and Debt section is shown
+    it('the payment and debt section does not show up - C13193', () => {
+      // make sure that the Payment and Debt section is not shown
       cy.findByTestId('dashboard-section-payment-and-debts').should(
         'not.exist',
       );
@@ -75,7 +82,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       );
       cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
     });
-    it('and they have payments in the last 30 days', () => {
+    it('and they have payments in the last 30 days - C13194', () => {
       cy.intercept('/v0/profile/payment_history', paymentsSuccess(true));
       cy.intercept('/v0/debts', debtsSuccess);
       // make sure that the Payment and Debt section is shown
@@ -91,7 +98,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       cy.injectAxe();
       cy.axeCheck();
     });
-    it('and they have no payments in the last 30 days', () => {
+    it('and they have no payments in the last 30 days - C13195', () => {
       cy.intercept('/v0/profile/payment_history', paymentsSuccess());
       cy.intercept('/v0/debts', debtsSuccess);
       // make sure that the Payment and Debt section is shown

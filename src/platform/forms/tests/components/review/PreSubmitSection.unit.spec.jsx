@@ -119,7 +119,7 @@ describe('Review PreSubmitSection component', () => {
       </Provider>,
     );
 
-    expect(tree.getByText('Finish this application later.')).to.exist;
+    expect(tree.getByText('Finish this application later')).to.exist;
 
     tree.unmount();
   });
