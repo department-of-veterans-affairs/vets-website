@@ -114,15 +114,16 @@ jobs:
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
-      - name: Run unit tests
-        run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} -- --reporter spec
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.app_folders }}
 
       - name: Generate coverage report by app
-        run: touch ./coverage/test-coverage-report.json && node script/app-coverage-report.js && node script/app-coverage-report.js > test-results/coverage_report.txt
+        run: node script/app-coverage-report.js && node script/app-coverage-report.js > test-results/coverage_report.txt
 
+      - name: Run unit tests
+        run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} -- --reporter spec
+        
       - name: Upload Coverage Report Artifact
         uses: actions/upload-artifact@v2
         if: ${{ always() }}
@@ -211,8 +212,8 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Create test results folder
-        run: mkdir -p test-results
+      - name: Create test result locations
+        run: mkdir -p test-results && touch coverage/test-coverage-report.json
 
       - name: Run contract tests
         run: yarn test:contract
