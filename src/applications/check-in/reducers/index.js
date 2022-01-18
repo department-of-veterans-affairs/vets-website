@@ -12,16 +12,11 @@ const initialState = {
 
 import {
   RECORD_ANSWER,
-  SET_SESSION,
   SET_VETERAN_DATA,
   UPDATE_PRE_CHECK_IN_FORM,
 } from '../actions/pre-check-in';
 
-import {
-  recordAnswerHandler,
-  setSessionHandler,
-  setVeteranDataHandler,
-} from './pre-check-in';
+import { recordAnswerHandler, setVeteranDataHandler } from './pre-check-in';
 
 import {
   APPOINTMENT_WAS_CHECKED_INTO,
@@ -54,13 +49,20 @@ import { INIT_FORM } from '../actions/navigation';
 
 import { initFormHandler, updateFormHandler } from './navigation';
 
+import { SET_SESSION } from '../actions/authentication';
+
+import { setSessionHandler } from './authentication';
+
 const handler = Object.freeze({
   [INIT_FORM]: initFormHandler,
+  // pre-check-in; this is what I want to use
   [SET_SESSION]: setSessionHandler,
+  // day-of; this is going away
+  [PERMISSIONS_UPDATED]: permissionsUpdatedHandler,
+
   [RECORD_ANSWER]: recordAnswerHandler,
   [SET_VETERAN_DATA]: setVeteranDataHandler,
   [APPOINTMENT_WAS_CHECKED_INTO]: appointmentWasCheckedIntoHandler,
-  [PERMISSIONS_UPDATED]: permissionsUpdatedHandler,
   [RECEIVED_APPOINTMENT_DETAILS]: receivedAppointmentDetailsHandler,
   [RECEIVED_EMERGENCY_CONTACT_DATA]: receivedEmergencyContactDataHandler,
   [RECEIVED_DEMOGRAPHICS_DATA]: receivedDemographicsDataHandler,
