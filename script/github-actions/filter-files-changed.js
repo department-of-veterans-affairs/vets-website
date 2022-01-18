@@ -6,5 +6,12 @@ const filteredSCSSFiles = files
   .filter(file => /.+\.s?css$/.test(file))
   .join(' ');
 
+console.log('-----CHANGED SCSS FILES--------');
+console.log('-----CHANGED SCSS FILES--------');
+console.log('-----CHANGED SCSS FILES--------');
+console.log('-----CHANGED SCSS FILES--------');
+console.log('-----CHANGED SCSS FILES--------');
+console.log(filteredSCSSFiles);
+
 console.log(`::set-output name=JSFILES::${filteredJSFiles}`);
 console.log(`::set-output name=SCSSFILES::${filteredSCSSFiles}`);
