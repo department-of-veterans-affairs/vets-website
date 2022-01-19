@@ -667,7 +667,8 @@ export const skip781 = formData =>
   _.get('view:skip781ForNonCombatReason', formData) === true;
 
 export const needsToEnter781 = formData =>
-  hasNewPtsdDisability(formData) && !skip781(formData);
+  (showPtsdCombat(formData) || showPtsdNonCombat(formData)) &&
+  !skip781(formData);
 
 export const needsToEnter781a = formData =>
   hasNewPtsdDisability(formData) &&
