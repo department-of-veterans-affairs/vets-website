@@ -42,6 +42,7 @@ const testConfig = createTestConfig(
       'newOnly-test',
       'secondary-new-test.json',
       'upload-781-781a-8940-test.json',
+      'minimal-skip-781.json',
     ],
 
     fixtures: {
