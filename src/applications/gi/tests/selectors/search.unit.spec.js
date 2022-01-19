@@ -41,7 +41,7 @@ describe('updateUrlParams', () => {
 
     const query = {
       ...defaultState.search.query,
-      search: 'name',
+      search: TABS.name,
       name: 'test',
     };
     updateUrlParams(history, TABS.name, query, defaultState.filters);
@@ -55,7 +55,7 @@ describe('updateUrlParams', () => {
 
     const query = {
       ...defaultState.search.query,
-      search: 'location',
+      search: TABS.location,
       location: 'nowhere, ka',
     };
     updateUrlParams(history, TABS.location, query, defaultState.filters);
@@ -71,7 +71,7 @@ describe('updateUrlParams', () => {
 
     const query = {
       ...defaultState.search.query,
-      search: 'location',
+      search: TABS.location,
       location: 'nowhere, ka',
     };
     updateUrlParams(history, TABS.location, query, defaultState.filters, 1);
@@ -87,7 +87,7 @@ describe('updateUrlParams', () => {
 
     const query = {
       ...defaultState.search.query,
-      search: 'name',
+      search: TABS.name,
       name: 'test',
     };
     const filters = {
