@@ -15,7 +15,10 @@ export default async function createVetCentersHours(store) {
     const vetCenterHoursArray = standardizeDateTime(window.vetCenterHours);
     ReactDOM.render(
       <Provider store={store}>
-        <VetCenterHours hours={vetCenterHoursArray} />
+        <VetCenterHours
+          hours={vetCenterHoursArray}
+          vetCenterHoursId="vet-center-hours"
+        />
       </Provider>,
       vetCentersHoursWidget,
     );

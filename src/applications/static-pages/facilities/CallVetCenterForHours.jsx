@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const CallVetCenterForHours = () => (
-  <div id="vet-center-hours">
+const CallVetCenterForHours = ({ vetCenterHoursId }) => (
+  <div id={vetCenterHoursId}>
     <h4 className="vads-u-font-size--lg vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
       Hours
     </h4>
@@ -10,5 +11,10 @@ const CallVetCenterForHours = () => (
     </div>
   </div>
 );
+
+CallVetCenterForHours.propTypes = {
+  hours: PropTypes.array,
+  vetCenterHoursId: PropTypes.string,
+};
 
 export default CallVetCenterForHours;
