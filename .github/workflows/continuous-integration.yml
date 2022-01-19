@@ -596,6 +596,8 @@ jobs:
       - name: Set Github ENV Variable for Application List
         shell: bash
         run: |
+          app_list=`cat app-list/app-list.txt`
+          echo $app_list
           echo "APPLICATION_LIST=`cat app-list/app-list.txt`" >> $GITHUB_ENV
 
       - name: Print Application List
