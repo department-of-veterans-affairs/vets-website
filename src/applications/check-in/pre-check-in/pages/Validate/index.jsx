@@ -12,11 +12,10 @@ import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay'
 import Footer from '../../components/Footer';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { URLS } from '../../../utils/navigation/pre-check-in';
 
 import { makeSelectCurrentContext } from '../../../selectors';
 
-export default function Index({ router }) {
+export default function Index({ router, URLS }) {
   const { goToNextPage, goToErrorPage } = useFormRouting(router, URLS);
   const dispatch = useDispatch();
   const setSession = useCallback(

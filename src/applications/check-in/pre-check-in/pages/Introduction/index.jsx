@@ -11,12 +11,11 @@ import {
 } from '../../../actions/pre-check-in';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { URLS } from '../../../utils/navigation/pre-check-in';
 
 import { makeSelectCurrentContext } from '../../../selectors';
 
 const Introduction = props => {
-  const { router } = props;
+  const { router, URLS } = props;
   const [isLoading, setIsLoading] = useState(true);
 
   const { goToErrorPage } = useFormRouting(router, URLS);

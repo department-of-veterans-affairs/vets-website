@@ -15,7 +15,6 @@ import Footer from '../../components/Footer';
 import NextOfKinDisplay from '../../../components/pages/nextOfKin/NextOfKinDisplay';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { URLS } from '../../../utils/navigation/pre-check-in';
 
 import {
   makeSelectCurrentContext,
@@ -24,7 +23,7 @@ import {
 } from '../../../selectors';
 
 const NextOfKin = props => {
-  const { router } = props;
+  const { router, URLS } = props;
 
   const [isSendingData, setIsSendingData] = useState(false);
 
