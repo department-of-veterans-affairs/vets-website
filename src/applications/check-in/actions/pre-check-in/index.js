@@ -1,17 +1,5 @@
 import { updateForm } from '../../utils/navigation/pre-check-in';
 
-export const SET_SESSION = 'SET_SESSION';
-
-export const createSetSession = ({ token, permissions }) => {
-  return {
-    type: SET_SESSION,
-    payload: {
-      token,
-      permissions,
-    },
-  };
-};
-
 export const RECORD_ANSWER = 'RECORD_ANSWER';
 
 export const recordAnswer = answer => {

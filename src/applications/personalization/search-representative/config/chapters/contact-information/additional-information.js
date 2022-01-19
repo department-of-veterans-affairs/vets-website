@@ -38,7 +38,8 @@ export const uiSchema = {
       {
         validator: (errors, fieldData, formData) => {
           if (
-            formData.email.toLowerCase() !== formData.confirmEmail.toLowerCase()
+            formData.email.toLowerCase() !==
+            formData['view:confirmEmail'].toLowerCase()
           ) {
             errors.addError(
               'This email does not match your previously entered email',

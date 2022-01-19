@@ -84,3 +84,21 @@ export const CSP_CONTENT = {
   [CSP_IDS.DS_LOGON]: { LOGO: <>DS Logon</>, COPY: 'DS Logon' },
   [CSP_IDS.MHV]: { LOGO: <>My HealtheVet</>, COPY: 'My HealtheVet' },
 };
+
+export const AUTH_ERROR = {
+  FAIL: 'fail',
+
+  USER_DENIED: '001', // User clicked 'Deny' in Authorization
+  USER_CLOCK_MISMATCH: '002', // User clock is incorrect
+  SERVER_CLOCK_MISMATCH: '003', // Server timing error
+  MVI_MISMATCH: '004', // MVI Mismatch
+  SESSION_EXPIRED: '005', // Session Expiration
+  DEFAULT: '007', // Catch all (generic/unknown error)
+  LOGINGOV_PROOFING_FAIL: '009', // Login.gov Failure to Proof
+
+  MULTIPLE_MHVIDS: '101', // Multiple MHV IDs/IENs
+  MULTIPLE_EDIPIS: '102', // Multiple EDIPIS
+  ICN_MISMATCH: '103', // ICN Mismatch
+  UUID_MISSING: '104', // UUID Missing (Login.gov or ID.me)
+  MULTIPLE_CORPIDS: '106', // Multiple Corp IDs
+};

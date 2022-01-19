@@ -27,12 +27,13 @@ const mockUser = {
       in_progress_forms: [
         {
           form: VA_FORM_IDS.FORM_10_10EZ,
-          last_updated: 1501608808,
+          last_updated: 1501608808, // JS time (ms)
           metadata: {
-            last_updated: 1506792808,
-            expires_at: moment()
+            last_updated: 1506792, // unix time
+            expires_at: moment() // unix time
               .add(1, 'day')
               .unix(),
+            saved_at: 1506792808, // JS time (ms)
           },
         },
       ],

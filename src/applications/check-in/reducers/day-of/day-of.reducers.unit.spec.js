@@ -2,14 +2,11 @@ import { expect } from 'chai';
 
 import {
   appointmentWasCheckedIntoHandler,
-  permissionsUpdatedHandler,
   receivedDemographicsDataHandler,
   receivedEmergencyContactDataHandler,
   receivedAppointmentDetailsHandler,
   receivedNextOfKinDataHandler,
   seeStaffMessageUpdatedHandler,
-  setTokenContextHandler,
-  tokenWasValidatedHandler,
   triggerRefreshHandler,
 } from './index';
 
@@ -17,14 +14,11 @@ import { updateFormHandler } from '../navigation';
 
 import {
   appointmentWasCheckedInto,
-  permissionsUpdated,
   receivedDemographicsData,
   receivedEmergencyContact,
   receivedMultipleAppointmentDetails,
   receivedNextOfKinData,
   seeStaffMessageUpdated,
-  setTokenContext,
-  tokenWasValidated,
   triggerRefresh,
   updateFormAction,
 } from '../../actions/day-of';
@@ -67,25 +61,7 @@ describe('check in', () => {
         });
       });
     });
-    describe('permissionsUpdated', () => {
-      describe('permissionsUpdatedHandler', () => {
-        it('should create basic structure', () => {
-          const permissionsAction = permissionsUpdated({}, 'new-scope');
-          const newState = permissionsUpdatedHandler({}, permissionsAction);
-          expect(newState.context).haveOwnProperty('scope');
-        });
-        it('should set the correct values', () => {
-          const permissionsAction = permissionsUpdated({}, 'new-scope');
-          const newState = permissionsUpdatedHandler({}, permissionsAction);
-          expect(newState.context.scope).to.equal('new-scope');
-        });
-      });
-      describe('reducer is called; finds the correct handler', () => {
-        const permissionsAction = permissionsUpdated({}, 'new-scope');
-        const newState = appReducer.checkInData(undefined, permissionsAction);
-        expect(newState.context.scope).to.equal('new-scope');
-      });
-    });
+
     describe('receivedDemographicsData', () => {
       describe('receivedDemographicsDataHandler', () => {
         it('should create basic structure', () => {
@@ -388,64 +364,7 @@ describe('check in', () => {
         });
       });
     });
-    describe('setTokenContext', () => {
-      describe('setTokenContextHandler', () => {
-        it('should create basic structure', () => {
-          const action = setTokenContext('some-token', 'some-scope');
-          const state = setTokenContextHandler({}, action);
-          expect(state).haveOwnProperty('context');
-          expect(state.context).haveOwnProperty('token');
-          expect(state.context).haveOwnProperty('scope');
-        });
-        it('should set the correct values', () => {
-          const action = setTokenContext('some-token', 'some-scope');
-          const state = setTokenContextHandler({}, action);
-          expect(state).haveOwnProperty('context');
-          expect(state.context.token).to.equal('some-token');
-          expect(state.context.scope).to.equal('some-scope');
-        });
-      });
-      describe('reducer is called; finds the correct handler', () => {
-        it('finds the correct handler', () => {
-          const action = setTokenContext('some-token', 'some-scope');
-          const state = appReducer.checkInData(undefined, action);
-          expect(state).haveOwnProperty('context');
-          expect(state.context.token).to.equal('some-token');
-          expect(state.context.scope).to.equal('some-scope');
-        });
-      });
-    });
-    describe('tokenWasValidated', () => {
-      describe('tokenWasValidatedHandler', () => {
-        it('should create basic structure', () => {
-          const action = tokenWasValidated({}, 'some-token', 'some-scope');
-          const state = tokenWasValidatedHandler({}, action);
-          expect(state).haveOwnProperty('appointments');
-          expect(state.appointments).to.be.an('array');
-          expect(state).haveOwnProperty('context');
-          expect(state.context).haveOwnProperty('token');
-          expect(state.context).haveOwnProperty('scope');
-        });
-        it('should set context', () => {
-          const action = tokenWasValidated({}, 'some-token', 'some-scope');
-          const state = tokenWasValidatedHandler({}, action);
-          expect(state.context).haveOwnProperty('token');
-          expect(state.context.token).to.equal('some-token');
-          expect(state.context).haveOwnProperty('scope');
-          expect(state.context.scope).to.equal('some-scope');
-        });
-      });
-      describe('reducer is called; finds the correct handler', () => {
-        it('finds the correct handler', () => {
-          const action = tokenWasValidated({}, 'some-token', 'some-scope');
-          const state = appReducer.checkInData({}, action);
-          expect(state.context).haveOwnProperty('token');
-          expect(state.context.token).to.equal('some-token');
-          expect(state.context).haveOwnProperty('scope');
-          expect(state.context.scope).to.equal('some-scope');
-        });
-      });
-    });
+
     describe('triggerRefresh', () => {
       describe('triggerRefreshHandler', () => {
         it('should create basic structure', () => {

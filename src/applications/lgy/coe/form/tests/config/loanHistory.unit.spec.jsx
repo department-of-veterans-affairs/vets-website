@@ -31,7 +31,7 @@ describe('COE applicant loan history', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(10);
+    expect(formDOM.querySelectorAll('input').length).to.equal(11);
     expect(formDOM.querySelectorAll('select').length).to.equal(5);
   });
 
