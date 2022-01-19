@@ -867,15 +867,6 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Install dependencies
-        uses: nick-invision/retry@v2
-        with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
-          max_attempts: 3
-          timeout_minutes: 7
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
-
       - name: Set output of latest_run_number
         id: latest-run-number
         run: echo ::set-output name=latest_run_number::$(node ./script/github-actions/get-latest-run-number.js)
