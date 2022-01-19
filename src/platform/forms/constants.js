@@ -33,6 +33,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_26_1880: '26-1880',
   FORM_21_22A: '21-22a',
   FORM_26_4555: '26-4555',
+  FORM_XX_123: 'XX-123',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([

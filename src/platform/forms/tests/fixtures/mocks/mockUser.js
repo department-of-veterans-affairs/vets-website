@@ -26,7 +26,7 @@ const mockUser = {
       },
       in_progress_forms: [
         {
-          form: VA_FORM_IDS.FORM_10_10EZ,
+          form: VA_FORM_IDS.FORM_XX_123,
           last_updated: 1501608808, // JS time (ms)
           metadata: {
             last_updated: 1506792, // unix time
