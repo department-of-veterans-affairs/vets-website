@@ -517,6 +517,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Set Github ENV Variable for Application List
+        id: set-app-list
+        shell: bash
+        run: |
+          echo ::set-output=app_list::$(`cat app-list/app-list.txt`)"
+
+      - name: Print Application List
+        run: echo "${{ steps.set-app-list.outputs.app_list }}"
+
       # ----------------
       # | Notify Slack |
       # ----------------
@@ -592,15 +601,6 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: app-list
-
-      - name: Set Github ENV Variable for Application List
-        shell: bash
-        run: |
-          app_list=`cat app-list/app-list.txt`
-          echo ${{ toJSON($app_list) }}
-
-      - name: Print Application List
-        run: echo "${{ env.APPLICATION_LIST }}"
 
       - name: Create Contract Test report and post results to BigQuery
         run: yarn contract-mochawesome-to-bigquery
