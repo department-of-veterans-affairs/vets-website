@@ -1,9 +1,10 @@
-import mockUser from './fixtures/mocks/mockUser';
+/* eslint-disable va/axe-check-required */
+// AXE checks already in hca.cypress.spec.js
+import mockUser from './fixtures/mockUser';
 
 describe('Application Status Test: HCA', () => {
   it('Achieves the correct result per URL', () => {
-    cy.login();
-    cy.intercept('GET', '/v0/user', mockUser);
+    cy.login(mockUser);
     cy.testStatus(
       '/health-care/how-to-apply/',
       '/health-care/apply/application/resume',
@@ -14,3 +15,4 @@ describe('Application Status Test: HCA', () => {
     );
   });
 });
+/* eslint-enable va/axe-check-required */

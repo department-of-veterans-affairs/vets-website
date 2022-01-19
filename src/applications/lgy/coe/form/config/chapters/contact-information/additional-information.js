@@ -1,41 +1,37 @@
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 
-import { applicantContactInformation } from '../../schemaImports';
-import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAddress';
-
-const checkboxTitle =
-  'I live on a United States military base outside of the U.S.';
+export const title = 'Additional contact information';
 
 export const schema = {
   type: 'object',
+  title,
   properties: {
-    ...applicantContactInformation.properties,
+    phoneNumber: {
+      type: 'string',
+      pattern: '^\\d{10}$',
+    },
+    email: {
+      type: 'string',
+      maxLength: 256,
+      format: 'email',
+    },
     'view:confirmEmail': {
       type: 'string',
+      maxLength: 256,
+      format: 'email',
     },
   },
-  required: ['phoneNumber', 'email', 'view:confirmEmail'],
+  required: ['phoneNumber', 'email'],
 };
 
 export const uiSchema = {
-  applicantAddress: addressUiSchema(
-    'applicantAddress',
-    checkboxTitle,
-    () => true,
-  ),
   phoneNumber: {
-    'ui:options': {
-      widgetClassNames: 'usa-input-medium',
-    },
+    ...phoneUI(),
     'ui:title': 'Phone number',
-    'ui:errorMessages': {
-      required: 'Please enter a valid phone number',
-      pattern: 'Please enter only numbers, no dashes or parentheses',
-    },
   },
   email: emailUI(),
-  'view:confirmEmail': {
-    ...emailUI(),
+  'view:confirmEmail': Object.assign({}, emailUI(), {
     'ui:title': 'Confirm email address',
     'ui:required': () => true,
     'ui:validations': [
@@ -52,5 +48,5 @@ export const uiSchema = {
         },
       },
     ],
-  },
+  }),
 };
