@@ -597,7 +597,7 @@ jobs:
         shell: bash
         run: |
           app_list=`cat app-list/app-list.txt`
-          echo $app_list
+          echo ${{ toJSON($app_list) }}
 
       - name: Print Application List
         run: echo "${{ env.APPLICATION_LIST }}"
