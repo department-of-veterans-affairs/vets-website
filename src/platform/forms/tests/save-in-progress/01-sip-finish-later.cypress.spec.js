@@ -6,7 +6,7 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('SIP Finish Later', () => {
   // Skipping test as it is disabled in nightwatch.  Final assertion error message does not show up on the front end.
-  it.skip('Saves, Loads, and Fails appropriately in all cases', () => {
+  it('Saves, Loads, and Fails appropriately in all cases', () => {
     cy.intercept('POST', '/v0/mock_sip_form', {
       formSubmissionId: '123fake-submission-id-567',
       timestamp: '2016-05-16',
@@ -88,8 +88,10 @@ describe('SIP Finish Later', () => {
     /* eslint-enable camelcase */
 
     cy.get('.schemaform-sip-save-link').click();
-
-    cy.get('.saved-form-metadata-container', { timeout: Timeouts.slow });
+    cy.get('.usa-alert-body').should(
+      'contain',
+      'Your mock sip benefits application has been saved',
+    );
     cy.url().should('contain', 'form-saved');
 
     // test start over, but all it really does is fetch the form again

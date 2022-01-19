@@ -88,6 +88,6 @@
   {
     "appName": "Mock SIP Form",
     "rootUrl": "/mock-sip-form",
-    "widgetType": "mock-sip-form"
+    "entryName": "mock-sip-form"
   }
 ]
