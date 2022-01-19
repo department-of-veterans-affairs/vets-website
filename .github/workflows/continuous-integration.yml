@@ -517,6 +517,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Download App List Artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: app-list
+
       - name: Set Github ENV Variable for Application List
         id: set-app-list
         shell: bash
@@ -596,11 +601,6 @@ jobs:
 
       - name: Upload Contract Test report to s3
         run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data/mochawesome.html s3://testing-tools-testing-reports/vets-website-contract-test-reports/${{env.UUID}}.html --acl public-read --region us-gov-west-1
-
-      - name: Download App List Artifact
-        uses: actions/download-artifact@v1
-        with:
-          name: app-list
 
       - name: Create Contract Test report and post results to BigQuery
         run: yarn contract-mochawesome-to-bigquery
