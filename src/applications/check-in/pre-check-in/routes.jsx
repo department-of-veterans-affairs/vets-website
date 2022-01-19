@@ -29,10 +29,6 @@ const routes = [
   {
     path: URLS.DEMOGRAPHICS,
     component: Demographics,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
   },
   {
     path: URLS.NEXT_OF_KIN,

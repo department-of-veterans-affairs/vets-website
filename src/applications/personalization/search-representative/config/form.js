@@ -78,7 +78,9 @@ const formConfig = {
       pages: {
         personalInformation: {
           path: 'personal-information',
-          ...personalInformation,
+          title: personalInformation.title,
+          schema: personalInformation.getSchema(true),
+          uiSchema: personalInformation.getUiSchema(true),
         },
       },
     },
