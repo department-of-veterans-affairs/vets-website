@@ -4,8 +4,7 @@ import mockUser from './fixtures/mockUser';
 
 describe('Application Status Test: HCA', () => {
   it('Achieves the correct result per URL', () => {
-    cy.login();
-    cy.intercept('GET', '/v0/user', mockUser);
+    cy.login(mockUser);
     cy.testStatus(
       '/health-care/how-to-apply/',
       '/health-care/apply/application/resume',
