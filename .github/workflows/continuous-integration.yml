@@ -971,6 +971,7 @@ jobs:
     needs: deploy
     env:
       DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
+      VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
 
     steps:
       - name: Checkout
@@ -981,6 +982,6 @@ jobs:
         continue-on-error: true
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
-          channel_id: ${{ env.DEVOPS_CHANNEL_ID }}
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
