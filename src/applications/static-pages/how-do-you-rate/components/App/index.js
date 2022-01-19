@@ -1,6 +1,5 @@
 // Node modules.
 import React, { useState } from 'react';
-import './styles.scss';
 
 export const App = () => {
   // useState hooks
