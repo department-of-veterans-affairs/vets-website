@@ -6,7 +6,7 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('SIP Finish Later', () => {
   // Skipping test as it is disabled in nightwatch.  Final assertion error message does not show up on the front end.
-  it('Saves, Loads, and Fails appropriately in all cases', () => {
+  it.skip('Saves, Loads, and Fails appropriately in all cases', () => {
     cy.intercept('POST', '/v0/mock_sip_form', {
       formSubmissionId: '123fake-submission-id-567',
       timestamp: '2016-05-16',

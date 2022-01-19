@@ -4,7 +4,7 @@ import mockXX123Get from '../fixtures/mocks/mockXX123Get';
 import mockXX123Put from '../fixtures/mocks/mockXX123Put';
 
 describe('SIP Load Fail Test', () => {
-  it('Behaves accordingly when the load fails', () => {
+  it.skip('Behaves accordingly when the load fails', () => {
     cy.intercept('POST', '/v0/mock_sip_form', {
       formSubmissionId: '123fake-submission-id-567',
       timestamp: '2016-05-16',

@@ -4,7 +4,7 @@ import mockXX123Get from '../fixtures/mocks/mockXX123Get';
 import mockXX123Put from '../fixtures/mocks/mockXX123Put';
 
 describe('SIP Review Test', () => {
-  it('Saves appropriately', () => {
+  it.skip('Saves appropriately', () => {
     const reviewUrl = '/mock-sip-form/review-and-submit?skip';
     cy.intercept('POST', '/v0/mock_sip_form', {
       formSubmissionId: '123fake-submission-id-567',
