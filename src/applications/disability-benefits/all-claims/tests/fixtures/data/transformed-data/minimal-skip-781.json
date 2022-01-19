@@ -26,11 +26,10 @@
     },
     "mailingAddress": {
       "country": "USA",
-      "addressLine1": "123 MAIN ST",
-      "addressLine2": "BEN FRANKLIN VILLAGE",
-      "city": "APO",
-      "state": "AE",
-      "zipCode": "09028"
+      "addressLine1": "123 Main",
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
     },
     "standardClaim": false,
     "privacyAgreementAccepted": true,
