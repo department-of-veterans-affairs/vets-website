@@ -104,15 +104,3 @@
 .vaos-appts__breadcrumbs li {
   padding: 0em !important;
 }
-
-@media print {
-  .vaos-hide-for-print {
-    display: none !important;
-  }
-
-  .vaos-link-for-print {
-    color: $color-black;
-    text-align: left;
-    padding-left: 0;
-  }
-}
