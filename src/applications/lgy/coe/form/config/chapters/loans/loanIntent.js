@@ -2,30 +2,26 @@ import React from 'react';
 
 import { loanIntent } from '../../schemaImports';
 
-const LoanIntentHelpText = () => (
+loanIntent.properties.intent.enumNames = [
   <>
-    <va-additional-info trigger="Which one should I choose?">
-      <span>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
-      </span>
-    </va-additional-info>
-  </>
-);
+    A <strong>restoration of entitlement</strong> to purchase a new home
+  </>,
+  <>
+    A regular <strong>cash-out refinance</strong> of a current VA home loan
+  </>,
+  <>
+    An <strong>Interest Rate Reduction Refinance Loan</strong> (IRRRL) to
+    refinance the balance of a current VA home loan
+  </>,
+  <>
+    An <strong>entitlement inqury</strong> only
+  </>,
+];
 
 export const schema = {
   type: 'object',
   properties: {
     ...loanIntent.properties,
-    'view:loanIntentHelpText': {
-      type: 'object',
-      properties: {},
-    },
   },
 };
 
@@ -33,9 +29,6 @@ export const uiSchema = {
   intent: {
     'ui:widget': 'radio',
     'ui:title': 'How will you use your Certificate of Eligibility?',
-    'ui:required': formData => formData?.existingLoan,
-  },
-  'view:loanIntentHelpText': {
-    'ui:description': LoanIntentHelpText,
+    'ui:required': () => true,
   },
 };

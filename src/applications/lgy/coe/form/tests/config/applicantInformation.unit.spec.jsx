@@ -29,7 +29,7 @@ describe('COE applicant information', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.applicantInformationChapter.pages.applicantContactInformation;
+  } = formConfig.chapters.contactInformationChapter.pages.mailingAddress;
 
   it('should render', () => {
     const form = render(
@@ -44,7 +44,7 @@ describe('COE applicant information', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(10);
+    expect(formDOM.querySelectorAll('input').length).to.equal(7);
   });
 
   it('Should not submit without required fields', () => {
@@ -64,7 +64,7 @@ describe('COE applicant information', () => {
 
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(7);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -85,10 +85,6 @@ describe('COE applicant information', () => {
               state: 'AK',
               postalCode: '48017',
             },
-            phoneNumber: '5555555555',
-            email: 'test@test.com',
-            'view:confirmEmail': 'test@test.com',
-            'view:loanIntentHelpText': {},
             'view:docScreenerSummary': {},
             'view:fileUploadDescription': {},
           }}
