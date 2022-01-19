@@ -20,7 +20,7 @@ const withFeatureFlip = (Component, type) => {
       );
     } else if (
       (type === 'update' && !isCovidVaccineTrialsUpdateEnabled) ||
-      (type === 'intake' && !isCovidVaccineTrialsIntakeEnabled)
+      (type === 'intake-v2' && !isCovidVaccineTrialsIntakeEnabled)
     ) {
       // we could load an info page about the form being unavailable here
       window.location.replace('/coronavirus-research');

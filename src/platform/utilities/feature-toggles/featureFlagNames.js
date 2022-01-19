@@ -28,6 +28,7 @@ export default Object.freeze({
   covidVaccineUpdatesEnableExpandedEligibility:
     'covid_vaccine_registration_frontend_enable_expanded_eligibility',
   covidVaccineUpdatesForm: 'covid_vaccine_registration_frontend',
+  covidVolunteerIntakeBackendEnabled: 'covid_volunteer_intake_backend_enabled',
   covidVolunteerIntakeEnabled: 'covid_volunteer_intake_enabled',
   covidVolunteerUpdateEnabled: 'covid_volunteer_update_enabled',
   debtLettersShowLetters: 'debt_letters_show_letters',
