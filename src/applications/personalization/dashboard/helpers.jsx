@@ -28,7 +28,6 @@ export const formBenefits = {
   [VA_FORM_IDS.FORM_20_0996]: 'Higher-level review',
   [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
   [VA_FORM_IDS.FORM_5655]: 'financial status report',
-  [VA_FORM_IDS.FORM_XX_123]: 'mock sip benefits',
 };
 
 export const formTitles = Object.keys(formBenefits).reduce((titles, key) => {
@@ -87,7 +86,6 @@ export const formLinks = {
   [VA_FORM_IDS.FORM_40_10007]: `${getAppUrl('pre-need')}/`,
   [VA_FORM_IDS.FORM_5655]: `${getAppUrl('request-debt-help-form-5655')}/`,
   [VA_FORM_IDS.FORM_VA_2346A]: `${getAppUrl('order-form-2346')}/`,
-  [VA_FORM_IDS.FORM_XX_123]: `${getAppUrl('mock-sip-form')}/`,
 };
 
 export const trackingPrefixes = {
@@ -111,7 +109,6 @@ export const trackingPrefixes = {
   [VA_FORM_IDS.FORM_20_0996]: 'decision-reviews-va20-0996-',
   [VA_FORM_IDS.FORM_VA_2346A]: 'bam-2346a-',
   [VA_FORM_IDS.FORM_5655]: 'fsr-5655-',
-  [VA_FORM_IDS.FORM_XX_123]: 'mock-sip-form-',
 };
 
 export const sipEnabledForms = new Set([
@@ -135,7 +132,6 @@ export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_20_0996,
   VA_FORM_IDS.FORM_VA_2346A,
   VA_FORM_IDS.FORM_5655,
-  VA_FORM_IDS.FORM_XX_123,
 ]);
 
 // A dict of presentable form IDs. Generally this is just the form ID itself
