@@ -2,7 +2,7 @@ import ServicePeriodView from 'platform/forms/components/ServicePeriodView';
 import {
   validateDate,
   validateDateRange,
-} from '~/platform/forms-system/src/js/validation';
+} from 'platform/forms-system/src/js/validation';
 
 import { serviceHistory } from '../../schemaImports';
 
