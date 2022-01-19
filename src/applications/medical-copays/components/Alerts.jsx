@@ -55,18 +55,14 @@ Alert.PastDue = ({ copay }) => {
     <va-alert
       class="row vads-u-margin-bottom--5"
       status="info"
-      data-testid="zero-balance"
+      data-testid="past-due-balance-alert"
     >
       <h2 slot="headline" className="vads-u-font-size--h3">
         Your balance may be overdue
       </h2>
       <p className="vads-u-font-size--base vads-u-font-family--sans">
         Your balance on
-        <time
-          dateTime={statementDate}
-          className="vads-u-margin-x--0p5"
-          data-testid="updated-date"
-        >
+        <time dateTime={statementDate} className="vads-u-margin-x--0p5">
           {statementDate}
         </time>
         was {currency(copay?.pHAmtDue)}. If you paid your full balance, you
@@ -98,18 +94,14 @@ Alert.ZeroBalance = ({ copay }) => {
     <va-alert
       class="row vads-u-margin-bottom--5"
       status="info"
-      data-testid="zero-balance"
+      data-testid="zero-balance-alert"
     >
       <h2 slot="headline" className="vads-u-font-size--h3">
         You don’t need to make a payment at this time
       </h2>
       <p className="vads-u-font-size--base vads-u-font-family--sans">
         Your balance is $0 and was updated on
-        <time
-          dateTime={statementDate}
-          className="vads-u-margin-x--0p5"
-          data-testid="updated-date"
-        >
+        <time dateTime={statementDate} className="vads-u-margin-x--0p5">
           {statementDate}
         </time>
         . You can
