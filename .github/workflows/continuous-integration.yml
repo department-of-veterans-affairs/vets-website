@@ -526,7 +526,7 @@ jobs:
         id: set-app-list
         shell: bash
         run: |
-          echo ::set-output=app_list::$(`cat app-list/app-list.txt`)
+          echo ::set-output=app_list::$(cat app-list/app-list.txt)
 
       - name: Print Application List
         run: echo "${{ steps.set-app-list.outputs.app_list }}"
