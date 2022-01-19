@@ -597,7 +597,7 @@ jobs:
         shell: bash
         run: |
           app_list="`cat app-list/app-list.txt`"
-          app_list=toJSON($app_list)
+          app_list=${{toJSON($app_list)}}
           APPLICATION_LIST=$(app_list) >> $GITHUB_ENV
 
       - name: Print Application List
