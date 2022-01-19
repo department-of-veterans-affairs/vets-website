@@ -17,7 +17,10 @@ export default async function createVetCentersHoursTwo(store) {
     );
     ReactDOM.render(
       <Provider store={store}>
-        <VetCenterHours hours={vetCenterHoursArray} />
+        <VetCenterHours
+          hours={vetCenterHoursArray}
+          vetCenterHoursId="vet-center-hours-two"
+        />
       </Provider>,
       vetCentersHoursWidget,
     );
