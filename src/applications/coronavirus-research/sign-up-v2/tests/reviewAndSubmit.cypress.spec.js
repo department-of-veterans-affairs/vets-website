@@ -10,12 +10,12 @@ describe('COVID-19 Research Form', () => {
     });
 
     before(() => {
-      cy.visit('coronavirus-research/volunteer/sign-up');
+      cy.visit('coronavirus-research/volunteer/v2/sign-up');
       cy.injectAxe();
     });
 
     it('should load form page', () => {
-      cy.url().should('include', 'coronavirus-research/volunteer/sign-up');
+      cy.url().should('include', 'coronavirus-research/volunteer/v2/sign-up');
       cy.axeCheck();
       cy.get('h1').contains(
         'Sign up for our coronavirus research volunteer list',
@@ -55,7 +55,7 @@ describe('COVID-19 Research Form', () => {
       // Review Page
       cy.url().should(
         'include',
-        'coronavirus-research/volunteer/review-and-submit',
+        'coronavirus-research/volunteer/v2/review-and-submit',
       );
       cy.expandAccordions();
       cy.get('h1').contains(
@@ -103,7 +103,10 @@ describe('COVID-19 Research Form', () => {
       cy.wait('@response');
 
       // Confirmation page
-      cy.url().should('include', 'coronavirus-research/volunteer/confirmation');
+      cy.url().should(
+        'include',
+        'coronavirus-research/volunteer/v2/confirmation',
+      );
       cy.axeCheck();
 
       cy.get('.confirmation-page-title').contains(
