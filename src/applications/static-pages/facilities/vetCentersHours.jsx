@@ -4,7 +4,8 @@ import { formatHours } from '../../facility-locator/utils/formatHours';
 import CallVetCenterForHours from './CallVetCenterForHours';
 
 const VetCenterHours = props => {
-  if (props.hours.length === 0) return <CallVetCenterForHours />;
+  if (props.hours.length === 0)
+    return <CallVetCenterForHours vetCenterHoursId={props.vetCenterHoursId} />;
 
   const arrayOfWeekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
