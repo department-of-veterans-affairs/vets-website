@@ -16,10 +16,9 @@ describe('SIP Autosave Test', () => {
     cy.intercept('GET', '/v1/sessions/new', {
       url: 'http://fake',
     });
-    cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
     cy.intercept('GET', '/v0/in_progress_forms/1010ez', mock1010Get);
     cy.intercept('PUT', '/v0/in_progress_forms/1010ez', mock1010Put);
-    cy.login();
+    cy.login(mockUser);
 
     cy.visit('/health-care/apply/application');
     cy.get('body').should('be.visible');

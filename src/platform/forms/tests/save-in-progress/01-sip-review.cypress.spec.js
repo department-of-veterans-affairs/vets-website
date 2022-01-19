@@ -16,10 +16,9 @@ describe('SIP Review Test', () => {
     cy.intercept('GET', '/v1/sessions/new', {
       url: 'http://fake',
     });
-    cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
     cy.intercept('GET', '/v0/in_progress_forms/1010ez', mock1010Get);
     cy.intercept('PUT', '/v0/in_progress_forms/1010ez', mock1010Put);
-    cy.login();
+    cy.login(mockUser);
 
     cy.visit(reviewUrl);
     cy.get('body').should('be.visible');
@@ -37,6 +36,8 @@ describe('SIP Review Test', () => {
         cy.fill('input[name="root_veteranFullName_first"]', 'Jane');
         cy.get('.saved-success-container');
       });
+
+    cy.injectAxeThenAxeCheck();
 
     cy.get('.schemaform-sip-save-link').click();
 

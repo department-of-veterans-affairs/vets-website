@@ -1,7 +1,7 @@
-import _ from 'lodash';
+import { assign } from 'lodash';
 
 export default function nonRequiredFullName(fullName) {
-  return _.assign({}, fullName, {
+  return assign({}, fullName, {
     required: [],
   });
 }

@@ -47,7 +47,7 @@ describe('<Main>', () => {
 
   it('shows a loading spinner when awaiting response', () => {
     const tree = SkinDeep.shallowRender(<Main {...defaultProps} />);
-    expect(tree.subTree('LoadingIndicator')).to.not.be.false;
+    expect(tree.subTree('va-loading-indicator')).to.not.be.false;
   });
 
   it('renders its children when letters are available', () => {
