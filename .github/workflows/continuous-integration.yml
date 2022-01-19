@@ -323,13 +323,13 @@ jobs:
       - name: Write application list to file
         shell: bash
         run: |
-          echo "${{ env.APPLICATION_LIST }}" > app-list.txt
+          echo "${{ env.APPLICATION_LIST }}" > app-list.json
 
       - name: Upload Application List as Artifact
         uses: actions/upload-artifact@v1
         with:
           name: app-list
-          path: app-list.txt
+          path: app-list.json
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -517,19 +517,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Download App List Artifact
-        uses: actions/download-artifact@v1
-        with:
-          name: app-list
+      # - name: Set Github ENV Variable for Application List
+      #   id: set-app-list
+      #   shell: bash
+      #   run: |
+      #     echo ::set-output name=app_list::$(cat app-list/app-list.txt)
 
-      - name: Set Github ENV Variable for Application List
-        id: set-app-list
-        shell: bash
-        run: |
-          echo ::set-output name=app_list::$(cat app-list/app-list.txt)
-
-      - name: Print Application List
-        run: echo "${{ steps.set-app-list.outputs.app_list }}"
+      # - name: Print Application List
+      #   run: echo "${{ steps.set-app-list.outputs.app_list }}"
 
       # ----------------
       # | Notify Slack |
@@ -592,6 +587,11 @@ jobs:
       # --------------------------------------
       # | Publish Contract Test Report       |
       # -------------------------------------
+      - name: Download App List Artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: app-list
+          path: testing-tools-team-dashboard-data/src/app-list
 
       - name: Download Contract Test Mochawesome test results
         uses: actions/download-artifact@v2
