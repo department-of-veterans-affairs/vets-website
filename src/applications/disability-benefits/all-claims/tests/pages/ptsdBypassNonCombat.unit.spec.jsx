@@ -8,7 +8,7 @@ describe('PTSD bypass non-combat reasons', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.ptsdBypassCombat;
+  } = formConfig.chapters.disabilities.pages.ptsdBypassNonCombat;
 
   it('should render', () => {
     const form = mount(
