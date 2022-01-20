@@ -5,7 +5,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
 import formConfig from '../config/form';
 
-const App = ({ children, location }) => {
+export default function App({ children, location }) {
   return (
     <>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
@@ -14,6 +14,4 @@ const App = ({ children, location }) => {
       <FormFooter formConfig={formConfig} />
     </>
   );
-};
-
-export default App;
+}
