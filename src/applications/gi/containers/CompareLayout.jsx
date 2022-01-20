@@ -364,25 +364,25 @@ const CompareLayout = ({
           {
             label: 'Caution flags',
             className: institution =>
-              classNames({
-                'caution-flag-display': institution.cautionFlags.length > 0,
+              classNames('caution-flag-display', {
                 none: institution.cautionFlags.length === 0,
               }),
             mapper: institution => {
               const hasFlags = institution.cautionFlags.length > 0;
               return (
                 <div className="vads-u-display--flex">
-                  {hasFlags && (
-                    <div className="caution-flag-icon vads-u-flex--1">
+                  <div className="caution-flag-icon vads-u-flex--1">
+                    {!hasFlags && (
                       <i
-                        aria-hidden="true"
-                        className={`fa fa-exclamation-triangle`}
+                        className={`fa fa-check`}
+                        style={{ display: 'none' }}
                       />
-                    </div>
-                  )}
+                    )}
+                    {hasFlags && <i className={`fa fa-exclamation-triangle`} />}
+                  </div>
                   <div className="vads-u-flex--4">
                     {!hasFlags && (
-                      <div>
+                      <div className="caution-header">
                         <span>This school doesn’t have any caution flags</span>
                       </div>
                     )}

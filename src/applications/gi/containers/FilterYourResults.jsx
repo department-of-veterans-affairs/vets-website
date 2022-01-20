@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
@@ -51,9 +51,6 @@ export function FilterYourResults({
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
 
-  const [showAllSchoolTypes, setShowAllSchoolTypes] = useState(false);
-  const SEE_LESS_SIZE = 4;
-
   const recordCheckboxEvent = e => {
     recordEvent({
       event: 'gibct-form-change',
@@ -93,7 +90,14 @@ export function FilterYourResults({
       dispatchFilterChange({
         ...filters,
         schools: false,
-        excludedSchoolTypes: [],
+        excludedSchoolTypes: [
+          'PUBLIC',
+          'FOR PROFIT',
+          'PRIVATE',
+          'FOREIGN',
+          'FLIGHT',
+          'CORRESPONDENCE',
+        ],
         excludeCautionFlags: false,
         accredited: false,
         studentVeteran: false,
@@ -106,7 +110,8 @@ export function FilterYourResults({
     }
   };
 
-  const handleExcludedSchoolTypesChange = e => {
+  const handleIncludedSchoolTypesChange = e => {
+    // The filter consumes these as exclusions
     const name = e.target.name;
     const checked = e.target.checked;
     const newExcluded = _.cloneDeep(excludedSchoolTypes);
@@ -168,16 +173,8 @@ export function FilterYourResults({
     modalClose();
   };
 
-  const setFocusByName = name => {
-    const element = document.getElementsByName(name)[0];
-    if (element) element.focus();
-  };
-
   const excludedSchoolTypesGroup = () => {
-    const options = (showAllSchoolTypes
-      ? INSTITUTION_TYPES
-      : INSTITUTION_TYPES.slice(0, SEE_LESS_SIZE)
-    ).map(type => {
+    const options = INSTITUTION_TYPES.map(type => {
       return {
         name: type.toUpperCase(),
         checked: excludedSchoolTypes.includes(type.toUpperCase()),
@@ -190,46 +187,15 @@ export function FilterYourResults({
         <CheckboxGroup
           label={
             <div className="vads-u-margin-left--neg0p25">
-              Exclude these school types:
+              Include these school types:
             </div>
           }
-          onChange={handleExcludedSchoolTypesChange}
+          onChange={handleIncludedSchoolTypesChange}
           options={options}
         />
-        {!showAllSchoolTypes && (
-          <button
-            className="va-button-link see-more-less"
-            onClick={() => setShowAllSchoolTypes(true)}
-          >
-            See more...
-          </button>
-        )}
-        {showAllSchoolTypes && (
-          <button
-            className="va-button-link see-more-less"
-            onClick={() => setShowAllSchoolTypes(false)}
-          >
-            See less...
-          </button>
-        )}
       </div>
     );
   };
-
-  useEffect(
-    () => {
-      if (showAllSchoolTypes) {
-        setFocusByName(
-          `${INSTITUTION_TYPES[SEE_LESS_SIZE].toUpperCase()}-label`,
-        );
-      } else {
-        setFocusByName(
-          `${INSTITUTION_TYPES[SEE_LESS_SIZE - 1].toUpperCase()}-label`,
-        );
-      }
-    },
-    [showAllSchoolTypes],
-  );
 
   const schoolAttributes = () => {
     const options = [

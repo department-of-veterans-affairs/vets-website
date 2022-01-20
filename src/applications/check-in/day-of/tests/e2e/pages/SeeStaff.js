@@ -14,16 +14,10 @@ class SeeStaff {
       .should('be.visible')
       .and('have.text', message);
   }
-  validateBackButton(
-    previousTitle = 'Is this your current contact information?',
-  ) {
+  validateBackButton() {
     cy.get('[data-testid=back-button]')
       .should('be.visible')
       .and('have.text', 'Back to last screen');
-    cy.get('[data-testid=back-button]').click();
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', previousTitle);
   }
   validateBTSSSLink() {
     cy.get('a[data-testid="btsss-link"]').should(
@@ -33,6 +27,9 @@ class SeeStaff {
     cy.get('a[data-testid="btsss-link"]')
       .invoke('attr', 'href')
       .should('contain', '/health-care/get-reimbursed-for-travel-pay/');
+  }
+  selectBackButton() {
+    cy.get('[data-testid="back-button"]').click();
   }
 }
 

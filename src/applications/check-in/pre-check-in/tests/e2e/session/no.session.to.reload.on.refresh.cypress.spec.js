@@ -8,7 +8,7 @@ describe('Pre Check In Experience', () => {
   describe('session', () => {
     beforeEach(function() {
       const { initializeFeatureToggle } = ApiInitializer;
-      initializeFeatureToggle.withoutEmergencyContact();
+      initializeFeatureToggle.withCurrentFeatures();
     });
     afterEach(() => {
       cy.window().then(window => {

@@ -417,14 +417,14 @@ describe('<AddressValidationModal/>', () => {
 
     expect(
       component
-        .find('h3')
+        .find('h1')
         .at(0)
         .text(),
     ).to.equal('Edit mailing address');
     expect(
       component
         .find('h3')
-        .at(1)
+        .at(0)
         .text(),
     ).to.equal('Please confirm your address');
     component.unmount();

@@ -1,29 +1,49 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { triggerRefresh } from '../../../actions/day-of';
+import { api } from '../../../api';
+import { useFormRouting } from '../../../hooks/useFormRouting';
+import { URLS } from '../../../utils/navigation/day-of';
+import { receivedMultipleAppointmentDetails } from '../../../actions/day-of';
 
 import DisplayMultipleAppointments from './DisplayMultipleAppointments';
 
 import { makeSelectAppointmentListData } from '../../hooks/selectors';
 
 const CheckIn = props => {
-  const { appointments, isLoading, router } = props;
-  const appointment = appointments ? appointments[0] : {};
+  const { router } = props;
+  const { goToErrorPage } = useFormRouting(router, URLS);
   const selectAppointmentListData = useMemo(makeSelectAppointmentListData, []);
-  const { context } = useSelector(selectAppointmentListData);
+  const { context, appointments } = useSelector(selectAppointmentListData);
+  const appointment = appointments ? appointments[0] : {};
+
   const { token } = context;
   const dispatch = useDispatch();
 
   const getMultipleAppointments = useCallback(
     () => {
-      dispatch(triggerRefresh());
+      if (!context) {
+        goToErrorPage();
+      } else {
+        api.v2
+          .getCheckInData(token)
+          .then(json => {
+            dispatch(
+              receivedMultipleAppointmentDetails(
+                json.payload.appointments,
+                token,
+              ),
+            );
+          })
+          .catch(() => {
+            goToErrorPage();
+          });
+      }
     },
-    [dispatch],
+    [dispatch, context, goToErrorPage, token],
   );
 
-  if (isLoading || !appointment) {
+  if (!appointment) {
     return (
       <va-loading-indicator message={'Loading your appointments for today'} />
     );

@@ -9,7 +9,7 @@ import { fetchFacilityStarted, fetchFacilitySuccess } from '../actions';
 import { calculateBoundingBox } from '../../../facility-locator/utils/facilityDistance';
 import { getFeaturesFromAddress } from '../../../facility-locator/utils/mapbox';
 
-const NEARBY_VET_CENTER_RADIUS_MILES = 80;
+const NEARBY_VET_CENTER_RADIUS_MILES = 120;
 
 const NearByVetCenters = props => {
   const [fetchedVetCenters, setFetchedVetCenters] = useState([]);

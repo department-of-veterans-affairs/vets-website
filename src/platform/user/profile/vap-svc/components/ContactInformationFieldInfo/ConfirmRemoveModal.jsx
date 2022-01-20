@@ -68,7 +68,7 @@ const ConfirmRemoveModal = ({
         <LoadingButton
           isLoading={isLoading}
           onClick={deleteAction}
-          aria-label={`Remove ${title}`}
+          aria-label="Yes, remove my information"
           loadingText="Removing your information"
         >
           Yes, remove my information

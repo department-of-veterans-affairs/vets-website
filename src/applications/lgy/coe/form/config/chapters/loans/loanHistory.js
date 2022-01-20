@@ -30,18 +30,25 @@ const PreviousLoanView = ({ formData }) => {
   );
 };
 
+// NOTE: These will be removed after schema is update in vets-json-schema
+delete loanHistory.properties.loans.items.properties.title;
+loanHistory.properties.loans.items.properties.loanNumber = {
+  type: 'number',
+  title: 'VA loan number',
+  properties: {},
+};
+
 export const schema = loanHistory;
 
 export const uiSchema = {
   loans: {
-    'ui:title': 'Tell us about all your VA-backed loans',
+    'ui:description': 'Tell us about all your VA-backed loans',
     'ui:options': {
       itemName: 'VA-backed Loan',
       viewField: PreviousLoanView,
       keepInPageOnReview: true,
     },
     items: {
-      'ui:title': 'Previous loan information',
       'ui:options': {
         itemName: 'VA-backed loan',
       },
@@ -52,7 +59,7 @@ export const uiSchema = {
           required: 'Please enter a date',
         },
         from: {
-          'ui:title': 'Date your loan began',
+          'ui:title': 'Closing date of your loan',
           'ui:widget': 'date',
           'ui:validations': [validateDate],
           'ui:errorMessages': {
@@ -78,11 +85,11 @@ export const uiSchema = {
         'ui:title': 'Property address',
         'ui:order': ['street', 'street2', 'city', 'state', 'postalCode'],
         street: {
-          'ui:title': 'Street',
+          'ui:title': 'Street address',
           'ui:errorMessages': { required: 'Please enter a street address' },
         },
         street2: {
-          'ui:title': 'Line 2',
+          'ui:title': 'Street address line 2',
           'ui:options': {
             hideEmptyValueInReview: true,
           },
@@ -108,6 +115,7 @@ export const uiSchema = {
           },
         },
       },
+      loanNumber: {},
       isCurrentlyOwned: {
         'ui:title': 'Do you still own this property?',
         'ui:widget': 'yesNo',

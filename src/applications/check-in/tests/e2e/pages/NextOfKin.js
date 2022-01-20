@@ -4,6 +4,16 @@ class NextOfKin {
   initializeApi() {
     // @TODO: fill in once we are actually using the API
   }
+
+  validatePage = {
+    dayOf: () => {
+      this.validatePageLoaded('Is this your current next of kin information?');
+    },
+    preCheckIn: () => {
+      this.validatePageLoaded('Is this your current next of kin?');
+    },
+  };
+
   validatePageLoaded(title = 'Is this your current next of kin?') {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')

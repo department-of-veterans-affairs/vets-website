@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import { getTokenFromLocation } from './index';
+
+import { createForm, getTokenFromLocation, CHECK_IN_FORM_PAGES } from './index';
 
 describe('check in', () => {
   describe('navigation utils', () => {
@@ -24,6 +25,12 @@ describe('check in', () => {
         };
         const result = getTokenFromLocation(location);
         expect(result).to.be.undefined;
+      });
+    });
+    describe('createForm', () => {
+      it('should return all the pages when initialized', () => {
+        const form = createForm();
+        expect(form.length).to.equal(CHECK_IN_FORM_PAGES.length);
       });
     });
   });

@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { systemDownMessage } from 'platform/static-data/error-messages';
 import { selectVAPContactInfo } from 'platform/user/selectors';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
@@ -47,7 +46,7 @@ export class Main extends React.Component {
         appContent = this.props.children;
         break;
       case awaitingResponse:
-        appContent = <LoadingIndicator message="Loading your letters..." />;
+        appContent = <va-loading-indicator message="Loading your letters..." />;
         break;
       case backendAuthenticationError:
         appContent = recordsNotFound;

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
+import { format } from 'date-fns-tz';
 import SignInLink from '../components/SignInLink';
 import { SAVE_STATUSES, saveErrors } from './actions';
 import {
@@ -22,9 +22,10 @@ function SaveStatus({
 }) {
   let savedAtMessage;
   if (lastSavedDate) {
-    const savedAt = moment(lastSavedDate);
-    savedAtMessage = ` It was last saved on ${savedAt.format(
-      'MMMM D, YYYY [at] h:mm a',
+    const savedAt = new Date(lastSavedDate);
+    savedAtMessage = ` It was last saved on ${format(
+      savedAt,
+      "MMMM d, yyyy', at' h:mm aaaa z.",
     )}`;
   } else {
     savedAtMessage = '';

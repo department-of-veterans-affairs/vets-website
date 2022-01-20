@@ -9,7 +9,7 @@ import { recordAnswer } from '../../../actions/pre-check-in';
 
 import { api } from '../../../api/';
 
-import BackButton from '../../components/BackButton';
+import BackButton from '../../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
 import NextOfKinDisplay from '../../../components/pages/nextOfKin/NextOfKinDisplay';
@@ -23,8 +23,6 @@ import {
   makeSelectForm,
 } from '../../../selectors';
 
-import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
-
 const NextOfKin = props => {
   const { router } = props;
 
@@ -35,24 +33,21 @@ const NextOfKin = props => {
 
   const selectForm = useMemo(makeSelectForm, []);
   const { data } = useSelector(selectForm);
-  const { demographicsUpToDate } = data;
+  const { demographicsUpToDate, emergencyContactUpToDate } = data;
 
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
   const { nextOfKin1: nextOfKin } = demographics;
 
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isEmergencyContactEnabled } = useSelector(selectFeatureToggles);
-
   const dispatch = useDispatch();
 
   const {
-    currentPage,
+    getCurrentPageFromRouter,
     goToErrorPage,
     goToNextPage,
     goToPreviousPage,
   } = useFormRouting(router, URLS);
-
+  const currentPage = getCurrentPageFromRouter();
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -66,34 +61,33 @@ const NextOfKin = props => {
       });
       dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
       // select the answers from state
-      if (isEmergencyContactEnabled) {
-        goToNextPage();
-      } else {
-        // send to API
-        const preCheckInData = {
-          uuid: token,
-          demographicsUpToDate: demographicsUpToDate === 'yes',
-          nextOfKinUpToDate: answer === 'yes',
-        };
-        try {
-          const resp = await api.v2.postPreCheckInData({ ...preCheckInData });
-          if (resp.data.error || resp.data.errors) {
-            goToErrorPage();
-          } else {
-            goToNextPage();
-          }
-        } catch (error) {
+
+      // send to API
+
+      const preCheckInData = {
+        uuid: token,
+        demographicsUpToDate: demographicsUpToDate === 'yes',
+        nextOfKinUpToDate: answer === 'yes',
+        emergencyContactUpToDate: emergencyContactUpToDate === 'yes',
+      };
+      try {
+        const resp = await api.v2.postPreCheckInData({ ...preCheckInData });
+        if (resp.data.error || resp.data.errors) {
           goToErrorPage();
+        } else {
+          goToNextPage();
         }
+      } catch (error) {
+        goToErrorPage();
       }
     },
     [
       dispatch,
-      goToErrorPage,
-      goToNextPage,
-      isEmergencyContactEnabled,
       token,
       demographicsUpToDate,
+      emergencyContactUpToDate,
+      goToErrorPage,
+      goToNextPage,
     ],
   );
 

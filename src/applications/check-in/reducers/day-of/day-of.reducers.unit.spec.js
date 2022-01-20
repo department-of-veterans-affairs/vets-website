@@ -2,30 +2,25 @@ import { expect } from 'chai';
 
 import {
   appointmentWasCheckedIntoHandler,
-  permissionsUpdatedHandler,
   receivedDemographicsDataHandler,
-  receivedDemographicsStatusHandler,
   receivedEmergencyContactDataHandler,
   receivedAppointmentDetailsHandler,
   receivedNextOfKinDataHandler,
   seeStaffMessageUpdatedHandler,
-  setTokenContextHandler,
-  tokenWasValidatedHandler,
   triggerRefreshHandler,
 } from './index';
 
+import { updateFormHandler } from '../navigation';
+
 import {
   appointmentWasCheckedInto,
-  permissionsUpdated,
   receivedDemographicsData,
-  receivedDemographicsStatus,
   receivedEmergencyContact,
   receivedMultipleAppointmentDetails,
   receivedNextOfKinData,
   seeStaffMessageUpdated,
-  setTokenContext,
-  tokenWasValidated,
   triggerRefresh,
+  updateFormAction,
 } from '../../actions/day-of';
 
 import appReducer from '../index';
@@ -66,25 +61,7 @@ describe('check in', () => {
         });
       });
     });
-    describe('permissionsUpdated', () => {
-      describe('permissionsUpdatedHandler', () => {
-        it('should create basic structure', () => {
-          const permissionsAction = permissionsUpdated({}, 'new-scope');
-          const newState = permissionsUpdatedHandler({}, permissionsAction);
-          expect(newState.context).haveOwnProperty('scope');
-        });
-        it('should set the correct values', () => {
-          const permissionsAction = permissionsUpdated({}, 'new-scope');
-          const newState = permissionsUpdatedHandler({}, permissionsAction);
-          expect(newState.context.scope).to.equal('new-scope');
-        });
-      });
-      describe('reducer is called; finds the correct handler', () => {
-        const permissionsAction = permissionsUpdated({}, 'new-scope');
-        const newState = appReducer.checkInData(undefined, permissionsAction);
-        expect(newState.context.scope).to.equal('new-scope');
-      });
-    });
+
     describe('receivedDemographicsData', () => {
       describe('receivedDemographicsDataHandler', () => {
         it('should create basic structure', () => {
@@ -157,82 +134,6 @@ describe('check in', () => {
           expect(state.demographics).haveOwnProperty('mobilePhone');
           expect(state.demographics).haveOwnProperty('workPhone');
           expect(state.demographics).haveOwnProperty('emailAddress');
-        });
-      });
-    });
-    describe('receivedDemographicsStatus', () => {
-      describe('receivedDemographicsStatusHandler', () => {
-        it('should create basic structure', () => {
-          const action = receivedDemographicsStatus({});
-          const state = receivedDemographicsStatusHandler({}, action);
-          expect(state).haveOwnProperty('demographicsStatus');
-        });
-
-        it('should have the correct fields', () => {
-          const data = {
-            demographicsNeedsUpdate: true,
-            demographicsConfirmedAt: null,
-            nextOfKinNeedsUpdate: false,
-            nextOfKinConfirmedAt: null,
-            emergencyContactNeedsUpdate: true,
-            emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
-          };
-          const action = receivedDemographicsStatus(data);
-          const state = receivedDemographicsStatusHandler({}, action);
-          expect(state).haveOwnProperty('demographicsStatus');
-          expect(state.demographicsStatus).to.be.an('object');
-          expect(state.demographicsStatus).haveOwnProperty(
-            'demographicsNeedsUpdate',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'demographicsConfirmedAt',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'nextOfKinNeedsUpdate',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'nextOfKinConfirmedAt',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'emergencyContactNeedsUpdate',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'emergencyContactConfirmedAt',
-          );
-        });
-      });
-      describe('reducer is called;', () => {
-        it('calls the correct handler', () => {
-          const data = {
-            demographicsNeedsUpdate: true,
-            demographicsConfirmedAt: null,
-            nextOfKinNeedsUpdate: false,
-            nextOfKinConfirmedAt: null,
-            emergencyContactNeedsUpdate: true,
-            emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
-          };
-          const action = receivedDemographicsStatus(data);
-          const state = appReducer.checkInData(undefined, action);
-          expect(state).haveOwnProperty('demographicsStatus');
-          expect(state.demographicsStatus).to.be.an('object');
-          expect(state.demographicsStatus).haveOwnProperty(
-            'demographicsNeedsUpdate',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'demographicsConfirmedAt',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'nextOfKinNeedsUpdate',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'nextOfKinConfirmedAt',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'emergencyContactNeedsUpdate',
-          );
-          expect(state.demographicsStatus).haveOwnProperty(
-            'emergencyContactConfirmedAt',
-          );
         });
       });
     });
@@ -463,64 +364,7 @@ describe('check in', () => {
         });
       });
     });
-    describe('setTokenContext', () => {
-      describe('setTokenContextHandler', () => {
-        it('should create basic structure', () => {
-          const action = setTokenContext('some-token', 'some-scope');
-          const state = setTokenContextHandler({}, action);
-          expect(state).haveOwnProperty('context');
-          expect(state.context).haveOwnProperty('token');
-          expect(state.context).haveOwnProperty('scope');
-        });
-        it('should set the correct values', () => {
-          const action = setTokenContext('some-token', 'some-scope');
-          const state = setTokenContextHandler({}, action);
-          expect(state).haveOwnProperty('context');
-          expect(state.context.token).to.equal('some-token');
-          expect(state.context.scope).to.equal('some-scope');
-        });
-      });
-      describe('reducer is called; finds the correct handler', () => {
-        it('finds the correct handler', () => {
-          const action = setTokenContext('some-token', 'some-scope');
-          const state = appReducer.checkInData(undefined, action);
-          expect(state).haveOwnProperty('context');
-          expect(state.context.token).to.equal('some-token');
-          expect(state.context.scope).to.equal('some-scope');
-        });
-      });
-    });
-    describe('tokenWasValidated', () => {
-      describe('tokenWasValidatedHandler', () => {
-        it('should create basic structure', () => {
-          const action = tokenWasValidated({}, 'some-token', 'some-scope');
-          const state = tokenWasValidatedHandler({}, action);
-          expect(state).haveOwnProperty('appointments');
-          expect(state.appointments).to.be.an('array');
-          expect(state).haveOwnProperty('context');
-          expect(state.context).haveOwnProperty('token');
-          expect(state.context).haveOwnProperty('scope');
-        });
-        it('should set context', () => {
-          const action = tokenWasValidated({}, 'some-token', 'some-scope');
-          const state = tokenWasValidatedHandler({}, action);
-          expect(state.context).haveOwnProperty('token');
-          expect(state.context.token).to.equal('some-token');
-          expect(state.context).haveOwnProperty('scope');
-          expect(state.context.scope).to.equal('some-scope');
-        });
-      });
-      describe('reducer is called; finds the correct handler', () => {
-        it('finds the correct handler', () => {
-          const action = tokenWasValidated({}, 'some-token', 'some-scope');
-          const state = appReducer.checkInData({}, action);
-          expect(state.context).haveOwnProperty('token');
-          expect(state.context.token).to.equal('some-token');
-          expect(state.context).haveOwnProperty('scope');
-          expect(state.context.scope).to.equal('some-scope');
-        });
-      });
-    });
+
     describe('triggerRefresh', () => {
       describe('triggerRefreshHandler', () => {
         it('should create basic structure', () => {
@@ -540,6 +384,37 @@ describe('check in', () => {
           const action = triggerRefresh(true);
           const state = appReducer.checkInData(undefined, action);
           expect(state.context.shouldRefresh).to.equal(true);
+        });
+      });
+    });
+    describe('updateFormAction', () => {
+      describe('updateFormHandler', () => {
+        it('should return the correct structure', () => {
+          const action = updateFormAction({
+            patientDemographicsStatus: {},
+          });
+          const state = updateFormHandler({}, action);
+          expect(state).haveOwnProperty('form');
+          expect(state.form).haveOwnProperty('pages');
+        });
+      });
+      describe('reducer is called; finds the correct handler', () => {
+        it('should set form data', () => {
+          const action = updateFormAction({
+            patientDemographicsStatus: {},
+          });
+          const state = appReducer.checkInData(undefined, action);
+          expect(state).haveOwnProperty('form');
+          expect(state.form).haveOwnProperty('pages');
+          expect(state.form.pages).to.deep.equal([
+            'verify',
+            'loading-appointments',
+            'contact-information',
+            'emergency-contact',
+            'next-of-kin',
+            'details',
+            'complete',
+          ]);
         });
       });
     });

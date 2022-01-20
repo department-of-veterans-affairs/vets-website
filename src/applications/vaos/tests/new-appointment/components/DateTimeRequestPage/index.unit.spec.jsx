@@ -468,15 +468,11 @@ describe('VAOS <DateTimeRequestPage>', () => {
   });
 
   describe('community care iterations flag is turned on', () => {
-    const toggles = {
-      vaOnlineSchedulingCCIterations: true,
-    };
-
     it('should continue to closest city page', async () => {
       // Given the user has two or more supported parent sites
       // And the user is in the community care flow
       const store = await setCommunityCareFlow({
-        toggles,
+        toggles: {},
         registeredSites: ['983'],
         parentSites: [{ id: '983' }, { id: '983GC' }],
         supportedSites: ['983', '983GC'],
@@ -512,7 +508,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       // Given the user has one supported parent site
       // And the user is in the community care flow
       const store = await setCommunityCareFlow({
-        toggles,
+        toggles: {},
         registeredSites: ['983'],
         parentSites: [{ id: '983' }, { id: '983GC' }],
         supportedSites: ['983'],

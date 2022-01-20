@@ -1,15 +1,13 @@
 import { expect } from 'chai';
 
-import {
-  recordAnswerHandler,
-  setSessionHandler,
-  setVeteranDataHandler,
-} from './index';
+import { recordAnswerHandler, setVeteranDataHandler } from './index';
+
+import { updateFormHandler } from '../navigation';
 
 import {
-  createSetSession,
   recordAnswer,
   setVeteranData,
+  updateFormAction,
 } from '../../actions/pre-check-in';
 
 import { createInitFormAction } from '../../actions/navigation';
@@ -18,40 +16,6 @@ import appReducer from '../index';
 
 describe('check in', () => {
   describe('pre-check-in reducers', () => {
-    describe('createSetSession', () => {
-      describe('setSessionHandler', () => {
-        it('should return form structure', () => {
-          const action = createSetSession({
-            token: 'some-token',
-            permissions: 'some-permission',
-          });
-          const state = setSessionHandler({}, action);
-          expect(state.context).haveOwnProperty('token');
-          expect(state.context).haveOwnProperty('permissions');
-        });
-
-        it('should set session context data', () => {
-          const action = createSetSession({
-            token: 'some-token',
-            permissions: 'some-permission',
-          });
-          const state = setSessionHandler({}, action);
-          expect(state.context.token).to.equal('some-token');
-          expect(state.context.permissions).to.equal('some-permission');
-        });
-      });
-      describe('reducer is called; finds the correct handler', () => {
-        it('should set correct data', () => {
-          const action = createSetSession({
-            token: 'some-token',
-            permissions: 'some-permission',
-          });
-          const state = appReducer.checkInData(undefined, action);
-          expect(state.context.token).to.equal('some-token');
-          expect(state.context.permissions).to.equal('some-permission');
-        });
-      });
-    });
     describe('recordAnswer', () => {
       describe('recordAnswerHandler', () => {
         it('should return form structure', () => {
@@ -72,7 +36,6 @@ describe('check in', () => {
         beforeEach(() => {
           const action = createInitFormAction({
             pages: ['first-page', 'second-page', 'third-page'],
-            currentPage: 'first-page',
           });
           state = appReducer.checkInData(undefined, action);
         });
@@ -145,6 +108,36 @@ describe('check in', () => {
           expect(state.appointments).to.deep.equal([
             { appointmentIen: 'abc-123' },
             { appointmentIen: 'def-456' },
+          ]);
+        });
+      });
+    });
+    describe('updateFormAction', () => {
+      describe('updateFormHandler', () => {
+        it('should return the correct structure', () => {
+          const action = updateFormAction({
+            patientDemographicsStatus: {},
+          });
+          const state = updateFormHandler({}, action);
+          expect(state).haveOwnProperty('form');
+          expect(state.form).haveOwnProperty('pages');
+        });
+      });
+      describe('reducer is called; finds the correct handler', () => {
+        it('should set form data', () => {
+          const action = updateFormAction({
+            patientDemographicsStatus: {},
+          });
+          const state = appReducer.checkInData(undefined, action);
+          expect(state).haveOwnProperty('form');
+          expect(state.form).haveOwnProperty('pages');
+          expect(state.form.pages).to.deep.equal([
+            'verify',
+            'introduction',
+            'contact-information',
+            'emergency-contact',
+            'next-of-kin',
+            'complete',
           ]);
         });
       });
