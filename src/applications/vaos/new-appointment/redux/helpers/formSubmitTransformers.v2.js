@@ -146,7 +146,6 @@ function getUserMessage(data) {
 export function transformFormToVAOSAppointment(state) {
   const data = getFormData(state);
   const clinic = getChosenClinicInfo(state);
-  const typeOfCare = getTypeOfCare(data);
   const slot = getChosenSlot(state);
 
   return {
@@ -158,7 +157,6 @@ export function transformFormToVAOSAppointment(state) {
       desiredDate: `${data.preferredDate}T00:00:00+00:00`,
     },
     locationId: data.vaFacility,
-    serviceType: typeOfCare.idV2,
     comment: getUserMessage(data),
     contact: {
       telecom: [
