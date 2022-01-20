@@ -108,6 +108,7 @@ const initialState = {
   currentLocation: {},
   ccProviderPageSortMethod: FACILITY_SORT_METHODS.distanceFromResidential,
   facilityPageSortMethod: null,
+  isNewAppointmentStarted: false,
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -194,6 +195,7 @@ export default function formReducer(state = initialState, action) {
         pastAppointments: state.pastAppointments,
         submitStatus: FETCH_STATUS.notStarted,
         hideUpdateAddressAlert: state.hideUpdateAddressAlert,
+        isNewAppointmentStarted: true,
       };
     }
     case FORM_PAGE_CHANGE_STARTED: {
