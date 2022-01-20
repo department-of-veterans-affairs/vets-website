@@ -1,12 +1,12 @@
 import moment from 'moment';
 /* eslint-disable camelcase */
 
-const mock1010Put = {
+const mockXX123Put = {
   data: {
     attributes: {
       metadata: {
         version: 0,
-        returnUrl: '/veteran-information/birth-information',
+        returnUrl: '/first-page',
         savedAt: 1498588443698,
         expires_at: moment()
           .add(1, 'day')
@@ -17,4 +17,4 @@ const mock1010Put = {
   },
 };
 
-export default mock1010Put;
+export default mockXX123Put;
