@@ -43,6 +43,7 @@ const AddIssue = props => {
   if (isNaN(index) || index < contestedIssues.length) {
     index = allIssues.length;
   }
+  const offsetIndex = calculateIndexOffset(index, contestedIssues.length);
   const currentData = allIssues[index] || {};
 
   // set session storage of edited item. This enables focusing on the item
@@ -83,7 +84,7 @@ const AddIssue = props => {
     additionalIssues: [
       // remove current issue from list - clicking "update issue" won't show
       // unique issue error message
-      ...additionalIssues.filter((_, indx) => index !== indx),
+      ...additionalIssues.filter((_, indx) => offsetIndex !== indx),
       { issue: fieldObj.value, decisionDate: getIsoDateFromSimpleDate(date) },
     ],
   });
@@ -93,7 +94,6 @@ const AddIssue = props => {
   const addOrUpdateIssue = () => {
     setSubmitted(true);
     if (!showError && dateErrorMessage.length === 0) {
-      const offsetIndex = calculateIndexOffset(index, contestedIssues.length);
       const selectedCount =
         getSelected(data).length + (currentData[SELECTED] ? 0 : 1);
 
