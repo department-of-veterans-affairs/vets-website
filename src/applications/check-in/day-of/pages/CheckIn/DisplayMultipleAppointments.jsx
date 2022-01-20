@@ -7,7 +7,6 @@ import BackButton from '../../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { URLS } from '../../../utils/navigation/day-of';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { createAnalyticsSlug } from '../../../utils/analytics';
@@ -27,7 +26,7 @@ const DisplayMultipleAppointments = props => {
     getMultipleAppointments();
     focusElement('h1');
   };
-  const { goToPreviousPage } = useFormRouting(router, URLS);
+  const { goToPreviousPage } = useFormRouting(router);
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
   return (

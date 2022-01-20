@@ -5,9 +5,11 @@ import { useDispatch } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   getTokenFromLocation,
-  URLS,
   createForm,
 } from '../../utils/navigation/day-of';
+
+import { URLS } from '../../utils/navigation';
+
 import { createInitFormAction } from '../../actions/navigation';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
@@ -18,7 +20,7 @@ import { createSetSession } from '../../actions/authentication';
 
 const Landing = props => {
   const { isUpdatePageEnabled, location, router } = props;
-  const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
+  const { jumpToPage, goToErrorPage } = useFormRouting(router);
 
   const [loadMessage] = useState('Finding your appointment information');
   const { clearCurrentSession, setCurrentToken } = useSessionStorage(false);
