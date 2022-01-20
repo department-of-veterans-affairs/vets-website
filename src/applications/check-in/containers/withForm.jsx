@@ -6,7 +6,9 @@ import { makeSelectForm } from '../selectors';
 import { useSessionStorage } from '../hooks/useSessionStorage';
 import { useFormRouting } from '../hooks/useFormRouting';
 
-const withForm = (Component, URLS) => {
+import { URLS } from '../utils/navigation';
+
+const withForm = Component => {
   return props => {
     const { router } = props;
     const selectForm = useMemo(makeSelectForm, []);
@@ -30,7 +32,7 @@ const withForm = (Component, URLS) => {
 
     return (
       <>
-        <Component {...props} URLS={URLS} />
+        <Component {...props} />
       </>
     );
   };

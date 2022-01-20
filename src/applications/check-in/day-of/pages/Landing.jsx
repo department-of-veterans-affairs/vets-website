@@ -5,9 +5,11 @@ import { useDispatch } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   getTokenFromLocation,
-  URLS,
   createForm,
 } from '../../utils/navigation/day-of';
+
+import { URLS } from '../../utils/navigation';
+
 import { createInitFormAction } from '../../actions/navigation';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { useSessionStorage } from '../../hooks/useSessionStorage';

@@ -15,8 +15,9 @@ import { createAnalyticsSlug } from '../../../utils/analytics';
 import {
   createForm,
   getTokenFromLocation,
-  URLS,
 } from '../../../utils/navigation/pre-check-in';
+
+import { URLS } from '../../../utils/navigation';
 import { isUUID, SCOPES } from '../../../utils/token-format-validator';
 
 export default function Index(props) {

@@ -4,7 +4,7 @@ import configureStore from 'redux-mock-store';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import IntroductionDisplay from '../IntroductionDisplay';
 
-import { URLS } from '../../../../utils/navigation/pre-check-in';
+import { URLS } from '../../../../utils/navigation';
 
 describe('pre-check-in', () => {
   describe('IntroductionDisplay page', () => {
