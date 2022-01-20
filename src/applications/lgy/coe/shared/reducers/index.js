@@ -17,7 +17,10 @@ const initialState = {
   generateAutoCoeStatus: CALLSTATUS.idle,
   coe: null,
   downloadURL: null,
-  errors: null,
+  errors: {
+    coe: null,
+    downloadURL: null,
+  },
   profileIsUpdating: true,
   isLoading: true,
 };
@@ -49,7 +52,11 @@ const certificateOfEligibility = (state = initialState, action) => {
         isLoading: false,
       };
     case GET_COE_URL_FAILED:
-      return { ...state, errors: action.response.errors, isLoading: false };
+      return {
+        ...state,
+        errors: { ...state.errors, downloadURL: action.response.errors },
+        isLoading: false,
+      };
     case GET_COE_URL_SUCCEEDED:
       return { ...state, isLoading: false, downloadURL: action.response.url };
     default:
