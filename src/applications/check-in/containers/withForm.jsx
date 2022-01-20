@@ -8,13 +8,14 @@ import { useFormRouting } from '../hooks/useFormRouting';
 
 import { URLS } from '../utils/navigation';
 
-const withForm = Component => {
+const withForm = (Component, options = {}) => {
+  const { isPreCheckIn } = options;
   return props => {
     const { router } = props;
     const selectForm = useMemo(makeSelectForm, []);
     const form = useSelector(selectForm);
     const { jumpToPage, goToErrorPage } = useFormRouting(router);
-    const { getCurrentToken } = useSessionStorage();
+    const { getCurrentToken } = useSessionStorage(isPreCheckIn);
 
     useEffect(
       () => {

@@ -80,7 +80,7 @@ const createRoutesWithStore = () => {
         if (route.permissions) {
           const { requiresForm, requireAuthorization } = route.permissions;
           if (requiresForm) {
-            component = withForm(component);
+            component = withForm(component, { isPreCheckIn: true });
           }
           if (requireAuthorization) {
             component = withAuthorization(component);
