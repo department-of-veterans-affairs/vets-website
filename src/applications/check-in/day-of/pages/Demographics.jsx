@@ -77,7 +77,6 @@ const Demographics = props => {
 
 Demographics.propTypes = {
   router: PropTypes.object,
-  URLS: PropTypes.object,
 };
 
 export default Demographics;

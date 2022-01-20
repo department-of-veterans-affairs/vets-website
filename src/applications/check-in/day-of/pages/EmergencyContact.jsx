@@ -82,7 +82,6 @@ const EmergencyContact = props => {
 EmergencyContact.propTypes = {
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
-  URLS: PropTypes.object,
 };
 
 export default EmergencyContact;

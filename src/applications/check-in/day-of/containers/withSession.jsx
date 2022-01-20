@@ -38,7 +38,7 @@ const withSession = Component => {
       setCurrentToken,
       getCurrentToken,
     } = useSessionStorage(false);
-    const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
+    const { jumpToPage, goToErrorPage } = useFormRouting(router);
     const { context } = checkInData;
 
     useEffect(
