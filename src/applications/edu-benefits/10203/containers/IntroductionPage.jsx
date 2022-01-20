@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
@@ -68,13 +69,11 @@ export class IntroductionPage extends React.Component {
   }
 
   render() {
-    /* eslint-disable no-console */
     console.log(
       `#### remainingEntitlement: ${JSON.stringify(
         this.props.getRemainingEntitlement(),
       )}`,
     );
-    /* eslint-enable no-console */
     return (
       <div
         className="schemaform-intro"
