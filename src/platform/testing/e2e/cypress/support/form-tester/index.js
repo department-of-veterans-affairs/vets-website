@@ -304,7 +304,7 @@ Cypress.Commands.add('enterData', field => {
     case 'number':
     case 'text': {
       cy.wrap(field.element)
-        .clear(FORCE_OPTION)
+        .clear({ ...FORCE_OPTION, ...NO_DELAY_OPTION })
         .type(field.data, { ...FORCE_OPTION, ...NO_DELAY_OPTION })
         .then(element => {
           // Get the autocomplete menu out of the way.
@@ -336,7 +336,7 @@ Cypress.Commands.add('enterData', field => {
       const baseSelector = Cypress.$.escapeSelector(field.key);
 
       cy.get(`#${baseSelector}Year`)
-        .clear()
+        .clear({ ...FORCE_OPTION, ...NO_DELAY_OPTION })
         .type(year, { ...FORCE_OPTION, ...NO_DELAY_OPTION });
 
       cy.get(`#${baseSelector}Month`).select(month, FORCE_OPTION);

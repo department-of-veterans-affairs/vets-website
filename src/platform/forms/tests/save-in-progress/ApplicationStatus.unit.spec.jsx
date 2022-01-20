@@ -315,7 +315,9 @@ describe('schemaform <ApplicationStatus>', () => {
                 expiresAt: moment()
                   .add(+1, 'day')
                   .unix(),
-                lastUpdated: moment().subtract(1, 'hour'),
+                lastUpdated: moment()
+                  .subtract(1, 'hour')
+                  .unix(),
               },
             },
           ],

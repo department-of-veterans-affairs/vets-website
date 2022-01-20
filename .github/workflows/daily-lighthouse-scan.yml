@@ -117,7 +117,7 @@ jobs:
         working-directory: testing-tools-team-dashboard-data
 
       - name: Setup Cloud SDK
-        uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@v0
         with:
           project_id: vsp-analytics-and-insights
           service_account_key: ${{ env.BIGQUERY_SERVICE_CREDENTIALS }}
