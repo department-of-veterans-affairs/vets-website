@@ -9,14 +9,13 @@ import { seeStaffMessageUpdated } from '../../actions/day-of';
 import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
 import { makeSelectDemographicData } from '../hooks/selectors';
 
+import { URLS } from '../../utils/navigation';
+
 const Demographics = props => {
   const selectDemographicData = useMemo(makeSelectDemographicData, []);
   const { demographics } = useSelector(selectDemographicData);
-  const { router, URLS } = props;
-  const { goToNextPage, jumpToPage, goToErrorPage } = useFormRouting(
-    router,
-    URLS,
-  );
+  const { router } = props;
+  const { goToNextPage, jumpToPage, goToErrorPage } = useFormRouting(router);
 
   const dispatch = useDispatch();
   const updateSeeStaffMessage = useCallback(

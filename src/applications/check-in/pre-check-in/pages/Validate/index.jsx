@@ -15,8 +15,8 @@ import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectCurrentContext } from '../../../selectors';
 
-export default function Index({ router, URLS }) {
-  const { goToNextPage, goToErrorPage } = useFormRouting(router, URLS);
+export default function Index({ router }) {
+  const { goToNextPage, goToErrorPage } = useFormRouting(router);
   const dispatch = useDispatch();
   const setSession = useCallback(
     (token, permissions) => {

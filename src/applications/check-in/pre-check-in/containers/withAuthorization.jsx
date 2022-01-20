@@ -15,7 +15,7 @@ const withAuthorization = Component => {
     const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
     const { token, permissions } = useSelector(selectCurrentContext);
 
-    const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
+    const { jumpToPage, goToErrorPage } = useFormRouting(router);
     const { getCurrentToken } = useSessionStorage();
 
     useEffect(

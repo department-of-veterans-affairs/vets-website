@@ -16,7 +16,7 @@ import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 import { makeSelectContext } from '../hooks/selectors';
 
 const ValidateVeteran = props => {
-  const { router, URLS } = props;
+  const { router } = props;
   const dispatch = useDispatch();
 
   const setSession = useCallback(
@@ -26,7 +26,7 @@ const ValidateVeteran = props => {
     [dispatch],
   );
 
-  const { goToNextPage, goToErrorPage } = useFormRouting(router, URLS);
+  const { goToNextPage, goToErrorPage } = useFormRouting(router);
 
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
@@ -97,7 +97,6 @@ const ValidateVeteran = props => {
 
 ValidateVeteran.propTypes = {
   router: PropTypes.object,
-  URLS: PropTypes.object,
 };
 
 export default ValidateVeteran;

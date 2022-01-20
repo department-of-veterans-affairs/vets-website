@@ -7,13 +7,14 @@ import { focusElement } from 'platform/utilities/ui';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
+import { URLS } from '../../utils/navigation';
 
 const UpdateInformationQuestion = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
-  const { router, URLS } = props;
-  const { jumpToPage, goToNextPage } = useFormRouting(router, URLS);
+  const { router } = props;
+  const { jumpToPage, goToNextPage } = useFormRouting(router);
 
   const noButtonClicked = () => {
     recordEvent({
@@ -65,7 +66,6 @@ const UpdateInformationQuestion = props => {
 
 UpdateInformationQuestion.propTypes = {
   router: PropTypes.object,
-  URLS: PropTypes.object,
 };
 
 export default UpdateInformationQuestion;

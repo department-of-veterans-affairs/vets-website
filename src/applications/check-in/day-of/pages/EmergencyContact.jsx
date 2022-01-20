@@ -12,8 +12,10 @@ import { seeStaffMessageUpdated } from '../../actions/day-of';
 import EmergencyContactDisplay from '../../components/pages/emergencyContact/EmergencyContactDisplay';
 import { makeSelectDemographicData } from '../hooks/selectors';
 
+import { URLS } from '../../utils/navigation';
+
 const EmergencyContact = props => {
-  const { router, URLS } = props;
+  const { router } = props;
   const selectDemographicData = useMemo(makeSelectDemographicData, []);
   const { emergencyContact } = useSelector(selectDemographicData);
   const {
@@ -21,7 +23,7 @@ const EmergencyContact = props => {
     jumpToPage,
     goToErrorPage,
     goToPreviousPage,
-  } = useFormRouting(router, URLS);
+  } = useFormRouting(router);
   const seeStaffMessage =
     'Our staff can help you update your emergency contact information.';
   const dispatch = useDispatch();

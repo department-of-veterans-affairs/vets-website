@@ -39,7 +39,7 @@ export default function Index(props) {
   );
 
   const { router } = props;
-  const { goToErrorPage, jumpToPage } = useFormRouting(router, URLS);
+  const { goToErrorPage, jumpToPage } = useFormRouting(router);
   const { clearCurrentSession, setCurrentToken } = useSessionStorage();
 
   useEffect(

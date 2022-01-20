@@ -10,8 +10,8 @@ import DisplayMultipleAppointments from './DisplayMultipleAppointments';
 import { makeSelectAppointmentListData } from '../../hooks/selectors';
 
 const CheckIn = props => {
-  const { router, URLS } = props;
-  const { goToErrorPage } = useFormRouting(router, URLS);
+  const { router } = props;
+  const { goToErrorPage } = useFormRouting(router);
   const selectAppointmentListData = useMemo(makeSelectAppointmentListData, []);
   const { context, appointments } = useSelector(selectAppointmentListData);
   const appointment = appointments ? appointments[0] : {};
@@ -53,7 +53,6 @@ const CheckIn = props => {
         token={token}
         appointments={appointments}
         getMultipleAppointments={getMultipleAppointments}
-        URLS={URLS}
       />
     );
   }
@@ -63,7 +62,6 @@ CheckIn.propTypes = {
   appointments: PropTypes.array,
   isLoading: PropTypes.bool,
   router: PropTypes.object,
-  URLS: PropTypes.object,
 };
 
 export default CheckIn;

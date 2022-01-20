@@ -17,7 +17,7 @@ import { useFormRouting } from '../../../hooks/useFormRouting';
 import { makeSelectVeteranData } from '../../../selectors';
 
 const EmergencyContact = props => {
-  const { router, URLS } = props;
+  const { router } = props;
 
   const [isSendingData, setIsSendingData] = useState(false);
 
@@ -30,7 +30,7 @@ const EmergencyContact = props => {
     getCurrentPageFromRouter,
     goToNextPage,
     goToPreviousPage,
-  } = useFormRouting(router, URLS);
+  } = useFormRouting(router);
   const currentPage = getCurrentPageFromRouter();
   useEffect(() => {
     focusElement('h1');

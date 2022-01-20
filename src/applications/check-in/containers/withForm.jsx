@@ -13,7 +13,7 @@ const withForm = Component => {
     const { router } = props;
     const selectForm = useMemo(makeSelectForm, []);
     const form = useSelector(selectForm);
-    const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
+    const { jumpToPage, goToErrorPage } = useFormRouting(router);
     const { getCurrentToken } = useSessionStorage();
 
     useEffect(

@@ -101,7 +101,7 @@ const createRoutesWithStore = () => {
         if (route.permissions) {
           const { requiresForm } = route.permissions;
           if (requiresForm) {
-            component = withForm(component, URLS);
+            component = withForm(component);
           }
         }
 

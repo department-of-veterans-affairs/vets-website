@@ -15,9 +15,9 @@ import { makeSelectCheckInData } from '../../hooks/selectors';
 import { api } from '../../../api';
 
 const LoadingPage = props => {
-  const { isSessionLoading, router, isUpdatePageEnabled, URLS } = props;
+  const { isSessionLoading, router, isUpdatePageEnabled } = props;
 
-  const { goToErrorPage, goToNextPage } = useFormRouting(router, URLS);
+  const { goToErrorPage, goToNextPage } = useFormRouting(router);
   const selectCheckInData = useMemo(makeSelectCheckInData, []);
   const checkInData = useSelector(selectCheckInData);
   const { getCurrentToken } = useSessionStorage(false);
@@ -107,7 +107,6 @@ LoadingPage.propTypes = {
   isSessionLoading: PropTypes.bool,
   router: PropTypes.object,
   isUpdatePageEnabled: PropTypes.bool,
-  URLS: PropTypes.object,
 };
 
 export default LoadingPage;

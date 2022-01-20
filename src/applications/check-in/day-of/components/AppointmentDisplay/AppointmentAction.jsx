@@ -1,6 +1,6 @@
-import React, { useCallback, useState, useMemo } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { api } from '../../../api';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
@@ -8,14 +8,10 @@ import { ELIGIBILITY, areEqual } from '../../../utils/appointment/eligibility';
 import recordEvent from 'platform/monitoring/record-event';
 import format from 'date-fns/format';
 
-import { makeSelectForm } from '../../../selectors';
-
 import { appointmentWasCheckedInto } from '../../../actions/day-of';
 
 const AppointmentAction = props => {
   const { appointment, router, token } = props;
-  const selectForm = useMemo(makeSelectForm, []);
-  const { urls } = useSelector(selectForm);
 
   const [isCheckingIn, setIsCheckingIn] = useState(false);
   const dispatch = useDispatch();
@@ -26,11 +22,9 @@ const AppointmentAction = props => {
     [dispatch],
   );
 
-  // select URLS from redux using useselector
-
   const defaultMessage =
     'Online check-in isn’t available for this appointment. Check in with a staff member.';
-  const { goToNextPage, goToErrorPage } = useFormRouting(router, urls);
+  const { goToNextPage, goToErrorPage } = useFormRouting(router);
   const onClick = async () => {
     recordEvent({
       event: 'cta-button-click',

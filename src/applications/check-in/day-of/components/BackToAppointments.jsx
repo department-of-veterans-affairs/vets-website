@@ -1,5 +1,4 @@
-import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -9,19 +8,17 @@ import { createAnalyticsSlug } from '../../utils/analytics';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { withRouter } from 'react-router';
 
-import { makeSelectForm } from '../../selectors';
+import { URLS } from '../../utils/navigation';
 
 const BackToAppointments = ({ router, triggerRefresh }) => {
-  const selectForm = useMemo(makeSelectForm, []);
-  const { urls } = useSelector(selectForm);
-  const { jumpToPage } = useFormRouting(router, urls);
+  const { jumpToPage } = useFormRouting(router);
   const handleClick = e => {
     e.preventDefault();
     recordEvent({
       event: createAnalyticsSlug('back-button-clicked'),
     });
     triggerRefresh();
-    jumpToPage(urls.DETAILS);
+    jumpToPage(URLS.DETAILS);
   };
   return (
     <>

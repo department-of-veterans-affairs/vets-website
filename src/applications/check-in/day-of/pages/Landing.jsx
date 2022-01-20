@@ -20,7 +20,7 @@ import { createSetSession } from '../../actions/authentication';
 
 const Landing = props => {
   const { isUpdatePageEnabled, location, router } = props;
-  const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
+  const { jumpToPage, goToErrorPage } = useFormRouting(router);
 
   const [loadMessage] = useState('Finding your appointment information');
   const { clearCurrentSession, setCurrentToken } = useSessionStorage(false);

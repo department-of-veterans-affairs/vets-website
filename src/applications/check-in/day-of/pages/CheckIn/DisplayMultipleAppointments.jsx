@@ -14,7 +14,7 @@ import { sortAppointmentsByStartTime } from '../../../utils/appointment';
 import { focusElement } from 'platform/utilities/ui';
 
 const DisplayMultipleAppointments = props => {
-  const { appointments, getMultipleAppointments, router, token, URLS } = props;
+  const { appointments, getMultipleAppointments, router, token } = props;
 
   const handleClick = e => {
     e.preventDefault();
@@ -26,7 +26,7 @@ const DisplayMultipleAppointments = props => {
     getMultipleAppointments();
     focusElement('h1');
   };
-  const { goToPreviousPage } = useFormRouting(router, URLS);
+  const { goToPreviousPage } = useFormRouting(router);
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
   return (
@@ -79,7 +79,6 @@ DisplayMultipleAppointments.propTypes = {
   getMultipleAppointments: PropTypes.func,
   router: PropTypes.object,
   token: PropTypes.string,
-  URLS: PropTypes.object,
 };
 
 export default DisplayMultipleAppointments;

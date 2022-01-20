@@ -11,15 +11,13 @@ import Footer from '../components/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
 import { makeSelectDemographicData } from '../hooks/selectors';
+import { URLS } from '../../utils/navigation';
 
 const NextOfKin = props => {
-  const { router, URLS } = props;
+  const { router } = props;
   const selectDemographicData = useMemo(makeSelectDemographicData, []);
   const { nextOfKin } = useSelector(selectDemographicData);
-  const { jumpToPage, goToNextPage, goToPreviousPage } = useFormRouting(
-    router,
-    URLS,
-  );
+  const { jumpToPage, goToNextPage, goToPreviousPage } = useFormRouting(router);
 
   const seeStaffMessage =
     'Our staff can help you update your next of kin information.';
@@ -78,7 +76,6 @@ const NextOfKin = props => {
 
 NextOfKin.propTypes = {
   router: PropTypes.object,
-  URLS: PropTypes.object,
 };
 
 export default NextOfKin;
