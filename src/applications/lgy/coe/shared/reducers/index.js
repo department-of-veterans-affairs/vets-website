@@ -41,7 +41,7 @@ const certificateOfEligibility = (state = initialState, action) => {
       return {
         ...state,
         generateAutoCoeStatus: CALLSTATUS.failed,
-        errors: action.response.errors,
+        errors: { ...state.errors, coe: action.response.errors },
         isLoading: false,
       };
     case GENERATE_AUTOMATIC_COE_SUCCEEDED:
