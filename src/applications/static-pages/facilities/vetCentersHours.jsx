@@ -4,7 +4,8 @@ import { formatHours } from '../../facility-locator/utils/formatHours';
 import CallVetCenterForHours from './CallVetCenterForHours';
 
 const VetCenterHours = props => {
-  if (props.hours.length === 0) return <CallVetCenterForHours />;
+  if (props.hours.length === 0)
+    return <CallVetCenterForHours vetCenterHoursId={props.vetCenterHoursId} />;
 
   const arrayOfWeekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -33,7 +34,9 @@ const VetCenterHours = props => {
             {arrayOfWeekdays[item.day]}:
           </div>
           <div className="small-9 columns vads-u-padding-x--0 vads-u-padding-right--0">
-            {formatHours(item.starthours)} - {formatHours(item.endhours)}{' '}
+            {formatHours(item.starthours)} - {formatHours(item.endhours)}
+          </div>
+          <div className="small-2 columns vads-u-padding-x--0 vads-u-padding-right--0">
             {item.comment}
           </div>
         </div>
@@ -56,7 +59,7 @@ const VetCenterHours = props => {
   };
 
   return (
-    <div id="vet-center-hours">
+    <div id={props.vetCenterHoursId}>
       <h4 className="vads-u-font-size--lg vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
         Hours
       </h4>
@@ -69,6 +72,7 @@ const VetCenterHours = props => {
 
 VetCenterHours.propTypes = {
   hours: PropTypes.array,
+  vetCenterHoursId: PropTypes.string,
 };
 
 export default VetCenterHours;
