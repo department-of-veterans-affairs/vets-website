@@ -68,6 +68,13 @@ export class IntroductionPage extends React.Component {
   }
 
   render() {
+    /* eslint-disable no-console */
+    console.log(
+      `#### remainingEntitlement: ${JSON.stringify(
+        this.props.getRemainingEntitlement(),
+      )}`,
+    );
+    /* eslint-enable no-console */
     return (
       <div
         className="schemaform-intro"
