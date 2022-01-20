@@ -9,11 +9,14 @@ import {
   GENERATE_AUTOMATIC_COE_FAILED,
   GENERATE_AUTOMATIC_COE_SUCCEEDED,
   SKIP_AUTOMATIC_COE_CHECK,
+  GET_COE_URL_FAILED,
+  GET_COE_URL_SUCCEEDED,
 } from '../actions/index';
 
 const initialState = {
   generateAutoCoeStatus: CALLSTATUS.idle,
   coe: null,
+  downloadURL: null,
   errors: null,
   profileIsUpdating: true,
   isLoading: true,
@@ -45,6 +48,10 @@ const certificateOfEligibility = (state = initialState, action) => {
         coe: action.response,
         isLoading: false,
       };
+    case GET_COE_URL_FAILED:
+      return { ...state, errors: action.response.errors, isLoading: false };
+    case GET_COE_URL_SUCCEEDED:
+      return { ...state, isLoading: false, downloadURL: action.response.url };
     default:
       return state;
   }
