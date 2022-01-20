@@ -94,7 +94,7 @@ const AppointmentAction = props => {
     ) {
       return (
         <p data-testid="too-late-message">
-          Your appointment started more than 10 minutes ago. We can’t check you
+          Your appointment started more than 5 minutes ago. We can’t check you
           in online. Ask a staff member for help.
         </p>
       );

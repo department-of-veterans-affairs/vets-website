@@ -4,11 +4,8 @@ import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink
 
 export default function LogoutAlert() {
   return (
-    <va-alert
-      headline="You have successfully signed out."
-      status="success"
-      className="vads-u-margin-bottom--6"
-    >
+    <va-alert status="success" className="vads-u-margin-bottom--6">
+      <h2 slot="headline">You have successfully signed out.</h2>
       <strong>Looking for other VA benefits or services?</strong>
       <a
         href="/"

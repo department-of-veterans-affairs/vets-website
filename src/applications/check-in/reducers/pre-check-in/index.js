@@ -1,14 +1,3 @@
-const setSessionHandler = (state, action) => {
-  return {
-    ...state,
-    context: {
-      ...state.context,
-      token: action.payload.token,
-      permissions: action.payload.permissions,
-    },
-  };
-};
-
 const recordAnswerHandler = (state, action) => {
   const data = { ...state.form.data, ...action.payload };
   return {
@@ -25,4 +14,4 @@ const setVeteranDataHandler = (state, action) => {
   };
 };
 
-export { setSessionHandler, recordAnswerHandler, setVeteranDataHandler };
+export { recordAnswerHandler, setVeteranDataHandler };

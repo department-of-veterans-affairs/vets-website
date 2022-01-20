@@ -13,7 +13,7 @@ describe('Check In Experience', () => {
         initializeSessionPost,
         initializeCheckInDataGet,
       } = ApiInitializer;
-      initializeFeatureToggle.withoutEmergencyContact();
+      initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataGet.withSuccess();

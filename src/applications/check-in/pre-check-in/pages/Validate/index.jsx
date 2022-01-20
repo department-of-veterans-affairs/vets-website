@@ -1,9 +1,11 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+
+import { focusElement } from 'platform/utilities/ui';
 
 import { api } from '../../../api';
 
-import { createSetSession } from '../../../actions/pre-check-in';
+import { createSetSession } from '../../../actions/authentication';
 
 import BackToHome from '../../components/BackToHome';
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
@@ -45,12 +47,9 @@ export default function Index({ router }) {
   } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
   const validateHandler = async () => {
-    setIsLoading(true);
     setLastNameErrorMessage();
     setLast4ErrorMessage();
     if (!lastName || !last4Ssn) {
-      setIsLoading(false);
-
       if (!lastName) {
         setLastNameErrorMessage('Please enter your last name.');
       }
@@ -60,6 +59,7 @@ export default function Index({ router }) {
         );
       }
     } else {
+      setIsLoading(true);
       try {
         const resp = await api.v2.postSession({
           token,
@@ -85,6 +85,10 @@ export default function Index({ router }) {
     remainingValidateAttempts <= 1
       ? "We're sorry. We couldn't match your information to our records. Please try again or call us at 800-698-2411 (TTY: 711) for help signing in."
       : "Sorry, we couldn't find an account that matches that last name or SSN. Please try again.";
+
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
   return (
     <>
       <ValidateDisplay

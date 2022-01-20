@@ -8,10 +8,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 // import { selectVAPResidentialAddress } from 'platform/user/selectors';
-import {
-  selectFeatureCCIterations,
-  selectIsCernerOnlyPatient,
-} from '../redux/selectors';
+import { selectIsCernerOnlyPatient } from '../redux/selectors';
 import newAppointmentReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
 import TypeOfCarePage from './components/TypeOfCarePage';
@@ -24,7 +21,6 @@ import PreferredDatePage from './components/PreferredDatePage';
 import DateTimeRequestPage from './components/DateTimeRequestPage';
 import DateTimeSelectPage from './components/DateTimeSelectPage';
 import VAFacilityPageV2 from './components/VAFacilityPage/VAFacilityPageV2';
-import CommunityCarePreferencesPage from './components/CommunityCarePreferencesPage';
 import ClosestCityStatePage from './components/ClosestCityStatePage';
 import CommunityCareLanguagePage from './components/CommunityCareLanguagePage';
 import CommunityCareProviderSelectionPage from './components/CommunityCareProviderSelectionPage';
@@ -41,7 +37,6 @@ import useVariantSortMethodTracking from './hooks/useVariantSortMethodTracking';
 
 export function NewAppointment() {
   const isCernerOnlyPatient = useSelector(selectIsCernerOnlyPatient);
-  const featureCCIteration = useSelector(selectFeatureCCIterations);
 
   const match = useRouteMatch();
   const location = useLocation();
@@ -111,18 +106,12 @@ export function NewAppointment() {
           path={`${match.url}/how-to-schedule`}
           component={ScheduleCernerPage}
         />
-        {featureCCIteration && (
+        {
           <Route
             path={`${match.url}/community-care-preferences`}
             component={CommunityCareProviderSelectionPage}
           />
-        )}
-        {!featureCCIteration && (
-          <Route
-            path={`${match.url}/community-care-preferences`}
-            component={CommunityCarePreferencesPage}
-          />
-        )}
+        }
         <Route
           path={`${match.url}/community-care-language`}
           component={CommunityCareLanguagePage}

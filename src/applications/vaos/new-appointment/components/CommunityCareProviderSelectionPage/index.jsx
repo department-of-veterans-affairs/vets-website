@@ -19,10 +19,6 @@ import { lowerCase } from '../../../utils/formatters';
 const initialSchema = {
   type: 'object',
   properties: {
-    communityCareSystemId: {
-      type: 'string',
-      enum: [],
-    },
     communityCareProvider: {
       type: 'object',
       properties: {},
@@ -34,31 +30,16 @@ const pageKey = 'ccPreferences';
 
 export default function CommunityCareProviderSelectionPage() {
   const dispatch = useDispatch();
-  const { data, pageChangeInProgress, schema, showCCIterations } = useSelector(
+  const { data, pageChangeInProgress, schema } = useSelector(
     state => getFormPageInfo(state, pageKey),
     shallowEqual,
   );
   const history = useHistory();
   const typeOfCare = getTypeOfCare(data);
-  const pageTitle = showCCIterations
-    ? `Request a ${lowerCase(typeOfCare.name)} provider`
-    : 'Tell us your community care preferences';
-
-  const descriptionText =
-    'You can request a provider for this care. If they aren’t available, we’ll schedule your appointment with a provider close to your home.';
+  const pageTitle = `Request a ${lowerCase(typeOfCare.name)} provider`;
 
   const uiSchema = {
-    communityCareSystemId: {
-      'ui:title': 'What’s the closest city and state to you?',
-      'ui:widget': 'radio',
-    },
     communityCareProvider: {
-      'ui:options': {
-        showFieldLabel: !showCCIterations,
-      },
-      'ui:description': (
-        <p id="providerSelectionDescription">{descriptionText}</p>
-      ),
       'ui:field': ProviderSelectionField,
     },
   };

@@ -7,9 +7,9 @@ import { focusElement } from 'platform/utilities/ui';
 import { api } from '../../api';
 
 import { URLS } from '../../utils/navigation/day-of';
-import { permissionsUpdated } from '../../actions/day-of';
+import { createSetSession } from '../../actions/authentication';
+
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { SCOPES } from '../../utils/token-format-validator';
 
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
@@ -22,8 +22,11 @@ import { useSessionStorage } from '../../hooks/useSessionStorage';
 const ValidateVeteran = props => {
   const { router } = props;
   const dispatch = useDispatch();
-  const setPermissions = useCallback(
-    data => dispatch(permissionsUpdated(data, SCOPES.READ_FULL)),
+
+  const setSession = useCallback(
+    (token, permissions) => {
+      dispatch(createSetSession({ token, permissions }));
+    },
     [dispatch],
   );
 
@@ -63,26 +66,25 @@ const ValidateVeteran = props => {
     } else {
       // API call
       setIsLoading(true);
-
-      api.v2
-        .postSession({ lastName, last4: last4Ssn, token })
-        .then(data => {
-          // update sessions with new permissions
-          setPermissions(data);
-          // routing
-          goToNextPage();
-        })
-        .catch(() => {
-          setIsLoading(false);
-          if (isMaxValidateAttempts) {
-            goToErrorPage();
-          } else {
-            if (!showValidateError) {
-              setShowValidateError(true);
-            }
-            incrementValidateAttempts(window);
-          }
+      try {
+        const resp = await api.v2.postSession({
+          token,
+          last4: last4Ssn,
+          lastName,
         });
+        setSession(token, resp.permissions);
+        goToNextPage();
+      } catch (e) {
+        setIsLoading(false);
+        if (isMaxValidateAttempts) {
+          goToErrorPage();
+        } else {
+          if (!showValidateError) {
+            setShowValidateError(true);
+          }
+          incrementValidateAttempts(window);
+        }
+      }
     }
   };
   useEffect(() => {

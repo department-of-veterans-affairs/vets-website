@@ -1,3 +1,5 @@
+import { updateForm } from '../../utils/navigation/day-of';
+
 export const RECEIVED_APPOINTMENT_DETAILS = 'RECEIVED_APPOINTMENT_DETAILS';
 
 export const receivedMultipleAppointmentDetails = payload => {
@@ -47,16 +49,6 @@ export const receivedEmergencyContact = emergencyContact => {
   };
 };
 
-export const SET_TOKEN_CONTEXT = 'SET_TOKEN_CONTEXT';
-
-export const setTokenContext = (token, scope) => {
-  return {
-    type: SET_TOKEN_CONTEXT,
-    payload: {
-      context: { token, scope },
-    },
-  };
-};
 export const TRIGGER_REFRESH = 'TRIGGER_REFRESH';
 
 export const triggerRefresh = (shouldRefresh = true) => {
@@ -64,29 +56,6 @@ export const triggerRefresh = (shouldRefresh = true) => {
     type: TRIGGER_REFRESH,
     payload: {
       context: { shouldRefresh },
-    },
-  };
-};
-
-export const PERMISSIONS_UPDATED = 'PERMISSIONS_UPDATED';
-
-export const permissionsUpdated = (data, scope) => {
-  const { permissions } = data;
-  return {
-    type: PERMISSIONS_UPDATED,
-    payload: { permissions, scope },
-  };
-};
-
-export const TOKEN_WAS_VALIDATED = 'TOKEN_WAS_VALIDATED';
-
-export const tokenWasValidated = (payload, token, scope) => {
-  const data = payload ? { appointments: [{ ...payload }] } : {};
-  return {
-    type: TOKEN_WAS_VALIDATED,
-    payload: {
-      context: { token, scope },
-      ...data,
     },
   };
 };
@@ -100,11 +69,20 @@ export const seeStaffMessageUpdated = message => {
   };
 };
 
-export const RECEIVED_DEMOGRAPHICS_STATUS = 'RECEIVED_DEMOGRAPHICS_STATUS';
+export const UPDATE_DAY_OF_CHECK_IN_FORM = 'UPDATE_DAY_OF_CHECK_IN_FORM';
 
-export const receivedDemographicsStatus = status => {
+export const updateFormAction = ({
+  patientDemographicsStatus,
+  checkInExperienceUpdateInformationPageEnabled = false,
+}) => {
+  const pages = updateForm(
+    patientDemographicsStatus,
+    checkInExperienceUpdateInformationPageEnabled,
+  );
   return {
-    type: RECEIVED_DEMOGRAPHICS_STATUS,
-    payload: { demographicsStatus: status },
+    type: UPDATE_DAY_OF_CHECK_IN_FORM,
+    payload: {
+      pages,
+    },
   };
 };
