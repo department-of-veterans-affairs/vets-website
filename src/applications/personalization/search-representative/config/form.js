@@ -1,3 +1,6 @@
+import { isLoggedIn } from 'platform/user/selectors';
+
+import { store } from '../app-entry';
 import manifest from '../manifest.json';
 
 import GetFormHelp from '../components/GetFormHelp';
@@ -76,11 +79,29 @@ const formConfig = {
     personalInformation: {
       title: 'Your personal information',
       pages: {
-        personalInformation: {
-          path: 'personal-information',
+        personalInformationAuth: {
+          path: 'personal-information-auth',
           title: personalInformation.title,
-          schema: personalInformation.getSchema(true),
-          uiSchema: personalInformation.getUiSchema(true),
+          ...personalInformation.authenticated,
+          depends: () => {
+            if (store) {
+              return isLoggedIn(store.getState());
+            }
+
+            return false;
+          },
+        },
+        personalInformationNoAuth: {
+          path: 'personal-information-unauth',
+          title: personalInformation.title,
+          ...personalInformation.unauthenticated,
+          depends: () => {
+            if (store) {
+              return !isLoggedIn(store.getState());
+            }
+
+            return true;
+          },
         },
       },
     },
