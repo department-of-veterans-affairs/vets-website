@@ -11,7 +11,7 @@ const COEIntroPageBox = props => {
   if (props.coe.status) {
     switch (props.coe.status) {
       case COE_ELIGIBILITY_STATUS.available:
-        return <COEAvailable />;
+        return <COEAvailable downloadURL={props.downloadURL} />;
       case COE_ELIGIBILITY_STATUS.denied:
         return <COEDenied />;
       case COE_ELIGIBILITY_STATUS.eligible:

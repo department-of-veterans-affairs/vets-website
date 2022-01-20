@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { CoeDocumentList } from './CoeDocumentList';
 import { MoreQuestions } from './MoreQuestions';
 
-export const CoeAvailable = () => (
+export const CoeAvailable = ({ downloadURL }) => (
   <div className="row vads-u-margin-bottom--7">
     <div className="medium-8 columns">
       <h2 className="vads-u-margin-top--0">Review and download your COE</h2>
@@ -17,7 +17,7 @@ export const CoeAvailable = () => (
       </a>
       <a
         className="vads-u-font-size--base vads-u-display--block vads-u-margin-top--2"
-        href="#"
+        href={downloadURL}
       >
         <i
           aria-hidden="true"
