@@ -123,6 +123,27 @@ const formConfig = {
               VACCINATED_ADDITIONAL_OTHER2:
                 fullSchema.properties.VACCINATED_ADDITIONAL_OTHER2,
               VACCINATED_ADDITIONAL_DATE2: date,
+              VACCINATED_ADDITIONAL3:
+                fullSchema.properties.VACCINATED_ADDITIONAL3,
+              VACCINATED_ADDITIONAL_DETAILS3:
+                fullSchema.properties.VACCINATED_ADDITIONAL_DETAILS3,
+              VACCINATED_ADDITIONAL_OTHER3:
+                fullSchema.properties.VACCINATED_ADDITIONAL_OTHER3,
+              VACCINATED_ADDITIONAL_DATE3: date,
+              VACCINATED_ADDITIONAL4:
+                fullSchema.properties.VACCINATED_ADDITIONAL4,
+              VACCINATED_ADDITIONAL_DETAILS4:
+                fullSchema.properties.VACCINATED_ADDITIONAL_DETAILS4,
+              VACCINATED_ADDITIONAL_OTHER4:
+                fullSchema.properties.VACCINATED_ADDITIONAL_OTHER4,
+              VACCINATED_ADDITIONAL_DATE4: date,
+              VACCINATED_ADDITIONAL5:
+                fullSchema.properties.VACCINATED_ADDITIONAL5,
+              VACCINATED_ADDITIONAL_DETAILS5:
+                fullSchema.properties.VACCINATED_ADDITIONAL_DETAILS5,
+              VACCINATED_ADDITIONAL_OTHER5:
+                fullSchema.properties.VACCINATED_ADDITIONAL_OTHER5,
+              VACCINATED_ADDITIONAL_DATE5: date,
               hospitalized: fullSchema.properties.hospitalized,
               smokeOrVape: fullSchema.properties.smokeOrVape,
               HEALTH_HISTORY: fullSchema.properties.HEALTH_HISTORY,

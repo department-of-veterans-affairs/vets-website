@@ -87,6 +87,66 @@
         "VACCINATED_ADDITIONAL_DATE2": {
             "$ref": "#/definitions/date"
         },
+        "VACCINATED_ADDITIONAL3": {
+            "type": "boolean"
+          },
+          "VACCINATED_ADDITIONAL_DETAILS3": {
+            "type": "string",
+            "enum": [
+                "MODERNA",
+                "PFIZER",
+                "OTHER",
+                "UNKNOWN"
+            ]
+          },
+          "VACCINATED_ADDITIONAL_OTHER3": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
+          },
+          "VACCINATED_ADDITIONAL_DATE3": {
+            "$ref": "#/definitions/date"
+          },
+          "VACCINATED_ADDITIONAL4": {
+            "type": "boolean"
+          },
+          "VACCINATED_ADDITIONAL_DETAILS4": {
+            "type": "string",
+            "enum": [
+                "MODERNA",
+                "PFIZER",
+                "OTHER",
+                "UNKNOWN"
+            ]
+          },
+          "VACCINATED_ADDITIONAL_OTHER4": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
+          },
+          "VACCINATED_ADDITIONAL_DATE4": {
+            "$ref": "#/definitions/date"
+          },
+          "VACCINATED_ADDITIONAL5": {
+            "type": "boolean"
+          },
+          "VACCINATED_ADDITIONAL_DETAILS5": {
+            "type": "string",
+            "enum": [
+                "MODERNA",
+                "PFIZER",
+                "OTHER",
+                "UNKNOWN"
+            ]
+          },
+          "VACCINATED_ADDITIONAL_OTHER5": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
+          },
+          "VACCINATED_ADDITIONAL_DATE5": {
+            "$ref": "#/definitions/date"
+          },
         "diagnosed": {
             "type": "boolean"
         },
