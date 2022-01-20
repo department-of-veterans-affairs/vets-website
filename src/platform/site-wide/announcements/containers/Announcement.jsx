@@ -11,6 +11,8 @@ import { isLoggedIn, selectProfile } from '../../../user/selectors';
 import { selectAnnouncement } from '../selectors';
 import { initDismissedAnnouncements, dismissAnnouncement } from '../actions';
 
+import '../sass/style.scss';
+
 export class Announcement extends Component {
   static propTypes = {
     // From mapStateToProps.
