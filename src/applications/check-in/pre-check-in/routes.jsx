@@ -12,7 +12,7 @@ import { URLS } from '../utils/navigation/pre-check-in';
 
 import withFeatureFlip from './containers/withFeatureFlip';
 import withAuthorization from './containers/withAuthorization';
-import withForm from './containers/withForm';
+import withForm from '../containers/withForm';
 
 const routes = [
   {

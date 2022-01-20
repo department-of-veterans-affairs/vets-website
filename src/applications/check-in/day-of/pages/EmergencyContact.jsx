@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { URLS } from '../../utils/navigation/day-of';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
 import BackToHome from '../components/BackToHome';
@@ -14,7 +13,7 @@ import EmergencyContactDisplay from '../../components/pages/emergencyContact/Eme
 import { makeSelectDemographicData } from '../hooks/selectors';
 
 const EmergencyContact = props => {
-  const { router } = props;
+  const { router, URLS } = props;
   const selectDemographicData = useMemo(makeSelectDemographicData, []);
   const { emergencyContact } = useSelector(selectDemographicData);
   const {
@@ -81,6 +80,7 @@ const EmergencyContact = props => {
 EmergencyContact.propTypes = {
   isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
+  URLS: PropTypes.object,
 };
 
 export default EmergencyContact;

@@ -5,8 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 
 import { api } from '../../api';
-
-import { URLS } from '../../utils/navigation/day-of';
 import { createSetSession } from '../../actions/authentication';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
@@ -18,7 +16,7 @@ import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 import { makeSelectContext } from '../hooks/selectors';
 
 const ValidateVeteran = props => {
-  const { router } = props;
+  const { router, URLS } = props;
   const dispatch = useDispatch();
 
   const setSession = useCallback(
@@ -99,6 +97,7 @@ const ValidateVeteran = props => {
 
 ValidateVeteran.propTypes = {
   router: PropTypes.object,
+  URLS: PropTypes.object,
 };
 
 export default ValidateVeteran;

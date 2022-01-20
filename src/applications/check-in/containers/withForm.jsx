@@ -1,10 +1,10 @@
 import React, { useMemo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { makeSelectForm } from '../../selectors';
+import { makeSelectForm } from '../selectors';
 
-import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { useFormRouting } from '../../hooks/useFormRouting';
+import { useSessionStorage } from '../hooks/useSessionStorage';
+import { useFormRouting } from '../hooks/useFormRouting';
 
 const withForm = (Component, URLS) => {
   return props => {

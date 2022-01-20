@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { api } from '../../../api';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { URLS } from '../../../utils/navigation/day-of';
 import { receivedMultipleAppointmentDetails } from '../../../actions/day-of';
 
 import DisplayMultipleAppointments from './DisplayMultipleAppointments';
@@ -11,7 +10,7 @@ import DisplayMultipleAppointments from './DisplayMultipleAppointments';
 import { makeSelectAppointmentListData } from '../../hooks/selectors';
 
 const CheckIn = props => {
-  const { router } = props;
+  const { router, URLS } = props;
   const { goToErrorPage } = useFormRouting(router, URLS);
   const selectAppointmentListData = useMemo(makeSelectAppointmentListData, []);
   const { context, appointments } = useSelector(selectAppointmentListData);
@@ -54,6 +53,7 @@ const CheckIn = props => {
         token={token}
         appointments={appointments}
         getMultipleAppointments={getMultipleAppointments}
+        URLS={URLS}
       />
     );
   }
@@ -63,6 +63,7 @@ CheckIn.propTypes = {
   appointments: PropTypes.array,
   isLoading: PropTypes.bool,
   router: PropTypes.object,
+  URLS: PropTypes.object,
 };
 
 export default CheckIn;

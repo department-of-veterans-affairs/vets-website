@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { URLS } from '../../../utils/navigation/day-of';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import {
   receivedEmergencyContact,
@@ -16,7 +15,7 @@ import { makeSelectCheckInData } from '../../hooks/selectors';
 import { api } from '../../../api';
 
 const LoadingPage = props => {
-  const { isSessionLoading, router, isUpdatePageEnabled } = props;
+  const { isSessionLoading, router, isUpdatePageEnabled, URLS } = props;
 
   const { goToErrorPage, goToNextPage } = useFormRouting(router, URLS);
   const selectCheckInData = useMemo(makeSelectCheckInData, []);
@@ -108,6 +107,7 @@ LoadingPage.propTypes = {
   isSessionLoading: PropTypes.bool,
   router: PropTypes.object,
   isUpdatePageEnabled: PropTypes.bool,
+  URLS: PropTypes.object,
 };
 
 export default LoadingPage;

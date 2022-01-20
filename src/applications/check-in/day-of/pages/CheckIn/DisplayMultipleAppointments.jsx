@@ -7,7 +7,6 @@ import BackButton from '../../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { URLS } from '../../../utils/navigation/day-of';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { createAnalyticsSlug } from '../../../utils/analytics';
@@ -15,7 +14,7 @@ import { sortAppointmentsByStartTime } from '../../../utils/appointment';
 import { focusElement } from 'platform/utilities/ui';
 
 const DisplayMultipleAppointments = props => {
-  const { appointments, getMultipleAppointments, router, token } = props;
+  const { appointments, getMultipleAppointments, router, token, URLS } = props;
 
   const handleClick = e => {
     e.preventDefault();
@@ -80,6 +79,7 @@ DisplayMultipleAppointments.propTypes = {
   getMultipleAppointments: PropTypes.func,
   router: PropTypes.object,
   token: PropTypes.string,
+  URLS: PropTypes.object,
 };
 
 export default DisplayMultipleAppointments;

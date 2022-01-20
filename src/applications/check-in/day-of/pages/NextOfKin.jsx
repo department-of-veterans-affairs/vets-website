@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { URLS } from '../../utils/navigation/day-of';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
 import BackToHome from '../components/BackToHome';
@@ -14,7 +13,7 @@ import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay'
 import { makeSelectDemographicData } from '../hooks/selectors';
 
 const NextOfKin = props => {
-  const { router } = props;
+  const { router, URLS } = props;
   const selectDemographicData = useMemo(makeSelectDemographicData, []);
   const { nextOfKin } = useSelector(selectDemographicData);
   const { jumpToPage, goToNextPage, goToPreviousPage } = useFormRouting(
@@ -79,6 +78,7 @@ const NextOfKin = props => {
 
 NextOfKin.propTypes = {
   router: PropTypes.object,
+  URLS: PropTypes.object,
 };
 
 export default NextOfKin;
