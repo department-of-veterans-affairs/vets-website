@@ -52,7 +52,7 @@ describe('Schemaform <FormSaved>', () => {
     expect(
       tree.subTree('withRouter(FormStartControls)').props.startPage,
     ).to.equal('testing');
-    expect(tree.subTree('.usa-alert').text()).to.contain('June 12, 2017 at');
+    expect(tree.subTree('.usa-alert').text()).to.contain('June 12, 2017, at');
     expect(tree.subTree('.usa-alert').text()).to.contain('will expire on');
     expect(tree.subTree('.usa-alert').text()).to.contain(
       'Your education benefits (123) application has been saved.',

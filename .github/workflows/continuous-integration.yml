@@ -867,15 +867,6 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Install dependencies
-        uses: nick-invision/retry@v2
-        with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
-          max_attempts: 3
-          timeout_minutes: 7
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
-
       - name: Set output of latest_run_number
         id: latest-run-number
         run: echo ::set-output name=latest_run_number::$(node ./script/github-actions/get-latest-run-number.js)
@@ -971,6 +962,7 @@ jobs:
     needs: deploy
     env:
       DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
+      VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
 
     steps:
       - name: Checkout
@@ -981,6 +973,6 @@ jobs:
         continue-on-error: true
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
-          channel_id: ${{ env.DEVOPS_CHANNEL_ID }}
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

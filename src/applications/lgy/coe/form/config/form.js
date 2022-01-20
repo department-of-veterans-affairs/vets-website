@@ -15,11 +15,12 @@ import manifest from '../manifest.json';
 
 // chapter schema imports
 import { GetFormHelp } from '../components/GetFormHelp';
+import { applicantInformation } from './chapters/applicant';
+
 import {
-  applicantInformation,
-  applicantContactInfo,
-  communicationPreferences,
-} from './chapters/applicant';
+  additionalInformation,
+  mailingAddress,
+} from './chapters/contact-information';
 
 import { serviceStatus, serviceHistory } from './chapters/service';
 
@@ -63,7 +64,7 @@ const formConfig = {
   },
   chapters: {
     applicantInformationChapter: {
-      title: 'Your Information',
+      title: 'Your personal information',
       pages: {
         applicantInformationSummary: {
           path: 'applicant-information-summary',
@@ -71,17 +72,22 @@ const formConfig = {
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
         },
-        applicantContactInformation: {
-          path: 'applicant-contact-information',
-          title: 'Your contact information',
-          uiSchema: applicantContactInfo.uiSchema,
-          schema: applicantContactInfo.schema,
+      },
+    },
+    contactInformationChapter: {
+      title: 'Your contact information',
+      pages: {
+        mailingAddress: {
+          path: 'mailing-address',
+          title: mailingAddress.title,
+          uiSchema: mailingAddress.uiSchema,
+          schema: mailingAddress.schema,
         },
-        applicantCommunicationPreferences: {
-          path: 'applicant-communication-preference',
-          title: 'Your communication preference',
-          uiSchema: communicationPreferences.uiSchema,
-          schema: communicationPreferences.schema,
+        additionalInformation: {
+          path: 'additional-contact-information',
+          title: additionalInformation.title,
+          uiSchema: additionalInformation.uiSchema,
+          schema: additionalInformation.schema,
         },
       },
     },

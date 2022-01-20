@@ -1,5 +1,6 @@
 import manifest from '../manifest.json';
 
+import GetFormHelp from '../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -28,6 +29,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21-22a',
+  getHelp: GetFormHelp,
   saveInProgress: {},
   version: 0,
   prefillEnabled: true,

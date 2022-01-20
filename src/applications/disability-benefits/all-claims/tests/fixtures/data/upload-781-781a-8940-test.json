@@ -47,6 +47,8 @@
       "view:assaultPtsdType": true,
       "view:nonCombatPtsdType": true
     },
+    "view:skip781ForCombatReason": false,
+    "view:skip781ForNonCombatReason": false,
     "view:ptsdTypeHelp": {},
     "newDisabilities": [
       {

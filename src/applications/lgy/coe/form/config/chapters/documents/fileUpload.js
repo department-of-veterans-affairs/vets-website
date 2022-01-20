@@ -11,19 +11,15 @@ const DocumentUploadDescription = () => {
   return (
     <div>
       <p>
-        You can upload your document in a .pdf, .jpg, .jpeg, .png, .gif, .bmp,
-        or .txt file format. You’ll first need to scan a copy of your document
-        onto your computer or mobile phone. You can then upload the document
-        from there.
+        You can upload your document in a .pdf, .jpg, .jpeg, or .png file
+        format. You’ll first need to scan a copy of your document onto your
+        computer or mobile phone. You can then upload the document from there.
       </p>
       <p>Guidelines for uploading a file:</p>
       <ul>
-        <li>
-          File types you can upload: .pdf, .jpg, .jpeg, .png, .gif, .bmp, or
-          .txt
-        </li>
-        <li>Maximum non-PDF file size: 50MB</li>
-        <li>Maximum PDF file size: 150MB</li>
+        <li>You can upload a .pdf, .jpg, .jpeg, or .png file.</li>
+        <li>Your PDF file should be no larger than 150MB.</li>
+        <li>Non-PDF files should be no larger than 50MB.</li>
       </ul>
       <p>
         A 1MB file equals about 500 pages of text. A photo or scan is usually
@@ -71,10 +67,10 @@ export const uiSchema = {
   files: {
     'ui:required': () => true,
     ...fileUploadUI('Your uploaded documents', {
-      buttonText: 'Upload a document',
+      buttonText: 'Upload this document',
       hideLabelText: true,
       fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
-      fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'],
+      fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
       maxSize: MAX_SIZE,
       maxPdfSize: MAX_PDF_SIZE,
     }),
@@ -82,7 +78,7 @@ export const uiSchema = {
   'view:documentUploadDescription': {
     'ui:title': () => (
       <legend className="schemaform-block-title">
-        Having problems uploading your documents?
+        Having problems uploading your document?
       </legend>
     ),
     'ui:description': DocumentUploadDescription,

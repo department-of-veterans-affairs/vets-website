@@ -16,7 +16,7 @@ describe('COE applicant communication preferences', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.applicantInformationChapter.pages.applicantCommunicationPreferences;
+  } = formConfig.chapters.contactInformationChapter.pages.additionalInformation;
 
   it('should render', () => {
     const form = render(
@@ -51,7 +51,7 @@ describe('COE applicant communication preferences', () => {
 
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -64,7 +64,9 @@ describe('COE applicant communication preferences', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
           data={{
-            preferredMethod: 'EMAIL',
+            phoneNumber: '5555555555',
+            email: 'test@test.com',
+            'view:confirmEmail': 'test@test.com',
           }}
           onSubmit={onSubmit}
         />
