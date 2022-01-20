@@ -7,7 +7,7 @@ import { focusElement } from 'platform/utilities/ui';
 import BackButton from '../../components/BackButton';
 
 import { makeSelectSeeStaffMessage } from '../hooks/selectors';
-import TravelPayReimbursementLink from '../components/TravelPayReimbursementLink';
+import TravelPayReimbursementLink from '../../components/TravelPayReimbursementLink';
 
 const SeeStaff = props => {
   const { router } = props;
