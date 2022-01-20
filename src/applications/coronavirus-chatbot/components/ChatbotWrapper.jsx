@@ -1,6 +1,7 @@
 import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { ChatbotComponent } from './ChatbotComponent';
+import '../sass/coronavirus-chatbot.scss';
 
 export class ChatbotWrapper extends React.Component {
   constructor(props) {
