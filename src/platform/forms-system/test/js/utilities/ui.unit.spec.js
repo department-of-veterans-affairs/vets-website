@@ -135,7 +135,7 @@ describe('getFocuableElements', () => {
     const dom = findDOMNode(tree);
     global.document = dom;
     const focusableElements = getFocusableElements(dom);
-    expect(focusableElements.length).to.be.above(0);
+    expect(focusableElements.length).to.eq(7);
   });
 
   it('should return an empty array from non-focusable elements', () => {
