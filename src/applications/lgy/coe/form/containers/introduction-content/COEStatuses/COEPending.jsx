@@ -1,5 +1,6 @@
 import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import moment from 'moment';
 
 const COEPending = props => {
   return (
@@ -10,7 +11,10 @@ const COEPending = props => {
             ? 'We need more information from you'
             : 'We’re reviewing your request'}
         </h2>
-        <p>You requested a COE on: June 30, 2020</p>
+        <p>
+          You requested a COE on:{' '}
+          {moment(props.applicationCreateDate).format('MMMM DD, YYYY')}
+        </p>
         <div>
           <p>
             {props.status === 'pending-upload'
