@@ -361,6 +361,7 @@ describe('<AddFilesForm>', () => {
     tree.getMountedInstance().add([
       {
         name: 'valid.txt',
+        type: fileTypeSignatures.txt.mime,
         size: 95,
       },
     ]);
