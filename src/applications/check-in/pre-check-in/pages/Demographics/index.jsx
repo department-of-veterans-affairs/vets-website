@@ -9,7 +9,6 @@ import BackButton from '../../../components/BackButton';
 import DemographicsDisplay from '../../../components/pages/demographics/DemographicsDisplay';
 import recordEvent from 'platform/monitoring/record-event';
 import { recordAnswer } from '../../../actions/pre-check-in';
-import { URLS } from '../../../utils/navigation/pre-check-in';
 
 import { makeSelectVeteranData } from '../../../selectors';
 
@@ -20,7 +19,7 @@ const Demographics = props => {
     goToNextPage,
     goToPreviousPage,
     getCurrentPageFromRouter,
-  } = useFormRouting(router, URLS);
+  } = useFormRouting(router);
   const currentPage = getCurrentPageFromRouter();
   useEffect(() => {
     focusElement('h1');

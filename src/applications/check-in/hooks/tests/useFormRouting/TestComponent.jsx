@@ -2,17 +2,6 @@ import React from 'react';
 import { useFormRouting } from '../../useFormRouting';
 
 export default function TestComponent({ router }) {
-  const URLS = Object.freeze({
-    CONFIRMATION: 'complete',
-    DEMOGRAPHICS: 'contact-information',
-    EMERGENCY_CONTACT: 'emergency-contact',
-    ERROR: 'error',
-    INTRODUCTION: 'introduction',
-    LANDING: '',
-    NEXT_OF_KIN: 'next-of-kin',
-    SEE_STAFF: 'see-staff',
-    VERIFY: 'verify',
-  });
   const {
     getCurrentPageFromRouter,
     goToPreviousPage,
@@ -20,7 +9,7 @@ export default function TestComponent({ router }) {
     goToErrorPage,
     jumpToPage,
     pages,
-  } = useFormRouting(router, URLS);
+  } = useFormRouting(router);
   const currentPage = getCurrentPageFromRouter();
   return (
     <div>

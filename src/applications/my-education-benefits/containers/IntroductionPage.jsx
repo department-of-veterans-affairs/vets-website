@@ -9,6 +9,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import HowToApplyPost911GiBill from '../components/HowToApplyPost911GiBill';
 import { connect } from 'react-redux';
 import { fetchUser } from '../selectors/userDispatch';
+import { fetchEligibility } from '../actions';
 
 import environment from 'platform/utilities/environment';
 
@@ -142,6 +143,7 @@ export const IntroductionPage = ({ user, route }) => {
 
 const mapStateToProps = state => ({
   user: fetchUser(state),
+  eligibility: fetchEligibility,
 });
 
 export default connect(mapStateToProps)(IntroductionPage);

@@ -15,7 +15,6 @@ import Footer from '../../components/Footer';
 import NextOfKinDisplay from '../../../components/pages/nextOfKin/NextOfKinDisplay';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { URLS } from '../../../utils/navigation/pre-check-in';
 
 import {
   makeSelectCurrentContext,
@@ -46,7 +45,7 @@ const NextOfKin = props => {
     goToErrorPage,
     goToNextPage,
     goToPreviousPage,
-  } = useFormRouting(router, URLS);
+  } = useFormRouting(router);
   const currentPage = getCurrentPageFromRouter();
   useEffect(() => {
     focusElement('h1');

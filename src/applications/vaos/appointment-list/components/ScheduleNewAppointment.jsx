@@ -11,11 +11,12 @@ export default function ScheduleNewAppointment() {
 
   return (
     <>
-      <div className="vads-u-margin-bottom--1p5">
+      <div className="vads-u-margin-bottom--1p5 vaos-hide-for-print">
         Schedule primary or specialty care appointments.
       </div>
 
       <button
+        className="vaos-hide-for-print"
         aria-label="Start scheduling an appointment"
         id="schedule-button"
         type="button"

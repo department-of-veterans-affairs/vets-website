@@ -57,7 +57,7 @@ describe('VAOS appointment list', () => {
         .findByText(/Details/i)
         .click();
       cy.url().should('include', '/appointments/va');
-      cy.get('[data-cy=va-appointment-details-header]')
+      cy.get('[data-cy=va-appointment-details-header]', { timeout: 10000 })
         .should('exist')
         .contains('VA appointment over the phone');
       cy.axeCheckBestPractice();

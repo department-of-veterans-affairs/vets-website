@@ -515,7 +515,9 @@ export function fetchRequestDetails(id) {
       }
       if (featureVAOSServiceRequests && request.practitioners?.length) {
         request.preferredCommunityCareProviders = [
-          await getCommunityProvider(request.practitioners[0].identifier.value),
+          await getCommunityProvider(
+            request.practitioners[0].identifier[0].value,
+          ),
         ];
       }
 
