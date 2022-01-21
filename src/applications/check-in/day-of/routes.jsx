@@ -16,8 +16,8 @@ import LoadingPage from './pages/LoadingPage';
 import withFeatureFlip from './containers/withFeatureFlip';
 import withSession from './containers/withSession';
 import withToken from './containers/withToken';
-import withForm from './containers/withForm';
-import { URLS } from '../utils/navigation/day-of';
+import withForm from '../containers/withForm';
+import { URLS } from '../utils/navigation';
 
 const routes = [
   {
@@ -101,7 +101,7 @@ const createRoutesWithStore = () => {
         if (route.permissions) {
           const { requiresForm } = route.permissions;
           if (requiresForm) {
-            component = withForm(component);
+            component = withForm(component, { isPreCheckIn: false });
           }
         }
 

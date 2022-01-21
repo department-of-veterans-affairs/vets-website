@@ -8,11 +8,11 @@ import EmergencyContact from './pages/EmergencyContact';
 import Confirmation from './pages/Confirmation';
 import Landing from './pages/Landing';
 import Error from './pages/Error';
-import { URLS } from '../utils/navigation/pre-check-in';
+import { URLS } from '../utils/navigation';
 
 import withFeatureFlip from './containers/withFeatureFlip';
 import withAuthorization from './containers/withAuthorization';
-import withForm from './containers/withForm';
+import withForm from '../containers/withForm';
 
 const routes = [
   {
@@ -80,7 +80,7 @@ const createRoutesWithStore = () => {
         if (route.permissions) {
           const { requiresForm, requireAuthorization } = route.permissions;
           if (requiresForm) {
-            component = withForm(component);
+            component = withForm(component, { isPreCheckIn: true });
           }
           if (requireAuthorization) {
             component = withAuthorization(component);

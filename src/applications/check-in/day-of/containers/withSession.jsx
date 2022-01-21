@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { api } from '../../api';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { URLS } from '../../utils/navigation/day-of';
+import { URLS } from '../../utils/navigation';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { triggerRefresh } from '../../actions/day-of';
 import { SCOPES } from '../../utils/token-format-validator';
@@ -38,7 +38,7 @@ const withSession = Component => {
       setCurrentToken,
       getCurrentToken,
     } = useSessionStorage(false);
-    const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
+    const { jumpToPage, goToErrorPage } = useFormRouting(router);
     const { context } = checkInData;
 
     useEffect(

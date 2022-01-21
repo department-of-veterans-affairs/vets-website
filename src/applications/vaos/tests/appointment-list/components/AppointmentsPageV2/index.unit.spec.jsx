@@ -67,7 +67,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
     expect(
       screen.getByRole('heading', {
         level: 2,
-        name: 'Requested',
+        name: 'Requested appointments',
       }),
     );
 

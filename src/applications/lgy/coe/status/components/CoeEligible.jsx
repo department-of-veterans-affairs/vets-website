@@ -26,7 +26,7 @@ export const CoeEligible = props => (
       </p>
       <a
         className="vads-u-font-size--base vads-u-display--block vads-u-margin-top--2"
-        href="#"
+        href={props.downloadURL}
       >
         <i
           aria-hidden="true"

@@ -20,8 +20,8 @@ const IntroductionDisplay = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
-  const { router, URLS } = props;
-  const { goToNextPage } = useFormRouting(router, URLS);
+  const { router } = props;
+  const { goToNextPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
 

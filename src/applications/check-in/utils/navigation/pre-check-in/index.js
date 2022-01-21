@@ -4,21 +4,9 @@
  * @param {string} [location.query.id]
  */
 
-import { updateFormPages } from '..';
+import { updateFormPages, URLS } from '..';
 
 const getTokenFromLocation = location => location?.query?.id;
-
-const URLS = Object.freeze({
-  CONFIRMATION: 'complete',
-  DEMOGRAPHICS: 'contact-information',
-  EMERGENCY_CONTACT: 'emergency-contact',
-  ERROR: 'error',
-  INTRODUCTION: 'introduction',
-  LANDING: '',
-  NEXT_OF_KIN: 'next-of-kin',
-  SEE_STAFF: 'see-staff',
-  VERIFY: 'verify',
-});
 
 const PRE_CHECK_IN_FORM_PAGES = Object.freeze([
   {
@@ -61,7 +49,6 @@ const updateForm = patientDemographicsStatus => {
 };
 
 export {
-  URLS,
   PRE_CHECK_IN_FORM_PAGES,
   createForm,
   getPagesInOrder,
