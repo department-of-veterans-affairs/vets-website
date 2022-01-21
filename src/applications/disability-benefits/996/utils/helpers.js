@@ -240,7 +240,9 @@ export const getSelectedCount = (formData, items) =>
   getSelected({ ...formData, additionalIssues: items }).length;
 
 const processIssues = (array = []) =>
-  array.filter(Boolean).map(entry => getIssueNameAndDate(entry));
+  array
+    .filter(entry => getIssueName(entry) && getIssueDate(entry))
+    .map(entry => getIssueNameAndDate(entry));
 
 export const hasDuplicates = (data = {}) => {
   const contestedIssues = processIssues(data.contestedIssues);
