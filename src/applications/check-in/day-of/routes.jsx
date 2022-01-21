@@ -15,7 +15,6 @@ import LoadingPage from './pages/LoadingPage';
 
 import withFeatureFlip from '../containers/withFeatureFlip';
 import withSession from './containers/withSession';
-import withToken from './containers/withToken';
 import withForm from '../containers/withForm';
 import { URLS } from '../utils/navigation';
 
@@ -26,7 +25,7 @@ const routes = [
   },
   {
     path: URLS.VALIDATION_NEEDED,
-    component: withToken(ValidateVeteran),
+    component: ValidateVeteran,
     permissions: {
       requiresForm: true,
     },
@@ -97,18 +96,19 @@ const createRoutesWithStore = () => {
   return (
     <Switch>
       {routes.map((route, i) => {
+        const options = { isPreCheckIn: false };
         let component = route.component;
         if (route.permissions) {
           const { requiresForm } = route.permissions;
           if (requiresForm) {
-            component = withForm(component, { isPreCheckIn: false });
+            component = withForm(component, options);
           }
         }
 
         return (
           <Route
             path={`/${route.path}`}
-            component={withFeatureFlip(component, { isPreCheckIn: false })}
+            component={withFeatureFlip(component, options)}
             key={i}
           />
         );
