@@ -66,10 +66,20 @@ const App = props => {
         content = <CoeDenied />;
         break;
       case COE_ELIGIBILITY_STATUS.pending:
-        content = <CoePending notOnUploadPage />;
+        content = (
+          <CoePending
+            notOnUploadPage
+            applicationCreateDate={coe.applicationCreateDate}
+          />
+        );
         break;
       case COE_ELIGIBILITY_STATUS.pendingUpload:
-        content = <CoePending uploadsNeeded />;
+        content = (
+          <CoePending
+            uploadsNeeded
+            applicationCreateDate={coe.applicationCreateDate}
+          />
+        );
         break;
       default:
         content = <CoeIneligible />;
