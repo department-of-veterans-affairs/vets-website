@@ -15,20 +15,26 @@ export const issueErrorMessages = {
   newerDate: 'Please add an issue with a decision date less than a year old',
 };
 
-export const issueNameLabel = 'Name of issue';
-export const dateOfDecisionLabel = 'Date of decision';
+export const addIssueTitle = 'Add an issue and our decision date on this issue';
 
-export const addIssueLabel = (
+export const issueNameLabel = (
   <>
-    <span className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans">
-      Add an issue and our decision date on this issue. You can find the
-      decision date on your decision notice (the letter you got in the mail from
-      us). You can request a Higher-Level Review up to 1 year from the date on
-      your decision notice.
-    </span>
-    <p className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans">
-      <strong>Note:</strong> You can only add an issue that you’ve already
-      received a VA decision notice for.
+    <strong>Name of issue</strong>
+    <span className="form-required-span">(*Required)</span>
+    <p className="vads-u-font-weight--normal label-description">
+      You can only add an issue that you’ve already received a VA decision
+      notice for.
+    </p>
+  </>
+);
+
+export const dateOfDecisionLabel = (
+  <>
+    <strong>Date of decision</strong>
+    <span className="form-required-span">(*Required)</span>
+    <p className="vads-u-font-weight--normal label-description">
+      You can find the decision date on your decision notice (the letter you got
+      in the mail from us).
     </p>
   </>
 );

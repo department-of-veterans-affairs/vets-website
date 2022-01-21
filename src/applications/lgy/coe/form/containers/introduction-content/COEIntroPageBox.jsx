@@ -21,7 +21,12 @@ const COEIntroPageBox = props => {
         return <COEIneligible />;
       case COE_ELIGIBILITY_STATUS.pending:
       case COE_ELIGIBILITY_STATUS.pendingUpload:
-        return <COEPending status={props.coe.status} />;
+        return (
+          <COEPending
+            status={props.coe.status}
+            applicationCreateDate={props.coe.applicationCreateDate}
+          />
+        );
       default:
         return <></>;
     }
