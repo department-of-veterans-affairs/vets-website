@@ -876,10 +876,18 @@ const formConfig = {
               'ui:description': (
                 <va-alert onClose={function noRefCheck() {}} status="info">
                   <>
-                    If you choose to get text message notifications, messaging
-                    and data rates may apply. At this time, we can send text
-                    messages about your education benefits only to U.S. mobile
-                    phone numbers.
+                    If you choose to get text message notifications from VA’s GI
+                    Bill program, message and data rates may apply. Two messages
+                    per month. At this time, we can only send text messages to
+                    U.S. mobile phone numbers. Text STOP to opt out or HELP for
+                    help.{' '}
+                    <a
+                      href="https://benefits.va.gov/gibill/isaksonroe/verification_of_enrollment.asp"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      View Terms and Conditions and Privacy Policy.
+                    </a>
                   </>
                 </va-alert>
               ),
