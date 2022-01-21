@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ErrorMessage from '../../components/ErrorMessage';
-import BackToHome from '../components/BackToHome';
+import BackToHome from '../../components/BackToHome';
 import Footer from '../components/Footer';
 
 const Error = () => {

@@ -5,7 +5,7 @@ import format from 'date-fns/format';
 import { VaAlert } from 'web-components/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 
-import BackToHome from '../../components/BackToHome';
+import BackToHome from '../../../components/BackToHome';
 import BackToAppointments from '../../../components/BackToAppointments';
 import Footer from '../../components/Footer';
 import AppointmentLocation from '../../../components/AppointmentDisplay/AppointmentLocation';

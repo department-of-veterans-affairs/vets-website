@@ -5,7 +5,7 @@ import { focusElement } from 'platform/utilities/ui';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import AppointmentBlock from '../../../components/AppointmentBlock';
-import BackToHome from '../../components/BackToHome';
+import BackToHome from '../../../components/BackToHome';
 
 import { makeSelectVeteranData, makeSelectForm } from '../../../selectors';
 

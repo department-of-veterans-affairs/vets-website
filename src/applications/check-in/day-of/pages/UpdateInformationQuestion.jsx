@@ -5,7 +5,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
-import BackToHome from '../components/BackToHome';
+import BackToHome from '../../components/BackToHome';
 import Footer from '../components/Footer';
 import { URLS } from '../../utils/navigation';
 

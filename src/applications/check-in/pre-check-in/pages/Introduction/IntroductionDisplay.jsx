@@ -10,7 +10,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import AppointmentBlock from '../../../components/AppointmentBlock';
 import Footer from '../../components/Footer';
-import BackToHome from '../../components/BackToHome';
+import BackToHome from '../../../components/BackToHome';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 

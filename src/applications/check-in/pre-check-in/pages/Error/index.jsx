@@ -5,7 +5,7 @@ import format from 'date-fns/format';
 import sub from 'date-fns/sub';
 
 import ErrorMessage from '../../../components/ErrorMessage';
-import BackToHome from '../../components/BackToHome';
+import BackToHome from '../../../components/BackToHome';
 import Footer from '../../components/Footer';
 
 import { makeSelectVeteranData } from '../../../selectors';
