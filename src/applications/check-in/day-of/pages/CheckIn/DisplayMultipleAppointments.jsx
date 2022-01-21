@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 
-import AppointmentListItem from '../../components/AppointmentDisplay/AppointmentListItem';
+import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import BackButton from '../../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
