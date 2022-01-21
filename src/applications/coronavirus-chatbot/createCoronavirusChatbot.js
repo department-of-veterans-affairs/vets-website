@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './sass/coronavirus-chatbot.scss';
 
 export default async (store, widgetType) => {
   // Derive the element to render our widget.

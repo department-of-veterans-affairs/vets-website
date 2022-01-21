@@ -24,10 +24,6 @@ import {
 } from 'platform/site-wide/user-nav/actions';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
 
-// necessary styles for the search dropdown component
-import 'applications/search/components/SearchDropdown/SearchDropdownStyles.scss';
-import '../sass/user-nav.scss';
-
 export class Main extends Component {
   static propTypes = {
     isHeaderV2: PropTypes.bool,

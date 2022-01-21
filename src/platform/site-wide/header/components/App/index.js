@@ -7,12 +7,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import Header from '../Header';
 import { hideLegacyHeader, showLegacyHeader } from '../../helpers';
 
-// Relative imports.
-import '../../components/LogoRow/styles.scss';
-import '../../components/OfficialGovtWebsite/styles.scss';
-import '../../components/Search/styles.scss';
-import '../../containers/Menu/styles.scss';
-
 const MOBILE_BREAKPOINT_PX = 768;
 
 export const App = ({
