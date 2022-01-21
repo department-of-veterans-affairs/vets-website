@@ -993,6 +993,7 @@ const formConfig = {
               'ui:title': 'Service history',
               'ui:options': {
                 ...toursOfDutyUI['ui:options'],
+                keepInPageOnReview: true,
                 reviewTitle: <></>,
                 setEditState: () => {
                   return true;
@@ -1009,10 +1010,12 @@ const formConfig = {
             },
             'view:serviceHistory': {
               'ui:description': (
-                <p className="meb-review-page-only">
-                  If you’d like to update information related to your service
-                  history, edit the form fields below.
-                </p>
+                <div className="meb-review-page-only">
+                  <p>
+                    If you’d like to update information related to your service
+                    history, edit the form fields below.
+                  </p>
+                </div>
               ),
               [formFields.serviceHistoryIncorrect]: {
                 'ui:title': 'This information is incorrect and/or incomplete',
