@@ -58,15 +58,28 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "identifier": {
+            "identifier": [{
               "system": null,
               "value": "1801312053"
-            },
+            }],
             "firstName": "Dr",
             "lastName": "Hyde",
             "practiceName": "Jeckle and Hyde"
           }
         ],
+        "extension": {
+          "ccLocation": {
+            "address": {
+              "line": [
+                "1601 Needmore Rd Ste 1"
+              ],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "45414",
+              "text": "1601 Needmore Rd Ste 1\nDayton OH 45414"
+            }
+          }
+        },        
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reason": null,
@@ -102,15 +115,28 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "identifier": {
+            "identifier": [{
               "system": null,
               "value": "1801312053"
-            },
+            }],
             "firstName": "Dr",
             "lastName": "Hyde",
             "practiceName": "Jeckle and Hyde"
           }
         ],
+        "extension": {
+          "ccLocation": {
+            "address": {
+              "line": [
+                "1601 Needmore Rd Ste 1"
+              ],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "45414",
+              "text": "1601 Needmore Rd Ste 1\nDayton OH 45414"
+            }
+          }
+        },
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reason": null,
@@ -147,10 +173,10 @@
         "patientInstruction": "Video Visit Preparation contains extraneous stuff",
         "practitioners": [
           {
-            "identifier": {
+            "identifier": [{
               "system": null,
               "value": "1801312053"
-            },
+            }],
             "firstName": "Abbey",
             "lastName": "Normal",
             "practiceName": null
@@ -195,10 +221,10 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "identifier": {
+            "identifier": [{
               "system": null,
               "value": "1801312053"
-            },
+            }],
             "firstName": "Meg",
             "lastName": "Smith",
             "practiceName": null
@@ -257,19 +283,19 @@
         "patientInstruction": "Medication Review to prepare patient",
         "practitioners": [
           {
-            "identifier": {
+            "identifier": [{
               "system": null,
               "value": "1801312053"
-            },
+            }],
             "firstName": "Meg",
             "lastName": "Smith",
             "practiceName": null
           },
           {
-            "identifier": {
+            "identifier": [{
               "system": null,
               "value": "1801312053"
-            },
+            }],
             "firstName": "Salvador",
             "lastName": "Dali",
             "practiceName": null
@@ -352,10 +378,10 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "identifier": {
+            "identifier": [{
               "system": null,
               "value": "1801312053"
-            },
+            }],
             "firstName": "Florence",
             "lastName": "Nightingale",
             "practiceName": null
@@ -503,10 +529,10 @@
         "patientInstruction": "Medication Review",
         "practitioners": [
           {
-            "identifier": {
+            "identifier": [{
               "system": null,
               "value": "1801312053"
-            },
+            }],
             "firstName": "Peter",
             "lastName": "Jones",
             "practiceName": null
