@@ -41,6 +41,9 @@ class ProgressButton extends React.Component {
         }`}
         id={`${this.id}-continueButton`}
         onClick={this.props.onButtonClick}
+        onMouseDown={e => {
+          e.preventDefault();
+        }}
         aria-label={this.props.ariaLabel || null}
         aria-describedby={this.props.ariaDescribedBy}
       >
