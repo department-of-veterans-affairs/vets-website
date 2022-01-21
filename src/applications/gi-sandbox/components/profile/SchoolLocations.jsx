@@ -1,63 +1,59 @@
-import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { getCalculatedBenefits } from '../../selectors/calculator';
-import { locationInfo, upperCaseFirstLetterOnly } from '../../utils/helpers';
+import { locationInfo } from '../../utils/helpers';
 import ResponsiveTable from '../ResponsiveTable';
 import { Link } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
 
-export default function SchoolLocations({
-  calculator,
-  constants,
-  eligibility,
-  facilityMap,
-  institution,
-  onViewLess,
-  version,
-}) {
-  const { main } = facilityMap;
-  const DEFAULT_ROWS_VIEWABLE = window.innerWidth > 781 ? 10 : 5;
-  const NEXT_ROWS_VIEWABLE = 10;
+const DEFAULT_ROWS_VIEWABLE = window.innerWidth > 781 ? 10 : 5;
 
-  const totalRows = ({ branches, extensions }) => {
-    let rows = 1 + branches.length + extensions.length; // always has a main row
+const NEXT_ROWS_VIEWABLE = 10;
+
+export class SchoolLocations extends React.Component {
+  static propTypes = {
+    institution: PropTypes.object,
+    facilityMap: PropTypes.object,
+    calculator: PropTypes.object,
+    constants: PropTypes.object,
+  };
+
+  constructor(props) {
+    super(props);
+    const initialViewableRows = this.numberOfRowsToDisplay(
+      props.institution.facilityMap.main,
+    );
+    this.state = {
+      viewAll: false,
+      viewableRowCount: initialViewableRows,
+      initialRowCount: initialViewableRows,
+      totalRowCount: this.totalRows(props.institution.facilityMap.main),
+    };
+  }
+
+  institutionIsBeingViewed = facilityCode =>
+    facilityCode === this.props.institution.facilityCode;
+
+  totalRows = ({ branches, extensions }) => {
+    let totalRows = 1 + branches.length + extensions.length; // always has a main row
     branches.forEach(branch => {
-      rows += branch.extensions.length;
+      totalRows += branch.extensions.length;
     });
-    return rows;
+    return totalRows;
   };
 
-  const numberOfRowsToDisplay = map => {
-    const rows = totalRows(map);
+  numberOfRowsToDisplay = facilityMap => {
+    const totalRows = this.totalRows(facilityMap);
 
-    return rows > DEFAULT_ROWS_VIEWABLE ? DEFAULT_ROWS_VIEWABLE : rows;
+    return totalRows > DEFAULT_ROWS_VIEWABLE
+      ? DEFAULT_ROWS_VIEWABLE
+      : totalRows;
   };
 
-  const initialViewableRows = numberOfRowsToDisplay(main);
-  const initialRowCount = initialViewableRows;
-  const totalRowCount = totalRows(main);
-  const [focusedElementIndex, setFocusedElementIndex] = useState(null);
-  const [viewAll, setViewAll] = useState(false);
-  const [viewableRowCount, setViewableRowCount] = useState(initialViewableRows);
-
-  useEffect(
-    () => {
-      // Necessary so screen reader users are aware that the school locations table has changed.
-      if (focusedElementIndex) {
-        document
-          .getElementsByClassName('school-name-cell')
-          [focusedElementIndex].focus();
-      }
-    },
-    [focusedElementIndex],
-  );
-
-  const institutionIsBeingViewed = facilityCode =>
-    facilityCode === institution.facilityCode;
-
-  const createLinkTo = (facilityCode, name) => {
-    if (institutionIsBeingViewed(facilityCode)) {
+  createLinkTo = (facilityCode, name) => {
+    if (this.institutionIsBeingViewed(facilityCode)) {
       return name;
     }
+    const { version } = this.props;
     const query = version ? `?version=${version}` : '';
 
     return (
@@ -67,39 +63,46 @@ export default function SchoolLocations({
     );
   };
 
-  const handleViewAllClicked = () => {
-    const previousRowCount = viewableRowCount;
-    setViewableRowCount(totalRowCount);
-    setViewAll(true);
-    setFocusedElementIndex(previousRowCount);
-    recordEvent({ event: 'view-all-locations-click' });
+  handleViewAllClicked = async () => {
+    const previousRowCount = this.state.viewableRowCount;
+    await this.setState({
+      viewableRowCount: this.state.totalRowCount,
+      viewAll: true,
+    });
+    this.setFocusToSchoolNameCell(previousRowCount);
   };
 
-  const handleViewLessClicked = () => {
-    if (onViewLess) {
-      onViewLess();
-      recordEvent({ event: 'view-less-locations-click' });
+  handleViewLessClicked = async () => {
+    if (this.props.onViewLess) {
+      this.props.onViewLess();
     }
-
-    setViewableRowCount(initialRowCount);
-    setViewAll(false);
-    setFocusedElementIndex(0);
+    await this.setState({
+      viewableRowCount: this.state.initialRowCount,
+      viewAll: false,
+    });
+    this.setFocusToSchoolNameCell(0);
   };
 
-  const showMoreClicked = () => {
-    const previousRowCount = viewableRowCount;
-    const remainingRowCount = totalRowCount - viewableRowCount;
+  showMoreClicked = async () => {
+    const previousRowCount = this.state.viewableRowCount;
+    const remainingRowCount =
+      this.state.totalRowCount - this.state.viewableRowCount;
     const newViewableRowCount =
       remainingRowCount >= NEXT_ROWS_VIEWABLE
-        ? viewableRowCount + NEXT_ROWS_VIEWABLE
-        : viewableRowCount + remainingRowCount;
-
-    setViewableRowCount(newViewableRowCount);
-    setFocusedElementIndex(previousRowCount);
-    recordEvent({ event: 'view-more-locations-click' });
+        ? this.state.viewableRowCount + NEXT_ROWS_VIEWABLE
+        : this.state.viewableRowCount + remainingRowCount;
+    await this.setState({
+      viewableRowCount: newViewableRowCount,
+    });
+    this.setFocusToSchoolNameCell(previousRowCount);
   };
 
-  const schoolLocationTableInfo = (
+  // Necessary so screen reader users are aware that the school locations table has changed.
+  setFocusToSchoolNameCell = elementIndex => {
+    document.getElementsByClassName('school-name-cell')[elementIndex].focus();
+  };
+
+  schoolLocationTableInfo = (
     physicalCity,
     physicalState,
     physicalCountry,
@@ -112,18 +115,19 @@ export default function SchoolLocations({
     return address;
   };
 
-  const estimatedHousingValue = inst => {
-    const rowState = {
-      constants: { constants },
-      eligibility,
-      profile: { attributes: inst },
-      calculator,
+  estimatedHousingValue = institution => {
+    const fakeState = {
+      constants: { constants: this.props.constants },
+      eligibility: this.props.eligibility,
+      profile: { attributes: institution },
+      calculator: this.props.calculator,
     };
-    const calculated = getCalculatedBenefits(rowState);
+
+    const calculated = getCalculatedBenefits(fakeState, this.props);
     return calculated.outputs.housingAllowance.value;
   };
 
-  const createRow = (inst, type, name = inst.institution) => {
+  createRow = (institution, type, name = institution.institution) => {
     const month = (
       <React.Fragment key="months">
         <span className="sr-only">per month</span>
@@ -136,8 +140,8 @@ export default function SchoolLocations({
       physicalState,
       physicalCountry,
       physicalZip,
-    } = inst;
-    const nameLabel = institutionIsBeingViewed(facilityCode) ? (
+    } = institution;
+    const nameLabel = this.institutionIsBeingViewed(facilityCode) ? (
       <p className="school-name">{name}</p>
     ) : (
       name
@@ -148,14 +152,14 @@ export default function SchoolLocations({
         ? nameLabel
         : {
             value: nameLabel,
-            mobileHeader: upperCaseFirstLetterOnly(type),
+            mobileHeader: type.charAt(0).toUpperCase() + type.slice(1),
           };
 
     return {
       key: `${facilityCode}-${type}`,
       rowClassName: `${type}-row`,
       'School name': schoolName,
-      Location: schoolLocationTableInfo(
+      Location: this.schoolLocationTableInfo(
         physicalCity,
         physicalState,
         physicalCountry,
@@ -163,66 +167,72 @@ export default function SchoolLocations({
       ),
       'Estimated housing': (
         <>
-          {estimatedHousingValue(inst)}
+          {this.estimatedHousingValue(institution)}
           {month}
         </>
       ),
     };
   };
 
-  const createMainRow = inst =>
-    createRow(
-      inst,
+  createMainRow = institution =>
+    this.createRow(
+      institution,
       'main',
-      createLinkTo(inst.facilityCode, `${inst.institution} (Main Campus)`),
+      this.createLinkTo(
+        institution.facilityCode,
+        `${institution.institution} (Main Campus)`,
+      ),
     );
 
-  const createExtensionRows = (rows, extensions, maxRows) => {
+  createExtensionRows = (rows, extensions, maxRows) => {
     for (const extension of extensions) {
       // check if should add more rows
-      if (!viewAll && rows.length >= maxRows - 1) {
+      if (!this.state.viewAll && rows.length >= maxRows - 1) {
         break;
       }
       const nameLabel = (
         <div className="extension-cell-label">{extension.institution}</div>
       );
-      rows.push(createRow(extension, 'extension', nameLabel));
+      rows.push(this.createRow(extension, 'extension', nameLabel));
     }
   };
 
-  const createBranchRows = (rows, branches, maxRows) => {
+  createBranchRows = (rows, branches, maxRows) => {
     for (const branch of branches) {
       // check if should add more rows
-      if (!viewAll && rows.length >= maxRows - 1) {
+      if (!this.state.viewAll && rows.length >= maxRows - 1) {
         break;
       }
 
-      const { institution: inst } = branch;
-      const { facilityCode, institution: name } = inst;
+      const { institution } = branch;
+      const { facilityCode, institution: name } = institution;
 
-      rows.push(createRow(inst, 'branch', createLinkTo(facilityCode, name)));
+      rows.push(
+        this.createRow(
+          institution,
+          'branch',
+          this.createLinkTo(facilityCode, name),
+        ),
+      );
 
-      createExtensionRows(rows, branch.extensions, maxRows);
+      this.createExtensionRows(rows, branch.extensions, maxRows);
     }
   };
 
-  const createBranchesAndExtensionsRows = (
-    { branches, extensions },
-    maxRows,
-  ) => {
+  createBranchesAndExtensionsRows = ({ branches, extensions }, maxRows) => {
     const rows = [];
-    createExtensionRows(rows, extensions, maxRows);
-    createBranchRows(rows, branches, maxRows);
+    this.createExtensionRows(rows, extensions, maxRows);
+    this.createBranchRows(rows, branches, maxRows);
     return rows;
   };
 
-  const renderFacilityTable = mainMap => {
-    const maxRows = viewableRowCount;
+  renderFacilityTable = main => {
+    const maxRows = this.state.viewableRowCount;
 
     const fields = ['School name', 'Location', 'Estimated housing'];
 
-    const data = Array.of(createMainRow(mainMap.institution)).concat(
-      createBranchesAndExtensionsRows(mainMap, maxRows),
+    const data = Array.of(this.createMainRow(main.institution)).concat(
+      this.createBranchesAndExtensionsRows(main, maxRows),
     );
 
     return (
@@ -234,7 +244,10 @@ export default function SchoolLocations({
     );
   };
 
-  const renderViewButtons = () => {
+  renderViewButtons = () => {
+    const viewableRowCount = this.state.viewableRowCount;
+    const totalRowCount = this.state.totalRowCount;
+
     if (totalRowCount > DEFAULT_ROWS_VIEWABLE) {
       if (viewableRowCount !== totalRowCount) {
         const remainingRowCount = totalRowCount - viewableRowCount;
@@ -247,7 +260,7 @@ export default function SchoolLocations({
             <button
               type="button"
               className="va-button-link learn-more-button"
-              onClick={showMoreClicked}
+              onClick={this.showMoreClicked}
             >
               Show next {showNextCount}
               <i
@@ -259,7 +272,7 @@ export default function SchoolLocations({
             <button
               type="button"
               className="va-button-link learn-more-button"
-              onClick={handleViewAllClicked}
+              onClick={this.handleViewAllClicked}
             >
               View all
             </button>
@@ -271,7 +284,7 @@ export default function SchoolLocations({
           <button
             type="button"
             className="va-button-link learn-more-button"
-            onClick={handleViewLessClicked}
+            onClick={this.handleViewLessClicked}
           >
             ...View less
           </button>
@@ -281,32 +294,39 @@ export default function SchoolLocations({
     return null;
   };
 
-  const renderViewCount = () => {
+  renderViewCount = () => {
+    const totalRows = this.state.totalRowCount;
+    const viewableRows = this.state.viewableRowCount;
     return (
       <div className="vads-u-padding-top--2">
         <i>
-          Showing {viewableRowCount} of {totalRowCount} locations
+          Showing {viewableRows} of {totalRows} locations
         </i>
       </div>
     );
   };
 
-  return (
-    <div className="school-locations row">
-      <span className="small-screen-font">
-        Below are locations for {main.institution.institution}. The housing
-        estimates shown here are based on a full-time student taking in-person
-        classes.&nbsp;
-        {main.branches.length > 0 && ( // only displayed when branches exist
-          <span>
-            Select a link to view a location and calculate the benefits you’d
-            receive there.
-          </span>
-        )}
-      </span>
-      {renderFacilityTable(main)}
-      {renderViewCount()}
-      {renderViewButtons()}
-    </div>
-  );
+  render() {
+    const { main } = this.props.institution.facilityMap;
+    return (
+      <div className="school-locations row">
+        <span>
+          Below are locations for {main.institution.institution}. The housing
+          estimates shown here are based on a full-time student taking in-person
+          classes.&nbsp;
+          {main.branches.length > 0 && ( // only displayed when branches exist
+            <span>
+              Select a link to view a location and calculate the benefits you’d
+              receive there.
+            </span>
+          )}
+        </span>
+        {this.renderFacilityTable(main)}
+        {this.renderViewCount()}
+        {this.renderViewButtons()}
+      </div>
+    );
+  }
 }
+
+export default SchoolLocations;

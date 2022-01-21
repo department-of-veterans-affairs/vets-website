@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import Scroll from 'react-scroll';
 import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 
-import { checkForEncryptedPdf } from 'platform/forms-system/src/js/utilities/file';
+import {
+  readAndCheckFile,
+  checkTypeAndExtensionMatches,
+  checkIsEncryptedPdf,
+  FILE_TYPE_MISMATCH_ERROR,
+} from 'platform/forms-system/src/js/utilities/file';
 import { getScrollOptions } from 'platform/utilities/ui';
 import {
   isValidFile,
@@ -22,22 +27,22 @@ const FileUploader = ({ files, requestLockedPdfPassword, onAddFile }) => {
     Scroll.scroller.scrollTo(`documentScroll${position}`, options);
   };
 
-  const isFileEncrypted = async file =>
-    checkForEncryptedPdf(file)
-      .then(isEncrypted => isEncrypted)
-      .catch(() => false);
-
   const handleChange = async uploadedFile => {
     const file = uploadedFile[0];
     const extraData = {};
 
-    if (isValidFile(file)) {
+    const checks = { checkTypeAndExtensionMatches, checkIsEncryptedPdf };
+    const checkResults = await readAndCheckFile(file, checks);
+
+    if (!checkResults.checkTypeAndExtensionMatches) {
+      setErrorMessage(FILE_TYPE_MISMATCH_ERROR);
+    } else if (isValidFile(file)) {
       // Check if the file is an encrypted PDF
       if (
         requestLockedPdfPassword && // feature flag
         file.name?.endsWith('pdf')
       ) {
-        extraData.isEncrypted = await isFileEncrypted(file);
+        extraData.isEncrypted = checkResults.checkIsEncryptedPdf;
       }
 
       setErrorMessage(null);

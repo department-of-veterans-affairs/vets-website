@@ -7,7 +7,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/component-library/Ad
 import { VA_FORM_IDS } from '~/platform/forms/constants';
 import recordEvent from '~/platform/monitoring/record-event';
 import {
-  isMultifactorEnabled,
+  // isMultifactorEnabled,
   isVAPatient,
   isLOA3,
   selectProfile,
@@ -26,10 +26,10 @@ import {
 } from '~/applications/hca/selectors';
 
 import { fetchEDUPaymentInformation as fetchEDUPaymentInformationAction } from '@@profile/actions/paymentInformation';
-import {
-  eduDirectDepositInformation,
-  eduDirectDepositIsSetUp,
-} from '@@profile/selectors';
+// import {
+//   eduDirectDepositInformation,
+//   eduDirectDepositIsSetUp,
+// } from '@@profile/selectors';
 
 import ApplicationsInProgress from './ApplicationsInProgress';
 import BenefitOfInterest from './BenefitOfInterest';
@@ -96,14 +96,14 @@ const BenefitsOfInterest = ({ children, showChildren }) => {
 };
 
 const ApplyForBenefits = ({
-  getDD4EDUStatus,
+  // getDD4EDUStatus,
   getESREnrollmentStatus,
   hasDD4EDU,
   hasHCAInProgress,
   hasLoadedAllData,
   isInESR,
   isPatient,
-  shouldGetDD4EDUStatus,
+  // shouldGetDD4EDUStatus,
   shouldGetESRStatus,
   hasEDUInProgress,
 }) => {
@@ -116,14 +116,14 @@ const ApplyForBenefits = ({
     [shouldGetESRStatus, getESREnrollmentStatus],
   );
 
-  useEffect(
-    () => {
-      if (shouldGetDD4EDUStatus) {
-        getDD4EDUStatus();
-      }
-    },
-    [shouldGetDD4EDUStatus, getDD4EDUStatus],
-  );
+  // useEffect(
+  //   () => {
+  //     if (shouldGetDD4EDUStatus) {
+  //       getDD4EDUStatus();
+  //     }
+  //   },
+  //   [shouldGetDD4EDUStatus, getDD4EDUStatus],
+  // );
 
   const hideHealthCareBenefitInfo = hasHCAInProgress || isPatient || isInESR;
   const hideEducationBenefitInfo = hasDD4EDU || hasEDUInProgress;
@@ -219,19 +219,20 @@ const mapStateToProps = state => {
   const esrEnrollmentStatus = selectESRStatus(state).enrollmentStatus;
 
   const shouldGetESRStatus = !hasHCAInProgress && !isPatient && isLOA3(state);
-  const shouldGetDD4EDUStatus =
-    isLOA3(state) && isMultifactorEnabled(state) && !hasEDUInProgress;
+  // const shouldGetDD4EDUStatus =
+  //   isLOA3(state) && isMultifactorEnabled(state) && !hasEDUInProgress;
   const hasLoadedESRData =
     !shouldGetESRStatus ||
     hasESRServerError(state) ||
     esrEnrollmentStatus !== null;
-  const hasLoadedDD4EDUData =
-    !shouldGetDD4EDUStatus || eduDirectDepositInformation(state);
+  // const hasLoadedDD4EDUData =
+  //   !shouldGetDD4EDUStatus || eduDirectDepositInformation(state);
 
-  const hasLoadedAllData = hasLoadedESRData && hasLoadedDD4EDUData;
+  const hasLoadedAllData = hasLoadedESRData; // && hasLoadedDD4EDUData;
 
   return {
-    hasDD4EDU: eduDirectDepositIsSetUp(state),
+    // temporary while the endpoint is being worked on
+    hasDD4EDU: false, // eduDirectDepositIsSetUp(state),
     hasHCAInProgress,
     hasEDUInProgress,
     hasLoadedAllData,
@@ -239,7 +240,7 @@ const mapStateToProps = state => {
       !!esrEnrollmentStatus &&
       esrEnrollmentStatus !== HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
     isPatient,
-    shouldGetDD4EDUStatus,
+    // shouldGetDD4EDUStatus,
     shouldGetESRStatus,
   };
 };

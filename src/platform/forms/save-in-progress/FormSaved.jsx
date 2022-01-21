@@ -1,8 +1,9 @@
 import React from 'react';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import { fromUnixTime } from 'date-fns';
+import { format } from 'date-fns-tz';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
@@ -42,9 +43,9 @@ class FormSaved extends React.Component {
       profile && profile.prefillsAvailable.includes(formId)
     );
     const { success } = this.props.route.formConfig.savedFormMessages || {};
-    const expirationDate = moment
-      .unix(this.props.expirationDate)
-      .format('MMMM D, YYYY');
+    const expirationDate = this.props.expirationDate
+      ? format(fromUnixTime(this.props.expirationDate), 'MMMM d, yyyy')
+      : null;
     const appType =
       this.props.route.formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
@@ -59,7 +60,7 @@ class FormSaved extends React.Component {
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-metadata">
                     Last saved on{' '}
-                    {moment(lastSavedDate).format('MMMM D, YYYY [at] h:mm a')}
+                    {format(lastSavedDate, "MMMM d, yyyy', at' h:mm aaaa z")}
                   </span>
                   {expirationMessage || (
                     <p className="expires-container">

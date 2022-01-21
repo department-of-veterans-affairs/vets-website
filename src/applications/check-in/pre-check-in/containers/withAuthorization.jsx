@@ -1,13 +1,13 @@
 import React, { useMemo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { makeSelectCurrentContext } from '../selectors';
+import { makeSelectCurrentContext } from '../../selectors';
 
-import { useFormRouting } from '../hooks/useFormRouting';
-import { useSessionStorage } from '../hooks/useSessionStorage';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useFormRouting } from '../../hooks/useFormRouting';
 
 import { SCOPES } from '../../utils/token-format-validator';
-import { URLS } from '../utils/navigation';
+import { URLS } from '../../utils/navigation';
 
 const withAuthorization = Component => {
   return props => {

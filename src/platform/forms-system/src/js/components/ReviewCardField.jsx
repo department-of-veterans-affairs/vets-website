@@ -146,7 +146,9 @@ export default class ReviewCardField extends React.Component {
       this.props.uiSchema,
     );
 
-    const { volatileData, editTitle } = this.props.uiSchema['ui:options'];
+    const { volatileData, editTitle, ariaLabel } = this.props.uiSchema[
+      'ui:options'
+    ];
     const title = editTitle || this.getTitle();
     const subtitle = this.getSubtitle();
     const titleClasses = [
@@ -211,7 +213,11 @@ export default class ReviewCardField extends React.Component {
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2p5">
             {!formContext.reviewMode && (
               <>
-                <button className={updateButtonClasses} onClick={this.update}>
+                <button
+                  className={updateButtonClasses}
+                  onClick={this.update}
+                  aria-label={`${ariaLabel || 'Save Changes'}`}
+                >
                   Save
                 </button>
                 {((volatileData && this.state.canCancel) || !volatileData) && (
@@ -219,6 +225,7 @@ export default class ReviewCardField extends React.Component {
                     className={cancelButtonClasses}
                     style={{ boxShadow: 'none' }}
                     onClick={this.cancelUpdate}
+                    aria-label={'Cancel Changes'}
                   >
                     Cancel
                   </button>

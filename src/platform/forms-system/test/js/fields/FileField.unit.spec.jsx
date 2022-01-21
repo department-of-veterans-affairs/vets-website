@@ -14,6 +14,7 @@ import {
 import { FileField } from '../../../src/js/fields/FileField';
 import fileUploadUI, { fileSchema } from '../../../src/js/definitions/file';
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
+import { fileTypeSignatures } from 'platform/forms-system/src/js/utilities/file';
 
 const formContext = {
   setTouched: sinon.spy(),
@@ -245,7 +246,7 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('ProgressBar').exists()).to.be.true;
+    expect(tree.find('va-progress-bar').exists()).to.be.true;
     const button = tree.find('button');
     expect(button.text()).to.equal('Cancel');
     expect(button.prop('aria-describedby')).to.eq('field_file_name_0');
@@ -288,12 +289,12 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('ProgressBar').props().percent).to.equal(0);
+    expect(tree.find('va-progress-bar').props().percent).to.equal(0);
 
     tree.instance().updateProgress(20);
     tree.update();
 
-    expect(tree.find('ProgressBar').props().percent).to.equal(20);
+    expect(tree.find('va-progress-bar').props().percent).to.equal(20);
     tree.unmount();
   });
   it('should render error', () => {
@@ -512,6 +513,17 @@ describe('Schemaform <FileField>', () => {
         fileField: fileSchema,
       },
     };
+    const mockFile = {
+      name: 'test.png',
+      type: fileTypeSignatures.png.mime,
+    };
+    const uiOptions = {
+      ...uiSchema['ui:options'],
+      mockReadAndCheckFile: () => ({
+        checkIsEncryptedPdf: false,
+        checkTypeAndExtensionMatches: true,
+      }),
+    };
     const uploadFile = sinon.spy();
     const form = render(
       <Provider store={uploadStore}>
@@ -522,17 +534,17 @@ describe('Schemaform <FileField>', () => {
           }}
           uploadFile={uploadFile}
           uiSchema={{
-            fileField: uiSchema,
+            fileField: { ...uiSchema, 'ui:options': uiOptions },
           }}
         />
       </Provider>,
     );
     const formDOM = getFormDOM(form);
 
-    formDOM.files('input[type=file]', [{ name: 'test.png' }]);
+    formDOM.files('input[type=file]', [mockFile]);
 
-    expect(uploadFile.firstCall.args[0]).to.eql({ name: 'test.png' });
-    expect(uploadFile.firstCall.args[1]).to.eql(uiSchema['ui:options']);
+    expect(uploadFile.firstCall.args[0]).to.eql(mockFile);
+    expect(uploadFile.firstCall.args[1]).to.eql(uiOptions);
     expect(uploadFile.firstCall.args[2]).to.be.a('function');
     expect(uploadFile.firstCall.args[3]).to.be.a('function');
     expect(uploadFile.firstCall.args[4]).to.be.a('function');
@@ -547,10 +559,16 @@ describe('Schemaform <FileField>', () => {
       },
     };
     const uploadFile = sinon.spy();
-    const isFileEncrypted = () => Promise.resolve(false);
+    const mockPDFFile = {
+      name: 'test.PDF',
+      type: fileTypeSignatures.pdf.mime,
+    };
     const uiOptions = {
       ...uiSchema['ui:options'],
-      isFileEncrypted,
+      mockReadAndCheckFile: () => ({
+        checkIsEncryptedPdf: false,
+        checkTypeAndExtensionMatches: true,
+      }),
     };
     const fileField = {
       ...uiSchema,
@@ -569,10 +587,10 @@ describe('Schemaform <FileField>', () => {
     );
     const formDOM = getFormDOM(form);
 
-    formDOM.files('input[type=file]', [{ name: 'test.pdf' }]);
+    formDOM.files('input[type=file]', [mockPDFFile]);
 
     setTimeout(() => {
-      expect(uploadFile.firstCall.args[0]).to.eql({ name: 'test.pdf' });
+      expect(uploadFile.firstCall.args[0]).to.eql(mockPDFFile);
       expect(uploadFile.firstCall.args[1]).to.eql(uiOptions);
       expect(uploadFile.firstCall.args[2]).to.be.a('function');
       expect(uploadFile.firstCall.args[3]).to.be.a('function');

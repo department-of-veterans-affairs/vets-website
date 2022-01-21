@@ -548,7 +548,8 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
         .exist;
     });
 
-    it('should show request limit message when not eligible for direct, requests are supported, over request limit', async () => {
+    it('should show request limit message and link to the requested appointments, when current appt is over the request limit', async () => {
+      // Given the user is requesting an appointment
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
       mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
@@ -564,15 +565,26 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
 
+      // And the facitility page is presented
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
+      // When the user selects the facility
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
+
+      // Then they are presented with the message that they are over the request limit
       await screen.findByText(
         /You’ve reached the limit for appointment requests/i,
       );
+
+      // And the link in the over the limit message takes the user to the requested appt page
+      expect(
+        screen.getByRole('link', {
+          name: /your appointment list/i,
+        }),
+      ).to.have.attribute('href', '/requested');
     });
 
     it('should show past visits message when not eligible for direct, requests are supported, no past visit', async () => {

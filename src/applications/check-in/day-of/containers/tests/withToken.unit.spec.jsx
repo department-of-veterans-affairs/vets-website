@@ -25,6 +25,9 @@ describe('check-in', () => {
           context: {
             token: 'token',
           },
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+          },
         },
       };
       const store = mockStore(initState);
@@ -44,6 +47,9 @@ describe('check-in', () => {
       const initState = {
         checkInData: {
           context: {},
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+          },
         },
       };
       const store = mockStore(initState);
@@ -80,6 +86,9 @@ describe('check-in', () => {
       const initState = {
         checkInData: {
           context: {},
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+          },
         },
       };
       const store = mockStore(initState);

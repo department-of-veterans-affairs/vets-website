@@ -9,39 +9,44 @@ import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import NextOfKin from '../NextOfKin';
 
+import { createMockRouter } from '../../../tests/unit/mocks/router';
+
 describe('check in', () => {
   describe('Next of Kin', () => {
     let store;
-    beforeEach(() => {
-      const middleware = [];
-      const mockStore = configureStore(middleware);
-      const initState = {
-        checkInData: {
-          context: {
-            token: '',
-          },
+    const initState = {
+      checkInData: {
+        context: {
+          token: '',
         },
-      };
+        form: {
+          pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+        },
+        nextOfKin: {
+          address: {
+            street1: '445 Fine Finch Fairway',
+            street2: 'Apt 201',
+            city: 'Fairfence',
+            state: 'Florida',
+            zip: '445545',
+          },
+          name: 'Kin, Next',
+          relationship: 'child',
+          phone: '5553334444',
+          workPhone: '5554445555',
+        },
+      },
+    };
+    const middleware = [];
+    const mockStore = configureStore(middleware);
+    beforeEach(() => {
       store = mockStore(initState);
     });
-    const nextOfKin = {
-      address: {
-        street1: '445 Fine Finch Fairway',
-        street2: 'Apt 201',
-        city: 'Fairfence',
-        state: 'Florida',
-        zip: '445545',
-      },
-      name: 'Kin, Next',
-      relationship: 'child',
-      phone: '5553334444',
-      workPhone: '5554445555',
-    };
 
     it('renders', () => {
       const component = render(
         <Provider store={store}>
-          <NextOfKin nextOfKin={nextOfKin} />
+          <NextOfKin />
         </Provider>,
       );
 
@@ -53,14 +58,27 @@ describe('check in', () => {
     });
 
     it('shows "Not available" for unavailable fields', () => {
-      const partialNextOfKin = {
-        address: nextOfKin.address,
-        phone: nextOfKin.phone,
+      const updatedStore = {
+        checkInData: {
+          context: {
+            token: '',
+          },
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+            currentPage: 'first-page',
+          },
+          nextOfKin: {
+            ...initState.checkInData.nextOfKin,
+            name: '',
+            relationship: '',
+            workPhone: '',
+          },
+        },
       };
 
       const component = render(
-        <Provider store={store}>
-          <NextOfKin nextOfKin={partialNextOfKin} />
+        <Provider store={mockStore(updatedStore)}>
+          <NextOfKin />
         </Provider>,
       );
 
@@ -77,20 +95,30 @@ describe('check in', () => {
     it('passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
-          <NextOfKin nextOfKin={nextOfKin} />
+          <NextOfKin />
         </Provider>,
       );
     });
 
     it('goes to the error page when the next of kin data is unavailable', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
         params: {},
+      });
+      const updatedStore = {
+        checkInData: {
+          context: {
+            token: '',
+          },
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+            currentPage: 'first-page',
+          },
+        },
       };
-
       render(
-        <Provider store={store}>
+        <Provider store={mockStore(updatedStore)}>
           <NextOfKin router={mockRouter} />
         </Provider>,
       );
@@ -98,31 +126,18 @@ describe('check in', () => {
       sinon.assert.calledOnce(push);
     });
 
-    it('shows the loading indicator', () => {
-      const { container } = render(
-        <Provider store={store}>
-          <NextOfKin isLoading />
-        </Provider>,
-      );
-
-      expect(container.querySelector('va-loading-indicator')).to.have.attribute(
-        'message',
-        'Loading your appointments for today',
-      );
-    });
-
     it('has a clickable no button', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
         params: {
           token: 'token-123',
         },
-      };
+      });
 
       const component = render(
         <Provider store={store}>
-          <NextOfKin nextOfKin={nextOfKin} router={mockRouter} />
+          <NextOfKin router={mockRouter} />
         </Provider>,
       );
 
@@ -134,16 +149,16 @@ describe('check in', () => {
 
     it('has a clickable yes button', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
         params: {
           token: 'token-123',
         },
-      };
+      });
 
       const component = render(
         <Provider store={store}>
-          <NextOfKin nextOfKin={nextOfKin} router={mockRouter} />
+          <NextOfKin router={mockRouter} />
         </Provider>,
       );
 
@@ -155,20 +170,16 @@ describe('check in', () => {
 
     it('has a clickable yes button with update page enabled', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
         params: {
           token: 'token-123',
         },
-      };
+      });
 
       const component = render(
         <Provider store={store}>
-          <NextOfKin
-            nextOfKin={nextOfKin}
-            isUpdatePageEnabled
-            router={mockRouter}
-          />
+          <NextOfKin isUpdatePageEnabled router={mockRouter} />
         </Provider>,
       );
 
@@ -179,16 +190,16 @@ describe('check in', () => {
     });
     it('has a clickable yes button', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
         params: {
           token: 'token-123',
         },
-      };
+      });
 
       const component = render(
         <Provider store={store}>
-          <NextOfKin nextOfKin={nextOfKin} router={mockRouter} />
+          <NextOfKin router={mockRouter} />
         </Provider>,
       );
 

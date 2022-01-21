@@ -18,6 +18,9 @@ describe('check-in', () => {
       const initState = {
         checkInData: {
           context: {},
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+          },
         },
       };
       store = mockStore(initState);

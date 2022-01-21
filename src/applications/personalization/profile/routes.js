@@ -64,12 +64,6 @@ const getRoutes = options => {
     );
   }
 
-  if (options.removeNotificationSettings) {
-    routes = routes.filter(
-      route => route.name !== PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS,
-    );
-  }
-
   if (options.shouldShowProfileLGBTQEnhancements) {
     const personalInformation = {
       component: PersonalInformation,

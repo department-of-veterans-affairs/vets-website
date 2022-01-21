@@ -3,11 +3,11 @@ import cloneDeep from 'platform/utilities/data/cloneDeep';
 
 import {
   makeSelectCheckInData,
-  makeSelectFeatureToggles,
   makeSelectContext,
   makeSelectConfirmationData,
   makeSelectAppointmentListData,
   makeSelectSeeStaffMessage,
+  makeSelectDemographicData,
 } from './index';
 
 describe('check-in', () => {
@@ -37,6 +37,20 @@ describe('check-in', () => {
           },
           token: 'foo',
         },
+        emergencyContact: {
+          name: 'Bugs Bunny',
+          phone: '5558675309',
+        },
+        nextOfKin: {
+          name: 'VETERAN,JONAH',
+          phone: '1112223333',
+        },
+        demographics: {
+          homePhone: '5552223333',
+          mobilePhone: '5553334444',
+          workPhone: '5554445555',
+          emailAddress: 'kermit.frog@sesameenterprises.us',
+        },
         seeStaffMessage: 'Test message',
       },
     };
@@ -59,6 +73,20 @@ describe('check-in', () => {
             },
             token: 'foo',
           },
+          emergencyContact: {
+            name: 'Bugs Bunny',
+            phone: '5558675309',
+          },
+          nextOfKin: {
+            name: 'VETERAN,JONAH',
+            phone: '1112223333',
+          },
+          demographics: {
+            homePhone: '5552223333',
+            mobilePhone: '5553334444',
+            workPhone: '5554445555',
+            emailAddress: 'kermit.frog@sesameenterprises.us',
+          },
           seeStaffMessage: 'Test message',
         });
       });
@@ -69,18 +97,7 @@ describe('check-in', () => {
         expect(selectCheckInData(partialState)).to.eql({});
       });
     });
-    describe('makeSelectFeatureToggles', () => {
-      it('returns feature toggles', () => {
-        const selectFeatureToggles = makeSelectFeatureToggles();
-        expect(selectFeatureToggles(state)).to.eql({
-          isCheckInEnabled: true,
-          isDemographicsPageEnabled: true,
-          isLoadingFeatureFlags: false,
-          isNextOfKinEnabled: false,
-          isUpdatePageEnabled: true,
-        });
-      });
-    });
+
     describe('makeSelectContext', () => {
       it('returns check-in context', () => {
         const selectContext = makeSelectContext();
@@ -156,6 +173,27 @@ describe('check-in', () => {
         const selectSeeStaffMessage = makeSelectSeeStaffMessage();
         expect(selectSeeStaffMessage(state)).to.eql({
           message: 'Test message',
+        });
+      });
+    });
+    describe('makeSelectDemographicData', () => {
+      it('returns demographic data', () => {
+        const selectDemographicData = makeSelectDemographicData();
+        expect(selectDemographicData(state)).to.eql({
+          emergencyContact: {
+            name: 'Bugs Bunny',
+            phone: '5558675309',
+          },
+          nextOfKin: {
+            name: 'VETERAN,JONAH',
+            phone: '1112223333',
+          },
+          demographics: {
+            homePhone: '5552223333',
+            mobilePhone: '5553334444',
+            workPhone: '5554445555',
+            emailAddress: 'kermit.frog@sesameenterprises.us',
+          },
         });
       });
     });

@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { VaAdditionalInfo } from 'web-components/react-bindings';
 import { recordEventOnce } from 'platform/monitoring/record-event';
 import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
 
@@ -26,8 +26,9 @@ export const nonCombatPtsdTypeLong = (
 );
 
 export const ptsdTypeHelp = (
-  <AdditionalInfo
-    triggerText="Which should I choose?"
+  <VaAdditionalInfo
+    trigger="Which should I choose?"
+    disableAnalytics
     onClick={() =>
       recordEventOnce(
         ANALYTICS_EVENTS.openedPtsdTypeHelp,
@@ -52,7 +53,7 @@ export const ptsdTypeHelp = (
     <h4 className="vads-u-font-size--h5">Personal assault</h4>
     <p>
       This means you were a victim of an assault, battery, robbery, mugging,
-      stalking, or harassment by a person who wasn't part of an enemy force.
+      stalking, or harassment by a person who wasn’t part of an enemy force.
     </p>
     <h4 className="vads-u-font-size--h5">
       Non-combat PTSD other than sexual trauma or personal assault
@@ -63,5 +64,5 @@ export const ptsdTypeHelp = (
       or to yourself, that was caused by something other than a hostile military
       or terrorist activity.
     </p>
-  </AdditionalInfo>
+  </VaAdditionalInfo>
 );

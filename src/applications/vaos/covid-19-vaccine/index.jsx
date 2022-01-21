@@ -20,7 +20,7 @@ import ContactInfoPage from './components/ContactInfoPage';
 import ReceivedDoseScreenerPage from './components/ReceivedDoseScreenerPage';
 import ContactFacilitiesPage from './components/ContactFacilitiesPage';
 import { FETCH_STATUS } from '../utils/constants';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
@@ -81,8 +81,8 @@ export function NewBookingSection() {
   ) {
     return (
       <FormLayout>
-        <LoadingIndicator
-          setFocus
+        <va-loading-indicator
+          set-focus
           message="Checking for online appointment availability"
         />
       </FormLayout>

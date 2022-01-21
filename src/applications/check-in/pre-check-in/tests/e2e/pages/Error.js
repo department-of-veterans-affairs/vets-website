@@ -4,13 +4,21 @@ class Error {
   validatePageLoaded() {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'We couldn’t check you in');
-    cy.get('p[data-testid="error-message"]', { timeout: Timeouts.slow })
+      .and('have.text', "We couldn't complete pre-check-in");
+    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and(
-        'have.text',
-        'We’re sorry. Something went wrong on our end. Check in with a staff member.',
+      .contains(
+        'We’re sorry. Something went wrong on our end. Please try again.',
       );
+  }
+
+  validateDatePreCheckInDateShows() {
+    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .contains('You can pre-check in online until');
+  }
+  validateURL() {
+    cy.url().should('match', /error/);
   }
 }
 

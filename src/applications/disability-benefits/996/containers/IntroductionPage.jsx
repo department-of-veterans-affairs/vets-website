@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -17,10 +16,7 @@ import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import { WIZARD_STATUS_NOT_STARTED } from 'platform/site-wide/wizard';
 
-import {
-  getContestableIssues as getContestableIssuesAction,
-  FETCH_CONTESTABLE_ISSUES_INIT,
-} from '../actions';
+import { FETCH_CONTESTABLE_ISSUES_INIT } from '../actions';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 
@@ -43,7 +39,13 @@ export class IntroductionPage extends React.Component {
   }
 
   getCallToActionContent = ({ last } = {}) => {
-    const { loggedIn, route, contestableIssues, delay = 250 } = this.props;
+    const {
+      loggedIn,
+      route,
+      contestableIssues,
+      delay = 250,
+      hlrV2,
+    } = this.props;
 
     if (contestableIssues?.error) {
       return showContestableIssueError(contestableIssues, delay);
@@ -55,16 +57,18 @@ export class IntroductionPage extends React.Component {
         contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT)
     ) {
       return (
-        <LoadingIndicator
-          setFocus
+        <va-loading-indicator
+          set-focus
           message="Loading your previous decisions..."
         />
       );
     }
 
     const { formId, prefillEnabled, savedFormMessages } = route.formConfig;
+    // Allow starting the form with no contestable Issues in HLR v2
+    const lengthCheck = hlrV2 ? -1 : 0;
 
-    if (!loggedIn || contestableIssues?.issues?.length > 0) {
+    if (!loggedIn || contestableIssues?.issues?.length > lengthCheck) {
       return (
         <SaveInProgressIntro
           formId={formId}
@@ -138,7 +142,7 @@ export class IntroductionPage extends React.Component {
             Follow the steps below to request a Higher-Level Review.
           </h2>
           <p className="vads-u-margin-top--2">
-            if you don’t think this is the right form for you,{' '}
+            If you don’t think this is the right form for you,{' '}
             <a
               href={`${BASE_URL}/start`}
               className="va-button-link"
@@ -238,7 +242,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   toggleLoginModal,
-  getContestableIssues: getContestableIssuesAction,
 };
 
 export default connect(

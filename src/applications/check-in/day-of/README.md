@@ -90,8 +90,6 @@ To run locally for a BE developer, you can use the following commands
 Be sure to have the follow toggles set correctly.
 
 - `check_in_experience_enabled`
-- `check_in_experience_multiple_appointment_support`
-- `check_in_experience_demographics_page_enabled`
 
 #### Steps to see the app
 
@@ -112,7 +110,7 @@ To share an app instance using the mock API running on Codespaces publicly, use 
 
 - Create the codespace as above and wait for it to build
 - Start the mock API in a Codespace terminal: `yarn mock-api --responses src/applications/check-in/api/local-mock-api/phase.3.js`
-- Start the app in another Codespace terminal: `yarn watch --env.api="https://${CODESPACE_NAME}-3000.githubpreview.dev" --env.entry check-in`
+- Start the app in another Codespace terminal: `yarn watch --env api="https://${CODESPACE_NAME}-3000.githubpreview.dev" --env entry=check-in`
 - Go to the "Ports" tab and make both port 3000 and 3001 public by right-clicking and selecting Privacy -> Public:
   <img width="999" alt="Screen Shot 2021-10-13 at 2 35 24 PM" src="https://user-images.githubusercontent.com/101649/137209007-c38ea216-1450-47f5-8d4a-7873f5cf82e1.png">
 - Hover over the "Local Address" on the line for port 3001 and click the globe icon to open the public URL in your browser.
@@ -133,16 +131,14 @@ We are currently using the endpoints that are mocked in `src/applications/check-
 
 We are currently using an HOC located at `src/applications/check-in/containers/withFeatureFlip.jsx` to control the feature flips. The whole app is wrapped around one, and each new feature should have its own toggle.
 
+Though we have the HOC, its now considered best practice to query redux using the useSelector hook.
+
 #### Current toggles
 
 - `check_in_experience_enabled` : Enables or disabled the whole app on va.gov
   - when to sunset: never;
-- `check_in_experience_demographics_page_enabled`: Enables or disabled the demographics page
-  - when to sunset: when the demographics page is deployed in production;
 - `check_in_experience_update_information_page_enabled` : Enables or disabled the update information page
   - when to sunset: when we expand to multiple facilities and address the edge cases around it
-- `check_in_experience_next_of_kin_enabled` : Enables or disabled the next of kin page
-  - when to sunset: When phase-5 is complete
 
 ### How to test this?
 

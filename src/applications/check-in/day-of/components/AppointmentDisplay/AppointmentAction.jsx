@@ -1,23 +1,30 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { api } from '../../api';
+import { useDispatch } from 'react-redux';
+import { api } from '../../../api';
 
-import { goToNextPage, URLS } from '../../utils/navigation';
-import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
+import { useFormRouting } from '../../../hooks/useFormRouting';
+import { ELIGIBILITY, areEqual } from '../../../utils/appointment/eligibility';
 import recordEvent from 'platform/monitoring/record-event';
 import format from 'date-fns/format';
 
-import { appointmentWAsCheckedInto } from '../../actions';
+import { appointmentWasCheckedInto } from '../../../actions/day-of';
 
 const AppointmentAction = props => {
-  const { appointment, router, setSelectedAppointment, token } = props;
+  const { appointment, router, token } = props;
 
   const [isCheckingIn, setIsCheckingIn] = useState(false);
+  const dispatch = useDispatch();
+  const setSelectedAppointment = useCallback(
+    appt => {
+      dispatch(appointmentWasCheckedInto(appt));
+    },
+    [dispatch],
+  );
 
   const defaultMessage =
     'Online check-in isn’t available for this appointment. Check in with a staff member.';
-
+  const { goToNextPage, goToErrorPage } = useFormRouting(router);
   const onClick = async () => {
     recordEvent({
       event: 'cta-button-click',
@@ -33,12 +40,12 @@ const AppointmentAction = props => {
       const { status } = json;
       if (status === 200) {
         setSelectedAppointment(appointment);
-        goToNextPage(router, URLS.COMPLETE);
+        goToNextPage();
       } else {
-        goToNextPage(router, URLS.ERROR);
+        goToErrorPage();
       }
     } catch (error) {
-      goToNextPage(router, URLS.ERROR);
+      goToErrorPage();
     }
   };
 
@@ -86,7 +93,7 @@ const AppointmentAction = props => {
     ) {
       return (
         <p data-testid="too-late-message">
-          Your appointment started more than 10 minutes ago. We can’t check you
+          Your appointment started more than 5 minutes ago. We can’t check you
           in online. Ask a staff member for help.
         </p>
       );
@@ -134,22 +141,10 @@ const AppointmentAction = props => {
   return <p data-testid="no-status-given-message">{defaultMessage}</p>;
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setSelectedAppointment: appointment => {
-      dispatch(appointmentWAsCheckedInto(appointment));
-    },
-  };
-};
-
 AppointmentAction.propTypes = {
   appointment: PropTypes.object,
   router: PropTypes.object,
-  setSelectedAppointment: PropTypes.func,
   token: PropTypes.string,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(AppointmentAction);
+export default AppointmentAction;

@@ -138,7 +138,7 @@ export function transformVAOSAppointment(appt) {
       requestedPeriod: appt.requestedPeriods,
       created: null,
       reason: PURPOSE_TEXT.find(
-        purpose => purpose.serviceName === appt.reasonCode?.coding[0].code,
+        purpose => purpose.serviceName === appt.reasonCode?.coding?.[0].code,
       )?.short,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
       requestVisitType: getTypeOfVisit(appt.kind),

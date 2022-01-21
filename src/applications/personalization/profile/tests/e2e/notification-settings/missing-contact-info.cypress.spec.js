@@ -16,8 +16,6 @@ import {
   registerCypressHelpers,
 } from '../helpers';
 
-import mockFeatureToggles from './feature-toggles.json';
-
 registerCypressHelpers();
 
 describe('Notification Settings', () => {
@@ -25,7 +23,6 @@ describe('Notification Settings', () => {
   beforeEach(() => {
     getCommPrefsStub = cy.stub();
     mockNotificationSettingsAPIs();
-    cy.intercept('/v0/feature_toggles?*', mockFeatureToggles);
     cy.intercept('/v0/profile/communication_preferences', req => {
       getCommPrefsStub();
       req.reply({

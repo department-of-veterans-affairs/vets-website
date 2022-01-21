@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -154,16 +153,16 @@ const disabilitiesList = (
 export const disabilitiesExplanationAlert = (
   <>
     <p className="vads-u-margin-top--2p5" />
-    <AdditionalInfo triggerText={'Why isn’t my issue eligible?'}>
+    <va-additional-info trigger="Why isn’t my issue eligible?">
       {disabilitiesList}
-    </AdditionalInfo>
+    </va-additional-info>
   </>
 );
 
 export const disabilitiesExplanation = (
-  <AdditionalInfo triggerText={'Don’t see the issue you’re looking for?'}>
+  <va-additional-info trigger="Don’t see the issue you’re looking for?">
     {disabilitiesList}
-  </AdditionalInfo>
+  </va-additional-info>
 );
 
 /**

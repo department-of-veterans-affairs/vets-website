@@ -1,32 +1,11 @@
 import { createSelector } from 'reselect';
 
-import {
-  checkInExperienceEnabled,
-  checkInExperienceDemographicsPageEnabled,
-  checkInExperienceNextOfKinEnabled,
-  checkInExperienceUpdateInformationPageEnabled,
-  loadingFeatureFlags,
-} from '../../selectors';
-
 const selectCheckInData = createSelector(
   state => state.checkInData,
   checkInData => checkInData || {},
 );
 
 const makeSelectCheckInData = () => selectCheckInData;
-
-const selectFeatureToggles = createSelector(
-  state => ({
-    isCheckInEnabled: checkInExperienceEnabled(state),
-    isDemographicsPageEnabled: checkInExperienceDemographicsPageEnabled(state),
-    isLoadingFeatureFlags: loadingFeatureFlags(state),
-    isNextOfKinEnabled: checkInExperienceNextOfKinEnabled(state),
-    isUpdatePageEnabled: checkInExperienceUpdateInformationPageEnabled(state),
-  }),
-  toggles => toggles,
-);
-
-const makeSelectFeatureToggles = () => selectFeatureToggles;
 
 const selectConfirmationData = createSelector(
   state => {
@@ -70,11 +49,25 @@ const selectSeeStaffMessage = createSelector(
 
 const makeSelectSeeStaffMessage = () => selectSeeStaffMessage;
 
+const selectDemographicData = createSelector(
+  state => {
+    return {
+      demographics: state.checkInData?.demographics,
+      nextOfKin: state.checkInData?.nextOfKin,
+      emergencyContact: state.checkInData?.emergencyContact,
+    };
+  },
+  data =>
+    data.demographics || data.nextOfKin || data.emergencyContact ? data : {},
+);
+
+const makeSelectDemographicData = () => selectDemographicData;
+
 export {
   makeSelectCheckInData,
-  makeSelectFeatureToggles,
   makeSelectConfirmationData,
   makeSelectAppointmentListData,
   makeSelectContext,
   makeSelectSeeStaffMessage,
+  makeSelectDemographicData,
 };

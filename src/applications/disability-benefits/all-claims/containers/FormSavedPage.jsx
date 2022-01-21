@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 import FormSaved from 'platform/forms/save-in-progress/FormSaved';
 
@@ -16,12 +15,12 @@ const FormSavedPage = props => {
         <span className="expires">{itfExpirationDate}</span> so you can get back
         pay for any awarded benefits from your Intent to File date.
       </p>
-      <AdditionalInfo triggerText="What is an Intent to File?">
+      <va-additional-info trigger="What is an Intent to File?">
         An Intent to File lets VA know that you’re planning to file a claim and
         reserves a potential effective date for when you could start getting
         benefits. For you, this means you may get back pay starting from{' '}
         {itfExpirationDate}.
-      </AdditionalInfo>
+      </va-additional-info>
     </Fragment>
   );
 

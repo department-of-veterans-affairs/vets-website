@@ -18,14 +18,15 @@ import {
   EditEmail,
   EditAddress,
 } from '../components/EditContactInfo';
+import AddIssue from '../components/AddIssue';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
 import contactInfo from '../pages/contactInformation';
 import homeless from '../pages/homeless';
-import contestedIssuesPage from '../pages/contestedIssues';
-import additionalIssuesIntro from '../pages/additionalIssuesIntro';
-import additionalIssues from '../pages/additionalIssues';
+import contestedIssuesPage from '../pages/contestedIssuesV1';
+import contestableIssuesPage from '../pages/contestableIssues';
+import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
 import optIn from '../pages/optIn';
 import issueSummary from '../pages/issueSummary';
@@ -41,10 +42,10 @@ import {
   apiVersion1,
   apiVersion2,
   appStateSelector,
-  showAddIssueQuestion,
-  showAddIssuesPage,
-  getIssueName,
+  mayHaveLegacyAppeals,
 } from '../utils/helpers';
+import { getIssueTitle } from '../content/areaOfDisagreement';
+
 // import initialData from '../tests/schema/initialData';
 
 import manifest from '../manifest.json';
@@ -112,6 +113,7 @@ const formConfig = {
           path: 'veteran-information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
+          // initialData,
         },
         homeless: {
           title: 'Homelessness question',
@@ -158,33 +160,36 @@ const formConfig = {
     conditions: {
       title: 'Issues eligible for review',
       pages: {
+        // v1 - only show contested issues
         contestedIssues: {
           title: ' ',
           path: 'eligible-issues',
+          depends: apiVersion1,
           uiSchema: contestedIssuesPage.uiSchema,
           schema: contestedIssuesPage.schema,
-          // initialData,
         },
-        additionalIssuesIntro: {
-          title: 'Additional issues for review',
-          path: 'additional-issues-intro',
-          depends: formData =>
-            showAddIssueQuestion(formData) && apiVersion2(formData),
-          uiSchema: additionalIssuesIntro.uiSchema,
-          schema: additionalIssuesIntro.schema,
+        // v2 - show contested + added issues
+        contestableIssues: {
+          title: ' ',
+          path: 'contestable-issues',
+          depends: apiVersion2,
+          uiSchema: contestableIssuesPage.uiSchema,
+          schema: contestableIssuesPage.schema,
           appStateSelector,
         },
-        additionalIssues: {
+        // v2 - add issue. Accessed from contestableIssues page only
+        addIssue: {
           title: 'Add issues for review',
-          path: 'additional-issues',
-          depends: formData =>
-            showAddIssuesPage(formData) && apiVersion2(formData),
-          uiSchema: additionalIssues.uiSchema,
-          schema: additionalIssues.schema,
-          appStateSelector,
+          path: 'add-issue',
+          depends: () => false,
+          // showPagePerItem: true,
+          // arrayPath: 'additionalIssues',
+          CustomPage: AddIssue,
+          uiSchema: addIssue.uiSchema,
+          schema: addIssue.schema,
         },
         areaOfDisagreementFollowUp: {
-          title: getIssueName,
+          title: getIssueTitle,
           path: 'area-of-disagreement/:index',
           depends: apiVersion2,
           showPagePerItem: true,
@@ -198,7 +203,8 @@ const formConfig = {
           path: 'opt-in',
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
-          depends: apiVersion2,
+          depends: formData =>
+            apiVersion2(formData) && mayHaveLegacyAppeals(formData),
           initialData: {
             socOptIn: false,
           },

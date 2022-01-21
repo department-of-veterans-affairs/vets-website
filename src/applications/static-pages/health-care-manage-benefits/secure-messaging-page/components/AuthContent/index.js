@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
+import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
 
 export const AuthContent = ({
   authenticatedWithSSOe,
@@ -99,31 +100,7 @@ export const AuthContent = ({
               <p>
                 <strong>And you must have one of these free accounts:</strong>
               </p>
-              <ul>
-                <li>
-                  A{' '}
-                  <a
-                    rel="noreferrer noopener"
-                    href="https://www.myhealth.va.gov/mhv-portal-web/upgrade-account-to-premium#UpgradeToPremiumAccount"
-                  >
-                    Premium <strong>My HealtheVet</strong> account
-                  </a>
-                  , <strong>or</strong>
-                </li>
-                <li>
-                  A Premium <strong>DS Logon</strong> account (used for
-                  eBenefits and milConnect), <strong>or</strong>
-                </li>
-                <li>
-                  A verified <strong>ID.me</strong> account that you can{' '}
-                  <a
-                    rel="noreferrer noopener"
-                    href="https://id.me/en/registration/new"
-                  >
-                    create here on VA.gov
-                  </a>
-                </li>
-              </ul>
+              <ServiceProvidersList />
             </div>
           </div>
         </div>
@@ -172,9 +149,8 @@ export const AuthContent = ({
           <div itemProp="text">
             <div className="processed-content">
               <p>
-                No. If you have an emergency or urgent need, please do&apos;t
-                use secure messaging. It may take a few days for you to get a
-                reply.
+                No. If you have an emergency or urgent need, please don’t use
+                secure messaging. It may take a few days for you to get a reply.
               </p>
               <p>
                 <strong>If you think you have a medical emergency,</strong> call

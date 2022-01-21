@@ -108,8 +108,9 @@ export function fetchClaimStatus() {
     poll({
       endpoint: CLAIM_STATUS_ENDPOINT,
       validate: response =>
-        response.data &&
-        response.data.claimStatus !== CLAIM_STATUS_RESPONSE_IN_PROGRESS,
+        response.data.attributes &&
+        response.data.attributes.claimStatus !==
+          CLAIM_STATUS_RESPONSE_IN_PROGRESS,
       dispatch,
       timeoutResponse,
       successDispatchType: FETCH_CLAIM_STATUS_SUCCESS,

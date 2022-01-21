@@ -54,8 +54,8 @@ import deductibleExpenses from './chapters/householdInformation/deductibleExpens
 import medicaid from './chapters/insuranceInformation/medicaid';
 import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
-import general from './chapters/insuranceInformation/general';
 import vaFacility from './chapters/insuranceInformation/vaFacility';
+import general from './chapters/insuranceInformation/general';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
 

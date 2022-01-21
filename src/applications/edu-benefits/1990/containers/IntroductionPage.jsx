@@ -82,7 +82,7 @@ export class IntroductionPage extends React.Component {
                   <p>
                     See what benefits you’ll get at the school you want to
                     attend.{' '}
-                    <a href="/gi-bill-comparison-tool/">
+                    <a href="/education/gi-bill-comparison-tool/">
                       Use the GI Bill Comparison Tool
                     </a>
                     .

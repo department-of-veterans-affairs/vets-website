@@ -27,16 +27,13 @@
     <meta name="msapplication-TileColor" content="#144073">
 
     <!-- Preload main fonts -->
-
     <link rel="preload" href="/generated/sourcesanspro-bold-webfont.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/generated/sourcesanspro-regular-webfont.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/generated/bitter-bold.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/generated/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 
-    <!-- CSS -->
-    <%= modifyStyleTags(htmlWebpackPlugin.tags.headTags) %>
-
-    <%= modifyScriptTags(htmlWebpackPlugin.tags.bodyTags) %>
+    <!-- Scripts and CSS -->
+    <%= modifyScriptAndStyleTags(htmlWebpackPlugin.tags.headTags) %>
 
     <script nonce="**CSP_NONCE**" type="text/javascript">
       function focusContent(e) {

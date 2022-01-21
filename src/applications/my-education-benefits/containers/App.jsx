@@ -17,7 +17,7 @@ export const App = ({
   formData,
   setFormData,
   getPersonalInfo,
-  userFullName,
+  firstName,
   getEligibility,
   eligibility,
 }) => {
@@ -29,7 +29,7 @@ export const App = ({
       //   // redirect
       //   return;
       // }
-      if (!userFullName || !userFullName?.first) {
+      if (!firstName) {
         getPersonalInfo();
       }
       if (!eligibility) {
@@ -61,7 +61,7 @@ export const App = ({
     [
       formData,
       setFormData,
-      userFullName,
+      firstName,
       getPersonalInfo,
       getEligibility,
       eligibility,
@@ -83,14 +83,13 @@ export const App = ({
 };
 
 const mapStateToProps = state => {
-  // const profile = selectProfile(state);
   const formData = state.form?.data || {};
-  const userFullName = state.data?.formData?.userFullName; // state.user.profile?.userFullName,
+  const firstName = state.data?.formData?.data?.claimant?.firstName;
   const eligibility = state.data?.eligibility;
   // const showNod = noticeOfDisagreementFeature(state);
   // const loggedIn = isLoggedIn(state);
   // const { toursOfDuty } = state;
-  return { formData, userFullName, eligibility };
+  return { formData, firstName, eligibility };
 };
 
 const mapDispatchToProps = {

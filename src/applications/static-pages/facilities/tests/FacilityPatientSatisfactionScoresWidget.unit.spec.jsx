@@ -69,4 +69,20 @@ describe('facilities <FacilityPatientSatisfactionScoresWidget>', () => {
 
     tree.unmount();
   });
+
+  it('should render effective date', () => {
+    const tree = shallow(
+      <FacilityPatientSatisfactionScoresWidget
+        loading={false}
+        facility={mockFacilityLocatorApiResponse.data[0]}
+      />,
+    );
+
+    const effectiveDate = tree.find(
+      '#facility-patient-satisfaction-scores-effective-date',
+    );
+    expect(effectiveDate.text()).to.contain('Current as of May 22, 2018');
+
+    tree.unmount();
+  });
 });

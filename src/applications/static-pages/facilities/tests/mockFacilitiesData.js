@@ -70,11 +70,11 @@ const mockFacilityLocatorApiResponse = {
         },
         feedback: {
           health: {
-            effectiveDate: '2018-05-22',
             primaryCareRoutine: 0.88,
             specialtyCareRoutine: 0.91,
             specialtyCareUrgent: 0.76,
           },
+          effectiveDate: '2018-05-22',
         },
       },
     },

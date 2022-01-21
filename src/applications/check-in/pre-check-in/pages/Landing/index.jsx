@@ -3,15 +3,21 @@ import { useDispatch } from 'react-redux';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-import { api } from '../../api';
+import { api } from '../../../api';
 
-import { createInitFormAction, createSetSession } from '../../actions';
+import { createInitFormAction } from '../../../actions/navigation';
+import { createSetSession } from '../../../actions/authentication';
 
-import { useFormRouting } from '../../hooks/useFormRouting';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { createForm, getTokenFromLocation, URLS } from '../../utils/navigation';
+import {
+  createForm,
+  getTokenFromLocation,
+} from '../../../utils/navigation/pre-check-in';
+
+import { URLS } from '../../../utils/navigation';
 import { isUUID, SCOPES } from '../../../utils/token-format-validator';
 
 export default function Index(props) {
@@ -35,6 +41,7 @@ export default function Index(props) {
   const { router } = props;
   const { goToErrorPage, jumpToPage } = useFormRouting(router);
   const { clearCurrentSession, setCurrentToken } = useSessionStorage();
+
   useEffect(
     () => {
       const token = getTokenFromLocation(router.location);
@@ -62,7 +69,7 @@ export default function Index(props) {
               goToErrorPage();
             } else {
               setCurrentToken(window, token);
-              const pages = createForm({ hasConfirmedDemographics: false });
+              const pages = createForm();
               const firstPage = pages[0];
               initForm(pages, firstPage);
               setSession(token, session.permissions);

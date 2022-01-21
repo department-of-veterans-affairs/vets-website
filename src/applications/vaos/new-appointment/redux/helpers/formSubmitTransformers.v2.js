@@ -21,12 +21,14 @@ export function transformFormToVAOSCCRequest(state) {
   if (provider?.identifier) {
     practitioners = [
       {
-        identifier: {
-          system: 'http://hl7.org/fhir/sid/us-npi',
-          value: data.communityCareProvider.identifier.find(
-            item => item.system === 'PPMS',
-          )?.value,
-        },
+        identifier: [
+          {
+            system: 'http://hl7.org/fhir/sid/us-npi',
+            value: data.communityCareProvider.identifier.find(
+              item => item.system === 'PPMS',
+            )?.value,
+          },
+        ],
       },
     ];
   }
@@ -155,7 +157,7 @@ export function transformFormToVAOSAppointment(state) {
     clinic: getClinicId(clinic),
     slot,
     extension: {
-      desiredDate: data.preferredDate,
+      desiredDate: `${data.preferredDate}T00:00:00+00:00`,
     },
     locationId: data.vaFacility,
     serviceType: typeOfCare.idV2,

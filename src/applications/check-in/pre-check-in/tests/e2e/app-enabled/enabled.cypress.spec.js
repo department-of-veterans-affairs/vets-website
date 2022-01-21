@@ -1,13 +1,12 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
-import Timeouts from 'platform/testing/e2e/timeouts';
-
-import apiInitializer from '../support/ApiInitializer';
+import '../../../../tests/e2e/commands';
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
+import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 
 describe('Pre-Check In Experience', () => {
   beforeEach(function() {
-    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
-    apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+    const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
+    initializeFeatureToggle.withCurrentFeatures();
+    initializeSessionGet.withSuccessfulNewSession();
   });
   afterEach(() => {
     cy.window().then(window => {
@@ -16,8 +15,7 @@ describe('Pre-Check In Experience', () => {
   });
   it('Feature is enabled', () => {
     cy.visitPreCheckInWithUUID();
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'Start pre-check-in');
+    ValidateVeteran.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
   });
 });
