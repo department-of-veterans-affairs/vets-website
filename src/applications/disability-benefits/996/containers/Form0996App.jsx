@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
@@ -36,16 +34,21 @@ export const Form0996App = ({
   hlrV2,
   getContestableIssues,
   contestableIssues = {},
+  legacyCount,
 }) => {
   const { email = {}, mobilePhone = {}, mailingAddress = {} } =
     profile?.vapContactInfo || {};
+  // Make sure we're only loading issues once - see
+  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
+  const [isLoadingIssues, setIsLoadingIssues] = useState(false);
 
   useEffect(
     () => {
       if (loggedIn && getHlrWizardStatus() === WIZARD_STATUS_COMPLETE) {
         const { veteran = {} } = formData || {};
         const areaOfDisagreement = getSelected(formData);
-        if (!contestableIssues?.status) {
+        if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
+          setIsLoadingIssues(true);
           const benefitType =
             sessionStorage.getItem(SAVED_CLAIM_TYPE) || formData.benefitType;
           getContestableIssues({ benefitType, hlrV2 });
@@ -59,7 +62,8 @@ export const Form0996App = ({
           issuesNeedUpdating(
             contestableIssues?.issues,
             formData?.contestedIssues,
-          )
+          ) ||
+          contestableIssues.legacyCount !== formData.legacyCount
         ) {
           setFormData({
             ...formData,
@@ -75,6 +79,7 @@ export const Form0996App = ({
             contestedIssues: processContestableIssues(
               contestableIssues?.issues,
             ),
+            legacyCount: contestableIssues?.legacyCount || 0,
           });
         } else if (
           formData.hlrV2 && // easier to test formData.hlrV2 with SiP menu
@@ -105,7 +110,9 @@ export const Form0996App = ({
       setFormData,
       hlrV2,
       contestableIssues,
+      isLoadingIssues,
       getContestableIssues,
+      legacyCount,
     ],
   );
 
@@ -119,7 +126,7 @@ export const Form0996App = ({
     router.push('/start');
     content = (
       <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-        <LoadingIndicator message="Please wait while we restart the application for you." />
+        <va-loading-indicator message="Please wait while we restart the application for you." />
       </h1>
     );
   } else if (
@@ -129,8 +136,8 @@ export const Form0996App = ({
   ) {
     content = (
       <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-        <LoadingIndicator
-          setFocus
+        <va-loading-indicator
+          set-focus
           message="Loading your previous decisions..."
         />
       </h1>
@@ -163,6 +170,7 @@ const mapStateToProps = state => ({
   savedForms: state.user?.profile?.savedForms || [],
   hlrV2: state.featureToggles?.hlrV2,
   contestableIssues: state.contestableIssues || {},
+  legacyCount: state.legacyCount || 0,
 });
 
 const mapDispatchToProps = {

@@ -3,6 +3,9 @@ import moment from 'moment';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
+import { fromUnixTime } from 'date-fns';
+import { format } from 'date-fns-tz';
+
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { SaveInProgressIntro } from '../../save-in-progress/SaveInProgressIntro';
 
@@ -29,13 +32,14 @@ describe('Schemaform <SaveInProgressIntro>', () => {
   };
 
   it('should render in progress message', () => {
+    const lastUpdated = 946684800;
     const user = {
       profile: {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: {
-              lastUpdated: 946684800,
+              lastUpdated,
               expiresAt: moment().unix() + 2000,
             },
           },
@@ -68,7 +72,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         .find('.usa-alert-heading')
         .last()
         .text(),
-    ).to.include(moment.unix(946684800).format('MMMM D, YYYY [at] h:mm a'));
+    ).to.include(format(fromUnixTime(lastUpdated), "MMMM d, yyyy', at'"));
 
     expect(tree.find('.usa-alert').text()).to.contain(
       'Your application is in progress',

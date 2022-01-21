@@ -5,7 +5,7 @@ inputs:
   channel_id:
     description: channel_id
     required: true
-  attachments:
+  payload:
     description: attached message
     required: true
   aws-access-key-id:
@@ -25,12 +25,6 @@ runs:
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
         aws-region: us-gov-west-1
 
-    - name: Get Slack app token
-      uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-      with:
-        ssm_parameter: /devops/github_actions_slack_socket_token
-        env_variable_name: SLACK_APP_TOKEN
-
     - name: Get Slack bot token
       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
       with:
@@ -38,9 +32,9 @@ runs:
         env_variable_name: SLACK_BOT_TOKEN
 
     - name: Notify Slack
-      uses: department-of-veterans-affairs/vsp-github-actions/slack-socket@v1.1.0
+      uses: slackapi/slack-github-action@v1.17.0
+      env:
+        SLACK_BOT_TOKEN: ${{ env.SLACK_BOT_TOKEN }}
       with:
-        slack_app_token: ${{ env.SLACK_APP_TOKEN }}
-        slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
-        attachments: ${{ inputs.attachments }}
-        channel_id: ${{ inputs.channel_id }}
+        payload: ${{ inputs.payload }}
+        channel-id: ${{ inputs.channel_id }}

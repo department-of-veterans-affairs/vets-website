@@ -8,7 +8,7 @@ export const directDepositDescription = () => {
   return (
     <div className="vads-u-margin-top--2">
       <img
-        src="/img/direct-deposit-check-guide.png"
+        src="/img/direct-deposit-check-guide.svg"
         alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
       />
     </div>

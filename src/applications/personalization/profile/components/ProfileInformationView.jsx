@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as Sentry from '@sentry/browser';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { formatAddress } from '~/platform/forms/address/helpers';
@@ -10,12 +11,26 @@ import * as VAP_SERVICE from '@@vap-svc/constants';
 import {
   addresses,
   phoneNumbers,
+  personalInformation,
 } from '@@profile/util/getProfileInfoFieldAttributes';
+
+import {
+  formatPronouns,
+  formatGenderIdentity,
+  formatSexualOrientation,
+} from '@@profile/util/personal-information/personalInformationUtils';
 
 const ProfileInformationView = props => {
   const { data, fieldName, title } = props;
+
+  const titleLower = title.toLowerCase();
+
+  // decide whether to use 'a', or nothing
+  const titleFormatted =
+    fieldName !== FIELD_NAMES.PRONOUNS ? `a ${titleLower}` : titleLower;
+
   if (!data) {
-    return <span>Edit your profile to add a {title.toLowerCase()}.</span>;
+    return <span>Edit your profile to add {titleFormatted}.</span>;
   }
 
   if (fieldName === FIELD_NAMES.EMAIL) {
@@ -67,6 +82,33 @@ const ProfileInformationView = props => {
         )}
       </div>
     );
+  }
+
+  // handle personal information field data and format accordingly for display
+  if (fieldName in data && personalInformation.includes(fieldName)) {
+    if (fieldName === 'preferredName') return data[fieldName];
+
+    if (fieldName === 'pronouns') {
+      try {
+        return formatPronouns(data[fieldName], data?.pronounsNotListedText);
+      } catch (err) {
+        Sentry.captureException(err);
+        return null;
+      }
+    }
+    if (fieldName === 'genderIdentity') {
+      return formatGenderIdentity(data[fieldName]);
+    }
+
+    try {
+      return formatSexualOrientation(
+        data[fieldName],
+        data?.sexualOrientationNotListedText,
+      );
+    } catch (err) {
+      Sentry.captureException(err);
+      return null;
+    }
   }
 
   return null;

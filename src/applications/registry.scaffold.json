@@ -84,5 +84,10 @@
     "rootUrl": "/pittsburgh-health-care",
     "widgetType": "side-nav",
     "widgetTemplate": "navigation/facility_sidebar_nav"
+  },
+  {
+    "appName": "Mock SIP Form",
+    "rootUrl": "/mock-sip-form",
+    "entryName": "mock-sip-form"
   }
 ]

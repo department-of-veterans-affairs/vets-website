@@ -97,7 +97,7 @@ describe('Form0996App', () => {
     expect(article.props()['data-location']).to.eq('introduction');
     expect(tree.find('h1').text()).to.eq('Intro');
     expect(tree.find('Connect(RoutedSavableApp)')).to.exist;
-    expect(tree.find('LoadingIndicator')).to.have.lengthOf(0);
+    expect(tree.find('va-loading-indicator')).to.have.lengthOf(0);
 
     tree.unmount();
   });
@@ -112,8 +112,8 @@ describe('Form0996App', () => {
       </Provider>,
     );
 
-    expect(tree.find('h1').text()).to.contain('restart');
-    expect(tree.find('LoadingIndicator')).to.have.lengthOf(1);
+    expect(tree.find('va-loading-indicator').html()).to.contain('restart');
+    expect(tree.find('va-loading-indicator')).to.have.lengthOf(1);
     expect(routerPushSpy.called).to.be.true;
     expect(routerPushSpy.args[0][0]).to.eq('/start');
 
@@ -140,8 +140,10 @@ describe('Form0996App', () => {
     );
 
     tree.setProps();
-    expect(tree.find('h1').text()).to.contain('Loading your previous decision');
-    expect(getIssues.called).to.be.true;
+    expect(tree.find('va-loading-indicator').html()).to.contain(
+      'Loading your previous decision',
+    );
+    expect(getIssues.calledOnce).to.be.true;
     tree.unmount();
   });
   it('should not call API if not logged in', () => {
@@ -187,7 +189,7 @@ describe('Form0996App', () => {
     );
 
     tree.setProps();
-    expect(getIssues.called).to.be.true;
+    expect(getIssues.calledOnce).to.be.true;
 
     tree.unmount();
   });
@@ -273,7 +275,6 @@ describe('Form0996App', () => {
     };
     const formData = {
       hlrV2: true,
-      'view:hasIssuesToAdd': true,
       benefitType: 'compensation',
       contestedIssues: contestableIssues.issues,
       additionalIssues: [{ issue: 'other issue', [SELECTED]: true }],

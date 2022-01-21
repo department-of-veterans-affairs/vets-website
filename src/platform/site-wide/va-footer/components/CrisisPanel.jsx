@@ -57,7 +57,7 @@ export default function CrisisPanel() {
               />
               <a
                 className="no-external-icon"
-                href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat"
+                href="https://www.veteranscrisisline.net/get-help-now/chat/"
               >
                 Start a confidential chat
               </a>

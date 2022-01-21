@@ -3,23 +3,18 @@ import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 
 import AppointmentListItem from '../../components/AppointmentDisplay/AppointmentListItem';
-import BackButton from '../../components/BackButton';
+import BackButton from '../../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
+import { useFormRouting } from '../../../hooks/useFormRouting';
+
 import recordEvent from 'platform/monitoring/record-event';
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { sortAppointmentsByStartTime } from '../../utils/appointment';
+import { sortAppointmentsByStartTime } from '../../../utils/appointment';
 import { focusElement } from 'platform/utilities/ui';
 
 const DisplayMultipleAppointments = props => {
-  const {
-    appointments,
-    getMultipleAppointments,
-    isDemographicsPageEnabled,
-    isUpdatePageEnabled,
-    router,
-    token,
-  } = props;
+  const { appointments, getMultipleAppointments, router, token } = props;
 
   const handleClick = e => {
     e.preventDefault();
@@ -31,13 +26,12 @@ const DisplayMultipleAppointments = props => {
     getMultipleAppointments();
     focusElement('h1');
   };
+  const { goToPreviousPage } = useFormRouting(router);
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
-      {(isUpdatePageEnabled || isDemographicsPageEnabled) && (
-        <BackButton router={router} />
-      )}
+      <BackButton router={router} action={goToPreviousPage} />
       <h1 tabIndex="-1" className="vads-u-margin-top--2">
         Your appointments
       </h1>
@@ -83,8 +77,6 @@ const DisplayMultipleAppointments = props => {
 DisplayMultipleAppointments.propTypes = {
   appointments: PropTypes.array,
   getMultipleAppointments: PropTypes.func,
-  isDemographicsPageEnabled: PropTypes.bool,
-  isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
   token: PropTypes.string,
 };

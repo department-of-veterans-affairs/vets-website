@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
 import manifest from '../manifest.json';
@@ -20,7 +19,7 @@ function App({ location, children, isLoggedIn, isLoading, vaFileNumber }) {
 
   // Handle loading
   if (isLoading) {
-    return <LoadingIndicator message="Loading your information..." />;
+    return <va-loading-indicator message="Loading your information..." />;
   }
 
   // If a user is not logged in OR
@@ -31,7 +30,9 @@ function App({ location, children, isLoggedIn, isLoading, vaFileNumber }) {
     (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.VALIDVAFILENUMBER)
   ) {
     document.location.replace(`${manifest.rootUrl}`);
-    return <LoadingIndicator message="Redirecting to introduction page..." />;
+    return (
+      <va-loading-indicator message="Redirecting to introduction page..." />
+    );
   }
 
   return content;

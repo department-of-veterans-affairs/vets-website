@@ -41,6 +41,14 @@ export const titleCase = str => {
     .join(' ');
 };
 
+// if currentDate is on or before dueDate show current status
+// else show past due status
+export const verifyCurrentBalance = date => {
+  const currentDate = moment();
+  const dueDate = calcDueDate(date, 30);
+  return currentDate.isSameOrBefore(dueDate);
+};
+
 // receiving formatted date strings in the response
 // so we need to convert back to moment before sorting
 export const sortStatementsByDate = statements => {
@@ -49,16 +57,6 @@ export const sortStatementsByDate = statements => {
     (a, b) =>
       moment(b.pSStatementDate, format) - moment(a.pSStatementDate, format),
   );
-};
-
-// remove duplicate facilities with matching facility numbers
-export const rmvDupFacilities = statementData => {
-  return statementData
-    .map(({ station }) => station)
-    .filter(
-      (val, index, arr) =>
-        arr.findIndex(temp => temp.facilitYNum === val.facilitYNum) === index,
-    );
 };
 
 export const transform = data => {

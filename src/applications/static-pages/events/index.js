@@ -12,7 +12,11 @@ export default (store, widgetType) => {
     // Derive the props to pass to the widget.
     const pastEvents = window?.pastEvents?.entities || [];
     const allEventTeasers = window?.allEventTeasers?.entities || [];
-    const rawEvents = [...pastEvents, ...allEventTeasers];
+    const rawEvents = [...pastEvents, ...allEventTeasers]?.sort(
+      (event1, event2) =>
+        event1?.fieldDatetimeRangeTimezone?.value -
+        event2?.fieldDatetimeRangeTimezone?.value,
+    );
 
     ReactDOM.render(
       <Provider store={store}>

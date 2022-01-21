@@ -199,7 +199,6 @@ export function createPastVAAppointments() {
 export function mockFeatureToggles({
   v2Requests = false,
   v2Facilities = false,
-  featureCCIteration = false,
 } = {}) {
   cy.route({
     method: 'GET',
@@ -243,10 +242,6 @@ export function mockFeatureToggles({
           {
             name: 'vaOnlineSchedulingFacilitiesServiceV2',
             value: v2Facilities,
-          },
-          {
-            name: 'vaOnlineSchedulingCCIterations',
-            value: featureCCIteration,
           },
         ],
       },

@@ -63,6 +63,8 @@ import createDirectDepositPage from '../../edu-benefits/pages/directDeposit';
 import { directDepositDescription } from '../../edu-benefits/1990/helpers';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 
+import { vagovprod } from 'site/constants/buckets';
+
 const {
   fullName,
   // ssn,
@@ -467,7 +469,7 @@ const formConfig = {
             required: [formFields.dateOfBirth],
             properties: {
               claimantId: {
-                type: 'string',
+                type: 'integer',
               },
               'view:subHeadings': {
                 type: 'object',
@@ -1341,17 +1343,27 @@ const formConfig = {
                 ],
                 learnMore: {
                   'ui:description': (
-                    <va-additional-info trigger="Learn More">
+                    <>
                       <img
-                        key="1a"
-                        src="/img/check-sample.png"
+                        style={{ marginTop: '1rem' }}
+                        src={`${vagovprod}/img/check-sample.png`}
                         alt="Example of a check showing where the account and routing numbers are"
                       />
-                      <p key="2b">
-                        If you don’t have a printed check, you can sign in to
-                        your online banking institution for this information
+                      <p>Where can I find these numbers?</p>
+                      <p>
+                        The bank routing number is the first 9 digits on the
+                        bottom left corner of a printed check. Your account
+                        number is the second set of numbers on the bottom of a
+                        printed check, just to the right of the bank routing
+                        number.
                       </p>
-                    </va-additional-info>
+                      <va-additional-info trigger="Learn More">
+                        <p key="2b">
+                          If you don’t have a printed check, you can sign in to
+                          your online banking institution for this information
+                        </p>
+                      </va-additional-info>
+                    </>
                   ),
                 },
               },

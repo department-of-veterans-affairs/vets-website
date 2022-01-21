@@ -34,6 +34,7 @@ import NotInMPIError from '~/applications/personalization/components/NotInMPIErr
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
 import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
+import { fetchDebts } from 'applications/financial-status-report/actions';
 
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
@@ -46,6 +47,10 @@ import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
+import BenefitPaymentsAndDebt from './benefit-payments-and-debts/BenefitPaymentsAndDebt';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import DismissibleDebts from './benefit-payments-and-debts/DismissibleDebts';
 
 const renderWidgetDowntimeNotification = (downtime, children) => {
   if (downtime.status === externalServiceStatus.down) {
@@ -68,7 +73,7 @@ const renderWidgetDowntimeNotification = (downtime, children) => {
   return children;
 };
 
-const DashboardHeader = () => {
+const DashboardHeader = ({ showBenefitPaymentsAndDebt, debts, debtsError }) => {
   return (
     <div>
       <h1
@@ -91,6 +96,9 @@ const DashboardHeader = () => {
           });
         }}
       />
+      {showBenefitPaymentsAndDebt && (
+        <DismissibleDebts debts={debts} hasError={debtsError} />
+      )}
     </div>
   );
 };
@@ -99,11 +107,15 @@ const Dashboard = ({
   fetchFullName,
   fetchMilitaryInformation,
   fetchTotalDisabilityRating,
+  getDebts,
   isLOA3,
+  debts,
+  debtsError,
   showLoader,
   showMPIConnectionError,
   showNameTag,
   showNotInMPIError,
+  showBenefitPaymentsAndDebt,
   ...props
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
@@ -138,6 +150,7 @@ const Dashboard = ({
         fetchFullName();
         fetchMilitaryInformation();
         fetchTotalDisabilityRating();
+        getDebts();
       }
     },
     [
@@ -145,6 +158,7 @@ const Dashboard = ({
       fetchFullName,
       fetchMilitaryInformation,
       fetchTotalDisabilityRating,
+      getDebts,
     ],
   );
 
@@ -177,7 +191,11 @@ const Dashboard = ({
               </div>
             )}
             <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
-              <DashboardHeader />
+              <DashboardHeader
+                debts={debts}
+                debtsError={debtsError}
+                showBenefitPaymentsAndDebt={showBenefitPaymentsAndDebt}
+              />
 
               {showMPIConnectionError ? (
                 <div className="vads-l-row">
@@ -221,6 +239,10 @@ const Dashboard = ({
               ) : null}
 
               {props.showHealthCare ? <HealthCare /> : null}
+
+              {showBenefitPaymentsAndDebt ? (
+                <BenefitPaymentsAndDebt debts={debts} debtsError={debtsError} />
+              ) : null}
 
               <ApplyForBenefits />
             </div>
@@ -270,6 +292,9 @@ const mapStateToProps = state => {
     hasClaimsOrAppealsService;
   const showHealthCare =
     !showMPIConnectionError && !showNotInMPIError && isLOA3 && isVAPatient;
+  const showBenefitPaymentsAndDebt = toggleValues(state)[
+    FEATURE_FLAG_NAMES.showPaymentAndDebtSection
+  ];
 
   return {
     isLOA3,
@@ -284,6 +309,9 @@ const mapStateToProps = state => {
     user: state.user,
     showMPIConnectionError,
     showNotInMPIError,
+    showBenefitPaymentsAndDebt,
+    debts: state.fsr.debts || [],
+    debtsError: state.fsr.isError || false,
   };
 };
 
@@ -291,6 +319,7 @@ const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
+  getDebts: fetchDebts,
 };
 
 export default connect(

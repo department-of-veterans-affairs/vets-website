@@ -1,5 +1,4 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 import {
   unemployabilityTitle,
@@ -13,7 +12,7 @@ const {
 } = fullSchema.properties.form8940.properties.unemployability.properties;
 
 const supplementalBenefitsHelp = (
-  <AdditionalInfo triggerText="How do these benefits affect my claim?">
+  <va-additional-info trigger="How do these benefits affect my claim?">
     <p>
       {' '}
       Your claim for unemployability won’t be affected if you get supplemental
@@ -24,7 +23,7 @@ const supplementalBenefitsHelp = (
       If you have a Social Security benefit letter, you may want to upload it to
       support your claim.
     </p>
-  </AdditionalInfo>
+  </va-additional-info>
 );
 
 export const uiSchema = {
