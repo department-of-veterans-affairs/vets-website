@@ -224,7 +224,7 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
     return;
   }
 
-  // only check active duty periods
+  // find the earliest service period
   const earliestServiceStartDate = formData.serviceInformation.servicePeriods
     .filter(({ serviceBranch } = {}) => (serviceBranch || '') !== '')
     .map(period => moment(period.dateRange.from, 'YYYY-MM-DD'))
@@ -239,7 +239,7 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
   // the return value will be negative.
   if (treatmentStartDate.diff(earliestServiceStartDate, 'month') < 0) {
     err.addError(
-      'Your first treatment date needs to be after the start of your earliest active duty service period.',
+      'Your first treatment date needs to be after the start of your earliest service period.',
     );
   }
 }
