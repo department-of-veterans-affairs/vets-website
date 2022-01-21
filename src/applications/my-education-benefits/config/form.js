@@ -1277,7 +1277,7 @@ const formConfig = {
       },
     },
     bankAccountInfoChapter: {
-      title: 'Personal Information',
+      title: 'Direct deposit',
       pages: {
         [formPages.directDeposit]: merge(
           {},
