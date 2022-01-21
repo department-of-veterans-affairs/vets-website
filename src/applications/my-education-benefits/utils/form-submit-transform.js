@@ -399,6 +399,7 @@ export function createDirectDeposit(submissionForm) {
 
 export function createSubmissionForm(submissionForm) {
   return {
+    formId: submissionForm.formId,
     claimant: createMilitaryClaimant(submissionForm),
     relinquishedBenefit: createRelinquishedBenefit(submissionForm),
     additionalConsiderations: createAdditionalConsiderations(submissionForm),
