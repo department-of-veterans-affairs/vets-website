@@ -5,7 +5,7 @@ import featureToggles from './fixtures/feature-toggles-aiq.json';
 import mockUserAiq from './fixtures/mockUserAiq';
 import enrollmentStatus from './fixtures/mockEnrollmentStatus.json';
 import prefillAiq from './fixtures/mockPrefillAiq.json';
-import * as aiqHelpers from './helpers-aiq';
+import * as dobHelpers from './helpers';
 
 describe('HCA-DOB', () => {
   before(function() {
@@ -50,12 +50,12 @@ describe('HCA-DOB', () => {
       '/veteran-information/personal-information',
     );
 
-    aiqHelpers.goToNextPage('/veteran-information/birth-information');
+    dobHelpers.goToNextPage('/veteran-information/birth-information');
     cy.get('#root_veteranDateOfBirthYear')
       .clear()
       .type('1899');
 
-    aiqHelpers.goToNextPage();
+    dobHelpers.goToNextPage();
     cy.get('#root_veteranDateOfBirth-error-message').should('be.visible');
 
     cy.injectAxe();
@@ -78,13 +78,13 @@ describe('HCA-DOB', () => {
       '/veteran-information/personal-information',
     );
 
-    aiqHelpers.goToNextPage('/veteran-information/birth-information');
+    dobHelpers.goToNextPage('/veteran-information/birth-information');
     const nextYear = new Date().getFullYear() + 1;
     cy.get('#root_veteranDateOfBirthYear')
       .clear()
       .type(nextYear);
 
-    aiqHelpers.goToNextPage();
+    dobHelpers.goToNextPage();
     cy.get('#root_veteranDateOfBirth-error-message').should('be.visible');
 
     cy.injectAxe();
