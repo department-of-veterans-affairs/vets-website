@@ -46,7 +46,7 @@ export default function RequestListItem({ appointment, facility }) {
           {!!facility && !isCC && facility.name}
           {isCC && ccFacilityName}
         </div>
-        <div className="vads-u-flex--auto vads-u-padding-top--0p5 medium-screen:vads-u-padding-top--0">
+        <div className="vads-u-flex--auto vads-u-padding-top--0p5 medium-screen:vads-u-padding-top--0 vaos-hide-for-print">
           <Link
             className="vaos-appts__focus--hide-outline"
             aria-label={`Details for ${
