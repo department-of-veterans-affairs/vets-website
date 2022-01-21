@@ -47,6 +47,7 @@ describe('Check In Experience -- ', () => {
       cy.injectAxeThenAxeCheck();
       // refresh the page
       cy.reload();
+      ValidateVeteran.validatePageLoaded('Check in at VA');
     });
   });
 });
