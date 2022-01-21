@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { VaTextInput } from '@department-of-veterans-affairs/web-components/react-bindings';
+// import { VaTextInput } from '@department-of-veterans-affairs/web-components/react-bindings';
+// using React component because the WC doesn't allow JSX in the label
+import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import { SimpleDate } from '@department-of-veterans-affairs/component-library/Date';
 
 // updatePage isn't available for CustomPage on non-review pages, see
@@ -20,7 +22,7 @@ import {
   checkValidations,
 } from '../validations/issues';
 import {
-  addIssueLabel,
+  addIssueTitle,
   issueNameLabel,
   dateOfDecisionLabel,
 } from '../content/addIssue';
@@ -41,6 +43,7 @@ const AddIssue = props => {
   if (isNaN(index) || index < contestedIssues.length) {
     index = allIssues.length;
   }
+  const offsetIndex = calculateIndexOffset(index, contestedIssues.length);
   const currentData = allIssues[index] || {};
 
   // set session storage of edited item. This enables focusing on the item
@@ -53,8 +56,10 @@ const AddIssue = props => {
   const dateValidations = [validateDate];
   const uniqueValidations = [uniqueIssue];
 
-  const [name, setName] = useState(currentData.issue || '');
-  const [nameTouched, setNameTouched] = useState(false);
+  const [fieldObj, setFieldObj] = useState({
+    value: currentData.issue || '',
+    dirty: false,
+  });
   const [submitted, setSubmitted] = useState(false);
 
   const [date, setDate] = useState(
@@ -62,11 +67,16 @@ const AddIssue = props => {
   );
 
   // check name
-  const nameErrorMessage = checkValidations(nameValidations, name);
+  const nameErrorMessage = checkValidations(
+    nameValidations,
+    fieldObj.value,
+    data,
+  );
   // check dates
   const dateErrorMessage = checkValidations(
     dateValidations,
     getIsoDateFromSimpleDate(date),
+    data,
   );
   // check name & date combo uniqueness
   const uniqueErrorMessage = checkValidations(uniqueValidations, '', {
@@ -74,8 +84,8 @@ const AddIssue = props => {
     additionalIssues: [
       // remove current issue from list - clicking "update issue" won't show
       // unique issue error message
-      ...additionalIssues.filter((_, indx) => index === indx),
-      { issue: name, decisionDate: getIsoDateFromSimpleDate(date) },
+      ...additionalIssues.filter((_, indx) => offsetIndex !== indx),
+      { issue: fieldObj.value, decisionDate: getIsoDateFromSimpleDate(date) },
     ],
   });
   const showError = nameErrorMessage[0] || uniqueErrorMessage[0];
@@ -84,14 +94,13 @@ const AddIssue = props => {
   const addOrUpdateIssue = () => {
     setSubmitted(true);
     if (!showError && dateErrorMessage.length === 0) {
-      const offsetIndex = calculateIndexOffset(index, contestedIssues.length);
       const selectedCount =
         getSelected(data).length + (currentData[SELECTED] ? 0 : 1);
 
       const issues = [...additionalIssues];
       // index based on combined contestable issues + additional issues
       issues[offsetIndex] = {
-        issue: name,
+        issue: fieldObj.value,
         decisionDate: getIsoDateFromSimpleDate(date),
         // select new item, if the max number isn't already selected
         [SELECTED]: selectedCount <= MAX_SELECTIONS,
@@ -104,19 +113,26 @@ const AddIssue = props => {
   return (
     <form onSubmit={event => event.preventDefault()}>
       <fieldset>
-        <legend id="decision-date-description" name="addIssue">
-          {addIssueLabel}
+        <legend
+          id="decision-date-description"
+          className="vads-u-font-family--serif"
+          name="addIssue"
+        >
+          {addIssueTitle}
         </legend>
-        <VaTextInput
+        <TextInput
           id="add-hlr-issue"
           name="add-hlr-issue"
           type="text"
           label={issueNameLabel}
           required
-          value={name}
-          onVaChange={event => setName(event.detail.value)}
-          onBlur={() => setNameTouched(true)}
-          error={(submitted || nameTouched) && showError ? showError : null}
+          field={fieldObj}
+          onValueChange={updatedField => {
+            setFieldObj(updatedField);
+          }}
+          errorMessage={
+            (submitted || fieldObj.dirty) && showError ? showError : null
+          }
         />
         <br />
         <SimpleDate

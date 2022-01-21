@@ -10,17 +10,7 @@ import TestComponent from './TestComponent';
 
 import { createMockRouter } from '../../../tests/unit/mocks/router';
 
-const URLS = Object.freeze({
-  CONFIRMATION: 'complete',
-  DEMOGRAPHICS: 'contact-information',
-  EMERGENCY_CONTACT: 'emergency-contact',
-  ERROR: 'error',
-  INTRODUCTION: 'introduction',
-  LANDING: '',
-  NEXT_OF_KIN: 'next-of-kin',
-  SEE_STAFF: 'see-staff',
-  VERIFY: 'verify',
-});
+import { URLS } from '../../../utils/navigation';
 
 describe('check-in', () => {
   describe('useFormRouting', () => {

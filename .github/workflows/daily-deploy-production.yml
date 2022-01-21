@@ -15,6 +15,7 @@ on:
 
 env:
   CHANNEL_ID: C0MQ281DJ # vfs-platform-builds
+  VETS_WEBSITE_CHANNEL_ID: C02V265VCGH # status-vets-website
   DSVA_SCHEDULE_ENABLED: true
 
 jobs:
@@ -91,7 +92,7 @@ jobs:
         continue-on-error: true
         with:
           payload: '{"attachments": [{"color": "#07711E","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "Stand by, production deploy for vets-website coming up in ${{ needs.set-env.outputs.RELEASE_WAIT }} minutes. View what coming here: <https://github.com/${{ github.repository }}/compare/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}>"}}]}]}'
-          channel_id: ${{ env.CHANNEL_ID }}
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -189,6 +190,24 @@ jobs:
           DEST: s3://${{ env.DEPLOY_BUCKET }}
           ASSET_DEST: s3://${{ env.ASSET_BUCKET }}
 
+  notify-success:
+    name: Notify Success
+    runs-on: ubuntu-latest
+    needs: deploy
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Notify Slack
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#07711E","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "Successfully deployed vets-website to production"}}]}]}'
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-latest
@@ -205,6 +224,6 @@ jobs:
         continue-on-error: true
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> Production deploy for vets-website has failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
-          channel_id: ${{ env.CHANNEL_ID }}
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

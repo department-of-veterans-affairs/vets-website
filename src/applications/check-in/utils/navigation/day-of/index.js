@@ -12,21 +12,7 @@ const getTokenFromLocation = location => location?.query?.id;
  * @param {Object} [params.url]
  */
 
-import { updateFormPages } from '..';
-
-const URLS = Object.freeze({
-  COMPLETE: 'complete',
-  EMERGENCY_CONTACT: 'emergency-contact',
-  DEMOGRAPHICS: 'contact-information',
-  DETAILS: 'details',
-  ERROR: 'error',
-  LANDING: '',
-  NEXT_OF_KIN: 'next-of-kin',
-  SEE_STAFF: 'see-staff',
-  UPDATE_INSURANCE: 'update-information',
-  VALIDATION_NEEDED: 'verify',
-  LOADING: 'loading-appointments',
-});
+import { updateFormPages, URLS } from '..';
 
 const CHECK_IN_FORM_PAGES = Object.freeze([
   {
@@ -80,10 +66,4 @@ const updateForm = (
   );
 };
 
-export {
-  URLS,
-  CHECK_IN_FORM_PAGES,
-  createForm,
-  getTokenFromLocation,
-  updateForm,
-};
+export { CHECK_IN_FORM_PAGES, createForm, getTokenFromLocation, updateForm };

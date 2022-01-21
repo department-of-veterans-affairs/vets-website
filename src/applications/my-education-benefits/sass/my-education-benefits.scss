@@ -119,7 +119,7 @@ va-accordion {
 	margin-bottom: 2em;
 }
 va-accordion-item .service-history-details {
-	margin-bottom: 0;
+	margin-bottom: calc(-1em + 1px);
 }
 .accordion-toggle-button {
 	background: transparent;
@@ -160,14 +160,6 @@ va-accordion-item .service-history-details {
 .va-growable-review .va-growable-background:not(:nth-last-child(3)) .service-history-details_definition:last-child {
 	padding-bottom: 1em;
 }
-:not(.va-growable-review) .service-history-details_term:nth-last-child(2),
-:not(.va-growable-review) .service-history-details_definition:last-child,
-.va-growable-review .va-growable-background:last-child .service-history-details_term:nth-last-child(2),
-.va-growable-review .va-growable-background:last-child .service-history-details_definition:last-child,
-.va-growable-review .va-growable-background:nth-last-child(3) .service-history-details_term:nth-last-child(2),
-.va-growable-review .va-growable-background:nth-last-child(3) .service-history-details_definition:last-child {
-	padding-bottom: 0
-}
 .service-history-details_period {
 	display: block;
 }
@@ -181,6 +173,25 @@ va-accordion-item .service-history-details {
 .form-review-panel-page .service-history-details_term:first-of-type {
 	border-top-color: $color-gray-dark;
 	border-top-width: 2px;
+}
+[data-chapter="serviceHistoryChapter"] .form-review-panel-page form > .vads-u-margin-y--2,
+[data-chapter="serviceHistoryChapter"] .review {
+	display: flex;
+	flex-direction: column;
+}
+[data-chapter="serviceHistoryChapter"] .review p,
+[data-chapter="serviceHistoryChapter"] .review .service-history-details {
+	order: 2;
+}
+[data-chapter="serviceHistoryChapter"] .form-review-panel-page form > .vads-u-margin-y--2 > div:last-child {
+	margin-bottom: 1em;
+	order: -1;
+}
+[data-chapter="serviceHistoryChapter"] dl.review .review-row:last-child {
+	margin-bottom: 1em;
+}
+[data-chapter="serviceHistoryChapter"] .form-review-panel-page form > .vads-u-margin-y--2 > .form-expanding-group-open:last-child {
+	margin-bottom: 2em;
 }
 @media (min-width: $small-screen) {
 	.service-history-details_term,
@@ -282,6 +293,9 @@ dl.review .review-row:last-child {
 		padding-left: 1em;
 		padding-right: 1em;
 	}
+}
+dl.review .review-row > dd {
+	overflow-x: auto;
 }
 
 .form-review-panel-page form.rjsf {

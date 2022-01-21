@@ -18,7 +18,7 @@ import { makeUserObject } from '~/applications/personalization/common/helpers';
 import { CSP_IDS } from 'platform/user/authentication/constants';
 
 function confirmDDBlockedAlertIsNotShown() {
-  cy.findByRole('heading', { name: /^Profile$/ });
+  cy.findByRole('heading', { name: /^Profile menu$/ });
   cy.findByText(/You can’t update your financial information/i).should(
     'not.exist',
   );

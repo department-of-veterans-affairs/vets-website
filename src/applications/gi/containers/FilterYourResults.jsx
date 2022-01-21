@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
@@ -6,7 +6,6 @@ import Dropdown from '../components/Dropdown';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import environment from 'platform/utilities/environment';
 
 import {
   getStateNameForCode,
@@ -52,9 +51,6 @@ export function FilterYourResults({
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
 
-  const [showAllSchoolTypes, setShowAllSchoolTypes] = useState(false);
-  const SEE_LESS_SIZE = 4;
-
   const recordCheckboxEvent = e => {
     recordEvent({
       event: 'gibct-form-change',
@@ -91,35 +87,23 @@ export function FilterYourResults({
     const checked = e.target.checked;
 
     if (!checked) {
-      if (environment.isProduction())
-        dispatchFilterChange({
-          ...filters,
-          schools: false,
-          excludedSchoolTypes: [],
-          excludeCautionFlags: false,
-          accredited: false,
-          studentVeteran: false,
-          yellowRibbonScholarship: false,
-          specialMission: 'ALL',
-        });
-      else
-        dispatchFilterChange({
-          ...filters,
-          schools: false,
-          excludedSchoolTypes: [
-            'PUBLIC',
-            'FOR PROFIT',
-            'PRIVATE',
-            'FOREIGN',
-            'FLIGHT',
-            'CORRESPONDENCE',
-          ],
-          excludeCautionFlags: false,
-          accredited: false,
-          studentVeteran: false,
-          yellowRibbonScholarship: false,
-          specialMission: 'ALL',
-        });
+      dispatchFilterChange({
+        ...filters,
+        schools: false,
+        excludedSchoolTypes: [
+          'PUBLIC',
+          'FOR PROFIT',
+          'PRIVATE',
+          'FOREIGN',
+          'FLIGHT',
+          'CORRESPONDENCE',
+        ],
+        excludeCautionFlags: false,
+        accredited: false,
+        studentVeteran: false,
+        yellowRibbonScholarship: false,
+        specialMission: 'ALL',
+      });
       recordCheckboxEvent(e);
     } else {
       onChangeCheckbox(e);
@@ -189,16 +173,8 @@ export function FilterYourResults({
     modalClose();
   };
 
-  const setFocusByName = name => {
-    const element = document.getElementsByName(name)[0];
-    if (element) element.focus();
-  };
-
   const excludedSchoolTypesGroup = () => {
-    const options = (showAllSchoolTypes || !environment.isProduction()
-      ? INSTITUTION_TYPES
-      : INSTITUTION_TYPES.slice(0, SEE_LESS_SIZE)
-    ).map(type => {
+    const options = INSTITUTION_TYPES.map(type => {
       return {
         name: type.toUpperCase(),
         checked: excludedSchoolTypes.includes(type.toUpperCase()),
@@ -206,35 +182,7 @@ export function FilterYourResults({
       };
     });
 
-    return environment.isProduction() ? (
-      <div className="vads-u-margin-bottom--5">
-        <CheckboxGroup
-          label={
-            <div className="vads-u-margin-left--neg0p25">
-              Exclude these school types:
-            </div>
-          }
-          onChange={handleIncludedSchoolTypesChange}
-          options={options}
-        />
-        {!showAllSchoolTypes && (
-          <button
-            className="va-button-link see-more-less"
-            onClick={() => setShowAllSchoolTypes(true)}
-          >
-            See more...
-          </button>
-        )}
-        {showAllSchoolTypes && (
-          <button
-            className="va-button-link see-more-less"
-            onClick={() => setShowAllSchoolTypes(false)}
-          >
-            See less...
-          </button>
-        )}
-      </div>
-    ) : (
+    return (
       <div className="vads-u-margin-bottom--5">
         <CheckboxGroup
           label={
@@ -248,21 +196,6 @@ export function FilterYourResults({
       </div>
     );
   };
-
-  useEffect(
-    () => {
-      if (showAllSchoolTypes) {
-        setFocusByName(
-          `${INSTITUTION_TYPES[SEE_LESS_SIZE].toUpperCase()}-label`,
-        );
-      } else {
-        setFocusByName(
-          `${INSTITUTION_TYPES[SEE_LESS_SIZE - 1].toUpperCase()}-label`,
-        );
-      }
-    },
-    [showAllSchoolTypes],
-  );
 
   const schoolAttributes = () => {
     const options = [
