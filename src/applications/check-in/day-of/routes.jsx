@@ -13,7 +13,7 @@ import UpdateInformationQuestion from './pages/UpdateInformationQuestion';
 import ValidateVeteran from './pages/ValidateVeteran';
 import LoadingPage from './pages/LoadingPage';
 
-import withFeatureFlip from './containers/withFeatureFlip';
+import withFeatureFlip from '../containers/withFeatureFlip';
 import withSession from './containers/withSession';
 import withToken from './containers/withToken';
 import withForm from '../containers/withForm';
@@ -108,7 +108,7 @@ const createRoutesWithStore = () => {
         return (
           <Route
             path={`/${route.path}`}
-            component={withFeatureFlip(component)}
+            component={withFeatureFlip(component, { isPreCheckIn: false })}
             key={i}
           />
         );
