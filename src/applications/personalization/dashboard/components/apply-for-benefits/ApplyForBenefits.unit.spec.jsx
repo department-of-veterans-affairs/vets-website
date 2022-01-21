@@ -270,7 +270,7 @@ describe('ApplyForBenefits component', () => {
       expect(applicationsInProgress[2]).to.contain.text('10-10EZ');
     });
   });
-  describe('Benefits you might be interested in', () => {
+  describe('Explore VA benefits and health care', () => {
     beforeEach(() => {
       mockFetch();
     });
