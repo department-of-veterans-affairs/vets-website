@@ -294,6 +294,9 @@ dl.review .review-row:last-child {
 		padding-right: 1em;
 	}
 }
+dl.review .review-row > dd {
+	overflow-x: auto;
+}
 
 .form-review-panel-page form.rjsf {
 	margin: 0;
