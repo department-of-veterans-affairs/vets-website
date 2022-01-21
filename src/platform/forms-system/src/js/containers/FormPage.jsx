@@ -6,6 +6,7 @@ import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 import classNames from 'classnames';
 
+import { isLoggedIn } from 'platform/user/selectors';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import FormNavButtons from '../components/FormNavButtons';
 import SchemaForm from '../components/SchemaForm';
@@ -76,7 +77,12 @@ class FormPage extends React.Component {
       this.props.setData(newData);
     }
 
-    const path = getNextPagePath(route.pageList, form.data, location.pathname);
+    const path = getNextPagePath(
+      route.pageList,
+      form.data,
+      location.pathname,
+      this.props.isLoggedIn,
+    );
 
     this.props.router.push(path);
   };
@@ -215,6 +221,7 @@ function mapStateToProps(state, ownProps) {
   return {
     form: state.form,
     user: state.user,
+    isLoggedIn: isLoggedIn(state),
     appStateData: appStateSelector && appStateSelector(state),
   };
 }

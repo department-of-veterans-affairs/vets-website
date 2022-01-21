@@ -28,8 +28,11 @@ export default function FormNav(props) {
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
 
-  const eligiblePageList = getActiveExpandedPages(pageList, formData);
-
+  const eligiblePageList = getActiveExpandedPages(
+    pageList,
+    formData,
+    isLoggedIn,
+  );
   const chapters = uniq(
     eligiblePageList.map(p => p.chapterKey).filter(key => !!key),
   );

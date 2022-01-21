@@ -12,14 +12,20 @@ import ReviewPage from './review/ReviewPage';
  * Returns the page list without conditional pages that have not satisfied
  * their dependencies and therefore should be skipped.
  */
-export function getEligiblePages(pageList, data, pathname) {
-  const eligiblePageList = getActiveExpandedPages(pageList, data);
+export function getEligiblePages(pageList, data, pathname, isLoggedIn) {
+  const eligiblePageList = getActiveExpandedPages(pageList, data, isLoggedIn);
   const pageIndex = findIndex(eligiblePageList, item => item.path === pathname);
   return { pages: eligiblePageList, pageIndex };
 }
 
-export function getNextPagePath(pageList, data, pathname) {
-  const { pages, pageIndex } = getEligiblePages(pageList, data, pathname);
+export function getNextPagePath(pageList, data, pathname, isLoggedIn) {
+  const { pages, pageIndex } = getEligiblePages(
+    pageList,
+    data,
+    pathname,
+    isLoggedIn,
+  );
+
   return pages[pageIndex + 1].path;
 }
 

@@ -18,6 +18,7 @@ import {
 import { getFormContext } from './selectors';
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 import { FINISH_APP_LATER_DEFAULT_MESSAGE } from '../../forms-system/src/js/constants';
+import { isLoggedIn } from '../../user/selectors';
 
 class RoutedSavablePage extends React.Component {
   constructor(props) {
@@ -88,6 +89,7 @@ function mapStateToProps(state, ownProps) {
   return {
     form: state.form,
     user: state.user,
+    isLoggedIn: isLoggedIn(state),
     showLoginModal: state.navigation.showLoginModal,
     appStateData: appStateSelector && appStateSelector(state),
     formConfig: ownProps.route.formConfig,

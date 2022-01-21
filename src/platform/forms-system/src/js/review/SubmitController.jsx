@@ -42,7 +42,6 @@ class SubmitController extends Component {
 
   goBack = () => {
     const { form, pageList, router } = this.props;
-
     const expandedPageList = getActiveExpandedPages(pageList, form.data);
 
     // TODO: Fix this bug that assumes there is a confirmation page.

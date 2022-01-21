@@ -16,9 +16,9 @@ export const maxYear = moment()
 // An active page is one that will be shown to the user.
 // Pages become inactive if they are conditionally shown based
 // on answers to previous questions.
-export function isActivePage(page, data) {
+export function isActivePage(page, data, isLoggedIn) {
   if (typeof page.depends === 'function') {
-    return page.depends(data, page.index);
+    return page.depends(data, page.index, isLoggedIn);
   }
 
   if (Array.isArray(page.depends)) {
@@ -28,8 +28,8 @@ export function isActivePage(page, data) {
   return page.depends === undefined || matches(page.depends)(data);
 }
 
-export function getActivePages(pages, data) {
-  return pages.filter(page => isActivePage(page, data));
+export function getActivePages(pages, data, isLoggedIn) {
+  return pages.filter(page => isActivePage(page, data, isLoggedIn));
 }
 
 export function getActiveProperties(activePages) {
@@ -569,9 +569,9 @@ export function expandArrayPages(pageList, data) {
  * @returns {Array<Object>} A list of pages, including individual array
  *   pages that are active
  */
-export function getActiveExpandedPages(pages, data) {
+export function getActiveExpandedPages(pages, data, isLoggedIn) {
   const expandedPages = expandArrayPages(pages, data);
-  return getActivePages(expandedPages, data);
+  return getActivePages(expandedPages, data, isLoggedIn);
 }
 
 /**
