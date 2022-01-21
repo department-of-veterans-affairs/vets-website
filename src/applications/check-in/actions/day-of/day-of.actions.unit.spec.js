@@ -5,10 +5,6 @@ import {
   APPOINTMENT_WAS_CHECKED_INTO,
   receivedMultipleAppointmentDetails,
   RECEIVED_APPOINTMENT_DETAILS,
-  tokenWasValidated,
-  TOKEN_WAS_VALIDATED,
-  permissionsUpdated,
-  PERMISSIONS_UPDATED,
   receivedEmergencyContact,
   RECEIVED_EMERGENCY_CONTACT_DATA,
   receivedDemographicsData,
@@ -19,8 +15,6 @@ import {
   RECEIVED_NEXT_OF_KIN_DATA,
   SEE_STAFF_MESSAGE_UPDATED,
   seeStaffMessageUpdated,
-  RECEIVED_DEMOGRAPHICS_STATUS,
-  receivedDemographicsStatus,
 } from './index';
 
 describe('check in actions', () => {
@@ -36,40 +30,7 @@ describe('check in actions', () => {
         expect(action.payload.appointments[0].id).to.equal('some-id');
       });
     });
-    describe('tokenWasValidated', () => {
-      it('should return correct action', () => {
-        const action = tokenWasValidated();
-        expect(action.type).to.equal(TOKEN_WAS_VALIDATED);
-      });
-      it('should return correct structure', () => {
-        const data = {};
-        const token = 'some-token';
-        const scope = 'some-scope';
-        const action = tokenWasValidated(data, token, scope);
-        expect(action.payload).to.haveOwnProperty('context');
-        expect(action.payload.context).to.haveOwnProperty('token');
-        expect(action.payload.context.token).to.equal('some-token');
-        expect(action.payload.context).to.haveOwnProperty('scope');
-        expect(action.payload.context.scope).to.equal('some-scope');
-        expect(action.payload).to.haveOwnProperty('appointments');
-      });
-    });
-    describe('permissionsUpdated', () => {
-      it('should return correct action', () => {
-        const action = permissionsUpdated({}, '');
-        expect(action.type).to.equal(PERMISSIONS_UPDATED);
-      });
-      it('should return correct structure', () => {
-        const action = permissionsUpdated(
-          { permissions: 'some-permissions' },
-          'some-scope',
-        );
-        expect(action.payload).to.haveOwnProperty('permissions');
-        expect(action.payload.permissions).to.equal('some-permissions');
-        expect(action.payload).to.haveOwnProperty('scope');
-        expect(action.payload.scope).to.equal('some-scope');
-      });
-    });
+
     describe('appointmentWasCheckedInto', () => {
       it('should return correct action', () => {
         const action = appointmentWasCheckedInto({
@@ -129,20 +90,6 @@ describe('check in actions', () => {
       it('should return correct structure', () => {
         const action = seeStaffMessageUpdated('test');
         expect(action.payload.seeStaffMessage).to.equal('test');
-      });
-    });
-    describe('receivedDemographicsStatus', () => {
-      it('should return correct action', () => {
-        const action = receivedDemographicsStatus({});
-        expect(action.type).to.equal(RECEIVED_DEMOGRAPHICS_STATUS);
-      });
-      it('should return correct structure', () => {
-        const action = receivedDemographicsStatus({
-          demographicsNeedsUpdate: true,
-        });
-        expect(action.payload).to.haveOwnProperty('demographicsStatus');
-        expect(action.payload.demographicsStatus.demographicsNeedsUpdate).to.be
-          .true;
       });
     });
     describe('receivedEmergencyContact', () => {

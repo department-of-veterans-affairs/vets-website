@@ -53,7 +53,7 @@ export const SearchResult = ({
         <dfn className="sr-only">Article type: </dfn>
         {articleTypes[article.entityBundle]}
       </div>
-      <h3 className="vads-u-margin-top--0">
+      <h3 className="vads-u-margin-top--0 vads-u-font-size--md">
         <a onClick={onSearchResultClick} href={article.entityUrl.path}>
           {article.title}
         </a>

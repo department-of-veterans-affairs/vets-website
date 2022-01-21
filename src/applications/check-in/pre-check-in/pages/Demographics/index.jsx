@@ -5,21 +5,22 @@ import BackToHome from '../../components/BackToHome';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import PropTypes from 'prop-types';
 import Footer from '../../components/Footer';
-import BackButton from '../../components/BackButton';
+import BackButton from '../../../components/BackButton';
 import DemographicsDisplay from '../../../components/pages/demographics/DemographicsDisplay';
 import recordEvent from 'platform/monitoring/record-event';
 import { recordAnswer } from '../../../actions/pre-check-in';
-import { URLS } from '../../../utils/navigation/pre-check-in';
 
 import { makeSelectVeteranData } from '../../../selectors';
 
 const Demographics = props => {
   const dispatch = useDispatch();
   const { router } = props;
-  const { goToNextPage, goToPreviousPage, currentPage } = useFormRouting(
-    router,
-    URLS,
-  );
+  const {
+    goToNextPage,
+    goToPreviousPage,
+    getCurrentPageFromRouter,
+  } = useFormRouting(router);
+  const currentPage = getCurrentPageFromRouter();
   useEffect(() => {
     focusElement('h1');
   }, []);

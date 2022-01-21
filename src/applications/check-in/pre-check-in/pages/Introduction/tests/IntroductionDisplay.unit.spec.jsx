@@ -4,8 +4,6 @@ import configureStore from 'redux-mock-store';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import IntroductionDisplay from '../IntroductionDisplay';
 
-import { URLS } from '../../../../utils/navigation/pre-check-in';
-
 describe('pre-check-in', () => {
   describe('IntroductionDisplay page', () => {
     let store;
@@ -97,7 +95,6 @@ describe('pre-check-in', () => {
           },
           form: {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'first-page',
           },
         },
       };
@@ -106,7 +103,7 @@ describe('pre-check-in', () => {
     it('page passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
-          <IntroductionDisplay router={{ push: () => {} }} URLS={URLS} />
+          <IntroductionDisplay router={{ push: () => {} }} />
         </Provider>,
       );
     });

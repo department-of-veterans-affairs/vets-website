@@ -1,6 +1,6 @@
 import React from 'react';
 
-const COEAvailable = () => (
+const COEAvailable = ({ downloadURL }) => (
   <>
     <va-alert status="info">
       <h2 slot="headline">You already have a COE</h2>
@@ -27,7 +27,7 @@ const COEAvailable = () => (
       </a>
     </div>
     <div className="vads-u-padding-top--4">
-      <a href="#">
+      <a href={downloadURL}>
         <i
           className="fas fa-download vads-u-padding-right--1"
           aria-hidden="true"

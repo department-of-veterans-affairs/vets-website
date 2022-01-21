@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { URLS } from '../../utils/navigation/day-of';
+import { URLS } from '../../utils/navigation';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { makeSelectCheckInData } from '../hooks/selectors';
 
 const withToken = Component => {
   const Wrapped = ({ ...props }) => {
     const { router } = props;
-    const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
+    const { jumpToPage, goToErrorPage } = useFormRouting(router);
     const selectCheckInData = useMemo(makeSelectCheckInData, []);
     const checkInData = useSelector(selectCheckInData);
     const { context } = checkInData;

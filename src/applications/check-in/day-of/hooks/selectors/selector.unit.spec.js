@@ -7,6 +7,7 @@ import {
   makeSelectConfirmationData,
   makeSelectAppointmentListData,
   makeSelectSeeStaffMessage,
+  makeSelectDemographicData,
 } from './index';
 
 describe('check-in', () => {
@@ -36,6 +37,20 @@ describe('check-in', () => {
           },
           token: 'foo',
         },
+        emergencyContact: {
+          name: 'Bugs Bunny',
+          phone: '5558675309',
+        },
+        nextOfKin: {
+          name: 'VETERAN,JONAH',
+          phone: '1112223333',
+        },
+        demographics: {
+          homePhone: '5552223333',
+          mobilePhone: '5553334444',
+          workPhone: '5554445555',
+          emailAddress: 'kermit.frog@sesameenterprises.us',
+        },
         seeStaffMessage: 'Test message',
       },
     };
@@ -57,6 +72,20 @@ describe('check-in', () => {
               appointmentIen: 'some-ien',
             },
             token: 'foo',
+          },
+          emergencyContact: {
+            name: 'Bugs Bunny',
+            phone: '5558675309',
+          },
+          nextOfKin: {
+            name: 'VETERAN,JONAH',
+            phone: '1112223333',
+          },
+          demographics: {
+            homePhone: '5552223333',
+            mobilePhone: '5553334444',
+            workPhone: '5554445555',
+            emailAddress: 'kermit.frog@sesameenterprises.us',
           },
           seeStaffMessage: 'Test message',
         });
@@ -144,6 +173,27 @@ describe('check-in', () => {
         const selectSeeStaffMessage = makeSelectSeeStaffMessage();
         expect(selectSeeStaffMessage(state)).to.eql({
           message: 'Test message',
+        });
+      });
+    });
+    describe('makeSelectDemographicData', () => {
+      it('returns demographic data', () => {
+        const selectDemographicData = makeSelectDemographicData();
+        expect(selectDemographicData(state)).to.eql({
+          emergencyContact: {
+            name: 'Bugs Bunny',
+            phone: '5558675309',
+          },
+          nextOfKin: {
+            name: 'VETERAN,JONAH',
+            phone: '1112223333',
+          },
+          demographics: {
+            homePhone: '5552223333',
+            mobilePhone: '5553334444',
+            workPhone: '5554445555',
+            emailAddress: 'kermit.frog@sesameenterprises.us',
+          },
         });
       });
     });

@@ -1,21 +1,22 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+
+import { focusElement } from 'platform/utilities/ui';
 
 import { api } from '../../../api';
 
-import { createSetSession } from '../../../actions/pre-check-in';
+import { createSetSession } from '../../../actions/authentication';
 
 import BackToHome from '../../components/BackToHome';
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
 import Footer from '../../components/Footer';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { URLS } from '../../../utils/navigation/pre-check-in';
 
 import { makeSelectCurrentContext } from '../../../selectors';
 
 export default function Index({ router }) {
-  const { goToNextPage, goToErrorPage } = useFormRouting(router, URLS);
+  const { goToNextPage, goToErrorPage } = useFormRouting(router);
   const dispatch = useDispatch();
   const setSession = useCallback(
     (token, permissions) => {
@@ -34,12 +35,9 @@ export default function Index({ router }) {
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
   const validateHandler = async () => {
-    setIsLoading(true);
     setLastNameErrorMessage();
     setLast4ErrorMessage();
     if (!lastName || !last4Ssn) {
-      setIsLoading(false);
-
       if (!lastName) {
         setLastNameErrorMessage('Please enter your last name.');
       }
@@ -49,6 +47,7 @@ export default function Index({ router }) {
         );
       }
     } else {
+      setIsLoading(true);
       try {
         const resp = await api.v2.postSession({
           token,
@@ -63,6 +62,10 @@ export default function Index({ router }) {
       }
     }
   };
+
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
   return (
     <>
       <ValidateDisplay

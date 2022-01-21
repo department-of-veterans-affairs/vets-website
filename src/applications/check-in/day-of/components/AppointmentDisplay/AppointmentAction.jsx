@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { api } from '../../../api';
 
-import { URLS } from '../../../utils/navigation/day-of';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { ELIGIBILITY, areEqual } from '../../../utils/appointment/eligibility';
 import recordEvent from 'platform/monitoring/record-event';
@@ -25,7 +24,7 @@ const AppointmentAction = props => {
 
   const defaultMessage =
     'Online check-in isn’t available for this appointment. Check in with a staff member.';
-  const { goToNextPage, goToErrorPage } = useFormRouting(router, URLS);
+  const { goToNextPage, goToErrorPage } = useFormRouting(router);
   const onClick = async () => {
     recordEvent({
       event: 'cta-button-click',
@@ -94,7 +93,7 @@ const AppointmentAction = props => {
     ) {
       return (
         <p data-testid="too-late-message">
-          Your appointment started more than 10 minutes ago. We can’t check you
+          Your appointment started more than 5 minutes ago. We can’t check you
           in online. Ask a staff member for help.
         </p>
       );

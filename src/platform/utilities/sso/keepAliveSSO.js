@@ -67,7 +67,7 @@ export default async function keepAlive() {
         mhv: CSP_AUTHN.MHV,
         LOGINGOV: resp.headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
         idme: resp.headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
-      }[resp.headers.get(AUTHN_HEADERS.CSP)],
+      }[resp.headers.get(AUTHN_HEADERS.CSP)].replace('?skip_dupe=mhv'),
     };
   } catch (err) {
     logToSentry(err);

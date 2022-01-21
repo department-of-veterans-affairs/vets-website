@@ -1,28 +1,26 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { api } from '../../api';
-import { useDispatch, batch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   getTokenFromLocation,
-  URLS,
   createForm,
 } from '../../utils/navigation/day-of';
+
+import { URLS } from '../../utils/navigation';
+
 import { createInitFormAction } from '../../actions/navigation';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { tokenWasValidated, triggerRefresh } from '../../actions/day-of';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { createAnalyticsSlug } from '../../utils/analytics';
 import { isUUID, SCOPES } from '../../utils/token-format-validator';
 
+import { createSetSession } from '../../actions/authentication';
+
 const Landing = props => {
-  const {
-    isUpdatePageEnabled,
-    location,
-    router,
-    isEmergencyContactEnabled,
-  } = props;
-  const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
+  const { isUpdatePageEnabled, location, router } = props;
+  const { jumpToPage, goToErrorPage } = useFormRouting(router);
 
   const [loadMessage] = useState('Finding your appointment information');
   const { clearCurrentSession, setCurrentToken } = useSessionStorage(false);
@@ -34,27 +32,13 @@ const Landing = props => {
     },
     [dispatch],
   );
-  const setAppointment = useCallback(
-    (data, token) =>
-      dispatch(tokenWasValidated(data, token, SCOPES.READ_BASIC)),
-    [dispatch],
-  );
 
-  const setToken = useCallback(
-    token => {
-      batch(() => {
-        dispatch(tokenWasValidated(undefined, token, SCOPES.READ_BASIC));
-        dispatch(triggerRefresh());
-      });
+  const setSession = useCallback(
+    (token, permissions) => {
+      dispatch(createSetSession({ token, permissions }));
     },
     [dispatch],
   );
-
-  const setAuthenticatedSession = useCallback(
-    token => dispatch(tokenWasValidated(undefined, token, SCOPES.READ_FULL)),
-    [dispatch],
-  );
-
   useEffect(
     () => {
       const token = getTokenFromLocation(location);
@@ -82,17 +66,14 @@ const Landing = props => {
             } else {
               // if session with read.full exists, go to check in page
               setCurrentToken(window, token);
-              const pages = createForm({
-                hasConfirmedDemographics: false,
-                isEmergencyContactEnabled,
-              });
+              const pages = createForm();
               const firstPage = pages[0];
+
               initForm(pages, firstPage);
+              setSession(token, session.permissions);
               if (session.permissions === SCOPES.READ_FULL) {
-                setAuthenticatedSession(token);
-                jumpToPage(URLS.DETAILS);
+                jumpToPage(URLS.LOADING);
               } else {
-                setToken(token);
                 jumpToPage(URLS.VALIDATION_NEEDED);
               }
             }
@@ -105,16 +86,13 @@ const Landing = props => {
     },
     [
       location,
-      setAppointment,
-      setToken,
       isUpdatePageEnabled,
-      setAuthenticatedSession,
       clearCurrentSession,
       setCurrentToken,
       jumpToPage,
       goToErrorPage,
       initForm,
-      isEmergencyContactEnabled,
+      setSession,
     ],
   );
   return (
@@ -128,7 +106,6 @@ Landing.propTypes = {
   isUpdatePageEnabled: PropTypes.bool,
   location: PropTypes.object,
   router: PropTypes.object,
-  isEmergencyContactEnabled: PropTypes.bool,
 };
 
 export default Landing;

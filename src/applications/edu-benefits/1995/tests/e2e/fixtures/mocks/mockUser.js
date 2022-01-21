@@ -1,4 +1,5 @@
-const CSP_IDS = require('platform/user/authentication/constants').CSP_IDS;
+import moment from 'moment';
+
 const VA_FORM_IDS = require('platform/forms/constants').VA_FORM_IDS;
 
 /* eslint-disable camelcase */
@@ -7,7 +8,7 @@ const mockUser = {
     attributes: {
       profile: {
         sign_in: {
-          service_name: CSP_IDS.ID_ME,
+          service_name: 'idme',
         },
         email: 'fake@fake.com',
         loa: { current: 3 },
@@ -29,7 +30,13 @@ const mockUser = {
         },
         {
           form: VA_FORM_IDS.FORM_22_1995,
-          metadata: {},
+          metadata: {
+            last_updated: 1506792, // unix time
+            expires_at: moment() // unix time
+              .add(1, 'day')
+              .unix(),
+            saved_at: 1506792808, // JS time (ms)
+          },
         },
         {
           form: VA_FORM_IDS.FORM_21P_530,

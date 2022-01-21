@@ -43,7 +43,7 @@ export const HowToPay = ({ acctNum, facility }) => (
           If you need help making a payment online, call us at
           <Telephone
             contact={'888-827-4817'}
-            className="vads-u-margin-x--0p5"
+            className="vads-u-margin-left--0p5"
           />
           . We’re available Monday through Friday, 8:00am - 8:00pm EST.
         </p>

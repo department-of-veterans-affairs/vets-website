@@ -46,6 +46,12 @@ const ClaimType = ({ setPageState, state = {}, hlrV2 }) => {
     }
   };
 
+  // aria-describedby fix for #34873
+  const ariaDescribedby = [
+    hlrV2 ? pageNames.legacyNo : pageNames.legacyChoice,
+    pageNames.other,
+  ];
+
   return (
     <RadioButtons
       name={name}
@@ -54,7 +60,7 @@ const ClaimType = ({ setPageState, state = {}, hlrV2 }) => {
       options={options}
       onValueChange={setState}
       value={{ value: state.selected }}
-      ariaDescribedby={[pageNames.legacyChoice, pageNames.other]}
+      ariaDescribedby={ariaDescribedby}
     />
   );
 };

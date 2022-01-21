@@ -281,6 +281,17 @@ article[data-location="contested-issues"] {
   }
 }
 
+/* Contestable issues - HLR v2 */
+article[data-location="contestable-issues"] {
+  /* fixes va.gov-team/issues/34714 */
+  fieldset > div {
+    clear: both;
+  }
+  fieldset legend {
+    float: left; /* moves legend inside fieldset */
+  }
+}
+
 /* Add issue loop page */
 article[data-location="add-issue"] {
   .usa-input-error {

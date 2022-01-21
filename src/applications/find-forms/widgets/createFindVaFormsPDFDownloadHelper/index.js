@@ -32,7 +32,9 @@ export async function onDownloadLinkClick(event, reduxStore, listenerFunction) {
 
   try {
     const forms = await fetchFormsApi(formNumber);
-    form = forms.results.find(f => f.id === formNumber);
+    form = forms.results.find(
+      f => f?.attributes?.formName === link?.dataset?.formNumber,
+    );
     formPdfIsValid = form?.attributes.validPdf;
 
     const isSameOrigin = downloadUrl?.startsWith(window.location.origin);

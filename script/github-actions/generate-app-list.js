@@ -4,10 +4,7 @@ const { getAppManifests } = require('../../config/manifest-helpers');
 
 function exportAppList() {
   const applicationList = getAppManifests().map(app => {
-    return {
-      name: app.appName,
-      slug: app.entryName,
-    };
+    return [app.appName, app.entryName];
   });
   core.exportVariable('APPLICATION_LIST', applicationList);
 }

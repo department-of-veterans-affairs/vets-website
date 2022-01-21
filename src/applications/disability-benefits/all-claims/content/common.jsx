@@ -28,7 +28,7 @@ export const ContactCrisis = () => (
       </li>
       <li>
         Visit{' '}
-        <a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/">
+        <a href="https://www.veteranscrisisline.net/get-help-now/chat/">
           Veterans Crisis Line
         </a>{' '}
         to start a confidential chat online, <strong>or</strong>

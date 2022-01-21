@@ -44,11 +44,11 @@ describe('Pre Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('skip demographics, update next of kin path, and update emergency contact', () => {
-      NextOfKin.validatePageLoaded();
-      NextOfKin.attemptToGoToNextPage();
+    it('skip demographics, update , update emergency contact and next of kin path', () => {
       EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();
+      NextOfKin.validatePageLoaded();
+      NextOfKin.attemptToGoToNextPage();
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });

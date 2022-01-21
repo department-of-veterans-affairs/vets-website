@@ -48,6 +48,45 @@ Alert.Error = () => (
   </va-alert>
 );
 
+Alert.PastDue = ({ copay }) => {
+  const statementDate = formatDate(copay?.pSStatementDate);
+
+  return (
+    <va-alert
+      class="row vads-u-margin-bottom--5"
+      status="info"
+      data-testid="past-due-balance-alert"
+    >
+      <h2 slot="headline" className="vads-u-font-size--h3">
+        Your balance may be overdue
+      </h2>
+      <p className="vads-u-font-size--base vads-u-font-family--sans">
+        Your balance on
+        <time dateTime={statementDate} className="vads-u-margin-x--0p5">
+          {statementDate}
+        </time>
+        was {currency(copay?.pHAmtDue)}. If you paid your full balance, you
+        don’t need to do anything else at this time.
+      </p>
+      <p>
+        <strong className="vads-u-margin-right--0p5">
+          If you haven’t either paid your full balance or requested financial
+          help,
+        </strong>
+        contact us at
+        <Telephone contact={'866-400-1238'} className="vads-u-margin-x--0p5" />
+        (TTY:
+        <Telephone
+          contact={CONTACTS[711]}
+          pattern={PATTERNS['3_DIGIT']}
+          className="vads-u-margin-left--0p5"
+        />
+        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      </p>
+    </va-alert>
+  );
+};
+
 Alert.ZeroBalance = ({ copay }) => {
   const statementDate = formatDate(copay?.pSStatementDate);
 
@@ -55,18 +94,14 @@ Alert.ZeroBalance = ({ copay }) => {
     <va-alert
       class="row vads-u-margin-bottom--5"
       status="info"
-      data-testid="zero-balance"
+      data-testid="zero-balance-alert"
     >
       <h2 slot="headline" className="vads-u-font-size--h3">
         You don’t need to make a payment at this time
       </h2>
       <p className="vads-u-font-size--base vads-u-font-family--sans">
         Your balance is $0 and was updated on
-        <time
-          dateTime={statementDate}
-          className="vads-u-margin-x--0p5"
-          data-testid="updated-date"
-        >
+        <time dateTime={statementDate} className="vads-u-margin-x--0p5">
           {statementDate}
         </time>
         . You can
@@ -109,8 +144,8 @@ Alert.NoHealthcare = () => (
     </p>
     <p>
       If you think this is incorrect, call our toll-free hotline at
-      <Telephone contact={'877-222-8387'} className="vads-u-margin-x--0p5" />,
-      Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      <Telephone contact={'877-222-8387'} className="vads-u-margin-left--0p5" />
+      , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </va-alert>
 );
@@ -162,7 +197,7 @@ Alert.Status = ({ copay }) => (
     </p>
     <p>
       <a className="vads-c-action-link--blue" href="#how-to-pay">
-        Learn how to pay your copay bill
+        Pay your copay bill
       </a>
     </p>
     <p>
@@ -176,8 +211,8 @@ Alert.Status = ({ copay }) => (
     <p>
       You may need to continue making payments while we review your request.
       Call us at
-      <Telephone contact={'866-400-1238'} className="vads-u-margin-x--0p5" />,
-      Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      <Telephone contact={'866-400-1238'} className="vads-u-margin-left--0p5" />
+      , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </va-alert>
 );
@@ -208,6 +243,13 @@ const Alerts = ({ type, copay, error }) => {
         'alert-box-heading': 'You don’t need to make a payment at this time',
       });
       return <Alert.ZeroBalance copay={copay} />;
+    case 'past-due-balance':
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'info',
+        'alert-box-heading': 'Your balance may be overdue',
+      });
+      return <Alert.PastDue copay={copay} />;
     default:
       recordEvent({
         event: 'visible-alert-box',
