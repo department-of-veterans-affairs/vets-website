@@ -30,7 +30,7 @@ const SeeStaff = props => {
       )}
       <TravelPayReimbursementLink />
       <Footer />
-      <BackToHome />
+      <BackToHome isPreCheckIn={false} />
     </div>
   );
 };

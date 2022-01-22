@@ -73,7 +73,7 @@ const EmergencyContact = props => {
           noAction={noClick}
           Footer={Footer}
         />
-        <BackToHome />
+        <BackToHome isPreCheckIn={false} />
       </>
     );
   }

@@ -69,7 +69,7 @@ const DisplayMultipleAppointments = props => {
         </a>
       </p>
       <Footer />
-      <BackToHome />
+      <BackToHome isPreCheckIn={false} />
     </div>
   );
 };

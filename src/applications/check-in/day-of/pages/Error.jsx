@@ -9,7 +9,7 @@ const Error = () => {
     <div className="vads-l-grid-container vads-u-padding-y--5 ">
       <ErrorMessage />
       <Footer />
-      <BackToHome />
+      <BackToHome isPreCheckIn={false} />
     </div>
   );
 };

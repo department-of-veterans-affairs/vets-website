@@ -59,7 +59,7 @@ const UpdateInformationQuestion = props => {
       </fieldset>
 
       <Footer />
-      <BackToHome />
+      <BackToHome isPreCheckIn={false} />
     </div>
   );
 };

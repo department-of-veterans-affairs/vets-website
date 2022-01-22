@@ -47,7 +47,7 @@ const MultipleAppointments = props => {
         triggerRefresh={triggerRefresh}
       />
       <Footer />
-      <BackToHome />
+      <BackToHome isPreCheckIn={false} />
     </div>
   );
 };
