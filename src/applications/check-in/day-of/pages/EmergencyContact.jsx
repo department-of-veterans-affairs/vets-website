@@ -7,7 +7,7 @@ import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
 import { focusElement } from 'platform/utilities/ui';
-import Footer from '../components/Footer';
+import Footer from '../../components/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import EmergencyContactDisplay from '../../components/pages/emergencyContact/EmergencyContactDisplay';
 import { makeSelectDemographicData } from '../hooks/selectors';
@@ -72,6 +72,7 @@ const EmergencyContact = props => {
           yesAction={yesClick}
           noAction={noClick}
           Footer={Footer}
+          isPreCheckIn={false}
         />
         <BackToHome isPreCheckIn={false} />
       </>

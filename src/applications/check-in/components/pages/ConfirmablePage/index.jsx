@@ -12,6 +12,7 @@ const ConfirmablePage = ({
   isLoading = false,
   LoadingMessage = () => <va-loading-indicator message="Loading..." />,
   Footer,
+  isPreCheckIn,
 }) => {
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 confirmable-page">
@@ -59,7 +60,7 @@ const ConfirmablePage = ({
           </button>
         </>
       )}
-      {Footer && <Footer />}
+      {Footer && <Footer isPreCheckIn={isPreCheckIn} />}
     </div>
   );
 };
@@ -78,5 +79,6 @@ ConfirmablePage.propTypes = {
   isLoading: PropTypes.bool,
   LoadingMessage: PropTypes.func,
   Footer: PropTypes.func,
+  isPreCheckIn: PropTypes.bool,
 };
 export default ConfirmablePage;

@@ -6,7 +6,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackToHome from '../../components/BackToHome';
-import Footer from '../components/Footer';
+import Footer from '../../components/Footer';
 import { URLS } from '../../utils/navigation';
 
 const UpdateInformationQuestion = props => {
@@ -58,7 +58,7 @@ const UpdateInformationQuestion = props => {
         </button>
       </fieldset>
 
-      <Footer />
+      <Footer isPreCheckIn={false} />
       <BackToHome isPreCheckIn={false} />
     </div>
   );

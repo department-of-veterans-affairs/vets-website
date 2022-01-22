@@ -10,6 +10,7 @@ export default function ValidateDisplay({
   lastNameInput: { lastNameErrorMessage, setLastName, lastName } = {},
   last4Input: { last4ErrorMessage, setLast4Ssn, last4Ssn } = {},
   Footer,
+  isPreCheckIn = true,
 }) {
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
@@ -50,7 +51,7 @@ export default function ValidateDisplay({
         {' '}
         {isLoading ? <>Loading...</> : <>Continue</>}
       </button>
-      {Footer && <Footer />}
+      {Footer && <Footer isPreCheckIn={isPreCheckIn} />}
     </div>
   );
 }

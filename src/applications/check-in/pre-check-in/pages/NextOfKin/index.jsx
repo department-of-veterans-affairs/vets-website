@@ -11,7 +11,7 @@ import { api } from '../../../api/';
 
 import BackButton from '../../../components/BackButton';
 import BackToHome from '../../../components/BackToHome';
-import Footer from '../../components/Footer';
+import Footer from '../../../components/Footer';
 import NextOfKinDisplay from '../../../components/pages/nextOfKin/NextOfKinDisplay';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';

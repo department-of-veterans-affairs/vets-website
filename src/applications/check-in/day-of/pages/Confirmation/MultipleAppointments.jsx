@@ -7,7 +7,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import BackToHome from '../../../components/BackToHome';
 import BackToAppointments from '../../../components/BackToAppointments';
-import Footer from '../../components/Footer';
+import Footer from '../../../components/Footer';
 import AppointmentLocation from '../../../components/AppointmentDisplay/AppointmentLocation';
 import TravelPayReimbursementLink from '../../../components/TravelPayReimbursementLink';
 
@@ -46,7 +46,7 @@ const MultipleAppointments = props => {
         appointments={appointments}
         triggerRefresh={triggerRefresh}
       />
-      <Footer />
+      <Footer isPreCheckIn={false} />
       <BackToHome isPreCheckIn={false} />
     </div>
   );

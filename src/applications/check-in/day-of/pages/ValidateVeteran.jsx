@@ -10,7 +10,7 @@ import { createSetSession } from '../../actions/authentication';
 import { useFormRouting } from '../../hooks/useFormRouting';
 
 import BackToHome from '../../components/BackToHome';
-import Footer from '../components/Footer';
+import Footer from '../../components/Footer';
 import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 
 import { makeSelectContext } from '../hooks/selectors';
@@ -89,6 +89,7 @@ const ValidateVeteran = props => {
         isLoading={isLoading}
         validateHandler={onClick}
         Footer={Footer}
+        isPreCheckIn={false}
       />
       <BackToHome isPreCheckIn={false} />
     </>
