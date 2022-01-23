@@ -11,6 +11,7 @@ const packageJSON = require('../package.json');
 const exceptionSet = new Set([
   'https://npmjs.com/advisories/996',
   'https://npmjs.com/advisories/1488',
+  'https://github.com/advisories/GHSA-qrpm-p2h7-hrv2',
 ]);
 
 const severitySet = new Set(['high', 'critical', 'moderate']);
