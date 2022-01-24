@@ -7,8 +7,8 @@ describe('covid-vaccine-trials-feature-toggles', () => {
     const state = {
       featureToggles: {
         /* eslint-disable camelcase */
-        covidVolunteerIntakeEnabled: true,
-        covidVolunteerUpdateEnabled: true,
+        covid_volunteer_intake_enabled: true,
+        covid_volunteer_update_enabled: true,
         loading: false,
       },
     };
@@ -18,8 +18,8 @@ describe('covid-vaccine-trials-feature-toggles', () => {
         const selectFeatureToggles = makeSelectFeatureToggles();
         expect(selectFeatureToggles(state)).to.eql({
           isLoadingFeatureFlags: false,
-          covidVolunteerIntakeEnabled: true,
-          covidVolunteerUpdateEnabled: true,
+          isCovidVaccineTrialsIntakeEnabled: true,
+          isCovidVaccineTrialsUpdateEnabled: true,
         });
       });
     });
