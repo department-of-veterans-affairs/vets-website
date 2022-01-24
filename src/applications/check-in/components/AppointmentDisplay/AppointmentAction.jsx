@@ -1,15 +1,14 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { api } from '../../../api';
+import { api } from '../../api';
 
-import { URLS } from '../../../utils/navigation/day-of';
-import { useFormRouting } from '../../../hooks/useFormRouting';
-import { ELIGIBILITY, areEqual } from '../../../utils/appointment/eligibility';
+import { useFormRouting } from '../../hooks/useFormRouting';
+import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
 import recordEvent from 'platform/monitoring/record-event';
 import format from 'date-fns/format';
 
-import { appointmentWasCheckedInto } from '../../../actions/day-of';
+import { appointmentWasCheckedInto } from '../../actions/day-of';
 
 const AppointmentAction = props => {
   const { appointment, router, token } = props;
@@ -25,7 +24,7 @@ const AppointmentAction = props => {
 
   const defaultMessage =
     'Online check-in isn’t available for this appointment. Check in with a staff member.';
-  const { goToNextPage, goToErrorPage } = useFormRouting(router, URLS);
+  const { goToNextPage, goToErrorPage } = useFormRouting(router);
   const onClick = async () => {
     recordEvent({
       event: 'cta-button-click',

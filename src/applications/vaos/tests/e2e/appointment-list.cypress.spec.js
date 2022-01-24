@@ -49,7 +49,7 @@ describe('VAOS appointment list', () => {
       cy.axeCheckBestPractice();
     });
 
-    it.skip('va phone appointment', () => {
+    it('va phone appointment', () => {
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/Phone call/i)
@@ -59,8 +59,8 @@ describe('VAOS appointment list', () => {
       cy.url().should('include', '/appointments/va');
       cy.get('[data-cy=va-appointment-details-header]')
         .should('exist')
-        .contains('VA appointment over the phone');
-      cy.axeCheckBestPractice();
+        .contains('VA appointment over the phone')
+        .axeCheckBestPractice();
     });
 
     it('va video appointment', () => {

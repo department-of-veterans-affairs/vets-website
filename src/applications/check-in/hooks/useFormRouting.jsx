@@ -5,7 +5,9 @@ import URLSearchParams from 'url-search-params';
 
 import { makeSelectForm } from '../selectors';
 
-const useFormRouting = (router = {}, URLS) => {
+import { URLS } from '../utils/navigation';
+
+const useFormRouting = (router = {}) => {
   const selectForm = useMemo(makeSelectForm, []);
   const { pages } = useSelector(selectForm);
 
@@ -13,7 +15,7 @@ const useFormRouting = (router = {}, URLS) => {
     () => {
       router.push(URLS.ERROR);
     },
-    [URLS.ERROR, router],
+    [router],
   );
 
   const jumpToPage = useCallback(
@@ -38,7 +40,7 @@ const useFormRouting = (router = {}, URLS) => {
         goToErrorPage();
       }
     },
-    [URLS, goToErrorPage, router],
+    [goToErrorPage, router],
   );
 
   const getCurrentPageFromRouter = useCallback(
@@ -56,7 +58,7 @@ const useFormRouting = (router = {}, URLS) => {
       const nextPage = pages[currentPageIndex + 1] ?? URLS.ERROR;
       router.push(nextPage);
     },
-    [getCurrentPageFromRouter, pages, URLS.ERROR, router],
+    [getCurrentPageFromRouter, pages, router],
   );
   const goToPreviousPage = useCallback(
     () => {
@@ -65,7 +67,7 @@ const useFormRouting = (router = {}, URLS) => {
       const nextPage = pages[currentPageIndex - 1] ?? URLS.ERROR;
       router.push(nextPage);
     },
-    [getCurrentPageFromRouter, pages, URLS.ERROR, router],
+    [getCurrentPageFromRouter, pages, router],
   );
 
   return {

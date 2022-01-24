@@ -1,19 +1,21 @@
 import React, { useMemo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { makeSelectForm } from '../../selectors';
+import { makeSelectForm } from '../selectors';
 
-import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { useFormRouting } from '../../hooks/useFormRouting';
-import { URLS } from '../../utils/navigation/pre-check-in';
+import { useSessionStorage } from '../hooks/useSessionStorage';
+import { useFormRouting } from '../hooks/useFormRouting';
 
-const withForm = Component => {
+import { URLS } from '../utils/navigation';
+
+const withForm = (Component, options = {}) => {
+  const { isPreCheckIn } = options;
   return props => {
     const { router } = props;
     const selectForm = useMemo(makeSelectForm, []);
     const form = useSelector(selectForm);
-    const { jumpToPage, goToErrorPage } = useFormRouting(router, URLS);
-    const { getCurrentToken } = useSessionStorage();
+    const { jumpToPage, goToErrorPage } = useFormRouting(router);
+    const { getCurrentToken } = useSessionStorage(isPreCheckIn);
 
     useEffect(
       () => {

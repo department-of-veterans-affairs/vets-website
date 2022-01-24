@@ -74,7 +74,7 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
       </div>
       {pendingAppointments?.length > 0 && (
         <>
-          <p>
+          <p className="vaos-hide-for-print">
             Below is your list of appointment requests that haven’t been
             scheduled yet.
           </p>

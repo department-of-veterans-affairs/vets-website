@@ -15,8 +15,9 @@ import { createAnalyticsSlug } from '../../../utils/analytics';
 import {
   createForm,
   getTokenFromLocation,
-  URLS,
 } from '../../../utils/navigation/pre-check-in';
+
+import { URLS } from '../../../utils/navigation';
 import { isUUID, SCOPES } from '../../../utils/token-format-validator';
 
 export default function Index(props) {
@@ -38,7 +39,7 @@ export default function Index(props) {
   );
 
   const { router } = props;
-  const { goToErrorPage, jumpToPage } = useFormRouting(router, URLS);
+  const { goToErrorPage, jumpToPage } = useFormRouting(router);
   const { clearCurrentSession, setCurrentToken } = useSessionStorage();
 
   useEffect(

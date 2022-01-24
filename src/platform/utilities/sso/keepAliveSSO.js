@@ -4,6 +4,7 @@ import {
   CSP_AUTHN,
   AUTHN_HEADERS,
   CAUGHT_EXCEPTIONS,
+  MHV_SKIP_DUPE,
 } from './constants';
 
 const SENTRY_LOG_THRESHOLD = [Sentry.Severity.Info];
@@ -33,6 +34,8 @@ const logToSentry = data => {
   return isCaptured;
 };
 
+const sanitizeAuthn = authnCtx => authnCtx.replace(MHV_SKIP_DUPE, '');
+
 export default async function keepAlive() {
   /* Return a TTL and authn values from the IAM keepalive endpoint that
   * 1) indicates how long the user's current SSOe session will be alive for,
@@ -57,17 +60,18 @@ export default async function keepAlive() {
      * Use mapped authncontext for DS Logon and MHV
      * Use `authncontextclassref` lookup for ID.me and Login.gov
      */
+    const authn = {
+      DSLogon: CSP_AUTHN.DS_LOGON,
+      mhv: CSP_AUTHN.MHV,
+      LOGINGOV: resp.headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
+      idme: resp.headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
+    }[resp.headers.get(AUTHN_HEADERS.CSP)];
 
     return {
       ttl:
         alive === 'true' ? Number(resp.headers.get(AUTHN_HEADERS.TIMEOUT)) : 0,
       transactionid: resp.headers.get(AUTHN_HEADERS.TRANSACTION_ID),
-      authn: {
-        DSLogon: CSP_AUTHN.DS_LOGON,
-        mhv: CSP_AUTHN.MHV,
-        LOGINGOV: resp.headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
-        idme: resp.headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
-      }[resp.headers.get(AUTHN_HEADERS.CSP)],
+      authn: sanitizeAuthn(authn),
     };
   } catch (err) {
     logToSentry(err);

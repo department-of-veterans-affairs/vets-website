@@ -19,6 +19,7 @@ import {
 
 const App = props => {
   const {
+    downloadURL,
     loggedIn,
     certificateOfEligibility: { generateAutoCoeStatus, profileIsUpdating, coe },
     hasSavedForm,
@@ -51,10 +52,12 @@ const App = props => {
   ) {
     switch (coe.status) {
       case COE_ELIGIBILITY_STATUS.available:
-        content = <CoeAvailable />;
+        content = <CoeAvailable downloadURL={downloadURL} />;
         break;
       case COE_ELIGIBILITY_STATUS.eligible:
-        content = <CoeEligible clickHandler={clickHandler} />;
+        content = (
+          <CoeEligible clickHandler={clickHandler} downloadURL={downloadURL} />
+        );
         break;
       case COE_ELIGIBILITY_STATUS.ineligible:
         content = <CoeIneligible />;
@@ -63,10 +66,20 @@ const App = props => {
         content = <CoeDenied />;
         break;
       case COE_ELIGIBILITY_STATUS.pending:
-        content = <CoePending notOnUploadPage />;
+        content = (
+          <CoePending
+            notOnUploadPage
+            applicationCreateDate={coe.applicationCreateDate}
+          />
+        );
         break;
       case COE_ELIGIBILITY_STATUS.pendingUpload:
-        content = <CoePending uploadsNeeded />;
+        content = (
+          <CoePending
+            uploadsNeeded
+            applicationCreateDate={coe.applicationCreateDate}
+          />
+        );
         break;
       default:
         content = <CoeIneligible />;
@@ -91,6 +104,7 @@ const App = props => {
 };
 
 const mapStateToProps = state => ({
+  downloadURL: state.certificateOfEligibility.downloadURL,
   user: state.user,
   loggedIn: isLoggedIn(state),
   certificateOfEligibility: state.certificateOfEligibility,
