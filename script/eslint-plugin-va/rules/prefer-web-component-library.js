@@ -3,6 +3,10 @@ const telephoneTransformer = (context, node) => {
   const patternNode = node.openingElement.attributes.find(
     n => n.name.name === 'pattern',
   );
+  const notClickableNode = node.openingElement.attributes.find(
+    n => n.name.name === 'notClickable',
+  );
+
   let international = false;
   if (patternNode) {
     const patternType = patternNode.value.expression.property;
@@ -21,6 +25,9 @@ const telephoneTransformer = (context, node) => {
           ? fixer.insertTextBefore(patternNode, 'international')
           : null,
         patternNode ? fixer.remove(patternNode) : null,
+        notClickableNode
+          ? fixer.replaceText(notClickableNode, 'not-clickable')
+          : null,
       ].filter(i => !!i);
     },
   });
