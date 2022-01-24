@@ -1,44 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 
-import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
-import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
-import { FIELD_NAMES } from '@@vap-svc/constants';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import AddressView from '@@vap-svc/components/AddressField/AddressView';
 
-import { selectProfile } from '~/platform/user/selectors';
+import { selectProfile } from 'platform/user/selectors';
 
 import { readableList } from '../utils/helpers';
 
 export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
   const [hadError, setHadError] = useState(false);
-
-  /* use vapContactInfo because it comes directly from the profile. We're using
-   * VAP components to render the information along with an edit button. Editing
-   * and updating will refresh the store user > profile > vapContactInfo. Once
-   * that is done, the FormApp outer wrapper _should_ automatically update the
-   * formData.veteran for email, phone & address - the validation function then
-   * checks for these values and prevents or allows advancement in the form -
-   * this is convoluted but it's the only way to block the form system continue
-   * button to prevent continuing on in the form when we're missing essential
-   * details; this also prevents the modal with a nested form from causing the
-   * page to advance upon updating the modal content
-   */
   const { email = {}, mobilePhone = {}, mailingAddress = {} } =
     profile?.vapContactInfo || {};
   const { submitted } = formContext || {};
 
   // Don't require an address if the Veteran is homeless
   const requireAddress = homeless ? '' : 'address';
-
   const missingInfo = [
     email?.emailAddress ? '' : 'email',
     mobilePhone?.phoneNumber ? '' : 'phone',
-    mailingAddress.addressLine1 ? '' : requireAddress,
+    mailingAddress?.addressLine1 ? '' : requireAddress,
   ].filter(Boolean);
 
   const list = readableList(missingInfo);
   const plural = missingInfo.length > 1;
+  const phoneNumber = `${mobilePhone?.areaCode ||
+    ''}${mobilePhone?.phoneNumber || ''}`;
+  const phoneExt = mobilePhone?.extension;
 
   useEffect(
     () => {
@@ -50,11 +40,43 @@ export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
     [missingInfo],
   );
 
+  // loop to separate pages
+  const contactSection = (
+    <>
+      <h4 className="vads-u-font-size--h3">Mobile phone number</h4>
+      <Telephone contact={phoneNumber} extension={phoneExt} notClickable />
+      <p>
+        <Link to="/edit-mobile-phone" aria-label="Edit mobile phone number">
+          Edit
+        </Link>
+      </p>
+      <h4 className="vads-u-font-size--h3">Email address</h4>
+      <span>{email?.emailAddress || ''}</span>
+      <p>
+        <Link to="/edit-email-address" aria-label="Edit email address">
+          Edit
+        </Link>
+      </p>
+      <h4 className="vads-u-font-size--h3">Mailing address</h4>
+      <AddressView data={mailingAddress} />
+      <p>
+        <Link to="/edit-mailing-address" aria-label="Edit mailing address">
+          Edit
+        </Link>
+      </p>
+    </>
+  );
+
   return (
     <>
+      <h3 className="vads-u-margin-top--0">Contact Information</h3>
       <p>
         This is the contact information we have on file for you. We’ll send any
-        updates or information about your Board Appeal request to this address.
+        updates or information about your Higher-Level Review to this address.
+      </p>
+      <p>
+        <strong>Note:</strong> Any updates you make here will be reflected in
+        your VA.gov profile.
       </p>
       {hadError &&
         missingInfo.length === 0 && (
@@ -94,31 +116,17 @@ export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
           </div>
         </>
       )}
-      <div
-        className="va-profile-wrapper blue-bar-block vads-u-margin-y--4"
-        onSubmit={event => {
-          // This prevents this nested form submit event from passing to the
-          // outer form and causing a page advance
-          event.stopPropagation();
-        }}
-      >
-        <InitializeVAPServiceID>
-          <h3>Mobile phone number</h3>
-          <ProfileInformationFieldController
-            fieldName={FIELD_NAMES.MOBILE_PHONE}
-            isDeleteDisabled
-          />
-          <h3>Email address</h3>
-          <ProfileInformationFieldController
-            fieldName={FIELD_NAMES.EMAIL}
-            isDeleteDisabled
-          />
-          <h3>Mailing address</h3>
-          <ProfileInformationFieldController
-            fieldName={FIELD_NAMES.MAILING_ADDRESS}
-            isDeleteDisabled
-          />
-        </InitializeVAPServiceID>
+      <div className="blue-bar-block vads-u-margin-top--4">
+        <div
+          className="va-profile-wrapper"
+          onSubmit={event => {
+            // This prevents this nested form submit event from passing to the
+            // outer form and causing a page advance
+            event.stopPropagation();
+          }}
+        >
+          {contactSection}
+        </div>
       </div>
     </>
   );
