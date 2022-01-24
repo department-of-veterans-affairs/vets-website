@@ -276,12 +276,15 @@ module.exports = async (env = {}) => {
     buildOptions.destination,
   );
 
+  const publicPathHost = BUCKETS[buildtype] || '';
+  const publicPath = `${publicPathHost}/generated/`;
+
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
     output: {
       path: path.resolve(buildPath, 'generated'),
-      publicPath: '/generated/',
+      publicPath,
       filename: '[name].entry.js',
       chunkFilename: '[name].entry.js',
     },
