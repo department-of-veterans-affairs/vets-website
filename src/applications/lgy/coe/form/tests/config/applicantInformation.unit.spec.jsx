@@ -8,22 +8,9 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import createCommonStore from 'platform/startup/store';
-import ApplicantInformationSummary from '../../config/chapters/applicant/ApplicantInformationSummary';
 import formConfig from '../../config/form.js';
 
 const defaultStore = createCommonStore();
-
-describe('<ApplicantInformationSummary />', () => {
-  it('Should Render', () => {
-    const wrapper = render(
-      <Provider store={defaultStore}>
-        <ApplicantInformationSummary />
-      </Provider>,
-    );
-
-    expect(wrapper.findByText(/Date of birth: /)).to.exist;
-  });
-});
 
 describe('COE applicant information', () => {
   const {
