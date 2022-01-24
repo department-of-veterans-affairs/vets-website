@@ -1,6 +1,6 @@
 import React from 'react';
 
-import withOnlyOnLocal from '../containers/withOnlyOnLocal';
+import withOnlyOnLocal from '../../containers/withOnlyOnLocal';
 
 function BackToHome() {
   return (
