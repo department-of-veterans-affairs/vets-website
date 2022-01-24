@@ -6,6 +6,7 @@ import recordEvent from '~/platform/monitoring/record-event';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import { focusElement } from '~/platform/utilities/ui';
 import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
+import CopyAddressModal from '@@profile/components/contact-information/addresses/CopyAddressModal';
 
 import {
   createTransaction,
@@ -41,6 +42,12 @@ import { transformInitialFormValues } from '@@profile/util/contact-information/f
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
 export class ProfileInformationEditView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isShowingCopyAddressModal: false,
+    };
+  }
   static propTypes = {
     activeEditView: PropTypes.string,
     analyticsSectionName: PropTypes.oneOf(
@@ -239,9 +246,25 @@ export class ProfileInformationEditView extends Component {
     );
   };
 
+  compareAddresses = () => {
+    // console.log('COMPARE ADDRESSES');
+    // console.log(this.copyMailingAddress);
+    this.setState({ isShowingCopyAddressModal: true });
+    // setTimeout(() => {
+    //   this.setState({ isShowingCopyAddressModal: false });
+    // }, 2500);
+  };
+
+  toggleCopyAddressModal = () => {
+    this.setState({
+      isShowingCopyAddressModal: !this.state.isShowingCopyAddressModal,
+    });
+  };
+
   render() {
     const {
       onSubmit,
+      compareAddresses,
       props: {
         analyticsSectionName,
         field,
@@ -259,6 +282,8 @@ export class ProfileInformationEditView extends Component {
       transactionRequest?.error ||
       (isFailedTransaction(transaction) ? {} : null);
 
+    const isResidentialAddress = fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS;
+
     return (
       <>
         {!!field && (
@@ -267,7 +292,21 @@ export class ProfileInformationEditView extends Component {
               this.editForm = el;
             }}
           >
-            {fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
+            {isResidentialAddress &&
+              this.state.isShowingCopyAddressModal && (
+                <CopyAddressModal
+                  isVisible={this.state.isShowingCopyAddressModal}
+                  onYes={() => {
+                    this.toggleCopyAddressModal();
+                    // console.log('ON-YES');
+                  }}
+                  onNo={() => {
+                    this.toggleCopyAddressModal();
+                    // console.log('ON-NO');
+                  }}
+                />
+              )}
+            {isResidentialAddress && (
               <CopyMailingAddress
                 copyMailingAddress={this.copyMailingAddress}
               />
@@ -285,7 +324,7 @@ export class ProfileInformationEditView extends Component {
               onChange={event =>
                 this.onInput(event, field.formSchema, field.uiSchema)
               }
-              onSubmit={onSubmit}
+              onSubmit={isResidentialAddress ? compareAddresses : onSubmit}
             >
               {error && (
                 <div
