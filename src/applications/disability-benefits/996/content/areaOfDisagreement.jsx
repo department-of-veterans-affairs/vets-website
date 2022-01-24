@@ -50,6 +50,11 @@ export const issueName = ({ formData, formContext } = {}) => {
 // "hidden" class uses an !important flag, so we're using "hide" here
 export const issusDescription = ({ formContext }) => {
   const { pagePerItemIndex, submitted } = formContext;
+
+  // submitted may be an array (until this bug is fixed)
+  // see https://dsva.slack.com/archives/CBU0KDSB1/p1639684843152000
+  const hasSubmitted = Array.isArray(submitted) || submitted;
+
   // adding data-submitted attribute; updating the class name outside of React
   // breaks the areaOfDisagreementWorkAround
   return (
@@ -57,7 +62,7 @@ export const issusDescription = ({ formContext }) => {
       key={pagePerItemIndex}
       id={`area-of-disagreement-label-${pagePerItemIndex}`}
       className="area-of-disagreement-label vads-u-font-size--base vads-u-font-weight--normal"
-      data-submitted={submitted}
+      data-submitted={hasSubmitted}
     >
       Tell us what you disagree with. You can choose more than one.
       <span className="vads-u-font-weight--normal schemaform-required-span">

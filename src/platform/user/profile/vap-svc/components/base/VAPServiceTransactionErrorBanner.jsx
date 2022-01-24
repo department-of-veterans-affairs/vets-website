@@ -4,7 +4,7 @@ import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
-import facilityLocator from '~/applications/facility-locator/manifest.json';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 import {
   hasGenericUpdateError,
@@ -90,7 +90,7 @@ export function MVILookupFailError(props) {
             Veteran records, so we can’t give you access to tools for managing
             your health and benefits.
           </p>
-          <a href={facilityLocator.rootUrl}>
+          <a href={getAppUrl('facilities')}>
             Find your nearest VA medical center
           </a>
         </div>

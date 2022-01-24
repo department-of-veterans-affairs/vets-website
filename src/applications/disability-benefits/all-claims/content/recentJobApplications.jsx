@@ -1,7 +1,5 @@
 import React from 'react';
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-
 export const recentJobApplicationsDescription = () => (
   <div>
     <p>
@@ -15,7 +13,7 @@ export const recentJobApplicationsDescription = () => (
 );
 
 export const substantiallyGainfulEmployment = () => (
-  <AdditionalInfo triggerText="What’s substantially gainful employment?">
+  <va-additional-info trigger="What’s substantially gainful employment?">
     <p>Substantially gainful employment means:</p>
     <ul>
       <li>
@@ -27,5 +25,5 @@ export const substantiallyGainfulEmployment = () => (
         person.
       </li>
     </ul>
-  </AdditionalInfo>
+  </va-additional-info>
 );

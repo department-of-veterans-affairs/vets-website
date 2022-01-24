@@ -8,7 +8,6 @@ function AboutThisTool() {
           href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp"
           target="_blank"
           rel="noopener noreferrer"
-          id="about-this-tool"
         >
           About this Tool
         </a>
@@ -16,7 +15,6 @@ function AboutThisTool() {
         <a
           className="about-this-tool-mobile"
           href="https://www.benefits.va.gov/GIBILL/docs/job_aids/ComparisonToolData.xlsx"
-          id="download-all-data"
         >
           Download Data on All Schools (Excel)
         </a>

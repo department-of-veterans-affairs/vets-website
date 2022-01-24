@@ -12,9 +12,9 @@ import AppointmentBlock from '../../components/AppointmentBlock';
 import Footer from '../../components/Footer';
 import BackToHome from '../../components/BackToHome';
 
-import { useFormRouting } from '../../hooks/useFormRouting';
+import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import { makeSelectVeteranData } from '../../selectors';
+import { makeSelectVeteranData } from '../../../selectors';
 
 const IntroductionDisplay = props => {
   useEffect(() => {

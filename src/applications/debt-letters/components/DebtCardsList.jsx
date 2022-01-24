@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-
+import DebtLetterCard from './DebtLetterCard';
+import { ErrorMessage, DowntimeMessage } from './Alerts';
 import Telephone, {
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
-import DebtLetterCard from './DebtLetterCard';
-import { ErrorMessage, DowntimeMessage } from '../components/ErrorAlerts';
 
 const DebtCardsList = ({ debts, errors }) => {
   const error = errors.length ? errors[0] : [];

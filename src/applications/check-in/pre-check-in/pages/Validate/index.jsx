@@ -1,17 +1,19 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { api } from '../../api';
+import { focusElement } from 'platform/utilities/ui';
 
-import { createSetSession } from '../../actions';
+import { api } from '../../../api';
+
+import { createSetSession } from '../../../actions/authentication';
 
 import BackToHome from '../../components/BackToHome';
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
 import Footer from '../../components/Footer';
 
-import { useFormRouting } from '../../hooks/useFormRouting';
+import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import { makeSelectCurrentContext } from '../../selectors';
+import { makeSelectCurrentContext } from '../../../selectors';
 
 export default function Index({ router }) {
   const { goToNextPage, goToErrorPage } = useFormRouting(router);
@@ -33,12 +35,9 @@ export default function Index({ router }) {
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
   const validateHandler = async () => {
-    setIsLoading(true);
     setLastNameErrorMessage();
     setLast4ErrorMessage();
     if (!lastName || !last4Ssn) {
-      setIsLoading(false);
-
       if (!lastName) {
         setLastNameErrorMessage('Please enter your last name.');
       }
@@ -48,6 +47,7 @@ export default function Index({ router }) {
         );
       }
     } else {
+      setIsLoading(true);
       try {
         const resp = await api.v2.postSession({
           token,
@@ -62,11 +62,15 @@ export default function Index({ router }) {
       }
     }
   };
+
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
   return (
     <>
       <ValidateDisplay
         header="Start pre-check-in"
-        subTitle="We need to verify your identity so you can start pre-check-in."
+        subtitle="We need to verify your identity so you can start pre-check-in."
         validateHandler={validateHandler}
         isLoading={isLoading}
         last4Input={{

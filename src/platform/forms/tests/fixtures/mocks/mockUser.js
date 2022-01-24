@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 /* eslint-disable camelcase */
 
 const mockUser = {
@@ -7,7 +8,7 @@ const mockUser = {
     attributes: {
       profile: {
         sign_in: {
-          service_name: 'idme',
+          service_name: CSP_IDS.ID_ME,
         },
         email: 'fake@fake.com',
         loa: { current: 3 },
@@ -25,13 +26,14 @@ const mockUser = {
       },
       in_progress_forms: [
         {
-          form: VA_FORM_IDS.FORM_10_10EZ,
-          last_updated: 1501608808,
+          form: VA_FORM_IDS.FORM_XX_123,
+          last_updated: 1501608808, // JS time (ms)
           metadata: {
-            last_updated: 1506792808,
-            expires_at: moment()
+            last_updated: 1506792, // unix time
+            expires_at: moment() // unix time
               .add(1, 'day')
               .unix(),
+            saved_at: 1506792808, // JS time (ms)
           },
         },
       ],

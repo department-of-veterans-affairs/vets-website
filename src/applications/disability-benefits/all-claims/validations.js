@@ -19,7 +19,6 @@ import {
   MILITARY_STATE_VALUES,
   LOWERED_DISABILITY_DESCRIPTIONS,
   NULL_CONDITION_STRING,
-  RESERVE_GUARD_TYPES,
 } from './constants';
 
 export const hasMilitaryRetiredPay = data =>
@@ -224,18 +223,10 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
   if (!_.get('servicePeriods.length', formData.serviceInformation, false)) {
     return;
   }
-  const { nationalGuard, reserve } = RESERVE_GUARD_TYPES;
 
-  // only check active duty periods
+  // find the earliest service period
   const earliestServiceStartDate = formData.serviceInformation.servicePeriods
-    .filter(
-      ({ serviceBranch = '' } = {}) =>
-        serviceBranch &&
-        !(
-          serviceBranch.includes(nationalGuard) ||
-          serviceBranch.includes(reserve)
-        ),
-    )
+    .filter(({ serviceBranch } = {}) => (serviceBranch || '') !== '')
     .map(period => moment(period.dateRange.from, 'YYYY-MM-DD'))
     .reduce(
       (earliestDate, current) =>
@@ -248,7 +239,7 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
   // the return value will be negative.
   if (treatmentStartDate.diff(earliestServiceStartDate, 'month') < 0) {
     err.addError(
-      'Your first treatment date needs to be after the start of your earliest active duty service period.',
+      'Your first treatment date needs to be after the start of your earliest service period.',
     );
   }
 }

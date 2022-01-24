@@ -212,9 +212,9 @@ export function prefillTransformer(pages, formData, metadata, state) {
     claimantId: claimant.claimantId,
     'view:userFullName': {
       userFullName: {
-        first: claimant.firstName,
-        middle: claimant.middleName,
-        last: claimant.lastName,
+        first: claimant.firstName || undefined,
+        middle: claimant.middleName || undefined,
+        last: claimant.lastName || undefined,
       },
     },
     dateOfBirth: claimant.dateOfBirth,

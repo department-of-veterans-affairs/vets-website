@@ -24,6 +24,8 @@ export default {
   icmhs: 'icmhs',
   // ID.me, identity provider
   idme: 'idme',
+  // Login.gov, identity provider
+  logingov: 'logingov',
   // Master Veteran Index (source of veteran profile info)
   mvi: 'mvi',
   // My HealtheVet
@@ -46,4 +48,6 @@ export default {
   vic: 'vic',
   // veteran readiness and employment
   vre: 'vre',
+  // veteran benefit services (used to source medical copay debt)
+  vbs: 'vbs',
 };

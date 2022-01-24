@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { MissingServices } from './MissingServices';
 
 import {
@@ -15,12 +14,13 @@ import {
 
 const message =
   'We’re doing some additional work to enable you to file a claim...';
+const label = 'We’re doing some additional work';
 
 const loading = title => (
   <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
     <div className="usa-content">
       <h1>{title}</h1>
-      <LoadingIndicator message={message} />
+      <va-loading-indicator message={message} label={label} />
     </div>
   </div>
 );

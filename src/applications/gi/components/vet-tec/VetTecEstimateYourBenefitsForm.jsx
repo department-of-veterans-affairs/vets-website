@@ -11,7 +11,7 @@ import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
 import { focusElement } from 'platform/utilities/ui';
-import { renderLearnMoreLabel } from '../../utils/render';
+import LearnMoreLabel from '../LearnMoreLabel';
 
 class VetTecEstimateYourBenefitsForm extends React.Component {
   constructor(props) {
@@ -89,15 +89,14 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     focusElement('.estimated-benefits-header');
   };
 
-  renderLearnMoreLabel = ({ text, modal, ariaLabel, labelFor }) =>
-    renderLearnMoreLabel({
-      text,
-      modal,
-      ariaLabel,
-      showModal: this.props.showModal,
-      component: this,
-      labelFor,
-    });
+  renderLearnMoreLabel = ({ text, modal, ariaLabel, labelFor }) => (
+    <LearnMoreLabel
+      text={text}
+      onClick={() => this.props.showModal(modal)}
+      ariaLabel={ariaLabel}
+      labelFor={labelFor}
+    />
+  );
 
   renderScholarships = () => (
     <div id="scholarships-field">

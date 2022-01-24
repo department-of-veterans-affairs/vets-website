@@ -8,11 +8,11 @@ import EmergencyContact from './pages/EmergencyContact';
 import Confirmation from './pages/Confirmation';
 import Landing from './pages/Landing';
 import Error from './pages/Error';
-import { URLS } from './utils/navigation';
+import { URLS } from '../utils/navigation';
 
-import withFeatureFlip from './containers/withFeatureFlip';
-import withAuthorization from './containers/withAuthorization';
-import withForm from './containers/withForm';
+import withFeatureFlip from '../containers/withFeatureFlip';
+import withAuthorization from '../containers/withAuthorization';
+import withForm from '../containers/withForm';
 
 const routes = [
   {
@@ -76,21 +76,22 @@ const createRoutesWithStore = () => {
   return (
     <Switch>
       {routes.map((route, i) => {
+        const options = { isPreCheckIn: true };
         let component = route.component;
         if (route.permissions) {
           const { requiresForm, requireAuthorization } = route.permissions;
           if (requiresForm) {
-            component = withForm(component);
+            component = withForm(component, options);
           }
           if (requireAuthorization) {
-            component = withAuthorization(component);
+            component = withAuthorization(component, options);
           }
         }
 
         return (
           <Route
             path={`/${route.path}`}
-            component={withFeatureFlip(component)}
+            component={withFeatureFlip(component, options)}
             key={i}
           />
         );

@@ -9,6 +9,8 @@ import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import UpdateInformationQuestion from '../UpdateInformationQuestion';
 
+import { createMockRouter } from '../../../tests/unit/mocks/router';
+
 describe('check in', () => {
   describe('UpdateInformationQuestion', () => {
     let store;
@@ -22,6 +24,9 @@ describe('check in', () => {
             appointmentTime: '2021-07-06 12:58:39 UTC',
             facilityName: 'Acme VA',
             clinicName: 'Green Team Clinic1',
+          },
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
           },
         },
       };
@@ -48,12 +53,12 @@ describe('check in', () => {
     });
     it('has a clickable yes button', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
         params: {
           token: 'token-123',
         },
-      };
+      });
 
       const component = render(
         <Provider store={store}>
@@ -67,12 +72,12 @@ describe('check in', () => {
     });
     it('has a clickable no button', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
         params: {
           token: 'token-123',
         },
-      };
+      });
 
       const component = render(
         <Provider store={store}>
