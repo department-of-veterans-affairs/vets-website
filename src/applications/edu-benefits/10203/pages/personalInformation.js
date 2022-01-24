@@ -54,6 +54,7 @@ export const uiSchema = {
   receiveTexts: {
     'ui:title':
       'I would like to receive text messages from VA about my GI Bill benefits.',
+    'ui:widget': 'checkbox',
   },
   'view:housingPaymentInfo': {
     'ui:description': receiveTextsAlert,
