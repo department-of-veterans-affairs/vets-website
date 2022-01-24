@@ -2,7 +2,6 @@
 import React from 'react';
 // Relative
 import startReactApp from '../../startup/react';
-// import SideNav from './components/SideNav';
 import { normalizeSideNavData } from './helpers';
 import widgetTypes from '~/applications/static-pages/widgetTypes';
 
