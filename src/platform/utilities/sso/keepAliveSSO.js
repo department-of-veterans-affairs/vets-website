@@ -36,6 +36,12 @@ const logToSentry = data => {
 
 const sanitizeAuthn = authnCtx => authnCtx.replace(MHV_SKIP_DUPE, '');
 
+const defaultKeepAliveResponse = {
+  ttl: 0,
+  transactionid: null,
+  authn: undefined,
+};
+
 export default async function keepAlive() {
   /* Return a TTL and authn values from the IAM keepalive endpoint that
   * 1) indicates how long the user's current SSOe session will be alive for,
@@ -53,9 +59,14 @@ export default async function keepAlive() {
       cache: 'no-store',
     });
 
-    await resp.text();
     const alive = resp.headers.get(AUTHN_HEADERS.ALIVE);
 
+    // If no CSP headers (user not logged in when keepalive hit)
+    if (resp.headers.get(AUTHN_HEADERS.CSP) === undefined) {
+      return defaultKeepAliveResponse;
+    }
+
+    await resp.text();
     /**
      * Use mapped authncontext for DS Logon and MHV
      * Use `authncontextclassref` lookup for ID.me and Login.gov
