@@ -24,8 +24,12 @@ describe('Coronavirus Research Volunteer Form V2', () => {
     DIAGNOSED_SYMPTOMS: {
       'DIAGNOSED_SYMPTOMS::VISION': true,
     },
-    vaccinated: false,
-    VACCINATED_PLAN: 'DEFINITELY',
+    vaccinated: true,
+    VACCINATED_DETAILS: 'MODERNA',
+    VACCINATED_DATE1: '2020-01-01',
+    VACCINATED_DATE2: '2020-02-01',
+    VACCINATED_SECOND: false,
+    VACCINATED_ADDITIONAL1: false,
     closeContactPositive: 'UNSURE',
     hospitalized: true,
     smokeOrVape: false,
@@ -64,7 +68,7 @@ describe('Coronavirus Research Volunteer Form V2', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(103);
+    expect(form.find('input').length).to.equal(108);
     form.unmount();
   });
 
@@ -468,7 +472,8 @@ describe('Coronavirus Research Volunteer Form V2', () => {
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
-  it('should show Vaccinated Plan Radios when Vaccinated response is No', () => {
+
+  it('should show Vaccinated Detail Radios when Vaccinated response is Yes', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -480,10 +485,12 @@ describe('Coronavirus Research Volunteer Form V2', () => {
         uiSchema={uiSchema}
       />,
     );
-    selectRadio(form, 'root_vaccinated', 'N');
+    selectRadio(form, 'root_vaccinated', 'Y');
 
     form.find('form').simulate('submit');
-    expect(form.find('input[id="root_VACCINATED_PLAN_0"]').length).to.equal(1);
+    expect(form.find('input[id="root_VACCINATED_DETAILS_0"]').length).to.equal(
+      1,
+    );
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });

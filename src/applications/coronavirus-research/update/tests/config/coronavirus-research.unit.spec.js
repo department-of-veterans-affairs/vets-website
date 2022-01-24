@@ -11,14 +11,21 @@ import {
 
 import formConfig from '../../config/form.js';
 
-describe('Coronavirus Research Volunteer Form', () => {
+describe('Coronavirus Research Volunteer Form Update', () => {
   const { schema, uiSchema } = formConfig.chapters.chapter1.pages.page1;
 
   const volunteerData = () => ({
+    vaccinated: false,
+    VACCINATED_PLAN: 'DEFINITELY',
     diagnosed: true,
     DIAGNOSED_DETAILS: {
       'DIAGNOSED_DETAILS::ANTIBODY_BLOOD_TEST': true,
     },
+    DIAGNOSED_SYMPTOMS: {
+      'DIAGNOSED_SYMPTOMS::VISION': true,
+    },
+    ELIGIBLE: false,
+    FACILITY: true,
     zipCode: '99988',
     consentAgreementAccepted: true,
   });
@@ -32,7 +39,7 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(77);
+    expect(form.find('input').length).to.equal(32);
     form.unmount();
   });
 
@@ -48,8 +55,8 @@ describe('Coronavirus Research Volunteer Form', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(18);
-    expect(form.find('.input-error-date').length).to.equal(1);
+    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.input-error-date').length).to.equal(0);
 
     expect(onSubmit.called).to.be.false;
     form.unmount();
@@ -73,6 +80,52 @@ describe('Coronavirus Research Volunteer Form', () => {
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
+
+  // it('should show Zip Code when Facility response is Yes', () => {
+  //   const onSubmit = sinon.spy();
+  //   const form = mount(
+  //     <DefinitionTester
+  //       pagePerItemIndex={0}
+  //       schema={schema}
+  //       data={volunteerData()}
+  //       definitions={formConfig.defaultDefinitions}
+  //       onSubmit={onSubmit}
+  //       uiSchema={uiSchema}
+  //     />,
+  //   );
+  //   selectRadio(form, 'root_FACILITY', 'Y');
+
+  //   form.find('form').simulate('submit');
+  //   expect(
+  //     form.find(
+  //       'input[id="root_zipCode"]',
+  //     ).length,
+  //   ).to.equal(1);
+  //   expect(onSubmit.called).to.be.true;
+  //   form.unmount();
+  // });
+
+  // it('should show Zip Code when Facility response is Yes', () => {
+  //   const onSubmit = sinon.spy();
+  //   const form = mount(
+  //     <DefinitionTester
+  //       pagePerItemIndex={0}
+  //       schema={schema}
+  //       data={volunteerData()}
+  //       definitions={formConfig.defaultDefinitions}
+  //       onSubmit={onSubmit}
+  //       uiSchema={uiSchema}
+  //     />,
+  //   );
+  //   selectRadio(form, 'root_FACILITY', 'Y');
+  //   fillData(form, 'input#root_zipCode', '555556');
+
+  //   form.find('form').simulate('submit');
+  //   expect(form.find('.usa-input-error').length).to.equal(1);
+  //   expect(form.find('.input-error-date').length).to.equal(0);
+  //   expect(onSubmit.called).to.be.true;
+  //   form.unmount();
+  // });
 
   it('should not allow malformed postal (zip) code', () => {
     const onSubmit = sinon.spy();
@@ -170,6 +223,26 @@ describe('Coronavirus Research Volunteer Form', () => {
       ).length,
     ).to.equal(0);
     // expect(form.find('.input-error-date').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
+
+  it('should show Vaccinated Plan Radios when Vaccinated response is No', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        pagePerItemIndex={0}
+        schema={schema}
+        data={volunteerData()}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    selectRadio(form, 'root_vaccinated', 'N');
+
+    form.find('form').simulate('submit');
+    expect(form.find('input[id="root_VACCINATED_PLAN_0"]').length).to.equal(1);
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
