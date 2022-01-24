@@ -101,7 +101,6 @@ export default function Index(props) {
   );
   return (
     <>
-      {router.thing.nope}
       <va-loading-indicator message={loadMessage} />
     </>
   );
