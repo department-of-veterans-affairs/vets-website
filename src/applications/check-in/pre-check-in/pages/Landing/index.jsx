@@ -64,6 +64,7 @@ export default function Index(props) {
           .getSession(token)
           .then(session => {
             // if successful, dispatch session data  into redux and current window
+
             if (session.error || session.errors) {
               clearCurrentSession(window);
               goToErrorPage();
@@ -100,6 +101,7 @@ export default function Index(props) {
   );
   return (
     <>
+      {router.thing.nope}
       <va-loading-indicator message={loadMessage} />
     </>
   );
