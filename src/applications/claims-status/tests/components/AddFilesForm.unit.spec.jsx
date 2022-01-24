@@ -331,6 +331,44 @@ describe('<AddFilesForm>', () => {
     expect(tree.getMountedInstance().state.errorMessage).to.be.null;
   });
 
+  it('should add a valid file text file of valid size', () => {
+    const files = [];
+    const field = { value: '', dirty: false };
+    const onSubmit = sinon.spy();
+    const onAddFile = sinon.spy();
+    const onRemoveFile = sinon.spy();
+    const onFieldChange = sinon.spy();
+    const onCancel = sinon.spy();
+    const onDirtyFields = sinon.spy();
+    const mockReadAndCheckFile = () => ({
+      checkIsEncryptedPdf: false,
+      checkTypeAndExtensionMatches: true,
+    });
+
+    const tree = SkinDeep.shallowRender(
+      <AddFilesForm
+        files={files}
+        field={field}
+        onSubmit={onSubmit}
+        onAddFile={onAddFile}
+        onRemoveFile={onRemoveFile}
+        onFieldChange={onFieldChange}
+        onCancel={onCancel}
+        onDirtyFields={onDirtyFields}
+        mockReadAndCheckFile={mockReadAndCheckFile}
+      />,
+    );
+    tree.getMountedInstance().add([
+      {
+        name: 'valid.txt',
+        type: fileTypeSignatures.txt.mime,
+        size: 95,
+      },
+    ]);
+    expect(onAddFile.called).to.be.true;
+    expect(tree.getMountedInstance().state.errorMessage).to.be.null;
+  });
+
   it('should add a large PDF file', () => {
     const files = [];
     const field = { value: '', dirty: false };
