@@ -1,6 +1,6 @@
 {
   "allow": {
     "entryNames": ["vaos"],
-    "rootAppFolders": []
+    "rootAppFolders": ["check-in"]
   }
 }

@@ -754,7 +754,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       kind: 'cc',
       locationId: '983GC',
       id: '1234',
-      practitioners: [{ identifier: { value: '123' } }],
+      practitioners: [{ identifier: [{ value: '123' }] }],
       preferredTimesForPhoneCall: ['Morning'],
       reason: 'New Issue',
       requestedPeriods: [

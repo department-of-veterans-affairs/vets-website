@@ -328,6 +328,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
 
   it('should show cc request', async () => {
     // Given a veteran has CC appointment request
+    // TODO: practitioners.id is same as practitioners.identifier
     const startDate = moment.utc();
     const ccAppointmentRequest = getVAOSRequestMock();
     ccAppointmentRequest.id = '1234';
@@ -342,7 +343,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
       kind: 'cc',
       locationId: '983GC',
       id: '1234',
-      practitioners: [{ id: { value: '123' } }],
+      practitioners: [{ id: [{ value: '123' }] }],
       preferredTimesForPhoneCall: ['Morning'],
       reason: 'Routine Follow-up',
       requestedPeriods: [
