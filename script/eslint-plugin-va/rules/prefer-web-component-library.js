@@ -3,6 +3,12 @@ const telephoneTransformer = (context, node) => {
   const patternNode = node.openingElement.attributes.find(
     n => n.name.name === 'pattern',
   );
+  let international = false;
+  if (patternNode) {
+    const patternType = patternNode.value.expression.property;
+    if (patternType.name === 'OUTSIDE_US') international = true;
+  }
+
   context.report({
     node,
     message: 'Testing',
@@ -11,6 +17,9 @@ const telephoneTransformer = (context, node) => {
       // and remove the `pattern` prop if it's there
       return [
         fixer.replaceText(componentName, 'va-telephone'),
+        international
+          ? fixer.insertTextBefore(patternNode, 'international')
+          : null,
         patternNode ? fixer.remove(patternNode) : null,
       ].filter(i => !!i);
     },
