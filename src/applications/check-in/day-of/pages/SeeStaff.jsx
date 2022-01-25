@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import BackToHome from '../components/BackToHome';
-import Footer from '../components/Footer';
+import BackToHome from '../../components/BackToHome';
+import Footer from '../../components/Footer';
 import { focusElement } from 'platform/utilities/ui';
 import BackButton from '../../components/BackButton';
 
 import { makeSelectSeeStaffMessage } from '../hooks/selectors';
-import TravelPayReimbursementLink from '../components/TravelPayReimbursementLink';
+import TravelPayReimbursementLink from '../../components/TravelPayReimbursementLink';
 
 const SeeStaff = props => {
   const { router } = props;
@@ -29,8 +29,8 @@ const SeeStaff = props => {
         <p>Our staff can help you update your contact information.</p>
       )}
       <TravelPayReimbursementLink />
-      <Footer />
-      <BackToHome />
+      <Footer isPreCheckIn={false} />
+      <BackToHome isPreCheckIn={false} />
     </div>
   );
 };

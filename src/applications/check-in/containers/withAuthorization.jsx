@@ -1,22 +1,23 @@
 import React, { useMemo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { makeSelectCurrentContext } from '../../selectors';
+import { makeSelectCurrentContext } from '../selectors';
 
-import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { useFormRouting } from '../../hooks/useFormRouting';
+import { useSessionStorage } from '../hooks/useSessionStorage';
+import { useFormRouting } from '../hooks/useFormRouting';
 
-import { SCOPES } from '../../utils/token-format-validator';
-import { URLS } from '../../utils/navigation';
+import { SCOPES } from '../utils/token-format-validator';
+import { URLS } from '../utils/navigation';
 
-const withAuthorization = Component => {
+const withAuthorization = (Component, options) => {
+  const { isPreCheckIn } = options;
   return props => {
     const { router } = props;
     const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
     const { token, permissions } = useSelector(selectCurrentContext);
 
     const { jumpToPage, goToErrorPage } = useFormRouting(router);
-    const { getCurrentToken } = useSessionStorage();
+    const { getCurrentToken } = useSessionStorage(isPreCheckIn);
 
     useEffect(
       () => {

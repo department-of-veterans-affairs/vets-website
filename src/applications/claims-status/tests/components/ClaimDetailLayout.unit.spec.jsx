@@ -8,7 +8,7 @@ describe('<ClaimDetailLayout>', () => {
   it('should render loading indicator', () => {
     const tree = SkinDeep.shallowRender(<ClaimDetailLayout loading />);
 
-    expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
+    expect(tree.everySubTree('va-loading-indicator')).not.to.be.empty;
   });
   it('should render sync warning', () => {
     const claim = {

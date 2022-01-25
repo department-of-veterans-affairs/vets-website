@@ -6,7 +6,7 @@ import Breadcrumbs from '@department-of-veterans-affairs/component-library/Bread
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 
-import { fetchPersonalInformation } from '../actions';
+import { fetchPersonalInformation, fetchEligibility } from '../actions';
 
 export const App = ({
   // loggedIn,
@@ -18,6 +18,8 @@ export const App = ({
   setFormData,
   getPersonalInfo,
   firstName,
+  getEligibility,
+  eligibility,
 }) => {
   useEffect(
     () => {
@@ -29,6 +31,14 @@ export const App = ({
       // }
       if (!firstName) {
         getPersonalInfo();
+      }
+      if (!eligibility) {
+        getEligibility();
+      } else if (!formData.eligibility) {
+        setFormData({
+          ...formData,
+          eligibility,
+        });
       }
       // The following works and sets data after the initial form load.
       // However, we have to be careful to not wipe out manual from a saved form.
@@ -48,7 +58,14 @@ export const App = ({
       //   cleanup
       // }
     },
-    [formData, setFormData, firstName, getPersonalInfo],
+    [
+      formData,
+      setFormData,
+      firstName,
+      getPersonalInfo,
+      getEligibility,
+      eligibility,
+    ],
   );
 
   return (
@@ -78,6 +95,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   setFormData: setData,
   getPersonalInfo: fetchPersonalInformation,
+  getEligibility: fetchEligibility,
 };
 
 export default connect(
