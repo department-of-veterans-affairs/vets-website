@@ -11,7 +11,7 @@ export const uiSchema = {
   'ui:options': {
     forceDivWrapper: true,
   },
-  'view:skip781ForCombatReason': {
+  skip781ForCombatReason: {
     'ui:title': ptsdBypassRadioLabel,
     'ui:required': showPtsdCombat,
     'ui:widget': 'yesNo',
@@ -25,7 +25,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:skip781ForCombatReason': {
+    skip781ForCombatReason: {
       type: 'boolean',
     },
     'view:ptsdCombatBypassAdditionalInfo': {
