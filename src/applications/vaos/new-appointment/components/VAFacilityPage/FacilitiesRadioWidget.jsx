@@ -116,7 +116,8 @@ export default function FacilitiesRadioWidget({
               level="3"
             >
               <p>Make sure your browser’s location feature is turned on.</p>
-              <a
+              <button
+                className="va-button-link"
                 onClick={() =>
                   updateFacilitySortMethod(
                     FACILITY_SORT_METHODS.distanceFromCurrentLocation,
@@ -124,7 +125,7 @@ export default function FacilitiesRadioWidget({
                 }
               >
                 Retry searching based on current location
-              </a>
+              </button>
             </InfoAlert>
           </div>
         )}
