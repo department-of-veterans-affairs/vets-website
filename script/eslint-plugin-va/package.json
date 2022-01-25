@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-va",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "index.js",
   "engines": {
     "node": ">= 12"

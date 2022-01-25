@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 
-import AppointmentListItem from '../../components/AppointmentDisplay/AppointmentListItem';
+import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import BackButton from '../../../components/BackButton';
-import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/Footer';
+import BackToHome from '../../../components/BackToHome';
+import Footer from '../../../components/Footer';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -68,8 +68,8 @@ const DisplayMultipleAppointments = props => {
           Refresh
         </a>
       </p>
-      <Footer />
-      <BackToHome />
+      <Footer isPreCheckIn={false} />
+      <BackToHome isPreCheckIn={false} />
     </div>
   );
 };

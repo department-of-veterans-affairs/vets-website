@@ -1,0 +1,6 @@
+{
+  "appName": "Enrollment Verification",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "enrollment-verification",
+  "rootUrl": "/enrollment-history"
+}

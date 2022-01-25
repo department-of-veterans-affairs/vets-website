@@ -8,9 +8,9 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 
 import { focusElement } from 'platform/utilities/ui';
 
-import AppointmentBlock from '../../components/AppointmentBlock';
-import Footer from '../../components/Footer';
-import BackToHome from '../../components/BackToHome';
+import AppointmentBlock from '../../../components/AppointmentBlock';
+import Footer from '../../../components/Footer';
+import BackToHome from '../../../components/BackToHome';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
@@ -159,7 +159,7 @@ const IntroductionDisplay = props => {
           Privacy Act Statement
         </a>
       </div>
-      <Footer additionalInformation={additionalFooterInfo} />
+      <Footer message={additionalFooterInfo} />
       <BackToHome />
       <Modal
         onClose={() => setPrivacyActModalOpen(false)}

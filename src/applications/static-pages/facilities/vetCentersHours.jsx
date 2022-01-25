@@ -34,9 +34,7 @@ const VetCenterHours = props => {
             {arrayOfWeekdays[item.day]}:
           </div>
           <div className="small-9 columns vads-u-padding-x--0 vads-u-padding-right--0">
-            {formatHours(item.starthours)} - {formatHours(item.endhours)}
-          </div>
-          <div className="small-2 columns vads-u-padding-x--0 vads-u-padding-right--0">
+            {formatHours(item.starthours)} - {formatHours(item.endhours)}{' '}
             {item.comment}
           </div>
         </div>
