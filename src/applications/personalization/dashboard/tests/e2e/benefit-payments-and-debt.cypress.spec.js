@@ -86,7 +86,6 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.intercept('/v0/profile/payment_history', paymentsSuccess(true));
         cy.intercept('/v0/debts', debtsSuccess);
         cy.visit('my-va/');
-        cy.wait(['@pmtsSuccess1', '@debtsSuccess1']);
       });
       it('and they have payments in the last 30 days - C13194', () => {
         // make sure that the Payment and Debt section is shown
