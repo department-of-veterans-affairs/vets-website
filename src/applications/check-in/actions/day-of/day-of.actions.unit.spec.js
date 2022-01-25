@@ -5,10 +5,6 @@ import {
   APPOINTMENT_WAS_CHECKED_INTO,
   receivedMultipleAppointmentDetails,
   RECEIVED_APPOINTMENT_DETAILS,
-  tokenWasValidated,
-  TOKEN_WAS_VALIDATED,
-  permissionsUpdated,
-  PERMISSIONS_UPDATED,
   receivedEmergencyContact,
   RECEIVED_EMERGENCY_CONTACT_DATA,
   receivedDemographicsData,
@@ -34,40 +30,7 @@ describe('check in actions', () => {
         expect(action.payload.appointments[0].id).to.equal('some-id');
       });
     });
-    describe('tokenWasValidated', () => {
-      it('should return correct action', () => {
-        const action = tokenWasValidated();
-        expect(action.type).to.equal(TOKEN_WAS_VALIDATED);
-      });
-      it('should return correct structure', () => {
-        const data = {};
-        const token = 'some-token';
-        const scope = 'some-scope';
-        const action = tokenWasValidated(data, token, scope);
-        expect(action.payload).to.haveOwnProperty('context');
-        expect(action.payload.context).to.haveOwnProperty('token');
-        expect(action.payload.context.token).to.equal('some-token');
-        expect(action.payload.context).to.haveOwnProperty('scope');
-        expect(action.payload.context.scope).to.equal('some-scope');
-        expect(action.payload).to.haveOwnProperty('appointments');
-      });
-    });
-    describe('permissionsUpdated', () => {
-      it('should return correct action', () => {
-        const action = permissionsUpdated({}, '');
-        expect(action.type).to.equal(PERMISSIONS_UPDATED);
-      });
-      it('should return correct structure', () => {
-        const action = permissionsUpdated(
-          { permissions: 'some-permissions' },
-          'some-scope',
-        );
-        expect(action.payload).to.haveOwnProperty('permissions');
-        expect(action.payload.permissions).to.equal('some-permissions');
-        expect(action.payload).to.haveOwnProperty('scope');
-        expect(action.payload.scope).to.equal('some-scope');
-      });
-    });
+
     describe('appointmentWasCheckedInto', () => {
       it('should return correct action', () => {
         const action = appointmentWasCheckedInto({

@@ -7,20 +7,6 @@ const appointmentWasCheckedIntoHandler = (state, action) => {
   };
 };
 
-const permissionsUpdatedHandler = (state, action) => {
-  return {
-    ...state,
-    context: { ...state.context, scope: action.payload.scope },
-  };
-};
-
-const setTokenContextHandler = (state, action) => {
-  return {
-    ...state,
-    context: { ...state.context, ...action.payload.context },
-  };
-};
-
 const triggerRefreshHandler = (state, action) => {
   return {
     ...state,
@@ -48,23 +34,16 @@ const receivedNextOfKinDataHandler = (state, action) => {
   return { ...state, ...action.payload };
 };
 
-const tokenWasValidatedHandler = (state, action) => {
-  return { ...state, ...action.payload };
-};
-
 const seeStaffMessageUpdatedHandler = (state, action) => {
   return { ...state, ...action.payload };
 };
 
 export {
   appointmentWasCheckedIntoHandler,
-  permissionsUpdatedHandler,
-  setTokenContextHandler,
   triggerRefreshHandler,
   receivedAppointmentDetailsHandler,
   receivedEmergencyContactDataHandler,
   receivedDemographicsDataHandler,
   receivedNextOfKinDataHandler,
-  tokenWasValidatedHandler,
   seeStaffMessageUpdatedHandler,
 };

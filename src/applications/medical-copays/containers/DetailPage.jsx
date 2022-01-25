@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PDFStatementList from '../components/PDFStatementList';
 import BalanceQuestions from '../components/BalanceQuestions';
@@ -9,23 +9,31 @@ import { Link } from 'react-router-dom';
 import Modals from '../components/Modals';
 import Alert from '../components/Alerts';
 import { OnThisPage } from '../components/OnThisPage';
-import { formatDate } from '../utils/helpers';
+import { formatDate, verifyCurrentBalance } from '../utils/helpers';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 const DetailPage = ({ match }) => {
   const selectedId = match.params.id;
+  const [alert, setAlert] = useState('status');
   const statements = useSelector(({ mcp }) => mcp.statements) ?? [];
   const [selectedCopay] = statements?.filter(({ id }) => id === selectedId);
   const title = `Copay bill for ${selectedCopay?.station.facilityName}`;
   const statementDate = formatDate(selectedCopay?.pSStatementDate);
+  const isCurrentBalance = verifyCurrentBalance(selectedCopay?.pSStatementDate);
   const acctNum = selectedCopay?.pHAccountNumber
     ? selectedCopay?.pHAccountNumber
     : selectedCopay?.pHCernerAccountNumber;
 
-  useEffect(() => {
-    scrollToTop();
-  }, []);
+  useEffect(
+    () => {
+      if (!isCurrentBalance) {
+        setAlert('past-due-balance');
+      }
+      scrollToTop();
+    },
+    [isCurrentBalance],
+  );
 
   return (
     <>
@@ -51,10 +59,7 @@ const DetailPage = ({ match }) => {
           {statementDate}
         </time>
       </p>
-      <Alert
-        type={selectedCopay?.pHAmtDue === 0 ? 'zero-balance' : 'status'}
-        copay={selectedCopay}
-      />
+      <Alert type={alert} copay={selectedCopay} />
       <OnThisPage />
       <PDFStatementList />
       <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />

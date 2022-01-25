@@ -143,7 +143,6 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     float: right;
     vertical-align: bottom;
     margin-right: 40px;
-    margin-top: 20px;
     margin-bottom: -10px;
   }
 }
@@ -157,7 +156,7 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
   margin: 0 0 0 20px;
 
   @media (max-width: $small-desktop-screen) {
-    margin: .75em 0;
+    margin: 0.75em 0;
     text-align: left;
     width: 140px;
   }
@@ -188,13 +187,13 @@ input.location-search {
 
 #distance-dropdown {
   select {
-    margin-top: 6px;
+    margin-top: 4px;
   }
 }
 
 #distance-dropdown {
   select {
-    margin-top: 6px;
+    margin-top: 4px;
   }
 
   @media (max-width: $medium-screen) {

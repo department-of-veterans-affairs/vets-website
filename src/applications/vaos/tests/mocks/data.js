@@ -106,6 +106,7 @@ export function createMockAppointmentByVersion({
           name: clinicName,
           askForCheckIn: false,
           facilityCode: fields.locationId?.substr(0, 3) || null,
+          stopCode: fields.stopCode,
         },
         type: 'REGULAR',
         currentStatus: vistaStatus,
@@ -234,10 +235,12 @@ export function createMockAppointmentByVersion({
         practitioners: communityCareProvider
           ? [
               {
-                identifier: {
-                  system: 'http://hl7.org/fhir/sid/us-npi',
-                  value: communityCareProvider.uniqueId,
-                },
+                identifier: [
+                  {
+                    system: 'http://hl7.org/fhir/sid/us-npi',
+                    value: communityCareProvider.uniqueId,
+                  },
+                ],
               },
             ]
           : null,

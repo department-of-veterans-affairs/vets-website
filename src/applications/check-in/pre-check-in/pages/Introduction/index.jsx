@@ -11,7 +11,6 @@ import {
 } from '../../../actions/pre-check-in';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { URLS } from '../../../utils/navigation/pre-check-in';
 
 import { makeSelectCurrentContext } from '../../../selectors';
 
@@ -19,7 +18,7 @@ const Introduction = props => {
   const { router } = props;
   const [isLoading, setIsLoading] = useState(true);
 
-  const { goToErrorPage } = useFormRouting(router, URLS);
+  const { goToErrorPage } = useFormRouting(router);
   // select token from redux store
   const dispatch = useDispatch();
   const dispatchSetVeteranData = useCallback(
@@ -61,7 +60,7 @@ const Introduction = props => {
   if (isLoading) {
     return <va-loading-indicator message="Loading your appointment details" />;
   } else {
-    return <IntroductionDisplay router={router} URLS={URLS} />;
+    return <IntroductionDisplay router={router} />;
   }
 };
 

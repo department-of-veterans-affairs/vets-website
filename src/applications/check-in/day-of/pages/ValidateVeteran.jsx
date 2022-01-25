@@ -5,14 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 
 import { api } from '../../api';
+import { createSetSession } from '../../actions/authentication';
 
-import { URLS } from '../../utils/navigation/day-of';
-import { permissionsUpdated } from '../../actions/day-of';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { SCOPES } from '../../utils/token-format-validator';
 
-import BackToHome from '../components/BackToHome';
-import Footer from '../components/Footer';
+import BackToHome from '../../components/BackToHome';
+import Footer from '../../components/Footer';
 import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 
 import { makeSelectContext } from '../hooks/selectors';
@@ -20,12 +18,15 @@ import { makeSelectContext } from '../hooks/selectors';
 const ValidateVeteran = props => {
   const { router } = props;
   const dispatch = useDispatch();
-  const setPermissions = useCallback(
-    data => dispatch(permissionsUpdated(data, SCOPES.READ_FULL)),
+
+  const setSession = useCallback(
+    (token, permissions) => {
+      dispatch(createSetSession({ token, permissions }));
+    },
     [dispatch],
   );
 
-  const { goToNextPage, goToErrorPage } = useFormRouting(router, URLS);
+  const { goToNextPage, goToErrorPage } = useFormRouting(router);
 
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
@@ -52,18 +53,18 @@ const ValidateVeteran = props => {
     } else {
       // API call
       setIsLoading(true);
-
-      api.v2
-        .postSession({ lastName, last4: last4Ssn, token })
-        .then(data => {
-          // update sessions with new permissions
-          setPermissions(data);
-          // routing
-          goToNextPage();
-        })
-        .catch(() => {
-          goToErrorPage();
+      try {
+        const resp = await api.v2.postSession({
+          token,
+          last4: last4Ssn,
+          lastName,
         });
+        setSession(token, resp.permissions);
+        goToNextPage();
+      } catch (e) {
+        setIsLoading(false);
+        goToErrorPage();
+      }
     }
   };
   useEffect(() => {
@@ -88,8 +89,9 @@ const ValidateVeteran = props => {
         isLoading={isLoading}
         validateHandler={onClick}
         Footer={Footer}
+        isPreCheckIn={false}
       />
-      <BackToHome />
+      <BackToHome isPreCheckIn={false} />
     </>
   );
 };

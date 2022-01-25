@@ -24,6 +24,9 @@ export default Object.freeze({
   covidVaccineUpdatesEnableExpandedEligibility:
     'covid_vaccine_registration_frontend_enable_expanded_eligibility',
   covidVaccineUpdatesForm: 'covid_vaccine_registration_frontend',
+  covidVolunteerIntakeEnabled: 'covid_volunteer_intake_enabled',
+  covidVolunteerIntakeBackendEnabled: 'covid_volunteer_intake_backend_enabled',
+  covidVolunteerUpdateEnabled: 'covid_volunteer_update_enabled',
   debtLettersShowLetters: 'debt_letters_show_letters',
   dependencyVerification: 'dependency_verification',
   dischargeWizardFeatures: 'discharge_wizard_features',
@@ -123,6 +126,7 @@ export default Object.freeze({
     'va_online_scheduling_facilities_service_v2',
   vaOnlineSchedulingVariantTesting: 'va_online_scheduling_variant_testing',
   vaOnlineSchedulingPocHealthApt: 'va_online_scheduling_poc_health_apt',
+  vaOnlineSchedulingStatusImprovement: 'va_online_scheduling_status_improvement',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
   showEduBenefits1990EZWizard: 'show_edu_benefits_1990EZ_Wizard',

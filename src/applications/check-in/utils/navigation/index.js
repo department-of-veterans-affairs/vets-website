@@ -62,4 +62,21 @@ const updateFormPages = (
   return newPages;
 };
 
-export { updateFormPages };
+const URLS = Object.freeze({
+  CONFIRMATION: 'complete',
+  DEMOGRAPHICS: 'contact-information',
+  EMERGENCY_CONTACT: 'emergency-contact',
+  ERROR: 'error',
+  INTRODUCTION: 'introduction',
+  LANDING: '',
+  NEXT_OF_KIN: 'next-of-kin',
+  SEE_STAFF: 'see-staff',
+  VERIFY: 'verify',
+  COMPLETE: 'complete',
+  DETAILS: 'details',
+  UPDATE_INSURANCE: 'update-information',
+  VALIDATION_NEEDED: 'verify',
+  LOADING: 'loading-appointments',
+});
+
+export { updateFormPages, URLS };

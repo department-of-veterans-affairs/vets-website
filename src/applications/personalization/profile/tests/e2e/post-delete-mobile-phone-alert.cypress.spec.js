@@ -45,7 +45,7 @@ describe('Contact info update success alert', () => {
 
     // confirm the deletion action. This button is _not_ the same as the one
     // that was just clicked in the previous step
-    cy.findByRole('button', { name: /remove mobile phone/i }).click();
+    cy.findByRole('button', { name: 'Yes, remove my information' }).click();
 
     cy.injectAxeThenAxeCheck();
 

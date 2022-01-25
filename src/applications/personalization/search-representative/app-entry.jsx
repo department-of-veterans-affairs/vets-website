@@ -7,7 +7,7 @@ import routes from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';
 
-export const store = startApp({
+startApp({
   url: manifest.rootUrl,
   reducer,
   routes,

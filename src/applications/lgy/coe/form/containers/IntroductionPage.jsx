@@ -30,7 +30,11 @@ const IntroductionPage = props => {
         <p className="vads-u-padding-bottom--3">
           Request for a Certificate of Eligibility (VA Form 26-1880)
         </p>
-        <COEIntroPageBox coe={props.coe} status={props.status} />
+        <COEIntroPageBox
+          coe={props.coe}
+          status={props.status}
+          downloadURL={props.downloadURL}
+        />
         {props.coe.status !== COE_ELIGIBILITY_STATUS.denied && (
           <LoggedInContent parentProps={props} />
         )}
@@ -44,6 +48,7 @@ const IntroductionPage = props => {
 const mapStateToProps = state => ({
   status: state.certificateOfEligibility.generateAutoCoeStatus,
   coe: state.certificateOfEligibility.coe,
+  downloadURL: state.certificateOfEligibility.downloadURL,
   loggedIn: isLoggedIn(state),
 });
 

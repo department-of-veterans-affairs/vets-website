@@ -1,6 +1,6 @@
 import React from 'react';
 
-const COEEligible = () => (
+const COEEligible = ({ downloadURL }) => (
   <>
     <va-alert status="success">
       <h2 slot="headline">Congratulations on your automatic COE</h2>
@@ -22,7 +22,7 @@ const COEEligible = () => (
       </a>
     </div>
     <div className="vads-u-padding-top--4">
-      <a href="#">
+      <a href={downloadURL}>
         <i
           className="fas fa-download vads-u-padding-right--1"
           aria-hidden="true"
