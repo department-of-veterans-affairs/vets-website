@@ -289,8 +289,8 @@ const responses = {
 
     if (
       isDirect &&
-      (req.query.facility_id.startsWith('984') &&
-        req.query.clinical_service_id !== 'primaryCare')
+      req.query.facility_id.startsWith('984') &&
+      req.query.clinical_service_id !== 'primaryCare'
     ) {
       ineligibilityReasons.push({
         coding: [
@@ -423,6 +423,7 @@ const responses = {
         { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
         { name: 'vaOnlineSchedulingPocHealthApt', value: true },
+        { name: 'vaOnlineSchedulingStatusImprovement', value: true },
         { name: 'ssoe', value: true },
         { name: 'ssoe_inbound', value: false },
         { name: 'ssoe_ebenefits_links', value: false },

@@ -93,6 +93,7 @@ src/applications/coronavirus-vaccination-expansion @department-of-veterans-affai
 
 # My Education Benefits Team
 src/applications/my-education-benefits @department-of-veterans-affairs/my-education-benefits
+src/applications/enrollment-verification @department-of-veterans-affairs/my-education-benefits
 
 # Other
 src/applications/ask-a-question @department-of-veterans-affairs/orchid

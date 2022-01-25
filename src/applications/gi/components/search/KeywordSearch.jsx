@@ -154,7 +154,7 @@ export function KeywordSearch({
                 })}
               />
               <button
-                aria-label="Clear your city, state or postal code"
+                aria-label={`Clear your ${label}`}
                 type="button"
                 id="clear-input"
                 className="fas fa-times-circle clear-button"
