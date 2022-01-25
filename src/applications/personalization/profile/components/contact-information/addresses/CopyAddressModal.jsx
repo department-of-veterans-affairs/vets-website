@@ -40,7 +40,7 @@ const CopyAddressModal = props => {
       }}
     >
       <>
-        <p>
+        <p data-testid="modal-content">
           {`We’ve updated your ${mainAddressType} address to this address:`}
           <br />
           <strong>
