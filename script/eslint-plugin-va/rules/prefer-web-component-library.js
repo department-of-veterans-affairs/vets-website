@@ -5,12 +5,8 @@ const telephoneTransformer = (context, node) => {
   const componentName = node.openingElement.name;
   const patternNode = getPropNode(node, 'pattern');
   const notClickableNode = getPropNode(node, 'notClickable');
-
-  let international = false;
-  if (patternNode) {
-    const patternType = patternNode.value.expression.property;
-    if (patternType.name === 'OUTSIDE_US') international = true;
-  }
+  const international =
+    patternNode?.value.expression.property.name === 'OUTSIDE_US';
 
   context.report({
     node,
