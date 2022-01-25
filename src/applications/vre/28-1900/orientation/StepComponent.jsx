@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { orientationSteps } from './utils';
