@@ -31,6 +31,7 @@ describe('check-in', () => {
               clinicName: 'Green Team Clinic1',
             },
           ],
+          veteranData: {},
         },
       };
       store = mockStore(initState);
