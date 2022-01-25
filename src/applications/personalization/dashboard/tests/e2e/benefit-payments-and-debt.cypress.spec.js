@@ -52,8 +52,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       }).should('not.exist');
 
       // make the a11y check
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
   describe('when the feature is not hidden', () => {
@@ -95,8 +94,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       }).should('exist');
 
       // make the a11y check
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
     it('and they have no payments in the last 30 days - C13195', () => {
       cy.intercept('/v0/profile/payment_history', paymentsSuccess());
@@ -116,8 +114,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       }).should('not.exist');
 
       // make the a11y check
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });
