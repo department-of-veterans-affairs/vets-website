@@ -39,7 +39,11 @@ describe('updateUrlParams', () => {
     const history = createMemoryHistory();
     spy(history, 'push');
 
-    const query = { ...defaultState.search.query, name: 'test' };
+    const query = {
+      ...defaultState.search.query,
+      search: TABS.name,
+      name: 'test',
+    };
     updateUrlParams(history, TABS.name, query, defaultState.filters);
     expect(history.push.calledOnce).to.be.true;
     expect(history.push.getCall(0).args[0]).to.equal('/?search=name&name=test');
@@ -49,11 +53,15 @@ describe('updateUrlParams', () => {
     const history = createMemoryHistory();
     spy(history, 'push');
 
-    const query = { ...defaultState.search.query, location: 'nowhere, ka' };
-    updateUrlParams(history, TABS.name, query, defaultState.filters);
+    const query = {
+      ...defaultState.search.query,
+      search: TABS.location,
+      location: 'nowhere, ka',
+    };
+    updateUrlParams(history, TABS.location, query, defaultState.filters);
     expect(history.push.calledOnce).to.be.true;
     expect(history.push.getCall(0).args[0]).to.equal(
-      '/?search=name&location=nowhere%2C%20ka',
+      '/?search=location&location=nowhere%2C%20ka',
     );
   });
 
@@ -63,12 +71,13 @@ describe('updateUrlParams', () => {
 
     const query = {
       ...defaultState.search.query,
+      search: TABS.location,
       location: 'nowhere, ka',
     };
-    updateUrlParams(history, TABS.name, query, defaultState.filters, 1);
+    updateUrlParams(history, TABS.location, query, defaultState.filters, 1);
     expect(history.push.calledOnce).to.be.true;
     expect(history.push.getCall(0).args[0]).to.equal(
-      '/?search=name&location=nowhere%2C%20ka&version=1',
+      '/?search=location&location=nowhere%2C%20ka&version=1',
     );
   });
 
@@ -76,7 +85,11 @@ describe('updateUrlParams', () => {
     const history = createMemoryHistory();
     spy(history, 'push');
 
-    const query = { ...defaultState.search.query, name: 'test' };
+    const query = {
+      ...defaultState.search.query,
+      search: TABS.name,
+      name: 'test',
+    };
     const filters = {
       ...defaultState.filters,
       excludeCautionFlags: true,

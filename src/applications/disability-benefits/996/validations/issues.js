@@ -103,13 +103,13 @@ export const isValidDate = dateString => {
 export const uniqueIssue = (
   errors,
   _fieldData,
-  _formData,
+  formData,
   _schema,
   _uiSchema,
   _index,
   appStateData,
 ) => {
-  if (errors?.addError && hasDuplicates(appStateData)) {
+  if (errors?.addError && hasDuplicates(appStateData || formData)) {
     errors.addError(issueErrorMessages.uniqueIssue);
   }
 };

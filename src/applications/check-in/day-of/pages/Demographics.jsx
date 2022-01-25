@@ -2,22 +2,20 @@ import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
-import { URLS } from '../../utils/navigation/day-of';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import BackToHome from '../components/BackToHome';
-import Footer from '../components/Footer';
+import BackToHome from '../../components/BackToHome';
+import Footer from '../../components/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
 import { makeSelectDemographicData } from '../hooks/selectors';
+
+import { URLS } from '../../utils/navigation';
 
 const Demographics = props => {
   const selectDemographicData = useMemo(makeSelectDemographicData, []);
   const { demographics } = useSelector(selectDemographicData);
   const { router } = props;
-  const { goToNextPage, jumpToPage, goToErrorPage } = useFormRouting(
-    router,
-    URLS,
-  );
+  const { goToNextPage, jumpToPage, goToErrorPage } = useFormRouting(router);
 
   const dispatch = useDispatch();
   const updateSeeStaffMessage = useCallback(
@@ -70,8 +68,9 @@ const Demographics = props => {
           yesAction={yesClick}
           noAction={noClick}
           Footer={Footer}
+          isPreCheckIn={false}
         />
-        <BackToHome />
+        <BackToHome isPreCheckIn={false} />
       </>
     );
   }

@@ -5,6 +5,7 @@ import 'url-search-params-polyfill';
 import recordEvent from '../../monitoring/record-event';
 import environment from '../../utilities/environment';
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
+import { MHV_SKIP_DUPE } from 'platform/utilities/sso/constants';
 import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
@@ -101,7 +102,7 @@ const generatePath = (app, to) => {
 
 export function createExternalRedirectUrl({ base, returnUrl, application }) {
   return {
-    [EXTERNAL_APPS.MHV]: `${base}?skip_dupe=mhv&redirect=${returnUrl}&postLogin=true`,
+    [EXTERNAL_APPS.MHV]: `${base}${MHV_SKIP_DUPE}&redirect=${returnUrl}&postLogin=true`,
     [EXTERNAL_APPS.MY_VA_HEALTH]: `${base}`,
   }[application];
 }

@@ -88,6 +88,10 @@ export function KeywordSearch({
     }
   };
 
+  const handleClearInput = () => {
+    onUpdateAutocompleteSearchTerm('');
+  };
+
   return (
     <div
       className={classNames('keyword-search', { 'usa-input-error': error })}
@@ -136,18 +140,27 @@ export function KeywordSearch({
           selectedItem,
         }) => (
           <div>
-            <input
-              aria-controls="ctKeywordSearch"
-              className={classNames('input-box-margin', className)}
-              {...getInputProps({
-                type: 'text',
-                required,
-                onChange: handleChange,
-                onKeyUp: handleEnterPress,
-                onFocus: handleFocus,
-                'aria-labelledby': 'institution-search-label',
-              })}
-            />
+            <div className="input-container">
+              <input
+                aria-controls="ctKeywordSearch"
+                className={classNames('input-box-margin', className)}
+                {...getInputProps({
+                  type: 'text',
+                  required,
+                  onChange: handleChange,
+                  onKeyUp: handleEnterPress,
+                  onFocus: handleFocus,
+                  'aria-labelledby': 'institution-search-label',
+                })}
+              />
+              <button
+                aria-label={`Clear your ${label}`}
+                type="button"
+                id="clear-input"
+                className="fas fa-times-circle clear-button"
+                onClick={handleClearInput}
+              />
+            </div>
             {isOpen && (
               <div
                 className="suggestions-list"

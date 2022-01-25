@@ -4,17 +4,17 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 
-import { URLS } from '../../utils/navigation/day-of';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import BackToHome from '../components/BackToHome';
-import Footer from '../components/Footer';
+import BackToHome from '../../components/BackToHome';
+import Footer from '../../components/Footer';
+import { URLS } from '../../utils/navigation';
 
 const UpdateInformationQuestion = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
   const { router } = props;
-  const { jumpToPage, goToNextPage } = useFormRouting(router, URLS);
+  const { jumpToPage, goToNextPage } = useFormRouting(router);
 
   const noButtonClicked = () => {
     recordEvent({
@@ -58,8 +58,8 @@ const UpdateInformationQuestion = props => {
         </button>
       </fieldset>
 
-      <Footer />
-      <BackToHome />
+      <Footer isPreCheckIn={false} />
+      <BackToHome isPreCheckIn={false} />
     </div>
   );
 };
