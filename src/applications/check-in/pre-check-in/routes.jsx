@@ -8,6 +8,7 @@ import EmergencyContact from './pages/EmergencyContact';
 import Confirmation from './pages/Confirmation';
 import Landing from './pages/Landing';
 import Error from './pages/Error';
+import ErrorTest from './pages/ErrorTest';
 import { URLS } from '../utils/navigation';
 
 import withFeatureFlip from '../containers/withFeatureFlip';
@@ -15,6 +16,8 @@ import withAuthorization from '../containers/withAuthorization';
 import withForm from '../containers/withForm';
 
 import ErrorBoundary from '../components/errors/ErrorBoundary';
+
+import environment from 'platform/utilities/environment';
 
 const routes = [
   {
@@ -106,6 +109,19 @@ const createRoutesWithStore = () => {
           />
         );
       })}
+      {!environment.isProduction() && (
+        <Route
+          path={`/sentry/test`}
+          component={withFeatureFlip(
+            props => (
+              <ErrorBoundary {...props}>
+                <ErrorTest {...props} />
+              </ErrorBoundary>
+            ),
+            {},
+          )}
+        />
+      )}
       <Route path="*" component={Error} />
     </Switch>
   );

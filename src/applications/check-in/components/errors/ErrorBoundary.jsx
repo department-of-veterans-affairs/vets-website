@@ -1,5 +1,5 @@
 import React from 'react';
-// import { captureError } from '../utils/error';
+import { captureError } from '../../utils/analytics';
 
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -13,8 +13,8 @@ export default class ErrorBoundary extends React.Component {
     return { hasError: true };
   }
 
-  componentDidCatch(_error) {
-    // captureError(error);
+  componentDidCatch(error) {
+    captureError(error);
     window.location.replace('error');
   }
 
