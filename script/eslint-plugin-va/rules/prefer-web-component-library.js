@@ -32,7 +32,7 @@ module.exports = {
   meta: {
     docs: {
       description:
-        'Web Components are preferred over deprecated React component library comopnents',
+        'Web Components are preferred over deprecated React component library components',
       category: 'Best Practices',
       recommended: false,
     },
