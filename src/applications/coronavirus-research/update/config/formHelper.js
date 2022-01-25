@@ -73,13 +73,6 @@ export function transform(formConfig, form) {
         transformedForm.data[elementName][filteredKey] = false;
       });
   });
-  transformedForm.data.VACCINATED_DATE1 = form.data.VACCINATED_DATE1
-    ? form.data.VACCINATED_DATE1.substring(0, 7)
-    : undefined;
-  transformedForm.data.VACCINATED_DATE2 = form.data.VACCINATED_DATE2
-    ? form.data.VACCINATED_DATE2.substring(0, 7)
-    : undefined;
-
   return transformForSubmit(formConfig, transformedForm);
 }
 

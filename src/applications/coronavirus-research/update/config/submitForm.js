@@ -5,7 +5,7 @@ const submitForm = (form, formConfig, submissionId) => {
     ...form,
     data: {
       ...form.data,
-      previousSubmissionId: submissionId,
+      registryUUID: submissionId,
     },
   };
   const body = formConfig.transformForSubmit(formConfig, formWithSubmissionId);
@@ -36,7 +36,7 @@ const submitForm = (form, formConfig, submissionId) => {
 
   // format values for Analytics
   const eventData = {
-    previousSubmissionId: submissionId,
+    registryUUID: submissionId,
     zipCode: formData.zipCode,
     diagnosed: resolveBooleanValue(formData.diagnosed),
     vaccinated: resolveBooleanValue(formData.vaccinated),

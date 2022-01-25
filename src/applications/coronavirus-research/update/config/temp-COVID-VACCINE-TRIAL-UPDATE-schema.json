@@ -237,7 +237,7 @@
         "consentAgreementAccepted": {
           "type": "boolean"
         },
-        "previousSubmissionId": {
+        "registryUUID": {
           "type": "string"
         }
     },
