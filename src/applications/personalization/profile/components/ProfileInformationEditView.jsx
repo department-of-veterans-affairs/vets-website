@@ -264,9 +264,7 @@ export class ProfileInformationEditView extends Component {
       this.setState({ isShowingCopyAddressModal: true });
       return;
     }
-    // setTimeout(() => {
-    //   this.setState({ isShowingCopyAddressModal: false });
-    // }, 2500);
+
     this.onSubmit(data);
   };
 
@@ -314,17 +312,12 @@ export class ProfileInformationEditView extends Component {
               this.state.isShowingCopyAddressModal && (
                 <CopyAddressModal
                   optionalUpdateAddressType="mailing"
-                  mainAddress={field.value}
                   addressToUpdate={mailingAddress}
+                  mainAddress={field.value}
                   isVisible={this.state.isShowingCopyAddressModal}
-                  onYes={() => {
-                    this.toggleCopyAddressModal();
-                    // console.log('ON-YES');
-                  }}
-                  onNo={() => {
-                    this.toggleCopyAddressModal();
-                    // console.log('ON-NO');
-                  }}
+                  onYes={this.toggleCopyAddressModal}
+                  onNo={this.toggleCopyAddressModal}
+                  onClose={this.toggleCopyAddressModal}
                 />
               )}
             {isResidentialAddress && (
@@ -345,7 +338,11 @@ export class ProfileInformationEditView extends Component {
               onChange={event =>
                 this.onInput(event, field.formSchema, field.uiSchema)
               }
-              onSubmit={isResidentialAddress ? compareAddresses : onSubmit}
+              onSubmit={
+                isResidentialAddress && shouldProfileShowAddressChangeModal
+                  ? compareAddresses
+                  : onSubmit
+              }
             >
               {error && (
                 <div

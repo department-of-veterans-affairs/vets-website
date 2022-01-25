@@ -6,6 +6,7 @@ import AddressView from '@@vap-svc/components/AddressField/AddressView';
 const CopyAddressModal = props => {
   const {
     isVisible,
+    onClose,
     onYes,
     onNo,
     optionalUpdateAddressType,
@@ -22,6 +23,7 @@ const CopyAddressModal = props => {
     <Modal
       title={`Do you also want to update your ${optionalUpdateAddressType} address?`}
       visible={isVisible}
+      onClose={onClose}
       primaryButton={{
         action: () => {
           // console.log('YES!');
