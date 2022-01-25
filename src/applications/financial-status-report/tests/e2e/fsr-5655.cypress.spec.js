@@ -115,7 +115,9 @@ const testConfig = createTestConfig(
       'spouse/income/0': ({ afterHook }) => {
         afterHook(() => {
           cy.get(`input[name="root_spouseGrossSalary"]`).type('3500');
-          cy.get(`input[name="root_deductions_0_name"]`).type('Federal tax');
+          cy.get(`input[name="root_deductions_0_name"]`)
+            .type('Federal tax')
+            .blur();
           cy.get(`input[name="root_deductions_0_amount"]`).type('250');
           cy.findAllByText(/Save/i, { selector: 'button' }).click();
           cy.get('.usa-button-primary').click();
