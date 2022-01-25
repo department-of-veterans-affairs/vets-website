@@ -1,7 +1,14 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 
-let checkBoxElements = [];
+let checkBoxElements = [
+  'HEALTH_HISTORY',
+  'TRANSPORTATION',
+  'EMPLOYMENT_STATUS',
+  'VETERAN',
+  'GENDER',
+  'RACE_ETHNICITY',
+];
 const checkBoxParents = ['diagnosed'];
 const checkBoxChildren = ['DIAGNOSED_DETAILS', 'DIAGNOSED_SYMPTOMS'];
 
@@ -17,7 +24,6 @@ export const setNoneOfAbove = (form, elementName, elementNOA) => {
 };
 export function updateData(oldForm, newForm) {
   const updatedForm = newForm;
-
   checkBoxElements.forEach(elementName => {
     // For each checkBoxGroup in the form, get the number of selected elements before and after the current event
     const oldSelectedCount = Object.keys(oldForm[elementName]).filter(

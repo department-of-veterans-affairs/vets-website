@@ -1,12 +1,11 @@
 import environment from 'platform/utilities/environment';
 // import fullSchema from 'vets-json-schema/dist/COVID-VACCINE-TRIAL-schema.json';
-import fullSchema from './temp-COVID-VACCINE-TRIAL-UPDATE-schema.json';
+import fullSchema from './temp-COVID-VACCINE-TRIAL-schema.json';
 
 import definitions from 'vets-json-schema/dist/definitions.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
 import { uiSchema } from '../pages/covidResearchUISchema';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import {
@@ -19,35 +18,18 @@ import submitForm from './submitForm';
 import { updateData, transform } from './formHelper';
 import manifest from '../manifest.json';
 
-const { date, usaPostalCode } = definitions;
-
-const getSubmissionIdFromUrl = (window, key = 'id') => {
-  if (!window) return null;
-  if (!window.location) return null;
-  const urlParams = new URLSearchParams(window.location.search);
-  const paramId = urlParams.get(key);
-  if (paramId === null) {
-    window.location.replace(`${environment.BASE_URL}/coronavirus-research/`);
-  }
-  return paramId;
-};
-
-const submissionId = getSubmissionIdFromUrl(window);
+const { fullName, email, usaPhone, date, usaPostalCode } = definitions;
+const { monthYear } = fullSchema.definitions;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/covid-research/volunteer/update`,
+  submitUrl: `${environment.API_URL}/covid-research/volunteer/create`,
   trackingPrefix: 'covid-research-volunteer-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  // onFormLoaded: ({ formData, savedForms, returnUrl, formConfig, router }) => {
-  //   console.log('On Form Loaded. router: ', router);
-  // },
   transformForSubmit: transform,
-
-  // TODO - Add new form ID to VA_FORM_IDS
-  formId: VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL_UPDATE,
+  formId: VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your [savedFormDescription] is in progress.',
@@ -67,8 +49,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue to sign up for our coronavirus research volunteer list.',
   },
-  title: 'Coronavirus research volunteer list survey update',
-  defaultDefinitions: {},
+  title: 'Sign up for our coronavirus research volunteer list',
+  defaultDefinitions: { monthYear },
   preSubmitInfo: {
     required: true,
     field: 'consentAgreementAccepted',
@@ -76,15 +58,13 @@ const formConfig = {
     notice: ConsentNotice(),
     error: ConsentError(),
   },
-  submit: (form, config) => {
-    return submitForm(form, config, submissionId);
-  },
+  submit: submitForm,
   chapters: {
     chapter1: {
-      title: 'Update your information',
+      title: 'Your information',
       pages: {
         page1: {
-          path: 'update-form',
+          path: 'sign-up',
           title: 'Your information - page 1',
           updateFormData: updateData,
           uiSchema,
@@ -110,11 +90,24 @@ const formConfig = {
                   },
                 },
               },
+              healthHeaderText: {
+                type: 'object',
+                properties: {
+                  'view:healthText': {
+                    type: 'object',
+                    properties: {},
+                  },
+                },
+              },
+              diagnosed: fullSchema.properties.diagnosed,
+              DIAGNOSED_DETAILS: fullSchema.properties.DIAGNOSED_DETAILS,
+              DIAGNOSED_SYMPTOMS: fullSchema.properties.DIAGNOSED_SYMPTOMS,
+              closeContactPositive: fullSchema.properties.closeContactPositive,
               vaccinated: fullSchema.properties.vaccinated,
               VACCINATED_PLAN: fullSchema.properties.VACCINATED_PLAN,
               VACCINATED_DETAILS: fullSchema.properties.VACCINATED_DETAILS,
-              VACCINATED_DATE1: date,
-              VACCINATED_DATE2: date,
+              VACCINATED_DATE1: monthYear,
+              VACCINATED_DATE2: monthYear,
               VACCINATED_SECOND: fullSchema.properties.VACCINATED_SECOND,
               VACCINATED_ADDITIONAL1:
                 fullSchema.properties.VACCINATED_ADDITIONAL1,
@@ -151,13 +144,44 @@ const formConfig = {
               VACCINATED_ADDITIONAL_OTHER5:
                 fullSchema.properties.VACCINATED_ADDITIONAL_OTHER5,
               VACCINATED_ADDITIONAL_DATE5: date,
-              diagnosed: fullSchema.properties.diagnosed,
-              DIAGNOSED_DETAILS: fullSchema.properties.DIAGNOSED_DETAILS,
-              DIAGNOSED_SYMPTOMS: fullSchema.properties.DIAGNOSED_SYMPTOMS,
+              hospitalized: fullSchema.properties.hospitalized,
+              smokeOrVape: fullSchema.properties.smokeOrVape,
+              HEALTH_HISTORY: fullSchema.properties.HEALTH_HISTORY,
+              exposureRiskHeaderText: {
+                type: 'object',
+                properties: {
+                  'view:exposureRiskText': {
+                    type: 'object',
+                    properties: {},
+                  },
+                },
+              },
+              EMPLOYMENT_STATUS: fullSchema.properties.EMPLOYMENT_STATUS,
+              TRANSPORTATION: fullSchema.properties.TRANSPORTATION,
+              residentsInHome: fullSchema.properties.residentsInHome,
+              closeContact: fullSchema.properties.closeContact,
+              contactHeaderText: {
+                type: 'object',
+                properties: {
+                  'view:contactText': {
+                    type: 'object',
+                    properties: {},
+                  },
+                },
+              },
+              veteranFullName: fullName,
+              email,
+              phone: usaPhone,
+              zipCode: usaPostalCode,
+              veteranDateOfBirth: date,
+              VETERAN: fullSchema.properties.VETERAN,
               ELIGIBLE: fullSchema.properties.ELIGIBLE,
               FACILITY: fullSchema.properties.FACILITY,
-              zipCode: usaPostalCode,
               vaLocation: fullSchema.properties.vaLocation,
+              GENDER: fullSchema.properties.GENDER,
+              GENDER_SELF_IDENTIFY_DETAILS:
+                fullSchema.properties.GENDER_SELF_IDENTIFY_DETAILS,
+              RACE_ETHNICITY: fullSchema.properties.RACE_ETHNICITY,
             },
           },
         },

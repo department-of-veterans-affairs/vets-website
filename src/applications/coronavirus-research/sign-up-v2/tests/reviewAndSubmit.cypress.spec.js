@@ -2,7 +2,7 @@ import path from 'path';
 import featureTogglesEnabled from './fixtures/toggle-covid-feature.json';
 
 describe('COVID-19 Research Form', () => {
-  describe('when entering valid information and submitting', () => {
+  describe('when entering valid information and submitting V2 sign up form', () => {
     before(() => {
       cy.intercept('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
         'feature',
@@ -10,15 +10,15 @@ describe('COVID-19 Research Form', () => {
     });
 
     before(() => {
-      cy.visit('coronavirus-research/volunteer/update/update-form?id=abc123');
+      cy.visit('coronavirus-research/volunteer/v2/sign-up');
       cy.injectAxe();
     });
-    // Skipping tests until routing is in place
+    // Skip all tests until routing is in place
     it.skip('should load form page', () => {
-      cy.url().should('include', 'coronavirus-research/volunteer/update');
+      cy.url().should('include', 'coronavirus-research/volunteer/v2/sign-up');
       cy.axeCheck();
       cy.get('h1').contains(
-        'Coronavirus research volunteer list survey update',
+        'Sign up for our coronavirus research volunteer list',
       );
       cy.axeCheck();
     });
@@ -55,11 +55,11 @@ describe('COVID-19 Research Form', () => {
       // Review Page
       cy.url().should(
         'include',
-        'coronavirus-research/volunteer/update/review-and-submit',
+        'coronavirus-research/volunteer/v2/review-and-submit',
       );
       cy.expandAccordions();
       cy.get('h1').contains(
-        'Coronavirus research volunteer list survey update',
+        'Sign up for our coronavirus research volunteer list',
       );
       cy.axeCheck();
 
@@ -94,7 +94,7 @@ describe('COVID-19 Research Form', () => {
 
       cy.get('[name="consentAgreementAccepted"]').check();
 
-      cy.intercept('POST', '**/covid-research/volunteer/update', {
+      cy.intercept('POST', '**/covid-research/volunteer/create', {
         status: 200,
       }).as('response');
 
@@ -105,7 +105,7 @@ describe('COVID-19 Research Form', () => {
       // Confirmation page
       cy.url().should(
         'include',
-        'coronavirus-research/volunteer/update/confirmation',
+        'coronavirus-research/volunteer/v2/confirmation',
       );
       cy.axeCheck();
 
