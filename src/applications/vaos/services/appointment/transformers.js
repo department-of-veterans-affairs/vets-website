@@ -9,10 +9,6 @@ import {
   PURPOSE_TEXT,
   EXPRESS_CARE,
   TYPE_OF_VISIT,
-  TYPES_OF_EYE_CARE,
-  TYPES_OF_SLEEP_CARE,
-  AUDIOLOGY_TYPES_OF_CARE,
-  TYPES_OF_CARE,
   CANCELLATION_REASONS,
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
@@ -26,6 +22,8 @@ import {
   FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
   PAST_APPOINTMENTS_HIDE_STATUS_SET,
 } from './index';
+
+import { getTypeOfCareById } from '../../utils/appointment';
 
 /**
  * Determines what type of appointment a VAR appointment object is depending on
@@ -472,19 +470,6 @@ function getTypeOfVisit(appt) {
  */
 export function transformConfirmedAppointments(appointments) {
   return appointments.map(appt => transformConfirmedAppointment(appt));
-}
-
-function getTypeOfCareById(id) {
-  const allTypesOfCare = [
-    ...TYPES_OF_EYE_CARE,
-    ...TYPES_OF_SLEEP_CARE,
-    ...AUDIOLOGY_TYPES_OF_CARE,
-    ...TYPES_OF_CARE,
-  ];
-
-  return allTypesOfCare.find(
-    care => care.idV2 === id || care.ccId === id || care.id === id,
-  );
 }
 
 /**

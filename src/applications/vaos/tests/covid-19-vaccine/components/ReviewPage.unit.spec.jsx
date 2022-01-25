@@ -311,7 +311,6 @@ describe('VAOS vaccine flow with VAOS service <ReviewPage>', () => {
       status: 'booked',
       locationId: '983',
       clinic: '455',
-      serviceType: 'covid',
       comment: '',
       extension: {
         desiredDate: store.getState().covid19Vaccine.newBooking

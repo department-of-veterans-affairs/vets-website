@@ -912,6 +912,10 @@ export const mockTogglesResponse = {
         value: false,
       },
       {
+        name: 'show_dashboard_notifications',
+        value: false,
+      },
+      {
         name: 'spoolTestingError2',
         value: false,
       },

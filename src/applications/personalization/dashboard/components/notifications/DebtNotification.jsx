@@ -5,7 +5,7 @@ import recordEvent from '~/platform/monitoring/record-event';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import '../../sass/user-profile.scss';
 
-export const Debts = ({ debts, hasError }) => {
+export const DebtNotification = ({ debts, hasError }) => {
   const debtsCount = debts?.length || 0;
   const [dismissed, setDismissed] = React.useState(false);
   if (debtsCount < 1 || dismissed) {
@@ -66,7 +66,7 @@ export const Debts = ({ debts, hasError }) => {
   );
 };
 
-Debts.propTypes = {
+DebtNotification.propTypes = {
   hasError: PropTypes.bool,
   debts: PropTypes.arrayOf(
     PropTypes.shape({
@@ -92,4 +92,4 @@ Debts.propTypes = {
   ),
 };
 
-export default Debts;
+export default DebtNotification;

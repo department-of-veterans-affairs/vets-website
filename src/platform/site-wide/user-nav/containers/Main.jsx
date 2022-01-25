@@ -71,16 +71,31 @@ export class Main extends Component {
   }
 
   getNextParameter() {
-    const nextParam = new URLSearchParams(window.location.search).get('next');
-    if (nextParam) {
+    return new URLSearchParams(window.location.search).get('next');
+  }
+
+  formatNextParameter() {
+    const nextParam = this.getNextParameter();
+    if (nextParam && nextParam !== 'loginModal') {
       return nextParam.startsWith('/') ? nextParam : `/${nextParam}`;
     }
 
     return null;
   }
 
+  appendNextParameter(url = 'loginModal', pageTitle = '') {
+    if (url === 'loginModal' && this.getNextParameter()) {
+      return null;
+    }
+
+    const nextQuery = { next: url };
+    const nextPath = appendQuery(window.location.toString(), nextQuery);
+    history.pushState({}, pageTitle, nextPath);
+    return nextQuery;
+  }
+
   executeRedirect() {
-    const redirectUrl = this.getNextParameter();
+    const redirectUrl = this.formatNextParameter();
     const shouldRedirect =
       redirectUrl && !window.location.pathname.includes('verify');
 
@@ -119,9 +134,9 @@ export class Main extends Component {
       el.addEventListener('click', e => {
         if (!this.props.currentlyLoggedIn) {
           e.preventDefault();
-          const nextQuery = { next: el.getAttribute('href') };
-          const nextPath = appendQuery('/', nextQuery);
-          history.pushState({}, el.textContent, nextPath);
+          const linkHref = el.getAttribute('href');
+          const pageTitle = el.textContent;
+          this.appendNextParameter(linkHref, pageTitle);
           this.openLoginModal();
         }
       });
@@ -149,6 +164,7 @@ export class Main extends Component {
 
   openLoginModal = () => {
     this.props.toggleLoginModal(true);
+    this.appendNextParameter();
   };
 
   signInSignUp = () => {
@@ -160,6 +176,7 @@ export class Main extends Component {
       // requests when the sign-in modal renders.
       this.props.getBackendStatuses();
       this.props.toggleLoginModal(true, 'header');
+      this.appendNextParameter();
     }
   };
 
