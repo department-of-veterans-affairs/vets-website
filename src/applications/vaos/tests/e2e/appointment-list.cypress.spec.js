@@ -49,7 +49,7 @@ describe('VAOS appointment list', () => {
       cy.axeCheckBestPractice();
     });
 
-    it.skip('va phone appointment', () => {
+    it('va phone appointment', () => {
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/Phone call/i)
@@ -57,9 +57,12 @@ describe('VAOS appointment list', () => {
         .findByText(/Details/i)
         .click();
       cy.url().should('include', '/appointments/va');
-      cy.get('[data-cy=va-appointment-details-header]', { timeout: 10000 })
+      cy.get('[data-cy=va-appointment-details-header]')
         .should('exist')
         .contains('VA appointment over the phone');
+      cy.get('h2', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('contain', 'Cheyenne VA Medical Center');
       cy.axeCheckBestPractice();
     });
 

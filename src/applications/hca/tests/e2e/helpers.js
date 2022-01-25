@@ -65,3 +65,50 @@ export const advanceFromAiqToReviewPage = () => {
   );
   goToNextPage('review-and-submit');
 };
+
+export const advanceToServiceInfoPage = dob => {
+  cy.findAllByText(/start.+application/i, { selector: 'button' })
+    .first()
+    .click();
+  cy.wait('@mockSip');
+  cy.location('pathname').should(
+    'include',
+    '/veteran-information/personal-information',
+  );
+
+  goToNextPage('/veteran-information/birth-information');
+  // birth month
+  cy.get('#root_veteranDateOfBirthMonth').select(dob.month);
+
+  // birth day
+  cy.get('#root_veteranDateOfBirthDay').select(dob.day);
+
+  // birth year
+  cy.get('#root_veteranDateOfBirthYear')
+    .clear()
+    .type(dob.year);
+
+  goToNextPage('/veteran-information/birth-sex');
+
+  goToNextPage('/veteran-information/marital-status');
+  cy.get('select#root_maritalStatus').select(testData.maritalStatus);
+
+  goToNextPage('/veteran-information/demographic-information');
+
+  goToNextPage('/veteran-information/american-indian');
+  cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
+
+  goToNextPage('/veteran-information/veteran-address');
+  cy.get('[type=radio]')
+    .first()
+    .scrollIntoView()
+    .check('Y');
+
+  goToNextPage('/veteran-information/contact-information');
+  cy.wait('@mockSip');
+  cy.get('[name*="emailConfirmation"]')
+    .scrollIntoView()
+    .type(mockUserAttrs.profile.email);
+
+  goToNextPage('/military-service/service-information');
+};

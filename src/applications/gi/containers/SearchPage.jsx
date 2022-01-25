@@ -15,6 +15,7 @@ import { getSearchQueryChanged, updateUrlParams } from '../selectors/search';
 import classNames from 'classnames';
 import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
 import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 
 export function SearchPage({
   dispatchChangeSearchTab,
@@ -64,8 +65,12 @@ export function SearchPage({
       'tab-text': `Search by ${selectedTab}`,
     });
     dispatchChangeSearchTab(selectedTab);
-    queryParams.set('search', selectedTab);
-    history.push({ pathname: '/', search: queryParams.toString() });
+    if (environment.isProduction()) {
+      queryParams.set('search', selectedTab);
+      history.push({ pathname: '/', search: queryParams.toString() });
+    } else {
+      updateUrlParams(history, selectedTab, search.query, filters, version);
+    }
   };
 
   const accordionChange = (selectedAccordion, expanded) => {
