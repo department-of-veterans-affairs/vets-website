@@ -22,11 +22,7 @@ import environment from 'platform/utilities/environment';
 const routes = [
   {
     path: URLS.LANDING,
-    component: props => (
-      <ErrorBoundary>
-        <Landing {...props} />
-      </ErrorBoundary>
-    ),
+    component: Landing,
   },
   {
     path: URLS.VERIFY,
