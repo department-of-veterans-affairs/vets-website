@@ -11,7 +11,8 @@
   .menu,
   .hero,
   [data-widget-type="banner"],
-  [data-widget-type="maintenance-banner"] {
+  [data-widget-type="maintenance-banner"],
+  [data-widget-type="promo-banner"] {
     display: none !important;
   }
 
