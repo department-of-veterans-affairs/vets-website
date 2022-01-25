@@ -13,8 +13,8 @@ describe('COVID-19 Research Form', () => {
       cy.visit('coronavirus-research/volunteer/update/update-form?id=abc123');
       cy.injectAxe();
     });
-
-    it('should load form page', () => {
+    // Skipping tests until routing is in place
+    it.skip('should load form page', () => {
       cy.url().should('include', 'coronavirus-research/volunteer/update');
       cy.axeCheck();
       cy.get('h1').contains(
@@ -23,7 +23,7 @@ describe('COVID-19 Research Form', () => {
       cy.axeCheck();
     });
 
-    it('should successfully submit the Covid Research form', () => {
+    it.skip('should successfully submit the Covid Research form', () => {
       cy.fixture(
         path.join(__dirname, 'fixtures', 'reviewAndSubmitData.json'),
       ).then(dataElements => {
