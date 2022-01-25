@@ -15,7 +15,7 @@ describe('<AdditionalEvidencePage>', () => {
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidencePage params={params} loading />,
     );
-    expect(tree.everySubTree('LoadingIndicator')).not.to.be.empty;
+    expect(tree.everySubTree('va-loading-indicator')).not.to.be.empty;
   });
   it('should render upload error alert', () => {
     const claim = {

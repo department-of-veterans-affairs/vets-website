@@ -12,6 +12,7 @@ export default function ValidateDisplay({
   Footer,
   showValidateError,
   validateErrorMessage,
+  isPreCheckIn = true,
 }) {
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
@@ -64,7 +65,7 @@ export default function ValidateDisplay({
         {' '}
         {isLoading ? <>Loading...</> : <>Continue</>}
       </button>
-      {Footer && <Footer />}
+      {Footer && <Footer isPreCheckIn={isPreCheckIn} />}
     </div>
   );
 }

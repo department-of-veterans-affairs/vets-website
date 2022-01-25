@@ -5,14 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 
 import { api } from '../../api';
-
-import { URLS } from '../../utils/navigation/day-of';
 import { createSetSession } from '../../actions/authentication';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 
-import BackToHome from '../components/BackToHome';
-import Footer from '../components/Footer';
+import BackToHome from '../../components/BackToHome';
+import Footer from '../../components/Footer';
 import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 
 import { makeSelectContext } from '../hooks/selectors';
@@ -30,7 +28,7 @@ const ValidateVeteran = props => {
     [dispatch],
   );
 
-  const { goToNextPage, goToErrorPage } = useFormRouting(router, URLS);
+  const { goToNextPage, goToErrorPage } = useFormRouting(router);
 
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
@@ -114,8 +112,9 @@ const ValidateVeteran = props => {
         Footer={Footer}
         showValidateError={showValidateError}
         validateErrorMessage={validateErrorMessage}
+        isPreCheckIn={false}
       />
-      <BackToHome />
+      <BackToHome isPreCheckIn={false} />
     </>
   );
 };

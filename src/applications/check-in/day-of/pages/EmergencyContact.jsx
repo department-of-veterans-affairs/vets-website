@@ -3,15 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { URLS } from '../../utils/navigation/day-of';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
-import BackToHome from '../components/BackToHome';
+import BackToHome from '../../components/BackToHome';
 import { focusElement } from 'platform/utilities/ui';
-import Footer from '../components/Footer';
+import Footer from '../../components/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import EmergencyContactDisplay from '../../components/pages/emergencyContact/EmergencyContactDisplay';
 import { makeSelectDemographicData } from '../hooks/selectors';
+
+import { URLS } from '../../utils/navigation';
 
 const EmergencyContact = props => {
   const { router } = props;
@@ -22,7 +23,7 @@ const EmergencyContact = props => {
     jumpToPage,
     goToErrorPage,
     goToPreviousPage,
-  } = useFormRouting(router, URLS);
+  } = useFormRouting(router);
   const seeStaffMessage =
     'Our staff can help you update your emergency contact information.';
   const dispatch = useDispatch();
@@ -71,8 +72,9 @@ const EmergencyContact = props => {
           yesAction={yesClick}
           noAction={noClick}
           Footer={Footer}
+          isPreCheckIn={false}
         />
-        <BackToHome />
+        <BackToHome isPreCheckIn={false} />
       </>
     );
   }

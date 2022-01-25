@@ -13,7 +13,7 @@ import featureToggles from './fixtures/feature-toggles-aiq.json';
 import mockUserAiq from './fixtures/mockUserAiq';
 import enrollmentStatus from './fixtures/mockEnrollmentStatus.json';
 import prefillAiq from './fixtures/mockPrefillAiq.json';
-import * as aiqHelpers from './helpers-aiq';
+import * as aiqHelpers from './helpers';
 
 describe('HCA-AIQ', () => {
   before(function() {

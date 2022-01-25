@@ -59,8 +59,8 @@ describe('VAOS appointment list', () => {
       cy.url().should('include', '/appointments/va');
       cy.get('[data-cy=va-appointment-details-header]')
         .should('exist')
-        .contains('VA appointment over the phone');
-      cy.axeCheckBestPractice();
+        .contains('VA appointment over the phone')
+        .axeCheckBestPractice();
     });
 
     it('va video appointment', () => {

@@ -8,9 +8,9 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 
 import { focusElement } from 'platform/utilities/ui';
 
-import AppointmentBlock from '../../components/AppointmentBlock';
-import Footer from '../../components/Footer';
-import BackToHome from '../../components/BackToHome';
+import AppointmentBlock from '../../../components/AppointmentBlock';
+import Footer from '../../../components/Footer';
+import BackToHome from '../../../components/BackToHome';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
@@ -20,8 +20,8 @@ const IntroductionDisplay = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
-  const { router, URLS } = props;
-  const { goToNextPage } = useFormRouting(router, URLS);
+  const { router } = props;
+  const { goToNextPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
 
@@ -159,7 +159,7 @@ const IntroductionDisplay = props => {
           Privacy Act Statement
         </a>
       </div>
-      <Footer additionalInformation={additionalFooterInfo} />
+      <Footer message={additionalFooterInfo} />
       <BackToHome />
       <Modal
         onClose={() => setPrivacyActModalOpen(false)}

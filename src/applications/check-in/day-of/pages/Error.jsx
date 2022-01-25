@@ -1,8 +1,8 @@
 import React from 'react';
 
 import ErrorMessage from '../../components/ErrorMessage';
-import BackToHome from '../components/BackToHome';
-import Footer from '../components/Footer';
+import BackToHome from '../../components/BackToHome';
+import Footer from '../../components/Footer';
 
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 
@@ -19,7 +19,8 @@ const Error = () => {
         <ErrorMessage />
       )}
       <Footer />
-      <BackToHome />
+      <Footer isPreCheckIn={false} />
+      <BackToHome isPreCheckIn={false} />
     </div>
   );
 };
