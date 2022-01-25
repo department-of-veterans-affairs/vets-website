@@ -193,7 +193,6 @@ module.exports = {
     'jsx-a11y/click-events-have-key-events': 1, // 24
     'jsx-a11y/anchor-is-valid': 1, // 51
     'jsx-a11y/label-has-associated-control': 1, // 40
-    'jsx-a11y/label-has-for': 1, // 89
     'jsx-a11y/no-static-element-interactions': 1, // 20
 
     'import/named': 0, // 2
