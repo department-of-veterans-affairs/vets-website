@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import BackToHome from '../../components/BackToHome';
+import BackToHome from '../../../components/BackToHome';
 
 const ErrorTest = () => {
   const [value, setValue] = useState({
