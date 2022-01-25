@@ -27,6 +27,7 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import Appointments from './Appointments';
 import IconCTALink from '../IconCTALink';
+import CTALink from '../CTALink';
 
 const HealthCare = ({
   appointments,
@@ -92,13 +93,6 @@ const HealthCare = ({
     );
   }
 
-  const messagesText =
-    shouldFetchUnreadMessages && !hasInboxError
-      ? `You have ${unreadMessagesCount} unread message${
-          unreadMessagesCount === 1 ? '' : 's'
-        }`
-      : 'Send a secure message to your health care team';
-
   return (
     <div
       className="health-care-wrapper vads-u-margin-y--6"
@@ -144,20 +138,36 @@ const HealthCare = ({
 
           {/* Messages */}
           {shouldFetchUnreadMessages ? (
-            <IconCTALink
-              boldText={unreadMessagesCount > 0}
-              href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
-              icon="comments"
-              newTab
-              text={messagesText}
-              onClick={() => {
-                recordEvent({
-                  event: 'nav-linkslist',
-                  'links-list-header': 'You have n unread messages',
-                  'links-list-section-header': 'Health care',
-                });
-              }}
-            />
+            <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5">
+              <va-alert
+                status="warning"
+                background-only
+                show-icon
+                className="vads-u-margin-top--0"
+              >
+                {!hasInboxError
+                  ? `You have ${unreadMessagesCount} unread message${
+                      unreadMessagesCount === 1 ? '' : 's'
+                    } [`
+                  : null}
+                <CTALink
+                  text={
+                    !hasInboxError
+                      ? 'View your messages'
+                      : 'Send a secure message to your health care team'
+                  }
+                  href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-linkslist',
+                      'links-list-header': 'View your messages',
+                      'links-list-section-header': 'Health care',
+                    })
+                  }
+                />
+                {!hasInboxError ? ']' : null}
+              </va-alert>
+            </div>
           ) : null}
 
           {/* Prescriptions */}
