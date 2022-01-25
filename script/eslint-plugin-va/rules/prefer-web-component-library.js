@@ -1,11 +1,10 @@
+const getPropNode = (node, propName) =>
+  node.openingElement.attributes.find(n => n.name.name === propName);
+
 const telephoneTransformer = (context, node) => {
   const componentName = node.openingElement.name;
-  const patternNode = node.openingElement.attributes.find(
-    n => n.name.name === 'pattern',
-  );
-  const notClickableNode = node.openingElement.attributes.find(
-    n => n.name.name === 'notClickable',
-  );
+  const patternNode = getPropNode(node, 'pattern');
+  const notClickableNode = getPropNode(node, 'notClickable');
 
   let international = false;
   if (patternNode) {
