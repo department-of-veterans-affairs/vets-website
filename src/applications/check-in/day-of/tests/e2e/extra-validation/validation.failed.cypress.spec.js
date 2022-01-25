@@ -17,17 +17,30 @@ describe('Check In Experience -- ', () => {
       initializeSessionPost.withFailure();
       cy.visitWithUUID();
       ValidateVeteran.validatePageLoaded('Check in at VA');
-      ValidateVeteran.validateVeteran();
-      ValidateVeteran.attemptToGoToNextPage();
     });
     afterEach(() => {
       cy.window().then(window => {
         window.sessionStorage.clear();
       });
     });
-    it('validation failed with failed response from server', () => {
-      Error.validatePageLoaded();
+    it('validation failed with failed response from server. redirect to error page after max validate limit reached', () => {
       cy.injectAxeThenAxeCheck();
+      // First Attempt
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      ValidateVeteran.validateErrorAlert();
+
+      // Second Attempt
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      ValidateVeteran.validateErrorAlert();
+
+      // Third/Final attempt
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.validateErrorAlert(true);
+      ValidateVeteran.attemptToGoToNextPage();
+
+      Error.validatePageLoaded(true);
     });
   });
 });

@@ -15,7 +15,9 @@ describe('Pre-Check In Experience', () => {
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
-      initializeSessionPost.withSuccess();
+      initializeSessionPost.withFailure();
+      cy.visitPreCheckInWithUUID();
+      ValidateVeteran.validatePageLoaded('Start pre-check-in');
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -23,15 +25,23 @@ describe('Pre-Check In Experience', () => {
       });
     });
     it('validation failed with failed response from server', () => {
-      cy.visitPreCheckInWithUUID();
-      ValidateVeteran.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
+      // First Attempt
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      ValidateVeteran.validateErrorAlert();
 
-      ValidateVeteran.typeLastName('Smith');
-      ValidateVeteran.typeLast4('1234');
+      // Second Attempt
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      ValidateVeteran.validateErrorAlert();
+
+      // Third/Final attempt
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.validateErrorAlert(true);
       ValidateVeteran.attemptToGoToNextPage();
 
-      Error.validatePageLoaded();
+      Error.validatePageLoaded(true);
     });
   });
 });

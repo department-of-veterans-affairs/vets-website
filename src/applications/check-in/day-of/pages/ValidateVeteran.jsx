@@ -76,7 +76,7 @@ const ValidateVeteran = props => {
         goToNextPage();
       } catch (e) {
         setIsLoading(false);
-        if (isMaxValidateAttempts) {
+        if (e?.errors[0]?.status !== '400' || isMaxValidateAttempts) {
           goToErrorPage();
         } else {
           if (!showValidateError) {
