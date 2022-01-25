@@ -4,7 +4,7 @@ class Error {
   validatePageLoaded(lastValidateAttempt = false) {
     const messageText = lastValidateAttempt
       ? "We're sorry. We couldn't match your information to our records. Please try again or call us at 800-698-2411 (TTY: 711) for help signing in."
-      : 'We’re sorry. Something went wrong on our end. Please try again.';
+      : 'We’re sorry. Something went wrong on our end. Check in with a staff member.';
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('have.text', 'We couldn’t check you in');
