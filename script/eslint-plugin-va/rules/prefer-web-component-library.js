@@ -1,3 +1,6 @@
+const MESSAGE =
+  '<{{ reactComponent }}> can be replaced by <{{ webComponent }}>';
+
 const getPropNode = (node, propName) =>
   node.openingElement.attributes.find(n => n.name.name === propName);
 
@@ -10,7 +13,11 @@ const telephoneTransformer = (context, node) => {
 
   context.report({
     node,
-    message: 'Testing',
+    message: MESSAGE,
+    data: {
+      reactComponent: componentName.name,
+      webComponent: 'va-telephone',
+    },
     fix: fixer => {
       // Replace the node name
       // and remove the `pattern` prop if it's there
