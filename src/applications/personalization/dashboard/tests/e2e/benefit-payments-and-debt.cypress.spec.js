@@ -28,7 +28,6 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       });
       mockLocalStorage();
       cy.login(mockUser);
-      cy.visit('my-va/');
       cy.intercept('/v0/profile/service_history', serviceHistory);
       cy.intercept('/v0/profile/full_name', fullName);
       cy.intercept('/v0/evss_claims_async', claimsSuccess());
@@ -38,6 +37,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         disabilityRating,
       );
       cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
+      cy.visit('my-va/');
     });
     it('the payment and debt section does not show up - C13193', () => {
       // make sure that the Payment and Debt section is not shown
@@ -71,7 +71,6 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       });
       mockLocalStorage();
       cy.login(mockUser);
-      cy.visit('my-va/');
       cy.intercept('/v0/profile/service_history', serviceHistory);
       cy.intercept('/v0/profile/full_name', fullName);
       cy.intercept('/v0/evss_claims_async', claimsSuccess());
@@ -85,6 +84,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
     it('and they have payments in the last 30 days - C13194', () => {
       cy.intercept('/v0/profile/payment_history', paymentsSuccess(true));
       cy.intercept('/v0/debts', debtsSuccess);
+      cy.visit('my-va/');
       // make sure that the Payment and Debt section is shown
       cy.findByTestId('dashboard-section-payment-and-debts').should('exist');
       cy.findByRole('link', { name: /manage your direct deposit/i }).should(
@@ -101,6 +101,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
     it('and they have no payments in the last 30 days - C13195', () => {
       cy.intercept('/v0/profile/payment_history', paymentsSuccess());
       cy.intercept('/v0/debts', debtsSuccess);
+      cy.visit('my-va/');
       // make sure that the Payment and Debt section is shown
       cy.findByTestId('dashboard-section-payment-and-debts').should('exist');
       cy.findByRole('link', { name: /manage your direct deposit/i }).should(
