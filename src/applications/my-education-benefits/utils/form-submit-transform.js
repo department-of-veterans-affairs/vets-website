@@ -391,9 +391,12 @@ export function createComments(submissionForm) {
 }
 
 export function createDirectDeposit(submissionForm) {
-  return submissionForm?.bankAccount?.accountType
-    ? submissionForm?.bankAccount
-    : {};
+  const bankInfo = {
+    accountNumber: submissionForm?.bankAccount?.accountNumber,
+    accountType: submissionForm?.bankAccount?.accountType,
+    routingNumber: submissionForm?.bankAccount?.routingNumber,
+  };
+  return submissionForm?.bankAccount?.accountType ? bankInfo : {};
 }
 
 export function createSubmissionForm(submissionForm) {

@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -50,7 +49,7 @@ const VeteranInformationViewComponent = props => {
           </p>
         </div>
       ) : (
-        <LoadingIndicator message="Loading profile information..." />
+        <va-loading-indicator message="Loading profile information..." />
       )}
     </>
   );

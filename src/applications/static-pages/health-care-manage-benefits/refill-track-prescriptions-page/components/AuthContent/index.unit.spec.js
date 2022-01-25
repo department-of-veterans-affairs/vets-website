@@ -12,7 +12,7 @@ describe('Prescriptions Page <AuthContent>', () => {
     const text = wrapper.text();
     expect(text).to.include('CernerCallToAction');
     expect(text).to.include(
-      "How can VA's prescription tools help me manage my health care?",
+      'How can VA’s prescription tools help me manage my health care?',
     );
     expect(text).to.include('Am I eligible to use this tool?');
     expect(text).to.include("Once I'm signed in, how do I get started?");

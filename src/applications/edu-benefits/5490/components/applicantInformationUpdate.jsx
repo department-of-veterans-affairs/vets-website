@@ -12,8 +12,8 @@ import { ageWarning, eighteenOrOver } from '../helpers';
 const defaults = prefix => ({
   fields: [
     `${prefix}FullName`,
-    `${prefix}SocialSecurityNumber`,
     'view:noSSN',
+    `${prefix}SocialSecurityNumber`,
     `${prefix}DateOfBirth`,
     'view:ageWarningNotification',
     'gender',

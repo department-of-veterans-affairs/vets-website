@@ -12,14 +12,10 @@ export default Object.freeze({
   cernerOverride692: 'cerner_override_692',
   cernerOverride757: 'cerner_override_757',
   checkInExperienceEnabled: 'check_in_experience_enabled',
-  checkInExperienceEmergencyContactEnabled:'check_in_experience_emergency_contact_enabled',
-  checkInExperienceDemographicsPageEnabled:
-    'check_in_experience_demographics_page_enabled',
   checkInExperiencePreCheckInEnabled:
     'check_in_experience_pre_check_in_enabled',
   checkInExperienceUpdateInformationPageEnabled:
     'check_in_experience_update_information_page_enabled',
-  checkInExperienceNextOfKinEnabled: 'check_in_experience_next_of_kin_enabled',
   coeAccess: 'coe_access',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
@@ -76,6 +72,7 @@ export default Object.freeze({
   searchTypeaheadEnabled: 'search_typeahead_enabled',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
   show526Wizard: 'show526_wizard',
+  showPaymentAndDebtSection: 'show_payment_and_debt_section',
   showEduBenefits0994Wizard: 'show_edu_benefits_0994_wizard',
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
   showEduBenefits1990NWizard: 'show_edu_benefits_1990n_wizard',
@@ -128,8 +125,8 @@ export default Object.freeze({
   vaOnlineSchedulingFacilitiesServiceV2:
     'va_online_scheduling_facilities_service_v2',
   vaOnlineSchedulingVariantTesting: 'va_online_scheduling_variant_testing',
-  vaOnlineSchedulingCCIterations: 'va_online_scheduling_cc_iterations',
   vaOnlineSchedulingPocHealthApt: 'va_online_scheduling_poc_health_apt',
+  vaOnlineSchedulingStatusImprovement: 'va_online_scheduling_status_improvement',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
   showEduBenefits1990EZWizard: 'show_edu_benefits_1990EZ_Wizard',

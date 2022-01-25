@@ -43,7 +43,7 @@ export const HowToPay = ({ acctNum, facility }) => (
           If you need help making a payment online, call us at
           <Telephone
             contact={'888-827-4817'}
-            className="vads-u-margin-x--0p5"
+            className="vads-u-margin-left--0p5"
           />
           . We’re available Monday through Friday, 8:00am - 8:00pm EST.
         </p>
@@ -71,7 +71,7 @@ export const HowToPay = ({ acctNum, facility }) => (
         <p>
           <strong>Note: </strong> You’ll find these stubs at the bottom of each
           statement. If you don’t have your most recent statement, you can
-          download and print it below or include a note listing the facility
+          download and print it above or include a note listing the facility
           you’d like to pay.
         </p>
         <p>

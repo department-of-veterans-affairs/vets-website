@@ -4,8 +4,6 @@ import CallToActionAlert from '../../CallToActionAlert';
 import { verify } from 'platform/user/authentication/utilities';
 
 function NotAuthorized() {
-  const authVersion = 'v1';
-
   const content = {
     heading: 'Verify your identity to access more VA.gov tools and features',
     alertText: (
@@ -15,10 +13,7 @@ function NotAuthorized() {
           track your claims, refill your prescriptions, and download your VA
           benefit letters.
         </p>
-        <button
-          className="usa-button-primary"
-          onClick={() => verify(authVersion)}
-        >
+        <button className="usa-button-primary" onClick={() => verify()}>
           Verify Your Identity
         </button>
         <p>

@@ -250,7 +250,11 @@ export const stringifyRelatedDisabilities = formData => {
       facility,
     ),
   );
-  clonedData.vaTreatmentFacilities = newVAFacilities;
+  if (newVAFacilities.length) {
+    clonedData.vaTreatmentFacilities = newVAFacilities;
+  } else {
+    delete clonedData.vaTreatmentFacilities;
+  }
   return clonedData;
 };
 

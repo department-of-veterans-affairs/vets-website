@@ -95,3 +95,13 @@ export const setCookie = () => {
     document.cookie = `findForms=pdfModal; expires=${utcDateString};`;
   }
 };
+
+export const deriveDefaultModalState = () => {
+  return {
+    isOpen: false,
+    pdfSelected: '',
+    pdfUrl: '',
+    pdfLabel: '',
+    doesCookieExist: false,
+  };
+};

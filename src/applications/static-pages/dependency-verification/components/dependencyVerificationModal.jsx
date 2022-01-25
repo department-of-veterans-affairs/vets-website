@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import manifest from '../../../disability-benefits/686c-674/manifest.json';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 import {
   getDependencyVerifications,
   updateDiariesService,
@@ -10,6 +10,8 @@ import { CALLSTATUS, RETRIEVE_DIARIES } from '../utils';
 import DependencyVerificationHeader from './dependencyVerificationHeader';
 import DependencyVerificationList from './dependencyVerificationList';
 import DependencyVerificationFooter from './dependencyVerificationFooter';
+
+const disabilityBenefits686cUrl = getAppUrl('686C-674');
 
 const DependencyVerificationModal = props => {
   const nodeToWatch = document.getElementsByTagName('body')[0];
@@ -46,7 +48,7 @@ const DependencyVerificationModal = props => {
 
     // Redirect the user to the appropriate form to update dependents, if needed
     if (!shouldUpdate) {
-      window.location.assign(manifest.rootUrl);
+      window.location.assign(disabilityBenefits686cUrl);
     }
   };
 

@@ -1,94 +1,61 @@
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
-import {
-  enterPreviewMode,
-  exitPreviewMode,
-  fetchConstants,
-  updateQueryParams,
-} from '../actions';
-import GiBillBreadcrumbs from '../components/GiBillBreadcrumbs';
-import PreviewBanner from '../components/PreviewBanner';
+
+import { enterPreviewMode, exitPreviewMode, fetchConstants } from '../actions';
 import Modals from './Modals';
-import { scrollToFocusedElement, useQueryParams } from '../utils/helpers';
-import ServiceError from '../components/ServiceError';
+import PreviewBanner from '../components/heading/PreviewBanner';
+import GiBillBreadcrumbs from '../components/heading/GiBillBreadcrumbs';
 import AboutThisTool from '../components/content/AboutThisTool';
-import Disclaimer from '../components/content/Disclaimer';
-import { useLocation } from 'react-router-dom';
-import Covid19Banner from '../components/content/Covid19Banner';
-import CompareDrawer from './CompareDrawer';
+import ServiceError from '../components/ServiceError';
+import Covid19Banner from '../components/heading/Covid19Banner';
+import { useQueryParams } from '../utils/helpers';
 
 export function GiBillApp({
-  constants,
   children,
-  preview,
-  compare,
+  constants,
   dispatchEnterPreviewMode,
   dispatchExitPreviewMode,
   dispatchFetchConstants,
-  dispatchUpdateQueryParams,
+  preview,
+  search,
 }) {
+  const location = useLocation();
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
-  const versionChange = version && version !== preview.version?.id;
-  const shouldExitPreviewMode = preview.display && !version;
-  const shouldEnterPreviewMode = !preview.display && versionChange;
-  const location = useLocation();
-
-  useEffect(() => {
-    document.title = 'GI Bill® Comparison Tool | Veterans Affairs';
-    document.addEventListener('focus', scrollToFocusedElement, true);
-
-    return () => {
-      document.removeEventListener('focus', scrollToFocusedElement);
-    };
-  }, []);
 
   useEffect(
     () => {
-      if (shouldExitPreviewMode) {
-        dispatchExitPreviewMode();
-      } else if (shouldEnterPreviewMode) {
-        dispatchEnterPreviewMode(version);
-      } else {
-        dispatchFetchConstants();
-      }
+      dispatchFetchConstants(version);
     },
-    [shouldExitPreviewMode, shouldEnterPreviewMode],
+    [version],
   );
 
   useEffect(() => {
-    const params = {};
-    for (const [key, value] of queryParams.entries()) {
-      if (key.includes('[]')) {
-        const arrayKey = key.replace('[]', '');
-        if (!params[arrayKey]) {
-          params[arrayKey] = [];
-        }
-        params[arrayKey].push(value);
-      } else {
-        params[key] = value;
-      }
-    }
-    dispatchUpdateQueryParams(params);
-  }, []);
+    const shouldExitPreviewMode = preview.display && !version;
+    const shouldEnterPreviewMode =
+      !preview.display && version && preview.version.createdAt;
 
-  const onProfilePage = location.pathname.includes('/institution');
-  const onComparePage = location.pathname.includes('/compare');
-  const showDisclaimer = onComparePage || !compare.open;
+    if (shouldExitPreviewMode) {
+      dispatchExitPreviewMode();
+    } else if (shouldEnterPreviewMode) {
+      dispatchEnterPreviewMode();
+    }
+  });
 
   return (
-    <div className="gi-app" role="application">
+    <div className="gi-app">
       {(location.pathname === '/' ||
-        location.pathname === '/gi-bill-comparison-tool-sandbox') && (
+        location.pathname === '/education/gi-bill-comparison-tool') && (
         <Covid19Banner />
       )}
-      <div>
-        <div>
+      <div className="row">
+        <div className="columns small-12">
           {preview.display && <PreviewBanner version={preview.version} />}
-          <GiBillBreadcrumbs />
+          <GiBillBreadcrumbs searchQuery={search.query} />
           {constants.inProgress && <LoadingIndicator message="Loading..." />}
           {constants.error && <ServiceError />}
           {!(constants.error || constants.inProgress) && (
@@ -96,16 +63,27 @@ export function GiBillApp({
               {children}
             </DowntimeNotification>
           )}
-          {!showDisclaimer && <div style={{ height: '12px' }}>&nbsp;</div>}
-          {showDisclaimer && (
-            <div className="row vads-u-padding--1p5 small-screen:vads-u-padding--0">
-              <>
-                <AboutThisTool />
-                <Disclaimer />
-              </>
-            </div>
-          )}
-          {!onComparePage && <CompareDrawer alwaysDisplay={onProfilePage} />}
+          <AboutThisTool />
+          <div className="row disclaimer">
+            <p>
+              Please note: Content on this Web page is for informational
+              purposes only. It is not intended to provide legal advice or to be
+              a comprehensive statement or analysis of applicable statutes,
+              regulations, and case law governing this topic. Rather, it’s a
+              plain-language summary. If you are seeking claims assistance, your
+              local VA regional office, a VA-recognized Veterans Service
+              Organization, or a VA-accredited attorney or agent can help.{' '}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.va.gov/ogc/apps/accreditation/index.asp"
+              >
+                Search Accredited Attorneys, Claims Agents, or Veterans Service
+                Organizations (VSO) Representatives
+              </a>
+              .
+            </p>
+          </div>
           <Modals />
         </div>
       </div>
@@ -117,17 +95,19 @@ GiBillApp.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-const mapStateToProps = state => ({
-  constants: state.constants,
-  preview: state.preview,
-  compare: state.compare,
-});
+const mapStateToProps = state => {
+  const { constants, preview, search } = state;
+  return {
+    constants,
+    preview,
+    search,
+  };
+};
 
 const mapDispatchToProps = {
   dispatchEnterPreviewMode: enterPreviewMode,
   dispatchExitPreviewMode: exitPreviewMode,
   dispatchFetchConstants: fetchConstants,
-  dispatchUpdateQueryParams: updateQueryParams,
 };
 
 export default connect(

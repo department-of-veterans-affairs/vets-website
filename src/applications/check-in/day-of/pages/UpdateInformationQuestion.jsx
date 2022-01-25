@@ -4,22 +4,24 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 
-import { URLS, goToNextPage } from '../utils/navigation';
-import BackToHome from '../components/BackToHome';
-import Footer from '../components/Footer';
+import { useFormRouting } from '../../hooks/useFormRouting';
+import BackToHome from '../../components/BackToHome';
+import Footer from '../../components/Footer';
+import { URLS } from '../../utils/navigation';
 
 const UpdateInformationQuestion = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
   const { router } = props;
+  const { jumpToPage, goToNextPage } = useFormRouting(router);
 
   const noButtonClicked = () => {
     recordEvent({
       event: 'cta-button-click',
       'button-click-label': 'no-to-update-information',
     });
-    goToNextPage(router, URLS.DETAILS);
+    goToNextPage();
   };
 
   const yesButtonClicked = () => {
@@ -27,7 +29,7 @@ const UpdateInformationQuestion = props => {
       event: 'cta-button-click',
       'button-click-label': 'yes-to-update-information',
     });
-    goToNextPage(router, URLS.SEE_STAFF);
+    jumpToPage(URLS.SEE_STAFF);
   };
 
   return (
@@ -56,8 +58,8 @@ const UpdateInformationQuestion = props => {
         </button>
       </fieldset>
 
-      <Footer />
-      <BackToHome />
+      <Footer isPreCheckIn={false} />
+      <BackToHome isPreCheckIn={false} />
     </div>
   );
 };

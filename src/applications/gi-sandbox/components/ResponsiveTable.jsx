@@ -69,35 +69,37 @@ class ResponsiveTable extends React.Component {
     const { columns } = this.props;
     const { key, rowClassName } = row;
     return (
-      <tr key={key} className={rowClassName} role="row">
-        {columns.map((column, index) => {
-          const cellName = createId(column);
+      <>
+        <tr key={key} className={rowClassName} role="row">
+          {columns.map((column, index) => {
+            const cellName = createId(column);
 
-          if (index === 0) {
+            if (index === 0) {
+              return (
+                <th
+                  className={`${cellName}-cell`}
+                  scope="row"
+                  /* eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role */
+                  role="rowheader"
+                  tabIndex="-1"
+                  key={`${key}-${cellName}`}
+                >
+                  {this.renderRowCell(row, column)}
+                </th>
+              );
+            }
             return (
-              <th
+              <td
                 className={`${cellName}-cell`}
-                scope="row"
-                /* eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role */
-                role="rowheader"
-                tabIndex="-1"
+                role="cell"
                 key={`${key}-${cellName}`}
               >
                 {this.renderRowCell(row, column)}
-              </th>
+              </td>
             );
-          }
-          return (
-            <td
-              className={`${cellName}-cell`}
-              role="cell"
-              key={`${key}-${cellName}`}
-            >
-              {this.renderRowCell(row, column)}
-            </td>
-          );
-        })}
-      </tr>
+          })}
+        </tr>
+      </>
     );
   };
 

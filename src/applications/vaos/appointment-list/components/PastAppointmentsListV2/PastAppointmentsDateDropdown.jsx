@@ -12,7 +12,7 @@ export default function PastAppointmentsDateDropdown({
     <>
       <label
         htmlFor="date-dropdown"
-        className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2 vads-u-margin-bottom--0"
+        className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2 vads-u-margin-bottom--0 vaos-hide-for-print"
       >
         Select a date range{' '}
         <span className="sr-only">for your appointments</span>
@@ -26,7 +26,7 @@ export default function PastAppointmentsDateDropdown({
       <button
         type="button"
         aria-label="Update my appointments list"
-        className="usa-button"
+        className="usa-button vaos-hide-for-print"
         onClick={() => {
           if (currentRange !== dateRangeIndex) {
             onChange(dateRangeIndex);

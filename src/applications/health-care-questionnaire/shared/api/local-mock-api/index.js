@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-
 const commonResponses = require('../../../../../platform/testing/local-dev-mock-api/common');
 
 // const cancelledAppointmentCompletedQuestionnaire = require('../mock-data/fhir/cancelled.appointment.completed.primary.care.questionnaire.json');

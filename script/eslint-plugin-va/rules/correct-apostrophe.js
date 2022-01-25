@@ -20,7 +20,7 @@ const regexpApostrophe = new RegExp(
 
 const contentTypes = ['TemplateLiteral', 'JSXText', 'JSXAttribute'];
 
-const rule = {
+module.exports = {
   meta: {
     type: 'suggestion',
     fixable: 'code',
@@ -57,5 +57,3 @@ const rule = {
     };
   },
 };
-
-module.exports = rule;

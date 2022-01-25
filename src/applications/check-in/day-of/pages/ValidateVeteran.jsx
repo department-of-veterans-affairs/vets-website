@@ -1,28 +1,33 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
 
-import { api } from '../api';
+import { api } from '../../api';
+import { createSetSession } from '../../actions/authentication';
 
-import { permissionsUpdated } from '../actions';
-import { goToNextPage, URLS } from '../utils/navigation';
-import { SCOPES } from '../../utils/token-format-validator';
+import { useFormRouting } from '../../hooks/useFormRouting';
 
-import BackToHome from '../components/BackToHome';
-import Footer from '../components/Footer';
+import BackToHome from '../../components/BackToHome';
+import Footer from '../../components/Footer';
 import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 
 import { makeSelectContext } from '../hooks/selectors';
 
 const ValidateVeteran = props => {
-  const {
-    isUpdatePageEnabled,
-    isDemographicsPageEnabled,
-    router,
-    setPermissions,
-  } = props;
+  const { router } = props;
+  const dispatch = useDispatch();
+
+  const setSession = useCallback(
+    (token, permissions) => {
+      dispatch(createSetSession({ token, permissions }));
+    },
+    [dispatch],
+  );
+
+  const { goToNextPage, goToErrorPage } = useFormRouting(router);
+
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
@@ -48,24 +53,18 @@ const ValidateVeteran = props => {
     } else {
       // API call
       setIsLoading(true);
-
-      api.v2
-        .postSession({ lastName, last4: last4Ssn, token })
-        .then(data => {
-          // update sessions with new permissions
-          setPermissions(data);
-          // routing
-          if (isDemographicsPageEnabled) {
-            goToNextPage(router, URLS.DEMOGRAPHICS);
-          } else if (isUpdatePageEnabled) {
-            goToNextPage(router, URLS.UPDATE_INSURANCE);
-          } else {
-            goToNextPage(router, URLS.DETAILS);
-          }
-        })
-        .catch(() => {
-          goToNextPage(router, URLS.ERROR);
+      try {
+        const resp = await api.v2.postSession({
+          token,
+          last4: last4Ssn,
+          lastName,
         });
+        setSession(token, resp.permissions);
+        goToNextPage();
+      } catch (e) {
+        setIsLoading(false);
+        goToErrorPage();
+      }
     }
   };
   useEffect(() => {
@@ -90,27 +89,15 @@ const ValidateVeteran = props => {
         isLoading={isLoading}
         validateHandler={onClick}
         Footer={Footer}
+        isPreCheckIn={false}
       />
-      <BackToHome />
+      <BackToHome isPreCheckIn={false} />
     </>
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setPermissions: data =>
-      dispatch(permissionsUpdated(data, SCOPES.READ_FULL)),
-  };
-};
-
 ValidateVeteran.propTypes = {
-  isUpdatePageEnabled: PropTypes.bool,
-  isDemographicsPageEnabled: PropTypes.bool,
   router: PropTypes.object,
-  setPermissions: PropTypes.func,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ValidateVeteran);
+export default ValidateVeteran;

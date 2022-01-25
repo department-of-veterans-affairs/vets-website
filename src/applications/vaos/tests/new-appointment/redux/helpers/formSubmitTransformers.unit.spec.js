@@ -67,6 +67,7 @@ describe('VAOS data transformation', () => {
         },
         flowType: FLOW_TYPES.REQUEST,
       },
+      featureToggles: {},
     };
     const data = transformFormToVARequest(state);
     expect(data).to.deep.equal({
@@ -158,6 +159,7 @@ describe('VAOS data transformation', () => {
         },
         flowType: FLOW_TYPES.REQUEST,
       },
+      featureToggles: {},
     };
     const data = transformFormToVARequest(state);
     expect(data).to.deep.equal({
@@ -219,10 +221,9 @@ describe('VAOS data transformation', () => {
           communityCareProvider: {
             firstName: 'asdf',
             lastName: 'asdf',
-            practiceName: 'Practice',
+            name: 'Practice',
             address: {
-              street: '456 elm st',
-              street2: 'sfasdf',
+              line: ['456 elm st', 'sfasdf'],
               state: 'MA',
               city: 'northampton',
               postalCode: '01050',
@@ -263,6 +264,7 @@ describe('VAOS data transformation', () => {
         pastAppointments: null,
         submitStatus: 'succeeded',
       },
+      featureToggles: {},
     };
     const data = transformFormToCCRequest(state);
     expect(data).to.deep.equal({
@@ -287,12 +289,6 @@ describe('VAOS data transformation', () => {
             zipCode: '01050',
           },
           practiceName: 'Practice',
-          firstName: 'asdf',
-          lastName: 'asdf',
-          providerStreet: '456 elm st, sfasdf',
-          providerCity: 'northampton',
-          providerState: 'MA',
-          providerZipCode1: '01050',
         },
       ],
       newMessage: 'asdf',
@@ -342,10 +338,9 @@ describe('VAOS data transformation', () => {
           communityCareProvider: {
             firstName: 'asdf',
             lastName: 'asdf',
-            practiceName: 'Practice',
+            name: 'Practice',
             address: {
-              street: '456 elm st',
-              street2: 'sfasdf',
+              line: ['456 elm st', 'sfasdf'],
               state: 'MA',
               city: 'northampton',
               postalCode: '01050',
@@ -387,6 +382,7 @@ describe('VAOS data transformation', () => {
         pastAppointments: null,
         submitStatus: 'succeeded',
       },
+      featureToggles: {},
     };
     const data = transformFormToCCRequest(state);
     expect(data).to.deep.equal({
@@ -411,12 +407,6 @@ describe('VAOS data transformation', () => {
             zipCode: '01050',
           },
           practiceName: 'Practice',
-          firstName: 'asdf',
-          lastName: 'asdf',
-          providerStreet: '456 elm st, sfasdf',
-          providerCity: 'northampton',
-          providerState: 'MA',
-          providerZipCode1: '01050',
         },
       ],
       newMessage: 'asdf',
@@ -525,6 +515,7 @@ describe('VAOS data transformation', () => {
           ],
         },
       },
+      featureToggles: {},
     };
     const data = transformFormToAppointment(state);
     expect(data).to.deep.equal({
@@ -609,6 +600,7 @@ describe('VAOS data transformation', () => {
         },
         flowType: FLOW_TYPES.REQUEST,
       },
+      featureToggles: {},
     };
     const data = transformFormToVARequest(state);
     expect(data).to.deep.equal({
@@ -719,6 +711,7 @@ describe('VAOS data transformation', () => {
         pastAppointments: null,
         submitStatus: 'succeeded',
       },
+      featureToggles: {},
     };
     const data = transformFormToCCRequest(state);
     expect(data).to.deep.equal({
@@ -755,6 +748,124 @@ describe('VAOS data transformation', () => {
       optionTime3: 'No Time Selected',
       preferredCity: 'Cincinnati',
       preferredState: 'OH',
+      requestedPhoneCall: false,
+      email: 'test@va.gov',
+      officeHours: [],
+      reasonForVisit: '',
+      visitType: 'Office Visit',
+      distanceWillingToTravel: 40,
+      secondRequest: false,
+      secondRequestSubmitted: false,
+      inpatient: false,
+      status: 'Submitted',
+      providerId: '0',
+      providerOption: '',
+    });
+  });
+
+  it('should transform form using provider selection into CC request when residential address is missing', () => {
+    const state = {
+      user: {
+        profile: {
+          facilities: [{ facilityId: '983', isCerner: false }],
+          vapContactInfo: {
+            residentialAddress: null,
+          },
+        },
+      },
+      newAppointment: {
+        data: {
+          phoneNumber: '5035551234',
+          bestTimeToCall: {
+            afternoon: true,
+          },
+          email: 'test@va.gov',
+          reasonForAppointment: 'routine-follow-up',
+          reasonAdditionalInfo: 'asdf',
+          communityCareSystemId: '983',
+          preferredLanguage: 'english',
+          communityCareProvider: {
+            name: 'Practice',
+            address: {
+              line: ['456 elm st', 'sfasdf'],
+              state: 'MA',
+              city: 'northampton',
+              postalCode: '01050',
+            },
+            firstName: 'test',
+            lastName: 'mctesty',
+          },
+          selectedDates: ['2019-11-20T12:00:00.000'],
+          facilityType: 'communityCare',
+          typeOfCareId: '323',
+        },
+        facilities: {},
+        facilityDetails: {},
+        clinics: {},
+        eligibility: {},
+        ccEnabledSystems: [
+          {
+            id: '983',
+            vistaId: '983',
+            name: 'CHYSHR-Cheyenne VA Medical Center',
+            address: {
+              city: 'Cheyenne',
+              state: 'WY',
+            },
+          },
+          {
+            id: '984',
+            vistaId: '984',
+            address: {
+              city: 'Dayton',
+              state: 'OH',
+            },
+          },
+        ],
+        pageChangeInProgress: false,
+        parentFacilitiesStatus: FETCH_STATUS.succeeded,
+        eligibilityStatus: FETCH_STATUS.succeeded,
+        facilityDetailsStatus: FETCH_STATUS.succeeded,
+        pastAppointments: null,
+        submitStatus: 'succeeded',
+      },
+      featureToggles: {},
+    };
+    const data = transformFormToCCRequest(state);
+    expect(data).to.deep.equal({
+      typeOfCare: 'CCPRMYRTNE',
+      typeOfCareId: 'CCPRMYRTNE',
+      appointmentType: 'Primary care',
+      facility: {
+        name: 'CHYSHR-Cheyenne VA Medical Center',
+        facilityCode: '983',
+        parentSiteCode: '983',
+      },
+      purposeOfVisit: 'other',
+      phoneNumber: '5035551234',
+      verifyPhoneNumber: '5035551234',
+      bestTimetoCall: ['Afternoon'],
+      preferredProviders: [
+        {
+          address: {
+            street: '456 elm st, sfasdf',
+            city: 'northampton',
+            state: 'MA',
+            zipCode: '01050',
+          },
+          practiceName: 'Practice',
+        },
+      ],
+      newMessage: 'asdf',
+      preferredLanguage: 'English',
+      optionDate1: '11/20/2019',
+      optionDate2: 'No Date Selected',
+      optionDate3: 'No Date Selected',
+      optionTime1: 'PM',
+      optionTime2: 'No Time Selected',
+      optionTime3: 'No Time Selected',
+      preferredCity: 'Cheyenne',
+      preferredState: 'WY',
       requestedPhoneCall: false,
       email: 'test@va.gov',
       officeHours: [],

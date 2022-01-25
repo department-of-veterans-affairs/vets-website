@@ -13,9 +13,10 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply for Specially Adapted Housing Grant" />
+        <FormTitle title="Apply for a Specially Adapted Housing Grant or Special Home Adaptation Grant" />
         <p>
-          Equal to VA Form 26-4555 (Apply for Specially Adapted Housing Grant).
+          Application in Aquiring Specially Adapted Housing or Special Home
+          Adaptation Grant (VA Form 26-4555).
         </p>
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}

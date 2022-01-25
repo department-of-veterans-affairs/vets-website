@@ -1,16 +1,22 @@
 import manifest from '../manifest.json';
 
+import GetFormHelp from '../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
+  addressChangeAuthorization,
   basicInformation,
+  contactInformation,
   location,
   organizationName,
   representative,
   search,
+  serviceFileInformation,
   transitionPage,
-} from './imports';
+  treatmentDisclosureAuthorization,
+  personalInformation,
+} from './chapters';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -23,6 +29,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21-22a',
+  getHelp: GetFormHelp,
   saveInProgress: {},
   version: 0,
   prefillEnabled: true,
@@ -39,13 +46,11 @@ const formConfig = {
       pages: {
         representativeType: {
           path: 'representative-type',
-          uiSchema: basicInformation.uiSchema,
-          schema: basicInformation.schema,
+          ...basicInformation,
         },
         location: {
           path: 'location',
-          uiSchema: location.uiSchema,
-          schema: location.schema,
+          ...location,
         },
         representative: {
           path: 'representative-name',
@@ -54,8 +59,7 @@ const formConfig = {
         },
         organizationName: {
           path: 'organization-name',
-          uiSchema: organizationName.uiSchema,
-          schema: organizationName.schema,
+          ...organizationName,
         },
         searchRepresentative: {
           path: 'search-for-representative',
@@ -66,6 +70,55 @@ const formConfig = {
           path: 'more-information',
           uiSchema: transitionPage.uiSchema,
           schema: transitionPage.schema,
+        },
+      },
+    },
+    personalInformation: {
+      title: 'Your personal information',
+      pages: {
+        personalInformation: {
+          path: 'personal-information',
+          ...personalInformation,
+        },
+      },
+    },
+    serviceFileInformation: {
+      title: 'Your service file information',
+      pages: {
+        serviceFileInformation: {
+          path: 'service-file-information',
+          ...serviceFileInformation,
+        },
+      },
+    },
+    contactInformation: {
+      title: 'Your contact information',
+      pages: {
+        mailingAddress: {
+          path: 'mailing-address',
+          ...contactInformation.mailingAddress,
+        },
+        additionalInformation: {
+          path: 'additional-contact-information',
+          ...contactInformation.additionalInformation,
+        },
+      },
+    },
+    treatmentDisclosureAuthorization: {
+      title: 'Authorization to disclose protected treatment records',
+      pages: {
+        treatmentDisclosureAuthorization: {
+          path: 'treatment-disclosure-authorization',
+          ...treatmentDisclosureAuthorization,
+        },
+      },
+    },
+    addressChangeAuthorization: {
+      title: 'Authorization to change your address',
+      pages: {
+        addressChangeAuthorization: {
+          path: 'address-change-authorization',
+          ...addressChangeAuthorization,
         },
       },
     },

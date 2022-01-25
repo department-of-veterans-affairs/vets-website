@@ -41,21 +41,22 @@ export const titleCase = str => {
     .join(' ');
 };
 
+// if currentDate is on or before dueDate show current status
+// else show past due status
+export const verifyCurrentBalance = date => {
+  const currentDate = moment();
+  const dueDate = calcDueDate(date, 30);
+  return currentDate.isSameOrBefore(dueDate);
+};
+
+// receiving formatted date strings in the response
+// so we need to convert back to moment before sorting
 export const sortStatementsByDate = statements => {
-  return statements.sort((a, b) => {
-    const aDate = formatDate(a.pSStatementDate);
-    const bDate = formatDate(b.pSStatementDate);
-
-    if (aDate > bDate) {
-      return 1;
-    }
-
-    if (aDate < bDate) {
-      return -1;
-    }
-
-    return 0;
-  });
+  const format = 'MM-DD-YYYY';
+  return statements.sort(
+    (a, b) =>
+      moment(b.pSStatementDate, format) - moment(a.pSStatementDate, format),
+  );
 };
 
 export const transform = data => {

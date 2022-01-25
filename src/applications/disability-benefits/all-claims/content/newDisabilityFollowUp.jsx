@@ -1,5 +1,4 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import { capitalizeEachWord } from '../utils';
 import { NULL_CONDITION_STRING } from '../constants';
 
@@ -12,7 +11,7 @@ export const disabilityNameTitle = ({ formData }) => (
 );
 
 export const ServiceConnectedDisabilityDescription = () => (
-  <AdditionalInfo triggerText="What does service-connected disability mean?">
+  <va-additional-info trigger="What does service-connected disability mean?">
     <p>
       To be eligible for service-connected disability benefits, you’ll need to
       show that your disability was caused by an event, injury, or disease
@@ -21,5 +20,5 @@ export const ServiceConnectedDisabilityDescription = () => (
       statements, with your claim. We may ask you to have a claim exam if you
       don’t submit evidence or if we need more information to decide your claim.
     </p>
-  </AdditionalInfo>
+  </va-additional-info>
 );
