@@ -23,6 +23,8 @@ const setup = (mobile = false) => {
 
   cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
+  cy.injectAxe();
+
   // should show a loading indicator
   cy.findByRole('progressbar').should('exist');
   cy.findByText(/loading your information/i).should('exist');
@@ -48,5 +50,7 @@ describe('The personal and contact information page', () => {
       .click();
 
     cy.findByTestId('modal-content').should('exist');
+
+    cy.axeCheck();
   });
 });
