@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import { useDispatch, useSelector } from 'react-redux';
-import BackToHome from '../../components/BackToHome';
+import BackToHome from '../../../components/BackToHome';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import PropTypes from 'prop-types';
-import Footer from '../../components/Footer';
+import Footer from '../../../components/Footer';
 import BackButton from '../../../components/BackButton';
 import DemographicsDisplay from '../../../components/pages/demographics/DemographicsDisplay';
 import recordEvent from 'platform/monitoring/record-event';
