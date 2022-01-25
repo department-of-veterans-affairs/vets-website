@@ -106,6 +106,7 @@ export function createMockAppointmentByVersion({
           name: clinicName,
           askForCheckIn: false,
           facilityCode: fields.locationId?.substr(0, 3) || null,
+          stopCode: fields.stopCode,
         },
         type: 'REGULAR',
         currentStatus: vistaStatus,
