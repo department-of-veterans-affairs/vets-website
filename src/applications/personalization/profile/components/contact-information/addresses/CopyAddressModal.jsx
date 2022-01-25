@@ -1,12 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import AddressView from '@@vap-svc/components/AddressField/AddressView';
 
 const CopyAddressModal = props => {
-  const { isVisible, onYes, onNo } = props;
+  const {
+    isVisible,
+    onYes,
+    onNo,
+    optionalUpdateAddressType,
+    mainAddress,
+    addressToUpdate,
+  } = props;
+
+  const mainAddressType =
+    optionalUpdateAddressType === 'mailing'
+      ? 'home'
+      : optionalUpdateAddressType;
+
   return (
     <Modal
-      title="Do you also want to update your mailing address?"
+      title={`Do you also want to update your ${optionalUpdateAddressType} address?`}
       visible={isVisible}
       primaryButton={{
         action: () => {
@@ -25,12 +39,10 @@ const CopyAddressModal = props => {
     >
       <>
         <p>
-          We’ve updated your home address to this address:
+          {`We’ve updated your ${mainAddressType} address to this address:`}
           <br />
           <strong>
-            811 Vermont Ave NW
-            <br />
-            Washington, DC 20571
+            <AddressView data={mainAddress} />
           </strong>
         </p>
         <p>
@@ -38,9 +50,7 @@ const CopyAddressModal = props => {
           is the mailing address we have on file for you:
           <br />
           <strong>
-            1221 Douglas Way
-            <br />
-            Douglas, MA 14355
+            <AddressView data={addressToUpdate} />
           </strong>
         </p>
         <p>

@@ -82,6 +82,10 @@ export const militaryInformationLoadError = state => {
 export const showProfileLGBTQEnhancements = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileEnhancements] || false;
 
+export const profileShowAddressChangeModal = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowAddressChangeModal] ||
+  false;
+
 export function selectVAProfilePersonalInformation(state, fieldName) {
   const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];
 

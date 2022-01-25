@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import recordEvent from '~/platform/monitoring/record-event';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import { focusElement } from '~/platform/utilities/ui';
-import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import { isEmptyAddress } from 'platform/forms/address/helpers';
 import CopyAddressModal from '@@profile/components/contact-information/addresses/CopyAddressModal';
 
 import {
@@ -19,6 +20,7 @@ import {
 
 import * as VAP_SERVICE from '@@vap-svc/constants';
 import { ACTIVE_EDIT_VIEWS, FIELD_NAMES, USA } from '@@vap-svc/constants';
+import { areAddressesEqual } from '@@vap-svc/util';
 
 import {
   isFailedTransaction,
@@ -36,6 +38,8 @@ import {
   selectVAPServiceTransaction,
   selectEditViewData,
 } from '@@vap-svc/selectors';
+
+import { profileShowAddressChangeModal } from '@@profile/selectors';
 
 import { transformInitialFormValues } from '@@profile/util/contact-information/formValues';
 
@@ -246,13 +250,24 @@ export class ProfileInformationEditView extends Component {
     );
   };
 
-  compareAddresses = () => {
-    // console.log('COMPARE ADDRESSES');
-    // console.log(this.copyMailingAddress);
-    this.setState({ isShowingCopyAddressModal: true });
+  compareAddresses = data => {
+    const {
+      field,
+      mailingAddress,
+      shouldProfileShowAddressChangeModal,
+    } = this.props;
+
+    if (
+      shouldProfileShowAddressChangeModal &&
+      !areAddressesEqual(mailingAddress, field.value)
+    ) {
+      this.setState({ isShowingCopyAddressModal: true });
+      return;
+    }
     // setTimeout(() => {
     //   this.setState({ isShowingCopyAddressModal: false });
     // }, 2500);
+    this.onSubmit(data);
   };
 
   toggleCopyAddressModal = () => {
@@ -273,6 +288,8 @@ export class ProfileInformationEditView extends Component {
         title,
         transaction,
         transactionRequest,
+        shouldProfileShowAddressChangeModal,
+        mailingAddress,
       },
     } = this;
 
@@ -292,9 +309,13 @@ export class ProfileInformationEditView extends Component {
               this.editForm = el;
             }}
           >
-            {isResidentialAddress &&
+            {shouldProfileShowAddressChangeModal &&
+              isResidentialAddress &&
               this.state.isShowingCopyAddressModal && (
                 <CopyAddressModal
+                  optionalUpdateAddressType="mailing"
+                  mainAddress={field.value}
+                  addressToUpdate={mailingAddress}
                   isVisible={this.state.isShowingCopyAddressModal}
                   onYes={() => {
                     this.toggleCopyAddressModal();
@@ -382,6 +403,11 @@ export const mapStateToProps = (state, ownProps) => {
   // const addressValidationType = selectAddressValidationType(state);
   const activeEditView = selectCurrentlyOpenEditModal(state);
 
+  const mailingAddress = selectVAPContactInfoField(
+    state,
+    FIELD_NAMES.MAILING_ADDRESS,
+  );
+
   return {
     /*
     This ternary is to deal with an edge case: if the user is currently viewing
@@ -401,6 +427,9 @@ export const mapStateToProps = (state, ownProps) => {
     transaction,
     transactionRequest,
     editViewData: selectEditViewData(state),
+    shouldProfileShowAddressChangeModal: profileShowAddressChangeModal(state),
+    emptyMailingAddress: isEmptyAddress(mailingAddress),
+    mailingAddress,
   };
 };
 
