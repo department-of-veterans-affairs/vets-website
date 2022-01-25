@@ -10,9 +10,7 @@ describe('pre-check-in', () => {
       axeCheck(<Footer />);
     });
     it('renders additional information', () => {
-      const { getByText } = render(
-        <Footer additionalInformation={<p>foo</p>} />,
-      );
+      const { getByText } = render(<Footer message={<p>foo</p>} />);
       expect(getByText('foo')).to.exist;
     });
   });

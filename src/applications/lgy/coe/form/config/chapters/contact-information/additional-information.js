@@ -36,7 +36,7 @@ export const uiSchema = {
     'ui:required': () => true,
     'ui:validations': [
       {
-        validator: (errors, fieldData, formData) => {
+        validator: (errors, _fieldData, formData) => {
           if (
             formData.email.toLowerCase() !==
             formData['view:confirmEmail'].toLowerCase()

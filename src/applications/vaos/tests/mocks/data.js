@@ -234,10 +234,12 @@ export function createMockAppointmentByVersion({
         practitioners: communityCareProvider
           ? [
               {
-                identifier: {
-                  system: 'http://hl7.org/fhir/sid/us-npi',
-                  value: communityCareProvider.uniqueId,
-                },
+                identifier: [
+                  {
+                    system: 'http://hl7.org/fhir/sid/us-npi',
+                    value: communityCareProvider.uniqueId,
+                  },
+                ],
               },
             ]
           : null,

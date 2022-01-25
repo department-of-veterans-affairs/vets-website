@@ -32,14 +32,6 @@ function oneYearFromNow() {
   return Date.now() + oneYearInMS;
 }
 
-function loadingSpinnerIsHidden(view) {
-  expect(
-    view.queryByRole('progressbar', {
-      value: /benefits you might be interested in/i,
-    }),
-  ).to.not.exist;
-}
-
 function noApplicationsInProgressShown(view, shown = true) {
   const regex = /you have no applications in progress/i;
   if (shown) {
@@ -85,14 +77,6 @@ function educationInfoIsShown(view, shown = true) {
   } else {
     expect(view.queryByRole(...query)).to.not.exist;
   }
-}
-
-// function educationInfoIsHidden(view) {
-//   educationInfoIsShown(view, false);
-// }
-
-function healthCareInfoIsHidden(view) {
-  healthCareInfoIsShown(view, false);
 }
 
 describe('ApplyForBenefits component', () => {
@@ -270,7 +254,7 @@ describe('ApplyForBenefits component', () => {
       expect(applicationsInProgress[2]).to.contain.text('10-10EZ');
     });
   });
-  describe('Benefits you might be interested in', () => {
+  describe('Explore VA benefits and health care', () => {
     beforeEach(() => {
       mockFetch();
     });
@@ -351,8 +335,6 @@ describe('ApplyForBenefits component', () => {
               );
             }),
           ).to.be.false;
-          // make sure the loading spinner is not shown since we didn't need to load anything
-          loadingSpinnerIsHidden(view);
 
           healthCareInfoIsShown(view);
           claimsInfoIsShown(view);
@@ -397,7 +379,6 @@ describe('ApplyForBenefits component', () => {
             );
           }),
         ).to.be.false;
-        loadingSpinnerIsHidden(view);
       });
     });
 
@@ -480,10 +461,9 @@ describe('ApplyForBenefits component', () => {
             initialState,
             reducers,
           });
-          // this assertion is to make sure that a loading spinner is not
-          // rendered
+          healthCareInfoIsShown(view);
+          claimsInfoIsShown(view);
           educationInfoIsShown(view);
-          healthCareInfoIsHidden(view);
         });
       },
     );
@@ -533,6 +513,7 @@ describe('ApplyForBenefits component', () => {
             reducers,
           });
           healthCareInfoIsShown(view);
+          claimsInfoIsShown(view);
           educationInfoIsShown(view);
         });
       },
@@ -567,7 +548,7 @@ describe('ApplyForBenefits component', () => {
             initialState,
             reducers,
           });
-          healthCareInfoIsHidden(view);
+          healthCareInfoIsShown(view);
           claimsInfoIsShown(view);
           educationInfoIsShown(view);
         });
@@ -597,7 +578,7 @@ describe('ApplyForBenefits component', () => {
           initialState,
           reducers,
         });
-        healthCareInfoIsHidden(view);
+        healthCareInfoIsShown(view);
         claimsInfoIsShown(view);
         educationInfoIsShown(view);
       });
@@ -666,10 +647,9 @@ describe('ApplyForBenefits component', () => {
           initialState,
           reducers,
         });
+        healthCareInfoIsShown(view);
         claimsInfoIsShown(view);
-        healthCareInfoIsHidden(view);
         educationInfoIsShown(view);
-        // educationInfoIsHidden(view);
       });
     });
   });

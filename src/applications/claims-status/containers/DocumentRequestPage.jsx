@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import DueDate from '../components/DueDate';
 import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Notification from '../components/Notification';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { setPageFocus, setUpPage } from '../utils/page';
@@ -79,8 +78,8 @@ class DocumentRequestPage extends React.Component {
 
     if (this.props.loading) {
       content = (
-        <LoadingIndicator
-          setFocus
+        <va-loading-indicator
+          set-focus
           message="Loading your claim information..."
         />
       );
