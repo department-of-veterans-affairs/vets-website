@@ -1,4 +1,8 @@
-import { createApiEvent } from '../../utils/analytics';
+import {
+  createApiEvent,
+  captureError,
+  ERROR_SOURCES,
+} from '../../utils/analytics';
 import recordEvent from 'platform/monitoring/record-event';
 
 /**
@@ -12,7 +16,8 @@ const makeApiCall = async (request, eventName, token) => {
   // start the timer
   const startTime = new Date();
   // do the call
-
+  const FAILED = 'failed';
+  const SUCCESS = 'success';
   try {
     const json = await request;
     const endTime = new Date();
@@ -20,13 +25,27 @@ const makeApiCall = async (request, eventName, token) => {
 
     const { data } = json;
     const error = data?.error || data?.errors;
-    const status = error ? 'failed' : 'success';
+    const status = error ? FAILED : SUCCESS;
     const event = createApiEvent(eventName, status, timeDiff, token, error);
+    if (status === FAILED) {
+      captureError(
+        {
+          source: ERROR_SOURCES.API,
+          err: error,
+        },
+        {
+          token,
+          eventName,
+          json,
+        },
+      );
+    }
     recordEvent(event);
     return json;
   } catch (error) {
-    const event = createApiEvent(eventName, status, null, token, error);
+    const event = createApiEvent(eventName, FAILED, null, token, error);
     recordEvent(event);
+    captureError(error, { token });
     throw error;
   }
 };
