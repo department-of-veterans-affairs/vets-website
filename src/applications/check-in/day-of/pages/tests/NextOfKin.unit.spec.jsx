@@ -22,18 +22,22 @@ describe('check in', () => {
         form: {
           pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
         },
-        nextOfKin: {
-          address: {
-            street1: '445 Fine Finch Fairway',
-            street2: 'Apt 201',
-            city: 'Fairfence',
-            state: 'Florida',
-            zip: '445545',
+        veteranData: {
+          demographics: {
+            nextOfKin1: {
+              address: {
+                street1: '445 Fine Finch Fairway',
+                street2: 'Apt 201',
+                city: 'Fairfence',
+                state: 'Florida',
+                zip: '445545',
+              },
+              name: 'Kin, Next',
+              relationship: 'child',
+              phone: '5553334444',
+              workPhone: '5554445555',
+            },
           },
-          name: 'Kin, Next',
-          relationship: 'child',
-          phone: '5553334444',
-          workPhone: '5554445555',
         },
       },
     };
@@ -67,11 +71,15 @@ describe('check in', () => {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
             currentPage: 'first-page',
           },
-          nextOfKin: {
-            ...initState.checkInData.nextOfKin,
-            name: '',
-            relationship: '',
-            workPhone: '',
+          veteranData: {
+            demographics: {
+              nextOfKin1: {
+                ...initState.checkInData.veteranData.demographics.nextOfKin1,
+                name: '',
+                relationship: '',
+                workPhone: '',
+              },
+            },
           },
         },
       };
@@ -114,6 +122,9 @@ describe('check in', () => {
           form: {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
             currentPage: 'first-page',
+          },
+          veteranData: {
+            demographics: {},
           },
         },
       };
