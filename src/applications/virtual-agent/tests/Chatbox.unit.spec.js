@@ -227,7 +227,7 @@ describe('App', () => {
           () =>
             expect(
               wrapper.getByText(
-                'We keep a record of all virtual agent conversations, so we ask that you do not enter personal information that can be used to identify you.',
+                'We ask that you do not enter personal information that can be used to identify you.',
               ),
             ).to.exist,
         );
