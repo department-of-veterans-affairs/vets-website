@@ -111,7 +111,7 @@ export class ConnectedApps extends Component {
         {showHasNoConnectedApps && (
           <Link
             className="vads-u-margin-bottom--3"
-            href="/resources/find-apps-you-can-use"
+            to="/resources/find-apps-you-can-use"
             onClick={() =>
               recordEvent({
                 event: 'go-to-app-directory',

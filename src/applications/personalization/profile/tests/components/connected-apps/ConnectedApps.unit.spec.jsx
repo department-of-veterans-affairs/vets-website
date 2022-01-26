@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom';
 
 import { ConnectedApps } from '../../../components/connected-apps/ConnectedApps';
 
@@ -54,7 +55,11 @@ describe('<ConnectedApps>', () => {
       dismissDeletedAppAlert: () => {},
     };
 
-    const wrapper = mount(<ConnectedApps {...defaultProps} />);
+    const wrapper = mount(
+      <MemoryRouter>
+        <ConnectedApps {...defaultProps} />
+      </MemoryRouter>,
+    );
 
     const text = wrapper.text();
     expect(text).to.include(title);
@@ -90,7 +95,11 @@ describe('<ConnectedApps>', () => {
       dismissDeletedAppAlert: () => {},
     };
 
-    const wrapper = mount(<ConnectedApps {...defaultProps} />);
+    const wrapper = mount(
+      <MemoryRouter>
+        <ConnectedApps {...defaultProps} />
+      </MemoryRouter>,
+    );
 
     const text = wrapper.text();
     expect(text).to.include(title);
