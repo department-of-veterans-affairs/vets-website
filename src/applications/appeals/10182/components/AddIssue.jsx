@@ -121,8 +121,8 @@ const AddIssue = props => {
           {addIssueTitle}
         </legend>
         <TextInput
-          id="add-hlr-issue"
-          name="add-hlr-issue"
+          id="add-nod-issue"
+          name="add-nod-issue"
           type="text"
           label={issueNameLabel}
           required
