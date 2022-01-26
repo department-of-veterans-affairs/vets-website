@@ -18,20 +18,25 @@ const telephoneTransformer = (context, node) => {
       reactComponent: componentName.name,
       webComponent: 'va-telephone',
     },
-    fix: fixer => {
-      // Replace the node name
-      // and remove the `pattern` prop if it's there
-      return [
-        fixer.replaceText(componentName, 'va-telephone'),
-        international
-          ? fixer.insertTextBefore(patternNode, 'international')
-          : null,
-        patternNode ? fixer.remove(patternNode) : null,
-        notClickableNode
-          ? fixer.replaceText(notClickableNode, 'not-clickable')
-          : null,
-      ].filter(i => !!i);
-    },
+    suggest: [
+      {
+        desc: 'Migrate component',
+        fix: fixer => {
+          // Replace the node name
+          // and remove the `pattern` prop if it's there
+          return [
+            fixer.replaceText(componentName, 'va-telephone'),
+            international
+              ? fixer.insertTextBefore(patternNode, 'international')
+              : null,
+            patternNode ? fixer.remove(patternNode) : null,
+            notClickableNode
+              ? fixer.replaceText(notClickableNode, 'not-clickable')
+              : null,
+          ].filter(i => !!i);
+        },
+      },
+    ],
   });
 };
 
