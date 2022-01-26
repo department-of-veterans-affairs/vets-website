@@ -26,6 +26,7 @@ export default function ConfirmedAppointmentDetailsPage() {
     appointmentDetailsStatus,
     cancelInfo,
     facilityData,
+    useV2,
   } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
@@ -103,7 +104,11 @@ export default function ConfirmedAppointmentDetailsPage() {
         <DetailsVideo appointment={appointment} facilityData={facilityData} />
       )}
       {isVA && (
-        <DetailsVA appointment={appointment} facilityData={facilityData} />
+        <DetailsVA
+          appointment={appointment}
+          facilityData={facilityData}
+          useV2={useV2}
+        />
       )}
       <CancelAppointmentModal
         {...cancelInfo}

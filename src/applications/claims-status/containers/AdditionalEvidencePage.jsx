@@ -3,7 +3,6 @@ import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import AddFilesForm from '../components/AddFilesForm';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
 import { setPageFocus, setUpPage } from '../utils/page';
@@ -69,8 +68,8 @@ class AdditionalEvidencePage extends React.Component {
 
     if (this.props.loading) {
       content = (
-        <LoadingIndicator
-          setFocus
+        <va-loading-indicator
+          set-focus
           message="Loading your claim information..."
         />
       );

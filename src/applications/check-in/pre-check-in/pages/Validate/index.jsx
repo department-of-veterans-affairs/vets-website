@@ -7,9 +7,9 @@ import { api } from '../../../api';
 
 import { createSetSession } from '../../../actions/authentication';
 
-import BackToHome from '../../components/BackToHome';
+import BackToHome from '../../../components/BackToHome';
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
-import Footer from '../../components/Footer';
+import Footer from '../../../components/Footer';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 

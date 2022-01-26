@@ -31,24 +31,6 @@ export const receivedDemographicsData = demographics => {
   };
 };
 
-export const RECEIVED_NEXT_OF_KIN_DATA = 'RECEIVED_NEXT_OF_KIN_DATA';
-
-export const receivedNextOfKinData = nextOfKin => {
-  return {
-    type: RECEIVED_NEXT_OF_KIN_DATA,
-    payload: { nextOfKin },
-  };
-};
-export const RECEIVED_EMERGENCY_CONTACT_DATA =
-  'RECEIVED_EMERGENCY_CONTACT_DATA';
-
-export const receivedEmergencyContact = emergencyContact => {
-  return {
-    type: RECEIVED_EMERGENCY_CONTACT_DATA,
-    payload: { emergencyContact },
-  };
-};
-
 export const TRIGGER_REFRESH = 'TRIGGER_REFRESH';
 
 export const triggerRefresh = (shouldRefresh = true) => {

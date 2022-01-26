@@ -1,17 +1,24 @@
 import path from 'path';
+import featureTogglesEnabled from './fixtures/toggle-covid-feature.json';
 
 describe('COVID-19 Research Form', () => {
   describe('when entering valid information and submitting', () => {
     before(() => {
+      cy.intercept('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
+        'feature',
+      );
+    });
+
+    before(() => {
       cy.visit('coronavirus-research/volunteer/update/update-form?id=abc123');
       cy.injectAxe();
     });
-
+    // Skipping tests until routing is in place
     it.skip('should load form page', () => {
       cy.url().should('include', 'coronavirus-research/volunteer/update');
       cy.axeCheck();
       cy.get('h1').contains(
-        'Update your information in our coronavirus research volunteer list',
+        'Coronavirus research volunteer list survey update',
       );
       cy.axeCheck();
     });
@@ -52,7 +59,7 @@ describe('COVID-19 Research Form', () => {
       );
       cy.expandAccordions();
       cy.get('h1').contains(
-        'Update your information in our coronavirus research volunteer list',
+        'Coronavirus research volunteer list survey update',
       );
       cy.axeCheck();
 
