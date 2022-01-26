@@ -60,10 +60,10 @@ export const MaxSelectionsAlert = ({ closeModal }) => (
     onClose={closeModal}
     visible
   >
-    You are limited to {MAX_SELECTIONS} selected issues for each Higher-Level
-    Review request. If you would like to select more than {MAX_SELECTIONS},
-    please submit this request and create a new request for the remaining
-    issues.
+    You are limited to {MAX_SELECTIONS} selected issues for each Notice of
+    Disagreement request. If you would like to select more than
+    {MAX_SELECTIONS}, please submit this request and create a new request for
+    the remaining issues.
   </Modal>
 );
 
