@@ -81,7 +81,6 @@
         "view:selected": true
       }
     ],
-    "view:hasIssuesToAdd": false,
     "additionalIssues": [
       {
         "issue": "right arm",
@@ -91,7 +90,7 @@
       {
         "issue": "right shoulder",
         "decisionDate": "2021-06-06",
-        "view:selected": true
+        "view:selected": false
       }
     ],
     "areaOfDisagreement": [
