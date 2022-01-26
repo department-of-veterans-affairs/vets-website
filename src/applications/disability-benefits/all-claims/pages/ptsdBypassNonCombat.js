@@ -11,7 +11,7 @@ export const uiSchema = {
   'ui:options': {
     forceDivWrapper: true,
   },
-  'view:skip781ForNonCombatReason': {
+  skip781ForNonCombatReason: {
     'ui:title': ptsdBypassRadioLabel,
     'ui:required': formData =>
       // shouldn't show if combat question already true
@@ -27,7 +27,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:skip781ForNonCombatReason': {
+    skip781ForNonCombatReason: {
       type: 'boolean',
     },
     'view:ptsdNonCombatBypassAdditionalInfo': {

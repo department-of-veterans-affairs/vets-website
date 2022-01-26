@@ -13,7 +13,7 @@ const ClaimsAndAppealsCTA = () => {
         recordEvent({
           event: 'nav-linkslist',
           'links-list-header': 'Check your claim or appeal status',
-          'links-list-section-header': 'Claims & appeals',
+          'links-list-section-header': 'Claims and appeals',
         });
       }}
     />

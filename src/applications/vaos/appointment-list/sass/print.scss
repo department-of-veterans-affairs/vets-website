@@ -10,13 +10,15 @@
   button,
   .menu,
   .hero,
-  .adslot {
+  [data-widget-type="banner"],
+  [data-widget-type="maintenance-banner"],
+  [data-widget-type="promo-banner"] {
     display: none !important;
   }
 
   .vaos-appts__card--clickable {
     background-color: transparent !important;
-    border: 1px solid rgb(179,181,187)
+    border: 1px solid rgb(179, 181, 187);
   }
   .usa-label {
     background-color: transparent !important;

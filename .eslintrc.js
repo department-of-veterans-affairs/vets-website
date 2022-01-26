@@ -189,11 +189,11 @@ module.exports = {
     'react/jsx-one-expression-per-line': 0, // 2188 (fixable)
     'react/destructuring-assignment': 0, // 3010
 
-    'jsx-a11y/control-has-associated-label': 0, // 7
-    'jsx-a11y/click-events-have-key-events': 0, // 10
-    'jsx-a11y/anchor-is-valid': 0, // 19
-    'jsx-a11y/label-has-associated-control': 0, // 35
-    'jsx-a11y/label-has-for': 0, // 66
+    'jsx-a11y/control-has-associated-label': 1, // 2
+    'jsx-a11y/click-events-have-key-events': 1, // 24
+    'jsx-a11y/anchor-is-valid': 1, // 51
+    'jsx-a11y/label-has-associated-control': 1, // 40
+    'jsx-a11y/no-static-element-interactions': 1, // 20
 
     'import/named': 0, // 2
     'import/no-useless-path-segments': 0, // 59  (fixable)
@@ -217,10 +217,6 @@ module.exports = {
     'import/first': 0,
     'import/no-named-as-default': 0,
     'import/prefer-default-export': 0,
-
-    /* || jsx-a11y plugin || */
-    'jsx-a11y/href-no-hash': 0,
-    'jsx-a11y/no-static-element-interactions': 0,
 
     /* || react plugin || */
     'react/no-string-refs': 0, // TODO(awong): Enable.

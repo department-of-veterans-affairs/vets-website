@@ -1,3 +1,6 @@
+import environment from 'platform/utilities/environment';
+import * as Sentry from '@sentry/browser';
+
 /**
  * @param {string} slug
  */
@@ -41,4 +44,22 @@ const createApiEvent = (name, status, time, token, error) => {
   }
   return rv;
 };
-export { createAnalyticsSlug, createApiEvent };
+
+const captureError = error => {
+  if (error instanceof Error) {
+    Sentry.captureException(error);
+  } else {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+
+      const message = `check_in_client_error`;
+      // the apiRequest helper returns the errors array, instead of an exception
+      Sentry.captureMessage(message);
+    });
+  }
+  if (!environment.isProduction()) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+  }
+};
+export { createAnalyticsSlug, createApiEvent, captureError };
