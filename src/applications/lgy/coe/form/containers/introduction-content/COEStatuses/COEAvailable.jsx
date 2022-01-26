@@ -1,11 +1,15 @@
 import React from 'react';
+import moment from 'moment';
 
-const COEAvailable = ({ downloadURL }) => (
+const COEAvailable = ({ downloadURL, applicationCreateDate }) => (
   <>
     <va-alert status="info">
       <h2 slot="headline">You already have a COE</h2>
       <div>
-        <p>You requested a COE on: June 30, 2020</p>
+        <p>
+          You requested a COE on:{' '}
+          {moment(applicationCreateDate).format('MMMM DD, YYYY')}
+        </p>
         <p>
           You have a COE available so you don’t need to fill out a request. You
           can review the details about your COE status or download your COE now.
