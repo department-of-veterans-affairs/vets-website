@@ -8,6 +8,9 @@ const telephoneTransformer = (context, node) => {
   const componentName = node.openingElement.name;
   const patternNode = getPropNode(node, 'pattern');
   const notClickableNode = getPropNode(node, 'notClickable');
+  const contactNode = getPropNode(node, 'contact');
+  const contactValue = contactNode?.value.expression;
+  const stripHyphens = contactValue?.type === 'Literal';
   const international =
     patternNode?.value.expression.property.name === 'OUTSIDE_US';
 
@@ -26,6 +29,12 @@ const telephoneTransformer = (context, node) => {
           // and remove the `pattern` prop if it's there
           return [
             fixer.replaceText(componentName, 'va-telephone'),
+            stripHyphens
+              ? fixer.replaceText(
+                  contactValue,
+                  `'${contactValue.value.replace(/[^\d]/g, '')}'`,
+                )
+              : null,
             international
               ? fixer.insertTextBefore(patternNode, 'international')
               : null,
