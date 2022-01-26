@@ -142,7 +142,6 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     display: inline-block;
     float: right;
     vertical-align: bottom;
-    margin-right: 40px;
     margin-bottom: -10px;
   }
 }
@@ -188,6 +187,7 @@ input.location-search {
 #distance-dropdown {
   select {
     margin-top: 4px;
+    margin-left: 25px;
   }
 }
 

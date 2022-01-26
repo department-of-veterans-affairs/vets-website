@@ -153,13 +153,15 @@ export function KeywordSearch({
                   'aria-labelledby': 'institution-search-label',
                 })}
               />
-              <button
-                aria-label={`Clear your ${label}`}
-                type="button"
-                id="clear-input"
-                className="fas fa-times-circle clear-button"
-                onClick={handleClearInput}
-              />
+              {inputValue.length > 0 && (
+                <button
+                  aria-label={`Clear your ${label}`}
+                  type="button"
+                  id="clear-input"
+                  className="fas fa-times-circle clear-button"
+                  onClick={handleClearInput}
+                />
+              )}
             </div>
             {isOpen && (
               <div
