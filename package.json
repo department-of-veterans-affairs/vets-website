@@ -69,7 +69,7 @@
     "url": "https://github.com/department-of-veterans-affairs/vets-website/issues"
   },
   "lint-staged": {
-    "*.(js|jsx)": "eslint --fix"
+    "*.(js|jsx)": "eslint --fix -c ./.eslintrc.changed.js"
   },
   "nyc": {
     "sourceMap": false,
