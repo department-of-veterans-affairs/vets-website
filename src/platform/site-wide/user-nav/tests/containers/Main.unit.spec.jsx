@@ -31,6 +31,7 @@ describe('<Main>', () => {
   };
 
   let oldWindow = null;
+  const appendSpy = sinon.spy(Main.prototype, 'appendNextParameter');
 
   beforeEach(() => {
     oldWindow = global.window;
@@ -44,6 +45,7 @@ describe('<Main>', () => {
   });
 
   afterEach(() => {
+    appendSpy.reset();
     props.getBackendStatuses.reset();
     props.toggleFormSignInModal.reset();
     props.toggleLoginModal.reset();
@@ -73,6 +75,17 @@ describe('<Main>', () => {
 
     it('should open the login modal if there is a redirect URL and there is no active session', () => {
       global.window.location.search = { next: '/account' };
+      const wrapper = shallow(<Main {...props} />);
+      global.window.simulate('load');
+      expect(props.updateLoggedInStatus.calledOnce).to.be.true;
+      expect(props.updateLoggedInStatus.calledWith(false)).to.be.true;
+      expect(props.toggleLoginModal.calledOnce).to.be.true;
+      expect(props.toggleLoginModal.calledWith(true)).to.be.true;
+      wrapper.unmount();
+    });
+
+    it('should open the login modal if there is a ?next=loginModal Param and there is no active session', () => {
+      global.window.location.search = { next: 'loginModal' };
       const wrapper = shallow(<Main {...props} />);
       global.window.simulate('load');
       expect(props.updateLoggedInStatus.calledOnce).to.be.true;
@@ -158,6 +171,30 @@ describe('<Main>', () => {
     expect(props.getBackendStatuses.calledOnce).to.be.true;
     expect(props.toggleLoginModal.calledOnce).to.be.true;
     expect(props.toggleLoginModal.calledWith(true, 'header')).to.be.true;
+    wrapper.unmount();
+  });
+
+  it('should append ?next=loginModal when the login modal is opened', () => {
+    const wrapper = shallow(<Main {...props} />);
+    wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
+    expect(props.getBackendStatuses.calledOnce).to.be.true;
+    expect(props.toggleLoginModal.calledOnce).to.be.true;
+    expect(props.toggleLoginModal.calledWith(true, 'header')).to.be.true;
+    expect(appendSpy.calledWith()).to.be.true;
+    expect(appendSpy.returnValues[0].next).to.equal('loginModal');
+
+    wrapper.unmount();
+  });
+
+  it('should not append ?next=loginModal when the login modal is opened and a ?next parameter already exists', () => {
+    global.window.location.search = { next: 'account' };
+    const wrapper = shallow(<Main {...props} />);
+    wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
+    expect(props.getBackendStatuses.calledOnce).to.be.true;
+    expect(props.toggleLoginModal.calledOnce).to.be.true;
+    expect(props.toggleLoginModal.calledWith(true, 'header')).to.be.true;
+    expect(appendSpy.calledWith()).to.be.true;
+    expect(appendSpy.returnValues[0]).to.be.null;
     wrapper.unmount();
   });
 
