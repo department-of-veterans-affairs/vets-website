@@ -15,7 +15,7 @@ describe('Pre-Check In Experience', () => {
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
-      initializeSessionPost.withFailure();
+      initializeSessionPost.withValidationError();
       cy.visitPreCheckInWithUUID();
       ValidateVeteran.validatePageLoaded('Start pre-check-in');
     });

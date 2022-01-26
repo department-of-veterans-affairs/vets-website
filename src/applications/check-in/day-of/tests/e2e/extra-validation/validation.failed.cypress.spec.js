@@ -14,7 +14,7 @@ describe('Check In Experience -- ', () => {
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
-      initializeSessionPost.withFailure();
+      initializeSessionPost.withValidationError();
       cy.visitWithUUID();
       ValidateVeteran.validatePageLoaded('Check in at VA');
     });

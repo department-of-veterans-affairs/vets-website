@@ -2,6 +2,7 @@ import '../../../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../../tests/e2e/pages/ValidateVeteran';
+import Error from '../../pages/Error';
 
 describe('Pre-Check In Experience ', () => {
   describe('Error handling', () => {
@@ -10,9 +11,12 @@ describe('Pre-Check In Experience ', () => {
         const {
           initializeFeatureToggle,
           initializeSessionGet,
+          initializeSessionPost,
         } = ApiInitializer;
         initializeFeatureToggle.withCurrentFeatures();
         initializeSessionGet.withSuccessfulNewSession();
+
+        initializeSessionPost.withFailure(400);
       });
       afterEach(() => {
         cy.window().then(window => {
@@ -20,8 +24,6 @@ describe('Pre-Check In Experience ', () => {
         });
       });
       it('bad status code (400)', () => {
-        const { initializeSessionPost } = ApiInitializer;
-        initializeSessionPost.withFailure(400);
         cy.visitPreCheckInWithUUID();
         // page: Validate
         ValidateVeteran.validatePageLoaded();
@@ -29,8 +31,8 @@ describe('Pre-Check In Experience ', () => {
         cy.injectAxeThenAxeCheck();
 
         ValidateVeteran.attemptToGoToNextPage();
-        // Stay on validate page after failed validate attempt
-        ValidateVeteran.validateVeteran();
+
+        Error.validatePageLoaded();
       });
     });
   });

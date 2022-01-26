@@ -28,7 +28,9 @@ const responses = {
       return res.status(400).json(sessions.post.createMockFailedResponse());
     }
     if (last4 !== mockUser.last4 || lastName !== mockUser.lastName) {
-      return res.status(400).json(sessions.post.createMockFailedResponse());
+      return res
+        .status(400)
+        .json(sessions.post.createMockValidateErrorResponse());
     }
     hasBeenValidated = true;
     return res.json(sessions.post.createMockSuccessResponse(req.body));

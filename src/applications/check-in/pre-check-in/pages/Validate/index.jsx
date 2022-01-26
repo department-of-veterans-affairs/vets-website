@@ -69,7 +69,10 @@ export default function Index({ router }) {
         goToNextPage();
       } catch (e) {
         setIsLoading(false);
-        if (e?.errors[0]?.status !== '400' || isMaxValidateAttempts) {
+        if (
+          e?.message !== 'Invalid last4 or last name!' ||
+          isMaxValidateAttempts
+        ) {
           goToErrorPage();
         } else {
           if (!showValidateError) {
