@@ -6,25 +6,53 @@ import { connect } from 'react-redux';
 import { staticMapURL } from '../../facility-locator/utils/mapHelpers';
 
 export class FacilityMapWidget extends React.Component {
+  constructor(props) {
+    super(props);
+    const facilityDetail = this.props.facility;
+    const lat = this.getLat(facilityDetail);
+    const long = this.getLong(facilityDetail);
+    const address = buildAddressArray(lat, long, facilityDetail);
+    this.state = {
+      lat,
+      long,
+      address,
+    };
+  }
+
+  updateLatLongAndAddress = facilityDetail => {
+    const myThis = this;
+    const lat = this.getLat(facilityDetail);
+    const long = this.getLong(facilityDetail);
+    if (lat !== 0 && long !== 0) {
+      const address = buildAddressArray(lat, long, facilityDetail);
+      myThis.setState({
+        lat,
+        long,
+        address,
+      });
+    }
+  };
+
   componentDidMount() {
     if (!this.props.loading && !this.props.error) {
       this.updateImageLink(this.props.facility);
     }
   }
 
-  componentDidUpdate(prevProps) {
-    // We only want to run this logic when we were loading before, but now we're done loading and there's no error
-    if (prevProps.loading && !this.props.loading && !this.props.error) {
-      this.updateImageLink(this.props.facility);
+  componentDidUpdate(prevProps, prevState) {
+    const facilityDetail = this.props.facility;
+    const lat = this.getLat(facilityDetail);
+    const long = this.getLong(facilityDetail);
+    if (prevState.lat !== lat && prevState.long !== long) {
+      this.updateLatLongAndAddress(this.props.facility);
     }
   }
 
-  updateImageLink(facilityDetail) {
-    const lat = facilityDetail.attributes.lat;
-    const long = facilityDetail.attributes.long;
-
-    let address = buildAddressArray(facilityDetail);
-    if (address.length !== 0) {
+  updateImageLink = facilityDetail => {
+    const lat = this.getLat(facilityDetail);
+    const long = this.getLong(facilityDetail);
+    let address = buildAddressArray(lat, long, facilityDetail);
+    if (address && address.length !== 0) {
       address = address.join(', ');
     } else {
       // If we don't have an address fallback on coords
@@ -33,9 +61,21 @@ export class FacilityMapWidget extends React.Component {
 
     const mapLink = `https://maps.google.com?saddr=Current+Location&daddr=${address}`;
     const imageLink = document.getElementById('google-map-link-image');
-    if (imageLink) {
+    if (imageLink && (lat !== 0 && long !== 0)) {
       imageLink.setAttribute('href', mapLink);
     }
+  };
+
+  getLat(facilityDetail) {
+    return facilityDetail && facilityDetail.attributes
+      ? facilityDetail.attributes.lat
+      : 0;
+  }
+
+  getLong(facilityDetail) {
+    return facilityDetail && facilityDetail.attributes
+      ? facilityDetail.attributes.long
+      : 0;
   }
 
   render() {
@@ -46,20 +86,7 @@ export class FacilityMapWidget extends React.Component {
     if (this.props.error) {
       return null;
     }
-
-    const facilityDetail = this.props.facility;
-
-    const lat = facilityDetail.attributes.lat;
-    const long = facilityDetail.attributes.long;
-    let address = buildAddressArray(facilityDetail);
-
-    if (address.length !== 0) {
-      address = address.join(', ');
-    } else {
-      // If we don't have an address fallback on coords
-      address = `${lat},${long}`;
-    }
-
+    const { lat, long, address } = this.state;
     const mapUrl = staticMapURL(lat, long, mapboxToken);
     const mapLink = `https://maps.google.com?saddr=Current+Location&daddr=${address}`;
 

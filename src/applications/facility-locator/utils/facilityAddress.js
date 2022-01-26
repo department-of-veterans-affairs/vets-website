@@ -11,8 +11,8 @@ export function titleCase(str) {
     .join(' ');
 }
 
-export function buildAddressArray(location, titleCaseText = false) {
-  if (location.type === LocationType.CC_PROVIDER) {
+export function buildAddressArray(lat, long, location, titleCaseText = false) {
+  if (location && location.type === LocationType.CC_PROVIDER) {
     const { address } = location.attributes;
 
     if (!isEmpty(address)) {
@@ -27,19 +27,23 @@ export function buildAddressArray(location, titleCaseText = false) {
 
     return [];
   }
+  if (location && location.attributes) {
+    const {
+      address: { physical: address },
+    } = location.attributes;
 
-  const {
-    address: { physical: address },
-  } = location.attributes;
-
-  return compact([
-    titleCaseText ? titleCase(address.address1) : address.address1,
-    titleCaseText ? titleCase(address.address2) : address.address2,
-    titleCaseText ? titleCase(address.address3) : address.address3,
-    `${titleCaseText ? titleCase(address.city) : address.city}, ${
-      address.state
-    } ${address.zip}`,
-  ]);
+    const finalAddress = compact([
+      titleCaseText ? titleCase(address.address1) : address.address1,
+      titleCaseText ? titleCase(address.address2) : address.address2,
+      titleCaseText ? titleCase(address.address3) : address.address3,
+      `${titleCaseText ? titleCase(address.city) : address.city}, ${
+        address.state
+      } ${address.zip}`,
+    ]);
+    return finalAddress.join(', ');
+  } else {
+    return `${lat},${long}`;
+  }
 }
 
 const acronyms = ['va', 'cvs'];
