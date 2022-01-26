@@ -32,7 +32,7 @@ export function buildAddressArray(lat, long, location, titleCaseText = false) {
       address: { physical: address },
     } = location.attributes;
 
-    const finalAddress = compact([
+    return compact([
       titleCaseText ? titleCase(address.address1) : address.address1,
       titleCaseText ? titleCase(address.address2) : address.address2,
       titleCaseText ? titleCase(address.address3) : address.address3,
@@ -40,10 +40,8 @@ export function buildAddressArray(lat, long, location, titleCaseText = false) {
         address.state
       } ${address.zip}`,
     ]);
-    return finalAddress.join(', ');
-  } else {
-    return `${lat},${long}`;
   }
+  return '';
 }
 
 const acronyms = ['va', 'cvs'];

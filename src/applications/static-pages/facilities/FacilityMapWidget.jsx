@@ -19,12 +19,22 @@ export class FacilityMapWidget extends React.Component {
     };
   }
 
+  cleanAddress(address, lat, long) {
+    if (address && address.length !== 0) {
+      return address.join(', ');
+    } else {
+      // If we don't have an address fallback on coords
+      return `${lat},${long}`;
+    }
+  }
+
   updateLatLongAndAddress = facilityDetail => {
     const myThis = this;
     const lat = this.getLat(facilityDetail);
     const long = this.getLong(facilityDetail);
     if (lat !== 0 && long !== 0) {
-      const address = buildAddressArray(lat, long, facilityDetail);
+      let address = buildAddressArray(lat, long, facilityDetail);
+      address = this.cleanAddress(address, lat, long);
       myThis.setState({
         lat,
         long,
