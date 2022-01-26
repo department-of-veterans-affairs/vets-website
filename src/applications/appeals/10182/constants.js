@@ -22,7 +22,7 @@ export const CONTESTABLE_ISSUES_API =
 
 export const FORMAT_READABLE = 'LL';
 
-// contested issue dates
+// contestable issue dates
 export const FORMAT_YMD = 'YYYY-MM-DD';
 
 export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
@@ -34,7 +34,7 @@ export const MAX_SELECTIONS = 100;
 
 // Values from Lighthouse maintained schema
 // see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v1/10182.json
-export const MAX_ISSUE_LENGTH = 180;
+export const MAX_ISSUE_NAME_LENGTH = 180;
 export const MAX_DISAGREEMENT_REASON_LENGTH = 90;
 
 // Using MAX_DISAGREEMENT_REASON_LENGTH (90) and with all checkboxes selected,
@@ -45,3 +45,5 @@ export const SUBMITTED_DISAGREEMENTS = {
   effectiveDate: 'effective date',
   evaluation: 'disability evaluation',
 };
+
+export const LAST_NOD_ITEM = 'lastNodItem'; // focus management across pages
