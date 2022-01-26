@@ -13,11 +13,12 @@ import UpdateInformationQuestion from './pages/UpdateInformationQuestion';
 import ValidateVeteran from './pages/ValidateVeteran';
 import LoadingPage from './pages/LoadingPage';
 
-import withFeatureFlip from './containers/withFeatureFlip';
-import withSession from './containers/withSession';
-import withToken from './containers/withToken';
+import withFeatureFlip from '../containers/withFeatureFlip';
 import withForm from '../containers/withForm';
+import withAuthorization from '../containers/withAuthorization';
 import { URLS } from '../utils/navigation';
+
+import ErrorBoundary from '../components/errors/ErrorBoundary';
 
 const routes = [
   {
@@ -26,65 +27,74 @@ const routes = [
   },
   {
     path: URLS.VALIDATION_NEEDED,
-    component: withToken(ValidateVeteran),
+    component: ValidateVeteran,
     permissions: {
       requiresForm: true,
     },
   },
   {
     path: URLS.DEMOGRAPHICS,
-    component: withSession(Demographics),
+    component: Demographics,
     permissions: {
       requiresForm: true,
+      requireAuthorization: true,
     },
   },
   {
     path: URLS.NEXT_OF_KIN,
-    component: withSession(NextOfKin),
+    component: NextOfKin,
     permissions: {
       requiresForm: true,
+      requireAuthorization: true,
     },
   },
   {
     path: URLS.EMERGENCY_CONTACT,
-    component: withSession(EmergencyContact),
+    component: EmergencyContact,
     permissions: {
       requiresForm: true,
+      requireAuthorization: true,
     },
   },
   {
     path: URLS.UPDATE_INSURANCE,
-    component: withSession(UpdateInformationQuestion),
+    component: UpdateInformationQuestion,
     permissions: {
       requiresForm: true,
+      requireAuthorization: true,
     },
   },
   {
     path: URLS.DETAILS,
-    component: withSession(CheckIn),
+    component: CheckIn,
     permissions: {
       requiresForm: true,
+      requireAuthorization: true,
     },
   },
   {
     path: URLS.COMPLETE,
-    component: withSession(Confirmation),
+    component: Confirmation,
     permissions: {
       requiresForm: true,
+      requireAuthorization: true,
     },
   },
   {
     path: URLS.SEE_STAFF,
-    component: withSession(SeeStaff),
+    component: SeeStaff,
+
     permissions: {
       requiresForm: true,
+      requireAuthorization: true,
     },
   },
   {
     path: URLS.LOADING,
-    component: withSession(LoadingPage),
+    component: LoadingPage,
     permissions: {
       requiresForm: true,
+      requireAuthorization: true,
     },
   },
   {
@@ -97,18 +107,26 @@ const createRoutesWithStore = () => {
   return (
     <Switch>
       {routes.map((route, i) => {
-        let component = route.component;
+        const options = { isPreCheckIn: false };
+        let component = props => (
+          <ErrorBoundary {...props}>
+            <route.component {...props} />
+          </ErrorBoundary>
+        );
         if (route.permissions) {
-          const { requiresForm } = route.permissions;
+          const { requiresForm, requireAuthorization } = route.permissions;
           if (requiresForm) {
-            component = withForm(component, { isPreCheckIn: false });
+            component = withForm(component, options);
+          }
+          if (requireAuthorization) {
+            component = withAuthorization(component, options);
           }
         }
 
         return (
           <Route
             path={`/${route.path}`}
-            component={withFeatureFlip(component)}
+            component={withFeatureFlip(component, options)}
             key={i}
           />
         );

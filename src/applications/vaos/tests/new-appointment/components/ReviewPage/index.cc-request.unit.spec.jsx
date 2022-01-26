@@ -611,10 +611,12 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       preferredLocation: { city: 'Cincinnati', state: 'OH' },
       practitioners: [
         {
-          identifier: {
-            system: 'http://hl7.org/fhir/sid/us-npi',
-            value: 'ppmsid',
-          },
+          identifier: [
+            {
+              system: 'http://hl7.org/fhir/sid/us-npi',
+              value: 'ppmsid',
+            },
+          ],
         },
       ],
     });

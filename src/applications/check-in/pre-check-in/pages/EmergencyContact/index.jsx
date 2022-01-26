@@ -8,8 +8,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import { recordAnswer } from '../../../actions/pre-check-in';
 
 import BackButton from '../../../components/BackButton';
-import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/Footer';
+import BackToHome from '../../../components/BackToHome';
+import Footer from '../../../components/Footer';
 import EmergencyContactDisplay from '../../../components/pages/emergencyContact/EmergencyContactDisplay';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';

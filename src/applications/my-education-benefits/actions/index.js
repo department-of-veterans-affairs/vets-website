@@ -1,7 +1,7 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
-const CLAIMANT_INTO_ENDPOINT = `${
+export const CLAIMANT_INFO_ENDPOINT = `${
   environment.API_URL
 }/meb_api/v0/claimant_info`;
 
@@ -26,6 +26,16 @@ export const CLAIM_STATUS_RESPONSE_DENIED = 'DENIED';
 export const CLAIM_STATUS_RESPONSE_IN_PROGRESS = 'INPROGRESS';
 export const CLAIM_STATUS_RESPONSE_ERROR = 'ERROR';
 
+const ELIGIBILITY_ENDPOINT = `${environment.API_URL}/meb_api/v0/eligibility`;
+export const FETCH_ELIGIBILITY = 'FETCH_ELIGIBILITY';
+export const FETCH_ELIGIBILITY_SUCCESS = 'FETCH_ELIGIBILITY_SUCCESS';
+export const FETCH_ELIGIBILITY_FAILURE = 'FETCH_ELIGIBILITY_FAILURE';
+export const ELIGIBILITY = {
+  CHAPTER30: 'Chapter30',
+  CHAPTER33: 'Chapter33',
+  CHAPTER1606: 'Chapter1606',
+};
+
 const ONE_MINUTE_IN_THE_FUTURE = new Date(new Date().getTime() + 60000);
 const FIVE_SECONDS = 5000;
 
@@ -33,7 +43,7 @@ export function fetchPersonalInformation() {
   return async dispatch => {
     dispatch({ type: FETCH_PERSONAL_INFORMATION });
 
-    return apiRequest(CLAIMANT_INTO_ENDPOINT)
+    return apiRequest(CLAIMANT_INFO_ENDPOINT)
       .then(response =>
         dispatch({
           type: FETCH_PERSONAL_INFORMATION_SUCCESS,
@@ -51,11 +61,13 @@ export function fetchPersonalInformation() {
 
 const poll = ({
   endpoint,
-  validate,
+  validate = response => response && response.data,
   interval = FIVE_SECONDS,
   endTime = ONE_MINUTE_IN_THE_FUTURE,
   dispatch,
   timeoutResponse,
+  successDispatchType,
+  failureDispatchType,
 }) => {
   // eslint-disable-next-line consistent-return
   const executePoll = async (resolve, reject) => {
@@ -73,13 +85,13 @@ const poll = ({
   return new Promise(executePoll)
     .then(response => {
       return dispatch({
-        type: FETCH_CLAIM_STATUS_SUCCESS,
+        type: successDispatchType,
         response,
       });
     })
     .catch(errors => {
       dispatch({
-        type: FETCH_CLAIM_STATUS_FAILURE,
+        type: failureDispatchType,
         errors,
       });
     });
@@ -101,6 +113,26 @@ export function fetchClaimStatus() {
           CLAIM_STATUS_RESPONSE_IN_PROGRESS,
       dispatch,
       timeoutResponse,
+      successDispatchType: FETCH_CLAIM_STATUS_SUCCESS,
+      failureDispatchType: FETCH_CLAIM_STATUS_FAILURE,
+    });
+  };
+}
+
+export function fetchEligibility() {
+  return async dispatch => {
+    dispatch({ type: FETCH_ELIGIBILITY });
+    const timeoutResponse = {
+      veteranIsEligible: false,
+      chapter: [],
+    };
+
+    poll({
+      endpoint: ELIGIBILITY_ENDPOINT,
+      dispatch,
+      timeoutResponse,
+      successDispatchType: FETCH_ELIGIBILITY_SUCCESS,
+      failureDispatchType: FETCH_ELIGIBILITY_FAILURE,
     });
   };
 }

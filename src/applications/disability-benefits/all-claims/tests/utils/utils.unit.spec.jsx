@@ -505,13 +505,13 @@ describe('526 helpers', () => {
       expect(
         needsToEnter781({
           ...formData,
-          'view:skip781ForCombatReason': true,
+          skip781ForCombatReason: true,
         }),
       ).to.be.false;
       expect(
         needsToEnter781({
           ...formData,
-          'view:skip781ForNonCombatReason': true,
+          skip781ForNonCombatReason: true,
         }),
       ).to.be.false;
     });
@@ -1295,8 +1295,8 @@ describe('skip PTSD questions', () => {
       'view:combatPtsdType': combat,
       'view:nonCombatPtsdType': nonCombat,
     },
-    'view:skip781ForCombatReason': skipCombat,
-    'view:skip781ForNonCombatReason': skipNonCombat,
+    skip781ForCombatReason: skipCombat,
+    skip781ForNonCombatReason: skipNonCombat,
   });
 
   describe('showPtsdCombat', () => {

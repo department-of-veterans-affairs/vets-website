@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+
+import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 
 import HowToApplyPost911GiBill from '../components/HowToApplyPost911GiBill';
-import { connect } from 'react-redux';
 import { fetchUser } from '../selectors/userDispatch';
-
-import environment from 'platform/utilities/environment';
+import { CLAIMANT_INFO_ENDPOINT, fetchEligibility } from '../actions';
 
 export const IntroductionPage = ({ user, route }) => {
-  const CLAIMANT_URL = `${environment.API_URL}/meb_api/v0/claimant_info`;
-
   const SaveInProgressComponent = (
     <SaveInProgressIntro
       testActionLink
@@ -28,26 +28,26 @@ export const IntroductionPage = ({ user, route }) => {
   );
 
   const handleRedirect = async response => {
-    if (!response.ok && response.status === 404) {
+    if (response.status >= 204 || !response?.data?.attributes?.claimant) {
       window.location.href =
         '/education/apply-for-education-benefits/application/1990/';
     }
     return response;
   };
 
-  const checkIfClaimantExists = async () =>
-    fetch(CLAIMANT_URL)
-      .then(response => handleRedirect(response))
-      .catch(err => err);
-
   useEffect(
     () => {
+      const checkIfClaimantExists = async () =>
+        apiRequest(CLAIMANT_INFO_ENDPOINT)
+          .then(response => handleRedirect(response))
+          .catch(err => err);
+
       focusElement('.va-nav-breadcrumbs-list');
       if (user.login.currentlyLoggedIn) {
         checkIfClaimantExists().then(res => res);
       }
     },
-    [user?.login?.currentlyLoggedIn, checkIfClaimantExists],
+    [user.login.currentlyLoggedIn],
   );
 
   return (
@@ -142,6 +142,7 @@ export const IntroductionPage = ({ user, route }) => {
 
 const mapStateToProps = state => ({
   user: fetchUser(state),
+  eligibility: fetchEligibility,
 });
 
 export default connect(mapStateToProps)(IntroductionPage);

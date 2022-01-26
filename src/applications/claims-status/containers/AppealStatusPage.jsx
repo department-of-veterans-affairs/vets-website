@@ -4,7 +4,6 @@ import { withRouter } from 'react-router';
 import moment from 'moment';
 import _ from 'lodash';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { getAppeals } from '../actions/index.jsx';
 import AppealEventItem from '../components/AppealEventItem';
 import AskVAQuestions from '../components/AskVAQuestions';
@@ -102,7 +101,10 @@ class AppealStatusPage extends React.Component {
 
     if (loading) {
       return (
-        <LoadingIndicator message="Loading your appeal status..." setFocus />
+        <va-loading-indicator
+          message="Loading your appeal status..."
+          setFocus
+        />
       );
     }
 

@@ -116,12 +116,15 @@ describe('526 All Claims validations', () => {
         serviceInformation: {
           servicePeriods: [
             { dateRange: { from: '2003-03-12' }, serviceBranch: 'Army' },
-            { dateRange: { from: '2000-01-14' }, serviceBranch: 'Army' },
+            {
+              dateRange: { from: '2000-01-14' },
+              serviceBranch: 'Army Reserve',
+            },
             { dateRange: { from: '2011-12-25' }, serviceBranch: 'Army' },
             // ignored
             {
               dateRange: { from: '1990-10-11' },
-              serviceBranch: 'Army Reserve',
+              serviceBranch: '', // missing branch name
             },
           ],
         },
@@ -138,12 +141,15 @@ describe('526 All Claims validations', () => {
         serviceInformation: {
           servicePeriods: [
             { dateRange: { from: '2003-03-12' }, serviceBranch: 'Army' },
-            { dateRange: { from: '2000-01-14' }, serviceBranch: 'Army' },
+            {
+              dateRange: { from: '2000-01-14' },
+              serviceBranch: 'Coast Guard Reserve',
+            },
             { dateRange: { from: '2011-12-25' }, serviceBranch: 'Coast Guard' },
             // ignored
             {
               dateRange: { from: '1990-10-11' },
-              serviceBranch: 'Coast Guard Reserve',
+              serviceBranch: '',
             },
           ],
         },
@@ -160,12 +166,15 @@ describe('526 All Claims validations', () => {
         serviceInformation: {
           servicePeriods: [
             { dateRange: { from: '2003-03-12' }, serviceBranch: 'Army' },
-            { dateRange: { from: '2000-01-14' }, serviceBranch: 'Army' },
+            {
+              dateRange: { from: '2000-01-14' },
+              serviceBranch: 'Army National Guard',
+            },
             { dateRange: { from: '2011-12-25' }, serviceBranch: 'Army' },
             // ignored
             {
               dateRange: { from: '1990-10-11' },
-              serviceBranch: 'Army National Guard',
+              serviceBranch: '',
             },
           ],
         },

@@ -24,6 +24,9 @@ export default Object.freeze({
   covidVaccineUpdatesEnableExpandedEligibility:
     'covid_vaccine_registration_frontend_enable_expanded_eligibility',
   covidVaccineUpdatesForm: 'covid_vaccine_registration_frontend',
+  covidVolunteerIntakeBackendEnabled: 'covid_volunteer_intake_backend_enabled',
+  covidVolunteerIntakeEnabled: 'covid_volunteer_intake_enabled',
+  covidVolunteerUpdateEnabled: 'covid_volunteer_update_enabled',
   debtLettersShowLetters: 'debt_letters_show_letters',
   dependencyVerification: 'dependency_verification',
   dischargeWizardFeatures: 'discharge_wizard_features',
@@ -70,6 +73,7 @@ export default Object.freeze({
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
   show526Wizard: 'show526_wizard',
   showPaymentAndDebtSection: 'show_payment_and_debt_section',
+  showDashboardNotifications: 'show_dashboard_notifications',
   showEduBenefits0994Wizard: 'show_edu_benefits_0994_wizard',
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
   showEduBenefits1990NWizard: 'show_edu_benefits_1990n_wizard',

@@ -4,6 +4,7 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 import { CoeDocumentUpload } from './CoeDocumentUpload';
 import { CoeDocumentList } from './CoeDocumentList';
 import { MoreQuestions } from './MoreQuestions';
+import moment from 'moment';
 
 export const CoePending = props => (
   <div className="row vads-u-margin-bottom--7">
@@ -12,7 +13,10 @@ export const CoePending = props => (
         <h2 slot="headline" className="vads-u-font-size--h3">
           We’re reviewing your request for a COE
         </h2>
-        <p>You requested a COE on: June 1, 2019</p>
+        <p>
+          You requested a COE on:{' '}
+          {moment(props.applicationCreateDate).format('MMMM DD, YYYY')}
+        </p>
         <p>
           If you qualify for a Certificate of Eligibility, we’ll notify you by
           email or mail to let you know how to get your COE.
