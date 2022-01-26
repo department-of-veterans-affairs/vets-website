@@ -15,7 +15,7 @@ describe('focus on element', () => {
   it('should focus on element based on selector string', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <div>
-        <button />
+        <button aria-label="button" />
       </div>,
     );
     const dom = findDOMNode(tree);
@@ -28,7 +28,7 @@ describe('focus on element', () => {
   it('should focus on element passed to the function', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <div>
-        <button />
+        <button aria-label="button" />
       </div>,
     );
     const dom = findDOMNode(tree);
@@ -118,7 +118,7 @@ describe('getFocuableElements', () => {
     const tree = ReactTestUtils.renderIntoDocument(
       <form>
         <a href="#">x</a>
-        <button />
+        <button aria-label="button" />
         <details>
           <summary>foo</summary>
           baz
@@ -167,7 +167,7 @@ describe('getFocuableElements', () => {
         <a href="#" style={{ display: 'none' }}>
           x
         </a>
-        <button style={{ display: 'none' }} />
+        <button style={{ display: 'none' }} aria-label="button" />
         <details style={{ display: 'none' }}>
           <summary>foo</summary>
           baz
