@@ -1,9 +1,7 @@
-// Example of an imported schema:
-// import fullSchema from '../26-1880-schema.json';
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/26-1880-schema.json';
-
 import fullSchema from 'vets-json-schema/dist/26-1880-schema.json';
+
+import FormFooter from 'platform/forms/components/FormFooter';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -23,12 +21,10 @@ import {
 } from './chapters/contact-information';
 
 import { serviceStatus, serviceHistory } from './chapters/service';
-
 import { loanScreener, loanIntent, loanHistory } from './chapters/loans';
-
 import { fileUpload } from './chapters/documents';
 
-// TODO: WHen schema is migrated to vets-json-schema, remove common definitions from form schema and get them
+// TODO: When schema is migrated to vets-json-schema, remove common definitions from form schema and get them
 // from common definitions instead
 
 const formConfig = {
@@ -40,9 +36,10 @@ const formConfig = {
   trackingPrefix: '26-1880-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '26-1880',
+  formId: VA_FORM_IDS.FORM_26_1880,
   version: 0,
   prefillEnabled: true,
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',

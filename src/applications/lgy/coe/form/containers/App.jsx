@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import FormFooter from 'platform/forms/components/FormFooter';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
 import formConfig from '../config/form';
@@ -15,17 +14,10 @@ function App(props) {
     props.generateCoe();
   }, []);
 
-  const content = (
+  return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}
     </RoutedSavableApp>
-  );
-
-  return (
-    <>
-      {content}
-      <FormFooter formConfig={formConfig} />
-    </>
   );
 }
 
