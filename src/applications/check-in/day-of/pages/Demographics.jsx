@@ -7,13 +7,13 @@ import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
-import { makeSelectDemographicData } from '../hooks/selectors';
+import { makeSelectVeteranData } from '../../selectors';
 
 import { URLS } from '../../utils/navigation';
 
 const Demographics = props => {
-  const selectDemographicData = useMemo(makeSelectDemographicData, []);
-  const { demographics } = useSelector(selectDemographicData);
+  const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { demographics } = useSelector(selectVeteranData);
   const { router } = props;
   const { goToNextPage, jumpToPage, goToErrorPage } = useFormRouting(router);
 

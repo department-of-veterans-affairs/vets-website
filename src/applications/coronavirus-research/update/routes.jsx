@@ -4,6 +4,7 @@ import App from './containers/App.jsx';
 import withFeatureFlip from '../shared/containers/withFeatureFlip';
 
 const component = withFeatureFlip(App, 'update');
+const replacementPath = `/update-form${window.location.search}`;
 
 const route = {
   path: '/',
@@ -14,7 +15,7 @@ const route = {
       return (nextState, replace) => {
         if (!hasRedirected) {
           hasRedirected = true;
-          replace('/update');
+          replace(replacementPath);
         }
       };
     })(),
@@ -25,6 +26,6 @@ const introRouteIndex = route.childRoutes.findIndex(
   cr => cr.path === 'introduction',
 );
 route.childRoutes[introRouteIndex].onEnter = (nextState, replace) => {
-  replace('/update');
+  replace(replacementPath);
 };
 export default route;

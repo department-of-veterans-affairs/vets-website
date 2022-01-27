@@ -13,7 +13,7 @@ import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
 import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 
-import { makeSelectContext } from '../hooks/selectors';
+import { makeSelectCurrentContext } from '../../selectors';
 
 const ValidateVeteran = props => {
   const { router } = props;
@@ -35,8 +35,8 @@ const ValidateVeteran = props => {
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
 
-  const selectContext = useMemo(makeSelectContext, []);
-  const { token } = useSelector(selectContext);
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectCurrentContext);
 
   const onClick = async () => {
     setLastNameErrorMessage();

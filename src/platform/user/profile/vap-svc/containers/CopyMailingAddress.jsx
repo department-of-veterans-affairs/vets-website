@@ -1,27 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import isEqual from 'lodash/isEqual';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
-import pickBy from 'lodash/pickBy';
 import mapValues from 'lodash/mapValues';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
+import { areAddressesEqual } from '@@vap-svc/util';
 
-import { FIELD_NAMES, USA } from '@@vap-svc/constants';
+import { FIELD_NAMES, USA, ADDRESS_PROPS } from '@@vap-svc/constants';
 
 import { selectVAPContactInfoField, selectEditedFormField } from '../selectors';
-
-const ADDRESS_PROPS = [
-  'addressLine1',
-  'addressLine2',
-  'addressLine3',
-  'city',
-  'countryCodeIso3',
-  'internationalPostalCode',
-  'province',
-  'stateCode',
-  'zipCode',
-];
 
 class CopyMailingAddress extends React.Component {
   static propTypes = {
@@ -33,16 +20,7 @@ class CopyMailingAddress extends React.Component {
   areHomeMailingAddressesEqual = () => {
     const { mailingAddress, residentialAddress } = this.props;
 
-    const mailingAddressFields = pickBy(
-      pick(mailingAddress, ADDRESS_PROPS),
-      value => !!value,
-    );
-    const residentialAddressFields = pickBy(
-      pick(residentialAddress, ADDRESS_PROPS),
-      value => !!value,
-    );
-
-    return isEqual(mailingAddressFields, residentialAddressFields);
+    return areAddressesEqual(mailingAddress, residentialAddress);
   };
 
   onChange = () => {
