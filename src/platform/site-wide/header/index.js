@@ -10,7 +10,7 @@ import './containers/Menu/styles.scss';
 import App from './components/App';
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 
-export default async (store, megaMenuData) => {
+export default (store, megaMenuData) => {
   // Derive the widget and its data properties for props.
   const root = document.querySelector(`[data-widget-type="header"]`);
   const props = root?.dataset;

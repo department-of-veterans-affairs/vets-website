@@ -16,7 +16,7 @@ import Main from './containers/Main';
  *
  * @param {Redux.Store} store The common store used on the site
  */
-export default async function startMegaMenuWidget(data, store) {
+export default function startMegaMenuWidget(data, store) {
   startReactApp(
     <Provider store={store}>
       <Main megaMenuData={data} />
