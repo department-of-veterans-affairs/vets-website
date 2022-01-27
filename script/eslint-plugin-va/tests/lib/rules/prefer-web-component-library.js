@@ -74,5 +74,20 @@ ruleTester.run('prefer-web-component-library', rule, {
         },
       ],
     },
+    {
+      code:
+        'const phone = () => (<Telephone notClickable contact={myContact} />)',
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output:
+                'const phone = () => (<va-telephone not-clickable contact={myContact} />)',
+            },
+          ],
+        },
+      ],
+    },
   ],
 });
