@@ -18,6 +18,7 @@ export default async function createVetCentersHours(store) {
         <VetCenterHours
           hours={vetCenterHoursArray}
           vetCenterHoursId="vet-center-hours"
+          isSatelliteLocation={false}
         />
       </Provider>,
       vetCentersHoursWidget,
