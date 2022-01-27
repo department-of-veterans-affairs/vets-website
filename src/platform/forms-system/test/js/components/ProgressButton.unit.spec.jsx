@@ -49,6 +49,36 @@ describe('<ProgressButton>', () => {
     return expect(updatePromise).to.eventually.eql(true);
   });
 
+  it('calls handle() on click even if mouseDown happens', () => {
+    let progressButton;
+    const spy = sinon.spy();
+
+    const updatePromise = new Promise((resolve, _reject) => {
+      progressButton = ReactTestUtils.renderIntoDocument(
+        <ProgressButton
+          buttonText="Button text"
+          buttonClass="usa-button-primary"
+          disabled={false}
+          onButtonClick={() => {
+            resolve(true);
+          }}
+          preventOnBlur={spy}
+        />,
+      );
+    });
+
+    const button = ReactTestUtils.findRenderedDOMComponentWithTag(
+      progressButton,
+      'button',
+    );
+
+    ReactTestUtils.Simulate.mouseDown(button);
+    ReactTestUtils.Simulate.click(button);
+
+    expect(spy.calledOnce).to.be.true;
+    return expect(updatePromise).to.eventually.eql(true);
+  });
+
   it('calls preventDefault() on mouseDown event when providing prop', () => {
     const spy = sinon.spy();
 
