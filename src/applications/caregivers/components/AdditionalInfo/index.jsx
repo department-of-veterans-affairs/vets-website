@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-import {
-  ALLOWED_FILE_TYPES,
-  MAX_FILE_SIZE_MB,
-} from 'applications/caregivers/definitions/constants';
+// import {
+//   ALLOWED_FILE_TYPES,
+//   MAX_FILE_SIZE_MB,
+// } from 'applications/caregivers/definitions/constants';
 import { links } from 'applications/caregivers/definitions/content';
-import { arrayToSentenceString } from '../../helpers';
+// import { arrayToSentenceString } from '../../helpers';
 
 export const VeteranSSNInfo = () => (
   <div className="vads-u-margin-y--1p5">
@@ -211,29 +211,68 @@ export const SecondaryRequiredAlert = () => {
   );
 };
 
+// export const RepresentativeIntroContent = () => {
+//   return (
+//     <section>
+//       <p>
+//         Some family caregivers are also the Veteran’s legal representative.
+//         These representatives have the legal authority to make certain decisions
+//         for the Veteran.
+//       </p>
+
+//       <p>Here’s what you should know:</p>
+
+//       <ul>
+//         <li>
+//           You can still continue with this application to apply for the program
+//           even if you’re not the Veteran’s legal representative.
+//         </li>
+
+//         <li>
+//           If you are the Veteran’s legal representative, you can upload a
+//           document to show your legal status now. If you don’t upload your
+//           document now, we’ll ask you to provide it later.
+//         </li>
+//       </ul>
+//     </section>
+//   );
+// };
+
 export const RepresentativeIntroContent = () => {
   return (
     <section>
+      <h3 className="vads-u-font-size--h4">
+        We’ll now guide you through the steps to review and sign your
+        application
+      </h3>
       <p>
-        Some family caregivers are also the Veteran’s legal representative.
-        These representatives have the legal authority to make certain decisions
-        for the Veteran.
+        First, we need to know if the Veteran will sign the application or if a
+        representative will sign for them.
       </p>
-
-      <p>Here’s what you should know:</p>
-
-      <ul>
-        <li>
-          You can still continue with this application to apply for the program
-          even if you’re not the Veteran’s legal representative.
-        </li>
-
-        <li>
-          If you are the Veteran’s legal representative, you can upload a
-          document to show your legal status now. If you don’t upload your
-          document now, we’ll ask you to provide it later.
-        </li>
-      </ul>
+      <p>
+        A representative must have legal authority to make medical decisions for
+        the Veteran. If you choose this option, we’ll ask you to upload a
+        document that proves you have this authority.
+      </p>
+      <va-additional-info trigger="Learn more about the types of documents we can and can’t accept">
+        <p>
+          We can only accept a document that proves you have legal authority to
+          make medical decisions for the Veteran. This type of document is
+          sometimes called a medical proxy or medical power of attorney.
+        </p>
+        <p>
+          We can’t accept a marriage certificate, driver’s license, or release
+          of information form. We also can’t accept a general or financial power
+          of attorney without a medical stipulation. Uploading a document that
+          we can’t accept may delay the application process.
+        </p>
+      </va-additional-info>
+      <p>
+        <strong>Note:</strong> We use this signature only to process your
+        application. Signing for the Veteran today doesn’t take away their right
+        to make decisions for their care.
+      </p>
+      <br />
     </section>
   );
 };
@@ -285,41 +324,80 @@ export const RepresentativeAdditionalInfo = () => {
   );
 };
 
-export const RepresentativeDocumentUploadDescription = () => {
-  const prependDot = string => `.${string}`;
-  const allowedFileTypes = arrayToSentenceString(
-    ALLOWED_FILE_TYPES,
-    'or',
-    prependDot,
-  );
+// export const RepresentativeDocumentUploadDescription = () => {
+//   const prependDot = string => `.${string}`;
+//   const allowedFileTypes = arrayToSentenceString(
+//     ALLOWED_FILE_TYPES,
+//     'or',
+//     prependDot,
+//   );
 
+//   return (
+//     <section>
+//       <p>
+//         You can upload a scanned copy or photo of your document from the device
+//         you’re using to apply online.
+//       </p>
+
+//       <p>Follow these guidelines when you upload your document:</p>
+//       <ul>
+//         <li>
+//           Upload the full document. We can’t accept only a cover or signature
+//           page.
+//         </li>
+//         <li>Format the file as a {allowedFileTypes}.</li>
+//         <li>
+//           Be sure the file is {MAX_FILE_SIZE_MB}
+//           MB or less in size.
+//         </li>
+//       </ul>
+
+//       <p>
+//         <strong>Note: </strong>A 1MB scanned file equals about 500 pages of
+//         text. A photo is usually about 6MB. If you have a slow Internet
+//         connection, large files may take longer to upload.
+//       </p>
+
+//       <RepresentativeAdditionalInfo />
+//     </section>
+//   );
+// };
+
+export const RepresentativeDocumentUploadDescription = () => {
   return (
     <section>
+      <h3 className="vads-u-font-size--h4">Upload your supporting document</h3>
       <p>
-        You can upload a scanned copy or photo of your document from the device
-        you’re using to apply online.
+        We can only accept a document that proves you have legal authority to
+        make medical decisions for the Veteran. This type of document is
+        sometimes called a medical proxy or medical power of attorney.
       </p>
-
-      <p>Follow these guidelines when you upload your document:</p>
-      <ul>
+      <p>
+        <strong>Don’t have the right type of document?</strong> Go back to the
+        last screen. The Veteran will need to sign the application for
+        themselves.
+      </p>
+      <p className="vads-u-margin-bottom--1px">
+        <strong>How to upload your document</strong>
+      </p>
+      <ul className="vads-u-margin-top--1px">
         <li>
-          Upload the full document. We can’t accept only a cover or signature
-          page.
+          Choose a document that we can accept (like a medical proxy or medical
+          power of attorney). Don’t upload a marriage certificate, driver’s
+          license, or release of information form. And don’t upload a general or
+          financial power of attorney without a medical stipulation. Uploading a
+          document that we can’t accept may delay the application process.
         </li>
-        <li>Format the file as a {allowedFileTypes}.</li>
         <li>
-          Be sure the file is {MAX_FILE_SIZE_MB}
-          MB or less in size.
+          Save a scanned copy or photo of the entire document on your device. We
+          can’t accept a cover or signature page without the rest of the
+          document.
+        </li>
+        <li>
+          Format the file as a .pdf, .jpg, .jpeg, or .png. Be sure the file is
+          10MB or less in size.
         </li>
       </ul>
-
-      <p>
-        <strong>Note: </strong>A 1MB scanned file equals about 500 pages of
-        text. A photo is usually about 6MB. If you have a slow Internet
-        connection, large files may take longer to upload.
-      </p>
-
-      <RepresentativeAdditionalInfo />
     </section>
   );
 };

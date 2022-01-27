@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import environment from 'platform/utilities/environment';
 import {
@@ -39,36 +39,46 @@ const parseResponse = (fileInfo, file) => {
 export default {
   uiSchema: {
     'ui:description': RepresentativeDocumentUploadDescription(),
-    'ui:title': () => (
-      <h3 className="vads-u-font-size--h4 vads-u-margin--0">
-        Upload your legal representative document
-        <span className="vads-u-margin-left--0p5 vads-u-color--secondary-dark vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
-          (*Required)
-        </span>
-      </h3>
-    ),
-    [representativeFields.documentUpload]: fileUploadUI(' ', {
-      buttonText: 'Upload',
-      classNames: 'poa-document-upload',
-      multiple: false,
-      fileUploadUrl: `${environment.API_URL}/v0/form1010cg/attachments`,
-      fileTypes: ALLOWED_FILE_TYPES,
-      maxSize: MAX_FILE_SIZE_BYTES,
-      hideLabelText: true,
-      createPayload,
-      parseResponse,
-      attachmentName: {
-        'ui:title': 'Document name',
-        'ui:options': {
-          useDlWrap: true,
+    'ui:options': {
+      classNames:
+        'vads-u-background-color--gray-lightest vads-u-padding-top--0p5 vads-u-padding-bottom--2p5 vads-u-margin-x--neg1 vads-u-padding-x--4',
+    },
+    'view:placeholder': {
+      'ui:description': '',
+      'ui:options': {
+        classNames:
+          'vads-u-background-color--white vads-u-padding--0p25 vads-u-margin-y--4',
+      },
+    },
+    [representativeFields.documentUpload]: fileUploadUI(
+      'Upload your document:',
+      {
+        buttonText: 'Upload document',
+        classNames: 'poa-document-upload',
+        multiple: false,
+        fileUploadUrl: `${environment.API_URL}/v0/form1010cg/attachments`,
+        fileTypes: ALLOWED_FILE_TYPES,
+        maxSize: MAX_FILE_SIZE_BYTES,
+        hideLabelText: false,
+        createPayload,
+        parseResponse,
+        attachmentName: {
+          'ui:title': 'Document name',
+          'ui:options': {
+            useDlWrap: true,
+          },
         },
       },
-    }),
+    ),
   },
   schema: {
     type: 'object',
     required: [representativeFields.documentUpload],
     properties: {
+      'view:placeholder': {
+        type: 'object',
+        properties: {},
+      },
       [representativeFields.documentUpload]: {
         type: 'array',
         minItems: 1,
