@@ -10,7 +10,7 @@ describe('Pre check in', () => {
           const sample = { data: { hello: 'world' } };
           resolve(sample);
         });
-        const result = await makeApiCall(testPromise);
+        const result = await makeApiCall(testPromise, null, null, true);
         expect(result).to.deep.equal({ data: { hello: 'world' } });
       });
       it('makeApiCall invokes promise with error', async () => {
@@ -18,7 +18,7 @@ describe('Pre check in', () => {
           const sample = { data: { hello: 'world', error: 'no error' } };
           resolve(sample);
         });
-        const result = await makeApiCall(testPromise);
+        const result = await makeApiCall(testPromise, null, null, true);
         expect(result).to.deep.equal({
           data: { hello: 'world', error: 'no error' },
         });
@@ -27,7 +27,9 @@ describe('Pre check in', () => {
         const testPromise = new Promise((resolve, reject) => {
           reject(new Error('failed'));
         });
-        await expect(makeApiCall(testPromise)).to.be.rejectedWith('failed');
+        await expect(
+          makeApiCall(testPromise, null, null, true),
+        ).to.be.rejectedWith('failed');
       });
     });
   });

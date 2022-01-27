@@ -5,13 +5,19 @@ import {
 } from '../../utils/analytics';
 import recordEvent from 'platform/monitoring/record-event';
 
+const captureErrorToSentry = (error, details) => {
+  captureError(error, details);
+};
+
 /**
  * @param {Promise} request
  * @param {string} [eventName]
  * @param {string} [token]
+ * @param {boolean} [logToSentry] Only used for testing.
  */
-const makeApiCall = async (request, eventName, token) => {
+const makeApiCall = async (request, eventName, token, logEvent = () => {}) => {
   // log call started
+  // console.trace('not sure');
   recordEvent(createApiEvent(eventName, 'started'));
   // start the timer
   const startTime = new Date();
@@ -28,7 +34,7 @@ const makeApiCall = async (request, eventName, token) => {
     const status = error ? FAILED : SUCCESS;
     const event = createApiEvent(eventName, status, timeDiff, token, error);
     if (status === FAILED) {
-      captureError(
+      logEvent(
         {
           source: ERROR_SOURCES.API,
           err: error,
@@ -45,9 +51,12 @@ const makeApiCall = async (request, eventName, token) => {
   } catch (error) {
     const event = createApiEvent(eventName, FAILED, null, token, error);
     recordEvent(event);
-    captureError(error, { token });
+    logEvent(error, { token });
     throw error;
   }
 };
 
-export { makeApiCall };
+const makeApiCallWithSentry = (request, eventName, token) => {
+  return makeApiCall(request, eventName, token, captureErrorToSentry);
+};
+export { makeApiCall, makeApiCallWithSentry };
