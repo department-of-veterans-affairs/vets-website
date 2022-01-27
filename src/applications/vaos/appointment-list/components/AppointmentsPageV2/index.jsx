@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
-import { selectFeatureRequests } from '../../../redux/selectors';
+import {
+  selectFeatureRequests,
+  selectFeatureStatusImprovement,
+} from '../../../redux/selectors';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsListV2 from '../PastAppointmentsListV2';
@@ -13,8 +16,10 @@ import WarningNotification from '../../../components/WarningNotification';
 import Select from '../../../components/Select';
 import ScheduleNewAppointment from '../ScheduleNewAppointment';
 import PageLayout from '../PageLayout';
+import { selectPendingAppointments } from '../../redux/selectors';
+import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
-const pageTitle = 'VA online scheduling';
+let pageTitle = 'VA online scheduling';
 
 const DROPDOWN_VALUES = {
   upcoming: 'upcoming',
@@ -62,17 +67,25 @@ export default function AppointmentsPageV2() {
   const location = useLocation();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   const showScheduleButton = useSelector(state => selectFeatureRequests(state));
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
+  );
+  const pendingAppointments = useSelector(state =>
+    selectPendingAppointments(state),
+  );
   const {
     dropdownValue,
     subPageTitle,
     subHeading,
   } = getDropdownValueFromLocation(location.pathname);
 
+  const [count, setCount] = useState(0);
   useEffect(
     () => {
+      if (featureStatusImprovement) pageTitle = 'Your appointments';
       document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
     },
-    [subPageTitle],
+    [subPageTitle, featureStatusImprovement],
   );
 
   const [documentTitle, setDocumentTitle] = useState();
@@ -95,6 +108,21 @@ export default function AppointmentsPageV2() {
       };
     },
     [documentTitle, subPageTitle],
+  );
+
+  useEffect(
+    () => {
+      // Get non cancled appointment requests from store
+      setCount(
+        pendingAppointments
+          ? pendingAppointments.filter(
+              appointment =>
+                appointment.status !== APPOINTMENT_STATUS.cancelled,
+            ).length
+          : 0,
+      );
+    },
+    [pendingAppointments],
   );
 
   const history = useHistory();
@@ -127,19 +155,51 @@ export default function AppointmentsPageV2() {
         )}
       />
       {showScheduleButton && <ScheduleNewAppointment />}
-      <h2 className="vads-u-margin-y--3">{subHeading}</h2>
-      <label
-        htmlFor="type-dropdown"
-        className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2 vaos-hide-for-print"
-      >
-        Show by status
-      </label>
-      <Select
-        options={options}
-        onChange={onDropdownChange}
-        id="type-dropdown"
-        value={dropdownValue}
-      />
+      {featureStatusImprovement && (
+        <nav aria-label="Breadcrumb" className="vaos-appts__breadcrumb">
+          <ul>
+            <li>
+              <button
+                className="va-button-link"
+                onClick={() => {
+                  history.push('/requested');
+                  setHasTypeChanged(true);
+                }}
+              >{`Pending (${count})`}</button>
+            </li>
+            <li>
+              <button
+                className="va-button-link"
+                onClick={() => {
+                  history.push('/past');
+                  setHasTypeChanged(true);
+                }}
+              >
+                Past
+              </button>
+            </li>
+          </ul>
+        </nav>
+      )}
+      {!featureStatusImprovement && (
+        <>
+          <h2 className="vads-u-margin-y--3">{subHeading}</h2>
+          {/* Commenting out for now. See https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/issues/718 */}
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+          <label
+            htmlFor="type-dropdown"
+            className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2 vaos-hide-for-print"
+          >
+            Show by status
+          </label>
+          <Select
+            options={options}
+            onChange={onDropdownChange}
+            id="type-dropdown"
+            value={dropdownValue}
+          />
+        </>
+      )}
       <Switch>
         <Route exact path="/">
           <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />

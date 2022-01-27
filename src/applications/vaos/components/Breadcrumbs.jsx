@@ -1,8 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import { selectFeatureStatusImprovement } from '../redux/selectors';
+import { useSelector } from 'react-redux';
 
 export default function VAOSBreadcrumbs({ children }) {
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
+  );
+
   return (
     <Breadcrumbs className="medium-screen:vads-u-padding-x--0 vaos-appts__breadcrumbs">
       <a href="/" key="home">
@@ -18,7 +24,9 @@ export default function VAOSBreadcrumbs({ children }) {
         Schedule and manage health appointments
       </a>
       <Link to="/" key="vaos-home">
-        VA online scheduling
+        {featureStatusImprovement
+          ? 'Your appointments'
+          : 'VA online scheduling'}
       </Link>
       {children}
     </Breadcrumbs>

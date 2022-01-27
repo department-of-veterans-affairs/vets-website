@@ -18,6 +18,7 @@ import {
   fetchFutureAppointments,
   startNewAppointmentFlow,
 } from '../redux/actions';
+import { selectFeatureStatusImprovement } from '../../redux/selectors';
 
 export default function UpcomingAppointmentsList() {
   const dispatch = useDispatch();
@@ -28,11 +29,18 @@ export default function UpcomingAppointmentsList() {
     facilityData,
     hasTypeChanged,
   } = useSelector(state => getUpcomingAppointmentListInfo(state), shallowEqual);
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
+  );
 
   useEffect(
     () => {
       if (futureStatus === FETCH_STATUS.notStarted) {
-        dispatch(fetchFutureAppointments({ includeRequests: false }));
+        dispatch(
+          fetchFutureAppointments({
+            includeRequests: featureStatusImprovement,
+          }),
+        );
       } else if (hasTypeChanged && futureStatus === FETCH_STATUS.succeeded) {
         scrollAndFocus('#type-dropdown');
       } else if (hasTypeChanged && futureStatus === FETCH_STATUS.failed) {

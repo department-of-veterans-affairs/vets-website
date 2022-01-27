@@ -1,19 +1,25 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX } from 'applications/vaos/utils/constants';
 import { startNewAppointmentFlow } from '../redux/actions';
+import { selectFeatureStatusImprovement } from '../../redux/selectors';
 
 export default function ScheduleNewAppointment() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
+  );
 
   return (
     <>
-      <div className="vads-u-margin-bottom--1p5 vaos-hide-for-print">
-        Schedule primary or specialty care appointments.
-      </div>
+      {!featureStatusImprovement && (
+        <div className="vads-u-margin-bottom--1p5 vaos-hide-for-print">
+          Schedule primary or specialty care appointments.
+        </div>
+      )}
 
       <button
         className="vaos-hide-for-print"
