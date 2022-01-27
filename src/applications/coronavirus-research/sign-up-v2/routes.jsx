@@ -14,7 +14,7 @@ const route = {
       return (nextState, replace) => {
         if (!hasRedirected) {
           hasRedirected = true;
-          replace('/sign-up-v2');
+          replace('sign-up');
         }
       };
     })(),
@@ -25,6 +25,6 @@ const introRouteIndex = route.childRoutes.findIndex(
   cr => cr.path === 'introduction',
 );
 route.childRoutes[introRouteIndex].onEnter = (nextState, replace) => {
-  replace('/sign-up-v2');
+  replace('sign-up');
 };
 export default route;
