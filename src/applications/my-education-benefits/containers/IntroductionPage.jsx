@@ -28,7 +28,7 @@ export const IntroductionPage = ({ user, route }) => {
   );
 
   const handleRedirect = async response => {
-    if (response.status >= 204 || !response?.data?.attributes?.claimant) {
+    if (!response?.data?.attributes?.claimant) {
       window.location.href =
         '/education/apply-for-education-benefits/application/1990/';
     }

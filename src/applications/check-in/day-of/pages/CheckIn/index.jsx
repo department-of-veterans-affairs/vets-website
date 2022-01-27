@@ -7,13 +7,19 @@ import { receivedMultipleAppointmentDetails } from '../../../actions/day-of';
 
 import DisplayMultipleAppointments from './DisplayMultipleAppointments';
 
-import { makeSelectAppointmentListData } from '../../hooks/selectors';
+import {
+  makeSelectVeteranData,
+  makeSelectCurrentContext,
+} from '../../../selectors';
 
 const CheckIn = props => {
   const { router } = props;
   const { goToErrorPage } = useFormRouting(router);
-  const selectAppointmentListData = useMemo(makeSelectAppointmentListData, []);
-  const { context, appointments } = useSelector(selectAppointmentListData);
+  const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { appointments } = useSelector(selectVeteranData);
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const context = useSelector(selectCurrentContext);
+
   const appointment = appointments ? appointments[0] : {};
 
   const { token } = context;

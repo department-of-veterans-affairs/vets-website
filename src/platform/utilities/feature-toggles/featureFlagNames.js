@@ -67,6 +67,7 @@ export default Object.freeze({
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
   profileNotificationSettings: 'profile_notification_settings',
   profileEnhancements: 'profile_enhancements',
+  profileShowAddressChangeModal: 'profile_show_address_change_modal',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
   searchTypeaheadEnabled: 'search_typeahead_enabled',
