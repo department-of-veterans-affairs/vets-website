@@ -3,25 +3,27 @@ import { useDispatch, useSelector, batch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import {
-  receivedEmergencyContact,
   receivedDemographicsData,
-  receivedNextOfKinData,
   receivedMultipleAppointmentDetails,
   triggerRefresh,
   updateFormAction,
 } from '../../../actions/day-of';
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
-import { makeSelectCheckInData } from '../../hooks/selectors';
+import {
+  makeSelectCurrentContext,
+  makeSelectVeteranData,
+} from '../../../selectors';
 import { api } from '../../../api';
 
 const LoadingPage = props => {
   const { isSessionLoading, router, isUpdatePageEnabled } = props;
 
   const { goToErrorPage, goToNextPage } = useFormRouting(router);
-  const selectCheckInData = useMemo(makeSelectCheckInData, []);
-  const checkInData = useSelector(selectCheckInData);
+  const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { appointments } = useSelector(selectVeteranData);
   const { getCurrentToken } = useSessionStorage(false);
-  const { context, appointments } = checkInData;
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const context = useSelector(selectCurrentContext);
   const dispatch = useDispatch();
   const [updatedData, setUpdatedData] = useState(false);
   const setSessionData = useCallback(
@@ -34,21 +36,13 @@ const LoadingPage = props => {
         } = payload;
         dispatch(triggerRefresh(false));
         dispatch(receivedMultipleAppointmentDetails(appts, token));
+        dispatch(receivedDemographicsData(demo));
         dispatch(
           updateFormAction({
             patientDemographicsStatus,
             checkInExperienceUpdateInformationPageEnabled: isUpdatePageEnabled,
           }),
         );
-        if (typeof demo !== 'undefined') {
-          dispatch(receivedDemographicsData(demo));
-          if ('nextOfKin1' in demo) {
-            dispatch(receivedNextOfKinData(demo.nextOfKin1));
-          }
-          if ('emergencyContact' in demo) {
-            dispatch(receivedEmergencyContact(demo.emergencyContact));
-          }
-        }
         setUpdatedData(true);
       });
     },
@@ -63,11 +57,7 @@ const LoadingPage = props => {
       } else {
         // check if appointments is empty or if a refresh is staged
         const { token } = session;
-        if (
-          Object.keys(context).length === 0 ||
-          context.shouldRefresh ||
-          appointments.length === 0
-        ) {
+        if (Object.keys(context).length === 0 || appointments.length === 0) {
           api.v2
             .getCheckInData(token)
             .then(json => {

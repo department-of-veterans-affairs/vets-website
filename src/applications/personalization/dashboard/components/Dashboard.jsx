@@ -50,7 +50,7 @@ import CTALink from './CTALink';
 import BenefitPaymentsAndDebt from './benefit-payments-and-debts/BenefitPaymentsAndDebt';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import DismissibleDebts from './benefit-payments-and-debts/DismissibleDebts';
+import DebtNotification from './notifications/DebtNotification';
 
 const renderWidgetDowntimeNotification = (downtime, children) => {
   if (downtime.status === externalServiceStatus.down) {
@@ -73,7 +73,7 @@ const renderWidgetDowntimeNotification = (downtime, children) => {
   return children;
 };
 
-const DashboardHeader = ({ showBenefitPaymentsAndDebt, debts, debtsError }) => {
+const DashboardHeader = ({ showNotifications, debts, debtsError }) => {
   return (
     <div>
       <h1
@@ -96,8 +96,10 @@ const DashboardHeader = ({ showBenefitPaymentsAndDebt, debts, debtsError }) => {
           });
         }}
       />
-      {showBenefitPaymentsAndDebt && (
-        <DismissibleDebts debts={debts} hasError={debtsError} />
+      {showNotifications && (
+        <div data-testid="dashboard-notifications">
+          <DebtNotification debts={debts} hasError={debtsError} />
+        </div>
       )}
     </div>
   );
@@ -116,6 +118,7 @@ const Dashboard = ({
   showNameTag,
   showNotInMPIError,
   showBenefitPaymentsAndDebt,
+  showNotifications,
   ...props
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
@@ -194,7 +197,7 @@ const Dashboard = ({
               <DashboardHeader
                 debts={debts}
                 debtsError={debtsError}
-                showBenefitPaymentsAndDebt={showBenefitPaymentsAndDebt}
+                showNotifications={showNotifications}
               />
 
               {showMPIConnectionError ? (
@@ -296,6 +299,10 @@ const mapStateToProps = state => {
     FEATURE_FLAG_NAMES.showPaymentAndDebtSection
   ];
 
+  const showNotifications = toggleValues(state)[
+    FEATURE_FLAG_NAMES.showDashboardNotifications
+  ];
+
   return {
     isLOA3,
     showLoader,
@@ -310,6 +317,7 @@ const mapStateToProps = state => {
     showMPIConnectionError,
     showNotInMPIError,
     showBenefitPaymentsAndDebt,
+    showNotifications,
     debts: state.fsr.debts || [],
     debtsError: state.fsr.isError || false,
   };

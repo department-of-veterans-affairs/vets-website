@@ -22,24 +22,26 @@ describe('check in', () => {
         form: {
           pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
         },
-        demographics: {
-          mailingAddress: {
-            street1: '123 Turtle Trail',
-            city: 'Treetopper',
-            state: 'Tennessee',
-            zip: '101010',
+        veteranData: {
+          demographics: {
+            mailingAddress: {
+              street1: '123 Turtle Trail',
+              city: 'Treetopper',
+              state: 'Tennessee',
+              zip: '101010',
+            },
+            homeAddress: {
+              street1: '445 Fine Finch Fairway',
+              street2: 'Apt 201',
+              city: 'Fairfence',
+              state: 'Florida',
+              zip: '445545',
+            },
+            homePhone: '5552223333',
+            mobilePhone: '5553334444',
+            workPhone: '5554445555',
+            emailAddress: 'kermit.frog@sesameenterprises.us',
           },
-          homeAddress: {
-            street1: '445 Fine Finch Fairway',
-            street2: 'Apt 201',
-            city: 'Fairfence',
-            state: 'Florida',
-            zip: '445545',
-          },
-          homePhone: '5552223333',
-          mobilePhone: '5553334444',
-          workPhone: '5554445555',
-          emailAddress: 'kermit.frog@sesameenterprises.us',
         },
       },
     };
@@ -72,10 +74,15 @@ describe('check in', () => {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
             currentPage: 'first-page',
           },
-          demographics: {
-            homeAddress: initState.checkInData.demographics.homeAddress,
-            homePhone: initState.checkInData.demographics.homePhone,
-            workPhone: initState.checkInData.demographics.workPhone,
+          veteranData: {
+            demographics: {
+              homeAddress:
+                initState.checkInData.veteranData.demographics.homeAddress,
+              homePhone:
+                initState.checkInData.veteranData.demographics.homePhone,
+              workPhone:
+                initState.checkInData.veteranData.demographics.workPhone,
+            },
           },
         },
       };
@@ -114,6 +121,7 @@ describe('check in', () => {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
             currentPage: 'first-page',
           },
+          veteranData: {},
         },
       };
 

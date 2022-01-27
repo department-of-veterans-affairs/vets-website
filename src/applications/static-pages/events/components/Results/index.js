@@ -101,7 +101,7 @@ export const Results = ({
                   <div className="vads-u-display--flex vads-u-flex-direction--column">
                     {/* Starts at and ends at */}
                     <p className="vads-u-margin--0">
-                      {formattedStartsAt} - {formattedEndsAt} {endsAtTimezone}
+                      {formattedStartsAt} – {formattedEndsAt} {endsAtTimezone}
                     </p>
 
                     {/* Repeats */}

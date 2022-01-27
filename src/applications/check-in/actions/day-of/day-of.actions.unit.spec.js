@@ -5,14 +5,10 @@ import {
   APPOINTMENT_WAS_CHECKED_INTO,
   receivedMultipleAppointmentDetails,
   RECEIVED_APPOINTMENT_DETAILS,
-  receivedEmergencyContact,
-  RECEIVED_EMERGENCY_CONTACT_DATA,
   receivedDemographicsData,
   RECEIVED_DEMOGRAPHICS_DATA,
   triggerRefresh,
   TRIGGER_REFRESH,
-  receivedNextOfKinData,
-  RECEIVED_NEXT_OF_KIN_DATA,
   SEE_STAFF_MESSAGE_UPDATED,
   seeStaffMessageUpdated,
 } from './index';
@@ -69,19 +65,6 @@ describe('check in actions', () => {
         expect(action.payload.context.shouldRefresh).to.equal(true);
       });
     });
-    describe('receivedNextOfKinData', () => {
-      it('should return correct action', () => {
-        const action = receivedNextOfKinData({});
-        expect(action.type).to.equal(RECEIVED_NEXT_OF_KIN_DATA);
-      });
-      it('should return correct structure', () => {
-        const action = receivedNextOfKinData({
-          relationship: 'spouse',
-        });
-        expect(action.payload).to.haveOwnProperty('nextOfKin');
-        expect(action.payload.nextOfKin.relationship).to.equal('spouse');
-      });
-    });
     describe('seeStaffMessageUpdated', () => {
       it('should return correct action', () => {
         const action = seeStaffMessageUpdated('test');
@@ -90,17 +73,6 @@ describe('check in actions', () => {
       it('should return correct structure', () => {
         const action = seeStaffMessageUpdated('test');
         expect(action.payload.seeStaffMessage).to.equal('test');
-      });
-    });
-    describe('receivedEmergencyContact', () => {
-      it('should return correct action', () => {
-        const action = receivedEmergencyContact({ name: 'Jimmy' });
-        expect(action.type).to.equal(RECEIVED_EMERGENCY_CONTACT_DATA);
-      });
-      it('should return correct structure', () => {
-        const action = receivedEmergencyContact({ name: 'Jimmy' });
-        expect(action.payload).to.haveOwnProperty('emergencyContact');
-        expect(action.payload.emergencyContact.name).to.equal('Jimmy');
       });
     });
   });

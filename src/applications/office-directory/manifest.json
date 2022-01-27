@@ -1,0 +1,6 @@
+{
+  "appName": "All VA offices",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "office-directory",
+  "rootUrl": "/office-directory"
+}

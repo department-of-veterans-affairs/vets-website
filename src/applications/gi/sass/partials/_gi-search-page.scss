@@ -316,9 +316,33 @@
       width: 100%;
     }
   }
-  .input-box-margin {
+  .input-container {
+    display: flex;
+    border: 1px solid;
     margin: 6px 0px;
+    height: 4.2rem;
+
+    input {
+      border: none;
+      height: unset;
+    }
+
+    .clear-button {
+      width: 44px;
+      height: 44px;
+      background-color: transparent;
+      color: $color-black;
+      padding: 0;
+      margin: 0;
+      font-family: "Font Awesome 5 Free";
+
+      &:hover {
+        background-color: unset;
+        color: unset;
+      }
+    }
   }
+
   .search-button {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;

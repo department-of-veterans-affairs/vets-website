@@ -41,6 +41,7 @@ const initialState = {
     vaOnlineSchedulingPast: true,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
+    vaOnlineSchedulingVAOSServiceVAAppointments: false,
   },
 };
 
@@ -66,6 +67,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       status: 'booked',
       clinicFriendlyName: "Jennie's Lab",
       comment: 'New issue: ASAP',
+      stopCode: '123',
     };
     const appointment = createMockAppointmentByVersion({
       version: 0,
@@ -143,6 +145,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         ),
       }),
     ).to.be.ok;
+    expect(screen.getByText(/Nutrition and food/i)).to.be.ok;
     expect(screen.getByText(/Print/)).to.be.ok;
     expect(screen.getByText(/Cancel appointment/)).to.be.ok;
 
@@ -236,6 +239,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       locationId: '983GC',
       clinicFriendlyName: "Jennie's Lab",
       comment: 'New issue: ASAP',
+      stopCode: '323',
     };
     const appointment = createMockAppointmentByVersion({
       version: 0,
@@ -306,6 +310,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
+
+    expect(screen.getByText(/Primary care/i)).to.be.ok;
     expect(screen.getByText(/New issue: ASAP/)).to.be.ok;
     expect(screen.baseElement).not.to.contain.text(
       new RegExp(
@@ -1115,6 +1121,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       }),
     ).to.be.ok;
 
+    expect(screen.getByText('Primary care')).to.be.ok;
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
     expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
@@ -1335,6 +1342,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
         ),
       }),
     ).to.be.ok;
+
+    expect(screen.getByText('Primary care')).to.be.ok;
 
     // Then it should display who canceled the appointment
     expect(await screen.findByText(/You canceled this appointment./i)).to.exist;

@@ -8,11 +8,16 @@ import EmergencyContact from './pages/EmergencyContact';
 import Confirmation from './pages/Confirmation';
 import Landing from './pages/Landing';
 import Error from './pages/Error';
+import ErrorTest from './pages/ErrorTest';
 import { URLS } from '../utils/navigation';
 
-import withFeatureFlip from './containers/withFeatureFlip';
-import withAuthorization from './containers/withAuthorization';
+import withFeatureFlip from '../containers/withFeatureFlip';
+import withAuthorization from '../containers/withAuthorization';
 import withForm from '../containers/withForm';
+
+import ErrorBoundary from '../components/errors/ErrorBoundary';
+
+import environment from 'platform/utilities/environment';
 
 const routes = [
   {
@@ -76,25 +81,43 @@ const createRoutesWithStore = () => {
   return (
     <Switch>
       {routes.map((route, i) => {
-        let component = route.component;
+        const options = { isPreCheckIn: true };
+        let component = props => (
+          <ErrorBoundary {...props}>
+            <route.component {...props} />
+          </ErrorBoundary>
+        );
         if (route.permissions) {
           const { requiresForm, requireAuthorization } = route.permissions;
           if (requiresForm) {
-            component = withForm(component, { isPreCheckIn: true });
+            component = withForm(component, options);
           }
           if (requireAuthorization) {
-            component = withAuthorization(component);
+            component = withAuthorization(component, options);
           }
         }
 
         return (
           <Route
             path={`/${route.path}`}
-            component={withFeatureFlip(component)}
+            component={withFeatureFlip(component, options)}
             key={i}
           />
         );
       })}
+      {!environment.isProduction() && (
+        <Route
+          path={`/sentry/test`}
+          component={withFeatureFlip(
+            props => (
+              <ErrorBoundary {...props}>
+                <ErrorTest {...props} />
+              </ErrorBoundary>
+            ),
+            {},
+          )}
+        />
+      )}
       <Route path="*" component={Error} />
     </Switch>
   );

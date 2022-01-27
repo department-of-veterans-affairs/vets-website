@@ -35,7 +35,8 @@
     "privacyAgreementAccepted": true,
     "newPrimaryDisabilities": [{
       "condition": "PTSD",
-      "cause": "NEW"
+      "cause": "NEW",
+      "primaryDescription": "PTSD related to feared hostile military or terrorist activity"
     }]
   }
 }
