@@ -1,0 +1,6 @@
+{
+  "appName": "VA Education Inbox",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "secure-inbox",
+  "rootUrl": "/secure-inbox"
+}
