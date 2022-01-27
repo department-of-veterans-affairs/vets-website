@@ -4,12 +4,36 @@ const MESSAGE =
 const getPropNode = (node, propName) =>
   node.openingElement.attributes.find(n => n.name.name === propName);
 
+// Allows us to check if the JSX element we've identified is imported from
+// the component library. Some applications have their own components with the
+// same names as Design System components.
+// TODO: Consider improving the performance of this w/ memoization
+const isLibraryImport = (context, componentName) => {
+  let isLibraryComponent = false;
+  const allImports = context
+    .getAncestors()[0]
+    .body.filter(node => node.type === 'ImportDeclaration');
+  const componentLibraryImports = allImports.filter(node =>
+    node.source.value.includes(
+      '@department-of-veterans-affairs/component-library',
+    ),
+  );
+
+  componentLibraryImports.forEach(imp => {
+    if (imp.specifiers.find(i => i.local.name === componentName))
+      isLibraryComponent = true;
+  });
+
+  return isLibraryComponent;
+};
+
 const telephoneTransformer = (context, node) => {
   const componentName = node.openingElement.name;
   const patternNode = getPropNode(node, 'pattern');
   const notClickableNode = getPropNode(node, 'notClickable');
   const contactNode = getPropNode(node, 'contact');
   const contactValue = contactNode?.value.expression;
+
   const stripHyphens = contactValue?.type === 'Literal';
   const international =
     patternNode?.value.expression.property.name === 'OUTSIDE_US';
@@ -62,7 +86,10 @@ module.exports = {
     return {
       JSXElement(node) {
         const componentName = node.openingElement.name;
-        if (componentName.name === 'Telephone') {
+        if (
+          isLibraryImport(context, 'Telephone') &&
+          componentName.name === 'Telephone'
+        ) {
           telephoneTransformer(context, node);
         }
       },

@@ -5,6 +5,7 @@ const RuleTester = require('eslint').RuleTester;
 
 const parserOptions = {
   ecmaVersion: 2018,
+  sourceType: 'module',
   ecmaFeatures: {
     jsx: true,
   },
@@ -12,78 +13,117 @@ const parserOptions = {
 
 const ruleTester = new RuleTester({ parserOptions });
 
+// Put the import at the top of the "file"
+const mockFile = (componentName, snippet) => {
+  return `import ${componentName} from '@department-of-veterans-affairs/component-library/${componentName}';
+  ${snippet}
+  `;
+};
+
 ruleTester.run('prefer-web-component-library', rule, {
-  valid: [],
+  // This rule should not trigger on application components, only React components
+  // from the `component-library`
+  valid: [
+    {
+      code: `
+        import Telephone from '../components/Telephone';
+
+        const phone = () => (<Telephone contact={phoneContact} />)
+      `,
+    },
+  ],
   invalid: [
     {
-      code: 'const phone = () => (<Telephone contact={phoneContact} />)',
+      code: mockFile(
+        'Telephone',
+        'const phone = () => (<Telephone contact={phoneContact} />)',
+      ),
       errors: [
         {
           suggestions: [
             {
               desc: 'Migrate component',
-              output:
+              output: mockFile(
+                'Telephone',
                 'const phone = () => (<va-telephone contact={phoneContact} />)',
+              ),
             },
           ],
         },
       ],
     },
     {
-      code:
+      code: mockFile(
+        'Telephone',
         'const phone = () => (<Telephone pattern={PATTERN["3_DIGIT"]} contact={phoneContact} />)',
+      ),
       errors: [
         {
           suggestions: [
             {
               desc: 'Migrate component',
               // There is an extra space which would get removed on an autosave format
-              output:
+              output: mockFile(
+                'Telephone',
                 'const phone = () => (<va-telephone  contact={phoneContact} />)',
+              ),
             },
           ],
         },
       ],
     },
     {
-      code:
+      code: mockFile(
+        'Telephone',
         'const phone = () => (<Telephone pattern={PATTERN.OUTSIDE_US} contact={phoneContact} />)',
+      ),
       errors: [
         {
           suggestions: [
             {
               desc: 'Migrate component',
-              output:
+              output: mockFile(
+                'Telephone',
                 'const phone = () => (<va-telephone international contact={phoneContact} />)',
+              ),
             },
           ],
         },
       ],
     },
     {
-      code: 'const phone = () => (<Telephone contact={"800-456-5432"} />)',
+      code: mockFile(
+        'Telephone',
+        'const phone = () => (<Telephone contact={"800-456-5432"} />)',
+      ),
       errors: [
         {
           suggestions: [
             {
               desc: 'Migrate component',
-              output:
+              output: mockFile(
+                'Telephone',
                 "const phone = () => (<va-telephone contact={'8004565432'} />)",
+              ),
             },
           ],
         },
       ],
     },
     {
-      code:
+      code: mockFile(
+        'Telephone',
         'const phone = () => (<Telephone notClickable contact={myContact} />)',
+      ),
       errors: [
         {
           suggestions: [
             {
               desc: 'Migrate component',
-              output:
+              output: mockFile(
+                'Telephone',
                 'const phone = () => (<va-telephone not-clickable contact={myContact} />)',
+              ),
             },
           ],
         },
