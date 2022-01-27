@@ -13,7 +13,7 @@ const captureErrorToSentry = (error, details) => {
  * @param {Promise} request
  * @param {string} [eventName]
  * @param {string} [token]
- * @param {boolean} [logToSentry] Only used for testing.
+ * @param {function} [logEvent] used to log failed api calls
  */
 const makeApiCall = async (request, eventName, token, logEvent = () => {}) => {
   // log call started
@@ -56,7 +56,7 @@ const makeApiCall = async (request, eventName, token, logEvent = () => {}) => {
   }
 };
 
-const makeApiCallWithSentry = (request, eventName, token) => {
+const makeApiCallWithSentry = async (request, eventName, token) => {
   return makeApiCall(request, eventName, token, captureErrorToSentry);
 };
 export { makeApiCall, makeApiCallWithSentry };
