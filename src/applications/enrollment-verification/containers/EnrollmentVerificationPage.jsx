@@ -1,7 +1,9 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import { connect } from 'react-redux';
+
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 
 class EnrollmentVerificationPage extends React.Component {
   // constructor(props) {
@@ -35,17 +37,38 @@ class EnrollmentVerificationPage extends React.Component {
                 for two months in a row, we will pause your monthly education
                 payments.
               </p>
+
               <va-alert
                 close-btn-aria-label="Close notification"
                 status="success"
                 visible
               >
-                <div>
-                  You’re up-to-date with your monthly enrollment verification.
-                  You’ll be able to verify your enrollment next month on [Month
-                  Day Year].
-                </div>
+                You’re up-to-date with your monthly enrollment verification.
+                You’ll be able to verify your enrollment next month on [Month
+                Day Year].
               </va-alert>
+
+              <br />
+              <va-alert
+                close-btn-aria-label="Close notification"
+                status="warning"
+                visible
+              >
+                <h3 slot="headline">
+                  We're missing one or more of your enrollment verifications
+                </h3>
+                <p>
+                  You'll need to verify your monthly enrollments to get your
+                  scheduled payments.
+                </p>
+                <a
+                  className="vads-c-action-link--blue"
+                  href="/enrollment-history/verify-enrollments"
+                >
+                  Verify your enrollments
+                </a>
+              </va-alert>
+
               <h2>Your monthly enrollment verifications</h2>
 
               <va-additional-info trigger="What if I notice an error with my enrollment information?">
@@ -116,8 +139,36 @@ class EnrollmentVerificationPage extends React.Component {
                   </p>
                 </va-additional-info>
               </div>
+
+              <Pagination
+                onPageSelect={function noRefCheck() {}}
+                page={1}
+                pages={5}
+              />
+
+              <div className="ev-highlighted-content-container">
+                <header className="ev-highlighted-content-container_header">
+                  <h1 className="ev-highlighted-content-container_title vads-u-font-size--h3">
+                    Related pages
+                  </h1>
+                </header>
+                <div className="ev-highlighted-content-container_content">
+                  <nav className="ev-related-pages-nav">
+                    <ul>
+                      <li>
+                        <a href="#">See your GI Bill Statement of Benefits</a>
+                      </li>
+                      <li>
+                        <a href="#">See your past benefit payments</a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
             </div>
           </div>
+
+          <va-back-to-top />
         </div>
       </>
     );
