@@ -24,13 +24,12 @@ ruleTester.run('prefer-web-component-library', rule, {
   // This rule should not trigger on application components, only React components
   // from the `component-library`
   valid: [
-    {
-      code: `
-        import Telephone from '../components/Telephone';
-
-        const phone = () => (<Telephone contact={phoneContact} />)
-      `,
-    },
+    // {
+    //   code: `
+    //     import Telephone from '../components/Telephone';
+    //     const phone = () => (<Telephone contact={phoneContact} />)
+    //   `,
+    // },
   ],
   invalid: [
     {
