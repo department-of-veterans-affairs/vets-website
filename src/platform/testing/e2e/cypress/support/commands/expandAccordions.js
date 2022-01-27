@@ -18,7 +18,7 @@ Cypress.Commands.add('expandAccordions', () => {
       // va-additional-info Web Component Expand
       cy.get('va-additional-info')
         .shadow()
-        .find('button[aria-expanded=false]')
+        .find('a[role="button"][aria-expanded=false]')
         .each(button => {
           cy.wrap(button).click({ force: true });
         });
