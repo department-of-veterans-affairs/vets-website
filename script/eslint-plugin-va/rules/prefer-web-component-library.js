@@ -29,19 +29,16 @@ const telephoneTransformer = (context, node) => {
           // and remove the `pattern` prop if it's there
           return [
             fixer.replaceText(componentName, 'va-telephone'),
-            stripHyphens
-              ? fixer.replaceText(
-                  contactValue,
-                  `'${contactValue.value.replace(/[^\d]/g, '')}'`,
-                )
-              : null,
-            international
-              ? fixer.insertTextBefore(patternNode, 'international')
-              : null,
-            patternNode ? fixer.remove(patternNode) : null,
-            notClickableNode
-              ? fixer.replaceText(notClickableNode, 'not-clickable')
-              : null,
+            stripHyphens &&
+              fixer.replaceText(
+                contactValue,
+                `'${contactValue.value.replace(/[^\d]/g, '')}'`,
+              ),
+            international &&
+              fixer.insertTextBefore(patternNode, 'international'),
+            patternNode && fixer.remove(patternNode),
+            notClickableNode &&
+              fixer.replaceText(notClickableNode, 'not-clickable'),
           ].filter(i => !!i);
         },
       },
