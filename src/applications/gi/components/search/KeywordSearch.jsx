@@ -6,6 +6,7 @@ import Downshift from 'downshift';
 import classNames from 'classnames';
 import { WAIT_INTERVAL, KEY_CODES } from '../../constants';
 import { handleScrollOnInputFocus } from '../../utils/helpers';
+import environment from 'platform/utilities/environment';
 
 export function KeywordSearch({
   className,
@@ -88,6 +89,10 @@ export function KeywordSearch({
     }
   };
 
+  const handleClearInput = () => {
+    onUpdateAutocompleteSearchTerm('');
+  };
+
   return (
     <div
       className={classNames('keyword-search', { 'usa-input-error': error })}
@@ -136,18 +141,40 @@ export function KeywordSearch({
           selectedItem,
         }) => (
           <div>
-            <input
-              aria-controls="ctKeywordSearch"
-              className={classNames('input-box-margin', className)}
-              {...getInputProps({
-                type: 'text',
-                required,
-                onChange: handleChange,
-                onKeyUp: handleEnterPress,
-                onFocus: handleFocus,
-                'aria-labelledby': 'institution-search-label',
-              })}
-            />
+            <div className="input-container">
+              <input
+                aria-controls="ctKeywordSearch"
+                className={classNames('input-box-margin', className)}
+                {...getInputProps({
+                  type: 'text',
+                  required,
+                  onChange: handleChange,
+                  onKeyUp: handleEnterPress,
+                  onFocus: handleFocus,
+                  'aria-labelledby': 'institution-search-label',
+                })}
+              />
+              {/* eslint-disable-next-line no-nested-ternary */}
+              {environment.isProduction() ? (
+                <button
+                  aria-label={`Clear your ${label}`}
+                  type="button"
+                  id="clear-input"
+                  className="fas fa-times-circle clear-button"
+                  onClick={handleClearInput}
+                />
+              ) : inputValue && inputValue.length > 0 ? (
+                <button
+                  aria-label={`Clear your ${label}`}
+                  type="button"
+                  id="clear-input"
+                  className="fas fa-times-circle clear-button"
+                  onClick={handleClearInput}
+                />
+              ) : (
+                <></>
+              )}
+            </div>
             {isOpen && (
               <div
                 className="suggestions-list"

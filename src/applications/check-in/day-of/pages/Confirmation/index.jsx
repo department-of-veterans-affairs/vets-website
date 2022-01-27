@@ -5,7 +5,7 @@ import MultipleAppointment from './MultipleAppointments';
 
 import { triggerRefresh } from '../../../actions/day-of';
 
-import { makeSelectConfirmationData } from '../../hooks/selectors';
+import { makeSelectConfirmationData } from '../../../selectors';
 
 const Confirmation = () => {
   const dispatch = useDispatch();

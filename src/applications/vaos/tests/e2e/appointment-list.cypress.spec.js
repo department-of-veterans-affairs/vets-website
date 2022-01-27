@@ -59,8 +59,11 @@ describe('VAOS appointment list', () => {
       cy.url().should('include', '/appointments/va');
       cy.get('[data-cy=va-appointment-details-header]')
         .should('exist')
-        .contains('VA appointment over the phone')
-        .axeCheckBestPractice();
+        .contains('VA appointment over the phone');
+      cy.get('h2', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .and('contain', 'Cheyenne VA Medical Center');
+      cy.axeCheckBestPractice();
     });
 
     it('va video appointment', () => {

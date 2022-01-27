@@ -178,7 +178,7 @@ describe('The My VA Dashboard', () => {
       'not.exist',
     );
     cy.findByRole('heading', {
-      name: /Claims & appeals/i,
+      name: /Claims and appeals/i,
     }).should('exist');
     cy.findByRole('link', {
       name: /check your claim or appeal status/i,
