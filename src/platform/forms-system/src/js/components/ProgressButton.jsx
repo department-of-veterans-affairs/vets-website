@@ -41,9 +41,7 @@ class ProgressButton extends React.Component {
         }`}
         id={`${this.id}-continueButton`}
         onClick={this.props.onButtonClick}
-        onMouseDown={e => {
-          e.preventDefault();
-        }}
+        onMouseDown={this.props.preventOnBlur}
         aria-label={this.props.ariaLabel || null}
         aria-describedby={this.props.ariaDescribedBy}
       >
@@ -55,9 +53,18 @@ class ProgressButton extends React.Component {
   }
 }
 
+ProgressButton.defaultProps = {
+  preventOnBlur: e => {
+    e.preventDefault();
+  },
+};
+
 ProgressButton.propTypes = {
   // function that changes the path to the next panel or submit.
   onButtonClick: PropTypes.func,
+
+  // function that bypasses onBlur when clicking
+  preventOnBlur: PropTypes.func,
 
   // what is the button's label
   buttonText: PropTypes.string.isRequired,
