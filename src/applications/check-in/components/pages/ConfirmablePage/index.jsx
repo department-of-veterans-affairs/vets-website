@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import DemographicItem from '../../DemographicItem';
 import PropTypes from 'prop-types';
+import { focusElement } from 'platform/utilities/ui';
 
 const ConfirmablePage = ({
   header,
@@ -14,6 +15,9 @@ const ConfirmablePage = ({
   Footer,
   isPreCheckIn,
 }) => {
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 confirmable-page">
       <h1 data-testid="header">{header}</h1>

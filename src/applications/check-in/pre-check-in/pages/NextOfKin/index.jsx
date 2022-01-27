@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { recordAnswer } from '../../../actions/pre-check-in';
@@ -47,9 +46,6 @@ const NextOfKin = props => {
     goToPreviousPage,
   } = useFormRouting(router);
   const currentPage = getCurrentPageFromRouter();
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
 
   const buttonClick = useCallback(
     async answer => {

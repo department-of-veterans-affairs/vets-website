@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -6,7 +6,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
-import { focusElement } from 'platform/utilities/ui';
 import Footer from '../../components/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import EmergencyContactDisplay from '../../components/pages/emergencyContact/EmergencyContactDisplay';
@@ -35,9 +34,6 @@ const EmergencyContact = props => {
     },
     [dispatch],
   );
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
 
   const yesClick = useCallback(
     () => {

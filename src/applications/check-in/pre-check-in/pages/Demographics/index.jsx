@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { focusElement } from 'platform/utilities/ui';
+import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import BackToHome from '../../../components/BackToHome';
 import { useFormRouting } from '../../../hooks/useFormRouting';
@@ -21,9 +20,6 @@ const Demographics = props => {
     getCurrentPageFromRouter,
   } = useFormRouting(router);
   const currentPage = getCurrentPageFromRouter();
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
   const yesClick = useCallback(
     () => {
       recordEvent({
