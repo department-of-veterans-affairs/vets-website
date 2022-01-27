@@ -7,7 +7,9 @@ class ValidateVeteran {
       .and('have.text', title);
   }
   validateVeteran(lastName = 'Smith', last4 = '1234') {
+    this.clearLastName();
     this.typeLastName(lastName);
+    this.clearLast4();
     this.typeLast4(last4);
   }
 
@@ -31,6 +33,14 @@ class ValidateVeteran {
 
   typeLast4(last4 = '1234') {
     this.getLast4Input().type(last4);
+  }
+
+  clearLastName() {
+    this.getLastNameInput().invoke('val', '');
+  }
+
+  clearLast4() {
+    this.getLast4Input().invoke('val', '');
   }
 
   attemptToGoToNextPage() {
