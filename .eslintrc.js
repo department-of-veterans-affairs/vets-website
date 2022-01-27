@@ -69,7 +69,6 @@ module.exports = {
       },
     ],
 
-    // "func-names": 2,
     'no-console': 2,
     'no-unused-vars': [
       2,
@@ -109,6 +108,16 @@ module.exports = {
     'react/no-danger': 2,
     'react/no-deprecated': 2,
     'react/no-direct-mutation-state': 2,
+    'react/jsx-fragments': 1,
+    'react/jsx-closing-tag-location': 1,
+    'react/state-in-constructor': 1,
+    'react/no-unused-state': 1,
+    'react/sort-comp': 1,
+    'react/default-props-match-prop-types': 1,
+    'react/static-property-placement': 1,
+    'react/jsx-wrap-multilines': 1,
+    'react/jsx-curly-brace-presence': 1,
+    'react/no-access-state-in-setstate': 1,
 
     /* || sonarJS plugin || */
     'sonarjs/no-all-duplicated-branches': 2,
@@ -159,30 +168,15 @@ module.exports = {
     /* || Unicorn plugin || */
     'unicorn/no-abusive-eslint-disable': 2,
 
-    /* ----- TODO: evaluate and potentially turn these rules back on ----- */
+    'max-classes-per-file': 1,
+    'prefer-promise-reject-errors': 1,
+    'no-restricted-globals': 1,
+    'no-else-return': 1,
+    'prefer-object-spread': 1,
+    'lines-between-class-members': 1,
+    'prefer-destructuring': 1,
 
     /* TODO | DISABLED TEMPORARILY */
-    'max-classes-per-file': 0, // 1
-    'no-buffer-constructor': 0, // 13
-    'prefer-promise-reject-errors': 0, // 14
-    'func-names': 0, // 14
-    'no-restricted-globals': 0, // 28
-    'no-else-return': 0, // 41 (fixable)
-    'prefer-object-spread': 0, // 78 (fixable)
-    'lines-between-class-members': 0, // 103 (fixable)
-    'prefer-destructuring': 0, // 261 (fixable)
-
-    'react/jsx-fragments': 0, // 2 (fixable)
-    'react/jsx-closing-tag-location': 0, // 3 (fixable)
-    'react/no-typos': 0, // 5
-    'react/state-in-constructor': 0, // 7
-    'react/no-unused-state': 0, // 15
-    'react/sort-comp': 0, // 23
-    'react/default-props-match-prop-types': 0, // 44
-    'react/static-property-placement': 0, // 50
-    'react/jsx-wrap-multilines': 0, // 60 (fixable)
-    'react/jsx-curly-brace-presence': 0, // 71 (fixable)
-    'react/no-access-state-in-setstate': 0, // 79
     'react/jsx-curly-newline': 0, // 95 (fixable)
     'react/button-has-type': 0, // 196
     'react/jsx-props-no-spreading': 0, // 767
