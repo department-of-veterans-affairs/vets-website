@@ -13,13 +13,13 @@ export default async function createVetCentersHours(store) {
 
   if (vetCentersHoursWidget) {
     const vetCenterHoursArray = standardizeDateTime(window.vetCenterHours);
-    const isMainVetCenterPage = standardizeDateTime(window.isMainVetCenterPage);
+    const isSatelliteLocation = window.isSatelliteLocation;
     ReactDOM.render(
       <Provider store={store}>
         <VetCenterHours
           hours={vetCenterHoursArray}
           vetCenterHoursId="vet-center-hours"
-          isSatelliteLocation={isMainVetCenterPage}
+          isSatelliteLocation={isSatelliteLocation}
         />
       </Provider>,
       vetCentersHoursWidget,
