@@ -12,6 +12,7 @@ import { Provider } from 'react-redux';
 import localStorage from 'platform/utilities/storage/localStorage';
 
 import startReactApp from '../../startup/react';
+import Announcement from './containers/Announcement';
 
 import { ANNOUNCEMENTS_LOCAL_STORAGE } from './actions';
 
@@ -20,15 +21,11 @@ import { ANNOUNCEMENTS_LOCAL_STORAGE } from './actions';
  *
  * @param {Redux.Store} store The common store used on the site
  */
-export default async function startAnnouncement(store) {
+export default function startAnnouncement(store) {
   const annoucementRoot = document.getElementById('announcement-root');
 
   const isDisabled = localStorage.getItem(ANNOUNCEMENTS_LOCAL_STORAGE) === '*';
   if (isDisabled) return;
-
-  const {
-    default: Announcement,
-  } = await import(/* announcement-widget */ './containers/Announcement');
 
   startReactApp(
     <Provider store={store}>
