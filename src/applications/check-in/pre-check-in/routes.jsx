@@ -108,13 +108,10 @@ const createRoutesWithStore = () => {
       {!environment.isProduction() && (
         <Route
           path={`/sentry/test`}
-          component={withFeatureFlip(
-            props => (
-              <ErrorBoundary {...props}>
-                <ErrorTest {...props} />
-              </ErrorBoundary>
-            ),
-            {},
+          component={() => (
+            <ErrorBoundary>
+              <ErrorTest />
+            </ErrorBoundary>
           )}
         />
       )}
