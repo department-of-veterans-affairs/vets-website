@@ -2,8 +2,8 @@ import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import StatusBox from '../../../shared/components/StatusBox';
-import { CoeDocumentUpload } from '../CoeDocumentUpload';
-import { CoeDocumentList } from '../CoeDocumentList';
+import DocumentUpload from '../DocumentUpload';
+import DocumentList from '../DocumentList';
 import MoreQuestions from '../MoreQuestions';
 
 const Pending = ({
@@ -20,8 +20,8 @@ const Pending = ({
           origin={'status'}
           status={status}
         />
-        {uploadsNeeded ? <CoeDocumentUpload /> : ''}
-        <CoeDocumentList notOnUploadPage={notOnUploadPage} />
+        {uploadsNeeded ? <DocumentUpload /> : ''}
+        <DocumentList notOnUploadPage={notOnUploadPage} />
         <h2>Should I request a COE again?</h2>
         <p className="vads-u-margin-bottom--0">
           No. We’re reviewing your current request, and submitting a new request

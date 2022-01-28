@@ -1,5 +1,7 @@
 import React from 'react';
 
+import DownloadLink from '../../shared/components/DownloadLink';
+
 const documents = [
   {
     id: 0,
@@ -15,7 +17,9 @@ const documents = [
   },
 ];
 
-export const CoeDocumentList = props => {
+const getLinkText = ({ title, type }) => `${title} ${type}`;
+
+const DocumentList = props => {
   if (documents.length > 0) {
     return (
       <>
@@ -39,13 +43,7 @@ export const CoeDocumentList = props => {
               <p className="vads-u-margin-y--1p5">
                 Date Sent: {document.timestamp}
               </p>
-              <a className="vads-u-margin--0" href="/">
-                <i
-                  aria-hidden="true"
-                  className="fas fa-download vads-u-padding-right--1"
-                />
-                {document.title} {document.type}
-              </a>
+              <DownloadLink href={'/'} text={getLinkText(document)} />
             </div>
           );
         })}
@@ -65,3 +63,5 @@ export const CoeDocumentList = props => {
   }
   return '';
 };
+
+export default DocumentList;

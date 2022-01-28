@@ -2,7 +2,7 @@ import React from 'react';
 
 import ReviewAndDownload from '../../../shared/components/ReviewAndDownload';
 
-import { CoeDocumentList } from '../CoeDocumentList';
+import DocumentList from '../DocumentList';
 import MoreQuestions from '../MoreQuestions';
 import MakeChanges from '../MakeChanges';
 
@@ -11,7 +11,7 @@ const Available = ({ downloadUrl }) => (
     <div className="medium-8 columns">
       <ReviewAndDownload downloadUrl={downloadUrl} />
       <MakeChanges />
-      <CoeDocumentList />
+      <DocumentList />
       <MoreQuestions />
     </div>
   </div>

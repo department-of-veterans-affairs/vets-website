@@ -2,9 +2,12 @@ import React from 'react';
 
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
+import DownloadLink from '../../../shared/components/DownloadLink';
 import MoreQuestions from '../MoreQuestions';
 
 const coeUrl = getAppUrl('coe');
+const formLink = '/find-forms/about-form-26-1880/';
+const downloadLinkText = 'Download VA form 26-1880 (PDF)';
 
 const Ineligible = () => (
   <div className="row vads-u-margin-bottom--7">
@@ -52,13 +55,7 @@ const Ineligible = () => (
         form. Please keep in mind that this may take longer than requesting a
         COE online or through our WebLGY system.
       </p>
-      <a href="/find-forms/about-form-26-1880/">
-        <i
-          aria-hidden="true"
-          className="fas fa-download vads-u-padding-right--1"
-        />
-        Download VA form 26-1880 (PDF)
-      </a>
+      <DownloadLink href={formLink} text={downloadLinkText} />
       <MoreQuestions />
     </div>
   </div>

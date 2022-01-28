@@ -58,7 +58,7 @@ const reducer = (state, action) => {
   }
 };
 
-export const CoeDocumentUpload = () => {
+const DocumentUpload = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const { documentType, documentDescription, errorMessage, files } = state;
@@ -183,3 +183,5 @@ export const CoeDocumentUpload = () => {
     </>
   );
 };
+
+export default DocumentUpload;

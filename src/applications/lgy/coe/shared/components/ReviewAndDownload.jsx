@@ -1,5 +1,9 @@
 import React from 'react';
 
+import DownloadLink from './DownloadLink';
+
+const downloadText = 'Download your COE (PDF) 0.20MB';
+
 const ReviewAndDownload = ({ downloadUrl }) => (
   <>
     <div>
@@ -14,13 +18,7 @@ const ReviewAndDownload = ({ downloadUrl }) => (
       </p>
     </div>
     <div className="vads-u-padding-top--2">
-      <a href={downloadUrl}>
-        <i
-          className="fas fa-download vads-u-padding-right--1"
-          aria-hidden="true"
-        />
-        Download your COE (PDF) 0.20MB
-      </a>
+      <DownloadLink href={downloadUrl} text={downloadText} />
     </div>
   </>
 );
