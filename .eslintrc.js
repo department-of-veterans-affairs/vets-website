@@ -207,7 +207,7 @@ module.exports = {
     'import/no-useless-path-segments': 1,
     'import/no-cycle': 1,
     'import/order': 1,
-    'import/no-extraneous-dependencies': 1,
+    'import/no-extraneous-dependencies': 0, // let's circle back to this one
     'import/extensions': 1,
     'import/first': 0,
     'import/no-named-as-default': 0,
