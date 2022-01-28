@@ -49,7 +49,7 @@ export default function ValidateDisplay({
         aria-label="Check in now for your appointment"
       >
         {' '}
-        {isLoading ? <>Loading...</> : <>Continue</>}
+        {isLoading ? <span role="status">Loading...</span> : <>Continue</>}
       </button>
       {Footer && <Footer isPreCheckIn={isPreCheckIn} />}
     </div>

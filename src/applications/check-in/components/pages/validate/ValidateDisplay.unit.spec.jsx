@@ -38,12 +38,12 @@ describe('check-in experience', () => {
 
         expect(getByText('foo')).to.exist;
       });
-      it('renders loading message if isLoading is true', () => {
-        const { getByText } = render(<ValidateDisplay isLoading />);
+      it('renders loading message with status role if isLoading is true', () => {
+        const { getByRole } = render(<ValidateDisplay isLoading />);
 
-        expect(getByText('Loading...')).to.exist;
+        expect(getByRole('status')).to.have.text('Loading...');
       });
-      it('renders loading message if isLoading is true', () => {
+      it('renders continue button if isLoading false', () => {
         const { getByText } = render(<ValidateDisplay isLoading={false} />);
 
         expect(getByText('Continue')).to.exist;
