@@ -23,6 +23,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { createDependentSchema } from '../definitions/dependent';
 
 // chapter 1 Veteran Information
+import PersonalAuthenticatedInformation from '../components/PersonalAuthenticatedInformation';
 import birthInformation from './chapters/veteranInformation/birthInformation';
 import americanIndian from './chapters/veteranInformation/americanIndian';
 import birthSex from './chapters/veteranInformation/birthSex';
@@ -128,10 +129,24 @@ const formConfig = {
     veteranInformation: {
       title: 'Veteran Information',
       pages: {
+        veteranAuthenticatedInformation: {
+          path: 'veteran-information/personal-information',
+          title: 'Veteran information',
+          CustomPage: PersonalAuthenticatedInformation,
+          CustomPageReview: null,
+          initialData: {},
+          depends: () => hasSession(),
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
         veteranInformation: {
           path: 'veteran-information/personal-information',
           title: 'Veteran information',
           initialData: {},
+          depends: () => !hasSession(),
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
@@ -139,6 +154,7 @@ const formConfig = {
           path: 'veteran-information/birth-information',
           title: 'Veteran information',
           initialData: {},
+          depends: () => !hasSession(),
           uiSchema: birthInformation.uiSchema,
           schema: birthInformation.schema,
         },
