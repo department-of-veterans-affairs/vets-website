@@ -19,12 +19,11 @@ import {
   EditEmail,
   EditAddress,
 } from '../components/EditContactInfo';
+import AddIssue from '../components/AddIssue';
 
 import {
   canUploadEvidence,
   wantsToUploadEvidence,
-  showAddIssueQuestion,
-  showAddIssuesPage,
   needsHearingType,
   appStateSelector,
   getIssueName,
@@ -35,8 +34,7 @@ import veteranInfo from '../pages/veteranInfo';
 import contactInfo from '../pages/contactInfo';
 import homeless from '../pages/homeless';
 import contestableIssues from '../pages/contestableIssues';
-import additionalIssuesIntro from '../pages/additionalIssuesIntro';
-import additionalIssues from '../pages/additionalIssues';
+import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
 import optIn from '../pages/optIn';
 import issueSummary from '../pages/issueSummary';
@@ -152,25 +150,20 @@ const formConfig = {
       pages: {
         contestableIssues: {
           title: 'Issues eligible for review',
-          path: 'eligible-issues',
+          path: 'contestable-issues',
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
-        },
-        additionalIssuesIntro: {
-          title: 'Additional issues for review',
-          path: 'additional-issues-intro',
-          depends: showAddIssueQuestion,
-          uiSchema: additionalIssuesIntro.uiSchema,
-          schema: additionalIssuesIntro.schema,
           appStateSelector,
         },
-        additionalIssues: {
+        addIssue: {
           title: 'Add issues for review',
-          path: 'additional-issues',
-          depends: showAddIssuesPage,
-          uiSchema: additionalIssues.uiSchema,
-          schema: additionalIssues.schema,
-          appStateSelector,
+          path: 'add-issue',
+          depends: () => false, // accessed from contestableIssues page
+          // showPagePerItem: true,
+          // arrayPath: 'additionalIssues',
+          CustomPage: AddIssue,
+          uiSchema: addIssue.uiSchema,
+          schema: addIssue.schema,
         },
         areaOfDisagreementFollowUp: {
           title: getIssueName,
