@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 
@@ -15,6 +15,10 @@ import { focusElement } from 'platform/utilities/ui';
 
 const DisplayMultipleAppointments = props => {
   const { appointments, getMultipleAppointments, router, token } = props;
+
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
 
   const handleClick = e => {
     e.preventDefault();
@@ -60,13 +64,12 @@ const DisplayMultipleAppointments = props => {
         {format(new Date(), "MMMM d, yyyy 'at' h:mm aaaa")}
       </p>
       <p data-testid="refresh-link">
-        <a
+        <button
           onClick={e => handleClick(e)}
-          href="#"
           data-testid="refresh-appointments-button"
         >
           Refresh
-        </a>
+        </button>
       </p>
       <Footer isPreCheckIn={false} />
       <BackToHome isPreCheckIn={false} />
