@@ -390,9 +390,9 @@ export function createComments(submissionForm) {
 
 export function createDirectDeposit(submissionForm) {
   const bankInfo = {
-    accountNumber: submissionForm?.bankAccount?.accountNumber,
-    accountType: submissionForm?.bankAccount?.accountType,
-    routingNumber: submissionForm?.bankAccount?.routingNumber,
+    directDepositAccountNumber: submissionForm?.bankAccount?.accountNumber,
+    directDepositAccountType: submissionForm?.bankAccount?.accountType,
+    directDepositRoutingNumber: submissionForm?.bankAccount?.routingNumber,
   };
   return submissionForm?.bankAccount?.accountType ? bankInfo : {};
 }
