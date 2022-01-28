@@ -17,7 +17,7 @@ const AppointmentBlock = props => {
         className="vads-u-font-family--serif"
         data-testid="appointment-day-location"
       >
-        Your {appointmentString} on {appointmentsDay} at {appointmentFacility}.
+        {`Your ${appointmentString} on ${appointmentsDay} at ${appointmentFacility}.`}
       </p>
       <ol
         className="vads-u-border-top--1px vads-u-margin-bottom--4 pre-check-in--appointment-list"
