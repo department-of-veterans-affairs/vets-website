@@ -26,7 +26,7 @@ const TableDetailsView = ({ formData, onEdit }) => {
       {renderDetails(keys)}
       <td className="vads-u-border--0">
         <button
-          className="usa-button-secondary vads-u-width--auto vads-u-margin--0"
+          className="usa-button-secondary vads-u-margin--0"
           onClick={() => onEdit()}
           type="button"
         >

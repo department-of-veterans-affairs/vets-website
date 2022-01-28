@@ -122,21 +122,31 @@ const InputSection = ({
           <div className="row small-collapse">
             <div className="small-4 left columns button-group">
               <button
-                type="button"
+                aria-label={`${buttonText} ${title}`}
                 className="float-left"
                 onClick={() => handleSave(index, itemSchema)}
-                aria-label={`${buttonText} ${title}`}
+                type="button"
               >
                 {buttonText}
               </button>
-              {showCancel && <a onClick={() => handleCancel(index)}>Cancel</a>}
+              {showCancel && (
+                <button
+                  aria-label={`Cancel ${title}`}
+                  className="usa-button-secondary"
+                  onClick={() => handleCancel(index)}
+                  type="button"
+                >
+                  Cancel
+                </button>
+              )}
             </div>
             <div className="small-8 right columns">
               {showRemove && (
                 <button
+                  aria-label={`Remove ${title}`}
                   className="usa-button-secondary float-right"
-                  type="button"
                   onClick={() => handleRemove(index)}
+                  type="button"
                 >
                   Remove
                 </button>
@@ -150,18 +160,21 @@ const InputSection = ({
 };
 
 const AddAnotherButton = ({ uiOptions, handleAdd, collapsed }) => {
-  const linkClassNames = classNames('add-item-link', {
-    disabled: !collapsed,
-  });
+  const linkClassNames = classNames(
+    'add-item-button usa-button-secondary vads-u-width--auto vads-u-margin--0',
+    {
+      disabled: !collapsed,
+    },
+  );
 
   return (
     <div>
       <div className="add-item-container" name="table_root_">
-        <div className="add-item-link-section">
-          <a className={linkClassNames} onClick={handleAdd}>
+        <div className="add-item-button-section">
+          <button className={linkClassNames} onClick={handleAdd} type="button">
             <i className="fas fa-plus plus-icon" />
             {uiOptions.itemName ? `Add ${uiOptions.itemName}` : 'Add another'}
-          </a>
+          </button>
         </div>
       </div>
     </div>
@@ -342,7 +355,7 @@ const ItemLoop = ({
                   ))}
                   <th
                     className="vads-u-border--0"
-                    width="50"
+                    width="85"
                     aria-hidden="true"
                   />
                 </tr>
