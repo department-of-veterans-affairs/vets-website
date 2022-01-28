@@ -67,9 +67,7 @@ const testConfig = createTestConfig(
             .first()
             .click();
           // Add job link
-          cy.findAllByText(/Add job/i, { selector: 'a' })
-            .first()
-            .click();
+          cy.get('.add-item-button').click();
           // Employer Two - Previous Employment
           cy.findByLabelText(/Type of work/).select('Full time');
           cy.get(`select[name="fromMonth"]`).select('1');
@@ -96,9 +94,7 @@ const testConfig = createTestConfig(
             .first()
             .click();
           // Add job link
-          cy.findAllByText(/Add job/i, { selector: 'a' })
-            .first()
-            .click();
+          cy.get('.add-item-button').click();
           // Employer Two - Previous Employment
           cy.findByLabelText(/Type of work/).select('Full time');
           cy.get(`select[name="fromMonth"]`).select('2');
@@ -114,10 +110,7 @@ const testConfig = createTestConfig(
       },
       'spouse/income/0': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="root_spouseGrossSalary"]`).type('3500');
-          cy.get(`input[name="root_deductions_0_name"]`).type('Federal tax');
-          cy.get(`input[name="root_deductions_0_amount"]`).type('250');
-          cy.findAllByText(/Save/i, { selector: 'button' }).click();
+          cy.get(`#root_spouseGrossSalary`).type('3500');
           cy.get('.usa-button-primary').click();
         });
       },
