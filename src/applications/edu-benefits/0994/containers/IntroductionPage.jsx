@@ -6,6 +6,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import CallToActionWidget from 'applications/static-pages/cta-widget';
 import WizardContainer from '../../wizard/containers/WizardContainer';
 import { connect } from 'react-redux';
+import environment from 'platform/utilities/environment';
 import { showEduBenefits0994Wizard } from '../../selectors/educationWizard';
 import {
   WIZARD_STATUS,
@@ -38,7 +39,7 @@ export class IntroductionPage extends React.Component {
       <OMBInfoShared
         resBurden={10}
         ombNumber={'2900-0866'}
-        expDate={'01/31/2025'}
+        expDate={environment.isProduction() ? '04/30/2022' : '01/31/2025'}
       />
     );
 
