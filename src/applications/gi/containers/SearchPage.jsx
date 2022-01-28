@@ -8,6 +8,9 @@ import { useQueryParams, isSmallScreen } from '../utils/helpers';
 import { useHistory } from 'react-router-dom';
 import NameSearchResults from '../containers/search/NameSearchResults';
 import LocationSearchResults from '../containers/search/LocationSearchResults';
+import LocationSearchResultsStaging from '../containers/search/LocationSearchResultsStaging';
+import environment from 'platform/utilities/environment';
+
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
 import AccordionItem from '../components/AccordionItem';
@@ -15,7 +18,6 @@ import { getSearchQueryChanged, updateUrlParams } from '../selectors/search';
 import classNames from 'classnames';
 import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 
 export function SearchPage({
   dispatchChangeSearchTab,
@@ -54,10 +56,17 @@ export function SearchPage({
     return () => window.removeEventListener('resize', checkSize);
   }, []);
 
-  const tabbedResults = {
-    [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
-    [TABS.location]: <LocationSearchResults smallScreen={smallScreen} />,
-  };
+  const tabbedResults = environment.isProduction()
+    ? {
+        [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
+        [TABS.location]: <LocationSearchResults smallScreen={smallScreen} />,
+      }
+    : {
+        [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
+        [TABS.location]: (
+          <LocationSearchResultsStaging smallScreen={smallScreen} />
+        ),
+      };
 
   const tabChange = selectedTab => {
     recordEvent({
