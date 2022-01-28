@@ -1,31 +1,33 @@
-import EligibleIssuesWidget from '../components/EligibleIssuesWidget';
+import ContestableIssuesWidget from '../components/ContestableIssuesWidget';
 
 import {
-  EligibleIssuesTitle,
-  EligibleIssuesDescription,
-  NotListedInfo,
+  ContestableIssuesTitle,
+  disabilitiesExplanation,
 } from '../content/contestableIssues';
 
+import { selectionRequired, maxIssues } from '../validations/issues';
 import { SELECTED } from '../constants';
 
-export default {
+/**
+ * contestable issues with add issue link (list loop)
+ */
+const contestableIssues = {
   uiSchema: {
-    'ui:title': ' ',
-    'ui:description': EligibleIssuesDescription,
+    'ui:title': ContestableIssuesTitle,
+    'ui:options': {
+      itemName: 'issues eligible for review',
+    },
     contestableIssues: {
-      'ui:title': EligibleIssuesTitle, // not rendering?
+      'ui:title': ' ',
       'ui:field': 'StringField',
-      'ui:widget': EligibleIssuesWidget,
+      'ui:widget': ContestableIssuesWidget,
       'ui:options': {
         keepInPageOnReview: true,
       },
+      'ui:validations': [selectionRequired, maxIssues],
     },
-    'view:notListed': {
-      'ui:title': ' ',
-      'ui:description': NotListedInfo,
-      'ui:options': {
-        forceDivWrapper: true,
-      },
+    'view:disabilitiesExplanation': {
+      'ui:description': disabilitiesExplanation,
     },
   },
 
@@ -34,17 +36,18 @@ export default {
     properties: {
       contestableIssues: {
         type: 'array',
-        maxItems: 100,
         items: {
           type: 'object',
           properties: {},
           [SELECTED]: 'boolean',
         },
       },
-      'view:notListed': {
+      'view:disabilitiesExplanation': {
         type: 'object',
         properties: {},
       },
     },
   },
 };
+
+export default contestableIssues;
