@@ -38,8 +38,8 @@ const DisplayMultipleAppointments = props => {
         Your appointments
       </h1>
       <p data-testid="date-text">
-        Here are your appointments for today:{' '}
-        {format(new Date(), 'MMMM dd, yyyy')}.
+        {`Here are your appointments for today:${' '}
+        ${format(new Date(), 'MMMM dd, yyyy')}.`}
       </p>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ol
