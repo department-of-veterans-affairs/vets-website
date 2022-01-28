@@ -17,6 +17,7 @@ env:
   CHANNEL_ID: C0MQ281DJ # vfs-platform-builds
   VETS_WEBSITE_CHANNEL_ID: C02V265VCGH # status-vets-website
   DSVA_SCHEDULE_ENABLED: true
+  BUILD_ENV: vagovprod
 
 jobs:
   set-env:
@@ -56,6 +57,33 @@ jobs:
       - name: Get commit sha (workflow_dispatch)
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.commit_sha != '' }}
         run: echo 'COMMIT_SHA=${{ github.event.inputs.commit_sha }}' >> $GITHUB_ENV
+      
+      - name: Build
+        run: yarn build --verbose —buildtype=vagovprod
+        timeout-minutes: 30
+
+      - name: Generate build details
+        run: |
+          cat > build/${{ BUILD_ENV }}/BUILD.txt << EOF
+          BUILDTYPE=${{ BUILD_ENV }}
+          NODE_ENV=production
+          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+          CHANGE_TARGET=null
+          RUN_ID=${{ github.run_id }}
+          RUN_NUMBER=${{ github.run_number }}
+          REF=${{ github.sha }}
+          BUILDTIME=$(date +%s)
+          EOF
+
+      - name: Compress and archive build
+        run: tar -C build/${{ BUILD_ENV }} -cjf ${{ BUILD_ENV }}.tar.bz2 .
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ BUILD_ENV }}.tar.bz2
+          path: ${{ BUILD_ENV }}.tar.bz2
+          retention-days: 1   
 
   validate-build-status:
     name: Validate Build Status
@@ -159,6 +187,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      
+      - name: Download build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ BUILD_ENV }}.tar.bz2
 
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
@@ -182,6 +215,9 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_PROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
+      
+      - name: Upload build
+        run: aws s3 cp ${{ BUILD_ENV }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ BUILD_ENV }}.tar.bz2 --acl public-read --region us-gov-west-1
 
       - name: Deploy
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
