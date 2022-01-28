@@ -1,5 +1,6 @@
 import React from 'react';
 import { captureError } from '../../utils/analytics';
+import { createSessionStorageKeys } from '../../utils/session-storage';
 
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -14,7 +15,12 @@ export default class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error) {
-    captureError(error);
+    // get token from session store
+    const isPreCheckIn = window.location.pathname.includes('pre-check-in');
+    const KEYS = createSessionStorageKeys({ isPreCheckIn });
+    const data = window.sessionStorage.getItem(KEYS.CURRENT_UUID);
+    const token = data ? JSON.parse(data).token : null;
+    captureError(error, { token });
     window.location.replace('error');
   }
 
