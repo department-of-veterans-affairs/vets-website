@@ -36,7 +36,7 @@ export const Debts = ({ debts, hasError }) => {
         You have {debtsCount} outstanding debts.{' '}
         <CTALink
           text="Manage your VA debt"
-          href="/manage-va-debt"
+          href="/manage-va-debt/your-debt"
           onClick={() =>
             recordEvent({
               event: 'profile-navigation',
