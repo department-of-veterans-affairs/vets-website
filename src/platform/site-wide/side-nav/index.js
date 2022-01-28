@@ -2,13 +2,14 @@
 import React from 'react';
 // Relative
 import startReactApp from '../../startup/react';
+import SideNav from './components/SideNav';
 import { normalizeSideNavData } from './helpers';
 import widgetTypes from '~/applications/static-pages/widgetTypes';
 
 // Are you looking for where this is used?
 // Search for `<div data-widget-type="side-nav"></div>` to find all the places
 // this React widget is used.
-export default async sideNavConfig => {
+export default sideNavConfig => {
   // Derive the root element to place the SideNav.
   const root = document.querySelector(
     `[data-widget-type="${widgetTypes.SIDE_NAV}"]`,
@@ -18,10 +19,6 @@ export default async sideNavConfig => {
   if (!root) {
     return;
   }
-
-  const {
-    default: SideNav,
-  } = await import(/* side-nav-widget */ './components/SideNav');
 
   const { rootPath, data } = sideNavConfig;
 
