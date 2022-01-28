@@ -1,35 +1,54 @@
 /**
- * Expands all accordions and AdditionalInfo components.
+ * Expands all Accordions and AdditionalInfo components.
  * Web Components that require Shadow DOM broken out from React Components
  */
 Cypress.Commands.add('expandAccordions', () => {
   Cypress.log();
 
   cy.get('main').then($main => {
+    // Check if va-accordion-item Web Component exists
     if ($main.find('va-accordion-item').length > 0) {
-      // va-accordion-item Web Component Expand
       cy.get('va-accordion-item')
         .shadow()
-        .find('button[aria-expanded=false]')
-        .each(button => {
-          cy.wrap(button).click({ force: true });
+        .then(accordion => {
+          // If it exists and Accordions are not already expanded
+          if (accordion.find('button[aria-expanded=false]').length > 0) {
+            cy.get('va-accordion-item')
+              .shadow()
+              .find('button[aria-expanded=false]')
+              .each(button => {
+                // Click to open Accordions
+                cy.wrap(button).click({ force: true });
+              });
+          }
         });
-    } else if ($main.find('va-additional-info').length > 0) {
-      // va-additional-info Web Component Expand
+    }
+    // Check if va-additional-info Web Component exists
+    if ($main.find('va-additional-info').length > 0) {
       cy.get('va-additional-info')
         .shadow()
-        .find('a[role="button"][aria-expanded=false]')
-        .each(button => {
-          cy.wrap(button).click({ force: true });
+        .then(additionalInfo => {
+          // If it exists and Additional Info is not already expanded
+          if (
+            additionalInfo.find('a[role="button"][aria-expanded=false]')
+              .length > 0
+          ) {
+            cy.get('va-additional-info')
+              .shadow()
+              .find('a[role="button"][aria-expanded=false]')
+              .each(button => {
+                // Click to open Additional Info
+                cy.wrap(button).click({ force: true });
+              });
+          }
         });
-    } else {
-      // AdditionalInfo and Accordion React Components Expand
-      const accordions = $main.find('button[aria-expanded=false]');
-      if (accordions.length) {
-        cy.wrap(accordions).each(button => {
-          cy.wrap(button).click({ force: true });
-        });
-      }
+    }
+    // Check if AdditionalInfo and Accordion React Components exist and not already expanded
+    if ($main.find('button[aria-expanded=false]').length > 0) {
+      cy.get('button[aria-expanded=false]').each(button => {
+        // Click to open Accordion or Additional Info
+        cy.wrap(button).click({ force: true });
+      });
     }
   });
 });
