@@ -8,6 +8,13 @@ import COEIntroPageBox from './introduction-content/COEIntroPageBox';
 import LoggedInContent from './introduction-content/loggedInContent.jsx';
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
 
+const shouldShowSubwayMap = status => {
+  const { denied, pending, pendingUpload } = COE_ELIGIBILITY_STATUS;
+  const hideSubwayMap = [denied, pending, pendingUpload];
+
+  return !hideSubwayMap.includes(status);
+};
+
 const IntroductionPage = props => {
   let content;
 
@@ -25,30 +32,34 @@ const IntroductionPage = props => {
   }
   if (props.loggedIn && coeCallEnded.includes(props.status)) {
     content = (
-      <div>
-        <FormTitle title="Request a VA home loan Certificate of Eligibility (COE)" />
-        <p className="vads-u-padding-bottom--3">
-          Request for a Certificate of Eligibility (VA Form 26-1880)
-        </p>
+      <>
         <COEIntroPageBox
           coe={props.coe}
           status={props.status}
-          downloadURL={props.downloadURL}
+          downloadUrl={props.downloadUrl}
         />
-        {props.coe.status !== COE_ELIGIBILITY_STATUS.denied && (
+        {shouldShowSubwayMap(props.coe.status) && (
           <LoggedInContent parentProps={props} />
         )}
-      </div>
+      </>
     );
   }
 
-  return <div>{content}</div>;
+  return (
+    <div>
+      <FormTitle title="Request a VA home loan Certificate of Eligibility (COE)" />
+      <p className="vads-u-padding-bottom--3">
+        Request for a Certificate of Eligibility (VA Form 26-1880)
+      </p>
+      {content}
+    </div>
+  );
 };
 
 const mapStateToProps = state => ({
   status: state.certificateOfEligibility.generateAutoCoeStatus,
   coe: state.certificateOfEligibility.coe,
-  downloadURL: state.certificateOfEligibility.downloadURL,
+  downloadUrl: state.certificateOfEligibility.downloadUrl,
   loggedIn: isLoggedIn(state),
 });
 

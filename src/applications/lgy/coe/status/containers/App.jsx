@@ -2,40 +2,44 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import { isLoggedIn } from 'platform/user/selectors';
 import backendServices from 'platform/user/profile/constants/backendServices';
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+
 import { generateCoe } from '../../shared/actions';
-import { CoeAvailable } from '../components/CoeAvailable';
-import { CoeDenied } from '../components/CoeDenied';
-import { CoeEligible } from '../components/CoeEligible';
-import { CoeIneligible } from '../components/CoeIneligible';
-import { CoePending } from '../components/CoePending';
 import {
   CALLSTATUS,
   COE_FORM_NUMBER,
   COE_ELIGIBILITY_STATUS,
 } from '../../shared/constants';
+import {
+  Available,
+  Denied,
+  Eligible,
+  Ineligible,
+  Pending,
+} from '../components/statuses';
 
 const App = props => {
   const {
-    downloadURL,
+    downloadUrl,
     loggedIn,
     certificateOfEligibility: { generateAutoCoeStatus, profileIsUpdating, coe },
     hasSavedForm,
+    getCoeStatus,
   } = props;
 
   const clickHandler = () => {
-    props.generateCoe('skip');
+    getCoeStatus('skip');
   };
 
   useEffect(
     () => {
       if (!profileIsUpdating && loggedIn && !hasSavedForm && !coe) {
-        props.generateCoe();
+        getCoeStatus();
       }
     },
-    [loggedIn],
+    [loggedIn, profileIsUpdating, hasSavedForm, coe, getCoeStatus],
   );
 
   let content;
@@ -52,40 +56,42 @@ const App = props => {
   ) {
     switch (coe.status) {
       case COE_ELIGIBILITY_STATUS.available:
-        content = <CoeAvailable downloadURL={downloadURL} />;
+        content = <Available downloadUrl={downloadUrl} />;
         break;
       case COE_ELIGIBILITY_STATUS.eligible:
         content = (
-          <CoeEligible clickHandler={clickHandler} downloadURL={downloadURL} />
+          <Eligible clickHandler={clickHandler} downloadUrl={downloadUrl} />
         );
         break;
       case COE_ELIGIBILITY_STATUS.ineligible:
-        content = <CoeIneligible />;
+        content = <Ineligible />;
         break;
       case COE_ELIGIBILITY_STATUS.denied:
-        content = <CoeDenied />;
+        content = <Denied />;
         break;
       case COE_ELIGIBILITY_STATUS.pending:
         content = (
-          <CoePending
+          <Pending
             notOnUploadPage
             applicationCreateDate={coe.applicationCreateDate}
+            status={coe.status}
           />
         );
         break;
       case COE_ELIGIBILITY_STATUS.pendingUpload:
         content = (
-          <CoePending
+          <Pending
             uploadsNeeded
             applicationCreateDate={coe.applicationCreateDate}
+            status={coe.status}
           />
         );
         break;
       default:
-        content = <CoeIneligible />;
+        content = <Ineligible />;
     }
   } else {
-    content = <CoeIneligible />;
+    content = <Ineligible />;
   }
 
   return (
@@ -104,7 +110,7 @@ const App = props => {
 };
 
 const mapStateToProps = state => ({
-  downloadURL: state.certificateOfEligibility.downloadURL,
+  downloadUrl: state.certificateOfEligibility.downloadUrl,
   user: state.user,
   loggedIn: isLoggedIn(state),
   certificateOfEligibility: state.certificateOfEligibility,
@@ -114,12 +120,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  generateCoe,
+  getCoeStatus: generateCoe,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(App);
-
-export { App };

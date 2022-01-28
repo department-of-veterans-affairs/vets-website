@@ -17,11 +17,10 @@ const LoggedInContent = props => (
               Didn’t receive a dishonorable discharge, <strong>and</strong>
             </li>
             <li>
-              Meet the minimum active-duty service requirement based on when you
-              served
+              Meet the minimum service requirement based on when you served
             </li>
           </ul>
-          <a href="#">Eligibility requirements for VA home loan programs</a>
+          <a href="/">Eligibility requirements for VA home loan programs</a>
         </li>
         <li className="process-step list-two">
           <h3>Gather your information</h3>

@@ -1,6 +1,8 @@
 import React from 'react';
 
-const COEEligible = ({ downloadURL }) => (
+import ReviewAndDownload from '../../../../shared/components/ReviewAndDownload';
+
+const COEEligible = ({ downloadUrl }) => (
   <>
     <va-alert status="success">
       <h2 slot="headline">Congratulations on your automatic COE</h2>
@@ -11,25 +13,7 @@ const COEEligible = ({ downloadURL }) => (
         </p>
       </div>
     </va-alert>
-    <div>
-      <h2>Review and download your COE</h2>
-      <p>
-        You can download your COE right now. If you need help, go to our
-        instructions for how to download and open a VA.gov PDF form.
-      </p>
-      <a href="/resources/how-to-download-and-open-a-vagov-pdf-form/">
-        Get instructions for downloading a VA.gov PDF
-      </a>
-    </div>
-    <div className="vads-u-padding-top--4">
-      <a href={downloadURL}>
-        <i
-          className="fas fa-download vads-u-padding-right--1"
-          aria-hidden="true"
-        />
-        Download your COE (PDF) 0.20MB
-      </a>
-    </div>
+    <ReviewAndDownload downloadUrl={downloadUrl} />
     <div>
       <h2>What if my COE has errors?</h2>
       <p>

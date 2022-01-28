@@ -2,28 +2,44 @@ import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import moment from 'moment';
 
+import { getAppUrl } from 'platform/utilities/registry-helpers';
+
+const coeStatusUrl = getAppUrl('coe-status');
+
+const getHeadline = status =>
+  status === 'pending-upload'
+    ? 'We need more information from you'
+    : 'We’re reviewing your request';
+
+const getBody = status =>
+  status === 'pending-upload'
+    ? 'You’ll need to upload documents before we can make a decision on your COE request.'
+    : 'If you qualify for a Certificate of Eligibility, we’ll notify you by email to let you know how to get your COE.';
+
+const getLinkText = status =>
+  status === 'pending-upload'
+    ? 'Go to your VA home loan COE page to upload documents'
+    : 'Go to your VA home loan COE page to review the details of your COE';
+
 const COEPending = props => {
+  const headline = getHeadline(props.status);
+  const body = getBody(props.status);
+  const coeLinkText = getLinkText(props.status);
+
   return (
     <>
       <va-alert status="warning">
-        <h2 slot="headline">
-          {props.status === 'pending-upload'
-            ? 'We need more information from you'
-            : 'We’re reviewing your request'}
-        </h2>
+        <h2 slot="headline">{headline}</h2>
         <p>
           You requested a COE on:{' '}
           {moment(props.applicationCreateDate).format('MMMM DD, YYYY')}
         </p>
         <div>
           <p>
-            {props.status === 'pending-upload'
-              ? "You'll need to upload documents before we can make a decision on your COE application."
-              : "If you qualify for a Certificate of Eligibility, we'll notify you by email to let you know how to get your COE."}
+            {body}
+            <br />
+            <a href={coeStatusUrl}>{coeLinkText}</a>
           </p>
-          <a href="/housing-assistance/home-loans/request-coe-form-26-1880/eligibility">
-            Go to your VA home loan COE page to review the details of your COE
-          </a>
         </div>
       </va-alert>
       <div>
@@ -42,9 +58,6 @@ const COEPending = props => {
           management team recommends that you do this.
         </p>
       </div>
-      <h2 className="vads-u-margin-top--6">
-        Follow these steps to reapply for a VA home loan COE
-      </h2>
     </>
   );
 };

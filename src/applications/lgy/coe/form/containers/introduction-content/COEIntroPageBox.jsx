@@ -1,26 +1,27 @@
 import React from 'react';
 
 import { COE_ELIGIBILITY_STATUS } from '../../../shared/constants';
+
 import COEAvailable from './COEStatuses/COEAvailable';
 import COEDenied from './COEStatuses/COEDenied';
 import COEEligible from './COEStatuses/COEEligible';
 import COEIneligible from './COEStatuses/COEIneligible';
 import COEPending from './COEStatuses/COEPending';
 
-const COEIntroPageBox = ({ coe, downloadURL }) => {
+const COEIntroPageBox = ({ coe, downloadUrl }) => {
   if (coe.status) {
     switch (coe.status) {
       case COE_ELIGIBILITY_STATUS.available:
         return (
           <COEAvailable
-            downloadURL={downloadURL}
+            downloadUrl={downloadUrl}
             applicationCreateDate={coe.applicationCreateDate}
           />
         );
       case COE_ELIGIBILITY_STATUS.denied:
         return <COEDenied />;
       case COE_ELIGIBILITY_STATUS.eligible:
-        return <COEEligible downloadURL={downloadURL} />;
+        return <COEEligible downloadUrl={downloadUrl} />;
       case COE_ELIGIBILITY_STATUS.ineligible:
       case COE_ELIGIBILITY_STATUS.unableToDetermine:
         return <COEIneligible />;

@@ -1,7 +1,7 @@
 import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
-export const MoreQuestions = () => (
+const MoreQuestions = () => (
   <>
     <h2>What if I have more questions?</h2>
     <p>
@@ -19,3 +19,5 @@ export const MoreQuestions = () => (
     </p>
   </>
 );
+
+export default MoreQuestions;

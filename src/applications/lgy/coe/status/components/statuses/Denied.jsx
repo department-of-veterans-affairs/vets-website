@@ -1,31 +1,23 @@
 import React from 'react';
 import moment from 'moment';
 
-import { getAppUrl } from 'platform/utilities/registry-helpers';
+import { CoeDocumentList } from '../CoeDocumentList';
 
-const coeStatusUrl = getAppUrl('coe-status');
-
-const COEDenied = props => {
+const Denied = props => {
   const requestDate = moment(props.applicationCreateDate).format(
     'MMMM DD, YYYY',
   );
 
   return (
-    <>
-      <va-alert status="info">
-        <h2 slot="headline">We denied your request for a COE</h2>
-        <div>
+    <div className="row vads-u-margin-bottom--7">
+      <div className="medium-8 columns">
+        <va-alert status="info">
+          <h2 slot="headline" className="vads-u-font-size--h3">
+            We denied your request for a COE
+          </h2>
           <p>You requested a COE on: {requestDate}</p>
-          <p>
-            We reviewed your request. You don’t qualify for a COE.
-            <br />
-            <a href={coeStatusUrl}>
-              Go to your VA home loan COE page to see status details
-            </a>
-          </p>
-        </div>
-      </va-alert>
-      <div>
+          <p>We reviewed your application. You don’t qualify for a COE.</p>
+        </va-alert>
         <h2>Can I appeal VA’s decision?</h2>
         <p>
           If you disagree with our decision, and it’s dated on or after February
@@ -34,11 +26,9 @@ const COEDenied = props => {
           Appeal.
           <br />
           <a href="/decision-reviews/">
-            Learn about VA decison reviews and appeals
+            Learn more about VA decision reviews and appeals
           </a>
         </p>
-      </div>
-      <div>
         <h2>What if I appealed VA’s decision?</h2>
         <p>
           If you have an appeal in progress, you can check it online. You’ll see
@@ -47,19 +37,18 @@ const COEDenied = props => {
           <br />
           <a href="/track-claims">Check your VA claim or appeal status</a>
         </p>
-      </div>
-      <div>
+        <CoeDocumentList />
         <h2>What if I have more questions?</h2>
         <p>
           Get answers to frequently asked questions about decision reviews.
           <br />
           <a href="/decision-reviews/faq/">
-            See frequently asked questions about decision reviews
+            See frequently asked questions about decision reviews.
           </a>
         </p>
       </div>
-    </>
+    </div>
   );
 };
 
-export default COEDenied;
+export default Denied;
