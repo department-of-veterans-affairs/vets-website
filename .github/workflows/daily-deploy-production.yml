@@ -100,7 +100,7 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: notify-start
+    needs: validate-build-status
     
     steps:
       - name: Build
