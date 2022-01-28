@@ -5,6 +5,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import WizardContainer from '../../wizard/containers/WizardContainer';
 import { connect } from 'react-redux';
+import environment from 'platform/utilities/environment';
 import { showEduBenefits5490Wizard } from '../../selectors/educationWizard';
 import {
   WIZARD_STATUS,
@@ -142,7 +143,9 @@ export class IntroductionPage extends React.Component {
               <OMBInfo
                 resBurden={45}
                 ombNumber="2900-0098"
-                expDate="10/31/2021"
+                expDate={
+                  environment.isProduction() ? '10/31/2021' : '01/31/2025'
+                }
               />
             </div>
           </div>
