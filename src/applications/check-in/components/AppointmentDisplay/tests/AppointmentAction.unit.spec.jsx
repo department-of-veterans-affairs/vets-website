@@ -58,6 +58,21 @@ describe('check-in', () => {
         'Check in now',
       );
     });
+    it('should have a role for the loading state of the button', () => {
+      const action = render(
+        <Provider store={store}>
+          <AppointmentAction
+            appointment={{
+              eligibility: ELIGIBILITY.ELIGIBLE,
+            }}
+          />
+        </Provider>,
+      );
+
+      expect(action.getByTestId('check-in-button')).to.exist;
+      action.getByTestId('check-in-button').click();
+      expect(action.getByRole('status')).to.have.text('Loading...');
+    });
     it('should render the bad status message for appointments with INELIGIBLE_BAD_STATUS status', () => {
       const action = render(
         <Provider store={store}>

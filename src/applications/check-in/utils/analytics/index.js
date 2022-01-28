@@ -45,9 +45,33 @@ const createApiEvent = (name, status, time, token, error) => {
   return rv;
 };
 
-const captureError = error => {
+const ERROR_SOURCES = Object.freeze({
+  API: 'api',
+  OTHER: 'other',
+});
+
+const captureError = (error, details) => {
   if (error instanceof Error) {
-    Sentry.captureException(error);
+    Sentry.withScope(scope => {
+      const { token } = details;
+      if (token) {
+        scope.setTag('token', token);
+      }
+      Sentry.captureException(error);
+    });
+  } else if (error.source === ERROR_SOURCES.API) {
+    Sentry.withScope(scope => {
+      const { err } = error;
+      const { token, eventName, json = {} } = details;
+      scope.setExtra('error', err);
+      scope.setExtra('token', token);
+      scope.setExtra('eventName', eventName);
+      scope.setExtra('json', json);
+
+      const message = `check_in_client_api_error-${eventName}`;
+      // the apiRequest helper returns the errors array, instead of an exception
+      Sentry.captureMessage(message);
+    });
   } else {
     Sentry.withScope(scope => {
       scope.setExtra('error', error);
@@ -62,4 +86,5 @@ const captureError = error => {
     console.error(error);
   }
 };
-export { createAnalyticsSlug, createApiEvent, captureError };
+
+export { createAnalyticsSlug, createApiEvent, captureError, ERROR_SOURCES };

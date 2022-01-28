@@ -1,11 +1,11 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
-import { makeApiCall } from '../utils';
+import { makeApiCallWithSentry } from '../utils';
 
 const v2 = {
   getSession: async token => {
     const url = '/check_in/v2/sessions/';
-    const json = await makeApiCall(
+    const json = await makeApiCallWithSentry(
       apiRequest(`${environment.API_URL}${url}${token}`),
       'get-current-session',
       token,
@@ -32,7 +32,7 @@ const v2 = {
       mode: 'cors',
     };
 
-    const json = await makeApiCall(
+    const json = await makeApiCallWithSentry(
       apiRequest(`${environment.API_URL}${url}`, settings),
       'validating-user',
       token,
@@ -43,7 +43,7 @@ const v2 = {
   },
   getCheckInData: async token => {
     const url = '/check_in/v2/patient_check_ins/';
-    const json = await makeApiCall(
+    const json = await makeApiCallWithSentry(
       apiRequest(`${environment.API_URL}${url}${token}`),
       'get-lorota-data',
       token,
@@ -70,7 +70,7 @@ const v2 = {
       mode: 'cors',
     };
 
-    const json = await makeApiCall(
+    const json = await makeApiCallWithSentry(
       apiRequest(`${environment.API_URL}${url}`, settings),
       'check-in-user',
       uuid,
@@ -81,7 +81,7 @@ const v2 = {
   },
   getPreCheckInData: async token => {
     const url = '/check_in/v2/pre_check_ins/';
-    const json = await makeApiCall(
+    const json = await makeApiCallWithSentry(
       apiRequest(`${environment.API_URL}${url}${token}?checkInType=preCheckIn`),
       'get-lorota-data',
       token,
@@ -116,7 +116,7 @@ const v2 = {
       mode: 'cors',
     };
 
-    const json = await makeApiCall(
+    const json = await makeApiCallWithSentry(
       apiRequest(`${environment.API_URL}${url}`, settings),
       'pre-check-in-user',
       uuid,

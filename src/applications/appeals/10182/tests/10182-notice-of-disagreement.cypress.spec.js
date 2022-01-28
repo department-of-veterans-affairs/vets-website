@@ -5,7 +5,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-import { getRandomDate, fixDecisionDates } from './nod.cypress.helpers';
+import { fixDecisionDates } from './nod.cypress.helpers';
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
@@ -33,49 +33,12 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      'eligible-issues': () => {
+      'contestable-issues': () => {
         cy.get('@testData').then(data => {
           data.contestableIssues.forEach((item, index) => {
             if (item[SELECTED]) {
               cy.get(`input[name="root_contestableIssues_${index}"]`)
                 .first()
-                .click({ force: true });
-            }
-          });
-        });
-      },
-      'additional-issues': () => {
-        cy.get('@testData').then(data => {
-          data.additionalIssues.forEach((item, index) => {
-            if (index !== 0) {
-              cy.get('.va-growable-add-btn')
-                .first()
-                .click();
-            }
-
-            cy.get(`input[name$="${index}_issue"]`)
-              .first()
-              .clear()
-              .type(item.issue);
-            const date = getRandomDate()
-              .replace(/-0/g, '-')
-              .split('-');
-            cy.get(`select[name$="${index}_decisionDateMonth"]`).select(
-              date[1],
-            );
-            cy.get(`select[name$="${index}_decisionDateDay"]`).select(date[2]);
-            cy.get(`input[name$="${index}_decisionDateYear"]`)
-              .clear()
-              .type(date[0]);
-            cy.get('.update')
-              .first()
-              .click({ force: true });
-            if (!item[SELECTED]) {
-              cy.get(
-                `input[type="checkbox"][name="root_additionalIssues_${index}"]`,
-              )
-                .first()
-                // remove auto-check if not selected in data
                 .click({ force: true });
             }
           });

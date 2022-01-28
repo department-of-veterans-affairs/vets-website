@@ -1,14 +1,10 @@
 import { useCallback, useMemo } from 'react';
+import { createSessionStorageKeys } from '../utils/session-storage';
 
 const useSessionStorage = (isPreCheckIn = true) => {
   const SESSION_STORAGE_KEYS = useMemo(
     () => {
-      const namespace = isPreCheckIn
-        ? 'health.care.pre.check.in'
-        : 'health.care.check-in';
-      return {
-        CURRENT_UUID: `${namespace}.current.uuid`,
-      };
+      return createSessionStorageKeys({ isPreCheckIn });
     },
     [isPreCheckIn],
   );
