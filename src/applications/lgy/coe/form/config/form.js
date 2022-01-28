@@ -42,16 +42,16 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
-    noAuth: 'Please sign in again to continue your application for benefits.',
+    notFound: 'Please start over to request benefits.',
+    noAuth: 'Please sign in again to continue your request for benefits.',
   },
   saveInProgress: {
     messages: {
       inProgress:
         'Your Certificate of Eligibility form (26-1880) is in progress.',
       expired:
-        'Your saved Certificate of Eligibility form (26-1880) has expired. If you want to apply for Chapter 31 benefits, please start a new application.',
-      saved: 'Your Certificate of Eligibility application has been saved.',
+        'Your saved Certificate of Eligibility form (26-1880) has expired. If you want to request Chapter 31 benefits, please start a new request.',
+      saved: 'Your Certificate of Eligibility request has been saved.',
     },
   },
   title: 'Request a VA home loan Certificate of Eligibility (COE)',
@@ -135,7 +135,7 @@ const formConfig = {
       pages: {
         upload: {
           path: 'upload-supporting-documents',
-          title: 'Upload documents to support your application',
+          title: 'Upload your documentation',
           uiSchema: fileUpload.uiSchema,
           schema: fileUpload.schema,
         },

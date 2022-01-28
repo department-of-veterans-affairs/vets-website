@@ -1,9 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 
-import ReviewAndDownload from '../../../../shared/components/ReviewAndDownload';
+import ReviewAndDownload from '../../../shared/components/ReviewAndDownload';
 
-const COEAvailable = ({ downloadUrl, applicationCreateDate }) => (
+const Available = ({ downloadUrl, applicationCreateDate }) => (
   <>
     <va-alert status="info">
       <h2 slot="headline">You already have a COE</h2>
@@ -41,4 +41,4 @@ const COEAvailable = ({ downloadUrl, applicationCreateDate }) => (
   </>
 );
 
-export default COEAvailable;
+export default Available;

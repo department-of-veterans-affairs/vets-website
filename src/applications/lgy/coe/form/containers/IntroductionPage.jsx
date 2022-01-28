@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { notLoggedInContent } from './introduction-content/notLoggedInContent.jsx';
-import COEIntroPageBox from './introduction-content/COEIntroPageBox';
-import LoggedInContent from './introduction-content/loggedInContent.jsx';
+
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
+import AuthenticatedContent from '../components/introduction/AuthenticatedContent';
+import UnauthenticatedContent from '../components/introduction/UnauthenticatedContent';
+import IntroPageBox from '../components/introduction/IntroPageBox';
 
 const shouldShowSubwayMap = status => {
   const { denied, pending, pendingUpload } = COE_ELIGIBILITY_STATUS;
@@ -22,24 +24,24 @@ const IntroductionPage = props => {
     focusElement('.va-nav-breadcrumbs-list');
   });
   // Set the content to be the loading indicator
-  content = <va-loading-indicator message="Loading your application..." />;
+  content = <va-loading-indicator message="Loading your request..." />;
 
   // Once the coe call is done, render the rest of the content
   const coeCallEnded = [CALLSTATUS.failed, CALLSTATUS.success, CALLSTATUS.skip];
 
   if (!props.loggedIn && coeCallEnded.includes(props.status)) {
-    content = notLoggedInContent(props);
+    content = <UnauthenticatedContent {...props} />;
   }
   if (props.loggedIn && coeCallEnded.includes(props.status)) {
     content = (
       <>
-        <COEIntroPageBox
+        <IntroPageBox
           coe={props.coe}
           status={props.status}
           downloadUrl={props.downloadUrl}
         />
         {shouldShowSubwayMap(props.coe.status) && (
-          <LoggedInContent parentProps={props} />
+          <AuthenticatedContent parentProps={props} />
         )}
       </>
     );

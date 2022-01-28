@@ -1,23 +1,16 @@
 import React from 'react';
-import moment from 'moment';
 
+import StatusBox from '../../../shared/components/StatusBox';
 import { CoeDocumentList } from '../CoeDocumentList';
 
-const Denied = props => {
-  const requestDate = moment(props.applicationCreateDate).format(
-    'MMMM DD, YYYY',
-  );
-
+const Denied = ({ applicationCreateDate }) => {
   return (
     <div className="row vads-u-margin-bottom--7">
       <div className="medium-8 columns">
-        <va-alert status="info">
-          <h2 slot="headline" className="vads-u-font-size--h3">
-            We denied your request for a COE
-          </h2>
-          <p>You requested a COE on: {requestDate}</p>
-          <p>We reviewed your application. You don’t qualify for a COE.</p>
-        </va-alert>
+        <StatusBox.Denied
+          applicationCreateDate={applicationCreateDate}
+          origin={'status'}
+        />
         <h2>Can I appeal VA’s decision?</h2>
         <p>
           If you disagree with our decision, and it’s dated on or after February

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const COEIneligible = () => {
+const Ineligible = () => {
   return (
     <>
       <h2 className="vads-u-margin--0">
@@ -20,4 +20,4 @@ const COEIneligible = () => {
   );
 };
 
-export default COEIneligible;
+export default Ineligible;

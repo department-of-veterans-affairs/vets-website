@@ -7,7 +7,7 @@ const formConfig = {
   },
 };
 
-export const notLoggedInContent = props => (
+const UnauthenticatedContent = props => (
   <div>
     <h2 className="vads-u-margin-top--0">
       Sign in to request a COE, get your COE, or check your status
@@ -43,3 +43,5 @@ export const notLoggedInContent = props => (
     />
   </div>
 );
+
+export default UnauthenticatedContent;
