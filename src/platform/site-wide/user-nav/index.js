@@ -14,7 +14,6 @@ import './sass/user-nav.scss';
 import startReactApp from '../../startup/react';
 import Main from './containers/Main';
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
-import Main from './containers/Main';
 
 /**
  * Sets up the login widget with the given store at login-root
