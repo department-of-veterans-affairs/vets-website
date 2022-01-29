@@ -5,7 +5,15 @@ import { connect } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 
-class EnrollmentVerificationPage extends React.Component {
+import { fetchVerificationStatus } from '../actions';
+
+export const EnrollmentVerificationPage = (
+  // eslint-disable-next-line no-empty-pattern
+  {
+    // verificationStatus,
+    // getVerificationStatus,
+  },
+) => {
   // constructor(props) {
   //   super(props);
   // }
@@ -13,324 +21,320 @@ class EnrollmentVerificationPage extends React.Component {
   // componentDidMount() {
   // }
 
-  render() {
-    return (
-      <>
-        <div name="topScrollElement" />
-        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-          <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12">
-              <Breadcrumbs>
-                <a href="/">Home</a>
-                <a href="#">Education and training</a>
-                <a href="#">Enrollment verifications</a>
-              </Breadcrumbs>
-            </div>
+  return (
+    <>
+      <div name="topScrollElement" />
+      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+        <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
+          <div className="vads-l-col--12">
+            <Breadcrumbs>
+              <a href="/">Home</a>
+              <a href="#">Education and training</a>
+              <a href="#">Enrollment verifications</a>
+            </Breadcrumbs>
           </div>
-          <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-              <h1>Enrollment Verification</h1>
-              <p className="va-introtext">
-                If you get a monthly housing allowance (MHA) or kicker payments
-                (or both) under the Post-9/11 GI Bill, you’ll need to verify
-                your enrollment each month. If you don’t verify your enrollment
-                for two months in a row, we will pause your monthly education
-                payments.
+        </div>
+        <div className="vads-l-row vads-u-margin-x--neg2p5">
+          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+            <h1>Enrollment Verification</h1>
+            <p className="va-introtext">
+              If you get a monthly housing allowance (MHA) or kicker payments
+              (or both) under the Post-9/11 GI Bill, you’ll need to verify your
+              enrollment each month. If you don’t verify your enrollment for two
+              months in a row, we will pause your monthly education payments.
+            </p>
+
+            <va-alert
+              close-btn-aria-label="Close notification"
+              status="success"
+              visible
+            >
+              You’re up-to-date with your monthly enrollment verification.
+              You’ll be able to verify your enrollment next month on [Month Day
+              Year].
+            </va-alert>
+
+            <br />
+            <va-alert
+              close-btn-aria-label="Close notification"
+              status="warning"
+              visible
+            >
+              <h3 slot="headline">
+                We’re missing one or more of your enrollment verifications
+              </h3>
+              <p>
+                You’ll need to verify your monthly enrollments to get your
+                scheduled payments.
               </p>
-
-              <va-alert
-                close-btn-aria-label="Close notification"
-                status="success"
-                visible
+              <a
+                className="vads-c-action-link--blue"
+                href="/enrollment-history/verify-enrollments"
               >
-                You’re up-to-date with your monthly enrollment verification.
-                You’ll be able to verify your enrollment next month on [Month
-                Day Year].
-              </va-alert>
+                Verify your enrollments
+              </a>
+            </va-alert>
 
-              <br />
-              <va-alert
-                close-btn-aria-label="Close notification"
-                status="warning"
-                visible
+            <br />
+
+            <va-alert
+              close-btn-aria-label="Close notification"
+              status="error"
+              visible
+            >
+              <h3 slot="headline">
+                We’ve paused your monthly education payments
+              </h3>
+              <p>
+                We had to pause your payments because you haven’t verified your
+                enrollment(s) for two months in a row. Please review and verify
+                your monthly enrollment(s) to get the payments you’re entitled
+                to.
+              </p>
+              <a
+                className="vads-c-action-link--blue"
+                href="/enrollment-history/verify-enrollments"
               >
-                <h3 slot="headline">
-                  We're missing one or more of your enrollment verifications
-                </h3>
+                Verify your enrollments
+              </a>
+            </va-alert>
+
+            <br />
+
+            <va-alert
+              close-btn-aria-label="Close notification"
+              status="error"
+              visible
+            >
+              <h3 slot="headline">
+                We’ve paused your monthly education payments until you update
+                your enrollment information
+              </h3>
+              <p>
+                You’ve verified that your monthly enrollment has changed or
+                isn’t correct, but you haven’t updated it yet.
+              </p>
+              <p>
+                To continue getting your monthly education payments, you’ll need
+                to work with your School Certifying Official (SCO) to update
+                your information on file.
+              </p>
+              <p>
+                We encourage you to reach out to your SCO as soon as you can to
+                avoid an overpayment. If we overpay you, you may have a debt to
+                pay back.
+              </p>
+            </va-alert>
+
+            <h2>Your monthly enrollment verifications</h2>
+
+            <va-additional-info trigger="What if I notice an error with my enrollment information?">
+              <ul>
+                <li>
+                  Work with your School Certifying Official (SCO) to make sure
+                  they have the correct enrollment information and can update
+                  the information on file.
+                </li>
+                <li>
+                  After your information is corrected, verify the corrected
+                  information.
+                </li>
+              </ul>
+              <p>
+                If you notice a mistake, it’s best if you reach out to your SCO
+                soon. The sooner VA knows about changes to your enrollment, the
+                less likely you are to be overpaid and incur a debt.
+              </p>
+            </va-additional-info>
+            <p>Showing 1-10 of 53 monthly enrollments listed by most recent</p>
+
+            <div className="ev-enrollment-month">
+              <hr />
+              <h3>January 2022</h3>
+              <p>
+                <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
+                Contact your School Certifying Official to update enrollment
+                information
+              </p>
+              <va-additional-info trigger="More information">
                 <p>
-                  You'll need to verify your monthly enrollments to get your
-                  scheduled payments.
+                  <strong>[Start date] &ndash; [End date]</strong> at Wake
+                  Forest University School of Business
                 </p>
-                <a
-                  className="vads-c-action-link--blue"
-                  href="/enrollment-history/verify-enrollments"
-                >
-                  Verify your enrollments
-                </a>
-              </va-alert>
-
-              <br />
-
-              <va-alert
-                close-btn-aria-label="Close notification"
-                status="error"
-                visible
-              >
-                <h3 slot="headline">
-                  We've paused your monthly education payments
-                </h3>
                 <p>
-                  We had to pause your payments because you haven't verified
-                  your enrollment(s) for two months in a row. Please review and
-                  verify your monthly enrollment(s) to get the payments you're
-                  entitled to.
-                </p>
-                <a
-                  className="vads-c-action-link--blue"
-                  href="/enrollment-history/verify-enrollments"
-                >
-                  Verify your enrollments
-                </a>
-              </va-alert>
-
-              <br />
-
-              <va-alert
-                close-btn-aria-label="Close notification"
-                status="error"
-                visible
-              >
-                <h3 slot="headline">
-                  We've paused your monthly education payments until you update
-                  your enrollment information
-                </h3>
-                <p>
-                  You've verified that your monthly enrollment has changed or
-                  isn't correct, but you haven't updated it yet.
+                  <strong>Total credit hours:</strong> [#]
                 </p>
                 <p>
-                  To continue getting your monthly education payments, you'll
-                  need to work with your School Certifying Official (SCO) to
-                  update your information on file.
+                  <strong>[Start date] &ndash; [End date]</strong> at Adirondack
+                  Community College
                 </p>
                 <p>
-                  We encourage you to reach out to your SCO as soon as you can
-                  to avoid an overpayment. If we overpay you, you may have a
-                  debt to pay back.
-                </p>
-              </va-alert>
-
-              <h2>Your monthly enrollment verifications</h2>
-
-              <va-additional-info trigger="What if I notice an error with my enrollment information?">
-                <ul>
-                  <li>
-                    Work with your School Certifying Official (SCO) to make sure
-                    they have the correct enrollment information and can update
-                    the information on file.
-                  </li>
-                  <li>
-                    After your information is corrected, verify the corrected
-                    information.
-                  </li>
-                </ul>
-                <p>
-                  If you notice a mistake, it’s best if you reach out to your
-                  SCO soon. The sooner VA knows about changes to your
-                  enrollment, the less likely you are to be overpaid and incur a
-                  debt.
+                  <strong>Total credit hours:</strong>
+                  [#]
                 </p>
               </va-additional-info>
+            </div>
+
+            <div className="ev-enrollment-month">
+              <hr />
+              <h3>December 2021</h3>
               <p>
-                Showing 1-10 of 53 monthly enrollments listed by most recent
+                <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
+                You need to verify this month
               </p>
-
-              <div className="ev-enrollment-month">
-                <hr />
-                <h3>January 2022</h3>
+              <a
+                className="vads-c-action-link--blue"
+                href="/enrollment-history/verify-enrollments"
+              >
+                Verify your enrollments
+              </a>
+              <va-additional-info trigger="More information">
                 <p>
-                  <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
-                  Contact your School Certifying Official to update enrollment
-                  information
+                  <strong>[Start date] &ndash; [End date]</strong> at Wake
+                  Forest University School of Business
                 </p>
-                <va-additional-info trigger="More information">
-                  <p>
-                    <strong>[Start date] &ndash; [End date]</strong> at Wake
-                    Forest University School of Business
-                  </p>
-                  <p>
-                    <strong>Total credit hours:</strong> [#]
-                  </p>
-                  <p>
-                    <strong>[Start date] &ndash; [End date]</strong> at
-                    Adirondack Community College
-                  </p>
-                  <p>
-                    <strong>Total credit hours:</strong>
-                    [#]
-                  </p>
-                </va-additional-info>
-              </div>
-
-              <div className="ev-enrollment-month">
-                <hr />
-                <h3>December 2021</h3>
                 <p>
-                  <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
-                  You need to verify this month
+                  <strong>Total credit hours:</strong> [#]
                 </p>
-                <a
-                  className="vads-c-action-link--blue"
-                  href="/enrollment-history/verify-enrollments"
-                >
-                  Verify your enrollments
-                </a>
-                <va-additional-info trigger="More information">
-                  <p>
-                    <strong>[Start date] &ndash; [End date]</strong> at Wake
-                    Forest University School of Business
-                  </p>
-                  <p>
-                    <strong>Total credit hours:</strong> [#]
-                  </p>
-                  <p>
-                    <strong>[Start date] &ndash; [End date]</strong> at
-                    Adirondack Community College
-                  </p>
-                  <p>
-                    <strong>Total credit hours:</strong>
-                    [#]
-                  </p>
-                </va-additional-info>
-              </div>
-
-              <div className="ev-enrollment-month">
-                <hr />
-                <h3>November 2021</h3>
                 <p>
-                  <i className="fas fa-exclamation-triangle" /> You haven't
-                  verified this month
+                  <strong>[Start date] &ndash; [End date]</strong> at Adirondack
+                  Community College
                 </p>
-                <a
-                  className="vads-c-action-link--blue"
-                  href="/enrollment-history/verify-enrollments"
-                >
-                  Verify your enrollments
-                </a>
-                <va-additional-info trigger="More information">
-                  <p>
-                    <strong>[Start date] &ndash; [End date]</strong> at Wake
-                    Forest University School of Business
-                  </p>
-                  <p>
-                    <strong>Total credit hours:</strong> [#]
-                  </p>
-                  <p>
-                    <strong>[Start date] &ndash; [End date]</strong> at
-                    Adirondack Community College
-                  </p>
-                  <p>
-                    <strong>Total credit hours:</strong>
-                    [#]
-                  </p>
-                </va-additional-info>
-              </div>
-
-              <div className="ev-enrollment-month">
-                <hr />
-                <h3>October 2021</h3>
                 <p>
-                  <i className="fa fa-check-circle vads-u-color--green" /> You
-                  verified this month
+                  <strong>Total credit hours:</strong>
+                  [#]
                 </p>
-                <va-additional-info trigger="More information">
-                  <p>
-                    <strong>[Start date] &ndash; [End date]</strong> at Wake
-                    Forest University School of Business
-                  </p>
-                  <p>
-                    <strong>Total credit hours:</strong> [#]
-                  </p>
-                  <p>
-                    <strong>[Start date] &ndash; [End date]</strong> at
-                    Adirondack Community College
-                  </p>
-                  <p>
-                    <strong>Total credit hours:</strong>
-                    [#]
-                  </p>
-                </va-additional-info>
-              </div>
+              </va-additional-info>
+            </div>
 
-              <div className="ev-enrollment-month">
-                <hr />
-                <h3>September 2021</h3>
+            <div className="ev-enrollment-month">
+              <hr />
+              <h3>November 2021</h3>
+              <p>
+                <i className="fas fa-exclamation-triangle" /> You haven’t
+                verified this month
+              </p>
+              <a
+                className="vads-c-action-link--blue"
+                href="/enrollment-history/verify-enrollments"
+              >
+                Verify your enrollments
+              </a>
+              <va-additional-info trigger="More information">
                 <p>
-                  <i className="fa fa-check-circle vads-u-color--green" /> You
-                  verified this month
+                  <strong>[Start date] &ndash; [End date]</strong> at Wake
+                  Forest University School of Business
                 </p>
-                <va-additional-info trigger="More information">
-                  <p>
-                    <strong>[Start date] &ndash; [End date]</strong> at Wake
-                    Forest University School of Business
-                  </p>
-                  <p>
-                    <strong>Total credit hours:</strong> [#]
-                  </p>
-                  <p>
-                    <strong>[Start date] &ndash; [End date]</strong> at
-                    Adirondack Community College
-                  </p>
-                  <p>
-                    <strong>Total credit hours:</strong>
-                    [#]
-                  </p>
-                </va-additional-info>
-              </div>
+                <p>
+                  <strong>Total credit hours:</strong> [#]
+                </p>
+                <p>
+                  <strong>[Start date] &ndash; [End date]</strong> at Adirondack
+                  Community College
+                </p>
+                <p>
+                  <strong>Total credit hours:</strong>
+                  [#]
+                </p>
+              </va-additional-info>
+            </div>
 
-              <Pagination
-                onPageSelect={function noRefCheck() {}}
-                page={1}
-                pages={5}
-              />
+            <div className="ev-enrollment-month">
+              <hr />
+              <h3>October 2021</h3>
+              <p>
+                <i className="fa fa-check-circle vads-u-color--green" /> You
+                verified this month
+              </p>
+              <va-additional-info trigger="More information">
+                <p>
+                  <strong>[Start date] &ndash; [End date]</strong> at Wake
+                  Forest University School of Business
+                </p>
+                <p>
+                  <strong>Total credit hours:</strong> [#]
+                </p>
+                <p>
+                  <strong>[Start date] &ndash; [End date]</strong> at Adirondack
+                  Community College
+                </p>
+                <p>
+                  <strong>Total credit hours:</strong>
+                  [#]
+                </p>
+              </va-additional-info>
+            </div>
 
-              <div className="ev-highlighted-content-container">
-                <header className="ev-highlighted-content-container_header">
-                  <h1 className="ev-highlighted-content-container_title vads-u-font-size--h3">
-                    Related pages
-                  </h1>
-                </header>
-                <div className="ev-highlighted-content-container_content">
-                  <nav className="ev-related-pages-nav">
-                    <ul>
-                      <li>
-                        <a href="#">See your GI Bill Statement of Benefits</a>
-                      </li>
-                      <li>
-                        <a href="#">See your past benefit payments</a>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
+            <div className="ev-enrollment-month">
+              <hr />
+              <h3>September 2021</h3>
+              <p>
+                <i className="fa fa-check-circle vads-u-color--green" /> You
+                verified this month
+              </p>
+              <va-additional-info trigger="More information">
+                <p>
+                  <strong>[Start date] &ndash; [End date]</strong> at Wake
+                  Forest University School of Business
+                </p>
+                <p>
+                  <strong>Total credit hours:</strong> [#]
+                </p>
+                <p>
+                  <strong>[Start date] &ndash; [End date]</strong> at Adirondack
+                  Community College
+                </p>
+                <p>
+                  <strong>Total credit hours:</strong>
+                  [#]
+                </p>
+              </va-additional-info>
+            </div>
+
+            <Pagination
+              onPageSelect={function noRefCheck() {}}
+              page={1}
+              pages={5}
+            />
+
+            <div className="ev-highlighted-content-container">
+              <header className="ev-highlighted-content-container_header">
+                <h1 className="ev-highlighted-content-container_title vads-u-font-size--h3">
+                  Related pages
+                </h1>
+              </header>
+              <div className="ev-highlighted-content-container_content">
+                <nav className="ev-related-pages-nav">
+                  <ul>
+                    <li>
+                      <a href="#">See your GI Bill Statement of Benefits</a>
+                    </li>
+                    <li>
+                      <a href="#">See your past benefit payments</a>
+                    </li>
+                  </ul>
+                </nav>
               </div>
             </div>
           </div>
-
-          <va-back-to-top />
         </div>
-      </>
-    );
-  }
-}
+
+        <va-back-to-top />
+      </div>
+    </>
+  );
+};
 
 function mapStateToProps(state) {
   const test = state.test;
   return { test };
 }
 
+const mapDispatchToProps = {
+  getVerificationStatus: fetchVerificationStatus,
+};
+
 export default connect(
   mapStateToProps,
-  // matchDispatchToProps,
+  mapDispatchToProps,
 )(EnrollmentVerificationPage);
-
-export { EnrollmentVerificationPage };
