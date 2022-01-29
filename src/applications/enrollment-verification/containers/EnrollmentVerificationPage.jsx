@@ -69,6 +69,57 @@ class EnrollmentVerificationPage extends React.Component {
                 </a>
               </va-alert>
 
+              <br />
+
+              <va-alert
+                close-btn-aria-label="Close notification"
+                status="error"
+                visible
+              >
+                <h3 slot="headline">
+                  We've paused your monthly education payments
+                </h3>
+                <p>
+                  We had to pause your payments because you haven't verified
+                  your enrollment(s) for two months in a row. Please review and
+                  verify your monthly enrollment(s) to get the payments you're
+                  entitled to.
+                </p>
+                <a
+                  className="vads-c-action-link--blue"
+                  href="/enrollment-history/verify-enrollments"
+                >
+                  Verify your enrollments
+                </a>
+              </va-alert>
+
+              <br />
+
+              <va-alert
+                close-btn-aria-label="Close notification"
+                status="error"
+                visible
+              >
+                <h3 slot="headline">
+                  We've paused your monthly education payments until you update
+                  your enrollment information
+                </h3>
+                <p>
+                  You've verified that your monthly enrollment has changed or
+                  isn't correct, but you haven't updated it yet.
+                </p>
+                <p>
+                  To continue getting your monthly education payments, you'll
+                  need to work with your School Certifying Official (SCO) to
+                  update your information on file.
+                </p>
+                <p>
+                  We encourage you to reach out to your SCO as soon as you can
+                  to avoid an overpayment. If we overpay you, you may have a
+                  debt to pay back.
+                </p>
+              </va-alert>
+
               <h2>Your monthly enrollment verifications</h2>
 
               <va-additional-info trigger="What if I notice an error with my enrollment information?">
@@ -96,8 +147,102 @@ class EnrollmentVerificationPage extends React.Component {
 
               <div className="ev-enrollment-month">
                 <hr />
+                <h3>January 2022</h3>
+                <p>
+                  <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
+                  Contact your School Certifying Official to update enrollment
+                  information
+                </p>
+                <va-additional-info trigger="More information">
+                  <p>
+                    <strong>[Start date] &ndash; [End date]</strong> at Wake
+                    Forest University School of Business
+                  </p>
+                  <p>
+                    <strong>Total credit hours:</strong> [#]
+                  </p>
+                  <p>
+                    <strong>[Start date] &ndash; [End date]</strong> at
+                    Adirondack Community College
+                  </p>
+                  <p>
+                    <strong>Total credit hours:</strong>
+                    [#]
+                  </p>
+                </va-additional-info>
+              </div>
+
+              <div className="ev-enrollment-month">
+                <hr />
+                <h3>December 2021</h3>
+                <p>
+                  <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
+                  You need to verify this month
+                </p>
+                <a
+                  className="vads-c-action-link--blue"
+                  href="/enrollment-history/verify-enrollments"
+                >
+                  Verify your enrollments
+                </a>
+                <va-additional-info trigger="More information">
+                  <p>
+                    <strong>[Start date] &ndash; [End date]</strong> at Wake
+                    Forest University School of Business
+                  </p>
+                  <p>
+                    <strong>Total credit hours:</strong> [#]
+                  </p>
+                  <p>
+                    <strong>[Start date] &ndash; [End date]</strong> at
+                    Adirondack Community College
+                  </p>
+                  <p>
+                    <strong>Total credit hours:</strong>
+                    [#]
+                  </p>
+                </va-additional-info>
+              </div>
+
+              <div className="ev-enrollment-month">
+                <hr />
+                <h3>November 2021</h3>
+                <p>
+                  <i className="fas fa-exclamation-triangle" /> You haven't
+                  verified this month
+                </p>
+                <a
+                  className="vads-c-action-link--blue"
+                  href="/enrollment-history/verify-enrollments"
+                >
+                  Verify your enrollments
+                </a>
+                <va-additional-info trigger="More information">
+                  <p>
+                    <strong>[Start date] &ndash; [End date]</strong> at Wake
+                    Forest University School of Business
+                  </p>
+                  <p>
+                    <strong>Total credit hours:</strong> [#]
+                  </p>
+                  <p>
+                    <strong>[Start date] &ndash; [End date]</strong> at
+                    Adirondack Community College
+                  </p>
+                  <p>
+                    <strong>Total credit hours:</strong>
+                    [#]
+                  </p>
+                </va-additional-info>
+              </div>
+
+              <div className="ev-enrollment-month">
+                <hr />
                 <h3>October 2021</h3>
-                <p>You verified this month</p>
+                <p>
+                  <i className="fa fa-check-circle vads-u-color--green" /> You
+                  verified this month
+                </p>
                 <va-additional-info trigger="More information">
                   <p>
                     <strong>[Start date] &ndash; [End date]</strong> at Wake
@@ -120,7 +265,10 @@ class EnrollmentVerificationPage extends React.Component {
               <div className="ev-enrollment-month">
                 <hr />
                 <h3>September 2021</h3>
-                <p>You verified this month</p>
+                <p>
+                  <i className="fa fa-check-circle vads-u-color--green" /> You
+                  verified this month
+                </p>
                 <va-additional-info trigger="More information">
                   <p>
                     <strong>[Start date] &ndash; [End date]</strong> at Wake

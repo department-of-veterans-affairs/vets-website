@@ -18,3 +18,9 @@
 	margin: 0;
 	padding: 0;
 }
+
+// Info Block
+.ev-info-block {
+	border-left: 7px solid $color-primary-alt-dark;
+	padding-left: calc(2rem - 7px);
+}
