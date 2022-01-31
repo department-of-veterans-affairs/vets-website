@@ -11,7 +11,6 @@ import TextInput from '@department-of-veterans-affairs/component-library/TextInp
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
-import recordEvent from 'platform/monitoring/record-event';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import {
   readAndCheckFile,
@@ -21,7 +20,7 @@ import {
 } from 'platform/forms-system/src/js/utilities/file';
 
 import UploadStatus from './UploadStatus';
-import MailMessage from './MailMessage';
+import mailMessage from './MailMessage';
 import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
 import { getScrollOptions } from 'platform/utilities/ui';
 import {
@@ -163,19 +162,9 @@ class AddFilesForm extends React.Component {
       <div>
         <div>
           <p>
-            <a
-              href="#"
-              onClick={evt => {
-                evt.preventDefault();
-                recordEvent({
-                  event: 'claims-mailfax-modal',
-                });
-                this.props.onShowMailMessage(true);
-              }}
-            >
-              Need to mail your files
-            </a>
-            ?
+            <va-additional-info trigger="Need to mail your files?">
+              {mailMessage}
+            </va-additional-info>
           </p>
         </div>
         <Element name="filesList" />
@@ -322,16 +311,6 @@ class AddFilesForm extends React.Component {
             />
           }
         />
-        <Modal
-          onClose={() => true}
-          visible={this.props.showMailMessage}
-          hideCloseButton
-          focusSelector="button"
-          cssClass=""
-          contents={
-            <MailMessage onClose={() => this.props.onShowMailMessage(false)} />
-          }
-        />
       </div>
     );
   }
@@ -341,7 +320,6 @@ AddFilesForm.propTypes = {
   files: PropTypes.array.isRequired,
   field: PropTypes.object.isRequired,
   uploading: PropTypes.bool,
-  showMailMessage: PropTypes.bool,
   backUrl: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
   onAddFile: PropTypes.func.isRequired,

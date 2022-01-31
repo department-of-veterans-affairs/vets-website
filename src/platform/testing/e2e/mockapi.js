@@ -1,5 +1,3 @@
-'use strict'; // eslint-disable-line strict
-
 // Simple mock api server. Allows scripting of a JSON API endpoint for end-to-end tests.
 //
 // Set the behavior by posting to /mock with a JSON body of
