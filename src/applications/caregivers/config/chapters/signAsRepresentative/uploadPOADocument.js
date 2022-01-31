@@ -43,13 +43,13 @@ export default {
       classNames:
         'vads-u-background-color--gray-lightest vads-u-padding-top--0p5 vads-u-padding-bottom--2p5 vads-u-margin-x--neg1 vads-u-padding-x--4',
     },
-    'view:placeholder': {
-      'ui:description': '',
-      'ui:options': {
-        classNames:
-          'vads-u-background-color--white vads-u-padding--0p25 vads-u-margin-y--4',
-      },
-    },
+    // 'view:placeholder': {
+    //   'ui:description': '',
+    //   'ui:options': {
+    //     classNames:
+    //       'vads-u-background-color--white vads-u-padding--0p25 vads-u-margin-y--4',
+    //   },
+    // },
     [representativeFields.documentUpload]: fileUploadUI(
       'Upload your document:',
       {
@@ -75,10 +75,10 @@ export default {
     type: 'object',
     required: [representativeFields.documentUpload],
     properties: {
-      'view:placeholder': {
-        type: 'object',
-        properties: {},
-      },
+      // 'view:placeholder': {
+      //   type: 'object',
+      //   properties: {},
+      // },
       [representativeFields.documentUpload]: {
         type: 'array',
         minItems: 1,

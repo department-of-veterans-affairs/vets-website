@@ -365,7 +365,7 @@ export const RepresentativeAdditionalInfo = () => {
 
 export const RepresentativeDocumentUploadDescription = () => {
   return (
-    <section>
+    <section className="vads-u-margin-bottom--6">
       <h3 className="vads-u-font-size--h4">Upload your supporting document</h3>
       <p>
         We can only accept a document that proves you have legal authority to
