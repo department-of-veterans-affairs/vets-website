@@ -335,6 +335,21 @@ article[data-location="add-issue"] {
 label[for^="root_disagreementOptions"] {
   margin-top: 3rem;
 }
+article[data-location^="area-of-disagreement"],
+article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0ScrollElement"] + form {
+  .schemaform-block-header,
+  .schemaform-block-header + .usa-input-error {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .schemaform-field-template {
+    border-left: .5rem solid var(--color-gray-light);
+    padding-left: 2rem;
+  }
+  .schemaform-field-template.other-selected {
+    border-left-color: var(--color-primary-alt-dark);
+  }
+}
 
 /* Step 3 */
 /* Informal conference */

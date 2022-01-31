@@ -17,6 +17,7 @@ import {
   otherTypeSelected,
   calculateOtherMaxLength,
 } from '../utils/disagreement';
+import { $ } from '../utils/ui';
 import { getIssueName } from '../utils/helpers';
 
 export default {
@@ -61,13 +62,24 @@ export default {
           'ui:description': otherDescription,
           'ui:required': otherTypeSelected,
           'ui:options': {
-            hideIf: (formData, index) => !otherTypeSelected(formData, index),
-            updateSchema: (formData, _schema, uiSchema, index) => ({
-              type: 'string',
-              maxLength: calculateOtherMaxLength(
-                formData.areaOfDisagreement[index],
-              ),
-            }),
+            updateSchema: (formData, _schema, uiSchema, index) => {
+              // Toggle input "disabled" instead of hidding, because of a11y
+              // recommendations
+              const selected = otherTypeSelected(formData, index);
+              const input = $('input[id^="root_otherEntry"]');
+              if (input) {
+                input.disabled = !selected;
+                const wrap = input.closest('.schemaform-field-template');
+                wrap?.classList.toggle('other-selected', selected);
+              }
+
+              return {
+                type: 'string',
+                maxLength: calculateOtherMaxLength(
+                  formData.areaOfDisagreement[index],
+                ),
+              };
+            },
             // index is appended to this ID in the TextWidget
             ariaDescribedby: 'other_hint_text',
           },
