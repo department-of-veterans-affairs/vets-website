@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { Provider } from 'react-redux';
 
 import { ContactInfoDescription } from '../../components/ContactInformation';
 
@@ -45,37 +44,18 @@ const getData = ({
   };
 };
 
-describe('Veteran information review content', () => {
-  it('should render contact information', () => {
-    const data = getData();
-    const mockStore = {
-      getState: () => ({
-        user: {
-          profile: data.profile,
-        },
-        vapService: {
-          fieldTransactionMap: {},
-          modal: '',
-          modalData: null,
-          addressValidation: {},
-        },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
-    const tree = shallow(
-      <Provider store={mockStore}>
-        <ContactInfoDescription {...data} />
-      </Provider>,
-    );
+describe('Contact information review content', () => {
+  it('should render contact information main loop', () => {
+    const data = getData({ loopPages: true });
+    const tree = shallow(<ContactInfoDescription {...data} />);
 
-    const html = tree.html();
-    expect(html).to.contain('555-800-1212, ext. 1234');
-    expect(html).to.contain(
-      'someone<span class="email-address-symbol">@</span>famous<span class="email-address-symbol">.</span>com',
-    );
-    expect(html).to.contain('123 Main Blvd, Floor 33, Suite 55');
-    expect(html).to.contain('Hollywood, CA 90210');
+    expect(tree.find('Telephone')).to.exist;
+    expect(tree.find('AddressView')).to.exist;
+    expect(tree.find('Link').length).to.eq(3);
+
+    expect(tree.find('PhoneField').length).to.eq(0);
+    expect(tree.find('EmailField').length).to.eq(0);
+    expect(tree.find('MailingAddress').length).to.eq(0);
     tree.unmount();
   });
 

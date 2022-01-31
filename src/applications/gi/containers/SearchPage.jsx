@@ -8,6 +8,9 @@ import { useQueryParams, isSmallScreen } from '../utils/helpers';
 import { useHistory } from 'react-router-dom';
 import NameSearchResults from '../containers/search/NameSearchResults';
 import LocationSearchResults from '../containers/search/LocationSearchResults';
+import LocationSearchResultsStaging from '../containers/search/LocationSearchResultsStaging';
+import environment from 'platform/utilities/environment';
+
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
 import AccordionItem from '../components/AccordionItem';
@@ -53,10 +56,17 @@ export function SearchPage({
     return () => window.removeEventListener('resize', checkSize);
   }, []);
 
-  const tabbedResults = {
-    [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
-    [TABS.location]: <LocationSearchResults smallScreen={smallScreen} />,
-  };
+  const tabbedResults = environment.isProduction()
+    ? {
+        [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
+        [TABS.location]: <LocationSearchResults smallScreen={smallScreen} />,
+      }
+    : {
+        [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
+        [TABS.location]: (
+          <LocationSearchResultsStaging smallScreen={smallScreen} />
+        ),
+      };
 
   const tabChange = selectedTab => {
     recordEvent({
@@ -64,8 +74,12 @@ export function SearchPage({
       'tab-text': `Search by ${selectedTab}`,
     });
     dispatchChangeSearchTab(selectedTab);
-    queryParams.set('search', selectedTab);
-    history.push({ pathname: '/', search: queryParams.toString() });
+    if (environment.isProduction()) {
+      queryParams.set('search', selectedTab);
+      history.push({ pathname: '/', search: queryParams.toString() });
+    } else {
+      updateUrlParams(history, selectedTab, search.query, filters, version);
+    }
   };
 
   const accordionChange = (selectedAccordion, expanded) => {

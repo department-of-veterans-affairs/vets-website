@@ -23,14 +23,6 @@ class SideNav extends Component {
     };
   }
 
-  getDesktop = () => {
-    return window.innerWidth > 768;
-  };
-
-  setIsDesktop = () => {
-    this.setState({ isDesktop: this.getDesktop() });
-  };
-
   componentDidMount() {
     window.addEventListener('resize', this.debouncedResize);
   }
@@ -38,6 +30,14 @@ class SideNav extends Component {
   componentWillUnmount() {
     window.removeEventListener('resize', this.debouncedResize);
   }
+
+  getDesktop = () => {
+    return window.innerWidth > 768;
+  };
+
+  setIsDesktop = () => {
+    this.setState({ isDesktop: this.getDesktop() });
+  };
 
   trackEvents = id => {
     const { navItemsLookup } = this.state;

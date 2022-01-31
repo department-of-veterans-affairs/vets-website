@@ -165,7 +165,7 @@ class TrackClaimsPage {
   }
 
   verifyClosedClaim() {
-    cy.get('li.list-one')
+    cy.get('li.list-one .section-header-button')
       .click()
       .then(() => {
         cy.get('li.list-one .claims-evidence', {

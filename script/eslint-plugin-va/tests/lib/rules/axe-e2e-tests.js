@@ -10,6 +10,7 @@ ruleTester.run('axe-e2e-tests', rule, {
     "it('does something', function() { cy.axeCheck(); });",
     "it('does something', function() { cy.injectAxeThenAxeCheck(); });",
     "it('does something', function() { if(foo) { cy.axeCheck(); } });",
+    "it('does something', function() { cy.axeCheckBestPractice() })",
     "notIt('does something', function() {});",
   ],
   invalid: [

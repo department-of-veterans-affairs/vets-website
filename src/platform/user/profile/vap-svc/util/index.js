@@ -1,3 +1,7 @@
+import pick from 'lodash/pick';
+import pickBy from 'lodash/pickBy';
+import isEqual from 'lodash/isEqual';
+
 import {
   ADDRESS_VALIDATION_TYPES,
   BAD_UNIT_NUMBER,
@@ -5,7 +9,11 @@ import {
   CONFIRMED,
 } from '../constants/addressValidationMessages';
 
-import { MILITARY_STATES, ADDRESS_TYPES_ALTERNATE } from '../constants';
+import {
+  MILITARY_STATES,
+  ADDRESS_TYPES_ALTERNATE,
+  ADDRESS_PROPS,
+} from '../constants';
 
 export const getValidationMessageKey = (
   suggestedAddresses,
@@ -127,4 +135,17 @@ export const inferAddressType = address => {
   }
 
   return Object.assign({}, address, { type });
+};
+
+export const areAddressesEqual = (mainAddress, testAddress) => {
+  const mainAddressFields = pickBy(
+    pick(mainAddress, ADDRESS_PROPS),
+    value => !!value,
+  );
+  const testAddressFields = pickBy(
+    pick(testAddress, ADDRESS_PROPS),
+    value => !!value,
+  );
+
+  return isEqual(mainAddressFields, testAddressFields);
 };

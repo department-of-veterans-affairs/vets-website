@@ -180,18 +180,16 @@ export default class ClaimPhase extends React.Component {
 
     return (
       // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-      <li
-        onClick={e => {
-          e.preventDefault();
-          this.expandCollapse();
-        }}
-        className={`${getClasses(phase, current)}`}
-      >
+      <li className={`${getClasses(phase, current)}`}>
         {expandCollapseIcon}
         <h3 className="section-header vads-u-font-size--h4">
           <button
             className="section-header-button"
             aria-expanded={this.state.open}
+            onClick={e => {
+              e.preventDefault();
+              this.expandCollapse();
+            }}
           >
             {getUserPhaseDescription(phase)}
           </button>

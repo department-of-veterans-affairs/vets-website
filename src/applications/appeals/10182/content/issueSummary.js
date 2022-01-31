@@ -7,9 +7,7 @@ import { ShowIssuesList } from '../components/ShowIssuesList';
 
 export const SummaryTitle = ({ formData }) => {
   const { pages } = formConfig.chapters.conditions;
-  const pathname = formData.contestableIssues?.length
-    ? pages.contestableIssues.path
-    : pages.additionalIssues.path;
+  const pathname = pages.contestableIssues.path;
   const issues = getSelected(formData);
 
   return (

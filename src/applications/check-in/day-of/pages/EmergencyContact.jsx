@@ -5,19 +5,21 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
-import BackToHome from '../components/BackToHome';
+import BackToHome from '../../components/BackToHome';
 import { focusElement } from 'platform/utilities/ui';
-import Footer from '../components/Footer';
+import Footer from '../../components/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import EmergencyContactDisplay from '../../components/pages/emergencyContact/EmergencyContactDisplay';
-import { makeSelectDemographicData } from '../hooks/selectors';
+import { makeSelectVeteranData } from '../../selectors';
 
 import { URLS } from '../../utils/navigation';
 
 const EmergencyContact = props => {
   const { router } = props;
-  const selectDemographicData = useMemo(makeSelectDemographicData, []);
-  const { emergencyContact } = useSelector(selectDemographicData);
+  const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { demographics } = useSelector(selectVeteranData);
+  const { emergencyContact } = demographics;
+
   const {
     goToNextPage,
     jumpToPage,
@@ -72,8 +74,9 @@ const EmergencyContact = props => {
           yesAction={yesClick}
           noAction={noClick}
           Footer={Footer}
+          isPreCheckIn={false}
         />
-        <BackToHome />
+        <BackToHome isPreCheckIn={false} />
       </>
     );
   }

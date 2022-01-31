@@ -515,7 +515,13 @@ function LocationSearchResults({
     );
 
     return (
-      <div className={tabClasses} onClick={() => setMobileTab(tabName)}>
+      <div
+        className={tabClasses}
+        onClick={() => setMobileTab(tabName)}
+        onKeyPress={() => setMobileTab(tabName)}
+        tabIndex={-1}
+        role="button"
+      >
         View {tabName}
       </div>
     );

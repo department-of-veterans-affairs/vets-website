@@ -5,19 +5,25 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
-import BackToHome from '../components/BackToHome';
+import BackToHome from '../../components/BackToHome';
 import { focusElement } from 'platform/utilities/ui';
-import Footer from '../components/Footer';
+import Footer from '../../components/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
-import { makeSelectDemographicData } from '../hooks/selectors';
+import { makeSelectVeteranData } from '../../selectors';
 import { URLS } from '../../utils/navigation';
 
 const NextOfKin = props => {
   const { router } = props;
-  const selectDemographicData = useMemo(makeSelectDemographicData, []);
-  const { nextOfKin } = useSelector(selectDemographicData);
-  const { jumpToPage, goToNextPage, goToPreviousPage } = useFormRouting(router);
+  const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { demographics } = useSelector(selectVeteranData);
+  const { nextOfKin1: nextOfKin } = demographics;
+  const {
+    jumpToPage,
+    goToNextPage,
+    goToPreviousPage,
+    goToErrorPage,
+  } = useFormRouting(router);
 
   const seeStaffMessage =
     'Our staff can help you update your next of kin information.';
@@ -56,7 +62,7 @@ const NextOfKin = props => {
   );
 
   if (!nextOfKin) {
-    goToNextPage(router, URLS.ERROR);
+    goToErrorPage();
     return <></>;
   } else {
     return (
@@ -67,8 +73,9 @@ const NextOfKin = props => {
           yesAction={yesClick}
           noAction={noClick}
           Footer={Footer}
+          isPreCheckIn={false}
         />
-        <BackToHome />
+        <BackToHome isPreCheckIn={false} />
       </>
     );
   }

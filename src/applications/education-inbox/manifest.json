@@ -1,0 +1,6 @@
+{
+  "appName": "Education Inbox",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "education-inbox",
+  "rootUrl": "/education-inbox"
+}
