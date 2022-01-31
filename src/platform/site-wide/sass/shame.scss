@@ -554,10 +554,6 @@ $medium-phone-screen: 375px;
   clear: both;
 }
 
-.va-u-outline--none:focus {
-  outline: none;
-}
-
 .image-detail {
   width: 25%;
   @media (max-width: $small-screen) {
