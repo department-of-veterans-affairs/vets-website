@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 
 import ProfileInfoTable from '../../ProfileInfoTable';
 
-const PhoneNumbersTable = ({ className }) => (
-  <ProfileInfoTable
-    title="Phone numbers"
-    level={2}
-    namedAnchor="phone-numbers"
-    data={[
+import { profileShowFaxNumber } from '@@profile/selectors';
+
+const PhoneNumbersTable = ({ className, shouldProfileShowFaxNumber }) => {
+  const tableFields = [
+    ...[
       {
         title: 'Home',
         id: FIELD_IDS[FIELD_NAMES.HOME_PHONE],
@@ -39,22 +39,41 @@ const PhoneNumbersTable = ({ className }) => (
           />
         ),
       },
-      {
-        title: 'Fax',
-        id: FIELD_IDS[FIELD_NAMES.FAX_NUMBER],
-        value: (
-          <ProfileInformationFieldController
-            fieldName={FIELD_NAMES.FAX_NUMBER}
-          />
-        ),
-      },
-    ]}
-    className={className}
-  />
-);
+    ],
+    ...(shouldProfileShowFaxNumber
+      ? [
+          {
+            title: 'Fax',
+            id: FIELD_IDS[FIELD_NAMES.FAX_NUMBER],
+            value: (
+              <ProfileInformationFieldController
+                fieldName={FIELD_NAMES.FAX_NUMBER}
+              />
+            ),
+          },
+        ]
+      : []),
+  ];
+
+  return (
+    <ProfileInfoTable
+      title="Phone numbers"
+      level={2}
+      namedAnchor="phone-numbers"
+      data={tableFields}
+      className={className}
+    />
+  );
+};
 
 PhoneNumbersTable.propTypes = {
   className: PropTypes.string,
 };
 
-export default PhoneNumbersTable;
+export const mapStateToProps = state => {
+  return {
+    shouldProfileShowFaxNumber: profileShowFaxNumber(state),
+  };
+};
+
+export default connect(mapStateToProps)(PhoneNumbersTable);
