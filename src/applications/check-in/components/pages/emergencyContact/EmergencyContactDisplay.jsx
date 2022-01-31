@@ -7,7 +7,6 @@ export default function EmergencyContactDisplay({
   noAction = () => {},
   isLoading,
   Footer,
-  isPreCheckIn = true,
 }) {
   const dataFields = [
     { title: 'Name', key: 'name' },
@@ -26,7 +25,6 @@ export default function EmergencyContactDisplay({
         noAction={noAction}
         Footer={Footer}
         isLoading={isLoading}
-        isPreCheckIn={isPreCheckIn}
       />
     </>
   );

@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import withOnlyOnLocal from '../containers/withOnlyOnLocal';
 import { makeSelectApp } from '../selectors';
 
 function BackToHome() {
-  const { app } = useSelector(makeSelectApp);
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
   let restartURL =
     '/health-care/appointment-pre-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
   if (app !== 'preCheckIn') {

@@ -9,7 +9,6 @@ export default function NextOfKinDisplay({
   noAction = () => {},
   isSendingData = false,
   Footer,
-  isPreCheckIn = true,
 }) {
   const nextOfKinFields = [
     { title: 'Name', key: 'name' },
@@ -39,7 +38,6 @@ export default function NextOfKinDisplay({
           );
         }}
         Footer={Footer}
-        isPreCheckIn={isPreCheckIn}
       />
     </>
   );

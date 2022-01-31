@@ -8,7 +8,6 @@ export default function DemographicsDisplay({
   yesAction = () => {},
   noAction = () => {},
   Footer,
-  isPreCheckIn = true,
 }) {
   const demographicFields = [
     { title: 'Mailing address', key: 'mailingAddress' },
@@ -28,7 +27,6 @@ export default function DemographicsDisplay({
         yesAction={yesAction}
         noAction={noAction}
         Footer={Footer}
-        isPreCheckIn={isPreCheckIn}
       />
     </>
   );

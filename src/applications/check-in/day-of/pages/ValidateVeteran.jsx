@@ -89,7 +89,6 @@ const ValidateVeteran = props => {
         isLoading={isLoading}
         validateHandler={onClick}
         Footer={Footer}
-        isPreCheckIn={false}
       />
       <BackToHome />
     </>

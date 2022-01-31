@@ -71,8 +71,8 @@ const DisplayMultipleAppointments = props => {
           Refresh
         </button>
       </p>
-      <Footer isPreCheckIn={false} />
-      <BackToHome isPreCheckIn={false} />
+      <Footer />
+      <BackToHome />
     </div>
   );
 };

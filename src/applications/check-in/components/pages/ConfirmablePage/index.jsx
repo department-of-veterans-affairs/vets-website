@@ -13,7 +13,6 @@ const ConfirmablePage = ({
   isLoading = false,
   LoadingMessage = () => <va-loading-indicator message="Loading..." />,
   Footer,
-  isPreCheckIn,
 }) => {
   useEffect(() => {
     focusElement('h1');
@@ -66,7 +65,7 @@ const ConfirmablePage = ({
           </button>
         </>
       )}
-      {Footer && <Footer isPreCheckIn={isPreCheckIn} />}
+      {Footer && <Footer />}
     </div>
   );
 };
@@ -83,7 +82,6 @@ ConfirmablePage.propTypes = {
   yesAction: PropTypes.func.isRequired,
   Footer: PropTypes.func,
   isLoading: PropTypes.bool,
-  isPreCheckIn: PropTypes.bool,
   LoadingMessage: PropTypes.func,
   subtitle: PropTypes.string,
 };
