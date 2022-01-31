@@ -1,9 +1,9 @@
 const process = require('process');
+const { expect } = require('chai');
+const { VA_FORM_IDS } = require('platform/forms/constants');
 const E2eHelpers = require('./helpers');
 const Timeouts = require('../e2e/timeouts');
 const mock = require('../e2e/mock-helpers');
-const expect = require('chai').expect;
-const VA_FORM_IDS = require('platform/forms/constants').VA_FORM_IDS;
 
 const logoutRequestUrl = '/sessions/slo/new';
 
@@ -99,13 +99,14 @@ async function logIn(token, client, url, level) {
   await client.goto(`${E2eHelpers.baseUrl}${url}`);
   await client.evaluate(() => {
     const current = window.VetsGov || {};
-    window.VetsGov = Object.assign({}, current, {
+    window.VetsGov = {
+      ...current,
       scroll: {
         duration: 0,
         delay: 0,
         smooth: false,
       },
-    });
+    };
     return window.VetsGov;
   });
 }
