@@ -65,6 +65,7 @@ const DisplayMultipleAppointments = props => {
       </p>
       <p data-testid="refresh-link">
         <button
+          className="text-button"
           onClick={e => handleClick(e)}
           data-testid="refresh-appointments-button"
         >
