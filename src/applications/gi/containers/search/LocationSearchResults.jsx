@@ -40,7 +40,7 @@ function LocationSearchResults({
   const { count, results } = search.location;
   const { location, streetAddress } = search.query;
   const map = useRef(null);
-  // const mapContainer = useRef(null);
+  const mapContainer = useRef(null);
   const [markers, setMarkers] = useState([]);
   const [mapState, setMapState] = useState({ changed: false, distance: null });
   const [usedFilters, setUsedFilters] = useState(filtersChanged);
@@ -79,13 +79,11 @@ function LocationSearchResults({
    */
   const setupMap = () => {
     if (map.current) return; // initialize map only once
-    const container = document.getElementById('mapbox-gl-container');
-    if (!container) return;
 
     mapboxgl.accessToken = mapboxToken;
 
     const mapInit = new mapboxgl.Map({
-      container: 'mapbox-gl-container',
+      container: mapContainer.current,
       style: 'mapbox://styles/mapbox/outdoors-v11',
       center: [MapboxInit.centerInit.longitude, MapboxInit.centerInit.latitude],
       zoom: MapboxInit.zoomInit,
@@ -136,9 +134,9 @@ function LocationSearchResults({
    */
   useEffect(
     () => {
-      // if (mapContainer.current) {
-      setupMap();
-      // }
+      if (mapContainer.current) {
+        setupMap();
+      }
     },
     [mobileTab],
   );
@@ -268,9 +266,6 @@ function LocationSearchResults({
    */
   useEffect(
     () => {
-      map.current = null;
-      setupMap();
-
       markers.forEach(marker => marker.remove());
       setActiveMarker(null);
 
@@ -591,7 +586,7 @@ function LocationSearchResults({
     return (
       <div className={containerClassNames}>
         <map
-          // ref={mapContainer}
+          ref={mapContainer}
           id="mapbox-gl-container"
           aria-label="Find VA locations on an interactive map"
           aria-describedby="map-instructions"
