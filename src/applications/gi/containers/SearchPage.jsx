@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
+import { useHistory } from 'react-router-dom';
+import classNames from 'classnames';
+import recordEvent from 'platform/monitoring/record-event';
 import { changeSearchTab, setPageTitle } from '../actions';
 import { TABS } from '../constants';
 import SearchTabs from '../components/search/SearchTabs';
-import { useQueryParams, isSmallScreen } from '../utils/helpers';
-import { useHistory } from 'react-router-dom';
-import NameSearchResults from '../containers/search/NameSearchResults';
-import LocationSearchResults from '../containers/search/LocationSearchResults';
+import { isSmallScreen } from '../utils/helpers';
+import NameSearchResults from './search/NameSearchResults';
+import LocationSearchResults from './search/LocationSearchResults';
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
 import AccordionItem from '../components/AccordionItem';
 import { getSearchQueryChanged, updateUrlParams } from '../selectors/search';
-import classNames from 'classnames';
 import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
-import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 
 export function SearchPage({
   dispatchChangeSearchTab,
@@ -24,7 +23,6 @@ export function SearchPage({
   preview,
   filters,
 }) {
-  const queryParams = useQueryParams();
   const history = useHistory();
   const { tab, error, query } = search;
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
@@ -65,12 +63,7 @@ export function SearchPage({
       'tab-text': `Search by ${selectedTab}`,
     });
     dispatchChangeSearchTab(selectedTab);
-    if (environment.isProduction()) {
-      queryParams.set('search', selectedTab);
-      history.push({ pathname: '/', search: queryParams.toString() });
-    } else {
-      updateUrlParams(history, selectedTab, search.query, filters, version);
-    }
+    updateUrlParams(history, selectedTab, search.query, filters, version);
   };
 
   const accordionChange = (selectedAccordion, expanded) => {
