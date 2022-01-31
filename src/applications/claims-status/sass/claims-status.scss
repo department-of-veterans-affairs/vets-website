@@ -549,6 +549,9 @@ h1:focus {
   padding-top: 0;
 
   .section-header-button {
+    width: 100%;
+    position: relative;
+    top: -1rem;
     background: inherit;
     border: inherit;
     color: inherit;
@@ -562,7 +565,7 @@ h1:focus {
     padding: inherit;
     z-index: inherit;
     text-align: left;
-    padding-top: 0;
+    padding: 1rem;
   }
 
   .section-header-button:focus {
@@ -592,10 +595,10 @@ h1:focus {
     }
   }
 
-  > .section-current,
-  > .section-complete {
-    cursor: pointer;
-  }
+  // > .section-current,
+  // > .section-complete {
+  //   cursor: pointer;
+  // }
 }
 
 .usa-alert {

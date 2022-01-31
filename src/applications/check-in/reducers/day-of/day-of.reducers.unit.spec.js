@@ -3,9 +3,7 @@ import { expect } from 'chai';
 import {
   appointmentWasCheckedIntoHandler,
   receivedDemographicsDataHandler,
-  receivedEmergencyContactDataHandler,
   receivedAppointmentDetailsHandler,
-  receivedNextOfKinDataHandler,
   seeStaffMessageUpdatedHandler,
   triggerRefreshHandler,
 } from './index';
@@ -15,9 +13,7 @@ import { updateFormHandler } from '../navigation';
 import {
   appointmentWasCheckedInto,
   receivedDemographicsData,
-  receivedEmergencyContact,
   receivedMultipleAppointmentDetails,
-  receivedNextOfKinData,
   seeStaffMessageUpdated,
   triggerRefresh,
   updateFormAction,
@@ -67,9 +63,9 @@ describe('check in', () => {
         it('should create basic structure', () => {
           const action = receivedDemographicsData({});
           const state = receivedDemographicsDataHandler({}, action);
-          expect(state).haveOwnProperty('demographics');
+          expect(state).haveOwnProperty('veteranData');
         });
-        it('should set appointment', () => {
+        it('should set demographics', () => {
           const data = {
             mailingAddress: {
               address1: '123 Turtle Trail',
@@ -91,15 +87,19 @@ describe('check in', () => {
           };
           const action = receivedDemographicsData(data);
           const state = receivedDemographicsDataHandler({}, action);
-          expect(state).haveOwnProperty('demographics');
-          expect(state.demographics).to.be.an('object');
+          expect(state).haveOwnProperty('veteranData');
+          expect(state.veteranData).to.be.an('object');
 
-          expect(state.demographics).haveOwnProperty('mailingAddress');
-          expect(state.demographics).haveOwnProperty('homeAddress');
-          expect(state.demographics).haveOwnProperty('homePhone');
-          expect(state.demographics).haveOwnProperty('mobilePhone');
-          expect(state.demographics).haveOwnProperty('workPhone');
-          expect(state.demographics).haveOwnProperty('emailAddress');
+          expect(state.veteranData.demographics).haveOwnProperty(
+            'mailingAddress',
+          );
+          expect(state.veteranData.demographics).haveOwnProperty('homeAddress');
+          expect(state.veteranData.demographics).haveOwnProperty('homePhone');
+          expect(state.veteranData.demographics).haveOwnProperty('mobilePhone');
+          expect(state.veteranData.demographics).haveOwnProperty('workPhone');
+          expect(state.veteranData.demographics).haveOwnProperty(
+            'emailAddress',
+          );
         });
       });
       describe('reducer is called; finds the correct handler', () => {
@@ -125,82 +125,19 @@ describe('check in', () => {
           };
           const action = receivedDemographicsData(data);
           const state = appReducer.checkInData(undefined, action);
-          expect(state).haveOwnProperty('demographics');
-          expect(state.demographics).to.be.an('object');
+          expect(state).haveOwnProperty('veteranData');
+          expect(state.veteranData).to.be.an('object');
 
-          expect(state.demographics).haveOwnProperty('mailingAddress');
-          expect(state.demographics).haveOwnProperty('homeAddress');
-          expect(state.demographics).haveOwnProperty('homePhone');
-          expect(state.demographics).haveOwnProperty('mobilePhone');
-          expect(state.demographics).haveOwnProperty('workPhone');
-          expect(state.demographics).haveOwnProperty('emailAddress');
-        });
-      });
-    });
-    describe('receivedEmergencyContact', () => {
-      describe('receivedEmergencyContactDataHandler', () => {
-        it('should create basic structure', () => {
-          const action = receivedEmergencyContact({});
-          const state = receivedEmergencyContactDataHandler({}, action);
-          expect(state).haveOwnProperty('emergencyContact');
-        });
-        it('should set emergency contact information', () => {
-          const data = {
-            name: 'VETERAN,JONAH',
-            relationship: 'BROTHER',
-            phone: '1112223333',
-            workPhone: '4445556666',
-            address: {
-              street1: '123 Main St',
-              street2: 'Ste 234',
-              street3: '',
-              city: 'Los Angeles',
-              county: 'Los Angeles',
-              state: 'CA',
-              zip: '90089',
-              zip4: '',
-              country: 'USA',
-            },
-          };
-          const action = receivedEmergencyContact(data);
-          const state = receivedEmergencyContactDataHandler({}, action);
-          expect(state).haveOwnProperty('emergencyContact');
-          expect(state.emergencyContact).to.be.an('object');
-          expect(state.emergencyContact).haveOwnProperty('name');
-          expect(state.emergencyContact).haveOwnProperty('relationship');
-          expect(state.emergencyContact).haveOwnProperty('phone');
-          expect(state.emergencyContact).haveOwnProperty('workPhone');
-          expect(state.emergencyContact).haveOwnProperty('address');
-        });
-      });
-      describe('reducer is called; ', () => {
-        it('finds the correct handler', () => {
-          const data = {
-            name: 'VETERAN,JONAH',
-            relationship: 'BROTHER',
-            phone: '1112223333',
-            workPhone: '4445556666',
-            address: {
-              street1: '123 Main St',
-              street2: 'Ste 234',
-              street3: '',
-              city: 'Los Angeles',
-              county: 'Los Angeles',
-              state: 'CA',
-              zip: '90089',
-              zip4: '',
-              country: 'USA',
-            },
-          };
-          const action = receivedEmergencyContact(data);
-          const state = appReducer.checkInData(undefined, action);
-          expect(state).haveOwnProperty('emergencyContact');
-          expect(state.emergencyContact).to.be.an('object');
-          expect(state.emergencyContact).haveOwnProperty('name');
-          expect(state.emergencyContact).haveOwnProperty('relationship');
-          expect(state.emergencyContact).haveOwnProperty('phone');
-          expect(state.emergencyContact).haveOwnProperty('workPhone');
-          expect(state.emergencyContact).haveOwnProperty('address');
+          expect(state.veteranData.demographics).haveOwnProperty(
+            'mailingAddress',
+          );
+          expect(state.veteranData.demographics).haveOwnProperty('homeAddress');
+          expect(state.veteranData.demographics).haveOwnProperty('homePhone');
+          expect(state.veteranData.demographics).haveOwnProperty('mobilePhone');
+          expect(state.veteranData.demographics).haveOwnProperty('workPhone');
+          expect(state.veteranData.demographics).haveOwnProperty(
+            'emailAddress',
+          );
         });
       });
     });
@@ -271,75 +208,6 @@ describe('check in', () => {
           expect(state.appointments[0].clinicFriendlyName).to.equal(
             'TEST CLINIC',
           );
-        });
-      });
-    });
-    describe('receivedNextOfKinData', () => {
-      describe('receivedNextOfKinDataHandler', () => {
-        it('should create basic structure', () => {
-          const action = receivedNextOfKinData({});
-          const state = receivedNextOfKinDataHandler({}, action);
-          expect(state).haveOwnProperty('nextOfKin');
-        });
-        it('should have the correct fields', () => {
-          const data = {
-            name: 'VETERAN,JONAH',
-            relationship: 'BROTHER',
-            phone: '1112223333',
-            workPhone: '4445556666',
-            address: {
-              street1: '123 Main St',
-              street2: 'Ste 234',
-              street3: '',
-              city: 'Los Angeles',
-              county: 'Los Angeles',
-              state: 'CA',
-              zip: '90089',
-              zip4: '',
-              country: 'USA',
-            },
-          };
-          const action = receivedNextOfKinData(data);
-          const state = receivedNextOfKinDataHandler({}, action);
-          expect(state).haveOwnProperty('nextOfKin');
-          expect(state.nextOfKin).to.be.an('object');
-          expect(state.nextOfKin).haveOwnProperty('name');
-          expect(state.nextOfKin).haveOwnProperty('relationship');
-          expect(state.nextOfKin).haveOwnProperty('phone');
-          expect(state.nextOfKin).haveOwnProperty('workPhone');
-          expect(state.nextOfKin).haveOwnProperty('address');
-        });
-      });
-      describe('reducer is called;', () => {
-        it('find the correct handler', () => {
-          it('should have the correct fields', () => {
-            const data = {
-              name: 'VETERAN,JONAH',
-              relationship: 'BROTHER',
-              phone: '1112223333',
-              workPhone: '4445556666',
-              address: {
-                street1: '123 Main St',
-                street2: 'Ste 234',
-                street3: '',
-                city: 'Los Angeles',
-                county: 'Los Angeles',
-                state: 'CA',
-                zip: '90089',
-                zip4: '',
-                country: 'USA',
-              },
-            };
-            const action = receivedNextOfKinData(data);
-            const state = appReducer.checkInData(undefined, action);
-            expect(state).haveOwnProperty('nextOfKin');
-            expect(state.nextOfKin).to.be.an('object');
-            expect(state.nextOfKin).haveOwnProperty('name');
-            expect(state.nextOfKin).haveOwnProperty('relationship');
-            expect(state.nextOfKin).haveOwnProperty('phone');
-            expect(state.nextOfKin).haveOwnProperty('workPhone');
-            expect(state.nextOfKin).haveOwnProperty('address');
-          });
         });
       });
     });

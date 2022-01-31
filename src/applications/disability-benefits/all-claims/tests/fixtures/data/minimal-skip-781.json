@@ -6,9 +6,9 @@
     "view:terminallyIllInfo": {},
     "view:hasEvidence": false,
     "view:powStatus": false,
-    "view:skip781ForNonCombatReason": true,
+    "skip781ForCombatReason": false,
+    "skip781ForNonCombatReason": true,
     "view:ptsdNonCombatBypassAdditionalInfo": {},
-    "view:skip781ForCombatReason": false,
     "view:ptsdCombatBypassAdditionalInfo": {},
     "view:selectablePtsdTypes": {
       "view:combatPtsdType": true,

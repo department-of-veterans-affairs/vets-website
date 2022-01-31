@@ -25,9 +25,13 @@ const TableDetailsView = ({ formData, onEdit }) => {
     <tr className="vads-u-border-bottom--1px">
       {renderDetails(keys)}
       <td className="vads-u-border--0">
-        <a target="_blank" rel="noopener noreferrer" onClick={() => onEdit()}>
-          <span aria-hidden="true">Edit</span>
-        </a>
+        <button
+          className="usa-button-secondary vads-u-margin--0"
+          onClick={() => onEdit()}
+          type="button"
+        >
+          Edit
+        </button>
       </td>
     </tr>
   );

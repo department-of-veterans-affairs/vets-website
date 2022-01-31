@@ -60,7 +60,11 @@ const AppointmentAction = props => {
           disabled={isCheckingIn}
           aria-label="Check in now for your appointment"
         >
-          {isCheckingIn ? <>Loading...</> : <>Check in now</>}
+          {isCheckingIn ? (
+            <span role="status">Loading...</span>
+          ) : (
+            <>Check in now</>
+          )}
         </button>
       );
     } else if (

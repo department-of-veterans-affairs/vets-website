@@ -62,9 +62,7 @@ import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
 import createVetCentersHours from './facilities/createVetCentersHours';
-import createVetCentersHoursOne from './facilities/createVetCentersHoursOne';
-import createVetCentersHoursTwo from './facilities/createVetCentersHoursTwo';
-import createVetCentersHoursThree from './facilities/createVetCentersHoursThree';
+import createVetCentersSatelliteLocationHours from './facilities/createVetCentersSatelliteLocationHours';
 import dependencyVerificationReducer from './dependency-verification/reducers/index';
 import {
   createScoEventsWidget,
@@ -140,9 +138,7 @@ createResourcesAndSupportSearchWidget(
   widgetTypes.RESOURCES_AND_SUPPORT_SEARCH,
 );
 createVetCentersHours(store);
-createVetCentersHoursOne(store);
-createVetCentersHoursTwo(store);
-createVetCentersHoursThree(store);
+createVetCentersSatelliteLocationHours(store);
 createExpandableOperatingStatus(store);
 createNearByVetCenters(store);
 createFacilityListWidget();

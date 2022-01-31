@@ -192,7 +192,7 @@ export class CautionaryInformation extends React.Component {
               <table className="all-complaints">
                 <thead>
                   <tr>
-                    <th />
+                    <td />
                     <th>This campus</th>
                     <th>{allCampusesLink}</th>
                   </tr>

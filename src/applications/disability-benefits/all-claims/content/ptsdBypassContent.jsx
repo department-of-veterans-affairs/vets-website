@@ -4,8 +4,11 @@ export const ptsdCombatTitle = (
   <h3 className="vads-u-font-size--h4">PTSD combat</h3>
 );
 
-export const ptsdNonCombatTitle =
-  'PTSD non-combat (other than sexual trauma or personal assault)';
+export const ptsdNonCombatTitle = (
+  <h3 className="vads-u-font-size--h4">
+    PTSD non-combat (other than sexual trauma or personal assault)
+  </h3>
+);
 
 export const ptsdBypassRadioLabel =
   'Is your PTSD related to a situation where you feared hostile military or terrorist activity during your military service?';
@@ -18,3 +21,6 @@ export const ptsdBypassAdditionalInfo = (
     supporting evidence section of the application.
   </va-additional-info>
 );
+
+export const ptsdBypassDescription =
+  'PTSD related to feared hostile military or terrorist activity';

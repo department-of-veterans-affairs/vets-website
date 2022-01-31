@@ -18,6 +18,7 @@ import { updateUrlParams } from '../../selectors/search';
 import { TABS } from '../../constants';
 import { INITIAL_STATE } from '../../reducers/search';
 import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 
 export function LocationSearchForm({
   autocomplete,
@@ -140,6 +141,14 @@ export function LocationSearchForm({
     [filters.search],
   );
 
+  useEffect(
+    () => {
+      if (!environment.isProduction()) doSearch(null);
+    },
+
+    [autocompleteSelection],
+  );
+
   const doAutocompleteSuggestionsSearch = value => {
     dispatchFetchLocationAutocompleteSuggestions(value);
   };
@@ -234,7 +243,10 @@ export function LocationSearchForm({
               }
               name="locationSearch"
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
-              onPressEnter={e => doSearch(e)}
+              onPressEnter={e => {
+                if (!environment.isProduction()) setAutocompleteSelection(null);
+                doSearch(e);
+              }}
               onSelection={selected => setAutocompleteSelection(selected)}
               onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
               suggestions={[...autocomplete.locationSuggestions]}

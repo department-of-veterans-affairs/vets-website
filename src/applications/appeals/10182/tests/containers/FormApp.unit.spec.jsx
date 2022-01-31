@@ -35,10 +35,12 @@ const profile = {
 
 const getData = ({
   showNod = true,
+  isLoading = false,
   loggedIn = true,
   mockProfile = profile,
 } = {}) => ({
   props: {
+    isLoading,
     loggedIn,
     showNod,
     location: { pathname: '/introduction', search: '' },
@@ -86,6 +88,13 @@ describe('FormApp', () => {
 
     expect(tree.find('Connect(RoutedSavableApp)')).to.exist;
 
+    tree.unmount();
+  });
+  it('should render loading indicator', () => {
+    const { props } = getData({ isLoading: true });
+    const tree = shallow(<FormApp {...props} />);
+    const loading = tree.find('va-loading-indicator');
+    expect(loading).to.exist;
     tree.unmount();
   });
   it('should render WIP alert', () => {
@@ -233,7 +242,6 @@ describe('FormApp', () => {
       ],
     };
     const formData = {
-      'view:hasIssuesToAdd': true,
       contestableIssues: contestableIssues.issues,
       additionalIssues: [{ issue: 'other issue', [SELECTED]: true }],
       veteran: {

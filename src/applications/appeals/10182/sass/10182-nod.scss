@@ -19,84 +19,63 @@
   }
 }
 
-/* Contested issue cards (contested issue page & review/submit page) */
+/* Contestable issue cards (contestable issue page & review/submit page) */
 dl.review {
   .widget-wrapper {
-    position: relative;
-
-    h4 {
-      margin-top: 0;
-    }
-  }
-
-  .widget-outline {
-    background: transparent;
-    border: solid 4px $color-primary-alt-light;
-    border-radius: 7px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    max-width: auto; /* IE11 */
-    max-width: unset;
-
-    &.selected {
-      border-color: $color-primary;
-    }
-
-    &::before {
-      position: absolute;
-      margin-left: 1.5rem;
-      margin-top: 1.5rem;
-    }
-  }
-
-  dt.widget-checkbox-wrap {
-    margin: 0;
-    width: 0;
-    min-width: auto; /* IE11 */
-    min-width: unset;
-
-    [type="checkbox"] {
-      width: 1.8rem;
-      height: 1.8rem;
-      margin: 1.8rem;
-    }
-  }
-
-  .widget-title {
-    margin: 1.5rem 2rem 0 5rem;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    width: calc(100% - 7rem);
-    text-transform: capitalize;
-  }
-
-  dd.widget-content {
-    margin-inline-start: 5rem; /* override user agent */
-    text-align: left;
-    margin: 3rem 3.5rem 0 5rem;
-  }
-
-  dd.widget-content.widget-edit {
-    margin-top: 0;
-    margin-right: 0;
     display: flex;
 
-    .widget-content-wrap {
-      margin-top: 3rem;
-      margin-right: 0.5rem;
-      width: 100%;
+    dt.widget-checkbox-wrap {
+      margin: 0;
+      width: 5rem;
+      min-width: 5rem;
+
+      [type="checkbox"] {
+        width: 1.8rem;
+        height: 1.8rem;
+        margin: 0;
+      }
     }
 
-    .edit {
-      margin-top: 2rem;
-      /* position the edit button above the overlapping label */
-      position: relative;
-      z-index: 1;
-      align-self: center;
+    dt label {
+      margin-top: 0;
+    }
+
+    .widget-title {
+      margin: 0;
+      white-space: nowrap;
+      text-transform: capitalize;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: calc(100% - 7rem);
+    }
+
+    dd.widget-content {
+      width: 100%;
+      margin-inline-start: 0; /* override user agent */
+      text-align: left;
+      margin: 0;
+    }
+    dd.widget-content.widget-edit {
+      margin-top: 0;
+      margin-right: 0;
+      display: flex;
+
+      .widget-content-wrap {
+        margin-top: 3rem;
+        margin-right: 0.5rem;
+        width: 100%;
+      }
+
+      .edit {
+        margin-top: 2rem;
+        /* position the edit button above the overlapping label */
+        position: relative;
+        z-index: 1;
+        align-self: center;
+      }
+    }
+    .change-issue-link:visited {
+      color: inherit;
     }
   }
 
@@ -163,48 +142,22 @@ article[data-location="contact-information"] {
   }
 }
 
-/* issues page */
-article[data-location="eligible-issues"] {
-  dl.review {
-    border-bottom: 0;
+article[data-location="add-issue"] {
+  /* Hide extra "Required" label */
+  p.label-description + span {
+    display: none;
   }
-
-  .input-section {
-    .schemaform-block-header {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 2rem;
-
-      /* ui:title doesn't render?! so moved it into the top of the description and
-        change order to move it to the bottom */
-      .section-title {
-        order: 3;
-      }
-    }
-
-    .schemaform-field-container {
-      margin-top: 2rem;
-    }
+  .usa-input-error,
+  label {
+    margin-top: 0;
+    padding-top: 0;
   }
 }
 
-article[data-location="additional-issues"] {
-  /* remove unnecessary border */
-  dl.review {
-    border-bottom: 0;
+article[data-location="opt-in"] {
+  #root_socOptIn-label .schemaform-required-span {
+    display: none;
   }
-}
-
-/* new issues cards tweak */
-dl.review .additional-issue.review-row {
-  flex-direction: column;
-
-  dd {
-    padding-left: 0;
-  }
-}
-.usa-input-error #root_additionalIssues_0_decisionDate-label {
-  font-weight: bold;
 }
 
 /* Area of disagreement */
