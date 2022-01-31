@@ -183,7 +183,7 @@ const HealthCare = ({
           {/* Request travel reimbursement */}
           <IconCTALink
             href="/health-care/get-reimbursed-for-travel-pay/"
-            icon="car"
+            icon="suitcase"
             newTab
             text="Request travel reimbursement"
             onClick={() => {
