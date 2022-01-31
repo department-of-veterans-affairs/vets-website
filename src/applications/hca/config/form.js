@@ -143,7 +143,7 @@ const formConfig = {
           },
         },
         veteranInformation: {
-          path: 'veteran-information/personal-information',
+          path: 'veteran-information/personal-information-unauthenticated',
           title: 'Veteran information',
           initialData: {},
           depends: () => !hasSession(),
