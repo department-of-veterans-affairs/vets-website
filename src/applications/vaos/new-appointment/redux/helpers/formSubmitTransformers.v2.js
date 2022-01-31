@@ -150,6 +150,10 @@ export function transformFormToVAOSAppointment(state) {
   const clinic = getChosenClinicInfo(state);
   const slot = getChosenSlot(state);
 
+  // slot start and end times are not allowed on a booked va appointment.
+  delete slot.start;
+  delete slot.end;
+
   return {
     kind: 'clinic',
     status: 'booked',
