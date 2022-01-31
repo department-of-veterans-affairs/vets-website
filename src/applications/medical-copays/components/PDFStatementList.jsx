@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { sortStatementsByDate } from '../utils/helpers';
-
 import DownloadStatements from './DownloadStatement';
 
 const PDFStatementList = () => {

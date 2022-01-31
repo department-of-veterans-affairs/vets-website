@@ -1,6 +1,6 @@
 import React from 'react';
-import Alert from '../components/Alerts';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import Alert from './Alerts';
 
 const AlertView = ({ pathname, alertType, error }) => {
   const overviewPage = 'Current copay balances';

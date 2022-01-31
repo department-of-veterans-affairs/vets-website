@@ -1,10 +1,10 @@
 import React from 'react';
-import { currency, calcDueDate, formatDate } from '../utils/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+import { currency, calcDueDate, formatDate } from '../utils/helpers';
 
 const Alert = ({ children }) => children;
 
@@ -27,7 +27,7 @@ Alert.Error = () => (
         For questions about your payment or relief options,
       </strong>
       contact us at
-      <Telephone contact={'866-400-1238'} className="vads-u-margin-x--0p5" />
+      <Telephone contact="866-400-1238" className="vads-u-margin-x--0p5" />
       (TTY:
       <Telephone
         contact={CONTACTS[711]}
@@ -74,7 +74,7 @@ Alert.PastDue = ({ copay }) => {
           help,
         </strong>
         contact us at
-        <Telephone contact={'866-400-1238'} className="vads-u-margin-x--0p5" />
+        <Telephone contact="866-400-1238" className="vads-u-margin-x--0p5" />
         (TTY:
         <Telephone
           contact={CONTACTS[711]}
@@ -144,8 +144,8 @@ Alert.NoHealthcare = () => (
     </p>
     <p>
       If you think this is incorrect, call our toll-free hotline at
-      <Telephone contact={'877-222-8387'} className="vads-u-margin-left--0p5" />
-      , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      <Telephone contact="877-222-8387" className="vads-u-margin-left--0p5" />,
+      Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </va-alert>
 );
@@ -165,8 +165,8 @@ Alert.NoHistory = () => (
     </p>
     <p>
       If you think this is incorrect, contact the VA Health Resource Center at
-      <Telephone contact={'866-400-1238'} className="vads-u-margin-left--0p5" />
-      . (TTY:
+      <Telephone contact="866-400-1238" className="vads-u-margin-left--0p5" />.
+      (TTY:
       <Telephone
         contact={CONTACTS[711]}
         pattern={PATTERNS['3_DIGIT']}
@@ -211,8 +211,8 @@ Alert.Status = ({ copay }) => (
     <p>
       You may need to continue making payments while we review your request.
       Call us at
-      <Telephone contact={'866-400-1238'} className="vads-u-margin-left--0p5" />
-      , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      <Telephone contact="866-400-1238" className="vads-u-margin-left--0p5" />,
+      Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </va-alert>
 );
