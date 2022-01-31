@@ -38,6 +38,9 @@ describe('MyVA Dashboard - CTA Links', () => {
       cy.findByRole('link', {
         name: /refill and track.*prescriptions/i,
       }).should('exist');
+      cy.findByRole('link', {
+        name: /request travel reimbursement/i,
+      }).should('exist');
     });
   });
   context('when user lacks messaging and rx features', () => {
