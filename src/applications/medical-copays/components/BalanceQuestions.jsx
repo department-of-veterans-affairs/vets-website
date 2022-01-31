@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -24,10 +23,5 @@ const BalanceQuestions = () => (
     </p>
   </article>
 );
-
-BalanceQuestions.propTypes = {
-  facilityLocation: PropTypes.string,
-  facilityPhone: PropTypes.string,
-};
 
 export default BalanceQuestions;

@@ -4,6 +4,7 @@ import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+import PropTypes from 'prop-types';
 import { currency, calcDueDate, formatDate } from '../utils/helpers';
 
 const Alert = ({ children }) => children;
@@ -87,6 +88,13 @@ Alert.PastDue = ({ copay }) => {
   );
 };
 
+Alert.PastDue.propTypes = {
+  copay: PropTypes.shape({
+    pSStatementDate: PropTypes.string,
+    pHAmtDue: PropTypes.number,
+  }),
+};
+
 Alert.ZeroBalance = ({ copay }) => {
   const statementDate = formatDate(copay?.pSStatementDate);
 
@@ -120,6 +128,12 @@ Alert.ZeroBalance = ({ copay }) => {
       </p>
     </va-alert>
   );
+};
+
+Alert.ZeroBalance.propTypes = {
+  copay: PropTypes.shape({
+    pSStatementDate: PropTypes.string,
+  }),
 };
 
 Alert.NoHealthcare = () => (
@@ -217,6 +231,13 @@ Alert.Status = ({ copay }) => (
   </va-alert>
 );
 
+Alert.Status.propTypes = {
+  copay: PropTypes.shape({
+    pSStatementDate: PropTypes.string,
+    pHAmtDue: PropTypes.number,
+  }),
+};
+
 const Alerts = ({ type, copay, error }) => {
   switch (type) {
     case 'status':
@@ -260,6 +281,15 @@ const Alerts = ({ type, copay, error }) => {
       });
       return <Alert.Error />;
   }
+};
+
+Alerts.propTypes = {
+  copay: PropTypes.shape({
+    pSStatementDate: PropTypes.string,
+    pHAmtDue: PropTypes.number,
+  }),
+  error: PropTypes.string,
+  type: PropTypes.string,
 };
 
 export default Alerts;
