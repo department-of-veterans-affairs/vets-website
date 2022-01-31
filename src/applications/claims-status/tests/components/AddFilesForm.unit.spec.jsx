@@ -41,7 +41,6 @@ describe('<AddFilesForm>', () => {
     );
     expect(tree.everySubTree('FileInput')).not.to.be.empty;
     expect(tree.everySubTree('Modal')[0].props.visible).to.be.false;
-    expect(tree.everySubTree('Modal')[1].props.visible).to.be.false;
   });
 
   it('should show uploading modal', () => {
@@ -70,7 +69,7 @@ describe('<AddFilesForm>', () => {
     expect(tree.everySubTree('Modal')[0].props.visible).to.be.true;
   });
 
-  it('should show mail modal', () => {
+  it('should include mail info additional info', () => {
     const files = [];
     const field = { value: '', dirty: false };
     const onSubmit = sinon.spy();
@@ -82,7 +81,6 @@ describe('<AddFilesForm>', () => {
 
     const tree = SkinDeep.shallowRender(
       <AddFilesForm
-        showMailMessage
         files={files}
         field={field}
         onSubmit={onSubmit}
@@ -93,7 +91,7 @@ describe('<AddFilesForm>', () => {
         onDirtyFields={onDirtyFields}
       />,
     );
-    expect(tree.everySubTree('Modal')[1].props.visible).to.be.true;
+    expect(tree.everySubTree('va-additional-info')[0]).to.exist;
   });
 
   it('should not submit if files empty', () => {

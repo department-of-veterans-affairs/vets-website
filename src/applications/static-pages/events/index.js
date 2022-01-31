@@ -2,15 +2,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+// Related imports.
+import App from './components/App';
 
-export default async (store, widgetType) => {
+export default (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
 
   if (root) {
-    const {
-      default: App,
-    } = await import(/* webpackChunkName: "events" */ './components/App');
-
     // Derive the props to pass to the widget.
     const pastEvents = window?.pastEvents?.entities || [];
     const allEventTeasers = window?.allEventTeasers?.entities || [];

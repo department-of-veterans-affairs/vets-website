@@ -12,8 +12,8 @@ import { Provider } from 'react-redux';
 import 'applications/search/components/SearchDropdown/SearchDropdownStyles.scss';
 import './sass/user-nav.scss';
 import startReactApp from '../../startup/react';
-import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 import Main from './containers/Main';
+import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 
 /**
  * Sets up the login widget with the given store at login-root
