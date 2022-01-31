@@ -31,6 +31,7 @@ const DisplayMultipleAppointments = props => {
   const { goToPreviousPage } = useFormRouting(router);
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
+  const today = format(new Date(), 'MMMM dd, yyyy');
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
       <BackButton router={router} action={goToPreviousPage} />
@@ -38,8 +39,7 @@ const DisplayMultipleAppointments = props => {
         Your appointments
       </h1>
       <p data-testid="date-text">
-        {`Here are your appointments for today:${' '}
-        ${format(new Date(), 'MMMM dd, yyyy')}.`}
+        {`Here are your appointments for today: ${today}.`}
       </p>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ol
