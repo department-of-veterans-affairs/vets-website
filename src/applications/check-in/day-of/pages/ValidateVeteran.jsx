@@ -91,7 +91,7 @@ const ValidateVeteran = props => {
         Footer={Footer}
         isPreCheckIn={false}
       />
-      <BackToHome isPreCheckIn={false} />
+      <BackToHome />
     </>
   );
 };

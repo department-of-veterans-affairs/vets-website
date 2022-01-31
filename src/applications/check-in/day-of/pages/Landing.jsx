@@ -17,6 +17,7 @@ import { createAnalyticsSlug } from '../../utils/analytics';
 import { isUUID, SCOPES } from '../../utils/token-format-validator';
 
 import { createSetSession } from '../../actions/authentication';
+import { setApp } from '../../actions/universal';
 
 const Landing = props => {
   const { isUpdatePageEnabled, location, router } = props;
@@ -39,6 +40,10 @@ const Landing = props => {
     },
     [dispatch],
   );
+
+  useEffect(() => {
+    dispatch(setApp('dayOf'));
+  }, []);
   useEffect(
     () => {
       const token = getTokenFromLocation(location);

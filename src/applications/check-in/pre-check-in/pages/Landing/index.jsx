@@ -19,6 +19,7 @@ import {
 
 import { URLS } from '../../../utils/navigation';
 import { isUUID, SCOPES } from '../../../utils/token-format-validator';
+import { setApp } from '../../../actions/universal';
 
 export default function Index(props) {
   const [loadMessage] = useState('Finding your appointment information');
@@ -41,7 +42,9 @@ export default function Index(props) {
   const { router } = props;
   const { goToErrorPage, jumpToPage } = useFormRouting(router);
   const { clearCurrentSession, setCurrentToken } = useSessionStorage();
-
+  useEffect(() => {
+    dispatch(setApp('preCheckIn'));
+  }, []);
   useEffect(
     () => {
       const token = getTokenFromLocation(router.location);
