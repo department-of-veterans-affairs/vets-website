@@ -7,10 +7,17 @@ export const FETCH_VERIFICATION_STATUS_SUCCESS =
 export const FETCH_VERIFICATION_STATUS_FAILURE =
   'FETCH_VERIFICATION_STATUS_FAILURE';
 
-export function fetchVerificationStatus(userId) {
+export const PAYMENT_STATUS = {
+  ONGOING: 'PAYMENT_STATUS_ONGOING',
+  PAUSED: 'PAYMENT_STATUS_PAUSED',
+  SCO_PAUSED: 'PAYMENT_STATUS_SCO_PAUSED',
+};
+
+export function fetchVerificationStatus() {
   const VERIFICATION_STATUS_ENDPOINT = `${
     environment.API_URL
-  }/attendance-verification/${userId}/status`;
+  }/attendance-verification/1/status`;
+  // }/attendance-verification/${userId}/status`;
 
   return async dispatch => {
     dispatch({ type: FETCH_VERIFICATION_STATUS });

@@ -2,6 +2,7 @@
 import {
 	FETCH_VERIFICATION_STATUS_FAILURE,
   FETCH_VERIFICATION_STATUS_SUCCESS,
+  PAYMENT_STATUS,
 } from '../actions';
 
 const initialState = {
@@ -15,10 +16,11 @@ export default {
         return {
           ...state,
           verificationStatus: action?.response || {
+            paymentStatus: PAYMENT_STATUS.ONGOING,
             months: [
               {
                 month: '2021-10',
-                status: 'UNVERIFIED',
+                verified: true,
                 enrollments: [
                   {
                     institution: 'Wake Forest University School of Business',
@@ -37,7 +39,7 @@ export default {
             ]
           }
         };
-        default: 
+      default: 
         return state;
     }
   }

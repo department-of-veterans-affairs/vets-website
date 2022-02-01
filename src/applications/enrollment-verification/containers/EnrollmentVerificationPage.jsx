@@ -1,5 +1,5 @@
 /* eslint-disable react/prefer-stateless-function */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
@@ -7,19 +7,27 @@ import Pagination from '@department-of-veterans-affairs/component-library/Pagina
 
 import { fetchVerificationStatus } from '../actions';
 
-export const EnrollmentVerificationPage = (
-  // eslint-disable-next-line no-empty-pattern
-  {
-    // verificationStatus,
-    // getVerificationStatus,
-  },
-) => {
+import EnrollmentVerificationMonths from '../components/EnrollmentVerificationMonths';
+
+export const EnrollmentVerificationPage = ({
+  verificationStatus,
+  getVerificationStatus,
+}) => {
   // constructor(props) {
   //   super(props);
   // }
 
   // componentDidMount() {
   // }
+
+  useEffect(
+    () => {
+      if (!verificationStatus) {
+        getVerificationStatus();
+      }
+    },
+    [verificationStatus],
+  );
 
   return (
     <>
@@ -148,148 +156,7 @@ export const EnrollmentVerificationPage = (
             </va-additional-info>
             <p>Showing 1-10 of 53 monthly enrollments listed by most recent</p>
 
-            <div className="ev-enrollment-month">
-              <hr />
-              <h3>January 2022</h3>
-              <p>
-                <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
-                Contact your School Certifying Official to update enrollment
-                information
-              </p>
-              <va-additional-info trigger="More information">
-                <p>
-                  <strong>[Start date] &ndash; [End date]</strong> at Wake
-                  Forest University School of Business
-                </p>
-                <p>
-                  <strong>Total credit hours:</strong> [#]
-                </p>
-                <p>
-                  <strong>[Start date] &ndash; [End date]</strong> at Adirondack
-                  Community College
-                </p>
-                <p>
-                  <strong>Total credit hours:</strong>
-                  [#]
-                </p>
-              </va-additional-info>
-            </div>
-
-            <div className="ev-enrollment-month">
-              <hr />
-              <h3>December 2021</h3>
-              <p>
-                <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
-                You need to verify this month
-              </p>
-              <a
-                className="vads-c-action-link--blue"
-                href="/enrollment-history/verify-enrollments"
-              >
-                Verify your enrollments
-              </a>
-              <va-additional-info trigger="More information">
-                <p>
-                  <strong>[Start date] &ndash; [End date]</strong> at Wake
-                  Forest University School of Business
-                </p>
-                <p>
-                  <strong>Total credit hours:</strong> [#]
-                </p>
-                <p>
-                  <strong>[Start date] &ndash; [End date]</strong> at Adirondack
-                  Community College
-                </p>
-                <p>
-                  <strong>Total credit hours:</strong>
-                  [#]
-                </p>
-              </va-additional-info>
-            </div>
-
-            <div className="ev-enrollment-month">
-              <hr />
-              <h3>November 2021</h3>
-              <p>
-                <i className="fas fa-exclamation-triangle" /> You haven’t
-                verified this month
-              </p>
-              <a
-                className="vads-c-action-link--blue"
-                href="/enrollment-history/verify-enrollments"
-              >
-                Verify your enrollments
-              </a>
-              <va-additional-info trigger="More information">
-                <p>
-                  <strong>[Start date] &ndash; [End date]</strong> at Wake
-                  Forest University School of Business
-                </p>
-                <p>
-                  <strong>Total credit hours:</strong> [#]
-                </p>
-                <p>
-                  <strong>[Start date] &ndash; [End date]</strong> at Adirondack
-                  Community College
-                </p>
-                <p>
-                  <strong>Total credit hours:</strong>
-                  [#]
-                </p>
-              </va-additional-info>
-            </div>
-
-            <div className="ev-enrollment-month">
-              <hr />
-              <h3>October 2021</h3>
-              <p>
-                <i className="fa fa-check-circle vads-u-color--green" /> You
-                verified this month
-              </p>
-              <va-additional-info trigger="More information">
-                <p>
-                  <strong>[Start date] &ndash; [End date]</strong> at Wake
-                  Forest University School of Business
-                </p>
-                <p>
-                  <strong>Total credit hours:</strong> [#]
-                </p>
-                <p>
-                  <strong>[Start date] &ndash; [End date]</strong> at Adirondack
-                  Community College
-                </p>
-                <p>
-                  <strong>Total credit hours:</strong>
-                  [#]
-                </p>
-              </va-additional-info>
-            </div>
-
-            <div className="ev-enrollment-month">
-              <hr />
-              <h3>September 2021</h3>
-              <p>
-                <i className="fa fa-check-circle vads-u-color--green" /> You
-                verified this month
-              </p>
-              <va-additional-info trigger="More information">
-                <p>
-                  <strong>[Start date] &ndash; [End date]</strong> at Wake
-                  Forest University School of Business
-                </p>
-                <p>
-                  <strong>Total credit hours:</strong> [#]
-                </p>
-                <p>
-                  <strong>[Start date] &ndash; [End date]</strong> at Adirondack
-                  Community College
-                </p>
-                <p>
-                  <strong>Total credit hours:</strong>
-                  [#]
-                </p>
-              </va-additional-info>
-            </div>
+            <EnrollmentVerificationMonths />
 
             <Pagination
               onPageSelect={function noRefCheck() {}}
@@ -325,10 +192,10 @@ export const EnrollmentVerificationPage = (
   );
 };
 
-function mapStateToProps(state) {
-  const test = state.test;
-  return { test };
-}
+const mapStateToProps = state => {
+  const verificationStatus = state.data.verificationStatus;
+  return { verificationStatus };
+};
 
 const mapDispatchToProps = {
   getVerificationStatus: fetchVerificationStatus,
