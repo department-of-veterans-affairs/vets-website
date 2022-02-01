@@ -276,12 +276,7 @@ export const SearchResults = ({
       </ul>
 
       {/*  */}
-      <div
-        className="pdf-alert-modal"
-        style={{
-          height: '500px',
-        }}
-      >
+      <div className="pdf-alert-modal">
         <Modal
           onClose={() => {
             toggleModalState(pdfSelected, pdfUrl, pdfLabel, true);
@@ -334,7 +329,7 @@ export const SearchResults = ({
       {/* Pagination Row */}
       {results.length > MAX_PAGE_LIST_LENGTH && (
         <Pagination
-          className="find-va-froms-pagination-override"
+          className="find-va-forms-pagination-override"
           maxPageListLength={MAX_PAGE_LIST_LENGTH}
           onPageSelect={onPageSelect}
           page={page}
