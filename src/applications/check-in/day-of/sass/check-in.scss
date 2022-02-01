@@ -78,23 +78,3 @@ ol.appointment-list{
     }
   }
 }
-button.text-button {
-  background: none;
-  display: inline;
-  color: $color-link-default;
-  width: auto;
-  margin: 0;
-  padding: 0;
-  text-decoration: underline;
-  font-weight: normal;
-  transition-duration: 0.3s;
-  transition-timing-function: ease-in-out;
-  transition-property: color, background-color, border-color;
-  &:hover {
-    background: rgba(0, 0, 0, 0.05);
-  }
-}
-
-
-
-
