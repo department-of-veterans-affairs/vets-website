@@ -1,15 +1,17 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/jsx-no-bind */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
+import { useHistory } from 'react-router-dom';
 import { changeSearchTab, setPageTitle } from '../actions';
 import { TABS } from '../constants';
 import SearchTabs from '../components/search/SearchTabs';
 import { isSmallScreen } from '../utils/helpers';
-import { useHistory } from 'react-router-dom';
-import NameSearchResults from '../containers/search/NameSearchResults';
-import LocationSearchResults from '../containers/search/LocationSearchResults';
-import LocationSearchResultsStaging from '../containers/search/LocationSearchResultsStaging';
+import NameSearchResults from './search/NameSearchResults';
+import LocationSearchResults from './search/LocationSearchResults';
+import LocationSearchResultsStaging from './search/LocationSearchResultsStaging';
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
 import AccordionItem from '../components/AccordionItem';
