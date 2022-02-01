@@ -21,12 +21,18 @@ import DownloadLink from './DownloadLink';
 export const ContestableIssuesTitle = props => {
   if (props?.formData?.contestedIssues?.length === 0) {
     return (
-      <h2
-        className="vads-u-font-size--h4 vads-u-margin-top--0"
-        name="eligibleScrollElement"
-      >
-        Sorry, we couldn’t find any eligible issues
-      </h2>
+      <>
+        <h2
+          className="vads-u-font-size--h4 vads-u-margin-top--0"
+          name="eligibleScrollElement"
+        >
+          Sorry, we couldn’t find any eligible issues
+        </h2>
+        <p>
+          If you’d like to add an issue for review, please select "Add a new
+          issue" to get started.
+        </p>
+      </>
     );
   }
   return (
@@ -84,7 +90,7 @@ const disabilitiesList = (
       </li>
     </ul>
     <p>
-      <DownloadLink content={'Download VA Form 20-0996'} />
+      <DownloadLink content="Download VA Form 20-0996" />
     </p>
     <p className="vads-u-margin-top--2p5">
       To learn more about how COVID-19 may affect claims or appeals, please

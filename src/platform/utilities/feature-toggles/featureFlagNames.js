@@ -68,6 +68,7 @@ export default Object.freeze({
   profileNotificationSettings: 'profile_notification_settings',
   profileEnhancements: 'profile_enhancements',
   profileShowAddressChangeModal: 'profile_show_address_change_modal',
+  profileShowFaxNumber: 'profile_show_fax_number',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
   searchTypeaheadEnabled: 'search_typeahead_enabled',
