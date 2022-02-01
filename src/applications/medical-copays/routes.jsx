@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import MedicalCopaysApp from './containers/MedicalCopaysApp.jsx';
+import MedicalCopaysApp from './containers/MedicalCopaysApp';
 import OverviewPage from './containers/OverviewPage';
 import DetailPage from './containers/DetailPage';
 
