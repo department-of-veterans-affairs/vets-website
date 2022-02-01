@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
+
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 
@@ -58,29 +64,44 @@ const PersonalAuthenticatedInformation = ({
 
     return (
       <div>
-        <div className="hca-id-form-wrapper">
+        <div className="hca-id-form-wrapper vads-u-margin-bottom--5">
           <p>This is the personal information we have on file for you.</p>
-          <div className="vads-u-margin-y--2p5">
-            <va-alert
-              close-btn-aria-label="Close notification"
-              status="info"
-              visible
-            >
-              <dl className="vads-u-margin--0">
-                <dt className="vads-u-line-height--2 vads-u-padding-bottom--2 vads-u-font-size--base">
-                  <strong>
-                    {first} {middle} {last} {suffix}
-                  </strong>
-                </dt>
-                <dd className="vads-u-line-height--2 vads-u-padding-bottom--2 vads-u-font-size--base">
-                  Last 4 of Social Security number: {ssnLastFour}
-                </dd>
-                <dd className="vads-u-line-height--2 vads-u-font-size--base">
-                  Date of birth: {dob}
-                </dd>
-              </dl>
-            </va-alert>
+          <div className="vads-u-border-left--7px vads-u-border-color--primary">
+            <div className="vads-u-padding-left--1">
+              <p className="vads-u-margin--1px">
+                <strong>
+                  {' '}
+                  {first} {middle} {last} {suffix}
+                </strong>
+              </p>
+              <p className="vads-u-margin--1px">
+                Last 4 of Social Security number: {ssnLastFour}
+              </p>
+              <p className="vads-u-margin--1px">
+                Date of birth:
+                <span className="vads-u-margin-left--0p5">{dob}</span>
+                <span>
+                  {moment(veteranDateOfBirth, 'MMMM dd, YYYY').toDate()}
+                </span>
+              </p>
+            </div>
           </div>
+          <p>
+            <strong>Note: </strong>
+            If you need to update your personal information, call our VA
+            benefits hotline at
+            <Telephone
+              contact={CONTACTS.VA_BENEFITS}
+              className="vads-u-margin-x--0p5"
+            />
+            (TTY:
+            <Telephone
+              contact={CONTACTS[711]}
+              pattern={PATTERNS['3_DIGIT']}
+              className="vads-u-margin-left--0p5"
+            />
+            ), Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+          </p>
         </div>
         {navButtons}
       </div>

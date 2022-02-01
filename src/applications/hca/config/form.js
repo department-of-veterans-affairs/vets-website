@@ -24,7 +24,10 @@ import { createDependentSchema } from '../definitions/dependent';
 
 // chapter 1 Veteran Information
 import PersonalAuthenticatedInformation from '../components/PersonalAuthenticatedInformation';
+import personalInformationSsn from './chapters/veteranInformation/personalInformationSsn';
+import dobInformation from './chapters/veteranInformation/dobInformation';
 import birthInformation from './chapters/veteranInformation/birthInformation';
+import maidenNameIformation from './chapters/veteranInformation/maidenNameIformation';
 import americanIndian from './chapters/veteranInformation/americanIndian';
 import birthSex from './chapters/veteranInformation/birthSex';
 import veteranInformation from './chapters/veteranInformation/personalnformation';
@@ -150,13 +153,35 @@ const formConfig = {
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
+        ssnInformation: {
+          path: 'veteran-information/personal-information-ssn',
+          title: 'Veteran information',
+          initialData: {},
+          depends: () => !hasSession(),
+          uiSchema: personalInformationSsn.uiSchema,
+          schema: personalInformationSsn.schema,
+        },
+        dobInformation: {
+          path: 'veteran-information/personal-information-dob',
+          title: 'Veteran information',
+          initialData: {},
+          depends: () => !hasSession(),
+          uiSchema: dobInformation.uiSchema,
+          schema: dobInformation.schema,
+        },
         birthInformation: {
           path: 'veteran-information/birth-information',
           title: 'Veteran information',
           initialData: {},
-          depends: () => !hasSession(),
           uiSchema: birthInformation.uiSchema,
           schema: birthInformation.schema,
+        },
+        maidenNameInformation: {
+          path: 'veteran-information/maiden-name-information',
+          title: 'Veteran information',
+          initialData: {},
+          uiSchema: maidenNameIformation.uiSchema,
+          schema: maidenNameIformation.schema,
         },
         birthSex: {
           path: 'veteran-information/birth-sex',
