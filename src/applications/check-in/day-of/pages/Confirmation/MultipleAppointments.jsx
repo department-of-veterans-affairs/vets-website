@@ -17,17 +17,15 @@ const MultipleAppointments = props => {
   const appointment = selectedAppointment;
   const appointmentDateTime = new Date(appointment.startTime);
   const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
+  const focusOnLoad = () => {
+    focusElement('h1');
+  };
   return (
     <div
       className="vads-l-grid-container vads-u-padding-y--5"
       data-testid="multiple-appointments-confirm"
     >
-      <VaAlert
-        status="success"
-        onVa-component-did-load={() => {
-          focusElement('h1');
-        }}
-      >
+      <VaAlert status="success" onVa-component-did-load={focusOnLoad}>
         <h1
           tabIndex="-1"
           aria-label="Thank you for checking in. "

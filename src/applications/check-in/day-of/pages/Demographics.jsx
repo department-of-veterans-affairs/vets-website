@@ -60,19 +60,18 @@ const Demographics = props => {
   if (!demographics) {
     goToErrorPage();
     return <></>;
-  } else {
-    return (
-      <>
-        <DemographicsDisplay
-          demographics={demographics}
-          yesAction={yesClick}
-          noAction={noClick}
-          Footer={Footer}
-        />
-        <BackToHome />
-      </>
-    );
   }
+  return (
+    <>
+      <DemographicsDisplay
+        demographics={demographics}
+        yesAction={yesClick}
+        noAction={noClick}
+        Footer={Footer}
+      />
+      <BackToHome />
+    </>
+  );
 };
 
 Demographics.propTypes = {
