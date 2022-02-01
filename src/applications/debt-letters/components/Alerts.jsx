@@ -17,10 +17,10 @@ export const DownloadLettersAlert = () => (
       We’re sorry. The length of time listed for repayment plans in these
       letters is too short. Use the letters you get in the mail to find the
       correct repayment plan terms. If you have any questions, call us at
-      <Telephone contact={'800-827-0648'} className="vads-u-margin-x--0p5" />
+      <Telephone contact="800-827-0648" className="vads-u-margin-x--0p5" />
       (or
       <Telephone
-        contact={'1-612-713-6415'}
+        contact="1-612-713-6415"
         pattern={PATTERNS.OUTSIDE_US}
         className="vads-u-margin-x--0p5"
       />

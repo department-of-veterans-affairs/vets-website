@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
+const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
   <div>
     <h2>On this page</h2>
     <div className="vads-u-font-family--sans vads-u-display--flex vads-u-flex-direction--column">
@@ -61,3 +62,10 @@ export const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
     </div>
   </div>
 );
+
+OnThisPageLinks.propTypes = {
+  hasHistory: PropTypes.bool,
+  isDetailsPage: PropTypes.bool,
+};
+
+export default OnThisPageLinks;

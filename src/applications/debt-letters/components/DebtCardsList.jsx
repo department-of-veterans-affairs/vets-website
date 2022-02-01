@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import DebtLetterCard from './DebtLetterCard';
-import { ErrorMessage, DowntimeMessage } from './Alerts';
 import Telephone, {
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+import DebtLetterCard from './DebtLetterCard';
+import { ErrorMessage, DowntimeMessage } from './Alerts';
 
 const DebtCardsList = ({ debts, errors }) => {
   const error = errors.length ? errors[0] : [];
@@ -78,13 +78,10 @@ const DebtCardsList = ({ debts, errors }) => {
         <p className="vads-u-font-family--sans">
           If you received a letter about a VA benefit debt that isn’t listed
           here, call us at
-          <Telephone
-            contact={'800-827-0648'}
-            className="vads-u-margin-x--0p5"
-          />
+          <Telephone contact="800-827-0648" className="vads-u-margin-x--0p5" />
           (or
           <Telephone
-            contact={'1-612-713-6415'}
+            contact="1-612-713-6415"
             pattern={PATTERNS.OUTSIDE_US}
             className="vads-u-margin-x--0p5"
           />
@@ -128,12 +125,12 @@ DebtCardsList.propTypes = {
       fileNumber: PropTypes.string,
     }),
   ),
-  errors: PropTypes.array.isRequired,
+  errors: PropTypes.array,
 };
 
 DebtCardsList.defaultProps = {
-  debts: [],
   errors: [],
+  debts: [],
 };
 
 const mapStateToProps = ({ debtLetters }) => ({
