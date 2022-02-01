@@ -1,6 +1,5 @@
 import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-
 import PropTypes from 'prop-types';
 
 export const HowToPay = ({ acctNum, facility }) => (
