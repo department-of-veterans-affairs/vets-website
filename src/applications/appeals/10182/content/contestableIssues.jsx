@@ -12,12 +12,18 @@ import { MAX_SELECTIONS } from '../constants';
 export const ContestableIssuesTitle = props => {
   if (props?.formData?.contestableIssues?.length === 0) {
     return (
-      <h2
-        className="vads-u-font-size--h4 vads-u-margin-top--0"
-        name="eligibleScrollElement"
-      >
-        Sorry, we couldn’t find any eligible issues
-      </h2>
+      <>
+        <h2
+          className="vads-u-font-size--h4 vads-u-margin-top--0"
+          name="eligibleScrollElement"
+        >
+          Sorry, we couldn’t find any eligible issues
+        </h2>
+        <p>
+          If you’d like to add an issue for review, please select "Add a new
+          issue" to get started.
+        </p>
+      </>
     );
   }
   return (

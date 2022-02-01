@@ -12,6 +12,16 @@ class MenuSection extends React.Component {
     };
   }
 
+  handleBackToMenu() {
+    this.updateCurrentSection('');
+
+    if (this.props.mobileMediaQuery.matches) {
+      this.setState({
+        title: {},
+      });
+    }
+  }
+
   getCurrentSection() {
     return this.props.currentSection
       ? this.props.currentSection
@@ -32,16 +42,6 @@ class MenuSection extends React.Component {
     }
 
     this.props.updateCurrentSection();
-  }
-
-  handleBackToMenu() {
-    this.updateCurrentSection('');
-
-    if (this.props.mobileMediaQuery.matches) {
-      this.setState({
-        title: {},
-      });
-    }
   }
 
   render() {

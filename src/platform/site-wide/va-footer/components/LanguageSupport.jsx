@@ -4,20 +4,16 @@ import {
   adjustSidebarNav,
   getConfigFromUrl,
 } from 'applications/static-pages/i18Select/utilities/helpers';
+import { TRANSLATED_LANGUAGES } from 'applications/static-pages/i18Select/utilities/constants';
 import { FOOTER_EVENTS } from '../helpers';
 import recordEvent from '../../../monitoring/record-event';
-import { TRANSLATED_LANGUAGES } from 'applications/static-pages/i18Select/utilities/constants';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 
 const langAssistanceLabel = 'Language assistance';
 
 function LanguagesListTemplate({ dispatchLanguageSelection }) {
   return (
-    <ul
-      className={
-        'vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-bottom--0'
-      }
-    >
+    <ul className="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-bottom--0">
       {[
         {
           label: 'Español',

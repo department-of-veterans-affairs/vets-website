@@ -84,14 +84,6 @@ export default class MegaMenu extends React.Component {
     );
   }
 
-  defaultSection(sections) {
-    if (this.mobileMediaQuery?.matches) {
-      return '';
-    }
-
-    return sections[0].title;
-  }
-
   handleDocumentClick = event => {
     if (this.props.currentDropdown && !this.menuRef.contains(event.target)) {
       this.props.toggleDropDown('');
@@ -107,6 +99,14 @@ export default class MegaMenu extends React.Component {
     this.props.updateCurrentSection('');
     this.props.toggleDropDown('');
   };
+
+  defaultSection(sections) {
+    if (this.mobileMediaQuery?.matches) {
+      return '';
+    }
+
+    return sections[0].title;
+  }
 
   toggleDropDown(title) {
     if (this.props.currentDropdown === title) {
