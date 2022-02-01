@@ -80,9 +80,9 @@ ConfirmablePage.propTypes = {
   header: PropTypes.string.isRequired,
   noAction: PropTypes.func.isRequired,
   yesAction: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool,
-  subtitle: PropTypes.string,
   Footer: PropTypes.func,
   LoadingMessage: PropTypes.func,
+  isLoading: PropTypes.bool,
+  subtitle: PropTypes.string,
 };
 export default ConfirmablePage;

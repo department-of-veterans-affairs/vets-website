@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 import { VaTextInput } from 'web-components/react-bindings';
 
@@ -54,3 +55,13 @@ export default function ValidateDisplay({
     </div>
   );
 }
+
+ValidateDisplay.propTypes = {
+  Footer: propTypes.node,
+  header: propTypes.string,
+  subtitle: propTypes.string,
+  validateHandler: propTypes.func,
+  isLoading: propTypes.bool,
+  lastNameInput: propTypes.object,
+  last4Input: propTypes.object,
+};

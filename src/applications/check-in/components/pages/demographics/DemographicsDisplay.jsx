@@ -34,10 +34,10 @@ export default function DemographicsDisplay({
 }
 
 DemographicsDisplay.propTypes = {
+  Footer: PropTypes.node,
   demographics: PropTypes.array,
   header: PropTypes.string,
   noAction: PropTypes.func,
   subtitle: PropTypes.string,
   yesAction: PropTypes.func,
-  Footer: PropTypes.node,
 };

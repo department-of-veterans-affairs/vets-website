@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 import ConfirmablePage from '../ConfirmablePage';
 
 export default function NextOfKinDisplay({
@@ -18,6 +18,16 @@ export default function NextOfKinDisplay({
     { title: 'Phone', key: 'phone' },
     { title: 'Work phone', key: 'workPhone' },
   ];
+  const loadingMessage = () => {
+    return (
+      <>
+        <va-loading-indicator
+          data-testid="loading-message"
+          message="Saving your responses..."
+        />
+      </>
+    );
+  };
   return (
     <>
       <ConfirmablePage
@@ -28,16 +38,7 @@ export default function NextOfKinDisplay({
         yesAction={yesAction}
         noAction={noAction}
         isLoading={isSendingData}
-        LoadingMessage={() => {
-          return (
-            <>
-              <va-loading-indicator
-                data-testid="loading-message"
-                message="Saving your responses..."
-              />
-            </>
-          );
-        }}
+        LoadingMessage={loadingMessage}
         Footer={Footer}
       />
     </>
@@ -45,11 +46,11 @@ export default function NextOfKinDisplay({
 }
 
 NextOfKinDisplay.propTypes = {
-  header: PropTypes.string,
-  isSendingData: PropTypes.bool,
-  nextOfKin: PropTypes.object,
-  noAction: PropTypes.func,
-  subtitle: PropTypes.string,
-  yesAction: PropTypes.func,
-  Footer: PropTypes.node,
+  Footer: propTypes.node,
+  header: propTypes.string,
+  isSendingData: propTypes.bool,
+  nextOfKin: propTypes.object,
+  noAction: propTypes.func,
+  subtitle: propTypes.string,
+  yesAction: propTypes.func,
 };
