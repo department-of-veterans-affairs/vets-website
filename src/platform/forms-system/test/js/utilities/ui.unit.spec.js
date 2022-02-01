@@ -145,9 +145,6 @@ describe('getFocuableElements', () => {
     /* eslint-disable jsx-a11y/label-has-associated-control */
     const tree = ReactTestUtils.renderIntoDocument(
       <form>
-        <a href="http://test.com" id="foo">
-          baz
-        </a>
         <input type="hidden" />
         <div tabIndex="-1" />
         <label>boo</label>
