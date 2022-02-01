@@ -1,9 +1,9 @@
+import recordEvent from 'platform/monitoring/record-event';
 import {
   createApiEvent,
   captureError,
   ERROR_SOURCES,
 } from '../../utils/analytics';
-import recordEvent from 'platform/monitoring/record-event';
 
 const captureErrorToSentry = (error, details) => {
   captureError(error, details);
