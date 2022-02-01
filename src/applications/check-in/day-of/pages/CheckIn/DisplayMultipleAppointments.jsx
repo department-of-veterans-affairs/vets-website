@@ -63,12 +63,8 @@ const DisplayMultipleAppointments = props => {
       </p>
       <p data-testid="refresh-link">
         <button
-<<<<<<< HEAD
           className="usa-button-secondary"
           onClick={handleClick}
-=======
-          onClick={e => handleClick(e)}
->>>>>>> remvoed href attr from button.
           data-testid="refresh-appointments-button"
           type="button"
         >
