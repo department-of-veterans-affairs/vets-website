@@ -68,8 +68,10 @@ export default function Index(props) {
       }
       if (token && isUUID(token)) {
         // call the sessions api
+        const checkInType = 'preCheckIn';
+
         api.v2
-          .getSession(token)
+          .getSession({ token, checkInType })
           .then(session => {
             // if successful, dispatch session data  into redux and current window
 

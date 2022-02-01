@@ -66,8 +66,9 @@ const Landing = props => {
       }
 
       if (token) {
+        const checkInType = 'checkIn';
         api.v2
-          .getSession(token)
+          .getSession({ token, checkInType })
           .then(session => {
             if (session.errors || session.error) {
               clearCurrentSession(window);
