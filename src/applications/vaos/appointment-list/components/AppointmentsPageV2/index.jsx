@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import {
   selectFeatureRequests,
@@ -18,6 +18,7 @@ import ScheduleNewAppointment from '../ScheduleNewAppointment';
 import PageLayout from '../PageLayout';
 import { selectPendingAppointments } from '../../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
+import { updateBreadcrumb } from '../../redux/actions';
 
 let pageTitle = 'VA online scheduling';
 
@@ -141,6 +142,8 @@ export default function AppointmentsPageV2() {
     setHasTypeChanged(true);
   }
 
+  const dispatch = useDispatch();
+
   return (
     <PageLayout showBreadcrumbs showNeedHelp>
       <h1 className="vads-u-flex--1 vads-u-margin-bottom--1p5 vaos-hide-for-print">
@@ -164,6 +167,9 @@ export default function AppointmentsPageV2() {
                 onClick={() => {
                   history.push('/requested');
                   setHasTypeChanged(true);
+                  dispatch(
+                    updateBreadcrumb({ title: 'Requested', path: 'requested' }),
+                  );
                 }}
               >{`Pending (${count})`}</button>
             </li>
@@ -173,6 +179,7 @@ export default function AppointmentsPageV2() {
                 onClick={() => {
                   history.push('/past');
                   setHasTypeChanged(true);
+                  dispatch(updateBreadcrumb({ title: 'Past', path: 'past' }));
                 }}
               >
                 Past
