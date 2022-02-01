@@ -10,7 +10,7 @@ function signupHandler(loginType) {
 export default ({ csp, isDisabled }) => (
   <a
     href={authUtilities.signupUrl(csp)}
-    className={`vads-c-action-link--blue ${csp}`}
+    className={`vads-c-action-link--blue vads-u-padding-y--2p5 vads-u-width--full ${csp}`}
     disabled={isDisabled}
     onClick={() => signupHandler(csp)}
   >
