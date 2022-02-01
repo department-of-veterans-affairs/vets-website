@@ -17,6 +17,7 @@ export default {
           ...state,
           verificationStatus: action?.response || {
             paymentStatus: PAYMENT_STATUS.ONGOING,
+            nextVerificationDate: '2022-02-01',
             months: [
               {
                 month: '2021-10',

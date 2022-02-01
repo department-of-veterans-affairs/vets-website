@@ -1,16 +1,11 @@
 import React from 'react';
 
-export default function EnrollmentVerificationMonths(
-  // eslint-disable-next-line no-empty-pattern
-  {
-    /* months */
-  },
-) {
-  return (
-    <>
-      <div className="ev-enrollment-month">
+export default function EnrollmentVerificationMonths({ status }) {
+  const months = status?.months?.map((month, index) => {
+    return (
+      <div className="ev-enrollment-month" key={index}>
         <hr />
-        <h3>January 2022</h3>
+        <h3>{month.month}</h3>
         <p>
           <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
           Contact your School Certifying Official to update enrollment
@@ -34,8 +29,40 @@ export default function EnrollmentVerificationMonths(
           </p>
         </va-additional-info>
       </div>
+    );
+  });
 
-      <div className="ev-enrollment-month">
+  return (
+    <>
+      <h2>Your monthly enrollment verifications</h2>
+
+      <va-additional-info trigger="What if I notice an error with my enrollment information?">
+        <ul>
+          <li>
+            Work with your School Certifying Official (SCO) to make sure they
+            have the correct enrollment information and can update the
+            information on file.
+          </li>
+          <li>
+            After your information is corrected, verify the corrected
+            information.
+          </li>
+        </ul>
+        <p>
+          If you notice a mistake, it’s best if you reach out to your SCO soon.
+          The sooner VA knows about changes to your enrollment, the less likely
+          you are to be overpaid and incur a debt.
+        </p>
+      </va-additional-info>
+
+      <p>
+        Showing 1-10 of {months?.length} monthly enrollments listed by most
+        recent
+      </p>
+
+      {months}
+
+      {/* <div className="ev-enrollment-month">
         <hr />
         <h3>December 2021</h3>
         <p>
@@ -149,7 +176,7 @@ export default function EnrollmentVerificationMonths(
             [#]
           </p>
         </va-additional-info>
-      </div>
+      </div> */}
     </>
   );
 }

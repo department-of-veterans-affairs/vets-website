@@ -7,6 +7,7 @@ import Pagination from '@department-of-veterans-affairs/component-library/Pagina
 
 import { fetchVerificationStatus } from '../actions';
 
+import EnrollmentVerificationAlert from '../components/EnrollmentVerificationAlert';
 import EnrollmentVerificationMonths from '../components/EnrollmentVerificationMonths';
 
 export const EnrollmentVerificationPage = ({
@@ -52,111 +53,9 @@ export const EnrollmentVerificationPage = ({
               months in a row, we will pause your monthly education payments.
             </p>
 
-            <va-alert
-              close-btn-aria-label="Close notification"
-              status="success"
-              visible
-            >
-              You’re up-to-date with your monthly enrollment verification.
-              You’ll be able to verify your enrollment next month on [Month Day
-              Year].
-            </va-alert>
+            <EnrollmentVerificationAlert status={verificationStatus} />
 
-            <br />
-            <va-alert
-              close-btn-aria-label="Close notification"
-              status="warning"
-              visible
-            >
-              <h3 slot="headline">
-                We’re missing one or more of your enrollment verifications
-              </h3>
-              <p>
-                You’ll need to verify your monthly enrollments to get your
-                scheduled payments.
-              </p>
-              <a
-                className="vads-c-action-link--blue"
-                href="/enrollment-history/verify-enrollments"
-              >
-                Verify your enrollments
-              </a>
-            </va-alert>
-
-            <br />
-
-            <va-alert
-              close-btn-aria-label="Close notification"
-              status="error"
-              visible
-            >
-              <h3 slot="headline">
-                We’ve paused your monthly education payments
-              </h3>
-              <p>
-                We had to pause your payments because you haven’t verified your
-                enrollment(s) for two months in a row. Please review and verify
-                your monthly enrollment(s) to get the payments you’re entitled
-                to.
-              </p>
-              <a
-                className="vads-c-action-link--blue"
-                href="/enrollment-history/verify-enrollments"
-              >
-                Verify your enrollments
-              </a>
-            </va-alert>
-
-            <br />
-
-            <va-alert
-              close-btn-aria-label="Close notification"
-              status="error"
-              visible
-            >
-              <h3 slot="headline">
-                We’ve paused your monthly education payments until you update
-                your enrollment information
-              </h3>
-              <p>
-                You’ve verified that your monthly enrollment has changed or
-                isn’t correct, but you haven’t updated it yet.
-              </p>
-              <p>
-                To continue getting your monthly education payments, you’ll need
-                to work with your School Certifying Official (SCO) to update
-                your information on file.
-              </p>
-              <p>
-                We encourage you to reach out to your SCO as soon as you can to
-                avoid an overpayment. If we overpay you, you may have a debt to
-                pay back.
-              </p>
-            </va-alert>
-
-            <h2>Your monthly enrollment verifications</h2>
-
-            <va-additional-info trigger="What if I notice an error with my enrollment information?">
-              <ul>
-                <li>
-                  Work with your School Certifying Official (SCO) to make sure
-                  they have the correct enrollment information and can update
-                  the information on file.
-                </li>
-                <li>
-                  After your information is corrected, verify the corrected
-                  information.
-                </li>
-              </ul>
-              <p>
-                If you notice a mistake, it’s best if you reach out to your SCO
-                soon. The sooner VA knows about changes to your enrollment, the
-                less likely you are to be overpaid and incur a debt.
-              </p>
-            </va-additional-info>
-            <p>Showing 1-10 of 53 monthly enrollments listed by most recent</p>
-
-            <EnrollmentVerificationMonths />
+            <EnrollmentVerificationMonths status={verificationStatus} />
 
             <Pagination
               onPageSelect={function noRefCheck() {}}
