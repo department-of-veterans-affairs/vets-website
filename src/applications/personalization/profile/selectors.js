@@ -86,6 +86,9 @@ export const profileShowAddressChangeModal = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowAddressChangeModal] ||
   false;
 
+export const profileShowFaxNumber = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowFaxNumber];
+
 export function selectVAProfilePersonalInformation(state, fieldName) {
   const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];
 
