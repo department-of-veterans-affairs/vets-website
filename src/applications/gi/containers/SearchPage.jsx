@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-
-import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import { changeSearchTab, setPageTitle } from '../actions';
 import { TABS } from '../constants';
 import SearchTabs from '../components/search/SearchTabs';
-import { useQueryParams, isSmallScreen } from '../utils/helpers';
+import { isSmallScreen } from '../utils/helpers';
 import { useHistory } from 'react-router-dom';
 import NameSearchResults from '../containers/search/NameSearchResults';
 import LocationSearchResults from '../containers/search/LocationSearchResults';
 import LocationSearchResultsStaging from '../containers/search/LocationSearchResultsStaging';
-import environment from 'platform/utilities/environment';
-
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
 import AccordionItem from '../components/AccordionItem';
 import { getSearchQueryChanged, updateUrlParams } from '../selectors/search';
 import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
-import recordEvent from 'platform/monitoring/record-event';
 
 export function SearchPage({
   dispatchChangeSearchTab,
