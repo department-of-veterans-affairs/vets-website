@@ -1,35 +1,10 @@
 import React from 'react';
 
+import EnrollmentVerificationMonth from './EnrollmentVerificationMonth';
+
 export default function EnrollmentVerificationMonths({ status }) {
   const months = status?.months?.map((month, index) => {
-    return (
-      <div className="ev-enrollment-month" key={index}>
-        <hr />
-        <h3>{month.month}</h3>
-        <p>
-          <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
-          Contact your School Certifying Official to update enrollment
-          information
-        </p>
-        <va-additional-info trigger="More information">
-          <p>
-            <strong>[Start date] &ndash; [End date]</strong> at Wake Forest
-            University School of Business
-          </p>
-          <p>
-            <strong>Total credit hours:</strong> [#]
-          </p>
-          <p>
-            <strong>[Start date] &ndash; [End date]</strong> at Adirondack
-            Community College
-          </p>
-          <p>
-            <strong>Total credit hours:</strong>
-            [#]
-          </p>
-        </va-additional-info>
-      </div>
-    );
+    return <EnrollmentVerificationMonth month={month} key={index} />;
   });
 
   return (
