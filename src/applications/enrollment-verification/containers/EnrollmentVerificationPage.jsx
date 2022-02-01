@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 
 import { fetchVerificationStatus } from '../actions';
 
@@ -56,12 +55,6 @@ export const EnrollmentVerificationPage = ({
             <EnrollmentVerificationAlert status={verificationStatus} />
 
             <EnrollmentVerificationMonths status={verificationStatus} />
-
-            <Pagination
-              onPageSelect={function noRefCheck() {}}
-              page={1}
-              pages={5}
-            />
 
             <div className="ev-highlighted-content-container">
               <header className="ev-highlighted-content-container_header">
