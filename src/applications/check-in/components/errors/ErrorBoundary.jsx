@@ -30,13 +30,14 @@ class ErrorBoundary extends React.Component {
 
   render() {
     const { children } = this.props;
+    const { hasError } = this.state;
     const ErrorMessage = () => (
       <>
         <va-loading-indicator />
       </>
     );
 
-    return this.state.hasError ? <ErrorMessage /> : <>{children}</>;
+    return hasError ? <ErrorMessage /> : <>{children}</>;
   }
 }
 

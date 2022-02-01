@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ConfirmablePage from '../ConfirmablePage';
 
 export default function NextOfKinDisplay({
@@ -32,7 +33,7 @@ export default function NextOfKinDisplay({
             <>
               <va-loading-indicator
                 data-testid="loading-message"
-                message={'Saving your responses...'}
+                message="Saving your responses..."
               />
             </>
           );
@@ -42,3 +43,13 @@ export default function NextOfKinDisplay({
     </>
   );
 }
+
+NextOfKinDisplay.propTypes = {
+  header: PropTypes.string,
+  isSendingData: PropTypes.bool,
+  nextOfKin: PropTypes.object,
+  noAction: PropTypes.func,
+  subtitle: PropTypes.string,
+  yesAction: PropTypes.func,
+  Footer: PropTypes.node,
+};

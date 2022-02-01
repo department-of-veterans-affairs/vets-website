@@ -35,9 +35,9 @@ export default function DemographicsDisplay({
 
 DemographicsDisplay.propTypes = {
   demographics: PropTypes.array,
-  Footer: PropTypes.node,
   header: PropTypes.string,
   noAction: PropTypes.func,
   subtitle: PropTypes.string,
   yesAction: PropTypes.func,
+  Footer: PropTypes.node,
 };

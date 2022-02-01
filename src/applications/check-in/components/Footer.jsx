@@ -53,7 +53,7 @@ Footer.defaultProps = {
 };
 
 Footer.propTypes = {
-  header: PropTypes.string.isRequired,
+  header: PropTypes.string,
   message: PropTypes.node,
 };
 
