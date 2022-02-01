@@ -7,6 +7,7 @@ import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import PropTypes from 'prop-types';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { mcpFeatureToggle } from '../utils/helpers';
 import AlertView from '../components/AlertView';
@@ -80,6 +81,10 @@ const MedicalCopaysApp = ({ children }) => {
       </div>
     </div>
   );
+};
+
+MedicalCopaysApp.propTypes = {
+  children: PropTypes.object,
 };
 
 export default MedicalCopaysApp;

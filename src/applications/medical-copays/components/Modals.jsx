@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import PropTypes from 'prop-types';
 
 const Modals = ({ children, title }) => {
   const [visible, setVisible] = useState(false);
@@ -321,5 +322,10 @@ Modals.Rights = () => (
     </p>
   </>
 );
+
+Modals.propTypes = {
+  children: PropTypes.object,
+  title: PropTypes.string,
+};
 
 export default Modals;

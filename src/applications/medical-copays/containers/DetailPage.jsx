@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import PropTypes from 'prop-types';
 import PDFStatementList from '../components/PDFStatementList';
 import BalanceQuestions from '../components/BalanceQuestions';
 import DisputeCharges from '../components/DisputeCharges';
@@ -81,6 +82,14 @@ const DetailPage = ({ match }) => {
       </Link>
     </>
   );
+};
+
+DetailPage.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }),
 };
 
 export default DetailPage;

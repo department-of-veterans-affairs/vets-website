@@ -1,6 +1,8 @@
 import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
+import PropTypes from 'prop-types';
+
 export const HowToPay = ({ acctNum, facility }) => (
   <article className="vads-u-padding--0" data-testid="how-to-pay">
     <h2 id="how-to-pay">How do I pay my VA copay bill?</h2>
@@ -127,5 +129,16 @@ export const HowToPay = ({ acctNum, facility }) => (
     </va-accordion>
   </article>
 );
+
+HowToPay.propTypes = {
+  acctNum: PropTypes.string,
+  facility: PropTypes.shape({
+    facilityName: PropTypes.string,
+    staTAddress1: PropTypes.string,
+    city: PropTypes.string,
+    state: PropTypes.string,
+    ziPCde: PropTypes.string,
+  }),
+};
 
 export default HowToPay;
