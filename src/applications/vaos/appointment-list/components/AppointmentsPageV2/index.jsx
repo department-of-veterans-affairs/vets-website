@@ -168,7 +168,7 @@ export default function AppointmentsPageV2() {
                   history.push('/requested');
                   setHasTypeChanged(true);
                   dispatch(
-                    updateBreadcrumb({ title: 'Requested', path: 'requested' }),
+                    updateBreadcrumb({ title: 'Pending', path: 'requested' }),
                   );
                 }}
               >{`Pending (${count})`}</button>
