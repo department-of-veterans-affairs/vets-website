@@ -168,17 +168,5 @@ export function transformFormToVAOSAppointment(state) {
     },
     locationId: data.vaFacility,
     comment: getUserMessage(data),
-    contact: {
-      telecom: [
-        {
-          type: 'phone',
-          value: data.phoneNumber,
-        },
-        {
-          type: 'email',
-          value: data.email,
-        },
-      ],
-    },
   };
 }
