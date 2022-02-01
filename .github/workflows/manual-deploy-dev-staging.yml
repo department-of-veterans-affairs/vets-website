@@ -44,7 +44,7 @@ jobs:
 
       - name: Build dev
         if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
-        run: yarn build --verbose -—buildtype=vagovdev
+        run: yarn build --verbose --buildtype=vagovdev
         timeout-minutes: 30  
         
       - name: Generate build details for dev
@@ -75,7 +75,7 @@ jobs:
         
       - name: Build staging
         if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
-        run: yarn build --verbose -—buildtype=vagovstaging
+        run: yarn build --verbose --buildtype=vagovstaging
         timeout-minutes: 30 
 
       - name: Generate build details for staging 
