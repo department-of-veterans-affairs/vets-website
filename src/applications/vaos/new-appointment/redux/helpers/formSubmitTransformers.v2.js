@@ -93,6 +93,9 @@ export function transformFormToVAOSCCRequest(state) {
 export function transformFormToVAOSVARequest(state) {
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
+  const code = PURPOSE_TEXT.find(
+    purpose => purpose.id === data.reasonForAppointment,
+  )?.serviceName;
 
   return {
     kind: data.visitType,
@@ -103,11 +106,12 @@ export function transformFormToVAOSVARequest(state) {
     reasonCode: {
       coding: [
         {
-          code: PURPOSE_TEXT.find(
-            purpose => purpose.id === data.reasonForAppointment,
-          )?.serviceName,
+          code,
         },
       ],
+      text: {
+        type: code,
+      },
     },
     comment: data.reasonAdditionalInfo,
     contact: {
