@@ -1,8 +1,9 @@
 import React from 'react';
 import { captureError } from '../../utils/analytics';
 import { createSessionStorageKeys } from '../../utils/session-storage';
+import { withAppName } from '../../containers/withAppName';
 
-export default class ErrorBoundary extends React.Component {
+class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,8 +17,9 @@ export default class ErrorBoundary extends React.Component {
 
   componentDidCatch(error) {
     // get token from session store
-    const isPreCheckIn = window.location.pathname.includes('pre-check-in');
-    const KEYS = createSessionStorageKeys({ isPreCheckIn });
+    const KEYS = createSessionStorageKeys({
+      isPreCheckIn: this.props.isPreCheckIn,
+    });
     const data = window.sessionStorage.getItem(KEYS.CURRENT_UUID);
     const token = data ? JSON.parse(data).token : null;
     captureError(error, { token });
@@ -34,3 +36,5 @@ export default class ErrorBoundary extends React.Component {
     return this.state.hasError ? <ErrorMessage /> : <>{this.props.children}</>;
   }
 }
+
+export default withAppName(ErrorBoundary);
