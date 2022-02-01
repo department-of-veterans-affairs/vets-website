@@ -276,12 +276,7 @@ export const SearchResults = ({
       </ul>
 
       {/*  */}
-      <div
-        className="pdf-alert-modal"
-        style={{
-          height: '500px',
-        }}
-      >
+      <div className="pdf-alert-modal">
         <Modal
           onClose={() => {
             toggleModalState(pdfSelected, pdfUrl, pdfLabel, true);
