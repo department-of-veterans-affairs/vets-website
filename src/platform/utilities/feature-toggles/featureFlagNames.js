@@ -113,7 +113,6 @@ export default Object.freeze({
   vaOnlineSchedulingCheetah: 'va_online_scheduling_cheetah',
   vaOnlineSchedulingCommunityCare: 'va_online_scheduling_community_care',
   vaOnlineSchedulingDirect: 'va_online_scheduling_direct',
-  vaOnlineSchedulingHomepageRefresh: 'va_online_scheduling_homepage_refresh',
   vaOnlineSchedulingProviderSelection:
     'va_online_scheduling_provider_selection',
   vaOnlineSchedulingRequests: 'va_online_scheduling_requests',
