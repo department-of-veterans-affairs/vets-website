@@ -108,4 +108,60 @@ describe('Hca serviceInformation', () => {
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
+
+  it('Does not submit when service start date is greater than or equal to the service end date', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    fillData(form, 'select#root_lastServiceBranch', 'army');
+    fillDate(form, 'root_lastEntryDate', '1990-1-2');
+    fillDate(form, 'root_lastDischargeDate', '1990-1-1');
+    fillData(form, 'select#root_dischargeType', 'honorable');
+
+    // check for start date > end date
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(1);
+
+    // check for start date = end date
+    fillDate(form, 'root_lastEntryDate', '1990-1-2');
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(1);
+    form.unmount();
+  });
+
+  it('Does not submit when service end date is greater than one year from today', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    const nextYear = new Date();
+    nextYear.setFullYear(nextYear.getFullYear() + 1);
+    nextYear.setDate(nextYear.getDate() + 1); // plus one day
+
+    fillData(form, 'select#root_lastServiceBranch', 'army');
+    fillDate(form, 'root_lastEntryDate', '1990-1-2');
+    fillDate(form, 'root_lastDischargeDate', nextYear.toLocaleDateString());
+    fillData(form, 'select#root_dischargeType', 'honorable');
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(1);
+
+    form.unmount();
+  });
 });

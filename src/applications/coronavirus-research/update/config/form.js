@@ -19,7 +19,7 @@ import submitForm from './submitForm';
 import { updateData, transform } from './formHelper';
 import manifest from '../manifest.json';
 
-const { fullName, email, usaPhone, date, usaPostalCode } = definitions;
+const { date, usaPostalCode } = definitions;
 
 const getSubmissionIdFromUrl = (window, key = 'id') => {
   if (!window) return null;
@@ -67,7 +67,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue to sign up for our coronavirus research volunteer list.',
   },
-  title: 'Update your information in our coronavirus research volunteer list',
+  title: 'Coronavirus research volunteer list survey update',
   defaultDefinitions: {},
   preSubmitInfo: {
     required: true,
@@ -81,7 +81,7 @@ const formConfig = {
   },
   chapters: {
     chapter1: {
-      title: 'Your information',
+      title: 'Update your information',
       pages: {
         page1: {
           path: 'update-form',
@@ -110,53 +110,54 @@ const formConfig = {
                   },
                 },
               },
-              healthHeaderText: {
-                type: 'object',
-                properties: {
-                  'view:healthText': {
-                    type: 'object',
-                    properties: {},
-                  },
-                },
-              },
+              vaccinated: fullSchema.properties.vaccinated,
+              VACCINATED_PLAN: fullSchema.properties.VACCINATED_PLAN,
+              VACCINATED_DETAILS: fullSchema.properties.VACCINATED_DETAILS,
+              VACCINATED_DATE1: date,
+              VACCINATED_DATE2: date,
+              VACCINATED_SECOND: fullSchema.properties.VACCINATED_SECOND,
+              VACCINATED_ADDITIONAL1:
+                fullSchema.properties.VACCINATED_ADDITIONAL1,
+              VACCINATED_ADDITIONAL_DETAILS1:
+                fullSchema.properties.VACCINATED_ADDITIONAL_DETAILS1,
+              VACCINATED_ADDITIONAL_OTHER1:
+                fullSchema.properties.VACCINATED_ADDITIONAL_OTHER1,
+              VACCINATED_ADDITIONAL_DATE1: date,
+              VACCINATED_ADDITIONAL2:
+                fullSchema.properties.VACCINATED_ADDITIONAL2,
+              VACCINATED_ADDITIONAL_DETAILS2:
+                fullSchema.properties.VACCINATED_ADDITIONAL_DETAILS2,
+              VACCINATED_ADDITIONAL_OTHER2:
+                fullSchema.properties.VACCINATED_ADDITIONAL_OTHER2,
+              VACCINATED_ADDITIONAL_DATE2: date,
+              VACCINATED_ADDITIONAL3:
+                fullSchema.properties.VACCINATED_ADDITIONAL3,
+              VACCINATED_ADDITIONAL_DETAILS3:
+                fullSchema.properties.VACCINATED_ADDITIONAL_DETAILS3,
+              VACCINATED_ADDITIONAL_OTHER3:
+                fullSchema.properties.VACCINATED_ADDITIONAL_OTHER3,
+              VACCINATED_ADDITIONAL_DATE3: date,
+              VACCINATED_ADDITIONAL4:
+                fullSchema.properties.VACCINATED_ADDITIONAL4,
+              VACCINATED_ADDITIONAL_DETAILS4:
+                fullSchema.properties.VACCINATED_ADDITIONAL_DETAILS4,
+              VACCINATED_ADDITIONAL_OTHER4:
+                fullSchema.properties.VACCINATED_ADDITIONAL_OTHER4,
+              VACCINATED_ADDITIONAL_DATE4: date,
+              VACCINATED_ADDITIONAL5:
+                fullSchema.properties.VACCINATED_ADDITIONAL5,
+              VACCINATED_ADDITIONAL_DETAILS5:
+                fullSchema.properties.VACCINATED_ADDITIONAL_DETAILS5,
+              VACCINATED_ADDITIONAL_OTHER5:
+                fullSchema.properties.VACCINATED_ADDITIONAL_OTHER5,
+              VACCINATED_ADDITIONAL_DATE5: date,
               diagnosed: fullSchema.properties.diagnosed,
               DIAGNOSED_DETAILS: fullSchema.properties.DIAGNOSED_DETAILS,
-              closeContactPositive: fullSchema.properties.closeContactPositive,
-              hospitalized: fullSchema.properties.hospitalized,
-              smokeOrVape: fullSchema.properties.smokeOrVape,
-              HEALTH_HISTORY: fullSchema.properties.HEALTH_HISTORY,
-              exposureRiskHeaderText: {
-                type: 'object',
-                properties: {
-                  'view:exposureRiskText': {
-                    type: 'object',
-                    properties: {},
-                  },
-                },
-              },
-              EMPLOYMENT_STATUS: fullSchema.properties.EMPLOYMENT_STATUS,
-              TRANSPORTATION: fullSchema.properties.TRANSPORTATION,
-              residentsInHome: fullSchema.properties.residentsInHome,
-              closeContact: fullSchema.properties.closeContact,
-              contactHeaderText: {
-                type: 'object',
-                properties: {
-                  'view:contactText': {
-                    type: 'object',
-                    properties: {},
-                  },
-                },
-              },
-              veteranFullName: fullName,
-              email,
-              phone: usaPhone,
+              DIAGNOSED_SYMPTOMS: fullSchema.properties.DIAGNOSED_SYMPTOMS,
+              ELIGIBLE: fullSchema.properties.ELIGIBLE,
+              FACILITY: fullSchema.properties.FACILITY,
               zipCode: usaPostalCode,
-              veteranDateOfBirth: date,
-              VETERAN: fullSchema.properties.VETERAN,
-              GENDER: fullSchema.properties.GENDER,
-              GENDER_SELF_IDENTIFY_DETAILS:
-                fullSchema.properties.GENDER_SELF_IDENTIFY_DETAILS,
-              RACE_ETHNICITY: fullSchema.properties.RACE_ETHNICITY,
+              vaLocation: fullSchema.properties.vaLocation,
             },
           },
         },

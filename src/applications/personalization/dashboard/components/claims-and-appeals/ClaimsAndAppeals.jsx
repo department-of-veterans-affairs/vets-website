@@ -109,7 +109,7 @@ const ClaimsAndAppeals = ({
   if (highlightedClaimOrAppeal || openClaimsOrAppealsCount > 0) {
     return (
       <div data-testid="dashboard-section-claims-and-appeals">
-        <h2>Claims & appeals</h2>
+        <h2>Claims and appeals</h2>
         <div className="vads-l-row">
           <DashboardWidgetWrapper>
             <HighlightedClaimAppeal

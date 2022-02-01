@@ -40,7 +40,7 @@ OptInWidget.propTypes = {
     submitted: PropTypes.bool,
   }),
   onChange: PropTypes.func,
-  value: PropTypes.boolean,
+  value: PropTypes.bool,
 };
 
 export default OptInWidget;

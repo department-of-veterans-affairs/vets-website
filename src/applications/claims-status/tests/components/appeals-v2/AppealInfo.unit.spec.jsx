@@ -30,12 +30,12 @@ describe('<AppealInfo/>', () => {
     wrapper.unmount();
   });
 
-  it('should render LoadingIndicator when appeals loading', () => {
+  it('should render va-loading-indicator when appeals loading', () => {
     const props = { params: { id: appealIdParam }, appealsLoading: true };
     const wrapper = shallow(<AppealInfo {...props} />, {
       disableLifecycleMethods: true,
     });
-    const loadingIndicator = wrapper.find('LoadingIndicator');
+    const loadingIndicator = wrapper.find('va-loading-indicator');
     expect(loadingIndicator.length).to.equal(1);
     wrapper.unmount();
   });

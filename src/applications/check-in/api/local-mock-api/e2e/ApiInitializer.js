@@ -120,6 +120,33 @@ class ApiInitializer {
         emergencyContactConfirmedAt,
       );
     },
+    withBadData: ({
+      extraValidation = null,
+      demographicsNeedsUpdate = true,
+      demographicsConfirmedAt = null,
+      nextOfKinNeedsUpdate = true,
+      nextOfKinConfirmedAt = null,
+      emergencyContactNeedsUpdate = true,
+      emergencyContactConfirmedAt = null,
+    } = {}) => {
+      const data = preCheckInData.get.createMockSuccessResponse(
+        'some-token',
+        demographicsNeedsUpdate,
+        demographicsConfirmedAt,
+        nextOfKinNeedsUpdate,
+        nextOfKinConfirmedAt,
+        emergencyContactNeedsUpdate,
+        emergencyContactConfirmedAt,
+      );
+      cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
+        if (extraValidation) {
+          extraValidation(req);
+        }
+        data.payload.appointments[0].startTime = 'invalid';
+        req.reply(data);
+      });
+      return data;
+    },
     withFailure: (errorCode = 400) => {
       cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
         req.reply(errorCode, preCheckInData.get.createMockFailedResponse());
@@ -177,6 +204,35 @@ class ApiInitializer {
           });
           rv.payload.appointments = customAppointments;
         }
+        if (extraValidation) {
+          extraValidation(req);
+        }
+        req.reply(rv);
+      });
+    },
+    withBadData: ({
+      extraValidation = null,
+      token = checkInData.get.defaultUUID,
+      numberOfCheckInAbledAppointments = 2,
+      demographicsNeedsUpdate = true,
+      demographicsConfirmedAt = null,
+      nextOfKinNeedsUpdate = true,
+      nextOfKinConfirmedAt = null,
+      emergencyContactNeedsUpdate = true,
+      emergencyContactConfirmedAt = null,
+    } = {}) => {
+      cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
+        const rv = checkInData.get.createMultipleAppointments(
+          token,
+          numberOfCheckInAbledAppointments,
+          demographicsNeedsUpdate,
+          demographicsConfirmedAt,
+          nextOfKinNeedsUpdate,
+          nextOfKinConfirmedAt,
+          emergencyContactNeedsUpdate,
+          emergencyContactConfirmedAt,
+        );
+        rv.payload.appointments[0].startTime = 'invalid';
         if (extraValidation) {
           extraValidation(req);
         }

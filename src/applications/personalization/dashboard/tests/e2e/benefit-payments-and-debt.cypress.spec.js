@@ -28,7 +28,6 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       });
       mockLocalStorage();
       cy.login(mockUser);
-      cy.visit('my-va/');
       cy.intercept('/v0/profile/service_history', serviceHistory);
       cy.intercept('/v0/profile/full_name', fullName);
       cy.intercept('/v0/evss_claims_async', claimsSuccess());
@@ -38,6 +37,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         disabilityRating,
       );
       cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
+      cy.visit('my-va/');
     });
     it('the payment and debt section does not show up - C13193', () => {
       // make sure that the Payment and Debt section is not shown
@@ -52,8 +52,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       }).should('not.exist');
 
       // make the a11y check
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
   describe('when the feature is not hidden', () => {
@@ -71,7 +70,6 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       });
       mockLocalStorage();
       cy.login(mockUser);
-      cy.visit('my-va/');
       cy.intercept('/v0/profile/service_history', serviceHistory);
       cy.intercept('/v0/profile/full_name', fullName);
       cy.intercept('/v0/evss_claims_async', claimsSuccess());
@@ -82,41 +80,51 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       );
       cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
     });
-    it('and they have payments in the last 30 days - C13194', () => {
-      cy.intercept('/v0/profile/payment_history', paymentsSuccess(true));
-      cy.intercept('/v0/debts', debtsSuccess);
-      // make sure that the Payment and Debt section is shown
-      cy.findByTestId('dashboard-section-payment-and-debts').should('exist');
-      cy.findByRole('link', { name: /manage your direct deposit/i }).should(
-        'exist',
-      );
-      cy.findByRole('heading', {
-        name: /We deposited.*in your account/i,
-      }).should('exist');
 
-      // make the a11y check
-      cy.injectAxe();
-      cy.axeCheck();
+    context('and user has payments', () => {
+      beforeEach(() => {
+        cy.intercept('/v0/profile/payment_history', paymentsSuccess(true));
+        cy.intercept('/v0/debts', debtsSuccess);
+        cy.visit('my-va/');
+      });
+      it('and they have payments in the last 30 days - C13194', () => {
+        // make sure that the Payment and Debt section is shown
+        cy.findByTestId('dashboard-section-payment-and-debts').should('exist');
+        cy.findByRole('link', { name: /manage your direct deposit/i }).should(
+          'exist',
+        );
+        cy.findByRole('heading', {
+          name: /We deposited.*in your account/i,
+        }).should('exist');
+
+        // make the a11y check
+        cy.injectAxeThenAxeCheck();
+      });
     });
-    it('and they have no payments in the last 30 days - C13195', () => {
-      cy.intercept('/v0/profile/payment_history', paymentsSuccess());
-      cy.intercept('/v0/debts', debtsSuccess);
-      // make sure that the Payment and Debt section is shown
-      cy.findByTestId('dashboard-section-payment-and-debts').should('exist');
-      cy.findByRole('link', { name: /manage your direct deposit/i }).should(
-        'exist',
-      );
-      cy.findByRole('link', { name: /view your payment history/i }).should(
-        'exist',
-      );
-      cy.findByText(/you*.*payments in the past 30 days/i).should('exist');
-      cy.findByRole('heading', {
-        name: /We deposited.*in your account/i,
-      }).should('not.exist');
 
-      // make the a11y check
-      cy.injectAxe();
-      cy.axeCheck();
+    context('and user has no payments', () => {
+      beforeEach(() => {
+        cy.intercept('/v0/profile/payment_history', paymentsSuccess());
+        cy.intercept('/v0/debts', debtsSuccess);
+        cy.visit('my-va/');
+      });
+      it('and they have no payments in the last 30 days - C13195', () => {
+        // make sure that the Payment and Debt section is shown
+        cy.findByTestId('dashboard-section-payment-and-debts').should('exist');
+        cy.findByRole('link', { name: /manage your direct deposit/i }).should(
+          'exist',
+        );
+        cy.findByRole('link', { name: /view your payment history/i }).should(
+          'exist',
+        );
+        cy.findByText(/you*.*payments in the past 30 days/i).should('exist');
+        cy.findByRole('heading', {
+          name: /We deposited.*in your account/i,
+        }).should('not.exist');
+
+        // make the a11y check
+        cy.injectAxeThenAxeCheck();
+      });
     });
   });
 });

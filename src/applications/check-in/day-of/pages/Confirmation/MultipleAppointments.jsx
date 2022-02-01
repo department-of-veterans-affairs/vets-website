@@ -5,11 +5,11 @@ import format from 'date-fns/format';
 import { VaAlert } from 'web-components/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 
-import BackToHome from '../../components/BackToHome';
-import BackToAppointments from '../../components/BackToAppointments';
-import Footer from '../../components/Footer';
-import AppointmentLocation from '../../components/AppointmentDisplay/AppointmentLocation';
-import TravelPayReimbursementLink from '../../components/TravelPayReimbursementLink';
+import BackToHome from '../../../components/BackToHome';
+import BackToAppointments from '../../../components/BackToAppointments';
+import Footer from '../../../components/Footer';
+import AppointmentLocation from '../../../components/AppointmentDisplay/AppointmentLocation';
+import TravelPayReimbursementLink from '../../../components/TravelPayReimbursementLink';
 
 const MultipleAppointments = props => {
   const { appointments, selectedAppointment, triggerRefresh } = props;
@@ -46,8 +46,8 @@ const MultipleAppointments = props => {
         appointments={appointments}
         triggerRefresh={triggerRefresh}
       />
-      <Footer />
-      <BackToHome />
+      <Footer isPreCheckIn={false} />
+      <BackToHome isPreCheckIn={false} />
     </div>
   );
 };

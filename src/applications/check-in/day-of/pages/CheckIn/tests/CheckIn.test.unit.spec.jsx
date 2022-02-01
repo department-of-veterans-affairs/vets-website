@@ -31,6 +31,7 @@ describe('check-in', () => {
               clinicName: 'Green Team Clinic1',
             },
           ],
+          veteranData: {},
         },
       };
       store = mockStore(initState);
@@ -58,7 +59,7 @@ describe('check-in', () => {
       );
     });
 
-    it('refreshes appointments', () => {
+    it('refresh appointments button exists', () => {
       const mockRouter = {
         params: {
           token: 'token-123',
@@ -82,7 +83,6 @@ describe('check-in', () => {
       );
 
       expect(screen.queryByTestId('refresh-appointments-button')).to.exist;
-      screen.queryByTestId('refresh-appointments-button').click();
     });
   });
 });
