@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { captureError } from '../../utils/analytics';
 import { createSessionStorageKeys } from '../../utils/session-storage';
 import { withAppName } from '../../containers/withAppName';
@@ -17,8 +18,9 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error) {
     // get token from session store
+    const { isPreCheckIn } = this.props;
     const KEYS = createSessionStorageKeys({
-      isPreCheckIn: this.props.isPreCheckIn,
+      isPreCheckIn,
     });
     const data = window.sessionStorage.getItem(KEYS.CURRENT_UUID);
     const token = data ? JSON.parse(data).token : null;
@@ -27,14 +29,20 @@ class ErrorBoundary extends React.Component {
   }
 
   render() {
+    const { children } = this.props;
     const ErrorMessage = () => (
       <>
         <va-loading-indicator />
       </>
     );
 
-    return this.state.hasError ? <ErrorMessage /> : <>{this.props.children}</>;
+    return this.state.hasError ? <ErrorMessage /> : <>{children}</>;
   }
 }
+
+ErrorBoundary.propTypes = {
+  children: PropTypes.node,
+  isPreCheckIn: PropTypes.bool,
+};
 
 export default withAppName(ErrorBoundary);

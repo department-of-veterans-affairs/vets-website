@@ -50,14 +50,11 @@ const Footer = ({ header, message }) => {
 
 Footer.defaultProps = {
   header: 'Need Help?',
-  get message() {
-    return '';
-  },
 };
 
 Footer.propTypes = {
-  additionalInformation: PropTypes.node,
-  header: PropTypes.string,
+  header: PropTypes.string.isRequired,
+  message: PropTypes.node,
 };
 
 export default Footer;

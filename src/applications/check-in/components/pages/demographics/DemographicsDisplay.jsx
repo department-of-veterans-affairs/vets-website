@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ConfirmablePage from '../ConfirmablePage';
 
 export default function DemographicsDisplay({
@@ -31,3 +32,12 @@ export default function DemographicsDisplay({
     </>
   );
 }
+
+DemographicsDisplay.propTypes = {
+  demographics: PropTypes.array,
+  Footer: PropTypes.node,
+  header: PropTypes.string,
+  noAction: PropTypes.func,
+  subtitle: PropTypes.string,
+  yesAction: PropTypes.func,
+};
