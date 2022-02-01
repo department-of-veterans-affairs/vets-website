@@ -60,21 +60,20 @@ const NextOfKin = props => {
   if (!nextOfKin) {
     goToErrorPage();
     return <></>;
-  } else {
-    return (
-      <>
-        <BackButton router={router} action={goToPreviousPage} />
-        <NextOfKinDisplay
-          nextOfKin={nextOfKin}
-          yesAction={yesClick}
-          noAction={noClick}
-          Footer={Footer}
-          isPreCheckIn={false}
-        />
-        <BackToHome isPreCheckIn={false} />
-      </>
-    );
   }
+  return (
+    <>
+      <BackButton router={router} action={goToPreviousPage} />
+      <NextOfKinDisplay
+        nextOfKin={nextOfKin}
+        yesAction={yesClick}
+        noAction={noClick}
+        Footer={Footer}
+        isPreCheckIn={false}
+      />
+      <BackToHome isPreCheckIn={false} />
+    </>
+  );
 };
 
 NextOfKin.propTypes = {

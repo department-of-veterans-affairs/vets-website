@@ -6,7 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { recordAnswer } from '../../../actions/pre-check-in';
 
-import { api } from '../../../api/';
+import { api } from '../../../api';
 
 import BackButton from '../../../components/BackButton';
 import BackToHome from '../../../components/BackToHome';

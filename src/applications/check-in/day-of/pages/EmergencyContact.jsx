@@ -61,21 +61,20 @@ const EmergencyContact = props => {
   if (!emergencyContact) {
     goToErrorPage();
     return <></>;
-  } else {
-    return (
-      <>
-        <BackButton router={router} action={goToPreviousPage} />
-        <EmergencyContactDisplay
-          data={emergencyContact}
-          yesAction={yesClick}
-          noAction={noClick}
-          Footer={Footer}
-          isPreCheckIn={false}
-        />
-        <BackToHome isPreCheckIn={false} />
-      </>
-    );
   }
+  return (
+    <>
+      <BackButton router={router} action={goToPreviousPage} />
+      <EmergencyContactDisplay
+        data={emergencyContact}
+        yesAction={yesClick}
+        noAction={noClick}
+        Footer={Footer}
+        isPreCheckIn={false}
+      />
+      <BackToHome isPreCheckIn={false} />
+    </>
+  );
 };
 
 EmergencyContact.propTypes = {

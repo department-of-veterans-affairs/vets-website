@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
+import recordEvent from 'platform/monitoring/record-event';
+import { focusElement } from 'platform/utilities/ui';
 
 import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import BackButton from '../../../components/BackButton';
@@ -8,10 +10,8 @@ import BackToHome from '../../../components/BackToHome';
 import Footer from '../../../components/Footer';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import recordEvent from 'platform/monitoring/record-event';
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { sortAppointmentsByStartTime } from '../../../utils/appointment';
-import { focusElement } from 'platform/utilities/ui';
 
 const DisplayMultipleAppointments = props => {
   const { appointments, getMultipleAppointments, router, token } = props;
@@ -20,9 +20,7 @@ const DisplayMultipleAppointments = props => {
     focusElement('h1');
   }, []);
 
-  const handleClick = e => {
-    e.preventDefault();
-
+  const handleClick = () => {
     recordEvent({
       event: createAnalyticsSlug('refresh-appointments-button-clicked'),
     });
@@ -66,8 +64,9 @@ const DisplayMultipleAppointments = props => {
       <p data-testid="refresh-link">
         <button
           className="usa-button-secondary"
-          onClick={e => handleClick(e)}
+          onClick={handleClick}
           data-testid="refresh-appointments-button"
+          type="button"
         >
           Refresh
         </button>
