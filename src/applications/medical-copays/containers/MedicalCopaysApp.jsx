@@ -3,14 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { mcpFeatureToggle } from '../utils/helpers';
-import AlertView from '../components/AlertView';
-import { getStatements } from '../actions';
 import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { mcpFeatureToggle } from '../utils/helpers';
+import AlertView from '../components/AlertView';
+import { getStatements } from '../actions';
 
 const MedicalCopaysApp = ({ children }) => {
   const showMCP = useSelector(state => mcpFeatureToggle(state));

@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { uniqBy } from 'lodash';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import Balances from '../components/Balances';
 import BalanceQuestions from '../components/BalanceQuestions';
 import { sortStatementsByDate } from '../utils/helpers';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 const OverviewPage = () => {
   const statements = useSelector(({ mcp }) => mcp.statements) ?? [];
