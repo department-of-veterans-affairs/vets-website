@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const documents = [
   {
@@ -15,7 +16,7 @@ const documents = [
   },
 ];
 
-export const CoeDocumentList = props => {
+export const CoeDocumentList = ({ notOnUploadPage }) => {
   if (documents.length > 0) {
     return (
       <>
@@ -52,7 +53,7 @@ export const CoeDocumentList = props => {
       </>
     );
   }
-  if (props.notOnUploadPage) {
+  if (notOnUploadPage) {
     return (
       <>
         <h2>How will I know if VA needs more information from me?</h2>
@@ -65,4 +66,8 @@ export const CoeDocumentList = props => {
     );
   }
   return '';
+};
+
+CoeDocumentList.propTypes = {
+  notOnUploadPage: PropTypes.bool,
 };

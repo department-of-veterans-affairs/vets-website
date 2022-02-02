@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import { MoreQuestions } from './MoreQuestions';
 
-export const CoeEligible = props => (
+export const CoeEligible = ({ clickHandler, downloadUrl }) => (
   <div className="row vads-u-margin-bottom--7">
     <div className="medium-8 columns">
       <va-alert status="success">
@@ -26,7 +27,7 @@ export const CoeEligible = props => (
       </p>
       <a
         className="vads-u-font-size--base vads-u-display--block vads-u-margin-top--2"
-        href={props.downloadURL}
+        href={downloadUrl}
       >
         <i
           aria-hidden="true"
@@ -46,10 +47,15 @@ export const CoeEligible = props => (
         </li>
         <li>Request a restoration of entitlement</li>
       </ul>
-      <Link to="/introduction" onClick={props.clickHandler}>
+      <Link to="/introduction" onClick={clickHandler}>
         Make changes to your COE online by filling out VA Form 26-1880
       </Link>
       <MoreQuestions />
     </div>
   </div>
 );
+
+CoeEligible.propTypes = {
+  clickHandler: PropTypes.func,
+  downloadUrl: PropTypes.string,
+};

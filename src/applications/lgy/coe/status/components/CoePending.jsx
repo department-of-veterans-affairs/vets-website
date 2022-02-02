@@ -3,7 +3,7 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
-import { CoeDocumentUpload } from './CoeDocumentUpload';
+import DocumentUploader from './DocumentUploader';
 import { CoeDocumentList } from './CoeDocumentList';
 import { MoreQuestions } from './MoreQuestions';
 
@@ -37,7 +37,7 @@ export const CoePending = ({
           <p>You requested a COE on: {requestDate}</p>
           <p>{body}</p>
         </va-alert>
-        {uploadsNeeded ? <CoeDocumentUpload /> : ''}
+        {uploadsNeeded ? <DocumentUploader /> : ''}
         <CoeDocumentList notOnUploadPage={notOnUploadPage} />
         <h2>Should I request a COE again?</h2>
         <p className="vads-u-margin-bottom--0">
