@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { fetchVerificationStatus } from '../actions';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
+import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import EnrollmentVerificationAlert from '../components/EnrollmentVerificationAlert';
 import EnrollmentVerificationMonths from '../components/EnrollmentVerificationMonths';
 
@@ -25,6 +26,10 @@ export const EnrollmentVerificationPage = ({
     },
     [getVerificationStatus, loggedIn, verificationStatus],
   );
+
+  if (!verificationStatus) {
+    return <EnrollmentVerificationLoadingIndicator />;
+  }
 
   return (
     <EnrollmentVerificationPageWrapper>
