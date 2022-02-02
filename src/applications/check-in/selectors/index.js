@@ -47,10 +47,22 @@ const selectSeeStaffMessage = createSelector(
 
 const makeSelectSeeStaffMessage = () => selectSeeStaffMessage;
 
+const selectApp = createSelector(
+  state => {
+    return {
+      app: state?.checkInData?.app,
+    };
+  },
+  app => app,
+);
+
+const makeSelectApp = () => selectApp;
+
 export {
   makeSelectCurrentContext,
   makeSelectForm,
   makeSelectVeteranData,
   makeSelectConfirmationData,
   makeSelectSeeStaffMessage,
+  makeSelectApp,
 };

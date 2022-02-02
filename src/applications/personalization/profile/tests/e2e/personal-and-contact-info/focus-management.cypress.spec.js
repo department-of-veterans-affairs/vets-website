@@ -76,17 +76,6 @@ describe('Contact info fields', () => {
       'be.focused',
     );
 
-    cy.findByRole('button', { name: /edit fax.*number/i }).click();
-    cy.findByLabelText(/fax.*number/i).should('be.focused');
-    cy.axeCheck();
-    cy.findByRole('button', { name: /cancel/i }).click();
-    // We have to click the cancel button twice because the fax number input is
-    // empty. Since that field is given focus and it is a required field, once
-    // you blur the input, form validation is triggered and results in a
-    // validation error.
-    cy.findByRole('button', { name: /cancel/i }).click();
-    cy.findByRole('button', { name: /edit fax.*number/i }).should('be.focused');
-
     cy.findByRole('button', { name: /edit contact email/i }).click();
     cy.findByLabelText(/email address/i).should('be.focused');
     cy.axeCheck();

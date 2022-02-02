@@ -135,7 +135,7 @@ module.exports = {
     'react/no-string-refs': 1,
     'react/button-has-type': 1,
     'react/jsx-props-no-spreading': 1,
-    'react/jsx-one-expression-per-line': 1,
+    'react/jsx-one-expression-per-line': 0,
     'react/destructuring-assignment': 1,
     'react/prop-types': 1,
     'react/jsx-sort-props': [0, { callbacksLast: true, shorthandFirst: true }],

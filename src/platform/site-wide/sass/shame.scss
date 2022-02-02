@@ -494,12 +494,6 @@ $medium-phone-screen: 375px;
   }
 }
 
-.usa-accordion-bordered {
-  .fa {
-    color: $color-link-default;
-  }
-}
-
 // There are styles in our sidebar styles that set a small
 // amount of padding on the grid for detail pages, which we
 // are overriding for WBC with no padding
@@ -512,23 +506,8 @@ $medium-phone-screen: 375px;
   display: flex;
 }
 
-// This is a fix for Edge and lazy image loading.
-img[data-src],
-img[data-srcset] {
-  display: block;
-  min-height: 1px;
-}
-
 .vet-toolbar .va-dropdown {
   margin-left: 0;
-}
-
-.profile-nav {
-  margin-top: 6px;
-}
-
-.process-accordion > li {
-  list-style: none !important;
 }
 
 .circular-profile-image {
@@ -573,10 +552,6 @@ img[data-srcset] {
 .clearfix-text {
   display: block;
   clear: both;
-}
-
-.va-u-outline--none:focus {
-  outline: none;
 }
 
 .image-detail {

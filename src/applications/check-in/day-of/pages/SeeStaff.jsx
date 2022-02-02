@@ -29,8 +29,8 @@ const SeeStaff = props => {
         <p>Our staff can help you update your contact information.</p>
       )}
       <TravelPayReimbursementLink />
-      <Footer isPreCheckIn={false} />
-      <BackToHome isPreCheckIn={false} />
+      <Footer />
+      <BackToHome />
     </div>
   );
 };
