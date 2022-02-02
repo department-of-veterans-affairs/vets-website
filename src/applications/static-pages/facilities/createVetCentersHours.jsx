@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 
 import widgetTypes from '../widgetTypes';
 import { standardizeDateTime } from './facilityUtilities';
-import VetCenterHours from './vetCentersHours';
 
 export default async function createVetCentersHours(store) {
   const vetCentersHoursWidget = document.querySelector(
@@ -12,8 +11,11 @@ export default async function createVetCentersHours(store) {
   );
 
   if (vetCentersHoursWidget) {
+    const {
+      default: VetCenterHours,
+    } = await import(/* webpackChunkName: "vet-center-hours-widget" */ './vetCentersHours');
     const vetCenterHoursArray = standardizeDateTime(window.vetCenterHours);
-    const isSatelliteLocation = window.isSatelliteLocation;
+    const { isSatelliteLocation } = window;
     ReactDOM.render(
       <Provider store={store}>
         <VetCenterHours
