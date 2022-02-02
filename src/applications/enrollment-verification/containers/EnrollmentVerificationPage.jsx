@@ -10,8 +10,9 @@ import EnrollmentVerificationAlert from '../components/EnrollmentVerificationAle
 import EnrollmentVerificationMonths from '../components/EnrollmentVerificationMonths';
 
 export const EnrollmentVerificationPage = ({
-  verificationStatus,
   getVerificationStatus,
+  loggedIn,
+  verificationStatus,
 }) => {
   // constructor(props) {
   //   super(props);
@@ -22,11 +23,11 @@ export const EnrollmentVerificationPage = ({
 
   useEffect(
     () => {
-      if (!verificationStatus) {
+      if (loggedIn && !verificationStatus) {
         getVerificationStatus();
       }
     },
-    [verificationStatus],
+    [getVerificationStatus, loggedIn, verificationStatus],
   );
 
   return (
@@ -84,10 +85,10 @@ export const EnrollmentVerificationPage = ({
   );
 };
 
-const mapStateToProps = state => {
-  const verificationStatus = state.data.verificationStatus;
-  return { verificationStatus };
-};
+const mapStateToProps = state => ({
+  loggedIn: state?.user?.login?.currentlyLoggedIn || false,
+  verificationStatus: state?.data?.verificationStatus,
+});
 
 const mapDispatchToProps = {
   getVerificationStatus: fetchVerificationStatus,
