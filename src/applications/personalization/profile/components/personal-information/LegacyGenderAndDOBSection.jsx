@@ -9,16 +9,9 @@ import ProfileInfoTable from '../ProfileInfoTable';
 
 const notSetText = 'This information is not available right now.';
 
-const renderGender = gender => {
-  let content = notSetText;
-  if (gender === 'M') content = 'Male';
-  else if (gender === 'F') content = 'Female';
-  return content;
-};
-
 const renderDOB = dob => (dob ? moment(dob).format('LL') : notSetText);
 
-const LegacyGenderAndDOBSection = ({ gender, dob, className }) => (
+const LegacyGenderAndDOBSection = ({ dob, className }) => (
   <div className={className}>
     <div className="vads-u-margin-bottom--2">
       <AdditionalInfo triggerText="How do I update my personal information?">
@@ -46,10 +39,7 @@ const LegacyGenderAndDOBSection = ({ gender, dob, className }) => (
     </div>
     <ProfileInfoTable
       title="Personal information"
-      data={[
-        { title: 'Date of birth', value: renderDOB(dob) },
-        { title: 'Gender', value: renderGender(gender) },
-      ]}
+      data={[{ title: 'Date of birth', value: renderDOB(dob) }]}
       className="vads-u-margin-bottom--3"
       level={2}
     />
@@ -58,12 +48,10 @@ const LegacyGenderAndDOBSection = ({ gender, dob, className }) => (
 
 LegacyGenderAndDOBSection.propTypes = {
   className: PropTypes.string,
-  gender: PropTypes.string.isRequired,
   dob: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
-  gender: state.vaProfile?.personalInformation?.gender,
   dob: state.vaProfile?.personalInformation?.birthDate,
 });
 

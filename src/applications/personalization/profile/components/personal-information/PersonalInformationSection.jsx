@@ -10,16 +10,9 @@ import ProfileInfoTable from '../ProfileInfoTable';
 
 const notSetText = 'This information is not available right now.';
 
-const renderGender = gender => {
-  let content = notSetText;
-  if (gender === 'M') content = 'Male';
-  else if (gender === 'F') content = 'Female';
-  return content;
-};
-
 const renderDOB = dob => (dob ? moment(dob).format('LL') : notSetText);
 
-const PersonalInformationSection = ({ gender, dob }) => (
+const PersonalInformationSection = ({ dob }) => (
   <div className="vads-u-margin-bottom--6">
     <div className="vads-u-margin-bottom--3">
       <AdditionalInfo triggerText="Why do we ask for this?">
@@ -89,7 +82,6 @@ const PersonalInformationSection = ({ gender, dob }) => (
             />
           ),
         },
-        { title: 'Sex assigned at birth', value: renderGender(gender) },
         {
           title: 'Gender identity',
           id: FIELD_IDS[FIELD_NAMES.GENDER_IDENTITY],
@@ -117,7 +109,6 @@ const PersonalInformationSection = ({ gender, dob }) => (
 );
 
 PersonalInformationSection.propTypes = {
-  gender: PropTypes.string.isRequired,
   dob: PropTypes.string.isRequired,
 };
 
