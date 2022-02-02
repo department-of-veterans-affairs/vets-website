@@ -1,4 +1,5 @@
 import SearchRepresentativeWidget from './searchRepresentativeWidget.jsx';
+import searchRepresentativeReviewWidget from './searchRepresentativeReviewWidget.jsx';
 
 export const schema = {
   type: 'object',
@@ -16,5 +17,6 @@ export const uiSchema = {
     'ui:options': {
       hideLabelText: true,
     },
+    'ui:reviewWidget': searchRepresentativeReviewWidget,
   },
 };

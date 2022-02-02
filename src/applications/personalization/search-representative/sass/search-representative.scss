@@ -1,3 +1,15 @@
+.form-review-panel-page:nth-of-type(1) dt {
+  display: none;
+}
+
+.review-row {
+  flex-direction: column !important;
+}
+
+.form-review-panel-page-header-row:nth-of-type(1) .edit-btn {
+  display: none;
+}
+
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
