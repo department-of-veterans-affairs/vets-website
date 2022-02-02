@@ -3,18 +3,16 @@ import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
-
 import environment from 'platform/utilities/environment';
-import GetFormHelp from '../components/GetFormHelp';
 import { focusElement } from 'platform/utilities/ui';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes/';
-import { downloadPDF } from '../actions';
-
 import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
+import GetFormHelp from '../components/GetFormHelp';
+import { deductionCodes } from '../../debt-letters/const/deduction-codes';
+import { downloadPDF } from '../actions';
 
-const scroller = Scroll.scroller;
+const { scroller } = Scroll;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
     duration: 500,

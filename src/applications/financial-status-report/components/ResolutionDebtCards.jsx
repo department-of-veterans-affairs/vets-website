@@ -5,12 +5,12 @@ import TextInput from '@department-of-veterans-affairs/component-library/TextInp
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
-import { currency } from '../utils/helpers';
 import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+import { deductionCodes } from '../../debt-letters/const/deduction-codes';
+import { currency } from '../utils/helpers';
 
 const ExpandedContent = ({
   index,
@@ -119,7 +119,7 @@ const ResolutionDebtCards = ({
       <h4 className="resolution-options-debt-title">Your selected debts</h4>
       {selectedDebts.map((debt, index) => {
         const objKey = 'resolutionType';
-        const submitted = formContext.submitted;
+        const { submitted } = formContext;
         const radioError = submitted && !debt.resolution?.resolutionType;
         const type = debt.resolution?.resolutionType;
         const compPenWaiver = debt.deductionCode === '30' && type === 'Waiver';
