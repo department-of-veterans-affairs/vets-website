@@ -32,7 +32,7 @@ describe('CoeDocumentUpload', () => {
   it('should not submit with no documents', () => {
     const screen = render(<CoeDocumentUpload />);
     userEvent.selectOptions(screen.getByRole('combobox'), [
-      'Discharge or seperation papers (DD214)',
+      'Discharge or separation papers (DD214)',
     ]);
     userEvent.click(
       screen.getByRole('button', { name: /Submit uploaded documents/ }),
@@ -46,7 +46,7 @@ describe('CoeDocumentUpload', () => {
     const input = screen.getByLabelText(/Upload this document/i);
     expect(input).to.exist;
     userEvent.selectOptions(screen.getByRole('combobox'), [
-      'Discharge or seperation papers (DD214)',
+      'Discharge or separation papers (DD214)',
     ]);
     userEvent.upload(input, file);
     expect(input.files[0]).to.equal(file);
@@ -62,7 +62,7 @@ describe('CoeDocumentUpload', () => {
     const input = screen.getByLabelText(/Upload this document/i);
     expect(input).to.exist;
     userEvent.selectOptions(screen.getByRole('combobox'), [
-      'Discharge or seperation papers (DD214)',
+      'Discharge or separation papers (DD214)',
     ]);
     userEvent.upload(input, file1);
     userEvent.upload(input, file2);
@@ -78,7 +78,7 @@ describe('CoeDocumentUpload', () => {
     ];
     const screen = render(<CoeDocumentUpload />);
     userEvent.selectOptions(screen.getByRole('combobox'), [
-      'Discharge or seperation papers (DD214)',
+      'Discharge or separation papers (DD214)',
     ]);
     const input = screen.getByLabelText(/Upload this document/i);
     files.forEach(file => {
