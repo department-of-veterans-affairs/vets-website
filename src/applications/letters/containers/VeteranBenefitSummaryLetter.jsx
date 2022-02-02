@@ -16,6 +16,7 @@ import {
   stripOffTime,
 } from '../utils/helpers';
 
+/* eslint jsx-a11y/label-has-associated-control: 1 */
 export class VeteranBenefitSummaryLetter extends React.Component {
   constructor() {
     super();
@@ -65,8 +66,6 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     ));
 
     const vaBenefitInfoRows = [];
-
-    /* eslint jsx-a11y/label-has-associated-control: [1, { assert: "either" }] */
     Object.keys(benefitInfo).forEach(key => {
       // Need to verify with EVSS and vets-api: values should be true, false, or
       // some value other than null or undefined, so this check should not be
@@ -99,12 +98,12 @@ export class VeteranBenefitSummaryLetter extends React.Component {
                 type="checkbox"
                 onChange={this.handleChange}
               />
-              <label htmlFor={key}> </label>
+              <label htmlFor={key}>
+                <div className="sr-only">{optionText}</div>
+              </label>
             </th>
             <td>
-              <label id={`${key}Label`} htmlFor={key}>
-                {optionText}
-              </label>
+              <div id={`${key}Label`}>{optionText}</div>
             </td>
           </tr>,
         );
