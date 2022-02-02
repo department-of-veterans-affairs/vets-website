@@ -46,7 +46,7 @@ export default function NextOfKinDisplay({
 }
 
 NextOfKinDisplay.propTypes = {
-  Footer: propTypes.node,
+  Footer: propTypes.elementType,
   header: propTypes.string,
   isSendingData: propTypes.bool,
   nextOfKin: propTypes.object,
