@@ -74,7 +74,7 @@ const captureError = (error, details) => {
     });
   } else {
     Sentry.withScope(scope => {
-      scope.setExtra('error', error);
+      scope.setExtra('error', JSON.stringify(error));
 
       const message = `check_in_client_error`;
       // the apiRequest helper returns the errors array, instead of an exception
