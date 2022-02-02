@@ -5,7 +5,12 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 export default function asyncLoader(getComponent, message) {
   return class AsyncComponent extends React.Component {
     static Component = null;
-    state = { Component: AsyncComponent.Component };
+
+    constructor(props) {
+      super(props);
+      this.state = { Component: AsyncComponent.Component };
+    }
+
     /* eslint-disable-next-line camelcase */
     UNSAFE_componentWillMount() {
       if (!this.state.Component) {
@@ -25,6 +30,7 @@ export default function asyncLoader(getComponent, message) {
         this.componentPromise = Promise.resolve();
       }
     }
+
     render() {
       const { Component } = this.state;
       if (Component) {

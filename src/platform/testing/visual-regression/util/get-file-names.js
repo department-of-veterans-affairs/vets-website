@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs-extra');
-const { baseUrl } = require('../../e2e-puppeteer/helpers');
 const commandLineArgs = require('command-line-args');
+const { baseUrl } = require('../../e2e-puppeteer/helpers');
 
 const screenshotDirectory = path.join(
   __dirname,

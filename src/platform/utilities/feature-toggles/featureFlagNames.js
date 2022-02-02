@@ -68,6 +68,7 @@ export default Object.freeze({
   profileNotificationSettings: 'profile_notification_settings',
   profileEnhancements: 'profile_enhancements',
   profileShowAddressChangeModal: 'profile_show_address_change_modal',
+  profileShowFaxNumber: 'profile_show_fax_number',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
   searchTypeaheadEnabled: 'search_typeahead_enabled',
@@ -112,7 +113,6 @@ export default Object.freeze({
   vaOnlineSchedulingCheetah: 'va_online_scheduling_cheetah',
   vaOnlineSchedulingCommunityCare: 'va_online_scheduling_community_care',
   vaOnlineSchedulingDirect: 'va_online_scheduling_direct',
-  vaOnlineSchedulingHomepageRefresh: 'va_online_scheduling_homepage_refresh',
   vaOnlineSchedulingProviderSelection:
     'va_online_scheduling_provider_selection',
   vaOnlineSchedulingRequests: 'va_online_scheduling_requests',

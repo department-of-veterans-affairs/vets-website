@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ConfirmablePage from '../ConfirmablePage';
 
 export default function DemographicsDisplay({
@@ -8,7 +9,6 @@ export default function DemographicsDisplay({
   yesAction = () => {},
   noAction = () => {},
   Footer,
-  isPreCheckIn = true,
 }) {
   const demographicFields = [
     { title: 'Mailing address', key: 'mailingAddress' },
@@ -28,8 +28,16 @@ export default function DemographicsDisplay({
         yesAction={yesAction}
         noAction={noAction}
         Footer={Footer}
-        isPreCheckIn={isPreCheckIn}
       />
     </>
   );
 }
+
+DemographicsDisplay.propTypes = {
+  Footer: PropTypes.node,
+  demographics: PropTypes.array,
+  header: PropTypes.string,
+  noAction: PropTypes.func,
+  subtitle: PropTypes.string,
+  yesAction: PropTypes.func,
+};

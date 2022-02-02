@@ -1,7 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { captureError } from '../../utils/analytics';
+import { createSessionStorageKeys } from '../../utils/session-storage';
+import { withAppName } from '../../containers/withAppName';
 
-export default class ErrorBoundary extends React.Component {
+class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,17 +17,33 @@ export default class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error) {
-    captureError(error);
+    // get token from session store
+    const { isPreCheckIn } = this.props;
+    const KEYS = createSessionStorageKeys({
+      isPreCheckIn,
+    });
+    const data = window.sessionStorage.getItem(KEYS.CURRENT_UUID);
+    const token = data ? JSON.parse(data).token : null;
+    captureError(error, { token });
     window.location.replace('error');
   }
 
   render() {
+    const { children } = this.props;
+    const { hasError } = this.state;
     const ErrorMessage = () => (
       <>
         <va-loading-indicator />
       </>
     );
 
-    return this.state.hasError ? <ErrorMessage /> : <>{this.props.children}</>;
+    return hasError ? <ErrorMessage /> : <>{children}</>;
   }
 }
+
+ErrorBoundary.propTypes = {
+  children: PropTypes.node,
+  isPreCheckIn: PropTypes.bool,
+};
+
+export default withAppName(ErrorBoundary);

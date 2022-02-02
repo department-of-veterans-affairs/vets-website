@@ -22,7 +22,6 @@ describe('NOD selected issues summary page', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          'view:hasIssuesToAdd': true,
           contestableIssues: [{ [SELECTED]: true }],
           additionalIssues: [{ [SELECTED]: true }],
         }}
@@ -50,27 +49,6 @@ describe('NOD selected issues summary page', () => {
     expect(link.text()).to.contain('go back and add');
     expect(link.props().to.pathname).to.equal(
       formConfig.chapters.conditions.pages.contestableIssues.path,
-    );
-    expect(link.props().to.search).to.equal('?redirect');
-    form.unmount();
-  });
-  it('should render a link to the additional issues page', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-      />,
-    );
-
-    const link = form.find('Link');
-
-    expect(link.length).to.equal(1);
-    expect(link.text()).to.contain('go back and add');
-    expect(link.props().to.pathname).to.equal(
-      formConfig.chapters.conditions.pages.additionalIssues.path,
     );
     expect(link.props().to.search).to.equal('?redirect');
     form.unmount();

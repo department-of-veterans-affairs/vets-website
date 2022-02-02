@@ -26,9 +26,13 @@ const ContactInfoCard = ({
         </p>
         <p className="vads-u-margin--1px">{countryLabel}</p>
       </div>
-      <div className="vads-u-margin-top--1">
-        <a onClick={() => edit()}>Edit mailing address</a>
-      </div>
+      <button
+        className="usa-button-secondary vads-u-width--auto vads-u-margin-top--2"
+        onClick={() => edit()}
+        type="button"
+      >
+        Edit mailing address
+      </button>
     </div>
   );
 };

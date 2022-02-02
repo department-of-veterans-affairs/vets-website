@@ -69,14 +69,26 @@ module.exports = {
       },
     ],
 
-    // "func-names": 2,
-    'no-console': 2,
     'no-unused-vars': [
       2,
       { args: 'after-used', argsIgnorePattern: '^_', vars: 'local' },
     ],
+    'no-console': 2,
     'no-restricted-imports': ['error', 'raven', 'lodash/fp'],
     'prefer-rest-params': 2,
+    'max-classes-per-file': 1,
+    'prefer-promise-reject-errors': 1,
+    'no-restricted-globals': 1,
+    'no-else-return': 1,
+    'prefer-object-spread': 1,
+    'lines-between-class-members': 1,
+    'prefer-destructuring': 1,
+    'no-plusplus': 1,
+    'no-undef-init': 1,
+    'class-methods-use-this': 1,
+    'global-require': 0,
+    'no-negated-condition': 0,
+    'no-underscore-dangle': 0,
 
     /* || va custom plugin || */
     'va/proptypes-camel-cased': 2,
@@ -100,7 +112,6 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
 
     /* || react plugin || */
-    'react/no-multi-comp': 0, // Leave organization to code reviewer discretion.
     'react/prefer-stateless-function': 2,
     'react/jsx-key': 2,
     'react/jsx-pascal-case': 2,
@@ -109,6 +120,32 @@ module.exports = {
     'react/no-danger': 2,
     'react/no-deprecated': 2,
     'react/no-direct-mutation-state': 2,
+    'react/sort-prop-types': [1, { callbacksLast: true, requiredFirst: true }],
+    'react/jsx-no-bind': [1, { ignoreRefs: true }],
+    'react/jsx-fragments': 1,
+    'react/jsx-closing-tag-location': 1,
+    'react/state-in-constructor': 1,
+    'react/no-unused-state': 1,
+    'react/sort-comp': 1,
+    'react/default-props-match-prop-types': 1,
+    'react/static-property-placement': 1,
+    'react/jsx-wrap-multilines': 1,
+    'react/jsx-curly-brace-presence': 1,
+    'react/no-access-state-in-setstate': 1,
+    'react/no-string-refs': 1,
+    'react/button-has-type': 1,
+    'react/jsx-props-no-spreading': 1,
+    'react/jsx-one-expression-per-line': 0,
+    'react/destructuring-assignment': 1,
+    'react/prop-types': 1,
+    'react/jsx-sort-props': [0, { callbacksLast: true, shorthandFirst: true }],
+    'react/forbid-prop-types': 0,
+    'react/jsx-filename-extension': 0,
+    'react/no-array-index-key': 0,
+    'react/no-unescaped-entities': 0,
+    'react/no-unused-prop-types': 0,
+    'react/require-default-props': 0,
+    'react/no-multi-comp': 0, // Leave organization to code reviewer discretion.
 
     /* || sonarJS plugin || */
     'sonarjs/no-all-duplicated-branches': 2,
@@ -159,80 +196,22 @@ module.exports = {
     /* || Unicorn plugin || */
     'unicorn/no-abusive-eslint-disable': 2,
 
-    /* ----- TODO: evaluate and potentially turn these rules back on ----- */
-
-    /* TODO | DISABLED TEMPORARILY */
-    'max-classes-per-file': 0, // 1
-    'no-buffer-constructor': 0, // 13
-    'prefer-promise-reject-errors': 0, // 14
-    'func-names': 0, // 14
-    'no-restricted-globals': 0, // 28
-    'no-else-return': 0, // 41 (fixable)
-    'prefer-object-spread': 0, // 78 (fixable)
-    'lines-between-class-members': 0, // 103 (fixable)
-    'prefer-destructuring': 0, // 261 (fixable)
-
-    'react/jsx-fragments': 0, // 2 (fixable)
-    'react/jsx-closing-tag-location': 0, // 3 (fixable)
-    'react/no-typos': 0, // 5
-    'react/state-in-constructor': 0, // 7
-    'react/no-unused-state': 0, // 15
-    'react/sort-comp': 0, // 23
-    'react/default-props-match-prop-types': 0, // 44
-    'react/static-property-placement': 0, // 50
-    'react/jsx-wrap-multilines': 0, // 60 (fixable)
-    'react/jsx-curly-brace-presence': 0, // 71 (fixable)
-    'react/no-access-state-in-setstate': 0, // 79
-    'react/jsx-curly-newline': 0, // 95 (fixable)
-    'react/button-has-type': 0, // 196
-    'react/jsx-props-no-spreading': 0, // 767
-    'react/jsx-one-expression-per-line': 0, // 2188 (fixable)
-    'react/destructuring-assignment': 0, // 3010
-
     'jsx-a11y/control-has-associated-label': 1, // 2
     'jsx-a11y/click-events-have-key-events': 1, // 24
     'jsx-a11y/anchor-is-valid': 1, // 51
     'jsx-a11y/label-has-associated-control': 1, // 40
     'jsx-a11y/no-static-element-interactions': 1, // 20
 
-    'import/named': 0, // 2
-    'import/no-useless-path-segments': 0, // 59  (fixable)
-    'import/no-cycle': 0, // 105
-    'import/order': 0, // 544 (fixable)
-
-    /* || Eslint main rules || */
-    'no-plusplus': 0,
-    'no-negated-condition': 0, // Sometimes negated conditions are easier to understand.
-    'no-underscore-dangle': 0, // We have build flags that use this
-    'class-methods-use-this': 0,
-    'global-require': 0,
-    'lines-around-directive': 0,
-    'no-mixed-operators': 0,
-    'no-undef-init': 0,
-    'padded-blocks': 0,
-
     /* || import plugin || */
-    'import/no-extraneous-dependencies': 0,
-    'import/extensions': 0,
+    'import/named': 1,
+    'import/no-useless-path-segments': 1,
+    'import/no-cycle': 1,
+    'import/order': 1,
+    'import/no-extraneous-dependencies': 0, // let's circle back to this one
+    'import/extensions': 1,
     'import/first': 0,
     'import/no-named-as-default': 0,
     'import/prefer-default-export': 0,
-
-    /* || react plugin || */
-    'react/no-string-refs': 0, // TODO(awong): Enable.
-    'react/prop-types': 0, // TODO(awong): Enable.
-    'react/sort-prop-types': [0, { callbacksLast: true, requiredFirst: true }], // TODO(awong): Too hard to turn on.
-    'react/forbid-prop-types': 0,
-    'react/jsx-filename-extension': 0,
-    'react/jsx-first-prop-new-line': 0,
-    'react/jsx-indent-props': 0,
-    'react/jsx-max-props-per-line': 0,
-    'react/jsx-no-bind': [0, { ignoreRefs: true }], // TODO: Enable after fixing.
-    'react/jsx-sort-props': [0, { callbacksLast: true, shorthandFirst: true }], // TODO(awong): Too hard to turn on.
-    'react/no-array-index-key': 0,
-    'react/no-unescaped-entities': 0,
-    'react/no-unused-prop-types': 0,
-    'react/require-default-props': 0,
   },
   overrides: [
     {

@@ -1,5 +1,3 @@
-'use strict'; // eslint-disable-line strict
-
 // Simple test server to serve up the build files.
 
 // This is used over a vanilla http-server because it handles paths

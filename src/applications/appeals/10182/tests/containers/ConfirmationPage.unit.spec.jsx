@@ -68,7 +68,7 @@ describe('Confirmation page', () => {
     expect(tree.text()).to.contain(date);
     tree.unmount();
   });
-  it('should render the selected contested issue', () => {
+  it('should render the selected contestable issue', () => {
     const tree = mount(<ConfirmationPage store={fakeStore} />);
     const list = tree.find('ul').text();
     expect(list).to.contain('test 543');
