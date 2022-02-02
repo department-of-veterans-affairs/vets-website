@@ -5,9 +5,16 @@ import {
   isClinicVideoAppointment,
   isVAPhoneAppointment,
 } from '../../../services/appointment';
-import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../utils/constants';
+import {
+  APPOINTMENT_STATUS,
+  VIDEO_TYPES,
+  SPACE_BAR,
+} from '../../../utils/constants';
 import { Link, useHistory } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
+import { updateBreadcrumb } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 
 function VideoAppointmentDescription({ appointment }) {
   const isAtlas = appointment.videoData.isAtlas;
@@ -59,6 +66,11 @@ export default function AppointmentListItem({ appointment, facility }) {
     : `va/${appointment.id}`;
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
   const { abbreviation, description } = getAppointmentTimezone(appointment);
+  const isPastAppointment = appointment.vaos.isPastAppointment;
+  const dispatch = useDispatch();
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
+  );
 
   return (
     <li
@@ -75,6 +87,17 @@ export default function AppointmentListItem({ appointment, facility }) {
             history.push(link);
           }
         }}
+        onKeyDown={event => {
+          if (
+            !window.getSelection().toString() &&
+            event.keyCode === SPACE_BAR
+          ) {
+            focusElement(`#${idClickable}`);
+            history.push(link);
+          }
+        }}
+        role="button"
+        tabIndex="0"
       >
         <div className="vads-u-flex--1 vads-u-margin-y--neg0p5">
           {canceled && (
@@ -111,7 +134,12 @@ export default function AppointmentListItem({ appointment, facility }) {
               canceled ? 'canceled ' : ''
             }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`}
             to={link}
-            onClick={e => e.preventDefault()}
+            onClick={e => {
+              e.preventDefault();
+              if (featureStatusImprovement && isPastAppointment) {
+                dispatch(updateBreadcrumb({ title: 'Past', path: '/past' }));
+              }
+            }}
           >
             Details
           </Link>

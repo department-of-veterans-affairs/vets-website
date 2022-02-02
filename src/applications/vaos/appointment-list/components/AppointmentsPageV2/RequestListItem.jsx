@@ -2,9 +2,12 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { sentenceCase } from '../../../utils/formatters';
 import { getPreferredCommunityCareProviderName } from '../../../services/appointment';
-import { APPOINTMENT_STATUS } from '../../../utils/constants';
+import { APPOINTMENT_STATUS, SPACE_BAR } from '../../../utils/constants';
 import moment from 'moment';
 import { focusElement } from 'platform/utilities/ui';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateBreadcrumb } from '../../redux/actions';
+import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 
 export default function RequestListItem({ appointment, facility }) {
   const history = useHistory();
@@ -17,6 +20,10 @@ export default function RequestListItem({ appointment, facility }) {
   );
   const link = `requests/${appointment.id}`;
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
+  const dispatch = useDispatch();
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
+  );
 
   return (
     <li
@@ -33,6 +40,17 @@ export default function RequestListItem({ appointment, facility }) {
             history.push(link);
           }
         }}
+        onKeyDown={event => {
+          if (
+            !window.getSelection().toString() &&
+            event.keyCode === SPACE_BAR
+          ) {
+            focusElement(`#${idClickable}`);
+            history.push(link);
+          }
+        }}
+        role="button"
+        tabIndex="0"
       >
         <div className="vads-u-flex--1 vads-u-margin-y--neg0p5">
           {canceled && (
@@ -53,7 +71,14 @@ export default function RequestListItem({ appointment, facility }) {
               canceled ? 'canceled ' : ''
             }${typeOfCareText}request for ${preferredDate}`}
             to={link}
-            onClick={e => e.preventDefault()}
+            onClick={e => {
+              e.preventDefault();
+              if (featureStatusImprovement) {
+                dispatch(
+                  updateBreadcrumb({ title: 'Pending', path: '/requested' }),
+                );
+              }
+            }}
           >
             Details
           </Link>
