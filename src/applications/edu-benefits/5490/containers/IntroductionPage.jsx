@@ -3,15 +3,14 @@ import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import WizardContainer from '../../wizard/containers/WizardContainer';
 import { connect } from 'react-redux';
-import environment from 'platform/utilities/environment';
-import { showEduBenefits5490Wizard } from '../../selectors/educationWizard';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
+import WizardContainer from '../../wizard/containers/WizardContainer';
+import { showEduBenefits5490Wizard } from '../../selectors/educationWizard';
 
 export class IntroductionPage extends React.Component {
   state = {
@@ -143,9 +142,7 @@ export class IntroductionPage extends React.Component {
               <OMBInfo
                 resBurden={45}
                 ombNumber="2900-0098"
-                expDate={
-                  environment.isProduction() ? '10/31/2021' : '01/31/2025'
-                }
+                expDate="01/31/2025"
               />
             </div>
           </div>
