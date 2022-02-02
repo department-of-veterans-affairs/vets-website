@@ -1,4 +1,3 @@
-/* eslint-disable react/prefer-stateless-function */
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 

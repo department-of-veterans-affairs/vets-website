@@ -17,7 +17,7 @@ export default function EnrollmentVerificationBreadcrumbs() {
     .reverse()
     .find(s => !!s.trim());
 
-  if (page === 'enrollment-history') {
+  if (page === 'enrollment-history' || page === 'verify-enrollments') {
     breadcrumbs.push(
       <a href="#" key="enrollment-history">
         Verify your school enrollments
@@ -27,6 +27,13 @@ export default function EnrollmentVerificationBreadcrumbs() {
     breadcrumbs.push(
       <a href="#" key="review-enrollments">
         Enrollment verifications
+      </a>,
+    );
+  }
+  if (page === 'verify-enrollments') {
+    breadcrumbs.push(
+      <a href="#" key="verify-enrollments">
+        Verify your enrollments
       </a>,
     );
   }
