@@ -3,6 +3,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import recordEvent from 'platform/monitoring/record-event';
+import { formatDateShort } from 'platform/utilities/date';
+import CallVBACenter from 'platform/static-data/CallVBACenter';
+
 import { updateBenefitSummaryRequestOption } from '../actions/letters';
 import {
   benefitOptionsMap,
@@ -10,9 +13,7 @@ import {
   optionsToAlwaysDisplay,
   getBenefitOptionText,
   stripOffTime,
-} from '../utils/helpers.jsx';
-import { formatDateShort } from 'platform/utilities/date';
-import CallVBACenter from 'platform/static-data/CallVBACenter';
+} from '../utils/helpers';
 
 export class VeteranBenefitSummaryLetter extends React.Component {
   constructor() {
@@ -54,10 +55,11 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       </tr>
     ));
 
-    const benefitInfo = this.props.benefitSummaryOptions.benefitInfo;
-    const requestOptions = this.props.requestOptions;
+    const { benefitInfo } = this.props.benefitSummaryOptions;
+    const { requestOptions } = this.props;
     const vaBenefitInfoRows = [];
 
+    /* eslint jsx-a11y/label-has-associated-control: [1, { assert: "either" }] */
     Object.keys(benefitInfo).forEach(key => {
       // Need to verify with EVSS and vets-api: values should be true, false, or
       // some value other than null or undefined, so this check should not be
@@ -91,7 +93,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
                 type="checkbox"
                 onChange={this.handleChange}
               />
-              <label />
+              <label htmlFor={key}> </label>
             </th>
             <td>
               <label id={`${key}Label`} htmlFor={key}>
