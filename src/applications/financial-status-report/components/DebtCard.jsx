@@ -36,11 +36,13 @@ const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
       const checked = selectedDebts?.filter(
         debtEntry => debtEntry.id !== selectedDebt.id,
       );
+
       return setDebts({ ...formData, selectedDebts: checked });
     }
     const newFsrDebts = selectedDebts?.length
       ? [...selectedDebts, selectedDebt]
       : [selectedDebt];
+
     return setDebts({
       ...formData,
       selectedDebts: newFsrDebts,
