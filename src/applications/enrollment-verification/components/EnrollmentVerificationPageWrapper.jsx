@@ -1,5 +1,5 @@
 import React from 'react';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import EnrollmentVerificationBreadcrumbs from './EnrollmentVerificationBreadcrumbs';
 
 export default function EnrollmentVerificationPageWrapper({ children }) {
   return (
@@ -8,11 +8,7 @@ export default function EnrollmentVerificationPageWrapper({ children }) {
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
-            <Breadcrumbs>
-              <a href="/">Home</a>
-              <a href="#">Education and training</a>
-              <a href="#">Verify your school enrollments</a>
-            </Breadcrumbs>
+            <EnrollmentVerificationBreadcrumbs />
           </div>
         </div>
         <div className="vads-l-row vads-u-margin-x--neg2p5">
