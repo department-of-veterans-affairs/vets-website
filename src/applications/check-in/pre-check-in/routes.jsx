@@ -8,11 +8,16 @@ import EmergencyContact from './pages/EmergencyContact';
 import Confirmation from './pages/Confirmation';
 import Landing from './pages/Landing';
 import Error from './pages/Error';
+import ErrorTest from './pages/ErrorTest';
 import { URLS } from '../utils/navigation';
 
 import withFeatureFlip from '../containers/withFeatureFlip';
 import withAuthorization from '../containers/withAuthorization';
 import withForm from '../containers/withForm';
+
+import ErrorBoundary from '../components/errors/ErrorBoundary';
+
+import environment from 'platform/utilities/environment';
 
 const routes = [
   {
@@ -77,7 +82,11 @@ const createRoutesWithStore = () => {
     <Switch>
       {routes.map((route, i) => {
         const options = { isPreCheckIn: true };
-        let component = route.component;
+        let component = props => (
+          <ErrorBoundary {...props}>
+            <route.component {...props} />
+          </ErrorBoundary>
+        );
         if (route.permissions) {
           const { requiresForm, requireAuthorization } = route.permissions;
           if (requiresForm) {
@@ -96,6 +105,16 @@ const createRoutesWithStore = () => {
           />
         );
       })}
+      {!environment.isProduction() && (
+        <Route
+          path={`/sentry/test`}
+          component={() => (
+            <ErrorBoundary>
+              <ErrorTest />
+            </ErrorBoundary>
+          )}
+        />
+      )}
       <Route path="*" component={Error} />
     </Switch>
   );

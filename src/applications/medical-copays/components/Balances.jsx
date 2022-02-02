@@ -1,5 +1,6 @@
 import React from 'react';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
+import PropTypes from 'prop-types';
 import BalanceCard from './BalanceCard';
 
 export const Balances = ({ statements }) => {
@@ -30,6 +31,10 @@ export const Balances = ({ statements }) => {
       })}
     </>
   );
+};
+
+Balances.propTypes = {
+  statements: PropTypes.array,
 };
 
 export default Balances;

@@ -5,7 +5,7 @@ const submitForm = (form, formConfig, submissionId) => {
     ...form,
     data: {
       ...form.data,
-      previousSubmissionId: submissionId,
+      registryUUID: submissionId,
     },
   };
   const body = formConfig.transformForSubmit(formConfig, formWithSubmissionId);
@@ -34,30 +34,38 @@ const submitForm = (form, formConfig, submissionId) => {
     return value ? 'Yes' : 'No';
   };
 
+  // format values for Analytics
   const eventData = {
-    'previously-diagnosed-with-covid19': formData.diagnosed ? 'Yes' : 'No',
-    'close-contact-with-positive-test': getFormattedRadioValues(
-      'closeContactPositive',
-      formData.closeContactPositive,
-    ),
-    'hospitalized-w-in-six-months': resolveBooleanValue(formData.hospitalized),
-    'smoke-or-vape-history': resolveBooleanValue(formData.smokeOrVape),
-    'historical-health-issues': getFormattedTrueSelectValues('HEALTH_HISTORY'),
-    'work-situation': getFormattedTrueSelectValues('EMPLOYMENT_STATUS'),
-    'work-transportation': getFormattedTrueSelectValues('TRANSPORTATION'),
-    'people-living-at-home': getFormattedRadioValues(
-      'residentsInHome',
-      formData.residentsInHome,
-    ),
-    'close-contact-outside-of-home': getFormattedRadioValues(
-      'closeContact',
-      formData.closeContact,
-    ),
-    'zip-code': formData.zipCode,
-    'relationship-to-va': getFormattedTrueSelectValues('VETERAN'),
-    gender: getFormattedTrueSelectValues('GENDER'),
-    'race-ethnicity-origin': getFormattedTrueSelectValues('RACE_ETHNICITY'),
-    previousSubmissionId: submissionId,
+    registryUUID: submissionId,
+    zipCode: formData.zipCode,
+    diagnosed: resolveBooleanValue(formData.diagnosed),
+    vaccinated: resolveBooleanValue(formData.vaccinated),
+    ELIGIBLE: resolveBooleanValue(formData.ELIGIBLE),
+    FACILITY: resolveBooleanValue(formData.FACILITY),
+    VACCINATED_PLAN: formData.VACCINATED_PLAN
+      ? getFormattedRadioValues('VACCINATED_PLAN', formData.VACCINATED_PLAN)
+      : null,
+    VACCINATED_DETAILS: formData.VACCINATED_DETAILS
+      ? getFormattedRadioValues(
+          'VACCINATED_DETAILS',
+          formData.VACCINATED_DETAILS,
+        )
+      : null,
+    VACCINATED_DATE1: formData.VACCINATED_DATE1
+      ? formData.VACCINATED_DATE1
+      : null,
+    VACCINATED_DATE2: formData.VACCINATED_DATE2
+      ? formData.VACCINATED_DATE2
+      : null,
+    VACCINATED_SECOND: formData.VACCINATED_SECOND
+      ? resolveBooleanValue(formData.VACCINATED_SECOND)
+      : null,
+    DIAGNOSED_DETAILS: formData.DIAGNOSED_DETAILS
+      ? getFormattedTrueSelectValues('DIAGNOSED_DETAILS')
+      : null,
+    DIAGNOSED_SYMPTOMS: formData.DIAGNOSED_SYMPTOMS
+      ? getFormattedTrueSelectValues('DIAGNOSED_SYMPTOMS')
+      : null,
   };
 
   return submitToUrl(

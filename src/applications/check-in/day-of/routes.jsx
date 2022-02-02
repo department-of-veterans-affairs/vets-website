@@ -18,6 +18,8 @@ import withForm from '../containers/withForm';
 import withAuthorization from '../containers/withAuthorization';
 import { URLS } from '../utils/navigation';
 
+import ErrorBoundary from '../components/errors/ErrorBoundary';
+
 const routes = [
   {
     path: URLS.LANDING,
@@ -106,7 +108,11 @@ const createRoutesWithStore = () => {
     <Switch>
       {routes.map((route, i) => {
         const options = { isPreCheckIn: false };
-        let component = route.component;
+        let component = props => (
+          <ErrorBoundary {...props}>
+            <route.component {...props} />
+          </ErrorBoundary>
+        );
         if (route.permissions) {
           const { requiresForm, requireAuthorization } = route.permissions;
           if (requiresForm) {

@@ -8,12 +8,12 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import persistState from 'redux-localstorage';
 // Relative imports.
+import i18Reducer from 'applications/static-pages/i18Select/reducers';
 import announcements from '../site-wide/announcements/reducers';
 import createAnalyticsMiddleware from './analytics-middleware';
 import environment from '../utilities/environment';
 import externalServiceStatuses from '../monitoring/external-services/reducer';
 import headerMenuReducer from '../site-wide/header/containers/Menu/reducer';
-import i18Reducer from 'applications/static-pages/i18Select/reducers';
 import login from '../user/authentication/reducers';
 import megaMenu from '../site-wide/mega-menu/reducers';
 import navigation from '../site-wide/user-nav/reducers';

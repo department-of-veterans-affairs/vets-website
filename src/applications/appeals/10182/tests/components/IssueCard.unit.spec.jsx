@@ -46,7 +46,7 @@ describe('<IssueCard>', () => {
     expect(wrapper.find('.widget-content').text()).to.contain(
       'Decision date: January 10, 2021',
     );
-    expect(wrapper.find('.edit').length).to.equal(0);
+    expect(wrapper.find('a.change-issue-link').length).to.equal(0);
     wrapper.unmount();
   });
   it('should render an Additional issue', () => {
@@ -58,7 +58,8 @@ describe('<IssueCard>', () => {
     expect(wrapper.find('.widget-content').text()).to.contain(
       'Decision date: February 22, 2021',
     );
-    expect(wrapper.find('.edit').length).to.equal(1);
+    const link = wrapper.find('a.change-issue-link');
+    expect(link.length).to.equal(1);
     wrapper.unmount();
   });
   it('should render a selected issue with appendId included', () => {
@@ -68,7 +69,7 @@ describe('<IssueCard>', () => {
     const checkbox = wrapper.find('input[type="checkbox"]');
     expect(checkbox.length).to.equal(1);
     expect(checkbox.props().id).to.equal('id_0_z'); // checks appendId
-    expect(wrapper.find('.widget-outline.selected').length).to.equal(1);
+    expect(checkbox.props().checked).to.be.true;
     wrapper.unmount();
   });
 
@@ -77,8 +78,7 @@ describe('<IssueCard>', () => {
     const issue = getAdditionalIssue('03', true);
     const wrapper = mount(<IssueCard {...props} item={issue} />);
     expect(wrapper.find('input[type="checkbox"]').length).to.equal(0);
-    expect(wrapper.find('.edit').length).to.equal(0);
-    expect(wrapper.find('.widget-outline.selected').length).to.equal(1);
+    expect(wrapper.find('.change-issue-link').length).to.equal(0);
     wrapper.unmount();
   });
 
@@ -94,24 +94,13 @@ describe('<IssueCard>', () => {
     element.props().onChange({ target: { checked: true } });
     // Check that it changed
     expect(onChange.callCount).to.equal(1);
-    expect(onChange.firstCall.args[1]).to.be.true;
+    expect(onChange.firstCall.args[1].target.checked).to.be.true;
 
     // "Click" the option
     element.props().onChange({ target: { checked: false } });
     // Check that it changed back
     expect(onChange.callCount).to.equal(2);
-    expect(onChange.secondCall.args[1]).to.be.false;
-    wrapper.unmount();
-  });
-  it('should call onEdit when the edit button is used', () => {
-    const onEdit = sinon.spy();
-    const props = getProps({ onEdit });
-    const issue = getAdditionalIssue('01', true);
-    const wrapper = mount(<IssueCard {...props} item={issue} />);
-    wrapper.find('.edit').simulate('click');
-
-    expect(onEdit.callCount).to.equal(1);
-    expect(onEdit.called).to.be.true;
+    expect(onChange.secondCall.args[1].target.checked).to.be.false;
     wrapper.unmount();
   });
 });
@@ -132,7 +121,7 @@ describe('<IssueCardContent>', () => {
     expect(wrapper.find('.widget-content-wrap').text()).to.contain(
       'Decision date: January 20, 2021',
     );
-    expect(wrapper.find('.edit').length).to.equal(0);
+    expect(wrapper.find('a.change-issue-link').length).to.equal(0);
     wrapper.unmount();
   });
   it('should render AdditionalIssue content', () => {

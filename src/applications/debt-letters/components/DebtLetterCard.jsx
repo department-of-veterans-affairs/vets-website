@@ -89,7 +89,11 @@ DebtLetterCard.propTypes = {
     ),
     deductionCode: PropTypes.string,
     originalAr: PropTypes.number,
+    benefitType: PropTypes.string,
+    diaryCode: PropTypes.string,
+    fileNumber: PropTypes.string,
   }),
+  setActiveDebt: PropTypes.func,
 };
 
 DebtLetterCard.defaultProps = {

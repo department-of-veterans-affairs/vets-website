@@ -69,7 +69,7 @@
     "url": "https://github.com/department-of-veterans-affairs/vets-website/issues"
   },
   "lint-staged": {
-    "*.(js|jsx)": "eslint --fix"
+    "*.(js|jsx)": "eslint --fix -c ./.eslintrc.changed.js"
   },
   "nyc": {
     "sourceMap": false,
@@ -154,7 +154,7 @@
     "cssnano": "^5.0.8",
     "cy-mobile-commands": "^0.3.0",
     "cy-tr-reporter": "^1.2.5",
-    "cypress": "^9.3.1",
+    "cypress": "^9.4.1",
     "cypress-axe": "^0.14.0",
     "cypress-multi-reporters": "^1.5.0",
     "cypress-plugin-tab": "^1.0.5",
@@ -170,7 +170,7 @@
     "eslint-plugin-deprecate": "^0.7.0",
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-import": "^2.24.2",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-mocha": "^9.0.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.25.1",
@@ -249,7 +249,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/component-library": "^4.1.2",
+    "@department-of-veterans-affairs/component-library": "^5.0.1",
     "@department-of-veterans-affairs/formation": "6.17.5",
     "@department-of-veterans-affairs/formulate": "0.0.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
@@ -266,6 +266,7 @@
     "cookie-parser": "^1.4.5",
     "core-js": "^3.18.0",
     "date-fns": "^2.24.0",
+    "date-fns-tz": "^1.1.1",
     "dotenv": "^10.0.0",
     "downloadjs": "^1.4.7",
     "downshift": "^1.22.5",
@@ -354,6 +355,7 @@
     "**/ansi-regex": "^5.0.1",
     "**/yargs-parser": "13.1.2",
     "@babel/runtime": "^7.15.4",
-    "punycode": "1.4.1"
+    "punycode": "1.4.1",
+    "**/cached-path-relative": "1.1.0"
   }
 }

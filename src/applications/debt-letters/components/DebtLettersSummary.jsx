@@ -7,7 +7,7 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import DebtCardsList from './DebtCardsList';
-import { OnThisPageLinks } from './OnThisPageLinks';
+import OnThisPageLinks from './OnThisPageLinks';
 
 const ErrorAlert = () => (
   <section
@@ -114,8 +114,6 @@ const mapStateToProps = state => ({
 });
 
 DebtLettersSummary.propTypes = {
-  isVBMSError: PropTypes.bool.isRequired,
-  isError: PropTypes.bool.isRequired,
   debtLinks: PropTypes.arrayOf(
     PropTypes.shape({
       documentId: PropTypes.string,
@@ -128,6 +126,8 @@ DebtLettersSummary.propTypes = {
       fileNumber: PropTypes.string,
     }),
   ),
+  isError: PropTypes.bool,
+  isVBMSError: PropTypes.bool,
 };
 
 DebtLettersSummary.defaultProps = {

@@ -22,16 +22,11 @@ const receivedAppointmentDetailsHandler = (state, action) => {
   return { ...state, ...payload };
 };
 
-const receivedEmergencyContactDataHandler = (state, action) => {
-  return { ...state, ...action.payload };
-};
-
 const receivedDemographicsDataHandler = (state, action) => {
-  return { ...state, ...action.payload };
-};
-
-const receivedNextOfKinDataHandler = (state, action) => {
-  return { ...state, ...action.payload };
+  return {
+    ...state,
+    veteranData: { demographics: action.payload.demographics },
+  };
 };
 
 const seeStaffMessageUpdatedHandler = (state, action) => {
@@ -42,8 +37,6 @@ export {
   appointmentWasCheckedIntoHandler,
   triggerRefreshHandler,
   receivedAppointmentDetailsHandler,
-  receivedEmergencyContactDataHandler,
   receivedDemographicsDataHandler,
-  receivedNextOfKinDataHandler,
   seeStaffMessageUpdatedHandler,
 };

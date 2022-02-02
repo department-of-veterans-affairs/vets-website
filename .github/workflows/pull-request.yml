@@ -251,7 +251,7 @@ jobs:
         run: node ./script/github-actions/filter-files-changed.js ${{ steps.get-files-changed.outputs.files_modified }}
 
       - name: Annotate ESLint results
-        run: yarn run eslint --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.JSFILES }}
+        run: yarn run eslint -c ./.eslintrc.changed.js --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.JSFILES }}
 
       - name: Run Stylelint
         if: ${{ steps.get-lint-files.outputs.SCSSFILES != '' }}

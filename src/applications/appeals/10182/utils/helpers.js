@@ -2,7 +2,7 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { SELECTED } from '../constants';
-import { isValidDate } from '../validations';
+import { isValidDate } from '../validations/date';
 
 export const someSelected = issues =>
   (issues || []).some(issue => issue[SELECTED]);
@@ -18,34 +18,15 @@ export const wantsToUploadEvidence = formData =>
 export const hasSomeSelected = ({ contestableIssues, additionalIssues } = {}) =>
   someSelected(contestableIssues) || someSelected(additionalIssues);
 
-export const showAddIssuesPage = formData => {
-  const hasSelectedIssues = formData.contestableIssues?.length
-    ? someSelected(formData.contestableIssues)
-    : false;
-  const noneToAdd = formData['view:hasIssuesToAdd'] !== false;
-  // are we past the issues pages?
-  if (formData.boardReviewOption && !hasSomeSelected(formData)) {
-    // nothing is selected, we need to show the additional issues page!
-    return true;
-  }
-  return noneToAdd || !hasSelectedIssues;
-};
-
-export const showAddIssueQuestion = ({ contestableIssues }) =>
-  // additional issues yes/no question:
-  // SHOW: if contestable issues selected. HIDE: if no contestable issues are
-  // selected or, there are no contestable issues
-  contestableIssues?.length ? someSelected(contestableIssues) : false;
-
 export const getSelected = formData => {
-  const eligibleIssues = (formData?.contestableIssues || []).filter(
+  const contestableIssues = (formData?.contestableIssues || []).filter(
     issue => issue[SELECTED],
   );
-  const addedIssues = formData['view:hasIssuesToAdd']
-    ? (formData?.additionalIssues || []).filter(issue => issue[SELECTED])
-    : [];
+  const additionalIssues = (formData?.additionalIssues || []).filter(
+    issue => issue[SELECTED],
+  );
   // include index to help with error messaging
-  return [...eligibleIssues, ...addedIssues].map((issue, index) => ({
+  return contestableIssues.concat(additionalIssues).map((issue, index) => ({
     ...issue,
     index,
   }));
@@ -85,7 +66,7 @@ export const isEmptyObject = obj =>
     : false;
 
 export const setInitialEditMode = (formData = {}) => {
-  const contestedIssues = (formData.contestableIssues || []).map(entry =>
+  const contestableIssues = (formData.contestableIssues || []).map(entry =>
     getIssueNameAndDate(entry),
   );
   const additionalIssues = (formData.additionalIssues || []).map(entry =>
@@ -98,7 +79,7 @@ export const setInitialEditMode = (formData = {}) => {
       !issue.decisionDate ||
       !isValidDate(issue.decisionDate) ||
       // check for duplicates
-      contestedIssues.includes(currentIssue) ||
+      contestableIssues.includes(currentIssue) ||
       additionalIssues.lastIndexOf(currentIssue) !== index ||
       additionalIssues.indexOf(currentIssue) !== index
     );
@@ -135,6 +116,7 @@ export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
   }
   // sort both arrays so we don't end up in an endless loop
   const issues = processContestableIssues(existingIssues);
+
   return !processContestableIssues(loadedIssues).every(
     ({ attributes }, index) => {
       const existing = issues[index]?.attributes || {};
@@ -179,3 +161,13 @@ export const readableList = list => {
     cleanedList.length < 2 ? '' : ' and ',
   );
 };
+
+/**
+ * Calculate the index offset for the additional issue
+ * @param {Number} index - index of data in combined array of contestable issues
+ *   and additional issues
+ * @param {Number} contestableIssuesLength - contestable issues array length
+ * @returns {Number}
+ */
+export const calculateIndexOffset = (index, contestableIssuesLength) =>
+  index - contestableIssuesLength;

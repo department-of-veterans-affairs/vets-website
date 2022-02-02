@@ -56,9 +56,9 @@ const DownloadStatement = ({ statementId, statementDate, fullName }) => {
 };
 
 DownloadStatement.propTypes = {
-  statementId: PropTypes.string.isRequired,
-  statementDate: PropTypes.string.isRequired,
   fullName: PropTypes.string.isRequired,
+  statementDate: PropTypes.string.isRequired,
+  statementId: PropTypes.string.isRequired,
 };
 
 export default DownloadStatement;
