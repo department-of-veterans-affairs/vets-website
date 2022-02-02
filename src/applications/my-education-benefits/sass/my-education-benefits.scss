@@ -425,8 +425,10 @@ label.schemaform-label[for=root_phoneNumber_isInternational] {
 	margin-top: 2rem;
 }
 
-// Claimant ID (Hide it)
+// Hide Labels
+#root_formId,
+#root_formId-label,
 #root_claimantId,
 #root_claimantId-label {
-	display: none;
+	display: none !important;
 }
