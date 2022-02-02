@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import { connect } from 'react-redux';
@@ -63,6 +64,7 @@ const RequestDetailsCard = ({ data, response }) => {
           <button
             className="usa-button-secondary button vads-u-background-color--white"
             onClick={() => window.print()}
+            type="button"
           >
             Print this page
           </button>
@@ -70,6 +72,11 @@ const RequestDetailsCard = ({ data, response }) => {
       </>
     </div>
   );
+};
+
+RequestDetailsCard.propTypes = {
+  data: PropTypes.object,
+  response: PropTypes.object,
 };
 
 const ConfirmationPage = ({ form, download }) => {
@@ -162,6 +169,11 @@ const ConfirmationPage = ({ form, download }) => {
       </div>
     </div>
   );
+};
+
+ConfirmationPage.propTypes = {
+  download: PropTypes.object,
+  form: PropTypes.object,
 };
 
 const mapStateToProps = state => {

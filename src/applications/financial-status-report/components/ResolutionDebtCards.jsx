@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
@@ -79,6 +80,14 @@ const ExpandedContent = ({
         </>
       );
   }
+};
+
+ExpandedContent.propTypes = {
+  debt: PropTypes.array,
+  errorSchema: PropTypes.object,
+  index: PropTypes.number,
+  submitted: PropTypes.bool,
+  updateDebts: PropTypes.func,
 };
 
 const ResolutionDebtCards = ({
@@ -165,6 +174,14 @@ const ResolutionDebtCards = ({
       })}
     </>
   );
+};
+
+ResolutionDebtCards.propTypes = {
+  errorSchema: PropTypes.object,
+  formContext: PropTypes.object,
+  formData: PropTypes.object,
+  selectedDebts: PropTypes.array,
+  setDebts: PropTypes.func,
 };
 
 const mapStateToProps = ({ form }) => ({
