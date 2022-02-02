@@ -39,7 +39,7 @@ export const CoeDocumentList = props => {
               <p className="vads-u-margin-y--1p5">
                 Date Sent: {document.timestamp}
               </p>
-              <a className="vads-u-margin--0" href="#">
+              <a className="vads-u-margin--0" href="∂">
                 <i
                   aria-hidden="true"
                   className="fas fa-download vads-u-padding-right--1"
@@ -58,8 +58,8 @@ export const CoeDocumentList = props => {
         <h2>How will I know if VA needs more information from me?</h2>
         <p className="vads-u-margin-bottom--0">
           If we need more information, we’ll notify you by email or mail. You
-          can also check the status of your application by returning to this
-          page.
+          can also check the status of your request for a COE by returning to
+          this page.
         </p>
       </>
     );

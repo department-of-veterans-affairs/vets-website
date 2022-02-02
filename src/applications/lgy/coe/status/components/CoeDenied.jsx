@@ -10,7 +10,7 @@ export const CoeDenied = () => (
           We denied your request for a COE
         </h2>
         <p>You requested a COE on: June 1, 2019</p>
-        <p>We reviewed your application. You don’t qualify for a COE.</p>
+        <p>We reviewed your request. You don’t qualify for a COE.</p>
       </va-alert>
       <h2>Can I appeal VA’s decision?</h2>
       <p>
@@ -19,7 +19,7 @@ export const CoeDenied = () => (
         options: Supplemental Claim, Higher-Level Review, or Board Appeal.
         <br />
         <a href="/decision-reviews/">
-          Learn more about VA decision reviews and appeals
+          Learn about VA decision reviews and appeals
         </a>
       </p>
       <h2>What if I appealed VA’s decision?</h2>
@@ -36,7 +36,7 @@ export const CoeDenied = () => (
         Get answers to frequently asked questions about decision reviews.
         <br />
         <a href="/decision-reviews/faq/">
-          See frequently asked questions about decision reviews.
+          See frequently asked questions about decision reviews
         </a>
       </p>
     </div>

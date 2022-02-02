@@ -1,31 +1,26 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import FormFooter from 'platform/forms/components/FormFooter';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
+import { generateCoe } from '../../shared/actions';
 import formConfig from '../config/form';
 
-import { generateCoe } from '../../shared/actions';
-
 function App(props) {
-  const { children, location } = props;
+  const { children, getCoe, location } = props;
 
-  useEffect(() => {
-    props.generateCoe();
-  }, []);
-
-  const content = (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+  useEffect(
+    () => {
+      getCoe();
+    },
+    [getCoe],
   );
 
   return (
-    <>
-      {content}
-      <FormFooter formConfig={formConfig} />
-    </>
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {children}
+    </RoutedSavableApp>
   );
 }
 
@@ -34,7 +29,13 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  generateCoe,
+  getCoe: generateCoe,
+};
+
+App.propTypes = {
+  children: PropTypes.node.isRequired,
+  getCoe: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 export default connect(

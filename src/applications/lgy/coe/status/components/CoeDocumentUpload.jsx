@@ -118,8 +118,8 @@ export const CoeDocumentUpload = () => {
       <h2>We need documents from you</h2>
       <p>
         We’ve sent a notification letter or email about documentation for your
-        COE application. Please send us all the documents listed so we can make
-        a decision about your application.
+        COE request. Please send us all the documents listed so we can make a
+        decision about your request.
       </p>
       {files.map((file, index) => (
         <div
@@ -131,7 +131,8 @@ export const CoeDocumentUpload = () => {
             <strong>{file.name}</strong>
           </p>
           <button
-            onClick={() => onDeleteFile(index)}
+            type="button"
+            onClick={onDeleteFile}
             className="usa-button-secondary vads-u-background-color--white vads-u-margin-top--0"
           >
             Delete file

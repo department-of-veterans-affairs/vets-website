@@ -11,8 +11,8 @@ export const CoeEligible = props => (
           Congratulations on your automatic COE
         </h2>
         <p>
-          We have all the information we need, so you don’t need to fill out an
-          application. You can download your COE now.
+          We have all the information we need, so you don’t need to fill out a
+          request for a COE. You can download your COE now.
         </p>
       </va-alert>
       <h2>Review and download your COE</h2>
