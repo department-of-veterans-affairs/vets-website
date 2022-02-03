@@ -3,22 +3,15 @@ import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-
-// import {
-//   ALLOWED_FILE_TYPES,
-//   MAX_FILE_SIZE_MB,
-// } from 'applications/caregivers/definitions/constants';
 import { links } from 'applications/caregivers/definitions/content';
-// import { arrayToSentenceString } from '../../helpers';
 
 export const VeteranSSNInfo = () => (
   <div className="vads-u-margin-y--1p5">
-    <AdditionalInfo triggerText="Why is this required?">
+    <va-additional-info trigger="Why is this required?">
       We need the Veteran’s Social Security number or tax identification number
       to process the application when it’s submitted online, but it’s not a
       requirement to apply for the program.
-    </AdditionalInfo>
+    </va-additional-info>
   </div>
 );
 
@@ -54,7 +47,7 @@ export const PrimaryCaregiverInfo = ({
 
     {additionalInfo && (
       <section className="vads-u-margin-y--2p5">
-        <AdditionalInfo triggerText="Learn more about who qualifies as a Primary Family Caregiver">
+        <va-additional-info trigger="Learn more about who qualifies as a Primary Family Caregiver">
           <p>
             Family caregivers are approved and designated by VA as Primary
             Family Caregivers and Secondary Family Caregivers to provide
@@ -76,7 +69,7 @@ export const PrimaryCaregiverInfo = ({
               <li>Other relative</li>
             </ul>
           </>
-        </AdditionalInfo>
+        </va-additional-info>
       </section>
     )}
   </>
@@ -95,7 +88,7 @@ PrimaryCaregiverInfo.defaultProps = {
 
 export const SecondaryCaregiverLegal = () => (
   <div className="vads-u-margin-y--1p5">
-    <AdditionalInfo triggerText="Learn more about who qualifies as a Secondary Family Caregiver">
+    <va-additional-info trigger="Learn more about who qualifies as a Secondary Family Caregiver">
       <p>
         Family caregivers are approved and designated by VA as Primary Family
         Caregivers and Secondary Family Caregivers to provide personal care
@@ -117,7 +110,7 @@ export const SecondaryCaregiverLegal = () => (
           <li>Other relative</li>
         </ul>
       </>
-    </AdditionalInfo>
+    </va-additional-info>
   </div>
 );
 
@@ -159,12 +152,12 @@ export const FacilityInfo = () => (
 
 export const CaregiverSupportInfo = () => (
   <div className="vads-u-margin-y--1p5">
-    <AdditionalInfo triggerText="What&apos;s a Caregiver Support Coordinator ?">
+    <va-additional-info trigger="What&apos;s a Caregiver Support Coordinator ?">
       A Caregiver Support Coordinator is a clinical professional who connects
       Veteran caregivers with VA and community resources that offer supportive
       programs and services. Caregiver Support Coordinators are located at every
       VA medical center and specialize in caregiving issues.
-    </AdditionalInfo>
+    </va-additional-info>
   </div>
 );
 
@@ -255,7 +248,7 @@ export const RepresentativeIntroContent = () => {
 export const RepresentativeAdditionalInfo = () => {
   return (
     <div className="vads-u-margin-top--1">
-      <AdditionalInfo triggerText="What types of documents does VA accept to show legal representation?">
+      <va-additional-info trigger="What types of documents does VA accept to show legal representation?">
         <p>
           First, please know that we only accept <strong>full documents</strong>
           . We can’t accept only a cover or signature page. Our staff will
@@ -294,7 +287,7 @@ export const RepresentativeAdditionalInfo = () => {
           <li>Medical or VA benefit records</li>
           <li>Health insurance information</li>
         </ul>
-      </AdditionalInfo>
+      </va-additional-info>
     </div>
   );
 };
