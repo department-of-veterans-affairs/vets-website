@@ -29,7 +29,11 @@ const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
   if (loggedIn && coeCallEnded.includes(status)) {
     content = (
       <>
-        <COEIntroPageBox coe={coe} downloadURL={downloadUrl} status={status} />
+        <COEIntroPageBox
+          applicationCreateDate={coe.applicationCreateDate}
+          downloadURL={downloadUrl}
+          status={coe.status}
+        />
         {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
           <LoggedInContent route={route} />
         )}

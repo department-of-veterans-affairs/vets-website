@@ -15,13 +15,13 @@ const COEIntroPageBox = ({ applicationCreateDate, downloadUrl, status }) => {
         return (
           <COEAvailable
             applicationCreateDate={applicationCreateDate}
-            downloadURL={downloadUrl}
+            downloadUrl={downloadUrl}
           />
         );
       case COE_ELIGIBILITY_STATUS.denied:
         return <COEDenied />;
       case COE_ELIGIBILITY_STATUS.eligible:
-        return <COEEligible downloadURL={downloadUrl} />;
+        return <COEEligible downloadUrl={downloadUrl} />;
       case COE_ELIGIBILITY_STATUS.ineligible:
       case COE_ELIGIBILITY_STATUS.unableToDetermine:
         return <COEIneligible />;

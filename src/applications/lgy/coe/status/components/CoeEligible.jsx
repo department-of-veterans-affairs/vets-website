@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 import { MoreQuestions } from './MoreQuestions';
+
+const coeUrl = getAppUrl('coe');
+const introUrl = `${coeUrl}/introduction`;
 
 export const CoeEligible = ({ clickHandler, downloadUrl }) => (
   <div className="row vads-u-margin-bottom--7">
@@ -26,7 +30,7 @@ export const CoeEligible = ({ clickHandler, downloadUrl }) => (
         </a>
       </p>
       <a
-        className="vads-u-font-size--base vads-u-display--block vads-u-margin-top--2"
+        className="vads-u-font-size--base vads-u-display--block vads-u-margin-top--4"
         href={downloadUrl}
       >
         <i
@@ -43,13 +47,13 @@ export const CoeEligible = ({ clickHandler, downloadUrl }) => (
       <ul>
         <li>
           Make changes to your COE (correct an error or update your
-          information), or
+          information), <strong>or</strong>
         </li>
         <li>Request a restoration of entitlement</li>
       </ul>
-      <Link to="/introduction" onClick={clickHandler}>
+      <a href={introUrl} onClick={clickHandler}>
         Make changes to your COE online by filling out VA Form 26-1880
-      </Link>
+      </a>
       <MoreQuestions />
     </div>
   </div>
