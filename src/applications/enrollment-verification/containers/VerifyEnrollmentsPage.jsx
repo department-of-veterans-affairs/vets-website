@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
-import { fetchVerificationStatus } from '../actions';
+import {
+  fetchVerificationStatus,
+  VERIFICATION_STATUS_CORRECT,
+  VERIFICATION_STATUS_INCORRECT,
+} from '../actions';
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
 import EnrollmentVerificationMonthInfo from '../components/EnrollmentVerificationMonthInfo';
@@ -32,19 +36,29 @@ export const VerifyEnrollmentsPage = ({
   // window.location.html = '';
   // }
 
-  const [monthInformationCorrect, setMonthInformationCorrect] = useState(
-    undefined,
-  );
+  const [monthInformationCorrect, setMonthInformationCorrect] = useState();
+  const [continueClicked, setContinueClicked] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(0);
-  const [unverifiedMonths, setUnverifiedMonths] = useState(undefined);
+  const [month, setMonth] = useState();
+  const [informationIncorrectMonth, setInformationIncorrectMonth] = useState();
+  const [unverifiedMonths, setUnverifiedMonths] = useState();
 
-  if (verificationStatus && !unverifiedMonths) {
-    setUnverifiedMonths(
-      verificationStatus?.months?.filter(m => !m.verified).reverse(),
+  if (verificationStatus?.months?.length && !unverifiedMonths) {
+    const months = verificationStatus.months.reverse();
+    setUnverifiedMonths(months.filter(m => !m.verified));
+    const _informationIncorrectMonth = months.find(
+      m => m.verificationStatus === VERIFICATION_STATUS_INCORRECT,
     );
+    setInformationIncorrectMonth(_informationIncorrectMonth);
+    if (!_informationIncorrectMonth) {
+      const firstUnverifiedMonthIndex = months.findIndex(m => !m.verified);
+      setCurrentMonth(currentMonth);
+      setMonth(unverifiedMonths[firstUnverifiedMonthIndex]);
+    }
   }
 
   const updateMonthInformationCorrect = event => {
+    setContinueClicked(false);
     setMonthInformationCorrect(event.value);
   };
 
@@ -55,9 +69,10 @@ export const VerifyEnrollmentsPage = ({
   };
 
   const onForwardButtonClick = () => {
-    // TODO validation
-    // if (onMonthInformationCorrectChange === undefined) {
-    // }
+    if (!monthInformationCorrect) {
+      setContinueClicked(true);
+      return;
+    }
 
     setUnverifiedMonths(
       unverifiedMonths.map(
@@ -65,13 +80,17 @@ export const VerifyEnrollmentsPage = ({
           i === currentMonth
             ? {
                 ...m,
-                correct: monthInformationCorrect,
+                verificationStatus: monthInformationCorrect,
               }
             : m,
       ),
     );
 
     setCurrentMonth(currentMonth + 1);
+    setMonthInformationCorrect(undefined);
+    if (monthInformationCorrect === VERIFICATION_STATUS_INCORRECT) {
+      setInformationIncorrectMonth(month.month);
+    }
 
     // if () {
     //   window.location.href = '/enrollment-history/review-enrollments';
@@ -81,7 +100,10 @@ export const VerifyEnrollmentsPage = ({
   if (!verificationStatus || !unverifiedMonths) {
     return <EnrollmentVerificationLoadingIndicator />;
   }
-  const month = unverifiedMonths[currentMonth];
+
+  if (informationIncorrectMonth || currentMonth === unverifiedMonths.length) {
+    return <>Review Page</>;
+  }
 
   return (
     <EnrollmentVerificationPageWrapper>
@@ -192,14 +214,20 @@ export const VerifyEnrollmentsPage = ({
       </va-radio> */}
 
       <RadioButtons
-        errorMessage="Please select an option"
+        errorMessage={continueClicked ? 'Please select an option' : ''}
         label="To the best of your knowledge, is this enrollment information correct?"
         // onKeyDown={function noRefCheck() {}}
         // onMouseDown={function noRefCheck() {}}
         onValueChange={updateMonthInformationCorrect}
         options={[
-          { value: 'correct', label: 'Yes, this information is correct' },
-          { value: 'incorrect', label: "No, this information isn't correct" },
+          {
+            value: VERIFICATION_STATUS_CORRECT,
+            label: 'Yes, this information is correct',
+          },
+          {
+            value: VERIFICATION_STATUS_INCORRECT,
+            label: "No, this information isn't correct",
+          },
         ]}
         required
         value={{ value: monthInformationCorrect }}
