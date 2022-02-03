@@ -6,6 +6,7 @@ class Confirmation {
       .should('be.visible')
       .and('include.text', 'checked in');
   }
+
   validateBackButton() {
     cy.get('[data-testid=go-to-appointments-button]', {
       timeout: Timeouts.slow,
@@ -13,6 +14,7 @@ class Confirmation {
       .should('be.visible')
       .and('include.text', 'Go to another appointment');
   }
+
   validateBTSSSLink() {
     cy.get('a[data-testid="btsss-link"]').should(
       'have.text',

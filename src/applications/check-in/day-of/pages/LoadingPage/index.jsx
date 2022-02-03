@@ -95,8 +95,8 @@ const LoadingPage = props => {
 
 LoadingPage.propTypes = {
   isSessionLoading: PropTypes.bool,
-  router: PropTypes.object,
   isUpdatePageEnabled: PropTypes.bool,
+  router: PropTypes.object,
 };
 
 export default LoadingPage;

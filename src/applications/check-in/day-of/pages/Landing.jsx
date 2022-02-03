@@ -42,9 +42,12 @@ const Landing = props => {
     [dispatch],
   );
 
-  useEffect(() => {
-    dispatch(setApp(APP_NAMES.CHECK_IN));
-  }, []);
+  useEffect(
+    () => {
+      dispatch(setApp(APP_NAMES.CHECK_IN));
+    },
+    [dispatch],
+  );
   useEffect(
     () => {
       const token = getTokenFromLocation(location);

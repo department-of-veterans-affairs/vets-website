@@ -18,6 +18,7 @@ class Error {
       .should('be.visible')
       .contains('You can pre-check in online until');
   }
+
   validateURL() {
     cy.url().should('match', /error/);
   }
