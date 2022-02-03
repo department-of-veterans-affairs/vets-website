@@ -52,7 +52,7 @@ jobs:
         run: |
           cat > build/${{ env.BUILD_ENV_DEV }}/BUILD.txt << EOF
           BUILDTYPE=${{ env.BUILD_ENV_DEV }}
-          NODE_ENV=dev
+          NODE_ENV=production
           BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
           CHANGE_TARGET=null
           RUN_ID=${{ github.run_id }}
