@@ -1,7 +1,7 @@
 name: Lighthouse CI
 
 on:
-  workflow_dispatch:
+  ? workflow_dispatch
   schedule:
     - cron: '0 12 * * 1-5'
 
@@ -92,12 +92,16 @@ jobs:
       - name: Upload lighthouse report (HTML)
         run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath }} s3://vetsgov-website-builds-s3-upload/lighthouse${{ matrix.registry == '/' && '/homepage' || matrix.registry }}.html --acl public-read --region us-gov-west-1
 
+      - name: Generate new application list
+        run: yarn generate-app-list
+
       - name: Checkout Testing Tools Team Dashboard Data repo
         uses: actions/checkout@v2
         with:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
+          ref: qas-coverage-app-names
 
       - name: Get Node version
         id: get-node-version
@@ -131,6 +135,8 @@ jobs:
       - name: Upload Lighthouse results to BigQuery
         run: yarn lighthouse-to-bigquery
         working-directory: testing-tools-team-dashboard-data
+        env:
+          APPLICATION_LIST: ${{ env.APPLICATION_LIST }}
 
   notify-slack:
     name: Notify Slack
