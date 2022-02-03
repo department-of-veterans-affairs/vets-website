@@ -1,19 +1,22 @@
 /* eslint-disable jsx-a11y/label-has-for */
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { updateBenefitSummaryRequestOption } from '../actions/letters';
+import { formatDateShort } from 'platform/utilities/date';
+import CallVBACenter from 'platform/static-data/CallVBACenter';
+
+import { updateBenefitSummaryRequestOption as updateBenefitSummaryRequestOptionAction } from '../actions/letters';
 import {
   benefitOptionsMap,
   characterOfServiceContent,
   optionsToAlwaysDisplay,
   getBenefitOptionText,
   stripOffTime,
-} from '../utils/helpers.jsx';
-import { formatDateShort } from 'platform/utilities/date';
-import CallVBACenter from 'platform/static-data/CallVBACenter';
+} from '../utils/helpers';
 
+/* eslint jsx-a11y/label-has-associated-control: 1 */
 export class VeteranBenefitSummaryLetter extends React.Component {
   constructor() {
     super();
@@ -21,6 +24,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
   }
 
   handleChange(domEvent) {
+    const { updateBenefitSummaryRequestOption } = this.props;
     recordEvent({
       // For Google Analytics
       event: 'letter-benefit-option-clicked',
@@ -29,15 +33,22 @@ export class VeteranBenefitSummaryLetter extends React.Component {
         ? 'checked'
         : 'unchecked',
     });
-    this.props.updateBenefitSummaryRequestOption(
+    updateBenefitSummaryRequestOption(
       benefitOptionsMap[domEvent.target.id],
       domEvent.target.checked,
     );
   }
 
   render() {
-    const serviceInfo = this.props.benefitSummaryOptions.serviceInfo || [];
-    const militaryServiceRows = serviceInfo.map((service, index) => (
+    const {
+      benefitSummaryOptions,
+      requestOptions,
+      isVeteran,
+      optionsAvailable,
+    } = this.props;
+    const { benefitInfo, serviceInfo } = benefitSummaryOptions;
+    const { militaryService } = requestOptions;
+    const militaryServiceRows = (serviceInfo || []).map((service, index) => (
       <tr key={`service${index}`}>
         <th scope="row" className="service-info">
           {(service.branch || '').toLowerCase()}
@@ -54,10 +65,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       </tr>
     ));
 
-    const benefitInfo = this.props.benefitSummaryOptions.benefitInfo;
-    const requestOptions = this.props.requestOptions;
     const vaBenefitInfoRows = [];
-
     Object.keys(benefitInfo).forEach(key => {
       // Need to verify with EVSS and vets-api: values should be true, false, or
       // some value other than null or undefined, so this check should not be
@@ -71,7 +79,6 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       const value = benefitInfo[key];
       const displayOption =
         optionsToAlwaysDisplay.includes(key) || value !== false;
-      const { isVeteran } = this.props;
       const optionText = getBenefitOptionText(
         key,
         value,
@@ -91,12 +98,12 @@ export class VeteranBenefitSummaryLetter extends React.Component {
                 type="checkbox"
                 onChange={this.handleChange}
               />
-              <label />
+              <label htmlFor={key}>
+                <div className="sr-only">{optionText}</div>
+              </label>
             </th>
             <td>
-              <label id={`${key}Label`} htmlFor={key}>
-                {optionText}
-              </label>
+              <div id={`${key}Label`}>{optionText}</div>
             </td>
           </tr>,
         );
@@ -116,7 +123,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     );
 
     let benefitSummaryContent;
-    if (this.props.optionsAvailable) {
+    if (optionsAvailable) {
       benefitSummaryContent = (
         <div>
           <h4>Choose the information you want to include.</h4>
@@ -128,7 +135,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
           <div className="form-checkbox">
             <input
               autoComplete="false"
-              checked={requestOptions.militaryService}
+              checked={militaryService}
               id="militaryService"
               name="militaryService"
               type="checkbox"
@@ -182,6 +189,19 @@ export class VeteranBenefitSummaryLetter extends React.Component {
   }
 }
 
+VeteranBenefitSummaryLetter.propTypes = {
+  benefitSummaryOptions: PropTypes.shape({
+    benefitInfo: PropTypes.array,
+    serviceInfo: PropTypes.array,
+  }),
+  isVeteran: PropTypes.bool,
+  optionsAvailable: PropTypes.shape({}),
+  requestOptions: PropTypes.shape({
+    militaryService: PropTypes.bool,
+  }),
+  updateBenefitSummaryRequestOption: PropTypes.func,
+};
+
 function mapStateToProps(state) {
   const letterState = state.letters;
 
@@ -199,7 +219,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  updateBenefitSummaryRequestOption,
+  updateBenefitSummaryRequestOption: updateBenefitSummaryRequestOptionAction,
 };
 
 export default connect(
