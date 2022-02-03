@@ -38,40 +38,40 @@ const ValidateVeteran = props => {
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
 
-  const onClick = async () => {
-    setLastNameErrorMessage();
-    setLast4ErrorMessage();
-    if (!lastName || !last4Ssn) {
-      if (!lastName) {
-        setLastNameErrorMessage('Please enter your last name.');
-      }
-      if (!last4Ssn) {
-        setLast4ErrorMessage(
-          'Please enter the last 4 digits of your Social Security number.',
-        );
-      }
-    } else {
-      // API call
-      setIsLoading(true);
-      try {
-        const resp = await api.v2.postSession({
-          token,
-          last4: last4Ssn,
-          lastName,
-        });
-        if (resp.errors || resp.error) {
-          setIsLoading(false);
-          goToErrorPage();
-        } else {
+  const onClick = useCallback(
+    async () => {
+      setLastNameErrorMessage();
+      setLast4ErrorMessage();
+      if (!lastName || !last4Ssn) {
+        if (!lastName) {
+          setLastNameErrorMessage('Please enter your last name.');
+        }
+        if (!last4Ssn) {
+          setLast4ErrorMessage(
+            'Please enter the last 4 digits of your Social Security number.',
+          );
+        }
+      } else {
+        // API call
+        setIsLoading(true);
+        const checkInType = 'checkIn';
+        try {
+          const resp = await api.v2.postSession({
+            token,
+            last4: last4Ssn,
+            lastName,
+            checkInType,
+          });
           setSession(token, resp.permissions);
           goToNextPage();
+        } catch (e) {
+          setIsLoading(false);
+          goToErrorPage();
         }
-      } catch (e) {
-        setIsLoading(false);
-        goToErrorPage();
       }
-    }
-  };
+    },
+    [goToErrorPage, goToNextPage, last4Ssn, lastName, setSession, token],
+  );
   useEffect(() => {
     focusElement('h1');
   }, []);
