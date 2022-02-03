@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import propTypes from 'prop-types';
 import { useFormRouting } from '../../useFormRouting';
 
 export default function TestComponent({ router }) {
@@ -16,31 +17,43 @@ export default function TestComponent({ router }) {
       <h1>Test component for the useFormRouting hook</h1>
       <div data-testid="current-page">{currentPage}</div>
       <div data-testid="all-pages">{pages.join(',')}</div>
-      <button onClick={goToPreviousPage} data-testid="prev-button">
+      <button
+        type="button"
+        onClick={goToPreviousPage}
+        data-testid="prev-button"
+      >
         Prev
       </button>
-      <button onClick={goToNextPage} data-testid="next-button">
+      <button type="button" onClick={goToNextPage} data-testid="next-button">
         Next
       </button>
-      <button onClick={goToErrorPage} data-testid="error-button">
+      <button type="button" onClick={goToErrorPage} data-testid="error-button">
         Error
       </button>
       <button
-        onClick={() => jumpToPage('introduction')}
+        onClick={useCallback(() => jumpToPage('introduction'), [jumpToPage])}
         data-testid="jump-button"
+        type="button"
       >
         Jump
       </button>
       <button
-        onClick={() =>
-          jumpToPage('introduction', {
-            params: { url: { id: '1234', query: 'some-query' } },
-          })
-        }
+        onClick={useCallback(
+          () =>
+            jumpToPage('introduction', {
+              params: { url: { id: '1234', query: 'some-query' } },
+            }),
+          [jumpToPage],
+        )}
         data-testid="jump-with-params-button"
+        type="button"
       >
         Jump with params
       </button>
     </div>
   );
 }
+
+TestComponent.propTypes = {
+  router: propTypes.object,
+};
