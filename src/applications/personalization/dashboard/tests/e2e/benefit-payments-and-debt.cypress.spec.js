@@ -11,11 +11,14 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
-import { paymentsSuccess } from '../fixtures/test-payments-response';
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
+import {
+  paymentsSuccess,
+  paymentsSuccessEmpty,
+} from '../fixtures/test-payments-response';
 import debtsSuccess from '../fixtures/debts.json';
 import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
 import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 
 describe('The My VA Dashboard - Payments and Debt', () => {
   describe('when the feature is hidden', () => {
@@ -104,12 +107,12 @@ describe('The My VA Dashboard - Payments and Debt', () => {
 
     context('and user has no payments', () => {
       beforeEach(() => {
-        cy.intercept('/v0/profile/payment_history', paymentsSuccess());
         cy.intercept('/v0/debts', debtsSuccess);
         cy.visit('my-va/');
       });
       it('and they have no payments in the last 30 days - C13195', () => {
         // make sure that the Payment and Debt section is shown
+        cy.intercept('/v0/profile/payment_history', paymentsSuccess());
         cy.findByTestId('dashboard-section-payment-and-debts').should('exist');
         cy.findByRole('link', { name: /manage your direct deposit/i }).should(
           'exist',
@@ -118,6 +121,28 @@ describe('The My VA Dashboard - Payments and Debt', () => {
           'exist',
         );
         cy.findByText(/you*.*payments in the past 30 days/i).should('exist');
+        cy.findByRole('heading', {
+          name: /We deposited.*in your account/i,
+        }).should('not.exist');
+
+        // make the a11y check
+        cy.injectAxeThenAxeCheck();
+      });
+      it('and they have never had a payment - C14195', () => {
+        // make sure that the Payment and Debt section is shown
+        cy.intercept('/v0/profile/payment_history', paymentsSuccessEmpty());
+        cy.findByTestId('dashboard-section-payment-and-debts').should(
+          'not.exist',
+        );
+        cy.findByRole('link', { name: /manage your direct deposit/i }).should(
+          'not.exist',
+        );
+        cy.findByRole('link', { name: /view your payment history/i }).should(
+          'not.exist',
+        );
+        cy.findByText(/you*.*payments in the past 30 days/i).should(
+          'not.exist',
+        );
         cy.findByRole('heading', {
           name: /We deposited.*in your account/i,
         }).should('not.exist');
