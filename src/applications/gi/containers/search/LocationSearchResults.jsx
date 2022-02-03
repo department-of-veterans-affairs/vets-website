@@ -48,12 +48,6 @@ function LocationSearchResults({
   const [mobileTab, setMobileTab] = useState(LIST_TAB);
   const [markerClicked, setMarkerClicked] = useState(null);
   const [activeMarker, setActiveMarker] = useState(null);
-  const usingUserLocation = () => {
-    const currentPositions = document.getElementsByClassName(
-      'current-position',
-    );
-    return currentPositions.length > 0;
-  };
 
   /**
    * When map is moved update distance from center to NorthEast corner
@@ -342,11 +336,9 @@ function LocationSearchResults({
         <span className="location-letter vads-u-font-size--sm">
           {index + 1}
         </span>
-        {usingUserLocation() && (
-          <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
-            <strong>{miles} miles</strong>
-          </span>
-        )}
+        <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
+          <strong>{miles} miles</strong>
+        </span>
       </div>
     );
 
