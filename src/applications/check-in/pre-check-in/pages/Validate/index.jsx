@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import propTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 
