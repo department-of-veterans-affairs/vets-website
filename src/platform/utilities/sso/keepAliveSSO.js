@@ -34,9 +34,9 @@ const logToSentry = data => {
   return isCaptured;
 };
 
-const sanitizeAuthn = authnCtx => authnCtx.replace(MHV_SKIP_DUPE, '');
+export const sanitizeAuthn = authnCtx => authnCtx.replace(MHV_SKIP_DUPE, '');
 
-const defaultKeepAliveResponse = {
+export const defaultKeepAliveResponse = {
   ttl: 0,
   transactionid: null,
   authn: undefined,
@@ -61,8 +61,8 @@ export default async function keepAlive() {
 
     const alive = resp.headers.get(AUTHN_HEADERS.ALIVE);
 
-    // If no CSP headers (user not logged in when keepalive hit)
-    if (resp.headers.get(AUTHN_HEADERS.CSP) === undefined) {
+    // If no CSP or session-alive headers, return early
+    if (resp.headers.get(AUTHN_HEADERS.CSP) === undefined || alive !== 'true') {
       return defaultKeepAliveResponse;
     }
 
