@@ -91,7 +91,6 @@ export class VeteranBenefitSummaryLetter extends React.Component {
             <th scope="row">
               <input
                 aria-labelledby={`${key}Label`}
-                autoComplete="false"
                 checked={requestOptions[benefitOptionsMap[key]]}
                 id={key}
                 name={key}
@@ -136,7 +135,6 @@ export class VeteranBenefitSummaryLetter extends React.Component {
           </p>
           <div className="form-checkbox">
             <input
-              autoComplete="false"
               checked={militaryService}
               id="militaryService"
               name="militaryService"
