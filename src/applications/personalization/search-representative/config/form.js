@@ -42,7 +42,7 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     basicInformation: {
-      title: '',
+      title: 'Your selected representative',
       pages: {
         representativeType: {
           path: 'representative-type',
