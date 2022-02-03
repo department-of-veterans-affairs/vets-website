@@ -74,34 +74,37 @@ const DocumentUploader = () => {
       ? 'file-input-disabled'
       : null;
 
-  const onSelectChange = e => {
+  const onSelectChange = useCallback(e => {
     dispatch({ type: DOC_TYPE, documentType: e?.value });
-  };
+  }, []);
 
-  const onTextInputValueChange = e => {
+  const onTextInputValueChange = useCallback(e => {
     dispatch({
       type: DOC_DESC,
       documentDescription: { dirty: true, value: e?.value },
     });
-  };
+  }, []);
 
-  const onUploadFile = async uploadedFiles => {
-    dispatch({ type: FILE_UPLOAD_PENDING });
-    if (!isValidFileType(uploadedFiles[0])) {
-      dispatch({
-        type: FILE_UPLOAD_FAIL,
-        errorMessage:
-          'Please choose a file from one of the accepted file types.',
-      });
-      return;
-    }
-    const file = uploadedFiles[0];
-    file.documentType = documentType;
-    if (documentDescription.value !== '') {
-      file.documentDescription = documentDescription.value;
-    }
-    dispatch({ type: FILE_UPLOAD_SUCCESS, file });
-  };
+  const onUploadFile = useCallback(
+    async uploadedFiles => {
+      dispatch({ type: FILE_UPLOAD_PENDING });
+      if (!isValidFileType(uploadedFiles[0])) {
+        dispatch({
+          type: FILE_UPLOAD_FAIL,
+          errorMessage:
+            'Please choose a file from one of the accepted file types.',
+        });
+        return;
+      }
+      const file = uploadedFiles[0];
+      file.documentType = documentType;
+      if (documentDescription.value !== '') {
+        file.documentDescription = documentDescription.value;
+      }
+      dispatch({ type: FILE_UPLOAD_SUCCESS, file });
+    },
+    [documentDescription.value, documentType],
+  );
 
   const onDeleteClick = useCallback(
     idx => {
@@ -111,22 +114,25 @@ const DocumentUploader = () => {
     [state.files],
   );
 
-  const onSubmit = () => {
-    if (!files.length) {
-      dispatch({
-        type: FORM_SUBMIT_FAIL,
-        errorMessage: 'Please choose a file to upload',
-      });
-      setTimeout(scrollToFirstError);
-    }
-  };
+  const onSubmit = useCallback(
+    () => {
+      if (!files.length) {
+        dispatch({
+          type: FORM_SUBMIT_FAIL,
+          errorMessage: 'Please choose a file to upload',
+        });
+        setTimeout(scrollToFirstError);
+      }
+    },
+    [files],
+  );
 
   return (
     <>
       <h2>We need documents from you</h2>
       <p>
-        We’ve sent a notification letter or email about documentation for your
-        COE request. Please send us all the documents listed so we can make a
+        We’ve emailed you a notification letter about documentation for your COE
+        request. Please send us all the documents listed so we can make a
         decision about your request.
       </p>
       <FileList files={files} onClick={onDeleteClick} />
@@ -176,6 +182,10 @@ const DocumentUploader = () => {
       >
         Submit uploaded documents
       </button>
+      <p>
+        <strong>Note:</strong> After you upload documents, it will take up to 5
+        days for us to review them
+      </p>
     </>
   );
 };
