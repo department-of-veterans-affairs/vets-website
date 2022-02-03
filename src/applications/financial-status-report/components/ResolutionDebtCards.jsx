@@ -83,7 +83,7 @@ const ExpandedContent = ({
 };
 
 ExpandedContent.propTypes = {
-  debt: PropTypes.array,
+  debt: PropTypes.object,
   errorSchema: PropTypes.object,
   index: PropTypes.number,
   submitted: PropTypes.bool,

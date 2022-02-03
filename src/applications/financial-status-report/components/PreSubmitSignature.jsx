@@ -181,7 +181,7 @@ const PreSubmitSignature = ({
 PreSubmitSignature.propTypes = {
   formData: PropTypes.object,
   formSubmission: PropTypes.object,
-  showError: PropTypes.object,
+  showError: PropTypes.bool,
   onSectionComplete: PropTypes.func,
 };
 

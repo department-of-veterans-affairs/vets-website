@@ -117,10 +117,10 @@ DebtCard.propTypes = {
     ),
     deductionCode: PropTypes.string,
     diaryCode: PropTypes.string,
-    id: PropTypes.string,
+    id: PropTypes.number,
     originalAr: PropTypes.number,
   }),
-  formData: PropTypes.array,
+  formData: PropTypes.object,
   selectedDebts: PropTypes.array,
   setDebts: PropTypes.func,
 };

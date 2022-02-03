@@ -99,10 +99,10 @@ const App = ({
 App.propTypes = {
   children: PropTypes.object,
   getFormStatus: PropTypes.func,
-  isError: PropTypes.object,
-  isLoggedIn: PropTypes.object,
+  isError: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
-  pending: PropTypes.object,
+  pending: PropTypes.bool,
   router: PropTypes.object,
   showFSR: PropTypes.bool,
   showWizard: PropTypes.bool,

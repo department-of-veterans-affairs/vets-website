@@ -181,7 +181,7 @@ IntroductionPage.propTypes = {
     formConfig: PropTypes.shape({
       downtime: PropTypes.string,
       prefillEnabled: PropTypes.bool,
-      savedFormMessages: PropTypes.string,
+      savedFormMessages: PropTypes.object,
       verifyRequiredPrefill: PropTypes.string,
     }),
     pageList: PropTypes.array.isRequired,

@@ -158,7 +158,7 @@ const EmploymentRecord = ({
 
 EmploymentRecord.propTypes = {
   children: PropTypes.object,
-  employmentHistory: PropTypes.array,
+  employmentHistory: PropTypes.object,
   formContext: PropTypes.object,
   formData: PropTypes.object,
   idSchema: PropTypes.object,

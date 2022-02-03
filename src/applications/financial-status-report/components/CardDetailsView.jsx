@@ -129,7 +129,7 @@ const CardDetailsView = ({ formData, onEdit, title }) => {
 };
 
 CardDetailsView.propTypes = {
-  formData: PropTypes.array,
+  formData: PropTypes.object,
   title: PropTypes.string,
   onEdit: PropTypes.func,
 };
