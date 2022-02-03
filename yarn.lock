@@ -2130,13 +2130,13 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-5.0.1.tgz#908ac8ea2975d5baff5cc0c51959e9c057e679a5"
-  integrity sha512-dzGBRBtx48GCFqw1bc9GXV+gmDIBdHIfyZOZeLnXJ7OrKyKjnZEMV1LpvDKBWSpr3Wl54kkdTnyJROuaWNhdVA==
+"@department-of-veterans-affairs/component-library@^6.0.2":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-6.0.2.tgz#0af8574535ce7ad7486fcfbae90414daadd8ba40"
+  integrity sha512-D2v7KkbHXQYPcXH8httl9esJxnOp+fMebJpE6QNGLPcDhlWBzM3enj9lCjnOx9TeEOZHk9/xaM2+N85KyJe1TQ==
   dependencies:
     "@department-of-veterans-affairs/react-components" "4.0.2"
-    "@department-of-veterans-affairs/web-components" "1.0.0"
+    "@department-of-veterans-affairs/web-components" "2.0.2"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
@@ -2192,10 +2192,10 @@
     react-is "^17.0.1"
     setimmediate "^1.0.5"
 
-"@department-of-veterans-affairs/web-components@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-1.0.0.tgz#59050049501c9b7fad2abc752dc7ba27e76a561d"
-  integrity sha512-kUNk8u8n5In3phukCM2/wCfQIiwdGWIbJVKRupHJJmRs4MV16G8jicV0tBqrbSYAfsiTNKvBJYGOv/13Onpyng==
+"@department-of-veterans-affairs/web-components@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-2.0.2.tgz#8e4a566315b2d8e0dacdf9766997b326bd84ad13"
+  integrity sha512-J0RJO7nJiAANt8dKXKnHLuBrCoJhKhdcTD5w3OxLrpO4mqfZbGXa1vVBytiCIs9jfrLd88llReBxKleDWU1vUw==
   dependencies:
     "@stencil/core" "^2.10.0"
     "@stencil/postcss" "^2.0.0"
