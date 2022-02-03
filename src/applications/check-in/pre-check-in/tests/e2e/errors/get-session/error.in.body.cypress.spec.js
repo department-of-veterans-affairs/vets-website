@@ -6,7 +6,7 @@ import Error from '../../pages/Error';
 describe('Pre-Check In Experience ', () => {
   describe('Error handling', () => {
     describe('GET /check_in/v2/session/', () => {
-      beforeEach(function() {
+      beforeEach(() => {
         const {
           initializeFeatureToggle,
           initializeSessionGet,

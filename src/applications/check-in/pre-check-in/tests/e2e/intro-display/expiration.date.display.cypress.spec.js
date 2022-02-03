@@ -7,7 +7,7 @@ import Introduction from '../pages/Introduction';
 describe('Pre-Check In Experience', () => {
   describe('Introduction Page', () => {
     let apiData = {};
-    beforeEach(function() {
+    beforeEach(() => {
       const {
         initializeFeatureToggle,
         initializeSessionGet,

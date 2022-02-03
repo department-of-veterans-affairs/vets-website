@@ -10,7 +10,7 @@ import Confirmation from '../pages/Confirmation';
 
 describe('Check In Experience -- ', () => {
   describe('Confirmation display -- ', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const {
         initializeFeatureToggle,
         initializeSessionGet,

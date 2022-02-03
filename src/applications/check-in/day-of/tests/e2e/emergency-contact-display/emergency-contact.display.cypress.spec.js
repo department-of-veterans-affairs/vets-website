@@ -7,7 +7,7 @@ import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 
 describe('Check In Experience', () => {
   describe('emergency contact display', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const {
         initializeFeatureToggle,
         initializeSessionGet,
