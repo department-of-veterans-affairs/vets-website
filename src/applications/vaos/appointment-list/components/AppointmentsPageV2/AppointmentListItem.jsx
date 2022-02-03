@@ -1,4 +1,7 @@
 import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { focusElement } from 'platform/utilities/ui';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from '../../../lib/moment-tz';
 import {
   getAppointmentTimezone,
@@ -10,14 +13,11 @@ import {
   VIDEO_TYPES,
   SPACE_BAR,
 } from '../../../utils/constants';
-import { Link, useHistory } from 'react-router-dom';
-import { focusElement } from 'platform/utilities/ui';
 import { updateBreadcrumb } from '../../redux/actions';
-import { useDispatch, useSelector } from 'react-redux';
 import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 
 function VideoAppointmentDescription({ appointment }) {
-  const isAtlas = appointment.videoData.isAtlas;
+  const { isAtlas } = appointment.videoData;
   const videoKind = appointment.videoData.kind;
   let desc = 'at home';
   if (isAtlas) {
@@ -53,11 +53,42 @@ function VAFacilityName({ facility }) {
   return 'VA appointment';
 }
 
+function handleClick(history, link, idClickable) {
+  return () => {
+    if (!window.getSelection().toString()) {
+      focusElement(`#${idClickable}`);
+      history.push(link);
+    }
+  };
+}
+
+function handleKeyDown(history, link, idClickable) {
+  return event => {
+    if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
+      focusElement(`#${idClickable}`);
+      history.push(link);
+    }
+  };
+}
+
+function handleLinkClicked(
+  featureStatusImprovement,
+  isPastAppointment,
+  dispatch,
+) {
+  return e => {
+    e.preventDefault();
+    if (featureStatusImprovement && isPastAppointment) {
+      dispatch(updateBreadcrumb({ title: 'Past', path: '/past' }));
+    }
+  };
+}
+
 export default function AppointmentListItem({ appointment, facility }) {
   const history = useHistory();
   const appointmentDate = moment.parseZone(appointment.start);
-  const isCommunityCare = appointment.vaos.isCommunityCare;
-  const isVideo = appointment.vaos.isVideo;
+  const { isCommunityCare } = appointment.vaos;
+  const { isVideo } = appointment.vaos;
   const isPhone = isVAPhoneAppointment(appointment);
   const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
@@ -66,7 +97,7 @@ export default function AppointmentListItem({ appointment, facility }) {
     : `va/${appointment.id}`;
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
   const { abbreviation, description } = getAppointmentTimezone(appointment);
-  const isPastAppointment = appointment.vaos.isPastAppointment;
+  const { isPastAppointment } = appointment.vaos;
   const dispatch = useDispatch();
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
@@ -79,25 +110,13 @@ export default function AppointmentListItem({ appointment, facility }) {
       className="vaos-appts__card--clickable vads-u-margin-bottom--3"
       data-cy="appointment-list-item"
     >
+      {/* Disabling for now since add role=button and tab=0 fails another accessiblity check: */}
+      {/* Nested interactive controls are not announced by screen readers */}
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         className="vads-u-padding--2 vads-u-display--flex vads-u-align-items--left vads-u-flex-direction--column medium-screen:vads-u-padding--3 medium-screen:vads-u-flex-direction--row medium-screen:vads-u-align-items--center"
-        onClick={() => {
-          if (!window.getSelection().toString()) {
-            focusElement(`#${idClickable}`);
-            history.push(link);
-          }
-        }}
-        onKeyDown={event => {
-          if (
-            !window.getSelection().toString() &&
-            event.keyCode === SPACE_BAR
-          ) {
-            focusElement(`#${idClickable}`);
-            history.push(link);
-          }
-        }}
-        role="button"
-        tabIndex="0"
+        onClick={handleClick(history, link, idClickable)}
+        onKeyDown={handleKeyDown(history, link, idClickable)}
       >
         <div className="vads-u-flex--1 vads-u-margin-y--neg0p5">
           {canceled && (
@@ -134,12 +153,11 @@ export default function AppointmentListItem({ appointment, facility }) {
               canceled ? 'canceled ' : ''
             }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`}
             to={link}
-            onClick={e => {
-              e.preventDefault();
-              if (featureStatusImprovement && isPastAppointment) {
-                dispatch(updateBreadcrumb({ title: 'Past', path: '/past' }));
-              }
-            }}
+            onClick={handleLinkClicked(
+              featureStatusImprovement,
+              isPastAppointment,
+              dispatch,
+            )}
           >
             Details
           </Link>
