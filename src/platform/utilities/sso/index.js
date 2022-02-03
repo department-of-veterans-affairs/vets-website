@@ -1,125 +1,93 @@
-import addSeconds from 'date-fns/addSeconds';
-import differenceInSeconds from 'date-fns/differenceInSeconds';
-import environment from 'platform/utilities/environment';
-import localStorage from '../storage/localStorage';
-import { hasSessionSSO } from '../../user/profile/utilities';
-
+import * as Sentry from '@sentry/browser';
 import {
-  standaloneRedirect,
-  login,
-  loginAppUrlRE,
-  logout,
-} from 'platform/user/authentication/utilities';
-import mockKeepAlive from './mockKeepAliveSSO';
-import { keepAlive as liveKeepAlive } from './keepAliveSSO';
-import { getLoginAttempted } from './loginAttempted';
-import {
-  AUTH_EVENTS,
-  API_VERSION,
-  POLICY_TYPES,
-} from 'platform/user/authentication/constants';
+  SSO_KEEP_ALIVE_ENDPOINT,
+  CSP_AUTHN,
+  AUTHN_HEADERS,
+  CAUGHT_EXCEPTIONS,
+  MHV_SKIP_DUPE,
+} from './constants';
 
-const keepAliveThreshold = 5 * 60 * 1000; // 5 minutes, in milliseconds
+const SENTRY_LOG_THRESHOLD = [Sentry.Severity.Info];
 
-function keepAlive() {
-  return environment.isLocalhost() ? mockKeepAlive() : liveKeepAlive();
-}
+const logToSentry = data => {
+  let isCaptured = null;
+  const { message } = data;
 
-export async function ssoKeepAliveSession() {
-  const { ttl, transactionid, authn } = await keepAlive();
-  if (ttl > 0) {
-    // ttl is positive, user has an active session
-    // ttl is in seconds, add from now
-    const expirationTime = addSeconds(new Date(), ttl);
-    localStorage.setItem('sessionExpirationSSO', expirationTime);
-    localStorage.setItem('hasSessionSSO', true);
-  } else if (ttl === 0) {
-    // ttl is 0, user has an inactive session
-    localStorage.setItem('hasSessionSSO', false);
-  } else {
-    // ttl is null, we can't determine if the user has a session or not
-    localStorage.removeItem('hasSessionSSO');
-  }
-  return { ttl, transactionid, authn };
-}
+  const LEVEL = CAUGHT_EXCEPTIONS[message]
+    ? CAUGHT_EXCEPTIONS[message].LEVEL
+    : CAUGHT_EXCEPTIONS.default.LEVEL;
 
-/**
- *
- * @param {*} loggedIn checks if user is loggedIn
- * @param {*} ssoeTransactionId transactionId received from eAuth
- * @param {*} profile profile of current user (for verified)
- */
-export async function checkAutoSession(
-  loggedIn,
-  ssoeTransactionId,
-  profile = {},
-) {
-  const { ttl, transactionid, authn } = await ssoKeepAliveSession();
-
-  /**
-   * Ensure user is authenticated with SSOe by verifying
-   * loggedIn status and transaction ID
-   */
-  if (loggedIn && ssoeTransactionId) {
-    if (ttl === 0) {
-      /**
-       * Check if TTL is 0
-       * TTL: 0 = Session invalid
-       * TTL: > 0 and < 900 = Session valid
-       * TTL: undefined, can't verify SSOe status
-       */
-      logout(API_VERSION, AUTH_EVENTS.SSO_LOGOUT, {
-        'auto-logout': 'true',
-      });
-    } else if (transactionid && transactionid !== ssoeTransactionId) {
-      /**
-       * Compare transaction ID with ssoeTransactionID
-       * transactionID (eAuth) !== ssoeTransaction: Different user logged in
-       * and perform an auto-login with the new session. (Auto logout and re-logins)
-       */
-      login({
-        policy: POLICY_TYPES.CUSTOM,
-        queryParams: { authn },
-        clickedEvent: AUTH_EVENTS.SSO_LOGIN,
-      });
-    } else if (
-      loginAppUrlRE.test(window.location.pathname) &&
-      ttl > 0 &&
-      profile.verified
-    ) {
-      /**
-       * Unified Sign-in page
-       * If user has an SSOe session & is verified, redirect them
-       * to the specified return url
-       */
-      window.location = standaloneRedirect() || window.location.origin;
-    }
-  } else if (!loggedIn && ttl > 0 && !getLoginAttempted() && authn) {
-    /**
-     * Create an auto-login when the following are true
-     * 1. No active VA.gov session
-     * 2. Active SSOe session
-     * 3. No previously attempted to login (sessionStorage `setLoginAttempted` is false)
-     * 4. Have a non-empty type value from eAuth keepalive endpoint
-     */
-    login({
-      policy: POLICY_TYPES.CUSTOM,
-      queryParams: { authn },
-      clickedEvent: AUTH_EVENTS.SSO_LOGIN,
+  if (!SENTRY_LOG_THRESHOLD.includes(LEVEL)) {
+    Sentry.withScope(scope => {
+      scope.setLevel(LEVEL);
+      scope.setExtra(`${LEVEL}`, data);
+      if (typeof data === 'string') {
+        Sentry.captureMessage(`SSOe ${LEVEL}: ${message}`);
+      } else {
+        Sentry.captureException(data);
+      }
+      isCaptured = true;
     });
+  } else {
+    isCaptured = false;
   }
-}
+  return isCaptured;
+};
 
-export function checkAndUpdateSSOeSession() {
-  if (hasSessionSSO()) {
-    const sessionExpiration = localStorage.getItem('sessionExpirationSSO');
+export const sanitizeAuthn = authnCtx => authnCtx.replace(MHV_SKIP_DUPE, '');
 
-    const remainingSessionTime = differenceInSeconds(
-      new Date(sessionExpiration),
-      new Date(),
-    );
-    if (remainingSessionTime <= keepAliveThreshold) {
-      ssoKeepAliveSession();
+export const defaultKeepAliveResponse = {
+  ttl: 0,
+  transactionid: null,
+  authn: undefined,
+};
+
+export default async function keepAlive() {
+  /* Return a TTL and authn values from the IAM keepalive endpoint that
+  * 1) indicates how long the user's current SSOe session will be alive for,
+  * 2) and the AuthN context the user used when authenticating.
+
+  * Any positive TTL value means the user currently has a session, a TTL of 0
+  * means they don't have an active session, and a TTL of undefined means there
+  * was a problem calling the endpoint and we can't determine if they have a
+  * session or not
+  */
+  try {
+    const resp = await fetch(SSO_KEEP_ALIVE_ENDPOINT, {
+      method: 'HEAD',
+      credentials: 'include',
+      cache: 'no-store',
+    });
+
+    const alive = resp.headers.get(AUTHN_HEADERS.ALIVE);
+
+    // If no CSP or session-alive headers, return early
+    if (resp.headers.get(AUTHN_HEADERS.CSP) === undefined || alive !== 'true') {
+      return defaultKeepAliveResponse;
     }
+
+    await resp.text();
+    /**
+     * Use mapped authncontext for DS Logon and MHV
+     * Use `authncontextclassref` lookup for ID.me and Login.gov
+     */
+    const authn = {
+      DSLogon: CSP_AUTHN.DS_LOGON,
+      mhv: CSP_AUTHN.MHV,
+      LOGINGOV: resp.headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
+      idme: resp.headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
+    }[resp.headers.get(AUTHN_HEADERS.CSP)];
+
+    return {
+      ttl:
+        alive === 'true' ? Number(resp.headers.get(AUTHN_HEADERS.TIMEOUT)) : 0,
+      transactionid: resp.headers.get(AUTHN_HEADERS.TRANSACTION_ID),
+      authn: sanitizeAuthn(authn),
+    };
+  } catch (err) {
+    logToSentry(err);
+    return {};
   }
 }
+
+export { keepAlive };
