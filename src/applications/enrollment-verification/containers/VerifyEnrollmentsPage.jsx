@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
@@ -6,6 +6,7 @@ import RadioButtons from '@department-of-veterans-affairs/component-library/Radi
 import { fetchVerificationStatus } from '../actions';
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
+import EnrollmentVerificationMonthInfo from '../components/EnrollmentVerificationMonthInfo';
 
 export const VerifyEnrollmentsPage = ({
   getVerificationStatus,
@@ -26,31 +27,73 @@ export const VerifyEnrollmentsPage = ({
     [getVerificationStatus, loggedIn, verificationStatus],
   );
 
-  if (!verificationStatus) {
-    return <EnrollmentVerificationLoadingIndicator />;
-  }
-
-  const unverifiedMonths = verificationStatus?.months?.filter(m => m.verified);
-
   // TODO
   // if (!unverifiedMonths || !unverifiedMonths.length) {
   // window.location.html = '';
   // }
 
-  const currentMonthIndex = 0;
-  const month = unverifiedMonths[currentMonthIndex];
+  const [monthInformationCorrect, setMonthInformationCorrect] = useState(
+    undefined,
+  );
+  const [currentMonth, setCurrentMonth] = useState(0);
+  const [unverifiedMonths, setUnverifiedMonths] = useState(undefined);
+
+  if (verificationStatus && !unverifiedMonths) {
+    setUnverifiedMonths(
+      verificationStatus?.months?.filter(m => !m.verified).reverse(),
+    );
+  }
+
+  const updateMonthInformationCorrect = event => {
+    setMonthInformationCorrect(event.value);
+  };
+
+  const onBackButtonClick = () => {
+    if (currentMonth === 0) {
+      window.location.href = '/enrollment-history/review-enrollments';
+    }
+  };
+
+  const onForwardButtonClick = () => {
+    // TODO validation
+    // if (onMonthInformationCorrectChange === undefined) {
+    // }
+
+    setUnverifiedMonths(
+      unverifiedMonths.map(
+        (m, i) =>
+          i === currentMonth
+            ? {
+                ...m,
+                correct: monthInformationCorrect,
+              }
+            : m,
+      ),
+    );
+
+    setCurrentMonth(currentMonth + 1);
+
+    // if () {
+    //   window.location.href = '/enrollment-history/review-enrollments';
+    // }
+  };
+
+  if (!verificationStatus || !unverifiedMonths) {
+    return <EnrollmentVerificationLoadingIndicator />;
+  }
+  const month = unverifiedMonths[currentMonth];
 
   return (
     <EnrollmentVerificationPageWrapper>
       <h1>Verify your enrollments</h1>
 
       <va-segmented-progress-bar
-        current={currentMonthIndex + 1}
+        current={currentMonth + 1}
         total={unverifiedMonths.length}
       />
 
       <h2>
-        Step {currentMonthIndex + 1} of {unverifiedMonths.length}: Verify{' '}
+        Step {currentMonth + 1} of {unverifiedMonths.length}: Verify{' '}
         {month.month}
       </h2>
 
@@ -63,7 +106,7 @@ export const VerifyEnrollmentsPage = ({
         We skipped you ahead to the review step because you selected "No, this
         information isn’t correct" for September 2021.
       </va-alert> */}
-
+      {/* 
       <br />
 
       <va-alert
@@ -94,55 +137,72 @@ export const VerifyEnrollmentsPage = ({
             </li>
           </ul>
         </va-additional-info>
-      </va-alert>
+      </va-alert> */}
 
       <br />
 
       <div className="ev-highlighted-content-container">
         <header className="ev-highlighted-content-container_header">
           <h1 className="ev-highlighted-content-container_title vads-u-font-size--h3">
-            September 2021
+            {month.month}
           </h1>
         </header>
         <div className="ev-highlighted-content-container_content">
           <p>
-            This is the enrollment information we have on file for you for
-            September 2021.
+            This is the enrollment information we have on file for you for{' '}
+            {month.month}.
           </p>
           <div className="ev-info-block">
-            <p>
-              <strong>[Start date] &ndash; [End date]</strong> at Wake Forest
-              University School of Business
-            </p>
-            <p>
-              <strong>Total credit hours:</strong> [#]
-            </p>
-            <p>
-              <strong>[Start date] &ndash; [End date]</strong> at Adirondack
-              Community College
-            </p>
-            <p>
-              <strong>Total credit hours:</strong>
-              [#]
-            </p>
+            <EnrollmentVerificationMonthInfo enrollments={month.enrollments} />
           </div>
         </div>
       </div>
 
+      {/* <va-radio
+        error="Please select an option"
+        label="To the best of your knowledge, is this enrollment information correct?"
+        vaValueChange={event => {
+          window.console.log(`${event} FOO radioOptionSelected`);
+          setMonthInformationCorrect(event.detail.value);
+        }}
+        onVaValueChange={event => {
+          window.console.log(`${event} FOO radioOptionSelected`);
+          setMonthInformationCorrect(event.detail.value);
+        }}
+        onRadioOptionSelected={event => {
+          window.console.log(`${event} FOO radioOptionSelected`);
+          setMonthInformationCorrect(event.detail.value);
+        }}
+        radioOptionSelected={event => {
+          window.console.log(`${event}radioOptionSelected`);
+          setMonthInformationCorrect(event.detail.value);
+        }}
+        required
+      >
+        <va-radio-option
+          label="Yes, this information is correct"
+          name="monthInformationCorrect"
+          value="true"
+        />
+        <va-radio-option
+          label="No, this information isn't correct"
+          name="monthInformationIncorrect"
+          value="false"
+        />
+      </va-radio> */}
+
       <RadioButtons
-        errorMessage=""
-        label="This is a Label"
-        onKeyDown={function noRefCheck() {}}
-        onMouseDown={function noRefCheck() {}}
-        onValueChange={function noRefCheck() {}}
+        errorMessage="Please select an option"
+        label="To the best of your knowledge, is this enrollment information correct?"
+        // onKeyDown={function noRefCheck() {}}
+        // onMouseDown={function noRefCheck() {}}
+        onValueChange={updateMonthInformationCorrect}
         options={[
-          'Yes, this information is correct',
-          "No, this information isn't correct",
+          { value: 'correct', label: 'Yes, this information is correct' },
+          { value: 'incorrect', label: "No, this information isn't correct" },
         ]}
         required
-        value={{
-          value: 'First option',
-        }}
+        value={{ value: monthInformationCorrect }}
       />
 
       <va-alert
@@ -163,6 +223,7 @@ export const VerifyEnrollmentsPage = ({
         type="button"
         className="usa-button-secondary"
         id="1-continueButton"
+        onClick={onBackButtonClick}
       >
         <span className="button-icon" aria-hidden="true">
           «&nbsp;
@@ -173,6 +234,7 @@ export const VerifyEnrollmentsPage = ({
         type="submit"
         className="usa-button-primary"
         id="2-continueButton"
+        onClick={onForwardButtonClick}
       >
         Continue
         <span className="button-icon" aria-hidden="true">

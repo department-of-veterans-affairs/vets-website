@@ -1,7 +1,7 @@
 import React from 'react';
 
-import EnrollmentVerificationMonthAdditionalInfo from './EnrollmentVerificationMonthAdditionalInfo';
 import { PAYMENT_STATUS } from '../actions';
+import EnrollmentVerificationMonthInfo from './EnrollmentVerificationMonthInfo';
 
 const verifiedMonthStatusMessage = (
   <>
@@ -63,9 +63,10 @@ export default function EnrollmentVerificationMonth({ month, paymentStatus }) {
     <div className="ev-enrollment-month">
       <h3>{month.month}</h3>
       {monthStatusMessage}
-      <EnrollmentVerificationMonthAdditionalInfo
-        enrollments={month.enrollments}
-      />
+
+      <va-additional-info trigger="More information">
+        <EnrollmentVerificationMonthInfo enrollments={month.enrollments} />
+      </va-additional-info>
     </div>
   );
 }

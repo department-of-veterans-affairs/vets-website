@@ -39,7 +39,6 @@ export default function EnrollmentVerificationMonths({ status }) {
   return (
     <>
       <h2>Your monthly enrollment verifications</h2>
-
       <p>
         Showing {lowerDisplayedRange}-{upperDisplayedRange} of {months?.length}{' '}
         monthly enrollments listed by most recent

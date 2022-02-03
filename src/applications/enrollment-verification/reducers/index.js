@@ -20,6 +20,42 @@ export default {
             nextVerificationDate: '2022-02-01',
             months: [
               {
+                month: '2022-01',
+                verified: false,
+                enrollments: [
+                  {
+                    institution: 'Wake Forest University School of Business',
+                    creditHours: 9,
+                    startDate: '2021-10-01',
+                    endDate: '2021-10-31',
+                  },
+                  {
+                    institution: 'Adirondack Community College',
+                    creditHours: 6,
+                    startDate: '2021-10-01',
+                    endDate: '2021-10-31',
+                  },
+                ]
+              },
+              {
+                month: '2021-12',
+                verified: false,
+                enrollments: [
+                  {
+                    institution: 'Wake Forest University School of Business',
+                    creditHours: 12,
+                    startDate: '2021-10-01',
+                    endDate: '2021-10-31',
+                  },
+                  {
+                    institution: 'Adirondack Community College',
+                    creditHours: 2,
+                    startDate: '2021-10-01',
+                    endDate: '2021-10-31',
+                  },
+                ]
+              },
+              {
                 month: '2021-11',
                 verified: false,
                 enrollments: [

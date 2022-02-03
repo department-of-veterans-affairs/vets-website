@@ -1,8 +1,6 @@
 import React from 'react';
 
-export default function EnrollmentVerificationMonthAdditionalInfo({
-  enrollments,
-}) {
+export default function EnrollmentVerificationMonthInfo({ enrollments }) {
   const enrollmentInstitutions = enrollments?.map((enrollment, index) => {
     return (
       <li className="ev-month-info-institutions_institution" key={index}>
@@ -20,10 +18,6 @@ export default function EnrollmentVerificationMonthAdditionalInfo({
   });
 
   return (
-    <>
-      <va-additional-info trigger="More information">
-        <ul className="ev-month-info-institutions">{enrollmentInstitutions}</ul>
-      </va-additional-info>
-    </>
+    <ul className="ev-month-info-institutions">{enrollmentInstitutions}</ul>
   );
 }
