@@ -62,8 +62,13 @@ const ValidateVeteran = props => {
             lastName,
             checkInType,
           });
-          setSession(token, resp.permissions);
-          goToNextPage();
+          if (resp.errors || resp.error) {
+            setIsLoading(false);
+            goToErrorPage();
+          } else {
+            setSession(token, resp.permissions);
+            goToNextPage();
+          }
         } catch (e) {
           setIsLoading(false);
           goToErrorPage();
