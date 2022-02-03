@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 
-import { DocumentUploader } from '../../components/DocumentUploader';
+import DocumentUploader from '../../components/DocumentUploader';
 
 describe('DocumentUploader', () => {
   it('should render with the expected fields', () => {
