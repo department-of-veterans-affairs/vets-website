@@ -1,10 +1,10 @@
 name: Lighthouse CI
 
 on:
-  ? workflow_dispatch
-  schedule:
-    - cron: '0 12 * * 1-5'
-
+  # ? workflow_dispatch
+  # schedule:
+  #   - cron: '0 12 * * 1-5'
+  push
 env:
   CHANNEL_ID: C02A8S3JPNZ
 
