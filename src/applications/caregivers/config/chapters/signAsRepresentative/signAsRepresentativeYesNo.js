@@ -6,7 +6,7 @@ const representativePage = {
     'ui:description': RepresentativeIntroContent(),
     'ui:options': {
       classNames:
-        'vads-u-background-color--gray-lightest vads-u-padding-top--0p5 vads-u-padding-bottom--2p5 vads-u-margin-x--neg1 vads-u-padding-x--4',
+        'vads-u-background-color--gray-lightest vads-u-padding-top--0p5 vads-u-padding-bottom--2p5 vads-u-padding-x--4',
     },
     [representativeFields.signAsRepresentativeYesNo]: {
       'ui:title': 'Select who will sign for the Veteran today:',

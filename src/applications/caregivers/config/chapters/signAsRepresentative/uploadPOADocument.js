@@ -1,4 +1,3 @@
-// import React from 'react';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import environment from 'platform/utilities/environment';
 import {
@@ -6,7 +5,10 @@ import {
   ALLOWED_FILE_TYPES,
   MAX_FILE_SIZE_BYTES,
 } from 'applications/caregivers/definitions/constants';
-import { RepresentativeDocumentUploadDescription } from 'applications/caregivers/components/AdditionalInfo';
+import {
+  UploadSuccessAlertDescription,
+  RepresentativeDocumentUploadDescription,
+} from 'applications/caregivers/components/AdditionalInfo';
 import recordEvent from 'platform/monitoring/record-event';
 
 const createPayload = (file, formId, password) => {
@@ -41,20 +43,30 @@ export default {
     'ui:description': RepresentativeDocumentUploadDescription(),
     'ui:options': {
       classNames:
-        'vads-u-background-color--gray-lightest vads-u-padding-top--0p5 vads-u-padding-bottom--2p5 vads-u-margin-x--neg1 vads-u-padding-x--4',
+        'vads-u-background-color--gray-lightest vads-u-padding-top--0p5 vads-u-padding-bottom--2p5 vads-u-padding-x--4',
     },
-    // 'view:placeholder': {
-    //   'ui:description': '',
-    //   'ui:options': {
-    //     classNames:
-    //       'vads-u-background-color--white vads-u-padding--0p25 vads-u-margin-y--4',
-    //   },
-    // },
+    'view:uploadSuccessAlert': {
+      'ui:options': {
+        hideIf: formData => {
+          if (
+            formData.signAsRepresentativeDocumentUpload &&
+            formData.signAsRepresentativeDocumentUpload.length > 0 &&
+            formData.signAsRepresentativeDocumentUpload[0].guid &&
+            formData.signAsRepresentativeDocumentUpload[0].name &&
+            !formData.signAsRepresentativeDocumentUpload[0].errorMessage
+          ) {
+            return false; // return false to show, not not hide
+          }
+          return true;
+        },
+      },
+      'ui:description': UploadSuccessAlertDescription,
+    },
     [representativeFields.documentUpload]: fileUploadUI(
       'Upload your document:',
       {
         buttonText: 'Upload document',
-        classNames: 'poa-document-upload',
+        classNames: 'poa-document-upload vads-u-margin-top--2',
         multiple: false,
         fileUploadUrl: `${environment.API_URL}/v0/form1010cg/attachments`,
         fileTypes: ALLOWED_FILE_TYPES,
@@ -62,12 +74,6 @@ export default {
         hideLabelText: false,
         createPayload,
         parseResponse,
-        attachmentName: {
-          'ui:title': 'Document name',
-          'ui:options': {
-            useDlWrap: true,
-          },
-        },
       },
     ),
   },
@@ -75,10 +81,10 @@ export default {
     type: 'object',
     required: [representativeFields.documentUpload],
     properties: {
-      // 'view:placeholder': {
-      //   type: 'object',
-      //   properties: {},
-      // },
+      'view:uploadSuccessAlert': {
+        type: 'object',
+        properties: {},
+      },
       [representativeFields.documentUpload]: {
         type: 'array',
         minItems: 1,

@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+
+import { focusElement } from 'platform/utilities/ui';
 
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
@@ -211,33 +213,6 @@ export const SecondaryRequiredAlert = () => {
   );
 };
 
-// export const RepresentativeIntroContent = () => {
-//   return (
-//     <section>
-//       <p>
-//         Some family caregivers are also the Veteran’s legal representative.
-//         These representatives have the legal authority to make certain decisions
-//         for the Veteran.
-//       </p>
-
-//       <p>Here’s what you should know:</p>
-
-//       <ul>
-//         <li>
-//           You can still continue with this application to apply for the program
-//           even if you’re not the Veteran’s legal representative.
-//         </li>
-
-//         <li>
-//           If you are the Veteran’s legal representative, you can upload a
-//           document to show your legal status now. If you don’t upload your
-//           document now, we’ll ask you to provide it later.
-//         </li>
-//       </ul>
-//     </section>
-//   );
-// };
-
 export const RepresentativeIntroContent = () => {
   return (
     <section>
@@ -324,48 +299,36 @@ export const RepresentativeAdditionalInfo = () => {
   );
 };
 
-// export const RepresentativeDocumentUploadDescription = () => {
-//   const prependDot = string => `.${string}`;
-//   const allowedFileTypes = arrayToSentenceString(
-//     ALLOWED_FILE_TYPES,
-//     'or',
-//     prependDot,
-//   );
-
-//   return (
-//     <section>
-//       <p>
-//         You can upload a scanned copy or photo of your document from the device
-//         you’re using to apply online.
-//       </p>
-
-//       <p>Follow these guidelines when you upload your document:</p>
-//       <ul>
-//         <li>
-//           Upload the full document. We can’t accept only a cover or signature
-//           page.
-//         </li>
-//         <li>Format the file as a {allowedFileTypes}.</li>
-//         <li>
-//           Be sure the file is {MAX_FILE_SIZE_MB}
-//           MB or less in size.
-//         </li>
-//       </ul>
-
-//       <p>
-//         <strong>Note: </strong>A 1MB scanned file equals about 500 pages of
-//         text. A photo is usually about 6MB. If you have a slow Internet
-//         connection, large files may take longer to upload.
-//       </p>
-
-//       <RepresentativeAdditionalInfo />
-//     </section>
-//   );
-// };
+export const UploadSuccessAlertDescription = () => {
+  const divElement = useRef();
+  useEffect(() => {
+    focusElement(divElement.current);
+  }, []);
+  return (
+    <div
+      ref={divElement}
+      className="form-expanding-group form-expanding-group-open"
+      style={{ outline: 'none' }}
+    >
+      <p className="vads-u-margin-bottom--1px">
+        <strong>Check your upload before you continue</strong>
+      </p>
+      <p className="vads-u-margin-top--1px">
+        It’s easy to upload the wrong file by mistake. We want to make sure that
+        we review the right document (like a medical proxy or medical power of
+        attorney). This will help speed up your application process.
+      </p>
+      <p>
+        Check the file name. If it’s not the right file, you can delete it and
+        upload another one before you continue.
+      </p>
+    </div>
+  );
+};
 
 export const RepresentativeDocumentUploadDescription = () => {
   return (
-    <section className="vads-u-margin-bottom--6">
+    <section className="vads-u-margin-bottom--3">
       <h3 className="vads-u-font-size--h4">Upload your supporting document</h3>
       <p>
         We can only accept a document that proves you have legal authority to
