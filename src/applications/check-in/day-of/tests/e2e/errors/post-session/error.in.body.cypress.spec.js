@@ -4,7 +4,7 @@ import ApiInitializer from '../../../../../api/local-mock-api/e2e/ApiInitializer
 import ValidateVeteran from '../../../../../tests/e2e/pages/ValidateVeteran';
 import Error from '../../pages/Error';
 
-describe('Pre-Check In Experience ', () => {
+describe('Check In Experience ', () => {
   describe('Error handling', () => {
     describe('POST /check_in/v2/sessions/', () => {
       describe('error in the body', () => {
@@ -25,9 +25,9 @@ describe('Pre-Check In Experience ', () => {
           });
         });
         it('attempt to sign in with an error', () => {
-          cy.visitPreCheckInWithUUID();
+          cy.visitWithUUID();
           // page: Validate
-          ValidateVeteran.validatePage.preCheckIn();
+          ValidateVeteran.validatePage.dayOf();
           ValidateVeteran.validateVeteran();
           cy.injectAxeThenAxeCheck();
 
