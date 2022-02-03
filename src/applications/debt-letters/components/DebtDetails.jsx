@@ -10,11 +10,11 @@ import Breadcrumbs from '@department-of-veterans-affairs/component-library/Bread
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { setPageFocus, getCurrentDebt, currency } from '../utils/page';
-import { OnThisPageLinks } from './OnThisPageLinks';
+import OnThisPageLinks from './OnThisPageLinks';
 import { renderAdditionalInfo } from '../const/diary-codes';
 import HistoryTable from './HistoryTable';
 import {
@@ -179,6 +179,7 @@ DebtDetails.defaultProps = {
 };
 
 DebtDetails.propTypes = {
+  debts: PropTypes.array,
   selectedDebt: PropTypes.shape({
     currentAr: PropTypes.number,
     debtHistory: PropTypes.arrayOf(
@@ -188,7 +189,7 @@ DebtDetails.propTypes = {
     ),
     deductionCode: PropTypes.string,
     originalAr: PropTypes.number,
-  }).isRequired,
+  }),
 };
 
 export default connect(mapStateToProps)(DebtDetails);

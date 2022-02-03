@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -6,7 +6,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
-import { focusElement } from 'platform/utilities/ui';
 import Footer from '../../components/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
@@ -34,9 +33,6 @@ const NextOfKin = props => {
     },
     [dispatch],
   );
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
 
   const yesClick = useCallback(
     () => {
@@ -64,21 +60,19 @@ const NextOfKin = props => {
   if (!nextOfKin) {
     goToErrorPage();
     return <></>;
-  } else {
-    return (
-      <>
-        <BackButton router={router} action={goToPreviousPage} />
-        <NextOfKinDisplay
-          nextOfKin={nextOfKin}
-          yesAction={yesClick}
-          noAction={noClick}
-          Footer={Footer}
-          isPreCheckIn={false}
-        />
-        <BackToHome isPreCheckIn={false} />
-      </>
-    );
   }
+  return (
+    <>
+      <BackButton router={router} action={goToPreviousPage} />
+      <NextOfKinDisplay
+        nextOfKin={nextOfKin}
+        yesAction={yesClick}
+        noAction={noClick}
+        Footer={Footer}
+      />
+      <BackToHome />
+    </>
+  );
 };
 
 NextOfKin.propTypes = {

@@ -8,8 +8,8 @@ const Error = () => {
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 ">
       <ErrorMessage />
-      <Footer isPreCheckIn={false} />
-      <BackToHome isPreCheckIn={false} />
+      <Footer />
+      <BackToHome />
     </div>
   );
 };

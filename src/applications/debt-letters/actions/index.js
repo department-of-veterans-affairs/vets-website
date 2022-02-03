@@ -1,8 +1,7 @@
+import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
 import recordEvent from '~/platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';
 import environment from '~/platform/utilities/environment';
-import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
-
 import { debtMockResponse, debtMockResponseVBMS } from '../utils/mockResponses';
 import { deductionCodes } from '../const/deduction-codes';
 
