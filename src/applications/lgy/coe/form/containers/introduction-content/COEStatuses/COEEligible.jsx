@@ -22,7 +22,7 @@ const COEEligible = ({ downloadUrl }) => (
         Get instructions for downloading a VA.gov PDF
       </a>
     </div>
-    <div className="vads-u-margin-top--2">
+    <div className="vads-u-margin-top--4">
       <a href={downloadUrl}>
         <i
           className="fas fa-download vads-u-padding-right--1"
