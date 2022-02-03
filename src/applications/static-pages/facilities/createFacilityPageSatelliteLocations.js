@@ -14,10 +14,8 @@ export default async function createFacilityPageSatelliteLocations(store) {
       default: FacilityMapWidget,
     } = await import(/* webpackChunkName: "facility-detail" */ './FacilityMapWidget');
 
-    mapWidgets.forEach(mapWidget => {
-      if (mapWidget && !facilityID) {
-        facilityID = mapWidget.dataset.facility;
-      }
+    mapWidgets.forEach((mapWidget, index) => {
+      facilityID = window.satteliteVetCenters[index];
 
       if (facilityID) {
         store.dispatch(fetchFacility(facilityID));
