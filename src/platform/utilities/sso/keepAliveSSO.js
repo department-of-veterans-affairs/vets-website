@@ -34,13 +34,18 @@ const logToSentry = data => {
   return isCaptured;
 };
 
-const sanitizeAuthn = authnCtx => authnCtx.replace(MHV_SKIP_DUPE, '');
+export const sanitizeAuthn = authnCtx => authnCtx.replace(MHV_SKIP_DUPE, '');
+
+export const defaultKeepAliveResponse = {
+  ttl: 0,
+  transactionid: null,
+  authn: undefined,
+};
 
 export default async function keepAlive() {
   /* Return a TTL and authn values from the IAM keepalive endpoint that
   * 1) indicates how long the user's current SSOe session will be alive for,
   * 2) and the AuthN context the user used when authenticating.
-
   * Any positive TTL value means the user currently has a session, a TTL of 0
   * means they don't have an active session, and a TTL of undefined means there
   * was a problem calling the endpoint and we can't determine if they have a
@@ -53,9 +58,14 @@ export default async function keepAlive() {
       cache: 'no-store',
     });
 
-    await resp.text();
     const alive = resp.headers.get(AUTHN_HEADERS.ALIVE);
 
+    // If no CSP or session-alive headers, return early
+    if (resp.headers.get(AUTHN_HEADERS.CSP) === undefined || alive !== 'true') {
+      return defaultKeepAliveResponse;
+    }
+
+    await resp.text();
     /**
      * Use mapped authncontext for DS Logon and MHV
      * Use `authncontextclassref` lookup for ID.me and Login.gov

@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import ENVIRONMENTS from 'site/constants/environments';
-import environment from '../../utilities/environment';
+import environment from 'platform/utilities/environment';
 
 export const eauthEnvironmentPrefixes = {
   [ENVIRONMENTS.LOCALHOST]: 'pint.',

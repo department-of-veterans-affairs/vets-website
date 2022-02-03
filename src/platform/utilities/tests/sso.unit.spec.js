@@ -6,14 +6,17 @@ import localStorage from 'platform/utilities/storage/localStorage';
 import * as authUtils from 'platform/user/authentication/utilities';
 import * as keepAliveMod from 'platform/utilities/sso/keepAliveSSO';
 
-import { checkAutoSession, checkAndUpdateSSOeSession } from '../sso';
-import * as loginAttempted from '../sso/loginAttempted';
-import { AUTHN_HEADERS, CSP_AUTHN } from '../sso/constants';
+import {
+  checkAutoSession,
+  checkAndUpdateSSOeSession,
+} from 'platform/utilities/sso';
+import * as loginAttempted from 'platform/utilities/sso/loginAttempted';
+import { AUTHN_HEADERS, CSP_AUTHN } from 'platform/utilities/sso/constants';
 import {
   API_VERSION,
   AUTH_EVENTS,
   CSP_IDS,
-} from '../../user/authentication/constants';
+} from 'platform/user/authentication/constants';
 
 const defaultKeepAliveOpts = {
   [AUTHN_HEADERS.ALIVE]: 'false',
