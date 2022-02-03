@@ -29,6 +29,7 @@ describe('Pre-Check In Experience ', () => {
         cy.visitPreCheckInWithUUID();
 
         Error.validatePageLoaded();
+        cy.injectAxeThenAxeCheck();
       });
     });
   });
