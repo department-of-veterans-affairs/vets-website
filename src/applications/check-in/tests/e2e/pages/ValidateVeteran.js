@@ -44,7 +44,7 @@ class ValidateVeteran {
   }
 
   attemptToGoToNextPage = () => {
-    cy.get('[data-testid=check-in-button]').click();
+    cy.get('[data-testid=check-in-button]').click({ waitForAnimations: true });
   };
 
   validateAutocorrectDisabled = () => {
