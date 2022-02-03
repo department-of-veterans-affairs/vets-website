@@ -57,7 +57,7 @@ export default function ValidateDisplay({
 }
 
 ValidateDisplay.propTypes = {
-  Footer: propTypes.node,
+  Footer: propTypes.elementType,
   header: propTypes.string,
   subtitle: propTypes.string,
   validateHandler: propTypes.func,
