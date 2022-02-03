@@ -72,16 +72,18 @@ const App = ({
       case COE_ELIGIBILITY_STATUS.pending:
         content = (
           <CoePending
-            notOnUploadPage
             applicationCreateDate={coe.applicationCreateDate}
+            notOnUploadPage
+            status={coe.status}
           />
         );
         break;
       case COE_ELIGIBILITY_STATUS.pendingUpload:
         content = (
           <CoePending
-            uploadsNeeded
             applicationCreateDate={coe.applicationCreateDate}
+            uploadsNeeded
+            status={coe.status}
           />
         );
         break;

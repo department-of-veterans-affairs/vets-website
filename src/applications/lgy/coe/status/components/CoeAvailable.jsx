@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import { CoeDocumentList } from './CoeDocumentList';
 import { MoreQuestions } from './MoreQuestions';
 
-export const CoeAvailable = ({ downloadURL }) => (
+export const CoeAvailable = ({ downloadUrl }) => (
   <div className="row vads-u-margin-bottom--7">
     <div className="medium-8 columns">
       <h2 className="vads-u-margin-top--0">Review and download your COE</h2>
@@ -17,7 +18,7 @@ export const CoeAvailable = ({ downloadURL }) => (
       </a>
       <a
         className="vads-u-font-size--base vads-u-display--block vads-u-margin-top--2"
-        href={downloadURL}
+        href={downloadUrl}
       >
         <i
           aria-hidden="true"
@@ -45,3 +46,7 @@ export const CoeAvailable = ({ downloadURL }) => (
     </div>
   </div>
 );
+
+CoeAvailable.propTypes = {
+  downloadUrl: PropTypes.string.isRequired,
+};
