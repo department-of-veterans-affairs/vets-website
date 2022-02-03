@@ -1,8 +1,8 @@
 import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { connect } from 'react-redux';
 import { mapboxToken } from '../../facility-locator/utils/mapboxToken';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
-import { connect } from 'react-redux';
 import { staticMapURL } from '../../facility-locator/utils/mapHelpers';
 
 export class FacilityMapWidget extends React.Component {
@@ -11,7 +11,8 @@ export class FacilityMapWidget extends React.Component {
     const facilityDetail = this.props.facility;
     const lat = this.getLat(facilityDetail);
     const long = this.getLong(facilityDetail);
-    const address = buildAddressArray(lat, long, facilityDetail);
+    let address = buildAddressArray(facilityDetail);
+    address = this.cleanAddress(address, lat, long);
     this.state = {
       lat,
       long,
@@ -22,10 +23,9 @@ export class FacilityMapWidget extends React.Component {
   cleanAddress(address, lat, long) {
     if (address && address.length !== 0) {
       return address.join(', ');
-    } else {
-      // If we don't have an address fallback on coords
-      return `${lat},${long}`;
     }
+    // If we don't have an address fallback on coords
+    return `${lat},${long}`;
   }
 
   updateLatLongAndAddress = facilityDetail => {
@@ -33,7 +33,7 @@ export class FacilityMapWidget extends React.Component {
     const lat = this.getLat(facilityDetail);
     const long = this.getLong(facilityDetail);
     if (lat !== 0 && long !== 0) {
-      let address = buildAddressArray(lat, long, facilityDetail);
+      let address = buildAddressArray(facilityDetail);
       address = this.cleanAddress(address, lat, long);
       myThis.setState({
         lat,
@@ -61,7 +61,8 @@ export class FacilityMapWidget extends React.Component {
   updateImageLink = facilityDetail => {
     const lat = this.getLat(facilityDetail);
     const long = this.getLong(facilityDetail);
-    let address = buildAddressArray(lat, long, facilityDetail);
+    let address = buildAddressArray(facilityDetail);
+    address = this.cleanAddress(address, lat, long);
     if (address && address.length !== 0) {
       address = address.join(', ');
     } else {

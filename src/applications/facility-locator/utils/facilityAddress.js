@@ -11,7 +11,7 @@ export function titleCase(str) {
     .join(' ');
 }
 
-export function buildAddressArray(lat, long, location, titleCaseText = false) {
+export function buildAddressArray(location, titleCaseText = false) {
   if (location && location.type === LocationType.CC_PROVIDER) {
     const { address } = location.attributes;
 
