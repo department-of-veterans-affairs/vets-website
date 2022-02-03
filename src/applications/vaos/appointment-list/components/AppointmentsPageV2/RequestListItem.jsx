@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { focusElement } from 'platform/utilities/ui';
 import { useDispatch, useSelector } from 'react-redux';
@@ -37,6 +37,7 @@ function handleLinkClicked(featureStatusImprovement, dispatch) {
 }
 
 export default function RequestListItem({ appointment, facility }) {
+  const history = useHistory();
   const isCC = appointment.vaos.isCommunityCare;
   const typeOfCareText = sentenceCase(appointment.type?.coding?.[0]?.display);
   const ccFacilityName = getPreferredCommunityCareProviderName(appointment);
@@ -63,8 +64,8 @@ export default function RequestListItem({ appointment, facility }) {
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         className="vads-u-padding--2 vads-u-display--flex vads-u-align-items--left vads-u-flex-direction--column medium-screen:vads-u-padding--3 medium-screen:vads-u-flex-direction--row medium-screen:vads-u-align-items--center"
-        onClick={handleClick()}
-        onKeyDown={handleKeyDown()}
+        onClick={handleClick(history, link, idClickable)}
+        onKeyDown={handleKeyDown(history, link, idClickable)}
       >
         <div className="vads-u-flex--1 vads-u-margin-y--neg0p5">
           {canceled && (
