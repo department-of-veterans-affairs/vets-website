@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
+import DowntimeNotification, {
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 import {
   selectFeatureRequests,
   selectFeatureStatusImprovement,
@@ -9,9 +12,6 @@ import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsListV2 from '../PastAppointmentsListV2';
 import CanceledAppointmentsList from '../CanceledAppointmentsList';
-import DowntimeNotification, {
-  externalServices,
-} from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
 import Select from '../../../components/Select';
 import ScheduleNewAppointment from '../ScheduleNewAppointment';
@@ -43,25 +43,68 @@ function getDropdownValueFromLocation(pathname) {
       subPageTitle: 'Requested',
       subHeading: 'Requested appointments',
     };
-  } else if (pathname.endsWith(DROPDOWN_VALUES.past)) {
+  }
+  if (pathname.endsWith(DROPDOWN_VALUES.past)) {
     return {
       dropdownValue: DROPDOWN_VALUES.past,
       subPageTitle: 'Past appointments',
       subHeading: 'Past appointments',
     };
-  } else if (pathname.endsWith(DROPDOWN_VALUES.canceled)) {
+  }
+  if (pathname.endsWith(DROPDOWN_VALUES.canceled)) {
     return {
       dropdownValue: DROPDOWN_VALUES.canceled,
       subPageTitle: 'Canceled appointments',
       subHeading: 'Canceled appointments',
     };
-  } else {
-    return {
-      dropdownValue: DROPDOWN_VALUES.upcoming,
-      subPageTitle: 'Your appointments',
-      subHeading: 'Your appointments',
-    };
   }
+  return {
+    dropdownValue: DROPDOWN_VALUES.upcoming,
+    subPageTitle: 'Your appointments',
+    subHeading: 'Your appointments',
+  };
+}
+
+function handleClick({ id, history, dispatch, setHasTypeChanged }) {
+  return _event => {
+    if (id === 'pending') {
+      history.push('/requested');
+      setHasTypeChanged(true);
+      dispatch(updateBreadcrumb({ title: 'Pending', path: 'requested' }));
+    }
+    if (id === 'past') {
+      history.push('/past');
+      setHasTypeChanged(true);
+      dispatch(updateBreadcrumb({ title: 'Past', path: 'past' }));
+    }
+    return () => {};
+  };
+}
+
+function handleDropdownChange(history, setHasTypeChanged) {
+  return e => {
+    const { value } = e.target;
+    if (value === DROPDOWN_VALUES.upcoming) {
+      history.push('/');
+    } else if (value === DROPDOWN_VALUES.requested) {
+      history.push('/requested');
+    } else if (value === DROPDOWN_VALUES.past) {
+      history.push('/past');
+    } else if (value === DROPDOWN_VALUES.canceled) {
+      history.push('/canceled');
+    }
+    setHasTypeChanged(true);
+  };
+}
+
+function renderWarningNotification() {
+  // console.log(props);
+  return (props, childContent) => {
+    const { status } = props;
+    return (
+      <WarningNotification status={status}>{childContent}</WarningNotification>
+    );
+  };
 }
 
 export default function AppointmentsPageV2() {
@@ -128,21 +171,21 @@ export default function AppointmentsPageV2() {
 
   const history = useHistory();
 
-  function onDropdownChange(e) {
-    const value = e.target.value;
-    if (value === DROPDOWN_VALUES.upcoming) {
-      history.push('/');
-    } else if (value === DROPDOWN_VALUES.requested) {
-      history.push('/requested');
-    } else if (value === DROPDOWN_VALUES.past) {
-      history.push('/past');
-    } else if (value === DROPDOWN_VALUES.canceled) {
-      history.push('/canceled');
-    }
-    setHasTypeChanged(true);
-  }
-
   const dispatch = useDispatch();
+  useEffect(
+    () => {
+      // Update the breadcrumb in the event that the user accessess the past appointments
+      // page from a bookmark or types 'past' in the address bar.
+      if (featureStatusImprovement) {
+        if (DROPDOWN_VALUES.past === dropdownValue) {
+          dispatch(updateBreadcrumb({ title: 'Past', path: 'past' }));
+        } else if (DROPDOWN_VALUES.requested === dropdownValue) {
+          dispatch(updateBreadcrumb({ title: 'Pending', path: 'requested' }));
+        }
+      }
+    },
+    [dispatch, dropdownValue, featureStatusImprovement],
+  );
 
   return (
     <PageLayout showBreadcrumbs showNeedHelp>
@@ -153,41 +196,48 @@ export default function AppointmentsPageV2() {
         appTitle="VA online scheduling tool"
         isReady
         dependencies={[externalServices.vaosWarning]}
-        render={(props, childContent) => (
-          <WarningNotification {...props}>{childContent}</WarningNotification>
-        )}
+        render={renderWarningNotification()}
       />
-      {showScheduleButton && <ScheduleNewAppointment />}
-      {featureStatusImprovement && (
-        <nav aria-label="Breadcrumb" className="vaos-appts__breadcrumb">
-          <ul>
-            <li>
-              <button
-                className="va-button-link"
-                onClick={() => {
-                  history.push('/requested');
-                  setHasTypeChanged(true);
-                  dispatch(
-                    updateBreadcrumb({ title: 'Pending', path: 'requested' }),
-                  );
-                }}
-              >{`Pending (${count})`}</button>
-            </li>
-            <li>
-              <button
-                className="va-button-link"
-                onClick={() => {
-                  history.push('/past');
-                  setHasTypeChanged(true);
-                  dispatch(updateBreadcrumb({ title: 'Past', path: 'past' }));
-                }}
-              >
-                Past
-              </button>
-            </li>
-          </ul>
-        </nav>
+      {showScheduleButton && (
+        <ScheduleNewAppointment
+          displayButton={DROPDOWN_VALUES.past !== dropdownValue}
+        />
       )}
+      {featureStatusImprovement &&
+        DROPDOWN_VALUES.past !== dropdownValue && (
+          <nav aria-label="Breadcrumb" className="vaos-appts__breadcrumb">
+            <ul>
+              <li>
+                <button
+                  type="button"
+                  className="va-button-link"
+                  onClick={handleClick({
+                    id: 'pending',
+                    history,
+                    dispatch,
+                    setHasTypeChanged,
+                  })}
+                >
+                  {`Pending (${count})`}
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  className="va-button-link"
+                  onClick={handleClick({
+                    id: 'past',
+                    history,
+                    dispatch,
+                    setHasTypeChanged,
+                  })}
+                >
+                  Past
+                </button>
+              </li>
+            </ul>
+          </nav>
+        )}
       {!featureStatusImprovement && (
         <>
           <h2 className="vads-u-margin-y--3">{subHeading}</h2>
@@ -201,7 +251,7 @@ export default function AppointmentsPageV2() {
           </label>
           <Select
             options={options}
-            onChange={onDropdownChange}
+            onChange={handleDropdownChange(history, setHasTypeChanged)}
             id="type-dropdown"
             value={dropdownValue}
           />

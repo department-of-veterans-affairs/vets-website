@@ -3,15 +3,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX } from 'applications/vaos/utils/constants';
+import PropTypes from 'prop-types';
 import { startNewAppointmentFlow } from '../redux/actions';
 import { selectFeatureStatusImprovement } from '../../redux/selectors';
 
-export default function ScheduleNewAppointment() {
+function handleClick(history, dispatch) {
+  return () => {
+    recordEvent({
+      event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+    });
+    dispatch(startNewAppointmentFlow());
+    history.push(`/new-appointment`);
+  };
+}
+
+export default function ScheduleNewAppointment({
+  displaySchedulingButton = true,
+}) {
   const history = useHistory();
   const dispatch = useDispatch();
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
+
+  if (featureStatusImprovement && !displaySchedulingButton) {
+    return null;
+  }
 
   return (
     <>
@@ -26,16 +43,14 @@ export default function ScheduleNewAppointment() {
         aria-label="Start scheduling an appointment"
         id="schedule-button"
         type="button"
-        onClick={() => {
-          recordEvent({
-            event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-          });
-          dispatch(startNewAppointmentFlow());
-          history.push(`/new-appointment`);
-        }}
+        onClick={handleClick(history, dispatch)}
       >
         Start scheduling
       </button>
     </>
   );
 }
+
+ScheduleNewAppointment.propTypes = {
+  displaySchedulingButton: PropTypes.bool,
+};
