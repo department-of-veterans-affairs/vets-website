@@ -8,6 +8,7 @@
 
 # VSP
 *       @department-of-veterans-affairs/frontend-review-group
+*/manifest.json @department-of-veterans-affairs/qa-standards
 src/platform/forms        @department-of-veterans-affairs/vsp-design-system-fe
 src/platform/forms-system @department-of-veterans-affairs/vsp-design-system-fe
 script/component-migration @department-of-veterans-affairs/vsp-design-system-fe
