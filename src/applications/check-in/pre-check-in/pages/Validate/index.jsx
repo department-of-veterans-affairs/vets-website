@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import propTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 
-import PropTypes from 'prop-types';
 import { api } from '../../../api';
 
 import { createSetSession } from '../../../actions/authentication';
@@ -100,7 +100,7 @@ const Index = ({ router }) => {
 };
 
 Index.propTypes = {
-  router: PropTypes.object,
+  router: propTypes.object,
 };
 
 export default Index;

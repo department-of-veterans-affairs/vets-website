@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { withRouter } from 'react-router';
 
 import PropTypes from 'prop-types';
 
@@ -6,20 +7,22 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { createAnalyticsSlug } from '../utils/analytics';
 import { useFormRouting } from '../hooks/useFormRouting';
-import { withRouter } from 'react-router';
 
 import { URLS } from '../utils/navigation';
 
 const BackToAppointments = ({ router, triggerRefresh }) => {
   const { jumpToPage } = useFormRouting(router);
-  const handleClick = e => {
-    e.preventDefault();
-    recordEvent({
-      event: createAnalyticsSlug('back-button-clicked'),
-    });
-    triggerRefresh();
-    jumpToPage(URLS.DETAILS);
-  };
+  const handleClick = useCallback(
+    e => {
+      e.preventDefault();
+      recordEvent({
+        event: createAnalyticsSlug('back-button-clicked'),
+      });
+      triggerRefresh();
+      jumpToPage(URLS.DETAILS);
+    },
+    [jumpToPage, triggerRefresh],
+  );
   return (
     <>
       <nav
@@ -27,8 +30,8 @@ const BackToAppointments = ({ router, triggerRefresh }) => {
         className="va-nav-breadcrumbs va-nav-breadcrumbs--mobile vads-u-margin-top--2 vads-u-padding-left--0"
       >
         <a
-          onClick={e => handleClick(e)}
-          href="#"
+          onClick={handleClick}
+          href="#appointments"
           data-testid="go-to-appointments-button"
         >
           Go to another appointment

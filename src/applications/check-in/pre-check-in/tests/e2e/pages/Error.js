@@ -1,7 +1,7 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 class Error {
-  validatePageLoaded() {
+  validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('have.text', "We couldn't complete pre-check-in");
@@ -10,16 +10,17 @@ class Error {
       .contains(
         'We’re sorry. Something went wrong on our end. Please try again.',
       );
-  }
+  };
 
-  validateDatePreCheckInDateShows() {
+  validateDatePreCheckInDateShows = () => {
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
       .contains('You can pre-check in online until');
-  }
-  validateURL() {
+  };
+
+  validateURL = () => {
     cy.url().should('match', /error/);
-  }
+  };
 }
 
 export default new Error();

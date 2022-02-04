@@ -34,18 +34,16 @@ const responses = {
     if (hasBeenValidated) {
       hasBeenValidated = false;
       return res.json(checkInData.get.createMultipleAppointments(uuid, 3));
-    } else {
-      return res.json(checkInData.get.createMultipleAppointments(uuid));
     }
+    return res.json(checkInData.get.createMultipleAppointments(uuid));
   },
   'POST /check_in/v2/patient_check_ins/': (req, res) => {
     const { uuid, appointmentIen, facilityId } =
       req.body?.patientCheckIns || {};
     if (!uuid || !appointmentIen || !facilityId) {
       return res.status(500).json(checkInData.post.createMockFailedResponse());
-    } else {
-      return res.json(checkInData.post.createMockSuccessResponse({}));
     }
+    return res.json(checkInData.post.createMockSuccessResponse({}));
   },
   'GET /check_in/v2/pre_check_ins/:uuid': (req, res) => {
     // TODO??: add check for queryString "/pre_check_ins/<uuid>?checkInType=preCheckIn"
@@ -58,9 +56,8 @@ const responses = {
       return res
         .status(500)
         .json(preCheckInData.post.createMockFailedResponse());
-    } else {
-      return res.json(preCheckInData.post.createMockSuccessResponse({}));
     }
+    return res.json(preCheckInData.post.createMockSuccessResponse({}));
   },
 };
 

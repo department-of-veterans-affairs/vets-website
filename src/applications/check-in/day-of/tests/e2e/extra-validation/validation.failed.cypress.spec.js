@@ -6,7 +6,7 @@ import Error from '../pages/Error';
 
 describe('Check In Experience -- ', () => {
   describe('extra validation -- ', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const {
         initializeFeatureToggle,
         initializeSessionGet,

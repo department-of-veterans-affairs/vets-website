@@ -7,7 +7,7 @@ import Confirmation from '../pages/Confirmation';
 
 describe('Pre Check In Experience', () => {
   describe('update skip path', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const now = Date.now();
       const today = new Date(now);
       const {

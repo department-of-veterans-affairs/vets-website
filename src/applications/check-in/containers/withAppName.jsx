@@ -7,7 +7,8 @@ export const withAppName = Component => {
     const selectApp = useMemo(makeSelectApp, []);
     const { app } = useSelector(selectApp);
     const isPreCheckIn = app === 'preCheckIn';
-
+    // Allowing for HOC
+    // eslint-disable-next-line react/jsx-props-no-spreading
     return <Component isPreCheckIn={isPreCheckIn} {...props} />;
   };
 };
