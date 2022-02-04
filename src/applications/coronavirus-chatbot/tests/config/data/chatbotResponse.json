@@ -110,8 +110,8 @@
         "name": "facility_locator_show_operational_hours_special_instructions",
         "value": false
       },
-      { "name": "findFormsMvpEnhancement", "value": false },
-      { "name": "find_forms_mvp_enhancement", "value": false },
+      { "name": "findFormsShowPdfModal", "value": true },
+      { "name": "find_forms_show_pdf_modal", "value": true },
       { "name": "form10182Nod", "value": false },
       { "name": "form10182_nod", "value": false },
       { "name": "form526BenefitsDeliveryAtDischarge", "value": true },
