@@ -2,6 +2,7 @@ import '../../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
+import Introduction from '../pages/Introduction';
 
 describe('Pre Check In Experience', () => {
   describe('session', () => {
@@ -21,11 +22,12 @@ describe('Pre Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it.skip('On page reload, the data should be pull from session storage and redirected to landing screen with data loaded', () => {
+    it('On page reload, the data should be pull from session storage and redirected to landing screen with data loaded', () => {
       cy.visitPreCheckInWithUUID();
       ValidateVeteran.validatePageLoaded();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      Introduction.validatePageLoaded();
 
       cy.window().then(window => {
         const data = window.sessionStorage.getItem(
