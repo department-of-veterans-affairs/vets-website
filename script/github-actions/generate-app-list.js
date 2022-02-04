@@ -8,6 +8,7 @@ function exportAppList() {
       app.appName,
       app.entryName,
       app.filePath.substring(app.filePath.indexOf('src')),
+      app.rootUrl,
     ];
   });
   core.exportVariable('APPLICATION_LIST', applicationList);
