@@ -4,14 +4,14 @@ import classNames from 'classnames';
 import Scroll from 'react-scroll';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import { isReactComponent } from 'platform/utilities/ui';
-import { allEqual } from '../utils/helpers';
 import {
   toIdSchema,
   getDefaultFormState,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import { allEqual } from '../utils/helpers';
 
 const ScrollElement = Scroll.Element;
-const scroller = Scroll.scroller;
+const { scroller } = Scroll;
 
 const Header = ({
   title,
@@ -451,13 +451,10 @@ export default ItemLoop;
 
 ItemLoop.propTypes = {
   schema: PropTypes.object.isRequired,
-  uiSchema: PropTypes.object,
-  errorSchema: PropTypes.object,
-  requiredSchema: PropTypes.object,
-  idSchema: PropTypes.object,
   onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func,
+  errorSchema: PropTypes.object,
   formData: PropTypes.array,
+  idSchema: PropTypes.object,
   registry: PropTypes.shape({
     widgets: PropTypes.objectOf(
       PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
@@ -466,4 +463,7 @@ ItemLoop.propTypes = {
     definitions: PropTypes.object.isRequired,
     formContext: PropTypes.object.isRequired,
   }),
+  requiredSchema: PropTypes.object,
+  uiSchema: PropTypes.object,
+  onBlur: PropTypes.func,
 };
