@@ -172,7 +172,7 @@ const ConfirmationPage = ({ form, download }) => {
 };
 
 ConfirmationPage.propTypes = {
-  download: PropTypes.object,
+  download: PropTypes.func,
   form: PropTypes.object,
 };
 
