@@ -9,9 +9,11 @@ export const eauthEnvironmentPrefixes = {
   [ENVIRONMENTS.VAGOVPROD]: '',
 };
 
-export const MHV_SKIP_DUPE = {
-  SINGLE_QUERY: '?skip_dupe=mhv',
-  MULTIPLE_QUERIES: '&skip_dupe=mhv',
+export const MHV_SKIP_DUPE = 'skip_dupe=mhv';
+
+export const SKIP_DUPE_QUERY = {
+  SINGLE_QUERY: `?${MHV_SKIP_DUPE}`,
+  MULTIPLE_QUERIES: `&${MHV_SKIP_DUPE}`,
 };
 
 export const CSP_AUTHN = {

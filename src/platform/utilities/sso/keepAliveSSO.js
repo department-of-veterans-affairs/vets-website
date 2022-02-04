@@ -4,7 +4,7 @@ import {
   CSP_AUTHN,
   AUTHN_HEADERS,
   CAUGHT_EXCEPTIONS,
-  MHV_SKIP_DUPE,
+  SKIP_DUPE_QUERY,
 } from './constants';
 
 const SENTRY_LOG_THRESHOLD = [Sentry.Severity.Info];
@@ -39,8 +39,8 @@ export const sanitizeAuthn = (authnCtx = 'NOT_FOUND') => {
   return authnCtx === null || !authnCtx.length
     ? 'NOT_FOUND'
     : authnCtx
-        .replace(MHV_SKIP_DUPE.SINGLE_QUERY, emptyString)
-        .replace(MHV_SKIP_DUPE.MULTIPLE_QUERIES, emptyString);
+        .replace(SKIP_DUPE_QUERY.SINGLE_QUERY, emptyString)
+        .replace(SKIP_DUPE_QUERY.MULTIPLE_QUERIES, emptyString);
 };
 
 export const defaultKeepAliveResponse = {

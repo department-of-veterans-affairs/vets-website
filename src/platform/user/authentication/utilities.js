@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/browser';
 import 'url-search-params-polyfill';
 
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
-import { MHV_SKIP_DUPE } from 'platform/utilities/sso/constants';
+import { SKIP_DUPE_QUERY } from 'platform/utilities/sso/constants';
 import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
@@ -103,7 +103,7 @@ const generatePath = (app, to) => {
 export function createExternalRedirectUrl({ base, returnUrl, application }) {
   return {
     [EXTERNAL_APPS.MHV]: `${base}${
-      MHV_SKIP_DUPE.SINGLE_QUERY
+      SKIP_DUPE_QUERY.SINGLE_QUERY
     }&redirect=${returnUrl}&postLogin=true`,
     [EXTERNAL_APPS.MY_VA_HEALTH]: `${base}`,
   }[application];
