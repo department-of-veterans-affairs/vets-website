@@ -7,6 +7,15 @@ class ValidateVeteran {
       .and('have.text', title);
   };
 
+  validatePage = {
+    dayOf: () => {
+      this.validatePageLoaded('Check in at VA');
+    },
+    preCheckIn: () => {
+      this.validatePageLoaded('Start pre-check-in');
+    },
+  };
+
   validateVeteran = (lastName = 'Smith', last4 = '1234') => {
     this.clearLastName();
     this.typeLastName(lastName);

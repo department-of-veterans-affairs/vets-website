@@ -27,7 +27,7 @@ describe('Check In Experience ', () => {
         it('bad status code (400)', () => {
           cy.visitWithUUID();
           // page: Validate
-          ValidateVeteran.validatePageLoaded('Check in at VA');
+          ValidateVeteran.validatePage.dayOf();
           ValidateVeteran.validateVeteran();
           cy.injectAxeThenAxeCheck();
 
