@@ -4,7 +4,7 @@ import ApiInitializer from '../../../../../api/local-mock-api/e2e/ApiInitializer
 import ValidateVeteran from '../../../../../tests/e2e/pages/ValidateVeteran';
 import Error from '../../pages/Error';
 
-describe('Pre-Check In Experience Error handling', () => {
+describe('Pre-Check In Experience ', () => {
   describe('Error handling', () => {
     describe('POST /check_in/v2/sessions/', () => {
       describe('error in the body', () => {
