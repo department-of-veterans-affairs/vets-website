@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {
+  EDIT_MONTH_VERIFICATION,
   FETCH_POST_911_GI_BILL_ELIGIBILITY_SUCCESS,
   FETCH_POST_911_GI_BILL_ELIGIBILITY_FAILURE,
 	FETCH_VERIFICATION_STATUS_FAILURE,
@@ -17,7 +18,7 @@ export default {
       case FETCH_POST_911_GI_BILL_ELIGIBILITY_FAILURE:
         return {
           ...state,
-          post911GiBillEligibility: action?.response || false,
+          post911GiBillEligibility: action?.response || true,
         };
       case FETCH_VERIFICATION_STATUS_FAILURE:
       case FETCH_VERIFICATION_STATUS_SUCCESS:
@@ -101,6 +102,11 @@ export default {
               }
             ]
           }
+        };
+      case EDIT_MONTH_VERIFICATION: 
+        return {
+          ...state,
+          editMonthVerification: action?.response,
         };
       default: 
         return state;

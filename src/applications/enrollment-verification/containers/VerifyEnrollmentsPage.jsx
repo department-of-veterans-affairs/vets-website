@@ -10,25 +10,27 @@ import {
 } from '../actions';
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
+import ReviewEnrollmentVerifications from '../components/ReviewEnrollmentVerifications';
 import MonthReviewCard from '../components/MonthReviewCard';
 
 export const VerifyEnrollmentsPage = ({
+  editMonthVerification,
   getVerificationStatus,
+  hasCheckedKeepAlive,
   loggedIn,
   verificationStatus,
 }) => {
   useEffect(
     () => {
-      // TODO Uncomment once ID.me issues are resolved.
-      // if (!loggedIn) {
-      //   window.location.href = '/enrollment-history/';
-      // }
+      if (hasCheckedKeepAlive && !loggedIn) {
+        window.location.href = '/enrollment-history/';
+      }
 
       if (!verificationStatus) {
         getVerificationStatus();
       }
     },
-    [getVerificationStatus, loggedIn, verificationStatus],
+    [getVerificationStatus, hasCheckedKeepAlive, loggedIn, verificationStatus],
   );
 
   // TODO
@@ -45,7 +47,14 @@ export const VerifyEnrollmentsPage = ({
   let month;
 
   if (unverifiedMonths) {
-    month = unverifiedMonths[currentMonth];
+    const editMonthIndex = editMonthVerification
+      ? unverifiedMonths.findIndex(m => m.month === editMonthVerification.month)
+      : -1;
+
+    month =
+      editMonthIndex > -1
+        ? unverifiedMonths[editMonthIndex]
+        : unverifiedMonths[currentMonth];
   } else if (verificationStatus?.months?.length && !unverifiedMonths) {
     const _unverifiedMonths = verificationStatus.months
       .filter(m => !m.verified)
@@ -124,6 +133,11 @@ export const VerifyEnrollmentsPage = ({
           Step {currentMonth + 1} of {unverifiedMonths.length + 1}: Review
           verifications
         </h2>
+
+        <ReviewEnrollmentVerifications
+          months={unverifiedMonths}
+          informationIncorrectMonth={informationIncorrectMonth}
+        />
       </EnrollmentVerificationPageWrapper>
     );
   }
@@ -282,6 +296,8 @@ export const VerifyEnrollmentsPage = ({
 };
 
 const mapStateToProps = state => ({
+  editMonthVerification: state?.data?.editMonthVerification,
+  hasCheckedKeepAlive: state?.user?.login?.hasCheckedKeepAlive || false,
   loggedIn: state?.user?.login?.currentlyLoggedIn || false,
   verificationStatus: state?.data?.verificationStatus,
 });

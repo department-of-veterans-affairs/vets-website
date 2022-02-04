@@ -23,6 +23,8 @@ export const PAYMENT_STATUS = {
   SCO_PAUSED: 'PAYMENT_STATUS_SCO_PAUSED',
 };
 
+export const EDIT_MONTH_VERIFICATION = 'EDIT_MONTH_VERIFICATION';
+
 export function fetchPost911GiBillEligibility() {
   const POST_911_GI_BILL_ELIGIBILITY_ENDPOINT = `${
     environment.API_URL

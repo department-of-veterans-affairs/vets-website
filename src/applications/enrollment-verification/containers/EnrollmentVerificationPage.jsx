@@ -9,21 +9,21 @@ import EnrollmentVerificationMonths from '../components/EnrollmentVerificationMo
 
 export const EnrollmentVerificationPage = ({
   getVerificationStatus,
+  hasCheckedKeepAlive,
   loggedIn,
   verificationStatus,
 }) => {
   useEffect(
     () => {
-      // TODO Uncomment once ID.me issues are resolved.
-      // if (!loggedIn) {
-      //   window.location.href = '/enrollment-history/';
-      // }
+      if (hasCheckedKeepAlive && !loggedIn) {
+        window.location.href = '/enrollment-history/';
+      }
 
       if (!verificationStatus) {
         getVerificationStatus();
       }
     },
-    [getVerificationStatus, loggedIn, verificationStatus],
+    [getVerificationStatus, hasCheckedKeepAlive, loggedIn, verificationStatus],
   );
 
   if (!verificationStatus) {
@@ -68,6 +68,7 @@ export const EnrollmentVerificationPage = ({
 };
 
 const mapStateToProps = state => ({
+  hasCheckedKeepAlive: state?.user?.login?.hasCheckedKeepAlive || false,
   loggedIn: state?.user?.login?.currentlyLoggedIn || false,
   verificationStatus: state?.data?.verificationStatus,
 });
