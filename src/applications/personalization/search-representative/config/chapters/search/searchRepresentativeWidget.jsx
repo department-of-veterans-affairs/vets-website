@@ -24,23 +24,10 @@ const SearchRepresentativeWidget = props => {
     setPages(chunkedData.length);
   }
 
-  const handleClick = (name, address, city, state, postalCode, phone, type) => {
-    // assemble a full object of the chosen representative separate from the name
-    const representativeObject = {
-      name,
-      type,
-      address,
-      city,
-      state,
-      postalCode,
-      phone,
-    };
-    // add both the name of the chosen representative and the full object
-    // of representative data to the form data
+  const handleClick = preferredRepresentative => {
     const updatedFormData = {
       ...formData,
-      preferredRepresentative: representativeObject,
-      representativeData: representativeObject,
+      preferredRepresentative,
     };
     props.setData(updatedFormData);
   };
@@ -73,9 +60,9 @@ const SearchRepresentativeWidget = props => {
         {currentlyShowingData?.map(option => {
           return (
             <SearchRepresentativeResult
-              option={option}
-              handleClick={handleClick}
               key={option.id}
+              handleClick={handleClick}
+              option={option}
             />
           );
         })}
