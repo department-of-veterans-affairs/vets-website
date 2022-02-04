@@ -54,13 +54,11 @@ const ValidateVeteran = props => {
       } else {
         // API call
         setIsLoading(true);
-        const checkInType = 'checkIn';
         try {
           const resp = await api.v2.postSession({
             token,
             last4: last4Ssn,
             lastName,
-            checkInType,
           });
           if (resp.errors || resp.error) {
             setIsLoading(false);

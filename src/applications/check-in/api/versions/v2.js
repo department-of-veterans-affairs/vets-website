@@ -3,10 +3,11 @@ import environment from 'platform/utilities/environment';
 import { makeApiCallWithSentry } from '../utils';
 
 const v2 = {
-  getSession: async ({ token, checkInType = 'preCheckIn' }) => {
-    const url = `/check_in/v2/sessions/checkInType=${checkInType}`;
+  getSession: async ({ token, checkInType }) => {
+    const url = `/check_in/v2/sessions/`;
+    const checkInTypeSlug = checkInType ? `?checkInType=${checkInType}` : '';
     const json = await makeApiCallWithSentry(
-      apiRequest(`${environment.API_URL}${url}${token}`),
+      apiRequest(`${environment.API_URL}${url}${token}${checkInTypeSlug}`),
       'get-current-session',
       token,
     );
@@ -14,12 +15,7 @@ const v2 = {
       ...json,
     };
   },
-  postSession: async ({
-    lastName,
-    last4,
-    token,
-    checkInType = 'preCheckIn',
-  }) => {
+  postSession: async ({ lastName, last4, token, checkInType = '' }) => {
     const url = '/check_in/v2/sessions/';
     const headers = { 'Content-Type': 'application/json' };
     const data = {
