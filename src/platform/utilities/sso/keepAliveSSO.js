@@ -34,7 +34,14 @@ const logToSentry = data => {
   return isCaptured;
 };
 
-export const sanitizeAuthn = authnCtx => authnCtx.replace(MHV_SKIP_DUPE, '');
+export const sanitizeAuthn = (authnCtx = 'NOT_FOUND') => {
+  const emptyString = '';
+  return authnCtx === null || !authnCtx.length
+    ? 'NOT_FOUND'
+    : authnCtx
+        .replace(MHV_SKIP_DUPE.SINGLE_QUERY, emptyString)
+        .replace(MHV_SKIP_DUPE.MULTIPLE_QUERIES, emptyString);
+};
 
 export const defaultKeepAliveResponse = {
   ttl: 0,
@@ -61,14 +68,14 @@ export default async function keepAlive() {
     const alive = resp.headers.get(AUTHN_HEADERS.ALIVE);
 
     // If no CSP or session-alive headers, return early
-    if (resp.headers.get(AUTHN_HEADERS.CSP) === undefined || alive !== 'true') {
+    if (resp.headers.get(AUTHN_HEADERS.CSP) === null || alive !== 'true') {
       return defaultKeepAliveResponse;
     }
 
     await resp.text();
     /**
-     * Use mapped authncontext for DS Logon and MHV
-     * Use `authncontextclassref` lookup for ID.me and Login.gov
+     * Uses mapped authncontext for DS Logon and MHV
+     * Uses `authncontextclassref` lookup for ID.me and Login.gov
      */
     const authn = {
       DSLogon: CSP_AUTHN.DS_LOGON,

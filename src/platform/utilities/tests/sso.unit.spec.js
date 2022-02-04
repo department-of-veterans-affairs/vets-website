@@ -517,3 +517,27 @@ describe('keepAlive', () => {
     });
   });
 });
+
+describe('sanitizeAuthn', () => {
+  let stubbedUrl;
+
+  afterEach(() => {
+    stubbedUrl = '';
+  });
+
+  it('should return a `NOT_FOUND` string when passed nothing', () => {
+    expect(keepAliveMod.sanitizeAuthn('')).to.eql('NOT_FOUND');
+    expect(keepAliveMod.sanitizeAuthn(null)).to.eql('NOT_FOUND');
+    expect(keepAliveMod.sanitizeAuthn(undefined)).to.eql('NOT_FOUND');
+  });
+
+  it('should strip out the `?skip_dupe` query param', () => {
+    stubbedUrl = '/loa1?skip_dupe=mhv';
+    expect(keepAliveMod.sanitizeAuthn(stubbedUrl)).to.eql('/loa1');
+  });
+
+  it('should strip out the `&skip_dupe` query param', () => {
+    stubbedUrl = '/ial2?key=value&skip_dupe=mhv';
+    expect(keepAliveMod.sanitizeAuthn(stubbedUrl)).to.eql('/ial2?key=value');
+  });
+});

@@ -9,7 +9,10 @@ export const eauthEnvironmentPrefixes = {
   [ENVIRONMENTS.VAGOVPROD]: '',
 };
 
-export const MHV_SKIP_DUPE = '?skip_dupe=mhv';
+export const MHV_SKIP_DUPE = {
+  SINGLE_QUERY: '?skip_dupe=mhv',
+  MULTIPLE_QUERIES: '&skip_dupe=mhv',
+};
 
 export const CSP_AUTHN = {
   MHV: 'myhealthevet',
