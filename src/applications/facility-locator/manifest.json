@@ -2,5 +2,6 @@
   "appName": "Facility Locator",
   "entryFile": "./facility-locator-entry.jsx",
   "entryName": "facilities",
-  "rootUrl": "/find-locations"
+  "rootUrl": "/find-locations",
+  "productId": 48
 }

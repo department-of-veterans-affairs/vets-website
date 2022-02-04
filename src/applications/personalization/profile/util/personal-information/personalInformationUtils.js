@@ -109,7 +109,7 @@ export const personalInformationUiSchemas = {
   preferredName: {
     preferredName: {
       'ui:widget': TextWidget,
-      'ui:title': `Provide your preferred name (100 characters maximum)`,
+      'ui:title': `Provide your preferred name (25 characters maximum)`,
       'ui:errorMessages': {
         pattern: 'Preferred name required',
       },

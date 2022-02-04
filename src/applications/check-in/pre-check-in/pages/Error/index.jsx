@@ -28,21 +28,23 @@ const Error = () => {
       testId: 'date-message',
     });
   }
+  const combinedMessage = (
+    <>
+      {messages.map((message, index) => {
+        return (
+          <p key={index} data-testid={message.testId}>
+            {message.text}
+          </p>
+        );
+      })}
+    </>
+  );
+
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 ">
       <ErrorMessage
         header="We couldn't complete pre-check-in"
-        message={
-          <>
-            {messages.map((message, index) => {
-              return (
-                <p key={index} data-testid={message.testId}>
-                  {message.text}
-                </p>
-              );
-            })}
-          </>
-        }
+        message={combinedMessage}
       />
       <Footer />
       <BackToHome />

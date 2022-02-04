@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import propTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 
@@ -13,9 +14,9 @@ import Footer from '../../../components/Footer';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import { makeSelectCurrentContext } from '../../../selectors';
+import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
 
-export default function Index({ router }) {
+const Index = ({ router }) => {
   const { goToNextPage, goToErrorPage } = useFormRouting(router);
   const dispatch = useDispatch();
   const setSession = useCallback(
@@ -28,40 +29,52 @@ export default function Index({ router }) {
   const selectContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectContext);
 
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
+
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
-  const validateHandler = async () => {
-    setLastNameErrorMessage();
-    setLast4ErrorMessage();
-    if (!lastName || !last4Ssn) {
-      if (!lastName) {
-        setLastNameErrorMessage('Please enter your last name.');
+  const validateHandler = useCallback(
+    async () => {
+      setLastNameErrorMessage();
+      setLast4ErrorMessage();
+      if (!lastName || !last4Ssn) {
+        if (!lastName) {
+          setLastNameErrorMessage('Please enter your last name.');
+        }
+        if (!last4Ssn) {
+          setLast4ErrorMessage(
+            'Please enter the last 4 digits of your Social Security number.',
+          );
+        }
+      } else {
+        setIsLoading(true);
+        try {
+          const resp = await api.v2.postSession({
+            token,
+            last4: last4Ssn,
+            lastName,
+            checkInType: app,
+          });
+          if (resp.errors || resp.error) {
+            setIsLoading(false);
+            goToErrorPage();
+          } else {
+            setSession(token, resp.permissions);
+            goToNextPage();
+          }
+        } catch (e) {
+          setIsLoading(false);
+          goToErrorPage();
+        }
       }
-      if (!last4Ssn) {
-        setLast4ErrorMessage(
-          'Please enter the last 4 digits of your Social Security number.',
-        );
-      }
-    } else {
-      setIsLoading(true);
-      try {
-        const resp = await api.v2.postSession({
-          token,
-          last4: last4Ssn,
-          lastName,
-        });
-        setSession(token, resp.permissions);
-        goToNextPage();
-      } catch (e) {
-        setIsLoading(false);
-        goToErrorPage();
-      }
-    }
-  };
+    },
+    [app, goToErrorPage, goToNextPage, last4Ssn, lastName, setSession, token],
+  );
 
   useEffect(() => {
     focusElement('h1');
@@ -88,4 +101,10 @@ export default function Index({ router }) {
       <BackToHome />
     </>
   );
-}
+};
+
+Index.propTypes = {
+  router: propTypes.object,
+};
+
+export default Index;
