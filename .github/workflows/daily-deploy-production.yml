@@ -108,6 +108,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: ${{ needs.set-env.outputs.COMMIT_SHA }}
 
       - name: Install dependencies
         uses: ./.github/workflows/install
