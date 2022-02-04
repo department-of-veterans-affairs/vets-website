@@ -260,6 +260,7 @@ describe('VAOS vaccine flow with VAOS service <ReviewPage>', () => {
           availableSlots: [
             {
               start: start.format(),
+              id: 'test',
               end: start
                 .clone()
                 .add(30, 'minutes')
@@ -328,7 +329,9 @@ describe('VAOS vaccine flow with VAOS service <ReviewPage>', () => {
           },
         ],
       },
-      slot: store.getState().covid19Vaccine.newBooking.availableSlots[0],
+      slot: {
+        id: store.getState().covid19Vaccine.newBooking.availableSlots[0].id,
+      },
     });
   });
 });
