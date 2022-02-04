@@ -21,7 +21,7 @@ describe('Pre Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('On page reload, the data should be pull from session storage and redirected to landing screen with data loaded', () => {
+    it.skip('On page reload, the data should be pull from session storage and redirected to landing screen with data loaded', () => {
       cy.visitPreCheckInWithUUID();
       ValidateVeteran.validatePageLoaded();
       ValidateVeteran.validateVeteran();
