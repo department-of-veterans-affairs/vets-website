@@ -6,15 +6,19 @@ import { mapboxToken } from '../../facility-locator/utils/mapboxToken';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
 import { staticMapURL } from '../../facility-locator/utils/mapHelpers';
 
-export class FacilityMapWidget extends React.Component {
+export class FacilityMapWidgetDynamic extends React.Component {
   constructor(props) {
     super(props);
-    const facilityDetail = this.props.facility;
-    const lat = this.getLat(facilityDetail);
-    const long = this.getLong(facilityDetail);
+    const { facilityID, facilities } = this.props;
+    const numberOfFacilities = Object.keys(facilities).length;
+    const facilitiesFound = numberOfFacilities > 0;
+    const facilityDetail = facilitiesFound ? facilities[facilityID] : '';
+    const lat = facilityDetail ? this.getLat(facilityDetail) : 0;
+    const long = facilityDetail ? this.getLong(facilityDetail) : 0;
     let address = buildAddressArray(facilityDetail);
     address = this.cleanAddress(address, lat, long);
     this.state = {
+      facilityID,
       lat,
       long,
       address,
@@ -46,16 +50,18 @@ export class FacilityMapWidget extends React.Component {
 
   componentDidMount() {
     if (!this.props.loading && !this.props.error) {
-      this.updateImageLink(this.props.facility);
+      this.updateImageLink(this.props.facilities);
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const facilityDetail = this.props.facility;
+    const { facilities } = this.props;
+    const { facilityID } = this.state;
+    const facilityDetail = facilities[facilityID];
     const lat = this.getLat(facilityDetail);
     const long = this.getLong(facilityDetail);
     if (prevState.lat !== lat && prevState.long !== long) {
-      this.updateLatLongAndAddress(this.props.facility);
+      this.updateLatLongAndAddress(this.props.facilities);
     }
   }
 
@@ -73,7 +79,7 @@ export class FacilityMapWidget extends React.Component {
 
     const mapLink = `https://maps.google.com?saddr=Current+Location&daddr=${address}`;
     const imageLink = document.getElementById('google-map-link-image');
-    if (imageLink && (lat !== 0 && long !== 0)) {
+    if (imageLink && lat !== 0 && long !== 0) {
       imageLink.setAttribute('href', mapLink);
     }
   };
@@ -99,6 +105,9 @@ export class FacilityMapWidget extends React.Component {
       return null;
     }
     const { lat, long, address } = this.state;
+    if (lat === 0 && long === 0) {
+      return <div />;
+    }
     const mapUrl = staticMapURL(lat, long, mapboxToken);
     const mapLink = `https://maps.google.com?saddr=Current+Location&daddr=${address}`;
 
@@ -123,15 +132,16 @@ export class FacilityMapWidget extends React.Component {
 }
 
 const mapStateToProps = store => ({
-  facility: store.facility.data,
+  facilities: store.facility.multidata,
   loading: store.facility.loading,
   error: store.facility.error,
 });
 
-FacilityMapWidget.propTypes = {
-  facility: PropTypes.object,
+FacilityMapWidgetDynamic.propTypes = {
+  facilities: PropTypes.object,
   loading: PropTypes.bool,
   error: PropTypes.bool,
+  facilityID: PropTypes.string,
 };
 
-export default connect(mapStateToProps)(FacilityMapWidget);
+export default connect(mapStateToProps)(FacilityMapWidgetDynamic);

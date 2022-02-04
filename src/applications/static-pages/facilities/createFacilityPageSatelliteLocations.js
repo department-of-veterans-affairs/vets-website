@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { fetchFacility } from './actions';
+import { fetchMultiFacility } from './actions';
 import widgetTypes from '../widgetTypes';
 
 export default async function createFacilityPageSatelliteLocations(store) {
@@ -11,18 +11,18 @@ export default async function createFacilityPageSatelliteLocations(store) {
   );
   if (mapWidgets) {
     const {
-      default: FacilityMapWidget,
-    } = await import(/* webpackChunkName: "facility-detail" */ './FacilityMapWidget');
+      default: FacilityMapWidgetDynamic,
+    } = await import(/* webpackChunkName: "facility-detail" */ './FacilityMapWidgetDynamic');
 
     mapWidgets.forEach((mapWidget, index) => {
       facilityID = window.satteliteVetCenters[index];
 
       if (facilityID) {
-        store.dispatch(fetchFacility(facilityID));
+        store.dispatch(fetchMultiFacility(facilityID));
         if (mapWidget) {
           ReactDOM.render(
             <Provider store={store}>
-              <FacilityMapWidget />
+              <FacilityMapWidgetDynamic facilityID={facilityID} />
             </Provider>,
             mapWidget,
           );
