@@ -45,6 +45,7 @@ import createEducationApplicationStatus from '../edu-benefits/components/createE
 import createEventsPage from './events';
 import createExpandableOperatingStatus from './facilities/vet-center/createExpandableOperatingStatus';
 import createFacilityPage from './facilities/createFacilityPage';
+import createFacilityMapSatelliteMainOffice from './facilities/createFacilityMapSatelliteMainOffice';
 import createFacilityPageSatelliteLocations from './facilities/createFacilityPageSatelliteLocations';
 import createFindVaForms, {
   findVaFormsWidgetReducer,
@@ -145,6 +146,7 @@ createNearByVetCenters(store);
 createFacilityListWidget();
 createOtherFacilityListWidget();
 createFacilityPage(store);
+createFacilityMapSatelliteMainOffice(store);
 createFacilityPageSatelliteLocations(store);
 createBasicFacilityListWidget();
 createScoEventsWidget();

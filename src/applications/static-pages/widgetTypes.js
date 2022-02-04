@@ -21,6 +21,7 @@ export default {
   FACILITY_DETAIL_SATELLITE_LOCATIONS: 'facility-detail-satellite-locations',
   FACILITY_LOCATIONS_LIST: 'facility-locations-list',
   FACILITY_MAP: 'facility-map',
+  FACILITY_MAP_SATELLITE_MAIN_OFFICE: 'facility-map-satellite-main-office',
   FACILITY_MAP_SATELLITE_LOCATIONS: 'facility-map-satellite-locations',
   FACILITY_PATIENT_SATISFACTION_SCORES: 'facility-patient-satisfaction-scores',
   FACILITY_PATIENT_SATISFACTION_SCORES_SATELLITE_LOCATIONS:
