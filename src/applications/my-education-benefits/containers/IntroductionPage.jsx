@@ -12,7 +12,7 @@ import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 
 import HowToApplyPost911GiBill from '../components/HowToApplyPost911GiBill';
 import { fetchUser } from '../selectors/userDispatch';
-import { CLAIMANT_INFO_ENDPOINT, fetchEligibility } from '../actions';
+import { CLAIMANT_INFO_ENDPOINT } from '../actions';
 
 export const IntroductionPage = ({ user, route }) => {
   const SaveInProgressComponent = (
@@ -142,7 +142,6 @@ export const IntroductionPage = ({ user, route }) => {
 
 const mapStateToProps = state => ({
   user: fetchUser(state),
-  eligibility: fetchEligibility,
 });
 
 export default connect(mapStateToProps)(IntroductionPage);
