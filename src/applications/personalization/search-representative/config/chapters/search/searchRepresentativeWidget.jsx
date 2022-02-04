@@ -57,9 +57,15 @@ const SearchRepresentativeWidget = ({
   useEffect(
     () => {
       fetchRepresentativeSearchResults();
+    },
+    [fetchRepresentativeSearchResults],
+  );
+
+  useEffect(
+    () => {
       handleLoadData();
     },
-    [loading],
+    [handleLoadData],
   );
 
   if (loading) {
