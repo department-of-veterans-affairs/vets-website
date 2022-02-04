@@ -14,7 +14,7 @@ import Footer from '../../../components/Footer';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import { makeSelectCurrentContext } from '../../../selectors';
+import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
 
 const Index = ({ router }) => {
   const { goToNextPage, goToErrorPage } = useFormRouting(router);
@@ -28,6 +28,9 @@ const Index = ({ router }) => {
 
   const selectContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectContext);
+
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
 
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
@@ -55,6 +58,7 @@ const Index = ({ router }) => {
             token,
             last4: last4Ssn,
             lastName,
+            checkInType: app,
           });
           if (resp.errors || resp.error) {
             setIsLoading(false);
@@ -69,7 +73,7 @@ const Index = ({ router }) => {
         }
       }
     },
-    [goToErrorPage, goToNextPage, last4Ssn, lastName, setSession, token],
+    [app, goToErrorPage, goToNextPage, last4Ssn, lastName, setSession, token],
   );
 
   useEffect(() => {

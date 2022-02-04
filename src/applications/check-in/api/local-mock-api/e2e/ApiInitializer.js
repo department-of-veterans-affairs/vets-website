@@ -42,8 +42,11 @@ class ApiInitializer {
   };
 
   initializeSessionGet = {
-    withSuccessfulNewSession: () => {
+    withSuccessfulNewSession: extraValidation => {
       cy.intercept('GET', '/check_in/v2/sessions/*', req => {
+        if (extraValidation) {
+          extraValidation(req);
+        }
         req.reply(
           session.get.createMockSuccessResponse('some-token', 'read.basic'),
         );
