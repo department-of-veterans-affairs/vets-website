@@ -64,7 +64,7 @@ export class Main extends React.Component {
         break;
     }
 
-    return <div>{appContent}</div>;
+    return <main>{appContent}</main>;
   }
 }
 
