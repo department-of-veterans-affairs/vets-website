@@ -1,13 +1,18 @@
-import React, { useReducer } from 'react';
+import React, { useCallback, useReducer } from 'react';
 import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
 import { scrollToFirstError } from 'platform/utilities/ui';
 
-import { ACTIONS } from '../../shared/constants';
-import { DOCUMENT_TYPES, FILE_TYPES } from '../constants';
-import { isValidFileType, isNotBlank, validateIfDirty } from '../validations';
+import { ACTIONS } from '../../../shared/constants';
+import { DOCUMENT_TYPES, FILE_TYPES } from '../../constants';
+import {
+  isValidFileType,
+  isNotBlank,
+  validateIfDirty,
+} from '../../validations';
+import FileList from './FileList';
 
 const initialState = {
   documentType: DOCUMENT_TYPES[0],
@@ -58,7 +63,7 @@ const reducer = (state, action) => {
   }
 };
 
-export const CoeDocumentUpload = () => {
+const DocumentUploader = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const { documentType, documentDescription, errorMessage, files } = state;
@@ -69,75 +74,68 @@ export const CoeDocumentUpload = () => {
       ? 'file-input-disabled'
       : null;
 
-  const onSelectChange = e => {
+  const onSelectChange = useCallback(e => {
     dispatch({ type: DOC_TYPE, documentType: e?.value });
-  };
+  }, []);
 
-  const onTextInputValueChange = e => {
+  const onTextInputValueChange = useCallback(e => {
     dispatch({
       type: DOC_DESC,
       documentDescription: { dirty: true, value: e?.value },
     });
-  };
+  }, []);
 
-  const onUploadFile = async uploadedFiles => {
-    dispatch({ type: FILE_UPLOAD_PENDING });
-    if (!isValidFileType(uploadedFiles[0])) {
-      dispatch({
-        type: FILE_UPLOAD_FAIL,
-        errorMessage:
-          'Please choose a file from one of the accepted file types.',
-      });
-      return;
-    }
-    const file = uploadedFiles[0];
-    file.documentType = documentType;
-    if (documentDescription.value !== '') {
-      file.documentDescription = documentDescription.value;
-    }
-    dispatch({ type: FILE_UPLOAD_SUCCESS, file });
-  };
+  const onUploadFile = useCallback(
+    async uploadedFiles => {
+      dispatch({ type: FILE_UPLOAD_PENDING });
+      if (!isValidFileType(uploadedFiles[0])) {
+        dispatch({
+          type: FILE_UPLOAD_FAIL,
+          errorMessage:
+            'Please choose a file from one of the accepted file types.',
+        });
+        return;
+      }
+      const file = uploadedFiles[0];
+      file.documentType = documentType;
+      if (documentDescription.value !== '') {
+        file.documentDescription = documentDescription.value;
+      }
+      dispatch({ type: FILE_UPLOAD_SUCCESS, file });
+    },
+    [documentDescription.value, documentType],
+  );
 
-  const onDeleteFile = idx => {
-    const newFiles = state.files.filter((file, index) => index !== idx);
-    dispatch({ type: DELETE_FILE, files: newFiles });
-  };
+  const onDeleteClick = useCallback(
+    idx => {
+      const newFiles = state.files.filter((_file, index) => index !== idx);
+      dispatch({ type: DELETE_FILE, files: newFiles });
+    },
+    [state.files],
+  );
 
-  const onSubmit = () => {
-    if (!files.length) {
-      dispatch({
-        type: FORM_SUBMIT_FAIL,
-        errorMessage: 'Please choose a file to upload',
-      });
-      setTimeout(scrollToFirstError);
-    }
-  };
+  const onSubmit = useCallback(
+    () => {
+      if (!files.length) {
+        dispatch({
+          type: FORM_SUBMIT_FAIL,
+          errorMessage: 'Please choose a file to upload',
+        });
+        setTimeout(scrollToFirstError);
+      }
+    },
+    [files],
+  );
 
   return (
     <>
       <h2>We need documents from you</h2>
       <p>
-        We’ve sent a notification letter or email about documentation for your
-        COE application. Please send us all the documents listed so we can make
-        a decision about your application.
+        We’ve emailed you a notification letter about documentation for your COE
+        request. Please send us all the documents listed so we can make a
+        decision about your request.
       </p>
-      {files.map((file, index) => (
-        <div
-          className="vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-padding-x--2 vads-u-margin-y--1"
-          key={index}
-          id={index}
-        >
-          <p>
-            <strong>{file.name}</strong>
-          </p>
-          <button
-            onClick={() => onDeleteFile(index)}
-            className="usa-button-secondary vads-u-background-color--white vads-u-margin-top--0"
-          >
-            Delete file
-          </button>
-        </div>
-      ))}
+      <FileList files={files} onClick={onDeleteClick} />
       <div
         className={
           documentType === 'Other'
@@ -177,9 +175,19 @@ export const CoeDocumentUpload = () => {
         accept={FILE_TYPES.map(type => `.${type}`).join(',')}
         errorMessage={errorMessage}
       />
-      <button className="vads-u-margin-top--3 usa-button" onClick={onSubmit}>
+      <button
+        className="vads-u-margin-top--3 usa-button"
+        onClick={onSubmit}
+        type="button"
+      >
         Submit uploaded documents
       </button>
+      <p>
+        <strong>Note:</strong> After you upload documents, it will take up to 5
+        days for us to review them
+      </p>
     </>
   );
 };
+
+export default DocumentUploader;
