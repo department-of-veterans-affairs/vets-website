@@ -3,16 +3,8 @@ import { connect } from 'react-redux';
 
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 
-export function EnrollmentVerificationLogin({ loggedIn, toggleLoginModal }) {
-  return loggedIn ? (
-    <a
-      type="button"
-      className="usa-button-primary va-button-primary"
-      href="review-enrollments"
-    >
-      Verify your enrollments for Post-9/11 GI Bill
-    </a>
-  ) : (
+export function EnrollmentVerificationLogin({ toggleLoginModal }) {
+  return (
     <va-alert status="continue" visible>
       <h3 slot="headline">
         Please sign in to verify your school enrollments for Post-9/11 GI Bill
@@ -33,15 +25,11 @@ export function EnrollmentVerificationLogin({ loggedIn, toggleLoginModal }) {
   );
 }
 
-const mapStateToProps = state => ({
-  loggedIn: state?.user?.login?.currentlyLoggedIn || false,
-});
-
 const mapDispatchToProps = dispatch => ({
   toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(EnrollmentVerificationLogin);

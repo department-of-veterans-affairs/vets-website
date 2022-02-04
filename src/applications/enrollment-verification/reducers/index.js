@@ -1,5 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {
+  FETCH_POST_911_GI_BILL_ELIGIBILITY_SUCCESS,
+  FETCH_POST_911_GI_BILL_ELIGIBILITY_FAILURE,
 	FETCH_VERIFICATION_STATUS_FAILURE,
   FETCH_VERIFICATION_STATUS_SUCCESS,
   PAYMENT_STATUS,
@@ -11,6 +13,12 @@ const initialState = {
 export default {
   data: (state = initialState, action) => {
     switch (action.type) {
+      case FETCH_POST_911_GI_BILL_ELIGIBILITY_SUCCESS:
+      case FETCH_POST_911_GI_BILL_ELIGIBILITY_FAILURE:
+        return {
+          ...state,
+          post911GiBillEligibility: action?.response || false,
+        };
       case FETCH_VERIFICATION_STATUS_FAILURE:
       case FETCH_VERIFICATION_STATUS_SUCCESS:
         return {

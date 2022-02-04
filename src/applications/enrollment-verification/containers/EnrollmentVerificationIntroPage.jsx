@@ -1,9 +1,54 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 
+import { fetchPost911GiBillEligibility } from '../actions';
+
+import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import EnrollmentVerificationLogin from '../components/EnrollmentVerificationLogIn';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
 
-export default function EnrollmentVerificationIntroPage() {
+const verifyEnrollmentsButton = (
+  <a
+    type="button"
+    className="usa-button-primary va-button-primary"
+    href="review-enrollments"
+  >
+    Verify your enrollments for Post-9/11 GI Bill
+  </a>
+);
+
+const noPost911GiBillAlert = (
+  <va-alert status="info" visible>
+    <h3 slot="headline">
+      You do not have an active Post-9/11 GI Bill education benefit
+    </h3>
+    <div>
+      If you think this is a mistake, please call the Education Call Center at{' '}
+      <a href="tel:888-442-4551">888-442-4551</a>. We’re here Monday through
+      Friday, 8:00 a.m. to 7:00 p.m. ET.
+    </div>
+  </va-alert>
+);
+
+export function EnrollmentVerificationIntroPage({
+  loggedIn,
+  hascheckedkeepalive,
+  getPost911GiBillEligibility,
+  post911GiBillEligibility,
+}) {
+  useEffect(
+    () => {
+      if (post911GiBillEligibility === undefined) {
+        getPost911GiBillEligibility();
+      }
+    },
+    [getPost911GiBillEligibility, post911GiBillEligibility],
+  );
+
+  if (!loggedIn && !hascheckedkeepalive) {
+    return <EnrollmentVerificationLoadingIndicator />;
+  }
+
   return (
     <EnrollmentVerificationPageWrapper>
       <h1>Verify your school enrollments</h1>
@@ -20,7 +65,9 @@ export default function EnrollmentVerificationIntroPage() {
         more than two months, we will pause your monthly education payments.
       </p>
 
-      <EnrollmentVerificationLogin />
+      {!loggedIn ? <EnrollmentVerificationLogin /> : <></>}
+      {loggedIn && post911GiBillEligibility ? verifyEnrollmentsButton : <></>}
+      {loggedIn && !post911GiBillEligibility ? noPost911GiBillAlert : <></>}
 
       <h2>For Montgomery GI Bill and other education benefits</h2>
       <p>
@@ -53,3 +100,19 @@ export default function EnrollmentVerificationIntroPage() {
     </EnrollmentVerificationPageWrapper>
   );
 }
+
+const mapStateToProps = state => ({
+  loggedIn: state?.user?.login?.currentlyLoggedIn,
+  hascheckedkeepalive: state?.user?.login?.hasCheckedKeepAlive,
+  post911GiBillEligibility: state?.data?.post911GiBillEligibility,
+  verificationStatus: state?.data?.verificationStatus,
+});
+
+const mapDispatchToProps = {
+  getPost911GiBillEligibility: fetchPost911GiBillEligibility,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(EnrollmentVerificationIntroPage);

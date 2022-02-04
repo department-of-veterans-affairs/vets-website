@@ -1,6 +1,13 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
+export const FETCH_POST_911_GI_BILL_ELIGIBILITY =
+  'FETCH_POST_911_GI_BILL_ELIGIBILITY';
+export const FETCH_POST_911_GI_BILL_ELIGIBILITY_SUCCESS =
+  'FETCH_POST_911_GI_BILL_ELIGIBILITY_SUCCESS';
+export const FETCH_POST_911_GI_BILL_ELIGIBILITY_FAILURE =
+  'FETCH_POST_911_GI_BILL_ELIGIBILITY_FAILURE';
+
 export const FETCH_VERIFICATION_STATUS = 'FETCH_VERIFICATION_STATUS';
 export const FETCH_VERIFICATION_STATUS_SUCCESS =
   'FETCH_VERIFICATION_STATUS_SUCCESS';
@@ -15,6 +22,30 @@ export const PAYMENT_STATUS = {
   PAUSED: 'PAYMENT_STATUS_PAUSED',
   SCO_PAUSED: 'PAYMENT_STATUS_SCO_PAUSED',
 };
+
+export function fetchPost911GiBillEligibility() {
+  const POST_911_GI_BILL_ELIGIBILITY_ENDPOINT = `${
+    environment.API_URL
+  }/eligibility/post-911-gi-bill`;
+
+  return async dispatch => {
+    dispatch({ type: FETCH_POST_911_GI_BILL_ELIGIBILITY });
+
+    return apiRequest(POST_911_GI_BILL_ELIGIBILITY_ENDPOINT)
+      .then(response =>
+        dispatch({
+          type: FETCH_POST_911_GI_BILL_ELIGIBILITY_SUCCESS,
+          response,
+        }),
+      )
+      .catch(errors =>
+        dispatch({
+          type: FETCH_POST_911_GI_BILL_ELIGIBILITY_FAILURE,
+          errors,
+        }),
+      );
+  };
+}
 
 export function fetchVerificationStatus() {
   const VERIFICATION_STATUS_ENDPOINT = `${
