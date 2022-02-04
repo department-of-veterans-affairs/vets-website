@@ -59,7 +59,7 @@ const SearchRepresentativeWidget = ({
       fetchRepresentativeSearchResults();
       handleLoadData();
     },
-    [fetchRepresentativeSearchResults, loading],
+    [loading],
   );
 
   if (loading) {
