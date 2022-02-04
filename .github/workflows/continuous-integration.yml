@@ -606,6 +606,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [testing-reports-prep, unit-tests]
     if: ${{ always() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
+    env:
+      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     continue-on-error: true
     steps:
       - name: Checkout
