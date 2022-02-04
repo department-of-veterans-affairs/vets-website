@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import propTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -43,9 +44,12 @@ export default function Index(props) {
   const { router } = props;
   const { goToErrorPage, jumpToPage } = useFormRouting(router);
   const { clearCurrentSession, setCurrentToken } = useSessionStorage();
-  useEffect(() => {
-    dispatch(setApp(APP_NAMES.PRE_CHECK_IN));
-  }, []);
+  useEffect(
+    () => {
+      dispatch(setApp(APP_NAMES.PRE_CHECK_IN));
+    },
+    [dispatch],
+  );
   useEffect(
     () => {
       const token = getTokenFromLocation(router.location);
@@ -109,3 +113,7 @@ export default function Index(props) {
     </>
   );
 }
+
+Index.propTypes = {
+  router: propTypes.object,
+};

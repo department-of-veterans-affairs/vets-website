@@ -5,7 +5,7 @@ import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 
 describe('Check In Experience -- ', () => {
   describe('application behind feature toggle', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();

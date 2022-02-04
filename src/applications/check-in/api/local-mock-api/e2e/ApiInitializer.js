@@ -1,5 +1,5 @@
 import session from '../mocks/v2/sessions';
-import preCheckInData from '../mocks/v2/pre-check-in-data/';
+import preCheckInData from '../mocks/v2/pre-check-in-data';
 import checkInData from '../mocks/v2/check-in-data';
 import featureToggles from '../mocks/v2/feature-toggles';
 
@@ -40,6 +40,7 @@ class ApiInitializer {
       );
     },
   };
+
   initializeSessionGet = {
     withSuccessfulNewSession: () => {
       cy.intercept('GET', '/check_in/v2/sessions/*', req => {

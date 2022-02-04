@@ -1,6 +1,11 @@
 import React from 'react';
 
+import { getAppUrl } from 'platform/utilities/registry-helpers';
+
 import { MoreQuestions } from './MoreQuestions';
+
+const coeUrl = getAppUrl('coe');
+const introUrl = `${coeUrl}/introduction`;
 
 export const CoeIneligible = () => (
   <div className="row vads-u-margin-bottom--7">
@@ -23,18 +28,16 @@ export const CoeIneligible = () => (
         You may be able to get a COE if you didn’t receive a dishonorable
         discharge and you meet the minimum active-duty service requirement based
         on when you served.
+        <br />
+        <a href="/housing-assistance/home-loans/eligibility/">
+          Find out about eligibility requirements for VA home loan programs.
+        </a>
       </p>
-      <a href="/housing-assistance/home-loans/eligibility/">
-        Find out about eligibility requirements for VA home loan programs.
-      </a>
       <p>
         If you already know you qualify for a VA home loan COE and you have all
         the information we’ll need, you can request a COE online.
       </p>
-      <a
-        className="vads-c-action-link--green"
-        href="/housing-assistance/home-loans/request-coe-form-26-1880/introduction"
-      >
+      <a className="vads-c-action-link--green" href={introUrl}>
         Request a Certificate of Eligibility
       </a>
       <h3>

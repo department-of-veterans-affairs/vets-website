@@ -9,7 +9,6 @@ import React from 'react';
 import { Provider } from 'react-redux';
 
 import startReactApp from '../../startup/react';
-import Footer from './components/Footer';
 
 export const footerElemementId = 'footerNav';
 
@@ -18,7 +17,10 @@ export const footerElemementId = 'footerNav';
  *
  * @param {Redux.Store} store The common store used on the site
  */
-export default function startVAFooter(footerData, store, onFooterLoad) {
+export default async function startVAFooter(footerData, store, onFooterLoad) {
+  const {
+    default: Footer,
+  } = await import(/* webpackChunkName: "va-footer" */ './components/Footer');
   startReactApp(
     <Provider store={store}>
       <Footer footerData={footerData} onFooterLoad={onFooterLoad} />

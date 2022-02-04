@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import propTypes from 'prop-types';
 
 import { VaTextInput } from 'web-components/react-bindings';
@@ -14,6 +14,21 @@ export default function ValidateDisplay({
   showValidateError,
   validateErrorMessage,
 }) {
+  const updateField = useCallback(
+    event => {
+      switch (event.target.name) {
+        case 'last-name':
+          setLastName(event.detail.value);
+          break;
+        case 'last-4-ssn':
+          setLast4Ssn(event.detail.value);
+          break;
+        default:
+          break;
+      }
+    },
+    [setLastName, setLast4Ssn],
+  );
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
       <h1>{header}</h1>
@@ -30,13 +45,13 @@ export default function ValidateDisplay({
       ) : (
         <></>
       )}
-      <form className="vads-u-margin-bottom--2p5" onSubmit={() => false}>
+      <form className="vads-u-margin-bottom--2p5" onSubmit={validateHandler}>
         <VaTextInput
           autoCorrect="false"
           error={lastNameErrorMessage}
           label="Your last name"
           name="last-name"
-          onVaChange={event => setLastName(event.detail.value)}
+          onVaChange={updateField}
           required
           spellCheck="false"
           value={lastName}
@@ -47,7 +62,7 @@ export default function ValidateDisplay({
           inputmode="numeric"
           label="Last 4 digits of your Social Security number"
           maxlength="4"
-          onVaChange={event => setLast4Ssn(event.detail.value)}
+          onVaChange={updateField}
           name="last-4-ssn"
           required
           value={last4Ssn}

@@ -1,10 +1,10 @@
 import '../../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
-import Introduction from '../../../tests/e2e/pages/Introduction';
+import Introduction from '../pages/Introduction';
 
 describe('Pre-Check In Experience ', () => {
-  beforeEach(function() {
+  beforeEach(() => {
     const {
       initializeFeatureToggle,
       initializeSessionGet,

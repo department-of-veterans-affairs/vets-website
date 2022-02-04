@@ -52,12 +52,12 @@ export default function startSitewideComponents(commonStore) {
   startBanners();
   startPromoBanners();
   startMobileMenuButton(commonStore);
-  startVAFooter(window.VetsGov.headerFooter.footerData, commonStore);
-  startHeader(commonStore, window.VetsGov.headerFooter.megaMenuData);
-
-  // Start Veteran Crisis Line modal functionality.
-  document.addEventListener('DOMContentLoaded', () => {
+  // async IIFE so that modal initialized after widget loads
+  (async () => {
+    await startVAFooter(window.VetsGov.headerFooter.footerData, commonStore);
+    // Start Veteran Crisis Line modal functionality.
     addFocusBehaviorToCrisisLineModal();
     addOverlayTriggers();
-  });
+  })();
+  startHeader(commonStore, window.VetsGov.headerFooter.megaMenuData);
 }
