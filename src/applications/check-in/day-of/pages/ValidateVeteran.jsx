@@ -13,7 +13,7 @@ import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
 import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 
-import { makeSelectContext } from '../hooks/selectors';
+import { makeSelectCurrentContext } from '../../selectors';
 
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 
@@ -37,8 +37,8 @@ const ValidateVeteran = props => {
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
 
-  const selectContext = useMemo(makeSelectContext, []);
-  const { token } = useSelector(selectContext);
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectCurrentContext);
 
   const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
     false,
@@ -49,45 +49,65 @@ const ValidateVeteran = props => {
   } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
 
-  const onClick = async () => {
-    setLastNameErrorMessage();
-    setLast4ErrorMessage();
-    if (!lastName || !last4Ssn) {
-      if (!lastName) {
-        setLastNameErrorMessage('Please enter your last name.');
-      }
-      if (!last4Ssn) {
-        setLast4ErrorMessage(
-          'Please enter the last 4 digits of your Social Security number.',
-        );
-      }
-    } else {
-      // API call
-      setIsLoading(true);
-      try {
-        const resp = await api.v2.postSession({
-          token,
-          last4: last4Ssn,
-          lastName,
-        });
-        setSession(token, resp.permissions);
-        goToNextPage();
-      } catch (e) {
-        setIsLoading(false);
-        if (
-          e?.message !== 'Invalid last4 or last name!' ||
-          isMaxValidateAttempts
-        ) {
-          goToErrorPage();
-        } else {
-          if (!showValidateError) {
-            setShowValidateError(true);
+  const onClick = useCallback(
+    async () => {
+      setLastNameErrorMessage();
+      setLast4ErrorMessage();
+      if (!lastName || !last4Ssn) {
+        if (!lastName) {
+          setLastNameErrorMessage('Please enter your last name.');
+        }
+        if (!last4Ssn) {
+          setLast4ErrorMessage(
+            'Please enter the last 4 digits of your Social Security number.',
+          );
+        }
+      } else {
+        // API call
+        setIsLoading(true);
+        const checkInType = 'checkIn';
+        try {
+          const resp = await api.v2.postSession({
+            token,
+            last4: last4Ssn,
+            lastName,
+            checkInType,
+          });
+          if (resp.errors || resp.error) {
+            setIsLoading(false);
+            goToErrorPage();
+          } else {
+            setSession(token, resp.permissions);
+            goToNextPage();
           }
-          incrementValidateAttempts(window);
+        } catch (e) {
+          setIsLoading(false);
+          if (
+            e?.message !== 'Invalid last4 or last name!' ||
+            isMaxValidateAttempts
+          ) {
+            goToErrorPage();
+          } else {
+            if (!showValidateError) {
+              setShowValidateError(true);
+            }
+            incrementValidateAttempts(window);
+          }
         }
       }
-    }
-  };
+    },
+    [
+      goToErrorPage,
+      goToNextPage,
+      last4Ssn,
+      lastName,
+      setSession,
+      token,
+      incrementValidateAttempts,
+      isMaxValidateAttempts,
+      showValidateError,
+    ],
+  );
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -115,9 +135,8 @@ const ValidateVeteran = props => {
         Footer={Footer}
         showValidateError={showValidateError}
         validateErrorMessage={validateErrorMessage}
-        isPreCheckIn={false}
       />
-      <BackToHome isPreCheckIn={false} />
+      <BackToHome />
     </>
   );
 };

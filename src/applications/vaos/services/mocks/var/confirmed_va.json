@@ -18,7 +18,8 @@
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "323"
             },
             "type": "REGULAR",
             "currentStatus": "NO ACTION TAKEN/TODAY"
@@ -45,7 +46,8 @@
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "323"
             },
             "type": "REGULAR",
             "currentStatus": "NO ACTION TAKEN/TODAY"
@@ -270,7 +272,8 @@
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "123"
             },
             "type": "REGULAR",
             "currentStatus": "NO ACTION TAKEN/TODAY"
@@ -298,7 +301,8 @@
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "323"
             },
             "type": "REGULAR",
             "currentStatus": "NO ACTION TAKEN/TODAY"
@@ -325,7 +329,8 @@
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "323"
             },
             "type": "REGULAR",
             "currentStatus": "NO ACTION TAKEN/TODAY"
@@ -352,7 +357,8 @@
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "323"
             },
             "type": "ORGAN DONORS",
             "currentStatus": "NO ACTION TAKEN/TODAY"
@@ -379,7 +385,8 @@
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "323"
             },
             "type": "REGULAR",
             "currentStatus": "NO ACTION TAKEN/TODAY"
@@ -406,7 +413,8 @@
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "323"
             },
             "type": "REGULAR",
             "currentStatus": "FUTURE"
@@ -433,7 +441,8 @@
             "clinic": {
               "name": "CHY VISUAL FIELD",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "323"
             },
             "type": "REGULAR",
             "currentStatus": "FUTURE"
@@ -460,7 +469,8 @@
             "clinic": {
               "name": "CHY PC CASSIDY",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "323"
             },
             "type": "REGULAR",
             "currentStatus": "FUTURE"
@@ -487,7 +497,8 @@
             "clinic": {
               "name": "CHY VISUAL FIELD",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "323"
             },
             "type": "SERVICE CONNECTED",
             "currentStatus": "CANCELLED BY CLINIC"
@@ -514,7 +525,8 @@
             "clinic": {
               "name": "CHY VISUAL FIELD",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "323"
             },
             "type": "SERVICE CONNECTED",
             "currentStatus": "FUTURE"
@@ -541,7 +553,8 @@
             "clinic": {
               "name": "DAY AUDIOLOGY FELLOW 1",
               "askForCheckIn": false,
-              "facilityCode": "984"
+              "facilityCode": "984",
+              "stopCode": "203"
             },
             "type": "REGULAR",
             "currentStatus": "FUTURE"
@@ -568,7 +581,8 @@
             "clinic": {
               "name": "WHT AUDIO VAR2",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "203"
             },
             "type": "REGULAR",
             "currentStatus": "FUTURE"
@@ -595,7 +609,8 @@
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "323"
             },
             "type": "REGULAR",
             "currentStatus": "FUTURE"
@@ -622,7 +637,8 @@
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "407"
             },
             "type": "REGULAR",
             "currentStatus": "FUTURE"
@@ -649,7 +665,8 @@
             "clinic": {
               "name": "CHY VISUAL FIELD",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "407"
             },
             "type": "REGULAR",
             "currentStatus": "FUTURE"
@@ -676,7 +693,8 @@
             "clinic": {
               "name": "CHY OPT VAR1",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "323"
             },
             "type": "REGULAR",
             "currentStatus": "FUTURE"
@@ -703,7 +721,8 @@
             "clinic": {
               "name": "CHY VISUAL FIELD",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "323"
             },
             "type": "REGULAR",
             "currentStatus": "FUTURE"
@@ -730,7 +749,8 @@
             "clinic": {
               "name": "ZZFTC C&P AUDIO BEV",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "323"
             },
             "type": "COMPENSATION & PENSION",
             "currentStatus": "FUTURE"
@@ -976,7 +996,8 @@
             "clinic": {
               "name": "MARCYTESTSLOTS",
               "askForCheckIn": false,
-              "facilityCode": "983"
+              "facilityCode": "983",
+              "stopCode": "323"
             },
             "type": "SERVICE CONNECTED",
             "currentStatus": "FUTURE"

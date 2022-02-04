@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
 
+import PropTypes from 'prop-types';
 import { api } from '../../../api';
 
 import { createSetSession } from '../../../actions/authentication';
@@ -17,7 +18,7 @@ import { makeSelectCurrentContext } from '../../../selectors';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 
-export default function Index({ router }) {
+const Index = ({ router }) => {
   const { goToNextPage, goToErrorPage } = useFormRouting(router);
   const dispatch = useDispatch();
   const setSession = useCallback(
@@ -45,49 +46,68 @@ export default function Index({ router }) {
     remainingValidateAttempts,
   } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
-  const validateHandler = async () => {
-    setLastNameErrorMessage();
-    setLast4ErrorMessage();
-    if (!lastName || !last4Ssn) {
-      if (!lastName) {
-        setLastNameErrorMessage('Please enter your last name.');
-      }
-      if (!last4Ssn) {
-        setLast4ErrorMessage(
-          'Please enter the last 4 digits of your Social Security number.',
-        );
-      }
-    } else {
-      setIsLoading(true);
-      try {
-        const resp = await api.v2.postSession({
-          token,
-          last4: last4Ssn,
-          lastName,
-        });
-        setSession(token, resp.permissions);
-        goToNextPage();
-      } catch (e) {
-        setIsLoading(false);
-        if (
-          e?.message !== 'Invalid last4 or last name!' ||
-          isMaxValidateAttempts
-        ) {
-          goToErrorPage();
-        } else {
-          if (!showValidateError) {
-            setShowValidateError(true);
+
+  const validateHandler = useCallback(
+    async () => {
+      setLastNameErrorMessage();
+      setLast4ErrorMessage();
+      if (!lastName || !last4Ssn) {
+        if (!lastName) {
+          setLastNameErrorMessage('Please enter your last name.');
+        }
+        if (!last4Ssn) {
+          setLast4ErrorMessage(
+            'Please enter the last 4 digits of your Social Security number.',
+          );
+        }
+      } else {
+        setIsLoading(true);
+        try {
+          const resp = await api.v2.postSession({
+            token,
+            last4: last4Ssn,
+            lastName,
+          });
+          if (resp.errors || resp.error) {
+            setIsLoading(false);
+            goToErrorPage();
+          } else {
+            setSession(token, resp.permissions);
+            goToNextPage();
           }
-          incrementValidateAttempts(window);
+        } catch (e) {
+          setIsLoading(false);
+          if (
+            e?.message !== 'Invalid last4 or last name!' ||
+            isMaxValidateAttempts
+          ) {
+            goToErrorPage();
+          } else {
+            if (!showValidateError) {
+              setShowValidateError(true);
+            }
+            incrementValidateAttempts(window);
+          }
         }
       }
-    }
-  };
+    },
+    [
+      goToErrorPage,
+      goToNextPage,
+      last4Ssn,
+      lastName,
+      setSession,
+      token,
+      incrementValidateAttempts,
+      isMaxValidateAttempts,
+      showValidateError,
+    ],
+  );
+
   const validateErrorMessage =
     remainingValidateAttempts <= 1
       ? "We're sorry. We couldn't match your information to our records. Please try again or call us at 800-698-2411 (TTY: 711) for help signing in."
       : "Sorry, we couldn't find an account that matches that last name or SSN. Please try again.";
-
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -115,4 +135,10 @@ export default function Index({ router }) {
       <BackToHome />
     </>
   );
-}
+};
+
+Index.propTypes = {
+  router: PropTypes.object,
+};
+
+export default Index;

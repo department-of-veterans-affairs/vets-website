@@ -19,8 +19,7 @@ const Error = () => {
         <ErrorMessage />
       )}
       <Footer />
-      <Footer isPreCheckIn={false} />
-      <BackToHome isPreCheckIn={false} />
+      <BackToHome />
     </div>
   );
 };

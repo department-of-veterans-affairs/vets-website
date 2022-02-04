@@ -26,7 +26,11 @@ function filterByDay(intDay, vetCenterHoursArray) {
 
 export const standardizeDateTime = vetCenterHoursArray => {
   const output = [];
-  if (vetCenterHoursArray.length === 0) return output;
+  if (
+    !vetCenterHoursArray ||
+    (vetCenterHoursArray && vetCenterHoursArray.length === 0)
+  )
+    return output;
 
   for (let i = 0; i < 7; i++) {
     const tempData = filterByDay(i, vetCenterHoursArray);

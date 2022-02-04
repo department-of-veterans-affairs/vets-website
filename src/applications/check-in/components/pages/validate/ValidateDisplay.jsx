@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 import { VaTextInput } from 'web-components/react-bindings';
 
@@ -12,7 +13,6 @@ export default function ValidateDisplay({
   Footer,
   showValidateError,
   validateErrorMessage,
-  isPreCheckIn = true,
 }) {
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
@@ -63,9 +63,21 @@ export default function ValidateDisplay({
         aria-label="Check in now for your appointment"
       >
         {' '}
-        {isLoading ? <>Loading...</> : <>Continue</>}
+        {isLoading ? <span role="status">Loading...</span> : <>Continue</>}
       </button>
-      {Footer && <Footer isPreCheckIn={isPreCheckIn} />}
+      {Footer && <Footer />}
     </div>
   );
 }
+
+ValidateDisplay.propTypes = {
+  Footer: propTypes.elementType,
+  header: propTypes.string,
+  isLoading: propTypes.bool,
+  last4Input: propTypes.object,
+  lastNameInput: propTypes.object,
+  showValidateError: propTypes.bool,
+  subtitle: propTypes.string,
+  validateErrorMessage: propTypes.elementType,
+  validateHandler: propTypes.func,
+};

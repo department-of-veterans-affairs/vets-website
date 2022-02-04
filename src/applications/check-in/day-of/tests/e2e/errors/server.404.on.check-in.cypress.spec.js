@@ -9,7 +9,7 @@ import Error from '../pages/Error';
 import Appointments from '../pages/Appointments';
 
 describe('Check In Experience -- ', () => {
-  beforeEach(function() {
+  beforeEach(() => {
     const {
       initializeFeatureToggle,
       initializeSessionGet,
@@ -29,7 +29,7 @@ describe('Check In Experience -- ', () => {
       window.sessionStorage.clear();
     });
     cy.visitWithUUID();
-    ValidateVeteran.validatePageLoaded('Check in at VA');
+    ValidateVeteran.validatePage.dayOf();
     ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPage();
     Demographics.attemptToGoToNextPage();

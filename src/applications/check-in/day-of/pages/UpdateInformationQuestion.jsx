@@ -58,8 +58,8 @@ const UpdateInformationQuestion = props => {
         </button>
       </fieldset>
 
-      <Footer isPreCheckIn={false} />
-      <BackToHome isPreCheckIn={false} />
+      <Footer />
+      <BackToHome />
     </div>
   );
 };

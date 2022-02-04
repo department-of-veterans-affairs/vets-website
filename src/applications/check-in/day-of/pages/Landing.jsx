@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { api } from '../../api';
 import { useDispatch } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
+import { api } from '../../api';
 import {
   getTokenFromLocation,
   createForm,
@@ -17,6 +17,8 @@ import { createAnalyticsSlug } from '../../utils/analytics';
 import { isUUID, SCOPES } from '../../utils/token-format-validator';
 
 import { createSetSession } from '../../actions/authentication';
+import { setApp } from '../../actions/universal';
+import { APP_NAMES } from '../../utils/appConstants';
 
 const Landing = props => {
   const { isUpdatePageEnabled, location, router } = props;
@@ -39,6 +41,10 @@ const Landing = props => {
     },
     [dispatch],
   );
+
+  useEffect(() => {
+    dispatch(setApp(APP_NAMES.CHECK_IN));
+  }, []);
   useEffect(
     () => {
       const token = getTokenFromLocation(location);

@@ -184,7 +184,7 @@ export function CautionaryInformation({ institution, showModal }) {
           <table className="all-complaints">
             <thead>
               <tr>
-                <th />
+                <td />
                 <th>This campus</th>
                 <th>{allCampusesLink}</th>
               </tr>
