@@ -26,7 +26,7 @@ export const ChatboxDisclaimer = () => {
           className={'usa-button-primary'}
           onClick={() => dispatch({ type: ACCEPTED })}
         >
-          Accept
+          Accept & Start Chat
         </button>
       </div>
     </va-alert>
