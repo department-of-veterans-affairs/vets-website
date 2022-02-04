@@ -2,10 +2,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-// Related imports.
-import App from './components/App';
 
-export default (store, widgetType) => {
+export default async (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
 
   if (root) {
@@ -17,7 +15,9 @@ export default (store, widgetType) => {
         event1?.fieldDatetimeRangeTimezone?.value -
         event2?.fieldDatetimeRangeTimezone?.value,
     );
-
+    const {
+      App,
+    } = await import(/* webpackChunkName: "events" */ './components/App');
     ReactDOM.render(
       <Provider store={store}>
         <App rawEvents={rawEvents} />

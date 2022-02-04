@@ -9,7 +9,7 @@ import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 
 describe('Pre Check In Experience', () => {
   describe('update skip path', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const now = Date.now();
       const today = new Date(now);
       const {

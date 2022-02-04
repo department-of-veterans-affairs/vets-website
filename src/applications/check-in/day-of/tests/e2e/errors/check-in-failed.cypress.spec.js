@@ -9,7 +9,7 @@ import Appointments from '../pages/Appointments';
 import Error from '../pages/Error';
 
 describe('Check In Experience -- ', () => {
-  beforeEach(function() {
+  beforeEach(() => {
     const {
       initializeFeatureToggle,
       initializeSessionGet,
