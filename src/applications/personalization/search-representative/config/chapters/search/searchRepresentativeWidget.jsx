@@ -171,7 +171,6 @@ const mapDispatchToProps = {
 
 function mapStateToProps(state) {
   return {
-    formData: state.form.data,
     representatives: state.allSearchResults.representativeSearchResults,
     loading: state.allSearchResults.loading,
   };
