@@ -11,7 +11,9 @@ const searchRepresentativeResult = props => {
       </p>
       <p className="vads-u-font-weight--bold">{props.option.type}</p>
       <p>{props.option.address}</p>
-      <p>{props.option.city}</p>
+      <p>
+        {props.option.city}, {props.option.state} {props.option.postalCode}
+      </p>
       <p className="vads-u-margin-bottom--4">{props.option.phone}</p>
       <div style={customStyle}>
         <button
@@ -20,6 +22,8 @@ const searchRepresentativeResult = props => {
               props.option.name,
               props.option.address,
               props.option.city,
+              props.option.state,
+              props.option.postalCode,
               props.option.phone,
               props.option.type,
             )

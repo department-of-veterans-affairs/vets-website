@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { fetchRepresentativeSearchResults } from '../../../actions';
-import SearchRepresentativeResult from './searchRepresentativeResult';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { chunk } from 'lodash';
+import { fetchRepresentativeSearchResults } from '../../../actions';
+import SearchRepresentativeResult from './searchRepresentativeResult';
 
 const SearchRepresentativeWidget = props => {
   const { loading, representatives, formData } = props;
@@ -24,20 +24,22 @@ const SearchRepresentativeWidget = props => {
     setPages(chunkedData.length);
   }
 
-  const handleClick = (name, address, city, phone, type) => {
+  const handleClick = (name, address, city, state, postalCode, phone, type) => {
     // assemble a full object of the chosen representative separate from the name
     const representativeObject = {
       name,
+      type,
       address,
       city,
+      state,
+      postalCode,
       phone,
-      type,
     };
     // add both the name of the chosen representative and the full object
     // of representative data to the form data
     const updatedFormData = {
       ...formData,
-      preferredRepresentative: name,
+      preferredRepresentative: representativeObject,
       representativeData: representativeObject,
     };
     props.setData(updatedFormData);
@@ -58,7 +60,8 @@ const SearchRepresentativeWidget = props => {
 
   if (loading) {
     return <div>Loading...</div>;
-  } else if (representatives.length > 0) {
+  }
+  if (representatives.length > 0) {
     return (
       <div>
         <p>
@@ -156,23 +159,22 @@ const SearchRepresentativeWidget = props => {
         </ul>
       </div>
     );
-  } else {
-    return (
-      <>
-        <h2>We didn’t find a match</h2>
-        <p>
-          You can go back to try your search again. Try entering a different
-          kind of representative or a different location.
-        </p>
-        <a
-          className="vads-c-action-link--green"
-          href="/view-change-representative/search/representative-type"
-        >
-          Go back to search again
-        </a>
-      </>
-    );
   }
+  return (
+    <>
+      <h2>We didn’t find a match</h2>
+      <p>
+        You can go back to try your search again. Try entering a different kind
+        of representative or a different location.
+      </p>
+      <a
+        className="vads-c-action-link--green"
+        href="/view-change-representative/search/representative-type"
+      >
+        Go back to search again
+      </a>
+    </>
+  );
 };
 
 const mapDispatchToProps = {

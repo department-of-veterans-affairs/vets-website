@@ -14,8 +14,14 @@ export const schema = {
 export const uiSchema = {
   lastNameOfRepresentative: {
     'ui:title': 'Last name of accredited representative',
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
   firstNameOfRepresentative: {
     'ui:title': 'First name of accredited representative',
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 };
