@@ -11,11 +11,13 @@ describe('Pre Check In Experience', () => {
         initializeFeatureToggle,
         initializeSessionGet,
         initializeSessionPost,
+        initializePreCheckInDataGet,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
 
       initializeSessionPost.withSuccess();
+      initializePreCheckInDataGet.withSuccess();
     });
     afterEach(() => {
       cy.window().then(window => {
