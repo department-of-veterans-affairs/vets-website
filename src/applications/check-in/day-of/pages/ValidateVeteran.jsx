@@ -43,10 +43,7 @@ const ValidateVeteran = props => {
   const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
     false,
   );
-  const {
-    isMaxValidateAttempts,
-    remainingValidateAttempts,
-  } = getValidateAttempts(window);
+  const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
 
   const onClick = useCallback(
@@ -111,10 +108,6 @@ const ValidateVeteran = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
-  const validateErrorMessage =
-    remainingValidateAttempts <= 1
-      ? "We're sorry. We couldn't match your information to our records. Please try again or call us at 800-698-2411 (TTY: 711) for help signing in."
-      : "Sorry, we couldn't find an account that matches that last name or SSN. Please try again.";
   return (
     <>
       <ValidateDisplay
@@ -134,7 +127,7 @@ const ValidateVeteran = props => {
         validateHandler={onClick}
         Footer={Footer}
         showValidateError={showValidateError}
-        validateErrorMessage={validateErrorMessage}
+        validateErrorMessage="Sorry, we couldn't find an account that matches that last name or SSN. Please try again."
       />
       <BackToHome />
     </>

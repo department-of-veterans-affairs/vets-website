@@ -10,7 +10,7 @@ const Error = () => {
   const { getValidateAttempts } = useSessionStorage(false);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const maxValidateMessage =
-    "We're sorry. We couldn't match your information to our records. Please try again or call us at 800-698-2411 (TTY: 711) for help signing in.";
+    "We're sorry. We couldn't match your information to our records. Please ask a staff member for help.";
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 ">
       {isMaxValidateAttempts ? (

@@ -41,10 +41,7 @@ const Index = ({ router }) => {
   const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
     true,
   );
-  const {
-    isMaxValidateAttempts,
-    remainingValidateAttempts,
-  } = getValidateAttempts(window);
+  const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
 
   const validateHandler = useCallback(
@@ -104,10 +101,6 @@ const Index = ({ router }) => {
     ],
   );
 
-  const validateErrorMessage =
-    remainingValidateAttempts <= 1
-      ? "We're sorry. We couldn't match your information to our records. Please try again or call us at 800-698-2411 (TTY: 711) for help signing in."
-      : "Sorry, we couldn't find an account that matches that last name or SSN. Please try again.";
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -130,7 +123,7 @@ const Index = ({ router }) => {
         }}
         Footer={Footer}
         showValidateError={showValidateError}
-        validateErrorMessage={validateErrorMessage}
+        validateErrorMessage="Sorry, we couldn't find an account that matches that last name or SSN. Please try again."
       />
       <BackToHome />
     </>

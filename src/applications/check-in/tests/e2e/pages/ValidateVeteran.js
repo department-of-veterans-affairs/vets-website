@@ -103,13 +103,13 @@ class ValidateVeteran {
     );
   };
 
-  validateErrorAlert = (lastAttempt = false) => {
-    const errorMessage = lastAttempt
-      ? "We're sorry. We couldn't match your information to our records. Please try again or call us at 800-698-2411 (TTY: 711) for help signing in."
-      : "Sorry, we couldn't find an account that matches that last name or SSN. Please try again.";
+  validateErrorAlert = () => {
     cy.get('[data-testid=validate-error-alert]')
       .should('be.visible')
-      .and('have.text', errorMessage);
+      .and(
+        'have.text',
+        "Sorry, we couldn't find an account that matches that last name or SSN. Please try again.",
+      );
   };
 }
 
