@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { getAllPayments } from 'applications/disability-benefits/view-payments/actions';
+import moment from 'moment';
 import { Payments } from './Payments';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
-import { getAllPayments } from 'applications/disability-benefits/view-payments/actions';
 import IconCTALink from '../IconCTALink';
 import recordEvent from '~/platform/monitoring/record-event';
 
 import Debts from './Debts';
-import moment from 'moment';
 
 const BenefitPaymentsAndDebt = ({
   payments,
@@ -28,59 +28,64 @@ const BenefitPaymentsAndDebt = ({
     .sort((a, b) => moment(b.payCheckDt) - moment(a.payCheckDt))[0];
 
   return (
-    <div
-      className="health-care-wrapper vads-u-margin-y--6"
-      data-testid="dashboard-section-payment-and-debts"
-    >
-      <h2>Benefit payments and debts</h2>
-      <div className="vads-l-row">
-        {lastPayment &&
-          (payments || debts) && (
-            <DashboardWidgetWrapper>
-              {debts && <Debts debts={debts} hasError={debtsError} />}
-              {payments && (
-                <Payments lastPayment={lastPayment} hasError={paymentsError} />
-              )}
-            </DashboardWidgetWrapper>
-          )}
-        <DashboardWidgetWrapper>
-          {!lastPayment && (
-            <>
-              {debts && <Debts debts={debts} hasError={debtsError} />}
-              <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
-                You haven’t received any payments in the past 30 days.
-              </p>
-              <IconCTALink
-                href={'/va-payment-history/payments/'}
-                icon="user-check"
-                newTab
-                text="View your payment history"
-                onClick={() => {
-                  recordEvent({
-                    event: 'nav-linkslist',
-                    'links-list-header': 'View your payment history',
-                    'links-list-section-header': 'Benefit payments and debts',
-                  });
-                }}
-              />
-            </>
-          )}
-          <IconCTALink
-            href={'/profile/direct-deposit'}
-            icon="dollar-sign"
-            newTab
-            text="Manage your direct deposit"
-            onClick={() => {
-              recordEvent({
-                event: 'nav-linkslist',
-                'links-list-header': 'Manage your direct deposit',
-                'links-list-section-header': 'Direct deposit',
-              });
-            }}
-          />
-        </DashboardWidgetWrapper>
+    payments && (
+      <div
+        className="health-care-wrapper vads-u-margin-y--6"
+        data-testid="dashboard-section-payment-and-debts"
+      >
+        <h2>Benefit payments and debts</h2>
+        <div className="vads-l-row">
+          {lastPayment &&
+            (payments || debts) && (
+              <DashboardWidgetWrapper>
+                {debts && <Debts debts={debts} hasError={debtsError} />}
+                {payments && (
+                  <Payments
+                    lastPayment={lastPayment}
+                    hasError={paymentsError}
+                  />
+                )}
+              </DashboardWidgetWrapper>
+            )}
+          <DashboardWidgetWrapper>
+            {!lastPayment && (
+              <>
+                {debts && <Debts debts={debts} hasError={debtsError} />}
+                <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
+                  You haven’t received any payments in the past 30 days.
+                </p>
+                <IconCTALink
+                  href="/va-payment-history/payments/"
+                  icon="user-check"
+                  newTab
+                  text="View your payment history"
+                  onClick={() => {
+                    recordEvent({
+                      event: 'nav-linkslist',
+                      'links-list-header': 'View your payment history',
+                      'links-list-section-header': 'Benefit payments and debts',
+                    });
+                  }}
+                />
+              </>
+            )}
+            <IconCTALink
+              href="/profile/direct-deposit"
+              icon="dollar-sign"
+              newTab
+              text="Manage your direct deposit"
+              onClick={() => {
+                recordEvent({
+                  event: 'nav-linkslist',
+                  'links-list-header': 'Manage your direct deposit',
+                  'links-list-section-header': 'Direct deposit',
+                });
+              }}
+            />
+          </DashboardWidgetWrapper>
+        </div>
       </div>
-    </div>
+    )
   );
 };
 

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
 
+import PropTypes from 'prop-types';
 import { api } from '../../../api';
 
 import { createSetSession } from '../../../actions/authentication';
@@ -15,7 +16,7 @@ import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectCurrentContext } from '../../../selectors';
 
-export default function Index({ router }) {
+const Index = ({ router }) => {
   const { goToNextPage, goToErrorPage } = useFormRouting(router);
   const dispatch = useDispatch();
   const setSession = useCallback(
@@ -34,34 +35,42 @@ export default function Index({ router }) {
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
-  const validateHandler = async () => {
-    setLastNameErrorMessage();
-    setLast4ErrorMessage();
-    if (!lastName || !last4Ssn) {
-      if (!lastName) {
-        setLastNameErrorMessage('Please enter your last name.');
+  const validateHandler = useCallback(
+    async () => {
+      setLastNameErrorMessage();
+      setLast4ErrorMessage();
+      if (!lastName || !last4Ssn) {
+        if (!lastName) {
+          setLastNameErrorMessage('Please enter your last name.');
+        }
+        if (!last4Ssn) {
+          setLast4ErrorMessage(
+            'Please enter the last 4 digits of your Social Security number.',
+          );
+        }
+      } else {
+        setIsLoading(true);
+        try {
+          const resp = await api.v2.postSession({
+            token,
+            last4: last4Ssn,
+            lastName,
+          });
+          if (resp.errors || resp.error) {
+            setIsLoading(false);
+            goToErrorPage();
+          } else {
+            setSession(token, resp.permissions);
+            goToNextPage();
+          }
+        } catch (e) {
+          setIsLoading(false);
+          goToErrorPage();
+        }
       }
-      if (!last4Ssn) {
-        setLast4ErrorMessage(
-          'Please enter the last 4 digits of your Social Security number.',
-        );
-      }
-    } else {
-      setIsLoading(true);
-      try {
-        const resp = await api.v2.postSession({
-          token,
-          last4: last4Ssn,
-          lastName,
-        });
-        setSession(token, resp.permissions);
-        goToNextPage();
-      } catch (e) {
-        setIsLoading(false);
-        goToErrorPage();
-      }
-    }
-  };
+    },
+    [goToErrorPage, goToNextPage, last4Ssn, lastName, setSession, token],
+  );
 
   useEffect(() => {
     focusElement('h1');
@@ -88,4 +97,10 @@ export default function Index({ router }) {
       <BackToHome />
     </>
   );
-}
+};
+
+Index.propTypes = {
+  router: PropTypes.object,
+};
+
+export default Index;
