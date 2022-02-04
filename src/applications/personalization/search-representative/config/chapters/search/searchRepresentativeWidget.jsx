@@ -8,14 +8,13 @@ import { setData as _setData } from 'platform/forms-system/src/js/actions';
 import { fetchRepresentativeSearchResults as _fetchResults } from '../../../actions';
 import SearchRepresentativeResult from './searchRepresentativeResult';
 
-const SearchRepresentativeWidget = props => {
-  const {
-    fetchRepresentativeSearchResults,
-    formData,
-    loading,
-    representatives,
-    setData,
-  } = props;
+const SearchRepresentativeWidget = ({
+  fetchRepresentativeSearchResults,
+  formData,
+  loading,
+  representatives,
+  setData,
+}) => {
   const maxPerPage = 3;
   const [pages, setPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,7 +59,7 @@ const SearchRepresentativeWidget = props => {
       fetchRepresentativeSearchResults();
       handleLoadData();
     },
-    [fetchRepresentativeSearchResults, handleLoadData, loading],
+    [fetchRepresentativeSearchResults, loading],
   );
 
   if (loading) {
