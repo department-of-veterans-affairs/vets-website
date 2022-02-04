@@ -122,3 +122,5 @@ const Index = props => {
 Index.propTypes = {
   router: propTypes.object,
 };
+
+export default Index;
