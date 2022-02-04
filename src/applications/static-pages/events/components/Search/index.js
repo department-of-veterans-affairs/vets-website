@@ -1,5 +1,5 @@
 // Node modules.
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
 import {
@@ -37,75 +37,62 @@ export const Search = ({ onSearch }) => {
   const [endDateMonthError, setEndDateMonthError] = useState(false);
   const [endDateDayError, setEndDateDayError] = useState(false);
 
-  const onFilterByChange = useCallback(
-    event => {
-      const filterByOption = filterByOptions?.find(
-        option => option?.value === event?.target?.value,
-      );
+  const onFilterByChange = event => {
+    const filterByOption = filterByOptions?.find(
+      option => option?.value === event?.target?.value,
+    );
 
-      // Escape early if they selected the same field.
-      if (filterByOption?.value === selectedOption?.value) {
-        return;
-      }
+    // Escape early if they selected the same field.
+    if (filterByOption?.value === selectedOption?.value) {
+      return;
+    }
 
-      // Reset fields.
-      setStartDateMonth('');
-      setStartDateDay('');
-      setEndDateMonth('');
-      setEndDateDay('');
-      setStartDateMonthError(false);
-      setStartDateDayError(false);
-      setEndDateMonthError(false);
-      setEndDateDayError(false);
+    // Reset fields.
+    setStartDateMonth('');
+    setStartDateDay('');
+    setEndDateMonth('');
+    setEndDateDay('');
+    setStartDateMonthError(false);
+    setStartDateDayError(false);
+    setEndDateMonthError(false);
+    setEndDateDayError(false);
 
-      // Update the selected option.
-      setSelectedOption(filterByOption);
-    },
-    [selectedOption?.value],
-  );
+    // Update the selected option.
+    setSelectedOption(filterByOption);
+  };
 
-  const onSubmitHandler = useCallback(
-    event => {
-      event.preventDefault();
+  const onSubmitHandler = event => {
+    event.preventDefault();
 
-      // Escape early with error if we are missing a required field.
-      if (
-        selectedOption?.value === 'specific-date' &&
-        (!startDateMonth || !startDateDay)
-      ) {
-        setStartDateMonthError(!startDateMonth);
-        setStartDateDayError(!startDateDay);
-        return;
-      }
+    // Escape early with error if we are missing a required field.
+    if (
+      selectedOption?.value === 'specific-date' &&
+      (!startDateMonth || !startDateDay)
+    ) {
+      setStartDateMonthError(!startDateMonth);
+      setStartDateDayError(!startDateDay);
+      return;
+    }
 
-      // Escape early with error if we are missing a required field.
-      if (
-        selectedOption?.value === 'custom-date-range' &&
-        (!startDateMonth || !startDateDay || !endDateMonth || !endDateDay)
-      ) {
-        setStartDateMonthError(!startDateMonth);
-        setStartDateDayError(!startDateDay);
-        setEndDateMonthError(!endDateMonth);
-        setEndDateDayError(!endDateDay);
-        return;
-      }
+    // Escape early with error if we are missing a required field.
+    if (
+      selectedOption?.value === 'custom-date-range' &&
+      (!startDateMonth || !startDateDay || !endDateMonth || !endDateDay)
+    ) {
+      setStartDateMonthError(!startDateMonth);
+      setStartDateDayError(!startDateDay);
+      setEndDateMonthError(!endDateMonth);
+      setEndDateDayError(!endDateDay);
+      return;
+    }
 
-      // Allow the event to be submitted and clear errors.
-      onSearch(event);
-      setStartDateMonthError(false);
-      setStartDateDayError(false);
-      setEndDateMonthError(false);
-      setEndDateDayError(false);
-    },
-    [
-      onSearch,
-      startDateDay,
-      startDateMonth,
-      endDateDay,
-      endDateMonth,
-      selectedOption?.value,
-    ],
-  );
+    // Allow the event to be submitted and clear errors.
+    onSearch(event);
+    setStartDateMonthError(false);
+    setStartDateDayError(false);
+    setEndDateMonthError(false);
+    setEndDateDayError(false);
+  };
 
   return (
     <form
