@@ -4,24 +4,24 @@ import mapboxgl from 'mapbox-gl';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import { connect } from 'react-redux';
-import classNames from 'classnames';
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
-import ResultCard from './ResultCard';
+import ResultCard from '../../containers/search/ResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit, MAX_SEARCH_AREA_DISTANCE, TABS } from '../../constants';
-import TuitionAndHousingEstimates from '../TuitionAndHousingEstimates';
-import FilterYourResults from '../FilterYourResults';
+import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
+import FilterYourResults from '../../containers/FilterYourResults';
 import { createId } from '../../utils/helpers';
 import {
   fetchSearchByLocationCoords,
   updateEligibilityAndFilters,
   mapChanged,
 } from '../../actions';
+import { connect } from 'react-redux';
 import { getFiltersChanged } from '../../selectors/filters';
 import MobileFilterControls from '../../components/MobileFilterControls';
+import classNames from 'classnames';
+import scrollTo from 'platform/utilities/ui/scrollTo';
+import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 
 const MILE_METER_CONVERSION_RATE = 1609.34;
 const LIST_TAB = 'List';
@@ -457,7 +457,7 @@ function LocationSearchResults({
             </>
           )}
           {smallScreen && (
-            <MobileFilterControls className="vads-u-margin-top--2" />
+            <MobileFilterControls className={'vads-u-margin-top--2'} />
           )}
         </>
       );
@@ -619,11 +619,11 @@ function LocationSearchResults({
             !smallScreen && (
               <div
                 id="search-area-control-container"
-                className="mapboxgl-ctrl-top-center"
+                className={'mapboxgl-ctrl-top-center'}
               >
                 <button
                   id="search-area-control"
-                  className="usa-button"
+                  className={'usa-button'}
                   onClick={searchArea}
                   disabled={!areaSearchWithinBounds}
                 >
@@ -644,7 +644,7 @@ function LocationSearchResults({
   // returns content ordered and setup for smallScreens
   if (smallScreen) {
     return (
-      <div className="location-search vads-u-padding--1">
+      <div className={'location-search vads-u-padding--1'}>
         {inProgress && <LoadingIndicator message="Loading search results..." />}
         {!inProgress && (
           <>
@@ -678,8 +678,8 @@ function LocationSearchResults({
 
   // Returns content setup for desktop screens
   return (
-    <div className="location-search vads-u-padding-top--1">
-      <div className="usa-width-one-third">
+    <div className={'location-search vads-u-padding-top--1'}>
+      <div className={'usa-width-one-third'}>
         {inProgress && <LoadingIndicator message="Loading search results..." />}
         {!inProgress && (
           <>
@@ -701,7 +701,7 @@ function LocationSearchResults({
         )}
       </div>
 
-      <div className="usa-width-two-thirds">{mapElement()}</div>
+      <div className={'usa-width-two-thirds'}>{mapElement()}</div>
     </div>
   );
 }
