@@ -1,9 +1,10 @@
-.form-review-panel-page:nth-of-type(1) dt {
+[data-chapter="basicInformation"] .review-row > dt {
   display: none;
 }
 
 .review-row {
   flex-direction: column !important;
+  padding: 2.5rem;
 }
 
 .form-review-panel-page-header-row:nth-of-type(1) .edit-btn {

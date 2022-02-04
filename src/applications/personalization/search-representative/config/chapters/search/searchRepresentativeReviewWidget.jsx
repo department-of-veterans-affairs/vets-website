@@ -13,7 +13,7 @@ const SearchRepresentativeReviewWidget = props => {
           <>
             <div key={index} className="vads-u-display--flex">
               <p className="vads-u-flex--1 vads-u-text-align--left vads-u-font-weight--normal vads-u-margin-y--0">
-                {capitalizeFirstLetter(item)}:
+                {capitalizeFirstLetter(item)}
               </p>
               <p className="vads-u-flex--1 vads-u-margin-y--0">
                 {props.formData.representativeData[item]}

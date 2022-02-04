@@ -1,5 +1,5 @@
-import SearchRepresentativeWidget from './searchRepresentativeWidget.jsx';
-import searchRepresentativeReviewWidget from './searchRepresentativeReviewWidget.jsx';
+import SearchRepresentativeWidget from './searchRepresentativeWidget';
+import searchRepresentativeReviewWidget from './searchRepresentativeReviewWidget';
 
 export const schema = {
   type: 'object',
