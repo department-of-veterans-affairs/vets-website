@@ -10,7 +10,7 @@ import {
 } from '../actions';
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
-import EnrollmentVerificationMonthInfo from '../components/EnrollmentVerificationMonthInfo';
+import MonthReviewCard from '../components/MonthReviewCard';
 
 export const VerifyEnrollmentsPage = ({
   getVerificationStatus,
@@ -39,21 +39,30 @@ export const VerifyEnrollmentsPage = ({
   const [monthInformationCorrect, setMonthInformationCorrect] = useState();
   const [continueClicked, setContinueClicked] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(0);
-  const [month, setMonth] = useState();
   const [informationIncorrectMonth, setInformationIncorrectMonth] = useState();
   const [unverifiedMonths, setUnverifiedMonths] = useState();
 
-  if (verificationStatus?.months?.length && !unverifiedMonths) {
-    const months = verificationStatus.months.reverse();
-    setUnverifiedMonths(months.filter(m => !m.verified));
-    const _informationIncorrectMonth = months.find(
+  let month;
+
+  if (unverifiedMonths) {
+    month = unverifiedMonths[currentMonth];
+  } else if (verificationStatus?.months?.length && !unverifiedMonths) {
+    const _unverifiedMonths = verificationStatus.months
+      .filter(m => !m.verified)
+      .reverse();
+    setUnverifiedMonths(_unverifiedMonths);
+
+    const _informationIncorrectMonth = _unverifiedMonths.find(
       m => m.verificationStatus === VERIFICATION_STATUS_INCORRECT,
     );
     setInformationIncorrectMonth(_informationIncorrectMonth);
+
     if (!_informationIncorrectMonth) {
-      const firstUnverifiedMonthIndex = months.findIndex(m => !m.verified);
-      setCurrentMonth(currentMonth);
-      setMonth(unverifiedMonths[firstUnverifiedMonthIndex]);
+      const firstUnverifiedMonthIndex = _unverifiedMonths.findIndex(
+        m => !m.verified,
+      );
+      setCurrentMonth(firstUnverifiedMonthIndex);
+      month = _unverifiedMonths[firstUnverifiedMonthIndex];
     }
   }
 
@@ -102,7 +111,21 @@ export const VerifyEnrollmentsPage = ({
   }
 
   if (informationIncorrectMonth || currentMonth === unverifiedMonths.length) {
-    return <>Review Page</>;
+    return (
+      <EnrollmentVerificationPageWrapper>
+        <h1>Verify your enrollments</h1>
+
+        <va-segmented-progress-bar
+          current={currentMonth + 1}
+          total={unverifiedMonths.length + 1}
+        />
+
+        <h2>
+          Step {currentMonth + 1} of {unverifiedMonths.length + 1}: Review
+          verifications
+        </h2>
+      </EnrollmentVerificationPageWrapper>
+    );
   }
 
   return (
@@ -111,11 +134,11 @@ export const VerifyEnrollmentsPage = ({
 
       <va-segmented-progress-bar
         current={currentMonth + 1}
-        total={unverifiedMonths.length}
+        total={unverifiedMonths.length + 1}
       />
 
       <h2>
-        Step {currentMonth + 1} of {unverifiedMonths.length}: Verify{' '}
+        Step {currentMonth + 1} of {unverifiedMonths.length + 1}: Verify{' '}
         {month.month}
       </h2>
 
@@ -163,22 +186,7 @@ export const VerifyEnrollmentsPage = ({
 
       <br />
 
-      <div className="ev-highlighted-content-container">
-        <header className="ev-highlighted-content-container_header">
-          <h1 className="ev-highlighted-content-container_title vads-u-font-size--h3">
-            {month.month}
-          </h1>
-        </header>
-        <div className="ev-highlighted-content-container_content">
-          <p>
-            This is the enrollment information we have on file for you for{' '}
-            {month.month}.
-          </p>
-          <div className="ev-info-block">
-            <EnrollmentVerificationMonthInfo enrollments={month.enrollments} />
-          </div>
-        </div>
-      </div>
+      <MonthReviewCard month={month} />
 
       {/* <va-radio
         error="Please select an option"
