@@ -29,7 +29,7 @@ describe('Check In Experience -- ', () => {
       window.sessionStorage.clear();
     });
     cy.visitWithUUID();
-    ValidateVeteran.validatePage.dayOf();
+    ValidateVeteran.validatePageLoaded('Check in at VA');
     ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPage();
     Demographics.attemptToGoToNextPage();
