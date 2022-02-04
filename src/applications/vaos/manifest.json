@@ -2,5 +2,6 @@
   "appName": "VA Online Scheduling",
   "entryFile": "./vaos-entry",
   "entryName": "vaos",
-  "rootUrl": "/health-care/schedule-view-va-appointments/appointments"
+  "rootUrl": "/health-care/schedule-view-va-appointments/appointments",
+  "productId": 162
 }
