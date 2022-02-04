@@ -5,34 +5,36 @@ import ValidateVeteran from '../../../../../tests/e2e/pages/ValidateVeteran';
 import Error from '../../pages/Error';
 
 describe('Pre-Check In Experience Error handling', () => {
-  describe('POST /check_in/v2/sessions/', () => {
-    describe('error in the body', () => {
-      beforeEach(() => {
-        const {
-          initializeFeatureToggle,
-          initializeSessionGet,
-          initializeSessionPost,
-        } = ApiInitializer;
-        initializeFeatureToggle.withCurrentFeatures();
-        initializeSessionGet.withSuccessfulNewSession();
+  describe('Error handling', () => {
+    describe('POST /check_in/v2/sessions/', () => {
+      describe('error in the body', () => {
+        beforeEach(() => {
+          const {
+            initializeFeatureToggle,
+            initializeSessionGet,
+            initializeSessionPost,
+          } = ApiInitializer;
+          initializeFeatureToggle.withCurrentFeatures();
+          initializeSessionGet.withSuccessfulNewSession();
 
-        initializeSessionPost.withFailure(200);
-      });
-      afterEach(() => {
-        cy.window().then(window => {
-          window.sessionStorage.clear();
+          initializeSessionPost.withFailure(200);
         });
-      });
-      it('attempt to sign in with an error', () => {
-        cy.visitPreCheckInWithUUID();
-        // page: Validate
-        ValidateVeteran.validatePage.preCheckIn();
-        ValidateVeteran.validateVeteran();
-        cy.injectAxeThenAxeCheck();
+        afterEach(() => {
+          cy.window().then(window => {
+            window.sessionStorage.clear();
+          });
+        });
+        it('attempt to sign in with an error', () => {
+          cy.visitPreCheckInWithUUID();
+          // page: Validate
+          ValidateVeteran.validatePage.preCheckIn();
+          ValidateVeteran.validateVeteran();
+          cy.injectAxeThenAxeCheck();
 
-        ValidateVeteran.attemptToGoToNextPage();
+          ValidateVeteran.attemptToGoToNextPage();
 
-        Error.validatePageLoaded();
+          Error.validatePageLoaded();
+        });
       });
     });
   });
