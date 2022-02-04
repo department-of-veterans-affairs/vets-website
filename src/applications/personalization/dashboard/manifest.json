@@ -2,5 +2,6 @@
   "appName": "Dashboard",
   "entryFile": "./dashboard-entry.jsx",
   "entryName": "dashboard",
-  "rootUrl": "/my-va"
+  "rootUrl": "/my-va",
+  "productId": 38
 }

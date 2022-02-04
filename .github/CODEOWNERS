@@ -104,5 +104,4 @@ src/applications/coronavirus-chatbot @department-of-veterans-affairs/chatbot-adm
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe
 src/applications/third-party-app-directory @department-of-veterans-affairs/lighthouse-bilby
 
-src/applications/**/manifest.json @department-of-veterans-affairs/qa-standards
 

@@ -91,7 +91,6 @@ export class VeteranBenefitSummaryLetter extends React.Component {
             <th scope="row">
               <input
                 aria-labelledby={`${key}Label`}
-                autoComplete="false"
                 checked={requestOptions[benefitOptionsMap[key]]}
                 id={key}
                 name={key}
@@ -110,7 +109,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       }
     });
 
-    const vaBenefitInformation = (
+    const vaBenefitInformation = vaBenefitInfoRows.length ? (
       <table id="benefitInfoTable">
         <thead>
           <tr>
@@ -120,21 +119,22 @@ export class VeteranBenefitSummaryLetter extends React.Component {
         </thead>
         <tbody>{vaBenefitInfoRows}</tbody>
       </table>
-    );
+    ) : null;
 
     let benefitSummaryContent;
     if (optionsAvailable) {
       benefitSummaryContent = (
         <div>
-          <h4>Choose the information you want to include.</h4>
-          <h2>Military service information</h2>
+          <h3 className="vads-u-font-size--h4">
+            Choose the information you want to include.
+          </h3>
+          <h3 className="vads-u-font-size--h2">Military service information</h3>
           <p>
             Our records show the 3 most recent service periods. There may be
             additional service periods not shown here.
           </p>
           <div className="form-checkbox">
             <input
-              autoComplete="false"
               checked={militaryService}
               id="militaryService"
               name="militaryService"
@@ -145,18 +145,22 @@ export class VeteranBenefitSummaryLetter extends React.Component {
               Include military service information
             </label>
           </div>
-          <table id="militaryServiceTable">
-            <thead>
-              <tr>
-                <th scope="col">Branch of service</th>
-                <th scope="col">Discharge type</th>
-                <th scope="col">Active duty start</th>
-                <th scope="col">Separation date</th>
-              </tr>
-            </thead>
-            <tbody>{militaryServiceRows}</tbody>
-          </table>
-          <h2>VA benefit and disability information</h2>
+          {militaryServiceRows.length && (
+            <table id="militaryServiceTable">
+              <thead>
+                <tr>
+                  <th scope="col">Branch of service</th>
+                  <th scope="col">Discharge type</th>
+                  <th scope="col">Active duty start</th>
+                  <th scope="col">Separation date</th>
+                </tr>
+              </thead>
+              <tbody>{militaryServiceRows}</tbody>
+            </table>
+          )}
+          <h3 className="vads-u-font-size--h2">
+            VA benefit and disability information
+          </h3>
           <p>
             Please choose what information you want to include in your letter.
           </p>

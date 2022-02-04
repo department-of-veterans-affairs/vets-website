@@ -2,5 +2,6 @@
   "appName": "Letters",
   "entryFile": "./letters-entry.jsx",
   "entryName": "letters",
-  "rootUrl": "/records/download-va-letters/letters"
+  "rootUrl": "/records/download-va-letters/letters",
+  "productId": 52
 }

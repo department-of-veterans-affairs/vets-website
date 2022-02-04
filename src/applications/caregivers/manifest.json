@@ -3,5 +3,6 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "1010cg-application-caregiver-assistance",
   "rootUrl": "/family-member-benefits/apply-for-caregiver-assistance-form-10-10cg",
-  "e2eTestsDisabled": true
+  "e2eTestsDisabled": true,
+  "productId": 11
 }
