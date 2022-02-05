@@ -9,6 +9,7 @@ function exportAppList() {
       app.entryName,
       app.filePath.substring(app.filePath.indexOf('src')),
       app.rootUrl,
+      app.productId || null,
     ];
   });
   core.exportVariable('APPLICATION_LIST', applicationList);
