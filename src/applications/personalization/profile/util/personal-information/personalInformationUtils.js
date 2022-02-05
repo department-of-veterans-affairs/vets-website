@@ -123,7 +123,6 @@ export const personalInformationUiSchemas = {
     theyThemTheirs: { 'ui:title': 'They/them/theirs' },
     zeZirZirs: { 'ui:title': 'Ze/zir/zirs' },
     useMyPreferredName: { 'ui:title': 'Use my preferred name' },
-    preferNotToAnswer: { 'ui:title': 'Prefer not to answer' },
     pronounsNotListed: {
       'ui:title': 'Pronouns not listed here',
     },
