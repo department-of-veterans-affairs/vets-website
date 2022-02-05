@@ -39,7 +39,10 @@ export default function AppointmentListNavigation({ count, callback }) {
     }
 
     return (
-      <nav aria-label="Breadcrumb" className="vaos-appts__breadcrumb">
+      <nav
+        aria-label="Appointment list navigation"
+        className="vaos-appts__breadcrumb"
+      >
         <ul>
           <li>
             <button

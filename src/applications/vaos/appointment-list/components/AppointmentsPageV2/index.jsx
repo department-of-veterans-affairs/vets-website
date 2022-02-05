@@ -106,8 +106,14 @@ export default function AppointmentsPageV2() {
   const [count, setCount] = useState(0);
   useEffect(
     () => {
-      if (featureStatusImprovement) pageTitle = 'Your appointments';
-      document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
+      if (featureStatusImprovement) {
+        let prefix = subPageTitle;
+        if (subPageTitle.startsWith('Request')) prefix = 'Pending appointments';
+        document.title = `${prefix} | VA online scheduling | Veterans Affairs`;
+        pageTitle = 'Your appointments';
+      } else {
+        document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
+      }
     },
     [subPageTitle, featureStatusImprovement],
   );
@@ -116,7 +122,7 @@ export default function AppointmentsPageV2() {
   useEffect(
     () => {
       function handleBeforePrint(_event) {
-        document.title = `Your appointments | ${pageTitle} | Veterans Affairs`;
+        document.title = `Your appointments | VA online scheduling | Veterans Affairs`;
       }
 
       function handleAfterPrint(_event) {
@@ -154,12 +160,14 @@ export default function AppointmentsPageV2() {
 
   useEffect(
     () => {
-      // Update the breadcrumb in the event the user accesses the past appointments
+      // Update the breadcrumb and page title in the event the user accesses the past appointments
       // page from a bookmark or types 'past' in the address bar.
       if (featureStatusImprovement) {
         if (DROPDOWN_VALUES.past === dropdownValue) {
+          pageTitle = 'Past appointments';
           dispatch(updateBreadcrumb({ title: 'Past', path: 'past' }));
         } else if (DROPDOWN_VALUES.requested === dropdownValue) {
+          pageTitle = 'Pending appointments';
           dispatch(updateBreadcrumb({ title: 'Pending', path: 'requested' }));
         }
       }
