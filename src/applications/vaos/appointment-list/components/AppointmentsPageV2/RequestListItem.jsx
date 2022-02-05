@@ -9,20 +9,40 @@ import { APPOINTMENT_STATUS, SPACE_BAR } from '../../../utils/constants';
 import { updateBreadcrumb } from '../../redux/actions';
 import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 
-function handleClick(history, link, idClickable) {
+function handleClick({
+  dispatch,
+  history,
+  link,
+  idClickable,
+  featureStatusImprovement,
+}) {
   return () => {
     if (!window.getSelection().toString()) {
       focusElement(`#${idClickable}`);
       history.push(link);
+
+      if (featureStatusImprovement) {
+        dispatch(updateBreadcrumb({ title: 'Pending', path: '/requested' }));
+      }
     }
   };
 }
 
-function handleKeyDown(history, link, idClickable) {
+function handleKeyDown({
+  dispatch,
+  history,
+  link,
+  idClickable,
+  featureStatusImprovement,
+}) {
   return event => {
     if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
       focusElement(`#${idClickable}`);
       history.push(link);
+
+      if (featureStatusImprovement) {
+        dispatch(updateBreadcrumb({ title: 'Pending', path: '/requested' }));
+      }
     }
   };
 }
@@ -64,8 +84,20 @@ export default function RequestListItem({ appointment, facility }) {
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         className="vads-u-padding--2 vads-u-display--flex vads-u-align-items--left vads-u-flex-direction--column medium-screen:vads-u-padding--3 medium-screen:vads-u-flex-direction--row medium-screen:vads-u-align-items--center"
-        onClick={handleClick(history, link, idClickable)}
-        onKeyDown={handleKeyDown(history, link, idClickable)}
+        onClick={handleClick({
+          dispatch,
+          history,
+          link,
+          idClickable,
+          featureStatusImprovement,
+        })}
+        onKeyDown={handleKeyDown({
+          dispatch,
+          history,
+          link,
+          idClickable,
+          featureStatusImprovement,
+        })}
       >
         <div className="vads-u-flex--1 vads-u-margin-y--neg0p5">
           {canceled && (

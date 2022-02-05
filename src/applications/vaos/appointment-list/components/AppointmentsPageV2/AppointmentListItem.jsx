@@ -53,20 +53,42 @@ function VAFacilityName({ facility }) {
   return 'VA appointment';
 }
 
-function handleClick(history, link, idClickable) {
+function handleClick({
+  history,
+  dispatch,
+  link,
+  idClickable,
+  isPastAppointment,
+  featureStatusImprovement,
+}) {
   return () => {
     if (!window.getSelection().toString()) {
       focusElement(`#${idClickable}`);
       history.push(link);
+
+      if (featureStatusImprovement && isPastAppointment) {
+        dispatch(updateBreadcrumb({ title: 'Past', path: '/past' }));
+      }
     }
   };
 }
 
-function handleKeyDown(history, link, idClickable) {
+function handleKeyDown({
+  history,
+  dispatch,
+  link,
+  idClickable,
+  isPastAppointment,
+  featureStatusImprovement,
+}) {
   return event => {
     if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
       focusElement(`#${idClickable}`);
       history.push(link);
+
+      if (featureStatusImprovement && isPastAppointment) {
+        dispatch(updateBreadcrumb({ title: 'Past', path: '/past' }));
+      }
     }
   };
 }
@@ -115,8 +137,22 @@ export default function AppointmentListItem({ appointment, facility }) {
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         className="vads-u-padding--2 vads-u-display--flex vads-u-align-items--left vads-u-flex-direction--column medium-screen:vads-u-padding--3 medium-screen:vads-u-flex-direction--row medium-screen:vads-u-align-items--center"
-        onClick={handleClick(history, link, idClickable)}
-        onKeyDown={handleKeyDown(history, link, idClickable)}
+        onClick={handleClick({
+          history,
+          dispatch,
+          link,
+          idClickable,
+          isPastAppointment,
+          featureStatusImprovement,
+        })}
+        onKeyDown={handleKeyDown({
+          history,
+          dispatch,
+          link,
+          idClickable,
+          isPastAppointment,
+          featureStatusImprovement,
+        })}
       >
         <div className="vads-u-flex--1 vads-u-margin-y--neg0p5">
           {canceled && (
