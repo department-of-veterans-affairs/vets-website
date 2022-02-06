@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import { PAGE_NAMES } from '../constants';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import { PAGE_NAMES } from '../constants';
 import ContactDMC from '../components/Contacts';
 import DelayedLiveRegion from '../DelayedLiveRegion';
 
@@ -65,7 +65,7 @@ const Dependents = () => {
           </li>
           <li>
             <strong>Fax: </strong>
-            <Telephone contact={'1-612-970-5688'} />
+            <Telephone contact="1-612-970-5688" />
           </li>
         </ul>
 

@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
