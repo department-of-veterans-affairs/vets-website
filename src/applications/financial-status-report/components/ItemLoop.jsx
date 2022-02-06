@@ -51,6 +51,16 @@ const Header = ({
   );
 };
 
+Header.propTypes = {
+  description: PropTypes.string,
+  formContext: PropTypes.object,
+  hideTitle: PropTypes.bool,
+  idSchema: PropTypes.object,
+  registry: PropTypes.object,
+  title: PropTypes.string,
+  uiSchema: PropTypes.object,
+};
+
 const InputSection = ({
   title,
   items,
@@ -159,6 +169,24 @@ const InputSection = ({
   );
 };
 
+InputSection.propTypes = {
+  editing: PropTypes.array,
+  errorSchema: PropTypes.object,
+  handleCancel: PropTypes.func,
+  handleChange: PropTypes.func,
+  handleRemove: PropTypes.func,
+  handleSave: PropTypes.func,
+  idSchema: PropTypes.object,
+  index: PropTypes.number,
+  item: PropTypes.object,
+  items: PropTypes.array,
+  registry: PropTypes.object,
+  schema: PropTypes.object,
+  title: PropTypes.string,
+  uiSchema: PropTypes.object,
+  onBlur: PropTypes.func,
+};
+
 const AddAnotherButton = ({ uiOptions, handleAdd, collapsed }) => {
   const linkClassNames = classNames(
     'add-item-button usa-button-secondary vads-u-width--auto vads-u-margin--0',
@@ -179,6 +207,12 @@ const AddAnotherButton = ({ uiOptions, handleAdd, collapsed }) => {
       </div>
     </div>
   );
+};
+
+AddAnotherButton.propTypes = {
+  collapsed: PropTypes.bool,
+  handleAdd: PropTypes.func,
+  uiOptions: PropTypes.object,
 };
 
 const ItemLoop = ({
@@ -453,6 +487,7 @@ ItemLoop.propTypes = {
   schema: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   errorSchema: PropTypes.object,
+  formContext: PropTypes.object,
   formData: PropTypes.array,
   idSchema: PropTypes.object,
   registry: PropTypes.shape({
