@@ -132,8 +132,8 @@ const formConfig = {
     veteranInformation: {
       title: 'Veteran Information',
       pages: {
-        veteranAuthenticatedInformation: {
-          path: 'veteran-information/personal-information',
+        veteranProfileInformation: {
+          path: 'veteran-information/profile-information',
           title: 'Veteran information',
           CustomPage: PersonalAuthenticatedInformation,
           CustomPageReview: null,
@@ -146,7 +146,7 @@ const formConfig = {
           },
         },
         veteranInformation: {
-          path: 'veteran-information/personal-information-unauthenticated',
+          path: 'veteran-information/personal-information',
           title: 'Veteran information',
           initialData: {},
           depends: () => !hasSession(),

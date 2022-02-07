@@ -38,7 +38,7 @@ const PersonalAuthenticatedInformation = ({
   useEffect(
     () => {
       if (!isLoggedIn) {
-        goToPath('/veteran-information/personal-information-unauthenticated');
+        goToPath('/veteran-information/personal-information');
       }
     },
     [isLoggedIn, goToPath],
@@ -64,7 +64,7 @@ const PersonalAuthenticatedInformation = ({
 
     return (
       <div>
-        <div className="hca-id-form-wrapper vads-u-margin-bottom--5">
+        <div className="hca-id-form-wrapper vads-u-margin-bottom--2">
           <p>This is the personal information we have on file for you.</p>
           <div className="vads-u-border-left--7px vads-u-border-color--primary">
             <div className="vads-u-padding-left--1">
