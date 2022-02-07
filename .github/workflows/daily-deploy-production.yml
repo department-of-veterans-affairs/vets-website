@@ -133,7 +133,7 @@ jobs:
           CHANGE_TARGET=null
           RUN_ID=${{ github.run_id }}
           RUN_NUMBER=${{ github.run_number }}
-          REF=${{ github.sha }}
+          REF=${{ needs.set-env.outputs.COMMIT_SHA }}
           BUILDTIME=$(date +%s)
           EOF
 
