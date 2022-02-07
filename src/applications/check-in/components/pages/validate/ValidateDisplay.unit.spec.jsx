@@ -79,10 +79,7 @@ describe('check-in experience', () => {
       describe('validate Error message', () => {
         it('displays error alert', () => {
           const { getByTestId } = render(
-            <ValidateDisplay
-              showValidateError
-              validateErrorMessage={'Error'}
-            />,
+            <ValidateDisplay showValidateError validateErrorMessage="Error" />,
           );
           expect(getByTestId('validate-error-alert').innerHTML).to.contain(
             'Error',
