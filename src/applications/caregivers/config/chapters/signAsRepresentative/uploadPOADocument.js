@@ -41,10 +41,6 @@ const parseResponse = (fileInfo, file) => {
 export default {
   uiSchema: {
     'ui:description': RepresentativeDocumentUploadDescription(),
-    'ui:options': {
-      classNames:
-        'vads-u-background-color--gray-lightest vads-u-padding-top--0p5 vads-u-padding-bottom--2p5 vads-u-padding-x--4',
-    },
     'view:uploadSuccessAlert': {
       'ui:options': {
         hideIf: formData => {

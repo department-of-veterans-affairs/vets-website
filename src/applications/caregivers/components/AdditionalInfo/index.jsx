@@ -299,8 +299,9 @@ export const UploadSuccessAlertDescription = () => {
   }, []);
   return (
     <div
+      id="upload-success-alert"
       ref={divElement}
-      className="form-expanding-group form-expanding-group-open"
+      className="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--gibill-accent vads-u-margin-y--2 vads-u-margin-right--neg9 vads-u-padding-y--0p25 vads-u-padding-x--2p5"
       style={{ outline: 'none' }}
     >
       <p className="vads-u-margin-bottom--1px">

@@ -206,7 +206,7 @@ const formConfig = {
       },
     },
     signAsRepresentativeChapter: {
-      title: 'Representative document',
+      title: 'Application signature',
       pages: {
         signAsRepresentative: {
           path: 'representative-document',
