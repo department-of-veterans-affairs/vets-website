@@ -80,7 +80,18 @@ class ApiInitializer {
         );
       });
     },
-
+    withValidation: () => {
+      cy.intercept('POST', '/check_in/v2/sessions', req => {
+        const { last4, lastName } = req.body?.session || {};
+        if (last4 === '1234' && lastName === 'Smith') {
+          req.reply(
+            session.post.createMockSuccessResponse('some-token', 'read.full'),
+          );
+        } else {
+          req.reply(400, session.post.createMockValidateErrorResponse());
+        }
+      });
+    },
     withFailure: (errorCode = 400) => {
       cy.intercept('POST', '/check_in/v2/sessions', req => {
         req.reply(errorCode, session.post.createMockFailedResponse());
