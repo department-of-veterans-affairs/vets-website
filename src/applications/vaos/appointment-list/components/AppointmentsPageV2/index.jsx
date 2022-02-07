@@ -17,6 +17,7 @@ import { selectPendingAppointments } from '../../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import AppointmentListNavigation from '../AppointmentListNavigation';
 import { updateBreadcrumb } from '../../redux/actions';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 
 let pageTitle = 'VA online scheduling';
 
@@ -111,8 +112,10 @@ export default function AppointmentsPageV2() {
         if (subPageTitle.startsWith('Request')) prefix = 'Pending appointments';
         document.title = `${prefix} | VA online scheduling | Veterans Affairs`;
         pageTitle = 'Your appointments';
+        scrollAndFocus('h1');
       } else {
         document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
+        scrollAndFocus('h1');
       }
     },
     [subPageTitle, featureStatusImprovement],

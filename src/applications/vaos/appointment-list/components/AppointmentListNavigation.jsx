@@ -6,7 +6,7 @@ import { updateBreadcrumb } from '../redux/actions';
 import { selectFeatureStatusImprovement } from '../../redux/selectors';
 
 function handleClick({ id, history, dispatch, callback }) {
-  return _event => {
+  return () => {
     if (id === 'pending') {
       history.push('/requested');
       callback(true);
