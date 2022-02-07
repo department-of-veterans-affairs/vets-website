@@ -149,17 +149,3 @@ button.va-crisis-line {
   width: 90vw;
   max-width: 75rem;
 }
-
-.va-footer-vcl-trigger {
-  background: transparent;
-  color: inherit;
-  font-size: inherit;
-  font-weight: normal;
-  text-decoration: underline;
-
-  &:hover {
-    background: inherit;
-    color: $color-gold;
-    text-decoration: inherit;
-  }
-}
