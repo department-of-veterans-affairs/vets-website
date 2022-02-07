@@ -3,6 +3,9 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { mockFetch } from 'platform/testing/unit/helpers';
+import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { getCancelReasonMock } from '../../../mocks/v0';
 import {
   mockAppointmentInfo,
@@ -14,10 +17,7 @@ import {
   getTimezoneTestDate,
 } from '../../../mocks/setup';
 
-import userEvent from '@testing-library/user-event';
 import { AppointmentList } from '../../../../appointment-list';
-import sinon from 'sinon';
-import { fireEvent, waitFor } from '@testing-library/react';
 import { getICSTokens } from '../../../../utils/calendar';
 import {
   mockAppointmentCancelFetch,
@@ -712,7 +712,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     await screen.findByRole('alertdialog');
 
-    userEvent.click(screen.getByText(/no, take me back/i));
+    userEvent.click(screen.getByText(/No, don’t cancel/i));
 
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
     expect(screen.baseElement).to.not.contain.text(
