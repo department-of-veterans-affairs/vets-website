@@ -169,8 +169,8 @@ export function saveCNPPaymentInformation(
   };
 }
 
-export function editCNPPaymentInformationToggled() {
-  return { type: CNP_PAYMENT_INFORMATION_EDIT_TOGGLED };
+export function editCNPPaymentInformationToggled(open) {
+  return { type: CNP_PAYMENT_INFORMATION_EDIT_TOGGLED, open };
 }
 
 export function fetchEDUPaymentInformation(recordEvent = recordAnalyticsEvent) {
@@ -261,6 +261,6 @@ export function saveEDUPaymentInformation(
   };
 }
 
-export function editEDUPaymentInformationToggled() {
-  return { type: EDU_PAYMENT_INFORMATION_EDIT_TOGGLED };
+export function editEDUPaymentInformationToggled(open) {
+  return { type: EDU_PAYMENT_INFORMATION_EDIT_TOGGLED, open };
 }

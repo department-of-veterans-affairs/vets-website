@@ -1,17 +1,14 @@
 import moment from 'moment';
 import { getPatientInstruction } from '../appointment';
 import {
-  TYPES_OF_CARE,
   APPOINTMENT_TYPES,
   PURPOSE_TEXT,
   TYPE_OF_VISIT,
-  TYPES_OF_EYE_CARE,
-  TYPES_OF_SLEEP_CARE,
-  AUDIOLOGY_TYPES_OF_CARE,
   COVID_VACCINE_ID,
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers.v2';
+import { getTypeOfCareById } from '../../utils/appointment';
 
 function getAppointmentType(appt) {
   if (appt.kind === 'cc' && appt.start) {
@@ -23,19 +20,6 @@ function getAppointmentType(appt) {
   }
 
   return APPOINTMENT_TYPES.vaAppointment;
-}
-
-function getTypeOfCareById(id) {
-  const allTypesOfCare = [
-    ...TYPES_OF_EYE_CARE,
-    ...TYPES_OF_SLEEP_CARE,
-    ...AUDIOLOGY_TYPES_OF_CARE,
-    ...TYPES_OF_CARE,
-  ];
-
-  return allTypesOfCare.find(
-    care => care.idV2 === id || care.ccId === id || care.id === id,
-  );
 }
 
 /**
@@ -138,7 +122,7 @@ export function transformVAOSAppointment(appt) {
       requestedPeriod: appt.requestedPeriods,
       created: null,
       reason: PURPOSE_TEXT.find(
-        purpose => purpose.serviceName === appt.reasonCode?.coding[0].code,
+        purpose => purpose.serviceName === appt.reasonCode?.coding?.[0].code,
       )?.short,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
       requestVisitType: getTypeOfVisit(appt.kind),
@@ -180,14 +164,24 @@ export function transformVAOSAppointment(appt) {
       vistaId: appt.locationId?.substr(0, 3) || null,
       clinicId: appt.clinic,
       stationId: appt.locationId,
-      clinicName: null,
+      clinicName: appt.serviceName || null,
     },
     comment:
       isVideo && !!appt.patientInstruction
         ? getPatientInstruction(appt)
         : appt.comment || null,
     videoData,
-    communityCareProvider: null,
+    communityCareProvider:
+      isCC && !isRequest
+        ? {
+            practiceName: appt.extension?.ccLocation?.practiceName,
+            address: appt.extension?.ccLocation?.address,
+            telecom: null,
+            firstName: null,
+            lastName: null,
+            providerName: null,
+          }
+        : null,
     practitioners: appt.practitioners,
     ...requestFields,
     vaos: {

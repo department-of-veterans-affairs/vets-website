@@ -14,12 +14,16 @@ const DisabilityRatingContent = ({ rating }) => {
     'color--white',
     'text-align--center',
     'line-height--3',
-    'display--flex',
   ]);
 
   const disabilityRatingClassesMedium = prefixUtilityClasses(
-    ['margin-top--1', 'text-align--left'],
+    ['margin-top--1', 'text-align--left', 'display--flex'],
     'medium',
+  );
+
+  const disabilityRatingClassesSmall = prefixUtilityClasses(
+    ['display--block'],
+    'small',
   );
 
   const dtRatingClasses = prefixUtilityClasses(['margin-right--0p5']);
@@ -27,6 +31,7 @@ const DisabilityRatingContent = ({ rating }) => {
   const classes = [
     ...disabilityRatingClasses,
     ...disabilityRatingClassesMedium,
+    ...disabilityRatingClassesSmall,
   ].join(' ');
 
   return (

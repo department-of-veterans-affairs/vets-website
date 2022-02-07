@@ -7,10 +7,10 @@ import {
 const initialState = {
   pending: false,
   error: null,
-  statements: [],
+  statements: null,
 };
 
-const medicalCopaysReducer = (state = initialState, action) => {
+export const medicalCopaysReducer = (state = initialState, action) => {
   switch (action.type) {
     case MCP_STATEMENTS_FETCH_INIT:
       return {

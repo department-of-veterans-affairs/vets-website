@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { facilityTypes } from '../config';
 import {
@@ -64,6 +63,12 @@ export class ResultsList extends Component {
       const walkInsAccepted = Array.isArray(services)
         ? services[0]?.walkInsAccepted
         : 'false';
+
+      const showHealthConnectNumber =
+        result?.attributes?.visn === '8' &&
+        query?.facilityType === 'health' &&
+        this.props.facilityLocatorShowHealthConnectNumber;
+
       switch (query.facilityType) {
         case 'health':
         case 'cemetery':
@@ -88,6 +93,7 @@ export class ResultsList extends Component {
                 query={query}
                 key={result.id}
                 index={index}
+                showHealthConnectNumber={showHealthConnectNumber}
               />
             );
           break;
@@ -189,21 +195,20 @@ export class ResultsList extends Component {
     } = this.props;
 
     const currentPage = pagination ? pagination.currentPage : 1;
-
     if (inProgress) {
       return (
         <div>
-          <LoadingIndicator
-            message={`Searching for ${facilityTypeName}
-            in ${searchString}`}
+          <va-loading-indicator
+            message={`Searching for ${facilityTypeName} in ${searchString}`}
           />
           <DelayedRender>
-            <AlertBox
-              isVisible
-              status="info"
-              headline="Please wait"
-              content="Your results should appear in less than a minute. Thank you for your patience."
-            />
+            <va-alert visible status="info">
+              <h3 slot="headline">Please wait</h3>
+              <div>
+                Your results should appear in less than a minute. Thank you for
+                your patience.
+              </div>
+            </va-alert>
           </DelayedRender>
         </div>
       );
@@ -304,6 +309,9 @@ function mapStateToProps(state) {
     selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
     showCovidVaccineSchedulingLinks: covidVaccineSchedulingFrontend(state),
+    facilityLocatorShowHealthConnectNumber: toggleValues(state)[
+      FEATURE_FLAG_NAMES.facilityLocatorShowHealthConnectNumber
+    ],
   };
 }
 

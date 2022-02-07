@@ -10,8 +10,7 @@ describe('check-in', () => {
     it('Renders', () => {
       const goBack = sinon.spy();
 
-      const mockRouter = { goBack, location: {} };
-      const screen = render(<BackButton router={mockRouter} />);
+      const screen = render(<BackButton action={goBack} path="/test/path" />);
 
       expect(screen.getByTestId('back-button')).to.exist;
       expect(screen.getByTestId('back-button')).to.have.text(
@@ -20,9 +19,7 @@ describe('check-in', () => {
     });
     it('click fires router goBack', () => {
       const goBack = sinon.spy();
-
-      const mockRouter = { goBack, location: {} };
-      const screen = render(<BackButton router={mockRouter} />);
+      const screen = render(<BackButton action={goBack} path="/test/path" />);
 
       expect(screen.getByTestId('back-button')).to.exist;
       fireEvent.click(screen.getByTestId('back-button'));

@@ -35,7 +35,7 @@ function getDropdownValueFromLocation(pathname) {
     return {
       dropdownValue: DROPDOWN_VALUES.requested,
       subPageTitle: 'Requested',
-      subHeading: 'Requested',
+      subHeading: 'Requested appointments',
     };
   } else if (pathname.endsWith(DROPDOWN_VALUES.past)) {
     return {
@@ -75,6 +75,28 @@ export default function AppointmentsPageV2() {
     [subPageTitle],
   );
 
+  const [documentTitle, setDocumentTitle] = useState();
+  useEffect(
+    () => {
+      function handleBeforePrint(_event) {
+        document.title = `Your appointments | ${pageTitle} | Veterans Affairs`;
+      }
+
+      function handleAfterPrint(_event) {
+        document.title = documentTitle;
+      }
+      setDocumentTitle(document.title);
+
+      window.addEventListener('beforeprint', handleBeforePrint);
+      window.addEventListener('afterprint', handleAfterPrint);
+      return () => {
+        window.removeEventListener('beforeprint', handleBeforePrint);
+        window.removeEventListener('afterprint', handleAfterPrint);
+      };
+    },
+    [documentTitle, subPageTitle],
+  );
+
   const history = useHistory();
 
   function onDropdownChange(e) {
@@ -93,7 +115,9 @@ export default function AppointmentsPageV2() {
 
   return (
     <PageLayout showBreadcrumbs showNeedHelp>
-      <h1 className="vads-u-flex--1 vads-u-margin-bottom--1p5">{pageTitle}</h1>
+      <h1 className="vads-u-flex--1 vads-u-margin-bottom--1p5 vaos-hide-for-print">
+        {pageTitle}
+      </h1>
       <DowntimeNotification
         appTitle="VA online scheduling tool"
         isReady
@@ -106,7 +130,7 @@ export default function AppointmentsPageV2() {
       <h2 className="vads-u-margin-y--3">{subHeading}</h2>
       <label
         htmlFor="type-dropdown"
-        className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2"
+        className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2 vaos-hide-for-print"
       >
         Show by status
       </label>

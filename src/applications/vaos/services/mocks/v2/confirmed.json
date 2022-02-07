@@ -16,7 +16,7 @@
           ]
         },
         "description": "Upcoming in person appointment",
-        "end": "2021-12-21T18:19:34",
+        "end": "2022-02-21T18:19:34",
         "id": "00aa456va",
         "kind": "clinic",
         "locationId": "983",
@@ -29,7 +29,7 @@
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2021-12-21T18:19:34",
+        "start": "2022-02-21T18:19:34",
         "status": "booked",
         "telehealth": null
       }
@@ -58,23 +58,93 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "identifier": {
+            "identifier": [{
               "system": null,
               "value": "1801312053"
-            },
+            }],
             "firstName": "Dr",
             "lastName": "Hyde",
             "practiceName": "Jeckle and Hyde"
           }
         ],
+        "extension": {
+          "ccLocation": {
+            "address": {
+              "line": [
+                "1601 Needmore Rd Ste 1"
+              ],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "45414",
+              "text": "1601 Needmore Rd Ste 1\nDayton OH 45414"
+            }
+          }
+        },        
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reason": null,
         "requestedPeriods": null,
         "serviceType": "audiology",
         "slot": null,
-        "start": "2021-12-30T18:19:34",
+        "start": "2022-02-28T18:19:34",
         "status": "booked",
+        "telehealth": null
+      }
+    },
+    {
+      "id": "22aa789cc",
+      "type": "cc_appointments",
+      "attributes": {
+        "cancelationReason": null,
+        "clinic": null,
+        "comment": "test",
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Cancelled community care appointment",
+        "end": null,
+        "id": "22aa789cc",
+        "kind": "cc",
+        "locationId": null,
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "practitioners": [
+          {
+            "identifier": [{
+              "system": null,
+              "value": "1801312053"
+            }],
+            "firstName": "Dr",
+            "lastName": "Hyde",
+            "practiceName": "Jeckle and Hyde"
+          }
+        ],
+        "extension": {
+          "ccLocation": {
+            "address": {
+              "line": [
+                "1601 Needmore Rd Ste 1"
+              ],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "45414",
+              "text": "1601 Needmore Rd Ste 1\nDayton OH 45414"
+            }
+          }
+        },
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reason": null,
+        "requestedPeriods": null,
+        "serviceType": "audiology",
+        "slot": null,
+        "start": "2022-02-20T18:19:34",
+        "status": "cancelled",
         "telehealth": null
       }
     },
@@ -94,7 +164,7 @@
           ]
         },
         "description": "Upcoming Home telehealth ADHOC appointment with instructions",
-        "end": "2021-11-23T20:00:00Z",
+        "end": "2022-01-23T20:00:00Z",
         "id": "02aa456va",
         "kind": "telehealth",
         "locationId": "983",
@@ -103,10 +173,10 @@
         "patientInstruction": "Video Visit Preparation contains extraneous stuff",
         "practitioners": [
           {
-            "identifier": {
+            "identifier": [{
               "system": null,
               "value": "1801312053"
-            },
+            }],
             "firstName": "Abbey",
             "lastName": "Normal",
             "practiceName": null
@@ -118,7 +188,7 @@
         "requestedPeriods": null,
         "serviceType": "outpatientMentalHealth",
         "slot": null,
-        "start": "2021-11-23T20:00:00Z",
+        "start": "2022-01-23T20:00:00Z",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
@@ -143,7 +213,7 @@
           ]
         },
         "description": "Upcoming Atlas telehealth appointment",
-        "end": "2021-11-23T20:00:00Z",
+        "end": "2022-01-23T20:00:00Z",
         "id": "03aa456va",
         "kind": "telehealth",
         "locationId": "983",
@@ -151,10 +221,10 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "identifier": {
+            "identifier": [{
               "system": null,
               "value": "1801312053"
-            },
+            }],
             "firstName": "Meg",
             "lastName": "Smith",
             "practiceName": null
@@ -166,7 +236,7 @@
         "requestedPeriods": null,
         "serviceType": "amputation",
         "slot": null,
-        "start": "2021-11-23T20:00:00Z",
+        "start": "2022-01-23T20:00:00Z",
         "status": "booked",
         "telehealth": {
           "url": null,
@@ -204,7 +274,7 @@
           ]
         },
         "description": "Upcoming at home telehealth appointment with instructions",
-        "end": "2021-09-09T20:30:00Z",
+        "end": "2022-03-09T20:30:00Z",
         "id": "04aa456va",
         "kind": "telehealth",
         "locationId": "983",
@@ -213,19 +283,19 @@
         "patientInstruction": "Medication Review to prepare patient",
         "practitioners": [
           {
-            "identifier": {
+            "identifier": [{
               "system": null,
               "value": "1801312053"
-            },
+            }],
             "firstName": "Meg",
             "lastName": "Smith",
             "practiceName": null
           },
           {
-            "identifier": {
+            "identifier": [{
               "system": null,
               "value": "1801312053"
-            },
+            }],
             "firstName": "Salvador",
             "lastName": "Dali",
             "practiceName": null
@@ -237,7 +307,7 @@
         "requestedPeriods": null,
         "serviceType": "audiology",
         "slot": null,
-        "start": "2021-09-09T20:30:00Z",
+        "start": "2022-03-09T20:30:00Z",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
@@ -262,7 +332,7 @@
           ]
         },
         "description": "Upcoming VA location telehealth appointment",
-        "end": "2021-12-22T18:30:34",
+        "end": "2022-02-22T18:30:34",
         "id": "05aa456va",
         "kind": "telehealth",
         "locationId": "983",
@@ -275,7 +345,7 @@
         "requestedPeriods": null,
         "serviceType": "foodAndNutrition",
         "slot": null,
-        "start": "2021-12-22T18:10:34",
+        "start": "2022-02-22T18:10:34",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
@@ -300,7 +370,7 @@
           ]
         },
         "description": "Upcoming VA GFE telehealth appointment",
-        "end": "2021-12-31T18:19:34",
+        "end": "2022-02-27T18:19:34",
         "id": "10aa456va",
         "kind": "telehealth",
         "locationId": "983",
@@ -308,10 +378,10 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "identifier": {
+            "identifier": [{
               "system": null,
               "value": "1801312053"
-            },
+            }],
             "firstName": "Florence",
             "lastName": "Nightingale",
             "practiceName": null
@@ -323,7 +393,7 @@
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2021-12-31T18:19:34",
+        "start": "2022-02-27T18:19:34",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
@@ -347,8 +417,8 @@
             }
           ]
         },
-        "description": "Upcomming phone appointment",
-        "end": "2021-12-31T18:19:34",
+        "description": "Upcoming phone appointment",
+        "end": "2022-02-27T18:19:34",
         "id": "06aa456va",
         "kind": "phone",
         "locationId": "983",
@@ -361,8 +431,42 @@
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2021-12-31T18:19:34",
+        "start": "2022-02-27T18:19:34",
         "status": "booked",
+        "telehealth": null
+      }
+    },
+    {
+      "id": "11aa456ph",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": { "coding": [{ "code": "pat" }] },
+        "clinic": "308",
+        "comment": "New issue: Phone appointment",
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Cancelled phone appointment",
+        "end": "2022-02-28T18:19:34",
+        "id": "11aa456ph",
+        "kind": "phone",
+        "locationId": "983",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "practitioners": [],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reason": "New Issue",
+        "requestedPeriods": null,
+        "serviceType": "primaryCare",
+        "slot": null,
+        "start": "2022-02-28T18:19:34",
+        "status": "cancelled",
         "telehealth": null
       }
     },
@@ -425,10 +529,10 @@
         "patientInstruction": "Medication Review",
         "practitioners": [
           {
-            "identifier": {
+            "identifier": [{
               "system": null,
               "value": "1801312053"
-            },
+            }],
             "firstName": "Peter",
             "lastName": "Jones",
             "practiceName": null
@@ -465,7 +569,7 @@
           ]
         },
         "description": "Cancelled appointment",
-        "end": "2021-09-28T18:19:34.954Z",
+        "end": "2022-03-28T18:19:34.954Z",
         "id": "08aa456va",
         "kind": "clinic",
         "locationId": "983GC",
@@ -478,7 +582,7 @@
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2021-12-31T18:19:34",
+        "start": "2022-02-27T18:19:34",
         "status": "cancelled",
         "telehealth": null
       }
@@ -499,7 +603,7 @@
           ]
         },
         "description": "Cancelled appointment",
-        "end": "2021-09-28T18:19:34.954Z",
+        "end": "2022-03-28T18:19:34.954Z",
         "id": "08aa456va",
         "kind": "clinic",
         "locationId": "983GC",
@@ -512,7 +616,7 @@
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2021-12-30T18:19:34",
+        "start": "2022-02-28T18:19:34",
         "status": "cancelled",
         "telehealth": null
       }
@@ -533,13 +637,13 @@
         "patientIcn": "1012845331V153043",
         "locationId": "983",
         "clinic": "308",
-        "start": "2021-11-07T20:00:00Z",
-        "end": "2021-11-07T20:20:00Z",
+        "start": "2022-01-27T20:00:00Z",
+        "end": "2022-01-27T20:20:00Z",
         "minutesDuration": 20,
         "slot": {
           "id": "3230323130393037323030303A323032313039303732303230",
-          "start": "2021-09-07T20:00:00Z",
-          "end": "2021-09-07T20:20:00Z"
+          "start": "2022-01-27T20:00:00Z",
+          "end": "2022-01-27T20:20:00Z"
         },
         "cancellationReason": {
           "code": "other"

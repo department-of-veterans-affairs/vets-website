@@ -1,11 +1,13 @@
 import moment from 'moment';
 import { expect } from 'chai';
 
-import { SELECTED } from '../../constants';
+import { SELECTED, LEGACY_TYPE } from '../../constants';
 import { getDate } from '../../utils/dates';
 
 import {
   getEligibleContestableIssues,
+  getLegacyAppealsLength,
+  mayHaveLegacyAppeals,
   apiVersion1,
   apiVersion2,
   isVersion1Data,
@@ -17,8 +19,6 @@ import {
   getIssueDate,
   getIssueNameAndDate,
   hasDuplicates,
-  showAddIssuesPage,
-  showAddIssueQuestion,
   isEmptyObject,
   setInitialEditMode,
   processContestableIssues,
@@ -78,6 +78,63 @@ describe('getEligibleContestableIssues', () => {
         ineligibleIssue,
       ]),
     ).to.deep.equal([eligibleIssue]);
+  });
+});
+
+describe('getLegacyAppealsLength', () => {
+  it('should return 0 with no issues', () => {
+    expect(getLegacyAppealsLength()).to.equal(0);
+  });
+  it('should return 0 with no legacy issues', () => {
+    expect(
+      getLegacyAppealsLength([{ type: 'one' }, { type: LEGACY_TYPE }]),
+    ).to.equal(0);
+    expect(
+      getLegacyAppealsLength([
+        { type: 'one' },
+        { type: LEGACY_TYPE, attributes: {} },
+      ]),
+    ).to.equal(0);
+    expect(
+      getLegacyAppealsLength([
+        { type: 'one' },
+        { type: LEGACY_TYPE, attributes: { issues: [] } },
+      ]),
+    ).to.equal(0);
+  });
+  it('should return a value > 0 with legacy issues', () => {
+    expect(
+      getLegacyAppealsLength([
+        { type: 'one' },
+        { type: LEGACY_TYPE, attributes: { issues: [{}, {}] } },
+      ]),
+    ).to.equal(2);
+    expect(
+      getLegacyAppealsLength([
+        { type: 'one' },
+        { type: LEGACY_TYPE, attributes: { issues: [{}, {}] } },
+        { type: LEGACY_TYPE, attributes: { issues: [] } },
+        { type: LEGACY_TYPE, attributes: { issues: [{}] } },
+      ]),
+    ).to.equal(3);
+  });
+});
+
+describe('mayHaveLegacyAppeals', () => {
+  it('should return false if there is no data', () => {
+    expect(mayHaveLegacyAppeals()).to.be.false;
+  });
+  it('should return false if there is no legacy & no additional issues', () => {
+    expect(mayHaveLegacyAppeals({ legacyCount: 0, additionalIssues: [] })).to.be
+      .false;
+  });
+  it('should return true if there are some legacy issues & no additional issues', () => {
+    expect(mayHaveLegacyAppeals({ legacyCount: 1, additionalIssues: [] })).to.be
+      .true;
+  });
+  it('should return true if there is no legacy & some additional issues', () => {
+    expect(mayHaveLegacyAppeals({ legacyCount: 0, additionalIssues: [{}] })).to
+      .be.true;
   });
 });
 
@@ -163,20 +220,9 @@ describe('getSelected & getSelectedCount', () => {
     ]);
     expect(getSelectedCount(data, data.additionalIssues)).to.eq(1);
   });
-  it('should not return selected additional issues when Veteran chooses not to include them', () => {
-    const data = {
-      'view:hasIssuesToAdd': false,
-      additionalIssues: [
-        { type: 'no', [SELECTED]: false },
-        { type: 'ok', [SELECTED]: true },
-      ],
-    };
-    expect(getSelected(data)).to.deep.equal([]);
-    expect(getSelectedCount(data, data.additionalIssues)).to.eq(0);
-  });
   it('should return selected additional issues', () => {
     const data = {
-      'view:hasIssuesToAdd': true,
+      hlrV2: true,
       additionalIssues: [
         { type: 'no', [SELECTED]: false },
         { type: 'ok', [SELECTED]: true },
@@ -193,7 +239,7 @@ describe('getSelected & getSelectedCount', () => {
         { type: 'no1', [SELECTED]: false },
         { type: 'ok1', [SELECTED]: true },
       ],
-      'view:hasIssuesToAdd': true,
+      hlrV2: true,
       additionalIssues: [
         { type: 'no2', [SELECTED]: false },
         { type: 'ok2', [SELECTED]: true },
@@ -299,73 +345,6 @@ describe('hasDuplicates', () => {
       ],
     });
     expect(result).to.be.true;
-  });
-});
-
-describe('showAddIssuesPage', () => {
-  it('should return true when no contestable issues selected', () => {
-    expect(showAddIssuesPage({})).to.be.true;
-    expect(showAddIssuesPage({ contestedIssues: [{}] })).to.be.true;
-  });
-  it('should return true when question is set to "yes", or no contestable issues selected', () => {
-    expect(showAddIssuesPage({ 'view:hasIssuesToAdd': true })).to.be.true;
-    expect(
-      showAddIssuesPage({
-        'view:hasIssuesToAdd': true,
-        contestedIssues: [{ [SELECTED]: true }],
-      }),
-    ).to.be.true;
-    expect(
-      showAddIssuesPage({
-        'view:hasIssuesToAdd': true,
-        contestedIssues: [{}],
-      }),
-    ).to.be.true;
-    expect(
-      showAddIssuesPage({
-        'view:hasIssuesToAdd': false,
-        contestedIssues: [{}],
-      }),
-    ).to.be.true;
-  });
-  it('should show the issue page when nothing is selected, and past the issues pages', () => {
-    // probably unselected stuff on the review & submit page
-    expect(
-      showAddIssuesPage({
-        'view:hasIssuesToAdd': true,
-        contestedIssues: [{}],
-        additionalIssues: [{}],
-      }),
-    ).to.be.true;
-    expect(
-      showAddIssuesPage({
-        'view:hasIssuesToAdd': false,
-        boardReviewOption: 'foo', // we're past the issues page
-        contestedIssues: [{}],
-        additionalIssues: [{}],
-      }),
-    ).to.be.true;
-  });
-  it('should return false when "no" is chosen and there is a selected contested issue', () => {
-    expect(
-      showAddIssuesPage({
-        'view:hasIssuesToAdd': false,
-        contestedIssues: [{ [SELECTED]: true }],
-      }),
-    ).to.be.false;
-  });
-});
-
-describe('showAddIssueQuestion', () => {
-  it('should show add issue question when contestable issues selected', () => {
-    expect(showAddIssueQuestion({ contestedIssues: [{ [SELECTED]: true }] })).to
-      .be.true;
-  });
-  it('should not show add issue question when no issues or none selected', () => {
-    expect(showAddIssueQuestion({ contestedIssues: [] })).to.be.false;
-    expect(showAddIssueQuestion({ contestedIssues: [{}] })).to.be.false;
-    expect(showAddIssueQuestion({ contestedIssues: [{ [SELECTED]: false }] }))
-      .to.be.false;
   });
 });
 

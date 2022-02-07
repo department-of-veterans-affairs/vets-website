@@ -21,7 +21,6 @@ describe('<AccordionItem>', () => {
         <div />
       </AccordionItem>,
     );
-
     wrapper
       .find('button')
       .at(0)
@@ -57,7 +56,7 @@ describe('<AccordionItem>', () => {
       .at(0)
       .simulate('click');
     const recordedEvent = global.window.dataLayer[0];
-    expect(recordedEvent.event).to.eq('nav-accordion-collapse');
+    expect(recordedEvent.event).to.eq('nav-accordion-expand');
     expect(recordedEvent['accordion-size']).to.eq('small');
     wrapper.unmount();
   });

@@ -1,57 +1,39 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 
-import {
-  checkInExperienceEnabled,
-  checkInExperienceDemographicsPageEnabled,
-  checkInExperienceNextOfKinEnabled,
-  checkInExperienceUpdateInformationPageEnabled,
-  loadingFeatureFlags,
-} from '../selectors';
-
-const withFeatureFlip = Component => {
-  const Wrapped = ({ isCheckInEnabled, isLoadingFeatureFlags, ...props }) => {
+const withFeatureFlip = (Component, options) => {
+  const { isPreCheckIn } = options;
+  return props => {
+    const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+    const featureToggles = useSelector(selectFeatureToggles);
+    const {
+      isCheckInEnabled,
+      isLoadingFeatureFlags,
+      isPreCheckInEnabled,
+    } = featureToggles;
+    const appEnabled = isPreCheckIn ? isPreCheckInEnabled : isCheckInEnabled;
     if (isLoadingFeatureFlags) {
       return (
         <>
-          <LoadingIndicator message="Loading your check in experience" />
-        </>
-      );
-    } else if (!isCheckInEnabled) {
-      window.location.replace('/');
-      return <></>;
-    } else {
-      return (
-        <>
-          <meta name="robots" content="noindex" />
-          <Component {...props} />
+          <va-loading-indicator message="Loading your check in experience" />
         </>
       );
     }
+    if (!appEnabled) {
+      window.location.replace('/');
+      return <></>;
+    }
+    return (
+      <>
+        <meta name="robots" content="noindex" />
+        {/* Allowing for HOC */}
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Component {...props} {...featureToggles} />
+      </>
+    );
   };
-
-  Wrapped.propTypes = {
-    isCheckInEnabled: PropTypes.bool,
-    isLoadingFeatureFlags: PropTypes.bool,
-  };
-
-  return Wrapped;
 };
 
-const mapStateToProps = state => ({
-  isCheckInEnabled: checkInExperienceEnabled(state),
-  isDemographicsPageEnabled: checkInExperienceDemographicsPageEnabled(state),
-  isLoadingFeatureFlags: loadingFeatureFlags(state),
-  isNextOfKinEnabled: checkInExperienceNextOfKinEnabled(state),
-  isUpdatePageEnabled: checkInExperienceUpdateInformationPageEnabled(state),
-});
-
-const composedWrapper = compose(
-  connect(mapStateToProps),
-  withFeatureFlip,
-);
-export default composedWrapper;
+export default withFeatureFlip;

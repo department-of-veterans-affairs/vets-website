@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -6,19 +6,18 @@ import recordEvent from 'platform/monitoring/record-event';
 import { createAnalyticsSlug } from '../utils/analytics';
 
 const BackButton = props => {
-  const { router } = props;
-
-  const handleClick = e => {
-    e.preventDefault();
-    const { goBack } = router;
-    const path = router.location.pathname;
-
-    recordEvent({
-      event: createAnalyticsSlug('back-button-clicked'),
-      fromPage: path,
-    });
-    goBack();
-  };
+  const { action, path } = props;
+  const handleClick = useCallback(
+    e => {
+      e.preventDefault();
+      recordEvent({
+        event: createAnalyticsSlug('back-button-clicked'),
+        fromPage: path,
+      });
+      action();
+    },
+    [path, action],
+  );
   return (
     <>
       <nav
@@ -28,7 +27,7 @@ const BackButton = props => {
       >
         <ul className="row va-nav-breadcrumbs-list columns">
           <li>
-            <a onClick={e => handleClick(e)} href="#" data-testid="back-button">
+            <a onClick={handleClick} href="#back" data-testid="back-button">
               Back to last screen
             </a>
           </li>
@@ -39,7 +38,8 @@ const BackButton = props => {
 };
 
 BackButton.propTypes = {
-  router: PropTypes.object,
+  action: PropTypes.func,
+  path: PropTypes.string,
 };
 
 export default BackButton;

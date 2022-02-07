@@ -197,6 +197,7 @@ export class SearchMenu extends React.Component {
       'search-results-total-pages': undefined,
       'search-selection': 'All VA.gov',
       'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
+      'search-location': 'Search Header',
       'sitewide-search-app-used': true,
       'type-ahead-option-keyword-selected': suggestion,
       'type-ahead-option-position': suggestion
@@ -286,6 +287,7 @@ export class SearchMenu extends React.Component {
       'search-results-total-pages': undefined,
       'search-selection': 'All VA.gov',
       'search-typeahead-enabled': true,
+      'search-location': 'Search Header',
       'sitewide-search-app-used': true,
       'type-ahead-option-keyword-selected': undefined,
       'type-ahead-option-position': undefined,
@@ -321,6 +323,7 @@ export class SearchMenu extends React.Component {
       'search-results-total-pages': undefined,
       'search-selection': 'All VA.gov',
       'search-typeahead-enabled': true,
+      'search-location': 'Search Header',
       'sitewide-search-app-used': true,
       'type-ahead-option-keyword-selected': validSuggestions[index],
       'type-ahead-option-position': index + 1,
@@ -406,7 +409,13 @@ export class SearchMenu extends React.Component {
         <SearchDropdownComponent
           buttonText=""
           canSubmit
-          className="search-header-dropdown"
+          id="search-header-dropdown"
+          componentClassName=""
+          containerClassName=""
+          buttonClassName="vads-u-margin-left--1"
+          inputClassName=""
+          suggestionsListClassName=""
+          suggestionClassName=""
           fullWidthSuggestions
           formatSuggestions
           startingValue={''}

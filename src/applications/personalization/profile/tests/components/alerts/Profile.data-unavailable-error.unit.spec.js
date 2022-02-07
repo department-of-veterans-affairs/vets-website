@@ -10,6 +10,7 @@ import { renderWithProfileReducers as render } from '../../unit-test-helpers';
 
 import Profile from '@@profile/components/Profile';
 import { PROFILE_PATH_NAMES } from '@@profile/constants';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 
 const ALERT_ID = 'not-all-data-available-error';
 
@@ -37,7 +38,7 @@ function createBasicInitialState() {
           highest: 3,
         },
         signIn: {
-          serviceName: 'idme',
+          serviceName: CSP_IDS.ID_ME,
         },
         vapContactInfo: {},
         multifactor: true,

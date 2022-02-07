@@ -6,8 +6,10 @@ import { Provider } from 'react-redux';
 // relative imports
 import DownloadPDFModal from './DownloadPDFModal';
 import InvalidFormDownload from './InvalidFormAlert';
+import recordEvent from 'platform/monitoring/record-event';
 import { sentryLogger } from './index';
 import { showPDFModal } from '../../helpers/selectors';
+import { doesCookieExist, setCookie } from '../../helpers';
 
 const removeReactRoot = () => {
   const pdf = document.querySelector('.faf-pdf-alert-modal-root');
@@ -32,7 +34,11 @@ const DownloadPDFGuidance = ({
 
   if (formPdfIsValid && formPdfUrlIsValid && !netWorkRequestError) {
     // feature flag
-    if (reduxStore?.getState && showPDFModal(reduxStore.getState())) {
+    if (
+      reduxStore?.getState &&
+      showPDFModal(reduxStore.getState()) &&
+      !doesCookieExist()
+    ) {
       ReactDOM.render(
         <Provider store={reduxStore}>
           <DownloadPDFModal
@@ -43,7 +49,14 @@ const DownloadPDFGuidance = ({
         </Provider>,
         div,
       );
-      parentEl.insertBefore(div, link);
+      parentEl.insertBefore(div, link); // Insert modal on DOM
+      setCookie(); // SET 24 hr cookie since it did not exist
+      recordEvent({
+        // Record GA event
+        event: 'int-modal-click',
+        'modal-status': 'opened',
+        'modal-title': 'Download this PDF and open it in Acrobat Reader',
+      });
     } else {
       // if the Feature Flag for the Modal is turned off
       link.removeEventListener('click', listenerFunction);

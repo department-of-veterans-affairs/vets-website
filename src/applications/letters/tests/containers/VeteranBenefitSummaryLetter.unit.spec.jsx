@@ -96,7 +96,12 @@ describe('<VeteranBenefitSummaryLetter>', () => {
       .dive(['#militaryServiceTable', 'tbody'])
       .everySubTree('tr');
 
+    const text = tree.text();
     expect(serviceRows.length).to.equal(doubleService.length);
+    expect(text).to.include('01/01/1965');
+    expect(text).to.include('10/01/1972');
+    expect(text).to.include('01/01/1974');
+    expect(text).to.include('10/01/1976');
   });
 
   it('handles check and uncheck events', () => {

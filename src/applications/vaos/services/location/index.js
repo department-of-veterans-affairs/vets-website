@@ -288,7 +288,7 @@ export function getTestFacilityId(facilityId) {
  */
 export function formatFacilityAddress(facility) {
   if (
-    facility?.address?.line.length > 0 &&
+    facility?.address?.line?.length > 0 &&
     facility?.address?.city &&
     facility?.address?.state &&
     facility?.address?.postalCode

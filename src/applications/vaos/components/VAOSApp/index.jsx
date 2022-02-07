@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
@@ -31,7 +30,7 @@ export default function VAOSApp({ children }) {
     <>
       {loadingFeatureToggles && (
         <FullWidthLayout>
-          <LoadingIndicator />
+          <va-loading-indicator />
         </FullWidthLayout>
       )}
       {!loadingFeatureToggles &&

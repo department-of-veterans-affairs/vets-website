@@ -41,7 +41,6 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
 
     // Choose VA Flat Facility
     cy.url().should('include', '/choose-facility');
-    cy.findByText(/Some COVID-19 vaccines require 2 doses/i).should('exist');
     cy.axeCheckBestPractice();
     cy.findByLabelText(/cheyenne/i).click();
     cy.findByText(/Continue/).click();
@@ -49,7 +48,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     // Choose Clinic
     cy.url().should('include', '/choose-clinic');
     cy.axeCheckBestPractice();
-    cy.findByText(/Choose a clinic for your vaccination/);
+    cy.findByText(/Choose where you’d like to get your vaccine/);
     cy.get('#root_clinicId_0')
       .focus()
       .click();
@@ -106,7 +105,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     });
 
     // Confirmation page
-    cy.findByText('Your appointment has been scheduled and is confirmed.');
+    cy.findByText('We’ve scheduled and confirmed your appointment.');
     cy.findAllByText('COVID-19 vaccine');
     cy.findByText('Clinic:');
     cy.axeCheckBestPractice();

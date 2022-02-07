@@ -114,6 +114,7 @@ class SearchApp extends React.Component {
       path: document.location.pathname,
       userInput,
       typeaheadEnabled: false,
+      searchLocation: 'Search Results Page',
       keywordSelected: undefined,
       keywordPosition: undefined,
       suggestionsList: undefined,
@@ -220,8 +221,9 @@ class SearchApp extends React.Component {
       trackEvent: true,
       eventName: 'view_search_results',
       path: document.location.pathname,
-      inputValue,
+      userInput: inputValue,
       typeaheadEnabled: true,
+      searchLocation: 'Search Results Page',
       keywordSelected: undefined,
       keywordPosition: undefined,
       suggestionsList: validSuggestions,
@@ -259,8 +261,9 @@ class SearchApp extends React.Component {
       trackEvent: true,
       eventName: 'view_search_results',
       path: document.location.pathname,
-      inputValue,
+      userInput: inputValue,
       typeaheadEnabled: true,
+      searchLocation: 'Search Results Page',
       keywordSelected: validSuggestions[index],
       keywordPosition: index + 1,
       suggestionsList: validSuggestions,
@@ -354,7 +357,13 @@ class SearchApp extends React.Component {
             <SearchDropdownComponent
               buttonText="Search"
               canSubmit
-              className="search-results-page-dropdown"
+              id="search-results-page-dropdown"
+              componentClassName=""
+              containerClassName=""
+              buttonClassName=""
+              inputClassName=""
+              suggestionsListClassName=""
+              suggestionClassName=""
               formatSuggestions
               fullWidthSuggestions={false}
               mobileResponsive
@@ -628,7 +637,7 @@ class SearchApp extends React.Component {
               <li>
                 <a
                   className="right-nav-link"
-                  href="https://www.index.va.gov/search/va/bva.jsp"
+                  href="https://search.usa.gov/search?affiliate=bvadecisions"
                   onClick={() =>
                     recordEvent({
                       event: 'nav-searchresults',
@@ -638,21 +647,6 @@ class SearchApp extends React.Component {
                   }
                 >
                   Look up Board of Veterans' Appeals (BVA) decisions
-                </a>
-              </li>
-              <li>
-                <a
-                  className="right-nav-link"
-                  href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.benefits.va.gov/warms"
-                  onClick={() =>
-                    recordEvent({
-                      event: 'nav-searchresults',
-                      'nav-path':
-                        'More VA Search Tools -> Search VA reference materials',
-                    })
-                  }
-                >
-                  Search VA reference materials (WARMS)
                 </a>
               </li>
               <li>

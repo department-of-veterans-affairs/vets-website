@@ -70,8 +70,12 @@ const mapDispatchToProps = dispatch => ({
 });
 
 DebtLettersWrapper.propTypes = {
-  isPending: PropTypes.bool.isRequired,
-  isPendingVBMS: PropTypes.bool.isRequired,
+  children: PropTypes.array,
+  getDebtLetters: PropTypes.func,
+  isLoggedIn: PropTypes.bool,
+  isPending: PropTypes.bool,
+  isPendingVBMS: PropTypes.bool,
+  isProfileUpdating: PropTypes.bool,
   showDebtLetters: PropTypes.bool,
 };
 

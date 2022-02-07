@@ -81,7 +81,8 @@ export function mockEligibilityFetchesByVersion({
         data: {
           attributes: {
             eligible: directReasons.length === 0,
-            ineligibilityReasons: directReasons,
+            ineligibilityReasons:
+              directReasons.length === 0 ? undefined : directReasons,
           },
         },
       },
@@ -96,7 +97,8 @@ export function mockEligibilityFetchesByVersion({
         data: {
           attributes: {
             eligible: requestReasons.length === 0,
-            ineligibilityReasons: requestReasons,
+            ineligibilityReasons:
+              requestReasons.length === 0 ? undefined : requestReasons,
           },
         },
       },

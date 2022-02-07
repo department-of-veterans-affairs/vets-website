@@ -16,7 +16,6 @@ export const uiSchema = {
     'ui:options': {
       viewField: CardDetailsView,
       doNotScroll: true,
-      showSave: true,
       itemName: 'real estate',
       keepInPageOnReview: true,
     },

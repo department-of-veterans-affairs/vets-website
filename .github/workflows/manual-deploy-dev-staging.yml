@@ -5,24 +5,24 @@ on:
     inputs:
       commit_sha:
         description: Deploy a specific commit
-        required: false
-        default: ''
+        required: true
+      deploy_environment:
+        type: choice
+        description: The environment to deploy to
+        required: true
+        options:
+          - dev
+          - staging
+          - both
 
 env:
   DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
+  VETS_WEBSITE_CHANNEL_ID: C02V265VCGH # status-vets-website
 
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        include:
-          - environment: vagovdev
-            bucket: dev-va-gov-assets
-          - environment: vagovstaging
-            bucket: staging-va-gov-assets
 
     steps:
       - name: Checkout
@@ -51,11 +51,21 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
-      - name: Deploy
-        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
+      - name: Deploy Dev
+        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
         env:
-          SRC: s3://vetsgov-website-builds-s3-upload/application-build/${{ github.event.inputs.commit_sha || github.sha }}/${{ matrix.environment }}.tar.bz2
-          DEST: s3://${{ matrix.bucket }}
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/vagovdev.tar.bz2
+          DEST: s3://dev.va.gov
+          ASSET_DEST: s3://dev-va-gov-assets
+
+      - name: Deploy Staging
+        if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+        env:
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/vagovstaging.tar.bz2
+          DEST: s3://staging.va.gov
+          ASSET_DEST: s3://staging-va-gov-assets
 
   notify-failure:
     name: Notify Failure
@@ -71,7 +81,7 @@ jobs:
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "vets-website manual dev/staging deploy failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
-          channel_id: ${{ env.DEVOPS_CHANNEL_ID }}
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "vets-website manual dev/staging deploy failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { isEmpty } from 'lodash';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import {
   deleteConnectedApp,
@@ -100,11 +102,9 @@ export class ConnectedApps extends Component {
 
         {deletedApps.map(app => (
           <AppDeletedAlert
-            id={app.id}
             title={app?.attributes?.title}
             privacyUrl={app?.attributes?.privacyUrl}
             key={app.id}
-            dismissAlert={this.dismissAlert}
           />
         ))}
 
@@ -130,14 +130,27 @@ export class ConnectedApps extends Component {
         {!isEmpty(disconnectErrorApps) &&
           disconnectErrorApps.map(app => (
             <AlertBox
-              key={`${app.attributes?.title}`}
+              status={ALERT_TYPE.ERROR}
+              backgroundOnly
               className="vads-u-margin-bottom--2"
-              headline={`We couldn’t disconnect ${app.attributes?.title}`}
-              status="error"
-              content={`We’re sorry. Something went wrong on our end and we couldn’t disconnect ${
-                app.attributes?.title
-              }. Please try again later.`}
-            />
+              key={`${app.attributes?.title}`}
+            >
+              <div className="vads-u-display--flex">
+                <i
+                  aria-hidden="true"
+                  className="fa fa-exclamation-circle vads-u-padding-top--0p5 vads-u-margin-right--1"
+                />
+                <p
+                  className="vads-u-margin-y--0"
+                  role="alert"
+                  aria-live="polite"
+                >
+                  We’re sorry. We can’t disconnect {app.attributes?.title} from
+                  your VA.gov profile right now. We’re working to fix this
+                  problem. Please check back later.
+                </p>
+              </div>
+            </AlertBox>
           ))}
 
         {activeApps.map(app => (

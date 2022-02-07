@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ACCESSORY } from '../constants';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 class Accessories extends Component {
   componentDidMount() {
@@ -174,16 +175,27 @@ class Accessories extends Component {
             </div>
           ))}
         {accessorySupplies.length > 0 && (
-          <AdditionalInfo triggerText="What if I don't see the accessories I need?">
+          <AdditionalInfo
+            triggerText="What if the accessories I need aren’t listed here?"
+            className="vads-u-margin-bottom--2"
+          >
             <p>
-              You may not see the accessories you need if you haven't placed an
-              order for resupply items within the last 2 years. If you need an
-              accessory that hasn't been ordered within the last 2 years, call
-              the DLC Customer Service Section at{' '}
-              <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
-                303-273-6200
-              </a>{' '}
-              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov.</a>
+              The accessories you need may not be listed here if you haven’t
+              placed an order for resupply items within the last 2 years. If you
+              need an accessory that hasn’t been ordered within the last 2
+              years, call the DLC Customer Service Section at
+              <Telephone
+                contact={'303-273-6200'}
+                className="vads-u-margin--0p5"
+              />
+              or email
+              <a
+                href="mailto:dalc.css@va.gov"
+                className="vads-u-margin-left--0p5"
+              >
+                dalc.css@va.gov
+              </a>
+              .
             </p>
             <p>
               If you need a smaller dome for your hearing aid, you'll need to

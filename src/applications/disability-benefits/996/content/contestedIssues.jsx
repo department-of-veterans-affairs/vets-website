@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -24,9 +23,15 @@ import { apiVersion2 } from '../utils/helpers';
 export const ContestedIssuesTitle = props => {
   if (props?.formData?.contestedIssues?.length === 0) {
     return (
-      <h2 className="vads-u-font-size--h4" name="eligibleScrollElement">
-        Sorry, we couldn’t find any eligible issues
-      </h2>
+      <>
+        <h2 className="vads-u-font-size--h4" name="eligibleScrollElement">
+          Sorry, we couldn’t find any eligible issues
+        </h2>
+        <p>
+          If you’d like to add an issue for review, please select "Add a new
+          issue" to get started.
+        </p>
+      </>
     );
   }
   return apiVersion2(props.formData) ? (
@@ -134,7 +139,7 @@ const disabilitiesList = (
       </li>
     </ul>
     <p>
-      <DownloadLink content={'Download VA Form 20-0996'} />
+      <DownloadLink content="Download VA Form 20-0996" />
     </p>
     <p className="vads-u-margin-top--2p5">
       To learn more about how COVID-19 affect claims or appeals, please visit
@@ -154,16 +159,16 @@ const disabilitiesList = (
 export const disabilitiesExplanationAlert = (
   <>
     <p className="vads-u-margin-top--2p5" />
-    <AdditionalInfo triggerText={'Why isn’t my issue eligible?'}>
+    <va-additional-info trigger="Why isn’t my issue eligible?">
       {disabilitiesList}
-    </AdditionalInfo>
+    </va-additional-info>
   </>
 );
 
 export const disabilitiesExplanation = (
-  <AdditionalInfo triggerText={'Don’t see the issue you’re looking for?'}>
+  <va-additional-info trigger="Don’t see the issue you’re looking for?">
     {disabilitiesList}
-  </AdditionalInfo>
+  </va-additional-info>
 );
 
 /**

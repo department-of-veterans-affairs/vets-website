@@ -632,15 +632,13 @@ describe('VAOS Appointment service', () => {
         status: 'booked',
         minutesDuration: 60,
         communityCareProvider: {
-          uniqueId: 'ppmsid',
           address: {
-            street: '1012 14TH ST NW STE 700',
+            line: ['1012 14TH ST NW STE 700'],
             city: 'WASHINGTON',
             state: 'DC',
-            zip: '20005-3477',
+            postalCode: '20005-3477',
           },
-          caresitePhone: '202-638-0750',
-          name: 'CAMPBELL, WILLIAM',
+          practiceName: 'CAMPBELL, WILLIAM',
         },
       };
 
@@ -666,9 +664,6 @@ describe('VAOS Appointment service', () => {
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
 
-      // This is always missing on v2, has to be fetched separately
-      // Setting it to null here because the diff is very long otherwise
-      v0Result.communityCareProvider = null;
       // The CC date transformer logic sets the date in UTC mode, which creates
       // a format difference when this test is run on a machine in GMT/UTC
       // This adjusts for that format difference, because fixing the code results
@@ -782,7 +777,7 @@ describe('VAOS Appointment service', () => {
       setFetchJSONResponse(
         global.fetch.withArgs(
           sinon.match(
-            `/vaos/v2/appointments?start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
+            `/vaos/v2/appointments?_include=facilities,clinics&start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
           ),
         ),
         {
@@ -877,7 +872,7 @@ describe('VAOS Appointment service', () => {
       setFetchJSONResponse(
         global.fetch.withArgs(
           sinon.match(
-            `/vaos/v2/appointments?start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
+            `/vaos/v2/appointments?_include=facilities,clinics&start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
           ),
         ),
         {
@@ -986,7 +981,7 @@ describe('VAOS Appointment service', () => {
       setFetchJSONResponse(
         global.fetch.withArgs(
           sinon.match(
-            `/vaos/v2/appointments?start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
+            `/vaos/v2/appointments?_include=facilities,clinics&start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
           ),
         ),
         {
@@ -1071,7 +1066,7 @@ describe('VAOS Appointment service', () => {
       setFetchJSONFailure(
         global.fetch.withArgs(
           sinon.match(
-            `/vaos/v2/appointments?start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
+            `/vaos/v2/appointments?_include=facilities,clinics&start=${startDate}&end=${endDate}&statuses[]=proposed&statuses[]=cancelled`,
           ),
         ),
         {

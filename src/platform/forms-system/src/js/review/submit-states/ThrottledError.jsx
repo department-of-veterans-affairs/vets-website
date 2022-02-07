@@ -11,6 +11,14 @@ import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection'
 
 export default function ThrottledError(props) {
   const { buttonText, when, formConfig, onBack, onSubmit, testId } = props;
+  let ariaDescribedBy = null;
+  // If no ariaDescribedBy is passed down from form.js,
+  // a null value will properly not render the aria label.
+  if (formConfig?.ariaDescribedBySubmit !== null) {
+    ariaDescribedBy = formConfig?.ariaDescribedBySubmit;
+  } else {
+    ariaDescribedBy = null;
+  }
 
   return (
     <>
@@ -33,6 +41,7 @@ export default function ThrottledError(props) {
         </Column>
         <Column classNames="small-6 medium-5">
           <ProgressButton
+            ariaDescribedBy={ariaDescribedBy}
             onButtonClick={onSubmit}
             buttonText={buttonText}
             buttonClass="usa-button-primary"

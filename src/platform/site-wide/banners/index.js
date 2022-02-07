@@ -1,32 +1,14 @@
 // Node modules.
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import Banner from '@department-of-veterans-affairs/component-library/Banner';
 // Relative imports.
 import startReactApp from '../../startup/react';
-import MaintenanceBanner from './components/MaintenanceBanner';
 import widgetTypes from '~/applications/static-pages/widgetTypes';
-
-export const deriveStorage = banner => {
-  const dismissibleStatus = banner?.dataset?.dismissibleStatus;
-
-  // Don't have storage if the banner is not dismissible.
-  if (dismissibleStatus === 'perm') {
-    return undefined;
-  }
-
-  // If the banner is dismiss-session, we'll use sessionStorage.
-  if (dismissibleStatus === 'dismiss-session') {
-    return window.sessionStorage;
-  }
-
-  // Use localStorage by default.
-  return window.localStorage;
-};
+import { deriveStorage } from './helpers';
 
 // Are you looking for where this is used?
 // Search for `data-widget-type="banner"` and `data-widget-type="maintenance-banner"` to find all the places this React widget is used.
-export default () => {
+export default async () => {
   // Derive the banner elements to place the App.
   const banners = document.querySelectorAll(
     `[data-widget-type="${widgetTypes.BANNER}"]`,
@@ -37,6 +19,10 @@ export default () => {
 
   // Create each banner component.
   if (banners) {
+    const {
+      default: Banner,
+    } = await import(/* webpackChunkName: "banner-widget" */ '@department-of-veterans-affairs/component-library/Banner');
+
     for (let index = 0; index < banners.length; index++) {
       const banner = banners[index];
 
@@ -58,6 +44,10 @@ export default () => {
 
   // Create the maintenance banner component.
   if (maintenanceBanner) {
+    const {
+      default: MaintenanceBanner,
+    } = await import(/* webpackChunkName: "maintenance-banner-widget" */ './components/MaintenanceBanner');
+
     startReactApp(
       <MaintenanceBanner {...maintenanceBanner.dataset} />,
       maintenanceBanner,

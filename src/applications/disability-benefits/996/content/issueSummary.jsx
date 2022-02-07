@@ -7,9 +7,9 @@ import { ShowIssuesList } from '../components/ShowIssuesList';
 
 export const SummaryTitle = ({ formData }) => {
   const { pages } = formConfig.chapters.conditions;
-  const pathname = formData.contestedIssues?.length
-    ? pages.contestedIssues.path
-    : pages.additionalIssues.path;
+  const pathname = formData.hlrV2
+    ? pages.contestableIssues.path
+    : pages.contestedIssues.path;
   const issues = getSelected(formData);
 
   return (

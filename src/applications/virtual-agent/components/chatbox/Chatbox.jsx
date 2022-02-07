@@ -4,6 +4,7 @@ import ChatbotError from '../chatbot-error/ChatbotError';
 import useWebChatFramework from './useWebChatFramework';
 import useVirtualAgentToken from './useVirtualAgentToken';
 import WebChat from '../webchat/WebChat';
+import ChatboxDisclaimer from './ChatboxDisclaimer.jsx';
 import {
   combineLoadingStatus,
   COMPLETE,
@@ -30,8 +31,26 @@ function useWebChat(props) {
   };
 }
 
+// function handleDisclaimerAcceptedOnClick() {
+//   return true;
+// }
+
+function showBot(loggedIn, requireAuth, accepted, minute, props) {
+  if (!loggedIn && requireAuth) {
+    return <ConnectedSignInAlert />;
+  } else if (!accepted) {
+    return <ChatboxDisclaimer />;
+  } else {
+    return <App timeout={props.timeout || minute} />;
+  }
+}
+
 export default function Chatbox(props) {
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
+  const isAccepted = useSelector(state => state.virtualAgentData.termsAccepted);
+  const requireAuth = useSelector(
+    state => state.featureToggles.virtualAgentAuth,
+  );
 
   const ONE_MINUTE = 60 * 1000;
   return (
@@ -41,11 +60,7 @@ export default function Chatbox(props) {
           VA Virtual Agent (beta)
         </h2>
       </div>
-      {!isLoggedIn ? (
-        <ConnectedSignInAlert />
-      ) : (
-        <App timeout={props.timeout || ONE_MINUTE} />
-      )}
+      {showBot(isLoggedIn, requireAuth, isAccepted, ONE_MINUTE, props)}
     </div>
   );
 }

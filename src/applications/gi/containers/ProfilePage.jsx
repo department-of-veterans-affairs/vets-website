@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
@@ -8,10 +8,10 @@ import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { fetchProfile, setPageTitle, showModal, hideModal } from '../actions';
-import VetTecInstitutionProfile from '../components/vet-tec/VetTecInstitutionProfile';
+import VetTecInstitutionProfile from '../components/vet-tec/InstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ServiceError from '../components/ServiceError';
-import { useQueryParams } from '../utils/helpers';
+import { isSmallScreen, useQueryParams } from '../utils/helpers';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 
 const { Element: ScrollElement } = Scroll;
@@ -21,21 +21,28 @@ export function ProfilePage({
   profile,
   calculator,
   dispatchFetchProfile,
-  dispatchSetPageTitle,
   dispatchShowModal,
   dispatchHideModal,
   eligibility,
   gibctEybBottomSheet,
   gibctSchoolRatings,
   match,
+  compare,
 }) {
-  const { facilityCode, preSelectedProgram } = match.params;
+  const { facilityCode } = match.params;
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
   const institutionName = _.get(profile, 'attributes.name');
+  const [smallScreen, setSmallScreen] = useState(isSmallScreen());
 
   useEffect(() => {
+    const checkSize = () => {
+      setSmallScreen(isSmallScreen());
+    };
+    window.addEventListener('resize', checkSize);
+
     return () => {
+      window.removeEventListener('resize', checkSize);
       dispatchHideModal();
     };
   }, []);
@@ -43,7 +50,7 @@ export function ProfilePage({
   useEffect(
     () => {
       if (institutionName) {
-        dispatchSetPageTitle(`${institutionName} - GI Bill® Comparison Tool`);
+        document.title = `${institutionName}: GI Bill® Comparison Tool | Veterans Affairs`;
       }
     },
     [institutionName],
@@ -66,7 +73,8 @@ export function ProfilePage({
 
   let content;
 
-  if (profile.inProgress || _.isEmpty(profile.attributes)) {
+  const loadingProfile = profile.inProgress || _.isEmpty(profile.attributes);
+  if (loadingProfile) {
     content = <LoadingIndicator message="Loading your profile..." />;
   } else {
     const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
@@ -76,14 +84,15 @@ export function ProfilePage({
         <VetTecInstitutionProfile
           institution={profile.attributes}
           showModal={dispatchShowModal}
-          preSelectedProgram={preSelectedProgram}
           selectedProgram={calculator.selectedProgram}
+          compare={compare}
+          smallScreen={smallScreen}
         />
       );
     } else {
       content = (
         <InstitutionProfile
-          profile={profile}
+          institution={profile.attributes}
           isOJT={isOJT}
           constants={constants}
           showModal={dispatchShowModal}
@@ -92,6 +101,8 @@ export function ProfilePage({
           version={version}
           gibctEybBottomSheet={gibctEybBottomSheet}
           gibctSchoolRatings={gibctSchoolRatings}
+          compare={compare}
+          smallScreen={smallScreen}
         />
       );
     }
@@ -102,7 +113,10 @@ export function ProfilePage({
       name="profilePage"
       className="profile-page vads-u-padding-top--3"
     >
-      {profile.error ? <ServiceError /> : content}
+      <div className="row">
+        {profile.error && <ServiceError />}
+        {!profile.error && content}
+      </div>
     </ScrollElement>
   );
 }
@@ -113,8 +127,10 @@ const mapStateToProps = state => {
     profile,
     calculator,
     eligibility,
+    compare,
   } = state;
   return {
+    compare,
     constants,
     profile,
     calculator,

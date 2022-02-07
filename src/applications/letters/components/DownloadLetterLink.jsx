@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import recordEvent from 'platform/monitoring/record-event';
+import CallVBACenter from 'platform/static-data/CallVBACenter';
 import { getLetterPdf } from '../actions/letters';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
-import CallVBACenter from 'platform/static-data/CallVBACenter';
 
 export class DownloadLetterLink extends React.Component {
   // Either download the pdf or open it in a new window, depending on the
@@ -41,17 +41,13 @@ export class DownloadLetterLink extends React.Component {
         buttonText = 'Download letter';
         buttonDisabled = false;
         message = (
-          <div className="usa-alert usa-alert-success" role="alert">
-            <div className="usa-alert-body">
-              <h4 className="usa-alert-heading">
-                Your letter has successfully downloaded.
-              </h4>
-              <p className="usa-alert-text">
-                If you want to download your letter again, please press the
-                button below.
-              </p>
-            </div>
-          </div>
+          <va-alert status="success" role="alert">
+            <h4 slot="headline">Your letter has successfully downloaded.</h4>
+            <p>
+              If you want to download your letter again, please press the button
+              below.
+            </p>
+          </va-alert>
         );
         break;
       case DOWNLOAD_STATUSES.failure:
@@ -59,17 +55,13 @@ export class DownloadLetterLink extends React.Component {
         buttonText = 'Retry download';
         buttonDisabled = false;
         message = (
-          <div className="usa-alert usa-alert-error" role="alert">
-            <div className="usa-alert-body">
-              <h4 className="usa-alert-heading">
-                Your letter didn’t download.
-              </h4>
-              <p className="usa-alert-text">
-                Your letter isn’t available at this time. If you need help with
-                accessing your letter, please <CallVBACenter />
-              </p>
-            </div>
-          </div>
+          <va-alert status="error" role="alert">
+            <h4 slot="headline">Your letter didn’t download.</h4>
+            <p>
+              Your letter isn’t available at this time. If you need help with
+              accessing your letter, please <CallVBACenter />
+            </p>
+          </va-alert>
         );
         break;
       default:
@@ -81,18 +73,25 @@ export class DownloadLetterLink extends React.Component {
     return (
       <div>
         <div className="form-expanding-group form-expanding-group-open">
-          <ReactCSSTransitionGroup
-            transitionName="form-expanding-group-inner"
-            transitionAppear
-            transitionAppearTimeout={700}
-            transitionEnterTimeout={700}
-            transitionLeave={false}
-          >
-            {message}
-          </ReactCSSTransitionGroup>
+          <TransitionGroup>
+            {message ? (
+              <CSSTransition
+                classNames="form-expanding-group-inner"
+                appear
+                timeout={{
+                  appear: 700,
+                  enter: 700,
+                }}
+                exit={false}
+              >
+                {message}
+              </CSSTransition>
+            ) : null}
+          </TransitionGroup>
         </div>
         <div className="download-button">
           <button
+            type="button"
             onClick={this.downloadLetter}
             disabled={buttonDisabled}
             className={buttonClasses}
@@ -115,8 +114,8 @@ function mapStateToProps(state, ownProps) {
 }
 
 DownloadLetterLink.propTypes = {
-  letterType: PropTypes.string.isRequired,
   letterName: PropTypes.string.isRequired,
+  letterType: PropTypes.string.isRequired,
   downloadStatus: PropTypes.string,
 };
 

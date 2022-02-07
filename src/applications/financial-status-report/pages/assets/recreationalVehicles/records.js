@@ -40,7 +40,6 @@ export const uiSchema = {
       'ui:options': {
         viewField: CardDetailsView,
         doNotScroll: true,
-        showSave: true,
         itemName: 'trailer, camper, or boat',
         keepInPageOnReview: true,
       },

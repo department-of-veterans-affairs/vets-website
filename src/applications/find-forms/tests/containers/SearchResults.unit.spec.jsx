@@ -25,7 +25,7 @@ describe('Find VA Forms <SearchResults>', () => {
   it('renders a loading indicator', () => {
     const tree = shallow(<SearchResults fetching />);
 
-    const loadingIndicator = tree.find('LoadingIndicator');
+    const loadingIndicator = tree.find('va-loading-indicator');
     expect(loadingIndicator).to.have.lengthOf(1);
 
     tree.unmount();

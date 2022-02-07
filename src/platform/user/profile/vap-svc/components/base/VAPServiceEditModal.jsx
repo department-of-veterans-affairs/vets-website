@@ -64,7 +64,6 @@ export default class VAPServiceEditModal extends React.Component {
         isEmpty,
         onCancel,
         title,
-        clearErrors,
         render,
         onDelete,
         transaction,
@@ -108,11 +107,7 @@ export default class VAPServiceEditModal extends React.Component {
         <h3>Edit {title.toLowerCase()}</h3>
         {error && (
           <div className="vads-u-margin-bottom--1">
-            <VAPServiceEditModalErrorMessage
-              title={title}
-              error={error}
-              clearErrors={clearErrors}
-            />
+            <VAPServiceEditModalErrorMessage error={error} />
           </div>
         )}
         {isFormReady && render(actionButtons, onSubmit)}

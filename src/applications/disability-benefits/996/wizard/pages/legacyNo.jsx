@@ -2,7 +2,7 @@ import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
-import { HLR_INFO_URL, BASE_URL, IS_PRODUCTION } from '../../constants';
+import { HLR_INFO_URL, BASE_URL } from '../../constants';
 import pageNames from './pageNames';
 
 // Does not have a legacy appeal
@@ -26,10 +26,7 @@ const LegacyNo = ({ setWizardStatus }) => {
       </p>
       <a
         href={`${BASE_URL}/introduction`}
-        onClick={event => {
-          if (IS_PRODUCTION) {
-            event.preventDefault();
-          }
+        onClick={() => {
           recordEvent({
             event: 'howToWizard-hidden',
             'reason-for-hidden-wizard': 'wizard completed, starting form',

@@ -15,10 +15,10 @@
 
 .process-steps {
   margin-left: 0;
-  padding-left: .8em;
+  padding-left: 0.8em;
 
   .process-step {
-    padding-bottom: .3em;
+    padding-bottom: 0.3em;
   }
 }
 
@@ -48,4 +48,8 @@
 
 .hca-id-form-wrapper {
   margin-top: 2em;
+}
+
+.bullet-disc {
+  list-style-type: disc;
 }

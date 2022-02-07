@@ -55,6 +55,11 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     bubbleNubSize: 10,
     bubbleFromUserNubSize: 10,
     timestampColor: '#000000',
+    suggestedActionLayout: 'flow',
+    suggestedActionBackground: '#0071BB',
+    suggestedActionTextColor: 'white',
+    suggestedActionBorderRadius: '5px',
+    suggestedActionBorderWidth: 0,
   };
 
   return (

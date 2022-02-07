@@ -1,36 +1,21 @@
 import * as Sentry from '@sentry/browser';
-
-import { ssoKeepAliveEndpoint } from 'platform/user/authentication/utilities';
+import {
+  SSO_KEEP_ALIVE_ENDPOINT,
+  CSP_AUTHN,
+  AUTHN_HEADERS,
+  CAUGHT_EXCEPTIONS,
+  MHV_SKIP_DUPE,
+} from './constants';
 
 const SENTRY_LOG_THRESHOLD = [Sentry.Severity.Info];
 
 const logToSentry = data => {
   let isCaptured = null;
   const { message } = data;
-  const caughtExceptions = {
-    'Failed to fetch': {
-      LEVEL: Sentry.Severity.Warning,
-    },
-    'NetworkError when attempting to fetch resource.': {
-      LEVEL: Sentry.Severity.Warning,
-    },
-    'The Internet connection appears to be offline.': {
-      LEVEL: Sentry.Severity.Info,
-    },
-    'The network connection was lost.': {
-      LEVEL: Sentry.Severity.Info,
-    },
-    cancelled: {
-      LEVEL: Sentry.Severity.Info,
-    },
-    default: {
-      LEVEL: Sentry.Severity.Error,
-    },
-  };
 
-  const LEVEL = caughtExceptions[message]
-    ? caughtExceptions[message].TYPE
-    : caughtExceptions.default.TYPE;
+  const LEVEL = CAUGHT_EXCEPTIONS[message]
+    ? CAUGHT_EXCEPTIONS[message].LEVEL
+    : CAUGHT_EXCEPTIONS.default.LEVEL;
 
   if (!SENTRY_LOG_THRESHOLD.includes(LEVEL)) {
     Sentry.withScope(scope => {
@@ -49,6 +34,8 @@ const logToSentry = data => {
   return isCaptured;
 };
 
+const sanitizeAuthn = authnCtx => authnCtx.replace(MHV_SKIP_DUPE, '');
+
 export default async function keepAlive() {
   /* Return a TTL and authn values from the IAM keepalive endpoint that
   * 1) indicates how long the user's current SSOe session will be alive for,
@@ -60,28 +47,31 @@ export default async function keepAlive() {
   * session or not
   */
   try {
-    const resp = await fetch(ssoKeepAliveEndpoint(), {
+    const resp = await fetch(SSO_KEEP_ALIVE_ENDPOINT, {
       method: 'HEAD',
       credentials: 'include',
       cache: 'no-store',
     });
 
     await resp.text();
-    const alive = resp.headers.get('session-alive');
+    const alive = resp.headers.get(AUTHN_HEADERS.ALIVE);
+
+    /**
+     * Use mapped authncontext for DS Logon and MHV
+     * Use `authncontextclassref` lookup for ID.me and Login.gov
+     */
+    const authn = {
+      DSLogon: CSP_AUTHN.DS_LOGON,
+      mhv: CSP_AUTHN.MHV,
+      LOGINGOV: resp.headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
+      idme: resp.headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
+    }[resp.headers.get(AUTHN_HEADERS.CSP)];
 
     return {
-      ttl: alive === 'true' ? Number(resp.headers.get('session-timeout')) : 0,
-      transactionid: resp.headers.get('va_eauth_transactionid'),
-      /* for DSLogon or mhv, use a mapped authn context value, however for
-      * idme, we need to use the provided authncontextclassref as it could be
-      * for LOA1 or LOA3.  Any other csid values should be ignored, and we
-      * should return undefined
-      */
-      authn: {
-        DSLogon: 'dslogon',
-        mhv: 'myhealthevet',
-        idme: resp.headers.get('va_eauth_authncontextclassref'),
-      }[resp.headers.get('va_eauth_csid')],
+      ttl:
+        alive === 'true' ? Number(resp.headers.get(AUTHN_HEADERS.TIMEOUT)) : 0,
+      transactionid: resp.headers.get(AUTHN_HEADERS.TRANSACTION_ID),
+      authn: sanitizeAuthn(authn),
     };
   } catch (err) {
     logToSentry(err);

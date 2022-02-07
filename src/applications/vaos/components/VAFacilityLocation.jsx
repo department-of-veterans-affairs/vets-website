@@ -10,6 +10,7 @@ export default function VAFacilityLocation({
   facilityId,
   clinicFriendlyName,
   showCovidPhone,
+  isPhone,
 }) {
   let content = null;
 
@@ -48,6 +49,17 @@ export default function VAFacilityLocation({
   }
 
   const name = clinicName || facilityName || facility?.name;
+
+  if (isPhone) {
+    return (
+      <>
+        <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+          {name}
+        </h2>
+        <div>{content}</div>
+      </>
+    );
+  }
 
   return (
     <>

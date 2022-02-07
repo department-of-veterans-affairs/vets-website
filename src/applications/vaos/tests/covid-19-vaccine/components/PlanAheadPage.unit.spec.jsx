@@ -34,14 +34,25 @@ describe('VAOS <PlanAheadPage>', () => {
     );
 
     expect(screen.baseElement).to.contain.text(
-      'Some COVID-19 vaccines require 2 doses',
+      'We can only schedule appointments for first vaccine doses online:',
     );
-
+    expect(screen.baseElement).to.contain.text(
+      'If you get a vaccine that requires 2 doses, we’ll schedule your second appointment while you’re here for your first dose.',
+    );
+    expect(screen.baseElement).to.contain.text(
+      'If you’re eligible for a booster shot or additional dose, contact your VA health facility.',
+    );
+    expect(screen.baseElement).to.contain.text(
+      'Want to get your vaccine without an appointment?',
+    );
+    expect(screen.baseElement).to.contain.text(
+      'Find out how to get your vaccine at a VA walk-in clinic',
+    );
     expect(
-      screen.getByRole('link', {
-        name: /go to our main COVID-19 vaccine at VA page./i,
+      await screen.findByRole('link', {
+        name: /Find out how to get your vaccine at a VA walk-in clinic/,
       }),
-    ).to.have.attribute('href', '/health-care/covid-19-vaccine');
+    ).to.be.ok;
   });
 
   it('should continue to the correct page once continue to clicked', async () => {

@@ -1,8 +1,7 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 export const evidenceTypeHelp = (
-  <AdditionalInfo triggerText="Which evidence type should I choose?">
+  <va-additional-info trigger="Which evidence type should I choose?">
     <h3>Types of evidence</h3>
     <h4>VA medical records</h4>
     <p>
@@ -25,5 +24,5 @@ export const evidenceTypeHelp = (
       Posttraumatic Stress Disorder or military sexual trauma—could benefit from
       a lay or buddy statement.
     </p>
-  </AdditionalInfo>
+  </va-additional-info>
 );

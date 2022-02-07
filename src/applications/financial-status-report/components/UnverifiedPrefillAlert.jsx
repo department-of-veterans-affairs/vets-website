@@ -1,15 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import ServiceProvidersText, {
+  ServiceProvidersTextCreateAcct,
+} from 'platform/user/authentication/components/ServiceProvidersText';
 
-const UnverifiedPrefillAlert = props => (
+const UnverifiedPrefillAlert = ({ toggle }) => (
   <div className="usa-alert usa-alert-info schemaform-sip-alert">
     <div className="usa-alert-body">
       <h3 className="usa-alert-heading">Please sign in to submit a request</h3>
       <div className="usa-alert-text">
         <p>
-          Try signing in with your DS Logon, My HealtheVet, or ID. me account.
-          If you don't have any of those accounts, you can create one.
+          Sign in in with your existing <ServiceProvidersText /> account.{' '}
+          <ServiceProvidersTextCreateAcct />
         </p>
         <p>When you’re signed in to your VA.gov account:</p>
         <ul>
@@ -27,7 +31,7 @@ const UnverifiedPrefillAlert = props => (
           <button
             className="usa-button-primary"
             type="button"
-            onClick={() => props.toggleLoginModal(true, 'cta-form')}
+            onClick={() => toggle(true, 'cta-form')}
           >
             Sign in or create an account
           </button>
@@ -37,8 +41,12 @@ const UnverifiedPrefillAlert = props => (
   </div>
 );
 
+UnverifiedPrefillAlert.propTypes = {
+  toggle: PropTypes.func,
+};
+
 const mapDispatchToProps = {
-  toggleLoginModal,
+  toggle: toggleLoginModal,
 };
 
 export default connect(

@@ -7,8 +7,16 @@ import { Header } from '.';
 
 describe('Header <Header>', () => {
   it('renders content', () => {
+    // Set up.
     const wrapper = shallow(<Header showMegaMenu showNavLogin />);
-    expect(wrapper.text()).to.include('New header');
+
+    // Assertions.
+    expect(wrapper.find('OfficialGovtWebsite')).to.have.lengthOf(1);
+    expect(wrapper.find('VeteranCrisisLine')).to.have.lengthOf(1);
+    expect(wrapper.find('Connect(LogoRow)')).to.have.lengthOf(1);
+    expect(wrapper.find('Connect(Menu)')).to.have.lengthOf(1);
+
+    // Clean up.
     wrapper.unmount();
   });
 });

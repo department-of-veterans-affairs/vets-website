@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
 import ITFBanner from '../components/ITFBanner';
 import { isActiveITF } from '../utils';
 import { requestStates } from 'platform/utilities/constants';
@@ -69,11 +67,11 @@ export class ITFWrapper extends React.Component {
     );
   }
 
-  showLoading = (title, message) => (
+  showLoading = (title, message, label) => (
     <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
       <div className="usa-content">
         <h1>{title}</h1>
-        <LoadingIndicator message={message} />
+        <va-loading-indicator message={message} label={label} />
       </div>
     </div>
   );
@@ -89,6 +87,7 @@ export class ITFWrapper extends React.Component {
       return this.showLoading(
         title,
         'Please wait while we check to see if you have an existing Intent to File.',
+        'looking for an intent to file',
       );
     } else if (itf.fetchCallState === requestStates.failed) {
       // We'll get here after the fetchITF promise is fulfilled
@@ -128,7 +127,11 @@ export class ITFWrapper extends React.Component {
     } else if (fetchWaitingStates.includes(itf.creationCallState)) {
       // componentWillRecieveProps called createITF if there was no active ITF
       // found; While we're waiting (again), show the loading indicator...again
-      return this.showLoading(title, 'Submitting a new Intent to File...');
+      return this.showLoading(
+        title,
+        'Submitting a new Intent to File...',
+        'submitting a new intent to file',
+      );
     }
 
     // We'll get here after the createITF promise is fulfilled and we have no

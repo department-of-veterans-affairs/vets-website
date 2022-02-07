@@ -9,5 +9,6 @@ import './upload';
 import './injectAxeThenAxeCheck';
 import './viewportPreset';
 import './hasCount';
+import './testStatus';
 import 'cy-mobile-commands';
 import 'cypress-wait-until';

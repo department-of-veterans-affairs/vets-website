@@ -84,7 +84,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
       },
     );
 
-    const overlay = screen.queryByText(/Finding appointment availability.../i);
+    const overlay = screen.queryByTestId('loadingIndicator');
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
     }
@@ -126,7 +126,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     });
 
     // NOTE: progressbar does not have an accessible name to query by
-    expect(screen.getByRole('progressbar')).to.be.ok;
+    expect(screen.getByTestId('loadingIndicator')).to.be.ok;
   });
 
   it('should display error message if slots call fails', async () => {
@@ -154,7 +154,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     );
 
     // 1. Wait for progressbar to disappear
-    const overlay = screen.queryByText(/Finding appointment availability.../i);
+    const overlay = screen.queryByTestId('loadingIndicator');
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
     }
@@ -220,7 +220,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     );
 
     // 1. Wait for progressbar to disappear
-    let overlay = screen.queryByText(/Finding appointment availability.../i);
+    let overlay = screen.queryByTestId('loadingIndicator');
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
     }
@@ -260,7 +260,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     });
 
     // 3. Wait for progressbar to disappear
-    overlay = screen.queryByText(/Finding appointment availability.../i);
+    overlay = screen.queryByTestId('loadingIndicator');
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
     }
@@ -325,7 +325,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     });
 
     // 1. Wait for progressbar to disappear
-    const overlay = screen.queryByText(/Finding appointment availability.../i);
+    const overlay = screen.queryByTestId('loadingIndicator');
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
     }
@@ -446,7 +446,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     expect(screen.history.push.called).not.to.be.true;
   });
 
-  it('should show urgent care alert if preferred date is today', async () => {
+  it('should show urgent care alert (has slots) message if preferred date is today', async () => {
     // Given the user has selected a clinic
     const store = createTestStore(initialState);
 
@@ -491,6 +491,47 @@ describe('VAOS <DateTimeSelectPage>', () => {
         ),
       ),
     ).to.exist;
+  });
+
+  it('should show urgent care alert (no slots) message if preferred date is today', async () => {
+    // Given the user has selected a clinic
+    const store = createTestStore(initialState);
+
+    // And the user has chosen today as their preferred date
+    const preferredDate = moment();
+    await setPreferredDate(store, preferredDate);
+
+    // And there are no slots available
+    setDateTimeSelectMockFetches({
+      slotDatesByClinicId: {
+        308: [],
+      },
+    });
+
+    await setTypeOfCare(store, /primary care/i);
+    await setVAFacility(store, '983');
+    await setClinic(store, /yes/i);
+
+    // When the page is displayed
+    const screen = renderWithStoreAndRouter(
+      <Route component={DateTimeSelectPage} />,
+      {
+        store,
+      },
+    );
+
+    // Then the urgent care alert is displayed
+    expect(
+      await screen.findByText(
+        /If you have an urgent medical need or need care right away/i,
+      ),
+    ).to.exist;
+
+    expect(
+      screen.getByText(
+        /We couldn’t find an appointment for your selected date/,
+      ),
+    ).to.be.ok;
   });
 
   it.skip('should show info standard of care alert when there is a wait for a mental health appointments', async () => {
@@ -596,7 +637,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     );
 
     // 1. Wait for progressbar to disappear
-    const overlay = screen.queryByText(/Finding appointment availability.../i);
+    const overlay = screen.queryByTestId('loadingIndicator');
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
     }
@@ -685,7 +726,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
       },
     );
 
-    let overlay = screen.queryByText(/Finding appointment availability.../i);
+    let overlay = screen.queryByTestId('loadingIndicator');
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
     }
@@ -701,7 +742,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     // Need to move two months to trigger second fetch
     userEvent.click(screen.getByText(/^Next/));
     userEvent.click(screen.getByText(/^Next/));
-    overlay = screen.queryByText(/Finding appointment availability.../i);
+    overlay = screen.queryByTestId('loadingIndicator');
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
     }

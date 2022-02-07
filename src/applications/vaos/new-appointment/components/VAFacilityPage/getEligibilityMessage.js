@@ -94,7 +94,7 @@ export default function getEligibilityMessage({
         <p>
           Call this facility to schedule or cancel an open appointment request.
           You can also cancel a request from{' '}
-          <Link to="/">your appointment list</Link>.
+          <Link to="/requested">your appointment list</Link>.
         </p>
         {facilityDetails &&
           includeFacilityContactInfo && (

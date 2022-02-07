@@ -12,9 +12,9 @@
         "clinic": null,
         "telehealth": null,
         "practitioners": [
-          { "identifier": { "value": "1801312053" } },
-          { "identifier": { "value": "1053355479" } },
-          { "identifier": { "value": "1396153797" } }
+          { "identifier": [{ "value": "1801312053" }] },
+          { "identifier": [{ "value": "1053355479" }] },
+          { "identifier": [{ "value": "1396153797" }] }
         ],
         "reason": "Routine Follow-up",
         "start": null,

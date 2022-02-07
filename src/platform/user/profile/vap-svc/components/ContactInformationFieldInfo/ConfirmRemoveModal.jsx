@@ -61,14 +61,14 @@ const ConfirmRemoveModal = ({
           className="vads-u-margin-bottom--2"
           data-testid="delete-error-alert"
         >
-          <VAPServiceEditModalErrorMessage title={title} error={error} />
+          <VAPServiceEditModalErrorMessage error={error} />
         </div>
       )}
       <div>
         <LoadingButton
           isLoading={isLoading}
           onClick={deleteAction}
-          aria-label={`Remove ${title}`}
+          aria-label="Yes, remove my information"
           loadingText="Removing your information"
         >
           Yes, remove my information

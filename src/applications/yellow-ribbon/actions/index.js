@@ -97,6 +97,7 @@ export const fetchResultsThunk = (options = {}) => async dispatch => {
         'search-page-path': '/education/yellow-ribbon-participating-schools/',
         'search-query': name,
         'search-typeahead-enabled': false,
+        'search-location': 'Yellow Ribbon',
         'search-selection': 'Yellow Ribbon',
         'search-filters-list': {
           stateOrTerritory: state || undefined,

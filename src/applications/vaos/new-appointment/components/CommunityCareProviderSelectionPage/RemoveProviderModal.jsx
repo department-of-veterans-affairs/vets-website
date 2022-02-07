@@ -1,8 +1,7 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import { distanceBetween } from '../../../utils/address';
 
-export default function RemoveProviderModal({ onClose, provider, address }) {
+export default function RemoveProviderModal({ onClose, provider }) {
   const title = 'Are you sure you want to remove this provider?';
   const content = (
     <>
@@ -10,18 +9,9 @@ export default function RemoveProviderModal({ onClose, provider, address }) {
         {provider.name}
       </span>
       <span className="vads-u-display--block">{provider.address?.line}</span>
-      <span className="vads-u-display--block">
+      <span className="vads-u-display--block vads-u-margin-bottom--1">
         {provider.address?.city}, {provider.address?.state}{' '}
         {provider.address?.postalCode}
-      </span>
-      <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold vads-u-margin-bottom--2">
-        {distanceBetween(
-          provider.position?.latitude,
-          provider.position?.longitude,
-          address.latitude,
-          address.longitude,
-        )}{' '}
-        miles
       </span>
       <button type="button" onClick={() => onClose(true)}>
         Yes, remove provider

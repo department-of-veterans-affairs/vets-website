@@ -1,3 +1,10 @@
+/**
+ * [TestRail-integrated] Spec for Find a VA Form - required-fields.
+ * @testrailinfo projectId 30
+ * @testrailinfo suiteId 136
+ * @testrailinfo groupId 3026
+ * @testrailinfo runName FF-e2e-Required
+ */
 // Dependencies.
 import chunk from 'lodash/chunk';
 
@@ -26,20 +33,30 @@ function axeTestPage() {
 }
 
 describe('functionality of Find Forms', () => {
-  it('search the form and expect dom to have elements', () => {
+  beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
         type: 'feature_toggles',
         features: [
           {
+            name: 'find_forms_first_flag',
+            value: true,
+          },
+          {
             name: 'find_forms_second_flag',
+            value: true,
+          },
+          {
+            name: 'find_forms_third_flag',
             value: true,
           },
         ],
       },
     });
     cy.intercept('GET', '/v0/forms?query=health', stub).as('getFindAForm');
+  });
 
+  it('search the form and expect dom to have elements - C3994', () => {
     // navigate to find-forms and make axe check on browser
     cy.visit('/find-forms/');
     axeTestPage();
@@ -65,7 +82,7 @@ describe('functionality of Find Forms', () => {
 
     pages.forEach((page, pageNumber) => {
       page.forEach(form => {
-        cy.get(`a[href="${form.attributes.url}"]`);
+        cy.get(`a[data-testid="pdf-link-${form.id}"]`).should('exist');
       });
 
       const nextPage = pageNumber + 1;
@@ -87,5 +104,19 @@ describe('functionality of Find Forms', () => {
     cy.get(`${SELECTORS.SORT_SELECT_WIDGET} option:first`)
       .should('be.selected')
       .should('contain', FAF_SORT_OPTIONS[0]);
+  });
+
+  it('opens PDF modal - C12431', () => {
+    cy.clearCookie('findForms');
+    cy.visit('/find-forms/?q=health');
+    cy.get('a[data-testid^="pdf-link"]').then($links => {
+      const randomIndex = Math.floor(Math.random() * $links.length);
+
+      cy.wrap($links)
+        .eq(randomIndex)
+        .scrollIntoView()
+        .click();
+    });
+    cy.get('#va-modal-title').should('contain.text', 'PDF');
   });
 });

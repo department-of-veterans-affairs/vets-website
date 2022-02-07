@@ -180,16 +180,16 @@ const HealthCare = ({
             />
           ) : null}
 
-          {/* Lab and test results */}
+          {/* Request travel reimbursement */}
           <IconCTALink
-            href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
-            icon="clipboard-list"
+            href="/health-care/get-reimbursed-for-travel-pay/"
+            icon="suitcase"
             newTab
-            text="Get your lab and test results"
+            text="Request travel reimbursement"
             onClick={() => {
               recordEvent({
                 event: 'nav-linkslist',
-                'links-list-header': 'Get your lab and test results',
+                'links-list-header': 'Request travel reimbursement"',
                 'links-list-section-header': 'Health care',
               });
             }}

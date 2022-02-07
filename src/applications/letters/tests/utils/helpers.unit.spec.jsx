@@ -7,6 +7,7 @@ import {
   getBenefitOptionText,
   resetDisallowedAddressFields,
   isAddressEmpty,
+  stripOffTime,
 } from '../../utils/helpers';
 
 const address = {
@@ -142,5 +143,25 @@ describe('Letters helpers: ', () => {
     // type & countryName are ignored
     expect(isAddressEmpty({ type: 'foo', countryName: 'bar' })).to.be.true;
     expect(isAddressEmpty({ foo: 'bar' })).to.be.false;
+  });
+
+  // reset time to midnight
+  describe('stripOffTime', () => {
+    it('should return an empty string', () => {
+      expect(stripOffTime()).to.equal('');
+      expect(stripOffTime('')).to.equal('');
+      expect(stripOffTime(null)).to.equal('');
+    });
+    it('should replace time offsets with all zeros', () => {
+      expect(stripOffTime('2017-12-01T06:00:00.000+00:00')).to.equal(
+        '2017-12-01',
+      );
+      expect(stripOffTime('1965-01-01T06:00:00.000+00:00')).to.equal(
+        '1965-01-01',
+      );
+      expect(stripOffTime('1972-10-01T05:00:00.000+00:00')).to.equal(
+        '1972-10-01',
+      );
+    });
   });
 });

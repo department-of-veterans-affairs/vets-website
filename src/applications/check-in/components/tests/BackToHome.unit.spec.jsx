@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import BackToHome from '../BackToHome';
 
-describe('check-in', () => {
+describe('pre-check-in', () => {
   describe('BackToHome', () => {
     it('Does not render when not run in a local environment', () => {
       const goBack = sinon.spy();

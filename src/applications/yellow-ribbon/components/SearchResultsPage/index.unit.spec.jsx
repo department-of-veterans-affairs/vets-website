@@ -3,7 +3,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 // Relative imports.
-import { SearchResultsPage } from './index';
+import { SearchResultsPage } from '.';
 
 describe('Search Results Page <SearchResultsPage>', () => {
   it('renders what we expect', () => {

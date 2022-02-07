@@ -3,77 +3,92 @@ import React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { createId, handleScrollOnInputFocus } from '../utils/helpers';
+import { handleScrollOnInputFocus } from '../utils/helpers';
 
-const Checkbox = ({
-  checked,
-  className,
-  errorMessage,
-  id,
-  label,
-  name,
-  onChange,
-  onFocus,
-  required,
-  labelAriaLabel,
-  inputAriaLabelledBy,
-  inputAriaLabel,
-}) => {
-  const inputId = _.uniqueId('errorable-checkbox-');
-  const hasErrors = !!errorMessage;
-  const errorSpanId = hasErrors ? `${inputId}-error-message` : undefined;
-  const labelId = `${createId(name)}-label`;
-  const ariaLabelledBy = [inputAriaLabelledBy, labelId].filter(
-    ariaId => ariaId !== null && ariaId !== undefined,
-  );
+/**
+ * A form checkbox with a label that can display error messages.
+ *
+ * Validation has the following props.
+ * `checked` - Boolean. Whether or not the checkbox is checked.
+ * `errorMessage` - Error string to display in the component.
+ *                  When defined, indicates checkbox has a validation error.
+ * `label` - String for the checkbox label.
+ * `name` - String for name attribute.
+ * `toolTipText` - String with help text for user.
+ * `tabIndex` - Number for keyboard tab order.
+ * `onValueChange` - a function with this prototype: (newValue)
+ * `required` - boolean. Render marker indicating field is required.
+ */
+class Checkbox extends React.Component {
+  constructor(props) {
+    super(props);
+    this.inputId = _.uniqueId('errorable-checkbox-');
+  }
 
-  return (
-    <div
-      className={classNames(className, 'form-checkbox', {
-        'usa-input-error': hasErrors,
-      })}
-    >
-      <input
-        aria-describedby={errorSpanId}
-        checked={checked}
-        id={id || inputId}
-        name={createId(name)}
-        type="checkbox"
-        onChange={onChange}
-        onFocus={onFocus}
-        aria-label={inputAriaLabel}
-        aria-labelledby={inputAriaLabel ? null : ariaLabelledBy.join(' ')}
-      />
-      <label
-        className={classNames('gi-checkbox-label', {
-          'usa-input-error-label': hasErrors,
-        })}
-        id={labelId}
-        name={labelId}
-        htmlFor={inputId}
-        aria-label={labelAriaLabel}
-      >
-        {label}
-        {required && <span className="form-required-span">*</span>}
-      </label>
-      {hasErrors && (
+  handleFocus = e => {
+    this.props.onFocus(e);
+  };
+
+  render() {
+    // TODO: extract error logic into a utility function
+    // Calculate error state.
+    let errorSpan = '';
+    let errorSpanId = undefined;
+    const hasErrors = !!this.props.errorMessage;
+    if (hasErrors) {
+      errorSpanId = `${this.inputId}-error-message`;
+      errorSpan = (
         <span className="usa-input-error-message" role="alert" id={errorSpanId}>
-          <span className="sr-only">Error</span> {errorMessage}
+          <span className="sr-only">Error</span> {this.props.errorMessage}
         </span>
-      )}
-    </div>
-  );
-};
+      );
+    }
+
+    // Calculate required.
+    let requiredSpan = undefined;
+    if (this.props.required) {
+      requiredSpan = <span className="form-required-span">*</span>;
+    }
+
+    let className = `form-checkbox${hasErrors ? ' usa-input-error' : ''}`;
+    if (!_.isUndefined(this.props.className)) {
+      className = `${className} ${this.props.className}`;
+    }
+    return (
+      <div className={className}>
+        <input
+          aria-describedby={errorSpanId}
+          checked={this.props.checked}
+          id={this.props.id || this.inputId}
+          name={this.props.name}
+          type="checkbox"
+          onChange={this.props.onChange}
+          onFocus={this.handleFocus}
+        />
+        <label
+          className={classNames('gi-checkbox-label', {
+            'usa-input-error-label': hasErrors,
+          })}
+          name={`${this.props.name}-label`}
+          htmlFor={this.inputId}
+        >
+          {this.props.label}
+          {requiredSpan}
+        </label>
+        {errorSpan}
+      </div>
+    );
+  }
+}
 
 Checkbox.propTypes = {
   checked: PropTypes.bool,
   errorMessage: PropTypes.string,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   onChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
   onFocus: PropTypes.func,
-  ariaLabel: PropTypes.string.isRequired,
 };
 
 Checkbox.defaultProps = {

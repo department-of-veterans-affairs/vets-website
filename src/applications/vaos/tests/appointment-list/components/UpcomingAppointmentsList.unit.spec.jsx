@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
-import { getCCAppointmentMock, getVAAppointmentMock } from '../../mocks/v0';
+import { getCCAppointmentMock } from '../../mocks/v0';
 import { mockAppointmentInfo } from '../../mocks/helpers';
 import {
   getTimezoneTestDate,
@@ -13,8 +13,12 @@ import {
 import UpcomingAppointmentsList from '../../../appointment-list/components/UpcomingAppointmentsList';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 import { getVAOSAppointmentMock } from '../../mocks/v2';
-import { createMockFacilityByVersion } from '../../mocks/data';
+import {
+  createMockAppointmentByVersion,
+  createMockFacilityByVersion,
+} from '../../mocks/data';
 import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
+import { VIDEO_TYPES } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -32,16 +36,18 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
   });
   it('should show information without facility name', async () => {
     const startDate = moment.utc();
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: startDate.format(),
-      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
-      facilityId: '983',
-      sta6aid: '983GC',
+    const data = {
+      id: '1234',
+      currentStatus: 'FUTURE',
+      kind: 'clinic',
+      clinic: '308',
+      start: startDate.format(),
+      locationId: '983GC',
     };
-    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
-    appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
@@ -66,15 +72,19 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
   });
 
   it('should show information with facility name', async () => {
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: moment().format(),
-      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
-      facilityId: '983',
-      sta6aid: '983GC',
+    const data = {
+      id: '1234',
+      currentStatus: 'FUTURE',
+      kind: 'clinic',
+      clinic: '308',
+      start: moment().format(),
+      locationId: '983GC',
     };
-    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
+
     mockAppointmentInfo({ va: [appointment] });
 
     mockFacilitiesFetchByVersion({
@@ -124,15 +134,20 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
   });
 
   it('should have correct status when previously cancelled', async () => {
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: moment().format(),
-      facilityId: '983',
-      sta6aid: '983GC',
+    const data = {
+      id: '1234',
+      currentStatus: 'CANCELLED BY CLINIC',
+      kind: 'clinic',
+      clinic: '308',
+      start: moment().format(),
+      locationId: '983GC',
+      status: 'booked',
     };
-    appointment.attributes.vdsAppointments[0].currentStatus =
-      'CANCELLED BY CLINIC';
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
+
     mockAppointmentInfo({ va: [appointment] });
     mockFacilitiesFetchByVersion({ version: 0 });
 
@@ -164,9 +179,17 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
   });
 
   it('should not display when they have hidden statuses', () => {
-    const appointment = getVAAppointmentMock();
-    appointment.attributes.startDate = moment().format();
-    appointment.attributes.vdsAppointments[0].currentStatus = 'NO-SHOW';
+    const data = {
+      id: '1234',
+      currentStatus: 'NO-SHOW',
+      kind: 'clinic',
+      start: moment().format(),
+      locationId: '983GC',
+    };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
@@ -180,11 +203,19 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
   });
 
   it('should not display when over 13 months away', () => {
-    const appointment = getVAAppointmentMock();
-    appointment.attributes.startDate = moment()
-      .add(14, 'months')
-      .format();
-    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    const data = {
+      id: '1234',
+      currentStatus: 'FUTURE',
+      kind: 'clinic',
+      start: moment()
+        .add(14, 'months')
+        .format(),
+      locationId: '983GC',
+    };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
@@ -214,20 +245,18 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
 
   it('should show at home video appointment text', async () => {
     const startDate = moment.utc();
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      facilityId: '983',
-      clinicId: null,
-      startDate: startDate.format(),
+    const data = {
+      id: '1234',
+      currentStatus: 'FUTURE',
+      kind: 'telehealth',
+      start: startDate.format(),
+      locationId: '983GC',
+      telehealth: { vvsKind: VIDEO_TYPES.adhoc },
     };
-    appointment.attributes.vvsAppointments[0] = {
-      ...appointment.attributes.vvsAppointments[0],
-      dateTime: startDate.format(),
-      bookingNotes: 'Some random note',
-      appointmentKind: 'ADHOC',
-      status: { description: 'F', code: 'FUTURE' },
-    };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     mockFacilitiesFetchByVersion({ version: 0 });
@@ -252,35 +281,35 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
 
   it('should show ATLAS video appointment text', async () => {
     const startDate = moment.utc();
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      facilityId: '983',
-      clinicId: null,
-      startDate: startDate.format(),
-    };
-    appointment.attributes.vvsAppointments[0] = {
-      ...appointment.attributes.vvsAppointments[0],
-      dateTime: startDate.format(),
-      bookingNotes: 'Some random note',
-      appointmentKind: 'ADHOC',
-      status: { description: 'F', code: 'FUTURE' },
-      tasInfo: {
-        siteCode: '9931',
-        slotId: 'Slot8',
-        confirmationCode: '7VBBCA',
-        address: {
-          streetAddress: '114 Dewey Ave',
-          city: 'Eureka',
-          state: 'MT',
-          zipCode: '59917',
-          country: 'USA',
-          longitude: null,
-          latitude: null,
-          additionalDetails: '',
+    const data = {
+      id: '1234',
+      currentStatus: 'FUTURE',
+      kind: 'telehealth',
+      start: startDate.format(),
+      locationId: '983GC',
+      telehealth: {
+        vvsKind: VIDEO_TYPES.adhoc,
+        atlas: {
+          siteCode: '9931',
+          slotId: 'Slot8',
+          confirmationCode: '7VBBCA',
+          address: {
+            streetAddress: '114 Dewey Ave',
+            city: 'Eureka',
+            state: 'MT',
+            zipCode: '59917',
+            country: 'USA',
+            longitude: null,
+            latitude: null,
+            additionalDetails: '',
+          },
         },
       },
     };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     mockFacilitiesFetchByVersion({ version: 0 });
@@ -307,20 +336,18 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
 
   it('should show video appointment on gfe text', async () => {
     const startDate = moment.utc();
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      facilityId: '983',
-      clinicId: null,
-      startDate: startDate.format(),
+    const data = {
+      id: '1234',
+      currentStatus: 'FUTURE',
+      kind: 'telehealth',
+      start: startDate.format(),
+      locationId: '983GC',
+      telehealth: { vvsKind: VIDEO_TYPES.gfe },
     };
-    appointment.attributes.vvsAppointments[0] = {
-      ...appointment.attributes.vvsAppointments[0],
-      dateTime: startDate.format(),
-      bookingNotes: 'Some random note',
-      appointmentKind: 'MOBILE_GFE',
-      status: { description: 'F', code: 'FUTURE' },
-    };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     mockFacilitiesFetchByVersion({ version: 0 });
@@ -347,20 +374,18 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
 
   it('should show video appointment at VA location text', async () => {
     const startDate = moment.utc();
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      facilityId: '983',
-      clinicId: null,
-      startDate: startDate.format(),
+    const data = {
+      id: '1234',
+      currentStatus: 'FUTURE',
+      kind: 'telehealth',
+      start: startDate.format(),
+      locationId: '983GC',
+      telehealth: { vvsKind: VIDEO_TYPES.clinic },
     };
-    appointment.attributes.vvsAppointments[0] = {
-      ...appointment.attributes.vvsAppointments[0],
-      dateTime: startDate.format(),
-      bookingNotes: 'Some random note',
-      appointmentKind: 'CLINIC_BASED',
-      status: { description: 'F', code: 'FUTURE' },
-    };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
@@ -386,20 +411,18 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
 
   it('should show video appointment at VA location text for store forward appointment', async () => {
     const startDate = moment.utc();
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      facilityId: '983',
-      clinicId: null,
-      startDate: startDate.format(),
+    const data = {
+      id: '1234',
+      currentStatus: 'FUTURE',
+      kind: 'telehealth',
+      start: startDate.format(),
+      locationId: '983GC',
+      telehealth: { vvsKind: VIDEO_TYPES.storeForward },
     };
-    appointment.attributes.vvsAppointments[0] = {
-      ...appointment.attributes.vvsAppointments[0],
-      dateTime: startDate.format(),
-      bookingNotes: 'Some random note',
-      appointmentKind: 'STORE_FORWARD',
-      status: { description: 'F', code: 'FUTURE' },
-    };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
@@ -498,15 +521,16 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
 
   it('should show community care text for VistA cc appointments', async () => {
     const startDate = moment().add(1, 'days');
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: startDate.format(),
-      communityCare: true,
-      facilityId: '983',
-      sta6aid: '983GC',
-      vdsAppointments: { bookingNote: 'scheduler note' },
+    const data = {
+      id: '1234',
+      kind: 'cc',
+      start: startDate.tz('America/Denver').format('YYYY-MM-DDTHH:mm:ss'),
+      communityCareProvider: {},
     };
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
@@ -523,15 +547,19 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
 
   it('should show phone call appointment text', async () => {
     const startDate = moment();
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: startDate.format(),
-      facilityId: '983',
-      sta6aid: '983GC',
-      phoneOnly: true,
+    const data = {
+      id: '1234',
+      currentStatus: 'FUTURE',
+      kind: 'phone',
+      clinic: '308',
+      start: startDate.format(),
+      locationId: '983GC',
+      telehealth: { vvsKind: VIDEO_TYPES.clinic },
     };
-    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    const appointment = createMockAppointmentByVersion({
+      version: 0,
+      ...data,
+    });
 
     mockAppointmentInfo({ va: [appointment] });
     mockFacilitiesFetchByVersion({ version: 0 });

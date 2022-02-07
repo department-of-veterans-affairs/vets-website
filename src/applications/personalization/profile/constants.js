@@ -35,6 +35,16 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   ACCOUNT_SECURITY: 'Account security',
 });
 
+export const PROFILE_PATHS_LGBTQ_ENHANCEMENT = Object.freeze({
+  PERSONAL_INFORMATION: '/profile/personal-information',
+  CONTACT_INFORMATION: '/profile/contact-information',
+});
+
+export const PROFILE_PATH_NAMES_LGBTQ_ENHANCEMENT = Object.freeze({
+  PERSONAL_INFORMATION: 'Personal information',
+  CONTACT_INFORMATION: 'Contact information',
+});
+
 export const ACCOUNT_TYPES_OPTIONS = {
   checking: 'Checking',
   savings: 'Savings',
@@ -44,3 +54,5 @@ export const ACCOUNT_TYPES_OPTIONS = {
 // 637: Asheville
 // 983: test-only facility ID, used by user 36 among others
 export const RX_TRACKING_SUPPORTING_FACILITIES = new Set(['554', '637', '983']);
+
+export const NOT_SET_TEXT = 'This information is not available right now.';

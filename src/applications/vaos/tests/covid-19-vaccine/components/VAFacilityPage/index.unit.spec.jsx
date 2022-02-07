@@ -71,43 +71,6 @@ closestFacility.attributes.long = -84.3164749;
 describe('VAOS vaccine flow: <VAFacilityPage>', () => {
   beforeEach(() => mockFetch());
 
-  it('should display 2 dosages COVID alert', async () => {
-    mockDirectBookingEligibilityCriteria(
-      parentSiteIds,
-      directFacilities.slice(0, 5),
-    );
-    mockRequestEligibilityCriteria(parentSiteIds, []);
-    mockFacilitiesFetchByVersion({
-      facilities: facilities.slice(0, 5),
-      version: 0,
-    });
-    mockEligibilityFetches({
-      siteId: '983',
-      facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_ID,
-    });
-    const store = createTestStore(initialState);
-
-    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
-      store,
-    });
-
-    // Radio buttons only show up after all the data is loaded, which
-    // should mean all page rendering is finished
-    await screen.findAllByRole('radio');
-
-    expect(screen.getByText(/Some COVID-19 vaccines require 2 doses/i)).to
-      .exist;
-
-    expect(
-      screen.getByText(
-        /If you get a vaccine that requires 2 doses, you'll need to return to the same facility for your second dose./i,
-      ),
-    ).to.exist;
-
-    await expect(screen.baseElement).to.be.accessible();
-  });
-
   it('should display list of facilities with show more button', async () => {
     mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
     mockRequestEligibilityCriteria(parentSiteIds, []);
@@ -136,7 +99,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     });
 
     expect(screen.baseElement).to.contain.text(
-      'Below is a list of VA locations where you’re registered that offer COVID-19 vaccine appointments',
+      'Here’s a list of VA facilities where you’re registered that offer COVID-19 vaccine appointments',
     );
 
     // Should contain radio buttons
@@ -218,10 +181,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     await screen.findAllByRole('radio');
 
     expect(screen.baseElement).to.contain.text(
-      'Below is a list of VA locations where you’re registered that offer COVID-19 vaccine appointments',
+      'Here’s a list of VA facilities where you’re registered that offer COVID-19 vaccine appointments',
     );
     expect(screen.baseElement).to.contain.text(
-      'Locations closest to you are at the top of the list',
+      'Locations closest to you are listed first',
     );
     expect(screen.baseElement).to.contain.text(
       'Facilities based on your home address',
@@ -391,7 +354,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
 
     expect(
       screen.getByText(
-        /Below is a list of VA locations where you’re registered that offer COVID-19 vaccine appointments/i,
+        /Here’s a list of VA facilities where you’re registered that offer COVID-19 vaccine appointments/i,
       ),
     ).to.exist;
 
@@ -546,7 +509,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       store,
     });
 
-    await screen.findByText(/below is a list of VA locations/i);
+    await screen.findByText(/Here’s a list of VA facilities/i);
 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
     fireEvent.click(screen.getByText(/Continue/));
@@ -782,7 +745,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       store,
     });
 
-    await screen.findByText(/below is a list of VA locations/i);
+    await screen.findByText(/Here’s a list of VA facilities/i);
 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
     fireEvent.click(screen.getByText(/Continue/));

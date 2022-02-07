@@ -12,7 +12,7 @@ import Wizard from 'applications/static-pages/wizard';
 
 import pages from './pages';
 import formConfig from '../config/form';
-import { SAVED_CLAIM_TYPE, IS_PRODUCTION } from '../constants';
+import { SAVED_CLAIM_TYPE } from '../constants';
 import {
   getHlrWizardStatus,
   removeHlrWizardStatus,
@@ -58,9 +58,7 @@ export const WizardContainer = ({ setWizardStatus, hlrV2 }) => {
     </>
   );
 
-  return IS_PRODUCTION ? (
-    wizard
-  ) : (
+  return (
     <article className="row">
       <div className="usa-width-two-thirds medium-8 columns vads-u-margin-bottom--2">
         {wizard}

@@ -52,10 +52,12 @@ describe('VAOS <ReviewPage> CC request', () => {
   let start;
 
   beforeEach(() => {
+    const featureState = { ...initialState };
     mockFetch();
+
     start = moment();
     store = createTestStore({
-      ...initialState,
+      ...featureState,
       newAppointment: {
         pages: {},
         data: {
@@ -68,11 +70,11 @@ describe('VAOS <ReviewPage> CC request', () => {
           preferredLanguage: 'english',
           hasCommunityCareProvider: true,
           communityCareProvider: {
-            practiceName: 'Community medical center',
+            name: 'Community medical center',
             firstName: 'Jane',
             lastName: 'Doe',
             address: {
-              street: '123 big sky st',
+              line: ['123 big sky st'],
               city: 'Bozeman',
               state: 'MT',
               postalCode: '59715',
@@ -164,9 +166,11 @@ describe('VAOS <ReviewPage> CC request', () => {
 
     expect(providerHeading).to.contain.text('Preferred provider');
     expect(screen.baseElement).to.contain.text('Community medical center');
-    expect(screen.baseElement).to.contain.text('Jane Doe');
     expect(screen.baseElement).to.contain.text('123 big sky st');
     expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT 59715');
+    expect(screen.baseElement).to.contain.text(
+      'Prefers provider to speak English',
+    );
 
     expect(additionalHeading).to.contain.text('Additional details');
     expect(screen.baseElement).to.contain.text('I need an appt');
@@ -227,9 +231,12 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
   let start;
 
   beforeEach(() => {
+    const featureState = { ...initialState };
+
     mockFetch();
     start = moment();
     store = createTestStore({
+      ...featureState,
       user: {
         profile: {
           facilities: [{ facilityId: '983', isCerner: false }],
@@ -461,93 +468,96 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
 
 describe('VAOS <ReviewPage> CC request with VAOS service', () => {
   let store;
+  const defaultState = {
+    ...initialStateVAOSService,
+    user: {
+      profile: {
+        facilities: [{ facilityId: '983', isCerner: false }],
+        vapContactInfo: {
+          residentialAddress: {
+            addressLine1: '123 big sky st',
+            city: 'Cincinnati',
+            stateCode: 'OH',
+            zipCode: '45220',
+            latitude: 39.1,
+            longitude: -84.6,
+          },
+        },
+      },
+    },
+    newAppointment: {
+      pages: {},
+      data: {
+        facilityType: FACILITY_TYPES.COMMUNITY_CARE,
+        typeOfCareId: '323',
+        phoneNumber: '1234567890',
+        email: 'joeblow@gmail.com',
+        reasonAdditionalInfo: 'I need an appt',
+        communityCareSystemId: '983',
+        preferredLanguage: 'english',
+        hasCommunityCareProvider: true,
+        selectedDates: ['2020-05-25T00:00:00.000', '2020-05-26T12:00:00.000'],
+        communityCareProvider: {
+          resourceType: 'Location',
+          identifier: [
+            {
+              system: 'PPMS',
+              value: 'ppmsid',
+            },
+          ],
+          address: {
+            line: ['1012 14TH ST NW STE 700'],
+            city: 'WASHINGTON',
+            state: 'DC',
+            postalCode: '20005-3477',
+          },
+          name: 'CAMPBELL, WILLIAM',
+        },
+        bestTimeToCall: {
+          morning: true,
+          afternoon: true,
+          evening: true,
+        },
+      },
+      clinics: {},
+      ccEnabledSystems: [
+        {
+          id: '983',
+          vistaId: '983',
+          name: 'Cheyenne VA Medical Center',
+          address: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      ],
+      parentFacilities: [
+        {
+          id: '983',
+          vistaId: '983',
+          name: 'Cheyenne VA Medical Center',
+          address: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      ],
+      facilities: {},
+    },
+  };
 
   beforeEach(() => {
     mockFetch();
-    store = createTestStore({
-      ...initialStateVAOSService,
-      user: {
-        profile: {
-          facilities: [{ facilityId: '983', isCerner: false }],
-          vapContactInfo: {
-            residentialAddress: {
-              addressLine1: '123 big sky st',
-              city: 'Cincinnati',
-              stateCode: 'OH',
-              zipCode: '45220',
-              latitude: 39.1,
-              longitude: -84.6,
-            },
-          },
-        },
-      },
-      newAppointment: {
-        pages: {},
-        data: {
-          facilityType: FACILITY_TYPES.COMMUNITY_CARE,
-          typeOfCareId: '323',
-          phoneNumber: '1234567890',
-          email: 'joeblow@gmail.com',
-          reasonAdditionalInfo: 'I need an appt',
-          communityCareSystemId: '983',
-          preferredLanguage: 'english',
-          hasCommunityCareProvider: true,
-          selectedDates: ['2020-05-25T00:00:00.000', '2020-05-26T12:00:00.000'],
-          communityCareProvider: {
-            resourceType: 'Location',
-            identifier: [
-              {
-                system: 'PPMS',
-                value: 'ppmsid',
-              },
-            ],
-            address: {
-              line: ['1012 14TH ST NW STE 700'],
-              city: 'WASHINGTON',
-              state: 'DC',
-              postalCode: '20005-3477',
-            },
-            name: 'CAMPBELL, WILLIAM',
-          },
-          bestTimeToCall: {
-            morning: true,
-            afternoon: true,
-            evening: true,
-          },
-        },
-        clinics: {},
-        ccEnabledSystems: [
-          {
-            id: '983',
-            vistaId: '983',
-            name: 'Cheyenne VA Medical Center',
-            address: {
-              line: ['2360 East Pershing Boulevard'],
-              city: 'Cheyenne',
-              state: 'WY',
-              postalCode: '82001-5356',
-            },
-          },
-        ],
-        parentFacilities: [
-          {
-            id: '983',
-            vistaId: '983',
-            name: 'Cheyenne VA Medical Center',
-            address: {
-              line: ['2360 East Pershing Boulevard'],
-              city: 'Cheyenne',
-              state: 'WY',
-              postalCode: '82001-5356',
-            },
-          },
-        ],
-        facilities: {},
-      },
-    });
+    store = createTestStore(defaultState);
   });
 
   it('should submit successfully', async () => {
+    store = createTestStore(defaultState);
+
     mockAppointmentSubmitV2({
       id: 'fake_id',
     });
@@ -601,16 +611,73 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       preferredLocation: { city: 'Cincinnati', state: 'OH' },
       practitioners: [
         {
-          identifier: {
-            system: 'http://hl7.org/fhir/sid/us-npi',
-            value: 'ppmsid',
-          },
+          identifier: [
+            {
+              system: 'http://hl7.org/fhir/sid/us-npi',
+              value: 'ppmsid',
+            },
+          ],
         },
       ],
     });
   });
 
+  it('should record GA tracking events', async () => {
+    const tomorrow = moment().add(1, 'days');
+    store = createTestStore({
+      ...defaultState,
+      newAppointment: {
+        ...defaultState.newAppointment,
+        data: {
+          ...defaultState.newAppointment.data,
+          selectedDates: [tomorrow, tomorrow],
+        },
+      },
+    });
+
+    mockAppointmentSubmitV2({
+      id: 'fake_id',
+    });
+    mockPreferences(null);
+
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
+      store,
+    });
+
+    await screen.findByText(/requesting a community care appointment/i);
+
+    userEvent.click(screen.getByText(/Request appointment/i));
+    await waitFor(() => {
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/requests/fake_id?confirmMsg=true',
+      );
+    });
+
+    expect(global.window.dataLayer[1]).to.deep.include({
+      event: 'vaos-community-care-submission-successful',
+      flow: 'cc-request',
+      'health-TypeOfCare': 'Primary care',
+      'health-ReasonForAppointment': undefined,
+      'vaos-community-care-preferred-language': 'english',
+      'vaos-number-of-preferred-providers': 1,
+      'vaos-number-of-days-from-preference': '1-1-null',
+      'vaos-preferred-combination': 'afternoon-evening-morning',
+    });
+  });
+
   it('should show error message on failure', async () => {
+    const tomorrow = moment().add(1, 'days');
+    store = createTestStore({
+      ...defaultState,
+      newAppointment: {
+        ...defaultState.newAppointment,
+        data: {
+          ...defaultState.newAppointment.data,
+          selectedDates: [tomorrow, tomorrow],
+        },
+      },
+    });
+
     mockFacilityFetchByVersion({
       facility: createMockCheyenneFacilityByVersion({
         version: 0,
@@ -644,6 +711,16 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
     expect(screen.history.push.called).to.be.false;
     waitFor(() => {
       expect(document.activeElement).to.be(alert);
+    });
+    expect(global.window.dataLayer[1]).to.deep.include({
+      event: 'vaos-community-care-submission-failed',
+      flow: 'cc-request',
+      'health-TypeOfCare': 'Primary care',
+      'health-ReasonForAppointment': undefined,
+      'vaos-community-care-preferred-language': 'english',
+      'vaos-number-of-preferred-providers': 1,
+      'vaos-number-of-days-from-preference': '1-1-null',
+      'vaos-preferred-combination': 'afternoon-evening-morning',
     });
   });
 });

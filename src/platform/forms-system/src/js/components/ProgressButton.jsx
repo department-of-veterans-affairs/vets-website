@@ -31,6 +31,8 @@ class ProgressButton extends React.Component {
     );
 
     return (
+      // aria-describedby tag to match "By submitting this form"
+      // text for proper screen reader operation
       <button
         type={this.props.submitButton ? 'submit' : 'button'}
         disabled={this.props.disabled}
@@ -39,7 +41,9 @@ class ProgressButton extends React.Component {
         }`}
         id={`${this.id}-continueButton`}
         onClick={this.props.onButtonClick}
+        onMouseDown={this.props.preventOnBlur}
         aria-label={this.props.ariaLabel || null}
+        aria-describedby={this.props.ariaDescribedBy}
       >
         {beforeText}
         {this.props.buttonText}
@@ -49,9 +53,18 @@ class ProgressButton extends React.Component {
   }
 }
 
+ProgressButton.defaultProps = {
+  preventOnBlur: e => {
+    e.preventDefault();
+  },
+};
+
 ProgressButton.propTypes = {
   // function that changes the path to the next panel or submit.
   onButtonClick: PropTypes.func,
+
+  // function that bypasses onBlur when clicking
+  preventOnBlur: PropTypes.func,
 
   // what is the button's label
   buttonText: PropTypes.string.isRequired,

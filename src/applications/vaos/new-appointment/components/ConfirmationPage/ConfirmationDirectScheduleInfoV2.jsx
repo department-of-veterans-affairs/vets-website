@@ -14,6 +14,7 @@ import {
   getTimezoneByFacilityId,
 } from '../../../utils/timezone';
 import { GA_PREFIX, PURPOSE_TEXT } from '../../../utils/constants';
+import { getTypeOfCareById } from '../../../utils/appointment';
 
 export default function ConfirmationDirectScheduleInfoV2({
   data,
@@ -26,7 +27,7 @@ export default function ConfirmationDirectScheduleInfoV2({
     ? moment(slot.start).tz(timezone, true)
     : moment(slot.start);
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
-
+  const typeOfCare = getTypeOfCareById(data.typeOfCareId)?.name;
   return (
     <>
       <h1 className="vads-u-font-size--h2">
@@ -34,7 +35,7 @@ export default function ConfirmationDirectScheduleInfoV2({
         {` ${getTimezoneAbbrByFacilityId(data.vaFacility)}`}
       </h1>
       <InfoAlert status="success" backgroundOnly>
-        <strong>Your appointment has been scheduled and is confirmed.</strong>
+        <strong>We’ve scheduled and confirmed your appointment.</strong>
         <br />
         <div className="vads-u-margin-y--1">
           <Link
@@ -45,15 +46,23 @@ export default function ConfirmationDirectScheduleInfoV2({
               });
             }}
           >
-            View your appointments
+            Review your appointments
           </Link>
         </div>
         <div>
-          <Link to="/new-appointment">New appointment</Link>
+          <Link to="/new-appointment">Schedule a new appointment</Link>
         </div>
       </InfoAlert>
+      {typeOfCare && (
+        <>
+          <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
+            Type of care:
+          </h2>
+          <div className="vads-u-display--inline"> {typeOfCare}</div>
+        </>
+      )}
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-        <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
+        <div className="vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
           <h2
             className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
             data-cy="va-appointment-details-header"
@@ -67,7 +76,7 @@ export default function ConfirmationDirectScheduleInfoV2({
             clinicFriendlyName={clinic.serviceName}
           />
         </div>
-        <div className="vads-u-flex--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
+        <div className="vads-u-flex--1 vaos-u-word-break--break-word">
           <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
             Your reason for your visit
           </h3>

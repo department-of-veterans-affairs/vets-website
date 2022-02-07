@@ -164,6 +164,7 @@ export default function useGetSearchResults(articles, query, page) {
         'search-results-total-pages': Math.ceil(orderedResults.length / 10),
         'search-selection': 'Resources and support',
         'search-typeahead-enabled': false,
+        'search-location': 'Resources And Support',
         'sitewide-search-app-used': false, // this is not the sitewide search app
         'type-ahead-option-keyword-selected': undefined,
         'type-ahead-option-position': undefined,

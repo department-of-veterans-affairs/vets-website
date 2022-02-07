@@ -3,24 +3,25 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 
 import * as Sentry from '@sentry/browser';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { loginGov } from 'platform/user/authentication/selectors';
 import {
-  authnSettings,
-  externalRedirects,
-} from 'platform/user/authentication/utilities';
+  AUTHN_SETTINGS,
+  EXTERNAL_APPS,
+  EXTERNAL_REDIRECTS,
+  CSP_IDS,
+  POLICY_TYPES,
+  AUTH_EVENTS,
+} from 'platform/user/authentication/constants';
 import {
   hasSession,
   setupProfileSession,
 } from 'platform/user/profile/utilities';
 import { apiRequest } from 'platform/utilities/api';
 import get from 'platform/utilities/data/get';
+import RenderErrorUI from '../components/RenderErrorContainer';
 
 const REDIRECT_IGNORE_PATTERN = new RegExp(
   ['/auth/login/callback', '/session-expired'].join('|'),
@@ -40,7 +41,7 @@ class AuthMetrics {
     // if the backend is returning an accurate service_name
 
     const attemptedLoginPolicy =
-      this.type === 'mhv' ? 'myhealthevet' : this.type;
+      this.type === CSP_IDS.MHV ? CSP_IDS.MHV_VERBOSE : this.type;
 
     if (this.serviceName !== attemptedLoginPolicy) {
       recordEvent({
@@ -51,24 +52,17 @@ class AuthMetrics {
 
   recordGAAuthEvents = () => {
     switch (this.type) {
-      case 'signup':
+      case POLICY_TYPES.SIGNUP:
         recordEvent({ event: `register-success-${this.serviceName}` });
         break;
-      case 'custom': /* type=custom is used for SSOe auto login */
-      case 'mhv':
-      case 'dslogon':
-      case 'idme':
+      case POLICY_TYPES.CUSTOM: /* type=custom is used for SSOe auto login */
+      case CSP_IDS.MHV:
+      case CSP_IDS.DS_LOGON:
+      case CSP_IDS.ID_ME:
+      case CSP_IDS.LOGIN_GOV:
         recordEvent({ event: `login-success-${this.serviceName}` });
         this.compareLoginPolicy();
         break;
-      /*
-      case 'mfa':
-        recordEvent({ event: `multifactor-success-${this.serviceName}` });
-        break;
-      case 'verify':
-        recordEvent({ event: `verify-success-${this.serviceName}` });
-        break;
-      */
       default:
         recordEvent({ event: `login-or-register-success-${this.serviceName}` });
         Sentry.withScope(scope => {
@@ -116,13 +110,13 @@ export class AuthApp extends React.Component {
       Sentry.captureMessage(`User fetch error: ${error.message}`);
     });
 
-    recordEvent({ event: `login-error-user-fetch` });
+    recordEvent({ event: AUTH_EVENTS.ERROR_USER_FETCH });
 
     this.setState({ error: true });
   };
 
   handleAuthForceNeeded = () => {
-    recordEvent({ event: `login-failed-force-needed` });
+    recordEvent({ event: AUTH_EVENTS.ERROR_FORCE_NEEDED });
     this.redirect();
   };
 
@@ -136,11 +130,11 @@ export class AuthApp extends React.Component {
   };
 
   redirect = (userProfile = {}) => {
-    const returnUrl = sessionStorage.getItem(authnSettings.RETURN_URL) || '';
+    const returnUrl = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '';
 
     // Enforce LOA3 for external redirects to My VA Health
     if (
-      returnUrl.includes(externalRedirects.myvahealth) &&
+      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH]) &&
       !userProfile.verified
     ) {
       window.location.replace('/sign-in/verify');
@@ -148,21 +142,23 @@ export class AuthApp extends React.Component {
     }
 
     if (
-      returnUrl.includes(externalRedirects.mhv) ||
-      returnUrl.includes(externalRedirects.myvahealth)
+      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]) ||
+      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])
     ) {
       const { app } = {
-        ...(returnUrl.includes(externalRedirects.myvahealth) && {
-          app: 'myvahealth',
+        ...(returnUrl.includes(
+          EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH],
+        ) && {
+          app: CSP_IDS.CERNER,
         }),
-        ...(returnUrl.includes(externalRedirects.mhv) && {
-          app: 'mhv',
+        ...(returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]) && {
+          app: CSP_IDS.MHV,
         }),
       };
-      recordEvent({ event: `inbound-redirect-to-${app}` });
+      recordEvent({ event: `login-inbound-redirect-to-${app}` });
     }
 
-    sessionStorage.removeItem(authnSettings.RETURN_URL);
+    sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
 
     const postAuthUrl = returnUrl
       ? appendQuery(returnUrl, 'postLogin=true')
@@ -185,325 +181,18 @@ export class AuthApp extends React.Component {
     }
   };
 
-  renderError = () => {
-    const { code, auth } = this.props.location.query;
-    let header = 'We couldn’t sign you in';
-    let alertContent;
-    let troubleshootingContent;
-
-    if (auth === 'fail') {
-      recordEvent({
-        event: code ? `login-error-code-${code}` : `login-error-no-code`,
-      });
-    }
-
-    switch (code) {
-      // Authorization was denied by user
-      case '001':
-        alertContent = (
-          <p>
-            We’re sorry. We couldn’t complete the identity verification process.
-            It looks like you selected “Deny” when we asked for your permission
-            to share your information with VA.gov. We can’t give you access to
-            all the tools on VA.gov without sharing your information with the
-            site.
-          </p>
-        );
-        troubleshootingContent = (
-          <>
-            <h3>What you can do:</h3>
-            <p>
-              Please try again, and this time, select “Accept” on the final page
-              of the identity verification process. Or, if you don’t want to
-              verify your identity with ID.me, you can try signing in with your
-              premium DS Logon or premium My HealtheVet username and password.
-            </p>
-            <button onClick={this.props.openLoginModal}>
-              Try signing in again
-            </button>
-          </>
-        );
-        break;
-
-      // User's clock is incorrect
-      case '002':
-        header = 'Please update your computer’s time settings';
-        alertContent = (
-          <p>
-            We’re sorry. It looks like your computer’s clock isn’t showing the
-            right time, and that’s causing a problem in how it communicates with
-            our system.
-          </p>
-        );
-        troubleshootingContent = (
-          <>
-            <h3>What you can do:</h3>
-            <p>
-              Please update your computer’s settings to the current date and
-              time, and then try again.
-            </p>
-          </>
-        );
-        break;
-
-      // Server error
-      case '003':
-        alertContent = (
-          <p>
-            We’re sorry. Something went wrong on our end, and we couldn’t sign
-            you in. Please try signing in again.
-          </p>
-        );
-        troubleshootingContent = (
-          <>
-            <h3>What you can do:</h3>
-            <p>
-              <strong>Please try signing in again.</strong>
-              If you still can't sign in, call our MyVA411 main information line
-              for help at
-              <Telephone contact={CONTACTS.HELP_DESK} />
-              (TTY:{' '}
-              <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
-              ).
-            </p>
-            <button onClick={this.props.openLoginModal}>
-              Try signing in again
-            </button>
-          </>
-        );
-        break;
-
-      // We're having trouble matching the user with MVI
-      case '004':
-        header = 'Please try again later';
-        alertContent = (
-          <p>
-            We’re sorry. Something went wrong on our end, and we couldn’t sign
-            you in. Please try again later.
-          </p>
-        );
-        troubleshootingContent = (
-          <>
-            <h3>What you can do:</h3>
-            <p>
-              <strong>Please try signing in again.</strong>
-              If you still can't sign in, call our MyVA411 main information line
-              for help at
-              <Telephone contact={CONTACTS.HELP_DESK} />
-              (TTY:{' '}
-              <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
-              ).
-            </p>
-            <button onClick={this.props.openLoginModal}>
-              Try signing in again
-            </button>
-          </>
-        );
-        break;
-
-      // Session expired error
-      case '005':
-        header = 'We’ve signed you out of VA.gov';
-        alertContent = (
-          <p>
-            We take your privacy very seriously. You didn’t take any action on
-            VA.gov for 30 minutes, so we signed you out of the site to protect
-            your personal information.
-          </p>
-        );
-        troubleshootingContent = (
-          <>
-            <h3>What you can do:</h3>
-            <p>Please sign in again.</p>
-            <button onClick={this.props.openLoginModal}>Sign in</button>
-          </>
-        );
-        break;
-
-      // Multiple MHV ID error
-      case '101':
-        header = 'We can’t sign you in';
-        alertContent = (
-          <p>
-            We’re having trouble signing you in to VA.gov right now because we
-            found more than one My HealtheVet account for you.
-          </p>
-        );
-        troubleshootingContent = (
-          <>
-            <h3>How can I fix this issue?</h3>
-            <ul>
-              <li>
-                <strong>Call the My HealtheVet help desk</strong>
-                <p>
-                  Call us at <Telephone contact={CONTACTS.MY_HEALTHEVET} />.
-                  We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-                  If you have hearing loss, call TTY:{' '}
-                  <Telephone contact={CONTACTS.FEDERAL_RELAY_SERVICE} />.
-                </p>
-                <p>
-                  Tell the representative that you tried to sign in to VA.gov,
-                  but got an error message that you have more than one My
-                  HealtheVet account.
-                </p>
-              </li>
-              <li>
-                <strong>Submit a request for online help</strong>
-                <p>
-                  Fill out a{' '}
-                  <a
-                    href="https://www.myhealth.va.gov/mhv-portal-web/contact-us"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    My HealtheVet online help form
-                  </a>{' '}
-                  to get help signing in. Enter the following information in the
-                  form fields.
-                </p>
-                <p>
-                  <strong>Fill in the form fields as below:</strong>
-                </p>
-                <ul>
-                  <li>Topic: Select "Account Login"</li>
-                  <li>Category: Select "Request for Assistance"</li>
-                  <li>
-                    Comments: Type, or copy and paste, the below message:
-                    <br />
-                    “When I tried to sign in to VA.gov, I got an error message
-                    saying that I have more than one My HealtheVet account.”
-                  </li>
-                </ul>
-                <p>Complete the rest of the form and then click Submit.</p>
-              </li>
-            </ul>
-          </>
-        );
-        break;
-
-      // Multiple EDIPI error
-      case '102':
-        header = 'We can’t sign you in';
-        alertContent = (
-          <p>
-            We’re having trouble signing you in to VA.gov right now because we
-            found more than one DoD ID number for you. To fix this issue, call
-            our MyVA411 main information line for help at
-            <Telephone contact={CONTACTS.HELP_DESK} />
-            (TTY:{' '}
-            <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
-            ).
-          </p>
-        );
-        troubleshootingContent = null;
-        break;
-
-      // ICN mismatch error
-      case '103':
-        header = 'We can’t sign you in';
-        alertContent = (
-          <p>
-            We’re having trouble signing you in right now because your My
-            HealtheVet account number doesn’t match the account number on your
-            VA.gov account. To fix this issue, call our MyVA411 main information
-            line for help at
-            <Telephone contact={CONTACTS.HELP_DESK} />
-            (TTY:{' '}
-            <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
-            ).
-          </p>
-        );
-        troubleshootingContent = null;
-        break;
-
-      // Catch all generic error
-      default:
-        alertContent = (
-          <p>
-            We’re sorry. Something went wrong on our end, and we couldn’t sign
-            you in.
-          </p>
-        );
-        troubleshootingContent = (
-          <>
-            <h3>What you can do:</h3>
-            <p>
-              <strong>Try taking these steps to fix the problem:</strong>
-            </p>
-            <ul>
-              <li>
-                Clear your Internet browser’s cookies and cache. Depending on
-                which browser you’re using, you’ll usually find this information
-                referred to as “Browsing Data,”, “Browsing History,” or “Website
-                Data.”
-              </li>
-              <li>
-                Make sure you have cookies enabled in your browser settings.
-                Depending on which browser you’re using, you’ll usually find
-                this information in the “Tools,” “Settings,” or
-                “Preferences” menu.
-              </li>
-              <li>
-                <p>
-                  If you’re using Internet Explorer or Microsoft Edge, and
-                  clearing your cookies and cache doesn’t fix the problem, try
-                  using Google Chrome or Mozilla Firefox as your browser
-                  instead.
-                </p>
-                <p>
-                  <a
-                    href="https://www.google.com/chrome/?brand=CHBD&gclid=Cj0KCQiAsdHhBRCwARIsAAhRhsk_uwlqzTaYptK2zKbuv-5g5Zk9V_qaKTe1Y5ptlxudmMG_Y7XqyDkaAs0HEALw_wcB&gclsrc=aw.ds"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Download Google Chrome
-                  </a>
-                </p>
-                <p>
-                  <a
-                    href="https://www.mozilla.org/en-US/firefox/new/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Download Mozilla Firefox
-                  </a>
-                </p>
-              </li>
-              <li>
-                If you’re using Chrome or Firefox and it’s not working, make
-                sure you’ve updated your browser with the latest updates.
-              </li>
-            </ul>
-            <p>
-              <strong>
-                If you've taken the steps above and still can't sign in,
-              </strong>{' '}
-              please call our MyVA411 main information line for help at
-              <Telephone contact={CONTACTS.HELP_DESK} />
-              (TTY:{' '}
-              <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
-              ).
-            </p>
-          </>
-        );
-    }
-
-    return (
-      <div className="usa-content columns small-12">
-        <h1>{header}</h1>
-        <va-alert visible status="error">
-          {alertContent}
-        </va-alert>
-        {troubleshootingContent}
-      </div>
-    );
-  };
-
   render() {
+    const renderErrorProps = {
+      code: this.props.location.query.code,
+      auth: this.props.location.query.auth,
+      recordEvent,
+      loginGovEnabled: this.props.loginGovEnabled,
+      openLoginModal: this.props.openLoginModal,
+    };
     const view = this.state.error ? (
-      this.renderError()
+      <RenderErrorUI {...renderErrorProps} />
     ) : (
-      <LoadingIndicator message={`Signing in to VA.gov...`} />
+      <va-loading-indicator message={`Signing in to VA.gov...`} />
     );
 
     return <div className="row vads-u-padding-y--5">{view}</div>;
@@ -514,7 +203,11 @@ const mapDispatchToProps = dispatch => ({
   openLoginModal: () => dispatch(toggleLoginModal(true)),
 });
 
+const mapStateToProps = state => ({
+  loginGovEnabled: loginGov(state),
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(AuthApp);
