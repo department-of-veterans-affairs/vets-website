@@ -46,7 +46,7 @@ import { SET_SESSION } from '../actions/authentication';
 
 import { setSessionHandler } from './authentication';
 
-import { SET_APP } from '../actions/universal/index.js';
+import { SET_APP } from '../actions/universal';
 
 const handler = Object.freeze({
   [INIT_FORM]: initFormHandler,

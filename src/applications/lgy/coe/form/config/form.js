@@ -1,9 +1,6 @@
-// Example of an imported schema:
-// import fullSchema from '../26-1880-schema.json';
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/26-1880-schema.json';
-
 import fullSchema from 'vets-json-schema/dist/26-1880-schema.json';
+
+import FormFooter from 'platform/forms/components/FormFooter';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -43,18 +40,19 @@ const formConfig = {
   formId: '26-1880',
   version: 0,
   prefillEnabled: true,
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
-    noAuth: 'Please sign in again to continue your application for benefits.',
+    notFound: 'Please start over to request benefits.',
+    noAuth: 'Please sign in again to continue your request for benefits.',
   },
   saveInProgress: {
     messages: {
       inProgress:
         'Your Certificate of Eligibility form (26-1880) is in progress.',
       expired:
-        'Your saved Certificate of Eligibility form (26-1880) has expired. If you want to apply for Chapter 31 benefits, please start a new application.',
-      saved: 'Your Certificate of Eligibility application has been saved.',
+        'Your saved Certificate of Eligibility form (26-1880) has expired. If you want to request Chapter 31 benefits, please start a new request.',
+      saved: 'Your Certificate of Eligibility request has been saved.',
     },
   },
   title: 'Request a VA home loan Certificate of Eligibility (COE)',
@@ -138,7 +136,7 @@ const formConfig = {
       pages: {
         upload: {
           path: 'upload-supporting-documents',
-          title: 'Upload documents to support your application',
+          title: 'Upload your documents',
           uiSchema: fileUpload.uiSchema,
           schema: fileUpload.schema,
         },

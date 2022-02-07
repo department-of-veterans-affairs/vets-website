@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { notLoggedInContent } from './introduction-content/notLoggedInContent.jsx';
+
+import { notLoggedInContent } from './introduction-content/notLoggedInContent';
 import COEIntroPageBox from './introduction-content/COEIntroPageBox';
-import LoggedInContent from './introduction-content/loggedInContent.jsx';
+import LoggedInContent from './introduction-content/loggedInContent';
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
 
-const IntroductionPage = props => {
+const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
   let content;
 
   useEffect(() => {
@@ -20,36 +23,55 @@ const IntroductionPage = props => {
   // Once the coe call is done, render the rest of the content
   const coeCallEnded = [CALLSTATUS.failed, CALLSTATUS.success, CALLSTATUS.skip];
 
-  if (!props.loggedIn && coeCallEnded.includes(props.status)) {
-    content = notLoggedInContent(props);
+  if (!loggedIn && coeCallEnded.includes(status)) {
+    content = notLoggedInContent(route);
   }
-  if (props.loggedIn && coeCallEnded.includes(props.status)) {
+  if (loggedIn && coeCallEnded.includes(status)) {
     content = (
-      <div>
-        <FormTitle title="Request a VA home loan Certificate of Eligibility (COE)" />
-        <p className="vads-u-padding-bottom--3">
-          Request for a Certificate of Eligibility (VA Form 26-1880)
-        </p>
+      <>
         <COEIntroPageBox
-          coe={props.coe}
-          status={props.status}
-          downloadURL={props.downloadURL}
+          applicationCreateDate={coe.applicationCreateDate}
+          downloadURL={downloadUrl}
+          status={coe.status}
         />
-        {props.coe.status !== COE_ELIGIBILITY_STATUS.denied && (
-          <LoggedInContent parentProps={props} />
+        {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
+          <LoggedInContent route={route} />
         )}
-      </div>
+      </>
     );
   }
 
-  return <div>{content}</div>;
+  return (
+    <>
+      <FormTitle title="Request a VA home loan Certificate of Eligibility (COE)" />
+      <p className="vads-u-padding-bottom--3">
+        Request for a Certificate of Eligibility (VA Form 26-1880)
+      </p>
+      {content}
+    </>
+  );
+};
+
+IntroductionPage.propTypes = {
+  coe: PropTypes.object,
+  downloadUrl: PropTypes.string,
+  loggedIn: PropTypes.bool,
+  status: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
-  status: state.certificateOfEligibility.generateAutoCoeStatus,
   coe: state.certificateOfEligibility.coe,
   downloadURL: state.certificateOfEligibility.downloadURL,
   loggedIn: isLoggedIn(state),
+  status: state.certificateOfEligibility.generateAutoCoeStatus,
 });
+
+IntroductionPage.propTypes = {
+  coe: PropTypes.object,
+  downloadURL: PropTypes.string,
+  loggedIn: PropTypes.bool,
+  route: PropTypes.object,
+  status: PropTypes.string,
+};
 
 export default connect(mapStateToProps)(IntroductionPage);

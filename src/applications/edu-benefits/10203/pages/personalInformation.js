@@ -1,7 +1,7 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
-import createContactInformationPage from '../../pages/contactInformation';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as address from 'platform/forms/definitions/address';
+import createContactInformationPage from '../../pages/contactInformation';
 
 const addressUiSchema = address.uiSchema('Your address');
 const contactInformation = createContactInformationPage(fullSchema10203);
@@ -14,8 +14,8 @@ import {
   receiveTextsAlert,
 } from '../content/personalInformation';
 
-export const title = contactInformation.title;
-export const path = contactInformation.path;
+export const { title } = contactInformation;
+export const { path } = contactInformation;
 export const uiSchema = {
   veteranAddress: {
     ...addressUiSchema,
@@ -60,8 +60,7 @@ export const uiSchema = {
     'ui:options': {
       hideIf: data =>
         !data?.receiveTexts ||
-        data['view:otherContactInfo']?.mobilePhone?.length >=
-          fullSchema10203.definitions.phone.minLength,
+        data['view:otherContactInfo']?.mobilePhone?.length >= 10,
     },
   },
   'view:receiveTextsInfo': {

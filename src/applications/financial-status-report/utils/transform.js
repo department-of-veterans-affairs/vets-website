@@ -11,7 +11,7 @@ import {
   otherDeductionsName,
   otherDeductionsAmt,
   nameStr,
-} from '../utils/helpers';
+} from './helpers';
 
 export const transform = (formConfig, form) => {
   const {

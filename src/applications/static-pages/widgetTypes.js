@@ -18,9 +18,14 @@ export default {
   FACILITY_APPOINTMENT_WAIT_TIMES_WIDGET:
     'facility-appointment-wait-times-widget',
   FACILITY_DETAIL: 'facility-detail',
+  FACILITY_DETAIL_SATELLITE_LOCATIONS: 'facility-detail-satellite-locations',
   FACILITY_LOCATIONS_LIST: 'facility-locations-list',
   FACILITY_MAP: 'facility-map',
+  FACILITY_MAP_SATELLITE_MAIN_OFFICE: 'facility-map-satellite-main-office',
+  FACILITY_MAP_SATELLITE_LOCATIONS: 'facility-map-satellite-locations',
   FACILITY_PATIENT_SATISFACTION_SCORES: 'facility-patient-satisfaction-scores',
+  FACILITY_PATIENT_SATISFACTION_SCORES_SATELLITE_LOCATIONS:
+    'facility-patient-satisfaction-scores-satellite-locations',
   FIND_VA_FORMS: 'find-va-forms',
   FIND_VA_FORMS_INVALID_PDF_ALERT: 'find-va-forms-pdf-download-helper',
   FORM_686_CTA: 'form-686-CTA',

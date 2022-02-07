@@ -6,7 +6,7 @@ import Appointments from '../pages/Appointments';
 
 describe('Check In Experience', () => {
   describe('update skip path', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const now = Date.now();
       const today = new Date(now);
       const {

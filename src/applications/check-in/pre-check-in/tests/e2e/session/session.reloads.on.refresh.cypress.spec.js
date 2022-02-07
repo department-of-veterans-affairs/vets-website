@@ -2,19 +2,22 @@ import '../../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
+import Introduction from '../pages/Introduction';
 
 describe('Pre Check In Experience', () => {
   describe('session', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const {
         initializeFeatureToggle,
         initializeSessionGet,
         initializeSessionPost,
+        initializePreCheckInDataGet,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
 
       initializeSessionPost.withSuccess();
+      initializePreCheckInDataGet.withSuccess();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -26,6 +29,7 @@ describe('Pre Check In Experience', () => {
       ValidateVeteran.validatePageLoaded();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      Introduction.validatePageLoaded();
 
       cy.window().then(window => {
         const data = window.sessionStorage.getItem(

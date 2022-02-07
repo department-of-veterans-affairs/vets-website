@@ -21,6 +21,7 @@ import MobileFilterControls from '../../components/MobileFilterControls';
 import classNames from 'classnames';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 
 const MILE_METER_CONVERSION_RATE = 1609.34;
 const LIST_TAB = 'List';
@@ -48,6 +49,20 @@ function LocationSearchResults({
   const [mobileTab, setMobileTab] = useState(LIST_TAB);
   const [markerClicked, setMarkerClicked] = useState(null);
   const [activeMarker, setActiveMarker] = useState(null);
+  const [myLocation, setMyLocation] = useState(null);
+  const usingUserLocation = () => {
+    if (environment.isProduction()) return true;
+
+    const currentPositions = document.getElementsByClassName(
+      'current-position',
+    );
+
+    if (currentPositions.length === 0) return false;
+    if (myLocation === null) setMyLocation(search.query.location);
+    if (search.query.location !== myLocation) return false;
+
+    return true;
+  };
 
   /**
    * When map is moved update distance from center to NorthEast corner
@@ -341,9 +356,11 @@ function LocationSearchResults({
         <span className="location-letter vads-u-font-size--sm">
           {index + 1}
         </span>
-        <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
-          <strong>{miles} miles</strong>
-        </span>
+        {usingUserLocation() && (
+          <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
+            <strong>{miles} miles</strong>
+          </span>
+        )}
       </div>
     );
 

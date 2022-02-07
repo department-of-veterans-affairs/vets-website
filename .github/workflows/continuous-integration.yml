@@ -607,6 +607,8 @@ jobs:
     needs: [testing-reports-prep, unit-tests]
     if: ${{ always() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
     continue-on-error: true
+    env:
+      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2

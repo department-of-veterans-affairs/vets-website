@@ -1,12 +1,13 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 class EmergencyContact {
-  validatePageLoaded() {
+  validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('have.text', 'Is this your current emergency contact?');
-  }
-  validateDemographicsFields() {
+  };
+
+  validateDemographicsFields = () => {
     cy.get("dl[data-testid='demographics-fields']")
       .find('dt:nth-of-type(1)')
       .should('have.text', 'Name')
@@ -22,14 +23,15 @@ class EmergencyContact {
       .next()
       .next()
       .should('have.text', 'Work phone');
-  }
-  validateDemographicData({
+  };
+
+  validateDemographicData = ({
     address = '123 fake streetAlbuquerque, New Mexico 87102',
     phone = '555-867-5309',
     relationship = 'Estranged Uncle',
     workPhone = 'Not available',
     name = 'Bugs Bunny',
-  } = {}) {
+  } = {}) => {
     cy.get("dl[data-testid='demographics-fields']")
       .find('dd:nth-of-type(1)')
       .should('have.text', name)
@@ -45,10 +47,13 @@ class EmergencyContact {
       .next()
       .next()
       .should('have.text', workPhone);
-  }
-  attemptToGoToNextPage(button = 'yes') {
-    cy.get(`button[data-testid="${button}-button"]`).click();
-  }
+  };
+
+  attemptToGoToNextPage = (button = 'yes') => {
+    cy.get(`button[data-testid="${button}-button"]`).click({
+      waitForAnimations: true,
+    });
+  };
 }
 
 export default new EmergencyContact();

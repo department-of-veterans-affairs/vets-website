@@ -7,33 +7,34 @@ import Error from '../../pages/Error';
 describe('Pre-Check In Experience ', () => {
   describe('Error handling', () => {
     describe('POST /check_in/v2/sessions/', () => {
-      beforeEach(function() {
-        const {
-          initializeFeatureToggle,
-          initializeSessionGet,
-          initializeSessionPost,
-        } = ApiInitializer;
-        initializeFeatureToggle.withCurrentFeatures();
-        initializeSessionGet.withSuccessfulNewSession();
+      describe('error in the body', () => {
+        beforeEach(() => {
+          const {
+            initializeFeatureToggle,
+            initializeSessionGet,
+            initializeSessionPost,
+          } = ApiInitializer;
+          initializeFeatureToggle.withCurrentFeatures();
+          initializeSessionGet.withSuccessfulNewSession();
 
-        initializeSessionPost.withFailure(200);
-      });
-      afterEach(() => {
-        cy.window().then(window => {
-          window.sessionStorage.clear();
+          initializeSessionPost.withFailure(200);
         });
-      });
-      it.skip('error in the body', () => {
-        // temporarily skipped due to header mismatch failing master deploy.
-        cy.visitPreCheckInWithUUID();
-        // page: Validate
-        ValidateVeteran.validatePageLoaded();
-        ValidateVeteran.validateVeteran();
-        cy.injectAxeThenAxeCheck();
+        afterEach(() => {
+          cy.window().then(window => {
+            window.sessionStorage.clear();
+          });
+        });
+        it('attempt to sign in with an error', () => {
+          cy.visitPreCheckInWithUUID();
+          // page: Validate
+          ValidateVeteran.validatePage.preCheckIn();
+          ValidateVeteran.validateVeteran();
+          cy.injectAxeThenAxeCheck();
 
-        ValidateVeteran.attemptToGoToNextPage();
+          ValidateVeteran.attemptToGoToNextPage();
 
-        Error.validatePageLoaded();
+          Error.validatePageLoaded();
+        });
       });
     });
   });

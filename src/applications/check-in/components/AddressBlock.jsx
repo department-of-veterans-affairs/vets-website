@@ -29,9 +29,9 @@ const AddressBlock = ({ address }) => {
       {lineTwo}
       {lineThree}
       <br />
-      <span data-testid="address-city-state-and-zip">{`${address.city}, ${
-        address.state
-      } ${address.zip.substring(0, 5)}`}</span>
+      <span data-testid="address-city-state-and-zip">
+        {`${address.city}, ${address.state} ${address.zip.substring(0, 5)}`}
+      </span>
     </>
   );
 };

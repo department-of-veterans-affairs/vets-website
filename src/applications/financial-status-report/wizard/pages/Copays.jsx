@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import { PAGE_NAMES } from '../constants';
 import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+import { PAGE_NAMES } from '../constants';
 import DelayedLiveRegion from '../DelayedLiveRegion';
 
 const Copays = () => {
@@ -58,9 +58,9 @@ const Copays = () => {
           </a>
         </p>
         <p>
-          Or call us at <Telephone contact={'866-400-1238'} />. We're here
-          Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you have hearing
-          loss, call TTY:
+          Or call us at <Telephone contact="866-400-1238" />. We’re here Monday
+          through Friday, 8:00 a.m. to 8:00 p.m. ET. If you have hearing loss,
+          call TTY:
           <Telephone
             contact={CONTACTS[711]}
             pattern={PATTERNS['3_DIGIT']}
