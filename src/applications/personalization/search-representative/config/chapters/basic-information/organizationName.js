@@ -11,5 +11,8 @@ export const schema = {
 export const uiSchema = {
   organizationName: {
     'ui:title': 'Organization name',
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 };
