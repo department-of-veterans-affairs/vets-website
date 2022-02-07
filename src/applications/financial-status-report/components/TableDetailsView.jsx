@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { currency } from '../utils/helpers';
 
 const TableDetailsView = ({ formData, onEdit }) => {
@@ -35,6 +36,11 @@ const TableDetailsView = ({ formData, onEdit }) => {
       </td>
     </tr>
   );
+};
+
+TableDetailsView.propTypes = {
+  formData: PropTypes.object,
+  onEdit: PropTypes.func,
 };
 
 export default TableDetailsView;

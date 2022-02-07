@@ -1,9 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router';
+import PropTypes from 'prop-types';
+
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 import { MoreQuestions } from './MoreQuestions';
 
-export const CoeEligible = props => (
+const coeUrl = getAppUrl('coe');
+const introUrl = `${coeUrl}/introduction`;
+
+export const CoeEligible = ({ clickHandler, downloadUrl }) => (
   <div className="row vads-u-margin-bottom--7">
     <div className="medium-8 columns">
       <va-alert status="success">
@@ -11,8 +16,8 @@ export const CoeEligible = props => (
           Congratulations on your automatic COE
         </h2>
         <p>
-          We have all the information we need, so you don’t need to fill out an
-          application. You can download your COE now.
+          We have all the information we need, so you don’t need to fill out a
+          request for a COE. You can download your COE now.
         </p>
       </va-alert>
       <h2>Review and download your COE</h2>
@@ -25,8 +30,8 @@ export const CoeEligible = props => (
         </a>
       </p>
       <a
-        className="vads-u-font-size--base vads-u-display--block vads-u-margin-top--2"
-        href={props.downloadURL}
+        className="vads-u-font-size--base vads-u-display--block vads-u-margin-top--4"
+        href={downloadUrl}
       >
         <i
           aria-hidden="true"
@@ -42,14 +47,19 @@ export const CoeEligible = props => (
       <ul>
         <li>
           Make changes to your COE (correct an error or update your
-          information), or
+          information), <strong>or</strong>
         </li>
         <li>Request a restoration of entitlement</li>
       </ul>
-      <Link to="/introduction" onClick={props.clickHandler}>
+      <a href={introUrl} onClick={clickHandler}>
         Make changes to your COE online by filling out VA Form 26-1880
-      </Link>
+      </a>
       <MoreQuestions />
     </div>
   </div>
 );
+
+CoeEligible.propTypes = {
+  clickHandler: PropTypes.func,
+  downloadUrl: PropTypes.string,
+};

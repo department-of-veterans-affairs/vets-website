@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-
 import URLSearchParams from 'url-search-params';
 
 import { makeSelectForm } from '../selectors';

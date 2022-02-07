@@ -14,7 +14,7 @@ export function transformFormToVAOSAppointment(state) {
     kind: 'clinic',
     status: 'booked',
     clinic: getClinicId(clinic),
-    slot,
+    slot: { id: slot.id },
     extension: {
       desiredDate: slot.start,
     },

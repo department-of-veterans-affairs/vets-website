@@ -20,17 +20,19 @@ const withFeatureFlip = (Component, options) => {
           <va-loading-indicator message="Loading your check in experience" />
         </>
       );
-    } else if (!appEnabled) {
+    }
+    if (!appEnabled) {
       window.location.replace('/');
       return <></>;
-    } else {
-      return (
-        <>
-          <meta name="robots" content="noindex" />
-          <Component {...props} {...featureToggles} />
-        </>
-      );
     }
+    return (
+      <>
+        <meta name="robots" content="noindex" />
+        {/* Allowing for HOC */}
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Component {...props} {...featureToggles} />
+      </>
+    );
   };
 };
 

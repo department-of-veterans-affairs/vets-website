@@ -109,9 +109,11 @@ const createRoutesWithStore = () => {
       {routes.map((route, i) => {
         const options = { isPreCheckIn: false };
         let component = props => (
+          /* eslint-disable react/jsx-props-no-spreading */
           <ErrorBoundary {...props}>
             <route.component {...props} />
           </ErrorBoundary>
+          /* eslint-disable react/jsx-props-no-spreading */
         );
         if (route.permissions) {
           const { requiresForm, requireAuthorization } = route.permissions;

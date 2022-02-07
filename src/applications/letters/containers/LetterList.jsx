@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import CollapsiblePanel from '@department-of-veterans-affairs/component-library/CollapsiblePanel';
+import { focusElement } from 'platform/utilities/ui';
+
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
-import { focusElement } from 'platform/utilities/ui';
 import { letterContent, bslHelpInstructions } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 
@@ -49,14 +49,12 @@ export class LetterList extends React.Component {
       }
 
       return (
-        <CollapsiblePanel
-          panelName={letterTitle}
-          key={`collapsiblePanel-${index}`}
-        >
+        <va-accordion-item key={`collapsiblePanel-${index}`}>
+          <h3 slot="headline">{letterTitle}</h3>
           <div>{content}</div>
           {conditionalDownloadButton}
           {helpText}
-        </CollapsiblePanel>
+        </va-accordion-item>
       );
     });
 
@@ -66,18 +64,13 @@ export class LetterList extends React.Component {
       AVAILABILITY_STATUSES.letterEligibilityError
     ) {
       eligibilityMessage = (
-        <div className="usa-alert usa-alert-warning">
-          <div className="usa-alert-body">
-            <h4 className="usa-alert-heading">
-              Some letters may not be available
-            </h4>
-            <p className="usa-alert-text">
-              One of our systems appears to be down. If you believe you’re
-              missing a letter or document from the list above, please try again
-              later.
-            </p>
-          </div>
-        </div>
+        <va-alert status="warning" visible>
+          <h4 slot="headline">Some letters may not be available</h4>
+          <p>
+            One of our systems appears to be down. If you believe you’re missing
+            a letter or document from the list above, please try again later.
+          </p>
+        </va-alert>
       );
     }
 
@@ -109,7 +102,7 @@ export class LetterList extends React.Component {
         <p>
           <Link to="confirm-address">Go back to edit address</Link>
         </p>
-        {letterItems}
+        <va-accordion bordered>{letterItems}</va-accordion>
         {eligibilityMessage}
 
         <br />

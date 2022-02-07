@@ -10,7 +10,7 @@ import Confirmation from '../pages/Confirmation';
 
 describe('Pre-Check In Experience', () => {
   describe('Next of kin Page', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const {
         initializeFeatureToggle,
         initializeSessionGet,

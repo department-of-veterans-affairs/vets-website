@@ -2,5 +2,6 @@
   "appName": "21P-530 Burials benefits form",
   "entryFile": "./burials-entry.jsx",
   "entryName": "burials",
-  "rootUrl": "/burials-and-memorials/application/530"
+  "rootUrl": "/burials-and-memorials/application/530",
+  "productId": 18
 }

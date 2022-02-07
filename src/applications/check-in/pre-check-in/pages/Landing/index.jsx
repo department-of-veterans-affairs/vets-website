@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import propTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -19,8 +20,15 @@ import {
 
 import { URLS } from '../../../utils/navigation';
 import { isUUID, SCOPES } from '../../../utils/token-format-validator';
+import { setApp } from '../../../actions/universal';
+import { APP_NAMES } from '../../../utils/appConstants';
 
-export default function Index(props) {
+const Index = props => {
+  const { router } = props;
+
+  const { goToErrorPage, jumpToPage } = useFormRouting(router);
+  const { clearCurrentSession, setCurrentToken } = useSessionStorage();
+
   const [loadMessage] = useState('Finding your appointment information');
 
   const dispatch = useDispatch();
@@ -38,9 +46,12 @@ export default function Index(props) {
     [dispatch],
   );
 
-  const { router } = props;
-  const { goToErrorPage, jumpToPage } = useFormRouting(router);
-  const { clearCurrentSession, setCurrentToken } = useSessionStorage();
+  useEffect(
+    () => {
+      dispatch(setApp(APP_NAMES.PRE_CHECK_IN));
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -60,8 +71,10 @@ export default function Index(props) {
       }
       if (token && isUUID(token)) {
         // call the sessions api
+        const checkInType = APP_NAMES.PRE_CHECK_IN;
+
         api.v2
-          .getSession(token)
+          .getSession({ token, checkInType })
           .then(session => {
             // if successful, dispatch session data  into redux and current window
 
@@ -104,4 +117,10 @@ export default function Index(props) {
       <va-loading-indicator message={loadMessage} />
     </>
   );
-}
+};
+
+Index.propTypes = {
+  router: propTypes.object,
+};
+
+export default Index;

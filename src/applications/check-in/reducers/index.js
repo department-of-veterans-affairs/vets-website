@@ -8,6 +8,7 @@ const initialState = {
     pages: [],
     data: {},
   },
+  app: '',
 };
 
 import {
@@ -35,6 +36,8 @@ import {
   seeStaffMessageUpdatedHandler,
 } from './day-of';
 
+import { setAppHandler } from './universal';
+
 import { INIT_FORM } from '../actions/navigation';
 
 import { initFormHandler, updateFormHandler } from './navigation';
@@ -42,6 +45,8 @@ import { initFormHandler, updateFormHandler } from './navigation';
 import { SET_SESSION } from '../actions/authentication';
 
 import { setSessionHandler } from './authentication';
+
+import { SET_APP } from '../actions/universal';
 
 const handler = Object.freeze({
   [INIT_FORM]: initFormHandler,
@@ -55,6 +60,7 @@ const handler = Object.freeze({
   [SEE_STAFF_MESSAGE_UPDATED]: seeStaffMessageUpdatedHandler,
   [UPDATE_PRE_CHECK_IN_FORM]: updateFormHandler,
   [UPDATE_DAY_OF_CHECK_IN_FORM]: updateFormHandler,
+  [SET_APP]: setAppHandler,
 
   default: state => {
     return { ...state };

@@ -36,7 +36,7 @@ describe('Content in EDIT state on the personal information page', () => {
     // preferred name field
     const nameEditButtonLabel = 'Edit Preferred name';
     const nameEditInputLabel =
-      'Provide your preferred name (100 characters maximum)';
+      'Provide your preferred name (25 characters maximum)';
     const nameEditInputField = 'input[name="root_preferredName"]';
 
     cy.findByLabelText(nameEditButtonLabel)
@@ -72,7 +72,6 @@ describe('Content in EDIT state on the personal information page', () => {
     cy.findByText('They/them/theirs').should('exist');
     cy.findByText('Ze/zir/zirs').should('exist');
     cy.findByText('Use my preferred name').should('exist');
-    cy.findByText('Prefer not to answer').should('exist');
     cy.findByText('Pronouns not listed here').should('exist');
     cy.findByText(
       'If not listed, please provide your preferred pronouns (255 characters maximum)',

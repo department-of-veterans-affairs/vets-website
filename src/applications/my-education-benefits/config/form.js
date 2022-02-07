@@ -422,6 +422,13 @@ const formConfig = {
                 </>
               ),
             },
+            formId: {
+              'ui:title': 'Form ID',
+              'ui:disabled': true,
+              'ui:options': {
+                hideOnReview: true,
+              },
+            },
             claimantId: {
               'ui:title': 'Claimant ID',
               'ui:disabled': true,
@@ -475,6 +482,9 @@ const formConfig = {
             type: 'object',
             required: [formFields.dateOfBirth],
             properties: {
+              formId: {
+                type: 'string',
+              },
               claimantId: {
                 type: 'integer',
               },

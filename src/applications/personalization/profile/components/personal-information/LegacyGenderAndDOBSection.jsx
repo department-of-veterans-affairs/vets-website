@@ -1,24 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { connect } from 'react-redux';
-
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { profileShowGender } from '../../selectors';
+import {
+  renderGender,
+  renderDOB,
+} from '../../util/personal-information/personalInformationUtils';
 
 import ProfileInfoTable from '../ProfileInfoTable';
 
-const notSetText = 'This information is not available right now.';
-
-const renderGender = gender => {
-  let content = notSetText;
-  if (gender === 'M') content = 'Male';
-  else if (gender === 'F') content = 'Female';
-  return content;
-};
-
-const renderDOB = dob => (dob ? moment(dob).format('LL') : notSetText);
-
-const LegacyGenderAndDOBSection = ({ gender, dob, className }) => (
+const LegacyGenderAndDOBSection = ({
+  gender,
+  dob,
+  className,
+  shouldProfileShowGender,
+}) => (
   <div className={className}>
     <div className="vads-u-margin-bottom--2">
       <AdditionalInfo triggerText="How do I update my personal information?">
@@ -48,7 +45,9 @@ const LegacyGenderAndDOBSection = ({ gender, dob, className }) => (
       title="Personal information"
       data={[
         { title: 'Date of birth', value: renderDOB(dob) },
-        { title: 'Gender', value: renderGender(gender) },
+        ...(shouldProfileShowGender
+          ? [{ title: 'Sex assigned at birth', value: renderGender(gender) }]
+          : []),
       ]}
       className="vads-u-margin-bottom--3"
       level={2}
@@ -57,14 +56,16 @@ const LegacyGenderAndDOBSection = ({ gender, dob, className }) => (
 );
 
 LegacyGenderAndDOBSection.propTypes = {
-  className: PropTypes.string,
-  gender: PropTypes.string.isRequired,
   dob: PropTypes.string.isRequired,
+  shouldProfileShowGender: PropTypes.bool.isRequired,
+  className: PropTypes.string,
+  gender: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
-  gender: state.vaProfile?.personalInformation?.gender,
   dob: state.vaProfile?.personalInformation?.birthDate,
+  gender: state.vaProfile?.personalInformation?.gender,
+  shouldProfileShowGender: profileShowGender(state),
 });
 
 export default connect(mapStateToProps)(LegacyGenderAndDOBSection);

@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 
-import ProfileInfoTable from '../../ProfileInfoTable';
-
 import { profileShowFaxNumber } from '@@profile/selectors';
+
+import ProfileInfoTable from '../../ProfileInfoTable';
 
 const PhoneNumbersTable = ({ className, shouldProfileShowFaxNumber }) => {
   const tableFields = [

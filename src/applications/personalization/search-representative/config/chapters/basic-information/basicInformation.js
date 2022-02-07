@@ -21,14 +21,26 @@ export const uiSchema = {
   'ui:description': 'Choose at least one',
   vso: {
     'ui:title': 'Veteran Service Organization (VS0)',
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
   representativeOfVSO: {
     'ui:title': 'Representative in a Veteran Service Organization',
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
   attorney: {
     'ui:title': 'Attorney (Lawyer)',
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
   claimsAgent: {
     'ui:title': 'Claims agent',
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 };
