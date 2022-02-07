@@ -1,6 +1,10 @@
+import moment from 'moment';
+
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import RadioWidget from 'platform/forms-system/src/js/widgets/RadioWidget';
 import OtherTextField from '@@profile/components/personal-information/OtherTextField';
+
+import { NOT_SET_TEXT } from '@@profile/constants';
 
 const genderOptions = [
   'woman',
@@ -123,7 +127,6 @@ export const personalInformationUiSchemas = {
     theyThemTheirs: { 'ui:title': 'They/them/theirs' },
     zeZirZirs: { 'ui:title': 'Ze/zir/zirs' },
     useMyPreferredName: { 'ui:title': 'Use my preferred name' },
-    preferNotToAnswer: { 'ui:title': 'Prefer not to answer' },
     pronounsNotListed: {
       'ui:title': 'Pronouns not listed here',
     },
@@ -203,3 +206,12 @@ export const formatSexualOrientation = (
   }
   return sexualOrientationNotListedText;
 };
+
+export const renderGender = gender => {
+  let content = NOT_SET_TEXT;
+  if (gender === 'M') content = 'Male';
+  else if (gender === 'F') content = 'Female';
+  return content;
+};
+
+export const renderDOB = dob => (dob ? moment(dob).format('LL') : NOT_SET_TEXT);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 
@@ -17,9 +17,9 @@ const MultipleAppointments = props => {
   const appointment = selectedAppointment;
   const appointmentDateTime = new Date(appointment.startTime);
   const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
-  const focusOnLoad = () => {
+  const focusOnLoad = useCallback(() => {
     focusElement('h1');
-  };
+  }, []);
   return (
     <div
       className="vads-l-grid-container vads-u-padding-y--5"

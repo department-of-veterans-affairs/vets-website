@@ -3,7 +3,7 @@ import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import '../../../../tests/e2e/commands';
 
 describe('Pre-Check In Experience', () => {
-  beforeEach(function() {
+  beforeEach(() => {
     ApiInitializer.initializeFeatureToggle.withAppsDisabled();
   });
   afterEach(() => {

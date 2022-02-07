@@ -35,13 +35,13 @@ class ValidateVeteran {
       .find('input');
   };
 
-  typeLastName(lastName = 'Smith') {
+  typeLastName = (lastName = 'Smith') => {
     this.getLastNameInput().type(lastName);
-  }
+  };
 
-  typeLast4(last4 = '1234') {
+  typeLast4 = (last4 = '1234') => {
     this.getLast4Input().type(last4);
-  }
+  };
 
   attemptToGoToNextPage = () => {
     cy.get('[data-testid=check-in-button]').click({ waitForAnimations: true });

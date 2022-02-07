@@ -5,7 +5,7 @@ import ValidateVeteran from '../../../../../tests/e2e/pages/ValidateVeteran';
 import Error from '../../pages/Error';
 
 describe('Pre-Check In Experience ', () => {
-  beforeEach(function() {
+  beforeEach(() => {
     const {
       initializeFeatureToggle,
       initializeSessionGet,

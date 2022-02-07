@@ -1,8 +1,10 @@
 import React from 'react';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
+import PropTypes from 'prop-types';
+
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
-const LoggedInContent = props => (
+const LoggedInContent = ({ route }) => (
   <>
     <div className="process schemaform-process">
       <ol>
@@ -10,18 +12,17 @@ const LoggedInContent = props => (
           <h3>Check your service requirements</h3>
           <p>
             Make sure you meet our VA home loan eligibility requirements before
-            you request a COE. You may be able to get a COE if you:
+            you request a COE. You may be able to get a COE if you:
           </p>
           <ul>
             <li>
               Didn’t receive a dishonorable discharge, <strong>and</strong>
             </li>
             <li>
-              Meet the minimum active-duty service requirement based on when you
-              served
+              Meet the minimum service requirement based on when you served
             </li>
           </ul>
-          <a href="#">Eligibility requirements for VA home loan programs</a>
+          <a href="/">Eligibility requirements for VA home loan programs</a>
         </li>
         <li className="process-step list-two">
           <h3>Gather your information</h3>
@@ -81,7 +82,7 @@ const LoggedInContent = props => (
           </va-additional-info>
         </li>
         <li className="process-step list-three">
-          <h3>Start your application</h3>
+          <h3>Start your request</h3>
           <p>
             Complete the form to request a VA home loan Certificate of
             Eligibility. It should take about 15 minutes.
@@ -95,11 +96,11 @@ const LoggedInContent = props => (
         <SaveInProgressIntro
           buttonOnly
           testActionLink
-          prefillEnabled={props.parentProps.route.formConfig.prefillEnabled}
-          messages={props.parentProps.route.formConfig.savedFormMessages}
-          formConfig={props.parentProps.route.formConfig}
-          pageList={props.parentProps.route.pageList}
-          downtime={props.parentProps.route.formConfig.downtime}
+          prefillEnabled={route.formConfig.prefillEnabled}
+          messages={route.formConfig.savedFormMessages}
+          formConfig={route.formConfig}
+          pageList={route.pageList}
+          downtime={route.formConfig.downtime}
           startText="Request a Certificate of Eligibility"
           headingLevel={2}
         />
@@ -108,5 +109,9 @@ const LoggedInContent = props => (
     </div>
   </>
 );
+
+LoggedInContent.propTypes = {
+  route: PropTypes.object,
+};
 
 export default LoggedInContent;

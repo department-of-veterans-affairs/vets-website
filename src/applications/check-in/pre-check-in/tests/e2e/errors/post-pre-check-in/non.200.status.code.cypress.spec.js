@@ -12,7 +12,7 @@ describe('Pre-Check In Experience ', () => {
   describe('Error handling', () => {
     describe('POST /check_in/v2/pre_check_ins/', () => {
       let apiData = {};
-      beforeEach(function() {
+      beforeEach(() => {
         const {
           initializeFeatureToggle,
           initializeSessionGet,

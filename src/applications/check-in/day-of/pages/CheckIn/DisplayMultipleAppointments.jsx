@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 import recordEvent from 'platform/monitoring/record-event';
@@ -20,14 +20,17 @@ const DisplayMultipleAppointments = props => {
     focusElement('h1');
   }, []);
 
-  const handleClick = () => {
-    recordEvent({
-      event: createAnalyticsSlug('refresh-appointments-button-clicked'),
-    });
+  const handleClick = useCallback(
+    () => {
+      recordEvent({
+        event: createAnalyticsSlug('refresh-appointments-button-clicked'),
+      });
 
-    getMultipleAppointments();
-    focusElement('h1');
-  };
+      getMultipleAppointments();
+      focusElement('h1');
+    },
+    [getMultipleAppointments],
+  );
   const { goToPreviousPage } = useFormRouting(router);
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);

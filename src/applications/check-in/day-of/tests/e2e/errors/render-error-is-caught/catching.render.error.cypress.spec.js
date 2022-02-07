@@ -8,7 +8,7 @@ import NextOfKin from '../../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../../tests/e2e/pages/EmergencyContact';
 
 describe('Check In Experience ', () => {
-  beforeEach(function() {
+  beforeEach(() => {
     const {
       initializeFeatureToggle,
       initializeSessionGet,
