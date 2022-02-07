@@ -55,7 +55,7 @@ const captureError = (error, details) => {
     Sentry.withScope(scope => {
       const { token } = details;
       if (token) {
-        scope.setTag('token', token);
+        scope.setExtra('token', token);
       }
       Sentry.captureException(error);
     });
@@ -74,6 +74,10 @@ const captureError = (error, details) => {
     });
   } else {
     Sentry.withScope(scope => {
+      const { token } = details;
+      if (token) {
+        scope.setExtra('token', token);
+      }
       scope.setExtra('error', JSON.stringify(error));
 
       const message = `check_in_client_error`;
