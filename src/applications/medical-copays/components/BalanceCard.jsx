@@ -73,7 +73,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
         className="card-heading vads-u-margin-top--0"
         data-testid={`facility-city-${id}`}
       >
-        Copay balance for {facility} - {city}
+        {facility} - {city}
       </p>
       <div className="card-content">
         <i
