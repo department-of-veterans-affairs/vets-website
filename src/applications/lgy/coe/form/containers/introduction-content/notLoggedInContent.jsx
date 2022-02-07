@@ -7,7 +7,7 @@ const formConfig = {
   },
 };
 
-export const notLoggedInContent = props => (
+export const notLoggedInContent = route => (
   <div>
     <h2 className="vads-u-margin-top--0">
       Sign in to request a COE, get your COE, or check your status
@@ -32,9 +32,9 @@ export const notLoggedInContent = props => (
       and show your current status.
     </p>
     <SaveInProgressIntro
-      prefillEnabled={props?.route?.formConfig?.prefillEnabled}
-      messages={props?.route?.formConfig?.savedFormMessages}
-      pageList={props?.route?.pageList}
+      prefillEnabled={route?.formConfig?.prefillEnabled}
+      messages={route?.formConfig?.savedFormMessages}
+      pageList={route?.pageList}
       startText="Request a Certificate of Eligibility"
       unauthStartText="Sign in to start your request"
       formConfig={formConfig}

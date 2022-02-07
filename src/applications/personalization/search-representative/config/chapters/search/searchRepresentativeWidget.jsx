@@ -1,13 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
-import { fetchRepresentativeSearchResults } from '../../../actions';
-import SearchRepresentativeResult from './searchRepresentativeResult';
+import React, { useCallback, useEffect, useState } from 'react';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { chunk } from 'lodash';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-const SearchRepresentativeWidget = props => {
-  const { loading, representatives, formData } = props;
+import { setData as _setData } from 'platform/forms-system/src/js/actions';
+import { fetchRepresentativeSearchResults as _fetchResults } from '../../../actions';
+import SearchRepresentativeResult from './searchRepresentativeResult';
+
+const SearchRepresentativeWidget = ({
+  fetchRepresentativeSearchResults,
+  formData,
+  loading,
+  representatives,
+  setData,
+}) => {
   const maxPerPage = 3;
   const [pages, setPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,50 +22,56 @@ const SearchRepresentativeWidget = props => {
   const [paginatedData, setPaginatedData] = useState(null);
 
   // when the page loads, load the initial data set from props into the list
-  function handleLoadData() {
-    // Creates an array of arrays of the data passed in as props
-    // in this shape [[{}, {}, {}], [{}, {}, {}], [{}, {}, {}]]
-    const chunkedData = chunk(representatives, maxPerPage);
-    setCurrentlyShowingData(chunkedData[0]);
-    setPaginatedData(chunkedData);
-    setPages(chunkedData.length);
-  }
+  const handleLoadData = useCallback(
+    () => {
+      // Creates an array of arrays of the data passed in as props
+      // in this shape [[{}, {}, {}], [{}, {}, {}], [{}, {}, {}]]
+      const chunkedData = chunk(representatives, maxPerPage);
+      setCurrentlyShowingData(chunkedData[0]);
+      setPaginatedData(chunkedData);
+      setPages(chunkedData.length);
+    },
+    [representatives],
+  );
 
-  const handleClick = (name, address, city, phone, type) => {
-    // assemble a full object of the chosen representative separate from the name
-    const representativeObject = {
-      name,
-      address,
-      city,
-      phone,
-      type,
-    };
-    // add both the name of the chosen representative and the full object
-    // of representative data to the form data
-    const updatedFormData = {
-      ...formData,
-      preferredRepresentative: name,
-      representativeData: representativeObject,
-    };
-    props.setData(updatedFormData);
-  };
+  const handleClick = useCallback(
+    preferredRepresentative => {
+      const updatedFormData = {
+        ...formData,
+        preferredRepresentative,
+      };
 
-  const handleDataPagination = page => {
-    setCurrentlyShowingData(paginatedData[page - 1]);
-    setCurrentPage(page);
-  };
+      setData(updatedFormData);
+    },
+    [formData, setData],
+  );
+
+  const handleDataPagination = useCallback(
+    page => {
+      setCurrentlyShowingData(paginatedData[page - 1]);
+      setCurrentPage(page);
+    },
+    [paginatedData],
+  );
 
   useEffect(
-    function() {
-      props.fetchRepresentativeSearchResults();
+    () => {
+      fetchRepresentativeSearchResults();
+    },
+    [fetchRepresentativeSearchResults],
+  );
+
+  useEffect(
+    () => {
       handleLoadData();
     },
-    [loading],
+    [handleLoadData],
   );
 
   if (loading) {
     return <div>Loading...</div>;
-  } else if (representatives.length > 0) {
+  }
+  if (representatives.length > 0) {
     return (
       <div>
         <p>
@@ -70,14 +83,14 @@ const SearchRepresentativeWidget = props => {
         {currentlyShowingData?.map(option => {
           return (
             <SearchRepresentativeResult
-              option={option}
-              handleClick={handleClick}
               key={option.id}
+              handleClick={handleClick}
+              option={option}
             />
           );
         })}
         <Pagination
-          onPageSelect={page => handleDataPagination(page)}
+          onPageSelect={handleDataPagination}
           page={currentPage}
           pages={pages}
         />
@@ -156,37 +169,43 @@ const SearchRepresentativeWidget = props => {
         </ul>
       </div>
     );
-  } else {
-    return (
-      <>
-        <h2>We didn’t find a match</h2>
-        <p>
-          You can go back to try your search again. Try entering a different
-          kind of representative or a different location.
-        </p>
-        <a
-          className="vads-c-action-link--green"
-          href="/view-change-representative/search/representative-type"
-        >
-          Go back to search again
-        </a>
-      </>
-    );
   }
+  return (
+    <>
+      <h2>We didn’t find a match</h2>
+      <p>
+        You can go back to try your search again. Try entering a different kind
+        of representative or a different location.
+      </p>
+      <a
+        className="vads-c-action-link--green"
+        href="/view-change-representative/search/representative-type"
+      >
+        Go back to search again
+      </a>
+    </>
+  );
 };
 
 const mapDispatchToProps = {
-  setData,
-  fetchRepresentativeSearchResults,
+  setData: _setData,
+  fetchRepresentativeSearchResults: _fetchResults,
 };
 
 function mapStateToProps(state) {
   return {
-    formData: state.form.data,
     representatives: state.allSearchResults.representativeSearchResults,
     loading: state.allSearchResults.loading,
   };
 }
+
+SearchRepresentativeWidget.propTypes = {
+  fetchRepresentativeSearchResults: PropTypes.func,
+  formData: PropTypes.object,
+  loading: PropTypes.bool,
+  representatives: PropTypes.array,
+  setData: PropTypes.func,
+};
 
 export default connect(
   mapStateToProps,

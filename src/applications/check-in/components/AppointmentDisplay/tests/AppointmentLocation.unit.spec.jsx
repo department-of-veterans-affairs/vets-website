@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import AppointmentLocation from '../AppointmentLocation';
-
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
+
+import AppointmentLocation from '../AppointmentLocation';
 
 describe('check-in', () => {
   describe('AppointmentLocation', () => {

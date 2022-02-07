@@ -12,7 +12,7 @@ export function titleCase(str) {
 }
 
 export function buildAddressArray(location, titleCaseText = false) {
-  if (location.type === LocationType.CC_PROVIDER) {
+  if (location && location.type === LocationType.CC_PROVIDER) {
     const { address } = location.attributes;
 
     if (!isEmpty(address)) {
@@ -27,19 +27,21 @@ export function buildAddressArray(location, titleCaseText = false) {
 
     return [];
   }
+  if (location && location.attributes) {
+    const {
+      address: { physical: address },
+    } = location.attributes;
 
-  const {
-    address: { physical: address },
-  } = location.attributes;
-
-  return compact([
-    titleCaseText ? titleCase(address.address1) : address.address1,
-    titleCaseText ? titleCase(address.address2) : address.address2,
-    titleCaseText ? titleCase(address.address3) : address.address3,
-    `${titleCaseText ? titleCase(address.city) : address.city}, ${
-      address.state
-    } ${address.zip}`,
-  ]);
+    return compact([
+      titleCaseText ? titleCase(address.address1) : address.address1,
+      titleCaseText ? titleCase(address.address2) : address.address2,
+      titleCaseText ? titleCase(address.address3) : address.address3,
+      `${titleCaseText ? titleCase(address.city) : address.city}, ${
+        address.state
+      } ${address.zip}`,
+    ]);
+  }
+  return '';
 }
 
 const acronyms = ['va', 'cvs'];

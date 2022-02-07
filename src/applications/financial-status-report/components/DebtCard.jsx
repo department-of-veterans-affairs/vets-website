@@ -36,16 +36,17 @@ const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
       const checked = selectedDebts?.filter(
         debtEntry => debtEntry.id !== selectedDebt.id,
       );
+
       return setDebts({ ...formData, selectedDebts: checked });
-    } else {
-      const newFsrDebts = selectedDebts?.length
-        ? [...selectedDebts, selectedDebt]
-        : [selectedDebt];
-      return setDebts({
-        ...formData,
-        selectedDebts: newFsrDebts,
-      });
     }
+    const newFsrDebts = selectedDebts?.length
+      ? [...selectedDebts, selectedDebt]
+      : [selectedDebt];
+
+    return setDebts({
+      ...formData,
+      selectedDebts: newFsrDebts,
+    });
   };
 
   const container = classnames(
@@ -107,6 +108,7 @@ const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
 
 DebtCard.propTypes = {
   debt: PropTypes.shape({
+    benefitType: PropTypes.string,
     currentAr: PropTypes.number,
     debtHistory: PropTypes.arrayOf(
       PropTypes.shape({
@@ -114,8 +116,13 @@ DebtCard.propTypes = {
       }),
     ),
     deductionCode: PropTypes.string,
+    diaryCode: PropTypes.string,
+    id: PropTypes.number,
     originalAr: PropTypes.number,
   }),
+  formData: PropTypes.object,
+  selectedDebts: PropTypes.array,
+  setDebts: PropTypes.func,
 };
 
 const mapStateToProps = ({ form }) => ({

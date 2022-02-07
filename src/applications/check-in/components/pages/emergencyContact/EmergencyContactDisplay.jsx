@@ -32,7 +32,7 @@ export default function EmergencyContactDisplay({
 }
 
 EmergencyContactDisplay.propTypes = {
-  Footer: PropTypes.node,
+  Footer: PropTypes.elementType,
   data: PropTypes.object,
   isLoading: PropTypes.bool,
   noAction: PropTypes.func,

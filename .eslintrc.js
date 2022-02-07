@@ -199,7 +199,12 @@ module.exports = {
     'jsx-a11y/control-has-associated-label': 1, // 2
     'jsx-a11y/click-events-have-key-events': 1, // 24
     'jsx-a11y/anchor-is-valid': 1, // 51
-    'jsx-a11y/label-has-associated-control': 1, // 40
+    'jsx-a11y/label-has-associated-control': [
+      1,
+      {
+        controlComponents: ['select'],
+      },
+    ], // 40
     'jsx-a11y/no-static-element-interactions': 1, // 20
 
     /* || import plugin || */

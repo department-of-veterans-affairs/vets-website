@@ -39,7 +39,6 @@ describe('PersonalInformation', () => {
     });
 
     expect(view.getByText(/^May 6, 1986$/)).to.exist;
-    expect(view.getByText(/^Male$/)).to.exist;
   });
 
   it('should render the correct contact based on what exists in the Redux state', () => {

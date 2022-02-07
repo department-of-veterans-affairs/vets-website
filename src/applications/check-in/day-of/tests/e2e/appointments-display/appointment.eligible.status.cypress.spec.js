@@ -8,7 +8,7 @@ import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 
 describe('Check In Experience', () => {
   describe('Appointment display', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const appointments = [{ eligibility: 'ELIGIBLE' }];
       const {
         initializeFeatureToggle,
