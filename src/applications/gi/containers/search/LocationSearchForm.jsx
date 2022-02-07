@@ -1,3 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/jsx-no-bind */
+/* eslint-disable react/button-has-type */
+/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable import/order */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';

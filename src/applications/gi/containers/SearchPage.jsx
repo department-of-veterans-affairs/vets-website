@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import { useHistory } from 'react-router-dom';
+import environment from 'platform/utilities/environment';
 import { changeSearchTab, setPageTitle } from '../actions';
 import { TABS } from '../constants';
 import SearchTabs from '../components/search/SearchTabs';
