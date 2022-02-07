@@ -90,7 +90,7 @@ jobs:
           CHANGE_TARGET=null
           RUN_ID=${{ github.run_id }}
           RUN_NUMBER=${{ github.run_number }}
-          REF=${{ github.sha }}
+          REF=${{ github.event.inputs.commit_sha }}
           BUILDTIME=$(date +%s)
           EOF
 
