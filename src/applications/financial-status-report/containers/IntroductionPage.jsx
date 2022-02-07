@@ -12,7 +12,7 @@ import UnverifiedPrefillAlert from '../components/UnverifiedPrefillAlert';
 import { WIZARD_STATUS } from '../wizard/constants';
 import manifest from '../manifest.json';
 
-const IntroductionPage = props => {
+const IntroductionPage = ({ route, formId }) => {
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -20,20 +20,20 @@ const IntroductionPage = props => {
   return (
     <div className="fsr-introduction schemaform-intro">
       <FormTitle
-        title={'Request help with VA debt (VA Form 5655)'}
-        subTitle={'Equal to VA Form 5655 (Financial Status Report)'}
+        title="Request help with VA debt (VA Form 5655)"
+        subTitle="Equal to VA Form 5655 (Financial Status Report)"
       />
       <SaveInProgressIntro
         startText="Start your request now"
         unauthStartText="Sign in or create an account"
-        messages={props.route.formConfig.savedFormMessages}
-        pageList={props.route.pageList}
+        messages={route.formConfig.savedFormMessages}
+        pageList={route.pageList}
         formConfig={formConfig}
-        formId={props.formId}
+        formId={formId}
         retentionPeriod="60 days"
-        downtime={props.route.formConfig.downtime}
-        prefillEnabled={props.route.formConfig.prefillEnabled}
-        verifyRequiredPrefill={props.route.formConfig.verifyRequiredPrefill}
+        downtime={route.formConfig.downtime}
+        prefillEnabled={route.formConfig.prefillEnabled}
+        verifyRequiredPrefill={route.formConfig.verifyRequiredPrefill}
         unverifiedPrefillAlert={<UnverifiedPrefillAlert />}
         hideUnauthedStartLink
       />
@@ -155,11 +155,11 @@ const IntroductionPage = props => {
           buttonOnly
           startText="Start your request now"
           unauthStartText="Sign in or create an account"
-          pageList={props.route.pageList}
-          messages={props.route.formConfig.savedFormMessages}
+          pageList={route.pageList}
+          messages={route.formConfig.savedFormMessages}
           formConfig={formConfig}
-          formId={props.formId}
-          prefillEnabled={props.route.formConfig.prefillEnabled}
+          formId={formId}
+          prefillEnabled={route.formConfig.prefillEnabled}
           hideUnauthedStartLink
         />
       </div>
@@ -179,7 +179,10 @@ IntroductionPage.propTypes = {
   formId: PropTypes.string.isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
+      downtime: PropTypes.string,
       prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.object,
+      verifyRequiredPrefill: PropTypes.string,
     }),
     pageList: PropTypes.array.isRequired,
   }).isRequired,
