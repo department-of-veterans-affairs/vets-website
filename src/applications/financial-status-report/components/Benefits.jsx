@@ -22,6 +22,11 @@ const BenefitCard = ({ received, title }) => {
   );
 };
 
+BenefitCard.propTypes = {
+  received: PropTypes.number,
+  title: PropTypes.string,
+};
+
 const NoBenefits = () => {
   return (
     <section className="usa-alert background-color-only">
@@ -61,12 +66,12 @@ const Benefits = ({ pending, income }) => {
       <p>This is the VA benefit information we have on file for you.</p>
       {Boolean(compReceived) && (
         <BenefitCard
-          title={'Disability compensation and pension benefits'}
+          title="Disability compensation and pension benefits"
           received={compReceived}
         />
       )}
       {Boolean(eduReceived) && (
-        <BenefitCard title={'Education benefits'} received={eduReceived} />
+        <BenefitCard title="Education benefits" received={eduReceived} />
       )}
       <p>
         <strong>Note:</strong> If this information isn’t right, call our VA

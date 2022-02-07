@@ -42,6 +42,7 @@ const initialState = {
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
     vaOnlineSchedulingVAOSServiceVAAppointments: false,
+    vaOnlineSchedulingStatusImprovement: false,
   },
 };
 

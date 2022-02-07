@@ -15,6 +15,8 @@ import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 
 import { makeSelectCurrentContext } from '../../selectors';
 
+import { useSessionStorage } from '../../hooks/useSessionStorage';
+
 const ValidateVeteran = props => {
   const { router } = props;
   const dispatch = useDispatch();
@@ -38,6 +40,12 @@ const ValidateVeteran = props => {
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
 
+  const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
+    false,
+  );
+  const { isMaxValidateAttempts } = getValidateAttempts(window);
+  const [showValidateError, setShowValidateError] = useState(false);
+
   const onClick = useCallback(
     async () => {
       setLastNameErrorMessage();
@@ -54,13 +62,11 @@ const ValidateVeteran = props => {
       } else {
         // API call
         setIsLoading(true);
-        const checkInType = 'checkIn';
         try {
           const resp = await api.v2.postSession({
             token,
             last4: last4Ssn,
             lastName,
-            checkInType,
           });
           if (resp.errors || resp.error) {
             setIsLoading(false);
@@ -71,16 +77,35 @@ const ValidateVeteran = props => {
           }
         } catch (e) {
           setIsLoading(false);
-          goToErrorPage();
+          if (
+            e?.message !== 'Invalid last4 or last name!' ||
+            isMaxValidateAttempts
+          ) {
+            goToErrorPage();
+          } else {
+            if (!showValidateError) {
+              setShowValidateError(true);
+            }
+            incrementValidateAttempts(window);
+          }
         }
       }
     },
-    [goToErrorPage, goToNextPage, last4Ssn, lastName, setSession, token],
+    [
+      goToErrorPage,
+      goToNextPage,
+      last4Ssn,
+      lastName,
+      setSession,
+      token,
+      incrementValidateAttempts,
+      isMaxValidateAttempts,
+      showValidateError,
+    ],
   );
   useEffect(() => {
     focusElement('h1');
   }, []);
-
   return (
     <>
       <ValidateDisplay
@@ -99,6 +124,8 @@ const ValidateVeteran = props => {
         isLoading={isLoading}
         validateHandler={onClick}
         Footer={Footer}
+        showValidateError={showValidateError}
+        validateErrorMessage="Sorry, we couldn't find an account that matches that last name or SSN. Please try again."
       />
       <BackToHome />
     </>

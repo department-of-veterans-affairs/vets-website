@@ -10,7 +10,7 @@ import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 
 describe('Pre Check In Experience', () => {
   describe('update skip path', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const now = Date.now();
       const today = new Date(now);
       const {

@@ -17,7 +17,9 @@ class ValidateVeteran {
   };
 
   validateVeteran = (lastName = 'Smith', last4 = '1234') => {
+    this.clearLastName();
     this.typeLastName(lastName);
+    this.clearLast4();
     this.typeLast4(last4);
   };
 
@@ -35,12 +37,20 @@ class ValidateVeteran {
       .find('input');
   };
 
-  typeLastName(lastName = 'Smith') {
+  typeLastName = (lastName = 'Smith') => {
     this.getLastNameInput().type(lastName);
+  };
+
+  typeLast4 = (last4 = '1234') => {
+    this.getLast4Input().type(last4);
+  };
+
+  clearLastName() {
+    this.getLastNameInput().invoke('val', '');
   }
 
-  typeLast4(last4 = '1234') {
-    this.getLast4Input().type(last4);
+  clearLast4() {
+    this.getLast4Input().invoke('val', '');
   }
 
   attemptToGoToNextPage = () => {
@@ -91,6 +101,15 @@ class ValidateVeteran {
       'inputmode',
       'numeric',
     );
+  };
+
+  validateErrorAlert = () => {
+    cy.get('[data-testid=validate-error-alert]')
+      .should('be.visible')
+      .and(
+        'have.text',
+        "Sorry, we couldn't find an account that matches that last name or SSN. Please try again.",
+      );
   };
 }
 

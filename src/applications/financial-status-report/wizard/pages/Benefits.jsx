@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import { PAGE_NAMES } from '../constants';
 import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+import { PAGE_NAMES } from '../constants';
 import DelayedLiveRegion from '../DelayedLiveRegion';
 
 const ContactBenefits = () => {
@@ -31,7 +31,7 @@ const ContactBenefits = () => {
           , call us at
           <Telephone
             className="vads-u-margin-left--0p5"
-            contact={'800-827-1000'}
+            contact="800-827-1000"
           />
           . We’re here Monday through Friday, 7:00 a.m. to 8:00 p.m. ET. If you
           have hearing loss, call TTY:

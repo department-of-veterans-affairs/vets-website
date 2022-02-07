@@ -9,7 +9,7 @@ import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 
 describe('Check In Experience -- ', () => {
   describe('Appointment display -- ', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const appointments = [{ eligibility: 'INELIGIBLE_TOO_LATE' }];
       const {
         initializeFeatureToggle,

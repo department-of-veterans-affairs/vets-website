@@ -1,8 +1,8 @@
 import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { connect } from 'react-redux';
 import { mapboxToken } from '../../facility-locator/utils/mapboxToken';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
-import { connect } from 'react-redux';
 import { staticMapURL } from '../../facility-locator/utils/mapHelpers';
 
 export class FacilityMapWidget extends React.Component {
@@ -20,8 +20,8 @@ export class FacilityMapWidget extends React.Component {
   }
 
   updateImageLink(facilityDetail) {
-    const lat = facilityDetail.attributes.lat;
-    const long = facilityDetail.attributes.long;
+    const { lat } = facilityDetail.attributes;
+    const { long } = facilityDetail.attributes;
 
     let address = buildAddressArray(facilityDetail);
     if (address.length !== 0) {
@@ -49,8 +49,8 @@ export class FacilityMapWidget extends React.Component {
 
     const facilityDetail = this.props.facility;
 
-    const lat = facilityDetail.attributes.lat;
-    const long = facilityDetail.attributes.long;
+    const { lat } = facilityDetail.attributes;
+    const { long } = facilityDetail.attributes;
     let address = buildAddressArray(facilityDetail);
 
     if (address.length !== 0) {

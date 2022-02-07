@@ -42,9 +42,12 @@ const Landing = props => {
     [dispatch],
   );
 
-  useEffect(() => {
-    dispatch(setApp(APP_NAMES.CHECK_IN));
-  }, []);
+  useEffect(
+    () => {
+      dispatch(setApp(APP_NAMES.CHECK_IN));
+    },
+    [dispatch],
+  );
   useEffect(
     () => {
       const token = getTokenFromLocation(location);
@@ -64,7 +67,7 @@ const Landing = props => {
 
       if (token) {
         api.v2
-          .getSession(token)
+          .getSession({ token })
           .then(session => {
             if (session.errors || session.error) {
               clearCurrentSession(window);

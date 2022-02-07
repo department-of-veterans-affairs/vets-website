@@ -2,8 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-import DemographicsDisplay from './DemographicsDisplay';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import DemographicsDisplay from './DemographicsDisplay';
 
 describe('pre-check-in experience', () => {
   describe('shared components', () => {
@@ -22,6 +22,7 @@ describe('pre-check-in experience', () => {
       });
       it('renders the footer if footer is supplied', () => {
         const { getByText } = render(
+          // eslint-disable-next-line react/jsx-no-bind
           <DemographicsDisplay Footer={() => <div>foo</div>} />,
         );
         expect(getByText('foo')).to.exist;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 const TransitionPageDescription = props => {
@@ -21,26 +22,28 @@ const TransitionPageDescription = props => {
       </p>
       <div className="vads-u-margin-top--4 vads-u-background-color--gray-lightest vads-u-padding--4">
         <p className="vads-u-margin-top--0 vads-u-font-size--h3 vads-u-font-family--serif vads-u-font-weight--bold">
-          {props?.formData?.representativeData?.name}
+          {props?.preferredRepresentative?.name}
         </p>
         <p className="vads-u-font-weight--bold">
-          {props?.formData?.representativeData?.type}
+          {props?.preferredRepresentative?.type}
         </p>
-        <p>{props?.formData?.representativeData?.address}</p>
-        <p>{props?.formData?.representativeData?.city}</p>
+        <p>{props?.preferredRepresentative?.address}</p>
+        <p>{props?.preferredRepresentative?.city}</p>
         <p className="vads-u-margin-bottom--0">
-          {props?.formData?.representativeData?.phone}
+          {props?.preferredRepresentative?.phone}
         </p>
       </div>
     </>
   );
 };
 
-function mapStateToProps(state) {
-  return {
-    formData: state.form.data,
-  };
-}
+const mapStateToProps = state => ({
+  preferredRepresentative: state.form.data.preferredRepresentative,
+});
+
+TransitionPageDescription.propTypes = {
+  preferredRepresentative: PropTypes.object,
+};
 
 export default connect(
   mapStateToProps,

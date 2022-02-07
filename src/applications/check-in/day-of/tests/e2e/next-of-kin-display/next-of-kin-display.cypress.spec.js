@@ -8,7 +8,7 @@ import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 
 describe('Check In Experience', () => {
   describe('Next of kin Page', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const {
         initializeFeatureToggle,
         initializeSessionGet,

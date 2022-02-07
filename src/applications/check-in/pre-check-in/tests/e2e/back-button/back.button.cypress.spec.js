@@ -9,7 +9,7 @@ import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 
 describe('Pre-Check In Experience ', () => {
   let apiData = {};
-  beforeEach(function() {
+  beforeEach(() => {
     const {
       initializeFeatureToggle,
       initializeSessionGet,

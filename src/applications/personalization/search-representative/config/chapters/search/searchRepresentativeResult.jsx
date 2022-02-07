@@ -1,31 +1,31 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
 
-const searchRepresentativeResult = props => {
+const SearchRepresentativeResult = ({ handleClick, option }) => {
   const customStyle = {
     maxWidth: 180,
   };
+
+  const onClick = useCallback(
+    () => {
+      handleClick(option);
+    },
+    [handleClick, option],
+  );
+
   return (
     <div className="vads-u-margin-bottom--1p5 vads-u-background-color--gray-lightest vads-u-padding--4">
       <p className="vads-u-margin-top--0 vads-u-font-size--h3 vads-u-font-family--serif vads-u-font-weight--bold">
-        {props.option.name}
+        {option.name}
       </p>
-      <p className="vads-u-font-weight--bold">{props.option.type}</p>
-      <p>{props.option.address}</p>
-      <p>{props.option.city}</p>
-      <p className="vads-u-margin-bottom--4">{props.option.phone}</p>
+      <p className="vads-u-font-weight--bold">{option.type}</p>
+      <p>{option.address}</p>
+      <p>
+        {option.city}, {option.state} {option.postalCode}
+      </p>
+      <p className="vads-u-margin-bottom--4">Phone: {option.phone}</p>
       <div style={customStyle}>
-        <button
-          onClick={() =>
-            props.handleClick(
-              props.option.name,
-              props.option.address,
-              props.option.city,
-              props.option.phone,
-              props.option.type,
-            )
-          }
-          className="va-button-link"
-        >
+        <button className="va-button-link" onClick={onClick} type="submit">
           Select this representative
         </button>
       </div>
@@ -33,4 +33,9 @@ const searchRepresentativeResult = props => {
   );
 };
 
-export default searchRepresentativeResult;
+SearchRepresentativeResult.propTypes = {
+  handleClick: PropTypes.func,
+  option: PropTypes.object,
+};
+
+export default SearchRepresentativeResult;
