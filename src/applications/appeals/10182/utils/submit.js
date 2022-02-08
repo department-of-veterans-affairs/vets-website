@@ -222,7 +222,7 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
     const entry = areaOfDisagreement[index];
     const reasons = Object.entries(entry.disagreementOptions)
       .map(([key, value]) => value && keywords[key](entry))
-      .concat(entry.otherEntry)
+      .concat((entry?.otherEntry || '').trim())
       .filter(Boolean);
     return {
       ...issue,
