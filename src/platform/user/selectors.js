@@ -32,6 +32,8 @@ export const selectPatientFacilities = state =>
     const isFlipperEnabled = !isFlipperDisabled;
     const passesCernerChecks =
       isFlipperEnabled && (isCerner || hasCernerFacilityID);
+    const allowPartialCernerFacilities =
+      state?.featureToggles?.cernerAllowPartialFacilities === true;
 
     const facility = {
       facilityId,
@@ -40,19 +42,27 @@ export const selectPatientFacilities = state =>
     };
 
     if (passesCernerChecks) {
-      facility.usesCernerAppointments = !CERNER_APPOINTMENTS_BLOCKLIST.includes(
-        facilityId,
-      );
-      facility.usesCernerMedicalRecords = !CERNER_MEDICAL_RECORDS_BLOCKLIST.includes(
-        facilityId,
-      );
-      facility.usesCernerMessaging = !CERNER_MESSAGING_BLOCKLIST.includes(
-        facilityId,
-      );
-      facility.usesCernerRx = !CERNER_RX_BLOCKLIST.includes(facilityId);
-      facility.usesCernerTestResults = !CERNER_TEST_RESULTS_BLOCKLIST.includes(
-        facilityId,
-      );
+      if (allowPartialCernerFacilities) {
+        facility.usesCernerAppointments = !CERNER_APPOINTMENTS_BLOCKLIST.includes(
+          facilityId,
+        );
+        facility.usesCernerMedicalRecords = !CERNER_MEDICAL_RECORDS_BLOCKLIST.includes(
+          facilityId,
+        );
+        facility.usesCernerMessaging = !CERNER_MESSAGING_BLOCKLIST.includes(
+          facilityId,
+        );
+        facility.usesCernerRx = !CERNER_RX_BLOCKLIST.includes(facilityId);
+        facility.usesCernerTestResults = !CERNER_TEST_RESULTS_BLOCKLIST.includes(
+          facilityId,
+        );
+      } else {
+        facility.usesCernerAppointments = true;
+        facility.usesCernerMedicalRecords = true;
+        facility.usesCernerMessaging = true;
+        facility.usesCernerRx = true;
+        facility.usesCernerTestResults = true;
+      }
     }
 
     return facility;

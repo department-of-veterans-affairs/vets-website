@@ -2,6 +2,7 @@
 
 export default Object.freeze({
   canUpload1010cgPOA: 'can_upload_10_10cg_poa',
+  cernerAllowPartialFacilities: 'cerner_allow_partial_facilities',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
   cernerOverride648: 'cerner_override_648',
