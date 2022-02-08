@@ -20,7 +20,9 @@ export const formatHours = hours => {
     minutes <= 60
   ) {
     const AMorPM = hour > 12 ? 'p.m.' : 'a.m.';
-    hour %= 12;
+    if (hour !== 12) {
+      hour %= 12;
+    }
     return `${hour}:${
       minutes === 0 ? `${minutes}${minutes}` : `${minutes}`
     } ${AMorPM}`;
