@@ -122,6 +122,13 @@ jobs:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.app_folders }}
 
+      - name: Archive unit test results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: unit-test-report
+          path: mochawesome-report
+
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
