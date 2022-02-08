@@ -1,11 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import recordEvent from 'platform/monitoring/record-event';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
 import LearnMoreLabel from '../components/LearnMoreLabel';
-import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import {
   getStateNameForCode,
@@ -14,12 +16,9 @@ import {
   createId,
 } from '../utils/helpers';
 import { showModal, filterChange } from '../actions';
-import { connect } from 'react-redux';
 import { TABS, INSTITUTION_TYPES } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
-import _ from 'lodash';
 import { updateUrlParams } from '../selectors/search';
-import recordEvent from 'platform/monitoring/record-event';
 
 export function FilterYourResults({
   dispatchShowModal,
@@ -34,7 +33,6 @@ export function FilterYourResults({
   const { version } = preview;
   const {
     expanded,
-    schools,
     excludedSchoolTypes,
     excludeCautionFlags,
     accredited,
@@ -83,37 +81,10 @@ export function FilterYourResults({
     updateInstitutionFilters('expanded', value);
   };
 
-  const handleSchoolChange = e => {
-    const checked = e.target.checked;
-
-    if (!checked) {
-      dispatchFilterChange({
-        ...filters,
-        schools: false,
-        excludedSchoolTypes: [
-          'PUBLIC',
-          'FOR PROFIT',
-          'PRIVATE',
-          'FOREIGN',
-          'FLIGHT',
-          'CORRESPONDENCE',
-        ],
-        excludeCautionFlags: false,
-        accredited: false,
-        studentVeteran: false,
-        yellowRibbonScholarship: false,
-        specialMission: 'ALL',
-      });
-      recordCheckboxEvent(e);
-    } else {
-      onChangeCheckbox(e);
-    }
-  };
-
   const handleIncludedSchoolTypesChange = e => {
     // The filter consumes these as exclusions
-    const name = e.target.name;
-    const checked = e.target.checked;
+    const { name } = e.target;
+    const { checked } = e.target;
     const newExcluded = _.cloneDeep(excludedSchoolTypes);
     recordCheckboxEvent(e);
     updateInstitutionFilters(
@@ -125,7 +96,7 @@ export function FilterYourResults({
   };
 
   const handleVetTecChange = e => {
-    const checked = e.target.checked;
+    const { checked } = e.target;
     if (!checked) {
       dispatchFilterChange({
         ...filters,
@@ -144,7 +115,7 @@ export function FilterYourResults({
   };
 
   const handlePreferredProviderChange = e => {
-    const checked = e.target.checked;
+    const { checked } = e.target;
     if (checked) {
       dispatchFilterChange({
         ...filters,
@@ -183,13 +154,8 @@ export function FilterYourResults({
     });
 
     return (
-      <div className="vads-u-margin-bottom--5">
+      <div>
         <CheckboxGroup
-          label={
-            <div className="vads-u-margin-left--neg0p25">
-              Include these school types:
-            </div>
-          }
           onChange={handleIncludedSchoolTypesChange}
           options={options}
         />
@@ -221,7 +187,7 @@ export function FilterYourResults({
             onClick={() => {
               dispatchShowModal('accredited');
             }}
-            buttonId={'accredited-button'}
+            buttonId="accredited-button"
             ariaLabel="Learn more about VA education and training programs"
           />
         ),
@@ -238,15 +204,7 @@ export function FilterYourResults({
       },
     ];
 
-    return (
-      <CheckboxGroup
-        label={
-          <div className="vads-u-margin-left--neg0p25">About the school:</div>
-        }
-        onChange={onChangeCheckbox}
-        options={options}
-      />
-    );
+    return <CheckboxGroup onChange={onChangeCheckbox} options={options} />;
   };
 
   const specialMissions = () => {
@@ -278,67 +236,6 @@ export function FilterYourResults({
         label="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
         visible
       />
-    );
-  };
-
-  const typeOfInstitution = () => {
-    const name = 'Type of institution';
-    const legendId = `${createId(name)}-legend`;
-    return (
-      <>
-        <div className="vads-u-margin-bottom--4">
-          <h3
-            className="vads-u-margin-bottom--3"
-            aria-label={`${name}:`}
-            id={legendId}
-          >
-            {name}
-          </h3>
-          <ExpandingGroup open={schools}>
-            <Checkbox
-              checked={schools}
-              name="schools"
-              label="Schools"
-              onChange={handleSchoolChange}
-              className="expanding-header-checkbox"
-              inputAriaLabelledBy={legendId}
-            />
-            <div className="school-types expanding-group-children">
-              {excludedSchoolTypesGroup()}
-              {schoolAttributes()}
-              {specialMissions()}
-            </div>
-          </ExpandingGroup>
-        </div>
-        <Checkbox
-          checked={employers}
-          name="employers"
-          label="On-the-job training and apprenticeships"
-          onChange={onChangeCheckbox}
-          className="vads-u-margin-bottom--4"
-          inputAriaLabelledBy={legendId}
-        />
-        <ExpandingGroup open={vettec}>
-          <Checkbox
-            checked={vettec}
-            name="vettec"
-            label="VET TEC providers"
-            onChange={handleVetTecChange}
-            className="expanding-header-checkbox"
-            inputAriaLabelledBy={legendId}
-          />
-          <div className="expanding-group-children">
-            <Checkbox
-              checked={preferredProvider}
-              name="preferredProvider"
-              label="Preferred providers only"
-              onChange={handlePreferredProviderChange}
-              labelAriaLabel="VET TEC Preferred providers"
-              inputAriaLabelledBy={legendId}
-            />
-          </div>
-        </ExpandingGroup>
-      </>
     );
   };
 
@@ -381,24 +278,84 @@ export function FilterYourResults({
     );
   };
 
-  const renderLocation = () => {
+  const filterResults = () => {
+    // const name = 'Type of institution';
+    const legendId = `${createId(name)}-legend`;
     return (
       <>
-        <h3>Location</h3>
-        {renderCountryFilter()}
-        {renderStateFilter()}
+        <div className="vads-u-margin-bottom--4">
+          <h3
+            className="vads-u-margin-bottom--3"
+            aria-label={`${name}:`}
+            id={legendId}
+          >
+            {name}
+          </h3>
+
+          <va-accordion
+            disable-analytics={{
+              value: 'false',
+            }}
+            section-heading={{
+              value: 'null',
+            }}
+          >
+            <va-accordion-item id="first">
+              <h6 slot="headline">Types of institutions</h6>
+              <div className="school-types">{excludedSchoolTypesGroup()}</div>
+              <Checkbox
+                checked={employers}
+                name="employers"
+                label="On-the-job training and apprenticeships"
+                // eslint-disable-next-line react/jsx-no-bind
+                onChange={onChangeCheckbox}
+                inputAriaLabelledBy={legendId}
+              />
+              <Checkbox
+                checked={vettec}
+                name="vettec"
+                label="VET TEC providers"
+                // eslint-disable-next-line react/jsx-no-bind
+                onChange={handleVetTecChange}
+                className="expanding-header-checkbox"
+                inputAriaLabelledBy={legendId}
+              />
+              <Checkbox
+                checked={preferredProvider}
+                name="preferredProvider"
+                label="Preferred providers only"
+                // eslint-disable-next-line react/jsx-no-bind
+                onChange={handlePreferredProviderChange}
+                labelAriaLabel="VET TEC Preferred providers"
+                inputAriaLabelledBy={legendId}
+              />
+            </va-accordion-item>
+            <va-accordion-item
+              header="Institution details"
+              id="institution-details"
+            >
+              <div className="school-types">{schoolAttributes()}</div>
+            </va-accordion-item>
+            <va-accordion-item
+              header="Specialized mission"
+              id="specialized-mission"
+            >
+              <div className="specialized-mission">{specialMissions()}</div>
+            </va-accordion-item>
+
+            <va-accordion-item header="Location" id="location">
+              <div className="specialized-mission">
+                {renderCountryFilter()}
+                {renderStateFilter()}
+              </div>
+            </va-accordion-item>
+          </va-accordion>
+        </div>
       </>
     );
   };
 
-  const controls = (
-    <div>
-      {typeOfInstitution()}
-      {renderLocation()}
-    </div>
-  );
-
-  const title = 'Filter your results';
+  const title = 'Filter results';
 
   return (
     <div className="filter-your-results vads-u-margin-bottom--2">
@@ -411,7 +368,7 @@ export function FilterYourResults({
           onClick={onAccordionChange}
         >
           {search.inProgress && <LoadingIndicator />}
-          {!search.inProgress && controls}
+          {!search.inProgress && filterResults()}
         </SearchAccordion>
       )}
       {smallScreen && (
@@ -419,7 +376,7 @@ export function FilterYourResults({
           <div>
             <h1>Filter your results</h1>
             {search.inProgress && <LoadingIndicator />}
-            {!search.inProgress && controls}
+            {!search.inProgress && filterResults()}
           </div>
           <div className="modal-button-wrapper">
             <button
