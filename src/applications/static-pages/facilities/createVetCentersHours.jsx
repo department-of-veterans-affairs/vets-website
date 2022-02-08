@@ -11,13 +11,17 @@ export default async function createVetCentersHours(store) {
   );
 
   if (vetCentersHoursWidget) {
-    const { default: VetCenterHours } = await import('./vetCentersHours');
+    const {
+      default: VetCenterHours,
+    } = await import(/* webpackChunkName: "vet-center-hours-widget" */ './vetCentersHours');
     const vetCenterHoursArray = standardizeDateTime(window.vetCenterHours);
+    const { isSatelliteLocation } = window;
     ReactDOM.render(
       <Provider store={store}>
         <VetCenterHours
           hours={vetCenterHoursArray}
           vetCenterHoursId="vet-center-hours"
+          isSatelliteLocation={isSatelliteLocation}
         />
       </Provider>,
       vetCentersHoursWidget,

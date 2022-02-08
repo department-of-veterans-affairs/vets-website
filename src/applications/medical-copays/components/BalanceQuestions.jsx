@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -13,7 +12,7 @@ const BalanceQuestions = () => (
     <h3>Questions about your payment or relief options</h3>
     <p>
       Contact the VA Health Resource Center at
-      <Telephone contact={'866-400-1238'} className="vads-u-margin-x--0p5" />
+      <Telephone contact="866-400-1238" className="vads-u-margin-x--0p5" />
       (TTY:
       <Telephone
         contact={CONTACTS[711]}
@@ -24,10 +23,5 @@ const BalanceQuestions = () => (
     </p>
   </article>
 );
-
-BalanceQuestions.propTypes = {
-  facilityLocation: PropTypes.string,
-  facilityPhone: PropTypes.string,
-};
 
 export default BalanceQuestions;

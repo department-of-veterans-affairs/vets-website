@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { focusElement } from 'platform/utilities/ui';
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
-import { focusElement } from 'platform/utilities/ui';
 import BackButton from '../../components/BackButton';
 
 import { makeSelectSeeStaffMessage } from '../../selectors';
@@ -29,8 +29,8 @@ const SeeStaff = props => {
         <p>Our staff can help you update your contact information.</p>
       )}
       <TravelPayReimbursementLink />
-      <Footer isPreCheckIn={false} />
-      <BackToHome isPreCheckIn={false} />
+      <Footer />
+      <BackToHome />
     </div>
   );
 };

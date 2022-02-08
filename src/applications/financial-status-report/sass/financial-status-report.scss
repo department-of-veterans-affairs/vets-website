@@ -98,6 +98,7 @@
       }
     }
   }
+  .add-item-container,
   .edit-item-container {
     margin: 5px 0;
     .usa-button-secondary {
@@ -108,10 +109,10 @@
     display: flex;
     flex-direction: column;
     background-color: $color-gray-lightest;
-    padding: 20px 30px 20px;
+    padding: 10px;
     margin-top: 20px;
     margin-bottom: 20px;
-    .add-item-link-section {
+    .add-item-button-section {
       cursor: pointer;
       width: fit-content;
       .plus-icon {
@@ -140,6 +141,9 @@
   .review-card--body {
     border: 3px solid $color-light-blue;
     padding: 25px;
+  }
+  .usa-button-secondary {
+    background: $color-white;
   }
 }
 

@@ -1,6 +1,6 @@
-import formConfig from '../../form/config/form';
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import { UPDATE_LOGGEDIN_STATUS } from 'platform/user/authentication/actions';
+import formConfig from '../../form/config/form';
 
 import { CALLSTATUS } from '../constants';
 
@@ -16,10 +16,10 @@ import {
 const initialState = {
   generateAutoCoeStatus: CALLSTATUS.idle,
   coe: null,
-  downloadURL: null,
+  downloadUrl: null,
   errors: {
     coe: null,
-    downloadURL: null,
+    downloadUrl: null,
   },
   profileIsUpdating: true,
   isLoading: true,
@@ -54,11 +54,11 @@ const certificateOfEligibility = (state = initialState, action) => {
     case GET_COE_URL_FAILED:
       return {
         ...state,
-        errors: { ...state.errors, downloadURL: action.response.errors },
+        errors: { ...state.errors, downloadUrl: action.response.errors },
         isLoading: false,
       };
     case GET_COE_URL_SUCCEEDED:
-      return { ...state, isLoading: false, downloadURL: action.response.url };
+      return { ...state, isLoading: false, downloadUrl: action.response.url };
     default:
       return state;
   }

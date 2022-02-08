@@ -62,7 +62,7 @@ export default function ConfirmationDirectScheduleInfoV2({
         </>
       )}
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-        <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
+        <div className="vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
           <h2
             className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
             data-cy="va-appointment-details-header"
@@ -76,7 +76,7 @@ export default function ConfirmationDirectScheduleInfoV2({
             clinicFriendlyName={clinic.serviceName}
           />
         </div>
-        <div className="vads-u-flex--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
+        <div className="vads-u-flex--1 vaos-u-word-break--break-word">
           <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
             Your reason for your visit
           </h3>

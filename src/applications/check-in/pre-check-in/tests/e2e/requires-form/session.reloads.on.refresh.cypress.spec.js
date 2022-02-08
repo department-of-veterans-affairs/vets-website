@@ -6,7 +6,7 @@ import Introduction from '../pages/Introduction';
 
 describe('Pre Check In Experience', () => {
   describe('requires form', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const {
         initializeFeatureToggle,
         initializeSessionGet,

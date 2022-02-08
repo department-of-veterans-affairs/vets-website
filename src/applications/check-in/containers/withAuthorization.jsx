@@ -1,5 +1,6 @@
 import React, { useMemo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import propTypes from 'prop-types';
 
 import { makeSelectCurrentContext } from '../selectors';
 
@@ -10,8 +11,8 @@ import { SCOPES } from '../utils/token-format-validator';
 import { URLS } from '../utils/navigation';
 
 const withAuthorization = (Component, options) => {
-  const { isPreCheckIn } = options;
-  return props => {
+  const WrappedComponent = props => {
+    const { isPreCheckIn } = options;
     const { router } = props;
     const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
     const { token, permissions } = useSelector(selectCurrentContext);
@@ -38,10 +39,18 @@ const withAuthorization = (Component, options) => {
 
     return (
       <>
+        {/* Allowing for HOC */}
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <Component {...props} />
       </>
     );
   };
+
+  WrappedComponent.propTypes = {
+    router: propTypes.object,
+  };
+
+  return WrappedComponent;
 };
 
 export default withAuthorization;

@@ -242,7 +242,6 @@ describe('FormApp', () => {
       ],
     };
     const formData = {
-      'view:hasIssuesToAdd': true,
       contestableIssues: contestableIssues.issues,
       additionalIssues: [{ issue: 'other issue', [SELECTED]: true }],
       veteran: {

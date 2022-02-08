@@ -1,23 +1,29 @@
 import React from 'react';
-import { Link } from 'react-router';
+import PropTypes from 'prop-types';
+
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 import { CoeDocumentList } from './CoeDocumentList';
 import { MoreQuestions } from './MoreQuestions';
 
-export const CoeAvailable = ({ downloadURL }) => (
+const coeUrl = getAppUrl('coe');
+const introUrl = `${coeUrl}/introduction`;
+
+export const CoeAvailable = ({ downloadUrl }) => (
   <div className="row vads-u-margin-bottom--7">
     <div className="medium-8 columns">
       <h2 className="vads-u-margin-top--0">Review and download your COE</h2>
-      <p className="vads-u-margin-bottom--0">
+      <p>
         You can download your COE right now. If you need help, go to our
         instructions for how to download and open a VA.gov PDF form.
+        <br />
+        <a href="/resources/how-to-download-and-open-a-vagov-pdf-form/">
+          Get instructions for downloading your PDF
+        </a>
       </p>
-      <a href="/resources/how-to-download-and-open-a-vagov-pdf-form/">
-        Get instructions for downloading your PDF
-      </a>
       <a
-        className="vads-u-font-size--base vads-u-display--block vads-u-margin-top--2"
-        href={downloadURL}
+        className="vads-u-font-size--base vads-u-display--block vads-u-margin-top--4"
+        href={downloadUrl}
       >
         <i
           aria-hidden="true"
@@ -33,15 +39,19 @@ export const CoeAvailable = ({ downloadURL }) => (
       <ul>
         <li>
           Make changes to your COE (correct an error or update your
-          information), or
+          information), <strong>or</strong>
         </li>
         <li>Request a restoration of entitlement</li>
       </ul>
-      <Link to="/introduction">
+      <a href={introUrl}>
         Make changes to your COE only by filling out VA Form 26-1880
-      </Link>
+      </a>
       <CoeDocumentList />
       <MoreQuestions />
     </div>
   </div>
 );
+
+CoeAvailable.propTypes = {
+  downloadUrl: PropTypes.string.isRequired,
+};

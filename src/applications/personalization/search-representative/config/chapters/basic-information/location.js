@@ -18,11 +18,20 @@ export const schema = {
 export const uiSchema = {
   city: {
     'ui:title': 'City',
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
   state: {
     'ui:title': 'State',
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
   postalCode: {
     'ui:title': 'Postal code',
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 };

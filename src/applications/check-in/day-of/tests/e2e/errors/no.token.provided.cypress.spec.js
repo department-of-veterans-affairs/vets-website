@@ -4,7 +4,7 @@ import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import Error from '../pages/Error';
 
 describe('Check In Experience -- ', () => {
-  beforeEach(function() {
+  beforeEach(() => {
     const { initializeFeatureToggle } = ApiInitializer;
     initializeFeatureToggle.withCurrentFeatures();
   });

@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import Results from '../Results';
 import Search from '../Search';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import {
   deriveDefaultSelectedOption,
   deriveFilteredEvents,

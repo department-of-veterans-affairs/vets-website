@@ -104,3 +104,28 @@
 .vaos-appts__breadcrumbs li {
   padding: 0em !important;
 }
+
+nav.vaos-appts__breadcrumb {
+  padding: 0.8em 0em;
+
+  ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  li {
+    display: inline;
+  }
+
+  li + li::before {
+    display: inline-block;
+    margin: 0 0.5em;
+    content: "";
+  }
+
+  [aria-current="page"] {
+    font-weight: 700;
+    text-decoration: none;
+  }
+}
