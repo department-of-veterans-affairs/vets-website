@@ -81,7 +81,7 @@ const App = ({ toggleLoginModal, user }) => {
                 </p>
               </div>
 
-              <div style={{ marginBottom: '6rem' }}>
+              <div style={{ marginBottom: '6.4rem' }}>
                 <h2>What information will I be able to see?</h2>
 
                 <p>
