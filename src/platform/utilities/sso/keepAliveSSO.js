@@ -65,6 +65,7 @@ export default async function keepAlive() {
       cache: 'no-store',
     });
 
+    await resp.text();
     const alive = resp.headers.get(AUTHN_HEADERS.ALIVE);
 
     // If no CSP or session-alive headers, return early
@@ -72,7 +73,6 @@ export default async function keepAlive() {
       return defaultKeepAliveResponse;
     }
 
-    await resp.text();
     /**
      * Uses mapped authncontext for DS Logon and MHV
      * Uses `authncontextclassref` lookup for ID.me and Login.gov
