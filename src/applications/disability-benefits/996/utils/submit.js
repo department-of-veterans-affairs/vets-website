@@ -207,12 +207,12 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
     serviceConnection: () => SUBMITTED_DISAGREEMENTS.serviceConnection,
     effectiveDate: () => SUBMITTED_DISAGREEMENTS.effectiveDate,
     evaluation: () => SUBMITTED_DISAGREEMENTS.evaluation,
-    other: disagreementOptions => disagreementOptions.otherEntry,
   };
   return issues.map((issue, index) => {
     const entry = areaOfDisagreement[index];
     const reasons = Object.entries(entry.disagreementOptions)
       .map(([key, value]) => value && keywords[key](entry))
+      .concat((entry?.otherEntry || '').trim())
       .filter(Boolean);
     return {
       ...issue,

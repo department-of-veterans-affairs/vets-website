@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import ENVIRONMENTS from 'site/constants/environments';
-import environment from '../../utilities/environment';
+import environment from 'platform/utilities/environment';
 
 export const eauthEnvironmentPrefixes = {
   [ENVIRONMENTS.LOCALHOST]: 'pint.',
@@ -9,7 +9,12 @@ export const eauthEnvironmentPrefixes = {
   [ENVIRONMENTS.VAGOVPROD]: '',
 };
 
-export const MHV_SKIP_DUPE = '?skip_dupe=mhv';
+export const MHV_SKIP_DUPE = 'skip_dupe=mhv';
+
+export const SKIP_DUPE_QUERY = {
+  SINGLE_QUERY: `?${MHV_SKIP_DUPE}`,
+  MULTIPLE_QUERIES: `&${MHV_SKIP_DUPE}`,
+};
 
 export const CSP_AUTHN = {
   MHV: 'myhealthevet',

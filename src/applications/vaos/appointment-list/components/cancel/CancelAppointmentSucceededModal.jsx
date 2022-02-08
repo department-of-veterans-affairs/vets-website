@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 export default function CancelAppointmentSucceededModal({
@@ -7,17 +8,26 @@ export default function CancelAppointmentSucceededModal({
 }) {
   const typeText = isConfirmed ? 'appointment' : 'request';
   return (
-    <Modal
-      id="cancelAppt"
-      status="success"
-      visible
-      onClose={onClose}
-      title={`Your ${typeText} has been canceled`}
-    >
-      We’ve let your provider know you canceled this {typeText}.
-      <p className="vads-u-margin-top--2">
-        <button onClick={onClose}>Continue</button>
-      </p>
-    </Modal>
+    <>
+      <Modal
+        id="cancelAppt"
+        status="success"
+        visible
+        onClose={onClose}
+        title={`Your ${typeText} has been canceled`}
+      >
+        If you want to reschedule, call us or schedule a new {typeText} online.
+        <p className="vads-u-margin-top--2">
+          <button type="button" onClick={onClose}>
+            Continue
+          </button>
+        </p>
+      </Modal>
+    </>
   );
 }
+
+CancelAppointmentSucceededModal.propTypes = {
+  isConfirmed: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+};

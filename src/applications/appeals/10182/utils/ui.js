@@ -37,9 +37,5 @@ export const areaOfDisagreementWorkAround = (hasSelection, index) => {
   if (label) {
     const showError = label.dataset.submitted === 'true' && !hasSelection;
     label.classList.toggle('usa-input-error', showError);
-    label.parentElement.nextElementSibling.classList.toggle(
-      'usa-input-error',
-      showError,
-    );
   }
 };

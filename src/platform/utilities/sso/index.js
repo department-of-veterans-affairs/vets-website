@@ -1,23 +1,23 @@
 import addSeconds from 'date-fns/addSeconds';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 import environment from 'platform/utilities/environment';
-import localStorage from '../storage/localStorage';
-import { hasSessionSSO } from '../../user/profile/utilities';
-
+import {
+  AUTH_EVENTS,
+  API_VERSION,
+  POLICY_TYPES,
+} from 'platform/user/authentication/constants';
 import {
   standaloneRedirect,
   login,
   loginAppUrlRE,
   logout,
 } from 'platform/user/authentication/utilities';
+
+import { hasSessionSSO } from 'platform/user/profile/utilities';
 import mockKeepAlive from './mockKeepAliveSSO';
 import { keepAlive as liveKeepAlive } from './keepAliveSSO';
 import { getLoginAttempted } from './loginAttempted';
-import {
-  AUTH_EVENTS,
-  API_VERSION,
-  POLICY_TYPES,
-} from 'platform/user/authentication/constants';
+import localStorage from '../storage/localStorage';
 
 const keepAliveThreshold = 5 * 60 * 1000; // 5 minutes, in milliseconds
 

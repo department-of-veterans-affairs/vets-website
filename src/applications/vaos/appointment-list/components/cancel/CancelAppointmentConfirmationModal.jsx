@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import PropTypes from 'prop-types';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { FETCH_STATUS } from '../../../utils/constants';
 
@@ -17,12 +18,12 @@ export default function CancelAppointmentConfirmationModal({
       visible
       onClose={onClose}
       hideCloseButton={status === FETCH_STATUS.loading}
-      title={`Do you want to cancel your ${typeText}?`}
+      title={`Are you sure you want to cancel your ${typeText}?`}
     >
       {isConfirmed && (
         <>
-          If you want to reschedule this appointment, you’ll need to first
-          cancel this one and then create a new appointment.
+          If you want to reschedule, you’ll need to call us or schedule a new
+          appointment online.
         </>
       )}
       <p className="vads-u-margin-top--2">
@@ -34,13 +35,21 @@ export default function CancelAppointmentConfirmationModal({
           Yes, cancel this {typeText}
         </LoadingButton>
         <button
+          type="button"
           className="usa-button-secondary"
           onClick={onClose}
           disabled={status === FETCH_STATUS.loading}
         >
-          No, take me back
+          No, don’t cancel
         </button>
       </p>
     </Modal>
   );
 }
+
+CancelAppointmentConfirmationModal.propTypes = {
+  status: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+  isConfirmed: PropTypes.bool,
+  onConfirm: PropTypes.bool,
+};

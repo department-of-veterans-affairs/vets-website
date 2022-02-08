@@ -3,6 +3,7 @@
     "entryNames": [
       "education-inbox",
       "enrollment-verification",
+      "login-page",
       "medical-copays",
       "vaos"
     ],
