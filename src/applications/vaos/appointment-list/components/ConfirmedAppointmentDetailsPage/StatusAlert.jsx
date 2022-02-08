@@ -9,6 +9,13 @@ import {
   GA_PREFIX,
 } from '../../../utils/constants';
 
+function handleClick() {
+  return () => {
+    recordEvent({
+      event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
+    });
+  };
+}
 export default function StatusAlert({ appointment, facility }) {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
@@ -25,9 +32,12 @@ export default function StatusAlert({ appointment, facility }) {
   if (canceled) {
     const who = canceler.get(appointment.cancelationReason);
     return (
-      <InfoAlert status="error" backgroundOnly>
-        {`${who ||
-          'Facility'} canceled this appointment. If you want to reschedule, call us or schedule a new appointment online`}
+      <InfoAlert
+        status="error"
+        backgroundOnly
+        headline={`${who || 'Facility'} canceled this appointment`}
+      >
+        If you want to reschedule, call us or schedule a new appointment online.
       </InfoAlert>
     );
   }
@@ -44,14 +54,7 @@ export default function StatusAlert({ appointment, facility }) {
         <strong>We’ve scheduled and confirmed your appointment.</strong>
         <br />
         <div className="vads-u-margin-y--1">
-          <Link
-            to="/"
-            onClick={() => {
-              recordEvent({
-                event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
-              });
-            }}
-          >
+          <Link to="/" onClick={handleClick()}>
             Review your appointments
           </Link>
         </div>

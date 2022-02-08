@@ -27,7 +27,7 @@ export default function CancelAppointmentSucceededModal({
   );
 }
 
-CancelAppointmentSucceededModal.prototypes = {
+CancelAppointmentSucceededModal.propTypes = {
   isConfirmed: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
