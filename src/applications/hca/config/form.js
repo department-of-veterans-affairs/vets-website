@@ -27,7 +27,7 @@ import PersonalAuthenticatedInformation from '../components/PersonalAuthenticate
 import personalInformationSsn from './chapters/veteranInformation/personalInformationSsn';
 import dobInformation from './chapters/veteranInformation/dobInformation';
 import birthInformation from './chapters/veteranInformation/birthInformation';
-import maidenNameIformation from './chapters/veteranInformation/maidenNameIformation';
+import maidenNameInformation from './chapters/veteranInformation/maidenNameInformation';
 import americanIndian from './chapters/veteranInformation/americanIndian';
 import birthSex from './chapters/veteranInformation/birthSex';
 import veteranInformation from './chapters/veteranInformation/personalnformation';
@@ -133,7 +133,7 @@ const formConfig = {
       title: 'Veteran Information',
       pages: {
         veteranProfileInformation: {
-          path: 'veteran-information/profile-information',
+          path: 'veteran-information/personal-information',
           title: 'Veteran information',
           CustomPage: PersonalAuthenticatedInformation,
           CustomPageReview: null,
@@ -146,7 +146,7 @@ const formConfig = {
           },
         },
         veteranInformation: {
-          path: 'veteran-information/personal-information',
+          path: 'veteran-information/profile-information',
           title: 'Veteran information',
           initialData: {},
           depends: () => !hasSession(),
@@ -154,7 +154,7 @@ const formConfig = {
           schema: veteranInformation.schema,
         },
         ssnInformation: {
-          path: 'veteran-information/personal-information-ssn',
+          path: 'veteran-information/profile-information-ssn',
           title: 'Veteran information',
           initialData: {},
           depends: () => !hasSession(),
@@ -162,7 +162,7 @@ const formConfig = {
           schema: personalInformationSsn.schema,
         },
         dobInformation: {
-          path: 'veteran-information/personal-information-dob',
+          path: 'veteran-information/profile-information-dob',
           title: 'Veteran information',
           initialData: {},
           depends: () => !hasSession(),
@@ -180,8 +180,8 @@ const formConfig = {
           path: 'veteran-information/maiden-name-information',
           title: 'Veteran information',
           initialData: {},
-          uiSchema: maidenNameIformation.uiSchema,
-          schema: maidenNameIformation.schema,
+          uiSchema: maidenNameInformation.uiSchema,
+          schema: maidenNameInformation.schema,
         },
         birthSex: {
           path: 'veteran-information/birth-sex',
