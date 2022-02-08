@@ -10,6 +10,7 @@ import facilityData from '../../services/mocks/var/facility_data.json';
 import requests from '../../services/mocks/v2/requests.json';
 import facilitiesV2 from '../../services/mocks/v2/facilities.json';
 import configurations from '../../services/mocks/v2/scheduling_configurations_cc.json';
+import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('VAOS community care flow', () => {
   it('should fill out community care form and submit request', () => {
@@ -17,6 +18,15 @@ describe('VAOS community care flow', () => {
     cy.visit(
       'health-care/schedule-view-va-appointments/appointments/new-appointment/',
     );
+
+    // we should re-direct to home page
+    cy.get('h2', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('contain', 'Your appointments');
+
+    // Start flow
+    cy.findByText('Start scheduling').click();
+
     cy.injectAxe();
     // Select primary care
     cy.get('input[value="323"]')
@@ -217,6 +227,15 @@ describe('VAOS community care flow', () => {
     cy.visit(
       'health-care/schedule-view-va-appointments/appointments/new-appointment/',
     );
+
+    // we should re-direct to home page
+    cy.get('h2', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('contain', 'Your appointments');
+
+    // Start flow
+    cy.findByText('Start scheduling').click();
+
     cy.injectAxe();
     // Select primary care
     cy.get('input[value="323"]')
@@ -520,6 +539,7 @@ describe('VAOS community care flow using VAOS service', () => {
       url: '/v1/facilities/va/vha_442',
       response: facilityData.data.find(f => f.id === 'vha_442'),
     });
+
     // Select primary care
     cy.get('input[value="323"]')
       .should('exist')
@@ -528,6 +548,7 @@ describe('VAOS community care flow using VAOS service', () => {
           .focus()
           .check();
       });
+
     // Verify primary care checked
     cy.get('input[value="323"]').should('be.checked');
     // Click continue button

@@ -3,6 +3,9 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { mockFetch } from 'platform/testing/unit/helpers';
+import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { getCancelReasonMock } from '../../../mocks/v0';
 import {
   mockAppointmentInfo,
@@ -14,10 +17,7 @@ import {
   getTimezoneTestDate,
 } from '../../../mocks/setup';
 
-import userEvent from '@testing-library/user-event';
 import { AppointmentList } from '../../../../appointment-list';
-import sinon from 'sinon';
-import { fireEvent, waitFor } from '@testing-library/react';
 import { getICSTokens } from '../../../../utils/calendar';
 import {
   mockAppointmentCancelFetch,
@@ -42,6 +42,7 @@ const initialState = {
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
     vaOnlineSchedulingVAOSServiceVAAppointments: false,
+    vaOnlineSchedulingStatusImprovement: false,
   },
 };
 
@@ -515,7 +516,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(
       await screen.findByText(
-        /Fort Collins VA Clinic canceled this appointment./i,
+        /Fort Collins VA Clinic canceled this appointment/i,
       ),
     ).to.exist;
   });
@@ -561,7 +562,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(
       await screen.findByText(
-        /Fort Collins VA Clinic canceled this appointment./i,
+        /Fort Collins VA Clinic canceled this appointment/i,
       ),
     ).to.exist;
 
@@ -712,11 +713,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     await screen.findByRole('alertdialog');
 
-    userEvent.click(screen.getByText(/no, take me back/i));
+    userEvent.click(screen.getByText(/No, don’t cancel/i));
 
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
     expect(screen.baseElement).to.not.contain.text(
-      'You canceled this appointment.',
+      'You canceled this appointment',
     );
   });
 
@@ -1346,7 +1347,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.getByText('Primary care')).to.be.ok;
 
     // Then it should display who canceled the appointment
-    expect(await screen.findByText(/You canceled this appointment./i)).to.exist;
+    expect(await screen.findByText(/You canceled this appointment/i)).to.exist;
 
     expect(
       screen.getByRole('heading', {

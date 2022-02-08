@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { changeSearchTab, setPageTitle } from '../actions';
-import { TABS } from '../constants';
+import { useHistory } from 'react-router-dom';
+import environment from 'platform/utilities/environment';
+import classNames from 'classnames';
+import recordEvent from 'platform/monitoring/record-event';
 import SearchTabs from '../components/search/SearchTabs';
 import { useQueryParams, isSmallScreen } from '../utils/helpers';
-import { useHistory } from 'react-router-dom';
-import NameSearchResults from '../containers/search/NameSearchResults';
-import LocationSearchResults from '../containers/search/LocationSearchResults';
-import LocationSearchResultsStaging from '../containers/search/LocationSearchResultsStaging';
-import environment from 'platform/utilities/environment';
+import { TABS } from '../constants';
+import NameSearchResults from './search/NameSearchResults';
+import LocationSearchResults from './search/LocationSearchResults';
 
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
 import AccordionItem from '../components/AccordionItem';
 import { getSearchQueryChanged, updateUrlParams } from '../selectors/search';
-import classNames from 'classnames';
 import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
-import recordEvent from 'platform/monitoring/record-event';
+import { changeSearchTab, setPageTitle } from '../actions';
 
 export function SearchPage({
   dispatchChangeSearchTab,
@@ -56,17 +55,10 @@ export function SearchPage({
     return () => window.removeEventListener('resize', checkSize);
   }, []);
 
-  const tabbedResults = environment.isProduction()
-    ? {
-        [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
-        [TABS.location]: <LocationSearchResults smallScreen={smallScreen} />,
-      }
-    : {
-        [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
-        [TABS.location]: (
-          <LocationSearchResultsStaging smallScreen={smallScreen} />
-        ),
-      };
+  const tabbedResults = {
+    [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
+    [TABS.location]: <LocationSearchResults smallScreen={smallScreen} />,
+  };
 
   const tabChange = selectedTab => {
     recordEvent({

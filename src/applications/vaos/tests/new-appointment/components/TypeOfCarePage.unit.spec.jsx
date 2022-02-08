@@ -43,6 +43,7 @@ const initialState = {
 
 describe('VAOS <TypeOfCarePage>', () => {
   beforeEach(() => mockFetch());
+
   it('should show type of care page with all care types', async () => {
     const store = createTestStore(initialState);
     mockParentSites(['983'], []);
@@ -360,9 +361,28 @@ describe('VAOS <TypeOfCarePage>', () => {
         ],
       },
     );
-    const store = createTestStore(initialState);
+
+    const state = {
+      ...initialState,
+      newAppointment: {
+        ...initialState.newAppointment,
+        pages: {
+          vaFacilityV2: {
+            properties: {
+              vaFacility: {
+                enum: [{}, {}],
+              },
+            },
+          },
+        },
+        isNewAppointmentStarted: true,
+      },
+    };
+
+    const store = createTestStore(state);
     const screen = renderWithStoreAndRouter(<NewAppointment />, {
       store,
+      path: '/new-appointment',
     });
 
     expect(
