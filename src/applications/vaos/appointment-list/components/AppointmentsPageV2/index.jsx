@@ -18,6 +18,7 @@ import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import AppointmentListNavigation from '../AppointmentListNavigation';
 import { updateBreadcrumb } from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
 
 let pageTitle = 'VA online scheduling';
 
@@ -215,7 +216,12 @@ export default function AppointmentsPageV2() {
           <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />
         </Route>
         <Route path="/requested">
-          <RequestedAppointmentsList hasTypeChanged={hasTypeChanged} />
+          {featureStatusImprovement && (
+            <RequestedAppointmentsListGroup hasTypeChanged={hasTypeChanged} />
+          )}
+          {!featureStatusImprovement && (
+            <RequestedAppointmentsList hasTypeChanged={hasTypeChanged} />
+          )}
         </Route>
         <Route path="/past">
           <PastAppointmentsListV2 hasTypeChanged={hasTypeChanged} />
