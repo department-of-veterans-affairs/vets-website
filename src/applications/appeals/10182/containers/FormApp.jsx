@@ -21,6 +21,7 @@ import { showWorkInProgress } from '../content/WorkInProgressMessage';
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
 export const FormApp = ({
+  isLoading,
   loggedIn,
   showNod,
   location,
@@ -95,15 +96,26 @@ export const FormApp = ({
     ],
   );
 
+  let content = isLoading ? (
+    <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+      <va-loading-indicator
+        set-focus
+        message="Loading your previous decisions..."
+      />
+    </h1>
+  ) : (
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {children}
+    </RoutedSavableApp>
+  );
+
+  if (showNod === false) {
+    content = showWorkInProgress(formConfig);
+  }
+
   return (
     <article id="form-10182" data-location={`${location?.pathname?.slice(1)}`}>
-      {showNod ? (
-        <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-          {children}
-        </RoutedSavableApp>
-      ) : (
-        showWorkInProgress(formConfig)
-      )}
+      {content}
     </article>
   );
 };
@@ -112,9 +124,10 @@ const mapStateToProps = state => {
   const profile = selectProfile(state);
   const formData = state.form?.data || {};
   const showNod = noticeOfDisagreementFeature(state);
+  const isLoading = state.featureToggles?.loading;
   const loggedIn = isLoggedIn(state);
   const { contestableIssues } = state;
-  return { profile, formData, showNod, contestableIssues, loggedIn };
+  return { profile, formData, showNod, contestableIssues, isLoading, loggedIn };
 };
 
 const mapDispatchToProps = {

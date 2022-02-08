@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const COEEligible = ({ downloadURL }) => (
+const COEEligible = ({ downloadUrl }) => (
   <>
     <va-alert status="success">
       <h2 slot="headline">Congratulations on your automatic COE</h2>
@@ -21,8 +22,8 @@ const COEEligible = ({ downloadURL }) => (
         Get instructions for downloading a VA.gov PDF
       </a>
     </div>
-    <div className="vads-u-padding-top--4">
-      <a href={downloadURL}>
+    <div className="vads-u-margin-top--4">
+      <a href={downloadUrl}>
         <i
           className="fas fa-download vads-u-padding-right--1"
           aria-hidden="true"
@@ -46,5 +47,9 @@ const COEEligible = ({ downloadURL }) => (
     </div>
   </>
 );
+
+COEEligible.propTypes = {
+  downloadUrl: PropTypes.string.isRequired,
+};
 
 export default COEEligible;

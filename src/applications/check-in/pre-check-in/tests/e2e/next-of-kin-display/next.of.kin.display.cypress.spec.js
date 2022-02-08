@@ -9,7 +9,7 @@ import Demographics from '../../../../tests/e2e/pages/Demographics';
 
 describe('Pre-Check In Experience', () => {
   describe('Next of kin Page', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const {
         initializeFeatureToggle,
         initializeSessionGet,

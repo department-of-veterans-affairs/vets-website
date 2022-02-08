@@ -16,6 +16,13 @@ import {
 } from '../../unit-test-helpers';
 import { beforeEach } from 'mocha';
 
+// the list of number fields that we need to test
+const numbers = [
+  FIELD_NAMES.HOME_PHONE,
+  FIELD_NAMES.MOBILE_PHONE,
+  FIELD_NAMES.WORK_PHONE,
+];
+
 const errorText = `We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please check back later.`;
 const newAreaCode = '415';
 const newPhoneNumber = '555-0055';
@@ -80,8 +87,12 @@ async function testQuickSuccess(numberName) {
   ).to.exist;
   // and the new number should exist in the DOM
   // TODO: make better assertions for this?
-  expect(view.getAllByText(newAreaCode, { exact: false }).length).to.eql(4);
-  expect(view.getAllByText(newPhoneNumber, { exact: false }).length).to.eql(4);
+  expect(view.getAllByText(newAreaCode, { exact: false }).length).to.eql(
+    numbers.length,
+  );
+  expect(view.getAllByText(newPhoneNumber, { exact: false }).length).to.eql(
+    numbers.length,
+  );
   // and the 'add' button should be gone
   expect(
     view.queryByText(new RegExp(`new.*${numberName}`, 'i'), {
@@ -118,8 +129,12 @@ async function testSlowSuccess(numberName) {
   ).to.exist;
   // and the updated phone numbers should be in the DOM
   // TODO: make better assertions for this?
-  expect(view.getAllByText(newAreaCode, { exact: false }).length).to.eql(4);
-  expect(view.getAllByText(newPhoneNumber, { exact: false }).length).to.eql(4);
+  expect(view.getAllByText(newAreaCode, { exact: false }).length).to.eql(
+    numbers.length,
+  );
+  expect(view.getAllByText(newPhoneNumber, { exact: false }).length).to.eql(
+    numbers.length,
+  );
   // and the 'add' button should be gone
   expect(
     view.queryByText(new RegExp(`new.*${numberName}`, 'i'), {
@@ -216,14 +231,6 @@ describe('Editing', () => {
   after(() => {
     server.close();
   });
-
-  // the list of number fields that we need to test
-  const numbers = [
-    FIELD_NAMES.HOME_PHONE,
-    FIELD_NAMES.MOBILE_PHONE,
-    FIELD_NAMES.WORK_PHONE,
-    FIELD_NAMES.FAX_NUMBER,
-  ];
 
   numbers.forEach(number => {
     const numberName = FIELD_TITLES[number];

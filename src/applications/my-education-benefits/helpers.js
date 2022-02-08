@@ -209,6 +209,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
 
   const newData = {
     ...formData,
+    formId: state.data?.formData?.data?.id,
     claimantId: claimant.claimantId,
     'view:userFullName': {
       userFullName: {

@@ -1,41 +1,27 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
-export default function MailMessage({ onClose }) {
-  return (
-    <div>
-      <h3 className="claims-status-upload-header">Mail Instructions</h3>
-      <button
-        className="va-modal-close"
-        type="button"
-        aria-label="Close this modal"
-        onClick={onClose}
-      >
-        <i className="fas fa-times-circle" />
-      </button>
-      <p>
-        Please upload your documents online here to help us process your claim
-        quickly.
-      </p>
-      <p>If you can’t upload documents:</p>
-      <ol>
-        <li>Make copies of the documents.</li>
-        <li>Make sure you write your name and claim number on every page.</li>
-        <li>
-          Mail them to the{' '}
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="http://www.benefits.va.gov/COMPENSATION/mailingaddresses.asp"
-          >
-            VA Claims Intake Center.
-          </a>
-        </li>
-      </ol>
-    </div>
-  );
-}
+const mailMessage = (
+  <>
+    <p>
+      Please upload your documents online here to help us process your claim
+      quickly.
+    </p>
+    <p>If you can’t upload documents:</p>
+    <ol className="vads-u-padding-bottom--1">
+      <li>Make copies of the documents.</li>
+      <li>Make sure you write your name and claim number on every page.</li>
+      <li>
+        Mail them to the{' '}
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="http://www.benefits.va.gov/COMPENSATION/mailingaddresses.asp"
+        >
+          VA Claims Intake Center.
+        </a>
+      </li>
+    </ol>
+  </>
+);
 
-MailMessage.propTypes = {
-  onClose: PropTypes.func.isRequired,
-};
+export default mailMessage;

@@ -61,9 +61,10 @@ describe('<DownloadLetterLink>', () => {
   });
 
   it('should update button when status is downloading', () => {
-    const props = Object.assign({}, defaultProps, {
+    const props = {
+      ...defaultProps,
       downloadStatus: DOWNLOAD_STATUSES.downloading,
-    });
+    };
     const component = ReactTestUtils.renderIntoDocument(
       <DownloadLetterLink {...props} />,
     );
@@ -75,32 +76,30 @@ describe('<DownloadLetterLink>', () => {
   });
 
   it('should show success message', () => {
-    const props = Object.assign({}, defaultProps, {
+    const props = {
+      ...defaultProps,
       downloadStatus: DOWNLOAD_STATUSES.success,
-    });
+    };
     const component = ReactTestUtils.renderIntoDocument(
       <DownloadLetterLink {...props} />,
     );
     const tree = getFormDOM(component);
-    const heading = tree.getElement('.usa-alert-heading');
-
-    expect(heading.textContent).to.equal(
+    expect(tree.textContent).to.contain(
       'Your letter has successfully downloaded.',
     );
   });
 
   it('should show failure message', () => {
-    const props = Object.assign({}, defaultProps, {
+    const props = {
+      ...defaultProps,
       downloadStatus: DOWNLOAD_STATUSES.failure,
-    });
+    };
     const component = ReactTestUtils.renderIntoDocument(
       <DownloadLetterLink {...props} />,
     );
     const tree = getFormDOM(component);
-    const heading = tree.getElement('.usa-alert-heading');
-    const button = tree.getElement('button');
 
-    expect(button.textContent).to.equal('Retry download');
-    expect(heading.textContent).to.equal('Your letter didn’t download.');
+    expect(tree.textContent).to.contain('Retry download');
+    expect(tree.textContent).to.contain('Your letter didn’t download.');
   });
 });

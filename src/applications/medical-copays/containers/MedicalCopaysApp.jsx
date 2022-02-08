@@ -3,14 +3,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { mcpFeatureToggle } from '../utils/helpers';
-import AlertView from '../components/AlertView';
-import { getStatements } from '../actions';
 import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import PropTypes from 'prop-types';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { mcpFeatureToggle } from '../utils/helpers';
+import AlertView from '../components/AlertView';
+import { getStatements } from '../actions';
 
 const MedicalCopaysApp = ({ children }) => {
   const showMCP = useSelector(state => mcpFeatureToggle(state));
@@ -80,6 +81,10 @@ const MedicalCopaysApp = ({ children }) => {
       </div>
     </div>
   );
+};
+
+MedicalCopaysApp.propTypes = {
+  children: PropTypes.object,
 };
 
 export default MedicalCopaysApp;

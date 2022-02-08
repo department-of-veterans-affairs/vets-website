@@ -5,7 +5,7 @@ import Appointments from '../pages/Appointments';
 import Confirmation from '../pages/Confirmation';
 
 describe('Check In Experience', () => {
-  beforeEach(function() {
+  beforeEach(() => {
     const {
       initializeFeatureToggle,
       initializeSessionGet,

@@ -34,9 +34,12 @@ describe('MyVA Dashboard - CTA Links', () => {
       cy.findByRole('link', {
         name: /schedule and manage.*appointments/i,
       }).should('exist');
-      cy.findByText(/3 unread message/i).should('exist');
+      cy.findByRole('link', { name: /3 unread message/i }).should('exist');
       cy.findByRole('link', {
         name: /refill and track.*prescriptions/i,
+      }).should('exist');
+      cy.findByRole('link', {
+        name: /request travel reimbursement/i,
       }).should('exist');
     });
   });

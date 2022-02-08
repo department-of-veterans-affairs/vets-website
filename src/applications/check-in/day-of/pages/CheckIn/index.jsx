@@ -50,18 +50,17 @@ const CheckIn = props => {
 
   if (!appointment) {
     return (
-      <va-loading-indicator message={'Loading your appointments for today'} />
-    );
-  } else {
-    return (
-      <DisplayMultipleAppointments
-        router={router}
-        token={token}
-        appointments={appointments}
-        getMultipleAppointments={getMultipleAppointments}
-      />
+      <va-loading-indicator message="Loading your appointments for today" />
     );
   }
+  return (
+    <DisplayMultipleAppointments
+      router={router}
+      token={token}
+      appointments={appointments}
+      getMultipleAppointments={getMultipleAppointments}
+    />
+  );
 };
 
 CheckIn.propTypes = {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   currency,
@@ -32,6 +33,10 @@ const FinancialOverview = ({ formData }) => {
       </div>
     </>
   );
+};
+
+FinancialOverview.propTypes = {
+  formData: PropTypes.object,
 };
 
 const mapStateToProps = ({ form }) => ({

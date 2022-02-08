@@ -614,6 +614,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
         ...initialState.featureToggles,
         vaOnlineSchedulingVAOSServiceVAAppointments: true,
         vaOnlineSchedulingVAOSServiceCCAppointments: true,
+        vaOnlineSchedulingStatusImprovement: false,
       },
     };
     const now = moment();
@@ -674,6 +675,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
         ...initialState.featureToggles,
         vaOnlineSchedulingVAOSServiceVAAppointments: true,
         vaOnlineSchedulingVAOSServiceCCAppointments: true,
+        vaOnlineSchedulingStatusImprovement: false,
       },
     };
     const now = moment();
@@ -713,6 +715,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
         ...initialState.featureToggles,
         vaOnlineSchedulingVAOSServiceVAAppointments: true,
         vaOnlineSchedulingVAOSServiceCCAppointments: true,
+        vaOnlineSchedulingStatusImprovement: false,
       },
     };
     const now = moment();
@@ -752,6 +755,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
         ...initialState.featureToggles,
         vaOnlineSchedulingVAOSServiceVAAppointments: true,
         vaOnlineSchedulingVAOSServiceCCAppointments: true,
+        vaOnlineSchedulingStatusImprovement: false,
       },
     };
     const now = moment();
@@ -791,6 +795,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
         ...initialState.featureToggles,
         vaOnlineSchedulingVAOSServiceVAAppointments: true,
         vaOnlineSchedulingVAOSServiceCCAppointments: true,
+        vaOnlineSchedulingStatusImprovement: false,
       },
     };
     const now = moment();

@@ -397,18 +397,6 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
       extension: {
         desiredDate: '2021-05-06T00:00:00+00:00',
       },
-      contact: {
-        telecom: [
-          {
-            type: 'phone',
-            value: '2234567890',
-          },
-          {
-            type: 'email',
-            value: 'joeblow@gmail.com',
-          },
-        ],
-      },
       slot: store.getState().newAppointment.availableSlots[0],
     });
   });

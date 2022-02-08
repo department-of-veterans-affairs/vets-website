@@ -42,9 +42,6 @@ describe('Content on the personal information page', () => {
     cy.findByText('Pronouns').should('exist');
     cy.findByText('Edit your profile to add pronouns.').should('exist');
 
-    cy.findByText('Sex assigned at birth').should('exist');
-    cy.findByText('Male').should('exist');
-
     cy.findByText('Gender identity').should('exist');
     cy.findByText('Edit your profile to add a gender identity.').should(
       'exist',

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import propTypes from 'prop-types';
 import { useSessionStorage } from '../../useSessionStorage';
 
 export default function TestComponent({ window, isPreCheckIn, token }) {
@@ -13,26 +14,38 @@ export default function TestComponent({ window, isPreCheckIn, token }) {
       <h1>Test component for the useSessionStorage hook</h1>
 
       <button
-        onClick={() => {
-          clearCurrentSession(window);
-        }}
+        onClick={useCallback(
+          () => {
+            clearCurrentSession(window);
+          },
+          [clearCurrentSession, window],
+        )}
         data-testid="clear-button"
+        type="button"
       >
         clear
       </button>
       <button
-        onClick={() => {
-          setFromSession(getCurrentToken(window));
-        }}
+        onClick={useCallback(
+          () => {
+            setFromSession(getCurrentToken(window));
+          },
+          [setFromSession, getCurrentToken, window],
+        )}
         data-testid="get-button"
+        type="button"
       >
         get
       </button>
       <button
-        onClick={() => {
-          setCurrentToken(window, token);
-        }}
+        onClick={useCallback(
+          () => {
+            setCurrentToken(window, token);
+          },
+          [setCurrentToken, window, token],
+        )}
         data-testid="set-button"
+        type="button"
       >
         set
       </button>
@@ -42,3 +55,9 @@ export default function TestComponent({ window, isPreCheckIn, token }) {
     </div>
   );
 }
+
+TestComponent.propTypes = {
+  isPreCheckIn: propTypes.bool,
+  token: propTypes.string,
+  window: propTypes.object,
+};

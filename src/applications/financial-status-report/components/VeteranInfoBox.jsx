@@ -61,12 +61,12 @@ const VeteranInfoBox = ({
 };
 
 VeteranInfoBox.propTypes = {
+  dateOfBirth: PropTypes.string,
+  fileNumber: PropTypes.string,
   first: PropTypes.string,
   last: PropTypes.string,
   middle: PropTypes.string,
-  dateOfBirth: PropTypes.string,
   ssnLastFour: PropTypes.string,
-  fileNumber: PropTypes.string,
 };
 
 const mapStateToProps = ({ form }) => ({

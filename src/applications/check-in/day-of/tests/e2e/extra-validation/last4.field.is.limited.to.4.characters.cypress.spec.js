@@ -5,7 +5,7 @@ import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 
 describe('Check In Experience -- ', () => {
   describe('extra validation -- ', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const {
         initializeFeatureToggle,
         initializeSessionGet,
@@ -27,6 +27,7 @@ describe('Check In Experience -- ', () => {
       ValidateVeteran.typeLast4('12345');
       ValidateVeteran.validateTypedLast4();
       ValidateVeteran.validateMax4Text();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

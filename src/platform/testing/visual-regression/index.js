@@ -1,17 +1,17 @@
 const commandLineArgs = require('command-line-args');
-const Auth = require('../e2e-puppeteer/auth');
 const puppeteer = require('puppeteer');
 const devices = require('puppeteer/DeviceDescriptors');
-const Timeouts = require('../e2e/timeouts');
-const {
-  sitemapURLs,
-} = require('../../site-wide/tests/sitemap/sitemap-helpers');
-const createBaselineImage = require('./util/create-baseline-image');
-const calculateDiff = require('./util/calculate-diff');
 const chalk = require('chalk');
 const Table = require('cli-table');
 const url = require('url');
 const path = require('path');
+const calculateDiff = require('./util/calculate-diff');
+const createBaselineImage = require('./util/create-baseline-image');
+const Timeouts = require('../e2e/timeouts');
+const Auth = require('../e2e-puppeteer/auth');
+const {
+  sitemapURLs,
+} = require('../../site-wide/tests/sitemap/sitemap-helpers');
 
 const iPhone = devices['iPhone 6'];
 const BASE_DIR = path.resolve(__dirname, '../../../../');

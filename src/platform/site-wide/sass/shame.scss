@@ -494,12 +494,6 @@ $medium-phone-screen: 375px;
   }
 }
 
-.usa-accordion-bordered {
-  .fa {
-    color: $color-link-default;
-  }
-}
-
 // There are styles in our sidebar styles that set a small
 // amount of padding on the grid for detail pages, which we
 // are overriding for WBC with no padding
@@ -512,23 +506,8 @@ $medium-phone-screen: 375px;
   display: flex;
 }
 
-// This is a fix for Edge and lazy image loading.
-img[data-src],
-img[data-srcset] {
-  display: block;
-  min-height: 1px;
-}
-
 .vet-toolbar .va-dropdown {
   margin-left: 0;
-}
-
-.profile-nav {
-  margin-top: 6px;
-}
-
-.process-accordion > li {
-  list-style: none !important;
 }
 
 .circular-profile-image {
@@ -575,30 +554,6 @@ img[data-srcset] {
   clear: both;
 }
 
-.va-u-outline--none:focus {
-  outline: none;
-}
-
-.image-detail {
-  width: 25%;
-  @media (max-width: $small-screen) {
-    width: 100%;
-  }
-  .alt-text-container {
-    min-height: 200px;
-  }
-}
-
-.image-desc {
-  width: 50%;
-  @media (max-width: $small-screen) {
-    width: 100%;
-  }
-}
-._acs._acsbadge--default {
-  background-color: $color-black !important;
-}
-
 .media-list-images {
   @media (min-width: $small-screen) {
     max-width: 50%;
@@ -614,20 +569,29 @@ img[data-srcset] {
       top: 0;
       position: absolute;
       width: 5px;
+      @media (max-width: $medium-screen) {
+        left: -8px;
+        width: 3px;
+      }
     }
 
     .filter-by {
-      @media (max-width: $small-screen) {
-        max-width: unset;
+      max-width: 100%;
+      @media (min-width: $medium-screen) {
+        max-width: 328px;
       }
+    }
 
-      @media (min-width: $small-screen) {
-        max-width: 198px;
+    .events-date-select {
+      max-width: unset;
+      @media (min-width: $medium-screen) {
+        max-width: 160px;
       }
     }
 
     button[type="submit"] {
-      @media (min-width: $small-screen) {
+      max-width: 100%;
+      @media (min-width: $medium-screen) {
         max-width: fit-content;
       }
     }

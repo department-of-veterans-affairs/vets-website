@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import environment from 'platform/utilities/environment';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
@@ -175,6 +176,13 @@ const PreSubmitSignature = ({
       />
     </>
   );
+};
+
+PreSubmitSignature.propTypes = {
+  formData: PropTypes.object,
+  formSubmission: PropTypes.object,
+  showError: PropTypes.bool,
+  onSectionComplete: PropTypes.func,
 };
 
 const mapStateToProps = ({ form }) => {

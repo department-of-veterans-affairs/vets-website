@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { COE_ELIGIBILITY_STATUS } from '../../../shared/constants';
 import COEAvailable from './COEStatuses/COEAvailable';
@@ -7,15 +8,20 @@ import COEEligible from './COEStatuses/COEEligible';
 import COEIneligible from './COEStatuses/COEIneligible';
 import COEPending from './COEStatuses/COEPending';
 
-const COEIntroPageBox = ({ coe, downloadURL }) => {
-  if (coe.status) {
-    switch (coe.status) {
+const COEIntroPageBox = ({ applicationCreateDate, downloadUrl, status }) => {
+  if (status) {
+    switch (status) {
       case COE_ELIGIBILITY_STATUS.available:
-        return <COEAvailable downloadURL={downloadURL} />;
+        return (
+          <COEAvailable
+            applicationCreateDate={applicationCreateDate}
+            downloadUrl={downloadUrl}
+          />
+        );
       case COE_ELIGIBILITY_STATUS.denied:
         return <COEDenied />;
       case COE_ELIGIBILITY_STATUS.eligible:
-        return <COEEligible downloadURL={downloadURL} />;
+        return <COEEligible downloadUrl={downloadUrl} />;
       case COE_ELIGIBILITY_STATUS.ineligible:
       case COE_ELIGIBILITY_STATUS.unableToDetermine:
         return <COEIneligible />;
@@ -23,8 +29,8 @@ const COEIntroPageBox = ({ coe, downloadURL }) => {
       case COE_ELIGIBILITY_STATUS.pendingUpload:
         return (
           <COEPending
-            status={coe.status}
-            applicationCreateDate={coe.applicationCreateDate}
+            applicationCreateDate={applicationCreateDate}
+            status={status}
           />
         );
       default:
@@ -33,6 +39,12 @@ const COEIntroPageBox = ({ coe, downloadURL }) => {
   }
 
   return <></>;
+};
+
+COEIntroPageBox.propTypes = {
+  applicationCreateDate: PropTypes.number,
+  downloadUrl: PropTypes.string,
+  status: PropTypes.string,
 };
 
 export default COEIntroPageBox;

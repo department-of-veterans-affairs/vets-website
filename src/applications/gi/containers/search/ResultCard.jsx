@@ -323,7 +323,7 @@ export function ResultCard({
             <div className="card-bottom-cell vads-u-flex--1 vads-u-margin--0">
               <CompareCheckbox
                 institution={name}
-                facilityCode={institution.facilityCode}
+                cityState={`${city}${state && `, ${state}`}`}
                 compareChecked={compareChecked}
                 handleCompareUpdate={handleCompareUpdate}
               />

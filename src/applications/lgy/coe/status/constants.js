@@ -1,6 +1,7 @@
 export const DOCUMENT_TYPES = [
-  'Discharge or seperation papers (DD214)',
+  'Discharge or separation papers (DD214)',
   'Statement of service',
+  'Report of separation and Record of Service',
   'Retirement Points Statement (NGB Form 23)',
   'Proof of honorable service',
   'Annual retirement points',
@@ -16,4 +17,4 @@ export const DOCUMENT_TYPES = [
   'Other',
 ];
 
-export const FILE_TYPES = ['pdf', 'gif', 'jpeg', 'jpg', 'bmp', 'txt', 'png'];
+export const FILE_TYPES = ['pdf', 'jpeg', 'jpg', 'png'];
