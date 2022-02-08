@@ -40,16 +40,19 @@ export default function TypeOfCarePage() {
   const showUpdateAddressAlert =
     !hideUpdateAddressAlert && (!addressLine1 || addressLine1.match(/^PO Box/));
 
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
+  useEffect(
+    () => {
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus();
 
-    if (showUpdateAddressAlert) {
-      recordEvent({
-        event: 'vaos-update-address-alert-displayed',
-      });
-    }
-  }, []);
+      if (showUpdateAddressAlert) {
+        recordEvent({
+          event: 'vaos-update-address-alert-displayed',
+        });
+      }
+    },
+    [showUpdateAddressAlert],
+  );
 
   const { data, schema, setData, uiSchema } = useFormState({
     initialSchema: () => {
