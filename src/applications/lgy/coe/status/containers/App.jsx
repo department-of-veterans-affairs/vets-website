@@ -56,11 +56,11 @@ const App = ({
   ) {
     switch (coe.status) {
       case COE_ELIGIBILITY_STATUS.available:
-        content = <CoeAvailable downloadURL={downloadUrl} />;
+        content = <CoeAvailable downloadUrl={downloadUrl} />;
         break;
       case COE_ELIGIBILITY_STATUS.eligible:
         content = (
-          <CoeEligible clickHandler={clickHandler} downloadURL={downloadUrl} />
+          <CoeEligible clickHandler={clickHandler} downloadUrl={downloadUrl} />
         );
         break;
       case COE_ELIGIBILITY_STATUS.ineligible:

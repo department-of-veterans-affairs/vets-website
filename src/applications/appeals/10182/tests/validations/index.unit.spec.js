@@ -73,10 +73,10 @@ describe('areaOfDisagreementRequired', () => {
     areaOfDisagreementRequired(errors);
     expect(errors.addError.called).to.be.true;
   });
-  it('should show an error with other selected, but no entry text', () => {
+  it('should show an error with no entry text in other', () => {
     const errors = { addError: sinon.spy() };
     areaOfDisagreementRequired(errors, {
-      disagreementOptions: { other: true },
+      disagreementOptions: {},
     });
     expect(errors.addError.called).to.be.true;
   });
@@ -85,10 +85,10 @@ describe('areaOfDisagreementRequired', () => {
     areaOfDisagreementRequired(errors, { disagreementOptions: { foo: true } });
     expect(errors.addError.called).to.be.false;
   });
-  it('should not show an error with other selected with entry text', () => {
+  it('should not show an error with other entry text', () => {
     const errors = { addError: sinon.spy() };
     areaOfDisagreementRequired(errors, {
-      disagreementOptions: { other: true },
+      disagreementOptions: {},
       otherEntry: 'foo',
     });
     expect(errors.addError.called).to.be.false;

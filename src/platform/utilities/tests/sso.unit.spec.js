@@ -1,37 +1,44 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { mockFetch } from 'platform/testing/unit/helpers';
 import localStorage from 'platform/utilities/storage/localStorage';
 import * as authUtils from 'platform/user/authentication/utilities';
 import * as keepAliveMod from 'platform/utilities/sso/keepAliveSSO';
 
-import { checkAutoSession, checkAndUpdateSSOeSession } from '../sso';
-import * as loginAttempted from '../sso/loginAttempted';
-import { keepAlive } from '../sso/keepAliveSSO';
+import {
+  checkAutoSession,
+  checkAndUpdateSSOeSession,
+} from 'platform/utilities/sso';
+import * as loginAttempted from 'platform/utilities/sso/loginAttempted';
+import { AUTHN_HEADERS, CSP_AUTHN } from 'platform/utilities/sso/constants';
 import {
   API_VERSION,
   AUTH_EVENTS,
   CSP_IDS,
-} from '../../user/authentication/constants';
+} from 'platform/user/authentication/constants';
 
-function setKeepAliveResponse(stub, sessionTimeout = 0, csid = null) {
-  const response = new Response();
-  response.headers.set('session-alive', 'true');
-  response.headers.set('session-timeout', sessionTimeout);
-  response.headers.set('va_eauth_csid', csid);
-  response.headers.set(
-    'va_eauth_authncontextclassref',
-    {
-      DSLogon: 'NOT_FOUND ',
-      mhv: 'NOT_FOUND ',
-      LOGINGOV: 'http://idmanagement.gov/ns/assurance/ial/2',
-      idme: 'http://idmanagement.gov/ns/assurance/loa/3',
-    }[csid],
-  );
-  response.json = () => Promise.resolve({ status: 200 });
+const defaultKeepAliveOpts = {
+  [AUTHN_HEADERS.ALIVE]: 'false',
+  [AUTHN_HEADERS.TIMEOUT]: 900,
+  [AUTHN_HEADERS.TRANSACTION_ID]: null,
+  [AUTHN_HEADERS.CSP]: undefined,
+  [AUTHN_HEADERS.AUTHN_CONTEXT]: 'NOT_FOUND',
+};
 
-  stub.resolves(response);
+export function generateMockKeepAliveResponse(
+  { headers = {}, status = 200 } = {
+    headers: {
+      ...defaultKeepAliveOpts,
+    },
+  },
+) {
+  const mergedHeaders = { ...defaultKeepAliveOpts, ...headers };
+  return new Response('{}', {
+    headers: { ...mergedHeaders },
+    status,
+    text: () => 'ok',
+    json: () => Promise.resolve({ status }),
+  });
 }
 
 let oldWindow;
@@ -82,7 +89,7 @@ describe('checkAutoSession', () => {
     );
   });
 
-  it.skip('should do nothing if on "/sign-in/?application=myvahealth" and not verified', async () => {
+  it('should do nothing if on "/sign-in/?application=myvahealth" and not verified', async () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       sessionAlive: true,
       ttl: 900,
@@ -293,8 +300,18 @@ describe('checkAutoSession', () => {
 });
 
 describe('checkAndUpdateSSOeSession', () => {
+  let sandbox;
+  let stubFetch;
+
   beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    stubFetch = sandbox.stub(global, 'fetch');
     localStorage.clear();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+    stubFetch.restore();
   });
 
   it('should should do nothing if there is not SSO session active', () => {
@@ -304,10 +321,20 @@ describe('checkAndUpdateSSOeSession', () => {
   });
 
   it('should do nothing if the session expiration is above the timeout threshold', () => {
-    mockFetch();
+    const { ALIVE, TIMEOUT, TRANSACTIONID, AUTHN_CONTEXT } = AUTHN_HEADERS;
+    stubFetch.resolves(
+      generateMockKeepAliveResponse({
+        headers: {
+          [ALIVE]: 'true',
+          [TIMEOUT]: '900',
+          [TRANSACTIONID]: 'g',
+          [AUTHN_CONTEXT]: '/loa1',
+        },
+        status: 200,
+      }),
+    );
     localStorage.setItem('hasSessionSSO', 'true');
     localStorage.setItem('sessionExpirationSSO', 'some value');
-    setKeepAliveResponse(global.fetch.onFirstCall(), 900);
 
     checkAndUpdateSSOeSession();
 
@@ -315,12 +342,22 @@ describe('checkAndUpdateSSOeSession', () => {
   });
 
   it('should make a keepalive request for active SSO sessions below the timeout threshold', () => {
-    mockFetch();
+    const { ALIVE, TIMEOUT, TRANSACTIONID, AUTHN_CONTEXT } = AUTHN_HEADERS;
+    stubFetch.resolves(
+      generateMockKeepAliveResponse({
+        headers: {
+          [ALIVE]: 'true',
+          [TIMEOUT]: '900',
+          [TRANSACTIONID]: 'g',
+          [AUTHN_CONTEXT]: '/loa1',
+        },
+        status: 200,
+      }),
+    );
     const expiringSession = new Date();
     expiringSession.setTime(Date.now() + 5000);
     localStorage.setItem('hasSessionSSO', 'true');
     localStorage.setItem('sessionExpirationSSO', expiringSession);
-    setKeepAliveResponse(global.fetch.onFirstCall(), 900);
 
     checkAndUpdateSSOeSession();
 
@@ -335,125 +372,172 @@ describe('checkAndUpdateSSOeSession', () => {
   });
 });
 
-describe.skip('keepAlive', () => {
+describe('keepAlive', () => {
   let sandbox;
   let stubFetch;
 
-  before(() => {
+  beforeEach(() => {
     sandbox = sinon.createSandbox();
     stubFetch = sandbox.stub(global, 'fetch');
   });
 
-  after(() => {
+  afterEach(() => {
     sandbox.restore();
+    stubFetch.restore();
   });
 
-  it('should return an empty object on a type error', () => {
-    stubFetch.rejects('TypeError');
-    return keepAlive().then(res => expect(res).to.eql({}));
+  it('should return an empty object on a type error', async () => {
+    stubFetch.rejects(generateMockKeepAliveResponse());
+    const KA_RESPONSE = await keepAliveMod.keepAlive();
+    expect(KA_RESPONSE).to.eql({});
   });
 
-  it('should return ttl 0 when not alive', () => {
-    const resp = new Response('{}', {
-      headers: {
-        'session-alive': 'false',
-        'session-timeout': '900',
-      },
-    });
-    stubFetch.resolves(resp);
-    return keepAlive().then(res => {
-      expect(res).to.eql({
-        ttl: 0,
-        transactionid: null,
-        authn: undefined,
-      });
-    });
-  });
-
-  it('should return active dslogon session', () => {
-    /* eslint-disable camelcase */
-    const resp = new Response('{}', {
-      headers: {
-        'session-alive': 'true',
-        'session-timeout': '900',
-        va_eauth_transactionid: 'X',
-        va_eauth_csid: CSP_IDS.DS_LOGON,
-      },
-    });
-    /* eslint-enable camelcase */
-    stubFetch.resolves(resp);
-    return keepAlive().then(res => {
-      expect(res).to.eql({
-        ttl: 900,
-        transactionid: 'X',
-        authn: CSP_IDS.DS_LOGON,
-      });
+  it('should return ttl 0 when not alive', async () => {
+    const { ALIVE, TIMEOUT, TRANSACTIONID, AUTHN_CONTEXT } = AUTHN_HEADERS;
+    stubFetch.resolves(
+      generateMockKeepAliveResponse({
+        headers: {
+          [ALIVE]: 'false',
+          [TIMEOUT]: '900',
+          [TRANSACTIONID]: 'g',
+          [AUTHN_CONTEXT]: '/loa1',
+        },
+        status: 200,
+      }),
+    );
+    const KA_RESPONSE = await keepAliveMod.keepAlive();
+    expect(KA_RESPONSE).to.eql({
+      ttl: 0,
+      transactionid: null,
+      authn: undefined,
     });
   });
 
-  it('should return active mhv session', () => {
-    /* eslint-disable camelcase */
-    const resp = new Response('{}', {
-      headers: {
-        'session-alive': 'true',
-        'session-timeout': '900',
-        va_eauth_transactionid: 'X',
-        va_eauth_csid: CSP_IDS.MHV,
-      },
-    });
-    /* eslint-enable camelcase */
-    stubFetch.resolves(resp);
-    return keepAlive().then(res => {
-      expect(res).to.eql({
-        ttl: 900,
-        transactionid: 'X',
-        authn: CSP_IDS.MHV_VERBOSE,
-      });
+  it('should return active dslogon session', async () => {
+    const { ALIVE, CSP, TRANSACTION_ID } = AUTHN_HEADERS;
+    stubFetch.resolves(
+      generateMockKeepAliveResponse({
+        headers: {
+          [ALIVE]: 'true',
+          [TRANSACTION_ID]: 'x',
+          [CSP]: 'DSLogon',
+        },
+        status: 200,
+      }),
+    );
+    const KA_RESPONSE = await keepAliveMod.keepAlive();
+
+    expect(KA_RESPONSE).to.eql({
+      ttl: 900,
+      transactionid: 'x',
+      authn: CSP_AUTHN.DS_LOGON,
     });
   });
 
-  it('should return active idme session', () => {
-    /* eslint-disable camelcase */
-    const resp = new Response('{}', {
-      headers: {
-        'session-alive': 'true',
-        'session-timeout': '900',
-        va_eauth_transactionid: 'X',
-        va_eauth_csid: CSP_IDS.ID_ME,
-        va_eauth_authncontextclassref: '/loa1',
-      },
-    });
-    /* eslint-enable camelcase */
-    stubFetch.resolves(resp);
-    return keepAlive().then(res => {
-      expect(res).to.eql({
-        ttl: 900,
-        transactionid: 'X',
-        authn: '/loa1',
-      });
+  it('should return active mhv session', async () => {
+    const { ALIVE, CSP, TRANSACTION_ID } = AUTHN_HEADERS;
+    stubFetch.resolves(
+      generateMockKeepAliveResponse({
+        headers: {
+          [ALIVE]: 'true',
+          [TRANSACTION_ID]: 'q',
+          [CSP]: 'mhv',
+        },
+        status: 200,
+      }),
+    );
+    const KA_RESPONSE = await keepAliveMod.keepAlive();
+
+    expect(KA_RESPONSE).to.eql({
+      ttl: 900,
+      transactionid: 'q',
+      authn: CSP_AUTHN.MHV,
     });
   });
 
-  it('should return active logingov session', () => {
-    /* eslint-disable camelcase */
-    const resp = new Response('{}', {
-      headers: {
-        'session-alive': 'true',
-        'session-timeout': '900',
-        va_eauth_transactionid: 'X',
-        va_eauth_csid: 'LOGINGOV',
-        va_eauth_authncontextclassref:
-          'http://idmanagement.gov/ns/assurance/ial/2',
-      },
+  it('should return active idme session', async () => {
+    const {
+      ALIVE,
+      CSP,
+      TRANSACTION_ID,
+      TIMEOUT,
+      AUTHN_CONTEXT,
+    } = AUTHN_HEADERS;
+
+    stubFetch.resolves(
+      generateMockKeepAliveResponse({
+        headers: {
+          [ALIVE]: 'true',
+          [TIMEOUT]: 400,
+          [TRANSACTION_ID]: 'IDME_WORKS',
+          [CSP]: CSP_IDS.ID_ME,
+          [AUTHN_CONTEXT]: '/loa1',
+        },
+        status: 200,
+      }),
+    );
+
+    const KA_RESPONSE = await keepAliveMod.keepAlive();
+
+    expect(KA_RESPONSE).to.eql({
+      ttl: 400,
+      transactionid: 'IDME_WORKS',
+      authn: '/loa1',
     });
-    /* eslint-enable camelcase */
-    stubFetch.resolves(resp);
-    return keepAlive().then(res => {
-      expect(res).to.eql({
-        ttl: 900,
-        transactionid: 'X',
-        authn: 'http://idmanagement.gov/ns/assurance/ial/2',
-      });
+  });
+
+  it('should return active logingov session', async () => {
+    const {
+      ALIVE,
+      CSP,
+      TRANSACTION_ID,
+      TIMEOUT,
+      AUTHN_CONTEXT,
+    } = AUTHN_HEADERS;
+
+    stubFetch.resolves(
+      generateMockKeepAliveResponse({
+        headers: {
+          [ALIVE]: 'true',
+          [TIMEOUT]: 100,
+          [TRANSACTION_ID]: 'login_gov',
+          [CSP]: 'LOGINGOV',
+          [AUTHN_CONTEXT]: '/ial2',
+        },
+        status: 200,
+      }),
+    );
+
+    const KA_RESPONSE = await keepAliveMod.keepAlive();
+
+    expect(KA_RESPONSE).to.eql({
+      ttl: 100,
+      transactionid: 'login_gov',
+      authn: '/ial2',
     });
+  });
+});
+
+describe('sanitizeAuthn', () => {
+  let stubbedUrl;
+
+  afterEach(() => {
+    stubbedUrl = '';
+  });
+
+  it('should return a `NOT_FOUND` string when passed nothing', () => {
+    expect(keepAliveMod.sanitizeAuthn('')).to.eql('NOT_FOUND');
+    expect(keepAliveMod.sanitizeAuthn(null)).to.eql('NOT_FOUND');
+    expect(keepAliveMod.sanitizeAuthn(undefined)).to.eql('NOT_FOUND');
+  });
+
+  it('should strip out the `?skip_dupe` query param', () => {
+    stubbedUrl = '/loa1?skip_dupe=mhv';
+    expect(keepAliveMod.sanitizeAuthn(stubbedUrl)).to.eql('/loa1');
+  });
+
+  it('should strip out the `&skip_dupe` query param', () => {
+    stubbedUrl = '/ial2?key=value&skip_dupe=mhv';
+    expect(keepAliveMod.sanitizeAuthn(stubbedUrl)).to.eql('/ial2?key=value');
   });
 });
