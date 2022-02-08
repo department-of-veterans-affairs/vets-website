@@ -304,7 +304,7 @@ export const UploadSuccessAlertDescription = () => {
       className="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--gibill-accent vads-u-margin-y--2 vads-u-margin-right--neg9 vads-u-padding-y--0p25 vads-u-padding-x--2p5"
       style={{ outline: 'none' }}
     >
-      <p className="vads-u-margin-bottom--1px">
+      <p className="vads-u-font-family--serif vads-u-font-size--md vads-u-margin-bottom--1px">
         <strong>Check your upload before you continue</strong>
       </p>
       <p className="vads-u-margin-top--1px">
@@ -334,7 +334,7 @@ export const RepresentativeDocumentUploadDescription = () => {
         last screen. The Veteran will need to sign the application for
         themselves.
       </p>
-      <p className="vads-u-margin-bottom--1px">
+      <p className="vads-u-font-family--serif vads-u-font-size--md vads-u-margin-bottom--1px">
         <strong>How to upload your document</strong>
       </p>
       <ul className="vads-u-margin-top--1px">

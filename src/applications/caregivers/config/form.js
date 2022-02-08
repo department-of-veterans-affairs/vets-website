@@ -210,14 +210,14 @@ const formConfig = {
       pages: {
         signAsRepresentative: {
           path: 'representative-document',
-          title: 'Representative document',
+          title: 'Application signature',
           depends: formData => formData['view:canUpload1010cgPOA'],
           uiSchema: signAsRepresentativeYesNo.uiSchema,
           schema: signAsRepresentativeYesNo.schema,
         },
         documentUpload: {
           path: 'representative-document-upload',
-          title: 'Representative document',
+          title: 'Application signature',
           depends: formData => formData.signAsRepresentativeYesNo === 'yes',
           editModeOnReviewPage: false,
           uiSchema: uploadPOADocument.uiSchema,
