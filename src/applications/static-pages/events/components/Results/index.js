@@ -36,7 +36,7 @@ export const Results = ({
     <>
       {/* Showing 10 results for All upcoming */}
       {results && (
-        <p className="vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-bottom--1">
+        <h2 className="vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-bottom--1 vads-u-font-size--base vads-u-font-weight--normal">
           <span>Displaying {resultsStartNumber}</span>
           <span className="vads-u-visibility--screen-reader">through</span>
           <span aria-hidden="true">&ndash;</span>
@@ -44,7 +44,7 @@ export const Results = ({
             {resultsEndNumber} of {totalResults} results for{' '}
             <strong>{query}</strong>
           </span>
-        </p>
+        </h2>
       )}
 
       {/* Events */}
@@ -73,7 +73,8 @@ export const Results = ({
               .format('h:mm a');
             const endsAtTimezone = moment
               .tz(endsAtUnix * 1000, timezone)
-              .format('z');
+              .format('z')
+              .replace('S', '');
 
             // Derive the event locations.
             const locations = deriveEventLocations(event);
@@ -84,9 +85,9 @@ export const Results = ({
                 key={`${title}-${entityUrl?.path}`}
               >
                 {/* Title */}
-                <h2 className="vads-u-margin--0 vads-u-font-size--h4">
+                <h3 className="vads-u-margin--0 vads-u-font-size--h4">
                   <a href={entityUrl.path}>{title}</a>
-                </h2>
+                </h3>
 
                 {/* Description */}
                 <p className="vads-u-margin--0 vads-u-margin-y--1">

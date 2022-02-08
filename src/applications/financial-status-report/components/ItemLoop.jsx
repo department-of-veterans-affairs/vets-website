@@ -1,17 +1,17 @@
-import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import { isReactComponent } from 'platform/utilities/ui';
-import { allEqual } from '../utils/helpers';
 import {
   toIdSchema,
   getDefaultFormState,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import { allEqual } from '../utils/helpers';
 
 const ScrollElement = Scroll.Element;
-const scroller = Scroll.scroller;
+const { scroller } = Scroll;
 
 const Header = ({
   title,
@@ -49,6 +49,16 @@ const Header = ({
       {!textDescription && !DescriptionField && description}
     </div>
   );
+};
+
+Header.propTypes = {
+  description: PropTypes.string,
+  formContext: PropTypes.object,
+  hideTitle: PropTypes.bool,
+  idSchema: PropTypes.object,
+  registry: PropTypes.object,
+  title: PropTypes.string,
+  uiSchema: PropTypes.object,
 };
 
 const InputSection = ({
@@ -159,6 +169,24 @@ const InputSection = ({
   );
 };
 
+InputSection.propTypes = {
+  editing: PropTypes.array,
+  errorSchema: PropTypes.object,
+  handleCancel: PropTypes.func,
+  handleChange: PropTypes.func,
+  handleRemove: PropTypes.func,
+  handleSave: PropTypes.func,
+  idSchema: PropTypes.object,
+  index: PropTypes.number,
+  item: PropTypes.object,
+  items: PropTypes.array,
+  registry: PropTypes.object,
+  schema: PropTypes.object,
+  title: PropTypes.string,
+  uiSchema: PropTypes.object,
+  onBlur: PropTypes.func,
+};
+
 const AddAnotherButton = ({ uiOptions, handleAdd, collapsed }) => {
   const linkClassNames = classNames(
     'add-item-button usa-button-secondary vads-u-width--auto vads-u-margin--0',
@@ -179,6 +207,12 @@ const AddAnotherButton = ({ uiOptions, handleAdd, collapsed }) => {
       </div>
     </div>
   );
+};
+
+AddAnotherButton.propTypes = {
+  collapsed: PropTypes.bool,
+  handleAdd: PropTypes.func,
+  uiOptions: PropTypes.object,
 };
 
 const ItemLoop = ({
@@ -451,13 +485,11 @@ export default ItemLoop;
 
 ItemLoop.propTypes = {
   schema: PropTypes.object.isRequired,
-  uiSchema: PropTypes.object,
-  errorSchema: PropTypes.object,
-  requiredSchema: PropTypes.object,
-  idSchema: PropTypes.object,
   onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func,
+  errorSchema: PropTypes.object,
+  formContext: PropTypes.object,
   formData: PropTypes.array,
+  idSchema: PropTypes.object,
   registry: PropTypes.shape({
     widgets: PropTypes.objectOf(
       PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
@@ -466,4 +498,7 @@ ItemLoop.propTypes = {
     definitions: PropTypes.object.isRequired,
     formContext: PropTypes.object.isRequired,
   }),
+  requiredSchema: PropTypes.object,
+  uiSchema: PropTypes.object,
+  onBlur: PropTypes.func,
 };

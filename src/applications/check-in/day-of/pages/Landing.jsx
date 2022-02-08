@@ -67,7 +67,7 @@ const Landing = props => {
 
       if (token) {
         api.v2
-          .getSession(token)
+          .getSession({ token })
           .then(session => {
             if (session.errors || session.error) {
               clearCurrentSession(window);

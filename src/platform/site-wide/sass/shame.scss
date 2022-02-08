@@ -554,26 +554,6 @@ $medium-phone-screen: 375px;
   clear: both;
 }
 
-.image-detail {
-  width: 25%;
-  @media (max-width: $small-screen) {
-    width: 100%;
-  }
-  .alt-text-container {
-    min-height: 200px;
-  }
-}
-
-.image-desc {
-  width: 50%;
-  @media (max-width: $small-screen) {
-    width: 100%;
-  }
-}
-._acs._acsbadge--default {
-  background-color: $color-black !important;
-}
-
 .media-list-images {
   @media (min-width: $small-screen) {
     max-width: 50%;
@@ -589,20 +569,29 @@ $medium-phone-screen: 375px;
       top: 0;
       position: absolute;
       width: 5px;
+      @media (max-width: $medium-screen) {
+        left: -8px;
+        width: 3px;
+      }
     }
 
     .filter-by {
-      @media (max-width: $small-screen) {
-        max-width: unset;
+      max-width: 100%;
+      @media (min-width: $medium-screen) {
+        max-width: 328px;
       }
+    }
 
-      @media (min-width: $small-screen) {
-        max-width: 198px;
+    .events-date-select {
+      max-width: unset;
+      @media (min-width: $medium-screen) {
+        max-width: 160px;
       }
     }
 
     button[type="submit"] {
-      @media (min-width: $small-screen) {
+      max-width: 100%;
+      @media (min-width: $medium-screen) {
         max-width: fit-content;
       }
     }

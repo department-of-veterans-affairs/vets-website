@@ -10,14 +10,21 @@ import Footer from '../../../components/Footer';
 
 import { makeSelectVeteranData } from '../../../selectors';
 
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
+
 const Error = () => {
+  const { getValidateAttempts } = useSessionStorage(true);
+  const { isMaxValidateAttempts } = getValidateAttempts(window);
   // try get date of appointment
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
   // if date exists, then show date
+  const defaultMessageText = isMaxValidateAttempts
+    ? "We're sorry. We couldn't match your information to our records. Call us at 800-698-2411 (TTY: 711) for help signing in."
+    : 'We’re sorry. Something went wrong on our end. Please try again.';
   const messages = [
     {
-      text: 'We’re sorry. Something went wrong on our end. Please try again.',
+      text: defaultMessageText,
     },
   ];
   if (appointments && appointments.length > 0 && appointments[0].startTime) {

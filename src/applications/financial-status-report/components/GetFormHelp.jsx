@@ -9,7 +9,7 @@ const GetFormHelp = () => {
     <div>
       <p>
         If you have trouble using this online form, call our MyVA411 main
-        information line at <Telephone contact={'800-698-2411'} /> (TTY:
+        information line at <Telephone contact="800-698-2411" /> (TTY:
         <Telephone
           contact={CONTACTS[711]}
           pattern={PATTERNS['3_DIGIT']}
@@ -28,14 +28,12 @@ const GetFormHelp = () => {
         If you have questions about your VA debt, call our Debt Management
         Center at
         <span className="vads-u-margin-x--0p5">
-          {<Telephone contact={CONTACTS.DMC || '800-827-0648'} />} (or
-          {
-            <Telephone
-              contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
-              pattern={PATTERNS.OUTSIDE_US}
-              className="vads-u-margin-x--0p5"
-            />
-          }
+          <Telephone contact={CONTACTS.DMC || '800-827-0648'} /> (or
+          <Telephone
+            contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
+            pattern={PATTERNS.OUTSIDE_US}
+            className="vads-u-margin-x--0p5"
+          />
           from overseas).
         </span>
         We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.

@@ -16,10 +16,10 @@ const CurrentContent = ({ id, date }) => (
   <p>
     Your balance was updated on {formatDate(date)}. Pay your full balance or
     request financial help before
-    <strong className="vads-u-margin-x--0p5" data-testid={`due-date-${id}`}>
+    <strong className="vads-u-margin-left--0p5" data-testid={`due-date-${id}`}>
       {calcDueDate(date, 30)}
     </strong>
-    to avoid late charges, interest, or collection actions.
+    , to avoid late charges, interest, or collection actions.
   </p>
 );
 

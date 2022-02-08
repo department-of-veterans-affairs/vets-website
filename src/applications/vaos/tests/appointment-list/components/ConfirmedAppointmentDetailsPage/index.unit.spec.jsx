@@ -3,6 +3,9 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { mockFetch } from 'platform/testing/unit/helpers';
+import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { getCancelReasonMock } from '../../../mocks/v0';
 import {
   mockAppointmentInfo,
@@ -14,10 +17,7 @@ import {
   getTimezoneTestDate,
 } from '../../../mocks/setup';
 
-import userEvent from '@testing-library/user-event';
 import { AppointmentList } from '../../../../appointment-list';
-import sinon from 'sinon';
-import { fireEvent, waitFor } from '@testing-library/react';
 import { getICSTokens } from '../../../../utils/calendar';
 import {
   mockAppointmentCancelFetch,
@@ -42,6 +42,7 @@ const initialState = {
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
     vaOnlineSchedulingVAOSServiceVAAppointments: false,
+    vaOnlineSchedulingStatusImprovement: false,
   },
 };
 

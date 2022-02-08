@@ -3,6 +3,9 @@ import moment from 'moment';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 import { mockFetch } from 'platform/testing/unit/helpers';
+import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
+import { fireEvent } from '@testing-library/react';
 import { getCCAppointmentMock } from '../../mocks/v0';
 import {
   mockAppointmentInfo,
@@ -19,10 +22,7 @@ import {
 } from '../../mocks/setup';
 import { createMockAppointmentByVersion } from '../../mocks/data';
 
-import userEvent from '@testing-library/user-event';
 import { AppointmentList } from '../../../appointment-list';
-import sinon from 'sinon';
-import { fireEvent } from '@testing-library/react';
 import { getICSTokens } from '../../../utils/calendar';
 
 const initialState = {
@@ -32,6 +32,7 @@ const initialState = {
     vaOnlineSchedulingPast: true,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
+    vaOnlineSchedulingStatusImprovement: false,
   },
 };
 

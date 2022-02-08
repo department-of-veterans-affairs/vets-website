@@ -1,7 +1,9 @@
 import { mapValues } from 'lodash';
+import moment from 'moment';
 
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import OtherTextField from '@@profile/components/personal-information/OtherTextField';
+import { NOT_SET_TEXT } from '../../constants';
 
 const createBooleanSchemaPropertiesFromOptions = obj =>
   mapValues(obj, () => {
@@ -187,3 +189,5 @@ export const formatSexualOrientation = (
   }
   return sexualOrientationNotListedText;
 };
+
+export const renderDOB = dob => (dob ? moment(dob).format('LL') : NOT_SET_TEXT);

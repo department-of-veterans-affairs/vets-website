@@ -4,6 +4,7 @@ const createSessionStorageKeys = ({ isPreCheckIn = true }) => {
     : 'health.care.check-in';
   return {
     CURRENT_UUID: `${namespace}.current.uuid`,
+    VALIDATE_ATTEMPTS: `${namespace}.validate.attempts`,
   };
 };
 

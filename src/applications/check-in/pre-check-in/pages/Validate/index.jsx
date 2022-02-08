@@ -14,7 +14,9 @@ import Footer from '../../../components/Footer';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import { makeSelectCurrentContext } from '../../../selectors';
+import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
+
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
 
 const Index = ({ router }) => {
   const { goToNextPage, goToErrorPage } = useFormRouting(router);
@@ -29,12 +31,22 @@ const Index = ({ router }) => {
   const selectContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectContext);
 
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
+
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
+
+  const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
+    true,
+  );
+  const { isMaxValidateAttempts } = getValidateAttempts(window);
+  const [showValidateError, setShowValidateError] = useState(false);
+
   const validateHandler = useCallback(
     async () => {
       setLastNameErrorMessage();
@@ -55,6 +67,7 @@ const Index = ({ router }) => {
             token,
             last4: last4Ssn,
             lastName,
+            checkInType: app,
           });
           if (resp.errors || resp.error) {
             setIsLoading(false);
@@ -65,11 +78,32 @@ const Index = ({ router }) => {
           }
         } catch (e) {
           setIsLoading(false);
-          goToErrorPage();
+          if (
+            e?.message !== 'Invalid last4 or last name!' ||
+            isMaxValidateAttempts
+          ) {
+            goToErrorPage();
+          } else {
+            if (!showValidateError) {
+              setShowValidateError(true);
+            }
+            incrementValidateAttempts(window);
+          }
         }
       }
     },
-    [goToErrorPage, goToNextPage, last4Ssn, lastName, setSession, token],
+    [
+      app,
+      goToErrorPage,
+      goToNextPage,
+      incrementValidateAttempts,
+      isMaxValidateAttempts,
+      last4Ssn,
+      lastName,
+      setSession,
+      token,
+      showValidateError,
+    ],
   );
 
   useEffect(() => {
@@ -93,6 +127,8 @@ const Index = ({ router }) => {
           lastName,
         }}
         Footer={Footer}
+        showValidateError={showValidateError}
+        validateErrorMessage="Sorry, we couldn't find an account that matches that last name or SSN. Please try again."
       />
       <BackToHome />
     </>

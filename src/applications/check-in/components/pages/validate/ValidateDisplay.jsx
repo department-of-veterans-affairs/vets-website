@@ -11,6 +11,8 @@ export default function ValidateDisplay({
   lastNameInput: { lastNameErrorMessage, setLastName, lastName } = {},
   last4Input: { last4ErrorMessage, setLast4Ssn, last4Ssn } = {},
   Footer,
+  showValidateError,
+  validateErrorMessage,
 }) {
   const updateField = useCallback(
     event => {
@@ -31,6 +33,18 @@ export default function ValidateDisplay({
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
       <h1>{header}</h1>
       <p>{subtitle}</p>
+      {showValidateError ? (
+        <va-alert
+          background-only
+          status="error"
+          show-icon
+          data-testid="validate-error-alert"
+        >
+          <div>{validateErrorMessage}</div>
+        </va-alert>
+      ) : (
+        <></>
+      )}
       <form className="vads-u-margin-bottom--2p5" onSubmit={validateHandler}>
         <VaTextInput
           autoCorrect="false"
@@ -77,6 +91,8 @@ ValidateDisplay.propTypes = {
   isLoading: propTypes.bool,
   last4Input: propTypes.object,
   lastNameInput: propTypes.object,
+  showValidateError: propTypes.bool,
   subtitle: propTypes.string,
+  validateErrorMessage: propTypes.elementType,
   validateHandler: propTypes.func,
 };
