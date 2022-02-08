@@ -31,9 +31,10 @@ const telephoneTransformer = (context, node) => {
           return [
             fixer.replaceText(componentName, 'va-telephone'),
             stripHyphens &&
-              fixer.replaceText(
-                contactValue,
-                `'${contactValue.value.replace(/[^\d]/g, '')}'`,
+              fixer.replaceTextRange(
+                // Leave the quotes alone
+                [contactValue.range[0] + 1, contactValue.range[1] - 1],
+                contactValue.value.replace(/[^\d]/g, ''),
               ),
             international &&
               fixer.insertTextBefore(patternNode, 'international'),

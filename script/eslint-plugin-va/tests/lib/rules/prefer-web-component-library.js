@@ -102,7 +102,7 @@ ruleTester.run('prefer-web-component-library', rule, {
               desc: 'Migrate component',
               output: mockFile(
                 'Telephone',
-                "const phone = () => (<va-telephone contact={'8004565432'} />)",
+                'const phone = () => (<va-telephone contact={"8004565432"} />)',
               ),
             },
           ],
@@ -121,7 +121,7 @@ ruleTester.run('prefer-web-component-library', rule, {
               desc: 'Migrate component',
               output: mockFile(
                 'Telephone',
-                "const phone = () => (<va-telephone contact='8004565432' />)",
+                'const phone = () => (<va-telephone contact="8004565432" />)',
               ),
             },
           ],
