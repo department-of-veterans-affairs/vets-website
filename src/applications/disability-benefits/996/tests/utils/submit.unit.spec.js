@@ -118,9 +118,8 @@ describe('addAreaOfDisagreement', () => {
         {
           disagreementOptions: {
             effectiveDate: true,
-            other: false,
           },
-          otherEntry: 'test',
+          otherEntry: '',
         },
       ],
     };
@@ -142,7 +141,7 @@ describe('addAreaOfDisagreement', () => {
             effectiveDate: true,
             evaluation: true,
           },
-          otherEntry: 'test',
+          otherEntry: '',
         },
       ],
     };
@@ -159,7 +158,6 @@ describe('addAreaOfDisagreement', () => {
             serviceConnection: true,
             effectiveDate: true,
             evaluation: true,
-            other: true,
           },
           otherEntry: 'this is an other entry',
         },
