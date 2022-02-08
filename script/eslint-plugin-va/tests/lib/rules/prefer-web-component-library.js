@@ -112,6 +112,25 @@ ruleTester.run('prefer-web-component-library', rule, {
     {
       code: mockFile(
         'Telephone',
+        'const phone = () => (<Telephone contact="800-456-5432" />)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'Telephone',
+                "const phone = () => (<va-telephone contact='8004565432' />)",
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Telephone',
         'const phone = () => (<Telephone notClickable contact={myContact} />)',
       ),
       errors: [

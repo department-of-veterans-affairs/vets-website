@@ -9,7 +9,7 @@ const telephoneTransformer = (context, node) => {
   const patternNode = getPropNode(node, 'pattern');
   const notClickableNode = getPropNode(node, 'notClickable');
   const contactNode = getPropNode(node, 'contact');
-  const contactValue = contactNode?.value.expression;
+  const contactValue = contactNode?.value.expression || contactNode?.value;
 
   const stripHyphens = contactValue?.type === 'Literal';
   const international =
