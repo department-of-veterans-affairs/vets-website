@@ -3,6 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import moment from 'moment';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
@@ -29,8 +31,6 @@ import {
   confirmCancelAppointment,
   fetchRequestDetails,
 } from '../redux/actions';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-import recordEvent from 'platform/monitoring/record-event';
 import RequestedStatusAlert from './RequestedStatusAlert';
 
 const TIME_TEXT = {
@@ -53,6 +53,8 @@ export default function RequestedAppointmentDetailsPage() {
     shallowEqual,
   );
 
+  const isCanceledStatus = appointment.status === APPOINTMENT_STATUS.cancelled;
+
   useEffect(() => {
     dispatch(fetchRequestDetails(id));
   }, []);
@@ -60,13 +62,12 @@ export default function RequestedAppointmentDetailsPage() {
   useEffect(
     () => {
       if (appointment) {
-        const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
         const isCC = appointment.vaos.isCommunityCare;
         const typeOfCareText = lowerCase(
           appointment?.type?.coding?.[0]?.display,
         );
 
-        const title = `${isCanceled ? 'Canceled' : 'Pending'} ${
+        const title = `${isCanceledStatus ? 'Canceled' : 'Pending'} ${
           isCC ? 'Community care' : 'VA'
         } ${typeOfCareText} appointment`;
 
@@ -123,7 +124,7 @@ export default function RequestedAppointmentDetailsPage() {
     );
   }
 
-  const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
+  const canceled = !appointment.cancellable;
   const isCC = appointment.vaos.isCommunityCare;
   const typeOfVisit = appointment.requestVisitType;
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
@@ -144,7 +145,7 @@ export default function RequestedAppointmentDetailsPage() {
       </Breadcrumbs>
 
       <h1>
-        {canceled ? 'Canceled' : 'Pending'} {typeOfCareText} appointment
+        {isCanceledStatus ? 'Canceled' : 'Pending'} {typeOfCareText} appointment
       </h1>
       <RequestedStatusAlert appointment={appointment} facility={facility} />
       {!isCCRequest && (

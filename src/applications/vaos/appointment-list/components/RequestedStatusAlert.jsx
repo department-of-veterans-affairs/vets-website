@@ -1,13 +1,9 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
-import InfoAlert from '../../components/InfoAlert';
-import {
-  APPOINTMENT_STATUS,
-  CANCELLATION_REASONS,
-  GA_PREFIX,
-} from '../../utils/constants';
 import { useDispatch } from 'react-redux';
+import InfoAlert from '../../components/InfoAlert';
+import { CANCELLATION_REASONS, GA_PREFIX } from '../../utils/constants';
 import { startNewAppointmentFlow } from '../redux/actions';
 
 export default function RequestedStatusAlert({ appointment, facility }) {
@@ -16,7 +12,7 @@ export default function RequestedStatusAlert({ appointment, facility }) {
   const showConfirmMsg = queryParams.get('confirmMsg');
   const dispatch = useDispatch();
 
-  const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
+  const canceled = !appointment.cancellable;
 
   const canceler = new Map([
     [CANCELLATION_REASONS.patient, 'You'],
@@ -63,7 +59,8 @@ export default function RequestedStatusAlert({ appointment, facility }) {
         )}
       </InfoAlert>
     );
-  } else if (!showConfirmMsg) {
+  }
+  if (!showConfirmMsg) {
     return (
       <InfoAlert backgroundOnly status={canceled ? 'error' : 'info'}>
         {!canceled &&
