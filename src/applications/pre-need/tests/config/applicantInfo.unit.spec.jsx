@@ -84,11 +84,11 @@ describe('Pre-need applicant information', () => {
       />,
     );
 
-    expect(form.find('.usa-alert-info').exists()).to.be.false;
+    expect(form.find('va-alert').exists()).to.be.false;
 
     selectRadio(form, 'root_application_claimant_relationshipToVet', '1');
 
-    expect(form.find('.usa-alert-info').exists()).to.be.true;
+    expect(form.find('va-alert').exists()).to.be.true;
     form.unmount();
   });
 });

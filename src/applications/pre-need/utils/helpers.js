@@ -8,9 +8,6 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
-import ServicePeriodView from '../components/ServicePeriodView';
-import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
-import { serviceLabels } from './labels';
 import {
   stringifyFormReplacer,
   filterViewFields,
@@ -18,11 +15,14 @@ import {
 import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+import { serviceLabels } from './labels';
+import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
+import ServicePeriodView from '../components/ServicePeriodView';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
 export const contactInfoDescription = (
-  <div className="usa-alert usa-alert-info background-color-only">
+  <va-alert status="info" background-only>
     <p>
       We may contact you by phone if we need more information about your
       application.
@@ -31,11 +31,11 @@ export const contactInfoDescription = (
       You can also provide your email address to receive updates about new
       openings in VA national cemeteries or other burial benefits.
     </p>
-  </div>
+  </va-alert>
 );
 
 export const authorizedAgentDescription = (
-  <div className="usa-alert usa-alert-info background-color-only">
+  <va-alert status="info" background-only>
     <p>A preparer may sign for an individual who’s:</p>
     <ul>
       <li>
@@ -50,60 +50,60 @@ export const authorizedAgentDescription = (
       If you’re the preparer of this application, please provide your contact
       information.
     </p>
-  </div>
+  </va-alert>
 );
 
 export const veteranRelationshipDescription = (
-  <div className="usa-alert usa-alert-info background-color-only">
+  <va-alert status="info" background-only>
     You’re applying as the <strong>service member or Veteran</strong>. We’ll ask
     you questions about your military status and history to determine if you
     qualify for burial in a VA national cemetery.
-  </div>
+  </va-alert>
 );
 
 export const spouseRelationshipDescription = (
-  <div className="usa-alert usa-alert-info background-color-only">
+  <va-alert status="info" background-only>
     You’re applying as the{' '}
     <strong>legally married spouse or surviving spouse</strong> of the service
     member or Veteran who’s your sponsor. We’ll ask you questions about your
     sponsor’s military status and history to determine if you qualify for burial
     in a VA national cemetery.
-  </div>
+  </va-alert>
 );
 
 export const childRelationshipDescription = (
-  <div className="usa-alert usa-alert-info background-color-only">
+  <va-alert status="info" background-only>
     You’re applying as the <strong>unmarried adult child</strong> of the service
     member or Veteran who’s your sponsor. We’ll ask you questions about your
     sponsor’s military status and history to determine if you qualify for burial
     in a VA national cemetery. You’ll also need to provide supporting documents
     with information about your disability.
-  </div>
+  </va-alert>
 );
 
 export const otherRelationshipDescription = (
-  <div className="usa-alert usa-alert-info background-color-only">
+  <va-alert status="info" background-only>
     You’re applying on <strong>behalf</strong> of the service member or Veteran
     who’s your sponsor. We’ll ask you questions about your sponsor’s military
     status and history to determine if they qualify for burial in a VA national
     cemetery.
-  </div>
+  </va-alert>
 );
 
 export const sponsorMilitaryStatusDescription = (
-  <div className="usa-alert usa-alert-info background-color-only">
+  <va-alert status="info" background-only>
     If you’re not sure what your sponsor’s status is—or if it isn’t listed
     here—don’t worry. You can upload supporting documents showing your sponsor’s
     service history later in this application.
-  </div>
+  </va-alert>
 );
 
 export const desiredCemeteryNoteDescription = (
-  <div className="usa-alert usa-alert-info background-color-only">
+  <va-alert status="info" background-only>
     <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in
     your preferred cemetery. We’ll try to fulfill your wishes, but will assign a
     gravesite in a cemetery with available space at the time of need.
-  </div>
+  </va-alert>
 );
 
 export function isVeteran(item) {

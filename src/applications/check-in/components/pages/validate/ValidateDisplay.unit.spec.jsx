@@ -76,6 +76,16 @@ describe('check-in experience', () => {
           expect(getByTestId('last-4-input').value).to.equal('foo');
         });
       });
+      describe('validate Error message', () => {
+        it('displays error alert', () => {
+          const { getByTestId } = render(
+            <ValidateDisplay showValidateError validateErrorMessage="Error" />,
+          );
+          expect(getByTestId('validate-error-alert').innerHTML).to.contain(
+            'Error',
+          );
+        });
+      });
     });
   });
 });
