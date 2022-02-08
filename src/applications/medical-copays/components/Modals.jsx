@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import PropTypes from 'prop-types';
 
 const Modals = ({ children, title }) => {
   const [visible, setVisible] = useState(false);
 
   return (
     <div className="vads-u-margin-top--3 vads-u-margin-bottom--3">
-      <button className="va-button-link" onClick={() => setVisible(true)}>
+      <button
+        type="button"
+        className="usa-button-secondary"
+        onClick={() => setVisible(true)}
+      >
         {title}
       </button>
       <Modal
@@ -65,14 +70,11 @@ Modals.Rights = () => (
       </li>
       <li>
         By Phone: Contact VA at
-        <Telephone
-          contact={'1-888-827-4817'}
-          className="vads-u-margin-x--0p5"
-        />
+        <Telephone contact="1-888-827-4817" className="vads-u-margin-x--0p5" />
       </li>
       <li>
         By Mail: Make check or money order payable to "VA" and include account
-        number and payment stub Submit to: Department of Veterans Affairs, P.O.
+        number and payment stub. Submit to: Department of Veterans Affairs, P.O.
         Box 3978, Portland, OR 97208-3978
       </li>
     </ul>
@@ -209,10 +211,7 @@ Modals.Rights = () => (
       </li>
       <li>
         By Phone: Contact VA at
-        <Telephone
-          contact={'1-888-400-1238'}
-          className="vads-u-margin-x--0p5"
-        />
+        <Telephone contact="1-888-400-1238" className="vads-u-margin-x--0p5" />
       </li>
       <li>
         Online: Visit
@@ -249,10 +248,7 @@ Modals.Rights = () => (
     <p>
       For additional information, to request necessary forms or assistance in
       accessing forms online, contact VA at
-      <Telephone
-        contact={'1-866-400-1238'}
-        className="vads-u-margin-left--0p5"
-      />
+      <Telephone contact="1-866-400-1238" className="vads-u-margin-left--0p5" />
       .
     </p>
 
@@ -265,7 +261,7 @@ Modals.Rights = () => (
       representing you in adjudicated proceedings before VA are subject to a fee
       limitation as set forth in 38 U.S.C 5904. If you desire representation and
       have not already designated a representative, contact VA at
-      <Telephone contact={'1-866-400-1238'} className="vads-u-margin--0p5" />
+      <Telephone contact="1-866-400-1238" className="vads-u-margin--0p5" />
       to request the necessary forms. If an attorney or accredited agent
       represents you before VA, a copy of any agreement between you and the
       attorney or accredited agent about the payment of the attorney's or
@@ -278,15 +274,15 @@ Modals.Rights = () => (
     <p>
       When you provide a check as payment, you authorize VA to either use
       information from your check to make a one-time electronic fund transfer
-      from your account or to process the payment asa check transaction. When VA
-      uses information from your check to make an electronic transfer, funds may
-      be withdrawn from your account as soon as the day we process your payment,
-      and you will not receive your check back from the financial institution. A
-      Privacy Act Statement required by 5 U.S.C & 552a(e)(3) stating our
-      authority for soliciting and collecting the information from your check,
-      and explaining the purposes and routine uses which will be made of your
-      check information, VA Notice of Privacy Practices, IB 10-163 is available
-      online at
+      from your account or to process the payment as a check transaction. When
+      VA uses information from your check to make an electronic transfer, funds
+      may be withdrawn from your account as soon as the day we process your
+      payment, and you will not receive your check back from the financial
+      institution. A Privacy Act Statement required by 5 U.S.C & 552a(e)(3)
+      stating our authority for soliciting and collecting the information from
+      your check, and explaining the purposes and routine uses which will be
+      made of your check information, VA Notice of Privacy Practices, IB 10-163
+      is available online at
       <a
         className="vads-u-margin--0p5"
         href="http://www.va.gov/vhapublications"
@@ -294,7 +290,7 @@ Modals.Rights = () => (
         www.va.gov/vhapublications
       </a>
       or call toll free at
-      <Telephone contact={'1-866-400-1238'} className="vads-u-margin-x--0p5" />
+      <Telephone contact="1-866-400-1238" className="vads-u-margin-x--0p5" />
       to obtain a copy by mail. Furnishing the check information is voluntary,
       but a decision not to do so may require you to make payment by some other
       method.
@@ -307,10 +303,7 @@ Modals.Rights = () => (
       be reflected in your account on the next statement. For assistance in
       understanding your billing statement and assessed copayment charges
       contact VA at
-      <Telephone
-        contact={'1-866-400-1238'}
-        className="vads-u-margin-left--0p5"
-      />
+      <Telephone contact="1-866-400-1238" className="vads-u-margin-left--0p5" />
       .
     </p>
 
@@ -329,5 +322,10 @@ Modals.Rights = () => (
     </p>
   </>
 );
+
+Modals.propTypes = {
+  children: PropTypes.object,
+  title: PropTypes.string,
+};
 
 export default Modals;

@@ -29,7 +29,8 @@ module.exports = {
           node.callee.object.name === 'cy' &&
           node.callee.property.type === 'Identifier' &&
           (node.callee.property.name === 'axeCheck' ||
-            node.callee.property.name === 'injectAxeThenAxeCheck')
+            node.callee.property.name === 'injectAxeThenAxeCheck' || 
+            node.callee.property.name === 'axeCheckBestPractice')
         ) {
           // Found: cy.axeCheck() or cy.injectAxeThenAxeCheck()
           hasSeenAxeCheckCall = true;

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-
 import DebtLettersSummary from './components/DebtLettersSummary';
 import DebtLettersWrapper from './components/DebtLettersWrapper';
 import DebtDetails from './components/DebtDetails';

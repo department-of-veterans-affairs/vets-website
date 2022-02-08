@@ -12,14 +12,11 @@ import { mockFetch } from 'platform/testing/unit/helpers';
 
 describe('VAOS <ClosestCityStatePage>', () => {
   beforeEach(() => mockFetch());
-  const toggles = {
-    vaOnlineSchedulingCCIterations: true,
-  };
 
   it('should show supported parent sites', async () => {
     // Given the user has two supported parent sites
     const store = await setCommunityCareFlow({
-      toggles,
+      toggles: {},
       registeredSites: ['983'],
       parentSites: [
         { id: '983', address: { city: 'Bozeman', state: 'MT' } },
@@ -51,7 +48,7 @@ describe('VAOS <ClosestCityStatePage>', () => {
   it('should not submit without choosing a site', async () => {
     // Given the user has two supported parent sites
     const store = await setCommunityCareFlow({
-      toggles,
+      toggles: {},
       registeredSites: ['983'],
       parentSites: [
         { id: '983', address: { city: 'Bozeman', state: 'MT' } },
@@ -83,7 +80,7 @@ describe('VAOS <ClosestCityStatePage>', () => {
   it('should continue to preferences page', async () => {
     // Given the user has two supported parent sites
     const store = await setCommunityCareFlow({
-      toggles,
+      toggles: {},
       registeredSites: ['983'],
       parentSites: [
         { id: '983', address: { city: 'Bozeman', state: 'MT' } },

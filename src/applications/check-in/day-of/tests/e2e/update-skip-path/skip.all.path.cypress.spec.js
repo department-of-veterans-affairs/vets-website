@@ -1,22 +1,35 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
+
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Appointments from '../pages/Appointments';
 
-describe('Check In Experience -- ', () => {
-  describe('update skip path -- ', () => {
-    beforeEach(function() {
-      cy.authenticate();
-      cy.getNoUpdateDemoNOKAndEC();
-      cy.successfulCheckin();
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          checkInExperienceUpdateInformationPageEnabled: false,
-          emergencyContactEnabled: true,
-        }),
-      );
+describe('Check In Experience', () => {
+  describe('update skip path', () => {
+    beforeEach(() => {
+      const now = Date.now();
+      const today = new Date(now);
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+        initializeCheckInDataGet,
+        initializeCheckInDataPost,
+      } = ApiInitializer;
+      initializeFeatureToggle.withCurrentFeatures();
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
+      initializeCheckInDataGet.withSuccess({
+        numberOfCheckInAbledAppointments: 1,
+        demographicsNeedsUpdate: false,
+        demographicsConfirmedAt: today.toISOString(),
+        nextOfKinNeedsUpdate: false,
+        nextOfKinConfirmedAt: today.toISOString(),
+        emergencyContactNeedsUpdate: false,
+        emergencyContactConfirmedAt: today.toISOString(),
+      });
+      initializeCheckInDataPost.withSuccess();
+
       cy.visitWithUUID();
       ValidateVeteran.validatePageLoaded('Check in at VA');
       ValidateVeteran.validateVeteran();
@@ -29,6 +42,7 @@ describe('Check In Experience -- ', () => {
     });
     it('skip demographics, next of kin update path, and emergency contact', () => {
       Appointments.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

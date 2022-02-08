@@ -1,45 +1,62 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import mockSession from '../../../api/local-mock-api/mocks/v2/sessions.responses';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
 
-import validateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import error from '../../../../tests/e2e/pages/Error';
-import apiInitializer from '../support/ApiInitializer';
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
+import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
+import Introduction from '../pages/Introduction';
+import Error from '../pages/Error';
 
 describe('Pre-Check In Experience', () => {
   // @TODO: un-skip when the error page is created.
   describe('Validate Page', () => {
-    beforeEach(function() {
-      cy.intercept('GET', '/check_in/v2/sessions/*', req => {
-        req.reply(
-          mockSession.createMockSuccessResponse('some-token', 'read.basic'),
-        );
-      });
-      apiInitializer.initializeSessionGet.withSuccessfulNewSession();
-
-      apiInitializer.initializeSessionPost.withFailure();
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          checkInExperienceUpdateInformationPageEnabled: true,
-        }),
-      );
+    beforeEach(() => {
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+        initializePreCheckInDataGet,
+      } = ApiInitializer;
+      initializeFeatureToggle.withCurrentFeatures();
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withValidation();
+      initializePreCheckInDataGet.withSuccess();
+      cy.visitPreCheckInWithUUID();
+      ValidateVeteran.validatePageLoaded('Start pre-check-in');
     });
     afterEach(() => {
       cy.window().then(window => {
         window.sessionStorage.clear();
       });
     });
-    it('validation failed with failed response from server', () => {
-      cy.visitPreCheckInWithUUID();
-      validateVeteran.validatePageLoaded();
+    it('validation failed with failed response from server. redirect to error page after max validate limit reached', () => {
+      cy.injectAxeThenAxeCheck();
+      // First Attempt
+      ValidateVeteran.validateVeteran('Sith', '4321');
+      ValidateVeteran.attemptToGoToNextPage();
+      ValidateVeteran.validateErrorAlert();
 
-      validateVeteran.typeLastName('Smith');
-      validateVeteran.typeLast4('1234');
-      validateVeteran.attemptToGoToNextPage();
+      // Second Attempt
+      ValidateVeteran.validateVeteran('Sith', '4321');
+      ValidateVeteran.attemptToGoToNextPage();
+      ValidateVeteran.validateErrorAlert();
 
-      error.validatePageLoaded();
+      // Third/Final attempt
+      ValidateVeteran.validateVeteran('Sith', '4321');
+      ValidateVeteran.validateErrorAlert();
+      ValidateVeteran.attemptToGoToNextPage();
+
+      Error.validatePageLoaded(true);
+    });
+    it('fails validation once and then succeeds on the second attempt', () => {
+      cy.injectAxeThenAxeCheck();
+      // First Attempt
+      ValidateVeteran.validateVeteran('Sith', '4321');
+      ValidateVeteran.attemptToGoToNextPage();
+      ValidateVeteran.validateErrorAlert();
+
+      // Second Attempt
+      ValidateVeteran.validateVeteran('Smith', '1234');
+      ValidateVeteran.attemptToGoToNextPage();
+      Introduction.validatePageLoaded();
     });
   });
 });

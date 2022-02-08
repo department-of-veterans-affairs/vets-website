@@ -12,7 +12,6 @@ describe('check-in', () => {
         check_in_experience_demographics_page_enabled: true,
         check_in_experience_update_information_page_enabled: true,
         check_in_experience_next_of_kin_enabled: false,
-        check_in_experience_emergency_contact_enabled: false,
         loading: false,
       },
     };
@@ -24,7 +23,6 @@ describe('check-in', () => {
           isLoadingFeatureFlags: false,
           isCheckInEnabled: true,
           isPreCheckInEnabled: true,
-          isEmergencyContactEnabled: false,
           isUpdatePageEnabled: true,
         });
       });

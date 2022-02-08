@@ -1,34 +1,36 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
 
-import validateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import introduction from '../pages/Introduction';
-import Demographics from '../../../../tests/e2e/pages/Demographics';
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
+import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
+import Introduction from '../pages/Introduction';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
-import apiInitializer from '../support/ApiInitializer';
+import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
+import Demographics from '../../../../tests/e2e/pages/Demographics';
 
 describe('Pre-Check In Experience', () => {
   describe('Next of kin Page', () => {
-    beforeEach(function() {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          checkInExperienceUpdateInformationPageEnabled: true,
-        }),
-      );
-      apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+    beforeEach(() => {
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+        initializePreCheckInDataGet,
+      } = ApiInitializer;
+      initializeFeatureToggle.withCurrentFeatures();
+      initializeSessionGet.withSuccessfulNewSession();
 
-      apiInitializer.initializeSessionPost.withSuccess();
-      apiInitializer.initializePreCheckInDataGet.withSuccess();
+      initializeSessionPost.withSuccess();
+
+      initializePreCheckInDataGet.withSuccess();
 
       cy.visitPreCheckInWithUUID();
-      validateVeteran.validateVeteran();
-      validateVeteran.attemptToGoToNextPage();
-      introduction.validatePageLoaded();
-      introduction.attemptToGoToNextPage();
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      Introduction.validatePageLoaded();
+      Introduction.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
+      EmergencyContact.attemptToGoToNextPage();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -37,9 +39,11 @@ describe('Pre-Check In Experience', () => {
     });
     it('Displays each field', () => {
       NextOfKin.validateNextOfKinFields();
+      cy.injectAxeThenAxeCheck();
     });
     it('Displays correct next of kin data', () => {
       NextOfKin.validateNextOfKinData();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

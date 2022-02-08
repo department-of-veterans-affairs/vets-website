@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import propTypes from 'prop-types';
 import ConfirmablePage from '../ConfirmablePage';
 
 export default function NextOfKinDisplay({
@@ -17,6 +18,16 @@ export default function NextOfKinDisplay({
     { title: 'Phone', key: 'phone' },
     { title: 'Work phone', key: 'workPhone' },
   ];
+  const loadingMessage = useCallback(() => {
+    return (
+      <>
+        <va-loading-indicator
+          data-testid="loading-message"
+          message="Saving your responses..."
+        />
+      </>
+    );
+  }, []);
   return (
     <>
       <ConfirmablePage
@@ -27,18 +38,19 @@ export default function NextOfKinDisplay({
         yesAction={yesAction}
         noAction={noAction}
         isLoading={isSendingData}
-        LoadingMessage={() => {
-          return (
-            <>
-              <va-loading-indicator
-                data-testid="loading-message"
-                message={'Saving your responses...'}
-              />
-            </>
-          );
-        }}
+        LoadingMessage={loadingMessage}
         Footer={Footer}
       />
     </>
   );
 }
+
+NextOfKinDisplay.propTypes = {
+  Footer: propTypes.elementType,
+  header: propTypes.string,
+  isSendingData: propTypes.bool,
+  nextOfKin: propTypes.object,
+  noAction: propTypes.func,
+  subtitle: propTypes.string,
+  yesAction: propTypes.func,
+};

@@ -1,11 +1,12 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
-import Error from '../../../../tests/e2e/pages/Error';
+import '../../../../tests/e2e/commands';
 
-describe('Check In Experience -- ', () => {
-  beforeEach(function() {
-    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
-    cy.visitWithUUID('MALFORMED_TOKEN');
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
+import Error from '../pages/Error';
+
+describe('Check In Experience', () => {
+  beforeEach(() => {
+    const { initializeFeatureToggle } = ApiInitializer;
+    initializeFeatureToggle.withCurrentFeatures();
   });
   afterEach(() => {
     cy.window().then(window => {
@@ -13,6 +14,8 @@ describe('Check In Experience -- ', () => {
     });
   });
   it('C5724 - Token is not valid', () => {
+    cy.visitWithUUID('MALFORMED_TOKEN');
     Error.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
   });
 });

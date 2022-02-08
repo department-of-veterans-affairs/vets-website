@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -17,24 +18,28 @@ import {
   COE_ELIGIBILITY_STATUS,
 } from '../../shared/constants';
 
-const App = props => {
-  const {
-    loggedIn,
-    certificateOfEligibility: { generateAutoCoeStatus, profileIsUpdating, coe },
-    hasSavedForm,
-  } = props;
-
-  const clickHandler = () => {
-    props.generateCoe('skip');
-  };
+const App = ({
+  certificateOfEligibility: { generateAutoCoeStatus, profileIsUpdating, coe },
+  downloadUrl,
+  getCoe,
+  hasSavedForm,
+  loggedIn,
+  user,
+}) => {
+  const clickHandler = useCallback(
+    () => {
+      getCoe('skip');
+    },
+    [getCoe],
+  );
 
   useEffect(
     () => {
       if (!profileIsUpdating && loggedIn && !hasSavedForm && !coe) {
-        props.generateCoe();
+        getCoe();
       }
     },
-    [loggedIn],
+    [coe, getCoe, hasSavedForm, loggedIn, profileIsUpdating],
   );
 
   let content;
@@ -51,10 +56,12 @@ const App = props => {
   ) {
     switch (coe.status) {
       case COE_ELIGIBILITY_STATUS.available:
-        content = <CoeAvailable />;
+        content = <CoeAvailable downloadURL={downloadUrl} />;
         break;
       case COE_ELIGIBILITY_STATUS.eligible:
-        content = <CoeEligible clickHandler={clickHandler} />;
+        content = (
+          <CoeEligible clickHandler={clickHandler} downloadURL={downloadUrl} />
+        );
         break;
       case COE_ELIGIBILITY_STATUS.ineligible:
         content = <CoeIneligible />;
@@ -63,10 +70,22 @@ const App = props => {
         content = <CoeDenied />;
         break;
       case COE_ELIGIBILITY_STATUS.pending:
-        content = <CoePending notOnUploadPage />;
+        content = (
+          <CoePending
+            applicationCreateDate={coe.applicationCreateDate}
+            notOnUploadPage
+            status={coe.status}
+          />
+        );
         break;
       case COE_ELIGIBILITY_STATUS.pendingUpload:
-        content = <CoePending uploadsNeeded />;
+        content = (
+          <CoePending
+            applicationCreateDate={coe.applicationCreateDate}
+            uploadsNeeded
+            status={coe.status}
+          />
+        );
         break;
       default:
         content = <CoeIneligible />;
@@ -79,7 +98,7 @@ const App = props => {
     <>
       <RequiredLoginView
         serviceRequired={backendServices.USER_PROFILE}
-        user={props.user}
+        user={user}
       >
         <header className="row vads-u-padding-x--1">
           <FormTitle title="Your VA home loan COE" />
@@ -91,6 +110,7 @@ const App = props => {
 };
 
 const mapStateToProps = state => ({
+  downloadUrl: state.certificateOfEligibility.downloadUrl,
   user: state.user,
   loggedIn: isLoggedIn(state),
   certificateOfEligibility: state.certificateOfEligibility,
@@ -100,7 +120,16 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  generateCoe,
+  getCoe: generateCoe,
+};
+
+App.propTypes = {
+  certificateOfEligibility: PropTypes.object,
+  downloadUrl: PropTypes.string,
+  getCoe: PropTypes.func,
+  hasSavedForm: PropTypes.bool,
+  loggedIn: PropTypes.bool,
+  user: PropTypes.object,
 };
 
 export default connect(

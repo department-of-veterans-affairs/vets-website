@@ -1,6 +1,12 @@
 {
   "allow": {
-    "entryNames": ["vaos"],
-    "rootAppFolders": []
+    "entryNames": [
+      "education-inbox",
+      "enrollment-verification",
+      "login-page",
+      "medical-copays",
+      "vaos"
+    ],
+    "rootAppFolders": ["check-in"]
   }
 }

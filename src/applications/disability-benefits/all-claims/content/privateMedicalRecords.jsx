@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { VaAdditionalInfo } from 'web-components/react-bindings';
 import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
 import { recordEventOnce } from 'platform/monitoring/record-event';
 
@@ -10,8 +10,9 @@ const {
 
 export const privateRecordsChoiceHelp = (
   <div className="private-records-choice-help">
-    <AdditionalInfo
-      triggerText="Which should I choose?"
+    <VaAdditionalInfo
+      trigger="Which should I choose?"
+      disableAnalytics
       onClick={() =>
         recordEventOnce(openedPrivateChoiceHelp, HELP_TEXT_CLICKED_EVENT)
       }
@@ -32,7 +33,7 @@ export const privateRecordsChoiceHelp = (
         your records may take us some time, and this could mean that it’ll take
         us longer to make a decision on your claim.
       </p>
-    </AdditionalInfo>
+    </VaAdditionalInfo>
   </div>
 );
 
@@ -42,8 +43,9 @@ export const patientAcknowledgmentTitle = (
 
 export const patientAcknowledgmentText = (
   <div className="patient-acknowldegment-help">
-    <AdditionalInfo
-      triggerText="Read the full text."
+    <VaAdditionalInfo
+      trigger="Read the full text."
+      disableAnalytics
       onClick={() =>
         recordEventOnce(
           openedPrivateRecordsAcknowledgment,
@@ -145,6 +147,6 @@ export const patientAcknowledgmentText = (
         </a>
         .
       </p>
-    </AdditionalInfo>
+    </VaAdditionalInfo>
   </div>
 );

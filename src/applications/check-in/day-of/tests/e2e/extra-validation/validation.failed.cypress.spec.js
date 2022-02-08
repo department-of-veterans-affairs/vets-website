@@ -1,33 +1,61 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import mockSession from '../../../api/local-mock-api/mocks/v2/sessions.responses';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
+
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import Error from '../../../../tests/e2e/pages/Error';
+import Demographics from '../../../../tests/e2e/pages/Demographics';
+import Error from '../pages/Error';
 
 describe('Check In Experience -- ', () => {
   describe('extra validation -- ', () => {
-    beforeEach(function() {
-      cy.intercept('GET', '/check_in/v2/sessions/*', req => {
-        req.reply(
-          mockSession.createMockSuccessResponse('some-token', 'read.basic'),
-        );
-      });
-      cy.intercept('POST', '/check_in/v2/sessions', req => {
-        req.reply(400, mockSession.createMockFailedResponse());
-      });
-      cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
+    beforeEach(() => {
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+        initializeCheckInDataGet,
+      } = ApiInitializer;
+      initializeFeatureToggle.withCurrentFeatures();
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withValidation();
+      initializeCheckInDataGet.withSuccess();
       cy.visitWithUUID();
       ValidateVeteran.validatePageLoaded('Check in at VA');
-      ValidateVeteran.validateVeteran();
-      ValidateVeteran.attemptToGoToNextPage();
     });
     afterEach(() => {
       cy.window().then(window => {
         window.sessionStorage.clear();
       });
     });
-    it('validation failed with failed response from server', () => {
-      Error.validatePageLoaded();
+    it('validation failed with failed response from server. redirect to error page after max validate limit reached', () => {
+      cy.injectAxeThenAxeCheck();
+      // First Attempt
+      ValidateVeteran.validateVeteran('Sith', '4321');
+      ValidateVeteran.attemptToGoToNextPage();
+      ValidateVeteran.validateErrorAlert();
+
+      // Second Attempt
+      ValidateVeteran.validateVeteran('Sith', '4321');
+      ValidateVeteran.attemptToGoToNextPage();
+      ValidateVeteran.validateErrorAlert();
+
+      // Third/Final attempt
+      ValidateVeteran.validateVeteran('Sith', '4321');
+      ValidateVeteran.validateErrorAlert(true);
+      ValidateVeteran.attemptToGoToNextPage();
+
+      Error.validatePageLoaded(true);
+    });
+    it('fails validation once and then succeeds on the second attempt', () => {
+      cy.injectAxeThenAxeCheck();
+      // First Attempt
+      ValidateVeteran.validateVeteran('Sith', '4321');
+      ValidateVeteran.attemptToGoToNextPage();
+      ValidateVeteran.validateErrorAlert();
+
+      // Second Attempt
+      ValidateVeteran.validateVeteran('Smith', '1234');
+      ValidateVeteran.attemptToGoToNextPage();
+      Demographics.validatePageLoaded();
     });
   });
 });

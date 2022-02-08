@@ -1,6 +1,7 @@
-import React from 'react';
-import DemographicItem from '../../DemographicItem';
+import React, { useEffect } from 'react';
+import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
+import DemographicItem from '../../DemographicItem';
 
 const ConfirmablePage = ({
   header,
@@ -13,6 +14,9 @@ const ConfirmablePage = ({
   LoadingMessage = () => <va-loading-indicator message="Loading..." />,
   Footer,
 }) => {
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 confirmable-page">
       <h1 data-testid="header">{header}</h1>
@@ -45,15 +49,17 @@ const ConfirmablePage = ({
         <>
           <button
             onClick={yesAction}
-            className={'usa-button-secondary'}
+            className="usa-button-secondary usa-button-big"
             data-testid="yes-button"
+            type="button"
           >
             Yes
           </button>
           <button
             onClick={noAction}
-            className="usa-button-secondary vads-u-margin-top--2"
+            className="usa-button-secondary vads-u-margin-top--2 usa-button-big"
             data-testid="no-button"
+            type="button"
           >
             No
           </button>
@@ -64,19 +70,19 @@ const ConfirmablePage = ({
   );
 };
 ConfirmablePage.propTypes = {
-  header: PropTypes.string.isRequired,
-  subtitle: PropTypes.string,
+  data: PropTypes.object.isRequired,
   dataFields: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
       key: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  data: PropTypes.object.isRequired,
-  yesAction: PropTypes.func.isRequired,
+  header: PropTypes.string.isRequired,
   noAction: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool,
-  LoadingMessage: PropTypes.func,
+  yesAction: PropTypes.func.isRequired,
   Footer: PropTypes.func,
+  LoadingMessage: PropTypes.func,
+  isLoading: PropTypes.bool,
+  subtitle: PropTypes.string,
 };
 export default ConfirmablePage;

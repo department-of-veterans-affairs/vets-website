@@ -3,13 +3,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { debounce } from 'lodash';
 // Relative imports.
+import { langSelectedAction } from 'applications/static-pages/i18Select/actions';
 import CrisisPanel from './CrisisPanel';
 import DesktopLinks from './DesktopLinks';
 import LanguageSupport from './LanguageSupport';
 import MobileLinks from './MobileLinks';
 import { createLinkGroups } from '../helpers';
 import { isWideScreen } from '../../../utilities/accessibility/index';
-import { langSelectedAction } from 'applications/static-pages/i18Select/actions';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 
 class Footer extends Component {

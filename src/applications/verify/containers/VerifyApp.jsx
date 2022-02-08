@@ -46,7 +46,9 @@ export class VerifyApp extends React.Component {
     if (this.props.profile.verified) {
       const nextParams = new URLSearchParams(window.location.search);
       const nextPath = nextParams.get('next');
-      window.location.replace(nextPath || '/');
+      if (nextPath && nextPath !== 'loginModal') {
+        window.location.replace(nextPath || '/');
+      }
     }
   }
 

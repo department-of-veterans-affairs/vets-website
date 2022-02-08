@@ -11,7 +11,7 @@ describe('pre-check-in', () => {
       const middleware = [];
       const mockStore = configureStore(middleware);
       const initState = {
-        preCheckInData: {
+        checkInData: {
           appointments: [
             {
               facility: 'LOMA LINDA VA CLINIC',
@@ -95,7 +95,6 @@ describe('pre-check-in', () => {
           },
           form: {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'first-page',
           },
         },
       };

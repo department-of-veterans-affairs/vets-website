@@ -1,37 +1,37 @@
-import { generateFeatureToggles } from '../../../../api/local-mock-api/mocks/feature.toggles';
-import '../../support/commands';
+import '../../../../../tests/e2e/commands';
 
-import validateVeteran from '../../../../../tests/e2e/pages/ValidateVeteran';
-
-import Error from '../../../../../tests/e2e/pages/Error';
-import apiInitializer from '../../support/ApiInitializer';
+import ApiInitializer from '../../../../../api/local-mock-api/e2e/ApiInitializer';
+import ValidateVeteran from '../../../../../tests/e2e/pages/ValidateVeteran';
+import Error from '../../pages/Error';
 
 describe('Pre-Check In Experience ', () => {
-  describe('Error handling', () => {
-    describe('POST /check_in/v2/sessions/', () => {
-      beforeEach(function() {
-        cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
-        apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+  describe('Error handling - POST /check_in/v2/sessions/ - error in the body', () => {
+    beforeEach(() => {
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+      } = ApiInitializer;
+      initializeFeatureToggle.withCurrentFeatures();
+      initializeSessionGet.withSuccessfulNewSession();
 
-        apiInitializer.initializeSessionPost.withFailure(200);
+      initializeSessionPost.withFailure(200);
+    });
+    afterEach(() => {
+      cy.window().then(window => {
+        window.sessionStorage.clear();
       });
-      afterEach(() => {
-        cy.window().then(window => {
-          window.sessionStorage.clear();
-        });
-      });
-      it('error in the body', () => {
-        cy.visitPreCheckInWithUUID();
-        // page: Validate
-        validateVeteran.validatePageLoaded();
-        validateVeteran.validateVeteran();
-        cy.injectAxe();
-        cy.axeCheck();
+    });
+    it('attempt to sign in with an error', () => {
+      cy.visitPreCheckInWithUUID();
+      // page: Validate
+      ValidateVeteran.validatePage.preCheckIn();
+      ValidateVeteran.validateVeteran();
+      cy.injectAxeThenAxeCheck();
 
-        validateVeteran.attemptToGoToNextPage();
+      ValidateVeteran.attemptToGoToNextPage();
 
-        Error.validatePageLoaded();
-      });
+      Error.validatePageLoaded();
     });
   });
 });

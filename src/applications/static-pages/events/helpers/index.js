@@ -1,6 +1,6 @@
 // Node modules.
 import moment from 'moment-timezone';
-import { isArray, sortBy, filter, orderBy, isEmpty } from 'lodash';
+import { isArray, sortBy, filter, isEmpty } from 'lodash';
 
 export const monthOptions = [
   { value: '', label: 'Month' },
@@ -161,26 +161,20 @@ export const filterEvents = (
     return [];
   }
 
-  // Format event timestamps to unix and sort events by startsAt.
-  const sortedEvents = orderBy(
-    events,
-    ['fieldDatetimeRangeTimezone', 'value'],
-    ['asc'],
-  );
-
   // Filter the events.
   switch (filterBy) {
     // Upcoming events.
-    case 'upcoming':
-      return sortedEvents?.filter(event =>
+    case 'upcoming': {
+      return events?.filter(event =>
         moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isAfter(
           now.clone(),
         ),
       );
+    }
 
     // Next week.
-    case 'next-week':
-      return sortedEvents?.filter(event =>
+    case 'next-week': {
+      return events?.filter(event =>
         moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isBetween(
           now
             .clone()
@@ -192,10 +186,11 @@ export const filterEvents = (
             .endOf('week'),
         ),
       );
+    }
 
     // Next month.
-    case 'next-month':
-      return sortedEvents?.filter(event =>
+    case 'next-month': {
+      return events?.filter(event =>
         moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isBetween(
           now
             .clone()
@@ -207,22 +202,31 @@ export const filterEvents = (
             .endOf('month'),
         ),
       );
+    }
 
     // Past events.
-    case 'past':
+    case 'past': {
+      // Sort events inversely. @WARNING that `.sort` is mutative, so we need to clone the array.
+      const sortedEvents = [...events]?.sort(
+        (event1, event2) =>
+          event2?.fieldDatetimeRangeTimezone?.value -
+          event1?.fieldDatetimeRangeTimezone?.value,
+      );
+
       return sortedEvents?.filter(event =>
         moment(event?.fieldDatetimeRangeTimezone?.endValue * 1000).isBefore(
           now.clone(),
         ),
       );
+    }
 
     // Custom dates.
     case 'specific-date':
     case 'custom-date-range':
       // Return sorted events if the custom dates are not provided.
-      if (!options?.startsAtUnix || !options?.endsAtUnix) return sortedEvents;
+      if (!options?.startsAtUnix || !options?.endsAtUnix) return events;
 
-      return sortedEvents?.filter(
+      return events?.filter(
         event =>
           moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isBetween(
             options?.startsAtUnix * 1000,
@@ -236,7 +240,7 @@ export const filterEvents = (
 
     // Default, just give back sorted events.
     default:
-      return sortedEvents;
+      return events;
   }
 };
 
@@ -247,9 +251,12 @@ export const deriveStartsAtUnix = (startDateMonth, startDateDay) => {
   }
 
   // Derive the startsAt moment.
-  const startsAt = moment(`${startDateMonth}/${startDateDay}`, 'MM/DD').startOf(
-    'day',
-  );
+  let startsAt = moment(`${startDateMonth}/${startDateDay}`, 'MM/DD');
+
+  // If startsAt is today, then set it to now + 1 hour.
+  if (startsAt.isSame(moment(), 'day')) {
+    startsAt = moment().add(1, 'hour');
+  }
 
   // If the startsAt is in the past, we need to increase it by a year (since there are only month/day fields).
   if (startsAt.isBefore(moment())) {
@@ -293,11 +300,43 @@ export const deriveEndsAtUnix = (startsAtUnix, endDateMonth, endDateDay) => {
   return endsAt.unix();
 };
 
+export const deriveEventLocations = event => {
+  const locations = [];
+
+  // Escape early if there is no event.
+  if (!event) {
+    return locations;
+  }
+
+  if (event?.fieldLocationHumanreadable) {
+    locations.push(event?.fieldLocationHumanreadable);
+  }
+
+  if (event?.fieldAddress?.addressLine1) {
+    locations.push(event?.fieldAddress?.addressLine1);
+  }
+
+  if (event?.fieldAddress?.addressLine2) {
+    locations.push(event?.fieldAddress?.addressLine2);
+  }
+
+  if (
+    event?.fieldAddress?.locality &&
+    event?.fieldAddress?.administrativeArea
+  ) {
+    locations.push(
+      `${event?.fieldAddress?.locality}, ${
+        event?.fieldAddress?.administrativeArea
+      }`,
+    );
+  }
+
+  return locations;
+};
+
 export const hideLegacyEvents = () => {
   // Derive the legacy events page.
-  const legacyEvents = document.querySelector(
-    'div[data-template="event_listing.drupal.liquid"]',
-  );
+  const legacyEvents = document.querySelector('div[id="events-v1"]');
 
   // Escape early if the legacy events page doesn't exist.
   if (!legacyEvents) {
@@ -312,9 +351,7 @@ export const hideLegacyEvents = () => {
 
 export const showLegacyEvents = () => {
   // Derive the legacy events page.
-  const legacyEvents = document.querySelector(
-    'div[data-template="event_listing.drupal.liquid"]',
-  );
+  const legacyEvents = document.querySelector('div[id="events-v1"]');
 
   // Escape early if the legacy events page doesn't exist.
   if (!legacyEvents) {

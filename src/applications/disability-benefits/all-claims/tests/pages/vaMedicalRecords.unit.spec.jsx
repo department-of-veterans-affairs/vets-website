@@ -34,12 +34,46 @@ describe('VA Medical Records', () => {
         uiSchema={uiSchema}
         data={{
           ratedDisabilities,
+          'view:hasEvidenceFollowUp': {
+            'view:selectableEvidenceTypes': {
+              'view:hasVaMedicalRecords': true,
+            },
+          },
         }}
       />,
     );
 
     expect(form.find('input').length).to.equal(6);
     expect(form.find('select').length).to.equal(3);
+    form.unmount();
+  });
+
+  // Ignore empty vaTreatmentFacilities when not selected, see
+  // va.gov-team/issues/34289
+  it('should allow submit if VA medical records not selected', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ratedDisabilities,
+          'view:hasEvidenceFollowUp': {
+            'view:selectableEvidenceTypes': {
+              'view:hasVaMedicalRecords': false,
+            },
+          },
+          vaTreatmentFacilities: [],
+        }}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    // Required fields: Facility name and related disability
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 
@@ -52,6 +86,11 @@ describe('VA Medical Records', () => {
         uiSchema={uiSchema}
         data={{
           ratedDisabilities,
+          'view:hasEvidenceFollowUp': {
+            'view:selectableEvidenceTypes': {
+              'view:hasVaMedicalRecords': true,
+            },
+          },
           vaTreatmentFacilities: [],
         }}
         onSubmit={onSubmit}

@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import GetFormHelp from '../components/GetFormHelp';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import pages from '../wizard/pages';
 import recordEvent from 'platform/monitoring/record-event';
-import { MaintenanceAlert } from '../components/Alerts';
 import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 import {
   DowntimeNotification,
@@ -13,14 +10,17 @@ import {
 import Wizard, {
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
+import { MaintenanceAlert } from '../components/Alerts';
+import pages from './pages';
+import GetFormHelp from '../components/GetFormHelp';
 
 const WizardContainer = ({ setWizardStatus, showFSR }) => {
   return (
     <div className="fsr-wizard row">
       <div className="usa-width-two-thirds medium-8 columns">
         <FormTitle
-          title={'Request help with VA debt (VA Form 5655)'}
-          subTitle={'Equal to VA Form 5655 (Financial Status Report)'}
+          title="Request help with VA debt (VA Form 5655)"
+          subTitle="Equal to VA Form 5655 (Financial Status Report)"
         />
         <div className="wizard-container">
           <DowntimeNotification

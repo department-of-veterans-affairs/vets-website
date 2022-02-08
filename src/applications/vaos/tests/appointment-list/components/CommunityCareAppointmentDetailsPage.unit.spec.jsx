@@ -32,6 +32,7 @@ const initialState = {
     vaOnlineSchedulingPast: true,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
+    vaOnlineSchedulingStatusImprovement: false,
   },
 };
 
@@ -562,7 +563,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       kind: 'cc',
       practitioners: [
         {
-          identifier: { system: null, value: '123' },
+          identifier: [{ system: null, value: '123' }],
         },
       ],
       description: 'community care appointment',
@@ -668,7 +669,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       kind: 'cc',
       practitioners: [
         {
-          identifier: { system: null, value: '123' },
+          identifier: [{ system: null, value: '123' }],
         },
       ],
       description: 'community care appointment',
@@ -724,7 +725,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       kind: 'cc',
       practitioners: [
         {
-          identifier: { system: null, value: '123' },
+          identifier: [{ system: null, value: '123' }],
         },
       ],
       description: 'community care appointment',

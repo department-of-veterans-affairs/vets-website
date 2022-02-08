@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { currency } from '../utils/helpers';
 
 const TableDetailsView = ({ formData, onEdit }) => {
@@ -25,12 +26,21 @@ const TableDetailsView = ({ formData, onEdit }) => {
     <tr className="vads-u-border-bottom--1px">
       {renderDetails(keys)}
       <td className="vads-u-border--0">
-        <a target="_blank" rel="noopener noreferrer" onClick={() => onEdit()}>
-          <span aria-hidden="true">Edit</span>
-        </a>
+        <button
+          className="usa-button-secondary vads-u-margin--0"
+          onClick={() => onEdit()}
+          type="button"
+        >
+          Edit
+        </button>
       </td>
     </tr>
   );
+};
+
+TableDetailsView.propTypes = {
+  formData: PropTypes.object,
+  onEdit: PropTypes.func,
 };
 
 export default TableDetailsView;

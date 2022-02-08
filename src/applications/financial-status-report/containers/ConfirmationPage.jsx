@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
-
 import environment from 'platform/utilities/environment';
-import GetFormHelp from '../components/GetFormHelp';
 import { focusElement } from 'platform/utilities/ui';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes/';
+import ServiceProvidersText, {
+  ServiceProvidersTextCreateAcct,
+} from 'platform/user/authentication/components/ServiceProvidersText';
+import GetFormHelp from '../components/GetFormHelp';
+import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import { downloadPDF } from '../actions';
 
-const scroller = Scroll.scroller;
+const { scroller } = Scroll;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
     duration: 500,
@@ -61,6 +64,7 @@ const RequestDetailsCard = ({ data, response }) => {
           <button
             className="usa-button-secondary button vads-u-background-color--white"
             onClick={() => window.print()}
+            type="button"
           >
             Print this page
           </button>
@@ -68,6 +72,11 @@ const RequestDetailsCard = ({ data, response }) => {
       </>
     </div>
   );
+};
+
+RequestDetailsCard.propTypes = {
+  data: PropTypes.object,
+  response: PropTypes.object,
 };
 
 const ConfirmationPage = ({ form, download }) => {
@@ -106,8 +115,8 @@ const ConfirmationPage = ({ form, download }) => {
           <li className="process-step list-one">
             <h4>Sign in to VA.gov</h4>
             <p>
-              You can sign in with your DS Logon, My HealthyVet, or ID.me
-              account.
+              You can sign in with your existing <ServiceProvidersText />
+              account. <ServiceProvidersTextCreateAcct />
             </p>
           </li>
           <li className="process-step list-two">
@@ -160,6 +169,11 @@ const ConfirmationPage = ({ form, download }) => {
       </div>
     </div>
   );
+};
+
+ConfirmationPage.propTypes = {
+  download: PropTypes.func,
+  form: PropTypes.object,
 };
 
 const mapStateToProps = state => {

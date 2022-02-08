@@ -1,25 +1,26 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
 
-import validateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
+import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 
 describe('Check In Experience', () => {
   describe('Demographics Page', () => {
-    beforeEach(function() {
-      cy.authenticate();
-      cy.getAppointments();
-      cy.successfulCheckin();
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          checkInExperienceUpdateInformationPageEnabled: false,
-        }),
-      );
+    beforeEach(() => {
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+        initializeCheckInDataGet,
+      } = ApiInitializer;
+      initializeFeatureToggle.withCurrentFeatures();
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
+      initializeCheckInDataGet.withSuccess();
+
       cy.visitWithUUID();
-      validateVeteran.validateVeteran();
-      validateVeteran.attemptToGoToNextPage();
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
     });
     afterEach(() => {
@@ -30,6 +31,7 @@ describe('Check In Experience', () => {
     it('demographics display', () => {
       Demographics.validateSubTitle();
       Demographics.validateDemographicsFields('.confirmable-page dl');
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

@@ -2,8 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-import ConfirmablePage from './index';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import ConfirmablePage from './index';
 
 describe('pre-check-in experience', () => {
   describe('shared components', () => {
@@ -13,6 +13,7 @@ describe('pre-check-in experience', () => {
       });
       it('renders the footer if footer is supplied', () => {
         const { getByText } = render(
+          // eslint-disable-next-line react/jsx-no-bind
           <ConfirmablePage Footer={() => <div>foo</div>} />,
         );
         expect(getByText('foo')).to.exist;
@@ -28,6 +29,7 @@ describe('pre-check-in experience', () => {
       });
       it('renders custom loading message when loading', () => {
         const { getByText } = render(
+          // eslint-disable-next-line react/jsx-no-bind
           <ConfirmablePage isLoading LoadingMessage={() => <div>foo</div>} />,
         );
         expect(getByText('foo')).to.exist;
@@ -72,7 +74,11 @@ describe('pre-check-in experience', () => {
         expect(getByText('foo-title')).to.exist;
         expect(getByText('Not available')).to.exist;
       });
-
+      it('renders the yes and no buttons with the usa-button-big css class', () => {
+        const { getByTestId } = render(<ConfirmablePage />);
+        expect(getByTestId('yes-button')).to.have.class('usa-button-big');
+        expect(getByTestId('no-button')).to.have.class('usa-button-big');
+      });
       it('fires the yes function', () => {
         const yesClick = sinon.spy();
         const screen = render(<ConfirmablePage yesAction={yesClick} />);

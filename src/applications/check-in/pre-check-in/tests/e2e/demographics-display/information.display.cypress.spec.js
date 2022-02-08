@@ -1,33 +1,31 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
 
-import validateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import introduction from '../pages/Introduction';
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
+import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
+import Introduction from '../pages/Introduction';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
-
-import apiInitializer from '../support/ApiInitializer';
 
 describe('Pre-Check In Experience', () => {
   describe('Demographics Page', () => {
-    beforeEach(function() {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          checkInExperienceUpdateInformationPageEnabled: true,
-        }),
-      );
-      apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+    beforeEach(() => {
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+        initializePreCheckInDataGet,
+      } = ApiInitializer;
+      initializeFeatureToggle.withCurrentFeatures();
+      initializeSessionGet.withSuccessfulNewSession();
 
-      apiInitializer.initializeSessionPost.withSuccess();
+      initializeSessionPost.withSuccess();
 
-      apiInitializer.initializePreCheckInDataGet.withSuccess();
+      initializePreCheckInDataGet.withSuccess();
 
       cy.visitPreCheckInWithUUID();
-      validateVeteran.validateVeteran();
-      validateVeteran.attemptToGoToNextPage();
-      introduction.validatePageLoaded();
-      introduction.attemptToGoToNextPage();
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      Introduction.validatePageLoaded();
+      Introduction.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
     });
     afterEach(() => {
@@ -37,9 +35,11 @@ describe('Pre-Check In Experience', () => {
     });
     it('Displays each field', () => {
       Demographics.validateDemographicsFields();
+      cy.injectAxeThenAxeCheck();
     });
     it('Displays correct demographic data', () => {
       Demographics.validateDemographicData();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

@@ -20,6 +20,9 @@ describe('check-in', () => {
           context: {
             token: 'some-token',
           },
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+          },
           appointments: [
             {
               clinicPhone: '555-867-5309',
@@ -28,6 +31,7 @@ describe('check-in', () => {
               clinicName: 'Green Team Clinic1',
             },
           ],
+          veteranData: {},
         },
       };
       store = mockStore(initState);
@@ -54,25 +58,8 @@ describe('check-in', () => {
         </Provider>,
       );
     });
-    it('shows the loading indicator', () => {
-      const mockRouter = {
-        params: {
-          token: 'token-123',
-        },
-      };
 
-      const { container } = render(
-        <Provider store={store}>
-          <CheckIn isLoading router={mockRouter} />
-        </Provider>,
-      );
-
-      expect(container.querySelector('va-loading-indicator')).to.have.attribute(
-        'message',
-        'Loading your appointments for today',
-      );
-    });
-    it('refreshes appointments', () => {
+    it('refresh appointments button exists', () => {
       const mockRouter = {
         params: {
           token: 'token-123',
@@ -96,7 +83,6 @@ describe('check-in', () => {
       );
 
       expect(screen.queryByTestId('refresh-appointments-button')).to.exist;
-      screen.queryByTestId('refresh-appointments-button').click();
     });
   });
 });

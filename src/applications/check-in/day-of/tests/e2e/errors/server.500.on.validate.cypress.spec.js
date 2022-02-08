@@ -1,21 +1,14 @@
-import mockSession from '../../../api/local-mock-api/mocks/v2/sessions.responses';
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
-import Error from '../../../../tests/e2e/pages/Error';
+import '../../../../tests/e2e/commands';
+
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
+import Error from '../pages/Error';
 
 describe('Check In Experience -- ', () => {
-  beforeEach(function() {
-    cy.intercept('GET', '/check_in/v2/sessions/*', req => {
-      req.reply(500, mockSession.createMockFailedResponse({}));
-    });
+  beforeEach(() => {
+    const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
+    initializeFeatureToggle.withCurrentFeatures();
+    initializeSessionGet.withFailure(500);
 
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        checkInExperienceUpdateInformationPageEnabled: false,
-      }),
-    );
     cy.window().then(window => {
       window.sessionStorage.clear();
     });
@@ -29,5 +22,6 @@ describe('Check In Experience -- ', () => {
   it('C5736 - Validate - 500 api error', () => {
     Error.validateURL();
     Error.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
   });
 });

@@ -3,14 +3,14 @@ import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import WizardContainer from '../../wizard/containers/WizardContainer';
 import { connect } from 'react-redux';
-import { showEduBenefits5490Wizard } from '../../selectors/educationWizard';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
+import WizardContainer from '../../wizard/containers/WizardContainer';
+import { showEduBenefits5490Wizard } from '../../selectors/educationWizard';
 
 export class IntroductionPage extends React.Component {
   state = {
@@ -84,7 +84,7 @@ export class IntroductionPage extends React.Component {
                   <p>
                     See what benefits you’ll get at the school you want to
                     attend.{' '}
-                    <a href="/gi-bill-comparison-tool/">
+                    <a href="/education/gi-bill-comparison-tool/">
                       Use the GI Bill Comparison Tool
                     </a>
                     .
@@ -142,7 +142,7 @@ export class IntroductionPage extends React.Component {
               <OMBInfo
                 resBurden={45}
                 ombNumber="2900-0098"
-                expDate="10/31/2021"
+                expDate="01/31/2025"
               />
             </div>
           </div>

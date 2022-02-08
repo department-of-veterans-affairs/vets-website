@@ -1,26 +1,26 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { focusElement } from 'platform/utilities/ui';
+import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import BackToHome from '../../components/BackToHome';
-import { useFormRouting } from '../../hooks/useFormRouting';
 import PropTypes from 'prop-types';
-import Footer from '../../components/Footer';
-import BackButton from '../../components/BackButton';
-import DemographicsDisplay from '../../../components/pages/demographics/DemographicsDisplay';
 import recordEvent from 'platform/monitoring/record-event';
-import { recordAnswer } from '../../actions';
 
-import { makeSelectVeteranData } from '../../selectors';
+import BackToHome from '../../../components/BackToHome';
+import { useFormRouting } from '../../../hooks/useFormRouting';
+import Footer from '../../../components/Footer';
+import BackButton from '../../../components/BackButton';
+import DemographicsDisplay from '../../../components/pages/demographics/DemographicsDisplay';
+import { recordAnswer } from '../../../actions/pre-check-in';
+
+import { makeSelectVeteranData } from '../../../selectors';
 
 const Demographics = props => {
   const dispatch = useDispatch();
   const { router } = props;
-  const { goToNextPage, goToPreviousPage, currentPage } = useFormRouting(
-    router,
-  );
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+  const {
+    goToNextPage,
+    goToPreviousPage,
+    getCurrentPageFromRouter,
+  } = useFormRouting(router);
+  const currentPage = getCurrentPageFromRouter();
   const yesClick = useCallback(
     () => {
       recordEvent({

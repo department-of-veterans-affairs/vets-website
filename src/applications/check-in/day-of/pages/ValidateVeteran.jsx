@@ -1,23 +1,35 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
 
-import { api } from '../api';
+import { api } from '../../api';
+import { createSetSession } from '../../actions/authentication';
 
-import { permissionsUpdated } from '../actions';
-import { goToNextPage, URLS } from '../utils/navigation';
-import { SCOPES } from '../../utils/token-format-validator';
+import { useFormRouting } from '../../hooks/useFormRouting';
 
-import BackToHome from '../components/BackToHome';
-import Footer from '../components/Footer';
+import BackToHome from '../../components/BackToHome';
+import Footer from '../../components/Footer';
 import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 
-import { makeSelectContext } from '../hooks/selectors';
+import { makeSelectCurrentContext } from '../../selectors';
+
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 
 const ValidateVeteran = props => {
-  const { router, setPermissions } = props;
+  const { router } = props;
+  const dispatch = useDispatch();
+
+  const setSession = useCallback(
+    (token, permissions) => {
+      dispatch(createSetSession({ token, permissions }));
+    },
+    [dispatch],
+  );
+
+  const { goToNextPage, goToErrorPage } = useFormRouting(router);
+
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
@@ -25,43 +37,75 @@ const ValidateVeteran = props => {
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
 
-  const selectContext = useMemo(makeSelectContext, []);
-  const { token } = useSelector(selectContext);
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectCurrentContext);
 
-  const onClick = async () => {
-    setLastNameErrorMessage();
-    setLast4ErrorMessage();
-    if (!lastName || !last4Ssn) {
-      if (!lastName) {
-        setLastNameErrorMessage('Please enter your last name.');
+  const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
+    false,
+  );
+  const { isMaxValidateAttempts } = getValidateAttempts(window);
+  const [showValidateError, setShowValidateError] = useState(false);
+
+  const onClick = useCallback(
+    async () => {
+      setLastNameErrorMessage();
+      setLast4ErrorMessage();
+      if (!lastName || !last4Ssn) {
+        if (!lastName) {
+          setLastNameErrorMessage('Please enter your last name.');
+        }
+        if (!last4Ssn) {
+          setLast4ErrorMessage(
+            'Please enter the last 4 digits of your Social Security number.',
+          );
+        }
+      } else {
+        // API call
+        setIsLoading(true);
+        try {
+          const resp = await api.v2.postSession({
+            token,
+            last4: last4Ssn,
+            lastName,
+          });
+          if (resp.errors || resp.error) {
+            setIsLoading(false);
+            goToErrorPage();
+          } else {
+            setSession(token, resp.permissions);
+            goToNextPage();
+          }
+        } catch (e) {
+          setIsLoading(false);
+          if (
+            e?.message !== 'Invalid last4 or last name!' ||
+            isMaxValidateAttempts
+          ) {
+            goToErrorPage();
+          } else {
+            if (!showValidateError) {
+              setShowValidateError(true);
+            }
+            incrementValidateAttempts(window);
+          }
+        }
       }
-      if (!last4Ssn) {
-        setLast4ErrorMessage(
-          'Please enter the last 4 digits of your Social Security number.',
-        );
-      }
-    } else {
-      // API call
-      setIsLoading(true);
-
-      api.v2
-        .postSession({ lastName, last4: last4Ssn, token })
-        .then(data => {
-          // update sessions with new permissions
-          setPermissions(data);
-          // routing
-
-          goToNextPage(router, URLS.DEMOGRAPHICS);
-        })
-        .catch(() => {
-          goToNextPage(router, URLS.ERROR);
-        });
-    }
-  };
+    },
+    [
+      goToErrorPage,
+      goToNextPage,
+      last4Ssn,
+      lastName,
+      setSession,
+      token,
+      incrementValidateAttempts,
+      isMaxValidateAttempts,
+      showValidateError,
+    ],
+  );
   useEffect(() => {
     focusElement('h1');
   }, []);
-
   return (
     <>
       <ValidateDisplay
@@ -80,25 +124,16 @@ const ValidateVeteran = props => {
         isLoading={isLoading}
         validateHandler={onClick}
         Footer={Footer}
+        showValidateError={showValidateError}
+        validateErrorMessage="Sorry, we couldn't find an account that matches that last name or SSN. Please try again."
       />
       <BackToHome />
     </>
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setPermissions: data =>
-      dispatch(permissionsUpdated(data, SCOPES.READ_FULL)),
-  };
-};
-
 ValidateVeteran.propTypes = {
   router: PropTypes.object,
-  setPermissions: PropTypes.func,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ValidateVeteran);
+export default ValidateVeteran;

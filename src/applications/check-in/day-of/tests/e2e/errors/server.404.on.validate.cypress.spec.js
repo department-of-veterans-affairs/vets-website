@@ -1,25 +1,14 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import mockSession from '../../../api/local-mock-api/mocks/v2/sessions.responses';
-import '../support/commands';
-import Error from '../../../../tests/e2e/pages/Error';
+import '../../../../tests/e2e/commands';
 
-describe('Check In Experience -- ', () => {
-  beforeEach(function() {
-    cy.intercept('GET', '/check_in/v2/sessions/*', req => {
-      req.reply(404, mockSession.createMockFailedResponse({}));
-    });
-    cy.intercept('POST', '/check_in/v2/sessions', req => {
-      req.reply(
-        mockSession.createMockSuccessResponse('some-token', 'read.full'),
-      );
-    });
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        checkInExperienceUpdateInformationPageEnabled: false,
-      }),
-    );
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
+import Error from '../pages/Error';
+
+describe('Check In Experience', () => {
+  beforeEach(() => {
+    const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
+    initializeFeatureToggle.withCurrentFeatures();
+    initializeSessionGet.withFailure(404);
+
     cy.window().then(window => {
       window.sessionStorage.clear();
     });
@@ -33,5 +22,6 @@ describe('Check In Experience -- ', () => {
   it('C5732 - Validate - 404 error', () => {
     Error.validateURL();
     Error.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
   });
 });

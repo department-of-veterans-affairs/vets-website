@@ -3,9 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import moment from 'moment-timezone';
-import { sample } from 'lodash';
 // Relative imports.
 import {
+  deriveEventLocations,
   deriveMostRecentDate,
   deriveResultsEndNumber,
   deriveResultsStartNumber,
@@ -36,7 +36,7 @@ export const Results = ({
     <>
       {/* Showing 10 results for All upcoming */}
       {results && (
-        <p className="vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-bottom--1">
+        <h2 className="vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-bottom--1 vads-u-font-size--base vads-u-font-weight--normal">
           <span>Displaying {resultsStartNumber}</span>
           <span className="vads-u-visibility--screen-reader">through</span>
           <span aria-hidden="true">&ndash;</span>
@@ -44,7 +44,7 @@ export const Results = ({
             {resultsEndNumber} of {totalResults} results for{' '}
             <strong>{query}</strong>
           </span>
-        </p>
+        </h2>
       )}
 
       {/* Events */}
@@ -65,13 +65,19 @@ export const Results = ({
             const timezone = mostRecentDate?.timezone;
 
             // Derive starts at and ends at.
-            const formattedStartsAt = moment(startsAtUnix * 1000).format(
-              'ddd MMM D, YYYY, h:mm a',
-            );
-            const formattedEndsAt = moment(endsAtUnix * 1000).format('h:mm a');
+            const formattedStartsAt = moment
+              .tz(startsAtUnix * 1000, timezone)
+              .format('ddd MMM D, YYYY, h:mm a');
+            const formattedEndsAt = moment
+              .tz(endsAtUnix * 1000, timezone)
+              .format('h:mm a');
             const endsAtTimezone = moment
               .tz(endsAtUnix * 1000, timezone)
-              .format('z');
+              .format('z')
+              .replace('S', '');
+
+            // Derive the event locations.
+            const locations = deriveEventLocations(event);
 
             return (
               <div
@@ -79,9 +85,9 @@ export const Results = ({
                 key={`${title}-${entityUrl?.path}`}
               >
                 {/* Title */}
-                <h2 className="vads-u-margin--0 vads-u-font-size--h4">
+                <h3 className="vads-u-margin--0 vads-u-font-size--h4">
                   <a href={entityUrl.path}>{title}</a>
-                </h2>
+                </h3>
 
                 {/* Description */}
                 <p className="vads-u-margin--0 vads-u-margin-y--1">
@@ -96,7 +102,7 @@ export const Results = ({
                   <div className="vads-u-display--flex vads-u-flex-direction--column">
                     {/* Starts at and ends at */}
                     <p className="vads-u-margin--0">
-                      {formattedStartsAt} - {formattedEndsAt} {endsAtTimezone}
+                      {formattedStartsAt} – {formattedEndsAt} {endsAtTimezone}
                     </p>
 
                     {/* Repeats */}
@@ -113,18 +119,21 @@ export const Results = ({
                 </div>
 
                 {/* Where */}
-                <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--1">
-                  <p className="vads-u-margin--0 vads-u-margin-right--0p5">
-                    <strong>Where:</strong>
-                  </p>
-                  <p className="vads-u-margin--0">
-                    {sample([
-                      'West Bend, Wisconsin',
-                      'Austin, Texas',
-                      'This is an online event.',
-                    ])}
-                  </p>
-                </div>
+                {locations?.length > 0 && (
+                  <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--1">
+                    <p className="vads-u-margin--0 vads-u-margin-right--0p5">
+                      <strong>Where:</strong>
+                    </p>
+
+                    <div className="vads-u-display--flex vads-u-flex-direction--column">
+                      {locations?.map(location => (
+                        <p className="vads-u-margin--0" key={location}>
+                          {location}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })}

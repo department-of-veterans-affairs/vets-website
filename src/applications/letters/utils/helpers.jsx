@@ -23,16 +23,14 @@ export const recordsNotFound = (
     <header>
       <h1>We couldn’t find your VA letters or documents</h1>
     </header>
-    <div className="usa-alert usa-alert-warning">
-      <div className="usa-alert-body">
-        <p className="usa-alert-heading">
-          <EbenefitsLink path="ebenefits/download-letters">
-            If you’re a dependent, please go to eBenefits to look for your
-            letters.
-          </EbenefitsLink>
-        </p>
-      </div>
-    </div>
+    <va-alert status="warning">
+      <p>
+        <EbenefitsLink path="ebenefits/download-letters">
+          If you’re a dependent, please go to eBenefits to look for your
+          letters.
+        </EbenefitsLink>
+      </p>
+    </va-alert>
     <h2>Need help?</h2>
     <hr className="divider" />
     <p>
@@ -61,20 +59,18 @@ export const characterOfServiceContent = {
 // service_verification letter is being phased out in favor of benefit_summary
 // letter
 const serviceVerificationLetterContent = (
-  <div>
-    <div className="usa-alert usa-alert-warning">
-      <div className="usa-alert-body">
-        <p className="usa-alert-text">
-          You can now use your Benefit Summary letter instead of this Service
-          Verification letter.
-        </p>
-      </div>
-    </div>
+  <>
+    <va-alert status="warning">
+      <p>
+        You can now use your Benefit Summary letter instead of this Service
+        Verification letter.
+      </p>
+    </va-alert>
     <p>
       This letter shows your branch of service, the date you started active
       duty, and the date you were discharged from active duty.
     </p>
-  </div>
+  </>
 );
 
 // Commissary letter contains a link so gets its own jsx to correctly display the anchor tag
@@ -129,8 +125,8 @@ export const letterContent = {
       you’re enrolled in the VA health care system, you must have IRS Form
       1095-B from VA to show what months you were covered by a VA health care
       plan. If you’ve lost your IRS Form 1095-B, please call{' '}
-      <a href="tel:+18772228387">877-222-8387</a>, Monday &#8211; Friday, 8:00
-      a.m. &#8211; 8:00 p.m. ET to request another copy.
+      <a href="tel:+18772228387">877-222-8387</a>, Monday through Friday, 8:00
+      a.m. to 8:00 p.m. ET to request another copy.
     </div>
   ),
   service_verification: serviceVerificationLetterContent,
@@ -350,7 +346,8 @@ export function getBenefitOptionText(
 
   if (!availableOptions.has(option)) {
     return benefitOptionText[option][valueString][personType];
-  } else if (option === BENEFIT_OPTIONS.monthlyAwardAmount && isAvailable) {
+  }
+  if (option === BENEFIT_OPTIONS.monthlyAwardAmount && isAvailable) {
     return (
       <div>
         <div>
@@ -362,7 +359,8 @@ export function getBenefitOptionText(
         </div>
       </div>
     );
-  } else if (
+  }
+  if (
     option === BENEFIT_OPTIONS.serviceConnectedPercentage &&
     isAvailable &&
     isVeteran
@@ -403,7 +401,7 @@ export const benefitOptionsMap = {
  *  accurate (compared to what the user sees).
  */
 export function resetDisallowedAddressFields(address) {
-  const newAddress = Object.assign({}, address);
+  const newAddress = { ...address };
   // International addresses don't allow state or zip
   if (address.type === ADDRESS_TYPES_ALTERNATE.international) {
     newAddress.state = '';

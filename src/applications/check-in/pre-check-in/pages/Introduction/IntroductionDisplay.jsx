@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { format, subDays } from 'date-fns';
@@ -8,13 +8,13 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 
 import { focusElement } from 'platform/utilities/ui';
 
-import AppointmentBlock from '../../components/AppointmentBlock';
-import Footer from '../../components/Footer';
-import BackToHome from '../../components/BackToHome';
+import AppointmentBlock from '../../../components/AppointmentBlock';
+import Footer from '../../../components/Footer';
+import BackToHome from '../../../components/BackToHome';
 
-import { useFormRouting } from '../../hooks/useFormRouting';
+import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import { makeSelectVeteranData } from '../../selectors';
+import { makeSelectVeteranData } from '../../../selectors';
 
 const IntroductionDisplay = props => {
   useEffect(() => {
@@ -81,17 +81,17 @@ const IntroductionDisplay = props => {
     >
       <a
         className="vads-c-action-link--green"
-        href="#"
-        onKeyDown={e => {
+        href="#answer"
+        onKeyDown={useCallback(e => {
           if (e.key === ' ') {
             e.preventDefault();
             goToNextPage();
           }
-        }}
-        onClick={e => {
+        }, [])}
+        onClick={useCallback(e => {
           e.preventDefault();
           goToNextPage();
-        }}
+        }, [])}
       >
         Answer questions
       </a>
@@ -150,19 +150,24 @@ const IntroductionDisplay = props => {
         </span>
         <br />
         <a
-          href="#"
-          onClick={e => {
-            e.preventDefault();
-            setPrivacyActModalOpen(true);
-          }}
+          href="#privacy-modal"
+          onClick={useCallback(
+            e => {
+              e.preventDefault();
+              setPrivacyActModalOpen(true);
+            },
+            [setPrivacyActModalOpen],
+          )}
         >
           Privacy Act Statement
         </a>
       </div>
-      <Footer additionalInformation={additionalFooterInfo} />
+      <Footer message={additionalFooterInfo} />
       <BackToHome />
       <Modal
-        onClose={() => setPrivacyActModalOpen(false)}
+        onClose={useCallback(() => setPrivacyActModalOpen(false), [
+          setPrivacyActModalOpen,
+        ])}
         visible={privacyActModalOpen}
         focusSelector="button"
         cssClass=""

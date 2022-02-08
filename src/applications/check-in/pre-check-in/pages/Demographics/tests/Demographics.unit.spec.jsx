@@ -4,6 +4,8 @@ import configureStore from 'redux-mock-store';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import Demographics from '../index';
 
+import { createMockRouter } from '../../../../tests/unit/mocks/router';
+
 describe('pre-check-in', () => {
   describe('Demographics page', () => {
     let store;
@@ -11,7 +13,7 @@ describe('pre-check-in', () => {
       const middleware = [];
       const mockStore = configureStore(middleware);
       const initState = {
-        preCheckInData: {
+        checkInData: {
           appointments: [
             {
               facility: 'LOMA LINDA VA CLINIC',
@@ -95,7 +97,6 @@ describe('pre-check-in', () => {
           },
           form: {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'first-page',
           },
         },
       };
@@ -104,7 +105,7 @@ describe('pre-check-in', () => {
     it('page passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
-          <Demographics router={{ push: () => {} }} />
+          <Demographics router={createMockRouter()} />
         </Provider>,
       );
     });

@@ -1,7 +1,7 @@
 import { PROFILE_PATHS_LGBTQ_ENHANCEMENT } from '@@profile/constants';
 
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
-import mockPersonalInformationEnhanced from '@@profile/tests/fixtures/personal-information-success-enhanced.json';
+import mockPersonalInformationEnhanced from '@@profile/tests/fixtures/personal-information-success.json';
 import mockServiceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
 import mockProfileEnhancementsToggles from '@@profile/tests/fixtures/personal-information-feature-toggles.json';
@@ -41,9 +41,6 @@ describe('Content on the personal information page', () => {
 
     cy.findByText('Pronouns').should('exist');
     cy.findByText('Edit your profile to add pronouns.').should('exist');
-
-    cy.findByText('Sex assigned at birth').should('exist');
-    cy.findByText('Male').should('exist');
 
     cy.findByText('Gender identity').should('exist');
     cy.findByText('Edit your profile to add a gender identity.').should(

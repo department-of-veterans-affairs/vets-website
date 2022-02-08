@@ -199,7 +199,6 @@ export function createPastVAAppointments() {
 export function mockFeatureToggles({
   v2Requests = false,
   v2Facilities = false,
-  featureCCIteration = false,
 } = {}) {
   cy.route({
     method: 'GET',
@@ -243,10 +242,6 @@ export function mockFeatureToggles({
           {
             name: 'vaOnlineSchedulingFacilitiesServiceV2',
             value: v2Facilities,
-          },
-          {
-            name: 'vaOnlineSchedulingCCIterations',
-            value: featureCCIteration,
           },
         ],
       },
@@ -503,6 +498,11 @@ export function initAppointmentListMock() {
   setupSchedulingMocks();
 
   const today = moment();
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/va/vha_442',
+    response: { data: facilityData.data[0] },
+  });
   cy.route({
     method: 'GET',
     url: '/vaos/v0/request_eligibility_criteria*',

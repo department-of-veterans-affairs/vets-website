@@ -1,31 +1,29 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
 
-import validateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import introduction from '../pages/Introduction';
-
-import apiInitializer from '../support/ApiInitializer';
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
+import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
+import Introduction from '../pages/Introduction';
 
 describe('Pre-Check In Experience', () => {
   describe('Introduction Page', () => {
-    beforeEach(function() {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          checkInExperienceUpdateInformationPageEnabled: true,
-        }),
-      );
-      apiInitializer.initializeSessionGet.withSuccessfulNewSession();
+    beforeEach(() => {
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+        initializePreCheckInDataGet,
+      } = ApiInitializer;
+      initializeFeatureToggle.withCurrentFeatures();
+      initializeSessionGet.withSuccessfulNewSession();
 
-      apiInitializer.initializeSessionPost.withSuccess();
+      initializeSessionPost.withSuccess();
 
-      apiInitializer.initializePreCheckInDataGet.withSuccess();
+      initializePreCheckInDataGet.withSuccess();
 
       cy.visitPreCheckInWithUUID();
-      validateVeteran.validateVeteran();
-      validateVeteran.attemptToGoToNextPage();
-      introduction.validatePageLoaded();
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      Introduction.validatePageLoaded();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -33,10 +31,12 @@ describe('Pre-Check In Experience', () => {
       });
     });
     it('intro paragraph is correct', () => {
-      introduction.validateMultipleAppointmentIntroText();
+      Introduction.validateMultipleAppointmentIntroText();
+      cy.injectAxeThenAxeCheck();
     });
     it('appointment list has all appointments', () => {
-      introduction.countAppointmentList(2);
+      Introduction.countAppointmentList(2);
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

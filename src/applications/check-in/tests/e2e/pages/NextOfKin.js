@@ -1,15 +1,22 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 class NextOfKin {
-  initializeApi() {
-    // @TODO: fill in once we are actually using the API
-  }
-  validatePageLoaded(title = 'Is this your current next of kin?') {
+  validatePage = {
+    dayOf: () => {
+      this.validatePageLoaded('Is this your current next of kin information?');
+    },
+    preCheckIn: () => {
+      this.validatePageLoaded('Is this your current next of kin?');
+    },
+  };
+
+  validatePageLoaded = (title = 'Is this your current next of kin?') => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('have.text', title);
-  }
-  validateNextOfKinFields(parentSelector = '.confirmable-page dl') {
+  };
+
+  validateNextOfKinFields = (parentSelector = '.confirmable-page dl') => {
     cy.get(parentSelector)
       .find('dt:nth-of-type(1)')
       .should('have.text', 'Name')
@@ -25,9 +32,10 @@ class NextOfKin {
       .next()
       .next()
       .should('have.text', 'Work phone');
-  }
+  };
+
   // @TODO: update to match against mock api.
-  validateNextOfKinData(parentSelector = '.confirmable-page dl') {
+  validateNextOfKinData = (parentSelector = '.confirmable-page dl') => {
     cy.get(parentSelector)
       .find('dd:nth-of-type(1)')
       .should('have.text', 'VETERAN,JONAH')
@@ -43,10 +51,13 @@ class NextOfKin {
       .next()
       .next()
       .should('have.text', '444-555-6666');
-  }
-  attemptToGoToNextPage(button = 'yes') {
-    cy.get(`button[data-testid="${button}-button"]`).click();
-  }
+  };
+
+  attemptToGoToNextPage = (button = 'yes') => {
+    cy.get(`button[data-testid="${button}-button"]`).click({
+      waitForAnimations: true,
+    });
+  };
 }
 
 export default new NextOfKin();

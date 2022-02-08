@@ -18,7 +18,11 @@ describe('check-in', () => {
       const middleware = [];
       const mockStore = configureStore(middleware);
       const initState = {
-        checkInData: {},
+        checkInData: {
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+          },
+        },
       };
       store = mockStore(initState);
     });

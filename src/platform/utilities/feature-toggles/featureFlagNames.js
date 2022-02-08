@@ -12,7 +12,6 @@ export default Object.freeze({
   cernerOverride692: 'cerner_override_692',
   cernerOverride757: 'cerner_override_757',
   checkInExperienceEnabled: 'check_in_experience_enabled',
-  checkInExperienceEmergencyContactEnabled:'check_in_experience_emergency_contact_enabled',
   checkInExperiencePreCheckInEnabled:
     'check_in_experience_pre_check_in_enabled',
   checkInExperienceUpdateInformationPageEnabled:
@@ -25,6 +24,9 @@ export default Object.freeze({
   covidVaccineUpdatesEnableExpandedEligibility:
     'covid_vaccine_registration_frontend_enable_expanded_eligibility',
   covidVaccineUpdatesForm: 'covid_vaccine_registration_frontend',
+  covidVolunteerIntakeBackendEnabled: 'covid_volunteer_intake_backend_enabled',
+  covidVolunteerIntakeEnabled: 'covid_volunteer_intake_enabled',
+  covidVolunteerUpdateEnabled: 'covid_volunteer_update_enabled',
   debtLettersShowLetters: 'debt_letters_show_letters',
   dependencyVerification: 'dependency_verification',
   dischargeWizardFeatures: 'discharge_wizard_features',
@@ -65,11 +67,16 @@ export default Object.freeze({
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
   profileNotificationSettings: 'profile_notification_settings',
   profileEnhancements: 'profile_enhancements',
+  profileShowAddressChangeModal: 'profile_show_address_change_modal',
+  profileShowFaxNumber: 'profile_show_fax_number',
+  profileShowGender: 'profile_show_gender',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
   searchTypeaheadEnabled: 'search_typeahead_enabled',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
   show526Wizard: 'show526_wizard',
+  showPaymentAndDebtSection: 'show_payment_and_debt_section',
+  showDashboardNotifications: 'show_dashboard_notifications',
   showEduBenefits0994Wizard: 'show_edu_benefits_0994_wizard',
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
   showEduBenefits1990NWizard: 'show_edu_benefits_1990n_wizard',
@@ -107,7 +114,6 @@ export default Object.freeze({
   vaOnlineSchedulingCheetah: 'va_online_scheduling_cheetah',
   vaOnlineSchedulingCommunityCare: 'va_online_scheduling_community_care',
   vaOnlineSchedulingDirect: 'va_online_scheduling_direct',
-  vaOnlineSchedulingHomepageRefresh: 'va_online_scheduling_homepage_refresh',
   vaOnlineSchedulingProviderSelection:
     'va_online_scheduling_provider_selection',
   vaOnlineSchedulingRequests: 'va_online_scheduling_requests',
@@ -122,8 +128,8 @@ export default Object.freeze({
   vaOnlineSchedulingFacilitiesServiceV2:
     'va_online_scheduling_facilities_service_v2',
   vaOnlineSchedulingVariantTesting: 'va_online_scheduling_variant_testing',
-  vaOnlineSchedulingCCIterations: 'va_online_scheduling_cc_iterations',
   vaOnlineSchedulingPocHealthApt: 'va_online_scheduling_poc_health_apt',
+  vaOnlineSchedulingStatusImprovement: 'va_online_scheduling_status_improvement',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
   showEduBenefits1990EZWizard: 'show_edu_benefits_1990EZ_Wizard',

@@ -5,7 +5,7 @@ const getConstants = state => state.constants.constants;
 const getEligibilityDetails = state => state.eligibility;
 
 const getRequiredAttributes = (state, props) => {
-  const { type, bah, dodBah, country } = props.institution;
+  const { type, bah, dodBah, country } = props;
   return {
     type: type && type.toLowerCase(),
     bah,

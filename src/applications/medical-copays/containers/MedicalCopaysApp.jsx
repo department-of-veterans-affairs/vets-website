@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { mcpFeatureToggle } from '../utils/helpers';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
+import {
+  DowntimeNotification,
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
+import PropTypes from 'prop-types';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { mcpFeatureToggle } from '../utils/helpers';
 import AlertView from '../components/AlertView';
 import { getStatements } from '../actions';
 
@@ -58,19 +63,28 @@ const MedicalCopaysApp = ({ children }) => {
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 vads-u-margin-bottom--5">
       <div className="vads-l-row vads-u-margin-x--neg2p5">
         <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--8">
-          {alertType ? (
-            <AlertView
-              pathname={pathname}
-              alertType={alertType}
-              error={error}
-            />
-          ) : (
-            children
-          )}
+          <DowntimeNotification
+            appTitle="Medical Copays Application"
+            dependencies={[externalServices.mvi, externalServices.vbs]}
+          >
+            {alertType ? (
+              <AlertView
+                pathname={pathname}
+                alertType={alertType}
+                error={error}
+              />
+            ) : (
+              children
+            )}
+          </DowntimeNotification>
         </div>
       </div>
     </div>
   );
+};
+
+MedicalCopaysApp.propTypes = {
+  children: PropTypes.object,
 };
 
 export default MedicalCopaysApp;

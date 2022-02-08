@@ -209,12 +209,13 @@ export function prefillTransformer(pages, formData, metadata, state) {
 
   const newData = {
     ...formData,
+    formId: state.data?.formData?.data?.id,
     claimantId: claimant.claimantId,
     'view:userFullName': {
       userFullName: {
-        first: claimant.firstName,
-        middle: claimant.middleName,
-        last: claimant.lastName,
+        first: claimant.firstName || undefined,
+        middle: claimant.middleName || undefined,
+        last: claimant.lastName || undefined,
       },
     },
     dateOfBirth: claimant.dateOfBirth,

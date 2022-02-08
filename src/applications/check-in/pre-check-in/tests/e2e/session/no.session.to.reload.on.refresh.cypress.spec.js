@@ -1,17 +1,14 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import '../../../../tests/e2e/commands';
 
-import error from '../../../../tests/e2e/pages/Error';
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 
-import apiInitializer from '../support/ApiInitializer';
+import Error from '../pages/Error';
 
 describe('Pre Check In Experience', () => {
   describe('session', () => {
-    beforeEach(function() {
-      cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
-      apiInitializer.initializeSessionGet.withSuccessfulNewSession();
-
-      apiInitializer.initializeSessionPost.withSuccess();
+    beforeEach(() => {
+      const { initializeFeatureToggle } = ApiInitializer;
+      initializeFeatureToggle.withCurrentFeatures();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -25,7 +22,8 @@ describe('Pre Check In Experience', () => {
         window.sessionStorage.clear();
       });
       cy.visit(featureRoute);
-      error.validatePageLoaded();
+      Error.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

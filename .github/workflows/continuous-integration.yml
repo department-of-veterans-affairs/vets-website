@@ -125,6 +125,7 @@ jobs:
 
       - name: Upload Coverage Report Artifact
         uses: actions/upload-artifact@v2
+        if: ${{ always() }}
         with:
           name: unit-test-coverage-report
           path: coverage/test-coverage-report.json
@@ -167,7 +168,7 @@ jobs:
       - name: Publish test results
         if: ${{ always() }}
         continue-on-error: true
-        uses: mikepenz/action-junit-report@v2.6.0
+        uses: mikepenz/action-junit-report@v2.8.4
         with:
           check_name: 'Unit Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -332,41 +333,11 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Checkout Testing Tools Team Dashboard Data repo
-        uses: actions/checkout@v2
-        with:
-          repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          path: testing-tools-team-dashboard-data
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
 
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-        working-directory: testing-tools-team-dashboard-data
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline --production=false
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
-        working-directory: testing-tools-team-dashboard-data
-
-      - name: Get BigQuery service credentials
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
-          env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
-
-      - name: Setup Cloud SDK
-        uses: google-github-actions/setup-gcloud@master
-        with:
-          project_id: vsp-analytics-and-insights
-          service_account_key: ${{ env.BIGQUERY_SERVICE_CREDENTIALS }}
-          export_default_credentials: true
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
 
       - name: Upload app list to BigQuery
         run: yarn generate-app-list
@@ -546,7 +517,7 @@ jobs:
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> Contract tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> Contract tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
           channel_id: C026PD47Z19 #gha-test-status
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -568,42 +539,11 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Checkout Testing Tools Team Dashboard Data repo
-        uses: actions/checkout@v2
-        with:
-          repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          path: testing-tools-team-dashboard-data
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
 
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-        working-directory: testing-tools-team-dashboard-data
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      # TODO: Potentially use install composite
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline --production=false
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
-        working-directory: testing-tools-team-dashboard-data
-
-      - name: Get BigQuery service credentials
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
-          env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
-
-      - name: Setup Cloud SDK
-        uses: google-github-actions/setup-gcloud@master
-        with:
-          project_id: vsp-analytics-and-insights
-          service_account_key: ${{ env.BIGQUERY_SERVICE_CREDENTIALS }}
-          export_default_credentials: true
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
 
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -651,9 +591,9 @@ jobs:
       # | Contract Tests Summary |
       # -------------------------
 
-      - name: Contract test results
+      - name: Publish Contract test results
         if: ${{ always() }}
-        uses: LouisBrunner/checks-action@v1.1.1
+        uses: LouisBrunner/checks-action@v1.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Contract Tests Summary
@@ -667,6 +607,8 @@ jobs:
     needs: [testing-reports-prep, unit-tests]
     if: ${{ always() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
     continue-on-error: true
+    env:
+      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -688,42 +630,11 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Checkout Testing Tools Team Dashboard Data repo
-        uses: actions/checkout@v2
-        with:
-          repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          path: testing-tools-team-dashboard-data
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
 
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-        working-directory: testing-tools-team-dashboard-data
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      # TODO: Potentially use install composite
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline --production=false
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
-        working-directory: testing-tools-team-dashboard-data
-
-      - name: Get BigQuery service credentials
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
-          env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
-
-      - name: Setup Cloud SDK
-        uses: google-github-actions/setup-gcloud@master
-        with:
-          project_id: vsp-analytics-and-insights
-          service_account_key: ${{ env.BIGQUERY_SERVICE_CREDENTIALS }}
-          export_default_credentials: true
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
 
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -777,7 +688,7 @@ jobs:
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> E2E tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> E2E tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
           channel_id: C026PD47Z19 #gha-test-status
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -799,41 +710,11 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Checkout Testing Tools Team Dashboard Data repo
-        uses: actions/checkout@v2
-        with:
-          repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          path: testing-tools-team-dashboard-data
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
 
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-        working-directory: testing-tools-team-dashboard-data
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline --production=false
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
-        working-directory: testing-tools-team-dashboard-data
-
-      - name: Get BigQuery service credentials
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
-          env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
-
-      - name: Setup Cloud SDK
-        uses: google-github-actions/setup-gcloud@master
-        with:
-          project_id: vsp-analytics-and-insights
-          service_account_key: ${{ env.BIGQUERY_SERVICE_CREDENTIALS }}
-          export_default_credentials: true
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
 
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -869,7 +750,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: cypress-video-artifacts
-          path: testing-tools-team-dashboard-data/cypress-reports/videos/${{ env.UUID }}
+          path: testing-tools-team-dashboard-data/videos/${{ env.UUID }}
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
@@ -895,7 +776,7 @@ jobs:
 
       - name: Publish Cypress test results
         if: ${{ always() }}
-        uses: LouisBrunner/checks-action@v1.1.1
+        uses: LouisBrunner/checks-action@v1.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Cypress Tests Summary
@@ -987,15 +868,6 @@ jobs:
           path: |
             .cache/yarn
             node_modules
-
-      - name: Install dependencies
-        uses: nick-invision/retry@v2
-        with:
-          command: yarn install --frozen-lockfile --prefer-offline --production=false
-          max_attempts: 3
-          timeout_minutes: 7
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Set output of latest_run_number
         id: latest-run-number
@@ -1092,6 +964,7 @@ jobs:
     needs: deploy
     env:
       DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
+      VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
 
     steps:
       - name: Checkout
@@ -1101,7 +974,7 @@ jobs:
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}]'
-          channel_id: ${{ env.DEVOPS_CHANNEL_ID }}
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

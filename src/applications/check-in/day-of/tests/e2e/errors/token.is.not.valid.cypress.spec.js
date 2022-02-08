@@ -1,18 +1,14 @@
-import mockSession from '../../../api/local-mock-api/mocks/v2/sessions.responses';
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
-import Error from '../../../../tests/e2e/pages/Error';
+import '../../../../tests/e2e/commands';
+
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
+import Error from '../pages/Error';
 
 describe('Check In Experience -- ', () => {
-  beforeEach(function() {
-    cy.intercept('GET', '/check_in/v2/sessions/*', req => {
-      req.reply({
-        statusCode: 200,
-        body: mockSession.createMockFailedResponse({}),
-        delay: 10, // milliseconds
-      });
-    });
-    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles({}));
+  beforeEach(() => {
+    const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
+    initializeFeatureToggle.withCurrentFeatures();
+    initializeSessionGet.withFailure(200);
+
     cy.visitWithUUID();
   });
   afterEach(() => {
@@ -22,5 +18,6 @@ describe('Check In Experience -- ', () => {
   });
   it('C5738 - Token is not valid', () => {
     Error.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
   });
 });

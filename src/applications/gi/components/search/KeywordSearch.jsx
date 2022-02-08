@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { debounce } from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import Downshift from 'downshift';
@@ -7,25 +7,70 @@ import classNames from 'classnames';
 import { WAIT_INTERVAL, KEY_CODES } from '../../constants';
 import { handleScrollOnInputFocus } from '../../utils/helpers';
 
-export class KeywordSearch extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleFetchSuggestion = debounce(
-      this.handleFetchSuggestion.bind(this),
-      WAIT_INTERVAL,
-      { trailing: true },
-    );
-  }
+export function KeywordSearch({
+  className,
+  error,
+  inputValue,
+  label,
+  labelAdditional,
+  onFetchAutocompleteSuggestions,
+  onSelection,
+  onUpdateAutocompleteSearchTerm,
+  onPressEnter,
+  required,
+  suggestions,
+  validateSearchTerm,
+  version,
+}) {
+  const fetchSuggestion = () => {
+    onFetchAutocompleteSuggestions(inputValue, version);
+  };
 
-  handleKeyUp = e => {
-    const { onFilterChange, autocomplete } = this.props;
-    if ((e.which || e.keyCode) === KEY_CODES.enterKey) {
-      e.target.blur();
-      onFilterChange('name', autocomplete.searchTerm);
+  const debouncedFetchSuggestion = useCallback(
+    debounce(fetchSuggestion, WAIT_INTERVAL),
+    [inputValue],
+  );
+
+  useEffect(
+    () => {
+      debouncedFetchSuggestion();
+
+      // Cancel previous debounce calls during useEffect cleanup.
+      return debouncedFetchSuggestion.cancel;
+    },
+    [inputValue, debouncedFetchSuggestion],
+  );
+
+  const handleSuggestionSelected = selected => {
+    recordEvent({
+      event: 'gibct-autosuggest',
+      'gibct-autosuggest-value': selected.label,
+    });
+
+    onUpdateAutocompleteSearchTerm(selected.label);
+
+    if (onSelection) {
+      onSelection(selected);
     }
   };
 
-  handleChange = (e, searchQuery) => {
+  const handleEnterPress = e => {
+    if ((e.which || e.keyCode) === KEY_CODES.enterKey) {
+      e.target.blur();
+
+      if (onPressEnter) {
+        onPressEnter(e, inputValue);
+      } else {
+        onSelection(inputValue);
+      }
+    }
+  };
+
+  const handleFocus = () => {
+    handleScrollOnInputFocus('keyword-search');
+  };
+
+  const handleChange = e => {
     if (e) {
       let value;
       if (typeof e === 'string') {
@@ -33,134 +78,131 @@ export class KeywordSearch extends React.Component {
       } else {
         value = e.target.value;
       }
-      this.props.onUpdateAutocompleteSearchTerm(value);
-      this.handleFetchSuggestion({ value });
-    }
-    if (searchQuery) {
-      this.props.onUpdateAutocompleteSearchTerm(searchQuery);
-      this.handleFetchSuggestion({ searchQuery });
-    }
-    this.props.validateSearchQuery(searchQuery);
-  };
-
-  handleFetchSuggestion({ value }) {
-    this.props.onFetchAutocompleteSuggestions(value, this.props.version);
-  }
-
-  handleSuggestionSelected = searchQuery => {
-    recordEvent({
-      event: 'gibct-autosuggest',
-      'gibct-autosuggest-value': searchQuery,
-    });
-
-    if (this.props.searchOnAutcompleteSelection) {
-      this.props.onUpdateAutocompleteSearchTerm(searchQuery);
-    } else {
-      this.props.onFilterChange('name', searchQuery);
+      onUpdateAutocompleteSearchTerm(value);
+      if (value !== '') {
+        debouncedFetchSuggestion(value);
+      }
+      if (validateSearchTerm) {
+        validateSearchTerm(value);
+      }
     }
   };
 
-  handleFocus = () => {
-    handleScrollOnInputFocus('keyword-search');
+  const handleClearInput = () => {
+    onUpdateAutocompleteSearchTerm('');
   };
 
-  render() {
-    const { suggestions, searchTerm } = this.props.autocomplete;
-    let errorSpan = '';
-    let searchClassName = 'keyword-search';
-    if (this.props.searchError) {
-      searchClassName = 'usa-input-error';
-      errorSpan = (
-        <span
-          className="usa-input-error-message"
-          role="alert"
-          id="search-error-message"
-        >
-          <span className="sr-only">Error</span>
-          Please enter a city, school, or employer name.
-        </span>
-      );
-    }
-    return (
-      <div className={searchClassName} id="keyword-search">
-        <label
-          id="institution-search-label"
-          className="institution-search-label"
-          htmlFor="institution-search"
-        >
-          {this.props.label}
-        </label>
-        {errorSpan}
-        <Downshift
-          inputValue={searchTerm}
-          onSelect={item => this.handleSuggestionSelected(item)}
-          itemToString={item => {
-            if (typeof item === 'string' || !item) {
-              return item;
-            }
-            return item.label;
-          }}
-        >
-          {({
-            getInputProps,
-            getItemProps,
-            isOpen,
-            highlightedIndex,
-            selectedItem,
-          }) => (
-            <div>
+  return (
+    <div
+      className={classNames('keyword-search', { 'usa-input-error': error })}
+      id="keyword-search"
+    >
+      {label && (
+        <div>
+          {labelAdditional}
+          <label
+            id="institution-search-label"
+            className="institution-search-label"
+            htmlFor="institution-search"
+          >
+            {label}
+          </label>
+          {required && <span className="form-required-span">(*Required)</span>}
+        </div>
+      )}
+      {error && (
+        <div>
+          <span
+            className="usa-input-error-message"
+            role="alert"
+            id="search-error-message"
+          >
+            <span className="sr-only">Error</span>
+            {error}
+          </span>
+        </div>
+      )}
+      <Downshift
+        inputValue={inputValue}
+        onSelect={item => handleSuggestionSelected(item)}
+        itemToString={item => {
+          if (typeof item === 'string' || !item) {
+            return item;
+          }
+          return item.label;
+        }}
+      >
+        {({
+          getInputProps,
+          getItemProps,
+          isOpen,
+          highlightedIndex,
+          selectedItem,
+        }) => (
+          <div>
+            <div className="input-container">
               <input
-                className="input-box-margin"
+                aria-controls="ctKeywordSearch"
+                className={classNames('input-box-margin', className)}
                 {...getInputProps({
                   type: 'text',
-                  onChange: this.handleChange,
-                  onKeyUp: this.handleKeyUp,
-                  onFocus: this.handleFocus,
+                  required,
+                  onChange: handleChange,
+                  onKeyUp: handleEnterPress,
+                  onFocus: handleFocus,
                   'aria-labelledby': 'institution-search-label',
                 })}
               />
-              {isOpen && (
-                <div className="suggestions-list" role="listbox">
-                  {suggestions.map((item, index) => (
-                    <div
-                      key={index}
-                      role="option"
-                      aria-selected={
-                        selectedItem === item.label ? 'true' : 'false'
-                      }
-                      className={classNames('suggestion', {
-                        'suggestion-highlighted': highlightedIndex === index,
-                      })}
-                      {...getItemProps({ item: item.label })}
-                    >
-                      {item.label}
-                    </div>
-                  ))}
-                </div>
-              )}
+              {/* eslint-disable-next-line no-nested-ternary */}
+              {inputValue &&
+                inputValue.length > 0 && (
+                  <button
+                    aria-label={`Clear your ${label}`}
+                    type="button"
+                    id="clear-input"
+                    className="fas fa-times-circle clear-button"
+                    onClick={handleClearInput}
+                  />
+                )}
             </div>
-          )}
-        </Downshift>
-      </div>
-    );
-  }
+            {isOpen && (
+              <div
+                className="suggestions-list"
+                role="listbox"
+                id="ctKeywordSearch"
+              >
+                {suggestions.map((item, index) => (
+                  <div
+                    key={index}
+                    role="option"
+                    aria-selected={
+                      selectedItem === item.label ? 'true' : 'false'
+                    }
+                    className={classNames('suggestion', {
+                      'suggestion-highlighted': highlightedIndex === index,
+                    })}
+                    {...getItemProps({ item })}
+                  >
+                    {item.label}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </Downshift>
+    </div>
+  );
 }
 
-KeywordSearch.defaultProps = {
-  label: 'Enter a city, school or employer name',
-  onFilterChange: () => {},
-  validateSearchQuery: () => {},
-};
-
 KeywordSearch.propTypes = {
+  error: PropTypes.string,
   label: PropTypes.string,
-  version: PropTypes.string,
-  onClearAutocompleteSuggestions: PropTypes.func,
   onFetchAutocompleteSuggestions: PropTypes.func,
-  onFilterChange: PropTypes.func,
+  onSelection: PropTypes.func,
   onUpdateAutocompleteSearchTerm: PropTypes.func,
-  searchError: PropTypes.bool,
-  validateSearchQuery: PropTypes.func,
+  validateSearchTerm: PropTypes.func,
+  version: PropTypes.string,
 };
 
 export default KeywordSearch;

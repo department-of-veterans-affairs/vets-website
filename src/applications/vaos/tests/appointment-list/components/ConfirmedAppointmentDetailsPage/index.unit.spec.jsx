@@ -41,6 +41,8 @@ const initialState = {
     vaOnlineSchedulingPast: true,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
+    vaOnlineSchedulingVAOSServiceVAAppointments: false,
+    vaOnlineSchedulingStatusImprovement: false,
   },
 };
 
@@ -66,6 +68,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       status: 'booked',
       clinicFriendlyName: "Jennie's Lab",
       comment: 'New issue: ASAP',
+      stopCode: '123',
     };
     const appointment = createMockAppointmentByVersion({
       version: 0,
@@ -143,6 +146,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         ),
       }),
     ).to.be.ok;
+    expect(screen.getByText(/Nutrition and food/i)).to.be.ok;
     expect(screen.getByText(/Print/)).to.be.ok;
     expect(screen.getByText(/Cancel appointment/)).to.be.ok;
 
@@ -236,6 +240,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       locationId: '983GC',
       clinicFriendlyName: "Jennie's Lab",
       comment: 'New issue: ASAP',
+      stopCode: '323',
     };
     const appointment = createMockAppointmentByVersion({
       version: 0,
@@ -306,6 +311,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
+
+    expect(screen.getByText(/Primary care/i)).to.be.ok;
     expect(screen.getByText(/New issue: ASAP/)).to.be.ok;
     expect(screen.baseElement).not.to.contain.text(
       new RegExp(
@@ -1115,6 +1122,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       }),
     ).to.be.ok;
 
+    expect(screen.getByText('Primary care')).to.be.ok;
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
     expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
@@ -1336,6 +1344,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       }),
     ).to.be.ok;
 
+    expect(screen.getByText('Primary care')).to.be.ok;
+
     // Then it should display who canceled the appointment
     expect(await screen.findByText(/You canceled this appointment./i)).to.exist;
 
@@ -1523,10 +1533,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
 
     expect(screen.baseElement).to.contain('.usa-alert-success');
     expect(screen.baseElement).to.contain.text(
-      'Your appointment has been scheduled and is confirmed.',
+      'We’ve scheduled and confirmed your appointment.',
     );
-    expect(screen.baseElement).to.contain.text('View your appointments');
-    expect(screen.baseElement).to.contain.text('New appointment');
+    expect(screen.baseElement).to.contain.text('Review your appointments');
+    expect(screen.baseElement).to.contain.text('Schedule a new appointment');
   });
 
   it('should allow for cancellation', async () => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import PropTypes from 'prop-types';
 
 export const HowToPay = ({ acctNum, facility }) => (
   <article className="vads-u-padding--0" data-testid="how-to-pay">
@@ -42,15 +43,15 @@ export const HowToPay = ({ acctNum, facility }) => (
         <p>
           If you need help making a payment online, call us at
           <Telephone
-            contact={'888-827-4817'}
-            className="vads-u-margin-x--0p5"
+            contact="888-827-4817"
+            className="vads-u-margin-left--0p5"
           />
           . We’re available Monday through Friday, 8:00am - 8:00pm EST.
         </p>
       </va-accordion-item>
       <va-accordion-item header="Option 2: Pay by phone">
         <p>
-          Call us at <Telephone contact={'888-827-4817'} />. We’re here Monday
+          Call us at <Telephone contact="888-827-4817" />. We’re here Monday
           through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
         <p>You will need to provide an account number.</p>
@@ -71,7 +72,7 @@ export const HowToPay = ({ acctNum, facility }) => (
         <p>
           <strong>Note: </strong> You’ll find these stubs at the bottom of each
           statement. If you don’t have your most recent statement, you can
-          download and print it below or include a note listing the facility
+          download and print it above or include a note listing the facility
           you’d like to pay.
         </p>
         <p>
@@ -127,5 +128,16 @@ export const HowToPay = ({ acctNum, facility }) => (
     </va-accordion>
   </article>
 );
+
+HowToPay.propTypes = {
+  acctNum: PropTypes.string,
+  facility: PropTypes.shape({
+    facilityName: PropTypes.string,
+    staTAddress1: PropTypes.string,
+    city: PropTypes.string,
+    state: PropTypes.string,
+    ziPCde: PropTypes.string,
+  }),
+};
 
 export default HowToPay;

@@ -21,12 +21,14 @@ export function transformFormToVAOSCCRequest(state) {
   if (provider?.identifier) {
     practitioners = [
       {
-        identifier: {
-          system: 'http://hl7.org/fhir/sid/us-npi',
-          value: data.communityCareProvider.identifier.find(
-            item => item.system === 'PPMS',
-          )?.value,
-        },
+        identifier: [
+          {
+            system: 'http://hl7.org/fhir/sid/us-npi',
+            value: data.communityCareProvider.identifier.find(
+              item => item.system === 'PPMS',
+            )?.value,
+          },
+        ],
       },
     ];
   }
@@ -91,6 +93,9 @@ export function transformFormToVAOSCCRequest(state) {
 export function transformFormToVAOSVARequest(state) {
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
+  const code = PURPOSE_TEXT.find(
+    purpose => purpose.id === data.reasonForAppointment,
+  )?.serviceName;
 
   return {
     kind: data.visitType,
@@ -101,11 +106,12 @@ export function transformFormToVAOSVARequest(state) {
     reasonCode: {
       coding: [
         {
-          code: PURPOSE_TEXT.find(
-            purpose => purpose.id === data.reasonForAppointment,
-          )?.serviceName,
+          code,
         },
       ],
+      text: {
+        type: code,
+      },
     },
     comment: data.reasonAdditionalInfo,
     contact: {
@@ -146,8 +152,11 @@ function getUserMessage(data) {
 export function transformFormToVAOSAppointment(state) {
   const data = getFormData(state);
   const clinic = getChosenClinicInfo(state);
-  const typeOfCare = getTypeOfCare(data);
   const slot = getChosenSlot(state);
+
+  // slot start and end times are not allowed on a booked va appointment.
+  delete slot.start;
+  delete slot.end;
 
   return {
     kind: 'clinic',
@@ -155,22 +164,9 @@ export function transformFormToVAOSAppointment(state) {
     clinic: getClinicId(clinic),
     slot,
     extension: {
-      desiredDate: data.preferredDate,
+      desiredDate: `${data.preferredDate}T00:00:00+00:00`,
     },
     locationId: data.vaFacility,
-    serviceType: typeOfCare.idV2,
     comment: getUserMessage(data),
-    contact: {
-      telecom: [
-        {
-          type: 'phone',
-          value: data.phoneNumber,
-        },
-        {
-          type: 'email',
-          value: data.email,
-        },
-      ],
-    },
   };
 }

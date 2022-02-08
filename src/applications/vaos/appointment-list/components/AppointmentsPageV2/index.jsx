@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
-import { selectFeatureRequests } from '../../../redux/selectors';
+import DowntimeNotification, {
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
+import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsListV2 from '../PastAppointmentsListV2';
 import CanceledAppointmentsList from '../CanceledAppointmentsList';
-import DowntimeNotification, {
-  externalServices,
-} from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
 import Select from '../../../components/Select';
 import ScheduleNewAppointment from '../ScheduleNewAppointment';
 import PageLayout from '../PageLayout';
+import { selectPendingAppointments } from '../../redux/selectors';
+import { APPOINTMENT_STATUS } from '../../../utils/constants';
+import AppointmentListNavigation from '../AppointmentListNavigation';
+import { updateBreadcrumb } from '../../redux/actions';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 
-const pageTitle = 'VA online scheduling';
+let pageTitle = 'VA online scheduling';
 
 const DROPDOWN_VALUES = {
   upcoming: 'upcoming',
@@ -35,50 +40,33 @@ function getDropdownValueFromLocation(pathname) {
     return {
       dropdownValue: DROPDOWN_VALUES.requested,
       subPageTitle: 'Requested',
-      subHeading: 'Requested',
+      subHeading: 'Requested appointments',
     };
-  } else if (pathname.endsWith(DROPDOWN_VALUES.past)) {
+  }
+  if (pathname.endsWith(DROPDOWN_VALUES.past)) {
     return {
       dropdownValue: DROPDOWN_VALUES.past,
       subPageTitle: 'Past appointments',
       subHeading: 'Past appointments',
     };
-  } else if (pathname.endsWith(DROPDOWN_VALUES.canceled)) {
+  }
+  if (pathname.endsWith(DROPDOWN_VALUES.canceled)) {
     return {
       dropdownValue: DROPDOWN_VALUES.canceled,
       subPageTitle: 'Canceled appointments',
       subHeading: 'Canceled appointments',
     };
-  } else {
-    return {
-      dropdownValue: DROPDOWN_VALUES.upcoming,
-      subPageTitle: 'Your appointments',
-      subHeading: 'Your appointments',
-    };
   }
+  return {
+    dropdownValue: DROPDOWN_VALUES.upcoming,
+    subPageTitle: 'Your appointments',
+    subHeading: 'Your appointments',
+  };
 }
 
-export default function AppointmentsPageV2() {
-  const location = useLocation();
-  const [hasTypeChanged, setHasTypeChanged] = useState(false);
-  const showScheduleButton = useSelector(state => selectFeatureRequests(state));
-  const {
-    dropdownValue,
-    subPageTitle,
-    subHeading,
-  } = getDropdownValueFromLocation(location.pathname);
-
-  useEffect(
-    () => {
-      document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
-    },
-    [subPageTitle],
-  );
-
-  const history = useHistory();
-
-  function onDropdownChange(e) {
-    const value = e.target.value;
+function handleDropdownChange(history, setHasTypeChanged) {
+  return e => {
+    const { value } = e.target;
     if (value === DROPDOWN_VALUES.upcoming) {
       history.push('/');
     } else if (value === DROPDOWN_VALUES.requested) {
@@ -89,33 +77,139 @@ export default function AppointmentsPageV2() {
       history.push('/canceled');
     }
     setHasTypeChanged(true);
-  }
+  };
+}
+
+function renderWarningNotification() {
+  return (props, childContent) => {
+    const { status } = props;
+    return (
+      <WarningNotification status={status}>{childContent}</WarningNotification>
+    );
+  };
+}
+
+export default function AppointmentsPageV2() {
+  const location = useLocation();
+  const [hasTypeChanged, setHasTypeChanged] = useState(false);
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
+  );
+  const pendingAppointments = useSelector(state =>
+    selectPendingAppointments(state),
+  );
+  const {
+    dropdownValue,
+    subPageTitle,
+    subHeading,
+  } = getDropdownValueFromLocation(location.pathname);
+
+  const [count, setCount] = useState(0);
+  useEffect(
+    () => {
+      if (featureStatusImprovement) {
+        let prefix = subPageTitle;
+        if (subPageTitle.startsWith('Request')) prefix = 'Pending appointments';
+        document.title = `${prefix} | VA online scheduling | Veterans Affairs`;
+        pageTitle = 'Your appointments';
+        scrollAndFocus('h1');
+      } else {
+        document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
+        scrollAndFocus('h1');
+      }
+    },
+    [subPageTitle, featureStatusImprovement],
+  );
+
+  const [documentTitle, setDocumentTitle] = useState();
+  useEffect(
+    () => {
+      function handleBeforePrint(_event) {
+        document.title = `Your appointments | VA online scheduling | Veterans Affairs`;
+      }
+
+      function handleAfterPrint(_event) {
+        document.title = documentTitle;
+      }
+      setDocumentTitle(document.title);
+
+      window.addEventListener('beforeprint', handleBeforePrint);
+      window.addEventListener('afterprint', handleAfterPrint);
+      return () => {
+        window.removeEventListener('beforeprint', handleBeforePrint);
+        window.removeEventListener('afterprint', handleAfterPrint);
+      };
+    },
+    [documentTitle, subPageTitle],
+  );
+
+  useEffect(
+    () => {
+      // Get non cancled appointment requests from store
+      setCount(
+        pendingAppointments
+          ? pendingAppointments.filter(
+              appointment =>
+                appointment.status !== APPOINTMENT_STATUS.cancelled,
+            ).length
+          : 0,
+      );
+    },
+    [pendingAppointments],
+  );
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  useEffect(
+    () => {
+      // Update the breadcrumb and page title in the event the user accesses the past appointments
+      // page from a bookmark or types 'past' in the address bar.
+      if (featureStatusImprovement) {
+        if (DROPDOWN_VALUES.past === dropdownValue) {
+          pageTitle = 'Past appointments';
+          dispatch(updateBreadcrumb({ title: 'Past', path: 'past' }));
+        } else if (DROPDOWN_VALUES.requested === dropdownValue) {
+          pageTitle = 'Pending appointments';
+          dispatch(updateBreadcrumb({ title: 'Pending', path: 'requested' }));
+        }
+      }
+    },
+    [dispatch, dropdownValue, featureStatusImprovement],
+  );
 
   return (
     <PageLayout showBreadcrumbs showNeedHelp>
-      <h1 className="vads-u-flex--1 vads-u-margin-bottom--1p5">{pageTitle}</h1>
+      <h1 className="vads-u-flex--1 vads-u-margin-bottom--1p5 vaos-hide-for-print">
+        {pageTitle}
+      </h1>
       <DowntimeNotification
         appTitle="VA online scheduling tool"
         isReady
         dependencies={[externalServices.vaosWarning]}
-        render={(props, childContent) => (
-          <WarningNotification {...props}>{childContent}</WarningNotification>
-        )}
+        render={renderWarningNotification()}
       />
-      {showScheduleButton && <ScheduleNewAppointment />}
-      <h2 className="vads-u-margin-y--3">{subHeading}</h2>
-      <label
-        htmlFor="type-dropdown"
-        className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2"
-      >
-        Show by status
-      </label>
-      <Select
-        options={options}
-        onChange={onDropdownChange}
-        id="type-dropdown"
-        value={dropdownValue}
-      />
+      <ScheduleNewAppointment />
+      <AppointmentListNavigation count={count} callback={setHasTypeChanged} />
+      {!featureStatusImprovement && (
+        <>
+          <h2 className="vads-u-margin-y--3">{subHeading}</h2>
+          {/* Commenting out for now. See https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/issues/718 */}
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+          <label
+            htmlFor="type-dropdown"
+            className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2 vaos-hide-for-print"
+          >
+            Show by status
+          </label>
+          <Select
+            options={options}
+            onChange={handleDropdownChange(history, setHasTypeChanged)}
+            id="type-dropdown"
+            value={dropdownValue}
+          />
+        </>
+      )}
       <Switch>
         <Route exact path="/">
           <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />

@@ -10,7 +10,7 @@ describe('NOD contact information page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.infoPages.pages.contactInformation;
+  } = formConfig.chapters.infoPages.pages.confirmContactInformation;
 
   it('should render', () => {
     const form = shallow(

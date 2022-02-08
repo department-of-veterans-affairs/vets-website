@@ -31,6 +31,19 @@ export const ADDRESS_POU = {
   RESIDENCE: 'RESIDENCE/CHOICE',
 };
 
+// address props that are primarily used for comparing two addresses
+export const ADDRESS_PROPS = [
+  'addressLine1',
+  'addressLine2',
+  'addressLine3',
+  'city',
+  'countryCodeIso3',
+  'internationalPostalCode',
+  'province',
+  'stateCode',
+  'zipCode',
+];
+
 export const USA = {
   COUNTRY_NAME: 'United States',
   COUNTRY_CODE: '1',
@@ -156,4 +169,10 @@ export const VAP_SERVICE_INITIALIZATION_STATUS = {
 
 export const ACTIVE_EDIT_VIEWS = {
   ADDRESS_VALIDATION: 'addressValidation',
+};
+
+export const MISSING_CONTACT_INFO = {
+  ALL: 'ALL',
+  EMAIL: 'EMAIL',
+  MOBILE: 'MOBILE',
 };

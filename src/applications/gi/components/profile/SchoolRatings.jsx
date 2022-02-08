@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { convertRatingToStars } from '../../utils/helpers';
-import { renderStars } from '../../utils/render';
 import SchoolCategoryRating from './SchoolCategoryRating';
+import RatingsStars from '../RatingsStars';
 
 export default function SchoolRatings({
   ratingAverage,
@@ -43,9 +43,9 @@ export default function SchoolRatings({
   };
 
   return (
-    <div className="school-ratings vads-l-grid-container vads-u-padding--0">
+    <div className="school-ratings vads-l-grid-container vads-u-padding--0 small-screen-font">
       <div className="ratings-heading">
-        <div className="vads-u-font-weight--bolßd vads-u-font-size--lg vads-u-font-family--serif">
+        <div className="vads-u-font-weight--bold small-screen:vads-u-font-size--lg vads-u-font-family--serif small-screen-font">
           {ratingCount} Veterans rated this institution:
         </div>
         <div className="vads-l-row">
@@ -55,7 +55,7 @@ export default function SchoolRatings({
             </div>
             <div>out of a possible 5 stars</div>
             <div className="vads-u-font-size--lg">
-              {renderStars(ratingAverage)}
+              <RatingsStars rating={ratingAverage} />
             </div>
           </div>
         </div>
@@ -63,7 +63,10 @@ export default function SchoolRatings({
 
       <div className="vads-l-row">
         <div className="medium-screen:vads-l-col--6 small-screen:vads-l-col--12 xsmall-screen:vads-l-col--12">
-          <div className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-font-family--serif category-ratings-accordion-headings">
+          <div
+            className="vads-u-font-weight--bold small-screen:vads-u-font-size--lg vads-u-font-family--serif category-ratings-accordion-headings"
+            small-screen-font
+          >
             Education ratings
           </div>
 
@@ -96,7 +99,7 @@ export default function SchoolRatings({
         </div>
 
         <div className="medium-screen:vads-l-col--6 small-screen:vads-l-col--12 xsmall-screen:vads-l-col--12 ">
-          <div className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-font-family--serif category-ratings-accordion-headings">
+          <div className="vads-u-font-weight--bold small-screen:vads-u-font-size--lg vads-u-font-family--serif category-ratings-accordion-headings small-screen-font">
             Veteran friendliness
           </div>
           <div className="vads-u-padding-left--0">
@@ -121,15 +124,16 @@ export default function SchoolRatings({
           </div>
         </div>
         <div className="vads-u-padding-top--4 about-ratings">
-          <span className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif">
+          <div className="small-screen:vads-u-font-size--h3 vads-u-padding-bottom--1p5 vads-u-font-weight--bold vads-u-font-family--serif small-screen-font">
             About ratings
-          </span>
+          </div>
+          <hr className="vads-u-margin-top--neg1px" />
           <p>
             We ask Veterans who have used their education benefits to rate
             schools they’ve attended on a scale of 1 to 5 stars, with 5 stars
             being the best rating.
           </p>
-          <span className="vads-u-font-size--h4 vads-u-font-weight--bold">
+          <span className="small-screen:vads-u-font-size--h4 vads-u-font-weight--bold small-screen-font">
             How ratings are collected
           </span>
           <p>

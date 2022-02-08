@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ConfirmablePage from '../ConfirmablePage';
 
 export default function EmergencyContactDisplay({
@@ -29,3 +30,11 @@ export default function EmergencyContactDisplay({
     </>
   );
 }
+
+EmergencyContactDisplay.propTypes = {
+  Footer: PropTypes.elementType,
+  data: PropTypes.object,
+  isLoading: PropTypes.bool,
+  noAction: PropTypes.func,
+  yesAction: PropTypes.func,
+};

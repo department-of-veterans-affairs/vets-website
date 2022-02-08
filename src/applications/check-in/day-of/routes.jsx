@@ -11,54 +11,129 @@ import SeeStaff from './pages/SeeStaff';
 import Landing from './pages/Landing';
 import UpdateInformationQuestion from './pages/UpdateInformationQuestion';
 import ValidateVeteran from './pages/ValidateVeteran';
+import LoadingPage from './pages/LoadingPage';
 
-import withFeatureFlip from './containers/withFeatureFlip';
-import withLoadedData from './containers/withLoadedData';
-import withSession from './containers/withSession';
-import withToken from './containers/withToken';
-import { URLS } from './utils/navigation';
+import withFeatureFlip from '../containers/withFeatureFlip';
+import withForm from '../containers/withForm';
+import withAuthorization from '../containers/withAuthorization';
+import { URLS } from '../utils/navigation';
+
+import ErrorBoundary from '../components/errors/ErrorBoundary';
+
+const routes = [
+  {
+    path: URLS.LANDING,
+    component: Landing,
+  },
+  {
+    path: URLS.VALIDATION_NEEDED,
+    component: ValidateVeteran,
+    permissions: {
+      requiresForm: true,
+    },
+  },
+  {
+    path: URLS.DEMOGRAPHICS,
+    component: Demographics,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+  },
+  {
+    path: URLS.NEXT_OF_KIN,
+    component: NextOfKin,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+  },
+  {
+    path: URLS.EMERGENCY_CONTACT,
+    component: EmergencyContact,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+  },
+  {
+    path: URLS.UPDATE_INSURANCE,
+    component: UpdateInformationQuestion,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+  },
+  {
+    path: URLS.DETAILS,
+    component: CheckIn,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+  },
+  {
+    path: URLS.COMPLETE,
+    component: Confirmation,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+  },
+  {
+    path: URLS.SEE_STAFF,
+    component: SeeStaff,
+
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+  },
+  {
+    path: URLS.LOADING,
+    component: LoadingPage,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+  },
+  {
+    path: URLS.ERROR,
+    component: Error,
+  },
+];
 
 const createRoutesWithStore = () => {
   return (
     <Switch>
-      <Route path="/" component={withFeatureFlip(Landing)} />
-      <Route
-        path={`/${URLS.VALIDATION_NEEDED}`}
-        component={withFeatureFlip(withToken(ValidateVeteran))}
-      />
-      <Route
-        path={`/${URLS.DEMOGRAPHICS}`}
-        component={withFeatureFlip(withLoadedData(withSession(Demographics)))}
-      />
-      <Route
-        path={`/${URLS.NEXT_OF_KIN}`}
-        component={withFeatureFlip(withLoadedData(withSession(NextOfKin)))}
-      />
-      <Route
-        path={`/${URLS.EMERGENCY_CONTACT}`}
-        component={withFeatureFlip(
-          withLoadedData(withSession(EmergencyContact)),
-        )}
-      />
-      <Route
-        path={`/${URLS.UPDATE_INSURANCE}`}
-        component={withFeatureFlip(
-          withLoadedData(withSession(UpdateInformationQuestion)),
-        )}
-      />
-      <Route
-        path={`/${URLS.DETAILS}`}
-        component={withFeatureFlip(withLoadedData(withSession(CheckIn)))}
-      />
-      <Route
-        path={`/${URLS.COMPLETE}`}
-        component={withFeatureFlip(withLoadedData(withSession(Confirmation)))}
-      />
-      <Route
-        path={`/${URLS.SEE_STAFF}`}
-        component={withFeatureFlip(withLoadedData(withSession(SeeStaff)))}
-      />
-      <Route path={`/${URLS.ERROR}`} component={withFeatureFlip(Error)} />
+      {routes.map((route, i) => {
+        const options = { isPreCheckIn: false };
+        let component = props => (
+          /* eslint-disable react/jsx-props-no-spreading */
+          <ErrorBoundary {...props}>
+            <route.component {...props} />
+          </ErrorBoundary>
+          /* eslint-disable react/jsx-props-no-spreading */
+        );
+        if (route.permissions) {
+          const { requiresForm, requireAuthorization } = route.permissions;
+          if (requiresForm) {
+            component = withForm(component, options);
+          }
+          if (requireAuthorization) {
+            component = withAuthorization(component, options);
+          }
+        }
+
+        return (
+          <Route
+            path={`/${route.path}`}
+            component={withFeatureFlip(component, options)}
+            key={i}
+          />
+        );
+      })}
+      <Route path="*" component={Error} />
     </Switch>
   );
 };

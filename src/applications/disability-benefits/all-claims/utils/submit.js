@@ -14,6 +14,8 @@ import {
   sippableId,
 } from '../utils';
 
+import { ptsdBypassDescription } from '../content/ptsdBypassContent';
+
 /**
  * This is mostly copied from us-forms' own stringifyFormReplacer, but with
  * the incomplete / empty address check removed, since we don't need this
@@ -250,7 +252,11 @@ export const stringifyRelatedDisabilities = formData => {
       facility,
     ),
   );
-  clonedData.vaTreatmentFacilities = newVAFacilities;
+  if (newVAFacilities.length) {
+    clonedData.vaTreatmentFacilities = newVAFacilities;
+  } else {
+    delete clonedData.vaTreatmentFacilities;
+  }
   return clonedData;
 };
 
@@ -307,19 +313,29 @@ export const cleanUpMailingAddress = formData => {
 };
 
 // Add 'cause' of 'NEW' to new ptsd disabilities since form does not ask
-export const addPTSDCause = formData =>
-  formData.newDisabilities
+export const addPTSDCause = formData => {
+  const clonedData = formData.newDisabilities
     ? _.set(
         'newDisabilities',
-        formData.newDisabilities.map(
-          disability =>
-            isDisabilityPtsd(disability.condition)
-              ? _.set('cause', causeTypes.NEW, disability)
-              : disability,
-        ),
+        formData.newDisabilities.map(disability => {
+          if (isDisabilityPtsd(disability?.condition)) {
+            const updated = _.set('cause', causeTypes.NEW, disability);
+
+            // Adds PTSD description for Veterans bypassing form 781
+            return formData.skip781ForCombatReason ||
+              formData.skip781ForNonCombatReason
+              ? _.set('primaryDescription', ptsdBypassDescription, updated)
+              : updated;
+          }
+          return disability;
+        }),
         formData,
       )
     : formData;
+  delete clonedData.skip781ForCombatReason;
+  delete clonedData.skip781ForNonCombatReason;
+  return clonedData;
+};
 
 export const addForm4142 = formData => {
   if (!formData.providerFacility) {

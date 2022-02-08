@@ -99,13 +99,13 @@ describe('526 ITFWrapper', () => {
         <p>Shouldn’t see me yet...</p>
       </ITFWrapper>,
     );
-    expect(tree.find('LoadingIndicator').length).to.equal(1);
+    expect(tree.find('va-loading-indicator').length).to.equal(1);
     tree.setProps(
       merge({}, defaultProps, {
         itf: { fetchCallState: requestStates.pending },
       }),
     );
-    expect(tree.find('LoadingIndicator').length).to.equal(1);
+    expect(tree.find('va-loading-indicator').length).to.equal(1);
     tree.unmount();
   });
 

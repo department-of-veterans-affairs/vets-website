@@ -1,15 +1,14 @@
 import moment from 'moment';
 import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
-
 import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
-import { DEBTS_FETCH_SUCCESS } from '../../debt-letters/actions';
-import { debtMockResponse } from '../../debt-letters/utils/mockResponses';
 import {
   fetchAndUpdateSessionExpiration as fetch,
   apiRequest,
 } from 'platform/utilities/api';
+import { deductionCodes } from '../../debt-letters/const/deduction-codes';
+import { DEBTS_FETCH_SUCCESS } from '../../debt-letters/actions';
+import { debtMockResponse } from '../../debt-letters/utils/mockResponses';
 import {
   FSR_API_ERROR,
   FSR_RESET_ERRORS,

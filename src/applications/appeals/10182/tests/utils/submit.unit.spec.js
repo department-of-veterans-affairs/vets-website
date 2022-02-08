@@ -151,7 +151,6 @@ describe('addIncludedIssues', () => {
         { ...issue1.raw, [SELECTED]: false },
         { ...issue2.raw, [SELECTED]: true },
       ],
-      'view:hasIssuesToAdd': true,
       additionalIssues: [
         { issue: 'not-added', decisionDate: validDate2, [SELECTED]: false },
         { ...issue.attributes, [SELECTED]: true },
@@ -172,10 +171,9 @@ describe('addIncludedIssues', () => {
         { ...issue1.raw, [SELECTED]: false },
         { ...issue2.raw, [SELECTED]: true },
       ],
-      'view:hasIssuesToAdd': false,
       additionalIssues: [
         { issue: 'not-added', decisionDate: validDate2, [SELECTED]: false },
-        { ...issue.attributes, [SELECTED]: true },
+        { ...issue.attributes },
       ],
     };
     expect(addIncludedIssues(formData)).to.deep.equal([issue2.result]);

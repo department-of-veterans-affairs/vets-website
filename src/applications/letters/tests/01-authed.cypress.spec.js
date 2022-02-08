@@ -36,25 +36,11 @@ describe('Authed Letter Test', () => {
     cy.get('.view-letters-button')
       .click()
       .then(() => {
-        cy.get('.usa-accordion-bordered').should('exist');
-        cy.get('.usa-accordion-bordered').should('have.length', 5);
+        cy.get('va-accordion-item').should('exist');
+        cy.get('va-accordion-item').should('have.length', 5);
       });
 
-    cy.get(`.usa-accordion-bordered:nth-of-type(1)`)
-      .click()
-      .then(() => {
-        cy.get('.va-button-primary').should('exist');
-      });
-
-    cy.get(`.usa-accordion-bordered:nth-of-type(2)`).click();
-    cy.get(`.usa-accordion-bordered:nth-of-type(3)`).click();
-    cy.get(`.usa-accordion-bordered:nth-of-type(4)`).click();
-    cy.get(`.usa-accordion-bordered:nth-of-type(5)`).click();
-
-    cy.get(
-      `.usa-accordion-bordered:nth-of-type(5) .usa-accordion-content`,
-    ).should('be.visible');
-
+    cy.expandAccordions();
     cy.axeCheck();
 
     // -- Go to letters list -- //
@@ -64,17 +50,18 @@ describe('Authed Letter Test', () => {
       .then(() => {
         cy.get('.view-letters-button').click();
         cy.url().should('contain', '/letters/letter-list');
-        cy.get('.step-content');
-        cy.get('.step-content div.form-review-panel:nth-of-type(4) button')
-          .click() // open the bsl accordion
+        // open bsl accordion
+        cy.get('.step-content va-accordion-item:nth-of-type(4)')
+          .shadow()
+          .find('button[aria-expanded=false]')
+          .click()
           .then(() => {
-            cy.get('#militaryService');
-          })
-          .should('exist');
+            cy.get('label[name="militaryService-label"]').should('be.visible');
+          });
       });
 
     // poke all the checkboxes and expect them to all be unselected
-    cy.get('#militaryService').should('exist');
+    cy.get('label[name="militaryService-label"]').should('be.visible');
     cy.get('#militaryService').should('be.checked');
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(200);
@@ -84,7 +71,7 @@ describe('Authed Letter Test', () => {
     cy.get('#militaryService').should('not.be.checked');
     cy.get('#benefitInfoTable input[type="checkbox"]').then(checkboxes => {
       cy.wrap(Array.from(checkboxes).map(checkbox => checkbox.id)).each(id => {
-        cy.get(`#${id}`).should('exist');
+        cy.get(`div#${id}label`).should('be.visible');
         cy.get(`#${id}`).should('be.checked');
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(200);
@@ -95,10 +82,11 @@ describe('Authed Letter Test', () => {
       });
     });
     // collapse the bsl accordion
-    cy.get(
-      '.step-content div.form-review-panel:nth-of-type(4) .usa-accordion-button',
-    ).click();
-    cy.get('#militaryService').should('not.exist');
+    cy.get('.step-content va-accordion-item:nth-of-type(4)')
+      .shadow()
+      .find('button[aria-expanded=true]')
+      .click();
+    cy.get('label[name="militaryService-label"]').should('not.be.visible');
 
     // poke the back button
     cy.get('.step-content p:nth-of-type(4) a').click();

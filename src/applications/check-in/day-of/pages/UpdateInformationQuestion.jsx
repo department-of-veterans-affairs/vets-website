@@ -1,34 +1,42 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 
-import { URLS, goToNextPage } from '../utils/navigation';
-import BackToHome from '../components/BackToHome';
-import Footer from '../components/Footer';
+import { useFormRouting } from '../../hooks/useFormRouting';
+import BackToHome from '../../components/BackToHome';
+import Footer from '../../components/Footer';
+import { URLS } from '../../utils/navigation';
 
 const UpdateInformationQuestion = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
   const { router } = props;
+  const { jumpToPage, goToNextPage } = useFormRouting(router);
 
-  const noButtonClicked = () => {
-    recordEvent({
-      event: 'cta-button-click',
-      'button-click-label': 'no-to-update-information',
-    });
-    goToNextPage(router, URLS.DETAILS);
-  };
+  const noButtonClicked = useCallback(
+    () => {
+      recordEvent({
+        event: 'cta-button-click',
+        'button-click-label': 'no-to-update-information',
+      });
+      goToNextPage();
+    },
+    [goToNextPage],
+  );
 
-  const yesButtonClicked = () => {
-    recordEvent({
-      event: 'cta-button-click',
-      'button-click-label': 'yes-to-update-information',
-    });
-    goToNextPage(router, URLS.SEE_STAFF);
-  };
+  const yesButtonClicked = useCallback(
+    () => {
+      recordEvent({
+        event: 'cta-button-click',
+        'button-click-label': 'yes-to-update-information',
+      });
+      jumpToPage(URLS.SEE_STAFF);
+    },
+    [jumpToPage],
+  );
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 update-information">
@@ -43,14 +51,16 @@ const UpdateInformationQuestion = props => {
         <button
           data-testid="yes-button"
           className="usa-button-secondary usa-button-big"
-          onClick={() => yesButtonClicked()}
+          onClick={yesButtonClicked}
+          type="button"
         >
           Yes
         </button>
         <button
           data-testid="no-button"
           className="usa-button-secondary usa-button-big"
-          onClick={() => noButtonClicked()}
+          onClick={noButtonClicked}
+          type="button"
         >
           No
         </button>

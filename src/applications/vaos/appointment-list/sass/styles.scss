@@ -105,14 +105,27 @@
   padding: 0em !important;
 }
 
-@media print {
-  .vaos-hide-for-print {
-    display: none !important;
+nav.vaos-appts__breadcrumb {
+  padding: 0.8em 0em;
+
+  ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
   }
 
-  .vaos-link-for-print {
-    color: $color-black;
-    text-align: left;
-    padding-left: 0;
+  li {
+    display: inline;
+  }
+
+  li + li::before {
+    display: inline-block;
+    margin: 0 0.5em;
+    content: "";
+  }
+
+  [aria-current="page"] {
+    font-weight: 700;
+    text-decoration: none;
   }
 }

@@ -1,4 +1,5 @@
 import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 
 export const makeMockUser = () => {
   return {
@@ -36,7 +37,11 @@ export const makeMockUser = () => {
           loa: { current: 3, highest: 3 },
           multifactor: true,
           verified: true,
-          signIn: { serviceName: 'idme', accountType: 'N/A', ssoe: true },
+          signIn: {
+            serviceName: CSP_IDS.ID_ME,
+            accountType: 'N/A',
+            ssoe: true,
+          },
           authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
         },
         vaProfile: {

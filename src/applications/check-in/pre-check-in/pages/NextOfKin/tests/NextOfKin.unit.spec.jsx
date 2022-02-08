@@ -2,7 +2,9 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
-import NextOfKin from '../';
+import NextOfKin from '..';
+
+import { createMockRouter } from '../../../../tests/unit/mocks/router';
 
 describe('pre-check-in', () => {
   describe('Next of kin page', () => {
@@ -11,7 +13,7 @@ describe('pre-check-in', () => {
       const middleware = [];
       const mockStore = configureStore(middleware);
       const initState = {
-        preCheckInData: {
+        checkInData: {
           veteranData: {
             demographics: {
               nextOfKin1: {
@@ -35,7 +37,6 @@ describe('pre-check-in', () => {
           },
           form: {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'third-page',
             data: { demographicsUpToDate: 'yes' },
           },
           context: {
@@ -48,7 +49,7 @@ describe('pre-check-in', () => {
     it('page passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
-          <NextOfKin router={{ push: () => {} }} />
+          <NextOfKin router={createMockRouter()} />
         </Provider>,
       );
     });

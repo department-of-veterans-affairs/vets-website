@@ -9,11 +9,9 @@ $margin-left: units(1.5);
 $padding-left: calc(#{$margin-left} - #{$border-weight-left});
 $padding-left-negative: calc(-#{$margin-left} + #{$border-weight-left});
 
-input[type="radio"] {
-  height: 0;
-  width: 0;
-  margin: 0;
-  padding: 0;
+input[type="radio"],
+input[type="checkbox"] {
+  cursor: pointer;
 }
 
 [type="radio"]:disabled + label {

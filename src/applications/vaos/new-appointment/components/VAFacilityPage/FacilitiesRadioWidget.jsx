@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { getCernerURL } from 'platform/utilities/cerner';
-import Select from '@department-of-veterans-affairs/component-library/Select';
+import { VaSelect } from 'web-components/react-bindings';
 import { selectFacilitiesRadioWidget } from '../../redux/selectors';
 import State from '../../../components/State';
 import InfoAlert from '../../../components/InfoAlert';
@@ -59,6 +59,16 @@ export default function FacilitiesRadioWidget({
     enumOptions.length > INITIAL_FACILITY_DISPLAY_COUNT
       ? enumOptions.length - INITIAL_FACILITY_DISPLAY_COUNT
       : 0;
+
+  // format optons for new component
+  const selectOptions = sortOptions.map((s, i) => {
+    return (
+      <option key={i} value={s.value}>
+        {s.label}
+      </option>
+    );
+  });
+
   useEffect(
     () => {
       if (displayedOptions.length > INITIAL_FACILITY_DISPLAY_COUNT) {
@@ -75,19 +85,20 @@ export default function FacilitiesRadioWidget({
       </div>
       <>
         <div className="vads-u-margin-bottom--3">
-          <Select
+          <VaSelect
             label="Sort facilities"
             name="sort"
-            onValueChange={type => {
+            onVaSelect={type => {
               recordEvent({
-                event: `${GA_PREFIX}-variant-method-${type.value}`,
+                event: `${GA_PREFIX}-variant-method-${type.detail.value}`,
               });
-              updateFacilitySortMethod(type.value);
+              updateFacilitySortMethod(type.detail.value);
             }}
-            options={hasUserAddress ? sortOptions : sortOptions.slice(1)}
-            value={{ dirty: false, value: sortMethod }}
-            includeBlankOption={false}
-          />
+            value={sortMethod}
+            data-testid="facilitiesSelect"
+          >
+            {hasUserAddress ? selectOptions : selectOptions.slice(1)}
+          </VaSelect>
         </div>
         {!hasUserAddress && (
           <p>
@@ -105,7 +116,8 @@ export default function FacilitiesRadioWidget({
               level="3"
             >
               <p>Make sure your browser’s location feature is turned on.</p>
-              <a
+              <button
+                className="va-button-link"
                 onClick={() =>
                   updateFacilitySortMethod(
                     FACILITY_SORT_METHODS.distanceFromCurrentLocation,
@@ -113,7 +125,7 @@ export default function FacilitiesRadioWidget({
                 }
               >
                 Retry searching based on current location
-              </a>
+              </button>
             </InfoAlert>
           </div>
         )}

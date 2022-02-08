@@ -1,7 +1,7 @@
 import React from 'react';
 import { convertRatingToStars } from '../../utils/helpers';
-import { renderStars } from '../../utils/render';
 import recordEvent from 'platform/monitoring/record-event';
+import RatingsStars from '../RatingsStars';
 
 export default function SchoolCategoryRating({
   categoryRating,
@@ -54,20 +54,20 @@ export default function SchoolCategoryRating({
 
   return (
     <div className="vads-u-margin-right--0 category-rating">
-      <div className="rating vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
+      <div className="rating">
         <button
           aria-expanded={open}
-          className="usa-accordion-button-ratings"
+          className="usa-accordion-button vads-u-border-bottom--1px vads-u-border-color--gray-lighter"
           onClick={onClick}
         >
           <div className="category-main vads-l-row medium-screen:vads-u-padding-left--1">
-            <div className="vads-l-col--6 vads-u-font-size--sm">{title}</div>
+            <div className="vads-l-col--6 vads-u-font-size--sm ">{title}</div>
             {categoryRating.averageRating && (
               <div className="vads-l-col--6 vads-u-font-size--sm">
-                {renderStars(categoryRating.averageRating)}{' '}
-                <span className="vads-u-font-weight--normal">
+                <RatingsStars rating={categoryRating.averageRating} />
+                <div className="vads-u-font-weight--normal vads-u-display--inline vads-u-padding-left--1 vads-u-margin-right--1p5">
                   {averageStars.display}
-                </span>
+                </div>
               </div>
             )}
             {!categoryRating.averageRating && (
