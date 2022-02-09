@@ -55,7 +55,7 @@ const captureError = (error, details) => {
     Sentry.withScope(scope => {
       const { token } = details;
       if (token) {
-        scope.setExtra('token', token);
+        scope.setContext('token', token);
       }
       Sentry.captureException(error);
     });
@@ -63,10 +63,10 @@ const captureError = (error, details) => {
     Sentry.withScope(scope => {
       const { err } = error;
       const { token, eventName, json = {} } = details;
-      scope.setExtra('error', err);
-      scope.setExtra('token', token);
-      scope.setExtra('eventName', eventName);
-      scope.setExtra('json', json);
+      scope.setContext('error', err);
+      scope.setContext('token', token);
+      scope.setContext('eventName', eventName);
+      scope.setContext('json', json);
 
       const message = `check_in_client_api_error-${eventName}`;
       // the apiRequest helper returns the errors array, instead of an exception
@@ -76,9 +76,9 @@ const captureError = (error, details) => {
     Sentry.withScope(scope => {
       const { token } = details;
       if (token) {
-        scope.setExtra('token', token);
+        scope.setContext('token', token);
       }
-      scope.setExtra('error', JSON.stringify(error));
+      scope.setContext('error', JSON.stringify(error));
 
       const message = `check_in_client_error`;
       // the apiRequest helper returns the errors array, instead of an exception
