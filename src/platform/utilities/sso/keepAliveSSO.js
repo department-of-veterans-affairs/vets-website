@@ -2,7 +2,9 @@ import * as Sentry from '@sentry/browser';
 import {
   SSO_KEEP_ALIVE_ENDPOINT,
   CSP_AUTHN,
+  CSP_KEYS,
   AUTHN_HEADERS,
+  AUTHN_KEYS,
   CAUGHT_EXCEPTIONS,
   SKIP_DUPE_QUERY,
 } from './constants';
@@ -43,6 +45,40 @@ export const sanitizeAuthn = (authnCtx = 'NOT_FOUND') => {
         .replace(SKIP_DUPE_QUERY.MULTIPLE_QUERIES, emptyString);
 };
 
+export const generateAuthnContext = (
+  { headers } = {
+    headers: {},
+  },
+) => {
+  try {
+    const CSP = headers.get(AUTHN_HEADERS.CSP);
+
+    const ctx =
+      CSP === CSP_KEYS.LOGINGOV
+        ? {
+            [AUTHN_KEYS.AAL]: headers.get(AUTHN_HEADERS.AAL),
+            [AUTHN_KEYS.IAL]: headers.get(AUTHN_HEADERS.IAL),
+            [AUTHN_KEYS.CSP_METHOD]: headers.get(AUTHN_HEADERS.CSP_METHOD),
+          }
+        : {
+            authn: sanitizeAuthn(
+              {
+                [CSP_KEYS.DSLOGON]: CSP_AUTHN.DS_LOGON,
+                [CSP_KEYS.MHV]: CSP_AUTHN.MHV,
+                [CSP_KEYS.IDME]: headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
+              }[CSP],
+            ),
+          };
+
+    return {
+      csp: CSP,
+      ...ctx,
+    };
+  } catch (error) {
+    return {};
+  }
+};
+
 export const defaultKeepAliveResponse = {
   ttl: 0,
   transactionid: null,
@@ -65,6 +101,8 @@ export default async function keepAlive() {
       cache: 'no-store',
     });
 
+    await resp.text();
+
     const alive = resp.headers.get(AUTHN_HEADERS.ALIVE);
 
     // If no CSP or session-alive headers, return early
@@ -72,23 +110,13 @@ export default async function keepAlive() {
       return defaultKeepAliveResponse;
     }
 
-    await resp.text();
-    /**
-     * Uses mapped authncontext for DS Logon and MHV
-     * Uses `authncontextclassref` lookup for ID.me and Login.gov
-     */
-    const authn = {
-      DSLogon: CSP_AUTHN.DS_LOGON,
-      mhv: CSP_AUTHN.MHV,
-      LOGINGOV: resp.headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
-      idme: resp.headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
-    }[resp.headers.get(AUTHN_HEADERS.CSP)];
+    const keepAliveGeneration = generateAuthnContext({ headers: resp.headers });
 
     return {
       ttl:
         alive === 'true' ? Number(resp.headers.get(AUTHN_HEADERS.TIMEOUT)) : 0,
       transactionid: resp.headers.get(AUTHN_HEADERS.TRANSACTION_ID),
-      authn: sanitizeAuthn(authn),
+      ...keepAliveGeneration,
     };
   } catch (err) {
     logToSentry(err);

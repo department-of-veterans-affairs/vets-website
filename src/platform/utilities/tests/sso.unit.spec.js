@@ -10,7 +10,12 @@ import {
   checkAndUpdateSSOeSession,
 } from 'platform/utilities/sso';
 import * as loginAttempted from 'platform/utilities/sso/loginAttempted';
-import { AUTHN_HEADERS, CSP_AUTHN } from 'platform/utilities/sso/constants';
+import {
+  AUTHN_HEADERS,
+  AUTHN_KEYS,
+  CSP_AUTHN,
+  CSP_KEYS,
+} from 'platform/utilities/sso/constants';
 import {
   API_VERSION,
   AUTH_EVENTS,
@@ -23,6 +28,9 @@ const defaultKeepAliveOpts = {
   [AUTHN_HEADERS.TRANSACTION_ID]: null,
   [AUTHN_HEADERS.CSP]: undefined,
   [AUTHN_HEADERS.AUTHN_CONTEXT]: 'NOT_FOUND',
+  [AUTHN_HEADERS.IAL]: null,
+  [AUTHN_HEADERS.AAL]: null,
+  [AUTHN_HEADERS.CSP_METHOD]: null,
 };
 
 export function generateMockKeepAliveResponse(
@@ -431,6 +439,7 @@ describe('keepAlive', () => {
       ttl: 900,
       transactionid: 'x',
       authn: CSP_AUTHN.DS_LOGON,
+      csp: CSP_KEYS.DSLOGON,
     });
   });
 
@@ -452,16 +461,17 @@ describe('keepAlive', () => {
       ttl: 900,
       transactionid: 'q',
       authn: CSP_AUTHN.MHV,
+      csp: CSP_KEYS.MHV,
     });
   });
 
   it('should return active idme session', async () => {
     const {
       ALIVE,
-      CSP,
-      TRANSACTION_ID,
-      TIMEOUT,
       AUTHN_CONTEXT,
+      CSP,
+      TIMEOUT,
+      TRANSACTION_ID,
     } = AUTHN_HEADERS;
 
     stubFetch.resolves(
@@ -483,6 +493,7 @@ describe('keepAlive', () => {
       ttl: 400,
       transactionid: 'IDME_WORKS',
       authn: '/loa1',
+      csp: CSP_KEYS.IDME,
     });
   });
 
@@ -493,8 +504,16 @@ describe('keepAlive', () => {
       TRANSACTION_ID,
       TIMEOUT,
       AUTHN_CONTEXT,
+      IAL,
+      AAL,
+      CSP_METHOD,
     } = AUTHN_HEADERS;
 
+    const { aal, ial, cspMethod } = {
+      ial: '2',
+      aal: '2',
+      cspMethod: 'LOGINGOV_MHV',
+    };
     stubFetch.resolves(
       generateMockKeepAliveResponse({
         headers: {
@@ -503,6 +522,9 @@ describe('keepAlive', () => {
           [TRANSACTION_ID]: 'login_gov',
           [CSP]: 'LOGINGOV',
           [AUTHN_CONTEXT]: '/ial2',
+          [IAL]: ial,
+          [AAL]: aal,
+          [CSP_METHOD]: cspMethod,
         },
         status: 200,
       }),
@@ -513,7 +535,10 @@ describe('keepAlive', () => {
     expect(KA_RESPONSE).to.eql({
       ttl: 100,
       transactionid: 'login_gov',
-      authn: '/ial2',
+      csp: CSP_KEYS.LOGINGOV,
+      ial,
+      aal,
+      [AUTHN_KEYS.CSP_METHOD]: cspMethod,
     });
   });
 });
@@ -539,5 +564,74 @@ describe('sanitizeAuthn', () => {
   it('should strip out the `&skip_dupe` query param', () => {
     stubbedUrl = '/ial2?key=value&skip_dupe=mhv';
     expect(keepAliveMod.sanitizeAuthn(stubbedUrl)).to.eql('/ial2?key=value');
+  });
+});
+
+describe('generateAuthnContext', () => {
+  it('should return an empty string without headers', () => {
+    expect(keepAliveMod.generateAuthnContext()).to.eql({});
+  });
+
+  it('should return a string for each csp', () => {
+    [CSP_KEYS.MHV, CSP_KEYS.DSLOGON, CSP_KEYS.IDME, CSP_KEYS.LOGINGOV].forEach(
+      csp => {
+        const {
+          ALIVE,
+          CSP,
+          TRANSACTION_ID,
+          TIMEOUT,
+          AUTHN_CONTEXT,
+          IAL,
+          AAL,
+          CSP_METHOD,
+        } = AUTHN_HEADERS;
+
+        // mocked
+        const { aal, ial, cspMethod } = {
+          ial: '2',
+          aal: '2',
+          cspMethod: 'LgV',
+        };
+
+        const { headers } = generateMockKeepAliveResponse({
+          headers: {
+            [ALIVE]: 'true',
+            [TIMEOUT]: 500,
+            [TRANSACTION_ID]: `tx-${csp}`,
+            [CSP]: csp,
+            ...(csp === 'idme' && {
+              [AUTHN_CONTEXT]: 'idme-test?skip_dupe=mhv',
+            }),
+            ...(csp === 'LOGINGOV' && {
+              csp: csp.toString(),
+              [IAL]: aal,
+              [AAL]: ial,
+              [CSP_METHOD]: cspMethod,
+            }),
+          },
+          status: 200,
+        });
+
+        expect(
+          keepAliveMod.generateAuthnContext({
+            headers,
+          }),
+        ).to.eql({
+          csp,
+          ...(csp !== 'LOGINGOV' && {
+            authn: {
+              [CSP_KEYS.DSLOGON]: CSP_AUTHN.DS_LOGON,
+              [CSP_KEYS.MHV]: CSP_AUTHN.MHV,
+              [CSP_KEYS.IDME]: 'idme-test',
+            }[csp],
+          }),
+          ...(csp === 'LOGINGOV' && {
+            [AUTHN_KEYS.IAL]: aal,
+            [AUTHN_KEYS.AAL]: ial,
+            [AUTHN_KEYS.CSP_METHOD]: cspMethod,
+          }),
+        });
+      },
+    );
   });
 });
