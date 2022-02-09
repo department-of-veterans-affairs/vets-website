@@ -836,10 +836,6 @@ export const mockTogglesResponse = {
         value: true,
       },
       {
-        name: 'showHeaderV2',
-        value: true,
-      },
-      {
         name: 'show_header_v2',
         value: true,
       },
