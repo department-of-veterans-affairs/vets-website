@@ -29,7 +29,7 @@ const BenefitPaymentsAndDebt = ({
 
   return (
     payments &&
-    payments.length && (
+    !!payments.length && (
       <div
         className="health-care-wrapper vads-u-margin-y--6"
         data-testid="dashboard-section-payment-and-debts"

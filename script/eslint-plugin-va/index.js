@@ -7,6 +7,7 @@ module.exports = {
     'axe-check-required': require('./rules/axe-e2e-tests.js'),
     'correct-apostrophe': require('./rules/correct-apostrophe'),
     'cypress-viewport-deprecated': require('./rules/cypress-viewport-deprecated.js'),
+    'prefer-web-component-library': require('./rules/prefer-web-component-library'),
   },
   rulesConfig: {
     'proptypes-camel-cased': 2,
@@ -26,5 +27,6 @@ module.exports = {
     'axe-check-required': 1,
     'correct-apostrophe': 1,
     'cypress-viewport-deprecated': 1,
+    'prefer-web-component-library': 1,
   },
 };

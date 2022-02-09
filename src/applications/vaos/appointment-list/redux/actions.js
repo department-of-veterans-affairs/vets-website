@@ -530,7 +530,7 @@ export function fetchRequestDetails(id) {
       });
 
       if (!featureVAOSServiceRequests) {
-        const requestMessages = state.appointments.requestMessages;
+        const { requestMessages } = state.appointments;
         const messages = requestMessages?.[id];
 
         if (!messages) {
