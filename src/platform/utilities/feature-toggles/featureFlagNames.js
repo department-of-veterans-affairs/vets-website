@@ -88,7 +88,6 @@ export default Object.freeze({
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
   showFormI18n: 'show_form_i18n',
   showEventsV2: 'show_events_v2',
-  showHeaderV2: 'show_header_v2',
   showMebMockEndpoints: 'show_meb_mock_endpoints',
   showMedicalCopays: 'show_medical_copays',
   showHealthcareExperienceQuestionnaire:
