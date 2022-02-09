@@ -436,6 +436,7 @@ export function FilterYourResults({
       </div>
     );
   }
+  // ----------- begin new filter results code -------- //
   const onChange = e => {
     recordEvent({
       event: 'gibct-form-change',
@@ -527,7 +528,6 @@ export function FilterYourResults({
     return (
       <div>
         <CheckboxGroup
-          label="excluded-schools-types"
           onChange={handleIncludedSchoolTypesChange}
           options={options}
         />
@@ -655,12 +655,7 @@ export function FilterYourResults({
     const legendId = `${createId(name)}-legend`;
     return (
       <>
-        <div className="vads-u-margin-bottom--4">
-          {/* <h3
-            className="vads-u-margin-bottom--3"
-            aria-label={`${name}:`}
-            id={legendId}
-          /> */}
+        <div className="vads-u-margin-bottom--1 vads-u-margin-top--2">
           <va-accordion
             disable-analytics={{
               value: 'false',
@@ -669,8 +664,10 @@ export function FilterYourResults({
               value: 'null',
             }}
           >
-            <va-accordion-item id="institution-types">
-              <h6 slot="headline">Types of institutions</h6>
+            <va-accordion-item
+              header="Institution types"
+              id="institution-types"
+            >
               <div className="school-types">{excludedSchoolTypesGroup()}</div>
               <Checkbox
                 checked={employers}
