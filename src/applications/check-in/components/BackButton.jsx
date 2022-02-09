@@ -4,20 +4,31 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { createAnalyticsSlug } from '../utils/analytics';
+import { useFormRouting } from '../hooks/useFormRouting';
 
 const BackButton = props => {
-  const { action, path } = props;
+  const { action, router } = props;
+  const { getCurrentPageFromRouter, pages } = useFormRouting(router);
+
+  const currentPage = getCurrentPageFromRouter();
+  const positionInForm = pages.indexOf(currentPage);
+  const previousPage = pages[positionInForm - 1];
+
   const handleClick = useCallback(
     e => {
       e.preventDefault();
       recordEvent({
         event: createAnalyticsSlug('back-button-clicked'),
-        fromPage: path,
+        fromPage: currentPage,
       });
       action();
     },
-    [path, action],
+    [currentPage, action],
   );
+
+  if (previousPage === 'loading-appointments') {
+    return '';
+  }
   return (
     <>
       <nav
@@ -39,7 +50,7 @@ const BackButton = props => {
 
 BackButton.propTypes = {
   action: PropTypes.func,
-  path: PropTypes.string,
+  router: PropTypes.object,
 };
 
 export default BackButton;
