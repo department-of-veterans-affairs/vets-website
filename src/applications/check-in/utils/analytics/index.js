@@ -55,32 +55,29 @@ const captureError = (error, details) => {
     Sentry.withScope(scope => {
       const { token } = details;
       if (token) {
-        scope.setContext('token', token);
+        scope.setContext('token', { token });
       }
       Sentry.captureException(error);
     });
   } else if (error.source === ERROR_SOURCES.API) {
     Sentry.withScope(scope => {
       const { err } = error;
-      const { token, eventName, json = {} } = details;
-      scope.setContext('error', err);
-      scope.setContext('token', token);
-      scope.setContext('eventName', eventName);
-      scope.setContext('json', json);
-
+      const { eventName } = details;
       const message = `check_in_client_api_error-${eventName}`;
+      scope.setContext(message, { details, err });
+
       // the apiRequest helper returns the errors array, instead of an exception
       Sentry.captureMessage(message);
     });
   } else {
     Sentry.withScope(scope => {
       const { token } = details;
-      if (token) {
-        scope.setContext('token', token);
-      }
-      scope.setContext('error', JSON.stringify(error));
-
       const message = `check_in_client_error`;
+      scope.setContext(message, {
+        token: token || 'no token found',
+        error: JSON.stringify(error),
+      });
+
       // the apiRequest helper returns the errors array, instead of an exception
       Sentry.captureMessage(message);
     });
