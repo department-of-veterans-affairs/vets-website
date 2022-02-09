@@ -37,6 +37,11 @@ export const getSelected = formData => {
 export const getSelectedCount = (formData, items) =>
   getSelected({ ...formData, additionalIssues: items }).length;
 
+/**
+ * Get issue name/title from either a manually added issue or issue loaded from
+ * the API
+ * @param {AdditionalIssueItem|ContestableIssueItem}
+ */
 export const getIssueName = (entry = {}) =>
   entry.issue || entry.attributes?.ratingIssueSubjectText;
 

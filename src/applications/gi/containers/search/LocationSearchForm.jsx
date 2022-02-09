@@ -1,3 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/jsx-no-bind */
+/* eslint-disable react/button-has-type */
+/* eslint-disable react/jsx-wrap-multilines */
+/* eslint-disable import/order */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Dropdown from '../../components/Dropdown';
@@ -18,7 +24,6 @@ import { updateUrlParams } from '../../selectors/search';
 import { TABS } from '../../constants';
 import { INITIAL_STATE } from '../../reducers/search';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 
 export function LocationSearchForm({
   autocomplete,
@@ -143,7 +148,7 @@ export function LocationSearchForm({
 
   useEffect(
     () => {
-      if (!environment.isProduction()) doSearch(null);
+      doSearch(null);
     },
 
     [autocompleteSelection],
@@ -244,7 +249,7 @@ export function LocationSearchForm({
               name="locationSearch"
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
               onPressEnter={e => {
-                if (!environment.isProduction()) setAutocompleteSelection(null);
+                setAutocompleteSelection(null);
                 doSearch(e);
               }}
               onSelection={selected => setAutocompleteSelection(selected)}

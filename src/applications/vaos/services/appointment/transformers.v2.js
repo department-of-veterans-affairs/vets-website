@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { getPatientInstruction } from '../appointment';
+import { getPatientInstruction } from '.';
 import {
   APPOINTMENT_TYPES,
   PURPOSE_TEXT,
@@ -13,9 +13,11 @@ import { getTypeOfCareById } from '../../utils/appointment';
 function getAppointmentType(appt) {
   if (appt.kind === 'cc' && appt.start) {
     return APPOINTMENT_TYPES.ccAppointment;
-  } else if (appt.kind === 'cc' && appt.requestedPeriods?.length) {
+  }
+  if (appt.kind === 'cc' && appt.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.ccRequest;
-  } else if (appt.kind !== 'cc' && appt.requestedPeriods?.length) {
+  }
+  if (appt.kind !== 'cc' && appt.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.request;
   }
 
@@ -64,7 +66,7 @@ export function isPastAppointment(appt) {
  * @returns {String} returns format data
  */
 function getAtlasLocation(appt) {
-  const atlas = appt.telehealth.atlas;
+  const { atlas } = appt.telehealth;
   return {
     id: atlas.siteCode,
     resourceType: 'Location',
@@ -151,7 +153,7 @@ export function transformVAOSAppointment(appt) {
     resourceType: 'Appointment',
     id: appt.id,
     status: appt.status,
-    cancelationReason: appt.cancelationReason?.coding[0].code || null,
+    cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     start: !isRequest ? start.format() : null,
     // This contains the vista status for v0 appointments, but
     // we don't have that for v2, so this is a made up status
