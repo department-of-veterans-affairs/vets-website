@@ -46,6 +46,8 @@ const ContestableIssuesWidget = props => {
     formContext = {},
     setFormData,
     formData,
+    additionalIssues: addIssuesProp,
+    onChange: onChangeProp,
   } = props;
 
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -56,7 +58,7 @@ const ContestableIssuesWidget = props => {
   const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
   const showCheckbox = !onReviewPage || (onReviewPage && !inReviewMode);
 
-  const additionalIssues = (props.additionalIssues || []).filter(Boolean);
+  const additionalIssues = (addIssuesProp || []).filter(Boolean);
   // combine all issues for viewing
   const items = value
     .map(item => ({
@@ -78,46 +80,54 @@ const ContestableIssuesWidget = props => {
     );
   }
 
-  const onChange = (index, event) => {
-    let { checked } = event.target;
-    if (checked && getSelected(formData).length + 1 > MAX_SELECTIONS) {
-      setShowErrorModal(true);
-      event.preventDefault(); // prevent checking
-      checked = false;
-    } else if (index < value.length) {
-      // contestable issue check toggle
-      const changedItems = set(`[${index}].${SELECTED}`, checked, props.value);
-      props.onChange(changedItems);
-    } else {
-      // additional issue check toggle
+  const handlers = {
+    closeModal: () => setShowErrorModal(false),
+
+    onChange: (index, event) => {
+      let { checked } = event.target;
+      if (checked && getSelected(formData).length + 1 > MAX_SELECTIONS) {
+        setShowErrorModal(true);
+        event.preventDefault(); // prevent checking
+        checked = false;
+      } else if (index < value.length) {
+        // contestable issue check toggle
+        const changedItems = set(
+          `[${index}].${SELECTED}`,
+          checked,
+          props.value,
+        );
+        onChangeProp(changedItems);
+      } else {
+        // additional issue check toggle
+        const adjustedIndex = calculateIndexOffset(index, value.length);
+        const updatedAdditionalIssues = additionalIssues.map(
+          (issue, indx) =>
+            adjustedIndex === indx ? { ...issue, [SELECTED]: checked } : issue,
+        );
+        setFormData({
+          ...formData,
+          additionalIssues: updatedAdditionalIssues,
+        });
+      }
+    },
+
+    onRemoveIssue: index => {
       const adjustedIndex = calculateIndexOffset(index, value.length);
-      const updatedAdditionalIssues = additionalIssues.map(
-        (issue, indx) =>
-          adjustedIndex === indx ? { ...issue, [SELECTED]: checked } : issue,
+      const updatedAdditionalIssues = additionalIssues.filter(
+        (issue, indx) => adjustedIndex !== indx,
       );
+
+      // Focus management: target the previous issue if the last one was removed
+      // Done internally within the issue card component
+      const focusIndex =
+        index + (adjustedIndex >= updatedAdditionalIssues.length ? -1 : 0);
+      window.sessionStorage.setItem(LAST_NOD_ITEM, focusIndex);
+
       setFormData({
         ...formData,
         additionalIssues: updatedAdditionalIssues,
       });
-    }
-  };
-
-  const onRemoveIssue = index => {
-    const adjustedIndex = calculateIndexOffset(index, value.length);
-    const updatedAdditionalIssues = additionalIssues.filter(
-      (issue, indx) => adjustedIndex !== indx,
-    );
-
-    // Focus management: target the previous issue if the last one was removed
-    // Done internally within the issue card component
-    const focusIndex =
-      index + (adjustedIndex >= updatedAdditionalIssues.length ? -1 : 0);
-    window.sessionStorage.setItem(LAST_NOD_ITEM, focusIndex);
-
-    setFormData({
-      ...formData,
-      additionalIssues: updatedAdditionalIssues,
-    });
+    },
   };
 
   const content = items.map((item, index) => {
@@ -132,11 +142,11 @@ const ContestableIssuesWidget = props => {
         index={index}
         item={item}
         options={options}
-        onChange={onChange}
+        onChange={handlers.onChange}
         showCheckbox={showCheckbox}
         onRemove={
           // Don't allow editing or removing API-loaded issues
-          item.ratingIssueSubjectText ? null : () => onRemoveIssue(index)
+          item.ratingIssueSubjectText ? null : handlers.removeIssue(index)
         }
       />
     );
@@ -160,27 +170,25 @@ const ContestableIssuesWidget = props => {
         </>
       )}
       {showErrorModal && (
-        <MaxSelectionsAlert
-          showModal
-          closeModal={() => setShowErrorModal(false)}
-        />
+        <MaxSelectionsAlert showModal closeModal={handlers.closeModal} />
       )}
     </>
   );
 };
 
 ContestableIssuesWidget.propTypes = {
-  id: PropTypes.string,
-  options: PropTypes.shape({}),
+  additionalIssues: PropTypes.array,
   formContext: PropTypes.shape({
     onReviewPage: PropTypes.bool,
     reviewMode: PropTypes.bool,
     submitted: PropTypes.bool,
   }),
-  value: PropTypes.array,
   formData: PropTypes.shape({}),
-  additionalIssues: PropTypes.array,
+  id: PropTypes.string,
+  options: PropTypes.shape({}),
   setFormData: PropTypes.func,
+  value: PropTypes.array,
+  onChange: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
