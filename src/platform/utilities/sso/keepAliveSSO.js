@@ -66,6 +66,7 @@ export default async function keepAlive() {
     });
 
     await resp.text();
+
     const alive = resp.headers.get(AUTHN_HEADERS.ALIVE);
 
     // If no CSP or session-alive headers, return early
