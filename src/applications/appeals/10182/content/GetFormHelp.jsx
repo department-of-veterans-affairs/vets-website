@@ -15,12 +15,7 @@ const GetFormHelp = () => (
     </p>
     <p className="u-vads-margin-bottom--0">
       If you have hearing loss, call TTY:{' '}
-      <Telephone
-        contact={CONTACTS['711']}
-        pattern={'###'}
-        ariaLabel={'7 1 1.'}
-      />
-      .
+      <Telephone contact={CONTACTS['711']} pattern="###" ariaLabel="7 1 1." />.
     </p>
   </>
 );
