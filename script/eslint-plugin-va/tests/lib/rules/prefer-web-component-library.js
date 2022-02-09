@@ -93,6 +93,26 @@ ruleTester.run('prefer-web-component-library', rule, {
     {
       code: mockFile(
         'Telephone',
+        'const phone = () => (<Telephone pattern="###" contact={phoneContact} />)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'Telephone',
+                'const phone = () => (<va-telephone  contact={phoneContact} />)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+
+    {
+      code: mockFile(
+        'Telephone',
         'const phone = () => (<Telephone contact={"800-456-5432"} />)',
       ),
       errors: [

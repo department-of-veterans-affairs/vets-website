@@ -100,7 +100,7 @@ module.exports = {
       },
     ],
     'va/correct-apostrophe': 1,
-    'va/prefer-web-component-library': 0,
+    'va/prefer-web-component-library': 1,
 
     /* || fp plugin || */
     'fp/no-proxy': 2, // IE 11 has no polyfill for Proxy

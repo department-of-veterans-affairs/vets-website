@@ -13,7 +13,7 @@ const telephoneTransformer = (context, node) => {
 
   const stripHyphens = contactValue?.type === 'Literal';
   const international =
-    patternNode?.value.expression.property.name === 'OUTSIDE_US';
+    patternNode?.value.expression?.property?.name === 'OUTSIDE_US';
 
   context.report({
     node,
