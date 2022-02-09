@@ -81,7 +81,7 @@ const ContestableIssuesWidget = props => {
   }
 
   const handlers = {
-    closeModal: () => setShowErrorModal(false),
+    onCloseModal: () => setShowErrorModal(false),
 
     onChange: (index, event) => {
       let { checked } = event.target;
@@ -146,7 +146,7 @@ const ContestableIssuesWidget = props => {
         showCheckbox={showCheckbox}
         onRemove={
           // Don't allow editing or removing API-loaded issues
-          item.ratingIssueSubjectText ? null : handlers.removeIssue(index)
+          item.ratingIssueSubjectText ? null : handlers.onRemoveIssue(index)
         }
       />
     );
@@ -170,7 +170,7 @@ const ContestableIssuesWidget = props => {
         </>
       )}
       {showErrorModal && (
-        <MaxSelectionsAlert showModal closeModal={handlers.closeModal} />
+        <MaxSelectionsAlert showModal closeModal={handlers.onCloseModal} />
       )}
     </>
   );

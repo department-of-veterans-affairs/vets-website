@@ -25,7 +25,7 @@ const ShowIssuesList = ({ issues }) => (
 );
 
 ShowIssuesList.propTypes = {
-  issues: PropTypes.ArrayOf({
+  issues: PropTypes.arrayOf({
     // additional issue
     issue: PropTypes.string,
     decisionDate: PropTypes.string,
