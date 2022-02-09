@@ -25,7 +25,7 @@ import { createDependentSchema } from '../definitions/dependent';
 // chapter 1 Veteran Information
 import PersonalAuthenticatedInformation from '../components/PersonalAuthenticatedInformation';
 import personalInformationSsn from './chapters/veteranInformation/personalInformationSsn';
-import dobInformation from './chapters/veteranInformation/dobInformation';
+import personalInformationDOB from './chapters/veteranInformation/personalInformationDob';
 import birthInformation from './chapters/veteranInformation/birthInformation';
 import maidenNameInformation from './chapters/veteranInformation/maidenNameInformation';
 import americanIndian from './chapters/veteranInformation/americanIndian';
@@ -166,8 +166,8 @@ const formConfig = {
           title: 'Veteran information',
           initialData: {},
           depends: () => !hasSession(),
-          uiSchema: dobInformation.uiSchema,
-          schema: dobInformation.schema,
+          uiSchema: personalInformationDOB.uiSchema,
+          schema: personalInformationDOB.schema,
         },
         birthInformation: {
           path: 'veteran-information/birth-information',

@@ -1,4 +1,4 @@
-import applicantDescription from 'platform/forms/components/ApplicantDescription';
+import React from 'react';
 import { hasSession } from 'platform/user/profile/utilities';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
@@ -17,7 +17,12 @@ export default {
       'ui:options': {
         hideIf: () => !hasSession(),
       },
-      'ui:description': applicantDescription,
+      'ui:description': (
+        <p>
+          You aren’t required to fill in all fields, but we can review your
+          application faster if you provide more information.
+        </p>
+      ),
     },
     'view:placeOfBirth': {
       'ui:title': 'Place of birth',
