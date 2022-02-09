@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
+import { useDispatch } from 'react-redux';
 import InfoAlert from '../../components/InfoAlert';
 import {
   APPOINTMENT_STATUS,
   CANCELLATION_REASONS,
   GA_PREFIX,
 } from '../../utils/constants';
-import { useDispatch } from 'react-redux';
 import { startNewAppointmentFlow } from '../redux/actions';
 
 export default function RequestedStatusAlert({ appointment, facility }) {
@@ -27,7 +28,13 @@ export default function RequestedStatusAlert({ appointment, facility }) {
   if (showConfirmMsg) {
     return (
       <InfoAlert backgroundOnly status={canceled ? 'error' : 'success'}>
-        {canceled && `${who || 'Facility'} canceled this appointment.`}
+        {canceled && (
+          <>
+            <strong>{who || 'Facility'} canceled this request. </strong>
+            If you still need an appointment, call us or request a new
+            appointment online.
+          </>
+        )}
         {!canceled && (
           <>
             <strong>Your appointment request has been submitted. </strong>
@@ -63,15 +70,27 @@ export default function RequestedStatusAlert({ appointment, facility }) {
         )}
       </InfoAlert>
     );
-  } else if (!showConfirmMsg) {
+  }
+  if (!showConfirmMsg) {
     return (
       <InfoAlert backgroundOnly status={canceled ? 'error' : 'info'}>
         {!canceled &&
           'The time and date of this appointment are still to be determined.'}
-        {canceled && `${who || 'Facility'} canceled this appointment.`}
+        {canceled && (
+          <>
+            <strong>{who || 'Facility'} canceled this request. </strong>
+            If you still need an appointment, call us or request a new
+            appointment online.
+          </>
+        )}
       </InfoAlert>
     );
   }
 
   return null;
 }
+
+RequestedStatusAlert.propTypes = {
+  appointment: PropTypes.object.isRequired,
+  facility: PropTypes.object.isRequired,
+};
