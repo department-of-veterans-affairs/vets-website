@@ -16,6 +16,8 @@ export default Object.freeze({
     'check_in_experience_pre_check_in_enabled',
   checkInExperienceUpdateInformationPageEnabled:
     'check_in_experience_update_information_page_enabled',
+  checkInExperienceEditingDayOfEnabled: 'check_in_experience_editing_day_of_enabled',
+  checkInExperienceEditingPreCheckInEnabled:'check_in_experience_editing_pre_check_in_enabled',
   coeAccess: 'coe_access',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
