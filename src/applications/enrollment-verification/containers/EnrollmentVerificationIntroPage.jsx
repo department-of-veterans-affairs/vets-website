@@ -73,7 +73,7 @@ export function EnrollmentVerificationIntroPage({
       {loggedIn && post911GiBillEligibility ? verifyEnrollmentsButton : <></>}
       {loggedIn && !post911GiBillEligibility ? noPost911GiBillAlert : <></>}
 
-      <h2>For Montgomery GI Bill and other education benefits</h2>
+      <h2>For Montgomery GI Bill benefits:</h2>
       <p>
         <strong>
           Follow these instructions if you are currently using the
@@ -85,11 +85,7 @@ export function EnrollmentVerificationIntroPage({
           Montgomery GI Bill - Active Duty (MGIB-AD, Chapter 30),{' '}
           <strong>or</strong>
         </li>
-        <li>
-          Montgomery GI Bill - Selected Reserve (MGIB-SR, Chapter 1606),{' '}
-          <strong>or</strong>
-        </li>
-        <li>Veterans Rapid Retraining Assistance Program (VRRAP)</li>
+        <li>Montgomery GI Bill - Selected Reserve (MGIB-SR, Chapter 1606)</li>
       </ul>
       <p>
         You will need to verify your enrollments each month using the Web
@@ -101,6 +97,68 @@ export function EnrollmentVerificationIntroPage({
       >
         Verify your enrollments using WAVE
       </a>
+
+      <h2>For other education benefits:</h2>
+
+      <p>
+        <strong>
+          Follow these instructions if you are currently using the:
+        </strong>
+      </p>
+      <ul>
+        <li>
+          Veteran Employment Through Technology Education Courses (VET TEC)
+          program
+        </li>
+      </ul>
+      <p>
+        You will need to verify your enrollments by{' '}
+        <a href="mailto:&#086;&#069;&#084;&#084;&#069;&#067;&#046;&#086;&#066;&#065;&#066;&#085;&#070;&#064;&#118;&#097;&#046;&#103;&#111;&#118;?subject=Verify your VET TEC enrollments">
+          emailing our VET TEC team.
+        </a>
+      </p>
+
+      <p>
+        <strong>
+          Follow these instructions if you are currently using the:
+        </strong>
+      </p>
+      <ul>
+        <li>
+          Edith Nourse Rogers Science Technology Engineering Math (STEM)
+          Scholarship
+        </li>
+      </ul>
+      <p>
+        You will need to verify your enrollments by text message or by{' '}
+        <a href="mailto:&#083;&#084;&#069;&#077;&#046;&#086;&#066;&#065;&#066;&#085;&#070;&#064;&#086;&#065;&#046;&#103;&#111;&#118;?subject=Verify your STEM enrollments">
+          emailing our STEM team
+        </a>
+        . Verifying by text instead of email can help you get your housing
+        payments faster.{' '}
+      </p>
+      <p>
+        If you receive the Rogers STEM Scholarship, we’ll send an opt-in text
+        message to your primary phone number. We’ll send you a text message each
+        month asking if you attended your STEM courses.{' '}
+        <a href="https://youtu.be/diBCc8lQcis">
+          Go to our STEMText video (YouTube)
+        </a>{' '}
+        to learn more.
+      </p>
+      <p>
+        <strong>Note</strong>: If you need to update your primary phone number,
+        call us at{' '}
+        <a href="tel:+1-888-442-4551" aria-label="8 8 8. 4 4 2. 4 5 5 1.">
+          888-442-4551
+        </a>
+        . We’re here Monday through Friday, 8:00 a.m. to 7:00 p.m. ET. If you
+        have hearing loss, call{' '}
+        <a href="tel:711" aria-label="TTY. 7 1 1.">
+          TTY: 711
+        </a>
+        .
+      </p>
     </EnrollmentVerificationPageWrapper>
   );
 }
