@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
@@ -57,7 +58,10 @@ export function EnrollmentVerificationIntroPage({
         continue getting paid.
       </p>
 
-      <h2>For Post-9/11 GI Bill&reg; benefits</h2>
+      <h2>
+        For Post-9/11 GI Bill
+        <sup>&reg;</sup> benefits
+      </h2>
       <p>
         If you get a monthly housing allowance (MHA) or kicker payments (or
         both) under the Post-9/11 GI Bill (Chapter 33), you’ll need to verify

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import {
@@ -53,17 +54,22 @@ export default function MonthReviewCard({
     reviewStatusText = cantVerifyText(informationIncorrectMonth);
   }
 
-  const editVerification = () => {
+  function editVerification() {
     dispatch({
       type: EDIT_MONTH_VERIFICATION,
       month,
     });
-  };
+  }
 
   const editVerificationLink = (
-    <a href="#" onClick={editVerification}>
+    <button
+      className="usa-button-secondary"
+      // eslint-disable-next-line react/jsx-no-bind
+      onClick={editVerification}
+      type="button"
+    >
       Edit verification for {month.month}
-    </a>
+    </button>
   );
 
   return (
