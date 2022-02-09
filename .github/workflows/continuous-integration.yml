@@ -122,9 +122,6 @@ jobs:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.app_folders }}
 
-      - name: Log test results
-        run: ls -a test-results
-
       - name: Archive unit test results
         if: ${{ always() }}
         uses: actions/upload-artifact@v2
