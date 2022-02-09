@@ -1,20 +1,33 @@
+import { mapValues } from 'lodash';
 import moment from 'moment';
 
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
-import RadioWidget from 'platform/forms-system/src/js/widgets/RadioWidget';
 import OtherTextField from '@@profile/components/personal-information/OtherTextField';
+import { NOT_SET_TEXT } from '../../constants';
 
-import { NOT_SET_TEXT } from '@@profile/constants';
+const createBooleanSchemaPropertiesFromOptions = obj =>
+  mapValues(obj, () => {
+    return { type: 'boolean' };
+  });
 
-const genderOptions = [
-  'woman',
-  'man',
-  'transgenderWoman',
-  'transgenderMan',
-  'nonBinary',
-  'preferNotToAnswer',
-  'genderNotListed',
-];
+const createUiTitlePropertiesFromOptions = obj => {
+  return Object.entries(obj).reduce((accumulator, [key, value]) => {
+    accumulator[key] = { 'ui:title': value };
+    return accumulator;
+  }, {});
+};
+
+const deselectOnPreferNotToAnswer = (formData, schema) => {
+  if (formData?.preferNotToAnswer === true) {
+    Object.keys(formData).forEach(key => {
+      // eslint-disable-next-line no-param-reassign
+      if (key !== 'preferNotToAnswer') formData[key] = undefined;
+    });
+  }
+
+  return schema;
+};
+
 const genderLabels = {
   woman: 'Woman',
   man: 'Man',
@@ -24,15 +37,7 @@ const genderLabels = {
   preferNotToAnswer: 'Prefer not to answer',
   genderNotListed: 'A gender not listed here',
 };
-const sexualOrientationOptions = [
-  'lesbianGayHomosexual',
-  'straightOrHeterosexual',
-  'bisexual',
-  'queer',
-  'dontKnow',
-  'preferNotToAnswer',
-  'sexualOrientationNotListed',
-];
+
 const sexualOrientationLabels = {
   lesbianGayHomosexual: 'Lesbian, gay, or homosexual',
   straightOrHeterosexual: 'Straight or heterosexual',
@@ -49,7 +54,6 @@ const pronounsLabels = {
   theyThemTheirs: 'They/them/theirs',
   zeZirZirs: 'Ze/zir/zirs',
   useMyPreferredName: 'Use my preferred name',
-  preferNotToAnswer: 'Prefer not to answer',
   pronounsNotListed: 'Pronouns not listed here',
 };
 
@@ -69,15 +73,11 @@ export const personalInformationFormSchemas = {
   pronouns: {
     type: 'object',
     properties: {
-      heHimHis: { type: 'boolean' },
-      sheHerHers: { type: 'boolean' },
-      theyThemTheirs: { type: 'boolean' },
-      zeZirZirs: { type: 'boolean' },
-      useMyPreferredName: { type: 'boolean' },
-      preferNotToAnswer: { type: 'boolean' },
-      pronounsNotListed: { type: 'boolean' },
-      pronounsNotListedText: {
-        type: 'string',
+      ...createBooleanSchemaPropertiesFromOptions(pronounsLabels),
+      ...{
+        pronounsNotListedText: {
+          type: 'string',
+        },
       },
     },
     required: [],
@@ -85,10 +85,7 @@ export const personalInformationFormSchemas = {
   genderIdentity: {
     type: 'object',
     properties: {
-      genderIdentity: {
-        type: 'string',
-        enum: genderOptions,
-      },
+      ...createBooleanSchemaPropertiesFromOptions(genderLabels),
     },
     required: [],
   },
@@ -96,12 +93,11 @@ export const personalInformationFormSchemas = {
   sexualOrientation: {
     type: 'object',
     properties: {
-      sexualOrientation: {
-        type: 'string',
-        enum: sexualOrientationOptions,
-      },
-      sexualOrientationNotListedText: {
-        type: 'string',
+      ...createBooleanSchemaPropertiesFromOptions(sexualOrientationLabels),
+      ...{
+        sexualOrientationNotListedText: {
+          type: 'string',
+        },
       },
     },
 
@@ -122,17 +118,9 @@ export const personalInformationUiSchemas = {
   pronouns: {
     'ui:description': 'Select all of your pronouns',
     'ui:widget': 'checkbox',
-    heHimHis: { 'ui:title': 'He/him/his' },
-    sheHerHers: { 'ui:title': 'She/her/hers' },
-    theyThemTheirs: { 'ui:title': 'They/them/theirs' },
-    zeZirZirs: { 'ui:title': 'Ze/zir/zirs' },
-    useMyPreferredName: { 'ui:title': 'Use my preferred name' },
-    pronounsNotListed: {
-      'ui:title': 'Pronouns not listed here',
-    },
+    ...createUiTitlePropertiesFromOptions(pronounsLabels),
     pronounsNotListedText: {
       'ui:options': {
-        widgetClassNames: 'my-class-here',
         hideLabelText: true,
         widget: OtherTextField,
         title:
@@ -141,22 +129,17 @@ export const personalInformationUiSchemas = {
     },
   },
   genderIdentity: {
-    genderIdentity: {
-      'ui:widget': RadioWidget,
-      'ui:title': `Select your gender identity`,
-      'ui:options': {
-        labels: genderLabels,
-      },
+    'ui:widget': 'checkbox',
+    'ui:description': `Select your gender identity`,
+    ...createUiTitlePropertiesFromOptions(genderLabels),
+    'ui:options': {
+      updateSchema: deselectOnPreferNotToAnswer,
     },
   },
   sexualOrientation: {
-    sexualOrientation: {
-      'ui:widget': RadioWidget,
-      'ui:title': `Select your sexual orientation`,
-      'ui:options': {
-        labels: sexualOrientationLabels,
-      },
-    },
+    'ui:widget': 'checkbox',
+    'ui:description': `Select your sexual orientation`,
+    ...createUiTitlePropertiesFromOptions(sexualOrientationLabels),
     sexualOrientationNotListedText: {
       'ui:title':
         'If not listed, please provide your sexual orientation (255 characters maximum)',

@@ -5,6 +5,7 @@
       "enrollment-verification",
       "login-page",
       "medical-copays",
+      "terms-and-conditions",
       "vaos"
     ],
     "rootAppFolders": ["check-in"]
