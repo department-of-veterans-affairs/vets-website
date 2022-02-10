@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import AlertBox, {
@@ -163,9 +163,7 @@ export class ConnectedApps extends Component {
 
         {!isEmpty(activeApps) && (
           <div className="vads-u-margin-y--3 available-connected-apps">
-            <AdditionalInfo
-              triggerText={`What other third-party apps can I connect to my profile?`}
-            >
+            <AdditionalInfo triggerText="What other third-party apps can I connect to my profile?">
               To find out what other third-party apps are available to connect
               to your profile,{' '}
               <a
