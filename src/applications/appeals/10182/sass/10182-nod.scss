@@ -179,16 +179,40 @@ article[data-location="opt-in"] {
   margin: 2rem 0;
 }
 
-article[data-location^="area-of-disagreement"] {
+article[data-location^="area-of-disagreement"],
+article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0ScrollElement"] + form {
   .schemaform-block-header,
   .schemaform-block-header + .usa-input-error {
     margin-top: 0;
     margin-bottom: 0;
   }
+  .area-of-disagreement-label.usa-input-error ~ div {
+    /* add left red border to 2 associated divs */
+    border-left: 4px solid var(--color-secondary-dark);
+    position: relative;
+    right: 1.9rem;
+    padding-left: 1.9rem;
+
+    .vads-u-margin-y--2 {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+    #root_otherEntry-label {
+      margin-top: 0 !important;
+      padding-top: 2rem;
+    }
+    label[for="root_disagreementOptions_evaluation"] {
+      margin-bottom: 0;
+    }
+  }
 }
+
 /* override formation to maintain margin between checkboxes */
 .usa-input-error label {
   margin-top: 3rem;
+}
+#root_otherEntry-label {
+  margin-top: 2rem;
 }
 .usa-input-error > label {
   margin-top: 0;
@@ -227,5 +251,8 @@ article[data-location="review-and-submit"] {
   }
   dt strong.opt-in-title {
     font-weight: normal;
+  }
+  dd {
+    word-break: break-all;
   }
 }

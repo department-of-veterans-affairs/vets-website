@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
@@ -132,6 +133,7 @@ export const IntroductionPage = ({ user, route }) => {
       {SaveInProgressComponent}
 
       {!user?.login?.currentlyLoggedIn && (
+        // eslint-disable-next-line jsx-a11y/anchor-is-valid
         <a href="#">Start your application without signing in</a>
       )}
 

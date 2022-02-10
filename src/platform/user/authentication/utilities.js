@@ -2,10 +2,8 @@ import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
 import 'url-search-params-polyfill';
 
-import recordEvent from '../../monitoring/record-event';
-import environment from '../../utilities/environment';
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
-import { MHV_SKIP_DUPE } from 'platform/utilities/sso/constants';
+import { SKIP_DUPE_QUERY } from 'platform/utilities/sso/constants';
 import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
@@ -17,6 +15,8 @@ import {
   POLICY_TYPES,
   SIGNUP_TYPES,
 } from './constants';
+import environment from '../../utilities/environment';
+import recordEvent from '../../monitoring/record-event';
 
 // NOTE: the login app typically has URLs that being with 'sign-in',
 // however there is at least one CMS page, 'sign-in-faq', that we don't
@@ -102,7 +102,9 @@ const generatePath = (app, to) => {
 
 export function createExternalRedirectUrl({ base, returnUrl, application }) {
   return {
-    [EXTERNAL_APPS.MHV]: `${base}${MHV_SKIP_DUPE}&redirect=${returnUrl}&postLogin=true`,
+    [EXTERNAL_APPS.MHV]: `${base}${
+      SKIP_DUPE_QUERY.SINGLE_QUERY
+    }&redirect=${returnUrl}&postLogin=true`,
     [EXTERNAL_APPS.MY_VA_HEALTH]: `${base}`,
   }[application];
 }

@@ -1,22 +1,17 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { focusElement } from 'platform/utilities/ui';
 
-import {
-  ALLOWED_FILE_TYPES,
-  MAX_FILE_SIZE_MB,
-} from 'applications/caregivers/definitions/constants';
 import { links } from 'applications/caregivers/definitions/content';
-import { arrayToSentenceString } from '../../helpers';
 
 export const VeteranSSNInfo = () => (
   <div className="vads-u-margin-y--1p5">
-    <AdditionalInfo triggerText="Why is this required?">
+    <va-additional-info trigger="Why is this required?">
       We need the Veteran’s Social Security number or tax identification number
       to process the application when it’s submitted online, but it’s not a
       requirement to apply for the program.
-    </AdditionalInfo>
+    </va-additional-info>
   </div>
 );
 
@@ -52,7 +47,7 @@ export const PrimaryCaregiverInfo = ({
 
     {additionalInfo && (
       <section className="vads-u-margin-y--2p5">
-        <AdditionalInfo triggerText="Learn more about who qualifies as a Primary Family Caregiver">
+        <va-additional-info trigger="Learn more about who qualifies as a Primary Family Caregiver">
           <p>
             Family caregivers are approved and designated by VA as Primary
             Family Caregivers and Secondary Family Caregivers to provide
@@ -74,7 +69,7 @@ export const PrimaryCaregiverInfo = ({
               <li>Other relative</li>
             </ul>
           </>
-        </AdditionalInfo>
+        </va-additional-info>
       </section>
     )}
   </>
@@ -93,7 +88,7 @@ PrimaryCaregiverInfo.defaultProps = {
 
 export const SecondaryCaregiverLegal = () => (
   <div className="vads-u-margin-y--1p5">
-    <AdditionalInfo triggerText="Learn more about who qualifies as a Secondary Family Caregiver">
+    <va-additional-info trigger="Learn more about who qualifies as a Secondary Family Caregiver">
       <p>
         Family caregivers are approved and designated by VA as Primary Family
         Caregivers and Secondary Family Caregivers to provide personal care
@@ -115,7 +110,7 @@ export const SecondaryCaregiverLegal = () => (
           <li>Other relative</li>
         </ul>
       </>
-    </AdditionalInfo>
+    </va-additional-info>
   </div>
 );
 
@@ -157,12 +152,12 @@ export const FacilityInfo = () => (
 
 export const CaregiverSupportInfo = () => (
   <div className="vads-u-margin-y--1p5">
-    <AdditionalInfo triggerText="What&apos;s a Caregiver Support Coordinator ?">
+    <va-additional-info trigger="What&apos;s a Caregiver Support Coordinator ?">
       A Caregiver Support Coordinator is a clinical professional who connects
       Veteran caregivers with VA and community resources that offer supportive
       programs and services. Caregiver Support Coordinators are located at every
       VA medical center and specialize in caregiving issues.
-    </AdditionalInfo>
+    </va-additional-info>
   </div>
 );
 
@@ -214,26 +209,38 @@ export const SecondaryRequiredAlert = () => {
 export const RepresentativeIntroContent = () => {
   return (
     <section>
+      <h3 className="vads-u-font-size--h4">
+        We’ll now guide you through the steps to review and sign your
+        application
+      </h3>
       <p>
-        Some family caregivers are also the Veteran’s legal representative.
-        These representatives have the legal authority to make certain decisions
-        for the Veteran.
+        First, we need to know if the Veteran will sign the application or if a
+        representative will sign for them.
       </p>
-
-      <p>Here’s what you should know:</p>
-
-      <ul>
-        <li>
-          You can still continue with this application to apply for the program
-          even if you’re not the Veteran’s legal representative.
-        </li>
-
-        <li>
-          If you are the Veteran’s legal representative, you can upload a
-          document to show your legal status now. If you don’t upload your
-          document now, we’ll ask you to provide it later.
-        </li>
-      </ul>
+      <p>
+        A representative must have legal authority to make medical decisions for
+        the Veteran. If you choose this option, we’ll ask you to upload a
+        document that proves you have this authority.
+      </p>
+      <va-additional-info trigger="Learn more about the types of documents we can and can’t accept">
+        <p>
+          We can only accept a document that proves you have legal authority to
+          make medical decisions for the Veteran. This type of document is
+          sometimes called a medical proxy or medical power of attorney.
+        </p>
+        <p>
+          We can’t accept a marriage certificate, driver’s license, or release
+          of information form. We also can’t accept a general or financial power
+          of attorney without a medical stipulation. Uploading a document that
+          we can’t accept may delay the application process.
+        </p>
+      </va-additional-info>
+      <p>
+        <strong>Note:</strong> We use this signature only to process your
+        application. Signing for the Veteran today doesn’t take away their right
+        to make decisions for their care.
+      </p>
+      <br />
     </section>
   );
 };
@@ -241,7 +248,7 @@ export const RepresentativeIntroContent = () => {
 export const RepresentativeAdditionalInfo = () => {
   return (
     <div className="vads-u-margin-top--1">
-      <AdditionalInfo triggerText="What types of documents does VA accept to show legal representation?">
+      <va-additional-info trigger="What types of documents does VA accept to show legal representation?">
         <p>
           First, please know that we only accept <strong>full documents</strong>
           . We can’t accept only a cover or signature page. Our staff will
@@ -280,46 +287,74 @@ export const RepresentativeAdditionalInfo = () => {
           <li>Medical or VA benefit records</li>
           <li>Health insurance information</li>
         </ul>
-      </AdditionalInfo>
+      </va-additional-info>
+    </div>
+  );
+};
+
+export const UploadSuccessAlertDescription = () => {
+  const divElement = useRef();
+  useEffect(() => {
+    focusElement(divElement.current);
+  }, []);
+  return (
+    <div
+      id="upload-success-alert"
+      ref={divElement}
+      className="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--gibill-accent vads-u-margin-y--2 vads-u-margin-right--neg9 vads-u-padding-y--0p25 vads-u-padding-x--2p5"
+      style={{ outline: 'none' }}
+    >
+      <p className="vads-u-font-family--serif vads-u-font-size--md vads-u-margin-bottom--1px">
+        <strong>Check your upload before you continue</strong>
+      </p>
+      <p className="vads-u-margin-top--1px">
+        It’s easy to upload the wrong file by mistake. We want to make sure that
+        we review the right document (like a medical proxy or medical power of
+        attorney). This will help speed up your application process.
+      </p>
+      <p>
+        Check the file name. If it’s not the right file, you can delete it and
+        upload another one before you continue.
+      </p>
     </div>
   );
 };
 
 export const RepresentativeDocumentUploadDescription = () => {
-  const prependDot = string => `.${string}`;
-  const allowedFileTypes = arrayToSentenceString(
-    ALLOWED_FILE_TYPES,
-    'or',
-    prependDot,
-  );
-
   return (
-    <section>
+    <section className="vads-u-margin-bottom--3">
+      <h3 className="vads-u-font-size--h3">Upload your supporting document</h3>
       <p>
-        You can upload a scanned copy or photo of your document from the device
-        you’re using to apply online.
+        We can only accept a document that proves you have legal authority to
+        make medical decisions for the Veteran. This type of document is
+        sometimes called a medical proxy or medical power of attorney.
       </p>
-
-      <p>Follow these guidelines when you upload your document:</p>
-      <ul>
+      <p>
+        <strong>Don’t have the right type of document?</strong> Go back to the
+        last screen. The Veteran will need to sign the application for
+        themselves.
+      </p>
+      <p className="vads-u-font-family--serif vads-u-font-size--md vads-u-margin-bottom--1px">
+        <strong>How to upload your document</strong>
+      </p>
+      <ul className="vads-u-margin-top--1px">
         <li>
-          Upload the full document. We can’t accept only a cover or signature
-          page.
+          Choose a document that we can accept (like a medical proxy or medical
+          power of attorney). Don’t upload a marriage certificate, driver’s
+          license, or release of information form. And don’t upload a general or
+          financial power of attorney without a medical stipulation. Uploading a
+          document that we can’t accept may delay the application process.
         </li>
-        <li>Format the file as a {allowedFileTypes}.</li>
         <li>
-          Be sure the file is {MAX_FILE_SIZE_MB}
-          MB or less in size.
+          Save a scanned copy or photo of the entire document on your device. We
+          can’t accept a cover or signature page without the rest of the
+          document.
+        </li>
+        <li>
+          Format the file as a .pdf, .jpg, .jpeg, or .png. Be sure the file is
+          10MB or less in size.
         </li>
       </ul>
-
-      <p>
-        <strong>Note: </strong>A 1MB scanned file equals about 500 pages of
-        text. A photo is usually about 6MB. If you have a slow Internet
-        connection, large files may take longer to upload.
-      </p>
-
-      <RepresentativeAdditionalInfo />
     </section>
   );
 };

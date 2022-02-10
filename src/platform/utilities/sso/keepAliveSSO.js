@@ -4,7 +4,7 @@ import {
   CSP_AUTHN,
   AUTHN_HEADERS,
   CAUGHT_EXCEPTIONS,
-  MHV_SKIP_DUPE,
+  SKIP_DUPE_QUERY,
 } from './constants';
 
 const SENTRY_LOG_THRESHOLD = [Sentry.Severity.Info];
@@ -34,13 +34,25 @@ const logToSentry = data => {
   return isCaptured;
 };
 
-const sanitizeAuthn = authnCtx => authnCtx.replace(MHV_SKIP_DUPE, '');
+export const sanitizeAuthn = (authnCtx = 'NOT_FOUND') => {
+  const emptyString = '';
+  return authnCtx === null || !authnCtx.length
+    ? 'NOT_FOUND'
+    : authnCtx
+        .replace(SKIP_DUPE_QUERY.SINGLE_QUERY, emptyString)
+        .replace(SKIP_DUPE_QUERY.MULTIPLE_QUERIES, emptyString);
+};
+
+export const defaultKeepAliveResponse = {
+  ttl: 0,
+  transactionid: null,
+  authn: undefined,
+};
 
 export default async function keepAlive() {
   /* Return a TTL and authn values from the IAM keepalive endpoint that
   * 1) indicates how long the user's current SSOe session will be alive for,
   * 2) and the AuthN context the user used when authenticating.
-
   * Any positive TTL value means the user currently has a session, a TTL of 0
   * means they don't have an active session, and a TTL of undefined means there
   * was a problem calling the endpoint and we can't determine if they have a
@@ -54,11 +66,17 @@ export default async function keepAlive() {
     });
 
     await resp.text();
+
     const alive = resp.headers.get(AUTHN_HEADERS.ALIVE);
 
+    // If no CSP or session-alive headers, return early
+    if (resp.headers.get(AUTHN_HEADERS.CSP) === null || alive !== 'true') {
+      return defaultKeepAliveResponse;
+    }
+
     /**
-     * Use mapped authncontext for DS Logon and MHV
-     * Use `authncontextclassref` lookup for ID.me and Login.gov
+     * Uses mapped authncontext for DS Logon and MHV
+     * Uses `authncontextclassref` lookup for ID.me and Login.gov
      */
     const authn = {
       DSLogon: CSP_AUTHN.DS_LOGON,
