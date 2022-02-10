@@ -7985,8 +7985,9 @@ eslint-plugin-unicorn@^35.0.0:
     safe-regex "^2.1.1"
     semver "^7.3.5"
 
-"eslint-plugin-va@file:./script/eslint-plugin-va":
-  version "1.0.5"
+"eslint-plugin-va@link:./script/eslint-plugin-va":
+  version "0.0.0"
+  uid ""
 
 eslint-scope@5.1.1, eslint-scope@^5.1.1:
   version "5.1.1"

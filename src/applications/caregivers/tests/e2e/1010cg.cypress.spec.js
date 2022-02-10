@@ -69,7 +69,7 @@ const testSecondaryTwo = createTestConfig(
       'secondaryOneOnly',
       'oneSecondaryCaregivers',
       'twoSecondaryCaregivers',
-      'signAsRepresentativeNoRep',
+      // 'signAsRepresentativeNoRep',
       'signAsRepresentativeNo',
       'signAsRepresentativeYes',
     ],
