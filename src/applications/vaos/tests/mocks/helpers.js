@@ -7,13 +7,13 @@ import {
   setFetchJSONResponse,
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
+import sinon from 'sinon';
 import {
   getVAAppointmentMock,
   getExpressCareRequestCriteriaMock,
   getRequestEligibilityCriteriaMock,
   getDirectBookingEligibilityCriteriaMock,
-} from '../mocks/v0';
-import sinon from 'sinon';
+} from './v0';
 import { createMockFacilityByVersion } from './data';
 import { mockFacilitiesFetchByVersion } from './fetch';
 
@@ -303,7 +303,8 @@ export function mockRequestCancelFetch(appointment) {
         ...appointment,
         attributes: {
           ...appointment.attributes,
-          status: 'Cancelled',
+          cancellable: false,
+          status: 'cancelled',
           appointmentRequestDetailCode: [{ detailCode: { code: 'DETCODE8' } }],
         },
       },

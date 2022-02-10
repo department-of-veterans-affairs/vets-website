@@ -153,6 +153,7 @@ export function transformVAOSAppointment(appt) {
     resourceType: 'Appointment',
     id: appt.id,
     status: appt.status,
+    cancellable: appt.cancellable,
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     start: !isRequest ? start.format() : null,
     // This contains the vista status for v0 appointments, but

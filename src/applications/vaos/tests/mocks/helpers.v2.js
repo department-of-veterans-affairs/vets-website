@@ -134,6 +134,7 @@ export function mockAppointmentCancelFetch({ appointment, error = false }) {
         ...appointment,
         attributes: {
           ...appointment.attributes,
+          cancellable: false,
           status: 'cancelled',
           cancelationReason: { coding: [{ code: 'pat' }] },
         },

@@ -67,6 +67,7 @@ describe('VAOS Appointment service', () => {
             path: ['location', 'clinicName'],
             value: 'Friendly clinic name',
           }, // The v2 endpoint doesn't send us the vista status
+          { op: 'remove', path: ['cancellable'] },
           { op: 'replace', path: ['description'], value: 'FUTURE' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
@@ -122,6 +123,7 @@ describe('VAOS Appointment service', () => {
             path: ['description'],
             value: 'CANCELLED BY PATIENT',
           },
+          { op: 'remove', path: ['cancellable'] },
           { op: 'remove', path: ['practitioners'] },
           { op: 'replace', path: ['cancelationReason'], value: 'pat' },
           { op: 'remove', path: ['vaos', 'facilityData'] },
@@ -172,6 +174,7 @@ describe('VAOS Appointment service', () => {
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
+          { op: 'remove', path: ['cancellable'] },
           { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
@@ -222,6 +225,7 @@ describe('VAOS Appointment service', () => {
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
+          { op: 'remove', path: ['cancellable'] },
           { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
@@ -273,6 +277,7 @@ describe('VAOS Appointment service', () => {
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
+          { op: 'remove', path: ['cancellable'] },
           { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
@@ -332,6 +337,7 @@ describe('VAOS Appointment service', () => {
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
+          { op: 'remove', path: ['cancellable'] },
           { op: 'replace', path: ['description'], value: 'FUTURE' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
@@ -404,6 +410,7 @@ describe('VAOS Appointment service', () => {
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
+          { op: 'remove', path: ['cancellable'] },
           { op: 'replace', path: ['description'], value: 'FUTURE' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
@@ -457,6 +464,7 @@ describe('VAOS Appointment service', () => {
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
+          { op: 'remove', path: ['cancellable'] },
           { op: 'replace', path: ['description'], value: 'FUTURE' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
@@ -510,6 +518,7 @@ describe('VAOS Appointment service', () => {
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
+          { op: 'remove', path: ['cancellable'] },
           { op: 'replace', path: ['description'], value: 'FUTURE' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
@@ -562,6 +571,7 @@ describe('VAOS Appointment service', () => {
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
+          { op: 'remove', path: ['cancellable'] },
           { op: 'replace', path: ['description'], value: 'FUTURE' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
@@ -614,6 +624,7 @@ describe('VAOS Appointment service', () => {
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
+          { op: 'remove', path: ['cancellable'] },
           { op: 'replace', path: ['description'], value: 'FUTURE' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
@@ -691,6 +702,7 @@ describe('VAOS Appointment service', () => {
             path: ['practitioners'],
           },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'remove', path: ['cancellable'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );

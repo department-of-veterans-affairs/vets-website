@@ -53,8 +53,7 @@ export default function RequestedAppointmentDetailsPage() {
     shallowEqual,
   );
 
-  const isCanceledStatus = appointment.status === APPOINTMENT_STATUS.cancelled;
-
+  let cancelledByPatient = false;
   useEffect(() => {
     dispatch(fetchRequestDetails(id));
   }, []);
@@ -62,13 +61,23 @@ export default function RequestedAppointmentDetailsPage() {
   useEffect(
     () => {
       if (appointment) {
-        const isCC = appointment.vaos.isCommunityCare;
+        const {
+          vaos: { isCommunityCare },
+        } = appointment;
+
+        // only valid for appointment requests, not already booked
+        cancelledByPatient =
+          appointment.status === APPOINTMENT_STATUS.cancelled ||
+          (appointment.status === APPOINTMENT_STATUS.proposed &&
+            isCommunityCare &&
+            !appointment.cancellable) ||
+          false;
         const typeOfCareText = lowerCase(
           appointment?.type?.coding?.[0]?.display,
         );
 
-        const title = `${isCanceledStatus ? 'Canceled' : 'Pending'} ${
-          isCC ? 'Community care' : 'VA'
+        const title = `${cancelledByPatient ? 'Canceled' : 'Pending'} ${
+          isCommunityCare ? 'Community care' : 'VA'
         } ${typeOfCareText} appointment`;
 
         document.title = title;
@@ -124,7 +133,6 @@ export default function RequestedAppointmentDetailsPage() {
     );
   }
 
-  const canceled = !appointment.cancellable;
   const isCC = appointment.vaos.isCommunityCare;
   const typeOfVisit = appointment.requestVisitType;
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
@@ -145,7 +153,8 @@ export default function RequestedAppointmentDetailsPage() {
       </Breadcrumbs>
 
       <h1>
-        {isCanceledStatus ? 'Canceled' : 'Pending'} {typeOfCareText} appointment
+        {cancelledByPatient ? 'Canceled' : 'Pending'} {typeOfCareText}{' '}
+        appointment
       </h1>
       <RequestedStatusAlert appointment={appointment} facility={facility} />
       {!isCCRequest && (
@@ -226,7 +235,7 @@ export default function RequestedAppointmentDetailsPage() {
         />
       </div>
       <div className="vaos-u-word-break--break-word">
-        {!canceled && (
+        {appointment.cancellable && (
           <>
             <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--3">
               <i
