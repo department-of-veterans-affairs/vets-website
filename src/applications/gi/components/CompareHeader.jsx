@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 import Checkbox from './Checkbox';
 import SchoolClassification from './SchoolClassification';
 import CompareScroller from './CompareScroller';
@@ -65,9 +66,13 @@ export default function({
         <div className="non-scroll-label">
           <div className="test-header compare-header vads-u-padding-right--1">
             <h1 className="compare-page-description-label">
-              Institution comparison:
+              {environment.isProduction()
+                ? 'Compare institutions'
+                : 'Institution comparison:'}
             </h1>
-            View school information side by side to compare schools
+            {environment.isProduction()
+              ? 'Compare schools, employers and VET TEC providers side-by-side'
+              : 'View school information side by side to compare schools'}
           </div>
           <div className="compare-action">
             <Checkbox
