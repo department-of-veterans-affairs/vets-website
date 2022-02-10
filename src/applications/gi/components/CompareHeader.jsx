@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import appendQuery from 'append-query';
 import classNames from 'classnames';
-import Checkbox from './Checkbox';
-import SchoolClassification from './SchoolClassification';
 import { Link } from 'react-router-dom';
-import CompareScroller from './CompareScroller';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
+import Checkbox from './Checkbox';
+import SchoolClassification from './SchoolClassification';
+import CompareScroller from './CompareScroller';
 
 export default function({
   currentScroll,
@@ -29,7 +29,7 @@ export default function({
       <div key={i} className="small-screen:vads-l-col--3 institution-card">
         <div className="compare-header empty-header" />
         <div className="compare-action">
-          <Link to={'/search'}>Return to search to add</Link>
+          <Link to="/search">Return to search to add</Link>
         </div>
       </div>,
     );
@@ -65,16 +65,20 @@ export default function({
         <div className="non-scroll-label">
           <div className="test-header compare-header vads-u-padding-right--1">
             <h1 className="compare-page-description-label">
-              Compare institutions
+              Institution comparison:
             </h1>
-            Compare schools, employers and VET TEC providers side-by-side
+            View school information side by side to compare schools
           </div>
           <div className="compare-action">
             <Checkbox
               checked={showDifferences}
               label={
                 <span>
-                  <i className={`fas fa-asterisk`} /> Highlight differences
+                  <i
+                    className="fas fa-asterisk"
+                    aria-label="An * indicates the information is different between your selected institutions."
+                  />{' '}
+                  Highlight differences
                 </span>
               }
               name="highlight-differences"
