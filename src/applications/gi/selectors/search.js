@@ -23,7 +23,7 @@ export const updateUrlParams = (
     searchQuery.name !== '' &&
     searchQuery.name !== null &&
     searchQuery.name !== undefined &&
-    (environment.isProduction() || queryParams.search === 'name')
+    queryParams.search === 'name'
   ) {
     queryParams.name = searchQuery.name;
   }
@@ -32,7 +32,7 @@ export const updateUrlParams = (
     searchQuery.location !== '' &&
     searchQuery.location !== null &&
     searchQuery.location !== undefined &&
-    (environment.isProduction() || queryParams.search === 'location')
+    queryParams.search === 'location'
   ) {
     queryParams.location = searchQuery.location;
   }

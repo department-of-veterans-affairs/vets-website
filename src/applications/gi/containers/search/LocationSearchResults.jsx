@@ -6,6 +6,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import environment from 'platform/utilities/environment';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
 import ResultCard from './ResultCard';
@@ -21,6 +22,7 @@ import {
 } from '../../actions';
 import { getFiltersChanged } from '../../selectors/filters';
 import MobileFilterControls from '../../components/MobileFilterControls';
+import { EnvironmentPlugin } from 'webpack';
 
 const MILE_METER_CONVERSION_RATE = 1609.34;
 const LIST_TAB = 'List';
@@ -40,7 +42,6 @@ function LocationSearchResults({
   const { count, results } = search.location;
   const { location, streetAddress } = search.query;
   const map = useRef(null);
-  // const mapContainer = useRef(null);
   const [markers, setMarkers] = useState([]);
   const [mapState, setMapState] = useState({ changed: false, distance: null });
   const [usedFilters, setUsedFilters] = useState(filtersChanged);
@@ -50,6 +51,8 @@ function LocationSearchResults({
   const [activeMarker, setActiveMarker] = useState(null);
   const [myLocation, setMyLocation] = useState(null);
   const usingUserLocation = () => {
+    if (environment.isProduction()) return true;
+
     const currentPositions = document.getElementsByClassName(
       'current-position',
     );
