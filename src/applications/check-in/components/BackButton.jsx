@@ -5,14 +5,17 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { createAnalyticsSlug } from '../utils/analytics';
 import { useFormRouting } from '../hooks/useFormRouting';
+import { URLS } from '../utils/navigation';
 
 const BackButton = props => {
   const { action, router } = props;
-  const { getCurrentPageFromRouter, pages } = useFormRouting(router);
+  const {
+    getCurrentPageFromRouter,
+    getPreviousPageFromRouter,
+  } = useFormRouting(router);
 
   const currentPage = getCurrentPageFromRouter();
-  const positionInForm = pages.indexOf(currentPage);
-  const previousPage = pages[positionInForm - 1];
+  const previousPage = getPreviousPageFromRouter();
 
   const handleClick = useCallback(
     e => {
@@ -26,7 +29,7 @@ const BackButton = props => {
     [currentPage, action],
   );
 
-  if (previousPage === 'loading-appointments') {
+  if (previousPage && previousPage === URLS.LOADING) {
     return '';
   }
   return (
