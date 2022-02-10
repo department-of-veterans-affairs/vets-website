@@ -120,9 +120,10 @@ export function transformVAOSAppointment(appt) {
 
   let requestFields = {};
   if (isRequest) {
+    const created = moment.parseZone(appt.created).format('YYYY-MM-DD');
     requestFields = {
       requestedPeriod: appt.requestedPeriods,
-      created: null,
+      created,
       reason: PURPOSE_TEXT.find(
         purpose => purpose.serviceName === appt.reasonCode?.coding?.[0].code,
       )?.short,
