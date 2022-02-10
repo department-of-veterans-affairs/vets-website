@@ -117,15 +117,11 @@ jobs:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Run unit tests
-        run: yarn test:unit --coverage "src/applications/facility-locator/tests/**/*.unit.spec.js?(x)"
-        # run: yarn test:unit --coverage ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"}
+        run: yarn test:unit --coverage --reporter mochawesome "src/applications/facility-locator/tests/**/*.unit.spec.js?(x)"
+        # run: yarn test:unit --coverage --reporter mochawesome ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"}
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.app_folders }}
-
-      - name: Log test results
-        if: ${{ always() }}
-        run: ls -a test-results
 
       - name: Archive unit test results
         if: ${{ always() }}
