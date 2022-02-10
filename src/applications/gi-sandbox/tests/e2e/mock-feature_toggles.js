@@ -27,14 +27,6 @@ export const mockTogglesResponse = {
         value: true,
       },
       {
-        name: 'cernerAllowPartialFacilities',
-        value: true,
-      },
-      {
-        name: 'cerner_allow_partial_facilities',
-        value: true,
-      },
-      {
         name: 'cernerOverride463',
         value: false,
       },
