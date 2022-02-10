@@ -33,9 +33,7 @@ describe('fetch contestable issues action', () => {
     mockApiRequest(mockData, false);
     const dispatch = sinon.spy();
     return getContestableIssues()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        FETCH_CONTESTABLE_ISSUES_INIT,
-      );
+      expect(dispatch.firstCall.args[0].type).to.equal(1);
       expect(dispatch.secondCall.args[0].type).to.equal(
         FETCH_CONTESTABLE_ISSUES_FAILED,
       );
