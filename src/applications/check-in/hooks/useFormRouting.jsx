@@ -56,7 +56,7 @@ const useFormRouting = (router = {}) => {
       const positionInForm = pages.indexOf(currentPage);
       return pages[positionInForm - 1];
     },
-    [router, getCurrentPageFromRouter, pages],
+    [getCurrentPageFromRouter, pages],
   );
 
   const goToNextPage = useCallback(
