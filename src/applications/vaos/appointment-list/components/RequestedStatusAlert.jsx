@@ -11,6 +11,22 @@ import {
 } from '../../utils/constants';
 import { startNewAppointmentFlow } from '../redux/actions';
 
+function handleViewClick() {
+  return () => {
+    recordEvent({
+      event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
+    });
+  };
+}
+function handleNewApptClick(dispatch) {
+  return () => {
+    recordEvent({
+      event: `${GA_PREFIX}-schedule-another-appointment-button-clicked`,
+    });
+    dispatch(startNewAppointmentFlow());
+  };
+}
+
 export default function RequestedStatusAlert({ appointment, facility }) {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
@@ -42,26 +58,14 @@ export default function RequestedStatusAlert({ appointment, facility }) {
             available appointment.
             <br />
             <div className=" vads-u-margin-top--1">
-              <Link
-                to="/"
-                onClick={() => {
-                  recordEvent({
-                    event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
-                  });
-                }}
-              >
+              <Link to="/" onClick={handleViewClick}>
                 View your appointments
               </Link>
             </div>
             <div className=" vads-u-margin-top--1">
               <Link
                 to="/new-appointment"
-                onClick={() => {
-                  recordEvent({
-                    event: `${GA_PREFIX}-schedule-another-appointment-button-clicked`,
-                  });
-                  dispatch(startNewAppointmentFlow());
-                }}
+                onClick={handleNewApptClick(dispatch)}
               >
                 New appointment
               </Link>
