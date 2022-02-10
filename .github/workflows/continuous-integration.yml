@@ -35,6 +35,7 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/workflows/install
+        timeout-minutes: 30
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
@@ -93,6 +94,7 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/workflows/install
+        timeout-minutes: 30
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
@@ -204,6 +206,7 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/workflows/install
+        timeout-minutes: 30
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
@@ -280,6 +283,7 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/workflows/install
+        timeout-minutes: 30
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
@@ -309,6 +313,7 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/workflows/install
+        timeout-minutes: 30
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
@@ -359,6 +364,7 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/workflows/install
+        timeout-minutes: 30
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
@@ -402,6 +408,7 @@ jobs:
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: self-hosted
+    timeout-minutes: 60
     needs: [build, cypress-tests-prep]
     if: |
       needs.build.result == 'success' &&
@@ -444,6 +451,7 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/workflows/install
+        timeout-minutes: 30
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
@@ -862,6 +870,7 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/workflows/install
+        timeout-minutes: 30
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
@@ -947,6 +956,7 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/workflows/install
+        timeout-minutes: 30
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
