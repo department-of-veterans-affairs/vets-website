@@ -28,7 +28,8 @@ const BenefitPaymentsAndDebt = ({
     .sort((a, b) => moment(b.payCheckDt) - moment(a.payCheckDt))[0];
 
   return (
-    payments && (
+    payments &&
+    !!payments.length && (
       <div
         className="health-care-wrapper vads-u-margin-y--6"
         data-testid="dashboard-section-payment-and-debts"

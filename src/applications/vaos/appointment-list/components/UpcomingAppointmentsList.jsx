@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
-import InfoAlert from '../../components/InfoAlert';
 import recordEvent from 'platform/monitoring/record-event';
+import moment from 'moment';
+import InfoAlert from '../../components/InfoAlert';
 import { getUpcomingAppointmentListInfo } from '../redux/selectors';
 import {
   FETCH_STATUS,
@@ -12,7 +13,6 @@ import {
 import { getVAAppointmentLocationId } from '../../services/appointment';
 import AppointmentListItem from './AppointmentsPageV2/AppointmentListItem';
 import NoAppointments from './NoAppointments';
-import moment from 'moment';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import {
   fetchFutureAppointments,

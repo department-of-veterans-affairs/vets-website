@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import { selectFeatureStatusImprovement } from '../redux/selectors';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectFeatureStatusImprovement } from '../redux/selectors';
 import { updateBreadcrumb } from '../appointment-list/redux/actions';
 
 export default function VAOSBreadcrumbs({ children }) {

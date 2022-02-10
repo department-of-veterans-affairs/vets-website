@@ -7985,8 +7985,9 @@ eslint-plugin-unicorn@^35.0.0:
     safe-regex "^2.1.1"
     semver "^7.3.5"
 
-"eslint-plugin-va@file:./script/eslint-plugin-va":
-  version "1.0.5"
+"eslint-plugin-va@link:./script/eslint-plugin-va":
+  version "0.0.0"
+  uid ""
 
 eslint-scope@5.1.1, eslint-scope@^5.1.1:
   version "5.1.1"
@@ -18909,9 +18910,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#daa6f14539b167dc179cd4495159d58eade30211":
-  version "20.18.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#daa6f14539b167dc179cd4495159d58eade30211"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#5c0af7a98ab0390566f4756428c90625ff145b31":
+  version "20.19.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#5c0af7a98ab0390566f4756428c90625ff145b31"
 
 vfile-message@^2.0.0:
   version "2.0.4"

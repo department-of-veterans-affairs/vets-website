@@ -321,6 +321,10 @@ export function selectTypeOfCare(state) {
   return getTypeOfCare(getFormData(state));
 }
 
+export function selectIsNewAppointmentStarted(state) {
+  return getNewAppointment(state)?.isNewAppointmentStarted;
+}
+
 export function selectChosenFacilityInfo(state) {
   const formData = getFormData(state);
   const typeOfCare = getTypeOfCare(formData);

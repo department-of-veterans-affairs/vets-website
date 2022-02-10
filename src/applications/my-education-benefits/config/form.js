@@ -1244,7 +1244,7 @@ const formConfig = {
       },
     },
     additionalConsiderationsChapter: {
-      title: 'Additional Considerations',
+      title: 'Additional considerations',
       pages: {
         [formPages.additionalConsiderations.activeDutyKicker.name]: {
           ...AdditionalConsiderationTemplate(

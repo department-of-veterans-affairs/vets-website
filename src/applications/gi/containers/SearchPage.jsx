@@ -1,16 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/jsx-no-bind */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
-import environment from 'platform/utilities/environment';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import SearchTabs from '../components/search/SearchTabs';
-import { useQueryParams, isSmallScreen } from '../utils/helpers';
 import { TABS } from '../constants';
 import NameSearchResults from './search/NameSearchResults';
 import LocationSearchResults from './search/LocationSearchResults';
-
+import { isSmallScreen } from '../utils/helpers';
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
 import AccordionItem from '../components/AccordionItem';
@@ -25,7 +26,6 @@ export function SearchPage({
   preview,
   filters,
 }) {
-  const queryParams = useQueryParams();
   const history = useHistory();
   const { tab, error, query } = search;
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
@@ -66,12 +66,7 @@ export function SearchPage({
       'tab-text': `Search by ${selectedTab}`,
     });
     dispatchChangeSearchTab(selectedTab);
-    if (environment.isProduction()) {
-      queryParams.set('search', selectedTab);
-      history.push({ pathname: '/', search: queryParams.toString() });
-    } else {
-      updateUrlParams(history, selectedTab, search.query, filters, version);
-    }
+    updateUrlParams(history, selectedTab, search.query, filters, version);
   };
 
   const accordionChange = (selectedAccordion, expanded) => {
