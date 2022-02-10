@@ -18,12 +18,7 @@ loanIntent.properties.intent.enumNames = [
   </>,
 ];
 
-export const schema = {
-  type: 'object',
-  properties: {
-    ...loanIntent.properties,
-  },
-};
+export const schema = loanIntent;
 
 export const uiSchema = {
   intent: {

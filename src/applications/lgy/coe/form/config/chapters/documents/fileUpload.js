@@ -65,7 +65,7 @@ export const uiSchema = {
     },
   },
   files: {
-    'ui:required': () => true,
+    'ui:required': () => false,
     ...fileUploadUI('Your uploaded documents', {
       buttonText: 'Upload this document',
       hideLabelText: true,
