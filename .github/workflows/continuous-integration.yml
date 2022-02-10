@@ -117,8 +117,8 @@ jobs:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Run unit tests
-        run: yarn test:unit --coverage --reporter mochawesome --config config/mocha.json "src/**/tests/**/*.unit.spec.js?(x)"
-        # run: yarn test:unit --coverage --reporter mochawesome --config config/mocha.json ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"}
+        run: yarn test:unit --coverage --reporter mochawesome "src/applications/facility-locator/tests/**/*.unit.spec.js?(x)"
+        # run: yarn test:unit --coverage --reporter mochawesome ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"}
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.app_folders }}
