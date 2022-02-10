@@ -39,14 +39,15 @@ export default function RequestedStatusAlert({ appointment, facility }) {
     [CANCELLATION_REASONS.patient, 'You'],
     [CANCELLATION_REASONS.provider, `${facility?.name || 'Facility'}`],
   ]);
-  const who = canceler.get(appointment.cancelationReason);
+  // when cancelationReason is empty then default to Facility
+  const who = canceler.get(appointment?.cancelationReason) || 'Facility';
 
   if (showConfirmMsg) {
     return (
       <InfoAlert backgroundOnly status={canceled ? 'error' : 'success'}>
         {canceled && (
           <>
-            <strong>{who || 'Facility'} canceled this request. </strong>
+            <strong>{who} canceled this request. </strong>
             If you still need an appointment, call us or request a new
             appointment online.
           </>
@@ -82,7 +83,7 @@ export default function RequestedStatusAlert({ appointment, facility }) {
           'The time and date of this appointment are still to be determined.'}
         {canceled && (
           <>
-            <strong>{who || 'Facility'} canceled this request. </strong>
+            <strong>{who} canceled this request. </strong>
             If you still need an appointment, call us or request a new
             appointment online.
           </>
