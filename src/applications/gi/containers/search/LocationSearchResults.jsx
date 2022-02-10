@@ -1,9 +1,12 @@
+/* eslint-disable react/jsx-no-bind */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useRef, useState } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
+// eslint-disable-next-line deprecate/import
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import environment from 'platform/utilities/environment';
@@ -22,7 +25,6 @@ import {
 } from '../../actions';
 import { getFiltersChanged } from '../../selectors/filters';
 import MobileFilterControls from '../../components/MobileFilterControls';
-import { EnvironmentPlugin } from 'webpack';
 
 const MILE_METER_CONVERSION_RATE = 1609.34;
 const LIST_TAB = 'List';
@@ -622,6 +624,7 @@ function LocationSearchResults({
                 className="mapboxgl-ctrl-top-center"
               >
                 <button
+                  type
                   id="search-area-control"
                   className="usa-button"
                   onClick={searchArea}

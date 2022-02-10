@@ -2,7 +2,6 @@ import _ from 'lodash';
 import { INITIAL_STATE } from '../reducers/search';
 import appendQuery from 'append-query';
 import { buildSearchFilters } from './filters';
-import environment from 'platform/utilities/environment';
 
 export const getSearchQueryChanged = query => {
   return !_.isEqual(query, INITIAL_STATE.query);
