@@ -64,7 +64,7 @@ describe('COE applicant loan screener', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
           data={{
-            existingLoan: false,
+            vaLoanIndicator: false,
           }}
           onSubmit={onSubmit}
         />

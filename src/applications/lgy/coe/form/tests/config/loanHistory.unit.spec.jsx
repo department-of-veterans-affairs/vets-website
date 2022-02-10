@@ -68,13 +68,13 @@ describe('COE applicant loan history', () => {
             loans: [
               {
                 dateRange: {
-                  from: '2019-02-03',
+                  startDate: '2019-02-03',
                 },
-                address: {
-                  street: '412 Crooks Road',
-                  city: 'Clawson',
-                  state: 'AK',
-                  postalCode: '48017',
+                propertyAddress: {
+                  propertyAddress1: '412 Crooks Road',
+                  propertyCity: 'Clawson',
+                  propertyState: 'AK',
+                  propertyZip: '48017',
                 },
               },
             ],
