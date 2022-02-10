@@ -10,7 +10,7 @@ const specDirs = '{src,script}';
 const defaultPath = `./${specDirs}/**/*.unit.spec.js?(x)`;
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-  { name: 'log-level', type: String, defaultValue: 'debug' },
+  { name: 'log-level', type: String, defaultValue: 'log' },
   { name: 'app-folder', type: String, defaultValue: null },
   { name: 'coverage', type: Boolean, defaultValue: false },
   { name: 'reporter', type: String, defaultValue: null },
