@@ -29,6 +29,8 @@ import {
   getIssueName,
 } from '../utils/helpers';
 
+import { contestableIssuesPath } from '../constants';
+
 // Pages
 import veteranInfo from '../pages/veteranInfo';
 import contactInfo from '../pages/contactInfo';
@@ -150,7 +152,7 @@ const formConfig = {
       pages: {
         contestableIssues: {
           title: 'Issues eligible for review',
-          path: 'contestable-issues',
+          path: contestableIssuesPath,
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,

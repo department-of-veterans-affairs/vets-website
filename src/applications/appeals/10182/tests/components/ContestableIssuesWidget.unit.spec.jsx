@@ -24,6 +24,7 @@ describe('<ContestableIssuesWidget>', () => {
       reviewMode: review,
       submitted,
     },
+    setFormData: () => {},
   });
 
   it('should render a list of check boxes (IssueCard component)', () => {
