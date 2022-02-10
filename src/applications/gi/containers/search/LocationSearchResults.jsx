@@ -624,7 +624,7 @@ function LocationSearchResults({
                 className="mapboxgl-ctrl-top-center"
               >
                 <button
-                  type
+                  type="button"
                   id="search-area-control"
                   className="usa-button"
                   onClick={searchArea}
