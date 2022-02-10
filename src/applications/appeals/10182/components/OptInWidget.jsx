@@ -14,21 +14,22 @@ import { OptInLabel, optInErrorMessage } from '../content/OptIn';
 
 const OptInWidget = props => {
   const { value, formContext, onChange } = props;
+  const { onReviewPage, reviewMode, submitted } = formContext || {};
 
-  const onReviewPage = formContext?.onReviewPage || false;
+  const isOnReviewPage = onReviewPage || false;
   // inReviewMode = true (review page view, not in edit mode)
   // inReviewMode = false (in edit mode)
-  const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
+  const inReviewMode = (isOnReviewPage && reviewMode) || false;
 
-  return onReviewPage && inReviewMode ? (
+  return isOnReviewPage && inReviewMode ? (
     <span>True</span>
   ) : (
     <Checkbox
       name="root_socOptIn"
-      errorMessage={!value && formContext.submitted ? optInErrorMessage : ''}
+      errorMessage={!value && submitted ? optInErrorMessage : ''}
       label={OptInLabel}
       ariaLabelledBy="opt-in-description"
-      onValueChange={val => onChange(val)}
+      onValueChange={onChange}
       checked={value}
       required
     />
@@ -39,8 +40,8 @@ OptInWidget.propTypes = {
   formContext: PropTypes.shape({
     submitted: PropTypes.bool,
   }),
-  onChange: PropTypes.func,
   value: PropTypes.bool,
+  onChange: PropTypes.func,
 };
 
 export default OptInWidget;

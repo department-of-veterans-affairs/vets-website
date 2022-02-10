@@ -52,10 +52,10 @@ export const IssueCardContent = ({
 };
 
 IssueCardContent.propTypes = {
+  approxDecisionDate: PropTypes.string,
   decisionDate: PropTypes.string,
   description: PropTypes.string,
   ratingIssuePercentNumber: PropTypes.string,
-  approxDecisionDate: PropTypes.string,
 };
 
 /**
@@ -143,6 +143,14 @@ export const IssueCard = ({
     'vads-u-margin-top--0',
   ].join(' ');
 
+  const handlers = {
+    onRemove: event => {
+      event.preventDefault();
+      onRemove(index, item);
+    },
+    onChange: event => onChange(index, event),
+  };
+
   const editControls =
     showCheckbox && isEditable ? (
       <div>
@@ -160,10 +168,7 @@ export const IssueCard = ({
           type="button"
           className={removeButtonClass}
           aria-label={`remove ${issueName}`}
-          onClick={event => {
-            event.preventDefault();
-            onRemove(index, item);
-          }}
+          onClick={handlers.onRemove}
         >
           Remove
         </button>
@@ -185,7 +190,7 @@ export const IssueCard = ({
               id={elementId}
               name={elementId}
               checked={itemIsSelected}
-              onChange={event => onChange(index, event)}
+              onChange={handlers.onChange}
             />
             <label className="schemaform-label" htmlFor={elementId}>
               <span className="vads-u-visibility--screen-reader">
@@ -214,7 +219,6 @@ export const IssueCard = ({
 IssueCard.propTypes = {
   id: PropTypes.string,
   index: PropTypes.number,
-  showCheckbox: PropTypes.bool,
   item: PropTypes.shape({
     issue: PropTypes.string,
     decisionDate: PropTypes.string,
@@ -227,6 +231,8 @@ IssueCard.propTypes = {
   options: PropTypes.shape({
     appendId: PropTypes.string,
   }),
+  showCheckbox: PropTypes.bool,
   onChange: PropTypes.func,
   onEdit: PropTypes.func,
+  onRemove: PropTypes.func,
 };

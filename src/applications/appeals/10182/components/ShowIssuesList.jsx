@@ -1,8 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { getDate } from '../utils/dates';
 import { FORMAT_READABLE } from '../constants';
 
-export const ShowIssuesList = ({ issues }) => (
+const ShowIssuesList = ({ issues }) => (
   <ul>
     {issues.map((issue, index) => (
       <li key={index}>
@@ -21,3 +23,18 @@ export const ShowIssuesList = ({ issues }) => (
     ))}
   </ul>
 );
+
+ShowIssuesList.propTypes = {
+  issues: PropTypes.arrayOf({
+    // additional issue
+    issue: PropTypes.string,
+    decisionDate: PropTypes.string,
+    // API loaded eligible issues
+    attributes: PropTypes.shape({
+      ratingIssueSubjectText: PropTypes.string,
+      approxDecisionDate: PropTypes.string,
+    }),
+  }),
+};
+
+export { ShowIssuesList };
