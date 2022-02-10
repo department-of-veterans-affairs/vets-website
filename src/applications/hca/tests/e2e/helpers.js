@@ -24,6 +24,7 @@ export const advanceToAiqPage = () => {
     '/veteran-information/personal-information',
   );
   goToNextPage('/veteran-information/birth-information');
+  goToNextPage('/veteran-information/maiden-name-information');
   goToNextPage('/veteran-information/birth-sex');
   goToNextPage('/veteran-information/marital-status');
   cy.get('select#root_maritalStatus').select(testData.maritalStatus);
@@ -66,7 +67,7 @@ export const advanceFromAiqToReviewPage = () => {
   goToNextPage('review-and-submit');
 };
 
-export const advanceToServiceInfoPage = dob => {
+export const advanceToServiceInfoPage = () => {
   cy.findAllByText(/start.+application/i, { selector: 'button' })
     .first()
     .click();
@@ -77,16 +78,8 @@ export const advanceToServiceInfoPage = dob => {
   );
 
   goToNextPage('/veteran-information/birth-information');
-  // birth month
-  cy.get('#root_veteranDateOfBirthMonth').select(dob.month);
 
-  // birth day
-  cy.get('#root_veteranDateOfBirthDay').select(dob.day);
-
-  // birth year
-  cy.get('#root_veteranDateOfBirthYear')
-    .clear()
-    .type(dob.year);
+  goToNextPage('/veteran-information/maiden-name-information');
 
   goToNextPage('/veteran-information/birth-sex');
 
