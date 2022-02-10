@@ -26,13 +26,15 @@ describe('check-in', () => {
       };
       store = mockStore(initState);
     });
+    const mockRouter = {
+      params: {
+        token: 'token-123',
+      },
+      location: {
+        pathname: '/third-page',
+      },
+    };
     it('show appointment details progress', () => {
-      const mockRouter = {
-        params: {
-          token: 'token-123',
-        },
-      };
-
       const token = 'token-123';
       const appointments = [
         {
@@ -73,11 +75,6 @@ describe('check-in', () => {
       );
     });
     it('passes axeCheck', () => {
-      const mockRouter = {
-        params: {
-          token: 'token-123',
-        },
-      };
       const appointments = [
         {
           clinicPhone: '555-867-5309',
@@ -98,12 +95,6 @@ describe('check-in', () => {
     });
     describe('back button visibility based on update page', () => {
       it('shows the back button if update page is enabled', () => {
-        const mockRouter = {
-          params: {
-            token: 'token-123',
-          },
-        };
-
         const token = 'token-123';
         const appointments = [
           {
@@ -126,12 +117,6 @@ describe('check-in', () => {
         expect(checkIn.getByTestId('back-button')).to.exist;
       });
       it('shows the back button if demographics page is enabled', () => {
-        const mockRouter = {
-          params: {
-            token: 'token-123',
-          },
-        };
-
         const token = 'token-123';
         const appointments = [
           {
@@ -155,12 +140,6 @@ describe('check-in', () => {
       });
 
       it('shows the date & time the appointments were loaded & a refresh link', () => {
-        const mockRouter = {
-          params: {
-            token: 'token-123',
-          },
-        };
-
         const token = 'token-123';
         const appointments = [
           {
