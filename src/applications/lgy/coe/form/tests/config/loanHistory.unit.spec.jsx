@@ -65,7 +65,7 @@ describe('COE applicant loan history', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
           data={{
-            loans: [
+            relevantPriorLoans: [
               {
                 dateRange: {
                   startDate: '2019-02-03',
