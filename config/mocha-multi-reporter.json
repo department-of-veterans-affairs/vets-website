@@ -1,0 +1,3 @@
+{
+  "reporterEnabled": "progress, mocha-junit-reporter"
+}
