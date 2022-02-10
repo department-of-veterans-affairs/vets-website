@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { differenceInDays } from 'date-fns';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
@@ -10,8 +12,6 @@ import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAct
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
 
-import { differenceInDays } from 'date-fns';
-
 import {
   selectCernerAppointmentsFacilities,
   selectCernerMessagingFacilities,
@@ -19,8 +19,6 @@ import {
   selectIsCernerPatient,
   selectAvailableServices,
 } from '~/platform/user/selectors';
-
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 
@@ -119,27 +117,27 @@ const HealthCare = ({
 
         <DashboardWidgetWrapper>
           {!hasUpcomingAppointment &&
-            !hasAppointmentsError && (
-              <>
-                {hasFutureAppointments && (
-                  <p>You have no appointments scheduled in the next 30 days.</p>
-                )}
+            !hasAppointmentsError &&
+            hasFutureAppointments && (
+              <p>You have no appointments scheduled in the next 30 days.</p>
+            )}
 
-                <IconCTALink
-                  href="/health-care/schedule-view-va-appointments/appointments"
-                  icon="calendar-check"
-                  newTab
-                  text="Schedule and manage your appointments"
-                  onClick={() => {
-                    recordEvent({
-                      event: 'nav-linkslist',
-                      'links-list-header':
-                        'Schedule and view your appointments',
-                      'links-list-section-header': 'Health care',
-                    });
-                  }}
-                />
-              </>
+          <span className="sr-only">Health Care Links</span>
+          {!hasUpcomingAppointment &&
+            !hasAppointmentsError && (
+              <IconCTALink
+                href="/health-care/schedule-view-va-appointments/appointments"
+                icon="calendar-check"
+                newTab
+                text="Schedule and manage your appointments"
+                onClick={() => {
+                  recordEvent({
+                    event: 'nav-linkslist',
+                    'links-list-header': 'Schedule and view your appointments',
+                    'links-list-section-header': 'Health care',
+                  });
+                }}
+              />
             )}
 
           {/* Messages */}
