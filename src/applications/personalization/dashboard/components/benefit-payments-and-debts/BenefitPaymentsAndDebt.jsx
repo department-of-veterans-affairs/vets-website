@@ -29,7 +29,7 @@ const BenefitPaymentsAndDebt = ({
 
   return (
     payments &&
-    payments.length && (
+    !!payments.length && (
       <div
         className="health-care-wrapper vads-u-margin-y--6"
         data-testid="dashboard-section-payment-and-debts"
@@ -55,21 +55,25 @@ const BenefitPaymentsAndDebt = ({
                 <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
                   You haven’t received any payments in the past 30 days.
                 </p>
-                <IconCTALink
-                  href="/va-payment-history/payments/"
-                  icon="user-check"
-                  newTab
-                  text="View your payment history"
-                  onClick={() => {
-                    recordEvent({
-                      event: 'nav-linkslist',
-                      'links-list-header': 'View your payment history',
-                      'links-list-section-header': 'Benefit payments and debts',
-                    });
-                  }}
-                />
               </>
             )}
+            <span className="sr-only">Benefit Payments and Debt Links</span>
+            {!lastPayment && (
+              <IconCTALink
+                href="/va-payment-history/payments/"
+                icon="user-check"
+                newTab
+                text="View your payment history"
+                onClick={() => {
+                  recordEvent({
+                    event: 'nav-linkslist',
+                    'links-list-header': 'View your payment history',
+                    'links-list-section-header': 'Benefit payments and debts',
+                  });
+                }}
+              />
+            )}
+
             <IconCTALink
               href="/profile/direct-deposit"
               icon="dollar-sign"

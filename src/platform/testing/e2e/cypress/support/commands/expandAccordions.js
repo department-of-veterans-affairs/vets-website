@@ -46,10 +46,12 @@ Cypress.Commands.add('expandAccordions', () => {
     // Check if AdditionalInfo and/or Accordion React Components exist
     // Check that the component is not already expanded
     if ($main.find('button[aria-expanded=false]').length > 0) {
-      cy.get('button[aria-expanded=false]').each(button => {
-        // Click to open Accordion or Additional Info
-        cy.wrap(button).click({ force: true });
-      });
+      cy.get('main')
+        .find('button[aria-expanded=false]')
+        .each(button => {
+          // Click to open Accordion or Additional Info
+          cy.wrap(button).click({ force: true });
+        });
     }
   });
 });

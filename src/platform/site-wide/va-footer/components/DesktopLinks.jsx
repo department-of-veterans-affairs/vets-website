@@ -7,7 +7,7 @@ export default function DesktopLinks({ links, visible }) {
   return (
     <div
       aria-hidden={visible ? 'false' : 'true'}
-      className="usa-grid-full flex-container usa-grid-flex-mobile va-footer-content"
+      className="usa-grid-full flex-container usa-grid-flex-mobile"
     >
       <div className="va-footer-linkgroup">
         <h2 className="va-footer-linkgroup-title">

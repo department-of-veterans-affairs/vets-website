@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
@@ -12,7 +13,7 @@ import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 
 import HowToApplyPost911GiBill from '../components/HowToApplyPost911GiBill';
 import { fetchUser } from '../selectors/userDispatch';
-import { CLAIMANT_INFO_ENDPOINT, fetchEligibility } from '../actions';
+import { CLAIMANT_INFO_ENDPOINT } from '../actions';
 
 export const IntroductionPage = ({ user, route }) => {
   const SaveInProgressComponent = (
@@ -132,6 +133,7 @@ export const IntroductionPage = ({ user, route }) => {
       {SaveInProgressComponent}
 
       {!user?.login?.currentlyLoggedIn && (
+        // eslint-disable-next-line jsx-a11y/anchor-is-valid
         <a href="#">Start your application without signing in</a>
       )}
 
@@ -142,7 +144,6 @@ export const IntroductionPage = ({ user, route }) => {
 
 const mapStateToProps = state => ({
   user: fetchUser(state),
-  eligibility: fetchEligibility,
 });
 
 export default connect(mapStateToProps)(IntroductionPage);

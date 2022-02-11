@@ -21,6 +21,7 @@ describe('check in', () => {
         },
         form: {
           pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+          currentPage: 'first-page',
         },
         veteranData: {
           demographics: {
@@ -43,14 +44,27 @@ describe('check in', () => {
     };
     const middleware = [];
     const mockStore = configureStore(middleware);
+    const routerObject = {
+      params: {
+        token: 'token-123',
+      },
+      location: {
+        pathname: '/first-page',
+      },
+    };
     beforeEach(() => {
       store = mockStore(initState);
     });
 
     it('renders', () => {
+      const push = sinon.spy();
+      const mockRouter = createMockRouter({
+        push,
+        routerObject,
+      });
       const component = render(
         <Provider store={store}>
-          <NextOfKin />
+          <NextOfKin router={mockRouter} />
         </Provider>,
       );
 
@@ -83,10 +97,14 @@ describe('check in', () => {
           },
         },
       };
-
+      const push = sinon.spy();
+      const mockRouter = createMockRouter({
+        push,
+        routerObject,
+      });
       const component = render(
         <Provider store={mockStore(updatedStore)}>
-          <NextOfKin />
+          <NextOfKin router={mockRouter} />
         </Provider>,
       );
 
@@ -101,19 +119,19 @@ describe('check in', () => {
     });
 
     it('passes axeCheck', () => {
+      const push = sinon.spy();
+      const mockRouter = createMockRouter({
+        push,
+        routerObject,
+      });
       axeCheck(
         <Provider store={store}>
-          <NextOfKin />
+          <NextOfKin router={mockRouter} />
         </Provider>,
       );
     });
 
     it('goes to the error page when the next of kin data is unavailable', () => {
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        params: {},
-      });
       const updatedStore = {
         checkInData: {
           context: {
@@ -128,6 +146,11 @@ describe('check in', () => {
           },
         },
       };
+      const push = sinon.spy();
+      const mockRouter = createMockRouter({
+        push,
+        routerObject,
+      });
       render(
         <Provider store={mockStore(updatedStore)}>
           <NextOfKin router={mockRouter} />
@@ -141,11 +164,8 @@ describe('check in', () => {
       const push = sinon.spy();
       const mockRouter = createMockRouter({
         push,
-        params: {
-          token: 'token-123',
-        },
+        routerObject,
       });
-
       const component = render(
         <Provider store={store}>
           <NextOfKin router={mockRouter} />
@@ -156,17 +176,15 @@ describe('check in', () => {
         component.getByText('Is this your current next of kin information?'),
       ).to.exist;
       component.getByTestId('no-button').click();
+      sinon.assert.calledOnce(push);
     });
 
     it('has a clickable yes button', () => {
       const push = sinon.spy();
       const mockRouter = createMockRouter({
         push,
-        params: {
-          token: 'token-123',
-        },
+        routerObject,
       });
-
       const component = render(
         <Provider store={store}>
           <NextOfKin router={mockRouter} />
@@ -177,17 +195,15 @@ describe('check in', () => {
         component.getByText('Is this your current next of kin information?'),
       ).to.exist;
       component.getByTestId('yes-button').click();
+      sinon.assert.calledOnce(push);
     });
 
     it('has a clickable yes button with update page enabled', () => {
       const push = sinon.spy();
       const mockRouter = createMockRouter({
         push,
-        params: {
-          token: 'token-123',
-        },
+        routerObject,
       });
-
       const component = render(
         <Provider store={store}>
           <NextOfKin isUpdatePageEnabled router={mockRouter} />
@@ -198,16 +214,14 @@ describe('check in', () => {
         component.getByText('Is this your current next of kin information?'),
       ).to.exist;
       component.getByTestId('yes-button').click();
+      sinon.assert.calledOnce(push);
     });
     it('has a clickable yes button', () => {
       const push = sinon.spy();
       const mockRouter = createMockRouter({
         push,
-        params: {
-          token: 'token-123',
-        },
+        routerObject,
       });
-
       const component = render(
         <Provider store={store}>
           <NextOfKin router={mockRouter} />
@@ -218,6 +232,7 @@ describe('check in', () => {
         component.getByText('Is this your current next of kin information?'),
       ).to.exist;
       component.getByTestId('yes-button').click();
+      sinon.assert.calledOnce(push);
     });
   });
 });

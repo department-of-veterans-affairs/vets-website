@@ -25,7 +25,7 @@ describe('feedback tool benefits info', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(11);
+    expect(form.find('input').length).to.equal(10);
     form.unmount();
   });
 

@@ -51,3 +51,9 @@
     }
   }
 }
+
+#upload-success-alert {
+  @include media-maxwidth($small-screen)  {
+    margin-right: 0 !important
+  }
+}

@@ -31,7 +31,7 @@ const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
       <>
         <COEIntroPageBox
           applicationCreateDate={coe.applicationCreateDate}
-          downloadURL={downloadUrl}
+          downloadUrl={downloadUrl}
           status={coe.status}
         />
         {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
@@ -61,14 +61,14 @@ IntroductionPage.propTypes = {
 
 const mapStateToProps = state => ({
   coe: state.certificateOfEligibility.coe,
-  downloadURL: state.certificateOfEligibility.downloadURL,
+  downloadUrl: state.certificateOfEligibility.downloadUrl,
   loggedIn: isLoggedIn(state),
   status: state.certificateOfEligibility.generateAutoCoeStatus,
 });
 
 IntroductionPage.propTypes = {
   coe: PropTypes.object,
-  downloadURL: PropTypes.string,
+  downloadUrl: PropTypes.string,
   loggedIn: PropTypes.bool,
   route: PropTypes.object,
   status: PropTypes.string,
