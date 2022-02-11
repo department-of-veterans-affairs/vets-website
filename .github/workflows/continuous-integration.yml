@@ -962,10 +962,11 @@ jobs:
   e2e-test-suite:
     name: Trigger full E2E test suite
     runs-on: ubuntu-latest
-    needs: [build, archive]
-    if: ${{ needs.build.outputs.is_changed_app_build }}
+    # Setting this to 'build' for testing purposes, but
+    # ideally we'd want this dependent on 'deploy' as well
+    needs: [build]
     # if: ${{ github.ref == 'refs/heads/master' && needs.build.outputs.is_changed_app_build }}
-    # Setting this to 'archive' for testing purposes, but ideally we'd want this dependent on 'deploy'
+    if: ${{ needs.build.outputs.is_changed_app_build }}
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
