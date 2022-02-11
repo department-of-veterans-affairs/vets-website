@@ -18,7 +18,6 @@ import RequestListItem from './AppointmentsPageV2/RequestListItem';
 import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { selectFeatureStatusImprovement } from '../../redux/selectors';
 
 export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   const {
@@ -29,9 +28,6 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   } = useSelector(
     state => getRequestedAppointmentListInfo(state),
     shallowEqual,
-  );
-  const featureStatusImprovement = useSelector(state =>
-    selectFeatureStatusImprovement(state),
   );
 
   const dispatch = useDispatch();
@@ -104,55 +100,52 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
       <div aria-live="polite" className="sr-only">
         {hasTypeChanged && 'Showing requested appointments'}
       </div>
-      {appointmentsByStatus?.length > 0 && (
-        <>
-          <p className="vaos-hide-for-print">
-            {featureStatusImprovement
-              ? 'Your appointment requests that haven’t been scheduled yet.'
-              : 'Below is your list of appointment requests that haven’t been scheduled yet.'}
-          </p>
+      <>
+        <p className="vaos-hide-for-print">
+          Your appointment requests that haven’t been scheduled yet.
+        </p>
 
-          {appointmentsByStatus.map(statusBucket => {
-            return (
-              <div key={statusBucket[0]}>
-                {statusBucket[0] === APPOINTMENT_STATUS.cancelled && (
-                  <>
-                    <h2>Canceled requests</h2>
-                    <p>Your appointment requests that where canceled</p>
-                  </>
-                )}
-                {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-                <ul
-                  className="vads-u-padding-left--0"
-                  data-cy="requested-appointment-list"
-                >
-                  {statusBucket[1].map((appt, index) => (
-                    <RequestListItem
-                      key={index}
-                      appointment={appt}
-                      facility={facilityData[getVAAppointmentLocationId(appt)]}
-                    />
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
-        </>
-      )}
-      {appointmentsByStatus?.length === 0 && (
-        <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
-          <NoAppointments
-            description="appointment requests"
-            showScheduleButton={showScheduleButton}
-            startNewAppointmentFlow={() => {
-              recordEvent({
-                event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-              });
-              startNewAppointmentFlow();
-            }}
-          />
-        </div>
-      )}
+        {!appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
+          <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
+            <NoAppointments
+              description="appointment requests"
+              showScheduleButton={showScheduleButton}
+              startNewAppointmentFlow={() => {
+                recordEvent({
+                  event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+                });
+                startNewAppointmentFlow();
+              }}
+            />
+          </div>
+        )}
+
+        {appointmentsByStatus.map(statusBucket => {
+          return (
+            <div key={statusBucket[0]}>
+              {statusBucket[0] === APPOINTMENT_STATUS.cancelled && (
+                <>
+                  <h2>Canceled requests</h2>
+                  <p>Your appointment requests that where canceled</p>
+                </>
+              )}
+              {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+              <ul
+                className="vads-u-padding-left--0"
+                data-cy="requested-appointment-list"
+              >
+                {statusBucket[1].map((appt, index) => (
+                  <RequestListItem
+                    key={index}
+                    appointment={appt}
+                    facility={facilityData[getVAAppointmentLocationId(appt)]}
+                  />
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </>
     </>
   );
 }
