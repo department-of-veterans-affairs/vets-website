@@ -6,7 +6,7 @@ import { shallow } from 'enzyme';
 import { App } from '.';
 
 describe('Header <App>', () => {
-  it('renders legacy header when showHeaderV2 is truthy and our width is more than 768px', () => {
+  it('renders legacy header when our width is more than 768px', () => {
     // Set up.
     window.innerWidth = 768;
     const wrapper = shallow(<App show />);
@@ -18,7 +18,7 @@ describe('Header <App>', () => {
     wrapper.unmount();
   });
 
-  it('renders header v2 when showHeaderV2 is truthy and our width is less than 768px', () => {
+  it('renders header v2 when our width is less than 768px', () => {
     // Set up.
     window.innerWidth = 767;
     const wrapper = shallow(<App show />);

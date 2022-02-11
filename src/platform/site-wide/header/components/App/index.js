@@ -37,7 +37,7 @@ export const App = ({ megaMenuData, show, showMegaMenu, showNavLogin }) => {
     return null;
   }
 
-  // Render the legacy header if the feature toggle is NOT enabled OR if we are on desktop.
+  // Render the legacy header if we are on desktop.
   if (isDesktop) {
     showLegacyHeader();
     return null;
