@@ -1,11 +1,48 @@
 import flatten from 'lodash/flatten';
 
+import recordEvent from '~/platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';
 
 import { LOADING_STATES } from '../../common/constants';
 import { RX_TRACKING_SUPPORTING_FACILITIES } from '../constants';
 
 // HELPERS
+
+// Gets an error key string to send to Google Analytics. Expects to receive an
+// array of objects and will build the error key string from the first object.
+const getErrorKey = errors => {
+  let key = 'Unknown Error';
+  const firstError = errors.slice(0, 1);
+  if (firstError) {
+    key = `${firstError.status || 'unknown error status'} - ${firstError.code ||
+      firstError.error ||
+      'unknown error code'}`;
+  }
+  return key;
+};
+
+const recordAPIEvent = ({ method, success, errors }) => {
+  const event = {
+    event: 'api_call',
+    'api-name': `${method} communication_preferences`,
+    'api-status': 'started',
+  };
+  if (success) {
+    event['api-status'] = 'successful';
+  }
+  if (errors) {
+    event['api-status'] = 'failed';
+    event['error-key'] = getErrorKey(errors);
+  }
+  recordEvent(event);
+
+  // clear the `error-key` immediately after recording an error
+  if (event['error-key']) {
+    recordEvent({
+      'error-key': undefined,
+    });
+  }
+};
 
 // Callback function to use with Array.sort
 // At present its only function is to
@@ -103,6 +140,7 @@ export const fetchCommunicationPreferenceGroups = ({
 } = {}) => {
   return async dispatch => {
     dispatch(startFetch());
+    recordAPIEvent({ method: 'GET' });
 
     try {
       const communicationPreferences = await apiRequest(endpoint);
@@ -111,9 +149,11 @@ export const fetchCommunicationPreferenceGroups = ({
         throw new TypeError('communicationGroups is undefined');
       }
       dispatch(fetchSucceeded(communicationGroups, { facilities }));
+      recordAPIEvent({ method: 'GET', success: true });
     } catch (error) {
       const errors = error.errors || [error];
       dispatch(fetchFailed(errors));
+      recordAPIEvent({ method: 'GET', errors });
     }
   };
 };
@@ -124,6 +164,7 @@ export const fetchCommunicationPreferenceGroups = ({
 export const saveCommunicationPreferenceChannel = (channelId, apiCallInfo) => {
   return async dispatch => {
     dispatch(startSaveChannel(channelId, apiCallInfo.isAllowed));
+    recordAPIEvent({ method: apiCallInfo.method });
 
     try {
       const response = await apiRequest(apiCallInfo.endpoint, {
@@ -136,13 +177,14 @@ export const saveCommunicationPreferenceChannel = (channelId, apiCallInfo) => {
       if (response.status !== 'COMPLETED_SUCCESS') {
         const error = new Error();
         error.errors = response.messages;
-        // TODO: record something in GA or Sentry when a 200 "failure" happens
         throw error;
       }
       dispatch(saveChannelSucceeded(channelId, response.bio));
+      recordAPIEvent({ method: apiCallInfo.method, success: true });
     } catch (error) {
       const errors = error.errors ?? [error];
       dispatch(saveChannelFailed(channelId, apiCallInfo.wasAllowed, errors));
+      recordAPIEvent({ method: apiCallInfo.method, errors });
     }
   };
 };

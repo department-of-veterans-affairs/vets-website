@@ -8,6 +8,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import covid19VaccineReducer from './redux/reducer';
+import { selectIsNewAppointmentStarted } from '../new-appointment/redux/selectors';
 import FormLayout from './components/FormLayout';
 import PlanAheadPage from './components/PlanAheadPage';
 import VAFacilityPage from './components/VAFacilityPage';
@@ -20,7 +21,7 @@ import ContactInfoPage from './components/ContactInfoPage';
 import ReceivedDoseScreenerPage from './components/ReceivedDoseScreenerPage';
 import ContactFacilitiesPage from './components/ContactFacilitiesPage';
 import { FETCH_STATUS } from '../utils/constants';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
@@ -38,12 +39,16 @@ export function NewBookingSection() {
   const dispatch = useDispatch();
   const canUseVaccineFlow = useSelector(selectCanUseVaccineFlow);
   const facilitySettingsStatus = useSelector(selectFacilitySettingsStatus);
+  const isNewAppointmentStarted = useSelector(selectIsNewAppointmentStarted);
 
-  useEffect(() => {
-    if (facilitySettingsStatus === FETCH_STATUS.notStarted) {
-      dispatch(fetchFacilitySettings());
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (facilitySettingsStatus === FETCH_STATUS.notStarted) {
+        dispatch(fetchFacilitySettings());
+      }
+    },
+    [dispatch, facilitySettingsStatus],
+  );
 
   useEffect(
     () => {
@@ -64,11 +69,11 @@ export function NewBookingSection() {
 
   const shouldRedirectToStart = useFormRedirectToStart({
     shouldRedirect: () =>
-      !location.pathname.endsWith(match.url) &&
-      !location.pathname.endsWith('confirmation'),
+      !isNewAppointmentStarted && !location.pathname.endsWith('confirmation'),
   });
+
   if (shouldRedirectToStart) {
-    return <Redirect to={match.url} />;
+    return <Redirect to="/" />;
   }
 
   if (facilitySettingsStatus === FETCH_STATUS.failed) {
@@ -81,8 +86,8 @@ export function NewBookingSection() {
   ) {
     return (
       <FormLayout>
-        <LoadingIndicator
-          setFocus
+        <va-loading-indicator
+          set-focus
           message="Checking for online appointment availability"
         />
       </FormLayout>

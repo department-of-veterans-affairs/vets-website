@@ -1,5 +1,4 @@
-import { benefitTypes } from 'vets-json-schema/dist/constants.json';
-import environment from 'platform/utilities/environment';
+import constants from 'vets-json-schema/dist/constants.json';
 
 // *** URLS ***
 export const HLR_INFO_URL = '/decision-reviews/higher-level-review/';
@@ -20,8 +19,8 @@ export const GET_HELP_REVIEW_REQUEST_URL =
 export const PROFILE_URL = '/profile';
 export const LEGACY_APPEALS_URL = '/decision-reviews/legacy-appeals/';
 
-// 8622 is the ID of the <li> wrapping the "Find addresses for other benefit
-// types" accordion
+// 8622 is the ID of the <va-accordion-item> with a header of the "Find
+// addresses for other benefit types"
 export const BENEFIT_OFFICES_URL = `${HLR_INFO_URL}#find-addresses-for-other-benef-8622`;
 
 export const CONTESTABLE_ISSUES_API =
@@ -66,6 +65,7 @@ export const FORMAT_READABLE = 'LL';
 // session storage keys
 export const SAVED_CLAIM_TYPE = 'hlrClaimType';
 export const WIZARD_STATUS = 'wizardStatus996';
+export const LAST_HLR_ITEM = 'lastHlrItem'; // focus management across pages
 
 export const MAX_SELECTIONS = 100;
 
@@ -82,12 +82,12 @@ const supportedBenefitTypes = [
   // 'nca',
 ];
 
-export const SUPPORTED_BENEFIT_TYPES = benefitTypes.map(type => ({
+export const LEGACY_TYPE = 'legacyAppeal';
+
+export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,
   isSupported: supportedBenefitTypes.includes(type.value),
 }));
-
-export const IS_PRODUCTION = environment.isProduction();
 
 export const CONFERENCE_TIMES_V1 = {
   time0800to1000: {
@@ -110,11 +110,26 @@ export const CONFERENCE_TIMES_V1 = {
 
 export const CONFERENCE_TIMES_V2 = {
   time0800to1200: {
-    label: '8:00 a.m. to 12:00 p.m. ET',
+    label: '8:00 a.m. to noon ET',
     submit: '800-1200 ET',
   },
   time1200to1630: {
-    label: '12:00 p.m. to 4:30 p.m. ET',
+    label: 'Noon to 4:30 p.m. ET',
     submit: '1200-1630 ET',
   },
+};
+
+// Values from Lighthouse maintained schema
+// see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json
+export const MAX_ISSUE_NAME_LENGTH = 140;
+export const MAX_DISAGREEMENT_REASON_LENGTH = 90;
+
+// Using MAX_DISAGREEMENT_REASON_LENGTH (90) and with all checkboxes selected,
+// this string is submitted - the numbers constitute the "somethubg else" typed
+// in value
+// "service connection,effective date,disability evaluation,1234567890123456789012345678901234"
+export const SUBMITTED_DISAGREEMENTS = {
+  serviceConnection: 'service connection',
+  effectiveDate: 'effective date',
+  evaluation: 'disability evaluation',
 };

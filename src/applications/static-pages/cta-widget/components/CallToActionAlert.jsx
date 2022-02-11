@@ -11,6 +11,8 @@ export default function CallToActionAlert({
   secondaryButtonText,
   secondaryButtonHandler,
   status,
+  ariaLabel = null,
+  ariaDescribedby = null,
 }) {
   const buttonClass =
     status === 'continue' ? 'va-button-primary' : 'usa-button-primary';
@@ -22,7 +24,12 @@ export default function CallToActionAlert({
       <div>
         {alertText}
         {primaryButtonText && (
-          <button className={buttonClass} onClick={primaryButtonHandler}>
+          <button
+            className={buttonClass}
+            onClick={primaryButtonHandler}
+            aria-label={ariaLabel}
+            aria-describedby={ariaDescribedby}
+          >
             {primaryButtonText}
           </button>
         )}

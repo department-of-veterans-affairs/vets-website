@@ -1,9 +1,7 @@
 import React from 'react';
-import moment from 'moment';
-import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -12,51 +10,44 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const { submission, data } = this.props.form;
-    const { response } = submission;
-    const name = data.veteranFullName;
-
     return (
-      <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
+      <>
         <p>
-          We usually process claims within <strong>a week</strong>.
+          Appointment of Veterans Service Organization as Claimant's
+          Representative (VA Form 21-22)
         </p>
-        <p>
-          We may contact you for more information or documents.
-          <br />
-          <i>Please print this page for your records.</i>
-        </p>
-        <div className="inset">
-          <h4>
-            Search Representative Claim{' '}
-            <span className="additional">(Form 000)</span>
-          </h4>
-          {name ? (
-            <span>
-              for {name.first} {name.middle} {name.last} {name.suffix}
-            </span>
-          ) : null}
 
-          {response ? (
-            <ul className="claim-list">
-              <li>
-                <strong>Date received</strong>
-                <br />
-                <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
-              </li>
-            </ul>
-          ) : null}
-        </div>
-      </div>
+        <va-alert status="info">
+          <h2 slot="headline" className="vads-u-font-size--h3">
+            Your partially completed form is ready
+          </h2>
+          <p>
+            We have filled out VA Form 21-22 with the information you provided.
+            Download then print your form so that both you and your
+            representative can sign it.
+          </p>
+          <a
+            className="vads-u-font-size--base vads-u-display--block vads-u-margin-top--2"
+            href="#"
+          >
+            <i
+              aria-hidden="true"
+              className="fas fa-download vads-u-padding-right--1"
+            />
+            Download your VA Form 21-22
+          </a>
+        </va-alert>
+
+        <h2>When can my representative begin helping me?</h2>
+
+        <p className="vads-u-margin-bottom--3">
+          Your representative can begin helping you only after we've received
+          and processed your signed form. At that point, we've officially
+          appointed your representative.
+        </p>
+      </>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
-
-export default connect(mapStateToProps)(ConfirmationPage);
+export default ConfirmationPage;

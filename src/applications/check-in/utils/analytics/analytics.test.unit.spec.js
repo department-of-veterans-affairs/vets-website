@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { createAnalyticsSlug, createApiEvent } from './index';
 
-describe('check in', () => {
+describe('Pre check in', () => {
   describe('analytics utils', () => {
     describe('createAnalyticsSlug', () => {
       it('returns a created slug  with undefined', () => {

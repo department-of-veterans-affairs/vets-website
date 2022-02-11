@@ -1,7 +1,4 @@
-import {
-  states as STATES,
-  countries,
-} from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 
 export const branchCodeLabels = {
   A: 'Army',
@@ -11,11 +8,11 @@ export const branchCodeLabels = {
   M: 'Marine Corps',
 };
 
-export const countryValues = countries.map(country => country.value);
-export const countryLabels = countries.map(country => country.label);
+export const countryValues = constants.countries.map(country => country.value);
+export const countryLabels = constants.countries.map(country => country.label);
 
 const { CAN, MEX, USA } = ['USA', 'MEX', 'CAN'].reduce((acc, country) => {
-  acc[country] = STATES[country].map(state => state.label);
+  acc[country] = constants.states[country].map(state => state.label);
   return acc;
 }, {});
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import { mount } from 'enzyme';
@@ -32,6 +33,10 @@ function makeRoute(obj) {
           path: '/next-page',
           pageKey: 'nextPage',
         },
+        {
+          path: '/last-page',
+          pageKey: 'lastPage',
+        },
       ],
     },
     obj,
@@ -43,6 +48,7 @@ function makeForm(obj) {
       pages: {
         firstPage: { schema: {}, uiSchema: {} },
         testPage: { schema: {}, uiSchema: {} },
+        nextPage: { schema: {}, uiSchema: {} },
         lastPage: { schema: {}, uiSchema: {} },
       },
       data: {},
@@ -126,12 +132,17 @@ describe('Schemaform <FormPage>', () => {
     it('submit', () => {
       tree.getMountedInstance().onSubmit({});
 
-      expect(router.push.calledWith('next-page'));
+      expect(router.push.calledWith('/next-page')).to.be.true;
     });
     it('back', () => {
       tree.getMountedInstance().goBack();
 
-      expect(router.push.calledWith('previous-page'));
+      expect(router.push.calledWith('/first-page')).to.be.true;
+    });
+    it('go to path', () => {
+      tree.getMountedInstance().goToPath('/last-page');
+
+      expect(router.push.calledWith('/last-page')).to.be.true;
     });
   });
   it("should go back to the beginning if current page isn't found", () => {
@@ -150,7 +161,81 @@ describe('Schemaform <FormPage>', () => {
 
     tree.getMountedInstance().goBack();
 
-    expect(router.push.calledWith('first-page'));
+    expect(router.push.calledWith('/first-page')).to.be.true;
+  });
+  it('should go to the custom path passed to the goToPath function', () => {
+    const router = {
+      push: sinon.spy(),
+    };
+    const route = makeRoute({
+      pageConfig: {
+        pageKey: 'lastPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: '',
+        CustomPage: ({ goToPath }) => (
+          <button
+            type="button"
+            onClick={e => {
+              e.preventDefault();
+              goToPath('/testing');
+            }}
+          >
+            go
+          </button>
+        ),
+      },
+    });
+
+    const { getByText } = render(
+      <FormPage
+        router={router}
+        form={makeForm()}
+        route={route}
+        location={{ pathname: '/last-page' }}
+      />,
+    );
+
+    fireEvent.click(getByText(/go/));
+    expect(router.push.calledWith('/testing')).to.be.true;
+  });
+  it('should go back to the previous page if the custom path is invalid', () => {
+    const router = {
+      push: sinon.spy(),
+    };
+    const route = makeRoute({
+      pageConfig: {
+        pageKey: 'nextPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: '',
+        CustomPage: ({ goToPath }) => (
+          <button
+            type="button"
+            onClick={e => {
+              e.preventDefault();
+              goToPath('/invalid-page');
+            }}
+          >
+            go
+          </button>
+        ),
+      },
+    });
+
+    const { getByText } = render(
+      <FormPage
+        router={router}
+        form={makeForm()}
+        route={route}
+        location={{ pathname: '/next-page' }}
+      />,
+    );
+
+    fireEvent.click(getByText(/go/));
+    expect(router.push.calledWith('/testing')).to.be.true;
   });
   it('should not show a Back button on the first page', () => {
     const tree = SkinDeep.shallowRender(

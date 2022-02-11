@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -11,9 +10,9 @@ import recordEvent from 'platform/monitoring/record-event';
 import formConfig from '../config/form';
 import UnverifiedPrefillAlert from '../components/UnverifiedPrefillAlert';
 import { WIZARD_STATUS } from '../wizard/constants';
-import { rootUrl } from '../manifest.json';
+import manifest from '../manifest.json';
 
-const IntroductionPage = props => {
+const IntroductionPage = ({ route, formId }) => {
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -21,20 +20,20 @@ const IntroductionPage = props => {
   return (
     <div className="fsr-introduction schemaform-intro">
       <FormTitle
-        title={'Request help with VA debt (VA Form 5655)'}
-        subTitle={'Equal to VA Form 5655 (Financial Status Report)'}
+        title="Request help with VA debt (VA Form 5655)"
+        subTitle="Equal to VA Form 5655 (Financial Status Report)"
       />
       <SaveInProgressIntro
         startText="Start your request now"
         unauthStartText="Sign in or create an account"
-        messages={props.route.formConfig.savedFormMessages}
-        pageList={props.route.pageList}
+        messages={route.formConfig.savedFormMessages}
+        pageList={route.pageList}
         formConfig={formConfig}
-        formId={props.formId}
+        formId={formId}
         retentionPeriod="60 days"
-        downtime={props.route.formConfig.downtime}
-        prefillEnabled={props.route.formConfig.prefillEnabled}
-        verifyRequiredPrefill={props.route.formConfig.verifyRequiredPrefill}
+        downtime={route.formConfig.downtime}
+        prefillEnabled={route.formConfig.prefillEnabled}
+        verifyRequiredPrefill={route.formConfig.verifyRequiredPrefill}
         unverifiedPrefillAlert={<UnverifiedPrefillAlert />}
         hideUnauthedStartLink
       />
@@ -44,7 +43,7 @@ const IntroductionPage = props => {
       <p>
         If you don’t think this is the right form for you,
         <a
-          href={rootUrl}
+          href={manifest.rootUrl}
           onClick={() => {
             sessionStorage.removeItem(WIZARD_STATUS);
             recordEvent({ event: 'howToWizard-start-over' });
@@ -60,13 +59,13 @@ const IntroductionPage = props => {
           <li className="process-step list-one">
             <h3 className="vads-u-font-size--h4">Prepare</h3>
             <p>
-              You'll need this information for you (and your spouse if you’re
+              You’ll need this information for you (and your spouse if you’re
               married):
             </p>
             <ul>
               <li>
                 <strong>Work history for the past 2 years. </strong>
-                You'll need the employer name, start and end dates, and monthly
+                You’ll need the employer name, start and end dates, and monthly
                 income for each job.
               </li>
               <li>
@@ -96,8 +95,8 @@ const IntroductionPage = props => {
                 care, or health care.
               </li>
               <li>
-                <strong>If you've ever declared bankruptcy, </strong>
-                you'll need any related documents.
+                <strong>If you’ve ever declared bankruptcy, </strong>
+                you’ll need any related documents.
               </li>
             </ul>
             <p>
@@ -156,11 +155,11 @@ const IntroductionPage = props => {
           buttonOnly
           startText="Start your request now"
           unauthStartText="Sign in or create an account"
-          pageList={props.route.pageList}
-          messages={props.route.formConfig.savedFormMessages}
+          pageList={route.pageList}
+          messages={route.formConfig.savedFormMessages}
           formConfig={formConfig}
-          formId={props.formId}
-          prefillEnabled={props.route.formConfig.prefillEnabled}
+          formId={formId}
+          prefillEnabled={route.formConfig.prefillEnabled}
           hideUnauthedStartLink
         />
       </div>
@@ -180,7 +179,10 @@ IntroductionPage.propTypes = {
   formId: PropTypes.string.isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
+      downtime: PropTypes.string,
       prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.object,
+      verifyRequiredPrefill: PropTypes.string,
     }),
     pageList: PropTypes.array.isRequired,
   }).isRequired,

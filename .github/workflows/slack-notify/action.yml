@@ -1,0 +1,40 @@
+name: Slack notification
+description: Slack notification
+
+inputs:
+  channel_id:
+    description: channel_id
+    required: true
+  payload:
+    description: attached message
+    required: true
+  aws-access-key-id:
+    description: aws-access-key-id
+    required: true
+  aws-secret-access-key:
+    description: aws-secret-access-key
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ inputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
+        aws-region: us-gov-west-1
+
+    - name: Get Slack bot token
+      uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+      with:
+        ssm_parameter: /devops/github_actions_slack_bot_user_token
+        env_variable_name: SLACK_BOT_TOKEN
+
+    - name: Notify Slack
+      uses: slackapi/slack-github-action@v1.17.0
+      env:
+        SLACK_BOT_TOKEN: ${{ env.SLACK_BOT_TOKEN }}
+      with:
+        payload: ${{ inputs.payload }}
+        channel-id: ${{ inputs.channel_id }}

@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
+
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import AddressView from '@@vap-svc/components/AddressField/AddressView';
 
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
 import VAPServicePendingTransactionCategory from '@@vap-svc/containers/VAPServicePendingTransactionCategory';
@@ -10,10 +14,17 @@ import AddressField from '@@vap-svc/components/AddressField/AddressField';
 import { TRANSACTION_CATEGORY_TYPES, FIELD_NAMES } from '@@vap-svc/constants';
 
 import { selectProfile } from 'platform/user/selectors';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { readableList } from '../utils/helpers';
 
-export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
+export const ContactInfoDescription = ({
+  formContext,
+  profile,
+  homeless,
+  loopPages,
+}) => {
   const [hadError, setHadError] = useState(false);
   const { email = {}, mobilePhone = {}, mailingAddress = {} } =
     profile?.vapContactInfo || {};
@@ -24,11 +35,14 @@ export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
   const missingInfo = [
     email?.emailAddress ? '' : 'email',
     mobilePhone?.phoneNumber ? '' : 'phone',
-    mailingAddress.addressLine1 ? '' : requireAddress,
+    mailingAddress?.addressLine1 ? '' : requireAddress,
   ].filter(Boolean);
 
   const list = readableList(missingInfo);
   const plural = missingInfo.length > 1;
+  const phoneNumber = `${mobilePhone?.areaCode ||
+    ''}${mobilePhone?.phoneNumber || ''}`;
+  const phoneExt = mobilePhone?.extension;
 
   useEffect(
     () => {
@@ -40,12 +54,74 @@ export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
     [missingInfo],
   );
 
+  // loop to separate pages vs profile contact modals
+  const contactSection = loopPages ? (
+    <>
+      <h4 className="vads-u-font-size--h3">Mobile phone number</h4>
+      <Telephone contact={phoneNumber} extension={phoneExt} notClickable />
+      <p>
+        <Link to="/edit-mobile-phone" aria-label="Edit mobile phone number">
+          Edit
+        </Link>
+      </p>
+      <h4 className="vads-u-font-size--h3">Email address</h4>
+      <span>{email?.emailAddress || ''}</span>
+      <p>
+        <Link to="/edit-email-address" aria-label="Edit email address">
+          Edit
+        </Link>
+      </p>
+      <h4 className="vads-u-font-size--h3">Mailing address</h4>
+      <AddressView data={mailingAddress} />
+      <p>
+        <Link to="/edit-mailing-address" aria-label="Edit mailing address">
+          Edit
+        </Link>
+      </p>
+    </>
+  ) : (
+    <InitializeVAPServiceID>
+      <VAPServicePendingTransactionCategory
+        categoryType={TRANSACTION_CATEGORY_TYPES.PHONE}
+      >
+        <PhoneField
+          title="Mobile phone number"
+          fieldName={FIELD_NAMES.MOBILE_PHONE}
+          deleteDisabled
+          alertClosingDisabled
+        />
+      </VAPServicePendingTransactionCategory>
+      <VAPServicePendingTransactionCategory
+        categoryType={TRANSACTION_CATEGORY_TYPES.EMAIL}
+      >
+        <EmailField
+          title="Email address"
+          fieldName={FIELD_NAMES.EMAIL}
+          deleteDisabled
+        />
+      </VAPServicePendingTransactionCategory>
+      <VAPServicePendingTransactionCategory
+        categoryType={TRANSACTION_CATEGORY_TYPES.ADDRESS}
+      >
+        <AddressField
+          title="Mailing address"
+          fieldName={FIELD_NAMES.MAILING_ADDRESS}
+          deleteDisabled
+        />
+      </VAPServicePendingTransactionCategory>
+    </InitializeVAPServiceID>
+  );
+
   return (
     <>
       <h3 className="vads-u-margin-top--0">Contact Information</h3>
       <p>
         This is the contact information we have on file for you. We’ll send any
         updates or information about your Higher-Level Review to this address.
+      </p>
+      <p>
+        <strong>Note:</strong> Any updates you make here will be reflected in
+        your VA.gov profile.
       </p>
       {hadError &&
         missingInfo.length === 0 && (
@@ -94,36 +170,7 @@ export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
             event.stopPropagation();
           }}
         >
-          <InitializeVAPServiceID>
-            <VAPServicePendingTransactionCategory
-              categoryType={TRANSACTION_CATEGORY_TYPES.PHONE}
-            >
-              <PhoneField
-                title="Mobile phone number"
-                fieldName={FIELD_NAMES.MOBILE_PHONE}
-                deleteDisabled
-                alertClosingDisabled
-              />
-            </VAPServicePendingTransactionCategory>
-            <VAPServicePendingTransactionCategory
-              categoryType={TRANSACTION_CATEGORY_TYPES.EMAIL}
-            >
-              <EmailField
-                title="Email address"
-                fieldName={FIELD_NAMES.EMAIL}
-                deleteDisabled
-              />
-            </VAPServicePendingTransactionCategory>
-            <VAPServicePendingTransactionCategory
-              categoryType={TRANSACTION_CATEGORY_TYPES.ADDRESS}
-            >
-              <AddressField
-                title="Mailing address"
-                fieldName={FIELD_NAMES.MAILING_ADDRESS}
-                deleteDisabled
-              />
-            </VAPServicePendingTransactionCategory>
-          </InitializeVAPServiceID>
+          {contactSection}
         </div>
       </div>
     </>
@@ -156,11 +203,13 @@ ContactInfoDescription.propTypes = {
     }),
   }).isRequired,
   homeless: PropTypes.bool,
+  loopPages: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   homeless: state.form.data.homeless,
   profile: selectProfile(state),
+  loopPages: toggleValues(state)[FEATURE_FLAG_NAMES.loopPages],
 });
 
 export default connect(mapStateToProps)(ContactInfoDescription);

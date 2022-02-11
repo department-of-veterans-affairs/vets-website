@@ -1,18 +1,17 @@
-import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
-import { scrollToFirstError } from 'platform/forms-system/src/js/utilities/ui';
-import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
+import { isReactComponent } from 'platform/utilities/ui';
 import {
   toIdSchema,
   getDefaultFormState,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import { isReactComponent } from 'platform/utilities/ui';
+import { allEqual } from '../utils/helpers';
 
 const ScrollElement = Scroll.Element;
-const scroller = Scroll.scroller;
+const { scroller } = Scroll;
 
 const Header = ({
   title,
@@ -52,6 +51,16 @@ const Header = ({
   );
 };
 
+Header.propTypes = {
+  description: PropTypes.string,
+  formContext: PropTypes.object,
+  hideTitle: PropTypes.bool,
+  idSchema: PropTypes.object,
+  registry: PropTypes.object,
+  title: PropTypes.string,
+  uiSchema: PropTypes.object,
+};
+
 const InputSection = ({
   title,
   items,
@@ -62,8 +71,6 @@ const InputSection = ({
   item,
   onBlur,
   registry,
-  disabled,
-  readonly,
   idSchema,
   editing,
   handleChange,
@@ -73,11 +80,10 @@ const InputSection = ({
 }) => {
   const showCancel = items.length > 1;
   const showRemove = items.length > 1 && editing && editing[index] !== 'add';
-  const showSave = uiSchema['ui:options'].showSave;
-  const updateText = showSave ? 'Save' : 'Update';
   const { SchemaField } = registry.fields;
   const itemIdPrefix = `${idSchema.$id}_${index}`;
   const titlePrefix = editing && editing[index] === true ? 'Edit' : 'Add';
+  const buttonText = 'Save';
 
   const getItemSchema = i => {
     return schema.items.length > i ? schema.items[i] : schema.additionalItems;
@@ -121,28 +127,36 @@ const InputSection = ({
             formData={item}
             onBlur={onBlur}
             registry={registry}
-            disabled={disabled}
-            readonly={readonly}
             onChange={value => handleChange(index, value)}
-            required={false}
           />
           <div className="row small-collapse">
             <div className="small-4 left columns button-group">
               <button
+                aria-label={`${buttonText} ${title}`}
                 className="float-left"
-                onClick={e => handleSave(e, index)}
-                aria-label={`${updateText} ${title}`}
+                onClick={() => handleSave(index, itemSchema)}
+                type="button"
               >
-                {updateText}
+                {buttonText}
               </button>
-              {showCancel && <a onClick={() => handleCancel(index)}>Cancel</a>}
+              {showCancel && (
+                <button
+                  aria-label={`Cancel ${title}`}
+                  className="usa-button-secondary vads-u-margin-left--2"
+                  onClick={() => handleCancel(index)}
+                  type="button"
+                >
+                  Cancel
+                </button>
+              )}
             </div>
             <div className="small-8 right columns">
               {showRemove && (
                 <button
+                  aria-label={`Remove ${title}`}
                   className="usa-button-secondary float-right"
-                  type="button"
                   onClick={() => handleRemove(index)}
+                  type="button"
                 >
                   Remove
                 </button>
@@ -155,31 +169,51 @@ const InputSection = ({
   );
 };
 
-const AddAnotherButton = ({
-  items,
-  addAnotherDisabled,
-  uiOptions,
-  handleAdd,
-}) => (
-  <div>
-    <div className="add-item-container" name="table_root_">
-      <div className="add-item-link-section">
-        <i className="fas fa-plus plus-icon" />
-        <a
-          className="add-item-link"
-          disabled={!items || addAnotherDisabled}
-          onClick={handleAdd}
-        >
-          {uiOptions.itemName ? `Add ${uiOptions.itemName}` : 'Add another'}
-        </a>
+InputSection.propTypes = {
+  editing: PropTypes.array,
+  errorSchema: PropTypes.object,
+  handleCancel: PropTypes.func,
+  handleChange: PropTypes.func,
+  handleRemove: PropTypes.func,
+  handleSave: PropTypes.func,
+  idSchema: PropTypes.object,
+  index: PropTypes.number,
+  item: PropTypes.object,
+  items: PropTypes.array,
+  registry: PropTypes.object,
+  schema: PropTypes.object,
+  title: PropTypes.string,
+  uiSchema: PropTypes.object,
+  onBlur: PropTypes.func,
+};
+
+const AddAnotherButton = ({ uiOptions, handleAdd, collapsed }) => {
+  const linkClassNames = classNames(
+    'add-item-button usa-button-secondary vads-u-width--auto vads-u-margin--0',
+    {
+      disabled: !collapsed,
+    },
+  );
+
+  return (
+    <div>
+      <div className="add-item-container" name="table_root_">
+        <div className="add-item-button-section">
+          <button className={linkClassNames} onClick={handleAdd} type="button">
+            <i className="fas fa-plus plus-icon" />
+            {uiOptions.itemName ? `Add ${uiOptions.itemName}` : 'Add another'}
+          </button>
+        </div>
       </div>
     </div>
-    <p>
-      {addAnotherDisabled &&
-        `You’ve entered the maximum number of items allowed.`}
-    </p>
-  </div>
-);
+  );
+};
+
+AddAnotherButton.propTypes = {
+  collapsed: PropTypes.bool,
+  handleAdd: PropTypes.func,
+  uiOptions: PropTypes.object,
+};
 
 const ItemLoop = ({
   uiSchema,
@@ -190,8 +224,6 @@ const ItemLoop = ({
   formData,
   errorSchema,
   formContext,
-  disabled,
-  readonly,
   onBlur,
 }) => {
   const uiOptions = uiSchema['ui:options'] || {};
@@ -204,16 +236,16 @@ const ItemLoop = ({
   const tableHeaders = Object.values(uiSchema?.items)
     .filter(item => item['ui:title'] !== undefined)
     .map(item => item['ui:title']);
+  // use formData otherwise use an array with a single default object
+  const items = formData?.length
+    ? formData
+    : [getDefaultFormState(schema, undefined, registry.definitions)];
 
   const [cache, setCache] = useState(formData);
   const [editing, setEditing] = useState([]);
   const [showTable, setShowTable] = useState(false);
 
-  // use formData otherwise use an array with a single default object
-  const items = formData?.length
-    ? formData
-    : [getDefaultFormState(schema, undefined, registry.definitions)];
-  const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
+  const isCollapsed = allEqual(editing) && editing.includes(false);
 
   // Throw an error if there’s no viewField (should be React component)
   if (!isReactComponent(uiSchema['ui:options'].viewField)) {
@@ -241,6 +273,7 @@ const ItemLoop = ({
   };
 
   const handleEdit = index => {
+    if (!isCollapsed) return;
     const editData = editing.map((item, i) => index === i);
     if (editing.length === 1) {
       setShowTable(false);
@@ -250,57 +283,47 @@ const ItemLoop = ({
     handleScroll(`table_${idSchema.$id}_${index}`, 0);
   };
 
-  const handleSave = (e, index) => {
-    if (errorSchemaIsValid(errorSchema[index])) {
+  const handleSave = (index, itemSchema) => {
+    const isRequired = itemSchema.required?.length;
+    const isUndefined = Object.values(items[index]).includes(undefined);
+    const disableSave = !isRequired && isUndefined;
+
+    if (disableSave || !errorSchemaIsValid(errorSchema[index])) {
+      formContext.onError();
+    } else {
       const editData = editing.map(() => false);
       setEditing(editData);
       setShowTable(true);
       handleScroll(`table_${idSchema.$id}_${index}`, 0);
-    } else {
-      // Set all the fields for this item as touched, so we show errors
-      const touched = setArrayRecordTouched(idSchema.$id, index);
-      formContext.setTouched(touched, () => {
-        scrollToFirstError();
-      });
     }
   };
 
   const handleAdd = () => {
     const lastIndex = items?.length - 1;
-    if (errorSchemaIsValid(errorSchema[lastIndex])) {
-      const defaultData = getDefaultFormState(
-        schema.additionalItems,
-        undefined,
-        registry.definitions,
-      );
-      const newFormData = [...items, defaultData];
-      setCache(items);
-      onChange(newFormData);
-      setEditing([...editing, 'add']);
-      handleScroll(`table_${idSchema.$id}_${lastIndex + 1}`, 0);
-    } else {
-      const touched = setArrayRecordTouched(idSchema.$id, lastIndex);
-      formContext.setTouched(touched, () => {
-        scrollToFirstError();
-      });
-    }
+    const defaultData = getDefaultFormState(
+      schema.additionalItems,
+      undefined,
+      registry.definitions,
+    );
+    const newFormData = [...items, defaultData];
+    setCache(items);
+    onChange(newFormData);
+    setEditing(prevState => [...prevState, 'add']);
+    handleScroll(`table_${idSchema.$id}_${lastIndex + 1}`, 0);
+    formContext.onError(false);
   };
 
   const handleCancel = index => {
     const lastIndex = items.length - 1;
     const isAdding = editing.includes('add');
-    if (isAdding && lastIndex === index) {
+    if (isAdding && index === lastIndex) {
       const editData = editing.filter(item => item !== 'add');
-      const filtered = items.filter(item => {
-        return Object.values(item).includes(undefined) ? null : item;
-      });
       setEditing(editData);
-      onChange(filtered);
     } else {
       const editData = editing.map(() => false);
       setEditing(editData);
-      onChange(cache);
     }
+    onChange(cache);
   };
 
   const handleRemove = index => {
@@ -366,7 +389,7 @@ const ItemLoop = ({
                   ))}
                   <th
                     className="vads-u-border--0"
-                    width="50"
+                    width="85"
                     aria-hidden="true"
                   />
                 </tr>
@@ -393,8 +416,6 @@ const ItemLoop = ({
                         idSchema={idSchema}
                         onBlur={onBlur}
                         registry={registry}
-                        disabled={disabled}
-                        readonly={readonly}
                         errorSchema={errorSchema}
                         editing={editing}
                         handleChange={handleChange}
@@ -432,8 +453,6 @@ const ItemLoop = ({
                 idSchema={idSchema}
                 onBlur={onBlur}
                 registry={registry}
-                disabled={disabled}
-                readonly={readonly}
                 errorSchema={errorSchema}
                 editing={editing}
                 handleChange={handleChange}
@@ -452,11 +471,9 @@ const ItemLoop = ({
             );
           })
         )}
-
         <AddAnotherButton
-          items={items}
-          addAnotherDisabled={addAnotherDisabled}
           uiOptions={uiOptions}
+          collapsed={isCollapsed}
           handleAdd={handleAdd}
         />
       </div>
@@ -468,15 +485,11 @@ export default ItemLoop;
 
 ItemLoop.propTypes = {
   schema: PropTypes.object.isRequired,
-  uiSchema: PropTypes.object,
-  errorSchema: PropTypes.object,
-  requiredSchema: PropTypes.object,
-  idSchema: PropTypes.object,
   onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func,
+  errorSchema: PropTypes.object,
+  formContext: PropTypes.object,
   formData: PropTypes.array,
-  disabled: PropTypes.bool,
-  readonly: PropTypes.bool,
+  idSchema: PropTypes.object,
   registry: PropTypes.shape({
     widgets: PropTypes.objectOf(
       PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
@@ -485,4 +498,7 @@ ItemLoop.propTypes = {
     definitions: PropTypes.object.isRequired,
     formContext: PropTypes.object.isRequired,
   }),
+  requiredSchema: PropTypes.object,
+  uiSchema: PropTypes.object,
+  onBlur: PropTypes.func,
 };

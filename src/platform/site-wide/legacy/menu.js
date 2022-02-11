@@ -36,9 +36,3 @@ export function addOverlayTriggers() {
     ol.addEventListener('click', toggleOverlay);
   });
 }
-
-/*
- * Creates trigger function that opens/closes mobile menu,
- * mobile search menu, and the Veterans Crisis Line.
- */
-document.addEventListener('DOMContentLoaded', addOverlayTriggers);

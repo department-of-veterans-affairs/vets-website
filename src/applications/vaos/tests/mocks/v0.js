@@ -46,49 +46,6 @@ export function getVAAppointmentMock() {
 }
 
 /**
- * Returns a stubbed mock of a VA facility, from the VA facilities api
- *
- * @export
- * @param {Object} [facilityMockParams]
- * @param {string} [facilityMockParams.id=fake] Facility id
- * @param {string} [facilityMockParams.name=Fake name] Facility name
- * @param {number} [facilityMockParams.lat] Latitude of facility
- * @param {number} [facilityMockParams.long] Longitude of facility
- * @returns {VAFacility} VA facility object
- */
-export function getVAFacilityMock({
-  id = 'fake',
-  name = 'Fake name',
-  lat = null,
-  long = null,
-} = {}) {
-  return {
-    id: `vha_${id}`,
-    type: 'va_facilities',
-    attributes: {
-      uniqueId: id,
-      name,
-      address: {
-        physical: {
-          zip: 'fake zip',
-          city: 'Fake city',
-          state: 'FA',
-          address1: 'Fake street',
-          address2: null,
-          address3: null,
-        },
-      },
-      lat,
-      long,
-      phone: {
-        main: 'Fake phone',
-      },
-      hours: {},
-    },
-  };
-}
-
-/**
  * Return a MAS appointment object, with a video appointment stub (item in vvsAppointments)
  *
  * @export

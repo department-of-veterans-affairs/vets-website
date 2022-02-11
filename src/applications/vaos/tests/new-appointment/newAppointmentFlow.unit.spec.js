@@ -13,11 +13,8 @@ import parentFacilities from '../../services/mocks/var/facilities.json';
 
 import newAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 import { FACILITY_TYPES } from '../../utils/constants';
-import {
-  mockFacilitiesFetch,
-  mockParentSites,
-  mockSupportedCCSites,
-} from '../mocks/helpers';
+import { mockParentSites, mockSupportedCCSites } from '../mocks/helpers';
+import { mockFacilitiesFetchByVersion } from '../mocks/fetch';
 import { getParentSiteMock } from '../mocks/v0';
 
 const userState = {
@@ -42,7 +39,7 @@ describe('VAOS newAppointmentFlow', () => {
     describe('next page', () => {
       it('should be vaFacility page if no systems have CC support', async () => {
         mockFetch();
-        mockFacilitiesFetch();
+        mockFacilitiesFetchByVersion({ version: 0 });
         mockParentSites(['983'], [getParentSiteMock({ id: '983' })]);
         mockSupportedCCSites(['983'], []);
 
@@ -433,8 +430,9 @@ describe('VAOS newAppointmentFlow', () => {
             },
           },
         };
+        const dispatch = sinon.spy();
 
-        const nextState = newAppointmentFlow.clinicChoice.next(state);
+        const nextState = newAppointmentFlow.clinicChoice.next(state, dispatch);
 
         expect(nextState).to.equal('preferredDate');
       });

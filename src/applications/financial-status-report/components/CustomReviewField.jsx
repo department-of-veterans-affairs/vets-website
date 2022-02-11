@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const CustomReviewField = ({
   children: {
@@ -10,5 +11,9 @@ const CustomReviewField = ({
     <dd>{formData}</dd>
   </div>
 );
+
+CustomReviewField.propTypes = {
+  children: PropTypes.object,
+};
 
 export default CustomReviewField;

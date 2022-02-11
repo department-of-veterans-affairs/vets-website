@@ -67,6 +67,7 @@ describe('ConfirmationPoll', () => {
     fullName: { first: 'asdf', last: 'fdsa' },
     disabilities: [],
     submittedAt: Date.now(),
+    isSubmittingBDD: false,
   };
 
   it('should make an api call after mounting', () => {
@@ -108,6 +109,7 @@ describe('ConfirmationPoll', () => {
         fullName: defaultProps.fullName,
         disabilities: defaultProps.disabilities,
         submittedAt: defaultProps.submittedAt,
+        isSubmittingBDD: defaultProps.isSubmittingBDD,
       });
       tree.unmount();
       done();
@@ -127,8 +129,8 @@ describe('ConfirmationPoll', () => {
     );
     setTimeout(() => {
       expect(global.fetch.callCount).to.equal(4);
-      const alert = form.find('LoadingIndicator');
-      expect(alert.text()).to.contain('longer than expected');
+      const alert = form.find('va-loading-indicator');
+      expect(alert.html()).to.contain('longer than expected');
       form.unmount();
       done();
     }, 50);

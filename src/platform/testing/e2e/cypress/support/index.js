@@ -2,6 +2,7 @@ import { join } from 'path';
 import '@testing-library/cypress/add-commands';
 import 'cypress-axe';
 import 'cypress-plugin-tab';
+import 'cypress-real-events/support';
 import addContext from 'mochawesome/addContext';
 import './commands';
 
@@ -58,6 +59,29 @@ Cypress.on('test:after:run', test => {
     let videoName = Cypress.spec.name;
     videoName = videoName.replace('/.js.*', '.js');
     const videoPath = `${Cypress.config('videosFolder')}/${videoName}.mp4`;
-    addContext({ test }, videoPath);
+    addContext(
+      { test },
+      {
+        title: 'context',
+        value: {
+          video: videoPath,
+          retries: test.currentRetry,
+          testPath: Cypress.spec.relative,
+          testTitle: test.title,
+        },
+      },
+    );
+  } else {
+    addContext(
+      { test },
+      {
+        title: 'context',
+        value: {
+          retries: test.currentRetry,
+          testPath: Cypress.spec.relative,
+          testTitle: test.title,
+        },
+      },
+    );
   }
 });

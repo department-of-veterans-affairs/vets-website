@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import moment from '../../lib/moment-tz';
 
-import { FETCH_STATUS } from '../../utils/constants';
+import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { fetchConfirmedAppointmentDetails } from '../redux/actions';
 import AppointmentDateTime from './AppointmentDateTime';
@@ -18,6 +17,7 @@ import FullWidthLayout from '../../components/FullWidthLayout';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import InfoAlert from '../../components/InfoAlert';
 import { getCalendarData } from '../../services/appointment';
+import StatusAlert from './ConfirmedAppointmentDetailsPage/StatusAlert';
 
 export default function CommunityCareAppointmentDetailsPage() {
   const { id } = useParams();
@@ -69,7 +69,7 @@ export default function CommunityCareAppointmentDetailsPage() {
   if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
       <FullWidthLayout>
-        <LoadingIndicator setFocus message="Loading your appointment..." />
+        <va-loading-indicator set-focus message="Loading your appointment..." />
       </FullWidthLayout>
     );
   }
@@ -81,7 +81,8 @@ export default function CommunityCareAppointmentDetailsPage() {
     facility: appointment.communityCareProvider,
     appointment,
   });
-  const isPastAppointment = appointment.vaos.isPastAppointment;
+  const { isPastAppointment } = appointment.vaos;
+  const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
 
   return (
     <PageLayout>
@@ -93,11 +94,7 @@ export default function CommunityCareAppointmentDetailsPage() {
         <AppointmentDateTime appointment={appointment} />
       </h1>
 
-      {isPastAppointment && (
-        <InfoAlert backgroundOnly status="warning">
-          This appointment occurred in the past.
-        </InfoAlert>
-      )}
+      <StatusAlert appointment={appointment} />
 
       <h2
         className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
@@ -131,46 +128,52 @@ export default function CommunityCareAppointmentDetailsPage() {
         )}
       </div>
 
-      {!isPastAppointment && (
-        <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-          <i
-            aria-hidden="true"
-            className="far fa-calendar vads-u-margin-right--1 vads-u-color--link-default"
-          />
-          <AddToCalendar
-            summary={calendarData.summary}
-            description={{
-              text: calendarData.text,
-              phone: calendarData.phone,
-              additionalText: calendarData.additionalText,
-            }}
-            location={calendarData.location}
-            duration={appointment.minutesDuration}
-            startDateTime={moment.parseZone(appointment.start)}
-          />
-        </div>
-      )}
+      {!isPastAppointment &&
+        !isCanceled && (
+          <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
+            <i
+              aria-hidden="true"
+              className="far fa-calendar vads-u-margin-right--1 vads-u-color--link-default"
+            />
+            <AddToCalendar
+              summary={calendarData.summary}
+              description={{
+                text: calendarData.text,
+                phone: calendarData.phone,
+                additionalText: calendarData.additionalText,
+              }}
+              location={calendarData.location}
+              duration={appointment.minutesDuration}
+              startDateTime={moment.parseZone(appointment.start)}
+            />
+          </div>
+        )}
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
         <i
           aria-hidden="true"
           className="fas fa-print vads-u-margin-right--1 vads-u-color--link-default"
         />
-        <button className="va-button-link" onClick={() => window.print()}>
+        <button
+          type="button"
+          className="va-button-link"
+          onClick={() => window.print()}
+        >
           Print
         </button>
       </div>
 
-      {!isPastAppointment && (
-        <InfoAlert
-          backgroundOnly
-          headline="Need to make changes?"
-          status="info"
-        >
-          Contact this provider if you need to reschedule or cancel your
-          appointment.
-        </InfoAlert>
-      )}
+      {!isPastAppointment &&
+        appointment.status !== 'cancelled' && (
+          <InfoAlert
+            backgroundOnly
+            headline="Need to make changes?"
+            status="info"
+          >
+            Contact this provider if you need to reschedule or cancel your
+            appointment.
+          </InfoAlert>
+        )}
     </PageLayout>
   );
 }

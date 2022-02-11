@@ -151,7 +151,6 @@ describe('addIncludedIssues', () => {
         { ...issue1.raw, [SELECTED]: false },
         { ...issue2.raw, [SELECTED]: true },
       ],
-      'view:hasIssuesToAdd': true,
       additionalIssues: [
         { issue: 'not-added', decisionDate: validDate2, [SELECTED]: false },
         { ...issue.attributes, [SELECTED]: true },
@@ -172,10 +171,9 @@ describe('addIncludedIssues', () => {
         { ...issue1.raw, [SELECTED]: false },
         { ...issue2.raw, [SELECTED]: true },
       ],
-      'view:hasIssuesToAdd': false,
       additionalIssues: [
         { issue: 'not-added', decisionDate: validDate2, [SELECTED]: false },
-        { ...issue.attributes, [SELECTED]: true },
+        { ...issue.attributes },
       ],
     };
     expect(addIncludedIssues(formData)).to.deep.equal([issue2.result]);
@@ -198,9 +196,8 @@ describe('addAreaOfDisagreement', () => {
         {
           disagreementOptions: {
             effectiveDate: true,
-            other: false,
           },
-          otherEntry: 'test',
+          otherEntry: '',
         },
       ],
     };
@@ -222,7 +219,7 @@ describe('addAreaOfDisagreement', () => {
             effectiveDate: true,
             evaluation: true,
           },
-          otherEntry: 'test',
+          otherEntry: '',
         },
       ],
     };
@@ -239,7 +236,6 @@ describe('addAreaOfDisagreement', () => {
             serviceConnection: true,
             effectiveDate: true,
             evaluation: true,
-            other: true,
           },
           otherEntry: 'this is an other entry',
         },

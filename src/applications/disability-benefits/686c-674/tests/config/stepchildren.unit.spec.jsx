@@ -6,7 +6,7 @@ import {
   DefinitionTester,
   fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import { changeDropdown } from '../helpers/index.js';
+import { changeDropdown } from 'platform/testing/unit/helpers';
 import formConfig from '../../config/form.js';
 
 describe('686 stepchildren', () => {

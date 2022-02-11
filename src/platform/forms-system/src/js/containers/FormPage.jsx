@@ -2,38 +2,30 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import Scroll from 'react-scroll';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 import classNames from 'classnames';
 
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import FormNavButtons from '../components/FormNavButtons';
 import SchemaForm from '../components/SchemaForm';
 import { setData, uploadFile } from '../actions';
-import { getNextPagePath, getPreviousPagePath } from '../routing';
+import {
+  getNextPagePath,
+  getPreviousPagePath,
+  checkValidPagePath,
+} from '../routing';
 import { focusElement } from '../utilities/ui';
-import { isReactComponent } from '~/platform/utilities/ui';
+import { isReactComponent, getScrollOptions } from '~/platform/utilities/ui';
 
 function focusForm() {
   focusElement('.nav-header > h2');
 }
 
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo(
-    'topScrollElement',
-    window.Forms?.scroll || {
-      duration: 500,
-      delay: 0,
-      smooth: true,
-    },
-  );
-};
-
 class FormPage extends React.Component {
   componentDidMount() {
     if (!this.props.blockScrollOnMount) {
-      scrollToTop();
+      scrollToTop('topScrollElement', getScrollOptions());
       focusForm();
     }
   }
@@ -44,7 +36,7 @@ class FormPage extends React.Component {
         this.props.route.pageConfig.pageKey ||
       get('params.index', prevProps) !== get('params.index', this.props)
     ) {
-      scrollToTop();
+      scrollToTop('topScrollElement', getScrollOptions());
       focusForm();
     }
   }
@@ -110,7 +102,24 @@ class FormPage extends React.Component {
       route: { pageList },
       location,
     } = this.props;
+
     const path = getPreviousPagePath(pageList, form.data, location.pathname);
+
+    this.props.router.push(path);
+  };
+
+  goToPath = customPath => {
+    const {
+      form,
+      route: { pageList },
+      location,
+    } = this.props;
+
+    const path =
+      customPath &&
+      checkValidPagePath(pageList, this.props.form.data, customPath)
+        ? customPath
+        : getPreviousPagePath(pageList, form.data, location.pathname);
 
     this.props.router.push(path);
   };
@@ -166,6 +175,7 @@ class FormPage extends React.Component {
             uploadFile={this.props.uploadFile}
             goBack={this.goBack}
             goForward={this.onSubmit}
+            goToPath={this.goToPath}
           />
         </div>
       );

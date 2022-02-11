@@ -25,7 +25,7 @@ export const ConfirmationMessage = () => {
       <p>
         Thank you for signing up to stay informed about COVID-19 vaccines at VA.
         When we have new information to share about our COVID-19 plans and your
-        vaccine options, we'll send you updates by email or text.
+        vaccine options, we’ll send you updates by email or text.
       </p>
       <p>
         Your local VA health facility may also use the information you provided
@@ -44,7 +44,7 @@ export const WhatIfIDontSignUp = () => {
     <>
       <p>This depends on whether you currently receive care through VA.</p>
       <p>
-        <strong>If you're a Veteran currently receiving care through VA</strong>
+        <strong>If you’re a Veteran currently receiving care through VA</strong>
         , we’ll contact you when we have a vaccine for you, even if you don’t
         sign up. But if you do sign up and tell us you plan to get a vaccine, we
         may contact you sooner.
@@ -85,9 +85,9 @@ export const WhatIfIDontSignUp = () => {
       </span>
       <p>
         <strong>If you don’t currently receive care through VA,</strong> you’ll
-        need to sign up to tell us you want to get a vaccine. If you're
-        eligible, we'll contact you when we have a vaccine for you. At this
-        time, we don't know when that will be.
+        need to sign up to tell us you want to get a vaccine. If you’re
+        eligible, we’ll contact you when we have a vaccine for you. At this
+        time, we don’t know when that will be.
       </p>
     </>
   );
@@ -143,7 +143,7 @@ export const ContactRules = () => {
         be sure the call, email, or text is really from VA.
         <ul>
           <li>
-            Text messages will always come from <strong>53079</strong>.
+            Text messages will always come from <strong>80728</strong>.
           </li>
           <li>
             Emails will always come from a <strong>va.gov</strong> email

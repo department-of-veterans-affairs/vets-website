@@ -103,7 +103,7 @@ export default function ConfirmationPage() {
             });
           }}
         >
-          View your appointments
+          Review your appointments
         </Link>
       </div>
     </div>

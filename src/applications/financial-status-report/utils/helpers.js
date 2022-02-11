@@ -12,17 +12,22 @@ export const fsrFeatureToggle = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.showFinancialStatusReport];
 };
 
+export const allEqual = arr => arr.every(val => val === arr[0]);
+
 export const dateFormatter = date => {
   if (!date) return undefined;
   const formatDate = date?.slice(0, -3);
   return moment(formatDate, 'YYYY-MM').format('MM/YYYY');
 };
 
-export const currency = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2,
-});
+export const currency = amount => {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  });
+  return formatter.format(parseFloat(amount));
+};
 
 const hasProperty = (arr, key) => {
   return arr.filter(item => item[key]).length > 0 ?? false;
@@ -71,6 +76,13 @@ export const nameStr = (socialSecurity, compensation, education, addlInc) => {
   const otherIncNames = [...benefitTypes, ...vetAddlNames];
 
   return otherIncNames?.map(item => item).join(', ') ?? '';
+};
+
+export const getFsrReason = debts => {
+  const reasons = debts.map(({ resolution }) => resolution.resolutionType);
+  const uniqReasons = [...new Set(reasons)];
+
+  return uniqReasons.join(', ');
 };
 
 export const getMonthlyIncome = ({

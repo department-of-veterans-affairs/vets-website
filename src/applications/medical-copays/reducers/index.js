@@ -4,16 +4,13 @@ import {
   MCP_STATEMENTS_FETCH_FAILURE,
 } from '../actions';
 
-// using mock data until api available
-import { mockUserData } from '../utils/mockData';
-
 const initialState = {
   pending: false,
-  errors: null,
-  statements: [...mockUserData],
+  error: null,
+  statements: null,
 };
 
-const medicalCopaysReducer = (state = initialState, action) => {
+export const medicalCopaysReducer = (state = initialState, action) => {
   switch (action.type) {
     case MCP_STATEMENTS_FETCH_INIT:
       return {
@@ -30,7 +27,7 @@ const medicalCopaysReducer = (state = initialState, action) => {
       return {
         ...state,
         pending: false,
-        errors: action.errors,
+        error: action.error,
       };
     default:
       return state;

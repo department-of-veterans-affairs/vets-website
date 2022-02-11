@@ -329,7 +329,7 @@
   ],
   "megaMenuData": [
     {
-      "title": "VA Benefits and Health Care",
+      "title": "VA benefits and health care",
       "menuSections": [
         {
           "title": "Health care",
@@ -519,7 +519,7 @@
               },
               "link": {
                 "text": "GI Bill® Comparison Tool",
-                "href": "https://www.va.gov/gi-bill-comparison-tool"
+                "href": "https://www.va.gov/education/gi-bill-comparison-tool"
               },
               "description": "Learn about education programs and compare benefits by school."
             },
@@ -994,7 +994,7 @@
               "href": "https://www.va.gov/about_va/vahistory.asp"
             },
             {
-              "text": "VA plans, budget, and performance",
+              "text": "VA plans, budget, finances, and performance",
               "href": "https://www.va.gov/performance/"
             },
             {
@@ -1025,7 +1025,7 @@
       }
     },
     {
-      "title": "Find a VA Location",
+      "title": "Find a VA location",
       "href": "https://www.va.gov/find-locations"
     }
   ]

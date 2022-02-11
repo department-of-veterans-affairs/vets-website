@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
-import ExpandableOperatingStatus from '../../../shared/ExpandableOperatingStatus';
+import ExpandableOperatingStatus from './ExpandableOperatingStatus';
 import { buildOperatingStatusProps } from '../buildOperatingStatusProps';
 
 function VetCenterInfoSection(props) {

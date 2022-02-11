@@ -3,7 +3,6 @@ import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
 import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
 
 import mockUserNotInEVSS from '@@profile/tests/fixtures/users/user-non-vet.json';
-import mockUserInEVSS from '@@profile/tests/fixtures/users/user-36.json';
 
 import mockDD4CNPNotEligible from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-not-eligible.json';
 import mockDD4CNPNotEnrolled from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-not-set-up.json';
@@ -15,7 +14,11 @@ import mockDD4CNPFiduciary from '@@profile/tests/fixtures/dd4cnp/dd4cnp-fiduciar
 import mockDD4EDUEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-enrolled.json';
 import mockDD4EDUNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enrolled.json';
 
+import { makeUserObject } from '~/applications/personalization/common/helpers';
+import { CSP_IDS } from 'platform/user/authentication/constants';
+
 function confirmDDBlockedAlertIsNotShown() {
+  cy.findByRole('heading', { name: /^Profile menu$/ });
   cy.findByText(/You can’t update your financial information/i).should(
     'not.exist',
   );
@@ -30,7 +33,7 @@ function confirmDDBlockedAlertIsShown() {
 
 function confirmDirectDepositIsAvailable() {
   // the DD item should exist in the sub nav
-  cy.findByRole('navigation', { name: /secondary/i }).within(() => {
+  cy.findByRole('navigation', { name: /profile/i }).within(() => {
     cy.findByRole('link', { name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT }).should(
       'exist',
     );
@@ -46,7 +49,7 @@ function confirmDirectDepositIsAvailable() {
 
 function confirmDirectDepositIsBlocked() {
   // the DD item should not exist in the sub nav
-  cy.findByRole('navigation', { name: /secondary/i }).within(() => {
+  cy.findByRole('navigation', { name: /profile/i }).within(() => {
     // Just a test to make sure we can access items in the sub nav to ensure
     // the following test isn't a false negative
     cy.findByRole('link', { name: /personal.*info/i }).should('exist');
@@ -65,6 +68,7 @@ function confirmDirectDepositIsBlocked() {
 
 describe('Direct Deposit section', () => {
   let getPaymentInfoStub;
+  let mockUserInEVSS;
   beforeEach(() => {
     getPaymentInfoStub = cy.stub();
     cy.login();
@@ -81,6 +85,7 @@ describe('Direct Deposit section', () => {
       'v0/profile/ch33_bank_accounts',
       'v0/ppiu/payment_information',
     ]);
+    mockUserInEVSS = makeUserObject({ services: ['evss-claims'] });
   });
   it('should be blocked if the user is not in EVSS and they are not signed up for DD4EDU', () => {
     cy.intercept('GET', 'v0/user', mockUserNotInEVSS);
@@ -110,7 +115,20 @@ describe('Direct Deposit section', () => {
       expect(getPaymentInfoStub).not.to.be.called;
     });
   });
-  it('should be blocked if the user is not enrolled in or eligible for DD4CNP and not signed up for DD4EDU', () => {
+  it('should be blocked if the ID.me user is not enrolled in or eligible for DD4CNP and not signed up for DD4EDU', () => {
+    cy.intercept('GET', 'v0/user', mockUserInEVSS);
+    cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEligible);
+    cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUNotEnrolled);
+    cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+
+    confirmDirectDepositIsBlocked();
+    confirmDDBlockedAlertIsNotShown();
+  });
+  it('should be blocked if the Login.gov user is not enrolled in or eligible for DD4CNP and not signed up for DD4EDU', () => {
+    mockUserInEVSS = makeUserObject({
+      services: ['evss-claims'],
+      serviceName: CSP_IDS.LOGIN_GOV,
+    });
     cy.intercept('GET', 'v0/user', mockUserInEVSS);
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEligible);
     cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUNotEnrolled);
@@ -198,7 +216,11 @@ describe('Direct Deposit section', () => {
       .closest('.usa-alert-warning')
       .should('exist');
   });
-  it('should not be blocked if the user is eligible for DD4CNP', () => {
+  it('should not be blocked if they are a Login.gov user and are eligible for DD4CNP', () => {
+    mockUserInEVSS = makeUserObject({
+      services: ['evss-claims'],
+      serviceName: CSP_IDS.LOGIN_GOV,
+    });
     cy.intercept('GET', 'v0/user', mockUserInEVSS);
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEnrolled);
     cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUNotEnrolled);
@@ -206,11 +228,26 @@ describe('Direct Deposit section', () => {
 
     confirmDirectDepositIsAvailable();
     confirmDDBlockedAlertIsNotShown();
+    cy.findByText(
+      /You’ll need to verify your identity.*to update.*your direct deposit information online/i,
+    ).should('not.exist');
   });
   it('should not be blocked if the user is signed up for DD4CNP', () => {
     cy.intercept('GET', 'v0/user', mockUserInEVSS);
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPEnrolled);
     cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUNotEnrolled);
+    cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+
+    confirmDirectDepositIsAvailable();
+    confirmDDBlockedAlertIsNotShown();
+  });
+  it('should not be blocked if the ch33 bank account endpoint is delayed', () => {
+    cy.intercept('GET', 'v0/user', mockUserInEVSS);
+    cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPEnrolled);
+    cy.intercept('GET', 'v0/profile/ch33_bank_accounts', {
+      statusCode: 503,
+      delay: 180000,
+    });
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsAvailable();

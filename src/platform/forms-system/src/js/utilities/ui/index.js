@@ -1,4 +1,5 @@
 import Scroll from 'react-scroll';
+import { getScrollOptions } from 'platform/utilities/ui';
 
 export const $ = selectorOrElement =>
   typeof selectorOrElement === 'string'
@@ -95,19 +96,6 @@ export function setGlobalScroll() {
       smooth: true,
     },
   };
-}
-
-// Allows smooth scrolling to be overridden by our E2E tests
-export function getScrollOptions(additionalOptions) {
-  const globals = window.Forms || {};
-  const reducedMotion = window?.matchMedia('(prefers-reduced-motion: reduce)')
-    ?.matches;
-  const defaults = {
-    duration: reducedMotion ? 0 : 500,
-    delay: 0,
-    smooth: !reducedMotion,
-  };
-  return Object.assign({}, defaults, globals.scroll, additionalOptions);
 }
 
 export function scrollToFirstError() {

@@ -449,6 +449,8 @@
       "view:assaultPtsdType": true,
       "view:nonCombatPtsdType": true
     },
+    "skip781ForCombatReason": false,
+    "skip781ForNonCombatReason": false,
     "view:ptsdTypeHelp": {},
     "view:disabilitiesClarification": {},
     "isVaEmployee": false,

@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 import { merge } from 'lodash';
+import { Provider } from 'react-redux';
 import { AppealInfo } from '../../../containers/AppealInfo';
 import { mockData } from '../../../utils/helpers';
 import {
@@ -29,12 +30,12 @@ describe('<AppealInfo/>', () => {
     wrapper.unmount();
   });
 
-  it('should render LoadingIndicator when appeals loading', () => {
+  it('should render va-loading-indicator when appeals loading', () => {
     const props = { params: { id: appealIdParam }, appealsLoading: true };
     const wrapper = shallow(<AppealInfo {...props} />, {
       disableLifecycleMethods: true,
     });
-    const loadingIndicator = wrapper.find('LoadingIndicator');
+    const loadingIndicator = wrapper.find('va-loading-indicator');
     expect(loadingIndicator.length).to.equal(1);
     wrapper.unmount();
   });
@@ -71,7 +72,21 @@ describe('<AppealInfo/>', () => {
   it('should render CopyOfExam block', () => {
     const children = <span className="test">Child Goes Here</span>;
     const props = merge({}, { children }, defaultProps);
-    const wrapper = mount(<AppealInfo {...props} />);
+    const mockStore = {
+      getState: () => ({
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          omni_channel_link: true,
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+    const wrapper = mount(
+      <Provider store={mockStore}>
+        <AppealInfo {...props} />
+      </Provider>,
+    );
     expect(wrapper.find('CopyOfExam').length).to.equal(1);
     wrapper.unmount();
   });

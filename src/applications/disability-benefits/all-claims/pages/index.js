@@ -49,6 +49,8 @@ import * as privateMedicalRecordsAttachments from './privateMedicalRecordsAttach
 import * as privateMedicalRecordsRelease from './privateMedicalRecordsRelease';
 import * as ptsd781aChangesIntro from './ptsd781aChangesIntro';
 import * as ptsdAdditionalEvents from './ptsdAdditionalEvents';
+import * as ptsdBypassCombat from './ptsdBypassCombat';
+import * as ptsdBypassNonCombat from './ptsdBypassNonCombat';
 import * as ptsdSecondaryAdditionalEvents from './ptsdSecondaryAdditionalEvents';
 import * as ptsdWalkthroughChoice781a from './ptsdWalkthroughChoice781a';
 import * as ptsdWalkthroughChoice781 from './ptsdWalkthroughChoice781';
@@ -149,6 +151,8 @@ export {
   privateMedicalRecordsRelease,
   ptsd781aChangesIntro,
   ptsdAdditionalEvents,
+  ptsdBypassCombat,
+  ptsdBypassNonCombat,
   ptsdSecondaryAdditionalEvents,
   ptsdWalkthroughChoice781,
   ptsdWalkthroughChoice781a,

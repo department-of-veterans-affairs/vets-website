@@ -1,0 +1,14 @@
+{
+  "data": {
+    "features": [
+      {
+        "name": "profile_show_address_change_modal",
+        "value": true
+      },
+      {
+        "name": "profileShowAddressChangeModal",
+        "value": true
+      }
+    ]
+  }
+}

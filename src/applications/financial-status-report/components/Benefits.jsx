@@ -16,10 +16,15 @@ const BenefitCard = ({ received, title }) => {
 
       <div className="vads-u-margin-bottom--1">
         <span>Amount received last month: </span>
-        {currency.format(parseFloat(received))}
+        {currency(received)}
       </div>
     </section>
   );
+};
+
+BenefitCard.propTypes = {
+  received: PropTypes.number,
+  title: PropTypes.string,
 };
 
 const NoBenefits = () => {
@@ -61,12 +66,12 @@ const Benefits = ({ pending, income }) => {
       <p>This is the VA benefit information we have on file for you.</p>
       {Boolean(compReceived) && (
         <BenefitCard
-          title={'Disability compensation and pension benefits'}
+          title="Disability compensation and pension benefits"
           received={compReceived}
         />
       )}
       {Boolean(eduReceived) && (
-        <BenefitCard title={'Education benefits'} received={eduReceived} />
+        <BenefitCard title="Education benefits" received={eduReceived} />
       )}
       <p>
         <strong>Note:</strong> If this information isn’t right, call our VA

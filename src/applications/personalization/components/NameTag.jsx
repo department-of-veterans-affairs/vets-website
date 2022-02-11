@@ -17,20 +17,29 @@ const DisabilityRatingContent = ({ rating }) => {
   ]);
 
   const disabilityRatingClassesMedium = prefixUtilityClasses(
-    ['margin-top--1', 'text-align--left'],
+    ['margin-top--1', 'text-align--left', 'display--flex'],
     'medium',
   );
+
+  const disabilityRatingClassesSmall = prefixUtilityClasses(
+    ['display--block'],
+    'small',
+  );
+
+  const dtRatingClasses = prefixUtilityClasses(['margin-right--0p5']);
 
   const classes = [
     ...disabilityRatingClasses,
     ...disabilityRatingClassesMedium,
+    ...disabilityRatingClassesSmall,
   ].join(' ');
 
   return (
-    <>
-      <dt className="sr-only" />
-      <dd className={classes}>
-        {rating ? <>Your disability rating: </> : null}
+    <div className={classes}>
+      <dt className={rating ? dtRatingClasses : null}>
+        {rating ? `Your disability rating:` : null}
+      </dt>
+      <dd>
         <a
           href="/disability/view-disability-rating/rating"
           aria-label={
@@ -55,7 +64,7 @@ const DisabilityRatingContent = ({ rating }) => {
           />
         </a>
       </dd>
-    </>
+    </div>
   );
 };
 
@@ -191,10 +200,12 @@ const NameTag = ({
             <dt className="sr-only">Name: </dt>
             <dd className={classes.fullName}>{fullName}</dd>
             {latestBranchOfService && (
-              <dd className={classes.latestBranch}>
-                <dfn className="sr-only">Branch of service: </dfn>
-                {getServiceBranchDisplayName(latestBranchOfService)}
-              </dd>
+              <>
+                <dt className="sr-only">Branch of service: </dt>
+                <dd className={classes.latestBranch}>
+                  {getServiceBranchDisplayName(latestBranchOfService)}
+                </dd>
+              </>
             )}
             <DisabilityRating
               rating={totalDisabilityRating}

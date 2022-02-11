@@ -32,8 +32,7 @@ const PreSubmitCheckboxGroup = ({
   const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
   const hasSubmittedForm = !!submission.status;
   const showRepresentativeSignatureBox =
-    formData.signAsRepresentativeYesNo === 'yes' ||
-    formData.signAsRepresentativeYesNo === 'noRep';
+    formData.signAsRepresentativeYesNo === 'yes';
   // we are separating the first paragraph due to each paragraph having unique styling
   const veteranFirstParagraph = veteranSignatureContent[0];
   const veteranWithoutFirstParagraph = veteranSignatureContent.slice(1);

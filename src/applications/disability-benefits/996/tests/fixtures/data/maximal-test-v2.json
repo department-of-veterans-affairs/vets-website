@@ -74,7 +74,6 @@
         }
       }
     ],
-    "view:hasIssuesToAdd": true,
     "additionalIssues": [
       {
         "issue": "right arm",
@@ -85,6 +84,38 @@
         "issue": "right shoulder",
         "decisionDate": "2021-06-06",
         "view:selected": true
+      }
+    ],
+    "areaOfDisagreement": [
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "Headaches"
+        },
+        "disagreementOptions": {
+          "serviceConnection": true,
+          "effectiveDate": true,
+          "evaluation": true
+        },
+        "otherEntry": "this is an other entry"
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "Being green"
+        },
+        "disagreementOptions": {
+          "serviceConnection": false,
+          "effectiveDate": true
+        },
+        "otherEntry": ""
+      },
+      {
+        "issue": "right shoulder",
+        "disagreementOptions": {
+          "evaluation": true
+        },
+        "otherEntry": "this is another other entry"
       }
     ]
   }

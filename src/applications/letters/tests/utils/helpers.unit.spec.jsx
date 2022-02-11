@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import { ADDRESS_TYPES, MILITARY_STATES } from '../../utils/constants';
+import { ADDRESS_TYPES_ALTERNATE } from '@@vap-svc/constants';
 
 import {
   getBenefitOptionText,
-  inferAddressType,
   resetDisallowedAddressFields,
   isAddressEmpty,
+  stripOffTime,
 } from '../../utils/helpers';
 
 const address = {
@@ -15,7 +15,7 @@ const address = {
   addressOne: '123 Main St N',
   stateCode: 'MA',
   zipCode: '12345',
-  type: ADDRESS_TYPES.domestic,
+  type: ADDRESS_TYPES_ALTERNATE.domestic,
   city: 'Bygtowne',
 };
 
@@ -125,40 +125,10 @@ describe('Letters helpers: ', () => {
     });
   });
 
-  describe('inferAddressType', () => {
-    it("should set the type to international if USA isn't selected", () => {
-      const newAddress = Object.assign({}, address, { countryName: 'Uganda' });
-      expect(inferAddressType(newAddress).type).to.equal(
-        ADDRESS_TYPES.international,
-      );
-    });
-
-    it('should set the type to military if a military stateCode is chosen', () => {
-      const newAddress = Object.assign({}, address);
-      Array.from(MILITARY_STATES).forEach(code => {
-        newAddress.stateCode = code;
-        expect(inferAddressType(newAddress).type).to.equal(
-          ADDRESS_TYPES.military,
-        );
-      });
-    });
-
-    it('should set the type to domestic if the countryName is "United States"', () => {
-      const newAddress = { ...address, countryName: 'United States' };
-      expect(inferAddressType(newAddress).type).to.equal(
-        ADDRESS_TYPES.domestic,
-      );
-    });
-
-    it('should set the type to domestic if none of the above are true', () => {
-      expect(inferAddressType(address).type).to.equal(ADDRESS_TYPES.domestic);
-    });
-  });
-
   describe('resetDisallowedAddressFields', () => {
     it('should clear state and zipCode for international addresses', () => {
       const internationalAddress = Object.assign({}, address, {
-        type: ADDRESS_TYPES.international,
+        type: ADDRESS_TYPES_ALTERNATE.international,
       });
       const resetAddress = resetDisallowedAddressFields(internationalAddress);
 
@@ -173,5 +143,25 @@ describe('Letters helpers: ', () => {
     // type & countryName are ignored
     expect(isAddressEmpty({ type: 'foo', countryName: 'bar' })).to.be.true;
     expect(isAddressEmpty({ foo: 'bar' })).to.be.false;
+  });
+
+  // reset time to midnight
+  describe('stripOffTime', () => {
+    it('should return an empty string', () => {
+      expect(stripOffTime()).to.equal('');
+      expect(stripOffTime('')).to.equal('');
+      expect(stripOffTime(null)).to.equal('');
+    });
+    it('should replace time offsets with all zeros', () => {
+      expect(stripOffTime('2017-12-01T06:00:00.000+00:00')).to.equal(
+        '2017-12-01',
+      );
+      expect(stripOffTime('1965-01-01T06:00:00.000+00:00')).to.equal(
+        '1965-01-01',
+      );
+      expect(stripOffTime('1972-10-01T05:00:00.000+00:00')).to.equal(
+        '1972-10-01',
+      );
+    });
   });
 });

@@ -8,8 +8,9 @@ import { cleanup } from '@testing-library/react';
 import set from 'platform/utilities/data/set';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
+import moment from 'moment';
+import environment from 'platform/utilities/environment';
 import { getParentSiteMock } from '../../mocks/v0';
-import { getV2FacilityMock } from '../../mocks/v2';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import {
   mockCommunityCareEligibility,
@@ -22,8 +23,7 @@ import {
 
 import TypeOfCarePage from '../../../new-appointment/components/TypeOfCarePage';
 import { NewAppointment } from '../../../new-appointment';
-import moment from 'moment';
-import environment from 'platform/utilities/environment';
+import { createMockFacilityByVersion } from '../../mocks/data';
 
 const initialState = {
   featureToggles: {
@@ -43,6 +43,7 @@ const initialState = {
 
 describe('VAOS <TypeOfCarePage>', () => {
   beforeEach(() => mockFetch());
+
   it('should show type of care page with all care types', async () => {
     const store = createTestStore(initialState);
     mockParentSites(['983'], []);
@@ -59,7 +60,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     // Verify alert is shown
     expect(
       screen.getByRole('heading', {
-        name: /not seeing the type of care you need\?/i,
+        name: /Is the type of care you need not listed here\?/i,
       }),
     ).to.exist;
     expect(
@@ -72,7 +73,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect(global.window.dataLayer[0]).to.eql({
       'alert-box-click-label': 'Find a VA location',
-      'alert-box-heading': 'Not seeing the type of care you need',
+      'alert-box-heading': 'Is the type of care you need not listed here',
       'alert-box-subheading': undefined,
       'alert-box-type': 'informational',
       event: 'nav-alert-box-link-click',
@@ -360,9 +361,28 @@ describe('VAOS <TypeOfCarePage>', () => {
         ],
       },
     );
-    const store = createTestStore(initialState);
+
+    const state = {
+      ...initialState,
+      newAppointment: {
+        ...initialState.newAppointment,
+        pages: {
+          vaFacilityV2: {
+            properties: {
+              vaFacility: {
+                enum: [{}, {}],
+              },
+            },
+          },
+        },
+        isNewAppointmentStarted: true,
+      },
+    };
+
+    const store = createTestStore(state);
     const screen = renderWithStoreAndRouter(<NewAppointment />, {
       store,
+      path: '/new-appointment',
     });
 
     expect(
@@ -398,8 +418,8 @@ describe('VAOS <TypeOfCarePage>', () => {
       mockVAOSParentSites(
         ['983'],
         [
-          getV2FacilityMock({ id: '983', isParent: true }),
-          getV2FacilityMock({ id: '983GC', isParent: true }),
+          createMockFacilityByVersion({ id: '983', isParent: true }),
+          createMockFacilityByVersion({ id: '983GC', isParent: true }),
         ],
         true,
       );
@@ -430,8 +450,8 @@ describe('VAOS <TypeOfCarePage>', () => {
       mockVAOSParentSites(
         ['983'],
         [
-          getV2FacilityMock({ id: '983', isParent: true }),
-          getV2FacilityMock({ id: '983GC', isParent: true }),
+          createMockFacilityByVersion({ id: '983', isParent: true }),
+          createMockFacilityByVersion({ id: '983GC', isParent: true }),
         ],
         true,
       );

@@ -9,7 +9,7 @@ describe('VAOS <Breadcrumbs>', () => {
 
     const screen = renderWithStoreAndRouter(
       <Breadcrumbs>
-        <a>test</a>
+        <a href="https://www.va.gov/">test</a>
       </Breadcrumbs>,
       { initialState },
     );

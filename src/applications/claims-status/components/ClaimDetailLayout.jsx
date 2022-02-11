@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import TabNav from '../components/TabNav';
 import ClaimSyncWarning from '../components/ClaimSyncWarning';
@@ -31,7 +30,10 @@ export default function ClaimDetailLayout(props) {
   let headingContent;
   if (loading) {
     bodyContent = (
-      <LoadingIndicator setFocus message="Loading your claim information..." />
+      <va-loading-indicator
+        set-focus
+        message="Loading your claim information..."
+      />
     );
   } else if (claim !== null) {
     headingContent = (

@@ -21,7 +21,6 @@ const {
 
 const {
   vetEmailField,
-  viewConfirmationEmailField,
   suppliesField,
   permanentAddressField,
   temporaryAddressField,
@@ -31,7 +30,6 @@ const {
 
 const {
   emailUI,
-  confirmationEmailUI,
   suppliesUI,
   permanentAddressUI,
   temporaryAddressUI,
@@ -210,7 +208,6 @@ const formConfig = {
             [permanentAddressField]: permanentAddressUI,
             [temporaryAddressField]: temporaryAddressUI,
             [vetEmailField]: emailUI,
-            [viewConfirmationEmailField]: confirmationEmailUI,
             [viewCurrentAddressField]: currentAddressUI,
           },
           schema: {
@@ -219,7 +216,6 @@ const formConfig = {
               [permanentAddressField]: addressWithIsMilitaryBase,
               [temporaryAddressField]: addressWithIsMilitaryBase,
               [vetEmailField]: email,
-              [viewConfirmationEmailField]: email,
               [viewCurrentAddressField]: {
                 type: 'string',
                 enum: ['permanentAddress', 'temporaryAddress'],

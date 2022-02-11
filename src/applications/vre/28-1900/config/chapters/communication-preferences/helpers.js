@@ -29,7 +29,7 @@ export const VreCommunicationInformation = (
 
 export const AppointmentPreferencesInformation = (
   <section>
-    <p>
+    <p id="appointment-time-desc">
       Please tell us the time you prefer to meet with your counselor. We’ll make
       every effort to assign a counselor who is available to meet during your
       preferred hours.

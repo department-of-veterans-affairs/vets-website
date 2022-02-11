@@ -253,7 +253,7 @@ describe('VAOS VA request flow using VAOS service', () => {
     }).as('appointmentRequests');
     cy.route({
       method: 'GET',
-      url: '/vaos/v2/appointments/25957',
+      url: '/vaos/v2/appointments/25957*',
       response: {
         data: requests.data.find(r => r.id === '25957'),
       },

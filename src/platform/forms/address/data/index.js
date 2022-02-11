@@ -1,8 +1,8 @@
-import { states as statesList } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 
 // create an object of states using this pattern - {abbreviation}: {full name}
 // e.g. "DC": "District of Columnbia"
-const states = statesList.USA.reduce(
+const states = constants.states.USA.reduce(
   (stateList, { value, label }) => ({
     ...stateList,
     [value]: label,

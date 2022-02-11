@@ -231,8 +231,10 @@ describe('Form 526EZ Entry Page', () => {
 
     expect(tree.find('h1').text()).to.contain('File for disability');
     expect(tree.find('main')).to.have.lengthOf(0);
-    expect(tree.find('LoadingIndicator')).to.have.lengthOf(1);
-    expect(tree.find('LoadingIndicator').text()).to.contain('additional work');
+    expect(tree.find('va-loading-indicator')).to.have.lengthOf(1);
+    expect(tree.find('va-loading-indicator').html()).to.contain(
+      'additional work',
+    );
     tree.unmount();
   });
 
@@ -293,7 +295,9 @@ describe('Form 526EZ Entry Page', () => {
       currentlyLoggedIn: true,
       router,
     });
-    expect(tree.find('h1').text()).to.contain('restart the app');
+    expect(tree.find('va-loading-indicator').html()).to.contain(
+      'restart the app',
+    );
     expect(router[0]).to.equal('/start');
     tree.unmount();
   });
@@ -353,7 +357,7 @@ describe('Form 526EZ Entry Page', () => {
         </Form526Entry>
       </Provider>,
     );
-    expect(tree.find('LoadingIndicator')).to.have.lengthOf(1);
+    expect(tree.find('va-loading-indicator')).to.have.lengthOf(1);
     expect(tree.find('WizardContainer')).to.have.lengthOf(0);
     tree.unmount();
   });

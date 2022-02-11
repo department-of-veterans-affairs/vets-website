@@ -2,5 +2,6 @@
   "appName": "VA Profile",
   "entryFile": "./profile-entry.jsx",
   "entryName": "profile",
-  "rootUrl": "/profile"
+  "rootUrl": "/profile",
+  "productId": 1
 }

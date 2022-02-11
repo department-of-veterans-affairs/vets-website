@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 import { appointmentsToolLink, getCernerURL } from 'platform/utilities/cerner';
+import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
 
 export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
   <>
@@ -16,10 +17,8 @@ export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
       myVAHealthLink={getCernerURL('/pages/scheduling/upcoming')}
     />
     <p data-testid="cerner-content">
-      <strong>Please note:</strong> The fastest way to make all your VA
-      appointments is usually to call the VA or community care health facility
-      where you want to receive care. If you can’t keep an existing appointment,
-      please contact the facility as soon as possible to reschedule or cancel.
+      <strong>Note:</strong> If you can’t keep an existing appointment, please
+      contact the facility as soon as you can to reschedule or cancel.
       <br />
       <a href="/find-locations/">Find your health facility’s phone number</a>
     </p>
@@ -70,25 +69,7 @@ export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
     <p>
       <strong>And, you must have one of these free accounts:</strong>
     </p>
-    <ul>
-      <li>
-        A{' '}
-        <a href="https://www.myhealth.va.gov/mhv-portal-web/upgrade-account-to-premium#UpgradeToPremiumAccount">
-          Premium <strong>My HealtheVet</strong> account
-        </a>
-        , or
-      </li>
-      <li>
-        A Premium <strong>DS Logon</strong> account (used for eBenefits and
-        milConnect), <strong>or</strong>
-      </li>
-      <li>
-        A verified <strong>ID.me</strong> account that you can{' '}
-        <a href="https://api.id.me/en/registration/new">
-          create here on VA.gov
-        </a>
-      </li>
-    </ul>
+    <ServiceProvidersList />
     <h2>How do I know if my VA health facility uses online scheduling?</h2>
     <p>
       Online scheduling is available at all VA facilities except those in these

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import InfoAlert from '../../../components/InfoAlert';
 
 import {
@@ -173,8 +173,9 @@ export default function DateTimeSelectPage() {
             }}
             disabled={loadingSlots}
             disabledMessage={
-              <LoadingIndicator
-                setFocus
+              <va-loading-indicator
+                data-testid="loadingIndicator"
+                set-focus
                 message="Finding appointment availability..."
               />
             }

@@ -1,4 +1,6 @@
+import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
+import { transform } from '../utils/helpers';
 
 export const MCP_STATEMENTS_FETCH_INIT = 'MCP_STATEMENTS_FETCH_INIT';
 export const MCP_STATEMENTS_FETCH_SUCCESS = 'MCP_STATEMENTS_FETCH_SUCCESS';
@@ -8,17 +10,22 @@ export const getStatements = () => {
   return dispatch => {
     dispatch({ type: MCP_STATEMENTS_FETCH_INIT });
     return apiRequest('/medical_copays')
-      .then(response =>
-        dispatch({
+      .then(({ data }) => {
+        return dispatch({
           type: MCP_STATEMENTS_FETCH_SUCCESS,
-          response,
-        }),
-      )
-      .catch(errors =>
-        dispatch({
+          response: transform(data),
+        });
+      })
+      .catch(({ errors }) => {
+        const [error] = errors;
+        Sentry.withScope(scope => {
+          scope.setExtra('error', error);
+          Sentry.captureMessage(`medical_copays failed: ${error.detail}`);
+        });
+        return dispatch({
           type: MCP_STATEMENTS_FETCH_FAILURE,
-          errors,
-        }),
-      );
+          error,
+        });
+      });
   };
 };

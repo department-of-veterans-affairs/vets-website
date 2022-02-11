@@ -377,7 +377,7 @@ describe('VAOS Patient service v0/v2 comparison', () => {
         source: 'stack trace',
       };
       setFetchJSONFailure(
-        global.fetch.withArgs(sinon.match(`/vaos/v2/patients`)),
+        global.fetch.withArgs(sinon.match(`/vaos/v2/eligibility`)),
         {
           errors: [error],
         },

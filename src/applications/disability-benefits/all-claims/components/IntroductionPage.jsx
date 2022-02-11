@@ -80,9 +80,12 @@ class IntroductionPage extends React.Component {
           startText={startText}
           retentionPeriod="1 year"
           downtime={formConfig.downtime}
+          ariaDescribedby="main-content"
         />
         {itfNotice}
-        <h2 className="vads-u-font-size--h4">{subwayTitle}</h2>
+        <h2 id="main-content" className="vads-u-font-size--h4">
+          {subwayTitle}
+        </h2>
         <div className="process schemaform-process">
           {loggedIn && (
             <p id="restart-wizard" className="vads-u-margin-top--0">

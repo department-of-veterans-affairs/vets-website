@@ -88,7 +88,9 @@ describe('<SchoolRatings>', () => {
     const wrapper = shallow(
       <SchoolRatings ratingAverage={3} ratingCount={6} />,
     );
-    expect(wrapper.type()).to.not.equal(null);
+    expect(wrapper.find('.school-ratings').length).to.eq(1);
+    expect(wrapper.find('i').length).to.eq(5);
+    expect(wrapper.find('SchoolCategoryRating').length).to.eq(0);
     wrapper.unmount();
   });
   it('should render all valid category ratings', () => {

@@ -6,7 +6,7 @@ import {
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers';
 
-import { onDownloadLinkClick } from '../../widgets/createInvalidPdfAlert';
+import { onDownloadLinkClick } from '../../widgets/createFindVaFormsPDFDownloadHelper';
 
 describe('createInvalidPdfAlert', () => {
   beforeEach(() => {
@@ -19,6 +19,7 @@ describe('createInvalidPdfAlert', () => {
           attributes: {
             deletedAt: null,
             validPdf: true,
+            formName: '10-10EZ',
           },
         },
         {
@@ -27,11 +28,19 @@ describe('createInvalidPdfAlert', () => {
           attributes: {
             deletedAt: '2020-08-18T00:00:00.000Z',
             validPdf: false,
+            formName: 'VA0927b',
           },
         },
       ],
     });
   });
+  const reduxStore = {
+    getState: () => {
+      return {
+        featureToggles: {},
+      };
+    },
+  };
 
   it('shows an alert banner for invalid forms', async () => {
     const link = {
@@ -51,7 +60,7 @@ describe('createInvalidPdfAlert', () => {
       preventDefault: sinon.stub(),
     };
 
-    await onDownloadLinkClick(event);
+    await onDownloadLinkClick(event, reduxStore, sinon.stub());
 
     expect(link.click.called).to.be.false;
     expect(link.parentNode.insertBefore.called).to.be.true;
@@ -81,7 +90,7 @@ describe('createInvalidPdfAlert', () => {
       preventDefault: sinon.stub(),
     };
 
-    await onDownloadLinkClick(event);
+    await onDownloadLinkClick(event, reduxStore, sinon.stub());
 
     expect(link.parentNode.removeChild.called).to.be.false;
     expect(link.removeEventListener.called).to.be.true;

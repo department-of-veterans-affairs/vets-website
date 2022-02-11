@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { Link } from 'react-router';
 
-import { SELECTED, FORMAT_READABLE } from '../constants';
+import { scrollAndFocus } from 'platform/utilities/ui';
 
+import { SELECTED, FORMAT_READABLE, LAST_NOD_ITEM } from '../constants';
+import { replaceDescriptionContent } from '../utils/replace';
+
+/** Copied from HLR v2 issue card */
 /**
  * IssueCardContent
  * @param {String} description - contestable issue description
@@ -27,7 +32,11 @@ export const IssueCardContent = ({
 
   return (
     <div className="widget-content-wrap">
-      {description && <p className="vads-u-margin-bottom--0">{description}</p>}
+      {description && (
+        <p className="vads-u-margin-bottom--0">
+          {replaceDescriptionContent(description)}
+        </p>
+      )}
       {showPercentNumber && (
         <p className="vads-u-margin-bottom--0">
           Current rating: <strong>{ratingIssuePercentNumber}%</strong>
@@ -43,10 +52,10 @@ export const IssueCardContent = ({
 };
 
 IssueCardContent.propTypes = {
+  approxDecisionDate: PropTypes.string,
   decisionDate: PropTypes.string,
   description: PropTypes.string,
   ratingIssuePercentNumber: PropTypes.string,
-  approxDecisionDate: PropTypes.string,
 };
 
 /**
@@ -71,6 +80,7 @@ IssueCardContent.propTypes = {
  * @property {ContestableIssue|AdditionalIssue} item - issue values
  * @property {Object} options - ui:options
  * @property {func} onChange - onChange callback
+ * @property {func} onRemove - remove issue callback
  * @property {Boolean} showCheckbox - don't show checkbox on review & submit
  *  page when not in edit mode
  */
@@ -81,7 +91,7 @@ export const IssueCard = ({
   options = {},
   onChange,
   showCheckbox,
-  onEdit,
+  onRemove,
 }) => {
   // On the review & submit page, there may be more than one
   // of these components in edit mode with the same content, e.g. 526
@@ -90,50 +100,88 @@ export const IssueCard = ({
   // ui:options
   const appendId = options.appendId ? `_${options.appendId}` : '';
   const elementId = `${id}_${index}${appendId}`;
+  const scrollId = `issue-${window.sessionStorage.getItem(LAST_NOD_ITEM)}`;
+
+  const wrapRef = useRef(null);
+
+  useEffect(
+    () => {
+      if (scrollId === wrapRef?.current.id) {
+        scrollAndFocus(wrapRef.current);
+        window.sessionStorage.removeItem(LAST_NOD_ITEM);
+      }
+    },
+    [scrollId, wrapRef, index],
+  );
 
   const itemIsSelected = item[SELECTED];
-  const isEditable = typeof onEdit === 'function';
+  const isEditable = !!item.issue;
   const issueName = item.issue || item.ratingIssueSubjectText;
 
   const wrapperClass = [
     'review-row',
     'widget-wrapper',
-    'vads-u-border--0',
     isEditable ? 'additional-issue' : '',
     showCheckbox ? '' : 'checkbox-hidden',
-    `vads-u-padding-top--${showCheckbox ? 1 : 0}`,
+    showCheckbox ? 'vads-u-padding-top--3' : '',
     'vads-u-padding-right--3',
-    'vads-u-margin-bottom--3',
+    'vads-u-margin-bottom--0',
   ].join(' ');
 
-  const outlineClass = [
-    'widget-outline',
+  const titleClass = [
+    'widget-title',
+    'vads-u-font-size--md',
+    'vads-u-font-weight--bold',
+    'vads-u-line-height--1',
+  ].join(' ');
+
+  const removeButtonClass = [
+    'remove-issue',
+    'usa-button-secondary',
+    'vads-u-width--auto',
+    'vads-u-margin-left--2',
     'vads-u-margin-top--0',
-    itemIsSelected ? 'selected' : '',
   ].join(' ');
 
-  // item.issue = additional item
-  // item.ratingIssuesSubjectText = eligible issue from API
-  const title = (
-    <div className="widget-title vads-u-font-size--md vads-u-font-weight--bold vads-u-line-height--1">
-      {issueName}
-    </div>
-  );
+  const handlers = {
+    onRemove: event => {
+      event.preventDefault();
+      onRemove(index, item);
+    },
+    onChange: event => onChange(index, event),
+  };
 
-  const editButton =
+  const editControls =
     showCheckbox && isEditable ? (
-      <button
-        type="button"
-        className="usa-button-secondary edit vads-u-flex--auto"
-        aria-label={`Edit ${issueName}`}
-        onClick={onEdit}
-      >
-        Edit
-      </button>
+      <div>
+        <Link
+          to={{
+            pathname: '/add-issue',
+            search: `?index=${index}`,
+          }}
+          className="change-issue-link"
+          aria-label={`Change ${issueName}`}
+        >
+          Change
+        </Link>
+        <button
+          type="button"
+          className={removeButtonClass}
+          aria-label={`remove ${issueName}`}
+          onClick={handlers.onRemove}
+        >
+          Remove
+        </button>
+      </div>
     ) : null;
 
   return (
-    <div className={wrapperClass} key={index}>
+    <div
+      id={`issue-${index}`}
+      className={wrapperClass}
+      key={index}
+      ref={wrapRef}
+    >
       <dt className="widget-checkbox-wrap">
         {showCheckbox ? (
           <>
@@ -142,28 +190,27 @@ export const IssueCard = ({
               id={elementId}
               name={elementId}
               checked={itemIsSelected}
-              onChange={event => onChange(index, event.target.checked)}
+              onChange={handlers.onChange}
             />
-            <label
-              className={`schemaform-label ${outlineClass}`}
-              htmlFor={elementId}
-            >
-              {title}
+            <label className="schemaform-label" htmlFor={elementId}>
+              <span className="vads-u-visibility--screen-reader">
+                {issueName}
+              </span>
             </label>
           </>
         ) : (
-          <div className={outlineClass} />
+          <div />
         )}
       </dt>
       <dd
         className={`${
-          editButton ? 'widget-edit vads-u-padding-bottom--1' : ''
+          editControls ? 'widget-editable vads-u-padding-bottom--1' : ''
         } widget-content vads-u-font-weight--normal`}
         data-index={index}
       >
-        {!showCheckbox && title}
+        <div className={titleClass}>{issueName}</div>
         <IssueCardContent {...item} />
-        {editButton}
+        {editControls}
       </dd>
     </div>
   );
@@ -172,7 +219,6 @@ export const IssueCard = ({
 IssueCard.propTypes = {
   id: PropTypes.string,
   index: PropTypes.number,
-  showCheckbox: PropTypes.bool,
   item: PropTypes.shape({
     issue: PropTypes.string,
     decisionDate: PropTypes.string,
@@ -185,6 +231,8 @@ IssueCard.propTypes = {
   options: PropTypes.shape({
     appendId: PropTypes.string,
   }),
+  showCheckbox: PropTypes.bool,
   onChange: PropTypes.func,
   onEdit: PropTypes.func,
+  onRemove: PropTypes.func,
 };

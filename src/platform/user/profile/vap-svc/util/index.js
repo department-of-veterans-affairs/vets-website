@@ -1,9 +1,19 @@
+import pick from 'lodash/pick';
+import pickBy from 'lodash/pickBy';
+import isEqual from 'lodash/isEqual';
+
 import {
   ADDRESS_VALIDATION_TYPES,
   BAD_UNIT_NUMBER,
   MISSING_UNIT_NUMBER,
   CONFIRMED,
 } from '../constants/addressValidationMessages';
+
+import {
+  MILITARY_STATES,
+  ADDRESS_TYPES_ALTERNATE,
+  ADDRESS_PROPS,
+} from '../constants';
 
 export const getValidationMessageKey = (
   suggestedAddresses,
@@ -109,4 +119,33 @@ export const showAddressValidationModal = (
   }
 
   return true;
+};
+
+// Infers the address type from the address supplied and returns the address
+// with the "new" type.
+export const inferAddressType = address => {
+  let type = ADDRESS_TYPES_ALTERNATE.domestic;
+  if (
+    address.countryName !== 'USA' &&
+    address.countryName !== 'United States'
+  ) {
+    type = ADDRESS_TYPES_ALTERNATE.international;
+  } else if (MILITARY_STATES.has(address.stateCode)) {
+    type = ADDRESS_TYPES_ALTERNATE.military;
+  }
+
+  return Object.assign({}, address, { type });
+};
+
+export const areAddressesEqual = (mainAddress, testAddress) => {
+  const mainAddressFields = pickBy(
+    pick(mainAddress, ADDRESS_PROPS),
+    value => !!value,
+  );
+  const testAddressFields = pickBy(
+    pick(testAddress, ADDRESS_PROPS),
+    value => !!value,
+  );
+
+  return isEqual(mainAddressFields, testAddressFields);
 };

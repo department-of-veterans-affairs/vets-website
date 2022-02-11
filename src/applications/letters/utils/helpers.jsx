@@ -5,7 +5,8 @@ import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink
 import { apiRequest as commonApiClient } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import { formatDateShort } from 'platform/utilities/date';
-import { BENEFIT_OPTIONS, ADDRESS_TYPES, MILITARY_STATES } from './constants';
+import { ADDRESS_TYPES_ALTERNATE } from '@@vap-svc/constants';
+import { BENEFIT_OPTIONS } from './constants';
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
   const baseUrl = `${environment.API_URL}`;
@@ -22,16 +23,14 @@ export const recordsNotFound = (
     <header>
       <h1>We couldn’t find your VA letters or documents</h1>
     </header>
-    <div className="usa-alert usa-alert-warning">
-      <div className="usa-alert-body">
-        <p className="usa-alert-heading">
-          <EbenefitsLink path="ebenefits/download-letters">
-            If you’re a dependent, please go to eBenefits to look for your
-            letters.
-          </EbenefitsLink>
-        </p>
-      </div>
-    </div>
+    <va-alert status="warning">
+      <p>
+        <EbenefitsLink path="ebenefits/download-letters">
+          If you’re a dependent, please go to eBenefits to look for your
+          letters.
+        </EbenefitsLink>
+      </p>
+    </va-alert>
     <h2>Need help?</h2>
     <hr className="divider" />
     <p>
@@ -60,20 +59,18 @@ export const characterOfServiceContent = {
 // service_verification letter is being phased out in favor of benefit_summary
 // letter
 const serviceVerificationLetterContent = (
-  <div>
-    <div className="usa-alert usa-alert-warning">
-      <div className="usa-alert-body">
-        <p className="usa-alert-text">
-          You can now use your Benefit Summary letter instead of this Service
-          Verification letter.
-        </p>
-      </div>
-    </div>
+  <>
+    <va-alert status="warning">
+      <p>
+        You can now use your Benefit Summary letter instead of this Service
+        Verification letter.
+      </p>
+    </va-alert>
     <p>
       This letter shows your branch of service, the date you started active
       duty, and the date you were discharged from active duty.
     </p>
-  </div>
+  </>
 );
 
 // Commissary letter contains a link so gets its own jsx to correctly display the anchor tag
@@ -128,8 +125,8 @@ export const letterContent = {
       you’re enrolled in the VA health care system, you must have IRS Form
       1095-B from VA to show what months you were covered by a VA health care
       plan. If you’ve lost your IRS Form 1095-B, please call{' '}
-      <a href="tel:+18772228387">877-222-8387</a>, Monday &#8211; Friday, 8:00
-      a.m. &#8211; 8:00 p.m. ET to request another copy.
+      <a href="tel:+18772228387">877-222-8387</a>, Monday through Friday, 8:00
+      a.m. to 8:00 p.m. ET to request another copy.
     </div>
   ),
   service_verification: serviceVerificationLetterContent,
@@ -180,7 +177,7 @@ const benefitOptionText = {
     false: {
       veteran: (
         <div>
-          You <strong>don't have</strong> one or more service-connected
+          You <strong>don’t have</strong> one or more service-connected
           disabilities.
         </div>
       ),
@@ -248,13 +245,13 @@ const benefitOptionText = {
     false: {
       veteran: (
         <div>
-          You <strong>aren't</strong> considered to be totally and permanently
+          You <strong>aren’t</strong> considered to be totally and permanently
           disabled solely due to your service-connected disabilities.
         </div>
       ),
       dependent: (
         <div>
-          The Veteran <strong>wasn't</strong> totally and permanently disabled.
+          The Veteran <strong>wasn’t</strong> totally and permanently disabled.
         </div>
       ),
     },
@@ -272,7 +269,7 @@ const benefitOptionText = {
       veteran: undefined,
       dependent: (
         <div>
-          The Veteran <strong>didn't</strong> die as a result of a
+          The Veteran <strong>didn’t</strong> die as a result of a
           service-connected disability.
         </div>
       ),
@@ -310,6 +307,19 @@ const benefitOptionText = {
   },
 };
 
+/**
+ * EVSS sets dates to central time (T06:00:00.000+00:00), but adds the timezone
+ * offset after the "T" instead of after the "+". So we're going to strip off
+ * the time completely, see
+ * https://github.com/department-of-veterans-affairs/va.gov-team/issues/29762#issuecomment-920225928
+ * @param {String} date - ISO 8601 date format
+ * @returns {String} - ISO 8601 date format
+ */
+export function stripOffTime(date) {
+  const [ymd] = (date || '').split('T');
+  return ymd || '';
+}
+
 export function getBenefitOptionText(
   option,
   value,
@@ -336,7 +346,8 @@ export function getBenefitOptionText(
 
   if (!availableOptions.has(option)) {
     return benefitOptionText[option][valueString][personType];
-  } else if (option === BENEFIT_OPTIONS.monthlyAwardAmount && isAvailable) {
+  }
+  if (option === BENEFIT_OPTIONS.monthlyAwardAmount && isAvailable) {
     return (
       <div>
         <div>
@@ -344,11 +355,12 @@ export function getBenefitOptionText(
         </div>
         <div>
           The effective date of the last change to your current award was{' '}
-          <strong>{formatDateShort(awardEffectiveDate)}</strong>.
+          <strong>{formatDateShort(stripOffTime(awardEffectiveDate))}</strong>.
         </div>
       </div>
     );
-  } else if (
+  }
+  if (
     option === BENEFIT_OPTIONS.serviceConnectedPercentage &&
     isAvailable &&
     isVeteran
@@ -384,32 +396,14 @@ export const benefitOptionsMap = {
 };
 
 /**
- * Infers the address type from the address supplied and returns the address
- *  with the "new" type.
- */
-export function inferAddressType(address) {
-  let type = ADDRESS_TYPES.domestic;
-  if (
-    address.countryName !== 'USA' &&
-    address.countryName !== 'United States'
-  ) {
-    type = ADDRESS_TYPES.international;
-  } else if (MILITARY_STATES.has(address.stateCode)) {
-    type = ADDRESS_TYPES.military;
-  }
-
-  return Object.assign({}, address, { type });
-}
-
-/**
  * When address the address type changes, we may need to clear out some fields
  *  so validation doesn't fail because we're sending information that's no longer
  *  accurate (compared to what the user sees).
  */
 export function resetDisallowedAddressFields(address) {
-  const newAddress = Object.assign({}, address);
+  const newAddress = { ...address };
   // International addresses don't allow state or zip
-  if (address.type === ADDRESS_TYPES.international) {
+  if (address.type === ADDRESS_TYPES_ALTERNATE.international) {
     newAddress.state = '';
     newAddress.zipCode = '';
   }

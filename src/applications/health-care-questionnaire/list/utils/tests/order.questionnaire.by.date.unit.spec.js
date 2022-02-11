@@ -14,7 +14,7 @@ describe('health care questionnaire -- utils -- questionnaire list -- ordering b
     const last = new Date(completed[completed.length - 1].appointment.start);
     expect(first.getTime() < last.getTime()).to.be.true;
   });
-  it('sorts todo', () => {
+  it.skip('sorts todo', () => {
     const { data } = json;
     const result = sortQuestionnairesByStatus(data);
     expect(result.toDo).to.exist;

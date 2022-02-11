@@ -26,6 +26,7 @@ const getData = ({
   }
   if (address) {
     data.mailingAddress = {
+      addressType: 'DOMESTIC',
       countryName: 'United States',
       countryCodeIso3: 'USA',
       addressLine1: '123 Main Blvd',
@@ -43,14 +44,18 @@ const getData = ({
   };
 };
 
-describe('Veteran information review content', () => {
-  it('should render contact information', () => {
-    const data = getData();
+describe('Contact information review content', () => {
+  it('should render contact information main loop', () => {
+    const data = getData({ loopPages: true });
     const tree = shallow(<ContactInfoDescription {...data} />);
 
-    expect(tree.find('PhoneField')).to.exist;
-    expect(tree.find('EmailField')).to.exist;
-    expect(tree.find('MailingAddress')).to.exist;
+    expect(tree.find('Telephone')).to.exist;
+    expect(tree.find('AddressView')).to.exist;
+    expect(tree.find('Link').length).to.eq(3);
+
+    expect(tree.find('PhoneField').length).to.eq(0);
+    expect(tree.find('EmailField').length).to.eq(0);
+    expect(tree.find('MailingAddress').length).to.eq(0);
     tree.unmount();
   });
 

@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import InfoAlert from '../../components/InfoAlert';
+
 import recordEvent from 'platform/monitoring/record-event';
+import moment from 'moment';
+import InfoAlert from '../../components/InfoAlert';
 import { getUpcomingAppointmentListInfo } from '../redux/selectors';
 import {
   FETCH_STATUS,
@@ -12,12 +13,12 @@ import {
 import { getVAAppointmentLocationId } from '../../services/appointment';
 import AppointmentListItem from './AppointmentsPageV2/AppointmentListItem';
 import NoAppointments from './NoAppointments';
-import moment from 'moment';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import {
   fetchFutureAppointments,
   startNewAppointmentFlow,
 } from '../redux/actions';
+import { selectFeatureStatusImprovement } from '../../redux/selectors';
 
 export default function UpcomingAppointmentsList() {
   const dispatch = useDispatch();
@@ -28,11 +29,18 @@ export default function UpcomingAppointmentsList() {
     facilityData,
     hasTypeChanged,
   } = useSelector(state => getUpcomingAppointmentListInfo(state), shallowEqual);
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
+  );
 
   useEffect(
     () => {
       if (futureStatus === FETCH_STATUS.notStarted) {
-        dispatch(fetchFutureAppointments({ includeRequests: false }));
+        dispatch(
+          fetchFutureAppointments({
+            includeRequests: featureStatusImprovement,
+          }),
+        );
       } else if (hasTypeChanged && futureStatus === FETCH_STATUS.succeeded) {
         scrollAndFocus('#type-dropdown');
       } else if (hasTypeChanged && futureStatus === FETCH_STATUS.failed) {
@@ -48,8 +56,8 @@ export default function UpcomingAppointmentsList() {
   ) {
     return (
       <div className="vads-u-margin-y--8">
-        <LoadingIndicator
-          setFocus={hasTypeChanged}
+        <va-loading-indicator
+          set-focus={hasTypeChanged}
           message="Loading your upcoming appointments..."
         />
       </div>

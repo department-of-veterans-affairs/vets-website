@@ -6,6 +6,7 @@ import { expect } from 'chai';
 import { waitFor, screen, fireEvent, act } from '@testing-library/react';
 import sinon from 'sinon';
 import * as Sentry from '@sentry/browser';
+import virtualAgentReducer from '../reducers/index';
 
 import Chatbox from '../components/chatbox/Chatbox';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
@@ -40,10 +41,11 @@ describe('App', () => {
     });
   }
 
-  function createTestStore(initialState) {
+  function createTestStore(initialState, reducers = {}) {
     return createStore(
       combineReducers({
         ...commonReducer,
+        ...reducers,
       }),
       initialState,
       applyMiddleware(thunk),
@@ -69,18 +71,28 @@ describe('App', () => {
       setTimeout(resolve, timeout);
     });
   }
+
   describe('user is logged in', () => {
-    const initialStoreState = {
+    const providerObject = {
       initialState: {
         featureToggles: {
           loading: false,
+        },
+        virtualAgentData: {
+          termsAccepted: true,
         },
         user: {
           login: {
             currentlyLoggedIn: true,
           },
+          profile: {
+            userFullName: {
+              first: 'MARK',
+            },
+          },
         },
       },
+      reducers: virtualAgentReducer,
     };
 
     describe('web chat script is already loaded', () => {
@@ -90,7 +102,7 @@ describe('App', () => {
 
         const wrapper = renderInReduxProvider(
           <Chatbox {...defaultProps} />,
-          initialStoreState,
+          providerObject,
         );
 
         await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
@@ -102,7 +114,7 @@ describe('App', () => {
 
         const { getByTestId } = renderInReduxProvider(
           <Chatbox {...defaultProps} />,
-          initialStoreState,
+          providerObject,
         );
 
         await waitFor(() => expect(getByTestId('webchat')).to.exist);
@@ -110,13 +122,13 @@ describe('App', () => {
         expect(createStoreSpy.callCount).to.equal(1);
       });
 
-      it('passes CSRF Token and Api Session to greet user', async () => {
+      it('passes CSRF Token, Api Session, Api Url, and Base Url to greet user', async () => {
         loadWebChat();
         mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
 
         const { getByTestId } = renderInReduxProvider(
           <Chatbox {...defaultProps} />,
-          initialStoreState,
+          providerObject,
         );
 
         await waitFor(() => expect(getByTestId('webchat')).to.exist);
@@ -126,7 +138,149 @@ describe('App', () => {
           'FAKECSRF',
           'FAKEAPISESSION',
           'https://dev-api.va.gov',
+          'https://dev.va.gov',
+          'Mark',
         );
+      });
+
+      it('passes blank string when user is signed in but doesnt have a name', async () => {
+        loadWebChat();
+        mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+
+        const { getByTestId } = renderInReduxProvider(
+          <Chatbox {...defaultProps} />,
+          {
+            initialState: {
+              featureToggles: {
+                loading: false,
+              },
+              virtualAgentData: {
+                termsAccepted: true,
+              },
+              user: {
+                login: {
+                  currentlyLoggedIn: true,
+                },
+                profile: {
+                  userFullName: {
+                    first: null,
+                  },
+                },
+              },
+            },
+            reducers: virtualAgentReducer,
+          },
+        );
+
+        await waitFor(() => expect(getByTestId('webchat')).to.exist);
+
+        sinon.assert.calledWithExactly(
+          GreetUser.makeBotGreetUser,
+          'FAKECSRF',
+          'FAKEAPISESSION',
+          'https://dev-api.va.gov',
+          'https://dev.va.gov',
+          'noFirstNameFound',
+        );
+      });
+
+      it('presents disclaimer text when user has not acknowledged the disclaimer.', async () => {
+        loadWebChat();
+        mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+        const unacknowledgedUserStore = {
+          initialState: {
+            featureToggles: {
+              loading: false,
+            },
+            virtualAgentData: {
+              termsAccepted: false,
+            },
+            user: {
+              login: {
+                currentlyLoggedIn: true,
+              },
+              profile: {
+                userFullName: {
+                  first: 'Steve',
+                },
+              },
+            },
+          },
+          reducers: virtualAgentReducer,
+        };
+
+        const wrapper = renderInReduxProvider(
+          <Chatbox {...defaultProps} />,
+          unacknowledgedUserStore,
+        );
+
+        await waitFor(
+          () =>
+            expect(
+              wrapper.getByText(
+                'This virtual agent is still in development and cannot help with personal, medical or mental health emergencies. Thank you for understanding.',
+              ),
+            ).to.exist,
+        );
+
+        await waitFor(
+          () =>
+            expect(
+              wrapper.getByText(
+                'We ask that you do not enter personal information that can be used to identify you.',
+              ),
+            ).to.exist,
+        );
+      });
+
+      it('displays sign in modal when user clicks sign in button', async () => {
+        loadWebChat();
+        mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+        const unacknowledgedUserStore = {
+          initialState: {
+            featureToggles: {
+              loading: false,
+            },
+            virtualAgentData: {
+              termsAccepted: false,
+            },
+            user: {
+              login: {
+                currentlyLoggedIn: true,
+              },
+              profile: {
+                userFullName: {
+                  first: 'Steve',
+                },
+              },
+            },
+          },
+          reducers: virtualAgentReducer,
+        };
+
+        const store = createTestStore(
+          unacknowledgedUserStore.initialState,
+          unacknowledgedUserStore.reducers,
+        );
+
+        const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
+          store,
+        });
+
+        const button = wrapper.getByTestId('btnAcceptDisclaimer');
+
+        await waitFor(() => expect(button).to.exist);
+
+        await waitFor(
+          () =>
+            expect(store.getState().virtualAgentData.termsAccepted).to.be.false,
+        );
+
+        await act(async () => {
+          fireEvent.click(button);
+        });
+
+        expect(store.getState().virtualAgentData.termsAccepted).to.be.true;
       });
     });
 
@@ -136,7 +290,7 @@ describe('App', () => {
 
         const wrapper = renderInReduxProvider(
           <Chatbox timeout={1000} />,
-          initialStoreState,
+          providerObject,
         );
 
         expect(wrapper.getByRole('progressbar')).to.exist;
@@ -154,7 +308,7 @@ describe('App', () => {
 
         const wrapper = renderInReduxProvider(
           <Chatbox timeout={1500} />,
-          initialStoreState,
+          providerObject,
         );
 
         expect(wrapper.getByRole('progressbar')).to.exist;
@@ -181,14 +335,25 @@ describe('App', () => {
       };
 
       const initialStoreStateWithLoadingToggleTrue = {
-        featureToggles: {
-          loading: true,
-        },
-        user: {
-          login: {
-            currentlyLoggedIn: true,
+        initialState: {
+          featureToggles: {
+            loading: true,
+          },
+          virtualAgentData: {
+            termsAccepted: true,
+          },
+          user: {
+            login: {
+              currentlyLoggedIn: true,
+            },
+            profile: {
+              userFullName: {
+                first: 'MARK',
+              },
+            },
           },
         },
+        reducers: virtualAgentReducer,
       };
 
       it('should not fetch token', () => {
@@ -209,9 +374,10 @@ describe('App', () => {
 
         mockApiRequest({});
 
-        const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
-          initialState: initialStoreStateWithLoadingToggleTrue,
-        });
+        const wrapper = renderInReduxProvider(
+          <Chatbox {...defaultProps} />,
+          initialStoreStateWithLoadingToggleTrue,
+        );
 
         expect(wrapper.getByRole('progressbar')).to.exist;
 
@@ -221,9 +387,10 @@ describe('App', () => {
       it('should display error after loading feature toggles has not finished within timeout', async () => {
         loadWebChat();
 
-        const wrapper = renderInReduxProvider(<Chatbox timeout={100} />, {
-          initialState: initialStoreStateWithLoadingToggleTrue,
-        });
+        const wrapper = renderInReduxProvider(
+          <Chatbox timeout={100} />,
+          initialStoreStateWithLoadingToggleTrue,
+        );
 
         expect(wrapper.getByRole('progressbar')).to.exist;
 
@@ -242,16 +409,27 @@ describe('App', () => {
 
         mockApiRequest({});
 
-        const store = createTestStore({
-          featureToggles: {
-            loading: true,
-          },
-          user: {
-            login: {
-              currentlyLoggedIn: true,
+        const store = createTestStore(
+          {
+            featureToggles: {
+              loading: true,
+            },
+            virtualAgentData: {
+              termsAccepted: true,
+            },
+            user: {
+              login: {
+                currentlyLoggedIn: true,
+              },
+              profile: {
+                userFullName: {
+                  first: 'MARK',
+                },
+              },
             },
           },
-        });
+          virtualAgentReducer,
+        );
 
         const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
           store,
@@ -275,7 +453,10 @@ describe('App', () => {
 
         mockApiRequest({});
 
-        const store = createTestStore(initialStoreStateWithLoadingToggleTrue);
+        const store = createTestStore(
+          initialStoreStateWithLoadingToggleTrue.initialState,
+          initialStoreStateWithLoadingToggleTrue.reducers,
+        );
 
         const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
           store,
@@ -297,7 +478,7 @@ describe('App', () => {
         mockApiRequest({ token: 'ANOTHERFAKETOKEN' });
         const wrapper = renderInReduxProvider(
           <Chatbox {...defaultProps} />,
-          initialStoreState,
+          providerObject,
         );
 
         expect(wrapper.getByRole('progressbar')).to.exist;
@@ -310,7 +491,7 @@ describe('App', () => {
         mockApiRequest({ token: 'FAKETOKEN' });
         const wrapper = renderInReduxProvider(
           <Chatbox {...defaultProps} />,
-          initialStoreState,
+          providerObject,
         );
 
         await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
@@ -332,7 +513,7 @@ describe('App', () => {
         mockApiRequest({}, false);
         const wrapper = renderInReduxProvider(
           <Chatbox {...defaultProps} />,
-          initialStoreState,
+          providerObject,
         );
 
         await waitFor(
@@ -356,7 +537,7 @@ describe('App', () => {
 
         const wrapper = renderInReduxProvider(
           <Chatbox {...defaultProps} />,
-          initialStoreState,
+          providerObject,
         );
 
         await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
@@ -379,7 +560,7 @@ describe('App', () => {
         mockApiRequest({ token: 'FAKETOKEN' });
         const wrapper = renderInReduxProvider(
           <Chatbox {...defaultProps} />,
-          initialStoreState,
+          providerObject,
         );
 
         await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
@@ -410,22 +591,32 @@ describe('App', () => {
           currentlyLoggedIn: false,
         },
       },
+      virtualAgentData: {
+        termsAccepted: true,
+      },
+      featureToggles: {
+        virtualAgentAuth: true,
+      },
     };
 
     it('displays a login widget', async () => {
       const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
         initialState: initialStateNotLoggedIn,
+        reducers: virtualAgentReducer,
       });
 
       await waitFor(
         () =>
-          expect(wrapper.getByText('Please sign in to access the chatbot.')).to
+          expect(wrapper.getByText('Please sign in to access the chatbot')).to
             .exist,
       );
     });
 
     it('displays sign in modal when user clicks sign in button', async () => {
-      const store = createTestStore(initialStateNotLoggedIn);
+      const store = createTestStore(
+        initialStateNotLoggedIn,
+        virtualAgentReducer,
+      );
 
       const wrapper = renderInReduxProvider(
         <>
@@ -453,11 +644,51 @@ describe('App', () => {
         initialState: {
           initialStateNotLoggedIn,
         },
+        reducers: virtualAgentReducer,
       });
 
       const alertText = wrapper.queryByText('Loading Virtual Agent');
 
       expect(alertText).to.not.exist;
+    });
+  });
+
+  describe('virtualAgentAuth is toggled false', () => {
+    const initialStateAuthNotRequired = {
+      navigation: {
+        showLoginModal: false,
+        utilitiesMenuIsOpen: { search: false },
+      },
+      user: {
+        login: {
+          currentlyLoggedIn: false,
+        },
+      },
+      virtualAgentData: {
+        termsAccepted: false,
+      },
+      featureToggles: {
+        virtualAgentAuth: false,
+      },
+    };
+
+    it('displays disclaimer', async () => {
+      loadWebChat();
+      mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+
+      const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
+        initialState: initialStateAuthNotRequired,
+        reducers: virtualAgentReducer,
+      });
+
+      await waitFor(
+        () =>
+          expect(
+            wrapper.getByText(
+              'This virtual agent is still in development and cannot help with personal, medical or mental health emergencies. Thank you for understanding.',
+            ),
+          ).to.exist,
+      );
     });
   });
 });

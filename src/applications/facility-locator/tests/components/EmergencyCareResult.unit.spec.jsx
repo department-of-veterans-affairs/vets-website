@@ -22,7 +22,7 @@ describe('EmergencyCareResult', () => {
       'DALLAS MEDICAL CENTER LLC',
     );
     expect(wrapper.find('.facility-result h3 Link').length).to.equal(0);
-    expect(wrapper.find('#emergency-care-link').length).to.equal(1);
+    expect(wrapper.find('a.emergency-care-link').length).to.equal(1);
     wrapper.unmount();
   });
 
@@ -42,7 +42,7 @@ describe('EmergencyCareResult', () => {
       'Manhattan VA Medical Center',
     );
     expect(wrapper.find('.facility-result h3 Link').length).to.equal(1);
-    expect(wrapper.find('#emergency-care-link').length).to.equal(0);
+    expect(wrapper.find('a.emergency-care-link').length).to.equal(0);
     wrapper.unmount();
   });
 });

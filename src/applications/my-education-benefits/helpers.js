@@ -1,5 +1,8 @@
 import React from 'react';
+import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { getSchemaCountryCode } from './utils/form-submit-transform';
+import { DATE_TIMESTAMP } from './constants';
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">
@@ -22,7 +25,7 @@ export const directDepositWarning = (
   </div>
 );
 
-export const activeDutyLabel = (
+export const chapter30Label = (
   <>
     Montgomery GI Bill Active Duty (Chapter 30)
     <AdditionalInfo triggerText="Learn more">
@@ -43,7 +46,7 @@ export const activeDutyLabel = (
   </>
 );
 
-export const selectedReserveLabel = (
+export const chapter1606Label = (
   <>
     Montgomery GI Bill Selected Reserve (Chapter 1606)
     <AdditionalInfo triggerText="Learn more">
@@ -72,11 +75,12 @@ export const unsureDescription = (
 
 export const post911GiBillNote = (
   <div className="usa-alert background-color-only">
-    <h3>You’re applying for the Post-9/11 GI BIll®</h3>
+    <h3>You’re applying for the Post-9/11 GI Bill®</h3>
     <p>
-      Currently, you can only apply for Post-9/11 GI Bill (Chapter 33) benefits
-      through this application. If you would like to apply for other benefits,
-      please visit our <a href="/education/how-to-apply/">How To Apply</a> page.
+      At this time, you can only apply for the Post-9/11 GI Bill (Chapter 33)
+      benefits through this application. Doing so will require that you give up
+      one other benefit you may be eligible for. You cannot change your decision
+      after you submit this application.
     </p>
   </div>
 );
@@ -164,3 +168,96 @@ export const getSelectedCheckboxes = (uiSchema, formData) =>
     .map(checkboxOption => checkboxOption[0]) // object key
     .map(selectedCheckboxKey => uiSchema[selectedCheckboxKey]['ui:title'])
     .join(', ');
+
+function transformServiceHistory(serviceHistory) {
+  return {
+    dateRange: {
+      from: moment(serviceHistory?.beginDate).format(DATE_TIMESTAMP),
+      to: moment(serviceHistory?.endDate).format(DATE_TIMESTAMP),
+    },
+    exclusionPeriods: serviceHistory?.exclusionPeriods?.map(exclusionPeriod => {
+      return {
+        from: moment(exclusionPeriod.beginDate).format(DATE_TIMESTAMP),
+        to: moment(exclusionPeriod.endDate).format(DATE_TIMESTAMP),
+      };
+    }),
+    trainingPeriods: serviceHistory?.trainingPeriods?.map(exclusionPeriod => {
+      return {
+        from: moment(exclusionPeriod.beginDate).format(DATE_TIMESTAMP),
+        to: moment(exclusionPeriod.endDate).format(DATE_TIMESTAMP),
+      };
+    }),
+    serviceBranch: serviceHistory?.branchOfService,
+    serviceCharacter: serviceHistory?.characterOfService,
+    separationReason: serviceHistory?.reasonForSeparation,
+  };
+}
+
+function mapNotificaitonMethod(notificationMethod) {
+  if (notificationMethod === 'mail') {
+    return 'Mail';
+  } else if (notificationMethod === 'email') {
+    return 'Email';
+  }
+  return notificationMethod;
+}
+
+export function prefillTransformer(pages, formData, metadata, state) {
+  const claimant = state.data?.formData?.data?.attributes?.claimant || {};
+  const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
+  const contactInfo = claimant?.contactInfo || {};
+
+  const newData = {
+    ...formData,
+    formId: state.data?.formData?.data?.id,
+    claimantId: claimant.claimantId,
+    'view:userFullName': {
+      userFullName: {
+        first: claimant.firstName || undefined,
+        middle: claimant.middleName || undefined,
+        last: claimant.lastName || undefined,
+      },
+    },
+    dateOfBirth: claimant.dateOfBirth,
+    email: {
+      email: contactInfo.emailAddress,
+      confirmEmail: contactInfo.emailAddress,
+    },
+    'view:phoneNumbers': {
+      mobilePhoneNumber: {
+        phone: contactInfo?.mobilePhoneNumber || undefined,
+      },
+      phoneNumber: {
+        phone: contactInfo?.homePhoneNumber || undefined,
+      },
+    },
+    'view:contactMethod': {
+      contactMethod: mapNotificaitonMethod(claimant?.notificationMethod),
+    },
+    'view:mailingAddress': {
+      address: {
+        street: contactInfo?.addressLine1,
+        street2: contactInfo?.addressLine2 || undefined,
+        city: contactInfo?.city,
+        state: contactInfo?.stateCode,
+        postalCode: contactInfo?.zipcode,
+        country: getSchemaCountryCode(contactInfo?.countryCode),
+      },
+      livesOnMilitaryBase:
+        contactInfo?.countryCode !== 'US' &&
+        contactInfo?.addressType === 'MILITARY_OVERSEAS',
+    },
+    toursOfDuty: serviceData.map(transformServiceHistory),
+  };
+
+  if (claimant?.suffix) {
+    newData['view:userFullName'].userFullName.suffix = claimant?.suffix;
+  }
+
+  return {
+    metadata,
+    formData: newData,
+    pages,
+    state,
+  };
+}

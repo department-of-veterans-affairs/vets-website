@@ -117,6 +117,17 @@ describe('Schemaform <SchemaForm>', () => {
 
       expect(tree.getMountedInstance().state.formContext.submitted).to.be.true;
     });
+    it('resets error', () => {
+      tree.getMountedInstance().onError(false);
+
+      expect(tree.getMountedInstance().state.formContext.submitted).to.be.false;
+    });
+    it('non-boolean onError args', () => {
+      tree.getMountedInstance().onError({ err: 'An error message' });
+
+      expect(tree.getMountedInstance().state.formContext.submitted).to.be.true;
+    });
+
     it('submit', () => {
       tree.subTree('Form').props.onSubmit();
 

@@ -19,7 +19,7 @@ export function putAppointment(id, appointment) {
 
 export function getAppointments(start, end, statuses = []) {
   return apiRequestWithUrl(
-    `/vaos/v2/appointments?start=${start}&end=${end}&${statuses
+    `/vaos/v2/appointments?_include=facilities,clinics&start=${start}&end=${end}&${statuses
       .map(status => `statuses[]=${status}`)
       .join('&')}`,
     {
@@ -29,9 +29,12 @@ export function getAppointments(start, end, statuses = []) {
 }
 
 export function getAppointment(id) {
-  return apiRequestWithUrl(`/vaos/v2/appointments/${id}`, {
-    method: 'GET',
-  }).then(parseApiObject);
+  return apiRequestWithUrl(
+    `/vaos/v2/appointments/${id}?_include=facilities,clinics`,
+    {
+      method: 'GET',
+    },
+  ).then(parseApiObject);
 }
 
 export function getFacilities(ids, children = false) {
@@ -54,9 +57,13 @@ export function getClinics({ locationId, clinicIds, typeOfCareId }) {
   ).then(parseApiList);
 }
 
-export function getPatientMetadata(locationId, typeOfCareId, schedulingType) {
+export function getPatientEligibility(
+  locationId,
+  typeOfCareId,
+  schedulingType,
+) {
   return apiRequestWithUrl(
-    `/vaos/v2/patients?facility_id=${locationId}&clinical_service_id=${typeOfCareId}&type=${schedulingType}`,
+    `/vaos/v2/eligibility?facility_id=${locationId}&clinical_service_id=${typeOfCareId}&type=${schedulingType}`,
   ).then(parseApiObject);
 }
 

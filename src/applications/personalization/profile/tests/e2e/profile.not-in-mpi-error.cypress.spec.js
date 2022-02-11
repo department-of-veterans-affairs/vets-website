@@ -47,6 +47,12 @@ function test(mobile = false) {
   onlyAccountSecuritySectionIsAccessible();
 }
 
+let getPersonalInfoStub;
+let getDD4EDUBankInfoStub;
+let getServiceHistoryStub;
+let getDisabilityInfoStub;
+let getFullNameStub;
+
 describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI', () => {
   beforeEach(() => {
     cy.login(mockUserNotInMPI);
@@ -59,11 +65,41 @@ describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI', ()
       'v0/disability_compensation_form/rating_info',
       'v0/feature_toggles*',
     ]);
+    getDD4EDUBankInfoStub = cy.stub();
+    getFullNameStub = cy.stub();
+    getPersonalInfoStub = cy.stub();
+    getServiceHistoryStub = cy.stub();
+    getDisabilityInfoStub = cy.stub();
+    cy.intercept('GET', 'v0/profile/ch33_bank_accounts', () => {
+      getDD4EDUBankInfoStub();
+    });
+    cy.intercept('GET', 'v0/profile/full_name', () => {
+      getFullNameStub();
+    });
+    cy.intercept('GET', 'v0/profile/personal_information', () => {
+      getPersonalInfoStub();
+    });
+    cy.intercept('GET', 'v0/profile/service_history', () => {
+      getServiceHistoryStub();
+    });
+    cy.intercept('GET', 'v0/disability_compensation_form/rating_info', () => {
+      getDisabilityInfoStub();
+    });
   });
   it('should only have access to the Account Security section at desktop size', () => {
     test();
   });
   it('should only have access to the Account Security section at mobile size', () => {
     test(true);
+  });
+  it('should not call profile apis', () => {
+    test();
+    cy.should(() => {
+      expect(getDD4EDUBankInfoStub).not.to.be.called;
+      expect(getFullNameStub).not.to.be.called;
+      expect(getPersonalInfoStub).not.to.be.called;
+      expect(getServiceHistoryStub).not.to.be.called;
+      expect(getDisabilityInfoStub).not.to.be.called;
+    });
   });
 });

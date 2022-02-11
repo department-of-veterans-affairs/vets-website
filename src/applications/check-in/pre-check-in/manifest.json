@@ -1,0 +1,6 @@
+{
+  "appName": "Pre-check-in",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "pre-check-in",
+  "rootUrl": "/health-care/appointment-pre-check-in"
+}

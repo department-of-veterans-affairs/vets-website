@@ -89,11 +89,53 @@ const Typeahead = ({ uiSchema, idSchema, formData, onChange, onBlur }) => {
       const fetchInputData = getInput();
       setInput(fetchInputData);
 
-      const fetchedsuggestions = getSuggestions(input);
-      setSuggestions(fetchedsuggestions);
+      const fetchedSuggestions = getSuggestions(input);
+      setSuggestions(fetchedSuggestions);
     },
     [getInput, getSuggestions], // eslint-disable-line react-hooks/exhaustive-deps
   );
+
+  const renderOptions = ({
+    getInputProps,
+    getItemProps,
+    isOpen,
+    selectedItem,
+    highlightedIndex,
+  }) => {
+    return (
+      <div className="autosuggest-container">
+        <input
+          aria-label="autosuggest-input"
+          {...getInputProps({
+            autoComplete: 'off',
+            id: idPrefix ? `${idPrefix}_${idSchema.$id}` : idSchema.$id,
+            name: idSchema.$id,
+            className: 'autosuggest-input',
+            onBlur: isOpen ? undefined : handleBlur,
+            onKeyDown: handleKeyDown,
+          })}
+        />
+        {isOpen && (
+          <div className="autosuggest-list" role="listbox">
+            {suggestions?.map((item, index) => (
+              <div
+                {...getItemProps({ item })}
+                role="option"
+                aria-selected={selectedItem === item.label ? 'true' : 'false'}
+                className={classNames('autosuggest-item', {
+                  'autosuggest-item-highlighted': highlightedIndex === index,
+                  'autosuggest-item-selected': selectedItem === item.label,
+                })}
+                key={index}
+              >
+                {item.label}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <Downshift
@@ -102,50 +144,18 @@ const Typeahead = ({ uiSchema, idSchema, formData, onChange, onBlur }) => {
       selectedItem={input}
       onOuterClick={handleBlur}
       itemToString={item => (typeof item === 'string' ? item : item.label)}
-      render={({
-        getInputProps,
-        getItemProps,
-        isOpen,
-        selectedItem,
-        highlightedIndex,
-      }) => (
-        <div className="autosuggest-container">
-          <input
-            aria-label="autosuggest-input"
-            {...getInputProps({
-              autoComplete: 'off',
-              id: idPrefix ? `${idPrefix}_${idSchema.$id}` : idSchema.$id,
-              name: idSchema.$id,
-              className: 'autosuggest-input',
-              onBlur: isOpen ? undefined : handleBlur,
-              onKeyDown: handleKeyDown,
-            })}
-          />
-          {isOpen && (
-            <div className="autosuggest-list" role="listbox">
-              {suggestions?.map((item, index) => (
-                <div
-                  {...getItemProps({ item })}
-                  role="option"
-                  aria-selected={selectedItem === item.label ? 'true' : 'false'}
-                  className={classNames('autosuggest-item', {
-                    'autosuggest-item-highlighted': highlightedIndex === index,
-                    'autosuggest-item-selected': selectedItem === item.label,
-                  })}
-                  key={index}
-                >
-                  {item.label}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+      render={data => renderOptions(data)}
     />
   );
 };
 
 Typeahead.propTypes = {
+  onBlur: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  formData: PropTypes.string,
+  idSchema: PropTypes.shape({
+    $id: PropTypes.string,
+  }),
   uiSchema: PropTypes.shape({
     'ui:title': PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     'ui:options': PropTypes.shape({
@@ -153,13 +163,9 @@ Typeahead.propTypes = {
       getOptions: PropTypes.func.isRequired,
       maxOptions: PropTypes.number,
       inputTransformers: PropTypes.arrayOf(PropTypes.func),
+      idPrefix: PropTypes.string,
+      uiOptions: PropTypes.object,
     }),
-  }),
-  formData: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
-  idSchema: PropTypes.shape({
-    $id: PropTypes.string,
   }),
 };
 

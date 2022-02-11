@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import ContactFacilitiesPage from '../../../covid-19-vaccine/components/ContactFacilitiesPage';
 import {
-  getVAFacilityMock,
   getRequestEligibilityCriteriaMock,
   getDirectBookingEligibilityCriteriaMock,
 } from '../../mocks/v0';
@@ -12,8 +11,9 @@ import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import {
   mockRequestEligibilityCriteria,
   mockDirectBookingEligibilityCriteria,
-  mockFacilitiesFetch,
 } from '../../mocks/helpers';
+import { createMockFacilityByVersion } from '../../mocks/data';
+import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -84,65 +84,47 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
         patientHistoryRequired: null,
       }),
     ]);
-    mockFacilitiesFetch('vha_442,vha_442GC,vha_552', [
-      {
-        id: '983',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '983',
+    mockFacilitiesFetchByVersion({
+      facilities: [
+        createMockFacilityByVersion({
+          id: '983',
           name: 'Facility that is enabled',
           lat: 39.1362562,
           long: -83.1804804,
           address: {
-            physical: {
-              city: 'Bozeman',
-              state: 'MT',
-            },
+            city: 'Bozeman',
+            state: 'MT',
           },
-          phone: {
-            main: '5555555555x1234',
-          },
-        },
-      },
-      {
-        id: '983GC',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '983GC',
+          phone: '5555555555x1234',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
+          id: '983GC',
           name: 'Facility that is also enabled',
           lat: 39.1362562,
           long: -83.0804804,
           address: {
-            physical: {
-              city: 'Belgrade',
-              state: 'MT',
-            },
+            city: 'Belgrade',
+            state: 'MT',
           },
-          phone: {
-            main: '5555555556x1234',
-          },
-        },
-      },
-      {
-        id: '984',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '984',
+          phone: '5555555556x1234',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
+          id: '984',
           name: 'Facility that is furthest away',
           lat: 39.1362562,
           long: -82.1804804,
           address: {
-            physical: {
-              city: 'Bozeman',
-              state: 'MT',
-            },
+            city: 'Bozeman',
+            state: 'MT',
           },
-          phone: {
-            main: '5555555555x1234',
-          },
-        },
-      },
-    ]);
+          phone: '5555555555x1234',
+          version: 0,
+        }),
+      ],
+      version: 0,
+    });
     const store = createTestStore({
       ...initialState,
       user: {
@@ -261,59 +243,41 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
         patientHistoryRequired: null,
       }),
     ]);
-    mockFacilitiesFetch(
-      'vha_442,vha_442GC,vha_552,vha_552GC,vha_552GD,vha_552GA',
-      [
-        {
+    mockFacilitiesFetchByVersion({
+      facilities: [
+        createMockFacilityByVersion({
           id: '983',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '983',
-            name: 'F facility',
-          },
-        },
-        {
+          name: 'F facility',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '983GC',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '983GC',
-            name: 'A facility',
-          },
-        },
-        {
+          name: 'A facility',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '984',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '984',
-            name: 'B facility',
-          },
-        },
-        {
+          name: 'B facility',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '984GC',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '984GC',
-            name: 'C facility',
-          },
-        },
-        {
+          name: 'C facility',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '984GD',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '984GD',
-            name: 'D facility',
-          },
-        },
-        {
+          name: 'D facility',
+          version: 0,
+        }),
+        createMockFacilityByVersion({
           id: '984GA',
-          attributes: {
-            ...getVAFacilityMock().attributes,
-            uniqueId: '984GA',
-            name: 'E facility',
-          },
-        },
+          name: 'E facility',
+          version: 0,
+        }),
       ],
-    );
+      version: 0,
+    });
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ContactFacilitiesPage />, {
       store,
@@ -362,18 +326,18 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
         patientHistoryRequired: null,
       }),
     ]);
-    mockFacilitiesFetch('vha_442', [
-      {
-        id: '983',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '983',
+    mockFacilitiesFetchByVersion({
+      facilities: [
+        createMockFacilityByVersion({
+          id: '983',
           name: 'Facility that is enabled',
           lat: 39.1362562,
           long: -83.1804804,
-        },
-      },
-    ]);
+          version: 0,
+        }),
+      ],
+      version: 0,
+    });
     const store = createTestStore({
       ...initialState,
       appointments: {

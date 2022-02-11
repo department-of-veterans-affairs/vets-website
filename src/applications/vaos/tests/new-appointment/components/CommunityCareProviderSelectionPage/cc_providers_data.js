@@ -384,6 +384,33 @@ export const CC_PROVIDERS_DATA = [
     },
   },
   {
+    id: '1952935777',
+    type: 'provider',
+    attributes: {
+      accNewPatients: 'true',
+      address: {
+        street: 'A DUPLICATE ENTRY TO TEST REMOVING OBJECTS OF SAME IDs',
+        city: 'ANNANDALE',
+        state: 'VA',
+        zip: '22003-2400',
+      },
+      caresitePhone: '703-752-4623',
+      email: null,
+      fax: null,
+      gender: 'Female',
+      lat: 38.833571,
+      long: -77.211165,
+      name: 'OH, JANICE',
+      phone: null,
+      posCodes: null,
+      prefContact: null,
+      uniqueId: '1952935777',
+    },
+    relationships: {
+      specialties: { data: [{ id: '363LP2300X', type: 'specialty' }] },
+    },
+  },
+  {
     id: '1770999294',
     type: 'provider',
     attributes: {

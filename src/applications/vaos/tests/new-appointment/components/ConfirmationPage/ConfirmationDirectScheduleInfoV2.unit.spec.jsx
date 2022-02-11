@@ -89,7 +89,7 @@ describe('VAOS <ConfirmationDirectScheduleInfoV2>', () => {
     const screen = renderWithStoreAndRouter(<ConfirmationPage />, { store });
     expect(
       await screen.findByText(
-        /Your appointment has been scheduled and is confirmed./i,
+        /We’ve scheduled and confirmed your appointment./i,
       ),
     ).to.be.ok;
     expect(
@@ -97,6 +97,7 @@ describe('VAOS <ConfirmationDirectScheduleInfoV2>', () => {
         new RegExp(start.format('MMMM D, YYYY [at] h:mm a'), 'i'),
       ),
     ).to.be.ok;
+    expect(screen.getByText('Primary care')).to.be.ok;
     expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.be.ok;
     expect(screen.getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
     expect(screen.baseElement).to.contain.text(
@@ -119,17 +120,17 @@ describe('VAOS <ConfirmationDirectScheduleInfoV2>', () => {
     );
   });
 
-  it('should render appointment list page when "View your appointments" link is clicked', () => {
+  it('should render appointment list page when "Review your appointments" link is clicked', () => {
     const screen = renderWithStoreAndRouter(<ConfirmationPage />, { store });
-    expect(screen.getByText(/View your appointments/i)).to.have.attribute(
+    expect(screen.getByText(/Review your appointments/i)).to.have.attribute(
       'href',
       '/',
     );
   });
 
-  it('should render new appointment page when "New appointment" link is clicked', () => {
+  it('should render new appointment page when "Schedule a new appointment" link is clicked', () => {
     const screen = renderWithStoreAndRouter(<ConfirmationPage />, { store });
-    userEvent.click(screen.getByText(/New appointment/i));
+    userEvent.click(screen.getByText(/Schedule a new appointment/i));
     expect(screen.history.push.called).to.be.true;
     expect(screen.history.push.getCall(0).args[0]).to.equal('/new-appointment');
   });

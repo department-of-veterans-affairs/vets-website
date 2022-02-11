@@ -219,11 +219,9 @@ class AddressValidationView extends React.Component {
     const {
       addressFromUser,
       addressValidationError,
-      clearErrors,
       confirmedSuggestions,
       resetAddressValidation,
       suggestedAddresses,
-      title,
       transaction,
       transactionRequest,
       validationKey,
@@ -255,11 +253,7 @@ class AddressValidationView extends React.Component {
       <>
         {error && (
           <div className="vads-u-margin-bottom--1" role="alert">
-            <VAPServiceEditModalErrorMessage
-              title={title}
-              error={error}
-              clearErrors={clearErrors}
-            />
+            <VAPServiceEditModalErrorMessage error={error} />
           </div>
         )}
         <div role="alert">

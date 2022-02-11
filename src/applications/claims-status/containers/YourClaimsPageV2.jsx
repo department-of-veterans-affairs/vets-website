@@ -32,12 +32,12 @@ import ClaimsListItem from '../components/appeals-v2/ClaimsListItemV2';
 import AppealListItem from '../components/appeals-v2/AppealListItemV2';
 import NoClaims from '../components/NoClaims';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { setUpPage, setPageFocus } from '../utils/page';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import StemClaimListItem from '../components/StemClaimListItem';
+import MobileAppMessage from '../components/MobileAppMessage';
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
@@ -159,9 +159,9 @@ class YourClaimsPageV2 extends React.Component {
     const emptyList = !(list && list.length);
     if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
       content = (
-        <LoadingIndicator
+        <va-loading-indicator
           message="Loading your claims and appeals..."
-          setFocus
+          set-focus
         />
       );
     } else {
@@ -176,7 +176,7 @@ class YourClaimsPageV2 extends React.Component {
             )}
             <div className="claim-list">
               {atLeastOneRequestLoading && (
-                <LoadingIndicator message="Loading your claims and appeals..." />
+                <va-loading-indicator message="Loading your claims and appeals..." />
               )}
               {list.map(claim => this.renderListItem(claim))}
               <Pagination
@@ -207,6 +207,7 @@ class YourClaimsPageV2 extends React.Component {
               <h1 className="claims-container-title">
                 Check your claim or appeal status
               </h1>
+              <MobileAppMessage />
               <div>{this.renderErrorMessages()}</div>
               <p>
                 <button

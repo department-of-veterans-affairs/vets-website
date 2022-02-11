@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import {
   getNextPagePath,
   getPreviousPagePath,
+  checkValidPagePath,
   createRoutes,
 } from '../../src/js/routing';
 
@@ -156,6 +157,36 @@ describe('Schemaform routing', () => {
       const routes = createRoutes(formConfig);
 
       expect(routes[0].path).to.equal('introduction');
+    });
+  });
+
+  describe('checkValidPagePath', () => {
+    it('should return true for plain paths', () => {
+      const pageList = getPageList();
+      const pathname = 'a-path'; // no leading `/` (on purpose?)
+      const data = {
+        arrayProp: [{}],
+      };
+      expect(checkValidPagePath(pageList, data, pathname)).to.be.true;
+    });
+    it('should return true for indexed paths', () => {
+      const pageList = getPageList();
+      const pathname = '/testing/0';
+      const data = {
+        arrayProp: [{}],
+      };
+      expect(checkValidPagePath(pageList, data, pathname)).to.be.true;
+    });
+    it('should return false for paths that are conditionally not met', () => {
+      const pathname = '/testing/0/conditional-page';
+      const data = {
+        arrayProp: [{ condition: false }],
+      };
+      const pageList = getPageList(
+        (formData, index) => formData.arrayProp[index].condition,
+      );
+
+      expect(checkValidPagePath(pageList, data, pathname)).to.be.false;
     });
   });
 });

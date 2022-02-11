@@ -29,6 +29,10 @@
   clear: both;
 }
 
+.button-icon {
+  pointer-events: none;
+}
+
 ul.original-disability-list {
   li {
     margin-bottom: 0;

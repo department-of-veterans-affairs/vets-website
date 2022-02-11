@@ -12,9 +12,9 @@
         "clinic": null,
         "telehealth": null,
         "practitioners": [
-          { "identifier": { "value": "1801312053" } },
-          { "identifier": { "value": "1053355479" } },
-          { "identifier": { "value": "1396153797" } }
+          { "identifier": [{ "value": "1801312053" }] },
+          { "identifier": [{ "value": "1053355479" }] },
+          { "identifier": [{ "value": "1396153797" }] }
         ],
         "reason": "Routine Follow-up",
         "start": null,
@@ -34,7 +34,7 @@
         },
         "preferredTimesForPhoneCall": ["Morning"],
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
         "comment": "I have a headache"
       }
@@ -68,7 +68,7 @@
         },
         "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
         "comment": "I have a cold"
       }
@@ -102,7 +102,7 @@
         },
         "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
         "comment": "Pink eye"
       }
@@ -136,7 +136,7 @@
         },
         "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
         "comment": "Renew medication"
       }
@@ -172,7 +172,7 @@
         },
         "preferredTimesForPhoneCall": null,
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
         "comment": null
       }

@@ -1,13 +1,13 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS } from '../../wizard/constants';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
 import saveInProgress from './fixtures/mocks/saveInProgress.json';
 import debts from './fixtures/mocks/debts.json';
-import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
-import { WIZARD_STATUS } from '../../wizard/constants';
 
 Cypress.config('waitForAnimations', true);
 
@@ -67,9 +67,7 @@ const testConfig = createTestConfig(
             .first()
             .click();
           // Add job link
-          cy.findAllByText(/Add job/i, { selector: 'a' })
-            .first()
-            .click();
+          cy.get('.add-item-button').click();
           // Employer Two - Previous Employment
           cy.findByLabelText(/Type of work/).select('Full time');
           cy.get(`select[name="fromMonth"]`).select('1');
@@ -96,9 +94,7 @@ const testConfig = createTestConfig(
             .first()
             .click();
           // Add job link
-          cy.findAllByText(/Add job/i, { selector: 'a' })
-            .first()
-            .click();
+          cy.get('.add-item-button').click();
           // Employer Two - Previous Employment
           cy.findByLabelText(/Type of work/).select('Full time');
           cy.get(`select[name="fromMonth"]`).select('2');
@@ -114,17 +110,14 @@ const testConfig = createTestConfig(
       },
       'spouse/income/0': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="root_spouseGrossSalary"]`).type('3500');
-          cy.get(`input[name="root_deductions_0_name"]`).type('Federal tax');
-          cy.get(`input[name="root_deductions_0_amount"]`).type('250');
-          cy.findAllByText(/Save/i, { selector: 'button' }).click();
+          cy.get(`#root_spouseGrossSalary`).type('3500');
           cy.get('.usa-button-primary').click();
         });
       },
       'resolution-options': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type="radio"][value="Waiver"]').click();
-          cy.get(`input[name="agree-to-waiver"]`).check();
+          cy.get('[type="radio"][value="Compromise"]').click();
+          cy.get(`input[name="compromise-resolution-amount"]`).type('100');
           cy.get('.usa-button-primary').click();
         });
       },

@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { VaAdditionalInfo } from 'web-components/react-bindings';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -31,8 +31,9 @@ export const disabilitiesDescription = ({ formContext }) => {
         disabilities that prevent you from getting and keeping a steady job
         (substantially gainful employment).
       </p>
-      <AdditionalInfo
-        triggerText="What’s substantially gainful employment?"
+      <VaAdditionalInfo
+        trigger="What’s substantially gainful employment?"
+        disableAnalytics
         onClick={helpClicked}
       >
         <p>Substantially gainful employment means:</p>
@@ -47,7 +48,7 @@ export const disabilitiesDescription = ({ formContext }) => {
             person.
           </li>
         </ul>
-      </AdditionalInfo>
+      </VaAdditionalInfo>
     </div>
   );
 };

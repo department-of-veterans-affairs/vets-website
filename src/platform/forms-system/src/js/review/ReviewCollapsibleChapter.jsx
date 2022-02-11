@@ -8,7 +8,8 @@ import set from '../../../../utilities/data/set';
 import classNames from 'classnames';
 
 import ProgressButton from '../components/ProgressButton';
-import { focusOnChange, getScrollOptions } from '../utilities/ui';
+import { focusOnChange } from '../utilities/ui';
+import { getScrollOptions } from 'platform/utilities/ui';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema, showReviewField } from '../helpers';
 import ArrayField from './ArrayField';

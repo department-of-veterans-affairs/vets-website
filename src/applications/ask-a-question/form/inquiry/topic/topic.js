@@ -3,7 +3,7 @@ import clone from 'platform/utilities/data/clone';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { createSelector } from 'reselect';
-import { states } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 
 import fullSchema from '../../0873-schema.json';
 import {
@@ -205,18 +205,18 @@ export function schema(currentSchema, topicProperty = 'topic') {
       },
       routeToState: {
         type: 'string',
-        enum: states.USA.map(state => state.value),
-        enumNames: states.USA.map(state => state.label),
+        enum: constants.states.USA.map(state => state.value),
+        enumNames: constants.states.USA.map(state => state.label),
       },
       stateOfResidence: {
         type: 'string',
-        enum: states.USA.map(state => state.value),
-        enumNames: states.USA.map(state => state.label),
+        enum: constants.states.USA.map(state => state.value),
+        enumNames: constants.states.USA.map(state => state.label),
       },
       stateOfSchool: {
         type: 'string',
-        enum: states.USA.map(state => state.value),
-        enumNames: states.USA.map(state => state.label),
+        enum: constants.states.USA.map(state => state.value),
+        enumNames: constants.states.USA.map(state => state.label),
       },
     },
   };

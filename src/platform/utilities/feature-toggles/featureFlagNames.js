@@ -12,11 +12,12 @@ export default Object.freeze({
   cernerOverride692: 'cerner_override_692',
   cernerOverride757: 'cerner_override_757',
   checkInExperienceEnabled: 'check_in_experience_enabled',
-  checkInExperienceUpdateInformationPageEnabled: 'check_in_experience_update_information_page_enabled',
-  checkInExperienceLowRiskAuthenicationEnabled:
-    'check_in_experience_low_authentication_enabled',
-  checkInExperienceMultipleAppointmentEnabled:
-    'check_in_experience_multiple_appointment_support',
+  checkInExperiencePreCheckInEnabled:
+    'check_in_experience_pre_check_in_enabled',
+  checkInExperienceUpdateInformationPageEnabled:
+    'check_in_experience_update_information_page_enabled',
+  checkInExperienceEditingDayOfEnabled: 'check_in_experience_editing_day_of_enabled',
+  checkInExperienceEditingPreCheckInEnabled:'check_in_experience_editing_pre_check_in_enabled',
   coeAccess: 'coe_access',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
@@ -25,21 +26,26 @@ export default Object.freeze({
   covidVaccineUpdatesEnableExpandedEligibility:
     'covid_vaccine_registration_frontend_enable_expanded_eligibility',
   covidVaccineUpdatesForm: 'covid_vaccine_registration_frontend',
+  covidVolunteerIntakeBackendEnabled: 'covid_volunteer_intake_backend_enabled',
+  covidVolunteerIntakeEnabled: 'covid_volunteer_intake_enabled',
+  covidVolunteerUpdateEnabled: 'covid_volunteer_update_enabled',
   debtLettersShowLetters: 'debt_letters_show_letters',
   dependencyVerification: 'dependency_verification',
   dischargeWizardFeatures: 'discharge_wizard_features',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',
   facilitiesPpmsSuppressAll: 'facilities_ppms_suppress_all',
-  facilitiesPpmsSuppressCommunityCare: 'facilities_ppms_suppress_community_care',
+  facilitiesPpmsSuppressCommunityCare:
+    'facilities_ppms_suppress_community_care',
   facilitiesPpmsSuppressPharmacies: 'facilities_ppms_suppress_pharmacies',
-  facilitiesVetCenterAutomateNearby: 'facilities_vet_center_automate_nearby',
-  facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend:
-    'facility_locator_covid_vaccine_walk_in_availability_text_frontend',
+  facilityLocatorLatLongOnly: 'facility_locator_lat_long_only',
   facilityLocatorLighthouseCovidVaccineQuery:
     'facility_locator_lighthouse_covid_vaccine_query',
+  facilityLocatorShowHealthConnectNumber: 'facility_locator_show_health_connect_number',
   facilityLocatorPredictiveLocationSearch:
     'facility_locator_predictive_location_search',
   facilityLocatorRailsEngine: 'facility_locator_rails_engine',
+  facilityLocatorRestoreCommunityCarePagination:
+    'facility_locator_restore_community_care_pagination',
   facilityLocatorShowCommunityCares: 'facility_locator_show_community_cares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilityLocatorShowOperationalHoursSpecialInstructions:
     'facility_locator_show_operational_hours_special_instructions',
@@ -50,16 +56,29 @@ export default Object.freeze({
   form10182Nod: 'form10182_nod',
   gibctEybBottomSheet: 'gibct_eyb_bottom_sheet',
   gibctSchoolRatings: 'gibct_school_ratings',
+  giSandboxComparisonToolToggle: 'gi_sandbox_comparision_tool_toggle',
   hlrv2: 'hlr_v2',
-  languageSupport: 'language_support',
+  loginGov: 'login_gov',
+  loginGovCreateAccount: 'login_gov_create_account',
+  loginGovMHV: 'login_gov_mhv',
+  loginGovMyVAHealth: 'login_gov_myvahealth',
+  loopPages: 'loop_pages',
   manageDependents: 'dependents_management',
   megaMenuMobileV2: 'mega_menu_mobile_v2',
+  omniChannelLink: 'omni_channel_link',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
   profileNotificationSettings: 'profile_notification_settings',
+  profileEnhancements: 'profile_enhancements',
+  profileShowAddressChangeModal: 'profile_show_address_change_modal',
+  profileShowFaxNumber: 'profile_show_fax_number',
+  profileShowGender: 'profile_show_gender',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
   searchTypeaheadEnabled: 'search_typeahead_enabled',
+  searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
   show526Wizard: 'show526_wizard',
+  showPaymentAndDebtSection: 'show_payment_and_debt_section',
+  showDashboardNotifications: 'show_dashboard_notifications',
   showEduBenefits0994Wizard: 'show_edu_benefits_0994_wizard',
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
   showEduBenefits1990NWizard: 'show_edu_benefits_1990n_wizard',
@@ -69,6 +88,8 @@ export default Object.freeze({
   showEduBenefits5495Wizard: 'show_edu_benefits_5495_wizard',
   showFinancialStatusReport: 'show_financial_status_report',
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
+  showFormI18n: 'show_form_i18n',
+  showEventsV2: 'show_events_v2',
   showMebMockEndpoints: 'show_meb_mock_endpoints',
   showMedicalCopays: 'show_medical_copays',
   showHealthcareExperienceQuestionnaire:
@@ -81,8 +102,8 @@ export default Object.freeze({
   showNewSecureMessagingPage: 'show_new_secure_messaging_page',
   showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
   ssoe: 'ssoe',
-  ssoeEbenefitsLinks: 'ssoeEbenefitsLinks',
-  ssoeInbound: 'ssoeInbound',
+  ssoeEbenefitsLinks: 'ssoe_ebenefits_links',
+  ssoeInbound: 'ssoe_inbound',
   stemAutomatedDecision: 'stem_automated_decision',
   stemSCOEmail: 'stem_sco_email',
   subform89404192: 'subform_8940_4192',
@@ -94,10 +115,11 @@ export default Object.freeze({
   vaOnlineSchedulingCheetah: 'va_online_scheduling_cheetah',
   vaOnlineSchedulingCommunityCare: 'va_online_scheduling_community_care',
   vaOnlineSchedulingDirect: 'va_online_scheduling_direct',
-  vaOnlineSchedulingHomepageRefresh: 'va_online_scheduling_homepage_refresh',
-  vaOnlineSchedulingProviderSelection: 'va_online_scheduling_provider_selection',
+  vaOnlineSchedulingProviderSelection:
+    'va_online_scheduling_provider_selection',
   vaOnlineSchedulingRequests: 'va_online_scheduling_requests',
-  vaOnlineSchedulingUnenrolledVaccine: 'va_online_scheduling_unenrolled_vaccine',
+  vaOnlineSchedulingUnenrolledVaccine:
+    'va_online_scheduling_unenrolled_vaccine',
   vaOnlineSchedulingVAOSServiceCCAppointments:
     'va_online_scheduling_vaos_service_cc_appointments',
   vaOnlineSchedulingVAOSServiceRequests:
@@ -107,7 +129,11 @@ export default Object.freeze({
   vaOnlineSchedulingFacilitiesServiceV2:
     'va_online_scheduling_facilities_service_v2',
   vaOnlineSchedulingVariantTesting: 'va_online_scheduling_variant_testing',
-  vaOnlineSchedulingCCIterations: 'va_online_scheduling_cc_iterations',
+  vaOnlineSchedulingPocHealthApt: 'va_online_scheduling_poc_health_apt',
+  vaOnlineSchedulingStatusImprovement: 'va_online_scheduling_status_improvement',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
+  showEduBenefits1990EZWizard: 'show_edu_benefits_1990EZ_Wizard',
+  caregiverSIGIEnabled: 'caregiver_sigi_enabled',
+  hcaAmericanIndianEnabled: 'hca_american_indian_enabled',
 });

@@ -1,11 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
-import { waitFor } from '@testing-library/dom';
-import { fireEvent } from '@testing-library/react';
-
+import { within } from '@testing-library/react';
 import { mockFetch } from 'platform/testing/unit/helpers';
-
+import { waitFor } from '@testing-library/dom';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -13,11 +11,10 @@ import {
   setTypeOfCare,
   setTypeOfFacility,
 } from '../../../mocks/setup';
-import { getParentSiteMock, getVAFacilityMock } from '../../../mocks/v0';
+import { getParentSiteMock } from '../../../mocks/v0';
 import {
   mockCCProviderFetch,
   mockCommunityCareEligibility,
-  mockFacilityFetch,
   mockGetCurrentPosition,
   mockParentSites,
 } from '../../../mocks/helpers';
@@ -26,11 +23,12 @@ import CommunityCareProviderSelectionPage from '../../../../new-appointment/comp
 import { calculateBoundingBox } from '../../../../utils/address';
 import { CC_PROVIDERS_DATA } from './cc_providers_data';
 import { FACILITY_SORT_METHODS } from '../../../../utils/constants';
+import { createMockFacilityByVersion } from '../../../mocks/data';
+import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCommunityCare: true,
-    vaOnlineSchedulingCCIterations: true,
   },
   user: {
     profile: {
@@ -103,10 +101,15 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
       ),
       CC_PROVIDERS_DATA,
     );
-    mockFacilityFetch(
-      'vha_442',
-      getVAFacilityMock({ id: '442', lat: 38.5615, long: 122.9988 }),
-    );
+    mockFacilityFetchByVersion({
+      facility: createMockFacilityByVersion({
+        id: '442',
+        lat: 38.5615,
+        long: 122.9988,
+        version: 0,
+      }),
+      version: 0,
+    });
   });
 
   it('should display list of providers when choose a provider clicked', async () => {
@@ -128,12 +131,16 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
       }),
     );
     // Then providers should be displayed
-    expect(await screen.findByText(/Show providers closest to/i)).to.exist;
+    expect(await screen.findByTestId('providersSelect')).to.exist;
     expect(screen.baseElement).to.contain.text('Your home address');
 
     expect(await screen.findByText(/Displaying 1 to 5 of 16 providers/i)).to.be
       .ok;
-    expect(screen.getAllByRole('radio').length).to.equal(5);
+
+    const radioButtons = screen
+      .getAllByRole('radio')
+      .filter(element => element.name.startsWith('root_communityCareProvider'));
+    expect(radioButtons.length).to.equal(5);
   });
 
   it('should notify user that the browser is blocked from using current location information', async () => {
@@ -169,11 +176,13 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
         selector: 'button',
       }),
     );
-    fireEvent.change(await screen.getByLabelText('Show providers closest to'), {
-      target: {
-        value: FACILITY_SORT_METHODS.distanceFromCurrentLocation,
-      },
+
+    const providersSelect = await screen.findByTestId('providersSelect');
+    // call VaSelect custom event for onChange handling
+    providersSelect.__events.vaSelect({
+      detail: { value: FACILITY_SORT_METHODS.distanceFromCurrentLocation },
     });
+
     // Then an error location alert should be displayed
     expect(
       await screen.findByRole('heading', {
@@ -231,11 +240,14 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     // When the user selects to sort providers by distance from current location
     // Choose Provider based on current location
     await screen.findByText(/Displaying 1 to /i);
-    fireEvent.change(await screen.getByLabelText('Show providers closest to'), {
-      target: {
-        value: FACILITY_SORT_METHODS.distanceFromCurrentLocation,
-      },
+
+    const providersSelect = await screen.findByTestId('providersSelect');
+
+    // call VaSelect custom event for onChange handling
+    providersSelect.__events.vaSelect({
+      detail: { value: FACILITY_SORT_METHODS.distanceFromCurrentLocation },
     });
+
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
@@ -290,11 +302,12 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     await waitFor(() =>
       expect(screen.getAllByRole('radio').length).to.equal(5),
     );
-    fireEvent.change(await screen.getByLabelText('Show providers closest to'), {
-      target: {
-        value: FACILITY_SORT_METHODS.distanceFromCurrentLocation,
-      },
+    const providersSelect = await screen.findByTestId('providersSelect');
+    // call VaSelect custom event for onChange handling
+    providersSelect.__events.vaSelect({
+      detail: { value: FACILITY_SORT_METHODS.distanceFromCurrentLocation },
     });
+
     // And the error location alert is displayed
     expect(
       await screen.findByRole('heading', {
@@ -333,9 +346,15 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     );
     // Then providers should be displayed by distance from current location
     // should eventually be one provider
-    await waitFor(() =>
-      expect(screen.getAllByRole('radio').length).to.equal(1),
-    );
+    await waitFor(() => {
+      const radioButtons = screen
+        .getAllByRole('radio')
+        .filter(element =>
+          element.name.startsWith('root_communityCareProvider'),
+        );
+
+      expect(radioButtons.length).to.equal(1);
+    });
   });
 
   it('should sort providers by distance from selected facility in ascending order', async () => {
@@ -380,11 +399,12 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
     // When the user selects to sort providers by distance from a specific facility
     // Choose Provider based on facility address
     await screen.findByText(/Displaying 1 to /i);
-    fireEvent.change(await screen.getByLabelText('Show providers closest to'), {
-      target: {
-        value: '983',
-      },
+    const providersSelect = await screen.findByTestId('providersSelect');
+    // call VaSelect custom event for onChange handling
+    providersSelect.__events.vaSelect({
+      detail: { value: '983' },
     });
+
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
@@ -436,15 +456,15 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
       CC_PROVIDERS_DATA,
     );
 
-    mockFacilityFetch('vha_442GJ', {
-      id: '983',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '983',
+    mockFacilityFetchByVersion({
+      facility: createMockFacilityByVersion({
+        id: '442GJ',
         name: 'Facility that is enabled',
         lat: 39.1362562,
         long: -83.1804804,
-      },
+        version: 0,
+      }),
+      version: 0,
     });
 
     await setTypeOfCare(store, /primary care/i);
@@ -466,19 +486,20 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
         selector: 'button',
       }),
     );
-    expect(await screen.findByText(/Show providers closest to/i)).to.exist;
+
+    expect(await screen.findByTestId('providersSelect')).to.exist;
 
     // Then the select options should default to sort by distance from the first CC enabled facility
     expect(screen.baseElement).not.to.contain.text('Your home address');
     expect(screen.baseElement).to.contain.text('Your current location');
-    const selectOptions = await screen.getByLabelText(
-      'Show providers closest to',
-    );
-    expect(selectOptions).to.be.ok;
+    const providerSelect = await screen.findByTestId('providersSelect');
+    expect(providerSelect).to.be.ok;
+
+    const options = within(providerSelect).getAllByRole('option');
     // first facility should not be selected
-    expect(selectOptions[0].selected).not.to.be.ok;
+    expect(options[0].value).not.to.equal(providerSelect.value);
     // current location should be selected
-    expect(selectOptions[1].selected).to.be.ok;
+    expect(options[1].value).to.equal(providerSelect.value);
   });
 
   it('should defalut to home address when user has a residential address', async () => {
@@ -519,15 +540,15 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
       CC_PROVIDERS_DATA,
     );
 
-    mockFacilityFetch('vha_442GJ', {
-      id: '983',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '983',
+    mockFacilityFetchByVersion({
+      facility: createMockFacilityByVersion({
+        id: '442GJ',
         name: 'Facility that is enabled',
         lat: 39.1362562,
         long: -83.1804804,
-      },
+        version: 0,
+      }),
+      version: 0,
     });
 
     await setTypeOfCare(store, /primary care/i);
@@ -552,10 +573,48 @@ describe('VAOS ProviderSortVariant on <CommunityCareProviderSelectionPage>', () 
       }),
     );
 
-    expect(await screen.findByText(/Show providers closest to/i)).to.exist;
+    expect(await screen.findByTestId('providersSelect')).to.exist;
 
     // Then the select options should default to sort by distance from home address
     expect(screen.baseElement).to.contain.text('Your home address');
     expect(screen.baseElement).to.contain.text('Your current location');
+  });
+
+  it('should display an error message when lookup fails', async () => {
+    // Given the CC iteration flag is on
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+    const screen = renderWithStoreAndRouter(
+      <CommunityCareProviderSelectionPage />,
+      {
+        store,
+      },
+    );
+    // And the provider service is not working
+    mockCCProviderFetch(
+      initialState.user.profile.vapContactInfo.residentialAddress,
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      calculateBoundingBox(
+        initialState.user.profile.vapContactInfo.residentialAddress.latitude,
+        initialState.user.profile.vapContactInfo.residentialAddress.longitude,
+        60,
+      ),
+      CC_PROVIDERS_DATA,
+      true,
+    );
+
+    // When the user clicks the choose a provider button
+    userEvent.click(
+      await screen.findByText(/Choose a provider/i, {
+        selector: 'button',
+      }),
+    );
+    // Then they should see an error message
+    expect(await screen.findByText(/We can’t load provider information/i)).to
+      .exist;
+
+    // And still be able to continue
+    expect(screen.getByRole('button', { name: /Continue/i })).to.exist;
   });
 });

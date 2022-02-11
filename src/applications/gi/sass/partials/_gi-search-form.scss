@@ -1,0 +1,95 @@
+.search-form {
+  button {
+    margin-top: 0.5em;
+    width: auto;
+  }
+
+  .usa-button i {
+    padding-left: 16px;
+  }
+
+  .suggestions-list {
+    position: absolute;
+  }
+
+  .search-box {
+    border-bottom: 2px solid $color-gray-light;
+    border-left: 2px solid $color-gray-light;
+    border-right: 2px solid $color-gray-light;
+    padding: 0px 48px 24px 48px;
+
+    .usa-input-error {
+      padding-bottom: 0px;
+    }
+
+    .bottom-positioner {
+      position: absolute;
+      width: 100%;
+      bottom: 0px;
+    }
+
+    .name-search-inputs {
+      position: relative;
+
+      button {
+        right: 0px;
+      }
+    }
+
+    .location-search-inputs {
+      position: relative;
+
+      #distance-dropdown {
+        float: left;
+      }
+
+      button {
+        float: right;
+      }
+    }
+  }
+
+  .active-search-tab {
+    border-top: 4px solid $color-primary;
+    border-bottom: none;
+    border-radius: 0%;
+    height: 2.8em;
+    margin-bottom: -1px;
+  }
+
+  .inactive-search-tab {
+    border-top: 2px solid $color-gray-light;
+    border-bottom: 2px solid $color-gray-light;
+    border-radius: 0%;
+    margin-bottom: -1px;
+  }
+
+  .search-tab {
+    font-size: 25px;
+    border-radius: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+
+    &:focus:not(:focus-visible) {
+      outline: none;
+    }
+  }
+
+  .name-search-tab {
+    border-left: 2px solid $color-gray-light;
+    border-right: 1px solid $color-gray-light;
+  }
+
+  .location-search-tab {
+    border-left: 1px solid $color-gray-light;
+    border-right: 2px solid $color-gray-light;
+  }
+
+  input:placeholder-shown {
+    font-style: italic;
+  }
+
+  select {
+    width: 200px;
+  }
+}

@@ -1,8 +1,8 @@
 import React from 'react';
 
 const DisputeCharges = () => (
-  <article className="vads-u-padding--0">
-    <h2 id="balance-questions">How do I dispute my copay charges?</h2>
+  <article className="vads-u-padding--0" data-testid="dispute-charges">
+    <h2 id="dispute-charges">How do I dispute my copay charges?</h2>
     <p>
       You have the right to dispute all or part of your VA copay charges. Write
       a letter explaining why you think the copay charges or balance amount may
@@ -15,12 +15,17 @@ const DisputeCharges = () => (
       dispute by mail, please include "Billing Dispute" on the mailing envelope.
     </p>
     <p>
-      <a className="vads-c-action-link--blue" href="#">
+      <a
+        className="vads-c-action-link--blue"
+        href="https://www.va.gov/find-locations"
+      >
         Find your nearest VA medical center
       </a>
     </p>
     <p>
-      <a href="#">Learn more about disputing your copay charges</a>
+      <a href="https://www.va.gov/health-care/pay-copay-bill/dispute-charges/">
+        Learn more about disputing your copay charges
+      </a>
     </p>
   </article>
 );

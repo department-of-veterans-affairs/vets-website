@@ -4,7 +4,7 @@ import {
   FIELD_NAMES,
   USA,
 } from '@@vap-svc/constants';
-import { addresses, phoneNumbers } from './getContactInfoFieldAttributes';
+import { addresses, phoneNumbers } from '../getProfileInfoFieldAttributes';
 import pickBy from 'lodash/pickBy';
 
 const isOverseasMilitaryMailingAddress = data =>
@@ -49,11 +49,15 @@ export const getInitialFormValues = options => {
 
     if (data) {
       const { extension, areaCode, phoneNumber } = data;
+      const inputPhoneNumber =
+        areaCode && phoneNumber
+          ? `${areaCode}${phoneNumber}`
+          : `${phoneNumber}`;
 
       initialFormValues = {
         ...data,
         extension: extension || '',
-        inputPhoneNumber: `${areaCode}${phoneNumber}`,
+        inputPhoneNumber,
       };
     }
 

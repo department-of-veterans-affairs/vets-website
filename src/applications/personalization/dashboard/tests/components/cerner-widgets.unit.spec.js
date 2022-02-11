@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
 import { CernerWidget } from '../../components/cerner-widgets';
+import { getCernerURL } from 'platform/utilities/cerner';
 
 describe('General Widget', () => {
   const facilityNames = ['Facility Name'];
@@ -19,9 +20,8 @@ describe('General Widget', () => {
     const myVAHealthLink = view.getByRole('link', {
       name: /Use My VA Health/i,
     });
-    expect(myVAHealthLink.href).to.equal(
-      'https://staging-patientportal.myhealth.va.gov/',
-    );
+    const cernerURL = getCernerURL('');
+    expect(myVAHealthLink.href).to.equal(cernerURL);
   });
   it('renders the correct secondary CTA link', () => {
     const ctaLink = view.getByRole('link', {

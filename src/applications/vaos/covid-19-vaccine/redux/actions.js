@@ -6,6 +6,7 @@ import {
 } from 'platform/user/selectors';
 import {
   selectFeatureFacilitiesServiceV2,
+  selectFeatureVAOSServiceVAAppointments,
   selectSystemIds,
 } from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
@@ -37,6 +38,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import { transformFormToAppointment } from './helpers/formSubmitTransformers';
 import { submitAppointment } from '../../services/var';
 import { VACCINE_FORM_SUBMIT_SUCCEEDED } from '../../redux/sitewide';
+import { createAppointment } from '../../services/appointment';
+import { transformFormToVAOSAppointment } from './helpers/formSubmitTransformers.v2';
 
 export const FORM_PAGE_OPENED = 'covid19Vaccine/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'covid19Vaccine/FORM_DATA_UPDATED';
@@ -110,7 +113,10 @@ export function updateFormData(page, uiSchema, data) {
 }
 
 export function getClinics({ facilityId, showModal = false }) {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      getState(),
+    );
     let clinics;
     try {
       dispatch({ type: FORM_FETCH_CLINICS });
@@ -120,6 +126,7 @@ export function getClinics({ facilityId, showModal = false }) {
           typeOfCare => typeOfCare.id === TYPE_OF_CARE_ID,
         ),
         systemId: getSiteIdFromFacilityId(facilityId),
+        useV2: featureVAOSServiceVAAppointments,
       });
       dispatch({
         type: FORM_FETCH_CLINICS_SUCCEEDED,
@@ -250,6 +257,9 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
 export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      state,
+    );
     const siteId = getSiteIdFromFacilityId(
       selectCovid19VaccineFormData(state).vaFacility,
     );
@@ -296,6 +306,7 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
+          useV2: featureVAOSServiceVAAppointments,
         });
 
         if (initialFetch) {
@@ -375,6 +386,9 @@ export function prefillContactInfo() {
 
 export function confirmAppointment(history) {
   return async (dispatch, getState) => {
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      getState(),
+    );
     dispatch({
       type: FORM_SUBMIT,
     });
@@ -390,8 +404,14 @@ export function confirmAppointment(history) {
     });
 
     try {
-      const appointmentBody = transformFormToAppointment(getState());
-      await submitAppointment(appointmentBody);
+      if (featureVAOSServiceVAAppointments) {
+        await createAppointment({
+          appointment: transformFormToVAOSAppointment(getState()),
+        });
+      } else {
+        const appointmentBody = transformFormToAppointment(getState());
+        await submitAppointment(appointmentBody);
+      }
 
       const data = selectCovid19VaccineFormData(getState());
       const facilityID = {
