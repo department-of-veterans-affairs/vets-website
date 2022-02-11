@@ -429,14 +429,14 @@ describe('keepAlive', () => {
   });
 
   it('should return ttl 0 when not alive', async () => {
-    const { ALIVE, TIMEOUT, TRANSACTIONID, AUTHN_CONTEXT } = AUTHN_HEADERS;
+    const { ALIVE, TIMEOUT, TRANSACTIONID, CSP } = AUTHN_HEADERS;
     stubFetch.resolves(
       generateMockKeepAliveResponse({
         headers: {
           [ALIVE]: 'false',
           [TIMEOUT]: 900,
           [TRANSACTIONID]: 'g',
-          [AUTHN_CONTEXT]: '/loa1',
+          [CSP]: 'idme',
         },
         status: 200,
       }),
@@ -445,7 +445,8 @@ describe('keepAlive', () => {
     expect(KA_RESPONSE).to.eql({
       ttl: 0,
       transactionid: null,
-      authn: undefined,
+      authn: 'NOT_FOUND',
+      csp: 'idme',
     });
   });
 
