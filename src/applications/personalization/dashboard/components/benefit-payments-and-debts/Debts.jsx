@@ -6,7 +6,11 @@ import recordEvent from '~/platform/monitoring/record-event';
 export const Debts = ({ debts, hasError }) => {
   const debtsCount = debts?.length || 0;
   if (debtsCount < 1) {
-    return null;
+    return (
+      <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
+        Your total VA debt balance is $0.
+      </p>
+    );
   }
   if (hasError) {
     return (
@@ -18,8 +22,8 @@ export const Debts = ({ debts, hasError }) => {
           className="vads-u-margin-top--0"
           closeable
         >
-          We’re sorry. Something went wrong on our end, and we can’t access your
-          debt information. Please try again later or go to the debts tool.
+          We’re sorry. We can’t access some of your financial information right
+          now. We’re working to fix this problem. Please check back later.
         </va-alert>
       </div>
     );
