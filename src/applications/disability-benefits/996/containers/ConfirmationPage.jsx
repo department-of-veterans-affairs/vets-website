@@ -134,7 +134,12 @@ ConfirmationPage.propTypes = {
       response: PropTypes.shape({}),
     }),
   }),
-  name: PropTypes.string,
+  name: PropTypes.shape({
+    first: PropTypes.string,
+    middle: PropTypes.string,
+    last: PropTypes.string,
+    suffix: PropTypes.string,
+  }),
 };
 
 function mapStateToProps(state) {
