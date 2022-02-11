@@ -105,20 +105,31 @@ export default function AppointmentsPageV2() {
   } = getDropdownValueFromLocation(location.pathname);
 
   const [count, setCount] = useState(0);
+  const dispatch = useDispatch();
   useEffect(
     () => {
       if (featureStatusImprovement) {
-        let prefix = subPageTitle;
-        if (subPageTitle.startsWith('Request')) prefix = 'Pending appointments';
-        document.title = `${prefix} | VA online scheduling | Veterans Affairs`;
-        pageTitle = 'Your appointments';
+        let prefix = 'Your';
+        if (location.pathname.endsWith('pending')) {
+          prefix = 'Pending';
+          pageTitle = `${prefix} appointments`;
+          dispatch(updateBreadcrumb({ title: prefix, path: 'pending' }));
+        } else if (location.pathname.endsWith('past')) {
+          prefix = 'Past';
+          pageTitle = `${prefix} appointments`;
+          dispatch(updateBreadcrumb({ title: prefix, path: 'past' }));
+        } else {
+          pageTitle = 'Your appointments';
+        }
+
+        document.title = `${prefix} appointments | VA online scheduling | Veterans Affairs`;
         scrollAndFocus('h1');
       } else {
         document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
         scrollAndFocus('h1');
       }
     },
-    [subPageTitle, featureStatusImprovement],
+    [subPageTitle, featureStatusImprovement, location.pathname, dispatch],
   );
 
   const [documentTitle, setDocumentTitle] = useState();
@@ -159,24 +170,6 @@ export default function AppointmentsPageV2() {
   );
 
   const history = useHistory();
-  const dispatch = useDispatch();
-
-  useEffect(
-    () => {
-      // Update the breadcrumb and page title in the event the user accesses the past appointments
-      // page from a bookmark or types 'past' in the address bar.
-      if (featureStatusImprovement) {
-        if (DROPDOWN_VALUES.past === dropdownValue) {
-          pageTitle = 'Past appointments';
-          dispatch(updateBreadcrumb({ title: 'Past', path: 'past' }));
-        } else if (DROPDOWN_VALUES.requested === dropdownValue) {
-          pageTitle = 'Pending appointments';
-          dispatch(updateBreadcrumb({ title: 'Pending', path: 'requested' }));
-        }
-      }
-    },
-    [dispatch, dropdownValue, featureStatusImprovement],
-  );
 
   return (
     <PageLayout showBreadcrumbs showNeedHelp>
@@ -214,7 +207,7 @@ export default function AppointmentsPageV2() {
         <Route exact path="/">
           <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />
         </Route>
-        <Route path="/requested">
+        <Route path={featureStatusImprovement ? '/pending' : '/requested'}>
           <RequestedAppointmentsList hasTypeChanged={hasTypeChanged} />
         </Route>
         <Route path="/past">

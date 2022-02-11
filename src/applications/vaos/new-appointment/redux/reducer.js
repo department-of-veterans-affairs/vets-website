@@ -278,10 +278,10 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
       let newSchema = action.schema;
       let newData = state.data;
-      let facilities = action.facilities;
-      const typeOfCareId = action.typeOfCareId;
-      const address = action.address;
-      const cernerSiteIds = action.cernerSiteIds;
+      let { facilities } = action;
+      const { typeOfCareId } = action;
+      const { address } = action;
+      const { cernerSiteIds } = action;
       const hasResidentialCoordinates =
         !!action.address?.latitude && !!action.address?.longitude;
       const sortMethod = hasResidentialCoordinates
@@ -380,33 +380,31 @@ export default function formReducer(state = initialState, action) {
           ccProviderPageSortMethod: action.sortMethod,
           requestLocationStatus,
         };
-      } else if (
-        action.sortMethod === FACILITY_SORT_METHODS.distanceFromFacility
-      ) {
+      }
+      if (action.sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
         return {
           ...state,
           selectedCCFacility: action.location,
           ccProviderPageSortMethod: action.sortMethod,
           requestLocationStatus,
         };
-      } else {
-        return {
-          ...state,
-          ccProviderPageSortMethod: action.sortMethod,
-          requestLocationStatus,
-        };
       }
+      return {
+        ...state,
+        ccProviderPageSortMethod: action.sortMethod,
+        requestLocationStatus,
+      };
     }
 
     case FORM_PAGE_FACILITY_SORT_METHOD_UPDATED: {
       const formData = state.data;
       const typeOfCareId = getTypeOfCare(formData).id;
-      const sortMethod = action.sortMethod;
-      const location = action.location;
-      const cernerSiteIds = action.cernerSiteIds;
+      const { sortMethod } = action;
+      const { location } = action;
+      const { cernerSiteIds } = action;
       let facilities = state.facilities[typeOfCareId];
       let newSchema = state.pages.vaFacilityV2;
-      let requestLocationStatus = state.requestLocationStatus;
+      let { requestLocationStatus } = state;
       if (location && facilities?.length) {
         const { coords } = location;
         const { latitude, longitude } = coords;
@@ -506,7 +504,7 @@ export default function formReducer(state = initialState, action) {
     case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
       const facilityId = action.facilityId || state.data.vaFacility;
 
-      let clinics = state.clinics;
+      let { clinics } = state;
 
       if (Array.isArray(action.clinics)) {
         clinics = {
