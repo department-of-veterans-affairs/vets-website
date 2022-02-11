@@ -101,7 +101,7 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
 
   return (
     <>
-      <div aria-live="assertive" className="sr-only">
+      <div aria-live="polite" className="sr-only">
         {hasTypeChanged && 'Showing requested appointments'}
       </div>
       {appointmentsByStatus?.length > 0 && (
@@ -125,7 +125,6 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
                 <ul
                   className="vads-u-padding-left--0"
                   data-cy="requested-appointment-list"
-                  role="list"
                 >
                   {statusBucket[1].map((appt, index) => (
                     <RequestListItem

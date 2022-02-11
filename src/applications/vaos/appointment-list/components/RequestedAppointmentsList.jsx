@@ -73,7 +73,7 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
 
   return (
     <>
-      <div aria-live="assertive" className="sr-only">
+      <div aria-live="polite" className="sr-only">
         {hasTypeChanged && 'Showing requested appointments'}
       </div>
       {pendingAppointments?.length > 0 && (
@@ -87,7 +87,6 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
           <ul
             className="vads-u-padding-left--0"
             data-cy="requested-appointment-list"
-            role="list"
           >
             {pendingAppointments.map((appt, index) => (
               <RequestListItem

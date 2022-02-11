@@ -208,7 +208,7 @@ export default function AppointmentsPageV2() {
         <Route exact path="/">
           <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />
         </Route>
-        <Route path="featureStatusImprovement ? '/pending' : '/requested'">
+        <Route path={featureStatusImprovement ? '/pending' : '/requested'}>
           {featureStatusImprovement && (
             <RequestedAppointmentsListGroup hasTypeChanged={hasTypeChanged} />
           )}

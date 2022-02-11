@@ -218,5 +218,44 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       expect(screen.getByText('Your appointment requests that where canceled'))
         .to.be.ok;
     });
+
+    it('should dispaly no appointments alert', async () => {
+      // And a veteran has no pending or canceled appointment request
+
+      // And developer is using the v2 API
+      mockVAOSAppointmentsFetch({
+        start: moment()
+          .subtract(120, 'days')
+          .format('YYYY-MM-DD'),
+        end: moment()
+          .add(1, 'days')
+          .format('YYYY-MM-DD'),
+        statuses: ['proposed', 'cancelled'],
+        requests: [{}],
+      });
+
+      // When veteran selects requested appointments
+      const screen = renderWithStoreAndRouter(
+        <RequestedAppointmentsListGroup />,
+        {
+          initialState: {
+            ...initialStateVAOSService,
+            featureToggles: {
+              ...initialStateVAOSService.featureToggles,
+              vaOnlineSchedulingStatusImprovement: true,
+            },
+          },
+          reducers,
+        },
+      );
+
+      // Then it should display the requested appointments
+      expect(
+        await screen.findByRole('heading', {
+          level: 3,
+          name: /You don’t have any/,
+        }),
+      ).to.be.ok;
+    });
   });
 });
