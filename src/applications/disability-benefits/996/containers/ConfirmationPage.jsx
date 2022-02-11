@@ -131,6 +131,7 @@ ConfirmationPage.propTypes = {
     formId: PropTypes.string,
     submission: PropTypes.shape({
       timestamp: PropTypes.string,
+      response: PropTypes.shape({}),
     }),
   }),
   name: PropTypes.string,

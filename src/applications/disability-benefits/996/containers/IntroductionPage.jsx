@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import Telephone, {
@@ -15,10 +16,10 @@ import { isEmptyAddress } from 'platform/forms/address/helpers';
 import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import { WIZARD_STATUS_NOT_STARTED } from 'platform/site-wide/wizard';
-
-import { FETCH_CONTESTABLE_ISSUES_INIT } from '../actions';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+
+import { FETCH_CONTESTABLE_ISSUES_INIT } from '../actions';
 
 import {
   BASE_URL,
@@ -99,6 +100,11 @@ export class IntroductionPage extends React.Component {
     return noContestableIssuesFound;
   };
 
+  restartWizard = () => {
+    this.setWizardStatus(WIZARD_STATUS_NOT_STARTED);
+    recordEvent({ event: 'howToWizard-start-over' });
+  };
+
   render() {
     const { loggedIn, hasEmptyAddress } = this.props;
     const pageTitle = 'Request a Higher-Level Review with VA Form 20-0996';
@@ -146,10 +152,7 @@ export class IntroductionPage extends React.Component {
             <a
               href={`${BASE_URL}/start`}
               className="va-button-link"
-              onClick={() => {
-                this.setWizardStatus(WIZARD_STATUS_NOT_STARTED);
-                recordEvent({ event: 'howToWizard-start-over' });
-              }}
+              onClick={this.restartWizard}
             >
               go back and answer questions again
             </a>
@@ -225,6 +228,29 @@ export class IntroductionPage extends React.Component {
     );
   }
 }
+
+IntroductionPage.propTypes = {
+  contestableIssues: PropTypes.shape({
+    issues: PropTypes.array,
+    status: PropTypes.string,
+    error: PropTypes.string,
+    legacyCount: PropTypes.number,
+    benefitType: PropTypes.string,
+  }),
+  delay: PropTypes.number,
+  hasEmptyAddress: PropTypes.bool,
+  hlrV2: PropTypes.bool,
+  loggedIn: PropTypes.bool,
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      formId: PropTypes.string,
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.shape({}),
+    }),
+    pageList: PropTypes.array,
+  }),
+  savedForms: PropTypes.array,
+};
 
 function mapStateToProps(state) {
   const { form, contestableIssues } = state;
