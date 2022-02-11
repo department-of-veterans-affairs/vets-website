@@ -961,6 +961,8 @@ jobs:
     name: Trigger full E2E test suite
     runs-on: ubuntu-latest
     # if: ${{ github.ref == 'refs/heads/master' }}
+    # Setting this to 'archive' for testing purposes, but ideally we'd want this dependent on 'deploy'
+    needs: archive
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
