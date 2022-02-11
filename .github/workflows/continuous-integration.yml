@@ -962,16 +962,20 @@ jobs:
     runs-on: ubuntu-latest
     # if: ${{ github.ref == 'refs/heads/master' }}
     steps:
-      - name: Trigger E2E tests workflow
-        uses: convictional/trigger-workflow-and-wait@v1.5.0
+      - name: Get GitHub token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
-          owner: department-of-veterans-affairs
-          repo: vets-website
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          workflow_file_name: e2e-tests.yml
-          ref: e2e-tests-workflow
-          wait_workflow: false
-          inputs: '{"commit_sha": "${{ github.sha }}"}'
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Trigger E2E tests workflow
+        run: |
+          curl -v -X POST \
+          -H 'Authorization: token ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' \
+          -H 'Accept: application/vnd.github.v3+json' \
+          https://api.github.com/repos/department-of-veterans-affairs/vets-website/actions/workflows/19698069/dispatches \
+          -d '{"ref": "e2e-tests-workflow", "inputs": { "commit_sha": "${{ github.sha }}" }}' \
+          --fail
 
   notify-failure:
     name: Notify Failure
