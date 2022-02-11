@@ -39,9 +39,7 @@ export const AUTHN_HEADERS = {
   TRANSACTION_ID: 'va_eauth_transactionid',
   TIMEOUT: 'session-timeout',
   ALIVE: 'session-alive',
-  AAL: 'va_eauth_aal',
   IAL: 'va_eauth_ial',
-  CSP_METHOD: 'va_eauth_csp_method',
 };
 
 export const SSO_KEEP_ALIVE_ENDPOINT = `https://${
