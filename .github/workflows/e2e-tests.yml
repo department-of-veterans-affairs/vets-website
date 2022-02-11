@@ -6,6 +6,9 @@ on:
       commit_sha:
         description: Run the full E2E test suite on a specific commit
         required: false
+  push:
+    branches:
+      - '**'
 
 env:
   NUM_CONTAINERS: '8'
