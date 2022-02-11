@@ -4,7 +4,7 @@ import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import PropTypes, { shape } from 'prop-types';
+import PropTypes from 'prop-types';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -136,9 +136,9 @@ class IntroductionPage extends React.Component {
 }
 
 IntroductionPage.propTypes = {
-  route: shape({
+  route: PropTypes.shape({
     pageList: PropTypes.array,
-    formConfig: shape({
+    formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool,
       downtime: PropTypes.object,
     }),
