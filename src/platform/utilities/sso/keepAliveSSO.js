@@ -34,19 +34,13 @@ const logToSentry = data => {
   return isCaptured;
 };
 
-export const sanitizeAuthn = (authnCtx = 'NOT_FOUND') => {
+export const sanitizeAuthn = authnCtx => {
   const emptyString = '';
-  return authnCtx === null || !authnCtx.length
-    ? 'NOT_FOUND'
+  return !authnCtx
+    ? undefined
     : authnCtx
         .replace(SKIP_DUPE_QUERY.SINGLE_QUERY, emptyString)
         .replace(SKIP_DUPE_QUERY.MULTIPLE_QUERIES, emptyString);
-};
-
-export const defaultKeepAliveResponse = {
-  ttl: 0,
-  transactionid: null,
-  authn: undefined,
 };
 
 export default async function keepAlive() {
@@ -68,11 +62,6 @@ export default async function keepAlive() {
     await resp.text();
 
     const alive = resp.headers.get(AUTHN_HEADERS.ALIVE);
-
-    // If no CSP or session-alive headers, return early
-    if (resp.headers.get(AUTHN_HEADERS.CSP) === null || alive !== 'true') {
-      return defaultKeepAliveResponse;
-    }
 
     /**
      * Uses mapped authncontext for DS Logon and MHV
