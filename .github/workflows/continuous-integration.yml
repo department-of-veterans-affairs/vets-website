@@ -957,6 +957,22 @@ jobs:
       - name: Trigger Jenkins pipeline
         run: node script/github-actions/trigger-jenkins.js
 
+  e2e-test-suite:
+    name: Trigger full E2E test suite
+    runs-on: ubuntu-latest
+    # if: ${{ github.ref == 'refs/heads/master' }}
+    steps:
+      - name: Trigger E2E tests workflow
+        uses: convictional/trigger-workflow-and-wait@v1.5.0
+        with:
+          owner: department-of-veterans-affairs
+          repo: vets-website
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow_file_name: e2e-tests.yml
+          ref: e2e-tests-workflow
+          wait_workflow: false
+          inputs: '{commit_sha: ${{ github.sha }}}'
+
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-latest
