@@ -19,7 +19,7 @@ import IdentityNotVerified from '~/applications/personalization/components/Ident
 import ProfileInfoTable from '../ProfileInfoTable';
 import TwoFactorAuthorizationStatus from './TwoFactorAuthorizationStatus';
 import MHVTermsAndConditionsStatus from './MHVTermsAndConditionsStatus';
-import EmailAddressNotification from '../personal-information/email-addresses/EmailAddressNotification';
+import EmailAddressNotification from '../contact-information/email-addresses/EmailAddressNotification';
 import Verified from './Verified';
 
 export const AccountSecurityContent = ({

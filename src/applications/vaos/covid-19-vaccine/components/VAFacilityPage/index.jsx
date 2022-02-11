@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
 import * as actions from '../../redux/actions';
@@ -128,7 +128,7 @@ function VAFacilityPage({
   if (loadingFacilities || (singleValidVALocation && loadingClinics)) {
     return (
       <div>
-        <LoadingIndicator message="Finding locations" />
+        <va-loading-indicator message="Finding locations" />
       </div>
     );
   }
@@ -206,10 +206,10 @@ function VAFacilityPage({
     <div>
       {title}
       <p>
-        Below is a list of VA locations where you’re registered that offer{' '}
+        Here’s a list of VA facilities where you’re registered that offer{' '}
         COVID-19 vaccine appointments.
         {(sortByDistanceFromResidential || sortByDistanceFromCurrentLocation) &&
-          ' Locations closest to you are at the top of the list.'}
+          ' Locations closest to you are listed first.'}
       </p>
       {sortByDistanceFromResidential &&
         !requestingLocation && (
@@ -271,7 +271,7 @@ function VAFacilityPage({
       )}
       {requestingLocation && (
         <div className="vads-u-padding-bottom--2">
-          <LoadingIndicator message="Finding your location. Be sure to allow your browser to find your current location." />
+          <va-loading-indicator message="Finding your location. Be sure to allow your browser to find your current location." />
         </div>
       )}
       {facilitiesStatus === FETCH_STATUS.succeeded &&

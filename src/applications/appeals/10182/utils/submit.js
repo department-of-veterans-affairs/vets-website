@@ -2,7 +2,7 @@ import moment from 'moment';
 
 import {
   SELECTED,
-  MAX_ISSUE_LENGTH,
+  MAX_ISSUE_NAME_LENGTH,
   MAX_DISAGREEMENT_REASON_LENGTH,
   SUBMITTED_DISAGREEMENTS,
 } from '../constants';
@@ -101,7 +101,7 @@ export const createIssueName = ({ attributes } = {}) => {
   ]
     .filter(part => part)
     .join(' - ')
-    .substring(0, MAX_ISSUE_LENGTH);
+    .substring(0, MAX_ISSUE_NAME_LENGTH);
 };
 
 /**
@@ -189,24 +189,21 @@ export const getContestableIssues = ({ contestableIssues }) =>
  */
 export const addIncludedIssues = formData => {
   const issues = getContestableIssues(formData);
-  if (formData['view:hasIssuesToAdd']) {
-    return issues.concat(
-      (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
-        if (issue[SELECTED] && issue.issue && issue.decisionDate) {
-          // match contested issue pattern
-          issuesToAdd.push({
-            type: 'contestableIssue',
-            attributes: {
-              issue: issue.issue,
-              decisionDate: issue.decisionDate,
-            },
-          });
-        }
-        return issuesToAdd;
-      }, []),
-    );
-  }
-  return issues;
+  return issues.concat(
+    (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
+      if (issue[SELECTED] && issue.issue && issue.decisionDate) {
+        // match contestable issue pattern
+        issuesToAdd.push({
+          type: 'contestableIssue',
+          attributes: {
+            issue: issue.issue,
+            decisionDate: issue.decisionDate,
+          },
+        });
+      }
+      return issuesToAdd;
+    }, []),
+  );
 };
 
 /**
@@ -220,12 +217,12 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
     serviceConnection: () => SUBMITTED_DISAGREEMENTS.serviceConnection,
     effectiveDate: () => SUBMITTED_DISAGREEMENTS.effectiveDate,
     evaluation: () => SUBMITTED_DISAGREEMENTS.evaluation,
-    other: disagreementOptions => disagreementOptions.otherEntry,
   };
   return issues.map((issue, index) => {
     const entry = areaOfDisagreement[index];
     const reasons = Object.entries(entry.disagreementOptions)
       .map(([key, value]) => value && keywords[key](entry))
+      .concat((entry?.otherEntry || '').trim())
       .filter(Boolean);
     return {
       ...issue,

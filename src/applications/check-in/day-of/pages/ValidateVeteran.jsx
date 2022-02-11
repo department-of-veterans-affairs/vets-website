@@ -1,28 +1,35 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { VaTextInput } from 'web-components/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 
-import { api } from '../api';
+import { api } from '../../api';
+import { createSetSession } from '../../actions/authentication';
 
-import { permissionsUpdated } from '../actions';
-import { goToNextPage, URLS } from '../utils/navigation';
-import { SCOPES } from '../utils/token-format-validator';
+import { useFormRouting } from '../../hooks/useFormRouting';
 
-import BackToHome from '../components/BackToHome';
-import Footer from '../components/Footer';
+import BackToHome from '../../components/BackToHome';
+import Footer from '../../components/Footer';
+import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 
-import { makeSelectContext } from '../hooks/selectors';
+import { makeSelectCurrentContext } from '../../selectors';
+
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 
 const ValidateVeteran = props => {
-  const {
-    isUpdatePageEnabled,
-    isDemographicsPageEnabled,
-    router,
-    setPermissions,
-  } = props;
+  const { router } = props;
+  const dispatch = useDispatch();
+
+  const setSession = useCallback(
+    (token, permissions) => {
+      dispatch(createSetSession({ token, permissions }));
+    },
+    [dispatch],
+  );
+
+  const { goToNextPage, goToErrorPage } = useFormRouting(router);
+
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
@@ -30,107 +37,103 @@ const ValidateVeteran = props => {
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
 
-  const selectContext = useMemo(makeSelectContext, []);
-  const { token } = useSelector(selectContext);
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectCurrentContext);
 
-  const onClick = async () => {
-    setLastNameErrorMessage();
-    setLast4ErrorMessage();
-    if (!lastName || !last4Ssn) {
-      if (!lastName) {
-        setLastNameErrorMessage('Please enter your last name.');
-      }
-      if (!last4Ssn) {
-        setLast4ErrorMessage(
-          'Please enter the last 4 digits of your Social Security number.',
-        );
-      }
-    } else {
-      // API call
-      setIsLoading(true);
+  const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
+    false,
+  );
+  const { isMaxValidateAttempts } = getValidateAttempts(window);
+  const [showValidateError, setShowValidateError] = useState(false);
 
-      api.v2
-        .postSession({ lastName, last4: last4Ssn, token })
-        .then(data => {
-          // update sessions with new permissions
-          setPermissions(data);
-          // routing
-          if (isDemographicsPageEnabled) {
-            goToNextPage(router, URLS.DEMOGRAPHICS);
-          } else if (isUpdatePageEnabled) {
-            goToNextPage(router, URLS.UPDATE_INSURANCE);
+  const onClick = useCallback(
+    async () => {
+      setLastNameErrorMessage();
+      setLast4ErrorMessage();
+      if (!lastName || !last4Ssn) {
+        if (!lastName) {
+          setLastNameErrorMessage('Please enter your last name.');
+        }
+        if (!last4Ssn) {
+          setLast4ErrorMessage(
+            'Please enter the last 4 digits of your Social Security number.',
+          );
+        }
+      } else {
+        // API call
+        setIsLoading(true);
+        try {
+          const resp = await api.v2.postSession({
+            token,
+            last4: last4Ssn,
+            lastName,
+          });
+          if (resp.errors || resp.error) {
+            setIsLoading(false);
+            goToErrorPage();
           } else {
-            goToNextPage(router, URLS.DETAILS);
+            setSession(token, resp.permissions);
+            goToNextPage();
           }
-        })
-        .catch(() => {
-          goToNextPage(router, URLS.ERROR);
-        });
-    }
-  };
+        } catch (e) {
+          setIsLoading(false);
+          if (
+            e?.message !== 'Invalid last4 or last name!' ||
+            isMaxValidateAttempts
+          ) {
+            goToErrorPage();
+          } else {
+            if (!showValidateError) {
+              setShowValidateError(true);
+            }
+            incrementValidateAttempts(window);
+          }
+        }
+      }
+    },
+    [
+      goToErrorPage,
+      goToNextPage,
+      last4Ssn,
+      lastName,
+      setSession,
+      token,
+      incrementValidateAttempts,
+      isMaxValidateAttempts,
+      showValidateError,
+    ],
+  );
   useEffect(() => {
     focusElement('h1');
   }, []);
-
   return (
-    <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
-      <h1>Check in at VA</h1>
-      <p>
-        We need some information to verify your identity so we can check you in.
-      </p>
-      <form className="vads-u-margin-bottom--2p5" onSubmit={() => false}>
-        <VaTextInput
-          autoCorrect="false"
-          error={lastNameErrorMessage}
-          label="Your last name"
-          name="last-name"
-          onVaChange={event => setLastName(event.detail.value)}
-          required
-          spellCheck="false"
-          value={lastName}
-        />
-        <VaTextInput
-          error={last4ErrorMessage}
-          inputmode="numeric"
-          label="Last 4 digits of your Social Security number"
-          maxlength="4"
-          onVaChange={event => setLast4Ssn(event.detail.value)}
-          name="last-4-ssn"
-          required
-          value={last4Ssn}
-        />
-      </form>
-      <button
-        type="button"
-        className="usa-button usa-button-big"
-        onClick={onClick}
-        data-testid="check-in-button"
-        disabled={isLoading}
-        aria-label="Check in now for your appointment"
-      >
-        {isLoading ? <>Loading...</> : <>Continue</>}
-      </button>
-      <Footer />
+    <>
+      <ValidateDisplay
+        header="Check in at VA"
+        subTitle="We need some information to verify your identity so we can check you in."
+        last4Input={{
+          last4ErrorMessage,
+          setLast4Ssn,
+          last4Ssn,
+        }}
+        lastNameInput={{
+          lastNameErrorMessage,
+          setLastName,
+          lastName,
+        }}
+        isLoading={isLoading}
+        validateHandler={onClick}
+        Footer={Footer}
+        showValidateError={showValidateError}
+        validateErrorMessage="Sorry, we couldn't find an account that matches that last name or SSN. Please try again."
+      />
       <BackToHome />
-    </div>
+    </>
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setPermissions: data =>
-      dispatch(permissionsUpdated(data, SCOPES.READ_FULL)),
-  };
-};
-
 ValidateVeteran.propTypes = {
-  isUpdatePageEnabled: PropTypes.bool,
-  isDemographicsPageEnabled: PropTypes.bool,
   router: PropTypes.object,
-  setPermissions: PropTypes.func,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ValidateVeteran);
+export default ValidateVeteran;

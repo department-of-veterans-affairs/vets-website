@@ -33,7 +33,7 @@ export default function MobileLinks({ links, visible, langConfig }) {
         <li>
           <button
             className="usa-button-unstyled usa-accordion-button va-footer-button"
-            aria-controls="veteran-programs"
+            aria-controls="footer-veteran-programs"
             itemProp="name"
             aria-expanded="false"
           >
@@ -42,7 +42,7 @@ export default function MobileLinks({ links, visible, langConfig }) {
           <div
             className="usa-accordion-content va-footer-accordion-content"
             aria-hidden="true"
-            id="veteran-programs"
+            id="footer-veteran-programs"
           >
             {links[FOOTER_COLUMNS.PROGRAMS]}
           </div>

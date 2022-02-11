@@ -149,45 +149,47 @@ async function getScaffoldAssets() {
  * Generates HTML files for each app and widget.
  *
  * @param {String} buildPath - Path to the overall build destination.
+ * @param {Object} scaffoldAssets - Map of scaffold asset filenames to file contents.
  *
  * @return {HtmlWebpackPlugin[]} - Array of HtmlWebpackPlugin instances,
  *   representing the HTML files to generate for each app and widget.
  */
-async function generateHtmlFiles(buildPath) {
-  const scaffoldAssets = await getScaffoldAssets();
+function generateHtmlFiles(buildPath, scaffoldAssets) {
   const appRegistry = JSON.parse(scaffoldAssets['registry.json']);
   const loadInlineScript = filename => scaffoldAssets[filename];
 
-  // Modifies the style tags output from HTML Webpack Plugin
-  // to match the order and attributes of style tags from real content.
-  const modifyStyleTags = pluginStyleTags =>
-    pluginStyleTags
-      .reduce(
-        (tags, tag) =>
-          // Puts style.css before the app-specific stylesheet.
-          tag.attributes.href.match(/style/) ? [tag, ...tags] : [...tags, tag],
-        [],
-      )
-      .join('');
+  // Modify the script and style tags output from HTML Webpack Plugin
+  // to match the order and attributes of tags from real content.
+  const modifyScriptAndStyleTags = originalTags => {
+    let scriptTags = [];
+    let styleTags = [];
 
-  // Modifies the script tags output from HTML Webpack Plugin
-  // to match the order and attributes of script tags from real content.
-  const modifyScriptTags = pluginScriptTags =>
-    pluginScriptTags
-      .reduce((tags, tag) => {
+    originalTags.forEach(tag => {
+      if (tag.attributes.src?.match(/style/)) {
         // Exclude style.entry.js, which gets included with the style chunk.
-        if (tag.attributes.src.match(/style/)) return tags;
+      } else if (tag.attributes.src?.match(/polyfills/)) {
+        // Force polyfills.entry.js to be first since vendor.entry.js gets
+        // put first even with chunksSortMode: 'manual'. Also set nomodule
+        // so IE polyfills don't load in newer browsers
+        const tagWithNoModule = {
+          ...tag,
+          attributes: { ...tag.attributes, nomodule: true },
+        };
+        scriptTags = [tagWithNoModule, ...scriptTags];
+      } else if (tag.attributes.href?.match(/style/)) {
+        // Put style.css before the app-specific stylesheet
+        styleTags = [tag, ...styleTags];
+      } else if (tag.attributes.src) {
+        scriptTags.push(tag);
+      } else if (tag.attributes.href) {
+        styleTags.push(tag);
+      } else {
+        throw new Error('Unexpected tag in <head>:', tag);
+      }
+    });
 
-        // Force polyfills.entry.js to be first (and set `nomodules`), since
-        // vendor.entry.js gets put first even with chunksSortMode: 'manual'.
-        return tag.attributes.src.match(/polyfills/)
-          ? [
-              { ...tag, attributes: { ...tag.attributes, nomodule: true } },
-              ...tags,
-            ]
-          : [...tags, tag];
-      }, [])
-      .join('');
+    return [...styleTags, ...scriptTags].join('');
+  };
 
   /* eslint-disable no-nested-ternary */
   const generateHtmlFile = ({
@@ -211,8 +213,7 @@ async function generateHtmlFiles(buildPath) {
 
         // Helper functions
         loadInlineScript,
-        modifyScriptTags,
-        modifyStyleTags,
+        modifyScriptAndStyleTags,
 
         // Default template metadata.
         breadcrumbs_override: [], // eslint-disable-line camelcase
@@ -258,6 +259,8 @@ module.exports = async (env = {}) => {
   const apps = getEntryPoints(buildOptions.entry);
   const entryFiles = Object.assign({}, apps, globalEntryFiles);
   const isOptimizedBuild = [VAGOVSTAGING, VAGOVPROD].includes(buildtype);
+  const scaffoldAssets = await getScaffoldAssets();
+  const appRegistry = JSON.parse(scaffoldAssets['registry.json']);
 
   // enable css sourcemaps for all non-localhost builds
   // or if build options include local-css-sourcemaps or entry
@@ -293,6 +296,7 @@ module.exports = async (env = {}) => {
             options: {
               // Speed up compilation.
               cacheDirectory: '.babelcache',
+              cacheCompression: false,
               // Also see .babelrc
             },
           },
@@ -301,7 +305,6 @@ module.exports = async (env = {}) => {
           test: /\.(sa|sc|c)ss$/,
           use: [
             MiniCssExtractPlugin.loader,
-            'cache-loader',
             {
               loader: 'css-loader',
               options: {
@@ -331,7 +334,11 @@ module.exports = async (env = {}) => {
         {
           test: /\.svg/,
           use: {
-            loader: 'svg-url-loader?limit=1024',
+            loader: 'svg-url-loader',
+            options: {
+              limit: 1024,
+              publicPath: './',
+            },
           },
         },
         {
@@ -366,6 +373,10 @@ module.exports = async (env = {}) => {
     },
     resolve: {
       extensions: ['.js', '.jsx'],
+      fallback: {
+        path: require.resolve('path-browserify'),
+      },
+      symlinks: false,
     },
     optimization: {
       minimizer: [
@@ -377,9 +388,7 @@ module.exports = async (env = {}) => {
             },
             warnings: false,
           },
-          // cache: true,
           parallel: true,
-          sourceMap: true,
         }),
       ],
       splitChunks: {
@@ -398,6 +407,7 @@ module.exports = async (env = {}) => {
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(buildtype),
         __API__: JSON.stringify(buildOptions.api),
+        __REGISTRY__: JSON.stringify(appRegistry),
       }),
 
       new StylelintPlugin({
@@ -406,18 +416,12 @@ module.exports = async (env = {}) => {
         fix: true,
       }),
 
-      new MiniCssExtractPlugin({
-        moduleFilename: chunk => {
-          const { name } = chunk;
+      new MiniCssExtractPlugin(),
 
-          const isMedalliaStyleFile = name === vaMedalliaStylesFilename;
-          if (isMedalliaStyleFile) return `[name].css`;
-
-          return `[name].css`;
-        },
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^\.\/locale$/,
+        contextRegExp: /moment$/,
       }),
-
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
       new WebpackBar(),
     ],
@@ -447,17 +451,18 @@ module.exports = async (env = {}) => {
 
   // Optionally generate mocked HTML pages for apps without running content build.
   if (buildOptions.scaffold) {
-    const scaffoldedHtml = await generateHtmlFiles(buildPath);
+    const scaffoldedHtml = generateHtmlFiles(buildPath, scaffoldAssets);
     baseConfig.plugins.push(...scaffoldedHtml);
   }
 
+  // Open homepage or specific app in browser
   if (buildOptions.open) {
-    baseConfig.devServer.open = true;
-    baseConfig.devServer.openPage =
+    const target =
       buildOptions.openTo || buildOptions.entry
         ? // Assumes the first in the list has a rootUrl
           getEntryManifests(buildOptions.entry)[0].rootUrl
         : '';
+    baseConfig.devServer.open = { target };
   }
 
   if (isOptimizedBuild) {
@@ -470,10 +475,10 @@ module.exports = async (env = {}) => {
       }),
     );
 
-    baseConfig.plugins.push(new webpack.HashedModuleIdsPlugin());
+    // baseConfig.plugins.optimization.moduleIds = 'deterministic';
     baseConfig.mode = 'production';
   } else {
-    baseConfig.devtool = '#eval-source-map';
+    baseConfig.devtool = 'eval-source-map';
 
     // The eval-source-map devtool doesn't seem to work for CSS, so we
     // add a separate plugin for CSS source maps.

@@ -78,6 +78,13 @@ export const nameStr = (socialSecurity, compensation, education, addlInc) => {
   return otherIncNames?.map(item => item).join(', ') ?? '';
 };
 
+export const getFsrReason = debts => {
+  const reasons = debts.map(({ resolution }) => resolution.resolutionType);
+  const uniqReasons = [...new Set(reasons)];
+
+  return uniqReasons.join(', ');
+};
+
 export const getMonthlyIncome = ({
   additionalIncome: {
     addlIncRecords,

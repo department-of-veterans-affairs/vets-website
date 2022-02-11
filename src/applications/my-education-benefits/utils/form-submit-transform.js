@@ -309,22 +309,17 @@ export function getNotificationMethod(notificationMethod) {
 
 export function createMilitaryClaimant(submissionForm) {
   return {
-    claimant: {
-      claimantId: submissionForm.claimantId,
-      firstName: submissionForm['view:userFullName'].userFullName.first,
-      middleName: submissionForm['view:userFullName'].userFullName.middle,
-      lastName: submissionForm['view:userFullName'].userFullName.last,
-      suffix: submissionForm['view:userFullName'].userFullName.suffix,
-      dateOfBirth: submissionForm.dateOfBirth,
-      contactInfo: createContactInfo(submissionForm),
-      dobChanged: false, // TODO How to determine this?
-      firstAndLastNameChanged: false, // TODO How to determine this?
-      contactInfoChanged: false, // TODO How to determine this?
-      notificationMethod: getNotificationMethod(
-        submissionForm['view:receiveTextMessages'].receiveTextMessages,
-      ),
-      preferredContact: submissionForm['view:contactMethod'].contactMethod,
-    },
+    claimantId: submissionForm.claimantId,
+    firstName: submissionForm['view:userFullName'].userFullName.first,
+    middleName: submissionForm['view:userFullName'].userFullName.middle,
+    lastName: submissionForm['view:userFullName'].userFullName.last,
+    suffix: submissionForm['view:userFullName'].userFullName.suffix,
+    dateOfBirth: submissionForm.dateOfBirth,
+    contactInfo: createContactInfo(submissionForm),
+    notificationMethod: getNotificationMethod(
+      submissionForm['view:receiveTextMessages'].receiveTextMessages,
+    ),
+    preferredContact: submissionForm['view:contactMethod'].contactMethod,
   };
 }
 
@@ -393,11 +388,22 @@ export function createComments(submissionForm) {
   }
 }
 
+export function createDirectDeposit(submissionForm) {
+  const bankInfo = {
+    directDepositAccountNumber: submissionForm?.bankAccount?.accountNumber,
+    directDepositAccountType: submissionForm?.bankAccount?.accountType,
+    directDepositRoutingNumber: submissionForm?.bankAccount?.routingNumber,
+  };
+  return submissionForm?.bankAccount?.accountType ? bankInfo : {};
+}
+
 export function createSubmissionForm(submissionForm) {
   return {
-    militaryClaimant: createMilitaryClaimant(submissionForm),
+    formId: submissionForm.formId,
+    claimant: createMilitaryClaimant(submissionForm),
     relinquishedBenefit: createRelinquishedBenefit(submissionForm),
     additionalConsiderations: createAdditionalConsiderations(submissionForm),
     comments: createComments(submissionForm),
+    directDeposit: createDirectDeposit(submissionForm),
   };
 }

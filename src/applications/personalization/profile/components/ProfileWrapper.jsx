@@ -1,10 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
 import { selectProfile } from '~/platform/user/selectors';
 
@@ -48,16 +46,6 @@ const ProfileWrapper = ({
   totalDisabilityRatingServerError,
   showNameTag,
 }) => {
-  const location = useLocation();
-  const createBreadCrumbAttributes = () => {
-    const activeLocation = location?.pathname;
-    const activeRoute = routes.find(route => route.path === activeLocation);
-
-    return { activeLocation, activeRouteName: activeRoute?.name };
-  };
-
-  const { activeLocation, activeRouteName } = createBreadCrumbAttributes();
-
   return (
     <>
       {showNameTag && (
@@ -66,17 +54,6 @@ const ProfileWrapper = ({
           totalDisabilityRatingServerError={totalDisabilityRatingServerError}
         />
       )}
-
-      {/* Breadcrumbs */}
-      <div
-        data-testid="breadcrumbs"
-        className="vads-l-grid-container vads-u-padding-x--0"
-      >
-        <Breadcrumbs className="vads-u-padding-x--1 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0 medium-screen:vads-u-padding-x--2">
-          <a href="/">Home</a>
-          <a href={activeLocation}>{`Profile: ${activeRouteName}`}</a>
-        </Breadcrumbs>
-      </div>
 
       <div className="medium-screen:vads-u-display--none">
         <ProfileMobileSubNav

@@ -260,6 +260,7 @@ describe('VAOS vaccine flow with VAOS service <ReviewPage>', () => {
           availableSlots: [
             {
               start: start.format(),
+              id: 'test',
               end: start
                 .clone()
                 .add(30, 'minutes')
@@ -291,6 +292,9 @@ describe('VAOS vaccine flow with VAOS service <ReviewPage>', () => {
     mockAppointmentSubmitV2({
       id: 'fake_id',
     });
+    expect(screen.baseElement).to.contain.text(
+      'Make sure the information is correct. Then confirm your appointment.',
+    );
 
     // When the user confirms their appointment
     userEvent.click(screen.getByText(/Confirm appointment/i));
@@ -308,7 +312,6 @@ describe('VAOS vaccine flow with VAOS service <ReviewPage>', () => {
       status: 'booked',
       locationId: '983',
       clinic: '455',
-      serviceType: 'covid',
       comment: '',
       extension: {
         desiredDate: store.getState().covid19Vaccine.newBooking
@@ -326,7 +329,9 @@ describe('VAOS vaccine flow with VAOS service <ReviewPage>', () => {
           },
         ],
       },
-      slot: store.getState().covid19Vaccine.newBooking.availableSlots[0],
+      slot: {
+        id: store.getState().covid19Vaccine.newBooking.availableSlots[0].id,
+      },
     });
   });
 });

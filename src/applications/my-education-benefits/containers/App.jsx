@@ -6,7 +6,7 @@ import Breadcrumbs from '@department-of-veterans-affairs/component-library/Bread
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 
-import { fetchPersonalInformation } from '../actions';
+import { fetchPersonalInformation, fetchEligibility } from '../actions';
 
 export const App = ({
   // loggedIn,
@@ -17,7 +17,9 @@ export const App = ({
   formData,
   setFormData,
   getPersonalInfo,
-  userFullName,
+  firstName,
+  getEligibility,
+  eligibility,
 }) => {
   useEffect(
     () => {
@@ -27,8 +29,16 @@ export const App = ({
       //   // redirect
       //   return;
       // }
-      if (!userFullName || !userFullName?.first) {
+      if (!firstName) {
         getPersonalInfo();
+      }
+      if (!eligibility) {
+        getEligibility();
+      } else if (!formData.eligibility) {
+        setFormData({
+          ...formData,
+          eligibility,
+        });
       }
       // The following works and sets data after the initial form load.
       // However, we have to be careful to not wipe out manual from a saved form.
@@ -48,7 +58,14 @@ export const App = ({
       //   cleanup
       // }
     },
-    [formData, setFormData, userFullName, getPersonalInfo],
+    [
+      formData,
+      setFormData,
+      firstName,
+      getPersonalInfo,
+      getEligibility,
+      eligibility,
+    ],
   );
 
   return (
@@ -66,18 +83,19 @@ export const App = ({
 };
 
 const mapStateToProps = state => {
-  // const profile = selectProfile(state);
   const formData = state.form?.data || {};
-  const userFullName = state.data?.formData?.userFullName; // state.user.profile?.userFullName,
+  const firstName = state.data?.formData?.data?.claimant?.firstName;
+  const eligibility = state.data?.eligibility;
   // const showNod = noticeOfDisagreementFeature(state);
   // const loggedIn = isLoggedIn(state);
   // const { toursOfDuty } = state;
-  return { formData, userFullName };
+  return { formData, firstName, eligibility };
 };
 
 const mapDispatchToProps = {
   setFormData: setData,
   getPersonalInfo: fetchPersonalInformation,
+  getEligibility: fetchEligibility,
 };
 
 export default connect(

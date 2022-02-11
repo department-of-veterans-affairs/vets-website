@@ -10,6 +10,7 @@ export default function getEligibilityMessage({
   eligibility,
   facilityDetails,
   includeFacilityContactInfo = false,
+  featureStatusImprovement,
 }) {
   let content = null;
   let title = null;
@@ -94,7 +95,10 @@ export default function getEligibilityMessage({
         <p>
           Call this facility to schedule or cancel an open appointment request.
           You can also cancel a request from{' '}
-          <Link to="/">your appointment list</Link>.
+          <Link to={featureStatusImprovement ? '/pending' : '/requested'}>
+            your appointment list
+          </Link>
+          .
         </p>
         {facilityDetails &&
           includeFacilityContactInfo && (

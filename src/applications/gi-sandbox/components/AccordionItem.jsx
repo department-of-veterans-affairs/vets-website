@@ -1,29 +1,47 @@
-import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import { createId } from '../utils/helpers';
-import environment from 'platform/utilities/environment';
 
-export default function AccordionItem({
-  button,
-  children,
-  expanded = true,
-  headerClass,
-  onClick,
-  section = false,
-}) {
-  const id = `${createId(button)}-accordion`;
-  const [stateExpanded, setStateExpanded] = useState(expanded || section);
-  const displayExpanded = onClick ? expanded : stateExpanded;
+class AccordionItem extends React.Component {
+  static propTypes = {
+    expanded: PropTypes.bool.isRequired,
+    children: PropTypes.node.isRequired,
+    button: PropTypes.string.isRequired,
+  };
 
-  const toggle = () => {
+  static defaultProps = {
+    expanded: true,
+    section: false,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      expanded: props.expanded,
+    };
+    this.id = `${createId(props.button)}-accordion`;
+  }
+
+  expanded = () => {
+    if (this.props.section) {
+      return this.props.expanded;
+    }
+    return this.state.expanded;
+  };
+
+  toggle = () => {
+    const expanded = !this.expanded();
+    const { section, onClick } = this.props;
+
+    this.setState({ expanded });
+
     if (onClick) {
-      onClick(!displayExpanded);
-    } else {
-      setStateExpanded(!displayExpanded);
+      onClick(expanded);
     }
 
-    const event = !displayExpanded ? 'expand' : 'collapse';
+    const event = expanded ? 'expand' : 'collapse';
     const size = section ? 'small' : 'full-content-width';
     recordEvent({
       event: `nav-accordion-${event}`,
@@ -31,50 +49,66 @@ export default function AccordionItem({
     });
   };
 
-  return (
-    <li className={section ? 'section-item' : 'accordion-item'} id={id}>
-      {section && (
+  renderHeader = () => {
+    const expanded = this.expanded();
+    const { section, button, headerClass } = this.props;
+    if (section) {
+      return (
         <button
-          id={`${id}-button`}
-          aria-expanded={displayExpanded}
-          aria-controls={id}
-          onClick={toggle}
-          className={
-            environment.isProduction()
-              ? 'usa-accordion-button vads-u-border--2px vads-u-border-style--solid vads-u-border-color--gray-light vads-u-margin--0'
-              : 'usa-accordion-button vads-u-margin--0'
-          }
+          id={`${this.id}-button`}
+          aria-expanded={expanded}
+          aria-controls={this.id}
+          onClick={this.toggle}
+          className="usa-accordion-button vads-u-border--2px vads-u-border-style--solid vads-u-border-color--gray-light vads-u-margin--0"
         >
           <span className="section-button-span">{button}</span>
         </button>
-      )}
-      {!section && (
-        <h2
-          className={classNames('accordion-button-wrapper', {
-            [headerClass]: headerClass,
-          })}
+      );
+    }
+
+    const headerClasses = classNames('accordion-button-wrapper', {
+      [headerClass]: headerClass,
+    });
+
+    return (
+      <h2 className={headerClasses}>
+        <button
+          id={`${this.id}-button`}
+          onClick={this.toggle}
+          className="usa-accordion-button"
+          aria-expanded={expanded}
+          aria-controls={this.id}
         >
-          <button
-            id={`${id}-button`}
-            onClick={toggle}
-            className="usa-accordion-button"
-            aria-expanded={displayExpanded}
-            aria-controls={id}
-          >
-            <span className="vads-u-font-family--sans vads-u-color--gray-dark">
-              {button}
-            </span>
-          </button>
-        </h2>
-      )}
-      <div
-        id={`${id}-content`}
-        className={section ? 'section-content' : 'usa-accordion-content'}
-        aria-hidden={!displayExpanded}
-        hidden={!displayExpanded}
-      >
-        {displayExpanded && children}
-      </div>
-    </li>
-  );
+          <span className="vads-u-font-family--serif accordion-button-text">
+            {button}
+          </span>
+        </button>
+      </h2>
+    );
+  };
+
+  render() {
+    const expanded = this.expanded();
+    const { section, children } = this.props;
+
+    const liClassName = section ? 'section-item' : 'accordion-item';
+    const contentClassName = section
+      ? 'section-content'
+      : 'usa-accordion-content';
+    return (
+      <li className={liClassName} id={this.id}>
+        {this.renderHeader()}
+        <div
+          id={`${this.id}-content`}
+          className={contentClassName}
+          aria-hidden={!expanded}
+          hidden={!expanded}
+        >
+          {expanded ? children : null}
+        </div>
+      </li>
+    );
+  }
 }
+
+export default AccordionItem;

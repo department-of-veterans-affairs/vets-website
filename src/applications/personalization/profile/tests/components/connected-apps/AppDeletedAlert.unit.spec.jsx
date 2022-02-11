@@ -17,7 +17,7 @@ describe('<AppDeletedAlert>', () => {
     const text = wrapper.text();
 
     expect(text).to.include(
-      'This app can’t access any new information from your VA.gov profile',
+      'If you have questions about data the app has already collected',
     );
 
     expect(wrapper.find('a').props().href).to.equal(privacyUrl);

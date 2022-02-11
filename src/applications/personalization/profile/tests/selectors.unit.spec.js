@@ -1,6 +1,10 @@
 import { expect } from 'chai';
 import * as selectors from '../selectors';
-import localStorage from 'platform/utilities/storage/localStorage';
+
+import mockPersonalInformationSuccessEnhanced from './fixtures/personal-information-success-enhanced.json';
+
+const personalInformation =
+  mockPersonalInformationSuccessEnhanced.data.attributes;
 
 const getDirectDepositInfoError = {
   errors: [
@@ -508,38 +512,48 @@ describe('profile selectors', () => {
       expect(selectors.militaryInformationLoadError(state)).to.be.undefined;
     });
   });
+});
 
-  describe('checkAndUpdateNotificationSettings', () => {
-    const makeDefaultState = (flagStatus = true) => ({
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        profile_notification_settings: flagStatus,
+describe('selectVAProfilePersonalInformation selector', () => {
+  let state;
+  beforeEach(() => {
+    state = {
+      vaProfile: {
+        personalInformation,
       },
+    };
+  });
+  it('returns preferredName', () => {
+    expect(
+      selectors.selectVAProfilePersonalInformation(state, 'preferredName'),
+    ).to.deep.equal({
+      preferredName: 'Wes',
     });
+  });
 
-    beforeEach(() => {
-      localStorage.clear();
+  it('returns genderIdentity', () => {
+    expect(
+      selectors.selectVAProfilePersonalInformation(state, 'genderIdentity'),
+    ).to.deep.equal({
+      genderIdentity: 'man',
     });
+  });
 
-    it('should get feature flag setting if no local storage exists', () => {
-      const state = makeDefaultState();
-      expect(selectors.showNotificationSettings(state)).to.equal(true);
+  it('returns pronouns and pronounsNotListedText', () => {
+    expect(
+      selectors.selectVAProfilePersonalInformation(state, 'pronouns'),
+    ).to.deep.equal({
+      pronouns: ['heHimHis', 'theyThemTheirs', 'pronounsNotListed'],
+      pronounsNotListedText: 'Other/pronouns/here',
     });
+  });
 
-    it('should return true and ignore feature flag if local storage is true', () => {
-      localStorage.setItem('PROFILE_NOTIFICATION_SETTINGS', true);
-      const state = makeDefaultState(false);
-      expect(selectors.showNotificationSettings(state)).to.equal(true);
-    });
-
-    it('should return false and ignore feature flag if local storage is false', () => {
-      localStorage.setItem('PROFILE_NOTIFICATION_SETTINGS', false);
-      const state = makeDefaultState();
-      expect(selectors.showNotificationSettings(state)).to.equal(false);
-    });
-
-    afterEach(() => {
-      localStorage.clear();
+  it('returns sexualOrientation and sexualOrientationNotListedText', () => {
+    expect(
+      selectors.selectVAProfilePersonalInformation(state, 'sexualOrientation'),
+    ).to.deep.equal({
+      sexualOrientation: 'sexualOrientationNotListed',
+      sexualOrientationNotListedText: 'Some other orientation',
     });
   });
 });

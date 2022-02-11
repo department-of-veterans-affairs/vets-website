@@ -11,7 +11,7 @@ import { getRealFacilityId } from '../../utils/appointment';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import InfoAlert from '../../components/InfoAlert';
 import useIsInitialLoad from '../../hooks/useIsInitialLoad';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import {
   getAppointmentSlots,
   onCalendarChange,
@@ -82,7 +82,6 @@ export default function SelectDate1Page() {
     data,
     facilityId,
     requestAppointmentDateChoice,
-    selectedFacility,
     timezone,
     timezoneDescription,
     pageChangeInProgress,
@@ -159,20 +158,12 @@ export default function SelectDate1Page() {
       {appointmentSlotsStatus !== FETCH_STATUS.failed && (
         <>
           <p>
-            {timezone &&
-              ` Appointment times are displayed in ${timezoneDescription}.`}
+            {timezone && ` Appointment times are in ${timezoneDescription}.`}
           </p>
-          <p>When choosing a date, make sure:</p>
-          <ul>
-            <li>
-              You won’t have had a flu shot or any other vaccine in the past{' '}
-              <strong>2 weeks</strong>.
-            </li>
-            <li>
-              You can return to {selectedFacility.name} for your second dose{' '}
-              <strong>3 to 4 weeks after the date you select</strong>.
-            </li>
-          </ul>
+          <p>
+            Note: If your vaccine requires 2 doses, you’ll need to come back for
+            your second dose 3 to 4 weeks after the date you select.
+          </p>
           <CalendarWidget
             maxSelections={1}
             availableSlots={availableSlots}
@@ -185,8 +176,9 @@ export default function SelectDate1Page() {
             timezone={timezone}
             disabled={loadingSlots}
             disabledMessage={
-              <LoadingIndicator
-                setFocus
+              <va-loading-indicator
+                data-testid="loadingIndicator"
+                set-focus
                 message="Finding appointment availability..."
               />
             }

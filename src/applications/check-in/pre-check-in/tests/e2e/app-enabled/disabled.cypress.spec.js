@@ -1,15 +1,10 @@
-import { generateFeatureToggles } from '../../../api/local-mock-api/mocks/feature.toggles';
-import '../support/commands';
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 
-describe('Check In Experience -- ', () => {
-  beforeEach(function() {
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        preCheckInEnabled: false,
-      }),
-    );
+import '../../../../tests/e2e/commands';
+
+describe('Pre-Check In Experience', () => {
+  beforeEach(() => {
+    ApiInitializer.initializeFeatureToggle.withAppsDisabled();
   });
   afterEach(() => {
     cy.window().then(window => {
@@ -17,7 +12,8 @@ describe('Check In Experience -- ', () => {
     });
   });
   it('Feature is disabled', () => {
-    cy.visitWithUUID();
+    cy.visitPreCheckInWithUUID();
     cy.url().should('not.match', /check-in/);
+    cy.injectAxeThenAxeCheck();
   });
 });

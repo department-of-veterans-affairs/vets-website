@@ -39,7 +39,6 @@ describe('PersonalInformation', () => {
     });
 
     expect(view.getByText(/^May 6, 1986$/)).to.exist;
-    expect(view.getByText(/^Male$/)).to.exist;
   });
 
   it('should render the correct contact based on what exists in the Redux state', () => {
@@ -82,7 +81,6 @@ describe('PersonalInformation', () => {
     expect(view.getByText('804-205-5544, ext. 17747')).to.exist;
     expect(view.getByText('214-718-2112', { exact: false })).to.exist;
 
-    expect(view.getByText(/to add a fax number/i)).to.exist;
     expect(view.getByText(/alongusername/)).to.exist;
   });
 });

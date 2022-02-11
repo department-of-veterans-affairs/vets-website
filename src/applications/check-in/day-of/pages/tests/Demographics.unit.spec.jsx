@@ -9,45 +9,52 @@ import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import Demographics from '../Demographics';
 
+import { createMockRouter } from '../../../tests/unit/mocks/router';
+
 describe('check in', () => {
   describe('Demographics', () => {
     let store;
-    beforeEach(() => {
-      const middleware = [];
-      const mockStore = configureStore(middleware);
-      const initState = {
-        checkInData: {
-          context: {
-            token: '',
+    const initState = {
+      checkInData: {
+        context: {
+          token: '',
+        },
+        form: {
+          pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+        },
+        veteranData: {
+          demographics: {
+            mailingAddress: {
+              street1: '123 Turtle Trail',
+              city: 'Treetopper',
+              state: 'Tennessee',
+              zip: '101010',
+            },
+            homeAddress: {
+              street1: '445 Fine Finch Fairway',
+              street2: 'Apt 201',
+              city: 'Fairfence',
+              state: 'Florida',
+              zip: '445545',
+            },
+            homePhone: '5552223333',
+            mobilePhone: '5553334444',
+            workPhone: '5554445555',
+            emailAddress: 'kermit.frog@sesameenterprises.us',
           },
         },
-      };
+      },
+    };
+    const middleware = [];
+    const mockStore = configureStore(middleware);
+    beforeEach(() => {
       store = mockStore(initState);
     });
-    const demographics = {
-      mailingAddress: {
-        street1: '123 Turtle Trail',
-        city: 'Treetopper',
-        state: 'Tennessee',
-        zip: '101010',
-      },
-      homeAddress: {
-        street1: '445 Fine Finch Fairway',
-        street2: 'Apt 201',
-        city: 'Fairfence',
-        state: 'Florida',
-        zip: '445545',
-      },
-      homePhone: '5552223333',
-      mobilePhone: '5553334444',
-      workPhone: '5554445555',
-      emailAddress: 'kermit.frog@sesameenterprises.us',
-    };
 
     it('renders', () => {
       const component = render(
         <Provider store={store}>
-          <Demographics demographics={demographics} />
+          <Demographics />
         </Provider>,
       );
 
@@ -58,15 +65,30 @@ describe('check in', () => {
     });
 
     it('shows "Not available" for unavailable fields', () => {
-      const partialDemographics = {
-        homeAddress: demographics.homeAddress,
-        homePhone: demographics.homePhone,
-        workPhone: demographics.workPhone,
+      const updatedStore = {
+        checkInData: {
+          context: {
+            token: '',
+          },
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+            currentPage: 'first-page',
+          },
+          veteranData: {
+            demographics: {
+              homeAddress:
+                initState.checkInData.veteranData.demographics.homeAddress,
+              homePhone:
+                initState.checkInData.veteranData.demographics.homePhone,
+              workPhone:
+                initState.checkInData.veteranData.demographics.workPhone,
+            },
+          },
+        },
       };
-
       const component = render(
-        <Provider store={store}>
-          <Demographics demographics={partialDemographics} />
+        <Provider store={mockStore(updatedStore)}>
+          <Demographics />
         </Provider>,
       );
 
@@ -82,50 +104,53 @@ describe('check in', () => {
     it('passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
-          <Demographics demographics={demographics} />
+          <Demographics />
         </Provider>,
       );
     });
 
     it('goes to the error page when the demographics data is unavailable', () => {
       const push = sinon.spy();
-      const mockRouter = {
-        push,
-        params: {},
+
+      const updatedStore = {
+        checkInData: {
+          context: {
+            token: '',
+          },
+          form: {
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+            currentPage: 'first-page',
+          },
+          veteranData: {},
+        },
       };
 
       render(
-        <Provider store={store}>
-          <Demographics router={mockRouter} />
+        <Provider store={mockStore(updatedStore)}>
+          <Demographics
+            router={createMockRouter({
+              push,
+              params: {},
+            })}
+          />
         </Provider>,
       );
 
       sinon.assert.calledOnce(push);
     });
 
-    it('shows the loading indicator', () => {
-      const component = render(
-        <Provider store={store}>
-          <Demographics isLoading />
-        </Provider>,
-      );
-
-      expect(component.getByText('Loading your appointments for today')).to
-        .exist;
-    });
-
     it('has a clickable no button', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
         params: {
           token: 'token-123',
         },
-      };
+      });
 
       const component = render(
         <Provider store={store}>
-          <Demographics demographics={demographics} router={mockRouter} />
+          <Demographics router={mockRouter} />
         </Provider>,
       );
 
@@ -136,16 +161,16 @@ describe('check in', () => {
 
     it('has a clickable yes button', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
         params: {
           token: 'token-123',
         },
-      };
+      });
 
       const component = render(
         <Provider store={store}>
-          <Demographics demographics={demographics} router={mockRouter} />
+          <Demographics router={mockRouter} />
         </Provider>,
       );
 
@@ -156,20 +181,16 @@ describe('check in', () => {
 
     it('has a clickable yes button with update page enabled', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
         params: {
           token: 'token-123',
         },
-      };
+      });
 
       const component = render(
         <Provider store={store}>
-          <Demographics
-            demographics={demographics}
-            isUpdatePageEnabled
-            router={mockRouter}
-          />
+          <Demographics isUpdatePageEnabled router={mockRouter} />
         </Provider>,
       );
 
@@ -179,16 +200,16 @@ describe('check in', () => {
     });
     it('has a clickable yes button', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
         params: {
           token: 'token-123',
         },
-      };
+      });
 
       const component = render(
         <Provider store={store}>
-          <Demographics demographics={demographics} router={mockRouter} />
+          <Demographics router={mockRouter} />
         </Provider>,
       );
 

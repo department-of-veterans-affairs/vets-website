@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -20,14 +21,17 @@ export class ConfirmationPage extends React.Component {
 
   render() {
     const { name = {}, form } = this.props;
-    const { submission, formId } = form;
-    const issues = getSelected(form.data || []).map((issue, index) => (
+    const { submission, formId, data } = form;
+    const issues = getSelected(data || []).map((issue, index) => (
       <li key={index} className="vads-u-margin-bottom--0">
         {getIssueName(issue)}
       </li>
     ));
     const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
     const submitDate = moment(submission?.timestamp);
+    const handlers = {
+      print: () => window.print(),
+    };
 
     return (
       <div>
@@ -42,13 +46,8 @@ export class ConfirmationPage extends React.Component {
         <h2 className="confirmation-page-title vads-u-font-size--h3">
           Your request has been submitted
         </h2>
-        <p>
-          We may contact you for more information or documents.
-          <br className="screen-only" />
-          <em className="screen-only">
-            Please print this page for your records.
-          </em>
-        </p>
+        <p>We may contact you for more information or documents.</p>
+        <p className="screen-only">Please print this page for your records.</p>
         <div className="inset">
           <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
             Request a Board Appeal{' '}
@@ -69,8 +68,9 @@ export class ConfirmationPage extends React.Component {
           </strong>
           <ul className="vads-u-margin-top--0">{issues || null}</ul>
           <button
+            type="button"
             className="usa-button screen-only"
-            onClick={() => window.print()}
+            onClick={handlers.print}
           >
             Print this for your records
           </button>
@@ -116,6 +116,17 @@ export class ConfirmationPage extends React.Component {
     );
   }
 }
+
+ConfirmationPage.propTypes = {
+  form: PropTypes.shape({
+    data: PropTypes.shape({}),
+    formId: PropTypes.string,
+    submission: PropTypes.shape({
+      timestamp: PropTypes.string,
+    }),
+  }),
+  name: PropTypes.string,
+};
 
 function mapStateToProps(state) {
   return {

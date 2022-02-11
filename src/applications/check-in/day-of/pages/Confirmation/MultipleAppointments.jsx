@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 
 import { VaAlert } from 'web-components/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 
-import BackToHome from '../../components/BackToHome';
-import BackToAppointments from '../../components/BackToAppointments';
-import Footer from '../../components/Footer';
-import AppointmentLocation from '../../components/AppointmentDisplay/AppointmentLocation';
-
-import { hasMoreAppointmentsToCheckInto } from '../../utils/appointment';
+import BackToHome from '../../../components/BackToHome';
+import BackToAppointments from '../../../components/BackToAppointments';
+import Footer from '../../../components/Footer';
+import AppointmentLocation from '../../../components/AppointmentDisplay/AppointmentLocation';
+import TravelPayReimbursementLink from '../../../components/TravelPayReimbursementLink';
 
 const MultipleAppointments = props => {
   const { appointments, selectedAppointment, triggerRefresh } = props;
@@ -18,22 +17,15 @@ const MultipleAppointments = props => {
   const appointment = selectedAppointment;
   const appointmentDateTime = new Date(appointment.startTime);
   const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
-  const shouldShowBackButton = hasMoreAppointmentsToCheckInto(
-    appointments,
-    selectedAppointment,
-  );
-
+  const focusOnLoad = useCallback(() => {
+    focusElement('h1');
+  }, []);
   return (
     <div
       className="vads-l-grid-container vads-u-padding-y--5"
       data-testid="multiple-appointments-confirm"
     >
-      <VaAlert
-        status="success"
-        onVa-component-did-load={() => {
-          focusElement('h1');
-        }}
-      >
+      <VaAlert status="success" onVa-component-did-load={focusOnLoad}>
         <h1
           tabIndex="-1"
           aria-label="Thank you for checking in. "
@@ -47,12 +39,11 @@ const MultipleAppointments = props => {
           when it’s time for your appointment to start.
         </p>
       </VaAlert>
-      {shouldShowBackButton && (
-        <BackToAppointments
-          appointments={appointments}
-          triggerRefresh={triggerRefresh}
-        />
-      )}
+      <TravelPayReimbursementLink />
+      <BackToAppointments
+        appointments={appointments}
+        triggerRefresh={triggerRefresh}
+      />
       <Footer />
       <BackToHome />
     </div>

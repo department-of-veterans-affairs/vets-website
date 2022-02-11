@@ -10,7 +10,7 @@ describe('<SaveStatus>', () => {
   const props = {
     form: {
       formId: VA_FORM_IDS.FORM_10_10EZ,
-      lastSavedDate: 1505770055,
+      lastSavedDate: 1505770055000,
     },
     user: {
       login: {
@@ -61,7 +61,7 @@ describe('<SaveStatus>', () => {
       ...props,
       form: {
         formId: VA_FORM_IDS.FORM_10_10EZ,
-        lastSavedDate: 1505770055,
+        lastSavedDate: 1505770055000,
         autoSavedStatus: 'success',
         inProgressFormId: 98765,
       },
@@ -85,7 +85,7 @@ describe('<SaveStatus>', () => {
       ...props,
       form: {
         formId: VA_FORM_IDS.FORM_10_10EZ,
-        lastSavedDate: 1505770055,
+        lastSavedDate: 1505770055000,
         autoSavedStatus: 'success',
         loadedData: {
           metadata: {
@@ -102,8 +102,8 @@ describe('<SaveStatus>', () => {
     const tree = SkinDeep.shallowRender(
       <SaveStatus {...appSavedSuccessfullyMessageProps} />,
     );
-    expect(tree.subTree('.panel').text()).to.include(
-      'custom application type ID number is 98765',
-    );
+    const text = tree.subTree('.panel').text();
+    expect(text).to.include('September 18, 2017, at');
+    expect(text).to.include('custom application type ID number is 98765');
   });
 });

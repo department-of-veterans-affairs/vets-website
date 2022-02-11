@@ -4,89 +4,103 @@ const find = require('find');
 const path = require('path');
 const commandLineArgs = require('command-line-args');
 
-const changedAppsConfig = require('../../config/single-app-build.json');
+const changedAppsConfig = require('../../config/changed-apps-build.json');
 
 /**
- * Gets the entry name of the app that a file belongs to.
+ * Gets the manifest of all apps in the root app folder that a file belongs to.
  *
  * @param {string} filePath - Relative file path.
- * @returns {string} The entry name of an app.
+ * @returns {Object[]} Application manifests.
  */
-const getEntryName = filePath => {
+const getManifests = filePath => {
   const root = path.join(__dirname, '../..');
-  const appDirectory = filePath.split('/')[2];
-  const fullPath = path.join(root, `./src/applications/${appDirectory}`);
+  const rootAppFolder = filePath.split('/')[2];
+  const fullAppPath = path.join(root, './src/applications', rootAppFolder);
 
-  const manifestFile = find
-    .fileSync(/manifest\.(json|js)$/, fullPath)
-    .map(file => JSON.parse(fs.readFileSync(file)))[0];
-
-  return manifestFile?.entryName;
+  return find
+    .fileSync(/manifest\.(json|js)$/, fullAppPath)
+    .map(file => JSON.parse(fs.readFileSync(file)));
 };
 
 /**
- * Gets either the entry name or relative path of the app
- * that a file belongs to. The app must be in the given allow list,
- * otherwise returns null.
+ * Gets the sliced manifest(s) of a file's root app folder. The app's entry
+ * name or root folder must be on the given allow list, otherwise returns null.
  *
- * @param {string} file - Relative file path.
- * @param {string[]} allowList - A list of application entry names.
- * @param {string} outputType - Determines whether the app's path or entry name should be returned.
- * @returns {string|null} Either the entry name or relative path app of an app. Otherwise null.
+ * @param {string} filePath - Relative file path.
+ * @param {Object} allow - Lists of entry names and root app folders to check against.
+ * @returns {Object[]|null} Sliced manifests of allowed apps. Otherwise null.
  */
-const getAllowedApp = (file, allowList, outputType = 'entry') => {
-  if (!file.startsWith('src/applications')) return null;
+const getAllowedApps = (filePath, allow) => {
+  const appsDirectory = 'src/applications';
 
-  const entryName = getEntryName(file);
+  if (!filePath.startsWith(appsDirectory)) return null;
 
-  if (allowList.includes(entryName)) {
-    // Return app path when 'app-folders' option is used
-    if (outputType === 'folder') {
-      const appFolderName = file.split('/')[2];
-      return `src/applications/${appFolderName}`;
-    }
-    return entryName;
+  const rootAppFolder = filePath.split('/')[2];
+  const rootAppPath = path.join(appsDirectory, rootAppFolder);
+  const manifests = getManifests(filePath);
+
+  const isAllowed =
+    allow.rootAppFolders.includes(rootAppFolder) ||
+    (manifests.length === 1 &&
+      allow.entryNames.includes(manifests[0].entryName));
+
+  if (isAllowed) {
+    return manifests.map(({ entryName, rootUrl }) => ({
+      entryName,
+      rootUrl,
+      rootPath: rootAppPath,
+    }));
   }
 
   return null;
 };
 
 /**
- * Checks if an only changed apps build is possible by confirming that all
- * files are from apps on an allow list. If so, returns a comma-delimited
- * list of app entry names or relative paths. If not, returns an empty string.
+ * Checks if a changed apps build is possible by confirming that all
+ * files are from apps on an allow list. If so, returns a comma-delimited string
+ * of app entry names, relative paths, or URLs; otherwise returns an empty string.
  *
- * @param {string[]} files - An array of relative file paths.
+ * @param {string[]} filePaths - An array of relative file paths.
  * @param {Object} config - The changed apps build config.
- * @param {string} outputType - Determines whether app paths or entries should be returned.
- * @returns {string} A comma-delimited string of either app entry names or relative paths.
+ * @param {string} outputType - Determines what app information should be returned.
+ * @returns {string} A comma-delimited string of app entry names, relative paths or URLs.
  */
-const getChangedAppsString = (files, config, outputType = 'entry') => {
-  const allowedApps = [];
+const getChangedAppsString = (filePaths, config, outputType = 'entry') => {
+  const appStrings = [];
 
-  for (const file of files) {
-    const allowedApp = getAllowedApp(file, config.allow, outputType);
-    if (allowedApp) {
-      allowedApps.push(allowedApp);
-    } else {
-      return '';
-    }
+  for (const filePath of filePaths) {
+    const allowedApps = getAllowedApps(filePath, config.allow);
+
+    if (allowedApps) {
+      allowedApps.forEach(app => {
+        if (outputType === 'entry') {
+          appStrings.push(app.entryName);
+        } else if (outputType === 'folder') {
+          appStrings.push(app.rootPath);
+        } else if (outputType === 'url') {
+          if (app.rootUrl) appStrings.push(app.rootUrl);
+        } else throw new Error('Invalid output type specified.');
+      });
+    } else return '';
   }
 
-  return [...new Set(allowedApps)].join(',');
+  return [...new Set(appStrings)].join(',');
 };
 
 if (process.env.CHANGED_FILE_PATHS) {
-  const changedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
+  const changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ');
 
   const options = commandLineArgs([
-    // Use the --get-folders option to get app folder paths. Entry names are the default.
-    { name: 'get-folders', type: Boolean, defaultValue: false },
+    // Use the --output-type option to specify one of the following outputs:
+    // 'entry': The entry names of the changed apps.
+    // 'folder': The relative path of the changed apps root folders.
+    // 'url': The root URLs of the changed apps.
+    { name: 'output-type', type: String, defaultValue: 'entry' },
   ]);
-  const outputType = options['get-folders'] ? 'folder' : 'entry';
+  const outputType = options['output-type'];
 
   const changedAppsString = getChangedAppsString(
-    changedFiles,
+    changedFilePaths,
     changedAppsConfig,
     outputType,
   );

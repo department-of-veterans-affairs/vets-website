@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { SELECTED } from '../constants';
+import { SELECTED, LEGACY_TYPE } from '../constants';
 import { isValidDate } from '../validations/issues';
 
 /**
@@ -26,7 +26,7 @@ export const isVersion1Data = formData => !!formData?.zipCode5;
 /**
  * @typedef ContestableIssues
  * @type {Array<Object>}
- * @property {ContestableIssueItem}
+ * @property {ContestableIssueItem|LegacyAppealsItem}
  */
 /**
  * @typedef ContestableIssueItem
@@ -63,7 +63,8 @@ export const isVersion1Data = formData => !!formData?.zipCode5;
  * - remove issues more than one year past their decision date
  * - remove issues that are deferred
  * @prop {ContestableIssues} - Array of both eligible & ineligible contestable
- *  issues
+ *  issues, plus legacy issues
+ * @return {ContestableIssues} - filtered list
  */
 export const getEligibleContestableIssues = issues => {
   const today = moment().startOf('day');
@@ -86,6 +87,79 @@ export const getEligibleContestableIssues = issues => {
 };
 
 /**
+ * @typedef LegacyAppealsItem
+ * @type {Object}
+ * @property {String} type - always set to "legacyAppeals"
+ * @property {LegacyAppealsAttributes} attributes - essential properties
+ * @property {Boolean} 'view:selected' - internal boolean indicating that the
+ *   issue has been selected by the user
+ */
+/**
+ * @typedef LegacyAppealsAttributes
+ * @type {Object}
+ * @property {String} decisionDate - decision date (ISO)
+ * @property {String} latestSocSsocDate - SOC/SSOC date (ISO)
+ * @property {String} veteranFullName - First & Last name
+ * @property {LegacyAppealsIssue} issues - list of legacy issues
+ */
+/**
+ * @typedef LegacyAppealsIssue
+ * @param {String} summary - issue summary
+ */
+/** Find legacy appeal array included with contestable issues & return length
+ * Note: we are using the length of this array instead of trying to do a 1:1
+ * coorelation of contestable issues to legacy issues since we're only getting a
+ * summary and not a matching name or date (at least in the mock data).
+ * @prop {ContestableIssues} issues - Array of both eligible & ineligible
+ *  contestable issues, plus legacy issues
+ * @return {Number} - length of legacy array
+ */
+export const getLegacyAppealsLength = issues =>
+  (issues || []).reduce((count, issue) => {
+    if (issue.type === LEGACY_TYPE) {
+      // add just-in-case there is more than one legacy type entry
+      return count + (issue.attributes?.issues?.length || 0);
+    }
+    return count;
+  }, 0);
+
+/**
+ * Are there any legacy appeals in the API, or did the Veteran manually add an
+ * issue of unknown legacy status?
+ * @param {Number} legacyCount - legacy appeal array size
+ * @returns {Boolean}
+ */
+export const mayHaveLegacyAppeals = ({
+  legacyCount = 0,
+  additionalIssues,
+} = {}) => legacyCount > 0 || additionalIssues?.length > 0;
+
+export const someSelected = issues =>
+  (issues || []).some(issue => issue[SELECTED]);
+
+export const hasSomeSelected = ({ contestedIssues, additionalIssues } = {}) =>
+  someSelected(contestedIssues) || someSelected(additionalIssues);
+
+export const getSelected = formData => {
+  const eligibleIssues = (formData?.contestedIssues || []).filter(
+    issue => issue[SELECTED],
+  );
+  const addedIssues = formData.hlrV2
+    ? (formData?.additionalIssues || []).filter(issue => issue[SELECTED])
+    : [];
+  // include index to help with error messaging
+  return [...eligibleIssues, ...addedIssues].map((issue, index) => ({
+    ...issue,
+    index,
+  }));
+};
+
+// additionalIssues (items) are separate because we're checking the count before
+// the formData is updated
+export const getSelectedCount = (formData, items) =>
+  getSelected({ ...formData, additionalIssues: items }).length;
+
+/**
  * Get issue name/title from either a manually added issue or issue loaded from
  * the API
  * @param {AdditionalIssueItem|ContestableIssueItem}
@@ -100,6 +174,47 @@ export const getIssueNameAndDate = (entry = {}) =>
   `${(getIssueName(entry) || '').toLowerCase()}${entry.decisionDate ||
     entry.attributes?.approxDecisionDate ||
     ''}`;
+
+const processIssues = (array = []) =>
+  array
+    .filter(entry => getIssueName(entry) && getIssueDate(entry))
+    .map(entry => getIssueNameAndDate(entry));
+
+export const hasDuplicates = (data = {}) => {
+  const contestedIssues = processIssues(data.contestedIssues);
+  const additionalIssues = processIssues(data.additionalIssues);
+  // ignore duplicate contestable issues (if any)
+  const fullList = [...new Set(contestedIssues)].concat(additionalIssues);
+
+  return fullList.length !== new Set(fullList).size;
+};
+
+// Simple one level deep check
+export const isEmptyObject = obj =>
+  obj && typeof obj === 'object' && !Array.isArray(obj)
+    ? Object.keys(obj)?.length === 0 || false
+    : false;
+
+export const setInitialEditMode = (formData = {}) => {
+  const contestedIssues = (formData.contestedIssues || []).map(entry =>
+    getIssueNameAndDate(entry),
+  );
+  const additionalIssues = (formData.additionalIssues || []).map(entry =>
+    getIssueNameAndDate(entry),
+  );
+  return (formData.additionalIssues || []).map((issue = {}, index) => {
+    const currentIssue = getIssueNameAndDate(issue);
+    return (
+      !issue.issue ||
+      !issue.decisionDate ||
+      !isValidDate(issue.decisionDate) ||
+      // check for duplicates
+      contestedIssues.includes(currentIssue) ||
+      additionalIssues.lastIndexOf(currentIssue) !== index ||
+      additionalIssues.indexOf(currentIssue) !== index
+    );
+  });
+};
 
 // getEligibleContestableIssues will remove deferred issues and issues > 1 year
 // past their decision date. This function removes issues with no title & sorts
@@ -142,6 +257,22 @@ export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
   );
 };
 
+export const appStateSelector = state => ({
+  // Validation functions are provided the pageData and not the
+  // formData on the review & submit page. For more details
+  // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
+  contestedIssues: state.form?.data?.contestedIssues || [],
+  additionalIssues: state.form?.data?.additionalIssues || [],
+});
+
+export const getItemSchema = (schema, index) => {
+  const itemSchema = schema;
+  if (itemSchema.items.length > index) {
+    return itemSchema.items[index];
+  }
+  return itemSchema.additionalItems;
+};
+
 /**
  * Convert an array into a readable list of items
  * @param {String[]} list - Array of items. Empty entries are stripped out
@@ -157,101 +288,12 @@ export const readableList = list => {
   );
 };
 
-export const appStateSelector = state => ({
-  // Validation functions are provided the pageData and not the
-  // formData on the review & submit page. For more details
-  // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
-  contestedIssues: state.form?.data?.contestedIssues || [],
-  additionalIssues: state.form?.data?.additionalIssues || [],
-});
-
-export const someSelected = issues =>
-  (issues || []).some(issue => issue[SELECTED]);
-
-export const hasSomeSelected = ({ contestedIssues, additionalIssues } = {}) =>
-  someSelected(contestedIssues) || someSelected(additionalIssues);
-
-export const showAddIssuesPage = formData => {
-  const hasSelectedIssues = formData.contestedIssues?.length
-    ? someSelected(formData.contestedIssues)
-    : false;
-  const noneToAdd = formData['view:hasIssuesToAdd'] !== false;
-  // are we past the informal conference page?
-  if (formData.informalConference && !hasSomeSelected(formData)) {
-    // nothing is selected, we need to show the additional issues page!
-    return true;
-  }
-  return noneToAdd || !hasSelectedIssues;
-};
-
-export const showAddIssueQuestion = ({ contestedIssues }) =>
-  // additional issues yes/no question:
-  // SHOW: if contestable issues selected. HIDE: if no contestable issues are
-  // selected or, there are no contestable issues
-  contestedIssues?.length ? someSelected(contestedIssues) : false;
-
-export const getSelected = formData => {
-  const eligibleIssues = (formData?.contestedIssues || []).filter(
-    issue => issue[SELECTED],
-  );
-  const addedIssues = formData['view:hasIssuesToAdd']
-    ? (formData?.additionalIssues || []).filter(issue => issue[SELECTED])
-    : [];
-  // include index to help with error messaging
-  return [...eligibleIssues, ...addedIssues].map((issue, index) => ({
-    ...issue,
-    index,
-  }));
-};
-
-// additionalIssues (items) are separate because we're checking the count before
-// the formData is updated
-export const getSelectedCount = (formData, items) =>
-  getSelected({ ...formData, additionalIssues: items }).length;
-
-const processIssues = (array = []) =>
-  array.filter(Boolean).map(entry => getIssueNameAndDate(entry));
-
-export const hasDuplicates = (data = {}) => {
-  const contestedIssues = processIssues(data.contestedIssues);
-  const additionalIssues = processIssues(data.additionalIssues);
-  // ignore duplicate contestable issues (if any)
-  const fullList = [...new Set(contestedIssues)].concat(additionalIssues);
-
-  return fullList.length !== new Set(fullList).size;
-};
-
-// Simple one level deep check
-export const isEmptyObject = obj =>
-  obj && typeof obj === 'object' && !Array.isArray(obj)
-    ? Object.keys(obj)?.length === 0 || false
-    : false;
-
-export const setInitialEditMode = (formData = {}) => {
-  const contestedIssues = (formData.contestedIssues || []).map(entry =>
-    getIssueNameAndDate(entry),
-  );
-  const additionalIssues = (formData.additionalIssues || []).map(entry =>
-    getIssueNameAndDate(entry),
-  );
-  return (formData.additionalIssues || []).map((issue = {}, index) => {
-    const currentIssue = getIssueNameAndDate(issue);
-    return (
-      !issue.issue ||
-      !issue.decisionDate ||
-      !isValidDate(issue.decisionDate) ||
-      // check for duplicates
-      contestedIssues.includes(currentIssue) ||
-      additionalIssues.lastIndexOf(currentIssue) !== index ||
-      additionalIssues.indexOf(currentIssue) !== index
-    );
-  });
-};
-
-export const getItemSchema = (schema, index) => {
-  const itemSchema = schema;
-  if (itemSchema.items.length > index) {
-    return itemSchema.items[index];
-  }
-  return itemSchema.additionalItems;
-};
+/**
+ * Calculate the index offset for the additional issue
+ * @param {Number} index - index of data in combined array of contestable issues
+ *   and additional issues
+ * @param {Number} contestableIssuesLength - contestable issues array length
+ * @returns {Number}
+ */
+export const calculateIndexOffset = (index, contestableIssuesLength) =>
+  index - contestableIssuesLength;

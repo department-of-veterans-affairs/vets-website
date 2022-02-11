@@ -1,11 +1,11 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 import mockUser from '../fixtures/mocks/mockUser';
-import mock1010Get from '../fixtures/mocks/mock1010Get';
-import mock1010Put from '../fixtures/mocks/mock1010Put';
+import mockXX123Get from '../fixtures/mocks/mockXX123Get';
+import mockXX123Put from '../fixtures/mocks/mockXX123Put';
 
 describe('SIP Load Fail Test', () => {
   it('Behaves accordingly when the load fails', () => {
-    cy.intercept('POST', '/v0/health_care_applications', {
+    cy.intercept('POST', '/v0/mock_sip_form', {
       formSubmissionId: '123fake-submission-id-567',
       timestamp: '2016-05-16',
     });
@@ -15,21 +15,14 @@ describe('SIP Load Fail Test', () => {
     cy.intercept('GET', '/v1/sessions/new', {
       url: 'http://fake',
     });
-    cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
-    cy.intercept('GET', '/v0/in_progress_forms/1010ez', mock1010Get);
-    cy.intercept('PUT', '/v0/in_progress_forms/1010ez', mock1010Put);
-    cy.login();
+    cy.intercept('GET', '/v0/in_progress_forms/XX-123', mockXX123Get);
+    cy.intercept('PUT', '/v0/in_progress_forms/XX-123', mockXX123Put);
+    cy.login(mockUser);
 
-    cy.visit('/health-care/apply/application');
+    cy.visit('/mock-sip-form');
     cy.get('body').should('be.visible');
-    cy.intercept('GET', '/v0/health_care_applications/enrollment_status', {
-      applicationDate: '2018-01-24T00:00:00.000-06:00',
-      enrollmentDate: '2018-01-24T00:00:00.000-06:00',
-      preferredFacility: '987 - CHEY6',
-      parsedStatus: 'none_of_the_above',
-    });
 
-    cy.title().should('contain', 'Apply for Health Care | Veterans Affairs');
+    cy.title().should('contain', 'Mock SIP Form');
     cy.get('.main .usa-button-primary', { timeout: Timeouts.slow }).should(
       'be.visible',
     );
@@ -37,7 +30,7 @@ describe('SIP Load Fail Test', () => {
     cy.injectAxeThenAxeCheck();
 
     // fail to load an in progress form
-    cy.intercept('GET', '/v0/in_progress_forms/1010ez', {
+    cy.intercept('GET', '/v0/in_progress_forms/XX-123', {
       body: {},
       statusCode: 500,
     });
@@ -56,10 +49,10 @@ describe('SIP Load Fail Test', () => {
     );
 
     // fail to find in progress form
-    cy.visit('/health-care/apply/application');
+    cy.visit('/mock-sip-form');
     cy.get('body');
 
-    cy.intercept('GET', '/v0/in_progress_forms/1010ez', {
+    cy.intercept('GET', '/v0/in_progress_forms/XX-123', {
       body: {},
       statusCode: 404,
     });
@@ -76,10 +69,10 @@ describe('SIP Load Fail Test', () => {
       'Something went wrong when we tried to find your application',
     );
 
-    cy.visit('/health-care/apply/application');
+    cy.visit('/mock-sip-form');
     cy.get('body');
 
-    cy.intercept('GET', '/v0/in_progress_forms/1010ez', {
+    cy.intercept('GET', '/v0/in_progress_forms/XX-123', {
       body: {},
       statusCode: 401,
     });

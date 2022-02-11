@@ -1,10 +1,9 @@
-/* eslint-disable no-case-declarations */
+import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 import {
   FETCH_CONSTANTS_STARTED,
   FETCH_CONSTANTS_FAILED,
   FETCH_CONSTANTS_SUCCEEDED,
 } from '../actions';
-import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 const INITIAL_STATE = {
   inProgress: false,
@@ -26,7 +25,7 @@ export default function(state = INITIAL_STATE, action) {
         inProgress: false,
         error: action.payload,
       };
-    case FETCH_CONSTANTS_SUCCEEDED:
+    case FETCH_CONSTANTS_SUCCEEDED: {
       const camelPayload = camelCaseKeysRecursive(action.payload);
       const constants = camelPayload.data.reduce((acc, c) => {
         const { name, value } = c.attributes;
@@ -39,6 +38,7 @@ export default function(state = INITIAL_STATE, action) {
         inProgress: false,
         error: null,
       };
+    }
     default:
       return state;
   }

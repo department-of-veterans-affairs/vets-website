@@ -6,7 +6,6 @@ import { Link } from 'react-router';
 import moment from 'moment';
 
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AppealNotFound from '../components/appeals-v2/AppealNotFound';
 import { getAppealsV2 } from '../actions/index.jsx';
 import AppealHeader from '../components/appeals-v2/AppealHeader';
@@ -123,7 +122,7 @@ export class AppealInfo extends React.Component {
     if (appealsLoading) {
       appealContent = (
         <div className="vads-u-margin-bottom--2p5">
-          <LoadingIndicator message="Please wait while we load your appeal..." />
+          <va-loading-indicator message="Please wait while we load your appeal..." />
         </div>
       );
     } else if (appealsAvailability === AVAILABLE && appeal) {

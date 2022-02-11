@@ -11,7 +11,6 @@ import {
   DONE_UPLOADING,
   SET_UPLOAD_ERROR,
   UPDATE_FIELD,
-  SHOW_MAIL_OR_FAX,
   CANCEL_UPLOAD,
   SET_FIELDS_DIRTY,
 } from '../../actions';
@@ -165,18 +164,6 @@ describe('Uploads reducer', () => {
     );
 
     expect(state.uploadField.value).to.equal('test');
-  });
-
-  it('toggle mail or fax modal', () => {
-    const state = uploads(
-      {},
-      {
-        type: SHOW_MAIL_OR_FAX,
-        visible: true,
-      },
-    );
-
-    expect(state.showMailOrFax).to.be.true;
   });
 
   it('cancel upload', () => {

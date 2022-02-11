@@ -5,9 +5,19 @@ import { getIssueName, getIssueDate } from '../utils/helpers';
 import { FORMAT_YMD, FORMAT_READABLE } from '../constants';
 
 export const missingAreaOfDisagreementErrorMessage =
-  'Please choose an area of disagreement';
-export const missingAreaOfDisagreementOtherErrorMessage =
-  'Please enter a reason for disagreement';
+  'Please choose or enter a reason for disagreement';
+
+const titlePrefix = 'What do you disagree with regarding';
+
+/**
+ * Title for review & submit page, text string returned
+ * @param {*} data - item data (contestable issue or added issue)
+ * @returns {String} - ObjectField error if not a string
+ */
+export const getIssueTitle = data => {
+  const date = moment(getIssueDate(data), FORMAT_YMD).format(FORMAT_READABLE);
+  return `${titlePrefix} ${getIssueName(data)} (${date})?`;
+};
 
 // formContext.pagePerItemIndex is undefined here? Use index added to data :(
 export const issueName = ({ formData, formContext } = {}) => {
@@ -17,13 +27,19 @@ export const issueName = ({ formData, formContext } = {}) => {
   const date = moment(getIssueDate(formData), FORMAT_YMD).format(
     FORMAT_READABLE,
   );
-  const title = `${getIssueName(formData)}${date ? ` (${date})` : ''}`;
   return (
     <legend
       className="schemaform-block-title schemaform-title-underline"
       aria-describedby={`area-of-disagreement-label-${index}`}
     >
-      <Header className="vads-u-margin-top--0">{title}</Header>
+      <Header className="vads-u-margin-top--0">
+        {`${titlePrefix} ${getIssueName(formData)}?`}
+      </Header>
+      {date && (
+        <span className="decision-date vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans">
+          Decision date: {date}
+        </span>
+      )}
     </legend>
   );
 };
@@ -32,6 +48,11 @@ export const issueName = ({ formData, formContext } = {}) => {
 // "hidden" class uses an !important flag, so we're using "hide" here
 export const issusDescription = ({ formContext }) => {
   const { pagePerItemIndex, submitted } = formContext;
+
+  // submitted may be an array (until this bug is fixed)
+  // see https://dsva.slack.com/archives/CBU0KDSB1/p1639684843152000
+  const hasSubmitted = Array.isArray(submitted) || submitted;
+
   // adding data-submitted attribute; updating the class name outside of React
   // breaks the areaOfDisagreementWorkAround
   return (
@@ -39,7 +60,7 @@ export const issusDescription = ({ formContext }) => {
       key={pagePerItemIndex}
       id={`area-of-disagreement-label-${pagePerItemIndex}`}
       className="area-of-disagreement-label vads-u-font-size--base vads-u-font-weight--normal"
-      data-submitted={submitted}
+      data-submitted={hasSubmitted}
     >
       Tell us what you disagree with. You can choose more than one.
       <span className="vads-u-font-weight--normal schemaform-required-span">
@@ -62,14 +83,12 @@ const titles = {
   serviceConnection: 'The service connection',
   effectiveDate: 'The effective date of award',
   evaluation: 'Your evaluation of my condition',
-  other: 'Something else',
 };
 
-export const serviceConnection = titles.serviceConnection;
-export const effectiveDate = titles.effectiveDate;
-export const evaluation = titles.evaluation;
-export const other = titles.other;
-export const otherLabel = 'Tell us what you disagree with:';
+export const { serviceConnection } = titles;
+export const { effectiveDate } = titles;
+export const { evaluation } = titles;
+export const otherLabel = 'Something else:';
 // Includes _{index} which is appended by the TextWidget
 export const otherDescription = ({ index }) => (
   <div

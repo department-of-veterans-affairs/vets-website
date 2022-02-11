@@ -4,19 +4,14 @@ import {
   serviceConnection,
   effectiveDate,
   evaluation,
-  other,
   AreaOfDisagreementReviewField,
   otherLabel,
   otherDescription,
   missingAreaOfDisagreementErrorMessage,
-  missingAreaOfDisagreementOtherErrorMessage,
 } from '../content/areaOfDisagreement';
 
 import { areaOfDisagreementRequired } from '../validations/issues';
-import {
-  otherTypeSelected,
-  calculateOtherMaxLength,
-} from '../utils/disagreement';
+import { calculateOtherMaxLength } from '../utils/disagreement';
 import { getIssueName } from '../utils/helpers';
 
 export default {
@@ -51,17 +46,11 @@ export default {
             'ui:title': evaluation,
             'ui:reviewField': AreaOfDisagreementReviewField,
           },
-          other: {
-            'ui:title': other,
-            'ui:reviewField': AreaOfDisagreementReviewField,
-          },
         },
         otherEntry: {
           'ui:title': otherLabel,
           'ui:description': otherDescription,
-          'ui:required': otherTypeSelected,
           'ui:options': {
-            hideIf: (formData, index) => !otherTypeSelected(formData, index),
             updateSchema: (formData, _schema, uiSchema, index) => ({
               type: 'string',
               maxLength: calculateOtherMaxLength(
@@ -70,9 +59,6 @@ export default {
             }),
             // index is appended to this ID in the TextWidget
             ariaDescribedby: 'other_hint_text',
-          },
-          'ui:errorMessages': {
-            required: missingAreaOfDisagreementOtherErrorMessage,
           },
         },
       },
@@ -98,9 +84,6 @@ export default {
                   type: 'boolean',
                 },
                 evaluation: {
-                  type: 'boolean',
-                },
-                other: {
                   type: 'boolean',
                 },
               },

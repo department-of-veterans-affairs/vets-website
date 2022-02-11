@@ -1,4 +1,114 @@
 .gi-app .search-page {
+  .no-name-results {
+    min-height: 45vh;
+  }
+
+  .modal-wrapper {
+    top: 0;
+    bottom: 0;
+    left: 0px;
+    position: fixed;
+    overflow-x: hidden;
+    z-index: 2001;
+    padding: 1em;
+    background-color: $color-white;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .modal-button-wrapper {
+      background-color: $color-gray-lightest;
+      margin-left: -1em;
+      margin-right: -1em;
+      margin-bottom: -1em;
+      margin-top: 1em;
+      text-align: center;
+      padding-left: 1em;
+      padding-right: 1em;
+
+      button {
+        margin-bottom: 16px;
+        margin-left: 0px;
+        margin-right: 1px;
+        width: 100%;
+      }
+    }
+  }
+
+  .keyword-search {
+    width: 100%;
+  }
+
+  input.name-search {
+    width: 100%;
+    max-width: none;
+  }
+
+  .name-search-button-container {
+    margin-top: auto;
+    margin-bottom: 6px;
+  }
+
+  button.name-search-button {
+    width: 120px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    height: 42px;
+  }
+
+  @media (max-width: $small-screen) {
+    .usa-accordion-content {
+      padding-left: 0px;
+      padding-right: 0px;
+      margin-left: 0.5em;
+      margin-right: 0.5em;
+    }
+
+    .vads-l-grid-container {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+    button {
+      margin-right: 0px;
+    }
+
+    #keyword-search {
+      width: 100%;
+    }
+
+    button.name-search-button {
+      width: 100%;
+
+      i {
+        display: none;
+      }
+    }
+
+    .usa-input-error,
+    .input-row {
+      padding-top: 0px;
+      padding-bottom: 5px;
+      margin-top: 0px;
+    }
+  }
+
+  .eligibility-form h2 {
+    display: none;
+    visibility: hidden;
+  }
+
+  .video-sidebar h5 {
+    margin-top: 0.5em;
+    padding: 0;
+  }
+
+  .type-of-institution-filter .form-expanding-group-open {
+    padding-left: 2rem;
+    border-left: none;
+  }
+
   .filters-sidebar {
     h2 {
       font-size: 1.15em;
@@ -206,9 +316,33 @@
       width: 100%;
     }
   }
-  .input-box-margin {
+  .input-container {
+    display: flex;
+    border: 1px solid;
     margin: 6px 0px;
+    height: 4.2rem;
+
+    input {
+      border: none;
+      height: unset;
+    }
+
+    .clear-button {
+      width: 44px;
+      height: 44px;
+      background-color: transparent;
+      color: $color-black;
+      padding: 0;
+      margin: 0;
+      font-family: "Font Awesome 5 Free";
+
+      &:hover {
+        background-color: unset;
+        color: unset;
+      }
+    }
   }
+
   .search-button {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
@@ -224,8 +358,7 @@
     color: $color-white;
     cursor: pointer;
     display: inline-block;
-    font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
-      "Arial", sans-serif;
+    font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
     font-size: 1.6rem;
     font-weight: 700;
     line-height: 1;
@@ -271,8 +404,73 @@
   .usa-alert-heading {
     font-size: 1em;
   }
+
+  .exclude-warnings-closings-checkbox {
+    padding-left: 0.2em;
+  }
+
+  .result-card {
+    border-radius: 5px;
+    flex-basis: 50%;
+    height: fit-content;
+
+    &.active {
+      border: $focus-outline;
+    }
+
+    .result-card-container {
+      border-radius: 5px;
+    }
+    @include media-maxwidth($small-screen) {
+      flex-basis: 100%;
+    }
+  }
+
+  .accreditation-tag {
+    border-radius: 15px;
+    font-size: 14px;
+    height: auto;
+    padding-left: 10px;
+    width: 157px;
+  }
+
+  .secondary-info-label {
+    font-size: 12px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .secondary-info-label-large {
+    font-size: 15px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  @include media-maxwidth($small-screen) {
+    width: 75%;
+  }
+
+  #institution-search-label {
+    display: inline-block;
+  }
 }
 
-.exclude-warnings-closings-checkbox {
-  padding-left: 0.2em;
+.accreditation-tag {
+  border-radius: 15px;
+  font-size: 14px;
+  height: auto;
+  padding-left: 10px;
+  width: 157px;
+}
+
+.secondary-info-label {
+  font-size: 12px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.name-search-cards-padding {
+  @media (min-width: $small-screen +1) {
+    padding-right: 0%;
+  }
 }

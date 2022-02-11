@@ -10,22 +10,18 @@ import { getIssueName } from './helpers';
  * @property {boolean} serviceConnection
  * @property {boolean} effectiveDate
  * @property {boolean} evaluation
- * @property {boolean} other
  */
 /**
  * @typedef AreaOfDisagreement~Page
  * @type {object}
  * @property {object} attributes - Attributes of issue
  * @property {AreaOfDisagreement~Options} disagreementOptions
- * @property {string} otherEntry - Free text entered when "other" is selected
+ * @property {string} otherEntry - Free text input
  */
 /**
  * @typedef FormData~AreaOfDisagreement
  * @type {AreaOfDisagreement~Page[]}
  */
-
-export const otherTypeSelected = ({ areaOfDisagreement } = {}, index) =>
-  areaOfDisagreement?.[index]?.disagreementOptions?.other;
 
 /**
  * Compare currently selected issues with previously selected issues and copy
@@ -63,7 +59,7 @@ export const calculateOtherMaxLength = formData => {
   // free-text "other reason" input to use up the remaining characters
   const options = formData?.disagreementOptions || {};
   const stringLength = Object.keys(options).reduce((totalLength, key) => {
-    if (key !== 'other' && options[key]) {
+    if (options[key]) {
       // add one for the comma
       return totalLength + SUBMITTED_DISAGREEMENTS[key].length + 1;
     }

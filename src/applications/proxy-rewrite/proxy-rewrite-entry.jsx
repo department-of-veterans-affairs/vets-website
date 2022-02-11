@@ -71,14 +71,12 @@ function renderFooter(data, commonStore) {
   const subFooter = document.querySelectorAll('#sub-footer .small-print');
   const lastUpdated = subFooter && subFooter.item(0).textContent;
 
-  startVAFooter(
-    data,
-    () => {
-      if (lastUpdated) {
-        const lastUpdatedPanel = document.createElement('div');
-        const lastUpdatedDate = lastUpdated.replace('Last updated ', '');
+  startVAFooter(data, commonStore, () => {
+    if (lastUpdated) {
+      const lastUpdatedPanel = document.createElement('div');
+      const lastUpdatedDate = lastUpdated.replace('Last updated ', '');
 
-        lastUpdatedPanel.innerHTML = `
+      lastUpdatedPanel.innerHTML = `
         <div class="footer-lastupdated">
           <div class="usa-grid">
             <div class="col-md-3"></div>
@@ -89,13 +87,11 @@ function renderFooter(data, commonStore) {
         </div>
       `;
 
-        const footer = document.getElementById(footerElemementId);
+      const footer = document.getElementById(footerElemementId);
 
-        footer.parentElement.insertBefore(lastUpdatedPanel, footer);
-      }
-    },
-    commonStore,
-  );
+      footer.parentElement.insertBefore(lastUpdatedPanel, footer);
+    }
+  });
 }
 
 function mountReactComponents(headerFooterData, commonStore) {

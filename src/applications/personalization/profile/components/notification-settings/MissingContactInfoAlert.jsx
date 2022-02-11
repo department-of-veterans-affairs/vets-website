@@ -4,9 +4,9 @@ import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
 
-import AddContactInfoLink, {
-  MISSING_CONTACT_INFO,
-} from './MissingContactInfoAlertLink';
+import MissingContactInfoAlertLink from './MissingContactInfoAlertLink';
+
+import { MISSING_CONTACT_INFO } from '@@vap-svc/constants';
 
 const missingEmailAddressContent = (
   <>
@@ -15,7 +15,7 @@ const missingEmailAddressContent = (
       your profile.
     </p>
     <p>
-      <AddContactInfoLink missingInfo={MISSING_CONTACT_INFO.EMAIL} />
+      <MissingContactInfoAlertLink missingInfo={MISSING_CONTACT_INFO.EMAIL} />
     </p>
   </>
 );
@@ -26,7 +26,7 @@ const missingMobilePhoneContent = (
       phone number to your profile.
     </p>
     <p>
-      <AddContactInfoLink missingInfo={MISSING_CONTACT_INFO.MOBILE} />
+      <MissingContactInfoAlertLink missingInfo={MISSING_CONTACT_INFO.MOBILE} />
     </p>
   </>
 );

@@ -1,24 +1,23 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import BackToHome from '../components/BackToHome';
-import Footer from '../components/Footer';
-import { focusElement } from 'platform/utilities/ui';
+import ErrorMessage from '../../components/ErrorMessage';
+import BackToHome from '../../components/BackToHome';
+import Footer from '../../components/Footer';
+
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 
 const Error = () => {
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+  const { getValidateAttempts } = useSessionStorage(false);
+  const { isMaxValidateAttempts } = getValidateAttempts(window);
+  const maxValidateMessage =
+    "We're sorry. We couldn't match your information to our records. Please ask a staff member for help.";
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 ">
-      <va-alert status="error">
-        <h1 tabIndex="-1" slot="headline">
-          We couldn’t check you in
-        </h1>
-        <p data-testid="error-message">
-          We’re sorry. Something went wrong on our end. Check in with a staff
-          member.
-        </p>
-      </va-alert>
+      {isMaxValidateAttempts ? (
+        <ErrorMessage message={maxValidateMessage} />
+      ) : (
+        <ErrorMessage />
+      )}
       <Footer />
       <BackToHome />
     </div>

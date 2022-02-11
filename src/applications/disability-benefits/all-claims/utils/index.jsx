@@ -652,10 +652,23 @@ export const hasNewPtsdDisability = formData =>
     isDisabilityPtsd(disability.condition),
   );
 
-export const needsToEnter781 = formData =>
+export const showPtsdCombat = formData =>
   hasNewPtsdDisability(formData) &&
-  (_.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false) ||
-    _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', formData, false));
+  _.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false);
+
+export const showPtsdNonCombat = formData =>
+  hasNewPtsdDisability(formData) &&
+  _.get('view:selectablePtsdTypes.view:nonCombatPtsdType', formData, false) &&
+  // skip non-combat question if Veteran says yes to combat question
+  !_.get('skip781ForCombatReason', formData, false);
+
+export const skip781 = formData =>
+  _.get('skip781ForCombatReason', formData) === true ||
+  _.get('skip781ForNonCombatReason', formData) === true;
+
+export const needsToEnter781 = formData =>
+  (showPtsdCombat(formData) || showPtsdNonCombat(formData)) &&
+  !skip781(formData);
 
 export const needsToEnter781a = formData =>
   hasNewPtsdDisability(formData) &&

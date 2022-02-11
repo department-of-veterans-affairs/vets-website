@@ -1,4 +1,3 @@
-import React from 'react';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import environment from 'platform/utilities/environment';
 import {
@@ -6,7 +5,10 @@ import {
   ALLOWED_FILE_TYPES,
   MAX_FILE_SIZE_BYTES,
 } from 'applications/caregivers/definitions/constants';
-import { RepresentativeDocumentUploadDescription } from 'applications/caregivers/components/AdditionalInfo';
+import {
+  UploadSuccessAlertDescription,
+  RepresentativeDocumentUploadDescription,
+} from 'applications/caregivers/components/AdditionalInfo';
 import recordEvent from 'platform/monitoring/record-event';
 
 const createPayload = (file, formId, password) => {
@@ -39,36 +41,43 @@ const parseResponse = (fileInfo, file) => {
 export default {
   uiSchema: {
     'ui:description': RepresentativeDocumentUploadDescription(),
-    'ui:title': () => (
-      <h3 className="vads-u-font-size--h4 vads-u-margin--0">
-        Upload your legal representative document
-        <span className="vads-u-margin-left--0p5 vads-u-color--secondary-dark vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
-          (*Required)
-        </span>
-      </h3>
-    ),
-    [representativeFields.documentUpload]: fileUploadUI(' ', {
-      buttonText: 'Upload',
-      classNames: 'poa-document-upload',
+    'view:uploadSuccessAlert': {
+      'ui:options': {
+        hideIf: formData => {
+          if (
+            formData.signAsRepresentativeDocumentUpload &&
+            formData.signAsRepresentativeDocumentUpload.length > 0 &&
+            formData.signAsRepresentativeDocumentUpload[0].guid &&
+            formData.signAsRepresentativeDocumentUpload[0].name &&
+            !formData.signAsRepresentativeDocumentUpload[0].errorMessage
+          ) {
+            return false; // return false to show, not not hide
+          }
+          return true;
+        },
+      },
+      'ui:description': UploadSuccessAlertDescription,
+    },
+    [representativeFields.documentUpload]: fileUploadUI('Your document:', {
+      buttonText: 'Upload document',
+      classNames: 'poa-document-upload vads-u-margin-top--2',
       multiple: false,
       fileUploadUrl: `${environment.API_URL}/v0/form1010cg/attachments`,
       fileTypes: ALLOWED_FILE_TYPES,
       maxSize: MAX_FILE_SIZE_BYTES,
-      hideLabelText: true,
+      hideLabelText: false,
       createPayload,
       parseResponse,
-      attachmentName: {
-        'ui:title': 'Document name',
-        'ui:options': {
-          useDlWrap: true,
-        },
-      },
     }),
   },
   schema: {
     type: 'object',
     required: [representativeFields.documentUpload],
     properties: {
+      'view:uploadSuccessAlert': {
+        type: 'object',
+        properties: {},
+      },
       [representativeFields.documentUpload]: {
         type: 'array',
         minItems: 1,

@@ -390,7 +390,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     fireEvent.click(screen.getByText(/continue/i));
 
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
-    expect(screen.baseElement).to.contain.text('Canceled');
+    expect(screen.baseElement).to.contain.text('You canceled this request');
     expect(screen.baseElement).not.to.contain.text(alertText);
   });
 
@@ -754,7 +754,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       kind: 'cc',
       locationId: '983GC',
       id: '1234',
-      practitioners: [{ identifier: { value: '123' } }],
+      practitioners: [{ identifier: [{ value: '123' }] }],
       preferredTimesForPhoneCall: ['Morning'],
       reason: 'New Issue',
       requestedPeriods: [
@@ -933,7 +933,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     fireEvent.click(screen.getByText(/continue/i));
 
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
-    expect(screen.baseElement).to.contain.text('Canceled');
+    expect(screen.baseElement).to.contain.text('You canceled this request');
   });
 
   it('should handle error when canceling', async () => {

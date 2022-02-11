@@ -1,0 +1,38 @@
+/* print.css */
+@media print {
+  header,
+  footer,
+  aside,
+  nav,
+  form,
+  iframe,
+  select,
+  button,
+  .menu,
+  .hero,
+  [data-widget-type="banner"],
+  [data-widget-type="maintenance-banner"],
+  [data-widget-type="promo-banner"] {
+    display: none !important;
+  }
+
+  .vaos-appts__card--clickable {
+    background-color: transparent !important;
+    border: 1px solid rgb(179, 181, 187);
+  }
+  .usa-label {
+    background-color: transparent !important;
+    color: initial;
+    padding: initial;
+  }
+
+  .vaos-hide-for-print {
+    display: none !important;
+  }
+
+  .vaos-link-for-print {
+    color: $color-black;
+    text-align: left;
+    padding-left: 0;
+  }
+}

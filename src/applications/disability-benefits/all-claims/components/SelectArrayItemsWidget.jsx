@@ -7,6 +7,7 @@ import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
+import environment from 'platform/utilities/environment';
 
 import { disabilityActionTypes } from '../constants';
 
@@ -20,7 +21,9 @@ class SelectArrayItemsWidget extends React.Component {
   defaultSelectedPropName = 'view:selected';
 
   keyValue = 'ratedDisabilities';
+
   updatedKeyValue = 'updatedRatedDisabilities';
+
   keyConstants = ['ratingDecisionId', 'diagnosticCode'];
 
   onChange = (index, checked) => {
@@ -80,11 +83,17 @@ class SelectArrayItemsWidget extends React.Component {
       required,
       formContext,
       formData,
+      testUpdatedRatedDisabilities,
     } = this.props;
 
     const updatedDisabilities = formData[this.updatedKeyValue];
     // rated disabilities updated on the backend
-    if (Array.isArray(updatedDisabilities) && updatedDisabilities.length) {
+    if (
+      // allows for save-in-progress testing
+      (environment.isProduction() || testUpdatedRatedDisabilities) &&
+      Array.isArray(updatedDisabilities) &&
+      updatedDisabilities.length
+    ) {
       this.processRatedDisabilityUpdates(updatedDisabilities);
     }
 
@@ -93,7 +102,7 @@ class SelectArrayItemsWidget extends React.Component {
 
     // inReviewMode = true (review page view, not in edit mode)
     // inReviewMode = false (in edit mode)
-    const onReviewPage = formContext.onReviewPage;
+    const { onReviewPage } = formContext;
     const inReviewMode = onReviewPage && formContext.reviewMode;
 
     const hasSelections = items?.reduce(
@@ -245,7 +254,7 @@ SelectArrayItemsWidget.propTypes = {
     title: PropTypes.string,
     customTitle: PropTypes.string,
     field: PropTypes.string,
-    label: PropTypes.function,
+    label: PropTypes.func,
     showFieldLabel: PropTypes.string,
     validations: PropTypes.array,
   }).isRequired,
@@ -260,6 +269,7 @@ SelectArrayItemsWidget.propTypes = {
   }),
   setData: PropTypes.func,
   autoSaveForm: PropTypes.func,
+  testUpdatedRatedDisabilities: PropTypes.bool,
 };
 
 SelectArrayItemsWidget.defaultProps = {

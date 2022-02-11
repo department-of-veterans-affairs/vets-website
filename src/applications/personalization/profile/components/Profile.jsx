@@ -39,9 +39,7 @@ import {
   cnpDirectDepositInformation,
   cnpDirectDepositIsBlocked,
   cnpDirectDepositIsSetUp,
-  eduDirectDepositInformation,
   eduDirectDepositIsSetUp,
-  showNotificationSettings,
   showProfileLGBTQEnhancements,
 } from '@@profile/selectors';
 import {
@@ -55,6 +53,7 @@ import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 
 class Profile extends Component {
   componentDidMount() {
@@ -158,7 +157,6 @@ class Profile extends Component {
   mainContent = () => {
     const routesOptions = {
       removeDirectDeposit: !this.props.shouldShowDirectDeposit,
-      removeNotificationSettings: !this.props.shouldShowNotificationSettings,
       shouldShowProfileLGBTQEnhancements: this.props
         .shouldShowProfileLGBTQEnhancements,
     };
@@ -272,6 +270,10 @@ Profile.propTypes = {
 };
 
 const mapStateToProps = state => {
+  const signInServicesEligibleForDD = new Set([
+    CSP_IDS.ID_ME,
+    CSP_IDS.LOGIN_GOV,
+  ]);
   const isEvssAvailableSelector = createIsServiceAvailableSelector(
     backendServices.EVSS_CLAIMS,
   );
@@ -283,10 +285,11 @@ const mapStateToProps = state => {
   const is2faEnabled = isMultifactorEnabled(state);
   const signInService = signInServiceNameSelector(state);
   const isInMVI = isInMVISelector(state);
+  const isEligibleForDD =
+    signInServicesEligibleForDD.has(signInService) && isInMVI && is2faEnabled;
   const shouldFetchCNPDirectDepositInformation =
-    isInMVI && isEvssAvailable && signInService === 'idme' && is2faEnabled;
-  const shouldFetchEDUDirectDepositInformation =
-    isInMVI && signInService === 'idme' && is2faEnabled;
+    isEligibleForDD && isEvssAvailable;
+  const shouldFetchEDUDirectDepositInformation = isEligibleForDD;
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
@@ -319,9 +322,6 @@ const mapStateToProps = state => {
   const hasLoadedCNPPaymentInformation =
     !isInMVI || cnpDirectDepositInformation(state);
 
-  const hasLoadedEDUPaymentInformation =
-    !isInMVI || eduDirectDepositInformation(state);
-
   const hasLoadedTotalDisabilityRating =
     !isInMVI || (state.totalRating && !state.totalRating.loading);
 
@@ -336,9 +336,6 @@ const mapStateToProps = state => {
         : true) &&
       (shouldFetchCNPDirectDepositInformation
         ? hasLoadedCNPPaymentInformation
-        : true) &&
-      (shouldFetchEDUDirectDepositInformation
-        ? hasLoadedEDUPaymentInformation
         : true));
 
   const showLoader =
@@ -349,7 +346,7 @@ const mapStateToProps = state => {
     if (isCNPDirectDepositBlocked) return false;
     return (
       (isLOA3 && !is2faEnabled) || // we _want_ to show the DD section to non-2FA users
-      (isLOA3 && signInService !== 'idme') || // we _want_ to show the DD section to users who did not sign in with ID.me
+      (isLOA3 && !signInServicesEligibleForDD.has(signInService)) || // we _want_ to show the DD section to users who did not sign in with ID.me
       isCNPDirectDepositSetUp ||
       isEligibleToSetUpCNP ||
       isEDUDirectDepositSetUp
@@ -365,7 +362,6 @@ const mapStateToProps = state => {
     shouldFetchEDUDirectDepositInformation,
     shouldFetchTotalDisabilityRating,
     shouldShowDirectDeposit: shouldShowDirectDeposit(),
-    shouldShowNotificationSettings: showNotificationSettings(state),
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
     ),

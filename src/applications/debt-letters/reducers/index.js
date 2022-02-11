@@ -1,3 +1,5 @@
+import { FETCH_TOGGLE_VALUES_STARTED } from 'platform/site-wide/feature-toggles/actionTypes';
+import { UPDATE_LOGGEDIN_STATUS } from 'platform/user/authentication/actions';
 import {
   DEBTS_FETCH_INITIATED,
   DEBTS_FETCH_SUCCESS,
@@ -7,9 +9,6 @@ import {
   DEBT_LETTERS_FETCH_FAILURE,
   DEBT_LETTERS_FETCH_INITIATED,
 } from '../actions';
-
-import { FETCH_TOGGLE_VALUES_STARTED } from 'platform/site-wide/feature-toggles/actionTypes';
-import { UPDATE_LOGGEDIN_STATUS } from 'platform/user/authentication/actions';
 
 const initialState = {
   isProfileUpdating: true,

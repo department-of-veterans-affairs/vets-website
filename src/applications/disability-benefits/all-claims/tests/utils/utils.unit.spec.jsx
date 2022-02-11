@@ -46,6 +46,9 @@ import {
   showSeparationLocation,
   isExpired,
   truncateDescriptions,
+  showPtsdCombat,
+  showPtsdNonCombat,
+  skip781,
 } from '../../utils';
 
 describe('526 helpers', () => {
@@ -487,6 +490,30 @@ describe('526 helpers', () => {
     it('should return false if user has not selected Combat or Non-Combat PTSD types', () => {
       const formData = {};
       expect(needsToEnter781(formData)).to.be.false;
+    });
+    it('should return false if skip questions are set to true', () => {
+      const formData = {
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
+        'view:selectablePtsdTypes': {
+          'view:combatPtsdType': true,
+        },
+      };
+      expect(
+        needsToEnter781({
+          ...formData,
+          skip781ForCombatReason: true,
+        }),
+      ).to.be.false;
+      expect(
+        needsToEnter781({
+          ...formData,
+          skip781ForNonCombatReason: true,
+        }),
+      ).to.be.false;
     });
   });
 
@@ -1248,6 +1275,199 @@ describe('truncateDescriptions', () => {
       'vaMistreatmentDate', // 25
     ].forEach(key => {
       expect(getResult(key, +20)[key].length).to.eq(CHAR_LIMITS[key]);
+    });
+  });
+});
+
+describe('skip PTSD questions', () => {
+  const getData = ({
+    combat,
+    skipCombat,
+    nonCombat,
+    skipNonCombat,
+    condition = 'PTSD',
+  } = {}) => ({
+    newDisabilities: [{ condition }],
+    'view:claimType': {
+      'view:claimingNew': true,
+    },
+    'view:selectablePtsdTypes': {
+      'view:combatPtsdType': combat,
+      'view:nonCombatPtsdType': nonCombat,
+    },
+    skip781ForCombatReason: skipCombat,
+    skip781ForNonCombatReason: skipNonCombat,
+  });
+
+  describe('showPtsdCombat', () => {
+    it('should return false PTSD is not included', () => {
+      expect(
+        showPtsdCombat(
+          getData({
+            combat: false,
+            nonCombat: false,
+            condition: 'abc',
+          }),
+        ),
+      ).to.be.false;
+      expect(
+        showPtsdCombat(
+          getData({
+            combat: true,
+            nonCombat: false,
+            condition: 'abc',
+          }),
+        ),
+      ).to.be.false;
+      expect(
+        showPtsdCombat(
+          getData({
+            combat: false,
+            nonCombat: true,
+            condition: 'abc',
+          }),
+        ),
+      ).to.be.false;
+      expect(
+        showPtsdCombat(
+          getData({
+            combat: true,
+            nonCombat: true,
+            condition: 'abc',
+          }),
+        ),
+      ).to.be.false;
+    });
+    it('should return false if PTSD is not combat', () => {
+      expect(
+        showPtsdCombat(
+          getData({
+            combat: false,
+            nonCombat: false,
+          }),
+        ),
+      ).to.be.false;
+      expect(showPtsdCombat(getData())).to.be.false;
+      expect(
+        showPtsdCombat(
+          getData({
+            combat: false,
+            nonCombat: true,
+          }),
+        ),
+      ).to.be.false;
+    });
+    it('should return true if combat PTSD is included', () => {
+      expect(showPtsdCombat(getData({ combat: true }))).to.be.true;
+    });
+  });
+
+  describe('showPtsdNonCombat', () => {
+    it('should return false PTSD is not included', () => {
+      expect(
+        showPtsdNonCombat(
+          getData({
+            combat: false,
+            nonCombat: false,
+            condition: 'abc',
+          }),
+        ),
+      ).to.be.false;
+      expect(
+        showPtsdNonCombat(
+          getData({
+            combat: true,
+            nonCombat: false,
+            condition: 'abc',
+          }),
+        ),
+      ).to.be.false;
+      expect(
+        showPtsdNonCombat(
+          getData({
+            combat: false,
+            nonCombat: true,
+            condition: 'abc',
+          }),
+        ),
+      ).to.be.false;
+      expect(
+        showPtsdNonCombat(
+          getData({
+            combat: true,
+            nonCombat: true,
+            condition: 'abc',
+          }),
+        ),
+      ).to.be.false;
+    });
+    it('should return false if PTSD is not none combat', () => {
+      expect(
+        showPtsdNonCombat(
+          getData({
+            combat: false,
+            nonCombat: false,
+          }),
+        ),
+      ).to.be.false;
+      expect(
+        showPtsdNonCombat(
+          getData({
+            combat: true,
+            nonCombat: false,
+          }),
+        ),
+      ).to.be.false;
+    });
+    it('should return true if non combat PTSD is included', () => {
+      expect(
+        showPtsdNonCombat(
+          getData({
+            combat: false,
+            nonCombat: true,
+          }),
+        ),
+      ).to.be.true;
+    });
+  });
+
+  describe('skip781', () => {
+    it('should return false if not skipping', () => {
+      expect(skip781(getData())).to.be.false;
+      expect(
+        skip781(
+          getData({
+            skipCombat: false,
+            skipNonCombat: false,
+          }),
+        ),
+      ).to.be.false;
+    });
+    it('should return true if skipping', () => {
+      expect(
+        skip781(
+          getData({
+            skipCombat: true,
+            skipNonCombat: false,
+          }),
+        ),
+      ).to.be.true;
+      expect(
+        skip781(
+          getData({
+            skipCombat: false,
+            skipNonCombat: true,
+          }),
+        ),
+      ).to.be.true;
+      expect(
+        skip781(
+          getData({
+            skipCombat: true,
+            skipNonCombat: true,
+          }),
+        ),
+      ).to.be.true;
     });
   });
 });

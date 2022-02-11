@@ -25,4 +25,12 @@ describe('formatHours', () => {
   it('Should return a null value 44', () => {
     expect(formatHours(44)).to.equal(null);
   });
+
+  it('Should return a formatted hour string 12:00 p.m.', () => {
+    expect(formatHours(1200)).to.equal('12:00 p.m.');
+  });
+
+  it('Should return a formatted hour string 12:00 a.m.', () => {
+    expect(formatHours(2400)).to.equal('12:00 a.m.');
+  });
 });

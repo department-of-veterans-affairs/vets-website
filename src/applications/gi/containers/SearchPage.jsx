@@ -1,323 +1,160 @@
-import React, { useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/jsx-no-bind */
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
-import _ from 'lodash';
+
+import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
-import { useHistory, useLocation } from 'react-router-dom';
-
-import {
-  clearAutocompleteSuggestions,
-  fetchInstitutionAutocompleteSuggestions,
-  fetchInstitutionSearchResults,
-  institutionFilterChange,
-  setPageTitle,
-  toggleFilter,
-  updateAutocompleteSearchTerm,
-  eligibilityChange,
-  showModal,
-  hideModal,
-} from '../actions';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
-import { getScrollOptions, focusElement } from 'platform/utilities/ui';
-import SearchResult from '../components/search/SearchResult';
-import RatedSearchResult from '../components/search/RatedSearchResult';
-import InstitutionSearchForm from '../components/search/InstitutionSearchForm';
-import ServiceError from '../components/ServiceError';
-import { renderSearchResultsHeader } from '../utils/render';
-import { isMobileView, useQueryParams } from '../utils/helpers';
-import { searchWithFilters } from '../utils/search';
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import environment from 'platform/utilities/environment';
-
-const { Element: ScrollElement } = Scroll;
+import recordEvent from 'platform/monitoring/record-event';
+import SearchTabs from '../components/search/SearchTabs';
+import { TABS } from '../constants';
+import NameSearchResults from './search/NameSearchResults';
+import LocationSearchResults from './search/LocationSearchResults';
+import { isSmallScreen } from '../utils/helpers';
+import NameSearchForm from './search/NameSearchForm';
+import LocationSearchForm from './search/LocationSearchForm';
+import AccordionItem from '../components/AccordionItem';
+import { getSearchQueryChanged, updateUrlParams } from '../selectors/search';
+import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
+import { changeSearchTab, setPageTitle } from '../actions';
 
 export function SearchPage({
-  autocomplete,
-  dispatchClearAutocompleteSuggestions,
-  dispatchEligibilityChange,
-  dispatchFetchInstitutionAutocompleteSuggestions,
-  dispatchFetchInstitutionSearchResults,
-  dispatchHideModal,
-  dispatchInstitutionFilterChange,
+  dispatchChangeSearchTab,
   dispatchSetPageTitle,
-  dispatchShowModal,
-  dispatchToggleFilter,
-  dispatchUpdateAutocompleteSearchTerm,
-  eligibility,
-  filters,
-  gibctSchoolRatings,
   search,
+  preview,
+  filters,
 }) {
-  const location = useLocation();
   const history = useHistory();
-  const queryParams = useQueryParams();
-
-  const searchTerm = autocomplete.term
-    ? autocomplete.term
-    : autocomplete.searchTerm;
-
-  const legacyTitle = searchTerm
-    ? `SearchResults - ${searchTerm}`
-    : 'Search Results';
-  const newTitle = `Search results: GI Bill® Comparison Tool | Veterans Affairs`;
+  const { tab, error, query } = search;
+  const [smallScreen, setSmallScreen] = useState(isSmallScreen());
+  const [accordions, setAccordions] = useState({
+    [TABS.name]: tab === TABS.name,
+    [TABS.location]: tab === TABS.location,
+  });
+  const { version } = preview;
 
   useEffect(
     () => {
-      dispatchSetPageTitle(
-        `${environment.isProduction() ? legacyTitle : newTitle}`,
-      );
+      document.title = 'GI Bill® Comparison Tool | Veterans Affairs';
     },
-
-    [dispatchSetPageTitle, legacyTitle, newTitle],
+    [dispatchSetPageTitle],
   );
 
-  useEffect(
-    () => {
-      if (!search.inProgress) {
-        const booleanFilterParams = [
-          'distanceLearning',
-          'studentVeteranGroup',
-          'yellowRibbonScholarship',
-          'onlineOnly',
-          'principlesOfExcellence',
-          'eightKeysToVeteranSuccess',
-          'priorityEnrollment',
-          'independentStudy',
-          'preferredProvider',
-          'excludeWarnings',
-          'excludeCautionFlags',
-        ];
+  useEffect(() => {
+    const checkSize = () => {
+      setSmallScreen(isSmallScreen());
+    };
+    window.addEventListener('resize', checkSize);
 
-        const stringFilterParams = [
-          'version',
-          'category',
-          'country',
-          'state',
-          'type',
-        ];
-
-        const stringSearchParams = ['page', 'name'];
-
-        const allParams = [
-          ...stringSearchParams,
-          ...stringFilterParams,
-          ...booleanFilterParams,
-        ];
-
-        const query = {};
-        allParams.forEach(filterKey => {
-          const queryVal = queryParams.get(filterKey);
-          if (queryVal) {
-            query[filterKey] = queryParams.get(filterKey);
-          }
-        });
-
-        // Update form selections based on query.
-        const institutionFilter = _.omit(query, stringSearchParams);
-
-        // Convert string to bool for params associated with checkboxes.
-        booleanFilterParams.forEach(filterKey => {
-          const filterValue = institutionFilter[filterKey];
-          institutionFilter[filterKey] = filterValue === 'true';
-        });
-
-        dispatchInstitutionFilterChange(institutionFilter);
-
-        dispatchFetchInstitutionSearchResults(query);
-      }
-    },
-    [location.search],
-  );
-
-  useEffect(
-    () => {
-      if (!isMobileView()) {
-        scrollTo('searchPage', getScrollOptions());
-      }
-    },
-    [search.inProgress],
-  );
-
-  useEffect(
-    () => {
-      if (!search.inProgress) {
-        focusElement('.search-results-count > h1');
-      }
-    },
-    [search.results],
-  );
-
-  const handleAutocompleteUpdate = (value, version) => {
-    if (value) {
-      dispatchFetchInstitutionAutocompleteSuggestions(
-        value,
-        _.omit(search.query, 'name'),
-        version,
-      );
+    if (getSearchQueryChanged(search.query)) {
+      updateUrlParams(history, search.tab, search.query, filters, version);
     }
+
+    return () => window.removeEventListener('resize', checkSize);
+  }, []);
+
+  const tabbedResults = {
+    [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
+    [TABS.location]: <LocationSearchResults smallScreen={smallScreen} />,
   };
 
-  const handlePageSelect = page => {
-    queryParams.set('page', page);
-    history.push({ pathname: '/search/', search: queryParams.toString() });
-  };
-
-  const handleFilterChange = (field, value) => {
-    searchWithFilters({
-      search,
-      field,
-      value,
-      clearAutocompleteSuggestions: dispatchClearAutocompleteSuggestions,
-      history,
-      query: queryParams.toString(),
-      pathname: '/search',
+  const tabChange = selectedTab => {
+    recordEvent({
+      event: 'nav-tab-click',
+      'tab-text': `Search by ${selectedTab}`,
     });
+    dispatchChangeSearchTab(selectedTab);
+    updateUrlParams(history, selectedTab, search.query, filters, version);
   };
 
-  const searchResults = () => {
-    const {
-      pagination: { currentPage, totalPages },
-    } = search;
-
-    const resultsClass = classNames(
-      'search-results',
-      'small-12',
-      'medium-9',
-      'columns',
-      {
-        opened: !search.filterOpened,
-      },
-    );
-
-    let results;
-
-    // Filter button on mobile.
-    const filterButton = (
-      <button
-        className="filter-button usa-button-secondary"
-        data-cy="filter-button"
-        onClick={dispatchToggleFilter}
-      >
-        Filter
-      </button>
-    );
-
-    if (search.inProgress) {
-      results = (
-        <div className={resultsClass}>
-          {filterButton}
-          <LoadingIndicator message="Loading search results..." />
-        </div>
-      );
-    } else {
-      results = (
-        <div className={resultsClass}>
-          {filterButton}
-          <div>
-            {search.results.map(result => {
-              return gibctSchoolRatings ? (
-                <RatedSearchResult
-                  key={result.facilityCode}
-                  menOnly={result.menonly}
-                  womenOnly={result.womenonly}
-                  ratingAverage={result.ratingAverage}
-                  ratingCount={result.ratingCount}
-                  {...result}
-                />
-              ) : (
-                <SearchResult
-                  key={result.facilityCode}
-                  menOnly={result.menonly}
-                  womenOnly={result.womenonly}
-                  {...result}
-                />
-              );
-            })}
-          </div>
-
-          <Pagination
-            onPageSelect={handlePageSelect}
-            page={currentPage}
-            pages={totalPages}
-          />
-        </div>
-      );
+  const accordionChange = (selectedAccordion, expanded) => {
+    let updated = {
+      ...accordions,
+      [selectedAccordion]: expanded,
+    };
+    if (selectedAccordion === TABS.name && expanded) {
+      updated = { ...updated, [TABS.location]: false };
+    } else if (selectedAccordion === TABS.location && expanded) {
+      updated = { ...updated, [TABS.name]: false };
     }
 
-    return results;
+    setAccordions(updated);
+    tabChange(selectedAccordion);
   };
 
-  const renderInstitutionSearchForm = () => {
-    const filtersClass = classNames(
-      'filters-sidebar',
-      'small-12',
-      'medium-3',
-      'columns',
-      { opened: search.filterOpened },
-    );
-    return (
-      <div>
-        <div className="vads-l-col--10 search-results-count">
-          {renderSearchResultsHeader(search)}
-        </div>
-        <InstitutionSearchForm
-          filtersClass={filtersClass}
-          search={search}
-          autocomplete={autocomplete}
-          location={location}
-          clearAutocompleteSuggestions={dispatchClearAutocompleteSuggestions}
-          fetchAutocompleteSuggestions={handleAutocompleteUpdate}
-          handleFilterChange={handleFilterChange}
-          updateAutocompleteSearchTerm={dispatchUpdateAutocompleteSearchTerm}
-          filters={filters}
-          toggleFilter={dispatchToggleFilter}
-          searchResults={searchResults()}
-          eligibility={eligibility}
-          showModal={dispatchShowModal}
-          eligibilityChange={dispatchEligibilityChange}
-          hideModal={dispatchHideModal}
-          searchOnAutcompleteSelection
-        />
-      </div>
-    );
-  };
+  const searchPageClasses = classNames('row', {
+    'no-name-results':
+      tab === TABS.name && (query.name === '' || query.name === null),
+  });
 
   return (
-    <ScrollElement name="searchPage" className="search-page">
-      {/* /CT 116 */}
-      {search.error ? <ServiceError /> : renderInstitutionSearchForm()}
-    </ScrollElement>
+    <>
+      <GIBillHeaderInfo />
+      <span className="search-page">
+        <div className={searchPageClasses}>
+          <div className="column medium-screen:vads-u-padding-bottom--2 small-screen:vads-u-padding-bottom--0 vads-u-padding-x--0">
+            {!smallScreen && (
+              <SearchTabs onChange={tabChange} search={search} />
+            )}
+            {error && (
+              <div className="vads-u-padding-top--2">
+                <va-alert onClose={function noRefCheck() {}} status="warning">
+                  <h3 slot="headline">
+                    The GI Bill Comparison Tool isn’t working right now
+                  </h3>
+                  <div>
+                    We’re sorry. Something went wrong on our end. Please refresh
+                    this page or try searching again.
+                  </div>
+                </va-alert>
+              </div>
+            )}
+            {!error && !smallScreen && tabbedResults[tab]}
+            {!error &&
+              smallScreen && (
+                <div>
+                  <AccordionItem
+                    button="Search by name"
+                    expanded={accordions[TABS.name]}
+                    onClick={expanded => {
+                      accordionChange(TABS.name, expanded);
+                    }}
+                  >
+                    <NameSearchForm smallScreen />
+                  </AccordionItem>
+                  <AccordionItem
+                    button="Search by location"
+                    expanded={accordions[TABS.location]}
+                    onClick={expanded => {
+                      accordionChange(TABS.location, expanded);
+                    }}
+                  >
+                    <LocationSearchForm smallScreen />
+                  </AccordionItem>
+
+                  {!error && smallScreen && tabbedResults[tab]}
+                </div>
+              )}
+          </div>
+        </div>
+      </span>
+    </>
   );
 }
 
-SearchPage.defaultProps = {};
-
 const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
-  constants: state.constants.constants,
-  filters: state.filters,
-  search: state.search,
   eligibility: state.eligibility,
-  gibctSchoolRatings: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctSchoolRatings
-  ],
+  search: state.search,
+  preview: state.preview,
+  filters: state.filters,
 });
 
 const mapDispatchToProps = {
-  dispatchClearAutocompleteSuggestions: clearAutocompleteSuggestions,
-  dispatchFetchInstitutionAutocompleteSuggestions: fetchInstitutionAutocompleteSuggestions,
-  dispatchFetchInstitutionSearchResults: fetchInstitutionSearchResults,
-  dispatchInstitutionFilterChange: institutionFilterChange,
+  dispatchChangeSearchTab: changeSearchTab,
   dispatchSetPageTitle: setPageTitle,
-  dispatchToggleFilter: toggleFilter,
-  dispatchUpdateAutocompleteSearchTerm: updateAutocompleteSearchTerm,
-  dispatchEligibilityChange: eligibilityChange,
-  dispatchShowModal: showModal,
-  dispatchHideModal: hideModal,
 };
 
 export default connect(

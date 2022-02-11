@@ -10,6 +10,7 @@ import './wysiwyg-analytics-setup';
 import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
 import startAnnouncementWidget from './announcements';
 import startBanners from './banners';
+import startPromoBanners from './promoBanners';
 import startHeader from './header';
 import startMegaMenuWidget from './mega-menu';
 import startMobileMenuButton from './mobile-menu-button';
@@ -49,6 +50,7 @@ export default function startSitewideComponents(commonStore) {
   startMegaMenuWidget(window.VetsGov.headerFooter.megaMenuData, commonStore);
   startSideNav(window.sideNav, commonStore);
   startBanners();
+  startPromoBanners();
   startMobileMenuButton(commonStore);
   startVAFooter(window.VetsGov.headerFooter.footerData, commonStore);
   startHeader(commonStore, window.VetsGov.headerFooter.megaMenuData);

@@ -1,9 +1,11 @@
 import React from 'react';
-import { currency, calcDueDate } from '../utils/helpers';
+import recordEvent from 'platform/monitoring/record-event';
 import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+import PropTypes from 'prop-types';
+import { currency, calcDueDate, formatDate } from '../utils/helpers';
 
 const Alert = ({ children }) => children;
 
@@ -26,7 +28,7 @@ Alert.Error = () => (
         For questions about your payment or relief options,
       </strong>
       contact us at
-      <Telephone contact={'866-400-1238'} className="vads-u-margin-x--0p5" />
+      <Telephone contact="866-400-1238" className="vads-u-margin-x--0p5" />
       (TTY:
       <Telephone
         contact={CONTACTS[711]}
@@ -47,20 +49,92 @@ Alert.Error = () => (
   </va-alert>
 );
 
-Alert.Maintenance = () => (
-  <va-alert
-    class="row vads-u-margin-bottom--5"
-    status="info"
-    data-testid="maintenance-alert"
-  >
-    <h2 slot="headline" className="vads-u-font-size--h3">
-      Down for maintenance
-    </h2>
-    <p className="vads-u-font-size--base vads-u-font-family--sans">
-      We’re sorry it’s not working right now.
-    </p>
-  </va-alert>
-);
+Alert.PastDue = ({ copay }) => {
+  const statementDate = formatDate(copay?.pSStatementDate);
+
+  return (
+    <va-alert
+      class="row vads-u-margin-bottom--5"
+      status="info"
+      data-testid="past-due-balance-alert"
+    >
+      <h2 slot="headline" className="vads-u-font-size--h3">
+        Your balance may be overdue
+      </h2>
+      <p className="vads-u-font-size--base vads-u-font-family--sans">
+        Your balance on
+        <time dateTime={statementDate} className="vads-u-margin-x--0p5">
+          {statementDate}
+        </time>
+        was {currency(copay?.pHAmtDue)}. If you paid your full balance, you
+        don’t need to do anything else at this time.
+      </p>
+      <p>
+        <strong className="vads-u-margin-right--0p5">
+          If you haven’t either paid your full balance or requested financial
+          help,
+        </strong>
+        contact us at
+        <Telephone contact="866-400-1238" className="vads-u-margin-x--0p5" />
+        (TTY:
+        <Telephone
+          contact={CONTACTS[711]}
+          pattern={PATTERNS['3_DIGIT']}
+          className="vads-u-margin-left--0p5"
+        />
+        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      </p>
+    </va-alert>
+  );
+};
+
+Alert.PastDue.propTypes = {
+  copay: PropTypes.shape({
+    pSStatementDate: PropTypes.string,
+    pHAmtDue: PropTypes.number,
+  }),
+};
+
+Alert.ZeroBalance = ({ copay }) => {
+  const statementDate = formatDate(copay?.pSStatementDate);
+
+  return (
+    <va-alert
+      class="row vads-u-margin-bottom--5"
+      status="info"
+      data-testid="zero-balance-alert"
+    >
+      <h2 slot="headline" className="vads-u-font-size--h3">
+        You don’t need to make a payment at this time
+      </h2>
+      <p className="vads-u-font-size--base vads-u-font-family--sans">
+        Your balance is $0 and was updated on
+        <time dateTime={statementDate} className="vads-u-margin-x--0p5">
+          {statementDate}
+        </time>
+        . You can
+        <a href="#download-statements" className="vads-u-margin--0p5">
+          download your previous statements
+        </a>
+        below.
+      </p>
+      <p>
+        If you receive new charges, we’ll send you a statement in the mail and
+        update your balance. Learn more about
+        <a href="#balance-questions" className="vads-u-margin--0p5">
+          what to do if you have questions about your balance
+        </a>
+        .
+      </p>
+    </va-alert>
+  );
+};
+
+Alert.ZeroBalance.propTypes = {
+  copay: PropTypes.shape({
+    pSStatementDate: PropTypes.string,
+  }),
+};
 
 Alert.NoHealthcare = () => (
   <va-alert
@@ -72,7 +146,7 @@ Alert.NoHealthcare = () => (
       You’re not enrolled in VA health care
     </h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
-      You can’t view copay balances at this time because our records show that
+      You can’t check copay balances at this time because our records show that
       you’re not enrolled in VA health care.
       <a
         href="https://va.gov/health-care/how-to-apply/"
@@ -84,7 +158,7 @@ Alert.NoHealthcare = () => (
     </p>
     <p>
       If you think this is incorrect, call our toll-free hotline at
-      <Telephone contact={'877-222-8387'} className="vads-u-margin-x--0p5" />,
+      <Telephone contact="877-222-8387" className="vads-u-margin-left--0p5" />,
       Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </va-alert>
@@ -100,39 +174,19 @@ Alert.NoHistory = () => (
       You haven’t received a copay bill in the past 6 months
     </h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
-      You can’t view copay balances at this time because our records show that
+      You can’t check copay balances at this time because our records show that
       you haven’t received a copay bill in the past 6 months.
     </p>
     <p>
       If you think this is incorrect, contact the VA Health Resource Center at
-      <Telephone contact={'866-400-1238'} className="vads-u-margin-left--0p5" />
-      . (TTY:
+      <Telephone contact="866-400-1238" className="vads-u-margin-left--0p5" />.
+      (TTY:
       <Telephone
         contact={CONTACTS[711]}
         pattern={PATTERNS['3_DIGIT']}
         className="vads-u-margin-left--0p5"
       />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-    </p>
-  </va-alert>
-);
-
-Alert.Deceased = () => (
-  <va-alert
-    class="row vads-u-margin-bottom--5"
-    status="warning"
-    data-testid="deceased-alert"
-  >
-    <h2 slot="headline" className="vads-u-font-size--h3">
-      Our records show that this Veteran is deceased
-    </h2>
-    <p className="vads-u-font-size--base vads-u-font-family--sans">
-      We can’t show copay statements for this Veteran.
-    </p>
-    <p>
-      If this information is incorrect, please call Veterans Benefits Assistance
-      at <Telephone contact={'800-827-1000'} />, Monday through Friday, 8:00
-      a.m. to 9:00 p.m. ET.
     </p>
   </va-alert>
 );
@@ -157,7 +211,7 @@ Alert.Status = ({ copay }) => (
     </p>
     <p>
       <a className="vads-c-action-link--blue" href="#how-to-pay">
-        Learn how to pay your copay bill
+        Pay your copay bill
       </a>
     </p>
     <p>
@@ -171,25 +225,71 @@ Alert.Status = ({ copay }) => (
     <p>
       You may need to continue making payments while we review your request.
       Call us at
-      <Telephone contact={'866-400-1238'} className="vads-u-margin-x--0p5" />,
+      <Telephone contact="866-400-1238" className="vads-u-margin-left--0p5" />,
       Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </va-alert>
 );
 
-const RenderAlert = ({ type, copay }) => {
+Alert.Status.propTypes = {
+  copay: PropTypes.shape({
+    pSStatementDate: PropTypes.string,
+    pHAmtDue: PropTypes.number,
+  }),
+};
+
+const Alerts = ({ type, copay, error }) => {
   switch (type) {
-    case 'no-health-care':
-      return <Alert.NoHealthcare />;
-    case 'no-history':
-      return <Alert.NoHistory />;
-    case 'deceased':
-      return <Alert.Deceased />;
     case 'status':
       return <Alert.Status copay={copay} />;
+    case 'no-health-care':
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'warning',
+        'alert-box-heading': 'You’re not enrolled in VA health care',
+      });
+      return <Alert.NoHealthcare />;
+    case 'no-history':
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'info',
+        'alert-box-heading':
+          'You haven’t received a copay bill in the past 6 months',
+      });
+      return <Alert.NoHistory />;
+    case 'zero-balance':
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'info',
+        'alert-box-heading': 'You don’t need to make a payment at this time',
+      });
+      return <Alert.ZeroBalance copay={copay} />;
+    case 'past-due-balance':
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'info',
+        'alert-box-heading': 'Your balance may be overdue',
+      });
+      return <Alert.PastDue copay={copay} />;
     default:
+      recordEvent({
+        event: 'visible-alert-box',
+        'alert-box-type': 'error',
+        'alert-box-heading':
+          'We can’t access your current copay balances right now',
+        'error-key': error?.status || '',
+      });
       return <Alert.Error />;
   }
 };
 
-export default RenderAlert;
+Alerts.propTypes = {
+  copay: PropTypes.shape({
+    pSStatementDate: PropTypes.string,
+    pHAmtDue: PropTypes.number,
+  }),
+  error: PropTypes.string,
+  type: PropTypes.string,
+};
+
+export default Alerts;

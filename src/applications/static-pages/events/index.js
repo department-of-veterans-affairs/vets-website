@@ -2,25 +2,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+// Related imports.
+import App from './components/App';
 
 export default (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
+
   if (root) {
-    import(/* webpackChunkName: "ask-va" */
-    './components/App').then(module => {
-      const App = module.default;
+    // Derive the props to pass to the widget.
+    const pastEvents = window?.pastEvents?.entities || [];
+    const allEventTeasers = window?.allEventTeasers?.entities || [];
 
-      // Derive the props to pass to the widget.
-      const pastEvents = window?.pastEvents?.entities || [];
-      const allEventTeasers = window?.allEventTeasers?.entities || [];
-      const events = [...pastEvents, ...allEventTeasers];
+    const rawEvents = [...pastEvents, ...allEventTeasers]?.sort(
+      (event1, event2) =>
+        event1?.fieldDatetimeRangeTimezone?.value -
+        event2?.fieldDatetimeRangeTimezone?.value,
+    );
 
-      ReactDOM.render(
-        <Provider store={store}>
-          <App events={events} />
-        </Provider>,
-        root,
-      );
-    });
+    ReactDOM.render(
+      <Provider store={store}>
+        <App rawEvents={rawEvents} />
+      </Provider>,
+      root,
+    );
   }
 };

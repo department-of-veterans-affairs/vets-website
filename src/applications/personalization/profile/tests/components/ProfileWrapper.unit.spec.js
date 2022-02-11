@@ -16,23 +16,6 @@ describe('ProfileWrapper', () => {
     </MemoryRouter>
   );
 
-  it('should render the correct breadcrumb (Personal and contact Information)', () => {
-    const initialState = {
-      vaProfile: {
-        hero: {
-          userFullName: {
-            first: 'Test',
-            last: 'Test',
-          },
-        },
-      },
-    };
-    const { getByTestId } = render(uiLOA3, { initialState });
-    const breadcrumbs = getByTestId('breadcrumbs');
-    expect(breadcrumbs.textContent.match(/Personal and contact information/i))
-      .not.to.be.null;
-  });
-
   it('should render NameTag when the full name of the user was fetched)', () => {
     const initialState = {
       vaProfile: {

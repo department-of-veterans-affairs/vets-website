@@ -3,21 +3,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
+import Events from '../Events';
 import { hideLegacyEvents, showLegacyEvents } from '../../helpers';
 
-export const App = ({ showEventsV2 }) => {
+export const App = ({ rawEvents, showEventsV2 }) => {
   // If the feature toggle is disabled, do not render.
   if (!showEventsV2) {
+    // Ensure the legacy liquid page has display: flex.
     showLegacyEvents();
+
+    // Escape early and do not render.
     return null;
   }
 
+  // Ensure the legacy liquid page has display: none.
   hideLegacyEvents();
-  return <h1>Events v2</h1>;
+
+  // Show the events listing page v2.
+  return <Events rawEvents={rawEvents} />;
 };
 
 App.propTypes = {
-  events: PropTypes.arrayOf(
+  rawEvents: PropTypes.arrayOf(
     PropTypes.shape({
       entityUrl: PropTypes.shape({
         path: PropTypes.string,
@@ -35,7 +42,7 @@ App.propTypes = {
     }),
   ).isRequired,
   // From mapStateToProps.
-  showEventsV2: PropTypes.bool.isRequired,
+  showEventsV2: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

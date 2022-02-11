@@ -10,7 +10,6 @@ export const instructionalPart3Description = (
       after they’ve completed their sections.
     </p>
     {claimsIntakeAddress}
-    <p>Or fax them toll-free: 844-531-7818</p>
     <img src="/img/part3-image.png" alt="Box 2" />
   </div>
 );

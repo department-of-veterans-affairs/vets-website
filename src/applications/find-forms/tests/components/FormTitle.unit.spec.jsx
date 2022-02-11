@@ -14,6 +14,7 @@ describe('Find VA Forms <FormTitle />', () => {
     title: 'Information for Pre-Complaint Processing',
     language: 'en',
     recordGAEvent: sinon.stub(),
+    formName: 'VA10192',
   };
 
   it('should expect props', () => {
@@ -24,6 +25,7 @@ describe('Find VA Forms <FormTitle />', () => {
         recordGAEvent={props.recordGAEvent}
         lang={props.language}
         title={props.title}
+        formName={props.formName}
       />,
     );
 
@@ -41,6 +43,7 @@ describe('Find VA Forms <FormTitle />', () => {
     const tree = mount(
       <FormTitle
         id={props.id}
+        formName={props.formName}
         formUrl={props.formDetailsUrl}
         title={props.title}
       />,
@@ -49,7 +52,7 @@ describe('Find VA Forms <FormTitle />', () => {
 
     // expecting result node tree text to include the following
     expect(treeText).to.include(props.title);
-    expect(treeText).to.include(props.id);
+    expect(treeText).to.include(props.formName);
     tree.unmount();
   });
 

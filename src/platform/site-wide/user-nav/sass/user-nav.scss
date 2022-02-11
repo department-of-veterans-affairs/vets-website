@@ -37,9 +37,11 @@ span.sidelines {
   .va-modal-body {
     // Overwrite white header color.
     color: $color-gray-dark;
-    padding: 0;
+    padding-top: 0;
     margin-right: 0;
+  }
 
+  &.new-modal-design .va-modal-body {
     @include media($medium-screen) {
       padding: 0 9em;
     }
@@ -321,7 +323,7 @@ span.sidelines {
 #create-account a {
   border-top: 1px solid $color-gray-light;
   border-bottom: 1px solid $color-gray-light;
-  padding-bottom: 1.16em;
+  line-height: 100%;
 
   &.logingov {
     border-bottom: 0;

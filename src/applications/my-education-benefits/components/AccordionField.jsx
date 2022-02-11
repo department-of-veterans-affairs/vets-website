@@ -160,7 +160,7 @@ export default class AccordionField extends React.Component {
       throw new Error(`Data Type ${dataType} not supported.`);
     }
 
-    const { formData } = this.props;
+    const { formData, formContext } = this.props;
 
     if (!formData || !formData.length) {
       return <p>No service history was found.</p>;
@@ -181,17 +181,33 @@ export default class AccordionField extends React.Component {
     const ViewField = uiOptions.viewField;
     let vaAccordionItemKeyId = 0;
 
+    if (formContext?.onReviewPage) {
+      return (
+        <>
+          {items.map(item => {
+            return (
+              <ViewField
+                key={`${this.id}-${vaAccordionItemKeyId++}`}
+                formData={item}
+              />
+            );
+          })}
+        </>
+      );
+    }
     return (
       <>
         {this.getDescription()}
 
-        <button
-          className="accordion-toggle-button"
-          onClick={this.toggleAllButtons}
-          type="button"
-        >
-          {this.state.collapseAll ? 'Collapse all' : 'Expand all'}
-        </button>
+        {!formContext?.onReviewPage && (
+          <button
+            className="accordion-toggle-button"
+            onClick={this.toggleAllButtons}
+            type="button"
+          >
+            {this.state.collapseAll ? 'Collapse all' : 'Expand all'}
+          </button>
+        )}
 
         <va-accordion bordered id={this.id}>
           {items.map(item => {

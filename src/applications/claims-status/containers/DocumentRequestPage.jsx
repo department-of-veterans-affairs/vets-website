@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import DueDate from '../components/DueDate';
 import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Notification from '../components/Notification';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { setPageFocus, setUpPage } from '../utils/page';
@@ -18,7 +17,6 @@ import {
   submitFiles,
   resetUploads,
   updateField,
-  showMailOrFaxModal,
   cancelUpload,
   getClaimDetail,
   setFieldsDirty,
@@ -79,8 +77,8 @@ class DocumentRequestPage extends React.Component {
 
     if (this.props.loading) {
       content = (
-        <LoadingIndicator
-          setFocus
+        <va-loading-indicator
+          set-focus
           message="Loading your claim information..."
         />
       );
@@ -117,7 +115,6 @@ class DocumentRequestPage extends React.Component {
             progress={this.props.progress}
             uploading={this.props.uploading}
             files={this.props.files}
-            showMailOrFax={this.props.showMailOrFax}
             backUrl={this.props.lastPage || filesPath}
             onSubmit={() =>
               this.props.submitFiles(
@@ -129,13 +126,24 @@ class DocumentRequestPage extends React.Component {
             onAddFile={this.props.addFile}
             onRemoveFile={this.props.removeFile}
             onFieldChange={this.props.updateField}
-            onShowMailOrFax={this.props.showMailOrFaxModal}
             onCancel={this.props.cancelUpload}
             onDirtyFields={this.props.setFieldsDirty}
           />
         </>
       );
     }
+
+    const docRequest = this.props.loading ? (
+      <span>Document request</span>
+    ) : (
+      <Link
+        to={`your-claims/${this.props.params.id}/document-request/${
+          trackedItem.id
+        }`}
+      >
+        Document request
+      </Link>
+    );
 
     return (
       <div>
@@ -145,17 +153,7 @@ class DocumentRequestPage extends React.Component {
             <div className="vads-l-col--12">
               <ClaimsBreadcrumbs>
                 <Link to={filesPath}>Status details</Link>
-                <Link
-                  to={
-                    !this.props.loading
-                      ? `your-claims/${this.props.params.id}/document-request/${
-                          trackedItem.id
-                        }`
-                      : ''
-                  }
-                >
-                  Document request
-                </Link>
+                {docRequest}
               </ClaimsBreadcrumbs>
             </div>
           </div>
@@ -192,7 +190,6 @@ function mapStateToProps(state, ownProps) {
     uploadError: claimsState.uploads.uploadError,
     uploadComplete: claimsState.uploads.uploadComplete,
     uploadField: claimsState.uploads.uploadField,
-    showMailOrFax: claimsState.uploads.showMailOrFax,
     lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.message,
   };
@@ -203,7 +200,6 @@ const mapDispatchToProps = {
   removeFile,
   submitFiles,
   updateField,
-  showMailOrFaxModal,
   cancelUpload,
   getClaimDetail,
   setFieldsDirty,

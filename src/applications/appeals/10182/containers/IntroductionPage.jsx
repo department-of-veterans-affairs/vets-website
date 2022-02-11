@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
@@ -24,7 +24,8 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
-    const { formConfig, pageList } = this.props.route;
+    const { route } = this.props;
+    const { formConfig, pageList } = route;
     const { formId, prefillEnabled, savedFormMessages, downtime } = formConfig;
     const sipOptions = {
       useActionLinks: true,
@@ -52,7 +53,7 @@ class IntroductionPage extends React.Component {
         <h2 id="main-content" className="vads-u-font-size--h3">
           Follow these steps to request a Board Appeal
         </h2>
-        <AdditionalInfo triggerText="Find out about opting in if you have an older claim">
+        <va-additional-info trigger="Find out about opting in if you have an older claim">
           <p>
             If you’re requesting a Board Appeal on an issue in a claim we
             decided before February 19, 2019, you’ll need to opt in to the new
@@ -64,7 +65,7 @@ class IntroductionPage extends React.Component {
             Our new decision review process is part of the Appeals Modernization
             Act. When you opt in, you’re likely to get a faster decision.
           </p>
-        </AdditionalInfo>
+        </va-additional-info>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
@@ -106,7 +107,7 @@ class IntroductionPage extends React.Component {
                 We’ll take you through each step of the process. It should take
                 about 30 minutes.
               </p>
-              <AdditionalInfo triggerText="What happens after you apply">
+              <va-additional-info trigger="What happens after you apply">
                 <p>
                   After you submit your request for a Board Appeal, you’ll get a
                   confirmation message. You can print this for your records.
@@ -119,7 +120,7 @@ class IntroductionPage extends React.Component {
                     Read about the 3 Board Appeal options
                   </a>
                 </p>
-              </AdditionalInfo>
+              </va-additional-info>
             </li>
           </ol>
         </div>
@@ -144,5 +145,19 @@ class IntroductionPage extends React.Component {
     );
   }
 }
+
+IntroductionPage.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      formId: PropTypes.string,
+      title: PropTypes.string,
+      subTitle: PropTypes.string,
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.shape({}),
+      downtime: PropTypes.shape({}),
+    }),
+    pageList: PropTypes.string,
+  }),
+};
 
 export default IntroductionPage;

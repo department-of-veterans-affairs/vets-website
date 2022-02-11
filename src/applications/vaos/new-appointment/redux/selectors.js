@@ -19,7 +19,6 @@ import {
 import { getSiteIdFromFacilityId } from '../../services/location';
 import {
   selectHasVAPResidentialAddress,
-  selectFeatureCCIterations,
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
   selectRegisteredCernerFacilityIds,
@@ -47,12 +46,10 @@ export function getAppointmentLength(state) {
 }
 
 export function getFormPageInfo(state, pageKey) {
-  const showCCIterations = selectFeatureCCIterations(state);
   return {
     schema: getNewAppointment(state).pages[pageKey],
     data: getFormData(state),
     pageChangeInProgress: getNewAppointment(state).pageChangeInProgress,
-    showCCIterations,
   };
 }
 
@@ -95,7 +92,7 @@ export function getCCEType(state) {
 
 export function getTypeOfCareFacilities(state) {
   const data = getFormData(state);
-  const facilities = getNewAppointment(state).facilities;
+  const { facilities } = getNewAppointment(state);
   const typeOfCareId = getTypeOfCare(data)?.id;
 
   return facilities[`${typeOfCareId}`];
@@ -114,7 +111,7 @@ export function selectCommunityCareSupportedSites(state) {
 }
 
 export function getChosenCCSystemById(state) {
-  const communityCareSystemId = getFormData(state).communityCareSystemId;
+  const { communityCareSystemId } = getFormData(state);
 
   if (!communityCareSystemId) {
     return null;
@@ -146,7 +143,7 @@ export function getPreferredDate(state, pageKey) {
 }
 
 export function getChosenSlot(state) {
-  const availableSlots = getNewAppointment(state).availableSlots;
+  const { availableSlots } = getNewAppointment(state);
   const selectedTime = getFormData(state).selectedDates?.[0];
 
   return availableSlots?.find(slot => slot.start === selectedTime);
@@ -154,10 +151,10 @@ export function getChosenSlot(state) {
 
 export function getDateTimeSelect(state, pageKey) {
   const newAppointment = getNewAppointment(state);
-  const appointmentSlotsStatus = newAppointment.appointmentSlotsStatus;
+  const { appointmentSlotsStatus } = newAppointment;
   const data = getFormData(state);
   const formInfo = getFormPageInfo(state, pageKey);
-  const availableSlots = newAppointment.availableSlots;
+  const { availableSlots } = newAppointment;
   const eligibilityStatus = selectEligibility(state);
 
   const timezoneDescription = getTimezoneDescByFacilityId(data.vaFacility);
@@ -200,7 +197,6 @@ export function selectCernerOrgIds(state) {
 }
 
 export function selectProviderSelectionInfo(state) {
-  const showCCIterations = selectFeatureCCIterations(state);
   const {
     communityCareProviders,
     data,
@@ -232,7 +228,6 @@ export function selectProviderSelectionInfo(state) {
     requestLocationStatus,
     requestStatus,
     selectedCCFacility,
-    showCCIterations,
     sortMethod: updatedSortMethod,
     typeOfCareName: typeOfCare.name,
   };
@@ -301,7 +296,7 @@ export function getFacilityPageV2Info(state) {
 
 export function getChosenClinicInfo(state) {
   const data = getFormData(state);
-  const clinics = getNewAppointment(state).clinics;
+  const { clinics } = getNewAppointment(state);
   const typeOfCareId = getTypeOfCare(data)?.id;
   return (
     clinics[`${data.vaFacility}_${typeOfCareId}`]?.find(
@@ -312,7 +307,7 @@ export function getChosenClinicInfo(state) {
 
 export function getClinicsForChosenFacility(state) {
   const data = getFormData(state);
-  const clinics = getNewAppointment(state).clinics;
+  const { clinics } = getNewAppointment(state);
   const typeOfCareId = getTypeOfCare(data)?.id;
 
   return clinics[`${data.vaFacility}_${typeOfCareId}`] || null;
@@ -324,6 +319,10 @@ export function selectPastAppointments(state) {
 
 export function selectTypeOfCare(state) {
   return getTypeOfCare(getFormData(state));
+}
+
+export function selectIsNewAppointmentStarted(state) {
+  return getNewAppointment(state)?.isNewAppointmentStarted;
 }
 
 export function selectChosenFacilityInfo(state) {

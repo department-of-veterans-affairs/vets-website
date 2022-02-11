@@ -109,7 +109,7 @@ const ClaimsAndAppeals = ({
   if (highlightedClaimOrAppeal || openClaimsOrAppealsCount > 0) {
     return (
       <div data-testid="dashboard-section-claims-and-appeals">
-        <h2>Claims & appeals</h2>
+        <h2>Claims and appeals</h2>
         <div className="vads-l-row">
           <DashboardWidgetWrapper>
             <HighlightedClaimAppeal
@@ -118,6 +118,7 @@ const ClaimsAndAppeals = ({
             />
             {!highlightedClaimOrAppeal ? (
               <div className="vads-u-margin-top--2p5">
+                <span className="sr-only">Claims and Appeals Links</span>
                 <ClaimsAndAppealsCTA />
               </div>
             ) : null}
@@ -125,6 +126,7 @@ const ClaimsAndAppeals = ({
           {highlightedClaimOrAppeal ? (
             <DashboardWidgetWrapper>
               <div className="vads-u-margin-top--2p5 small-desktop-screen:vads-u-margin-top--0">
+                <span className="sr-only">Claims and Appeals Links</span>
                 <ClaimsAndAppealsCTA />
               </div>
             </DashboardWidgetWrapper>
@@ -132,9 +134,8 @@ const ClaimsAndAppeals = ({
         </div>
       </div>
     );
-  } else {
-    return null;
   }
+  return null;
 };
 
 const isClaimsAvailableSelector = createIsServiceAvailableSelector(
@@ -158,8 +159,8 @@ const hasAppealsErrorSelector = state => {
 const mapStateToProps = state => {
   const claimsState = state.disability.status;
   const claimsV2Root = claimsState.claimsV2;
-  const appealsLoading = claimsV2Root.appealsLoading;
-  const claimsLoading = claimsV2Root.claimsLoading;
+  const { appealsLoading } = claimsV2Root;
+  const { claimsLoading } = claimsV2Root;
   const hasAppealsError = hasAppealsErrorSelector(state);
   const hasClaimsError =
     claimsV2Root.claimsAvailability === claimsAvailability.UNAVAILABLE;

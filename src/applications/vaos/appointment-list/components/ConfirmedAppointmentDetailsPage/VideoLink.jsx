@@ -25,7 +25,7 @@ export default function VideoLink({ appointment }) {
           className="vads-u-display--block"
         >
           You can join this meeting from your home or anywhere you have a secure
-          Internet connnection.
+          Internet connection.
           <br />
           You can join VA Video Connect up to 30 minutes prior to the start
           time.

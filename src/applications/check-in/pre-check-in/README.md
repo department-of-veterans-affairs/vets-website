@@ -28,13 +28,14 @@ The goal one day is to merge the two applications together.
 ### Project URLS
 
 ``` markdown
-/health-care/appointment-check-in/?id=xxxxxx
-/health-care/appointment-check-in/verify
-/health-care/appointment-check-in/contact-information
-/health-care/appointment-check-in/next-of-kin
-/health-care/appointment-check-in/see-staff
-/health-care/appointment-check-in/complete
-/health-care/appointment-check-in/error
+/health-care/appointment-pre-check-in/
+/health-care/appointment-pre-check-in/verify
+/health-care/appointment-pre-check-in/contact-information
+/health-care/appointment-pre-check-in/next-of-kin
+/health-care/appointment-pre-check-in/see-staff
+/health-care/appointment-pre-check-in/complete
+/health-care/appointment-pre-check-in/introduction
+/health-care/appointment-pre-check-in/error
 ```
 
 ### What version of the api are we using?
@@ -84,10 +85,14 @@ To share an app instance using the mock API running on Codespaces publicly, use 
 
 We are currently using an HOC located at `src/applications/pre-check-in/containers/withFeatureFlip.jsx` to control the feature flips. The whole app is wrapped around one, and each new feature should have its own toggle.
 
+Though we have the HOC, its now considered best practice to query redux using the useSelector hook.
+
 #### Current toggles
 
 - `check_in_experience_pre_check_in_enabled` : Enables or disabled the whole app on va.gov
   - when to sunset: never;
+- `check_in_experience_editing_pre_check_in_enabled` : Enables or disabled editing the demographics information on the pre-check-in experience
+  - when to sunset: once we have successfully tested this feature in production with users
 
 ### How to test this?
 

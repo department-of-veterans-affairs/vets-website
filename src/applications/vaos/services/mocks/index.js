@@ -176,6 +176,7 @@ const responses = {
         attributes: {
           ...requestAttributes,
           status: 'Cancelled',
+          appointmentRequestDetailCode: [{ detailCode: { code: 'DETCODE8' } }],
         },
       },
     });
@@ -288,8 +289,8 @@ const responses = {
 
     if (
       isDirect &&
-      (req.query.facility_id.startsWith('984') &&
-        req.query.clinical_service_id !== 'primaryCare')
+      req.query.facility_id.startsWith('984') &&
+      req.query.clinical_service_id !== 'primaryCare'
     ) {
       ineligibilityReasons.push({
         coding: [
@@ -315,7 +316,10 @@ const responses = {
           type: req.query.type,
           clinicalServiceId: req.query.clinical_service_id,
           eligible: ineligibilityReasons.length === 0,
-          ineligibilityReasons,
+          ineligibilityReasons:
+            ineligibilityReasons.length === 0
+              ? undefined
+              : ineligibilityReasons,
         },
       },
     });
@@ -418,7 +422,8 @@ const responses = {
         { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
-        { name: 'vaOnlineSchedulingCCIterations', value: true },
+        { name: 'vaOnlineSchedulingPocHealthApt', value: true },
+        { name: 'vaOnlineSchedulingStatusImprovement', value: true },
         { name: 'ssoe', value: true },
         { name: 'ssoe_inbound', value: false },
         { name: 'ssoe_ebenefits_links', value: false },

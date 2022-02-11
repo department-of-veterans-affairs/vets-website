@@ -393,22 +393,9 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
       status: 'booked',
       locationId: '983',
       clinic: '455',
-      serviceType: 'primaryCare',
       comment: 'Follow-up/Routine: I need an appt',
       extension: {
-        desiredDate: '2021-05-06',
-      },
-      contact: {
-        telecom: [
-          {
-            type: 'phone',
-            value: '2234567890',
-          },
-          {
-            type: 'email',
-            value: 'joeblow@gmail.com',
-          },
-        ],
+        desiredDate: '2021-05-06T00:00:00+00:00',
       },
       slot: store.getState().newAppointment.availableSlots[0],
     });

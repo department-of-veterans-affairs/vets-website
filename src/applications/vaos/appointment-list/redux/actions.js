@@ -91,6 +91,7 @@ export const FETCH_FACILITY_SETTINGS_FAILED =
   'vaos/FETCH_FACILITY_SETTINGS_FAILED';
 export const FETCH_FACILITY_SETTINGS_SUCCEEDED =
   'vaos/FETCH_FACILITY_SETTINGS_SUCCEEDED';
+export const UPDATE_BREADCRUMB = 'vaos/UPDATE_BREADCRUMB';
 
 export function fetchRequestMessages(requestId) {
   return async dispatch => {
@@ -515,7 +516,9 @@ export function fetchRequestDetails(id) {
       }
       if (featureVAOSServiceRequests && request.practitioners?.length) {
         request.preferredCommunityCareProviders = [
-          await getCommunityProvider(request.practitioners[0].identifier.value),
+          await getCommunityProvider(
+            request.practitioners[0].identifier[0].value,
+          ),
         ];
       }
 
@@ -527,7 +530,7 @@ export function fetchRequestDetails(id) {
       });
 
       if (!featureVAOSServiceRequests) {
-        const requestMessages = state.appointments.requestMessages;
+        const { requestMessages } = state.appointments;
         const messages = requestMessages?.[id];
 
         if (!messages) {
@@ -593,7 +596,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
             locationId: appointment.location.stationId,
             id: appointment.location.clinicId,
           });
-          appointment.location.clinicName = clinic.serviceName;
+          appointment.location.clinicName = clinic?.serviceName;
         } catch (e) {
           // We don't want to show an overall error on this page just
           // because we don't have a clinic name, so capture the error and continue
@@ -727,5 +730,11 @@ export function fetchFacilitySettings() {
 
       captureError(e, false);
     }
+  };
+}
+
+export function updateBreadcrumb(breadcrumb) {
+  return async (dispatch, _getState) => {
+    dispatch({ type: UPDATE_BREADCRUMB, breadcrumb });
   };
 }

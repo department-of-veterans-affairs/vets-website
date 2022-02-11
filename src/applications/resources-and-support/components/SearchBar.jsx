@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
 import resourcesSettings from '../manifest.json';
-import searchSettings from 'applications/search/manifest.json';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
+
+const searchUrl = getAppUrl('search');
 
 export default function SearchBar({
   onInputChange,
@@ -75,9 +77,7 @@ export default function SearchBar({
         {/* Search form */}
         <form
           action={
-            isGlobalSearch
-              ? `${searchSettings.rootUrl}/`
-              : `${resourcesSettings.rootUrl}/`
+            isGlobalSearch ? `${searchUrl}/` : `${resourcesSettings.rootUrl}/`
           }
           className={`${
             expanded ? 'va-border-bottom-radius--5px ' : 'vads-u-display--none '
@@ -93,7 +93,7 @@ export default function SearchBar({
           >
             <fieldset className="fieldset-input vads-u-margin--0">
               <legend>
-                <h2 className="vads-u-font-size--md vads-u-font-family--serif vads-u-margin--0">
+                <h2 className="vads-u-font-size--base vads-u-font-family--serif vads-u-margin--0">
                   Search resources and support articles or all of VA.gov
                 </h2>
               </legend>
@@ -113,6 +113,7 @@ export default function SearchBar({
                     }}
                     type="radio"
                     value="/resources/search"
+                    className="vads-u-color--gray-dark"
                   />
                   <label htmlFor="search-within-resources-and-support">
                     <span className="vads-u-visibility--screen-reader">
@@ -127,6 +128,7 @@ export default function SearchBar({
                     id="search-all-of-va-dot-gov"
                     onChange={event => setGlobalSearch(event.target.checked)}
                     type="radio"
+                    className="vads-u-color--gray-dark"
                   />
                   <label htmlFor="search-all-of-va-dot-gov">
                     <span className="vads-u-visibility--screen-reader">
@@ -146,7 +148,7 @@ export default function SearchBar({
             <div className="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
               <div className="vads-u-flex--1 vads-u-width--auto">
                 <input
-                  className="usa-input vads-u-max-width--100 vads-u-width--full vads-u-height--full vads-u-margin--0"
+                  className="usa-input vads-u-max-width--100 vads-u-width--full vads-u-height--full vads-u-margin--0 vads-u-color--gray-dark"
                   id="resources-and-support-query"
                   name="query"
                   onChange={event => onInputChange(event.target.value)}

@@ -57,7 +57,7 @@ export default function CrisisPanel() {
               />
               <a
                 className="no-external-icon"
-                href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat"
+                href="https://www.veteranscrisisline.net/get-help-now/chat/"
               >
                 Start a confidential chat
               </a>
@@ -67,10 +67,12 @@ export default function CrisisPanel() {
                 className="fa fa-deaf va-crisis-panel-icon"
                 aria-hidden="true"
               />
-              Call TTY if you have hearing loss
-              <strong className="vads-u-margin-left--0p5">
-                <Telephone contact={CONTACTS.SUICIDE_PREVENTION_LIFELINE} />
-              </strong>
+              <p>
+                Call TTY if you have hearing loss
+                <strong className="vads-u-margin-left--0p5">
+                  <Telephone contact={CONTACTS.SUICIDE_PREVENTION_LIFELINE} />
+                </strong>
+              </p>
             </li>
           </ul>
           Get more resources at{' '}

@@ -441,7 +441,7 @@
       "deductions": [
         {
           "name": "Federal tax",
-          "amount": "350.5643534"
+          "amount": "350.56"
         },
         {
           "name": "State tax",
@@ -467,7 +467,7 @@
       "deductions": [
         {
           "name": "Federal tax",
-          "amount": "200.0254334"
+          "amount": "200.02"
         },
         {
           "name": "Allotment",
@@ -491,11 +491,11 @@
       "deductions": [
         {
           "name": "Federal tax",
-          "amount": "325.54432"
+          "amount": "325.54"
         },
         {
           "name": "Health insurance",
-          "amount": "250.344324"
+          "amount": "250.34"
         },
         {
           "name": "Garnishment",

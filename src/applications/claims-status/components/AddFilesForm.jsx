@@ -11,12 +11,16 @@ import TextInput from '@department-of-veterans-affairs/component-library/TextInp
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
-import recordEvent from 'platform/monitoring/record-event';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { checkForEncryptedPdf } from 'platform/forms-system/src/js/utilities/file';
+import {
+  readAndCheckFile,
+  checkTypeAndExtensionMatches,
+  checkIsEncryptedPdf,
+  FILE_TYPE_MISMATCH_ERROR,
+} from 'platform/forms-system/src/js/utilities/file';
 
 import UploadStatus from './UploadStatus';
-import MailOrFax from './MailOrFax';
+import mailMessage from './MailMessage';
 import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
 import { getScrollOptions } from 'platform/utilities/ui';
 import {
@@ -69,26 +73,36 @@ class AddFilesForm extends React.Component {
       : 'Please select a file first';
   };
 
-  isFileEncrypted = async file =>
-    checkForEncryptedPdf(file)
-      .then(isEncrypted => isEncrypted)
-      // This _should_ only happen if a file is deleted after the user selects
-      // it for upload
-      .catch(() => false);
-
   add = async files => {
     const file = files[0];
-    const { requestLockedPdfPassword, onAddFile, pdfSizeFeature } = this.props;
+    const {
+      requestLockedPdfPassword,
+      onAddFile,
+      pdfSizeFeature,
+      mockReadAndCheckFile,
+    } = this.props;
     const extraData = {};
     const hasPdfSizeLimit = isPdf(file) && pdfSizeFeature;
 
     if (isValidFile(file, pdfSizeFeature)) {
       // Check if the file is an encrypted PDF
+      const checks = { checkTypeAndExtensionMatches, checkIsEncryptedPdf };
+      const checkResults = mockReadAndCheckFile
+        ? mockReadAndCheckFile()
+        : await readAndCheckFile(file, checks);
+
+      if (!checkResults.checkTypeAndExtensionMatches) {
+        this.setState({
+          errorMessage: FILE_TYPE_MISMATCH_ERROR,
+        });
+        return;
+      }
+
       if (
         requestLockedPdfPassword && // feature flag
         file.name?.toLowerCase().endsWith('pdf')
       ) {
-        extraData.isEncrypted = await this.isFileEncrypted(file);
+        extraData.isEncrypted = checkResults.checkIsEncryptedPdf;
       }
 
       this.setState({ errorMessage: null });
@@ -148,19 +162,9 @@ class AddFilesForm extends React.Component {
       <div>
         <div>
           <p>
-            <a
-              href="#"
-              onClick={evt => {
-                evt.preventDefault();
-                recordEvent({
-                  event: 'claims-mailfax-modal',
-                });
-                this.props.onShowMailOrFax(true);
-              }}
-            >
-              Need to mail or fax your files
-            </a>
-            ?
+            <va-additional-info trigger="Need to mail your files?">
+              {mailMessage}
+            </va-additional-info>
           </p>
         </div>
         <Element name="filesList" />
@@ -307,16 +311,6 @@ class AddFilesForm extends React.Component {
             />
           }
         />
-        <Modal
-          onClose={() => true}
-          visible={this.props.showMailOrFax}
-          hideCloseButton
-          focusSelector="button"
-          cssClass=""
-          contents={
-            <MailOrFax onClose={() => this.props.onShowMailOrFax(false)} />
-          }
-        />
       </div>
     );
   }
@@ -326,7 +320,6 @@ AddFilesForm.propTypes = {
   files: PropTypes.array.isRequired,
   field: PropTypes.object.isRequired,
   uploading: PropTypes.bool,
-  showMailOrFax: PropTypes.bool,
   backUrl: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
   onAddFile: PropTypes.func.isRequired,

@@ -107,7 +107,7 @@ describe('The My VA Dashboard', () => {
     loa1DashboardTest(false, stubs);
   });
 
-  it('should handle LOA1 users at mobile phone size', () => {
+  it.skip('should handle LOA1 users at mobile phone size', () => {
     loa1DashboardTest(true, stubs);
   });
 });
@@ -116,8 +116,8 @@ describe('When clicking on the verify your identity link', () => {
   it('should focus on the h1 element', () => {
     cy.login(loa1User);
     cy.visit(manifest.rootUrl);
-    cy.findByRole('link', { name: /verify your identity/i })
-      .should('exist')
+    cy.findByRole('link', { name: 'Verify your identity' })
+      .should('have.attr', 'href', '/verify')
       .click();
     cy.get('h1').should('be.focused');
   });

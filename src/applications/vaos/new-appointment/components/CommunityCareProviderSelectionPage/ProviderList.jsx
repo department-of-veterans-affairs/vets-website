@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import recordEvent from 'platform/monitoring/record-event';
 import {
   FETCH_STATUS,
@@ -11,7 +11,6 @@ import { selectProviderSelectionInfo } from '../../redux/selectors';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import LoadProvidersErrorAlert from './LoadProvidersErrorAlert';
 import NoProvidersAlert from './NoProvidersAlert';
-import ProviderSort from './ProviderSort';
 import ProviderSortVariant from './ProviderSortVariant';
 
 export default function ProviderList({
@@ -26,11 +25,9 @@ export default function ProviderList({
   showProvidersList,
 }) {
   const {
-    address,
     communityCareProviderList,
     requestLocationStatus,
     requestStatus,
-    showCCIterations,
     sortMethod,
     typeOfCareName,
   } = useSelector(selectProviderSelectionInfo, shallowEqual);
@@ -83,17 +80,13 @@ export default function ProviderList({
     providersListLength,
   );
   const notLoading = !loadingProviders && !loadingLocations;
-  const sortByDistanceFromResidential =
-    !sortMethod || sortMethod === FACILITY_SORT_METHODS.distanceFromResidential;
 
   const sortByDistanceFromCurrentLocation =
     sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation;
-  const ccIterationRequestingLocationFailed =
-    requestLocationStatus === FETCH_STATUS.failed && showCCIterations;
+  const requestingLocationFailed =
+    requestLocationStatus === FETCH_STATUS.failed;
   const displayProviderList =
-    notLoading &&
-    !!currentlyShownProvidersList &&
-    !ccIterationRequestingLocationFailed;
+    notLoading && !!currentlyShownProvidersList && !requestingLocationFailed;
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--2 medium-screen:vads-u-padding--3">
       <h2
@@ -102,32 +95,19 @@ export default function ProviderList({
       >
         Choose a provider
       </h2>
-      {showCCIterations && (
-        <ProviderSortVariant
-          currentlyShownProvidersList={currentlyShownProvidersList}
-          notLoading={notLoading}
-        />
-      )}
-      {!showCCIterations && (
-        <ProviderSort
-          address={address}
-          loadingLocations={loadingLocations}
-          notLoading={notLoading}
-          requestLocationStatus={requestLocationStatus}
-          requestStatus={requestStatus}
-          sortByDistanceFromCurrentLocation={sortByDistanceFromCurrentLocation}
-          sortByDistanceFromResidential={sortByDistanceFromResidential}
-        />
-      )}
+      <ProviderSortVariant
+        currentlyShownProvidersList={currentlyShownProvidersList}
+        notLoading={notLoading}
+      />
       {loadingProviders &&
         !loadingLocations && (
           <div className="vads-u-padding-bottom--2">
-            <LoadingIndicator message="Loading the list of providers." />
+            <va-loading-indicator message="Loading the list of providers." />
           </div>
         )}
       {loadingLocations && (
         <div className="vads-u-padding-bottom--2">
-          <LoadingIndicator message="Finding your location. Be sure to allow your browser to find your current location." />
+          <va-loading-indicator message="Finding your location. Be sure to allow your browser to find your current location." />
         </div>
       )}
       {requestLocationFailed && (
@@ -145,17 +125,6 @@ export default function ProviderList({
           )}
           {currentlyShownProvidersList.length > 0 && (
             <>
-              {!showCCIterations && (
-                <p
-                  id="provider-list-status"
-                  role="status"
-                  aria-live="polite"
-                  aria-atomic="true"
-                >
-                  Displaying 1 to {currentlyShownProvidersList.length} of{' '}
-                  {communityCareProviderList.length} providers
-                </p>
-              )}
               {currentlyShownProvidersList.map((provider, providerIndex) => {
                 const { name } = provider;
                 const checked = provider.id === checkedProvider;

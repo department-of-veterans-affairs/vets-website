@@ -303,8 +303,6 @@ describe('getCalculatedBenefits', () => {
     expect(outputs.perTerm.tuitionFees.terms[2].visible).to.be.false;
     expect(outputs.perTerm.housingAllowance.terms[1].visible).to.be.false;
     expect(outputs.perTerm.housingAllowance.terms[2].visible).to.be.false;
-    expect(outputs.perTerm.bookStipend.terms[1].visible).to.be.false;
-    expect(outputs.perTerm.bookStipend.terms[2].visible).to.be.false;
     expect(outputs.perTerm.yellowRibbon.terms[2].visible).to.be.false;
     expect(outputs.perTerm.yellowRibbon.terms[3].visible).to.be.false;
     expect(outputs.perTerm.yellowRibbon.terms[4].visible).to.be.false;
@@ -316,7 +314,6 @@ describe('getCalculatedBenefits', () => {
     const { outputs } = getCalculatedBenefits(state);
     expect(outputs.perTerm.tuitionFees.terms[2].visible).to.be.false;
     expect(outputs.perTerm.housingAllowance.terms[2].visible).to.be.false;
-    expect(outputs.perTerm.bookStipend.terms[2].visible).to.be.false;
     expect(outputs.perTerm.yellowRibbon.terms[4].visible).to.be.false;
     expect(outputs.perTerm.yellowRibbon.terms[5].visible).to.be.false;
   });

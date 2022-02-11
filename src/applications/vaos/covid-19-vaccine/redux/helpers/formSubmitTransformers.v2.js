@@ -1,4 +1,3 @@
-import { COVID_VACCINE_ID } from '../../../utils/constants';
 import {
   getChosenClinicInfo,
   getChosenSlot,
@@ -15,12 +14,11 @@ export function transformFormToVAOSAppointment(state) {
     kind: 'clinic',
     status: 'booked',
     clinic: getClinicId(clinic),
-    slot,
+    slot: { id: slot.id },
     extension: {
       desiredDate: slot.start,
     },
     locationId: data.vaFacility,
-    serviceType: COVID_VACCINE_ID,
     comment: '',
     contact: {
       telecom: [
