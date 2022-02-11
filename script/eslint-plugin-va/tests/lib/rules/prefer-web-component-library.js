@@ -167,5 +167,24 @@ ruleTester.run('prefer-web-component-library', rule, {
         },
       ],
     },
+    {
+      code: mockFile(
+        'Breadcrumbs',
+        'const breadcrumb = () => (<Breadcrumbs />)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'Breadcrumbs',
+                'const breadcrumb = () => (<va-breadcrumbs />)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
   ],
 });
