@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
@@ -15,6 +17,28 @@ const LegacyNo = ({ setWizardStatus }) => {
     event: 'howToWizard-cta-displayed',
   });
 
+  const handlers = {
+    startLinkClick: () => {
+      recordEvent({
+        event: 'howToWizard-hidden',
+        'reason-for-hidden-wizard': 'wizard completed, starting form',
+      });
+      recordEvent({
+        event: 'cta-button-click',
+        'button-type': 'primary',
+        'button-click-label': 'Request a Higher-Level Review online',
+      });
+      setWizardStatus(WIZARD_STATUS_COMPLETE);
+    },
+    otherLinkClick: () => {
+      recordEvent({
+        event: 'howToWizard-alert-link-click',
+        'howToWizard-alert-link-click-label':
+          'Learn about other ways you can request a Higher-Level Review',
+      });
+    },
+  };
+
   return (
     <div
       id={pageNames.legacyNo}
@@ -26,39 +50,23 @@ const LegacyNo = ({ setWizardStatus }) => {
       </p>
       <a
         href={`${BASE_URL}/introduction`}
-        onClick={() => {
-          recordEvent({
-            event: 'howToWizard-hidden',
-            'reason-for-hidden-wizard': 'wizard completed, starting form',
-          });
-          recordEvent({
-            event: 'cta-button-click',
-            'button-type': 'primary',
-            'button-click-label': 'Request a Higher-Level Review online',
-          });
-          setWizardStatus(WIZARD_STATUS_COMPLETE);
-        }}
+        onClick={handlers.startLinkClick}
         className="vads-c-action-link--green"
         aria-describedby="other_ways_to_request_hlr"
       >
         Request a Higher-Level Review online
       </a>
       <p id="other_ways_to_request_hlr" className="vads-u-margin-bottom--0">
-        <a
-          href={HLR_INFO_URL}
-          onClick={() => {
-            recordEvent({
-              event: 'howToWizard-alert-link-click',
-              'howToWizard-alert-link-click-label':
-                'Learn about other ways you can request a Higher-Level Review',
-            });
-          }}
-        >
+        <a href={HLR_INFO_URL} onClick={handlers.otherLinkClick}>
           Learn about other ways you can request a Higher-Level Review
         </a>
       </p>
     </div>
   );
+};
+
+LegacyNo.propTypes = {
+  setWizardStatus: PropTypes.func,
 };
 
 export default {
