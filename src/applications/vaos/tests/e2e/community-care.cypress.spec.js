@@ -1,5 +1,6 @@
 import moment from 'moment';
 
+import Timeouts from 'platform/testing/e2e/timeouts';
 import {
   initCommunityCareMock,
   mockFeatureToggles,
@@ -10,7 +11,6 @@ import facilityData from '../../services/mocks/var/facility_data.json';
 import requests from '../../services/mocks/v2/requests.json';
 import facilitiesV2 from '../../services/mocks/v2/facilities.json';
 import configurations from '../../services/mocks/v2/scheduling_configurations_cc.json';
-import Timeouts from 'platform/testing/e2e/timeouts';
 
 describe('VAOS community care flow', () => {
   it('should fill out community care form and submit request', () => {
