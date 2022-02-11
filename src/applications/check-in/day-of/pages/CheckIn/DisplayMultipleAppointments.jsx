@@ -36,47 +36,49 @@ const DisplayMultipleAppointments = props => {
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
   const today = format(new Date(), 'MMMM dd, yyyy');
   return (
-    <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
+    <>
       <BackButton router={router} action={goToPreviousPage} />
-      <h1 tabIndex="-1" className="vads-u-margin-top--2">
-        Your appointments
-      </h1>
-      <p data-testid="date-text">
-        {`Here are your appointments for today: ${today}.`}
-      </p>
-      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-      <ol
-        className="appointment-list vads-u-padding--0 vads-u-margin--0 vads-u-margin-bottom--2"
-        role="list"
-      >
-        {sortedAppointments.map((appointment, index) => {
-          return (
-            <AppointmentListItem
-              appointment={appointment}
-              key={index}
-              router={router}
-              token={token}
-            />
-          );
-        })}
-      </ol>
-      <p data-testid="update-text">
-        <strong>Latest update:</strong>{' '}
-        {format(new Date(), "MMMM d, yyyy 'at' h:mm aaaa")}
-      </p>
-      <p data-testid="refresh-link">
-        <button
-          className="usa-button-secondary"
-          onClick={handleClick}
-          data-testid="refresh-appointments-button"
-          type="button"
+      <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
+        <h1 tabIndex="-1" className="vads-u-margin-top--2">
+          Your appointments
+        </h1>
+        <p data-testid="date-text">
+          {`Here are your appointments for today: ${today}.`}
+        </p>
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+        <ol
+          className="appointment-list vads-u-padding--0 vads-u-margin--0 vads-u-margin-bottom--2"
+          role="list"
         >
-          Refresh
-        </button>
-      </p>
-      <Footer />
-      <BackToHome />
-    </div>
+          {sortedAppointments.map((appointment, index) => {
+            return (
+              <AppointmentListItem
+                appointment={appointment}
+                key={index}
+                router={router}
+                token={token}
+              />
+            );
+          })}
+        </ol>
+        <p data-testid="update-text">
+          <strong>Latest update:</strong>{' '}
+          {format(new Date(), "MMMM d, yyyy 'at' h:mm aaaa")}
+        </p>
+        <p data-testid="refresh-link">
+          <button
+            className="usa-button-secondary"
+            onClick={handleClick}
+            data-testid="refresh-appointments-button"
+            type="button"
+          >
+            Refresh
+          </button>
+        </p>
+        <Footer />
+        <BackToHome />
+      </div>
+    </>
   );
 };
 
