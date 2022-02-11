@@ -221,7 +221,10 @@ function exportVariables(tests) {
 
 function run() {
   const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ').filter(
-    filePath => filePath.startsWith('src/applications'),
+    filePath =>
+      filePath.startsWith('src/applications') &&
+      filePath !==
+        'src/applications/appeals/10182/tests/10182-contact-loop.cypress.spec.js',
   );
   const graph = dedupeGraph(buildGraph());
   const tests = selectTests(graph, pathsOfChangedFiles);
