@@ -130,8 +130,8 @@ describe('<ClaimsListItemV2>', () => {
     };
     const tree = shallow(<ClaimsListItemV2 claim={claim} />);
     const circle = tree.find('.status-circle').first();
-    expect(circle.hasClass('open')).to.be.true;
-    expect(circle.hasClass('closed')).to.be.false;
+    expect(circle.hasClass('open-claim')).to.be.true;
+    expect(circle.hasClass('closed-claim')).to.be.false;
     tree.unmount();
   });
 
@@ -145,8 +145,8 @@ describe('<ClaimsListItemV2>', () => {
     };
     const tree = shallow(<ClaimsListItemV2 claim={claim} />);
     const circle = tree.find('.status-circle').first();
-    expect(circle.hasClass('open')).to.be.false;
-    expect(circle.hasClass('closed')).to.be.true;
+    expect(circle.hasClass('open-claim')).to.be.false;
+    expect(circle.hasClass('closed-claim')).to.be.true;
     tree.unmount();
   });
 

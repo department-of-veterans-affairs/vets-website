@@ -14,6 +14,21 @@ export default function StemClaimListItem({ claim }) {
   const formattedReceiptDate = moment(claim.attributes.submittedAt).format(
     'MMMM D, YYYY',
   );
+
+  const handlers = {
+    openClaimClick: () =>
+      recordEvent({
+        event: 'cta-action-link-click',
+        'action-link-type': 'secondary',
+        'action-link-click-label': 'View details',
+        'action-link-icon-color': 'blue',
+        'claim-type': 'STEM Scholarship',
+        'claim-last-updated-date': formattedDeniedAtDate,
+        'claim-submitted-date': formattedDeniedAtDate,
+        'claim-status': 'Denied',
+      }),
+  };
+
   return (
     <div className="claim-list-item-container">
       <h2 className="claim-list-item-header-v2 vads-u-font-size--h3">
@@ -22,7 +37,7 @@ export default function StemClaimListItem({ claim }) {
         updated on {formattedDeniedAtDate}
       </h2>
       <div className="card-status">
-        <div className={`status-circle closed`} />
+        <div className="status-circle closed-claim" />
         <p>
           <strong>Status:</strong> Denied
         </p>
@@ -36,18 +51,7 @@ export default function StemClaimListItem({ claim }) {
         aria-label={`View details of claim received ${formattedReceiptDate}`}
         className="vads-c-action-link--blue"
         to={`your-stem-claims/${claim.id}/status`}
-        onClick={() =>
-          recordEvent({
-            event: 'cta-action-link-click',
-            'action-link-type': 'secondary',
-            'action-link-click-label': 'View details',
-            'action-link-icon-color': 'blue',
-            'claim-type': 'STEM Scholarship',
-            'claim-last-updated-date': formattedDeniedAtDate,
-            'claim-submitted-date': formattedDeniedAtDate,
-            'claim-status': 'Denied',
-          })
-        }
+        onClick={handlers.openClaimClick}
       >
         View details
       </Link>
