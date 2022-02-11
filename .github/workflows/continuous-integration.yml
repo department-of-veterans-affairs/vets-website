@@ -971,7 +971,7 @@ jobs:
           workflow_file_name: e2e-tests.yml
           ref: e2e-tests-workflow
           wait_workflow: false
-          inputs: '{commit_sha: ${{ github.sha }}}'
+          inputs: '{"commit_sha": "${{ github.sha }}"}'
 
   notify-failure:
     name: Notify Failure
