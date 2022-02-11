@@ -117,7 +117,8 @@ jobs:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Run unit tests
-        run: yarn test:unit --coverage --reporter mochawesome ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"}
+        # run: yarn test:unit --coverage --reporter mochawesome ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"}
+        run: yarn test:unit --coverage --reporter mochawesome "src/applications/facility-locator/tests/**/*.unit.spec.js?(x)"
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.app_folders }}
@@ -738,7 +739,8 @@ jobs:
         run: ls testing-tools-team-dashboard-data/src/testing-reports/data
 
       - name: Upload Unit Test report to s3
-        run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data/mochawesome.html s3://testing-tools-testing-reports/vets-website-unit-test-reports/${{env.UUID}}.html --acl public-read --region us-gov-west-1
+        # run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data/mochawesome.html s3://testing-tools-testing-reports/vets-website-unit-test-reports/${{env.UUID}}.html --acl public-read --region us-gov-west-1
+        run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
 
       # -------------------------
       # | Unit Tests to BigQuery |
