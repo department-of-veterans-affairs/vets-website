@@ -94,8 +94,8 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   // Next, get an array of [key, value] pairs. Sort the array in decending order
   // so that pending appointments are displayed 1st
   appointmentsByStatus = Object.entries(appointmentsByStatus).sort((a, b) => {
-    if (a[0].toLowerCase() < b[0].toLocaleLowerCase()) return 1;
-    if (a[0].toLowerCase() > b[0].toLocaleLowerCase()) return -1;
+    if (a[0].toLowerCase() < b[0].toLowerCase()) return 1;
+    if (a[0].toLowerCase() > b[0].toLowerCase()) return -1;
     return 0;
   });
 
