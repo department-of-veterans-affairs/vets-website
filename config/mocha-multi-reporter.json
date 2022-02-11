@@ -1,0 +1,3 @@
+{
+  "reporterEnabled": "min, mocha-junit-reporter"
+}

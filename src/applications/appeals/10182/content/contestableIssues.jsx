@@ -9,8 +9,8 @@ import { MAX_SELECTIONS } from '../constants';
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
 // case we end up filtering out deferred and expired issues
-export const ContestableIssuesTitle = props => {
-  if (props?.formData?.contestableIssues?.length === 0) {
+export const ContestableIssuesTitle = ({ formData = {} } = {}) => {
+  if (formData.contestableIssues?.length === 0) {
     return (
       <>
         <h2
