@@ -15,12 +15,12 @@ import { getSelected, calculateIndexOffset } from '../utils/helpers';
 import { SELECTED, MAX_SELECTIONS, LAST_HLR_ITEM } from '../constants';
 
 import {
-  validateDate,
   uniqueIssue,
   missingIssueName,
   maxNameLength,
   checkValidations,
 } from '../validations/issues';
+import { validateDate } from '../validations/date';
 import {
   addIssueTitle,
   issueNameLabel,
