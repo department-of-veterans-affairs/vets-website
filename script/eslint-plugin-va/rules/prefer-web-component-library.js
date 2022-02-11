@@ -48,6 +48,33 @@ const telephoneTransformer = (context, node) => {
   });
 };
 
+const breadcrumbsTransformer = (context, node) => {
+  const componentName = node.openingElement.name;
+  const selectedFacilityNode = getPropNode(node, 'selectedFacility');
+
+  context.report({
+    node,
+    message: MESSAGE,
+    data: {
+      reactComponent: componentName.name,
+      webComponent: 'va-breadcrumbs',
+    },
+    suggest: [
+      {
+        desc: 'Migrate component',
+        fix: fixer => {
+          // Replace node name
+          // and remove `selectedFacilityNode` prop if present
+          return [
+            fixer.replaceText(componentName, 'va-breadcrumbs'),
+            selectedFacilityNode && fixer.remove(selectedFacilityNode),
+          ].filter(i => !!i);
+        },
+      },
+    ],
+  });
+};
+
 module.exports = {
   meta: {
     docs: {
@@ -68,6 +95,9 @@ module.exports = {
         // from the `component-library`
         if (componentName.name === 'Telephone') {
           telephoneTransformer(context, node);
+        }
+        if (componentName.name === 'Breadcrumbs') {
+          breadcrumbsTransformer(context, node);
         }
       },
     };
