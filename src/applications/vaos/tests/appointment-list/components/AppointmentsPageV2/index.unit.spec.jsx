@@ -276,16 +276,18 @@ describe('VAOS <AppointmentsPageV2>', () => {
       let navigation = screen.getByRole('button', { name: /^Pending \(1\)/ });
       userEvent.click(navigation);
       await waitFor(() =>
-        expect(screen.history.push.lastCall.args[0]).to.equal('/requested'),
+        expect(screen.history.push.lastCall.args[0]).to.equal('/pending'),
       );
 
       // Then it should display the requested appointments
-      expect(
-        await screen.findByRole('heading', {
-          level: 1,
-          name: 'Pending appointments',
-        }),
-      );
+      await waitFor(() => {
+        expect(
+          screen.findByRole('heading', {
+            level: 1,
+            name: 'Pending appointments',
+          }),
+        );
+      });
       await waitFor(() => {
         expect(global.document.title).to.equal(
           `Pending appointments | VA online scheduling | Veterans Affairs`,

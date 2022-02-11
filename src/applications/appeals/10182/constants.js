@@ -48,3 +48,5 @@ export const SUBMITTED_DISAGREEMENTS = {
 };
 
 export const LAST_NOD_ITEM = 'lastNodItem'; // focus management across pages
+
+export const contestableIssuesPath = 'contestable-issues';

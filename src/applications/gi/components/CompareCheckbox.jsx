@@ -17,6 +17,7 @@ export default function CompareCheckbox({
         name={name}
         showArialLabelledBy={false}
         screenReaderOnly={name}
+        ariaLabel={name}
       />
     </div>
   );

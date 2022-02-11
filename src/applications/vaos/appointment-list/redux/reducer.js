@@ -187,7 +187,7 @@ export default function appointmentsReducer(state = initialState, action) {
     }
     case FETCH_REQUEST_MESSAGES_SUCCEEDED: {
       const requestMessages = { ...state.requestMessages };
-      const messages = action.messages;
+      const { messages } = action;
 
       if (messages?.length)
         requestMessages[action.requestId] = messages.sort(sortMessages);
@@ -237,7 +237,7 @@ export default function appointmentsReducer(state = initialState, action) {
         return action.updatedAppointment;
       });
 
-      let appointmentDetails = state.appointmentDetails;
+      let { appointmentDetails } = state;
 
       if (appointmentDetails?.[appointmentToCancel.id]) {
         const updatedAppointment = action.updatedAppointment || {
