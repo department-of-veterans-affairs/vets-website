@@ -34,7 +34,7 @@ export function facilityReducer(state = initialState, action) {
       };
     }
     case FETCH_FACILITY_FAILED:
-      return { multidata: {}, data: {}, loading: false, error: true };
+      return { loading: false, error: true };
     default:
       return state;
   }

@@ -18,10 +18,10 @@ export function fetchFacilitySuccess(facility) {
   };
 }
 
-export function fetchMultiFacilitySuccess(facilities, facilityID) {
+export function fetchMultiFacilitySuccess(facility, facilityID) {
   return {
     type: FETCH_MULTI_FACILITY_SUCCESS,
-    facilities,
+    facility,
     facilityID,
   };
 }
@@ -35,7 +35,6 @@ export function fetchFacilityFailed() {
 }
 
 export const FETCH_FACILITY = 'FETCH_FACILITY';
-export const FETCH_MULTI_FACILITY = 'FETCH_MULTI_FACILITY';
 
 export function fetchFacility(id) {
   return (dispatch, getState) => {
@@ -54,12 +53,7 @@ export function fetchFacility(id) {
 }
 
 export function fetchMultiFacility(id) {
-  return (dispatch, getState) => {
-    const { loading } = getState().facility;
-    const { data } = getState().facility;
-    if (loading && !Object.keys(data).length) {
-      return;
-    }
+  return dispatch => {
     dispatch(fetchFacilityStarted());
 
     // eslint-disable-next-line consistent-return
