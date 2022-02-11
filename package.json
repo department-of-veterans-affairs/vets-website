@@ -210,7 +210,7 @@
     "msw": "^0.35.0",
     "node-fetch": "^2.6.7",
     "node-resemble-js": "^0.2.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.1",
     "null-loader": "^4.0.1",
     "nyc": "^15.1.0",
     "postcss": "^8.4.4",
