@@ -50,6 +50,7 @@ const telephoneTransformer = (context, node) => {
 
 const breadcrumbsTransformer = (context, node) => {
   const componentName = node.openingElement.name;
+  const closingTag = node.closingElement.name;
   const selectedFacilityNode = getPropNode(node, 'selectedFacility');
 
   context.report({
@@ -63,10 +64,11 @@ const breadcrumbsTransformer = (context, node) => {
       {
         desc: 'Migrate component',
         fix: fixer => {
-          // Replace node name
+          // Replace opening and close tags
           // and remove `selectedFacilityNode` prop if present
           return [
             fixer.replaceText(componentName, 'va-breadcrumbs'),
+            fixer.replaceText(closingTag, 'va-breadcrumbs'),
             selectedFacilityNode && fixer.remove(selectedFacilityNode),
           ].filter(i => !!i);
         },
