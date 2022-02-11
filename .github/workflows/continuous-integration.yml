@@ -725,6 +725,37 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
+      # - name: Download Cypress E2E Mochawesome test results
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: cypress-mochawesome-test-results
+      #     path: testing-tools-team-dashboard-data/src/testing-reports/data
+
+      # - name: Download Cypress E2E video artifacts
+      #   if: ${{ needs.cypress-tests.result == 'failure' }}
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: cypress-video-artifacts
+      #     path: testing-tools-team-dashboard-data/videos/${{ env.UUID }}
+
+      # - name: Create Cypress E2E report and post results to BigQuery
+      #   run: yarn cypress-mochawesome-to-bigquery
+      #   working-directory: testing-tools-team-dashboard-data
+      #   env:
+      #     IS_MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.is_master_build }}
+      #     TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
+      #     TEST_RESULTS_TABLE_NAME: cypress_test_results
+      #     TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
+      #     TEST_RETRIES_TABLE_NAME: cypress_retry_records
+      #     # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
+
+      # - name: Upload Cypress E2E test videos to s3
+      #   if: ${{ needs.cypress-tests.result == 'failure' }}
+      #   run: aws s3 cp testing-tools-team-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
+
+      # - name: Upload Cypress E2E test report to s3
+      #   run: aws s3 cp testing-tools-team-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
+
       # --------------------------------------
       # | Publish Unit Test Report       |
       # -------------------------------------
@@ -735,12 +766,8 @@ jobs:
           name: unit-test-report
           path: testing-tools-team-dashboard-data/src/testing-reports/data
 
-      - name: Log artifact directory
+      - name: Log artifact directory before file rename
         run: ls testing-tools-team-dashboard-data/src/testing-reports/data
-
-      - name: Upload Unit Test report to s3
-        # run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data/mochawesome.html s3://testing-tools-testing-reports/vets-website-unit-test-reports/${{env.UUID}}.html --acl public-read --region us-gov-west-1
-        run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
 
       # -------------------------
       # | Unit Tests to BigQuery |
@@ -753,6 +780,13 @@ jobs:
           UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
           UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
           TEST_REPORTS_FOLDER_NAME: vets-website-unit-test-reports
+
+      - name: Log artifact directory after file rename
+        run: ls testing-tools-team-dashboard-data/src/testing-reports/data
+
+      - name: Upload Unit Test report to s3
+        # run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data/mochawesome.html s3://testing-tools-testing-reports/vets-website-unit-test-reports/${{env.UUID}}.html --acl public-read --region us-gov-west-1
+        run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
 
       # -------------------------
       # | Unit Tests Summary |
