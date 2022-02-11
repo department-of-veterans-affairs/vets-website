@@ -94,7 +94,12 @@ export async function checkAutoSession(
        */
       window.location = standaloneRedirect() || window.location.origin;
     }
-  } else if (!loggedIn && ttl > 0 && !getLoginAttempted() && queryParams.csp) {
+  } else if (
+    !loggedIn &&
+    ttl > 0 &&
+    !getLoginAttempted() &&
+    queryParams.csp_type
+  ) {
     /**
      * Create an auto-login when the following are true
      * 1. No active VA.gov session

@@ -29,9 +29,8 @@ export const CSP_KEYS = {
 };
 
 export const AUTHN_KEYS = {
-  AAL: 'aal',
   IAL: 'ial',
-  CSP_METHOD: 'csp_method',
+  CSP_TYPE: 'csp_type',
 };
 
 export const AUTHN_HEADERS = {

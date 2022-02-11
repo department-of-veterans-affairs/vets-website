@@ -54,21 +54,18 @@ export const generateAuthnContext = (
     const CSP = headers.get(AUTHN_HEADERS.CSP);
 
     return {
-      csp: CSP.toLowerCase(),
-      ...(CSP !== CSP_KEYS.LOGINGOV && {
-        authn: sanitizeAuthn(
-          {
-            [CSP_KEYS.DSLOGON]: CSP_AUTHN.DS_LOGON,
-            [CSP_KEYS.MHV]: CSP_AUTHN.MHV,
-            [CSP_KEYS.IDME]: headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
-          }[CSP],
-        ),
-      }),
-      ...(CSP === CSP_KEYS.LOGINGOV && {
-        [AUTHN_KEYS.AAL]: headers.get(AUTHN_HEADERS.AAL),
-        [AUTHN_KEYS.IAL]: headers.get(AUTHN_HEADERS.IAL),
-        [AUTHN_KEYS.CSP_METHOD]: headers.get(AUTHN_HEADERS.CSP_METHOD),
-      }),
+      [AUTHN_KEYS.CSP_TYPE]: CSP.toLowerCase(),
+      ...(CSP !== CSP_KEYS.LOGINGOV
+        ? {
+            authn: sanitizeAuthn(
+              {
+                [CSP_KEYS.DSLOGON]: CSP_AUTHN.DS_LOGON,
+                [CSP_KEYS.MHV]: CSP_AUTHN.MHV,
+                [CSP_KEYS.IDME]: headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
+              }[CSP],
+            ),
+          }
+        : { [AUTHN_KEYS.IAL]: headers.get(AUTHN_HEADERS.IAL) }),
     };
   } catch (error) {
     return {};
