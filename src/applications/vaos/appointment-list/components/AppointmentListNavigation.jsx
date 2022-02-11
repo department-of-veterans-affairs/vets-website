@@ -5,19 +5,18 @@ import PropTypes from 'prop-types';
 import { updateBreadcrumb } from '../redux/actions';
 import { selectFeatureStatusImprovement } from '../../redux/selectors';
 
-function handleClick({ id, history, dispatch, callback }) {
-  return () => {
-    if (id === 'pending') {
-      history.push('/requested');
+function handleClick({ history, dispatch, callback }) {
+  return event => {
+    if (event.target.id === 'pending') {
+      history.push('/pending');
       callback(true);
-      dispatch(updateBreadcrumb({ title: 'Pending', path: 'requested' }));
+      dispatch(updateBreadcrumb({ title: 'Pending', path: 'pending' }));
     }
-    if (id === 'past') {
+    if (event.target.id === 'past') {
       history.push('/past');
       callback(true);
       dispatch(updateBreadcrumb({ title: 'Past', path: 'past' }));
     }
-    return () => {};
   };
 }
 
@@ -32,7 +31,7 @@ export default function AppointmentListNavigation({ count, callback }) {
   if (featureStatusImprovement) {
     // Only display navigation on upcoming appointments page
     if (
-      location.pathname.endsWith('requested') ||
+      location.pathname.endsWith('pending') ||
       location.pathname.endsWith('past')
     ) {
       return null;
@@ -46,10 +45,10 @@ export default function AppointmentListNavigation({ count, callback }) {
         <ul>
           <li>
             <button
+              id="pending"
               type="button"
               className="va-button-link"
               onClick={handleClick({
-                id: 'pending',
                 history,
                 dispatch,
                 callback,
@@ -60,10 +59,10 @@ export default function AppointmentListNavigation({ count, callback }) {
           </li>
           <li>
             <button
+              id="past"
               type="button"
               className="va-button-link"
               onClick={handleClick({
-                id: 'past',
                 history,
                 dispatch,
                 callback,

@@ -398,7 +398,7 @@ describe('keepAlive', () => {
       generateMockKeepAliveResponse({
         headers: {
           [ALIVE]: 'false',
-          [TIMEOUT]: '900',
+          [TIMEOUT]: 900,
           [TRANSACTIONID]: 'g',
           [AUTHN_CONTEXT]: '/loa1',
         },
@@ -526,9 +526,9 @@ describe('sanitizeAuthn', () => {
   });
 
   it('should return a `NOT_FOUND` string when passed nothing', () => {
-    expect(keepAliveMod.sanitizeAuthn('')).to.eql('NOT_FOUND');
-    expect(keepAliveMod.sanitizeAuthn(null)).to.eql('NOT_FOUND');
-    expect(keepAliveMod.sanitizeAuthn(undefined)).to.eql('NOT_FOUND');
+    expect(keepAliveMod.sanitizeAuthn('')).to.eql(undefined);
+    expect(keepAliveMod.sanitizeAuthn(null)).to.eql(undefined);
+    expect(keepAliveMod.sanitizeAuthn(undefined)).to.eql(undefined);
   });
 
   it('should strip out the `?skip_dupe` query param', () => {

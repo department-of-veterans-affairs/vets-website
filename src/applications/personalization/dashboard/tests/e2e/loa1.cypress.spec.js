@@ -107,7 +107,7 @@ describe('The My VA Dashboard', () => {
     loa1DashboardTest(false, stubs);
   });
 
-  it('should handle LOA1 users at mobile phone size', () => {
+  it.skip('should handle LOA1 users at mobile phone size', () => {
     loa1DashboardTest(true, stubs);
   });
 });

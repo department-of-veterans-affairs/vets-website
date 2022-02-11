@@ -15,12 +15,7 @@ import { makeSelectVeteranData } from '../../../selectors';
 const Demographics = props => {
   const dispatch = useDispatch();
   const { router } = props;
-  const {
-    goToNextPage,
-    goToPreviousPage,
-    getCurrentPageFromRouter,
-  } = useFormRouting(router);
-  const currentPage = getCurrentPageFromRouter();
+  const { goToNextPage, goToPreviousPage } = useFormRouting(router);
   const yesClick = useCallback(
     () => {
       recordEvent({
@@ -51,7 +46,7 @@ const Demographics = props => {
 
   return (
     <>
-      <BackButton action={goToPreviousPage} path={currentPage} />
+      <BackButton action={goToPreviousPage} router={router} />
       <DemographicsDisplay
         yesAction={yesClick}
         noAction={noClick}

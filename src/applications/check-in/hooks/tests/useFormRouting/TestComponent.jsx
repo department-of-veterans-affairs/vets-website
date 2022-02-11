@@ -5,6 +5,7 @@ import { useFormRouting } from '../../useFormRouting';
 export default function TestComponent({ router }) {
   const {
     getCurrentPageFromRouter,
+    getPreviousPageFromRouter,
     goToPreviousPage,
     goToNextPage,
     goToErrorPage,
@@ -12,10 +13,16 @@ export default function TestComponent({ router }) {
     pages,
   } = useFormRouting(router);
   const currentPage = getCurrentPageFromRouter();
+  const previousPage = getPreviousPageFromRouter();
   return (
     <div>
       <h1>Test component for the useFormRouting hook</h1>
       <div data-testid="current-page">{currentPage}</div>
+      {previousPage ? (
+        <div data-testid="previous-page">{previousPage}</div>
+      ) : (
+        ''
+      )}
       <div data-testid="all-pages">{pages.join(',')}</div>
       <button
         type="button"
