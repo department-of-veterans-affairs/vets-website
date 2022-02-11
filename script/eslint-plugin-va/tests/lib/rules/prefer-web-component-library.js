@@ -170,7 +170,7 @@ ruleTester.run('prefer-web-component-library', rule, {
     {
       code: mockFile(
         'Breadcrumbs',
-        'const breadcrumb = () => (<Breadcrumbs />)',
+        'const breadcrumb = () => (<Breadcrumbs><a href="/">Home</a></Breadcrumbs>)',
       ),
       errors: [
         {
@@ -179,7 +179,27 @@ ruleTester.run('prefer-web-component-library', rule, {
               desc: 'Migrate component',
               output: mockFile(
                 'Breadcrumbs',
-                'const breadcrumb = () => (<va-breadcrumbs />)',
+                'const breadcrumb = () => (<va-breadcrumbs><a href="/">Home</a></va-breadcrumbs>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Breadcrumbs',
+        'const breadcrumb = () => (<Breadcrumbs selectedFacility={selectedResult}><a href="/">Home</a></Breadcrumbs>)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              // There is an extra space which would get removed on an autosave format
+              output: mockFile(
+                'Breadcrumbs',
+                'const breadcrumb = () => (<va-breadcrumbs ><a href="/">Home</a></va-breadcrumbs>)',
               ),
             },
           ],
