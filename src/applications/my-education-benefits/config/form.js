@@ -7,20 +7,20 @@ import { createSelector } from 'reselect';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import * as address from 'platform/forms-system/src/js/definitions/address';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from 'platform/utilities/environment';
 import fullSchema from '../22-1990-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
 import GetFormHelp from '../components/GetFormHelp';
 
-import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -36,8 +36,6 @@ import YesNoReviewField from '../components/YesNoReviewField';
 import PhoneReviewField from '../components/PhoneReviewField';
 import DateReviewField from '../components/DateReviewField';
 import EmailReviewField from '../components/EmailReviewField';
-
-import environment from 'platform/utilities/environment';
 
 import {
   chapter30Label,
@@ -58,18 +56,11 @@ import {
 } from '../utils/validation';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
-import merge from 'lodash/merge';
-import createDirectDepositPage from '../../edu-benefits/pages/directDeposit';
-import { directDepositDescription } from '../../edu-benefits/1990/helpers';
-import bankAccountUI from 'platform/forms/definitions/bankAccount';
-
-import { vagovprod } from 'site/constants/buckets';
 
 import { ELIGIBILITY } from '../actions';
 
 const {
   fullName,
-  // ssn,
   date,
   dateRange,
   usaPhone,
@@ -85,12 +76,6 @@ const formFields = {
   ssn: 'ssn',
   toursOfDuty: 'toursOfDuty',
   serviceHistoryIncorrect: 'serviceHistoryIncorrect',
-  viewNoDirectDeposit: 'view:noDirectDeposit',
-  viewStopWarning: 'view:stopWarning',
-  bankAccount: 'bankAccount',
-  accountType: 'accountType',
-  accountNumber: 'accountNumber',
-  routingNumber: 'routingNumber',
   address: 'address',
   email: 'email',
   viewPhoneNumbers: 'view:phoneNumbers',
@@ -172,7 +157,6 @@ const formPages = {
       },
     },
   },
-  directDeposit: 'directDeposit',
 };
 
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
@@ -283,9 +267,9 @@ function AdditionalConsiderationTemplate(page, formField) {
     additionalInfoView = {
       [additionalInfoViewName]: {
         'ui:description': (
-          <AdditionalInfo triggerText={additionalInfo.triggerText}>
+          <va-additional-info trigger={additionalInfo.triggerText}>
             <p>{additionalInfo.info}</p>
-          </AdditionalInfo>
+          </va-additional-info>
         ),
       },
     };
@@ -852,7 +836,7 @@ const formConfig = {
             },
             'view:textMessagesAlert': {
               'ui:description': (
-                <va-alert onClose={function noRefCheck() {}} status="info">
+                <va-alert status="info">
                   <>
                     If you choose to get text message notifications from VA’s GI
                     Bill program, message and data rates may apply. Two messages
@@ -883,7 +867,7 @@ const formConfig = {
             },
             'view:noMobilePhoneAlert': {
               'ui:description': (
-                <va-alert onClose={function noRefCheck() {}} status="warning">
+                <va-alert status="warning">
                   <>
                     You can’t choose to get text message notifications because
                     we don’t have a mobile phone number on file for you.
@@ -904,7 +888,7 @@ const formConfig = {
             },
             'view:internationalTextMessageAlert': {
               'ui:description': (
-                <va-alert onClose={function noRefCheck() {}} status="warning">
+                <va-alert status="warning">
                   <>
                     You can’t choose to get text notifications because you have
                     an international mobile phone number. At this time, we can
@@ -1073,7 +1057,7 @@ const formConfig = {
                       application.
                     </strong>
                   </p>
-                  <AdditionalInfo triggerText="Why do I have to give up a benefit?">
+                  <va-additional-info trigger="Why do I have to give up a benefit?">
                     <p>
                       The law says if you are eligible for both the Post-9/11 GI
                       Bill and another education benefit based on the same
@@ -1081,7 +1065,7 @@ const formConfig = {
                       qualifying period of active duty can only be used for one
                       VA education benefit.
                     </p>
-                  </AdditionalInfo>
+                  </va-additional-info>
                 </>
               ),
             },
@@ -1284,55 +1268,6 @@ const formConfig = {
             formFields.loanPayment,
           ),
         },
-      },
-    },
-    bankAccountInfoChapter: {
-      title: 'Direct deposit',
-      pages: {
-        [formPages.directDeposit]: merge(
-          {},
-          createDirectDepositPage(fullSchema),
-          {
-            path: 'direct-deposit',
-            uiSchema: {
-              'ui:description': directDepositDescription,
-              bankAccount: {
-                ...bankAccountUI,
-                'ui:order': [
-                  'accountType',
-                  'accountNumber',
-                  'routingNumber',
-                  'learnMore',
-                ],
-                learnMore: {
-                  'ui:description': (
-                    <>
-                      <img
-                        style={{ marginTop: '1rem' }}
-                        src={`${vagovprod}/img/check-sample.png`}
-                        alt="Example of a check showing where the account and routing numbers are"
-                      />
-                      <p>Where can I find these numbers?</p>
-                      <p>
-                        The bank routing number is the first 9 digits on the
-                        bottom left corner of a printed check. Your account
-                        number is the second set of numbers on the bottom of a
-                        printed check, just to the right of the bank routing
-                        number.
-                      </p>
-                      <va-additional-info trigger="Learn More">
-                        <p key="2b">
-                          If you don’t have a printed check, you can sign in to
-                          your online banking institution for this information
-                        </p>
-                      </va-additional-info>
-                    </>
-                  ),
-                },
-              },
-            },
-          },
-        ),
       },
     },
   },
