@@ -30,6 +30,7 @@
 .debt-card {
   padding: 24px;
   label {
+    display: inline-block !important;
     user-select: none;
   }
   [type="checkbox"]:checked + label::before {
