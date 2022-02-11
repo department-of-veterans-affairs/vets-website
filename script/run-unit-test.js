@@ -54,6 +54,7 @@ if (options.help) {
   process.exit(0);
 }
 
+// useless comment
 const mochaPath = `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
 const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} --reporter=json-summary mocha --reporter mocha-multi-reporters ${reporterOption} --reporter-options configFile=config/mocha-multi-reporter.json --no-color --retries 5`;
 const testRunner = options.coverage ? coveragePath : mochaPath;
