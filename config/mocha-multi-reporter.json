@@ -1,3 +1,3 @@
 {
-  "reporterEnabled": "min, mocha-junit-reporter"
+  "reporterEnabled": "min, mocha-junit-reporter, mochawesome"
 }
