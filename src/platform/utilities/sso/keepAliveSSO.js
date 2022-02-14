@@ -50,26 +50,24 @@ export const generateAuthnContext = (
     headers: {},
   },
 ) => {
-  try {
-    const CSP = headers.get(AUTHN_HEADERS.CSP);
+  const CSP = headers.get(AUTHN_HEADERS.CSP);
 
-    return {
-      [AUTHN_KEYS.CSP_TYPE]: CSP.toLowerCase(),
-      ...(CSP !== CSP_KEYS.LOGINGOV
-        ? {
-            authn: sanitizeAuthn(
-              {
-                [CSP_KEYS.DSLOGON]: CSP_AUTHN.DS_LOGON,
-                [CSP_KEYS.MHV]: CSP_AUTHN.MHV,
-                [CSP_KEYS.IDME]: headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
-              }[CSP],
-            ),
-          }
-        : { [AUTHN_KEYS.IAL]: headers.get(AUTHN_HEADERS.IAL) }),
-    };
-  } catch (error) {
-    return {};
-  }
+  return CSP
+    ? {
+        [AUTHN_KEYS.CSP_TYPE]: CSP.toLowerCase(),
+        ...(CSP !== CSP_KEYS.LOGINGOV
+          ? {
+              authn: sanitizeAuthn(
+                {
+                  [CSP_KEYS.DSLOGON]: CSP_AUTHN.DS_LOGON,
+                  [CSP_KEYS.MHV]: CSP_AUTHN.MHV,
+                  [CSP_KEYS.IDME]: headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
+                }[CSP],
+              ),
+            }
+          : { [AUTHN_KEYS.IAL]: headers.get(AUTHN_HEADERS.IAL) }),
+      }
+    : {};
 };
 
 export default async function keepAlive() {
