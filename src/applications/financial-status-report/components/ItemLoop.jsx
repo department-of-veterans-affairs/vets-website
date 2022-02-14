@@ -142,7 +142,7 @@ const InputSection = ({
               {showCancel && (
                 <button
                   aria-label={`Cancel ${title}`}
-                  className="usa-button-secondary"
+                  className="usa-button-secondary vads-u-margin-left--2"
                   onClick={() => handleCancel(index)}
                   type="button"
                 >

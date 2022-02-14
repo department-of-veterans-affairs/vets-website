@@ -134,22 +134,22 @@ const ContestableIssuesWidget = props => {
     const itemIsSelected = !!item?.[SELECTED];
     const hideCard = (inReviewMode && !itemIsSelected) || isEmptyObject(item);
 
+    const cardProps = {
+      id,
+      index,
+      item,
+      key: index,
+      options,
+      showCheckbox,
+      onChange: handlers.onChange,
+      // Don't allow editing or removing API-loaded issues
+      onRemove: item.ratingIssueSubjectText
+        ? null
+        : () => handlers.onRemoveIssue(index),
+    };
+
     // Don't show un-selected ratings in review mode
-    return hideCard ? null : (
-      <IssueCard
-        id={id}
-        key={index}
-        index={index}
-        item={item}
-        options={options}
-        onChange={handlers.onChange}
-        showCheckbox={showCheckbox}
-        onRemove={
-          // Don't allow editing or removing API-loaded issues
-          item.ratingIssueSubjectText ? null : handlers.onRemoveIssue(index)
-        }
-      />
-    );
+    return hideCard ? null : <IssueCard {...cardProps} />;
   });
 
   return (

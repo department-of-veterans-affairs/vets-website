@@ -48,7 +48,7 @@ export default function ScheduleNewAppointment() {
   if (featureStatusImprovement) {
     // Only display scheduling button on upcoming appointments page
     if (
-      location.pathname.endsWith('requested') ||
+      location.pathname.endsWith('pending') ||
       location.pathname.endsWith('past')
     ) {
       return null;

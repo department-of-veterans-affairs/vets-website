@@ -7,8 +7,8 @@ import './components/LogoRow/styles.scss';
 import './components/OfficialGovtWebsite/styles.scss';
 import './components/Search/styles.scss';
 import './containers/Menu/styles.scss';
-import App from './components/App';
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
+import App from './components/App';
 
 export default (store, megaMenuData) => {
   // Derive the widget and its data properties for props.
