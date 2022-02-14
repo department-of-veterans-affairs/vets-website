@@ -273,7 +273,9 @@ describe('VAOS <AppointmentsPageV2>', () => {
       await screen.findByRole('heading', { name: 'Your appointments' });
 
       // When the veteran clicks the Pending button
-      let navigation = screen.getByRole('button', { name: /^Pending \(1\)/ });
+      let navigation = await screen.findByRole('button', {
+        name: /^Pending \(1\)/,
+      });
       userEvent.click(navigation);
       await waitFor(() =>
         expect(screen.history.push.lastCall.args[0]).to.equal('/pending'),

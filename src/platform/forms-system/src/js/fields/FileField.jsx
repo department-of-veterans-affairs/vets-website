@@ -2,12 +2,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { displayFileSize } from 'platform/utilities/ui';
+import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 import unset from '../../../../utilities/data/unset';
-import classNames from 'classnames';
-
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 import { focusElement } from '../utilities/ui';
 import {
@@ -19,7 +20,6 @@ import {
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
 } from '../utilities/file';
-import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 
 class FileField extends React.Component {
   constructor(props) {
@@ -29,6 +29,7 @@ class FileField extends React.Component {
     };
     this.uploadRequest = null;
   }
+
   fileInputRef = React.createRef();
 
   /* eslint-disable-next-line camelcase */
@@ -94,7 +95,7 @@ class FileField extends React.Component {
       } = this.props;
       const uiOptions = uiSchema['ui:options'];
       // needed for FileField unit tests
-      const mockReadAndCheckFile = uiOptions.mockReadAndCheckFile;
+      const { mockReadAndCheckFile } = uiOptions;
 
       let idx = index;
       if (idx === null) {
@@ -260,7 +261,7 @@ class FileField extends React.Component {
     const uiOptions = uiSchema?.['ui:options'];
     const files = formData || [];
     const maxItems = schema.maxItems || Infinity;
-    const SchemaField = registry.fields.SchemaField;
+    const { SchemaField } = registry.fields;
     const attachmentIdRequired = schema.additionalItems.required
       ? schema.additionalItems.required.includes('attachmentId')
       : false;
@@ -395,7 +396,12 @@ class FileField extends React.Component {
                     </div>
                   )}
                   {description && <p>{description}</p>}
-                  {!file.uploading && <strong id={fileId}>{file.name}</strong>}
+                  {!file.uploading && (
+                    <>
+                      <strong id={fileId}>{file.name}</strong>
+                      {file?.size && <div> {displayFileSize(file.size)}</div>}
+                    </>
+                  )}
                   {(showPasswordInput || showPasswordSuccess) && (
                     <PasswordLabel />
                   )}

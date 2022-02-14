@@ -1,3 +1,6 @@
 {
-  "reporterEnabled": "min, mocha-junit-reporter"
+  "reporterEnabled": "mocha-junit-reporter, mochawesome",
+  "mochawesomeReporterOptions": {
+    "consoleReporter": "min"
+  }
 }

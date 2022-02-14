@@ -28,12 +28,20 @@ import { ContestedIssuesAlert } from '../content/contestedIssues';
  * @property {Object[]} value - array value
  */
 const EligibleIssuesWidget = props => {
-  const onChange = (index, checked) => {
-    const items = set(`[${index}].${SELECTED}`, checked, props.value);
-    props.onChange(items);
+  const {
+    value = [],
+    id,
+    options,
+    formContext = {},
+    onChange: onChangeProp,
+    required,
+  } = props;
+  const handlers = {
+    onChange: (index, checked) => {
+      const items = set(`[${index}].${SELECTED}`, checked, value);
+      onChangeProp(items);
+    },
   };
-
-  const { value = [], id, options, formContext = {}, required } = props;
 
   const onReviewPage = formContext?.onReviewPage || false;
   // inReviewMode = true (review page view, not in edit mode)
@@ -84,7 +92,7 @@ const EligibleIssuesWidget = props => {
         index={index}
         item={item}
         options={options}
-        onChange={onChange}
+        onChange={handlers.onChange}
         showCheckbox={showCheckbox}
       />
     );
@@ -101,14 +109,16 @@ const EligibleIssuesWidget = props => {
 };
 
 EligibleIssuesWidget.propTypes = {
-  id: PropTypes.string,
-  options: PropTypes.shape({}),
   formContext: PropTypes.shape({
     onReviewPage: PropTypes.bool,
     reviewMode: PropTypes.bool,
     submitted: PropTypes.bool,
   }),
+  id: PropTypes.string,
+  options: PropTypes.shape({}),
+  required: PropTypes.bool,
   value: PropTypes.array,
+  onChange: PropTypes.func,
 };
 
 export default EligibleIssuesWidget;

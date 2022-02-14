@@ -1,45 +1,38 @@
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 
+import { contactInformation } from '../../schemaImports';
+
 export const title = 'Additional contact information';
 
+const { additionalInformation } = contactInformation;
+
 export const schema = {
-  type: 'object',
-  title,
+  ...additionalInformation,
   properties: {
-    phoneNumber: {
-      type: 'string',
-      pattern: '^\\d{10}$',
-    },
-    email: {
-      type: 'string',
-      maxLength: 256,
-      format: 'email',
-    },
-    'view:confirmEmail': {
-      type: 'string',
-      maxLength: 256,
-      format: 'email',
+    ...additionalInformation.properties,
+    'view:confirmContactEmail': {
+      $ref: '#/definitions/email',
     },
   },
-  required: ['phoneNumber', 'email'],
 };
 
 export const uiSchema = {
-  phoneNumber: {
+  contactPhone: {
     ...phoneUI(),
     'ui:title': 'Phone number',
   },
-  email: emailUI(),
-  'view:confirmEmail': Object.assign({}, emailUI(), {
+  contactEmail: emailUI(),
+  'view:confirmContactEmail': {
+    ...emailUI(),
     'ui:title': 'Confirm email address',
     'ui:required': () => true,
     'ui:validations': [
       {
         validator: (errors, _fieldData, formData) => {
           if (
-            formData.email.toLowerCase() !==
-            formData['view:confirmEmail'].toLowerCase()
+            formData.contactEmail.toLowerCase() !==
+            formData['view:confirmContactEmail'].toLowerCase()
           ) {
             errors.addError(
               'This email does not match your previously entered email',
@@ -48,5 +41,5 @@ export const uiSchema = {
         },
       },
     ],
-  }),
+  },
 };
