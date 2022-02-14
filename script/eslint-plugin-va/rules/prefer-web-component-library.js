@@ -77,6 +77,20 @@ const breadcrumbsTransformer = (context, node) => {
   });
 };
 
+const isLibraryImport = (context, componentName) => {
+  const isLibraryComponent = context
+    .getAncestors()[0]
+    .body.some(
+      node =>
+        node.type === 'ImportDeclaration' &&
+        node.source.value.includes(
+          `@department-of-veterans-affairs/component-library/${componentName}`,
+        ),
+    );
+
+  return isLibraryComponent;
+};
+
 module.exports = {
   meta: {
     docs: {
@@ -93,13 +107,18 @@ module.exports = {
     return {
       JSXElement(node) {
         const componentName = node.openingElement.name;
-        // TODO: Make sure we're only running the transformer if the component is
-        // from the `component-library`
-        if (componentName.name === 'Telephone') {
-          telephoneTransformer(context, node);
-        }
-        if (componentName.name === 'Breadcrumbs') {
-          breadcrumbsTransformer(context, node);
+
+        if (!isLibraryImport(context, componentName.name)) return;
+
+        switch (componentName.name) {
+          case 'Breadcrumbs':
+            breadcrumbsTransformer(context, node);
+            break;
+          case 'Telephone':
+            telephoneTransformer(context, node);
+            break;
+          default:
+            break;
         }
       },
     };
