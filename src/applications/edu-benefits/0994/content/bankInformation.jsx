@@ -1,11 +1,14 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import environment from 'platform/utilities/environment';
 
-export const bankInfoDescriptionWithInfo =
-  'This is the bank account information we have on file for you. We’ll pay your housing stipend to this account.';
+export const bankInfoDescriptionWithInfo = environment.isProduction()
+  ? 'This is the bank account information we have on file for you. We’ll pay your housing stipend to this account.'
+  : undefined;
 
-export const bankInfoDescriptionWithoutInfo =
-  'We don’t have your bank information on file. Please provide your direct deposit information below. We’ll pay your housing stipend to this account.';
+export const bankInfoDescriptionWithoutInfo = environment.isProduction()
+  ? 'We don’t have your bank information on file. Please provide your direct deposit information below. We’ll pay your housing stipend to this account.'
+  : undefined;
 
 export const bankInfoNote = (
   <div>
@@ -13,8 +16,10 @@ export const bankInfoNote = (
       <strong>Note: </strong>
       Any updates you make here to your bank account information will apply to
       your other Veteran benefits, including compensation, pension, and
-      education. Updates here will not change accounts on file for your VA
-      health benefits.
+      education.
+      {environment.isProduction()
+        ? 'Updates here will not change accounts on file for your VA health benefits.'
+        : 'Updates here won’t change accounts on file for your VA health benefits.'}
     </p>
   </div>
 );
