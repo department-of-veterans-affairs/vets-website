@@ -2,7 +2,9 @@ import * as Sentry from '@sentry/browser';
 import {
   SSO_KEEP_ALIVE_ENDPOINT,
   CSP_AUTHN,
+  CSP_KEYS,
   AUTHN_HEADERS,
+  AUTHN_KEYS,
   CAUGHT_EXCEPTIONS,
   SKIP_DUPE_QUERY,
 } from './constants';
@@ -43,6 +45,33 @@ export const sanitizeAuthn = authnCtx => {
         .replace(SKIP_DUPE_QUERY.MULTIPLE_QUERIES, emptyString);
 };
 
+export const generateAuthnContext = (
+  { headers } = {
+    headers: {},
+  },
+) => {
+  try {
+    const CSP = headers.get(AUTHN_HEADERS.CSP);
+
+    return {
+      [AUTHN_KEYS.CSP_TYPE]: CSP.toLowerCase(),
+      ...(CSP !== CSP_KEYS.LOGINGOV
+        ? {
+            authn: sanitizeAuthn(
+              {
+                [CSP_KEYS.DSLOGON]: CSP_AUTHN.DS_LOGON,
+                [CSP_KEYS.MHV]: CSP_AUTHN.MHV,
+                [CSP_KEYS.IDME]: headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
+              }[CSP],
+            ),
+          }
+        : { [AUTHN_KEYS.IAL]: headers.get(AUTHN_HEADERS.IAL) }),
+    };
+  } catch (err) {
+    return {};
+  }
+};
+
 export default async function keepAlive() {
   /* Return a TTL and authn values from the IAM keepalive endpoint that
   * 1) indicates how long the user's current SSOe session will be alive for,
@@ -62,23 +91,13 @@ export default async function keepAlive() {
     await resp.text();
 
     const alive = resp.headers.get(AUTHN_HEADERS.ALIVE);
-
-    /**
-     * Uses mapped authncontext for DS Logon and MHV
-     * Uses `authncontextclassref` lookup for ID.me and Login.gov
-     */
-    const authn = {
-      DSLogon: CSP_AUTHN.DS_LOGON,
-      mhv: CSP_AUTHN.MHV,
-      LOGINGOV: resp.headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
-      idme: resp.headers.get(AUTHN_HEADERS.AUTHN_CONTEXT),
-    }[resp.headers.get(AUTHN_HEADERS.CSP)];
+    const keepAliveGeneration = generateAuthnContext({ headers: resp.headers });
 
     return {
       ttl:
         alive === 'true' ? Number(resp.headers.get(AUTHN_HEADERS.TIMEOUT)) : 0,
       transactionid: resp.headers.get(AUTHN_HEADERS.TRANSACTION_ID),
-      authn: sanitizeAuthn(authn),
+      ...keepAliveGeneration,
     };
   } catch (err) {
     logToSentry(err);

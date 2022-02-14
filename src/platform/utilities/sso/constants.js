@@ -21,12 +21,25 @@ export const CSP_AUTHN = {
   DS_LOGON: 'dslogon',
 };
 
+export const CSP_KEYS = {
+  DSLOGON: 'DSLogon',
+  LOGINGOV: 'LOGINGOV',
+  IDME: 'idme',
+  MHV: 'mhv',
+};
+
+export const AUTHN_KEYS = {
+  IAL: 'ial',
+  CSP_TYPE: 'csp_type',
+};
+
 export const AUTHN_HEADERS = {
   AUTHN_CONTEXT: 'va_eauth_authncontextclassref',
   CSP: 'va_eauth_csid',
   TRANSACTION_ID: 'va_eauth_transactionid',
   TIMEOUT: 'session-timeout',
   ALIVE: 'session-alive',
+  IAL: 'va_eauth_ial',
 };
 
 export const SSO_KEEP_ALIVE_ENDPOINT = `https://${
