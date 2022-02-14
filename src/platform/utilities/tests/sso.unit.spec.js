@@ -588,7 +588,7 @@ describe('sanitizeAuthn', () => {
 });
 
 describe('generateAuthnContext', () => {
-  it('should return an empty string without headers', () => {
+  it('should return an empty object without headers', () => {
     expect(keepAliveMod.generateAuthnContext()).to.eql({});
   });
 
