@@ -1,11 +1,11 @@
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
-import { transformForSubmit } from './helpers';
 import recordEvent from 'platform/monitoring/record-event';
-import { timeFromNow } from './utilities/date';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { displayFileSize } from 'platform/utilities/ui/index';
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
+import { timeFromNow } from './utilities/date';
+import { transformForSubmit } from './helpers';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
 export const SET_DATA = 'SET_DATA';
@@ -314,9 +314,8 @@ export function uploadFile(
       if (req.status >= 200 && req.status < 300) {
         const body = 'response' in req ? req.response : req.responseText;
         const fileData = uiOptions.parseResponse(JSON.parse(body), file);
-
         recordEvent({ event: `${trackingPrefix}file-uploaded` });
-        onChange({ ...fileData, isEncrypted: !!password });
+        onChange({ ...fileData, size: file.size, isEncrypted: !!password });
       } else {
         let errorMessage = req.statusText;
         try {
@@ -337,11 +336,12 @@ export function uploadFile(
           onChange({
             file, // return file object to allow resubmit
             name: file.name,
+            size: file.size,
             errorMessage,
             isEncrypted: true,
           });
         } else {
-          onChange({ name: file.name, errorMessage });
+          onChange({ name: file.name, size: file.size, errorMessage });
         }
         Sentry.captureMessage(`vets_upload_error: ${errorMessage}`);
         onError();
