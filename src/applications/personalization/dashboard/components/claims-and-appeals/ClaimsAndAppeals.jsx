@@ -163,8 +163,7 @@ const hasAppealsErrorSelector = state => {
 const mapStateToProps = state => {
   const claimsState = state.disability.status;
   const claimsV2Root = claimsState.claimsV2;
-  const { appealsLoading } = claimsV2Root;
-  const { claimsLoading } = claimsV2Root;
+  const { appealsLoading, claimsLoading } = claimsV2Root;
   const hasAppealsError = hasAppealsErrorSelector(state);
   const hasClaimsError =
     claimsV2Root.claimsAvailability === claimsAvailability.UNAVAILABLE;
