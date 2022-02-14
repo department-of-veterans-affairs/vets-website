@@ -8,6 +8,12 @@ import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
 
+import {
+  fetchMilitaryInformation as fetchMilitaryInformationAction,
+  fetchHero as fetchHeroAction,
+} from '@@profile/actions';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
 import {
@@ -34,12 +40,7 @@ import NotInMPIError from '~/applications/personalization/components/NotInMPIErr
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
 import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
-import { fetchDebts } from 'applications/financial-status-report/actions';
-
-import {
-  fetchMilitaryInformation as fetchMilitaryInformationAction,
-  fetchHero as fetchHeroAction,
-} from '@@profile/actions';
+import { fetchDebts } from '~/applications/personalization/dashboard/actions/debts';
 
 import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
 
@@ -48,8 +49,6 @@ import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
 import BenefitPaymentsAndDebt from './benefit-payments-and-debts/BenefitPaymentsAndDebt';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import DebtNotification from './notifications/DebtNotification';
 
 const renderWidgetDowntimeNotification = (downtime, children) => {
