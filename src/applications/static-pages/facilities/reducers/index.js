@@ -2,6 +2,7 @@ import {
   FETCH_FACILITY_FAILED,
   FETCH_FACILITY_STARTED,
   FETCH_FACILITY_SUCCESS,
+  FETCH_MULTI_FACILITY_FAILED,
   FETCH_MULTI_FACILITY_SUCCESS,
 } from '../actions';
 
@@ -17,12 +18,7 @@ export function facilityReducer(state = initialState, action) {
     case FETCH_FACILITY_STARTED:
       return { multidata: {}, data: {}, loading: true, error: false };
     case FETCH_FACILITY_SUCCESS:
-      return {
-        multidata: state.multidata,
-        data: action.facility,
-        loading: false,
-        error: false,
-      };
+      return { data: action.facility, loading: false, error: false };
     case FETCH_MULTI_FACILITY_SUCCESS: {
       const tempData = {};
       tempData[action.facilityID] = action.facility;
@@ -34,7 +30,9 @@ export function facilityReducer(state = initialState, action) {
       };
     }
     case FETCH_FACILITY_FAILED:
-      return { multidata: {}, data: {}, loading: false, error: true };
+      return { data: {}, loading: false, error: true };
+    case FETCH_MULTI_FACILITY_FAILED:
+      return { loading: false, error: true };
     default:
       return state;
   }
