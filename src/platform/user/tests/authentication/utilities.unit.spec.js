@@ -117,6 +117,13 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 
+  it('should redirect to the proper unified sign-in page redirect for eBenefits', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=ebenefits';
+    authUtilities.login({ policy: CSP_IDS.DS_LOGON });
+    expect(global.window.location).to.include('/v1/sessions/dslogon/new');
+  });
+
   it('should mimic modal behavior when sign-in page lacks appliction param', () => {
     global.window.location.pathname = '/sign-in/';
     authUtilities.login({ policy: CSP_IDS.ID_ME });
@@ -184,13 +191,23 @@ describe('sessionStorage', () => {
     expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.eq(returnUrl);
   });
 
-  it('should set sessionStorage to the standaloneRedirect url', () => {
+  it('should set sessionStorage to the standaloneRedirect url (MHV)', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=mhv&to=secure_messaging';
 
     authUtilities.login({ policy: CSP_IDS.ID_ME });
     expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.include(
       `${EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]}?deeplinking=secure_messaging`,
+    );
+  });
+
+  it('should set sessionStorage to the standaloneRedirect url (eBenefits)', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=ebenefits&to=some_place';
+
+    authUtilities.login({ policy: CSP_IDS.ID_ME });
+    expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.include(
+      `${EXTERNAL_REDIRECTS[EXTERNAL_APPS.EBENEFITS]}/some_place`,
     );
   });
 });
@@ -208,11 +225,13 @@ describe('standaloneRedirect', () => {
     expect(authUtilities.standaloneRedirect()).to.be.null;
   });
 
-  it.skip('should return a plain url when no `to` search query is provided', () => {
-    global.window.location.search = '?application=myvahealth';
-    expect(authUtilities.standaloneRedirect()).to.equal(
-      EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH],
-    );
+  it('should return a plain url when no `to` search query is provided', () => {
+    Object.keys(EXTERNAL_APPS).forEach(app => {
+      global.window.location.search = `?application=${EXTERNAL_APPS[app]}`;
+      expect(authUtilities.standaloneRedirect()).to.equal(
+        EXTERNAL_REDIRECTS[EXTERNAL_APPS[app]],
+      );
+    });
   });
 
   it('should strip any CRLF characters from the "to" parameter', () => {
