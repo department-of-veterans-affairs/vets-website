@@ -118,7 +118,9 @@ const ClaimsAndAppeals = ({
             />
             {!highlightedClaimOrAppeal ? (
               <div className="vads-u-margin-top--2p5">
-                <span className="sr-only">Claims and Appeals Links</span>
+                <h3 className="sr-only">
+                  Popular actions for Claims and Appeals
+                </h3>
                 <ClaimsAndAppealsCTA />
               </div>
             ) : null}
@@ -126,7 +128,9 @@ const ClaimsAndAppeals = ({
           {highlightedClaimOrAppeal ? (
             <DashboardWidgetWrapper>
               <div className="vads-u-margin-top--2p5 small-desktop-screen:vads-u-margin-top--0">
-                <span className="sr-only">Claims and Appeals Links</span>
+                <h3 className="sr-only">
+                  Popular actions for Claims and Appeals
+                </h3>
                 <ClaimsAndAppealsCTA />
               </div>
             </DashboardWidgetWrapper>
