@@ -1,6 +1,6 @@
 import React from 'react';
 
-import MonthReviewCard from '../components/MonthReviewCard';
+import MonthReviewCard from './MonthReviewCard';
 
 export default function ReviewEnrollmentVerifications({
   months,
