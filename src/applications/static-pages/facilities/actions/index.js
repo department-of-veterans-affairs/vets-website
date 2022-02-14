@@ -27,10 +27,17 @@ export function fetchMultiFacilitySuccess(facility, facilityID) {
 }
 
 export const FETCH_FACILITY_FAILED = 'FETCH_FACILITY_FAILED';
+export const FETCH_MULTI_FACILITY_FAILED = 'FETCH_MULTI_FACILITY_FAILED';
 
 export function fetchFacilityFailed() {
   return {
     type: FETCH_FACILITY_FAILED,
+  };
+}
+
+export function fetchMultiFacilityFailed() {
+  return {
+    type: FETCH_MULTI_FACILITY_FAILED,
   };
 }
 
@@ -59,6 +66,6 @@ export function fetchMultiFacility(id) {
     // eslint-disable-next-line consistent-return
     return apiRequest(`/facilities/va/${id}`, { apiVersion: 'v1' })
       .then(facility => dispatch(fetchMultiFacilitySuccess(facility.data, id)))
-      .catch(() => dispatch(fetchFacilityFailed()));
+      .catch(() => dispatch(fetchMultiFacilityFailed()));
   };
 }

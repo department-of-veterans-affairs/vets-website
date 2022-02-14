@@ -2,6 +2,7 @@ import {
   FETCH_FACILITY_FAILED,
   FETCH_FACILITY_STARTED,
   FETCH_FACILITY_SUCCESS,
+  FETCH_MULTI_FACILITY_FAILED,
   FETCH_MULTI_FACILITY_SUCCESS,
 } from '../actions';
 
@@ -29,6 +30,8 @@ export function facilityReducer(state = initialState, action) {
       };
     }
     case FETCH_FACILITY_FAILED:
+      return { data: {}, loading: false, error: true };
+    case FETCH_MULTI_FACILITY_FAILED:
       return { loading: false, error: true };
     default:
       return state;
