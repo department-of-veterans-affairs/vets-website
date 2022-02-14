@@ -1,15 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import formConfig from '../config/form';
 import { getSelected } from '../utils/helpers';
 import { ShowIssuesList } from '../components/ShowIssuesList';
+import { contestableIssuesPath, contestedIssuesPath } from '../constants';
 
 export const SummaryTitle = ({ formData }) => {
-  const { pages } = formConfig.chapters.conditions;
-  const pathname = formData.hlrV2
-    ? pages.contestableIssues.path
-    : pages.contestedIssues.path;
+  const pathname = formData.hlrV2 ? contestableIssuesPath : contestedIssuesPath;
   const issues = getSelected(formData);
 
   return (

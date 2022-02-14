@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import {
   DefinitionTester,
   selectCheckbox,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
 

@@ -61,3 +61,6 @@ comparison-output/
 # Ignore custom generated Cypress-TestRail configs
 my-cypress-testrail.json
 script/cypress-testrail-helper/my-config.json
+
+# Ignore mochawesome report directory
+mochawesome-report/

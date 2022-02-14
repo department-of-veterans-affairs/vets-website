@@ -133,3 +133,6 @@ export const SUBMITTED_DISAGREEMENTS = {
   effectiveDate: 'effective date',
   evaluation: 'disability evaluation',
 };
+
+export const contestedIssuesPath = 'eligible-issues'; // v1
+export const contestableIssuesPath = 'contestable-issues'; // v2
