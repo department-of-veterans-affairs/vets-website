@@ -1,19 +1,13 @@
 import React from 'react';
+// import PropTypes from 'prop-types';
 import { PAYMENT_STATUS } from '../actions';
+import { afterLastDayOfMonth } from '../helpers';
+import VerifyYourEnrollments from './VerifyYourEnrollments';
 
-const verifyEnrollmentsActionLink = (
-  <a
-    className="vads-c-action-link--blue"
-    href="/enrollment-history/verify-enrollments"
-  >
-    Verify your enrollments
-  </a>
-);
-
-const successAlert = (
+const successAlert = nextEnrollmentMonth => (
   <va-alert status="success" visible>
     You’re up-to-date with your monthly enrollment verification. You’ll be able
-    to verify your enrollment next month on [Month Day Year].
+    to verify your enrollment next month on {nextEnrollmentMonth}.
   </va-alert>
 );
 const warningAlert = (
@@ -25,7 +19,7 @@ const warningAlert = (
       You’ll need to verify your monthly enrollments to get your scheduled
       payments.
     </p>
-    {verifyEnrollmentsActionLink}
+    <VerifyYourEnrollments />
   </va-alert>
 );
 
@@ -34,10 +28,10 @@ const pausedAlert = (
     <h3 slot="headline">We’ve paused your monthly education payments</h3>
     <p>
       We had to pause your payments because you haven’t verified your
-      enrollment(s) for two months in a row. Please review and verify your
+      enrollment(s) for three months in a row. Please review and verify your
       monthly enrollment(s) to get the payments you’re entitled to.
     </p>
-    {verifyEnrollmentsActionLink}
+    <VerifyYourEnrollments />
   </va-alert>
 );
 
@@ -63,19 +57,36 @@ const pausedScoAlert = (
   </va-alert>
 );
 
-function getEnrollmentVerificationAlert(status) {
-  const anyUnverifiedMonths = status?.months?.some(month => !month.verified);
-
-  if (status?.paymentStatus === PAYMENT_STATUS.ONGOING) {
-    return anyUnverifiedMonths ? warningAlert : successAlert;
+function monthlyPaymentsPaused(unverifiedMonths) {
+  if (unverifiedMonths.length < 3) {
+    return false;
+  }
+  if (unverifiedMonths.length > 3) {
+    return true;
   }
 
-  return status?.paymentStatus === PAYMENT_STATUS.PAUSED
-    ? pausedAlert
-    : pausedScoAlert;
+  const latestUnverifiedMonth = unverifiedMonths.reduce(
+    (prev, current) => (prev.month > current.month ? prev : current),
+  );
+
+  return afterLastDayOfMonth(latestUnverifiedMonth.month);
 }
 
-export default function EnrollmentVerificationAlert({ status }) {
+function getEnrollmentVerificationAlert(status) {
+  if (status?.paymentStatus === PAYMENT_STATUS.SCO_PAUSED) {
+    return pausedScoAlert;
+  }
+
+  const unverifiedMonths = status?.months?.filter(month => !month.verified);
+
+  if (!unverifiedMonths.length) {
+    return successAlert(status.nextEnrollmentMonth);
+  }
+
+  return monthlyPaymentsPaused(unverifiedMonths) ? pausedAlert : warningAlert;
+}
+
+function EnrollmentVerificationAlert({ status }) {
   if (!status) {
     return <></>;
   }
@@ -83,3 +94,21 @@ export default function EnrollmentVerificationAlert({ status }) {
   const alert = getEnrollmentVerificationAlert(status);
   return <>{alert}</>;
 }
+
+export default EnrollmentVerificationAlert;
+
+// EnrollmentVerificationAlert.propTypes = {
+//   status: PropTypes.objectOf({
+//     months: PropTypes.arrayOf({
+//       month: PropTypes.string.isRequired,
+//       verified: PropTypes.bool.isRequired,
+//       enrollments: PropTypes.arrayOf({
+//         institution: PropTypes.string.isRequired,
+//         creditHours: PropTypes.number.isRequired,
+//         startDate: PropTypes.string.isRequired,
+//         endDate: PropTypes.string.isRequired,
+//       }),
+//     }),
+//     paymentStatus: PropTypes.string,
+//   }).isRequired,
+// };
