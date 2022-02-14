@@ -7,7 +7,7 @@ export default function MobileLinks({ links, visible, langConfig }) {
   return (
     <div
       aria-hidden={visible ? 'false' : 'true'}
-      className="usa-grid-full flex-container usa-grid-flex-mobile"
+      className="usa-grid-full flex-container usa-grid-flex-mobile va-footer-content"
     >
       <ul className="usa-accordion va-footer-accordion">
         <li>

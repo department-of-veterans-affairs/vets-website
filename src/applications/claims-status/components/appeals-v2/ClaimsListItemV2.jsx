@@ -29,7 +29,7 @@ export default function ClaimsListItem({ claim }) {
       <div className="card-status">
         <div
           className={`status-circle ${
-            claim.attributes.open ? 'open' : 'closed'
+            claim.attributes.open ? 'open-claim' : 'closed-claim'
           }`}
         />
         <p>

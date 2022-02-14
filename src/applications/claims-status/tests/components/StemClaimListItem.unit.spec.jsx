@@ -59,8 +59,8 @@ describe('<StemClaimListItem>', () => {
   it('should render a status circle with the `closed` class', () => {
     const tree = shallow(<StemClaimListItem claim={defaultClaim} />);
     const circle = tree.find('.status-circle').first();
-    expect(circle.hasClass('open')).to.be.false;
-    expect(circle.hasClass('closed')).to.be.true;
+    expect(circle.hasClass('open-claim')).to.be.false;
+    expect(circle.hasClass('closed-claim')).to.be.true;
     tree.unmount();
   });
 });
