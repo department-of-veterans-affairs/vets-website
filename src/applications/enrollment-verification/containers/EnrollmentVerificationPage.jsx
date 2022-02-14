@@ -54,10 +54,10 @@ export const EnrollmentVerificationPage = ({
           <nav className="ev-related-pages-nav">
             <ul>
               <li>
-                <a href="#">See your GI Bill Statement of Benefits</a>
+                <a href="/">See your GI Bill Statement of Benefits</a>
               </li>
               <li>
-                <a href="#">See your past benefit payments</a>
+                <a href="/">See your past benefit payments</a>
               </li>
             </ul>
           </nav>

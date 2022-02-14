@@ -18,15 +18,16 @@ export function fetchFacilitySuccess(facility) {
   };
 }
 
-export function fetchMultiFacilitySuccess(facilities, facilityID) {
+export function fetchMultiFacilitySuccess(facility, facilityID) {
   return {
     type: FETCH_MULTI_FACILITY_SUCCESS,
-    facilities,
+    facility,
     facilityID,
   };
 }
 
 export const FETCH_FACILITY_FAILED = 'FETCH_FACILITY_FAILED';
+export const FETCH_MULTI_FACILITY_FAILED = 'FETCH_MULTI_FACILITY_FAILED';
 
 export function fetchFacilityFailed() {
   return {
@@ -34,8 +35,13 @@ export function fetchFacilityFailed() {
   };
 }
 
+export function fetchMultiFacilityFailed() {
+  return {
+    type: FETCH_MULTI_FACILITY_FAILED,
+  };
+}
+
 export const FETCH_FACILITY = 'FETCH_FACILITY';
-export const FETCH_MULTI_FACILITY = 'FETCH_MULTI_FACILITY';
 
 export function fetchFacility(id) {
   return (dispatch, getState) => {
@@ -54,17 +60,12 @@ export function fetchFacility(id) {
 }
 
 export function fetchMultiFacility(id) {
-  return (dispatch, getState) => {
-    const { loading } = getState().facility;
-    const { data } = getState().facility;
-    if (loading && !Object.keys(data).length) {
-      return;
-    }
+  return dispatch => {
     dispatch(fetchFacilityStarted());
 
     // eslint-disable-next-line consistent-return
     return apiRequest(`/facilities/va/${id}`, { apiVersion: 'v1' })
       .then(facility => dispatch(fetchMultiFacilitySuccess(facility.data, id)))
-      .catch(() => dispatch(fetchFacilityFailed()));
+      .catch(() => dispatch(fetchMultiFacilityFailed()));
   };
 }

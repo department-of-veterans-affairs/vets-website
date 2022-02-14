@@ -30,6 +30,7 @@
 .debt-card {
   padding: 24px;
   label {
+    display: inline-block !important;
     user-select: none;
   }
   [type="checkbox"]:checked + label::before {
@@ -57,9 +58,9 @@
     table-layout: fixed;
   }
   .item-loop {
-    padding: 5px 15px 20px;
+    padding: 15px 30px;
     background-color: $color-gray-lightest;
-    .horizontal-field-container .schemaform-field-container {
+    .horizontal-field-container {
       display: flex;
       align-items: center;
       margin: 20px 0;

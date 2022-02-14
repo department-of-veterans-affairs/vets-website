@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/browser';
 import recordEvent from '../../monitoring/record-event';
 import localStorage from '../../utilities/storage/localStorage';
 import { fetchAndUpdateSessionExpiration as fetch } from '../../utilities/api';
-import { sanitizeForm, inProgressApi } from '../helpers';
+import { inProgressApi } from '../helpers';
 import { VA_FORM_IDS_SKIP_INFLECTION } from '../constants';
 
 export function removeFormApi(formId) {
@@ -30,7 +30,8 @@ export function removeFormApi(formId) {
         Sentry.captureException(res);
         Sentry.captureMessage('vets_sip_error_delete');
         return Promise.resolve();
-      } else if (!res.ok) {
+      }
+      if (!res.ok) {
         Sentry.captureMessage(`vets_sip_error_delete: ${res.statusText}`);
       }
 
@@ -99,8 +100,7 @@ export function saveFormApi(
         });
       } else {
         Sentry.captureException(resOrError);
-        Sentry.withScope(scope => {
-          scope.setExtra('form', sanitizeForm(formData));
+        Sentry.withScope(() => {
           Sentry.captureMessage('vets_sip_error_save');
         });
         recordEvent({

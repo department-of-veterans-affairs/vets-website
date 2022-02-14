@@ -1,12 +1,13 @@
 import React from 'react';
+
 import {
   createUSAStateLabels,
   formatReviewDate,
-} from '~/platform/forms-system/src/js/helpers';
+} from 'platform/forms-system/src/js/helpers';
 import {
   validateDate,
   validateDateRange,
-} from '~/platform/forms-system/src/js/validation';
+} from 'platform/forms-system/src/js/validation';
 import { states } from 'platform/forms/address';
 
 import { loanHistory } from '../../schemaImports';
@@ -30,18 +31,10 @@ const PreviousLoanView = ({ formData }) => {
   );
 };
 
-// NOTE: These will be removed after schema is update in vets-json-schema
-delete loanHistory.properties.loans.items.properties.title;
-loanHistory.properties.loans.items.properties.loanNumber = {
-  type: 'number',
-  title: 'VA loan number',
-  properties: {},
-};
-
 export const schema = loanHistory;
 
 export const uiSchema = {
-  loans: {
+  relevantPriorLoans: {
     'ui:description': 'Tell us about all your VA-backed loans',
     'ui:options': {
       itemName: 'VA-backed Loan',
@@ -58,7 +51,7 @@ export const uiSchema = {
           pattern: 'Date loan ended must be after the start of the loan',
           required: 'Please enter a date',
         },
-        from: {
+        startDate: {
           'ui:title': 'Closing date of your loan',
           'ui:widget': 'date',
           'ui:validations': [validateDate],
@@ -67,7 +60,7 @@ export const uiSchema = {
             required: 'Please enter a date',
           },
         },
-        to: {
+        paidOffDate: {
           'ui:title':
             'Date you paid off your loan (Leave this blank if it’s not paid off)',
           'ui:widget': 'date',
@@ -81,31 +74,37 @@ export const uiSchema = {
           },
         },
       },
-      address: {
+      propertyAddress: {
         'ui:title': 'Property address',
-        'ui:order': ['street', 'street2', 'city', 'state', 'postalCode'],
-        street: {
+        'ui:order': [
+          'propertyAddress1',
+          'propertyAddress2',
+          'propertyCity',
+          'propertyState',
+          'propertyZip',
+        ],
+        propertyAddress1: {
           'ui:title': 'Street address',
           'ui:errorMessages': { required: 'Please enter a street address' },
         },
-        street2: {
+        propertyAddress2: {
           'ui:title': 'Street address line 2',
           'ui:options': {
             hideEmptyValueInReview: true,
           },
         },
-        city: {
+        propertyCity: {
           'ui:title': `City`,
           'ui:errorMessages': { required: 'Please enter a city' },
         },
-        state: {
+        propertyState: {
           'ui:title': 'State',
           'ui:options': {
             labels: stateLabels,
           },
           'ui:errorMessages': { required: 'Please enter a state' },
         },
-        postalCode: {
+        propertyZip: {
           'ui:title': 'Postal code',
           'ui:options': { widgetClassNames: 'usa-input-medium' },
           'ui:errorMessages': {
@@ -115,8 +114,8 @@ export const uiSchema = {
           },
         },
       },
-      loanNumber: {},
-      isCurrentlyOwned: {
+      vaLoanNumber: {},
+      propertyOwned: {
         'ui:title': 'Do you still own this property?',
         'ui:widget': 'yesNo',
         'ui:options': {

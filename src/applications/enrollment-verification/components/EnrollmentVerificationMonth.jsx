@@ -47,7 +47,8 @@ const contactScoMonthStatusMessage = (
 function getMonthStatusMessage(month, paymentStatus) {
   if (month.verified) {
     return verifiedMonthStatusMessage;
-  } else if (paymentStatus === PAYMENT_STATUS.ONGOING) {
+  }
+  if (paymentStatus === PAYMENT_STATUS.ONGOING) {
     return notVerifiedMonthStatusMessage;
   }
 

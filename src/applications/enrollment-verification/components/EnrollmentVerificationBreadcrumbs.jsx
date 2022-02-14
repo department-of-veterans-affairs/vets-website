@@ -6,7 +6,7 @@ export default function EnrollmentVerificationBreadcrumbs() {
     <a href="/" key="home">
       Home
     </a>,
-    <a href="#" key="education-and-training">
+    <a href="/" key="education-and-training">
       Education and training
     </a>,
   ];
@@ -19,20 +19,20 @@ export default function EnrollmentVerificationBreadcrumbs() {
 
   if (page === 'enrollment-history' || page === 'verify-enrollments') {
     breadcrumbs.push(
-      <a href="#" key="enrollment-history">
+      <a href="/" key="enrollment-history">
         Verify your school enrollments
       </a>,
     );
   } else if (page === 'review-enrollments') {
     breadcrumbs.push(
-      <a href="#" key="review-enrollments">
+      <a href="/" key="review-enrollments">
         Enrollment verifications
       </a>,
     );
   }
   if (page === 'verify-enrollments') {
     breadcrumbs.push(
-      <a href="#" key="verify-enrollments">
+      <a href="/" key="verify-enrollments">
         Verify your enrollments
       </a>,
     );

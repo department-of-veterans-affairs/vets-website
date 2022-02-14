@@ -111,12 +111,12 @@
     margin-right: 0.8rem;
     margin-top: 0.5rem;
 
-    &.open {
+    &.open-claim {
       background-color: $color-green;
     }
 
-    &.closed {
-      background-color: $color-gray-light;
+    &.closed-claim {
+      background-color: $color-gray;
     }
   }
 
@@ -743,7 +743,7 @@ h1:focus {
 }
 
 .current-status {
-  &.closed {
+  &.closed-claim {
     .current-status-content {
       border-left-color: transparent;
 
