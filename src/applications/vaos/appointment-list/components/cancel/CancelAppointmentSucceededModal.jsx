@@ -16,7 +16,9 @@ export default function CancelAppointmentSucceededModal({
         onClose={onClose}
         title={`Your ${typeText} has been canceled`}
       >
-        If you want to reschedule, call us or schedule a new {typeText} online.
+        {isConfirmed
+          ? `If you want to reschedule, call us or schedule a new ${typeText} online.`
+          : `If you still need an appointment, call us or request a new appointment online.`}
         <p className="vads-u-margin-top--2">
           <button type="button" onClick={onClose}>
             Continue

@@ -22,7 +22,7 @@ function handleClick({
       history.push(link);
 
       if (featureStatusImprovement) {
-        dispatch(updateBreadcrumb({ title: 'Pending', path: '/requested' }));
+        dispatch(updateBreadcrumb({ title: 'Pending', path: '/pending' }));
       }
     }
   };
@@ -41,7 +41,7 @@ function handleKeyDown({
       history.push(link);
 
       if (featureStatusImprovement) {
-        dispatch(updateBreadcrumb({ title: 'Pending', path: '/requested' }));
+        dispatch(updateBreadcrumb({ title: 'Pending', path: '/pending' }));
       }
     }
   };
@@ -51,7 +51,7 @@ function handleLinkClicked(featureStatusImprovement, dispatch) {
   return e => {
     e.preventDefault();
     if (featureStatusImprovement) {
-      dispatch(updateBreadcrumb({ title: 'Pending', path: '/requested' }));
+      dispatch(updateBreadcrumb({ title: 'Pending', path: '/pending' }));
     }
   };
 }

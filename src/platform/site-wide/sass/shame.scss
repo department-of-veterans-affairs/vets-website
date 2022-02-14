@@ -554,6 +554,26 @@ $medium-phone-screen: 375px;
   clear: both;
 }
 
+.image-detail {
+  width: 25%;
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+  .alt-text-container {
+    min-height: 200px;
+  }
+}
+
+.image-desc {
+  width: 50%;
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+}
+._acs._acsbadge--default {
+  background-color: $color-black !important;
+}
+
 .media-list-images {
   @media (min-width: $small-screen) {
     max-width: 50%;

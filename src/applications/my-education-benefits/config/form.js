@@ -7,7 +7,6 @@ import environment from 'platform/utilities/environment';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
 import merge from 'lodash/merge';
-
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
@@ -17,6 +16,7 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import * as address from 'platform/forms-system/src/js/definitions/address';
+
 import GetFormHelp from '../components/GetFormHelp';
 import fullSchema from '../22-1990-schema.json';
 
@@ -1055,7 +1055,7 @@ const formConfig = {
           path: 'benefit-selection',
           title: 'Benefit selection',
           subTitle: "You're applying for the Post-9/11 GI Bill®",
-          depends: formData => formData.eligibility?.veteranIsEligible,
+          depends: formData => formData.eligibility?.length,
           uiSchema: {
             'view:post911Notice': {
               'ui:description': (
@@ -1122,14 +1122,14 @@ const formConfig = {
                     const filterEligibility = createSelector(
                       state => state.eligibility,
                       eligibility => {
-                        if (!eligibility) {
+                        if (!eligibility || !eligibility.length) {
                           return benefits;
                         }
 
                         return {
                           enum: benefits.filter(
                             benefit =>
-                              eligibility.chapter.includes(benefit) ||
+                              eligibility.includes(benefit) ||
                               benefit === 'CannotRelinquish',
                           ),
                         };

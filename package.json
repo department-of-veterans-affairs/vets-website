@@ -200,6 +200,7 @@
     "minimist": "^1.2.5",
     "mocha": "^8.2.1",
     "mocha-junit-reporter": "^2.0.0",
+    "mocha-multi-reporters": "^1.5.1",
     "mocha-snapshots": "^4.2.0",
     "mochawesome": "^6.2.2",
     "mock-fs": "^5.1.1",
@@ -315,7 +316,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#daa6f14539b167dc179cd4495159d58eade30211",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#5c0af7a98ab0390566f4756428c90625ff145b31",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {
