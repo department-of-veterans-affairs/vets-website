@@ -29,8 +29,6 @@ const defaultKeepAliveOpts = {
   [AUTHN_HEADERS.CSP]: undefined,
   [AUTHN_HEADERS.AUTHN_CONTEXT]: 'NOT_FOUND',
   [AUTHN_HEADERS.IAL]: null,
-  [AUTHN_HEADERS.AAL]: null,
-  [AUTHN_HEADERS.CSP_METHOD]: null,
 };
 
 export function generateMockKeepAliveResponse(

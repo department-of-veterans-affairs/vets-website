@@ -26,7 +26,8 @@ function keepAlive() {
 }
 
 export async function ssoKeepAliveSession() {
-  const { ttl, transactionid, ...rest } = await keepAlive();
+  const keepAliveResponse = await keepAlive();
+  const { ttl } = keepAliveResponse;
   if (ttl > 0) {
     // ttl is positive, user has an active session
     // ttl is in seconds, add from now
@@ -40,7 +41,7 @@ export async function ssoKeepAliveSession() {
     // ttl is null, we can't determine if the user has a session or not
     localStorage.removeItem('hasSessionSSO');
   }
-  return { ttl, transactionid, ...rest };
+  return keepAliveResponse;
 }
 
 /**
