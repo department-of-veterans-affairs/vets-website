@@ -31,6 +31,40 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' }}
         run: echo 'COMMIT_SHA=${{ github.event.inputs.commit_sha }}' >> $GITHUB_ENV
 
+  determine-build-type:
+    name: Determine if full build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: List changed files
+        id: changed-files
+        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+
+      - name: Get app entries for changed files
+        id: get-changed-apps
+        run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+
+      - name: Cancel workflow if full build
+        if: ${{ steps.get-changed-apps.outputs.app_entries == '' }}
+        uses: andymckay/cancel-action@0.2
+
   build:
     name: Build
     runs-on: self-hosted
