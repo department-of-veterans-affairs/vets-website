@@ -77,18 +77,32 @@ const breadcrumbsTransformer = (context, node) => {
   });
 };
 
-const isLibraryImport = (context, componentName) => {
-  const isLibraryComponent = context
-    .getAncestors()[0]
-    .body.some(
-      node =>
-        node.type === 'ImportDeclaration' &&
-        node.source.value.includes(
-          `@department-of-veterans-affairs/component-library/${componentName}`,
-        ),
-    );
+let isLibraryComponent = {};
 
-  return isLibraryComponent;
+const updateIsLibraryImportObj = (context, componentName) => {
+  isLibraryComponent[context.getFilename()] = {
+    ...isLibraryComponent[context.getFilename()],
+    [componentName]: context
+      .getAncestors()[0]
+      .body.some(
+        node =>
+          node.type === 'ImportDeclaration' &&
+          node.source.value.includes(
+            `@department-of-veterans-affairs/component-library/${componentName}`,
+          ),
+      ),
+  };
+};
+
+const isLibraryImport = (context, componentName) => {
+  if (
+    !isLibraryComponent
+      .hasOwnProperty(context.getFilename())
+      ?.hasOwnProperty(componentName)
+  ) {
+    updateIsLibraryImportObj(context, componentName);
+  }
+  return isLibraryComponent[context.getFilename()][componentName];
 };
 
 module.exports = {
