@@ -32,7 +32,7 @@ jobs:
         run: echo 'COMMIT_SHA=${{ github.event.inputs.commit_sha }}' >> $GITHUB_ENV
 
   determine-build-type:
-    name: Determine if full build
+    name: Determine if commit is full build
     runs-on: ubuntu-latest
 
     steps:
@@ -164,7 +164,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
 
-      - name: Checkout vets-website
+      - name: Checkout
         uses: actions/checkout@v2
         with:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
