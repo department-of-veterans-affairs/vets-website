@@ -100,7 +100,9 @@ describe('Content in EDIT state on the personal information page', () => {
     cy.findByText('Transgender woman').should('exist');
     cy.findByText('Transgender man').should('exist');
     cy.findByText('Non-binary').should('exist');
-    cy.findByText('Prefer not to answer').should('exist');
+    cy.findByText('Prefer not to answer (un-checks other options)').should(
+      'exist',
+    );
     cy.findByText('A gender not listed here').should('exist');
 
     cy.findAllByTestId('cancel-edit-button')
@@ -126,7 +128,9 @@ describe('Content in EDIT state on the personal information page', () => {
     cy.findByText('Bisexual').should('exist');
     cy.findByText('Queer').should('exist');
     cy.findByText('Don’t know').should('exist');
-    cy.findByText('Prefer not to answer').should('exist');
+    cy.findByText('Prefer not to answer (un-checks other options)').should(
+      'exist',
+    );
     cy.findByText('A sexual orientation not listed here').should('exist');
 
     cy.findAllByTestId('cancel-edit-button')

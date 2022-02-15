@@ -16,8 +16,11 @@ import { pureWithDeepEquals } from '~/platform/forms-system/src/js/helpers';
 import { isReactComponent } from '~/platform/utilities/ui';
 
 /*
- * This is largely copied from the react-jsonschema-form library,
- * but with the way descriptions are used changed
+ * This is largely copied platform/forms-system/src/js/fields/ObjectField.jsx
+ * the customization is in an 'auto-deselect' functionality
+ * which lives in the onPropertyChange method
+ * This is required for the behavior of some checkbox fields that include
+ * a 'prefer not to answer' option
  */
 
 /*
@@ -40,16 +43,36 @@ function setFirstFields(id) {
   }
 }
 
-class CustomObjectField extends React.Component {
-  static defaultProps = {
-    uiSchema: {},
-    errorSchema: {},
-    idSchema: {},
-    registry: getDefaultRegistry(),
-    required: false,
-    disabled: false,
-    readonly: false,
-  };
+class DeselectableObjectField extends React.Component {
+  static deselectBasedOnValue(name, value, formData) {
+    const keys = Object.keys(formData);
+
+    // handle the preferNotToAnswer option selected so that
+    // all other options are set to false and deselected
+    if (name === 'preferNotToAnswer' && value === true) {
+      let formDataDeselected = { ...formData };
+      keys.forEach(key => {
+        if (key !== 'preferNotToAnswer') {
+          formDataDeselected = set(key, false, formDataDeselected);
+        }
+      });
+      return set(name, value, formDataDeselected);
+    }
+
+    // uncheck preferNotToAnswer if any other option is selected after the fact
+    if (name !== 'preferNotToAnswer' && value === true) {
+      const formDataPreferDeselected = set(
+        'preferNotToAnswer',
+        false,
+        formData,
+      );
+      return set(name, value, formDataPreferDeselected);
+    }
+
+    // return a default object with changed value when
+    // the above conditions are not met
+    return set(name, value, formData);
+  }
 
   constructor(props) {
     super(props);
@@ -107,34 +130,9 @@ class CustomObjectField extends React.Component {
             this.props.registry.definitions,
           );
 
-      const keys = Object.keys(formData);
-
-      // handle the preferNotToAnswer option selected so that
-      // all other options are set to false and deselected
-      if (name === 'preferNotToAnswer' && value === true) {
-        let formDataDeselected = { ...formData };
-        keys.forEach(key => {
-          if (key !== 'preferNotToAnswer') {
-            formDataDeselected = set(key, false, formDataDeselected);
-          }
-        });
-        this.props.onChange(set(name, value, formDataDeselected));
-        return;
-      }
-
-      // uncheck preferNotToAnswer if any other option is selected after the fact
-      if (name !== 'preferNotToAnswer' && value === true) {
-        const formDataPreferDeselected = set(
-          'preferNotToAnswer',
-          false,
-          formData,
-        );
-        this.props.onChange(set(name, value, formDataPreferDeselected));
-        return;
-      }
-
-      // handle a regular value change
-      this.props.onChange(set(name, value, formData));
+      this.props.onChange(
+        DeselectableObjectField.deselectBasedOnValue(name, value, formData),
+      );
     };
   }
 
@@ -350,24 +348,34 @@ class CustomObjectField extends React.Component {
   }
 }
 
-CustomObjectField.propTypes = {
+DeselectableObjectField.defaultProps = {
+  uiSchema: {},
+  errorSchema: {},
+  idSchema: {},
+  registry: getDefaultRegistry(),
+  required: false,
+  disabled: false,
+  readonly: false,
+};
+
+DeselectableObjectField.propTypes = {
   schema: PropTypes.object.isRequired,
-  uiSchema: PropTypes.object,
-  errorSchema: PropTypes.object,
-  idSchema: PropTypes.object,
   onChange: PropTypes.func.isRequired,
-  formData: PropTypes.object,
-  required: PropTypes.bool,
   disabled: PropTypes.bool,
+  errorSchema: PropTypes.object,
+  formData: PropTypes.object,
+  idSchema: PropTypes.object,
   readonly: PropTypes.bool,
   registry: PropTypes.shape({
+    definitions: PropTypes.object.isRequired,
+    fields: PropTypes.objectOf(PropTypes.func).isRequired,
+    formContext: PropTypes.object.isRequired,
     widgets: PropTypes.objectOf(
       PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     ).isRequired,
-    fields: PropTypes.objectOf(PropTypes.func).isRequired,
-    definitions: PropTypes.object.isRequired,
-    formContext: PropTypes.object.isRequired,
   }),
+  required: PropTypes.bool,
+  uiSchema: PropTypes.object,
 };
 
-export default CustomObjectField;
+export default DeselectableObjectField;

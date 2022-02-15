@@ -4,7 +4,7 @@ import moment from 'moment';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import OtherTextField from '@@profile/components/personal-information/OtherTextField';
 import { NOT_SET_TEXT } from '../../constants';
-import CustomObjectField from '../../components/personal-information/CustomObjectField';
+import DeselectableObjectField from '../../components/personal-information/DeselectableObjectField';
 
 const createBooleanSchemaPropertiesFromOptions = obj =>
   mapValues(obj, () => {
@@ -24,7 +24,7 @@ const genderLabels = {
   transgenderWoman: 'Transgender woman',
   transgenderMan: 'Transgender man',
   nonBinary: 'Non-binary',
-  preferNotToAnswer: 'Prefer not to answer',
+  preferNotToAnswer: 'Prefer not to answer (un-checks other options)',
   genderNotListed: 'A gender not listed here',
 };
 
@@ -34,7 +34,7 @@ const sexualOrientationLabels = {
   bisexual: 'Bisexual',
   queer: 'Queer',
   dontKnow: 'Don’t know',
-  preferNotToAnswer: 'Prefer not to answer',
+  preferNotToAnswer: 'Prefer not to answer (un-checks other options)',
   sexualOrientationNotListed: 'A sexual orientation not listed here',
 };
 
@@ -119,11 +119,12 @@ export const personalInformationUiSchemas = {
     },
   },
   genderIdentity: {
-    'ui:field': CustomObjectField,
+    'ui:field': DeselectableObjectField,
     'ui:description': `Select your gender identity`,
     ...createUiTitlePropertiesFromOptions(genderLabels),
   },
   sexualOrientation: {
+    'ui:field': DeselectableObjectField,
     'ui:widget': 'checkbox',
     'ui:description': `Select your sexual orientation`,
     ...createUiTitlePropertiesFromOptions(sexualOrientationLabels),
