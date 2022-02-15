@@ -2,7 +2,6 @@ import _ from 'lodash';
 import { INITIAL_STATE } from '../reducers/search';
 import appendQuery from 'append-query';
 import { buildSearchFilters } from './filters';
-import environment from 'platform/utilities/environment';
 
 export const getSearchQueryChanged = query => {
   return !_.isEqual(query, INITIAL_STATE.query);
@@ -23,7 +22,7 @@ export const updateUrlParams = (
     searchQuery.name !== '' &&
     searchQuery.name !== null &&
     searchQuery.name !== undefined &&
-    (environment.isProduction() || queryParams.search === 'name')
+    queryParams.search === 'name'
   ) {
     queryParams.name = searchQuery.name;
   }
@@ -32,7 +31,7 @@ export const updateUrlParams = (
     searchQuery.location !== '' &&
     searchQuery.location !== null &&
     searchQuery.location !== undefined &&
-    (environment.isProduction() || queryParams.search === 'location')
+    queryParams.search === 'location'
   ) {
     queryParams.location = searchQuery.location;
   }

@@ -57,7 +57,9 @@ const BenefitPaymentsAndDebt = ({
                 </p>
               </>
             )}
-            <span className="sr-only">Benefit Payments and Debt Links</span>
+            <h3 className="sr-only">
+              Popular actions for Benefit Payments and Debt
+            </h3>
             {!lastPayment && (
               <IconCTALink
                 href="/va-payment-history/payments/"

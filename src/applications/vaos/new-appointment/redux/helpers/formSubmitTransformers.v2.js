@@ -109,9 +109,7 @@ export function transformFormToVAOSVARequest(state) {
           code,
         },
       ],
-      text: {
-        type: code,
-      },
+      text: code,
     },
     comment: data.reasonAdditionalInfo,
     contact: {

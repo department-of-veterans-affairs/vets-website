@@ -350,7 +350,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
       comment: 'I need an appt',
       reasonCode: {
         coding: [{ code: 'Routine Follow-up' }],
-        text: { type: 'Routine Follow-up' },
+        text: 'Routine Follow-up',
       },
       contact: {
         telecom: [

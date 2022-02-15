@@ -4,8 +4,4 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 
 export const getFindFormsAppState = state => state.findVAFormsReducer;
 export const showPDFModal = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.findFormsEnhancementFlagOne];
-export const applyFeatureFlagTwo = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.findFormsEnhancementFlagTwo];
-export const applyFeatureFlagThree = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.findFormsEnhancementFlagThree];
+  toggleValues(state)[FEATURE_FLAG_NAMES.findFormsShowPdfModal];

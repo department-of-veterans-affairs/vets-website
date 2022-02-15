@@ -122,7 +122,7 @@ const HealthCare = ({
               <p>You have no appointments scheduled in the next 30 days.</p>
             )}
 
-          <span className="sr-only">Health Care Links</span>
+          <h3 className="sr-only">Popular actions for Health Care</h3>
           {!hasUpcomingAppointment &&
             !hasAppointmentsError && (
               <IconCTALink
