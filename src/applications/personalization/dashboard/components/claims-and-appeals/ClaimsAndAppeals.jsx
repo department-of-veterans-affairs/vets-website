@@ -118,7 +118,9 @@ const ClaimsAndAppeals = ({
             />
             {!highlightedClaimOrAppeal ? (
               <div className="vads-u-margin-top--2p5">
-                <span className="sr-only">Claims and Appeals Links</span>
+                <h3 className="sr-only">
+                  Popular actions for Claims and Appeals
+                </h3>
                 <ClaimsAndAppealsCTA />
               </div>
             ) : null}
@@ -126,7 +128,9 @@ const ClaimsAndAppeals = ({
           {highlightedClaimOrAppeal ? (
             <DashboardWidgetWrapper>
               <div className="vads-u-margin-top--2p5 small-desktop-screen:vads-u-margin-top--0">
-                <span className="sr-only">Claims and Appeals Links</span>
+                <h3 className="sr-only">
+                  Popular actions for Claims and Appeals
+                </h3>
                 <ClaimsAndAppealsCTA />
               </div>
             </DashboardWidgetWrapper>
@@ -159,8 +163,7 @@ const hasAppealsErrorSelector = state => {
 const mapStateToProps = state => {
   const claimsState = state.disability.status;
   const claimsV2Root = claimsState.claimsV2;
-  const { appealsLoading } = claimsV2Root;
-  const { claimsLoading } = claimsV2Root;
+  const { appealsLoading, claimsLoading } = claimsV2Root;
   const hasAppealsError = hasAppealsErrorSelector(state);
   const hasClaimsError =
     claimsV2Root.claimsAvailability === claimsAvailability.UNAVAILABLE;
