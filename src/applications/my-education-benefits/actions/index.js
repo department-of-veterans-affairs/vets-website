@@ -36,8 +36,10 @@ export const ELIGIBILITY = {
   CHAPTER1606: 'Chapter1606',
 };
 
-const ONE_MINUTE_IN_THE_FUTURE = new Date(new Date().getTime() + 60000);
 const FIVE_SECONDS = 5000;
+const ONE_MINUTE_IN_THE_FUTURE = () => {
+  return new Date(new Date().getTime() + 60000);
+};
 
 export function fetchPersonalInformation() {
   return async dispatch => {
@@ -63,7 +65,7 @@ const poll = ({
   endpoint,
   validate = response => response && response.data,
   interval = FIVE_SECONDS,
-  endTime = ONE_MINUTE_IN_THE_FUTURE,
+  endTime = ONE_MINUTE_IN_THE_FUTURE(),
   dispatch,
   timeoutResponse,
   successDispatchType,
