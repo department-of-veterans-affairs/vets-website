@@ -65,14 +65,25 @@ export const uiSchema = {
       accountType: {
         ...bankAccountUI.accountType,
         'ui:reviewWidget': PaymentReviewView,
+        'ui:errorMessages': {
+          required: 'Please choose an account type',
+        },
       },
       accountNumber: {
         ...bankAccountUI.accountNumber,
         'ui:reviewWidget': PaymentReviewView,
+        'ui:errorMessages': {
+          required: 'Please provide a bank account number',
+          pattern: 'Please enter a valid account number',
+        },
       },
       routingNumber: {
         ...bankAccountUI.routingNumber,
         'ui:reviewWidget': PaymentReviewView,
+        'ui:errorMessages': {
+          required: 'Please provide a bank routing number',
+          pattern: 'Please enter a valid routing number',
+        },
       },
     },
   },

@@ -27,6 +27,7 @@ const uiSchema = {
   accountNumber: {
     'ui:title': 'Bank account number',
     'ui:errorMessages': {
+      pattern: 'Please enter a valid account number',
       required: 'Please enter a bank account number',
     },
   },
