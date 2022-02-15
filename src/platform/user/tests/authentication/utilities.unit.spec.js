@@ -121,6 +121,13 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/v1/sessions/idme/new');
   });
 
+  it('should redirect to the proper unified sign-in page redirect for eBenefits', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=ebenefits';
+    authUtilities.login({ policy: CSP_IDS.DS_LOGON });
+    expect(global.window.location).to.include('/v1/sessions/dslogon/new');
+  });
+
   it('should mimic modal behavior when sign-in page lacks appliction param', () => {
     global.window.location.pathname = '/sign-in/';
     authUtilities.login({ policy: CSP_IDS.ID_ME });
@@ -188,13 +195,23 @@ describe('sessionStorage', () => {
     expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.eq(returnUrl);
   });
 
-  it('should set sessionStorage to the standaloneRedirect url', () => {
+  it('should set sessionStorage to the standaloneRedirect url (MHV)', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=mhv&to=secure_messaging';
 
     authUtilities.login({ policy: CSP_IDS.ID_ME });
     expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.include(
       `${EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]}?deeplinking=secure_messaging`,
+    );
+  });
+
+  it('should set sessionStorage to the standaloneRedirect url (eBenefits)', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=ebenefits&to=some_place';
+
+    authUtilities.login({ policy: CSP_IDS.ID_ME });
+    expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.include(
+      `${EXTERNAL_REDIRECTS[EXTERNAL_APPS.EBENEFITS]}/some_place`,
     );
   });
 });
@@ -212,10 +229,17 @@ describe('standaloneRedirect', () => {
     expect(authUtilities.standaloneRedirect()).to.be.null;
   });
 
-  it.skip('should return a plain url when no `to` search query is provided', () => {
-    global.window.location.search = '?application=myvahealth';
+  it('should return a plain url for (MHV & Cerner) when no `to` search query is provided', () => {
+    global.window.location.search = `?application=${EXTERNAL_APPS.MHV}`;
     expect(authUtilities.standaloneRedirect()).to.equal(
-      EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH],
+      EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV],
+    );
+  });
+
+  it('should return the default `/profilepostauth` for (eBenefits) when no `to` search query is provided', () => {
+    global.window.location.search = `?application=${EXTERNAL_APPS.EBENEFITS}`;
+    expect(authUtilities.standaloneRedirect()).to.equal(
+      `${EXTERNAL_REDIRECTS[EXTERNAL_APPS.EBENEFITS]}/profilepostauth`,
     );
   });
 
@@ -238,5 +262,28 @@ describe('loginAppUrlRE', () => {
   it('should not resolve to a login app url', () => {
     expect(authUtilities.loginAppUrlRE.test('/sign-in-faq')).to.be.false;
     expect(authUtilities.loginAppUrlRE.test('/sign-in-faq/')).to.be.false;
+  });
+});
+
+describe('generatePath', () => {
+  it('should default to an empty string if `to` is null/undefined', () => {
+    expect(authUtilities.generatePath('mhv')).to.eql('');
+    expect(authUtilities.generatePath('myvahealth')).to.eql('');
+  });
+  it('should default to `/profilepostauth` for eBenefits', () => {
+    expect(authUtilities.generatePath('ebenefits')).to.eql('/profilepostauth');
+  });
+  it('should default to having a `/` regardless if `to` query params has it for (eBenefits or Cerner)', () => {
+    expect(authUtilities.generatePath('myvahealth', 'secure_messaging')).to.eql(
+      '/secure_messaging',
+    );
+    expect(
+      authUtilities.generatePath('ebenefits', '/profile_dashboard'),
+    ).to.eql('/profile_dashboard');
+  });
+  it('should create deeplinking query param for mhv if `to` provided', () => {
+    expect(authUtilities.generatePath('mhv', 'some_random_link')).to.eql(
+      '?deeplinking=some_random_link',
+    );
   });
 });
