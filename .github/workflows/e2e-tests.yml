@@ -9,7 +9,7 @@ on:
   workflow_run:
     workflows: [Continuous Integration]
     types: [completed]
-    branches: [e2e-tests-workflow]
+    branches: [master]
 
 env:
   NUM_CONTAINERS: '8'
@@ -62,7 +62,7 @@ jobs:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Cancel workflow if full build
-        if: ${{ steps.get-changed-apps.outputs.app_entries == '' }}
+        if: ${{ github.event_name == 'workflow_run' && steps.get-changed-apps.outputs.app_entries == '' }}
         uses: andymckay/cancel-action@0.2
 
   build:
@@ -379,11 +379,9 @@ jobs:
     name: Notify Failure
     runs-on: ubuntu-latest
     needs: cypress-tests
-    # if: ${{ github.ref == 'refs/heads/master' && needs.cypress-tests.result == 'failure' }}
     if: ${{ failure() }}
     env:
       VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
-      SINGLE_APP_BUILDS_CHANNEL_ID: C032FM8LFCN #test-single-app-builds
 
     steps:
       - name: Checkout
@@ -398,6 +396,6 @@ jobs:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "Full E2E test suite run in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
-          channel_id: ${{ env.SINGLE_APP_BUILDS_CHANNEL_ID }}
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
