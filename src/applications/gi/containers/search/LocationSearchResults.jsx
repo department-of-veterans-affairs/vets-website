@@ -53,8 +53,6 @@ function LocationSearchResults({
   const [activeMarker, setActiveMarker] = useState(null);
   const [myLocation, setMyLocation] = useState(null);
   const usingUserLocation = () => {
-    if (environment.isProduction()) return true;
-
     const currentPositions = document.getElementsByClassName(
       'current-position',
     );

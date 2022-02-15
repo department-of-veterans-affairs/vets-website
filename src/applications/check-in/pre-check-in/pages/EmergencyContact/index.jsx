@@ -25,12 +25,7 @@ const EmergencyContact = props => {
   const { emergencyContact } = demographics;
   const dispatch = useDispatch();
 
-  const {
-    getCurrentPageFromRouter,
-    goToNextPage,
-    goToPreviousPage,
-  } = useFormRouting(router);
-  const currentPage = getCurrentPageFromRouter();
+  const { goToNextPage, goToPreviousPage } = useFormRouting(router);
 
   const buttonClick = useCallback(
     async answer => {
@@ -64,7 +59,7 @@ const EmergencyContact = props => {
 
   return (
     <>
-      <BackButton action={goToPreviousPage} path={currentPage} />
+      <BackButton action={goToPreviousPage} router={router} />
       <EmergencyContactDisplay
         data={emergencyContact}
         yesAction={yesClick}

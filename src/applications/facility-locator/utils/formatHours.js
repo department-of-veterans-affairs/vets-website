@@ -1,3 +1,23 @@
+const formatAMorPM = hour => {
+  let result = '';
+  if (hour === 24) {
+    result = 'a.m.';
+  } else {
+    result = hour >= 12 ? 'p.m.' : 'a.m.';
+  }
+  return result;
+};
+
+const formatHour = hour => {
+  let result = hour;
+  if (hour === 24 || hour === 12) {
+    result = 12;
+  } else {
+    result %= 12;
+  }
+  return result;
+};
+
 export const formatHours = hours => {
   // Eg starthours: 700  endhours: 1730
   let hour = Number(
@@ -19,8 +39,8 @@ export const formatHours = hours => {
     minutes >= 0 &&
     minutes <= 60
   ) {
-    const AMorPM = hour > 12 ? 'p.m.' : 'a.m.';
-    hour %= 12;
+    const AMorPM = formatAMorPM(hour);
+    hour = formatHour(hour);
     return `${hour}:${
       minutes === 0 ? `${minutes}${minutes}` : `${minutes}`
     } ${AMorPM}`;

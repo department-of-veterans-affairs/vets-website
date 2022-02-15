@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { cloneDeep } from 'lodash';
 
 import { setData } from 'platform/forms-system/src/js/actions';
-import SignatureCheckbox from './SignatureCheckbox';
-import SubmitLoadingIndicator from './SubmitLoadingIndicator';
 import {
   PrivacyPolicy,
   veteranSignatureContent,
@@ -19,6 +17,8 @@ import {
   secondaryOneLabel,
   secondaryTwoLabel,
 } from 'applications/caregivers/definitions/content';
+import SignatureCheckbox from './SignatureCheckbox';
+import SubmitLoadingIndicator from './SubmitLoadingIndicator';
 
 const PreSubmitCheckboxGroup = ({
   onSectionComplete,

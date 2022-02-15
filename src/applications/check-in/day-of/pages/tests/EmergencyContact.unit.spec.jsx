@@ -21,6 +21,7 @@ describe('check in', () => {
         },
         form: {
           pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+          currentPage: 'first-page',
         },
         veteranData: {
           demographics: {
@@ -43,14 +44,28 @@ describe('check in', () => {
     };
     const middleware = [];
     const mockStore = configureStore(middleware);
+    const routerObject = {
+      params: {
+        token: 'token-123',
+      },
+      location: {
+        pathname: '/first-page',
+      },
+    };
+
     beforeEach(() => {
       store = mockStore(initState);
     });
 
     it('renders', () => {
+      const push = sinon.spy();
+      const mockRouter = createMockRouter({
+        push,
+        routerObject,
+      });
       const component = render(
         <Provider store={store}>
-          <EmergencyContact />
+          <EmergencyContact router={mockRouter} />
         </Provider>,
       );
 
@@ -59,6 +74,11 @@ describe('check in', () => {
     });
 
     it('shows emergency contact felids, with message for empty data', () => {
+      const push = sinon.spy();
+      const mockRouter = createMockRouter({
+        push,
+        routerObject,
+      });
       const updatedStore = {
         checkInData: {
           context: {
@@ -82,7 +102,7 @@ describe('check in', () => {
       };
       const component = render(
         <Provider store={mockStore(updatedStore)}>
-          <EmergencyContact />
+          <EmergencyContact router={mockRouter} />
         </Provider>,
       );
 
@@ -94,9 +114,14 @@ describe('check in', () => {
     });
 
     it('passes axeCheck', () => {
+      const push = sinon.spy();
+      const mockRouter = createMockRouter({
+        push,
+        routerObject,
+      });
       axeCheck(
         <Provider store={store}>
-          <EmergencyContact />
+          <EmergencyContact router={mockRouter} />
         </Provider>,
       );
     });
@@ -105,7 +130,7 @@ describe('check in', () => {
       const push = sinon.spy();
       const mockRouter = createMockRouter({
         push,
-        params: {},
+        routerObject,
       });
       const updatedStore = {
         checkInData: {
@@ -132,13 +157,10 @@ describe('check in', () => {
 
     it('has a clickable no button', () => {
       const push = sinon.spy();
-      const mockRouter = {
+      const mockRouter = createMockRouter({
         push,
-        params: {
-          token: 'token-123',
-        },
-      };
-
+        routerObject,
+      });
       const component = render(
         <Provider store={store}>
           <EmergencyContact router={mockRouter} />
@@ -153,11 +175,8 @@ describe('check in', () => {
       const push = sinon.spy();
       const mockRouter = createMockRouter({
         push,
-        params: {
-          token: 'token-123',
-        },
+        routerObject,
       });
-
       const component = render(
         <Provider store={store}>
           <EmergencyContact router={mockRouter} />

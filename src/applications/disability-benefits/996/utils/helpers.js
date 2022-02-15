@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 import { SELECTED, LEGACY_TYPE } from '../constants';
-import { isValidDate } from '../validations/issues';
+import { isValidDate } from '../validations/date';
 
 /**
  * Check HLR v2 feature flag

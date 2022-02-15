@@ -15,12 +15,12 @@ import { getSelected, calculateIndexOffset } from '../utils/helpers';
 import { SELECTED, MAX_SELECTIONS, LAST_HLR_ITEM } from '../constants';
 
 import {
-  validateDate,
   uniqueIssue,
   missingIssueName,
   maxNameLength,
   checkValidations,
 } from '../validations/issues';
+import { validateDate } from '../validations/date';
 import {
   addIssueTitle,
   issueNameLabel,
@@ -40,7 +40,7 @@ const AddIssue = props => {
   // get index from url '/add-issue?index={index}' or testingIndex
   const searchIndex = new URLSearchParams(window.location.search);
   let index = parseInt(searchIndex.get('index') || testingIndex, 10);
-  if (isNaN(index) || index < contestedIssues.length) {
+  if (Number.isNaN(index) || index < contestedIssues.length) {
     index = allIssues.length;
   }
   const offsetIndex = calculateIndexOffset(index, contestedIssues.length);
@@ -110,8 +110,23 @@ const AddIssue = props => {
     }
   };
 
+  const handlers = {
+    onSubmit: event => event.preventDefault(),
+    onIssueNameChange: updatedField => {
+      setFieldObj(updatedField);
+    },
+    onCancel: event => {
+      event.preventDefault();
+      goToPath(returnPath);
+    },
+    onUpdate: event => {
+      event.preventDefault();
+      addOrUpdateIssue();
+    },
+  };
+
   return (
-    <form onSubmit={event => event.preventDefault()}>
+    <form onSubmit={handlers.onSubmit}>
       <fieldset>
         <legend
           id="decision-date-description"
@@ -127,9 +142,7 @@ const AddIssue = props => {
           label={issueNameLabel}
           required
           field={fieldObj}
-          onValueChange={updatedField => {
-            setFieldObj(updatedField);
-          }}
+          onValueChange={handlers.onIssueNameChange}
           errorMessage={
             (submitted || fieldObj.dirty) && showError ? showError : null
           }
@@ -139,7 +152,7 @@ const AddIssue = props => {
           name="decision-date"
           label={dateOfDecisionLabel}
           required
-          onValueChange={value => setDate(value)}
+          onValueChange={setDate}
           date={date}
           errorMessage={(submitted || isDirtyDate(date)) && dateErrorMessage[0]}
           ariaDescribedby="decision-date-description"
@@ -149,10 +162,7 @@ const AddIssue = props => {
             type="button"
             id="cancel"
             className="usa-button-secondary vads-u-width--auto"
-            onClick={event => {
-              event.preventDefault();
-              goToPath(returnPath);
-            }}
+            onClick={handlers.onCancel}
           >
             Cancel
           </button>
@@ -160,10 +170,7 @@ const AddIssue = props => {
             type="button"
             id="submit"
             className="vads-u-width--auto"
-            onClick={event => {
-              event.preventDefault();
-              addOrUpdateIssue();
-            }}
+            onClick={handlers.onUpdate}
           >
             {`${currentData.issue ? 'Update' : 'Add'} issue`}
           </button>
@@ -174,9 +181,10 @@ const AddIssue = props => {
 };
 
 AddIssue.propTypes = {
-  setFormData: PropTypes.func,
   data: PropTypes.shape({}),
   goToPath: PropTypes.func,
+  setFormData: PropTypes.func,
+  testingIndex: PropTypes.number,
   onReviewPage: PropTypes.bool,
 };
 

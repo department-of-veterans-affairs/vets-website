@@ -75,7 +75,8 @@ const poll = ({
 
     if (validate(response)) {
       return resolve(response.data);
-    } else if (new Date() >= endTime) {
+    }
+    if (new Date() >= endTime) {
       return resolve(timeoutResponse);
     }
 
@@ -101,14 +102,17 @@ export function fetchClaimStatus() {
   return async dispatch => {
     dispatch({ type: FETCH_CLAIM_STATUS });
     const timeoutResponse = {
-      claimStatus: CLAIM_STATUS_RESPONSE_IN_PROGRESS,
-      receivedDate: Date.now(),
+      attributes: {
+        claimStatus: CLAIM_STATUS_RESPONSE_IN_PROGRESS,
+        receivedDate: Date.now(),
+      },
     };
 
     poll({
       endpoint: CLAIM_STATUS_ENDPOINT,
       validate: response =>
         response.data.attributes &&
+        response.data.attributes.claimStatus &&
         response.data.attributes.claimStatus !==
           CLAIM_STATUS_RESPONSE_IN_PROGRESS,
       dispatch,
@@ -122,17 +126,19 @@ export function fetchClaimStatus() {
 export function fetchEligibility() {
   return async dispatch => {
     dispatch({ type: FETCH_ELIGIBILITY });
-    const timeoutResponse = {
-      veteranIsEligible: false,
-      chapter: [],
-    };
 
-    poll({
-      endpoint: ELIGIBILITY_ENDPOINT,
-      dispatch,
-      timeoutResponse,
-      successDispatchType: FETCH_ELIGIBILITY_SUCCESS,
-      failureDispatchType: FETCH_ELIGIBILITY_FAILURE,
-    });
+    return apiRequest(ELIGIBILITY_ENDPOINT)
+      .then(response =>
+        dispatch({
+          type: FETCH_ELIGIBILITY_SUCCESS,
+          response,
+        }),
+      )
+      .catch(errors =>
+        dispatch({
+          type: FETCH_ELIGIBILITY_FAILURE,
+          errors,
+        }),
+      );
   };
 }

@@ -30,15 +30,15 @@ export default function StatusAlert({ appointment, facility }) {
   ]);
 
   if (canceled) {
-    const who = canceler.get(appointment.cancelationReason);
+    const who = canceler.get(appointment?.cancelationReason) || 'Facility';
     return (
-      <InfoAlert
-        status="error"
-        backgroundOnly
-        headline={`${who || 'Facility'} canceled this appointment`}
-      >
-        If you want to reschedule, call us or schedule a new appointment online.
-      </InfoAlert>
+      <>
+        <InfoAlert status="error" backgroundOnly>
+          <strong>{who} canceled your appointment. </strong>
+          If you want to reschedule, call us or schedule a new appointment
+          online.
+        </InfoAlert>
+      </>
     );
   }
   if (isPastAppointment) {

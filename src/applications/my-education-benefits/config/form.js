@@ -4,12 +4,7 @@ import { createSelector } from 'reselect';
 // Example of an imported schema:
 // import fullSchema from '../22-1990-schema.json';
 // eslint-disable-next-line no-unused-vars
-import fullSchema from '../22-1990-schema.json';
-
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import GetFormHelp from '../components/GetFormHelp';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
@@ -19,8 +14,17 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import * as address from 'platform/forms-system/src/js/definitions/address';
-
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from 'platform/utilities/environment';
+import merge from 'lodash/merge';
+import bankAccountUI from 'platform/forms/definitions/bankAccount';
+import { vagovprod } from 'site/constants/buckets';
+import fullSchema from '../22-1990-schema.json';
+
+// In a real app this would not be imported directly; instead the schema you
+// imported above would import and use these common definitions:
+import GetFormHelp from '../components/GetFormHelp';
+
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -36,8 +40,6 @@ import YesNoReviewField from '../components/YesNoReviewField';
 import PhoneReviewField from '../components/PhoneReviewField';
 import DateReviewField from '../components/DateReviewField';
 import EmailReviewField from '../components/EmailReviewField';
-
-import environment from 'platform/utilities/environment';
 
 import {
   chapter30Label,
@@ -58,12 +60,8 @@ import {
 } from '../utils/validation';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
-import merge from 'lodash/merge';
 import createDirectDepositPage from '../../edu-benefits/pages/directDeposit';
 import { directDepositDescription } from '../../edu-benefits/1990/helpers';
-import bankAccountUI from 'platform/forms/definitions/bankAccount';
-
-import { vagovprod } from 'site/constants/buckets';
 
 import { ELIGIBILITY } from '../actions';
 
@@ -821,9 +819,9 @@ const formConfig = {
                     const isYes = field.slice(0, 4).includes('Yes');
                     const phoneExist = !!formData['view:phoneNumbers']
                       .mobilePhoneNumber.phone;
-                    const isInternational =
-                      formData['view:phoneNumbers'].mobilePhoneNumber
-                        .isInternational;
+                    const { isInternational } = formData[
+                      'view:phoneNumbers'
+                    ].mobilePhoneNumber;
 
                     if (isYes) {
                       if (!phoneExist) {
@@ -1056,7 +1054,7 @@ const formConfig = {
           path: 'benefit-selection',
           title: 'Benefit selection',
           subTitle: "You're applying for the Post-9/11 GI Bill®",
-          depends: formData => formData.eligibility?.veteranIsEligible,
+          depends: formData => formData.eligibility?.length,
           uiSchema: {
             'view:post911Notice': {
               'ui:description': (
@@ -1123,14 +1121,14 @@ const formConfig = {
                     const filterEligibility = createSelector(
                       state => state.eligibility,
                       eligibility => {
-                        if (!eligibility) {
+                        if (!eligibility || !eligibility.length) {
                           return benefits;
                         }
 
                         return {
                           enum: benefits.filter(
                             benefit =>
-                              eligibility.chapter.includes(benefit) ||
+                              eligibility.includes(benefit) ||
                               benefit === 'CannotRelinquish',
                           ),
                         };
