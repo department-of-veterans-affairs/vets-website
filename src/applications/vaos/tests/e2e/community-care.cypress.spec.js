@@ -29,7 +29,7 @@ describe('VAOS community care flow', () => {
 
     cy.injectAxe();
     // Select primary care
-    cy.get('input[value="323"]')
+    cy.get('input[value="323"]', { timeout: Timeouts.slow })
       .should('exist')
       .then(checkbox => {
         cy.wrap(checkbox)
