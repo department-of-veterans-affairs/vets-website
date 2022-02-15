@@ -47,19 +47,6 @@ export class FacilityMapWidgetDynamic extends React.Component {
     }
   };
 
-  componentDidMount() {
-    const {
-      loading,
-      error,
-      dipatchFetchMultiFacility,
-      facilityID,
-    } = this.props;
-    dipatchFetchMultiFacility(facilityID);
-    if (!loading && !error) {
-      this.updateImageLink(this.props.facilities);
-    }
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const { facilities } = this.props;
     const { facilityID } = this.state;
@@ -71,25 +58,6 @@ export class FacilityMapWidgetDynamic extends React.Component {
       this.updateLatLongAndAddress(facilityDetail, lat, long);
     }
   }
-
-  updateImageLink = facilityDetail => {
-    const lat = this.getLat(facilityDetail);
-    const long = this.getLong(facilityDetail);
-    let address = buildAddressArray(facilityDetail);
-    address = this.cleanAddress(address, lat, long);
-    if (address && address.length !== 0) {
-      address = address.join(', ');
-    } else {
-      // If we don't have an address fallback on coords
-      address = `${lat},${long}`;
-    }
-
-    const mapLink = `https://maps.google.com?saddr=Current+Location&daddr=${address}`;
-    const imageLink = document.getElementById('google-map-link-image');
-    if (imageLink && lat !== 0 && long !== 0) {
-      imageLink.setAttribute('href', mapLink);
-    }
-  };
 
   getLat(facilityDetail) {
     return facilityDetail && facilityDetail.attributes
@@ -104,11 +72,14 @@ export class FacilityMapWidgetDynamic extends React.Component {
   }
 
   render() {
-    if (this.props.loading) {
+    const { multiError, multiLoading, facilityID } = this.props;
+    const loading = multiLoading ? multiLoading[facilityID] : false;
+    const error = multiError ? multiError[facilityID] : false;
+    if (loading) {
       return <LoadingIndicator message="Loading facility..." />;
     }
 
-    if (this.props.error) {
+    if (error) {
       return null;
     }
     const { lat, long, address } = this.state;
@@ -140,14 +111,14 @@ export class FacilityMapWidgetDynamic extends React.Component {
 
 const mapStateToProps = state => ({
   facilities: state.facility.multidata,
-  loading: state.facility.loading,
-  error: state.facility.error,
+  multiLoading: state.facility.multiLoading,
+  multiError: state.facility.multiError,
 });
 
 FacilityMapWidgetDynamic.propTypes = {
   facilities: PropTypes.object,
-  loading: PropTypes.bool,
-  error: PropTypes.bool,
+  multiLoading: PropTypes.object,
+  multiError: PropTypes.object,
   facilityID: PropTypes.string,
 };
 
