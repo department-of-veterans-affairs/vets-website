@@ -2,7 +2,6 @@ import React from 'react';
 import { hasSession } from 'platform/user/profile/utilities';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 
@@ -12,7 +11,6 @@ const stateLabels = createUSAStateLabels(states);
 
 export default {
   uiSchema: {
-    'ui:description': PrefillMessage,
     'view:applicationDescription': {
       'ui:options': {
         hideIf: () => !hasSession(),
