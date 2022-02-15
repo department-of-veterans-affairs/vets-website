@@ -9,7 +9,6 @@ import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import environment from 'platform/utilities/environment';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
 import ResultCard from './ResultCard';
