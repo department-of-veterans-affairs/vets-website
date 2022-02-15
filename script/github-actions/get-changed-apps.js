@@ -88,12 +88,7 @@ const getChangedAppsString = (filePaths, config, outputType = 'entry') => {
 };
 
 if (process.env.CHANGED_FILE_PATHS) {
-  const changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ').filter(
-    filePath =>
-      filePath.startsWith('src/applications') &&
-      filePath !==
-        'src/applications/appeals/10182/tests/10182-contact-loop.cypress.spec.js',
-  );
+  const changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ');
 
   const options = commandLineArgs([
     // Use the --output-type option to specify one of the following outputs:
