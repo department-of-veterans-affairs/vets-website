@@ -1,14 +1,17 @@
+/* eslint-disable react/button-has-type */
+/* eslint-disable react/jsx-no-bind */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useRef, useState } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
+// eslint-disable-next-line deprecate/import
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 import ResultCard from './ResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit, MAX_SEARCH_AREA_DISTANCE, TABS } from '../../constants';
@@ -41,7 +44,6 @@ function LocationSearchResults({
   const { count, results } = search.location;
   const { location, streetAddress } = search.query;
   const map = useRef(null);
-  // const mapContainer = useRef(null);
   const [markers, setMarkers] = useState([]);
   const [mapState, setMapState] = useState({ changed: false, distance: null });
   const [usedFilters, setUsedFilters] = useState(filtersChanged);
@@ -51,8 +53,6 @@ function LocationSearchResults({
   const [activeMarker, setActiveMarker] = useState(null);
   const [myLocation, setMyLocation] = useState(null);
   const usingUserLocation = () => {
-    if (environment.isProduction()) return true;
-
     const currentPositions = document.getElementsByClassName(
       'current-position',
     );
