@@ -120,11 +120,11 @@ module.exports = {
   create(context) {
     return {
       JSXElement(node) {
-        const componentName = node.openingElement.name;
+        const componentName = node.openingElement.name.name;
 
-        if (!isLibraryImport(context, componentName.name)) return;
+        if (!isLibraryImport(context, componentName)) return;
 
-        switch (componentName.name) {
+        switch (componentName) {
           case 'Breadcrumbs':
             breadcrumbsTransformer(context, node);
             break;
