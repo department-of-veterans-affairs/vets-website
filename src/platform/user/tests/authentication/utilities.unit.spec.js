@@ -44,8 +44,12 @@ describe('authentication URL helpers', () => {
   });
 
   it('should redirect for login v1', () => {
-    authUtilities.login({ policy: CSP_IDS.ID_ME });
-    expect(global.window.location).to.include('/v1/sessions/idme/new');
+    [CSP_IDS.ID_ME, CSP_IDS.MHV, CSP_IDS.DS_LOGON, CSP_IDS.LOGIN_GOV].forEach(
+      csp => {
+        authUtilities.login({ policy: csp });
+        expect(global.window.location).to.include(`/v1/sessions/${csp}/new`);
+      },
+    );
   });
 
   it('should redirect for login with custom event', () => {

@@ -24,3 +24,15 @@
 	border-left: 7px solid $color-primary-alt-dark;
 	padding-left: calc(2rem - 7px);
 }
+.ev-enrollment-month {
+	border-top: 1px solid $color-gray-lighter;
+	margin-top: 4px;
+	padding-bottom: 6px;
+}
+.ev-enrollment-month_message {
+	margin-bottom: 0.5em;
+}
+.ev-enrollment-month .ev-action-link {
+	display: block;
+	padding: 0 0 1em;
+}

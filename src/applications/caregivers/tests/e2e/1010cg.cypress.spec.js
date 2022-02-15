@@ -3,8 +3,6 @@ import path from 'path';
 import formConfig from 'applications/caregivers/config/form';
 import manifest from 'applications/caregivers/manifest.json';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
-import mockUpload from './fixtures/mocks/mock-upload.json';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import {
   veteranSignatureContent,
@@ -17,6 +15,8 @@ import {
   representativeLabel,
   representativeSignatureContent,
 } from 'applications/caregivers/definitions/content';
+import featureToggles from './fixtures/mocks/feature-toggles.json';
+import mockUpload from './fixtures/mocks/mock-upload.json';
 
 export const mockVeteranSignatureContent = [
   'I certify that I give consent to the individual(s) named in this application to perform personal care services for me upon being approved as Primary and/or Secondary Family Caregivers in the Program of Comprehensive Assistance for Family Caregivers.',
