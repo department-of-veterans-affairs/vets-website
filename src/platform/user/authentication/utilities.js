@@ -116,16 +116,26 @@ export function createExternalRedirectUrl({ base, returnUrl, application }) {
     }&redirect=${returnUrl}&postLogin=true`,
     [EXTERNAL_APPS.MY_VA_HEALTH]: `${base}`,
     [EXTERNAL_APPS.EBENEFITS]: `${base}`,
+    [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: `${base}`,
+    [EXTERNAL_APPS.VA_OCC_MOBILE]: `${base}`,
   }[application];
 }
 
 export function standaloneRedirect() {
   const { application, to } = getQueryParams();
 
-  return fixUrl(
-    EXTERNAL_REDIRECTS[application] ?? null,
-    generatePath(application, to),
-  );
+  const externalRedirectUrl = EXTERNAL_REDIRECTS[application] ?? null;
+
+  if (
+    [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE, EXTERNAL_APPS.VA_OCC_MOBILE].includes(
+      application,
+    ) &&
+    externalRedirectUrl
+  ) {
+    return fixUrl(`${externalRedirectUrl}${window.location.search}`, '');
+  }
+
+  return fixUrl(externalRedirectUrl, generatePath(application, to));
 }
 
 export function redirect(redirectUrl, clickedEvent) {

@@ -46,6 +46,8 @@ export const EXTERNAL_APPS = {
   MHV: CSP_IDS.MHV,
   MY_VA_HEALTH: 'myvahealth',
   EBENEFITS: 'ebenefits',
+  VA_FLAGSHIP_MOBILE: 'vamobile',
+  VA_OCC_MOBILE: 'vaoccmobile',
 };
 
 export const eAuthURL = `https://${
@@ -67,6 +69,12 @@ export const EXTERNAL_REDIRECTS = {
     : EXTERNAL_LINKS.MY_VA_HEALTH.STAGING,
   [EXTERNAL_APPS.MHV]: EXTERNAL_LINKS.MHV,
   [EXTERNAL_APPS.EBENEFITS]: EXTERNAL_LINKS.EBENEFITS,
+  [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: `https://${
+    eauthEnvironmentPrefixes[environment.BUILDTYPE]
+  }fed.eauth.va.gov/oauthe/sps/oauth/oauth20/authorize`,
+  [EXTERNAL_APPS.VA_OCC_MOBILE]: `https://${
+    eauthEnvironmentPrefixes[environment.BUILDTYPE]
+  }eauth.va.gov/MAP/users/v2/landing`,
 };
 
 export const VAGOV_TRACKING_IDS = ['UA-50123418-16', 'UA-50123418-17'];
