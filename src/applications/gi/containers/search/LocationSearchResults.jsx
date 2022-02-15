@@ -1,4 +1,3 @@
-/* eslint-disable react/button-has-type */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
@@ -622,6 +621,7 @@ function LocationSearchResults({
                 className="mapboxgl-ctrl-top-center"
               >
                 <button
+                  type="button"
                   id="search-area-control"
                   className="usa-button"
                   onClick={searchArea}
