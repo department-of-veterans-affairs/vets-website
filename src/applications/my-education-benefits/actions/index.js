@@ -102,14 +102,17 @@ export function fetchClaimStatus() {
   return async dispatch => {
     dispatch({ type: FETCH_CLAIM_STATUS });
     const timeoutResponse = {
-      claimStatus: CLAIM_STATUS_RESPONSE_IN_PROGRESS,
-      receivedDate: Date.now(),
+      attributes: {
+        claimStatus: CLAIM_STATUS_RESPONSE_IN_PROGRESS,
+        receivedDate: Date.now(),
+      },
     };
 
     poll({
       endpoint: CLAIM_STATUS_ENDPOINT,
       validate: response =>
         response.data.attributes &&
+        response.data.attributes.claimStatus &&
         response.data.attributes.claimStatus !==
           CLAIM_STATUS_RESPONSE_IN_PROGRESS,
       dispatch,
