@@ -4,6 +4,7 @@ import moment from 'moment';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import OtherTextField from '@@profile/components/personal-information/OtherTextField';
 import { NOT_SET_TEXT } from '../../constants';
+import CustomObjectField from '../../components/personal-information/CustomObjectField';
 
 const createBooleanSchemaPropertiesFromOptions = obj =>
   mapValues(obj, () => {
@@ -15,17 +16,6 @@ const createUiTitlePropertiesFromOptions = obj => {
     accumulator[key] = { 'ui:title': value };
     return accumulator;
   }, {});
-};
-
-const deselectOnPreferNotToAnswer = (formData, schema) => {
-  if (formData?.preferNotToAnswer === true) {
-    Object.keys(formData).forEach(key => {
-      // eslint-disable-next-line no-param-reassign
-      if (key !== 'preferNotToAnswer') formData[key] = undefined;
-    });
-  }
-
-  return schema;
 };
 
 const genderLabels = {
@@ -129,12 +119,9 @@ export const personalInformationUiSchemas = {
     },
   },
   genderIdentity: {
-    'ui:widget': 'checkbox',
+    'ui:field': CustomObjectField,
     'ui:description': `Select your gender identity`,
     ...createUiTitlePropertiesFromOptions(genderLabels),
-    'ui:options': {
-      updateSchema: deselectOnPreferNotToAnswer,
-    },
   },
   sexualOrientation: {
     'ui:widget': 'checkbox',
