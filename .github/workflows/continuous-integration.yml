@@ -122,6 +122,13 @@ jobs:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.app_folders }}
 
+      - name: Archive unit test results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: unit-test-report
+          path: mochawesome-report
+
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
@@ -572,18 +579,15 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
-      # --------------------------------------
-      # | Publish Contract Test Report       |
-      # -------------------------------------
+      # ------------------------------------------------------
+      # | Publish Contract Test Report and Upload to BigQuery |
+      # ------------------------------------------------------
 
       - name: Download Contract Test Mochawesome test results
         uses: actions/download-artifact@v2
         with:
           name: contract-test-report
           path: testing-tools-team-dashboard-data/src/testing-reports/data
-
-      - name: Upload Contract Test report to s3
-        run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data/mochawesome.html s3://testing-tools-testing-reports/vets-website-contract-test-reports/${{env.UUID}}.html --acl public-read --region us-gov-west-1
 
       - name: Create Contract Test report and post results to BigQuery
         run: yarn contract-mochawesome-to-bigquery
@@ -593,7 +597,8 @@ jobs:
           TEST_RESULTS_TABLE_NAME: vets_website_contract_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-contract-test-reports
 
-          # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
+      - name: Upload Contract Test report to s3
+        run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-contract-test-reports --acl public-read --region us-gov-west-1 --recursive
 
       # -------------------------
       # | Contract Tests Summary |
@@ -606,6 +611,118 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Contract Tests Summary
           conclusion: ${{ needs.contract-tests.result }}
+          output: |
+            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+
+  testing-reports-unit-tests:
+    name: Testing Reports - Unit Tests
+    runs-on: ubuntu-latest
+    needs: [testing-reports-prep, unit-tests]
+    if: ${{ always() }}
+    continue-on-error: true
+    env:
+      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+    steps:
+      - name: Set IS_MASTER_BUILD
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+              echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
+          else
+              echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
+          fi
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # ----------------
+      # | Notify Slack |
+      # ----------------
+
+      - name: Notify Slack about Unit test failures
+        if: ${{ github.ref == 'refs/heads/master' && needs.unit-tests.result == 'failure' }}
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        env:
+          SSL_CERT_DIR: /etc/ssl/certs
+        with:
+          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> Unit tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
+          channel_id: C026PD47Z19 #gha-test-status
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      # ------------------------
+      # | Upload BigQuery Data |
+      # ------------------------
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Get AWS IAM role
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Set UUID for Mochawesome reports
+        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+
+      - name: Configure AWS Credentials (2)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+
+      # --------------------------------------------------
+      # | Publish Unit Test Report and Upload to BigQuery |
+      # --------------------------------------------------
+
+      - name: Download Unit Test Mochawesome test results
+        uses: actions/download-artifact@v2
+        with:
+          name: unit-test-report
+          path: testing-tools-team-dashboard-data/src/testing-reports/data
+
+      - name: Create Unit Test report and post results to BigQuery
+        run: yarn unit-mochawesome-to-bigquery
+        working-directory: testing-tools-team-dashboard-data
+        env:
+          UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
+          UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
+          TEST_REPORTS_FOLDER_NAME: vets-website-unit-test-reports
+
+      - name: Upload Unit Test report to s3
+        run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
+
+      # -------------------------
+      # | Unit Tests Summary |
+      # -------------------------
+
+      - name: Unit test results
+        if: ${{ always() }}
+        uses: LouisBrunner/checks-action@v1.1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Unit Tests Summary
+          conclusion: ${{ needs.unit-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 

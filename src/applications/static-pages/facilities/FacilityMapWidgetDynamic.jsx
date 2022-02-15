@@ -2,6 +2,7 @@ import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { fetchMultiFacility } from './actions';
 import { mapboxToken } from '../../facility-locator/utils/mapboxToken';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
 import { staticMapURL } from '../../facility-locator/utils/mapHelpers';
@@ -33,10 +34,8 @@ export class FacilityMapWidgetDynamic extends React.Component {
     return `${lat},${long}`;
   }
 
-  updateLatLongAndAddress = facilityDetail => {
+  updateLatLongAndAddress = (facilityDetail, lat, long) => {
     const myThis = this;
-    const lat = this.getLat(facilityDetail);
-    const long = this.getLong(facilityDetail);
     if (lat !== 0 && long !== 0) {
       let address = buildAddressArray(facilityDetail);
       address = this.cleanAddress(address, lat, long);
@@ -49,7 +48,14 @@ export class FacilityMapWidgetDynamic extends React.Component {
   };
 
   componentDidMount() {
-    if (!this.props.loading && !this.props.error) {
+    const {
+      loading,
+      error,
+      dipatchFetchMultiFacility,
+      facilityID,
+    } = this.props;
+    dipatchFetchMultiFacility(facilityID);
+    if (!loading && !error) {
       this.updateImageLink(this.props.facilities);
     }
   }
@@ -57,11 +63,12 @@ export class FacilityMapWidgetDynamic extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const { facilities } = this.props;
     const { facilityID } = this.state;
-    const facilityDetail = facilities[facilityID];
+    const facilityDetail = facilities ? facilities[facilityID] : '';
     const lat = this.getLat(facilityDetail);
     const long = this.getLong(facilityDetail);
+
     if (prevState.lat !== lat && prevState.long !== long) {
-      this.updateLatLongAndAddress(this.props.facilities);
+      this.updateLatLongAndAddress(facilityDetail, lat, long);
     }
   }
 
@@ -131,10 +138,10 @@ export class FacilityMapWidgetDynamic extends React.Component {
   }
 }
 
-const mapStateToProps = store => ({
-  facilities: store.facility.multidata,
-  loading: store.facility.loading,
-  error: store.facility.error,
+const mapStateToProps = state => ({
+  facilities: state.facility.multidata,
+  loading: state.facility.loading,
+  error: state.facility.error,
 });
 
 FacilityMapWidgetDynamic.propTypes = {
@@ -144,4 +151,11 @@ FacilityMapWidgetDynamic.propTypes = {
   facilityID: PropTypes.string,
 };
 
-export default connect(mapStateToProps)(FacilityMapWidgetDynamic);
+const mapDispatchToProps = {
+  dipatchFetchMultiFacility: fetchMultiFacility,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(FacilityMapWidgetDynamic);

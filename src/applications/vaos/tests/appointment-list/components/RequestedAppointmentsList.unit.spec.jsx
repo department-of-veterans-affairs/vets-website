@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
+import { within } from '@testing-library/dom';
 import reducers from '../../../redux/reducer';
 import { getVARequestMock } from '../../mocks/v0';
 import { getVAOSRequestMock } from '../../mocks/v2';
@@ -399,5 +400,108 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
         /We’re having trouble getting your appointment requests/i,
       ),
     ).to.be.ok;
+  });
+  it('should display request sorted by create date in decending order', async () => {
+    // Given a veteran has VA appointment request
+    const startDate = moment.utc();
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
+      comment: 'A message from the patient',
+      contact: {
+        telecom: [
+          { type: 'phone', value: '2125551212' },
+          { type: 'email', value: 'veteranemailtest@va.gov' },
+        ],
+      },
+      kind: 'clinic',
+      locationId: '983',
+      location: {
+        id: '983',
+        type: 'appointments',
+        attributes: {
+          id: '983',
+          vistaSite: '983',
+          name: 'Cheyenne VA Medical Center',
+          lat: 39.744507,
+          long: -104.830956,
+          phone: { main: '307-778-7550' },
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
+
+      id: '1234',
+      preferredTimesForPhoneCall: ['Morning'],
+      reason: 'Routine Follow-up',
+      requestedPeriods: [
+        {
+          start: moment(startDate)
+            .add(3, 'days')
+            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        },
+        {
+          start: moment(startDate)
+            .add(4, 'days')
+            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        },
+      ],
+      serviceType: '323',
+      start: null,
+      status: 'proposed',
+      created: moment()
+        .subtract(2, 'months')
+        .format('YYYY-MM-DDTHH:mm:ss'),
+    };
+    const appointment2 = {
+      ...appointment,
+      attributes: {
+        ...appointment.attributes,
+        created: moment()
+          .clone()
+          .subtract(1, 'month')
+          .format('YYYY-MM-DDTHH:mm:ss'),
+        serviceType: '160',
+      },
+    };
+    const appointment3 = {
+      ...appointment,
+      attributes: {
+        ...appointment.attributes,
+        created: moment().format('YYYY-MM-DDTHH:mm:ss'),
+        serviceType: '408',
+      },
+    };
+
+    // And developer is using the v2 API
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment()
+        .add(1, 'days')
+        .format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment, appointment2, appointment3],
+    });
+
+    // When veteran selects the Requested dropdown selection
+    const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
+      initialState: initialStateVAOSService,
+      reducers,
+    });
+
+    // Then it should display the requested appointments sorted by create date in decending order.
+    expect(await screen.findByText('Primary care')).to.be.ok;
+
+    const links = screen.getAllByRole('listitem');
+    expect(links.length).to.equal(3);
+    expect(within(links[0]).getByText('Optometry')).to.be.ok;
+    expect(within(links[1]).getByText('Pharmacy')).to.be.ok;
+    expect(within(links[2]).getByText('Primary care')).to.be.ok;
   });
 });

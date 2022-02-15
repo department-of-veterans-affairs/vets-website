@@ -37,7 +37,12 @@ import informalConferenceRepV2 from '../pages/informalConferenceRepV2';
 import informalConferenceTimes from '../pages/informalConferenceTimes';
 import informalConferenceTime from '../pages/informalConferenceTimeV2';
 
-import { errorMessages, WIZARD_STATUS } from '../constants';
+import {
+  errorMessages,
+  WIZARD_STATUS,
+  contestableIssuesPath,
+  contestedIssuesPath,
+} from '../constants';
 import {
   apiVersion1,
   apiVersion2,
@@ -163,7 +168,7 @@ const formConfig = {
         // v1 - only show contested issues
         contestedIssues: {
           title: ' ',
-          path: 'eligible-issues',
+          path: contestedIssuesPath,
           depends: apiVersion1,
           uiSchema: contestedIssuesPage.uiSchema,
           schema: contestedIssuesPage.schema,
@@ -171,7 +176,7 @@ const formConfig = {
         // v2 - show contested + added issues
         contestableIssues: {
           title: ' ',
-          path: 'contestable-issues',
+          path: contestableIssuesPath,
           depends: apiVersion2,
           uiSchema: contestableIssuesPage.uiSchema,
           schema: contestableIssuesPage.schema,

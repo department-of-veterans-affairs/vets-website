@@ -66,7 +66,7 @@ const formConfig = {
       pages: {
         applicantInformationSummary: {
           path: 'applicant-information',
-          title: 'Your personal informaton on file',
+          title: 'Your personal information on file',
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
         },
@@ -120,14 +120,14 @@ const formConfig = {
           title: 'Certificate of Eligibility intent',
           uiSchema: loanIntent.uiSchema,
           schema: loanIntent.schema,
-          depends: formData => formData?.existingLoan,
+          depends: formData => formData?.vaLoanIndicator,
         },
         loanHistory: {
           path: 'loan-history',
           title: 'VA-backed loan history',
           uiSchema: loanHistory.uiSchema,
           schema: loanHistory.schema,
-          depends: formData => formData?.existingLoan,
+          depends: formData => formData?.vaLoanIndicator,
         },
       },
     },

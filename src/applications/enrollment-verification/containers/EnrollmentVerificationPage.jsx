@@ -32,12 +32,12 @@ export const EnrollmentVerificationPage = ({
 
   return (
     <EnrollmentVerificationPageWrapper>
-      <h1>Enrollment Verification</h1>
+      <h1>Post-9/11 GI Bill enrollment verifications</h1>
       <p className="va-introtext">
         If you get a monthly housing allowance (MHA) or kicker payments (or
         both) under the Post-9/11 GI Bill, you’ll need to verify your enrollment
-        each month. If you don’t verify your enrollment for two months in a row,
-        we will pause your monthly education payments.
+        each month. If you don’t verify your enrollment for three months in a
+        row, we will pause your monthly education payments.
       </p>
 
       <EnrollmentVerificationAlert status={verificationStatus} />
@@ -54,10 +54,10 @@ export const EnrollmentVerificationPage = ({
           <nav className="ev-related-pages-nav">
             <ul>
               <li>
-                <a href="#">See your GI Bill Statement of Benefits</a>
+                <a href="/">See your GI Bill Statement of Benefits</a>
               </li>
               <li>
-                <a href="#">See your past benefit payments</a>
+                <a href="/">See your past benefit payments</a>
               </li>
             </ul>
           </nav>

@@ -2,43 +2,35 @@ import React from 'react';
 
 import { PAYMENT_STATUS } from '../actions';
 import EnrollmentVerificationMonthInfo from './EnrollmentVerificationMonthInfo';
+import VerifyYourEnrollments from './VerifyYourEnrollments';
+import { formatReadableMonthYear } from '../helpers';
 
 const verifiedMonthStatusMessage = (
-  <>
+  <p className="ev-enrollment-month_message">
     <i className="fa fa-check-circle vads-u-color--green" /> You verified this
     month
-  </>
+  </p>
 );
 const notVerifiedMonthStatusMessage = (
   <>
-    <p>
+    <p className="ev-enrollment-month_message">
       <i className="fas fa-exclamation-triangle" /> You haven’t verified this
       month
     </p>
-    <a
-      className="vads-c-action-link--blue"
-      href="/enrollment-history/verify-enrollments"
-    >
-      Verify your enrollments
-    </a>
+    <VerifyYourEnrollments />
   </>
 );
 const needToVerifyMonthStatusMessage = (
   <>
-    <p>
+    <p className="ev-enrollment-month_message">
       <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
       You need to verify this month
     </p>
-    <a
-      className="vads-c-action-link--blue"
-      href="/enrollment-history/verify-enrollments"
-    >
-      Verify your enrollments
-    </a>
+    <VerifyYourEnrollments />
   </>
 );
 const contactScoMonthStatusMessage = (
-  <p>
+  <p className="ev-enrollment-month_message">
     <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
     Contact your School Certifying Official to update enrollment information
   </p>
@@ -47,7 +39,8 @@ const contactScoMonthStatusMessage = (
 function getMonthStatusMessage(month, paymentStatus) {
   if (month.verified) {
     return verifiedMonthStatusMessage;
-  } else if (paymentStatus === PAYMENT_STATUS.ONGOING) {
+  }
+  if (paymentStatus === PAYMENT_STATUS.ONGOING) {
     return notVerifiedMonthStatusMessage;
   }
 
@@ -61,7 +54,7 @@ export default function EnrollmentVerificationMonth({ month, paymentStatus }) {
 
   return (
     <div className="ev-enrollment-month">
-      <h3>{month.month}</h3>
+      <h4>{formatReadableMonthYear(month.month)}</h4>
       {monthStatusMessage}
 
       <va-additional-info trigger="More information">

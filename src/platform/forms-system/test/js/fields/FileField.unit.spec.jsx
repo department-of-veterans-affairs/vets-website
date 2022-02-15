@@ -11,10 +11,10 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 
-import { FileField } from '../../../src/js/fields/FileField';
-import fileUploadUI, { fileSchema } from '../../../src/js/definitions/file';
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 import { fileTypeSignatures } from 'platform/forms-system/src/js/utilities/file';
+import { FileField } from '../../../src/js/fields/FileField';
+import fileUploadUI, { fileSchema } from '../../../src/js/definitions/file';
 
 const formContext = {
   setTouched: sinon.spy(),
@@ -446,6 +446,7 @@ describe('Schemaform <FileField>', () => {
       {
         confirmationCode: 'asdfds',
         name: 'Test file name',
+        size: 12345678,
       },
     ];
     const registry = {
@@ -468,6 +469,10 @@ describe('Schemaform <FileField>', () => {
 
     expect(tree.find('label').exists()).to.be.true;
     expect(tree.find('button.usa-button-secondary').exists()).to.be.true;
+
+    const text = tree.text();
+    expect(text).to.include('Test file name');
+    expect(text).to.include('12MB');
     tree.unmount();
   });
 
@@ -665,6 +670,7 @@ describe('Schemaform <FileField>', () => {
       {
         confirmationCode: 'asdfds',
         name: 'Test file name.pdf',
+        size: 54321,
       },
     ];
     const registry = {
@@ -685,7 +691,9 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('li').text()).to.contain('Test file name.pdf');
+    const text = tree.find('li').text();
+    expect(text).to.contain('Test file name.pdf');
+    expect(text).to.contain('53KB');
     expect(tree.find('SchemaField').prop('schema')).to.equal(
       schema.items[0].properties.attachmentId,
     );
@@ -731,6 +739,7 @@ describe('Schemaform <FileField>', () => {
       {
         confirmationCode: 'asdfds',
         name: 'Test file name',
+        size: 987654,
       },
     ];
     const registry = {
@@ -751,14 +760,16 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('li').text()).to.contain('Test file name');
+    const text = tree.find('li').text();
+    expect(text).to.contain('Test file name');
+    expect(text).to.contain('965KB');
     expect(tree.find('button').prop('aria-describedby')).to.eq(
       'field_file_name_0',
     );
 
     // check ids & index passed into SchemaField
     const schemaProps = tree.find('SchemaField').props();
-    const widgetProps = schemaProps.uiSchema['ui:options'].widgetProps;
+    const { widgetProps } = schemaProps.uiSchema['ui:options'];
     expect(schemaProps.schema).to.equal(schema.items[0].properties.name);
     expect(schemaProps.registry.formContext.pagePerItemIndex).to.eq(0);
     expect(widgetProps['aria-describedby']).to.eq('field_file_name_0');
@@ -832,7 +843,7 @@ describe('Schemaform <FileField>', () => {
 
     // check ids & index passed into SchemaField
     const schemaProps = tree.find('SchemaField').props();
-    const widgetProps = schemaProps.uiSchema['ui:options'].widgetProps;
+    const { widgetProps } = schemaProps.uiSchema['ui:options'];
     expect(schemaProps.schema).to.equal(
       schema.items[0].properties.attachmentId,
     );
