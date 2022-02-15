@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import { format } from 'date-fns';
 import { connect } from 'react-redux';
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import environment from 'platform/utilities/environment';
 import FormFooter from '../components/FormFooter';
 import {
   fetchClaimStatus,
@@ -13,13 +12,15 @@ import {
   CLAIM_STATUS_RESPONSE_ERROR,
 } from '../actions';
 
-import environment from 'platform/utilities/environment';
-
 const LETTER_URL = `${environment.API_URL}/meb_api/v0/claim_letter`;
 
-const approvedPage = confirmationDate => (
+function printPage() {
+  window.print();
+}
+
+const approvedPage = (claimantName, confirmationDate) => (
   <div className="meb-confirmation-page meb-confirmation-page_approved">
-    <va-alert onClose={function noRefCheck() {}} status="success">
+    <va-alert status="success">
       <h3 slot="headline">
         Congratulations! You have been approved for the Post-9/11 GI Bill
       </h3>
@@ -44,18 +45,18 @@ const approvedPage = confirmationDate => (
 
     <div className="feature">
       <h3>Application for VA education benefits (Form 22-1990)</h3>
-      <p>For Hector Oliver Stanley Jr.</p>
+      <p>For {claimantName}</p>
       <dl>
         <dt>Date received</dt>
         <dd>{confirmationDate}</dd>
       </dl>
-      <a
+      <button
         className="usa-button meb-print"
-        href="#"
-        onClick={() => window.print()}
+        onClick={printPage}
+        type="button"
       >
         Print this page
-      </a>
+      </button>
     </div>
 
     <h2>What happens next?</h2>
@@ -95,7 +96,7 @@ const approvedPage = confirmationDate => (
       </li>
     </ul>
 
-    <AdditionalInfo triggerText="What is a Certificate of Eligibility?">
+    <va-additional-info trigger="What is a Certificate of Eligibility?">
       <p>
         A Certificate of Eligibility is an official document from the U.S.
         Department of Veterans Affairs that details your GI Bill benefit status.
@@ -109,7 +110,7 @@ const approvedPage = confirmationDate => (
       >
         Understanding your Certificate of Eligibility
       </a>
-    </AdditionalInfo>
+    </va-additional-info>
 
     <a className="vads-c-action-link--green" href="/my-va/">
       Go to your My VA dashboard
@@ -119,9 +120,9 @@ const approvedPage = confirmationDate => (
   </div>
 );
 
-const deniedPage = confirmationDate => (
+const deniedPage = (claimantName, confirmationDate) => (
   <div className="meb-confirmation-page meb-confirmation-page_denied">
-    <va-alert onClose={function noRefCheck() {}} status="info">
+    <va-alert status="info">
       <h3 slot="headline">You’re not eligible for this benefit</h3>
       <p>
         Unfortunately, based on the information you provided and Department of
@@ -144,14 +145,14 @@ const deniedPage = confirmationDate => (
 
     <div className="feature">
       <h3>Application for VA education benefits (Form 22-1990)</h3>
-      <p>For Hector Oliver Stanley Jr.</p>
+      <p>For {claimantName}</p>
       <dl>
         <dt>Date received</dt>
         <dd>{confirmationDate}</dd>
       </dl>
       <button
         className="usa-button meb-print"
-        onClick={() => window.print()}
+        onClick={printPage}
         type="button"
       >
         Print this page
@@ -184,9 +185,9 @@ const deniedPage = confirmationDate => (
   </div>
 );
 
-const pendingPage = confirmationDate => (
+const pendingPage = (claimantName, confirmationDate) => (
   <div className="meb-confirmation-page meb-confirmation-page_denied">
-    <va-alert onClose={function noRefCheck() {}} status="success">
+    <va-alert status="success">
       <h3 slot="headline">We’ve received your application</h3>
       <p>
         Your application requires additional review. Once we have reviewed your
@@ -196,14 +197,14 @@ const pendingPage = confirmationDate => (
 
     <div className="feature">
       <h3>Application for VA education benefits (Form 22-1990)</h3>
-      <p>For Hector Oliver Stanley Jr.</p>
+      <p>For {claimantName}</p>
       <dl>
         <dt>Date received</dt>
         <dd>{confirmationDate}</dd>
       </dl>
       <button
         className="usa-button meb-print"
-        onClick={() => window.print()}
+        onClick={printPage}
         type="button"
       >
         Print this page
@@ -280,11 +281,19 @@ const loadingPage = (
     className="meb-confirmation-page meb-confirmation-page_loading"
     style={{ marginBottom: '3rem' }}
   >
-    <LoadingIndicator message="Loading your results" />
+    <va-loading-indicator
+      label="Loading"
+      message="Loading your results"
+      set-focus
+    />
   </div>
 );
 
-export const ConfirmationPage = ({ claimStatus, getClaimStatus }) => {
+export const ConfirmationPage = ({
+  claimStatus,
+  getClaimStatus,
+  userFullName,
+}) => {
   useEffect(
     () => {
       if (!claimStatus) {
@@ -298,17 +307,20 @@ export const ConfirmationPage = ({ claimStatus, getClaimStatus }) => {
   const confirmationDate = claimStatus?.receivedDate
     ? format(new Date(claimStatus?.receivedDate), 'MMMM d, yyyy')
     : undefined;
+  const claimantName = `${userFullName.first} ${userFullName.middle} ${
+    userFullName.last
+  } ${userFullName.suffix}`;
 
   switch (confirmationResult) {
     case CLAIM_STATUS_RESPONSE_ELIGIBLE: {
-      return approvedPage(confirmationDate);
+      return approvedPage(claimantName, confirmationDate);
     }
     case CLAIM_STATUS_RESPONSE_DENIED: {
-      return deniedPage(confirmationDate);
+      return deniedPage(claimantName, confirmationDate);
     }
     case CLAIM_STATUS_RESPONSE_IN_PROGRESS:
     case CLAIM_STATUS_RESPONSE_ERROR: {
-      return pendingPage(confirmationDate);
+      return pendingPage(claimantName, confirmationDate);
     }
     default: {
       return loadingPage;
@@ -316,10 +328,10 @@ export const ConfirmationPage = ({ claimStatus, getClaimStatus }) => {
   }
 };
 
-const mapStateToProps = state => {
-  const claimStatus = state.data?.claimStatus;
-  return { claimStatus };
-};
+const mapStateToProps = state => ({
+  claimStatus: state.data?.claimStatus,
+  userFullName: state.form?.data['view:userFullName']?.userFullName,
+});
 
 const mapDispatchToProps = {
   getClaimStatus: fetchClaimStatus,
