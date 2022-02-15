@@ -225,13 +225,18 @@ describe('standaloneRedirect', () => {
     expect(authUtilities.standaloneRedirect()).to.be.null;
   });
 
-  it('should return a plain url when no `to` search query is provided', () => {
-    Object.keys(EXTERNAL_APPS).forEach(app => {
-      global.window.location.search = `?application=${EXTERNAL_APPS[app]}`;
-      expect(authUtilities.standaloneRedirect()).to.equal(
-        EXTERNAL_REDIRECTS[EXTERNAL_APPS[app]],
-      );
-    });
+  it('should return a plain url for (MHV & Cerner) when no `to` search query is provided', () => {
+    global.window.location.search = `?application=${EXTERNAL_APPS.MHV}`;
+    expect(authUtilities.standaloneRedirect()).to.equal(
+      EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV],
+    );
+  });
+
+  it('should return the default `/profilepostauth` for (eBenefits) when no `to` search query is provided', () => {
+    global.window.location.search = `?application=${EXTERNAL_APPS.EBENEFITS}`;
+    expect(authUtilities.standaloneRedirect()).to.equal(
+      `${EXTERNAL_REDIRECTS[EXTERNAL_APPS.EBENEFITS]}/profilepostauth`,
+    );
   });
 
   it('should strip any CRLF characters from the "to" parameter', () => {
@@ -253,5 +258,28 @@ describe('loginAppUrlRE', () => {
   it('should not resolve to a login app url', () => {
     expect(authUtilities.loginAppUrlRE.test('/sign-in-faq')).to.be.false;
     expect(authUtilities.loginAppUrlRE.test('/sign-in-faq/')).to.be.false;
+  });
+});
+
+describe('generatePath', () => {
+  it('should default to an empty string if `to` is null/undefined', () => {
+    expect(authUtilities.generatePath('mhv')).to.eql('');
+    expect(authUtilities.generatePath('myvahealth')).to.eql('');
+  });
+  it('should default to `/profilepostauth` for eBenefits', () => {
+    expect(authUtilities.generatePath('ebenefits')).to.eql('/profilepostauth');
+  });
+  it('should default to having a `/` regardless if `to` query params has it for (eBenefits or Cerner)', () => {
+    expect(authUtilities.generatePath('myvahealth', 'secure_messaging')).to.eql(
+      '/secure_messaging',
+    );
+    expect(
+      authUtilities.generatePath('ebenefits', '/profile_dashboard'),
+    ).to.eql('/profile_dashboard');
+  });
+  it('should create deeplinking query param for mhv if `to` provided', () => {
+    expect(authUtilities.generatePath('mhv', 'some_random_link')).to.eql(
+      '?deeplinking=some_random_link',
+    );
   });
 });
