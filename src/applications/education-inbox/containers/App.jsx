@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { fetchUser } from '../../my-education-benefits/selectors/userDispatch';
 
@@ -29,15 +30,9 @@ const App = ({ toggleLoginModal, user }) => {
     </va-alert>
   );
 
-  const IsLoggedIn = (
-    <button className="va-button-primary" type="button">
-      Check your VA education inbox
-    </button>
-  );
-
   return (
     <>
-      <Layout>
+      <Layout clsName="introduction-page">
         <FormTitle title="Check your VA education inbox" />
 
         <p className="va-introtext">
@@ -46,7 +41,13 @@ const App = ({ toggleLoginModal, user }) => {
           how to sign in.
         </p>
 
-        {user?.login?.currentlyLoggedIn ? IsLoggedIn : NotLoggedIn}
+        {user?.login?.currentlyLoggedIn ? (
+          <Link className="va-button-primary" type="button" to="/preview">
+            Check your VA education inbox
+          </Link>
+        ) : (
+          NotLoggedIn
+        )}
 
         <div>
           <h2>Can I use this tool?</h2>

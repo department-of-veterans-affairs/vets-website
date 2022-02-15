@@ -1,7 +1,8 @@
 import React from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
-const Layout = ({ children }) => {
+const Layout = ({ children, clsName = '' }) => {
+  const classNa = `main ${clsName}`;
   return (
     <>
       <Breadcrumbs>
@@ -9,7 +10,7 @@ const Layout = ({ children }) => {
         <a href="/education/">Eduction and training</a>
         <a href="/education/education-inbox">Check your VA education inbox</a>
       </Breadcrumbs>
-      <main id="main" className="main">
+      <main id="main" className={classNa}>
         <div className="usa-grid usa-grid-full">
           <div className="usa-width-three-fourths">
             <article className="usa-content vads-u-padding-bottom--0">
