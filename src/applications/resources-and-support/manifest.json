@@ -2,5 +2,6 @@
   "appName": "Resources and support",
   "entryFile": "./resources-and-support-entry.jsx",
   "entryName": "resources-and-support",
-  "rootUrl": "/resources/search"
+  "rootUrl": "/resources/search",
+  "productId": 136
 }

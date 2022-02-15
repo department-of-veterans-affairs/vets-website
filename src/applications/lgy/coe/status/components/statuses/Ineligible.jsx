@@ -6,6 +6,7 @@ import DownloadLink from '../../../shared/components/DownloadLink';
 import MoreQuestions from '../MoreQuestions';
 
 const coeUrl = getAppUrl('coe');
+const introUrl = `${coeUrl}/introduction`;
 const formLink = '/find-forms/about-form-26-1880/';
 const downloadLinkText = 'Download VA form 26-1880 (PDF)';
 
@@ -39,7 +40,7 @@ const Ineligible = () => (
         If you already know you qualify for a VA home loan COE and you have all
         the information we’ll need, you can request a COE online.
       </p>
-      <a className="vads-c-action-link--green" href={coeUrl}>
+      <a className="vads-c-action-link--green" href={introUrl}>
         Request a Certificate of Eligibility
       </a>
       <h3>

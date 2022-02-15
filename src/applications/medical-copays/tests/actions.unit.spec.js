@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import copays from '../tests/e2e/fixtures/mocks/copays.json';
-import { mockApiRequest } from 'platform/testing/unit/helpers.js';
+import { mockApiRequest } from 'platform/testing/unit/helpers';
+import copays from './e2e/fixtures/mocks/copays.json';
 import { transform } from '../utils/helpers';
 import {
   getStatements,

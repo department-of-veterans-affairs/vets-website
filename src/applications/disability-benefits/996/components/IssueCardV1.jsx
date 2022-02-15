@@ -43,10 +43,10 @@ export const IssueCardContent = ({
 };
 
 IssueCardContent.propTypes = {
+  approxDecisionDate: PropTypes.string,
   decisionDate: PropTypes.string,
   description: PropTypes.string,
   ratingIssuePercentNumber: PropTypes.string,
-  approxDecisionDate: PropTypes.string,
 };
 
 /**
@@ -120,6 +120,10 @@ export const IssueCard = ({
     </div>
   );
 
+  const handlers = {
+    onChange: event => onChange(index, event.target.checked),
+  };
+
   const editButton =
     showCheckbox && isEditable ? (
       <button
@@ -142,7 +146,7 @@ export const IssueCard = ({
               id={elementId}
               name={elementId}
               checked={itemIsSelected}
-              onChange={event => onChange(index, event.target.checked)}
+              onChange={handlers.onChange}
             />
             <label
               className={`schemaform-label ${outlineClass}`}
@@ -172,7 +176,6 @@ export const IssueCard = ({
 IssueCard.propTypes = {
   id: PropTypes.string,
   index: PropTypes.number,
-  showCheckbox: PropTypes.bool,
   item: PropTypes.shape({
     issue: PropTypes.string,
     decisionDate: PropTypes.string,
@@ -185,6 +188,7 @@ IssueCard.propTypes = {
   options: PropTypes.shape({
     appendId: PropTypes.string,
   }),
+  showCheckbox: PropTypes.bool,
   onChange: PropTypes.func,
   onEdit: PropTypes.func,
 };

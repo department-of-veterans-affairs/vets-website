@@ -2130,14 +2130,13 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^4.1.2":
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-4.1.2.tgz#1eed1da80c07c1069fa8e302afe949cd1775d760"
-  integrity sha512-klW3/uWesLvQzgQowzYxnSUNdDXGa52g/ZoxyNJdBKoF/VJmVHNj9daiOcvT9H8GKyDlczO0ljFHApryrQ6lqQ==
+"@department-of-veterans-affairs/component-library@^6.0.2":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-6.0.2.tgz#0af8574535ce7ad7486fcfbae90414daadd8ba40"
+  integrity sha512-D2v7KkbHXQYPcXH8httl9esJxnOp+fMebJpE6QNGLPcDhlWBzM3enj9lCjnOx9TeEOZHk9/xaM2+N85KyJe1TQ==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "4.0.1"
-    "@department-of-veterans-affairs/web-components" "0.21.2"
-    date-fns-tz "^1.1.1"
+    "@department-of-veterans-affairs/react-components" "4.0.2"
+    "@department-of-veterans-affairs/web-components" "2.0.2"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
@@ -2168,10 +2167,10 @@
     yeoman-generator "^4.11.0"
     yosay "^2.0.1"
 
-"@department-of-veterans-affairs/react-components@4.0.1":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-4.0.1.tgz#4317f8d48f0ac24147a9246bfcdd492814d9cb44"
-  integrity sha512-BLmhrfQIYujaVL/pP5qObtm+WPc06lG198x93PBQV+ckJ/1igavGdnYKCtdmRMT8/JD88AMSXqV16sAthh8uUA==
+"@department-of-veterans-affairs/react-components@4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-4.0.2.tgz#4cdc74617f80878a05db3b47f24f69c7f01ca481"
+  integrity sha512-mM9k6bB9rpZBTjAwPZKax+E7ulF0Hg6jaM0LGwPEoHxe7oiY559v708wbLbE8kklCez2K669r8qDYymk5ISwoA==
   dependencies:
     classnames "^2.2.6"
     number-to-words "^1.2.4"
@@ -2193,10 +2192,10 @@
     react-is "^17.0.1"
     setimmediate "^1.0.5"
 
-"@department-of-veterans-affairs/web-components@0.21.2":
-  version "0.21.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-0.21.2.tgz#f1378bab6e5710127c82571cf5bfab7d8d316445"
-  integrity sha512-hrwOC/4SIVmp5+IRZ04X/u6ldghyqV8OnUdQD/HpCyOV7xf0gL4GnTdRQMCnXK8RZBuvANuAwweIh+Zs0JcYQQ==
+"@department-of-veterans-affairs/web-components@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-2.0.2.tgz#8e4a566315b2d8e0dacdf9766997b326bd84ad13"
+  integrity sha512-J0RJO7nJiAANt8dKXKnHLuBrCoJhKhdcTD5w3OxLrpO4mqfZbGXa1vVBytiCIs9jfrLd88llReBxKleDWU1vUw==
   dependencies:
     "@stencil/core" "^2.10.0"
     "@stencil/postcss" "^2.0.0"
@@ -5158,10 +5157,10 @@ cacheable-request@^7.0.1:
     normalize-url "^6.0.1"
     responselike "^2.0.0"
 
-cached-path-relative@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/cached-path-relative/-/cached-path-relative-1.0.2.tgz"
-  integrity sha512-5r2GqsoEb4qMTTN9J+WzXfjov+hjxT+j3u5K+kIVNIwAd99DLCJE9pBIMP1qVeybV6JiijL385Oz0DcYxfbOIg==
+cached-path-relative@1.1.0, cached-path-relative@^1.0.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/cached-path-relative/-/cached-path-relative-1.1.0.tgz#865576dfef39c0d6a7defde794d078f5308e3ef3"
+  integrity sha512-WF0LihfemtesFcJgO7xfOoOcnWzY/QHR4qeDqV44jPU3HTI54+LnfXK3SA27AVVGCdZFgjjFFaqUA9Jx7dMJZA==
 
 cachedir@^2.3.0:
   version "2.3.0"
@@ -6556,10 +6555,10 @@ cypress-wait-until@^1.7.2:
   resolved "https://registry.yarnpkg.com/cypress-wait-until/-/cypress-wait-until-1.7.2.tgz#7f534dd5a11c89b65359e7a0210f20d3dfc22107"
   integrity sha512-uZ+M8/MqRcpf+FII/UZrU7g1qYZ4aVlHcgyVopnladyoBrpoaMJ4PKZDrdOJ05H5RHbr7s9Tid635X3E+ZLU/Q==
 
-cypress@^9.3.1:
-  version "9.3.1"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-9.3.1.tgz#8116f52d49d6daf90a91e88f3eafd940234d2958"
-  integrity sha512-BODdPesxX6bkVUnH8BVsV8I/jn57zQtO1FEOUTiuG2us3kslW7g0tcuwiny7CKCmJUZz8S/D587ppC+s58a+5Q==
+cypress@^9.4.1:
+  version "9.4.1"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-9.4.1.tgz#1a4ba706435829c24b7edf350c2b059e05da9084"
+  integrity sha512-+JgMG9uT+QFx97JU9kOHE3jO3+0UdkQ9H1oCBiC7A74qme7Jkdy2sYDBCPjjGczutnWnGUTMRlwiNMP/Uq6LrQ==
   dependencies:
     "@cypress/request" "^2.88.10"
     "@cypress/xvfb" "^1.2.4"
@@ -6598,10 +6597,10 @@ cypress@^9.3.1:
     pretty-bytes "^5.6.0"
     proxy-from-env "1.0.0"
     request-progress "^3.0.0"
+    semver "^7.3.2"
     supports-color "^8.1.1"
     tmp "~0.2.1"
     untildify "^4.0.0"
-    url "^0.11.0"
     yauzl "^2.10.0"
 
 d@1:
@@ -7986,8 +7985,8 @@ eslint-plugin-unicorn@^35.0.0:
     safe-regex "^2.1.1"
     semver "^7.3.5"
 
-"eslint-plugin-va@file:./script/eslint-plugin-va":
-  version "1.0.5"
+"eslint-plugin-va@link:./script/eslint-plugin-va":
+  version "1.1.0"
 
 eslint-scope@5.1.1, eslint-scope@^5.1.1:
   version "5.1.1"
@@ -8892,15 +8891,10 @@ focus-lock@^0.9.2:
   dependencies:
     tslib "^2.0.3"
 
-follow-redirects@^1.0.0:
-  version "1.14.3"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.3.tgz#6ada78118d8d24caee595595accdc0ac6abd022e"
-  integrity sha512-3MkHxknWMUtb23apkgz/83fDoe+y+qr0TdgacGIA7bew+QLBo3vdgEN2xEsuXNivpFy4CyDhBBZnNZOtalmenw==
-
-follow-redirects@^1.14.0:
-  version "1.14.4"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.4.tgz#838fdf48a8bbdd79e52ee51fb1c94e3ed98b9379"
-  integrity sha512-zwGkiSXC1MUJG/qmeIFH2HBJx9u0V46QGUe3YR1fXG8bXQxq7fLj0RjLZQ5nubr9qNJUZrH+xUcwXEoXNpfS+g==
+follow-redirects@^1.0.0, follow-redirects@^1.14.0:
+  version "1.14.8"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.8.tgz#016996fb9a11a100566398b1c6839337d7bfa8fc"
+  integrity sha512-1x0S9UVJHsQprFcEC/qnNzBLcIxsjAV905f/UkQxbclCsoTWlacCNOpQa/anodLl2uaEKFhfWOvM2Qg77+15zA==
 
 for-in@^1.0.2:
   version "1.0.2"
@@ -12904,6 +12898,14 @@ mocha-junit-reporter@^2.0.0:
     mkdirp "~0.5.1"
     strip-ansi "^4.0.0"
     xml "^1.0.0"
+
+mocha-multi-reporters@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/mocha-multi-reporters/-/mocha-multi-reporters-1.5.1.tgz#c73486bed5519e1d59c9ce39ac7a9792600e5676"
+  integrity sha512-Yb4QJOaGLIcmB0VY7Wif5AjvLMUFAdV57D2TWEva1Y0kU/3LjKpeRVmlMIfuO1SVbauve459kgtIizADqxMWPg==
+  dependencies:
+    debug "^4.1.1"
+    lodash "^4.17.15"
 
 mocha-snapshots@^4.2.0:
   version "4.2.0"
@@ -18753,7 +18755,7 @@ url-to-options@^1.0.1:
   resolved "https://registry.npmjs.org/url-to-options/-/url-to-options-1.0.1.tgz"
   integrity sha1-FQWgOiiaSMvXpDTvuu7FBV9WM6k=
 
-url@^0.11.0, url@~0.11.0:
+url@~0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/url/-/url-0.11.0.tgz#3838e97cfc60521eb73c525a8e55bfdd9e2e28f1"
   integrity sha1-ODjpfPxgUh63PFJajlW/3Z4uKPE=
@@ -18910,9 +18912,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#daa6f14539b167dc179cd4495159d58eade30211":
-  version "20.18.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#daa6f14539b167dc179cd4495159d58eade30211"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#5c0af7a98ab0390566f4756428c90625ff145b31":
+  version "20.19.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#5c0af7a98ab0390566f4756428c90625ff145b31"
 
 vfile-message@^2.0.0:
   version "2.0.4"

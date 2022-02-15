@@ -5,8 +5,6 @@ import groupBy from 'lodash/groupBy';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
-import environment from 'platform/utilities/environment';
-
 import {
   deepEquals,
   getDefaultFormState,
@@ -180,9 +178,10 @@ class ObjectField extends React.Component {
 
     // description and title setup
     const showFieldLabel = uiOptions.showFieldLabel;
-    const fieldsetClassNames = classNames(uiOptions.classNames, {
-      'vads-u-margin-y--2': !environment.isProduction(),
-    });
+    const fieldsetClassNames = classNames(
+      uiOptions.classNames,
+      'vads-u-margin-y--2',
+    );
 
     const forceDivWrapper = !!uiOptions.forceDivWrapper;
     const title = uiSchema['ui:title'] || schema.title;
@@ -197,12 +196,6 @@ class ObjectField extends React.Component {
 
     const hasTitleOrDescription = !!title || !!description;
     const isRoot = idSchema.$id === 'root';
-
-    const containerClassNames = classNames({
-      'input-section': isRoot,
-      'schemaform-field-container': true,
-      'schemaform-block': title && !isRoot,
-    });
 
     const pageIndex = formContext?.pagePerItemIndex;
     // Fix array nested ids (one-level deep)
@@ -254,68 +247,6 @@ class ObjectField extends React.Component {
             .join('_')
         : idSchema.$id
     }${typeof pageIndex === 'undefined' ? '' : `_${pageIndex}`}`;
-
-    const fieldContent = (
-      <div className={containerClassNames}>
-        {hasTitleOrDescription && (
-          <div className="schemaform-block-header">
-            {CustomTitleField && !showFieldLabel ? (
-              <CustomTitleField
-                id={`${id}__title`}
-                formData={formData}
-                formContext={formContext}
-                required={required}
-              />
-            ) : null}
-            {!CustomTitleField && title && !showFieldLabel ? (
-              <TitleField
-                id={`${id}__title`}
-                title={title}
-                required={required}
-                formContext={formContext}
-              />
-            ) : null}
-            {textDescription && <p>{textDescription}</p>}
-            {DescriptionField && (
-              <DescriptionField
-                formData={formData}
-                formContext={formContext}
-                options={uiSchema['ui:options']}
-              />
-            )}
-            {!textDescription && !DescriptionField && description}
-          </div>
-        )}
-        {this.orderedProperties.map((objectFields, index) => {
-          if (objectFields.length > 1) {
-            const [first, ...rest] = objectFields;
-            const visible = rest.filter(
-              prop => !schema.properties[prop]['ui:collapsed'],
-            );
-            return (
-              <ExpandingGroup open={visible.length > 0} key={index}>
-                {renderProp(first)}
-                <div
-                  className={get(
-                    [first, 'ui:options', 'expandUnderClassNames'],
-                    uiSchema,
-                  )}
-                >
-                  {visible.map(renderProp)}
-                </div>
-              </ExpandingGroup>
-            );
-          }
-
-          // if fields have expandUnder, but are the only item, that means the
-          // field they’re expanding under is hidden, and they should be hidden, too
-          return !get([objectFields[0], 'ui:options', 'expandUnder'], uiSchema)
-            ? // eslint-disable-next-line sonarjs/no-extra-arguments
-              renderProp(objectFields[0], index)
-            : undefined;
-        })}
-      </div>
-    );
 
     const accessibleFieldContent = (
       <>
@@ -382,16 +313,12 @@ class ObjectField extends React.Component {
     if (title && !forceDivWrapper) {
       return (
         <fieldset className={fieldsetClassNames}>
-          {environment.isProduction() ? fieldContent : accessibleFieldContent}
+          {accessibleFieldContent}
         </fieldset>
       );
     }
 
-    return (
-      <div className={fieldsetClassNames}>
-        {environment.isProduction() ? fieldContent : accessibleFieldContent}
-      </div>
-    );
+    return <div className={fieldsetClassNames}>{accessibleFieldContent}</div>;
   }
 }
 

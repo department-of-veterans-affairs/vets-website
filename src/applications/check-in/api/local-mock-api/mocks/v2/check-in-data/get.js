@@ -179,7 +179,7 @@ const createMultipleAppointments = (
       },
     },
   };
-  for (let i = 0; i < numberOfCheckInAbledAppointments; i++) {
+  for (let i = 0; i < numberOfCheckInAbledAppointments; i += 1) {
     rv.payload.appointments.push(
       createAppointment(
         'ELIGIBLE',

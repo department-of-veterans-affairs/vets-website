@@ -1,6 +1,6 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 import formConfig from './config/form';
-import FormApp from './containers/FormApp.jsx';
+import FormApp from './containers/FormApp';
 
 const route = {
   path: '/',

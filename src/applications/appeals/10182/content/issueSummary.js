@@ -1,15 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import formConfig from '../config/form';
+import { contestableIssuesPath } from '../constants';
 import { getSelected } from '../utils/helpers';
 import { ShowIssuesList } from '../components/ShowIssuesList';
 
 export const SummaryTitle = ({ formData }) => {
-  const { pages } = formConfig.chapters.conditions;
-  const pathname = formData.contestableIssues?.length
-    ? pages.contestableIssues.path
-    : pages.additionalIssues.path;
   const issues = getSelected(formData);
 
   return (
@@ -21,7 +17,7 @@ export const SummaryTitle = ({ formData }) => {
         <Link
           aria-label="go back and add any missing issues for review"
           to={{
-            pathname,
+            pathname: contestableIssuesPath,
             search: '?redirect',
           }}
         >

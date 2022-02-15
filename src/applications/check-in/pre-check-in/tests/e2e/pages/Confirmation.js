@@ -1,13 +1,13 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 class Confirmation {
-  validatePageLoaded() {
+  validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('have.text', 'You’ve completed pre-check-in');
-  }
+  };
 
-  validatePageContent() {
+  validatePageContent = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('have.text', 'You’ve completed pre-check-in');
@@ -17,20 +17,20 @@ class Confirmation {
     cy.get("h3[data-testid='appointment-questions']")
       .should('be.visible')
       .and('have.text', 'What if I have questions about my appointment?');
-  }
+  };
 
-  validateConfirmWithUpdates() {
+  validateConfirmWithUpdates = () => {
     cy.get("[data-testid='confirmation-update-alert']")
       .should('be.visible')
       .and(
         'have.text',
         'A staff member will help you on the day of your appointment to update your information.',
       );
-  }
+  };
 
-  validateConfirmNoUpdates() {
+  validateConfirmNoUpdates = () => {
     cy.get("[data-testid='confirmation-update-alert']").should('not.exist');
-  }
+  };
 }
 
 export default new Confirmation();

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -17,7 +18,13 @@ const shouldShowSubwayMap = status => {
   return !hideSubwayMap.includes(status);
 };
 
-const IntroductionPage = props => {
+const IntroductionPage = ({
+  callStatus,
+  coe,
+  downloadUrl,
+  loggedIn,
+  route,
+}) => {
   let content;
 
   useEffect(() => {
@@ -29,40 +36,48 @@ const IntroductionPage = props => {
   // Once the coe call is done, render the rest of the content
   const coeCallEnded = [CALLSTATUS.failed, CALLSTATUS.success, CALLSTATUS.skip];
 
-  if (!props.loggedIn && coeCallEnded.includes(props.status)) {
-    content = <UnauthenticatedContent {...props} />;
+  if (!loggedIn && coeCallEnded.includes(callStatus)) {
+    content = <UnauthenticatedContent route={route} />;
   }
-  if (props.loggedIn && coeCallEnded.includes(props.status)) {
+  if (loggedIn && coeCallEnded.includes(callStatus)) {
     content = (
       <>
         <IntroPageBox
-          coe={props.coe}
-          status={props.status}
-          downloadUrl={props.downloadUrl}
+          applicationCreateDate={coe.applicationCreateDate}
+          downloadUrl={downloadUrl}
+          status={coe.status}
         />
-        {shouldShowSubwayMap(props.coe.status) && (
-          <AuthenticatedContent parentProps={props} />
+        {shouldShowSubwayMap(coe.status) && (
+          <AuthenticatedContent route={route} />
         )}
       </>
     );
   }
 
   return (
-    <div>
+    <>
       <FormTitle title="Request a VA home loan Certificate of Eligibility (COE)" />
       <p className="vads-u-padding-bottom--3">
         Request for a Certificate of Eligibility (VA Form 26-1880)
       </p>
       {content}
-    </div>
+    </>
   );
 };
 
 const mapStateToProps = state => ({
-  status: state.certificateOfEligibility.generateAutoCoeStatus,
   coe: state.certificateOfEligibility.coe,
   downloadUrl: state.certificateOfEligibility.downloadUrl,
   loggedIn: isLoggedIn(state),
+  callStatus: state.certificateOfEligibility.generateAutoCoeStatus,
 });
+
+IntroductionPage.propTypes = {
+  callStatus: PropTypes.string,
+  coe: PropTypes.object,
+  downloadUrl: PropTypes.string,
+  loggedIn: PropTypes.bool,
+  route: PropTypes.object,
+};
 
 export default connect(mapStateToProps)(IntroductionPage);

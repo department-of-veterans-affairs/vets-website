@@ -33,6 +33,12 @@ const mocks = {
       const { id } = body;
       return createMockSuccessResponse(id, 'read.full');
     },
+    createMockValidateErrorResponse: () => {
+      return {
+        error: true,
+        message: 'Invalid last4 or last name!',
+      };
+    },
     createMockFailedResponse,
   },
 };

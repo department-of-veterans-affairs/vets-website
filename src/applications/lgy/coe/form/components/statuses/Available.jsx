@@ -1,9 +1,14 @@
 import React from 'react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
+
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 import ReviewAndDownload from '../../../shared/components/ReviewAndDownload';
 
-const Available = ({ downloadUrl, applicationCreateDate }) => (
+const coeStatusUrl = getAppUrl('coe-status');
+
+const Available = ({ applicationCreateDate, downloadUrl }) => (
   <>
     <va-alert status="info">
       <h2 slot="headline">You already have a COE</h2>
@@ -16,7 +21,7 @@ const Available = ({ downloadUrl, applicationCreateDate }) => (
           You have a COE available so you don’t need to fill out a request. You
           can review the details about your COE status or download your COE now.
           <br />
-          <a href="/housing-assistance/home-loans/request-coe-form-26-1880/eligibility">
+          <a href={coeStatusUrl}>
             Go to your VA home loan COE page to review the details of your COE
             status
           </a>
@@ -40,5 +45,10 @@ const Available = ({ downloadUrl, applicationCreateDate }) => (
     </div>
   </>
 );
+
+Available.propTypes = {
+  applicationCreateDate: PropTypes.number,
+  downloadUrl: PropTypes.string,
+};
 
 export default Available;

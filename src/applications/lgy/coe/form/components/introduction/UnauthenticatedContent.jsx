@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 const formConfig = {
@@ -7,7 +9,7 @@ const formConfig = {
   },
 };
 
-const UnauthenticatedContent = props => (
+const UnauthenticatedContent = ({ route }) => (
   <div>
     <h2 className="vads-u-margin-top--0">
       Sign in to request a COE, get your COE, or check your status
@@ -32,9 +34,9 @@ const UnauthenticatedContent = props => (
       and show your current status.
     </p>
     <SaveInProgressIntro
-      prefillEnabled={props?.route?.formConfig?.prefillEnabled}
-      messages={props?.route?.formConfig?.savedFormMessages}
-      pageList={props?.route?.pageList}
+      prefillEnabled={route?.formConfig?.prefillEnabled}
+      messages={route?.formConfig?.savedFormMessages}
+      pageList={route?.pageList}
       startText="Request a Certificate of Eligibility"
       unauthStartText="Sign in to start your request"
       formConfig={formConfig}
@@ -43,5 +45,9 @@ const UnauthenticatedContent = props => (
     />
   </div>
 );
+
+UnauthenticatedContent.propTypes = {
+  route: PropTypes.object,
+};
 
 export default UnauthenticatedContent;

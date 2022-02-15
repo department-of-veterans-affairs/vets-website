@@ -7,7 +7,7 @@ import Error from '../../pages/Error';
 describe('Pre-Check In Experience ', () => {
   describe('Error handling', () => {
     describe('POST /check_in/v2/session/', () => {
-      beforeEach(function() {
+      beforeEach(() => {
         const {
           initializeFeatureToggle,
           initializeSessionGet,
@@ -26,7 +26,7 @@ describe('Pre-Check In Experience ', () => {
       it('bad status code (400)', () => {
         cy.visitPreCheckInWithUUID();
         // page: Validate
-        ValidateVeteran.validatePageLoaded();
+        ValidateVeteran.validatePage.preCheckIn();
         ValidateVeteran.validateVeteran();
         cy.injectAxeThenAxeCheck();
 

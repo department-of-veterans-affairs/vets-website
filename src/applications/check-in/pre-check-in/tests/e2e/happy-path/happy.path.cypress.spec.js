@@ -10,7 +10,7 @@ import Confirmation from '../pages/Confirmation';
 
 describe('Pre-Check In Experience ', () => {
   let apiData = {};
-  beforeEach(function() {
+  beforeEach(() => {
     const {
       initializeFeatureToggle,
       initializeSessionGet,

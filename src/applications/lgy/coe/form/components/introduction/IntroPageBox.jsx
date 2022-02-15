@@ -1,17 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { COE_ELIGIBILITY_STATUS } from '../../../shared/constants';
 
 import { Available, Denied, Eligible, Ineligible, Pending } from '../statuses';
 
-const IntroPageBox = ({ coe, downloadUrl }) => {
-  if (coe.status) {
-    switch (coe.status) {
+const IntroPageBox = ({ applicationCreateDate, downloadUrl, status }) => {
+  if (status) {
+    switch (status) {
       case COE_ELIGIBILITY_STATUS.available:
         return (
           <Available
             downloadUrl={downloadUrl}
-            applicationCreateDate={coe.applicationCreateDate}
+            applicationCreateDate={applicationCreateDate}
           />
         );
       case COE_ELIGIBILITY_STATUS.denied:
@@ -25,8 +26,8 @@ const IntroPageBox = ({ coe, downloadUrl }) => {
       case COE_ELIGIBILITY_STATUS.pendingUpload:
         return (
           <Pending
-            status={coe.status}
-            applicationCreateDate={coe.applicationCreateDate}
+            applicationCreateDate={applicationCreateDate}
+            status={status}
           />
         );
       default:
@@ -35,6 +36,12 @@ const IntroPageBox = ({ coe, downloadUrl }) => {
   }
 
   return <></>;
+};
+
+IntroPageBox.propTypes = {
+  applicationCreateDate: PropTypes.number,
+  downloadUrl: PropTypes.string,
+  status: PropTypes.string,
 };
 
 export default IntroPageBox;

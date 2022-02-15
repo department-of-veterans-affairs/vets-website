@@ -1,6 +1,6 @@
-import formConfig from '../../form/config/form';
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import { UPDATE_LOGGEDIN_STATUS } from 'platform/user/authentication/actions';
+import formConfig from '../../form/config/form';
 
 import { CALLSTATUS } from '../constants';
 

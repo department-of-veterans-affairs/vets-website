@@ -7,7 +7,7 @@ import {
   DefinitionTester,
   selectCheckbox,
   fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
 
@@ -41,7 +41,8 @@ describe('area of disagreement page', () => {
       />,
     );
 
-    expect(form.find('input[type="checkbox"]').length).to.equal(4);
+    expect(form.find('input[type="checkbox"]').length).to.equal(3);
+    expect(form.find('input[type="text"]').length).to.equal(1);
     expect(form.find('h3').text()).to.equal('Tinnitus (January 1, 2021)');
     form.unmount();
   });
@@ -64,26 +65,7 @@ describe('area of disagreement page', () => {
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
-  it('should not allow submit when other is checked with no additional text', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={{}}
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={data}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    selectCheckbox(form, 'root_disagreementOptions_other', true);
-    form.find('form').simulate('submit');
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
-  it('should allow submit when an area (not other) is checked', () => {
+  it('should allow submit when a checkbox is checked', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -102,7 +84,7 @@ describe('area of disagreement page', () => {
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
-  it('should allow submit when other is checked with additional text', () => {
+  it('should allow submit when additional text is included', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -116,7 +98,6 @@ describe('area of disagreement page', () => {
       />,
     );
 
-    selectCheckbox(form, 'root_disagreementOptions_other', true);
     fillData(form, '[name="root_otherEntry"]', 'foo');
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.true;

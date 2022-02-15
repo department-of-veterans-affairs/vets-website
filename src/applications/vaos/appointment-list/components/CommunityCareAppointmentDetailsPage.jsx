@@ -81,7 +81,7 @@ export default function CommunityCareAppointmentDetailsPage() {
     facility: appointment.communityCareProvider,
     appointment,
   });
-  const isPastAppointment = appointment.vaos.isPastAppointment;
+  const { isPastAppointment } = appointment.vaos;
   const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
 
   return (
@@ -154,21 +154,26 @@ export default function CommunityCareAppointmentDetailsPage() {
           aria-hidden="true"
           className="fas fa-print vads-u-margin-right--1 vads-u-color--link-default"
         />
-        <button className="va-button-link" onClick={() => window.print()}>
+        <button
+          type="button"
+          className="va-button-link"
+          onClick={() => window.print()}
+        >
           Print
         </button>
       </div>
 
-      {!isPastAppointment && (
-        <InfoAlert
-          backgroundOnly
-          headline="Need to make changes?"
-          status="info"
-        >
-          Contact this provider if you need to reschedule or cancel your
-          appointment.
-        </InfoAlert>
-      )}
+      {!isPastAppointment &&
+        appointment.status !== 'cancelled' && (
+          <InfoAlert
+            backgroundOnly
+            headline="Need to make changes?"
+            status="info"
+          >
+            Contact this provider if you need to reschedule or cancel your
+            appointment.
+          </InfoAlert>
+        )}
     </PageLayout>
   );
 }

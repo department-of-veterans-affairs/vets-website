@@ -1,4 +1,5 @@
 import React from 'react';
+
 import recordEvent from 'platform/monitoring/record-event';
 import pageNames from './pageNames';
 import { SUPPLEMENTAL_CLAIM_URL } from '../../constants';
@@ -11,6 +12,16 @@ const LegacyYes = () => {
     'reason-for-alert':
       'Veteran has, or may have, a claim in the legacy appeals process',
   });
+
+  const handlers = {
+    supplementalLinkClick: () => {
+      recordEvent({
+        event: 'howToWizard-alert-link-click',
+        'howToWizard-alert-link-click-label': 'file a Supplemental Claim',
+      });
+    },
+  };
+
   return (
     <div
       id={pageNames.legacyYes}
@@ -27,18 +38,13 @@ const LegacyYes = () => {
         the form, you’ll need to check Box 15 to "opt-in from SOC/SSOC".
       </p>
       <p>
-        <DownloadLink content={'Download VA Form 20-0996'} wizardEvent />
+        <DownloadLink content="Download VA Form 20-0996" wizardEvent />
       </p>
       <p className="vads-u-margin-bottom--0">
         If you haven’t filed a legacy appeal for this claim, you’ll need to{' '}
         <a
           href={SUPPLEMENTAL_CLAIM_URL}
-          onClick={() => {
-            recordEvent({
-              event: 'howToWizard-alert-link-click',
-              'howToWizard-alert-link-click-label': 'file a Supplemental Claim',
-            });
-          }}
+          onClick={handlers.supplementalLinkClick}
         >
           file a Supplemental Claim
         </a>

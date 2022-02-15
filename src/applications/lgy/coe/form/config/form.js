@@ -1,11 +1,13 @@
 import fullSchema from 'vets-json-schema/dist/26-1880-schema.json';
 
+import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import manifest from '../manifest.json';
+import { customCOEsubmit } from './helpers';
 
 // const { } = fullSchema.properties;
 
@@ -30,9 +32,8 @@ import { fileUpload } from './chapters/documents';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/coe/submit_coe_claim`,
+  transformForSubmit: customCOEsubmit,
   trackingPrefix: '26-1880-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -118,7 +119,7 @@ const formConfig = {
           path: 'loan-intent',
           title: 'Certificate of Eligibility intent',
           uiSchema: loanIntent.uiSchema,
-          schema: loanIntent.schema,
+          schema: loanIntent.schema, 
           depends: formData => formData?.existingLoan,
         },
         loanHistory: {
@@ -135,7 +136,7 @@ const formConfig = {
       pages: {
         upload: {
           path: 'upload-supporting-documents',
-          title: 'Upload your documentation',
+          title: 'Upload your documents',
           uiSchema: fileUpload.uiSchema,
           schema: fileUpload.schema,
         },

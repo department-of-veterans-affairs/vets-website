@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -20,26 +21,28 @@ import {
   Pending,
 } from '../components/statuses';
 
-const App = props => {
-  const {
-    downloadUrl,
-    loggedIn,
-    certificateOfEligibility: { generateAutoCoeStatus, profileIsUpdating, coe },
-    hasSavedForm,
-    getCoeStatus,
-  } = props;
-
-  const clickHandler = () => {
-    getCoeStatus('skip');
-  };
+const App = ({
+  certificateOfEligibility: { generateAutoCoeStatus, profileIsUpdating, coe },
+  downloadUrl,
+  getCoe,
+  hasSavedForm,
+  loggedIn,
+  user,
+}) => {
+  const clickHandler = useCallback(
+    () => {
+      getCoe('skip');
+    },
+    [getCoe],
+  );
 
   useEffect(
     () => {
       if (!profileIsUpdating && loggedIn && !hasSavedForm && !coe) {
-        getCoeStatus();
+        getCoe();
       }
     },
-    [loggedIn, profileIsUpdating, hasSavedForm, coe, getCoeStatus],
+    [coe, getCoe, hasSavedForm, loggedIn, profileIsUpdating],
   );
 
   let content;
@@ -72,8 +75,8 @@ const App = props => {
       case COE_ELIGIBILITY_STATUS.pending:
         content = (
           <Pending
-            notOnUploadPage
             applicationCreateDate={coe.applicationCreateDate}
+            notOnUploadPage
             status={coe.status}
           />
         );
@@ -81,8 +84,8 @@ const App = props => {
       case COE_ELIGIBILITY_STATUS.pendingUpload:
         content = (
           <Pending
-            uploadsNeeded
             applicationCreateDate={coe.applicationCreateDate}
+            uploadsNeeded
             status={coe.status}
           />
         );
@@ -98,7 +101,7 @@ const App = props => {
     <>
       <RequiredLoginView
         serviceRequired={backendServices.USER_PROFILE}
-        user={props.user}
+        user={user}
       >
         <header className="row vads-u-padding-x--1">
           <FormTitle title="Your VA home loan COE" />
@@ -120,7 +123,16 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getCoeStatus: generateCoe,
+  getCoe: generateCoe,
+};
+
+App.propTypes = {
+  certificateOfEligibility: PropTypes.object,
+  downloadUrl: PropTypes.string,
+  getCoe: PropTypes.func,
+  hasSavedForm: PropTypes.bool,
+  loggedIn: PropTypes.bool,
+  user: PropTypes.object,
 };
 
 export default connect(

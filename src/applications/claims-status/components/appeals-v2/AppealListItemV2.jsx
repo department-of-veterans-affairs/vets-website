@@ -88,7 +88,7 @@ export default function AppealListItem({ appeal, name, external = false }) {
         {!external && (
           <div
             className={`status-circle ${
-              appeal.attributes.active ? 'open' : 'closed'
+              appeal.attributes.active ? 'open-claim' : 'closed-claim'
             }`}
           />
         )}
@@ -136,6 +136,7 @@ export default function AppealListItem({ appeal, name, external = false }) {
 
 AppealListItem.propTypes = {
   appeal: PropTypes.shape({
+    id: PropTypes.number,
     attributes: PropTypes.shape({
       status: PropTypes.shape({
         type: PropTypes.string.isRequired,
@@ -152,11 +153,12 @@ AppealListItem.propTypes = {
       issues: PropTypes.array.isRequired,
       description: PropTypes.string.isRequired,
     }),
+    type: PropTypes.string,
   }),
+  external: PropTypes.bool,
   name: PropTypes.shape({
     first: PropTypes.string,
     middle: PropTypes.string,
     last: PropTypes.string,
   }),
-  external: PropTypes.bool,
 };

@@ -139,6 +139,8 @@ Though we have the HOC, its now considered best practice to query redux using th
   - when to sunset: never;
 - `check_in_experience_update_information_page_enabled` : Enables or disabled the update information page
   - when to sunset: when we expand to multiple facilities and address the edge cases around it
+- `check_in_experience_editing_day_of_enabled` : Enables or disabled editing the demographics information for the day of
+  - when to sunset: once we have successfully tested this feature in production with users
 
 ### How to test this?
 

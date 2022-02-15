@@ -16,6 +16,8 @@ export default Object.freeze({
     'check_in_experience_pre_check_in_enabled',
   checkInExperienceUpdateInformationPageEnabled:
     'check_in_experience_update_information_page_enabled',
+  checkInExperienceEditingDayOfEnabled: 'check_in_experience_editing_day_of_enabled',
+  checkInExperienceEditingPreCheckInEnabled:'check_in_experience_editing_pre_check_in_enabled',
   coeAccess: 'coe_access',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
@@ -30,6 +32,7 @@ export default Object.freeze({
   debtLettersShowLetters: 'debt_letters_show_letters',
   dependencyVerification: 'dependency_verification',
   dischargeWizardFeatures: 'discharge_wizard_features',
+  enrollmentVerification: 'enrollment_verification',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',
   facilitiesPpmsSuppressAll: 'facilities_ppms_suppress_all',
   facilitiesPpmsSuppressCommunityCare:
@@ -68,6 +71,8 @@ export default Object.freeze({
   profileNotificationSettings: 'profile_notification_settings',
   profileEnhancements: 'profile_enhancements',
   profileShowAddressChangeModal: 'profile_show_address_change_modal',
+  profileShowFaxNumber: 'profile_show_fax_number',
+  profileShowGender: 'profile_show_gender',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
   searchTypeaheadEnabled: 'search_typeahead_enabled',
@@ -86,7 +91,6 @@ export default Object.freeze({
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
   showFormI18n: 'show_form_i18n',
   showEventsV2: 'show_events_v2',
-  showHeaderV2: 'show_header_v2',
   showMebMockEndpoints: 'show_meb_mock_endpoints',
   showMedicalCopays: 'show_medical_copays',
   showHealthcareExperienceQuestionnaire:
@@ -112,7 +116,6 @@ export default Object.freeze({
   vaOnlineSchedulingCheetah: 'va_online_scheduling_cheetah',
   vaOnlineSchedulingCommunityCare: 'va_online_scheduling_community_care',
   vaOnlineSchedulingDirect: 'va_online_scheduling_direct',
-  vaOnlineSchedulingHomepageRefresh: 'va_online_scheduling_homepage_refresh',
   vaOnlineSchedulingProviderSelection:
     'va_online_scheduling_provider_selection',
   vaOnlineSchedulingRequests: 'va_online_scheduling_requests',
@@ -134,4 +137,5 @@ export default Object.freeze({
   showEduBenefits1990EZWizard: 'show_edu_benefits_1990EZ_Wizard',
   caregiverSIGIEnabled: 'caregiver_sigi_enabled',
   hcaAmericanIndianEnabled: 'hca_american_indian_enabled',
+  checkVAInboxEnabled: 'check_va_inbox_enabled',
 });

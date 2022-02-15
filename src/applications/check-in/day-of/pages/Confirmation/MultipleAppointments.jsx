@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 
@@ -17,17 +17,15 @@ const MultipleAppointments = props => {
   const appointment = selectedAppointment;
   const appointmentDateTime = new Date(appointment.startTime);
   const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
+  const focusOnLoad = useCallback(() => {
+    focusElement('h1');
+  }, []);
   return (
     <div
       className="vads-l-grid-container vads-u-padding-y--5"
       data-testid="multiple-appointments-confirm"
     >
-      <VaAlert
-        status="success"
-        onVa-component-did-load={() => {
-          focusElement('h1');
-        }}
-      >
+      <VaAlert status="success" onVa-component-did-load={focusOnLoad}>
         <h1
           tabIndex="-1"
           aria-label="Thank you for checking in. "
@@ -46,8 +44,8 @@ const MultipleAppointments = props => {
         appointments={appointments}
         triggerRefresh={triggerRefresh}
       />
-      <Footer isPreCheckIn={false} />
-      <BackToHome isPreCheckIn={false} />
+      <Footer />
+      <BackToHome />
     </div>
   );
 };

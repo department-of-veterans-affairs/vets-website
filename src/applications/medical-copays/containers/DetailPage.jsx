@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import PropTypes from 'prop-types';
 import PDFStatementList from '../components/PDFStatementList';
 import BalanceQuestions from '../components/BalanceQuestions';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
-import { Link } from 'react-router-dom';
 import Modals from '../components/Modals';
 import Alert from '../components/Alerts';
 import { OnThisPage } from '../components/OnThisPage';
 import { formatDate, verifyCurrentBalance } from '../utils/helpers';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 const DetailPage = ({ match }) => {
   const selectedId = match.params.id;
@@ -81,6 +82,14 @@ const DetailPage = ({ match }) => {
       </Link>
     </>
   );
+};
+
+DetailPage.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }),
 };
 
 export default DetailPage;

@@ -8,6 +8,7 @@ describe('check in', () => {
       it('should return the init state with no action', () => {
         const state = reducer.checkInData(undefined, {});
         expect(state).to.deep.equal({
+          app: '',
           appointments: [],
           veteranData: {
             demographics: {},

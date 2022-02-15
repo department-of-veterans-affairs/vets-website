@@ -130,3 +130,15 @@ export const paymentsSuccess = (hasRecentPayment = false) => {
     },
   };
 };
+
+export const paymentsSuccessEmpty = () => {
+  return {
+    data: {
+      id: '',
+      type: 'bgs_va_payment_history_response',
+      attributes: {
+        payments: [],
+      },
+    },
+  };
+};

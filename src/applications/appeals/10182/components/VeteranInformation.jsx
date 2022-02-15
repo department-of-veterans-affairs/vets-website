@@ -65,6 +65,10 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
 };
 
 VeteranInformation.propTypes = {
+  veteran: PropTypes.shape({
+    vaFileLastFour: PropTypes.string,
+    ssnLastFour: PropTypes.string,
+  }).isRequired,
   profile: PropTypes.shape({
     userFullName: PropTypes.shape({
       first: PropTypes.string,
@@ -74,10 +78,6 @@ VeteranInformation.propTypes = {
     dob: PropTypes.string,
     gender: PropTypes.string,
   }),
-  veteran: PropTypes.shape({
-    vaFileLastFour: PropTypes.string,
-    ssnLastFour: PropTypes.string,
-  }).isRequired,
 };
 
 const mapStateToProps = state => {

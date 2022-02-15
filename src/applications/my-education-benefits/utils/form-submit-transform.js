@@ -268,20 +268,19 @@ export function getAddressType(mailingAddress) {
       mailingAddress.livesOnMilitaryBase
     ) {
       return 'MILITARY_OVERSEAS';
-    } else if (mailingAddress.address.country === 'USA') {
-      return 'DOMESTIC';
-    } else {
-      return 'FOREIGN';
     }
-  } else {
-    return null;
+    if (mailingAddress.address.country === 'USA') {
+      return 'DOMESTIC';
+    }
+    return 'FOREIGN';
   }
+  return null;
 }
 
 export function createContactInfo(submissionForm) {
   return {
-    addressLine1: submissionForm['view:mailingAddress'].address.addressLine1,
-    addressLine2: submissionForm['view:mailingAddress'].address.addressLine2,
+    addressLine1: submissionForm['view:mailingAddress'].address.street,
+    addressLine2: submissionForm['view:mailingAddress'].address.street2,
     city: submissionForm['view:mailingAddress'].address.city,
     zipcode: submissionForm['view:mailingAddress'].address.postalCode,
     emailAddress: submissionForm.email.email,
@@ -309,19 +308,17 @@ export function getNotificationMethod(notificationMethod) {
 
 export function createMilitaryClaimant(submissionForm) {
   return {
-    claimant: {
-      claimantId: submissionForm.claimantId,
-      firstName: submissionForm['view:userFullName'].userFullName.first,
-      middleName: submissionForm['view:userFullName'].userFullName.middle,
-      lastName: submissionForm['view:userFullName'].userFullName.last,
-      suffix: submissionForm['view:userFullName'].userFullName.suffix,
-      dateOfBirth: submissionForm.dateOfBirth,
-      contactInfo: createContactInfo(submissionForm),
-      notificationMethod: getNotificationMethod(
-        submissionForm['view:receiveTextMessages'].receiveTextMessages,
-      ),
-      preferredContact: submissionForm['view:contactMethod'].contactMethod,
-    },
+    claimantId: submissionForm.claimantId,
+    firstName: submissionForm['view:userFullName'].userFullName.first,
+    middleName: submissionForm['view:userFullName'].userFullName.middle,
+    lastName: submissionForm['view:userFullName'].userFullName.last,
+    suffix: submissionForm['view:userFullName'].userFullName.suffix,
+    dateOfBirth: submissionForm.dateOfBirth,
+    contactInfo: createContactInfo(submissionForm),
+    notificationMethod: getNotificationMethod(
+      submissionForm['view:receiveTextMessages'].receiveTextMessages,
+    ),
+    preferredContact: submissionForm['view:contactMethod'].contactMethod,
   };
 }
 
@@ -332,9 +329,8 @@ export function createRelinquishedBenefit(submissionForm) {
         submissionForm['view:benefitSelection']?.benefitRelinquished,
       effRelinquishDate: submissionForm.benefitEffectiveDate,
     };
-  } else {
-    return {};
   }
+  return {};
 }
 
 function setAdditionalConsideration(consideration) {
@@ -376,32 +372,31 @@ export function createComments(submissionForm) {
         },
         disagreeWithServicePeriod: true,
       };
-    } else {
-      return {
-        claimantComment: {},
-        disagreeWithServicePeriod: true,
-      };
     }
-  } else {
     return {
       claimantComment: {},
-      disagreeWithServicePeriod: false,
+      disagreeWithServicePeriod: true,
     };
   }
+  return {
+    claimantComment: {},
+    disagreeWithServicePeriod: false,
+  };
 }
 
 export function createDirectDeposit(submissionForm) {
   const bankInfo = {
-    accountNumber: submissionForm?.bankAccount?.accountNumber,
-    accountType: submissionForm?.bankAccount?.accountType,
-    routingNumber: submissionForm?.bankAccount?.routingNumber,
+    directDepositAccountNumber: submissionForm?.bankAccount?.accountNumber,
+    directDepositAccountType: submissionForm?.bankAccount?.accountType,
+    directDepositRoutingNumber: submissionForm?.bankAccount?.routingNumber,
   };
   return submissionForm?.bankAccount?.accountType ? bankInfo : {};
 }
 
 export function createSubmissionForm(submissionForm) {
   return {
-    militaryClaimant: createMilitaryClaimant(submissionForm),
+    formId: submissionForm.formId,
+    claimant: createMilitaryClaimant(submissionForm),
     relinquishedBenefit: createRelinquishedBenefit(submissionForm),
     additionalConsiderations: createAdditionalConsiderations(submissionForm),
     comments: createComments(submissionForm),

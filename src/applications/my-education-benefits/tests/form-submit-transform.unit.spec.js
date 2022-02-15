@@ -23,68 +23,44 @@ describe('form submit transform', () => {
   describe('has a createSubmissionForm  method', () => {
     it('creates a submission form out of the entered form data', () => {
       const createdSubmissionForm = createSubmissionForm(mockSubmissionForm);
-
       // Check the military claimant section
-      expect(createdSubmissionForm.militaryClaimant.claimant.claimantId).to.eql(
+      expect(createdSubmissionForm.claimant.claimantId).to.eql(
         '1000000000000246',
       );
-      expect(createdSubmissionForm.militaryClaimant.claimant.suffix).to.eql(
-        'Sr.',
-      );
-      expect(
-        createdSubmissionForm.militaryClaimant.claimant.dateOfBirth,
-      ).to.eql('1989-11-11');
-      expect(createdSubmissionForm.militaryClaimant.claimant.firstName).to.eql(
-        'ANDREA',
-      );
-      expect(createdSubmissionForm.militaryClaimant.claimant.lastName).to.eql(
-        'MITCHELL',
-      );
-      expect(createdSubmissionForm.militaryClaimant.claimant.middleName).to.eql(
-        'L',
-      );
-      expect(
-        createdSubmissionForm.militaryClaimant.claimant.notificationMethod,
-      ).to.eql('TEXT');
-      expect(
-        createdSubmissionForm.militaryClaimant.claimant.preferredContact,
-      ).to.eql('Email');
+      expect(createdSubmissionForm.claimant.suffix).to.eql('Sr.');
+      expect(createdSubmissionForm.claimant.dateOfBirth).to.eql('1989-11-11');
+      expect(createdSubmissionForm.claimant.firstName).to.eql('ANDREA');
+      expect(createdSubmissionForm.claimant.lastName).to.eql('MITCHELL');
+      expect(createdSubmissionForm.claimant.middleName).to.eql('L');
+      expect(createdSubmissionForm.claimant.notificationMethod).to.eql('TEXT');
+      expect(createdSubmissionForm.claimant.preferredContact).to.eql('Email');
 
+      expect(createdSubmissionForm.claimant.contactInfo.addressLine1).to.eql(
+        '1493 Martin Luther King Rd',
+      );
+      expect(createdSubmissionForm.claimant.contactInfo.addressLine2).to.eql(
+        'Apt 1',
+      );
+      expect(createdSubmissionForm.claimant.contactInfo.city).to.eql('Austin');
+      expect(createdSubmissionForm.claimant.contactInfo.zipcode).to.eql(
+        '00662',
+      );
+      expect(createdSubmissionForm.claimant.contactInfo.emailAddress).to.eql(
+        'myemail@gmail.com',
+      );
+      expect(createdSubmissionForm.claimant.contactInfo.addressType).to.eql(
+        'DOMESTIC',
+      );
       expect(
-        createdSubmissionForm.militaryClaimant.claimant.contactInfo
-          .addressLine1,
-      ).to.eql('1493 Martin Luther King Rd');
-      expect(
-        createdSubmissionForm.militaryClaimant.claimant.contactInfo
-          .addressLine2,
-      ).to.eql('Apt 1');
-      expect(
-        createdSubmissionForm.militaryClaimant.claimant.contactInfo.city,
-      ).to.eql('Austin');
-      expect(
-        createdSubmissionForm.militaryClaimant.claimant.contactInfo.zipcode,
-      ).to.eql('00662');
-      expect(
-        createdSubmissionForm.militaryClaimant.claimant.contactInfo
-          .emailAddress,
-      ).to.eql('myemail@gmail.com');
-      expect(
-        createdSubmissionForm.militaryClaimant.claimant.contactInfo.addressType,
-      ).to.eql('DOMESTIC');
-      expect(
-        createdSubmissionForm.militaryClaimant.claimant.contactInfo
-          .mobilePhoneNumber,
+        createdSubmissionForm.claimant.contactInfo.mobilePhoneNumber,
       ).to.eql('5035551234');
-      expect(
-        createdSubmissionForm.militaryClaimant.claimant.contactInfo
-          .homePhoneNumber,
-      ).to.eql('5032222222');
-      expect(
-        createdSubmissionForm.militaryClaimant.claimant.contactInfo.countryCode,
-      ).to.eql('US');
-      expect(
-        createdSubmissionForm.militaryClaimant.claimant.contactInfo.stateCode,
-      ).to.eql('NY');
+      expect(createdSubmissionForm.claimant.contactInfo.homePhoneNumber).to.eql(
+        '5032222222',
+      );
+      expect(createdSubmissionForm.claimant.contactInfo.countryCode).to.eql(
+        'US',
+      );
+      expect(createdSubmissionForm.claimant.contactInfo.stateCode).to.eql('NY');
 
       // Check the relinquishments section
       expect(
@@ -130,37 +106,31 @@ describe('form submit transform', () => {
     it('should construct the contact Info object', () => {
       const militaryClaimant = createMilitaryClaimant(mockSubmissionForm);
 
-      expect(militaryClaimant.claimant.claimantId).to.eql('1000000000000246');
-      expect(militaryClaimant.claimant.suffix).to.eql('Sr.');
-      expect(militaryClaimant.claimant.dateOfBirth).to.eql('1989-11-11');
-      expect(militaryClaimant.claimant.firstName).to.eql('ANDREA');
-      expect(militaryClaimant.claimant.lastName).to.eql('MITCHELL');
-      expect(militaryClaimant.claimant.middleName).to.eql('L');
-      expect(militaryClaimant.claimant.notificationMethod).to.eql('TEXT');
-      expect(militaryClaimant.claimant.preferredContact).to.eql('Email');
+      expect(militaryClaimant.claimantId).to.eql('1000000000000246');
+      expect(militaryClaimant.suffix).to.eql('Sr.');
+      expect(militaryClaimant.dateOfBirth).to.eql('1989-11-11');
+      expect(militaryClaimant.firstName).to.eql('ANDREA');
+      expect(militaryClaimant.lastName).to.eql('MITCHELL');
+      expect(militaryClaimant.middleName).to.eql('L');
+      expect(militaryClaimant.notificationMethod).to.eql('TEXT');
+      expect(militaryClaimant.preferredContact).to.eql('Email');
 
-      expect(militaryClaimant.claimant.contactInfo.addressLine1).to.eql(
+      expect(militaryClaimant.contactInfo.addressLine1).to.eql(
         '1493 Martin Luther King Rd',
       );
-      expect(militaryClaimant.claimant.contactInfo.addressLine2).to.eql(
-        'Apt 1',
-      );
-      expect(militaryClaimant.claimant.contactInfo.city).to.eql('Austin');
-      expect(militaryClaimant.claimant.contactInfo.zipcode).to.eql('00662');
-      expect(militaryClaimant.claimant.contactInfo.emailAddress).to.eql(
+      expect(militaryClaimant.contactInfo.addressLine2).to.eql('Apt 1');
+      expect(militaryClaimant.contactInfo.city).to.eql('Austin');
+      expect(militaryClaimant.contactInfo.zipcode).to.eql('00662');
+      expect(militaryClaimant.contactInfo.emailAddress).to.eql(
         'myemail@gmail.com',
       );
-      expect(militaryClaimant.claimant.contactInfo.addressType).to.eql(
-        'DOMESTIC',
-      );
-      expect(militaryClaimant.claimant.contactInfo.mobilePhoneNumber).to.eql(
+      expect(militaryClaimant.contactInfo.addressType).to.eql('DOMESTIC');
+      expect(militaryClaimant.contactInfo.mobilePhoneNumber).to.eql(
         '5035551234',
       );
-      expect(militaryClaimant.claimant.contactInfo.homePhoneNumber).to.eql(
-        '5032222222',
-      );
-      expect(militaryClaimant.claimant.contactInfo.countryCode).to.eql('US');
-      expect(militaryClaimant.claimant.contactInfo.stateCode).to.eql('NY');
+      expect(militaryClaimant.contactInfo.homePhoneNumber).to.eql('5032222222');
+      expect(militaryClaimant.contactInfo.countryCode).to.eql('US');
+      expect(militaryClaimant.contactInfo.stateCode).to.eql('NY');
     });
   });
 
@@ -334,7 +304,7 @@ describe('form submit transform', () => {
   describe('has a bank account capture method', () => {
     it('should return with users bank savings account number, if they decide to enroll', () => {
       const bankAccount = createDirectDeposit(mockSubmissionForm);
-      expect(bankAccount.accountType).to.eql('Savings');
+      expect(bankAccount.directDepositAccountType).to.eql('Savings');
     });
   });
 });

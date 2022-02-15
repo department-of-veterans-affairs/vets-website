@@ -1,93 +1,52 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import sinon from 'sinon';
 
-import {
-  DefinitionTester,
-  selectCheckbox,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
-import { SELECTED } from '../../constants';
-import { getDate } from '../../utils/dates';
 
-describe('eligible issues page', () => {
+const mockStore = data => ({
+  getState: () => ({
+    form: {
+      data: {
+        ...data,
+        contestableIssues: [],
+      },
+    },
+    formContext: {
+      onReviewPage: false,
+      reviewMode: false,
+      touched: {},
+      submitted: false,
+    },
+  }),
+  subscribe: () => {},
+  dispatch: () => ({
+    setFormData: () => {},
+  }),
+});
+
+describe('add issue page', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.conditions.pages.contestableIssues;
-  const validDate = getDate({ offset: { months: -2 } });
 
   it('should render', () => {
     const form = mount(
-      <DefinitionTester
-        definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-      />,
+      <Provider store={mockStore()}>
+        <DefinitionTester
+          definitions={{}}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{}}
+        />
+      </Provider>,
     );
 
-    expect(form.find('EligibleIssuesWidget').length).to.equal(1);
-    form.unmount();
-  });
-
-  it('should allow submit when no issues are checked', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
-  });
-  it('should allow submit when issues are checked', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          contestableIssues: [
-            {
-              type: 'contestableIssue',
-              attributes: {
-                ratingIssueSubjectText: 'Tinnitus',
-                description: 'Rinnging in the ears.',
-                ratingIssuePercentNumber: 10,
-                approxDecisionDate: validDate,
-              },
-              [SELECTED]: false,
-            },
-            {
-              type: 'contestableIssue',
-              attributes: {
-                ratingIssueSubjectText: 'Headaches',
-                description: 'Acute chronic head pain',
-                ratingIssuePercentNumber: 50,
-                approxDecisionDate: validDate,
-              },
-            },
-          ],
-        }}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    selectCheckbox(form, 'root_contestableIssues_1', true);
-    form.find('form').simulate('submit');
-    expect(form.find('[name="root_contestableIssues_1"]').props().checked).to.be
-      .true;
-    expect(onSubmit.called).to.be.true;
+    expect(form.find('a.add-new-issue').length).to.equal(1);
     form.unmount();
   });
 });

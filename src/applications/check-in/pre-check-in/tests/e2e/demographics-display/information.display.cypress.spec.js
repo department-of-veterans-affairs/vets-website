@@ -7,7 +7,7 @@ import Demographics from '../../../../tests/e2e/pages/Demographics';
 
 describe('Pre-Check In Experience', () => {
   describe('Demographics Page', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const {
         initializeFeatureToggle,
         initializeSessionGet,
