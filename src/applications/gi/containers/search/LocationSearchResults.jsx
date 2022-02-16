@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import scrollTo from 'platform/utilities/ui/scrollTo';
@@ -41,7 +40,6 @@ function LocationSearchResults({
   const { count, results } = search.location;
   const { location, streetAddress } = search.query;
   const map = useRef(null);
-  // const mapContainer = useRef(null);
   const [markers, setMarkers] = useState([]);
   const [mapState, setMapState] = useState({ changed: false, distance: null });
   const [usedFilters, setUsedFilters] = useState(filtersChanged);
@@ -151,9 +149,7 @@ function LocationSearchResults({
    */
   useEffect(
     () => {
-      // if (mapContainer.current) {
       setupMap();
-      // }
     },
     [mobileTab],
   );
@@ -283,9 +279,14 @@ function LocationSearchResults({
    */
   useEffect(
     () => {
-      map.current = null;
+      if (!environment.isProduction()) {
+        if (smallScreen) {
+          map.current = null;
+        }
+      } else {
+        map.current = null;
+      }
       setupMap();
-
       markers.forEach(marker => marker.remove());
       setActiveMarker(null);
 
@@ -608,7 +609,6 @@ function LocationSearchResults({
     return (
       <div className={containerClassNames}>
         <map
-          // ref={mapContainer}
           id="mapbox-gl-container"
           aria-label="Find VA locations on an interactive map"
           aria-describedby="map-instructions"
@@ -622,6 +622,7 @@ function LocationSearchResults({
                 className="mapboxgl-ctrl-top-center"
               >
                 <button
+                  type="button"
                   id="search-area-control"
                   className="usa-button"
                   onClick={searchArea}
@@ -645,7 +646,9 @@ function LocationSearchResults({
   if (smallScreen) {
     return (
       <div className="location-search vads-u-padding--1">
-        {inProgress && <LoadingIndicator message="Loading search results..." />}
+        {inProgress && (
+          <va-loading-indicator message="Loading search results..." />
+        )}
         {!inProgress && (
           <>
             <div>
@@ -680,7 +683,9 @@ function LocationSearchResults({
   return (
     <div className="location-search vads-u-padding-top--1">
       <div className="usa-width-one-third">
-        {inProgress && <LoadingIndicator message="Loading search results..." />}
+        {inProgress && (
+          <va-loading-indicator message="Loading search results..." />
+        )}
         {!inProgress && (
           <>
             {!hasSearchLatLong && (
@@ -718,6 +723,19 @@ const mapDispatchToProps = {
   dispatchFetchSearchByLocationCoords: fetchSearchByLocationCoords,
   dispatchMapChanged: mapChanged,
 };
+
+if (!environment.isProduction) {
+  LocationSearchResults.propTypes = {
+    dispatchFetchSearchByLocationCoords: PropTypes.func,
+    dispatchMapChanged: PropTypes.func,
+    dispatchUpdateEligibilityAndFilters: PropTypes.func,
+    filters: PropTypes.object,
+    filtersChanged: PropTypes.bool,
+    preview: PropTypes.object,
+    search: PropTypes.object,
+    smallScreen: PropTypes.bool,
+  };
+}
 
 export default connect(
   mapStateToProps,
