@@ -2,6 +2,7 @@ import React from 'react';
 import startCase from 'lodash/startCase';
 import toLower from 'lodash/toLower';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import { currency } from '../utils/helpers';
 
 const CardDetailsView = ({ formData, onEdit, title }) => {
@@ -125,6 +126,12 @@ const CardDetailsView = ({ formData, onEdit, title }) => {
       </div>
     </div>
   );
+};
+
+CardDetailsView.propTypes = {
+  formData: PropTypes.object,
+  title: PropTypes.string,
+  onEdit: PropTypes.func,
 };
 
 export default CardDetailsView;

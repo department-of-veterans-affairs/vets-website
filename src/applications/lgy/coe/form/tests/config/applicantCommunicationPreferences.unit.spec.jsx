@@ -64,9 +64,9 @@ describe('COE applicant communication preferences', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
           data={{
-            phoneNumber: '5555555555',
-            email: 'test@test.com',
-            'view:confirmEmail': 'test@test.com',
+            contactPhone: '5555555555',
+            contactEmail: 'test@test.com',
+            'view:confirmContactEmail': 'test@test.com',
           }}
           onSubmit={onSubmit}
         />

@@ -2,6 +2,7 @@ import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { fetchMultiFacility } from './actions';
 import { mapboxToken } from '../../facility-locator/utils/mapboxToken';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
 import { staticMapURL } from '../../facility-locator/utils/mapHelpers';
@@ -33,10 +34,8 @@ export class FacilityMapWidgetDynamic extends React.Component {
     return `${lat},${long}`;
   }
 
-  updateLatLongAndAddress = facilityDetail => {
+  updateLatLongAndAddress = (facilityDetail, lat, long) => {
     const myThis = this;
-    const lat = this.getLat(facilityDetail);
-    const long = this.getLong(facilityDetail);
     if (lat !== 0 && long !== 0) {
       let address = buildAddressArray(facilityDetail);
       address = this.cleanAddress(address, lat, long);
@@ -48,41 +47,17 @@ export class FacilityMapWidgetDynamic extends React.Component {
     }
   };
 
-  componentDidMount() {
-    if (!this.props.loading && !this.props.error) {
-      this.updateImageLink(this.props.facilities);
-    }
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const { facilities } = this.props;
     const { facilityID } = this.state;
-    const facilityDetail = facilities[facilityID];
+    const facilityDetail = facilities ? facilities[facilityID] : '';
     const lat = this.getLat(facilityDetail);
     const long = this.getLong(facilityDetail);
+
     if (prevState.lat !== lat && prevState.long !== long) {
-      this.updateLatLongAndAddress(this.props.facilities);
+      this.updateLatLongAndAddress(facilityDetail, lat, long);
     }
   }
-
-  updateImageLink = facilityDetail => {
-    const lat = this.getLat(facilityDetail);
-    const long = this.getLong(facilityDetail);
-    let address = buildAddressArray(facilityDetail);
-    address = this.cleanAddress(address, lat, long);
-    if (address && address.length !== 0) {
-      address = address.join(', ');
-    } else {
-      // If we don't have an address fallback on coords
-      address = `${lat},${long}`;
-    }
-
-    const mapLink = `https://maps.google.com?saddr=Current+Location&daddr=${address}`;
-    const imageLink = document.getElementById('google-map-link-image');
-    if (imageLink && lat !== 0 && long !== 0) {
-      imageLink.setAttribute('href', mapLink);
-    }
-  };
 
   getLat(facilityDetail) {
     return facilityDetail && facilityDetail.attributes
@@ -97,11 +72,14 @@ export class FacilityMapWidgetDynamic extends React.Component {
   }
 
   render() {
-    if (this.props.loading) {
+    const { multiError, multiLoading, facilityID } = this.props;
+    const loading = multiLoading ? multiLoading[facilityID] : false;
+    const error = multiError ? multiError[facilityID] : false;
+    if (loading) {
       return <LoadingIndicator message="Loading facility..." />;
     }
 
-    if (this.props.error) {
+    if (error) {
       return null;
     }
     const { lat, long, address } = this.state;
@@ -131,17 +109,24 @@ export class FacilityMapWidgetDynamic extends React.Component {
   }
 }
 
-const mapStateToProps = store => ({
-  facilities: store.facility.multidata,
-  loading: store.facility.loading,
-  error: store.facility.error,
+const mapStateToProps = state => ({
+  facilities: state.facility.multidata,
+  multiLoading: state.facility.multiLoading,
+  multiError: state.facility.multiError,
 });
 
 FacilityMapWidgetDynamic.propTypes = {
   facilities: PropTypes.object,
-  loading: PropTypes.bool,
-  error: PropTypes.bool,
+  multiLoading: PropTypes.object,
+  multiError: PropTypes.object,
   facilityID: PropTypes.string,
 };
 
-export default connect(mapStateToProps)(FacilityMapWidgetDynamic);
+const mapDispatchToProps = {
+  dipatchFetchMultiFacility: fetchMultiFacility,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(FacilityMapWidgetDynamic);

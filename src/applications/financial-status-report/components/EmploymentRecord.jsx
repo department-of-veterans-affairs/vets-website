@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import MonthYear from '@department-of-veterans-affairs/component-library/MonthYear';
@@ -33,7 +34,7 @@ const EmploymentRecord = ({
   const { from, to } = employment ? employment[index] : [];
   const { month: fromMonth, year: fromYear } = parseISODate(from);
   const { month: toMonth, year: toYear } = parseISODate(to);
-  const submitted = formContext.submitted;
+  const { submitted } = formContext;
 
   const typeError = 'Please enter the type of work.';
   const startError = 'Please enter your employment start date.';
@@ -153,6 +154,16 @@ const EmploymentRecord = ({
       </div>
     </>
   );
+};
+
+EmploymentRecord.propTypes = {
+  children: PropTypes.object,
+  employmentHistory: PropTypes.object,
+  formContext: PropTypes.object,
+  formData: PropTypes.object,
+  idSchema: PropTypes.object,
+  setFormData: PropTypes.func,
+  uiSchema: PropTypes.object,
 };
 
 const mapStateToProps = ({ form }) => {

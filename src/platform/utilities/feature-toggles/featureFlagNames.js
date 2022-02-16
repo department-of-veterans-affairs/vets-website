@@ -16,6 +16,8 @@ export default Object.freeze({
     'check_in_experience_pre_check_in_enabled',
   checkInExperienceUpdateInformationPageEnabled:
     'check_in_experience_update_information_page_enabled',
+  checkInExperienceEditingDayOfEnabled: 'check_in_experience_editing_day_of_enabled',
+  checkInExperienceEditingPreCheckInEnabled:'check_in_experience_editing_pre_check_in_enabled',
   coeAccess: 'coe_access',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
@@ -30,6 +32,7 @@ export default Object.freeze({
   debtLettersShowLetters: 'debt_letters_show_letters',
   dependencyVerification: 'dependency_verification',
   dischargeWizardFeatures: 'discharge_wizard_features',
+  enrollmentVerification: 'enrollment_verification',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',
   facilitiesPpmsSuppressAll: 'facilities_ppms_suppress_all',
   facilitiesPpmsSuppressCommunityCare:
@@ -47,9 +50,7 @@ export default Object.freeze({
   facilityLocatorShowCommunityCares: 'facility_locator_show_community_cares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilityLocatorShowOperationalHoursSpecialInstructions:
     'facility_locator_show_operational_hours_special_instructions',
-  findFormsEnhancementFlagOne: 'find_forms_first_flag',
-  findFormsEnhancementFlagTwo: 'find_forms_second_flag',
-  findFormsEnhancementFlagThree: 'find_forms_third_flag',
+  findFormsShowPdfModal: 'find_forms_show_pdf_modal',
   fileUploadShortWorkflowEnabled: 'file_upload_short_workflow_enabled',
   form10182Nod: 'form10182_nod',
   gibctEybBottomSheet: 'gibct_eyb_bottom_sheet',
@@ -88,7 +89,6 @@ export default Object.freeze({
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
   showFormI18n: 'show_form_i18n',
   showEventsV2: 'show_events_v2',
-  showHeaderV2: 'show_header_v2',
   showMebMockEndpoints: 'show_meb_mock_endpoints',
   showMedicalCopays: 'show_medical_copays',
   showHealthcareExperienceQuestionnaire:
@@ -135,4 +135,5 @@ export default Object.freeze({
   showEduBenefits1990EZWizard: 'show_edu_benefits_1990EZ_Wizard',
   caregiverSIGIEnabled: 'caregiver_sigi_enabled',
   hcaAmericanIndianEnabled: 'hca_american_indian_enabled',
+  checkVAInboxEnabled: 'check_va_inbox_enabled',
 });

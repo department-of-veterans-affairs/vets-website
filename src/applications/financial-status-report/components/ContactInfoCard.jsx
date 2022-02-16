@@ -38,12 +38,13 @@ const ContactInfoCard = ({
 };
 
 ContactInfoCard.propTypes = {
+  city: PropTypes.string,
+  country: PropTypes.string,
+  edit: PropTypes.func,
+  postalCode: PropTypes.string,
+  state: PropTypes.string,
   street: PropTypes.string,
   street2: PropTypes.string,
-  city: PropTypes.string,
-  state: PropTypes.string,
-  postalCode: PropTypes.string,
-  country: PropTypes.string,
 };
 
 const mapStateToProps = ({ form }) => ({
