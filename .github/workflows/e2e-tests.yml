@@ -32,8 +32,9 @@ jobs:
         run: echo 'COMMIT_SHA=${{ github.event.inputs.commit_sha }}' >> $GITHUB_ENV
 
   determine-build-type:
-    name: Determine if commit is full build
+    name: Determine if commit has full build
     runs-on: ubuntu-latest
+    needs: set-commit-sha
 
     steps:
       - name: Checkout
@@ -61,7 +62,7 @@ jobs:
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
-      - name: Cancel workflow if full build
+      - name: Cancel workflow if commit has full build
         if: ${{ github.event_name == 'workflow_run' && steps.get-changed-apps.outputs.app_entries == '' }}
         uses: andymckay/cancel-action@0.2
 
@@ -105,6 +106,7 @@ jobs:
   cypress-tests-prep:
     name: Prep for Cypress Tests
     runs-on: ubuntu-latest
+    needs: set-commit-sha
     outputs:
       tests: ${{ steps.tests.outputs.selected }}
 
@@ -137,7 +139,7 @@ jobs:
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: self-hosted
-    needs: [build, cypress-tests-prep]
+    needs: [set-commit-sha, build, cypress-tests-prep]
     if: |
       needs.build.result == 'success' &&
       needs.cypress-tests-prep.result == 'success' &&
@@ -226,6 +228,7 @@ jobs:
   testing-reports-prep:
     name: Testing Reports Prep
     runs-on: ubuntu-latest
+    needs: [set-commit-sha, determine-build-type]
     continue-on-error: true
     outputs:
       app_list: ${{ env.APPLICATION_LIST }}
@@ -233,6 +236,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -272,7 +277,7 @@ jobs:
   testing-reports-cypress:
     name: Testing Reports - Cypress E2E Tests
     runs-on: ubuntu-latest
-    needs: [testing-reports-prep, cypress-tests-prep, cypress-tests]
+    needs: [set-commit-sha, testing-reports-prep, cypress-tests-prep, cypress-tests]
     continue-on-error: true
     if: ${{ always() && needs.cypress-tests-prep.outputs.tests != '[]' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
     
@@ -378,7 +383,7 @@ jobs:
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-latest
-    needs: cypress-tests
+    needs: [set-commit-sha, cypress-tests]
     if: ${{ failure() }}
     env:
       VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
