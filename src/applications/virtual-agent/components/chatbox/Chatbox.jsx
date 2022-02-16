@@ -57,7 +57,7 @@ export default function Chatbox(props) {
     <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest">
       <div className="vads-u-background-color--primary-darkest vads-u-padding--1p5">
         <h2 className="vads-u-font-size--lg vads-u-color--white vads-u-margin--0">
-          VA Virtual Agent
+          VA virtual agent
         </h2>
       </div>
       {showBot(isLoggedIn, requireAuth, isAccepted, ONE_MINUTE, props)}

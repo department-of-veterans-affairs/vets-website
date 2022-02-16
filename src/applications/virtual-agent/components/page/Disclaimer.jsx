@@ -3,7 +3,7 @@ import React from 'react';
 export default function Disclaimer() {
   return (
     <>
-      <h1>VA Virtual Agent</h1>
+      <h1>VA virtual agent</h1>
 
       <p>
         Use our virtual agent (chatbot) to get answers to your questions about
@@ -11,38 +11,34 @@ export default function Disclaimer() {
         our site.{' '}
       </p>
 
-      <va-alert status="info">
-        <h2 slot="headline">We’re currently in beta testing</h2>
-        <p>
-          Welcome to our virtual agent, a new part of VA.gov. We’re still
-          building the virtual agent’s ability to respond to your questions, so
-          it won’t have answers to every question. The agent also may be slow to
-          respond. We’re adding more answers in the weeks and months ahead, so
-          please check back often.
-        </p>
-        <p>
-          <b>
-            If you have questions about VA benefits and services that our
-            virtual agent can’t answer right now,
-          </b>
-           you can get the information in any of these 3 ways:
-          <ul>
-            <li>
-              <a href="/resources/helpful-va-phone-numbers/">
-                Call us at one of our helpful VA phone numbers
-              </a>
-            </li>
-            <li>
-              <a href="https://ask.va.gov/">Contact us online through Ask VA</a>
-            </li>
-            <li>
-              <a href="/resources/">
-                Explore our resources and support content
-              </a>
-            </li>
-          </ul>
-        </p>
-      </va-alert>
+      <h2>We’re currently in beta testing</h2>
+      <p>
+        Welcome to our virtual agent, a new part of VA.gov. We’re still building
+        the virtual agent’s ability to respond to your questions, so it won’t
+        have answers to every question. The agent also may be slow to respond.
+        We’re adding more answers in the weeks and months ahead, so please check
+        back often.
+      </p>
+      <p>
+        <b>
+          If you have questions about VA benefits and services that our virtual
+          agent can’t answer right now,
+        </b>
+         you can get the information in any of these 3 ways:
+        <ul>
+          <li>
+            <a href="/resources/helpful-va-phone-numbers/">
+              Call us at one of our helpful VA phone numbers
+            </a>
+          </li>
+          <li>
+            <a href="https://ask.va.gov/">Contact us online through Ask VA</a>
+          </li>
+          <li>
+            <a href="/resources/">Explore our resources and support content</a>
+          </li>
+        </ul>
+      </p>
 
       <h2>Before you start</h2>
 
@@ -58,49 +54,42 @@ export default function Disclaimer() {
         </a>
       </p>
 
-      <va-alert status="info">
-        <p slot="headline">
-          How to get help if you’re in crisis and need to talk with someone
-          right away
-        </p>
-        <p>
-          If you’re a Veteran in crisis or concerned about one, connect with our
-          caring, qualified Veterans Crisis Line responders for confidential
-          help. Many of them are Veterans themselves. This service is private,
-          free, and available 24/7.
-        </p>
-        <p>
-          To connect with a Veterans Crisis Line responder anytime day or night:
-          <ul>
-            <li>
-              Call{' '}
-              <a aria-label="8 0 0. 2 7 3. 8 2 5 5." href="tel:800-273-8255">
-                800-273-8255
-              </a>
-              , then select 1.
-            </li>
-            <li>
-              Text{' '}
-              <a aria-label="8. 3. 8. 2. 5. 5. " href="tel:838255">
-                838255
-              </a>
-              .
-            </li>
-            <li>
-              <a href="https://www.veteranscrisisline.net/get-help-now/chat/?account=Veterans%2520Chat">
-                Start a confidential chat.
-              </a>
-            </li>
-            <li>
-              If you have hearing loss, call TTY:{' '}
-              <a aria-label="8 0 0. 7 9 9. 4 8 8 9." href="tel:800-799-4889">
-                800-799-4889
-              </a>
-              .
-            </li>
-          </ul>
-        </p>
-      </va-alert>
+      <h3>
+        How to get help if you’re in crisis and need to talk with someone right
+        away
+      </h3>
+      <p>
+        If you’re a Veteran in crisis or concerned about one, connect with our
+        caring, qualified Veterans Crisis Line responders for confidential help.
+        Many of them are Veterans themselves. This service is private, free, and
+        available 24/7.
+      </p>
+      <p>
+        To connect with a Veterans Crisis Line responder anytime day or night:
+        <ul>
+          <li>
+            Call{' '}
+            <a aria-label="8 0 0. 2 7 3. 8 2 5 5." href="tel:800-273-8255">
+              800-273-8255
+            </a>
+            , then select 1.
+          </li>
+          <li>
+            Text{' '}
+            <a aria-label="8. 3. 8. 2. 5. 5. " href="tel:838255">
+              838255
+            </a>
+            .
+          </li>
+          <li>
+            If you have hearing loss, call TTY:{' '}
+            <a aria-label="8 0 0. 7 9 9. 4 8 8 9." href="tel:800-799-4889">
+              800-799-4889
+            </a>
+            .
+          </li>
+        </ul>
+      </p>
 
       <h3>More about our virtual agent</h3>
 
