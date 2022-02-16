@@ -132,7 +132,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.injectAxeThenAxeCheck();
       });
       it('and they have never had a payment - C14195', () => {
-        // make sure that the Payment and Debt section is shown
+        // make sure that the Payment and Debt section is not shown
         cy.intercept('/v0/debts', debtsSuccess());
         cy.intercept('/v0/profile/payment_history', paymentsSuccessEmpty());
         cy.findByTestId('dashboard-section-payment-and-debts').should(
@@ -155,7 +155,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.injectAxeThenAxeCheck();
       });
       it('and they have debt - C14319', () => {
-        // make sure that the Payment and Debt section is shown
+        // make sure that the Payment and Debt section is not shown
         cy.intercept('/v0/debts', debtsSuccess());
         cy.intercept('/v0/profile/payment_history', paymentsSuccess());
         cy.findByTestId('dashboard-section-payment-and-debts').should(
@@ -178,7 +178,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.injectAxeThenAxeCheck();
       });
       it('and they have no debt - C14320', () => {
-        // make sure that the Payment and Debt section is shown
+        // make sure that the Payment and Debt section is not shown
         cy.intercept('/v0/debts', debtsSuccessEmpty());
         cy.intercept('/v0/profile/payment_history', paymentsSuccess());
         cy.findByTestId('dashboard-section-payment-and-debts').should(
