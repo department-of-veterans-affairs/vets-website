@@ -63,15 +63,18 @@ export const VerifyEnrollmentsPage = ({
   //   // });
   // }
 
-  useEffect(() => {
-    if (hasCheckedKeepAlive && !loggedIn) {
-      window.location.href = '/enrollment-history/';
-    }
+  useEffect(
+    () => {
+      if (hasCheckedKeepAlive && !loggedIn) {
+        window.location.href = '/enrollment-history/';
+      }
 
-    if (!verificationStatus) {
-      getVerificationStatus();
-    }
-  }, []);
+      if (!verificationStatus) {
+        getVerificationStatus();
+      }
+    },
+    [getVerificationStatus, hasCheckedKeepAlive, loggedIn, verificationStatus],
+  );
 
   const [continueClicked, setContinueClicked] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(0);
@@ -133,8 +136,8 @@ export const VerifyEnrollmentsPage = ({
       dispatch({
         type: UPDATE_VERIFICATION_STATUS_MONTHS,
         payload: verificationStatus.months.map(
-          (m, i) =>
-            i === currentMonth
+          m =>
+            m.month === unverifiedMonths[currentMonth].month
               ? {
                   ...m,
                   verificationStatus: monthInformationCorrect,
