@@ -17,9 +17,10 @@ export function fetchMainSatelliteLocationStarted() {
   };
 }
 
-export function fetchMultiFacilityStarted() {
+export function fetchMultiFacilityStarted(facilityID) {
   return {
     type: FETCH_MULTI_FACILITY_STARTED,
+    facilityID,
   };
 }
 
@@ -67,9 +68,10 @@ export function fetchMainSatelliteLocationFailed() {
   };
 }
 
-export function fetchMultiFacilityFailed() {
+export function fetchMultiFacilityFailed(facilityID) {
   return {
     type: FETCH_MULTI_FACILITY_FAILED,
+    facilityID,
   };
 }
 
@@ -98,6 +100,7 @@ export function fetchMainSatelliteLocationFacility(id) {
     if (loading && !Object.keys(data).length) {
       return;
     }
+    // eslint-disable-next-line consistent-return
     dispatch(fetchMainSatelliteLocationStarted());
 
     // eslint-disable-next-line consistent-return
@@ -111,11 +114,12 @@ export function fetchMainSatelliteLocationFacility(id) {
 
 export function fetchMultiFacility(id) {
   return dispatch => {
-    dispatch(fetchMultiFacilityStarted());
+    // eslint-disable-next-line consistent-return
+    dispatch(fetchMultiFacilityStarted(id));
 
     // eslint-disable-next-line consistent-return
     return apiRequest(`/facilities/va/${id}`, { apiVersion: 'v1' })
       .then(facility => dispatch(fetchMultiFacilitySuccess(facility.data, id)))
-      .catch(() => dispatch(fetchMultiFacilityFailed()));
+      .catch(() => dispatch(fetchMultiFacilityFailed(id)));
   };
 }
