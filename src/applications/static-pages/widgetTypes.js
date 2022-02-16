@@ -7,6 +7,7 @@ export default {
   CHAPTER_31_WIZARD: 'chapter-31-Wizard',
   CHAPTER_36_CTA: 'chapter-36-cta',
   COE_ACCESS: 'coe_access',
+  CONTACT_CHATBOT_CTA: 'contact-chatbot-cta',
   CORONAVIRUS_CHATBOT: 'va-coronavirus-chatbot',
   COVID_VACCINE_UPDATES_CTA: 'va-covid-vaccine-updates-cta',
   CTA: 'cta',
