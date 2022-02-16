@@ -190,7 +190,7 @@ jobs:
   create-release:
     name: Create Release
     runs-on: ubuntu-latest
-    needs: [set-env, notify-start, validate-build-status, build]
+    needs: [set-env, notify-start, validate-build-status, build, archive]
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
