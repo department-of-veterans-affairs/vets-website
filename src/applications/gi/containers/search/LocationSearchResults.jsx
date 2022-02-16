@@ -6,13 +6,9 @@ import PropTypes from 'prop-types';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
-<<<<<<< HEAD
-=======
-// eslint-disable-next-line deprecate/import
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
->>>>>>> master
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import environment from 'platform/utilities/environment';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
 import ResultCard from './ResultCard';
