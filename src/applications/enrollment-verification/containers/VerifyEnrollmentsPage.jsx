@@ -89,14 +89,12 @@ export const VerifyEnrollmentsPage = ({
   // }
 
   function onEditMonth(m) {
-    window.console.log('edit month');
     const cm = unverifiedMonths.findIndex(um => um.month === m.month);
     setCurrentMonth(cm);
   }
 
   const updateMonthInformationCorrect = useCallback(
     event => {
-      window.console.log(event);
       setContinueClicked(false);
       setMonthInformationCorrect(event.value);
     },
@@ -297,7 +295,7 @@ export const VerifyEnrollmentsPage = ({
           },
           {
             value: VERIFICATION_STATUS_INCORRECT,
-            label: "No, this information isn't correct",
+            label: 'No, this information is incorrect',
           },
         ]}
         required
@@ -310,13 +308,13 @@ export const VerifyEnrollmentsPage = ({
         status="info"
         visible
       >
-        If you select, "No this information isn’t correct,"{' '}
+        If you select "<em>No, this information is incorrect</em>"{' '}
         <strong>
-          we’ll pause your monthly payments until you update your enrollment
-          information.
-        </strong>{' '}
-        You also won’t be able to verify any future enrollments until you update
-        your information.
+          we will pause your monthly housing payment until your information is
+          updated
+        </strong>
+        . Work with your School Certifying Official (SCO) to ensure your
+        enrollment information is updated with VA.
       </va-alert>
 
       <button
