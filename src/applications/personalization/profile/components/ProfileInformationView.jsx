@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
-import { formatAddress } from '~/platform/forms/address/helpers';
-
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import * as VAP_SERVICE from '@@vap-svc/constants';
 
@@ -19,6 +17,7 @@ import {
   formatGenderIdentity,
   formatSexualOrientation,
 } from '@@profile/util/personal-information/personalInformationUtils';
+import { formatAddress } from '~/platform/forms/address/helpers';
 
 const ProfileInformationView = props => {
   const { data, fieldName, title } = props;

@@ -96,12 +96,16 @@ export const profileShowGender = state =>
 export function selectVAProfilePersonalInformation(state, fieldName) {
   const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];
 
-  const result = set({}, fieldName, fieldValue);
-
   const notListedTextKey = `${fieldName}NotListedText`;
 
   const notListedTextValue =
     state?.vaProfile?.personalInformation?.[notListedTextKey];
 
-  return set(result, notListedTextKey, notListedTextValue);
+  if (!fieldValue && !notListedTextValue) return null;
+
+  const result = set({}, fieldName, fieldValue);
+
+  return notListedTextValue
+    ? set(result, notListedTextKey, notListedTextValue)
+    : result;
 }
