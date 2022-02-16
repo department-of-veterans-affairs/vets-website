@@ -1,3 +1,4 @@
+import set from 'lodash/set';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import {
@@ -95,28 +96,12 @@ export const profileShowGender = state =>
 export function selectVAProfilePersonalInformation(state, fieldName) {
   const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];
 
-  if (fieldValue) {
-    const result = {};
-    result[fieldName] = fieldValue;
+  const result = set({}, fieldName, fieldValue);
 
-    // handle custom sexual orientation text value
-    if (fieldValue === 'sexualOrientationNotListed') {
-      result.sexualOrientationNotListedText =
-        state?.vaProfile?.personalInformation?.sexualOrientationNotListedText;
-    }
+  const notListedTextKey = `${fieldName}NotListedText`;
 
-    // handle custom pronouns text value
-    if (
-      fieldName === 'pronouns' &&
-      Array.isArray(fieldValue) &&
-      fieldValue.includes('pronounsNotListed')
-    ) {
-      result.pronounsNotListedText =
-        state?.vaProfile?.personalInformation?.pronounsNotListedText;
-    }
+  const notListedTextValue =
+    state?.vaProfile?.personalInformation?.[notListedTextKey];
 
-    return result;
-  }
-
-  return null;
+  return set(result, notListedTextKey, notListedTextValue);
 }

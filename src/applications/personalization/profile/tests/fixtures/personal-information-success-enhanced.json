@@ -6,10 +6,10 @@
       "gender": "M",
       "birthDate": "1986-05-06",
       "preferredName": "Wes",
-      "pronouns": ["heHimHis", "theyThemTheirs", "pronounsNotListed"],
+      "pronouns": ["heHimHis", "theyThemTheirs"],
       "pronounsNotListedText": "Other/pronouns/here",
-      "genderIdentity": "man",
-      "sexualOrientation": "sexualOrientationNotListed",
+      "genderIdentity": ["man"],
+      "sexualOrientation": ["straightOrHeterosexual"],
       "sexualOrientationNotListedText": "Some other orientation"
     }
   }
