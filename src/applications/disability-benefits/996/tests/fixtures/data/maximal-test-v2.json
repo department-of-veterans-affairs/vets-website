@@ -95,8 +95,7 @@
         "disagreementOptions": {
           "serviceConnection": true,
           "effectiveDate": true,
-          "evaluation": true,
-          "other": true
+          "evaluation": true
         },
         "otherEntry": "this is an other entry"
       },
@@ -114,8 +113,7 @@
       {
         "issue": "right shoulder",
         "disagreementOptions": {
-          "evaluation": true,
-          "other": true
+          "evaluation": true
         },
         "otherEntry": "this is another other entry"
       }

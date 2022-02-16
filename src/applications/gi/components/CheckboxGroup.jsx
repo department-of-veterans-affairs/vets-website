@@ -41,7 +41,7 @@ const CheckboxGroup = ({ errorMessage, label, onChange, onFocus, options }) => {
     <div className={errorMessage ? 'usa-input-error' : ''}>
       <fieldset>
         <div>
-          <span id={`${inputId}-legend`} className={'gibct-legend'}>
+          <span id={`${inputId}-legend`} className="gibct-legend">
             {label}
           </span>
           {renderOptions()}
@@ -52,7 +52,7 @@ const CheckboxGroup = ({ errorMessage, label, onChange, onFocus, options }) => {
 };
 
 CheckboxGroup.propTypes = {
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   options: PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.shape({

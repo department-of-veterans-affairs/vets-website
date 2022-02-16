@@ -8,6 +8,8 @@ import { cleanup } from '@testing-library/react';
 import set from 'platform/utilities/data/set';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
+import moment from 'moment';
+import environment from 'platform/utilities/environment';
 import { getParentSiteMock } from '../../mocks/v0';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import {
@@ -21,8 +23,6 @@ import {
 
 import TypeOfCarePage from '../../../new-appointment/components/TypeOfCarePage';
 import { NewAppointment } from '../../../new-appointment';
-import moment from 'moment';
-import environment from 'platform/utilities/environment';
 import { createMockFacilityByVersion } from '../../mocks/data';
 
 const initialState = {
@@ -43,6 +43,7 @@ const initialState = {
 
 describe('VAOS <TypeOfCarePage>', () => {
   beforeEach(() => mockFetch());
+
   it('should show type of care page with all care types', async () => {
     const store = createTestStore(initialState);
     mockParentSites(['983'], []);
@@ -360,9 +361,28 @@ describe('VAOS <TypeOfCarePage>', () => {
         ],
       },
     );
-    const store = createTestStore(initialState);
+
+    const state = {
+      ...initialState,
+      newAppointment: {
+        ...initialState.newAppointment,
+        pages: {
+          vaFacilityV2: {
+            properties: {
+              vaFacility: {
+                enum: [{}, {}],
+              },
+            },
+          },
+        },
+        isNewAppointmentStarted: true,
+      },
+    };
+
+    const store = createTestStore(state);
     const screen = renderWithStoreAndRouter(<NewAppointment />, {
       store,
+      path: '/new-appointment',
     });
 
     expect(

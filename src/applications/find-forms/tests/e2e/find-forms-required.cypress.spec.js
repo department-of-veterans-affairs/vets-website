@@ -39,15 +39,7 @@ describe('functionality of Find Forms', () => {
         type: 'feature_toggles',
         features: [
           {
-            name: 'find_forms_first_flag',
-            value: true,
-          },
-          {
-            name: 'find_forms_second_flag',
-            value: true,
-          },
-          {
-            name: 'find_forms_third_flag',
+            name: 'find_forms_show_pdf_modal',
             value: true,
           },
         ],

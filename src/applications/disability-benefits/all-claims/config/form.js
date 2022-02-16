@@ -1,3 +1,5 @@
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+
 import environment from 'platform/utilities/environment';
 
 import FormFooter from 'platform/forms/components/FormFooter';
@@ -127,8 +129,6 @@ import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
 
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -179,8 +179,7 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
-  // Don't show error links on the review page in production
-  showReviewErrors: !environment.isProduction(),
+  showReviewErrors: true,
   reviewErrors,
   defaultDefinitions: {
     ...fullSchema.definitions,

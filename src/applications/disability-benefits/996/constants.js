@@ -125,10 +125,14 @@ export const MAX_ISSUE_NAME_LENGTH = 140;
 export const MAX_DISAGREEMENT_REASON_LENGTH = 90;
 
 // Using MAX_DISAGREEMENT_REASON_LENGTH (90) and with all checkboxes selected,
-// this string is submitted - the numbers constitute the "other" typed in value
+// this string is submitted - the numbers constitute the "somethubg else" typed
+// in value
 // "service connection,effective date,disability evaluation,1234567890123456789012345678901234"
 export const SUBMITTED_DISAGREEMENTS = {
   serviceConnection: 'service connection',
   effectiveDate: 'effective date',
   evaluation: 'disability evaluation',
 };
+
+export const contestedIssuesPath = 'eligible-issues'; // v1
+export const contestableIssuesPath = 'contestable-issues'; // v2

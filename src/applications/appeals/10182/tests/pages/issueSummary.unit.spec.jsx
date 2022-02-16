@@ -3,10 +3,10 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
-import { SELECTED } from '../../constants';
+import { SELECTED, contestableIssuesPath } from '../../constants';
 
 describe('NOD selected issues summary page', () => {
   const {
@@ -47,9 +47,7 @@ describe('NOD selected issues summary page', () => {
 
     expect(link.length).to.equal(1);
     expect(link.text()).to.contain('go back and add');
-    expect(link.props().to.pathname).to.equal(
-      formConfig.chapters.conditions.pages.contestableIssues.path,
-    );
+    expect(link.props().to.pathname).to.equal(contestableIssuesPath);
     expect(link.props().to.search).to.equal('?redirect');
     form.unmount();
   });

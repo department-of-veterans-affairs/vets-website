@@ -2,10 +2,8 @@ import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
 import 'url-search-params-polyfill';
 
-import recordEvent from '../../monitoring/record-event';
-import environment from '../../utilities/environment';
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
-import { MHV_SKIP_DUPE } from 'platform/utilities/sso/constants';
+import { SKIP_DUPE_QUERY } from 'platform/utilities/sso/constants';
 import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
@@ -17,6 +15,8 @@ import {
   POLICY_TYPES,
   SIGNUP_TYPES,
 } from './constants';
+import environment from '../../utilities/environment';
+import recordEvent from '../../monitoring/record-event';
 
 // NOTE: the login app typically has URLs that being with 'sign-in',
 // however there is at least one CMS page, 'sign-in-faq', that we don't
@@ -38,6 +38,7 @@ export const getQueryParams = () => {
 };
 
 const fixUrl = (url, path) => {
+  if (!url) return null;
   const updatedUrl = url.endsWith('/') ? url.slice(0, -1) : url;
   return `${updatedUrl}${path}`.replace('\r\n', ''); // Prevent CRLF injection.
 };
@@ -93,29 +94,38 @@ function redirectWithGAClientId(redirectUrl) {
   }
 }
 
-const generatePath = (app, to) => {
-  if (app === EXTERNAL_APPS.MHV) {
-    return `?deeplinking=${to}`;
+export const generatePath = (app, to) => {
+  function generateDefaultTo() {
+    return app === EXTERNAL_APPS.EBENEFITS ? '/profilepostauth' : '';
   }
-  return to.startsWith('/') ? to : `/${to}`;
+
+  function generateTo() {
+    if (app === EXTERNAL_APPS.MHV) {
+      return `?deeplinking=${to}`;
+    }
+    return to.startsWith('/') ? to : `/${to}`;
+  }
+
+  return !to ? generateDefaultTo() : generateTo();
 };
 
 export function createExternalRedirectUrl({ base, returnUrl, application }) {
   return {
-    [EXTERNAL_APPS.MHV]: `${base}${MHV_SKIP_DUPE}&redirect=${returnUrl}&postLogin=true`,
+    [EXTERNAL_APPS.MHV]: `${base}${
+      SKIP_DUPE_QUERY.SINGLE_QUERY
+    }&redirect=${returnUrl}&postLogin=true`,
     [EXTERNAL_APPS.MY_VA_HEALTH]: `${base}`,
+    [EXTERNAL_APPS.EBENEFITS]: `${base}`,
   }[application];
 }
 
 export function standaloneRedirect() {
   const { application, to } = getQueryParams();
-  let url = EXTERNAL_REDIRECTS[application] || null;
 
-  if (url && to) {
-    url = fixUrl(url, generatePath(application, to));
-  }
-
-  return url;
+  return fixUrl(
+    EXTERNAL_REDIRECTS[application] ?? null,
+    generatePath(application, to),
+  );
 }
 
 export function redirect(redirectUrl, clickedEvent) {

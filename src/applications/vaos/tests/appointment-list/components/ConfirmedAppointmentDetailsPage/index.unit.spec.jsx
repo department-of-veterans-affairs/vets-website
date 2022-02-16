@@ -424,7 +424,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
     // expect(screen.baseElement).to.contain.text(
-    //   'You canceled this appointment.',
+    //   'You canceled your appointment.',
     // );
   });
 
@@ -467,7 +467,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     });
 
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
-    expect(await screen.findByText(/COVID-19 vaccine/i)).to.exist;
+    expect(await screen.findAllByText('COVID-19 vaccine')).to.exist;
 
     expect(screen.baseElement).not.to.contain.text('Cancel appointment');
 
@@ -516,7 +516,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(
       await screen.findByText(
-        /Fort Collins VA Clinic canceled this appointment./i,
+        /Fort Collins VA Clinic canceled your appointment/i,
       ),
     ).to.exist;
   });
@@ -562,7 +562,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(
       await screen.findByText(
-        /Fort Collins VA Clinic canceled this appointment./i,
+        /Fort Collins VA Clinic canceled your appointment/i,
       ),
     ).to.exist;
 
@@ -713,11 +713,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     await screen.findByRole('alertdialog');
 
-    userEvent.click(screen.getByText(/no, take me back/i));
+    userEvent.click(screen.getByText(/No, don’t cancel/i));
 
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
     expect(screen.baseElement).to.not.contain.text(
-      'You canceled this appointment.',
+      'You canceled your appointment',
     );
   });
 
@@ -1347,7 +1347,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.getByText('Primary care')).to.be.ok;
 
     // Then it should display who canceled the appointment
-    expect(await screen.findByText(/You canceled this appointment./i)).to.exist;
+    expect(await screen.findByText(/You canceled your appointment/i)).to.exist;
 
     expect(
       screen.getByRole('heading', {

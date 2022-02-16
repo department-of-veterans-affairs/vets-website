@@ -1,1 +1,38 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+// Highlighted Content Container
+.ev-highlighted-content-container_title {
+	background-color: $color-gray-lightest;
+	margin: 0;
+	padding: 1em;
+}
+.ev-highlighted-content-container_content {
+	border: 1px solid $color-gray-lightest;
+	border-top: 0;
+	padding: 1em;
+}
+
+// Related Pages Navigation
+.ev-related-pages-nav ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+// Info Block
+.ev-info-block {
+	border-left: 7px solid $color-primary-alt-dark;
+	padding-left: calc(2rem - 7px);
+}
+.ev-enrollment-month {
+	border-top: 1px solid $color-gray-lighter;
+	margin-top: 4px;
+	padding-bottom: 6px;
+}
+.ev-enrollment-month_message {
+	margin-bottom: 0.5em;
+}
+.ev-enrollment-month .ev-action-link {
+	display: block;
+	padding: 0 0 1em;
+}

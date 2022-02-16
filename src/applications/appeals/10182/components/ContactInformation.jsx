@@ -30,6 +30,14 @@ export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
     ''}${mobilePhone?.phoneNumber || ''}`;
   const phoneExt = mobilePhone?.extension;
 
+  const handler = {
+    onSubmit: event => {
+      // This prevents this nested form submit event from passing to the
+      // outer form and causing a page advance
+      event.stopPropagation();
+    },
+  };
+
   useEffect(
     () => {
       if (missingInfo.length) {
@@ -117,14 +125,7 @@ export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
         </>
       )}
       <div className="blue-bar-block vads-u-margin-top--4">
-        <div
-          className="va-profile-wrapper"
-          onSubmit={event => {
-            // This prevents this nested form submit event from passing to the
-            // outer form and causing a page advance
-            event.stopPropagation();
-          }}
-        >
+        <div className="va-profile-wrapper" onSubmit={handler.onSubmit}>
           {contactSection}
         </div>
       </div>
@@ -157,6 +158,9 @@ ContactInfoDescription.propTypes = {
       }),
     }),
   }).isRequired,
+  formContext: PropTypes.shape({
+    submitted: PropTypes.bool,
+  }),
   homeless: PropTypes.bool,
 };
 

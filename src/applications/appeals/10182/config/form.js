@@ -6,9 +6,9 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 
 import migrations from '../migrations';
-import prefillTransformer from '../config/prefill-transformer';
-import { transform } from '../config/submit-transformer';
-import submitForm from '../config/submitForm';
+import prefillTransformer from './prefill-transformer';
+import { transform } from './submit-transformer';
+import submitForm from './submitForm';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -28,6 +28,8 @@ import {
   appStateSelector,
   getIssueName,
 } from '../utils/helpers';
+
+import { contestableIssuesPath } from '../constants';
 
 // Pages
 import veteranInfo from '../pages/veteranInfo';
@@ -150,7 +152,7 @@ const formConfig = {
       pages: {
         contestableIssues: {
           title: 'Issues eligible for review',
-          path: 'contestable-issues',
+          path: contestableIssuesPath,
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
