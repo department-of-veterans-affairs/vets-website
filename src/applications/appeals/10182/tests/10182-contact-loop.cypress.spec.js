@@ -49,7 +49,7 @@ describe('NOD contact info loop', () => {
       'POST',
       '/v0/profile/address_validation',
       mockProfileAddressValidation,
-    ).as('addressValidation');
+    ).as('getAddressValidation');
     // profile changes
     cy.intercept('GET', '/v0/user?now=*', mockUserUpdate);
 
@@ -148,7 +148,7 @@ describe('NOD contact info loop', () => {
     cy.findByText(/^update$/i, { selector: 'button' })
       .first()
       .click();
-    cy.wait('@addressValidation');
+    cy.wait('@getAddressValidation');
     /*
     Not including address validation intermediate page because it hates me
     cy.findByText(/^use this address$/i, { selector: 'button' }).should('be.visible');
