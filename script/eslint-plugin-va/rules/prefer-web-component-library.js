@@ -77,8 +77,23 @@ const breadcrumbsTransformer = (context, node) => {
   });
 };
 
+/**
+ * This object has the following shape:
+ * { [filename]: { [componentName]: boolean } }
+ *
+ * Example:
+ * { 'src/applications/claims-status/components/ClaimsBreadcrumbs.jsx': { 'Breadcrumbs': true } }
+ */
 let isLibraryComponent = {};
 
+/**
+ * Builds the isLibraryComponent object by organizing components into filenames,
+ * checks if the component is part of the Design System component-library
+ * and stores the result as a boolean.
+ *
+ * @param {object} context
+ * @param {string} componentName
+ */
 const updateIsLibraryImportObj = (context, componentName) => {
   isLibraryComponent[context.getFilename()] = {
     ...isLibraryComponent[context.getFilename()],
@@ -94,6 +109,17 @@ const updateIsLibraryImportObj = (context, componentName) => {
   };
 };
 
+/**
+ * This function returns a boolean value indicating whether a component is part of the
+ * Design System component-library. It utilizes the helper updateIsLibraryImportObj to
+ * build the isLibraryComponent object and returns true or false for a given componentName
+ * and context filename. Skips check if result exists for a given componentName and context
+ * filename.
+ *
+ * @param {object} context
+ * @param {string} componentName
+ * @returns {boolean} true if component is part of the Design System component-library
+ */
 const isLibraryImport = (context, componentName) => {
   if (
     !isLibraryComponent
