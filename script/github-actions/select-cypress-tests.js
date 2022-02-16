@@ -3,8 +3,8 @@ const core = require('@actions/core');
 const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
-const findImports = require('find-imports');
 const { integrationFolder, testFiles } = require('../../config/cypress.json');
+const findImports = require('find-imports');
 
 const IS_MASTER_BUILD = process.env.IS_MASTER_BUILD === 'true';
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
@@ -30,8 +30,7 @@ function getAppNameFromFilePath(filePath) {
 function getImportPath(filePathAsArray, importRef) {
   if (importRef.startsWith('applications/')) {
     return `src/${importRef}`;
-  }
-  if (importRef.startsWith('../')) {
+  } else if (importRef.startsWith('../')) {
     const numDirsUp = importRef.split('/').filter(str => str === '..').length;
 
     return importRef.replace(
@@ -185,34 +184,35 @@ function allTests() {
 function selectTests(graph, pathsOfChangedFiles) {
   if (IS_MASTER_BUILD) {
     return allTests();
-  }
-  let allMdFiles = true;
-  let allMdAndOrSrcApplicationsFiles = true;
+  } else {
+    let allMdFiles = true;
+    let allMdAndOrSrcApplicationsFiles = true;
 
-  for (let i = 0; i < pathsOfChangedFiles.length; i += 1) {
-    if (!pathsOfChangedFiles[i].endsWith('.md')) {
-      allMdFiles = false;
+    for (let i = 0; i < pathsOfChangedFiles.length; i += 1) {
+      if (!pathsOfChangedFiles[i].endsWith('.md')) {
+        allMdFiles = false;
+      }
+
+      if (
+        !pathsOfChangedFiles[i].endsWith('.md') &&
+        !pathsOfChangedFiles[i].startsWith('src/applications')
+      ) {
+        allMdAndOrSrcApplicationsFiles = false;
+      }
+
+      if (allMdFiles === false && allMdAndOrSrcApplicationsFiles === false) {
+        break;
+      }
     }
 
-    if (
-      !pathsOfChangedFiles[i].endsWith('.md') &&
-      !pathsOfChangedFiles[i].startsWith('src/applications')
-    ) {
-      allMdAndOrSrcApplicationsFiles = false;
-    }
-
-    if (allMdFiles === false && allMdAndOrSrcApplicationsFiles === false) {
-      break;
+    if (allMdFiles) {
+      return [];
+    } else if (allMdAndOrSrcApplicationsFiles) {
+      return selectedTests(graph, pathsOfChangedFiles);
+    } else {
+      return allTests();
     }
   }
-
-  if (allMdFiles) {
-    return [];
-  }
-  if (allMdAndOrSrcApplicationsFiles) {
-    return selectedTests(graph, pathsOfChangedFiles);
-  }
-  return allTests();
 }
 
 function exportVariables(tests) {
