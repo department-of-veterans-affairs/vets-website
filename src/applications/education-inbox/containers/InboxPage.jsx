@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { connect } from 'react-redux';
+import { apiRequest } from 'platform/utilities/api';
+import PropTypes from 'prop-types';
+import { CLAIMANT_STATUS_ENDPOINT } from '../actions';
 import Layout from '../components/Layout';
 
-const InboxPage = () => {
+const InboxPage = ({ letters }) => {
+  useEffect(
+    () => {
+      const checkIfClaimantHasLetters = async () =>
+        apiRequest(CLAIMANT_STATUS_ENDPOINT)
+          .then(response => {
+            return response;
+          })
+          .catch(err => err);
+
+      checkIfClaimantHasLetters().then(r => r);
+    },
+    [letters.message],
+  );
+
   return (
     <Layout clsName="inbox-page">
       <FormTitle title="VA education inbox" />
@@ -63,4 +81,12 @@ const InboxPage = () => {
   );
 };
 
-export default InboxPage;
+InboxPage.propTypes = {
+  letters: PropTypes.object,
+};
+
+const mapStateToProps = () => ({
+  letters: {},
+});
+
+export default connect(mapStateToProps)(InboxPage);
