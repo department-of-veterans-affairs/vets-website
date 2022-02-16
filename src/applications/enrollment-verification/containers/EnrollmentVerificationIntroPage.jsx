@@ -7,12 +7,13 @@ import { fetchPost911GiBillEligibility } from '../actions';
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import EnrollmentVerificationLogin from '../components/EnrollmentVerificationLogIn';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
+import { REVIEW_ENROLLMENTS_URL } from '../constants';
 
 const verifyEnrollmentsButton = (
   <a
     type="button"
     className="usa-button-primary va-button-primary"
-    href="review-enrollments"
+    href={REVIEW_ENROLLMENTS_URL}
   >
     Verify your enrollments for Post-9/11 GI Bill
   </a>

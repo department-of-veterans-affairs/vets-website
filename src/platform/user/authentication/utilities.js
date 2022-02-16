@@ -38,6 +38,7 @@ export const getQueryParams = () => {
 };
 
 const fixUrl = (url, path) => {
+  if (!url) return null;
   const updatedUrl = url.endsWith('/') ? url.slice(0, -1) : url;
   return `${updatedUrl}${path}`.replace('\r\n', ''); // Prevent CRLF injection.
 };
@@ -93,11 +94,19 @@ function redirectWithGAClientId(redirectUrl) {
   }
 }
 
-const generatePath = (app, to) => {
-  if (app === EXTERNAL_APPS.MHV) {
-    return `?deeplinking=${to}`;
+export const generatePath = (app, to) => {
+  function generateDefaultTo() {
+    return app === EXTERNAL_APPS.EBENEFITS ? '/profilepostauth' : '';
   }
-  return to.startsWith('/') ? to : `/${to}`;
+
+  function generateTo() {
+    if (app === EXTERNAL_APPS.MHV) {
+      return `?deeplinking=${to}`;
+    }
+    return to.startsWith('/') ? to : `/${to}`;
+  }
+
+  return !to ? generateDefaultTo() : generateTo();
 };
 
 export function createExternalRedirectUrl({ base, returnUrl, application }) {
@@ -106,18 +115,17 @@ export function createExternalRedirectUrl({ base, returnUrl, application }) {
       SKIP_DUPE_QUERY.SINGLE_QUERY
     }&redirect=${returnUrl}&postLogin=true`,
     [EXTERNAL_APPS.MY_VA_HEALTH]: `${base}`,
+    [EXTERNAL_APPS.EBENEFITS]: `${base}`,
   }[application];
 }
 
 export function standaloneRedirect() {
   const { application, to } = getQueryParams();
-  let url = EXTERNAL_REDIRECTS[application] || null;
 
-  if (url && to) {
-    url = fixUrl(url, generatePath(application, to));
-  }
-
-  return url;
+  return fixUrl(
+    EXTERNAL_REDIRECTS[application] ?? null,
+    generatePath(application, to),
+  );
 }
 
 export function redirect(redirectUrl, clickedEvent) {

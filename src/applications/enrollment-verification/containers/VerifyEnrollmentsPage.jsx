@@ -13,6 +13,7 @@ import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVeri
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
 import ReviewEnrollmentVerifications from '../components/ReviewEnrollmentVerifications';
 import MonthReviewCard from '../components/MonthReviewCard';
+import { REVIEW_ENROLLMENTS_URL } from '../constants';
 
 export class VerifyEnrollmentsPage extends React.Component {
   constructor(props) {
@@ -66,7 +67,7 @@ export class VerifyEnrollmentsPage extends React.Component {
     const { currentMonth } = this.state;
 
     if (currentMonth === 0) {
-      window.location.href = '/enrollment-history/review-enrollments';
+      window.location.href = REVIEW_ENROLLMENTS_URL;
     }
   };
 
@@ -106,7 +107,7 @@ export class VerifyEnrollmentsPage extends React.Component {
     });
 
     // if () {
-    //   window.location.href = '/enrollment-history/review-enrollments';
+    //   window.location.href = REVIEW_ENROLLMENTS_URL;
     // }
   };
 

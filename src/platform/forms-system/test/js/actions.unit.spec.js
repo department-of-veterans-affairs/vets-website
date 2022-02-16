@@ -493,12 +493,12 @@ describe('Schemaform actions:', () => {
       const thunk = uploadFile(
         {
           name: 'jpg',
-          size: 0,
+          size: 1234,
         },
         {
           endpoint: '/v0/endpoint',
           fileTypes: ['JPG'],
-          maxSize: 5,
+          maxSize: 5000,
           createPayload: f => f,
           parseResponse: f => f.data.attributes,
         },
@@ -572,7 +572,7 @@ describe('Schemaform actions:', () => {
           data: {
             attributes: {
               name: 'Test name',
-              size: 1234,
+              size: 10,
               confirmationCode: 'Test code',
             },
           },
@@ -585,7 +585,7 @@ describe('Schemaform actions:', () => {
       });
       expect(onChange.secondCall.args[0]).to.eql({
         name: 'Test name',
-        size: 1234,
+        size: 10,
         confirmationCode: 'Test code',
         isEncrypted: false,
       });
@@ -596,7 +596,7 @@ describe('Schemaform actions:', () => {
       const thunk = uploadFile(
         {
           name: 'jpg',
-          size: 0,
+          size: 1,
         },
         {
           fileTypes: ['jpg'],
@@ -628,6 +628,7 @@ describe('Schemaform actions:', () => {
       });
       expect(onChange.secondCall.args[0]).to.eql({
         name: 'jpg',
+        size: 1,
         errorMessage: 'Bad Request',
       });
     });
@@ -680,11 +681,11 @@ describe('Schemaform actions:', () => {
       const thunk = uploadFile(
         {
           name: 'jpg',
-          size: 0,
+          size: 42,
         },
         {
           fileTypes: ['jpg'],
-          maxSize: 5,
+          maxSize: 50,
           createPayload: f => f,
           parseResponse: f => f.data.attributes,
         },
@@ -709,6 +710,7 @@ describe('Schemaform actions:', () => {
       });
       expect(onChange.secondCall.args[0]).to.eql({
         name: 'jpg',
+        size: 42,
         errorMessage: 'Internal Server Error',
       });
     });

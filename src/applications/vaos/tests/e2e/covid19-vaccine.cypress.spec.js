@@ -1,4 +1,5 @@
 import moment from 'moment';
+import Timeouts from 'platform/testing/e2e/timeouts';
 import {
   initAppointmentListMock,
   initVaccineAppointmentMock,
@@ -46,7 +47,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.findByText(/Continue/).click();
 
     // Choose Clinic
-    cy.url().should('include', '/choose-clinic');
+    cy.url().should('include', '/choose-clinic', { timeout: Timeouts.slow });
     cy.axeCheckBestPractice();
     cy.findByText(/Choose where you’d like to get your vaccine/);
     cy.get('#root_clinicId_0')

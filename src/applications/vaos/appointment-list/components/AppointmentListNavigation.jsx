@@ -2,8 +2,10 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import recordEvent from 'platform/monitoring/record-event';
 import { updateBreadcrumb } from '../redux/actions';
 import { selectFeatureStatusImprovement } from '../../redux/selectors';
+import { GA_PREFIX } from '../../utils/constants';
 
 function handleClick({ history, dispatch, callback }) {
   return event => {
@@ -11,8 +13,14 @@ function handleClick({ history, dispatch, callback }) {
       history.push('/pending');
       callback(true);
       dispatch(updateBreadcrumb({ title: 'Pending', path: 'pending' }));
+      recordEvent({
+        event: `${GA_PREFIX}-status-pending-link-clicked`,
+      });
     }
     if (event.target.id === 'past') {
+      recordEvent({
+        event: `${GA_PREFIX}-status-past-link-clicked`,
+      });
       history.push('/past');
       callback(true);
       dispatch(updateBreadcrumb({ title: 'Past', path: 'past' }));

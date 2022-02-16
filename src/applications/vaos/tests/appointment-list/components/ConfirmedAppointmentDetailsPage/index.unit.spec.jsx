@@ -467,7 +467,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     });
 
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
-    expect(await screen.findByText(/COVID-19 vaccine/i)).to.exist;
+    expect(await screen.findAllByText('COVID-19 vaccine')).to.exist;
 
     expect(screen.baseElement).not.to.contain.text('Cancel appointment');
 

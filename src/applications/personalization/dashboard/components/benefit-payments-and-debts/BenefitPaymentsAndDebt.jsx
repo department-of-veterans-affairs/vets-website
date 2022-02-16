@@ -27,6 +27,8 @@ const BenefitPaymentsAndDebt = ({
     ?.filter(p => moment(p.payCheckDt) > moment().subtract(31, 'days'))
     .sort((a, b) => moment(b.payCheckDt) - moment(a.payCheckDt))[0];
 
+  const debtsCount = debts?.length || 0;
+
   return (
     payments &&
     !!payments.length && (
@@ -57,7 +59,9 @@ const BenefitPaymentsAndDebt = ({
                 </p>
               </>
             )}
-            <span className="sr-only">Benefit Payments and Debt Links</span>
+            <h3 className="sr-only">
+              Popular actions for Benefit Payments and Debt
+            </h3>
             {!lastPayment && (
               <IconCTALink
                 href="/va-payment-history/payments/"
@@ -87,6 +91,21 @@ const BenefitPaymentsAndDebt = ({
                 });
               }}
             />
+            {debtsCount < 1 && (
+              <IconCTALink
+                href="/resources/va-debt-management"
+                icon="file-invoice-dollar"
+                newTab
+                text="Learn about VA debt"
+                onClick={() => {
+                  recordEvent({
+                    event: 'nav-linkslist',
+                    'links-list-header': 'Learn about VA debt',
+                    'links-list-section-header': 'Learn about VA debt',
+                  });
+                }}
+              />
+            )}
           </DashboardWidgetWrapper>
         </div>
       </div>

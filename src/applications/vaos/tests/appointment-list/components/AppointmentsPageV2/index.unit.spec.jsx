@@ -318,6 +318,12 @@ describe('VAOS <AppointmentsPageV2>', () => {
 
       // and status dropdown should not be displayed
       expect(screen.queryByLabelText('Show by status')).not.to.exists;
+
+      expect(
+        global.window.dataLayer.some(
+          e => e === `vaos-status-pending-link-clicked`,
+        ),
+      );
     });
 
     it('should display updated past appointment page', async () => {
@@ -383,6 +389,12 @@ describe('VAOS <AppointmentsPageV2>', () => {
 
       // and status dropdown should not be displayed
       expect(screen.queryByLabelText('Show by status')).not.to.exists;
+
+      expect(
+        global.window.dataLayer.some(
+          e => e === `vaos-status-past-link-clicked`,
+        ),
+      );
     });
   });
 });
