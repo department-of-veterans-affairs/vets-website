@@ -17,6 +17,7 @@ env:
   CHANNEL_ID: C0MQ281DJ # vfs-platform-builds
   VETS_WEBSITE_CHANNEL_ID: C02V265VCGH # status-vets-website
   DSVA_SCHEDULE_ENABLED: true
+  BUILD_ENV: vagovprod
 
 jobs:
   set-env:
