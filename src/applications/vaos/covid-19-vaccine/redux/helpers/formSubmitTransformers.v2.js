@@ -19,6 +19,5 @@ export function transformFormToVAOSAppointment(state) {
       desiredDate: slot.start,
     },
     locationId: data.vaFacility,
-    comment: '',
   };
 }
