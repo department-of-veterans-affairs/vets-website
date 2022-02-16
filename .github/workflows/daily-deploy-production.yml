@@ -249,11 +249,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      
-      - name: Download build artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: ${{ env.BUILD_ENV }}.tar.bz2
 
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
