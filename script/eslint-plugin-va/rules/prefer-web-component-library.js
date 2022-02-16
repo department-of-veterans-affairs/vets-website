@@ -78,6 +78,9 @@ const breadcrumbsTransformer = (context, node) => {
 };
 
 /**
+ * Stores the result of a check that determines if a component is part of
+ * the Design System component-library.
+ *
  * This object has the following shape:
  * { [filename]: { [componentName]: boolean } }
  *
@@ -148,6 +151,8 @@ module.exports = {
       JSXElement(node) {
         const componentName = node.openingElement.name.name;
 
+        // If the component is not part of the Design System component-library,
+        // then do not display an ESLint warning.
         if (!isLibraryImport(context, componentName)) return;
 
         switch (componentName) {
