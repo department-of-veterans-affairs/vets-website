@@ -128,6 +128,22 @@ describe('authentication URL helpers', () => {
     expect(global.window.location).to.include('/v1/sessions/dslogon/new');
   });
 
+  it('should redirect to the proper unified sign-in page redirect for VA Flaghsip Mobile', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=vamobile';
+    authUtilities.login({ policy: CSP_IDS.DS_LOGON });
+    expect(global.window.location).to.include(
+      '/v1/sessions/dslogon_verified/new',
+    );
+  });
+
+  it('should redirect to the proper unified sign-in page redirect for VA OCC Mobile', () => {
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = '?application=vaoccmobile';
+    authUtilities.login({ policy: CSP_IDS.ID_ME });
+    expect(global.window.location).to.include('/v1/sessions/idme_verified/new');
+  });
+
   it('should mimic modal behavior when sign-in page lacks appliction param', () => {
     global.window.location.pathname = '/sign-in/';
     authUtilities.login({ policy: CSP_IDS.ID_ME });
