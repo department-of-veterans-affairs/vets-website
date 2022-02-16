@@ -214,6 +214,31 @@ describe('sessionStorage', () => {
       `${EXTERNAL_REDIRECTS[EXTERNAL_APPS.EBENEFITS]}/some_place`,
     );
   });
+
+  it('should set sessionStorage to the standaloneRedirect url (VA Flagship Mobile)', () => {
+    const vaMobileParams =
+      '?application=vamobile&client_id=VAMobile&state=state';
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = vaMobileParams;
+
+    authUtilities.login({ policy: CSP_IDS.ID_ME });
+    expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.include(
+      `${
+        EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]
+      }${vaMobileParams}`,
+    );
+  });
+
+  it('should set sessionStorage to the standaloneRedirect url (VA OCC Mobile)', () => {
+    const occParams = '?application=vaoccmobile&redirect_uri=xyz';
+    global.window.location.pathname = '/sign-in/';
+    global.window.location.search = occParams;
+
+    authUtilities.login({ policy: CSP_IDS.ID_ME });
+    expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.include(
+      `${EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_OCC_MOBILE]}${occParams}`,
+    );
+  });
 });
 
 describe('standaloneRedirect', () => {
