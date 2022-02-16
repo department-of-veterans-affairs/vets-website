@@ -227,7 +227,10 @@ export default {
       case UPDATE_VERIFICATION_STATUS_MONTHS:
         return {
           ...state,
-          verificationStatus: action?.response,
+          verificationStatus: {
+            ...state.verificationStatus,
+            months: action?.payload,
+          },
         };
       case EDIT_MONTH_VERIFICATION: 
         return {
