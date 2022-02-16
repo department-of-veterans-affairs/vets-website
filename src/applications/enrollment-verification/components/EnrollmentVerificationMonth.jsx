@@ -23,7 +23,7 @@ const notVerifiedMonthStatusMessage = (
 const needToVerifyMonthStatusMessage = (
   <>
     <p className="ev-enrollment-month_message">
-      <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
+      <i className="fas fa-exclamaton-circle vads-u-color--secondary-dark" />{' '}
       You need to verify this month
     </p>
     <VerifyYourEnrollments />

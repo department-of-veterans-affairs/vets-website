@@ -6,6 +6,7 @@ import {
   VERIFICATION_STATUS_CORRECT,
   VERIFICATION_STATUS_INCORRECT,
 } from '../actions';
+import { formatReadableMonthYear } from '../helpers';
 
 import EnrollmentVerificationMonthInfo from './EnrollmentVerificationMonthInfo';
 
@@ -33,8 +34,7 @@ const cantVerifyText = informationIncorrectMonth => {
 };
 const infoText = month => {
   <p>
-    This is the enrollment information we have on file for you for {month.month}
-    .
+    This is the enrollment information we have on file for you for {month}.
   </p>;
 };
 
@@ -76,11 +76,11 @@ export default function MonthReviewCard({
     <div className="ev-highlighted-content-container">
       <header className="ev-highlighted-content-container_header">
         <h1 className="ev-highlighted-content-container_title vads-u-font-size--h3">
-          {month.month}
+          {formatReadableMonthYear(month.month)}
         </h1>
       </header>
       <div className="ev-highlighted-content-container_content">
-        {reviewPage ? reviewStatusText : infoText}
+        {reviewPage ? reviewStatusText : infoText(month.month)}
 
         <div className="ev-info-block">
           <EnrollmentVerificationMonthInfo enrollments={month.enrollments} />

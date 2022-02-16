@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatNumericalDate } from '../helpers';
 
 export default function EnrollmentVerificationMonthInfo({ enrollments }) {
   const enrollmentInstitutions = enrollments?.map((enrollment, index) => {
@@ -6,7 +7,8 @@ export default function EnrollmentVerificationMonthInfo({ enrollments }) {
       <li className="ev-month-info-institutions_institution" key={index}>
         <p>
           <strong>
-            {enrollment.startDate} &ndash; {enrollment.endDate}
+            {formatNumericalDate(enrollment.startDate)} &ndash;{' '}
+            {formatNumericalDate(enrollment.endDate)}
           </strong>{' '}
           at {enrollment.institution}
         </p>
