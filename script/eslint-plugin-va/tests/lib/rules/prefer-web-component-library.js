@@ -30,6 +30,12 @@ ruleTester.run('prefer-web-component-library', rule, {
     //     const phone = () => (<Telephone contact={phoneContact} />)
     //   `,
     // },
+    {
+      code: `
+        import Breadcrumbs from '../../components/Breadcrumbs';
+        const breadcrumbs = () => (<Breadcrumbs><a href="#home">Home</a></Breadcrumbs>)
+      `,
+    },
   ],
   invalid: [
     {
