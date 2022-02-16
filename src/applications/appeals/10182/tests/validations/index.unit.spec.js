@@ -4,9 +4,7 @@ import sinon from 'sinon';
 import {
   contactInfoValidation,
   areaOfDisagreementRequired,
-  optInValidation,
 } from '../../validations';
-import { optInErrorMessage } from '../../content/OptIn';
 
 describe('contactInfoValidation', () => {
   const getData = ({
@@ -92,27 +90,5 @@ describe('areaOfDisagreementRequired', () => {
       otherEntry: 'foo',
     });
     expect(errors.addError.called).to.be.false;
-  });
-});
-
-describe('optInValidation', () => {
-  let errorMessage = '';
-  const errors = {
-    addError: message => {
-      errorMessage = message || '';
-    },
-  };
-
-  beforeEach(() => {
-    errorMessage = '';
-  });
-
-  it('should show an error when the value is false', () => {
-    optInValidation(errors, false);
-    expect(errorMessage).to.equal(optInErrorMessage);
-  });
-  it('should not show an error when the value is true', () => {
-    optInValidation(errors, true);
-    expect(errorMessage).to.equal('');
   });
 });

@@ -17,7 +17,6 @@ env:
   CHANNEL_ID: C0MQ281DJ # vfs-platform-builds
   VETS_WEBSITE_CHANNEL_ID: C02V265VCGH # status-vets-website
   DSVA_SCHEDULE_ENABLED: true
-  BUILD_ENV: vagovprod
 
 jobs:
   set-env:
@@ -242,6 +241,7 @@ jobs:
     needs: [set-env, create-release]
 
     env:
+      ENVIRONMENT: vagovprod
       DEPLOY_BUCKET: www.va.gov
       ASSET_BUCKET: prod-va-gov-assets
 
@@ -275,7 +275,7 @@ jobs:
       - name: Deploy
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
         env:
-          SRC: s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.BUILD_ENV }}.tar.bz2
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.ENVIRONMENT }}.tar.bz2
           DEST: s3://${{ env.DEPLOY_BUCKET }}
           ASSET_DEST: s3://${{ env.ASSET_BUCKET }}
 
