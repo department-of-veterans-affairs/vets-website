@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getAppUrl } from 'platform/utilities/registry-helpers';
-
-import { formatDate } from './helpers';
-
-const coeStatusUrl = getAppUrl('coe-status');
+import { formatDate, statusUrl } from './helpers';
 
 const Available = ({ referenceNumber, requestDate }) => (
   <va-alert status="info">
@@ -16,7 +12,7 @@ const Available = ({ referenceNumber, requestDate }) => (
         You have a COE available so you don’t need to fill out a request. You
         can review the details about your COE status or download your COE now.
         <br />
-        <a href={coeStatusUrl}>
+        <a href={statusUrl}>
           Go to your VA home loan COE page to review the details of your COE
         </a>
       </p>

@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getAppUrl } from 'platform/utilities/registry-helpers';
-
-import { formatDate } from './helpers';
+import { formatDate, statusUrl } from './helpers';
 
 const getHeadline = (status, origin) => {
   if (status === 'pending') {
@@ -28,8 +26,6 @@ const getLinkText = status =>
     ? 'Go to your VA home loan COE page to upload documents'
     : 'Go to your VA home loan COE page to review the details of your COE status';
 
-const coeStatusUrl = getAppUrl('coe-status');
-
 const Pending = ({ referenceNumber, requestDate, origin, status }) => {
   const headline = getHeadline(status, origin);
   const body = getBody(status, origin);
@@ -46,7 +42,7 @@ const Pending = ({ referenceNumber, requestDate, origin, status }) => {
         {origin === 'form' && (
           <>
             <br />
-            <a href={coeStatusUrl}>{linkText}</a>
+            <a href={statusUrl}>{linkText}</a>
           </>
         )}
       </p>

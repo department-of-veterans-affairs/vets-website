@@ -7,9 +7,9 @@ import { isLoggedIn } from 'platform/user/selectors';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
-import LoggedInContent from './introduction-content/loggedInContent';
-import COEIntroPageBox from './introduction-content/COEIntroPageBox';
 import { notLoggedInContent } from './introduction-content/notLoggedInContent';
+import COEIntroPageBox from './introduction-content/COEIntroPageBox';
+import LoggedInContent from './introduction-content/loggedInContent';
 
 const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
   const referenceNumber = 'XXXXXXXX';
