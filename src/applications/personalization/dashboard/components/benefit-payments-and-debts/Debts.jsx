@@ -7,14 +7,20 @@ export const Debts = ({ debts, hasError }) => {
   const debtsCount = debts?.length || 0;
   if (debtsCount < 1) {
     return (
-      <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
+      <p
+        className="vads-u-margin-bottom--3 vads-u-margin-top--0"
+        data-testid="zero-debt-paragraph"
+      >
         Your total VA debt balance is $0.
       </p>
     );
   }
   if (hasError) {
     return (
-      <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5">
+      <div
+        className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
+        data-testid="debts-error"
+      >
         <va-alert
           status="error"
           background-only
@@ -36,6 +42,7 @@ export const Debts = ({ debts, hasError }) => {
         background-only
         show-icon
         className="vads-u-margin-top--0"
+        data-testid="debt-count-alert"
       >
         You have {debtsCount} outstanding debts.{' '}
         <CTALink
@@ -48,6 +55,7 @@ export const Debts = ({ debts, hasError }) => {
               'profile-section': 'view-manage-va-debt',
             })
           }
+          testId="manage-va-debt-link"
         />
       </va-alert>
     </div>

@@ -54,7 +54,10 @@ const BenefitPaymentsAndDebt = ({
             {!lastPayment && (
               <>
                 {debts && <Debts debts={debts} hasError={debtsError} />}
-                <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
+                <p
+                  className="vads-u-margin-bottom--3 vads-u-margin-top--0"
+                  data-testid="no-recent-payments-paragraph"
+                >
                   You haven’t received any payments in the past 30 days.
                 </p>
               </>
@@ -68,6 +71,7 @@ const BenefitPaymentsAndDebt = ({
                 icon="user-check"
                 newTab
                 text="View your payment history"
+                /* eslint-disable react/jsx-no-bind */
                 onClick={() => {
                   recordEvent({
                     event: 'nav-linkslist',
@@ -75,6 +79,8 @@ const BenefitPaymentsAndDebt = ({
                     'links-list-section-header': 'Benefit payments and debts',
                   });
                 }}
+                /* eslint-enable react/jsx-no-bind */
+                testId="view-payment-history-link"
               />
             )}
 
@@ -83,6 +89,7 @@ const BenefitPaymentsAndDebt = ({
               icon="dollar-sign"
               newTab
               text="Manage your direct deposit"
+              /* eslint-disable react/jsx-no-bind */
               onClick={() => {
                 recordEvent({
                   event: 'nav-linkslist',
@@ -90,6 +97,8 @@ const BenefitPaymentsAndDebt = ({
                   'links-list-section-header': 'Direct deposit',
                 });
               }}
+              /* eslint-enable react/jsx-no-bind */
+              testId="manage-direct-deposit-link"
             />
             {debtsCount < 1 && (
               <IconCTALink
@@ -97,6 +106,7 @@ const BenefitPaymentsAndDebt = ({
                 icon="file-invoice-dollar"
                 newTab
                 text="Learn about VA debt"
+                /* eslint-disable react/jsx-no-bind */
                 onClick={() => {
                   recordEvent({
                     event: 'nav-linkslist',
@@ -104,6 +114,8 @@ const BenefitPaymentsAndDebt = ({
                     'links-list-section-header': 'Learn about VA debt',
                   });
                 }}
+                /* eslint-enable react/jsx-no-bind */
+                testId="learn-va-debt-link"
               />
             )}
           </DashboardWidgetWrapper>
@@ -127,20 +139,6 @@ const mapDispatchToProps = {
 };
 
 BenefitPaymentsAndDebt.propTypes = {
-  paymentsError: PropTypes.bool,
-  debtsError: PropTypes.bool,
-  payments: PropTypes.arrayOf(
-    PropTypes.shape({
-      payCheckAmount: PropTypes.string.isRequired,
-      payCheckDt: PropTypes.string.isRequired,
-      payCheckId: PropTypes.string.isRequired,
-      payCheckReturnFiche: PropTypes.string.isRequired,
-      payCheckType: PropTypes.string.isRequired,
-      paymentMethod: PropTypes.string.isRequired,
-      bankName: PropTypes.string.isRequired,
-      accountNumber: PropTypes.string.isRequired,
-    }),
-  ),
   debts: PropTypes.arrayOf(
     PropTypes.shape({
       fileNumber: PropTypes.string.isRequired,
@@ -163,6 +161,21 @@ BenefitPaymentsAndDebt.propTypes = {
       ),
     }),
   ),
+  debtsError: PropTypes.bool,
+  getPayments: PropTypes.func,
+  payments: PropTypes.arrayOf(
+    PropTypes.shape({
+      payCheckAmount: PropTypes.string.isRequired,
+      payCheckDt: PropTypes.string.isRequired,
+      payCheckId: PropTypes.string.isRequired,
+      payCheckReturnFiche: PropTypes.string.isRequired,
+      payCheckType: PropTypes.string.isRequired,
+      paymentMethod: PropTypes.string.isRequired,
+      bankName: PropTypes.string.isRequired,
+      accountNumber: PropTypes.string.isRequired,
+    }),
+  ),
+  paymentsError: PropTypes.bool,
 };
 
 export default connect(
