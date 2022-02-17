@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import StatusBox from '../../../shared/components/StatusBox';
+import CoeDocumentList from '../CoeDocumentList';
 import DocumentUploader from '../DocumentUploader';
-import DocumentList from '../DocumentList';
-import MoreQuestions from '../MoreQuestions';
+import { MoreQuestions } from '../MoreQuestions';
 
 const Pending = ({
   notOnUploadPage,
@@ -23,7 +23,7 @@ const Pending = ({
           status={status}
         />
         {uploadsNeeded ? <DocumentUploader /> : ''}
-        <DocumentList notOnUploadPage={notOnUploadPage} />
+        <CoeDocumentList notOnUploadPage={notOnUploadPage} />
         <h2>Should I request a COE again?</h2>
         <p className="vads-u-margin-bottom--0">
           No. We’re reviewing your current request, and submitting a new request

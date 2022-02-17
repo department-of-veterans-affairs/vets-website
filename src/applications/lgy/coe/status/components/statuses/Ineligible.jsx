@@ -3,7 +3,7 @@ import React from 'react';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 import StatusBox from '../../../shared/components/StatusBox';
-import MoreQuestions from '../MoreQuestions';
+import { MoreQuestions } from '../MoreQuestions';
 
 const coeUrl = getAppUrl('coe');
 const introUrl = `${coeUrl}/introduction`;

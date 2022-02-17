@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import DocumentList from '../DocumentList';
 import StatusBox from '../../../shared/components/StatusBox';
+import CoeDocumentList from '../CoeDocumentList';
 
 export const Denied = ({ referenceNumber, requestDate }) => {
   return (
@@ -31,7 +31,7 @@ export const Denied = ({ referenceNumber, requestDate }) => {
           <br />
           <a href="/track-claims">Check your VA claim or appeal status</a>
         </p>
-        <DocumentList />
+        <CoeDocumentList />
         <h2>What if I have more questions?</h2>
         <p>
           Get answers to frequently asked questions about decision reviews.
