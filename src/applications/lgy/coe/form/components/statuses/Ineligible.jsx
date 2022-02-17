@@ -1,6 +1,6 @@
 import React from 'react';
 
-const COEIneligible = () => (
+const Ineligible = () => (
   <>
     <h2 className="vads-u-margin--0">You didn’t automatically receive a COE</h2>
     <p>
@@ -16,4 +16,4 @@ const COEIneligible = () => (
   </>
 );
 
-export default COEIneligible;
+export default Ineligible;
