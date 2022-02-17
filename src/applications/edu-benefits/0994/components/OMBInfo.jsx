@@ -7,11 +7,11 @@ const modalContents = minutes => (
   <div>
     <h3>Privacy Act Statement</h3>
     <p>
-      <strong role="main">Respondent Burden:</strong> We need this information
-      to determine your ability to participate in the VET TEC High Technology
-      Pilot Program, 38 U.S.C. 3702 (d) and 38 CFR 36.4344. Title 38, United
-      States Code, allows us to ask for this information. We estimate that you
-      will need an average of {minutes} minutes to review the instructions, find
+      <strong>Respondent Burden:</strong> We need this information to determine
+      your ability to participate in the VET TEC High Technology Pilot Program,
+      38 U.S.C. 3702 (d) and 38 CFR 36.4344. Title 38, United States Code,
+      allows us to ask for this information. We estimate that you will need an
+      average of {minutes} minutes to review the instructions, find the
       information, and complete this form. The VA cannot conduct or sponsor a
       collection of information unless a valid OMB control number is displayed.
       You are not required to respond to a collection of information if this
@@ -64,7 +64,7 @@ class OMBInfo extends React.Component {
     const { resBurden, ombNumber, expDate } = this.props;
 
     return (
-      <div className="omb-info" role="main">
+      <div className="omb-info">
         <div>
           Respondent burden: <strong>{resBurden} minutes</strong>
         </div>
