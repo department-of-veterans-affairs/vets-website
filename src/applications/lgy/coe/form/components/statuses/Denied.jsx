@@ -1,29 +1,15 @@
 import React from 'react';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 
-import { getAppUrl } from 'platform/utilities/registry-helpers';
+import StatusBox from '../../../shared/components/StatusBox';
 
-const statusUrl = getAppUrl('coe-status');
-
-const COEDenied = ({ applicationCreateDate }) => {
-  const requestDate = moment(applicationCreateDate).format('MMMM DD, YYYY');
-
+const Denied = ({ referenceNumber, requestDate }) => {
   return (
     <>
-      <va-alert status="info">
-        <h2 slot="headline">We denied your request for a COE</h2>
-        <div>
-          <p>You requested a COE on: {requestDate}</p>
-          <p>
-            We reviewed your request. You don’t qualify for a COE.
-            <br />
-            <a href={statusUrl}>
-              Go to your VA home loan COE page to see status details
-            </a>
-          </p>
-        </div>
-      </va-alert>
+      <StatusBox.Denied
+        referenceNumber={referenceNumber}
+        requestDate={requestDate}
+      />
       <div>
         <h2>Can I appeal VA’s decision?</h2>
         <p className="vads-u-margin-bottom--0">
@@ -58,8 +44,9 @@ const COEDenied = ({ applicationCreateDate }) => {
   );
 };
 
-COEDenied.propTypes = {
-  applicationCreateDate: PropTypes.number,
+Denied.propTypes = {
+  referenceNumber: PropTypes.string.isRequired,
+  requestDate: PropTypes.number,
 };
 
-export default COEDenied;
+export default Denied;

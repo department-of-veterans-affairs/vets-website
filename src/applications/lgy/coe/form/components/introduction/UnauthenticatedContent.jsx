@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 const formConfig = {
@@ -7,7 +9,7 @@ const formConfig = {
   },
 };
 
-export const notLoggedInContent = route => (
+const UnauthenticatedContent = ({ route }) => (
   <div>
     <h2 className="vads-u-margin-top--0">
       Sign in to request a COE, get your COE, or check your status
@@ -43,3 +45,9 @@ export const notLoggedInContent = route => (
     />
   </div>
 );
+
+UnauthenticatedContent.propTypes = {
+  route: PropTypes.object.isRequired,
+};
+
+export default UnauthenticatedContent;

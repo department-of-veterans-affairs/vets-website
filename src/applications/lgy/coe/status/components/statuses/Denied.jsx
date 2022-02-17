@@ -1,22 +1,17 @@
 import React from 'react';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 
-import { CoeDocumentList } from './CoeDocumentList';
+import DocumentList from '../DocumentList';
+import StatusBox from '../../../shared/components/StatusBox';
 
-export const CoeDenied = ({ applicationCreateDate }) => {
-  const requestDate = moment(applicationCreateDate).format('MMMM DD, YYYY');
-
+export const Denied = ({ referenceNumber, requestDate }) => {
   return (
     <div className="row vads-u-margin-bottom--7">
       <div className="medium-8 columns">
-        <va-alert status="info">
-          <h2 slot="headline" className="vads-u-font-size--h3">
-            We denied your request for a COE
-          </h2>
-          <p>You requested a COE on: {requestDate}</p>
-          <p>We reviewed your request. You don’t qualify for a COE.</p>
-        </va-alert>
+        <StatusBox.Denied
+          referenceNumber={referenceNumber}
+          requestDate={requestDate}
+        />
         <h2>Can I appeal VA’s decision?</h2>
         <p>
           If you disagree with our decision, and it’s dated on or after February
@@ -36,7 +31,7 @@ export const CoeDenied = ({ applicationCreateDate }) => {
           <br />
           <a href="/track-claims">Check your VA claim or appeal status</a>
         </p>
-        <CoeDocumentList />
+        <DocumentList />
         <h2>What if I have more questions?</h2>
         <p>
           Get answers to frequently asked questions about decision reviews.
@@ -50,6 +45,9 @@ export const CoeDenied = ({ applicationCreateDate }) => {
   );
 };
 
-CoeDenied.propTypes = {
-  applicationCreateDate: PropTypes.number,
+Denied.propTypes = {
+  referenceNumber: PropTypes.string.isRequired,
+  requestDate: PropTypes.number,
 };
+
+export default Denied;

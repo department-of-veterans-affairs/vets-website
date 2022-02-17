@@ -6,12 +6,13 @@ import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
-import { notLoggedInContent } from './introduction-content/notLoggedInContent';
-import COEIntroPageBox from './introduction-content/COEIntroPageBox';
-import LoggedInContent from './introduction-content/loggedInContent';
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
+import AuthenticatedContent from '../components/introduction/AuthenticatedContent';
+import IntroPageBox from '../components/introduction/IntroPageBox';
+import UnauthenticatedContent from '../components/introduction/UnauthenticatedContent';
 
 const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
+  const referenceNumber = 'XXXXXXXX';
   let content;
 
   useEffect(() => {
@@ -24,18 +25,19 @@ const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
   const coeCallEnded = [CALLSTATUS.failed, CALLSTATUS.success, CALLSTATUS.skip];
 
   if (!loggedIn && coeCallEnded.includes(status)) {
-    content = notLoggedInContent(route);
+    content = <UnauthenticatedContent route={route} />;
   }
   if (loggedIn && coeCallEnded.includes(status)) {
     content = (
       <>
-        <COEIntroPageBox
-          applicationCreateDate={coe.applicationCreateDate}
+        <IntroPageBox
           downloadUrl={downloadUrl}
+          referenceNumber={referenceNumber}
+          requestDate={coe.applicationCreateDate}
           status={coe.status}
         />
         {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
-          <LoggedInContent route={route} />
+          <AuthenticatedContent route={route} />
         )}
       </>
     );
@@ -50,13 +52,6 @@ const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
       {content}
     </>
   );
-};
-
-IntroductionPage.propTypes = {
-  coe: PropTypes.object,
-  downloadUrl: PropTypes.string,
-  loggedIn: PropTypes.bool,
-  status: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
