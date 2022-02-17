@@ -1,5 +1,5 @@
-import * as addressUtils from '../address/helpers';
 import { expect } from 'chai';
+import * as addressUtils from '../address/helpers';
 
 // Examples from:
 // https://github.com/department-of-veterans-affairs/vets-api/blob/1efd2c206859b1a261e762a50cdb44dc8b66462d/spec/factories/pciu_address.rb#L34
@@ -41,6 +41,15 @@ const military = {
 };
 
 describe('formatAddress', () => {
+  it('should not throw an error with a null address', () => {
+    const expectedResult = {
+      street: '',
+      cityStateZip: '',
+      country: '',
+    };
+
+    expect(addressUtils.formatAddress(null)).to.deep.equal(expectedResult);
+  });
   it('formats domestic addresses with three street lines', () => {
     const expectedResult = {
       street: '140 Rock Creek Church Rd NW, Apt 57, Area Name',

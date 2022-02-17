@@ -11,10 +11,13 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
-import debtsSuccess from '../fixtures/debts.json';
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
+import {
+  debtsSuccess,
+  debtsSuccessEmpty,
+} from '../fixtures/test-debts-response';
 import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
 import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 
 describe('The My VA Dashboard - Notifications', () => {
   describe('when the feature is hidden', () => {
@@ -74,6 +77,7 @@ describe('The My VA Dashboard - Notifications', () => {
       cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
     });
     it('and they have no debt - C13979', () => {
+      cy.intercept('/v0/debts', debtsSuccessEmpty());
       cy.findByTestId('dashboard-notifications').should('not.exist');
 
       // make the a11y check
@@ -81,7 +85,7 @@ describe('The My VA Dashboard - Notifications', () => {
       cy.axeCheck();
     });
     it('and they have a debt - C13025', () => {
-      cy.intercept('/v0/debts', debtsSuccess);
+      cy.intercept('/v0/debts', debtsSuccess());
       cy.findByTestId('dashboard-notifications').should('exist');
 
       // make the a11y check

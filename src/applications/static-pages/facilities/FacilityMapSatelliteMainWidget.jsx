@@ -123,9 +123,9 @@ export class FacilityMapSatelliteMainWidget extends React.Component {
 }
 
 const mapStateToProps = store => ({
-  facility: store.facility.data,
-  loading: store.facility.loading,
-  error: store.facility.error,
+  facility: store.facility.mainOfficeData,
+  loading: store.facility.mainOfficeLoading,
+  error: store.facility.mainOfficeError,
 });
 
 FacilityMapSatelliteMainWidget.propTypes = {

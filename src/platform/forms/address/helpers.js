@@ -1,5 +1,5 @@
-import ADDRESS_DATA from './data';
 import countries from '@@vap-svc/constants/countries.json';
+import ADDRESS_DATA from './data';
 
 const STATE_NAMES = ADDRESS_DATA.states;
 
@@ -80,7 +80,7 @@ export function formatAddress(address) {
     province,
     stateCode,
     zipCode,
-  } = address;
+  } = address || {};
 
   let cityStateZip = '';
 
@@ -126,7 +126,7 @@ export function formatAddress(address) {
       break;
 
     default:
-      cityStateZip = address.city;
+      cityStateZip = address?.city || '';
   }
 
   return { street, cityStateZip, country };
