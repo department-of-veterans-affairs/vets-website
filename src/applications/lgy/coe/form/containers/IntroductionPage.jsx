@@ -7,9 +7,9 @@ import { isLoggedIn } from 'platform/user/selectors';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
-import AuthenticatedContent from '../components/introduction/AuthenticatedContent';
-import IntroPageBox from '../components/introduction/IntroPageBox';
-import UnauthenticatedContent from '../components/introduction/UnauthenticatedContent';
+import loggedInContent from './introduction-content/loggedInContent';
+import COEIntroPageBox from './introduction-content/COEIntroPageBox';
+import notLoggedInContent from './introduction-content/notLoggedInContent';
 
 const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
   const referenceNumber = 'XXXXXXXX';
@@ -25,19 +25,19 @@ const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
   const coeCallEnded = [CALLSTATUS.failed, CALLSTATUS.success, CALLSTATUS.skip];
 
   if (!loggedIn && coeCallEnded.includes(status)) {
-    content = <UnauthenticatedContent route={route} />;
+    content = notLoggedInContent(route);
   }
   if (loggedIn && coeCallEnded.includes(status)) {
     content = (
       <>
-        <IntroPageBox
+        <COEIntroPageBox
           downloadUrl={downloadUrl}
           referenceNumber={referenceNumber}
           requestDate={coe.applicationCreateDate}
           status={coe.status}
         />
         {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
-          <AuthenticatedContent route={route} />
+          <loggedInContent route={route} />
         )}
       </>
     );

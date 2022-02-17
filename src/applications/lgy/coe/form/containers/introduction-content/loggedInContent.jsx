@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
-const AuthenticatedContent = ({ route }) => (
+const LoggedInContent = ({ route }) => (
   <>
     <div className="process schemaform-process">
       <ol>
@@ -110,8 +110,8 @@ const AuthenticatedContent = ({ route }) => (
   </>
 );
 
-AuthenticatedContent.propTypes = {
+LoggedInContent.propTypes = {
   route: PropTypes.object,
 };
 
-export default AuthenticatedContent;
+export default LoggedInContent;

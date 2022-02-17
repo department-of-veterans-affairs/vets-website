@@ -2,9 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { COE_ELIGIBILITY_STATUS } from '../../../shared/constants';
-import { Available, Denied, Eligible, Ineligible, Pending } from '../statuses';
+import {
+  Available,
+  Denied,
+  Eligible,
+  Ineligible,
+  Pending,
+} from '../../components/statuses';
 
-const IntroPageBox = ({
+const COEIntroPageBox = ({
   downloadUrl,
   referenceNumber,
   requestDate,
@@ -52,11 +58,11 @@ const IntroPageBox = ({
   return <></>;
 };
 
-IntroPageBox.propTypes = {
+COEIntroPageBox.propTypes = {
   downloadUrl: PropTypes.string,
   referenceNumber: PropTypes.string,
   requestDate: PropTypes.number,
   status: PropTypes.string,
 };
 
-export default IntroPageBox;
+export default COEIntroPageBox;
