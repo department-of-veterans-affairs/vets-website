@@ -17,9 +17,9 @@ export const SearchForm = ({ fetchForms, fetching }) => {
   const [showQueryError, setShowQueryError] = useState(false);
 
   useEffect(() => {
-    // Check if URL query is zero chars
+    // Check if URL query is zero chars, disable error initially
     if (queryState.length === 0) setShowQueryError(false);
-    // Check if URL query is one char
+    // Check if URL query is one char, show error
     else if (queryState.length === 1) setShowQueryError(true);
     // If URL query is valid, fetch the forms.
     else if (queryState) {
@@ -39,7 +39,7 @@ export const SearchForm = ({ fetchForms, fetching }) => {
     // Derive the new query value.
     const q = event.target.value;
 
-    // If query is valid, then remove error.
+    // Set error if query is less than 2 chars
     if (!isLessThanTwoChars(q)) setShowQueryError(false);
 
     // Update our query in state
@@ -47,24 +47,18 @@ export const SearchForm = ({ fetchForms, fetching }) => {
     setQueryState(onlySpaces(q) ? q.trim() : q);
   };
 
-  // Handles losing focus on the input textbox
-  const handleFormBlur = e => {
-    setQueryState('');
-    setShowQueryError(true);
-    handleQueryChange(e);
-  };
-
   // Handles clicking the Search button
   const onSubmitHandler = event => {
     event.preventDefault();
 
     // Check if query is valid to search
-    const checkQueryState = queryState.length < 2;
+    const checkQueryState = isLessThanTwoChars(queryState);
     setShowQueryError(checkQueryState);
 
     // Return early if not valid
     if (checkQueryState) return;
 
+    // Fetch the forms if valid query
     fetchForms(queryState);
   };
 
@@ -82,10 +76,14 @@ export const SearchForm = ({ fetchForms, fetching }) => {
       >
         <label
           htmlFor="va-form-query"
-          className="vads-u-margin--0 vads-u-margin-bottom--1"
+          className={`vads-u-margin--0 ${
+            !showQueryError ? 'vads-u-margin-bottom--1' : ''
+          }`}
         >
           Enter a keyword, form name, or number
-          <span className="form-required-span">(*Required)</span>
+          {showQueryError && (
+            <span className="form-required-span">(*Required)</span>
+          )}
         </label>
 
         {showQueryError && (
@@ -103,7 +101,6 @@ export const SearchForm = ({ fetchForms, fetching }) => {
               className="usa-input vads-u-margin--0 vads-u-margin-bottom--2 vads-u-max-width--100 vads-u-width--full medium-screen:vads-u-margin-bottom--0"
               id="va-form-query"
               onChange={handleQueryChange}
-              onBlur={handleFormBlur}
               type="text"
               value={queryState}
             />
