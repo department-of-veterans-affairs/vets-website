@@ -8,6 +8,7 @@ import {
   orderProperties,
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import { createNotListedTextKey } from '@@profile/util/personal-information/personalInformationUtils';
 import get from '~/platform/forms-system/src/js/utilities/data/get';
 import set from '~/platform/forms-system/src/js/utilities/data/set';
 
@@ -44,15 +45,21 @@ function setFirstFields(id) {
 }
 
 class DeselectableObjectField extends React.Component {
-  static deselectBasedOnValue(name, value, formData) {
+  static deselectBasedOnValue(name, value, formData, fieldName) {
     const keys = Object.keys(formData);
 
     // handle the preferNotToAnswer option selected so that
     // all other options are set to false and deselected
     if (name === 'preferNotToAnswer' && value === true) {
       let formDataDeselected = { ...formData };
+      const notListedTextKey = createNotListedTextKey(fieldName);
       keys.forEach(key => {
         if (key !== 'preferNotToAnswer') {
+          // for not listed text field, need to set to empty string instead of false
+          if (key === notListedTextKey) {
+            formDataDeselected = set(notListedTextKey, '', formDataDeselected);
+            return;
+          }
           formDataDeselected = set(key, false, formDataDeselected);
         }
       });
@@ -121,6 +128,9 @@ class DeselectableObjectField extends React.Component {
   }
 
   onPropertyChange(name) {
+    const {
+      schema: { fieldName },
+    } = this.props;
     return value => {
       const formData = Object.keys(this.props.formData || {}).length
         ? this.props.formData
@@ -131,7 +141,12 @@ class DeselectableObjectField extends React.Component {
           );
 
       this.props.onChange(
-        DeselectableObjectField.deselectBasedOnValue(name, value, formData),
+        DeselectableObjectField.deselectBasedOnValue(
+          name,
+          value,
+          formData,
+          fieldName,
+        ),
       );
     };
   }
