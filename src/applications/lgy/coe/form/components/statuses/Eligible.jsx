@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ReviewAndDownload from '../../../shared/components/ReviewAndDownload';
 import StatusBox from '../../../shared/components/StatusBox';
 
-const COEEligible = ({ downloadUrl, referenceNumber }) => (
+const Eligible = ({ downloadUrl, referenceNumber }) => (
   <>
     <StatusBox.Eligible referenceNumber={referenceNumber} />
     <ReviewAndDownload downloadUrl={downloadUrl} />
@@ -25,9 +25,9 @@ const COEEligible = ({ downloadUrl, referenceNumber }) => (
   </>
 );
 
-COEEligible.propTypes = {
+Eligible.propTypes = {
   downloadUrl: PropTypes.string.isRequired,
   referenceNumber: PropTypes.string.isRequired,
 };
 
-export default COEEligible;
+export default Eligible;
