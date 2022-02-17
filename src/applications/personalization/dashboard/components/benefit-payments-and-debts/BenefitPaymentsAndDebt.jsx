@@ -71,6 +71,7 @@ const BenefitPaymentsAndDebt = ({
                 icon="user-check"
                 newTab
                 text="View your payment history"
+                /* eslint-disable react/jsx-no-bind */
                 onClick={() => {
                   recordEvent({
                     event: 'nav-linkslist',
@@ -78,6 +79,7 @@ const BenefitPaymentsAndDebt = ({
                     'links-list-section-header': 'Benefit payments and debts',
                   });
                 }}
+                /* eslint-enable react/jsx-no-bind */
                 testId="view-payment-history-link"
               />
             )}
@@ -87,6 +89,7 @@ const BenefitPaymentsAndDebt = ({
               icon="dollar-sign"
               newTab
               text="Manage your direct deposit"
+              /* eslint-disable react/jsx-no-bind */
               onClick={() => {
                 recordEvent({
                   event: 'nav-linkslist',
@@ -94,6 +97,7 @@ const BenefitPaymentsAndDebt = ({
                   'links-list-section-header': 'Direct deposit',
                 });
               }}
+              /* eslint-enable react/jsx-no-bind */
               testId="manage-direct-deposit-link"
             />
             {debtsCount < 1 && (
@@ -102,6 +106,7 @@ const BenefitPaymentsAndDebt = ({
                 icon="file-invoice-dollar"
                 newTab
                 text="Learn about VA debt"
+                /* eslint-disable react/jsx-no-bind */
                 onClick={() => {
                   recordEvent({
                     event: 'nav-linkslist',
@@ -109,6 +114,7 @@ const BenefitPaymentsAndDebt = ({
                     'links-list-section-header': 'Learn about VA debt',
                   });
                 }}
+                /* eslint-enable react/jsx-no-bind */
                 testId="learn-va-debt-link"
               />
             )}
