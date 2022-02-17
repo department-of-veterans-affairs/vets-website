@@ -38,7 +38,7 @@ import homeless from '../pages/homeless';
 import contestableIssues from '../pages/contestableIssues';
 import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
-import optIn from '../pages/optIn';
+import filingDeadlines from '../pages/filingDeadlines';
 import issueSummary from '../pages/issueSummary';
 import boardReview from '../pages/boardReview';
 import evidenceIntro from '../pages/evidenceIntro';
@@ -150,6 +150,12 @@ const formConfig = {
     conditions: {
       title: 'Issues for review',
       pages: {
+        filingDeadlines: {
+          title: 'Filing deadlines',
+          path: 'filing-deadlines',
+          uiSchema: filingDeadlines.uiSchema,
+          schema: filingDeadlines.schema,
+        },
         contestableIssues: {
           title: 'Issues eligible for review',
           path: contestableIssuesPath,
@@ -174,12 +180,6 @@ const formConfig = {
           arrayPath: 'areaOfDisagreement',
           uiSchema: areaOfDisagreementFollowUp.uiSchema,
           schema: areaOfDisagreementFollowUp.schema,
-        },
-        optIn: {
-          title: 'Opt in',
-          path: 'opt-in',
-          uiSchema: optIn.uiSchema,
-          schema: optIn.schema,
         },
         issueSummary: {
           title: 'Issue summary',

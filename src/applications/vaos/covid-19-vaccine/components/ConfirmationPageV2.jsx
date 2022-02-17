@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import moment from '../../lib/moment-tz.js';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event.js';
+import moment from '../../lib/moment-tz.js';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import {
   getTimezoneAbbrByFacilityId,
@@ -42,7 +43,6 @@ function ConfirmationPageV2({
     : moment(slot.start);
 
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
-
   return (
     <div>
       <h1 className="vads-u-font-size--h2">
@@ -68,8 +68,13 @@ function ConfirmationPageV2({
           <Link to="/new-appointment">Schedule a new appointment</Link>
         </div>
       </InfoAlert>
+      <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
+        Type of care:
+      </h2>
+      <div className="vads-u-display--inline"> COVID-19 vaccine</div>
+
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-        <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
+        <div className="vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
           <h2
             className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
             data-cy="va-appointment-details-header"
@@ -123,3 +128,11 @@ function ConfirmationPageV2({
 }
 
 export default connect(selectConfirmationPage)(ConfirmationPageV2);
+
+ConfirmationPageV2.propTypes = {
+  clinic: PropTypes.object,
+  data: PropTypes.object,
+  facilityDetails: PropTypes.object,
+  slot: PropTypes.object,
+  submitStatus: PropTypes.string,
+};
