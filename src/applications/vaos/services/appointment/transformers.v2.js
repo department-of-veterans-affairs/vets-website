@@ -122,8 +122,18 @@ export function transformVAOSAppointment(appt) {
   let requestFields = {};
   if (isRequest) {
     const created = moment.parseZone(appt.created).format('YYYY-MM-DD');
+    const reqPeriods = appt.requestedPeriods.map(d => ({
+      start: moment
+        .utc(d.start)
+        .toISOString()
+        .replace('Z', ''),
+      end: moment
+        .utc(d.end)
+        .toISOString()
+        .replace('Z', ''),
+    }));
     requestFields = {
-      requestedPeriod: appt.requestedPeriods,
+      requestedPeriod: reqPeriods,
       created,
       reason: PURPOSE_TEXT.find(
         purpose => purpose.serviceName === appt.reasonCode?.coding?.[0].code,
@@ -173,7 +183,7 @@ export function transformVAOSAppointment(appt) {
     // This contains the vista status for v0 appointments, but
     // we don't have that for v2, so this is a made up status
     description: appt.kind !== 'cc' ? 'VAOS_UNKNOWN' : null,
-    minutesDuration: isNaN(parseInt(appt.minutesDuration, 10))
+    minutesDuration: Number.isNaN(parseInt(appt.minutesDuration, 10))
       ? 60
       : appt.minutesDuration,
     location: {

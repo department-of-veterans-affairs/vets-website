@@ -992,4 +992,103 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
 
     expect(screen.baseElement).not.to.contain.text('Canceled');
   });
+
+  it('should render CC request with correct requested dates', async () => {
+    const ccAppointmentRequest = getVAOSRequestMock();
+    ccAppointmentRequest.id = '1234';
+
+    ccAppointmentRequest.attributes = {
+      cancellable: true,
+      comment: 'A message from the patient',
+      contact: {
+        telecom: [
+          { type: 'phone', value: '2125551212' },
+          { type: 'email', value: 'veteranemailtest@va.gov' },
+        ],
+      },
+      kind: 'cc',
+      locationId: '983GC',
+      id: '1234',
+      practitioners: [{ identifier: [{ value: '123' }] }],
+      preferredTimesForPhoneCall: ['Morning'],
+      reason: 'New Issue',
+      requestedPeriods: [
+        {
+          start: `${moment(testDate)
+            .add(3, 'days')
+            .format('YYYY-MM-DD')}T00:00:00Z`,
+        },
+        {
+          start: `${moment(testDate)
+            .add(3, 'days')
+            .format('YYYY-MM-DD')}T12:00:00Z`,
+        },
+      ],
+      serviceType: '203',
+      start: null,
+      status: 'proposed',
+    };
+
+    mockSingleVAOSRequestFetch({ request: ccAppointmentRequest });
+
+    const ccProvider = {
+      id: '123',
+      type: 'provider',
+      attributes: {
+        address: {},
+        caresitePhone: null,
+        name: 'Atlantic Medical Care',
+        lat: null,
+        long: null,
+        uniqueId: '123',
+      },
+    };
+    mockCCSingleProviderFetch(ccProvider);
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: initialStateVAOSService,
+      path: `/requests/${ccAppointmentRequest.id}`,
+    });
+
+    // Verify page content...
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: 'Pending audiology and speech appointment',
+      }),
+    ).to.be.ok;
+
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'Preferred date and time',
+      }),
+    ).to.be.ok;
+
+    expect(
+      screen.getByText(
+        `${moment(
+          ccAppointmentRequest.attributes.requestedPeriods[0].start.replace(
+            'Z',
+            '',
+          ),
+        ).format('ddd, MMMM D, YYYY')} in the morning`,
+      ),
+    ).to.be.ok;
+
+    expect(
+      screen.getByText(
+        `${moment(
+          ccAppointmentRequest.attributes.requestedPeriods[1].start.replace(
+            'Z',
+            '',
+          ),
+        ).format('ddd, MMMM D, YYYY')} in the afternoon`,
+      ),
+    ).to.be.ok;
+  });
 });
