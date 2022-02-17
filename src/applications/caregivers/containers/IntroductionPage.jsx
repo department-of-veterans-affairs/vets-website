@@ -98,7 +98,7 @@ export const IntroductionPage = ({
                         your application, you can apply by mail or in person.
                       </p>
                       <p>
-                        <a href="/family-member-benefits/comprehensive-assistance-for-family-caregivers/##how-do-I-apply-for-this-program">
+                        <a href="/family-member-benefits/comprehensive-assistance-for-family-caregivers/#how-do-i-apply-for-this-progra">
                           Get instructions for how to apply for the PCAFC
                           program by mail or in person
                         </a>
