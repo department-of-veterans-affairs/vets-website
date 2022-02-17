@@ -47,6 +47,12 @@ const pronounsLabels = {
   pronounsNotListed: 'Pronouns not listed here',
 };
 
+const allLabels = {
+  pronouns: pronounsLabels,
+  genderIdentity: genderLabels,
+  sexualOrientation: sexualOrientationLabels,
+};
+
 export const personalInformationFormSchemas = {
   preferredName: {
     type: 'object',
@@ -135,47 +141,24 @@ export const personalInformationUiSchemas = {
   },
 };
 
-export const formatPronouns = (pronounValues, pronounsNotListedText = '') => {
-  if (pronounValues.includes('pronounsNotListed') && !pronounsNotListedText) {
-    throw new Error(
-      'pronounsNotListedText must be provided if pronounsNotListed is in selected pronouns array',
-    );
+export const formatMultiSelectAndText = (data, fieldName) => {
+  const notListedTextKey = `${fieldName}NotListedText`;
+
+  const fieldLength = data?.[fieldName]?.length;
+
+  // handle no checkboxes selected and only a text field value
+  if ((!fieldLength || fieldLength < 1) && data[notListedTextKey]) {
+    return data[notListedTextKey];
   }
 
-  if (pronounValues.length === 1) {
-    return pronounValues.includes('pronounsNotListed')
-      ? pronounsNotListedText
-      : pronounsLabels[pronounValues[0]];
-  }
+  const mergedValues = [
+    ...data[fieldName].map(key => allLabels[fieldName][key]),
+    ...(data?.[notListedTextKey] ? [data[notListedTextKey]] : []),
+  ];
 
-  return pronounValues
-    .map(pronounKey => {
-      return pronounKey === 'pronounsNotListed'
-        ? pronounsNotListedText
-        : pronounsLabels[pronounKey];
-    })
-    .join(', ');
-};
+  if (mergedValues.length > 0) return mergedValues.join(', ');
 
-export const formatGenderIdentity = genderKey => genderLabels?.[genderKey];
-
-export const formatSexualOrientation = (
-  sexualOrientationKey,
-  sexualOrientationNotListedText = '',
-) => {
-  if (
-    sexualOrientationKey === 'sexualOrientationNotListed' &&
-    !sexualOrientationNotListedText
-  ) {
-    throw new Error(
-      'sexualOrientationNotListedText must be provided if sexualOrientationNotListed is selected',
-    );
-  }
-
-  if (sexualOrientationKey !== 'sexualOrientationNotListed') {
-    return sexualOrientationLabels[sexualOrientationKey];
-  }
-  return sexualOrientationNotListedText;
+  return null;
 };
 
 export const renderGender = gender => {
