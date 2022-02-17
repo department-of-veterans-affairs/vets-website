@@ -17,26 +17,31 @@ const initialState = {
   multidata: {},
   multiLoading: {},
   multiError: {},
+  mainOfficeLoading: false,
+  mainOfficeData: {},
+  mainOfficeError: false,
 };
 
 function retrieveMultiLoading(state) {
-  return state.multiLoading ? state.multiLoading : {};
+  return state.multiLoading ? { ...state.multiLoading } : {};
 }
 
 function retrieveMultiError(state) {
-  return state.multiError ? state.multiError : {};
+  return state.multiError ? { ...state.multiError } : {};
 }
 
 function retrieveMultiData(state) {
-  return state.multidata ? state.multidata : {};
-}
-
-function retrieveData(state) {
-  return state.data ? state.data : {};
+  return state.multidata ? { ...state.multidata } : {};
 }
 
 export function facilityReducer(state = initialState, action) {
   switch (action.type) {
+    case FETCH_FACILITY_STARTED:
+      return { ...state, data: {}, loading: true, error: false };
+    case FETCH_FACILITY_SUCCESS:
+      return { ...state, data: action.facility, loading: false, error: false };
+    case FETCH_FACILITY_FAILED:
+      return { ...state, data: {}, loading: false, error: true };
     case FETCH_MULTI_FACILITY_STARTED: {
       const tempMultiData = retrieveMultiData(state);
       const tempMultiLoading = retrieveMultiLoading(state);
@@ -51,19 +56,6 @@ export function facilityReducer(state = initialState, action) {
         multiLoading: tempMultiLoading,
       };
     }
-    case FETCH_MAIN_SATELLITE_LOCATION_STARTED:
-      return { ...state, data: {}, loading: true, error: false };
-    case FETCH_FACILITY_STARTED:
-      return { ...state, data: {}, loading: true, error: false };
-    case FETCH_FACILITY_SUCCESS:
-      return { data: action.facility, loading: false, error: false };
-    case FETCH_MAIN_SATELLITE_LOCATION_SUCCESS:
-      return {
-        multidata: retrieveMultiData(state),
-        data: action.facility,
-        loading: false,
-        error: false,
-      };
     case FETCH_MULTI_FACILITY_SUCCESS: {
       const tempMultiData = retrieveMultiData(state);
       const tempMultiLoading = retrieveMultiLoading(state);
@@ -78,15 +70,6 @@ export function facilityReducer(state = initialState, action) {
         multiLoading: tempMultiLoading,
       };
     }
-    case FETCH_FACILITY_FAILED:
-      return { data: {}, loading: false, error: true };
-    case FETCH_MAIN_SATELLITE_LOCATION_FAILED:
-      return {
-        data: retrieveData(state),
-        multidata: retrieveMultiData(state),
-        loading: false,
-        error: true,
-      };
     case FETCH_MULTI_FACILITY_FAILED: {
       const tempMultiData = retrieveMultiData(state);
       const tempMultiLoading = retrieveMultiLoading(state);
@@ -101,6 +84,27 @@ export function facilityReducer(state = initialState, action) {
         multiLoading: tempMultiLoading,
       };
     }
+    case FETCH_MAIN_SATELLITE_LOCATION_STARTED:
+      return {
+        ...state,
+        mainOfficeData: {},
+        mainOfficeLoading: true,
+        mainOfficeError: false,
+      };
+    case FETCH_MAIN_SATELLITE_LOCATION_SUCCESS:
+      return {
+        ...state,
+        mainOfficeData: action.facility,
+        mainOfficeLoading: false,
+        mainOfficeError: false,
+      };
+    case FETCH_MAIN_SATELLITE_LOCATION_FAILED:
+      return {
+        ...state,
+        mainOfficeData: {},
+        mainOfficeLoading: false,
+        mainOfficeError: true,
+      };
     default:
       return state;
   }

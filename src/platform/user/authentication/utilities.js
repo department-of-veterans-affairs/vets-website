@@ -59,10 +59,25 @@ export function sessionTypeUrl({
   const base = `${environment.API_URL}/${version}/sessions`;
   const searchParams = new URLSearchParams(queryParams);
 
+  const { application } = getQueryParams();
+
+  // Only require verification when all of the following are true:
+  // 1. On the USiP (Unified Sign In Page)
+  // 2. The outbound application is one of the mobile apps
+  // 3. The generated link type is for signup, and login only
+  const requireVerification =
+    isExternalRedirect() &&
+    [EXTERNAL_APPS.VA_OCC_MOBILE, EXTERNAL_APPS.VA_FLAGSHIP_MOBILE].includes(
+      application,
+    ) &&
+    [...Object.values(SIGNUP_TYPES), ...Object.values(CSP_IDS)].includes(type)
+      ? '_verified'
+      : '';
+
   const queryString =
     searchParams.toString() === '' ? '' : `?${searchParams.toString()}`;
 
-  return `${base}/${type}/new${queryString}`;
+  return `${base}/${type}${requireVerification}/new${queryString}`;
 }
 
 export function setSentryLoginType(loginType) {
@@ -116,16 +131,26 @@ export function createExternalRedirectUrl({ base, returnUrl, application }) {
     }&redirect=${returnUrl}&postLogin=true`,
     [EXTERNAL_APPS.MY_VA_HEALTH]: `${base}`,
     [EXTERNAL_APPS.EBENEFITS]: `${base}`,
+    [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: `${base}`,
+    [EXTERNAL_APPS.VA_OCC_MOBILE]: `${base}`,
   }[application];
 }
 
 export function standaloneRedirect() {
   const { application, to } = getQueryParams();
 
-  return fixUrl(
-    EXTERNAL_REDIRECTS[application] ?? null,
-    generatePath(application, to),
-  );
+  const externalRedirectUrl = EXTERNAL_REDIRECTS[application] ?? null;
+
+  if (
+    [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE, EXTERNAL_APPS.VA_OCC_MOBILE].includes(
+      application,
+    ) &&
+    externalRedirectUrl
+  ) {
+    return fixUrl(`${externalRedirectUrl}${window.location.search}`, '');
+  }
+
+  return fixUrl(externalRedirectUrl, generatePath(application, to));
 }
 
 export function redirect(redirectUrl, clickedEvent) {

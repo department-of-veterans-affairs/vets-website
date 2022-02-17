@@ -26,6 +26,11 @@ export class FacilityMapWidgetDynamic extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { facilityID, dipatchFetchMultiFacility } = this.props;
+    dipatchFetchMultiFacility(facilityID);
+  }
+
   cleanAddress(address, lat, long) {
     if (address && address.length !== 0) {
       return address.join(', ');
@@ -72,9 +77,11 @@ export class FacilityMapWidgetDynamic extends React.Component {
   }
 
   render() {
+    const { lat, long, address } = this.state;
     const { multiError, multiLoading, facilityID } = this.props;
     const loading = multiLoading ? multiLoading[facilityID] : false;
     const error = multiError ? multiError[facilityID] : false;
+
     if (loading) {
       return <LoadingIndicator message="Loading facility..." />;
     }
@@ -82,7 +89,7 @@ export class FacilityMapWidgetDynamic extends React.Component {
     if (error) {
       return null;
     }
-    const { lat, long, address } = this.state;
+
     if (lat === 0 && long === 0) {
       return <div />;
     }
@@ -109,10 +116,10 @@ export class FacilityMapWidgetDynamic extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  facilities: state.facility.multidata,
-  multiLoading: state.facility.multiLoading,
-  multiError: state.facility.multiError,
+const mapStateToProps = store => ({
+  facilities: store.facility.multidata,
+  multiLoading: store.facility.multiLoading,
+  multiError: store.facility.multiError,
 });
 
 FacilityMapWidgetDynamic.propTypes = {

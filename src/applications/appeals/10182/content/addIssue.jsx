@@ -30,7 +30,7 @@ export const issueNameLabel = (
 
 export const dateOfDecisionLabel = (
   <>
-    <strong>Date of decision</strong>
+    <strong>Date of notification of the decision</strong>
     <span className="form-required-span">(*Required)</span>
     <p className="vads-u-font-weight--normal label-description">
       You can find the decision date on your decision notice (the letter you got
