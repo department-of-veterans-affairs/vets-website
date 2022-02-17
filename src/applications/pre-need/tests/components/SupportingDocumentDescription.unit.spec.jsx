@@ -8,7 +8,7 @@ describe('<SupportingDocumentsDescription>', () => {
   it('should render', () => {
     const tree = shallow(<SupportingDocumentsDescription />);
 
-    expect(tree.find('AdditionalInfo').length).to.equal(2);
+    expect(tree.find('va-additional-info').length).to.equal(2);
     tree.unmount();
   });
   it('should render service member text', () => {
