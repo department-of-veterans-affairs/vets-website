@@ -7,15 +7,21 @@ import { formatReadableMonthYear } from '../helpers';
 
 const verifiedMonthStatusMessage = (
   <p className="ev-enrollment-month_message">
-    <i className="fa fa-check-circle vads-u-color--green" /> You verified this
-    month
+    <i
+      className="fa fa-check-circle vads-u-color--green vads-u-margin-right--1"
+      aria-hidden="true"
+    />{' '}
+    You verified this month
   </p>
 );
 const notVerifiedMonthStatusMessage = (
   <>
     <p className="ev-enrollment-month_message">
-      <i className="fas fa-exclamation-triangle" /> You haven’t verified this
-      month
+      <i
+        className="fas fa-exclamation-triangle vads-u-margin-right--1"
+        aria-hidden="true"
+      />{' '}
+      You haven’t verified this month
     </p>
     <VerifyYourEnrollments />
   </>
@@ -23,7 +29,10 @@ const notVerifiedMonthStatusMessage = (
 const needToVerifyMonthStatusMessage = (
   <>
     <p className="ev-enrollment-month_message">
-      <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
+      <i
+        className="fas fa-exclamation-circle vads-u-color--secondary-dark vads-u-margin-right--1"
+        aria-hidden="true"
+      />{' '}
       You need to verify this month
     </p>
     <VerifyYourEnrollments />
@@ -31,7 +40,10 @@ const needToVerifyMonthStatusMessage = (
 );
 const contactScoMonthStatusMessage = (
   <p className="ev-enrollment-month_message">
-    <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
+    <i
+      className="fas fa-exclamation-circle vads-u-color--secondary-dark vads-u-margin-right--1"
+      aria-hidden="true"
+    />{' '}
     Contact your School Certifying Official to update enrollment information
   </p>
 );

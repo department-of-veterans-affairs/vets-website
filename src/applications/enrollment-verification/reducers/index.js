@@ -6,6 +6,7 @@ import {
 	FETCH_VERIFICATION_STATUS_FAILURE,
   FETCH_VERIFICATION_STATUS_SUCCESS,
   PAYMENT_STATUS,
+  UPDATE_VERIFICATION_STATUS_MONTHS,
 } from '../actions';
 
 const initialState = {
@@ -222,6 +223,14 @@ export default {
               },
             ]
           }
+        };
+      case UPDATE_VERIFICATION_STATUS_MONTHS:
+        return {
+          ...state,
+          verificationStatus: {
+            ...state.verificationStatus,
+            months: action?.payload,
+          },
         };
       case EDIT_MONTH_VERIFICATION: 
         return {

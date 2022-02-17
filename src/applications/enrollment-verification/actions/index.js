@@ -24,6 +24,7 @@ export const PAYMENT_STATUS = {
 };
 
 export const EDIT_MONTH_VERIFICATION = 'EDIT_MONTH_VERIFICATION';
+export const UPDATE_VERIFICATION_STATUS_MONTHS = 'UPDATE_VERIFICATION_STATUS';
 
 export function fetchPost911GiBillEligibility() {
   const POST_911_GI_BILL_ELIGIBILITY_ENDPOINT = `${
