@@ -155,8 +155,8 @@ class ProfileInformationFieldController extends React.Component {
     } else if (
       forceEditView &&
       typeof successCallback === 'function' &&
-      prevProps.transactionRequest?.isPending &&
-      !this.props.transactionRequest?.isPending
+      prevProps.transactionRequest &&
+      !this.props.transactionRequest
     ) {
       // Success callback (non-address) after updating a field
       successCallback();
