@@ -42,7 +42,7 @@ export function fetchPersonalInformation() {
     let response;
 
     // TODO: update to call profile endpoint when api is ready
-    if (env.isLocalhost() || env.isDev()) {
+    if (env.isLocalhost() && !window.Cypress) {
       response = mockPersonalInformationEnhanced.data.attributes;
     } else {
       response = await getData('/profile/personal_information');
