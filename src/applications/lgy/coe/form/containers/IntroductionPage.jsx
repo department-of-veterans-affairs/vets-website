@@ -7,9 +7,9 @@ import { isLoggedIn } from 'platform/user/selectors';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
-import loggedInContent from './introduction-content/loggedInContent';
+import LoggedInContent from './introduction-content/loggedInContent';
 import COEIntroPageBox from './introduction-content/COEIntroPageBox';
-import notLoggedInContent from './introduction-content/notLoggedInContent';
+import { notLoggedInContent } from './introduction-content/notLoggedInContent';
 
 const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
   const referenceNumber = 'XXXXXXXX';
@@ -37,7 +37,7 @@ const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
           status={coe.status}
         />
         {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
-          <loggedInContent route={route} />
+          <LoggedInContent route={route} />
         )}
       </>
     );
