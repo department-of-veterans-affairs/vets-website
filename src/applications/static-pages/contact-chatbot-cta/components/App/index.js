@@ -12,22 +12,21 @@ export const App = ({ show }) => {
     <va-alert status="info">
       {/* Title */}
       <h2 slot="headline" className="vads-u-font-size--h3">
-        VA Virtual Agent
+        VA virtual agent
       </h2>
 
       {/* Explanation */}
       <p>
-        Use our virtual agent (chatbot) to get answers to your questions about
-        VA benefits and services, and helpful links to find more information on
-        our site.
+        You can also use our virtual agent (chatbot) to get information about VA
+        benefits and services.
       </p>
 
       {/* Call to action link */}
       <a
         className="vads-c-action-link--blue vads-u-margin-top--2"
-        href="/virtual-agent-study/"
+        href="/contact-us/virtual-agent/"
       >
-        Chat with our Virtual Agent
+        Go to the virtual agent
       </a>
     </va-alert>
   );
@@ -39,7 +38,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  show: state?.featureToggles?.showChatbot,
+  show: state?.featureToggles?.showContactChatbot,
 });
 
 export default connect(mapStateToProps)(App);

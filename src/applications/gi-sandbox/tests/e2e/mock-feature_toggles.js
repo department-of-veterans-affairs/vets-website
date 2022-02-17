@@ -732,6 +732,14 @@ export const mockTogglesResponse = {
         value: true,
       },
       {
+        name: 'showContactChatbot',
+        value: true,
+      },
+      {
+        name: 'show_contact_chatbot',
+        value: true,
+      },
+      {
         name: 'showEduBenefits0994Wizard',
         value: false,
       },
