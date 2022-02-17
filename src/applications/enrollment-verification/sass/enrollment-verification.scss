@@ -24,6 +24,10 @@
 	border-left: 7px solid $color-primary-alt-dark;
 	padding-left: calc(2rem - 7px);
 }
+.ev-month-info-institutions {
+	list-style-type: none;
+}
+
 .ev-enrollment-month {
 	border-top: 1px solid $color-gray-lighter;
 	margin-top: 4px;

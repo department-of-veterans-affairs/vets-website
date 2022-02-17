@@ -4,6 +4,7 @@ export default function ReviewPausedInfo() {
   return (
     <va-alert
       background-only
+      class="vads-u-margin-bottom--2"
       close-btn-aria-label="Close notification"
       show-icon
       status="warning"

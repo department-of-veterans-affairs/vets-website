@@ -15,17 +15,18 @@ const months = [
   'December',
 ];
 
+export const ENROLLMENTS_TYPE = PropTypes.arrayOf(
+  PropTypes.shape({
+    institution: PropTypes.string.isRequired,
+    creditHours: PropTypes.number.isRequired,
+    startDate: PropTypes.string.isRequired,
+    endDate: PropTypes.string.isRequired,
+  }),
+);
 export const MONTH_PROP_TYPE = PropTypes.shape({
   month: PropTypes.string.isRequired,
   verified: PropTypes.bool.isRequired,
-  enrollments: PropTypes.arrayOf(
-    PropTypes.shape({
-      institution: PropTypes.string.isRequired,
-      creditHours: PropTypes.number.isRequired,
-      startDate: PropTypes.string.isRequired,
-      endDate: PropTypes.string.isRequired,
-    }),
-  ),
+  enrollments: ENROLLMENTS_TYPE,
 });
 
 export const ENROLLMENT_VERIFICATION_TYPE = PropTypes.shape({

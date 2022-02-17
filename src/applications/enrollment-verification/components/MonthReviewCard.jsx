@@ -10,7 +10,7 @@ import { formatReadableMonthYear, MONTH_PROP_TYPE } from '../helpers';
 import EnrollmentVerificationMonthInfo from './EnrollmentVerificationMonthInfo';
 
 const correctText = (
-  <p>
+  <p className="vads-u-margin-bottom--3">
     <i
       className="fa fa-check-circle vads-u-color--green vads-u-margin-right--1"
       aria-hidden="true"
@@ -20,7 +20,7 @@ const correctText = (
 );
 
 const incorrectText = (
-  <p>
+  <p className="vads-u-margin-bottom--3">
     <i
       className="fas fa-exclamation-circle vads-u-color--secondary-dark vads-u-margin-right--1"
       aria-hidden="true"
@@ -31,7 +31,7 @@ const incorrectText = (
 
 const cantVerifyText = informationIncorrectMonth => {
   return (
-    <p>
+    <p className="vads-u-margin-bottom--3">
       <i
         className="fas fa-exclamation-triangle vads-u-margin-right--1"
         aria-hidden="true"
@@ -44,9 +44,12 @@ const cantVerifyText = informationIncorrectMonth => {
 };
 
 const infoText = month => {
-  <p>
-    This is the enrollment information we have on file for you for {month}.
-  </p>;
+  return (
+    <p className="vads-u-margin-bottom--3">
+      This is the enrollment information we have on file for you for{' '}
+      {formatReadableMonthYear(month)}.
+    </p>
+  );
 };
 
 export default function MonthReviewCard({
@@ -79,7 +82,7 @@ export default function MonthReviewCard({
   );
 
   return (
-    <div className="ev-highlighted-content-container vads-u-margin-top--2">
+    <div className="ev-highlighted-content-container vads-u-margin-top--1">
       <header className="ev-highlighted-content-container_header">
         <h1 className="ev-highlighted-content-container_title vads-u-font-size--h3">
           {formatReadableMonthYear(month.month)}

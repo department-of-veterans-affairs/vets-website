@@ -6,6 +6,7 @@ import RadioButtons from '@department-of-veterans-affairs/component-library/Radi
 
 import {
   fetchVerificationStatus,
+  updateVerificationStatus,
   UPDATE_VERIFICATION_STATUS_MONTHS,
   VERIFICATION_STATUS_CORRECT,
   VERIFICATION_STATUS_INCORRECT,
@@ -155,6 +156,13 @@ export const VerifyEnrollmentsPage = ({
     ],
   );
 
+  const onSubmit = useCallback(
+    () => {
+      updateVerificationStatus(verificationStatus);
+    },
+    [verificationStatus],
+  );
+
   if (!verificationStatus || !unverifiedMonths) {
     return <EnrollmentVerificationLoadingIndicator />;
   }
@@ -176,7 +184,7 @@ export const VerifyEnrollmentsPage = ({
           total={unverifiedMonths.length + 1}
         />
 
-        <h2>
+        <h2 className="vads-u-font-size--h4 vads-u-margin-top--4 vads-u-margin-bottom--4">
           Step {unverifiedMonths.length + 1} of {unverifiedMonths.length + 1}:
           Review verifications
         </h2>
@@ -194,6 +202,26 @@ export const VerifyEnrollmentsPage = ({
           informationIncorrectMonth={informationIncorrectMonth}
           onEditMonth={onEditMonth}
         />
+
+        <button
+          type="button"
+          className="usa-button-secondary vads-u-margin-top--4"
+          id="1-continueButton"
+          onClick={onBackButtonClick}
+        >
+          <span className="button-icon" aria-hidden="true">
+            «&nbsp;
+          </span>
+          Back
+        </button>
+        <button
+          type="submit"
+          className="usa-button-primary vads-u-margin-top--4"
+          id="2-continueButton"
+          onClick={onSubmit}
+        >
+          Submit verification
+        </button>
       </EnrollmentVerificationPageWrapper>
     );
   }
@@ -207,10 +235,10 @@ export const VerifyEnrollmentsPage = ({
         total={unverifiedMonths.length + 1}
       />
 
-      <h4>
+      <h2 className="vads-u-font-size--h4 vads-u-margin-top--4 vads-u-margin-bottom--4">
         Step {currentMonth + 1} of {unverifiedMonths.length + 1}: Verify{' '}
         {formatReadableMonthYear(month.month)}
-      </h4>
+      </h2>
 
       <MonthReviewCard month={month} />
 

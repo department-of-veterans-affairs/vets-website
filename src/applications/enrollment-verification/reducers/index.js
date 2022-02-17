@@ -25,7 +25,7 @@ export default {
           ...state,
           verificationStatus: action?.response || {
             paymentStatus: PAYMENT_STATUS.ONGOING,
-            nextVerificationDate: '2022-02-01',
+            nextVerificationDate: '2022-03-01',
             months: [
               {
                 month: '2022-02',
@@ -33,15 +33,9 @@ export default {
                 enrollments: [
                   {
                     institution: 'Wake Forest University School of Business',
-                    creditHours: 9,
-                    startDate: '2022-02-01',
-                    endDate: '2022-02-31',
-                  },
-                  {
-                    institution: 'Adirondack Community College',
-                    creditHours: 6,
-                    startDate: '2022-02-01',
-                    endDate: '2022-02-31',
+                    creditHours: 15,
+                    startDate: '2022-01-01',
+                    endDate: '2022-01-31',
                   },
                 ],
               },
@@ -51,13 +45,7 @@ export default {
                 enrollments: [
                   {
                     institution: 'Wake Forest University School of Business',
-                    creditHours: 9,
-                    startDate: '2022-01-01',
-                    endDate: '2022-01-31',
-                  },
-                  {
-                    institution: 'Adirondack Community College',
-                    creditHours: 6,
+                    creditHours: 15,
                     startDate: '2022-01-01',
                     endDate: '2022-01-31',
                   },

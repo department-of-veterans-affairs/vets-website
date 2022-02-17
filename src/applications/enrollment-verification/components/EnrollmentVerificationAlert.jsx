@@ -27,8 +27,9 @@ const pausedAlert = (
     <h3 slot="headline">We’ve paused your monthly education payments</h3>
     <p>
       We had to pause your payments because you haven’t verified your
-      enrollment(s) for three months in a row. Please review and verify your
-      monthly enrollment(s) to get the payments you’re entitled to.
+      enrollment(s) for <strong>three months in a row</strong>. Please review
+      and verify your monthly enrollment(s) to get the payments you’re entitled
+      to.
     </p>
     <VerifyYourEnrollments />
   </va-alert>
