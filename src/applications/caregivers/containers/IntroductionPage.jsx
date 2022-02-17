@@ -176,10 +176,11 @@ export const IntroductionPage = ({
               <ul className="process-lists">
                 <li>
                   Call us at
-                  <va-telephone
-                    contact={CONTACTS.HEALTHCARE_ELIGIBILITY_CENTER}
-                    className="vads-u-margin-x--0p5"
-                  />
+                  <span className="vads-u-margin-x--0p5">
+                    <va-telephone
+                      contact={CONTACTS.HEALTHCARE_ELIGIBILITY_CENTER}
+                    />
+                  </span>
                   and ask for help filling out the form
                 </li>
                 <li>
@@ -196,10 +197,9 @@ export const IntroductionPage = ({
                 </li>
                 <li>
                   Contact the VA National Caregiver Support Line by calling
-                  <va-telephone
-                    className="vads-u-margin-x--0p5"
-                    contact={CONTACTS.CAREGIVER}
-                  />
+                  <span className="vads-u-margin-left--0p5">
+                    <va-telephone contact={CONTACTS.CAREGIVER} />
+                  </span>
                 </li>
               </ul>
 
@@ -260,10 +260,9 @@ export const IntroductionPage = ({
               You may also be eligible for the Program of General Caregiver
               Support Services (PGCSS). To find out more, call the VA Caregiver
               Support Line at
-              <va-telephone
-                contact={CONTACTS.CAREGIVER}
-                className="vads-u-margin-left--0p5"
-              />
+              <span className="vads-u-margin-left--0p5">
+                <va-telephone contact={CONTACTS.CAREGIVER} />
+              </span>
               , visit
               <a
                 target="_blank"
