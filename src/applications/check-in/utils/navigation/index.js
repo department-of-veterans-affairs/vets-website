@@ -77,6 +77,9 @@ const URLS = Object.freeze({
   UPDATE_INSURANCE: 'update-information',
   VALIDATION_NEEDED: 'verify',
   LOADING: 'loading-appointments',
+  EDIT_ADDRESS: 'edit-address',
+  EDIT_PHONE_NUMBER: 'edit-phone-number',
+  EDIT_EMAIL: 'edit-email',
 });
 
 export { updateFormPages, URLS };

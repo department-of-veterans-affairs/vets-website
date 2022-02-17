@@ -15,6 +15,8 @@ import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectVeteranData } from '../../../selectors';
 
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+
 const EmergencyContact = props => {
   const { router } = props;
 
@@ -25,7 +27,7 @@ const EmergencyContact = props => {
   const { emergencyContact } = demographics;
   const dispatch = useDispatch();
 
-  const { goToNextPage, goToPreviousPage } = useFormRouting(router);
+  const { goToNextPage, goToPreviousPage, jumpToPage } = useFormRouting(router);
 
   const buttonClick = useCallback(
     async answer => {
@@ -57,6 +59,9 @@ const EmergencyContact = props => {
     [buttonClick],
   );
 
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isEditingPreCheckInEnabled } = useSelector(selectFeatureToggles);
+
   return (
     <>
       <BackButton action={goToPreviousPage} router={router} />
@@ -66,6 +71,8 @@ const EmergencyContact = props => {
         noAction={noClick}
         isLoading={isSendingData}
         Footer={Footer}
+        jumpToPage={jumpToPage}
+        isEditEnabled={isEditingPreCheckInEnabled}
       />
       <BackToHome />
     </>

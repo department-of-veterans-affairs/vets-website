@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import DemographicItem from '../../DemographicItem';
@@ -13,10 +13,16 @@ const ConfirmablePage = ({
   isLoading = false,
   LoadingMessage = () => <va-loading-indicator message="Loading..." />,
   Footer,
+  isEditEnabled,
 }) => {
   useEffect(() => {
     focusElement('h1');
   }, []);
+
+  const editHandler = useCallback(dataToEdit => {
+    dataToEdit.editAction(dataToEdit);
+  }, []);
+
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 confirmable-page">
       <h1 data-testid="header">{header}</h1>
@@ -27,18 +33,33 @@ const ConfirmablePage = ({
       )}
       <div className="vads-u-border-color--primary vads-u-border-left--5px vads-u-margin-left--0p5 vads-u-padding-left--2">
         <dl data-testid="demographics-fields">
-          {dataFields.map(field => (
-            <React.Fragment key={field.key}>
-              <dt className="vads-u-font-weight--bold">{field.title}</dt>
-              <dd>
-                {field.key in data && data[field.key] ? (
-                  <DemographicItem demographic={data[field.key]} />
-                ) : (
-                  'Not available'
+          {dataFields.map(field => {
+            return (
+              <React.Fragment key={field.key}>
+                <dt className="vads-u-font-weight--bold">{field.title}</dt>
+                <dd>
+                  {field.key in data && data[field.key] ? (
+                    <DemographicItem demographic={data[field.key]} />
+                  ) : (
+                    'Not available'
+                  )}
+                </dd>
+                {isEditEnabled && (
+                  <div>
+                    <button
+                      // eslint-disable-next-line react/jsx-no-bind
+                      onClick={() =>
+                        editHandler({ ...field, value: data[field.key] })
+                      }
+                      type="button"
+                    >
+                      edit
+                    </button>
+                  </div>
                 )}
-              </dd>
-            </React.Fragment>
-          ))}
+              </React.Fragment>
+            );
+          })}
         </dl>
       </div>
       {isLoading ? (

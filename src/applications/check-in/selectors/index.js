@@ -58,6 +58,17 @@ const selectApp = createSelector(
 
 const makeSelectApp = () => selectApp;
 
+const selectEdit = createSelector(
+  state => {
+    return {
+      edit: state.checkInData.edit,
+    };
+  },
+  edit => edit,
+);
+
+const makeSelectEdit = () => selectEdit;
+
 export {
   makeSelectCurrentContext,
   makeSelectForm,
@@ -65,4 +76,5 @@ export {
   makeSelectConfirmationData,
   makeSelectSeeStaffMessage,
   makeSelectApp,
+  makeSelectEdit,
 };

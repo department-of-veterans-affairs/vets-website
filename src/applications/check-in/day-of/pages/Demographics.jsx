@@ -8,12 +8,17 @@ import Footer from '../../components/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
 import { makeSelectVeteranData } from '../../selectors';
+import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 
 import { URLS } from '../../utils/navigation';
 
 const Demographics = props => {
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
+
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isEditingDayOfEnabled } = useSelector(selectFeatureToggles);
+
   const { router } = props;
   const { goToNextPage, jumpToPage, goToErrorPage } = useFormRouting(router);
 
@@ -68,6 +73,7 @@ const Demographics = props => {
         yesAction={yesClick}
         noAction={noClick}
         Footer={Footer}
+        isEditEnabled={isEditingDayOfEnabled}
       />
       <BackToHome />
     </>

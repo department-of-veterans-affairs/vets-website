@@ -10,6 +10,7 @@ import Confirmation from './pages/Confirmation';
 import Landing from './pages/Landing';
 import Error from './pages/Error';
 import ErrorTest from './pages/ErrorTest';
+import Edit from '../components/pages/Edit';
 import { URLS } from '../utils/navigation';
 
 import withFeatureFlip from '../containers/withFeatureFlip';
@@ -73,6 +74,22 @@ const routes = [
   {
     path: URLS.ERROR,
     component: Error,
+  },
+  {
+    path: URLS.EDIT_EMAIL,
+    component: Edit.Email,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+  },
+  {
+    path: URLS.EDIT_PHONE_NUMBER,
+    component: Edit.PhoneNumber,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
   },
 ];
 

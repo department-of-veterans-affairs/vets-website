@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import ConfirmablePage from '../ConfirmablePage';
+
+import { URLS } from '../../../utils/navigation';
+
+import { createEditFieldAction } from '../../../actions/edit';
 
 export default function DemographicsDisplay({
   header = 'Is this your current contact information?',
@@ -9,14 +14,68 @@ export default function DemographicsDisplay({
   yesAction = () => {},
   noAction = () => {},
   Footer,
+  jumpToPage,
+  isEditEnabled = false,
 }) {
+  const dispatch = useDispatch();
   const demographicFields = [
-    { title: 'Mailing address', key: 'mailingAddress' },
-    { title: 'Home address', key: 'homeAddress' },
-    { title: 'Home phone', key: 'homePhone' },
-    { title: 'Mobile phone', key: 'mobilePhone' },
-    { title: 'Work phone', key: 'workPhone' },
-    { title: 'Email address', key: 'emailAddress' },
+    { title: 'Mailing address', key: 'mailingAddress', editAction: () => {} },
+    { title: 'Home address', key: 'homeAddress', editAction: () => {} },
+    {
+      title: 'Home phone',
+      key: 'homePhone',
+      editAction: field => {
+        const dataForEdit = {
+          originatingPage: URLS.DEMOGRAPHICS,
+          ...field,
+        };
+        // update redux with {where we came from, what we want to edit, }
+        dispatch(createEditFieldAction(dataForEdit));
+        // go to next page
+        jumpToPage(URLS.EDIT_PHONE_NUMBER);
+      },
+    },
+    {
+      title: 'Mobile phone',
+      key: 'mobilePhone',
+      editAction: field => {
+        const dataForEdit = {
+          originatingPage: URLS.DEMOGRAPHICS,
+          ...field,
+        };
+        // update redux with {where we came from, what we want to edit, }
+        dispatch(createEditFieldAction(dataForEdit));
+        // go to next page
+        jumpToPage(URLS.EDIT_PHONE_NUMBER);
+      },
+    },
+    {
+      title: 'Work phone',
+      key: 'workPhone',
+      editAction: field => {
+        const dataForEdit = {
+          originatingPage: URLS.DEMOGRAPHICS,
+          ...field,
+        };
+        // update redux with {where we came from, what we want to edit, }
+        dispatch(createEditFieldAction(dataForEdit));
+        jumpToPage(URLS.EDIT_PHONE_NUMBER);
+      },
+    },
+    {
+      title: 'Email address',
+      key: 'emailAddress',
+      editAction: field => {
+        const dataForEdit = {
+          originatingPage: URLS.DEMOGRAPHICS,
+          ...field,
+        };
+        // update redux with {where we came from, what we want to edit, }
+        dispatch(createEditFieldAction(dataForEdit));
+        // go to next page
+        jumpToPage(URLS.EDIT_EMAIL);
+      },
+    },
   ];
   return (
     <>
@@ -28,6 +87,7 @@ export default function DemographicsDisplay({
         yesAction={yesAction}
         noAction={noAction}
         Footer={Footer}
+        isEditEnabled={isEditEnabled}
       />
     </>
   );
@@ -40,4 +100,5 @@ DemographicsDisplay.propTypes = {
   noAction: PropTypes.func,
   subtitle: PropTypes.string,
   yesAction: PropTypes.func,
+  jumpToPage: PropTypes.func,
 };

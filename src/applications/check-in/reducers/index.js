@@ -19,6 +19,9 @@ import {
 
 import { recordAnswerHandler, setVeteranDataHandler } from './pre-check-in';
 
+import { EDITING_FIELD } from '../actions/edit';
+import { editPageInitialize } from './edit';
+
 import {
   APPOINTMENT_WAS_CHECKED_INTO,
   RECEIVED_APPOINTMENT_DETAILS,
@@ -61,6 +64,8 @@ const handler = Object.freeze({
   [UPDATE_PRE_CHECK_IN_FORM]: updateFormHandler,
   [UPDATE_DAY_OF_CHECK_IN_FORM]: updateFormHandler,
   [SET_APP]: setAppHandler,
+
+  [EDITING_FIELD]: editPageInitialize,
 
   default: state => {
     return { ...state };

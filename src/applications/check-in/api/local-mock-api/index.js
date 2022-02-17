@@ -27,7 +27,10 @@ const responses = {
     if (!last4 || !lastName) {
       return res.status(400).json(sessions.post.createMockFailedResponse());
     }
-    if (last4 !== mockUser.last4 || lastName !== mockUser.lastName) {
+    if (
+      last4 !== mockUser.last4 ||
+      lastName.toLowerCase() !== mockUser.lastName.toLowerCase()
+    ) {
       return res
         .status(400)
         .json(sessions.post.createMockValidateErrorResponse());

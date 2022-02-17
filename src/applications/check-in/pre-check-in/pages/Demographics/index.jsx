@@ -12,10 +12,12 @@ import { recordAnswer } from '../../../actions/pre-check-in';
 
 import { makeSelectVeteranData } from '../../../selectors';
 
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+
 const Demographics = props => {
   const dispatch = useDispatch();
   const { router } = props;
-  const { goToNextPage, goToPreviousPage } = useFormRouting(router);
+  const { goToNextPage, goToPreviousPage, jumpToPage } = useFormRouting(router);
   const yesClick = useCallback(
     () => {
       recordEvent({
@@ -44,6 +46,9 @@ const Demographics = props => {
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
 
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isEditingPreCheckInEnabled } = useSelector(selectFeatureToggles);
+
   return (
     <>
       <BackButton action={goToPreviousPage} router={router} />
@@ -53,6 +58,8 @@ const Demographics = props => {
         subtitle={subtitle}
         demographics={demographics}
         Footer={Footer}
+        jumpToPage={jumpToPage}
+        isEditEnabled={isEditingPreCheckInEnabled}
       />
       <BackToHome />
     </>

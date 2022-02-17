@@ -65,7 +65,7 @@ const createAppointment = (
   appointmentIen = 'some-ien',
   clinicFriendlyName = 'TEST CLINIC',
 ) => {
-  const startTime = new Date();
+  let startTime = new Date();
   const checkInWindowStart = new Date();
   const checkInWindowEnd = new Date();
 
@@ -78,6 +78,7 @@ const createAppointment = (
   }
   checkInWindowStart.setHours(startTime.getHours() - 1);
   checkInWindowEnd.getMinutes(startTime.getMinutes() + 10);
+  startTime = '2022-02-14T14:00:00';
   return {
     facility: 'LOMA LINDA VA CLINIC',
     clinicPhoneNumber: '5551234567',
@@ -197,6 +198,22 @@ const createMultipleAppointments = (
       `TEST CLINIC-E`,
     ),
   );
+
+  rv.payload.appointments.push({
+    clinicName: 'JC-ST CLR CHIR B',
+    appointmentIEN: 999999,
+    patientDFN: '123456',
+    stationNo: 657,
+    checkedInTime: '2022-02-14T13a:50:39',
+    eligibility: 'INELIGIBLE_ALREADY_CHECKED_IN',
+    clinicPhoneNumber: '(314)289-6583',
+    clinicFriendlyName: 'St. Clair County Chiropractor',
+    startTime: '2022-02-14T14:00:00',
+    facility: 'ST. CLAIR CNTY VA CLINIC-STL',
+    checkInWindowEnd: '2022-02-14T14:15:00.000-06:00',
+    status: '',
+    checkInWindowStart: '2022-02-14T13:30:00.000-06:00',
+  });
 
   return rv;
 };
