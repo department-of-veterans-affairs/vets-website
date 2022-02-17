@@ -16,7 +16,7 @@ const documents = [
   },
 ];
 
-const CoeDocumentList = ({ notOnUploadPage }) => {
+export const CoeDocumentList = ({ notOnUploadPage }) => {
   if (documents.length > 0) {
     return (
       <>
@@ -71,5 +71,3 @@ const CoeDocumentList = ({ notOnUploadPage }) => {
 CoeDocumentList.propTypes = {
   notOnUploadPage: PropTypes.bool,
 };
-
-export default CoeDocumentList;

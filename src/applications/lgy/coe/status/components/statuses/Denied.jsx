@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import StatusBox from '../../../shared/components/StatusBox';
-import CoeDocumentList from '../CoeDocumentList';
+import { CoeDocumentList } from '../CoeDocumentList';
 
 export const Denied = ({ referenceNumber, requestDate }) => {
   return (
