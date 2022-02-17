@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import uniq from 'lodash/uniq';
 
+import PropTypes from 'prop-types';
 import {
   createFormPageList,
   createPageList,
@@ -9,7 +10,6 @@ import {
 
 import { focusElement } from '../utilities/ui';
 
-import PropTypes from 'prop-types';
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
 export default function FormNav(props) {
@@ -98,6 +98,8 @@ export default function FormNav(props) {
       <va-segmented-progress-bar total={chapters.length} current={current} />
       <div className="schemaform-chapter-progress">
         <div
+          role="progressbar"
+          aria-label={`Step ${current} of ${chapters.length}`}
           aria-valuenow={current}
           aria-valuemin="1"
           aria-valuetext={stepText}
