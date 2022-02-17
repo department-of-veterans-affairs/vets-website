@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { PAYMENT_STATUS } from '../actions';
 import EnrollmentVerificationMonthInfo from './EnrollmentVerificationMonthInfo';
 import VerifyYourEnrollments from './VerifyYourEnrollments';
-import { formatReadableMonthYear } from '../helpers';
+import { formatReadableMonthYear, MONTH_PROP_TYPE } from '../helpers';
 
 const verifiedMonthStatusMessage = (
   <p className="ev-enrollment-month_message">
@@ -75,3 +76,12 @@ export default function EnrollmentVerificationMonth({ month, paymentStatus }) {
     </div>
   );
 }
+
+EnrollmentVerificationMonth.propTypes = {
+  month: MONTH_PROP_TYPE.isRequired,
+  paymentStatus: PropTypes.oneOf([
+    PAYMENT_STATUS.ONGOING,
+    PAYMENT_STATUS.PAUSED,
+    PAYMENT_STATUS.SCO_PAUSED,
+  ]),
+};

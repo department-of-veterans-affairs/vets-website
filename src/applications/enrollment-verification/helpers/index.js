@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 const months = [
   'January',
   'February',
@@ -12,6 +14,25 @@ const months = [
   'November',
   'December',
 ];
+
+export const MONTH_PROP_TYPE = PropTypes.shape({
+  month: PropTypes.string.isRequired,
+  verified: PropTypes.bool.isRequired,
+  enrollments: PropTypes.arrayOf(
+    PropTypes.shape({
+      institution: PropTypes.string.isRequired,
+      creditHours: PropTypes.number.isRequired,
+      startDate: PropTypes.string.isRequired,
+      endDate: PropTypes.string.isRequired,
+    }),
+  ),
+});
+
+export const ENROLLMENT_VERIFICATION_TYPE = PropTypes.shape({
+  months: PropTypes.arrayOf(MONTH_PROP_TYPE),
+  nextVerificationDate: PropTypes.string,
+  paymentStatus: PropTypes.string,
+});
 
 export const formatNumericalDate = rawDate => {
   let date;

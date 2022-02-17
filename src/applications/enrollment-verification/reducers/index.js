@@ -1,16 +1,14 @@
-/* eslint-disable prettier/prettier */
 import {
   EDIT_MONTH_VERIFICATION,
   FETCH_POST_911_GI_BILL_ELIGIBILITY_SUCCESS,
   FETCH_POST_911_GI_BILL_ELIGIBILITY_FAILURE,
-	FETCH_VERIFICATION_STATUS_FAILURE,
+  FETCH_VERIFICATION_STATUS_FAILURE,
   FETCH_VERIFICATION_STATUS_SUCCESS,
   PAYMENT_STATUS,
   UPDATE_VERIFICATION_STATUS_MONTHS,
 } from '../actions';
 
-const initialState = {
-};
+const initialState = {};
 
 export default {
   data: (state = initialState, action) => {
@@ -45,7 +43,7 @@ export default {
                     startDate: '2022-01-01',
                     endDate: '2022-01-31',
                   },
-                ]
+                ],
               },
               {
                 month: '2021-12',
@@ -63,7 +61,7 @@ export default {
                     startDate: '2021-12-01',
                     endDate: '2021-12-31',
                   },
-                ]
+                ],
               },
               {
                 month: '2021-11',
@@ -81,7 +79,7 @@ export default {
                     startDate: '2021-11-01',
                     endDate: '2021-11-30',
                   },
-                ]
+                ],
               },
               {
                 month: '2021-10',
@@ -99,7 +97,7 @@ export default {
                     startDate: '2021-10-01',
                     endDate: '2021-10-31',
                   },
-                ]
+                ],
               },
               {
                 month: '2021-09',
@@ -117,7 +115,7 @@ export default {
                     startDate: '2021-10-01',
                     endDate: '2021-10-31',
                   },
-                ]
+                ],
               },
               {
                 month: '2021-08',
@@ -135,7 +133,7 @@ export default {
                     startDate: '2021-8-01',
                     endDate: '2021-8-31',
                   },
-                ]
+                ],
               },
               {
                 month: '2021-07',
@@ -147,7 +145,7 @@ export default {
                     startDate: '2021-07-01',
                     endDate: '2021-07-31',
                   },
-                ]
+                ],
               },
               {
                 month: '2021-06',
@@ -159,7 +157,7 @@ export default {
                     startDate: '2021-06-01',
                     endDate: '2021-06-30',
                   },
-                ]
+                ],
               },
               {
                 month: '2021-05',
@@ -171,7 +169,7 @@ export default {
                     startDate: '2021-05-01',
                     endDate: '2021-05-31',
                   },
-                ]
+                ],
               },
               {
                 month: '2021-04',
@@ -183,7 +181,7 @@ export default {
                     startDate: '2021-04-01',
                     endDate: '2021-04-30',
                   },
-                ]
+                ],
               },
               {
                 month: '2021-03',
@@ -195,7 +193,7 @@ export default {
                     startDate: '2021-03-01',
                     endDate: '2021-03-31',
                   },
-                ]
+                ],
               },
               {
                 month: '2021-02',
@@ -207,7 +205,7 @@ export default {
                     startDate: '2021-02-01',
                     endDate: '2021-02-28',
                   },
-                ]
+                ],
               },
               {
                 month: '2021-01',
@@ -219,10 +217,10 @@ export default {
                     startDate: '2021-01-01',
                     endDate: '2021-01-31',
                   },
-                ]
+                ],
               },
-            ]
-          }
+            ],
+          },
         };
       case UPDATE_VERIFICATION_STATUS_MONTHS:
         return {
@@ -232,13 +230,13 @@ export default {
             months: action?.payload,
           },
         };
-      case EDIT_MONTH_VERIFICATION: 
+      case EDIT_MONTH_VERIFICATION:
         return {
           ...state,
-          editMonthVerification: action?.response,
+          editMonthVerification: action,
         };
-      default: 
+      default:
         return state;
     }
-  }
+  },
 };

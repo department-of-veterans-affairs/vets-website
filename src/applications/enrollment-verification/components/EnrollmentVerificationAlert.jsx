@@ -1,7 +1,6 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { PAYMENT_STATUS } from '../actions';
-import { afterLastDayOfMonth } from '../helpers';
+import { afterLastDayOfMonth, ENROLLMENT_VERIFICATION_TYPE } from '../helpers';
 import VerifyYourEnrollments from './VerifyYourEnrollments';
 
 const successAlert = nextEnrollmentMonth => (
@@ -42,7 +41,7 @@ const pausedScoAlert = (
       enrollment information
     </h3>
     <p>
-      You’ve verified that your monthly enrollment has changed or isn’t correct,
+      You’ve verified that your monthly enrollment has changed or is incorrect,
       but you haven’t updated it yet.
     </p>
     <p>
@@ -86,29 +85,17 @@ function getEnrollmentVerificationAlert(status) {
   return monthlyPaymentsPaused(unverifiedMonths) ? pausedAlert : warningAlert;
 }
 
-function EnrollmentVerificationAlert({ status }) {
+export const EnrollmentVerificationAlert = ({ status }) => {
   if (!status) {
     return <></>;
   }
 
   const alert = getEnrollmentVerificationAlert(status);
   return <>{alert}</>;
-}
+};
 
 export default EnrollmentVerificationAlert;
 
-// EnrollmentVerificationAlert.propTypes = {
-//   status: PropTypes.objectOf({
-//     months: PropTypes.arrayOf({
-//       month: PropTypes.string.isRequired,
-//       verified: PropTypes.bool.isRequired,
-//       enrollments: PropTypes.arrayOf({
-//         institution: PropTypes.string.isRequired,
-//         creditHours: PropTypes.number.isRequired,
-//         startDate: PropTypes.string.isRequired,
-//         endDate: PropTypes.string.isRequired,
-//       }),
-//     }),
-//     paymentStatus: PropTypes.string,
-//   }).isRequired,
-// };
+EnrollmentVerificationAlert.propTypes = {
+  status: ENROLLMENT_VERIFICATION_TYPE.isRequired,
+};
