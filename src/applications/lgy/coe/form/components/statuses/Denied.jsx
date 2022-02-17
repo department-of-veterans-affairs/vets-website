@@ -7,6 +7,7 @@ const Denied = ({ referenceNumber, requestDate }) => {
   return (
     <>
       <StatusBox.Denied
+        origin="form"
         referenceNumber={referenceNumber}
         requestDate={requestDate}
       />
@@ -33,12 +34,13 @@ const Denied = ({ referenceNumber, requestDate }) => {
       </div>
       <div className="vads-u-margin-bottom--4">
         <h2>What if I have more questions?</h2>
-        <p className="vads-u-margin-bottom--0">
+        <p>
           Get answers to frequently asked questions about decision reviews.
+          <br />
+          <a href="/decision-reviews/faq/">
+            See frequently asked questions about decision reviews
+          </a>
         </p>
-        <a href="/decision-reviews/faq/">
-          See frequently asked questions about decision reviews
-        </a>
       </div>
     </>
   );

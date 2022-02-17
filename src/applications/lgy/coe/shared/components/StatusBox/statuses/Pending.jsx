@@ -24,7 +24,7 @@ const getBody = (status, origin) => {
 const getLinkText = status =>
   status === 'pending-upload'
     ? 'Go to your VA home loan COE page to upload documents'
-    : 'Go to your VA home loan COE page to review the details of your COE status';
+    : 'Go to your VA home loan COE page to review the details of your COE';
 
 const Pending = ({ referenceNumber, requestDate, origin, status }) => {
   const headline = getHeadline(status, origin);

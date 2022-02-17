@@ -9,6 +9,7 @@ export const Denied = ({ referenceNumber, requestDate }) => {
     <div className="row vads-u-margin-bottom--7">
       <div className="medium-8 columns">
         <StatusBox.Denied
+          origin="status"
           referenceNumber={referenceNumber}
           requestDate={requestDate}
         />

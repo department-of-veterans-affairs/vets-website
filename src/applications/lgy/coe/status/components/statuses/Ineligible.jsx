@@ -15,8 +15,8 @@ const Ineligible = () => (
       <h2>Can I get a VA home loan COE?</h2>
       <p>
         You may be able to get a COE if you didn’t receive a dishonorable
-        discharge and you meet the minimum active-duty service requirement based
-        on when you served.
+        discharge and you meet the minimum service requirement based on when you
+        served.
         <br />
         <a href="/housing-assistance/home-loans/eligibility/">
           Find out about eligibility requirements for VA home loan programs.
