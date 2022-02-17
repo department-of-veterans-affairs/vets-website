@@ -133,20 +133,6 @@ const mapDispatchToProps = {
 };
 
 BenefitPaymentsAndDebt.propTypes = {
-  paymentsError: PropTypes.bool,
-  debtsError: PropTypes.bool,
-  payments: PropTypes.arrayOf(
-    PropTypes.shape({
-      payCheckAmount: PropTypes.string.isRequired,
-      payCheckDt: PropTypes.string.isRequired,
-      payCheckId: PropTypes.string.isRequired,
-      payCheckReturnFiche: PropTypes.string.isRequired,
-      payCheckType: PropTypes.string.isRequired,
-      paymentMethod: PropTypes.string.isRequired,
-      bankName: PropTypes.string.isRequired,
-      accountNumber: PropTypes.string.isRequired,
-    }),
-  ),
   debts: PropTypes.arrayOf(
     PropTypes.shape({
       fileNumber: PropTypes.string.isRequired,
@@ -169,6 +155,21 @@ BenefitPaymentsAndDebt.propTypes = {
       ),
     }),
   ),
+  debtsError: PropTypes.bool,
+  getPayments: PropTypes.func,
+  payments: PropTypes.arrayOf(
+    PropTypes.shape({
+      payCheckAmount: PropTypes.string.isRequired,
+      payCheckDt: PropTypes.string.isRequired,
+      payCheckId: PropTypes.string.isRequired,
+      payCheckReturnFiche: PropTypes.string.isRequired,
+      payCheckType: PropTypes.string.isRequired,
+      paymentMethod: PropTypes.string.isRequired,
+      bankName: PropTypes.string.isRequired,
+      accountNumber: PropTypes.string.isRequired,
+    }),
+  ),
+  paymentsError: PropTypes.bool,
 };
 
 export default connect(
