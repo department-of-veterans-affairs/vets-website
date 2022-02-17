@@ -3,14 +3,14 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { connect } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
 import PropTypes from 'prop-types';
-import { CLAIMANT_STATUS_ENDPOINT } from '../actions';
+import { FETCH_CLAIM_STATUS } from '../actions';
 import Layout from '../components/Layout';
 
 const InboxPage = ({ letters }) => {
   useEffect(
     () => {
       const checkIfClaimantHasLetters = async () =>
-        apiRequest(CLAIMANT_STATUS_ENDPOINT)
+        apiRequest(FETCH_CLAIM_STATUS)
           .then(response => {
             return response;
           })

@@ -1,5 +1,5 @@
 import environment from 'platform/utilities/environment';
 
-export const CLAIMANT_STATUS_ENDPOINT = `${
+export const FETCH_CLAIM_STATUS = `${
   environment.API_URL
-}/meb_api/v0/claimant_status`;
+}/meb_api/v0/claim_status`;
