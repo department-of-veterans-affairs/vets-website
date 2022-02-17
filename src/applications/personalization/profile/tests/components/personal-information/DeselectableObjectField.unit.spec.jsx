@@ -29,6 +29,7 @@ describe('PersonalInformation', () => {
         'preferNotToAnswer',
         true,
         initial,
+        'gender',
       ),
     ).to.deep.equal(expected);
   });
@@ -55,7 +56,45 @@ describe('PersonalInformation', () => {
     };
 
     expect(
-      DeselectableObjectField.deselectBasedOnValue('woman', true, initial),
+      DeselectableObjectField.deselectBasedOnValue(
+        'woman',
+        true,
+        initial,
+        'gender',
+      ),
+    ).to.deep.equal(expected);
+  });
+
+  it('should set *NotListedText field to blank string when preferNotToAnswer is true', () => {
+    const initial = {
+      woman: true,
+      man: true,
+      transgenderWoman: true,
+      transgenderMan: true,
+      nonBinary: true,
+      preferNotToAnswer: false,
+      genderNotListed: true,
+      genderNotListedText: 'test text',
+    };
+
+    const expected = {
+      woman: false,
+      man: false,
+      transgenderWoman: false,
+      transgenderMan: false,
+      nonBinary: false,
+      preferNotToAnswer: true,
+      genderNotListed: false,
+      genderNotListedText: '',
+    };
+
+    expect(
+      DeselectableObjectField.deselectBasedOnValue(
+        'preferNotToAnswer',
+        true,
+        initial,
+        'gender',
+      ),
     ).to.deep.equal(expected);
   });
 
@@ -81,7 +120,12 @@ describe('PersonalInformation', () => {
     };
 
     expect(
-      DeselectableObjectField.deselectBasedOnValue('man', true, initial),
+      DeselectableObjectField.deselectBasedOnValue(
+        'man',
+        true,
+        initial,
+        'gender',
+      ),
     ).to.deep.equal(expected);
   });
 });
