@@ -6,6 +6,7 @@ import URLSearchParams from 'url-search-params';
 // Relative imports.
 import { getFindFormsAppState } from '../helpers/selectors';
 import { fetchFormsThunk } from '../actions';
+import '../sass/find-va-forms.scss';
 
 export const SearchForm = ({ fetchForms, fetching }) => {
   // Derive the current query params.
@@ -13,25 +14,57 @@ export const SearchForm = ({ fetchForms, fetching }) => {
   // Derive the query.
   const query = queryParams.get('q') || '';
   const [queryState, setQueryState] = useState(query);
+  const [showQueryError, setShowQueryError] = useState(false);
 
   useEffect(() => {
-    // On mount Fetch the forms with their query if it's on the URL.
-    if (queryState) {
+    // Check if URL query is zero chars
+    if (queryState.length === 0) setShowQueryError(false);
+    // Check if URL query is one char
+    else if (queryState.length === 1) setShowQueryError(true);
+    // If URL query is valid, fetch the forms.
+    else if (queryState) {
       fetchForms(queryState);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onQueryChange = event => {
+  // Checks if string is only spaces
+  const onlySpaces = str => /^\s+$/.test(str);
+
+  // Checks if string is less than two chars
+  const isLessThanTwoChars = str => str.length < 2;
+
+  // Handles the input textbox change
+  const handleQueryChange = event => {
     // Derive the new query value.
     const q = event.target.value;
 
-    // Update our query in state.
-    setQueryState(q);
+    // If query is valid, then remove error.
+    if (!isLessThanTwoChars(q)) setShowQueryError(false);
+
+    // Update our query in state
+    // Also prevent users from entering spaces because this will not trigger a change when they exit the field
+    setQueryState(onlySpaces(q) ? q.trim() : q);
   };
 
+  // Handles losing focus on the input textbox
+  const handleFormBlur = e => {
+    setQueryState('');
+    setShowQueryError(true);
+    handleQueryChange(e);
+  };
+
+  // Handles clicking the Search button
   const onSubmitHandler = event => {
     event.preventDefault();
+
+    // Check if query is valid to search
+    const checkQueryState = queryState.length < 2;
+    setShowQueryError(checkQueryState);
+
+    // Return early if not valid
+    if (checkQueryState) return;
+
     fetchForms(queryState);
   };
 
@@ -42,35 +75,53 @@ export const SearchForm = ({ fetchForms, fetching }) => {
       name="find-va-form"
       onSubmit={onSubmitHandler}
     >
-      <label
-        htmlFor="va-form-query"
-        className="vads-u-margin--0 vads-u-margin-bottom--1"
+      <div
+        className={`vads-u-margin--0 vads-u-padding-y-0 ${
+          showQueryError ? 'usa-input-error' : ''
+        }`}
       >
-        Enter a keyword, form name, or number
-      </label>
-      <div className="vads-l-row">
-        <div className="vads-l-col--12 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
-          <input
-            className="usa-input vads-u-margin--0 vads-u-margin-bottom--2 vads-u-max-width--100 vads-u-width--full medium-screen:vads-u-margin-bottom--0"
-            id="va-form-query"
-            onChange={onQueryChange}
-            type="text"
-            value={queryState}
-          />
-        </div>
-        <div className="vads-l-col--12 medium-screen:vads-u-flex--auto medium-screen:vads-u-width--auto">
-          <button
-            className="usa-button vads-u-margin--0 vads-u-width--full vads-u-height--full find-form-button medium-screen:vads-u-width--auto"
-            type="submit"
-            disabled={fetching}
+        <label
+          htmlFor="va-form-query"
+          className="vads-u-margin--0 vads-u-margin-bottom--1"
+        >
+          Enter a keyword, form name, or number
+          <span className="form-required-span">(*Required)</span>
+        </label>
+
+        {showQueryError && (
+          <span
+            className="usa-input-error-message vads-u-margin-bottom--0p5"
+            role="alert"
           >
-            <i
-              aria-hidden="true"
-              className="fas fa-search vads-u-margin-right--0p5"
-              role="presentation"
+            <span className="sr-only">Error</span>
+            Please fill in a keyword, form name, or number.
+          </span>
+        )}
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
+            <input
+              className="usa-input vads-u-margin--0 vads-u-margin-bottom--2 vads-u-max-width--100 vads-u-width--full medium-screen:vads-u-margin-bottom--0"
+              id="va-form-query"
+              onChange={handleQueryChange}
+              onBlur={handleFormBlur}
+              type="text"
+              value={queryState}
             />
-            Search
-          </button>
+          </div>
+          <div className="vads-l-col--12 medium-screen:vads-u-flex--auto medium-screen:vads-u-width--auto">
+            <button
+              className="usa-button vads-u-margin--0 vads-u-width--full vads-u-height--full medium-screen:vads-u-width--auto medium-screen-va-border-left-radius--0"
+              type="submit"
+              disabled={fetching}
+            >
+              <i
+                aria-hidden="true"
+                className="fa fa-search vads-u-margin-right--0p5"
+                role="presentation"
+              />
+              Search
+            </button>
+          </div>
         </div>
       </div>
     </form>
