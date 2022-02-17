@@ -64,9 +64,7 @@ const handler = Object.freeze({
   [UPDATE_PRE_CHECK_IN_FORM]: updateFormHandler,
   [UPDATE_DAY_OF_CHECK_IN_FORM]: updateFormHandler,
   [SET_APP]: setAppHandler,
-
   [EDITING_FIELD]: editPageInitialize,
-
   default: state => {
     return { ...state };
   },

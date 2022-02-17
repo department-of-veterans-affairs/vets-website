@@ -17,17 +17,18 @@ export default function EmergencyContactDisplay({
   jumpToPage,
   isEditEnabled,
 }) {
+  const originatingPage = URLS.EMERGENCY_CONTACT;
   const dispatch = useDispatch();
   const dataFields = [
-    { title: 'Name', key: 'name', editAction: () => {} },
-    { title: 'Relationship', key: 'relationship', editAction: () => {} },
-    { title: 'Address', key: 'address', editAction: () => {} },
+    { title: 'Name', key: 'name' },
+    { title: 'Relationship', key: 'relationship' },
+    { title: 'Address', key: 'address' },
     {
       title: 'Phone',
       key: 'phone',
       editAction: field => {
         const dataForEdit = {
-          originatingPage: URLS.DEMOGRAPHICS,
+          originatingPage,
           ...field,
         };
         // update redux with {where we came from, what we want to edit, }
@@ -41,7 +42,7 @@ export default function EmergencyContactDisplay({
       key: 'workPhone',
       editAction: field => {
         const dataForEdit = {
-          originatingPage: URLS.DEMOGRAPHICS,
+          originatingPage,
           ...field,
         };
         // update redux with {where we came from, what we want to edit, }
