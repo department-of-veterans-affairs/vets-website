@@ -70,42 +70,41 @@ export const IntroductionPage = ({
               You’ll need:
             </p>
 
-            {canUpload1010cgPOA && (
-              <div>
-                <ul className="process-lists">
-                  <li>
-                    The address, telephone number, and date of birth for the
-                    Veteran and each family caregiver applicant
-                  </li>
-                  <li>
-                    The VA medical center where the Veteran will receive care
-                  </li>
-                  <li>
-                    Health insurance information for the Primary Family
-                    Caregiver
-                  </li>
-                  <li>
-                    Veteran’s Social Security number (SSN) or tax identification
-                    number (TIN)
-                  </li>
-                </ul>
-                <div className="vads-u-margin-top--2 vads-u-margin-bottom--5">
-                  <va-additional-info trigger="What if I don't want to put my SSN or TIN in the application?">
-                    <div className="vads-u-padding-y--0p25">
-                      <p>
-                        We only require your SSN or TIN if you apply online. If
-                        you want to apply without putting this information in
-                        your application, you can apply by mail or in person.
-                      </p>
-                      <p>
-                        <a href="/family-member-benefits/comprehensive-assistance-for-family-caregivers/#how-do-i-apply-for-this-progra">
-                          Get instructions for how to apply for the PCAFC
-                          program by mail or in person
-                        </a>
-                      </p>
-                    </div>
-                  </va-additional-info>
-                </div>
+            <div>
+              <ul className="process-lists">
+                <li>
+                  The address, telephone number, and date of birth for the
+                  Veteran and each family caregiver applicant
+                </li>
+                <li>
+                  The VA medical center where the Veteran will receive care
+                </li>
+                <li>
+                  Health insurance information for the Primary Family Caregiver
+                </li>
+                <li>
+                  Veteran’s Social Security number (SSN) or tax identification
+                  number (TIN)
+                </li>
+              </ul>
+              <div className="vads-u-margin-top--2 vads-u-margin-bottom--5">
+                <va-additional-info trigger="What if I don't want to put my SSN or TIN in the application?">
+                  <div className="vads-u-padding-y--0p25">
+                    <p>
+                      We only require your SSN or TIN if you apply online. If
+                      you want to apply without putting this information in your
+                      application, you can apply by mail or in person.
+                    </p>
+                    <p>
+                      <a href="/family-member-benefits/comprehensive-assistance-for-family-caregivers/#how-do-i-apply-for-this-progra">
+                        Get instructions for how to apply for the PCAFC program
+                        by mail or in person
+                      </a>
+                    </p>
+                  </div>
+                </va-additional-info>
+              </div>
+              {canUpload1010cgPOA && (
                 <p
                   data-testid="poa-info-note"
                   className="vads-u-margin-bottom--4"
@@ -118,50 +117,8 @@ export const IntroductionPage = ({
                   This type of document is sometimes called a medical proxy or
                   medical power of attorney.
                 </p>
-              </div>
-            )}
-
-            {!canUpload1010cgPOA && (
-              <ul className="process-lists">
-                <li>
-                  The address, telephone number, and date of birth for the
-                  Veteran and each family caregiver applicant
-                </li>
-                <li>
-                  The VA medical center where the Veteran will receive care
-                </li>
-                <li>
-                  Health insurance information for the Primary Family Caregiver
-                </li>
-
-                <li className="call-to-action-bullet">
-                  The Veteran’s Social Security number or tax identification
-                  number (This is required for the online application only.) If
-                  you’d like to apply without providing this information, you
-                  can download the paper form
-                  <p className="vads-u-margin-top--2">
-                    <a
-                      href="https://www.va.gov/vaforms/medical/pdf/10-10CG.pdf"
-                      download="10-10CG.pdf"
-                      type="application/pdf"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <i
-                        aria-hidden="true"
-                        className="fas fa-download vads-u-padding-right--1"
-                        role="img"
-                      />
-                      Download VA form 10-10CG
-                      <dfn className="vads-u-margin-left--0p5">
-                        <abbr title="Portable Document Format">(PDF)</abbr> (934
-                        <abbr title="Kilobytes">KB</abbr>)
-                      </dfn>
-                    </a>
-                  </p>
-                </li>
-              </ul>
-            )}
+              )}
+            </div>
 
             <div>
               <h4 className="vads-u-font-size--h6">
