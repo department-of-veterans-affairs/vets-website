@@ -151,7 +151,7 @@ jobs:
   archive:
     name: Archive
     runs-on: ubuntu-latest
-    needs: build
+    needs: [set-env, build]
 
     steps:
       - name: Download build artifact
