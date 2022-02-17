@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const CTALink = ({
   ariaLabel,
@@ -28,6 +29,16 @@ const CTALink = ({
       {text}
     </a>
   );
+};
+
+CTALink.propTypes = {
+  ariaLabel: PropTypes.string,
+  className: PropTypes.string,
+  href: PropTypes.string,
+  newTab: PropTypes.bool,
+  testId: PropTypes.string,
+  text: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 export default CTALink;
