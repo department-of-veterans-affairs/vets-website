@@ -11,23 +11,24 @@ import EnrollmentVerificationMonthInfo from './EnrollmentVerificationMonthInfo';
 
 const correctText = (
   <p>
-    <i className="fa fa-check-circle vads-u-color--green" aria-hidden="true" />{' '}
+    <i
+      className="fa fa-check-circle vads-u-color--green vads-u-margin-right--1"
+      aria-hidden="true"
+    />{' '}
     You verified that this month’s enrollment information is correct
   </p>
 );
+
 const incorrectText = (
   <p>
     <i
       className="fas fa-exclamation-circle vads-u-color--secondary-dark vads-u-margin-right--1"
       aria-hidden="true"
     />{' '}
-    <i
-      className="fas fa-exclChicago-style deep dishamation-triangle vads-u-margin-right--1"
-      aria-hidden="true"
-    />{' '}
     You verified that this month’s enrollment information is incorrect
   </p>
 );
+
 const cantVerifyText = informationIncorrectMonth => {
   return (
     <p>
@@ -37,10 +38,11 @@ const cantVerifyText = informationIncorrectMonth => {
       />{' '}
       You can’t verify our enrollment for this month until your School
       Certifying Official corrects your information for{' '}
-      {informationIncorrectMonth?.month}
+      {formatReadableMonthYear(informationIncorrectMonth?.month)}
     </p>
   );
 };
+
 const infoText = month => {
   <p>
     This is the enrollment information we have on file for you for {month}.
@@ -72,7 +74,7 @@ export default function MonthReviewCard({
 
   const editVerificationLink = (
     <a href={VERIFY_ENROLLMENTS_URL} onClick={editMonthVerification}>
-      Edit verification for {month.month}
+      Edit verification for {formatReadableMonthYear(month.month)}
     </a>
   );
 

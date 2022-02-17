@@ -41,7 +41,7 @@ export const formatNumericalDate = rawDate => {
     const dateParts = rawDate.split('-');
     date = new Date(
       Number.parseInt(dateParts[0], 10),
-      Number.parseInt(dateParts[1], 10),
+      Number.parseInt(dateParts[1], 10) - 1,
       Number.parseInt(dateParts[2], 10),
     );
   }
@@ -50,7 +50,7 @@ export const formatNumericalDate = rawDate => {
     return '';
   }
 
-  return `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
+  return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
 };
 
 export const formatReadableMonthYear = rawDate => {
