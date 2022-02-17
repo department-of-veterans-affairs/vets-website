@@ -306,7 +306,7 @@ export const VerifyEnrollmentsPage = ({
       />
 
       <va-alert
-        class="ev-verify-alert"
+        class="vads-u-margin-top--2 vads-u-margin-bottom--4"
         close-btn-aria-label="Close notification"
         status="info"
         visible

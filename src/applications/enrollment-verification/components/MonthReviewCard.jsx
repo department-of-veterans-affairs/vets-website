@@ -12,20 +12,23 @@ import EnrollmentVerificationMonthInfo from './EnrollmentVerificationMonthInfo';
 
 const correctText = (
   <p>
-    <i className="fa fa-check-circle vads-u-color--green" /> You verified that
-    this month’s enrollment information is correct
+    <i className="fa fa-check-circle vads-u-color--green" aria-hidden="true" />{' '}
+    You verified that this month’s enrollment information is correct
   </p>
 );
 const incorrectText = (
   <p>
-    <i className="fas fa-exclamation-triangle" /> You verified that this month’s
-    enrollment information isn’t correct
+    <i className="fas fa-exclamation-triangle" aria-hidden="true" /> You
+    verified that this month’s enrollment information isn’t correct
   </p>
 );
 const cantVerifyText = informationIncorrectMonth => {
   return (
     <p>
-      <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
+      <i
+        className="fas fa-exclamation-circle vads-u-color--secondary-dark"
+        aria-hidden="true"
+      />{' '}
       You can’t verify our enrollment for this month until your School
       Certifying Official corrects your information for{' '}
       {informationIncorrectMonth?.month}
