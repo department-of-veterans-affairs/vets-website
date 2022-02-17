@@ -1,6 +1,15 @@
 import React from 'react';
 
-const CTALink = ({ ariaLabel, className, href, text, onClick, newTab }) => {
+const CTALink = ({
+  ariaLabel,
+  className,
+  href,
+  text,
+  onClick,
+  newTab,
+  // optional data-testid attribute-value
+  testId,
+}) => {
   const relProp = newTab ? 'noreferrer noopener' : undefined;
   const targetProp = newTab ? '_blank' : undefined;
 
@@ -14,6 +23,7 @@ const CTALink = ({ ariaLabel, className, href, text, onClick, newTab }) => {
       target={targetProp}
       onClick={onClick || undefined}
       className={classNames}
+      data-testid={testId || ''}
     >
       {text}
     </a>

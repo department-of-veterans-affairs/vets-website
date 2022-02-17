@@ -54,7 +54,10 @@ const BenefitPaymentsAndDebt = ({
             {!lastPayment && (
               <>
                 {debts && <Debts debts={debts} hasError={debtsError} />}
-                <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
+                <p
+                  className="vads-u-margin-bottom--3 vads-u-margin-top--0"
+                  data-testid="no-recent-payments-paragraph"
+                >
                   You haven’t received any payments in the past 30 days.
                 </p>
               </>
@@ -75,6 +78,7 @@ const BenefitPaymentsAndDebt = ({
                     'links-list-section-header': 'Benefit payments and debts',
                   });
                 }}
+                testId="view-payment-history-link"
               />
             )}
 
@@ -90,6 +94,7 @@ const BenefitPaymentsAndDebt = ({
                   'links-list-section-header': 'Direct deposit',
                 });
               }}
+              testId="manage-direct-deposit-link"
             />
             {debtsCount < 1 && (
               <IconCTALink
@@ -104,6 +109,7 @@ const BenefitPaymentsAndDebt = ({
                     'links-list-section-header': 'Learn about VA debt',
                   });
                 }}
+                testId="learn-va-debt-link"
               />
             )}
           </DashboardWidgetWrapper>

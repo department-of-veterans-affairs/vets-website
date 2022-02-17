@@ -11,6 +11,8 @@ const IconCTALink = ({
   onClick,
   boldText,
   newTab,
+  // optional data-testid attribute-value
+  testId,
 }) => {
   const [lastWord, firstWords] = useLastWord(text);
 
@@ -29,6 +31,7 @@ const IconCTALink = ({
       target={targetProp}
       onClick={onClick || undefined}
       className={linkClass}
+      data-testid={testId || ''}
     >
       <span className="vads-u-display--flex">
         <span className="fa-stack fa-sm vads-u-height--full vads-u-margin-right--1">
