@@ -6,7 +6,7 @@ import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 const coeStatusUrl = getAppUrl('coe-status');
 
-const COEAvailable = ({ applicationCreateDate, downloadUrl }) => (
+const Available = ({ applicationCreateDate, downloadUrl }) => (
   <>
     <va-alert status="info">
       <h2 slot="headline">You already have a COE</h2>
@@ -63,9 +63,9 @@ const COEAvailable = ({ applicationCreateDate, downloadUrl }) => (
   </>
 );
 
-COEAvailable.propTypes = {
+Available.propTypes = {
   applicationCreateDate: PropTypes.number,
   downloadUrl: PropTypes.string,
 };
 
-export default COEAvailable;
+export default Available;
