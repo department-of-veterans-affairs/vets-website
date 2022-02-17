@@ -18,7 +18,6 @@ const Available = ({ referenceNumber, requestDate }) => (
         <br />
         <a href={coeStatusUrl}>
           Go to your VA home loan COE page to review the details of your COE
-          status
         </a>
       </p>
       <p>Reference Number: {referenceNumber}</p>

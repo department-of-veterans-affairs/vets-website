@@ -6,7 +6,7 @@ import DocumentUploader from '../DocumentUploader';
 import DocumentList from '../DocumentList';
 import MoreQuestions from '../MoreQuestions';
 
-export const CoePending = ({
+const Pending = ({
   notOnUploadPage,
   referenceNumber,
   requestDate,
@@ -40,10 +40,12 @@ export const CoePending = ({
   );
 };
 
-CoePending.propTypes = {
+Pending.propTypes = {
   referenceNumber: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   notOnUploadPage: PropTypes.bool,
   requestDate: PropTypes.number,
   uploadsNeeded: PropTypes.bool,
 };
+
+export default Pending;
