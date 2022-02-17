@@ -18,7 +18,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import merge from 'lodash/merge';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
-import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
+import { vagovprod } from 'site/constants/buckets';
 import fullSchema from '../22-1990-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
@@ -347,10 +347,6 @@ function transform(metaData, form) {
   const submission = createSubmissionForm(form.data);
   return JSON.stringify(submission);
 }
-
-const checkImageSrc = environment.isStaging()
-  ? `${VAGOVSTAGING}/img/check-sample.png`
-  : `${vagovprod}/img/check-sample.png`;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -1304,14 +1300,14 @@ const formConfig = {
                   'accountType',
                   'accountNumber',
                   'routingNumber',
-                  // 'learnMore',
+                  'learnMore',
                 ],
                 learnMore: {
                   'ui:description': (
                     <>
                       <img
                         style={{ marginTop: '1rem' }}
-                        src={checkImageSrc}
+                        src={`${vagovprod}/img/check-sample.png`}
                         alt="Example of a check showing where the account and routing numbers are"
                       />
                       <p>Where can I find these numbers?</p>
