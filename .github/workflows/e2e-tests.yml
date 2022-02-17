@@ -54,7 +54,7 @@ jobs:
 
       - name: List changed files
         id: changed-files
-        run: echo ::set-output name=all_changed_files::$(git diff --name-only HEAD~1..HEAD)
+        run: echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ needs.set-commit-sha.outputs.COMMIT_SHA }})
 
       - name: Get app entries for changed files
         id: get-changed-apps
