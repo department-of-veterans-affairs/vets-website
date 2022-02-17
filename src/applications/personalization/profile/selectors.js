@@ -7,6 +7,7 @@ import {
   isSignedUpForCNPDirectDeposit,
   isSignedUpForEDUDirectDeposit,
 } from './util';
+import { createNotListedTextKey } from './util/personal-information/personalInformationUtils';
 
 export const cnpDirectDepositInformation = state =>
   state.vaProfile?.cnpPaymentInformation;
@@ -96,7 +97,7 @@ export const profileShowGender = state =>
 export function selectVAProfilePersonalInformation(state, fieldName) {
   const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];
 
-  const notListedTextKey = `${fieldName}NotListedText`;
+  const notListedTextKey = createNotListedTextKey(fieldName);
 
   const notListedTextValue =
     state?.vaProfile?.personalInformation?.[notListedTextKey];

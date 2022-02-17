@@ -6,12 +6,17 @@ import OtherTextField from '@@profile/components/personal-information/OtherTextF
 import { NOT_SET_TEXT } from '../../constants';
 import DeselectableObjectField from '../../components/personal-information/DeselectableObjectField';
 
-const createBooleanSchemaPropertiesFromOptions = obj =>
+export const notListedKeySuffix = 'NotListedText';
+
+export const createNotListedTextKey = fieldName =>
+  `${fieldName}${notListedKeySuffix}`;
+
+export const createBooleanSchemaPropertiesFromOptions = obj =>
   mapValues(obj, () => {
     return { type: 'boolean' };
   });
 
-const createUiTitlePropertiesFromOptions = obj => {
+export const createUiTitlePropertiesFromOptions = obj => {
   return Object.entries(obj).reduce((accumulator, [key, value]) => {
     accumulator[key] = { 'ui:title': value };
     return accumulator;

@@ -12,6 +12,8 @@ import {
   personalInformation,
 } from '../getProfileInfoFieldAttributes';
 
+import { createNotListedTextKey } from '../personal-information/personalInformationUtils';
+
 const isOverseasMilitaryMailingAddress = data =>
   data?.addressPou === ADDRESS_POU.CORRESPONDENCE &&
   data?.addressType === ADDRESS_TYPES.OVERSEAS_MILITARY;
@@ -95,11 +97,12 @@ export const getInitialFormValues = options => {
       );
     }
 
-    const notListedKey = `${fieldName}NotListedText`;
+    const notListedTextKey = createNotListedTextKey(fieldName);
 
     return transformInitialFormValues({
       ...transformBooleanArrayToFormValues(data[fieldName]),
-      ...(data?.[notListedKey] && set({}, notListedKey, data[notListedKey])),
+      ...(data?.[notListedTextKey] &&
+        set({}, notListedTextKey, data[notListedTextKey])),
     });
   }
 
