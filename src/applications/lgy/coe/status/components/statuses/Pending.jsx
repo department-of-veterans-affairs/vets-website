@@ -18,9 +18,9 @@ const Pending = ({
       <div className="medium-8 columns">
         <StatusBox.Pending
           origin="status"
-          status={status}
           referenceNumber={referenceNumber}
           requestDate={requestDate}
+          status={status}
         />
         {uploadsNeeded ? <DocumentUploader /> : ''}
         <DocumentList notOnUploadPage={notOnUploadPage} />
