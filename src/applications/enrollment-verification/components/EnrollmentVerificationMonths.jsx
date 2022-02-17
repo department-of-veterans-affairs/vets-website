@@ -78,17 +78,21 @@ function EnrollmentVerificationMonths({ status }) {
 export default EnrollmentVerificationMonths;
 
 EnrollmentVerificationMonths.propTypes = {
-  status: PropTypes.objectOf({
-    months: PropTypes.arrayOf({
-      month: PropTypes.string.isRequired,
-      verified: PropTypes.bool.isRequired,
-      enrollments: PropTypes.arrayOf({
-        institution: PropTypes.string.isRequired,
-        creditHours: PropTypes.number.isRequired,
-        startDate: PropTypes.string.isRequired,
-        endDate: PropTypes.string.isRequired,
+  status: PropTypes.shape({
+    months: PropTypes.arrayOf(
+      PropTypes.shape({
+        month: PropTypes.string.isRequired,
+        verified: PropTypes.bool.isRequired,
+        enrollments: PropTypes.arrayOf(
+          PropTypes.shape({
+            institution: PropTypes.string.isRequired,
+            creditHours: PropTypes.number.isRequired,
+            startDate: PropTypes.string.isRequired,
+            endDate: PropTypes.string.isRequired,
+          }),
+        ),
       }),
-    }),
+    ),
     paymentStatus: PropTypes.string,
   }).isRequired,
 };
