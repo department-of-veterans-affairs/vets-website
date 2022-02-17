@@ -1,5 +1,4 @@
 import React from 'react';
-
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 const formConfig = {

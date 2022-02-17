@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
-const statusUrl = getAppUrl('coe-status');
+const coeStatusUrl = getAppUrl('coe-status');
 
 const Denied = ({ referenceNumber, requestDate }) => (
   <va-alert status="info">
@@ -13,7 +13,7 @@ const Denied = ({ referenceNumber, requestDate }) => (
       <p>
         We reviewed your request. You don’t qualify for a COE.
         <br />
-        <a href={statusUrl}>
+        <a href={coeStatusUrl}>
           Go to your VA home loan COE page to see status details
         </a>
       </p>
