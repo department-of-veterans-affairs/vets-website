@@ -165,6 +165,39 @@ export const PrimaryHealthCoverage = ({ pageTitle }) => (
   <>{pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}</>
 );
 
+export const whyAskHealthCareCoverage = () => (
+  <div className="vads-u-margin-y--2p5">
+    <va-additional-info trigger="Why we ask this information">
+      <div className="vads-u-margin-bottom--5">
+        <p>
+          This information helps us determine if you may be eligible for health
+          care coverage through VA.
+        </p>
+        <p>
+          You may be eligible for The Civilian Health and Medical Program of the
+          Department of Veteran’s Affairs (CHAMPVA) if both of these
+          descriptions are true for you:
+        </p>
+        <ul>
+          <li>
+            You’re the Primary Family Caregiver of a Veteran with a
+            service-connected disability, <strong>and</strong>
+          </li>
+          <li>
+            You don’t have any other health care coverage, such as Medicaid,
+            Medicare, CHAMPVA, Tricare, or private insurance.
+          </li>
+        </ul>
+        <p>
+          <strong>Note:</strong> This information doesn’t affect your
+          eligibility for the Caregiver Support Program. We only use it to
+          determine if you may be eligible for health care.
+        </p>
+      </div>
+    </va-additional-info>
+  </div>
+);
+
 export const PleaseSelectVAFacility = () => (
   <section>
     <h3 className="vads-u-font-size--h4">VA health care services</h3>
