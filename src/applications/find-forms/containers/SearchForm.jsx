@@ -73,6 +73,7 @@ export const SearchForm = ({ fetchForms, fetching }) => {
         className={`vads-u-margin--0 vads-u-padding-y-0 ${
           showQueryError ? 'usa-input-error' : ''
         }`}
+        data-e2d-id="find-form-error-body"
       >
         <label
           htmlFor="va-form-query"
@@ -82,7 +83,12 @@ export const SearchForm = ({ fetchForms, fetching }) => {
         >
           Enter a keyword, form name, or number
           {showQueryError && (
-            <span className="form-required-span">(*Required)</span>
+            <span
+              className="form-required-span"
+              data-e2d-id="find-form-required-text"
+            >
+              (*Required)
+            </span>
           )}
         </label>
 
@@ -90,6 +96,7 @@ export const SearchForm = ({ fetchForms, fetching }) => {
           <span
             className="usa-input-error-message vads-u-margin-bottom--0p5"
             role="alert"
+            data-e2d-id="find-form-error-message"
           >
             <span className="sr-only">Error</span>
             Please fill in a keyword, form name, or number.
@@ -103,6 +110,7 @@ export const SearchForm = ({ fetchForms, fetching }) => {
               onChange={handleQueryChange}
               type="text"
               value={queryState}
+              data-e2d-id="find-form-input"
             />
           </div>
           <div className="vads-l-col--12 medium-screen:vads-u-flex--auto medium-screen:vads-u-width--auto">
@@ -110,6 +118,7 @@ export const SearchForm = ({ fetchForms, fetching }) => {
               className="usa-button vads-u-margin--0 vads-u-width--full vads-u-height--full medium-screen:vads-u-width--auto medium-screen-va-border-left-radius--0"
               type="submit"
               disabled={fetching}
+              data-e2d-id="find-form-search"
             >
               <i
                 aria-hidden="true"
