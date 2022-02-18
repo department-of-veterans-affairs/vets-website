@@ -81,7 +81,6 @@ export const personalInformationFormSchemas = {
         },
       },
     },
-    fieldName: 'pronouns',
     required: [],
   },
   genderIdentity: {
@@ -89,7 +88,6 @@ export const personalInformationFormSchemas = {
     properties: {
       ...createBooleanSchemaPropertiesFromOptions(genderLabels),
     },
-    fieldName: 'genderIdentity',
     required: [],
   },
 
@@ -103,7 +101,6 @@ export const personalInformationFormSchemas = {
         },
       },
     },
-    fieldName: 'sexualOrientation',
     required: [],
   },
 };

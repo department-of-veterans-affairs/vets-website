@@ -8,7 +8,6 @@ import {
   orderProperties,
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import { createNotListedTextKey } from '@@profile/util/personal-information/personalInformationUtils';
 import get from '~/platform/forms-system/src/js/utilities/data/get';
 import set from '~/platform/forms-system/src/js/utilities/data/set';
 
@@ -19,7 +18,7 @@ import { isReactComponent } from '~/platform/utilities/ui';
 /*
  * This is largely copied platform/forms-system/src/js/fields/ObjectField.jsx
  * the customization is in an 'auto-deselect' functionality
- * which lives in the onPropertyChange method
+ * which lives in the static method deselectBasedOnValue and onPropertyChange
  * This is required for the behavior of some checkbox fields that include
  * a 'prefer not to answer' option
  */
@@ -45,24 +44,37 @@ function setFirstFields(id) {
 }
 
 class DeselectableObjectField extends React.Component {
-  static deselectBasedOnValue(name, value, formData, fieldName) {
-    const keys = Object.keys(formData);
+  static deselectBasedOnValue(name, value, formData, properties) {
+    // derive the notListedTextKey by looking at the form schema properties for a 'string' field type
+    // be aware this logic limits the usage to a single text field for a 'write in' style field
+    const notListedTextKey = Object.entries(properties).reduce(
+      (previous, [propertyKey, { type }]) => {
+        if (type === 'string') {
+          return propertyKey;
+        }
+        return previous;
+      },
+      '',
+    );
+
+    const formDataKeys = Object.keys(formData);
 
     // handle the preferNotToAnswer option selected so that
     // all other options are set to false and deselected
     if (name === 'preferNotToAnswer' && value === true) {
       let formDataDeselected = { ...formData };
-      const notListedTextKey = createNotListedTextKey(fieldName);
-      keys.forEach(key => {
+
+      formDataKeys.forEach(key => {
         if (key !== 'preferNotToAnswer') {
           // for not listed text field, need to set to empty string instead of false
-          if (key === notListedTextKey) {
+          if (notListedTextKey && key === notListedTextKey) {
             formDataDeselected = set(notListedTextKey, '', formDataDeselected);
             return;
           }
           formDataDeselected = set(key, false, formDataDeselected);
         }
       });
+
       return set(name, value, formDataDeselected);
     }
 
@@ -73,6 +85,7 @@ class DeselectableObjectField extends React.Component {
         false,
         formData,
       );
+
       return set(name, value, formDataPreferDeselected);
     }
 
@@ -129,8 +142,9 @@ class DeselectableObjectField extends React.Component {
 
   onPropertyChange(name) {
     const {
-      schema: { fieldName },
+      schema: { properties },
     } = this.props;
+
     return value => {
       const formData = Object.keys(this.props.formData || {}).length
         ? this.props.formData
@@ -145,7 +159,7 @@ class DeselectableObjectField extends React.Component {
           name,
           value,
           formData,
-          fieldName,
+          properties,
         ),
       );
     };
