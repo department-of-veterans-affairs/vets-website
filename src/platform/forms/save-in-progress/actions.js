@@ -153,7 +153,7 @@ export function migrateFormData(savedData, migrations) {
     return savedData;
   }
 
-  let savedDataCopy = { ...savedData };
+  let savedDataCopy = Object.assign({}, savedData);
   let savedVersion = savedData.metadata.version;
   while (typeof migrations[savedVersion] === 'function') {
     savedDataCopy = migrations[savedVersion](savedDataCopy);
@@ -198,7 +198,7 @@ function saveForm(saveType, formId, formData, version, returnUrl, submission) {
   const savedAt = Date.now();
 
   return (dispatch, getState) => {
-    const { trackingPrefix } = getState().form;
+    const trackingPrefix = getState().form.trackingPrefix;
 
     dispatch(setSaveFormStatus(saveType, SAVE_STATUSES.pending));
 
@@ -323,7 +323,7 @@ export function fetchInProgressForm(
 
           ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
 
-          let { pages } = getState().form;
+          let pages = getState().form.pages;
           if (metadata.prefill && prefillTransformer) {
             ({ formData, pages, metadata } = prefillTransformer(
               pages,
@@ -399,7 +399,7 @@ export function fetchInProgressForm(
 
 export function removeInProgressForm(formId, migrations, prefillTransformer) {
   return (dispatch, getState) => {
-    const { trackingPrefix } = getState().form;
+    const trackingPrefix = getState().form.trackingPrefix;
 
     // Update UI while we’re waiting for the API
     dispatch(setStartOver());
