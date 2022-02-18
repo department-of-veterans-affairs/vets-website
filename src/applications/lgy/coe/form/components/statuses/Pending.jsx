@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import StatusBox from '../../../shared/components/StatusBox';
+import StatusAlert from '../../../shared/components/StatusAlert';
 
 const Pending = ({ referenceNumber, requestDate, status }) => (
   <>
-    <StatusBox.Pending
+    <StatusAlert.Pending
       origin="form"
       referenceNumber={referenceNumber}
       requestDate={requestDate}

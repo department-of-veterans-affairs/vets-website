@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import StatusBox from '../../../shared/components/StatusBox';
+import StatusAlert from '../../../shared/components/StatusAlert';
 import { CoeDocumentList } from '../CoeDocumentList';
 
 export const Denied = ({ referenceNumber, requestDate }) => {
   return (
     <div className="row vads-u-margin-bottom--7">
       <div className="medium-8 columns">
-        <StatusBox.Denied
+        <StatusAlert.Denied
           origin="status"
           referenceNumber={referenceNumber}
           requestDate={requestDate}

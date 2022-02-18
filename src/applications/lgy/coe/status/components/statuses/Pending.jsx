@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import StatusBox from '../../../shared/components/StatusBox';
+import StatusAlert from '../../../shared/components/StatusAlert';
 import { CoeDocumentList } from '../CoeDocumentList';
 import DocumentUploader from '../DocumentUploader';
 import { MoreQuestions } from '../MoreQuestions';
@@ -16,7 +16,7 @@ const Pending = ({
   return (
     <div className="row vads-u-margin-bottom--7">
       <div className="medium-8 columns">
-        <StatusBox.Pending
+        <StatusAlert.Pending
           origin="status"
           referenceNumber={referenceNumber}
           requestDate={requestDate}

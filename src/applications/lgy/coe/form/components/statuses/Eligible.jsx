@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ReviewAndDownload from '../../../shared/components/ReviewAndDownload';
-import StatusBox from '../../../shared/components/StatusBox';
+import StatusAlert from '../../../shared/components/StatusAlert';
 
 const Eligible = ({ downloadUrl, referenceNumber }) => (
   <>
-    <StatusBox.Eligible referenceNumber={referenceNumber} />
+    <StatusAlert.Eligible referenceNumber={referenceNumber} />
     <ReviewAndDownload downloadUrl={downloadUrl} />
     <div>
       <h2>What if my COE has errors?</h2>

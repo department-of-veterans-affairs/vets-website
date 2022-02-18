@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import StatusBox from '../../../shared/components/StatusBox';
+import StatusAlert from '../../../shared/components/StatusAlert';
 
 const Denied = ({ referenceNumber, requestDate }) => {
   return (
     <>
-      <StatusBox.Denied
+      <StatusAlert.Denied
         origin="form"
         referenceNumber={referenceNumber}
         requestDate={requestDate}

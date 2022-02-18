@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 import ReviewAndDownload from '../../../shared/components/ReviewAndDownload';
-import StatusBox from '../../../shared/components/StatusBox';
+import StatusAlert from '../../../shared/components/StatusAlert';
 import { MoreQuestions } from '../MoreQuestions';
 
 const coeUrl = getAppUrl('coe');
@@ -13,7 +13,7 @@ const introUrl = `${coeUrl}/introduction`;
 const Eligible = ({ clickHandler, downloadUrl, referenceNumber }) => (
   <div className="row vads-u-margin-bottom--7">
     <div className="medium-8 columns">
-      <StatusBox.Eligible referenceNumber={referenceNumber} />
+      <StatusAlert.Eligible referenceNumber={referenceNumber} />
       <ReviewAndDownload downloadUrl={downloadUrl} />
       <h2>What if I need to make changes to my COE?</h2>
       <p>

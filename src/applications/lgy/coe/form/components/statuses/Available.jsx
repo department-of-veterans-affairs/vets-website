@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ReviewAndDownload from '../../../shared/components/ReviewAndDownload';
-import StatusBox from '../../../shared/components/StatusBox';
+import StatusAlert from '../../../shared/components/StatusAlert';
 
 const Available = ({ downloadUrl, referenceNumber, requestDate }) => (
   <>
-    <StatusBox.Available
+    <StatusAlert.Available
       referenceNumber={referenceNumber}
       requestDate={requestDate}
     />

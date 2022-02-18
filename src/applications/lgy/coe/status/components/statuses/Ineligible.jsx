@@ -2,7 +2,7 @@ import React from 'react';
 
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
-import StatusBox from '../../../shared/components/StatusBox';
+import StatusAlert from '../../../shared/components/StatusAlert';
 import { MoreQuestions } from '../MoreQuestions';
 
 const coeUrl = getAppUrl('coe');
@@ -11,7 +11,7 @@ const introUrl = `${coeUrl}/introduction`;
 const Ineligible = () => (
   <div className="row vads-u-margin-bottom--7">
     <div className="medium-8 columns">
-      <StatusBox.Ineligible />
+      <StatusAlert.Ineligible />
       <h2>Can I get a VA home loan COE?</h2>
       <p>
         You may be able to get a COE if you didn’t receive a dishonorable
