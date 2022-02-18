@@ -13,7 +13,7 @@ class FindFormComponent {
   loadFindFormComponent = query => {
     // Loads the forms page and checks existence
     if (query || query === ' ') cy.visit(`/find-forms/?q=${query}`);
-    else cy.visit(`/find-forms`);
+    else cy.visit(`/find-forms/`);
 
     cy.get(SELECTORS.APP).should('exist');
   };
