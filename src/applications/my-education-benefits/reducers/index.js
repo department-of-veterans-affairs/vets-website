@@ -44,7 +44,8 @@ export default {
             action?.response?.data?.attributes?.eligibility
               ?.filter(
                 benefit =>
-                  benefit.veteran_is_eligible &&
+                  (benefit.veteranIsEligible === true ||
+                    benefit.veteranIsEligible === null) &&
                   benefit.chapter !== ELIGIBILITY.CHAPTER33,
               )
               .map(benefit => benefit.chapter) || [],

@@ -2,6 +2,7 @@ import { shouldHideAlert } from 'applications/caregivers/helpers';
 import {
   AdditionalCaregiverInfo,
   SecondaryRequiredAlert,
+  whyAskHealthCareCoverage,
 } from 'applications/caregivers/components/AdditionalInfo';
 
 export const primaryInputLabel = 'Primary Family Caregiver\u2019s';
@@ -11,6 +12,7 @@ export const secondaryTwoInputLabel = 'Secondary Family Caregiver\u2019s (2)';
 export const hasHealthInsurance = {
   'ui:title':
     'Does the Primary Family Caregiver applicant have health care coverage, such as Medicaid, Medicare, CHAMPVA, Tricare, or private insurance?',
+  'ui:description': whyAskHealthCareCoverage,
   'ui:widget': 'yesNo',
 };
 

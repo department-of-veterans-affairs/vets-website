@@ -38,6 +38,7 @@ export const getQueryParams = () => {
 };
 
 const fixUrl = (url, path) => {
+  if (!url) return null;
   const updatedUrl = url.endsWith('/') ? url.slice(0, -1) : url;
   return `${updatedUrl}${path}`.replace('\r\n', ''); // Prevent CRLF injection.
 };
@@ -58,10 +59,25 @@ export function sessionTypeUrl({
   const base = `${environment.API_URL}/${version}/sessions`;
   const searchParams = new URLSearchParams(queryParams);
 
+  const { application } = getQueryParams();
+
+  // Only require verification when all of the following are true:
+  // 1. On the USiP (Unified Sign In Page)
+  // 2. The outbound application is one of the mobile apps
+  // 3. The generated link type is for signup, and login only
+  const requireVerification =
+    isExternalRedirect() &&
+    [EXTERNAL_APPS.VA_OCC_MOBILE, EXTERNAL_APPS.VA_FLAGSHIP_MOBILE].includes(
+      application,
+    ) &&
+    [...Object.values(SIGNUP_TYPES), ...Object.values(CSP_IDS)].includes(type)
+      ? '_verified'
+      : '';
+
   const queryString =
     searchParams.toString() === '' ? '' : `?${searchParams.toString()}`;
 
-  return `${base}/${type}/new${queryString}`;
+  return `${base}/${type}${requireVerification}/new${queryString}`;
 }
 
 export function setSentryLoginType(loginType) {
@@ -93,11 +109,19 @@ function redirectWithGAClientId(redirectUrl) {
   }
 }
 
-const generatePath = (app, to) => {
-  if (app === EXTERNAL_APPS.MHV) {
-    return `?deeplinking=${to}`;
+export const generatePath = (app, to) => {
+  function generateDefaultTo() {
+    return app === EXTERNAL_APPS.EBENEFITS ? '/profilepostauth' : '';
   }
-  return to.startsWith('/') ? to : `/${to}`;
+
+  function generateTo() {
+    if (app === EXTERNAL_APPS.MHV) {
+      return `?deeplinking=${to}`;
+    }
+    return to.startsWith('/') ? to : `/${to}`;
+  }
+
+  return !to ? generateDefaultTo() : generateTo();
 };
 
 export function createExternalRedirectUrl({ base, returnUrl, application }) {
@@ -106,18 +130,27 @@ export function createExternalRedirectUrl({ base, returnUrl, application }) {
       SKIP_DUPE_QUERY.SINGLE_QUERY
     }&redirect=${returnUrl}&postLogin=true`,
     [EXTERNAL_APPS.MY_VA_HEALTH]: `${base}`,
+    [EXTERNAL_APPS.EBENEFITS]: `${base}`,
+    [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: `${base}`,
+    [EXTERNAL_APPS.VA_OCC_MOBILE]: `${base}`,
   }[application];
 }
 
 export function standaloneRedirect() {
   const { application, to } = getQueryParams();
-  let url = EXTERNAL_REDIRECTS[application] || null;
 
-  if (url && to) {
-    url = fixUrl(url, generatePath(application, to));
+  const externalRedirectUrl = EXTERNAL_REDIRECTS[application] ?? null;
+
+  if (
+    [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE, EXTERNAL_APPS.VA_OCC_MOBILE].includes(
+      application,
+    ) &&
+    externalRedirectUrl
+  ) {
+    return fixUrl(`${externalRedirectUrl}${window.location.search}`, '');
   }
 
-  return url;
+  return fixUrl(externalRedirectUrl, generatePath(application, to));
 }
 
 export function redirect(redirectUrl, clickedEvent) {

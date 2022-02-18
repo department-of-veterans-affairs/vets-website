@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import environment from 'platform/utilities/environment';
 
 class OMBInfo extends React.Component {
   constructor(props) {
@@ -33,15 +34,18 @@ class OMBInfo extends React.Component {
           including Social Security numbers (SSN), outside VA if the disclosure
           is authorized under the Privacy Act, including the routine uses
           identified in the VA system of records, 58VA21/22/28, Compensation,
-          Pension, Education, and Vocational Rehabilitation and Employment
-          Records - VA, published in the Federal Register. The requested
-          information is considered relevant and necessary to determine maximum
-          benefits under the law. Your obligation to respond is required in
-          order to obtain or retain education benefits. Giving us your SSN
-          account information is voluntary. Refusal to provide your SSN by
-          itself will not result in the denial of benefits. The VA will not deny
-          an individual benefits for refusing to provide his or her SSN unless
-          the disclosure of the SSN is required by Federal Statute of law
+          Pension, Education, and{' '}
+          {environment.isProduction()
+            ? 'Vocational Rehabilitation'
+            : 'Veteran Readiness'}{' '}
+          and Employment Records - VA, published in the Federal Register. The
+          requested information is considered relevant and necessary to
+          determine maximum benefits under the law. Your obligation to respond
+          is required in order to obtain or retain education benefits. Giving us
+          your SSN account information is voluntary. Refusal to provide your SSN
+          by itself will not result in the denial of benefits. The VA will not
+          deny an individual benefits for refusing to provide his or her SSN
+          unless the disclosure of the SSN is required by Federal Statute of law
           enacted before January 1, 1975 and still in effect. Any information
           provided by applicants may be subject to verification through computer
           matching programs with other agencies.

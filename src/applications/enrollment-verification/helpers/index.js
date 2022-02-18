@@ -13,14 +13,14 @@ const months = [
   'December',
 ];
 
-export const formatReadableDate = rawDate => {
+export const formatNumericalDate = rawDate => {
   let date;
 
   if (rawDate) {
     const dateParts = rawDate.split('-');
     date = new Date(
       Number.parseInt(dateParts[0], 10),
-      Number.parseInt(dateParts[1], 10) - 1,
+      Number.parseInt(dateParts[1], 10),
       Number.parseInt(dateParts[2], 10),
     );
   }
@@ -29,7 +29,7 @@ export const formatReadableDate = rawDate => {
     return '';
   }
 
-  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+  return `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
 };
 
 export const formatReadableMonthYear = rawDate => {

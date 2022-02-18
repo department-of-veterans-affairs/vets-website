@@ -16,7 +16,7 @@ export default {
           'ui:title': 'Name of issue',
         },
         decisionDate: {
-          ...dateUiSchema('Date of decision'),
+          ...dateUiSchema('Date of notification of the decision'),
         },
       },
     },

@@ -45,7 +45,7 @@ const approvedPage = (claimantName, confirmationDate) => (
 
     <div className="feature">
       <h3>Application for VA education benefits (Form 22-1990)</h3>
-      <p>For {claimantName}</p>
+      {claimantName.trim() ? <p>For {claimantName}</p> : <></>}
       <dl>
         <dt>Date received</dt>
         <dd>{confirmationDate}</dd>
@@ -145,7 +145,7 @@ const deniedPage = (claimantName, confirmationDate) => (
 
     <div className="feature">
       <h3>Application for VA education benefits (Form 22-1990)</h3>
-      <p>For {claimantName}</p>
+      {claimantName.trim() ? <p>For {claimantName}</p> : <></>}
       <dl>
         <dt>Date received</dt>
         <dd>{confirmationDate}</dd>
@@ -197,7 +197,7 @@ const pendingPage = (claimantName, confirmationDate) => (
 
     <div className="feature">
       <h3>Application for VA education benefits (Form 22-1990)</h3>
-      <p>For {claimantName}</p>
+      {claimantName.trim() ? <p>For {claimantName}</p> : <></>}
       <dl>
         <dt>Date received</dt>
         <dd>{confirmationDate}</dd>
@@ -307,9 +307,8 @@ export const ConfirmationPage = ({
   const confirmationDate = claimStatus?.receivedDate
     ? format(new Date(claimStatus?.receivedDate), 'MMMM d, yyyy')
     : undefined;
-  const claimantName = `${userFullName.first} ${userFullName.middle} ${
-    userFullName.last
-  } ${userFullName.suffix}`;
+  const claimantName = `${userFullName?.first || ''} ${userFullName?.middle ||
+    ''} ${userFullName?.last || ''} ${userFullName?.suffix || ''}`;
 
   switch (confirmationResult) {
     case CLAIM_STATUS_RESPONSE_ELIGIBLE: {
