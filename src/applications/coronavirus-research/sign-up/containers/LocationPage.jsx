@@ -25,6 +25,7 @@ class LocationPage extends React.Component {
       errorMessage: null,
     };
   }
+
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
@@ -35,6 +36,7 @@ class LocationPage extends React.Component {
       errorMessage: null,
     });
   }
+
   loadNextPage() {
     if (this.state.currentSelection === '') {
       this.setState({ errorMessage: 'Please select an option' });

@@ -13,7 +13,7 @@ import {
 
 import formConfig from '../../config/form.js';
 
-describe('Coronavirus Research Volunteer Form V2', () => {
+describe('Coronavirus Research Volunteer Form', () => {
   const { schema, uiSchema } = formConfig.chapters.chapter1.pages.page1;
 
   const volunteerData = () => ({
