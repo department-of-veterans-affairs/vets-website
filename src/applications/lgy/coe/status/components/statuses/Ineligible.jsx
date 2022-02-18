@@ -2,32 +2,21 @@ import React from 'react';
 
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
-import { MoreQuestions } from './MoreQuestions';
+import StatusAlert from '../../../shared/components/StatusAlert';
+import { MoreQuestions } from '../MoreQuestions';
 
 const coeUrl = getAppUrl('coe');
 const introUrl = `${coeUrl}/introduction`;
 
-export const CoeIneligible = () => (
+const Ineligible = () => (
   <div className="row vads-u-margin-bottom--7">
     <div className="medium-8 columns">
-      <va-alert status="info">
-        <h2 slot="headline" className="vads-u-font-size--h3">
-          We don’t have a COE on file for you
-        </h2>
-        <p>
-          We can’t find a VA home loan Certificate of Eligibility for you. To
-          request a COE, you’ll need to fill out and submit a Request for a
-          Certificate of Eligibility (VA Form 26-1880)
-        </p>
-        <a href="/housing-assistance/home-loans/">
-          Learn more about VA-backed home loans
-        </a>
-      </va-alert>
+      <StatusAlert.Ineligible />
       <h2>Can I get a VA home loan COE?</h2>
       <p>
         You may be able to get a COE if you didn’t receive a dishonorable
-        discharge and you meet the minimum active-duty service requirement based
-        on when you served.
+        discharge and you meet the minimum service requirement based on when you
+        served.
         <br />
         <a href="/housing-assistance/home-loans/eligibility/">
           Find out about eligibility requirements for VA home loan programs.
@@ -64,3 +53,5 @@ export const CoeIneligible = () => (
     </div>
   </div>
 );
+
+export default Ineligible;

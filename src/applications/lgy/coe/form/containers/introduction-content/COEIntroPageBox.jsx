@@ -2,34 +2,51 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { COE_ELIGIBILITY_STATUS } from '../../../shared/constants';
-import COEAvailable from './COEStatuses/COEAvailable';
-import COEDenied from './COEStatuses/COEDenied';
-import COEEligible from './COEStatuses/COEEligible';
-import COEIneligible from './COEStatuses/COEIneligible';
-import COEPending from './COEStatuses/COEPending';
+import {
+  Available,
+  Denied,
+  Eligible,
+  Ineligible,
+  Pending,
+} from '../../components/statuses';
 
-const COEIntroPageBox = ({ applicationCreateDate, downloadUrl, status }) => {
+const COEIntroPageBox = ({
+  downloadUrl,
+  referenceNumber,
+  requestDate,
+  status,
+}) => {
   if (status) {
     switch (status) {
       case COE_ELIGIBILITY_STATUS.available:
         return (
-          <COEAvailable
-            applicationCreateDate={applicationCreateDate}
+          <Available
             downloadUrl={downloadUrl}
+            referenceNumber={referenceNumber}
+            requestDate={requestDate}
           />
         );
       case COE_ELIGIBILITY_STATUS.denied:
-        return <COEDenied />;
+        return (
+          <Denied referenceNumber={referenceNumber} requestDate={requestDate} />
+        );
       case COE_ELIGIBILITY_STATUS.eligible:
-        return <COEEligible downloadUrl={downloadUrl} />;
+        return (
+          <Eligible
+            downloadUrl={downloadUrl}
+            referenceNumber={referenceNumber}
+          />
+        );
       case COE_ELIGIBILITY_STATUS.ineligible:
       case COE_ELIGIBILITY_STATUS.unableToDetermine:
-        return <COEIneligible />;
+        return <Ineligible />;
       case COE_ELIGIBILITY_STATUS.pending:
       case COE_ELIGIBILITY_STATUS.pendingUpload:
         return (
-          <COEPending
-            applicationCreateDate={applicationCreateDate}
+          <Pending
+            origin="form"
+            referenceNumber={referenceNumber}
+            requestDate={requestDate}
             status={status}
           />
         );
@@ -42,8 +59,9 @@ const COEIntroPageBox = ({ applicationCreateDate, downloadUrl, status }) => {
 };
 
 COEIntroPageBox.propTypes = {
-  applicationCreateDate: PropTypes.number,
   downloadUrl: PropTypes.string,
+  referenceNumber: PropTypes.string,
+  requestDate: PropTypes.number,
   status: PropTypes.string,
 };
 
