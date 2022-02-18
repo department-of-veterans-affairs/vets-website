@@ -8,7 +8,7 @@ import sinon from 'sinon';
 
 chai.use(chaiAsPromised);
 
-const { expect } = chai;
+const expect = chai.expect;
 
 /**
  * Wraps the given children with a new component with context from
