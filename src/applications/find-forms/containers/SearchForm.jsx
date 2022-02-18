@@ -1,5 +1,5 @@
 // Dependencies.
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
@@ -15,6 +15,8 @@ export const SearchForm = ({ fetchForms, fetching }) => {
   const query = queryParams.get('q') || '';
   const [queryState, setQueryState] = useState(query);
   const [showQueryError, setShowQueryError] = useState(false);
+
+  const findFormInputFieldRef = useRef(null);
 
   useEffect(() => {
     // Check if URL query is zero chars, disable error initially
@@ -33,6 +35,15 @@ export const SearchForm = ({ fetchForms, fetching }) => {
 
   // Checks if string is less than two chars
   const isLessThanTwoChars = str => str.length < 2;
+
+  // Sets focus on the input field
+  const setInputFieldFocus = selector => {
+    const element =
+      typeof selector === 'string'
+        ? document.querySelector(selector)
+        : selector;
+    if (element) element.focus();
+  };
 
   // Handles the input textbox change
   const handleQueryChange = event => {
@@ -55,8 +66,11 @@ export const SearchForm = ({ fetchForms, fetching }) => {
     const checkQueryState = isLessThanTwoChars(queryState);
     setShowQueryError(checkQueryState);
 
-    // Return early if not valid
-    if (checkQueryState) return;
+    // If not valid, set focus on input and return early
+    if (checkQueryState) {
+      setInputFieldFocus(findFormInputFieldRef.current);
+      return;
+    }
 
     // Fetch the forms if valid query
     fetchForms(queryState);
@@ -91,7 +105,6 @@ export const SearchForm = ({ fetchForms, fetching }) => {
             </span>
           )}
         </label>
-
         {showQueryError && (
           <span
             className="usa-input-error-message vads-u-margin-bottom--0p5"
@@ -106,6 +119,7 @@ export const SearchForm = ({ fetchForms, fetching }) => {
           <div className="vads-l-col--12 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
             <input
               className="usa-input vads-u-margin--0 vads-u-margin-bottom--2 vads-u-max-width--100 vads-u-width--full medium-screen:vads-u-margin-bottom--0"
+              ref={findFormInputFieldRef}
               id="va-form-query"
               onChange={handleQueryChange}
               type="text"
