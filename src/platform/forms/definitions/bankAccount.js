@@ -14,15 +14,17 @@ function validateRoutingNumber(
   }
 }
 
+const isProduction = environment.isProduction();
+
 const uiSchema = {
   'ui:order': () =>
-    environment.isProduction()
+    isProduction
       ? ['accountType', 'accountNumber', 'routingNumber']
-      : ['accountType', 'view:ddDescription', 'routingNumber', 'accountNumber'],
+      : ['accountType', 'routingNumber', 'accountNumber'],
   accountType: {
     'ui:title': 'Account type',
     'ui:widget': 'radio',
-    'ui:required': () => !environment.isProduction(),
+    'ui:required': !environment.isProduction,
     'ui:options': {
       labels: {
         checking: 'Checking',
@@ -30,14 +32,11 @@ const uiSchema = {
       },
     },
   },
-  'view:ddDescription': {
-    'ui:description': directDepositDescription,
-  },
   accountNumber: {
     'ui:title': 'Bank account number',
-    'ui:required': () => !environment.isProduction(),
+    'ui:required': !environment.isProduction,
     'ui:errorMessages': () =>
-      environment.isProduction()
+      isProduction
         ? {}
         : {
             pattern: 'Please enter a valid account number',
@@ -45,13 +44,13 @@ const uiSchema = {
           },
   },
   routingNumber: {
-    'ui:title': environment.isProduction()
+    'ui:title': isProduction
       ? 'Bank routing number'
       : 'Bank’s 9 digit routing number',
     'ui:validations': [validateRoutingNumber],
-    'ui:required': () => !environment.isProduction(),
+    'ui:required': !environment.isProduction,
     'ui:errorMessages': () =>
-      environment.isProduction()
+      isProduction
         ? {}
         : {
             pattern: 'Please enter a valid 9 digit routing number',
