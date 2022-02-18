@@ -1,5 +1,4 @@
 import React from 'react';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const evidenceUploadIntroTitle = 'Additional evidence';
 
@@ -19,7 +18,8 @@ export const evidenceUploadIntroDescription = (
           <br />
           Washington, D.C. 20038
         </p>
-        You can also fax it to <Telephone notClickable contact="844-678-8979" />
+        You can also fax it to{' '}
+        <va-telephone not-clickable contact="8446788979" />
       </va-additional-info>
     </div>
   </>
