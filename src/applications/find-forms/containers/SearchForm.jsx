@@ -85,7 +85,7 @@ export const SearchForm = ({ fetchForms, fetching }) => {
           {showQueryError && (
             <span
               className="form-required-span"
-              data-e2d-id="find-form-required-text"
+              data-e2d-id="find-form-required"
             >
               (*Required)
             </span>
