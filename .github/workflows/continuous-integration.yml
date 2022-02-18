@@ -1087,21 +1087,55 @@ jobs:
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
+    # if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
+    if: ${{ failure() || cancelled() }}
     needs: deploy
     env:
       DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
       VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
+      TEST_SINGLE_APP_BUILD: C032FM8LFCN #test-single-app-builds
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: List changed files
+        id: changed-files
+        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+
+      - name: Get app team's Slack group
+        id: get-slack-groups
+        run: echo ::set-output name=slack_groups::$(node script/github-actions/get-changed-apps.js --output-type slack-group)
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+
+      # - name: Notify Slack Group
+      #   uses: ./.github/workflows/slack-notify
+      #   continue-on-error: true
+      #   if: ${{ steps.get-slack-groups.outputs.slack_groups != '' }}
+      #   with:
+      #     payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!${{steps.get-slack-groups.outputs.slack_groups}}> vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
+      #     channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
-          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!${{steps.get-slack-groups.outputs.slack_groups}}> vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
+          channel_id: ${{ env.TEST_SINGLE_APP_BUILD }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

@@ -39,16 +39,33 @@ const getAllowedApps = (filePath, allow) => {
   const rootAppPath = path.join(appsDirectory, rootAppFolder);
   const manifests = getManifests(filePath);
 
-  const isAllowed =
-    allow.rootAppFolders.includes(rootAppFolder) ||
-    (manifests.length === 1 &&
-      allow.entryNames.includes(manifests[0].entryName));
+  // console.log(allow.appFolders);
+  // const isAllowed =
+  //   allow.appFolders.find(appFolder => appFolder.rootAppFolder) ||
+  //   (manifests.length === 1 &&
+  //     allow.appEntries.find(
+  //       appEntry => appEntry.entryName === manifests[0].entryName,
+  //     ));
+
+  const allowedAppFolder = allow.appFolders.find(
+    appFolder => appFolder.rootAppFolder === rootAppFolder,
+  );
+
+  const allowedApp = allow.appEntries.find(
+    appEntry => appEntry.entryName === manifests[0].entryName,
+  );
+
+  const isAllowed = allowedAppFolder || allowedApp;
+
+  // console.log(allowedApps);
+  // console.log(allowedAppFolder);
 
   if (isAllowed) {
     return manifests.map(({ entryName, rootUrl }) => ({
       entryName,
       rootUrl,
       rootPath: rootAppPath,
+      slackGroup: allowedAppFolder?.slackGroup || allowedApp?.slackGroup,
     }));
   }
 
@@ -77,6 +94,8 @@ const getChangedAppsString = (filePaths, config, outputType = 'entry') => {
           appStrings.push(app.entryName);
         } else if (outputType === 'folder') {
           appStrings.push(app.rootPath);
+        } else if (outputType === 'slack-group') {
+          appStrings.push(app.slackGroup);
         } else if (outputType === 'url') {
           if (app.rootUrl) appStrings.push(app.rootUrl);
         } else throw new Error('Invalid output type specified.');
@@ -95,6 +114,7 @@ if (process.env.CHANGED_FILE_PATHS) {
     // 'entry': The entry names of the changed apps.
     // 'folder': The relative path of the changed apps root folders.
     // 'url': The root URLs of the changed apps.
+    // 'slack-group': The Slack group of the app's team.
     { name: 'output-type', type: String, defaultValue: 'entry' },
   ]);
   const outputType = options['output-type'];

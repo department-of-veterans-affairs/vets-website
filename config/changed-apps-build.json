@@ -1,13 +1,31 @@
 {
   "allow": {
-    "entryNames": [
-      "education-inbox",
-      "enrollment-verification",
-      "login-page",
-      "medical-copays",
-      "terms-and-conditions",
-      "vaos"
+    "appEntries": [
+      {
+        "entryName": "education-inbox"
+      },
+      {
+        "entryName": "enrollment-verification"
+      },
+      {
+        "entryName": "login-page"
+      },
+      {
+        "entryName": "medical-copays"
+      },
+      {
+        "entryName": "terms-and-conditions"
+      },
+      {
+        "entryName": "vaos",
+        "slackGroup": "@vaos-fe-all"
+      }
     ],
-    "rootAppFolders": ["check-in"]
+    "appFolders": [
+      {
+        "rootAppFolder": "check-in",
+        "slackGroup": "@check-in"
+      }
+    ]
   }
 }
