@@ -30,8 +30,7 @@ export function removeFormApi(formId) {
         Sentry.captureException(res);
         Sentry.captureMessage('vets_sip_error_delete');
         return Promise.resolve();
-      }
-      if (!res.ok) {
+      } else if (!res.ok) {
         Sentry.captureMessage(`vets_sip_error_delete: ${res.statusText}`);
       }
 
