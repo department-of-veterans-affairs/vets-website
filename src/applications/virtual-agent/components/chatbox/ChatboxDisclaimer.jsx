@@ -6,7 +6,7 @@ export const ChatboxDisclaimer = () => {
   const dispatch = useDispatch();
   return (
     <va-alert status="info">
-      <h3 slot="headline">About this Chatbot</h3>
+      <h3 slot="headline">About this chatbot</h3>
 
       <div data-testid="disclaimer" style={{ width: '100%' }}>
         <ul>
@@ -30,7 +30,7 @@ export const ChatboxDisclaimer = () => {
           className="usa-button-primary"
           onClick={() => dispatch({ type: ACCEPTED })}
         >
-          Accept & Start Chat
+          Start chat
         </button>
       </div>
     </va-alert>

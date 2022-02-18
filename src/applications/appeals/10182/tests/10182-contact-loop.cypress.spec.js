@@ -1,14 +1,18 @@
 import { BASE_URL, CONTESTABLE_ISSUES_API } from '../constants';
 
 import mockUser from './fixtures/mocks/user.json';
+import mockUserUpdate from './fixtures/mocks/user-update.json';
+import mockIssues from './fixtures/mocks/contestable-issues.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockData from './fixtures/data/maximal-test.json';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import { mockContestableIssues } from './nod.cypress.helpers';
 
-// Telephone specific responses
-import mockTelephoneUpdate from './fixtures/mocks/telephone-update.json';
-import mockTelephoneUpdateSuccess from './fixtures/mocks/telephone-update-success.json';
+// Profile specific responses
+import mockProfilePhone from './fixtures/mocks/profile-phone.json';
+import mockProfileEmail from './fixtures/mocks/profile-email.json';
+import mockProfileAddress from './fixtures/mocks/profile-address.json';
+import mockProfileAddressValidation from './fixtures/mocks/profile-address-validation.json';
 
 const checkOpt = {
   waitForAnimations: true,
@@ -29,12 +33,25 @@ describe('NOD contact info loop', () => {
       `/v1${CONTESTABLE_ISSUES_API}compensation`,
       mockContestableIssues,
     );
+    cy.intercept(
+      'GET',
+      '/v0/notice_of_disagreements/contestable_issues',
+      mockIssues,
+    );
     cy.intercept('GET', '/v0/in_progress_forms/10182', mockData);
     cy.intercept('PUT', '/v0/in_progress_forms/10182', mockData);
 
-    // telephone
-    cy.intercept('PUT', '/v0/profile/telephones', mockTelephoneUpdate);
-    cy.intercept('GET', '/v0/profile/status/*', mockTelephoneUpdateSuccess);
+    // contact page updates
+    cy.intercept('PUT', '/v0/profile/telephones', mockProfilePhone);
+    cy.intercept('PUT', '/v0/profile/email_addresses', mockProfileEmail);
+    cy.intercept('PUT', '/v0/profile/addresses', mockProfileAddress);
+    cy.intercept(
+      'POST',
+      '/v0/profile/address_validation',
+      mockProfileAddressValidation,
+    ).as('getAddressValidation');
+    // profile changes
+    cy.intercept('GET', '/v0/user?now=*', mockUserUpdate);
 
     cy.login(mockUser);
     cy.intercept('GET', '/v0/profile/status', mockStatus);
@@ -65,65 +82,86 @@ describe('NOD contact info loop', () => {
 
   it('should edit info on a new page & cancel returns to contact info page', () => {
     getToContactPage();
+    const contactPageUrl = `${BASE_URL}/contact-information`;
 
     // Contact info
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
+    cy.location('pathname').should('eq', contactPageUrl);
     cy.injectAxe();
     cy.axeCheck();
 
-    // Mobile phone
+    // Mobile phone loops *****
     cy.get('a[href$="phone"]').click();
     cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
     cy.injectAxe();
     cy.axeCheck();
 
+    // cancel phone change
     cy.findByText(/cancel/i, { selector: 'button' }).click();
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
+    cy.location('pathname').should('eq', contactPageUrl);
 
-    // Email
+    // update phone
+    /*
+    cy.get('a[href$="phone"]').click();
+    cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
+    cy.findByLabelText(/extension/i)
+      .clear()
+      .type('12345');
+    cy.findByText(/^update$/i, { selector: 'button' })
+      .first()
+      .click();
+    cy.location('pathname').should('eq', contactPageUrl);
+    */
+
+    // Email loops *****
     cy.get('a[href$="email-address"]').click();
     cy.location('pathname').should('eq', `${BASE_URL}/edit-email-address`);
     cy.injectAxe();
     cy.axeCheck();
 
+    // cancel email change
     cy.findByText(/cancel/i, { selector: 'button' }).click();
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
+    cy.location('pathname').should('eq', contactPageUrl);
 
-    // Mailing address
+    // update email
+    /*
+    cy.get('a[href$="email-address"]').click();
+    cy.location('pathname').should('eq', `${BASE_URL}/edit-email-address`);
+    cy.findByLabelText(/email address/i)
+      .clear()
+      .type('test@test.com');
+    cy.findByText(/^update$/i, { selector: 'button' })
+      .first()
+      .click();
+    cy.location('pathname').should('eq', contactPageUrl);
+    */
+
+    // Mailing address loops *****
     cy.get('a[href$="mailing-address"]').click();
     cy.location('pathname').should('eq', `${BASE_URL}/edit-mailing-address`);
     cy.injectAxe();
     cy.axeCheck();
 
+    // cancel address change
     cy.findByText(/cancel/i, { selector: 'button' }).click();
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
-  });
+    cy.location('pathname').should('eq', contactPageUrl);
 
-  /*
-  * Skipping for now because clicking "update" should return to the contact
-  * info page, but this isn't working... I think I'm missing an intermediate
-  * step here?
-
-  it.skip('should edit info on a new page, update & return to contact info page - C12884', () => {
-    getToContactPage();
-
-    // Contact info
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
-
-    // Mobile phone
-    cy.get('a[href$="phone"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
-
-    cy.findByLabelText(/mobile phone/i)
-      .clear()
-      .type('8885551212');
-    cy.findByLabelText(/extension/i)
-      .clear()
-      .type('12345');
-    cy.findAllByText(/update/i, { selector: 'button' })
+    // update address
+    /*
+    cy.get('a[href$="mailing-address"]').click();
+    cy.location('pathname').should('eq', `${BASE_URL}/edit-mailing-address`);
+    cy.findByLabelText(/address line 2/i).clear(); // remove "c/o Pixar"
+    cy.findByText(/^update$/i, { selector: 'button' })
       .first()
       .click();
-    // Not returning to the contact info page :(
+    cy.wait('@getAddressValidation');
+    */
+    /*
+    Not including address validation intermediate page because it hates me
+    cy.findByText(/^use this address$/i, { selector: 'button' }).should('be.visible');
+    cy.findByText(/^use this address$/i, { selector: 'button' })
+      .first()
+      .click();
+    */
+    cy.location('pathname').should('eq', contactPageUrl);
   });
-  */
 });
