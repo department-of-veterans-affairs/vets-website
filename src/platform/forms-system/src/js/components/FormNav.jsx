@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import uniq from 'lodash/uniq';
 
-import PropTypes from 'prop-types';
 import {
   createFormPageList,
   createPageList,
@@ -97,15 +97,7 @@ export default function FormNav(props) {
     <div>
       <va-segmented-progress-bar total={chapters.length} current={current} />
       <div className="schemaform-chapter-progress">
-        <div
-          role="progressbar"
-          aria-label={`Step ${current} of ${chapters.length}`}
-          aria-valuenow={current}
-          aria-valuemin="1"
-          aria-valuetext={stepText}
-          aria-valuemax={chapters.length}
-          className="nav-header nav-header-schemaform"
-        >
+        <div className="nav-header nav-header-schemaform">
           {showHeader && (
             <h2 id="nav-form-header" className="vads-u-font-size--h4">
               {stepText}
