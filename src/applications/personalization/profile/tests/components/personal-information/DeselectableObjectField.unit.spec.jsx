@@ -1,4 +1,5 @@
 import DeselectableObjectField from '@@profile/components/personal-information/DeselectableObjectField';
+import { personalInformationFormSchemas } from '@@profile/util/personal-information/personalInformationUtils';
 
 import { expect } from 'chai';
 
@@ -29,7 +30,7 @@ describe('PersonalInformation', () => {
         'preferNotToAnswer',
         true,
         initial,
-        'gender',
+        personalInformationFormSchemas.genderIdentity.properties,
       ),
     ).to.deep.equal(expected);
   });
@@ -37,22 +38,12 @@ describe('PersonalInformation', () => {
   it('should set preferNotToAnswer to false if any other option is set to true', () => {
     const initial = {
       woman: false,
-      man: false,
-      transgenderWoman: false,
-      transgenderMan: false,
-      nonBinary: false,
       preferNotToAnswer: true,
-      genderNotListed: false,
     };
 
     const expected = {
       woman: true,
-      man: false,
-      transgenderWoman: false,
-      transgenderMan: false,
-      nonBinary: false,
       preferNotToAnswer: false,
-      genderNotListed: false,
     };
 
     expect(
@@ -60,32 +51,20 @@ describe('PersonalInformation', () => {
         'woman',
         true,
         initial,
-        'gender',
+        personalInformationFormSchemas.genderIdentity.properties,
       ),
     ).to.deep.equal(expected);
   });
 
   it('should set *NotListedText field to blank string when preferNotToAnswer is true', () => {
     const initial = {
-      woman: true,
-      man: true,
-      transgenderWoman: true,
-      transgenderMan: true,
-      nonBinary: true,
       preferNotToAnswer: false,
-      genderNotListed: true,
-      genderNotListedText: 'test text',
+      sexualOrientationNotListedText: 'test text',
     };
 
     const expected = {
-      woman: false,
-      man: false,
-      transgenderWoman: false,
-      transgenderMan: false,
-      nonBinary: false,
       preferNotToAnswer: true,
-      genderNotListed: false,
-      genderNotListedText: '',
+      sexualOrientationNotListedText: '',
     };
 
     expect(
@@ -93,7 +72,7 @@ describe('PersonalInformation', () => {
         'preferNotToAnswer',
         true,
         initial,
-        'gender',
+        personalInformationFormSchemas.sexualOrientation.properties,
       ),
     ).to.deep.equal(expected);
   });
@@ -124,7 +103,7 @@ describe('PersonalInformation', () => {
         'man',
         true,
         initial,
-        'gender',
+        personalInformationFormSchemas.genderIdentity.properties,
       ),
     ).to.deep.equal(expected);
   });
