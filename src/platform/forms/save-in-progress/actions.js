@@ -265,7 +265,7 @@ export function fetchInProgressForm(
   // TODO: Migrations currently aren’t sent; they’re taken from `form` in the
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return (dispatch, getState) => {
-    const { trackingPrefix } = getState().form;
+    const trackingPrefix = getState().form.trackingPrefix;
     const apiUrl = inProgressApi(formId);
 
     // Update UI while we’re waiting for the API
