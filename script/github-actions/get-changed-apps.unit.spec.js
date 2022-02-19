@@ -55,7 +55,7 @@ describe('getChangedAppsString', () => {
 
   context('when the entry output type is specified', () => {
     it('should return an empty string when the allow list is empty', () => {
-      const config = { allow: { entryNames: [], rootAppFolders: [] } };
+      const config = { allow: { singleApps: [], groupedApps: [] } };
       const changedFiles = [
         'src/applications/app1/some-file.js',
         'src/applications/app2/some-file.js',
@@ -67,7 +67,10 @@ describe('getChangedAppsString', () => {
 
     it('should return a comma-delimited string of entry names when multiple apps on the allow list are modified', () => {
       const config = {
-        allow: { entryNames: ['app1', 'app2'], rootAppFolders: [] },
+        allow: {
+          singleApps: [{ entryName: 'app1' }, { entryName: 'app2' }],
+          groupedApps: [],
+        },
       };
       const changedFiles = [
         'src/applications/app1/some-file.js',
@@ -79,7 +82,9 @@ describe('getChangedAppsString', () => {
     });
 
     it('should not duplicate entry names when multiple files in an app are modified', () => {
-      const config = { allow: { entryNames: ['app1'], rootAppFolders: [] } };
+      const config = {
+        allow: { singleApps: [{ entryName: 'app1' }], groupedApps: [] },
+      };
       const changedFiles = [
         'src/applications/app1/some-file.js',
         'src/applications/app1/other-file.js',
@@ -92,8 +97,8 @@ describe('getChangedAppsString', () => {
     it('should return a comma-delimited string of entry names when files in a grouped app folder are changed', () => {
       const config = {
         allow: {
-          entryNames: [],
-          rootAppFolders: ['groupedApps'],
+          singleApps: [],
+          groupedApps: [{ rootAppFolder: 'groupedApps' }],
         },
       };
       const changedFiles = [
@@ -108,7 +113,10 @@ describe('getChangedAppsString', () => {
   context('when the folder output type is specified', () => {
     it('should return a comma-delimited string of app folders', () => {
       const config = {
-        allow: { entryNames: ['app1', 'app2'], rootAppFolders: [] },
+        allow: {
+          singleApps: [{ entryName: 'app1' }, { entryName: 'app2' }],
+          groupedApps: [],
+        },
       };
       const changedFiles = ['src/applications/app1', 'src/applications/app2'];
 
@@ -119,8 +127,8 @@ describe('getChangedAppsString', () => {
     it('should return the root app path if the changed files are in a grouped app folder', () => {
       const config = {
         allow: {
-          entryNames: [],
-          rootAppFolders: ['groupedApps'],
+          singleApps: [],
+          groupedApps: [{ rootAppFolder: 'groupedApps' }],
         },
       };
       const changedFiles = [
@@ -135,7 +143,10 @@ describe('getChangedAppsString', () => {
   context('when the url output type is specified', () => {
     it('should return a comma-delimited string of app URLs', () => {
       const config = {
-        allow: { entryNames: ['app1', 'app2'], rootAppFolders: [] },
+        allow: {
+          singleApps: [{ entryName: 'app1' }, { entryName: 'app2' }],
+          groupedApps: [],
+        },
       };
       const changedFiles = ['src/applications/app1', 'src/applications/app2'];
 
@@ -144,7 +155,9 @@ describe('getChangedAppsString', () => {
     });
 
     it('should return an empty string when the app does not have a root url', () => {
-      const config = { allow: { entryNames: ['app5'], rootAppFolders: [] } };
+      const config = {
+        allow: { singleApps: [{ entryName: 'app5' }], groupedApps: [] },
+      };
       const changedFiles = ['src/applications/app5'];
 
       const appString = getChangedAppsString(changedFiles, config, 'url');
@@ -153,7 +166,10 @@ describe('getChangedAppsString', () => {
 
     it('should return an app URL string when only one app does not have a root url', () => {
       const config = {
-        allow: { entryNames: ['app1', 'app5'], rootAppFolders: [] },
+        allow: {
+          singleApps: [{ entryName: 'app1' }, { entryName: 'app5' }],
+          groupedApps: [],
+        },
       };
       const changedFiles = ['src/applications/app1', 'src/applications/app5'];
 
@@ -164,8 +180,8 @@ describe('getChangedAppsString', () => {
     it('should return app URLs of all apps if the changed files are in a grouped app folder', () => {
       const config = {
         allow: {
-          entryNames: [],
-          rootAppFolders: ['groupedApps'],
+          singleApps: [],
+          groupedApps: [{ rootAppFolder: 'groupedApps' }],
         },
       };
       const changedFiles = [
@@ -180,7 +196,10 @@ describe('getChangedAppsString', () => {
   context('when an unknown output type is specified', () => {
     it('should throw an error', () => {
       const config = {
-        allow: { entryNames: ['app1', 'app2'], rootAppFolders: [] },
+        allow: {
+          singleApps: [{ entryName: 'app1' }, { entryName: 'app2' }],
+          groupedApps: [],
+        },
       };
       const changedFiles = ['src/applications/app1', 'src/applications/app2'];
 
@@ -193,7 +212,10 @@ describe('getChangedAppsString', () => {
   context('when apps outside the allow list are modified', () => {
     it('should return an empty string', () => {
       const config = {
-        allow: { entryNames: ['app1', 'app2'], rootAppFolders: [] },
+        allow: {
+          singleApps: [{ entryName: 'app1' }, { entryName: 'app2' }],
+          groupedApps: [],
+        },
       };
       const changedFiles = ['src/applications/app3/some-file.js'];
 
@@ -205,7 +227,10 @@ describe('getChangedAppsString', () => {
   context('when a modified app does not have a manifest file', () => {
     it('should return an empty string', () => {
       const config = {
-        allow: { entryNames: ['app1', 'app2'], rootAppFolders: [] },
+        allow: {
+          singleApps: [{ entryName: 'app1' }, { entryName: 'app2' }],
+          groupedApps: [],
+        },
       };
       const changedFiles = ['src/applications/app4/some-file.js'];
 
@@ -217,7 +242,10 @@ describe('getChangedAppsString', () => {
   context('when non-app code is modified', () => {
     it('should return an empty string', () => {
       const config = {
-        allow: { entryNames: ['app1', 'app2'], rootAppFolders: [] },
+        allow: {
+          singleApps: [{ entryName: 'app1' }, { entryName: 'app2' }],
+          groupedApps: [],
+        },
       };
       const changedFiles = [
         'src/applications/app1',
