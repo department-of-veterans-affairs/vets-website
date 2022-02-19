@@ -1,6 +1,6 @@
 {
   "allow": {
-    "appEntries": [
+    "singleApps": [
       {
         "entryName": "education-inbox"
       },
@@ -18,10 +18,10 @@
       },
       {
         "entryName": "vaos",
-        "slackGroup": "@vaos-fe-all"
+        "slackGroup": "@Theo Bentum"
       }
     ],
-    "appFolders": [
+    "groupedApps": [
       {
         "rootAppFolder": "check-in",
         "slackGroup": "@check-in"

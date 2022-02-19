@@ -39,25 +39,27 @@ const getAllowedApps = (filePath, allow) => {
   const rootAppPath = path.join(appsDirectory, rootAppFolder);
   const manifests = getManifests(filePath);
 
-  // console.log(allow.appFolders);
   // const isAllowed =
-  //   allow.appFolders.find(appFolder => appFolder.rootAppFolder) ||
+  //   allow.groupedApps.find(appFolder => appFolder.rootAppFolder) ||
   //   (manifests.length === 1 &&
-  //     allow.appEntries.find(
+  //     allow.singleApps.find(
   //       appEntry => appEntry.entryName === manifests[0].entryName,
   //     ));
 
-  const allowedAppFolder = allow.appFolders.find(
-    appFolder => appFolder.rootAppFolder === rootAppFolder,
+  const allowedAppFolder = allow.groupedApps.find(
+    groupedApp => groupedApp.rootAppFolder === rootAppFolder,
   );
 
-  const allowedApp = allow.appEntries.find(
-    appEntry => appEntry.entryName === manifests[0].entryName,
-  );
+  const allowedApp =
+    !allowedAppFolder && manifests.length === 1
+      ? allow.singleApps.find(
+          appEntry => appEntry.entryName === manifests[0].entryName,
+        )
+      : null;
 
   const isAllowed = allowedAppFolder || allowedApp;
 
-  // console.log(allowedApps);
+  // console.log(allowedApp);
   // console.log(allowedAppFolder);
 
   if (isAllowed) {
