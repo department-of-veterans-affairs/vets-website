@@ -18,13 +18,13 @@
       },
       {
         "entryName": "vaos",
-        "slackGroup": "@Theo Bentum"
+        "slackGroup": "@vg-frontend"
       }
     ],
     "groupedApps": [
       {
         "rootAppFolder": "check-in",
-        "slackGroup": "@check-in"
+        "slackGroup": "@echo-engineers"
       }
     ]
   }
