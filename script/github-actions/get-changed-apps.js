@@ -23,8 +23,8 @@ const getManifests = filePath => {
 };
 
 /**
- * Gets the sliced manifest(s) of a file's root app folder. The app's entry
- * name or root folder must be on the given allow list, otherwise returns null.
+ * Gets the sliced manifest(s) of a file's root app folder with some added properties. The
+ * app's entry name or root folder must be on the given allow list, otherwise returns null.
  *
  * @param {string} filePath - Relative file path.
  * @param {Object} allow - Lists of entry names and root app folders to check against.
@@ -39,15 +39,8 @@ const getAllowedApps = (filePath, allow) => {
   const rootAppPath = path.join(appsDirectory, rootAppFolder);
   const manifests = getManifests(filePath);
 
-  // const isAllowed =
-  //   allow.groupedApps.find(appFolder => appFolder.rootAppFolder) ||
-  //   (manifests.length === 1 &&
-  //     allow.singleApps.find(
-  //       appEntry => appEntry.entryName === manifests[0].entryName,
-  //     ));
-
   const allowedAppFolder = allow.groupedApps.find(
-    groupedApp => groupedApp.rootAppFolder === rootAppFolder,
+    groupedApp => groupedApp.rootFolder === rootAppFolder,
   );
 
   const allowedApp =
@@ -58,9 +51,6 @@ const getAllowedApps = (filePath, allow) => {
       : null;
 
   const isAllowed = allowedAppFolder || allowedApp;
-
-  // console.log(allowedApp);
-  // console.log(allowedAppFolder);
 
   if (isAllowed) {
     return manifests.map(({ entryName, rootUrl }) => ({

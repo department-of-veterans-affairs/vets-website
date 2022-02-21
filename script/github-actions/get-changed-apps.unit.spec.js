@@ -98,7 +98,7 @@ describe('getChangedAppsString', () => {
       const config = {
         allow: {
           singleApps: [],
-          groupedApps: [{ rootAppFolder: 'groupedApps' }],
+          groupedApps: [{ rootFolder: 'groupedApps' }],
         },
       };
       const changedFiles = [
@@ -128,7 +128,7 @@ describe('getChangedAppsString', () => {
       const config = {
         allow: {
           singleApps: [],
-          groupedApps: [{ rootAppFolder: 'groupedApps' }],
+          groupedApps: [{ rootFolder: 'groupedApps' }],
         },
       };
       const changedFiles = [
@@ -181,7 +181,7 @@ describe('getChangedAppsString', () => {
       const config = {
         allow: {
           singleApps: [],
-          groupedApps: [{ rootAppFolder: 'groupedApps' }],
+          groupedApps: [{ rootFolder: 'groupedApps' }],
         },
       };
       const changedFiles = [

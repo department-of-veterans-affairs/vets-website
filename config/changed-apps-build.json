@@ -23,7 +23,7 @@
     ],
     "groupedApps": [
       {
-        "rootAppFolder": "check-in",
+        "rootFolder": "check-in",
         "slackGroup": "@echo-engineers"
       }
     ]
