@@ -140,6 +140,83 @@ describe('getChangedAppsString', () => {
     });
   });
 
+  context('when the slack-group output type is specified', () => {
+    it('should return a comma-delimited string of app owner Slack groups', () => {
+      const config = {
+        allow: {
+          singleApps: [
+            { entryName: 'app1', slackGroup: '@appTeam1' },
+            { entryName: 'app2', slackGroup: '@appTeam2' },
+          ],
+          groupedApps: [],
+        },
+      };
+      const changedFiles = ['src/applications/app1', 'src/applications/app2'];
+
+      const appString = getChangedAppsString(
+        changedFiles,
+        config,
+        'slack-group',
+      );
+      expect(appString).to.equal('@appTeam1,@appTeam2');
+    });
+
+    it('should return an empty string when the app does not have a Slack group', () => {
+      const config = {
+        allow: { singleApps: [{ entryName: 'app3' }], groupedApps: [] },
+      };
+      const changedFiles = ['src/applications/app3'];
+
+      const appString = getChangedAppsString(
+        changedFiles,
+        config,
+        'slack-group',
+      );
+      expect(appString).to.be.empty;
+    });
+
+    it('should return a Slack group when only one app has a specified Slack group', () => {
+      const config = {
+        allow: {
+          singleApps: [
+            { entryName: 'app1', slackGroup: '@appTeam1' },
+            { entryName: 'app3' },
+          ],
+          groupedApps: [],
+        },
+      };
+      const changedFiles = ['src/applications/app1', 'src/applications/app3'];
+
+      const appString = getChangedAppsString(
+        changedFiles,
+        config,
+        'slack-group',
+      );
+      expect(appString).to.equal('@appTeam1');
+    });
+
+    it('should return a Slack group when files are changed in a grouped app folder', () => {
+      const config = {
+        allow: {
+          singleApps: [],
+          groupedApps: [
+            { rootFolder: 'groupedApps', slackGroup: '@appTeamGrouped' },
+          ],
+        },
+      };
+      const changedFiles = [
+        'src/applications/groupedApps/grouped-app-1/some-file.js',
+      ];
+
+      const appString = getChangedAppsString(
+        changedFiles,
+        config,
+        'slack-group',
+      );
+      expect(appString).to.equal('@appTeamGrouped');
+    });
+  });
+
   context('when the url output type is specified', () => {
     it('should return a comma-delimited string of app URLs', () => {
       const config = {
