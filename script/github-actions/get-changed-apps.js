@@ -67,7 +67,7 @@ const getAllowedApps = (filePath, allow) => {
       entryName,
       rootUrl,
       rootPath: rootAppPath,
-      slackGroup: allowedAppFolder?.slackGroup || allowedApp?.slackGroup,
+      slackGroup: isAllowed.slackGroup,
     }));
   }
 
