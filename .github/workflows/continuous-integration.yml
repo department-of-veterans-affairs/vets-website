@@ -1099,11 +1099,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
 
       - name: Install dependencies
-        if: env.ALERT_TEAMS == true
+        if: env.ALERT_TEAMS == 'true'
         uses: ./.github/workflows/install
         timeout-minutes: 30
         with:
@@ -1115,13 +1113,13 @@ jobs:
 
       - name: List changed files
         id: changed-files
-        if: env.ALERT_TEAMS == true
+        if: env.ALERT_TEAMS == 'true'
         run: echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
         # run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...) # Used for testing in branches
 
       - name: Get app team's Slack group
         id: get-slack-groups
-        if: env.ALERT_TEAMS == true
+        if: env.ALERT_TEAMS == 'true'
         run: echo ::set-output name=slack_groups::$(node script/github-actions/get-changed-apps.js --output-type slack-group | tr ',' ' ')
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
