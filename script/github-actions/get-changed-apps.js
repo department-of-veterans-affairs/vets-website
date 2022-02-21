@@ -87,7 +87,7 @@ const getChangedAppsString = (filePaths, config, outputType = 'entry') => {
         } else if (outputType === 'folder') {
           appStrings.push(app.rootPath);
         } else if (outputType === 'slack-group') {
-          appStrings.push(app.slackGroup);
+          if (app.slackGroup) appStrings.push(app.slackGroup);
         } else if (outputType === 'url') {
           if (app.rootUrl) appStrings.push(app.rootUrl);
         } else throw new Error('Invalid output type specified.');
