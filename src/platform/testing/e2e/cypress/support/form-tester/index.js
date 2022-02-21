@@ -1,7 +1,9 @@
-import { join, sep } from 'path';
-
 import get from 'platform/utilities/data/get';
+
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
+
+const { join } = require('path');
+const { sep } = require('path');
 
 const APP_SELECTOR = '#react-root';
 const ARRAY_ITEM_SELECTOR =
