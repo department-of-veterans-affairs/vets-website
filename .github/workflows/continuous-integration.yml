@@ -1117,6 +1117,7 @@ jobs:
 
       - name: Get app team's Slack group
         id: get-slack-groups
+        if: ${{ false }} # Skip this step so we don't alert teams until we enable single app builds in 'master'
         run: echo ::set-output name=slack_groups::$(node script/github-actions/get-changed-apps.js --output-type slack-group | tr ',' ' ')
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
