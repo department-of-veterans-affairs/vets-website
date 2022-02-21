@@ -1091,7 +1091,7 @@ jobs:
     if: ${{ failure() || cancelled() }}
     needs: deploy
     env:
-      ALERT_TEAMS: ${{ false }} # Alerts teams for single/grouped app builds when set to true
+      ALERT_TEAMS: ${{ true }} # Alerts teams for single/grouped app builds when set to true
       DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
       VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
       TEST_SINGLE_APP_BUILD: C032FM8LFCN #test-single-app-builds
