@@ -1087,14 +1087,12 @@ jobs:
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-latest
-    # if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
-    if: ${{ failure() || cancelled() }}
+    if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
     needs: deploy
     env:
       ALERT_TEAMS: ${{ false }} # Alerts teams for single/grouped app builds when set to true
       DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
       VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
-      TEST_SINGLE_APP_BUILD: C032FM8LFCN #test-single-app-builds
 
     steps:
       - name: Checkout
@@ -1117,7 +1115,6 @@ jobs:
         id: changed-files
         if: env.ALERT_TEAMS == 'true'
         run: echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-        # run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...) # Used for testing in branches
 
       - name: Get app team's Slack group
         id: get-slack-groups
@@ -1131,6 +1128,6 @@ jobs:
         continue-on-error: true
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-slack-groups.outputs.slack_groups}} vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
-          channel_id: ${{ env.TEST_SINGLE_APP_BUILD }}
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

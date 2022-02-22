@@ -99,16 +99,14 @@ const getChangedAppsString = (filePaths, config, outputType = 'entry') => {
 };
 
 if (process.env.CHANGED_FILE_PATHS) {
-  const changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ').filter(
-    filePath => filePath.startsWith('src/applications'),
-  );
+  const changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ');
 
   const options = commandLineArgs([
     // Use the --output-type option to specify one of the following outputs:
     // 'entry': The entry names of the changed apps.
     // 'folder': The relative path of the changed apps root folders.
     // 'url': The root URLs of the changed apps.
-    // 'slack-group': The Slack group of the app's team.
+    // 'slack-group': The Slack group of the app's team, specified in the config.
     { name: 'output-type', type: String, defaultValue: 'entry' },
   ]);
   const outputType = options['output-type'];

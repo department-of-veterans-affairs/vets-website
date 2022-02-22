@@ -17,14 +17,12 @@
         "entryName": "terms-and-conditions"
       },
       {
-        "entryName": "vaos",
-        "slackGroup": "@vg-frontend"
+        "entryName": "vaos"
       }
     ],
     "groupedApps": [
       {
-        "rootFolder": "check-in",
-        "slackGroup": "@echo-engineers"
+        "rootFolder": "check-in"
       }
     ]
   }
