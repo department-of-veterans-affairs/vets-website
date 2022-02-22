@@ -36,6 +36,11 @@ markdownRenderer.renderer.rules[linkOpen] = function(
     tokens[idx].attrPush(['aria-label', ariaLabel]); // add new attribute
   }
 
+  tokens[idx].attrPush([
+    'onclick',
+    "window.dataLayer && window.dataLayer.push({event: 'chatbot-resource-link-click'});",
+  ]);
+
   // pass token to default renderer.
   return defaultRender(tokens, idx, options, env, self);
 };

@@ -18,6 +18,7 @@ export default Object.freeze({
     'check_in_experience_update_information_page_enabled',
   checkInExperienceEditingDayOfEnabled: 'check_in_experience_editing_day_of_enabled',
   checkInExperienceEditingPreCheckInEnabled:'check_in_experience_editing_pre_check_in_enabled',
+  checkInExperienceDayOfDemographicsFlagsEnabled: 'check_in_experience_day_of_demographics_flags_enabled',
   coeAccess: 'coe_access',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
@@ -50,9 +51,7 @@ export default Object.freeze({
   facilityLocatorShowCommunityCares: 'facility_locator_show_community_cares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilityLocatorShowOperationalHoursSpecialInstructions:
     'facility_locator_show_operational_hours_special_instructions',
-  findFormsEnhancementFlagOne: 'find_forms_first_flag',
-  findFormsEnhancementFlagTwo: 'find_forms_second_flag',
-  findFormsEnhancementFlagThree: 'find_forms_third_flag',
+  findFormsShowPdfModal: 'find_forms_show_pdf_modal',
   fileUploadShortWorkflowEnabled: 'file_upload_short_workflow_enabled',
   form10182Nod: 'form10182_nod',
   gibctEybBottomSheet: 'gibct_eyb_bottom_sheet',

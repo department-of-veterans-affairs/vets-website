@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-
 import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
 import titleCase from 'platform/utilities/data/titleCase';
 
@@ -25,10 +23,10 @@ const ReviewDescription = ({ veteran }) => {
   const display = {
     [phoneType]: () =>
       phone && (
-        <Telephone
+        <va-telephone
           contact={`${phone?.areaCode}${phone?.phoneNumber}`}
           extension={phone?.extension || ''}
-          notClickable
+          not-clickable
         />
       ),
     'Email address': () => email,

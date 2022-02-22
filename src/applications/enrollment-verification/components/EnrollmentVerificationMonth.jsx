@@ -1,45 +1,50 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { PAYMENT_STATUS } from '../actions';
 import EnrollmentVerificationMonthInfo from './EnrollmentVerificationMonthInfo';
+import VerifyYourEnrollments from './VerifyYourEnrollments';
+import { formatReadableMonthYear, MONTH_PROP_TYPE } from '../helpers';
 
 const verifiedMonthStatusMessage = (
-  <>
-    <i className="fa fa-check-circle vads-u-color--green" /> You verified this
-    month
-  </>
+  <p className="ev-enrollment-month_message">
+    <i
+      className="fa fa-check-circle vads-u-color--green vads-u-margin-right--1"
+      aria-hidden="true"
+    />{' '}
+    You verified this month
+  </p>
 );
 const notVerifiedMonthStatusMessage = (
   <>
-    <p>
-      <i className="fas fa-exclamation-triangle" /> You haven’t verified this
-      month
+    <p className="ev-enrollment-month_message">
+      <i
+        className="fas fa-exclamation-triangle vads-u-margin-right--1"
+        aria-hidden="true"
+      />{' '}
+      You haven’t verified this month
     </p>
-    <a
-      className="vads-c-action-link--blue"
-      href="/enrollment-history/verify-enrollments"
-    >
-      Verify your enrollments
-    </a>
+    <VerifyYourEnrollments />
   </>
 );
 const needToVerifyMonthStatusMessage = (
   <>
-    <p>
-      <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
+    <p className="ev-enrollment-month_message">
+      <i
+        className="fas fa-exclamation-circle vads-u-color--secondary-dark vads-u-margin-right--1"
+        aria-hidden="true"
+      />{' '}
       You need to verify this month
     </p>
-    <a
-      className="vads-c-action-link--blue"
-      href="/enrollment-history/verify-enrollments"
-    >
-      Verify your enrollments
-    </a>
+    <VerifyYourEnrollments />
   </>
 );
 const contactScoMonthStatusMessage = (
-  <p>
-    <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
+  <p className="ev-enrollment-month_message">
+    <i
+      className="fas fa-exclamation-circle vads-u-color--secondary-dark vads-u-margin-right--1"
+      aria-hidden="true"
+    />{' '}
     Contact your School Certifying Official to update enrollment information
   </p>
 );
@@ -47,7 +52,8 @@ const contactScoMonthStatusMessage = (
 function getMonthStatusMessage(month, paymentStatus) {
   if (month.verified) {
     return verifiedMonthStatusMessage;
-  } else if (paymentStatus === PAYMENT_STATUS.ONGOING) {
+  }
+  if (paymentStatus === PAYMENT_STATUS.ONGOING) {
     return notVerifiedMonthStatusMessage;
   }
 
@@ -61,7 +67,7 @@ export default function EnrollmentVerificationMonth({ month, paymentStatus }) {
 
   return (
     <div className="ev-enrollment-month">
-      <h3>{month.month}</h3>
+      <h4>{formatReadableMonthYear(month.month)}</h4>
       {monthStatusMessage}
 
       <va-additional-info trigger="More information">
@@ -70,3 +76,12 @@ export default function EnrollmentVerificationMonth({ month, paymentStatus }) {
     </div>
   );
 }
+
+EnrollmentVerificationMonth.propTypes = {
+  month: MONTH_PROP_TYPE.isRequired,
+  paymentStatus: PropTypes.oneOf([
+    PAYMENT_STATUS.ONGOING,
+    PAYMENT_STATUS.PAUSED,
+    PAYMENT_STATUS.SCO_PAUSED,
+  ]),
+};

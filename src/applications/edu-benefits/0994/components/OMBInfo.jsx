@@ -64,7 +64,7 @@ class OMBInfo extends React.Component {
     const { resBurden, ombNumber, expDate } = this.props;
 
     return (
-      <div className="omb-info">
+      <div className="omb-info" role="main">
         <div>
           Respondent burden: <strong>{resBurden} minutes</strong>
         </div>

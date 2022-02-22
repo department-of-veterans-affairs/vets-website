@@ -27,6 +27,8 @@ const BenefitPaymentsAndDebt = ({
     ?.filter(p => moment(p.payCheckDt) > moment().subtract(31, 'days'))
     .sort((a, b) => moment(b.payCheckDt) - moment(a.payCheckDt))[0];
 
+  const debtsCount = debts?.length || 0;
+
   return (
     payments &&
     !!payments.length && (
@@ -52,18 +54,24 @@ const BenefitPaymentsAndDebt = ({
             {!lastPayment && (
               <>
                 {debts && <Debts debts={debts} hasError={debtsError} />}
-                <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
+                <p
+                  className="vads-u-margin-bottom--3 vads-u-margin-top--0"
+                  data-testid="no-recent-payments-paragraph"
+                >
                   You haven’t received any payments in the past 30 days.
                 </p>
               </>
             )}
-            <span className="sr-only">Benefit Payments and Debt Links</span>
+            <h3 className="sr-only">
+              Popular actions for Benefit Payments and Debt
+            </h3>
             {!lastPayment && (
               <IconCTALink
                 href="/va-payment-history/payments/"
                 icon="user-check"
                 newTab
                 text="View your payment history"
+                /* eslint-disable react/jsx-no-bind */
                 onClick={() => {
                   recordEvent({
                     event: 'nav-linkslist',
@@ -71,6 +79,8 @@ const BenefitPaymentsAndDebt = ({
                     'links-list-section-header': 'Benefit payments and debts',
                   });
                 }}
+                /* eslint-enable react/jsx-no-bind */
+                testId="view-payment-history-link"
               />
             )}
 
@@ -79,6 +89,7 @@ const BenefitPaymentsAndDebt = ({
               icon="dollar-sign"
               newTab
               text="Manage your direct deposit"
+              /* eslint-disable react/jsx-no-bind */
               onClick={() => {
                 recordEvent({
                   event: 'nav-linkslist',
@@ -86,7 +97,27 @@ const BenefitPaymentsAndDebt = ({
                   'links-list-section-header': 'Direct deposit',
                 });
               }}
+              /* eslint-enable react/jsx-no-bind */
+              testId="manage-direct-deposit-link"
             />
+            {debtsCount < 1 && (
+              <IconCTALink
+                href="/resources/va-debt-management"
+                icon="file-invoice-dollar"
+                newTab
+                text="Learn about VA debt"
+                /* eslint-disable react/jsx-no-bind */
+                onClick={() => {
+                  recordEvent({
+                    event: 'nav-linkslist',
+                    'links-list-header': 'Learn about VA debt',
+                    'links-list-section-header': 'Learn about VA debt',
+                  });
+                }}
+                /* eslint-enable react/jsx-no-bind */
+                testId="learn-va-debt-link"
+              />
+            )}
           </DashboardWidgetWrapper>
         </div>
       </div>
@@ -108,20 +139,6 @@ const mapDispatchToProps = {
 };
 
 BenefitPaymentsAndDebt.propTypes = {
-  paymentsError: PropTypes.bool,
-  debtsError: PropTypes.bool,
-  payments: PropTypes.arrayOf(
-    PropTypes.shape({
-      payCheckAmount: PropTypes.string.isRequired,
-      payCheckDt: PropTypes.string.isRequired,
-      payCheckId: PropTypes.string.isRequired,
-      payCheckReturnFiche: PropTypes.string.isRequired,
-      payCheckType: PropTypes.string.isRequired,
-      paymentMethod: PropTypes.string.isRequired,
-      bankName: PropTypes.string.isRequired,
-      accountNumber: PropTypes.string.isRequired,
-    }),
-  ),
   debts: PropTypes.arrayOf(
     PropTypes.shape({
       fileNumber: PropTypes.string.isRequired,
@@ -144,6 +161,21 @@ BenefitPaymentsAndDebt.propTypes = {
       ),
     }),
   ),
+  debtsError: PropTypes.bool,
+  getPayments: PropTypes.func,
+  payments: PropTypes.arrayOf(
+    PropTypes.shape({
+      payCheckAmount: PropTypes.string.isRequired,
+      payCheckDt: PropTypes.string.isRequired,
+      payCheckId: PropTypes.string.isRequired,
+      payCheckReturnFiche: PropTypes.string.isRequired,
+      payCheckType: PropTypes.string.isRequired,
+      paymentMethod: PropTypes.string.isRequired,
+      bankName: PropTypes.string.isRequired,
+      accountNumber: PropTypes.string.isRequired,
+    }),
+  ),
+  paymentsError: PropTypes.bool,
 };
 
 export default connect(

@@ -122,7 +122,7 @@ export const FormApp = ({
 };
 
 FormApp.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.object,
   contestableIssues: PropTypes.shape({
     issues: PropTypes.array,
     status: PropTypes.string,

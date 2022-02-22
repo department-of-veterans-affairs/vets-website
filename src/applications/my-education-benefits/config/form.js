@@ -14,13 +14,17 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import * as address from 'platform/forms-system/src/js/definitions/address';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from 'platform/utilities/environment';
+import merge from 'lodash/merge';
+import bankAccountUI from 'platform/forms/definitions/bankAccount';
+import { vagovprod } from 'site/constants/buckets';
 import fullSchema from '../22-1990-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
 import GetFormHelp from '../components/GetFormHelp';
 
-import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -36,8 +40,6 @@ import YesNoReviewField from '../components/YesNoReviewField';
 import PhoneReviewField from '../components/PhoneReviewField';
 import DateReviewField from '../components/DateReviewField';
 import EmailReviewField from '../components/EmailReviewField';
-
-import environment from 'platform/utilities/environment';
 
 import {
   chapter30Label,
@@ -58,12 +60,8 @@ import {
 } from '../utils/validation';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
-import merge from 'lodash/merge';
 import createDirectDepositPage from '../../edu-benefits/pages/directDeposit';
 import { directDepositDescription } from '../../edu-benefits/1990/helpers';
-import bankAccountUI from 'platform/forms/definitions/bankAccount';
-
-import { vagovprod } from 'site/constants/buckets';
 
 import { ELIGIBILITY } from '../actions';
 

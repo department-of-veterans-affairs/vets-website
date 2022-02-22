@@ -1,5 +1,4 @@
 import { areaOfDisagreementWorkAround } from '../utils/ui';
-import { optInErrorMessage } from '../content/OptIn';
 import { missingAreaOfDisagreementErrorMessage } from '../content/areaOfDisagreement';
 
 export const contactInfoValidation = (errors, _fieldData, formData) => {
@@ -33,10 +32,4 @@ export const areaOfDisagreementRequired = (
 
   // work-around for error message not showing :(
   areaOfDisagreementWorkAround(hasChoice, arrayIndex || index);
-};
-
-export const optInValidation = (errors, value) => {
-  if (!value) {
-    errors.addError(optInErrorMessage);
-  }
 };

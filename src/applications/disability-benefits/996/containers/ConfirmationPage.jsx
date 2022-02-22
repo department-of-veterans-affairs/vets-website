@@ -1,15 +1,15 @@
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 import { selectProfile } from 'platform/user/selectors';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
-import { SELECTED, SAVED_CLAIM_TYPE, WIZARD_STATUS } from '../constants';
+import { SAVED_CLAIM_TYPE, WIZARD_STATUS, FORMAT_READABLE } from '../constants';
+import { getSelected, getIssueName } from '../utils/helpers';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -23,16 +23,18 @@ export class ConfirmationPage extends React.Component {
 
   render() {
     const { name = {}, form } = this.props;
-    const { submission, formId } = form;
+    const { submission, formId, data } = form;
     const { response } = submission;
-    const issues = (form.data?.contestedIssues || [])
-      .filter(el => el[SELECTED])
-      .map((issue, index) => (
-        <li key={index} className="vads-u-margin-bottom--0">
-          {issue.attributes.ratingIssueSubjectText}
-        </li>
-      ));
+    const issues = getSelected(data || []).map((issue, index) => (
+      <li key={index} className="vads-u-margin-bottom--0">
+        {getIssueName(issue)}
+      </li>
+    ));
     const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
+    const submitDate = moment(submission?.timestamp);
+    const handlers = {
+      print: () => window.print(),
+    };
 
     return (
       <div>
@@ -58,19 +60,22 @@ export class ConfirmationPage extends React.Component {
           {name.suffix && `, ${name.suffix}`}
           {response && (
             <>
-              <p>
-                <strong>Date submitted</strong>
-                <br />
-                <span>{moment(response.timestamp).format('MMMM D, YYYY')}</span>
-              </p>
+              {submitDate.isValid() && (
+                <p>
+                  <strong>Date submitted</strong>
+                  <br />
+                  <span>{submitDate.format(FORMAT_READABLE)}</span>
+                </p>
+              )}
               <strong>
                 Issue
                 {issues.length > 1 ? 's' : ''} submitted
               </strong>
               <ul className="vads-u-margin-top--0">{issues}</ul>
               <button
+                type="button"
                 className="usa-button screen-only"
-                onClick={() => window.print()}
+                onClick={handlers.print}
               >
                 Print for your records
               </button>
@@ -99,7 +104,7 @@ export class ConfirmationPage extends React.Component {
         <p>
           If you requested a decision review and haven’t heard back from VA yet,
           please don’t request another review. Call VA at{' '}
-          <Telephone contact={CONTACTS.VA_BENEFITS} />.
+          <va-telephone contact={CONTACTS.VA_BENEFITS} />.
         </p>
         <br />
         <a
@@ -117,6 +122,23 @@ export class ConfirmationPage extends React.Component {
     );
   }
 }
+
+ConfirmationPage.propTypes = {
+  form: PropTypes.shape({
+    data: PropTypes.shape({}),
+    formId: PropTypes.string,
+    submission: PropTypes.shape({
+      timestamp: PropTypes.string,
+      response: PropTypes.shape({}),
+    }),
+  }),
+  name: PropTypes.shape({
+    first: PropTypes.string,
+    middle: PropTypes.string,
+    last: PropTypes.string,
+    suffix: PropTypes.string,
+  }),
+};
 
 function mapStateToProps(state) {
   return {

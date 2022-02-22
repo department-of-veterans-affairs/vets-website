@@ -1,6 +1,7 @@
 import React from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import { useRouteMatch, Link } from 'react-router-dom';
+import environment from 'platform/utilities/environment';
 import { useQueryParams } from '../utils/helpers';
 
 const GiBillBreadcrumbs = () => {
@@ -41,7 +42,9 @@ const GiBillBreadcrumbs = () => {
   if (compareMatch) {
     crumbs.push(
       <Link to={root} key="main">
-        Compare schools
+        {environment.isProduction()
+          ? 'Compare schools'
+          : 'Institution comparison'}
       </Link>,
     );
   }

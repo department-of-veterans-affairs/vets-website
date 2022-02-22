@@ -1090,18 +1090,44 @@ jobs:
     if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
     needs: deploy
     env:
+      ALERT_TEAMS: ${{ false }} # Alerts teams for single/grouped app builds when set to true
       DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
       VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        if: env.ALERT_TEAMS == 'true'
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: List changed files
+        id: changed-files
+        if: env.ALERT_TEAMS == 'true'
+        run: echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+
+      - name: Get app team's Slack group
+        id: get-slack-groups
+        if: env.ALERT_TEAMS == 'true'
+        run: echo ::set-output name=slack_groups::$(node script/github-actions/get-changed-apps.js --output-type slack-group | tr ',' ' ')
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-slack-groups.outputs.slack_groups}} vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
           channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

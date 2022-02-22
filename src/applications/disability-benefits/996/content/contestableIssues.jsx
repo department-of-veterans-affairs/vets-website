@@ -1,9 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { scrollAndFocus } from 'platform/utilities/ui';
 
@@ -18,8 +16,8 @@ import DownloadLink from './DownloadLink';
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
 // case we end up filtering out deferred and expired issues
-export const ContestableIssuesTitle = props => {
-  if (props?.formData?.contestedIssues?.length === 0) {
+export const ContestableIssuesTitle = ({ formData = {} } = {}) => {
+  if (formData.contestedIssues?.length === 0) {
     return (
       <>
         <h2
@@ -100,7 +98,7 @@ const disabilitiesList = (
       To learn more about decision review options, please visit our{' '}
       <a href={DECISION_REVIEWS_URL}>decision reviews and appeals</a>{' '}
       information page. You can call us at{' '}
-      <Telephone contact={CONTACTS.VA_BENEFITS} /> or work with an accredited
+      <va-telephone contact={CONTACTS.VA_BENEFITS} /> or work with an accredited
       representative to{' '}
       <a href="/disability/get-help-filing-claim/">get help with your claim</a>.
     </p>

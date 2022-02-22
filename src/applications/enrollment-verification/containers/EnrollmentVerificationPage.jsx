@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { fetchVerificationStatus } from '../actions';
@@ -6,6 +7,8 @@ import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificat
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import EnrollmentVerificationAlert from '../components/EnrollmentVerificationAlert';
 import EnrollmentVerificationMonths from '../components/EnrollmentVerificationMonths';
+import { BASE_URL } from '../constants';
+import { ENROLLMENT_VERIFICATION_TYPE } from '../helpers';
 
 export const EnrollmentVerificationPage = ({
   getVerificationStatus,
@@ -16,7 +19,7 @@ export const EnrollmentVerificationPage = ({
   useEffect(
     () => {
       if (hasCheckedKeepAlive && !loggedIn) {
-        window.location.href = '/enrollment-history/';
+        window.location.href = BASE_URL;
       }
 
       if (!verificationStatus) {
@@ -32,12 +35,14 @@ export const EnrollmentVerificationPage = ({
 
   return (
     <EnrollmentVerificationPageWrapper>
-      <h1>Enrollment Verification</h1>
+      <h1>Post-9/11 GI Bill enrollment verifications</h1>
       <p className="va-introtext">
         If you get a monthly housing allowance (MHA) or kicker payments (or
-        both) under the Post-9/11 GI Bill, you’ll need to verify your enrollment
-        each month. If you don’t verify your enrollment for two months in a row,
-        we will pause your monthly education payments.
+        both) under the Post-9/11 GI Bill
+        <sup>&reg;</sup> (Chapter 33), you’ll need to verify your enrollment
+        each month. If you don’t verify your enrollment for{' '}
+        <strong>three months in a row</strong>, we will pause your monthly
+        education payments.
       </p>
 
       <EnrollmentVerificationAlert status={verificationStatus} />
@@ -54,10 +59,10 @@ export const EnrollmentVerificationPage = ({
           <nav className="ev-related-pages-nav">
             <ul>
               <li>
-                <a href="#">See your GI Bill Statement of Benefits</a>
+                <a href="/">See your GI Bill Statement of Benefits</a>
               </li>
               <li>
-                <a href="#">See your past benefit payments</a>
+                <a href="/">See your past benefit payments</a>
               </li>
             </ul>
           </nav>
@@ -81,3 +86,10 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(EnrollmentVerificationPage);
+
+EnrollmentVerificationPage.propTypes = {
+  getVerificationStatus: PropTypes.func,
+  hasCheckedKeepAlive: PropTypes.bool,
+  loggedIn: PropTypes.bool,
+  verificationStatus: ENROLLMENT_VERIFICATION_TYPE,
+};

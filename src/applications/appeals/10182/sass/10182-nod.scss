@@ -154,12 +154,6 @@ article[data-location="add-issue"] {
   }
 }
 
-article[data-location="opt-in"] {
-  #root_socOptIn-label .schemaform-required-span {
-    display: none;
-  }
-}
-
 /* Area of disagreement */
 .area-of-disagreement-label {
   margin-top: 0;
@@ -218,14 +212,9 @@ article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0
   margin-top: 0;
 }
 
-/* Opt in */
+/* Show issues list */
 .capitalize {
   text-transform: capitalize;
-}
-/* hide duplicate "required" checkbox label & error message above checkbox */
-#root_socOptIn-label,
-#root_socOptIn-label + span {
-  display: none;
 }
 
 /* additional evidence */

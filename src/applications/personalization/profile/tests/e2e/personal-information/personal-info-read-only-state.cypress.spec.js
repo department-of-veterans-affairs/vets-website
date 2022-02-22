@@ -44,7 +44,9 @@ describe('Content on the personal information page', () => {
     cy.findByText('Man').should('exist');
 
     // Check sexual orientation
-    cy.findByText('Some other orientation').should('exist');
+    cy.findByText('Straight or heterosexual, Some other orientation').should(
+      'exist',
+    );
 
     cy.axeCheck();
   });

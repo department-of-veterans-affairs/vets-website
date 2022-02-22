@@ -16,7 +16,10 @@ import {
   paymentsSuccess,
   paymentsSuccessEmpty,
 } from '../fixtures/test-payments-response';
-import debtsSuccess from '../fixtures/debts.json';
+import {
+  debtsSuccess,
+  debtsSuccessEmpty,
+} from '../fixtures/test-debts-response';
 import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
 import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 
@@ -47,12 +50,9 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       cy.findByTestId('dashboard-section-payment-and-debts').should(
         'not.exist',
       );
-      cy.findByRole('link', { name: /manage your direct deposit/i }).should(
-        'not.exist',
-      );
-      cy.findByRole('heading', {
-        name: /We deposited.*in your account/i,
-      }).should('not.exist');
+      cy.findByTestId('deposit-header').should('not.exist');
+      cy.findByTestId('payment-card').should('not.exist');
+      cy.findByTestId('manage-direct-deposit-link').should('not.exist');
 
       // make the a11y check
       cy.injectAxeThenAxeCheck();
@@ -87,18 +87,16 @@ describe('The My VA Dashboard - Payments and Debt', () => {
     context('and user has payments', () => {
       beforeEach(() => {
         cy.intercept('/v0/profile/payment_history', paymentsSuccess(true));
-        cy.intercept('/v0/debts', debtsSuccess);
+        cy.intercept('/v0/debts', debtsSuccess());
         cy.visit('my-va/');
       });
       it('and they have payments in the last 30 days - C13194', () => {
         // make sure that the Payment and Debt section is shown
         cy.findByTestId('dashboard-section-payment-and-debts').should('exist');
-        cy.findByRole('link', { name: /manage your direct deposit/i }).should(
-          'exist',
-        );
-        cy.findByRole('heading', {
-          name: /We deposited.*in your account/i,
-        }).should('exist');
+        cy.findByTestId('payment-card').should('exist');
+        cy.findByTestId('deposit-header').should('exist');
+        cy.findByTestId('payment-card-view-history-link').should('exist');
+        cy.findByTestId('manage-direct-deposit-link').should('exist');
 
         // make the a11y check
         cy.injectAxeThenAxeCheck();
@@ -107,45 +105,61 @@ describe('The My VA Dashboard - Payments and Debt', () => {
 
     context('and user has no payments', () => {
       beforeEach(() => {
-        cy.intercept('/v0/debts', debtsSuccess);
         cy.visit('my-va/');
       });
       it('and they have no payments in the last 30 days - C13195', () => {
         // make sure that the Payment and Debt section is shown
+        cy.intercept('/v0/debts', debtsSuccess());
         cy.intercept('/v0/profile/payment_history', paymentsSuccess());
         cy.findByTestId('dashboard-section-payment-and-debts').should('exist');
-        cy.findByRole('link', { name: /manage your direct deposit/i }).should(
-          'exist',
-        );
-        cy.findByRole('link', { name: /view your payment history/i }).should(
-          'exist',
-        );
-        cy.findByText(/you*.*payments in the past 30 days/i).should('exist');
-        cy.findByRole('heading', {
-          name: /We deposited.*in your account/i,
-        }).should('not.exist');
+        cy.findByTestId('payment-card').should('not.exist');
+        cy.findByTestId('no-recent-payments-paragraph').should('exist');
+        cy.findByTestId('manage-direct-deposit-link').should('exist');
+        cy.findByTestId('view-payment-history-link').should('exist');
 
         // make the a11y check
         cy.injectAxeThenAxeCheck();
       });
       it('and they have never had a payment - C14195', () => {
-        // make sure that the Payment and Debt section is shown
+        // make sure that the Payment and Debt section is not shown
+        cy.intercept('/v0/debts', debtsSuccess());
         cy.intercept('/v0/profile/payment_history', paymentsSuccessEmpty());
         cy.findByTestId('dashboard-section-payment-and-debts').should(
           'not.exist',
         );
-        cy.findByRole('link', { name: /manage your direct deposit/i }).should(
+        cy.findByTestId('payment-card').should('not.exist');
+        cy.findByTestId('no-recent-payments-paragraph').should('not.exist');
+        cy.findByTestId('manage-direct-deposit-link').should('not.exist');
+        cy.findByTestId('view-payment-history-link').should('not.exist');
+
+        // make the a11y check
+        cy.injectAxeThenAxeCheck();
+      });
+      it('and they have debt - C14319', () => {
+        // make sure that the Payment and Debt section is not shown
+        cy.intercept('/v0/debts', debtsSuccess());
+        cy.intercept('/v0/profile/payment_history', paymentsSuccess());
+        cy.findByTestId('dashboard-section-payment-and-debts').should(
           'not.exist',
         );
-        cy.findByRole('link', { name: /view your payment history/i }).should(
+        cy.findByTestId('payment-card').should('not.exist');
+        cy.findByTestId('no-recent-payments-paragraph').should('not.exist');
+        cy.findByTestId('manage-direct-deposit-link').should('not.exist');
+        cy.findByTestId('view-payment-history-link').should('not.exist');
+
+        // make the a11y check
+        cy.injectAxeThenAxeCheck();
+      });
+      it('and they have no debt - C14320', () => {
+        // make sure that the Payment and Debt section is not shown
+        cy.intercept('/v0/debts', debtsSuccessEmpty());
+        cy.intercept('/v0/profile/payment_history', paymentsSuccess());
+        cy.findByTestId('dashboard-section-payment-and-debts').should(
           'not.exist',
         );
-        cy.findByText(/you*.*payments in the past 30 days/i).should(
-          'not.exist',
-        );
-        cy.findByRole('heading', {
-          name: /We deposited.*in your account/i,
-        }).should('not.exist');
+        cy.findByTestId('payment-card').should('not.exist');
+        cy.findByTestId('no-recent-payments-paragraph').should('not.exist');
+        cy.findByTestId('manage-direct-deposit-link').should('not.exist');
 
         // make the a11y check
         cy.injectAxeThenAxeCheck();
