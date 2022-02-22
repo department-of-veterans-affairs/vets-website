@@ -49,7 +49,7 @@ describe('Contact information review content', () => {
     const data = getData({ loopPages: true });
     const tree = shallow(<ContactInfoDescription {...data} />);
 
-    expect(tree.find('Telephone')).to.exist;
+    expect(tree.find('va-telephone')).to.exist;
     expect(tree.find('AddressView')).to.exist;
     expect(tree.find('Link').length).to.eq(3);
 

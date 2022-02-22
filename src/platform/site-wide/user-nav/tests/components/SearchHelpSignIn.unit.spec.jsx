@@ -61,7 +61,7 @@ describe('<SearchHelpSignIn>', () => {
     const dropdown = wrapper
       .find('SignInProfileMenu')
       .dive()
-      .find('DropDownPanel')
+      .find('PersonalizationDropDownPanel')
       .dive();
     expect(dropdown.text()).to.contain(defaultProps.userGreeting);
     wrapper.unmount();

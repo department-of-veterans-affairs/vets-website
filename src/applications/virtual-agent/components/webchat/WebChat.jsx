@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
-import MarkdownRenderer from './markdownRenderer';
-import GreetUser from './makeBotGreetUser';
 import environment from 'platform/utilities/environment';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
+import GreetUser from './makeBotGreetUser';
+import MarkdownRenderer from './markdownRenderer';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
@@ -63,7 +63,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   };
 
   return (
-    <div data-testid={'webchat'} style={{ height: '550px', width: '100%' }}>
+    <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
         styleOptions={styleOptions}
         directLine={directLine}
