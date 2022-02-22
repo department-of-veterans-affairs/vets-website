@@ -9,11 +9,11 @@ import debounce from 'platform/utilities/data/debounce';
 import Downshift from 'downshift';
 import * as Sentry from '@sentry/browser';
 
-import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/component-library/DropDownPanel';
 import { apiRequest } from 'platform/utilities/api';
 import SearchDropdownComponent from 'applications/search/components/SearchDropdown/SearchDropdownComponent';
+import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 
 const ENTER_KEY = 13;
 const SPACE_KEY = 32;
@@ -32,6 +32,7 @@ export class SearchMenu extends React.Component {
       highlightedIndex: null,
     };
   }
+
   componentDidMount() {
     document.addEventListener('keyup', () => {
       if (
@@ -58,7 +59,7 @@ export class SearchMenu extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { userInput } = this.state;
-    const { searchTypeaheadEnabled, isOpen } = this.props;
+    const { isOpen } = this.props;
 
     // focus the query input when the search menu is opened
     const inputField = document.getElementById('query');
@@ -80,7 +81,7 @@ export class SearchMenu extends React.Component {
 
     // if userInput has changed, fetch suggestions for the typeahead experience
     const inputChanged = prevState.userInput !== userInput;
-    if (inputChanged && searchTypeaheadEnabled) {
+    if (inputChanged) {
       this.debouncedGetSuggestions();
     }
   }
@@ -196,7 +197,6 @@ export class SearchMenu extends React.Component {
       'search-results-total-count': undefined,
       'search-results-total-pages': undefined,
       'search-selection': 'All VA.gov',
-      'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
       'search-location': 'Search Header',
       'sitewide-search-app-used': true,
       'type-ahead-option-keyword-selected': suggestion,
@@ -344,10 +344,7 @@ export class SearchMenu extends React.Component {
 
   makeForm = () => {
     const { suggestions, userInput } = this.state;
-    const {
-      searchTypeaheadEnabled,
-      searchDropdownComponentEnabled,
-    } = this.props;
+    const { searchDropdownComponentEnabled } = this.props;
     const {
       debouncedGetSuggestions,
       handelDownshiftStateChange,
@@ -365,7 +362,7 @@ export class SearchMenu extends React.Component {
       'suggestion vads-u-color--gray-dark vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
 
     // default search experience
-    if (!searchTypeaheadEnabled && !searchDropdownComponentEnabled) {
+    if (!searchDropdownComponentEnabled) {
       return (
         <form
           className="vads-u-margin-bottom--0"
@@ -418,7 +415,7 @@ export class SearchMenu extends React.Component {
           suggestionClassName=""
           fullWidthSuggestions
           formatSuggestions
-          startingValue={''}
+          startingValue=""
           submitOnClick
           submitOnEnter
           fetchSuggestions={this.fetchDropDownSuggestions}
@@ -554,7 +551,6 @@ SearchMenu.propTypes = {
   cssClass: PropTypes.string,
   debounceRate: PropTypes.number,
   isOpen: PropTypes.bool.isRequired,
-  searchTypeaheadEnabled: PropTypes.bool,
 };
 
 SearchMenu.defaultProps = {
@@ -562,9 +558,6 @@ SearchMenu.defaultProps = {
 };
 
 const mapStateToProps = store => ({
-  searchTypeaheadEnabled: toggleValues(store)[
-    FEATURE_FLAG_NAMES.searchTypeaheadEnabled
-  ],
   searchDropdownComponentEnabled: toggleValues(store)[
     FEATURE_FLAG_NAMES.searchDropdownComponentEnabled
   ],

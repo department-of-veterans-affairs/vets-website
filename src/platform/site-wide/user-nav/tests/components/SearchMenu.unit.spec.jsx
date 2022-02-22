@@ -27,22 +27,20 @@ describe('<SearchMenu>', () => {
   });
 
   it('should hide the search bar', () => {
-    const wrapper = shallow(<SearchMenu {...props} searchTypeaheadEnabled />);
+    const wrapper = shallow(<SearchMenu {...props} />);
     expect(wrapper.find('#search').prop('isOpen')).to.be.false;
     wrapper.unmount();
   });
 
   it('should show the search bar when opened', () => {
-    const wrapper = mount(<SearchMenu {...props} searchTypeaheadEnabled />);
+    const wrapper = mount(<SearchMenu {...props} />);
     wrapper.setProps({ isOpen: true });
     expect(wrapper.find('.va-dropdown-panel').prop('hidden')).to.be.false;
     wrapper.unmount();
   });
 
   it('should update the user input state', () => {
-    const wrapper = mount(
-      <SearchMenu {...props} isOpen searchTypeaheadEnabled />,
-    );
+    const wrapper = mount(<SearchMenu {...props} isOpen />);
     const changeEvent = { target: { value: 'testing' } };
     wrapper.find('#query').simulate('change', changeEvent);
     expect(wrapper.state('userInput')).to.equal('testing');
@@ -50,7 +48,7 @@ describe('<SearchMenu>', () => {
   });
 
   it('does not show suggestions when user input is limited', () => {
-    const wrapper = shallow(<SearchMenu searchTypeaheadEnabled />);
+    const wrapper = shallow(<SearchMenu />);
     wrapper.setState({ userInput: 'hm' });
 
     expect(global.fetch.called).to.be.false;
@@ -58,9 +56,7 @@ describe('<SearchMenu>', () => {
   });
 
   it('shows suggestions', async () => {
-    const wrapper = mount(
-      <SearchMenu debounceRate={1} searchTypeaheadEnabled />,
-    );
+    const wrapper = mount(<SearchMenu debounceRate={1} />);
 
     wrapper.setState({
       userInput: 'sample',

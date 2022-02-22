@@ -1,14 +1,11 @@
 // Node modules.
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
 import { truncate } from 'lodash';
 // Relative imports.
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import recordEvent from 'platform/monitoring/record-event';
 import { Article } from '../prop-types';
 import { ENTITY_BUNDLES } from '../content-modeling';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 const articleTypes = {
   [ENTITY_BUNDLES.Q_A]: 'Question and answer',
@@ -25,7 +22,6 @@ export const SearchResult = ({
   page,
   position,
   query,
-  searchTypeaheadEnabled,
   totalResults,
 }) => {
   const onSearchResultClick = () => {
@@ -43,7 +39,6 @@ export const SearchResult = ({
       'search-results-total-pages': Math.ceil(totalResults / 10),
       'search-result-type': 'title',
       'search-selection': 'Resources and support',
-      'search-typeahead-enabled': searchTypeaheadEnabled,
     });
   };
 
@@ -73,13 +68,4 @@ SearchResult.propTypes = {
   totalResults: PropTypes.number,
 };
 
-const mapStateToProps = store => ({
-  searchTypeaheadEnabled: toggleValues(store)[
-    FEATURE_FLAG_NAMES.searchTypeaheadEnabled
-  ],
-});
-
-export default connect(
-  mapStateToProps,
-  null,
-)(SearchResult);
+export default SearchResult;

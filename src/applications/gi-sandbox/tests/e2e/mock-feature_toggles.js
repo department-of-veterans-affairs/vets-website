@@ -708,14 +708,6 @@ export const mockTogglesResponse = {
         value: true,
       },
       {
-        name: 'searchTypeaheadEnabled',
-        value: true,
-      },
-      {
-        name: 'search_typeahead_enabled',
-        value: true,
-      },
-      {
         name: 'sharableLink',
         value: true,
       },

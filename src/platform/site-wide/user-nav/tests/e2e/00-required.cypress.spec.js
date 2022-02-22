@@ -10,24 +10,6 @@ const axeTestPage = () => {
   cy.axeCheck();
 };
 
-const enableTypeahead = () => {
-  cy.route({
-    method: 'GET',
-    status: 200,
-    url: '/v0/feature_toggles*',
-    response: {
-      data: {
-        features: [
-          {
-            name: 'search_typeahead_enabled',
-            value: true,
-          },
-        ],
-      },
-    },
-  });
-};
-
 const prepareSearch = term => {
   cy.visit('/');
   cy.get('button.sitewide-search-drop-down-panel-button').click();
@@ -77,7 +59,6 @@ describe('Site-wide Search general functionality', () => {
   });
 
   it('should pass Axe requirements', () => {
-    enableTypeahead();
     mockFetchSuggestions();
     prepareSearch('health');
     cy.get('#suggestions-list').should('be.visible');
@@ -113,7 +94,6 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
   });
 
   it('shows suggestions when user input is present and typeahead is enabled - C5371', () => {
-    enableTypeahead();
     mockFetchSuggestions();
     prepareSearch('benefits');
     cy.get('#suggestions-list').should('be.visible');
@@ -123,7 +103,6 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
   });
 
   it('Focusing the search button hides user input - C5372', () => {
-    enableTypeahead();
     mockFetchSuggestions();
     prepareSearch('benefits');
     cy.get('#suggestions-list').should('be.visible');
@@ -135,7 +114,6 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
   });
 
   it('Focusing the input field repopulates suggestions - C5373', () => {
-    enableTypeahead();
     mockFetchSuggestions();
     prepareSearch('health');
     cy.get('#suggestions-list').should('be.visible');
@@ -152,7 +130,6 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
   });
 
   it('Clicking search button initiates search for input - typeahead enabled - C5374', () => {
-    enableTypeahead();
     mockFetchSuggestions();
     prepareSearch('health');
     cy.get('[data-e2e-id="sitewide-search-submit-button"]').click();
@@ -160,7 +137,6 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
   });
 
   it('Pressing enter (focus on input field) initiates search for input - typeahead enabled - C5375', () => {
-    enableTypeahead();
     mockFetchSuggestions();
     prepareSearch('health');
     cy.get('#query').type('{enter}');
@@ -168,7 +144,6 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
   });
 
   it('Pressing enter (focus on search button) initiates search for input - typeahead enabled - C5376', () => {
-    enableTypeahead();
     mockFetchSuggestions();
     prepareSearch('benefits');
     cy.get('[data-e2e-id="sitewide-search-submit-button"]')
@@ -178,7 +153,6 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
   });
 
   it('Pressing space (focus on search button) initiates search for input - typeahead enabled - C5377', () => {
-    enableTypeahead();
     mockFetchSuggestions();
     prepareSearch('health');
     cy.get('[data-e2e-id="sitewide-search-submit-button"]')
@@ -188,7 +162,6 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
   });
 
   it('Clicking a dropdown option initiates a search using the suggestion - C5378', () => {
-    enableTypeahead();
     mockFetchSuggestions();
     prepareSearch('health');
     cy.get('#suggestions-list').should('be.visible');
@@ -200,7 +173,6 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
   });
 
   it('Can use the arrow keys to navigate suggestions, and press enter to search using them - C5379', () => {
-    enableTypeahead();
     mockFetchSuggestions();
     prepareSearch('benefits');
     cy.get('#suggestions-list').should('be.visible');
