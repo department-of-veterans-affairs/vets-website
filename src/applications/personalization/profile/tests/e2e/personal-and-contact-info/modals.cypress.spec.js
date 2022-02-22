@@ -100,7 +100,7 @@ const checkRemovalWhileEditingModal = options => {
 };
 
 describe('Modals for removal of field', () => {
-  it('should show edit notive modal when attempting to remove field after editing another field', () => {
+  it('should show edit notice modal when attempting to remove field after editing another field', () => {
     setup(false);
 
     checkRemovalWhileEditingModal({
@@ -117,6 +117,8 @@ describe('Modals for removal of field', () => {
       editSectionName: 'mailing address',
       removalSectionName: 'contact email address',
     });
+
+    cy.axeCheck();
   });
 });
 
@@ -158,6 +160,8 @@ describe('Modals on the personal information and content page', () => {
       editLineId: 'root_emailAddress',
       sectionName: 'contact email address',
     });
+
+    cy.axeCheck();
   });
 
   it('should render as expected on Mobile', () => {
@@ -197,6 +201,8 @@ describe('Modals on the personal information and content page', () => {
       editLineId: 'root_emailAddress',
       sectionName: 'contact email address',
     });
+
+    cy.axeCheck();
   });
 });
 
@@ -232,6 +238,8 @@ describe('Modals on the personal information and content page after editing', ()
 
     // verify input exists
     cy.findByLabelText(/email address/i);
+
+    cy.axeCheck();
   });
 });
 
@@ -270,6 +278,8 @@ describe('when moving to other profile sections', () => {
     cy.findByRole('button', {
       name: new RegExp(`edit ${sectionName}`, 'i'),
     }).should('exist');
+
+    cy.axeCheck();
   });
 });
 
@@ -295,5 +305,7 @@ describe('Modals on the personal information and content page when they error', 
 
     // expect an error to be shown
     cy.findByTestId('edit-error-alert').should('exist');
+
+    cy.axeCheck();
   });
 });
