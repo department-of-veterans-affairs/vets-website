@@ -19,6 +19,8 @@ const setup = (mobile = false) => {
   // and then the loading indicator should be removed
   cy.findByText(/loading your information/i).should('not.exist');
   cy.findByRole('progressbar').should('not.exist');
+
+  cy.injectAxe();
 };
 
 const checkModals = options => {
