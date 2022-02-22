@@ -8,7 +8,6 @@ import mapboxgl from 'mapbox-gl';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import environment from 'platform/utilities/environment';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
 import ResultCard from './ResultCard';
@@ -280,11 +279,7 @@ function LocationSearchResults({
    */
   useEffect(
     () => {
-      if (!environment.isProduction()) {
-        if (smallScreen) {
-          map.current = null;
-        }
-      } else {
+      if (smallScreen) {
         map.current = null;
       }
       setupMap();
@@ -725,18 +720,16 @@ const mapDispatchToProps = {
   dispatchMapChanged: mapChanged,
 };
 
-if (!environment.isProduction) {
-  LocationSearchResults.propTypes = {
-    dispatchFetchSearchByLocationCoords: PropTypes.func,
-    dispatchMapChanged: PropTypes.func,
-    dispatchUpdateEligibilityAndFilters: PropTypes.func,
-    filters: PropTypes.object,
-    filtersChanged: PropTypes.bool,
-    preview: PropTypes.object,
-    search: PropTypes.object,
-    smallScreen: PropTypes.bool,
-  };
-}
+LocationSearchResults.propTypes = {
+  dispatchFetchSearchByLocationCoords: PropTypes.func,
+  dispatchMapChanged: PropTypes.func,
+  dispatchUpdateEligibilityAndFilters: PropTypes.func,
+  filters: PropTypes.object,
+  filtersChanged: PropTypes.bool,
+  preview: PropTypes.object,
+  search: PropTypes.object,
+  smallScreen: PropTypes.bool,
+};
 
 export default connect(
   mapStateToProps,
