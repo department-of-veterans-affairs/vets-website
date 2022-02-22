@@ -6,7 +6,6 @@ import URLSearchParams from 'url-search-params';
 // Relative imports.
 import { getFindFormsAppState } from '../helpers/selectors';
 import { fetchFormsThunk } from '../actions';
-import '../sass/find-va-forms.scss';
 
 export const SearchForm = ({ fetchForms, fetching }) => {
   // Derive the current query params.
