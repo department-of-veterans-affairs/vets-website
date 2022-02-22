@@ -278,7 +278,7 @@ function AdditionalConsiderationTemplate(page, formField) {
     additionalInfoView = {
       [additionalInfoViewName]: {
         'ui:description': (
-          <va-additional-info triggerText={additionalInfo.triggerText}>
+          <va-additional-info trigger={additionalInfo.triggerText}>
             <p>{additionalInfo.info}</p>
           </va-additional-info>
         ),
@@ -1072,7 +1072,7 @@ const formConfig = {
                       application.
                     </strong>
                   </p>
-                  <va-additional-info triggerText="Why do I have to give up a benefit?">
+                  <va-additional-info trigger="Why do I have to give up a benefit?">
                     <p>
                       The law says if you are eligible for both the Post-9/11 GI
                       Bill and another education benefit based on the same
