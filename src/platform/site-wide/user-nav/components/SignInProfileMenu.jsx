@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import DropDownPanel from '@department-of-veterans-affairs/component-library/DropDownPanel';
 import IconUser from '@department-of-veterans-affairs/component-library/IconUser';
 
+import PersonalizationDropDownPanel from './PersonalizationDropDownPanel';
 import PersonalizationDropdown from './PersonalizationDropdown';
 
 function SignInProfileMenu({ greeting, clickHandler, isOpen, disabled }) {
@@ -10,7 +10,7 @@ function SignInProfileMenu({ greeting, clickHandler, isOpen, disabled }) {
 
   return (
     <div>
-      <DropDownPanel
+      <PersonalizationDropDownPanel
         buttonText={greeting}
         clickHandler={clickHandler}
         cssClass="sign-in-drop-down-panel-button"
@@ -20,7 +20,7 @@ function SignInProfileMenu({ greeting, clickHandler, isOpen, disabled }) {
         isOpen={isOpen}
       >
         <PersonalizationDropdown />
-      </DropDownPanel>
+      </PersonalizationDropDownPanel>
     </div>
   );
 }
