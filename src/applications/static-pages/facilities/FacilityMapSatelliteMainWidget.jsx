@@ -50,14 +50,6 @@ export class FacilityMapSatelliteMainWidget extends React.Component {
     }
   };
 
-  componentDidMount() {
-    const {
-      facilityID,
-      dispatchFetchMainSatelliteLocationFacility,
-    } = this.props;
-    dispatchFetchMainSatelliteLocationFacility(facilityID);
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const facilityDetail = this.props.facility;
     const lat = this.getLat(facilityDetail);
