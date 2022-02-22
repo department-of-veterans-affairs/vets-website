@@ -42,7 +42,7 @@ def setup() {
       dockerImage = docker.build(DOCKER_TAG)
       retry(5) {
         dockerImage.inside(DOCKER_ARGS) {
-          sh "cd /application && rm -rf node_modules && yarn install --frozen-lockfile --production=false"
+          sh "cd /application && rm -rf node_modules && yarn install --immutable --production=false"
         }
       }
       return dockerImage
