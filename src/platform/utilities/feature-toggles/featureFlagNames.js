@@ -74,7 +74,6 @@ export default Object.freeze({
   profileShowGender: 'profile_show_gender',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
-  searchTypeaheadEnabled: 'search_typeahead_enabled',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
   show526Wizard: 'show526_wizard',
   showPaymentAndDebtSection: 'show_payment_and_debt_section',
