@@ -7,7 +7,7 @@ export default function VerifyYourEnrollments() {
       className="vads-c-action-link--blue ev-action-link"
       href={VERIFY_ENROLLMENTS_URL}
     >
-      Verify your enrollments
+      Verify all enrollments
     </a>
   );
 }

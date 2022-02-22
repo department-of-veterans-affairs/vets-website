@@ -30,6 +30,12 @@ ruleTester.run('prefer-web-component-library', rule, {
     //     const phone = () => (<Telephone contact={phoneContact} />)
     //   `,
     // },
+    {
+      code: `
+        import Breadcrumbs from '../../components/Breadcrumbs';
+        const breadcrumbs = () => (<Breadcrumbs><a href="#home">Home</a></Breadcrumbs>)
+      `,
+    },
   ],
   invalid: [
     {
@@ -161,6 +167,45 @@ ruleTester.run('prefer-web-component-library', rule, {
               output: mockFile(
                 'Telephone',
                 'const phone = () => (<va-telephone not-clickable contact={myContact} />)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Breadcrumbs',
+        'const breadcrumb = () => (<Breadcrumbs><a href="/">Home</a></Breadcrumbs>)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'Breadcrumbs',
+                'const breadcrumb = () => (<va-breadcrumbs><a href="/">Home</a></va-breadcrumbs>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Breadcrumbs',
+        'const breadcrumb = () => (<Breadcrumbs selectedFacility={selectedResult}><a href="/">Home</a></Breadcrumbs>)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              // There is an extra space which would get removed on an autosave format
+              output: mockFile(
+                'Breadcrumbs',
+                'const breadcrumb = () => (<va-breadcrumbs ><a href="/">Home</a></va-breadcrumbs>)',
               ),
             },
           ],

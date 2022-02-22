@@ -44,7 +44,7 @@ describe('<ReviewDescription>', () => {
     const wrapper = shallow(<ReviewDescription veteran={veteran} />);
     const text = wrapper.find('dl.review').text();
     const { email, phone, address } = veteran;
-    const phoneProps = wrapper.find('Telephone').props();
+    const phoneProps = wrapper.find('va-telephone').props();
 
     expect(wrapper.find('h4').text()).to.eq('Contact information');
     expect(wrapper.find('a').props().href).to.contain(PROFILE_URL);

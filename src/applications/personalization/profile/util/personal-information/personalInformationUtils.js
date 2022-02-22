@@ -4,28 +4,23 @@ import moment from 'moment';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import OtherTextField from '@@profile/components/personal-information/OtherTextField';
 import { NOT_SET_TEXT } from '../../constants';
+import DeselectableObjectField from '../../components/personal-information/DeselectableObjectField';
 
-const createBooleanSchemaPropertiesFromOptions = obj =>
+export const notListedKeySuffix = 'NotListedText';
+
+export const createNotListedTextKey = fieldName =>
+  `${fieldName}${notListedKeySuffix}`;
+
+export const createBooleanSchemaPropertiesFromOptions = obj =>
   mapValues(obj, () => {
     return { type: 'boolean' };
   });
 
-const createUiTitlePropertiesFromOptions = obj => {
+export const createUiTitlePropertiesFromOptions = obj => {
   return Object.entries(obj).reduce((accumulator, [key, value]) => {
     accumulator[key] = { 'ui:title': value };
     return accumulator;
   }, {});
-};
-
-const deselectOnPreferNotToAnswer = (formData, schema) => {
-  if (formData?.preferNotToAnswer === true) {
-    Object.keys(formData).forEach(key => {
-      // eslint-disable-next-line no-param-reassign
-      if (key !== 'preferNotToAnswer') formData[key] = undefined;
-    });
-  }
-
-  return schema;
 };
 
 const genderLabels = {
@@ -34,7 +29,7 @@ const genderLabels = {
   transgenderWoman: 'Transgender woman',
   transgenderMan: 'Transgender man',
   nonBinary: 'Non-binary',
-  preferNotToAnswer: 'Prefer not to answer',
+  preferNotToAnswer: 'Prefer not to answer (un-checks other options)',
   genderNotListed: 'A gender not listed here',
 };
 
@@ -44,7 +39,7 @@ const sexualOrientationLabels = {
   bisexual: 'Bisexual',
   queer: 'Queer',
   dontKnow: 'Don’t know',
-  preferNotToAnswer: 'Prefer not to answer',
+  preferNotToAnswer: 'Prefer not to answer (un-checks other options)',
   sexualOrientationNotListed: 'A sexual orientation not listed here',
 };
 
@@ -55,6 +50,12 @@ const pronounsLabels = {
   zeZirZirs: 'Ze/zir/zirs',
   useMyPreferredName: 'Use my preferred name',
   pronounsNotListed: 'Pronouns not listed here',
+};
+
+const allLabels = {
+  pronouns: pronounsLabels,
+  genderIdentity: genderLabels,
+  sexualOrientation: sexualOrientationLabels,
 };
 
 export const personalInformationFormSchemas = {
@@ -100,7 +101,6 @@ export const personalInformationFormSchemas = {
         },
       },
     },
-
     required: [],
   },
 };
@@ -129,14 +129,12 @@ export const personalInformationUiSchemas = {
     },
   },
   genderIdentity: {
-    'ui:widget': 'checkbox',
+    'ui:field': DeselectableObjectField,
     'ui:description': `Select your gender identity`,
     ...createUiTitlePropertiesFromOptions(genderLabels),
-    'ui:options': {
-      updateSchema: deselectOnPreferNotToAnswer,
-    },
   },
   sexualOrientation: {
+    'ui:field': DeselectableObjectField,
     'ui:widget': 'checkbox',
     'ui:description': `Select your sexual orientation`,
     ...createUiTitlePropertiesFromOptions(sexualOrientationLabels),
@@ -147,47 +145,24 @@ export const personalInformationUiSchemas = {
   },
 };
 
-export const formatPronouns = (pronounValues, pronounsNotListedText = '') => {
-  if (pronounValues.includes('pronounsNotListed') && !pronounsNotListedText) {
-    throw new Error(
-      'pronounsNotListedText must be provided if pronounsNotListed is in selected pronouns array',
-    );
+export const formatMultiSelectAndText = (data, fieldName) => {
+  const notListedTextKey = `${fieldName}NotListedText`;
+
+  const fieldLength = data?.[fieldName]?.length;
+
+  // handle no checkboxes selected and only a text field value
+  if ((!fieldLength || fieldLength < 1) && data[notListedTextKey]) {
+    return data[notListedTextKey];
   }
 
-  if (pronounValues.length === 1) {
-    return pronounValues.includes('pronounsNotListed')
-      ? pronounsNotListedText
-      : pronounsLabels[pronounValues[0]];
-  }
+  const mergedValues = [
+    ...data[fieldName].map(key => allLabels[fieldName][key]),
+    ...(data?.[notListedTextKey] ? [data[notListedTextKey]] : []),
+  ];
 
-  return pronounValues
-    .map(pronounKey => {
-      return pronounKey === 'pronounsNotListed'
-        ? pronounsNotListedText
-        : pronounsLabels[pronounKey];
-    })
-    .join(', ');
-};
+  if (mergedValues.length > 0) return mergedValues.join(', ');
 
-export const formatGenderIdentity = genderKey => genderLabels?.[genderKey];
-
-export const formatSexualOrientation = (
-  sexualOrientationKey,
-  sexualOrientationNotListedText = '',
-) => {
-  if (
-    sexualOrientationKey === 'sexualOrientationNotListed' &&
-    !sexualOrientationNotListedText
-  ) {
-    throw new Error(
-      'sexualOrientationNotListedText must be provided if sexualOrientationNotListed is selected',
-    );
-  }
-
-  if (sexualOrientationKey !== 'sexualOrientationNotListed') {
-    return sexualOrientationLabels[sexualOrientationKey];
-  }
-  return sexualOrientationNotListedText;
+  return null;
 };
 
 export const renderGender = gender => {

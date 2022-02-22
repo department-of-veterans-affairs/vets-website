@@ -1,15 +1,15 @@
 import React, { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
 
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 
 import EnrollmentVerificationMonth from './EnrollmentVerificationMonth';
+import { ENROLLMENT_VERIFICATION_TYPE } from '../helpers';
 
 const MONTHS_PER_PAGE = 6;
 
 function EnrollmentVerificationMonths({ status }) {
-  // TODO Do months come sorted?  If not, sort here.
-
+  // We assume that months come sorted.  If that assumption is
+  // incorrect, sort here.
   const months = status.months.map((month, index) => {
     return (
       <EnrollmentVerificationMonth
@@ -78,21 +78,5 @@ function EnrollmentVerificationMonths({ status }) {
 export default EnrollmentVerificationMonths;
 
 EnrollmentVerificationMonths.propTypes = {
-  status: PropTypes.shape({
-    months: PropTypes.arrayOf(
-      PropTypes.shape({
-        month: PropTypes.string.isRequired,
-        verified: PropTypes.bool.isRequired,
-        enrollments: PropTypes.arrayOf(
-          PropTypes.shape({
-            institution: PropTypes.string.isRequired,
-            creditHours: PropTypes.number.isRequired,
-            startDate: PropTypes.string.isRequired,
-            endDate: PropTypes.string.isRequired,
-          }),
-        ),
-      }),
-    ),
-    paymentStatus: PropTypes.string,
-  }).isRequired,
+  status: ENROLLMENT_VERIFICATION_TYPE.isRequired,
 };

@@ -185,6 +185,20 @@ const deniedPage = (claimantName, confirmationDate) => (
   </div>
 );
 
+const errorPage = () => (
+  <div className="meb-confirmation-page meb-confirmation-page_denied">
+    <va-alert close-btn-aria-label="Close notification" status="error" visible>
+      <h3 slot="headline">There was an error processing your claim</h3>
+      <div>
+        We’re sorry we couldn’t process your Post-9/11 GI Bill
+        <sup>&reg;</sup> application. Please try again later.
+      </div>
+    </va-alert>
+
+    <FormFooter />
+  </div>
+);
+
 const pendingPage = (claimantName, confirmationDate) => (
   <div className="meb-confirmation-page meb-confirmation-page_denied">
     <va-alert status="success">
@@ -317,8 +331,10 @@ export const ConfirmationPage = ({
     case CLAIM_STATUS_RESPONSE_DENIED: {
       return deniedPage(claimantName, confirmationDate);
     }
-    case CLAIM_STATUS_RESPONSE_IN_PROGRESS:
     case CLAIM_STATUS_RESPONSE_ERROR: {
+      return errorPage();
+    }
+    case CLAIM_STATUS_RESPONSE_IN_PROGRESS: {
       return pendingPage(claimantName, confirmationDate);
     }
     default: {

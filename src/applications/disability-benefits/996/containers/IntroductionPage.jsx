@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -177,7 +175,7 @@ export class IntroductionPage extends React.Component {
                 If you need help requesting a Higher-Level Review, you can
                 contact a VA regional office and ask to speak to a
                 representative. To find the nearest regional office, please call{' '}
-                <Telephone contact={CONTACTS.VA_BENEFITS} />
+                <va-telephone contact={CONTACTS.VA_BENEFITS} />
                 {' or '}
                 <a href={FACILITY_LOCATOR_URL}>
                   visit our facility locator tool
