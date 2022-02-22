@@ -608,7 +608,12 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       ],
       preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
       preferredLanguage: 'English',
-      preferredLocation: { city: 'Cincinnati', state: 'OH' },
+      preferredLocation: {
+        line: ['2360 East Pershing Boulevard'],
+        city: 'Cincinnati',
+        state: 'OH',
+        postalCode: '82001-5356',
+      },
       practitioners: [
         {
           identifier: [

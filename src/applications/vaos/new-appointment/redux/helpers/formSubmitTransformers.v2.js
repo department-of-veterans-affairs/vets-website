@@ -40,13 +40,17 @@ export function transformFormToVAOSCCRequest(state) {
     residentialAddress.addressType !== 'MILITARY OVERSEAS'
   ) {
     preferredLocation = {
+      line: parentFacility.address.line,
       city: residentialAddress.city,
       state: residentialAddress.stateCode,
+      postalCode: parentFacility.address.postalCode,
     };
   } else if (parentFacility.address) {
     preferredLocation = {
+      line: parentFacility.address.line,
       city: parentFacility.address.city,
       state: parentFacility.address.state,
+      postalCode: parentFacility.address.postalCode,
     };
   }
 
