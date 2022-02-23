@@ -128,7 +128,7 @@ jobs:
 
       # TODO: Potentially use install composite
       - name: Install dependencies
-        run: yarn install --immutable--prefer-offline
+        run: yarn install --immutable && yarn add --cached
         env:
           YARN_CACHE_FOLDER: .cache/yarn
         working-directory: testing-tools-team-dashboard-data

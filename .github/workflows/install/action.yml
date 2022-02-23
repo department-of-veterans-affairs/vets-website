@@ -43,7 +43,7 @@ runs:
     - name: Install dependencies
       uses: nick-invision/retry@v2
       with:
-        command: yarn install --immutable --prefer-offline
+        command: yarn install --immutable && yarn add --cached
         max_attempts: 3
         timeout_minutes: 7
       env:
