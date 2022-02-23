@@ -49,7 +49,7 @@ markdownRenderer.renderer.rules[linkOpen] = function(
 
   tokens[idx].attrPush([
     'onclick',
-    'return recordLinkClick({event: "test_event"})',
+    'return recordLinkClick({event: "chatbot-resource-link-click"})',
   ]);
 
   // pass token to default renderer.
