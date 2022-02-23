@@ -1,8 +1,8 @@
 const prepareSearch = term => {
   cy.visit('/');
   cy.get('button.sitewide-search-drop-down-panel-button').click();
-  cy.get('#query').click();
-  cy.get('#query')
+  cy.get('[data-e2e-id="query"]').click();
+  cy.get('[data-e2e-id="query"]')
     .should('exist')
     .should('not.be.disabled')
     .type(term, { force: true });
@@ -17,17 +17,6 @@ describe('Site-wide Search general functionality', () => {
   it('appears when the dropdown is clicked', () => {
     cy.visit('/');
     cy.get('button.sitewide-search-drop-down-panel-button').click();
-
-    cy.injectAxe();
-    cy.axeCheck();
-  });
-
-  it('should pass Axe requirements', () => {
-    prepareSearch('health');
-    cy.get('#suggestions-list').should('be.visible');
-    cy.get('#suggestions-list')
-      .children()
-      .should('have.length', 5);
 
     cy.injectAxe();
     cy.axeCheck();
@@ -50,7 +39,7 @@ describe('Site-wide Search functionality with typeahead disabled', () => {
 
   it('Pressing enter initiates search for input - typeahead disabled', () => {
     prepareSearch('benefits');
-    cy.get('#query').type('{enter}');
+    cy.get('[data-e2e-id="query"]').type('{enter}');
     cy.url().should('contain', '/search/?query=benefits');
 
     cy.injectAxe();

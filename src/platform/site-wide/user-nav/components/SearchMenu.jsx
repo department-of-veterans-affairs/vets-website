@@ -239,6 +239,7 @@ export class SearchMenu extends React.Component {
               id="query"
               name="query"
               type="text"
+              data-e2e-id="query"
               onChange={handleInputChange}
             />
             <button
