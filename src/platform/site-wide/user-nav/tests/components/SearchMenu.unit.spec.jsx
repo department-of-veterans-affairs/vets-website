@@ -46,31 +46,4 @@ describe('<SearchMenu>', () => {
     expect(wrapper.state('userInput')).to.equal('testing');
     wrapper.unmount();
   });
-
-  it('does not show suggestions when user input is limited', () => {
-    const wrapper = shallow(<SearchMenu />);
-    wrapper.setState({ userInput: 'hm' });
-
-    expect(global.fetch.called).to.be.false;
-    wrapper.unmount();
-  });
-
-  it('shows suggestions', async () => {
-    const wrapper = mount(<SearchMenu debounceRate={1} />);
-
-    wrapper.setState({
-      userInput: 'sample',
-    });
-
-    await new Promise(resolve => setTimeout(resolve, 2));
-    wrapper.update();
-
-    expect(global.fetch.called).to.be.true;
-
-    expect(wrapper.find('#suggestions-list').children()).to.have.lengthOf(5);
-
-    expect(wrapper.html()).to.contain('sample<strong> 1</strong>');
-
-    wrapper.unmount();
-  });
 });
