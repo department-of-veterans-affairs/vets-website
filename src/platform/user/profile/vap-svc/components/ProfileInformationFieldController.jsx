@@ -253,6 +253,10 @@ class ProfileInformationFieldController extends React.Component {
   };
 
   openRemoveModal = () => {
+    if (this.props.blockEditMode) {
+      this.setState({ showCannotEditModal: true });
+      return;
+    }
     this.props.openModal(`remove-${this.props.fieldName}`);
   };
 
