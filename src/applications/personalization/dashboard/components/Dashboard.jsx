@@ -390,6 +390,7 @@ Dashboard.propTypes = {
   fetchMilitaryInformation: PropTypes.func,
   fetchTotalDisabilityRating: PropTypes.func,
   getDebts: PropTypes.func,
+  getPayments: PropTypes.func,
   isLOA3: PropTypes.bool,
   showLoader: PropTypes.bool,
   showMPIConnectionError: PropTypes.bool,

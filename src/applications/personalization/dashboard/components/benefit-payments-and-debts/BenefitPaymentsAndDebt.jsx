@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Payments } from './Payments';
@@ -145,4 +144,4 @@ BenefitPaymentsAndDebt.propTypes = {
   ),
 };
 
-export default connect()(BenefitPaymentsAndDebt);
+export default BenefitPaymentsAndDebt;
