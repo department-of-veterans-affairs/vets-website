@@ -1,7 +1,7 @@
 import 'platform/polyfills';
 import './sass/enrollment-verification.scss';
 
-import startApp from 'platform/startup';
+import startApp from 'platform/startup/router';
 
 import routes from './routes';
 import reducer from './reducers';

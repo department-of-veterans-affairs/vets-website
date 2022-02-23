@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import { fetchVerificationStatus } from '../actions';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import EnrollmentVerificationAlert from '../components/EnrollmentVerificationAlert';
 import EnrollmentVerificationMonths from '../components/EnrollmentVerificationMonths';
-import { BASE_URL } from '../constants';
 import { ENROLLMENT_VERIFICATION_TYPE } from '../helpers';
 
 export const EnrollmentVerificationPage = ({
@@ -16,17 +16,25 @@ export const EnrollmentVerificationPage = ({
   loggedIn,
   verificationStatus,
 }) => {
+  const history = useHistory();
+
   useEffect(
     () => {
       if (hasCheckedKeepAlive && !loggedIn) {
-        window.location.href = BASE_URL;
+        history.push('/');
       }
 
       if (!verificationStatus) {
         getVerificationStatus();
       }
     },
-    [getVerificationStatus, hasCheckedKeepAlive, loggedIn, verificationStatus],
+    [
+      getVerificationStatus,
+      hasCheckedKeepAlive,
+      history,
+      loggedIn,
+      verificationStatus,
+    ],
   );
 
   if (!verificationStatus) {
