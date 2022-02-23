@@ -148,35 +148,42 @@ export default function App() {
               document is no longer required to file your federal taxes; however
               some states may still require proof of health coverage.
             </p>
-            <p>
+            <p className="vads-u-margin-bottom--5">
               *States requiring proof of coverage as of January 2022:
               Massachusetts, New Jersey, Vermont, California, Rhode Island and
               District of Columbia (Washington D.C.)
             </p>
-            <h2 className="vads-u-font-size--h2">Download your 1095-B</h2>
-            <p className="vads-u-margin-bottom--5">
-              {' '}
-              <i
-                className="fas fa-download download-icon vads-u-color--primary-darker"
-                role="presentation"
-              />
-              &nbsp;
-              <a
-                href="http://localhost:3000/v0/tax_1095/download_pdf"
-                className="download-text"
-              >
-                Download current 1095-B tax document (PDF){' '}
-              </a>
-            </p>
-            <span className="vads-u-line-height--3 vads-u-display--block">
-              <strong>Related to:</strong> Health care
-            </span>
-            <span className="vads-u-line-height--3 vads-u-display--block">
-              <strong>Document last updated:</strong> November 5, 2021
-            </span>
-            <h2 className="vads-u-font-size--h2 vads-u-border-bottom--3px vads-u-border-color--primary">
+            <va-alert
+              close-btn-aria-label="Close notification"
+              status="info"
+              visible
+            >
+              <h3 slot="headline">Download your 1095-B</h3>
+              <div>
+                <p className="vads-u-margin-bottom--5">
+                  <span className="vads-u-line-height--3 vads-u-display--block">
+                    <strong>Related to:</strong> Health care
+                  </span>
+                  <span className="vads-u-line-height--3 vads-u-display--block">
+                    <strong>Document last updated:</strong> November 5, 2021
+                  </span>
+                </p>
+                <i
+                  className="fas fa-download download-icon vads-u-color--primary-alt-darkest"
+                  role="presentation"
+                />
+                &nbsp;
+                <a
+                  href="http://localhost:3000/v0/tax_1095/download_pdf"
+                  className="download-text"
+                >
+                  Download current 1095-B tax document (PDF){' '}
+                </a>
+              </div>
+            </va-alert>
+            <h3 className="vads-u-font-size--h3 vads-u-border-bottom--3px vads-u-border-color--primary vads-u-margin-top--5">
               Need help?
-            </h2>
+            </h3>
             <p>
               <span className="vads-u-font-weight--bold">
                 If your address or other information is incorrect or needs to be
