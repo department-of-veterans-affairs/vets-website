@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import { focusElement } from 'platform/utilities/ui';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
 import {
@@ -45,15 +46,25 @@ export const VerifyEnrollmentsPage = ({
   useEffect(
     () => {
       if (hasCheckedKeepAlive && !loggedIn) {
-        // history.push('/');
+        history.push('/');
       }
 
       if (!verificationStatus) {
         getVerificationStatus();
       }
     },
-    [getVerificationStatus, hasCheckedKeepAlive, loggedIn, verificationStatus],
+    [
+      getVerificationStatus,
+      hasCheckedKeepAlive,
+      history,
+      loggedIn,
+      verificationStatus,
+    ],
   );
+
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
 
   const unverifiedMonths =
     verificationStatus?.months &&
@@ -80,6 +91,7 @@ export const VerifyEnrollmentsPage = ({
   const onEditMonth = useCallback(
     m => {
       editMonth(m);
+      focusElement('h1');
     },
     [editMonth],
   );
@@ -128,6 +140,7 @@ export const VerifyEnrollmentsPage = ({
       setMonthInformationCorrect(
         unverifiedMonths[currentMonth - 1].verificationStatus,
       );
+      focusElement('h1');
     },
     [
       clearVerificationStatuses,
@@ -195,6 +208,7 @@ export const VerifyEnrollmentsPage = ({
           return m;
         }),
       });
+      focusElement('h1');
     },
     [
       continueClicked,
