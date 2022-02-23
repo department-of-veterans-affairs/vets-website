@@ -74,7 +74,7 @@ export const Results = ({
             const endsAtTimezone = moment
               .tz(endsAtUnix * 1000, timezone)
               .format('z')
-              .replace('S', '');
+              .replace(/S|D/i, '');
 
             // Derive the event locations.
             const locations = deriveEventLocations(event);
@@ -154,7 +154,6 @@ export const Results = ({
 };
 
 Results.propTypes = {
-  onPageSelect: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   perPage: PropTypes.number.isRequired,
   query: PropTypes.string.isRequired,
@@ -171,6 +170,7 @@ Results.propTypes = {
     }),
   ).isRequired,
   totalResults: PropTypes.number.isRequired,
+  onPageSelect: PropTypes.func.isRequired,
 };
 
 export default Results;

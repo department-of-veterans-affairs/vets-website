@@ -137,4 +137,6 @@ export default Object.freeze({
   caregiverSIGIEnabled: 'caregiver_sigi_enabled',
   hcaAmericanIndianEnabled: 'hca_american_indian_enabled',
   checkVAInboxEnabled: 'check_va_inbox_enabled',
+  ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test'
+
 });
