@@ -6164,6 +6164,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"base-64@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "base-64@npm:1.0.0"
+  checksum: d10b64a1fc9b2c5a5f39f1ce1e6c9d1c5b249222bbfa3a0604c592d90623caf74419983feadd8a170f27dc0c3389704f72faafa3e645aeb56bfc030c93ff074a
+  languageName: node
+  linkType: hard
+
 "base64-js@npm:^1.0.2":
   version: 1.3.1
   resolution: "base64-js@npm:1.3.1"
@@ -22675,7 +22682,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"simple-guid@npm:0.0.1":
+"simple-guid@npm:0.0.1, simple-guid@npm:^0.0.1":
   version: 0.0.1
   resolution: "simple-guid@npm:0.0.1"
   checksum: 5c6058d989179166281ccdb6effc61f5db0769c52e316da1b13445a28eef070e5ea77b66b07b920e620a427a68b05b08c4cbd815bf9350f533edb99b76e7160d
@@ -25383,6 +25390,7 @@ __metadata:
     babel-plugin-module-resolver: ^4.1.0
     babel-plugin-transform-react-remove-prop-types: ^0.4.24
     babel-polyfill: ^6.26.0
+    base-64: ^1.0.0
     blob-polyfill: ^5.0.20210201
     body-parser: ^1.15.2
     camelcase-keys-recursive: ^1.0.0
@@ -25523,6 +25531,7 @@ __metadata:
     sass-loader: ^8.0.2
     semver: ^7.3.5
     sentry-testkit: ^2.2.1
+    simple-guid: ^0.0.1
     sinon: ^3.2.1
     skin-deep: ^1.0.0
     styled-components: ^5.3.1
