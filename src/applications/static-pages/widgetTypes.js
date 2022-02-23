@@ -34,6 +34,7 @@ export default {
   HIGHER_LEVEL_REVIEW_APP_STATUS: 'higher-level-review-status',
   HOMEPAGE_BANNER: 'homepage-banner',
   I_18_SELECT: 'i18-select',
+  LETTERS_MOBILE_CTA: 'letters-mobile-cta',
   MAINTENANCE_BANNER: 'maintenance-banner',
   MANAGE_VA_DEBT_CTA: 'manage-va-debt-cta',
   MEDICAL_COPAYS_CTA: 'medical-copays-cta',
