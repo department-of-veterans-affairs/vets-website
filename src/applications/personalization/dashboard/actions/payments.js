@@ -1,9 +1,6 @@
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
-import {
-  isServerError,
-  isClientError,
-} from 'applications/disability-benefits/view-payments/utils';
+import { isServerError, isClientError } from '../utils/helpers';
 
 export const PAYMENTS_RECEIVED_STARTED = 'PAYMENTS_RECEIVED_STARTED';
 export const PAYMENTS_RECEIVED_SUCCEEDED = 'PAYMENTS_RECEIVED_SUCCEEDED';
