@@ -1,5 +1,5 @@
+import React from 'react';
 import { isValidRoutingNumber } from '../validations';
-import { directDepositDescription } from '../../forms-system/src/js/definitions/content/directDeposit';
 import environment from 'platform/utilities/environment';
 
 function validateRoutingNumber(
@@ -15,12 +15,30 @@ function validateRoutingNumber(
 }
 
 const isProduction = environment.isProduction();
+const directDepositDescription = () => {
+  return environment.isProduction() ? (
+    ''
+  ) : (
+    <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
+      <p>
+        We make payments only through direct deposit, also called electronic
+        funds transfer (EFT). Please provide your direct deposit information
+        below. We’ll send your housing payment to this account.
+      </p>
+      <img
+        src="/img/direct-deposit-check-guide.svg"
+        alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
+      />
+    </div>
+  );
+};
 
 const uiSchema = {
   'ui:order': () =>
     isProduction
       ? ['accountType', 'accountNumber', 'routingNumber']
       : ['accountType', 'routingNumber', 'accountNumber'],
+  'ui:description': directDepositDescription(),
   accountType: {
     'ui:title': 'Account type',
     'ui:widget': 'radio',
