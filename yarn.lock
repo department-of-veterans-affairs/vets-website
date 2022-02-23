@@ -25330,10 +25330,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#9eebc8fcdb40e8ff4a2e4cebe20722cfcbd2d31a":
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#3a366ffeb10957259b3980418391837d1d24b739":
   version: 20.19.1
-  resolution: "vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#commit=9eebc8fcdb40e8ff4a2e4cebe20722cfcbd2d31a"
-  checksum: aa16b2276acc8b7b7cc7ee8e4c78bc7a69970df4e4d26da9b3e8e25622b59f3eea8a6eacf03a9f0fdc2c3536fa216e8af99658f8285334b007cfef40519f394c
+  resolution: "vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#commit=3a366ffeb10957259b3980418391837d1d24b739"
+  checksum: c1dff8d7fb0938daff48598811443b55248f878f3ce3ef8013c481fec61b9735e8b98e4cc7ccf7759a4375c9bbeeeb67ef67f1ed55e5644f37b2df5a5ec5a47f
   languageName: node
   linkType: hard
 
@@ -25547,7 +25547,7 @@ __metadata:
     url-search-params-polyfill: ^8.1.1
     uswds: 1.6.10
     vanilla-lazyload: ^16.1.0
-    vets-json-schema: "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9eebc8fcdb40e8ff4a2e4cebe20722cfcbd2d31a"
+    vets-json-schema: "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3a366ffeb10957259b3980418391837d1d24b739"
     webpack: ^5.64.4
     webpack-bundle-analyzer: ^4.5.0
     webpack-cli: ^4.9.1
