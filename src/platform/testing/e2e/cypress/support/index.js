@@ -1,10 +1,10 @@
-const { join } = require('path');
+// const join = require('path').join;
 
 import '@testing-library/cypress/add-commands';
 import 'cypress-axe';
 import 'cypress-plugin-tab';
 import 'cypress-real-events/support';
-import addContext from 'mochawesome/addContext';
+// import addContext from 'mochawesome/addContext';
 import './commands';
 
 Cypress.on('window:before:load', window => {
@@ -24,9 +24,9 @@ Cypress.on('window:before:load', window => {
 // the `fixtureFolder` needs to be set to "src" in the configuration.
 // Setting it to "." causes Cypress to fail to find the spec files,
 // presumably because it can't contain the `integrationFolder` ("src").
-Cypress.Commands.overwrite('fixture', (originalFn, path, options) =>
-  originalFn(join('..', path), options),
-);
+// Cypress.Commands.overwrite('fixture', (originalFn, path, options) =>
+//   originalFn(join('..', path), options),
+// );
 
 // Hack to allow the type command to accept and simulate an input with 0 delay.
 // The default command ignores delays under 10 (seconds).
@@ -54,35 +54,35 @@ beforeEach(() => {
   });
 });
 
-// Assign the video path to the context property for failed tests
-Cypress.on('test:after:run', test => {
-  if (test.state === 'failed') {
-    let videoName = Cypress.spec.name;
-    videoName = videoName.replace('/.js.*', '.js');
-    const videoPath = `${Cypress.config('videosFolder')}/${videoName}.mp4`;
-    addContext(
-      { test },
-      {
-        title: 'context',
-        value: {
-          video: videoPath,
-          retries: test.currentRetry,
-          testPath: Cypress.spec.relative,
-          testTitle: test.title,
-        },
-      },
-    );
-  } else {
-    addContext(
-      { test },
-      {
-        title: 'context',
-        value: {
-          retries: test.currentRetry,
-          testPath: Cypress.spec.relative,
-          testTitle: test.title,
-        },
-      },
-    );
-  }
-});
+// // Assign the video path to the context property for failed tests
+// Cypress.on('test:after:run', test => {
+//   if (test.state === 'failed') {
+//     let videoName = Cypress.spec.name;
+//     videoName = videoName.replace('/.js.*', '.js');
+//     const videoPath = `${Cypress.config('videosFolder')}/${videoName}.mp4`;
+//     addContext(
+//       { test },
+//       {
+//         title: 'context',
+//         value: {
+//           video: videoPath,
+//           retries: test.currentRetry,
+//           testPath: Cypress.spec.relative,
+//           testTitle: test.title,
+//         },
+//       },
+//     );
+//   } else {
+//     addContext(
+//       { test },
+//       {
+//         title: 'context',
+//         value: {
+//           retries: test.currentRetry,
+//           testPath: Cypress.spec.relative,
+//           testTitle: test.title,
+//         },
+//       },
+//     );
+//   }
+// });

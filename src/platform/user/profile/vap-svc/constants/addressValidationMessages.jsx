@@ -71,7 +71,7 @@ export const ADDRESS_VALIDATION_MESSAGES = Object.freeze({
     ModalText: ({ editFunction }) => (
       <p>
         We’re sorry. We couldn’t verify your address with the U.S. Postal
-        Service, so we won't be able to deliver your VA mail to that address.
+        Service, so we won’t be able to deliver your VA mail to that address.
         Please{' '}
         <button className="va-button-link" onClick={editFunction}>
           edit the address

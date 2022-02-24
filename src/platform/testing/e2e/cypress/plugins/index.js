@@ -1,5 +1,6 @@
 const fs = require('fs');
 const { table } = require('table');
+const { filelocPlugin } = require('esbuild-plugin-fileloc');
 const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
 
 const tableConfig = {
@@ -12,11 +13,25 @@ const tableConfig = {
 module.exports = async on => {
   const bundler = createBundler({
     loader: { '.js': 'jsx' },
-    format: 'esm',
+    // format: 'cjs',
+    bundle: true,
     define: {
       __BUILDTYPE__: '"vagovprod"',
       __API__: '""',
+      'process.env.NODE_ENV': '"production"',
     },
+    plugins: [filelocPlugin()],
+    platform: 'node',
+    target: ['esnext', 'node14'],
+    banner: {
+      js:
+        "import { createRequire as topLevelCreateRequire } from 'module';\n const require = topLevelCreateRequire(import.meta.url);",
+    },
+    // footer: {
+    //   js: [
+    //     `}`
+    //   ].join('\n'),
+    // },
   });
   on('file:preprocessor', bundler);
 
