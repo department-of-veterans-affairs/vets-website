@@ -1,5 +1,4 @@
 import React from 'react';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import {
   BASE_URL,
   REVIEW_ENROLLMENTS_URL,
@@ -47,5 +46,5 @@ export default function EnrollmentVerificationBreadcrumbs() {
     );
   }
 
-  return <Breadcrumbs>{breadcrumbs}</Breadcrumbs>;
+  return <va-breadcrumbs>{breadcrumbs}</va-breadcrumbs>;
 }
