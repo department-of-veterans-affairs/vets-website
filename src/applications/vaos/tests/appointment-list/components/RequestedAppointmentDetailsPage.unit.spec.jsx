@@ -743,9 +743,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.baseElement).to.contain.text(
       `${moment(appointment.attributes.requestedPeriods[1].start).format(
         'ddd, MMMM D, YYYY',
-      )} ${
-        moment(testDate).hour() < 12 ? 'in the morning' : 'in the afternoon'
-      }`,
+      )} ${moment(start).hour() < 12 ? 'in the morning' : 'in the afternoon'}`,
     );
     expect(screen.baseElement).to.contain.text('New issue');
 
