@@ -1,8 +1,7 @@
 import { differenceInCalendarDays } from 'date-fns';
 
-const now = Date.now();
 const isWithInDays = (days, pageLastUpdated) => {
-  const daysAgo = differenceInCalendarDays(now, pageLastUpdated);
+  const daysAgo = differenceInCalendarDays(Date.now(), pageLastUpdated);
   return daysAgo <= days;
 };
 

@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import MockDate from 'mockdate';
 
 import { updateFormPages } from './index';
 
@@ -69,6 +70,7 @@ describe('Global check in', () => {
         expect(form.find(page => page === URLS.NEXT_OF_KIN)).to.exist;
       });
       it("should not skip a page that hasn't been updated within the time window", () => {
+        MockDate.set('2022-01-05T14:00:00.000-05:00');
         const patientDemographicsStatus = {
           demographicsNeedsUpdate: true,
           demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
@@ -84,6 +86,7 @@ describe('Global check in', () => {
           URLS,
         );
         expect(form.find(page => page === URLS.EMERGENCY_CONTACT)).to.exist;
+        MockDate.reset();
       });
       it('should not skip a page that has no last updated date string', () => {
         const patientDemographicsStatus = {
@@ -101,6 +104,48 @@ describe('Global check in', () => {
           URLS,
         );
         expect(form.find(page => page === URLS.DEMOGRAPHICS)).to.exist;
+      });
+      it('should skip a page that has been updated more than 72 hours ago but within three calendar days', () => {
+        MockDate.set('2022-01-04T14:00:00.000-05:00');
+        const patientDemographicsStatus = {
+          demographicsNeedsUpdate: true,
+          demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          nextOfKinNeedsUpdate: true,
+          nextOfKinConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          emergencyContactNeedsUpdate: false,
+          emergencyContactConfirmedAt: '2022-01-01T08:00:00.000-05:00',
+        };
+        const form = updateFormPages(
+          patientDemographicsStatus,
+          false,
+          testPages,
+          URLS,
+        );
+        expect(form.find(page => page === URLS.EMERGENCY_CONTACT)).to.be
+          .undefined;
+
+        MockDate.reset();
+      });
+      it('should skip a page that has been updated less than 72 hours ago', () => {
+        MockDate.set('2022-01-04T06:00:00.000-05:00');
+        const patientDemographicsStatus = {
+          demographicsNeedsUpdate: true,
+          demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          nextOfKinNeedsUpdate: true,
+          nextOfKinConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          emergencyContactNeedsUpdate: false,
+          emergencyContactConfirmedAt: '2022-01-01T08:00:00.000-05:00',
+        };
+        const form = updateFormPages(
+          patientDemographicsStatus,
+          false,
+          testPages,
+          URLS,
+        );
+        expect(form.find(page => page === URLS.EMERGENCY_CONTACT)).to.be
+          .undefined;
+
+        MockDate.reset();
       });
     });
   });
