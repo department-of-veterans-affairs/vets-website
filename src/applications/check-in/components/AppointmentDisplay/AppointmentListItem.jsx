@@ -18,21 +18,21 @@ const AppointmentListItem = props => {
         >
           {appointmentTime}
         </dd>
-        <dt className="facility-label vads-u-margin--0 vads-u-margin-right--1 vads-u-font-family--serif vads-u-font-weight--bold ">
+        <dt className="facility-label vads-u-margin--0 vads-u-margin-right--1 vads-u-font-family--sans vads-u-font-weight--bold ">
           Facility:{' '}
         </dt>
         <dd
           data-testid="facility-name"
-          className="facility-name vads-u-font-weight--bold vads-u-font-family--serif "
+          className="facility-name vads-u-font-weight--bold vads-u-font-family--sans "
         >
           {appointment.facility}
         </dd>
-        <dt className="clinic-label  vads-u-margin--0 vads-u-margin-right--1 vads-u-margin-bottom--1 vads-u-font-family--serif vads-u-font-weight--bold">
+        <dt className="clinic-label  vads-u-margin--0 vads-u-margin-right--1 vads-u-margin-bottom--1 vads-u-font-family--sans vads-u-font-weight--bold">
           Clinic:{' '}
         </dt>
         <dd
           data-testid="clinic-name"
-          className="clinic-name  vads-u-font-weight--bold vads-u-font-family--serif"
+          className="clinic-name  vads-u-font-weight--bold vads-u-font-family--sans"
         >
           <AppointmentLocation appointment={appointment} />
         </dd>
