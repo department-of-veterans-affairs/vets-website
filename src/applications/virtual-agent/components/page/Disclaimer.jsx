@@ -160,34 +160,37 @@ export default function Disclaimer() {
           <p>
             <ol>
               <li>
-                Click <b>Tab</b> to select the virtual agent window.
+                Press <b>Tab</b> to select the virtual agent window.
               </li>
               <li>
-                Click <b>Tab</b> to select the “Accept” button and click{' '}
+                Press <b>Tab</b> to select the "Accept" button and press{' '}
                 <b>Enter</b>.
               </li>
               <li>
                 Use the arrow keys to listen to the virtual agent messages.
               </li>
               <li>
-                Click <b>Tab</b> to select the “Type your message” section.
+                Press <b>Tab</b> to select the "Type your message" section.
               </li>
               <li>
                 Ask your question and press <b>Enter</b>.
               </li>
               <li>
-                Click <b>Shift+Tab</b> to go back to messages.
+                Press <b>Shift+Tab</b> to go back to messages.
               </li>
               <li>Use the arrow keys to focus on a specific message.</li>
               <li>
-                Click <b>Enter</b> to focus on a link.
+                Press <b>Enter</b> to focus on a link.
               </li>
               <li>
-                Click <b>Enter</b> to open a link. The link will open on another
+                Press <b>Enter</b> to open a link. The link will open on another
                 page.
               </li>
               <li>
-                Click <b>Shift+Tab</b> to exit the virtual agent window.
+                Press <strong>Escape</strong> to leave the current message.
+              </li>
+              <li>
+                Press <b>Shift+Tab</b> to exit the virtual agent window.
               </li>
             </ol>
           </p>
