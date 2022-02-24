@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { format } from 'date-fns';
 import { connect } from 'react-redux';
 
 import environment from 'platform/utilities/environment';
@@ -11,6 +10,7 @@ import {
   CLAIM_STATUS_RESPONSE_IN_PROGRESS,
   CLAIM_STATUS_RESPONSE_ERROR,
 } from '../actions';
+import { formatReadableDate } from '../helpers';
 
 const LETTER_URL = `${environment.API_URL}/meb_api/v0/claim_letter`;
 
@@ -319,7 +319,7 @@ export const ConfirmationPage = ({
 
   const confirmationResult = claimStatus?.claimStatus;
   const confirmationDate = claimStatus?.receivedDate
-    ? format(new Date(claimStatus?.receivedDate), 'MMMM d, yyyy')
+    ? formatReadableDate(claimStatus?.receivedDate)
     : undefined;
   const claimantName = `${userFullName?.first || ''} ${userFullName?.middle ||
     ''} ${userFullName?.last || ''} ${userFullName?.suffix || ''}`;
