@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 
 export function EnrollmentVerificationLogin({ toggleLoginModal }) {
+  const onSignInClicked = useCallback(() => toggleLoginModal(true), [
+    toggleLoginModal,
+  ]);
   return (
     <va-alert status="continue" visible>
       <h3 slot="headline">
@@ -17,7 +21,7 @@ export function EnrollmentVerificationLogin({ toggleLoginModal }) {
       <button
         type="button"
         className="usa-button-primary va-button-primary"
-        onClick={() => toggleLoginModal(true)}
+        onClick={onSignInClicked}
       >
         Sign in or create an account
       </button>
@@ -33,3 +37,7 @@ export default connect(
   null,
   mapDispatchToProps,
 )(EnrollmentVerificationLogin);
+
+EnrollmentVerificationLogin.propTypes = {
+  toggleLoginModal: PropTypes.func,
+};
