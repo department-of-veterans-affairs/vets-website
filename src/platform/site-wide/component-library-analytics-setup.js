@@ -32,6 +32,29 @@ const analyticsEvents = {
   TextInput: [{ action: 'blur', event: 'int-text-input-blur' }],
   'va-checkbox': [{ action: 'change', event: 'int-checkbox-option-click' }],
   'va-text-input': [{ action: 'blur', event: 'int-text-input-blur' }],
+  'va-accordion': [
+    { action: 'expand', event: 'int-accordion-expand' },
+    { action: 'collapse', event: 'int-accordion-collapse' },
+  ],
+  'va-additional-info': [
+    { action: 'expand', event: 'int-additional-info-expand' },
+    { action: 'collapse', event: 'int-additional-info-collapse' },
+  ],
+  'va-alert': [{ action: 'linkClick', event: 'nav-alert-box-link-click' }],
+  'va-breadcrumbs': [
+    { action: 'linkClick', event: 'nav-breadcrumb-link-click' },
+  ],
+  'va-checkbox-group': [
+    { action: 'change', event: 'int-checkbox-group-option-click' },
+  ],
+  'va-loading-indicator': [
+    { action: 'displayed', event: 'loading-indicator-displayed' },
+  ],
+  'va-radio': [{ action: 'change', event: 'int-radio-button-option-click' }],
+  'va-select': [{ action: 'change', event: 'int-select-box-option-click' }],
+  'va-progress-bar': [{ action: 'change', event: '' }],
+  'va-segmented-progress-bar': [{ action: 'change', event: '' }],
+  'va-telephone': [{ action: 'click', event: '' }],
 };
 
 export function subscribeComponentAnalyticsEvents(
@@ -43,7 +66,7 @@ export function subscribeComponentAnalyticsEvents(
 
   if (component) {
     const action = component.find(ev => ev.action === e.detail.action);
-    const version = e.detail.version;
+    const { version } = e.detail;
 
     if (action) {
       const dataLayer = {
