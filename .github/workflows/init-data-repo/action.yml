@@ -8,6 +8,7 @@ runs:
       uses: actions/checkout@v2
       with:
         repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
+        ref: 'yarn-3'
         token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
         path: testing-tools-team-dashboard-data
 
@@ -25,7 +26,7 @@ runs:
     # TODO: Potentially use install composite
     - name: Install dependencies
       shell: bash
-      run: yarn install --immutable
+      run: yarn install --immutable --all
       env:
         YARN_CACHE_FOLDER: .yarn/cache
       working-directory: testing-tools-team-dashboard-data
