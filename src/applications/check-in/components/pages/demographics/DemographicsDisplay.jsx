@@ -40,7 +40,8 @@ export default function DemographicsDisplay({
       key: 'mobilePhone',
       editAction: field => {
         const dataForEdit = {
-          originatingPage: URLS.DEMOGRAPHICS,
+          originatingUrl: URLS.DEMOGRAPHICS,
+          thingToUpdate: 'demographics',
           ...field,
         };
         // update redux with {where we came from, what we want to edit, }
