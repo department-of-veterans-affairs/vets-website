@@ -123,10 +123,16 @@ export function transformVAOSAppointment(appt) {
   if (isRequest) {
     const created = moment.parseZone(appt.created).format('YYYY-MM-DD');
     const reqPeriods = appt.requestedPeriods.map(d => ({
-      start: moment
-        .utc(d.start)
-        .toISOString()
-        .replace('Z', ''),
+      // If you want to interpret the date as the user’s local time,
+      // and be able to safely do math with it, you can specify a format
+      // that has no Z token, and thus ignores the offset.
+      //
+      // Note that this will not work in strict parsing mode, as there will
+      // be left over training characters
+      //
+      // https://maggiepint.com/2016/05/14/moment-js-shows-the-wrong-date/
+      // start: moment.parseZone(d.start).format(),
+      start: moment(d.start, 'YYYY-MM-DDTHH:mm:ss').format(),
       end: moment
         .utc(d.end)
         .toISOString()

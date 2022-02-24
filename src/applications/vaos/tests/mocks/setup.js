@@ -1,7 +1,7 @@
+/* eslint-disable no-console */
 /** @module testing/mocks/setup */
 
 import React from 'react';
-import moment from '../../lib/moment-tz';
 import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history-v4';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
@@ -13,13 +13,14 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import { commonReducer } from 'platform/startup/store';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
+import { cleanup } from '@testing-library/react';
 import reducers from '../../redux/reducer';
 import newAppointmentReducer from '../../new-appointment/redux/reducer';
 import covid19VaccineReducer from '../../covid-19-vaccine/redux/reducer';
 import unenrolledVaccineReducer from '../../unenrolled-vaccine/redux/reducer';
 
 import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
-import { cleanup } from '@testing-library/react';
+import moment from '../../lib/moment-tz';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
 import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
 import PreferredDatePage from '../../new-appointment/components/PreferredDatePage';
@@ -183,7 +184,9 @@ export function getTimezoneTestDate(zone = 'America/Denver') {
   const facilityTimezone = moment()
     .tz(zone)
     .utcOffset();
-
+  console.log(
+    `localeOffset: ${localOffset}, facilityOffset: ${facilityTimezone}`,
+  );
   if (localOffset >= facilityTimezone) {
     mockedDate = moment()
       .set('hour', 0)
@@ -194,7 +197,7 @@ export function getTimezoneTestDate(zone = 'America/Denver') {
       .set('hour', 23)
       .set('minute', 30);
   }
-
+  console.log(mockedDate.format('YYYY-MM-DD[T]HH:mm:ss'));
   return mockedDate.format('YYYY-MM-DD[T]HH:mm:ss');
 }
 
@@ -292,7 +295,7 @@ export async function setVAFacility(
   { facilityData = null, directCriteria = {}, requestCriteria = {} } = {},
 ) {
   const siteCode = facilityId.substring(0, 3);
-  const typeOfCareId = store.getState().newAppointment.data.typeOfCareId;
+  const { typeOfCareId } = store.getState().newAppointment.data;
   const parentSite = {
     id: siteCode,
     attributes: {
