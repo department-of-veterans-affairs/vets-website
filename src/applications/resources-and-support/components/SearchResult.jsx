@@ -58,7 +58,7 @@ export const SearchResult = ({
           {article.title}
         </a>
       </h3>
-      <p className="vads-u-margin-top--2p5 vads-u-margin-bottom--0">
+      <p className="vads-u-margin-top--1p5 vads-u-margin-bottom--0">
         {truncate(article.introText, { length: 190 })}
       </p>
     </div>
