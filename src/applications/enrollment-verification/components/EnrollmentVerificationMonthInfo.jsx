@@ -20,7 +20,7 @@ export default function EnrollmentVerificationMonthInfo({ enrollments }) {
   });
 
   return (
-    <ul className="ev-month-info-institutions vads-u-padding-left--0 vads-u-margin-y--0">
+    <ul className="ev-month-info-institutions vads-u-margin-y--0 vads-u-padding-left--0">
       {enrollmentInstitutions}
     </ul>
   );
