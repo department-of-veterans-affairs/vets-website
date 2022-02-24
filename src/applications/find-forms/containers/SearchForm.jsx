@@ -117,7 +117,7 @@ export const SearchForm = ({ fetchForms, fetching }) => {
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
             <input
-              className="usa-input vads-u-margin--0 vads-u-margin-bottom--2 vads-u-max-width--100 vads-u-width--full medium-screen:vads-u-margin-bottom--0"
+              className="usa-input vads-u-margin--0 vads-u-margin-bottom--2 vads-u-max-width--100 vads-u-width--full vads-u-color--gray-dark medium-screen:vads-u-margin-bottom--0"
               ref={findFormInputFieldRef}
               id="va-form-query"
               onChange={handleQueryChange}
