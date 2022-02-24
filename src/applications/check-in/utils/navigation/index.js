@@ -1,11 +1,9 @@
-import { differenceInHours } from 'date-fns';
+import { differenceInCalendarDays } from 'date-fns';
 
 const now = Date.now();
-
-const isWithInHours = (hours, pageLastUpdated) => {
-  const hoursAgo = differenceInHours(now, pageLastUpdated);
-
-  return hoursAgo <= hours;
+const isWithInDays = (days, pageLastUpdated) => {
+  const daysAgo = differenceInCalendarDays(now, pageLastUpdated);
+  return daysAgo <= days;
 };
 
 const updateFormPages = (
@@ -52,7 +50,7 @@ const updateFormPages = (
       : null;
     if (
       pageLastUpdated &&
-      isWithInHours(24, pageLastUpdated) &&
+      isWithInDays(3, pageLastUpdated) &&
       page.needsUpdate === false
     ) {
       skippedPages.push(page.url);
