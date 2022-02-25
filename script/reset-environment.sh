@@ -10,12 +10,12 @@ if ! [ -x "$(command -v yarn)" ]; then
     fi
 else
     yarn_version=$(yarn --version)
-    if [ "$yarn_version" != "1.21.1" ]; then
-        echo "Install yarn version 1.21.1 [y/N]: "
+    if [ "$yarn_version" != "3.2.0" ]; then
+        echo "Install yarn version 3.2.0 [y/N]: "
         read input
         case "$input" in
             y|Y|yes|Yes)
-                npm i -g yarn@1.21.1
+                npm i -g yarn@3.2.0
                 ;;
             *)
                 ;;
