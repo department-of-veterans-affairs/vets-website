@@ -1,7 +1,60 @@
 import React from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import { connect } from 'react-redux';
 
-export default function App() {
+const App = ({ isLoggedIn }) => {
+  let loginComponent;
+  if (isLoggedIn) {
+    loginComponent = (
+      <va-alert close-btn-aria-label="Close notification" status="info" visible>
+        <h3 slot="headline">Download your 1095-B</h3>
+        <div>
+          <p className="vads-u-margin-bottom--5">
+            <span className="vads-u-line-height--3 vads-u-display--block">
+              <strong>Related to:</strong> Health care
+            </span>
+            <span className="vads-u-line-height--3 vads-u-display--block">
+              <strong>Document last updated:</strong> November 5, 2021
+            </span>
+          </p>
+          <i
+            className="fas fa-download download-icon vads-u-color--primary-alt-darkest"
+            role="presentation"
+          />
+          &nbsp;
+          <a
+            href="http://localhost:3000/v0/tax_1095/download_pdf"
+            className="download-text"
+          >
+            Download current 1095-B tax document (PDF){' '}
+          </a>
+        </div>
+      </va-alert>
+    );
+  } else {
+    loginComponent = (
+      <va-alert
+        close-btn-aria-label="Close notification"
+        status="continue"
+        visible
+      >
+        <h3 slot="headline">
+          Please sign in to download your 1095-B tax document
+        </h3>
+        <div>
+          Sign in with your existing ID.me, DS Logon, or My HealtheVet account.
+          If you don’t have any of these accounts, you can create a free ID.me
+          account now.
+        </div>
+        <button
+          type="button"
+          className="usa-button-primary va-button-primary vads-u-margin-top--2"
+        >
+          Sign in
+        </button>
+      </va-alert>
+    );
+  }
   return (
     <>
       <Breadcrumbs>
@@ -153,34 +206,7 @@ export default function App() {
               Massachusetts, New Jersey, Vermont, California, Rhode Island and
               District of Columbia (Washington D.C.)
             </p>
-            <va-alert
-              close-btn-aria-label="Close notification"
-              status="info"
-              visible
-            >
-              <h3 slot="headline">Download your 1095-B</h3>
-              <div>
-                <p className="vads-u-margin-bottom--5">
-                  <span className="vads-u-line-height--3 vads-u-display--block">
-                    <strong>Related to:</strong> Health care
-                  </span>
-                  <span className="vads-u-line-height--3 vads-u-display--block">
-                    <strong>Document last updated:</strong> November 5, 2021
-                  </span>
-                </p>
-                <i
-                  className="fas fa-download download-icon vads-u-color--primary-alt-darkest"
-                  role="presentation"
-                />
-                &nbsp;
-                <a
-                  href="http://localhost:3000/v0/tax_1095/download_pdf"
-                  className="download-text"
-                >
-                  Download current 1095-B tax document (PDF){' '}
-                </a>
-              </div>
-            </va-alert>
+            {loginComponent}
             <h3 className="vads-u-font-size--h3 vads-u-border-bottom--3px vads-u-border-color--primary vads-u-margin-top--5">
               Need help?
             </h3>
@@ -211,4 +237,10 @@ export default function App() {
       </div>
     </>
   );
-}
+};
+
+const mapStateToProps = state => ({
+  isLoggedIn: state.user.login.currentlyLoggedIn,
+});
+
+export default connect(mapStateToProps)(App);
