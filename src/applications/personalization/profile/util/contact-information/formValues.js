@@ -19,7 +19,7 @@ const isOverseasMilitaryMailingAddress = data =>
   data?.addressType === ADDRESS_TYPES.OVERSEAS_MILITARY;
 
 const transformBooleanArrayToFormValues = valuesAsArray => {
-  return valuesAsArray.reduce((previous, current) => {
+  return valuesAsArray?.reduce((previous, current) => {
     const result = { ...previous };
     result[current] = true;
     return result;
@@ -93,16 +93,16 @@ export const getInitialFormValues = options => {
 
     if (fieldName === 'genderIdentity') {
       return transformInitialFormValues(
-        transformBooleanArrayToFormValues(data[fieldName]),
+        transformBooleanArrayToFormValues(data?.[fieldName]),
       );
     }
 
     const notListedTextKey = createNotListedTextKey(fieldName);
 
     return transformInitialFormValues({
-      ...transformBooleanArrayToFormValues(data[fieldName]),
+      ...transformBooleanArrayToFormValues(data?.[fieldName]),
       ...(data?.[notListedTextKey] &&
-        set({}, notListedTextKey, data[notListedTextKey])),
+        set({}, notListedTextKey, data?.[notListedTextKey])),
     });
   }
 
