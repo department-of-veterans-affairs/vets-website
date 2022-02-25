@@ -6,9 +6,9 @@ import { truncate } from 'lodash';
 // Relative imports.
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import recordEvent from 'platform/monitoring/record-event';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { Article } from '../prop-types';
 import { ENTITY_BUNDLES } from '../content-modeling';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 const articleTypes = {
   [ENTITY_BUNDLES.Q_A]: 'Question and answer',
@@ -48,8 +48,8 @@ export const SearchResult = ({
   };
 
   return (
-    <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-color--gray-lighter">
-      <div>
+    <div className="vads-u-padding-y--4 vads-u-border-top--1px vads-u-border-color--gray-lighter">
+      <div className="vads-u-margin-bottom--1p5">
         <dfn className="sr-only">Article type: </dfn>
         {articleTypes[article.entityBundle]}
       </div>
@@ -58,7 +58,7 @@ export const SearchResult = ({
           {article.title}
         </a>
       </h3>
-      <p className="vads-u-margin-bottom--0">
+      <p className="vads-u-margin-top--1p5 vads-u-margin-bottom--0">
         {truncate(article.introText, { length: 190 })}
       </p>
     </div>
