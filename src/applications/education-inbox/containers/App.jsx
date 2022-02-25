@@ -42,7 +42,11 @@ const App = ({ toggleLoginModal, user }) => {
         </p>
 
         {user?.login?.currentlyLoggedIn ? (
-          <Link className="va-button-primary" type="button" to="/preview">
+          <Link
+            className="usa-button-primary va-button-primary"
+            type="button"
+            to="/preview"
+          >
             Check your VA education inbox
           </Link>
         ) : (
@@ -85,7 +89,11 @@ const App = ({ toggleLoginModal, user }) => {
             <div>
               At this time, we’re only able to show decision letters that you
               received after <b>Month Day, 2022</b>. If you’re looking for an
-              older decision letter, <a href="/">contact us using Ask VA</a>.
+              older decision letter,{' '}
+              <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
+                contact us using Ask VA
+              </a>
+              .
             </div>
           </va-alert>
           <p>
