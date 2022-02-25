@@ -3,6 +3,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { connect } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
 import PropTypes from 'prop-types';
+import environment from 'platform/utilities/environment';
 import { FETCH_CLAIM_STATUS } from '../actions';
 import Layout from '../components/Layout';
 
@@ -42,7 +43,11 @@ const InboxPage = ({ letters }) => {
             amount, and level.
           </p>
           <div className="vads-u-display--flex vads-u-align-items--center">
-            <a className="vads-u-flex--1" href="/">
+            <a
+              className="vads-u-flex--1"
+              download
+              href={`${environment.API_URL}/meb_api/v0/claim_status`}
+            >
               <i className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1" />
               Post-9/11 GI Bill Certificate of Eligibility (PDF)
             </a>
