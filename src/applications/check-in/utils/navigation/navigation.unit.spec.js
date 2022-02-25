@@ -6,6 +6,10 @@ import { updateFormPages } from './index';
 describe('Global check in', () => {
   describe('navigation utils', () => {
     describe('updateFormPages', () => {
+      afterEach(() => {
+        MockDate.reset();
+      });
+
       const now = Date.now();
       const today = new Date(now);
       const testPages = [
@@ -86,7 +90,6 @@ describe('Global check in', () => {
           URLS,
         );
         expect(form.find(page => page === URLS.EMERGENCY_CONTACT)).to.exist;
-        MockDate.reset();
       });
       it('should not skip a page that has no last updated date string', () => {
         const patientDemographicsStatus = {
@@ -123,8 +126,6 @@ describe('Global check in', () => {
         );
         expect(form.find(page => page === URLS.EMERGENCY_CONTACT)).to.be
           .undefined;
-
-        MockDate.reset();
       });
       it('should skip a page that has been updated less than 72 hours ago', () => {
         MockDate.set('2022-01-04T06:00:00.000-05:00');
@@ -144,8 +145,6 @@ describe('Global check in', () => {
         );
         expect(form.find(page => page === URLS.EMERGENCY_CONTACT)).to.be
           .undefined;
-
-        MockDate.reset();
       });
     });
   });
