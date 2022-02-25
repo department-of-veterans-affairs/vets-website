@@ -4,23 +4,25 @@ import { createSelector } from 'reselect';
 // Example of an imported schema:
 // import fullSchema from '../22-1990-schema.json';
 // eslint-disable-next-line no-unused-vars
-import fullSchema from '../22-1990-schema.json';
-
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import GetFormHelp from '../components/GetFormHelp';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import * as address from 'platform/forms-system/src/js/definitions/address';
-
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from 'platform/utilities/environment';
+import bankAccountUI from 'platform/forms/definitions/bankAccount';
+import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
+import fullSchema from '../22-1990-schema.json';
+
+// In a real app this would not be imported directly; instead the schema you
+// imported above would import and use these common definitions:
+import GetFormHelp from '../components/GetFormHelp';
+
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -36,8 +38,6 @@ import YesNoReviewField from '../components/YesNoReviewField';
 import PhoneReviewField from '../components/PhoneReviewField';
 import DateReviewField from '../components/DateReviewField';
 import EmailReviewField from '../components/EmailReviewField';
-
-import environment from 'platform/utilities/environment';
 
 import {
   chapter30Label,
@@ -58,12 +58,7 @@ import {
 } from '../utils/validation';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
-import merge from 'lodash/merge';
-import createDirectDepositPage from '../../edu-benefits/pages/directDeposit';
 import { directDepositDescription } from '../../edu-benefits/1990/helpers';
-import bankAccountUI from 'platform/forms/definitions/bankAccount';
-
-import { vagovprod } from 'site/constants/buckets';
 
 import { ELIGIBILITY } from '../actions';
 
@@ -283,9 +278,9 @@ function AdditionalConsiderationTemplate(page, formField) {
     additionalInfoView = {
       [additionalInfoViewName]: {
         'ui:description': (
-          <AdditionalInfo triggerText={additionalInfo.triggerText}>
+          <va-additional-info trigger={additionalInfo.triggerText}>
             <p>{additionalInfo.info}</p>
-          </AdditionalInfo>
+          </va-additional-info>
         ),
       },
     };
@@ -349,6 +344,10 @@ function transform(metaData, form) {
   const submission = createSubmissionForm(form.data);
   return JSON.stringify(submission);
 }
+
+const checkImageSrc = environment.isStaging()
+  ? `${VAGOVSTAGING}/img/check-sample.png`
+  : `${vagovprod}/img/check-sample.png`;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -821,9 +820,9 @@ const formConfig = {
                     const isYes = field.slice(0, 4).includes('Yes');
                     const phoneExist = !!formData['view:phoneNumbers']
                       .mobilePhoneNumber.phone;
-                    const isInternational =
-                      formData['view:phoneNumbers'].mobilePhoneNumber
-                        .isInternational;
+                    const { isInternational } = formData[
+                      'view:phoneNumbers'
+                    ].mobilePhoneNumber;
 
                     if (isYes) {
                       if (!phoneExist) {
@@ -852,7 +851,7 @@ const formConfig = {
             },
             'view:textMessagesAlert': {
               'ui:description': (
-                <va-alert onClose={function noRefCheck() {}} status="info">
+                <va-alert status="info">
                   <>
                     If you choose to get text message notifications from VA’s GI
                     Bill program, message and data rates may apply. Two messages
@@ -883,7 +882,7 @@ const formConfig = {
             },
             'view:noMobilePhoneAlert': {
               'ui:description': (
-                <va-alert onClose={function noRefCheck() {}} status="warning">
+                <va-alert status="warning">
                   <>
                     You can’t choose to get text message notifications because
                     we don’t have a mobile phone number on file for you.
@@ -904,7 +903,7 @@ const formConfig = {
             },
             'view:internationalTextMessageAlert': {
               'ui:description': (
-                <va-alert onClose={function noRefCheck() {}} status="warning">
+                <va-alert status="warning">
                   <>
                     You can’t choose to get text notifications because you have
                     an international mobile phone number. At this time, we can
@@ -1056,7 +1055,7 @@ const formConfig = {
           path: 'benefit-selection',
           title: 'Benefit selection',
           subTitle: "You're applying for the Post-9/11 GI Bill®",
-          depends: formData => formData.eligibility?.veteranIsEligible,
+          depends: formData => formData.eligibility?.length,
           uiSchema: {
             'view:post911Notice': {
               'ui:description': (
@@ -1073,7 +1072,7 @@ const formConfig = {
                       application.
                     </strong>
                   </p>
-                  <AdditionalInfo triggerText="Why do I have to give up a benefit?">
+                  <va-additional-info trigger="Why do I have to give up a benefit?">
                     <p>
                       The law says if you are eligible for both the Post-9/11 GI
                       Bill and another education benefit based on the same
@@ -1081,7 +1080,7 @@ const formConfig = {
                       qualifying period of active duty can only be used for one
                       VA education benefit.
                     </p>
-                  </AdditionalInfo>
+                  </va-additional-info>
                 </>
               ),
             },
@@ -1123,14 +1122,14 @@ const formConfig = {
                     const filterEligibility = createSelector(
                       state => state.eligibility,
                       eligibility => {
-                        if (!eligibility) {
+                        if (!eligibility || !eligibility.length) {
                           return benefits;
                         }
 
                         return {
                           enum: benefits.filter(
                             benefit =>
-                              eligibility.chapter.includes(benefit) ||
+                              eligibility.includes(benefit) ||
                               benefit === 'CannotRelinquish',
                           ),
                         };
@@ -1244,7 +1243,7 @@ const formConfig = {
       },
     },
     additionalConsiderationsChapter: {
-      title: 'Additional Considerations',
+      title: 'Additional considerations',
       pages: {
         [formPages.additionalConsiderations.activeDutyKicker.name]: {
           ...AdditionalConsiderationTemplate(
@@ -1289,50 +1288,66 @@ const formConfig = {
     bankAccountInfoChapter: {
       title: 'Direct deposit',
       pages: {
-        [formPages.directDeposit]: merge(
-          {},
-          createDirectDepositPage(fullSchema),
-          {
-            path: 'direct-deposit',
-            uiSchema: {
-              'ui:description': directDepositDescription,
+        [formPages.directDeposit]: {
+          path: 'direct-deposit',
+          uiSchema: {
+            'ui:description': directDepositDescription,
+            bankAccount: {
+              ...bankAccountUI,
+              'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
+            },
+            'view:learnMore': {
+              'ui:description': (
+                <>
+                  <img
+                    key="check-image-src"
+                    style={{ marginTop: '1rem' }}
+                    src={checkImageSrc}
+                    alt="Example of a check showing where the account and routing numbers are"
+                  />
+                  <p key="learn-more-title">Where can I find these numbers?</p>
+                  <p key="learn-more-description">
+                    The bank routing number is the first 9 digits on the bottom
+                    left corner of a printed check. Your account number is the
+                    second set of numbers on the bottom of a printed check, just
+                    to the right of the bank routing number.
+                  </p>
+                  <va-additional-info key="learn-more-btn" trigger="Learn More">
+                    <p key="btn-copy">
+                      If you don’t have a printed check, you can sign in to your
+                      online banking institution for this information
+                    </p>
+                  </va-additional-info>
+                </>
+              ),
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
               bankAccount: {
-                ...bankAccountUI,
-                'ui:order': [
-                  'accountType',
-                  'accountNumber',
-                  'routingNumber',
-                  'learnMore',
-                ],
-                learnMore: {
-                  'ui:description': (
-                    <>
-                      <img
-                        style={{ marginTop: '1rem' }}
-                        src={`${vagovprod}/img/check-sample.png`}
-                        alt="Example of a check showing where the account and routing numbers are"
-                      />
-                      <p>Where can I find these numbers?</p>
-                      <p>
-                        The bank routing number is the first 9 digits on the
-                        bottom left corner of a printed check. Your account
-                        number is the second set of numbers on the bottom of a
-                        printed check, just to the right of the bank routing
-                        number.
-                      </p>
-                      <va-additional-info trigger="Learn More">
-                        <p key="2b">
-                          If you don’t have a printed check, you can sign in to
-                          your online banking institution for this information
-                        </p>
-                      </va-additional-info>
-                    </>
-                  ),
+                type: 'object',
+                properties: {
+                  accountType: {
+                    type: 'string',
+                    enum: ['checking', 'savings'],
+                  },
+                  routingNumber: {
+                    type: 'string',
+                    pattern: '^\\d{9}$',
+                  },
+                  accountNumber: {
+                    type: 'string',
+                  },
                 },
+              },
+              'view:learnMore': {
+                type: 'object',
+                properties: {},
               },
             },
           },
-        ),
+        },
       },
     },
   },

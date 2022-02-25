@@ -1,8 +1,8 @@
 import React from 'react';
-import environment from '../../utilities/environment';
-import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
 import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
 import IDMeSVG from 'platform/user/authentication/components/IDMeSVG';
+import environment from '../../utilities/environment';
+import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
 
 export const API_VERSION = 'v1';
 
@@ -45,22 +45,36 @@ export const AUTHN_SETTINGS = {
 export const EXTERNAL_APPS = {
   MHV: CSP_IDS.MHV,
   MY_VA_HEALTH: 'myvahealth',
+  EBENEFITS: 'ebenefits',
+  VA_FLAGSHIP_MOBILE: 'vamobile',
+  VA_OCC_MOBILE: 'vaoccmobile',
 };
 
-export const MY_VA_HEALTH_LINKS = {
-  STAGING: 'https://staging-patientportal.myhealth.va.gov',
-  PRODUCTION: 'https://patientportal.myhealth.va.gov',
-};
-
-export const MHV_LINK = `https://${
+export const eAuthURL = `https://${
   eauthEnvironmentPrefixes[environment.BUILDTYPE]
-}eauth.va.gov/mhv-portal-web/eauth`;
+}eauth.va.gov`;
+
+export const EXTERNAL_LINKS = {
+  MY_VA_HEALTH: {
+    STAGING: 'https://staging-patientportal.myhealth.va.gov',
+    PRODUCTION: 'https://patientportal.myhealth.va.gov',
+  },
+  MHV: `${eAuthURL}/mhv-portal-web/eauth`,
+  EBENEFITS: `${eAuthURL}/ebenefits`,
+  VA_FLAGSHIP_MOBILE: `https://${
+    eauthEnvironmentPrefixes[environment.BUILDTYPE]
+  }fed.eauth.va.gov/oauthe/sps/oauth/oauth20/authorize`,
+  VA_OCC_MOBILE: `${eAuthURL}/MAP/users/v2/landing`,
+};
 
 export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.MY_VA_HEALTH]: environment.isProduction()
-    ? MY_VA_HEALTH_LINKS.PRODUCTION
-    : MY_VA_HEALTH_LINKS.STAGING,
-  [EXTERNAL_APPS.MHV]: MHV_LINK,
+    ? EXTERNAL_LINKS.MY_VA_HEALTH.PRODUCTION
+    : EXTERNAL_LINKS.MY_VA_HEALTH.STAGING,
+  [EXTERNAL_APPS.MHV]: EXTERNAL_LINKS.MHV,
+  [EXTERNAL_APPS.EBENEFITS]: EXTERNAL_LINKS.EBENEFITS,
+  [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: EXTERNAL_LINKS.VA_FLAGSHIP_MOBILE,
+  [EXTERNAL_APPS.VA_OCC_MOBILE]: EXTERNAL_LINKS.VA_OCC_MOBILE,
 };
 
 export const VAGOV_TRACKING_IDS = ['UA-50123418-16', 'UA-50123418-17'];

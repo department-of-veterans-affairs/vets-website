@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
@@ -23,7 +24,8 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
-    const { formConfig, pageList } = this.props.route;
+    const { route } = this.props;
+    const { formConfig, pageList } = route;
     const { formId, prefillEnabled, savedFormMessages, downtime } = formConfig;
     const sipOptions = {
       useActionLinks: true,
@@ -143,5 +145,19 @@ class IntroductionPage extends React.Component {
     );
   }
 }
+
+IntroductionPage.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      formId: PropTypes.string,
+      title: PropTypes.string,
+      subTitle: PropTypes.string,
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.shape({}),
+      downtime: PropTypes.shape({}),
+    }),
+    pageList: PropTypes.array,
+  }),
+};
 
 export default IntroductionPage;

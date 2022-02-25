@@ -4,12 +4,27 @@ import {
   FIELD_NAMES,
   USA,
 } from '@@vap-svc/constants';
-import { addresses, phoneNumbers } from '../getProfileInfoFieldAttributes';
 import pickBy from 'lodash/pickBy';
+import set from 'lodash/set';
+import {
+  addresses,
+  phoneNumbers,
+  personalInformation,
+} from '../getProfileInfoFieldAttributes';
+
+import { createNotListedTextKey } from '../personal-information/personalInformationUtils';
 
 const isOverseasMilitaryMailingAddress = data =>
   data?.addressPou === ADDRESS_POU.CORRESPONDENCE &&
   data?.addressType === ADDRESS_TYPES.OVERSEAS_MILITARY;
+
+const transformBooleanArrayToFormValues = valuesAsArray => {
+  return valuesAsArray?.reduce((previous, current) => {
+    const result = { ...previous };
+    result[current] = true;
+    return result;
+  }, {});
+};
 
 /**
  * Helper function that calls other helpers to:
@@ -71,6 +86,24 @@ export const getInitialFormValues = options => {
         countryCodeIso3: USA.COUNTRY_ISO3_CODE,
       }
     );
+  }
+
+  if (personalInformation.includes(fieldName)) {
+    if (fieldName === 'preferredName') return transformInitialFormValues(data);
+
+    if (fieldName === 'genderIdentity') {
+      return transformInitialFormValues(
+        transformBooleanArrayToFormValues(data?.[fieldName]),
+      );
+    }
+
+    const notListedTextKey = createNotListedTextKey(fieldName);
+
+    return transformInitialFormValues({
+      ...transformBooleanArrayToFormValues(data?.[fieldName]),
+      ...(data?.[notListedTextKey] &&
+        set({}, notListedTextKey, data?.[notListedTextKey])),
+    });
   }
 
   return null;

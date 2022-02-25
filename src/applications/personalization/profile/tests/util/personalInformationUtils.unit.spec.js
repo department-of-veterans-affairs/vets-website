@@ -1,85 +1,115 @@
 import { expect } from 'chai';
 
 import {
-  formatPronouns,
-  formatGenderIdentity,
-  formatSexualOrientation,
+  formatMultiSelectAndText,
+  createNotListedTextKey,
+  renderGender,
+  createBooleanSchemaPropertiesFromOptions,
+  createUiTitlePropertiesFromOptions,
 } from '@@profile/util/personal-information/personalInformationUtils';
 
-describe('formatPronouns utility', () => {
+import { NOT_SET_TEXT } from '@@profile/constants';
+
+describe('formatMultiSelectAndText utility', () => {
   it('returns single pronouns', () => {
-    expect(formatPronouns(['heHimHis'])).to.equal('He/him/his');
+    expect(
+      formatMultiSelectAndText({ pronouns: ['heHimHis'] }, 'pronouns'),
+    ).to.equal('He/him/his');
   });
 
   it('returns comma separated pronouns', () => {
-    expect(formatPronouns(['heHimHis', 'theyThemTheirs'])).to.equal(
-      'He/him/his, They/them/theirs',
-    );
+    expect(
+      formatMultiSelectAndText(
+        { pronouns: ['heHimHis', 'theyThemTheirs'] },
+        'pronouns',
+      ),
+    ).to.equal('He/him/his, They/them/theirs');
   });
 
-  it('returns pronounsNotListed pronouns', () => {
-    expect(formatPronouns(['pronounsNotListed'], 'custom pronouns')).to.equal(
-      'custom pronouns',
-    );
+  it('returns pronounsNotListedText value', () => {
+    expect(
+      formatMultiSelectAndText(
+        { pronounsNotListedText: 'custom pronouns' },
+        'pronouns',
+      ),
+    ).to.equal('custom pronouns');
   });
 
   it('returns comma separated list including pronounsNotListedText', () => {
     expect(
-      formatPronouns(['heHimHis', 'pronounsNotListed'], 'custom pronouns'),
+      formatMultiSelectAndText(
+        { pronouns: ['heHimHis'], pronounsNotListedText: 'custom pronouns' },
+        'pronouns',
+      ),
     ).to.equal('He/him/his, custom pronouns');
   });
 
-  it('throws error when no pronounsNotListedText is passed and pronounsNotListed is in array of selected pronouns', () => {
-    expect(() => formatPronouns(['pronounsNotListed'])).to.throw(
-      'pronounsNotListedText must be provided if pronounsNotListed is in selected pronouns array',
-    );
-  });
-});
-
-describe('formatGenderIdentity utility', () => {
-  it('returns single genders', () => {
-    expect(formatGenderIdentity('woman')).to.equal('Woman');
-    expect(formatGenderIdentity('man')).to.equal('Man');
-    expect(formatGenderIdentity('transgenderWoman')).to.equal(
-      'Transgender woman',
-    );
-    expect(formatGenderIdentity('transgenderMan')).to.equal('Transgender man');
-    expect(formatGenderIdentity('preferNotToAnswer')).to.equal(
-      'Prefer not to answer',
-    );
-    expect(formatGenderIdentity('genderNotListed')).to.equal(
-      'A gender not listed here',
-    );
-  });
-});
-
-describe('formatSexualOrientation utility', () => {
-  it('returns single sexualOrientations', () => {
-    expect(formatSexualOrientation('lesbianGayHomosexual')).to.equal(
-      'Lesbian, gay, or homosexual',
-    );
-    expect(formatSexualOrientation('straightOrHeterosexual')).to.equal(
-      'Straight or heterosexual',
-    );
-    expect(formatSexualOrientation('bisexual')).to.equal('Bisexual');
-    expect(formatSexualOrientation('queer')).to.equal('Queer');
-    expect(formatSexualOrientation('dontKnow')).to.equal('Don’t know');
-    expect(formatSexualOrientation('preferNotToAnswer')).to.equal(
-      'Prefer not to answer',
-    );
+  it('returns null if fields do not have values', () => {
     expect(
-      formatSexualOrientation(
-        'sexualOrientationNotListed',
-        'other sexual orientation',
+      formatMultiSelectAndText(
+        { pronouns: [], pronounsNotListedText: '' },
+        'pronouns',
       ),
-    ).to.equal('other sexual orientation');
+    ).to.be.null;
+  });
+});
+
+describe('createNotListedTextKey utility', () => {
+  it('returns the properly formatted text string', () => {
+    expect(createNotListedTextKey('pronouns')).to.equal(
+      'pronounsNotListedText',
+    );
+  });
+});
+
+describe('renderGender utility', () => {
+  it('returns Male', () => {
+    expect(renderGender('M')).to.equal('Male');
   });
 
-  it('throws error when no sexualOrientationNotListedText is passed and sexualOrientationNotListed is passed', () => {
-    expect(() =>
-      formatSexualOrientation('sexualOrientationNotListed'),
-    ).to.throw(
-      'sexualOrientationNotListedText must be provided if sexualOrientationNotListed is selected',
+  it('returns Female', () => {
+    expect(renderGender('F')).to.equal('Female');
+  });
+
+  it('returns NOT_SET_TEXT', () => {
+    expect(renderGender('')).to.equal(NOT_SET_TEXT);
+  });
+});
+
+describe('createBooleanSchemaPropertiesFromOptions utility', () => {
+  it('returns properly formatted object with boolean type properties', () => {
+    const input = {
+      one: 'test1',
+      two: 'test2',
+      three: 'test3',
+    };
+
+    const output = {
+      one: { type: 'boolean' },
+      two: { type: 'boolean' },
+      three: { type: 'boolean' },
+    };
+
+    expect(createBooleanSchemaPropertiesFromOptions(input)).to.deep.equal(
+      output,
     );
+  });
+});
+
+describe('createUiTitlePropertiesFromOptions utility', () => {
+  it('returns properly formatted object with ui:title properties', () => {
+    const input = {
+      one: 'test1',
+      two: 'test2',
+      three: 'test3',
+    };
+
+    const output = {
+      one: { 'ui:title': 'test1' },
+      two: { 'ui:title': 'test2' },
+      three: { 'ui:title': 'test3' },
+    };
+
+    expect(createUiTitlePropertiesFromOptions(input)).to.deep.equal(output);
   });
 });

@@ -312,22 +312,10 @@ describe('VAOS vaccine flow with VAOS service <ReviewPage>', () => {
       status: 'booked',
       locationId: '983',
       clinic: '455',
-      comment: '',
+      // comment: '',
       extension: {
         desiredDate: store.getState().covid19Vaccine.newBooking
           .availableSlots[0].start,
-      },
-      contact: {
-        telecom: [
-          {
-            type: 'phone',
-            value: '2234567890',
-          },
-          {
-            type: 'email',
-            value: 'joeblow@gmail.com',
-          },
-        ],
       },
       slot: {
         id: store.getState().covid19Vaccine.newBooking.availableSlots[0].id,

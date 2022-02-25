@@ -1,12 +1,14 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import recordEvent from 'platform/monitoring/record-event';
+import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
 import LearnMoreLabel from '../components/LearnMoreLabel';
-import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
 import {
   getStateNameForCode,
   sortOptionsByStateName,
@@ -14,12 +16,9 @@ import {
   createId,
 } from '../utils/helpers';
 import { showModal, filterChange } from '../actions';
-import { connect } from 'react-redux';
 import { TABS, INSTITUTION_TYPES } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
-import _ from 'lodash';
 import { updateUrlParams } from '../selectors/search';
-import recordEvent from 'platform/monitoring/record-event';
 
 export function FilterYourResults({
   dispatchShowModal,
@@ -84,7 +83,7 @@ export function FilterYourResults({
   };
 
   const handleSchoolChange = e => {
-    const checked = e.target.checked;
+    const { checked } = e.target;
 
     if (!checked) {
       dispatchFilterChange({
@@ -112,8 +111,8 @@ export function FilterYourResults({
 
   const handleIncludedSchoolTypesChange = e => {
     // The filter consumes these as exclusions
-    const name = e.target.name;
-    const checked = e.target.checked;
+    const { name } = e.target;
+    const { checked } = e.target;
     const newExcluded = _.cloneDeep(excludedSchoolTypes);
     recordCheckboxEvent(e);
     updateInstitutionFilters(
@@ -125,7 +124,7 @@ export function FilterYourResults({
   };
 
   const handleVetTecChange = e => {
-    const checked = e.target.checked;
+    const { checked } = e.target;
     if (!checked) {
       dispatchFilterChange({
         ...filters,
@@ -144,7 +143,7 @@ export function FilterYourResults({
   };
 
   const handlePreferredProviderChange = e => {
-    const checked = e.target.checked;
+    const { checked } = e.target;
     if (checked) {
       dispatchFilterChange({
         ...filters,
@@ -221,7 +220,7 @@ export function FilterYourResults({
             onClick={() => {
               dispatchShowModal('accredited');
             }}
-            buttonId={'accredited-button'}
+            buttonId="accredited-button"
             ariaLabel="Learn more about VA education and training programs"
           />
         ),

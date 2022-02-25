@@ -3,7 +3,7 @@ import { serviceStatus } from '../../schemaImports';
 
 export const schema = serviceStatus;
 
-serviceStatus.properties.identity.enumNames = [
+schema.properties.identity.enumNames = [
   <>
     I'm a Veteran, or previously <strong>activated</strong> member of the
     National Guard or Reserves

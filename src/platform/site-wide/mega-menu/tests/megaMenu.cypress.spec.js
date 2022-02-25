@@ -249,7 +249,7 @@ describe('Mega Menu', () => {
       cy.get('[data-e2e-id="my-health-4"]');
     });
 
-    it('traps focus inside mega menu when opened - C12297', () => {
+    it.skip('traps focus inside mega menu when opened - C12297', () => {
       // Skip unauthenticated test for app URLs to avoid unexpected behavior.
       if (usingHomepageUrl) {
         cy.visit(testUrl);

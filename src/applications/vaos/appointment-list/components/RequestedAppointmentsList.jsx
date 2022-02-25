@@ -14,6 +14,7 @@ import RequestListItem from './AppointmentsPageV2/RequestListItem';
 import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { selectFeatureStatusImprovement } from '../../redux/selectors';
 
 export default function RequestedAppointmentsList({ hasTypeChanged }) {
   const {
@@ -24,6 +25,9 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
   } = useSelector(
     state => getRequestedAppointmentListInfo(state),
     shallowEqual,
+  );
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
   );
 
   const dispatch = useDispatch();
@@ -69,20 +73,20 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
 
   return (
     <>
-      <div aria-live="assertive" className="sr-only">
+      <div aria-live="polite" className="sr-only">
         {hasTypeChanged && 'Showing requested appointments'}
       </div>
       {pendingAppointments?.length > 0 && (
         <>
           <p className="vaos-hide-for-print">
-            Below is your list of appointment requests that haven’t been
-            scheduled yet.
+            {featureStatusImprovement
+              ? 'Your appointment requests that haven’t been scheduled yet.'
+              : 'Below is your list of appointment requests that haven’t been scheduled yet.'}
           </p>
           {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul
             className="vads-u-padding-left--0"
             data-cy="requested-appointment-list"
-            role="list"
           >
             {pendingAppointments.map((appt, index) => (
               <RequestListItem

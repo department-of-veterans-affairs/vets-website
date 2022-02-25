@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
 
 import { selectProfile } from 'platform/user/selectors';
@@ -30,6 +29,14 @@ export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
     ''}${mobilePhone?.phoneNumber || ''}`;
   const phoneExt = mobilePhone?.extension;
 
+  const handler = {
+    onSubmit: event => {
+      // This prevents this nested form submit event from passing to the
+      // outer form and causing a page advance
+      event.stopPropagation();
+    },
+  };
+
   useEffect(
     () => {
       if (missingInfo.length) {
@@ -44,7 +51,7 @@ export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
   const contactSection = (
     <>
       <h4 className="vads-u-font-size--h3">Mobile phone number</h4>
-      <Telephone contact={phoneNumber} extension={phoneExt} notClickable />
+      <va-telephone contact={phoneNumber} extension={phoneExt} not-clickable />
       <p>
         <Link to="/edit-mobile-phone" aria-label="Edit mobile phone number">
           Edit
@@ -117,14 +124,7 @@ export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
         </>
       )}
       <div className="blue-bar-block vads-u-margin-top--4">
-        <div
-          className="va-profile-wrapper"
-          onSubmit={event => {
-            // This prevents this nested form submit event from passing to the
-            // outer form and causing a page advance
-            event.stopPropagation();
-          }}
-        >
+        <div className="va-profile-wrapper" onSubmit={handler.onSubmit}>
           {contactSection}
         </div>
       </div>
@@ -157,6 +157,9 @@ ContactInfoDescription.propTypes = {
       }),
     }),
   }).isRequired,
+  formContext: PropTypes.shape({
+    submitted: PropTypes.bool,
+  }),
   homeless: PropTypes.bool,
 };
 

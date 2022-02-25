@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as Sentry from '@sentry/browser';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-
-import { formatAddress } from '~/platform/forms/address/helpers';
 
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import * as VAP_SERVICE from '@@vap-svc/constants';
@@ -14,11 +11,8 @@ import {
   personalInformation,
 } from '@@profile/util/getProfileInfoFieldAttributes';
 
-import {
-  formatPronouns,
-  formatGenderIdentity,
-  formatSexualOrientation,
-} from '@@profile/util/personal-information/personalInformationUtils';
+import { formatMultiSelectAndText } from '@@profile/util/personal-information/personalInformationUtils';
+import { formatAddress } from '~/platform/forms/address/helpers';
 
 const ProfileInformationView = props => {
   const { data, fieldName, title } = props;
@@ -29,8 +23,12 @@ const ProfileInformationView = props => {
   const titleFormatted =
     fieldName !== FIELD_NAMES.PRONOUNS ? `a ${titleLower}` : titleLower;
 
+  const unsetFieldTitleSpan = (
+    <span>Edit your profile to add {titleFormatted}.</span>
+  );
+
   if (!data) {
-    return <span>Edit your profile to add {titleFormatted}.</span>;
+    return unsetFieldTitleSpan;
   }
 
   if (fieldName === FIELD_NAMES.EMAIL) {
@@ -88,27 +86,7 @@ const ProfileInformationView = props => {
   if (fieldName in data && personalInformation.includes(fieldName)) {
     if (fieldName === 'preferredName') return data[fieldName];
 
-    if (fieldName === 'pronouns') {
-      try {
-        return formatPronouns(data[fieldName], data?.pronounsNotListedText);
-      } catch (err) {
-        Sentry.captureException(err);
-        return null;
-      }
-    }
-    if (fieldName === 'genderIdentity') {
-      return formatGenderIdentity(data[fieldName]);
-    }
-
-    try {
-      return formatSexualOrientation(
-        data[fieldName],
-        data?.sexualOrientationNotListedText,
-      );
-    } catch (err) {
-      Sentry.captureException(err);
-      return null;
-    }
+    return formatMultiSelectAndText(data, fieldName) || unsetFieldTitleSpan;
   }
 
   return null;

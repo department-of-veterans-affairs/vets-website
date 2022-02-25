@@ -1,10 +1,11 @@
 import moment from 'moment';
-import { getPatientInstruction } from '../appointment';
+import { getPatientInstruction } from '.';
 import {
   APPOINTMENT_TYPES,
   PURPOSE_TEXT,
   TYPE_OF_VISIT,
   COVID_VACCINE_ID,
+  APPOINTMENT_STATUS,
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers.v2';
@@ -13,9 +14,11 @@ import { getTypeOfCareById } from '../../utils/appointment';
 function getAppointmentType(appt) {
   if (appt.kind === 'cc' && appt.start) {
     return APPOINTMENT_TYPES.ccAppointment;
-  } else if (appt.kind === 'cc' && appt.requestedPeriods?.length) {
+  }
+  if (appt.kind === 'cc' && appt.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.ccRequest;
-  } else if (appt.kind !== 'cc' && appt.requestedPeriods?.length) {
+  }
+  if (appt.kind !== 'cc' && appt.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.request;
   }
 
@@ -64,7 +67,7 @@ export function isPastAppointment(appt) {
  * @returns {String} returns format data
  */
 function getAtlasLocation(appt) {
-  const atlas = appt.telehealth.atlas;
+  const { atlas } = appt.telehealth;
   return {
     id: atlas.siteCode,
     resourceType: 'Location',
@@ -118,9 +121,10 @@ export function transformVAOSAppointment(appt) {
 
   let requestFields = {};
   if (isRequest) {
+    const created = moment.parseZone(appt.created).format('YYYY-MM-DD');
     requestFields = {
       requestedPeriod: appt.requestedPeriods,
-      created: null,
+      created,
       reason: PURPOSE_TEXT.find(
         purpose => purpose.serviceName === appt.reasonCode?.coding?.[0].code,
       )?.short,
@@ -150,8 +154,21 @@ export function transformVAOSAppointment(appt) {
   return {
     resourceType: 'Appointment',
     id: appt.id,
-    status: appt.status,
-    cancelationReason: appt.cancelationReason?.coding[0].code || null,
+    /*
+      When cancelling a CC appointment request in V2 the appointment status remains in 
+      a state of proposed until the scheduler cancels it. Typically the status is immediately 
+      set to cancelled as is the case with a standard VA request.  In order to maintain
+      consistent behavior for both VA and CC requests on the RequestedAppointmentDetailsPage
+      we are setting the CC appointment request status to cancelled using the logic below.
+
+      Cancellable is a new field on the appointment object that *is* set immediately upon cancellation
+      of the appointment.
+    */
+    status:
+      isCC && appt.status === APPOINTMENT_STATUS.proposed && !appt.cancellable
+        ? APPOINTMENT_STATUS.cancelled
+        : appt.status,
+    cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     start: !isRequest ? start.format() : null,
     // This contains the vista status for v0 appointments, but
     // we don't have that for v2, so this is a made up status

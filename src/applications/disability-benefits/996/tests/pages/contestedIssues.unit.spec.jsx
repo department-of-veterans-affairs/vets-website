@@ -12,8 +12,8 @@ import {
 
 import { $, $$ } from '../../utils/ui';
 
-import formConfig from '../../config/form.js';
-import initialData from '../schema/initialData.js';
+import formConfig from '../../config/form';
+import initialData from '../schema/initialData';
 
 describe('Higher-Level Review 0996 choose contested issues', () => {
   const {

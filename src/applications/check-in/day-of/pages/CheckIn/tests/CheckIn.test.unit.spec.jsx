@@ -12,6 +12,14 @@ import CheckIn from '../index';
 describe('check-in', () => {
   describe('CheckIn component', () => {
     let store;
+    const mockRouter = {
+      params: {
+        token: 'token-123',
+      },
+      location: {
+        pathname: '/third-page',
+      },
+    };
     beforeEach(() => {
       const middleware = [];
       const mockStore = configureStore(middleware);
@@ -37,11 +45,6 @@ describe('check-in', () => {
       store = mockStore(initState);
     });
     it('passes axeCheck', () => {
-      const mockRouter = {
-        params: {
-          token: 'token-123',
-        },
-      };
       axeCheck(
         <Provider store={store}>
           <CheckIn
@@ -60,12 +63,6 @@ describe('check-in', () => {
     });
 
     it('refresh appointments button exists', () => {
-      const mockRouter = {
-        params: {
-          token: 'token-123',
-        },
-      };
-
       const screen = render(
         <Provider store={store}>
           <CheckIn
