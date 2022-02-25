@@ -254,7 +254,9 @@ export const VerifyEnrollmentsPage = ({
       >
         {informationIncorrectMonth &&
         currentMonth !== unverifiedMonths.length ? (
-          <ReviewSkippedAheadAlert />
+          <ReviewSkippedAheadAlert
+            incorrectMonth={informationIncorrectMonth.month}
+          />
         ) : (
           <></>
         )}
@@ -291,7 +293,7 @@ export const VerifyEnrollmentsPage = ({
           },
           {
             value: VERIFICATION_STATUS_INCORRECT,
-            label: 'No, this information is incorrect',
+            label: 'No, this information isn’t correct',
           },
         ]}
         required
@@ -304,7 +306,7 @@ export const VerifyEnrollmentsPage = ({
         status="info"
         visible
       >
-        If you select "<em>No, this information is incorrect</em>"{' '}
+        If you select "<em>No, this information isn’t correct</em>"{' '}
         <strong>
           we will pause your monthly housing payment until your information is
           updated
