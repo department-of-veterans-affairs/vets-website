@@ -19,6 +19,7 @@ export const questions = [
       es: '¿Está esperando los resultados de la prueba de COVID-19?',
     },
     customId: ['459', '459GE', '459GF', '459GH'],
+    passValues: ['yes'],
   },
   {
     id: 'fever',
@@ -26,6 +27,7 @@ export const questions = [
       en: 'In the past 24 hours, have you had a fever?',
       es: 'En las últimas 24 horas, ¿ha tenido fiebre?',
     },
+    customIdExcluded: ['459'],
   },
   {
     id: 'cough',
