@@ -15,11 +15,11 @@ export default function Disclaimer() {
 
       <h2>We’re currently in beta testing</h2>
       <p>
-        Welcome to our virtual agent, a new part of VA.gov. We’re still building
-        the virtual agent’s ability to respond to your questions, so it won’t
-        have answers to every question. The agent also may be slow to respond.
-        We’re adding more answers in the weeks and months ahead, so please check
-        back often.
+        Welcome to our virtual agent, a new part of{' '}
+        <a href="https://va.gov/">VA.gov</a>. We're still building the agent's
+        ability to respond to your questions, so it won't have answers to every
+        question. And while we're in beta testing, the agent will be available
+        only to a small number of <a href="https://va.gov/">VA.gov</a> visitors.
       </p>
       <p>
         <b>
