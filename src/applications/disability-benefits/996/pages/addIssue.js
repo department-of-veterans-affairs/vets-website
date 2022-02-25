@@ -1,5 +1,3 @@
-import dateUiSchema from 'platform/forms-system/src/js/definitions/date';
-
 import { SELECTED } from '../constants';
 
 /**
@@ -7,8 +5,8 @@ import { SELECTED } from '../constants';
  */
 
 export default {
+  // this uiSchema is completely ignored
   uiSchema: {
-    'ui:title': '',
     addIssue: {
       'ui:title': '',
       items: {
@@ -16,7 +14,7 @@ export default {
           'ui:title': 'Name of issue',
         },
         decisionDate: {
-          ...dateUiSchema('Date of decision'),
+          'ui:title': 'Date of notification of the decision',
         },
       },
     },
