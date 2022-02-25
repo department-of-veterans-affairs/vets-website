@@ -44,7 +44,7 @@ ADD https://raw.githubusercontent.com/department-of-veterans-affairs/platform-va
 RUN openssl x509 -inform DER -in /usr/local/share/ca-certificates/VA-Internal-S2-RCA1-v1.cer -out /usr/local/share/ca-certificates/VA-Internal-S2-RCA1-v1.crt
 RUN update-ca-certificates
 
-RUN mkdir -p /application && yarn install --immutable
+RUN mkdir -p /application && YARN_CHECKSUM_BEHAVIOR=reset && yarn install --immutable
 WORKDIR /application
 
 USER vets-website

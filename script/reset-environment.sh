@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 if ! [ -x "$(command -v yarn)" ]; then
     echo "Installing yarn..."
-    npm i -g yarn@1.21.1
+    npm i -g yarn@3.2.0
     if [ $? -eq 0 ]; then
         echo "Yarn successfulling installed globally."
     else
