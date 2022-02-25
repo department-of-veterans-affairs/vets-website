@@ -7,12 +7,13 @@ import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
-import { seeStaffMessageUpdated } from '../../actions/day-of';
+import { recordAnswer, seeStaffMessageUpdated } from '../../actions/day-of';
 import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
 import { makeSelectVeteranData } from '../../selectors';
 import { URLS } from '../../utils/navigation';
 
 const NextOfKin = props => {
+  const { isDayOfDemographicsFlagsEnabled } = props;
   const { router } = props;
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
@@ -40,9 +41,12 @@ const NextOfKin = props => {
         event: 'cta-button-click',
         'button-click-label': 'yes-to-next-of-kin-information',
       });
+      if (isDayOfDemographicsFlagsEnabled) {
+        dispatch(recordAnswer({ nextOfKinUpToDate: 'yes' }));
+      }
       goToNextPage();
     },
-    [goToNextPage],
+    [dispatch, goToNextPage, isDayOfDemographicsFlagsEnabled],
   );
 
   const noClick = useCallback(
@@ -51,10 +55,21 @@ const NextOfKin = props => {
         event: 'cta-button-click',
         'button-click-label': 'no-to-next-of-kin-information',
       });
-      updateSeeStaffMessage(seeStaffMessage);
-      jumpToPage(URLS.SEE_STAFF);
+      if (isDayOfDemographicsFlagsEnabled) {
+        dispatch(recordAnswer({ nextOfKinUpToDate: 'no' }));
+        goToNextPage();
+      } else {
+        updateSeeStaffMessage(seeStaffMessage);
+        jumpToPage(URLS.SEE_STAFF);
+      }
     },
-    [updateSeeStaffMessage, jumpToPage],
+    [
+      isDayOfDemographicsFlagsEnabled,
+      dispatch,
+      goToNextPage,
+      updateSeeStaffMessage,
+      jumpToPage,
+    ],
   );
 
   if (!nextOfKin) {
@@ -76,6 +91,7 @@ const NextOfKin = props => {
 };
 
 NextOfKin.propTypes = {
+  isDayOfDemographicsFlagsEnabled: PropTypes.bool,
   router: PropTypes.object,
 };
 
