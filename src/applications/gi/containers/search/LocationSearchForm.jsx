@@ -23,9 +23,6 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { updateUrlParams } from '../../selectors/search';
 import { TABS } from '../../constants';
 import { INITIAL_STATE } from '../../reducers/search';
-import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
-
 
 export function LocationSearchForm({
   autocomplete,
