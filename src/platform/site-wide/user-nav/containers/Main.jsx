@@ -180,7 +180,7 @@ export class Main extends Component {
       // each identity dependency's warning banner from making duplicate
       // requests when the sign-in modal renders.
       this.props.getBackendStatuses();
-      this.props.toggleLoginModal(true);
+      this.props.toggleLoginModal(true, 'header');
       this.appendNextParameter();
     }
   };
