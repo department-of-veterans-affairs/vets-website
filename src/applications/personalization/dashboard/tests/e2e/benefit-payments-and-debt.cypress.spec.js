@@ -5,7 +5,7 @@
  * @testrailinfo groupId 3376
  * @testrailinfo runName MyVA-e2e-PmtsDebt
  */
-import { mockUser } from '@@profile/tests/fixtures/users/user.js';
+import { mockUser } from '@@profile/tests/fixtures/users/user';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
@@ -23,6 +23,7 @@ import {
   debtsSuccessEmpty,
 } from '../fixtures/test-debts-response';
 import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
+import appointmentsEmpty from '../fixtures/appointments-empty';
 import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 
 describe('The My VA Dashboard - Payments and Debt', () => {
@@ -45,10 +46,13 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         disabilityRating,
       );
       cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
+      cy.intercept('vaos/v0/appointments*', appointmentsEmpty);
     });
     it('hides entire Pmts-n-Debts section - C13193', () => {
-      // Feature disabled:
-      // hides entire section.
+      cy.intercept('/v0/debts', debtsSuccess()).as('debts0');
+      cy.intercept('/v0/profile/payment_history', paymentsSuccess(true)).as(
+        'recentPayments0',
+      );
       cy.visit('my-va/');
 
       cy.findByTestId('dashboard-section-payment-and-debts').should(
@@ -98,6 +102,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         '/v0/disability_compensation_form/rating_info',
         disabilityRating,
       );
+      cy.intercept('vaos/v0/appointments*', appointmentsEmpty);
       cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
     });
 
@@ -108,12 +113,12 @@ describe('The My VA Dashboard - Payments and Debt', () => {
 
       context('and recent payments', () => {
         // Last payment received within past 30 days:
-        it('shows Zero-debt-balance & Payment-card', () => {
+        it('shows Zero-debt-balance & Payment-card - C14319', () => {
           cy.intercept('/v0/profile/payment_history', paymentsSuccess(true)).as(
-            'recentPayments0',
+            'recentPayments1',
           );
           cy.visit('my-va/');
-          cy.wait('@recentPayments0');
+          cy.wait('@recentPayments1');
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'exist',
@@ -143,10 +148,10 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         // Last payment received > 30 days ago:
         it('shows Zero-debt-balance and No-recent-payments - C14320', () => {
           cy.intercept('/v0/profile/payment_history', paymentsSuccess()).as(
-            'oldPayments0',
+            'oldPayments1',
           );
           cy.visit('my-va/');
-          cy.wait('@oldPayments0');
+          cy.wait('@oldPayments1');
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'exist',
@@ -176,13 +181,13 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         // No payments received ever:
         /* eslint-disable va/axe-check-required */
         // Same display state as a previous test with AXE-check.
-        it('hides entire Pmts-n-Debts section', () => {
+        it('hides entire Pmts-n-Debts section - C14674', () => {
           cy.intercept(
             '/v0/profile/payment_history',
             paymentsSuccessEmpty(),
-          ).as('noPayments0');
+          ).as('noPayments1');
           cy.visit('my-va/');
-          cy.wait('@noPayments0');
+          cy.wait('@noPayments1');
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'not.exist',
@@ -208,12 +213,12 @@ describe('The My VA Dashboard - Payments and Debt', () => {
 
       context('and payments-API-error', () => {
         // Payments API returns error:
-        it('hides entire section and shows Payments-error only', () => {
+        it('hides entire section and shows Payments-error only - C14675', () => {
           cy.intercept('/v0/profile/payment_history', paymentsError()).as(
-            'paymentsError0',
+            'paymentsError1',
           );
           cy.visit('my-va/');
-          cy.wait('@paymentsError0');
+          cy.wait('@paymentsError1');
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'not.exist',
@@ -249,10 +254,10 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         // Last payment received within past 30 days:
         it('shows Debt-count & Payment-card - C13194', () => {
           cy.intercept('/v0/profile/payment_history', paymentsSuccess(true)).as(
-            'recentPayments1',
+            'recentPayments2',
           );
           cy.visit('my-va/');
-          cy.wait('@recentPayments1');
+          cy.wait('@recentPayments2');
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'exist',
@@ -281,10 +286,10 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         // Last payment received > 30 days ago:
         it('shows Debt-count and No-recent-payments - C13195', () => {
           cy.intercept('/v0/profile/payment_history', paymentsSuccess()).as(
-            'oldPayments1',
+            'oldPayments2',
           );
           cy.visit('my-va/');
-          cy.wait('@oldPayments1');
+          cy.wait('@oldPayments2');
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'exist',
@@ -318,9 +323,9 @@ describe('The My VA Dashboard - Payments and Debt', () => {
           cy.intercept(
             '/v0/profile/payment_history',
             paymentsSuccessEmpty(),
-          ).as('noPayments1');
+          ).as('noPayments2');
           cy.visit('my-va/');
-          cy.wait('@noPayments1');
+          cy.wait('@noPayments2');
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'not.exist',
@@ -350,10 +355,10 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         // Same display state as a previous test with AXE-check.
         it('hides entire section and shows Payments-error only - C14391', () => {
           cy.intercept('/v0/profile/payment_history', paymentsError()).as(
-            'paymentsError0',
+            'paymentsError2',
           );
           cy.visit('my-va/');
-          cy.wait('@paymentsError0');
+          cy.wait('@paymentsError2');
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'not.exist',
@@ -385,12 +390,12 @@ describe('The My VA Dashboard - Payments and Debt', () => {
 
       context('and recent payments', () => {
         // Last payment received within last 30 days:
-        it('shows Debts-error & Payment-card', () => {
+        it('shows Debts-error & Payment-card - C14676', () => {
           cy.intercept('/v0/profile/payment_history', paymentsSuccess(true)).as(
-            'recentPayments2',
+            'recentPayments3',
           );
           cy.visit('my-va/');
-          cy.wait('@recentPayments2');
+          cy.wait('@recentPayments3');
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'exist',
@@ -420,10 +425,10 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         // Last payment received > 30 days ago:
         it('shows Debts-error and No-recent-payments - C14390', () => {
           cy.intercept('/v0/profile/payment_history', paymentsSuccess()).as(
-            'oldPayments2',
+            'oldPayments3',
           );
           cy.visit('my-va/');
-          cy.wait('@oldPayments2');
+          cy.wait('@oldPayments3');
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'exist',
@@ -453,13 +458,13 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         // No payments received ever.
         /* eslint-disable va/axe-check-required */
         // Same display state as a previous test with AXE-check.
-        it('hides entire Pmts-n-Debts section and shows no error', () => {
+        it('hides entire Pmts-n-Debts section and shows no error - C14677', () => {
           cy.intercept(
             '/v0/profile/payment_history',
             paymentsSuccessEmpty(),
-          ).as('noPayments2');
+          ).as('noPayments3');
           cy.visit('my-va/');
-          cy.wait('@noPayments2');
+          cy.wait('@noPayments3');
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'not.exist',
@@ -489,10 +494,10 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         // Same display state as a previous test with AXE-check.
         it('hides entire section and shows Payments-error only - C14392', () => {
           cy.intercept('/v0/profile/payment_history', paymentsError()).as(
-            'paymentsError2',
+            'paymentsError3',
           );
           cy.visit('my-va/');
-          cy.wait('@paymentsError2');
+          cy.wait('@paymentsError3');
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'not.exist',
