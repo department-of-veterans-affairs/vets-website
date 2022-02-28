@@ -28,34 +28,13 @@ import {
   toggleSearchHelpUserMenu,
 } from 'platform/site-wide/user-nav/actions';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
+import { loginAppUrlRE } from 'platform/user/authentication/utilities';
 import { ACCOUNT_TRANSITION_DISMISSED } from 'platform/user/authentication/constants';
-import { selectUserGreeting } from '../selectors';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import AutoSSO from './AutoSSO';
+import { selectUserGreeting } from '../selectors';
 
 export class Main extends Component {
-  static propTypes = {
-    isHeaderV2: PropTypes.bool,
-    // From mapStateToProps.
-    currentlyLoggedIn: PropTypes.bool,
-    isLOA3: PropTypes.bool,
-    isProfileLoading: PropTypes.bool,
-    shouldConfirmLeavingForm: PropTypes.bool,
-    showFormSignInModal: PropTypes.bool,
-    showLoginModal: PropTypes.bool,
-    showAccountTransitionModal: PropTypes.bool,
-    userGreeting: PropTypes.array,
-    utilitiesMenuIsOpen: PropTypes.object,
-    user: PropTypes.object,
-    // From mapDispatchToProps.
-    getBackendStatuses: PropTypes.func.isRequired,
-    initializeProfile: PropTypes.func.isRequired,
-    toggleFormSignInModal: PropTypes.func.isRequired,
-    toggleLoginModal: PropTypes.func.isRequired,
-    toggleSearchHelpUserMenu: PropTypes.func.isRequired,
-    updateLoggedInStatus: PropTypes.func.isRequired,
-  };
-
   componentDidMount() {
     // Close any open modals when navigating to different routes within an app.
     window.addEventListener('popstate', this.closeModals);
@@ -207,6 +186,10 @@ export class Main extends Component {
   };
 
   render() {
+    // checks if on Unified Sign in Page
+    if (loginAppUrlRE.test(window.location.pathname)) {
+      return null;
+    }
     return (
       <div className="profile-nav-container">
         <SearchHelpSignIn
@@ -284,3 +267,24 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(Main);
+
+Main.propTypes = {
+  // From mapDispatchToProps.
+  getBackendStatuses: PropTypes.func.isRequired,
+  initializeProfile: PropTypes.func.isRequired,
+  toggleAccountTransitionModal: PropTypes.func.isRequired,
+  toggleFormSignInModal: PropTypes.func.isRequired,
+  toggleLoginModal: PropTypes.func.isRequired,
+  toggleSearchHelpUserMenu: PropTypes.func.isRequired,
+  updateLoggedInStatus: PropTypes.func.isRequired,
+  // From mapStateToProps.
+  currentlyLoggedIn: PropTypes.bool,
+  isHeaderV2: PropTypes.bool,
+  isLOA3: PropTypes.bool,
+  isProfileLoading: PropTypes.bool,
+  shouldConfirmLeavingForm: PropTypes.bool,
+  showFormSignInModal: PropTypes.bool,
+  showLoginModal: PropTypes.bool,
+  userGreeting: PropTypes.array,
+  utilitiesMenuIsOpen: PropTypes.object,
+};

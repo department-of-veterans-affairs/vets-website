@@ -17,5 +17,7 @@ describe('Claim Files Test', () => {
     trackClaimsPage.verifyNumberOfFiles(3);
     trackClaimsPage.verifyClaimEvidence(2, 'Reviewed by VA');
     trackClaimsPage.verifyClaimEvidence(4, 'Submitted');
+    cy.expandAccordions();
+    cy.axeCheck();
   });
 });

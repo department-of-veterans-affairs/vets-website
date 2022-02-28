@@ -6,6 +6,7 @@ import {
   renderGender,
   createBooleanSchemaPropertiesFromOptions,
   createUiTitlePropertiesFromOptions,
+  formatIndividualLabel,
 } from '@@profile/util/personal-information/personalInformationUtils';
 
 import { NOT_SET_TEXT } from '@@profile/constants';
@@ -111,5 +112,27 @@ describe('createUiTitlePropertiesFromOptions utility', () => {
     };
 
     expect(createUiTitlePropertiesFromOptions(input)).to.deep.equal(output);
+  });
+});
+
+describe('formatIndividualLabel utility', () => {
+  it('returns properly formatted string for "preferNotToAnswer" ', () => {
+    const key = 'preferNotToAnswer';
+
+    const label = 'Prefer not to answer (un-checks other options)';
+
+    const output = 'Prefer not to answer';
+
+    expect(formatIndividualLabel(key, label)).to.equal(output);
+  });
+
+  it('returns label unformatted for standard keys" ', () => {
+    const key = 'test';
+
+    const label = 'test string here';
+
+    const output = 'test string here';
+
+    expect(formatIndividualLabel(key, label)).to.equal(output);
   });
 });

@@ -708,14 +708,6 @@ export const mockTogglesResponse = {
         value: true,
       },
       {
-        name: 'searchTypeaheadEnabled',
-        value: true,
-      },
-      {
-        name: 'search_typeahead_enabled',
-        value: true,
-      },
-      {
         name: 'sharableLink',
         value: true,
       },
@@ -729,6 +721,14 @@ export const mockTogglesResponse = {
       },
       {
         name: 'show526_wizard',
+        value: true,
+      },
+      {
+        name: 'showContactChatbot',
+        value: true,
+      },
+      {
+        name: 'show_contact_chatbot',
         value: true,
       },
       {

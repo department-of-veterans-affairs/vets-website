@@ -242,6 +242,7 @@ export function LocationSearchForm({
                           event: 'map-use-my-location',
                         });
                         dispatchGeolocateUser();
+                        if (environment.isProduction()) doSearch(null);
                       }}
                       className="use-my-location-link"
                     >
