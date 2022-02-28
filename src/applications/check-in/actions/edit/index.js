@@ -16,3 +16,11 @@ export const createSetEditContext = ({
     },
   };
 };
+
+export const CLEAR_EDIT_CONTEXT = 'CLEAR_EDIT_CONTEXT';
+
+export const createClearEditContext = () => {
+  return {
+    type: CLEAR_EDIT_CONTEXT,
+  };
+};

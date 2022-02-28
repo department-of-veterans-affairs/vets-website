@@ -8,4 +8,10 @@ const setEditingContext = (state, action) => {
   };
 };
 
-export { setEditingContext };
+const clearEditingContext = state => {
+  const next = { ...state };
+  delete next.context.editing;
+  return next;
+};
+
+export { setEditingContext, clearEditingContext };

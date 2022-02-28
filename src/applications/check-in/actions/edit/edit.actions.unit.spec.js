@@ -1,9 +1,20 @@
 import { expect } from 'chai';
 
-import { SET_EDIT_CONTEXT, createSetEditContext } from './index';
+import {
+  SET_EDIT_CONTEXT,
+  createSetEditContext,
+  CLEAR_EDIT_CONTEXT,
+  createClearEditContext,
+} from './index';
 
 describe('check-in', () => {
   describe('actions', () => {
+    describe('createClearEditContext', () => {
+      it('should return correct action', () => {
+        const action = createClearEditContext({});
+        expect(action.type).to.equal(CLEAR_EDIT_CONTEXT);
+      });
+    });
     describe('createSetEditContext', () => {
       it('should return correct action', () => {
         const action = createSetEditContext({});

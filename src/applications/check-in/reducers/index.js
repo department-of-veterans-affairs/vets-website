@@ -48,8 +48,8 @@ import { setSessionHandler } from './authentication';
 
 import { SET_APP } from '../actions/universal';
 
-import { SET_EDIT_CONTEXT } from '../actions/edit';
-import { setEditingContext } from './edit';
+import { SET_EDIT_CONTEXT, CLEAR_EDIT_CONTEXT } from '../actions/edit';
+import { setEditingContext, clearEditingContext } from './edit';
 
 const handler = Object.freeze({
   [INIT_FORM]: initFormHandler,
@@ -65,6 +65,7 @@ const handler = Object.freeze({
   [UPDATE_DAY_OF_CHECK_IN_FORM]: updateFormHandler,
   [SET_APP]: setAppHandler,
   [SET_EDIT_CONTEXT]: setEditingContext,
+  [CLEAR_EDIT_CONTEXT]: clearEditingContext,
 
   default: state => {
     return { ...state };
