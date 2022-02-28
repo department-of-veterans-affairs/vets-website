@@ -17,6 +17,9 @@ const setup = () => {
   cy.intercept('v0/profile/full_name', mockFullName);
   cy.intercept('v0/feature_toggles*', mockProfileEnhancementsToggles);
   mockGETEndpoints(['v0/mhv_account', 'v0/ppiu/payment_information']);
+};
+
+const visitProfileAndCheckLoading = () => {
   cy.visit(PROFILE_PATHS_LGBTQ_ENHANCEMENT.PERSONAL_INFORMATION);
   cy.injectAxe();
 
@@ -32,6 +35,8 @@ const setup = () => {
 describe('Content on the personal information page', () => {
   it('should render personal information as expected', () => {
     setup();
+    visitProfileAndCheckLoading();
+
     // Check preferred name
     cy.findByText('Wes').should('exist');
 
@@ -47,6 +52,25 @@ describe('Content on the personal information page', () => {
     cy.findByText('Straight or heterosexual, Some other orientation').should(
       'exist',
     );
+
+    cy.axeCheck();
+  });
+
+  it('should render preferNotToAnswer for Sexual Orientation with correctly formatted string', () => {
+    setup();
+
+    cy.intercept('v0/profile/personal_information', {
+      data: {
+        attributes: {
+          sexualOrientation: ['preferNotToAnswer'],
+        },
+      },
+    });
+
+    visitProfileAndCheckLoading();
+
+    // Check sexual orientation
+    cy.findByText('Prefer not to answer').should('exist');
 
     cy.axeCheck();
   });
