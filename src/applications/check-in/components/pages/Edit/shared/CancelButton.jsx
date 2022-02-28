@@ -2,12 +2,13 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 export default function CancelButton(props) {
-  const { jumpToPage, backPage } = props;
+  const { jumpToPage, backPage, clearData } = props;
   const onClick = useCallback(
     () => {
+      clearData();
       jumpToPage(backPage);
     },
-    [backPage, jumpToPage],
+    [backPage, jumpToPage, clearData],
   );
   return (
     <button
@@ -23,5 +24,6 @@ export default function CancelButton(props) {
 
 CancelButton.propTypes = {
   backPage: PropTypes.string,
+  clearData: PropTypes.func,
   jumpToPage: PropTypes.func,
 };

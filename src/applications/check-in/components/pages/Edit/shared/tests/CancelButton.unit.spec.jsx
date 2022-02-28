@@ -20,15 +20,21 @@ describe('pre-check-in experience', () => {
         );
         expect(getByText('Cancel')).to.exist;
       });
-      it('calls jumpToPage function with backPage when the cancel button is clicked', () => {
+      it('calls jumpToPage and clearData function with backPage when the cancel button is clicked', () => {
         const jumpToPage = sinon.spy();
+        const clearData = sinon.spy();
         const { getByText } = render(
-          <CancelButton jumpToPage={jumpToPage} backPage="foo">
+          <CancelButton
+            jumpToPage={jumpToPage}
+            backPage="foo"
+            clearData={clearData}
+          >
             Cancel
           </CancelButton>,
         );
         fireEvent.click(getByText('Cancel'));
         expect(jumpToPage.calledWith('foo')).to.be.true;
+        expect(clearData.called).to.be.true;
       });
     });
   });
