@@ -7,7 +7,7 @@ export default {
   homeless: false,
   boardReviewOption: '',
   hearingTypePreference: '',
-  socOptIn: true,
+  socOptIn: false,
   'view:additionalEvidence': '',
 
   // Leave 'view:selected' set to false for unit testing
