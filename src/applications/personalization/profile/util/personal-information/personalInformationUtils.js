@@ -143,6 +143,13 @@ export const personalInformationUiSchemas = {
   },
 };
 
+export const formatIndividualLabel = (key, label) => {
+  if (key === 'preferNotToAnswer') {
+    return label.replace('(un-checks other options)', '').trim();
+  }
+  return label;
+};
+
 export const formatMultiSelectAndText = (data, fieldName) => {
   const notListedTextKey = `${fieldName}NotListedText`;
 
@@ -154,7 +161,9 @@ export const formatMultiSelectAndText = (data, fieldName) => {
   }
 
   const mergedValues = [
-    ...data[fieldName].map(key => allLabels[fieldName][key]),
+    ...data[fieldName].map(key =>
+      formatIndividualLabel(key, allLabels[fieldName][key]),
+    ),
     ...(data?.[notListedTextKey] ? [data[notListedTextKey]] : []),
   ];
 
