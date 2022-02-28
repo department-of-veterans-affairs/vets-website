@@ -133,8 +133,9 @@ export const IntroductionPage = ({ user, route }) => {
       {SaveInProgressComponent}
 
       {!user?.login?.currentlyLoggedIn && (
-        // eslint-disable-next-line jsx-a11y/anchor-is-valid
-        <a href="#">Start your application without signing in</a>
+        <a href="https://www.va.gov/education/apply-for-education-benefits/application/1990/applicant/information">
+          Start your application without signing in
+        </a>
       )}
 
       <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="02/28/2023" />
