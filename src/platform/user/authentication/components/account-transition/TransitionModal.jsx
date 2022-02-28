@@ -4,7 +4,7 @@ import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import recordEvent from 'platform/monitoring/record-event';
 import { MHV_TRANSITION_DATE } from '../../constants';
 
-export default ({ visible, onClose }) => {
+const AccountTransitionModal = ({ visible, onClose }) => {
   useEffect(
     () => {
       recordEvent({
@@ -68,3 +68,5 @@ export default ({ visible, onClose }) => {
     </Modal>
   );
 };
+
+export default AccountTransitionModal;
