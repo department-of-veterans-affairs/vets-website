@@ -14,5 +14,7 @@ describe('Claim Status Decision', () => {
     const trackClaimsPage = new TrackClaimsPage();
     trackClaimsPage.loadPage(claimsList, mockDetails);
     trackClaimsPage.verifyReadyClaim();
+    cy.expandAccordions();
+    cy.axeCheck();
   });
 });

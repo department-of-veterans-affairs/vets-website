@@ -136,7 +136,7 @@ export default function AppealListItem({ appeal, name, external = false }) {
 
 AppealListItem.propTypes = {
   appeal: PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
     attributes: PropTypes.shape({
       status: PropTypes.shape({
         type: PropTypes.string.isRequired,
