@@ -7,6 +7,7 @@ import ConfirmablePage from '../ConfirmablePage';
 import { createSetEditContext } from '../../../actions/edit';
 
 import { URLS } from '../../../utils/navigation';
+import { EDITING_PAGE_NAMES } from '../../../utils/appConstants';
 
 export default function DemographicsDisplay({
   header = 'Is this your current contact information?',
@@ -25,8 +26,7 @@ export default function DemographicsDisplay({
         createSetEditContext({
           ...data,
           originatingUrl: URLS.DEMOGRAPHICS,
-          // TODO: refactor this
-          editingPage: 'demographics',
+          editingPage: EDITING_PAGE_NAMES.DEMOGRAPHICS,
         }),
       );
       jumpToPage(URLS.EDIT_EMAIL);
