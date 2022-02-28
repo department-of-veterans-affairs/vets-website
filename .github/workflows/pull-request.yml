@@ -183,7 +183,7 @@ jobs:
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
-          command: yarn install --immutables
+          command: yarn install --immutable
           max_attempts: 3
           timeout_minutes: 7
         env:
