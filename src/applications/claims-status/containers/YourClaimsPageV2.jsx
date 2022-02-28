@@ -1,20 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import backendServices from 'platform/user/profile/constants/backendServices';
-import recordEvent from 'platform/monitoring/record-event';
+// import { VaPagination } from '@department-of-veterans-affairs/web-components/react-bindings';
+import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import PropTypes from 'prop-types';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import backendServices from 'platform/user/profile/constants/backendServices';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+
 import {
-  changePageV2,
-  getAppealsV2,
-  getClaimsV2,
-  hide30DayNotice,
-  showConsolidatedMessage,
-  sortClaims,
-  getStemClaims,
-} from '../actions/index.jsx';
+  changePageV2 as changePageV2Action,
+  getAppealsV2 as getAppealsV2Action,
+  getClaimsV2 as getClaimsV2Action,
+  getStemClaims as getStemClaimsAction,
+  hide30DayNotice as hide30DayNoticeAction,
+  sortClaims as sortClaimsAction,
+} from '../actions/index';
 import {
   appealTypes,
   claimsAvailability,
@@ -22,19 +24,18 @@ import {
   sortByLastUpdated,
   getVisibleRows,
 } from '../utils/appeals-v2-helpers';
+import { setUpPage, setPageFocus } from '../utils/page';
+
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import AppealsUnavailable from '../components/AppealsUnavailable';
 import AskVAQuestions from '../components/AskVAQuestions';
-import ConsolidatedClaims from '../components/ConsolidatedClaims';
+import { consolidatedClaimsContent } from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
 import ClaimsListItem from '../components/appeals-v2/ClaimsListItemV2';
 import AppealListItem from '../components/appeals-v2/AppealListItemV2';
 import NoClaims from '../components/NoClaims';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
-import { setUpPage, setPageFocus } from '../utils/page';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import StemClaimListItem from '../components/StemClaimListItem';
 import MobileAppMessage from '../components/MobileAppMessage';
@@ -46,22 +47,29 @@ class YourClaimsPageV2 extends React.Component {
   }
 
   componentDidMount() {
-    document.title = `Track Claims: VA.gov`;
-    if (this.props.canAccessClaims) {
-      this.props.getClaimsV2();
+    document.title = 'Check your claim or appeal status | Veterans Affairs';
+
+    const {
+      canAccessAppeals,
+      canAccessClaims,
+      getAppealsV2,
+      getClaimsV2,
+      getStemClaims,
+      claimsLoading,
+      appealsLoading,
+      stemClaimsLoading,
+    } = this.props;
+    if (canAccessClaims) {
+      getClaimsV2();
     }
 
-    if (this.props.canAccessAppeals) {
-      this.props.getAppealsV2();
+    if (canAccessAppeals) {
+      getAppealsV2();
     }
 
-    this.props.getStemClaims();
+    getStemClaims();
 
-    if (
-      this.props.claimsLoading &&
-      this.props.appealsLoading &&
-      this.props.stemClaimsLoading
-    ) {
+    if (claimsLoading && appealsLoading && stemClaimsLoading) {
       scrollToTop();
     } else {
       setUpPage();
@@ -77,19 +85,15 @@ class YourClaimsPageV2 extends React.Component {
   }
 
   changePage(page) {
-    this.props.changePageV2(page);
+    const { changePageV2 } = this.props;
+    changePageV2(page);
     scrollToTop();
   }
 
   renderListItem(claim) {
     if (appealTypes.includes(claim.type)) {
-      return (
-        <AppealListItem
-          key={claim.id}
-          appeal={claim}
-          name={this.props.fullName}
-        />
-      );
+      const { fullName } = this.props;
+      return <AppealListItem key={claim.id} appeal={claim} name={fullName} />;
     }
 
     if (claim.type === 'education_benefits_claims') {
@@ -147,6 +151,7 @@ class YourClaimsPageV2 extends React.Component {
       appealsLoading,
       stemClaimsLoading,
       show30DayNotice,
+      hide30DayNotice,
     } = this.props;
 
     let content;
@@ -169,10 +174,7 @@ class YourClaimsPageV2 extends React.Component {
         content = (
           <div>
             {show30DayNotice && (
-              <ClosedClaimMessage
-                claims={list}
-                onClose={this.props.hide30DayNotice}
-              />
+              <ClosedClaimMessage claims={list} onClose={hide30DayNotice} />
             )}
             <div className="claim-list">
               {atLeastOneRequestLoading && (
@@ -196,66 +198,70 @@ class YourClaimsPageV2 extends React.Component {
     return (
       <div>
         <div name="topScrollElement" />
-        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-          <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12">
-              <ClaimsBreadcrumbs />
-            </div>
+        <article className="row">
+          <div className="usa-width-two-thirds medium-8 columns">
+            <ClaimsBreadcrumbs />
+            <h1 className="claims-container-title">
+              Check your claim or appeal status
+            </h1>
+            <va-on-this-page className="vads-u-margin-top--0" />
+            <MobileAppMessage />
+            <h2 id="your-claims-or-appeals" className="vads-u-margin-top--2p5">
+              Your claims or appeals
+            </h2>
+            <div>{this.renderErrorMessages()}</div>
+            <p />
+            <va-additional-info
+              className="claims-combined"
+              trigger="Find out why we sometimes combine claims."
+            >
+              {consolidatedClaimsContent}
+            </va-additional-info>
+            <p />
+            {content}
+            <FeaturesWarning />
+            <h2 id="what-if-i-dont-see-my-appeal">
+              What if I don’t see my appeal?
+            </h2>
+            <p>
+              If you submitted a Notice of Disagreement for an appeal within the
+              last 3 months, VA might still be processing your appeal. For more
+              information, contact your Veterans Service Organization or
+              representative.
+            </p>
+            <AskVAQuestions />
           </div>
-          <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-              <h1 className="claims-container-title">
-                Check your claim or appeal status
-              </h1>
-              <MobileAppMessage />
-              <div>{this.renderErrorMessages()}</div>
-              <p>
-                <button
-                  type="button"
-                  className="va-button-link claims-combined"
-                  onClick={evt => {
-                    evt.preventDefault();
-                    recordEvent({
-                      event: 'claims-consolidated-modal',
-                    });
-                    this.props.showConsolidatedMessage(true);
-                  }}
-                >
-                  Find out why we sometimes combine claims.
-                </button>
-              </p>
-              <Modal
-                onClose={() => true}
-                visible={this.props.consolidatedModal}
-                hideCloseButton
-                id="consolidated-claims"
-                contents={
-                  <ConsolidatedClaims
-                    onClose={() => this.props.showConsolidatedMessage(false)}
-                  />
-                }
-              />
-              {content}
-            </div>
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
-              <FeaturesWarning />
-              <AskVAQuestions />
-              <div>
-                <h2 className="help-heading">Can’t find your appeal?</h2>
-                <p>
-                  If you submitted a Notice of Disagreement for an appeal within
-                  the last 3 months, VA might still be processing your appeal.
-                  For more information, contact your Veterans Service
-                  Organization or representative.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+        </article>
       </div>
     );
   }
 }
+
+YourClaimsPageV2.propTypes = {
+  appealsAvailable: PropTypes.string,
+  appealsLoading: PropTypes.bool,
+  canAccessAppeals: PropTypes.bool,
+  canAccessClaims: PropTypes.bool,
+  changePageV2: PropTypes.func,
+  claimsAvailable: PropTypes.string,
+  claimsLoading: PropTypes.bool,
+  fullName: PropTypes.shape({}),
+  getAppealsV2: PropTypes.func,
+  getClaimsV2: PropTypes.func,
+  getStemClaims: PropTypes.func,
+  hide30DayNotice: PropTypes.func,
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string,
+      id: PropTypes.string,
+      attributes: PropTypes.shape({}),
+    }),
+  ),
+  page: PropTypes.number,
+  pages: PropTypes.number,
+  show30DayNotice: PropTypes.bool,
+  stemClaimsLoading: PropTypes.bool,
+};
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
@@ -303,13 +309,12 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  getAppealsV2,
-  getClaimsV2,
-  changePageV2,
-  sortClaims,
-  showConsolidatedMessage,
-  hide30DayNotice,
-  getStemClaims,
+  getAppealsV2: getAppealsV2Action,
+  getClaimsV2: getClaimsV2Action,
+  getStemClaims: getStemClaimsAction,
+  changePageV2: changePageV2Action,
+  sortClaims: sortClaimsAction,
+  hide30DayNotice: hide30DayNoticeAction,
 };
 
 export default connect(
