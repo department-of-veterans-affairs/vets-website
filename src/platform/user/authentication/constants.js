@@ -8,6 +8,7 @@ export const API_VERSION = 'v1';
 
 export const AUTH_EVENTS = {
   MODAL_LOGIN: 'login-link-clicked-modal',
+  LOGIN: 'login-link-clicked',
   SSO_LOGIN: 'sso-automatic-login',
   SSO_LOGOUT: 'sso-automatic-logout',
   MFA: 'multifactor-link-clicked',
