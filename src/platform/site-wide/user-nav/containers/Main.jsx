@@ -162,36 +162,37 @@ export class Main extends Component {
   };
 
   render() {
-    const displayProfileNav = loginAppUrlRE.test(window.location.pathname);
+    // checks if on Unified Sign in Page
+    if (loginAppUrlRE.test(window.location.pathname)) {
+      return null;
+    }
     return (
-      !displayProfileNav && (
-        <div className="profile-nav-container">
-          <SearchHelpSignIn
-            isHeaderV2={this.props.isHeaderV2}
-            isLOA3={this.props.isLOA3}
-            isLoggedIn={this.props.currentlyLoggedIn}
-            isMenuOpen={this.props.utilitiesMenuIsOpen}
-            isProfileLoading={this.props.isProfileLoading}
-            onSignInSignUp={this.signInSignUp}
-            toggleMenu={this.props.toggleSearchHelpUserMenu}
-            userGreeting={this.props.userGreeting}
-          />
-          <FormSignInModal
-            onClose={this.closeFormSignInModal}
-            onSignIn={this.openLoginModal}
-            visible={this.props.showFormSignInModal}
-          />
-          <SignInModal
-            onClose={this.closeLoginModal}
-            visible={this.props.showLoginModal}
-          />
-          <SessionTimeoutModal
-            isLoggedIn={this.props.currentlyLoggedIn}
-            onExtendSession={this.props.initializeProfile}
-          />
-          <AutoSSO />
-        </div>
-      )
+      <div className="profile-nav-container">
+        <SearchHelpSignIn
+          isHeaderV2={this.props.isHeaderV2}
+          isLOA3={this.props.isLOA3}
+          isLoggedIn={this.props.currentlyLoggedIn}
+          isMenuOpen={this.props.utilitiesMenuIsOpen}
+          isProfileLoading={this.props.isProfileLoading}
+          onSignInSignUp={this.signInSignUp}
+          toggleMenu={this.props.toggleSearchHelpUserMenu}
+          userGreeting={this.props.userGreeting}
+        />
+        <FormSignInModal
+          onClose={this.closeFormSignInModal}
+          onSignIn={this.openLoginModal}
+          visible={this.props.showFormSignInModal}
+        />
+        <SignInModal
+          onClose={this.closeLoginModal}
+          visible={this.props.showLoginModal}
+        />
+        <SessionTimeoutModal
+          isLoggedIn={this.props.currentlyLoggedIn}
+          onExtendSession={this.props.initializeProfile}
+        />
+        <AutoSSO />
+      </div>
     );
   }
 }
