@@ -21,6 +21,11 @@ describe('Coronavirus Research Volunteer Form', () => {
     DIAGNOSED_DETAILS: {
       'DIAGNOSED_DETAILS::ANTIBODY_BLOOD_TEST': true,
     },
+    DIAGNOSED_SYMPTOMS: {
+      'DIAGNOSED_SYMPTOMS::VISION': true,
+    },
+    vaccinated: false,
+    VACCINATED_PLAN: 'DEFINITELY',
     closeContactPositive: 'UNSURE',
     hospitalized: true,
     smokeOrVape: false,
@@ -46,6 +51,8 @@ describe('Coronavirus Research Volunteer Form', () => {
     GENDER_SELF_IDENTIFY_DETAILS: 'This is a gender self description',
     RACE_ETHNICITY: { 'RACE_ETHNICITY::NONE_OF_ABOVE': true },
     consentAgreementAccepted: true,
+    ELIGIBLE: false,
+    FACILITY: false,
   });
   it('should render', () => {
     const form = mount(
@@ -57,7 +64,7 @@ describe('Coronavirus Research Volunteer Form', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(77);
+    expect(form.find('input').length).to.equal(103);
     form.unmount();
   });
 
@@ -73,7 +80,7 @@ describe('Coronavirus Research Volunteer Form', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(18);
+    expect(form.find('.usa-input-error').length).to.equal(21);
     expect(form.find('.input-error-date').length).to.equal(1);
 
     expect(onSubmit.called).to.be.false;
@@ -111,7 +118,6 @@ describe('Coronavirus Research Volunteer Form', () => {
       />,
     );
     fillData(form, 'input#root_email', 'notAnEmail');
-
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(form.find('.input-error-date').length).to.equal(0);
@@ -459,6 +465,25 @@ describe('Coronavirus Research Volunteer Form', () => {
       ).length,
     ).to.equal(0);
     // expect(form.find('.input-error-date').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
+  it('should show Vaccinated Plan Radios when Vaccinated response is No', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        pagePerItemIndex={0}
+        schema={schema}
+        data={volunteerData()}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    selectRadio(form, 'root_vaccinated', 'N');
+
+    form.find('form').simulate('submit');
+    expect(form.find('input[id="root_VACCINATED_PLAN_0"]').length).to.equal(1);
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });

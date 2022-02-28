@@ -17,6 +17,7 @@ env:
   CHANNEL_ID: C0MQ281DJ # vfs-platform-builds
   VETS_WEBSITE_CHANNEL_ID: C02V265VCGH # status-vets-website
   DSVA_SCHEDULE_ENABLED: true
+  BUILD_ENV: vagovprod
 
 jobs:
   set-env:
@@ -67,6 +68,7 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/workflows/install
+        timeout-minutes: 30
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: ~/.cache/yarn
@@ -96,10 +98,97 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+  build:
+    name: Build
+    runs-on: self-hosted
+    needs: [set-env, notify-start, validate-build-status]
+    
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ needs.set-env.outputs.COMMIT_SHA }}
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Build
+        run: yarn build --verbose --buildtype=${{ env.BUILD_ENV }}
+        timeout-minutes: 30
+
+      - name: Generate build details
+        run: |
+          cat > build/${{ env.BUILD_ENV }}/BUILD.txt << EOF
+          BUILDTYPE=${{ env.BUILD_ENV }}
+          NODE_ENV=production
+          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+          CHANGE_TARGET=null
+          RUN_ID=${{ github.run_id }}
+          RUN_NUMBER=${{ github.run_number }}
+          REF=${{ needs.set-env.outputs.COMMIT_SHA }}
+          BUILDTIME=$(date +%s)
+          EOF
+
+      - name: Compress and archive build
+        run: tar -C build/${{ env.BUILD_ENV }} -cjf ${{ env.BUILD_ENV }}.tar.bz2 .
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.BUILD_ENV }}.tar.bz2
+          path: ${{ env.BUILD_ENV }}.tar.bz2
+          retention-days: 1
+
+  archive:
+    name: Archive
+    runs-on: ubuntu-latest
+    needs: [set-env, build]
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ env.BUILD_ENV }}.tar.bz2
+
+      - name: Configure AWS credentials (1)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get AWS IAM role
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Configure AWS Credentials (2)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+
+      - name: Upload build
+        run: aws s3 cp ${{ env.BUILD_ENV }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.BUILD_ENV }}.tar.bz2 --acl public-read --region us-gov-west-1
+  
   create-release:
     name: Create Release
     runs-on: ubuntu-latest
-    needs: [set-env, notify-start, validate-build-status]
+    needs: [set-env, notify-start, validate-build-status, archive]
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -152,7 +241,6 @@ jobs:
     needs: [set-env, create-release]
 
     env:
-      ENVIRONMENT: vagovprod
       DEPLOY_BUCKET: www.va.gov
       ASSET_BUCKET: prod-va-gov-assets
 
@@ -186,7 +274,7 @@ jobs:
       - name: Deploy
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
         env:
-          SRC: s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.ENVIRONMENT }}.tar.bz2
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.BUILD_ENV }}.tar.bz2
           DEST: s3://${{ env.DEPLOY_BUCKET }}
           ASSET_DEST: s3://${{ env.ASSET_BUCKET }}
 

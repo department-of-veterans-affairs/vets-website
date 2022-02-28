@@ -1,7 +1,7 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import recordEvent from 'platform/monitoring/record-event';
 
-const checkBoxElements = [
+let checkBoxElements = [
   'HEALTH_HISTORY',
   'TRANSPORTATION',
   'EMPLOYMENT_STATUS',
@@ -9,6 +9,8 @@ const checkBoxElements = [
   'GENDER',
   'RACE_ETHNICITY',
 ];
+const checkBoxParents = ['diagnosed'];
+const checkBoxChildren = ['DIAGNOSED_DETAILS', 'DIAGNOSED_SYMPTOMS'];
 
 const NONE_OF_ABOVE = 'NONE_OF_ABOVE';
 
@@ -52,6 +54,19 @@ export function updateData(oldForm, newForm) {
       setNoneOfAbove(updatedForm, elementName, elementNOA);
     }
   });
+
+  checkBoxParents.forEach(elementName => {
+    const wasDiagnosed = oldForm[elementName];
+    const isDiagnosed = newForm[elementName];
+    const childCount = checkBoxChildren.length;
+    if (wasDiagnosed === isDiagnosed) return;
+    if (isDiagnosed === true) {
+      checkBoxElements = checkBoxElements.concat(checkBoxChildren);
+    } else if (isDiagnosed === false) {
+      checkBoxElements.splice(-childCount, childCount);
+    }
+  });
+
   return updatedForm;
 }
 

@@ -33,18 +33,18 @@ class OMBInfo extends React.Component {
           including Social Security numbers (SSN), outside VA if the disclosure
           is authorized under the Privacy Act, including the routine uses
           identified in the VA system of records, 58VA21/22/28, Compensation,
-          Pension, Education, and Vocational Rehabilitation and Employment
-          Records - VA, published in the Federal Register. The requested
-          information is considered relevant and necessary to determine maximum
-          benefits under the law. Your obligation to respond is required in
-          order to obtain or retain education benefits. Giving us your SSN
-          account information is voluntary. Refusal to provide your SSN by
-          itself will not result in the denial of benefits. The VA will not deny
-          an individual benefits for refusing to provide his or her SSN unless
-          the disclosure of the SSN is required by Federal Statute of law
-          enacted before January 1, 1975 and still in effect. Any information
-          provided by applicants may be subject to verification through computer
-          matching programs with other agencies.
+          Pension, Education, and Veteran Readiness and Employment Records - VA,
+          published in the Federal Register. The requested information is
+          considered relevant and necessary to determine maximum benefits under
+          the law. Your obligation to respond is required in order to obtain or
+          retain education benefits. Giving us your SSN account information is
+          voluntary. Refusal to provide your SSN by itself will not result in
+          the denial of benefits. The VA will not deny an individual benefits
+          for refusing to provide his or her SSN unless the disclosure of the
+          SSN is required by Federal Statute of law enacted before January 1,
+          1975 and still in effect. Any information provided by applicants may
+          be subject to verification through computer matching programs with
+          other agencies.
         </p>
       )}
 
@@ -113,15 +113,14 @@ class OMBInfo extends React.Component {
 
 OMBInfo.propTypes = {
   /**
-   * Respondent burden. How many minutes the form is expected to take.
-   */
-  resBurden: PropTypes.number,
+   * Form expiration date.
+   */ expDate: PropTypes.string.isRequired,
   /**
    * OMB control number / form number
    */ ombNumber: PropTypes.string,
   /**
-   * Form expiration date.
-   */ expDate: PropTypes.string.isRequired,
+   * Respondent burden. How many minutes the form is expected to take.
+   */ resBurden: PropTypes.number,
 };
 
 export default OMBInfo;

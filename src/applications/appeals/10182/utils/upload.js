@@ -3,7 +3,7 @@ import fileUiSchema from 'platform/forms-system/src/js/definitions/file';
 import { focusElement } from 'platform/utilities/ui';
 
 import { SUPPORTED_UPLOAD_TYPES, MAX_FILE_SIZE_BYTES } from '../constants';
-import { $$ } from '../utils/ui';
+import { $$ } from './ui';
 
 import {
   EvidenceUploadLabel,

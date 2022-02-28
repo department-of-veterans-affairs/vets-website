@@ -7,8 +7,8 @@ import { Provider } from 'react-redux';
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester, // selectCheckbox
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
+} from 'platform/testing/unit/schemaform-utils';
+import formConfig from '../../config/form';
 
 describe('Additional evidence upload', () => {
   const page = formConfig.chapters.boardReview.pages.evidenceUpload;

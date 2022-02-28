@@ -11,6 +11,7 @@ describe('<ContestableIssuesWidget>', () => {
     review = false,
     submitted = false,
     onChange = () => {},
+    setFormData = () => {},
   } = {}) => ({
     id: 'id',
     value: [
@@ -24,6 +25,7 @@ describe('<ContestableIssuesWidget>', () => {
       reviewMode: review,
       submitted,
     },
+    setFormData,
   });
 
   it('should render a list of check boxes (IssueCard component)', () => {
@@ -119,6 +121,22 @@ describe('<ContestableIssuesWidget>', () => {
     expect(wrapper.find('dt').text()).to.contain(
       'at least one issue, so we can process your request',
     );
+    wrapper.unmount();
+  });
+  it('should remove additional item', () => {
+    const setFormData = sinon.spy();
+    const props = getProps({ setFormData });
+    const wrapper = mount(<ContestableIssuesWidget {...props} />);
+
+    expect(props.additionalIssues.length).to.equal(1);
+
+    wrapper
+      .find('button.remove-issue')
+      .props()
+      .onClick({ preventDefault: () => {} });
+
+    expect(setFormData.called).to.be.true;
+    expect(setFormData.args[0][0].additionalIssues.length).to.equal(0);
     wrapper.unmount();
   });
 });

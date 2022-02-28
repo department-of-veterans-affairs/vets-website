@@ -268,20 +268,19 @@ export function getAddressType(mailingAddress) {
       mailingAddress.livesOnMilitaryBase
     ) {
       return 'MILITARY_OVERSEAS';
-    } else if (mailingAddress.address.country === 'USA') {
-      return 'DOMESTIC';
-    } else {
-      return 'FOREIGN';
     }
-  } else {
-    return null;
+    if (mailingAddress.address.country === 'USA') {
+      return 'DOMESTIC';
+    }
+    return 'FOREIGN';
   }
+  return null;
 }
 
 export function createContactInfo(submissionForm) {
   return {
-    addressLine1: submissionForm['view:mailingAddress'].address.addressLine1,
-    addressLine2: submissionForm['view:mailingAddress'].address.addressLine2,
+    addressLine1: submissionForm['view:mailingAddress'].address.street,
+    addressLine2: submissionForm['view:mailingAddress'].address.street2,
     city: submissionForm['view:mailingAddress'].address.city,
     zipcode: submissionForm['view:mailingAddress'].address.postalCode,
     emailAddress: submissionForm.email.email,
@@ -330,9 +329,8 @@ export function createRelinquishedBenefit(submissionForm) {
         submissionForm['view:benefitSelection']?.benefitRelinquished,
       effRelinquishDate: submissionForm.benefitEffectiveDate,
     };
-  } else {
-    return {};
   }
+  return {};
 }
 
 function setAdditionalConsideration(consideration) {
@@ -374,18 +372,16 @@ export function createComments(submissionForm) {
         },
         disagreeWithServicePeriod: true,
       };
-    } else {
-      return {
-        claimantComment: {},
-        disagreeWithServicePeriod: true,
-      };
     }
-  } else {
     return {
       claimantComment: {},
-      disagreeWithServicePeriod: false,
+      disagreeWithServicePeriod: true,
     };
   }
+  return {
+    claimantComment: {},
+    disagreeWithServicePeriod: false,
+  };
 }
 
 export function createDirectDeposit(submissionForm) {

@@ -16,6 +16,8 @@ import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
 
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
+
 const Index = ({ router }) => {
   const { goToNextPage, goToErrorPage } = useFormRouting(router);
   const dispatch = useDispatch();
@@ -38,6 +40,13 @@ const Index = ({ router }) => {
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
+
+  const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
+    true,
+  );
+  const { isMaxValidateAttempts } = getValidateAttempts(window);
+  const [showValidateError, setShowValidateError] = useState(false);
+
   const validateHandler = useCallback(
     async () => {
       setLastNameErrorMessage();
@@ -69,11 +78,32 @@ const Index = ({ router }) => {
           }
         } catch (e) {
           setIsLoading(false);
-          goToErrorPage();
+          if (
+            e?.message !== 'Invalid last4 or last name!' ||
+            isMaxValidateAttempts
+          ) {
+            goToErrorPage();
+          } else {
+            if (!showValidateError) {
+              setShowValidateError(true);
+            }
+            incrementValidateAttempts(window);
+          }
         }
       }
     },
-    [app, goToErrorPage, goToNextPage, last4Ssn, lastName, setSession, token],
+    [
+      app,
+      goToErrorPage,
+      goToNextPage,
+      incrementValidateAttempts,
+      isMaxValidateAttempts,
+      last4Ssn,
+      lastName,
+      setSession,
+      token,
+      showValidateError,
+    ],
   );
 
   useEffect(() => {
@@ -97,6 +127,8 @@ const Index = ({ router }) => {
           lastName,
         }}
         Footer={Footer}
+        showValidateError={showValidateError}
+        validateErrorMessage="Sorry, we couldn't find an account that matches that last name or SSN. Please try again."
       />
       <BackToHome />
     </>

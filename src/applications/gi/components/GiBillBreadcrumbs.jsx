@@ -41,7 +41,7 @@ const GiBillBreadcrumbs = () => {
   if (compareMatch) {
     crumbs.push(
       <Link to={root} key="main">
-        Compare schools
+        Institution comparison
       </Link>,
     );
   }

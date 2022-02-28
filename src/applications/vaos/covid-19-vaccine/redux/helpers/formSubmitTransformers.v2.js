@@ -19,18 +19,5 @@ export function transformFormToVAOSAppointment(state) {
       desiredDate: slot.start,
     },
     locationId: data.vaFacility,
-    comment: '',
-    contact: {
-      telecom: [
-        {
-          type: 'phone',
-          value: data.phoneNumber,
-        },
-        {
-          type: 'email',
-          value: data.email,
-        },
-      ],
-    },
   };
 }

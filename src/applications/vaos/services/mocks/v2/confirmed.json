@@ -35,6 +35,40 @@
       }
     },
     {
+      "id": "00C19456va",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": null,
+        "clinic": "437",
+        "comment": "Follow-up/Routine: I have a headache",
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming COVID-19 appointment",
+        "end": "2022-03-21T18:19:34",
+        "id": "00aa456va",
+        "kind": "clinic",
+        "locationId": "983",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "practitioners": [],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reason": "Routine Follow-up",
+        "requestedPeriods": null,
+        "serviceType": "covid",
+        "slot": null,
+        "start": "2022-03-21T18:19:34",
+        "status": "booked",
+        "telehealth": null
+      }
+    },
+    {
       "id": "01aa456cc",
       "type": "cc_appointments",
       "attributes": {

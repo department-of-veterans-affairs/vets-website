@@ -4,23 +4,28 @@ import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import PropTypes from 'prop-types';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
+
   goForward = () => {
-    this.props.router.push(this.props.route.pageList[1].path);
+    const { route, router } = this.props;
+    router.push(route.pageList[1].path);
   };
+
   render() {
+    const { route } = this.props;
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for burial benefits" />
         <p>Equal to VA Form 21P-530 (Application for Burial Benefits).</p>
         <SaveInProgressIntro
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          pageList={this.props.route.pageList}
-          downtime={this.props.route.formConfig.downtime}
+          prefillEnabled={route.formConfig.prefillEnabled}
+          pageList={route.pageList}
+          downtime={route.formConfig.downtime}
           startText="Start the Burial Benefits Application"
         />
         <div className="process schemaform-process schemaform-process-sip">
@@ -117,10 +122,10 @@ class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro
           buttonOnly
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          pageList={this.props.route.pageList}
+          prefillEnabled={route.formConfig.prefillEnabled}
+          pageList={route.pageList}
           startText="Start the Burial Benefits Application"
-          downtime={this.props.route.formConfig.downtime}
+          downtime={route.formConfig.downtime}
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <OMBInfo resBurden={15} ombNumber="2900-0003" expDate="04/30/2020" />
@@ -130,6 +135,15 @@ class IntroductionPage extends React.Component {
   }
 }
 
-export default IntroductionPage;
+IntroductionPage.propTypes = {
+  route: PropTypes.shape({
+    pageList: PropTypes.array,
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      downtime: PropTypes.object,
+    }),
+  }),
+  router: PropTypes.object,
+};
 
-export { IntroductionPage };
+export default IntroductionPage;

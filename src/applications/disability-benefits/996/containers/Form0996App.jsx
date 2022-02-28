@@ -153,14 +153,32 @@ export const Form0996App = ({
 };
 
 Form0996App.propTypes = {
-  loggedIn: PropTypes.bool,
-  formData: PropTypes.shape({}),
-  profile: PropTypes.shape({}),
-  savedForms: PropTypes.array,
-  hlrV2: PropTypes.bool,
-  contestableIssues: PropTypes.shape({}),
-  setFormData: PropTypes.func.isRequired,
   getContestableIssues: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  children: PropTypes.any,
+  contestableIssues: PropTypes.shape({}),
+  formData: PropTypes.shape({
+    additionalIssues: PropTypes.array,
+    areaOfDisagreement: PropTypes.array,
+    benefitType: PropTypes.string,
+    contestedIssues: PropTypes.array, // v1
+    contestableIssues: PropTypes.array, // v2
+    hlrV2: PropTypes.bool,
+    legacyCount: PropTypes.number,
+  }),
+  hlrV2: PropTypes.bool,
+  legacyCount: PropTypes.number,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+  loggedIn: PropTypes.bool,
+  profile: PropTypes.shape({
+    vapContactInfo: PropTypes.shape({}),
+  }),
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  savedForms: PropTypes.array,
 };
 
 const mapStateToProps = state => ({

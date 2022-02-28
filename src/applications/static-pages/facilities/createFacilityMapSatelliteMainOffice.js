@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { fetchFacility } from './actions';
+import { fetchMainSatelliteLocationFacility } from './actions';
 import widgetTypes from '../widgetTypes';
 
 export default async function createFacilityMapSatelliteMainOffice(store) {
@@ -16,14 +16,14 @@ export default async function createFacilityMapSatelliteMainOffice(store) {
   }
 
   if (facilityID) {
-    store.dispatch(fetchFacility(facilityID));
+    store.dispatch(fetchMainSatelliteLocationFacility(facilityID));
     if (mapWidget) {
       const {
-        default: FacilityMapWidget,
+        default: FacilityMapSatelliteMainWidget,
       } = await import(/* webpackChunkName: "facility-detail" */ './FacilityMapSatelliteMainWidget');
       ReactDOM.render(
         <Provider store={store}>
-          <FacilityMapWidget />
+          <FacilityMapSatelliteMainWidget facilityID={facilityID} />
         </Provider>,
         mapWidget,
       );

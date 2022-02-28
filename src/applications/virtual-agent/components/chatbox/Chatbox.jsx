@@ -1,5 +1,7 @@
 import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { connect, useSelector } from 'react-redux';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import ChatbotError from '../chatbot-error/ChatbotError';
 import useWebChatFramework from './useWebChatFramework';
 import useVirtualAgentToken from './useVirtualAgentToken';
@@ -11,8 +13,6 @@ import {
   ERROR,
   LOADING,
 } from './loadingStatus';
-import { connect, useSelector } from 'react-redux';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
@@ -38,11 +38,11 @@ function useWebChat(props) {
 function showBot(loggedIn, requireAuth, accepted, minute, props) {
   if (!loggedIn && requireAuth) {
     return <ConnectedSignInAlert />;
-  } else if (!accepted) {
-    return <ChatboxDisclaimer />;
-  } else {
-    return <App timeout={props.timeout || minute} />;
   }
+  if (!accepted) {
+    return <ChatboxDisclaimer />;
+  }
+  return <App timeout={props.timeout || minute} />;
 }
 
 export default function Chatbox(props) {
@@ -57,7 +57,7 @@ export default function Chatbox(props) {
     <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest">
       <div className="vads-u-background-color--primary-darkest vads-u-padding--1p5">
         <h2 className="vads-u-font-size--lg vads-u-color--white vads-u-margin--0">
-          VA Virtual Agent (beta)
+          VA virtual agent
         </h2>
       </div>
       {showBot(isLoggedIn, requireAuth, isAccepted, ONE_MINUTE, props)}
@@ -100,7 +100,7 @@ function App(props) {
     case ERROR:
       return <ChatbotError />;
     case LOADING:
-      return <LoadingIndicator message={'Loading Virtual Agent'} />;
+      return <LoadingIndicator message="Loading Virtual Agent" />;
     case COMPLETE:
       return (
         <WebChat

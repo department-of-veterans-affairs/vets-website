@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { kebabCase } from 'lodash';
 
-import { focusElement } from '~/platform/utilities/ui';
-import recordEvent from '~/platform/monitoring/record-event';
-import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
-
 import * as VAP_SERVICE from '@@vap-svc/constants';
 
 import {
@@ -32,8 +28,6 @@ import {
 
 import { selectVAProfilePersonalInformation } from '@@profile/selectors';
 
-import { isVAPatient } from '~/platform/user/selectors';
-
 import { ACTIVE_EDIT_VIEWS, FIELD_NAMES } from '@@vap-svc/constants';
 import VAPServiceTransaction from '@@vap-svc/components/base/VAPServiceTransaction';
 import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
@@ -42,6 +36,10 @@ import ProfileInformationEditView from '@@profile/components/ProfileInformationE
 import ProfileInformationView from '@@profile/components/ProfileInformationView';
 
 import { getInitialFormValues } from '@@profile/util/contact-information/formValues';
+import { isVAPatient } from '~/platform/user/selectors';
+import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
+import recordEvent from '~/platform/monitoring/record-event';
+import { focusElement } from '~/platform/utilities/ui';
 
 import getProfileInfoFieldAttributes from '~/applications/personalization/profile/util/getProfileInfoFieldAttributes';
 
@@ -255,6 +253,10 @@ class ProfileInformationFieldController extends React.Component {
   };
 
   openRemoveModal = () => {
+    if (this.props.blockEditMode) {
+      this.setState({ showCannotEditModal: true });
+      return;
+    }
     this.props.openModal(`remove-${this.props.fieldName}`);
   };
 
