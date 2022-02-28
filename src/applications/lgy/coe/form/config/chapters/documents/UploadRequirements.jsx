@@ -37,7 +37,9 @@ const UploadRequirements = ({ formData }) => {
           DOCUMENT_REQUIREMENTS[identity].map((req, index) => (
             <li key={index}>{req}</li>
           ))}
-        {vaLoanIndicator && <li>Evidence a VA loan was paid in full</li>}
+        {vaLoanIndicator && (
+          <li>Evidence a VA loan was paid in full (if applicable)</li>
+        )}
       </ul>
     </div>
   );
