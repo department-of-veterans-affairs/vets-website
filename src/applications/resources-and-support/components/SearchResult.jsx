@@ -4,7 +4,6 @@ import React from 'react';
 import { truncate } from 'lodash';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { Article } from '../prop-types';
 import { ENTITY_BUNDLES } from '../content-modeling';
 

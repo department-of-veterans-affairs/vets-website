@@ -75,7 +75,6 @@ const checkPersonalInfoFields = () => {
   cy.findByText('They/them/theirs').should('exist');
   cy.findByText('Ze/zir/zirs').should('exist');
   cy.findByText('Use my preferred name').should('exist');
-  cy.findByText('Pronouns not listed here').should('exist');
   cy.findByText(
     'If not listed, please provide your preferred pronouns (255 characters maximum)',
   ).should('exist');
@@ -134,7 +133,6 @@ const checkPersonalInfoFields = () => {
   cy.findByText('Prefer not to answer (un-checks other options)').should(
     'exist',
   );
-  cy.findByText('A sexual orientation not listed here').should('exist');
 
   cy.findAllByTestId('cancel-edit-button')
     .should('exist')

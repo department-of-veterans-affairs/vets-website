@@ -11,7 +11,9 @@ export const SummaryTitle = ({ formData }) => {
 
   return (
     <>
-      <p>These are the issues you’re asking to get a Higher-Level Review.</p>
+      <p className="vads-u-margin-top--0">
+        These are the issues you’re asking to get a Higher-Level Review.
+      </p>
       {ShowIssuesList({ issues })}
       <p>
         If an issue is missing, please{' '}
