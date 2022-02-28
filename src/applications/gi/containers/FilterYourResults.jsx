@@ -96,6 +96,7 @@ export function FilterYourResults({
           'FOREIGN',
           'FLIGHT',
           'CORRESPONDENCE',
+          'HIGH SCHOOL',
         ],
         excludeCautionFlags: false,
         accredited: false,
@@ -173,6 +174,7 @@ export function FilterYourResults({
   };
 
   const excludedSchoolTypesGroup = () => {
+    console.log('== checked: ' + excludedSchoolTypes)
     const options = INSTITUTION_TYPES.map(type => {
       return {
         name: type.toUpperCase(),
