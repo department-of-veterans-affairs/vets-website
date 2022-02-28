@@ -23,6 +23,14 @@ export const createUiTitlePropertiesFromOptions = obj => {
   }, {});
 };
 
+const pronounsLabels = {
+  heHimHis: 'He/him/his',
+  sheHerHers: 'She/her/hers',
+  theyThemTheirs: 'They/them/theirs',
+  zeZirZirs: 'Ze/zir/zirs',
+  useMyPreferredName: 'Use my preferred name',
+};
+
 const genderLabels = {
   woman: 'Woman',
   man: 'Man',
@@ -40,16 +48,6 @@ const sexualOrientationLabels = {
   queer: 'Queer',
   dontKnow: 'Don’t know',
   preferNotToAnswer: 'Prefer not to answer (un-checks other options)',
-  sexualOrientationNotListed: 'A sexual orientation not listed here',
-};
-
-const pronounsLabels = {
-  heHimHis: 'He/him/his',
-  sheHerHers: 'She/her/hers',
-  theyThemTheirs: 'They/them/theirs',
-  zeZirZirs: 'Ze/zir/zirs',
-  useMyPreferredName: 'Use my preferred name',
-  pronounsNotListed: 'Pronouns not listed here',
 };
 
 const allLabels = {
