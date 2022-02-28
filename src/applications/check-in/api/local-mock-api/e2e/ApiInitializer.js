@@ -276,6 +276,19 @@ class ApiInitializer {
       });
     },
   };
+
+  initializeCheckInEditPost = {
+    withSuccess: () => {
+      cy.intercept('POST', `/check_in/v2/edit_demographics/`, req => {
+        req.reply(checkInData.post.createMockEditSuccessResponse());
+      });
+    },
+    withFailure: (errorCode = 400) => {
+      cy.intercept('POST', `/check_in/v2/edit_demographics/`, req => {
+        req.reply(errorCode, checkInData.post.createMockEditErrorResponse({}));
+      });
+    },
+  };
 }
 
 export default new ApiInitializer();
