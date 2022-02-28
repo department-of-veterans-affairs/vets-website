@@ -15,6 +15,10 @@ describe('Claim Additional Evidence Test', () => {
     trackClaimsPage.loadPage(claimsList, mockDetails);
     trackClaimsPage.verifyInProgressClaim(false);
     trackClaimsPage.verifyNumberOfFiles(3);
+    cy.expandAccordions();
+    cy.axeCheck();
     trackClaimsPage.submitFilesForReview();
+    cy.expandAccordions();
+    cy.axeCheck();
   });
 });

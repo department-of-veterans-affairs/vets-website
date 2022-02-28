@@ -32,7 +32,7 @@ describe('<AppealHelpSidebar>', () => {
     );
 
     expect(wrapper.find('AskVAQuestions').text()).to.contain(
-      'Call Veterans Affairs Benefits and Services',
+      'Monday through Friday, 8:00 a.m. to 9:00 p.m. ET',
     );
     wrapper.unmount();
   });
