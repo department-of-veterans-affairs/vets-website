@@ -1,5 +1,6 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
+// remove this Telephone once the web component supports this pattern exception
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
