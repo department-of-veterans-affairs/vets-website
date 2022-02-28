@@ -1,36 +1,17 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import { fetchPost911GiBillEligibility } from '../actions';
 
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import EnrollmentVerificationLogin from '../components/EnrollmentVerificationLogIn';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
-import { REVIEW_ENROLLMENTS_URL } from '../constants';
-
-const verifyEnrollmentsButton = (
-  <a
-    type="button"
-    className="usa-button-primary va-button-primary"
-    href={REVIEW_ENROLLMENTS_URL}
-  >
-    Verify your enrollments for Post-9/11 GI Bill
-  </a>
-);
-
-const noPost911GiBillAlert = (
-  <va-alert status="info" visible>
-    <h3 slot="headline">
-      You do not have an active Post-9/11 GI Bill education benefit
-    </h3>
-    <div>
-      If you think this is a mistake, please call the Education Call Center at{' '}
-      <a href="tel:888-442-4551">888-442-4551</a>. We’re here Monday through
-      Friday, 8:00 a.m. to 7:00 p.m. ET.
-    </div>
-  </va-alert>
-);
+import {
+  REVIEW_ENROLLMENTS_RELATIVE_URL,
+  REVIEW_ENROLLMENTS_URL,
+} from '../constants';
 
 export function EnrollmentVerificationIntroPage({
   loggedIn,
@@ -38,6 +19,8 @@ export function EnrollmentVerificationIntroPage({
   getPost911GiBillEligibility,
   post911GiBillEligibility,
 }) {
+  const history = useHistory();
+
   useEffect(
     () => {
       if (post911GiBillEligibility === undefined) {
@@ -45,6 +28,38 @@ export function EnrollmentVerificationIntroPage({
       }
     },
     [getPost911GiBillEligibility, post911GiBillEligibility],
+  );
+
+  const onVerifyEnrollmentsClick = useCallback(
+    event => {
+      event.preventDefault();
+      history.push(REVIEW_ENROLLMENTS_RELATIVE_URL);
+    },
+    [history],
+  );
+
+  const verifyEnrollmentsButton = (
+    <a
+      type="button"
+      className="usa-button-primary va-button-primary"
+      href={REVIEW_ENROLLMENTS_URL}
+      onClick={onVerifyEnrollmentsClick}
+    >
+      Verify your enrollments for Post-9/11 GI Bill
+    </a>
+  );
+
+  const noPost911GiBillAlert = (
+    <va-alert status="info" visible>
+      <h3 slot="headline">
+        You do not have an active Post-9/11 GI Bill education benefit
+      </h3>
+      <div>
+        If you think this is a mistake, please call the Education Call Center at{' '}
+        <a href="tel:888-442-4551">888-442-4551</a>. We’re here Monday through
+        Friday, 8:00 a.m. to 7:00 p.m. ET.
+      </div>
+    </va-alert>
   );
 
   if (!loggedIn && !hascheckedkeepalive) {

@@ -78,6 +78,7 @@ export default Object.freeze({
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
   show526Wizard: 'show526_wizard',
   showPaymentAndDebtSection: 'show_payment_and_debt_section',
+  showContactChatbot: 'show_contact_chatbot',
   showDashboardNotifications: 'show_dashboard_notifications',
   showEduBenefits0994Wizard: 'show_edu_benefits_0994_wizard',
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
@@ -137,4 +138,6 @@ export default Object.freeze({
   caregiverSIGIEnabled: 'caregiver_sigi_enabled',
   hcaAmericanIndianEnabled: 'hca_american_indian_enabled',
   checkVAInboxEnabled: 'check_va_inbox_enabled',
+  ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test'
+
 });

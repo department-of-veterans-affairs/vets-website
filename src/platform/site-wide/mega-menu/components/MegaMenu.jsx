@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-indent */
 import PropTypes from 'prop-types';
 import React from 'react';
+import _ from 'lodash';
 import MenuSection from './MenuSection';
 import SubMenu from './SubMenu';
-import _ from 'lodash';
 
 export default class MegaMenu extends React.Component {
   componentDidMount() {
@@ -160,7 +160,9 @@ export default class MegaMenu extends React.Component {
                 <li
                   key={`${_.kebabCase(item.title)}-${i}`}
                   className={`${item.className || ''} ${
-                    item.currentPage ? 'current-page' : ''
+                    item.currentPage
+                      ? 'current-page medium-screen:vads-u-margin-right--0'
+                      : ''
                   }`}
                   role="menuitem"
                   aria-haspopup={!!item.menuSections}
@@ -182,7 +184,7 @@ export default class MegaMenu extends React.Component {
                     </button>
                   ) : (
                     <a
-                      className="vetnav-level1"
+                      className="vetnav-level1 medium-screen:vads-u-padding--2"
                       data-e2e-id={`${_.kebabCase(item.title)}-${i}`}
                       href={item.href}
                       onClick={linkClicked.bind(null, item)}

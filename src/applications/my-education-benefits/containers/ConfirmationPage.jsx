@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { format } from 'date-fns';
 import { connect } from 'react-redux';
 
 import environment from 'platform/utilities/environment';
@@ -11,6 +10,7 @@ import {
   CLAIM_STATUS_RESPONSE_IN_PROGRESS,
   CLAIM_STATUS_RESPONSE_ERROR,
 } from '../actions';
+import { formatReadableDate } from '../helpers';
 
 const LETTER_URL = `${environment.API_URL}/meb_api/v0/claim_letter`;
 
@@ -185,6 +185,20 @@ const deniedPage = (claimantName, confirmationDate) => (
   </div>
 );
 
+const errorPage = () => (
+  <div className="meb-confirmation-page meb-confirmation-page_denied">
+    <va-alert close-btn-aria-label="Close notification" status="error" visible>
+      <h3 slot="headline">There was an error processing your claim</h3>
+      <div>
+        We’re sorry we couldn’t process your Post-9/11 GI Bill
+        <sup>&reg;</sup> application. Please try again later.
+      </div>
+    </va-alert>
+
+    <FormFooter />
+  </div>
+);
+
 const pendingPage = (claimantName, confirmationDate) => (
   <div className="meb-confirmation-page meb-confirmation-page_denied">
     <va-alert status="success">
@@ -305,7 +319,7 @@ export const ConfirmationPage = ({
 
   const confirmationResult = claimStatus?.claimStatus;
   const confirmationDate = claimStatus?.receivedDate
-    ? format(new Date(claimStatus?.receivedDate), 'MMMM d, yyyy')
+    ? formatReadableDate(claimStatus?.receivedDate)
     : undefined;
   const claimantName = `${userFullName?.first || ''} ${userFullName?.middle ||
     ''} ${userFullName?.last || ''} ${userFullName?.suffix || ''}`;
@@ -317,8 +331,10 @@ export const ConfirmationPage = ({
     case CLAIM_STATUS_RESPONSE_DENIED: {
       return deniedPage(claimantName, confirmationDate);
     }
-    case CLAIM_STATUS_RESPONSE_IN_PROGRESS:
     case CLAIM_STATUS_RESPONSE_ERROR: {
+      return errorPage();
+    }
+    case CLAIM_STATUS_RESPONSE_IN_PROGRESS: {
       return pendingPage(claimantName, confirmationDate);
     }
     default: {
