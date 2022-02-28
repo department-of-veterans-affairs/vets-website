@@ -40,21 +40,22 @@ const ConfirmablePage = ({
                 ) : (
                   'Not available'
                 )}
+                {isEditEnabled &&
+                  field.editAction && (
+                    <div>
+                      <button
+                        // eslint-disable-next-line react/jsx-no-bind
+                        onClick={() =>
+                          editHandler({ ...field, value: data[field.key] })
+                        }
+                        type="button"
+                        data-testid="edit-button"
+                      >
+                        Edit
+                      </button>
+                    </div>
+                  )}
               </dd>
-              {isEditEnabled &&
-                field.editAction && (
-                  <div>
-                    <button
-                      // eslint-disable-next-line react/jsx-no-bind
-                      onClick={() =>
-                        editHandler({ ...field, value: data[field.key] })
-                      }
-                      type="button"
-                    >
-                      Edit
-                    </button>
-                  </div>
-                )}
             </React.Fragment>
           ))}
         </dl>
