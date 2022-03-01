@@ -53,3 +53,10 @@
     }
   }
 }
+
+.medium-screen-va-border-left-radius--0 {
+  @media (min-width: $medium-screen) {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+  }
+}

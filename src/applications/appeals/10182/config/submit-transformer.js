@@ -24,7 +24,7 @@ export function transform(formConfig, form) {
           boardReviewOption: formData.boardReviewOption || '',
           hearingTypePreference: formData.hearingTypePreference || '',
           timezone: getTimeZone(),
-          socOptIn: true,
+          socOptIn: false,
         },
       },
       included: addAreaOfDisagreement(addIncludedIssues(formData), formData),

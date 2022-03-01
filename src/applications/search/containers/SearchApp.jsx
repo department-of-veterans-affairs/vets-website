@@ -6,12 +6,6 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 
-import { fetchSearchResults } from '../actions';
-import {
-  formatResponseString,
-  truncateResponseString,
-  removeDoubleBars,
-} from '../utils';
 import recordEvent from 'platform/monitoring/record-event';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 
@@ -24,6 +18,12 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
+import {
+  formatResponseString,
+  truncateResponseString,
+  removeDoubleBars,
+} from '../utils';
+import { fetchSearchResults } from '../actions';
 
 import SearchBreadcrumbs from '../components/SearchBreadcrumbs';
 import SearchDropdownComponent from '../components/SearchDropdown/SearchDropdownComponent';
@@ -202,7 +202,6 @@ class SearchApp extends React.Component {
       'search-results-top-recommendation': bestBet,
       'search-result-type': 'title',
       'search-selection': 'All VA.gov',
-      'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
       'search-typeahead-used': this.state.typeaheadUsed,
     });
 
@@ -428,9 +427,7 @@ class SearchApp extends React.Component {
     if (!loading && recommendedResults && recommendedResults.length > 0) {
       return (
         <div>
-          <h3
-            className={`vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--bold`}
-          >
+          <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--bold">
             Our top recommendations for you
           </h3>
           <ul className="results-list">
@@ -573,7 +570,7 @@ class SearchApp extends React.Component {
         className="result-item vads-u-margin-top--1p5 vads-u-margin-bottom--4"
       >
         <a
-          className={`result-title`}
+          className="result-title"
           href={replaceWithStagingDomain(result.url)}
           onClick={this.onSearchResultClick({
             bestBet: isBestBet,
@@ -703,9 +700,6 @@ class SearchApp extends React.Component {
 
 const mapStateToProps = state => ({
   search: state.search,
-  searchTypeaheadEnabled: toggleValues(state)[
-    FEATURE_FLAG_NAMES.searchTypeaheadEnabled
-  ],
   searchDropdownComponentEnabled: toggleValues(state)[
     FEATURE_FLAG_NAMES.searchDropdownComponentEnabled
   ],

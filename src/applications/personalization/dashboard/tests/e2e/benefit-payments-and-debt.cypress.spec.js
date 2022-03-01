@@ -13,10 +13,12 @@ import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
+  paymentsError,
   paymentsSuccess,
   paymentsSuccessEmpty,
 } from '../fixtures/test-payments-response';
 import {
+  debtsError,
   debtsSuccess,
   debtsSuccessEmpty,
 } from '../fixtures/test-debts-response';
@@ -136,30 +138,66 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.injectAxeThenAxeCheck();
       });
       it('and they have debt - C14319', () => {
-        // make sure that the Payment and Debt section is not shown
+        // make sure that the Payment and Debt section is shown
         cy.intercept('/v0/debts', debtsSuccess());
         cy.intercept('/v0/profile/payment_history', paymentsSuccess());
-        cy.findByTestId('dashboard-section-payment-and-debts').should(
-          'not.exist',
-        );
+        cy.findByTestId('dashboard-section-payment-and-debts').should('exist');
         cy.findByTestId('payment-card').should('not.exist');
-        cy.findByTestId('no-recent-payments-paragraph').should('not.exist');
-        cy.findByTestId('manage-direct-deposit-link').should('not.exist');
-        cy.findByTestId('view-payment-history-link').should('not.exist');
+        cy.findByTestId('no-recent-payments-paragraph').should('exist');
+        cy.findByTestId('manage-direct-deposit-link').should('exist');
+        cy.findByTestId('view-payment-history-link').should('exist');
 
         // make the a11y check
         cy.injectAxeThenAxeCheck();
       });
       it('and they have no debt - C14320', () => {
-        // make sure that the Payment and Debt section is not shown
+        // make sure that the Payment and Debt section is shown
         cy.intercept('/v0/debts', debtsSuccessEmpty());
         cy.intercept('/v0/profile/payment_history', paymentsSuccess());
+        cy.findByTestId('dashboard-section-payment-and-debts').should('exist');
+        cy.findByTestId('payment-card').should('not.exist');
+        cy.findByTestId('no-recent-payments-paragraph').should('exist');
+        cy.findByTestId('manage-direct-deposit-link').should('exist');
+
+        // make the a11y check
+        cy.injectAxeThenAxeCheck();
+      });
+      it('and they have a debt error but no payment error - C14390', () => {
+        cy.intercept('/v0/debts', debtsError());
+        cy.intercept('/v0/profile/payment_history', paymentsSuccess());
+        cy.findByTestId('dashboard-section-payment-and-debts').should('exist');
+        cy.findByTestId('payment-card').should('not.exist');
+        cy.findByTestId('no-recent-payments-paragraph').should('exist');
+        cy.findByTestId('manage-direct-deposit-link').should('exist');
+        cy.findByTestId('debts-error').should('exist');
+
+        // make the a11y check
+        cy.injectAxeThenAxeCheck();
+      });
+      it('and they have a payment error but no debt error - C14391', () => {
+        cy.intercept('/v0/debts', debtsSuccess());
+        cy.intercept('/v0/profile/payment_history', paymentsError());
         cy.findByTestId('dashboard-section-payment-and-debts').should(
           'not.exist',
         );
         cy.findByTestId('payment-card').should('not.exist');
         cy.findByTestId('no-recent-payments-paragraph').should('not.exist');
         cy.findByTestId('manage-direct-deposit-link').should('not.exist');
+        cy.findByTestId('payments-error').should('exist');
+
+        // make the a11y check
+        cy.injectAxeThenAxeCheck();
+      });
+      it('and they have both a payment error and debt error - C14392', () => {
+        cy.intercept('/v0/debts', debtsError());
+        cy.intercept('/v0/profile/payment_history', paymentsError());
+        cy.findByTestId('dashboard-section-payment-and-debts').should(
+          'not.exist',
+        );
+        cy.findByTestId('payment-card').should('not.exist');
+        cy.findByTestId('no-recent-payments-paragraph').should('not.exist');
+        cy.findByTestId('manage-direct-deposit-link').should('not.exist');
+        cy.findByTestId('payments-error').should('exist');
 
         // make the a11y check
         cy.injectAxeThenAxeCheck();

@@ -11,12 +11,10 @@ import {
   getIssueNameAndDate,
   hasDuplicates,
   isEmptyObject,
-  setInitialEditMode,
   issuesNeedUpdating,
   processContestableIssues,
   readableList,
 } from '../../utils/helpers';
-import { getDate } from '../../utils/dates';
 
 describe('someSelected', () => {
   it('should return true for issues that have some selected values', () => {
@@ -209,89 +207,6 @@ describe('isEmptyObject', () => {
     expect(isEmptyObject(true)).to.be.false;
     expect(isEmptyObject(() => {})).to.be.false;
     expect(isEmptyObject({ test: '' })).to.be.false;
-  });
-});
-
-describe('setInitialEditMode', () => {
-  const validDate = getDate({ offset: { months: -2 } });
-  it('should set edit mode when missing data', () => {
-    [
-      [{}],
-      [{ issue: 'test' }],
-      [{ decisionDate: validDate }],
-      [{ issue: '', decisionDate: '' }],
-      [{ issue: undefined, decisionDate: undefined }],
-    ].forEach(additionalIssues => {
-      expect(setInitialEditMode({ additionalIssues })).to.deep.equal([true]);
-    });
-    expect(
-      setInitialEditMode({
-        additionalIssues: [
-          { issue: '', decisionDate: validDate },
-          { issue: 'test', decisionDate: '' },
-        ],
-      }),
-    ).to.deep.equal([true, true]);
-  });
-  it('should set edit mode when there is an invalid date', () => {
-    [
-      [{ issue: 'test', decisionDate: getDate({ offset: { months: 1 } }) }],
-      [{ issue: 'test', decisionDate: '1899-01-01' }],
-      [{ issue: 'test', decisionDate: '2000-01-01' }],
-    ].forEach(additionalIssues => {
-      expect(setInitialEditMode({ additionalIssues })).to.deep.equal([true]);
-    });
-    expect(
-      setInitialEditMode({
-        additionalIssues: [
-          { issue: 'test', decisionDate: validDate },
-          { issue: 'test', decisionDate: '2000-01-01' },
-        ],
-      }),
-    ).to.deep.equal([false, true]);
-  });
-  it('should set edit mode when there is a duplicate contestable issue', () => {
-    expect(
-      setInitialEditMode({
-        contestableIssues: [
-          {
-            attributes: {
-              ratingIssueSubjectText: 'test',
-              approxDecisionDate: validDate,
-            },
-          },
-        ],
-        additionalIssues: [{ issue: 'test', decisionDate: validDate }],
-      }),
-    ).to.deep.equal([true]);
-  });
-  it('should set edit mode when there is a duplicate additional issue', () => {
-    expect(
-      setInitialEditMode({
-        additionalIssues: [
-          { issue: 'test', decisionDate: validDate },
-          { issue: 'test', decisionDate: validDate },
-        ],
-      }),
-    ).to.deep.equal([true, true]);
-  });
-  it('should not set edit mode when data exists', () => {
-    expect(
-      setInitialEditMode({
-        additionalIssues: [{ issue: 'test', decisionDate: validDate }],
-      }),
-    ).to.deep.equal([false]);
-    expect(
-      setInitialEditMode({
-        additionalIssues: [
-          { issue: 'test', decisionDate: validDate },
-          {
-            issue: 'test2',
-            decisionDate: getDate({ offset: { months: -10 } }),
-          },
-        ],
-      }),
-    ).to.deep.equal([false, false]);
   });
 });
 

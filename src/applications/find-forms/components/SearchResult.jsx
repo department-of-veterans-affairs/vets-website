@@ -3,14 +3,14 @@ import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 // Relative imports.
-import * as customPropTypes from '../prop-types';
 import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
+import * as customPropTypes from '../prop-types';
 import {
   FORM_MOMENT_PRESENTATION_DATE_FORMAT,
   FORM_MOMENT_CONSTRUCTOR_DATE_FORMAT,
 } from '../constants';
 import FormTitle from './FormTitle';
-import recordEvent from 'platform/monitoring/record-event';
 
 // Helper to derive the download link props.
 const deriveLinkPropsFromFormURL = url => {
@@ -203,7 +203,7 @@ const SearchResult = ({
   };
 
   return (
-    <li>
+    <li className="vads-u-padding-y--4 vads-u-border-top--1px vads-u-border-color--gray-lighter">
       <FormTitle
         id={id}
         formUrl={regulateURL(formDetailsUrl)}
@@ -241,7 +241,7 @@ const SearchResult = ({
           </a>
         </div>
       ) : null}
-      <div className="vads-u-margin-bottom--5">
+      <div className="vads-u-margin-y--0">
         <a
           className="find-forms-max-content vads-u-text-decoration--none"
           data-testid={`pdf-link-${id}`}

@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 
+import { focusElement } from 'platform/utilities/ui';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 
 import EnrollmentVerificationMonth from './EnrollmentVerificationMonth';
@@ -24,6 +25,7 @@ function EnrollmentVerificationMonths({ status }) {
   const onPageSelect = useCallback(
     newPage => {
       setCurrentPage(newPage);
+      focusElement('h2');
     },
     [setCurrentPage],
   );
