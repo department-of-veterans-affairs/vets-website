@@ -46,7 +46,7 @@ jobs:
 
       - name: Build dev
         if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
-        run: yarn build --verbose --buildtype=${{ env.BUILD_ENV_DEV }}
+        run: yarn build --verbose --buildtype=${{ env.BUILD_ENV_DEV }} --entry=vaos
         timeout-minutes: 30  
         
       - name: Generate build details for dev
