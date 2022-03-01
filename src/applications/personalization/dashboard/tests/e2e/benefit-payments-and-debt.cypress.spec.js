@@ -27,32 +27,28 @@ import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json
 import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 
 describe('The My VA Dashboard - Payments and Debt', () => {
+  Cypress.config({ defaultCommandTimeout: 12000 });
+
   describe('when the feature is disabled', () => {
     beforeEach(() => {
-      cy.intercept('GET', '/v0/feature_toggles*', {
+      cy.intercept('/v0/feature_toggles*', {
         data: {
           type: 'feature_toggles',
           features: [],
         },
-      }).as('featureToggles0');
+      });
       mockLocalStorage();
       cy.login(mockUser);
-      cy.intercept('/v0/profile/service_history', serviceHistory).as(
-        'serviceHistory0',
-      );
-      cy.intercept('/v0/profile/full_name', fullName).as('fullName0');
-      cy.intercept('/v0/evss_claims_async', claimsSuccess()).as('claims0');
-      cy.intercept('/v0/appeals', appealsSuccess()).as('appeals0');
+      cy.intercept('/v0/profile/service_history', serviceHistory);
+      cy.intercept('/v0/profile/full_name', fullName);
+      cy.intercept('/v0/evss_claims_async', claimsSuccess());
+      cy.intercept('/v0/appeals', appealsSuccess());
       cy.intercept(
         '/v0/disability_compensation_form/rating_info',
         disabilityRating,
-      ).as('disabilityRating0');
-      cy.intercept('/vaos/v0/appointments*', appointmentsEmpty).as(
-        'appointments0',
       );
-      cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES).as(
-        'facilities0',
-      );
+      cy.intercept('vaos/v0/appointments*', appointmentsEmpty);
+      cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
     });
     it('hides entire Pmts-n-Debts section - C13193', () => {
       cy.intercept('/v0/debts', debtsSuccess()).as('debts0');
@@ -60,18 +56,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         'recentPayments0',
       );
       cy.visit('my-va/');
-      cy.wait([
-        '@featureToggles0',
-        '@serviceHistory0',
-        '@fullName0',
-        '@claims0',
-        '@appeals0',
-        '@disabilityRating0',
-        '@appointments0',
-        '@facilities0',
-        '@debts0',
-        '@recentPayments0',
-      ]);
+      cy.wait(['@debts0', '@recentPayments0']);
 
       cy.findByTestId('dashboard-section-payment-and-debts').should(
         'not.exist',
@@ -99,7 +84,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
 
   describe('when the feature is enabled', () => {
     beforeEach(() => {
-      cy.intercept('GET', '/v0/feature_toggles*', {
+      cy.intercept('/v0/feature_toggles*', {
         data: {
           type: 'feature_toggles',
           features: [
@@ -109,37 +94,24 @@ describe('The My VA Dashboard - Payments and Debt', () => {
             },
           ],
         },
-      }).as('featureToggles1');
+      });
       mockLocalStorage();
       cy.login(mockUser);
-      cy.intercept('/v0/profile/service_history', serviceHistory).as(
-        'serviceHistory1',
-      );
-      cy.intercept('/v0/profile/full_name', fullName).as('fullName1');
-      cy.intercept('/v0/evss_claims_async', claimsSuccess()).as('claims1');
-      cy.intercept('/v0/appeals', appealsSuccess()).as('appeals1');
+      cy.intercept('/v0/profile/service_history', serviceHistory);
+      cy.intercept('/v0/profile/full_name', fullName);
+      cy.intercept('/v0/evss_claims_async', claimsSuccess());
+      cy.intercept('/v0/appeals', appealsSuccess());
       cy.intercept(
         '/v0/disability_compensation_form/rating_info',
         disabilityRating,
-      ).as('disabilityRating1');
-      cy.intercept('/vaos/v0/appointments*', appointmentsEmpty).as(
-        'appointments1',
       );
-      cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES).as(
-        'facilities1',
-      );
+      cy.intercept('vaos/v0/appointments*', appointmentsEmpty);
+      cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
     });
 
     context('and user has no debts', () => {
       beforeEach(() => {
         cy.intercept('/v0/debts', debtsSuccessEmpty()).as('noDebts1');
-      });
-
-      afterEach(() => {
-        cy.window().then(win => {
-          // eslint-disable-next-line no-param-reassign
-          win.location.href = 'about:blank';
-        });
       });
 
       context('and recent payments', () => {
@@ -149,18 +121,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
             'recentPayments1',
           );
           cy.visit('my-va/');
-          cy.wait([
-            '@featureToggles1',
-            '@serviceHistory1',
-            '@fullName1',
-            '@claims1',
-            '@appeals1',
-            '@disabilityRating1',
-            '@appointments1',
-            '@facilities1',
-            '@noDebts1',
-            '@recentPayments1',
-          ]);
+          cy.wait(['@noDebts1', '@recentPayments1']);
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'exist',
@@ -193,18 +154,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
             'oldPayments1',
           );
           cy.visit('my-va/');
-          cy.wait([
-            '@featureToggles1',
-            '@serviceHistory1',
-            '@fullName1',
-            '@claims1',
-            '@appeals1',
-            '@disabilityRating1',
-            '@appointments1',
-            '@facilities1',
-            '@noDebts1',
-            '@oldPayments1',
-          ]);
+          cy.wait(['@noDebts1', '@oldPayments1']);
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'exist',
@@ -240,18 +190,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
             paymentsSuccessEmpty(),
           ).as('noPayments1');
           cy.visit('my-va/');
-          cy.wait([
-            '@featureToggles1',
-            '@serviceHistory1',
-            '@fullName1',
-            '@claims1',
-            '@appeals1',
-            '@disabilityRating1',
-            '@appointments1',
-            '@facilities1',
-            '@noDebts1',
-            '@noPayments1',
-          ]);
+          cy.wait(['@noDebts1', '@noPayments1']);
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'not.exist',
@@ -282,18 +221,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
             'paymentsError1',
           );
           cy.visit('my-va/');
-          cy.wait([
-            '@featureToggles1',
-            '@serviceHistory1',
-            '@fullName1',
-            '@claims1',
-            '@appeals1',
-            '@disabilityRating1',
-            '@appointments1',
-            '@facilities1',
-            '@noDebts1',
-            '@paymentsError1',
-          ]);
+          cy.wait(['@noDebts1', '@paymentsError1']);
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'not.exist',
@@ -325,13 +253,6 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.intercept('/v0/debts', debtsSuccess()).as('debts2');
       });
 
-      afterEach(() => {
-        cy.window().then(win => {
-          // eslint-disable-next-line no-param-reassign
-          win.location.href = 'about:blank';
-        });
-      });
-
       context('and recent payments', () => {
         // Last payment received within past 30 days:
         it('shows Debt-count & Payment-card - C13194', () => {
@@ -339,18 +260,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
             'recentPayments2',
           );
           cy.visit('my-va/');
-          cy.wait([
-            '@featureToggles1',
-            '@serviceHistory1',
-            '@fullName1',
-            '@claims1',
-            '@appeals1',
-            '@disabilityRating1',
-            '@appointments1',
-            '@facilities1',
-            '@debts2',
-            '@recentPayments2',
-          ]);
+          cy.wait(['@debts2', '@recentPayments2']);
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'exist',
@@ -382,18 +292,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
             'oldPayments2',
           );
           cy.visit('my-va/');
-          cy.wait([
-            '@featureToggles1',
-            '@serviceHistory1',
-            '@fullName1',
-            '@claims1',
-            '@appeals1',
-            '@disabilityRating1',
-            '@appointments1',
-            '@facilities1',
-            '@debts2',
-            '@oldPayments2',
-          ]);
+          cy.wait(['@debts2', '@oldPayments2']);
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'exist',
@@ -429,18 +328,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
             paymentsSuccessEmpty(),
           ).as('noPayments2');
           cy.visit('my-va/');
-          cy.wait([
-            '@featureToggles1',
-            '@serviceHistory1',
-            '@fullName1',
-            '@claims1',
-            '@appeals1',
-            '@disabilityRating1',
-            '@appointments1',
-            '@facilities1',
-            '@debts2',
-            '@noPayments2',
-          ]);
+          cy.wait(['@debts2', '@noPayments2']);
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'not.exist',
@@ -473,18 +361,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
             'paymentsError2',
           );
           cy.visit('my-va/');
-          cy.wait([
-            '@featureToggles1',
-            '@serviceHistory1',
-            '@fullName1',
-            '@claims1',
-            '@appeals1',
-            '@disabilityRating1',
-            '@appointments1',
-            '@facilities1',
-            '@debts2',
-            '@paymentsError2',
-          ]);
+          cy.wait(['@debts2', '@paymentsError2']);
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'not.exist',
@@ -514,13 +391,6 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.intercept('/v0/debts', debtsError()).as('debtsError3');
       });
 
-      afterEach(() => {
-        cy.window().then(win => {
-          // eslint-disable-next-line no-param-reassign
-          win.location.href = 'about:blank';
-        });
-      });
-
       context('and recent payments', () => {
         // Last payment received within last 30 days:
         it('shows Debts-error & Payment-card - C14676', () => {
@@ -528,18 +398,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
             'recentPayments3',
           );
           cy.visit('my-va/');
-          cy.wait([
-            '@featureToggles1',
-            '@serviceHistory1',
-            '@fullName1',
-            '@claims1',
-            '@appeals1',
-            '@disabilityRating1',
-            '@appointments1',
-            '@facilities1',
-            '@debtsError3',
-            '@recentPayments3',
-          ]);
+          cy.wait(['@debtsError3', '@recentPayments3']);
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'exist',
@@ -572,18 +431,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
             'oldPayments3',
           );
           cy.visit('my-va/');
-          cy.wait([
-            '@featureToggles1',
-            '@serviceHistory1',
-            '@fullName1',
-            '@claims1',
-            '@appeals1',
-            '@disabilityRating1',
-            '@appointments1',
-            '@facilities1',
-            '@debtsError3',
-            '@oldPayments3',
-          ]);
+          cy.wait(['@debtsError3', '@oldPayments3']);
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'exist',
@@ -619,18 +467,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
             paymentsSuccessEmpty(),
           ).as('noPayments3');
           cy.visit('my-va/');
-          cy.wait([
-            '@featureToggles1',
-            '@serviceHistory1',
-            '@fullName1',
-            '@claims1',
-            '@appeals1',
-            '@disabilityRating1',
-            '@appointments1',
-            '@facilities1',
-            '@debtsError3',
-            '@noPayments3',
-          ]);
+          cy.wait(['@debtsError3', '@noPayments3']);
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'not.exist',
@@ -663,18 +500,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
             'paymentsError3',
           );
           cy.visit('my-va/');
-          cy.wait([
-            '@featureToggles1',
-            '@serviceHistory1',
-            '@fullName1',
-            '@claims1',
-            '@appeals1',
-            '@disabilityRating1',
-            '@appointments1',
-            '@facilities1',
-            '@debtsError3',
-            '@paymentsError3',
-          ]);
+          cy.wait(['@debtsError3', '@paymentsError3']);
 
           cy.findByTestId('dashboard-section-payment-and-debts').should(
             'not.exist',
