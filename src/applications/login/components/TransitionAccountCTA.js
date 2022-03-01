@@ -1,28 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { signup } from 'platform/user/authentication/utilities';
-import { CSP_IDS } from 'platform/user/authentication/constants';
+import { ACCOUNT_TRANSITION } from '../constants';
 
 function dismiss() {
   // TODO: trackEvent for dismissing
   window.location = '/';
 }
 
-const TRANSITION = {
-  headline: {
-    enabled: `In order to transition your account we will securely share the following personal information with Login.gov`,
-    disabled: `Here are the following items you need to create an account with one our trusted partners: Login.gov or ID.me`,
-  },
-  signUpLoginGov() {
-    signup({ csp: CSP_IDS.LOGIN_GOV });
-  },
-  signUpIDme() {
-    signup({ csp: CSP_IDS.ID_ME });
-  },
-};
-
 export default function TransitionAccountCTA({ canTransition }) {
-  const { headline, signUpIDme, signUpLoginGov } = TRANSITION;
+  const { headline, signUpIDme, signUpLoginGov } = ACCOUNT_TRANSITION;
 
   return (
     <va-featured-content>
@@ -30,7 +16,7 @@ export default function TransitionAccountCTA({ canTransition }) {
         {canTransition ? headline.enabled : headline.disabled}
       </h3>
       <div>
-        <ul>
+        <ul data-testid="ul-container">
           {canTransition ? (
             <>
               <li>

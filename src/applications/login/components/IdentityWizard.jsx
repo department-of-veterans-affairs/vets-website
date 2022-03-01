@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { wizardQuestions } from '../constants';
+import { IDENTITY_WIZARD_QUESTIONS } from '../constants';
 import { generateWizardAnswers } from '../utilities';
 
+/*
+  The identity Wizard feature might not be
+  implemented
+*/
 export default function IdentityWizard() {
   const [isOpen, setIsOpen] = useState(false);
   const [choices, setChoices] = useState({});
@@ -41,7 +45,7 @@ export default function IdentityWizard() {
           'wizard-content-closed'}`}
       >
         <div className="wizard-content-inner">
-          {wizardQuestions.map(({ question, options }, index) => (
+          {IDENTITY_WIZARD_QUESTIONS.map(({ question, options }, index) => (
             <VaRadio
               key={index}
               label={question}

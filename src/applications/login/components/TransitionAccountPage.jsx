@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { transitionMHVAccount } from 'platform/user/authentication/selectors';
 import TransitionAccountCTA from './TransitionAccountCTA';
 import IdentityWizard from './IdentityWizard';
-// import { useSelector } from 'react-redux';
-// import { transitionMHVAccount } from 'platform/user/authentication/selectors';
 
 export default function TransitionAccount() {
-  const [canTransition] = useState(false);
   // TODO: wait for BE team to add to User model
-  // const canTransition = useSelector(transitionMHVAccount);
+  const canTransition = useSelector(transitionMHVAccount);
 
   return (
     <main className="usa-grid usa-grid-full">
@@ -21,9 +20,12 @@ export default function TransitionAccount() {
             Month XX, 20XX.
           </p>
         </div>
-        <TransitionAccountCTA canTransition={canTransition} />
+        <TransitionAccountCTA
+          data-testid="can-transition"
+          canTransition={canTransition}
+        />
         {!canTransition && (
-          <div>
+          <div data-testid="cant-transition">
             <h2>How do I choose between an ID.me and Login.gov account?</h2>
             <p>
               Just answer a few questions, and we’ll help you get started with

@@ -1,7 +1,7 @@
 import React from 'react';
 import { CSP_IDS } from 'platform/user/authentication/constants';
 import ActionLink from 'platform/user/authentication/components/CreateAccountLink';
-import { cspReasons } from './constants';
+import { CSP_REASONS } from './constants';
 
 export function generateWizardAnswers({
   signinoptions = '',
@@ -32,7 +32,7 @@ export function generateWizardAnswers({
           the best identity partner option for you because:
         </p>
         <ul>
-          {cspReasons[idoptions].map((reasoning, index) => (
+          {CSP_REASONS[idoptions].map((reasoning, index) => (
             <li key={index}>{reasoning}</li>
           ))}
         </ul>
