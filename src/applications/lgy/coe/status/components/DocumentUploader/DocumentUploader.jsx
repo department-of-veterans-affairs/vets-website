@@ -4,7 +4,8 @@ import Select from '@department-of-veterans-affairs/component-library/Select';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
 import { scrollToFirstError } from 'platform/utilities/ui';
-
+import environment from 'platform/utilities/environment';
+import { fetchAndUpdateSessionExpiration } from 'platform/utilities/api';
 import { ACTIONS } from '../../../shared/constants';
 import { DOCUMENT_TYPES, FILE_TYPES } from '../../constants';
 import {
@@ -31,6 +32,8 @@ const {
   FILE_UPLOAD_FAIL,
   FILE_UPLOAD_PENDING,
   FORM_SUBMIT_FAIL,
+  FORM_SUBMIT_SUCCESS,
+  FORM_SUBMIT_PENDING,
   DELETE_FILE,
 } = ACTIONS;
 
@@ -56,6 +59,20 @@ const reducer = (state, action) => {
     case FORM_SUBMIT_FAIL:
     case FILE_UPLOAD_FAIL:
       return { ...state, errorMessage: action.errorMessage };
+    case FORM_SUBMIT_PENDING:
+      return {
+        ...state,
+        submissionPending: true,
+      };
+    case FORM_SUBMIT_SUCCESS:
+      return {
+        ...state,
+        files: [],
+        documentType: null,
+        errorMessage: null,
+        successMessage: true,
+        submissionPending: false,
+      };
     case DELETE_FILE:
       return { ...state, files: action.files };
     default:
@@ -66,7 +83,14 @@ const reducer = (state, action) => {
 const DocumentUploader = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const { documentType, documentDescription, errorMessage, files } = state;
+  const {
+    documentType,
+    documentDescription,
+    errorMessage,
+    files,
+    successMessage,
+    submissionPending,
+  } = state;
 
   const errorMsgClass = errorMessage ? 'vads-u-padding-left--1p5' : null;
   const disabledOnEmptyDescClass =
@@ -116,12 +140,44 @@ const DocumentUploader = () => {
 
   const onSubmit = useCallback(
     () => {
+      const csrfTokenStored = localStorage.getItem('csrfToken');
       if (!files.length) {
         dispatch({
           type: FORM_SUBMIT_FAIL,
           errorMessage: 'Please choose a file to upload',
         });
         setTimeout(scrollToFirstError);
+      } else {
+        dispatch({
+          type: FORM_SUBMIT_PENDING,
+        });
+        fetchAndUpdateSessionExpiration(
+          `${environment.API_URL}/v0/coe/document_upload`,
+          {
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'X-Key-Inflection': 'camel',
+              'Source-App-Name': window.appName,
+              'X-CSRF-Token': csrfTokenStored,
+            },
+            method: 'POST',
+            body: files,
+          },
+        )
+          .then(res => res.json())
+          .then(body => {
+            if (body.errors) {
+              dispatch({
+                type: FORM_SUBMIT_FAIL,
+                errorMessage: body.errors,
+              });
+            } else {
+              dispatch({
+                type: FORM_SUBMIT_SUCCESS,
+              });
+            }
+          });
       }
     },
     [files],
@@ -135,7 +191,17 @@ const DocumentUploader = () => {
         request. Please send us all the documents listed so we can make a
         decision about your request.
       </p>
-      <FileList files={files} onClick={onDeleteClick} />
+      {submissionPending ? (
+        <va-loading-indicator label="Loading" message="Sendign your files..." />
+      ) : (
+        <FileList files={files} onClick={onDeleteClick} />
+      )}
+
+      {successMessage ? (
+        <va-alert status="success" visible>
+          <h3 slot="headline">Your files have been uploaded</h3>
+        </va-alert>
+      ) : null}
       <div
         className={
           documentType === 'Other'
@@ -169,7 +235,7 @@ const DocumentUploader = () => {
       <FileInput
         additionalClass={`${errorMsgClass} ${disabledOnEmptyDescClass}`}
         additionalErrorClass="vads-u-margin-bottom--1"
-        buttonText="Upload this document"
+        buttonText="Add document"
         onChange={onUploadFile}
         name="fileUpload"
         accept={FILE_TYPES.map(type => `.${type}`).join(',')}
@@ -180,7 +246,7 @@ const DocumentUploader = () => {
         onClick={onSubmit}
         type="button"
       >
-        Submit uploaded documents
+        Submit documents
       </button>
       <p>
         <strong>Note:</strong> After you upload documents, it will take up to 5
