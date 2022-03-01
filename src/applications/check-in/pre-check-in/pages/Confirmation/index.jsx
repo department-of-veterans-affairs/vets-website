@@ -1,23 +1,87 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
+import { api } from '../../../api';
 import AppointmentBlock from '../../../components/AppointmentBlock';
 import BackToHome from '../../../components/BackToHome';
+import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import { makeSelectVeteranData, makeSelectForm } from '../../../selectors';
+import {
+  makeSelectCurrentContext,
+  makeSelectForm,
+  makeSelectVeteranData,
+} from '../../../selectors';
 
-const Confirmation = () => {
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+const Confirmation = props => {
+  const { router } = props;
+  const { goToErrorPage } = useFormRouting(router);
+
+  const selectForm = useMemo(makeSelectForm, []);
+  const { data } = useSelector(selectForm);
+  const {
+    demographicsUpToDate = null,
+    emergencyContactUpToDate = null,
+    nextOfKinUpToDate = null,
+  } = data;
+
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectCurrentContext);
+
+  const [demographicsFlagsSent, setDemographicsFlagsSent] = useState(false);
+
+  useEffect(
+    () => {
+      focusElement('h1');
+
+      async function sendPreCheckInData() {
+        // Set pre-checkin complete and send demographics flags.
+        const preCheckInData = { uuid: token };
+
+        if (demographicsUpToDate) {
+          preCheckInData.demographicsUpToDate = demographicsUpToDate === 'yes';
+        }
+        if (nextOfKinUpToDate) {
+          preCheckInData.nextOfKinUpToDate = nextOfKinUpToDate === 'yes';
+        }
+        if (emergencyContactUpToDate) {
+          preCheckInData.emergencyContactUpToDate =
+            emergencyContactUpToDate === 'yes';
+        }
+
+        try {
+          const resp = await api.v2.postPreCheckInData({ ...preCheckInData });
+          if (resp.data.error || resp.data.errors) {
+            goToErrorPage();
+          } else {
+            setDemographicsFlagsSent();
+          }
+        } catch (error) {
+          goToErrorPage();
+        }
+      }
+
+      if (!demographicsFlagsSent) {
+        sendPreCheckInData();
+      }
+    },
+    [
+      demographicsFlagsSent,
+      demographicsUpToDate,
+      emergencyContactUpToDate,
+      goToErrorPage,
+      nextOfKinUpToDate,
+      token,
+    ],
+  );
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const selectFormData = useMemo(makeSelectForm, []);
   const { appointments } = useSelector(selectVeteranData);
   const { data: formData } = useSelector(selectFormData);
   const hasUpdates = Object.values(formData).includes('no');
+
   if (appointments.length === 0) {
     return <></>;
   }
