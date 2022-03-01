@@ -23,9 +23,10 @@ describe('VAOS community care flow', () => {
     // this is considered an 'anti-pattern'. Tried to wait for the loading
     // indicator but multiple indicators are displayed. So, we are waiting for
     // the appointment cards to be displayed.
-    cy.findAllByRole('link', { name: /Details for appointment/ }).should(
-      'exist',
-    );
+    cy.findAllByRole('link', {
+      name: /Details for appointment/,
+      timeout: 6000,
+    }).should('exist');
 
     // we should re-direct to home page
     cy.get('h2', { timeout: Timeouts.slow })
@@ -240,9 +241,10 @@ describe('VAOS community care flow', () => {
     // this is considered an 'anti-pattern'. Tried to wait for the loading
     // indicator but multiple indicators are displayed. So, we are waiting for
     // the appointment cards to be displayed.
-    cy.findAllByRole('link', { name: /Details for appointment/ }).should(
-      'exist',
-    );
+    cy.findAllByRole('link', {
+      name: /Details for appointment/,
+      timeout: 6000,
+    }).should('exist');
 
     // we should re-direct to home page
     cy.get('h2', { timeout: Timeouts.slow })
