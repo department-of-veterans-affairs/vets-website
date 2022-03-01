@@ -192,7 +192,7 @@ const DocumentUploader = () => {
         decision about your request.
       </p>
       {submissionPending ? (
-        <va-loading-indicator label="Loading" message="Sendign your files..." />
+        <va-loading-indicator label="Loading" message="Sending your files..." />
       ) : (
         <FileList files={files} onClick={onDeleteClick} />
       )}
