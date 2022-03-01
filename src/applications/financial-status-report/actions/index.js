@@ -1,7 +1,7 @@
-// import moment from 'moment';
+import moment from 'moment';
 import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
 import environment from 'platform/utilities/environment';
-// import localStorage from 'platform/utilities/storage/localStorage';
+import localStorage from 'platform/utilities/storage/localStorage';
 import {
   fetchAndUpdateSessionExpiration as fetch,
   apiRequest,
@@ -19,15 +19,15 @@ export const fetchFormStatus = () => async dispatch => {
   dispatch({
     type: FSR_API_CALL_INITIATED,
   });
-  // const sessionExpiration = localStorage.getItem('sessionExpiration');
-  // const remainingSessionTime = moment(sessionExpiration).diff(moment());
+  const sessionExpiration = localStorage.getItem('sessionExpiration');
+  const remainingSessionTime = moment(sessionExpiration).diff(moment());
 
-  // if (!remainingSessionTime) {
-  //   // reset errors if user is not logged in or session has expired
-  //   return dispatch({
-  //     type: FSR_RESET_ERRORS,
-  //   });
-  // }
+  if (!remainingSessionTime) {
+    // reset errors if user is not logged in or session has expired
+    return dispatch({
+      type: FSR_RESET_ERRORS,
+    });
+  }
 
   fetch(`${environment.API_URL}/v0/in_progress_forms/5655`, {
     credentials: 'include',
