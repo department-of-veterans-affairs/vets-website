@@ -2141,10 +2141,10 @@
     react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/formation@6.17.5":
-  version "6.17.5"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.17.5.tgz#56f7c7fa59c52d3a82f7d741945139b6081f42bc"
-  integrity sha512-MvRIseS7tkz6QLPrF44HN59b/YnCEasfpot+6ctT+mrvf7aq4BcBelCFX3v1LXWzFGFQUR1JP20fkQK2goBj7A==
+"@department-of-veterans-affairs/formation@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.0.tgz#02246372198dcf50ffd98e7dcf075e6a0ebe0db3"
+  integrity sha512-ektA7Li9mAekw3ZxaIhv2Z/nT22YfcGuFcDDLAVn7enUEKwqTLzLiwQNgVxH3x/gm5CNHHP1IAWhGz54N7fznw==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
