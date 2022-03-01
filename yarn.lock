@@ -2180,10 +2180,10 @@
     react-transition-group "1"
     recast "^0.14.4"
 
-"@department-of-veterans-affairs/react-jsonschema-form@^1.0.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-jsonschema-form/-/react-jsonschema-form-1.2.0.tgz#9080236759e920e30f10727055a9dc04f4a711a8"
-  integrity sha512-SuwcYn59fv3nWxmbfh43KUdrKmn4vcd7aMQuKlu0vcOjcArsl9n5YWPgUwBtLOoztSZl9D8sRlxBAPqmoXCsQA==
+"@department-of-veterans-affairs/react-jsonschema-form@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-jsonschema-form/-/react-jsonschema-form-1.2.5.tgz#56e759a185b1d3f92ca7bb9d1407b4b2a3b406b1"
+  integrity sha512-9KDb5O5GcLIjbKgjY30pUW8aY1do8Dyo6/GutYriBRLXYr2WGPtuBxlg2gN3Iq9k58kDboahA/gT5qqWxZGY3g==
   dependencies:
     jsonschema "^1.0.2"
     lodash.topath "^4.5.2"
