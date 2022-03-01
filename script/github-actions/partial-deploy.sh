@@ -51,7 +51,7 @@ done
 shift $((OPTIND - 1))
 
 # Exit if source or destination is missing
-if [ -z "$SOURCE" ] || [ -z "$ASSET_DEST" ] [ -z "$DEST" ]; then
+if [ -z "$SOURCE" ] || [ -z "$ASSET_DEST" ] || [ -z "$DEST" ]; then
     say_err "ERROR: Missing required source or destination"
     usage
     exit 1
