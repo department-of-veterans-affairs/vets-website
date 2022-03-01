@@ -145,8 +145,7 @@ const DocumentUploader = () => {
           {
             credentials: 'include',
             headers: {
-              'Content-Type': 'application/json',
-              Accept: 'application/pdf',
+              'Content-Type': 'text/html;charset=UTF-8',
               'X-Key-Inflection': 'camel',
               'Source-App-Name': window.appName,
               'X-CSRF-Token': csrfTokenStored,
