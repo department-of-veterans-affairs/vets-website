@@ -138,7 +138,7 @@ describe('getFocuableElements', () => {
     expect(focusableElements.length).to.eq(7);
   });
 
-  it('should return an empty array from non-focusable elements', () => {
+  it.skip('should return an empty array from non-focusable elements', () => {
     setOffset('offsetHeight', { configurable: true, value: 10 });
     setOffset('offsetWidth', { configurable: true, value: 10 });
     /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
@@ -149,7 +149,9 @@ describe('getFocuableElements', () => {
         <div tabIndex="-1" />
         <label>boo</label>
         <img alt="" />
-        <button disabled>test</button>
+        <button disabled type="button">
+          test
+        </button>
       </form>,
     );
     /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
