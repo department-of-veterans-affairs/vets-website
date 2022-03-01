@@ -12,7 +12,7 @@ export default function EnrollmentVerificationMonthInfo({ enrollments }) {
           </strong>{' '}
           at {enrollment.institution}
         </p>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+        <p className="vads-u-margin-y--0">
           <strong>Total credit hours:</strong> {enrollment.creditHours}
         </p>
       </li>
@@ -20,7 +20,7 @@ export default function EnrollmentVerificationMonthInfo({ enrollments }) {
   });
 
   return (
-    <ul className="ev-month-info-institutions vads-u-padding-left--0">
+    <ul className="ev-month-info-institutions vads-u-margin-y--0 vads-u-padding-left--0">
       {enrollmentInstitutions}
     </ul>
   );

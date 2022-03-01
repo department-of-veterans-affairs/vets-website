@@ -2130,21 +2130,21 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^6.2.1":
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-6.2.1.tgz#2d47cbd9858726222e04fc48bf689f39ec3c88e5"
-  integrity sha512-et2+yOoPWOF5Y34sC/52URjVIc/qiMXut1/GT5Bq0eELCJU+3BAM+ZPAj1FV4SfrmuyiLa82Do6hG1xfePAFCg==
+"@department-of-veterans-affairs/component-library@^7.1.0":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-7.1.0.tgz#d11595ad2363e89b9a6b95b34ee0f8bba5968a77"
+  integrity sha512-XCqXT33GAC6fierm/9hY7Hm5TkHuY47YVrXVWczI4VpU7Qvr/Y7lky17o4kdr2mEZGBpMtOaqv60Wx7lfQqPmA==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "4.0.3"
-    "@department-of-veterans-affairs/web-components" "2.2.1"
+    "@department-of-veterans-affairs/react-components" "5.0.0"
+    "@department-of-veterans-affairs/web-components" "2.3.0"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/formation@6.17.5":
-  version "6.17.5"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.17.5.tgz#56f7c7fa59c52d3a82f7d741945139b6081f42bc"
-  integrity sha512-MvRIseS7tkz6QLPrF44HN59b/YnCEasfpot+6ctT+mrvf7aq4BcBelCFX3v1LXWzFGFQUR1JP20fkQK2goBj7A==
+"@department-of-veterans-affairs/formation@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.0.tgz#02246372198dcf50ffd98e7dcf075e6a0ebe0db3"
+  integrity sha512-ektA7Li9mAekw3ZxaIhv2Z/nT22YfcGuFcDDLAVn7enUEKwqTLzLiwQNgVxH3x/gm5CNHHP1IAWhGz54N7fznw==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -2167,13 +2167,12 @@
     yeoman-generator "^4.11.0"
     yosay "^2.0.1"
 
-"@department-of-veterans-affairs/react-components@4.0.3":
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-4.0.3.tgz#366cd022691cd8ce81426b4687fc83cd78d1f646"
-  integrity sha512-yFPSsWt9ohvUe87aXmzpmsEKel8ZyDSRBDQoq6HKggwx+Mj8+PbFLYZZcj9YC5/M34GjrOLioJQ3CSp2TneH4A==
+"@department-of-veterans-affairs/react-components@5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-5.0.0.tgz#e6acbe585aff5c04335756d18ce4567844d76d1a"
+  integrity sha512-WnKN1MrdDRsxMwUA/G0xhe+J7yoF9H1hS/lnOKr1SPi6pxmxWBsYLtjMETeT68dbE/otvBs6HgZIIsK5GlmHGA==
   dependencies:
     classnames "^2.2.6"
-    number-to-words "^1.2.4"
     prop-types "^15.6.2"
     react-focus-lock "^2.5.1"
     react-focus-on "^3.5.1"
@@ -2192,16 +2191,14 @@
     react-is "^17.0.1"
     setimmediate "^1.0.5"
 
-"@department-of-veterans-affairs/web-components@2.2.1":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-2.2.1.tgz#02155181e3d7b685e09d44f95a2a74bd4e9f4b81"
-  integrity sha512-v4hJFHTBP3N0qGDL8mJdHq6ZIVmZEkw41gzpUuHlRut6uGmXybkyW1wBjC9h+Wx5iT31lWHREpCg/XitM3rnpw==
+"@department-of-veterans-affairs/web-components@2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-2.3.0.tgz#81235f42912ffcaa1a0b128ef2ffa49b48614c81"
+  integrity sha512-Br+W8f2R1nZZW0WGZCRGdRw4XM7jSVWunYnK81XJk+GZWp4XuH2w5DoCSnTMKb4waJWFKdQb087fLUcv4XwFwQ==
   dependencies:
     "@stencil/core" "^2.10.0"
-    "@stencil/postcss" "^2.0.0"
     classnames "^2.3.1"
     intersection-observer "^0.12.0"
-    postcss-url "^10.1.1"
 
 "@discoveryjs/json-ext@^0.5.0":
   version "0.5.5"
@@ -2948,13 +2945,6 @@
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/@stencil/core/-/core-2.10.0.tgz#acf44b9ae6578a20f0d09bf94296e833beadc885"
   integrity sha512-15rWMTPQ/sp0lSV82HVCXkIya3QLN+uBl7pqK4JnTrp4HiLrzLmNbWjbvgCs55gw0lULbCIGbRIEsFz+Pe/Q+A==
-
-"@stencil/postcss@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@stencil/postcss/-/postcss-2.0.0.tgz#d36f486266dcae241a95979caee1bb7fc28ea5c3"
-  integrity sha512-eTZVQEXb3AGw8A7tstKoOklV6ATXCKASs8VoykyVSYRZCjU0kECM76YgUZkzolwzEq6JG6LVwStT8xpTBSEZ+Q==
-  dependencies:
-    postcss "~8.2.1"
 
 "@stylelint/postcss-css-in-js@^0.37.2":
   version "0.37.2"
@@ -6518,11 +6508,6 @@ csstype@^3.0.2:
   version "3.0.8"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.8.tgz#d2266a792729fb227cd216fb572f43728e1ad340"
   integrity sha512-jXKhWqXPmlUeoQnF/EhTtTl4C9SnrxSH/jZUih3jmO6lBKr99rP3/+FmrMj4EFpOXzMtXHAZkd3x0E6h6Fgflw==
-
-cuint@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/cuint/-/cuint-0.2.2.tgz#408086d409550c2631155619e9fa7bcadc3b991b"
-  integrity sha1-QICG1AlVDCYxFVYZ6fp7ytw7mRs=
 
 cy-mobile-commands@^0.3.0:
   version "0.3.0"
@@ -12268,7 +12253,7 @@ make-dir@^2.0.0, make-dir@^2.1.0:
     pify "^4.0.1"
     semver "^5.6.0"
 
-make-dir@^3.0.0, make-dir@^3.0.2, make-dir@^3.1.0, make-dir@~3.1.0:
+make-dir@^3.0.0, make-dir@^3.0.2, make-dir@^3.1.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/make-dir/-/make-dir-3.1.0.tgz"
   integrity sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==
@@ -12726,7 +12711,7 @@ mime@^2.0.3:
   resolved "https://registry.npmjs.org/mime/-/mime-2.4.5.tgz"
   integrity sha512-3hQhEUF027BuxZjQA3s7rIv/7VCQPa27hN9u9g87sEkWaKwQPuXOkVKtOeiyUrnWqTDiOs8Ed2rwg733mB0R5w==
 
-mime@^2.3.1, mime@~2.5.2:
+mime@^2.3.1:
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/mime/-/mime-2.5.2.tgz#6e3dc6cc2b9510643830e5f19d5cb753da5eeabe"
   integrity sha512-tqkh47FzKeCPD2PUiPB6pkbMzsCasjxAfC62/Wap5qrUWcb+sFasXUC5I3gYM5iBM8v/Qpn4UK0x+j0iHyFPDg==
@@ -12781,7 +12766,7 @@ minimalistic-crypto-utils@^1.0.1:
   resolved "https://registry.npmjs.org/minimalistic-crypto-utils/-/minimalistic-crypto-utils-1.0.1.tgz"
   integrity sha1-9sAMHAsIIkblxNmd+4x8CDsrWCo=
 
-minimatch@3.0.4, minimatch@3.0.x, minimatch@^3.0.2, minimatch@^3.0.4, minimatch@~3.0.2, minimatch@~3.0.4:
+minimatch@3.0.4, minimatch@3.0.x, minimatch@^3.0.2, minimatch@^3.0.4, minimatch@~3.0.2:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
   integrity sha512-yJHVQEhyqPLUTgt9B83PXu6W3rx4MvvHvSUvToogpwoGDOUQ+yDrR0HRot+yOCdCO7u4hX3pWft6kWBBcqh0UA==
@@ -13273,7 +13258,7 @@ nanocolors@^0.2.8:
   resolved "https://registry.yarnpkg.com/nanocolors/-/nanocolors-0.2.12.tgz#4d05932e70116078673ea4cc6699a1c56cc77777"
   integrity sha512-SFNdALvzW+rVlzqexid6epYdt8H9Zol7xDoQarioEFcFN0JHo4CYNztAxmtfgGTVRCmFlEOqqhBpoFGKqSAMug==
 
-nanoid@3.1.12, nanoid@3.1.25, nanoid@^3.1.22, nanoid@^3.1.30, nanoid@^3.1.31:
+nanoid@3.1.12, nanoid@3.1.25, nanoid@^3.1.30, nanoid@^3.1.31:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.2.0.tgz#62667522da6673971cca916a6d3eff3f415ff80c"
   integrity sha512-fmsZYa9lpn69Ad5eDn7FMcnnSR+8R34W9qJEijxYhTbfOWzr22n1QxCMzXLK+ODyW2973V3Fux959iQoUxzUIA==
@@ -13713,11 +13698,6 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
-
-number-to-words@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/number-to-words/-/number-to-words-1.2.4.tgz#e0f124de9628f8d86c4eeb89bac6c07699264501"
-  integrity sha512-/fYevVkXRcyBiZDg6yzZbm0RuaD6i0qRfn8yr+6D0KgBMOndFPxuW10qCHpzs50nN8qKuv78k8MuotZhcVX6Pw==
 
 nwsapi@^2.2.0:
   version "2.2.0"
@@ -15061,16 +15041,6 @@ postcss-unique-selectors@^5.0.1:
     postcss-selector-parser "^6.0.5"
     uniqs "^2.0.0"
 
-postcss-url@^10.1.1:
-  version "10.1.3"
-  resolved "https://registry.yarnpkg.com/postcss-url/-/postcss-url-10.1.3.tgz#54120cc910309e2475ec05c2cfa8f8a2deafdf1e"
-  integrity sha512-FUzyxfI5l2tKmXdYc6VTu3TWZsInayEKPbiyW+P6vmmIrrb4I6CGX0BFoewgYHLK+oIL5FECEK02REYRpBvUCw==
-  dependencies:
-    make-dir "~3.1.0"
-    mime "~2.5.2"
-    minimatch "~3.0.4"
-    xxhashjs "~0.2.2"
-
 postcss-value-parser@^4.0.2, postcss-value-parser@^4.1.0:
   version "4.1.0"
   resolved "https://registry.npmjs.org/postcss-value-parser/-/postcss-value-parser-4.1.0.tgz"
@@ -15110,15 +15080,6 @@ postcss@^8.4.4:
     nanoid "^3.1.30"
     picocolors "^1.0.0"
     source-map-js "^1.0.1"
-
-postcss@~8.2.1:
-  version "8.2.14"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.2.14.tgz#dcf313eb8247b3ce8078d048c0e8262ca565ad2b"
-  integrity sha512-+jD0ZijcvyCqPQo/m/CW0UcARpdFylq04of+Q7RKX6f/Tu+dvpUI/9Sp81+i6/vJThnOBX09Quw0ZLOVwpzX3w==
-  dependencies:
-    colorette "^1.2.2"
-    nanoid "^3.1.22"
-    source-map "^0.6.1"
 
 potpack@^1.0.1:
   version "1.0.1"
@@ -18795,9 +18756,9 @@ url-parse-lax@^3.0.0:
     prepend-http "^2.0.0"
 
 url-parse@^1.5.0:
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.3.tgz#71c1303d38fb6639ade183c2992c8cc0686df862"
-  integrity sha512-IIORyIQD9rvj0A4CLWsHkBBJuNqWpFQe224b6j9t/ABmquIS0qDU2pY6kl6AuOrL5OkCXHMCFNe1jBcuAggjvQ==
+  version "1.5.10"
+  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.10.tgz#9d3c2f736c1d75dd3bd2be507dcc111f1e2ea9c1"
+  integrity sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==
   dependencies:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
@@ -18974,9 +18935,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#9eebc8fcdb40e8ff4a2e4cebe20722cfcbd2d31a":
-  version "20.19.1"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9eebc8fcdb40e8ff4a2e4cebe20722cfcbd2d31a"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#ee3c19a0714b6b77101f79aec86af4bc9c460bba":
+  version "20.19.2"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ee3c19a0714b6b77101f79aec86af4bc9c460bba"
 
 vfile-message@^2.0.0:
   version "2.0.4"
@@ -19589,13 +19550,6 @@ xtend@^4.0.0, xtend@^4.0.1, xtend@^4.0.2, xtend@~4.0.0, xtend@~4.0.1:
   version "4.0.2"
   resolved "https://registry.npmjs.org/xtend/-/xtend-4.0.2.tgz"
   integrity sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==
-
-xxhashjs@~0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/xxhashjs/-/xxhashjs-0.2.2.tgz#8a6251567621a1c46a5ae204da0249c7f8caa9d8"
-  integrity sha512-AkTuIuVTET12tpsVIQo+ZU6f/qDmKuRUcjaqR+OIvm+aCBsZ95i7UVY5WJ9TMsSaZ0DA2WxoZ4acu0sPH+OKAw==
-  dependencies:
-    cuint "^0.2.2"
 
 "y18n@^3.2.1 || ^4.0.0", y18n@^4.0.0, y18n@^4.0.1, y18n@^5.0.5:
   version "4.0.3"

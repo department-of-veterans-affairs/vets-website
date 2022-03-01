@@ -30,8 +30,6 @@
 
 .ev-enrollment-month {
 	border-top: 1px solid $color-gray-lighter;
-	margin-top: 4px;
-	padding-bottom: 6px;
 }
 .ev-enrollment-month_message {
 	margin-bottom: 0.5em;
@@ -43,4 +41,21 @@
 
 .usa-button-secondary--plain {
 	border: 0;
+}
+
+.ev-edit-verification,
+.ev-finish-later {
+	display: inline-block;
+}
+.ev-actions {
+	display: block;
+}
+
+.va-pagination {
+	justify-content: left;
+}
+@media (max-width: $medium-screen) {
+	.va-pagination-prev {
+		margin-left: 0;
+	}
 }

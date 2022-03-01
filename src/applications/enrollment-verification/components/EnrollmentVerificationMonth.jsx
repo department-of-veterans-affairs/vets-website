@@ -66,7 +66,7 @@ export default function EnrollmentVerificationMonth({ month, paymentStatus }) {
   const monthStatusMessage = getMonthStatusMessage(month, paymentStatus);
 
   return (
-    <div className="ev-enrollment-month">
+    <div className="ev-enrollment-month vads-u-margin-y--3">
       <h4>{formatReadableMonthYear(month.month)}</h4>
       {monthStatusMessage}
 

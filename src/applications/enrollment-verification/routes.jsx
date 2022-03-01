@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 import {
   REVIEW_ENROLLMENTS_URL_SEGMENT,
   VERIFY_ENROLLMENTS_URL_SEGMENT,
@@ -8,22 +8,26 @@ import EnrollmentVerificationIntroPage from './containers/EnrollmentVerification
 import EnrollmentVerificationPage from './containers/EnrollmentVerificationPage';
 import VerifyEnrollmentsPage from './containers/VerifyEnrollmentsPage';
 
-const routes = [
-  <Route
-    path="/"
-    key="EnrollmentVerificationIntroPage"
-    component={EnrollmentVerificationIntroPage}
-  />,
-  <Route
-    path={`/${REVIEW_ENROLLMENTS_URL_SEGMENT}/`}
-    key="EnrollmentVerificationPage"
-    component={EnrollmentVerificationPage}
-  />,
-  <Route
-    path={`/${REVIEW_ENROLLMENTS_URL_SEGMENT}/${VERIFY_ENROLLMENTS_URL_SEGMENT}/`}
-    key="VerifyEnrollmentsPage"
-    component={VerifyEnrollmentsPage}
-  />,
-];
+const routes = (
+  <Switch>
+    <Route exact path="/" key="EnrollmentVerificationIntroPage">
+      <EnrollmentVerificationIntroPage />
+    </Route>
+    <Route
+      exact
+      key="EnrollmentVerificationPage"
+      path={`/${REVIEW_ENROLLMENTS_URL_SEGMENT}/`}
+    >
+      <EnrollmentVerificationPage />
+    </Route>
+    <Route
+      exact
+      key="VerifyEnrollmentsPage"
+      path={`/${REVIEW_ENROLLMENTS_URL_SEGMENT}/${VERIFY_ENROLLMENTS_URL_SEGMENT}/`}
+    >
+      <VerifyEnrollmentsPage />,
+    </Route>
+  </Switch>
+);
 
 export default routes;

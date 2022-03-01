@@ -24,6 +24,20 @@ class ApiInitializer {
           preCheckInEnabled: true,
           checkInExperienceUpdateInformationPageEnabled: false,
           emergencyContactEnabled: true,
+          checkInExperienceEditingPreCheckInEnabled: false,
+        }),
+      );
+    },
+    withPreCheckInEditEnabled: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: true,
+          preCheckInEnabled: true,
+          checkInExperienceUpdateInformationPageEnabled: false,
+          emergencyContactEnabled: true,
+          checkInExperienceEditingPreCheckInEnabled: true,
         }),
       );
     },

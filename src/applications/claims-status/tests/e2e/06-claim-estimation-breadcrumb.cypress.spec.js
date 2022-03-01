@@ -29,5 +29,7 @@ describe('Claim Estimation Breadcrumb Test', () => {
     //     cy.wrap(breadcrumb).should('contain', 'Estimated decision date');
     //     cy.wrap(breadcrumb).should('have.css', 'pointer-events', 'none');
     //   });
+    cy.expandAccordions();
+    cy.axeCheck();
   });
 });
