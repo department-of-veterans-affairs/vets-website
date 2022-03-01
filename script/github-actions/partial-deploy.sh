@@ -159,3 +159,6 @@ aws s3 sync --only-show-errors \
     --include '*.js' \
     --include '*.css' \
     . "$DEST"
+
+# Exit successfully
+EXIT_OK=yes
