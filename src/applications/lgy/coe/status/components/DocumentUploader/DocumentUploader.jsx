@@ -37,6 +37,8 @@ const {
   DELETE_FILE,
 } = ACTIONS;
 
+const reader = new FileReader();
+
 const reducer = (state, action) => {
   switch (action.type) {
     case DOC_TYPE:
@@ -114,49 +116,60 @@ const DocumentUploader = () => {
     async uploadedFiles => {
       const csrfTokenStored = localStorage.getItem('csrfToken');
       dispatch({ type: FILE_UPLOAD_PENDING });
-      if (!isValidFileType(uploadedFiles[0])) {
+      /* if (!isValidFileType(uploadedFiles[0])) {
         dispatch({
           type: FILE_UPLOAD_FAIL,
           errorMessage:
             'Please choose a file from one of the accepted file types.',
         });
         return;
-      }
+      } */
       const file = uploadedFiles[0];
       file.documentType = documentType;
       if (documentDescription.value !== '') {
         file.documentDescription = documentDescription.value;
       }
-      dispatch({
-        type: FORM_SUBMIT_PENDING,
-      });
-      fetchAndUpdateSessionExpiration(
-        `${environment.API_URL}/v0/coe/document_upload`,
-        {
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'X-Key-Inflection': 'camel',
-            'Source-App-Name': window.appName,
-            'X-CSRF-Token': csrfTokenStored,
-          },
-          method: 'POST',
-          body: file,
-        },
-      )
-        .then(res => res.json())
-        .then(body => {
-          if (body.errors) {
-            dispatch({
-              type: FORM_SUBMIT_FAIL,
-              errorMessage: body.errors,
-            });
-          } else {
-            dispatch({
-              type: FORM_SUBMIT_SUCCESS,
-            });
-          }
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        // use a regex to remove data url part
+        const base64String = reader.result;
+
+        // log to console
+        // logs wL2dvYWwgbW9yZ...
+        console.log(base64String);
+        dispatch({
+          type: FORM_SUBMIT_PENDING,
         });
+        fetchAndUpdateSessionExpiration(
+          `${environment.API_URL}/v0/coe/document_upload`,
+          {
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/pdf',
+              'X-Key-Inflection': 'camel',
+              'Source-App-Name': window.appName,
+              'X-CSRF-Token': csrfTokenStored,
+            },
+            method: 'POST',
+            body: base64String,
+          },
+        )
+          .then(res => res.json())
+          .then(body => {
+            if (body.errors) {
+              dispatch({
+                type: FORM_SUBMIT_FAIL,
+                errorMessage: body.errors,
+              });
+            } else {
+              dispatch({
+                type: FORM_SUBMIT_SUCCESS,
+              });
+            }
+          });
+      };
+
       // dispatch({ type: FILE_UPLOAD_SUCCESS, file });
     },
     [documentDescription.value, documentType],
