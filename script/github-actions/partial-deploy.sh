@@ -96,7 +96,7 @@ elif echo "$build_file_type" | grep -q "bzip2 compressed data" ; then
     compress="-j"
 fi
 
-# Extract source into build directory
+# Extract source into 'build' directory
 say "INFO: Expanding source into build/"
 mkdir build
 tar -x $compress -C build -f "$(basename "$SOURCE")"
@@ -107,7 +107,7 @@ if [ ! -f build/BUILD.txt ] ; then
     exit 1
 fi
 
-# Copy filtered assets to 'assets' directory
+# Copy filtered assets into 'assets' directory
 say "INFO: Filtering assets for S3 sync"
 mkdir assets
 rsync -a \
@@ -148,7 +148,7 @@ aws s3 sync --only-show-errors \
     --include '*.js' \
     --include '*.css' \
     --include '*.txt' \
-        . "$ASSET_DEST"
+    . "$ASSET_DEST"
 
 # Sync assets to S3 website (reverse proxy) bucket
 say "INFO: Syncing compressed assets to $DEST"
