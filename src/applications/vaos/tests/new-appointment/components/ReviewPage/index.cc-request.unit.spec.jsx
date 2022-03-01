@@ -609,10 +609,8 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
       preferredLanguage: 'English',
       preferredLocation: {
-        line: ['2360 East Pershing Boulevard'],
         city: 'Cincinnati',
         state: 'OH',
-        postalCode: '82001-5356',
       },
       practitioners: [
         {
@@ -622,6 +620,12 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
               value: 'ppmsid',
             },
           ],
+          address: {
+            line: ['1012 14TH ST NW STE 700'],
+            city: 'WASHINGTON',
+            state: 'DC',
+            postalCode: '20005-3477',
+          },
         },
       ],
     });
