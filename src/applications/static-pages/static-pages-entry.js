@@ -70,6 +70,7 @@ import {
   createScoEventsWidget,
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
+import create1095BDownloadCTA from './download-1095b';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -189,6 +190,7 @@ createI18Select(store, widgetTypes.I_18_SELECT);
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 createCOEAccess(store, widgetTypes.COE_ACCESS);
 createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
+create1095BDownloadCTA(store, widgetTypes.DOWNLOAD_1095B_CTA);
 
 // Create the My VA Login widget only on the homepage.
 if (location.pathname === '/') {
