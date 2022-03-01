@@ -1,4 +1,5 @@
 import manifest from '../../manifest.json';
+import mockUser from './fixtures/mocks/mockUser.json';
 
 describe('Fetch Form Status Successfully', () => {
   before(() => {
@@ -12,6 +13,7 @@ describe('Fetch Form Status Successfully', () => {
     });
 
     cy.intercept('GET', '/v0/maintenance_windows', []);
+    cy.login(mockUser);
 
     cy.intercept('GET', '/v0/in_progress_forms/5655', {
       formData: {

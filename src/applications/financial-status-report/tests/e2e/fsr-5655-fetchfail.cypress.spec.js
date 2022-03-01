@@ -1,4 +1,5 @@
 import manifest from '../../manifest.json';
+import mockUser from './fixtures/mocks/mockUser.json';
 
 describe('Fetch Form Status Unsuccessfully', () => {
   before(() => {
@@ -10,8 +11,8 @@ describe('Fetch Form Status Unsuccessfully', () => {
         ],
       },
     });
-
     cy.intercept('GET', '/v0/maintenance_windows', []);
+    cy.login(mockUser);
 
     cy.intercept('GET', '/v0/in_progress_forms/5655', req => {
       req.reply(500, { errors: [] });
@@ -19,7 +20,7 @@ describe('Fetch Form Status Unsuccessfully', () => {
     cy.visit(manifest.rootUrl);
   });
   it('Unsuccessful API Response', () => {
-    cy.get('h3').should(
+    cy.get('[data-testid="server-error"] > h3').should(
       'have.text',
       'We’re sorry. Something went wrong on our end.',
     );
