@@ -190,12 +190,12 @@ class ApiInitializer {
           extraValidation(req);
         }
         req.reply(preCheckInData.post.createMockSuccessResponse('some-token'));
-      });
+      }).as('preCheckin');
     },
     withFailure: (errorCode = 400) => {
       cy.intercept('POST', '/check_in/v2/pre_check_ins/', req => {
         req.reply(errorCode, preCheckInData.post.createMockFailedResponse());
-      });
+      }).as('preCheckin');
     },
   };
 

@@ -50,6 +50,22 @@ describe('Pre Check In Experience', () => {
       NextOfKin.validatePageLoaded();
       NextOfKin.attemptToGoToNextPage();
       Confirmation.validatePageLoaded();
+
+      // Confirm that we posted the correct data to the pre-checkin complete endpoint.
+      cy.wait('@preCheckin');
+      cy.get('@preCheckin')
+        .its('request.body.preCheckIn.demographicsUpToDate')
+        .should('not.exist');
+      cy.get('@preCheckin')
+        .its('request.body.preCheckIn.emergencyContactUpToDate')
+        .should('not.exist');
+      cy.get('@preCheckin')
+        .its('request.body.preCheckIn.nextOfKinUpToDate')
+        .should('equal', true);
+      cy.get('@preCheckin')
+        .its('response.statusCode')
+        .should('equal', 200);
+
       cy.injectAxeThenAxeCheck();
     });
   });
