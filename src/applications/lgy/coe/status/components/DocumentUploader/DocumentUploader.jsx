@@ -44,6 +44,7 @@ const reducer = (state, action) => {
     case DOC_DESC:
       return { ...state, documentDescription: action.documentDescription };
     case FILE_UPLOAD_SUCCESS:
+      console.log(state);
       return {
         ...state,
         files: [...state.files, action.file],
@@ -111,6 +112,7 @@ const DocumentUploader = () => {
 
   const onUploadFile = useCallback(
     async uploadedFiles => {
+      const csrfTokenStored = localStorage.getItem('csrfToken');
       dispatch({ type: FILE_UPLOAD_PENDING });
       if (!isValidFileType(uploadedFiles[0])) {
         dispatch({
@@ -125,7 +127,37 @@ const DocumentUploader = () => {
       if (documentDescription.value !== '') {
         file.documentDescription = documentDescription.value;
       }
-      dispatch({ type: FILE_UPLOAD_SUCCESS, file });
+      dispatch({
+        type: FORM_SUBMIT_PENDING,
+      });
+      fetchAndUpdateSessionExpiration(
+        `${environment.API_URL}/v0/coe/document_upload`,
+        {
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'X-Key-Inflection': 'camel',
+            'Source-App-Name': window.appName,
+            'X-CSRF-Token': csrfTokenStored,
+          },
+          method: 'POST',
+          body: file,
+        },
+      )
+        .then(res => res.json())
+        .then(body => {
+          if (body.errors) {
+            dispatch({
+              type: FORM_SUBMIT_FAIL,
+              errorMessage: body.errors,
+            });
+          } else {
+            dispatch({
+              type: FORM_SUBMIT_SUCCESS,
+            });
+          }
+        });
+      // dispatch({ type: FILE_UPLOAD_SUCCESS, file });
     },
     [documentDescription.value, documentType],
   );
@@ -151,6 +183,7 @@ const DocumentUploader = () => {
         dispatch({
           type: FORM_SUBMIT_PENDING,
         });
+        console.log(files);
         fetchAndUpdateSessionExpiration(
           `${environment.API_URL}/v0/coe/document_upload`,
           {
