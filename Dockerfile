@@ -7,7 +7,7 @@ ARG userid=504
 RUN groupadd -g $userid vets-website \
   && useradd -u $userid -r -m -d /application -g vets-website vets-website
 
-ENV YARN_VERSION 1.21.1
+ENV YARN_VERSION 3.2.0
 ENV NODE_ENV production
 
 RUN apt-get update
@@ -44,7 +44,7 @@ ADD https://raw.githubusercontent.com/department-of-veterans-affairs/platform-va
 RUN openssl x509 -inform DER -in /usr/local/share/ca-certificates/VA-Internal-S2-RCA1-v1.cer -out /usr/local/share/ca-certificates/VA-Internal-S2-RCA1-v1.crt
 RUN update-ca-certificates
 
-RUN mkdir -p /application
+RUN mkdir -p /application && YARN_CHECKSUM_BEHAVIOR=reset && yarn install --immutable
 WORKDIR /application
 
 USER vets-website

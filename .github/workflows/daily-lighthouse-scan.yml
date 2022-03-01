@@ -128,7 +128,7 @@ jobs:
 
       # TODO: Potentially use install composite
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline --production=false
+        run: yarn install --immutable
         env:
           YARN_CACHE_FOLDER: .cache/yarn
         working-directory: testing-tools-team-dashboard-data
