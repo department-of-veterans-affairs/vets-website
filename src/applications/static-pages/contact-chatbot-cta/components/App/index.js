@@ -3,8 +3,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-export const App = ({ show }) => {
-  if (!show) {
+const restrictWidgetStorageKey = 'restrict-chatbot-cta';
+const displayThreshold = 25;
+
+export const App = () => {
+  // restrict view to roughly 25% of users
+  const restrictDisplay = () => {
+    const restrict = window.localStorage.getItem(restrictWidgetStorageKey);
+    if (restrict) {
+      return Number.parseInt(restrict, 10) <= displayThreshold;
+    }
+    const restrictVar = Math.random().toFixed(2) * 100;
+    window.localStorage.setItem(
+      restrictWidgetStorageKey,
+      restrictVar.toString(),
+    );
+    return restrictVar <= displayThreshold;
+  };
+
+  const isAllowed = restrictDisplay();
+  if (!isAllowed) {
     return null;
   }
 
