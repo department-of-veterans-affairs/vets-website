@@ -10,7 +10,9 @@ export const SummaryTitle = ({ formData }) => {
 
   return (
     <>
-      <p>These are the issues you’re asking the Board to review.</p>
+      <p className="vads-u-margin-top--0">
+        These are the issues you’re asking the Board to review.
+      </p>
       {ShowIssuesList({ issues })}
       <p>
         If an issue is missing, please{' '}

@@ -100,10 +100,10 @@ jobs:
           uploadArtifacts: true # save results as an action artifacts
 
       - name: Upload lighthouse report (JSON)
-        run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath }} s3://vetsgov-website-builds-s3-upload/lighthouse${{ matrix.registry == '/' && '/homepage' || matrix.registry }}.json --acl public-read --region us-gov-west-1
+        run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath }} s3://vetsgov-website-builds-s3-upload-test/lighthouse${{ matrix.registry == '/' && '/homepage' || matrix.registry }}.json --acl public-read --region us-gov-west-1
 
       - name: Upload lighthouse report (HTML)
-        run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath }} s3://vetsgov-website-builds-s3-upload/lighthouse${{ matrix.registry == '/' && '/homepage' || matrix.registry }}.html --acl public-read --region us-gov-west-1
+        run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath }} s3://vetsgov-website-builds-s3-upload-test/lighthouse${{ matrix.registry == '/' && '/homepage' || matrix.registry }}.html --acl public-read --region us-gov-west-1
 
       - name: Generate new application list
         run: yarn generate-app-list
@@ -163,7 +163,7 @@ jobs:
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
-          payload: '{"attachments": [{"color": "#07711E","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload/lighthouse/homepage.html|View the results>"}}]}]}'
+          payload: '{"attachments": [{"color": "#07711E","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload-test/lighthouse/homepage.html|View the results>"}}]}]}'
           channel_id: ${{ env.CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

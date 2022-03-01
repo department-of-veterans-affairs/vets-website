@@ -20,7 +20,7 @@ import {
  * @property {String} hearingTypePreference - Vetera selected hearing type -
  *   enum to "virtual_hearing", "video_conference" or "central_office"
  * @property {Boolean} socOptIn - check box indicating the Veteran has opted in
- *   to the new appeal process
+ *   to the new appeal process (always false)
  * @property {Boolean} view:additionalEvidence - Veteran choice to upload more
  *   evidence
  */
