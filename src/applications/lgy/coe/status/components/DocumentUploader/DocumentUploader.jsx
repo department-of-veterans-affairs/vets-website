@@ -151,7 +151,10 @@ const DocumentUploader = () => {
               'X-CSRF-Token': csrfTokenStored,
             },
             method: 'POST',
-            body: JSON.stringify({ file: base64String }),
+            body: JSON.stringify({
+              file: base64String,
+              documentType: file.documentType,
+            }),
           },
         )
           .then(res => res.json())
