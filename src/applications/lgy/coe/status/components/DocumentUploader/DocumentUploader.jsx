@@ -145,13 +145,13 @@ const DocumentUploader = () => {
           {
             credentials: 'include',
             headers: {
-              'Content-Type': 'text/html',
+              'Content-Type': 'application/json',
               'X-Key-Inflection': 'camel',
               'Source-App-Name': window.appName,
               'X-CSRF-Token': csrfTokenStored,
             },
             method: 'POST',
-            body: base64String,
+            body: JSON.stringify({ file: base64String }),
           },
         )
           .then(res => res.json())
