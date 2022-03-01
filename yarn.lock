@@ -1645,9 +1645,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@department-of-veterans-affairs/formation@npm:6.17.5":
-  version: 6.17.5
-  resolution: "@department-of-veterans-affairs/formation@npm:6.17.5"
+"@department-of-veterans-affairs/formation@npm:7.0.0":
+  version: 7.0.0
+  resolution: "@department-of-veterans-affairs/formation@npm:7.0.0"
   dependencies:
     "@fortawesome/fontawesome-free": ^5.6.3
     domready: ^1.0.8
@@ -1657,7 +1657,7 @@ __metadata:
     "@fortawesome/fontawesome-free": ^5.6.3
     foundation-sites: 5
     uswds: ^1.6.10
-  checksum: ae564c46dc2644818f62b40b1a6a8260994753c689c4d7e6b25fb4764fd57aed6a5a9dbca88b90b2c982dd3a078e93bc3b64415f5d173e998f8848e7d8c9c080
+  checksum: 68607b177c400116a79d5ef3e3f0382e474fe45efcbcb81768046b9876385b275738d1adf55847e0f2f845864cfbde74bb3bcd7efc89b654420a284adfec11dd
   languageName: node
   linkType: hard
 
@@ -22118,7 +22118,7 @@ __metadata:
     "@babel/traverse": ^7.15.4
     "@cypress/webpack-preprocessor": ^5.11.1
     "@department-of-veterans-affairs/component-library": ^6.2.1
-    "@department-of-veterans-affairs/formation": 6.17.5
+    "@department-of-veterans-affairs/formation": 7.0.0
     "@department-of-veterans-affairs/formulate": 0.0.1
     "@department-of-veterans-affairs/generator-vets-website": ^3.5.0
     "@department-of-veterans-affairs/react-jsonschema-form": ^1.0.0
