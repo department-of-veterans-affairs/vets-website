@@ -55,7 +55,7 @@ describe('Pre Check In Experience', () => {
       cy.wait('@preCheckin');
       cy.get('@preCheckin')
         .its('request.body.preCheckIn.demographicsUpToDate')
-        .should('not.exist');
+        .should('equal', true);
       cy.get('@preCheckin')
         .its('request.body.preCheckIn.emergencyContactUpToDate')
         .should('not.exist');
