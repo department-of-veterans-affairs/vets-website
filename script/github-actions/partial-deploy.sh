@@ -128,6 +128,16 @@ rsync -a \
 
 cd assets
 
+# Sync assets to S3 website (reverse proxy) bucket
+say "INFO: Syncing assets to $DEST"
+aws s3 sync --only-show-errors \
+    --acl public-read \
+    --cache-control "public, no-cache" \
+    --exclude '*' \
+    --include '*.js' \
+    --include '*.css' \
+    . "$DEST"
+
 # Compress assets
 say "INFO: Compressing assets"
 find . \
@@ -138,7 +148,7 @@ find . \
     \) \
     -exec gzip -n {} \; -exec mv {}.gz {} \;
 
-# Sync assets to S3 asset bucket
+# Sync compressed assets to S3 asset bucket
 say "INFO: Syncing compressed assets to $ASSET_DEST"
 aws s3 sync --only-show-errors \
     --acl public-read \
@@ -149,16 +159,6 @@ aws s3 sync --only-show-errors \
     --include '*.css' \
     --include '*.txt' \
     . "$ASSET_DEST"
-
-# Sync assets to S3 website (reverse proxy) bucket
-say "INFO: Syncing compressed assets to $DEST"
-aws s3 sync --only-show-errors \
-    --acl public-read \
-    --cache-control "public, no-cache" \
-    --exclude '*' \
-    --include '*.js' \
-    --include '*.css' \
-    . "$DEST"
 
 # Exit successfully
 EXIT_OK=yes
