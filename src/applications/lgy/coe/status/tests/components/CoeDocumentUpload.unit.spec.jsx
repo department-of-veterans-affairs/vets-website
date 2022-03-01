@@ -24,7 +24,7 @@ describe('DocumentUploader', () => {
   it('should display an error message for invalid file type upload', () => {
     const file = new File(['hello'], 'hello.tif', { type: 'image/tif' });
     const screen = render(<DocumentUploader />);
-    const input = screen.getByLabelText(/Upload this document/i);
+    const input = screen.getByLabelText(/Add document/i);
     userEvent.upload(input, file);
     expect(screen.getByText(/accepted file types/i)).to.exist;
   });
