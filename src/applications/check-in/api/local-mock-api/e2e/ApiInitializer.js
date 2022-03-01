@@ -301,7 +301,8 @@ class ApiInitializer {
     withFailure: (errorCode = 400) => {
       cy.intercept('POST', `/check_in/v2/validate_address/`, req => {
         req.reply(
-          checkInData.post.createMockAddressValidationErrorResponse(errorCode),
+          errorCode,
+          checkInData.post.createMockAddressValidationErrorResponse({}),
         );
       });
     },

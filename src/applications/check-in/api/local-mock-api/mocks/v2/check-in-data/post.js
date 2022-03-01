@@ -83,46 +83,8 @@ const createMockAddressValidationSuccessResponse = _data => {
   };
 };
 
-const createMockAddressValidationErrorResponse = errorCode => {
-  switch (errorCode) {
-    case 400:
-    case 404:
-    case 500:
-      return {
-        data: {
-          messages: [
-            {
-              code: 'string',
-              key: 'string',
-              text: 'string',
-              severity: 'INFO',
-              potentiallySelfCorrectingOnRetry: true,
-            },
-          ],
-        },
-        status: errorCode,
-      };
-    case 401:
-      return {
-        message: 'No API key found in request',
-        status: errorCode,
-      };
-    case 403:
-      return {
-        message: 'You cannot consume this service',
-        status: errorCode,
-      };
-    case 429:
-      return {
-        message: 'API rate limit exceeded',
-        status: errorCode,
-      };
-    default:
-      return {
-        error: true,
-        status: errorCode,
-      };
-  }
+const createMockAddressValidationErrorResponse = _data => {
+  return { data: { error: true } };
 };
 
 module.exports = {
