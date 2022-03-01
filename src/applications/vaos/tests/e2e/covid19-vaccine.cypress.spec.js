@@ -7,7 +7,7 @@ import {
 } from './vaos-cypress-helpers';
 
 describe('VAOS COVID-19 vaccine appointment flow', () => {
-  it('should submit form', () => {
+  it.skip('should submit form', () => {
     initAppointmentListMock();
     initVaccineAppointmentMock();
     mockFeatureToggles();
