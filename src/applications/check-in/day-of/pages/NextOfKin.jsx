@@ -57,16 +57,13 @@ const NextOfKin = props => {
       });
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ nextOfKinUpToDate: 'no' }));
-        goToNextPage();
-      } else {
-        updateSeeStaffMessage(seeStaffMessage);
-        jumpToPage(URLS.SEE_STAFF);
       }
+      updateSeeStaffMessage(seeStaffMessage);
+      jumpToPage(URLS.SEE_STAFF);
     },
     [
       isDayOfDemographicsFlagsEnabled,
       dispatch,
-      goToNextPage,
       updateSeeStaffMessage,
       jumpToPage,
     ],
