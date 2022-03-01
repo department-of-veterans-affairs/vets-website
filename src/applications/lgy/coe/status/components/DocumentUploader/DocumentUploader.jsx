@@ -125,18 +125,15 @@ const DocumentUploader = () => {
         return;
       } */
       const file = uploadedFiles[0];
+      const fileName = file.name;
+      const fileType = fileName.substr(fileName.length - 3);
       file.documentType = documentType;
       if (documentDescription.value !== '') {
         file.documentDescription = documentDescription.value;
       }
       reader.readAsDataURL(file);
       reader.onloadend = () => {
-        // use a regex to remove data url part
         const base64String = reader.result;
-
-        // log to console
-        // logs wL2dvYWwgbW9yZ...
-        console.log(base64String);
         dispatch({
           type: FORM_SUBMIT_PENDING,
         });
@@ -154,6 +151,8 @@ const DocumentUploader = () => {
             body: JSON.stringify({
               file: base64String,
               documentType: file.documentType,
+              fileType,
+              fileName,
             }),
           },
         )
@@ -185,52 +184,6 @@ const DocumentUploader = () => {
     [state.files],
   );
 
-  const onSubmit = useCallback(
-    () => {
-      const csrfTokenStored = localStorage.getItem('csrfToken');
-      if (!files.length) {
-        dispatch({
-          type: FORM_SUBMIT_FAIL,
-          errorMessage: 'Please choose a file to upload',
-        });
-        setTimeout(scrollToFirstError);
-      } else {
-        dispatch({
-          type: FORM_SUBMIT_PENDING,
-        });
-        console.log(files);
-        fetchAndUpdateSessionExpiration(
-          `${environment.API_URL}/v0/coe/document_upload`,
-          {
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              'X-Key-Inflection': 'camel',
-              'Source-App-Name': window.appName,
-              'X-CSRF-Token': csrfTokenStored,
-            },
-            method: 'POST',
-            body: JSON.stringify({ name: files }),
-          },
-        )
-          .then(res => res.json())
-          .then(body => {
-            if (body.errors) {
-              dispatch({
-                type: FORM_SUBMIT_FAIL,
-                errorMessage: body.errors,
-              });
-            } else {
-              dispatch({
-                type: FORM_SUBMIT_SUCCESS,
-              });
-            }
-          });
-      }
-    },
-    [files],
-  );
-
   return (
     <>
       <h2>We need documents from you</h2>
@@ -247,7 +200,7 @@ const DocumentUploader = () => {
 
       {successMessage ? (
         <va-alert status="success" visible>
-          <h3 slot="headline">Your files have been uploaded</h3>
+          <h3 slot="headline">Your file has been uploaded</h3>
         </va-alert>
       ) : null}
       <div
@@ -283,19 +236,12 @@ const DocumentUploader = () => {
       <FileInput
         additionalClass={`${errorMsgClass} ${disabledOnEmptyDescClass}`}
         additionalErrorClass="vads-u-margin-bottom--1"
-        buttonText="Add document"
+        buttonText="Upload your document"
         onChange={onUploadFile}
         name="fileUpload"
         accept={FILE_TYPES.map(type => `.${type}`).join(',')}
         errorMessage={errorMessage}
       />
-      <button
-        className="vads-u-margin-top--3 usa-button"
-        onClick={onSubmit}
-        type="button"
-      >
-        Submit documents
-      </button>
       <p>
         <strong>Note:</strong> After you upload documents, it will take up to 5
         days for us to review them
