@@ -134,7 +134,7 @@ find . \
     \( \
     -name '*.js' -o \
     -name '*.css' -o \
-    -name '*.txt' -o \
+    -name '*.txt' \
     \) \
     -exec gzip -n {} \; -exec mv {}.gz {} \;
 
