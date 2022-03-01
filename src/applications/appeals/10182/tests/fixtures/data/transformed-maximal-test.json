@@ -24,7 +24,7 @@
       },
       "boardReviewOption": "evidence_submission",
       "timezone": "America/Los_Angeles",
-      "socOptIn": true
+      "socOptIn": false
     }
   },
   "included": [

@@ -25,7 +25,7 @@ export const uiSchema = {
       'ui:options': {
         itemName: 'Military service history',
       },
-      militaryBranch: {
+      serviceBranch: {
         'ui:title': 'Branch of service',
       },
       dateRange: {

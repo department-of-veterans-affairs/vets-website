@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import take from 'lodash/take';
+
 import recordEvent from 'platform/monitoring/record-event';
 import { getUserPhaseDescription } from '../utils/helpers';
 
@@ -22,7 +23,8 @@ function getClasses(phase, current) {
   const stepClass = stepClasses[phase];
   if (phase === current) {
     return `${processClass} list-${stepClass} section-current`;
-  } else if (current > phase) {
+  }
+  if (current > phase) {
     return `${processClass} list-${stepClass} section-complete`;
   }
 
@@ -38,8 +40,10 @@ export default class ClaimPhase extends React.Component {
     this.showAllActivity = this.showAllActivity.bind(this);
     this.getEventDescription = this.getEventDescription.bind(this);
   }
+
   getEventDescription(event) {
-    const filesPath = `your-claims/${this.props.id}/document-request/${
+    const { id, phase } = this.props;
+    const filesPath = `your-claims/${id}/document-request/${
       event.trackedItemId
     }`;
 
@@ -47,7 +51,7 @@ export default class ClaimPhase extends React.Component {
       case 'phase_entered':
         return (
           <div className="claims-evidence-item">
-            Your claim moved to {getUserPhaseDescription(this.props.phase)}
+            Your claim moved to {getUserPhaseDescription(phase)}
           </div>
         );
 
@@ -114,29 +118,33 @@ export default class ClaimPhase extends React.Component {
         return null;
     }
   }
+
   displayActivity() {
-    const activityList = this.props.activity[this.props.phase];
+    const { activity, phase } = this.props;
+    const { showAll } = this.state;
+    const activityList = activity[phase];
 
     if (activityList) {
       const limitedList =
-        this.state.showAll || activityList.length <= INITIAL_ACTIVITY_ROWS
+        showAll || activityList.length <= INITIAL_ACTIVITY_ROWS
           ? activityList
           : take(activityList, INITIAL_ACTIVITY_ROWS);
 
-      const activityListContent = limitedList.map((activity, index) => (
+      const activityListContent = limitedList.map((singleActivity, index) => (
         <div key={index} className="claims-evidence">
           <div className="claims-evidence-date">
-            {moment(activity.date).format('MMM D, YYYY')}
+            {moment(singleActivity.date).format('MMM D, YYYY')}
           </div>
-          {this.getEventDescription(activity)}
+          {this.getEventDescription(singleActivity)}
         </div>
       ));
 
-      if (!this.state.showAll && activityList.length > INITIAL_ACTIVITY_ROWS) {
+      if (!showAll && activityList.length > INITIAL_ACTIVITY_ROWS) {
         return (
           <div>
             <div>{activityListContent}</div>
             <button
+              type="button"
               className="claim-older-updates usa-button-secondary"
               onClick={this.showAllActivity}
             >
@@ -152,31 +160,44 @@ export default class ClaimPhase extends React.Component {
 
     return null;
   }
+
   showAllActivity(event) {
     this.setState({ showAll: true });
     event.stopPropagation();
   }
+
   expandCollapse() {
     recordEvent({
       event: 'claims-expandcollapse',
     });
-    if (this.props.phase <= this.props.current) {
-      this.setState({ open: !this.state.open });
+    const { phase, current } = this.props;
+    const { open } = this.state;
+    if (phase <= current) {
+      this.setState({ open: !open });
     }
   }
+
   render() {
     const { phase, current, children } = this.props;
+    const { open } = this.state;
     const expandCollapseIcon =
       phase <= current ? (
         <i
           aria-hidden="true"
           className={
-            this.state.open
+            open
               ? 'fa fa-minus claim-timeline-icon'
               : 'fa fa-plus claim-timeline-icon'
           }
         />
       ) : null;
+
+    const handler = {
+      getDescriptionClick: e => {
+        e.preventDefault();
+        this.expandCollapse();
+      },
+    };
 
     return (
       // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
@@ -184,18 +205,15 @@ export default class ClaimPhase extends React.Component {
         {expandCollapseIcon}
         <h3 className="section-header vads-u-font-size--h4">
           <button
+            type="button"
             className="section-header-button"
-            aria-expanded={this.state.open}
-            onClick={e => {
-              e.preventDefault();
-              this.expandCollapse();
-            }}
+            aria-expanded={open}
+            onClick={handler.getDescriptionClick}
           >
             {getUserPhaseDescription(phase)}
           </button>
         </h3>
-        {this.state.open ||
-        (current !== COMPLETE_PHASE && phase === COMPLETE_PHASE) ? (
+        {open || (current !== COMPLETE_PHASE && phase === COMPLETE_PHASE) ? (
           <div>
             {children}
             {this.displayActivity()}
@@ -207,8 +225,9 @@ export default class ClaimPhase extends React.Component {
 }
 
 ClaimPhase.propTypes = {
-  activity: PropTypes.object,
-  phase: PropTypes.number.isRequired,
-  current: PropTypes.number,
   id: PropTypes.string.isRequired,
+  phase: PropTypes.number.isRequired,
+  activity: PropTypes.object,
+  children: PropTypes.any,
+  current: PropTypes.number,
 };

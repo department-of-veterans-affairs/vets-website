@@ -16,5 +16,7 @@ describe('Claim Details Test', () => {
     trackClaimsPage.checkClaimsContent();
     trackClaimsPage.claimDetailsTab();
     trackClaimsPage.verifyClaimDetails();
+    cy.expandAccordions();
+    cy.axeCheck();
   });
 });
