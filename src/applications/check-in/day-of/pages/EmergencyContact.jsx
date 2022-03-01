@@ -58,16 +58,13 @@ const EmergencyContact = props => {
       });
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ emergencyContactUpToDate: 'no' }));
-        goToNextPage();
-      } else {
-        updateSeeStaffMessage(seeStaffMessage);
-        jumpToPage(URLS.SEE_STAFF);
       }
+      updateSeeStaffMessage(seeStaffMessage);
+      jumpToPage(URLS.SEE_STAFF);
     },
     [
       isDayOfDemographicsFlagsEnabled,
       dispatch,
-      goToNextPage,
       updateSeeStaffMessage,
       jumpToPage,
     ],
