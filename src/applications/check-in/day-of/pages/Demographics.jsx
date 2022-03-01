@@ -48,27 +48,24 @@ const Demographics = props => {
       });
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
-        goToNextPage();
-      } else {
-        const seeStaffMessage = (
-          <>
-            <p>Our staff can help you update your contact information.</p>
-            <p className="vads-u-margin-bottom--0">
-              If you don’t live at a fixed address right now, we’ll help you
-              find the best way to stay connected with us.
-            </p>
-          </>
-        );
-        updateSeeStaffMessage(seeStaffMessage);
-        jumpToPage(URLS.SEE_STAFF);
       }
+      const seeStaffMessage = (
+        <>
+          <p>Our staff can help you update your contact information.</p>
+          <p className="vads-u-margin-bottom--0">
+            If you don’t live at a fixed address right now, we’ll help you find
+            the best way to stay connected with us.
+          </p>
+        </>
+      );
+      updateSeeStaffMessage(seeStaffMessage);
+      jumpToPage(URLS.SEE_STAFF);
     },
     [
       updateSeeStaffMessage,
       jumpToPage,
       isDayOfDemographicsFlagsEnabled,
       dispatch,
-      goToNextPage,
     ],
   );
 
