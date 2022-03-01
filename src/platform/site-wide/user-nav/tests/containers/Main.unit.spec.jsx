@@ -52,6 +52,8 @@ describe('<Main>', () => {
     props.getBackendStatuses.reset();
     props.toggleFormSignInModal.reset();
     props.toggleLoginModal.reset();
+    props.toggleAccountTransitionModal.reset();
+    props.closeAccountTransitionModal.reset();
     props.toggleSearchHelpUserMenu.reset();
     props.updateLoggedInStatus.reset();
     props.initializeProfile.reset();
