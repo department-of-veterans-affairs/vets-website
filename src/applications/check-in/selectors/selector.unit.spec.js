@@ -3,6 +3,7 @@ import cloneDeep from 'platform/utilities/data/cloneDeep';
 
 import {
   makeSelectCurrentContext,
+  makeSelectEditContext,
   makeSelectForm,
   makeSelectVeteranData,
   makeSelectConfirmationData,
@@ -12,6 +13,31 @@ import {
 
 describe('check-in', () => {
   describe('selector', () => {
+    describe('makeSelectEditContext', () => {
+      const state = {
+        checkInData: {
+          context: {
+            editing: {
+              originatingUrl: 'contact-information',
+              editingPage: 'demographics',
+              value: 'kermit.frog@sesameenterprises.us',
+              key: 'emailAddress',
+            },
+          },
+        },
+      };
+      it('returns the correct structure from state', () => {
+        const selectEditContext = makeSelectEditContext();
+        expect(selectEditContext(state)).to.eql({
+          editing: {
+            originatingUrl: 'contact-information',
+            editingPage: 'demographics',
+            value: 'kermit.frog@sesameenterprises.us',
+            key: 'emailAddress',
+          },
+        });
+      });
+    });
     describe('makeSelectForm', () => {
       const state = {
         checkInData: {

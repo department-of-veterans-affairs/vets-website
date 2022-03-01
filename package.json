@@ -199,7 +199,7 @@
     "@babel/parser": "^7.15.7",
     "@babel/traverse": "^7.15.4",
     "@cypress/webpack-preprocessor": "^5.11.1",
-    "@department-of-veterans-affairs/component-library": "^6.2.1",
+    "@department-of-veterans-affairs/component-library": "^7.1.0",
     "@department-of-veterans-affairs/formation": "7.0.0",
     "@department-of-veterans-affairs/formulate": "0.0.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
