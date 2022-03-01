@@ -17,7 +17,15 @@ describe('Fetch Form Status Unsuccessfully', () => {
     cy.intercept('GET', '/v0/in_progress_forms/5655', req => {
       req.reply(500, { errors: [] });
     });
+    cy.window().then(win => {
+      win.localStorage.setItem('sessionExpiration', new Date().toString());
+    });
     cy.visit(manifest.rootUrl);
+  });
+  after(() => {
+    cy.window().then(win => {
+      win.localStorage.removeItem('sessionExpiration');
+    });
   });
   it('Unsuccessful API Response', () => {
     cy.get('[data-testid="server-error"] > h3').should(
