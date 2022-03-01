@@ -173,7 +173,7 @@ describe('<Main>', () => {
       const wrapper = shallow(<Main {...props} />);
       global.window.simulate('load');
       wrapper.setProps(mutatedProps);
-      expect(props.toggleAccountTransitionModal.calledWith(false)).to.be.true;
+      expect(props.toggleAccountTransitionModal.notCalled).to.be.true;
       wrapper.unmount();
     });
   });
