@@ -20,7 +20,7 @@ import {
  * @property {String} hearingTypePreference - Vetera selected hearing type -
  *   enum to "virtual_hearing", "video_conference" or "central_office"
  * @property {Boolean} socOptIn - check box indicating the Veteran has opted in
- *   to the new appeal process
+ *   to the new appeal process (always false)
  * @property {Boolean} view:additionalEvidence - Veteran choice to upload more
  *   evidence
  */
@@ -138,31 +138,33 @@ export const createIssueName = ({ attributes } = {}) => {
  * @returns {ContestableIssue~Submittable}
  */
 export const getContestableIssues = ({ contestableIssues }) =>
-  contestableIssues.filter(issue => issue[SELECTED]).map(issue => {
-    const attr = issue.attributes;
-    const attributes = [
-      'decisionIssueId',
-      'ratingIssueReferenceId',
-      'ratingDecisionReferenceId',
-    ].reduce(
-      (acc, key) => {
-        // Don't submit null or empty strings
-        if (attr[key]) {
-          acc[key] = attr[key];
-        }
-        return acc;
-      },
-      {
-        issue: createIssueName(issue),
-        decisionDate: attr.approxDecisionDate,
-      },
-    );
+  contestableIssues
+    .filter(issue => issue[SELECTED])
+    .map(issue => {
+      const attr = issue.attributes;
+      const attributes = [
+        'decisionIssueId',
+        'ratingIssueReferenceId',
+        'ratingDecisionReferenceId',
+      ].reduce(
+        (acc, key) => {
+          // Don't submit null or empty strings
+          if (attr[key]) {
+            acc[key] = attr[key];
+          }
+          return acc;
+        },
+        {
+          issue: createIssueName(issue),
+          decisionDate: attr.approxDecisionDate,
+        },
+      );
 
-    return {
-      type: issue.type,
-      attributes,
-    };
-  });
+      return {
+        type: issue.type,
+        attributes,
+      };
+    });
 
 /**
  * @typedef AdditionalIssues

@@ -16,5 +16,7 @@ describe('Ask VA Claim Test', () => {
     trackClaimsPage.verifyInProgressClaim(false);
     trackClaimsPage.verifyNumberOfFiles(3);
     trackClaimsPage.askForClaimDecision();
+    cy.expandAccordions();
+    cy.axeCheck();
   });
 });
