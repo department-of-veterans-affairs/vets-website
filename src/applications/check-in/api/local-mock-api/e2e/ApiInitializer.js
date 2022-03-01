@@ -277,7 +277,7 @@ class ApiInitializer {
     },
   };
 
-  initializeCheckInEditPost = {
+  initializeDemographicEditPost = {
     withSuccess: () => {
       cy.intercept('POST', `/check_in/v2/edit_demographics/`, req => {
         req.reply(checkInData.post.createMockEditSuccessResponse());
@@ -286,6 +286,23 @@ class ApiInitializer {
     withFailure: (errorCode = 400) => {
       cy.intercept('POST', `/check_in/v2/edit_demographics/`, req => {
         req.reply(errorCode, checkInData.post.createMockEditErrorResponse({}));
+      });
+    },
+  };
+
+  initializeAddressValidationPost = {
+    withSuccess: () => {
+      cy.intercept('POST', `/check_in/v2/validate_address/`, req => {
+        req.reply(
+          checkInData.post.createMockAddressValidationSuccessResponse(),
+        );
+      });
+    },
+    withFailure: (errorCode = 400) => {
+      cy.intercept('POST', `/check_in/v2/validate_address/`, req => {
+        req.reply(
+          checkInData.post.createMockAddressValidationErrorResponse(errorCode),
+        );
       });
     },
   };
