@@ -23,10 +23,10 @@ module.exports = async on => {
     plugins: [filelocPlugin()],
     platform: 'node',
     target: ['esnext', 'node14'],
-    banner: {
-      js:
-        "import { createRequire as topLevelCreateRequire } from 'module';\n const require = topLevelCreateRequire(import.meta.url);",
-    },
+    // banner: {
+    //   js:
+    //     "import { createRequire as topLevelCreateRequire } from 'module';\n const require = topLevelCreateRequire(import.meta.url);",
+    // },
     // footer: {
     //   js: [
     //     `}`
