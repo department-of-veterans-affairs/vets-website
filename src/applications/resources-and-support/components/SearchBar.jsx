@@ -158,6 +158,7 @@ export default function SearchBar({
                     type="radio"
                     value="/resources/search"
                     className="vads-u-color--gray-dark"
+                    data-e2e-id="resources-support-resource-radio"
                   />
                   <label htmlFor="search-within-resources-and-support">
                     <span className="vads-u-visibility--screen-reader">
@@ -173,6 +174,7 @@ export default function SearchBar({
                     onChange={event => setGlobalSearch(event.target.checked)}
                     type="radio"
                     className="vads-u-color--gray-dark"
+                    data-e2e-id="resources-support-resource-all-va-radio"
                   />
                   <label htmlFor="search-all-of-va-dot-gov">
                     <span className="vads-u-visibility--screen-reader">
