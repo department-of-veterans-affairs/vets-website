@@ -42,6 +42,8 @@ describe('Schemaform definition bankAccount', () => {
     ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
       preventDefault: f => f,
     });
-    expect(find('.usa-input-error-message').textContent).to.equal(`Error `);
+    expect(find('.usa-input-error-message').textContent).to.equal(
+      `Error ${uiSchema.routingNumber['ui:errorMessages'].pattern}`,
+    );
   });
 });
