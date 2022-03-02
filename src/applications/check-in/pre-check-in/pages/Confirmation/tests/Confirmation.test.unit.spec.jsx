@@ -4,6 +4,7 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { createMockRouter } from '../../../../tests/unit/mocks/router';
 import Confirmation from '../index';
 
 describe('pre-check-in', () => {
@@ -34,7 +35,11 @@ describe('pre-check-in', () => {
               data: {
                 demographicsUpToDate: 'yes',
                 nextOfKinUpToDate: 'yes',
+                emergencyContactUpToDate: 'yes',
               },
+            },
+            context: {
+              token: 'token',
             },
           },
         };
@@ -45,7 +50,7 @@ describe('pre-check-in', () => {
       it('renders page with clinic name', () => {
         const screen = render(
           <Provider store={store}>
-            <Confirmation />
+            <Confirmation router={createMockRouter()} />
           </Provider>,
         );
         expect(screen.getAllByText('LOM ACC CLINIC TEST')).to.have.lengthOf(1);
@@ -104,6 +109,9 @@ describe('pre-check-in', () => {
                 demographicsUpToDate: 'yes',
                 nextOfKinUpToDate: 'yes',
               },
+            },
+            context: {
+              token: 'token',
             },
           },
         };

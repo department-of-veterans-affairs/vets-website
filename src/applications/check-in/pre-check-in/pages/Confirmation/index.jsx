@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
@@ -132,6 +133,10 @@ const Confirmation = props => {
       <BackToHome />
     </div>
   );
+};
+
+Confirmation.propTypes = {
+  router: PropTypes.object,
 };
 
 export default Confirmation;
