@@ -229,7 +229,7 @@ export function LocationSearchForm({
                     <button
                       type="button"
                       name="use-my-location"
-                      onClick={() => {
+                      onClick={evnt => {
                         // eslint-disable-next-line sonarjs/no-collapsible-if
                         if (!environment.isProduction()) {
                           if (
@@ -242,7 +242,10 @@ export function LocationSearchForm({
                           event: 'map-use-my-location',
                         });
                         dispatchGeolocateUser();
-                        if (environment.isProduction()) doSearch(null);
+                        if (environment.isProduction()) {
+                          setAutocompleteSelection(location);
+                          doSearch(evnt);
+                        }
                       }}
                       className="use-my-location-link"
                     >
