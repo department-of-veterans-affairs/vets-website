@@ -33,8 +33,13 @@ const seeStaffMessageUpdatedHandler = (state, action) => {
   return { ...state, ...action.payload };
 };
 
+const setConfirmedDemographicsHandler = (state, action) => {
+  return { ...state, ...action.payload };
+};
+
 export {
   appointmentWasCheckedIntoHandler,
+  setConfirmedDemographicsHandler,
   triggerRefreshHandler,
   receivedAppointmentDetailsHandler,
   receivedDemographicsDataHandler,
