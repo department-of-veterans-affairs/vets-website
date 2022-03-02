@@ -11,28 +11,72 @@ const tableConfig = {
 };
 
 module.exports = async on => {
-  const appRegistry = require('../../../../../../../content-build/src/applications/registry.json');
+  let appRegistry;
+  if (process.env.CYPRESS_CI) {
+    // eslint-disable-next-line import/no-unresolved
+    appRegistry = require('../../../../../../content-build/src/applications/registry.json');
+  } else {
+    appRegistry = require('../../../../../../../content-build/src/applications/registry.json');
+  }
+  // eslint-disable-next-line no-useless-escape
   const nodeModules = new RegExp(/^(?:.*[\\\/])?node_modules(?:[\\\/].*)?$/);
   const dirnamePlugin = {
     name: 'dirname',
 
     setup(build) {
+      // eslint-disable-next-line consistent-return
       build.onLoad({ filter: /.js?$/ }, ({ path: filePath }) => {
         if (!filePath.match(nodeModules)) {
           const regex = /.*\/vets-website\/(.+)/;
           const [, relativePath] = filePath.match(regex);
           let contents = fs.readFileSync(filePath, 'utf8');
-          // const loader = path.extname(filePath).substring(1);
           const dirname = path.dirname(relativePath);
-          if (/.+.cypress.spec.js$/.test(filePath)) {
-            // console.log('filePath: ', filePath);
-            // console.log('dirname: ', dirname);
-            // console.log('__dirname: ', __dirname);
-            // console.log('contents: ', contents);
-            // console.log('loader: ', loader);
-          }
-          const injectedStuff = `const __dirname = '${dirname.replace('src/','')}';`;
+          const injectedStuff = `const __dirname = '${dirname.replace(
+            'src/',
+            '',
+          )}';`;
           contents = `${injectedStuff}\n\n${contents}`;
+          return {
+            contents,
+            loader: 'jsx',
+          };
+        }
+      });
+    },
+  };
+
+  // eslint-disable-next-line no-useless-escape, prettier/prettier
+  const nodeModules2 = new RegExp(/^(?:.*[\\\/])?node_modules\/url-search-params(?:[\\\/].*)?$/);
+  const dirnamePlugin2 = {
+    name: 'dirname2',
+
+    setup(build) {
+      // eslint-disable-next-line consistent-return
+      build.onLoad({ filter: /.js?$/ }, ({ path: filePath }) => {
+        if (filePath.match(nodeModules2)) {
+          let contents = fs.readFileSync(filePath, 'utf8');
+          contents = ` `;
+          return {
+            contents,
+            loader: 'jsx',
+          };
+        }
+      });
+    },
+  };
+
+  const dirnamePlugin3 = {
+    name: 'dirname3',
+
+    setup(build) {
+      // eslint-disable-next-line consistent-return
+      build.onLoad({ filter: /.js?$/ }, ({ path: filePath }) => {
+        if (!filePath.match(nodeModules)) {
+          let contents = fs.readFileSync(filePath, 'utf8');
+          contents = `${contents.replace(
+            /import .+ from 'web-components\/react-bindings';/,
+            ' ',
+          )}`;
           return {
             contents,
             loader: 'jsx',
@@ -53,7 +97,7 @@ module.exports = async on => {
       'process.env.NODE_ENV': '"production"',
       'process.env.BUILDTYPE': '"production"',
     },
-    plugins: [dirnamePlugin],
+    plugins: [dirnamePlugin, dirnamePlugin2, dirnamePlugin3],
     platform: 'browser',
     target: ['esnext', 'node14'],
   });
