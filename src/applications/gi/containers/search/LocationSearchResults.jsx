@@ -354,7 +354,7 @@ function LocationSearchResults({
       setUsedFilters(getFiltersChanged(filters));
       setMarkers(mapMarkers);
     },
-    [results, smallScreen, mobileTab],
+    [results, smallScreen, isLandscape, mobileTab],
   );
 
   /**
@@ -469,7 +469,7 @@ function LocationSearchResults({
               <FilterYourResults />
             </>
           )}
-          {smallScreen && (
+          {(smallScreen || isLandscape) && (
             <MobileFilterControls className="vads-u-margin-top--2" />
           )}
         </>
@@ -628,7 +628,7 @@ function LocationSearchResults({
           role="region"
         >
           {mapState.changed &&
-            !smallScreen && (
+            (!isLandscape || !smallScreen) && (
               <div
                 id="search-area-control-container"
                 className="mapboxgl-ctrl-top-center"
