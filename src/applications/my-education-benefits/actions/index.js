@@ -44,20 +44,26 @@ const ONE_MINUTE_IN_THE_FUTURE = () => {
 export function fetchPersonalInformation() {
   return async dispatch => {
     dispatch({ type: FETCH_PERSONAL_INFORMATION });
-
     return apiRequest(CLAIMANT_INFO_ENDPOINT)
-      .then(response =>
-        dispatch({
-          type: FETCH_PERSONAL_INFORMATION_SUCCESS,
-          response,
-        }),
-      )
-      .catch(errors =>
+      .then(response => {
+        if (!response?.data?.attributes?.claimant) {
+          window.location.href =
+            '/education/apply-for-education-benefits/application/1990/';
+        } else {
+          dispatch({
+            type: FETCH_PERSONAL_INFORMATION_SUCCESS,
+            response,
+          });
+        }
+      })
+      .catch(errors => {
         dispatch({
           type: FETCH_PERSONAL_INFORMATION_FAILED,
           errors,
-        }),
-      );
+        });
+        window.location.href =
+          '/education/apply-for-education-benefits/application/1990/';
+      });
   };
 }
 

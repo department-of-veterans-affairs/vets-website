@@ -25,5 +25,5 @@ export default function EnrollmentVerificationPageWrapper({ children }) {
 }
 
 EnrollmentVerificationPageWrapper.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.any,
 };

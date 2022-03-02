@@ -10,6 +10,7 @@ export default function uiSchema(title = 'Email address') {
       pattern: 'Please enter an email address using this format: X@X.com',
       required: 'Please enter an email address',
     },
+    'ui:autocomplete': 'email',
     'ui:options': {
       inputType: 'email',
     },
