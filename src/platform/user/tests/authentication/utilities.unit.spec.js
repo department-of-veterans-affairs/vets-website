@@ -96,7 +96,7 @@ describe('authentication URL helpers', () => {
     global.window.location.search = '?application=mhv';
     authUtilities.login({ policy: CSP_IDS.ID_ME });
     expect(global.window.location).to.include(
-      `/v1/sessions/idme/new?skip_dupe=mhv&redirect=${
+      `/v1/sessions/idme/new?skip_dupe=true&redirect=${
         EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]
       }&postLogin=true`,
     );
@@ -108,7 +108,7 @@ describe('authentication URL helpers', () => {
 
     authUtilities.login({ policy: CSP_IDS.ID_ME });
     expect(global.window.location).to.include(
-      `/v1/sessions/idme/new?skip_dupe=mhv&redirect=${
+      `/v1/sessions/idme/new?skip_dupe=true&redirect=${
         EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]
       }?deeplinking=secure_messaging&postLogin=true`,
     );
