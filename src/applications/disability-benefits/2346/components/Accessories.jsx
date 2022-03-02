@@ -1,5 +1,4 @@
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import classnames from 'classnames';
 import moment from 'moment';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -7,8 +6,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ACCESSORY } from '../constants';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import { ACCESSORY } from '../constants';
 
 class Accessories extends Component {
   componentDidMount() {
@@ -46,6 +45,7 @@ class Accessories extends Component {
     };
     return this.props.setData(updatedFormData);
   };
+
   render() {
     const { supplies, order, eligibility } = this.props;
     const currentDate = moment();
@@ -74,32 +74,29 @@ class Accessories extends Component {
         )}
         {!haveAccessoriesBeenOrderedInLastTwoYears &&
           !areAccessorySuppliesEligible && (
-            <AlertBox
-              headline="You can't add accessories to your order at this time"
-              content={
-                <div className="accessories-two-year-alert-content">
-                  <p>
-                    You can only order accessories that you've received in the
-                    past 2 years.
-                  </p>
-                  <p>
-                    If you need accessories like domes, wax guards, cleaning
-                    supplies, or dessicant, call the DLC Customer Service
-                    Section at{' '}
-                    <a
-                      aria-label="3 0 3. 2 7 3. 6 2 0 0."
-                      href="tel:303-273-6200"
-                    >
-                      303-273-6200
-                    </a>{' '}
-                    or email{' '}
-                    <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-                  </p>
-                </div>
-              }
-              status="info"
-              isVisible
-            />
+            <va-alert status="info" visible>
+              <h3 slot="headline">
+                You can’t add accessories to your order at this time
+              </h3>
+              <div className="accessories-two-year-alert-content">
+                <p>
+                  You can only order accessories that you’ve received in the
+                  past 2 years.
+                </p>
+                <p>
+                  If you need accessories like domes, wax guards, cleaning
+                  supplies, or dessicant, call the DLC Customer Service Section
+                  at{' '}
+                  <a
+                    aria-label="3 0 3. 2 7 3. 6 2 0 0."
+                    href="tel:303-273-6200"
+                  >
+                    303-273-6200
+                  </a>{' '}
+                  or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+                </p>
+              </div>
+            </va-alert>
           )}
         {accessorySupplies.length > 0 &&
           haveAccessoriesBeenOrderedInLastTwoYears &&
@@ -185,7 +182,7 @@ class Accessories extends Component {
               need an accessory that hasn’t been ordered within the last 2
               years, call the DLC Customer Service Section at
               <Telephone
-                contact={'303-273-6200'}
+                contact="303-273-6200"
                 className="vads-u-margin--0p5"
               />
               or email
