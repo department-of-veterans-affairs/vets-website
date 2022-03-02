@@ -129,6 +129,7 @@ export default function SearchBar({
           onSubmit={handleSubmit}
         >
           <div
+            role="search"
             className={`${
               inputError ? 'usa-input-error vads-u-margin--0' : ''
             }`}
