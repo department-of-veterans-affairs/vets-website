@@ -6,13 +6,16 @@ import { api } from '../../../api';
 import MultipleAppointment from './MultipleAppointments';
 import { triggerRefresh } from '../../../actions/day-of';
 import { makeSelectConfirmationData } from '../../../selectors';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 import { useDemographicsFlags } from '../../../hooks/useDemographicsFlags';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 const Confirmation = props => {
   const { router } = props;
-  const { isDayOfDemographicsFlagsEnabled } = props;
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const featureToggles = useSelector(selectFeatureToggles);
+  const { isDayOfDemographicsFlagsEnabled } = featureToggles;
   const { goToErrorPage } = useFormRouting(router);
   const {
     demographicsData,
@@ -66,7 +69,6 @@ const Confirmation = props => {
 };
 
 Confirmation.propTypes = {
-  isDayOfDemographicsFlagsEnabled: PropTypes.bool,
   router: PropTypes.object,
 };
 
