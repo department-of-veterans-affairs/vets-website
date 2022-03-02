@@ -42,7 +42,7 @@ const uiSchema = {
   accountType: {
     'ui:title': 'Account type',
     'ui:widget': 'radio',
-    'ui:required': !environment.isProduction,
+    'ui:required': isProduction,
     'ui:options': {
       labels: {
         checking: 'Checking',
@@ -52,28 +52,26 @@ const uiSchema = {
   },
   accountNumber: {
     'ui:title': 'Bank account number',
-    'ui:required': !environment.isProduction,
-    'ui:errorMessages': () =>
-      isProduction
-        ? {}
-        : {
-            pattern: 'Please enter a valid account number',
-            required: 'Please enter a bank account number',
-          },
+    'ui:required': isProduction,
+    'ui:errorMessages': isProduction
+      ? {}
+      : {
+          pattern: 'Please enter a valid account number',
+          required: 'Please enter a bank account number',
+        },
   },
   routingNumber: {
     'ui:title': isProduction
       ? 'Bank routing number'
       : 'Bank’s 9 digit routing number',
     'ui:validations': [validateRoutingNumber],
-    'ui:required': !environment.isProduction,
-    'ui:errorMessages': () =>
-      isProduction
-        ? {}
-        : {
-            pattern: 'Please enter a valid 9 digit routing number',
-            required: 'Please enter a routing number',
-          },
+    'ui:required': isProduction,
+    'ui:errorMessages': isProduction
+      ? {}
+      : {
+          pattern: 'Please enter a valid 9 digit routing number',
+          required: 'Please enter a routing number',
+        },
   },
 };
 
