@@ -4,9 +4,7 @@ import sinon from 'sinon';
 import {
   contactInfoValidation,
   areaOfDisagreementRequired,
-  optInValidation,
 } from '../../validations';
-import { optInErrorMessage } from '../../content/OptIn';
 
 describe('contactInfoValidation', () => {
   const getData = ({
@@ -73,10 +71,10 @@ describe('areaOfDisagreementRequired', () => {
     areaOfDisagreementRequired(errors);
     expect(errors.addError.called).to.be.true;
   });
-  it('should show an error with other selected, but no entry text', () => {
+  it('should show an error with no entry text in other', () => {
     const errors = { addError: sinon.spy() };
     areaOfDisagreementRequired(errors, {
-      disagreementOptions: { other: true },
+      disagreementOptions: {},
     });
     expect(errors.addError.called).to.be.true;
   });
@@ -85,34 +83,12 @@ describe('areaOfDisagreementRequired', () => {
     areaOfDisagreementRequired(errors, { disagreementOptions: { foo: true } });
     expect(errors.addError.called).to.be.false;
   });
-  it('should not show an error with other selected with entry text', () => {
+  it('should not show an error with other entry text', () => {
     const errors = { addError: sinon.spy() };
     areaOfDisagreementRequired(errors, {
-      disagreementOptions: { other: true },
+      disagreementOptions: {},
       otherEntry: 'foo',
     });
     expect(errors.addError.called).to.be.false;
-  });
-});
-
-describe('optInValidation', () => {
-  let errorMessage = '';
-  const errors = {
-    addError: message => {
-      errorMessage = message || '';
-    },
-  };
-
-  beforeEach(() => {
-    errorMessage = '';
-  });
-
-  it('should show an error when the value is false', () => {
-    optInValidation(errors, false);
-    expect(errorMessage).to.equal(optInErrorMessage);
-  });
-  it('should not show an error when the value is true', () => {
-    optInValidation(errors, true);
-    expect(errorMessage).to.equal('');
   });
 });

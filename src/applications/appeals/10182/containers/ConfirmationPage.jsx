@@ -1,13 +1,12 @@
 import React from 'react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { selectProfile } from 'platform/user/selectors';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { FORMAT_READABLE } from '../constants';
 import { getSelected, getIssueName } from '../utils/helpers';
@@ -20,14 +19,17 @@ export class ConfirmationPage extends React.Component {
 
   render() {
     const { name = {}, form } = this.props;
-    const { submission, formId } = form;
-    const issues = getSelected(form.data || []).map((issue, index) => (
+    const { submission, formId, data } = form;
+    const issues = getSelected(data || []).map((issue, index) => (
       <li key={index} className="vads-u-margin-bottom--0">
         {getIssueName(issue)}
       </li>
     ));
     const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
     const submitDate = moment(submission?.timestamp);
+    const handlers = {
+      print: () => window.print(),
+    };
 
     return (
       <div>
@@ -64,8 +66,9 @@ export class ConfirmationPage extends React.Component {
           </strong>
           <ul className="vads-u-margin-top--0">{issues || null}</ul>
           <button
+            type="button"
             className="usa-button screen-only"
-            onClick={() => window.print()}
+            onClick={handlers.print}
           >
             Print this for your records
           </button>
@@ -92,7 +95,7 @@ export class ConfirmationPage extends React.Component {
         <p>
           If you requested an appeal and haven’t heard back from us yet, please
           don’t request another appeal. Call us at{' '}
-          <Telephone contact={CONTACTS.VA_BENEFITS} />.
+          <va-telephone contact={CONTACTS.VA_BENEFITS} />.
         </p>
         <br />
         <a
@@ -111,6 +114,17 @@ export class ConfirmationPage extends React.Component {
     );
   }
 }
+
+ConfirmationPage.propTypes = {
+  form: PropTypes.shape({
+    data: PropTypes.shape({}),
+    formId: PropTypes.string,
+    submission: PropTypes.shape({
+      timestamp: PropTypes.string,
+    }),
+  }),
+  name: PropTypes.string,
+};
 
 function mapStateToProps(state) {
   return {

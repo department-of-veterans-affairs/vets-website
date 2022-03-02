@@ -43,9 +43,6 @@ describe('When there is a known issue connecting to VA Profile', () => {
     // Check date of birth
     cy.findByText(/May 6, 1986/i).should('exist');
 
-    // Check gender
-    cy.findByText(/Male/i).should('exist');
-
     // Contact info sections should not be shown
     cy.findByText(/^Mailing address$/i).should('not.exist');
     cy.findByText(/^Residential address$/i).should('not.exist');

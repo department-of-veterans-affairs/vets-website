@@ -3,6 +3,7 @@ import Table from '@department-of-veterans-affairs/component-library/Table';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
+import PropTypes from 'prop-types';
 import { ErrorAlert, DependentDebt, NoDebtLinks } from './Alerts';
 
 const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
@@ -82,6 +83,18 @@ const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
   return (
     <Table data={tableData} currentSort={tableSort} fields={tableFields} />
   );
+};
+
+DebtLettersTable.propTypes = {
+  debtLinks: PropTypes.arrayOf(
+    PropTypes.shape({
+      documentId: PropTypes.string,
+      receivedAt: PropTypes.string,
+      typeDescription: PropTypes.string,
+    }),
+  ),
+  hasDependentDebts: PropTypes.bool,
+  isError: PropTypes.bool,
 };
 
 export default DebtLettersTable;

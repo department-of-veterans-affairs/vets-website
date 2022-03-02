@@ -17,10 +17,10 @@ export const DownloadLettersAlert = () => (
       We’re sorry. The length of time listed for repayment plans in these
       letters is too short. Use the letters you get in the mail to find the
       correct repayment plan terms. If you have any questions, call us at
-      <Telephone contact={'800-827-0648'} className="vads-u-margin-x--0p5" />
+      <Telephone contact="800-827-0648" className="vads-u-margin-x--0p5" />
       (or
       <Telephone
-        contact={'1-612-713-6415'}
+        contact="1-612-713-6415"
         pattern={PATTERNS.OUTSIDE_US}
         className="vads-u-margin-x--0p5"
       />
@@ -80,10 +80,7 @@ export const DowntimeMessage = () => {
 };
 
 export const ErrorMessage = () => (
-  <section
-    className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
-    role="alert"
-  >
+  <va-alert class="vads-u-margin-top--0 vads-u-padding--3" status="error">
     <div className="usa-alert-body">
       <h3 className="usa-alert-heading">
         Information about your current debts is unavailable.
@@ -100,14 +97,11 @@ export const ErrorMessage = () => (
         <Telephone className="vads-u-margin-left--0p5" contact="8008270648" />.
       </p>
     </div>
-  </section>
+  </va-alert>
 );
 
 export const ErrorAlert = () => (
-  <div
-    className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
-    role="alert"
-  >
+  <va-alert class="vads-u-margin-top--0 vads-u-padding--3" status="error">
     <div className="usa-alert-body">
       <h3 className="usa-alert-heading">
         Your debt letters are currently unavailable.
@@ -123,14 +117,11 @@ export const ErrorAlert = () => (
         find out more information about how to resolve your debt.
       </p>
     </div>
-  </div>
+  </va-alert>
 );
 
 export const DependentDebt = () => (
-  <div
-    className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
-    role="alert"
-  >
+  <va-alert class="vads-u-margin-top--0 vads-u-padding--3" status="error">
     <div className="usa-alert-body">
       <h3 className="usa-alert-heading">
         Your debt letters are currently unavailable.
@@ -145,11 +136,11 @@ export const DependentDebt = () => (
         Debt Management Center at <Telephone contact="8008270648" />.
       </p>
     </div>
-  </div>
+  </va-alert>
 );
 
 export const NoDebtLinks = () => (
-  <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
+  <va-alert class="vads-u-padding--3 vads-u-margin-bottom--2" status="error">
     <div className="usa-alert-body">
       <h3 className="usa-alert-heading">You don’t have any VA debt letters</h3>
       <p className="vads-u-font-family--sans">
@@ -165,5 +156,5 @@ export const NoDebtLinks = () => (
         page to learn about your payment options.
       </p>
     </div>
-  </div>
+  </va-alert>
 );

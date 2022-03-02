@@ -6,7 +6,6 @@ import Downshift from 'downshift';
 import classNames from 'classnames';
 import { WAIT_INTERVAL, KEY_CODES } from '../../constants';
 import { handleScrollOnInputFocus } from '../../utils/helpers';
-import environment from 'platform/utilities/environment';
 
 export function KeywordSearch({
   className,
@@ -155,25 +154,16 @@ export function KeywordSearch({
                 })}
               />
               {/* eslint-disable-next-line no-nested-ternary */}
-              {environment.isProduction() ? (
-                <button
-                  aria-label={`Clear your ${label}`}
-                  type="button"
-                  id="clear-input"
-                  className="fas fa-times-circle clear-button"
-                  onClick={handleClearInput}
-                />
-              ) : inputValue && inputValue.length > 0 ? (
-                <button
-                  aria-label={`Clear your ${label}`}
-                  type="button"
-                  id="clear-input"
-                  className="fas fa-times-circle clear-button"
-                  onClick={handleClearInput}
-                />
-              ) : (
-                <></>
-              )}
+              {inputValue &&
+                inputValue.length > 0 && (
+                  <button
+                    aria-label={`Clear your ${label}`}
+                    type="button"
+                    id="clear-input"
+                    className="fas fa-times-circle clear-button"
+                    onClick={handleClearInput}
+                  />
+                )}
             </div>
             {isOpen && (
               <div
@@ -206,13 +196,19 @@ export function KeywordSearch({
 }
 
 KeywordSearch.propTypes = {
+  className: PropTypes.string,
   error: PropTypes.string,
+  inputValue: PropTypes.string,
   label: PropTypes.string,
-  onFetchAutocompleteSuggestions: PropTypes.func,
-  onSelection: PropTypes.func,
-  onUpdateAutocompleteSearchTerm: PropTypes.func,
+  labelAdditional: PropTypes.object,
+  required: PropTypes.any,
+  suggestions: PropTypes.object,
   validateSearchTerm: PropTypes.func,
   version: PropTypes.string,
+  onFetchAutocompleteSuggestions: PropTypes.func,
+  onPressEnter: PropTypes.func,
+  onSelection: PropTypes.func,
+  onUpdateAutocompleteSearchTerm: PropTypes.func,
 };
 
 export default KeywordSearch;

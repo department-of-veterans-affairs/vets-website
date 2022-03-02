@@ -6,7 +6,7 @@ import Error from '../pages/Error';
 
 describe('Pre Check In Experience', () => {
   describe('session', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const { initializeFeatureToggle } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
     });

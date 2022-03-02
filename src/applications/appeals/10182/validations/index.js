@@ -1,9 +1,5 @@
 import { areaOfDisagreementWorkAround } from '../utils/ui';
-import { optInErrorMessage } from '../content/OptIn';
-import {
-  missingAreaOfDisagreementErrorMessage,
-  missingAreaOfDisagreementOtherErrorMessage,
-} from '../content/areaOfDisagreement';
+import { missingAreaOfDisagreementErrorMessage } from '../content/areaOfDisagreement';
 
 export const contactInfoValidation = (errors, _fieldData, formData) => {
   const { veteran = {}, homeless } = formData;
@@ -28,20 +24,12 @@ export const areaOfDisagreementRequired = (
   arrayIndex, // always null?!
 ) => {
   const keys = Object.keys(disagreementOptions || {});
-  const hasSelection = keys.some(key => disagreementOptions[key]);
+  const hasChoice = keys.some(key => disagreementOptions[key]) || otherEntry;
 
-  if (!hasSelection) {
+  if (!hasChoice) {
     errors.addError(missingAreaOfDisagreementErrorMessage);
-  } else if (disagreementOptions.other && !otherEntry) {
-    errors.addError(missingAreaOfDisagreementOtherErrorMessage);
   }
 
   // work-around for error message not showing :(
-  areaOfDisagreementWorkAround(hasSelection, arrayIndex || index);
-};
-
-export const optInValidation = (errors, value) => {
-  if (!value) {
-    errors.addError(optInErrorMessage);
-  }
+  areaOfDisagreementWorkAround(hasChoice, arrayIndex || index);
 };

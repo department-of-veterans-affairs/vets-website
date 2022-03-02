@@ -68,7 +68,7 @@ const PaymentHistoryTable = () => {
         <Table
           data={formattedData}
           fields={fields}
-          ariaLabelledBy={'payment-history-table'}
+          ariaLabelledBy="payment-history-table"
         />
         <Pagination
           page={page}
@@ -78,15 +78,6 @@ const PaymentHistoryTable = () => {
           onPageSelect={onPageSelect}
         />
       </div>
-      <p>
-        <a href="#">
-          <i
-            className="fas fa-download vads-u-margin-right--1"
-            aria-hidden="true"
-          />
-          Download your June 3, 2021 statement (PDF)
-        </a>
-      </p>
     </article>
   );
 };

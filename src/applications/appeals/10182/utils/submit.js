@@ -20,7 +20,7 @@ import {
  * @property {String} hearingTypePreference - Vetera selected hearing type -
  *   enum to "virtual_hearing", "video_conference" or "central_office"
  * @property {Boolean} socOptIn - check box indicating the Veteran has opted in
- *   to the new appeal process
+ *   to the new appeal process (always false)
  * @property {Boolean} view:additionalEvidence - Veteran choice to upload more
  *   evidence
  */
@@ -217,12 +217,12 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
     serviceConnection: () => SUBMITTED_DISAGREEMENTS.serviceConnection,
     effectiveDate: () => SUBMITTED_DISAGREEMENTS.effectiveDate,
     evaluation: () => SUBMITTED_DISAGREEMENTS.evaluation,
-    other: disagreementOptions => disagreementOptions.otherEntry,
   };
   return issues.map((issue, index) => {
     const entry = areaOfDisagreement[index];
     const reasons = Object.entries(entry.disagreementOptions)
       .map(([key, value]) => value && keywords[key](entry))
+      .concat((entry?.otherEntry || '').trim())
       .filter(Boolean);
     return {
       ...issue,

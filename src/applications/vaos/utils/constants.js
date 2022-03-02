@@ -382,3 +382,5 @@ export const CANCELLATION_REASONS = {
   patient: 'pat',
   provider: 'prov',
 };
+
+export const SPACE_BAR = 32;

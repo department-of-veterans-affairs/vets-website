@@ -1,5 +1,4 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import { isVeteran, isUnmarriedChild } from '../utils/helpers';
 
 export default function SupportingDocumentsDescription(props) {
@@ -51,7 +50,7 @@ export default function SupportingDocumentsDescription(props) {
         If you have supporting documents readily available, you can upload them
         to help us make a determination quickly.
       </p>
-      <AdditionalInfo triggerText="What kinds of documents should I provide?">
+      <va-additional-info trigger="What kinds of documents should I provide?">
         {desc}
         <p>
           If you’re applying on behalf of someone else, you’ll need to provide
@@ -74,8 +73,8 @@ export default function SupportingDocumentsDescription(props) {
             applicant is being cared for
           </li>
         </ul>
-      </AdditionalInfo>
-      <AdditionalInfo triggerText="Can I mail or fax documents?">
+      </va-additional-info>
+      <va-additional-info trigger="Can I mail or fax documents?">
         <p>
           We can process your request more quickly if you upload your documents
           here. If you can’t upload your documents:
@@ -95,7 +94,7 @@ export default function SupportingDocumentsDescription(props) {
             <p>Fax (toll-free): 855-840-8299</p>
           </li>
         </ol>
-      </AdditionalInfo>
+      </va-additional-info>
       File types you can upload: PDF
       <br />
       Maximum file size: 15MB

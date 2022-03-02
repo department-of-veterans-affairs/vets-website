@@ -500,27 +500,11 @@ export const mockTogglesResponse = {
         value: true,
       },
       {
-        name: 'findFormsFirstFlag',
+        name: 'findFormsShowPdfModal',
         value: true,
       },
       {
-        name: 'find_forms_first_flag',
-        value: true,
-      },
-      {
-        name: 'findFormsSecondFlag',
-        value: true,
-      },
-      {
-        name: 'find_forms_second_flag',
-        value: true,
-      },
-      {
-        name: 'findFormsThirdFlag',
-        value: true,
-      },
-      {
-        name: 'find_forms_third_flag',
+        name: 'find_forms_show_pdf_modal',
         value: true,
       },
       {
@@ -724,14 +708,6 @@ export const mockTogglesResponse = {
         value: true,
       },
       {
-        name: 'searchTypeaheadEnabled',
-        value: true,
-      },
-      {
-        name: 'search_typeahead_enabled',
-        value: true,
-      },
-      {
         name: 'sharableLink',
         value: true,
       },
@@ -745,6 +721,14 @@ export const mockTogglesResponse = {
       },
       {
         name: 'show526_wizard',
+        value: true,
+      },
+      {
+        name: 'showContactChatbot',
+        value: true,
+      },
+      {
+        name: 'show_contact_chatbot',
         value: true,
       },
       {

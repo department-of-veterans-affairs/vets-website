@@ -1,13 +1,12 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { recordAnswer } from '../../../actions/pre-check-in';
 
-import { api } from '../../../api/';
+import { api } from '../../../api';
 
 import BackButton from '../../../components/BackButton';
 import BackToHome from '../../../components/BackToHome';
@@ -40,16 +39,9 @@ const NextOfKin = props => {
 
   const dispatch = useDispatch();
 
-  const {
-    getCurrentPageFromRouter,
-    goToErrorPage,
-    goToNextPage,
-    goToPreviousPage,
-  } = useFormRouting(router);
-  const currentPage = getCurrentPageFromRouter();
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+  const { goToErrorPage, goToNextPage, goToPreviousPage } = useFormRouting(
+    router,
+  );
 
   const buttonClick = useCallback(
     async answer => {
@@ -108,7 +100,7 @@ const NextOfKin = props => {
 
   return (
     <>
-      <BackButton action={goToPreviousPage} path={currentPage} />
+      <BackButton action={goToPreviousPage} router={router} />
       <NextOfKinDisplay
         Footer={Footer}
         header={header}

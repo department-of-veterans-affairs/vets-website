@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import ENVIRONMENTS from 'site/constants/environments';
-import environment from '../../utilities/environment';
+import environment from 'platform/utilities/environment';
 
 export const eauthEnvironmentPrefixes = {
   [ENVIRONMENTS.LOCALHOST]: 'pint.',
@@ -9,11 +9,28 @@ export const eauthEnvironmentPrefixes = {
   [ENVIRONMENTS.VAGOVPROD]: '',
 };
 
-export const MHV_SKIP_DUPE = '?skip_dupe=mhv';
+export const MHV_SKIP_DUPE = 'skip_dupe=mhv';
+
+export const SKIP_DUPE_QUERY = {
+  SINGLE_QUERY: `?${MHV_SKIP_DUPE}`,
+  MULTIPLE_QUERIES: `&${MHV_SKIP_DUPE}`,
+};
 
 export const CSP_AUTHN = {
   MHV: 'myhealthevet',
   DS_LOGON: 'dslogon',
+};
+
+export const CSP_KEYS = {
+  DSLOGON: 'DSLogon',
+  LOGINGOV: 'LOGINGOV',
+  IDME: 'idme',
+  MHV: 'mhv',
+};
+
+export const AUTHN_KEYS = {
+  IAL: 'ial',
+  CSP_TYPE: 'csp_type',
 };
 
 export const AUTHN_HEADERS = {
@@ -22,6 +39,7 @@ export const AUTHN_HEADERS = {
   TRANSACTION_ID: 'va_eauth_transactionid',
   TIMEOUT: 'session-timeout',
   ALIVE: 'session-alive',
+  IAL: 'va_eauth_ial',
 };
 
 export const SSO_KEEP_ALIVE_ENDPOINT = `https://${

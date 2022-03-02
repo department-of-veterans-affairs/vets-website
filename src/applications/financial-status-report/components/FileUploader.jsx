@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Scroll from 'react-scroll';
 import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
-
+import PropTypes from 'prop-types';
 import {
   readAndCheckFile,
   checkTypeAndExtensionMatches,
@@ -90,6 +90,12 @@ const FileUploader = ({ files, requestLockedPdfPassword, onAddFile }) => {
       />
     </>
   );
+};
+
+FileUploader.propTypes = {
+  files: PropTypes.object,
+  requestLockedPdfPassword: PropTypes.object,
+  onAddFile: PropTypes.object,
 };
 
 export default FileUploader;

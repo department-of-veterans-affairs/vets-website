@@ -1,23 +1,23 @@
 import addSeconds from 'date-fns/addSeconds';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 import environment from 'platform/utilities/environment';
-import localStorage from '../storage/localStorage';
-import { hasSessionSSO } from '../../user/profile/utilities';
-
+import {
+  AUTH_EVENTS,
+  API_VERSION,
+  POLICY_TYPES,
+} from 'platform/user/authentication/constants';
 import {
   standaloneRedirect,
   login,
   loginAppUrlRE,
   logout,
 } from 'platform/user/authentication/utilities';
+
+import { hasSessionSSO } from 'platform/user/profile/utilities';
 import mockKeepAlive from './mockKeepAliveSSO';
 import { keepAlive as liveKeepAlive } from './keepAliveSSO';
 import { getLoginAttempted } from './loginAttempted';
-import {
-  AUTH_EVENTS,
-  API_VERSION,
-  POLICY_TYPES,
-} from 'platform/user/authentication/constants';
+import localStorage from '../storage/localStorage';
 
 const keepAliveThreshold = 5 * 60 * 1000; // 5 minutes, in milliseconds
 
@@ -26,7 +26,8 @@ function keepAlive() {
 }
 
 export async function ssoKeepAliveSession() {
-  const { ttl, transactionid, authn } = await keepAlive();
+  const keepAliveResponse = await keepAlive();
+  const { ttl } = keepAliveResponse;
   if (ttl > 0) {
     // ttl is positive, user has an active session
     // ttl is in seconds, add from now
@@ -40,7 +41,7 @@ export async function ssoKeepAliveSession() {
     // ttl is null, we can't determine if the user has a session or not
     localStorage.removeItem('hasSessionSSO');
   }
-  return { ttl, transactionid, authn };
+  return keepAliveResponse;
 }
 
 /**
@@ -54,7 +55,7 @@ export async function checkAutoSession(
   ssoeTransactionId,
   profile = {},
 ) {
-  const { ttl, transactionid, authn } = await ssoKeepAliveSession();
+  const { ttl, transactionid, ...queryParams } = await ssoKeepAliveSession();
 
   /**
    * Ensure user is authenticated with SSOe by verifying
@@ -79,7 +80,7 @@ export async function checkAutoSession(
        */
       login({
         policy: POLICY_TYPES.CUSTOM,
-        queryParams: { authn },
+        queryParams: { ...queryParams },
         clickedEvent: AUTH_EVENTS.SSO_LOGIN,
       });
     } else if (
@@ -94,7 +95,12 @@ export async function checkAutoSession(
        */
       window.location = standaloneRedirect() || window.location.origin;
     }
-  } else if (!loggedIn && ttl > 0 && !getLoginAttempted() && authn) {
+  } else if (
+    !loggedIn &&
+    ttl > 0 &&
+    !getLoginAttempted() &&
+    queryParams.csp_type
+  ) {
     /**
      * Create an auto-login when the following are true
      * 1. No active VA.gov session
@@ -104,7 +110,7 @@ export async function checkAutoSession(
      */
     login({
       policy: POLICY_TYPES.CUSTOM,
-      queryParams: { authn },
+      queryParams: { ...queryParams },
       clickedEvent: AUTH_EVENTS.SSO_LOGIN,
     });
   }

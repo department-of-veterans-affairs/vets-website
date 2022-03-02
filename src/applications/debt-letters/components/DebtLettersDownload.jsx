@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import { setPageFocus } from '../utils/page';
-import DebtLettersTable from './DebtLettersTable';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { DownloadLettersAlert } from './Alerts';
 import Telephone, {
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+import { setPageFocus } from '../utils/page';
+import DebtLettersTable from './DebtLettersTable';
+import { DownloadLettersAlert } from './Alerts';
 
 const DebtLettersDownload = ({
   debtLinks,
@@ -61,12 +61,12 @@ const DebtLettersDownload = ({
             If you’ve received a letter about a VA debt that isn’t listed here,
             call us at
             <Telephone
-              contact={'800-827-0648'}
+              contact="800-827-0648"
               className="vads-u-margin-x--0p5"
             />
             (or
             <Telephone
-              contact={'1-612-713-6415'}
+              contact="1-612-713-6415"
               pattern={PATTERNS.OUTSIDE_US}
               className="vads-u-margin-x--0p5"
             />
@@ -106,9 +106,6 @@ const mapStateToProps = ({ debtLetters }) => ({
 });
 
 DebtLettersDownload.propTypes = {
-  hasDependentDebts: PropTypes.bool.isRequired,
-  isVBMSError: PropTypes.bool.isRequired,
-  isError: PropTypes.bool.isRequired,
   debtLinks: PropTypes.arrayOf(
     PropTypes.shape({
       documentId: PropTypes.string,
@@ -116,6 +113,9 @@ DebtLettersDownload.propTypes = {
       typeDescription: PropTypes.string,
     }),
   ),
+  hasDependentDebts: PropTypes.bool,
+  isError: PropTypes.bool,
+  isVBMSError: PropTypes.bool,
 };
 
 DebtLettersDownload.defaultProps = {

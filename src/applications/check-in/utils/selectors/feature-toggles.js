@@ -15,6 +15,15 @@ const selectFeatureToggles = createSelector(
     isUpdatePageEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceUpdateInformationPageEnabled
     ],
+    isEditingDayOfEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceEditingDayOfEnabled
+    ],
+    isEditingPreCheckInEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceEditingPreCheckInEnabled
+    ],
+    isDayOfDemographicsFlagsEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceDayOfDemographicsFlagsEnabled
+    ],
   }),
   toggles => toggles,
 );

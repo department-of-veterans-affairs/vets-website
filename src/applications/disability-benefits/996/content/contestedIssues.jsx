@@ -1,9 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
@@ -20,15 +18,21 @@ import { apiVersion2 } from '../utils/helpers';
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
 // case we end up filtering out deferred and expired issues
-export const ContestedIssuesTitle = props => {
-  if (props?.formData?.contestedIssues?.length === 0) {
+export const ContestedIssuesTitle = ({ formData = {} } = {}) => {
+  if (formData.contestedIssues?.length === 0) {
     return (
-      <h2 className="vads-u-font-size--h4" name="eligibleScrollElement">
-        Sorry, we couldn’t find any eligible issues
-      </h2>
+      <>
+        <h2 className="vads-u-font-size--h4" name="eligibleScrollElement">
+          Sorry, we couldn’t find any eligible issues
+        </h2>
+        <p>
+          If you’d like to add an issue for review, please select "Add a new
+          issue" to get started.
+        </p>
+      </>
     );
   }
-  return apiVersion2(props.formData) ? (
+  return apiVersion2(formData) ? (
     <>
       <div className="vads-u-margin-bottom--2">
         These issues are in your VA record. If an issue is missing from this
@@ -133,7 +137,7 @@ const disabilitiesList = (
       </li>
     </ul>
     <p>
-      <DownloadLink content={'Download VA Form 20-0996'} />
+      <DownloadLink content="Download VA Form 20-0996" />
     </p>
     <p className="vads-u-margin-top--2p5">
       To learn more about how COVID-19 affect claims or appeals, please visit
@@ -143,7 +147,7 @@ const disabilitiesList = (
       To learn more about decision review options, please visit our{' '}
       <a href={DECISION_REVIEWS_URL}>decision reviews and appeals</a>{' '}
       information page. You can call us at{' '}
-      <Telephone contact={CONTACTS.VA_BENEFITS} /> or work with an accredited
+      <va-telephone contact={CONTACTS.VA_BENEFITS} /> or work with an accredited
       representative to{' '}
       <a href="/disability/get-help-filing-claim/">get help with your claim</a>.
     </p>

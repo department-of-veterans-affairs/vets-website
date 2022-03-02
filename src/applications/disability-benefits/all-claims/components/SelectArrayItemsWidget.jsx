@@ -21,7 +21,9 @@ class SelectArrayItemsWidget extends React.Component {
   defaultSelectedPropName = 'view:selected';
 
   keyValue = 'ratedDisabilities';
+
   updatedKeyValue = 'updatedRatedDisabilities';
+
   keyConstants = ['ratingDecisionId', 'diagnosticCode'];
 
   onChange = (index, checked) => {
@@ -100,7 +102,7 @@ class SelectArrayItemsWidget extends React.Component {
 
     // inReviewMode = true (review page view, not in edit mode)
     // inReviewMode = false (in edit mode)
-    const onReviewPage = formContext.onReviewPage;
+    const { onReviewPage } = formContext;
     const inReviewMode = onReviewPage && formContext.reviewMode;
 
     const hasSelections = items?.reduce(
@@ -252,7 +254,7 @@ SelectArrayItemsWidget.propTypes = {
     title: PropTypes.string,
     customTitle: PropTypes.string,
     field: PropTypes.string,
-    label: PropTypes.function,
+    label: PropTypes.func,
     showFieldLabel: PropTypes.string,
     validations: PropTypes.array,
   }).isRequired,

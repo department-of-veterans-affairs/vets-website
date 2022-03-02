@@ -29,7 +29,7 @@ describe('check-in', () => {
         store = mockStore(initState);
       });
 
-      it('should get the current pages from router', () => {
+      it('should get the current page from router', () => {
         const component = render(
           <Provider store={store}>
             <TestComponent
@@ -46,6 +46,23 @@ describe('check-in', () => {
         );
         expect(component.queryByTestId('all-pages').textContent).to.equal(
           'first-page,second-page,third-page,fourth-page',
+        );
+      });
+
+      it('should get the previous page from router', () => {
+        const component = render(
+          <Provider store={store}>
+            <TestComponent
+              router={createMockRouter({
+                push: () => {},
+                currentPage: 'third-page',
+              })}
+            />
+          </Provider>,
+        );
+
+        expect(component.queryByTestId('previous-page').textContent).to.equal(
+          'second-page',
         );
       });
     });

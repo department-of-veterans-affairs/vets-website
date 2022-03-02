@@ -1,5 +1,5 @@
 import React from 'react';
-import { CSP_IDS } from '../constants';
+import { CSP_IDS, EXTERNAL_APPS } from '../constants';
 import LoginButton from './LoginButton';
 import CreateAccountLink from './CreateAccountLink';
 
@@ -11,8 +11,11 @@ export default ({
   loginGovMyVAHealthEnabled,
 }) => {
   const externalLoginGovSupport = {
-    mhv: loginGovMHVEnabled,
-    myvahealth: loginGovMyVAHealthEnabled,
+    [EXTERNAL_APPS.MHV]: loginGovMHVEnabled,
+    [EXTERNAL_APPS.MY_VA_HEALTH]: loginGovMyVAHealthEnabled,
+    [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: loginGovEnabled,
+    [EXTERNAL_APPS.VA_OCC_MOBILE]: loginGovEnabled,
+    [EXTERNAL_APPS.EBENEFITS]: loginGovEnabled,
   };
 
   const showLoginGov = () => {

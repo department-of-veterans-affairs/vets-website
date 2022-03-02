@@ -28,8 +28,7 @@ export default async function startAnnouncement(store) {
 
   const {
     default: Announcement,
-  } = await import(/* announcement-widget */ './containers/Announcement');
-
+  } = await import(/* webpackChunkName: "announcements-widget" */ './containers/Announcement');
   startReactApp(
     <Provider store={store}>
       <Announcement />

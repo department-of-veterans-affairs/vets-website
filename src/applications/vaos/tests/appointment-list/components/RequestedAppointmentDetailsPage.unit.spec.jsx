@@ -390,7 +390,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     fireEvent.click(screen.getByText(/continue/i));
 
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
-    expect(screen.baseElement).to.contain.text('You canceled this appointment');
+    expect(screen.baseElement).to.contain.text('You canceled this request');
     expect(screen.baseElement).not.to.contain.text(alertText);
   });
 
@@ -637,6 +637,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
+      cancellable: true,
       comment: 'A message from the patient',
       contact: {
         telecom: [
@@ -744,6 +745,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     const ccAppointmentRequest = getVAOSRequestMock();
     ccAppointmentRequest.id = '1234';
     ccAppointmentRequest.attributes = {
+      cancellable: true,
       comment: 'A message from the patient',
       contact: {
         telecom: [
@@ -867,6 +869,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
+      cancellable: true,
       comment: 'A message from the patient',
       contact: {
         telecom: [
@@ -933,13 +936,14 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     fireEvent.click(screen.getByText(/continue/i));
 
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
-    expect(screen.baseElement).to.contain.text('You canceled this appointment');
+    expect(screen.baseElement).to.contain.text('You canceled this request');
   });
 
   it('should handle error when canceling', async () => {
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
+      cancellable: true,
       comment: 'A message from the patient',
       contact: {
         telecom: [

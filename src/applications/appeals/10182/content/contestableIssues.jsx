@@ -9,15 +9,21 @@ import { MAX_SELECTIONS } from '../constants';
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
 // case we end up filtering out deferred and expired issues
-export const ContestableIssuesTitle = props => {
-  if (props?.formData?.contestableIssues?.length === 0) {
+export const ContestableIssuesTitle = ({ formData = {} } = {}) => {
+  if (formData.contestableIssues?.length === 0) {
     return (
-      <h2
-        className="vads-u-font-size--h4 vads-u-margin-top--0"
-        name="eligibleScrollElement"
-      >
-        Sorry, we couldn’t find any eligible issues
-      </h2>
+      <>
+        <h2
+          className="vads-u-font-size--h4 vads-u-margin-top--0"
+          name="eligibleScrollElement"
+        >
+          Sorry, we couldn’t find any eligible issues
+        </h2>
+        <p>
+          If you’d like to add an issue for review, please select "Add a new
+          issue" to get started.
+        </p>
+      </>
     );
   }
   return (

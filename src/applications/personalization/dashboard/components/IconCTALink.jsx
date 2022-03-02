@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import useLastWord from '../useLastWord';
 
@@ -11,6 +12,8 @@ const IconCTALink = ({
   onClick,
   boldText,
   newTab,
+  // optional data-testid HTML attribute
+  testId,
 }) => {
   const [lastWord, firstWords] = useLastWord(text);
 
@@ -29,6 +32,7 @@ const IconCTALink = ({
       target={targetProp}
       onClick={onClick || undefined}
       className={linkClass}
+      data-testid={testId || ''}
     >
       <span className="vads-u-display--flex">
         <span className="fa-stack fa-sm vads-u-height--full vads-u-margin-right--1">
@@ -53,6 +57,17 @@ const IconCTALink = ({
       </span>
     </a>
   );
+};
+
+IconCTALink.propTypes = {
+  ariaLabel: PropTypes.string,
+  boldText: PropTypes.bool,
+  href: PropTypes.string,
+  icon: PropTypes.string,
+  newTab: PropTypes.bool,
+  testId: PropTypes.string,
+  text: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 export default IconCTALink;

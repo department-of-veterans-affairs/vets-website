@@ -1,26 +1,32 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/component-library/Telephone';
 import {
   currency,
   calcDueDate,
   formatDate,
   verifyCurrentBalance,
 } from '../utils/helpers';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
 
 const CurrentContent = ({ id, date }) => (
   <p>
     Your balance was updated on {formatDate(date)}. Pay your full balance or
     request financial help before
-    <strong className="vads-u-margin-x--0p5" data-testid={`due-date-${id}`}>
+    <strong className="vads-u-margin-left--0p5" data-testid={`due-date-${id}`}>
       {calcDueDate(date, 30)}
     </strong>
-    to avoid late charges, interest, or collection actions.
+    , to avoid late charges, interest, or collection actions.
   </p>
 );
+
+CurrentContent.propTypes = {
+  date: PropTypes.string,
+  id: PropTypes.string,
+};
 
 const PastDueContent = ({ id, date, amount }) => (
   <p>
@@ -31,12 +37,18 @@ const PastDueContent = ({ id, date, amount }) => (
     was {currency(amount)}. If you haven’t either paid your full balance or
     requested financial help, contact the VA Health Resource Center at
     <span className="vads-u-margin-x--0p5">
-      <Telephone contact={'866-400-1238'} />
+      <Telephone contact="866-400-1238" />
     </span>
     (TTY: <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />
     ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
   </p>
 );
+
+PastDueContent.propTypes = {
+  amount: PropTypes.number,
+  date: PropTypes.string,
+  id: PropTypes.string,
+};
 
 const BalanceCard = ({ id, amount, facility, city, date }) => {
   const isCurrentBalance = verifyCurrentBalance(date);
@@ -61,7 +73,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
         className="card-heading vads-u-margin-top--0"
         data-testid={`facility-city-${id}`}
       >
-        Copay balance for {facility} - {city}
+        {facility} - {city}
       </p>
       <div className="card-content">
         <i
@@ -89,6 +101,14 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       </Link>
     </div>
   );
+};
+
+BalanceCard.propTypes = {
+  amount: PropTypes.number,
+  city: PropTypes.string,
+  date: PropTypes.string,
+  facility: PropTypes.string,
+  id: PropTypes.string,
 };
 
 export default BalanceCard;

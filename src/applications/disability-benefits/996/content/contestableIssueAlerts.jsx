@@ -1,8 +1,6 @@
 import React from 'react';
 
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -12,7 +10,7 @@ import { PROFILE_URL } from '../constants';
 const noIssuesMessage = (
   <p className="vads-u-font-size--base">
     If you think this is an error, please call us at{' '}
-    <Telephone contact={CONTACTS.VA_BENEFITS} />. We’re here Monday through
+    <va-telephone contact={CONTACTS.VA_BENEFITS} />. We’re here Monday through
     Friday, 8:00 a.m. to 9:00 p.m. ET.
     {disabilitiesExplanationAlert}
   </p>

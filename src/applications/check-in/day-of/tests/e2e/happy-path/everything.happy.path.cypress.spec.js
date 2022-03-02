@@ -11,7 +11,7 @@ import Confirmation from '../pages/Confirmation';
 
 describe('Check In Experience', () => {
   describe('everything path', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const {
         initializeFeatureToggle,
         initializeSessionGet,

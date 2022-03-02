@@ -1,7 +1,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
@@ -30,6 +29,7 @@
 .debt-card {
   padding: 24px;
   label {
+    display: inline-block !important;
     user-select: none;
   }
   [type="checkbox"]:checked + label::before {
@@ -57,9 +57,9 @@
     table-layout: fixed;
   }
   .item-loop {
-    padding: 5px 15px 20px;
+    padding: 15px 30px;
     background-color: $color-gray-lightest;
-    .horizontal-field-container .schemaform-field-container {
+    .horizontal-field-container {
       display: flex;
       align-items: center;
       margin: 20px 0;
@@ -98,6 +98,7 @@
       }
     }
   }
+  .add-item-container,
   .edit-item-container {
     margin: 5px 0;
     .usa-button-secondary {
@@ -108,10 +109,10 @@
     display: flex;
     flex-direction: column;
     background-color: $color-gray-lightest;
-    padding: 20px 30px 20px;
+    padding: 10px;
     margin-top: 20px;
     margin-bottom: 20px;
-    .add-item-link-section {
+    .add-item-button-section {
       cursor: pointer;
       width: fit-content;
       .plus-icon {
@@ -140,6 +141,9 @@
   .review-card--body {
     border: 3px solid $color-light-blue;
     padding: 25px;
+  }
+  .usa-button-secondary {
+    background: $color-white;
   }
 }
 

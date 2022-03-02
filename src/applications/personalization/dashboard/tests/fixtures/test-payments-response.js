@@ -130,3 +130,27 @@ export const paymentsSuccess = (hasRecentPayment = false) => {
     },
   };
 };
+
+export const paymentsSuccessEmpty = () => {
+  return {
+    data: {
+      id: '',
+      type: 'bgs_va_payment_history_response',
+      attributes: {
+        payments: [],
+      },
+    },
+  };
+};
+
+export const paymentsError = () => {
+  return {
+    errors: [
+      {
+        title: 'Server Error',
+        code: '500',
+        status: '500',
+      },
+    ],
+  };
+};

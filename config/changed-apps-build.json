@@ -1,6 +1,29 @@
 {
   "allow": {
-    "entryNames": ["vaos", "medical-copays"],
-    "rootAppFolders": ["check-in"]
+    "singleApps": [
+      {
+        "entryName": "education-inbox"
+      },
+      {
+        "entryName": "enrollment-verification"
+      },
+      {
+        "entryName": "login-page"
+      },
+      {
+        "entryName": "medical-copays"
+      },
+      {
+        "entryName": "terms-and-conditions"
+      },
+      {
+        "entryName": "vaos"
+      }
+    ],
+    "groupedApps": [
+      {
+        "rootFolder": "check-in"
+      }
+    ]
   }
 }

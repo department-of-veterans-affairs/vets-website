@@ -19,5 +19,7 @@ describe('Claims status test', () => {
     trackClaimsPage.verifyClosedClaim();
     trackClaimsPage.axeCheckClaimDetails();
     trackClaimsPage.verifyItemsNeedAttention(2);
+    cy.expandAccordions();
+    cy.axeCheck();
   });
 });

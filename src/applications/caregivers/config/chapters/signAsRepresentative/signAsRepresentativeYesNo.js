@@ -1,31 +1,23 @@
-// import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { representativeFields } from 'applications/caregivers/definitions/constants';
-import {
-  RepresentativeIntroContent,
-  RepresentativeAdditionalInfo,
-} from 'applications/caregivers/components/AdditionalInfo';
-
-// const { representative } = fullSchema.properties;
-// const veteranProps = veteran.properties;
-// const { address, phone } = fullSchema.definitions;
+import { RepresentativeIntroContent } from 'applications/caregivers/components/AdditionalInfo';
 
 const representativePage = {
   uiSchema: {
     'ui:description': RepresentativeIntroContent(),
+    'ui:options': {
+      classNames:
+        'vads-u-background-color--gray-lightest vads-u-padding-top--0p5 vads-u-padding-bottom--2p5 vads-u-padding-x--3',
+    },
     [representativeFields.signAsRepresentativeYesNo]: {
-      'ui:title':
-        'Do you have a legal representative document you\u2019d like to share with us?',
+      'ui:title': 'Select who will sign for the Veteran today:',
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
-          yes: 'Yes. I want to upload my document now.',
-          noRep: 'Yes. But I\u2019ll provide my document later.',
-          no: 'No. I don\u2019t have this document.',
+          no: 'The Veteran',
+          yes:
+            'A representative with legal authority to make medical decisions for the Veteran',
         },
       },
-    },
-    'view:placeholderOne': {
-      'ui:description': RepresentativeAdditionalInfo(),
     },
   },
   schema: {
@@ -34,11 +26,7 @@ const representativePage = {
     properties: {
       [representativeFields.signAsRepresentativeYesNo]: {
         type: 'string',
-        enum: ['yes', 'noRep', 'no'],
-      },
-      'view:placeholderOne': {
-        type: 'object',
-        properties: {},
+        enum: ['no', 'yes'],
       },
     },
   },

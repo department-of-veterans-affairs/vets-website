@@ -26,5 +26,7 @@ describe('Claim Estimation Breadcrumb Test', () => {
     // cy.get('.claims-status-content h1')
     //   .should('contain', 'How we come up with your estimated decision date')
     //
+    cy.expandAccordions();
+    cy.axeCheck();
   });
 });

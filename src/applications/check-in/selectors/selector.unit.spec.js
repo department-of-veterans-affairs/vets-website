@@ -3,14 +3,41 @@ import cloneDeep from 'platform/utilities/data/cloneDeep';
 
 import {
   makeSelectCurrentContext,
+  makeSelectEditContext,
   makeSelectForm,
   makeSelectVeteranData,
   makeSelectConfirmationData,
   makeSelectSeeStaffMessage,
+  makeSelectApp,
 } from './index';
 
 describe('check-in', () => {
   describe('selector', () => {
+    describe('makeSelectEditContext', () => {
+      const state = {
+        checkInData: {
+          context: {
+            editing: {
+              originatingUrl: 'contact-information',
+              editingPage: 'demographics',
+              value: 'kermit.frog@sesameenterprises.us',
+              key: 'emailAddress',
+            },
+          },
+        },
+      };
+      it('returns the correct structure from state', () => {
+        const selectEditContext = makeSelectEditContext();
+        expect(selectEditContext(state)).to.eql({
+          editing: {
+            originatingUrl: 'contact-information',
+            editingPage: 'demographics',
+            value: 'kermit.frog@sesameenterprises.us',
+            key: 'emailAddress',
+          },
+        });
+      });
+    });
     describe('makeSelectForm', () => {
       const state = {
         checkInData: {
@@ -131,6 +158,19 @@ describe('check-in', () => {
         const selectSeeStaffMessage = makeSelectSeeStaffMessage();
         expect(selectSeeStaffMessage(state)).to.eql({
           message: 'Test message',
+        });
+      });
+    });
+    describe('makeSelectApp', () => {
+      const state = {
+        checkInData: {
+          app: 'preCheckIn',
+        },
+      };
+      it('returns app name', () => {
+        const selectApp = makeSelectApp();
+        expect(selectApp(state)).to.eql({
+          app: 'preCheckIn',
         });
       });
     });

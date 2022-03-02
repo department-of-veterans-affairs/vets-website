@@ -8,7 +8,7 @@ import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 
 describe('Check In Experience', () => {
   describe('happy path', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       const {
         initializeFeatureToggle,
         initializeSessionGet,

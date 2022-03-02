@@ -12,6 +12,7 @@ import { Provider } from 'react-redux';
 import 'applications/search/components/SearchDropdown/SearchDropdownStyles.scss';
 import './sass/user-nav.scss';
 import startReactApp from '../../startup/react';
+import Main from './containers/Main';
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 
 /**
@@ -19,12 +20,9 @@ import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
  *
  * @param {Redux.Store} store The common store used on the site
  */
-export default async function startUserNavWidget(store) {
+export default function startUserNavWidget(store) {
   connectFeatureToggle(store.dispatch);
 
-  const {
-    default: Main,
-  } = await import(/* user-nav-widget */ './containers/Main');
   startReactApp(
     <Provider store={store}>
       <Main />

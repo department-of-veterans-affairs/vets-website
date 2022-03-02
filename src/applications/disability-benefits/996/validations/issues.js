@@ -1,24 +1,12 @@
-import moment from 'moment';
-
-import { parseISODate } from 'platform/forms-system/src/js/helpers';
-import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
-
-import { $, areaOfDisagreementWorkAround } from '../utils/ui';
+import { areaOfDisagreementWorkAround } from '../utils/ui';
 import { getSelected, hasSomeSelected, hasDuplicates } from '../utils/helpers';
 import { issueErrorMessages } from '../content/addIssue';
 import {
   noneSelected,
   maxSelectedErrorMessage,
 } from '../content/contestableIssues';
-import {
-  missingAreaOfDisagreementErrorMessage,
-  missingAreaOfDisagreementOtherErrorMessage,
-} from '../content/areaOfDisagreement';
-import {
-  FORMAT_YMD,
-  MAX_SELECTIONS,
-  MAX_ISSUE_NAME_LENGTH,
-} from '../constants';
+import { missingAreaOfDisagreementErrorMessage } from '../content/areaOfDisagreement';
+import { MAX_SELECTIONS, MAX_ISSUE_NAME_LENGTH } from '../constants';
 
 /**
  *
@@ -52,51 +40,6 @@ export const selectionRequired = (
   if (errors && !hasSomeSelected(data)) {
     errors.addError(noneSelected);
   }
-};
-
-const minDate = moment()
-  .subtract(1, 'year')
-  .startOf('day');
-
-const maxDate = moment().endOf('day');
-
-export const validateDate = (errors, dateString) => {
-  const { day, month, year } = parseISODate(dateString);
-  const date = moment(dateString, FORMAT_YMD);
-  if (dateString === 'XXXX-XX-XX' || dateString === '') {
-    errors.addError(issueErrorMessages.missingDecisionDate);
-  } else if (!day || !month) {
-    errors.addError(issueErrorMessages.invalidDate);
-  } else if (year?.length >= 4 && !isValidYear(year)) {
-    errors.addError(
-      issueErrorMessages.invalidDateRange(minDate.year(), maxDate.year()),
-    );
-  } else if (date.isAfter(maxDate)) {
-    errors.addError(issueErrorMessages.pastDate);
-  } else if (date.isBefore(minDate)) {
-    errors.addError(issueErrorMessages.newerDate);
-  }
-  if ($('body.modal-open')) {
-    // prevent contact page modal "update" button from acting like the
-    // page "continue" button
-    errors.addError(
-      'Please finish editing your contact info before continuing',
-    );
-  }
-};
-
-/**
- * Use above validation to set initial edit state
- */
-export const isValidDate = dateString => {
-  let isValid = true;
-  const errors = {
-    addError: () => {
-      isValid = false;
-    },
-  };
-  validateDate(errors, dateString);
-  return isValid;
 };
 
 // Alert Veteran to duplicates based on name & decision date
@@ -142,14 +85,12 @@ export const areaOfDisagreementRequired = (
   arrayIndex, // always null?!
 ) => {
   const keys = Object.keys(disagreementOptions || {});
-  const hasSelection = keys.some(key => disagreementOptions[key]);
+  const hasChoice = keys.some(key => disagreementOptions[key]) || otherEntry;
 
-  if (!hasSelection) {
+  if (!hasChoice) {
     errors.addError(missingAreaOfDisagreementErrorMessage);
-  } else if (disagreementOptions.other && !otherEntry) {
-    errors.addError(missingAreaOfDisagreementOtherErrorMessage);
   }
 
   // work-around for error message not showing :(
-  areaOfDisagreementWorkAround(hasSelection, arrayIndex || index);
+  areaOfDisagreementWorkAround(hasChoice, arrayIndex || index);
 };

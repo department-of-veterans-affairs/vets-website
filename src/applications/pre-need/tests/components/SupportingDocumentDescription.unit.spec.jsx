@@ -8,7 +8,7 @@ describe('<SupportingDocumentsDescription>', () => {
   it('should render', () => {
     const tree = shallow(<SupportingDocumentsDescription />);
 
-    expect(tree.find('AdditionalInfo').length).to.equal(2);
+    expect(tree.find('va-additional-info').length).to.equal(2);
     tree.unmount();
   });
   it('should render service member text', () => {
@@ -24,14 +24,11 @@ describe('<SupportingDocumentsDescription>', () => {
       />,
     );
 
-    tree
-      .find('a')
+    const info = tree
+      .find('va-additional-info')
       .first()
-      .simulate('click');
-
-    expect(tree.find('.additional-info-content').text()).to.contain(
-      'your DD214',
-    );
+      .html();
+    expect(info).to.contain('your DD214');
     tree.unmount();
   });
   it('should render sponsor text', () => {
@@ -47,14 +44,11 @@ describe('<SupportingDocumentsDescription>', () => {
       />,
     );
 
-    tree
-      .find('a')
+    const info = tree
+      .find('va-additional-info')
       .first()
-      .simulate('click');
-
-    expect(tree.find('.additional-info-content').text()).to.contain(
-      'sponsor’s DD214',
-    );
+      .html();
+    expect(info).to.contain('sponsor’s DD214');
     tree.unmount();
   });
   it('should render child text', () => {
@@ -70,17 +64,12 @@ describe('<SupportingDocumentsDescription>', () => {
       />,
     );
 
-    tree
-      .find('a')
+    const info = tree
+      .find('va-additional-info')
       .first()
-      .simulate('click');
-
-    expect(tree.find('.additional-info-content').text()).to.contain(
-      'sponsor’s DD214',
-    );
-    expect(tree.find('.additional-info-content').text()).to.contain(
-      'need to provide supporting documents',
-    );
+      .html();
+    expect(info).to.contain('sponsor’s DD214');
+    expect(info).to.contain('need to provide supporting documents');
     tree.unmount();
   });
 });

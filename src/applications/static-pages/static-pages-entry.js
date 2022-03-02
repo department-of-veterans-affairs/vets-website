@@ -4,15 +4,17 @@ import * as Sentry from '@sentry/browser';
 // Relative imports.
 import './analytics';
 import 'platform/polyfills';
+import startSitewideComponents from 'platform/site-wide';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import createCommonStore from 'platform/startup/store';
+import createHigherLevelReviewApplicationStatus from 'applications/disability-benefits/996/components/createHLRApplicationStatus';
 import alertsBuildShow from './widget-creators/alerts-dismiss-view';
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import icsCreate from './widget-creators/ics-generator';
 import openShareLink from './widget-creators/social-share-links';
-import startSitewideComponents from 'platform/site-wide';
 import subscribeAccordionEvents from './subscription-creators/subscribeAccordionEvents';
 import subscribeAdditionalInfoEvents from './subscription-creators/subscribeAdditionalInfoEvents';
 import widgetTypes from './widgetTypes';
-import { VA_FORM_IDS } from 'platform/forms/constants';
 // Health Care | Manage Benefits widgets.
 import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
 import createRefillTrackPrescriptionsPage from './health-care-manage-benefits/refill-track-prescriptions-page';
@@ -34,7 +36,7 @@ import createAskVAWidget from './ask-va';
 import createApplicationStatus from './widget-creators/createApplicationStatus';
 import createCOEAccess from './coe-access/createCOEAccess';
 import createCallToActionWidget from './widget-creators/createCallToActionWidget';
-import createCommonStore from 'platform/startup/store';
+import createContactChatbotCTA from './contact-chatbot-cta';
 import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusChatbot';
 import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createCovidVaccineUpdatesWidget';
 import createDependencyVerification from './dependency-verification/createDependencyVerification';
@@ -44,11 +46,13 @@ import createEducationApplicationStatus from '../edu-benefits/components/createE
 import createEventsPage from './events';
 import createExpandableOperatingStatus from './facilities/vet-center/createExpandableOperatingStatus';
 import createFacilityPage from './facilities/createFacilityPage';
+import createFacilityMapSatelliteMainOffice from './facilities/createFacilityMapSatelliteMainOffice';
+import createFacilityPageSatelliteLocations from './facilities/createFacilityPageSatelliteLocations';
 import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-forms/createFindVaForms';
 import createFindVaFormsPDFDownloadHelper from '../find-forms/widgets/createFindVaFormsPDFDownloadHelper';
-import createHigherLevelReviewApplicationStatus from 'applications/disability-benefits/996/components/createHLRApplicationStatus';
+import createLettersMobileCTA from './letters-mobile-cta';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from './medical-copays-cta';
 import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
@@ -62,9 +66,7 @@ import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
 import createVetCentersHours from './facilities/createVetCentersHours';
-import createVetCentersHoursOne from './facilities/createVetCentersHoursOne';
-import createVetCentersHoursTwo from './facilities/createVetCentersHoursTwo';
-import createVetCentersHoursThree from './facilities/createVetCentersHoursThree';
+import createVetCentersSatelliteLocationHours from './facilities/createVetCentersSatelliteLocationHours';
 import dependencyVerificationReducer from './dependency-verification/reducers/index';
 import {
   createScoEventsWidget,
@@ -117,6 +119,7 @@ createApplicationStatus(store, {
   widgetType: widgetTypes.HEALTH_CARE_APP_STATUS,
 });
 createCallToActionWidget(store, widgetTypes.CTA);
+createContactChatbotCTA(store, widgetTypes.CONTACT_CHATBOT_CTA);
 createEducationApplicationStatus(store, widgetTypes.EDUCATION_APP_STATUS);
 createOptOutApplicationStatus(store, widgetTypes.OPT_OUT_APP_STATUS);
 createHigherLevelReviewApplicationStatus(
@@ -140,14 +143,14 @@ createResourcesAndSupportSearchWidget(
   widgetTypes.RESOURCES_AND_SUPPORT_SEARCH,
 );
 createVetCentersHours(store);
-createVetCentersHoursOne(store);
-createVetCentersHoursTwo(store);
-createVetCentersHoursThree(store);
+createVetCentersSatelliteLocationHours(store);
 createExpandableOperatingStatus(store);
 createNearByVetCenters(store);
 createFacilityListWidget();
 createOtherFacilityListWidget();
 createFacilityPage(store);
+createFacilityMapSatelliteMainOffice(store);
+createFacilityPageSatelliteLocations(store);
 createBasicFacilityListWidget();
 createScoEventsWidget();
 createScoAnnouncementsWidget();
@@ -188,6 +191,7 @@ createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
 createI18Select(store, widgetTypes.I_18_SELECT);
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 createCOEAccess(store, widgetTypes.COE_ACCESS);
+createLettersMobileCTA(store, widgetTypes.LETTERS_MOBILE_CTA);
 createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 
 // Create the My VA Login widget only on the homepage.

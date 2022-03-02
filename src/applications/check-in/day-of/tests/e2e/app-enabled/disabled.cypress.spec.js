@@ -4,7 +4,7 @@ import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 
 describe('Check In Experience', () => {
   describe('application behind feature toggle', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       ApiInitializer.initializeFeatureToggle.withAppsDisabled();
     });
     afterEach(() => {

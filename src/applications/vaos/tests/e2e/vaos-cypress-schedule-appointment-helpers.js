@@ -1,9 +1,10 @@
 import moment from 'moment';
+import Timeouts from 'platform/testing/e2e/timeouts';
 
 const today = moment();
 
 export function chooseTypeOfCareTest(label) {
-  cy.url().should('include', '/new-appointment');
+  cy.url().should('include', '/new-appointment', { timeout: Timeouts.slow });
   cy.axeCheckBestPractice();
   cy.findByLabelText(label)
     .focus()

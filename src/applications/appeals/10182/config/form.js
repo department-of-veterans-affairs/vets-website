@@ -6,9 +6,9 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 
 import migrations from '../migrations';
-import prefillTransformer from '../config/prefill-transformer';
-import { transform } from '../config/submit-transformer';
-import submitForm from '../config/submitForm';
+import prefillTransformer from './prefill-transformer';
+import { transform } from './submit-transformer';
+import submitForm from './submitForm';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -29,6 +29,8 @@ import {
   getIssueName,
 } from '../utils/helpers';
 
+import { contestableIssuesPath } from '../constants';
+
 // Pages
 import veteranInfo from '../pages/veteranInfo';
 import contactInfo from '../pages/contactInfo';
@@ -36,7 +38,7 @@ import homeless from '../pages/homeless';
 import contestableIssues from '../pages/contestableIssues';
 import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
-import optIn from '../pages/optIn';
+import filingDeadlines from '../pages/filingDeadlines';
 import issueSummary from '../pages/issueSummary';
 import boardReview from '../pages/boardReview';
 import evidenceIntro from '../pages/evidenceIntro';
@@ -148,9 +150,15 @@ const formConfig = {
     conditions: {
       title: 'Issues for review',
       pages: {
+        filingDeadlines: {
+          title: 'Filing deadlines',
+          path: 'filing-deadlines',
+          uiSchema: filingDeadlines.uiSchema,
+          schema: filingDeadlines.schema,
+        },
         contestableIssues: {
           title: 'Issues eligible for review',
-          path: 'contestable-issues',
+          path: contestableIssuesPath,
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
@@ -172,12 +180,6 @@ const formConfig = {
           arrayPath: 'areaOfDisagreement',
           uiSchema: areaOfDisagreementFollowUp.uiSchema,
           schema: areaOfDisagreementFollowUp.schema,
-        },
-        optIn: {
-          title: 'Opt in',
-          path: 'opt-in',
-          uiSchema: optIn.uiSchema,
-          schema: optIn.schema,
         },
         issueSummary: {
           title: 'Issue summary',

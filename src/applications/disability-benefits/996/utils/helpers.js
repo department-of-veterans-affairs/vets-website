@@ -1,7 +1,6 @@
 import moment from 'moment';
 
 import { SELECTED, LEGACY_TYPE } from '../constants';
-import { isValidDate } from '../validations/issues';
 
 /**
  * Check HLR v2 feature flag
@@ -134,6 +133,31 @@ export const mayHaveLegacyAppeals = ({
   additionalIssues,
 } = {}) => legacyCount > 0 || additionalIssues?.length > 0;
 
+export const someSelected = issues =>
+  (issues || []).some(issue => issue[SELECTED]);
+
+export const hasSomeSelected = ({ contestedIssues, additionalIssues } = {}) =>
+  someSelected(contestedIssues) || someSelected(additionalIssues);
+
+export const getSelected = formData => {
+  const eligibleIssues = (formData?.contestedIssues || []).filter(
+    issue => issue[SELECTED],
+  );
+  const addedIssues = formData.hlrV2
+    ? (formData?.additionalIssues || []).filter(issue => issue[SELECTED])
+    : [];
+  // include index to help with error messaging
+  return [...eligibleIssues, ...addedIssues].map((issue, index) => ({
+    ...issue,
+    index,
+  }));
+};
+
+// additionalIssues (items) are separate because we're checking the count before
+// the formData is updated
+export const getSelectedCount = (formData, items) =>
+  getSelected({ ...formData, additionalIssues: items }).length;
+
 /**
  * Get issue name/title from either a manually added issue or issue loaded from
  * the API
@@ -149,6 +173,26 @@ export const getIssueNameAndDate = (entry = {}) =>
   `${(getIssueName(entry) || '').toLowerCase()}${entry.decisionDate ||
     entry.attributes?.approxDecisionDate ||
     ''}`;
+
+const processIssues = (array = []) =>
+  array
+    .filter(entry => getIssueName(entry) && getIssueDate(entry))
+    .map(entry => getIssueNameAndDate(entry));
+
+export const hasDuplicates = (data = {}) => {
+  const contestedIssues = processIssues(data.contestedIssues);
+  const additionalIssues = processIssues(data.additionalIssues);
+  // ignore duplicate contestable issues (if any)
+  const fullList = [...new Set(contestedIssues)].concat(additionalIssues);
+
+  return fullList.length !== new Set(fullList).size;
+};
+
+// Simple one level deep check
+export const isEmptyObject = obj =>
+  obj && typeof obj === 'object' && !Array.isArray(obj)
+    ? Object.keys(obj)?.length === 0 || false
+    : false;
 
 // getEligibleContestableIssues will remove deferred issues and issues > 1 year
 // past their decision date. This function removes issues with no title & sorts
@@ -191,6 +235,22 @@ export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
   );
 };
 
+export const appStateSelector = state => ({
+  // Validation functions are provided the pageData and not the
+  // formData on the review & submit page. For more details
+  // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
+  contestedIssues: state.form?.data?.contestedIssues || [],
+  additionalIssues: state.form?.data?.additionalIssues || [],
+});
+
+export const getItemSchema = (schema, index) => {
+  const itemSchema = schema;
+  if (itemSchema.items.length > index) {
+    return itemSchema.items[index];
+  }
+  return itemSchema.additionalItems;
+};
+
 /**
  * Convert an array into a readable list of items
  * @param {String[]} list - Array of items. Empty entries are stripped out
@@ -204,88 +264,6 @@ export const readableList = list => {
   return [cleanedList.slice(0, -1).join(', '), cleanedList.slice(-1)[0]].join(
     cleanedList.length < 2 ? '' : ' and ',
   );
-};
-
-export const appStateSelector = state => ({
-  // Validation functions are provided the pageData and not the
-  // formData on the review & submit page. For more details
-  // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
-  contestedIssues: state.form?.data?.contestedIssues || [],
-  additionalIssues: state.form?.data?.additionalIssues || [],
-});
-
-export const someSelected = issues =>
-  (issues || []).some(issue => issue[SELECTED]);
-
-export const hasSomeSelected = ({ contestedIssues, additionalIssues } = {}) =>
-  someSelected(contestedIssues) || someSelected(additionalIssues);
-
-export const getSelected = formData => {
-  const eligibleIssues = (formData?.contestedIssues || []).filter(
-    issue => issue[SELECTED],
-  );
-  const addedIssues = formData.hlrV2
-    ? (formData?.additionalIssues || []).filter(issue => issue[SELECTED])
-    : [];
-  // include index to help with error messaging
-  return [...eligibleIssues, ...addedIssues].map((issue, index) => ({
-    ...issue,
-    index,
-  }));
-};
-
-// additionalIssues (items) are separate because we're checking the count before
-// the formData is updated
-export const getSelectedCount = (formData, items) =>
-  getSelected({ ...formData, additionalIssues: items }).length;
-
-const processIssues = (array = []) =>
-  array
-    .filter(entry => getIssueName(entry) && getIssueDate(entry))
-    .map(entry => getIssueNameAndDate(entry));
-
-export const hasDuplicates = (data = {}) => {
-  const contestedIssues = processIssues(data.contestedIssues);
-  const additionalIssues = processIssues(data.additionalIssues);
-  // ignore duplicate contestable issues (if any)
-  const fullList = [...new Set(contestedIssues)].concat(additionalIssues);
-
-  return fullList.length !== new Set(fullList).size;
-};
-
-// Simple one level deep check
-export const isEmptyObject = obj =>
-  obj && typeof obj === 'object' && !Array.isArray(obj)
-    ? Object.keys(obj)?.length === 0 || false
-    : false;
-
-export const setInitialEditMode = (formData = {}) => {
-  const contestedIssues = (formData.contestedIssues || []).map(entry =>
-    getIssueNameAndDate(entry),
-  );
-  const additionalIssues = (formData.additionalIssues || []).map(entry =>
-    getIssueNameAndDate(entry),
-  );
-  return (formData.additionalIssues || []).map((issue = {}, index) => {
-    const currentIssue = getIssueNameAndDate(issue);
-    return (
-      !issue.issue ||
-      !issue.decisionDate ||
-      !isValidDate(issue.decisionDate) ||
-      // check for duplicates
-      contestedIssues.includes(currentIssue) ||
-      additionalIssues.lastIndexOf(currentIssue) !== index ||
-      additionalIssues.indexOf(currentIssue) !== index
-    );
-  });
-};
-
-export const getItemSchema = (schema, index) => {
-  const itemSchema = schema;
-  if (itemSchema.items.length > index) {
-    return itemSchema.items[index];
-  }
-  return itemSchema.additionalItems;
 };
 
 /**

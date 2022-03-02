@@ -6,7 +6,7 @@ import {
 const boardReview = {
   uiSchema: {
     boardReviewOption: {
-      'ui:title': 'Please select a board review option:',
+      'ui:title': 'Please select a Board review option:',
       'ui:widget': 'radio',
       'ui:options': {
         labels: boardReviewContent,

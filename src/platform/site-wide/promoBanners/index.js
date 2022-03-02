@@ -16,8 +16,7 @@ export default async () => {
   if (promoBanners) {
     const {
       default: App,
-    } = await import(/* promo-banner-widget */ './components/App');
-
+    } = await import(/* webpackChunkName: "promo-banner-widget" */ './components/App');
     for (let index = 0; index < promoBanners.length; index++) {
       const promoBanner = promoBanners[index];
 

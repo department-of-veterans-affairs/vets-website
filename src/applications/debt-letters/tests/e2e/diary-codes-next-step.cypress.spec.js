@@ -9,7 +9,6 @@ describe.skip('Diary Codes - Next Steps', () => {
     cy.intercept('GET', '/v0/debts', mockDebts);
     cy.visit('/manage-va-debt/your-debt/');
     cy.injectAxe();
-    cy.axeCheck();
   });
 
   it('renders a debt card with next step', () => {
@@ -18,6 +17,7 @@ describe.skip('Diary Codes - Next Steps', () => {
       .first()
       .findByText(/Next step:/i)
       .should('exist');
+    cy.axeCheck();
   });
 
   it('renders debt details with next step', () => {
@@ -26,5 +26,6 @@ describe.skip('Diary Codes - Next Steps', () => {
       .first()
       .click();
     cy.get('[data-testid="diary-code-100-next-step"]');
+    cy.axeCheck();
   });
 });

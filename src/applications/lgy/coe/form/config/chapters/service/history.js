@@ -9,7 +9,7 @@ import { serviceHistory } from '../../schemaImports';
 export const schema = serviceHistory;
 
 export const uiSchema = {
-  servicePeriods: {
+  periodsOfService: {
     'ui:title': 'Military service history',
     'ui:description':
       'Please add or update your military service history details below.',

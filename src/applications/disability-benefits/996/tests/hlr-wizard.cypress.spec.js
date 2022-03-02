@@ -5,6 +5,7 @@
  * @testrailinfo groupId 2896
  * @testrailinfo runName HLR-e2e-Wizard
  */
+import Timeouts from 'platform/testing/e2e/timeouts';
 
 import {
   BASE_URL,
@@ -17,7 +18,6 @@ import {
   HLR_INFO_URL,
   FORM_URL,
 } from '../constants';
-import Timeouts from 'platform/testing/e2e/timeouts';
 
 Cypress.Commands.add('checkStorage', (key, expectedValue) => {
   cy.window()

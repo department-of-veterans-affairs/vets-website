@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import uniq from 'lodash/uniq';
 
 import {
@@ -9,7 +10,6 @@ import {
 
 import { focusElement } from '../utilities/ui';
 
-import PropTypes from 'prop-types';
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
 export default function FormNav(props) {
@@ -97,13 +97,7 @@ export default function FormNav(props) {
     <div>
       <va-segmented-progress-bar total={chapters.length} current={current} />
       <div className="schemaform-chapter-progress">
-        <div
-          aria-valuenow={current}
-          aria-valuemin="1"
-          aria-valuetext={stepText}
-          aria-valuemax={chapters.length}
-          className="nav-header nav-header-schemaform"
-        >
+        <div className="nav-header nav-header-schemaform">
           {showHeader && (
             <h2 id="nav-form-header" className="vads-u-font-size--h4">
               {stepText}

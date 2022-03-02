@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
@@ -118,6 +119,29 @@ export const FormApp = ({
       {content}
     </article>
   );
+};
+
+FormApp.propTypes = {
+  children: PropTypes.object,
+  contestableIssues: PropTypes.shape({
+    issues: PropTypes.array,
+    status: PropTypes.string,
+  }),
+  formData: PropTypes.shape({
+    areaOfDisagreement: PropTypes.array,
+    contestableIssues: PropTypes.array,
+  }),
+  getContestableIssues: PropTypes.func,
+  isLoading: PropTypes.bool,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+  loggedIn: PropTypes.bool,
+  profile: PropTypes.shape({
+    vapContactInfo: PropTypes.shape({}),
+  }),
+  setFormData: PropTypes.func,
+  showNod: PropTypes.bool,
 };
 
 const mapStateToProps = state => {

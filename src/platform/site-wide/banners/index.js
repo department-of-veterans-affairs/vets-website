@@ -21,7 +21,7 @@ export default async () => {
   if (banners) {
     const {
       default: Banner,
-    } = await import(/* banner-widget */ '@department-of-veterans-affairs/component-library/Banner');
+    } = await import(/* webpackChunkName: "banner-widget" */ '@department-of-veterans-affairs/component-library/Banner');
 
     for (let index = 0; index < banners.length; index++) {
       const banner = banners[index];
@@ -46,7 +46,7 @@ export default async () => {
   if (maintenanceBanner) {
     const {
       default: MaintenanceBanner,
-    } = await import(/* maintenance-banner-widget */ './components/MaintenanceBanner');
+    } = await import(/* webpackChunkName: "maintenance-banner-widget" */ './components/MaintenanceBanner');
 
     startReactApp(
       <MaintenanceBanner {...maintenanceBanner.dataset} />,

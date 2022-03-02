@@ -7,5 +7,7 @@ describe('Breadcrumb Test', () => {
     trackClaimsPage.loadPage(claimsList);
     trackClaimsPage.checkBreadcrumbs();
     trackClaimsPage.checkBreadcrumbsMobile();
+    cy.expandAccordions();
+    cy.axeCheck();
   });
 });

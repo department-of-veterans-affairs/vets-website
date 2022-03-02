@@ -1,17 +1,17 @@
-import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import { isReactComponent } from 'platform/utilities/ui';
-import { allEqual } from '../utils/helpers';
 import {
   toIdSchema,
   getDefaultFormState,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import { allEqual } from '../utils/helpers';
 
 const ScrollElement = Scroll.Element;
-const scroller = Scroll.scroller;
+const { scroller } = Scroll;
 
 const Header = ({
   title,
@@ -49,6 +49,16 @@ const Header = ({
       {!textDescription && !DescriptionField && description}
     </div>
   );
+};
+
+Header.propTypes = {
+  description: PropTypes.string,
+  formContext: PropTypes.object,
+  hideTitle: PropTypes.bool,
+  idSchema: PropTypes.object,
+  registry: PropTypes.object,
+  title: PropTypes.string,
+  uiSchema: PropTypes.object,
 };
 
 const InputSection = ({
@@ -122,21 +132,31 @@ const InputSection = ({
           <div className="row small-collapse">
             <div className="small-4 left columns button-group">
               <button
-                type="button"
+                aria-label={`${buttonText} ${title}`}
                 className="float-left"
                 onClick={() => handleSave(index, itemSchema)}
-                aria-label={`${buttonText} ${title}`}
+                type="button"
               >
                 {buttonText}
               </button>
-              {showCancel && <a onClick={() => handleCancel(index)}>Cancel</a>}
+              {showCancel && (
+                <button
+                  aria-label={`Cancel ${title}`}
+                  className="usa-button-secondary vads-u-margin-left--2"
+                  onClick={() => handleCancel(index)}
+                  type="button"
+                >
+                  Cancel
+                </button>
+              )}
             </div>
             <div className="small-8 right columns">
               {showRemove && (
                 <button
+                  aria-label={`Remove ${title}`}
                   className="usa-button-secondary float-right"
-                  type="button"
                   onClick={() => handleRemove(index)}
+                  type="button"
                 >
                   Remove
                 </button>
@@ -149,23 +169,50 @@ const InputSection = ({
   );
 };
 
+InputSection.propTypes = {
+  editing: PropTypes.array,
+  errorSchema: PropTypes.object,
+  handleCancel: PropTypes.func,
+  handleChange: PropTypes.func,
+  handleRemove: PropTypes.func,
+  handleSave: PropTypes.func,
+  idSchema: PropTypes.object,
+  index: PropTypes.number,
+  item: PropTypes.object,
+  items: PropTypes.array,
+  registry: PropTypes.object,
+  schema: PropTypes.object,
+  title: PropTypes.string,
+  uiSchema: PropTypes.object,
+  onBlur: PropTypes.func,
+};
+
 const AddAnotherButton = ({ uiOptions, handleAdd, collapsed }) => {
-  const linkClassNames = classNames('add-item-link', {
-    disabled: !collapsed,
-  });
+  const linkClassNames = classNames(
+    'add-item-button usa-button-secondary vads-u-width--auto vads-u-margin--0',
+    {
+      disabled: !collapsed,
+    },
+  );
 
   return (
     <div>
       <div className="add-item-container" name="table_root_">
-        <div className="add-item-link-section">
-          <a className={linkClassNames} onClick={handleAdd}>
+        <div className="add-item-button-section">
+          <button className={linkClassNames} onClick={handleAdd} type="button">
             <i className="fas fa-plus plus-icon" />
             {uiOptions.itemName ? `Add ${uiOptions.itemName}` : 'Add another'}
-          </a>
+          </button>
         </div>
       </div>
     </div>
   );
+};
+
+AddAnotherButton.propTypes = {
+  collapsed: PropTypes.bool,
+  handleAdd: PropTypes.func,
+  uiOptions: PropTypes.object,
 };
 
 const ItemLoop = ({
@@ -342,7 +389,7 @@ const ItemLoop = ({
                   ))}
                   <th
                     className="vads-u-border--0"
-                    width="50"
+                    width="85"
                     aria-hidden="true"
                   />
                 </tr>
@@ -438,13 +485,11 @@ export default ItemLoop;
 
 ItemLoop.propTypes = {
   schema: PropTypes.object.isRequired,
-  uiSchema: PropTypes.object,
-  errorSchema: PropTypes.object,
-  requiredSchema: PropTypes.object,
-  idSchema: PropTypes.object,
   onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func,
+  errorSchema: PropTypes.object,
+  formContext: PropTypes.object,
   formData: PropTypes.array,
+  idSchema: PropTypes.object,
   registry: PropTypes.shape({
     widgets: PropTypes.objectOf(
       PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
@@ -453,4 +498,7 @@ ItemLoop.propTypes = {
     definitions: PropTypes.object.isRequired,
     formContext: PropTypes.object.isRequired,
   }),
+  requiredSchema: PropTypes.object,
+  uiSchema: PropTypes.object,
+  onBlur: PropTypes.func,
 };

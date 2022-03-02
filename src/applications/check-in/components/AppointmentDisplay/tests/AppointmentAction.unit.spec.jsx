@@ -58,6 +58,7 @@ describe('check-in', () => {
         'Check in now',
       );
     });
+
     it('should render the bad status message for appointments with INELIGIBLE_BAD_STATUS status', () => {
       const action = render(
         <Provider store={store}>
@@ -123,7 +124,7 @@ describe('check-in', () => {
       expect(action.queryByTestId('check-in-button')).to.not.exist;
       expect(action.getByTestId('too-late-message')).to.exist;
       expect(action.getByTestId('too-late-message')).to.have.text(
-        'Your appointment started more than 5 minutes ago. We can’t check you in online. Ask a staff member for help.',
+        'Your appointment started more than 15 minutes ago. We can’t check you in online. Ask a staff member for help.',
       );
     });
     it('should render the bad status message for appointments with INELIGIBLE_TOO_EARLY status', () => {
