@@ -25,7 +25,7 @@ const incorrectText = (
       className="fas fa-exclamation-circle vads-u-color--secondary-dark vads-u-margin-right--1 vads-u-margin-top--1"
       aria-hidden="true"
     />{' '}
-    You verified that this month’s enrollment information is incorrect
+    You verified that this month’s enrollment information isn’t correct
   </p>
 );
 
