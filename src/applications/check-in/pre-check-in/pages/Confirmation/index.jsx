@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
@@ -19,6 +19,7 @@ import {
 
 const Confirmation = props => {
   const { router } = props;
+  const [isLoading, setIsLoading] = useState(true);
   const { goToErrorPage } = useFormRouting(router);
   const { getComplete, setComplete } = useSessionStorage();
 
@@ -35,6 +36,9 @@ const Confirmation = props => {
 
   useEffect(
     () => {
+      // show loading screen
+      setIsLoading(true);
+
       focusElement('h1');
 
       async function sendPreCheckInData() {
@@ -58,6 +62,8 @@ const Confirmation = props => {
             goToErrorPage();
           } else {
             setComplete(window, true);
+            // hide loading screen
+            setIsLoading(false);
           }
         } catch (error) {
           goToErrorPage();
@@ -86,6 +92,9 @@ const Confirmation = props => {
 
   if (appointments.length === 0) {
     return <></>;
+  }
+  if (isLoading) {
+    return <va-loading-indicator message="Completing pre-check-in..." />;
   }
   return (
     <div
