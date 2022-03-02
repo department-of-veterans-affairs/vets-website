@@ -1,10 +1,13 @@
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import { maskBankInformation, hasNewBankInformation } from '../utils';
-import { hasPrefillBankInfo } from '../pages/bankInformation';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import environment from 'platform/utilities/environment';
+import {
+  maskBankInformation,
+  hasNewBankInformation,
+  hasPrefillBankInformation,
+} from '../utils';
 
 export const accountTitleLabels = {
   CHECKING: 'Checking Account',
@@ -44,7 +47,7 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
   return (
     <div>
       {!environment.isProduction() &&
-        hasPrefillBankInfo(formData) && (
+        hasPrefillBankInformation(formData) && (
           <p>
             This is the bank account information we have on file for you. We’ll
             send your housing payment to this account.

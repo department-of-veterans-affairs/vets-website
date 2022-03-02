@@ -2,9 +2,9 @@ import _ from 'lodash';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
+import { hasNewBankInformation, hasPrefillBankInformation } from '../utils';
 import PaymentView from '../components/PaymentView';
 import PaymentReviewView from '../components/PaymentReviewView';
-import { hasNewBankInformation, hasPrefillBankInformation } from '../utils';
 import environment from 'platform/utilities/environment';
 
 import {

@@ -23,8 +23,8 @@ describe('Schemaform definition bankAccount', () => {
     expect(inputs[1].id).to.equal('root_accountType_1');
     expect(inputs[0].type).to.equal('radio');
     expect(inputs[1].type).to.equal('radio');
-    expect(inputs[2].id).to.equal('root_accountNumber');
-    expect(inputs[4].id).to.equal('root_routingNumber');
+    expect(inputs[2].id).to.equal('root_routingNumber');
+    expect(inputs[3].id).to.equal('root_accountNumber');
   });
   it('should render bankAccount with routing number error', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -42,6 +42,6 @@ describe('Schemaform definition bankAccount', () => {
     ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
       preventDefault: f => f,
     });
-    expect(find('.usa-input-error-message').textContent).to.equal(`Error`);
+    expect(find('.usa-input-error-message').textContent).to.equal(`Error `);
   });
 });
