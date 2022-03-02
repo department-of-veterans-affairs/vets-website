@@ -27,7 +27,11 @@ const Index = props => {
   const { router } = props;
 
   const { goToErrorPage, jumpToPage } = useFormRouting(router);
-  const { clearCurrentSession, setCurrentToken } = useSessionStorage();
+  const {
+    clearCurrentSession,
+    setComplete,
+    setCurrentToken,
+  } = useSessionStorage();
 
   const [loadMessage] = useState('Finding your appointment information');
 
@@ -83,6 +87,7 @@ const Index = props => {
               goToErrorPage();
             } else {
               setCurrentToken(window, token);
+              setComplete(window, false);
               const pages = createForm();
               const firstPage = pages[0];
               initForm(pages, firstPage);

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
@@ -9,6 +9,7 @@ import { api } from '../../../api';
 import AppointmentBlock from '../../../components/AppointmentBlock';
 import BackToHome from '../../../components/BackToHome';
 import { useFormRouting } from '../../../hooks/useFormRouting';
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
 
 import {
   makeSelectCurrentContext,
@@ -19,6 +20,7 @@ import {
 const Confirmation = props => {
   const { router } = props;
   const { goToErrorPage } = useFormRouting(router);
+  const { getComplete, setComplete } = useSessionStorage();
 
   const selectForm = useMemo(makeSelectForm, []);
   const { data } = useSelector(selectForm);
@@ -30,8 +32,6 @@ const Confirmation = props => {
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
-
-  const [demographicsFlagsSent, setDemographicsFlagsSent] = useState(false);
 
   useEffect(
     () => {
@@ -57,29 +57,30 @@ const Confirmation = props => {
           if (resp.data.error || resp.data.errors) {
             goToErrorPage();
           } else {
-            setDemographicsFlagsSent();
+            setComplete(window, true);
           }
         } catch (error) {
           goToErrorPage();
         }
       }
 
-      if (!demographicsFlagsSent) {
+      if (!getComplete(window).complete) {
         sendPreCheckInData();
       }
     },
     [
-      demographicsFlagsSent,
       demographicsUpToDate,
       emergencyContactUpToDate,
+      getComplete,
       goToErrorPage,
       nextOfKinUpToDate,
+      setComplete,
       token,
     ],
   );
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
-  const selectFormData = useMemo(makeSelectForm, []);
   const { appointments } = useSelector(selectVeteranData);
+  const selectFormData = useMemo(makeSelectForm, []);
   const { data: formData } = useSelector(selectFormData);
   const hasUpdates = Object.values(formData).includes('no');
 

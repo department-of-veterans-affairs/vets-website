@@ -29,3 +29,12 @@ export const updateFormAction = ({ patientDemographicsStatus }) => {
     },
   };
 };
+
+export const PRE_CHECKIN_COMPLETE = 'PRE_CHECKIN_COMPLETE';
+
+export const setPreCheckinComplete = preCheckinComplete => {
+  return {
+    type: PRE_CHECKIN_COMPLETE,
+    payload: preCheckinComplete,
+  };
+};
