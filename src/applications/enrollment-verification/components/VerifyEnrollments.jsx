@@ -80,7 +80,7 @@ VerifyEnrollments.propTypes = {
   onFinishVerifyingLater: PropTypes.func.isRequired,
   onForwardButtonClick: PropTypes.func.isRequired,
   backButtonText: PropTypes.any,
-  children: PropTypes.object,
+  children: PropTypes.any,
   forwardButtonText: PropTypes.any,
   progressTitlePostfix: PropTypes.any,
 };

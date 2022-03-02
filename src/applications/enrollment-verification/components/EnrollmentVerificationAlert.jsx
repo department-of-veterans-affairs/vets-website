@@ -46,7 +46,7 @@ const pausedScoAlert = (
       enrollment information
     </h3>
     <p>
-      You’ve verified that your monthly enrollment has changed or is incorrect,
+      You’ve verified that your monthly enrollment has changed or isn’t correct,
       but you haven’t updated it yet.
     </p>
     <p>
