@@ -1,12 +1,11 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { ptsd781NameTitle } from '../content/ptsdClassification';
 import {
   individualsDescription,
   personDescriptionText,
 } from '../content/individualsInvolved';
 import IndividualsInvolvedCard from '../components/IndividualsInvolvedCard';
-
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 const {
   personsInvolved,
@@ -39,18 +38,21 @@ export const uiSchema = index => ({
         name: {
           first: {
             'ui:title': 'First name',
+            'ui:autocomplete': 'off',
             'ui:errorMessages': {
               required: 'Please enter a first name',
             },
           },
           last: {
             'ui:title': 'Last name',
+            'ui:autocomplete': 'off',
             'ui:errorMessages': {
               required: 'Please enter a last name',
             },
           },
           middle: {
             'ui:title': 'Middle name',
+            'ui:autocomplete': 'off',
           },
         },
         description: {
