@@ -134,6 +134,7 @@ export default function addressUiSchema(
     country: {
       'ui:required': uiRequiredCallback,
       'ui:title': 'Country',
+      'ui:autocomplete': 'country',
       'ui:options': {
         /**
          * This is needed because the country dropdown needs to be set to USA and disabled if a
@@ -167,6 +168,7 @@ export default function addressUiSchema(
     street: {
       'ui:required': uiRequiredCallback,
       'ui:title': 'Street address',
+      'ui:autocomplete': 'address-line1',
       'ui:errorMessages': {
         required: 'Street address is required',
         pattern: 'Please fill in a valid street address',
@@ -174,18 +176,21 @@ export default function addressUiSchema(
     },
     street2: {
       'ui:title': 'Street address line 2',
+      'ui:autocomplete': 'address-line2',
       'ui:options': {
         hideEmptyValueInReview: true,
       },
     },
     street3: {
       'ui:title': 'Street address line 3',
+      'ui:autocomplete': 'address-line3',
       'ui:options': {
         hideEmptyValueInReview: true,
       },
     },
     city: {
       'ui:required': uiRequiredCallback,
+      'ui:autocomplete': 'address-level2',
       'ui:errorMessages': {
         required: 'City is required',
       },
@@ -219,6 +224,7 @@ export default function addressUiSchema(
       },
     },
     state: {
+      'ui:autocomplete': 'address-level1',
       'ui:required': (formData, index) => {
         // Only required if the country is the United States;
         const formDataPath = getPath(path, index);
@@ -251,25 +257,26 @@ export default function addressUiSchema(
               enum: constants.militaryStates.map(state => state.value),
               enumNames: constants.militaryStates.map(state => state.label),
             };
-          } else if (!isMilitary && country === 'USA') {
+          }
+          if (!isMilitary && country === 'USA') {
             return {
               type: 'string',
               title: 'State',
               enum: filteredStates.map(state => state.value),
               enumNames: filteredStates.map(state => state.label),
             };
-          } else {
-            return {
-              type: 'string',
-              title: 'State/Province/Region',
-            };
           }
+          return {
+            type: 'string',
+            title: 'State/Province/Region',
+          };
         },
       },
     },
     postalCode: {
       'ui:required': uiRequiredCallback,
       'ui:title': 'Postal code',
+      'ui:autocomplete': 'postal-code',
       'ui:errorMessages': {
         required: 'Postal code is required',
         pattern: 'Please enter a valid 5 digit US zip code',
@@ -284,11 +291,10 @@ export default function addressUiSchema(
               type: 'string',
               pattern: US_POSTAL_CODE_PATTERN,
             };
-          } else {
-            return {
-              type: 'string',
-            };
           }
+          return {
+            type: 'string',
+          };
         },
       },
     },
