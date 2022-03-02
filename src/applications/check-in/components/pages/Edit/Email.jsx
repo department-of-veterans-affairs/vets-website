@@ -1,12 +1,18 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { useSelector, useDispatch } from 'react-redux';
+
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { focusElement } from 'platform/utilities/ui';
+import { VaTextInput } from 'web-components/react-bindings';
+import { isValidEmail } from 'platform/forms/validations';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { makeSelectEditContext } from '../../../selectors';
 import { createClearEditContext } from '../../../actions/edit';
 import CancelButton from './shared/CancelButton';
+import UpdateButton from './shared/UpdateButton';
+import Footer from '../../Footer';
 
 export default function Email(props) {
   const { router } = props;
@@ -14,6 +20,8 @@ export default function Email(props) {
   const selectEditContext = useMemo(makeSelectEditContext, []);
   const { editing } = useSelector(selectEditContext);
   const { editingPage, key, originatingUrl, value } = editing;
+  const [email, setEmail] = useState(value);
+  const [errorMessage, setErrorMessage] = useState();
 
   const dispatch = useDispatch();
   const clearEditContext = useCallback(
@@ -23,18 +31,53 @@ export default function Email(props) {
     [dispatch],
   );
 
+  useEffect(() => {
+    focusElement('h1');
+    scrollToTop('topScrollElement');
+  }, []);
+
+  const onChange = useCallback(
+    event => {
+      const { value: newEmail } = event.target;
+      if (!newEmail) {
+        setErrorMessage('Please enter an email address.');
+      } else if (!isValidEmail(newEmail)) {
+        setErrorMessage('Please enter a valid email address.');
+      } else {
+        setErrorMessage();
+      }
+      setEmail(newEmail);
+    },
+    [setEmail],
+  );
+
   return (
-    <div>
-      <h1>Update your email</h1>
-      <p>editing Page {editingPage}</p>
-      <p>key {key}</p>
-      <p>originatingUrl {originatingUrl}</p>
-      <p>value {value}</p>
+    <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--4  vads-u-padding-right--4 vads-u-padding-left-2 ">
+      <h1>Edit email address</h1>
+
+      <VaTextInput
+        error={errorMessage}
+        label="Email Address"
+        maxlength={null}
+        name={key}
+        value={email}
+        required
+        onVaChange={onChange}
+        class="vads-u-padding-bottom--4"
+      />
+      <UpdateButton
+        jumpToPage={jumpToPage}
+        backPage={originatingUrl}
+        clearData={clearEditContext}
+        email={email}
+        editingPage={editingPage}
+      />
       <CancelButton
         jumpToPage={jumpToPage}
         backPage={originatingUrl}
         clearData={clearEditContext}
       />
+      <Footer />
     </div>
   );
 }
