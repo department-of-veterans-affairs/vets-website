@@ -50,6 +50,7 @@ function LocationSearchResults({
   const [markerClicked, setMarkerClicked] = useState(null);
   const [activeMarker, setActiveMarker] = useState(null);
   const [myLocation, setMyLocation] = useState(null);
+  const [isLandscape, setIsLandscape] = useState(false);
   const usingUserLocation = () => {
     const currentPositions = document.getElementsByClassName(
       'current-position',
@@ -61,6 +62,20 @@ function LocationSearchResults({
 
     return true;
   };
+
+  /**
+   * Check if using mobile device and if device is in landscape orientation
+   */
+  const setOrientation = () => {
+    const orientationAngle = !window.screen.orientation.angle;
+    const mobileDevice = !navigator.maxTouchPoints;
+    if (!orientationAngle && !mobileDevice) return true;
+    return false;
+  };
+
+  useEffect(() => {
+    setIsLandscape(setOrientation);
+  }, []);
 
   /**
    * When map is moved update distance from center to NorthEast corner
@@ -166,6 +181,7 @@ function LocationSearchResults({
 
     return (
       smallScreen ||
+      isLandscape ||
       !mapState.changed ||
       map.current.getBounds().contains(lngLat)
     );
@@ -232,7 +248,7 @@ function LocationSearchResults({
 
     const popup = new mapboxgl.Popup();
     popup.on('open', () => {
-      if (smallScreen) {
+      if (smallScreen || isLandscape) {
         setMobileTab(LIST_TAB);
       }
       setMarkerClicked(name);
@@ -279,7 +295,7 @@ function LocationSearchResults({
    */
   useEffect(
     () => {
-      if (smallScreen) {
+      if (smallScreen || isLandscape) {
         map.current = null;
       }
       setupMap();
@@ -289,7 +305,7 @@ function LocationSearchResults({
       let visibleResults = [];
       const mapMarkers = [];
 
-      if (smallScreen) {
+      if (smallScreen || isLandscape) {
         visibleResults = results;
       }
 
@@ -639,7 +655,7 @@ function LocationSearchResults({
   const smallScreenCount = search.location.count;
 
   // returns content ordered and setup for smallScreens
-  if (smallScreen) {
+  if (smallScreen || isLandscape) {
     return (
       <div className="location-search vads-u-padding--1">
         {inProgress && (
