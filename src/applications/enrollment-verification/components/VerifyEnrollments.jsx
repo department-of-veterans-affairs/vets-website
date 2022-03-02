@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import EnrollmentVerificationPageWrapper from './EnrollmentVerificationPageWrapper';
-import { REVIEW_ENROLLMENTS_URL } from '../constants';
+import FinishVerifyingLater from './FinishVerifyingLater';
 
 export default function VerifyEnrollments({
   backButtonText = (
@@ -43,13 +43,7 @@ export default function VerifyEnrollments({
 
       {children}
 
-      <a
-        className="ev-finish-later vads-u-margin-top--4"
-        href={REVIEW_ENROLLMENTS_URL}
-        onClick={onFinishVerifyingLater}
-      >
-        Finish verifying your enrollments later
-      </a>
+      <FinishVerifyingLater onFinishVerifyingLater={onFinishVerifyingLater} />
 
       <div className="ev-actions vads-u-margin-top--2p5">
         <button
