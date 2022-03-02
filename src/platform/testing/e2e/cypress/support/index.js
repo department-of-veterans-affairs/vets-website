@@ -4,6 +4,7 @@ import 'cypress-axe';
 import 'cypress-plugin-tab';
 import 'cypress-real-events/support';
 import addContext from 'mochawesome/addContext';
+import '@cypress/code-coverage/support';
 import './commands';
 
 Cypress.on('window:before:load', window => {

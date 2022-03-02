@@ -1,8 +1,8 @@
 const fs = require('fs');
 const webpackPreprocessor = require('@cypress/webpack-preprocessor');
-const table = require('table').table;
-const DefinePlugin = require('webpack').DefinePlugin;
-const ProvidePlugin = require('webpack').ProvidePlugin;
+const { table } = require('table');
+const { DefinePlugin } = require('webpack');
+const { ProvidePlugin } = require('webpack');
 
 const tableConfig = {
   columns: {
@@ -11,7 +11,10 @@ const tableConfig = {
   },
 };
 
-module.exports = async on => {
+module.exports = async (on, config) => {
+  require('@cypress/code-coverage/task')(on, config);
+  on('file:preprocessor', require('@cypress/code-coverage/use-babelrc'));
+
   const ENV = 'localhost';
   const publicPath = '/generated/';
   let outputOptions = {};
@@ -75,4 +78,5 @@ module.exports = async on => {
     table: message => console.log(table(message, tableConfig)) || null,
     /* eslint-enable no-console */
   });
+  return config;
 };
