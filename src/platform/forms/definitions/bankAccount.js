@@ -54,7 +54,9 @@ const uiSchema = {
     'ui:title': 'Bank account number',
     'ui:required': isProduction,
     'ui:errorMessages': isProduction
-      ? {}
+      ? {
+          required: 'Please enter a bank account number',
+        }
       : {
           pattern: 'Please enter a valid account number',
           required: 'Please enter a bank account number',
@@ -67,7 +69,9 @@ const uiSchema = {
     'ui:validations': [validateRoutingNumber],
     'ui:required': isProduction,
     'ui:errorMessages': isProduction
-      ? {}
+      ? {
+          required: 'Please enter a routing number',
+        }
       : {
           pattern: 'Please enter a valid 9 digit routing number',
           required: 'Please enter a routing number',
