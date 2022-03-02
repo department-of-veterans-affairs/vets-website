@@ -1,9 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-
-import { apiRequest } from 'platform/utilities/api';
-import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -13,7 +10,6 @@ import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 
 import HowToApplyPost911GiBill from '../components/HowToApplyPost911GiBill';
 import { fetchUser } from '../selectors/userDispatch';
-import { CLAIMANT_INFO_ENDPOINT } from '../actions';
 
 export const IntroductionPage = ({ user, route }) => {
   const SaveInProgressComponent = (
@@ -26,29 +22,6 @@ export const IntroductionPage = ({ user, route }) => {
       hideUnauthedStartLink
       startText="Start your application"
     />
-  );
-
-  const handleRedirect = async response => {
-    if (!response?.data?.attributes?.claimant) {
-      window.location.href =
-        '/education/apply-for-education-benefits/application/1990/';
-    }
-    return response;
-  };
-
-  useEffect(
-    () => {
-      const checkIfClaimantExists = async () =>
-        apiRequest(CLAIMANT_INFO_ENDPOINT)
-          .then(response => handleRedirect(response))
-          .catch(err => err);
-
-      focusElement('.va-nav-breadcrumbs-list');
-      if (user.login.currentlyLoggedIn) {
-        checkIfClaimantExists().then(res => res);
-      }
-    },
-    [user.login.currentlyLoggedIn],
   );
 
   return (
