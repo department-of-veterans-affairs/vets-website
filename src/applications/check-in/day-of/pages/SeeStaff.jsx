@@ -8,13 +8,16 @@ import Footer from '../../components/Footer';
 import BackButton from '../../components/BackButton';
 
 import { makeSelectSeeStaffMessage } from '../../selectors';
+import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 import TravelPayReimbursementLink from '../../components/TravelPayReimbursementLink';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { useDemographicsFlags } from '../../hooks/useDemographicsFlags';
 
 const SeeStaff = props => {
   const { router } = props;
-  const { isDayOfDemographicsFlagsEnabled } = props;
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const featureToggles = useSelector(selectFeatureToggles);
+  const { isDayOfDemographicsFlagsEnabled } = featureToggles;
   const { goToErrorPage, jumpToPage } = useFormRouting(router);
   const {
     demographicsData,
@@ -72,7 +75,6 @@ const SeeStaff = props => {
 };
 
 SeeStaff.propTypes = {
-  isDayOfDemographicsFlagsEnabled: PropTypes.bool,
   router: PropTypes.object,
 };
 
