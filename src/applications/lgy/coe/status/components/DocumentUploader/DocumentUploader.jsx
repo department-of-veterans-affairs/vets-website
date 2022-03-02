@@ -85,7 +85,7 @@ const reducer = (state, action) => {
 
 const DocumentUploader = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
+  const csrfTokenStored = localStorage.getItem('csrfToken');
   const {
     documentType,
     documentDescription,
@@ -112,18 +112,55 @@ const DocumentUploader = () => {
     });
   }, []);
 
+  const sendFile = (file, theDocumentType, fileType, fileName) => {
+    dispatch({
+      type: FORM_SUBMIT_PENDING,
+    });
+    fetchAndUpdateSessionExpiration(
+      `${environment.API_URL}/v0/coe/document_upload`,
+      {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Key-Inflection': 'camel',
+          'Source-App-Name': window.appName,
+          'X-CSRF-Token': csrfTokenStored,
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          file,
+          documentType: theDocumentType,
+          fileType,
+          fileName,
+        }),
+      },
+    )
+      .then(res => res.json())
+      .then(body => {
+        if (body.errors) {
+          dispatch({
+            type: FORM_SUBMIT_FAIL,
+            errorMessage: body.errors,
+          });
+        } else {
+          dispatch({
+            type: FORM_SUBMIT_SUCCESS,
+          });
+        }
+      });
+  };
+
   const onUploadFile = useCallback(
     async uploadedFiles => {
-      const csrfTokenStored = localStorage.getItem('csrfToken');
       dispatch({ type: FILE_UPLOAD_PENDING });
-      /* if (!isValidFileType(uploadedFiles[0])) {
+      if (!isValidFileType(uploadedFiles[0])) {
         dispatch({
           type: FILE_UPLOAD_FAIL,
           errorMessage:
             'Please choose a file from one of the accepted file types.',
         });
         return;
-      } */
+      }
       const file = uploadedFiles[0];
       const fileName = file.name;
       const fileType = fileName.substr(fileName.length - 3);
@@ -134,41 +171,7 @@ const DocumentUploader = () => {
       reader.readAsDataURL(file);
       reader.onloadend = () => {
         const base64String = reader.result;
-        dispatch({
-          type: FORM_SUBMIT_PENDING,
-        });
-        fetchAndUpdateSessionExpiration(
-          `${environment.API_URL}/v0/coe/document_upload`,
-          {
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-Key-Inflection': 'camel',
-              'Source-App-Name': window.appName,
-              'X-CSRF-Token': csrfTokenStored,
-            },
-            method: 'POST',
-            body: JSON.stringify({
-              file: base64String,
-              documentType: file.documentType,
-              fileType,
-              fileName,
-            }),
-          },
-        )
-          .then(res => res.json())
-          .then(body => {
-            if (body.errors) {
-              dispatch({
-                type: FORM_SUBMIT_FAIL,
-                errorMessage: body.errors,
-              });
-            } else {
-              dispatch({
-                type: FORM_SUBMIT_SUCCESS,
-              });
-            }
-          });
+        sendFile(base64String, documentType, fileType, fileName);
       };
 
       // dispatch({ type: FILE_UPLOAD_SUCCESS, file });
