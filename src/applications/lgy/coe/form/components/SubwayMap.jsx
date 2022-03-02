@@ -70,7 +70,7 @@ const SubwayMap = () => (
             of your honorable service.
           </li>
         </ul>
-        <va-additional-info trigger="What's a statement of service?">
+        <va-additional-info trigger="What’s a statement of service?">
           <p>hey</p>
         </va-additional-info>
       </li>
