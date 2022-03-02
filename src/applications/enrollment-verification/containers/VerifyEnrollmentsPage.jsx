@@ -260,7 +260,11 @@ export const VerifyEnrollmentsPage = ({
         ) : (
           <></>
         )}
-        {informationIncorrectMonth ? <ReviewPausedInfo /> : <></>}
+        {informationIncorrectMonth ? (
+          <ReviewPausedInfo onFinishVerifyingLater={onFinishVerifyingLater} />
+        ) : (
+          <></>
+        )}
 
         <ReviewEnrollmentVerifications
           months={unverifiedMonths}
