@@ -65,15 +65,6 @@ describe('Pre-Check In Experience ', () => {
     // page: Confirmation
     Confirmation.validatePageLoaded();
 
-    // Confirm that we posted data to the pre-checkin complete endpoint.
-    cy.wait('@preCheckin');
-    cy.get('@preCheckin')
-      .its('request.body.preCheckIn.demographicsUpToDate')
-      .should('equal', true);
-    cy.get('@preCheckin')
-      .its('response.statusCode')
-      .should('equal', 200);
-
     // Confirm that we posted the correct data to the pre-checkin complete endpoint.
     cy.wait('@preCheckin');
     cy.get('@preCheckin')
