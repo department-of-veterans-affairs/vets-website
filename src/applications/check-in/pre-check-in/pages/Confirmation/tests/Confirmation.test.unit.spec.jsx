@@ -1,18 +1,20 @@
 import React from 'react';
+import TestRenderer from 'react-test-renderer';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { createMockRouter } from '../../../../tests/unit/mocks/router';
 import Confirmation from '../index';
+import PreCheckinConfirmation from '../../../../components/PreCheckinConfirmation';
 
 describe('pre-check-in', () => {
   describe('Confirmation page', () => {
     describe('redux store without friendly name', () => {
+      let initState;
       let store;
       beforeEach(() => {
-        const initState = {
+        initState = {
           checkInData: {
             appointments: [
               {
@@ -47,19 +49,25 @@ describe('pre-check-in', () => {
         const mockStore = configureStore(middleware);
         store = mockStore(initState);
       });
-      it('renders page with clinic name', () => {
-        const screen = render(
+      it('passes the correct props to the pre-checkin confirmation component', () => {
+        const testRenderer = TestRenderer.create(
           <Provider store={store}>
             <Confirmation router={createMockRouter()} />
           </Provider>,
         );
-        expect(screen.getAllByText('LOM ACC CLINIC TEST')).to.have.lengthOf(1);
+        const testInstance = testRenderer.root;
+        expect(testInstance.findByType(PreCheckinConfirmation).props.hasUpdates)
+          .to.be.false;
+        expect(
+          testInstance.findByType(PreCheckinConfirmation).props.appointments,
+        ).to.equal(initState.checkInData.appointments);
       });
     });
     describe('redux store with friendly name', () => {
+      let initState;
       let store;
       beforeEach(() => {
-        const initState = {
+        initState = {
           checkInData: {
             appointments: [
               {
@@ -108,6 +116,7 @@ describe('pre-check-in', () => {
               data: {
                 demographicsUpToDate: 'yes',
                 nextOfKinUpToDate: 'yes',
+                emergencyContactUpToDate: 'no',
               },
             },
             context: {
@@ -119,22 +128,18 @@ describe('pre-check-in', () => {
         const mockStore = configureStore(middleware);
         store = mockStore(initState);
       });
-      it('renders page - no updates', () => {
-        const screen = render(
+      it('passes the correct props with hasUpdates to the pre-checkin confirmation component', () => {
+        const testRenderer = TestRenderer.create(
           <Provider store={store}>
-            <Confirmation />
+            <Confirmation router={createMockRouter()} />
           </Provider>,
         );
-        expect(screen.getByTestId('confirmation-wrapper')).to.exist;
-        expect(screen.queryByTestId('confirmation-update-alert')).to.be.null;
-      });
-      it('renders page with clinic friendly name', () => {
-        const screen = render(
-          <Provider store={store}>
-            <Confirmation />
-          </Provider>,
-        );
-        expect(screen.getAllByText('TEST CLINIC')).to.have.lengthOf(3);
+        const testInstance = testRenderer.root;
+        expect(testInstance.findByType(PreCheckinConfirmation).props.hasUpdates)
+          .to.be.true;
+        expect(
+          testInstance.findByType(PreCheckinConfirmation).props.appointments,
+        ).to.equal(initState.checkInData.appointments);
       });
       it('page passes axeCheck', () => {
         axeCheck(

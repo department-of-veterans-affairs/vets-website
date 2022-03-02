@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { api } from '../../../api';
-import AppointmentBlock from '../../../components/AppointmentBlock';
-import BackToHome from '../../../components/BackToHome';
+import PreCheckinConfirmation from '../../../components/PreCheckinConfirmation';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 
@@ -70,7 +68,7 @@ const Confirmation = props => {
         }
       }
 
-      if (!getComplete(window).complete) {
+      if (!getComplete(window)?.complete) {
         sendPreCheckInData();
       }
     },
@@ -90,58 +88,12 @@ const Confirmation = props => {
   const { data: formData } = useSelector(selectFormData);
   const hasUpdates = Object.values(formData).includes('no');
 
-  if (appointments.length === 0) {
-    return <></>;
-  }
-  if (isLoading) {
-    return <va-loading-indicator message="Completing pre-check-in..." />;
-  }
   return (
-    <div
-      className="vads-l-grid-container vads-u-padding-bottom--3 vads-u-padding-top--3"
-      data-testid="confirmation-wrapper"
-    >
-      <h1 tabIndex="-1" className="vads-u-margin-top--2">
-        You’ve completed pre-check-in
-      </h1>
-      <AppointmentBlock appointments={appointments} />
-      {hasUpdates ? (
-        <va-alert
-          background-only
-          status="info"
-          show-icon
-          data-testid="confirmation-update-alert"
-        >
-          <div>
-            A staff member will help you on the day of your appointment to
-            update your information.
-          </div>
-        </va-alert>
-      ) : (
-        <></>
-      )}
-      <p className={hasUpdates ? `vads-u-padding-left--2` : ``}>
-        <a href="https://va.gov/health-care/schedule-view-va-appointments/appointments/">
-          Go to your appointment
-        </a>
-      </p>
-      <p className={hasUpdates ? `vads-u-padding-left--2` : ``}>
-        Please bring your insurance cards with you to your appointment.
-      </p>
-      <h3 data-testid="appointment-questions">
-        What if I have questions about my appointment?
-      </h3>
-      <p>Call your VA health care team:</p>
-      {appointments.map((appointment, index) => {
-        return (
-          <p key={index}>
-            {appointment.clinicFriendlyName || appointment.clinicName} at{' '}
-            <Telephone contact={appointment.clinicPhoneNumber} />
-          </p>
-        );
-      })}
-      <BackToHome />
-    </div>
+    <PreCheckinConfirmation
+      appointments={appointments}
+      hasUpdates={hasUpdates}
+      isLoading={isLoading}
+    />
   );
 };
 
