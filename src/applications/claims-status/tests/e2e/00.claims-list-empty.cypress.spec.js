@@ -6,5 +6,7 @@ describe('Breadcrumb Test Empty List', () => {
     const trackClaimsPage = new TrackClaimsPage();
     trackClaimsPage.loadPage(claimsListEmpty);
     trackClaimsPage.verifyNoClaims();
+    cy.expandAccordions();
+    cy.axeCheck();
   });
 });
