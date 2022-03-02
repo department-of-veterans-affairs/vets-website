@@ -116,7 +116,7 @@ const ResourcesAndSupportSearchApp = () => {
               onInputChange={setUserInput}
             />
             <h2
-              className="vads-u-padding-x--1 vads-u-font-family--sans large-screen:vads-u-padding-x--0 vads-u-font-size--base vads-u-margin-y--2 vads-u-font-weight--normal"
+              className="vads-u-padding-x--1 vads-u-font-family--sans large-screen:vads-u-padding-x--0 vads-u-font-size--base vads-u-margin-top--0 vads-u-margin-bottom--2p5 vads-u-font-weight--normal"
               id="pagination-summary"
             >
               {paginationSummary}

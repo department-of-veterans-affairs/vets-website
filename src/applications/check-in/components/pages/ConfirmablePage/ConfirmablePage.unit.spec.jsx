@@ -92,5 +92,63 @@ describe('pre-check-in experience', () => {
         expect(noClick.calledOnce).to.be.true;
       });
     });
+    describe('ConfirmablePage Edit button', () => {
+      it('does not render an edit button when isEditable is false', () => {
+        const dataFields = [{ key: 'foo', title: 'foo-title' }];
+        const data = { foo: 'bar' };
+
+        const { getByText, queryByText } = render(
+          <ConfirmablePage data={data} dataFields={dataFields} />,
+        );
+        expect(getByText('foo-title')).to.exist;
+        expect(getByText('bar')).to.exist;
+        expect(queryByText('Edit')).to.not.exist;
+      });
+      it('does not render an edit button when isEditable is true and editAction is not supplied', () => {
+        const dataFields = [{ key: 'foo', title: 'foo-title' }];
+        const data = { foo: 'bar' };
+
+        const { getByText, queryByText } = render(
+          <ConfirmablePage data={data} dataFields={dataFields} isEditEnabled />,
+        );
+        expect(getByText('foo-title')).to.exist;
+        expect(getByText('bar')).to.exist;
+        expect(queryByText('Edit')).to.not.exist;
+      });
+      it('renders an edit button when isEditable is true and field has an edit action', () => {
+        const dataFields = [
+          { key: 'foo', title: 'foo-title', editAction: () => {} },
+        ];
+        const data = { foo: 'bar' };
+
+        const { getByText, queryByText } = render(
+          <ConfirmablePage data={data} dataFields={dataFields} isEditEnabled />,
+        );
+        expect(getByText('foo-title')).to.exist;
+        expect(getByText('bar')).to.exist;
+        expect(queryByText('Edit')).to.exist;
+      });
+      it('edit button on click fires the supplied edit action event', () => {
+        const editAction = sinon.spy();
+        const dataFields = [{ key: 'foo', title: 'foo-title', editAction }];
+        const data = { foo: 'bar' };
+
+        const { getByText, queryByText } = render(
+          <ConfirmablePage data={data} dataFields={dataFields} isEditEnabled />,
+        );
+        expect(getByText('foo-title')).to.exist;
+        expect(getByText('bar')).to.exist;
+        expect(queryByText('Edit')).to.exist;
+        fireEvent.click(getByText('Edit'));
+        expect(editAction.calledOnce).to.be.true;
+
+        editAction.calledWith({
+          key: 'foo',
+          title: 'foo-title',
+          editAction,
+          value: 'bar',
+        });
+      });
+    });
   });
 });

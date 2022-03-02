@@ -2130,21 +2130,21 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^6.2.3":
-  version "6.2.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-6.2.3.tgz#3c1e0c35f661d72ac96aee8134f571ea354815f1"
-  integrity sha512-VFQ/EB3oYf1roy9PWuBadXjETEMwIQ6lc2TzsjNHrGBjYX7M/9dEBnP4tjRxIsnuy36bpIADikkjIq8MFgm5Fw==
+"@department-of-veterans-affairs/component-library@^7.1.0":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-7.1.0.tgz#d11595ad2363e89b9a6b95b34ee0f8bba5968a77"
+  integrity sha512-XCqXT33GAC6fierm/9hY7Hm5TkHuY47YVrXVWczI4VpU7Qvr/Y7lky17o4kdr2mEZGBpMtOaqv60Wx7lfQqPmA==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "4.0.4"
-    "@department-of-veterans-affairs/web-components" "2.2.3"
+    "@department-of-veterans-affairs/react-components" "5.0.0"
+    "@department-of-veterans-affairs/web-components" "2.3.0"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/formation@6.17.5":
-  version "6.17.5"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.17.5.tgz#56f7c7fa59c52d3a82f7d741945139b6081f42bc"
-  integrity sha512-MvRIseS7tkz6QLPrF44HN59b/YnCEasfpot+6ctT+mrvf7aq4BcBelCFX3v1LXWzFGFQUR1JP20fkQK2goBj7A==
+"@department-of-veterans-affairs/formation@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.0.tgz#02246372198dcf50ffd98e7dcf075e6a0ebe0db3"
+  integrity sha512-ektA7Li9mAekw3ZxaIhv2Z/nT22YfcGuFcDDLAVn7enUEKwqTLzLiwQNgVxH3x/gm5CNHHP1IAWhGz54N7fznw==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -2167,13 +2167,12 @@
     yeoman-generator "^4.11.0"
     yosay "^2.0.1"
 
-"@department-of-veterans-affairs/react-components@4.0.4":
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-4.0.4.tgz#03569a5e9f128e24c31e83fc89068e00c36c614e"
-  integrity sha512-fsXto33jB46n1kpEFtLanEf3N0WQvPiMZ5SLDWvoz2RPoe71eIx3U//QMIg++GMNyShMl6VZjLX8Jk6QOJF2lw==
+"@department-of-veterans-affairs/react-components@5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-5.0.0.tgz#e6acbe585aff5c04335756d18ce4567844d76d1a"
+  integrity sha512-WnKN1MrdDRsxMwUA/G0xhe+J7yoF9H1hS/lnOKr1SPi6pxmxWBsYLtjMETeT68dbE/otvBs6HgZIIsK5GlmHGA==
   dependencies:
     classnames "^2.2.6"
-    number-to-words "^1.2.4"
     prop-types "^15.6.2"
     react-focus-lock "^2.5.1"
     react-focus-on "^3.5.1"
@@ -2192,10 +2191,10 @@
     react-is "^17.0.1"
     setimmediate "^1.0.5"
 
-"@department-of-veterans-affairs/web-components@2.2.3":
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-2.2.3.tgz#2c6ce819dfcf145e099199b4e039f533371046f1"
-  integrity sha512-Ux8RaVwYetXCg0QB6evGSwyL58xD8st8yZPWSU1kp3h2c7ryug701GjsvY0QUFmdTewNQPhZm5BV5Phib31T2A==
+"@department-of-veterans-affairs/web-components@2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-2.3.0.tgz#81235f42912ffcaa1a0b128ef2ffa49b48614c81"
+  integrity sha512-Br+W8f2R1nZZW0WGZCRGdRw4XM7jSVWunYnK81XJk+GZWp4XuH2w5DoCSnTMKb4waJWFKdQb087fLUcv4XwFwQ==
   dependencies:
     "@stencil/core" "^2.10.0"
     classnames "^2.3.1"
@@ -13700,11 +13699,6 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
-number-to-words@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/number-to-words/-/number-to-words-1.2.4.tgz#e0f124de9628f8d86c4eeb89bac6c07699264501"
-  integrity sha512-/fYevVkXRcyBiZDg6yzZbm0RuaD6i0qRfn8yr+6D0KgBMOndFPxuW10qCHpzs50nN8qKuv78k8MuotZhcVX6Pw==
-
 nwsapi@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/nwsapi/-/nwsapi-2.2.0.tgz"
@@ -18762,9 +18756,9 @@ url-parse-lax@^3.0.0:
     prepend-http "^2.0.0"
 
 url-parse@^1.5.0:
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.3.tgz#71c1303d38fb6639ade183c2992c8cc0686df862"
-  integrity sha512-IIORyIQD9rvj0A4CLWsHkBBJuNqWpFQe224b6j9t/ABmquIS0qDU2pY6kl6AuOrL5OkCXHMCFNe1jBcuAggjvQ==
+  version "1.5.10"
+  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.10.tgz#9d3c2f736c1d75dd3bd2be507dcc111f1e2ea9c1"
+  integrity sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==
   dependencies:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
@@ -18941,9 +18935,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#9eebc8fcdb40e8ff4a2e4cebe20722cfcbd2d31a":
-  version "20.19.1"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9eebc8fcdb40e8ff4a2e4cebe20722cfcbd2d31a"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#ee3c19a0714b6b77101f79aec86af4bc9c460bba":
+  version "20.19.2"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ee3c19a0714b6b77101f79aec86af4bc9c460bba"
 
 vfile-message@^2.0.0:
   version "2.0.4"

@@ -230,18 +230,14 @@ export function LocationSearchForm({
                       type="button"
                       name="use-my-location"
                       onClick={() => {
-                        // eslint-disable-next-line sonarjs/no-collapsible-if
-                        if (!environment.isProduction()) {
-                          if (
-                            document.activeElement.name !== 'use-my-location'
-                          ) {
-                            return;
-                          }
+                        if (document.activeElement.name !== 'use-my-location') {
+                          return;
                         }
                         recordEvent({
                           event: 'map-use-my-location',
                         });
                         dispatchGeolocateUser();
+                        if (environment.isProduction()) doSearch(null);
                       }}
                       className="use-my-location-link"
                     >

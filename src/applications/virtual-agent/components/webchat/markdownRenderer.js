@@ -14,10 +14,36 @@ const markdownRenderer = MarkdownIt({
 });
 
 document.addEventListener('click', e => {
-  const origin = e.target.closest('a');
+  const { target } = e;
 
-  if (origin && origin.id && origin.id === 'chatbotLink') {
-    recordEvent({ event: 'chatbot-resource-link-click' });
+  if (target.closest('a')) {
+    const origin = target.closest('a');
+    if (origin.id && origin.id === 'chatbotLink') {
+      recordEvent({
+        event: 'chatbot-resource-link-click',
+        link: origin.href,
+        linkText: origin.text,
+        time: new Date(),
+      });
+    }
+  } else if (target.closest('span')) {
+    const origin = target.closest('span');
+    if (origin.innerText === 'Speak with an agent') {
+      recordEvent({
+        event: 'chatbot-resource-link-click',
+        'button-text': origin.innerText,
+        time: new Date(),
+      });
+    }
+  } else if (target.closest('button')) {
+    const origin = target.closest('button');
+    if (origin.innerText === 'Speak with an agent') {
+      recordEvent({
+        event: 'chatbot-resource-link-click',
+        'button-text': origin.innerText,
+        time: new Date(),
+      });
+    }
   }
 });
 

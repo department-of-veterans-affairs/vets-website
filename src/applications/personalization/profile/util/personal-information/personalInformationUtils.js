@@ -23,6 +23,14 @@ export const createUiTitlePropertiesFromOptions = obj => {
   }, {});
 };
 
+const pronounsLabels = {
+  heHimHis: 'He/him/his',
+  sheHerHers: 'She/her/hers',
+  theyThemTheirs: 'They/them/theirs',
+  zeZirZirs: 'Ze/zir/zirs',
+  useMyPreferredName: 'Use my preferred name',
+};
+
 const genderLabels = {
   woman: 'Woman',
   man: 'Man',
@@ -40,16 +48,6 @@ const sexualOrientationLabels = {
   queer: 'Queer',
   dontKnow: 'Don’t know',
   preferNotToAnswer: 'Prefer not to answer (un-checks other options)',
-  sexualOrientationNotListed: 'A sexual orientation not listed here',
-};
-
-const pronounsLabels = {
-  heHimHis: 'He/him/his',
-  sheHerHers: 'She/her/hers',
-  theyThemTheirs: 'They/them/theirs',
-  zeZirZirs: 'Ze/zir/zirs',
-  useMyPreferredName: 'Use my preferred name',
-  pronounsNotListed: 'Pronouns not listed here',
 };
 
 const allLabels = {
@@ -145,6 +143,13 @@ export const personalInformationUiSchemas = {
   },
 };
 
+export const formatIndividualLabel = (key, label) => {
+  if (key === 'preferNotToAnswer') {
+    return label.replace('(un-checks other options)', '').trim();
+  }
+  return label;
+};
+
 export const formatMultiSelectAndText = (data, fieldName) => {
   const notListedTextKey = `${fieldName}NotListedText`;
 
@@ -156,7 +161,9 @@ export const formatMultiSelectAndText = (data, fieldName) => {
   }
 
   const mergedValues = [
-    ...data[fieldName].map(key => allLabels[fieldName][key]),
+    ...data[fieldName].map(key =>
+      formatIndividualLabel(key, allLabels[fieldName][key]),
+    ),
     ...(data?.[notListedTextKey] ? [data[notListedTextKey]] : []),
   ];
 
