@@ -59,12 +59,14 @@ class Footer extends Component {
           )}
 
           <div className="usa-grid usa-grid-full footer-banner">
-            <a href="/" className="va-footer-logo" title="Go to VA.gov">
+            <a href="/" title="Go to VA.gov">
               <img
                 src={replaceWithStagingDomain(
                   'https://www.va.gov/img/homepage/va-logo-white.png',
                 )}
                 alt="VA logo"
+                width="200"
+                className="vads-u-height--auto"
               />
             </a>
           </div>
