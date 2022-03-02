@@ -7,7 +7,6 @@ import head from 'lodash/head';
 import last from 'lodash/last';
 import first from 'lodash/first';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import HowDoIPay from './HowDoIPay';
@@ -115,9 +114,9 @@ const DebtDetails = ({ selectedDebt, debts }) => {
             {additionalInfo.nextStep}
           </va-alert>
           {whyContent && (
-            <AdditionalInfo triggerText="Why might I have this debt?">
+            <va-additional-info trigger="Why might I have this debt?">
               {whyContent}
-            </AdditionalInfo>
+            </va-additional-info>
           )}
           <OnThisPageLinks isDetailsPage hasHistory={hasFilteredHistory} />
           {hasFilteredHistory && (

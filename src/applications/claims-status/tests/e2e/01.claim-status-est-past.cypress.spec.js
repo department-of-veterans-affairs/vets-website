@@ -1,5 +1,6 @@
-import TrackClaimsPage from './page-objects/TrackClaimsPage';
 import moment from 'moment';
+
+import TrackClaimsPage from './page-objects/TrackClaimsPage';
 import claimsList from './fixtures/mocks/claims-list.json';
 
 let mockDetails = {};
@@ -23,5 +24,7 @@ describe('Claims status est current test', () => {
     const trackClaimsPage = new TrackClaimsPage();
     trackClaimsPage.loadPage(claimsList, mockDetails);
     trackClaimsPage.verifyInProgressClaim();
+    cy.expandAccordions();
+    cy.axeCheck();
   });
 });

@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-no-bind */
-/* eslint-disable react/button-has-type */
 /* eslint-disable react/jsx-wrap-multilines */
-/* eslint-disable import/order */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { useHistory } from 'react-router-dom';
+import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 import Dropdown from '../../components/Dropdown';
 import {
   fetchLocationAutocompleteSuggestions,
@@ -18,12 +20,9 @@ import {
 } from '../../actions';
 import KeywordSearch from '../../components/search/KeywordSearch';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import { useHistory } from 'react-router-dom';
 import { updateUrlParams } from '../../selectors/search';
 import { TABS } from '../../constants';
 import { INITIAL_STATE } from '../../reducers/search';
-import recordEvent from 'platform/monitoring/record-event';
 
 export function LocationSearchForm({
   autocomplete,
@@ -228,11 +227,17 @@ export function LocationSearchForm({
                     </div>
                   ) : (
                     <button
+                      type="button"
+                      name="use-my-location"
                       onClick={() => {
+                        if (document.activeElement.name !== 'use-my-location') {
+                          return;
+                        }
                         recordEvent({
                           event: 'map-use-my-location',
                         });
                         dispatchGeolocateUser();
+                        if (environment.isProduction()) doSearch(null);
                       }}
                       className="use-my-location-link"
                     >

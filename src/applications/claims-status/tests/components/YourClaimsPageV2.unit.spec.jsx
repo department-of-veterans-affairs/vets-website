@@ -129,16 +129,9 @@ describe('<YourClaimsPageV2>', () => {
     wrapper.unmount();
   });
 
-  // NOTE: We need to cover the actual opening and closing of the modal in an e2e test
-  //  since the logic to show / hide the modal is in the parent component.
-  it('should call `showConsolidatedMessage` when the relevant button is clicked', () => {
-    const messageSpy = sinon.spy();
-    const props = set('showConsolidatedMessage', messageSpy, defaultProps);
-    const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    wrapper
-      .find('.claims-combined')
-      .simulate('click', { preventDefault: () => {} });
-    expect(messageSpy.callCount).to.equal(1);
+  it('should include combined claims additional info', () => {
+    const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
+    expect(wrapper.find('.claims-combined').length).to.equal(1);
     wrapper.unmount();
   });
 

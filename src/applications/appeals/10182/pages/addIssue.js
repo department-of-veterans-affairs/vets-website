@@ -1,14 +1,11 @@
-import dateUiSchema from 'platform/forms-system/src/js/definitions/date';
-
 import { SELECTED } from '../constants';
 
 /**
  * A CustomPage only needs/uses minimal uiSchema/schema
  */
-
 export default {
+  // this uiSchema is completely ignored
   uiSchema: {
-    'ui:title': '',
     addIssue: {
       'ui:title': '',
       items: {
@@ -16,7 +13,7 @@ export default {
           'ui:title': 'Name of issue',
         },
         decisionDate: {
-          ...dateUiSchema('Date of notification of the decision'),
+          'ui:title': 'Date of notification of the decision',
         },
       },
     },
