@@ -118,7 +118,9 @@ describe('authentication URL helpers', () => {
     global.window.location.pathname = '/sign-in/';
     global.window.location.search = '?application=myvahealth';
     authUtilities.login({ policy: CSP_IDS.ID_ME });
-    expect(global.window.location).to.include('/v1/sessions/idme/new');
+    expect(global.window.location).to.include(
+      '/v1/sessions/idme/new?skip_dupe=true',
+    );
   });
 
   it('should redirect to the proper unified sign-in page redirect for eBenefits', () => {

@@ -129,7 +129,7 @@ export function createExternalRedirectUrl({ base, returnUrl, application }) {
     [EXTERNAL_APPS.MHV]: `${base}${
       SKIP_DUPE_QUERY.SINGLE_QUERY
     }&redirect=${returnUrl}&postLogin=true`,
-    [EXTERNAL_APPS.MY_VA_HEALTH]: `${base}`,
+    [EXTERNAL_APPS.MY_VA_HEALTH]: `${base}${SKIP_DUPE_QUERY.SINGLE_QUERY}`,
     [EXTERNAL_APPS.EBENEFITS]: `${base}`,
     [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: `${base}`,
     [EXTERNAL_APPS.VA_OCC_MOBILE]: `${base}`,
