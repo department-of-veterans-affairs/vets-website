@@ -89,10 +89,12 @@ const ConfirmationPage = ({
               class="order-submission-alert vads-u-margin-top--3"
               status="success"
             >
-              <h2 slot="headline">Your order has been submitted</h2>
-              <p>
+              <h2 className="usa-alert-heading" slot="headline">
+                Your order has been submitted
+              </h2>
+              <p className="order-submission-alert">
                 We’ll send you an email confirming your order to{' '}
-                <strong>SomeEmail@email.com</strong>.
+                <strong>{vetEmail}</strong>.
               </p>
             </va-alert>
             <va-alert
