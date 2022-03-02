@@ -60,6 +60,15 @@ export const seeStaffMessageUpdated = message => {
   };
 };
 
+export const SET_CONFIRMED_DEMOGRAPHICS = 'SET_CONFIRMED_DEMOGRAPHICS';
+
+export const setConfirmedDemographics = confirmedDemographics => {
+  return {
+    type: SET_CONFIRMED_DEMOGRAPHICS,
+    payload: { confirmedDemographics },
+  };
+};
+
 export const UPDATE_DAY_OF_CHECK_IN_FORM = 'UPDATE_DAY_OF_CHECK_IN_FORM';
 
 export const updateFormAction = ({
