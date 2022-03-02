@@ -1,9 +1,8 @@
+import path from 'path';
+
 import get from 'platform/utilities/data/get';
 
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
-
-const { join } = require('path');
-const { sep } = require('path');
 
 const APP_SELECTOR = '#react-root';
 const ARRAY_ITEM_SELECTOR =
@@ -350,7 +349,7 @@ Cypress.Commands.add('enterData', field => {
 
     case 'file': {
       cy.get(`#${Cypress.$.escapeSelector(field.key)}`)
-        .upload('src/platform/testing/example-upload.png', 'image/png')
+        .upload('platform/testing/example-upload.png', 'image/png')
         .get('.schemaform-file-uploading')
         .should('not.exist');
       break;
@@ -520,7 +519,9 @@ const testForm = testConfig => {
       const resolvedPageHooks = Object.entries(pageHooks).reduce(
         (hooks, [pagePath, hook]) => ({
           ...hooks,
-          [pagePath.startsWith(sep) ? pagePath : join(rootUrl, pagePath)]: hook,
+          [pagePath.startsWith(path.sep)
+            ? pagePath
+            : path.join(rootUrl, pagePath)]: hook,
         }),
         {},
       );
