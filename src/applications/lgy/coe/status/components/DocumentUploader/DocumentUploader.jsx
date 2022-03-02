@@ -3,7 +3,6 @@ import FileInput from '@department-of-veterans-affairs/component-library/FileInp
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration } from 'platform/utilities/api';
 import { ACTIONS } from '../../../shared/constants';
@@ -46,7 +45,6 @@ const reducer = (state, action) => {
     case DOC_DESC:
       return { ...state, documentDescription: action.documentDescription };
     case FILE_UPLOAD_SUCCESS:
-      console.log(state);
       return {
         ...state,
         files: [...state.files, action.file],
@@ -112,7 +110,59 @@ const DocumentUploader = () => {
     });
   }, []);
 
-  const sendFile = (file, theDocumentType, fileType, fileName) => {
+  const onUploadFile = useCallback(
+    async uploadedFiles => {
+      dispatch({ type: FILE_UPLOAD_PENDING });
+      if (!isValidFileType(uploadedFiles[0])) {
+        dispatch({
+          type: FILE_UPLOAD_FAIL,
+          errorMessage:
+            'Please choose a file from one of the accepted file types.',
+        });
+        return;
+      }
+      console.log(uploadedFiles[0].size);
+      /* if (uploadedFiles[0]) {
+        dispatch({
+          type: FILE_UPLOAD_FAIL,
+          errorMessage:
+            'Please choose a file from one of the accepted file types.',
+        });
+        return;
+      } */
+      const file = uploadedFiles[0];
+      const fileName = file.name;
+      const fileType = fileName.substr(fileName.length - 3);
+      if (documentDescription.value !== '') {
+        file.documentDescription = documentDescription.value;
+      }
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        const base64String = reader.result;
+        const fileObject = {
+          file: base64String,
+          documentType,
+          fileType,
+          fileName,
+        };
+        dispatch({
+          type: FILE_UPLOAD_SUCCESS,
+          file: fileObject,
+        });
+      };
+    },
+    [documentDescription.value, documentType],
+  );
+
+  const onDeleteClick = useCallback(
+    idx => {
+      const newFiles = state.files.filter((_file, index) => index !== idx);
+      dispatch({ type: DELETE_FILE, files: newFiles });
+    },
+    [state.files],
+  );
+
+  const onSubmit = () => {
     dispatch({
       type: FORM_SUBMIT_PENDING,
     });
@@ -128,10 +178,7 @@ const DocumentUploader = () => {
         },
         method: 'POST',
         body: JSON.stringify({
-          file,
-          documentType: theDocumentType,
-          fileType,
-          fileName,
+          files,
         }),
       },
     )
@@ -150,43 +197,6 @@ const DocumentUploader = () => {
       });
   };
 
-  const onUploadFile = useCallback(
-    async uploadedFiles => {
-      dispatch({ type: FILE_UPLOAD_PENDING });
-      if (!isValidFileType(uploadedFiles[0])) {
-        dispatch({
-          type: FILE_UPLOAD_FAIL,
-          errorMessage:
-            'Please choose a file from one of the accepted file types.',
-        });
-        return;
-      }
-      const file = uploadedFiles[0];
-      const fileName = file.name;
-      const fileType = fileName.substr(fileName.length - 3);
-      file.documentType = documentType;
-      if (documentDescription.value !== '') {
-        file.documentDescription = documentDescription.value;
-      }
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        const base64String = reader.result;
-        sendFile(base64String, documentType, fileType, fileName);
-      };
-
-      // dispatch({ type: FILE_UPLOAD_SUCCESS, file });
-    },
-    [documentDescription.value, documentType],
-  );
-
-  const onDeleteClick = useCallback(
-    idx => {
-      const newFiles = state.files.filter((_file, index) => index !== idx);
-      dispatch({ type: DELETE_FILE, files: newFiles });
-    },
-    [state.files],
-  );
-
   return (
     <>
       <h2>We need documents from you</h2>
@@ -200,10 +210,9 @@ const DocumentUploader = () => {
       ) : (
         <FileList files={files} onClick={onDeleteClick} />
       )}
-
       {successMessage ? (
         <va-alert status="success" visible>
-          <h3 slot="headline">Your file has been uploaded</h3>
+          <h3 slot="headline">Your files have been uploaded</h3>
         </va-alert>
       ) : null}
       <div
@@ -245,6 +254,7 @@ const DocumentUploader = () => {
         accept={FILE_TYPES.map(type => `.${type}`).join(',')}
         errorMessage={errorMessage}
       />
+      <button onClick={onSubmit}>Submit files</button>
       <p>
         <strong>Note:</strong> After you upload documents, it will take up to 5
         days for us to review them
