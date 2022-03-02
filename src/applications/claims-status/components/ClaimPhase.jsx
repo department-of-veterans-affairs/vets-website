@@ -199,20 +199,26 @@ export default class ClaimPhase extends React.Component {
       },
     };
 
+    const titleText = getUserPhaseDescription(phase);
+    const title =
+      current < phase ? (
+        <div className="section-header-title">{titleText}</div>
+      ) : (
+        <button
+          type="button"
+          className="section-header-button"
+          aria-expanded={open}
+          onClick={handler.getDescriptionClick}
+        >
+          {titleText}
+        </button>
+      );
+
     return (
       // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
       <li className={`${getClasses(phase, current)}`}>
         {expandCollapseIcon}
-        <h3 className="section-header vads-u-font-size--h4">
-          <button
-            type="button"
-            className="section-header-button"
-            aria-expanded={open}
-            onClick={handler.getDescriptionClick}
-          >
-            {getUserPhaseDescription(phase)}
-          </button>
-        </h3>
+        <h3 className="section-header vads-u-font-size--h4">{title}</h3>
         {open || (current !== COMPLETE_PHASE && phase === COMPLETE_PHASE) ? (
           <div>
             {children}
