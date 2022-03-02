@@ -20,12 +20,12 @@ export default function ClaimsListItem({ claim }) {
   );
   return (
     <div className="claim-list-item-container">
-      <h2 className="claim-list-item-header-v2 vads-u-font-size--h3">
+      <h3 className="claim-list-item-header-v2">
         Claim for {getClaimType(claim)}
         <br />
         updated on{' '}
         {moment(claim.attributes.phaseChangeDate).format('MMMM D, YYYY')}
-      </h2>
+      </h3>
       <div className="card-status">
         <div
           className={`status-circle ${
