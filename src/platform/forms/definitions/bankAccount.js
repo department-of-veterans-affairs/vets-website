@@ -63,7 +63,7 @@ const legacySchema = {
 
 const newUiSchema = {
   'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
-// 'ui:description': directDepositDescription(),
+  'ui:description': directDepositDescription(),
   accountType: {
     'ui:title': 'Account type',
     'ui:widget': 'radio',
@@ -92,6 +92,6 @@ const newUiSchema = {
   },
 };
 
-const uiSchema = isProduction ? newUiSchema : legacySchema;
+const uiSchema = legacySchema;
 
 export default uiSchema;
