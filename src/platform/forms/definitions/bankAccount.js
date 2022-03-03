@@ -79,4 +79,37 @@ const uiSchema = {
   },
 };
 
+const legacyUiSchema = {};
+
+const newUiSchema = {
+  'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
+  'ui:description': directDepositDescription(),
+  accountType: {
+    'ui:title': 'Account type',
+    'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        checking: 'Checking',
+        savings: 'Savings',
+      },
+    },
+  },
+  accountNumber: {
+    'ui:title': 'Bank account number',
+    'ui:errorMessages': {
+      pattern: 'Please enter a valid account number',
+      required: 'Please enter a bank account number',
+    },
+  },
+  routingNumber: {
+    'ui:title': 'Bank’s 9 digit routing number',
+    'ui:validations': [validateRoutingNumber],
+    'ui:required': true,
+    'ui:errorMessages': {
+      pattern: 'Please enter a valid 9 digit routing number',
+      required: 'Please enter a routing number',
+    },
+  },
+};
+
 export default uiSchema;
