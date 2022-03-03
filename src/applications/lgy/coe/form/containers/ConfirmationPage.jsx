@@ -13,6 +13,8 @@ const printPage = () => window.print;
 
 const statusUrl = getAppUrl('coe-status');
 
+const referenceNumber = 'XXXXXXXX';
+
 const ConfirmationPage = ({ form }) => {
   useEffect(() => {
     focusElement('.schemaform-title > h1');
@@ -54,6 +56,13 @@ const ConfirmationPage = ({ form }) => {
               {moment(submission.timestamp).format('MMMM D, YYYY')}
             </li>
           </ul>
+        )}
+
+        {referenceNumber && (
+          <div>
+            <h4>Reference Number</h4>
+            {referenceNumber}
+          </div>
         )}
 
         <button
