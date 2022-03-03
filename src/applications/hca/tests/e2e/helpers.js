@@ -26,8 +26,6 @@ export const advanceToAiqPage = () => {
   goToNextPage('/veteran-information/birth-information');
   goToNextPage('/veteran-information/maiden-name-information');
   goToNextPage('/veteran-information/birth-sex');
-  goToNextPage('/veteran-information/marital-status');
-  cy.get('select#root_maritalStatus').select(testData.maritalStatus);
   goToNextPage('/veteran-information/demographic-information');
   goToNextPage('/veteran-information/american-indian');
 };
@@ -42,14 +40,16 @@ export const advanceFromAiqToReviewPage = () => {
   cy.get('[name*="emailConfirmation"]')
     .scrollIntoView()
     .type(mockUserAttrs.profile.email);
-  goToNextPage('/military-service/service-information');
-  goToNextPage('/military-service/additional-information');
   goToNextPage('/va-benefits/basic-information');
   cy.get('[name="root_vaCompensationType"]').check('none');
   goToNextPage('/va-benefits/pension-information');
   cy.get('[name="root_vaPensionType"]').check('No');
+  goToNextPage('/military-service/service-information');
+  goToNextPage('/military-service/additional-information');
   goToNextPage('/household-information/financial-disclosure');
   cy.get('[name="root_discloseFinancialInformation"]').check('N');
+  goToNextPage('/household-information/marital-status');
+  cy.get('select#root_maritalStatus').select(testData.maritalStatus);
   goToNextPage('/insurance-information/medicaid');
   cy.get('[name="root_isMedicaidEligible"]').check('N');
   goToNextPage('/insurance-information/medicare');
@@ -83,9 +83,6 @@ export const advanceToServiceInfoPage = () => {
 
   goToNextPage('/veteran-information/birth-sex');
 
-  goToNextPage('/veteran-information/marital-status');
-  cy.get('select#root_maritalStatus').select(testData.maritalStatus);
-
   goToNextPage('/veteran-information/demographic-information');
 
   goToNextPage('/veteran-information/american-indian');
@@ -102,6 +99,11 @@ export const advanceToServiceInfoPage = () => {
   cy.get('[name*="emailConfirmation"]')
     .scrollIntoView()
     .type(mockUserAttrs.profile.email);
+
+  goToNextPage('/va-benefits/basic-information');
+  cy.get('[name="root_vaCompensationType"]').check('none');
+  goToNextPage('/va-benefits/pension-information');
+  cy.get('[name="root_vaPensionType"]').check('No');
 
   goToNextPage('/military-service/service-information');
 };

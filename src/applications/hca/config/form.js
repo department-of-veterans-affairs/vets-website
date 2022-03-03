@@ -198,13 +198,6 @@ const formConfig = {
           uiSchema: veteranGender.uiSchema,
           schema: veteranGender.schema,
         },
-        maritalStatus: {
-          path: 'veteran-information/marital-status',
-          title: 'Veteran information',
-          initialData: {},
-          uiSchema: maritalStatus.uiSchema,
-          schema: maritalStatus.schema,
-        },
         demographicInformation: {
           path: 'veteran-information/demographic-information',
           title: 'Veteran information',
@@ -248,6 +241,24 @@ const formConfig = {
         },
       },
     },
+    vaBenefits: {
+      title: 'VA Benefits',
+      pages: {
+        vaBenefits: {
+          path: 'va-benefits/basic-information',
+          title: 'VA benefits',
+          uiSchema: basicInformation.uiSchema,
+          schema: basicInformation.schema,
+        },
+        vaPension: {
+          path: 'va-benefits/pension-information',
+          title: 'VA pension',
+          uiSchema: pensionInformation.uiSchema,
+          schema: pensionInformation.schema,
+          depends: ({ vaCompensationType }) => vaCompensationType === 'none',
+        },
+      },
+    },
     militaryService: {
       title: 'Military Service',
       pages: {
@@ -273,24 +284,6 @@ const formConfig = {
         },
       },
     },
-    vaBenefits: {
-      title: 'VA Benefits',
-      pages: {
-        vaBenefits: {
-          path: 'va-benefits/basic-information',
-          title: 'VA benefits',
-          uiSchema: basicInformation.uiSchema,
-          schema: basicInformation.schema,
-        },
-        vaPension: {
-          path: 'va-benefits/pension-information',
-          title: 'VA pension',
-          uiSchema: pensionInformation.uiSchema,
-          schema: pensionInformation.schema,
-          depends: ({ vaCompensationType }) => vaCompensationType === 'none',
-        },
-      },
-    },
     householdInformation: {
       title: 'Household Information',
       pages: {
@@ -299,6 +292,13 @@ const formConfig = {
           title: 'Financial disclosure',
           uiSchema: financialDisclosure.uiSchema,
           schema: financialDisclosure.schema,
+        },
+        maritalStatus: {
+          path: 'household-information/marital-status',
+          title: 'Marital status information',
+          initialData: {},
+          uiSchema: maritalStatus.uiSchema,
+          schema: maritalStatus.schema,
         },
         spouseInformation: {
           path: 'household-information/spouse-information',

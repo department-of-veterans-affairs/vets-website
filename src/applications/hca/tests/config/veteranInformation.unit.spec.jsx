@@ -173,7 +173,7 @@ describe('HCA veteranInformation', () => {
     const {
       schema,
       uiSchema,
-    } = formConfig.chapters.veteranInformation.pages.maritalStatus;
+    } = formConfig.chapters.householdInformation.pages.maritalStatus;
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
