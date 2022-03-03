@@ -388,21 +388,21 @@ describe('ConfirmationPage', () => {
 
   it('should render the order summary alert', () => {
     const confirmationPage = mount(<ConfirmationPage store={fakeStore} />);
-    const alertBox = confirmationPage.find('AlertBox').last();
-    expect(alertBox.find('h4').text()).to.equal(
+    const vaAlert = confirmationPage.find('va-alert').last();
+    expect(vaAlert.find('h4').text()).to.equal(
       'Request for Batteries and Accessories (Form 2346A)',
     );
     expect(
-      alertBox
+      vaAlert
         .find('li')
         .at(0)
         .text(),
     ).to.equal('DOME (Quantity: 10)');
 
-    expect(alertBox.text()).to.include('Shipping address');
-    expect(alertBox.text()).to.include('101 Example Street Apt 2');
-    expect(alertBox.text()).to.include('Kansas City');
-    expect(alertBox.text()).to.include('MO');
+    expect(vaAlert.text()).to.include('Shipping address');
+    expect(vaAlert.text()).to.include('101 Example Street Apt 2');
+    expect(vaAlert.text()).to.include('Kansas City');
+    expect(vaAlert.text()).to.include('MO');
     confirmationPage.unmount();
   });
   it('should render the empty state alert if no products were selected', () => {
