@@ -33,16 +33,11 @@ const directDepositDescription = () => {
   );
 };
 
-const uiSchema = {
-  'ui:order': () =>
-    isProduction
-      ? ['accountType', 'accountNumber', 'routingNumber']
-      : ['accountType', 'routingNumber', 'accountNumber'],
-  'ui:description': directDepositDescription(),
+const legacySchema = {
+  'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
   accountType: {
     'ui:title': 'Account type',
     'ui:widget': 'radio',
-    'ui:required': isProduction,
     'ui:options': {
       labels: {
         checking: 'Checking',
@@ -52,34 +47,19 @@ const uiSchema = {
   },
   accountNumber: {
     'ui:title': 'Bank account number',
-    'ui:required': isProduction,
-    'ui:errorMessages': isProduction
-      ? {
-          required: 'Please enter a bank account number',
-        }
-      : {
-          pattern: 'Please enter a valid account number',
-          required: 'Please enter a bank account number',
-        },
+    'ui:errorMessages': {
+      required: 'Please enter a bank account number',
+    },
   },
   routingNumber: {
-    'ui:title': isProduction
-      ? 'Bank routing number'
-      : 'Bank’s 9 digit routing number',
+    'ui:title': 'Bank routing number',
     'ui:validations': [validateRoutingNumber],
-    'ui:required': isProduction,
-    'ui:errorMessages': isProduction
-      ? {
-          required: 'Please enter a routing number',
-        }
-      : {
-          pattern: 'Please enter a valid 9 digit routing number',
-          required: 'Please enter a routing number',
-        },
+    'ui:errorMessages': {
+      pattern: 'Please enter a valid nine digit routing number',
+      required: 'Please enter a routing number',
+    },
   },
 };
-
-const legacyUiSchema = {};
 
 const newUiSchema = {
   'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
@@ -111,5 +91,7 @@ const newUiSchema = {
     },
   },
 };
+
+const uiSchema = isProduction ? newUiSchema : legacySchema;
 
 export default uiSchema;
