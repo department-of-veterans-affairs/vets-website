@@ -111,7 +111,7 @@ describe('Batteries', () => {
     const twoYearAlert = wrapper.find('.batteries-two-year-alert-content');
     expect(twoYearAlert.length).to.equal(1);
     expect(twoYearAlert.text()).to.include(
-      "You haven't placed an order for hearing aid batteries within the past 2 years.",
+      'You haven’t placed an order for hearing aid batteries within the past 2 years.',
     );
     wrapper.unmount();
   });
