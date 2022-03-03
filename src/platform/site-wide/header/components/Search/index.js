@@ -147,25 +147,33 @@ export const Search = ({ searchDropdownComponentEnabled }) => {
   };
 
   const renderSearchDropdownComponent = () => (
-    <SearchDropdownComponent
-      buttonText=""
-      canSubmit
-      id="search-header-dropdown"
-      componentClassName=""
-      containerClassName=""
-      buttonClassName="vads-u-margin-left--1"
-      inputClassName=""
-      suggestionsListClassName=""
-      suggestionClassName=""
-      fullWidthSuggestions
-      formatSuggestions
-      startingValue=""
-      submitOnClick
-      submitOnEnter
-      fetchSuggestions={fetchDropDownSuggestions}
-      onInputSubmit={onInputSubmit}
-      onSuggestionSubmit={onSuggestionSubmit}
-    />
+    <>
+      <label
+        className="vads-u-color--gray-dark vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-left--1p5"
+        htmlFor="header-search"
+      >
+        Search
+      </label>
+      <SearchDropdownComponent
+        buttonText=""
+        canSubmit
+        id="search-header-dropdown"
+        componentClassName="vads-u-padding-x--0p5"
+        containerClassName="vads-u-padding-bottom--2 vads-u-margin--0 search-input-container"
+        buttonClassName="search-button"
+        inputClassName="search-input"
+        suggestionsListClassName=""
+        suggestionClassName=""
+        fullWidthSuggestions
+        formatSuggestions
+        startingValue=""
+        submitOnClick
+        submitOnEnter
+        fetchSuggestions={fetchDropDownSuggestions}
+        onInputSubmit={onInputSubmit}
+        onSuggestionSubmit={onSuggestionSubmit}
+      />
+    </>
   );
 
   const renderDefaultSearchMenu = () => (
