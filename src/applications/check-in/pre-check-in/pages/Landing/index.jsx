@@ -29,7 +29,7 @@ const Index = props => {
   const { goToErrorPage, jumpToPage } = useFormRouting(router);
   const {
     clearCurrentSession,
-    setComplete,
+    setPreCheckinComplete,
     setCurrentToken,
   } = useSessionStorage();
 
@@ -87,7 +87,7 @@ const Index = props => {
               goToErrorPage();
             } else {
               setCurrentToken(window, token);
-              setComplete(window, false);
+              setPreCheckinComplete(window, false);
               const pages = createForm();
               const firstPage = pages[0];
               initForm(pages, firstPage);

@@ -46,14 +46,14 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
     [SESSION_STORAGE_KEYS],
   );
 
-  const setComplete = useCallback(
+  const setPreCheckinComplete = useCallback(
     (window, complete) => {
       setSessionKey(window, SESSION_STORAGE_KEYS.COMPLETE, { complete });
     },
     [SESSION_STORAGE_KEYS],
   );
 
-  const getComplete = useCallback(
+  const getPreCheckinComplete = useCallback(
     window => {
       return getSessionKey(window, SESSION_STORAGE_KEYS.COMPLETE);
     },
@@ -85,8 +85,8 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
     clearCurrentSession,
     setCurrentToken,
     getCurrentToken,
-    setComplete,
-    getComplete,
+    setPreCheckinComplete,
+    getPreCheckinComplete,
     incrementValidateAttempts,
     getValidateAttempts,
   };

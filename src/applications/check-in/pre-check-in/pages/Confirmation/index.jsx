@@ -17,9 +17,9 @@ import {
 
 const Confirmation = props => {
   const { router } = props;
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const { goToErrorPage } = useFormRouting(router);
-  const { getComplete, setComplete } = useSessionStorage();
+  const { getPreCheckinComplete, setPreCheckinComplete } = useSessionStorage();
 
   const selectForm = useMemo(makeSelectForm, []);
   const { data } = useSelector(selectForm);
@@ -34,12 +34,10 @@ const Confirmation = props => {
 
   useEffect(
     () => {
-      // show loading screen
-      setIsLoading(true);
-
-      focusElement('h1');
-
       async function sendPreCheckInData() {
+        // show loading screen
+        setIsLoading(true);
+
         // Set pre-checkin complete and send demographics flags.
         const preCheckInData = { uuid: token };
 
@@ -59,26 +57,29 @@ const Confirmation = props => {
           if (resp.data.error || resp.data.errors) {
             goToErrorPage();
           } else {
-            setComplete(window, true);
+            setPreCheckinComplete(window, true);
             // hide loading screen
             setIsLoading(false);
+            focusElement('h1');
           }
         } catch (error) {
           goToErrorPage();
         }
       }
 
-      if (!getComplete(window)?.complete) {
+      if (!getPreCheckinComplete(window)?.complete) {
         sendPreCheckInData();
       }
+
+      focusElement('h1');
     },
     [
       demographicsUpToDate,
       emergencyContactUpToDate,
-      getComplete,
+      getPreCheckinComplete,
       goToErrorPage,
       nextOfKinUpToDate,
-      setComplete,
+      setPreCheckinComplete,
       token,
     ],
   );
