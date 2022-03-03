@@ -84,9 +84,11 @@ export const uiSchema = {
         'ui:order': ['country', 'state', 'city'],
         country: {
           'ui:title': 'Country',
+          'ui:autocomplete': 'off',
         },
         state: {
           'ui:title': 'State',
+          'ui:autocomplete': 'off',
           'ui:validations': [validateMilitaryTreatmentState],
           'ui:options': {
             expandUnder: 'country',
@@ -95,6 +97,7 @@ export const uiSchema = {
         },
         city: {
           'ui:title': 'City',
+          'ui:autocomplete': 'off',
           'ui:validations': [validateMilitaryTreatmentCity],
         },
       },

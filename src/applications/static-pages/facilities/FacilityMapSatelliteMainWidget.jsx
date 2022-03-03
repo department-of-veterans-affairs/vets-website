@@ -2,6 +2,7 @@ import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { fetchMainSatelliteLocationFacility } from './actions';
 import { mapboxToken } from '../../facility-locator/utils/mapboxToken';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
 import { staticMapURL } from '../../facility-locator/utils/mapHelpers';
@@ -22,11 +23,16 @@ export class FacilityMapSatelliteMainWidget extends React.Component {
   }
 
   cleanAddress(address, lat, long) {
-    if (address && address.length !== 0) {
-      return address.join(', ');
+    try {
+      if (address && address.length > 0) {
+        return address.join(', ');
+      }
+      // If we don't have an address fallback on coords
+      return `${lat},${long}`;
+    } catch (e) {
+      // If we don't have an address fallback on coords
+      return `${lat},${long}`;
     }
-    // If we don't have an address fallback on coords
-    return `${lat},${long}`;
   }
 
   updateLatLongAndAddress = facilityDetail => {
@@ -44,12 +50,6 @@ export class FacilityMapSatelliteMainWidget extends React.Component {
     }
   };
 
-  componentDidMount() {
-    if (!this.props.loading && !this.props.error) {
-      this.updateImageLink(this.props.facility);
-    }
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const facilityDetail = this.props.facility;
     const lat = this.getLat(facilityDetail);
@@ -58,25 +58,6 @@ export class FacilityMapSatelliteMainWidget extends React.Component {
       this.updateLatLongAndAddress(this.props.facility);
     }
   }
-
-  updateImageLink = facilityDetail => {
-    const lat = this.getLat(facilityDetail);
-    const long = this.getLong(facilityDetail);
-    let address = buildAddressArray(facilityDetail);
-    address = this.cleanAddress(address, lat, long);
-    if (address && address.length !== 0) {
-      address = address.join(', ');
-    } else {
-      // If we don't have an address fallback on coords
-      address = `${lat},${long}`;
-    }
-
-    const mapLink = `https://maps.google.com?saddr=Current+Location&daddr=${address}`;
-    const imageLink = document.getElementById('google-map-link-image');
-    if (imageLink && (lat !== 0 && long !== 0)) {
-      imageLink.setAttribute('href', mapLink);
-    }
-  };
 
   getLat(facilityDetail) {
     return facilityDetail && facilityDetail.attributes
@@ -126,6 +107,7 @@ const mapStateToProps = store => ({
   facility: store.facility.mainOfficeData,
   loading: store.facility.mainOfficeLoading,
   error: store.facility.mainOfficeError,
+  facilityID: PropTypes.string,
 });
 
 FacilityMapSatelliteMainWidget.propTypes = {
@@ -134,4 +116,11 @@ FacilityMapSatelliteMainWidget.propTypes = {
   error: PropTypes.bool,
 };
 
-export default connect(mapStateToProps)(FacilityMapSatelliteMainWidget);
+const mapDispatchToProps = {
+  dispatchFetchMainSatelliteLocationFacility: fetchMainSatelliteLocationFacility,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(FacilityMapSatelliteMainWidget);

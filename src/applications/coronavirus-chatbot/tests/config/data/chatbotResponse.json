@@ -148,8 +148,6 @@
       { "name": "request_locked_pdf_password", "value": true },
       { "name": "searchRepresentative", "value": false },
       { "name": "search_representative", "value": false },
-      { "name": "searchTypeaheadEnabled", "value": true },
-      { "name": "search_typeahead_enabled", "value": true },
       { "name": "sharableLink", "value": true },
       { "name": "sharable_link", "value": true },
       { "name": "show526Wizard", "value": false },

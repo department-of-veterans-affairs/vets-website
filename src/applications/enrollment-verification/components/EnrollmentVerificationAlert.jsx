@@ -1,6 +1,10 @@
 import React from 'react';
 import { PAYMENT_STATUS } from '../actions';
-import { afterLastDayOfMonth, ENROLLMENT_VERIFICATION_TYPE } from '../helpers';
+import {
+  afterLastDayOfMonth,
+  ENROLLMENT_VERIFICATION_TYPE,
+  formatNumericalDate,
+} from '../helpers';
 import VerifyYourEnrollments from './VerifyYourEnrollments';
 
 const successAlert = nextEnrollmentMonth => (
@@ -42,7 +46,7 @@ const pausedScoAlert = (
       enrollment information
     </h3>
     <p>
-      You’ve verified that your monthly enrollment has changed or is incorrect,
+      You’ve verified that your monthly enrollment has changed or isn’t correct,
       but you haven’t updated it yet.
     </p>
     <p>
@@ -80,7 +84,7 @@ function getEnrollmentVerificationAlert(status) {
   const unverifiedMonths = status?.months?.filter(month => !month.verified);
 
   if (!unverifiedMonths.length) {
-    return successAlert(status.nextEnrollmentMonth);
+    return successAlert(formatNumericalDate(status.nextVerificationDate));
   }
 
   return monthlyPaymentsPaused(unverifiedMonths) ? pausedAlert : warningAlert;

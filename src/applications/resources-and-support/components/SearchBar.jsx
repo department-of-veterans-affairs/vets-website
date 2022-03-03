@@ -1,10 +1,10 @@
 // Node modules.
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
-import resourcesSettings from '../manifest.json';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
+import resourcesSettings from '../manifest.json';
 
 const searchUrl = getAppUrl('search');
 
@@ -16,9 +16,48 @@ export default function SearchBar({
 }) {
   const [isGlobalSearch, setGlobalSearch] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [inputError, setInputError] = useState(false);
 
-  const onSubmit = event => {
-    // Track All VA.gov search.
+  const inputFieldRef = useRef(null);
+
+  // Checks if string is only spaces
+  const onlySpaces = str => /^\s+$/.test(str);
+
+  // Checks if the string is not empty
+  const isInputValid = str => str.length !== 0;
+
+  // Sets focus on the input field
+  const setInputFieldFocus = selector => {
+    const element =
+      typeof selector === 'string'
+        ? document.querySelector(selector)
+        : selector;
+    if (element) element.focus();
+  };
+
+  const handleInputChange = event => {
+    const input = event.target.value;
+
+    // If input is now valid, remove the error
+    if (isInputValid(input)) setInputError(false);
+
+    // Trim the string if spaces and submit to OnChange handler
+    onInputChange(onlySpaces(input) ? input.trim() : input);
+  };
+
+  const handleSubmit = event => {
+    // First, check input state is valid and set error status.
+    const inputState = isInputValid(userInput);
+    setInputError(!inputState);
+
+    // Focus on input field if input is invalid and return early
+    if (!inputState) {
+      event.preventDefault();
+      setInputFieldFocus(inputFieldRef.current);
+      return;
+    }
+
+    // Second, check if a global search, record event and return early
     if (isGlobalSearch) {
       recordEvent({
         event: 'view_search_results',
@@ -38,11 +77,12 @@ export default function SearchBar({
       return;
     }
 
-    // Escape early if we are not on the search page to let the form submit manually.
+    // Third, check if we are not on the /resources/search page and exit early to let the form submit manually
     if (useDefaultFormSearch) {
       return;
     }
 
+    // Fourth, we are at /resources/search so handle the search
     event.preventDefault();
     onSearch();
   };
@@ -80,15 +120,20 @@ export default function SearchBar({
             isGlobalSearch ? `${searchUrl}/` : `${resourcesSettings.rootUrl}/`
           }
           className={`${
-            expanded ? 'va-border-bottom-radius--5px ' : 'vads-u-display--none '
-          }vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-padding--2 vads-u-border-top--1px vads-u-border-color--gray-light medium-screen:vads-u-padding-x--0 medium-screen:vads-u-border-top--0 medium-screen-va-background-color--white medium-screen:vads-u-display--flex`}
+            expanded ? 'va-border-bottom-radius--5px' : 'vads-u-display--none'
+          } vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-padding--3 vads-u-border-top--1px vads-u-border-color--gray-light medium-screen:vads-u-border-top--0 medium-screen:vads-u-display--flex`}
           data-testid="resources-support-search"
           id="resources-support-search"
           method="get"
-          onSubmit={onSubmit}
+          data-e2e-id="resources-support-search-form"
+          onSubmit={handleSubmit}
         >
           <div
             role="search"
+            className={`${
+              inputError ? 'usa-input-error vads-u-margin--0' : ''
+            }`}
+            data-e2e-id="resources-support-error-body"
             aria-label="Search resources and support articles or all of VA.gov"
           >
             <fieldset className="fieldset-input vads-u-margin--0">
@@ -114,6 +159,7 @@ export default function SearchBar({
                     type="radio"
                     value="/resources/search"
                     className="vads-u-color--gray-dark"
+                    data-e2e-id="resources-support-resource-radio"
                   />
                   <label htmlFor="search-within-resources-and-support">
                     <span className="vads-u-visibility--screen-reader">
@@ -129,6 +175,7 @@ export default function SearchBar({
                     onChange={event => setGlobalSearch(event.target.checked)}
                     type="radio"
                     className="vads-u-color--gray-dark"
+                    data-e2e-id="resources-support-resource-all-va-radio"
                   />
                   <label htmlFor="search-all-of-va-dot-gov">
                     <span className="vads-u-visibility--screen-reader">
@@ -144,23 +191,43 @@ export default function SearchBar({
               htmlFor="resources-and-support-query"
             >
               Enter a keyword, phrase, or question
+              {inputError && (
+                <span
+                  className="form-required-span"
+                  data-e2e-id="resources-support-required"
+                >
+                  (*Required)
+                </span>
+              )}
             </label>
+            {inputError && (
+              <span
+                className="usa-input-error-message vads-u-margin-bottom--0p5"
+                role="alert"
+                data-e2e-id="resources-support-error-message"
+              >
+                <span className="sr-only">Error</span>
+                Please fill in a keyword, phrase, or question.
+              </span>
+            )}
             <div className="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
               <div className="vads-u-flex--1 vads-u-width--auto">
                 <input
                   className="usa-input vads-u-max-width--100 vads-u-width--full vads-u-height--full vads-u-margin--0 vads-u-color--gray-dark"
                   id="resources-and-support-query"
                   name="query"
-                  onChange={event => onInputChange(event.target.value)}
-                  required
+                  onChange={handleInputChange}
+                  ref={inputFieldRef}
                   type="text"
                   value={userInput}
+                  data-e2e-id="resources-support-input"
                 />
               </div>
               <div className="vads-u-flex--auto vads-u-width--full vads-u-margin-top--2 medium-screen:vads-u-margin-top--0 medium-screen:vads-u-width--auto">
                 <button
                   className="usa-button vads-u-margin--0 vads-u-width--full vads-u-height--full medium-screen-va-border-left-radius--0"
                   type="submit"
+                  data-e2e-id="resources-support-search-button"
                 >
                   <i className="fa fa-search" aria-hidden="true" /> Search
                 </button>
@@ -174,8 +241,8 @@ export default function SearchBar({
 }
 
 SearchBar.propTypes = {
-  onInputChange: PropTypes.func.isRequired,
-  onSearch: PropTypes.func,
-  useDefaultFormSearch: PropTypes.bool,
   userInput: PropTypes.string.isRequired,
+  onInputChange: PropTypes.func.isRequired,
+  useDefaultFormSearch: PropTypes.bool,
+  onSearch: PropTypes.func,
 };

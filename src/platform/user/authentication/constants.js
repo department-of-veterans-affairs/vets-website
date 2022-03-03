@@ -100,9 +100,8 @@ export const CSP_CONTENT = {
   [CSP_IDS.MHV]: { LOGO: <>My HealtheVet</>, COPY: 'My HealtheVet' },
 };
 
+export const AUTH_LEVEL = { FAIL: 'fail', SUCCESS: 'success' };
 export const AUTH_ERROR = {
-  FAIL: 'fail',
-
   USER_DENIED: '001', // User clicked 'Deny' in Authorization
   USER_CLOCK_MISMATCH: '002', // User clock is incorrect
   SERVER_CLOCK_MISMATCH: '003', // Server timing error
