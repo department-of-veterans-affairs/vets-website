@@ -12,7 +12,7 @@ describe('Contact Chatbot CTA <App>', () => {
     wrapper.unmount();
   });
 
-  it('renders what we expect', () => {
+  it.skip('renders what we expect', () => {
     const wrapper = shallow(<App show />);
     expect(wrapper.type()).to.not.equal(null);
     expect(wrapper.text()).includes('VA virtual agent');
