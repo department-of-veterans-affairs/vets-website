@@ -7,12 +7,10 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 import SearchTabs from '../components/search/SearchTabs';
 import { TABS } from '../constants';
 import NameSearchResults from './search/NameSearchResults';
 import LocationSearchResults from './search/LocationSearchResults';
-import LocationSearchResultsOld from './search/LocationSearchResultsOld';
 
 import { isSmallScreen } from '../utils/helpers';
 import NameSearchForm from './search/NameSearchForm';
