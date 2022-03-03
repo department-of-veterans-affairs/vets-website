@@ -92,6 +92,6 @@ const newUiSchema = {
   },
 };
 
-const uiSchema = legacySchema;
+const uiSchema = true ? legacySchema : newUiSchema;
 
 export default uiSchema;
