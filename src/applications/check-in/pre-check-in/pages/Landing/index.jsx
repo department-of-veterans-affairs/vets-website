@@ -114,6 +114,7 @@ const Index = props => {
       jumpToPage,
       router,
       setCurrentToken,
+      setPreCheckinComplete,
       setSession,
     ],
   );
