@@ -60,11 +60,7 @@ export function SearchPage({
 
   const tabbedResults = {
     [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
-    [TABS.location]: environment.isProduction() ? (
-      <LocationSearchResultsOld smallScreen={smallScreen} />
-    ) : (
-      <LocationSearchResults smallScreen={smallScreen} />
-    ),
+    [TABS.location]: <LocationSearchResults smallScreen={smallScreen} />,
   };
 
   const tabChange = selectedTab => {
