@@ -59,7 +59,12 @@ const reducer = (state, action) => {
       return { ...state, errorMessage: null };
     case FORM_SUBMIT_FAIL:
     case FILE_UPLOAD_FAIL:
-      return { ...state, errorMessage: action.errorMessage };
+      return {
+        ...state,
+        files: [],
+        errorMessage: action.errorMessage,
+        submissionPending: false,
+      };
     case FORM_SUBMIT_PENDING:
       return {
         ...state,
@@ -188,7 +193,7 @@ const DocumentUploader = () => {
           dispatch({
             type: FORM_SUBMIT_FAIL,
             errorMessage:
-              "We're sorry, we had a connection problem. Please try again",
+              "We're sorry, we had a connection problem. Please try again later.",
           });
         } else {
           dispatch({
