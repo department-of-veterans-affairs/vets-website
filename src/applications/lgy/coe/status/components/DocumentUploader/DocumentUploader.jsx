@@ -121,7 +121,7 @@ const DocumentUploader = () => {
         });
         return;
       }
-      console.log(uploadedFiles[0].size);
+      // console.log(uploadedFiles[0].size);
       /* if (uploadedFiles[0]) {
         dispatch({
           type: FILE_UPLOAD_FAIL,
@@ -187,7 +187,8 @@ const DocumentUploader = () => {
         if (body.errors) {
           dispatch({
             type: FORM_SUBMIT_FAIL,
-            errorMessage: body.errors,
+            errorMessage:
+              "We're sorry, we had a connection problem. Please try again",
           });
         } else {
           dispatch({
