@@ -19,13 +19,13 @@ import {
 const { bankAccount } = fullSchema.properties;
 
 const hasNewBankInfo = formData => {
-  const bankAccountObj = _.get(formData['view:bankAccount'], 'bankAccount', {});
-  return hasNewBankInformation(bankAccountObj);
+  // const bankAccountObj = _.get(formData['view:bankAccount'], 'bankAccount', {});
+  return hasNewBankInformation(formData);
 };
 
 export const hasPrefillBankInfo = formData => {
-  const bankAccountObj = _.get(formData, 'prefillBankAccount', {});
-  return hasPrefillBankInformation(bankAccountObj);
+  // const bankAccountObj = _.get(formData, 'prefillBankAccount', {});
+  return hasPrefillBankInformation(formData);
 };
 
 const startInEdit = data =>
