@@ -2,9 +2,10 @@ import _ from 'lodash';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
+import { hasNewBankInformation, hasPrefillBankInformation } from '../utils';
 import PaymentView from '../components/PaymentView';
 import PaymentReviewView from '../components/PaymentReviewView';
-import { hasNewBankInformation, hasPrefillBankInformation } from '../utils';
+import environment from 'platform/utilities/environment';
 
 import {
   bankInfoDescriptionWithInfo,
@@ -20,7 +21,7 @@ const hasNewBankInfo = formData => {
   return hasNewBankInformation(bankAccountObj);
 };
 
-const hasPrefillBankInfo = formData => {
+export const hasPrefillBankInfo = formData => {
   const bankAccountObj = _.get(formData, 'prefillBankAccount', {});
   return hasPrefillBankInformation(bankAccountObj);
 };
@@ -28,6 +29,10 @@ const hasPrefillBankInfo = formData => {
 const startInEdit = data =>
   !_.get(data, 'view:hasBankInformation', false) &&
   !hasNewBankInformation(data.bankAccount);
+
+const newItemName = environment.isProduction()
+  ? 'account'
+  : 'account information';
 
 export const uiSchema = {
   'ui:title': 'Direct deposit information',
@@ -49,7 +54,7 @@ export const uiSchema = {
       viewComponent: PaymentView,
       reviewTitle: 'Payment information',
       editTitle: 'Update bank account',
-      itemName: 'account',
+      itemName: newItemName,
       itemNameAction: 'Update',
       startInEdit,
       volatileData: true,
@@ -60,14 +65,25 @@ export const uiSchema = {
       accountType: {
         ...bankAccountUI.accountType,
         'ui:reviewWidget': PaymentReviewView,
+        'ui:errorMessages': {
+          required: 'Please choose an account type',
+        },
       },
       accountNumber: {
         ...bankAccountUI.accountNumber,
         'ui:reviewWidget': PaymentReviewView,
+        'ui:errorMessages': {
+          required: 'Please provide a bank account number',
+          pattern: 'Please enter a valid account number',
+        },
       },
       routingNumber: {
         ...bankAccountUI.routingNumber,
         'ui:reviewWidget': PaymentReviewView,
+        'ui:errorMessages': {
+          required: 'Please provide a bank routing number',
+          pattern: 'Please enter a valid routing number',
+        },
       },
     },
   },

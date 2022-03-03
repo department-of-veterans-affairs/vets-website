@@ -1,6 +1,7 @@
 import React from 'react';
 import { isValidRoutingNumber } from '../validations';
 import environment from 'platform/utilities/environment';
+
 function validateRoutingNumber(
   errors,
   routingNumber,
@@ -12,6 +13,7 @@ function validateRoutingNumber(
     errors.addError(errorMessages.pattern);
   }
 }
+
 const isProduction = environment.isProduction();
 const directDepositDescription = () => {
   return environment.isProduction() ? (
@@ -30,6 +32,7 @@ const directDepositDescription = () => {
     </div>
   );
 };
+
 const legacySchema = {
   'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
   accountType: {
@@ -57,6 +60,7 @@ const legacySchema = {
     },
   },
 };
+
 const newUiSchema = {
   'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
   'ui:description': directDepositDescription(),
@@ -87,5 +91,7 @@ const newUiSchema = {
     },
   },
 };
+
 const uiSchema = isProduction ? newUiSchema : legacySchema;
+
 export default uiSchema;
