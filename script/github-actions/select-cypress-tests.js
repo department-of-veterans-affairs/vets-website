@@ -6,7 +6,7 @@ const glob = require('glob');
 const findImports = require('find-imports');
 const { integrationFolder, testFiles } = require('../../config/cypress.json');
 
-const IS_MASTER_BUILD = process.env.IS_MASTER_BUILD === 'true';
+const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
 const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);
 
@@ -183,6 +183,9 @@ function allTests() {
 }
 
 function selectTests(graph, pathsOfChangedFiles) {
+  if (RUN_FULL_SUITE) {
+    return allTests();
+  }
   let allMdFiles = true;
   let allMdAndOrSrcApplicationsFiles = true;
 
@@ -223,7 +226,7 @@ function run() {
   exportVariables(tests);
 }
 
-if (process.env.CHANGED_FILE_PATHS || IS_MASTER_BUILD) {
+if (process.env.CHANGED_FILE_PATHS || RUN_FULL_SUITE) {
   run();
 }
 
