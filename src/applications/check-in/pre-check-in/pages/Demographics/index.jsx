@@ -10,7 +10,10 @@ import BackButton from '../../../components/BackButton';
 import DemographicsDisplay from '../../../components/pages/demographics/DemographicsDisplay';
 import { recordAnswer } from '../../../actions/pre-check-in';
 
-import { makeSelectVeteranData } from '../../../selectors';
+import {
+  makeSelectVeteranData,
+  makeSelectPendingEdits,
+} from '../../../selectors';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 const Demographics = props => {
@@ -45,6 +48,9 @@ const Demographics = props => {
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
 
+  const selectPendingEdits = useMemo(makeSelectPendingEdits, []);
+  const { pendingEdits } = useSelector(selectPendingEdits);
+  const { demographics: newInformation } = pendingEdits || {};
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isEditingPreCheckInEnabled } = useSelector(selectFeatureToggles);
 
@@ -55,7 +61,7 @@ const Demographics = props => {
         yesAction={yesClick}
         noAction={noClick}
         subtitle={subtitle}
-        demographics={demographics}
+        demographics={newInformation || demographics}
         Footer={Footer}
         isEditEnabled={isEditingPreCheckInEnabled}
         jumpToPage={jumpToPage}

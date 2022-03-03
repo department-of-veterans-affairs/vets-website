@@ -2,13 +2,14 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 export default function UpdateButton(props) {
-  const { jumpToPage, backPage, clearData } = props;
+  const { jumpToPage, backPage, clearData, handleUpdateEmail } = props;
   const onClick = useCallback(
     () => {
+      handleUpdateEmail();
       clearData();
       jumpToPage(backPage);
     },
-    [backPage, jumpToPage, clearData],
+    [handleUpdateEmail, clearData, jumpToPage, backPage],
   );
   return (
     <button
@@ -25,5 +26,6 @@ export default function UpdateButton(props) {
 UpdateButton.propTypes = {
   backPage: PropTypes.string,
   clearData: PropTypes.func,
+  handleUpdateEmail: PropTypes.func,
   jumpToPage: PropTypes.func,
 };

@@ -9,7 +9,10 @@ import { isValidEmail } from 'platform/forms/validations';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { makeSelectEditContext } from '../../../selectors';
-import { createClearEditContext } from '../../../actions/edit';
+import {
+  createClearEditContext,
+  createSetPendingEditedData,
+} from '../../../actions/edit';
 import CancelButton from './shared/CancelButton';
 import UpdateButton from './shared/UpdateButton';
 import Footer from '../../Footer';
@@ -24,6 +27,14 @@ export default function Email(props) {
   const [errorMessage, setErrorMessage] = useState();
 
   const dispatch = useDispatch();
+  const handleUpdateEmail = useCallback(
+    () => {
+      dispatch(
+        createSetPendingEditedData({ emailAddress: email }, editingPage),
+      );
+    },
+    [dispatch, editingPage, email],
+  );
   const clearEditContext = useCallback(
     () => {
       dispatch(createClearEditContext());
@@ -69,8 +80,7 @@ export default function Email(props) {
         jumpToPage={jumpToPage}
         backPage={originatingUrl}
         clearData={clearEditContext}
-        email={email}
-        editingPage={editingPage}
+        handleUpdateEmail={handleUpdateEmail}
       />
       <CancelButton
         jumpToPage={jumpToPage}
