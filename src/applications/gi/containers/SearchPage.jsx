@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 import SearchTabs from '../components/search/SearchTabs';
 import { TABS } from '../constants';
 import NameSearchResults from './search/NameSearchResults';

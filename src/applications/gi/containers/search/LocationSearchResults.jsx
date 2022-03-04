@@ -233,7 +233,6 @@ function LocationSearchResults({
     markerElement.innerText = index + 1;
 
     const popup = new mapboxgl.Popup();
-
     if (environment.isProduction()) {
       popup.on('open', () => {
         if (smallScreen) {

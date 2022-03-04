@@ -11,7 +11,7 @@ describe('<MobileAppMessage>', () => {
   });
 
   it('should render', () => {
-    const wrapper = shallow(<MobileAppMessage mockUserAgent={'blah'} />);
+    const wrapper = shallow(<MobileAppMessage mockUserAgent="blah" />);
     expect(wrapper.length).to.equal(1);
     expect(wrapper.props().status).to.equal('info');
     const links = wrapper.find('a[target="_blank"]');
@@ -30,21 +30,21 @@ describe('<MobileAppMessage>', () => {
     const wrapper = shallow(<MobileAppMessage />);
     expect(wrapper.length).to.equal(1);
 
-    wrapper.props().onClose();
+    wrapper.props().onCloseEvent();
     expect(wrapper).to.be.empty;
     expect(sessionStorage.getItem(STORAGE_KEY)).to.equal('hidden');
     wrapper.unmount();
   });
 
   it('should show app store link for iOS device', () => {
-    const wrapper = shallow(<MobileAppMessage mockUserAgent={'iPhone'} />);
+    const wrapper = shallow(<MobileAppMessage mockUserAgent="iPhone" />);
     const link = wrapper.find('a[target="_blank"]');
     expect(link.length).to.equal(1);
     expect(link.text()).to.eq('Download the app from the App Store');
     wrapper.unmount();
   });
   it('should show Google play store link for android device', () => {
-    const wrapper = shallow(<MobileAppMessage mockUserAgent={'android'} />);
+    const wrapper = shallow(<MobileAppMessage mockUserAgent="android" />);
     const link = wrapper.find('a[target="_blank"]');
     expect(link.length).to.equal(1);
     expect(link.text()).to.eq('Download the app from Google Play');

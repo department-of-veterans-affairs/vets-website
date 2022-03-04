@@ -6,8 +6,6 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { recordAnswer } from '../../../actions/pre-check-in';
 
-import { api } from '../../../api';
-
 import BackButton from '../../../components/BackButton';
 import BackToHome from '../../../components/BackToHome';
 import Footer from '../../../components/Footer';
@@ -15,23 +13,12 @@ import NextOfKinDisplay from '../../../components/pages/nextOfKin/NextOfKinDispl
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import {
-  makeSelectCurrentContext,
-  makeSelectVeteranData,
-  makeSelectForm,
-} from '../../../selectors';
+import { makeSelectVeteranData } from '../../../selectors';
 
 const NextOfKin = props => {
   const { router } = props;
 
   const [isSendingData, setIsSendingData] = useState(false);
-
-  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
-  const { token } = useSelector(selectCurrentContext);
-
-  const selectForm = useMemo(makeSelectForm, []);
-  const { data } = useSelector(selectForm);
-  const { demographicsUpToDate, emergencyContactUpToDate } = data;
 
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
@@ -39,9 +26,7 @@ const NextOfKin = props => {
 
   const dispatch = useDispatch();
 
-  const { goToErrorPage, goToNextPage, goToPreviousPage } = useFormRouting(
-    router,
-  );
+  const { goToNextPage, goToPreviousPage } = useFormRouting(router);
 
   const buttonClick = useCallback(
     async answer => {
@@ -51,35 +36,9 @@ const NextOfKin = props => {
         'button-click-label': `${answer}-to-next-of-kin`,
       });
       dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
-      // select the answers from state
-
-      // send to API
-
-      const preCheckInData = {
-        uuid: token,
-        demographicsUpToDate: demographicsUpToDate === 'yes',
-        nextOfKinUpToDate: answer === 'yes',
-        emergencyContactUpToDate: emergencyContactUpToDate === 'yes',
-      };
-      try {
-        const resp = await api.v2.postPreCheckInData({ ...preCheckInData });
-        if (resp.data.error || resp.data.errors) {
-          goToErrorPage();
-        } else {
-          goToNextPage();
-        }
-      } catch (error) {
-        goToErrorPage();
-      }
+      goToNextPage();
     },
-    [
-      dispatch,
-      token,
-      demographicsUpToDate,
-      emergencyContactUpToDate,
-      goToErrorPage,
-      goToNextPage,
-    ],
+    [dispatch, goToNextPage],
   );
 
   const yesClick = useCallback(
