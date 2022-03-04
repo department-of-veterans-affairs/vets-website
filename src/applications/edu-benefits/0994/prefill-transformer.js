@@ -17,7 +17,7 @@ export function prefillTransformer(pages, formData, metadata) {
 
   const newData = _.omit(formData, ['bankAccount']);
 
-  const hasBankInformation = hasPrefillBankInformation(formData);
+  const hasBankInformation = hasPrefillBankInformation(formData.bankAccount);
 
   const newFormData = {
     ...newData,

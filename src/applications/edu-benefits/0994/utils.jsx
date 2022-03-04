@@ -51,7 +51,7 @@ export const hasNewBankInformation = (bankAccount = {}) => {
  * Different than hasNewBankInformation because plucked property names are different.
  * @param {*} bankAccount prefill bank account information object
  */
-export const isPrefillBankInformationDefined = (bankAccount = {}) => {
+export const hasPrefillBankInformation = (bankAccount = {}) => {
   const { bankAccountType, bankAccountNumber, bankRoutingNumber } = bankAccount;
   return (
     typeof bankAccountType !== 'undefined' ||
@@ -60,10 +60,10 @@ export const isPrefillBankInformationDefined = (bankAccount = {}) => {
   );
 };
 
-/** Uses isPrefillBankInformationDefined using currently available form data.
+/** Uses hasPrefillBankInformation using available form data.
  * @param {*} bank account form data information object
  */
-export const hasPrefillBankInformation = formData => {
+export const hasPrefillBankInfo = formData => {
   const bankAccountObj = _.get(formData, 'prefillBankAccount', {});
-  return isPrefillBankInformationDefined(bankAccountObj);
+  return hasPrefillBankInformation(bankAccountObj);
 };

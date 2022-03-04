@@ -5,7 +5,7 @@ import oldBankAccountUI from 'platform/forms/definitions/bankAccount';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import environment from 'platform/utilities/environment';
 import { isValidRoutingNumber } from 'platform/forms/validations';
-import { hasNewBankInformation, hasPrefillBankInformation } from '../utils';
+import { hasNewBankInformation, hasPrefillBankInfo } from '../utils';
 import PaymentView from '../components/PaymentView';
 import PaymentReviewView from '../components/PaymentReviewView';
 
@@ -19,11 +19,12 @@ import {
 const { bankAccount } = fullSchema.properties;
 
 const hasNewBankInfo = formData => {
-  return hasNewBankInformation(formData);
+  const bankAccountObj = _.get(formData['view:bankAccount'], 'bankAccount', {});
+  return hasNewBankInformation(bankAccountObj);
 };
 
-export const hasPrefillBankInfo = formData => {
-  return hasPrefillBankInformation(formData);
+export const hasPrefillBankInformation = formData => {
+  return hasPrefillBankInfo(formData);
 };
 
 const startInEdit = data =>
@@ -35,9 +36,7 @@ const isProduction = environment.isProduction();
 const newItemName = isProduction ? 'account' : 'account information';
 
 const directDepositDescription = () => {
-  return isProduction ? (
-    ''
-  ) : (
+  return (
     <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
       <p>
         We make payments only through direct deposit, also called electronic
@@ -64,7 +63,7 @@ function validateRoutingNumber(
   }
 }
 
-const newUiSchema = {
+const newBankUiSchema = {
   'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
   'ui:description': directDepositDescription(),
   accountType: {
@@ -87,7 +86,7 @@ const newUiSchema = {
   routingNumber: {
     'ui:title': 'Bank’s 9 digit routing number',
     'ui:validations': [validateRoutingNumber],
-    'ui:required': true,
+    'ui:required': () => true,
     'ui:errorMessages': {
       pattern: 'Please enter a valid 9 digit routing number',
       required: 'Please enter a routing number',
@@ -95,7 +94,7 @@ const newUiSchema = {
   },
 };
 
-const bankAccountUI = isProduction ? oldBankAccountUI : newUiSchema;
+const bankAccountUI = isProduction ? oldBankAccountUI : newBankUiSchema;
 
 export const uiSchema = {
   'ui:title': 'Direct deposit information',

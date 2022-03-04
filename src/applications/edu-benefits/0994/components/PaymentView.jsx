@@ -6,7 +6,7 @@ import environment from 'platform/utilities/environment';
 import {
   maskBankInformation,
   hasNewBankInformation,
-  hasPrefillBankInformation,
+  hasPrefillBankInfo,
 } from '../utils';
 
 export const accountTitleLabels = {
@@ -47,7 +47,7 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
   return (
     <div>
       {!environment.isProduction() &&
-        hasPrefillBankInformation(formData) && (
+        hasPrefillBankInfo(formData) && (
           <p>
             This is the bank account information we have on file for you. We’ll
             send your housing payment to this account.
