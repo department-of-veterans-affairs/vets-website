@@ -77,6 +77,7 @@ const newBankUiSchema = {
   accountType: {
     'ui:title': 'Account type',
     'ui:widget': 'radio',
+    'ui:required': !environment.isProduction,
     'ui:options': {
       labels: {
         checking: 'Checking',
@@ -86,6 +87,7 @@ const newBankUiSchema = {
   },
   accountNumber: {
     'ui:title': 'Bank account number',
+    'ui:required': !environment.isProduction,
     'ui:errorMessages': {
       pattern: 'Please enter a valid account number',
       required: 'Please enter a bank account number',
@@ -93,6 +95,7 @@ const newBankUiSchema = {
   },
   routingNumber: {
     'ui:title': 'Bank’s 9 digit routing number',
+    'ui:required': !environment.isProduction,
     'ui:validations': [validateRoutingNumber],
     'ui:errorMessages': {
       pattern: 'Please enter a valid 9 digit routing number',
@@ -134,7 +137,6 @@ export const uiSchema = {
       accountType: {
         ...bankAccountUI.accountType,
         'ui:reviewWidget': PaymentReviewView,
-        'ui:required': !environment.isProduction(),
         'ui:errorMessages': {
           required: 'Please choose an account type',
         },
@@ -142,7 +144,6 @@ export const uiSchema = {
       accountNumber: {
         ...bankAccountUI.accountNumber,
         'ui:reviewWidget': PaymentReviewView,
-        'ui:required': !environment.isProduction(),
         'ui:errorMessages': {
           required: 'Please provide a bank account number',
           pattern: 'Please enter a valid account number',
@@ -151,7 +152,6 @@ export const uiSchema = {
       routingNumber: {
         ...bankAccountUI.routingNumber,
         'ui:reviewWidget': PaymentReviewView,
-        'ui:required': !environment.isProduction(),
         'ui:errorMessages': {
           required: 'Please provide a bank routing number',
           pattern: 'Please enter a valid routing number',
