@@ -18,7 +18,7 @@ describe('Fetch Debts Successfully', () => {
     cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.login(mockUser);
 
-    cy.intercept('GET', '/v0/debts', {
+    cy.intercept('GET', '/v0/debts*', {
       data: {
         hasDependentDebts: false,
         debts: [
@@ -82,6 +82,7 @@ describe('Fetch Debts Successfully', () => {
     cy.visit(manifest.rootUrl);
   });
   it('Successful API Response', () => {
+    cy.log('Response Received.');
     cy.get('*[class^="vads-u-font-size--h4"]').should(
       'have.text',
       'What debt do you need help with?',
