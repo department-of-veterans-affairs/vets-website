@@ -51,10 +51,10 @@ export const INSTITUTION_TYPES = [
   'Public',
   'For profit',
   'Private',
+  'High school',
   'Foreign',
   'Flight',
   'Correspondence',
-  'High school',
 ];
 
 export const ariaLabels = Object.freeze({
