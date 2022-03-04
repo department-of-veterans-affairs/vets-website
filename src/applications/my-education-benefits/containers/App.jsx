@@ -26,7 +26,9 @@ export const App = ({
         if (!firstName) {
           getPersonalInfo();
         }
-        if (!eligibility) {
+        // the firstName check ensures that eligibility only gets called after we have obtained claimant info
+        // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
+        if (!eligibility && firstName) {
           getEligibility();
         } else if (!formData.eligibility) {
           setFormData({

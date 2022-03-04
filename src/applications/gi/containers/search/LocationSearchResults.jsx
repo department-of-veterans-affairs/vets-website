@@ -165,6 +165,13 @@ function LocationSearchResults({
   const markerIsVisible = institution => {
     const { latitude, longitude } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
+    if (environment.isProduction()) {
+      return (
+        smallScreen ||
+        !mapState.changed ||
+        map.current.getBounds().contains(lngLat)
+      );
+    }
     return (
       smallScreen ||
       landscape ||
