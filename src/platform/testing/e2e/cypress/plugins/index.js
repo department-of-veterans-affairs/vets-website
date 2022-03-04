@@ -66,8 +66,8 @@ module.exports = async on => {
     },
   };
 
-  function intercept (build, moduleName, moduleTarget) {
-    const filter = new RegExp('^' + moduleName + '/' + '(?:\\/.*)?$');
+  function intercept(build, moduleName, moduleTarget) {
+    const filter = new RegExp('^' + moduleName + '(?:\\/.*)?$');
     console.log(filter);
     console.log(filter);
     console.log(filter);
@@ -90,8 +90,9 @@ module.exports = async on => {
   
     build.onLoad({ filter, namespace: 'esbuild-resolve' }, async (args) => {
       const importerCode = `
-        export * from '${args.path.replace(args.pluginData.moduleName, moduleTarget)}';
-      `;
+      export * from '${args.path.replace(args.pluginData.moduleName, moduleTarget)}';
+      export { default } from '${args.path.replace(args.pluginData.moduleName, moduleTarget)}';
+    `;
       return { contents: importerCode, resolveDir: args.pluginData.resolveDir };
     });
   }
@@ -117,7 +118,7 @@ module.exports = async on => {
   ];
 
   const bundler = createBundler({
-    // entryPoints: ['src/**/*.cypress.spec.js*'],
+    entryPoints: ['src/**/*.cypress.spec.js*'],
     loader: { '.js': 'jsx' },
     format: 'cjs',
     bundle: true,
