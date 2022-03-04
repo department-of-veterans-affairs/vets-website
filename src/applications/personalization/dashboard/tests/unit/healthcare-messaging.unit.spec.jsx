@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
+import { wait } from '@@profile/tests/unit-test-helpers';
 import { mockFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import reducers from '~/applications/personalization/dashboard/reducers';
-import { wait } from '@@profile/tests/unit-test-helpers';
 import HealthCare from '~/applications/personalization/dashboard/components/health-care/HealthCare';
 
 describe('HealthCare component', () => {
@@ -54,9 +54,8 @@ describe('HealthCare component', () => {
         reducers,
       });
       expect(view.queryByRole('progressbar')).not.to.exist;
-      expect(
-        await view.findByRole('link', { name: /you have 3 unread messages/i }),
-      ).to.exist;
+      expect(await view.findByRole('link', { name: /view your messages/i })).to
+        .exist;
     });
 
     it('should render the unread messages count with 1 message', async () => {
