@@ -5,25 +5,13 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 
 import HowToApplyPost911GiBill from '../components/HowToApplyPost911GiBill';
 import { fetchUser } from '../selectors/userDispatch';
+import LoadingIndicator from '../components/LoadingIndicator';
 
-export const IntroductionPage = ({ user, route }) => {
-  const SaveInProgressComponent = (
-    <SaveInProgressIntro
-      testActionLink
-      user={user}
-      prefillEnabled={route.formConfig.prefillEnabled}
-      messages={route.formConfig.savedFormMessages}
-      pageList={route.pageList}
-      hideUnauthedStartLink
-      startText="Start your application"
-    />
-  );
-
+export const IntroductionPage = ({ firstName, eligibility, user, route }) => {
   return (
     <div className="schemaform-intro">
       <FormTitle title="Apply for VA education benefits" />
@@ -37,7 +25,7 @@ export const IntroductionPage = ({ user, route }) => {
             <p>
               Make sure you meet our eligibility requirements before you apply.
             </p>
-            <AdditionalInfo triggerText="What are the Post-9/11 GI Bill eligibility requirements?">
+            <va-additional-info trigger="What are the Post-9/11 GI Bill eligibility requirements?">
               <p>
                 <strong>At least one of these must be true:</strong>
               </p>
@@ -60,7 +48,7 @@ export const IntroductionPage = ({ user, route }) => {
                   disability
                 </li>
               </ul>
-            </AdditionalInfo>
+            </va-additional-info>
           </li>
           <li className="process-step list-two">
             <h4>Gather your information</h4>
@@ -78,7 +66,7 @@ export const IntroductionPage = ({ user, route }) => {
               We’ll take you through each step of the process. It should take
               about 15 minutes.
             </p>
-            <AdditionalInfo triggerText="What happens after I apply?">
+            <va-additional-info trigger="What happens after I apply?">
               <p>
                 After you apply, you may get an automatic decision. If we
                 approve your application, you’ll be able to download your
@@ -93,17 +81,31 @@ export const IntroductionPage = ({ user, route }) => {
                 about 30 days. And we’ll contact you if we need more
                 information.
               </p>
-            </AdditionalInfo>
+            </va-additional-info>
           </li>
         </ol>
       </div>
 
       {user?.login?.currentlyLoggedIn &&
+        firstName &&
+        eligibility &&
         !user.profile.savedForms.some(
           p => p.form === VA_FORM_IDS.FORM_22_1990EZ,
         ) && <h3>Begin your application for education benefits</h3>}
 
-      {SaveInProgressComponent}
+      {!user.login.currentlyLoggedIn || (firstName && eligibility) ? (
+        <SaveInProgressIntro
+          testActionLink
+          user={user}
+          prefillEnabled={route.formConfig.prefillEnabled}
+          messages={route.formConfig.savedFormMessages}
+          pageList={route.pageList}
+          hideUnauthedStartLink
+          startText="Start your application"
+        />
+      ) : (
+        <LoadingIndicator />
+      )}
 
       {!user?.login?.currentlyLoggedIn && (
         <a href="https://www.va.gov/education/apply-for-education-benefits/application/1990/applicant/information">
@@ -117,6 +119,8 @@ export const IntroductionPage = ({ user, route }) => {
 };
 
 const mapStateToProps = state => ({
+  firstName: state.data?.formData?.data?.attributes?.claimant?.firstName,
+  eligibility: state.data?.eligibility,
   user: fetchUser(state),
 });
 
