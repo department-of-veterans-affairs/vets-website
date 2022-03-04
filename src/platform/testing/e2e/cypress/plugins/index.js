@@ -67,25 +67,27 @@ module.exports = async on => {
   };
 
   let plugins;
-  if (process.env.CYPRESS_CI) {
+  // if (process.env.CYPRESS_CI) {
     plugins = [
       dirnamePlugin,
       dirnamePlugin2,
       resolve({
-        platform: 'src/platform',
-        site: 'src/site',
+        platform: path.join(__dirname, '..', '..', '..', '..', '..', '..', 'src', 'platform'),
+        '~/platform': path.join(__dirname, '..', '..', '..', '..', '..', '..', 'src', 'platform'),
+        site: path.join(__dirname, '..', '..', '..', '..', '..', '..', 'src', 'site'),
+        applications: path.join(__dirname, '..', '..', '..', '..', '..', '..', 'src', 'applications'),
       }),
     ];
-  } else {
-    plugins = [dirnamePlugin, dirnamePlugin2];
-  }
+  // } else {
+    // plugins = [dirnamePlugin, dirnamePlugin2];
+  // }
 
   const bundler = createBundler({
-    entryPoints: ['src/**/*cypress.spec.js*'],
+    // entryPoints: ['src/**/*.cypress.spec.js*'],
     loader: { '.js': 'jsx' },
     format: 'cjs',
     bundle: true,
-    external: ['web-components/react-bindings'],
+    external: ['web-components/react-bindings', '@@vap-svc/util/local-vapsvc'],
     banner: { js: `function require(a) { return a; };` },
     define: {
       __BUILDTYPE__: '"vagovprod"',
