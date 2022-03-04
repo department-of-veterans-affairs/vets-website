@@ -7,7 +7,6 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import { connect } from 'react-redux';
-import environment from 'platform/utilities/environment';
 import classNames from 'classnames';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
@@ -37,7 +36,6 @@ function LocationSearchResults({
   dispatchFetchSearchByLocationCoords,
   filtersChanged,
   smallScreen,
-  landscape,
   dispatchMapChanged,
 }) {
   const { inProgress } = search;
@@ -165,9 +163,9 @@ function LocationSearchResults({
   const markerIsVisible = institution => {
     const { latitude, longitude } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
+
     return (
       smallScreen ||
-      landscape ||
       !mapState.changed ||
       map.current.getBounds().contains(lngLat)
     );
@@ -233,22 +231,12 @@ function LocationSearchResults({
     markerElement.innerText = index + 1;
 
     const popup = new mapboxgl.Popup();
-
-    if (environment.isProduction()) {
-      popup.on('open', () => {
-        if (smallScreen) {
-          setMobileTab(LIST_TAB);
-        }
-        setMarkerClicked(name);
-      });
-    } else {
-      popup.on('open', () => {
-        if (smallScreen || landscape) {
-          setMobileTab(LIST_TAB);
-        }
-        setMarkerClicked(name);
-      });
-    }
+    popup.on('open', () => {
+      if (smallScreen) {
+        setMobileTab(LIST_TAB);
+      }
+      setMarkerClicked(name);
+    });
 
     if (locationBounds) {
       locationBounds.extend(lngLat);
@@ -291,7 +279,7 @@ function LocationSearchResults({
    */
   useEffect(
     () => {
-      if (smallScreen || landscape) {
+      if (smallScreen) {
         map.current = null;
       }
       setupMap();
@@ -301,7 +289,7 @@ function LocationSearchResults({
       let visibleResults = [];
       const mapMarkers = [];
 
-      if (smallScreen || landscape) {
+      if (smallScreen) {
         visibleResults = results;
       }
 
@@ -350,7 +338,7 @@ function LocationSearchResults({
       setUsedFilters(getFiltersChanged(filters));
       setMarkers(mapMarkers);
     },
-    [results, smallScreen, landscape, mobileTab],
+    [results, smallScreen, mobileTab],
   );
 
   /**
@@ -465,7 +453,7 @@ function LocationSearchResults({
               <FilterYourResults />
             </>
           )}
-          {(smallScreen || landscape) && (
+          {smallScreen && (
             <MobileFilterControls className="vads-u-margin-top--2" />
           )}
         </>
@@ -614,7 +602,6 @@ function LocationSearchResults({
     const containerClassNames = classNames({
       'vads-u-display--none': !visible,
     });
-    const isMobileDevice = smallScreen || landscape;
     return (
       <div className={containerClassNames}>
         <map
@@ -625,7 +612,7 @@ function LocationSearchResults({
           role="region"
         >
           {mapState.changed &&
-            !isMobileDevice && (
+            !smallScreen && (
               <div
                 id="search-area-control-container"
                 className="mapboxgl-ctrl-top-center"
@@ -652,7 +639,7 @@ function LocationSearchResults({
   const smallScreenCount = search.location.count;
 
   // returns content ordered and setup for smallScreens
-  if (smallScreen || landscape) {
+  if (smallScreen) {
     return (
       <div className="location-search vads-u-padding--1">
         {inProgress && (
