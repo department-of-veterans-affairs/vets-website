@@ -72,7 +72,7 @@ module.exports = async on => {
       // eslint-disable-next-line consistent-return
       build.onLoad({ filter: /.js?$/ }, ({ path: filePath }) => {
         let contents = fs.readFileSync(filePath, 'utf8');
-        contents = contents.replace(/ 'platform\//, ` 'src/platform/`);
+        contents = contents.replace(` 'platform/`, ` 'src/platform/`);
         return {
           contents,
           loader: 'jsx',
