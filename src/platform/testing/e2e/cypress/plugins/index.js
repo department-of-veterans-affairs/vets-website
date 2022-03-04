@@ -72,10 +72,7 @@ module.exports = async on => {
       // eslint-disable-next-line consistent-return
       build.onLoad({ filter: /.js?$/ }, ({ path: filePath }) => {
         let contents = fs.readFileSync(filePath, 'utf8');
-        contents = contents.replace(
-          /import Timeouts from 'platform\/testing\/e2e\/timeouts';/,
-          `import Timeouts from 'src/platform/testing/e2e/timeouts';`,
-        );
+        contents = contents.replace(/ 'platform\//, ` 'src/platform/`);
         return {
           contents,
           loader: 'jsx',

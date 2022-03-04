@@ -18,14 +18,6 @@ Cypress.on('window:before:load', window => {
   document.head.appendChild(style);
 });
 
-// Allows paths passed to `cy.fixture` to start from project root because
-// the `fixtureFolder` needs to be set to "src" in the configuration.
-// Setting it to "." causes Cypress to fail to find the spec files,
-// presumably because it can't contain the `integrationFolder` ("src").
-// Cypress.Commands.overwrite('fixture', (originalFn, path, options) =>
-//   originalFn(join('..', path), options),
-// );
-
 // Hack to allow the type command to accept and simulate an input with 0 delay.
 // The default command ignores delays under 10 (seconds).
 // https://github.com/cypress-io/cypress/issues/566#issuecomment-577763747
@@ -52,7 +44,7 @@ beforeEach(() => {
   });
 });
 
-// // Assign the video path to the context property for failed tests
+// Assign the video path to the context property for failed tests
 Cypress.on('test:after:run', test => {
   if (test.state === 'failed') {
     let videoName = Cypress.spec.name;
