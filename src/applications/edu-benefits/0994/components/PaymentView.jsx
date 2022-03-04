@@ -2,12 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import environment from 'platform/utilities/environment';
-import {
-  maskBankInformation,
-  hasNewBankInformation,
-  hasPrefillBankInfo,
-} from '../utils';
+import { maskBankInformation, hasNewBankInformation } from '../utils';
 
 export const accountTitleLabels = {
   CHECKING: 'Checking Account',
@@ -18,7 +13,7 @@ export const accountTitleLabels = {
 const directDepositAlert = (
   <p>
     Thank you for providing your direct deposit information.{' '}
-    <strong>This new account won’t be updated right away.</strong> We'll deposit
+    <strong>This new account won’t be updated right away.</strong> We’ll deposit
     your housing stipend into this account if your VET TEC application is
     approved.
   </p>
