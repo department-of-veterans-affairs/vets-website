@@ -390,7 +390,6 @@ jobs:
 
       - name: Get changed apps for header test
         id: get-changed-apps
-        if: ${{ github.ref != 'refs/heads/master' }}
         run: |
           echo ::set-output name=app_urls::$(node script/github-actions/get-changed-apps.js --output-type url)
           echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
