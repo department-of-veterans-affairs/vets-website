@@ -13,7 +13,13 @@ import NextOfKinDisplay from '../../../components/pages/nextOfKin/NextOfKinDispl
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import { makeSelectVeteranData } from '../../../selectors';
+import {
+  makeSelectCurrentContext,
+  makeSelectVeteranData,
+  makeSelectForm,
+  makeSelectPendingEdits,
+} from '../../../selectors';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 const NextOfKin = props => {
   const { router } = props;
@@ -24,9 +30,21 @@ const NextOfKin = props => {
   const { demographics } = useSelector(selectVeteranData);
   const { nextOfKin1: nextOfKin } = demographics;
 
+  const selectPendingEdits = useMemo(makeSelectPendingEdits, []);
+  const { pendingEdits } = useSelector(selectPendingEdits);
+  const { nextOfKin1: newInformation } = pendingEdits || {};
+
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isEditingPreCheckInEnabled } = useSelector(selectFeatureToggles);
+
   const dispatch = useDispatch();
 
-  const { goToNextPage, goToPreviousPage } = useFormRouting(router);
+  const {
+    goToErrorPage,
+    goToNextPage,
+    goToPreviousPage,
+    jumpToPage,
+  } = useFormRouting(router);
 
   const buttonClick = useCallback(
     async answer => {
@@ -64,10 +82,12 @@ const NextOfKin = props => {
         Footer={Footer}
         header={header}
         subtitle={subtitle}
-        nextOfKin={nextOfKin}
+        nextOfKin={newInformation || nextOfKin}
         yesAction={yesClick}
         noAction={noClick}
         isSendingData={isSendingData}
+        isEditEnabled={isEditingPreCheckInEnabled}
+        jumpToPage={jumpToPage}
       />
       <BackToHome />
     </>
