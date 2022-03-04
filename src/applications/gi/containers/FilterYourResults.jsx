@@ -174,7 +174,6 @@ export function FilterYourResults({
   };
 
   const excludedSchoolTypesGroup = () => {
-    console.log('== checked: ' + excludedSchoolTypes)
     const options = INSTITUTION_TYPES.map(type => {
       return {
         name: type.toUpperCase(),
