@@ -134,7 +134,7 @@ export const uiSchema = {
       accountType: {
         ...bankAccountUI.accountType,
         'ui:reviewWidget': PaymentReviewView,
-        'ui:required': () => !isProduction,
+        'ui:required': !environment.isProduction(),
         'ui:errorMessages': {
           required: 'Please choose an account type',
         },
@@ -142,7 +142,7 @@ export const uiSchema = {
       accountNumber: {
         ...bankAccountUI.accountNumber,
         'ui:reviewWidget': PaymentReviewView,
-        'ui:required': () => !isProduction,
+        'ui:required': !environment.isProduction(),
         'ui:errorMessages': {
           required: 'Please provide a bank account number',
           pattern: 'Please enter a valid account number',
@@ -151,7 +151,7 @@ export const uiSchema = {
       routingNumber: {
         ...bankAccountUI.routingNumber,
         'ui:reviewWidget': PaymentReviewView,
-        'ui:required': () => !isProduction,
+        'ui:required': !environment.isProduction(),
         'ui:errorMessages': {
           required: 'Please provide a bank routing number',
           pattern: 'Please enter a valid routing number',
