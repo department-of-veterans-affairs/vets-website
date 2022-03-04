@@ -71,33 +71,40 @@ module.exports = async on => {
     setup(build) {
       // eslint-disable-next-line consistent-return
       build.onLoad({ filter: /.js?$/ }, ({ path: filePath }) => {
-        if (!filePath.match(nodeModules)) {
-          let contents = fs.readFileSync(filePath, 'utf8');
-          contents = `${contents.replace(
-            /import .+ from 'web-components\/react-bindings';/,
-            ' ',
-          )}`;
-          return {
-            contents,
-            loader: 'jsx',
-          };
-        }
+        let contents = fs.readFileSync(filePath, 'utf8');
+        contents = contents.replace(
+          /import Timeouts from 'platform\/testing\/e2e\/timeouts';/,
+          `import Timeouts from 'src/platform/testing/e2e/timeouts';`,
+        );
+        return {
+          contents,
+          loader: 'jsx',
+        };
       });
     },
   };
+  let plugins;
+  if (process.env.CYPRESS_CI) {
+    plugins = [dirnamePlugin, dirnamePlugin2, dirnamePlugin3];
+  } else {
+    plugins = [dirnamePlugin, dirnamePlugin2];
+  }
+
   const bundler = createBundler({
+    entryPoints: ['src/**/*cypress.spec.js*'],
     loader: { '.js': 'jsx' },
     format: 'cjs',
     bundle: true,
+    external: ['web-components/react-bindings'],
+    banner: { js: `function require(a) { return a; };` },
     define: {
       __BUILDTYPE__: '"vagovprod"',
       __API__: '""',
       __REGISTRY__: JSON.stringify(appRegistry),
-      // global: '""',
       'process.env.NODE_ENV': '"production"',
       'process.env.BUILDTYPE': '"production"',
     },
-    plugins: [dirnamePlugin, dirnamePlugin2, dirnamePlugin3],
+    plugins,
     platform: 'browser',
     target: ['esnext', 'node14'],
   });

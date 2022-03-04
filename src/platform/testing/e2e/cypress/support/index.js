@@ -1,10 +1,8 @@
-// const join = require('path').join;
-
 import '@testing-library/cypress/add-commands';
 import 'cypress-axe';
 import 'cypress-plugin-tab';
 import 'cypress-real-events/support';
-// import addContext from 'mochawesome/addContext';
+import addContext from 'mochawesome/addContext';
 import './commands';
 
 Cypress.on('window:before:load', window => {
@@ -55,34 +53,34 @@ beforeEach(() => {
 });
 
 // // Assign the video path to the context property for failed tests
-// Cypress.on('test:after:run', test => {
-//   if (test.state === 'failed') {
-//     let videoName = Cypress.spec.name;
-//     videoName = videoName.replace('/.js.*', '.js');
-//     const videoPath = `${Cypress.config('videosFolder')}/${videoName}.mp4`;
-//     addContext(
-//       { test },
-//       {
-//         title: 'context',
-//         value: {
-//           video: videoPath,
-//           retries: test.currentRetry,
-//           testPath: Cypress.spec.relative,
-//           testTitle: test.title,
-//         },
-//       },
-//     );
-//   } else {
-//     addContext(
-//       { test },
-//       {
-//         title: 'context',
-//         value: {
-//           retries: test.currentRetry,
-//           testPath: Cypress.spec.relative,
-//           testTitle: test.title,
-//         },
-//       },
-//     );
-//   }
-// });
+Cypress.on('test:after:run', test => {
+  if (test.state === 'failed') {
+    let videoName = Cypress.spec.name;
+    videoName = videoName.replace('/.js.*', '.js');
+    const videoPath = `${Cypress.config('videosFolder')}/${videoName}.mp4`;
+    addContext(
+      { test },
+      {
+        title: 'context',
+        value: {
+          video: videoPath,
+          retries: test.currentRetry,
+          testPath: Cypress.spec.relative,
+          testTitle: test.title,
+        },
+      },
+    );
+  } else {
+    addContext(
+      { test },
+      {
+        title: 'context',
+        value: {
+          retries: test.currentRetry,
+          testPath: Cypress.spec.relative,
+          testTitle: test.title,
+        },
+      },
+    );
+  }
+});
