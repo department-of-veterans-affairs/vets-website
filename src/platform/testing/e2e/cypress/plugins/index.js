@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { table } = require('table');
 const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
-const resolve = require('esbuild-plugin-resolve');
+// const resolve = require('esbuild-plugin-resolve');
 
 const tableConfig = {
   columns: {
@@ -66,21 +66,55 @@ module.exports = async on => {
     },
   };
 
-  let plugins;
-  // if (process.env.CYPRESS_CI) {
-    plugins = [
-      dirnamePlugin,
-      dirnamePlugin2,
-      resolve({
-        platform: path.join(__dirname, '..', '..', '..', '..', '..', '..', 'src', 'platform'),
-        '~/platform': path.join(__dirname, '..', '..', '..', '..', '..', '..', 'src', 'platform'),
-        site: path.join(__dirname, '..', '..', '..', '..', '..', '..', 'src', 'site'),
-        applications: path.join(__dirname, '..', '..', '..', '..', '..', '..', 'src', 'applications'),
-      }),
-    ];
-  // } else {
-    // plugins = [dirnamePlugin, dirnamePlugin2];
-  // }
+  function intercept (build, moduleName, moduleTarget) {
+    const filter = new RegExp('^' + moduleName + '/' + '(?:\\/.*)?$');
+    console.log(filter);
+    console.log(filter);
+    console.log(filter);
+    console.log(filter);
+  
+    build.onResolve({ filter }, async (args) => {
+      if (args.resolveDir === '') {
+        return;
+      }
+  
+      return {
+        path: args.path,
+        namespace: 'esbuild-resolve',
+        pluginData: {
+          resolveDir: args.resolveDir,
+          moduleName
+        }
+      };
+    });
+  
+    build.onLoad({ filter, namespace: 'esbuild-resolve' }, async (args) => {
+      const importerCode = `
+        export * from '${args.path.replace(args.pluginData.moduleName, moduleTarget)}';
+      `;
+      return { contents: importerCode, resolveDir: args.pluginData.resolveDir };
+    });
+  }
+  
+  const EsbuildPluginResolve = (options) => ({
+    name: 'esbuild-resolve',
+    setup: (build) => {
+      for (const moduleName of Object.keys(options)) {
+        intercept(build, moduleName, options[moduleName]);
+      }
+    }
+  });
+
+  const plugins = [
+    dirnamePlugin,
+    dirnamePlugin2,
+    EsbuildPluginResolve({
+      'platform': path.join(__dirname, '..', '..', '..', '..', '..', '..', 'src', 'platform'),
+      '~/platform': path.join(__dirname, '..', '..', '..', '..', '..', '..', 'src', 'platform'),
+      site: path.join(__dirname, '..', '..', '..', '..', '..', '..', 'src', 'site'),
+      applications: path.join(__dirname, '..', '..', '..', '..', '..', '..', 'src', 'applications'),
+    }),
+  ];
 
   const bundler = createBundler({
     // entryPoints: ['src/**/*.cypress.spec.js*'],
@@ -96,7 +130,7 @@ module.exports = async on => {
       'process.env.NODE_ENV': '"production"',
       'process.env.BUILDTYPE': '"production"',
     },
-    plugins,
+    plugins: plugins,
     platform: 'browser',
     target: ['esnext', 'node14'],
   });
