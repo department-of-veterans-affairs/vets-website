@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { table } = require('table');
 const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
-const { resolve } = require('esbuild-plugin-resolve');
+const resolve = require('esbuild-plugin-resolve');
 
 const tableConfig = {
   columns: {
