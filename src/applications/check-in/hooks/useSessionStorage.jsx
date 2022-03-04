@@ -81,6 +81,20 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
     };
   };
 
+  const setDemographicsConfirmed = useCallback(
+    (window, value) => {
+      setSessionKey(window, SESSION_STORAGE_KEYS.DEMOGRAPHICS_CONFIRMED, value);
+    },
+    [SESSION_STORAGE_KEYS],
+  );
+
+  const getDemographicsConfirmed = useCallback(
+    window => {
+      return getSessionKey(window, SESSION_STORAGE_KEYS.DEMOGRAPHICS_CONFIRMED);
+    },
+    [SESSION_STORAGE_KEYS],
+  );
+
   return {
     clearCurrentSession,
     setCurrentToken,
@@ -89,6 +103,8 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
     getPreCheckinComplete,
     incrementValidateAttempts,
     getValidateAttempts,
+    setDemographicsConfirmed,
+    getDemographicsConfirmed,
   };
 };
 
