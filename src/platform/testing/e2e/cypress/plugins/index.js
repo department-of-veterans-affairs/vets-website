@@ -73,6 +73,7 @@ module.exports = async on => {
       dirnamePlugin2,
       resolve({
         platform: 'src/platform',
+        site: 'src/site',
       }),
     ];
   } else {
