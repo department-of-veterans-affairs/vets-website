@@ -5,8 +5,8 @@ import ReactTestUtils from 'react-dom/test-utils';
 import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import uiSchema from '../../../src/js/definitions/phone';
 import definitions from 'vets-json-schema/dist/definitions.json';
+import uiSchema from '../../../src/js/definitions/phone';
 
 describe('Schemaform definition phone', () => {
   it('should render phone', () => {
@@ -25,6 +25,7 @@ describe('Schemaform definition phone', () => {
       expect(input.classList.contains(className)).to.be.true;
     });
     expect(input.type).to.equal('tel');
+    expect(input.autocomplete).to.equal('tel');
   });
   it('should render phone title', () => {
     const form = ReactTestUtils.renderIntoDocument(

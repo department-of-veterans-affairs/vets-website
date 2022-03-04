@@ -1,0 +1,14 @@
+//Site Header Overrides
+.header {
+    min-height: 121px;
+}
+
+#legacy-header {
+    min-height: 189.19px;
+}
+
+@media screen and (min-width: 481px) {
+  #legacy-header {
+    min-height: 167.19px;
+  }
+}
