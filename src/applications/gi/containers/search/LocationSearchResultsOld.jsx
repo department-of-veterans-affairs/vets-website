@@ -7,7 +7,6 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import { connect } from 'react-redux';
-import environment from 'platform/utilities/environment';
 import classNames from 'classnames';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
@@ -51,7 +50,6 @@ function LocationSearchResults({
   const [markerClicked, setMarkerClicked] = useState(null);
   const [activeMarker, setActiveMarker] = useState(null);
   const [myLocation, setMyLocation] = useState(null);
-  const [isLandscape, setIsLandscape] = useState(false);
   const usingUserLocation = () => {
     const currentPositions = document.getElementsByClassName(
       'current-position',
@@ -63,22 +61,6 @@ function LocationSearchResults({
 
     return true;
   };
-
-  /**
-   * Check if using mobile device and if device is in landscape orientation
-   */
-  const setOrientation = () => {
-    const orientationAngle = !window.screen.orientation.angle;
-    const mobileDevice = !navigator.maxTouchPoints;
-    if (!orientationAngle && !mobileDevice) return true;
-    return false;
-  };
-
-  useEffect(() => {
-    if (!environment.isProduction()) {
-      setIsLandscape(setOrientation);
-    }
-  }, []);
 
   /**
    * When map is moved update distance from center to NorthEast corner
@@ -181,16 +163,9 @@ function LocationSearchResults({
   const markerIsVisible = institution => {
     const { latitude, longitude } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
-    if (environment.isProduction()) {
-      return (
-        smallScreen ||
-        !mapState.changed ||
-        map.current.getBounds().contains(lngLat)
-      );
-    }
+
     return (
       smallScreen ||
-      isLandscape ||
       !mapState.changed ||
       map.current.getBounds().contains(lngLat)
     );
@@ -256,21 +231,12 @@ function LocationSearchResults({
     markerElement.innerText = index + 1;
 
     const popup = new mapboxgl.Popup();
-    if (environment.isProduction()) {
-      popup.on('open', () => {
-        if (smallScreen) {
-          setMobileTab(LIST_TAB);
-        }
-        setMarkerClicked(name);
-      });
-    } else {
-      popup.on('open', () => {
-        if (smallScreen || isLandscape) {
-          setMobileTab(LIST_TAB);
-        }
-        setMarkerClicked(name);
-      });
-    }
+    popup.on('open', () => {
+      if (smallScreen) {
+        setMobileTab(LIST_TAB);
+      }
+      setMarkerClicked(name);
+    });
 
     if (locationBounds) {
       locationBounds.extend(lngLat);
@@ -313,7 +279,7 @@ function LocationSearchResults({
    */
   useEffect(
     () => {
-      if (smallScreen || isLandscape) {
+      if (smallScreen) {
         map.current = null;
       }
       setupMap();
@@ -323,7 +289,7 @@ function LocationSearchResults({
       let visibleResults = [];
       const mapMarkers = [];
 
-      if (smallScreen || isLandscape) {
+      if (smallScreen) {
         visibleResults = results;
       }
 
@@ -372,7 +338,7 @@ function LocationSearchResults({
       setUsedFilters(getFiltersChanged(filters));
       setMarkers(mapMarkers);
     },
-    [results, smallScreen, isLandscape, mobileTab],
+    [results, smallScreen, mobileTab],
   );
 
   /**
@@ -487,7 +453,7 @@ function LocationSearchResults({
               <FilterYourResults />
             </>
           )}
-          {(smallScreen || isLandscape) && (
+          {smallScreen && (
             <MobileFilterControls className="vads-u-margin-top--2" />
           )}
         </>
@@ -646,7 +612,7 @@ function LocationSearchResults({
           role="region"
         >
           {mapState.changed &&
-            (!isLandscape || !smallScreen) && (
+            !smallScreen && (
               <div
                 id="search-area-control-container"
                 className="mapboxgl-ctrl-top-center"
@@ -673,7 +639,7 @@ function LocationSearchResults({
   const smallScreenCount = search.location.count;
 
   // returns content ordered and setup for smallScreens
-  if (smallScreen || isLandscape) {
+  if (smallScreen) {
     return (
       <div className="location-search vads-u-padding--1">
         {inProgress && (
