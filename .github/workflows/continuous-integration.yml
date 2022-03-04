@@ -45,13 +45,7 @@ jobs:
 
       - name: List changed files
         id: changed-files
-        if: ${{ github.ref != 'refs/heads/master' }}
         run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
-
-      - name: List changed files - master
-        id: changed-files-master
-        if: ${{ github.ref == 'refs/heads/master' }}
-        run: echo ::set-output name=all_changed_files::$(git diff --name-only HEAD~)
 
       - name: Get app entries for changed files
         id: get-changed-apps
@@ -60,26 +54,11 @@ jobs:
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
-      - name: Get app entries for changed files - master
-        id: get-changed-apps-master
-        if: ${{ github.ref == 'refs/heads/master' }}
-        run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
-        env:
-          CHANGED_FILE_PATHS: ${{ steps.changed-files-master.outputs.all_changed_files }}
-
       - name: Build
-        if: ${{ github.ref != 'refs/heads/master' }}
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
         timeout-minutes: 30
         env:
           ENTRY: ${{ steps.get-changed-apps.outputs.app_entries }}
-
-      - name: Build
-        if: ${{ github.ref == 'refs/heads/master' }}
-        run: yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
-        timeout-minutes: 30
-        env:
-          ENTRY: ${{ steps.get-changed-apps-master.outputs.app_entries }}
 
       - name: Generate build details
         run: |
