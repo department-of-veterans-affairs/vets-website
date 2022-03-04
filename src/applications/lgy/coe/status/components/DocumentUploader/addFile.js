@@ -1,14 +1,17 @@
 import { isValidFileType } from '../../validations';
 
-export const addFile = (file, documentType, dispatch, actions, reader) => {
-  dispatch({ type: actions.FILE_UPLOAD_PENDING });
+export const addFile = (file, documentType, state, setState, reader) => {
+  // dispatch({ type: actions.FILE_UPLOAD_PENDING });
   if (!isValidFileType(file)) {
-    dispatch({
-      type: actions.FILE_UPLOAD_FAIL,
+    setState({
+      ...state,
+      files: [],
       errorMessage: 'Please choose a file from one of the accepted file types.',
+      submissionPending: false,
     });
     return;
   }
+
   const fileName = file.name;
   const fileType = fileName.substr(fileName.length - 3);
   reader.readAsDataURL(file);
@@ -21,9 +24,10 @@ export const addFile = (file, documentType, dispatch, actions, reader) => {
       fileType,
       fileName,
     };
-    dispatch({
-      type: actions.FILE_UPLOAD_SUCCESS,
-      file: fileObject,
+    setState({
+      ...state,
+      files: [...state.files, fileObject],
+      errorMessage: null,
     });
   };
 };

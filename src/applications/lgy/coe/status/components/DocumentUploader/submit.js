@@ -1,16 +1,19 @@
 import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration } from 'platform/utilities/api';
 
-export const submitToAPI = (files, token, dispatch, actions) => {
+export const submitToAPI = (files, token, state, setState, DOCUMENT_TYPES) => {
+  // if no file has been added, show an error message
   if (files.length === 0) {
-    dispatch({
-      type: actions.FORM_SUBMIT_FAIL,
+    setState({
+      ...state,
       errorMessage: 'Please choose a file to upload.',
     });
     return;
   }
-  dispatch({
-    type: actions.FORM_SUBMIT_PENDING,
+  // Show a loading indicator
+  setState({
+    ...state,
+    submissionPending: true,
   });
 
   fetchAndUpdateSessionExpiration(
@@ -32,14 +35,21 @@ export const submitToAPI = (files, token, dispatch, actions) => {
     .then(res => res.json())
     .then(body => {
       if (body?.errors) {
-        dispatch({
-          type: actions.FORM_SUBMIT_FAIL,
+        setState({
+          ...state,
+          files: [],
           errorMessage:
             "We're sorry, we had a connection problem. Please try again later.",
+          submissionPending: false,
         });
       } else {
-        dispatch({
-          type: actions.FORM_SUBMIT_SUCCESS,
+        setState({
+          ...state,
+          files: [],
+          documentType: DOCUMENT_TYPES[0],
+          errorMessage: null,
+          successMessage: true,
+          submissionPending: false,
         });
       }
     });
