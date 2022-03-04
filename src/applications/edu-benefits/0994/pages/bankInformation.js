@@ -5,7 +5,7 @@ import oldBankAccountUI from 'platform/forms/definitions/bankAccount';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import environment from 'platform/utilities/environment';
 import { isValidRoutingNumber } from 'platform/forms/validations';
-import { hasNewBankInformation, hasPrefillBankInfo } from '../utils';
+import { hasNewBankInformation, hasPrefillBankInformation } from '../utils';
 import PaymentView from '../components/PaymentView';
 import PaymentReviewView from '../components/PaymentReviewView';
 
@@ -23,8 +23,9 @@ const hasNewBankInfo = formData => {
   return hasNewBankInformation(bankAccountObj);
 };
 
-export const hasPrefillBankInformation = formData => {
-  return hasPrefillBankInfo(formData);
+const hasPrefillBankInfo = formData => {
+  const bankAccountObj = _.get(formData, 'prefillBankAccount', {});
+  return hasPrefillBankInformation(bankAccountObj);
 };
 
 const startInEdit = data =>
@@ -101,13 +102,13 @@ export const uiSchema = {
   'view:descriptionWithInfo': {
     'ui:description': bankInfoDescriptionWithInfo,
     'ui:options': {
-      hideIf: data => !hasPrefillBankInformation(data) && !hasNewBankInfo(data),
+      hideIf: data => !hasPrefillBankInfo(data) && !hasNewBankInfo(data),
     },
   },
   'view:descriptionWithoutInfo': {
     'ui:description': bankInfoDescriptionWithoutInfo,
     'ui:options': {
-      hideIf: data => hasPrefillBankInformation(data) || hasNewBankInfo(data),
+      hideIf: data => hasPrefillBankInfo(data) || hasNewBankInfo(data),
     },
   },
   'view:bankAccount': {
