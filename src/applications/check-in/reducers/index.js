@@ -26,7 +26,6 @@ import {
   TRIGGER_REFRESH,
   SEE_STAFF_MESSAGE_UPDATED,
   UPDATE_DAY_OF_CHECK_IN_FORM,
-  SET_CONFIRMED_DEMOGRAPHICS,
 } from '../actions/day-of';
 
 import {
@@ -35,7 +34,6 @@ import {
   receivedDemographicsDataHandler,
   triggerRefreshHandler,
   seeStaffMessageUpdatedHandler,
-  setConfirmedDemographicsHandler,
 } from './day-of';
 
 import { setAppHandler } from './universal';
@@ -71,7 +69,6 @@ const handler = Object.freeze({
   [RECEIVED_DEMOGRAPHICS_DATA]: receivedDemographicsDataHandler,
   [TRIGGER_REFRESH]: triggerRefreshHandler,
   [SEE_STAFF_MESSAGE_UPDATED]: seeStaffMessageUpdatedHandler,
-  [SET_CONFIRMED_DEMOGRAPHICS]: setConfirmedDemographicsHandler,
   [UPDATE_PRE_CHECK_IN_FORM]: updateFormHandler,
   [UPDATE_DAY_OF_CHECK_IN_FORM]: updateFormHandler,
   [SET_APP]: setAppHandler,
