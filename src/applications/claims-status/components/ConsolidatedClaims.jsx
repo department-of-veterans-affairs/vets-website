@@ -1,6 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+export const consolidatedClaimsContent = (
+  <div>
+    If you turn in a new claim while we’re reviewing another one from you, we’ll
+    add any new information to the original claim and close the new claim, with
+    no action required from you.
+  </div>
+);
+
 export default function ConsolidatedClaims({ onClose }) {
   return (
     <div>
@@ -18,11 +26,7 @@ export default function ConsolidatedClaims({ onClose }) {
       >
         <i className="fas fa-times-circle" />
       </button>
-      <div>
-        If you turn in a new claim while we’re reviewing another one from you,
-        we’ll add any new information to the original claim and close the new
-        claim, with no action required from you.
-      </div>
+      {consolidatedClaimsContent}
     </div>
   );
 }

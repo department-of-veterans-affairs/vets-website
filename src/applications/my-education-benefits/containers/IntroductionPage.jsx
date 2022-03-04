@@ -1,9 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-
-import { apiRequest } from 'platform/utilities/api';
-import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -13,7 +10,6 @@ import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 
 import HowToApplyPost911GiBill from '../components/HowToApplyPost911GiBill';
 import { fetchUser } from '../selectors/userDispatch';
-import { CLAIMANT_INFO_ENDPOINT } from '../actions';
 
 export const IntroductionPage = ({ user, route }) => {
   const SaveInProgressComponent = (
@@ -26,29 +22,6 @@ export const IntroductionPage = ({ user, route }) => {
       hideUnauthedStartLink
       startText="Start your application"
     />
-  );
-
-  const handleRedirect = async response => {
-    if (!response?.data?.attributes?.claimant) {
-      window.location.href =
-        '/education/apply-for-education-benefits/application/1990/';
-    }
-    return response;
-  };
-
-  useEffect(
-    () => {
-      const checkIfClaimantExists = async () =>
-        apiRequest(CLAIMANT_INFO_ENDPOINT)
-          .then(response => handleRedirect(response))
-          .catch(err => err);
-
-      focusElement('.va-nav-breadcrumbs-list');
-      if (user.login.currentlyLoggedIn) {
-        checkIfClaimantExists().then(res => res);
-      }
-    },
-    [user.login.currentlyLoggedIn],
   );
 
   return (
@@ -133,8 +106,9 @@ export const IntroductionPage = ({ user, route }) => {
       {SaveInProgressComponent}
 
       {!user?.login?.currentlyLoggedIn && (
-        // eslint-disable-next-line jsx-a11y/anchor-is-valid
-        <a href="#">Start your application without signing in</a>
+        <a href="https://www.va.gov/education/apply-for-education-benefits/application/1990/applicant/information">
+          Start your application without signing in
+        </a>
       )}
 
       <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="02/28/2023" />

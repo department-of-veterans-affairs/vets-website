@@ -25,6 +25,8 @@ import CommunityCareProviderSelectionPage from '../../../../new-appointment/comp
 import { calculateBoundingBox } from '../../../../utils/address';
 import { CC_PROVIDERS_DATA } from './cc_providers_data';
 import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../../utils/constants';
+import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
+import { createMockFacilityByVersion } from '../../../mocks/data';
 
 const initialState = {
   featureToggles: {
@@ -293,258 +295,82 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     );
   });
 
-  it('should display choose provider when remove provider clicked', async () => {
-    const testState = {
+  it('should allow remove provider clicked when user has no residential address', async () => {
+    // Given the CC iteration flag is on
+    // And the user does not have a residential address
+    const store = createTestStore({
       ...initialState,
-      newAppointment: {
-        pages: {},
-        data: {
-          communityCareProvider: {
-            id: '1952935777',
-            identifier: [
-              {
-                system: 'PPMS',
-                value: '1952935777',
-              },
-            ],
-            resourceType: 'Location',
-            address: {
-              line: ['7700 LITTLE RIVER TPKE STE 102'],
-              city: 'ANNANDALE',
-              state: 'VA',
-              postalCode: '22003-2400',
-            },
-            name: 'OH, JANICE',
-            position: {
-              longitude: -77.211165,
-              latitude: 38.833571,
-            },
-            telecom: [
-              {
-                system: 'phone',
-                value: '703-752-4623',
-              },
-            ],
-            distanceFromResidentialAddress: 2409,
-          },
-          communityCareSystemId: '983',
-          facilityType: 'communityCare',
-          typeOfCareId: '323',
-          selectedDates: ['2021-12-08T00:00:00.000'],
-        },
-        facilities: {},
-        facilityDetails: {},
-        clinics: {},
-        eligibility: {},
-        parentFacilities: [
-          {
-            resourceType: 'Location',
-            id: '983',
-            vistaId: '983',
-            name: 'Cheyenne VA Medical Center',
-            identifier: [
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:division:983:983',
-              },
-              {
-                system: 'urn:oid:2.16.840.1.113883.6.233',
-                value: '983',
-              },
-            ],
-            telecom: [
-              {
-                system: 'phone',
-                value: '307-778-7550',
-              },
-            ],
-            position: {
-              longitude: -104.786159,
-              latitude: 41.148179,
-            },
-            address: {
-              line: ['2360 East Pershing Boulevard'],
-              city: 'Cheyenne',
-              state: 'WY',
-              postalCode: '82001-5356',
-            },
-          },
-          {
-            resourceType: 'Location',
-            id: '984',
-            vistaId: '984',
-            name: 'Dayton VA Medical Center',
-            identifier: [
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:division:984:984',
-              },
-              {
-                system: 'urn:oid:2.16.840.1.113883.6.233',
-                value: '984',
-              },
-            ],
-            telecom: [
-              {
-                system: 'phone',
-                value: '937-268-6511',
-              },
-            ],
-            position: {
-              longitude: '-84.2651895',
-              latitude: '39.7424427',
-            },
-            address: {
-              line: ['4100 West Third Street'],
-              city: 'Dayton',
-              state: 'OH',
-              postalCode: '45428-9000',
-            },
-          },
-        ],
-        ccEnabledSystems: [
-          {
-            resourceType: 'Location',
-            id: '983',
-            vistaId: '983',
-            name: 'Cheyenne VA Medical Center',
-            identifier: [
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:division:983:983',
-              },
-              {
-                system: 'urn:oid:2.16.840.1.113883.6.233',
-                value: '983',
-              },
-            ],
-            telecom: [
-              {
-                system: 'phone',
-                value: '307-778-7550',
-              },
-            ],
-            position: {
-              longitude: -104.786159,
-              latitude: 41.148179,
-            },
-            address: {
-              line: ['2360 East Pershing Boulevard'],
-              city: 'Cheyenne',
-              state: 'WY',
-              postalCode: '82001-5356',
-            },
-          },
-          {
-            resourceType: 'Location',
-            id: '984',
-            vistaId: '984',
-            name: 'Dayton VA Medical Center',
-            identifier: [
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:division:984:984',
-              },
-              {
-                system: 'urn:oid:2.16.840.1.113883.6.233',
-                value: '984',
-              },
-            ],
-            telecom: [
-              {
-                system: 'phone',
-                value: '937-268-6511',
-              },
-            ],
-            position: {
-              longitude: '-84.2651895',
-              latitude: '39.7424427',
-            },
-            address: {
-              line: ['4100 West Third Street'],
-              city: 'Dayton',
-              state: 'OH',
-              postalCode: '45428-9000',
-            },
-          },
-        ],
-        pageChangeInProgress: false,
-        previousPages: {
-          typeOfCare: 'home',
-          typeOfFacility: 'typeOfCare',
-          requestDateTime: 'typeOfFacility',
-          ccClosestCity: 'requestDateTime',
-          ccPreferences: 'ccClosestCity',
-        },
-        childFacilitiesStatus: 'notStarted',
-        parentFacilitiesStatus: 'succeeded',
-        eligibilityStatus: 'notStarted',
-        facilityDetailsStatus: 'notStarted',
-        pastAppointments: null,
-        appointmentSlotsStatus: 'notStarted',
-        availableSlots: null,
-        fetchedAppointmentSlotMonths: [],
-        submitStatus: 'notStarted',
-        isCCEligible: true,
-        hideUpdateAddressAlert: false,
-        requestLocationStatus: 'notStarted',
-        communityCareProviders: {},
-        requestStatus: 'notStarted',
-        currentLocation: {},
-        ccProviderPageSortMethod: 'distanceFromResidentialAddress',
-        facilityPageSortMethod: null,
-        flowType: 'request',
-        selectedCCFacility: {
-          resourceType: 'Location',
-          id: '983',
-          vistaId: '983',
-          name: 'Cheyenne VA Medical Center',
-          identifier: [
-            {
-              system: 'http://med.va.gov/fhir/urn',
-              value: 'urn:va:division:983:983',
-            },
-            {
-              system: 'urn:oid:2.16.840.1.113883.6.233',
-              value: '983',
-            },
-          ],
-          telecom: [
-            {
-              system: 'phone',
-              value: '307-778-7550',
-            },
-          ],
-          position: {
-            longitude: -104.786159,
-            latitude: 41.148179,
-          },
-          address: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-
       user: {
         profile: {
-          facilities: [...initialState.user.profile.facilities],
+          facilities: [{ facilityId: '983', isCerner: false }],
           vapContactInfo: {
-            residentialAddress: null,
+            residentialAddress: {},
           },
         },
       },
+    });
+
+    const facilityPosition = {
+      latitude: 39.1362562,
+      longitude: -83.1804804,
+      fail: false,
     };
 
-    const store = createTestStore(testState);
+    mockGetCurrentPosition(facilityPosition);
+    mockCCProviderFetch(
+      facilityPosition,
+      ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
+      calculateBoundingBox(
+        facilityPosition.latitude,
+        facilityPosition.longitude,
+        60,
+      ),
+      CC_PROVIDERS_DATA,
+    );
 
+    mockFacilityFetchByVersion({
+      facility: createMockFacilityByVersion({
+        id: '442GJ',
+        name: 'Facility that is enabled',
+        lat: 39.1362562,
+        long: -83.1804804,
+        version: 0,
+      }),
+      version: 0,
+    });
+
+    await setTypeOfCare(store, /primary care/i);
+    await setTypeOfFacility(store, /Community Care/i);
+
+    // Belgrade is the 2nd of three options so the expectation is
+    // that it should be selected when we get to the CommunityCareProviderSelectionPage.
+    await setClosestCity(store, /Belgrade/i);
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
       {
         store,
       },
+    );
+    // When the user tries to choose a provider
+    // Trigger provider list loading
+    userEvent.click(
+      await screen.findByText(/Choose a provider/i, {
+        selector: 'button',
+      }),
+    );
+
+    expect(await screen.findByTestId('providersSelect')).to.exist;
+
+    // Choose Provider
+    userEvent.click(await screen.findByText(/OH, JANICE/i));
+    userEvent.click(
+      await screen.getByRole('button', {
+        name: /choose provider/i,
+      }),
+    );
+    expect(screen.baseElement).to.contain.text('Selected provider');
+    expect(screen.baseElement).to.contain.text(
+      'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-2400',
     );
 
     // Remove Provider
@@ -558,9 +384,6 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       await screen.findByRole('button', { name: /Yes, remove provider/i }),
     );
     expect(await screen.findByRole('button', { name: /Choose a provider/i }));
-    expect(screen.baseElement).not.to.contain.text(
-      'OH, JANICE7700 LITTLE RIVER TPKE STE 102',
-    );
   });
 
   it('should display an error when choose a provider clicked and provider fetch error', async () => {

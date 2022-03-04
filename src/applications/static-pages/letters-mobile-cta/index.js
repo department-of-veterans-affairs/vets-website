@@ -9,7 +9,7 @@ export default (store, widgetType) => {
   if (root) {
     import(/* webpackChunkName: "letters-mobile-cta" */
     './components/App').then(module => {
-      const App = module.default;
+      const { App } = module;
       ReactDOM.render(
         <Provider store={store}>
           <App />

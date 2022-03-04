@@ -1,5 +1,6 @@
 const Timeouts = require('platform/testing/e2e/timeouts.js');
 
+/* eslint-disable class-methods-use-this */
 class TrackClaimsPage {
   loadPage(claimsList, mock = null, submitForm = false) {
     if (submitForm) {
@@ -13,7 +14,10 @@ class TrackClaimsPage {
     cy.intercept('GET', '/v0/evss_claims_async', claimsList);
     cy.login();
     cy.visit('/track-claims');
-    cy.title().should('eq', 'Track Claims: VA.gov');
+    cy.title().should(
+      'eq',
+      'Check your claim or appeal status | Veterans Affairs',
+    );
     if (claimsList.data.length) {
       cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
         'be.visible',
@@ -66,21 +70,6 @@ class TrackClaimsPage {
       'contain',
       'You do not have any submitted claims',
     );
-  }
-
-  checkConsolidatedClaimsModal() {
-    cy.get('button.claims-combined').click();
-    cy.get('.claims-status-upload-header').should('be.visible');
-    cy.injectAxeThenAxeCheck();
-    cy.get('.claims-status-upload-header').should(
-      'contain',
-      'A note about consolidated claims',
-    );
-    cy.get('.va-modal-close')
-      .first()
-      .click();
-    cy.get('.claims-status.upload-header').should('not.exist');
-    cy.axeCheck();
   }
 
   checkClaimsContent() {
@@ -300,3 +289,4 @@ class TrackClaimsPage {
 }
 
 export default TrackClaimsPage;
+/* eslint-enable class-methods-use-this */

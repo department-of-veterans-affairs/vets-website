@@ -37,7 +37,7 @@ const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
           status={coe.status}
         />
         {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
-          <LoggedInContent route={route} />
+          <LoggedInContent route={route} status={coe.status} />
         )}
       </>
     );

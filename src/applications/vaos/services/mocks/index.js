@@ -41,9 +41,8 @@ const responses = {
   'GET /vaos/v0/appointments': (req, res) => {
     if (req.query.type === 'cc') {
       return res.json(confirmedCC);
-    } else {
-      return res.json(confirmedVA);
     }
+    return res.json(confirmedVA);
   },
   'GET /vaos/v0/appointments/va/:id': (req, res) => {
     return res.json({
@@ -57,7 +56,7 @@ const responses = {
     });
   },
   'GET /vaos/v0/appointment_requests/:id/messages': (req, res) => {
-    const id = req.params.id;
+    const { id } = req.params;
     if (id === '8a48912a6c2409b9016c525a4d490190') {
       return res.json(messages0190);
     }
@@ -72,11 +71,11 @@ const responses = {
   'GET /vaos/v0/systems/:id/direct_scheduling_facilities': (req, res) => {
     if (req.query.parent_code === '984') {
       return res.json(facilities984);
-    } else if (req.query.parent_code === '983A6') {
-      return res.json(facilities983A6);
-    } else {
-      return res.json(facilities983);
     }
+    if (req.query.parent_code === '983A6') {
+      return res.json(facilities983A6);
+    }
+    return res.json(facilities983);
   },
   'GET /vaos/v0/community_care/eligibility/:id': (req, res) => {
     return res.json({
@@ -130,7 +129,8 @@ const responses = {
   'GET /vaos/v0/facilities/:id/clinics': (req, res) => {
     if (req.params.id === '983') {
       return res.json(clinicList983);
-    } else if (req.params.id.startsWith(612)) {
+    }
+    if (req.params.id.startsWith(612)) {
       return res.json(clinicList612);
     }
 
@@ -194,6 +194,7 @@ const responses = {
       attributes: {
         ...req.body,
         start: req.body.slot ? req.body.slot.start : null,
+        cancellable: req.body.status === 'proposed',
       },
     };
     currentMockId++;
@@ -213,6 +214,7 @@ const responses = {
         attributes: {
           ...appt.attributes,
           cancelationReason: { coding: [{ code: 'pat' }] },
+          cancellable: false,
         },
       };
     }
@@ -230,7 +232,8 @@ const responses = {
   'GET /vaos/v2/appointments': (req, res) => {
     if (req.query.statuses?.includes('proposed')) {
       return res.json(requestsV2);
-    } else if (req.query.statuses?.includes('booked')) {
+    }
+    if (req.query.statuses?.includes('booked')) {
       return res.json(confirmedV2);
     }
 
@@ -257,8 +260,8 @@ const responses = {
     });
   },
   'GET /vaos/v2/facilities': (req, res) => {
-    const ids = req.query.ids;
-    const children = req.query.children;
+    const { ids } = req.query;
+    const { children } = req.query;
 
     return res.json({
       data: facilitiesV2.data.filter(

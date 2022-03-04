@@ -19,10 +19,7 @@ export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
   }, []);
 
   return (
-    <header
-      className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0"
-      role="banner"
-    >
+    <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">
       {/* Official government website banner */}
       <OfficialGovtWebsite />
 
@@ -44,7 +41,7 @@ export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
           showMegaMenu={showMegaMenu}
         />
       </nav>
-    </header>
+    </div>
   );
 };
 
