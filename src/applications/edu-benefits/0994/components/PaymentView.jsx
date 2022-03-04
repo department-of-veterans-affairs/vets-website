@@ -46,13 +46,6 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
 
   return (
     <div>
-      {!environment.isProduction() &&
-        hasPrefillBankInfo(formData) && (
-          <p>
-            This is the bank account information we have on file for you. We’ll
-            send your housing payment to this account.
-          </p>
-        )}
       <div className="blue-bar-block">
         <p>
           <strong>

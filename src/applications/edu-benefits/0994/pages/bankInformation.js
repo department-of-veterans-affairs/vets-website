@@ -36,7 +36,7 @@ const isProduction = environment.isProduction();
 
 const newItemName = isProduction ? 'account' : 'account information';
 
-const directDepositDescription = () => {
+const directDepositDescription = formData => {
   return (
     <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
       <p>
@@ -48,6 +48,13 @@ const directDepositDescription = () => {
         src="/img/direct-deposit-check-guide.svg"
         alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
       />
+      {!environment.isProduction() &&
+        hasPrefillBankInfo(formData) && (
+          <p>
+            This is the bank account information we have on file for you. We’ll
+            send your housing payment to this account.
+          </p>
+        )}
     </div>
   );
 };
@@ -66,7 +73,7 @@ function validateRoutingNumber(
 
 const newBankUiSchema = {
   'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
-  'ui:description': directDepositDescription(),
+  'ui:description': data => directDepositDescription(data),
   accountType: {
     'ui:title': 'Account type',
     'ui:widget': 'radio',
@@ -127,6 +134,7 @@ export const uiSchema = {
       accountType: {
         ...bankAccountUI.accountType,
         'ui:reviewWidget': PaymentReviewView,
+        'ui:required': isProduction,
         'ui:errorMessages': {
           required: 'Please choose an account type',
         },
@@ -170,9 +178,7 @@ export const schema = {
     },
     'view:bankAccount': {
       type: 'object',
-      properties: {
-        bankAccount,
-      },
+      properties: { bankAccount },
     },
     'view:bankInfoNote': {
       type: 'object',
