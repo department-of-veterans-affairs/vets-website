@@ -380,7 +380,6 @@ jobs:
 
       - name: List changed files
         id: changed-files
-        if: ${{ github.ref != 'refs/heads/master' }}
         run: |
           if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
             echo ::set-output name=all_changed_files::$(git diff --name-only HEAD~)
