@@ -87,7 +87,6 @@ const newBankUiSchema = {
   routingNumber: {
     'ui:title': 'Bank’s 9 digit routing number',
     'ui:validations': [validateRoutingNumber],
-    'ui:required': () => true,
     'ui:errorMessages': {
       pattern: 'Please enter a valid 9 digit routing number',
       required: 'Please enter a routing number',
