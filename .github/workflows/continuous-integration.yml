@@ -381,12 +381,12 @@ jobs:
       - name: List changed files
         id: changed-files
         if: ${{ github.ref != 'refs/heads/master' }}
-        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
-
-      - name: List changed files - master
-        id: changed-files-master
-        if: ${{ github.ref == 'refs/heads/master' }}
-        run: echo ::set-output name=all_changed_files::$(git diff --name-only HEAD~)
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+            echo ::set-output name=all_changed_files::$(git diff --name-only HEAD~)
+          else
+            echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+          fi
 
       - name: Get changed apps for header test
         id: get-changed-apps
@@ -402,14 +402,6 @@ jobs:
         env:
           RUN_FULL_SUITE: false
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
-          APP_URLS: ${{ steps.get-changed-apps.outputs.app_urls }}
-          APP_ENTRIES: ${{ steps.get-changed-apps.outputs.app_entries }}
-
-      - name: Set TESTS variable - master
-        run: node script/github-actions/select-cypress-tests.js
-        env:
-          RUN_FULL_SUITE: false
-          CHANGED_FILE_PATHS: ${{ steps.changed-files-master.outputs.all_changed_files }}
           APP_URLS: ${{ steps.get-changed-apps.outputs.app_urls }}
           APP_ENTRIES: ${{ steps.get-changed-apps.outputs.app_entries }}
 
