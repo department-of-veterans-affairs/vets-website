@@ -238,7 +238,6 @@ export function LocationSearchForm({
                         });
                         dispatchGeolocateUser();
                         if (!environment.isProduction()) {
-
                           setAutocompleteSelection(location);
                           doSearch(evnt);
                         }
