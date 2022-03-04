@@ -31,6 +31,7 @@
         "slot": null,
         "start": "2022-02-21T18:19:34",
         "status": "booked",
+        "cancellable": true,
         "telehealth": null
       }
     },
@@ -65,6 +66,7 @@
         "slot": null,
         "start": "2022-03-21T18:19:34",
         "status": "booked",
+        "cancellable": true,
         "telehealth": null
       }
     },
@@ -122,6 +124,7 @@
         "slot": null,
         "start": "2022-02-28T18:19:34",
         "status": "booked",
+        "cancellable": true,
         "telehealth": null
       }
     },
@@ -179,6 +182,7 @@
         "slot": null,
         "start": "2022-02-20T18:19:34",
         "status": "cancelled",
+        "cancellable": false,
         "telehealth": null
       }
     },
@@ -224,6 +228,7 @@
         "slot": null,
         "start": "2022-01-23T20:00:00Z",
         "status": "booked",
+        "cancellable": true,
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
@@ -272,6 +277,7 @@
         "slot": null,
         "start": "2022-01-23T20:00:00Z",
         "status": "booked",
+        "cancellable": true,
         "telehealth": {
           "url": null,
           "atlas": {
@@ -343,6 +349,7 @@
         "slot": null,
         "start": "2022-03-09T20:30:00Z",
         "status": "booked",
+        "cancellable": true,
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
@@ -381,6 +388,7 @@
         "slot": null,
         "start": "2022-02-22T18:10:34",
         "status": "booked",
+        "cancellable": true,
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
@@ -429,6 +437,7 @@
         "slot": null,
         "start": "2022-02-27T18:19:34",
         "status": "booked",
+        "cancellable": true,
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
@@ -467,6 +476,7 @@
         "slot": null,
         "start": "2022-02-27T18:19:34",
         "status": "booked",
+        "cancellable": true,
         "telehealth": null
       }
     },
@@ -501,6 +511,7 @@
         "slot": null,
         "start": "2022-02-28T18:19:34",
         "status": "cancelled",
+        "cancellable": false,
         "telehealth": null
       }
     },
@@ -535,6 +546,7 @@
         "slot": null,
         "start": "2021-06-27T18:19:34",
         "status": "booked",
+        "cancellable": true,
         "telehealth": null
       }
     },
@@ -580,6 +592,7 @@
         "slot": null,
         "start": "2021-06-08T17:30:00Z",
         "status": "booked",
+        "cancellable": true,
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
@@ -618,6 +631,7 @@
         "slot": null,
         "start": "2022-02-27T18:19:34",
         "status": "cancelled",
+        "cancellable": false,
         "telehealth": null
       }
     },
@@ -652,6 +666,7 @@
         "slot": null,
         "start": "2022-02-28T18:19:34",
         "status": "cancelled",
+        "cancellable": false,
         "telehealth": null
       }
     },
