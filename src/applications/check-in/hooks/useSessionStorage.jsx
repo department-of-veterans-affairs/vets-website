@@ -90,7 +90,10 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
 
   const getDemographicsConfirmed = useCallback(
     window => {
-      return getSessionKey(window, SESSION_STORAGE_KEYS.DEMOGRAPHICS_CONFIRMED);
+      return (
+        getSessionKey(window, SESSION_STORAGE_KEYS.DEMOGRAPHICS_CONFIRMED) ??
+        false
+      );
     },
     [SESSION_STORAGE_KEYS],
   );

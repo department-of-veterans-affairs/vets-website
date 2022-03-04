@@ -8,6 +8,7 @@ import { triggerRefresh } from '../../../actions/day-of';
 import { makeSelectConfirmationData } from '../../../selectors';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useDemographicsFlags } from '../../../hooks/useDemographicsFlags';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
@@ -18,6 +19,10 @@ const Confirmation = props => {
   const featureToggles = useSelector(selectFeatureToggles);
   const { isDayOfDemographicsFlagsEnabled } = featureToggles;
   const { goToErrorPage } = useFormRouting(router);
+  const {
+    getDemographicsConfirmed,
+    setDemographicsConfirmed,
+  } = useSessionStorage(false);
   const {
     demographicsData,
     demographicsFlagsSent,
@@ -37,14 +42,19 @@ const Confirmation = props => {
 
   useEffect(
     () => {
-      if (!isDayOfDemographicsFlagsEnabled || demographicsFlagsSent) return;
+      if (
+        !isDayOfDemographicsFlagsEnabled ||
+        demographicsFlagsSent ||
+        getDemographicsConfirmed()
+      )
+        return;
       try {
         api.v2.patchDayOfDemographicsData(demographicsData).then(resp => {
           if (resp.data.error || resp.data.errors) {
             goToErrorPage();
           } else {
             setDemographicsFlagsSent(true);
-            // TODO Session key for demographics confirmed.
+            setDemographicsConfirmed(window, true);
           }
         });
       } catch (error) {
@@ -54,8 +64,10 @@ const Confirmation = props => {
     [
       demographicsData,
       demographicsFlagsSent,
+      getDemographicsConfirmed,
       goToErrorPage,
       isDayOfDemographicsFlagsEnabled,
+      setDemographicsConfirmed,
       setDemographicsFlagsSent,
     ],
   );
