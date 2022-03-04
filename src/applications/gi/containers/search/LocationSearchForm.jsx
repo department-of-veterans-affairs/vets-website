@@ -229,7 +229,7 @@ export function LocationSearchForm({
                     <button
                       type="button"
                       name="use-my-location"
-                      onClick={() => {
+                      onClick={evnt => {
                         if (document.activeElement.name !== 'use-my-location') {
                           return;
                         }
@@ -237,7 +237,10 @@ export function LocationSearchForm({
                           event: 'map-use-my-location',
                         });
                         dispatchGeolocateUser();
-                        if (environment.isProduction()) doSearch(null);
+                        if (environment.isProduction()) {
+                          setAutocompleteSelection(location);
+                          doSearch(evnt);
+                        }
                       }}
                       className="use-my-location-link"
                     >
