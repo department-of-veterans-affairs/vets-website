@@ -212,5 +212,43 @@ ruleTester.run('prefer-web-component-library', rule, {
         },
       ],
     },
+    {
+      code: mockFile(
+        'Modal',
+        'const SampleModal = () => (<Modal title="test" contents={<div>Hi</div>} onClose={closeModal} />)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'Modal',
+                'const SampleModal = () => (<VaModal modalTitle="test" contents={<div>Hi</div>} onCloseEvent={closeModal} />)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Modal',
+        'const SampleModal = () => (<Modal title="test" onClose={closeModal}>HELLO</Modal>)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'Modal',
+                'const SampleModal = () => (<VaModal modalTitle="test" onCloseEvent={closeModal}>HELLO</VaModal>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
   ],
 });

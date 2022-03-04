@@ -77,6 +77,56 @@ const breadcrumbsTransformer = (context, node) => {
   });
 };
 
+const modalTransformer = (context, node) => {
+  const componentName = node.openingElement.name;
+  const closingTag = node.closingElement?.name;
+  const titleNode = getPropNode(node, 'title');
+  const onCloseNode = getPropNode(node, 'onClose');
+  const focusSelectorNode = getPropNode(node, 'focusSelector');
+  const contentsNode = getPropNode(node, 'contents');
+  const contentsValue = contentsNode?.value.expression || contentsNode?.value;
+
+  context.report({
+    node,
+    message: MESSAGE, // customize message?
+    data: {
+      reactComponent: componentName.name,
+      webComponent: 'VaModal', // bindings?
+    },
+    suggest: [
+      {
+        desc: 'Migrate component',
+        fix: fixer => {
+          // TODO: remove self-closing tag if it exists (check for />)
+          // TODO: convert primaryButton {} to primaryButtonClick and primaryButtonText
+          // TODO: convert secondaryButton {} to secondaryButtonClick and secondaryButtonText
+          return [
+            // RENAME TAGS
+            fixer.replaceText(componentName, 'VaModal'),
+            closingTag && fixer.replaceText(closingTag, 'VaModal'),
+
+            // if it's a self-closing component, insert the contents after the component and add a closing tag
+            !closingTag &&
+              contentsNode &&
+              fixer.insertTextAfter(
+                node.openingElement,
+                'CONTENTS GOES HERE' + '</VaModal>',
+              ),
+
+            // RENAME PROPS
+            titleNode && fixer.replaceText(titleNode.name, 'modalTitle'),
+            onCloseNode && fixer.replaceText(onCloseNode.name, 'onCloseEvent'),
+
+            // REMOVE PROPS
+            contentsNode && fixer.remove(contentsNode),
+            focusSelectorNode && fixer.remove(focusSelectorNode),
+          ].filter(i => !!i);
+        },
+      },
+    ],
+  });
+};
+
 /**
  * Stores the result of a check that determines if a component is part of
  * the Design System component-library.
@@ -158,6 +208,9 @@ module.exports = {
         switch (componentName) {
           case 'Breadcrumbs':
             breadcrumbsTransformer(context, node);
+            break;
+          case 'Modal':
+            modalTransformer(context, node);
             break;
           case 'Telephone':
             telephoneTransformer(context, node);
