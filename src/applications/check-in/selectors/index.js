@@ -47,21 +47,6 @@ const selectSeeStaffMessage = createSelector(
 
 const makeSelectSeeStaffMessage = () => selectSeeStaffMessage;
 
-const selectConfirmedDemographics = createSelector(
-  state => {
-    return {
-      confirmedDemographics: state?.checkInData?.confirmedDemographics,
-    };
-  },
-  confirmedDemographics => {
-    return confirmedDemographics.confirmedDemographics
-      ? confirmedDemographics
-      : { confirmedDemographics: false };
-  },
-);
-
-const makeSelectConfirmedDemographics = () => selectConfirmedDemographics;
-
 const selectApp = createSelector(
   state => {
     return {
