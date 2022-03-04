@@ -1,3 +1,5 @@
+import resolve from 'esbuild-plugin-resolve';
+
 const fs = require('fs');
 const path = require('path');
 const { table } = require('table');
@@ -65,24 +67,15 @@ module.exports = async on => {
     },
   };
 
-  const dirnamePlugin3 = {
-    name: 'dirname3',
-
-    setup(build) {
-      // eslint-disable-next-line consistent-return
-      build.onLoad({ filter: /.js?$/ }, ({ path: filePath }) => {
-        let contents = fs.readFileSync(filePath, 'utf8');
-        contents = contents.replace(` 'platform/`, ` 'src/platform/`);
-        return {
-          contents,
-          loader: 'jsx',
-        };
-      });
-    },
-  };
   let plugins;
   if (process.env.CYPRESS_CI) {
-    plugins = [dirnamePlugin, dirnamePlugin2, dirnamePlugin3];
+    plugins = [
+      dirnamePlugin,
+      dirnamePlugin2,
+      resolve({
+        platform: 'src/platform',
+      }),
+    ];
   } else {
     plugins = [dirnamePlugin, dirnamePlugin2];
   }
