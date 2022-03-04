@@ -11,7 +11,6 @@ import SearchTabs from '../components/search/SearchTabs';
 import { TABS } from '../constants';
 import NameSearchResults from './search/NameSearchResults';
 import LocationSearchResults from './search/LocationSearchResults';
-
 import { isSmallScreen } from '../utils/helpers';
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
