@@ -89,7 +89,7 @@ export const TOEIntroductionPage = ({ user, route }) => {
                 </li>
                 <li>Have not yet turned 26 years old</li>
               </ul>
-              <p>
+              <p className="vads-u-margin-bottom--0">
                 <strong>Note</strong>: The Department of Defense (DoD) decides
                 whether your sponsor can transfer GI Bill benefits to you. To
                 transfer entitlement, change the number of months transferred,
@@ -142,7 +142,7 @@ export const TOEIntroductionPage = ({ user, route }) => {
                 your decision letter right away. We’ll also mail you a copy of
                 your decision letter.
               </p>
-              <p>
+              <p className="vads-u-margin-bottom--0">
                 <strong>Note</strong>: In some cases, we may need more time to
                 make a decision. If you don’t get an automatic decision right
                 after you apply, you’ll receive a decision letter in the mail in

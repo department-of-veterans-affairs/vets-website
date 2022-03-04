@@ -21,6 +21,6 @@ export default function TOEApp({ location, children }) {
 }
 
 TOEApp.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.object,
   location: PropTypes.any,
 };

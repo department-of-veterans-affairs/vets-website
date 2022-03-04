@@ -6,7 +6,6 @@ const route = {
   path: '/',
   component: TOEApp,
   indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
-
   childRoutes: createRoutesWithSaveInProgress(formConfig),
 };
 
