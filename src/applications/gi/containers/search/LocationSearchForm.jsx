@@ -242,7 +242,7 @@ export function LocationSearchForm({
                           event: 'map-use-my-location',
                         });
                         dispatchGeolocateUser();
-                        if (environment.isProduction()) {
+                        if (!environment.isProduction()) {
                           setAutocompleteSelection(location);
                           doSearch(evnt);
                         }
