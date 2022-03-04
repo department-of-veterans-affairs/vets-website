@@ -297,6 +297,7 @@ const formConfig = {
           path: 'household-information/marital-status',
           title: 'Marital status information',
           initialData: {},
+          depends: formData => formData.discloseFinancialInformation,
           uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
         },
