@@ -101,13 +101,13 @@ export const uiSchema = {
   'view:descriptionWithInfo': {
     'ui:description': bankInfoDescriptionWithInfo,
     'ui:options': {
-      hideIf: data => !hasPrefillBankInfo(data) && !hasNewBankInfo(data),
+      hideIf: data => !hasPrefillBankInformation(data) && !hasNewBankInfo(data),
     },
   },
   'view:descriptionWithoutInfo': {
     'ui:description': bankInfoDescriptionWithoutInfo,
     'ui:options': {
-      hideIf: data => hasPrefillBankInfo(data) || hasNewBankInfo(data),
+      hideIf: data => hasPrefillBankInformation(data) || hasNewBankInfo(data),
     },
   },
   'view:bankAccount': {
