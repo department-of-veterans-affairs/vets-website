@@ -2,6 +2,21 @@
   "allow": {
     "singleApps": [
       {
+        "entryName": "covid19screen",
+        "slackGroup": "@cto-health-products"
+      },
+      {
+        "entryName": "coronavirus-vaccination",
+        "slackGroup": "@cto-health-products"
+      },
+      {
+        "entryName": "covid-vaccine",
+        "slackGroup": "@cto-health-products"
+      },
+      {
+        "entryName": "education-inbox"
+      },
+      {
         "entryName": "education-inbox"
       },
       {
@@ -22,6 +37,10 @@
       }
     ],
     "groupedApps": [
+      {
+        "rootFolder": "coronavirus-research",
+        "slackGroup": "@cto-health-products"
+      },
       {
         "rootFolder": "check-in",
         "slackGroup": "@check-in-fe"
