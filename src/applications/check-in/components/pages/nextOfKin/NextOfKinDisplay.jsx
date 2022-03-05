@@ -22,7 +22,7 @@ export default function NextOfKinDisplay({
 }) {
   const dispatch = useDispatch();
   const setEditContext = useCallback(
-    data => {
+    (data, url) => {
       dispatch(
         createSetEditContext({
           ...data,
@@ -30,7 +30,7 @@ export default function NextOfKinDisplay({
           editingPage: EDITING_PAGE_NAMES.NEXT_OF_KIN,
         }),
       );
-      jumpToPage(URLS.EDIT_RELATIONSHIP);
+      jumpToPage(url);
     },
     [dispatch, jumpToPage],
   );
@@ -40,7 +40,7 @@ export default function NextOfKinDisplay({
       title: 'Relationship',
       key: 'relationship',
       editAction: data => {
-        setEditContext(data);
+        setEditContext(data, URLS.EDIT_RELATIONSHIP);
       },
     },
     { title: 'Address', key: 'address' },

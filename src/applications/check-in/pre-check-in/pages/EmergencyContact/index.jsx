@@ -12,8 +12,11 @@ import Footer from '../../../components/Footer';
 import EmergencyContactDisplay from '../../../components/pages/emergencyContact/EmergencyContactDisplay';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
-
-import { makeSelectVeteranData } from '../../../selectors';
+import {
+  makeSelectVeteranData,
+  makeSelectPendingEdits,
+} from '../../../selectors';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 const EmergencyContact = props => {
   const { router } = props;
@@ -23,9 +26,17 @@ const EmergencyContact = props => {
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
   const { emergencyContact } = demographics;
+
+  const selectPendingEdits = useMemo(makeSelectPendingEdits, []);
+  const { pendingEdits } = useSelector(selectPendingEdits);
+  const { emergencyContact: newInformation } = pendingEdits || {};
+
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isEditingPreCheckInEnabled } = useSelector(selectFeatureToggles);
+
   const dispatch = useDispatch();
 
-  const { goToNextPage, goToPreviousPage } = useFormRouting(router);
+  const { goToNextPage, goToPreviousPage, jumpToPage } = useFormRouting(router);
 
   const buttonClick = useCallback(
     async answer => {
@@ -61,11 +72,13 @@ const EmergencyContact = props => {
     <>
       <BackButton action={goToPreviousPage} router={router} />
       <EmergencyContactDisplay
-        data={emergencyContact}
+        emergencyContact={newInformation || emergencyContact}
         yesAction={yesClick}
         noAction={noClick}
         isLoading={isSendingData}
         Footer={Footer}
+        isEditEnabled={isEditingPreCheckInEnabled}
+        jumpToPage={jumpToPage}
       />
       <BackToHome />
     </>
