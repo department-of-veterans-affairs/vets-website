@@ -70,13 +70,7 @@ module.exports = async on => {
     loader: { '.js': 'jsx' },
     format: 'cjs',
     bundle: true,
-    external: [
-      'web-components/react-bindings',
-      '@@vap-svc/util/local-vapsvc',
-      '~/platform/utilities/ui',
-      '~/platform/utilities/storage/localStorage',
-      '~/platform/utilities/sso',
-    ],
+    external: ['web-components/react-bindings', '@@vap-svc/*', '~/platform/*'],
     nodePaths: [path.resolve(__dirname, '../../../../..')],
     banner: { js: `function require(a) { return a; };` },
     define: {
