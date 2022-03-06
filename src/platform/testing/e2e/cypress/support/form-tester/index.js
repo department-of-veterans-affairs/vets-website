@@ -2,7 +2,7 @@ import path from 'path';
 
 import get from 'platform/utilities/data/get';
 
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
+import disableFTUXModals from 'platform/user/tests/disableFTUXModals';
 
 const APP_SELECTOR = '#react-root';
 const ARRAY_ITEM_SELECTOR =
