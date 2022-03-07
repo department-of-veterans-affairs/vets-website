@@ -69,7 +69,7 @@ module.exports = async on => {
     entryPoints: ['src/**/*.cypress.spec.js*'],
     loader: { '.js': 'jsx' },
     format: 'cjs',
-    bundle: true,
+    // bundle: true,
     external: ['web-components/react-bindings', '@@vap-svc/*', '~/platform/*'],
     nodePaths: [path.resolve(__dirname, '../../../../..')],
     banner: { js: `function require(a) { return a; };` },
