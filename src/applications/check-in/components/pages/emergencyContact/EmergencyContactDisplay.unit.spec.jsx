@@ -67,7 +67,7 @@ describe('pre-check-in experience', () => {
         };
         const { getByText } = render(
           <Provider store={store}>
-            <EmergencyContactDisplay data={emergencyContact} />
+            <EmergencyContactDisplay emergencyContact={emergencyContact} />
           </Provider>,
         );
         expect(getByText('Address')).to.exist;
