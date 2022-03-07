@@ -78,7 +78,7 @@ export default function Relationship(props) {
       title = "Edit emergency contact's relationship to you";
       break;
     default:
-      title = 'Edit relationship value';
+      title = 'Edit relationship';
   }
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 edit-relationship-page">

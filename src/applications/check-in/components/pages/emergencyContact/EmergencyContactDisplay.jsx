@@ -32,7 +32,13 @@ export default function EmergencyContactDisplay({
     [dispatch, jumpToPage],
   );
   const dataFields = [
-    { title: 'Name', key: 'name' },
+    {
+      title: 'Name',
+      key: 'name',
+      editAction: data => {
+        setEditContext(data, URLS.EDIT_NAME);
+      },
+    },
     {
       title: 'Relationship',
       key: 'relationship',

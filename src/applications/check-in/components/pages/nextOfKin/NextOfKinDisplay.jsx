@@ -35,7 +35,13 @@ export default function NextOfKinDisplay({
     [dispatch, jumpToPage],
   );
   const nextOfKinFields = [
-    { title: 'Name', key: 'name' },
+    {
+      title: 'Name',
+      key: 'name',
+      editAction: data => {
+        setEditContext(data, URLS.EDIT_NAME);
+      },
+    },
     {
       title: 'Relationship',
       key: 'relationship',
