@@ -5,10 +5,11 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 // Relative imports.
-import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
+import JumpLink from 'platform/site-wide/jump-link/JumpLink';
+import CernerCallToAction from '../../../components/CernerCallToAction';
 
 const AuthContent = ({
   authenticatedWithSSOe,
@@ -16,19 +17,29 @@ const AuthContent = ({
   otherFacilities,
 }) => (
   <>
-    <h2 className="vads-u-margin-bottom--2 vads-u-font-size--lg">
-      On this page:
-    </h2>
-    <ul>
-      <li>
-        <a href="#va-blue-button">
-          My HealtheVet (VA Blue Button) and My VA Health{' '}
-        </a>
-      </li>
-      <li>
-        <a href="#vhie">The Veterans Health Information Exchange (VHIE)</a>
-      </li>
-    </ul>
+    <nav id="table-of-contents" aria-labelledby="on-this-page">
+      <h2
+        id="on-this-page"
+        className="vads-u-margin-bottom--2 vads-u-font-size--lg"
+      >
+        On this page
+      </h2>
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul className="usa-unstyled-list" role="list">
+        <li className="vads-u-margin-bottom--2">
+          <JumpLink
+            toId="va-blue-button"
+            label="My HealtheVet (VA Blue Button) and My VA Health"
+          />
+        </li>
+        <li className="vads-u-margin-bottom--2">
+          <JumpLink
+            toId="vhie"
+            label="The Veterans Health Information Exchange (VHIE)"
+          />
+        </li>
+      </ul>
+    </nav>
     <h2 id="va-blue-button">My HealtheVet (VA Blue Button) and My VA Health</h2>
     <CernerCallToAction
       cernerFacilities={cernerFacilities}

@@ -1,66 +1,48 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import JumpLink from 'platform/site-wide/jump-link/JumpLink';
 
 const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
-  <div>
-    <h2>On this page</h2>
-    <div className="vads-u-font-family--sans vads-u-display--flex vads-u-flex-direction--column">
+  <nav id="table-of-contents" aria-labelledby="on-this-page">
+    <h2
+      id="on-this-page"
+      className="vads-u-margin-bottom--2 vads-u-font-size--lg"
+    >
+      On this page
+    </h2>
+    {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+    <ul className="usa-unstyled-list" role="list">
       {!isDetailsPage && (
-        <a href="#currentDebts" className="vads-u-margin-y--2">
-          <i
-            aria-hidden="true"
-            role="img"
-            className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm"
-          />
-          Current debts
-        </a>
+        <li className="vads-u-margin-bottom--2">
+          <JumpLink toId="currentDebts" label="Current debts" />
+        </li>
       )}
+
       {hasHistory && (
-        <a href="#debtLetterHistory" className="vads-u-margin-y--2">
-          <i
-            aria-hidden="true"
-            role="img"
-            className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm"
-          />
-          Debt letter history
-        </a>
+        <li className="vads-u-margin-bottom--2">
+          <JumpLink toId="debtLetterHistory" label="Debt letter history" />
+        </li>
       )}
+
       {(!isDetailsPage || hasHistory) && (
-        <a href="#downloadDebtLetters" className="vads-u-margin-y--0">
-          <i
-            aria-hidden="true"
-            role="img"
-            className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm"
-          />
-          Download debt letters
-        </a>
+        <li className="vads-u-margin-bottom--2">
+          <JumpLink toId="downloadDebtLetters" label="Download debt letters" />
+        </li>
       )}
-      <a href="#howDoIPay" className="vads-u-margin-y--2">
-        <i
-          aria-hidden="true"
-          role="img"
-          className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm"
-        />
-        How do I pay my VA debt?
-      </a>
-      <a href="#howDoIGetHelp" className="vads-u-margin-y--0">
-        <i
-          aria-hidden="true"
-          role="img"
-          className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm"
-        />
-        How do I get financial help?
-      </a>
-      <a href="#howDoIDispute" className="vads-u-margin-y--2">
-        <i
-          aria-hidden="true"
-          role="img"
-          className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm"
-        />
-        How do I dispute a debt?
-      </a>
-    </div>
-  </div>
+
+      <li className="vads-u-margin-bottom--2">
+        <JumpLink toId="howDoIPay" label="How do I pay my VA debt?" />
+      </li>
+
+      <li className="vads-u-margin-bottom--2">
+        <JumpLink toId="howDoIGetHelp" label="How do I get financial help?" />
+      </li>
+
+      <li className="vads-u-margin-bottom--2">
+        <JumpLink toId="howDoIDispute" label="How do I dispute a debt?" />
+      </li>
+    </ul>
+  </nav>
 );
 
 OnThisPageLinks.propTypes = {

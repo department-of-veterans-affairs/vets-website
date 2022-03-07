@@ -1,49 +1,44 @@
 import React from 'react';
+import JumpLink from 'platform/site-wide/jump-link/JumpLink';
 
 export const OnThisPage = () => (
-  <>
-    <h2>On this page</h2>
-    <div className="vads-u-font-family--sans vads-u-display--flex vads-u-flex-direction--column">
-      <a href="#download-statements" className="vads-u-margin-y--1">
-        <i
-          aria-hidden="true"
-          role="img"
-          className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm"
+  <nav id="table-of-contents" aria-labelledby="on-this-page">
+    <h2
+      id="on-this-page"
+      className="vads-u-margin-bottom--2 vads-u-font-size--xl"
+    >
+      On this page
+    </h2>
+    {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+    <ul className="usa-unstyled-list" role="list">
+      <li className="vads-u-margin-bottom--2">
+        <JumpLink toId="download-statements" label="Your statements" />
+      </li>
+
+      <li className="vads-u-margin-bottom--2">
+        <JumpLink toId="how-to-pay" label="How do I pay my VA copay bill?" />
+      </li>
+
+      <li className="vads-u-margin-bottom--2">
+        <JumpLink
+          toId="how-to-get-financial-help"
+          label="How do I get financial help for my copays?"
         />
-        Your statements
-      </a>
-      <a href="#how-to-pay" className="vads-u-margin-y--1">
-        <i
-          aria-hidden="true"
-          role="img"
-          className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm"
+      </li>
+
+      <li className="vads-u-margin-bottom--2">
+        <JumpLink
+          toId="dispute-charges"
+          label="How do I dispute my copay charges?"
         />
-        How do I pay my VA copay bill?
-      </a>
-      <a href="#how-to-get-financial-help" className="vads-u-margin-y--1">
-        <i
-          aria-hidden="true"
-          role="img"
-          className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm"
+      </li>
+
+      <li className="vads-u-margin-bottom--2">
+        <JumpLink
+          toId="balance-questions"
+          label="What to do if you have questions about your balance"
         />
-        How do I get financial help for my copays?
-      </a>
-      <a href="#dispute-charges" className="vads-u-margin-y--1">
-        <i
-          aria-hidden="true"
-          role="img"
-          className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm"
-        />
-        How do I dispute my copay charges?
-      </a>
-      <a href="#balance-questions" className="vads-u-margin-y--1">
-        <i
-          aria-hidden="true"
-          role="img"
-          className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm"
-        />
-        What to do if you have questions about your balance
-      </a>
-    </div>
-  </>
+      </li>
+    </ul>
+  </nav>
 );

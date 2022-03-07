@@ -1,13 +1,13 @@
 import React from 'react';
 import _ from 'lodash';
 
+import JumpLink from 'platform/site-wide/jump-link/JumpLink';
 import VetTecApprovedProgramsList from './VetTecApprovedProgramsList';
 import ContactInformation from '../profile/ContactInformation';
 
 import VetTecVeteranPrograms from './VetTecVeteranPrograms';
 import VetTecEstimateYourBenefits from '../../containers/VetTecEstimateYourBenefits';
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
-import JumpLink from '../profile/JumpLink';
 import ProfileSection from '../profile/ProfileSection';
 import CautionaryInformation from '../profile/CautionaryInformation';
 import GettingStartedWithVetTec from './GettingStartedWithVetTec';
@@ -39,36 +39,64 @@ export default function InstitutionProfile({
         </div>
 
         <div className="usa-width-one-fourth">
-          <h2 className="vads-u-padding-top--2 small-screen-header">
-            On this page
-          </h2>
-          {hasPrograms && (
-            <JumpLink
-              label="Calculate your benefits"
-              jumpToId="calculate-your-benefits"
-            />
-          )}
-          <JumpLink label="Approved programs" jumpToId="approved-programs" />
-          <JumpLink
-            label="Getting started with VET TEC"
-            jumpToId="getting-started-with-benefits"
-          />
-          <JumpLink
-            label="Cautionary information"
-            jumpToId="cautionary-information"
-          />
-          <JumpLink
-            label="Veteran programs"
-            jumpToId="profile-veteran-programs"
-          />
-          <JumpLink
-            label="Get started with CareerScope"
-            jumpToId="get-started-with-career-scope"
-          />
-          <JumpLink
-            label="Contact Information"
-            jumpToId="contact-information"
-          />
+          <nav id="table-of-contents" aria-labelledby="on-this-page">
+            <h2
+              id="on-this-page"
+              className="vads-u-margin-bottom--2 vads-u-font-size--xl"
+            >
+              On this page
+            </h2>
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+            <ul className="usa-unstyled-list" role="list">
+              {hasPrograms && (
+                <li className="vads-u-margin-bottom--2">
+                  <JumpLink
+                    toId="calculate-your-benefits"
+                    label="Calculate your benefits"
+                  />
+                </li>
+              )}
+
+              <li className="vads-u-margin-bottom--2">
+                <JumpLink toId="approved-programs" label="Approved programs" />
+              </li>
+
+              <li className="vads-u-margin-bottom--2">
+                <JumpLink
+                  toId="getting-started-with-benefits"
+                  label="Getting started with VET TEC"
+                />
+              </li>
+
+              <li className="vads-u-margin-bottom--2">
+                <JumpLink
+                  toId="cautionary-information"
+                  label="Cautionary information"
+                />
+              </li>
+
+              <li className="vads-u-margin-bottom--2">
+                <JumpLink
+                  toId="profile-veteran-programs"
+                  label="Veteran programs"
+                />
+              </li>
+
+              <li className="vads-u-margin-bottom--2">
+                <JumpLink
+                  toId="get-started-with-career-scope"
+                  label="Get started with CareerScope"
+                />
+              </li>
+
+              <li className="vads-u-margin-bottom--2">
+                <JumpLink
+                  toId="contact-information"
+                  label="Contact Information"
+                />
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
       {hasPrograms && (

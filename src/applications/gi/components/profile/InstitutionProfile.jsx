@@ -1,22 +1,22 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 import React from 'react';
 
-import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import { getScrollOptions } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
+import JumpLink from 'platform/site-wide/jump-link/JumpLink';
+import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import SchoolLocations from './SchoolLocations';
 import CautionaryInformation from './CautionaryInformation';
-import JumpLink from './JumpLink';
 import ProfileSection from './ProfileSection';
 import ContactInformation from './ContactInformation';
 import CalculateYourBenefits from '../../containers/CalculateYourBenefits';
 import { convertRatingToStars } from '../../utils/helpers';
 import SchoolRatings from './SchoolRatings';
 import { MINIMUM_RATING_COUNT } from '../../constants';
-import GettingStartedWithBenefits from '../profile/GettingStartedWithBenefits';
+import GettingStartedWithBenefits from './GettingStartedWithBenefits';
 import Academics from './Academics';
 import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 import BackToTop from '../BackToTop';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export default function InstitutionProfile({
   institution,
@@ -60,38 +60,71 @@ export default function InstitutionProfile({
         </div>
 
         <div className="usa-width-one-fourth">
-          <h2 className="vads-u-padding-top--2 small-screen-header">
-            On this page
-          </h2>
-          <JumpLink
-            label="Calculate your benefits"
-            jumpToId="calculate-your-benefits"
-          />
-          <JumpLink
-            label="Getting started with benefits"
-            jumpToId="getting-started-with-benefits"
-          />
-          {displayStars && (
-            <JumpLink label="Veteran ratings" jumpToId="veteran-ratings" />
-          )}
-          <JumpLink
-            label="Cautionary information"
-            jumpToId="cautionary-information"
-          />
-          {shouldShowSchoolLocations(institution.facilityMap) && (
-            <JumpLink label="School locations" jumpToId="school-locations" />
-          )}
-          {!isOJT && <JumpLink label="Academics" jumpToId="academics" />}
-          {!isOJT && (
-            <JumpLink
-              label="Veteran programs and support"
-              jumpToId="veteran-programs-and-support"
-            />
-          )}
-          <JumpLink
-            label="Contact information"
-            jumpToId="contact-information"
-          />
+          <nav id="table-of-contents" aria-labelledby="on-this-page">
+            <h2
+              id="on-this-page"
+              className="vads-u-margin-bottom--2 vads-u-font-size--xl"
+            >
+              On this page
+            </h2>
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+            <ul className="usa-unstyled-list" role="list">
+              <li className="vads-u-margin-bottom--2">
+                <JumpLink
+                  toId="calculate-your-benefits"
+                  label="Calculate your benefits"
+                />
+              </li>
+
+              <li className="vads-u-margin-bottom--2">
+                <JumpLink
+                  toId="getting-started-with-benefits"
+                  label="Getting started with benefits"
+                />
+              </li>
+
+              {displayStars && (
+                <li className="vads-u-margin-bottom--2">
+                  <JumpLink toId="veteran-ratings" label="Veteran ratings" />
+                </li>
+              )}
+
+              <li className="vads-u-margin-bottom--2">
+                <JumpLink
+                  toId="cautionary-information"
+                  label="Cautionary information"
+                />
+              </li>
+
+              {shouldShowSchoolLocations(institution.facilityMap) && (
+                <li className="vads-u-margin-bottom--2">
+                  <JumpLink toId="school-locations" label="School locations" />
+                </li>
+              )}
+
+              {!isOJT && (
+                <li className="vads-u-margin-bottom--2">
+                  <JumpLink toId="academics" label="Academics" />
+                </li>
+              )}
+
+              {!isOJT && (
+                <li className="vads-u-margin-bottom--2">
+                  <JumpLink
+                    toId="veteran-programs-and-support"
+                    label="Veteran programs and support"
+                  />
+                </li>
+              )}
+
+              <li className="vads-u-margin-bottom--2">
+                <JumpLink
+                  toId="contact-information"
+                  label="Contact Information"
+                />
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
 

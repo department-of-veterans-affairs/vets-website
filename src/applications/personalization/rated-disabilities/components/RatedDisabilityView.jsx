@@ -6,9 +6,9 @@ import Telephone, {
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { getAppUrl } from 'platform/utilities/registry-helpers';
+import JumpLink from 'platform/site-wide/jump-link/JumpLink';
 
-import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
-import { OnThisPageLink } from './OnThisPageLink';
+import TotalRatedDisabilities from './TotalRatedDisabilities';
 import RatedDisabilityList from './RatedDisabilityList';
 
 const facilityLocatorUrl = getAppUrl('facilities');
@@ -65,30 +65,39 @@ class RatedDisabilityView extends React.Component {
     } = this.props;
 
     let content;
-    let onThisPageHeader = '';
-    let combinedRatingLink = '';
-    let ratedDisabilitiesLink = '';
-    let learnMoreLink = '';
+    let tableOfContents = '';
 
     // If there are rated disabilites then the page gets long enough to fill these links
     if (ratedDisabilities?.ratedDisabilities?.length > 0) {
-      onThisPageHeader = <h2 className="vads-u-font-size--h3">On this page</h2>;
-      combinedRatingLink = (
-        <OnThisPageLink
-          text="Your combined disability rating"
-          link="#combined-rating"
-        />
-      );
+      tableOfContents = (
+        <nav id="table-of-contents" aria-labelledby="on-this-page">
+          <h2
+            id="on-this-page"
+            className="vads-u-margin-bottom--2 vads-u-font-size--lg"
+          >
+            On this page
+          </h2>
+          {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+          <ul className="usa-unstyled-list" role="list">
+            <li className="vads-u-margin-bottom--2">
+              <JumpLink
+                toId="combined-rating"
+                label="Your combined disability rating"
+              />
+            </li>
 
-      ratedDisabilitiesLink = (
-        <OnThisPageLink
-          text="Your individual ratings"
-          link="#individual-ratings"
-        />
-      );
+            <li className="vads-u-margin-bottom--2">
+              <JumpLink
+                toId="individual-ratings"
+                label="Your individual ratings"
+              />
+            </li>
 
-      learnMoreLink = (
-        <OnThisPageLink text="Learn about VA disabilities" link="#learn" />
+            <li className="vads-u-margin-bottom--2">
+              <JumpLink toId="learn" label="Learn about VA disabilities" />
+            </li>
+          </ul>
+        </nav>
       );
     }
 
@@ -102,12 +111,7 @@ class RatedDisabilityView extends React.Component {
                 <div className="vads-l-col--12">
                   <h1>View your VA disability ratings</h1>
                 </div>
-                <div className="usa-width-one-third">
-                  {onThisPageHeader}
-                  {combinedRatingLink}
-                  {ratedDisabilitiesLink}
-                  {learnMoreLink}
-                </div>
+                <div className="usa-width-one-third">{tableOfContents}</div>
               </div>
               <TotalRatedDisabilities
                 totalDisabilityRating={totalDisabilityRating}

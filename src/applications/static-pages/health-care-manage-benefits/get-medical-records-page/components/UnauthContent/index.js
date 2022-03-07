@@ -6,20 +6,31 @@ import Telephone, {
 // Relative imports.
 import CallToActionWidget from 'applications/static-pages/cta-widget';
 import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
+import JumpLink from 'platform/site-wide/jump-link/JumpLink';
 
 const UnauthContent = () => (
   <>
-    <h2 className="vads-u-margin-bottom--2 vads-u-font-size--lg">
-      On this page:
-    </h2>
-    <ul>
-      <li>
-        <a href="#va-blue-button">VA Blue Button</a>
-      </li>
-      <li>
-        <a href="#vhie">The Veterans Health Information Exchange (VHIE)</a>
-      </li>
-    </ul>
+    <nav id="table-of-contents" aria-labelledby="on-this-page">
+      <h2
+        id="on-this-page"
+        className="vads-u-margin-bottom--2 vads-u-font-size--lg"
+      >
+        On this page
+      </h2>
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul className="usa-unstyled-list" role="list">
+        <li className="vads-u-margin-bottom--2">
+          <JumpLink toId="va-blue-button" label="VA Blue Button" />
+        </li>
+        <li className="vads-u-margin-bottom--2">
+          <JumpLink
+            toId="vhie"
+            label="The Veterans Health Information Exchange (VHIE)"
+          />
+        </li>
+      </ul>
+    </nav>
+
     <h2 id="va-blue-button">VA Blue Button</h2>
     <CallToActionWidget appId="health-records" setFocus={false} />
     <h3>

@@ -3,46 +3,43 @@ import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+import JumpLink from 'platform/site-wide/jump-link/JumpLink';
 
 export const ViewRepresentativeDetails = props => (
   <>
-    <h2 className="vads-u-font-size--h3 vads-u-margin-top--6">On this page</h2>
-    {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-    <ul className="usa-unstyled-list vads-u-margin-top--2" role="list">
-      <li>
-        <a href="#selectedRepresentative">
-          <i
-            aria-hidden="true"
-            className="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1"
+    <nav id="table-of-contents" aria-labelledby="on-this-page">
+      <h2
+        id="on-this-page"
+        className="vads-u-margin-bottom--2 vads-u-font-size--lg"
+      >
+        On this page
+      </h2>
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul className="usa-unstyled-list" role="list">
+        <li className="vads-u-margin-bottom--2">
+          <JumpLink
+            toId="selectedRepresentative"
+            label="Your selected representative for claims"
           />
-          Your selected representative for claims
-        </a>
-      </li>
-      <li className="vads-u-margin-top--3">
-        <a href="#whatCanRepresentativeDo">
-          <i
-            aria-hidden="true"
-            className="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1"
+        </li>
+        <li className="vads-u-margin-bottom--2">
+          <JumpLink
+            toId="whatCanRepresentativeDo"
+            label="What can a representative do?"
           />
-          What can a representative do?
-        </a>
-      </li>
-      <li className="vads-u-margin-top--3">
-        <a href="#whatDoesItCost">
-          <i
-            aria-hidden="true"
-            className="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1"
+        </li>
+        <li className="vads-u-margin-bottom--2">
+          <JumpLink
+            toId="whatDoesItCost"
+            label="What does it cost to use a recognized representative or a VSO?"
           />
-          What does it cost to use a recognized representative or a VSO?
-        </a>
-      </li>
-      <li className="vads-u-margin-top--3">
-        <a href="">
-          <i className="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1" />
-          Need help?
-        </a>
-      </li>
-    </ul>
+        </li>
+        <li className="vads-u-margin-bottom--2">
+          <JumpLink toId="getHelp" label="Need help?" />
+        </li>
+      </ul>
+    </nav>
+
     <h2 id="selectedRepresentative" className="vads-u-margin-top--5">
       Your selected representative for VA claims
     </h2>
@@ -113,7 +110,7 @@ export const ViewRepresentativeDetails = props => (
       claims agent or attorney charged a fee that is too high, you can challenge
       it.
     </p>
-    <div className="help-footer-box">
+    <div id="getHelp" className="help-footer-box">
       <h2
         className="help-heading vads-u-border-bottom--3px vads-u-border-color--link-default vads-u-font-size--h3 vads-u-padding-bottom--1
 "
