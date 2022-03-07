@@ -37,6 +37,7 @@ function LocationSearchResults({
   dispatchFetchSearchByLocationCoords,
   filtersChanged,
   smallScreen,
+  landscape,
   dispatchMapChanged,
 }) {
   const { inProgress } = search;
@@ -51,7 +52,6 @@ function LocationSearchResults({
   const [markerClicked, setMarkerClicked] = useState(null);
   const [activeMarker, setActiveMarker] = useState(null);
   const [myLocation, setMyLocation] = useState(null);
-  const [isLandscape, setIsLandscape] = useState(false);
   const usingUserLocation = () => {
     const currentPositions = document.getElementsByClassName(
       'current-position',
@@ -63,22 +63,6 @@ function LocationSearchResults({
 
     return true;
   };
-
-  /**
-   * Check if using mobile device and if device is in landscape orientation
-   */
-  const setOrientation = () => {
-    const orientationAngle = !window.screen.orientation.angle;
-    const mobileDevice = !navigator.maxTouchPoints;
-    if (!orientationAngle && !mobileDevice) return true;
-    return false;
-  };
-
-  useEffect(() => {
-    if (!environment.isProduction()) {
-      setIsLandscape(setOrientation);
-    }
-  }, []);
 
   /**
    * When map is moved update distance from center to NorthEast corner
@@ -190,7 +174,7 @@ function LocationSearchResults({
     }
     return (
       smallScreen ||
-      isLandscape ||
+      landscape ||
       !mapState.changed ||
       map.current.getBounds().contains(lngLat)
     );
@@ -265,7 +249,7 @@ function LocationSearchResults({
       });
     } else {
       popup.on('open', () => {
-        if (smallScreen || isLandscape) {
+        if (smallScreen || landscape) {
           setMobileTab(LIST_TAB);
         }
         setMarkerClicked(name);
@@ -313,7 +297,7 @@ function LocationSearchResults({
    */
   useEffect(
     () => {
-      if (smallScreen || isLandscape) {
+      if (smallScreen || landscape) {
         map.current = null;
       }
       setupMap();
@@ -323,7 +307,7 @@ function LocationSearchResults({
       let visibleResults = [];
       const mapMarkers = [];
 
-      if (smallScreen || isLandscape) {
+      if (smallScreen || landscape) {
         visibleResults = results;
       }
 
@@ -372,7 +356,7 @@ function LocationSearchResults({
       setUsedFilters(getFiltersChanged(filters));
       setMarkers(mapMarkers);
     },
-    [results, smallScreen, isLandscape, mobileTab],
+    [results, smallScreen, landscape, mobileTab],
   );
 
   /**
@@ -487,7 +471,7 @@ function LocationSearchResults({
               <FilterYourResults />
             </>
           )}
-          {(smallScreen || isLandscape) && (
+          {(smallScreen || landscape) && (
             <MobileFilterControls className="vads-u-margin-top--2" />
           )}
         </>
@@ -636,6 +620,7 @@ function LocationSearchResults({
     const containerClassNames = classNames({
       'vads-u-display--none': !visible,
     });
+    const isMobileDevice = smallScreen || landscape;
     return (
       <div className={containerClassNames}>
         <map
@@ -646,7 +631,7 @@ function LocationSearchResults({
           role="region"
         >
           {mapState.changed &&
-            (!isLandscape || !smallScreen) && (
+            !isMobileDevice && (
               <div
                 id="search-area-control-container"
                 className="mapboxgl-ctrl-top-center"
@@ -673,7 +658,7 @@ function LocationSearchResults({
   const smallScreenCount = search.location.count;
 
   // returns content ordered and setup for smallScreens
-  if (smallScreen || isLandscape) {
+  if (smallScreen || landscape) {
     return (
       <div className="location-search vads-u-padding--1">
         {inProgress && (
