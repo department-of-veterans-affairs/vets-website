@@ -37,7 +37,7 @@ module.exports = async on => {
           )}';`;
           contents = `${injectedStuff}\n\n${contents
             .replace(/~\//g, '')
-            .replace(/@@/g, 'applications/personalization/')}`;
+            .replace(/@@profile/g, 'applications/personalization/')}`;
           return {
             contents,
             loader: 'jsx',
