@@ -84,6 +84,14 @@ module.exports = async on => {
     }
   });
 
+  on('before:run', details => {
+    if (process.env.CYPRESS_CI) {
+      details.specs.forEach(spec =>
+        fs.closeSync(fs.openSync(spec.absolute, 'w')),
+      );
+    }
+  });
+
   on('task', {
     /* eslint-disable no-console */
     log: message => console.log(message) || null,
