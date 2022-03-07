@@ -27,9 +27,6 @@ const Pending = ({ referenceNumber, requestDate, status }) => (
         case management team recommends that you do this.
       </p>
     </div>
-    <h2 className="vads-u-margin-top--6">
-      Follow these steps to make another request for a VA home loan COE
-    </h2>
   </>
 );
 

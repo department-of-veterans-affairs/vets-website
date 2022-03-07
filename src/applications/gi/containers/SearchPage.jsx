@@ -7,10 +7,13 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 import SearchTabs from '../components/search/SearchTabs';
 import { TABS } from '../constants';
 import NameSearchResults from './search/NameSearchResults';
 import LocationSearchResults from './search/LocationSearchResults';
+import LocationSearchResultsOld from './search/LocationSearchResultsOld';
+
 import { isSmallScreen } from '../utils/helpers';
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
@@ -57,7 +60,11 @@ export function SearchPage({
 
   const tabbedResults = {
     [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
-    [TABS.location]: <LocationSearchResults smallScreen={smallScreen} />,
+    [TABS.location]: environment.isProduction() ? (
+      <LocationSearchResultsOld smallScreen={smallScreen} />
+    ) : (
+      <LocationSearchResults smallScreen={smallScreen} />
+    ),
   };
 
   const tabChange = selectedTab => {

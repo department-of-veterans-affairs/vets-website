@@ -785,6 +785,12 @@ describe('VAOS Appointment service', () => {
             createMockAppointmentByVersion({
               version: 2,
               ...data,
+              requestedPeriods: [
+                {
+                  start: `${moment().format('YYYY-MM-DD')}T00:00:00Z`,
+                  end: `${moment().format('YYYY-MM-DD')}T11:59:59Z`,
+                },
+              ],
             }),
           ],
         },
@@ -876,6 +882,12 @@ describe('VAOS Appointment service', () => {
             createMockAppointmentByVersion({
               version: 2,
               ...data,
+              requestedPeriods: [
+                {
+                  start: `${moment().format('YYYY-MM-DD')}T00:00:00Z`,
+                  end: `${moment().format('YYYY-MM-DD')}T11:59:59Z`,
+                },
+              ],
             }),
           ],
         },

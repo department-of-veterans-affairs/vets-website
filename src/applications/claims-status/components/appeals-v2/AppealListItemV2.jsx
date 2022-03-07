@@ -81,9 +81,7 @@ export default function AppealListItem({ appeal, name, external = false }) {
 
   return (
     <div className="claim-list-item-container">
-      <h2 className="claim-list-item-header-v2 vads-u-font-size--h3">
-        {appealTitle}
-      </h2>
+      <h3 className="claim-list-item-header-v2">{appealTitle}</h3>
       <div className="card-status">
         {!external && (
           <div

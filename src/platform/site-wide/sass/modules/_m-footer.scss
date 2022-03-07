@@ -194,9 +194,7 @@
   @include accessibly-hidden();
 }
 
-.va-footer-link-label {
-  display: block;
-  font-weight: bold;
+.va-footer-link-text {
   color: $color-white;
-  margin-top: 15px;
 }
+

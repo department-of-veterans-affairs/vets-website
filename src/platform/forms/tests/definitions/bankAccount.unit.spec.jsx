@@ -4,9 +4,9 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 
+import definitions from 'vets-json-schema/dist/definitions.json';
 import { DefinitionTester } from '../../../testing/unit/schemaform-utils.jsx';
 import uiSchema from '../../definitions/bankAccount';
-import definitions from 'vets-json-schema/dist/definitions.json';
 
 describe('Schemaform definition bankAccount', () => {
   it('should render bankAccount', () => {

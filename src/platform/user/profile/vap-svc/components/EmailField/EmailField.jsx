@@ -25,6 +25,7 @@ const formSchema = {
 const uiSchema = {
   emailAddress: {
     'ui:title': 'Email Address',
+    'ui:autocomplete': 'email',
     'ui:errorMessages': {
       required: 'Please enter your email address, using this format: X@X.com',
       pattern:

@@ -30,7 +30,8 @@ export default class PhoneNumberWidget extends React.Component {
     return (
       <TextWidget
         {...this.props}
-        type={'tel'}
+        type="tel"
+        autocomplete="tel"
         value={this.state.val}
         onChange={this.handleChange}
       />
