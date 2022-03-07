@@ -10,7 +10,7 @@ describe('Get Medical Records Page <UnauthContent>', () => {
     const wrapper = shallow(<UnauthContent />);
 
     const text = wrapper.text();
-    expect(text).to.include('On this page:');
+    expect(text).to.include('On this page');
     expect(text).to.include('VA Blue Button');
     expect(text).to.include(
       'What is VA Blue Button, and how can it help me manage my health care?',
