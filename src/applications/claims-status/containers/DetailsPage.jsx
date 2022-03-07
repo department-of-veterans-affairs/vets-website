@@ -48,14 +48,14 @@ class DetailsPage extends React.Component {
     if (!loading) {
       content = (
         <>
-          <h2 className="vads-u-visibility--screen-reader">Claim details</h2>
+          <h3 className="vads-u-visibility--screen-reader">Claim details</h3>
           <dl className="claim-details">
             <dt className="claim-detail-label">
-              <h3 className="vads-u-font-size--h4">Claim type</h3>
+              <h4>Claim type</h4>
             </dt>
             <dd>{claim.attributes.claimType || 'Not Available'}</dd>
             <dt className="claim-detail-label">
-              <h3 className="vads-u-font-size--h4">What you’ve claimed</h3>
+              <h4>What you’ve claimed</h4>
             </dt>
             <dd>
               {claim.attributes.contentionList &&
@@ -72,13 +72,11 @@ class DetailsPage extends React.Component {
               )}
             </dd>
             <dt className="claim-detail-label">
-              <h3 className="vads-u-font-size--h4">Date received</h3>
+              <h4>Date received</h4>
             </dt>
             <dd>{moment(claim.attributes.dateFiled).format('MMM D, YYYY')}</dd>
             <dt className="claim-detail-label">
-              <h3 className="vads-u-font-size--h4">
-                Your representative for VA claims
-              </h3>
+              <h4>Your representative for VA claims</h4>
             </dt>
             <dd>{claim.attributes.vaRepresentative || 'Not Available'}</dd>
           </dl>

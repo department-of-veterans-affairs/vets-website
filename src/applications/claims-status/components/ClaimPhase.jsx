@@ -148,7 +148,7 @@ export default class ClaimPhase extends React.Component {
       if (!showAll && activityList.length > INITIAL_ACTIVITY_ROWS) {
         return (
           <>
-            activityListContent}
+            {activityListContent}
             <button
               type="button"
               className="claim-older-updates usa-button-secondary"
