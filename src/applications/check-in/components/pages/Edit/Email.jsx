@@ -83,7 +83,7 @@ export default function Email(props) {
         jumpToPage={jumpToPage}
         backPage={originatingUrl}
         clearData={clearEditContext}
-        handleUpdateEmail={handleUpdateEmail}
+        handleUpdate={handleUpdateEmail}
       />
       <CancelButton
         jumpToPage={jumpToPage}
