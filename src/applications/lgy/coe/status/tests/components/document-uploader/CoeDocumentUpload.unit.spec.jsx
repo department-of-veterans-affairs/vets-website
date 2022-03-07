@@ -69,26 +69,4 @@ describe('DocumentUploader', () => {
     expect(input.files.item(0)).to.equal(file2);
     expect(input.files).to.have.lengthOf(1);
   });
-
-  it('should delete an uploaded file', () => {
-    const file = [new File(['hello'], 'hello.png', { type: 'image/png' })];
-    const screen = render(<DocumentUploader />);
-    userEvent.selectOptions(screen.getByRole('combobox'), [
-      'Discharge or separation papers (DD214)',
-    ]);
-    const input = screen.getByLabelText(/Upload your document/i);
-
-    userEvent.upload(input, file);
-
-    expect(input.files[0]).equal(file);
-    screen.debug();
-    // expect(screen.getByText('hello.png')).to.exist;
-
-    // const deleteBtn = screen.getByLabelText(/Delete file/i);
-    // userEvent.click(deleteBtn);
-    // expect(screen.getAllByText(/Delete file/i)).to.have.lengthOf(0);
-    // expect(screen.getByText('hello.png')).to.exist;
-    // expect(screen.getByText('kenobi.png')).to.exist;
-    // expect(screen.queryByText('there.png')).to.not.exist;
-  });
 });
