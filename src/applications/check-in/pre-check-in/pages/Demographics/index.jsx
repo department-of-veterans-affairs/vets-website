@@ -48,10 +48,12 @@ const Demographics = props => {
       });
       if (isEditingPreCheckInEnabled) {
         setIsLoading(true);
-        await api.v2.postDemographicsData({
-          demographics: newInformation,
-          token,
-        });
+        if (newInformation) {
+          await api.v2.postDemographicsData({
+            demographics: newInformation,
+            token,
+          });
+        }
         await api.v2.postPreCheckInData({
           uuid: token,
           demographicsUpToDate: 'yes',

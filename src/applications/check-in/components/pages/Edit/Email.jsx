@@ -22,6 +22,7 @@ export default function Email(props) {
   const { jumpToPage } = useFormRouting(router);
   const selectEditContext = useMemo(makeSelectEditContext, []);
   const { editing } = useSelector(selectEditContext);
+
   const { editingPage, key, originatingUrl, value } = editing;
   const [email, setEmail] = useState(value);
   const [errorMessage, setErrorMessage] = useState();
@@ -29,11 +30,13 @@ export default function Email(props) {
   const dispatch = useDispatch();
   const handleUpdateEmail = useCallback(
     () => {
-      dispatch(
-        createSetPendingEditedData({ emailAddress: email }, editingPage),
-      );
+      if (email !== value) {
+        dispatch(
+          createSetPendingEditedData({ emailAddress: email }, editingPage),
+        );
+      }
     },
-    [dispatch, editingPage, email],
+    [dispatch, editingPage, email, value],
   );
   const clearEditContext = useCallback(
     () => {
