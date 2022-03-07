@@ -24,7 +24,7 @@ describe('formatMultiSelectAndText utility', () => {
         { pronouns: ['heHimHis', 'theyThemTheirs'] },
         'pronouns',
       ),
-    ).to.equal('He/him/his, They/them/theirs');
+    ).to.equal('He/him/his; They/them/theirs');
   });
 
   it('returns pronounsNotListedText value', () => {
