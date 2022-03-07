@@ -79,7 +79,7 @@ module.exports = async on => {
         fs.unlinkSync(results.video);
       } catch (error) {
         // eslint-disable-next-line no-console
-        console.error(error);
+        console.error('No video generated.');
       }
     }
   });
