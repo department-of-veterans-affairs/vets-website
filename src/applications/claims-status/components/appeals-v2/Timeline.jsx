@@ -33,6 +33,7 @@ class Timeline extends React.Component {
 
   render() {
     const { events, missingEvents } = this.props;
+    const { expanded } = this.state;
     let pastEventsList = [];
     if (events.length) {
       pastEventsList = events
@@ -59,16 +60,14 @@ class Timeline extends React.Component {
         .filter(e => !!e); // Filter out the nulls
     }
 
-    const downArrow = this.state.expanded ? (
-      <div className="down-arrow" />
-    ) : null;
-    const displayedEvents = this.state.expanded ? pastEventsList : [];
+    const downArrow = expanded ? <div className="down-arrow" /> : null;
+    const displayedEvents = expanded ? pastEventsList : [];
 
     return (
       <div>
-        <ol className="form-process appeal-timeline">
+        <ol id="appeal-timeline" className="form-process appeal-timeline">
           <Expander
-            expanded={this.state.expanded}
+            expanded={expanded}
             key="expander"
             dateRange={this.formatDateRange()}
             onToggle={this.toggleExpanded}

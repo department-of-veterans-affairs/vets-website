@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import { getClaimType } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 class DetailsPage extends React.Component {
   componentDidMount() {
@@ -19,6 +21,7 @@ class DetailsPage extends React.Component {
       setFocus('.va-tab-trigger--current');
     }
   }
+
   componentDidUpdate(prevProps) {
     if (
       !this.props.loading &&
@@ -31,11 +34,13 @@ class DetailsPage extends React.Component {
       this.setTitle();
     }
   }
+
   setTitle() {
     document.title = this.props.loading
       ? 'Details - Your Claim'
       : `Details - Your ${getClaimType(this.props.claim)} Claim`;
   }
+
   render() {
     const { claim, loading, synced } = this.props;
 
@@ -43,9 +48,13 @@ class DetailsPage extends React.Component {
     if (!loading) {
       content = (
         <dl className="claim-details">
-          <dt className="claim-detail-label">Claim type</dt>
+          <dt className="claim-detail-label">
+            <h3 className="vads-u-font-size--h4">Claim type</h3>
+          </dt>
           <dd>{claim.attributes.claimType || 'Not Available'}</dd>
-          <dt className="claim-detail-label">What you’ve claimed</dt>
+          <dt className="claim-detail-label">
+            <h3 className="vads-u-font-size--h4">What you’ve claimed</h3>
+          </dt>
           <dd>
             {claim.attributes.contentionList &&
             claim.attributes.contentionList.length ? (
@@ -60,10 +69,14 @@ class DetailsPage extends React.Component {
               'Not Available'
             )}
           </dd>
-          <dt className="claim-detail-label">Date received</dt>
+          <dt className="claim-detail-label">
+            <h3 className="vads-u-font-size--h4">Date received</h3>
+          </dt>
           <dd>{moment(claim.attributes.dateFiled).format('MMM D, YYYY')}</dd>
           <dt className="claim-detail-label">
-            Your representative for VA claims
+            <h3 className="vads-u-font-size--h4">
+              Your representative for VA claims
+            </h3>
           </dt>
           <dd>{claim.attributes.vaRepresentative || 'Not Available'}</dd>
         </dl>
