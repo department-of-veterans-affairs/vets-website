@@ -45,32 +45,17 @@ module.exports = async on => {
     },
   };
 
-  // eslint-disable-next-line no-useless-escape, prettier/prettier
-  const nodeModules2 = new RegExp(/^(?:.*[\\\/])?node_modules\/url-search-params(?:[\\\/].*)?$/);
-  const dirnamePlugin2 = {
-    name: 'dirname2',
-
-    setup(build) {
-      // eslint-disable-next-line consistent-return
-      build.onLoad({ filter: /.js?$/ }, ({ path: filePath }) => {
-        if (filePath.match(nodeModules2)) {
-          let contents = fs.readFileSync(filePath, 'utf8');
-          contents = ` `;
-          return {
-            contents,
-            loader: 'jsx',
-          };
-        }
-      });
-    },
-  };
-
   const bundler = createBundler({
     entryPoints: ['src/**/*.cypress.spec.js*'],
     loader: { '.js': 'jsx' },
     format: 'cjs',
     // bundle: true,
-    external: ['web-components/react-bindings', '@@vap-svc/*', '~/platform/*'],
+    external: [
+      'web-components/react-bindings',
+      'url-search-params',
+      '@@vap-svc/*',
+      '~/platform/*',
+    ],
     nodePaths: [path.resolve(__dirname, '../../../../..')],
     banner: { js: `function require(a) { return a; };` },
     define: {
@@ -80,7 +65,7 @@ module.exports = async on => {
       'process.env.NODE_ENV': '"production"',
       'process.env.BUILDTYPE': '"production"',
     },
-    plugins: [dirnamePlugin, dirnamePlugin2],
+    plugins: [dirnamePlugin],
     platform: 'browser',
     target: ['esnext', 'node14'],
   });
