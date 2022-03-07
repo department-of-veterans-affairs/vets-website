@@ -36,7 +36,7 @@ const isProduction = environment.isProduction();
 
 const newItemName = isProduction ? 'account' : 'account information';
 
-const directDepositDescription = formData => {
+const directDepositDescription = () => {
   return (
     <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
       <p>
@@ -48,13 +48,6 @@ const directDepositDescription = formData => {
         src="/img/direct-deposit-check-guide.svg"
         alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
       />
-      {!environment.isProduction() &&
-        hasPrefillBankInfo(formData) && (
-          <p>
-            This is the bank account information we have on file for you. We’ll
-            send your housing payment to this account.
-          </p>
-        )}
     </div>
   );
 };
