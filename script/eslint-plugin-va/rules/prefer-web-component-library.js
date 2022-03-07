@@ -86,6 +86,8 @@ const modalTransformer = (context, node) => {
   const contentsNode = getPropNode(node, 'contents');
   const contentsValue = contentsNode?.value.expression || contentsNode?.value;
 
+  const sourceCode = context.getSourceCode();
+
   context.report({
     node,
     message: MESSAGE, // customize message?
@@ -110,8 +112,12 @@ const modalTransformer = (context, node) => {
               contentsNode &&
               fixer.insertTextAfter(
                 node.openingElement,
-                'CONTENTS GOES HERE' + '</VaModal>',
+                (contentsValue.type === 'Identifier'
+                  ? `{${sourceCode.getText(contentsValue)}}`
+                  : sourceCode.getText(contentsValue)) + '</VaModal>',
               ),
+
+            !closingTag && fixer.removeRange(node.openingElement.range[1]),
 
             // RENAME PROPS
             titleNode && fixer.replaceText(titleNode.name, 'modalTitle'),
