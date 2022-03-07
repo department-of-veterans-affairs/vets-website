@@ -4,7 +4,7 @@ import React from 'react';
 import ErrorMessage from '../components/ErrorMessage';
 
 describe('ErrorMessage', () => {
-  it('should render AlertBox', () => {
+  it('should render va-alert', () => {
     const fakeStore = {
       getState: () => ({
         mdot: {
@@ -16,8 +16,8 @@ describe('ErrorMessage', () => {
       dispatch: () => {},
     };
     const errorMessage = mount(<ErrorMessage store={fakeStore} />);
-    const alertBox = errorMessage.find('AlertBox');
-    expect(alertBox).not.to.be.undefined;
+    const vaAlert = errorMessage.find('va-alert');
+    expect(vaAlert).not.to.be.undefined;
     errorMessage.unmount();
   });
 
@@ -34,7 +34,7 @@ describe('ErrorMessage', () => {
     };
     const errorMessage = mount(<ErrorMessage store={fakeStore} />);
     expect(errorMessage.find('h3').text()).to.equal(
-      "You can't reorder your items at this time",
+      'You can’t reorder your items at this time',
     );
     expect(
       errorMessage
@@ -42,7 +42,7 @@ describe('ErrorMessage', () => {
         .at(0)
         .text(),
     ).to.equal(
-      "Our records show that your items aren't available for reorder until April 01, 2019. You can only order items once every 5 months.",
+      'Our records show that your items aren’t available for reorder until April 01, 2019. You can only order items once every 5 months.',
     );
     expect(
       errorMessage
@@ -76,7 +76,7 @@ describe('ErrorMessage', () => {
         .find('span')
         .at(0)
         .text(),
-    ).to.equal("We can't fulfill an order for this Veteran");
+    ).to.equal('We can’t fulfill an order for this Veteran');
     expect(
       errorMessage
         .find('span')
@@ -101,7 +101,7 @@ describe('ErrorMessage', () => {
     };
     const errorMessage = mount(<ErrorMessage store={fakeStore} />);
     expect(errorMessage.find('h3').text()).to.equal(
-      "We can't find your records in our system",
+      'We can’t find your records in our system',
     );
     expect(
       errorMessage
@@ -109,7 +109,7 @@ describe('ErrorMessage', () => {
         .at(0)
         .text(),
     ).to.equal(
-      "You can't order hearing aid batteries or accessories at this time because we can't find your records in our system or we're missing some information needed for you to order.",
+      'You can’t order hearing aid batteries or accessories at this time because we can’t find your records in our system or we’re missing some information needed for you to order.',
     );
     expect(
       errorMessage
@@ -136,7 +136,7 @@ describe('ErrorMessage', () => {
     };
     const errorMessage = mount(<ErrorMessage store={fakeStore} />);
     expect(errorMessage.find('h3').text()).to.equal(
-      "You can't reorder your items at this time",
+      'You can’t reorder your items at this time',
     );
     expect(
       errorMessage
@@ -144,7 +144,7 @@ describe('ErrorMessage', () => {
         .at(0)
         .text(),
     ).to.equal(
-      "You can't order hearing aid batteries or accessories online at this time because you haven't placed an order within the past two years",
+      'You can’t order hearing aid batteries or accessories online at this time because you haven’t placed an order within the past two years',
     );
     expect(
       errorMessage

@@ -104,6 +104,7 @@ const uiSchema = {
   },
   countryCodeIso3: {
     'ui:title': 'Country',
+    'ui:autocomplete': 'country',
     'ui:options': {
       updateSchema: formData => {
         if (formData['view:livesOnMilitaryBase']) {
@@ -131,6 +132,7 @@ const uiSchema = {
   },
   addressLine1: {
     'ui:title': `Street address (${STREET_LINE_MAX_LENGTH} characters maximum)`,
+    'ui:autocomplete': 'address-line1',
     'ui:errorMessages': {
       required: 'Street address is required',
       pattern: `Please enter a valid street address under ${STREET_LINE_MAX_LENGTH} characters`,
@@ -138,17 +140,20 @@ const uiSchema = {
   },
   addressLine2: {
     'ui:title': `Street address line 2 (${STREET_LINE_MAX_LENGTH} characters maximum)`,
+    'ui:autocomplete': 'address-line2',
     'ui:errorMessages': {
       pattern: `Please enter a valid street address under ${STREET_LINE_MAX_LENGTH} characters`,
     },
   },
   addressLine3: {
     'ui:title': `Street address line 3 (${STREET_LINE_MAX_LENGTH} characters maximum)`,
+    'ui:autocomplete': 'address-line3',
     'ui:errorMessages': {
       pattern: `Please enter a valid street address under ${STREET_LINE_MAX_LENGTH} characters`,
     },
   },
   city: {
+    'ui:autocomplete': 'address-level2',
     'ui:errorMessages': {
       required: 'City is required',
       pattern: `Please enter a valid city under 100 characters`,
@@ -174,6 +179,7 @@ const uiSchema = {
   },
   stateCode: {
     'ui:title': 'State',
+    'ui:autocomplete': 'address-level1',
     'ui:errorMessages': {
       required: 'State is required',
     },
@@ -197,6 +203,7 @@ const uiSchema = {
   },
   province: {
     'ui:title': 'State/Province/Region',
+    'ui:autocomplete': 'address-level1',
     'ui:errorMessages': {
       pattern: `Please enter a valid state, province, or region`,
     },
@@ -206,6 +213,7 @@ const uiSchema = {
   },
   zipCode: {
     'ui:title': 'Zip code',
+    'ui:autocomplete': 'postal-code',
     'ui:errorMessages': {
       required: 'Zip code is required',
       pattern: 'Zip code must be 5 digits',
@@ -219,6 +227,7 @@ const uiSchema = {
   },
   internationalPostalCode: {
     'ui:title': 'International postal code',
+    'ui:autocomplete': 'postal-code',
     'ui:errorMessages': {
       required: 'Postal code is required',
       pattern: 'Please enter a valid postal code',

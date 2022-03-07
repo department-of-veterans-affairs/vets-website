@@ -5,6 +5,7 @@ const createSessionStorageKeys = ({ isPreCheckIn = true }) => {
   return {
     CURRENT_UUID: `${namespace}.current.uuid`,
     VALIDATE_ATTEMPTS: `${namespace}.validate.attempts`,
+    COMPLETE: `${namespace}.complete`,
   };
 };
 

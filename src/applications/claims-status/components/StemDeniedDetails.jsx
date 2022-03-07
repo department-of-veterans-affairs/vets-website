@@ -1,9 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -175,8 +173,8 @@ const StemDeniedDetails = ({
         .
       </p>
       <p>
-        You can also contact us at <Telephone contact={CONTACTS.GI_BILL} /> to
-        request any of these forms.
+        You can also contact us at <va-telephone contact={CONTACTS.GI_BILL} />
+        to request any of these forms.
       </p>
       <p>
         <a href="https://www.va.gov/decision-reviews">

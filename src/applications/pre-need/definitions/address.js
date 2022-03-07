@@ -274,21 +274,27 @@ export function uiSchema(
     'ui:order': fieldOrder,
     country: {
       'ui:title': 'Country',
+      'ui:autocomplete': 'country',
     },
     street: {
       'ui:title': 'Street',
+      'ui:autocomplete': 'address-line1',
     },
     street2: {
       'ui:title': 'Line 2',
+      'ui:autocomplete': 'address-line2',
     },
     street3: {
       'ui:title': 'Line 3',
+      'ui:autocomplete': 'address-line3',
     },
     city: {
       'ui:title': 'City',
+      'ui:autocomplete': 'address-level2',
     },
     postalCode: {
       'ui:title': 'Postal code',
+      'ui:autocomplete': 'postal-code',
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
       },
