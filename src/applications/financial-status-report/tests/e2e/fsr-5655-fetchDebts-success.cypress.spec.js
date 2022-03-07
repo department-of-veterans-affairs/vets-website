@@ -1,11 +1,8 @@
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
-// import { deductionCodes } from '../../../debt-letters/const/deduction-codes';
 
 describe('Fetch Debts Successfully', () => {
   before(() => {
-    // const approvedDeductionCodes = Object.keys(deductionCodes);
-
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
         features: [
