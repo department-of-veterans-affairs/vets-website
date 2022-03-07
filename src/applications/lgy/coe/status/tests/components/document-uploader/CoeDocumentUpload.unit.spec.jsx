@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 
-import DocumentUploader from '../../components/DocumentUploader';
+import DocumentUploader from '../../../components/DocumentUploader/DocumentUploader.jsx';
 
 describe('DocumentUploader', () => {
   it('should render with the expected fields', () => {
@@ -69,7 +69,7 @@ describe('DocumentUploader', () => {
     expect(input.files.item(0)).to.equal(file2);
     expect(input.files).to.have.lengthOf(1);
   });
-  /* commenting out till next sprint
+
   it('should delete an uploaded file', () => {
     const file = [new File(['hello'], 'hello.png', { type: 'image/png' })];
     const screen = render(<DocumentUploader />);
@@ -81,14 +81,14 @@ describe('DocumentUploader', () => {
     userEvent.upload(input, file);
 
     expect(input.files[0]).equal(file);
-    expect(screen.getByText('hello.png')).to.exist;
+    screen.debug();
+    // expect(screen.getByText('hello.png')).to.exist;
 
-    const deleteBtn = screen.getAllByText(/Delete file/i)[1];
-    userEvent.click(deleteBtn);
-    expect(screen.getAllByText(/Delete file/i)).to.have.lengthOf(0);
-    expect(screen.getByText('hello.png')).to.exist;
-    expect(screen.getByText('kenobi.png')).to.exist;
-    expect(screen.queryByText('there.png')).to.not.exist;
+    // const deleteBtn = screen.getByLabelText(/Delete file/i);
+    // userEvent.click(deleteBtn);
+    // expect(screen.getAllByText(/Delete file/i)).to.have.lengthOf(0);
+    // expect(screen.getByText('hello.png')).to.exist;
+    // expect(screen.getByText('kenobi.png')).to.exist;
+    // expect(screen.queryByText('there.png')).to.not.exist;
   });
-  */
 });
