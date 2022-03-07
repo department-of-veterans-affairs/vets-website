@@ -1,12 +1,7 @@
 // iconography
 
 .icon-heading {
-  margin-right: 5px;
   vertical-align: middle;
-}
-
-.inline {
-  display: inline-block;
 }
 
 @mixin make-hub($hub-name,
