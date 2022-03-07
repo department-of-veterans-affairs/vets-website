@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import JumpLink from './profile/JumpLink';
+import JumpLink from 'platform/site-wide/jump-link/JumpLink';
 import recordEvent from 'platform/monitoring/record-event';
 
 export const CautionFlagAdditionalInfo = ({
@@ -72,8 +72,8 @@ export const CautionFlagAdditionalInfo = ({
             </ul>
             {viewDetailsLink && (
               <JumpLink
+                toId="cautionary-information"
                 label="View details below"
-                jumpToId="cautionary-information"
               />
             )}
           </div>

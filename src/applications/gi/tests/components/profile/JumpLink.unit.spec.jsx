@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import JumpLink from '../../../components/profile/JumpLink';
+import JumpLink from 'platform/site-wide/jump-link/JumpLink';
 
 describe('<JumpLink>', () => {
   it('should render', () => {
