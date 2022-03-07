@@ -382,7 +382,7 @@ jobs:
         id: changed-files
         run: |
           if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
-            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ commit_sha }})
+            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
           else
             echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
           fi
