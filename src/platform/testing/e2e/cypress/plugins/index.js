@@ -35,7 +35,9 @@ module.exports = async on => {
             'src/',
             '',
           )}';`;
-          contents = `${injectedStuff}\n\n${contents}`;
+          contents = `${injectedStuff}\n\n${contents
+            .replace(/~\//g, '')
+            .replace(/@@/g, 'applications/personalization/')}`;
           return {
             contents,
             loader: 'jsx',
