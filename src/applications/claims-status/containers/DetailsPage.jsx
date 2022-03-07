@@ -47,39 +47,42 @@ class DetailsPage extends React.Component {
     let content = null;
     if (!loading) {
       content = (
-        <dl className="claim-details">
-          <dt className="claim-detail-label">
-            <h3 className="vads-u-font-size--h4">Claim type</h3>
-          </dt>
-          <dd>{claim.attributes.claimType || 'Not Available'}</dd>
-          <dt className="claim-detail-label">
-            <h3 className="vads-u-font-size--h4">What you’ve claimed</h3>
-          </dt>
-          <dd>
-            {claim.attributes.contentionList &&
-            claim.attributes.contentionList.length ? (
-              <ul className="claim-detail-list">
-                {claim.attributes.contentionList.map((contention, index) => (
-                  <li key={index} className="claim-detail-list-item">
-                    {contention}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              'Not Available'
-            )}
-          </dd>
-          <dt className="claim-detail-label">
-            <h3 className="vads-u-font-size--h4">Date received</h3>
-          </dt>
-          <dd>{moment(claim.attributes.dateFiled).format('MMM D, YYYY')}</dd>
-          <dt className="claim-detail-label">
-            <h3 className="vads-u-font-size--h4">
-              Your representative for VA claims
-            </h3>
-          </dt>
-          <dd>{claim.attributes.vaRepresentative || 'Not Available'}</dd>
-        </dl>
+        <>
+          <h2 className="vads-u-visibility--screen-reader">Claim details</h2>
+          <dl className="claim-details">
+            <dt className="claim-detail-label">
+              <h3 className="vads-u-font-size--h4">Claim type</h3>
+            </dt>
+            <dd>{claim.attributes.claimType || 'Not Available'}</dd>
+            <dt className="claim-detail-label">
+              <h3 className="vads-u-font-size--h4">What you’ve claimed</h3>
+            </dt>
+            <dd>
+              {claim.attributes.contentionList &&
+              claim.attributes.contentionList.length ? (
+                <ul className="claim-detail-list">
+                  {claim.attributes.contentionList.map((contention, index) => (
+                    <li key={index} className="claim-detail-list-item">
+                      {contention}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                'Not Available'
+              )}
+            </dd>
+            <dt className="claim-detail-label">
+              <h3 className="vads-u-font-size--h4">Date received</h3>
+            </dt>
+            <dd>{moment(claim.attributes.dateFiled).format('MMM D, YYYY')}</dd>
+            <dt className="claim-detail-label">
+              <h3 className="vads-u-font-size--h4">
+                Your representative for VA claims
+              </h3>
+            </dt>
+            <dd>{claim.attributes.vaRepresentative || 'Not Available'}</dd>
+          </dl>
+        </>
       );
     }
 
