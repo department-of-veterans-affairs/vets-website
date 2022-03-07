@@ -78,8 +78,8 @@ export class ConfirmationPage extends React.Component {
           After you request a decision review
         </h2>
         <p>
-          When we’ve completed your review, we will mail you a decision packet
-          that includes details about our decision.{' '}
+          When we’ve completed your review, we will physically mail you a
+          decision packet that includes details about our decision.{' '}
           <a href="/decision-reviews/after-you-request-review/">
             Learn more about what happens after you request a review
           </a>
