@@ -341,7 +341,10 @@ function notGivingUpBenefitSelected(formData) {
 }
 
 function transform(metaData, form) {
-  const submission = createSubmissionForm(form.data);
+  const submission = createSubmissionForm(
+    form.data,
+    VA_FORM_IDS.FORM_22_1990EZ,
+  );
   return JSON.stringify(submission);
 }
 
