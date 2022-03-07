@@ -58,6 +58,7 @@ import toursOfDutyUI from '../definitions/toursOfDuty';
 
 // import { createSubmissionForm } from '../utils/form-submit-transform';
 import { directDepositDescription } from '../../edu-benefits/1990/helpers';
+import GetHelp from '../components/GetHelp';
 
 // import { ELIGIBILITY } from '../actions';
 
@@ -424,7 +425,7 @@ const formConfig = {
     usaPhone,
   },
   footerContent: FormFooter,
-  // getHelp: GetFormHelp,
+  getHelp: GetHelp,
   preSubmitInfo,
   chapters: {
     applicantInformationChapter: {
