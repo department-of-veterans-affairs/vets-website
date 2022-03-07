@@ -87,7 +87,7 @@ module.exports = async on => {
   on('before:run', details => {
     if (process.env.CYPRESS_CI) {
       details.specs.forEach(spec =>
-        fs.closeSync(fs.openSync(spec.absolute, 'w')),
+        fs.closeSync(fs.openSync(`${spec.absolute}.mp4`, 'w')),
       );
     }
   });
