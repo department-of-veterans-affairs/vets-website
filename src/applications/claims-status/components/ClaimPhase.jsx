@@ -130,19 +130,25 @@ export default class ClaimPhase extends React.Component {
           ? activityList
           : take(activityList, INITIAL_ACTIVITY_ROWS);
 
-      const activityListContent = limitedList.map((singleActivity, index) => (
-        <div key={index} className="claims-evidence">
-          <div className="claims-evidence-date">
-            {moment(singleActivity.date).format('MMM D, YYYY')}
-          </div>
-          {this.getEventDescription(singleActivity)}
-        </div>
-      ));
+      const activityListContent = (
+        <ol className="claims-evidence-list">
+          {limitedList.map((singleActivity, index) => (
+            <li key={index}>
+              <div className="claims-evidence">
+                <div className="claims-evidence-date">
+                  {moment(singleActivity.date).format('MMM D, YYYY')}
+                </div>
+                {this.getEventDescription(singleActivity)}
+              </div>
+            </li>
+          ))}
+        </ol>
+      );
 
       if (!showAll && activityList.length > INITIAL_ACTIVITY_ROWS) {
         return (
-          <div>
-            <div>{activityListContent}</div>
+          <>
+            {activityListContent}
             <button
               type="button"
               className="claim-older-updates usa-button-secondary"
@@ -151,7 +157,7 @@ export default class ClaimPhase extends React.Component {
               See older updates&nbsp;
               <i className="fa fa-chevron-down" />
             </button>
-          </div>
+          </>
         );
       }
 
@@ -218,7 +224,7 @@ export default class ClaimPhase extends React.Component {
       // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
       <li className={`${getClasses(phase, current)}`}>
         {expandCollapseIcon}
-        <h3 className="section-header vads-u-font-size--h4">{title}</h3>
+        <h4 className="section-header vads-u-font-size--h4">{title}</h4>
         {open || (current !== COMPLETE_PHASE && phase === COMPLETE_PHASE) ? (
           <div>
             {children}
