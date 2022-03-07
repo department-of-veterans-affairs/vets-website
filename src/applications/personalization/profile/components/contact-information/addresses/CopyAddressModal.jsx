@@ -9,19 +9,13 @@ const CopyAddressModal = props => {
     onClose,
     onYes,
     onNo,
-    optionalUpdateAddressType,
     mainAddress,
     addressToUpdate,
   } = props;
 
-  const mainAddressType =
-    optionalUpdateAddressType === 'mailing'
-      ? 'home'
-      : optionalUpdateAddressType;
-
   return (
     <Modal
-      title={`Do you also want to update your ${optionalUpdateAddressType} address?`}
+      title="We've updated your home address"
       visible={isVisible}
       onClose={onClose}
       primaryButton={{
@@ -41,23 +35,20 @@ const CopyAddressModal = props => {
     >
       <>
         <p data-testid="modal-content">
-          {`We’ve updated your ${mainAddressType} address to this address:`}
-          <br />
-          <strong>
+          Your updated home address:
+          <span className="vads-u-font-weight--bold vads-u-display--block vads-u-margin-y--1p5">
             <AddressView data={mainAddress} />
-          </strong>
+          </span>
         </p>
-        <p>
-          We send your prescriptions and letters to your mailing address. This
-          is the mailing address we have on file for you:
-          <br />
-          <strong>
+        <p className="vads-u-background-color--primary-alt-lightest vads-u-padding--1p5">
+          We also have this mailing address on file for you:
+          <span className="vads-u-font-weight--bold vads-u-display--block vads-u-margin-y--1p5">
             <AddressView data={addressToUpdate} />
-          </strong>
-        </p>
-        <p>
-          Do you want to update your mailing address to match your updated home
-          address?
+          </span>
+          Do you want to update your mailing address to match this home address?
+          <span className="vads-u-font-weight--bold vads-u-display--block vads-u-margin-y--1p5">
+            <AddressView data={mainAddress} />
+          </span>
         </p>
       </>
     </Modal>
