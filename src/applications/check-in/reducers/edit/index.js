@@ -16,17 +16,15 @@ const clearEditingContext = state => {
   return next;
 };
 
-// query for object before dispath and udpate the fields
-// if object doesn;t exist then use the whole demo/EC/NoK object as a base
-// add a check seomwhere if the data actually changed.
-// action.payoad would be the entire demo/EC/NoK object with the update values?
 const setPendingEditedData = (state, action) => {
   const { fieldsToUpdate, editingPage } = action.payload;
-  // get the demographics object from old state
 
   if (editingPage === EDITING_PAGE_NAMES.DEMOGRAPHICS) {
     const { demographics } = state.veteranData;
-    const nextDemo = { ...demographics, ...fieldsToUpdate };
+    const { pendingEdits } = state.context;
+    const currentData = pendingEdits?.demographics || demographics;
+    const nextDemo = { ...currentData, ...fieldsToUpdate };
+
     delete nextDemo.emergencyContact;
     delete nextDemo.nextOfKin1;
     return {
