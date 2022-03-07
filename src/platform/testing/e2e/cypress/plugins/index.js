@@ -59,7 +59,7 @@ module.exports = async on => {
       '~/platform/*',
     ],
     nodePaths: [path.resolve(__dirname, '../../../../..')],
-    banner: { js: `function require(a) { return a; };` },
+    banner: { js: `function require(a) { return a; }; var module = {};` },
     define: {
       __BUILDTYPE__: '"vagovprod"',
       __API__: '""',
