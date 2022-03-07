@@ -26,7 +26,11 @@ describe('DocumentUploader', () => {
     const screen = render(<DocumentUploader />);
     const input = screen.getByLabelText(/Upload your document/i);
     userEvent.upload(input, file);
-    expect(screen.getByText(/accepted file types/i)).to.exist;
+    expect(
+      screen.getByText(
+        /Please choose a file from one of the accepted file types/i,
+      ),
+    ).to.exist;
   });
 
   it('should not submit with no documents', () => {
