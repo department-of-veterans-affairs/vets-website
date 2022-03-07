@@ -73,7 +73,12 @@ module.exports = async on => {
 
   on('after:spec', (spec, results) => {
     if (results.stats.failures === 0 && results.video) {
-      fs.unlinkSync(results.video);
+      try {
+        fs.unlinkSync(results.video);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      }
     }
   });
 
