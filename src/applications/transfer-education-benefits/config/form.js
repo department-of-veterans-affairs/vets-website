@@ -73,36 +73,37 @@ const {
 
 // Define all the fields in the form to aid reuse
 const formFields = {
-  fullName: 'fullName',
-  userFullName: 'userFullName',
+  accountNumber: 'accountNumber',
+  accountType: 'accountType',
+  activeDutyKicker: 'activeDutyKicker',
+  additionalConsiderationsNote: 'additionalConsiderationsNote',
+  address: 'address',
+  bankAccount: 'bankAccount',
+  benefitEffectiveDate: 'benefitEffectiveDate',
+  benefitRelinquished: 'benefitRelinquished',
+  contactMethod: 'contactMethod',
   dateOfBirth: 'dateOfBirth',
+  email: 'email',
+  federallySponsoredAcademy: 'federallySponsoredAcademy',
+  fullName: 'fullName',
+  hasDoDLoanPaymentPeriod: 'hasDoDLoanPaymentPeriod',
+  incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
+  loanPayment: 'loanPayment',
+  mobilePhoneNumber: 'mobilePhoneNumber',
+  phoneNumber: 'phoneNumber',
+  relationshipToServiceMember: 'relationshipToServiceMember',
+  receiveTextMessages: 'receiveTextMessages',
+  routingNumber: 'routingNumber',
+  selectedReserveKicker: 'selectedReserveKicker',
+  seniorRotcCommission: 'seniorRotcCommission',
+  serviceHistoryIncorrect: 'serviceHistoryIncorrect',
   ssn: 'ssn',
   toursOfDuty: 'toursOfDuty',
-  serviceHistoryIncorrect: 'serviceHistoryIncorrect',
-  viewNoDirectDeposit: 'view:noDirectDeposit',
-  viewStopWarning: 'view:stopWarning',
-  bankAccount: 'bankAccount',
-  accountType: 'accountType',
-  accountNumber: 'accountNumber',
-  routingNumber: 'routingNumber',
-  address: 'address',
-  email: 'email',
-  viewPhoneNumbers: 'view:phoneNumbers',
-  phoneNumber: 'phoneNumber',
-  mobilePhoneNumber: 'mobilePhoneNumber',
+  userFullName: 'userFullName',
   viewBenefitSelection: 'view:benefitSelection',
-  benefitRelinquished: 'benefitRelinquished',
-  benefitEffectiveDate: 'benefitEffectiveDate',
-  incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
-  contactMethod: 'contactMethod',
-  receiveTextMessages: 'receiveTextMessages',
-  hasDoDLoanPaymentPeriod: 'hasDoDLoanPaymentPeriod',
-  activeDutyKicker: 'activeDutyKicker',
-  selectedReserveKicker: 'selectedReserveKicker',
-  federallySponsoredAcademy: 'federallySponsoredAcademy',
-  seniorRotcCommission: 'seniorRotcCommission',
-  loanPayment: 'loanPayment',
-  additionalConsiderationsNote: 'additionalConsiderationsNote',
+  viewNoDirectDeposit: 'view:noDirectDeposit',
+  viewPhoneNumbers: 'view:phoneNumbers',
+  viewStopWarning: 'view:stopWarning',
 };
 
 // Define all the form pages to help ensure uniqueness across all form chapters
@@ -373,8 +374,8 @@ const formConfig = {
 
     const newData = {
       ...formData,
-      formId: state.data?.formData?.data?.id,
-      claimantId: claimant.claimantId,
+      // formId: state.data?.formData?.data?.id,
+      // claimantId: claimant.claimantId,
       'view:userFullName': {
         userFullName: {
           first: claimant.firstName || undefined,
@@ -459,93 +460,70 @@ const formConfig = {
                 </>
               ),
             },
-            formId: {
-              'ui:title': 'Form ID',
-              'ui:disabled': true,
-              'ui:options': {
-                hideOnReview: true,
+            [formFields.userFullName]: {
+              ...fullNameUI,
+              first: {
+                ...fullNameUI.first,
+                'ui:title': 'Your first name',
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isOnlyWhitespace(field)) {
+                      errors.addError('Please enter a first name');
+                    }
+                  },
+                ],
               },
-            },
-            claimantId: {
-              'ui:title': 'Claimant ID',
-              'ui:disabled': true,
-              'ui:options': {
-                hideOnReview: true,
+              last: {
+                ...fullNameUI.last,
+                'ui:title': 'Your last name',
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isOnlyWhitespace(field)) {
+                      errors.addError('Please enter a last name');
+                    }
+                  },
+                ],
               },
-            },
-            'view:userFullName': {
-              'ui:description': (
-                <p className="meb-review-page-only">
-                  If you’d like to update your personal information, please edit
-                  the form fields below.
-                </p>
-              ),
-              [formFields.userFullName]: {
-                ...fullNameUI,
-                first: {
-                  ...fullNameUI.first,
-                  'ui:title': 'Your first name',
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (isOnlyWhitespace(field)) {
-                        errors.addError('Please enter a first name');
-                      }
-                    },
-                  ],
-                },
-                last: {
-                  ...fullNameUI.last,
-                  'ui:title': 'Your last name',
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (isOnlyWhitespace(field)) {
-                        errors.addError('Please enter a last name');
-                      }
-                    },
-                  ],
-                },
-                middle: {
-                  ...fullNameUI.middle,
-                  'ui:title': 'Your middle name',
-                },
+              middle: {
+                ...fullNameUI.middle,
+                'ui:title': 'Your middle name',
               },
             },
             [formFields.dateOfBirth]: {
               ...currentOrPastDateUI('Date of birth'),
-              // 'ui:reviewField': CustomReviewDOBField,
+            },
+            [formFields.relationshipToServiceMember]: {
+              'ui:title':
+                'What’s your relationship to the service member whose benefit has been transferred to you?',
+              'ui:widget': 'radio',
             },
           },
           schema: {
             type: 'object',
-            required: [formFields.dateOfBirth],
+            required: [
+              formFields.dateOfBirth,
+              formFields.relationshipToServiceMember,
+            ],
             properties: {
-              formId: {
-                type: 'string',
-              },
-              claimantId: {
-                type: 'integer',
-              },
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              'view:userFullName': {
-                required: [formFields.userFullName],
-                type: 'object',
+              [formFields.userFullName]: {
+                ...fullName,
                 properties: {
-                  [formFields.userFullName]: {
-                    ...fullName,
-                    properties: {
-                      ...fullName.properties,
-                      middle: {
-                        ...fullName.properties.middle,
-                        maxLength: 30,
-                      },
-                    },
+                  ...fullName.properties,
+                  middle: {
+                    ...fullName.properties.middle,
+                    maxLength: 30,
                   },
                 },
               },
               [formFields.dateOfBirth]: date,
+              [formFields.relationshipToServiceMember]: {
+                type: 'string',
+                enum: ['Spouse', 'Child'],
+              },
             },
           },
         },
