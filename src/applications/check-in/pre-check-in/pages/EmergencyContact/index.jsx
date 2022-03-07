@@ -15,13 +15,14 @@ import { useFormRouting } from '../../../hooks/useFormRouting';
 import {
   makeSelectVeteranData,
   makeSelectPendingEdits,
+  makeSelectCurrentContext,
 } from '../../../selectors';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
+import { api } from '../../../api';
+
 const EmergencyContact = props => {
   const { router } = props;
-
-  const [isSendingData, setIsSendingData] = useState(false);
 
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
@@ -37,22 +38,45 @@ const EmergencyContact = props => {
   const dispatch = useDispatch();
 
   const { goToNextPage, goToPreviousPage, jumpToPage } = useFormRouting(router);
+  const selectContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectContext);
+
+  const [isLoading, setIsLoading] = useState();
 
   const buttonClick = useCallback(
     async answer => {
-      setIsSendingData(true);
+      setIsLoading(true);
       recordEvent({
         event: 'cta-button-click',
         'button-click-label': `${answer}-to-emergency-contact`,
       });
-      dispatch(recordAnswer({ emergencyContactUpToDate: `${answer}` }));
 
-      // select the answers from state
-      // send to API
-
-      goToNextPage();
+      if (isEditingPreCheckInEnabled) {
+        setIsLoading(true);
+        if (newInformation) {
+          await api.v2.postDemographicsData({
+            demographics: {
+              emergencyContact: newInformation,
+            },
+            token,
+          });
+        }
+        await api.v2.postPreCheckInData({
+          uuid: token,
+          emergencyContactUpToDate: 'yes',
+        });
+        dispatch(recordAnswer({ emergencyContactUpToDate: `${answer}` }));
+        goToNextPage();
+      } else {
+        await api.v2.postPreCheckInData({
+          uuid: token,
+          emergencyContactUpToDate: 'no',
+        });
+        dispatch(recordAnswer({ emergencyContactUpToDate: `${answer}` }));
+        goToNextPage();
+      }
     },
-    [dispatch, goToNextPage],
+    [dispatch, goToNextPage, isEditingPreCheckInEnabled, newInformation, token],
   );
 
   const yesClick = useCallback(
@@ -75,7 +99,7 @@ const EmergencyContact = props => {
         emergencyContact={newInformation || emergencyContact}
         yesAction={yesClick}
         noAction={noClick}
-        isLoading={isSendingData}
+        isLoading={isLoading}
         Footer={Footer}
         isEditEnabled={isEditingPreCheckInEnabled}
         jumpToPage={jumpToPage}
