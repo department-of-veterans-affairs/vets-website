@@ -24,7 +24,6 @@ describe('Accessible Modal Test', () => {
     // Trap forward traversal
     cy.realPress('Tab');
     cy.get(closeControl).should('be.focused');
-    cy.axeCheck();
 
     // Escape modal
     cy.realPress('Escape');
