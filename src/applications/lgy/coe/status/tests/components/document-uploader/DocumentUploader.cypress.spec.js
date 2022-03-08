@@ -5,7 +5,7 @@ describe(manifest.appName, () => {
   // Remove this block when the app has a content page in production.
 
   const openPage = () => {
-    if (Cypress.env('CI')) this.skip();
+    this.skip(); // skipping till in production
     cy.login();
     cy.visit(manifest.rootUrl)
       .injectAxe()
