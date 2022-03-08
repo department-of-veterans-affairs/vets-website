@@ -28,6 +28,14 @@
   }
 }
 
+body.va-pad-promo-banner .footer-inner {
+  padding-bottom: 5.75rem;
+
+  @include media($medium-screen) {
+    padding-bottom: 3.75rem;
+  }
+}
+
 [class^="va-footer-linkgroup"] {
   padding-left: 0;
   li {
@@ -132,13 +140,6 @@
 .footer-banner {
   padding-top: 1.5em;
   padding-bottom: 2em;
-}
-
-.va-footer-logo {
-  > img {
-    width: 200px;
-    height: auto;
-  }
 }
 
 .va-footer-button {

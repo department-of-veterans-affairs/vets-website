@@ -3,10 +3,10 @@ const core = require('@actions/core');
 const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
-const { integrationFolder, testFiles } = require('../../config/cypress.json');
 const findImports = require('find-imports');
+const { integrationFolder, testFiles } = require('../../config/cypress.json');
 
-const IS_MASTER_BUILD = process.env.IS_MASTER_BUILD === 'true';
+const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
 const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);
 
@@ -30,7 +30,8 @@ function getAppNameFromFilePath(filePath) {
 function getImportPath(filePathAsArray, importRef) {
   if (importRef.startsWith('applications/')) {
     return `src/${importRef}`;
-  } else if (importRef.startsWith('../')) {
+  }
+  if (importRef.startsWith('../')) {
     const numDirsUp = importRef.split('/').filter(str => str === '..').length;
 
     return importRef.replace(
@@ -182,37 +183,36 @@ function allTests() {
 }
 
 function selectTests(graph, pathsOfChangedFiles) {
-  if (IS_MASTER_BUILD) {
+  if (RUN_FULL_SUITE) {
     return allTests();
-  } else {
-    let allMdFiles = true;
-    let allMdAndOrSrcApplicationsFiles = true;
+  }
+  let allMdFiles = true;
+  let allMdAndOrSrcApplicationsFiles = true;
 
-    for (let i = 0; i < pathsOfChangedFiles.length; i += 1) {
-      if (!pathsOfChangedFiles[i].endsWith('.md')) {
-        allMdFiles = false;
-      }
-
-      if (
-        !pathsOfChangedFiles[i].endsWith('.md') &&
-        !pathsOfChangedFiles[i].startsWith('src/applications')
-      ) {
-        allMdAndOrSrcApplicationsFiles = false;
-      }
-
-      if (allMdFiles === false && allMdAndOrSrcApplicationsFiles === false) {
-        break;
-      }
+  for (let i = 0; i < pathsOfChangedFiles.length; i += 1) {
+    if (!pathsOfChangedFiles[i].endsWith('.md')) {
+      allMdFiles = false;
     }
 
-    if (allMdFiles) {
-      return [];
-    } else if (allMdAndOrSrcApplicationsFiles) {
-      return selectedTests(graph, pathsOfChangedFiles);
-    } else {
-      return allTests();
+    if (
+      !pathsOfChangedFiles[i].endsWith('.md') &&
+      !pathsOfChangedFiles[i].startsWith('src/applications')
+    ) {
+      allMdAndOrSrcApplicationsFiles = false;
+    }
+
+    if (allMdFiles === false && allMdAndOrSrcApplicationsFiles === false) {
+      break;
     }
   }
+
+  if (allMdFiles) {
+    return [];
+  }
+  if (allMdAndOrSrcApplicationsFiles) {
+    return selectedTests(graph, pathsOfChangedFiles);
+  }
+  return allTests();
 }
 
 function exportVariables(tests) {
@@ -226,7 +226,7 @@ function run() {
   exportVariables(tests);
 }
 
-if (process.env.CHANGED_FILE_PATHS || IS_MASTER_BUILD) {
+if (process.env.CHANGED_FILE_PATHS || RUN_FULL_SUITE) {
   run();
 }
 

@@ -1,11 +1,10 @@
 import merge from 'lodash/merge';
-import set from 'platform/utilities/data/set';
 
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
-const { mothersMaidenName, veteranFullName } = fullSchemaHca.properties;
+const { veteranFullName } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
@@ -27,15 +26,11 @@ export default {
         },
       },
     }),
-    mothersMaidenName: {
-      'ui:title': 'Mother\u2019s maiden name',
-    },
   },
   schema: {
     type: 'object',
     properties: {
       veteranFullName,
-      mothersMaidenName: set('maxLength', 35, mothersMaidenName),
     },
   },
 };

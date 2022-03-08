@@ -1,19 +1,20 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 .webchat__suggested-actions__button-text {
-  padding-bottom: 20px;
-  padding-top: 20px;
+  padding: 20px;
 }
 
 .webchat__suggested-actions__button {
   padding: 0px !important;
-  margin-left: 5px !important;
+  margin-left: 2.5px !important;
+  margin-right: 2.5px !important;
+  background: rgb(0, 113, 187) !important;
 }
 
-button.webchat__suggested-action__button:hover {
+button.webchat__suggested-actions__button:hover {
   background: rgb(0,62,115) !important;
 }
 
-button.webchat__suggested-action__button:active {
+button.webchat__suggested-actions__button:active {
   background: rgb(17,46,81) !important;
 }
 

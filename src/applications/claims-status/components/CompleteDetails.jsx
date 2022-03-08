@@ -8,7 +8,7 @@ export default function CompleteDetails({ className }) {
         are received within 10 days, but this is dependent upon U.S. Postal
         Service timeframes.
       </p>
-      <h4>Payments</h4>
+      <h5 className="vads-u-font-size--h4">Payments</h5>
       <p>
         If you are entitled to back payment (based on an effective date), you
         can expect to receive payment within 1 month of your claim’s decision

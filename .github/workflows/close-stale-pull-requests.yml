@@ -1,0 +1,32 @@
+name: 'Close stale PRs'
+on:
+  # uncomment after testing is done
+  # schedule:
+  #   - cron: '0 0 * * *'
+  #remove the workflow_dispatch once testing is done and rely on cron job
+  workflow_dispatch:
+    inputs:
+      days_before_stale:
+        description: how many days a PR can be open without any activity before it is marked stale
+        required: true
+      days_until_close:
+        description: how many days before a stale PR is closed
+        required: true
+
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v4
+        with:
+          #uncomment these lines and delete the ones below after verifying that this workflow works
+          #stale-pr-message: 'This PR is stale because it has been open 120 days with no activity. It will recieve a stale label every day for 14 days before being closed unless it recieves a comment or the stale label is removed.'
+          #days-before-pr-stale: 120
+          #days-before-pr-close: 14
+
+          #remove these lines once testing is done
+          stale-pr-message: 'This PR is stale because it has been open ${{ github.event.inputs.days_before_stale }} days with no activity and will be closed in ${{ github.event.inputs.days_until_close }} days if it does not recieve a comment or if the stale label is not removed.'
+          days-before-pr-stale: ${{ github.event.inputs.days_before_stale }}
+          days-before-pr-close: ${{ github.event.inputs.days_until_close }}
+          close-pr-label: 'do not archive'

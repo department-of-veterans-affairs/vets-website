@@ -4,11 +4,11 @@ import manifest from '../../manifest.json';
 import featureToggles from './fixtures/feature-toggles-aiq.json';
 import mockUserAiq from './fixtures/mockUserAiq';
 import enrollmentStatus from './fixtures/mockEnrollmentStatus.json';
-import prefillAiq from './fixtures/mockPrefillAiq.json';
+import prefillServiceTest from './fixtures/mockPrefillServiceTest.json';
 import * as serviceInfoHelpers from './helpers';
 
 describe('HCA-Service-Info', () => {
-  before(function() {
+  before(function beforeCypressTest() {
     if (Cypress.env('CI')) this.skip();
   });
 
@@ -23,7 +23,7 @@ describe('HCA-Service-Info', () => {
     }).as('mockEnrollmentStatus');
     cy.intercept('/v0/in_progress_forms/1010ez', {
       statusCode: 200,
-      body: prefillAiq,
+      body: prefillServiceTest,
     }).as('mockSip');
     cy.intercept('POST', '/v0/health_care_applications', {
       statusCode: 200,
@@ -41,12 +41,10 @@ describe('HCA-Service-Info', () => {
       .first()
       .should('exist');
 
-    const dobYear = 1990;
-    serviceInfoHelpers.advanceToServiceInfoPage({
-      month: '1',
-      day: '15',
-      year: dobYear,
-    });
+    const prefillDob = new Date(prefillServiceTest.formData.veteranDateOfBirth);
+    const dobYear = prefillDob.getFullYear();
+
+    serviceInfoHelpers.advanceToServiceInfoPage();
 
     // service start date, less than 15 years after dob
     cy.get('#root_lastEntryDateMonth').select('1');
