@@ -45,18 +45,18 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
 
   return (
     <div>
+      {!environment.isProduction() &&
+        (hasNewBankAccountInfo || hasOriginalBankAccountInfo) && (
+          <p className="vads-u-margin-top--0">
+            This is the bank account information we have on file for you. We’ll
+            send your housing payment to this account.
+          </p>
+        )}
       <div className="blue-bar-block">
         <p>
           <strong>
             {accountTitleLabels[(bankAccountType || '').toUpperCase()]}
           </strong>
-          {!environment.isProduction() &&
-            (hasNewBankAccountInfo || hasOriginalBankAccountInfo) && (
-              <p>
-                This is the bank account information we have on file for you.
-                We’ll send your housing payment to this account.
-              </p>
-            )}
         </p>
         <p>Account number: {maskBankInformation(bankAccountNumber, 4)}</p>
         <p>Bank routing number: {maskBankInformation(bankRoutingNumber, 4)}</p>
