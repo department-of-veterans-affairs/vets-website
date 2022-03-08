@@ -5,7 +5,6 @@ describe(manifest.appName, () => {
   // Remove this block when the app has a content page in production.
 
   const openPage = () => {
-    this.skip(); // skipping till in production
     cy.login();
     cy.visit(manifest.rootUrl)
       .injectAxe()
@@ -22,7 +21,7 @@ describe(manifest.appName, () => {
     cy.wait('@pendingUpload');
   };
 
-  it('Should render on pending-upload status', () => {
+  it.skip('Should render on pending-upload status', () => {
     openPage();
     // A status alert should be visible
     cy.findByText(/We need more information from you/i).should('exist');
@@ -30,7 +29,7 @@ describe(manifest.appName, () => {
     cy.findByText(/Select a document to upload/i).should('exist');
   });
 
-  it('Should show an error message when no file is added and the user tries to submit', () => {
+  it.skip('Should show an error message when no file is added and the user tries to submit', () => {
     openPage();
     // Find the submit button and click it
     cy.findByText(/Submit Files/i).click();
@@ -38,7 +37,7 @@ describe(manifest.appName, () => {
     cy.findByText(/Please choose a file to upload./i).should('exist');
   });
 
-  it('Should add a single file and show in file list', () => {
+  it.skip('Should add a single file and show in file list', () => {
     openPage();
 
     cy.get('#errorable-select-1').select('Statement of service');
@@ -51,7 +50,7 @@ describe(manifest.appName, () => {
     cy.findByText(/testPicture.jpeg/i).should('exist');
   });
 
-  it('Should add multiple files and show in file list', () => {
+  it.skip('Should add multiple files and show in file list', () => {
     openPage();
 
     cy.get('input[type="file"]').selectFile(
@@ -69,7 +68,7 @@ describe(manifest.appName, () => {
     cy.findByText(/Statement of service/i).should('exist');
   });
 
-  it('Should delete a file when delete file button is clicked', () => {
+  it.skip('Should delete a file when delete file button is clicked', () => {
     openPage();
 
     cy.get('#errorable-select-1').select('Statement of service');
