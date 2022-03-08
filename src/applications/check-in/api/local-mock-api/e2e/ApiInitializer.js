@@ -321,6 +321,20 @@ class ApiInitializer {
       });
     },
   };
+
+  initializeDemographicsPatch = {
+    withSuccess: (patchSpy = null) => {
+      cy.intercept('PATCH', `/check_in/v2/demographics/*`, req => {
+        if (patchSpy) patchSpy();
+        req.reply(checkInData.patch.createMockSuccessResponse());
+      });
+    },
+    withFailure: (errorCode = 400) => {
+      cy.intercept('PATCH', `/check_in/v2/demographics/*`, req => {
+        req.reply(errorCode, checkInData.patch.createMockFailedResponse({}));
+      });
+    },
+  };
 }
 
 export default new ApiInitializer();
