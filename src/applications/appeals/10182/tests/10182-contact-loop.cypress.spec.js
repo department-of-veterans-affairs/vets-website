@@ -67,8 +67,8 @@ describe('NOD contact info loop', () => {
       .click();
 
     // Veteran info (DOB, SSN, etc)
-    cy.location('pathname').should('eq', `${BASE_URL}/veteran-detaisls`);
-    cy.findAllByText(/continsue/i, { selector: 'button' })
+    cy.location('pathname').should('eq', `${BASE_URL}/veteran-details`);
+    cy.findAllByText(/continue/i, { selector: 'button' })
       .first()
       .click();
 
