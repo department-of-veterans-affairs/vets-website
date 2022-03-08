@@ -18,12 +18,12 @@ const clearEditingContext = state => {
 
 const setPendingEditedData = (state, action) => {
   const { fieldsToUpdate, editingPage } = action.payload;
-  const { demographics } = state.veteranData;
+  const { demographics } = state.veteranData || {};
   if (editingPage === EDITING_PAGE_NAMES.DEMOGRAPHICS) {
     const { pendingEdits } = state.context;
     const currentData = pendingEdits?.demographics || demographics;
     const nextDemo = { ...currentData, ...fieldsToUpdate };
-    
+
     delete nextDemo.emergencyContact;
     delete nextDemo.nextOfKin1;
     return {
