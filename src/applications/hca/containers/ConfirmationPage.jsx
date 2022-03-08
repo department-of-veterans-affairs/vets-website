@@ -52,7 +52,7 @@ export class ConfirmationPage extends React.Component {
             <span className="additional">(Form 10-10EZ)</span>
           </h5>
           <span>
-            for {name.first} {name.middle} {name.last} {name.suffix}
+            for {name?.first} {name?.middle} {name?.last} {name?.suffix}
           </span>
 
           {response && (

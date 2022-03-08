@@ -5,6 +5,8 @@ import {
   createSetEditContext,
   CLEAR_EDIT_CONTEXT,
   createClearEditContext,
+  SET_PENDING_EDITED_DATA,
+  createSetPendingEditedData,
 } from './index';
 
 describe('check-in', () => {
@@ -32,6 +34,24 @@ describe('check-in', () => {
         expect(action.payload.editingPage).to.equal('editingPage');
         expect(action.payload.value).to.equal('value');
         expect(action.payload.key).to.equal('key');
+      });
+    });
+    describe('createSetPendingEditedData', () => {
+      it('should return correct action', () => {
+        const action = createSetPendingEditedData({});
+        expect(action.type).to.equal(SET_PENDING_EDITED_DATA);
+      });
+      it('should return correct structure', () => {
+        const action = createSetPendingEditedData(
+          {
+            field1: 'field1',
+          },
+          'editingPage',
+        );
+        expect(action.payload).to.be.an('object');
+        expect(action.payload.fieldsToUpdate).to.be.an('object');
+        expect(action.payload.fieldsToUpdate.field1).to.equal('field1');
+        expect(action.payload.editingPage).to.equal('editingPage');
       });
     });
   });

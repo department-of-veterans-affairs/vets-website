@@ -97,7 +97,8 @@ class IntroductionPage extends React.Component {
                 <li>Your mailing address</li>
                 <li>
                   The VA decision date for each issue you’d like us to review
-                  (this is the date on the decision notice you got in the mail)
+                  (this is the date on the decision notice you received
+                  physically in the mail)
                 </li>
               </ul>
             </li>

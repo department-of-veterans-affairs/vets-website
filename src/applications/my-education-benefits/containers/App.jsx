@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 import { fetchPersonalInformation, fetchEligibility } from '../actions';
@@ -26,7 +26,9 @@ export const App = ({
         if (!firstName) {
           getPersonalInfo();
         }
-        if (!eligibility) {
+        // the firstName check ensures that eligibility only gets called after we have obtained claimant info
+        // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
+        if (!eligibility && firstName) {
           getEligibility();
         } else if (!formData.eligibility) {
           setFormData({
@@ -50,13 +52,13 @@ export const App = ({
 
   return (
     <>
-      <Breadcrumbs>
+      <va-breadcrumbs>
         <a href="/">Home</a>
         <a href="/education">Education and training</a>
         <a href="/education/apply-for-benefits-form-22-1990">
           Apply for education benefits
         </a>
-      </Breadcrumbs>
+      </va-breadcrumbs>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
@@ -89,3 +91,20 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(App);
+
+App.propTypes = {
+  children: PropTypes.object,
+  eligibility: PropTypes.object,
+  firstName: PropTypes.string,
+  formData: PropTypes.object,
+  getEligibility: PropTypes.func,
+  getPersonalInfo: PropTypes.func,
+  location: PropTypes.string,
+  personalInfoFetchInProgress: PropTypes.bool,
+  setFormData: PropTypes.func,
+  user: PropTypes.shape({
+    login: PropTypes.shape({
+      currentlyLoggedIn: PropTypes.bool,
+    }),
+  }),
+};

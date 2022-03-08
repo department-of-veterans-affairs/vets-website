@@ -1,13 +1,19 @@
 import { expect } from 'chai';
 
-import { setEditingContext, clearEditingContext } from './index';
+import {
+  setEditingContext,
+  clearEditingContext,
+  setPendingEditedData,
+} from './index';
 
 import {
   createSetEditContext,
   createClearEditContext,
+  createSetPendingEditedData,
 } from '../../actions/edit';
 
 import appReducer from '../index';
+import { EDITING_PAGE_NAMES } from '../../utils/appConstants';
 
 describe('check in', () => {
   describe('pre-check-in reducers', () => {
@@ -86,6 +92,101 @@ describe('check in', () => {
           const action = createClearEditContext();
           const state = clearEditingContext(stateWithEdit, action);
           expect(state.context.editing).to.be.undefined;
+        });
+      });
+    });
+    describe('createSetPendingEditedData', () => {
+      describe('setPendingEditedData', () => {
+        it('should set pending data for demographics', () => {
+          const action = createSetPendingEditedData(
+            { some: 'value' },
+            EDITING_PAGE_NAMES.DEMOGRAPHICS,
+          );
+          const demographics = { some: 'old-value', foo: 'bar' };
+          const state = setPendingEditedData(
+            { veteranData: { demographics }, context: {} },
+            action,
+          );
+
+          expect(state.context.pendingEdits).to.be.an('object');
+          expect(state.context.pendingEdits).haveOwnProperty('demographics');
+          expect(state.context.pendingEdits.demographics).to.be.an('object');
+          expect(state.context.pendingEdits.demographics).haveOwnProperty(
+            'some',
+          );
+          expect(state.context.pendingEdits.demographics.some).to.equal(
+            'value',
+          );
+          expect(state.context.pendingEdits.demographics).haveOwnProperty(
+            'foo',
+          );
+          expect(state.context.pendingEdits.demographics.foo).to.equal('bar');
+        });
+        it('returns default state if a invalid page is supplied', () => {
+          const action = createSetPendingEditedData(
+            { some: 'value' },
+            'not-a-page',
+          );
+          const state = setPendingEditedData({}, action);
+          expect(state).to.be.empty;
+        });
+        it('uses pending edits if they exist', () => {
+          const action = createSetPendingEditedData(
+            { some: 'new-value' },
+            EDITING_PAGE_NAMES.DEMOGRAPHICS,
+          );
+          const demographics = { some: 'old-value', foo: 'bar' };
+          const context = {
+            pendingEdits: {
+              demographics: {
+                some: 'old-value',
+                foo: 'qux',
+              },
+            },
+          };
+          const state = setPendingEditedData(
+            { veteranData: { demographics }, context },
+            action,
+          );
+          expect(state.context.pendingEdits).to.be.an('object');
+          expect(state.context.pendingEdits).haveOwnProperty('demographics');
+          expect(state.context.pendingEdits.demographics).to.be.an('object');
+          expect(state.context.pendingEdits.demographics).haveOwnProperty(
+            'some',
+          );
+          expect(state.context.pendingEdits.demographics.some).to.equal(
+            'new-value',
+          );
+          expect(state.context.pendingEdits.demographics).haveOwnProperty(
+            'foo',
+          );
+          expect(state.context.pendingEdits.demographics.foo).to.equal('qux');
+        });
+      });
+      describe('reducer is called; finds the correct handler', () => {
+        it('should set correct data', () => {
+          const action = createSetPendingEditedData(
+            { some: 'value' },
+            EDITING_PAGE_NAMES.DEMOGRAPHICS,
+          );
+          const demographics = { some: 'old-value', foo: 'bar' };
+          const state = appReducer.checkInData(
+            { veteranData: { demographics }, context: {} },
+            action,
+          );
+          expect(state.context.pendingEdits).to.be.an('object');
+          expect(state.context.pendingEdits).haveOwnProperty('demographics');
+          expect(state.context.pendingEdits.demographics).to.be.an('object');
+          expect(state.context.pendingEdits.demographics).haveOwnProperty(
+            'some',
+          );
+          expect(state.context.pendingEdits.demographics.some).to.equal(
+            'value',
+          );
+          expect(state.context.pendingEdits.demographics).haveOwnProperty(
+            'foo',
+          );
+          expect(state.context.pendingEdits.demographics.foo).to.equal('bar');
         });
       });
     });

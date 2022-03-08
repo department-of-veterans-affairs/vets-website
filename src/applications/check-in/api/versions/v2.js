@@ -127,5 +127,30 @@ const v2 = {
       ...json,
     };
   },
+  postDemographicsData: async ({ demographics, uuid }) => {
+    const url = '/check_in/v2/edit_demographics/';
+    const headers = { 'Content-Type': 'application/json' };
+    const data = {
+      preCheckIn: {
+        demographics,
+      },
+    };
+    const body = JSON.stringify(data);
+    const settings = {
+      headers,
+      body,
+      method: 'POST',
+      mode: 'cors',
+    };
+
+    const json = await makeApiCallWithSentry(
+      apiRequest(`${environment.API_URL}${url}`, settings),
+      'pre-check-in-user-edit-demographics',
+      uuid,
+    );
+    return {
+      ...json,
+    };
+  },
 };
 export { v2 };
