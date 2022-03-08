@@ -16,7 +16,7 @@ describe('Check In Experience', () => {
         initializeCheckInDataGet,
         initializeDemographicsPatch,
       } = ApiInitializer;
-      initializeFeatureToggle.withCurrentFeatures();
+      initializeFeatureToggle.withDayOfDemographicsFlagsEnabled();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataGet.withSuccess();
