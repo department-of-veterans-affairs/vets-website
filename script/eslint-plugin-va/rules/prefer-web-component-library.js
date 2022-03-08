@@ -117,8 +117,6 @@ const modalTransformer = (context, node) => {
                   : sourceCode.getText(contentsValue)) + '</VaModal>',
               ),
 
-            !closingTag && fixer.removeRange(node.openingElement.range[1]),
-
             // RENAME PROPS
             titleNode && fixer.replaceText(titleNode.name, 'modalTitle'),
             onCloseNode && fixer.replaceText(onCloseNode.name, 'onCloseEvent'),
@@ -126,6 +124,16 @@ const modalTransformer = (context, node) => {
             // REMOVE PROPS
             contentsNode && fixer.remove(contentsNode),
             focusSelectorNode && fixer.remove(focusSelectorNode),
+
+            // ADD CLOSING TAG TO OPENING ELEMENT IF CLOSING TAG DOESN'T EXIST
+            !closingTag &&
+              fixer.removeRange(
+                [
+                  node.openingElement.range[1] - 2,
+                  node.openingElement.range[1] - 1,
+                ],
+                '',
+              ),
           ].filter(i => !!i);
         },
       },
