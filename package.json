@@ -94,9 +94,6 @@
     "Safari 10",
     "ie 11"
   ],
-  "browser": {
-    "path": "path-browserify"
-  },
   "devDependencies": {
     "@actions/core": "^1.6.0",
     "@babel/core": "^7.16.0",
@@ -121,7 +118,7 @@
     "@pact-foundation/pact": "^9.16.4",
     "@sentry/browser": "^6.13.2",
     "@testing-library/cypress": "^8.0.2",
-    "@testing-library/dom": "^8.11.3",
+    "@testing-library/dom": "^7.26.6",
     "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.2.2",
     "@webpack-cli/serve": "^1.6.0",
@@ -166,7 +163,6 @@
     "docdash": "^1.2.0",
     "enzyme": "^3.11.0",
     "esbuild": "^0.14.25",
-    "esbuild-plugin-resolve": "^1.0.3",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
@@ -218,7 +214,6 @@
     "node-sass": "^4.14.1",
     "null-loader": "^4.0.1",
     "nyc": "^15.1.0",
-    "path-browserify": "^1.0.1",
     "postcss": "^8.4.4",
     "postcss-loader": "^6.2.1",
     "prettier": "^1.14.3",
