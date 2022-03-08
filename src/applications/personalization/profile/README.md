@@ -2,7 +2,6 @@
 
 ## Test users
 
-
 Users must be LOA3 to access most of the Profile features. Users must also have two-factor set up to access the Direct Deposit feature.
 
 Staging test users for all sections are laid out in [this spreadsheet](https://docs.google.com/spreadsheets/d/1pirWRnmdJb5o_BxY8N4Qbq3_mB1PdZ-x-gwzgMZO66k/edit#gid=0). [This is another doc containing Direct Deposit test users](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/identity-personalization/direct-deposit/test-users.md).
