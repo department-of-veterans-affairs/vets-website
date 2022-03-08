@@ -42,8 +42,25 @@ describe('Pre Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
+
     it('skip demographics, next of kin, and emergency contact', () => {
       Confirmation.validatePageLoaded();
+
+      // Confirm that we posted the correct data to the pre-checkin complete endpoint.
+      cy.wait('@post-pre_check_ins-success');
+      cy.get('@post-pre_check_ins-success')
+        .its('request.body.preCheckIn.demographicsUpToDate')
+        .should('not.exist');
+      cy.get('@post-pre_check_ins-success')
+        .its('request.body.preCheckIn.emergencyContactUpToDate')
+        .should('not.exist');
+      cy.get('@post-pre_check_ins-success')
+        .its('request.body.preCheckIn.nextOfKinUpToDate')
+        .should('not.exist');
+      cy.get('@post-pre_check_ins-success')
+        .its('response.statusCode')
+        .should('equal', 200);
+
       cy.injectAxeThenAxeCheck();
     });
   });
