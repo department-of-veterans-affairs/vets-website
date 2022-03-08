@@ -1,5 +1,5 @@
 import React from 'react';
-import { CSP_IDS } from 'platform/user/authentication/constants';
+import { CSP_IDS, LINK_TYPES } from 'platform/user/authentication/constants';
 import ActionLink from 'platform/user/authentication/components/AccountLink';
 import { CSP_REASONS } from './constants';
 
@@ -12,7 +12,9 @@ export function generateWizardAnswers({
     case 'logingov':
     case 'idme':
       wizard.showAnswer = true;
-      wizard.answer = () => <ActionLink csp={signinoptions} type="signin" />;
+      wizard.answer = () => (
+        <ActionLink csp={signinoptions} type={LINK_TYPES.SIGNIN} />
+      );
       break;
     case 'none':
       wizard.showAnswer = false;
@@ -36,7 +38,7 @@ export function generateWizardAnswers({
             <li key={index}>{reasoning}</li>
           ))}
         </ul>
-        <ActionLink csp={wizard.csp} type="create" />
+        <ActionLink csp={wizard.csp} type={LINK_TYPES.CREATE} />
       </>
     );
   }

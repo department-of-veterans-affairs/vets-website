@@ -2,23 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import * as authUtilities from 'platform/user/authentication/utilities';
-import { CSP_CONTENT, AUTH_EVENTS } from '../constants';
+import { CSP_CONTENT, AUTH_EVENTS, LINK_TYPES } from '../constants';
 
 function signupHandler(loginType, eventBase) {
   recordEvent({ event: `${eventBase}-${loginType}` });
 }
 
-export default function AccountLink({ csp, isDisabled, type = 'create' }) {
+export default function AccountLink({
+  csp,
+  isDisabled,
+  type = LINK_TYPES.CREATE,
+}) {
   const { href, children, eventBase } = {
     href:
-      type !== 'create'
+      type !== LINK_TYPES.CREATE
         ? authUtilities.sessionTypeUrl({ type: csp })
         : authUtilities.signupUrl(csp),
     children:
-      type !== 'create'
+      type !== LINK_TYPES.CREATE
         ? `Sign in with ${CSP_CONTENT[csp].COPY} account`
         : `Create an account with ${CSP_CONTENT[csp].COPY}`,
-    eventBase: type !== 'create' ? AUTH_EVENTS.LOGIN : AUTH_EVENTS.REGISTER,
+    eventBase:
+      type !== LINK_TYPES.CREATE ? AUTH_EVENTS.LOGIN : AUTH_EVENTS.REGISTER,
   };
 
   return (

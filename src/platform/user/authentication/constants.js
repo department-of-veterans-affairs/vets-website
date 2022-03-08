@@ -119,3 +119,8 @@ export const AUTH_ERROR = {
 
 export const MHV_TRANSITION_DATE = 'MONTH XX, 20XX';
 export const ACCOUNT_TRANSITION_DISMISSED = 'accountTransitionDismissed';
+
+export const LINK_TYPES = {
+  CREATE: 'create',
+  SIGNIN: 'signin',
+};
