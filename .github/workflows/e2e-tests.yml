@@ -129,7 +129,7 @@ jobs:
       - name: Set TESTS variable
         run: node script/github-actions/select-cypress-tests.js
         env:
-          IS_MASTER_BUILD: true
+          RUN_FULL_SUITE: true
           CHANGED_FILE_PATHS: ''
 
       - name: Set output of TESTS
@@ -142,8 +142,7 @@ jobs:
     needs: [set-commit-sha, build, cypress-tests-prep]
     if: |
       needs.build.result == 'success' &&
-      needs.cypress-tests-prep.result == 'success' &&
-      needs.cypress-tests-prep.outputs.tests != '[]'
+      needs.cypress-tests-prep.result == 'success'
     container:
       image: public.ecr.aws/cypress-io/cypress/browsers:node14.16.0-chrome90-ff88
       options: -u 1001:1001 -v /usr/local/share:/share
@@ -353,7 +352,7 @@ jobs:
         run: yarn cypress-mochawesome-to-bigquery
         working-directory: testing-tools-team-dashboard-data
         env:
-          IS_MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.is_master_build }}
+          IS_MASTER_BUILD: true
           TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
           TEST_RESULTS_TABLE_NAME: cypress_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports

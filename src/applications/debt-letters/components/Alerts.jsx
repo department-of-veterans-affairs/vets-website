@@ -11,12 +11,15 @@ export const DownloadLettersAlert = () => (
     status="warning"
   >
     <h3 slot="headline">
-      Downloadable letters have incorrect repayment plan terms
+      Letters sent after December 9th, 2021 are unavailable for download
     </h3>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
-      We’re sorry. The length of time listed for repayment plans in these
-      letters is too short. Use the letters you get in the mail to find the
-      correct repayment plan terms. If you have any questions, call us at
+      We’re sorry. Because the letters sent after this date are unavailable for
+      download right now, we need to refer you to the letters you receive by
+      mail.
+    </p>
+    <p className="vads-u-font-size--base vads-u-font-family--sans">
+      If you have any questions, call us at
       <Telephone contact="800-827-0648" className="vads-u-margin-x--0p5" />
       (or
       <Telephone

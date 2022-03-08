@@ -8,7 +8,7 @@ import prefillAiq from './fixtures/mockPrefillAiq.json';
 import * as dobHelpers from './helpers';
 
 describe('HCA-DOB', () => {
-  before(function() {
+  before(function beforeCypressTest() {
     if (Cypress.env('CI')) this.skip();
   });
 
@@ -35,22 +35,17 @@ describe('HCA-DOB', () => {
   });
 
   it('displays error message with dob less than 1900', () => {
-    cy.visit(manifest.rootUrl);
-    cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
-    cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
-      .first()
-      .should('exist');
+    cy.visit(`${manifest.rootUrl}/veteran-information/profile-information-dob`);
 
-    cy.findAllByText(/start.+application/i, { selector: 'button' })
-      .first()
-      .click();
-    cy.wait('@mockSip');
     cy.location('pathname').should(
       'include',
-      '/veteran-information/personal-information',
+      '/veteran-information/profile-information-dob',
     );
 
-    dobHelpers.goToNextPage('/veteran-information/birth-information');
+    cy.get('#root_veteranDateOfBirthMonth').select('1');
+
+    cy.get('#root_veteranDateOfBirthDay').select('1');
+
     cy.get('#root_veteranDateOfBirthYear')
       .clear()
       .type('1899');
@@ -63,22 +58,17 @@ describe('HCA-DOB', () => {
   });
 
   it('displays error message with dob greater than current year', () => {
-    cy.visit(manifest.rootUrl);
-    cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
-    cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
-      .first()
-      .should('exist');
+    cy.visit(`${manifest.rootUrl}/veteran-information/profile-information-dob`);
 
-    cy.findAllByText(/start.+application/i, { selector: 'button' })
-      .first()
-      .click();
-    cy.wait('@mockSip');
     cy.location('pathname').should(
       'include',
-      '/veteran-information/personal-information',
+      '/veteran-information/profile-information-dob',
     );
 
-    dobHelpers.goToNextPage('/veteran-information/birth-information');
+    cy.get('#root_veteranDateOfBirthMonth').select('1');
+
+    cy.get('#root_veteranDateOfBirthDay').select('1');
+
     const nextYear = new Date().getFullYear() + 1;
     cy.get('#root_veteranDateOfBirthYear')
       .clear()

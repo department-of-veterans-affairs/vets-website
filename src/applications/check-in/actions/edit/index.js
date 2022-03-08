@@ -24,3 +24,12 @@ export const createClearEditContext = () => {
     type: CLEAR_EDIT_CONTEXT,
   };
 };
+
+export const SET_PENDING_EDITED_DATA = 'SET_PENDING_EDITED_DATA';
+
+export const createSetPendingEditedData = (fieldsToUpdate, editingPage) => {
+  return {
+    type: SET_PENDING_EDITED_DATA,
+    payload: { fieldsToUpdate, editingPage },
+  };
+};

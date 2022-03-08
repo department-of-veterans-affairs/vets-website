@@ -32,26 +32,22 @@ export const Debts = ({ debts, hasError }) => {
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5">
-      <va-alert
-        status="warning"
-        background-only
-        show-icon
-        className="vads-u-margin-top--0"
-        data-testid="debt-count-alert"
-      >
-        You have {debtsCount} outstanding debts.{' '}
-        <CTALink
-          text="Manage your VA debt"
-          href="/manage-va-debt/your-debt"
-          onClick={() =>
-            recordEvent({
-              event: 'profile-navigation',
-              'profile-action': 'view-link',
-              'profile-section': 'view-manage-va-debt',
-            })
-          }
-          testId="manage-va-debt-link"
-        />
+      <va-alert status="warning" show-icon data-testid="debt-count-alert">
+        <div className="vads-u-margin-top--0">
+          You have {debtsCount} outstanding debts.{' '}
+          <CTALink
+            text="Manage your VA debt"
+            href="/manage-va-debt/your-debt"
+            onClick={() =>
+              recordEvent({
+                event: 'profile-navigation',
+                'profile-action': 'view-link',
+                'profile-section': 'view-manage-va-debt',
+              })
+            }
+            testId="manage-va-debt-link"
+          />
+        </div>
       </va-alert>
     </div>
   );

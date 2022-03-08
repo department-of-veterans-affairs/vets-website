@@ -55,6 +55,7 @@ export const generateAuthnContext = (
 
     return {
       [AUTHN_KEYS.CSP_TYPE]: CSP.toLowerCase(),
+      [AUTHN_KEYS.CSP_METHOD]: headers.get(AUTHN_HEADERS.CSP_METHOD),
       ...(CSP !== CSP_KEYS.LOGINGOV
         ? {
             authn: sanitizeAuthn(
