@@ -26,8 +26,7 @@ export class ConfirmationPage extends React.Component {
     let name;
     if (hasSession()) {
       // authenticated user, get name from profile
-      const { profie } = this.props;
-      const { user } = profie;
+      const { user } = this.props;
       name = user.userFullName;
     } else {
       // unauthenticated user, get name from form data
@@ -187,5 +186,5 @@ export default connect(mapStateToProps)(ConfirmationPage);
 
 ConfirmationPage.propTypes = {
   form: PropTypes.object,
-  profie: PropTypes.object,
+  user: PropTypes.object,
 };
