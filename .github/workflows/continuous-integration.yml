@@ -360,7 +360,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.tests.outputs.selected }}
-      is_master_build: ${{ env.IS_MASTER_BUILD }}
       app_urls: ${{ steps.get-changed-apps.outputs.app_urls }}
 
     steps:
@@ -379,17 +378,14 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Set IS_MASTER_BUILD
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
-              echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
-          else
-              echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
-          fi
-
       - name: List changed files
         id: changed-files
-        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          else
+            echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+          fi
 
       - name: Get changed apps for header test
         id: get-changed-apps
@@ -403,7 +399,7 @@ jobs:
       - name: Set TESTS variable
         run: node script/github-actions/select-cypress-tests.js
         env:
-          IS_MASTER_BUILD: ${{ env.IS_MASTER_BUILD }}
+          RUN_FULL_SUITE: false
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
           APP_URLS: ${{ steps.get-changed-apps.outputs.app_urls }}
           APP_ENTRIES: ${{ steps.get-changed-apps.outputs.app_entries }}
@@ -881,7 +877,7 @@ jobs:
         run: yarn cypress-mochawesome-to-bigquery
         working-directory: testing-tools-team-dashboard-data
         env:
-          IS_MASTER_BUILD: ${{ needs.cypress-tests-prep.outputs.is_master_build }}
+          IS_MASTER_BUILD: false
           TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
           TEST_RESULTS_TABLE_NAME: cypress_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
