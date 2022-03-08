@@ -75,7 +75,7 @@ export default function Relationship(props) {
       title = "Edit next of kin's relationship to you";
       break;
     case 'emergencyContact':
-      title = "Edit emergency contact's relationship to you";
+      title = "Edit your contact's relationship to you";
       break;
     default:
       title = 'Edit relationship';

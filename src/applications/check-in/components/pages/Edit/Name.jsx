@@ -58,7 +58,7 @@ export default function Name(props) {
       title = "Edit next of kin's name";
       break;
     case 'emergencyContact':
-      title = "Edit emergency contact's name";
+      title = "Edit your contact's name";
       break;
     default:
       title = 'Edit name';
