@@ -150,7 +150,7 @@ describe('pre-check-in experience', () => {
       it('renders the loading message', () => {
         const screen = render(
           <Provider store={store}>
-            <NextOfKinDisplay isSendingData />
+            <NextOfKinDisplay isLoading />
           </Provider>,
         );
         expect(screen.queryByTestId('no-button')).to.not.exist;
@@ -160,7 +160,7 @@ describe('pre-check-in experience', () => {
       it('renders the buttons', () => {
         const screen = render(
           <Provider store={store}>
-            <NextOfKinDisplay isSendingData={false} />
+            <NextOfKinDisplay isLoading={false} />
           </Provider>,
         );
         expect(screen.getByTestId('no-button')).to.exist;
