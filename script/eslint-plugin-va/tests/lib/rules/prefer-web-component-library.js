@@ -115,7 +115,6 @@ ruleTester.run('prefer-web-component-library', rule, {
         },
       ],
     },
-
     {
       code: mockFile(
         'Telephone',
@@ -224,7 +223,26 @@ ruleTester.run('prefer-web-component-library', rule, {
               desc: 'Migrate component',
               output: mockFile(
                 'Modal',
-                'const SampleModal = () => (<VaModal modalTitle="test" contents={<div>Hi</div>} onCloseEvent={closeModal} />)',
+                'const SampleModal = () => (<VaModal modalTitle="test"  onCloseEvent={closeModal} ><div>Hi</div></VaModal>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Modal',
+        'const SampleModal = () => (<Modal title="test" contents={someJSX} onClose={closeModal} />)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'Modal',
+                'const SampleModal = () => (<VaModal modalTitle="test"  onCloseEvent={closeModal} >{someJSX}</VaModal>)',
               ),
             },
           ],
