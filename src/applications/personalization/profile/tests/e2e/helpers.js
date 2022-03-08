@@ -2,8 +2,8 @@ import dd4eduNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enroll
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import mockPaymentInfoNotEligible from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-not-eligible.json';
-import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import personalInformation from '@@profile/tests/fixtures/personal-information-success.json';
+import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 
 import error500 from '@@profile/tests/fixtures/500.json';
 

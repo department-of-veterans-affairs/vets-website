@@ -17,7 +17,6 @@ import AlertBox, {
 
 import * as userNavActions from 'platform/site-wide/user-nav/actions';
 import * as userSelectors from 'platform/user/selectors';
-import FormFooter from 'platform/forms/components/FormFooter';
 import {
   ContactRules,
   ProvideSSNAndDOB,
@@ -25,6 +24,7 @@ import {
   WhyContact,
 } from './VerbiageHelper';
 
+import FormFooter from 'platform/forms/components/FormFooter';
 import GetHelp from './GetHelp';
 
 function Introduction({
