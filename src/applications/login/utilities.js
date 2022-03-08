@@ -1,6 +1,6 @@
 import React from 'react';
 import { CSP_IDS } from 'platform/user/authentication/constants';
-import ActionLink from 'platform/user/authentication/components/CreateAccountLink';
+import ActionLink from 'platform/user/authentication/components/AccountLink';
 import { CSP_REASONS } from './constants';
 
 export function generateWizardAnswers({

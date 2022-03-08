@@ -8,7 +8,7 @@ function signupHandler(loginType, eventBase) {
   recordEvent({ event: `${eventBase}-${loginType}` });
 }
 
-export default function Link({ csp, isDisabled, type = 'create' }) {
+export default function AccountLink({ csp, isDisabled, type = 'create' }) {
   const { href, children, eventBase } = {
     href:
       type !== 'create'
@@ -33,7 +33,7 @@ export default function Link({ csp, isDisabled, type = 'create' }) {
   );
 }
 
-Link.propTypes = {
+AccountLink.propTypes = {
   csp: PropTypes.string,
   isDisabled: PropTypes.bool,
   type: PropTypes.string,
