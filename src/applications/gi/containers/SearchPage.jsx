@@ -6,11 +6,13 @@ import { connect } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
+import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import SearchTabs from '../components/search/SearchTabs';
 import { TABS } from '../constants';
 import NameSearchResults from './search/NameSearchResults';
 import LocationSearchResults from './search/LocationSearchResults';
+import LocationSearchResultsOld from './search/LocationSearchResultsOld';
 import { isSmallScreen } from '../utils/helpers';
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
@@ -26,9 +28,16 @@ export function SearchPage({
   preview,
   filters,
 }) {
+  const isLandscape = () => {
+    const islandscape = window.innerHeight < window.innerWidth;
+    const mobileDevice = !!navigator.maxTouchPoints;
+    if (islandscape && mobileDevice) return true;
+    return false;
+  };
   const history = useHistory();
   const { tab, error, query } = search;
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
+  const [landscape, setLandscape] = useState(isLandscape());
   const [accordions, setAccordions] = useState({
     [TABS.name]: tab === TABS.name,
     [TABS.location]: tab === TABS.location,
@@ -45,7 +54,11 @@ export function SearchPage({
   useEffect(() => {
     const checkSize = () => {
       setSmallScreen(isSmallScreen());
+      if (!environment.isProduction()) {
+        setLandscape(isLandscape());
+      }
     };
+
     window.addEventListener('resize', checkSize);
 
     if (getSearchQueryChanged(search.query)) {
@@ -57,7 +70,19 @@ export function SearchPage({
 
   const tabbedResults = {
     [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
-    [TABS.location]: <LocationSearchResults smallScreen={smallScreen} />,
+    [TABS.location]: (
+      <LocationSearchResults smallScreen={smallScreen} landscape={landscape} />
+    ),
+  };
+
+  const tabbedResultsOld = {
+    [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
+    [TABS.location]: (
+      <LocationSearchResultsOld
+        smallScreen={smallScreen}
+        landscape={landscape}
+      />
+    ),
   };
 
   const tabChange = selectedTab => {
@@ -111,7 +136,9 @@ export function SearchPage({
                 </va-alert>
               </div>
             )}
-            {!error && !smallScreen && tabbedResults[tab]}
+            {!error && !smallScreen && environment.isProduction()
+              ? tabbedResultsOld[tab]
+              : tabbedResults[tab]}
             {!error &&
               smallScreen && (
                 <div>
@@ -133,8 +160,9 @@ export function SearchPage({
                   >
                     <LocationSearchForm smallScreen />
                   </AccordionItem>
-
-                  {!error && smallScreen && tabbedResults[tab]}
+                  {!error && smallScreen && environment.isProduction()
+                    ? tabbedResultsOld[tab]
+                    : tabbedResults[tab]}
                 </div>
               )}
           </div>

@@ -15,7 +15,7 @@ const missingEventsAlert = (
 );
 
 const Expander = ({ expanded, dateRange, onToggle, missingEvents }) => {
-  const title = expanded ? 'Hide past events' : 'See past events';
+  const title = expanded ? 'Hide past events' : 'Reveal past events';
   const cssClass = expanded ? 'section-expanded' : 'section-unexpanded';
   const separator =
     expanded && !missingEvents ? <div className="separator" /> : null;
@@ -23,13 +23,16 @@ const Expander = ({ expanded, dateRange, onToggle, missingEvents }) => {
 
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-    <li
-      className={`past-events-expander process-step clickable ${cssClass}`}
-      onClick={onToggle}
-    >
+    <li className={`past-events-expander process-step ${cssClass}`}>
       {/* Giving this a margin top to help center the text to the li bullet */}
-      <button className="va-button-link" onClick={onToggle}>
-        <h3 style={{ color: 'inherit' }}>{title}</h3>
+      <button
+        type="button"
+        className="va-button-link"
+        onClick={onToggle}
+        aria-expanded={expanded}
+        aria-controls="appeal-timeline"
+      >
+        <h2 className="vads-u-font-size--h3">{title}</h2>
       </button>
       <div className="appeal-event-date">{dateRange}</div>
       {alert}
@@ -39,10 +42,10 @@ const Expander = ({ expanded, dateRange, onToggle, missingEvents }) => {
 };
 
 Expander.propTypes = {
-  expanded: PropTypes.bool.isRequired,
   dateRange: PropTypes.string.isRequired,
-  onToggle: PropTypes.func.isRequired, // Make sure this does event.stopPropagation()
+  expanded: PropTypes.bool.isRequired,
   missingEvents: PropTypes.bool.isRequired,
+  onToggle: PropTypes.func.isRequired, // Make sure this does event.stopPropagation()
 };
 
 export default Expander;

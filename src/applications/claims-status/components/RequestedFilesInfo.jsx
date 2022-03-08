@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 
-import DueDate from '../components/DueDate';
+import DueDate from './DueDate';
 import { truncateDescription, stripHtml } from '../utils/helpers';
 
 import AdditionalEvidencePage from '../containers/AdditionalEvidencePage';
@@ -84,7 +84,7 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
 }
 
 RequestedFilesInfo.propTypes = {
-  id: PropTypes.string.isRequired,
   filesNeeded: PropTypes.array.isRequired,
+  id: PropTypes.string.isRequired,
   optionalFiles: PropTypes.array.isRequired,
 };

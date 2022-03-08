@@ -2,13 +2,13 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import { getScrollOptions } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import AddFilesForm from '../components/AddFilesForm';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
 import { setPageFocus, setUpPage } from '../utils/page';
-import { getScrollOptions } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 
 import {
   addFile,
@@ -26,7 +26,7 @@ const scrollToError = () => {
   const options = getScrollOptions({ offset: -25 });
   scrollTo('uploadError', options);
 };
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 class AdditionalEvidencePage extends React.Component {
   componentDidMount() {
@@ -38,12 +38,14 @@ class AdditionalEvidencePage extends React.Component {
       scrollToTop();
     }
   }
+
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props) {
     if (props.uploadComplete) {
       this.goToFilesPage();
     }
   }
+
   componentDidUpdate(prevProps) {
     if (this.props.message && !prevProps.message) {
       scrollToError();
@@ -52,15 +54,18 @@ class AdditionalEvidencePage extends React.Component {
       setPageFocus();
     }
   }
+
   componentWillUnmount() {
     if (!this.props.uploadComplete) {
       this.props.clearAdditionalEvidenceNotification();
     }
   }
+
   goToFilesPage() {
     this.props.getClaimDetail(this.props.claim.id);
     this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
+
   render() {
     const filesPath = `your-claims/${this.props.params.id}/additional-evidence`;
     let content;
@@ -73,7 +78,7 @@ class AdditionalEvidencePage extends React.Component {
         />
       );
     } else {
-      const message = this.props.message;
+      const { message } = this.props;
 
       content = (
         <div className="claim-container">

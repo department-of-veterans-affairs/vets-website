@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import { mockEventListeners } from 'platform/testing/unit/helpers';
 import localStorage from 'platform/utilities/storage/localStorage';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
+import { ACCOUNT_TRANSITION_DISMISSED } from 'platform/user/authentication/constants';
 import { Main, mapStateToProps } from '../../containers/Main';
 
 describe('<Main>', () => {
@@ -25,6 +26,8 @@ describe('<Main>', () => {
     getBackendStatuses: sinon.spy(),
     toggleFormSignInModal: sinon.spy(),
     toggleLoginModal: sinon.spy(),
+    toggleAccountTransitionModal: sinon.spy(),
+    closeAccountTransitionModal: sinon.spy(),
     toggleSearchHelpUserMenu: sinon.spy(),
     updateLoggedInStatus: sinon.spy(),
     initializeProfile: sinon.spy(),
@@ -49,6 +52,8 @@ describe('<Main>', () => {
     props.getBackendStatuses.reset();
     props.toggleFormSignInModal.reset();
     props.toggleLoginModal.reset();
+    props.toggleAccountTransitionModal.reset();
+    props.closeAccountTransitionModal.reset();
     props.toggleSearchHelpUserMenu.reset();
     props.updateLoggedInStatus.reset();
     props.initializeProfile.reset();
@@ -119,6 +124,56 @@ describe('<Main>', () => {
       expect(addEventListener.calledWith('load')).to.be.false;
       expect(props.initializeProfile.called).to.be.false;
       expect(props.updateLoggedInStatus.called).to.be.false;
+      wrapper.unmount();
+    });
+
+    it('should open the account transition modal when logged in, and user property mhvTransitionEligible is true', () => {
+      const mutatedProps = {
+        ...props,
+        currentlyLoggedIn: true,
+        user: {
+          mhvTransitionEligible: true,
+        },
+      };
+      const wrapper = shallow(<Main {...props} />);
+      global.window.simulate('load');
+      wrapper.setProps(mutatedProps);
+      expect(props.toggleAccountTransitionModal.calledWith(true)).to.be.true;
+      wrapper.unmount();
+    });
+
+    it('should set dismissed in storage when accountTransitionModal is closed', () => {
+      const mutatedProps = {
+        ...props,
+        currentlyLoggedIn: true,
+        user: {
+          mhvTransitionEligible: true,
+        },
+      };
+      const wrapper = shallow(<Main {...props} />);
+      global.window.simulate('load');
+      wrapper.setProps(mutatedProps);
+      expect(props.toggleAccountTransitionModal.calledWith(true)).to.be.true;
+      wrapper.instance().closeAccountTransitionModal();
+      expect(localStorage.getItem(ACCOUNT_TRANSITION_DISMISSED)).to.equal(
+        'true',
+      );
+      wrapper.unmount();
+    });
+
+    it('should not open the account transition modal if it has been previously dismissed', () => {
+      localStorage.setItem(ACCOUNT_TRANSITION_DISMISSED, true);
+      const mutatedProps = {
+        ...props,
+        currentlyLoggedIn: true,
+        user: {
+          mhvTransitionEligible: true,
+        },
+      };
+      const wrapper = shallow(<Main {...props} />);
+      global.window.simulate('load');
+      wrapper.setProps(mutatedProps);
+      expect(props.toggleAccountTransitionModal.notCalled).to.be.true;
       wrapper.unmount();
     });
   });
