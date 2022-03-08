@@ -43,7 +43,7 @@ export function transformFormToVAOSCCRequest(state) {
 
   if (
     residentialAddress &&
-    residentialAddress.addressType !== 'MILITARY OVERSEAS'
+    residentialAddress.addressType !== 'OVERSEAS MILITARY'
   ) {
     preferredLocation = {
       city: residentialAddress.city,
