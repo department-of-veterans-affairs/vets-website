@@ -64,15 +64,11 @@ const NextOfKin = props => {
         }
         await api.v2.postPreCheckInData({
           uuid: token,
-          nextOfKinUpToDate: 'yes',
+          nextOfKinUpToDate: true,
         });
         dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
         goToNextPage();
       } else {
-        await api.v2.postPreCheckInData({
-          uuid: token,
-          nextOfKinUpToDate: 'no',
-        });
         dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
         goToNextPage();
       }

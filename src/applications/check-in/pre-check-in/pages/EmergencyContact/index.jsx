@@ -63,15 +63,11 @@ const EmergencyContact = props => {
         }
         await api.v2.postPreCheckInData({
           uuid: token,
-          emergencyContactUpToDate: 'yes',
+          emergencyContactUpToDate: true,
         });
         dispatch(recordAnswer({ emergencyContactUpToDate: `${answer}` }));
         goToNextPage();
       } else {
-        await api.v2.postPreCheckInData({
-          uuid: token,
-          emergencyContactUpToDate: 'no',
-        });
         dispatch(recordAnswer({ emergencyContactUpToDate: `${answer}` }));
         goToNextPage();
       }
