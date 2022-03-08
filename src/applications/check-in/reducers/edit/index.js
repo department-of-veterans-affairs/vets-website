@@ -35,7 +35,10 @@ const setPendingEditedData = (state, action) => {
     };
   }
   if (editingPage === EDITING_PAGE_NAMES.NEXT_OF_KIN) {
-    const nextNOK = { ...demographics.nextOfKin1, ...fieldsToUpdate };
+    const { pendingEdits } = state.context;
+    const { nextOfKin1 } = demographics;
+    const currentData = pendingEdits?.NEXT_OF_KIN || nextOfKin1;
+    const nextNOK = { ...currentData, ...fieldsToUpdate };
     return {
       ...state,
       context: {
@@ -45,10 +48,10 @@ const setPendingEditedData = (state, action) => {
     };
   }
   if (editingPage === EDITING_PAGE_NAMES.EMERGENCY_CONTACT) {
-    const nextEmergencyContact = {
-      ...demographics.emergencyContact,
-      ...fieldsToUpdate,
-    };
+    const { pendingEdits } = state.context;
+    const { emergencyContact } = demographics;
+    const currentData = pendingEdits?.EMERGENCY_CONTACT || emergencyContact;
+    const nextEmergencyContact = { ...currentData, ...fieldsToUpdate };
     return {
       ...state,
       context: {

@@ -16,7 +16,7 @@ export default function NextOfKinDisplay({
   yesAction = () => {},
   noAction = () => {},
   jumpToPage = () => {},
-  isSendingData = false,
+  isLoading = false,
   isEditEnabled = false,
   Footer,
 }) {
@@ -72,7 +72,7 @@ export default function NextOfKinDisplay({
         data={nextOfKin}
         yesAction={yesAction}
         noAction={noAction}
-        isLoading={isSendingData}
+        isLoading={isLoading}
         LoadingMessage={loadingMessage}
         Footer={Footer}
         isEditEnabled={isEditEnabled}
@@ -85,7 +85,7 @@ NextOfKinDisplay.propTypes = {
   Footer: propTypes.elementType,
   header: propTypes.string,
   isEditEnabled: propTypes.bool,
-  isSendingData: propTypes.bool,
+  isLoading: propTypes.bool,
   jumpToPage: propTypes.func,
   nextOfKin: propTypes.object,
   noAction: propTypes.func,
