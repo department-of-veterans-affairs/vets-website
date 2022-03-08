@@ -57,6 +57,7 @@ module.exports = async on => {
       'url-search-params',
       '@@vap-svc/*',
       '~/platform/*',
+      'axe-core/*',
     ],
     nodePaths: [path.resolve(__dirname, '../../../../..')],
     banner: { js: `function require(a) { return a; }; var module = {};` },
