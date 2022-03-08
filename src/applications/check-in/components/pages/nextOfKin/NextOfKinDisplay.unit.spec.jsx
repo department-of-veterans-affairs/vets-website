@@ -44,8 +44,8 @@ describe('pre-check-in experience', () => {
       });
       it('renders the footer if footer is supplied', () => {
         const { getByText } = render(
-          // eslint-disable-next-line react/jsx-no-bind
           <Provider store={store}>
+            {/* eslint-disable-next-line react/jsx-no-bind */}
             <NextOfKinDisplay Footer={() => <div>foo</div>} />
           </Provider>,
         );
