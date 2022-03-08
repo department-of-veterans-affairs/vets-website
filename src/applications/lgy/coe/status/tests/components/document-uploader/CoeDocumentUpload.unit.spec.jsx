@@ -13,26 +13,6 @@ describe('DocumentUploader', () => {
     expect(screen.getAllByRole('combobox').length).to.equal(1);
   });
 
-  it('should conditionally display a text field', () => {
-    const screen = render(<DocumentUploader />);
-    expect(screen.getAllByRole('combobox').length).to.equal(1);
-    userEvent.selectOptions(screen.getByRole('combobox'), ['Other']);
-    expect(screen.getByRole('option', { name: 'Other' }).selected).to.be.true;
-    expect(screen.getByLabelText(/Document description/i)).to.exist;
-  });
-
-  it('should display an error message for invalid file type upload', () => {
-    const file = new File(['hello'], 'hello.tif', { type: 'image/tif' });
-    const screen = render(<DocumentUploader />);
-    const input = screen.getByLabelText(/Upload your document/i);
-    userEvent.upload(input, file);
-    expect(
-      screen.getByText(
-        /Please choose a file from one of the accepted file types/i,
-      ),
-    ).to.exist;
-  });
-
   it('should not submit with no documents', () => {
     const screen = render(<DocumentUploader />);
     userEvent.selectOptions(screen.getByRole('combobox'), [
