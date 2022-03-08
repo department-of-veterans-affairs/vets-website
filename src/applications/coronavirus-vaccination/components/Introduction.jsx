@@ -17,6 +17,7 @@ import AlertBox, {
 
 import * as userNavActions from 'platform/site-wide/user-nav/actions';
 import * as userSelectors from 'platform/user/selectors';
+import FormFooter from 'platform/forms/components/FormFooter';
 import {
   ContactRules,
   ProvideSSNAndDOB,
@@ -24,7 +25,6 @@ import {
   WhyContact,
 } from './VerbiageHelper';
 
-import FormFooter from 'platform/forms/components/FormFooter';
 import GetHelp from './GetHelp';
 
 function Introduction({
@@ -35,7 +35,7 @@ function Introduction({
 }) {
   return (
     <>
-      <h1 role="asdkasdkskd">Sign up to get a COVID-19 vaccine at VA</h1>
+      <h1>Sign up to get a COVID-19 vaccine at VA</h1>
       <div className="va-introtext">
         <p>
           We’re working to provide COVID-19 vaccines as quickly and safely as we
