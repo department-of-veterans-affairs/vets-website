@@ -16,6 +16,7 @@ import { getBackendStatuses } from 'platform/monitoring/external-services/action
 import { hasSession } from 'platform/user/profile/utilities';
 import { initializeProfile } from 'platform/user/profile/actions';
 import { isInProgressPath } from 'platform/forms/helpers';
+import { signInServiceName as signInServiceNameSelector } from 'platform/user/authentication/selectors';
 import {
   isLoggedIn,
   isProfileLoading,
@@ -66,7 +67,10 @@ export class Main extends Component {
         this.props.toggleAccountTransitionModal(true);
       }
 
-      if (mhvTransitionComplete) {
+      if (
+        this.props.signInServiceName === 'logingov' &&
+        mhvTransitionComplete
+      ) {
         this.props.toggleAccountTransitionSuccessModal(true);
       }
     }
@@ -261,6 +265,7 @@ export const mapStateToProps = state => {
     isLOA3: isLOA3(state),
     isProfileLoading: isProfileLoading(state),
     user: selectUser(state),
+    signInServiceName: signInServiceNameSelector(state),
     shouldConfirmLeavingForm,
     userGreeting: selectUserGreeting(state),
     ...state.navigation,
@@ -299,10 +304,10 @@ Main.propTypes = {
   isLOA3: PropTypes.bool,
   isProfileLoading: PropTypes.bool,
   shouldConfirmLeavingForm: PropTypes.bool,
-  showFormSignInModal: PropTypes.bool,
-  showLoginModal: PropTypes.bool,
   showAccountTransitionModal: PropTypes.bool,
   showAccountTransitionSuccessModal: PropTypes.bool,
+  showFormSignInModal: PropTypes.bool,
+  showLoginModal: PropTypes.bool,
   userGreeting: PropTypes.array,
   utilitiesMenuIsOpen: PropTypes.object,
 };
