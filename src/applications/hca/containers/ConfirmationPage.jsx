@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
@@ -9,6 +10,8 @@ import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
 
+import { hasSession } from 'platform/user/profile/utilities';
+
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('.schemaform-title > h1');
@@ -16,9 +19,20 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const { submission, data } = this.props.form;
+    const { form } = this.props;
+    const { submission, data } = form;
     const { response } = submission;
-    const name = data.veteranFullName;
+
+    let name;
+    if (hasSession()) {
+      // authenticated user, get name from profile
+      const { profie } = this.props;
+      const { user } = profie;
+      name = user.userFullName;
+    } else {
+      // unauthenticated user, get name from form data
+      name = data.veteranFullName;
+    }
 
     let emailMessage;
 
@@ -165,7 +179,13 @@ export class ConfirmationPage extends React.Component {
 function mapStateToProps(state) {
   return {
     form: state.form,
+    user: state.user.profile,
   };
 }
 
 export default connect(mapStateToProps)(ConfirmationPage);
+
+ConfirmationPage.propTypes = {
+  form: PropTypes.object,
+  profie: PropTypes.object,
+};
