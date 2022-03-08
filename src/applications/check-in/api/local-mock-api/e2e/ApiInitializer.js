@@ -41,6 +41,19 @@ class ApiInitializer {
         }),
       );
     },
+    withDayOfDemographicsFlagsEnabled: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: true,
+          preCheckInEnabled: true,
+          checkInExperienceUpdateInformationPageEnabled: false,
+          emergencyContactEnabled: true,
+          checkInExperienceDayOfDemographicsFlagsEnabled: true,
+        }),
+      );
+    },
     withAllFeatures: () => {
       cy.intercept(
         'GET',
