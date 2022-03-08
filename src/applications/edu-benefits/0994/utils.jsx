@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 
 /**
@@ -47,7 +48,7 @@ export const hasNewBankInformation = (bankAccount = {}) => {
 };
 
 /**
- * Different than hasNewBankInformation because plucked property names are different
+ * Different than hasNewBankInformation because plucked property names are different.
  * @param {*} bankAccount prefill bank account information object
  */
 export const hasPrefillBankInformation = (bankAccount = {}) => {
@@ -57,4 +58,12 @@ export const hasPrefillBankInformation = (bankAccount = {}) => {
     typeof bankAccountNumber !== 'undefined' ||
     typeof bankRoutingNumber !== 'undefined'
   );
+};
+
+/** Uses hasPrefillBankInformation using available form data.
+ * @param {*} bank account form data information object
+ */
+export const hasPrefillBankInfo = formData => {
+  const bankAccountObj = _.get(formData, 'prefillBankAccount', {});
+  return hasPrefillBankInformation(bankAccountObj);
 };

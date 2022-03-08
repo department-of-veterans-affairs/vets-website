@@ -19,6 +19,9 @@ export const App = ({ href, id, text, type }) => {
 
   // On dismiss, add the promo banner to local storage.
   const onClose = () => {
+    // Remove class that pads the site footer
+    document.body.classList.remove('va-pad-promo-banner');
+
     // Set our state to dismissed.
     setIsDismissed(true);
 
@@ -34,6 +37,9 @@ export const App = ({ href, id, text, type }) => {
   if (isDismissed) {
     return null;
   }
+
+  // Add class to body to pad the site footer
+  document.body.classList.add('va-pad-promo-banner');
 
   // Render the promo banner.
   return <PromoBanner onClose={onClose} href={href} text={text} type={type} />;

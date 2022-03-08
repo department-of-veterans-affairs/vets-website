@@ -3,6 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import moment from 'moment';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
@@ -29,8 +31,6 @@ import {
   confirmCancelAppointment,
   fetchRequestDetails,
 } from '../redux/actions';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-import recordEvent from 'platform/monitoring/record-event';
 import RequestedStatusAlert from './RequestedStatusAlert';
 
 const TIME_TEXT = {
@@ -192,7 +192,7 @@ export default function RequestedAppointmentDetailsPage() {
         {appointment.requestedPeriod.map((option, optionIndex) => (
           <li key={`${appointment.id}-option-${optionIndex}`}>
             {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
-            {option.start.includes('00:00:00') ? TIME_TEXT.AM : TIME_TEXT.PM}
+            {moment(option.start).hour() < 12 ? TIME_TEXT.AM : TIME_TEXT.PM}
           </li>
         ))}
       </ul>

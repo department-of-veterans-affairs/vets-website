@@ -122,7 +122,8 @@ export function schema(
   return {
     type: 'object',
     required: isRequired ? requiredFields : [],
-    properties: Object.assign({}, addressSchema.properties, {
+    properties: {
+      ...addressSchema.properties,
       country: {
         default: 'USA',
         type: 'string',
@@ -138,7 +139,7 @@ export function schema(
         type: 'string',
         maxLength: 10,
       },
-    }),
+    },
   };
 }
 
@@ -301,32 +302,39 @@ export function uiSchema(
     'ui:order': fieldOrder,
     country: {
       'ui:title': 'Country',
+      'ui:autocomplete': 'country',
     },
     street: {
       'ui:title': 'Street',
+      'ui:autocomplete': 'address-line1',
       'ui:errorMessages': {
         required: 'Please enter a street address',
       },
     },
     street2: {
       'ui:title': 'Street address line 2',
+      'ui:autocomplete': 'address-line2',
     },
     street3: {
       'ui:title': 'Street address line 3',
+      'ui:autocomplete': 'address-line3',
     },
     city: {
       'ui:title': 'City',
+      'ui:autocomplete': 'address-level2',
       'ui:errorMessages': {
         required: 'Please enter a city',
       },
     },
     state: {
+      'ui:autocomplete': 'address-level1',
       'ui:errorMessages': {
         required: 'Please enter a state',
       },
     },
     postalCode: {
       'ui:title': 'Postal code',
+      'ui:autocomplete': 'postal-code',
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
       },

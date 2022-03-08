@@ -393,9 +393,9 @@ export function createDirectDeposit(submissionForm) {
   return submissionForm?.bankAccount?.accountType ? bankInfo : {};
 }
 
-export function createSubmissionForm(submissionForm) {
+export function createSubmissionForm(submissionForm, formId) {
   return {
-    formId: submissionForm.formId,
+    formId,
     claimant: createMilitaryClaimant(submissionForm),
     relinquishedBenefit: createRelinquishedBenefit(submissionForm),
     additionalConsiderations: createAdditionalConsiderations(submissionForm),

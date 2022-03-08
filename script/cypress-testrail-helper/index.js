@@ -5,17 +5,40 @@ const figlet = require('figlet');
 const fs = require('fs');
 
 const utils = require('./lib/utils');
-
 const myConfigPath = './script/cypress-testrail-helper/my-config.json'; // Project-root-relative path [for fs-call].
+const appArgs = process.argv.slice(2);
 
 // Runtime variables.
+let isRerun = false;
 let myConfig, specFile, trInfo;
 
+// Check --rerun flag.
+if (appArgs.includes('--rerun')) {
+  isRerun = true;
+}
+
 // Cypress run-specific config and run function
-const configRunCySpec = appConfig => {
+const configRunCySpec = myConfig => {
+  let prevSpec = null;
+
+  if (isRerun) {
+    if (myConfig.previousSpec) {
+      prevSpec = myConfig.previousSpec;
+      console.log(
+        chalk.green(`--rerun flag detected!  Previous-run spec:\n${prevSpec}`),
+      );
+    } else {
+      console.log(
+        chalk.yellow(
+          '--rerun flag detected, BUT no previous-run-spec info was found!\nPlease provide spec filename when prompted...',
+        ),
+      );
+    }
+  }
+
   console.log(chalk.yellow('CREATING CYPRESS RUN-SPECIFIC CONFIG-FILE NOW...'));
   utils
-    .findSpecFiles()
+    .findSpecFiles(prevSpec)
     .then(async files => {
       filesLength = files.length;
       if (filesLength === 0) {
@@ -49,9 +72,14 @@ const configRunCySpec = appConfig => {
                   ),
                 );
                 console.log(
-                  chalk.yellow(`RUNNING CYPRESS SPEC [${specFile}] NOW...`),
+                  chalk.yellow(
+                    `${
+                      isRerun ? 'RE-' : ''
+                    }RUNNING CYPRESS SPEC [${specFile}] NOW...`,
+                  ),
                 );
                 utils.runCySpec(specFile);
+                utils.saveSpecFile(myConfig, myConfigPath, specFile);
               })
               .catch(e => {
                 console.log(chalk.red(`chooseSpecFile() failed! ${e}`));
