@@ -167,7 +167,7 @@ export const formatMultiSelectAndText = (data, fieldName) => {
     ...(data?.[notListedTextKey] ? [data[notListedTextKey]] : []),
   ];
 
-  if (mergedValues.length > 0) return mergedValues.join(', ');
+  if (mergedValues.length > 0) return mergedValues.join('; ');
 
   return null;
 };
