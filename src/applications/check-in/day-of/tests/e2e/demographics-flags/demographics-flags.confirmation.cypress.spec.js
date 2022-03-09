@@ -11,7 +11,7 @@ import Confirmation from '../pages/Confirmation';
 describe('Check In Experience', () => {
   describe('check-in with demographics confirmation', () => {
     beforeEach(() => {
-      const patchSpy = cy.spy().as('demographicsPatchSuccess');
+      const demographicsPatchSpy = cy.spy().as('demographicsPatchSpy');
       const {
         initializeFeatureToggle,
         initializeSessionGet,
@@ -27,7 +27,7 @@ describe('Check In Experience', () => {
         numberOfCheckInAbledAppointments: 2,
       });
       initializeCheckInDataPost.withSuccess();
-      initializeDemographicsPatch.withSuccess(patchSpy);
+      initializeDemographicsPatch.withSuccess(demographicsPatchSpy);
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -60,9 +60,29 @@ describe('Check In Experience', () => {
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
 
-      cy.get('@demographicsPatchSuccess').then(spy => {
+      cy.get('@demographicsPatchSpy').then(spy => {
         expect(spy).to.be.calledOnce;
       });
+
+      cy.wait('@demographicsPatchSuccessAlias');
+      cy.get('@demographicsPatchSuccessAlias')
+        .its(
+          'request.body.demographics.demographicConfirmations.demographicsUpToDate',
+        )
+        .should('equal', true);
+      cy.get('@demographicsPatchSuccessAlias')
+        .its(
+          'request.body.demographics.demographicConfirmations.emergencyContactUpToDate',
+        )
+        .should('equal', true);
+      cy.get('@demographicsPatchSuccessAlias')
+        .its(
+          'request.body.demographics.demographicConfirmations.nextOfKinUpToDate',
+        )
+        .should('equal', true);
+      cy.get('@demographicsPatchSuccessAlias')
+        .its('response.statusCode')
+        .should('equal', 200);
 
       Confirmation.attemptGoBackToAppointments();
       Appointments.validatePageLoaded();
@@ -73,14 +93,14 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
 
       // call should not occur a second time if first call was successful
-      cy.get('@demographicsPatchSuccess').then(spy => {
+      cy.get('@demographicsPatchSpy').then(spy => {
         expect(spy).to.be.calledOnce;
       });
     });
   });
   describe('check-in demographics confirmation - With API error', () => {
     beforeEach(() => {
-      const patchSpy = cy.spy().as('demographicsPatchFailure');
+      const demographicsPatchSpy = cy.spy().as('demographicsPatchSpy');
       const {
         initializeFeatureToggle,
         initializeSessionGet,
@@ -96,7 +116,7 @@ describe('Check In Experience', () => {
         numberOfCheckInAbledAppointments: 2,
       });
       initializeCheckInDataPost.withSuccess();
-      initializeDemographicsPatch.withFailure(400, patchSpy);
+      initializeDemographicsPatch.withFailure(400, demographicsPatchSpy);
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -129,9 +149,14 @@ describe('Check In Experience', () => {
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
 
-      cy.get('@demographicsPatchFailure').then(spy => {
+      cy.get('@demographicsPatchSpy').then(spy => {
         expect(spy).to.be.calledOnce;
       });
+
+      cy.wait('@demographicsPatchFailureAlias');
+      cy.get('@demographicsPatchFailureAlias')
+        .its('response.statusCode')
+        .should('equal', 400);
 
       Confirmation.attemptGoBackToAppointments();
       Appointments.validatePageLoaded();
@@ -142,9 +167,14 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
 
       // Call should be attempted a second time since first was not successful
-      cy.get('@demographicsPatchFailure').then(spy => {
+      cy.get('@demographicsPatchSpy').then(spy => {
         expect(spy).to.be.calledTwice;
       });
+
+      cy.wait('@demographicsPatchFailureAlias');
+      cy.get('@demographicsPatchFailureAlias')
+        .its('response.statusCode')
+        .should('equal', 400);
     });
   });
 });
