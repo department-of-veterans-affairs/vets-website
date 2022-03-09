@@ -27,16 +27,23 @@ export default function Email(props) {
   const [email, setEmail] = useState(value);
   const [errorMessage, setErrorMessage] = useState();
 
+  const isUpdatable = useMemo(
+    () => {
+      return !errorMessage;
+    },
+    [errorMessage],
+  );
+
   const dispatch = useDispatch();
   const handleUpdateEmail = useCallback(
     () => {
-      if (email !== value) {
+      if (email !== value && !errorMessage) {
         dispatch(
           createSetPendingEditedData({ emailAddress: email }, editingPage),
         );
       }
     },
-    [dispatch, editingPage, email, value],
+    [dispatch, editingPage, email, errorMessage, value],
   );
   const clearEditContext = useCallback(
     () => {
@@ -84,6 +91,7 @@ export default function Email(props) {
         backPage={originatingUrl}
         clearData={clearEditContext}
         handleUpdate={handleUpdateEmail}
+        isUpdatable={isUpdatable}
       />
       <CancelButton
         jumpToPage={jumpToPage}
