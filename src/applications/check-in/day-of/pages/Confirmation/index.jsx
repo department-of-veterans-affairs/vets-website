@@ -45,21 +45,23 @@ const Confirmation = props => {
       if (
         !isDayOfDemographicsFlagsEnabled ||
         demographicsFlagsSent ||
-        getDemographicsConfirmed()
+        getDemographicsConfirmed(window)
       )
         return;
-      try {
-        api.v2.patchDayOfDemographicsData(demographicsData).then(resp => {
+      api.v2
+        .patchDayOfDemographicsData(demographicsData)
+        .then(resp => {
           if (resp.data.error || resp.data.errors) {
-            goToErrorPage();
+            throw new Error();
           } else {
             setDemographicsFlagsSent(true);
             setDemographicsConfirmed(window, true);
           }
+        })
+        .catch(() => {
+          // Log or forward to error page?
+          // goToErrorPage();
         });
-      } catch (error) {
-        goToErrorPage();
-      }
     },
     [
       demographicsData,
