@@ -17,7 +17,6 @@ export const DebtNotification = ({ debts, hasError }) => {
         <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5">
           <va-alert
             status="error"
-            background-only
             show-icon
             className="vads-u-margin-top--0"
             closeable
@@ -36,30 +35,25 @@ export const DebtNotification = ({ debts, hasError }) => {
       <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-top--2p5">
         <va-alert
           status="warning"
-          background-only
           show-icon
           className="vads-u-margin-top--0"
+          onCloseEvent={() => setDismissed(true)}
+          closeable
         >
-          You have new debt.{' '}
-          <CTALink
-            text="Manage your VA debt"
-            href="/manage-va-debt/your-debt"
-            onClick={() =>
-              recordEvent({
-                event: 'profile-navigation',
-                'profile-action': 'view-link',
-                'profile-section': 'view-manage-va-debt',
-              })
-            }
-          />
-          <button
-            className="vads-u-color--black vads-u-margin--0 vads-u-font-size--base vads-u-background-color--transparent vads-u-padding-x--0 vads-u-padding-bottom--0 vads-u-padding-top--0p5 dismissible-close"
-            type="button"
-            aria-label="Close this modal"
-            onClick={() => setDismissed(true)}
-          >
-            <i className="fas fa-times" aria-hidden="true" />
-          </button>
+          <div className="vads-u-margin-top--0">
+            You have new debt.{' '}
+            <CTALink
+              text="Manage your VA debt"
+              href="/manage-va-debt/your-debt"
+              onClick={() =>
+                recordEvent({
+                  event: 'profile-navigation',
+                  'profile-action': 'view-link',
+                  'profile-section': 'view-manage-va-debt',
+                })
+              }
+            />
+          </div>
         </va-alert>
       </div>
     </DashboardWidgetWrapper>

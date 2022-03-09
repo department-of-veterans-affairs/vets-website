@@ -14,6 +14,7 @@ export default function DemographicsDisplay({
   subtitle = 'We can better follow up with you after your appointment when we have your current information.',
   demographics = {},
   isEditEnabled = false,
+  isLoading = false,
   jumpToPage = () => {},
   yesAction = () => {},
   noAction = () => {},
@@ -55,6 +56,7 @@ export default function DemographicsDisplay({
         dataFields={demographicFields}
         data={demographics}
         isEditEnabled={isEditEnabled}
+        isLoading={isLoading}
         yesAction={yesAction}
         noAction={noAction}
         Footer={Footer}
@@ -68,6 +70,7 @@ DemographicsDisplay.propTypes = {
   demographics: PropTypes.object,
   header: PropTypes.string,
   isEditEnabled: PropTypes.bool,
+  isLoading: PropTypes.bool,
   jumpToPage: PropTypes.func,
   noAction: PropTypes.func,
   subtitle: PropTypes.string,

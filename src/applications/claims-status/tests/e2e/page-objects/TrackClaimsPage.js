@@ -160,10 +160,9 @@ class TrackClaimsPage {
         cy.get('li.list-one .claims-evidence', {
           timeout: Timeouts.slow,
         }).should('be.visible');
-        cy.get('.claims-evidence:nth-child(3) .claims-evidence-item').should(
-          'contain',
-          'Your claim is closed',
-        );
+        cy.get(
+          '.claims-evidence-list li:nth-child(3) .claims-evidence-item',
+        ).should('contain', 'Your claim is closed');
         cy.get('.claim-older-updates').should('exist');
       });
     cy.get('li.list-one .claims-evidence', {
@@ -202,7 +201,7 @@ class TrackClaimsPage {
   }
 
   verifyClaimEvidence(claimId, claimStatus) {
-    cy.get('.submit-additional-evidence .usa-alert').should('be.visible');
+    cy.get('.submit-additional-evidence va-alert').should('be.visible');
     cy.get(
       `.submitted-file-list-item:nth-child(${claimId}) .submission-status`,
     ).should('contain', `${claimStatus}`);

@@ -12,9 +12,9 @@ export default function ClaimEstimate({
   if (showCovidMessage) {
     return (
       <va-alert status="warning">
-        <h3 slot="headline">
+        <h5 slot="headline">
           Claim completion dates aren’t available right now
-        </h3>
+        </h5>
         <p className="vads-u-font-size--base">
           We can’t provide an estimated date on when your claim will be complete
           due to the affect that COVID-19 has had on scheduling in-person claim

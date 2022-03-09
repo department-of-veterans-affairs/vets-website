@@ -41,7 +41,7 @@ describe('Content on the personal information page', () => {
     cy.findByText('Wes').should('exist');
 
     // Check pronouns
-    cy.findByText('He/him/his, They/them/theirs, Other/pronouns/here').should(
+    cy.findByText('He/him/his; They/them/theirs; Other/pronouns/here').should(
       'exist',
     );
 
@@ -49,7 +49,7 @@ describe('Content on the personal information page', () => {
     cy.findByText('Man').should('exist');
 
     // Check sexual orientation
-    cy.findByText('Straight or heterosexual, Some other orientation').should(
+    cy.findByText('Straight or heterosexual; Some other orientation').should(
       'exist',
     );
 

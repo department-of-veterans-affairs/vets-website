@@ -13,32 +13,67 @@ import NextOfKinDisplay from '../../../components/pages/nextOfKin/NextOfKinDispl
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import { makeSelectVeteranData } from '../../../selectors';
+import {
+  makeSelectCurrentContext,
+  makeSelectVeteranData,
+  makeSelectPendingEdits,
+} from '../../../selectors';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+
+import { api } from '../../../api';
 
 const NextOfKin = props => {
   const { router } = props;
 
-  const [isSendingData, setIsSendingData] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
   const { nextOfKin1: nextOfKin } = demographics;
 
+  const selectPendingEdits = useMemo(makeSelectPendingEdits, []);
+  const { pendingEdits } = useSelector(selectPendingEdits);
+  const { nextOfKin1: newInformation } = pendingEdits || {};
+
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isEditingPreCheckInEnabled } = useSelector(selectFeatureToggles);
+
   const dispatch = useDispatch();
 
-  const { goToNextPage, goToPreviousPage } = useFormRouting(router);
+  const { goToNextPage, goToPreviousPage, jumpToPage } = useFormRouting(router);
+
+  const selectContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectContext);
 
   const buttonClick = useCallback(
     async answer => {
-      setIsSendingData(true);
+      setIsLoading(true);
       recordEvent({
         event: 'cta-button-click',
         'button-click-label': `${answer}-to-next-of-kin`,
       });
-      dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
-      goToNextPage();
+      if (isEditingPreCheckInEnabled) {
+        setIsLoading(true);
+        if (newInformation) {
+          await api.v2.postDemographicsData({
+            demographics: {
+              nextOfKin1: newInformation,
+            },
+            token,
+          });
+        }
+        await api.v2.postPreCheckInData({
+          uuid: token,
+          nextOfKinUpToDate: true,
+        });
+        dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
+        goToNextPage();
+      } else {
+        dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
+        goToNextPage();
+      }
     },
-    [dispatch, goToNextPage],
+    [dispatch, goToNextPage, isEditingPreCheckInEnabled, newInformation, token],
   );
 
   const yesClick = useCallback(
@@ -64,10 +99,12 @@ const NextOfKin = props => {
         Footer={Footer}
         header={header}
         subtitle={subtitle}
-        nextOfKin={nextOfKin}
+        nextOfKin={newInformation || nextOfKin}
         yesAction={yesClick}
         noAction={noClick}
-        isSendingData={isSendingData}
+        isLoading={isLoading}
+        isEditEnabled={isEditingPreCheckInEnabled}
+        jumpToPage={jumpToPage}
       />
       <BackToHome />
     </>

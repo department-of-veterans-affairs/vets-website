@@ -65,6 +65,9 @@ const responses = {
     }
     return res.json(preCheckInData.post.createMockSuccessResponse({}));
   },
+  'POST /check_in/v2/edit_demographics/': (req, res) => {
+    return res.json(checkInData.post.createMockEditSuccessResponse({}));
+  },
 };
 
 module.exports = delay(responses, 2000);
