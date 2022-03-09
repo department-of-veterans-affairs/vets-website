@@ -13,7 +13,6 @@ const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
         >
           <i
             aria-hidden="true"
-            role="img"
             className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm"
           />
           Current debts
@@ -54,7 +53,6 @@ const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
       >
         <i
           aria-hidden="true"
-          role="img"
           className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm"
         />
         How do I pay my VA debt?
@@ -66,7 +64,6 @@ const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
       >
         <i
           aria-hidden="true"
-          role="img"
           className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm"
         />
         How do I get financial help?
@@ -78,7 +75,6 @@ const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
       >
         <i
           aria-hidden="true"
-          role="img"
           className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm"
         />
         How do I dispute a debt?
