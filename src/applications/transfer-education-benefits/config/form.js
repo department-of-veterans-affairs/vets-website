@@ -89,6 +89,7 @@ const formFields = {
   federallySponsoredAcademy: 'federallySponsoredAcademy',
   fullName: 'fullName',
   hasDoDLoanPaymentPeriod: 'hasDoDLoanPaymentPeriod',
+  highSchoolDiplomaDate: 'highSchoolDiplomaDate',
   incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
   loanPayment: 'loanPayment',
   mobilePhoneNumber: 'mobilePhoneNumber',
@@ -171,6 +172,8 @@ const formPages = {
     },
   },
   directDeposit: 'directDeposit',
+  sponsorInformation: 'sponsorInformation',
+  sponsorHighSchool: 'sponsorHighSchool',
 };
 
 // const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
@@ -543,7 +546,7 @@ const formConfig = {
       pages: {
         [formPages.sponsorInformation]: {
           title: 'Phone numbers and email address',
-          path: 'sponsor-information',
+          path: 'sponsor/information',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -594,7 +597,9 @@ const formConfig = {
                   status="warning"
                   visible
                 >
-                  <h3 slot="headline">Your sponsor is not on file</h3>
+                  <h3 slot="headline">
+                    We do not have any sponsor information on file
+                  </h3>
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
                     they can update this information on the DoD milConnect
@@ -691,6 +696,49 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
+            },
+          },
+        },
+        [formPages.sponsorHighSchool]: {
+          title: 'Verify your high school education',
+          path: 'sponsor/high-school-education',
+          uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Verify your high school education</h3>
+                  <va-alert
+                    close-btn-aria-label="Close notification"
+                    status="info"
+                    visible
+                  >
+                    <h3 slot="headline">We need additional information</h3>
+                    <div>
+                      Since you indicated that you are the child of your
+                      sponsor, please include information about your high school
+                      education.
+                    </div>
+                  </va-alert>
+                </>
+              ),
+            },
+            [formFields.highSchoolDiplomaDate]: {
+              ...currentOrPastDateUI(
+                'When did you earn your high school diploma or equivalency certificate?',
+              ),
+              'ui:options': {
+                monthYear: true,
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              [formFields.highSchoolDiplomaDate]: date,
             },
           },
         },
