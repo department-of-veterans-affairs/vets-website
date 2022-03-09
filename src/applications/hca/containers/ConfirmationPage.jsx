@@ -68,7 +68,7 @@ export class ConfirmationPage extends React.Component {
             Health Care Benefit Claim{' '}
             <span className="additional">(Form 10-10EZ)</span>
           </h5>
-          <span key={name}>
+          <span>
             for {first} {middle} {last} {suffix}
           </span>
 
@@ -102,7 +102,7 @@ export class ConfirmationPage extends React.Component {
           </p>
           <p>
             Please don’t apply again. Instead, please call our toll-free hotline
-            at <a href="tel:+18772228387">877-222-8387</a>. We’re here Monday
+            at <va-telephone contact="877-222-8387" />. We’re here Monday
             through Friday, 8:00 am to 8:00 pm ET.
           </p>
           <h4 className="confirmation-guidance-heading">
@@ -170,8 +170,8 @@ export class ConfirmationPage extends React.Component {
             What if I have more questions?
           </h4>
           <p className="confirmation-guidance-message">
-            Please call <a href="tel:+18772228387">877-222-8387</a> and select
-            2. We're here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+            Please call <va-telephone contact="877-222-8387" /> and select 2.
+            We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
         </div>
       </div>
