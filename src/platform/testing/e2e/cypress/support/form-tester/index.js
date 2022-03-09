@@ -193,7 +193,8 @@ const defaultPostHook = pathname => {
         if (privacyAgreement.length) {
           cy.wrap(privacyAgreement)
             .first()
-            .check(FORCE_OPTION);
+            .check(FORCE_OPTION)
+            .should('be.checked');
         }
       });
 
@@ -289,12 +290,20 @@ Cypress.Commands.add('enterData', field => {
   switch (field.type) {
     // Select fields register as having type 'select-one'.
     case 'select-one':
-      cy.wrap(field.element).select(field.data, FORCE_OPTION);
+      cy.wrap(field.element)
+        .select(field.data, FORCE_OPTION)
+        .should('have.value', field.data);
       break;
 
     case 'checkbox': {
-      if (field.data) cy.wrap(field.element).check(FORCE_OPTION);
-      else cy.wrap(field.element).uncheck(FORCE_OPTION);
+      if (field.data)
+        cy.wrap(field.element)
+          .check(FORCE_OPTION)
+          .should('have.value', field.element);
+      else
+        cy.wrap(field.element)
+          .uncheck(FORCE_OPTION)
+          .should('be.unchecked');
       break;
     }
 
@@ -306,6 +315,7 @@ Cypress.Commands.add('enterData', field => {
       cy.wrap(field.element)
         .clear({ ...FORCE_OPTION, ...NO_DELAY_OPTION })
         .type(field.data, { ...FORCE_OPTION, ...NO_DELAY_OPTION })
+        .should('have.value', field.data)
         .then(element => {
           // Get the autocomplete menu out of the way.
           if (element.attr('role') === 'combobox') element.blur();
@@ -318,7 +328,9 @@ Cypress.Commands.add('enterData', field => {
       // Use 'Y' / 'N' because of the yesNo widget.
       if (typeof value === 'boolean') value = value ? 'Y' : 'N';
       const selector = `input[name="${field.key}"][value="${value}"]`;
-      cy.get(selector).check(FORCE_OPTION);
+      cy.get(selector)
+        .check(FORCE_OPTION)
+        .should('be.checked');
       break;
     }
 
@@ -337,11 +349,17 @@ Cypress.Commands.add('enterData', field => {
 
       cy.get(`#${baseSelector}Year`)
         .clear({ ...FORCE_OPTION, ...NO_DELAY_OPTION })
-        .type(year, { ...FORCE_OPTION, ...NO_DELAY_OPTION });
+        .type(year, { ...FORCE_OPTION, ...NO_DELAY_OPTION })
+        .should('have.value', year);
 
-      cy.get(`#${baseSelector}Month`).select(month, FORCE_OPTION);
+      cy.get(`#${baseSelector}Month`)
+        .select(month, FORCE_OPTION)
+        .should('have.value', month);
 
-      if (day !== 'XX') cy.get(`#${baseSelector}Day`).select(day, FORCE_OPTION);
+      if (day !== 'XX')
+        cy.get(`#${baseSelector}Day`)
+          .select(day, FORCE_OPTION)
+          .should('have.value', day);
 
       break;
     }
