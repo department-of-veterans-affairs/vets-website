@@ -33,7 +33,6 @@ const App = ({
   loggedIn,
   user,
 }) => {
-  const referenceNumber = 'XXXXXXXX';
   const clickHandler = useCallback(
     () => {
       getCoe('skip');
@@ -71,7 +70,7 @@ const App = ({
           <Eligible
             clickHandler={clickHandler}
             downloadUrl={downloadUrl}
-            referenceNumber={referenceNumber}
+            referenceNumber={coe.referenceNumber}
           />
         );
         break;
@@ -79,13 +78,13 @@ const App = ({
         content = <Ineligible />;
         break;
       case COE_ELIGIBILITY_STATUS.denied:
-        content = <Denied referenceNumber={referenceNumber} />;
+        content = <Denied referenceNumber={coe.referenceNumber} />;
         break;
       case COE_ELIGIBILITY_STATUS.pending:
         content = (
           <Pending
             notOnUploadPage
-            referenceNumber={referenceNumber}
+            referenceNumber={coe.referenceNumber}
             requestDate={coe.applicationCreateDate}
             status={coe.status}
           />
@@ -94,7 +93,7 @@ const App = ({
       case COE_ELIGIBILITY_STATUS.pendingUpload:
         content = (
           <Pending
-            referenceNumber={referenceNumber}
+            referenceNumber={coe.referenceNumber}
             requestDate={coe.applicationCreateDate}
             status={coe.status}
             uploadsNeeded
