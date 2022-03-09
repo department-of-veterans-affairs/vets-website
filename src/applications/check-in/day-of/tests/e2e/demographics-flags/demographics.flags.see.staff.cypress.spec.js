@@ -10,7 +10,6 @@ import SeeStaff from '../pages/SeeStaff';
 describe('Check In Experience', () => {
   describe('Demographics Update Flags', () => {
     beforeEach(() => {
-      const patchSpy = cy.spy().as('demographicsPatchSuccess');
       const {
         initializeFeatureToggle,
         initializeSessionGet,
@@ -22,7 +21,7 @@ describe('Check In Experience', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataGet.withSuccess();
-      initializeDemographicsPatch.withSuccess(patchSpy);
+      initializeDemographicsPatch.withSuccess();
     });
 
     afterEach(() => {
@@ -44,9 +43,25 @@ describe('Check In Experience', () => {
 
       SeeStaff.validatePageLoaded();
 
-      cy.get('@demographicsPatchSuccess').then(spy => {
-        expect(spy).to.be.called;
-      });
+      cy.wait('@demographicsPatchSuccessAlias');
+      cy.get('@demographicsPatchSuccessAlias')
+        .its(
+          'request.body.demographics.demographicConfirmations.demographicsUpToDate',
+        )
+        .should('equal', false);
+      cy.get('@demographicsPatchSuccessAlias')
+        .its(
+          'request.body.demographics.demographicConfirmations.emergencyContactUpToDate',
+        )
+        .should('equal', false);
+      cy.get('@demographicsPatchSuccessAlias')
+        .its(
+          'request.body.demographics.demographicConfirmations.nextOfKinUpToDate',
+        )
+        .should('equal', false);
+      cy.get('@demographicsPatchSuccessAlias')
+        .its('response.statusCode')
+        .should('equal', 200);
     });
     it('see staff with emergency contact update', () => {
       cy.visitWithUUID();
@@ -66,9 +81,25 @@ describe('Check In Experience', () => {
 
       SeeStaff.validatePageLoaded();
 
-      cy.get('@demographicsPatchSuccess').then(spy => {
-        expect(spy).to.be.called;
-      });
+      cy.wait('@demographicsPatchSuccessAlias');
+      cy.get('@demographicsPatchSuccessAlias')
+        .its(
+          'request.body.demographics.demographicConfirmations.demographicsUpToDate',
+        )
+        .should('equal', true);
+      cy.get('@demographicsPatchSuccessAlias')
+        .its(
+          'request.body.demographics.demographicConfirmations.emergencyContactUpToDate',
+        )
+        .should('equal', false);
+      cy.get('@demographicsPatchSuccessAlias')
+        .its(
+          'request.body.demographics.demographicConfirmations.nextOfKinUpToDate',
+        )
+        .should('equal', false);
+      cy.get('@demographicsPatchSuccessAlias')
+        .its('response.statusCode')
+        .should('equal', 200);
     });
     it('see staff with next of kin update', () => {
       cy.visitWithUUID();
@@ -92,9 +123,25 @@ describe('Check In Experience', () => {
 
       SeeStaff.validatePageLoaded();
 
-      cy.get('@demographicsPatchSuccess').then(spy => {
-        expect(spy).to.be.called;
-      });
+      cy.wait('@demographicsPatchSuccessAlias');
+      cy.get('@demographicsPatchSuccessAlias')
+        .its(
+          'request.body.demographics.demographicConfirmations.demographicsUpToDate',
+        )
+        .should('equal', true);
+      cy.get('@demographicsPatchSuccessAlias')
+        .its(
+          'request.body.demographics.demographicConfirmations.emergencyContactUpToDate',
+        )
+        .should('equal', true);
+      cy.get('@demographicsPatchSuccessAlias')
+        .its(
+          'request.body.demographics.demographicConfirmations.nextOfKinUpToDate',
+        )
+        .should('equal', false);
+      cy.get('@demographicsPatchSuccessAlias')
+        .its('response.statusCode')
+        .should('equal', 200);
     });
   });
   describe('Demographics Update Flags - With Patch API Error', () => {
@@ -131,6 +178,16 @@ describe('Check In Experience', () => {
       Demographics.attemptToGoToNextPage('no');
 
       SeeStaff.validatePageLoaded();
+
+      cy.wait('@demographicsPatchFailureAlias');
+      cy.get('@demographicsPatchFailureAlias')
+        .its(
+          'request.body.demographics.demographicConfirmations.demographicsUpToDate',
+        )
+        .should('equal', false);
+      cy.get('@demographicsPatchFailureAlias')
+        .its('response.statusCode')
+        .should('equal', 400);
     });
   });
 });
