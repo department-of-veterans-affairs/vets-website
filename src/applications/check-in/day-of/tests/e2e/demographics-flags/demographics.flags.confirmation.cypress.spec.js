@@ -11,7 +11,6 @@ import Confirmation from '../pages/Confirmation';
 describe('Check In Experience', () => {
   describe('check-in with demographics confirmation', () => {
     beforeEach(() => {
-      const demographicsPatchSpy = cy.spy().as('demographicsPatchSpy');
       const {
         initializeFeatureToggle,
         initializeSessionGet,
@@ -27,7 +26,19 @@ describe('Check In Experience', () => {
         numberOfCheckInAbledAppointments: 2,
       });
       initializeCheckInDataPost.withSuccess();
-      initializeDemographicsPatch.withSuccess(demographicsPatchSpy);
+      initializeDemographicsPatch.withSuccess();
+
+      const demographicsPatchSpy = cy.spy().as('demographicsPatchSpy');
+      cy.intercept(
+        {
+          method: 'PATCH',
+          url: `/check_in/v2/demographics/*`,
+          middleware: true,
+        },
+        () => {
+          demographicsPatchSpy();
+        },
+      );
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -100,7 +111,6 @@ describe('Check In Experience', () => {
   });
   describe('check-in demographics confirmation - With API error', () => {
     beforeEach(() => {
-      const demographicsPatchSpy = cy.spy().as('demographicsPatchSpy');
       const {
         initializeFeatureToggle,
         initializeSessionGet,
@@ -116,7 +126,7 @@ describe('Check In Experience', () => {
         numberOfCheckInAbledAppointments: 2,
       });
       initializeCheckInDataPost.withSuccess();
-      initializeDemographicsPatch.withFailure(400, demographicsPatchSpy);
+      initializeDemographicsPatch.withFailure(400);
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -149,10 +159,6 @@ describe('Check In Experience', () => {
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
 
-      cy.get('@demographicsPatchSpy').then(spy => {
-        expect(spy).to.be.calledOnce;
-      });
-
       cy.wait('@demographicsPatchFailureAlias');
       cy.get('@demographicsPatchFailureAlias')
         .its('response.statusCode')
@@ -165,11 +171,6 @@ describe('Check In Experience', () => {
       Appointments.attemptCheckIn(3);
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
-
-      // Call should be attempted a second time since first was not successful
-      cy.get('@demographicsPatchSpy').then(spy => {
-        expect(spy).to.be.calledTwice;
-      });
 
       cy.wait('@demographicsPatchFailureAlias');
       cy.get('@demographicsPatchFailureAlias')
