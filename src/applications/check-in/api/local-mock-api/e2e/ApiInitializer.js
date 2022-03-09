@@ -336,14 +336,15 @@ class ApiInitializer {
   };
 
   initializeDemographicsPatch = {
-    withSuccess: (patchSpy = null) => {
+    withSuccess: (spyFunction = null) => {
       cy.intercept('PATCH', `/check_in/v2/demographics/*`, req => {
-        if (patchSpy) patchSpy();
+        if (spyFunction) spyFunction();
         req.reply(checkInData.patch.createMockSuccessResponse());
       });
     },
-    withFailure: (errorCode = 400) => {
+    withFailure: (errorCode = 400, spyFunction = null) => {
       cy.intercept('PATCH', `/check_in/v2/demographics/*`, req => {
+        if (spyFunction) spyFunction();
         req.reply(errorCode, checkInData.patch.createMockFailedResponse({}));
       });
     },
