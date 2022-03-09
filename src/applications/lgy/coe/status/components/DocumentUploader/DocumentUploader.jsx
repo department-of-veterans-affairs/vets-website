@@ -41,7 +41,8 @@ const DocumentUploader = () => {
 
   const onUploadFile = useCallback(
     async uploadedFiles => {
-      // If the user selected a document type of other, send the document description they entered as the document type instead
+      // If the user selected a document type of other,
+      // send the document description they entered as the document type instead
       let theDocType = state.documentType;
       if (theDocType === 'Other') {
         theDocType = state.documentDescription;
