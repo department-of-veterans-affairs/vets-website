@@ -9,7 +9,6 @@ import { isNotBlank, validateIfDirty } from '../../validations';
 import FileList from './FileList';
 
 const DocumentUploader = () => {
-  // const [state, dispatch] = useReducer(reducer, initialState);
   const token = localStorage.getItem('csrfToken');
   const [state, setState] = useState({
     documentType: '',
@@ -30,7 +29,6 @@ const DocumentUploader = () => {
       : null;
 
   const onSelectChange = e => {
-    /* dispatch({ type: ACTIONS.DOC_TYPE, documentType: e?.value }); */
     setState({ ...state, documentType: e.value });
   };
 
