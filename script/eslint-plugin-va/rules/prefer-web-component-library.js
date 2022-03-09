@@ -1,5 +1,5 @@
 const MESSAGE =
-  '<{{ reactComponent }}> can be replaced by <{{ webComponent }}>';
+  '<{{ reactComponent }}> can be replaced by <{{ webComponent }}>.';
 
 const getPropNode = (node, propName) =>
   node.openingElement.attributes.find(n => n.name.name === propName);
@@ -87,27 +87,36 @@ const modalTransformer = (context, node) => {
   const contentsValue = contentsNode?.value.expression || contentsNode?.value;
   const cssClassNode = getPropNode(node, 'cssClass');
 
+  const manuallyUpdateProps =
+    getPropNode(node, 'primaryButton') || getPropNode(node, 'secondaryButton');
+
   const sourceCode = context.getSourceCode();
 
   context.report({
     node,
-    message: MESSAGE, // customize message?
+    message: manuallyUpdateProps
+      ? MESSAGE +
+        `\nThe following props have changed and will need to be updated manually: primaryButton and secondaryButton.` +
+        `\nprimaryButton is now primaryButtonText and primaryButtonClick.` +
+        `\nsecondaryButton is now secondaryButtonText and secondaryButtonClick.`
+      : MESSAGE,
     data: {
       reactComponent: openingTagNode.name,
-      webComponent: 'VaModal', // bindings?
+      webComponent: 'VaModal',
     },
     suggest: [
       {
         desc: 'Migrate component',
         fix: fixer => {
-          // TODO: convert primaryButton {} to primaryButtonClick and primaryButtonText
-          // TODO: convert secondaryButton {} to secondaryButtonClick and secondaryButtonText
           return [
-            // RENAME TAGS
+            // Rename Modal to VaModal (Bindings)
             fixer.replaceText(openingTagNode, 'VaModal'),
+            // Rename closing tag to VaModal if it exists
             closingTagNode && fixer.replaceText(closingTagNode, 'VaModal'),
 
-            // if it's a self-closing component, insert the contents after the component and add a closing tag
+            // If component is self-closing, insert the value of contents after the component opening tag
+            // and insert a closing tag.
+            // If the value of contents is a reference to JSX, add curly braces between the value.
             !closingTagNode &&
               contentsNode &&
               fixer.insertTextAfter(
@@ -117,16 +126,22 @@ const modalTransformer = (context, node) => {
                   : sourceCode.getText(contentsValue)) + '</VaModal>',
               ),
 
-            // RENAME PROPS
+            // Rename title prop to modalTitle if it exists
             titleNode && fixer.replaceText(titleNode.name, 'modalTitle'),
+
+            // Rename onClose prop to onCloseEvent if it exists
             onCloseNode && fixer.replaceText(onCloseNode.name, 'onCloseEvent'),
+
+            // Rename cssClass prop to className if it exists
             cssClassNode && fixer.replaceText(cssClassNode.name, 'className'),
 
-            // REMOVE PROPS
+            // Remove contents prop if it exists - replaced by slot
             contentsNode && fixer.remove(contentsNode),
+
+            // Remove focusSelectorNode prop if it exists
             focusSelectorNode && fixer.remove(focusSelectorNode),
 
-            // ADD CLOSING TAG TO OPENING ELEMENT IF CLOSING TAG DOESN'T EXIST
+            // Remove self-closing tag slash if component is self-closing initially
             !closingTagNode &&
               fixer.removeRange(
                 [
