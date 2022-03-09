@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
@@ -22,8 +22,9 @@ const scrollToTop = () => {
   });
 };
 
-const RequestDetailsCard = ({ data, response }) => {
+const RequestDetailsCard = ({ data, response, download }) => {
   const name = data.personalData?.veteranFullName;
+  const downloadClick = useCallback(() => download(), [download]);
 
   return (
     <div className="inset">
@@ -62,6 +63,13 @@ const RequestDetailsCard = ({ data, response }) => {
         <p className="vads-u-margin-y--0">St. Paul, MN 55111-0930</p>
         <p>
           <button
+            className="usa-button button"
+            onClick={downloadClick}
+            type="button"
+          >
+            Download completed form
+          </button>
+          <button
             className="usa-button-secondary button vads-u-background-color--white"
             onClick={() => window.print()}
             type="button"
@@ -76,6 +84,7 @@ const RequestDetailsCard = ({ data, response }) => {
 
 RequestDetailsCard.propTypes = {
   data: PropTypes.object,
+  download: PropTypes.func,
   response: PropTypes.object,
 };
 
