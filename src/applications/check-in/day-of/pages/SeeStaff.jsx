@@ -44,10 +44,7 @@ const SeeStaff = props => {
             setDemographicsFlagsSent(true);
           }
         })
-        .catch(() => {
-          // Log or forward to error page?
-          // goToErrorPage();
-        });
+        .catch(() => {});
     },
     [
       demographicsData,

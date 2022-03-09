@@ -19,7 +19,6 @@ const createMockSuccessResponse = _data => {
 };
 
 const createMockFailedResponse = _data => {
-  // TODO implement 501 and 400 error codes
   return { data: { error: true } };
 };
 

@@ -58,10 +58,7 @@ const Confirmation = props => {
             setDemographicsConfirmed(window, true);
           }
         })
-        .catch(() => {
-          // Log or forward to error page?
-          // goToErrorPage();
-        });
+        .catch(() => {});
     },
     [
       demographicsData,
