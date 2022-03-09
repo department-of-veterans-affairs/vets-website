@@ -212,5 +212,24 @@ ruleTester.run('prefer-web-component-library', rule, {
         },
       ],
     },
+    {
+      code: mockFile(
+        'Pagination',
+        'const PaginationSample = () => (<Pagination onPageSelect={handlePageSelect} page="3" pages="50" />)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'Pagination',
+                'const PaginationSample = () => (<VaPagination onPageSelect={handlePageSelect} page="3" pages="50" />)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
   ],
 });
