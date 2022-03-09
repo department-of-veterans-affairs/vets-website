@@ -15,7 +15,7 @@ filesToSync="$ENTRIES,$webpackChunkNames"
 echo "File names to sync: $filesToSync"
 
 # Delete non app assets
-mkdir assets/filtered/
-rsync -a --delete $(eval echo "--include={,$filesToSync}.*") --exclude='*' $WORKDIR/ assets/filtered/
-rsync -a --delete assets/filtered/ $WORKDIR/
-rm -rf assets/filtered/
+mkdir assets/
+rsync -a --delete $(eval echo "--include={,$filesToSync}.*") --exclude='*' $WORKDIR/ assets/
+rsync -a --delete assets/ $WORKDIR/
+rm -rf assets/
