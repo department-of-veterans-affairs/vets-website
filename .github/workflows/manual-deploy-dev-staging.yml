@@ -150,6 +150,24 @@ jobs:
         with:
           name: ${{ env.BUILD_ENV_STAGING }}.tar.bz2
 
+      - name: Extract build artifact
+        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
+        run: |
+          mkdir ${{ env.BUILD_ENV_DEV }}
+          tar -C ${{ env.BUILD_ENV_DEV }} -xvf ${{ env.BUILD_ENV_DEV }}.tar.bz2
+
+      - name: Remove global assets
+        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
+        run: ./script/github-actions/remove-global-assets.sh
+        env:
+          ENTRIES: 'vaos'
+          DIRECTORIES: 'src/applications/vaos'
+          WORKDIR: ${{ env.BUILD_ENV_DEV }}
+
+      - name: Compress and archive filtered assets
+        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
+        run: rm ${{ env.BUILD_ENV_DEV }}.tar.bz2 && tar -C ${{ env.BUILD_ENV_DEV }} -cjf ${{ env.BUILD_ENV_DEV }}.tar.bz2 .
+
       - name: Upload build dev
         if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
         run: aws s3 cp ${{ env.BUILD_ENV_DEV }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/${{ env.BUILD_ENV_DEV }}.tar.bz2 --acl public-read --region us-gov-west-1

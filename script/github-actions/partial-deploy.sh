@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-# Partial deploy for changed app builds
+# Partial deploy for single/grouped app builds
 
 ME=$(basename "$0")
 
