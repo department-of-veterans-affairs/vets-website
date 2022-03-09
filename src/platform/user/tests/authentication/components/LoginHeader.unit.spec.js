@@ -26,6 +26,5 @@ describe('LoginHeader', () => {
   });
   it('should render `DowntimeBanners`', () => {
     expect(wrapper.find('DowntimeBanners').exists()).to.be.true;
-    wrapper.unmount();
   });
 });
