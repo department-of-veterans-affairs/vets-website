@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
@@ -13,7 +13,9 @@ const CopyAddressModal = props => {
     addressToUpdate,
   } = props;
 
-  return (
+  const [updateStatus, setUpdateStatus] = useState();
+
+  const CopyAddressMainModal = () => (
     <Modal
       title="We've updated your home address"
       visible={isVisible}
@@ -21,7 +23,8 @@ const CopyAddressModal = props => {
       primaryButton={{
         action: () => {
           // console.log('YES!');
-          onYes();
+          setUpdateStatus('success');
+          // onYes();
         },
         text: 'Yes',
       }}
@@ -50,8 +53,69 @@ const CopyAddressModal = props => {
             <AddressView data={mainAddress} />
           </span>
         </p>
+        <button type="button" onClick={() => setUpdateStatus('failure')}>
+          Trigger Mailing Address Failure
+        </button>
       </>
     </Modal>
+  );
+
+  const UpdateErrorModal = () => (
+    <Modal
+      title="We can't update your mailing address"
+      visible={updateStatus === 'failure'}
+      onClose={onClose}
+      status="error"
+      primaryButton={{
+        action: () => {
+          // console.log('YES!');
+          setUpdateStatus(null);
+          onYes();
+        },
+        text: 'Close',
+      }}
+    >
+      <>
+        <p data-testid="modal-content">
+          We’re sorry. We can’t update your information right now. We’re working
+          to fix this problem. Please check back later.
+        </p>
+      </>
+    </Modal>
+  );
+
+  const UpdateSuccessModal = () => (
+    <Modal
+      title="We've updated your mailing address"
+      visible={updateStatus === 'success'}
+      onClose={onClose}
+      status="success"
+      primaryButton={{
+        action: () => {
+          // console.log('YES!');
+          setUpdateStatus(null);
+          onYes();
+        },
+        text: 'Close',
+      }}
+    >
+      <>
+        <p data-testid="modal-content">
+          We’ve updated your mailing address to match your home address.
+          <span className="vads-u-font-weight--bold vads-u-display--block vads-u-margin-y--1p5">
+            <AddressView data={mainAddress} />
+          </span>
+        </p>
+      </>
+    </Modal>
+  );
+
+  return (
+    <>
+      {isVisible && !updateStatus && <CopyAddressMainModal />}
+      {isVisible && updateStatus === 'failure' && <UpdateErrorModal />}
+      {isVisible && updateStatus === 'success' && <UpdateSuccessModal />}
+    </>
   );
 };
 
