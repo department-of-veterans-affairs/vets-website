@@ -336,15 +336,13 @@ class ApiInitializer {
   };
 
   initializeDemographicsPatch = {
-    withSuccess: (spyFunction = null) => {
+    withSuccess: () => {
       cy.intercept('PATCH', `/check_in/v2/demographics/*`, req => {
-        if (spyFunction) spyFunction();
         req.reply(checkInData.patch.createMockSuccessResponse());
       }).as('demographicsPatchSuccessAlias');
     },
-    withFailure: (errorCode = 400, spyFunction = null) => {
+    withFailure: (errorCode = 400) => {
       cy.intercept('PATCH', `/check_in/v2/demographics/*`, req => {
-        if (spyFunction) spyFunction();
         req.reply(errorCode, checkInData.patch.createMockFailedResponse({}));
       }).as('demographicsPatchFailureAlias');
     },
