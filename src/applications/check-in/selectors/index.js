@@ -69,6 +69,17 @@ const selectEditContext = createSelector(
 
 const makeSelectEditContext = () => selectEditContext;
 
+const selectPendingEdits = createSelector(
+  state => {
+    return {
+      pendingEdits: state?.checkInData?.context?.pendingEdits,
+    };
+  },
+  pendingEdits => pendingEdits,
+);
+
+const makeSelectPendingEdits = () => selectPendingEdits;
+
 export {
   makeSelectCurrentContext,
   makeSelectEditContext,
@@ -77,4 +88,5 @@ export {
   makeSelectConfirmationData,
   makeSelectSeeStaffMessage,
   makeSelectApp,
+  makeSelectPendingEdits,
 };
