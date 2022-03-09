@@ -14,8 +14,8 @@ if [ -z "$webpackChunkNames" ]; then echo "No app chunks found"; fi
 filesToSync="$ENTRIES,$webpackChunkNames"
 echo "File names to sync: $filesToSync"
 
-# Delete non app assets
-mkdir assets/
-rsync -a --delete $(eval echo "--include={,$filesToSync}.*") --exclude='*' $WORKDIR/generated/ assets/
-rsync -a --delete assets/ $WORKDIR/generated/
-rm -rf assets
+# Move app assets to temp directory and sync with 'generated'
+mkdir generated-assets/
+for v in $(tr ',' '\n' <<< "$filesToSync") ; do find $WORKDIR/generated/ -name "$v.*" -exec cp {} generated-assets/ \;; done
+rsync -a --delete --remove-source-files generated-assets/ $WORKDIR/generated/
+rm -rf generated-assets/
