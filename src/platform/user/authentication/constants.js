@@ -6,6 +6,9 @@ import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
 
 export const API_VERSION = 'v1';
 
+export const API_SESSION_URL = ({ version = API_VERSION, type = null }) =>
+  `${environment.API_URL}/${version}/sessions/${type}/new`;
+
 export const AUTH_EVENTS = {
   MODAL_LOGIN: 'login-link-clicked-modal',
   SSO_LOGIN: 'sso-automatic-login',
@@ -50,6 +53,8 @@ export const EXTERNAL_APPS = {
   VA_OCC_MOBILE: 'vaoccmobile',
 };
 
+export const EBenefitsDefaultPath = '/profilepostauth';
+
 export const eAuthURL = `https://${
   eauthEnvironmentPrefixes[environment.BUILDTYPE]
 }eauth.va.gov`;
@@ -77,6 +82,8 @@ export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.VA_OCC_MOBILE]: EXTERNAL_LINKS.VA_OCC_MOBILE,
 };
 
+export const GA_TRACKING_ID_KEY = 'trackingId';
+export const GA_CLIENT_ID_KEY = 'clientId';
 export const VAGOV_TRACKING_IDS = ['UA-50123418-16', 'UA-50123418-17'];
 
 export const POLICY_TYPES = {
