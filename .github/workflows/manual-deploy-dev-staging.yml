@@ -160,9 +160,9 @@ jobs:
         if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
         run: ./script/github-actions/remove-global-assets.sh
         env:
-          ENTRIES: 'vaos'
-          DIRECTORIES: 'src/applications/vaos'
-          WORKDIR: ${{ env.BUILD_ENV_DEV }}
+          ENTRY_NAMES: 'vaos'
+          APP_DIRS: 'src/applications/vaos'
+          BUILD_DIR: ${{ env.BUILD_ENV_DEV }}
 
       - name: Compress and archive filtered assets
         if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
