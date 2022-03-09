@@ -16,6 +16,6 @@ echo "File names to sync: $filesToSync"
 
 # Delete non app assets
 mkdir assets/
-rsync -a --delete $(eval echo "--include={,$filesToSync}.*") --exclude='*' $WORKDIR/ assets/
-rsync -a --delete assets/ $WORKDIR/
-rm -rf assets/
+rsync -a --delete $(eval echo "--include={,$filesToSync}.*") --exclude='*' $WORKDIR/generated/ assets/
+rsync -a --delete assets/ $WORKDIR/generated/
+rm -rf assets
