@@ -20,7 +20,7 @@ describe('Debt Letters', () => {
     cy.wait(['@features', '@debts']);
   });
 
-  it('displays the current debts section and navigates to debt details - C1033', () => {
+  it('displays the current debts section and navigates to debt details - C1226', () => {
     cy.findByTestId('debts-jumplink').click({ waitForAnimations: true });
     cy.get('[data-testclass="debt-details-button"]')
       .first()
@@ -31,23 +31,23 @@ describe('Debt Letters', () => {
 
   /* eslint-disable va/axe-check-required */
   // Same display-states below as test above which already had AXE-check.
-  it('displays download debt letters - C1034', () => {
+  it('displays download debt letters - C1227', () => {
     cy.findByTestId('download-jumplink').click({ waitForAnimations: true });
     cy.findByTestId('download-letters-link').click();
     cy.get('#downloadDebtLetters').should('be.visible');
   });
 
-  it('displays how do I pay my VA debt? - C1035', () => {
+  it('displays how do I pay my VA debt? - C1228', () => {
     cy.findByTestId('howto-pay-jumplink').click({ waitForAnimations: true });
     cy.get('#howDoIPay').should('be.visible');
   });
 
-  it('displays how do I get financial help? - C1036', () => {
+  it('displays how do I get financial help? - C1229', () => {
     cy.findByTestId('howto-help-jumplink').click({ waitForAnimations: true });
     cy.get('#howDoIGetHelp').should('be.visible');
   });
 
-  it('displays how do I dispute a debt? - C1037', () => {
+  it('displays how do I dispute a debt? - C1230', () => {
     cy.findByTestId('howto-dispute-jumplink').click({
       waitForAnimations: true,
     });
