@@ -340,13 +340,13 @@ class ApiInitializer {
       cy.intercept('PATCH', `/check_in/v2/demographics/*`, req => {
         if (spyFunction) spyFunction();
         req.reply(checkInData.patch.createMockSuccessResponse());
-      });
+      }).as('demographicsPatchSuccessAlias');
     },
     withFailure: (errorCode = 400, spyFunction = null) => {
       cy.intercept('PATCH', `/check_in/v2/demographics/*`, req => {
         if (spyFunction) spyFunction();
         req.reply(errorCode, checkInData.patch.createMockFailedResponse({}));
-      });
+      }).as('demographicsPatchFailureAlias');
     },
   };
 }
