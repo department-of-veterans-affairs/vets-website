@@ -32,6 +32,10 @@ export class ConfirmationPage extends React.Component {
       // unauthenticated user, get name from form data
       name = data.veteranFullName;
     }
+    const first = name.first || '';
+    const middle = name.middle || '';
+    const last = name.last || '';
+    const suffix = name.suffix || '';
 
     let emailMessage;
 
@@ -65,7 +69,7 @@ export class ConfirmationPage extends React.Component {
             <span className="additional">(Form 10-10EZ)</span>
           </h5>
           <span>
-            for {name?.first} {name?.middle} {name?.last} {name?.suffix}
+            for {first} {middle} {last} {suffix}
           </span>
 
           {response && (
