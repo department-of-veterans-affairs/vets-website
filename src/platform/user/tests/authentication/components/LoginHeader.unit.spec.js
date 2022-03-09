@@ -1,8 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-
-import LoginHeader from '../../../authentication/components/LoginHeader';
+import LoginHeader from 'platform/user/authentication/components/LoginHeader';
 
 describe('LoginHeader', () => {
   let wrapper;
@@ -12,9 +11,21 @@ describe('LoginHeader', () => {
     wrapper = shallow(<LoginHeader {...props} />);
   });
 
-  it('should render Sign in content', () => {
-    expect(wrapper.exists()).to.be.true;
+  afterEach(() => {
+    wrapper.unmount();
   });
-  it('should render a `LogoutAlert` if loggedOut is true', () => {});
-  it('should render `DowntimeBanners`', () => {});
+
+  it('should render', () => {
+    expect(wrapper.exists()).to.be.true;
+    expect(wrapper.find('h1').text()).to.include('Sign in');
+  });
+  it('should render a `LogoutAlert` if loggedOut is true', () => {
+    expect(wrapper.find('LogoutAlert').exists()).to.be.false;
+    wrapper.setProps({ loggedOut: true });
+    expect(wrapper.find('LogoutAlert').exists()).to.be.true;
+  });
+  it('should render `DowntimeBanners`', () => {
+    expect(wrapper.find('DowntimeBanners').exists()).to.be.true;
+    wrapper.unmount();
+  });
 });
