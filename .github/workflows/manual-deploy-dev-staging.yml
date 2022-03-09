@@ -46,7 +46,7 @@ jobs:
 
       - name: Build dev
         if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
-        run: yarn build --verbose --buildtype=${{ env.BUILD_ENV_DEV }} --entry=vaos
+        run: yarn build --verbose --buildtype=${{ env.BUILD_ENV_DEV }} --entry=facilities
         timeout-minutes: 30  
         
       - name: Generate build details for dev
@@ -160,8 +160,8 @@ jobs:
         if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
         run: ./script/github-actions/remove-global-assets.sh
         env:
-          ENTRY_NAMES: 'vaos'
-          APP_DIRS: 'src/applications/vaos'
+          ENTRY_NAMES: 'facilities'
+          APP_DIRS: 'src/applications/facility-locator'
           BUILD_DIR: ${{ env.BUILD_ENV_DEV }}
 
       - name: Compress and archive filtered assets
