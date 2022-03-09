@@ -77,6 +77,34 @@ const breadcrumbsTransformer = (context, node) => {
   });
 };
 
+const paginationTransformer = (context, node) => {
+  const componentName = node.openingElement.name;
+
+  context.report({
+    node,
+    message:
+      MESSAGE +
+      `\n` +
+      `BEWARE: onPageSelect has been updated to be an event. This means the handler for onPageSelect has to be updated to retrieve the page from event.detail.page`,
+    data: {
+      reactComponent: componentName.name,
+      webComponent: 'VaPagination',
+    },
+    suggest: [
+      {
+        desc: 'Migrate component',
+        fix: fixer => {
+          // Replace opening and close tags
+
+          return [fixer.replaceText(componentName, 'VaPagination')].filter(
+            i => !!i,
+          );
+        },
+      },
+    ],
+  });
+};
+
 /**
  * Stores the result of a check that determines if a component is part of
  * the Design System component-library.
@@ -158,6 +186,9 @@ module.exports = {
         switch (componentName) {
           case 'Breadcrumbs':
             breadcrumbsTransformer(context, node);
+            break;
+          case 'Pagination':
+            paginationTransformer(context, node);
             break;
           case 'Telephone':
             telephoneTransformer(context, node);
