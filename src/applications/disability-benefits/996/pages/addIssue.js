@@ -1,4 +1,4 @@
-import { SELECTED } from '../constants';
+import { SELECTED, MAX_LENGTH } from '../constants';
 
 /**
  * A CustomPage only needs/uses minimal uiSchema/schema
@@ -25,7 +25,7 @@ export default {
     properties: {
       addIssue: {
         type: 'array',
-        maxItems: 100,
+        maxItems: MAX_LENGTH.SELECTIONS,
         minItems: 1,
         items: {
           type: 'object',
@@ -33,7 +33,7 @@ export default {
           properties: {
             issue: {
               type: 'string',
-              maxLength: 140,
+              maxLength: MAX_LENGTH.ISSUE_NAME,
             },
             decisionDate: {
               type: 'string',
