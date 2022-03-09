@@ -19,14 +19,13 @@ module.exports = async on => {
     appRegistry = require('../../../../../../../content-build/src/applications/registry.json');
   }
   // eslint-disable-next-line no-useless-escape
-  const nodeModules = new RegExp(/^(?:.*[\\\/])?node_modules(?:[\\\/].*)?$/);
-  const dirnamePlugin = {
-    name: 'dirname',
+  const cypressPlugin = {
+    name: 'cypress',
 
     setup(build) {
       // eslint-disable-next-line consistent-return
       build.onLoad({ filter: /.js?$/ }, ({ path: filePath }) => {
-        if (!filePath.match(nodeModules)) {
+        if (!filePath.split(path.sep).includes('node_modules')) {
           const regex = /.*\/vets-website\/(.+)/;
           const [, relativePath] = filePath.match(regex);
           let contents = fs.readFileSync(filePath, 'utf8');
@@ -51,7 +50,6 @@ module.exports = async on => {
     entryPoints: ['src/**/*.cypress.spec.js*'],
     loader: { '.js': 'jsx' },
     format: 'cjs',
-    // bundle: true,
     external: [
       'web-components/react-bindings',
       'url-search-params',
@@ -68,7 +66,7 @@ module.exports = async on => {
       'process.env.NODE_ENV': '"production"',
       'process.env.BUILDTYPE': '"production"',
     },
-    plugins: [dirnamePlugin],
+    plugins: [cypressPlugin],
     platform: 'browser',
     target: ['esnext', 'node14'],
   });
