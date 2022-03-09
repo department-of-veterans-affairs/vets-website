@@ -23,8 +23,8 @@ const DebtLetterCard = ({ debt, setActiveDebt }) => {
     debt.benefitType,
   );
 
-  const onDetailLinkClick = () => {
-    setDebt(debt);
+  const onDetailLinkClick = function() {
+    setActiveDebt(debt);
   };
 
   return (
