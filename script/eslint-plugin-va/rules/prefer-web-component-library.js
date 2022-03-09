@@ -84,8 +84,7 @@ const paginationTransformer = (context, node) => {
     node,
     message:
       MESSAGE +
-      `\n` +
-      `BEWARE: onPageSelect has been updated to be an event. This means the handler for onPageSelect has to be updated to retrieve the page from event.detail.page`,
+      `\nBEWARE: onPageSelect has been updated to be an event. This means the handler for onPageSelect has to be updated to retrieve the page from event.detail.page`,
     data: {
       reactComponent: componentName.name,
       webComponent: 'VaPagination',
@@ -94,8 +93,8 @@ const paginationTransformer = (context, node) => {
       {
         desc: 'Migrate component',
         fix: fixer => {
-          // Replace opening and close tags
-
+          // Rename component name Pagination to VaPagination
+          // We are using bindings because onPageSelect is an event
           return [fixer.replaceText(componentName, 'VaPagination')].filter(
             i => !!i,
           );
