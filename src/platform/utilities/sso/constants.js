@@ -31,6 +31,7 @@ export const CSP_KEYS = {
 export const AUTHN_KEYS = {
   IAL: 'ial',
   CSP_TYPE: 'csp_type',
+  CSP_METHOD: 'csp_method',
 };
 
 export const AUTHN_HEADERS = {
@@ -40,6 +41,7 @@ export const AUTHN_HEADERS = {
   TIMEOUT: 'session-timeout',
   ALIVE: 'session-alive',
   IAL: 'va_eauth_ial',
+  CSP_METHOD: 'va_eauth_csp_method',
 };
 
 export const SSO_KEEP_ALIVE_ENDPOINT = `https://${

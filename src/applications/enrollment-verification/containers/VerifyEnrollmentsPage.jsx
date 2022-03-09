@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import { focusElement } from 'platform/utilities/ui';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
 import {
@@ -14,19 +15,16 @@ import {
 } from '../actions';
 
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
-import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
 import ReviewEnrollmentVerifications from '../components/ReviewEnrollmentVerifications';
 import MonthReviewCard from '../components/MonthReviewCard';
-import {
-  REVIEW_ENROLLMENTS_RELATIVE_URL,
-  REVIEW_ENROLLMENTS_URL,
-} from '../constants';
+import { REVIEW_ENROLLMENTS_RELATIVE_URL } from '../constants';
 import {
   ENROLLMENT_VERIFICATION_TYPE,
   formatReadableMonthYear,
 } from '../helpers';
 import ReviewSkippedAheadAlert from '../components/ReviewSkippedAheadAlert';
 import ReviewPausedInfo from '../components/ReviewPausedInfo';
+import VerifyEnrollments from '../components/VerifyEnrollments';
 
 export const VerifyEnrollmentsPage = ({
   editMonthVerification,
@@ -45,15 +43,25 @@ export const VerifyEnrollmentsPage = ({
   useEffect(
     () => {
       if (hasCheckedKeepAlive && !loggedIn) {
-        // history.push('/');
+        history.push('/');
       }
 
       if (!verificationStatus) {
         getVerificationStatus();
       }
     },
-    [getVerificationStatus, hasCheckedKeepAlive, loggedIn, verificationStatus],
+    [
+      getVerificationStatus,
+      hasCheckedKeepAlive,
+      history,
+      loggedIn,
+      verificationStatus,
+    ],
   );
+
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
 
   const unverifiedMonths =
     verificationStatus?.months &&
@@ -80,6 +88,7 @@ export const VerifyEnrollmentsPage = ({
   const onEditMonth = useCallback(
     m => {
       editMonth(m);
+      focusElement('h1');
     },
     [editMonth],
   );
@@ -128,6 +137,7 @@ export const VerifyEnrollmentsPage = ({
       setMonthInformationCorrect(
         unverifiedMonths[currentMonth - 1].verificationStatus,
       );
+      focusElement('h1');
     },
     [
       clearVerificationStatuses,
@@ -195,6 +205,7 @@ export const VerifyEnrollmentsPage = ({
           return m;
         }),
       });
+      focusElement('h1');
     },
     [
       continueClicked,
@@ -232,80 +243,47 @@ export const VerifyEnrollmentsPage = ({
     (informationIncorrectMonth || currentMonth === unverifiedMonths.length)
   ) {
     return (
-      <EnrollmentVerificationPageWrapper>
-        <h1>Verify your enrollments</h1>
-
-        <va-segmented-progress-bar
-          current={unverifiedMonths.length + 1}
-          total={unverifiedMonths.length + 1}
-        />
-
-        <h2 className="vads-u-font-size--h4 vads-u-margin-top--4 vads-u-margin-bottom--4">
-          Step {unverifiedMonths.length + 1} of {unverifiedMonths.length + 1}:
-          Review verifications
-        </h2>
-
+      <VerifyEnrollments
+        currentProgressBarSegment={unverifiedMonths.length + 1}
+        forwardButtonText="Submit verification"
+        onBackButtonClick={onBackButtonClick}
+        onFinishVerifyingLater={onFinishVerifyingLater}
+        onForwardButtonClick={onSubmit}
+        progressTitlePostfix="Review verifications"
+        totalProgressBarSegments={unverifiedMonths.length + 1}
+      >
         {informationIncorrectMonth &&
         currentMonth !== unverifiedMonths.length ? (
-          <ReviewSkippedAheadAlert />
+          <ReviewSkippedAheadAlert
+            incorrectMonth={informationIncorrectMonth.month}
+          />
         ) : (
           <></>
         )}
-        {informationIncorrectMonth ? <ReviewPausedInfo /> : <></>}
+        {informationIncorrectMonth ? (
+          <ReviewPausedInfo onFinishVerifyingLater={onFinishVerifyingLater} />
+        ) : (
+          <></>
+        )}
 
         <ReviewEnrollmentVerifications
           months={unverifiedMonths}
           informationIncorrectMonth={informationIncorrectMonth}
           onEditMonth={onEditMonth}
         />
-
-        <a
-          className="ev-finish-later vads-u-margin-top--4"
-          href={REVIEW_ENROLLMENTS_URL}
-          onClick={onFinishVerifyingLater}
-        >
-          Finish verifying your enrollments later
-        </a>
-
-        <div className="ev-actions vads-u-margin-top--2p5">
-          <button
-            type="button"
-            className="usa-button-secondary vads-u-margin-y--0"
-            id="1-continueButton"
-            onClick={onBackButtonClick}
-          >
-            <span className="button-icon" aria-hidden="true">
-              «&nbsp;
-            </span>
-            Back
-          </button>
-          <button
-            type="submit"
-            className="usa-button-primary vads-u-margin-y--0"
-            id="2-continueButton"
-            onClick={onSubmit}
-          >
-            Submit verification
-          </button>
-        </div>
-      </EnrollmentVerificationPageWrapper>
+      </VerifyEnrollments>
     );
   }
 
   return (
-    <EnrollmentVerificationPageWrapper>
-      <h1>Verify your enrollments</h1>
-
-      <va-segmented-progress-bar
-        current={currentMonth + 1}
-        total={unverifiedMonths.length + 1}
-      />
-
-      <h2 className="vads-u-font-size--h4 vads-u-margin-top--4 vads-u-margin-bottom--4">
-        Step {currentMonth + 1} of {unverifiedMonths.length + 1}: Verify{' '}
-        {formatReadableMonthYear(month.month)}
-      </h2>
-
+    <VerifyEnrollments
+      currentProgressBarSegment={currentMonth + 1}
+      onBackButtonClick={onBackButtonClick}
+      onFinishVerifyingLater={onFinishVerifyingLater}
+      onForwardButtonClick={onForwardButtonClick}
+      progressTitlePostfix={`Verify ${formatReadableMonthYear(month.month)}`}
+      totalProgressBarSegments={unverifiedMonths.length + 1}
+    >
       <MonthReviewCard month={month} />
 
       <RadioButtons
@@ -319,7 +297,7 @@ export const VerifyEnrollmentsPage = ({
           },
           {
             value: VERIFICATION_STATUS_INCORRECT,
-            label: 'No, this information is incorrect',
+            label: 'No, this information isn’t correct',
           },
         ]}
         required
@@ -332,7 +310,7 @@ export const VerifyEnrollmentsPage = ({
         status="info"
         visible
       >
-        If you select "<em>No, this information is incorrect</em>"{' '}
+        If you select "<em>No, this information isn’t correct</em>"{' '}
         <strong>
           we will pause your monthly housing payment until your information is
           updated
@@ -340,40 +318,7 @@ export const VerifyEnrollmentsPage = ({
         . Work with your School Certifying Official (SCO) to ensure your
         enrollment information is updated with VA.
       </va-alert>
-
-      <a
-        className="ev-finish-later vads-u-margin-top--4"
-        href={REVIEW_ENROLLMENTS_URL}
-        onClick={onFinishVerifyingLater}
-      >
-        Finish verifying your enrollments later
-      </a>
-
-      <div className="ev-actions vads-u-margin-top--2p5">
-        <button
-          type="button"
-          className="usa-button-secondary vads-u-margin-y--0"
-          id="1-continueButton"
-          onClick={onBackButtonClick}
-        >
-          <span className="button-icon" aria-hidden="true">
-            «&nbsp;
-          </span>
-          Back
-        </button>
-        <button
-          type="submit"
-          className="usa-button-primary vads-u-margin-y--0"
-          id="2-continueButton"
-          onClick={onForwardButtonClick}
-        >
-          Continue
-          <span className="button-icon" aria-hidden="true">
-            &nbsp;»
-          </span>
-        </button>
-      </div>
-    </EnrollmentVerificationPageWrapper>
+    </VerifyEnrollments>
   );
 };
 

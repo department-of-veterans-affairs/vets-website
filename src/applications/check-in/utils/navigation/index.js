@@ -1,11 +1,8 @@
-import { differenceInHours } from 'date-fns';
+import { differenceInCalendarDays } from 'date-fns';
 
-const now = Date.now();
-
-const isWithInHours = (hours, pageLastUpdated) => {
-  const hoursAgo = differenceInHours(now, pageLastUpdated);
-
-  return hoursAgo <= hours;
+const isWithInDays = (days, pageLastUpdated) => {
+  const daysAgo = differenceInCalendarDays(Date.now(), pageLastUpdated);
+  return daysAgo <= days;
 };
 
 const updateFormPages = (
@@ -52,7 +49,7 @@ const updateFormPages = (
       : null;
     if (
       pageLastUpdated &&
-      isWithInHours(24, pageLastUpdated) &&
+      isWithInDays(3, pageLastUpdated) &&
       page.needsUpdate === false
     ) {
       skippedPages.push(page.url);
@@ -77,6 +74,11 @@ const URLS = Object.freeze({
   UPDATE_INSURANCE: 'update-information',
   VALIDATION_NEEDED: 'verify',
   LOADING: 'loading-appointments',
+  EDIT_ADDRESS: 'edit-address',
+  EDIT_PHONE_NUMBER: 'edit-phone-number',
+  EDIT_EMAIL: 'edit-email',
+  EDIT_RELATIONSHIP: 'edit-relationship',
+  EDIT_NAME: 'edit-name',
 });
 
 export { updateFormPages, URLS };

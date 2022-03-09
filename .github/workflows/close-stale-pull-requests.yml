@@ -1,6 +1,5 @@
 name: 'Close stale PRs'
 on:
-  uncomment after testing is done
   schedule:
     - cron: '0 0 * * *'
 
