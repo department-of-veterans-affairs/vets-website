@@ -99,6 +99,8 @@ const formFields = {
   selectedReserveKicker: 'selectedReserveKicker',
   seniorRotcCommission: 'seniorRotcCommission',
   serviceHistoryIncorrect: 'serviceHistoryIncorrect',
+  sponsorDateOfBirth: 'sponsorDateOfBirth',
+  sponsorFullName: 'sponsorFullName',
   ssn: 'ssn',
   toursOfDuty: 'toursOfDuty',
   userFullName: 'userFullName',
@@ -581,11 +583,69 @@ const formConfig = {
                   </div>
                 </>
               ),
+              'ui:options': {
+                hideIf: formData => !formData,
+              },
+            },
+            'view:sponsorWarning': {
+              'ui:description': (
+                <va-alert
+                  close-btn-aria-label="Close notification"
+                  status="warning"
+                  visible
+                >
+                  <h3 slot="headline">Your sponsor is not on file</h3>
+                  <p>
+                    If you think this is incorrect, reach out to your sponsor so
+                    they can update this information on the DoD milConnect
+                    website.
+                  </p>
+                  <p>
+                    You may still continue this application and enter your
+                    sponsor information manually.
+                  </p>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => !formData,
+              },
             },
             [formFields.relationshipToServiceMember]: {
               'ui:title':
                 'What’s your relationship to the service member whose benefit has been transferred to you?',
               'ui:widget': 'radio',
+            },
+            [formFields.sponsorFullName]: {
+              ...fullNameUI,
+              first: {
+                ...fullNameUI.first,
+                'ui:title': "Sponsor's first name",
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isOnlyWhitespace(field)) {
+                      errors.addError('Please enter a first name');
+                    }
+                  },
+                ],
+              },
+              last: {
+                ...fullNameUI.last,
+                'ui:title': "Sponsor's last name",
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isOnlyWhitespace(field)) {
+                      errors.addError('Please enter a last name');
+                    }
+                  },
+                ],
+              },
+              middle: {
+                ...fullNameUI.middle,
+                'ui:title': "Sponsor's  middle name",
+              },
+            },
+            [formFields.sponsorDateOfBirth]: {
+              ...currentOrPastDateUI("Sponsor's date of birth"),
             },
             'view:additionalInfo': {
               'ui:description': (
@@ -608,10 +668,25 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
+              'view:sponsorWarning': {
+                type: 'object',
+                properties: {},
+              },
               [formFields.relationshipToServiceMember]: {
                 type: 'string',
                 enum: ['Sponsor 1: Jane Doe', 'Someone not listed here'],
               },
+              [formFields.sponsorFullName]: {
+                ...fullName,
+                properties: {
+                  ...fullName.properties,
+                  middle: {
+                    ...fullName.properties.middle,
+                    maxLength: 30,
+                  },
+                },
+              },
+              [formFields.sponsorDateOfBirth]: date,
               'view:additionalInfo': {
                 type: 'object',
                 properties: {},
