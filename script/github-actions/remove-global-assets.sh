@@ -8,9 +8,9 @@ if [ -z "$ENTRY_NAMES" ] || [ -z "$APP_DIRS" ] || [ -z "$BUILD_DIR" ]; then
     exit 1
 fi
 
-# Get Webpack chunk file names from application directories
+# Get lazy loaded Webpack chunk filenames from application directories
 webpackChunkNames=$(grep -r 'webpackChunkName:' $(eval echo "{,$APP_DIRS}") | grep -o '"[^"]\+"' | tr -d \" | tr '\n', ',')
-if [ -z "$webpackChunkNames" ]; then echo "No app chunk file names found."; fi
+if [ -z "$webpackChunkNames" ]; then echo "No lazy loaded app chunks found."; fi
 
 # Generate string of filenames to sync
 filesToSync="$ENTRY_NAMES,$webpackChunkNames"
