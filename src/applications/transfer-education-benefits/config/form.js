@@ -15,6 +15,8 @@ import dateUI from 'platform/forms-system/src/js/definitions/date';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
+import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
+
 import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
 // import fullSchema from '../22-1990-schema.json';
 
@@ -46,7 +48,6 @@ import toursOfDutyUI from '../definitions/toursOfDuty';
 //   post911GiBillNote,
 //   prefillTransformer,
 // } from '../helpers';
-
 // import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 
 // import {
@@ -493,6 +494,48 @@ const formConfig = {
             [formFields.dateOfBirth]: {
               ...currentOrPastDateUI('Date of birth'),
             },
+            'view:dateOfBirthUnder18Alert': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    Since you’re under 18 years old, a parent or guardian will
+                    have to sign this application when you submit it.
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  if (!formData || !formData[formFields.dateOfBirth]) {
+                    return true;
+                  }
+
+                  const dateParts =
+                    formData && formData[formFields.dateOfBirth].split('-');
+
+                  if (!dateParts || dateParts.length !== 3) {
+                    return true;
+                  }
+                  const birthday = new Date(
+                    dateParts[0],
+                    dateParts[1] - 1,
+                    dateParts[2],
+                  );
+                  const today18YearsAgo = new Date(
+                    new Date(
+                      new Date().setFullYear(new Date().getFullYear() - 18),
+                    ).setHours(0, 0, 0, 0),
+                  );
+
+                  return (
+                    !isValidCurrentOrPastDate(
+                      dateParts[2],
+                      dateParts[1],
+                      dateParts[0],
+                    ) || birthday.getTime() <= today18YearsAgo.getTime()
+                  );
+                },
+              },
+            },
             [formFields.relationshipToServiceMember]: {
               'ui:title':
                 'What’s your relationship to the service member whose benefit has been transferred to you?',
@@ -521,6 +564,10 @@ const formConfig = {
                 },
               },
               [formFields.dateOfBirth]: date,
+              'view:dateOfBirthUnder18Alert': {
+                type: 'object',
+                properties: {},
+              },
               [formFields.relationshipToServiceMember]: {
                 type: 'string',
                 enum: ['Spouse', 'Child'],
@@ -778,11 +825,6 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  // isValidPhone(
-                  //   formData[formFields.viewPhoneNumbers][
-                  //     formFields.mobilePhoneNumber
-                  //   ].phone,
-                  // ) ||
                   formData[formFields.viewPhoneNumbers][
                     formFields.mobilePhoneNumber
                   ].isInternational,
