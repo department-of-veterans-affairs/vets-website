@@ -68,7 +68,7 @@ export class ConfirmationPage extends React.Component {
             Health Care Benefit Claim{' '}
             <span className="additional">(Form 10-10EZ)</span>
           </h5>
-          <span>
+          <span key={name}>
             for {first} {middle} {last} {suffix}
           </span>
 
