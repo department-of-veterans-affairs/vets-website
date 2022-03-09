@@ -11,6 +11,7 @@ export const API_SESSION_URL = ({ version = API_VERSION, type = null }) =>
 
 export const AUTH_EVENTS = {
   MODAL_LOGIN: 'login-link-clicked-modal',
+  LOGIN: 'login-link-clicked',
   SSO_LOGIN: 'sso-automatic-login',
   SSO_LOGOUT: 'sso-automatic-logout',
   MFA: 'multifactor-link-clicked',
@@ -125,3 +126,8 @@ export const AUTH_ERROR = {
 
 export const MHV_TRANSITION_DATE = 'MONTH XX, 20XX';
 export const ACCOUNT_TRANSITION_DISMISSED = 'accountTransitionDismissed';
+
+export const LINK_TYPES = {
+  CREATE: 'create',
+  SIGNIN: 'signin',
+};
