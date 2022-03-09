@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import AskVAToDecide from '../components/AskVAToDecide';
 import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
@@ -10,7 +11,6 @@ import RequestedFilesInfo from '../components/RequestedFilesInfo';
 import { clearNotification } from '../actions/index.jsx';
 import { getClaimType } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 const NEED_ITEMS_STATUS = 'NEEDED';
 const FIRST_GATHERING_EVIDENCE_PHASE = 3;
@@ -28,6 +28,7 @@ class FilesPage extends React.Component {
       setFocus('.va-tab-trigger--current');
     }
   }
+
   componentDidUpdate(prevProps) {
     if (
       !this.props.loading &&
@@ -40,14 +41,17 @@ class FilesPage extends React.Component {
       this.setTitle();
     }
   }
+
   componentWillUnmount() {
     this.props.clearNotification();
   }
+
   setTitle() {
     document.title = this.props.loading
       ? 'Files - Your claim'
       : `Files - Your ${getClaimType(this.props.claim)} claim`;
   }
+
   render() {
     const { claim, loading, message, synced } = this.props;
 

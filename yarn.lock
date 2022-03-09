@@ -2130,13 +2130,13 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^7.1.0":
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-7.1.0.tgz#d11595ad2363e89b9a6b95b34ee0f8bba5968a77"
-  integrity sha512-XCqXT33GAC6fierm/9hY7Hm5TkHuY47YVrXVWczI4VpU7Qvr/Y7lky17o4kdr2mEZGBpMtOaqv60Wx7lfQqPmA==
+"@department-of-veterans-affairs/component-library@^7.3.0":
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-7.3.0.tgz#b38948c9981988d26a1d3aa89bce0b0df2c002b0"
+  integrity sha512-dS5mdcrBzWgfMOpe+Xno+xrZFRHSjZ5yqH+xLHE/j+OufQ3WF+tIaibMDa05B8oQeVmdBYLlNEJpOLARbEcyIQ==
   dependencies:
     "@department-of-veterans-affairs/react-components" "5.0.0"
-    "@department-of-veterans-affairs/web-components" "2.3.0"
+    "@department-of-veterans-affairs/web-components" "2.5.0"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
@@ -2180,10 +2180,10 @@
     react-transition-group "1"
     recast "^0.14.4"
 
-"@department-of-veterans-affairs/react-jsonschema-form@^1.0.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-jsonschema-form/-/react-jsonschema-form-1.2.0.tgz#9080236759e920e30f10727055a9dc04f4a711a8"
-  integrity sha512-SuwcYn59fv3nWxmbfh43KUdrKmn4vcd7aMQuKlu0vcOjcArsl9n5YWPgUwBtLOoztSZl9D8sRlxBAPqmoXCsQA==
+"@department-of-veterans-affairs/react-jsonschema-form@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-jsonschema-form/-/react-jsonschema-form-1.2.5.tgz#56e759a185b1d3f92ca7bb9d1407b4b2a3b406b1"
+  integrity sha512-9KDb5O5GcLIjbKgjY30pUW8aY1do8Dyo6/GutYriBRLXYr2WGPtuBxlg2gN3Iq9k58kDboahA/gT5qqWxZGY3g==
   dependencies:
     jsonschema "^1.0.2"
     lodash.topath "^4.5.2"
@@ -2191,10 +2191,10 @@
     react-is "^17.0.1"
     setimmediate "^1.0.5"
 
-"@department-of-veterans-affairs/web-components@2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-2.3.0.tgz#81235f42912ffcaa1a0b128ef2ffa49b48614c81"
-  integrity sha512-Br+W8f2R1nZZW0WGZCRGdRw4XM7jSVWunYnK81XJk+GZWp4XuH2w5DoCSnTMKb4waJWFKdQb087fLUcv4XwFwQ==
+"@department-of-veterans-affairs/web-components@2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-2.5.0.tgz#81566585bd230591c3373bc0bfb7ff5481df8848"
+  integrity sha512-erZ7ZodcZUP3KCNDoO45b2dMqxoMX/wd10Mh42W2rU0G58iu8h3T5uEWyW4ag+iaGfTazxRwEWm37fE38xUhww==
   dependencies:
     "@stencil/core" "^2.10.0"
     classnames "^2.3.1"
@@ -6555,10 +6555,10 @@ cypress-wait-until@^1.7.2:
   resolved "https://registry.yarnpkg.com/cypress-wait-until/-/cypress-wait-until-1.7.2.tgz#7f534dd5a11c89b65359e7a0210f20d3dfc22107"
   integrity sha512-uZ+M8/MqRcpf+FII/UZrU7g1qYZ4aVlHcgyVopnladyoBrpoaMJ4PKZDrdOJ05H5RHbr7s9Tid635X3E+ZLU/Q==
 
-cypress@^9.5.0:
-  version "9.5.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-9.5.0.tgz#704a79f0d3d4e775f433334eb8f5ae065e3bea31"
-  integrity sha512-rC5QPolKsVjJ8QJZ7IeZ6HlKM4gswBGZc0XvoAJNL8urQCSL8zTX0A/ai/h35WfF47NQ0iSZnwIXBlHX3MOUIQ==
+cypress@^9.5.1:
+  version "9.5.1"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-9.5.1.tgz#51162f3688cedf5ffce311b914ef49a7c1ece076"
+  integrity sha512-H7lUWB3Svr44gz1rNnj941xmdsCljXoJa2cDneAltjI9leKLMQLm30x6jLlpQ730tiVtIbW5HdUmBzPzwzfUQg==
   dependencies:
     "@cypress/request" "^2.88.10"
     "@cypress/xvfb" "^1.2.4"
@@ -18935,9 +18935,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#ee3c19a0714b6b77101f79aec86af4bc9c460bba":
-  version "20.19.2"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ee3c19a0714b6b77101f79aec86af4bc9c460bba"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#dc8bc4ceba31e1b68c4f5ba1f52c8300876e10da":
+  version "20.19.3"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#dc8bc4ceba31e1b68c4f5ba1f52c8300876e10da"
 
 vfile-message@^2.0.0:
   version "2.0.4"

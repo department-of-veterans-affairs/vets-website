@@ -341,7 +341,7 @@ function notGivingUpBenefitSelected(formData) {
 }
 
 function transform(metaData, form) {
-  const submission = createSubmissionForm(form.data);
+  const submission = createSubmissionForm(form.data, form.formId);
   return JSON.stringify(submission);
 }
 

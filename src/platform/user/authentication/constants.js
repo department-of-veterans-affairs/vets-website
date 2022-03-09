@@ -99,9 +99,8 @@ export const CSP_CONTENT = {
   [CSP_IDS.MHV]: { LOGO: <>My HealtheVet</>, COPY: 'My HealtheVet' },
 };
 
+export const AUTH_LEVEL = { FAIL: 'fail', SUCCESS: 'success' };
 export const AUTH_ERROR = {
-  FAIL: 'fail',
-
   USER_DENIED: '001', // User clicked 'Deny' in Authorization
   USER_CLOCK_MISMATCH: '002', // User clock is incorrect
   SERVER_CLOCK_MISMATCH: '003', // Server timing error
@@ -116,3 +115,6 @@ export const AUTH_ERROR = {
   UUID_MISSING: '104', // UUID Missing (Login.gov or ID.me)
   MULTIPLE_CORPIDS: '106', // Multiple Corp IDs
 };
+
+export const MHV_TRANSITION_DATE = 'MONTH XX, 20XX';
+export const ACCOUNT_TRANSITION_DISMISSED = 'accountTransitionDismissed';

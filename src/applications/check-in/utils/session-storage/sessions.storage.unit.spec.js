@@ -9,6 +9,7 @@ describe('check in', () => {
         expect(keys).to.deep.equal({
           CURRENT_UUID: 'health.care.pre.check.in.current.uuid',
           VALIDATE_ATTEMPTS: 'health.care.pre.check.in.validate.attempts',
+          COMPLETE: 'health.care.pre.check.in.complete',
         });
       });
       it('creates objects with the check-in names', () => {
@@ -16,6 +17,7 @@ describe('check in', () => {
         expect(keys).to.deep.equal({
           CURRENT_UUID: 'health.care.check-in.current.uuid',
           VALIDATE_ATTEMPTS: 'health.care.check-in.validate.attempts',
+          COMPLETE: 'health.care.check-in.complete',
         });
       });
     });
