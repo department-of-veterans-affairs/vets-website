@@ -10,3 +10,29 @@
 va-alert ul {
 	margin-bottom: 0;
 }
+
+.toe-form-featured-content {
+	background-color: $color-gray-lightest;
+	padding: 24px;
+}
+
+.toe-definition-list {
+	margin: 0;
+}
+.toe-definition-list:after {
+	clear: both;
+	content: "";
+	display: table;
+}
+.toe-definition-list_term,
+.toe-definition-list_definition {
+	float: left;
+}
+.toe-definition-list_term {
+	clear: left;
+	font-weight: bold;
+	margin-top: 0;
+}
+.toe-definition-list_definition {
+	margin-left: 1em;
+}

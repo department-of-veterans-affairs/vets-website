@@ -1,5 +1,5 @@
 import React from 'react';
-import { createSelector } from 'reselect';
+// import { createSelector } from 'reselect';
 
 // Example of an imported schema:
 // import fullSchema from '../22-1990-schema.json';
@@ -8,7 +8,7 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
+// import emailUI from 'platform/forms-system/src/js/definitions/email';
 // import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
@@ -69,7 +69,7 @@ const {
   date,
   dateRange,
   usaPhone,
-  email,
+  // email,
   toursOfDuty,
 } = commonDefinitions;
 
@@ -171,7 +171,7 @@ const formPages = {
   directDeposit: 'directDeposit',
 };
 
-const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
+// const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
 // const benefits = [
 //   ELIGIBILITY.CHAPTER30,
 //   ELIGIBILITY.CHAPTER1606,
@@ -225,20 +225,20 @@ function isOnlyWhitespace(str) {
 //   };
 // }
 
-function phoneSchema() {
-  return {
-    type: 'object',
-    properties: {
-      phone: {
-        ...usaPhone,
-        pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
-      },
-      isInternational: {
-        type: 'boolean',
-      },
-    },
-  };
-}
+// function phoneSchema() {
+//   return {
+//     type: 'object',
+//     properties: {
+//       phone: {
+//         ...usaPhone,
+//         pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
+//       },
+//       isInternational: {
+//         type: 'boolean',
+//       },
+//     },
+//   };
+// }
 
 function additionalConsiderationsQuestionTitleText(benefitSelection, order) {
   const isUnsure = !benefitSelection || benefitSelection === 'CannotRelinquish';
@@ -370,47 +370,6 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
-  prefillTransformer: (pages, formData, metadata, state) => {
-    const claimant = state.data?.formData?.data?.attributes?.claimant || {};
-    const contactInfo = claimant?.contactInfo || {};
-
-    const newData = {
-      ...formData,
-      // formId: state.data?.formData?.data?.id,
-      // claimantId: claimant.claimantId,
-      'view:userFullName': {
-        userFullName: {
-          first: claimant.firstName || undefined,
-          middle: claimant.middleName || undefined,
-          last: claimant.lastName || undefined,
-        },
-      },
-      dateOfBirth: claimant.dateOfBirth,
-      email: {
-        email: contactInfo.emailAddress,
-        confirmEmail: contactInfo.emailAddress,
-      },
-      'view:phoneNumbers': {
-        mobilePhoneNumber: {
-          phone: contactInfo?.mobilePhoneNumber || undefined,
-        },
-        phoneNumber: {
-          phone: contactInfo?.homePhoneNumber || undefined,
-        },
-      },
-    };
-
-    if (claimant?.suffix) {
-      newData['view:userFullName'].userFullName.suffix = claimant?.suffix;
-    }
-
-    return {
-      metadata,
-      formData: newData,
-      pages,
-      state,
-    };
-  },
   savedFormMessages: {
     notFound: 'Please start over to apply for my education benefits.',
     noAuth:
@@ -578,86 +537,68 @@ const formConfig = {
       },
     },
     contactInformationChapter: {
-      title: 'Contact information',
+      title: 'Sponsor information',
       pages: {
-        [formPages.contactInformation.contactInformation]: {
+        [formPages.sponsorInformation]: {
           title: 'Phone numbers and email address',
-          path: 'contact-information/email-phone',
+          path: 'sponsor-information',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Review your phone numbers and email address</h3>
-                  <div className="meb-list-label">
-                    <strong>We’ll use this information to:</strong>
-                  </div>
-                  <ul>
-                    <li>
-                      Contact you if we have questions about your application
-                    </li>
-                    <li>Tell you important information about your benefits</li>
-                  </ul>
+                  <h3>Choose your sponsor</h3>
                   <p>
-                    This is the contact information we have on file for you. If
-                    you notice any errors, please correct them now. Any updates
-                    you make will change the information for your education
-                    benefits only.
+                    Based on Department of Defense (DoD) records, this is the
+                    sponsor information we have on file for you.
                   </p>
                   <p>
-                    <strong>Note:</strong> If you want to update your contact
-                    information for other VA benefits, you can do that from your
-                    profile.
-                  </p>
-                  <p>
-                    <a href="/profile/personal-information">
-                      Go to your profile
+                    <strong>Note:</strong> If you notice something wrong with
+                    your sponsor’s information or don’t see them listed, let
+                    your sponsor know. Your sponsor can
+                    <a href="/">
+                      update this information on the DoD milConnect website.
                     </a>
                   </p>
+                  <div className="toe-form-featured-content vads-u-margin-top--3 vads-u-margin-bottom--4">
+                    <h5 className="vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--0">
+                      SPONSOR 1
+                    </h5>
+                    <h4 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+                      Jane Doe
+                    </h4>
+                    <dl className="toe-definition-list">
+                      <dt className="toe-definition-list_term">
+                        Date of birth:
+                      </dt>
+                      <dd className="toe-definition-list_definition">
+                        July 18, 1996
+                      </dd>
+                      <dt className="toe-definition-list_term">
+                        Your relationship to sponsor:
+                      </dt>
+                      <dd className="toe-definition-list_definition">Spouse</dd>
+                    </dl>
+                  </div>
                 </>
               ),
             },
-            [formFields.viewPhoneNumbers]: {
+            [formFields.relationshipToServiceMember]: {
+              'ui:title':
+                'What’s your relationship to the service member whose benefit has been transferred to you?',
+              'ui:widget': 'radio',
+            },
+            'view:additionalInfo': {
               'ui:description': (
-                <>
-                  <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
-                    Phone numbers and email addresss
-                  </h4>
-                  <p className="meb-review-page-only">
-                    If you’d like to update your phone numbers and email
-                    address, please edit the form fields below.
+                <va-additional-info trigger="Which sponsor should I choose?">
+                  <p>
+                    You can only choose one sponsor for this application. If you
+                    have multiple sponsors, you can talk to them to determine
+                    which benefits are right for you. You can also submit
+                    another application for Transfer of Entitlement education
+                    benefits if you would like to choose another sponsor.
                   </p>
-                </>
+                </va-additional-info>
               ),
-              // [formFields.mobilePhoneNumber]: phoneUISchema('mobile'),
-              // [formFields.phoneNumber]: phoneUISchema('home'),
-            },
-            [formFields.email]: {
-              'ui:options': {
-                hideLabelText: true,
-                showFieldLabel: false,
-                // viewComponent: EmailViewField,
-              },
-              email: {
-                ...emailUI('Email address'),
-                // 'ui:validations': [validateEmail],
-                // 'ui:reviewField': EmailReviewField,
-              },
-              confirmEmail: {
-                ...emailUI('Confirm email address'),
-                'ui:options': {
-                  ...emailUI()['ui:options'],
-                  hideOnReview: true,
-                },
-              },
-              'ui:validations': [
-                (errors, field) => {
-                  if (field.email !== field.confirmEmail) {
-                    errors.confirmEmail.addError(
-                      'Sorry, your emails must match',
-                    );
-                  }
-                },
-              ],
             },
           },
           schema: {
@@ -667,226 +608,15 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [formFields.viewPhoneNumbers]: {
-                type: 'object',
-                properties: {
-                  [formFields.mobilePhoneNumber]: phoneSchema(),
-                  [formFields.phoneNumber]: phoneSchema(),
-                },
-              },
-              [formFields.email]: {
-                type: 'object',
-                required: [formFields.email, 'confirmEmail'],
-                properties: {
-                  email,
-                  confirmEmail: email,
-                },
-              },
-            },
-          },
-        },
-        [formPages.contactInformation.preferredContactMethod]: {
-          title: 'Contact preferences',
-          path: 'contact-information/contact-preferences',
-          uiSchema: {
-            'view:contactMethodIntro': {
-              'ui:description': (
-                <>
-                  <h3 className="meb-form-page-only">
-                    Choose your contact method for follow-up questions
-                  </h3>
-                </>
-              ),
-            },
-            [formFields.contactMethod]: {
-              'ui:title':
-                'How should we contact you if we have questions about your application?',
-              'ui:widget': 'radio',
-              'ui:errorMessages': {
-                required: 'Please select at least one way we can contact you.',
-              },
-              'ui:options': {
-                updateSchema: (() => {
-                  const filterContactMethods = createSelector(
-                    form => form['view:phoneNumbers'].mobilePhoneNumber.phone,
-                    form => form['view:phoneNumbers'].phoneNumber.phone,
-                    (mobilePhoneNumber, homePhoneNumber) => {
-                      const invalidContactMethods = [];
-                      if (!mobilePhoneNumber) {
-                        invalidContactMethods.push('Mobile Phone');
-                      }
-                      if (!homePhoneNumber) {
-                        invalidContactMethods.push('Home Phone');
-                      }
-
-                      return {
-                        enum: contactMethods.filter(
-                          method => !invalidContactMethods.includes(method),
-                        ),
-                      };
-                    },
-                  );
-                  return form => filterContactMethods(form);
-                })(),
-              },
-            },
-            'view:receiveTextMessages': {
-              'ui:description': (
-                <>
-                  <div className="meb-form-page-only">
-                    <h3>Choose how you want to get notifications</h3>
-                    <p>
-                      We recommend that you opt in to text message notifications
-                      about your benefits. These include notifications that
-                      prompt you to verify your enrollment so you’ll receive
-                      your education payments. This is an easy way to verify
-                      your monthly enrollment.
-                    </p>
-                  </div>
-                </>
-              ),
-              [formFields.receiveTextMessages]: {
-                'ui:title':
-                  'Would you like to receive text message notifications on your education benefits?',
-                'ui:widget': 'radio',
-                'ui:validations': [
-                  (errors, field, formData) => {
-                    const isYes = field.slice(0, 4).includes('Yes');
-                    const phoneExist = !!formData['view:phoneNumbers']
-                      .mobilePhoneNumber.phone;
-                    const { isInternational } = formData[
-                      'view:phoneNumbers'
-                    ].mobilePhoneNumber;
-
-                    if (isYes) {
-                      if (!phoneExist) {
-                        errors.addError(
-                          "You can't select that response because we don't have a mobile phone number on file for you.",
-                        );
-                      } else if (isInternational) {
-                        errors.addError(
-                          "You can't select that response because you have an international mobile phone number",
-                        );
-                      }
-                    }
-                  },
-                ],
-                'ui:options': {
-                  widgetProps: {
-                    Yes: { 'data-info': 'yes' },
-                    No: { 'data-info': 'no' },
-                  },
-                  selectedProps: {
-                    Yes: { 'aria-describedby': 'yes' },
-                    No: { 'aria-describedby': 'no' },
-                  },
-                },
-              },
-            },
-            'view:textMessagesAlert': {
-              'ui:description': (
-                <va-alert status="info">
-                  <>
-                    If you choose to get text message notifications from VA’s GI
-                    Bill program, message and data rates may apply. Two messages
-                    per month. At this time, we can only send text messages to
-                    U.S. mobile phone numbers. Text STOP to opt out or HELP for
-                    help.{' '}
-                    <a
-                      href="https://benefits.va.gov/gibill/isaksonroe/verification_of_enrollment.asp"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      View Terms and Conditions and Privacy Policy.
-                    </a>
-                  </>
-                </va-alert>
-              ),
-              'ui:options': {
-                hideIf: formData =>
-                  // !isValidPhone(
-                  //   formData[formFields.viewPhoneNumbers][
-                  //     formFields.mobilePhoneNumber
-                  //   ].phone,
-                  // ) ||
-                  formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumber
-                  ].isInternational,
-              },
-            },
-            'view:noMobilePhoneAlert': {
-              'ui:description': (
-                <va-alert status="warning">
-                  <>
-                    You can’t choose to get text message notifications because
-                    we don’t have a mobile phone number on file for you.
-                  </>
-                </va-alert>
-              ),
-              'ui:options': {
-                hideIf: formData =>
-                  formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumber
-                  ].isInternational,
-              },
-            },
-            'view:internationalTextMessageAlert': {
-              'ui:description': (
-                <va-alert status="warning">
-                  <>
-                    You can’t choose to get text notifications because you have
-                    an international mobile phone number. At this time, we can
-                    send text messages about your education benefits to U.S.
-                    mobile phone numbers.
-                  </>
-                </va-alert>
-              ),
-              'ui:options': {
-                hideIf: formData =>
-                  !formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumber
-                  ].isInternational,
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:contactMethodIntro': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.contactMethod]: {
+              [formFields.relationshipToServiceMember]: {
                 type: 'string',
-                enum: contactMethods,
+                enum: ['Sponsor 1: Jane Doe', 'Someone not listed here'],
               },
-              'view:receiveTextMessages': {
-                type: 'object',
-                required: [formFields.receiveTextMessages],
-                properties: {
-                  [formFields.receiveTextMessages]: {
-                    type: 'string',
-                    enum: [
-                      'Yes, send me text message notifications',
-                      'No, just send me email notifications',
-                    ],
-                  },
-                },
-              },
-              'view:textMessagesAlert': {
-                type: 'object',
-                properties: {},
-              },
-              'view:noMobilePhoneAlert': {
-                type: 'object',
-                properties: {},
-              },
-              'view:internationalTextMessageAlert': {
+              'view:additionalInfo': {
                 type: 'object',
                 properties: {},
               },
             },
-            required: [formFields.contactMethod],
           },
         },
       },
