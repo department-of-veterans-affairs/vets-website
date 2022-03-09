@@ -86,8 +86,14 @@ const DocumentUploader = () => {
         <FileList files={state.files} onClick={onDeleteClick} />
       )}
       {state.successMessage ? (
-        <va-alert status="success" visible>
-          <h3 slot="headline">Your files have been uploaded</h3>
+        <va-alert
+          background-only
+          close-btn-aria-label="Close notification"
+          show-icon
+          status="success"
+          visible
+        >
+          <div>Your files have been uploaded</div>
         </va-alert>
       ) : null}
       <div
