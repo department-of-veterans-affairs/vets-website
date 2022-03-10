@@ -1050,6 +1050,7 @@ jobs:
   jenkins:
     name: Run Jenkins CI
     runs-on: ubuntu-latest
+    if: ${{ github.ref != 'refs/heads/master' }}
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1

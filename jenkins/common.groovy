@@ -25,6 +25,7 @@ def shouldBail() {
 
 def setup() {
   stage("Setup") {
+    if (commonStages.shouldBail() || !commonStages.isReviewable()) { return }
 
     dir("vagov-content") {
       checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vagov-content.git']]]
