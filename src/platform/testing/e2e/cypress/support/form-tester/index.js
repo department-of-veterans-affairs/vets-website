@@ -324,14 +324,13 @@ Cypress.Commands.add('enterData', field => {
     }
 
     case 'date': {
-      const [year, month, day] = field.data
-        .split('-')
-        .map(
-          dateComponent =>
-            Number.isFinite(dateComponent)
-              ? parseInt(dateComponent, 10).toString()
-              : dateComponent,
-        );
+      const [year, month, day] = field.data.split('-').map(
+        dateComponent =>
+          // eslint-disable-next-line no-restricted-globals
+          isFinite(dateComponent)
+            ? parseInt(dateComponent, 10).toString()
+            : dateComponent,
+      );
 
       // Escape non-standard characters like dots and colons.
       const baseSelector = Cypress.$.escapeSelector(field.key);
