@@ -1035,7 +1035,7 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     if: ${{ always() && github.ref == 'refs/heads/master' && needs.get-latest-run-number.result == 'success' && needs.get-latest-run-number.outputs.latest_run_number == github.run_number}}
-    needs: get-latest-run-number
+    needs: [build, get-latest-run-number]
 
     strategy:
       matrix:
@@ -1075,7 +1075,13 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Deploy
-        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+        run: |
+          if [[ ${{ matrix.environment }} == 'vagovdev' && ${{ needs.build.outputs.app_entries }} != '' ]]; then
+            ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+          else
+            ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+          fi
+
         env:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
           DEST: s3://${{ matrix.deploy-bucket }}
