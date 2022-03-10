@@ -13,7 +13,7 @@ const App = ({ toggleLoginModal, user }) => {
     toggleLoginModal(true, 'cta-form');
   }
 
-  const NotLoggedIn = (
+  const notLoggedInUI = (
     <va-alert
       close-btn-aria-label="Close notification"
       status="continue"
@@ -30,6 +30,32 @@ const App = ({ toggleLoginModal, user }) => {
     </va-alert>
   );
 
+  function renderUI() {
+    if (!user?.login?.currentlyLoggedIn && !user?.login?.hasCheckedKeepAlive) {
+      return (
+        <div className="vads-u-margin-y--5">
+          <va-loading-indicator
+            label="Loading"
+            message="Please wait while we load the application for you."
+            set-focus
+          />
+        </div>
+      );
+    }
+    if (user?.login?.currentlyLoggedIn) {
+      return (
+        <Link
+          className="usa-button-primary va-button-primary"
+          type="button"
+          to="/preview"
+        >
+          Check your VA education inbox
+        </Link>
+      );
+    }
+    return notLoggedInUI;
+  }
+
   return (
     <>
       <Layout clsName="introduction-page">
@@ -41,17 +67,7 @@ const App = ({ toggleLoginModal, user }) => {
           how to sign in.
         </p>
 
-        {user?.login?.currentlyLoggedIn ? (
-          <Link
-            className="usa-button-primary va-button-primary"
-            type="button"
-            to="/preview"
-          >
-            Check your VA education inbox
-          </Link>
-        ) : (
-          NotLoggedIn
-        )}
+        {renderUI()}
 
         <div>
           <h2>Can I use this tool?</h2>

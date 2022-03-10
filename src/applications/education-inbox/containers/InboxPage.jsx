@@ -1,25 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { connect } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
 import PropTypes from 'prop-types';
-import environment from 'platform/utilities/environment';
 import { FETCH_CLAIM_STATUS } from '../actions';
 import Layout from '../components/Layout';
 
-const InboxPage = ({ letters }) => {
+const InboxPage = () => {
+  const [claimantId, setClaimantId] = useState(null);
+  const [isLoading, setLoading] = useState(true);
+
   useEffect(
     () => {
       const checkIfClaimantHasLetters = async () =>
         apiRequest(FETCH_CLAIM_STATUS)
           .then(response => {
-            return response;
+            setClaimantId(response.data.attributes.claimantId);
+            setLoading(false);
+            return response?.data?.attributes?.claimantId;
           })
           .catch(err => err);
 
       checkIfClaimantHasLetters().then(r => r);
     },
-    [letters.message],
+    [claimantId],
   );
 
   const HasLetters = (
@@ -40,7 +43,7 @@ const InboxPage = ({ letters }) => {
           <a
             className="vads-u-flex--1"
             download
-            href={`${environment.API_URL}/meb_api/v0/claim_status`}
+            href="http://localhost:3000/meb_api/v0/claim_letter"
           >
             <i className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1" />
             Post-9/11 GI Bill Certificate of Eligibility (PDF)
@@ -77,6 +80,41 @@ const InboxPage = ({ letters }) => {
     </>
   );
 
+  const renderInbox = () => {
+    if (!isLoading) {
+      if (claimantId) {
+        return HasLetters;
+      }
+      return (
+        <va-alert full-width status="info">
+          <h3 slot="headline">
+            We don’t have any letters on file for you at this time
+          </h3>
+          <div>
+            <p>
+              At this time, we’re only able to show decision letters that you
+              received after <b>Month Day, 2022</b>.
+            </p>
+            If you’re looking for an older decision letter,
+            <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
+              contact us using Ask VA
+            </a>
+            .
+          </div>
+        </va-alert>
+      );
+    }
+    return (
+      <div className="vads-u-margin-y--5">
+        <va-loading-indicator
+          label="Loading"
+          message="Please wait while we load the application for you."
+          set-focus
+        />
+      </div>
+    );
+  };
+
   return (
     <Layout clsName="inbox-page">
       <FormTitle title="VA education inbox" />
@@ -84,28 +122,7 @@ const InboxPage = ({ letters }) => {
         Download important documents about your education benefits here,
         including your decision letter.
       </p>
-      <article>
-        {letters?.attributes ? (
-          HasLetters
-        ) : (
-          <va-alert full-width status="info">
-            <h3 slot="headline">
-              We don’t have any letters on file for you at this time
-            </h3>
-            <div>
-              <p>
-                At this time, we’re only able to show decision letters that you
-                received after <b>Month Day, 2022</b>.
-              </p>
-              If you’re looking for an older decision letter,
-              <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
-                contact us using Ask VA
-              </a>
-              .
-            </div>
-          </va-alert>
-        )}
-      </article>
+      <article>{renderInbox()}</article>
     </Layout>
   );
 };
@@ -114,8 +131,10 @@ InboxPage.propTypes = {
   letters: PropTypes.object,
 };
 
-const mapStateToProps = () => ({
-  letters: {},
-});
+// const mapStateToProps = state => ({
+//   letters: {},
+// });
 
-export default connect(mapStateToProps)(InboxPage);
+// export default connect(mapStateToProps)(InboxPage);
+
+export default InboxPage;
