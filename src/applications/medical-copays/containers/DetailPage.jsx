@@ -5,6 +5,7 @@ import Breadcrumbs from '@department-of-veterans-affairs/component-library/Bread
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import PropTypes from 'prop-types';
 import PDFStatementList from '../components/PDFStatementList';
+import HTMLStatementList from '../components/HTMLStatementList';
 import BalanceQuestions from '../components/BalanceQuestions';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
@@ -63,6 +64,7 @@ const DetailPage = ({ match }) => {
       <Alert type={alert} copay={selectedCopay} />
       <OnThisPage />
       <PDFStatementList />
+      <HTMLStatementList />
       <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />
       <FinancialHelp />
       <DisputeCharges />
