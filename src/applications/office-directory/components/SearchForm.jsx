@@ -3,32 +3,15 @@ import PropTypes from 'prop-types';
 import OfficeList from './OfficeList';
 
 export default function SearchForm({ offices }) {
-  const allOffices = offices;
-  const [foundOffices, setFoundOffices] = useState(allOffices);
+  const [foundOffices, setFoundOffices] = useState(offices);
   const [filterInputTimeout, setFilterInputTimeout] = useState(null);
 
   useEffect(
     () => {
-      setFoundOffices(allOffices);
+      setFoundOffices(offices);
     },
-    [allOffices],
+    [offices],
   );
-
-  // const handleFilter = (e) => {
-  //   const keyword = e.target.value;
-
-  //   if (keyword !== '') {
-  //     const results = offices.filter((office) => {
-  //       return office.title.toLowerCase().includes(keyword.toLowerCase());
-  //       // Use the toLowerCase() method to make it case-insensitive
-  //     });
-  //     setFoundOffices(results);
-  //   } else {
-  //     setFoundOffices(offices);
-  //     // If the text field is empty, show all offices
-  //   }
-
-  // };
 
   const handleFilterChange = e => {
     clearTimeout(filterInputTimeout);
@@ -39,12 +22,11 @@ export default function SearchForm({ offices }) {
             return office.title
               .toLowerCase()
               .includes(e.target.value.toLowerCase());
-            // Use the toLowerCase() method to make it case-insensitive
           });
           setFoundOffices(results);
         } else {
-          setFoundOffices(offices);
           // If the text field is empty, show all offices
+          setFoundOffices(offices);
         }
       }, 300),
     );
@@ -66,14 +48,6 @@ export default function SearchForm({ offices }) {
       </div>
 
       <div className="office-list">
-        {/* {foundOffices && foundOffices.length > 0 ? (
-          foundOffices.map((office) => (
-          <h3 key={office.entityId}>{office.title}</h3>
-          ))
-        ) : (
-          <h1>No results found!</h1>
-        )} */}
-
         <OfficeList offices={foundOffices} />
       </div>
     </div>
