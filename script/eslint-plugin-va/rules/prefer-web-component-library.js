@@ -86,6 +86,7 @@ const modalTransformer = (context, node) => {
   const contentsNode = getPropNode(node, 'contents');
   const contentsValue = contentsNode?.value.expression || contentsNode?.value;
   const cssClassNode = getPropNode(node, 'cssClass');
+  const hideCloseButtonNode = getPropNode(node, 'hideCloseButton');
 
   const manuallyUpdateProps =
     getPropNode(node, 'primaryButton') || getPropNode(node, 'secondaryButton');
@@ -140,6 +141,9 @@ const modalTransformer = (context, node) => {
 
             // Remove focusSelectorNode prop if it exists
             focusSelectorNode && fixer.remove(focusSelectorNode),
+
+            // Remove focusSelectorNode prop if it exists
+            hideCloseButtonNode && fixer.remove(hideCloseButtonNode),
 
             // Remove self-closing tag slash if component is self-closing initially
             !closingTagNode &&
