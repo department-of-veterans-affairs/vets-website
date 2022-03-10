@@ -22,15 +22,12 @@ const CopyAddressModal = props => {
       onClose={onClose}
       primaryButton={{
         action: () => {
-          // console.log('YES!');
           setUpdateStatus('success');
-          // onYes();
         },
         text: 'Yes',
       }}
       secondaryButton={{
         action: () => {
-          // console.log('NO!');
           onNo();
         },
         text: 'No',
@@ -44,7 +41,7 @@ const CopyAddressModal = props => {
           </span>
         </p>
         <p className="vads-u-background-color--primary-alt-lightest vads-u-padding--1p5">
-          We also have this mailing address on file for you:
+          We have this mailing address on file for you:
           <span className="vads-u-font-weight--bold vads-u-display--block vads-u-margin-y--1p5">
             <AddressView data={addressToUpdate} />
           </span>
@@ -68,7 +65,6 @@ const CopyAddressModal = props => {
       status="error"
       primaryButton={{
         action: () => {
-          // console.log('YES!');
           setUpdateStatus(null);
           onYes();
         },
@@ -92,7 +88,6 @@ const CopyAddressModal = props => {
       status="success"
       primaryButton={{
         action: () => {
-          // console.log('YES!');
           setUpdateStatus(null);
           onYes();
         },
