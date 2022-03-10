@@ -1090,7 +1090,7 @@ describe('fsr transform information', () => {
         'veteranDateSigned',
       );
     });
-    it('has valid data', () => {
+    it.skip('has valid data', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj.applicantCertifications.veteranSignature).to.equal(
         'Greg A Anderson',
