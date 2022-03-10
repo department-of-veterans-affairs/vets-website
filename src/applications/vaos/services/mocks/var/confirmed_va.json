@@ -5,7 +5,7 @@
       "type": "va_appointments",
       "attributes": {
         "startDate": "2021-09-19T16:00:00Z",
-        "clinicId": "308",
+        "clinicId": "208",
         "clinicFriendlyName": "Neighborhood Clinic",
         "facilityId": "983",
         "sta6aid": "983GC",
@@ -33,7 +33,7 @@
       "type": "va_appointments",
       "attributes": {
         "startDate": "2019-09-19T16:00:00Z",
-        "clinicId": "308",
+        "clinicId": "208",
         "clinicFriendlyName": null,
         "facilityId": "983",
         "sta6aid": "983GC",
@@ -62,7 +62,7 @@
       "attributes": {
         "startDate": "2022-02-14T12:52:00Z",
         "sta6aid": "983",
-        "clinicId": "848",
+        "clinicId": "949",
         "clinicFriendlyName": "CHY PC VAR2",
         "facilityId": "983",
         "communityCare": false,
@@ -105,7 +105,7 @@
                     "timeZoneName": "America/Denver"
                   },
                   "clinic": {
-                    "ien": "848",
+                    "ien": "949",
                     "name": "CHY PC VAR2"
                   }
                 },
@@ -129,7 +129,7 @@
                     "timeZoneName": "America/Denver"
                   },
                   "clinic": {
-                    "ien": "848",
+                    "ien": "949",
                     "name": "CHY PC VAR2"
                   }
                 },
@@ -259,7 +259,7 @@
       "type": "va_appointments",
       "attributes": {
         "startDate": "2022-02-31T16:00:00Z",
-        "clinicId": "308",
+        "clinicId": "208",
         "clinicFriendlyName": "Jennie's Lab",
         "facilityId": "983",
         "sta6aid": "983GC",
@@ -287,7 +287,7 @@
       "type": "va_appointments",
       "attributes": {
         "startDate": "2022-02-20T16:00:00Z",
-        "clinicId": "308",
+        "clinicId": "208",
         "clinicFriendlyName": null,
         "facilityId": "983",
         "sta6aid": "983",

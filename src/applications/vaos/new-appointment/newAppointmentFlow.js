@@ -1,3 +1,4 @@
+import recordEvent from 'platform/monitoring/record-event';
 import {
   selectHasVAPResidentialAddress,
   selectRegisteredCernerFacilityIds,
@@ -8,7 +9,6 @@ import {
   getNewAppointment,
   getTypeOfCare,
   selectCommunityCareSupportedSites,
-  selectEligibility,
 } from './redux/selectors';
 import {
   FACILITY_TYPES,
@@ -30,7 +30,6 @@ import {
   updateFacilityType,
   checkCommunityCareEligibility,
 } from './redux/actions';
-import recordEvent from 'platform/monitoring/record-event';
 import { startNewVaccineFlow } from '../appointment-list/redux/actions';
 
 const AUDIOLOGY = '203';
@@ -74,7 +73,7 @@ function isCovidVaccine(state) {
 }
 
 async function vaFacilityNext(state, dispatch) {
-  let eligibility = selectEligibility(state);
+  let eligibility = null;
 
   const location = getChosenFacilityInfo(state);
   const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
@@ -133,12 +132,15 @@ export default {
         });
         dispatch(startNewVaccineFlow());
         return 'vaccineFlow';
-      } else if (isSleepCare(state)) {
+      }
+      if (isSleepCare(state)) {
         dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
         return 'typeOfSleepCare';
-      } else if (isEyeCare(state)) {
+      }
+      if (isEyeCare(state)) {
         return 'typeOfEyeCare';
-      } else if (isCommunityCare(state)) {
+      }
+      if (isCommunityCare(state)) {
         const isEligible = await dispatch(checkCommunityCareEligibility());
 
         if (isEligible && isPodiatry(state)) {
@@ -146,9 +148,11 @@ export default {
           dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
           dispatch(startRequestAppointmentFlow(true));
           return 'requestDateTime';
-        } else if (isEligible) {
+        }
+        if (isEligible) {
           return 'typeOfFacility';
-        } else if (isPodiatry(state)) {
+        }
+        if (isPodiatry(state)) {
           // If no CC enabled systems and toc is podiatry, show modal
           dispatch(showPodiatryAppointmentUnavailableModal());
           return 'typeOfCare';
@@ -259,7 +263,8 @@ export default {
       const supportedSites = selectCommunityCareSupportedSites(state);
       if (isCCFacility(state) && supportedSites.length > 1) {
         return 'ccClosestCity';
-      } else if (isCCFacility(state)) {
+      }
+      if (isCCFacility(state)) {
         return 'ccPreferences';
       }
 
