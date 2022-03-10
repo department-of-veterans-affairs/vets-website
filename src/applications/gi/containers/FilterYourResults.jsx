@@ -87,7 +87,7 @@ export function FilterYourResults({
     const { checked } = e.target;
 
     if (!checked) {
-      if (!environment.isProduction()) {
+      if (environment.isProduction()) {
         dispatchFilterChange({
           ...filters,
           schools: false,
