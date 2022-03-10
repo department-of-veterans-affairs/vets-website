@@ -41,6 +41,8 @@ export default function App() {
       <label htmlFor="filter-top-offices">Filter: Top Offices</label> */}
 
       <SearchForm offices={allOffices} />
+
+      <va-back-to-top />
     </div>
   );
 }
