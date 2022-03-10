@@ -109,7 +109,7 @@ export function CompareDrawer({
 
     setHeaderLabel(
       <>
-        Compare Institutions ({loaded.length} of 3)
+        Compare institutions ({loaded.length} of 3)
         <span className="sr-only" aria-live="polite" aria-atomic="true">
           {srActionMessage}
         </span>
