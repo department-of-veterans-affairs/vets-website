@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { apiRequest } from 'platform/utilities/api';
-import moment from 'moment';
+import { format } from 'date-fns';
 import { FETCH_CLAIM_STATUS } from '../actions';
 import Layout from '../components/Layout';
 
@@ -17,8 +17,9 @@ const InboxPage = () => {
           .then(response => {
             setClaimantId(response?.data?.attributes?.claimantId);
             setReceivedDate(
-              moment(response?.data?.attributes?.receivedDate).format(
-                'MMMM D, YYYY',
+              format(
+                new Date(response?.data?.attributes?.receivedDate),
+                'MMMM d, yyyy',
               ),
             );
             setLoading(false);
