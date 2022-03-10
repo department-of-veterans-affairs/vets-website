@@ -1,9 +1,9 @@
 import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration } from 'platform/utilities/api';
 
-export const submitToAPI = (files, token, state, setState, DOCUMENT_TYPES) => {
+export const submitToAPI = (state, setState) => {
   // if no file has been added, show an error message
-  if (files.length === 0) {
+  if (state.files.length === 0) {
     setState({
       ...state,
       errorMessage: 'Please choose a file to upload.',
@@ -24,11 +24,11 @@ export const submitToAPI = (files, token, state, setState, DOCUMENT_TYPES) => {
         'Content-Type': 'application/json',
         'X-Key-Inflection': 'camel',
         'Source-App-Name': window.appName,
-        'X-CSRF-Token': token,
+        'X-CSRF-Token': state.token,
       },
       method: 'POST',
       body: JSON.stringify({
-        files,
+        files: state.files,
       }),
     },
   )
@@ -46,7 +46,6 @@ export const submitToAPI = (files, token, state, setState, DOCUMENT_TYPES) => {
         setState({
           ...state,
           files: [],
-          documentType: DOCUMENT_TYPES[0],
           errorMessage: null,
           successMessage: true,
           submissionPending: false,

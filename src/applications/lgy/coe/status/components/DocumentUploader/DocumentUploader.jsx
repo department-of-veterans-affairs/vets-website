@@ -1,17 +1,16 @@
-import React, { useCallback, useState } from 'react';
+/* eslint-disable react/jsx-no-bind */
+import React, { useState } from 'react';
 import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import { submitToAPI } from './submit';
 import { addFile } from './addFile';
 import { DOCUMENT_TYPES, FILE_TYPES } from '../../constants';
-import { isNotBlank, validateIfDirty } from '../../validations';
 import FileList from './FileList';
 
 const DocumentUploader = () => {
-  const token = localStorage.getItem('csrfToken');
   const [state, setState] = useState({
-    documentType: '',
+    documentType: DOCUMENT_TYPES[0],
     documentDescription: '',
     errorMessage: null,
     files: [],
@@ -21,12 +20,8 @@ const DocumentUploader = () => {
     reader: new FileReader(),
   });
 
-  const errorMsgClass = state.errorMessage ? 'vads-u-padding-left--1p5' : null;
-  const disabledOnEmptyDescClass =
-    state.documentType === 'Other' &&
-    !isNotBlank(state.documentDescription.value)
-      ? 'file-input-disabled'
-      : null;
+  const errorMsgClass = null;
+  const disabledOnEmptyDescClass = null;
 
   const onSelectChange = e => {
     setState({ ...state, documentType: e.value });
@@ -35,41 +30,34 @@ const DocumentUploader = () => {
   const onTextInputValueChange = e => {
     setState({
       ...state,
-      documentDescriotion: e.value,
+      documentDescription: e.value,
     });
   };
 
-  const onUploadFile = useCallback(
-    async uploadedFiles => {
-      // If the user selected a document type of other,
-      // send the document description they entered as the document type instead
-      let theDocType = state.documentType;
-      if (theDocType === 'Other') {
-        theDocType = state.documentDescription;
-      }
-      if (theDocType === '') {
-        setState({
-          ...state,
-          errorMessage: 'Please choose a document type above.',
-        });
-        return;
-      }
+  const onUploadFile = async uploadedFiles => {
+    if (state.documentType === '') {
+      setState({
+        ...state,
+        errorMessage: 'Please choose a document type above.',
+      });
+      return;
+    }
+    // If the user selected a document type of other,
+    // send the document description they entered as the document type instead
+    // if (theDocType === 'Other') {
+    //  theDocType = state.documentDescription;
+    // }
 
-      addFile(uploadedFiles[0], theDocType, state, setState, state.reader);
-    },
-    [state.documentType],
-  );
+    addFile(uploadedFiles[0], state, setState);
+  };
 
-  const onDeleteClick = useCallback(
-    idx => {
-      const newFiles = state.files.filter((_file, index) => index !== idx);
-      setState({ ...state, files: newFiles });
-    },
-    [state.files],
-  );
+  const onDeleteClick = idx => {
+    const newFiles = state.files.filter((_file, index) => index !== idx);
+    setState({ ...state, files: newFiles });
+  };
 
   const onSubmit = () => {
-    submitToAPI(state.files, token, state, setState, DOCUMENT_TYPES);
+    submitToAPI(state, setState);
   };
 
   return (
@@ -93,7 +81,7 @@ const DocumentUploader = () => {
           status="success"
           visible
         >
-          <div>Your files have been uploaded</div>
+          <p className="vads-u-margin-y--0">Your files have been uploaded</p>
         </va-alert>
       ) : null}
       <div
@@ -113,16 +101,14 @@ const DocumentUploader = () => {
         />
         {state.documentType === 'Other' && (
           <TextInput
-            label="Document description"
+            label=""
             name="document_description"
-            field={state.documentDescription}
             required={state.documentType === 'Other'}
-            errorMessage={
-              validateIfDirty(state.documentDescription, isNotBlank)
-                ? null
-                : 'Please provide a description'
-            }
             onValueChange={onTextInputValueChange}
+            field={{
+              dirty: false,
+              value: state.documentDescription,
+            }}
           />
         )}
       </div>
@@ -135,7 +121,9 @@ const DocumentUploader = () => {
         accept={FILE_TYPES.map(type => `.${type}`).join(',')}
         errorMessage={state.errorMessage}
       />
-      <button onClick={onSubmit}>Submit files</button>
+      <button type="button" onClick={onSubmit}>
+        Submit files
+      </button>
       <p>
         <strong>Note:</strong> After you upload documents, it will take up to 5
         days for us to review them
