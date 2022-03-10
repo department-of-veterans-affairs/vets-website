@@ -9,10 +9,12 @@ const Routes = () => (
   <MedicalCopaysApp>
     <Switch>
       <Route exact path="/" component={OverviewPage} />
-      <Route path="/balance-details/:id" component={DetailPage} />
-      <Route path="/statement">
-        <HTMLStatementPage />
-      </Route>
+      <Route exact path="/balance-details/:id" component={DetailPage} />
+      <Route
+        exact
+        path="/balance-details/:id/statement-view"
+        component={HTMLStatementPage}
+      />
       <Route>
         <Redirect to="/" />
       </Route>
