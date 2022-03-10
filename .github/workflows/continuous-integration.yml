@@ -485,6 +485,13 @@ jobs:
       - name: View code coverage summary
         run: npx nyc report --reporter=text-summary
 
+      - name: Create coverage artifact
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: code-coverage-artifacts
+          path: coverage
+
       - name: Archive test videos
         uses: actions/upload-artifact@v2
         if: ${{ failure() }}
