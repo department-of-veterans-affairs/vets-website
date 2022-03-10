@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as Sentry from '@sentry/browser';
-import SearchForm from '../components/SearchForm';
+import SearchFilter from '../components/SearchFilter';
 
 const baseUrl = document.location.origin;
 
@@ -40,7 +40,7 @@ export default function App() {
       />
       <label htmlFor="filter-top-offices">Filter: Top Offices</label> */}
 
-      <SearchForm offices={allOffices} />
+      <SearchFilter offices={allOffices} />
 
       <va-back-to-top />
     </div>

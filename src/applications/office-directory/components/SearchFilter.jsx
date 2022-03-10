@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import OfficeList from './OfficeList';
 
-export default function SearchForm({ offices }) {
-  const [foundOffices, setFoundOffices] = useState(offices);
+export default function SearchFilter({ offices }) {
+  const [searchResults, setSearchResults] = useState(offices);
   const [filterInputTimeout, setFilterInputTimeout] = useState(null);
 
   useEffect(
     () => {
-      setFoundOffices(offices);
+      setSearchResults(offices);
     },
     [offices],
   );
@@ -23,10 +23,10 @@ export default function SearchForm({ offices }) {
               .toLowerCase()
               .includes(e.target.value.toLowerCase());
           });
-          setFoundOffices(results);
+          setSearchResults(results);
         } else {
           // If the text field is empty, show all offices
-          setFoundOffices(offices);
+          setSearchResults(offices);
         }
       }, 300),
     );
@@ -48,12 +48,12 @@ export default function SearchForm({ offices }) {
       </div>
 
       <div className="office-list">
-        <OfficeList offices={foundOffices} />
+        <OfficeList offices={searchResults} />
       </div>
     </div>
   );
 }
 
-SearchForm.propTypes = {
+SearchFilter.propTypes = {
   offices: PropTypes.array.isRequired,
 };
