@@ -39,7 +39,6 @@
     "./src/platform/polyfills/preESModulesPolyfills.js"
   ],
   "plugins": [
-    "istanbul",
     "lodash",
     // Stage 2
     "@babel/plugin-proposal-function-sent",
