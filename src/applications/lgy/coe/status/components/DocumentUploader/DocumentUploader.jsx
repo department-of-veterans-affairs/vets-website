@@ -42,11 +42,6 @@ const DocumentUploader = () => {
       });
       return;
     }
-    // If the user selected a document type of other,
-    // send the document description they entered as the document type instead
-    // if (theDocType === 'Other') {
-    //  theDocType = state.documentDescription;
-    // }
 
     addFile(uploadedFiles[0], state, setState);
   };
@@ -81,7 +76,9 @@ const DocumentUploader = () => {
           status="success"
           visible
         >
-          <p className="vads-u-margin-y--0">Your files have been uploaded</p>
+          <p className="vads-u-margin-y--0">
+            Your documents were successfully uploaded.
+          </p>
         </va-alert>
       ) : null}
       <div
