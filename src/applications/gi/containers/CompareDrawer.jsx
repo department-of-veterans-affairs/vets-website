@@ -257,7 +257,12 @@ export function CompareDrawer({
               onCancel={() => setPromptingFacilityCode(null)}
             />
           )}
-          <div className={compareHeaderClasses} onClick={expandOnClick}>
+          <div
+            className={compareHeaderClasses}
+            role="button"
+            tabIndex={0}
+            onClick={expandOnClick}
+          >
             <button
               aria-expanded={open}
               aria-controls="compare-body"
