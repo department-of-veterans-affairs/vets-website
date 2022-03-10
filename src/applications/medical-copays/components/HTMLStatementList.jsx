@@ -8,7 +8,6 @@ const HTMLStatementList = () => {
   const { pathname } = useLocation();
   const selectedId = pathname.replace('/balance-details/', '');
   const statements = useSelector(({ mcp }) => mcp.statements) ?? [];
-
   // get selected statement
   const [selectedCopay] = statements?.filter(({ id }) => id === selectedId);
   // get facility  number on selected statement
@@ -19,7 +18,6 @@ const HTMLStatementList = () => {
   );
 
   const sortedFacilityCopays = sortStatementsByDate(facilityCopays);
-
   const formattedStatementDate = date => {
     return moment(date, 'MM-DD-YYYY').format('MMMM D, YYYY');
   };
@@ -36,8 +34,9 @@ const HTMLStatementList = () => {
         <>
           <Link
             className="vads-u-font-size--sm"
-            to="/statement"
+            to={`/balance-details/${statement.id}/statement-view`}
             data-testid="statement"
+            key={statement.id}
           >
             <span aria-hidden="true">
               {formattedStatementDate(statement.pSStatementDate)} statement{' '}
