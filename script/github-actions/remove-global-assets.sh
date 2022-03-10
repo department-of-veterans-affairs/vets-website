@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-# Removes global assets in a build directory from single/grouped app builds.
+# Removes global assets in a single/grouped app build directory.
 
 # Exit if app entry names or directories are missing
 if [ -z "$ENTRY_NAMES" ] || [ -z "$APP_DIRS" ] || [ -z "$BUILD_DIR" ]; then

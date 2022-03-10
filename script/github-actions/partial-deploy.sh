@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-# Partial deploy for single/grouped app builds
+# Partial deploy for single/grouped app builds.
 
 ME=$(basename "$0")
 
@@ -107,7 +107,8 @@ if [ ! -f build/BUILD.txt ] ; then
     exit 1
 fi
 
-# Copy filtered assets into 'assets' directory
+# Copy filtered assets into 'assets' directory. The build should already
+# only contain application assets, but exclude global assets just to be safe
 say "INFO: Filtering assets for S3 sync"
 mkdir assets
 rsync -a \
