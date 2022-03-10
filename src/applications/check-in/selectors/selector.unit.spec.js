@@ -9,6 +9,7 @@ import {
   makeSelectConfirmationData,
   makeSelectSeeStaffMessage,
   makeSelectApp,
+  makeSelectPendingEdits,
 } from './index';
 
 describe('check-in', () => {
@@ -171,6 +172,27 @@ describe('check-in', () => {
         const selectApp = makeSelectApp();
         expect(selectApp(state)).to.eql({
           app: 'preCheckIn',
+        });
+      });
+    });
+    describe('makeSelectPendingEdits', () => {
+      const state = {
+        checkInData: {
+          context: {
+            pendingEdits: {
+              key: 'emailAddress',
+              value: 'some@email.com',
+            },
+          },
+        },
+      };
+      it('returns pending edits', () => {
+        const selectPendingEdits = makeSelectPendingEdits();
+        expect(selectPendingEdits(state)).to.eql({
+          pendingEdits: {
+            key: 'emailAddress',
+            value: 'some@email.com',
+          },
         });
       });
     });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { CSP_IDS, EXTERNAL_APPS } from '../constants';
 import LoginButton from './LoginButton';
-import CreateAccountLink from './CreateAccountLink';
+import AccountLink from './AccountLink';
 
 export default ({
   externalApplication,
@@ -42,9 +42,9 @@ export default ({
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             {showLoginGov() &&
               loginGovCreateAccountEnabled && (
-                <CreateAccountLink csp={CSP_IDS.LOGIN_GOV} />
+                <AccountLink csp={CSP_IDS.LOGIN_GOV} />
               )}
-            <CreateAccountLink csp={CSP_IDS.ID_ME} />
+            <AccountLink csp={CSP_IDS.ID_ME} />
           </div>
         </div>
       </div>

@@ -1,7 +1,4 @@
-import {
-  MAX_DISAGREEMENT_REASON_LENGTH,
-  SUBMITTED_DISAGREEMENTS,
-} from '../constants';
+import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../constants';
 import { getIssueName } from './helpers';
 
 /**
@@ -65,5 +62,5 @@ export const calculateOtherMaxLength = formData => {
     }
     return totalLength;
   }, 0);
-  return MAX_DISAGREEMENT_REASON_LENGTH - stringLength;
+  return MAX_LENGTH.DISAGREEMENT_REASON - stringLength;
 };
