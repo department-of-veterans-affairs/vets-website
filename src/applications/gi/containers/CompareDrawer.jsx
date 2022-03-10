@@ -262,6 +262,7 @@ export function CompareDrawer({
             role="button"
             tabIndex={0}
             onClick={expandOnClick}
+            onKeyDown={expandOnClick}
           >
             <button
               aria-expanded={open}
