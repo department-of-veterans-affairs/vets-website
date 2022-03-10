@@ -3,19 +3,21 @@ import * as Sentry from '@sentry/browser';
 import 'url-search-params-polyfill';
 
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
-import { SKIP_DUPE_QUERY } from 'platform/utilities/sso/constants';
 import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
   API_VERSION,
   EXTERNAL_APPS,
   EXTERNAL_REDIRECTS,
+  GA_TRACKING_ID_KEY,
   VAGOV_TRACKING_IDS,
   CSP_IDS,
   POLICY_TYPES,
   SIGNUP_TYPES,
+  API_SESSION_URL,
+  GA_CLIENT_ID_KEY,
+  EBenefitsDefaultPath,
 } from './constants';
-import environment from '../../utilities/environment';
 import recordEvent from '../../monitoring/record-event';
 
 // NOTE: the login app typically has URLs that being with 'sign-in',
@@ -23,24 +25,12 @@ import recordEvent from '../../monitoring/record-event';
 // want to resolve with the login app
 export const loginAppUrlRE = new RegExp('^/sign-in(/.*)?$');
 
-function normalPageRedirect() {
-  return loginAppUrlRE.test(window.location.pathname)
-    ? window.location.origin
-    : window.location.toString();
-}
-
 export const getQueryParams = () => {
   const searchParams = new URLSearchParams(window.location.search);
   const application = searchParams.get('application');
   const to = searchParams.get('to');
 
   return { application, to };
-};
-
-const fixUrl = (url, path) => {
-  if (!url) return null;
-  const updatedUrl = url.endsWith('/') ? url.slice(0, -1) : url;
-  return `${updatedUrl}${path}`.replace('\r\n', ''); // Prevent CRLF injection.
 };
 
 export const isExternalRedirect = () => {
@@ -51,67 +41,15 @@ export const isExternalRedirect = () => {
   );
 };
 
-export function sessionTypeUrl({
-  type = '',
-  queryParams = {},
-  version = API_VERSION,
-}) {
-  const base = `${environment.API_URL}/${version}/sessions`;
-  const searchParams = new URLSearchParams(queryParams);
-
-  const { application } = getQueryParams();
-
-  // Only require verification when all of the following are true:
-  // 1. On the USiP (Unified Sign In Page)
-  // 2. The outbound application is one of the mobile apps
-  // 3. The generated link type is for signup, and login only
-  const requireVerification =
-    isExternalRedirect() &&
-    [EXTERNAL_APPS.VA_OCC_MOBILE, EXTERNAL_APPS.VA_FLAGSHIP_MOBILE].includes(
-      application,
-    ) &&
-    [...Object.values(SIGNUP_TYPES), ...Object.values(CSP_IDS)].includes(type)
-      ? '_verified'
-      : '';
-
-  const queryString =
-    searchParams.toString() === '' ? '' : `?${searchParams.toString()}`;
-
-  return `${base}/${type}${requireVerification}/new${queryString}`;
-}
-
-export function setSentryLoginType(loginType) {
-  Sentry.setTag('loginType', loginType);
-}
-
-export function clearSentryLoginType() {
-  Sentry.setTag('loginType', undefined);
-}
-
-function redirectWithGAClientId(redirectUrl) {
-  try {
-    // eslint-disable-next-line no-undef
-    const trackers = ga.getAll();
-
-    const tracker = trackers.find(t => {
-      const trackingId = t.get('trackingId');
-      return VAGOV_TRACKING_IDS.includes(trackingId);
-    });
-
-    const clientId = tracker && tracker.get('clientId');
-
-    window.location = clientId
-      ? // eslint-disable-next-line camelcase
-        appendQuery(redirectUrl, { client_id: clientId })
-      : redirectUrl;
-  } catch (e) {
-    window.location = redirectUrl;
-  }
-}
+export const fixUrl = (url, path = '') => {
+  if (!url) return null;
+  const updatedUrl = url.endsWith('/') ? url.slice(0, -1) : url;
+  return `${updatedUrl}${path}`.replace('\r\n', ''); // Prevent CRLF injection.
+};
 
 export const generatePath = (app, to) => {
   function generateDefaultTo() {
-    return app === EXTERNAL_APPS.EBENEFITS ? '/profilepostauth' : '';
+    return app === EXTERNAL_APPS.EBENEFITS ? EBenefitsDefaultPath : '';
   }
 
   function generateTo() {
@@ -124,19 +62,7 @@ export const generatePath = (app, to) => {
   return !to ? generateDefaultTo() : generateTo();
 };
 
-export function createExternalRedirectUrl({ base, returnUrl, application }) {
-  return {
-    [EXTERNAL_APPS.MHV]: `${base}${
-      SKIP_DUPE_QUERY.SINGLE_QUERY
-    }&redirect=${returnUrl}&postLogin=true`,
-    [EXTERNAL_APPS.MY_VA_HEALTH]: `${base}`,
-    [EXTERNAL_APPS.EBENEFITS]: `${base}`,
-    [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: `${base}`,
-    [EXTERNAL_APPS.VA_OCC_MOBILE]: `${base}`,
-  }[application];
-}
-
-export function standaloneRedirect() {
+export const createExternalApplicationUrl = () => {
   const { application, to } = getQueryParams();
 
   const externalRedirectUrl = EXTERNAL_REDIRECTS[application] ?? null;
@@ -147,45 +73,129 @@ export function standaloneRedirect() {
     ) &&
     externalRedirectUrl
   ) {
-    return fixUrl(`${externalRedirectUrl}${window.location.search}`, '');
+    return fixUrl(`${externalRedirectUrl}${window.location.search}`);
   }
 
   return fixUrl(externalRedirectUrl, generatePath(application, to));
+};
+
+// Return URL is where a user will be forwarded post successful authentication
+export const createAndStoreReturnUrl = () => {
+  let returnUrl;
+  if (loginAppUrlRE.test(window.location.pathname)) {
+    if (isExternalRedirect()) {
+      returnUrl = createExternalApplicationUrl();
+    } else {
+      // Return user to home page if internal authentication via USiP
+      returnUrl = window.location.origin;
+    }
+  } else {
+    // If we are not on the USiP, we should always return the user back to their current location
+    returnUrl = window.location.toString();
+  }
+
+  sessionStorage.setItem(AUTHN_SETTINGS.RETURN_URL, returnUrl);
+  return returnUrl;
+};
+
+export function sessionTypeUrl({
+  type = '',
+  queryParams = {},
+  version = API_VERSION,
+}) {
+  if (!type) {
+    return null;
+  }
+  const externalRedirect = isExternalRedirect();
+  const verifiedOnlyApps = [
+    EXTERNAL_APPS.VA_OCC_MOBILE,
+    EXTERNAL_APPS.VA_FLAGSHIP_MOBILE,
+  ];
+  const isSignup = Object.values(SIGNUP_TYPES).includes(type);
+  const isLogin = Object.values(CSP_IDS).includes(type);
+  const appendParams = {};
+
+  // application is fetched from location, not the passed through queryParams arg
+  const { application } = getQueryParams();
+
+  // Only require verification when all of the following are true:
+  // 1. On the USiP (Unified Sign In Page)
+  // 2. The outbound application is one of the mobile apps
+  // 3. The generated link type is for signup, and login only
+  const requireVerification =
+    externalRedirect &&
+    (isLogin || isSignup) &&
+    verifiedOnlyApps.includes(application)
+      ? '_verified'
+      : '';
+
+  // Append extra params for external MHV login attempts
+  if (externalRedirect && isLogin && application === EXTERNAL_APPS.MHV) {
+    // eslint-disable-next-line camelcase
+    appendParams.skip_dupe = application;
+    appendParams.redirect = createExternalApplicationUrl();
+    appendParams.postLogin = true;
+  }
+
+  return appendQuery(
+    API_SESSION_URL({ version, type: `${type}${requireVerification}` }),
+    { ...queryParams, ...appendParams },
+  );
 }
+
+export function setSentryLoginType(loginType) {
+  Sentry.setTag('loginType', loginType);
+}
+
+export function clearSentryLoginType() {
+  Sentry.setTag('loginType', undefined);
+}
+
+export const redirectWithGAClientId = redirectUrl => {
+  try {
+    // eslint-disable-next-line no-undef
+    const trackers = ga.getAll();
+
+    const tracker = trackers.find(t => {
+      const trackingId = t.get(GA_TRACKING_ID_KEY);
+      return VAGOV_TRACKING_IDS.includes(trackingId);
+    });
+
+    const clientId = tracker && tracker.get(GA_CLIENT_ID_KEY);
+
+    window.location = clientId
+      ? // eslint-disable-next-line camelcase
+        appendQuery(redirectUrl, { client_id: clientId })
+      : redirectUrl;
+  } catch (e) {
+    window.location = redirectUrl;
+  }
+};
 
 export function redirect(redirectUrl, clickedEvent) {
   const { application } = getQueryParams();
   const externalRedirect = isExternalRedirect();
 
-  let rUrl = redirectUrl;
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
-  const returnUrl = externalRedirect
-    ? standaloneRedirect()
-    : normalPageRedirect();
+  createAndStoreReturnUrl();
 
-  sessionStorage.setItem(AUTHN_SETTINGS.RETURN_URL, returnUrl);
   recordEvent({ event: clickedEvent });
 
-  // Generates the redirect for /sign-in page and tracks event
+  // Trigger USiP External Auth Event
   if (
     externalRedirect &&
     [AUTH_EVENTS.SSO_LOGIN, AUTH_EVENTS.MODAL_LOGIN].includes(clickedEvent)
   ) {
-    rUrl = createExternalRedirectUrl({
-      base: redirectUrl,
-      returnUrl,
-      application,
-    });
     recordEvent({
       event: `${AUTHN_SETTINGS.REDIRECT_EVENT}-${application}-inbound`,
     });
   }
 
   if (redirectUrl.includes(CSP_IDS.ID_ME)) {
-    redirectWithGAClientId(rUrl);
+    redirectWithGAClientId(redirectUrl);
   } else {
-    window.location = rUrl;
+    window.location = redirectUrl;
   }
 }
 
@@ -241,19 +251,10 @@ export function signup({ version = API_VERSION, csp = CSP_IDS.ID_ME } = {}) {
   );
 }
 
-function getExternalRedirectOptions() {
-  const { application, to } = getQueryParams();
-  const returnUrl = isExternalRedirect()
-    ? standaloneRedirect()
-    : normalPageRedirect();
-
-  return { application, to, returnUrl };
-}
-
 export const signupUrl = type => {
-  const signupType = SIGNUP_TYPES[type] || SIGNUP_TYPES.ID_ME;
+  const signupType = SIGNUP_TYPES[type] ?? SIGNUP_TYPES[CSP_IDS.ID_ME];
   const queryParams =
-    signupType === SIGNUP_TYPES.ID_ME
+    signupType === SIGNUP_TYPES[CSP_IDS.ID_ME]
       ? {
           queryParams: { op: 'signup' },
         }
@@ -264,13 +265,5 @@ export const signupUrl = type => {
     ...queryParams,
   };
 
-  const { returnUrl, application } = getExternalRedirectOptions();
-
-  return isExternalRedirect()
-    ? createExternalRedirectUrl({
-        base: sessionTypeUrl(opts),
-        returnUrl,
-        application,
-      })
-    : sessionTypeUrl(opts);
+  return sessionTypeUrl(opts);
 };

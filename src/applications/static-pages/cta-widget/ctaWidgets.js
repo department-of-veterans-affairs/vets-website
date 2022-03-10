@@ -1,8 +1,8 @@
 // Relative imports.
 import backendServices from 'platform/user/profile/constants/backendServices';
-import { MHV_ACCOUNT_TYPES } from './constants';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
+import { MHV_ACCOUNT_TYPES } from './constants';
 
 const viewDependentsUrl = getAppUrl('dependents-view-dependents');
 
@@ -162,7 +162,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.LAB_AND_TEST_RESULTS]: {
     id: CTA_WIDGET_TYPES.LAB_AND_TEST_RESULTS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
-      url: mhvUrl(authenticatedWithSSOe, 'labs-tests'),
+      url: mhvUrl(authenticatedWithSSOe, 'web/myhealthevet/labs-tests'),
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel =>

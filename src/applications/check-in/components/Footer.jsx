@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import { makeSelectApp } from '../selectors';
+
+import { APP_NAMES } from '../utils/appConstants';
 
 const Footer = ({ header, message }) => {
   const selectApp = useMemo(makeSelectApp, []);
@@ -16,7 +17,7 @@ const Footer = ({ header, message }) => {
       >
         {header}
       </h2>
-      {app === 'preCheckIn' ? (
+      {app === APP_NAMES.PRE_CHECK_IN ? (
         <>
           <p>
             <span className="vads-u-font-weight--bold">
@@ -33,11 +34,11 @@ const Footer = ({ header, message }) => {
               you need help with the form,
             </span>{' '}
             please call our MyVA411 main information line at{' '}
-            <Telephone contact="8006982411" /> and select 0. We’re here 24/7.
+            <va-telephone contact="8006982411" /> and select 0. We’re here 24/7.
           </p>
           <p>
             If you have hearing loss, call{' '}
-            <Telephone contact="711">TTY: 711</Telephone>.
+            <va-telephone contact="711">TTY: 711</va-telephone>.
           </p>
         </>
       ) : (

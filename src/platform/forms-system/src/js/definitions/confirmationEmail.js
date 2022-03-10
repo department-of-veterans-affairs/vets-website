@@ -1,6 +1,7 @@
 export default function uiSchema(label, dataConstant) {
   return {
     'ui:title': `Re-enter ${label}  email address`,
+    'ui:autocomplete': 'email',
     'ui:widget': 'email',
     'ui:required': formData => !!formData[dataConstant],
     'ui:validations': [

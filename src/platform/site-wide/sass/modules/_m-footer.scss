@@ -28,6 +28,14 @@
   }
 }
 
+body.va-pad-promo-banner .footer-inner {
+  padding-bottom: 5.75rem;
+
+  @include media($medium-screen) {
+    padding-bottom: 3.75rem;
+  }
+}
+
 [class^="va-footer-linkgroup"] {
   padding-left: 0;
   li {
@@ -134,13 +142,6 @@
   padding-bottom: 2em;
 }
 
-.va-footer-logo {
-  > img {
-    width: 200px;
-    height: auto;
-  }
-}
-
 .va-footer-button {
   font-weight: 400;
   border-top: 3px solid transparent;
@@ -205,9 +206,3 @@
   color: $color-white;
 }
 
-.va-footer-link-label {
-  display: block;
-  font-weight: bold;
-  color: $color-white;
-  margin-top: 15px;
-}

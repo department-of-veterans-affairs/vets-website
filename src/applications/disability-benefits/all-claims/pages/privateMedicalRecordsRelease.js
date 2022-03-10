@@ -1,6 +1,7 @@
 import _ from 'platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import { validateDate } from 'platform/forms-system/src/js/validation';
 import {
   recordReleaseDescription,
   limitedConsentTitle,
@@ -9,7 +10,6 @@ import {
 } from '../content/privateMedicalRecordsRelease';
 
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
-import { validateDate } from 'platform/forms-system/src/js/validation';
 
 import { validateZIP } from '../validations';
 
@@ -19,7 +19,7 @@ const {
   providerFacilityName,
   providerFacilityAddress,
 } = form4142.properties.providerFacility.items.properties;
-const limitedConsent = form4142.properties.limitedConsent;
+const { limitedConsent } = form4142.properties;
 
 export const uiSchema = {
   'ui:description': recordReleaseDescription,
@@ -64,21 +64,27 @@ export const uiSchema = {
         ],
         country: {
           'ui:title': 'Country',
+          'ui:autocomplete': 'off',
         },
         street: {
           'ui:title': 'Street',
+          'ui:autocomplete': 'off',
         },
         street2: {
           'ui:title': 'Street 2',
+          'ui:autocomplete': 'off',
         },
         city: {
           'ui:title': 'City',
+          'ui:autocomplete': 'off',
         },
         state: {
           'ui:title': 'State',
+          'ui:autocomplete': 'off',
         },
         postalCode: {
           'ui:title': 'Postal code',
+          'ui:autocomplete': 'off',
           'ui:validations': [validateZIP],
           'ui:errorMessages': {
             pattern:

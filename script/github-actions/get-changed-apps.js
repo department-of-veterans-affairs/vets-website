@@ -17,6 +17,8 @@ const getManifests = filePath => {
   const rootAppFolder = filePath.split('/')[2];
   const fullAppPath = path.join(root, './src/applications', rootAppFolder);
 
+  if (!fs.existsSync(fullAppPath)) return [];
+
   return find
     .fileSync(/manifest\.(json|js)$/, fullAppPath)
     .map(file => JSON.parse(fs.readFileSync(file)));
