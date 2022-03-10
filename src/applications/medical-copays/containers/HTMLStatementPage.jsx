@@ -3,16 +3,17 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import Modals from '../components/Modals';
 import { OnThisPage } from '../components/OnThisPage';
-import { formatDate } from '../utils/helpers';
 
 const HTMLStatementPage = ({ match }) => {
   const selectedId = match.params.id;
-  // const [alert, setAlert] = useState('status');
   const statements = useSelector(({ mcp }) => mcp.statements) ?? [];
   const [selectedCopay] = statements?.filter(({ id }) => id === selectedId);
-  const statementDate = formatDate(selectedCopay?.pSStatementDate);
+  const statementDate = moment(selectedCopay?.pSStatementDate, 'MM-DD').format(
+    'MMMM D',
+  );
   const title = `${statementDate} statement`;
   const prevPage = `Copay bill for ${selectedCopay?.station.facilityName}`;
 
@@ -26,17 +27,27 @@ const HTMLStatementPage = ({ match }) => {
         <a href="/">Home</a>
         <a href="/health-care">Health care</a>
         <a href="/health-care/pay-copay-bill">Pay your VA copay bill</a>
-        <a href="/health-care/pay-copay-bill/your-current-balances">
+        <a
+          href={`/health-care/pay-copay-bill/your-current-balances/balance-details/${selectedId}`}
+        >
           {prevPage}
         </a>
-        <a href="/health-care/pay-copay-bill/your-current-balances/balance-details">
-          {title}
-        </a>
+        <a href={`/balance-details/${selectedId}/statement-view`}>{title}</a>
       </va-breadcrumbs>
       <h1 data-testid="detail-page-title">{title}</h1>
       <p className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--5">
         {`${selectedCopay?.station.facilityName}`}
       </p>
+      <Link
+        className="vads-u-font-size--sm"
+        to={`/balance-details/${selectedId}`}
+      >
+        <i
+          className="fa fa-chevron-left vads-u-margin-right--1"
+          aria-hidden="true"
+        />
+        <strong>Return to facility details</strong>
+      </Link>
       <OnThisPage />
       <h2>Account Summary</h2>
       <h2>Statement charges</h2>
@@ -45,7 +56,10 @@ const HTMLStatementPage = ({ match }) => {
       <Modals title="Notice of rights and responsibilities">
         <Modals.Rights />
       </Modals>
-      <Link className="vads-u-font-size--sm" to="/">
+      <Link
+        className="vads-u-font-size--sm"
+        to={`/balance-details/${selectedId}`}
+      >
         <i
           className="fa fa-chevron-left vads-u-margin-right--1"
           aria-hidden="true"
