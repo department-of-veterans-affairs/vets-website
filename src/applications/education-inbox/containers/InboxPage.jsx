@@ -2,19 +2,26 @@ import React, { useEffect, useState } from 'react';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { apiRequest } from 'platform/utilities/api';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { FETCH_CLAIM_STATUS } from '../actions';
 import Layout from '../components/Layout';
 
 const InboxPage = () => {
   const [claimantId, setClaimantId] = useState(null);
   const [isLoading, setLoading] = useState(true);
+  const [receivedDate, setReceivedDate] = useState(null);
 
   useEffect(
     () => {
       const checkIfClaimantHasLetters = async () =>
         apiRequest(FETCH_CLAIM_STATUS)
           .then(response => {
-            setClaimantId(response.data.attributes.claimantId);
+            setClaimantId(response?.data?.attributes?.claimantId);
+            setReceivedDate(
+              moment(response?.data?.attributes?.receivedDate).format(
+                'MMMM D, YYYY',
+              ),
+            );
             setLoading(false);
             return response?.data?.attributes?.claimantId;
           })
@@ -49,7 +56,7 @@ const InboxPage = () => {
             Post-9/11 GI Bill Certificate of Eligibility (PDF)
           </a>
           <p className="vads-u-flex--auto">
-            You applied for this on July 7, 2022
+            You applied for this on {receivedDate}
           </p>
         </div>
       </div>
