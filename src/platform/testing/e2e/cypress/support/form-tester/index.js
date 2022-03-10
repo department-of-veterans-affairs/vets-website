@@ -328,7 +328,7 @@ Cypress.Commands.add('enterData', field => {
         .split('-')
         .map(
           dateComponent =>
-            isFinite(dateComponent)
+            Number.isFinite(dateComponent)
               ? parseInt(dateComponent, 10).toString()
               : dateComponent,
         );

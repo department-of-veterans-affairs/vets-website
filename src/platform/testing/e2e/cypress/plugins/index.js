@@ -25,16 +25,19 @@ module.exports = async on => {
     setup(build) {
       // eslint-disable-next-line consistent-return
       build.onLoad({ filter: /.js?$/ }, ({ path: filePath }) => {
+        // Filter out files in node_modules
         if (!filePath.split(path.sep).includes('node_modules')) {
           const regex = /.*\/vets-website\/(.+)/;
           const [, relativePath] = filePath.match(regex);
           let contents = fs.readFileSync(filePath, 'utf8');
           const dirname = path.dirname(relativePath);
-          const injectedStuff = `const __dirname = '${dirname.replace(
+          // Generate __dirname for test files
+          const injectedDir = `const __dirname = '${dirname.replace(
             'src/',
             '',
           )}';`;
-          contents = `${injectedStuff}\n\n${contents
+          // Inject __dirname and fix imports
+          contents = `${injectedDir}\n\n${contents
             .replace(/~\//g, '')
             .replace(/@@profile/g, 'applications/personalization/profile')}`;
           return {
