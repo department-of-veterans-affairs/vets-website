@@ -668,6 +668,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: [formFields.sponsorDateOfBirth],
             properties: {
               'view:subHeadings': {
                 type: 'object',
