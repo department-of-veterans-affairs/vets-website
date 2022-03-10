@@ -11,6 +11,7 @@ import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
 import Modals from '../components/Modals';
 import Alert from '../components/Alerts';
+import { OnThisPage } from '../components/OnThisPage';
 import {
   formatDate,
   verifyCurrentBalance,
