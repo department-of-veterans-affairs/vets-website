@@ -46,7 +46,7 @@ jobs:
 
       - name: Build dev
         if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
-        run: yarn build --verbose --buildtype=${{ env.BUILD_ENV_DEV }} --entry=facilities
+        run: yarn build --verbose --buildtype=${{ env.BUILD_ENV_DEV }}
         timeout-minutes: 30  
         
       - name: Generate build details for dev
@@ -150,24 +150,6 @@ jobs:
         with:
           name: ${{ env.BUILD_ENV_STAGING }}.tar.bz2
 
-      - name: Extract build artifact
-        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
-        run: |
-          mkdir ${{ env.BUILD_ENV_DEV }}
-          tar -C ${{ env.BUILD_ENV_DEV }} -xvf ${{ env.BUILD_ENV_DEV }}.tar.bz2
-
-      - name: Remove global assets
-        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
-        run: ./script/github-actions/remove-global-assets.sh
-        env:
-          ENTRY_NAMES: 'facilities'
-          APP_DIRS: 'src/applications/facility-locator'
-          BUILD_DIR: ${{ env.BUILD_ENV_DEV }}
-
-      - name: Compress and archive filtered assets
-        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
-        run: rm ${{ env.BUILD_ENV_DEV }}.tar.bz2 && tar -C ${{ env.BUILD_ENV_DEV }} -cjf ${{ env.BUILD_ENV_DEV }}.tar.bz2 .
-
       - name: Upload build dev
         if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
         run: aws s3 cp ${{ env.BUILD_ENV_DEV }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/${{ env.BUILD_ENV_DEV }}.tar.bz2 --acl public-read --region us-gov-west-1
@@ -178,7 +160,7 @@ jobs:
 
       - name: Deploy Dev
         if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
-        run: ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
         env:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/vagovdev.tar.bz2
           DEST: s3://dev.va.gov
@@ -192,21 +174,21 @@ jobs:
           DEST: s3://staging.va.gov
           ASSET_DEST: s3://staging-va-gov-assets
 
-  # notify-failure:
-  #   name: Notify Failure
-  #   runs-on: ubuntu-latest
-  #   if: ${{ failure() || cancelled() }}
-  #   needs: deploy
+  notify-failure:
+    name: Notify Failure
+    runs-on: ubuntu-latest
+    if: ${{ failure() || cancelled() }}
+    needs: deploy
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-  #     - name: Notify Slack
-  #       uses: ./.github/workflows/slack-notify
-  #       continue-on-error: true
-  #       with:
-  #         payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "vets-website manual dev/staging deploy failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
-  #         channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Notify Slack
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "vets-website manual dev/staging deploy failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

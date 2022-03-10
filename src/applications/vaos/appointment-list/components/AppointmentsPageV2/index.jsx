@@ -20,7 +20,6 @@ import { updateBreadcrumb } from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
 
-// test single app build
 let pageTitle = 'VA online scheduling';
 
 const DROPDOWN_VALUES = {
