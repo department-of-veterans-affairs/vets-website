@@ -18,6 +18,8 @@ jobs:
   build:
     name: Build
     runs-on: self-hosted
+    outputs:
+      app_entries: ${{ steps.get-changed-apps.outputs.app_entries }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
@@ -49,7 +51,7 @@ jobs:
 
       - name: Get app entries for changed files
         id: get-changed-apps
-        if: ${{ github.ref != 'refs/heads/master' }}
+        if: ${{ github.ref != 'refs/heads/master' || matrix.buildtype == 'vagovdev' }}
         run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
@@ -86,6 +88,9 @@ jobs:
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
+    outputs:
+      app_folders: ${{ steps.get-changed-apps.outputs.app_folders }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -927,6 +932,9 @@ jobs:
         linting,
       ]
 
+    env:
+      IS_SINGLE_APP_BUILD: ${{ matrix.buildtype == 'vagovdev' && needs.build.outputs.app_entries != '' }}
+
     # Archive should still run even when linting is skipped (as in PRs).
     # This if overrides the dependency on linting success to include skipped.
     # Because of always(), the rest of the needed jobs have to be checked too.
@@ -942,10 +950,32 @@ jobs:
       (needs.linting.result == 'success' || needs.linting.result == 'skipped')
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Download build artifact
         uses: actions/download-artifact@v2
         with:
           name: ${{ matrix.buildtype }}.tar.bz2
+
+      - name: Extract build artifact
+        if: env.IS_SINGLE_APP_BUILD == 'true'
+        run: |
+          mkdir -p build/${{ matrix.buildtype }}
+          tar -C build/${{ matrix.buildtype }} -xjvf ${{ matrix.buildtype }}.tar.bz2
+          rm ${{ matrix.buildtype }}.tar.bz2
+
+      - name: Remove global assets from build
+        if: env.IS_SINGLE_APP_BUILD == 'true'
+        run: ./script/github-actions/remove-global-assets.sh
+        env:
+          ENTRY_NAMES: ${{ needs.build.outputs.app_entries }}
+          APP_DIRS: ${{ needs.unit-tests.outputs.app_folders }}
+          BUILD_DIR: build/${{ matrix.buildtype }}
+
+      - name: Compress and archive single/grouped app build
+        if: env.IS_SINGLE_APP_BUILD == 'true'
+        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
 
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
@@ -1005,7 +1035,7 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     if: ${{ always() && github.ref == 'refs/heads/master' && needs.get-latest-run-number.result == 'success' && needs.get-latest-run-number.outputs.latest_run_number == github.run_number}}
-    needs: get-latest-run-number
+    needs: [build, get-latest-run-number]
 
     strategy:
       matrix:
@@ -1045,7 +1075,13 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Deploy
-        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+        run: |
+          if [[ ${{ matrix.environment }} == 'vagovdev' && ${{ needs.build.outputs.app_entries }} != '' ]]; then
+            ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+          else
+            ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+          fi
+
         env:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
           DEST: s3://${{ matrix.deploy-bucket }}
