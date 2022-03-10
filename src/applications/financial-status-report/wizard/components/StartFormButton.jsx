@@ -25,6 +25,7 @@ const StartFormButton = ({ setWizardStatus, label, ariaId }) => {
         });
       }}
       aria-describedby={ariaId}
+      data-testid="start-button"
     >
       {label}
     </a>

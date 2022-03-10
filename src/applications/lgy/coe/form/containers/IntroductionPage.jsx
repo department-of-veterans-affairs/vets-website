@@ -12,7 +12,6 @@ import LoggedInContent from './introduction-content/loggedInContent';
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
 
 const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
-  const referenceNumber = 'XXXXXXXX';
   let content;
 
   useEffect(() => {
@@ -32,12 +31,12 @@ const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
       <>
         <COEIntroPageBox
           downloadUrl={downloadUrl}
-          referenceNumber={referenceNumber}
+          referenceNumber={coe.referenceNumber}
           requestDate={coe.applicationCreateDate}
           status={coe.status}
         />
         {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
-          <LoggedInContent route={route} />
+          <LoggedInContent route={route} status={coe.status} />
         )}
       </>
     );

@@ -100,6 +100,7 @@ export const uiSchema = {
     },
     country: {
       'ui:title': 'Country',
+      'ui:autocomplete': 'country',
       'ui:options': {
         updateSchema: (formData, schema, uiSchemaCountry) => {
           const uiSchemaDisabled = uiSchemaCountry;
@@ -123,23 +124,27 @@ export const uiSchema = {
     },
     addressLine1: {
       'ui:title': 'Street address (20 characters maximum)',
+      'ui:autocomplete': 'address-line1',
       'ui:errorMessages': {
         required: 'Please enter a street address',
       },
     },
     addressLine2: {
       'ui:title': 'Street address line 2 (20 characters maximum)',
+      'ui:autocomplete': 'address-line2',
       'ui:errorMessages': {
         pattern: 'Please enter a valid street address',
       },
     },
     addressLine3: {
       'ui:title': 'Street address line 3 (20 characters maximum)',
+      'ui:autocomplete': 'address-line3',
       'ui:errorMessages': {
         pattern: 'Please enter a valid street address',
       },
     },
     city: {
+      'ui:autocomplete': 'address-level2',
       'ui:errorMessages': {
         pattern: 'Please enter a valid city',
         required: 'Please enter a city',
@@ -171,6 +176,7 @@ export const uiSchema = {
     },
     state: {
       'ui:title': 'State',
+      'ui:autocomplete': 'address-level1',
       'ui:options': {
         hideIf: formData =>
           !formData.mailingAddress?.['view:livesOnMilitaryBase'] &&
@@ -208,6 +214,7 @@ export const uiSchema = {
     },
     zipCode: {
       'ui:title': 'Postal code',
+      'ui:autocomplete': 'postal-code',
       'ui:validations': [validateZIP],
       'ui:required': formData =>
         formData.mailingAddress?.['view:livesOnMilitaryBase'] ||

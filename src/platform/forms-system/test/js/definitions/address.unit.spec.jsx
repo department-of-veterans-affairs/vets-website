@@ -6,8 +6,8 @@ import {
   DefinitionTester,
   fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import { schema, uiSchema } from '../../../src/js/definitions/address';
 import definitions from 'vets-json-schema/dist/definitions.json';
+import { schema, uiSchema } from '../../../src/js/definitions/address';
 
 const { address } = definitions;
 const addressSchema = {
@@ -26,6 +26,11 @@ describe('Schemaform definition address', () => {
     const inputs = form.find('input');
     const selects = form.find('select');
     expect(inputs.length).to.equal(4);
+    // address in definitions.json does not include address line 3
+    expect(inputs.first().props().autoComplete).to.equal('address-line1');
+    expect(inputs.at(1).props().autoComplete).to.equal('address-line2');
+    expect(inputs.at(2).props().autoComplete).to.equal('address-level2'); // city
+    expect(inputs.last().props().autoComplete).to.equal('postal-code');
     expect(selects.length).to.equal(2);
 
     // Postal code should be small

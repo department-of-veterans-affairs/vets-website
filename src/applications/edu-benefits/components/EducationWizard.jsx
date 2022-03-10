@@ -363,7 +363,7 @@ class EducationWizard extends React.Component {
                 <div>
                   <div className="usa-alert usa-alert-warning">
                     <div className="usa-alert-body">
-                      <h4 className="usa-alert-heading wizard-alert-heading">
+                      <h4 className="usa-alert-heading vads-u-padding--0">
                         Are you sure?
                       </h4>
                       <p>
@@ -406,13 +406,13 @@ class EducationWizard extends React.Component {
                     , you must meet all the requirements below.
                   </strong>
                   <ul>
-                    <li className="ul-styling">
+                    <li className="vads-u-margin-x--neg0p25 vads-u-margin-y--neg0p25">
                       <b>Education benefit:</b> You're using or recently used
                       Post-9/11 GI Bill or Fry Scholarship benefits.
                     </li>
                     <li>
                       <b>STEM degree:</b>
-                      <ul className="circle-bullet ul-styling vads-u-margin-bottom--neg1">
+                      <ul className="circle-bullet vads-u-margin-x--neg0p25 vads-u-margin-y--neg0p25 vads-u-margin-bottom--neg1">
                         <li className="li-styling">
                           You're enrolled in a bachelor’s degree program for
                           science, technology, engineering, or math (STEM),{' '}
@@ -444,7 +444,7 @@ class EducationWizard extends React.Component {
                         </li>
                       </ul>
                     </li>
-                    <li className="ul-styling">
+                    <li className="vads-u-margin-x--neg0p25 vads-u-margin-y--neg0p25">
                       <b>Remaining entitlement:</b> You've used all of your
                       education benefits or are within 6 months of using all
                       your benefits when you submit your application.{' '}
