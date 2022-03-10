@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import * as Sentry from '@sentry/browser';
+import ChildrenOfficeList from './ChildrenOfficeList';
 
 const topOffices = [
   '44932',
@@ -79,11 +80,17 @@ export default function App() {
       />
       <label htmlFor="filter-top-offices">Filter: Top Offices</label>
 
-      <ul>
-        {displayOffices.map(office => (
-          <li key={office.entityId}>{office.title}</li>
-        ))}
-      </ul>
+      {displayOffices.map(office => (
+        <>
+          <h3 key={office.entityId}>{office.title}</h3>
+
+          {office.reverseFieldParentOfficeNode.entities.length > 0 ? (
+            <ChildrenOfficeList
+              offices={office.reverseFieldParentOfficeNode.entities}
+            />
+          ) : null}
+        </>
+      ))}
     </div>
   );
 }

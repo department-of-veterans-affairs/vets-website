@@ -11,6 +11,7 @@
 src/platform/forms        @department-of-veterans-affairs/vsp-design-system-fe
 src/platform/forms-system @department-of-veterans-affairs/vsp-design-system-fe
 script/component-migration @department-of-veterans-affairs/vsp-design-system-fe
+script/eslint-plugin-va/rules/prefer-web-component-library.js @department-of-veterans-affairs/vsp-design-system-fe
 
 # VSP-Identity authentication
 src/applications/auth @department-of-veterans-affairs/vsp-identity

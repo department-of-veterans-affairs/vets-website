@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import environment from 'platform/utilities/environment';
 import { maskBankInformation, hasNewBankInformation } from '../utils';
 
 export const accountTitleLabels = {
@@ -28,6 +29,9 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
   } = bankAccount;
 
   const hasNewBankAccountInfo = hasNewBankInformation(bankAccount);
+  const hasOriginalBankAccountInfo =
+    originalData.bankAccountType !== undefined ||
+    originalData.bankAccountType !== null;
 
   const bankAccountType = hasNewBankAccountInfo
     ? newAccountType
@@ -41,6 +45,13 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
 
   return (
     <div>
+      {!environment.isProduction() &&
+        (hasNewBankAccountInfo || hasOriginalBankAccountInfo) && (
+          <p className="vads-u-margin-top--0">
+            This is the bank account information we have on file for you. We’ll
+            send your housing payment to this account.
+          </p>
+        )}
       <div className="blue-bar-block">
         <p>
           <strong>
