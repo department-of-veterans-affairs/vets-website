@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { apiRequest } from 'platform/utilities/api';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import { FETCH_CLAIM_STATUS } from '../actions';
 import Layout from '../components/Layout';
@@ -25,7 +24,10 @@ const InboxPage = () => {
             setLoading(false);
             return response?.data?.attributes?.claimantId;
           })
-          .catch(err => err);
+          .catch(err => {
+            window.location.href = '/education/education-inbox/';
+            return err;
+          });
 
       checkIfClaimantHasLetters().then(r => r);
     },
@@ -133,15 +135,5 @@ const InboxPage = () => {
     </Layout>
   );
 };
-
-InboxPage.propTypes = {
-  letters: PropTypes.object,
-};
-
-// const mapStateToProps = state => ({
-//   letters: {},
-// });
-
-// export default connect(mapStateToProps)(InboxPage);
 
 export default InboxPage;
