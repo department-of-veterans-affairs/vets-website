@@ -14,10 +14,6 @@ def isReviewable() {
   return !IS_DEV_BRANCH && !IS_STAGING_BRANCH && !IS_PROD_BRANCH
 }
 
-def isProdBranch() {
-  return IS_PROD_BRANCH
-}
-
 def shouldBail() {
   // abort the job if we're not on deployable branch (usually master) and there's a newer build going now
   return !IS_DEV_BRANCH &&
@@ -29,7 +25,6 @@ def shouldBail() {
 
 def setup() {
   stage("Setup") {
-    if (!isProdBranch()) { return }
 
     dir("vagov-content") {
       checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/vagov-content.git']]]
