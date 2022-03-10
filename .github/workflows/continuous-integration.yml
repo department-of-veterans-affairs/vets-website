@@ -1076,7 +1076,7 @@ jobs:
 
       - name: Deploy
         run: |
-          if [[ ${{ matrix.environment }} == 'vagovdev' && -z ${{ needs.build.outputs.app_entries }} ]]; then
+          if [[ ${{ matrix.environment }} == 'vagovdev' ]] && [[ -z ${{ needs.build.outputs.app_entries }} ]]; then
             ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
           else
             ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
