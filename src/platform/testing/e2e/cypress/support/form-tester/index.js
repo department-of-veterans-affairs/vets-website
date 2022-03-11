@@ -299,11 +299,11 @@ Cypress.Commands.add('enterData', field => {
       if (field.data)
         cy.wrap(field.element)
           .check(FORCE_OPTION)
-          .should('have.value', field.element);
+          .should('be.checked');
       else
         cy.wrap(field.element)
           .uncheck(FORCE_OPTION)
-          .should('be.unchecked');
+          .should('not.be.checked');
       break;
     }
 
