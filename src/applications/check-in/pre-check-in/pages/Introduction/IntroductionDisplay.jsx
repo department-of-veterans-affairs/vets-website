@@ -157,7 +157,7 @@ const IntroductionDisplay = props => {
             [setPrivacyActModalOpen],
           )}
         >
-          {t('privacy-act-statement-0')}
+          {t('privacy-act-statement')}
         </a>
       </div>
       <Footer message={additionalFooterInfo} />

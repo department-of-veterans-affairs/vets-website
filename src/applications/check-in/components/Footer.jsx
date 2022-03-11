@@ -24,7 +24,7 @@ const Footer = ({ header, message }) => {
           <p>
             <span className="vads-u-font-weight--bold">
               {t(
-                'for-questions-about-your-appointment-or-if-you-have-a-health-related-concern-0',
+                'for-questions-about-your-appointment-or-if-you-have-a-health-related-concern',
               )}
             </span>{' '}
             {t('call-your-va-provider')}
@@ -34,7 +34,7 @@ const Footer = ({ header, message }) => {
           <p>
             <span className="vads-u-font-weight--bold">
               {t(
-                'for-questions-about-how-to-fill-out-your-pre-check-in-tasks-or-if-you-need-help-with-the-form-0',
+                'for-questions-about-how-to-fill-out-your-pre-check-in-tasks-or-if-you-need-help-with-the-form',
               )}
             </span>{' '}
             {t('please-call-our-myva411-main-information-line-at')}{' '}

@@ -73,7 +73,7 @@ export default function Email(props) {
 
       <VaTextInput
         error={errorMessage}
-        label={t('email-address-0')}
+        label={t('email-address')}
         maxlength={null}
         name={key}
         value={email}
