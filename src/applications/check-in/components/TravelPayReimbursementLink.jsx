@@ -1,4 +1,5 @@
 import React from 'react';
+import i18next from 'i18next';
 
 function TravelPayReimbursementLink() {
   return (
@@ -7,7 +8,7 @@ function TravelPayReimbursementLink() {
         href="/health-care/get-reimbursed-for-travel-pay/"
         data-testid="btsss-link"
       >
-        Find out how to request travel pay reimbursement
+        {i18next.t('find-out-how-to-request-travel-pay-reimbursement')}
       </a>
     </div>
   );

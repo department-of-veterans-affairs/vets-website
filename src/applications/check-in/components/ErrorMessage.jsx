@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
+import i18next from 'i18next';
 
 const ErrorMessage = ({
-  header = 'We couldn’t check you in',
+  header = i18next.t('we-couldnt-check-you-in'),
   message = (
     <p>
-      We’re sorry. Something went wrong on our end. Check in with a staff
-      member.
+      {i18next.t(
+        'were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member',
+      )}
     </p>
   ),
   showAlert = true,

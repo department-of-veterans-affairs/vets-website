@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
+import { useTranslation } from 'react-i18next';
 
 import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import BackButton from '../../../components/BackButton';
@@ -15,6 +16,7 @@ import { sortAppointmentsByStartTime } from '../../../utils/appointment';
 
 const DisplayMultipleAppointments = props => {
   const { appointments, getMultipleAppointments, router, token } = props;
+  const { t } = useTranslation();
 
   useEffect(() => {
     focusElement('h1');
@@ -40,10 +42,10 @@ const DisplayMultipleAppointments = props => {
       <BackButton router={router} action={goToPreviousPage} />
       <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
         <h1 tabIndex="-1" className="vads-u-margin-top--2">
-          Your appointments
+          {t('your-appointments')}
         </h1>
         <p data-testid="date-text">
-          {`Here are your appointments for today: ${today}.`}
+          {t('here-are-your-appointments-for-today')}: {today}
         </p>
         {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
         <ol
@@ -62,8 +64,9 @@ const DisplayMultipleAppointments = props => {
           })}
         </ol>
         <p data-testid="update-text">
-          <strong>Latest update:</strong>{' '}
-          {format(new Date(), "MMMM d, yyyy 'at' h:mm aaaa")}
+          <strong>{t('latest-update')}:</strong>{' '}
+          {format(new Date(), 'MMMM d, yyyy')} at{' '}
+          {format(new Date(), 'h:mm aaaa')}
         </p>
         <p data-testid="refresh-link">
           <button
@@ -72,7 +75,7 @@ const DisplayMultipleAppointments = props => {
             data-testid="refresh-appointments-button"
             type="button"
           >
-            Refresh
+            {t('refresh')}
           </button>
         </p>
         <Footer />

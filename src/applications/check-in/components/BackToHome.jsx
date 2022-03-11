@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import i18next from 'i18next';
 
 import withOnlyOnLocal from '../containers/withOnlyOnLocal';
 import { makeSelectApp } from '../selectors';
@@ -16,7 +17,7 @@ function BackToHome() {
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
       <a data-testid="back-to-home-button" href={restartURL}>
-        Start again
+        {i18next.t('start-again')}
       </a>
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -19,6 +20,7 @@ import BackToHome from '../../BackToHome';
 
 export default function Relationship(props) {
   const { router } = props;
+  const { t } = useTranslation();
   const { jumpToPage } = useFormRouting(router);
   const selectEditContext = useMemo(makeSelectEditContext, []);
   const { editing } = useSelector(selectEditContext);
@@ -59,33 +61,33 @@ export default function Relationship(props) {
 
   const relationshipOptions = useMemo(
     () => ({
-      SPOUSE: 'Spouse',
-      CHILD: 'Child',
-      BROTHER: 'Brother',
-      SISTER: 'Sister',
-      MOTHER: 'Mother',
-      FATHER: 'Father',
+      SPOUSE: t('spouse'),
+      CHILD: t('child'),
+      BROTHER: t('brother'),
+      SISTER: t('sister'),
+      MOTHER: t('mother'),
+      FATHER: t('father'),
     }),
-    [],
+    [t],
   );
 
   let title = '';
   switch (editingPage) {
     case 'nextOfKin':
-      title = "Edit next of kin's relationship to you";
+      title = t('edit-next-of-kins-relationship-to-you');
       break;
     case 'emergencyContact':
-      title = "Edit your contact's relationship to you";
+      title = t('edit-your-contacts-relationship-to-you');
       break;
     default:
-      title = 'Edit relationship';
+      title = t('edit-relationship');
   }
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 edit-relationship-page">
       <h1 data-testid="header">{title}</h1>
       <VaSelect
         error={null}
-        label="Relationship"
+        label={t('relationship')}
         name={key}
         required
         onVaSelect={onChange}

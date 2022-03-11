@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import i18next from 'i18next';
 
 import PropTypes from 'prop-types';
 import ConfirmablePage from '../ConfirmablePage';
@@ -10,8 +11,10 @@ import { URLS } from '../../../utils/navigation';
 import { EDITING_PAGE_NAMES } from '../../../utils/appConstants';
 
 export default function DemographicsDisplay({
-  header = 'Is this your current contact information?',
-  subtitle = 'We can better follow up with you after your appointment when we have your current information.',
+  header = i18next.t('is-this-your-current-contact-information'),
+  subtitle = i18next.t(
+    'we-can-better-follow-up-with-you-after-your-appointment-when-we-have-your-current-information',
+  ),
   demographics = {},
   isEditEnabled = false,
   isLoading = false,
@@ -35,13 +38,13 @@ export default function DemographicsDisplay({
     [dispatch, jumpToPage],
   );
   const demographicFields = [
-    { title: 'Mailing address', key: 'mailingAddress' },
-    { title: 'Home address', key: 'homeAddress' },
-    { title: 'Home phone', key: 'homePhone' },
-    { title: 'Mobile phone', key: 'mobilePhone' },
-    { title: 'Work phone', key: 'workPhone' },
+    { title: i18next.t('mailing-address'), key: 'mailingAddress' },
+    { title: i18next.t('home-address'), key: 'homeAddress' },
+    { title: i18next.t('home-phone'), key: 'homePhone' },
+    { title: i18next.t('mobile-phone'), key: 'mobilePhone' },
+    { title: i18next.t('work-phone'), key: 'workPhone' },
     {
-      title: 'Email address',
+      title: i18next.t('email-address'),
       key: 'emailAddress',
       editAction: data => {
         setEditContext(data);

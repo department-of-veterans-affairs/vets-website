@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import AppointmentBlock from './AppointmentBlock';
@@ -6,13 +7,14 @@ import BackToHome from './BackToHome';
 
 const PreCheckinConfirmation = props => {
   const { appointments, hasUpdates, isLoading } = props;
+  const { t } = useTranslation();
 
   if (appointments.length === 0) {
     return <></>;
   }
 
   const renderLoadingMessage = () => {
-    return <va-loading-indicator message="Completing pre-check-in..." />;
+    return <va-loading-indicator message={t('completing-pre-check-in')} />;
   };
   const renderConfirmationMessage = () => {
     if (appointments.length === 0) {
@@ -24,7 +26,7 @@ const PreCheckinConfirmation = props => {
         data-testid="confirmation-wrapper"
       >
         <h1 tabIndex="-1" className="vads-u-margin-top--2">
-          You’ve completed pre-check-in
+          {t('youve-completed-pre-check-in')}
         </h1>
         <AppointmentBlock appointments={appointments} />
         {hasUpdates ? (
@@ -35,8 +37,9 @@ const PreCheckinConfirmation = props => {
             data-testid="confirmation-update-alert"
           >
             <div>
-              A staff member will help you on the day of your appointment to
-              update your information.
+              {t(
+                'a-staff-member-will-help-you-on-the-day-of-your-appointment-to-update-your-information',
+              )}
             </div>
           </va-alert>
         ) : (
@@ -44,16 +47,16 @@ const PreCheckinConfirmation = props => {
         )}
         <p className={hasUpdates ? `vads-u-padding-left--2` : ``}>
           <a href="https://va.gov/health-care/schedule-view-va-appointments/appointments/">
-            Go to your appointment
+            {t('go-to-your-appointment')}
           </a>
         </p>
         <p className={hasUpdates ? `vads-u-padding-left--2` : ``}>
-          Please bring your insurance cards with you to your appointment.
+          {t('please-bring-your-insurance-cards-with-you-to-your-appointment')}
         </p>
         <h3 data-testid="appointment-questions">
-          What if I have questions about my appointment?
+          {t('what-if-i-have-questions-about-my-appointment')}
         </h3>
-        <p>Call your VA health care team:</p>
+        <p>{t('call-your-va-health-care-team')}</p>
         {appointments.map((appointment, index) => {
           return (
             <p key={index}>

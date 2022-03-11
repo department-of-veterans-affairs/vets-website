@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -15,6 +16,7 @@ import { URLS } from '../../utils/navigation';
 
 const EmergencyContact = props => {
   const { router } = props;
+  const { t } = useTranslation();
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
   const { emergencyContact } = demographics;
@@ -25,8 +27,9 @@ const EmergencyContact = props => {
     goToErrorPage,
     goToPreviousPage,
   } = useFormRouting(router);
-  const seeStaffMessage =
-    'Our staff can help you update your emergency contact information.';
+  const seeStaffMessage = t(
+    'our-staff-can-help-you-update-your-emergency-contact-information',
+  );
   const dispatch = useDispatch();
   const updateSeeStaffMessage = useCallback(
     message => {

@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import i18next from 'i18next';
 
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 
@@ -17,7 +18,9 @@ const withFeatureFlip = (Component, options) => {
     if (isLoadingFeatureFlags) {
       return (
         <>
-          <va-loading-indicator message="Loading your check in experience" />
+          <va-loading-indicator
+            message={i18next.t('loading-your-check-in-experience')}
+          />
         </>
       );
     }
