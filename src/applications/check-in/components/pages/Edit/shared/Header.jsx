@@ -11,7 +11,7 @@ export default function Header(props) {
       return 'your';
     }
     if (editingPage === EDITING_PAGE_NAMES.EMERGENCY_CONTACT) {
-      return "contact's";
+      return "emergency contact's";
     }
     if (editingPage === EDITING_PAGE_NAMES.NEXT_OF_KIN) {
       return "next of kin's";
