@@ -2,8 +2,8 @@
 import { expect } from 'chai';
 // Relative imports.
 import environment from 'platform/utilities/environment';
-import { CTA_WIDGET_TYPES, ctaWidgetsLookup } from '../ctaWidgets';
 import { eauthEnvironmentPrefixes } from 'platform/utilities/sso/constants';
+import { CTA_WIDGET_TYPES, ctaWidgetsLookup } from '../ctaWidgets';
 
 describe('CTA widgets', () => {
   describe('a signed-in SSO user', () => {
@@ -69,7 +69,7 @@ describe('CTA widgets', () => {
       ).to.equal(
         `https://${
           eauthEnvironmentPrefixes[environment.BUILDTYPE]
-        }eauth.va.gov/mhv-portal-web/eauth`,
+        }eauth.va.gov/mhv-portal-web/eauth?deeplinking=labs_tests`,
       );
     });
   });
@@ -120,7 +120,9 @@ describe('CTA widgets', () => {
         ctaWidgetsLookup?.[
           CTA_WIDGET_TYPES?.LAB_AND_TEST_RESULTS
         ]?.deriveToolUrlDetails()?.url,
-      ).to.equal('https://mhv-syst.myhealth.va.gov/mhv-portal-web/labs-tests');
+      ).to.equal(
+        'https://mhv-syst.myhealth.va.gov/mhv-portal-web/web/myhealthevet/labs-tests',
+      );
     });
   });
 });

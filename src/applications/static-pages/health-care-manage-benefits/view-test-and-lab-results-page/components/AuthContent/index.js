@@ -5,10 +5,10 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 // Relative imports.
-import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
+import CernerCallToAction from '../../../components/CernerCallToAction';
 
 export const AuthContent = ({
   authenticatedWithSSOe,
@@ -20,7 +20,10 @@ export const AuthContent = ({
       cernerFacilities={cernerFacilities}
       otherFacilities={otherFacilities}
       linksHeaderText="View lab and test results from:"
-      myHealtheVetLink={mhvUrl(authenticatedWithSSOe, 'labs-tests')}
+      myHealtheVetLink={mhvUrl(
+        authenticatedWithSSOe,
+        'web/myhealthevet/labs-tests',
+      )}
       myVAHealthLink={getCernerURL('/pages/health_record/results/labs')}
     />
     <div>
