@@ -17,7 +17,12 @@ function OfficeList({ offices }) {
     ));
   }
 
-  return <h1>No results found!</h1>;
+  return (
+    <p>
+      We didn't find any results. Try using different words or checking the
+      spelling of the words you're using.
+    </p>
+  );
 }
 
 OfficeList.propTypes = {

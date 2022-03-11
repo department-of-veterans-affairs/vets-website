@@ -31,15 +31,6 @@ export default function App() {
     <div className="vads-l-grid-container vads-u-padding-x--1p5 vads-u-padding-bottom--4">
       <h1 className="vads-u-margin-bottom--0">All VA offices</h1>
 
-      {/* <input
-        type="checkbox"
-        id="filter-top-offices"
-        name="filter-top-offices"
-        checked={filterTopOffices}
-        onChange={toggleFilterTopOffices}
-      />
-      <label htmlFor="filter-top-offices">Filter: Top Offices</label> */}
-
       <SearchFilter offices={allOffices} />
 
       <va-back-to-top />
