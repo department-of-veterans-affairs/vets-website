@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { table } = require('table');
+const fetch = require('node-fetch');
 const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
 
 const tableConfig = {
@@ -12,14 +13,31 @@ const tableConfig = {
 
 module.exports = async on => {
   let appRegistry;
-  if (process.env.CYPRESS_CI) {
+  if (fs.existsSync('../content-build/src/applications/registry.json')) {
+    // eslint-disable-next-line import/no-unresolved
+    appRegistry = require('../../../../../../../content-build/src/applications/registry.json');
+  } else if (fs.existsSync('content-build/src/applications/registry.json')) {
     // eslint-disable-next-line import/no-unresolved
     appRegistry = require('../../../../../../content-build/src/applications/registry.json');
-  } else if (process.env.BOT_NAME) {
-    appRegistry = '';
   } else {
-    appRegistry = require('../../../../../../../content-build/src/applications/registry.json');
+    const REMOTE_CONTENT_BUILD_REGISTRY =
+      'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master/src/applications/registry.json';
+
+    const response = await fetch(REMOTE_CONTENT_BUILD_REGISTRY);
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch ${REMOTE_CONTENT_BUILD_REGISTRY}.\n\n${
+          response.status
+        }:
+          ${response.statusText}`,
+      );
+    }
+
+    const registryContents = await response.text();
+    appRegistry = JSON.parse(registryContents);
   }
+
   // eslint-disable-next-line no-useless-escape
   const cypressPlugin = {
     name: 'cypress',
