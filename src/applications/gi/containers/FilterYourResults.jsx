@@ -274,7 +274,7 @@ export function FilterYourResults({
     const options = [
       {
         optionValue: 'hbcu',
-        optionLabel: 'Historically black college or university',
+        optionLabel: 'Historically Black college or university',
       },
       {
         optionValue: 'menonly',
