@@ -15,6 +15,7 @@ import {
 } from '../../../actions/edit';
 import CancelButton from './shared/CancelButton';
 import UpdateButton from './shared/UpdateButton';
+import Header from './shared/Header';
 import Footer from '../../Footer';
 
 import { getLabelForPhone } from '../../../utils/appConstants';
@@ -104,8 +105,11 @@ export default function PhoneNumber(props) {
 
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--4  vads-u-padding-right--4 vads-u-padding-left-2 ">
-      <h1>Update {getLabelForPhone(key)} number</h1>
-
+      <Header
+        what={getLabelForPhone(key)}
+        editingPage={editingPage}
+        value={value}
+      />
       <VaTextInput
         error={phoneErrorMessage}
         label={getLabelForPhone(key, { capitalizeFirstLetter: true })}
