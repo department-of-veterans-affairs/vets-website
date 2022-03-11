@@ -1,4 +1,5 @@
 import constants from 'vets-json-schema/dist/constants.json';
+// import schema from 'vets-json-schema/dist/20-0996-schema.json';
 
 // *** URLS ***
 export const HLR_INFO_URL = '/decision-reviews/higher-level-review/';
@@ -67,8 +68,6 @@ export const SAVED_CLAIM_TYPE = 'hlrClaimType';
 export const WIZARD_STATUS = 'wizardStatus996';
 export const LAST_HLR_ITEM = 'lastHlrItem'; // focus management across pages
 
-export const MAX_SELECTIONS = 100;
-
 // Values from benefitTypes in vets-json-schema constants
 const supportedBenefitTypes = [
   'compensation', // Phase 1
@@ -119,13 +118,30 @@ export const CONFERENCE_TIMES_V2 = {
   },
 };
 
-// Values from Lighthouse maintained schema
+// Values from Lighthouse maintained schema v2
 // see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json
-export const MAX_ISSUE_NAME_LENGTH = 140;
-export const MAX_DISAGREEMENT_REASON_LENGTH = 90;
+export const MAX_LENGTH = {
+  SELECTIONS: 100, // submitted issues (not in schema)
+  ISSUE_NAME: 140,
+  DISAGREEMENT_REASON: 90,
+  EMAIL: 255,
+  COUNTRY_CODE: 3,
+  AREA_CODE: 4,
+  PHONE_NUMBER: 14,
+  PHONE_NUMBER_EXT: 10,
+  ADDRESS_LINE1: 60,
+  ADDRESS_LINE2: 30,
+  ADDRESS_LINE3: 10,
+  CITY: 60,
+  COUNTRY: 2,
+  ZIP_CODE5: 5,
+  POSTAL_CODE: 16,
+  REP_FIRST_NAME: 30,
+  REP_LAST_NAME: 40,
+};
 
-// Using MAX_DISAGREEMENT_REASON_LENGTH (90) and with all checkboxes selected,
-// this string is submitted - the numbers constitute the "somethubg else" typed
+// Using MAX_LENGTH.DISAGREEMENT_REASON (90) and with all checkboxes selected,
+// this string is submitted - the numbers constitute the "something else" typed
 // in value
 // "service connection,effective date,disability evaluation,1234567890123456789012345678901234"
 export const SUBMITTED_DISAGREEMENTS = {

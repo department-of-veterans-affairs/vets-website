@@ -1,5 +1,5 @@
 const MESSAGE =
-  '<{{ reactComponent }}> can be replaced by <{{ webComponent }}>';
+  '<{{ reactComponent }}> can be replaced by <{{ webComponent }}>.';
 
 const getPropNode = (node, propName) =>
   node.openingElement.attributes.find(n => n.name.name === propName);
@@ -70,6 +70,90 @@ const breadcrumbsTransformer = (context, node) => {
             fixer.replaceText(componentName, 'va-breadcrumbs'),
             fixer.replaceText(closingTag, 'va-breadcrumbs'),
             selectedFacilityNode && fixer.remove(selectedFacilityNode),
+          ].filter(i => !!i);
+        },
+      },
+    ],
+  });
+};
+
+const modalTransformer = (context, node) => {
+  const openingTagNode = node.openingElement.name;
+  const closingTagNode = node.closingElement?.name;
+  const titleNode = getPropNode(node, 'title');
+  const onCloseNode = getPropNode(node, 'onClose');
+  const focusSelectorNode = getPropNode(node, 'focusSelector');
+  const contentsNode = getPropNode(node, 'contents');
+  const contentsValue = contentsNode?.value.expression || contentsNode?.value;
+  const cssClassNode = getPropNode(node, 'cssClass');
+  const hideCloseButtonNode = getPropNode(node, 'hideCloseButton');
+
+  const manuallyUpdateProps =
+    getPropNode(node, 'primaryButton') || getPropNode(node, 'secondaryButton');
+
+  const sourceCode = context.getSourceCode();
+
+  context.report({
+    node,
+    message: manuallyUpdateProps
+      ? MESSAGE +
+        `\nThe following props have changed and will need to be updated manually: primaryButton and secondaryButton.` +
+        `\nprimaryButton is now primaryButtonText and primaryButtonClick.` +
+        `\nsecondaryButton is now secondaryButtonText and secondaryButtonClick.`
+      : MESSAGE,
+    data: {
+      reactComponent: openingTagNode.name,
+      webComponent: 'VaModal',
+    },
+    suggest: [
+      {
+        desc: 'Migrate component',
+        fix: fixer => {
+          return [
+            // Rename Modal to VaModal (Bindings)
+            fixer.replaceText(openingTagNode, 'VaModal'),
+            // Rename closing tag to VaModal if it exists
+            closingTagNode && fixer.replaceText(closingTagNode, 'VaModal'),
+
+            // If component is self-closing, insert the value of contents after the component opening tag
+            // and insert a closing tag.
+            // If the value of contents is a reference to JSX, add curly braces between the value.
+            !closingTagNode &&
+              contentsNode &&
+              fixer.insertTextAfter(
+                node.openingElement,
+                (contentsValue.type === 'Identifier'
+                  ? `{${sourceCode.getText(contentsValue)}}`
+                  : sourceCode.getText(contentsValue)) + '</VaModal>',
+              ),
+
+            // Rename title prop to modalTitle if it exists
+            titleNode && fixer.replaceText(titleNode.name, 'modalTitle'),
+
+            // Rename onClose prop to onCloseEvent if it exists
+            onCloseNode && fixer.replaceText(onCloseNode.name, 'onCloseEvent'),
+
+            // Rename cssClass prop to className if it exists
+            cssClassNode && fixer.replaceText(cssClassNode.name, 'className'),
+
+            // Remove contents prop if it exists - replaced by slot
+            contentsNode && fixer.remove(contentsNode),
+
+            // Remove focusSelectorNode prop if it exists
+            focusSelectorNode && fixer.remove(focusSelectorNode),
+
+            // Remove focusSelectorNode prop if it exists
+            hideCloseButtonNode && fixer.remove(hideCloseButtonNode),
+
+            // Remove self-closing tag slash if component is self-closing initially
+            !closingTagNode &&
+              fixer.removeRange(
+                [
+                  node.openingElement.range[1] - 2,
+                  node.openingElement.range[1] - 1,
+                ],
+                '',
+              ),
           ].filter(i => !!i);
         },
       },
@@ -158,6 +242,9 @@ module.exports = {
         switch (componentName) {
           case 'Breadcrumbs':
             breadcrumbsTransformer(context, node);
+            break;
+          case 'Modal':
+            modalTransformer(context, node);
             break;
           case 'Telephone':
             telephoneTransformer(context, node);

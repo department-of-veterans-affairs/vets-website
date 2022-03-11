@@ -18,8 +18,10 @@ export default function ReviewPausedInfo({ onFinishVerifyingLater }) {
           until your enrollment information is corrected.
         </p>
         <p>
-          You can update your enrollment information before you submit your
-          verification:
+          <strong>
+            You can update your enrollment information before you submit your
+            verification:
+          </strong>
         </p>
         <ul>
           <li>

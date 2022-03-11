@@ -66,7 +66,7 @@ const EmergencyContact = props => {
     <>
       <BackButton router={router} action={goToPreviousPage} />
       <EmergencyContactDisplay
-        data={emergencyContact}
+        emergencyContact={emergencyContact}
         yesAction={yesClick}
         noAction={noClick}
         Footer={Footer}

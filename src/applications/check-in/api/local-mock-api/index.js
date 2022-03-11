@@ -66,8 +66,7 @@ const responses = {
     return res.json(preCheckInData.post.createMockSuccessResponse({}));
   },
   'POST /check_in/v2/edit_demographics/': (req, res) => {
-    // NOTE: this is not the final structure and needs work with the BE team
-    return res.json(preCheckInData.post.createMockSuccessResponse({}));
+    return res.json(checkInData.post.createMockEditSuccessResponse({}));
   },
 };
 

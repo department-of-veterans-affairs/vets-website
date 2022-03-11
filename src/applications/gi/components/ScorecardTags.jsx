@@ -10,7 +10,7 @@ const ScorecardTags = ({ styling, menOnly, womenOnly, relAffil, hbcu }) => {
         <div className={styling}>{religiousAffiliations[relAffil]}</div>
       )}
       {hbcu === 1 && (
-        <div className={styling}>Historically Black College or University</div>
+        <div className={styling}>Historically Black college or university</div>
       )}
     </div>
   );
