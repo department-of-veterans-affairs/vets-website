@@ -47,7 +47,12 @@ jobs:
 
       - name: List changed files
         id: changed-files
-        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          else
+            echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+          fi
 
       - name: Get app entries for changed files
         id: get-changed-apps
@@ -1117,7 +1122,12 @@ jobs:
       - name: List changed files
         id: changed-files
         if: env.ALERT_TEAMS == 'true'
-        run: echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          else
+            echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+          fi
 
       - name: Get app team's Slack group
         id: get-slack-groups
