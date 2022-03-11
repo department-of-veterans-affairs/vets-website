@@ -158,7 +158,7 @@ const CompareLayout = ({
             mapper: institution => {
               const specialMission = [];
               if (institution.hbcu) {
-                specialMission.push('Historically black college or university');
+                specialMission.push('Historically Black college or university');
               }
               if (institution.relaffil) {
                 specialMission.push(
