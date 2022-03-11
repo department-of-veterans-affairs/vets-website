@@ -7,10 +7,10 @@ import {
   POLICY_TYPES,
 } from 'platform/user/authentication/constants';
 import {
-  standaloneRedirect,
   login,
   loginAppUrlRE,
   logout,
+  createExternalApplicationUrl,
 } from 'platform/user/authentication/utilities';
 
 import { hasSessionSSO } from 'platform/user/profile/utilities';
@@ -93,7 +93,8 @@ export async function checkAutoSession(
        * If user has an SSOe session & is verified, redirect them
        * to the specified return url
        */
-      window.location = standaloneRedirect() || window.location.origin;
+      window.location =
+        createExternalApplicationUrl() || window.location.origin;
     }
   } else if (
     !loggedIn &&

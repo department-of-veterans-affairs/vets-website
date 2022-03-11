@@ -84,7 +84,7 @@ export function CautionaryInformation({ institution, showModal }) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              visit the About this Tool Page
+              visit the About this tool page
             </a>
             .
           </p>

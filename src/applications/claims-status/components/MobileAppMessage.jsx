@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { VaAlert } from 'web-components/react-bindings';
 
 const appleStoreUrl =
   'https://apps.apple.com/app/apple-store/id1559609596?pt=545860&ct=gov.va.claimstatus&mt=8';
@@ -45,22 +47,28 @@ export default function MobileAppMessage({ mockUserAgent }) {
       </>
     );
 
+  const handlers = {
+    closeModal: () => {
+      setIsHidden(true);
+      sessionStorage.setItem(STORAGE_KEY, 'hidden');
+    },
+  };
+
   return isHidden ? null : (
-    <va-alert
-      status="info"
-      closeable
-      onClose={() => {
-        setIsHidden(true);
-        sessionStorage.setItem(STORAGE_KEY, 'hidden');
-      }}
-    >
-      <h2 slot="headline">Track your claim or appeal on your mobile device</h2>
+    <VaAlert status="info" closeable onCloseEvent={handlers.closeModal}>
+      <h2 id="track-your-status-on-mobile" slot="headline">
+        Track your claim or appeal on your mobile device
+      </h2>
       <p>
         You can use our new mobile app to check the status of your claims or
         appeals on your mobile device. Download the{' '}
         <strong>VA: Health and Benefits</strong> mobile app to get started.
       </p>
       {storeLinks}
-    </va-alert>
+    </VaAlert>
   );
 }
+
+MobileAppMessage.propTypes = {
+  mockUserAgent: PropTypes.string,
+};

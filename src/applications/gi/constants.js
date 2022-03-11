@@ -1,3 +1,5 @@
+import environment from 'platform/utilities/environment';
+
 export const PAGE_TITLE = 'GI Bill® CT Redesign Sandbox';
 
 export const NAV_WIDTH = 951;
@@ -54,6 +56,7 @@ export const INSTITUTION_TYPES = [
   'Foreign',
   'Flight',
   'Correspondence',
+  environment.isProduction() ? '' : 'High school',
 ];
 
 export const ariaLabels = Object.freeze({

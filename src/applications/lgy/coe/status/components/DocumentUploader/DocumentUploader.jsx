@@ -1,131 +1,59 @@
-import React, { useCallback, useReducer } from 'react';
+/* eslint-disable react/jsx-no-bind */
+import React, { useState } from 'react';
 import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
-
-import { scrollToFirstError } from 'platform/utilities/ui';
-
-import { ACTIONS } from '../../../shared/constants';
+import { submitToAPI } from './submit';
+import { addFile } from './addFile';
 import { DOCUMENT_TYPES, FILE_TYPES } from '../../constants';
-import {
-  isValidFileType,
-  isNotBlank,
-  validateIfDirty,
-} from '../../validations';
 import FileList from './FileList';
 
-const initialState = {
-  documentType: DOCUMENT_TYPES[0],
-  documentDescription: {
-    dirty: false,
-    value: '',
-  },
-  errorMessage: null,
-  files: [],
-};
-
-const {
-  DOC_TYPE,
-  DOC_DESC,
-  FILE_UPLOAD_SUCCESS,
-  FILE_UPLOAD_FAIL,
-  FILE_UPLOAD_PENDING,
-  FORM_SUBMIT_FAIL,
-  DELETE_FILE,
-} = ACTIONS;
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case DOC_TYPE:
-      return { ...state, documentType: action.documentType };
-    case DOC_DESC:
-      return { ...state, documentDescription: action.documentDescription };
-    case FILE_UPLOAD_SUCCESS:
-      return {
-        ...state,
-        files: [...state.files, action.file],
-        documentType: DOCUMENT_TYPES[0],
-        documentDescription: {
-          dirty: false,
-          value: '',
-        },
-        errorMessage: null,
-      };
-    case FILE_UPLOAD_PENDING:
-      return { ...state, errorMessage: null };
-    case FORM_SUBMIT_FAIL:
-    case FILE_UPLOAD_FAIL:
-      return { ...state, errorMessage: action.errorMessage };
-    case DELETE_FILE:
-      return { ...state, files: action.files };
-    default:
-      return state;
-  }
-};
-
 const DocumentUploader = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, setState] = useState({
+    documentType: DOCUMENT_TYPES[0],
+    documentDescription: '',
+    errorMessage: null,
+    files: [],
+    successMessage: false,
+    submissionPending: false,
+    token: localStorage.getItem('csrfToken'),
+    reader: new FileReader(),
+  });
 
-  const { documentType, documentDescription, errorMessage, files } = state;
+  const errorMsgClass = null;
+  const disabledOnEmptyDescClass = null;
 
-  const errorMsgClass = errorMessage ? 'vads-u-padding-left--1p5' : null;
-  const disabledOnEmptyDescClass =
-    documentType === 'Other' && !isNotBlank(documentDescription.value)
-      ? 'file-input-disabled'
-      : null;
+  const onSelectChange = e => {
+    setState({ ...state, documentType: e.value });
+  };
 
-  const onSelectChange = useCallback(e => {
-    dispatch({ type: DOC_TYPE, documentType: e?.value });
-  }, []);
-
-  const onTextInputValueChange = useCallback(e => {
-    dispatch({
-      type: DOC_DESC,
-      documentDescription: { dirty: true, value: e?.value },
+  const onTextInputValueChange = e => {
+    setState({
+      ...state,
+      documentDescription: e.value,
     });
-  }, []);
+  };
 
-  const onUploadFile = useCallback(
-    async uploadedFiles => {
-      dispatch({ type: FILE_UPLOAD_PENDING });
-      if (!isValidFileType(uploadedFiles[0])) {
-        dispatch({
-          type: FILE_UPLOAD_FAIL,
-          errorMessage:
-            'Please choose a file from one of the accepted file types.',
-        });
-        return;
-      }
-      const file = uploadedFiles[0];
-      file.documentType = documentType;
-      if (documentDescription.value !== '') {
-        file.documentDescription = documentDescription.value;
-      }
-      dispatch({ type: FILE_UPLOAD_SUCCESS, file });
-    },
-    [documentDescription.value, documentType],
-  );
+  const onUploadFile = async uploadedFiles => {
+    if (state.documentType === '') {
+      setState({
+        ...state,
+        errorMessage: 'Please choose a document type above.',
+      });
+      return;
+    }
 
-  const onDeleteClick = useCallback(
-    idx => {
-      const newFiles = state.files.filter((_file, index) => index !== idx);
-      dispatch({ type: DELETE_FILE, files: newFiles });
-    },
-    [state.files],
-  );
+    addFile(uploadedFiles[0], state, setState);
+  };
 
-  const onSubmit = useCallback(
-    () => {
-      if (!files.length) {
-        dispatch({
-          type: FORM_SUBMIT_FAIL,
-          errorMessage: 'Please choose a file to upload',
-        });
-        setTimeout(scrollToFirstError);
-      }
-    },
-    [files],
-  );
+  const onDeleteClick = idx => {
+    const newFiles = state.files.filter((_file, index) => index !== idx);
+    setState({ ...state, files: newFiles });
+  };
+
+  const onSubmit = () => {
+    submitToAPI(state, setState);
+  };
 
   return (
     <>
@@ -135,10 +63,27 @@ const DocumentUploader = () => {
         request. Please send us all the documents listed so we can make a
         decision about your request.
       </p>
-      <FileList files={files} onClick={onDeleteClick} />
+      {state.submissionPending ? (
+        <va-loading-indicator label="Loading" message="Sending your files..." />
+      ) : (
+        <FileList files={state.files} onClick={onDeleteClick} />
+      )}
+      {state.successMessage ? (
+        <va-alert
+          background-only
+          close-btn-aria-label="Close notification"
+          show-icon
+          status="success"
+          visible
+        >
+          <p className="vads-u-margin-y--0">
+            Your documents were successfully uploaded.
+          </p>
+        </va-alert>
+      ) : null}
       <div
         className={
-          documentType === 'Other'
+          state.documentType === 'Other'
             ? 'vads-u-padding-left--1p5 vads-u-border-left--5px vads-u-border-color--primary-alt-light'
             : null
         }
@@ -149,38 +94,32 @@ const DocumentUploader = () => {
           label="Select a document to upload"
           options={DOCUMENT_TYPES}
           onValueChange={onSelectChange}
-          value={{ dirty: false, value: documentType }}
+          value={{ dirty: false, value: state.documentType }}
         />
-        {documentType === 'Other' && (
+        {state.documentType === 'Other' && (
           <TextInput
-            label="Document description"
+            label=""
             name="document_description"
-            field={documentDescription}
-            required={documentType === 'Other'}
-            errorMessage={
-              validateIfDirty(documentDescription, isNotBlank)
-                ? null
-                : 'Please provide a description'
-            }
+            required={state.documentType === 'Other'}
             onValueChange={onTextInputValueChange}
+            field={{
+              dirty: false,
+              value: state.documentDescription,
+            }}
           />
         )}
       </div>
       <FileInput
         additionalClass={`${errorMsgClass} ${disabledOnEmptyDescClass}`}
         additionalErrorClass="vads-u-margin-bottom--1"
-        buttonText="Upload this document"
+        buttonText="Upload your document"
         onChange={onUploadFile}
         name="fileUpload"
         accept={FILE_TYPES.map(type => `.${type}`).join(',')}
-        errorMessage={errorMessage}
+        errorMessage={state.errorMessage}
       />
-      <button
-        className="vads-u-margin-top--3 usa-button"
-        onClick={onSubmit}
-        type="button"
-      >
-        Submit uploaded documents
+      <button type="button" onClick={onSubmit}>
+        Submit files
       </button>
       <p>
         <strong>Note:</strong> After you upload documents, it will take up to 5
