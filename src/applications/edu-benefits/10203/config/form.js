@@ -1,3 +1,4 @@
+import React from 'react';
 import fullSchema from 'vets-json-schema/dist/22-10203-schema.json';
 
 import { transform } from '../submit-transformer';
