@@ -15,6 +15,8 @@ module.exports = async on => {
   if (process.env.CYPRESS_CI) {
     // eslint-disable-next-line import/no-unresolved
     appRegistry = require('../../../../../../content-build/src/applications/registry.json');
+  } else if (process.env.BOT_NAME) {
+    appRegistry = '';
   } else {
     appRegistry = require('../../../../../../../content-build/src/applications/registry.json');
   }
