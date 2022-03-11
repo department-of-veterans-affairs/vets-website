@@ -11,13 +11,71 @@ import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import oldPreSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { chapters } from './chapters';
 
 import manifest from '../manifest.json';
+
+const isActiveDuty = form => {
+  return form.data?.isActiveDuty;
+};
+
+const newPreSubmitInfo = {
+  required: true,
+  notice: (
+    <div>
+      <strong>Note:</strong> According to federal law, there are criminal
+      penalties, including a fine and/or imprisonment for up to 5 years, for
+      withholding information or for providing incorrect information. (See 18
+      U.S.C. 1001)
+      {isActiveDuty() ? (
+        <div>
+          <p>
+            <b>By submitting this form</b> you certify that:
+          </p>
+          <ul>
+            <li>
+              All statements in this application are true and correct to the
+              best of your knowledge and belief.
+            </li>
+            <li>
+              As an active-duty service member, you have consulted with an
+              Education Service Officer (ESO) regarding your education program.
+            </li>
+          </ul>
+        </div>
+      ) : (
+        <div>
+          <p>
+            <b>By submitting this form</b> you certify that all statements in
+            this application are true and correct to the best of your knowledge
+            and belief.
+          </p>
+        </div>
+      )}
+    </div>
+  ),
+  field: 'privacyAgreementAccepted',
+  label: (
+    <span>
+      I have read and accept the{' '}
+      <a
+        aria-label="Privacy policy, will open in new tab"
+        target="_blank"
+        href="/privacy-policy/"
+      >
+        privacy policy
+      </a>
+    </span>
+  ),
+  error: 'You must accept the privacy policy before continuing.',
+};
+
+const preSubmitInfo = form =>
+  environment.isProduction() ? oldPreSubmitInfo : newPreSubmitInfo(form);
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -52,7 +110,7 @@ const formConfig = {
   },
   title: 'Apply for the Rogers STEM Scholarship',
   subTitle: 'Form 22-10203',
-  preSubmitInfo,
+  preSubmitInfo: preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
