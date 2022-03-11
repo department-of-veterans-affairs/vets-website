@@ -30,12 +30,13 @@ const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
     content = (
       <>
         <COEIntroPageBox
-          applicationCreateDate={coe.applicationCreateDate}
           downloadUrl={downloadUrl}
+          referenceNumber={coe.referenceNumber}
+          requestDate={coe.applicationCreateDate}
           status={coe.status}
         />
         {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
-          <LoggedInContent route={route} />
+          <LoggedInContent route={route} status={coe.status} />
         )}
       </>
     );
@@ -50,13 +51,6 @@ const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
       {content}
     </>
   );
-};
-
-IntroductionPage.propTypes = {
-  coe: PropTypes.object,
-  downloadUrl: PropTypes.string,
-  loggedIn: PropTypes.bool,
-  status: PropTypes.string,
 };
 
 const mapStateToProps = state => ({

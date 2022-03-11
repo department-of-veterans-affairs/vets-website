@@ -36,6 +36,7 @@ import createAskVAWidget from './ask-va';
 import createApplicationStatus from './widget-creators/createApplicationStatus';
 import createCOEAccess from './coe-access/createCOEAccess';
 import createCallToActionWidget from './widget-creators/createCallToActionWidget';
+import createContactChatbotCTA from './contact-chatbot-cta';
 import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusChatbot';
 import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createCovidVaccineUpdatesWidget';
 import createDependencyVerification from './dependency-verification/createDependencyVerification';
@@ -51,6 +52,7 @@ import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-forms/createFindVaForms';
 import createFindVaFormsPDFDownloadHelper from '../find-forms/widgets/createFindVaFormsPDFDownloadHelper';
+import createLettersMobileCTA from './letters-mobile-cta';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from './medical-copays-cta';
 import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
@@ -117,6 +119,7 @@ createApplicationStatus(store, {
   widgetType: widgetTypes.HEALTH_CARE_APP_STATUS,
 });
 createCallToActionWidget(store, widgetTypes.CTA);
+createContactChatbotCTA(store, widgetTypes.CONTACT_CHATBOT_CTA);
 createEducationApplicationStatus(store, widgetTypes.EDUCATION_APP_STATUS);
 createOptOutApplicationStatus(store, widgetTypes.OPT_OUT_APP_STATUS);
 createHigherLevelReviewApplicationStatus(
@@ -188,6 +191,7 @@ createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
 createI18Select(store, widgetTypes.I_18_SELECT);
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 createCOEAccess(store, widgetTypes.COE_ACCESS);
+createLettersMobileCTA(store, widgetTypes.LETTERS_MOBILE_CTA);
 createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 
 // Create the My VA Login widget only on the homepage.

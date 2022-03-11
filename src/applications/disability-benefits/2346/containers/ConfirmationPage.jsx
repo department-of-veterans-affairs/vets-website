@@ -1,4 +1,3 @@
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -86,78 +85,77 @@ const ConfirmationPage = ({
             <p className="vads-u-font-weight--bold print-copy">
               Please print this page for your records.
             </p>
-            <AlertBox
-              headline="Your order has been submitted"
-              className="order-submission-alert"
-              level="2"
-              content={
-                <p>
-                  We’ll send you an email confirming your order to{' '}
-                  <strong>{vetEmail}</strong>.
-                </p>
-              }
+            <va-alert
+              class="order-submission-alert vads-u-margin-top--3"
               status="success"
-            />
-            <AlertBox
-              className="order-summary-alert"
-              content={
-                <section>
-                  <h4 className="vads-u-margin-top--0">
-                    Request for Batteries and Accessories{' '}
-                    <span className="vads-u-font-weight--normal">
-                      (Form 2346A)
-                    </span>
-                  </h4>
-                  <p className="vads-u-margin--0">
-                    for {fullName?.first} {fullName?.last}
-                  </p>
-                  <p className="vads-u-margin-bottom--0">
-                    <strong>Items ordered</strong>
-                  </p>
-                  <ul className="vads-u-margin-bottom--1">
-                    {selectedProductArray?.map(product => (
-                      <li key={product?.productId}>
-                        {product?.productName} (Quantity: {product?.quantity})
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="vads-u-margin-bottom--0">
-                    <strong>Shipping address</strong>
-                  </p>
-                  <div className="shippingAddress">
-                    <p className="vads-u-margin-y--0">
-                      {shippingAddress?.street} {shippingAddress?.street2 || ''}
-                    </p>
-                    <p className="vads-u-margin-top--0">
-                      {`${shippingAddress?.city},
-              ${shippingAddress?.state || shippingAddress?.province} ${' '}
-              ${shippingAddress?.postalCode ||
-                shippingAddress?.internationalPostalCode}
-              `}
-                    </p>
-                  </div>
-                  <p className="vads-u-margin-bottom--0">
-                    <strong>Date submitted</strong>
+            >
+              <h2 className="usa-alert-heading" slot="headline">
+                Your order has been submitted
+              </h2>
+              <p className="order-submission-alert">
+                We’ll send you an email confirming your order to{' '}
+                <strong>{vetEmail}</strong>.
+              </p>
+            </va-alert>
+            <va-alert
+              background-only
+              class="order-summary-alert vads-u-margin-top--3"
+              status="info"
+            >
+              <section>
+                <h4 className="vads-u-margin-top--0">
+                  Request for Batteries and Accessories{' '}
+                  <span className="vads-u-font-weight--normal">
+                    (Form 2346A)
+                  </span>
+                </h4>
+                <p className="vads-u-margin--0">
+                  for {fullName?.first} {fullName?.last}
+                </p>
+                <p className="vads-u-margin-bottom--0">
+                  <strong>Items ordered</strong>
+                </p>
+                <ul className="vads-u-margin-bottom--1">
+                  {selectedProductArray?.map(product => (
+                    <li key={product?.productId}>
+                      {product?.productName} (Quantity: {product?.quantity})
+                    </li>
+                  ))}
+                </ul>
+                <p className="vads-u-margin-bottom--0">
+                  <strong>Shipping address</strong>
+                </p>
+                <div className="shippingAddress">
+                  <p className="vads-u-margin-y--0">
+                    {shippingAddress?.street} {shippingAddress?.street2 || ''}
                   </p>
                   <p className="vads-u-margin-top--0">
-                    {' '}
-                    {moment(submittedAt).format('MMM D, YYYY')}
+                    {`${shippingAddress?.city},
+          ${shippingAddress?.state || shippingAddress?.province} ${' '}
+          ${shippingAddress?.postalCode ||
+            shippingAddress?.internationalPostalCode}
+          `}
                   </p>
-                  <p className="vads-u-margin-bottom--0">
-                    <strong>Confirmation number</strong>
-                  </p>
-                  <p className="vads-u-margin-y--0">{orderId}</p>
-                  <button
-                    className="usa-button button"
-                    onClick={() => window.print()}
-                  >
-                    Print this page
-                  </button>
-                </section>
-              }
-              status="info"
-              backgroundOnly
-            />
+                </div>
+                <p className="vads-u-margin-bottom--0">
+                  <strong>Date submitted</strong>
+                </p>
+                <p className="vads-u-margin-top--0">
+                  {' '}
+                  {moment(submittedAt).format('MMM D, YYYY')}
+                </p>
+                <p className="vads-u-margin-bottom--0">
+                  <strong>Confirmation number</strong>
+                </p>
+                <p className="vads-u-margin-y--0">{orderId}</p>
+                <button
+                  className="usa-button button"
+                  onClick={() => window.print()}
+                >
+                  Print this page
+                </button>
+              </section>
+            </va-alert>
             <section className="order-timeframe-section">
               <h4>How long will it take to receive my order?</h4>
               <p>
@@ -182,72 +180,85 @@ const ConfirmationPage = ({
         )}
       {isError &&
         isEmptyOrder && (
-          <AlertBox
-            headline="We're sorry. Your order wasn't submitted."
-            level="2"
-            className="vads-u-margin-bottom--4"
-            content={
-              <div className="empty-state-alert">
-                <p>
-                  Your order for hearing aid supplies wasn’t submitted because
-                  you didn’t select any items.
-                </p>
-                <p className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-font-family--serif">
-                  What you can do
-                </p>
-                <p className="vads-u-margin-top--0">
-                  If you want to{' '}
-                  <a
-                    href={`${
-                      environment.BASE_URL
-                    }/health-care/order-hearing-aid-batteries-and-accessories/order-form-2346/`}
-                  >
-                    place an order online
-                  </a>
-                  , please select at least one item before submitting your
-                  order. For help ordering hearing aid batteries and
-                  accessories, please call the DLC Customer Service Section at{' '}
-                  <a
-                    aria-label="3 0 3. 2 7 3. 6 2 0 0."
-                    href="tel:303-273-6200"
-                  >
-                    303-273-6200
-                  </a>{' '}
-                  or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-                </p>
-              </div>
-            }
-            status="error"
-          />
+          <va-alert class="vads-u-margin-bottom--4" status="error">
+            <h2 slot="headline">We’re sorry. Your order wasn’t submitted.</h2>
+            <div className="empty-state-alert">
+              <p>
+                Your order for hearing aid supplies wasn’t submitted because you
+                didn’t select any items.
+              </p>
+              <p className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-font-family--serif">
+                What you can do
+              </p>
+              <p className="vads-u-margin-top--0">
+                If you want to{' '}
+                <a
+                  href={`${
+                    environment.BASE_URL
+                  }/health-care/order-hearing-aid-batteries-and-accessories/order-form-2346/`}
+                >
+                  place an order online
+                </a>
+                , please select at least one item before submitting your order.
+                For help ordering hearing aid batteries and accessories, please
+                call the DLC Customer Service Section at{' '}
+                <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
+                  303-273-6200
+                </a>{' '}
+                or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+              </p>
+            </div>
+          </va-alert>
         )}
       {isError &&
         isPartiallySubmittedOrder && (
-          <AlertBox
-            headline="We're sorry. Part of your order wasn't submitted."
-            level="2"
-            className="vads-u-margin-bottom--4"
-            content={
-              <div className="partial-submit-alert">
-                <p>At least one of the following items couldn’t be ordered:</p>
-                <ul className="vads-u-margin-bottom--1">
-                  {selectedProductArray?.map(product => {
-                    if (product.productGroup === BATTERY) {
-                      return (
-                        <li key={product?.productId}>
-                          {`${product?.productName} batteries (Quantity: ${
-                            product?.quantity
-                          })`}
-                        </li>
-                      );
-                    }
+          <va-alert class="vads-u-margin-bottom--4" status="error">
+            <h2>We’re sorry. Part of your order wasn’t submitted.</h2>
+            <div className="partial-submit-alert">
+              <p>At least one of the following items couldn’t be ordered:</p>
+              <ul className="vads-u-margin-bottom--1">
+                {selectedProductArray?.map(product => {
+                  if (product.productGroup === BATTERY) {
                     return (
                       <li key={product?.productId}>
-                        {product?.productName} (Quantity: {product?.quantity})
+                        {`${product?.productName} batteries (Quantity: ${
+                          product?.quantity
+                        })`}
                       </li>
                     );
-                  })}
-                </ul>
-                <p className="vads-u-font-weight--bold vads-u-font-family--serif">
+                  }
+                  return (
+                    <li key={product?.productId}>
+                      {product?.productName} (Quantity: {product?.quantity})
+                    </li>
+                  );
+                })}
+              </ul>
+              <p className="vads-u-font-weight--bold vads-u-font-family--serif">
+                What you can do
+              </p>
+              <p className="vads-u-margin-top--0">
+                For help ordering hearing aid batteries and accessories, please
+                call the DLC Customer Service Section at{' '}
+                <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
+                  303-273-6200
+                </a>{' '}
+                or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+              </p>
+            </div>
+          </va-alert>
+        )}
+      {isError &&
+        hasCompleteOrderFailed && (
+          <div className="submission-error-alert">
+            <va-alert className="vads-u-margin-bottom--4" status="error">
+              <h2>We’re sorry. Your order wasn’t submitted.</h2>
+              <>
+                <p>
+                  Your order for hearing aid supplies wasn’t submitted because
+                  something went wrong on our end.
+                </p>
+                <p className="vads-u-font-weight--bold vads-u-font-family--serif vads-u-margin-bottom--1">
                   What you can do
                 </p>
                 <p className="vads-u-margin-top--0">
@@ -261,43 +272,8 @@ const ConfirmationPage = ({
                   </a>{' '}
                   or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                 </p>
-              </div>
-            }
-            status="error"
-          />
-        )}
-      {isError &&
-        hasCompleteOrderFailed && (
-          <div className="submission-error-alert">
-            <AlertBox
-              headline="We're sorry. Your order wasn't submitted."
-              level="2"
-              className="vads-u-margin-bottom--4"
-              content={
-                <>
-                  <p>
-                    Your order for hearing aid supplies wasn’t submitted because
-                    something went wrong on our end.
-                  </p>
-                  <p className="vads-u-font-weight--bold vads-u-font-family--serif vads-u-margin-bottom--1">
-                    What you can do
-                  </p>
-                  <p className="vads-u-margin-top--0">
-                    For help ordering hearing aid batteries and accessories,
-                    please call the DLC Customer Service Section at{' '}
-                    <a
-                      aria-label="3 0 3. 2 7 3. 6 2 0 0."
-                      href="tel:303-273-6200"
-                    >
-                      303-273-6200
-                    </a>{' '}
-                    or email{' '}
-                    <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-                  </p>
-                </>
-              }
-              status="error"
-            />
+              </>
+            </va-alert>
           </div>
         )}
     </div>

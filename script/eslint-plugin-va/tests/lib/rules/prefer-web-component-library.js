@@ -30,6 +30,12 @@ ruleTester.run('prefer-web-component-library', rule, {
     //     const phone = () => (<Telephone contact={phoneContact} />)
     //   `,
     // },
+    {
+      code: `
+        import Breadcrumbs from '../../components/Breadcrumbs';
+        const breadcrumbs = () => (<Breadcrumbs><a href="#home">Home</a></Breadcrumbs>)
+      `,
+    },
   ],
   invalid: [
     {
@@ -109,7 +115,6 @@ ruleTester.run('prefer-web-component-library', rule, {
         },
       ],
     },
-
     {
       code: mockFile(
         'Telephone',
@@ -161,6 +166,121 @@ ruleTester.run('prefer-web-component-library', rule, {
               output: mockFile(
                 'Telephone',
                 'const phone = () => (<va-telephone not-clickable contact={myContact} />)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Breadcrumbs',
+        'const breadcrumb = () => (<Breadcrumbs><a href="/">Home</a></Breadcrumbs>)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'Breadcrumbs',
+                'const breadcrumb = () => (<va-breadcrumbs><a href="/">Home</a></va-breadcrumbs>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Breadcrumbs',
+        'const breadcrumb = () => (<Breadcrumbs selectedFacility={selectedResult}><a href="/">Home</a></Breadcrumbs>)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              // There is an extra space which would get removed on an autosave format
+              output: mockFile(
+                'Breadcrumbs',
+                'const breadcrumb = () => (<va-breadcrumbs ><a href="/">Home</a></va-breadcrumbs>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Modal',
+        'const SampleModal = () => (<Modal title="test" contents={<div>Hi</div>} onClose={closeModal} />)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'Modal',
+                'const SampleModal = () => (<VaModal modalTitle="test"  onCloseEvent={closeModal} ><div>Hi</div></VaModal>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Modal',
+        'const SampleModal = () => (<Modal title="test" contents={someJSX} onClose={closeModal} cssClass="va-modal-large" />)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'Modal',
+                'const SampleModal = () => (<VaModal modalTitle="test"  onCloseEvent={closeModal} className="va-modal-large" >{someJSX}</VaModal>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Modal',
+        'const SampleModal = () => (<Modal title="test" onClose={closeModal}>HELLO</Modal>)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'Modal',
+                'const SampleModal = () => (<VaModal modalTitle="test" onCloseEvent={closeModal}>HELLO</VaModal>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Modal',
+        'const SampleModal = () => (<Modal title="test" onClose={closeModal} primaryButton={primaryButton} secondaryButton={secondaryButton} hideCloseButton>HELLO</Modal>)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'Modal',
+                'const SampleModal = () => (<VaModal modalTitle="test" onCloseEvent={closeModal} primaryButton={primaryButton} secondaryButton={secondaryButton} >HELLO</VaModal>)',
               ),
             },
           ],

@@ -40,7 +40,7 @@ describe('<Expander/>', () => {
     const wrapper = shallow(<Expander {...props} />);
     expect(
       wrapper
-        .find('h3')
+        .find('h2')
         .first()
         .text(),
     ).to.equal('Hide past events');
@@ -52,10 +52,10 @@ describe('<Expander/>', () => {
     const wrapper = shallow(<Expander {...defaultProps} />);
     expect(
       wrapper
-        .find('h3')
+        .find('h2')
         .first()
         .text(),
-    ).to.equal('See past events');
+    ).to.equal('Reveal past events');
     expect(wrapper.find('.section-unexpanded').exists()).to.be.true;
     wrapper.unmount();
   });

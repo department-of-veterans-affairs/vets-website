@@ -10,7 +10,7 @@ function AboutThisTool() {
           rel="noopener noreferrer"
           id="about-this-tool"
         >
-          About this Tool
+          About this tool
         </a>
 
         <a
@@ -18,7 +18,7 @@ function AboutThisTool() {
           href="https://www.benefits.va.gov/GIBILL/docs/job_aids/ComparisonToolData.xlsx"
           id="download-all-data"
         >
-          Download Data on All Schools (Excel)
+          Download data on all schools (XLS)
         </a>
       </div>
     </div>

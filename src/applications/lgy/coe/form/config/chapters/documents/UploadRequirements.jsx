@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Abbreviation keys:
@@ -23,7 +24,7 @@ const DOCUMENT_REQUIREMENTS = {
 };
 
 const UploadRequirements = ({ formData }) => {
-  const { identity, existingLoan } = formData;
+  const { identity, vaLoanIndicator } = formData;
 
   return (
     <div>
@@ -36,7 +37,9 @@ const UploadRequirements = ({ formData }) => {
           DOCUMENT_REQUIREMENTS[identity].map((req, index) => (
             <li key={index}>{req}</li>
           ))}
-        {existingLoan && <li>Evidence a VA loan was paid in full</li>}
+        {vaLoanIndicator && (
+          <li>Evidence a VA loan was paid in full (if applicable)</li>
+        )}
       </ul>
     </div>
   );
@@ -45,6 +48,10 @@ const UploadRequirements = ({ formData }) => {
 const mapStateToProps = state => ({
   formData: state?.form?.data,
 });
+
+UploadRequirements.propTypes = {
+  formData: PropTypes.object,
+};
 
 export default connect(
   mapStateToProps,

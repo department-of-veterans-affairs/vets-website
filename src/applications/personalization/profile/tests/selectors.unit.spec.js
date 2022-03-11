@@ -535,7 +535,7 @@ describe('selectVAProfilePersonalInformation selector', () => {
     expect(
       selectors.selectVAProfilePersonalInformation(state, 'genderIdentity'),
     ).to.deep.equal({
-      genderIdentity: 'man',
+      genderIdentity: ['man'],
     });
   });
 
@@ -543,7 +543,7 @@ describe('selectVAProfilePersonalInformation selector', () => {
     expect(
       selectors.selectVAProfilePersonalInformation(state, 'pronouns'),
     ).to.deep.equal({
-      pronouns: ['heHimHis', 'theyThemTheirs', 'pronounsNotListed'],
+      pronouns: ['heHimHis', 'theyThemTheirs'],
       pronounsNotListedText: 'Other/pronouns/here',
     });
   });
@@ -552,7 +552,7 @@ describe('selectVAProfilePersonalInformation selector', () => {
     expect(
       selectors.selectVAProfilePersonalInformation(state, 'sexualOrientation'),
     ).to.deep.equal({
-      sexualOrientation: 'sexualOrientationNotListed',
+      sexualOrientation: ['straightOrHeterosexual'],
       sexualOrientationNotListedText: 'Some other orientation',
     });
   });

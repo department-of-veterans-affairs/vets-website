@@ -1,7 +1,10 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { PAYMENT_STATUS } from '../actions';
-import { afterLastDayOfMonth } from '../helpers';
+import {
+  afterLastDayOfMonth,
+  ENROLLMENT_VERIFICATION_TYPE,
+  formatNumericalDate,
+} from '../helpers';
 import VerifyYourEnrollments from './VerifyYourEnrollments';
 
 const successAlert = nextEnrollmentMonth => (
@@ -28,8 +31,9 @@ const pausedAlert = (
     <h3 slot="headline">We’ve paused your monthly education payments</h3>
     <p>
       We had to pause your payments because you haven’t verified your
-      enrollment(s) for three months in a row. Please review and verify your
-      monthly enrollment(s) to get the payments you’re entitled to.
+      enrollment(s) for <strong>three months in a row</strong>. Please review
+      and verify your monthly enrollment(s) to get the payments you’re entitled
+      to.
     </p>
     <VerifyYourEnrollments />
   </va-alert>
@@ -80,35 +84,23 @@ function getEnrollmentVerificationAlert(status) {
   const unverifiedMonths = status?.months?.filter(month => !month.verified);
 
   if (!unverifiedMonths.length) {
-    return successAlert(status.nextEnrollmentMonth);
+    return successAlert(formatNumericalDate(status.nextVerificationDate));
   }
 
   return monthlyPaymentsPaused(unverifiedMonths) ? pausedAlert : warningAlert;
 }
 
-function EnrollmentVerificationAlert({ status }) {
+export const EnrollmentVerificationAlert = ({ status }) => {
   if (!status) {
     return <></>;
   }
 
   const alert = getEnrollmentVerificationAlert(status);
   return <>{alert}</>;
-}
+};
 
 export default EnrollmentVerificationAlert;
 
-// EnrollmentVerificationAlert.propTypes = {
-//   status: PropTypes.objectOf({
-//     months: PropTypes.arrayOf({
-//       month: PropTypes.string.isRequired,
-//       verified: PropTypes.bool.isRequired,
-//       enrollments: PropTypes.arrayOf({
-//         institution: PropTypes.string.isRequired,
-//         creditHours: PropTypes.number.isRequired,
-//         startDate: PropTypes.string.isRequired,
-//         endDate: PropTypes.string.isRequired,
-//       }),
-//     }),
-//     paymentStatus: PropTypes.string,
-//   }).isRequired,
-// };
+EnrollmentVerificationAlert.propTypes = {
+  status: ENROLLMENT_VERIFICATION_TYPE.isRequired,
+};

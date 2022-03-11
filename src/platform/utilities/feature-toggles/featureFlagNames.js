@@ -18,6 +18,7 @@ export default Object.freeze({
     'check_in_experience_update_information_page_enabled',
   checkInExperienceEditingDayOfEnabled: 'check_in_experience_editing_day_of_enabled',
   checkInExperienceEditingPreCheckInEnabled:'check_in_experience_editing_pre_check_in_enabled',
+  checkInExperienceDayOfDemographicsFlagsEnabled: 'check_in_experience_day_of_demographics_flags_enabled',
   coeAccess: 'coe_access',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
@@ -64,6 +65,7 @@ export default Object.freeze({
   loopPages: 'loop_pages',
   manageDependents: 'dependents_management',
   megaMenuMobileV2: 'mega_menu_mobile_v2',
+  medicalCopaysHtmlMedicalStatementsViewEnabled:'medical_copays_html_medical_statements_view_enabled',
   omniChannelLink: 'omni_channel_link',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
   profileNotificationSettings: 'profile_notification_settings',
@@ -73,10 +75,10 @@ export default Object.freeze({
   profileShowGender: 'profile_show_gender',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
-  searchTypeaheadEnabled: 'search_typeahead_enabled',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
   show526Wizard: 'show526_wizard',
   showPaymentAndDebtSection: 'show_payment_and_debt_section',
+  showContactChatbot: 'show_contact_chatbot',
   showDashboardNotifications: 'show_dashboard_notifications',
   showEduBenefits0994Wizard: 'show_edu_benefits_0994_wizard',
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
@@ -136,4 +138,6 @@ export default Object.freeze({
   caregiverSIGIEnabled: 'caregiver_sigi_enabled',
   hcaAmericanIndianEnabled: 'hca_american_indian_enabled',
   checkVAInboxEnabled: 'check_va_inbox_enabled',
+  ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test'
+
 });

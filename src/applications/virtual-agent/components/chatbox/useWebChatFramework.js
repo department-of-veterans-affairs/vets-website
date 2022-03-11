@@ -22,7 +22,7 @@ const loadWebChat = () => {
   const script = document.createElement('script');
 
   script.src =
-    'https://cdn.botframework.com/botframework-webchat/4.12.0/webchat-es5.js';
+    'https://cdn.botframework.com/botframework-webchat/4.15.1/webchat-es5.js';
   script.crossOrigin = 'anonymous';
   script.dataset.testid = 'webchat-framework-script';
 

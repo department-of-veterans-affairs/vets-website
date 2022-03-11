@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import EnrollmentVerificationBreadcrumbs from './EnrollmentVerificationBreadcrumbs';
 
 export default function EnrollmentVerificationPageWrapper({ children }) {
@@ -22,3 +23,7 @@ export default function EnrollmentVerificationPageWrapper({ children }) {
     </>
   );
 }
+
+EnrollmentVerificationPageWrapper.propTypes = {
+  children: PropTypes.any,
+};

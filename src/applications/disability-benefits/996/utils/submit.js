@@ -2,8 +2,7 @@ import {
   SELECTED,
   CONFERENCE_TIMES_V1,
   CONFERENCE_TIMES_V2,
-  MAX_ISSUE_NAME_LENGTH,
-  MAX_DISAGREEMENT_REASON_LENGTH,
+  MAX_LENGTH,
   SUBMITTED_DISAGREEMENTS,
 } from '../constants';
 import { apiVersion1 } from './helpers';
@@ -106,7 +105,7 @@ export const createIssueName = ({ attributes } = {}) => {
   ]
     .filter(part => part)
     .join(' - ')
-    .substring(0, MAX_ISSUE_NAME_LENGTH);
+    .substring(0, MAX_LENGTH.ISSUE_NAME);
 };
 
 /* submitted contested issue format
@@ -220,7 +219,7 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
         ...issue.attributes,
         disagreementArea: reasons
           .join(',')
-          .substring(0, MAX_DISAGREEMENT_REASON_LENGTH), // max length in schema
+          .substring(0, MAX_LENGTH.DISAGREEMENT_REASON), // max length in schema
       },
     };
   });
@@ -285,16 +284,21 @@ export const getAddress = formData => {
   if (apiVersion1(formData)) {
     return { zipCode5: zipCode5 || '00000' };
   }
+  const truncate = (value, max) =>
+    (veteran.address?.[value] || '').substring(0, max);
   return removeEmptyEntries({
-    addressLine1: veteran.address?.addressLine1 || '',
-    addressLine2: veteran.address?.addressLine2 || '',
-    addressLine3: veteran.address?.addressLine3 || '',
-    city: veteran.address?.city || '',
+    addressLine1: truncate('addressLine1', MAX_LENGTH.ADDRESS_LINE1),
+    addressLine2: truncate('addressLine2', MAX_LENGTH.ADDRESS_LINE2),
+    addressLine3: truncate('addressLine3', MAX_LENGTH.ADDRESS_LINE3),
+    city: truncate('city', MAX_LENGTH.CITY),
     stateCode: veteran.address?.stateCode || '',
-    countryCodeISO2: veteran.address?.countryCodeIso2 || '',
+    countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.COUNTRY),
     // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json#L145
-    zipCode5: veteran.address?.zipCode || '',
-    internationalPostalCode: veteran.address?.internationalPostalCode || '',
+    zipCode5: truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
+    internationalPostalCode: truncate(
+      'internationalPostalCode',
+      MAX_LENGTH.POSTAL_CODE,
+    ),
   });
 };
 
@@ -303,10 +307,13 @@ export const getAddress = formData => {
  * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable address
  */
-export const getPhone = ({ veteran = {} } = {}) =>
-  removeEmptyEntries({
-    countryCode: veteran.phone?.countryCode || '',
-    areaCode: veteran.phone?.areaCode || '',
-    phoneNumber: veteran.phone?.phoneNumber || '',
-    phoneNumberExt: veteran.phone?.phoneNumberExt || '',
+export const getPhone = ({ veteran = {} } = {}) => {
+  const truncate = (value, max) =>
+    (veteran.phone?.[value] || '').substring(0, max);
+  return removeEmptyEntries({
+    countryCode: truncate('countryCode', MAX_LENGTH.COUNTRY_CODE),
+    areaCode: truncate('areaCode', MAX_LENGTH.AREA_CODE),
+    phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
+    phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
   });
+};

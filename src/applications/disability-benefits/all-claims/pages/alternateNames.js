@@ -23,13 +23,16 @@ export const uiSchema = {
     items: {
       first: {
         'ui:title': 'First name',
+        'ui:autocomplete': 'given-name',
         'ui:required': hasAlternateName,
       },
       middle: {
         'ui:title': 'Middle name',
+        'ui:autocomplete': 'additional-name',
       },
       last: {
         'ui:title': 'Last name',
+        'ui:autocomplete': 'family-name',
         'ui:required': hasAlternateName,
       },
     },

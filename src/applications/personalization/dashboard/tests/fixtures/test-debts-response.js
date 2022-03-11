@@ -251,3 +251,25 @@ export const debtsSuccessEmpty = () => {
     debts: [],
   };
 };
+
+export const debtsError = () => {
+  return {
+    errors: [
+      {
+        title: 'Debt Letters Failure',
+        detail: {
+          messages: [
+            {
+              code: '',
+              key: '',
+              severity: 'INFO',
+              text: '',
+            },
+          ],
+        },
+        code: 'DEBTS_ERROR',
+        status: '400',
+      },
+    ],
+  };
+};

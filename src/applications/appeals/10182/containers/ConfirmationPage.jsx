@@ -6,9 +6,7 @@ import { connect } from 'react-redux';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { selectProfile } from 'platform/user/selectors';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { FORMAT_READABLE } from '../constants';
 import { getSelected, getIssueName } from '../utils/helpers';
@@ -80,8 +78,8 @@ export class ConfirmationPage extends React.Component {
           After you request a decision review
         </h2>
         <p>
-          When we’ve completed your review, we will mail you a decision packet
-          that includes details about our decision.{' '}
+          When we’ve completed your review, we will physically mail you a
+          decision packet that includes details about our decision.{' '}
           <a href="/decision-reviews/after-you-request-review/">
             Learn more about what happens after you request a review
           </a>
@@ -97,7 +95,7 @@ export class ConfirmationPage extends React.Component {
         <p>
           If you requested an appeal and haven’t heard back from us yet, please
           don’t request another appeal. Call us at{' '}
-          <Telephone contact={CONTACTS.VA_BENEFITS} />.
+          <va-telephone contact={CONTACTS.VA_BENEFITS} />.
         </p>
         <br />
         <a
