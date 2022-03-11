@@ -16,6 +16,7 @@ import {
 import CancelButton from './shared/CancelButton';
 import UpdateButton from './shared/UpdateButton';
 import Footer from '../../Footer';
+import Header from './shared/Header';
 
 export default function Email(props) {
   const { router } = props;
@@ -74,7 +75,7 @@ export default function Email(props) {
 
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--4  vads-u-padding-right--4 vads-u-padding-left-2 ">
-      <h1>Edit email address</h1>
+      <Header value={value} what="email address" editingPage={editingPage} />
 
       <VaTextInput
         error={errorMessage}
