@@ -40,6 +40,7 @@
   ],
   "plugins": [
     "lodash",
+    "istanbul",
     // Stage 2
     "@babel/plugin-proposal-function-sent",
     "@babel/plugin-proposal-export-namespace-from",
@@ -84,7 +85,6 @@
       "presets": ["@babel/env", "@babel/preset-react"],
       "plugins": [
         "transform-class-properties",
-        "istanbul",
         "dynamic-import-node",
         "transform-react-remove-prop-types",
         // Stage 2
