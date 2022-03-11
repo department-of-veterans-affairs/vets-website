@@ -490,7 +490,7 @@ jobs:
         if: ${{ always() }}
         with:
           name: code-coverage-artifacts
-          path: coverage
+          path: coverage/coverage-summary.json
 
       - name: Archive test videos
         uses: actions/upload-artifact@v2
