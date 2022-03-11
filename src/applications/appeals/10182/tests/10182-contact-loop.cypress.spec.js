@@ -100,6 +100,7 @@ describe('NOD contact info loop', () => {
     cy.location('pathname').should('eq', contactPageUrl);
 
     // update phone
+    /*
     cy.get('a[href$="phone"]').click();
     cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
     cy.findByLabelText(/extension/i)
@@ -109,6 +110,7 @@ describe('NOD contact info loop', () => {
       .first()
       .click();
     cy.location('pathname').should('eq', contactPageUrl);
+    */
 
     // Email loops *****
     cy.get('a[href$="email-address"]').click();
@@ -121,6 +123,7 @@ describe('NOD contact info loop', () => {
     cy.location('pathname').should('eq', contactPageUrl);
 
     // update email
+    /*
     cy.get('a[href$="email-address"]').click();
     cy.location('pathname').should('eq', `${BASE_URL}/edit-email-address`);
     cy.findByLabelText(/email address/i)
@@ -130,6 +133,7 @@ describe('NOD contact info loop', () => {
       .first()
       .click();
     cy.location('pathname').should('eq', contactPageUrl);
+    */
 
     // Mailing address loops *****
     cy.get('a[href$="mailing-address"]').click();
@@ -142,6 +146,7 @@ describe('NOD contact info loop', () => {
     cy.location('pathname').should('eq', contactPageUrl);
 
     // update address
+    /*
     cy.get('a[href$="mailing-address"]').click();
     cy.location('pathname').should('eq', `${BASE_URL}/edit-mailing-address`);
     cy.findByLabelText(/address line 2/i).clear(); // remove "c/o Pixar"
@@ -149,6 +154,7 @@ describe('NOD contact info loop', () => {
       .first()
       .click();
     cy.wait('@getAddressValidation');
+    */
     /*
     Not including address validation intermediate page because it hates me
     cy.findByText(/^use this address$/i, { selector: 'button' }).should('be.visible');

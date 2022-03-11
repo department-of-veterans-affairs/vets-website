@@ -3,7 +3,7 @@ import formConfig from './config/form';
 import App from './containers/App.jsx';
 import withFeatureFlip from '../shared/containers/withFeatureFlip';
 
-const component = withFeatureFlip(App, 'intake');
+const component = withFeatureFlip(App, 'intake-v2');
 
 const route = {
   path: '/',
@@ -14,7 +14,7 @@ const route = {
       return (nextState, replace) => {
         if (!hasRedirected) {
           hasRedirected = true;
-          replace('/sign-up');
+          replace('sign-up');
         }
       };
     })(),
@@ -25,6 +25,6 @@ const introRouteIndex = route.childRoutes.findIndex(
   cr => cr.path === 'introduction',
 );
 route.childRoutes[introRouteIndex].onEnter = (nextState, replace) => {
-  replace('/sign-up');
+  replace('sign-up');
 };
 export default route;

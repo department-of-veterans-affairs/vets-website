@@ -2,7 +2,6 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { SELECTED } from '../constants';
-import { isValidDate } from '../validations/date';
 
 export const someSelected = issues =>
   (issues || []).some(issue => issue[SELECTED]);
@@ -69,27 +68,6 @@ export const isEmptyObject = obj =>
   obj && typeof obj === 'object' && !Array.isArray(obj)
     ? Object.keys(obj)?.length === 0 || false
     : false;
-
-export const setInitialEditMode = (formData = {}) => {
-  const contestableIssues = (formData.contestableIssues || []).map(entry =>
-    getIssueNameAndDate(entry),
-  );
-  const additionalIssues = (formData.additionalIssues || []).map(entry =>
-    getIssueNameAndDate(entry),
-  );
-  return (formData.additionalIssues || []).map((issue = {}, index) => {
-    const currentIssue = getIssueNameAndDate(issue);
-    return (
-      !issue.issue ||
-      !issue.decisionDate ||
-      !isValidDate(issue.decisionDate) ||
-      // check for duplicates
-      contestableIssues.includes(currentIssue) ||
-      additionalIssues.lastIndexOf(currentIssue) !== index ||
-      additionalIssues.indexOf(currentIssue) !== index
-    );
-  });
-};
 
 // getEligibleContestableIssues will remove deferred issues and issues > 1 year
 // past their decision date. This function removes issues with no title & sorts

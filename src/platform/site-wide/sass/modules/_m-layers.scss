@@ -11,9 +11,6 @@
 #preview-site-alert {
   z-index: $low-layer;
 }
-#modal-crisis-line {
-  z-index: $modal-layer;
-}
 #session-timeout-modal {
   // Needs to show up over everything because the user is about to get signed out
   z-index: 9999;

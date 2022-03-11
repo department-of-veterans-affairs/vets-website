@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
 
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
@@ -66,7 +65,7 @@ export const ContactInfoDescription = ({
   const contactSection = loopPages ? (
     <>
       <h4 className="vads-u-font-size--h3">Mobile phone number</h4>
-      <Telephone contact={phoneNumber} extension={phoneExt} notClickable />
+      <va-telephone contact={phoneNumber} extension={phoneExt} not-clickable />
       <p>
         <Link to="/edit-mobile-phone" aria-label="Edit mobile phone number">
           Edit

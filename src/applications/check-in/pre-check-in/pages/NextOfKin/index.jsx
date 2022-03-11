@@ -6,8 +6,6 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { recordAnswer } from '../../../actions/pre-check-in';
 
-import { api } from '../../../api';
-
 import BackButton from '../../../components/BackButton';
 import BackToHome from '../../../components/BackToHome';
 import Footer from '../../../components/Footer';
@@ -18,68 +16,64 @@ import { useFormRouting } from '../../../hooks/useFormRouting';
 import {
   makeSelectCurrentContext,
   makeSelectVeteranData,
-  makeSelectForm,
+  makeSelectPendingEdits,
 } from '../../../selectors';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+
+import { api } from '../../../api';
 
 const NextOfKin = props => {
   const { router } = props;
 
-  const [isSendingData, setIsSendingData] = useState(false);
-
-  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
-  const { token } = useSelector(selectCurrentContext);
-
-  const selectForm = useMemo(makeSelectForm, []);
-  const { data } = useSelector(selectForm);
-  const { demographicsUpToDate, emergencyContactUpToDate } = data;
+  const [isLoading, setIsLoading] = useState(false);
 
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
   const { nextOfKin1: nextOfKin } = demographics;
 
+  const selectPendingEdits = useMemo(makeSelectPendingEdits, []);
+  const { pendingEdits } = useSelector(selectPendingEdits);
+  const { nextOfKin1: newInformation } = pendingEdits || {};
+
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isEditingPreCheckInEnabled } = useSelector(selectFeatureToggles);
+
   const dispatch = useDispatch();
 
-  const { goToErrorPage, goToNextPage, goToPreviousPage } = useFormRouting(
-    router,
-  );
+  const { goToNextPage, goToPreviousPage, jumpToPage } = useFormRouting(router);
+
+  const selectContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectContext);
 
   const buttonClick = useCallback(
     async answer => {
-      setIsSendingData(true);
+      setIsLoading(true);
       recordEvent({
         event: 'cta-button-click',
         'button-click-label': `${answer}-to-next-of-kin`,
       });
-      dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
-      // select the answers from state
-
-      // send to API
-
-      const preCheckInData = {
-        uuid: token,
-        demographicsUpToDate: demographicsUpToDate === 'yes',
-        nextOfKinUpToDate: answer === 'yes',
-        emergencyContactUpToDate: emergencyContactUpToDate === 'yes',
-      };
-      try {
-        const resp = await api.v2.postPreCheckInData({ ...preCheckInData });
-        if (resp.data.error || resp.data.errors) {
-          goToErrorPage();
-        } else {
-          goToNextPage();
+      if (isEditingPreCheckInEnabled) {
+        setIsLoading(true);
+        if (newInformation) {
+          await api.v2.postDemographicsData({
+            demographics: {
+              nextOfKin1: newInformation,
+            },
+            token,
+          });
         }
-      } catch (error) {
-        goToErrorPage();
+        await api.v2.postPreCheckInData({
+          uuid: token,
+          nextOfKinUpToDate: true,
+        });
+        dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
+        goToNextPage();
+      } else {
+        dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
+        goToNextPage();
       }
     },
-    [
-      dispatch,
-      token,
-      demographicsUpToDate,
-      emergencyContactUpToDate,
-      goToErrorPage,
-      goToNextPage,
-    ],
+    [dispatch, goToNextPage, isEditingPreCheckInEnabled, newInformation, token],
   );
 
   const yesClick = useCallback(
@@ -105,10 +99,12 @@ const NextOfKin = props => {
         Footer={Footer}
         header={header}
         subtitle={subtitle}
-        nextOfKin={nextOfKin}
+        nextOfKin={newInformation || nextOfKin}
         yesAction={yesClick}
         noAction={noClick}
-        isSendingData={isSendingData}
+        isLoading={isLoading}
+        isEditEnabled={isEditingPreCheckInEnabled}
+        jumpToPage={jumpToPage}
       />
       <BackToHome />
     </>

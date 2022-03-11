@@ -2,7 +2,7 @@ import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberW
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
-import { errorMessages } from '../constants';
+import { errorMessages, MAX_LENGTH } from '../constants';
 
 import {
   ContactRepresentativeTitle,
@@ -69,25 +69,30 @@ export default {
           },
           firstName: {
             type: 'string',
-            maxLength: 30,
+            maxLength: MAX_LENGTH.REP_FIRST_NAME,
           },
           lastName: {
             type: 'string',
-            maxLength: 40,
+            maxLength: MAX_LENGTH.REP_LAST_NAME,
           },
           phone: {
             type: 'string',
-            pattern: '[0-9]+',
+            pattern: '^[0-9]{3,21}$',
+            maxLength:
+              MAX_LENGTH.COUNTRY_CODE +
+              MAX_LENGTH.AREA_CODE +
+              MAX_LENGTH.PHONE_NUMBER,
           },
           extension: {
             type: 'string',
-            pattern: '^[0-9]{1,10}$',
+            pattern: '^[a-zA-Z0-9]{1,10}$',
+            maxLength: MAX_LENGTH.PHONE_NUMBER_EXT,
           },
           email: {
             type: 'string',
             format: 'email',
             minLength: 6,
-            maxLength: 255,
+            maxLength: MAX_LENGTH.EMAIL,
           },
         },
       },

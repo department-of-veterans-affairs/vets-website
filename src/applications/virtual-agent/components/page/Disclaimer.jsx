@@ -5,19 +5,21 @@ export default function Disclaimer() {
     <>
       <h1>VA virtual agent</h1>
 
-      <p>
-        Use our virtual agent (chatbot) to get answers to your questions about
-        VA benefits and services, and helpful links to find more information on
-        our site.{' '}
-      </p>
+      <div className="va-introtext">
+        <p>
+          Use our virtual agent (chatbot) to get answers to your questions about
+          VA benefits and services, and helpful links to find more information
+          on our site.{' '}
+        </p>
+      </div>
 
       <h2>We’re currently in beta testing</h2>
       <p>
-        Welcome to our virtual agent, a new part of VA.gov. We’re still building
-        the virtual agent’s ability to respond to your questions, so it won’t
-        have answers to every question. The agent also may be slow to respond.
-        We’re adding more answers in the weeks and months ahead, so please check
-        back often.
+        Welcome to our virtual agent, a new part of{' '}
+        <a href="https://va.gov/">VA.gov</a>. We're still building the agent's
+        ability to respond to your questions, so it won't have answers to every
+        question. And while we're in beta testing, the agent will be available
+        only to a small number of <a href="https://va.gov/">VA.gov</a> visitors.
       </p>
       <p>
         <b>
@@ -54,42 +56,43 @@ export default function Disclaimer() {
         </a>
       </p>
 
-      <h3>
-        How to get help if you’re in crisis and need to talk with someone right
-        away
-      </h3>
-      <p>
-        If you’re a Veteran in crisis or concerned about one, connect with our
-        caring, qualified Veterans Crisis Line responders for confidential help.
-        Many of them are Veterans themselves. This service is private, free, and
-        available 24/7.
-      </p>
-      <p>
-        To connect with a Veterans Crisis Line responder anytime day or night:
-        <ul>
-          <li>
-            Call{' '}
-            <a aria-label="8 0 0. 2 7 3. 8 2 5 5." href="tel:800-273-8255">
-              800-273-8255
-            </a>
-            , then select 1.
-          </li>
-          <li>
-            Text{' '}
-            <a aria-label="8. 3. 8. 2. 5. 5. " href="tel:838255">
-              838255
-            </a>
-            .
-          </li>
-          <li>
-            If you have hearing loss, call TTY:{' '}
-            <a aria-label="8 0 0. 7 9 9. 4 8 8 9." href="tel:800-799-4889">
-              800-799-4889
-            </a>
-            .
-          </li>
-        </ul>
-      </p>
+      <va-additional-info
+        trigger="How to get help if you’re in crisis and need to talk with someone right
+        away"
+      >
+        <p>
+          If you’re a Veteran in crisis or concerned about one, connect with our
+          caring, qualified Veterans Crisis Line responders for confidential
+          help. Many of them are Veterans themselves. This service is private,
+          free, and available 24/7.
+        </p>
+        <p>
+          To connect with a Veterans Crisis Line responder anytime day or night:
+          <ul>
+            <li>
+              Call{' '}
+              <a aria-label="8 0 0. 2 7 3. 8 2 5 5." href="tel:800-273-8255">
+                800-273-8255
+              </a>
+              , then select 1.
+            </li>
+            <li>
+              Text{' '}
+              <a aria-label="8. 3. 8. 2. 5. 5. " href="tel:838255">
+                838255
+              </a>
+              .
+            </li>
+            <li>
+              If you have hearing loss, call TTY:{' '}
+              <a aria-label="8 0 0. 7 9 9. 4 8 8 9." href="tel:800-799-4889">
+                800-799-4889
+              </a>
+              .
+            </li>
+          </ul>
+        </p>
+      </va-additional-info>
 
       <h3>More about our virtual agent</h3>
 
@@ -157,34 +160,37 @@ export default function Disclaimer() {
           <p>
             <ol>
               <li>
-                Click <b>Tab</b> to select the virtual agent window.
+                Press <b>Tab</b> to select the virtual agent window.
               </li>
               <li>
-                Click <b>Tab</b> to select the “Accept” button and click{' '}
+                Press <b>Tab</b> to select the "Accept" button and press{' '}
                 <b>Enter</b>.
               </li>
               <li>
                 Use the arrow keys to listen to the virtual agent messages.
               </li>
               <li>
-                Click <b>Tab</b> to select the “Type your message” section.
+                Press <b>Tab</b> to select the "Type your message" section.
               </li>
               <li>
                 Ask your question and press <b>Enter</b>.
               </li>
               <li>
-                Click <b>Shift+Tab</b> to go back to messages.
+                Press <b>Shift+Tab</b> to go back to messages.
               </li>
               <li>Use the arrow keys to focus on a specific message.</li>
               <li>
-                Click <b>Enter</b> to focus on a link.
+                Press <b>Enter</b> to focus on a link.
               </li>
               <li>
-                Click <b>Enter</b> to open a link. The link will open on another
+                Press <b>Enter</b> to open a link. The link will open on another
                 page.
               </li>
               <li>
-                Click <b>Shift+Tab</b> to exit the virtual agent window.
+                Press <strong>Escape</strong> to leave the current message.
+              </li>
+              <li>
+                Press <b>Shift+Tab</b> to exit the virtual agent window.
               </li>
             </ol>
           </p>

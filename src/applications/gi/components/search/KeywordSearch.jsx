@@ -196,13 +196,19 @@ export function KeywordSearch({
 }
 
 KeywordSearch.propTypes = {
+  className: PropTypes.string,
   error: PropTypes.string,
+  inputValue: PropTypes.string,
   label: PropTypes.string,
-  onFetchAutocompleteSuggestions: PropTypes.func,
-  onSelection: PropTypes.func,
-  onUpdateAutocompleteSearchTerm: PropTypes.func,
+  labelAdditional: PropTypes.object,
+  required: PropTypes.any,
+  suggestions: PropTypes.object,
   validateSearchTerm: PropTypes.func,
   version: PropTypes.string,
+  onFetchAutocompleteSuggestions: PropTypes.func,
+  onPressEnter: PropTypes.func,
+  onSelection: PropTypes.func,
+  onUpdateAutocompleteSearchTerm: PropTypes.func,
 };
 
 export default KeywordSearch;

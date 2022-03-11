@@ -18,11 +18,12 @@ import {
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
+import scrollTo from 'platform/utilities/ui/scrollTo';
+import { getScrollOptions } from 'platform/utilities/ui';
 
 import UploadStatus from './UploadStatus';
 import mailMessage from './MailMessage';
 import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
-import { getScrollOptions } from 'platform/utilities/ui';
 import {
   validateIfDirty,
   isNotBlank,
@@ -38,7 +39,6 @@ import {
 } from '../utils/validations';
 import { setFocus } from '../utils/page';
 import { uploadPdfLimitFeature } from '../utils/appeals-v2-helpers';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 
 const displayTypes = FILE_TYPES.join(', ');
 
@@ -55,7 +55,7 @@ const scrollToError = () => {
     errors[0].querySelector('label').focus();
   }
 };
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 class AddFilesForm extends React.Component {
   state = {
@@ -176,7 +176,7 @@ class AddFilesForm extends React.Component {
                 Select files to upload
               </span>
             }
-            accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+            accept={FILE_TYPES.map(type => `.${type}`).join(', ')}
             onChange={this.add}
             buttonText="Add Files"
             name="fileUpload"
@@ -234,7 +234,7 @@ class AddFilesForm extends React.Component {
                           : 'Please provide a password to decrypt this file'
                       }
                       name="password"
-                      label={'PDF password'}
+                      label="PDF password"
                       field={password}
                       onValueChange={update => {
                         this.props.onFieldChange(
@@ -281,9 +281,7 @@ class AddFilesForm extends React.Component {
               <div className="vads-u-padding-top--1">
                 To submit supporting documents for a new disability claim,
                 please visit our{' '}
-                <a href={`/disability/how-to-file-claim`}>
-                  How to File a Claim
-                </a>{' '}
+                <a href="/disability/how-to-file-claim">How to File a Claim</a>{' '}
                 page.
               </div>
             </div>

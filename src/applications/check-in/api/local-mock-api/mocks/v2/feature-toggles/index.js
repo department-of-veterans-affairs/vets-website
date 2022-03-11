@@ -4,7 +4,8 @@ const generateFeatureToggles = (toggles = {}) => {
     preCheckInEnabled = true,
     checkInExperienceUpdateInformationPageEnabled = false,
     checkInExperienceEditingDayOfEnabled = false,
-    checkInExperienceEditingPreCheckInEnabled = false,
+    checkInExperienceEditingPreCheckInEnabled = true,
+    checkInExperienceDayOfDemographicsFlagsEnabled = false,
   } = toggles;
 
   return {
@@ -30,6 +31,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'check_in_experience_editing_pre_check_in_enabled',
           value: checkInExperienceEditingPreCheckInEnabled,
+        },
+        {
+          name: 'check_in_experience_day_of_demographics_flags_enabled',
+          value: checkInExperienceDayOfDemographicsFlagsEnabled,
         },
       ],
     },

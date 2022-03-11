@@ -16,6 +16,7 @@ export const INITIAL_STATE = Object.freeze({
     'FOREIGN',
     'FLIGHT',
     'CORRESPONDENCE',
+    'HIGH SCHOOL',
   ],
   excludeCautionFlags: false,
   accredited: false,
@@ -47,6 +48,7 @@ export default function(state = INITIAL_STATE, action) {
           'FOREIGN',
           'FLIGHT',
           'CORRESPONDENCE',
+          'HIGH SCHOOL',
         ],
       };
 

@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 const months = [
   'January',
   'February',
@@ -13,6 +15,26 @@ const months = [
   'December',
 ];
 
+export const ENROLLMENTS_TYPE = PropTypes.arrayOf(
+  PropTypes.shape({
+    institution: PropTypes.string.isRequired,
+    creditHours: PropTypes.number.isRequired,
+    startDate: PropTypes.string.isRequired,
+    endDate: PropTypes.string.isRequired,
+  }),
+);
+export const MONTH_PROP_TYPE = PropTypes.shape({
+  month: PropTypes.string.isRequired,
+  verified: PropTypes.bool.isRequired,
+  enrollments: ENROLLMENTS_TYPE,
+});
+
+export const ENROLLMENT_VERIFICATION_TYPE = PropTypes.shape({
+  months: PropTypes.arrayOf(MONTH_PROP_TYPE),
+  nextVerificationDate: PropTypes.string,
+  paymentStatus: PropTypes.string,
+});
+
 export const formatNumericalDate = rawDate => {
   let date;
 
@@ -20,7 +42,7 @@ export const formatNumericalDate = rawDate => {
     const dateParts = rawDate.split('-');
     date = new Date(
       Number.parseInt(dateParts[0], 10),
-      Number.parseInt(dateParts[1], 10),
+      Number.parseInt(dateParts[1], 10) - 1,
       Number.parseInt(dateParts[2], 10),
     );
   }
@@ -29,7 +51,7 @@ export const formatNumericalDate = rawDate => {
     return '';
   }
 
-  return `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
+  return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
 };
 
 export const formatReadableMonthYear = rawDate => {

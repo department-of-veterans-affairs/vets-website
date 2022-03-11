@@ -155,8 +155,8 @@ class ProfileInformationFieldController extends React.Component {
     } else if (
       forceEditView &&
       typeof successCallback === 'function' &&
-      prevProps.transactionRequest?.isPending &&
-      !this.props.transactionRequest?.isPending
+      prevProps.transactionRequest &&
+      !this.props.transactionRequest
     ) {
       // Success callback (non-address) after updating a field
       successCallback();
@@ -253,6 +253,10 @@ class ProfileInformationFieldController extends React.Component {
   };
 
   openRemoveModal = () => {
+    if (this.props.blockEditMode) {
+      this.setState({ showCannotEditModal: true });
+      return;
+    }
     this.props.openModal(`remove-${this.props.fieldName}`);
   };
 

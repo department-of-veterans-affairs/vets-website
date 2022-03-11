@@ -28,6 +28,9 @@ export default function CustomReviewField({ children, uiSchema }) {
     case whichSelectQuestions('DIAGNOSED_DETAILS'):
       selectQuestionTitle = 'Diagnosed by';
       break;
+    case whichSelectQuestions('DIAGNOSED_SYMPTOMS'):
+      selectQuestionTitle = 'Symptoms experienced';
+      break;
     default:
       selectQuestionTitle = '';
   }
