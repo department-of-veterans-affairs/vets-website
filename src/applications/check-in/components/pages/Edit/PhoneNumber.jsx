@@ -43,13 +43,13 @@ export default function PhoneNumber(props) {
 
   const isUpdatable = useMemo(
     () => {
-      return !phoneErrorMessage || !extensionErrorMessage;
+      return !phoneErrorMessage && !extensionErrorMessage;
     },
     [phoneErrorMessage, extensionErrorMessage],
   );
 
   const dispatch = useDispatch();
-  const handleUpdateEmail = useCallback(
+  const handleUpdatePhone = useCallback(
     () => {
       const newPhoneNumber = `${phoneNumber}${
         extension ? `x${extension}` : ''
@@ -85,7 +85,9 @@ export default function PhoneNumber(props) {
   const onPhoneNumberChange = useCallback(
     event => {
       const { value: newPhone } = event.target;
-      if (!isValidPhone(newPhone)) {
+      if (newPhone === '') {
+        setPhoneErrorMessage();
+      } else if (!isValidPhone(newPhone)) {
         setPhoneErrorMessage('Please enter a valid phone number address.');
       } else {
         setPhoneErrorMessage();
@@ -116,7 +118,6 @@ export default function PhoneNumber(props) {
         maxlength={null}
         name={key}
         value={formatPhone(phoneNumber)}
-        required
         onVaChange={onPhoneNumberChange}
       />
       <VaTextInput
@@ -132,7 +133,7 @@ export default function PhoneNumber(props) {
         jumpToPage={jumpToPage}
         backPage={originatingUrl}
         clearData={clearEditContext}
-        handleUpdate={handleUpdateEmail}
+        handleUpdate={handleUpdatePhone}
         isUpdatable={isUpdatable}
       />
       <CancelButton
