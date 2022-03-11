@@ -16,8 +16,9 @@ const FileListItem = ({ index, file, onClick }) => {
       id={index}
     >
       <p>
-        <strong>{file.name}</strong>
+        <strong>{file?.fileName}</strong>
       </p>
+      <p>{file?.documentType}</p>
       <button
         className="usa-button-secondary vads-u-background-color--white vads-u-margin-top--0"
         onClick={_onClick}

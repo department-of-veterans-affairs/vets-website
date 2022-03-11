@@ -271,7 +271,7 @@ ruleTester.run('prefer-web-component-library', rule, {
     {
       code: mockFile(
         'Modal',
-        'const SampleModal = () => (<Modal title="test" onClose={closeModal} primaryButton={primaryButton} secondaryButton={secondaryButton}>HELLO</Modal>)',
+        'const SampleModal = () => (<Modal title="test" onClose={closeModal} primaryButton={primaryButton} secondaryButton={secondaryButton} hideCloseButton>HELLO</Modal>)',
       ),
       errors: [
         {
@@ -280,7 +280,7 @@ ruleTester.run('prefer-web-component-library', rule, {
               desc: 'Migrate component',
               output: mockFile(
                 'Modal',
-                'const SampleModal = () => (<VaModal modalTitle="test" onCloseEvent={closeModal} primaryButton={primaryButton} secondaryButton={secondaryButton}>HELLO</VaModal>)',
+                'const SampleModal = () => (<VaModal modalTitle="test" onCloseEvent={closeModal} primaryButton={primaryButton} secondaryButton={secondaryButton} >HELLO</VaModal>)',
               ),
             },
           ],

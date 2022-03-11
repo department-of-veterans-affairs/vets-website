@@ -4,7 +4,7 @@ import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import { scrollAndFocus } from 'platform/utilities/ui';
 
-import { MAX_SELECTIONS } from '../constants';
+import { MAX_LENGTH } from '../constants';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
@@ -66,10 +66,10 @@ export const MaxSelectionsAlert = ({ closeModal }) => (
     onClose={closeModal}
     visible
   >
-    You are limited to {MAX_SELECTIONS} selected issues for each Notice of
-    Disagreement request. If you would like to select more than
-    {MAX_SELECTIONS}, please submit this request and create a new request for
-    the remaining issues.
+    You are limited to {MAX_LENGTH.SELECTIONS} selected issues for each Notice
+    of Disagreement request. If you would like to select more than{' '}
+    {MAX_LENGTH.SELECTIONS}, please submit this request and create a new request
+    for the remaining issues.
   </Modal>
 );
 
