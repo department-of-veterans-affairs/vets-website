@@ -1,8 +1,7 @@
 const fs = require('fs');
 const webpackPreprocessor = require('@cypress/webpack-preprocessor');
 const { table } = require('table');
-const { DefinePlugin } = require('webpack');
-const { ProvidePlugin } = require('webpack');
+const { DefinePlugin, ProvidePlugin } = require('webpack');
 
 const tableConfig = {
   columns: {
@@ -78,5 +77,6 @@ module.exports = async (on, config) => {
     table: message => console.log(table(message, tableConfig)) || null,
     /* eslint-enable no-console */
   });
+
   return config;
 };
