@@ -315,8 +315,8 @@ Cypress.Commands.add('enterData', field => {
       cy.wrap(field.element)
         .clear({ ...FORCE_OPTION, ...NO_DELAY_OPTION })
         .type(field.data, { ...FORCE_OPTION, ...NO_DELAY_OPTION })
-        .should('have.value', field.data)
         .then(element => {
+          if (element.val()) cy.get(element).should('have.value', field.data);
           // Get the autocomplete menu out of the way.
           if (element.attr('role') === 'combobox') element.blur();
         });
