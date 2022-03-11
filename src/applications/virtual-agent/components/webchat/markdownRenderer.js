@@ -31,7 +31,7 @@ document.addEventListener('click', e => {
     if (origin.innerText === 'Speak with an agent') {
       recordEvent({
         event: 'cta-button-click',
-        'button-type': 'primary',
+        'button-type': 'default',
         'button-click-label': origin.innerText,
         'button-background-color': 'blue',
         time: new Date(),
@@ -42,7 +42,7 @@ document.addEventListener('click', e => {
     if (origin.innerText === 'Speak with an agent') {
       recordEvent({
         event: 'cta-button-click',
-        'button-type': 'primary',
+        'button-type': 'default',
         'button-click-label': origin.innerText,
         'button-background-color': 'blue',
         time: new Date(),
