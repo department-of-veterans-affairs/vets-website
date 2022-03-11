@@ -43,6 +43,7 @@ export default function SearchFilter({ offices }) {
           type="search"
           onChange={handleFilterChange}
           className="input"
+          id="query"
           placeholder="Filter"
         />
       </div>
