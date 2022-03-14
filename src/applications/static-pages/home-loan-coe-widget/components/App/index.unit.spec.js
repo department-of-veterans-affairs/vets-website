@@ -13,7 +13,7 @@ describe('Home Loan COE Login Widget <App>', () => {
       'Please sign in to check the status of your COE',
     );
     expect(wrapper.text()).includes(
-      'Sign in with your existing ID.me, DS Logon, or My HealtheVet account. If you don’t have any of these accounts, you can create a free ID.me account now.',
+      'If you don’t have any of these accounts, you can create a free ID.me account now.',
     );
     expect(wrapper.find('button.va-button-primary')).to.have.lengthOf(1);
     expect(wrapper.find(`button.va-button-primary`).text()).to.equal(
