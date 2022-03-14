@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { makeSelectCurrentContext, makeSelectForm } from '../selectors';
 
-const useDemographicsFlags = (defaultValue = false) => {
+const useDemographicsFlags = () => {
   const [demographicsFlagsSent, setDemographicsFlagsSent] = useState(false);
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
@@ -14,17 +14,30 @@ const useDemographicsFlags = (defaultValue = false) => {
 
   // These will be undefined if pages are skipped in day-of. Default to 'yes'
   const {
-    demographicsUpToDate = defaultValue ? 'yes' : 'no',
-    emergencyContactUpToDate = defaultValue ? 'yes' : 'no',
-    nextOfKinUpToDate = defaultValue ? 'yes' : 'no',
+    demographicsUpToDate,
+    emergencyContactUpToDate,
+    nextOfKinUpToDate,
   } = data;
 
-  const demographicsData = {
+  let demographicsData = {
     uuid: token,
-    demographicsUpToDate: demographicsUpToDate === 'yes',
-    emergencyContactUpToDate: emergencyContactUpToDate === 'yes',
-    nextOfKinUpToDate: nextOfKinUpToDate === 'yes',
   };
+
+  if (demographicsUpToDate !== undefined)
+    demographicsData = {
+      ...demographicsData,
+      demographicsUpToDate: demographicsUpToDate === 'yes',
+    };
+  if (emergencyContactUpToDate !== undefined)
+    demographicsData = {
+      ...demographicsData,
+      emergencyContactUpToDate: emergencyContactUpToDate === 'yes',
+    };
+  if (nextOfKinUpToDate !== undefined)
+    demographicsData = {
+      ...demographicsData,
+      nextOfKinUpToDate: nextOfKinUpToDate === 'yes',
+    };
 
   return { demographicsData, demographicsFlagsSent, setDemographicsFlagsSent };
 };
