@@ -5,7 +5,7 @@ const App = () => (
   <div
     style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
   >
-    <h1>Formulate Examples</h1>
+    <h1>VA Forms System Core Examples</h1>
     <ul>
       <li>
         <a href="simple-form">Simple form</a>

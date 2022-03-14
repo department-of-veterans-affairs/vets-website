@@ -52,7 +52,7 @@ const config = {
   resolve: {
     extensions: ['.js', '.jsx', '.tsx', '.ts'],
     alias: {
-      '@department-of-veterans-affairs/formulate': path.resolve(
+      '@department-of-veterans-affairs/va-forms-system-core': path.resolve(
         __dirname,
         '../src'
       ),

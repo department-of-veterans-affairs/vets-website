@@ -1,9 +1,9 @@
 {
-  "name": "@department-of-veterans-affairs/formulate",
+  "name": "@department-of-veterans-affairs/va-forms-system-core",
   "version": "0.0.1",
-  "description": "Department of Veterans Affairs forms library.",
+  "description": "Department of Veterans Affairs Forms System Core.",
   "main": "dist/index.js",
-  "module": "dist/formulate.cjs.production.min.js",
+  "module": "dist/va-forms-system-core.cjs.production.min.js",
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsdx build",

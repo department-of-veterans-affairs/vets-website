@@ -1,10 +1,10 @@
-# Formulate
+# VA Forms System Core
 
 Welcome to the VA.gov forms library!
 
 ## About the name
 
-Before we get going, let's take care of some housekeeping: The name "Formulate"
+Before we get going, let's take care of some housekeeping: The name "VA Forms System Core"
 is used to distinguish this library from its predecessor, but in public-facing
 documentation talking about the forms library, use the plain language "forms
 library" instead.
@@ -29,7 +29,7 @@ To create new example:
 
 ## Documentation
 
-We have documentation in `/docs` that is [hosted using GitHub Pages](https://department-of-veterans-affairs.github.io/formulate/).
+We have documentation in `/docs` that is [hosted using GitHub Pages](https://department-of-veterans-affairs.github.io/va-forms-system-core/).
 
 To run the Jekyll site locally, run the following commands:
 
@@ -46,7 +46,7 @@ do some `npm link`ing of the dependencies. Otherwise, the parent project _using_
 the library will see multiple versions of these dependencies and stuff will just
 sorta break.
 
-Replace `../<project>` with the path to the project using Formulate:
+Replace `../<project>` with the path to the project using VA Forms System Core:
 
 ```sh
 npm link ../<project>/node_modules/formik ../<project>/node_modules/react

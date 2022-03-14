@@ -24,4 +24,4 @@ coverage/
 .pnp.*
 
 temp/
-doc-extraction/formulate.api.json
+doc-extraction/va-forms-system-core.api.json

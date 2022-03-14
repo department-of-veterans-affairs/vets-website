@@ -1,4 +1,4 @@
-name: Formulate Testing
+name: VA Forms System Core Testing
 
 on:
   push:

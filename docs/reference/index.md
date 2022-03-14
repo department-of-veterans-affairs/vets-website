@@ -8,5 +8,5 @@
 
 |  Package | Description |
 |  --- | --- |
-|  [@department-of-veterans-affairs/formulate](./formulate.md) |  |
+|  [@department-of-veterans-affairs/va-forms-system-core](./va-forms-system-core.md) |  |
 

@@ -12,6 +12,11 @@ import { FieldHookConfig } from 'formik';
 // @public (undocumented)
 export const CheckboxField: (props: CheckboxProps) => JSX.Element;
 
+// Warning: (ae-forgotten-export) The symbol "DateProps" needs to be exported by the entry point index.d.ts
+//
+// @public
+export const DateField: (props: DateProps) => JSX.Element;
+
 // @public
 export const DebuggerView: () => JSX.Element;
 

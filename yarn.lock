@@ -1418,9 +1418,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@department-of-veterans-affairs/formulate@workspace:.":
+"@department-of-veterans-affairs/va-forms-system-core@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@department-of-veterans-affairs/formulate@workspace:."
+  resolution: "@department-of-veterans-affairs/va-forms-system-core@workspace:."
   dependencies:
     "@babel/core": ^7.14.5
     "@babel/preset-env": ^7.14.5

@@ -7,7 +7,7 @@ import {
   DebuggerView,
   Page,
   Router,
-} from '@department-of-veterans-affairs/formulate';
+} from '@department-of-veterans-affairs/va-forms-system-core';
 
 import { Link, Route } from 'react-router-dom';
 
