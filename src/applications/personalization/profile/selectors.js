@@ -1,12 +1,13 @@
+import set from 'lodash/set';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
-import localStorage from '~/platform/utilities/storage/localStorage';
 import {
   cnpDirectDepositBankInfo,
   isEligibleForCNPDirectDeposit,
   isSignedUpForCNPDirectDeposit,
   isSignedUpForEDUDirectDeposit,
 } from './util';
+import { createNotListedTextKey } from './util/personal-information/personalInformationUtils';
 
 export const cnpDirectDepositInformation = state =>
   state.vaProfile?.cnpPaymentInformation;
@@ -80,18 +81,32 @@ export const militaryInformationLoadError = state => {
   return state.vaProfile?.militaryInformation?.serviceHistory?.error;
 };
 
-export const showNotificationSettings = state => {
-  const LSProfileNotificationSetting = localStorage.getItem(
-    'PROFILE_NOTIFICATION_SETTINGS', // true or false
-  );
-  const FFProfileNotificationSettings = toggleValues(state)[
-    FEATURE_FLAG_NAMES.profileNotificationSettings
-  ];
-  // local setting takes precedent over FF
-  if (LSProfileNotificationSetting === 'false') {
-    return false;
-  } else if (LSProfileNotificationSetting === 'true') {
-    return true;
-  }
-  return !!FFProfileNotificationSettings;
-};
+export const showProfileLGBTQEnhancements = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileEnhancements] || false;
+
+export const profileShowAddressChangeModal = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowAddressChangeModal] ||
+  false;
+
+export const profileShowFaxNumber = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowFaxNumber];
+
+export const profileShowGender = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowGender];
+
+export function selectVAProfilePersonalInformation(state, fieldName) {
+  const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];
+
+  const notListedTextKey = createNotListedTextKey(fieldName);
+
+  const notListedTextValue =
+    state?.vaProfile?.personalInformation?.[notListedTextKey];
+
+  if (!fieldValue && !notListedTextValue) return null;
+
+  const result = set({}, fieldName, fieldValue);
+
+  return notListedTextValue
+    ? set(result, notListedTextKey, notListedTextValue)
+    : result;
+}

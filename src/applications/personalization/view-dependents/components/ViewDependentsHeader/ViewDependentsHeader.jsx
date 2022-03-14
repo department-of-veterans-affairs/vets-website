@@ -1,9 +1,11 @@
 import React from 'react';
-import recordEvent from 'platform/monitoring/record-event';
 
-import { rootUrl as form686RootUrl } from 'applications/disability-benefits/686c-674/manifest.json';
+import recordEvent from 'platform/monitoring/record-event';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 import { errorFragment } from '../../layouts/helpers';
+
+const form686Url = getAppUrl('686C-674');
 
 const CALLSTATUS = {
   pending: 'pending',
@@ -28,7 +30,7 @@ function ViewDependentsHeader(props) {
             <p className="vads-u-font-size--base">
               We’ll make a note that our records are correct and an updated VA
               Form 21-0538 will go into your e-folder. If we need you to give us
-              more information or documents, we’ll contact you be mail.
+              more information or documents, we’ll contact you by mail.
             </p>
           </>
         ),
@@ -82,7 +84,7 @@ function ViewDependentsHeader(props) {
         </p>
         {props.dependentsToggle && (
           <a
-            href={form686RootUrl}
+            href={form686Url}
             className="usa-button-primary va-button-primary"
             onClick={handleClick}
           >

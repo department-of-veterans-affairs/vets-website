@@ -17,6 +17,7 @@ const setup = () => {
     'v0/ppiu/payment_information',
   ]);
   cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+  cy.injectAxe();
 
   // should show a loading indicator
   cy.findByRole('progressbar').should('exist');
@@ -38,9 +39,6 @@ describe('Content on the personal information section in the profile', () => {
 
     // Check date of birth
     cy.findByText(/May 6, 1986/i).should('exist');
-
-    // Check gender
-    cy.findByText(/Male/i).should('exist');
 
     // Check mailing address
     cy.get('div[data-field-name="mailingAddress"]')
@@ -72,5 +70,7 @@ describe('Content on the personal information section in the profile', () => {
       .contains(/gmail/)
       .contains(/com/)
       .should('exist');
+
+    cy.axeCheck();
   });
 });

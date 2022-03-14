@@ -144,8 +144,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
     case GEOCODE_FAILED:
       return {
         ...state,
-        error: true,
-        geocodeError: action.code,
+        geocodeError: action.code || -1,
         geocodeInProgress: false,
         geolocationInProgress: false,
       };
@@ -153,14 +152,12 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         geocodeResults: action.payload,
-        error: false,
         geocodeInProgress: false,
         geolocationInProgress: false,
       };
     case GEOCODE_CLEAR_ERROR:
       return {
         ...state,
-        error: false,
         geocodeError: 0,
         geocodeInProgress: false,
         geolocationInProgress: false,

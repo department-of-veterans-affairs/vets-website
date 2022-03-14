@@ -5,7 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import URLSearchParams from 'url-search-params';
 import { focusElement } from 'platform/utilities/ui';
-import searchSettings from 'applications/search/manifest.json';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 // Relative imports.
 import SearchBar from './SearchBar';
 import SearchResultList from './SearchResultList';
@@ -75,7 +75,7 @@ const ResourcesAndSupportSearchApp = () => {
     paginationSummary = (
       <>
         Showing {startIndex + 1} - {endIndex} of {results.length} results for "
-        <strong>{query}</strong>"
+        <strong className="vads-u-font-family--sans">{query}</strong>"
       </>
     );
   } else if (!query) {
@@ -86,9 +86,7 @@ const ResourcesAndSupportSearchApp = () => {
         We didn’t find any resources and support articles for "
         <strong>{query}</strong>
         ." Try using different words or{' '}
-        <a
-          href={`${searchSettings.rootUrl}/?query=${encodeURIComponent(query)}`}
-        >
+        <a href={`${getAppUrl('search')}/?query=${encodeURIComponent(query)}`}>
           search all of VA.gov
         </a>
         .
@@ -110,19 +108,19 @@ const ResourcesAndSupportSearchApp = () => {
         {articles && (
           <>
             <h1 className="vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
-              Search results
+              Resources and Support Search Results
             </h1>
             <SearchBar
               onSearch={onSearch}
               userInput={userInput}
               onInputChange={setUserInput}
             />
-            <p
-              className="vads-u-padding-x--1 large-screen:vads-u-padding-x--0"
+            <h2
+              className="vads-u-padding-x--1 vads-u-font-family--sans large-screen:vads-u-padding-x--0 vads-u-font-size--base vads-u-margin-top--0 vads-u-margin-bottom--2p5 vads-u-font-weight--normal"
               id="pagination-summary"
             >
               {paginationSummary}
-            </p>
+            </h2>
             <SearchResultList
               query={query}
               results={currentPageOfResults}

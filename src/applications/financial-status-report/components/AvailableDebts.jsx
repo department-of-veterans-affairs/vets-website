@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
-import { ErrorAlert } from '../components/Alerts';
+import PropTypes from 'prop-types';
+import { ErrorAlert } from './Alerts';
 import { fetchDebts } from '../actions';
 import DebtCard from './DebtCard';
 
@@ -35,7 +34,11 @@ const AvailableDebts = ({ pendingDebts, debts, getDebts, isError }) => {
   if (pendingDebts) {
     return (
       <div className="vads-u-margin--5">
-        <LoadingIndicator setFocus message="Loading your information..." />
+        <va-loading-indicator
+          label="Loading"
+          message="Loading your information..."
+          set-focus
+        />
       </div>
     );
   }
@@ -74,6 +77,13 @@ const AvailableDebts = ({ pendingDebts, debts, getDebts, isError }) => {
   ) : (
     <NoDebts />
   );
+};
+
+AvailableDebts.propTypes = {
+  debts: PropTypes.array,
+  getDebts: PropTypes.func,
+  isError: PropTypes.bool,
+  pendingDebts: PropTypes.bool,
 };
 
 const mapStateToProps = ({ fsr }) => ({

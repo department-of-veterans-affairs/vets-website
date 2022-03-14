@@ -4,8 +4,11 @@ import { connect } from 'react-redux';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import { focusElement } from 'platform/utilities/ui';
+import ServiceProvidersText, {
+  ServiceProvidersTextCreateAcct,
+} from 'platform/user/authentication/components/ServiceProvidersText';
 
-import { rootUrl } from '../manifest.json';
+import manifest from '../manifest.json';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -88,9 +91,8 @@ export class ConfirmationPage extends React.Component {
             <li className="process-step list-one">
               <h3 className="vads-u-font-size--h4">Sign in to VA.gov</h3>
               <p>
-                You can sign in with your DS Logon, My HealtheVet, or ID.me
-                account. If you completed this form without signing in, and you
-                don’t have an account, you can create one now.
+                You can sign in with your existing <ServiceProvidersText />
+                account. <ServiceProvidersTextCreateAcct isFormBased />
               </p>
             </li>
             <li className="process-step list-two">
@@ -137,9 +139,9 @@ export class ConfirmationPage extends React.Component {
           </h2>
           <p className="vads-u-margin-bottom--6">
             If something changes in your family status let VA know. Return to
-            the <a href={rootUrl}>21-686c</a> form, select the option that
-            describes your family status change and complete the form. This will
-            update our records and your benefits pay will be adjusted
+            the <a href={manifest.rootUrl}>21-686c</a> form, select the option
+            that describes your family status change and complete the form. This
+            will update our records and your benefits pay will be adjusted
             accordingly.
           </p>
           <h2 className="vads-u-font-size--h3 vads-u-font-family--serif">

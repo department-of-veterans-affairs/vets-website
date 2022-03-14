@@ -1,0 +1,78 @@
+// /education/apply/ uses this wizard button for navigation
+// Where else can I put this? Also, it could use a better name.
+.wizard-button {
+  &::after {
+    background-image: url("/img/arrow-down-white.svg");
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    background-size: 0.6em auto;
+    content: ""; // Add content for accessibility purposes?
+    display: inline-block;
+    height: 1em;
+    margin-left: 0.5em;
+    margin-right: -0.3em;
+    text-indent: -9999em;
+    width: 1em;
+  }
+  &[aria-expanded="true"]::after {
+    background-image: url("/img/arrow-up-white.svg");
+  }
+}
+
+// Handles the height transition
+.wizard-content {
+  // Handles the opacity transition
+  .wizard-content-inner {
+    transition: opacity 700ms ease-in-out;
+  }
+
+  // Apply this to the inner content and make a new div
+  //  with the border to expand that without the opacity
+  &.wizard-content-closed {
+    max-height: 0 !important; // To override the id selector height
+    margin: 0;
+    visibility: hidden;
+
+    .wizard-content-inner {
+      opacity: 0;
+
+      .usa-button-primary {
+        opacity: 0;
+      }
+    }
+  }
+}
+
+.wizard-fieldset {
+  input[type="checkbox"],
+  input[type="radio"] {
+    margin-left: -4rem;
+  }
+}
+.circle-bullet {
+  list-style-type: circle;
+}
+li.li-styling{
+  margin-bottom: 0.2em;
+}
+.wizard-edith-nourse-content {
+  @media (min-width: $medium-screen) {
+    margin-right: 64px;
+  }
+}
+.checkBenefitsLink {
+  white-space: nowrap;
+}
+
+.radioText {
+  display: inline-flex;
+
+  @media (min-width: $small-screen) {
+    width: 90%;
+  }
+  width: 75%;
+}
+
+label {
+  display: block !important;
+}

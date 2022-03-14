@@ -10,12 +10,7 @@ import PropTypes from 'prop-types';
  * @returns {JSX.Element}
  */
 const Alert = ({ title, description, displayType }) => {
-  let cssClass;
-  if (displayType === 'warning') {
-    cssClass = 'usa-alert-warning';
-  } else if (displayType === 'info') {
-    cssClass = 'usa-alert-info';
-  }
+  const cssClass = `usa-alert-${displayType}`;
 
   return (
     <div
@@ -39,7 +34,7 @@ const Alert = ({ title, description, displayType }) => {
 
 Alert.propTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.element,
+  description: PropTypes.string,
   displayType: PropTypes.string.isRequired,
 };
 

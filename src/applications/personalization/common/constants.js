@@ -4,3 +4,8 @@ export const LOADING_STATES = Object.freeze({
   error: 'error',
   loaded: 'loaded',
 });
+
+export const benefitTypes = {
+  CNP: 'CNP',
+  EDU: 'EDU',
+};

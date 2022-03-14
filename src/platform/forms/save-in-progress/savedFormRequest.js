@@ -1,4 +1,4 @@
-import merge from 'lodash/merge';
+import { merge } from 'lodash';
 
 import environment from '../../utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from '../../utilities/api';

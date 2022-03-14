@@ -28,14 +28,20 @@ function SelectWidget({
   onBlur,
   placeholder,
 }) {
-  const { enumOptions, labels = {} } = options;
+  const {
+    enumOptions,
+    labels = {},
+    widgetProps = {},
+    selectedProps = {},
+  } = options;
+
   return (
     <select
       id={id}
       name={id}
       multiple={multiple}
-      className={`${options.widgetClassNames} ${
-        disabled ? 'vads-u-background-color--gray-lighter' : ''
+      className={`${options.widgetClassNames || ''}${
+        disabled ? ' vads-u-background-color--gray-lighter' : ''
       }`}
       value={value || ''}
       required={required}
@@ -51,6 +57,8 @@ function SelectWidget({
         const newValue = getValue(event, multiple);
         onChange(processValue(schema, newValue));
       }}
+      {...widgetProps}
+      {...(value && selectedProps[value]) || {}}
     >
       {!schema.default && <option value="">{placeholder}</option>}
       {enumOptions.map((option, i) => (

@@ -11,14 +11,19 @@ import TextInput from '@department-of-veterans-affairs/component-library/TextInp
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
-import recordEvent from 'platform/monitoring/record-event';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { checkForEncryptedPdf } from 'platform/forms-system/src/js/utilities/file';
+import {
+  readAndCheckFile,
+  checkTypeAndExtensionMatches,
+  checkIsEncryptedPdf,
+  FILE_TYPE_MISMATCH_ERROR,
+} from 'platform/forms-system/src/js/utilities/file';
+import scrollTo from 'platform/utilities/ui/scrollTo';
+import { getScrollOptions } from 'platform/utilities/ui';
 
 import UploadStatus from './UploadStatus';
-import MailOrFax from './MailOrFax';
+import mailMessage from './MailMessage';
 import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
-import { getScrollOptions } from 'platform/utilities/ui';
 import {
   validateIfDirty,
   isNotBlank,
@@ -39,18 +44,18 @@ const displayTypes = FILE_TYPES.join(', ');
 
 const scrollToFile = position => {
   const options = getScrollOptions({ offset: -25 });
-  Scroll.scroller.scrollTo(`documentScroll${position}`, options);
+  scrollTo(`documentScroll${position}`, options);
 };
 const scrollToError = () => {
   const errors = document.querySelectorAll('.usa-input-error');
   if (errors.length) {
     const errorPosition = getTopPosition(errors[0]);
     const options = getScrollOptions({ offset: -25 });
-    Scroll.animateScroll.scrollTo(errorPosition, options);
+    scrollTo(errorPosition, options);
     errors[0].querySelector('label').focus();
   }
 };
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 class AddFilesForm extends React.Component {
   state = {
@@ -68,26 +73,36 @@ class AddFilesForm extends React.Component {
       : 'Please select a file first';
   };
 
-  isFileEncrypted = async file =>
-    checkForEncryptedPdf(file)
-      .then(isEncrypted => isEncrypted)
-      // This _should_ only happen if a file is deleted after the user selects
-      // it for upload
-      .catch(() => false);
-
   add = async files => {
     const file = files[0];
-    const { requestLockedPdfPassword, onAddFile, pdfSizeFeature } = this.props;
+    const {
+      requestLockedPdfPassword,
+      onAddFile,
+      pdfSizeFeature,
+      mockReadAndCheckFile,
+    } = this.props;
     const extraData = {};
     const hasPdfSizeLimit = isPdf(file) && pdfSizeFeature;
 
     if (isValidFile(file, pdfSizeFeature)) {
       // Check if the file is an encrypted PDF
+      const checks = { checkTypeAndExtensionMatches, checkIsEncryptedPdf };
+      const checkResults = mockReadAndCheckFile
+        ? mockReadAndCheckFile()
+        : await readAndCheckFile(file, checks);
+
+      if (!checkResults.checkTypeAndExtensionMatches) {
+        this.setState({
+          errorMessage: FILE_TYPE_MISMATCH_ERROR,
+        });
+        return;
+      }
+
       if (
         requestLockedPdfPassword && // feature flag
         file.name?.toLowerCase().endsWith('pdf')
       ) {
-        extraData.isEncrypted = await this.isFileEncrypted(file);
+        extraData.isEncrypted = checkResults.checkIsEncryptedPdf;
       }
 
       this.setState({ errorMessage: null });
@@ -147,19 +162,9 @@ class AddFilesForm extends React.Component {
       <div>
         <div>
           <p>
-            <a
-              href="#"
-              onClick={evt => {
-                evt.preventDefault();
-                recordEvent({
-                  event: 'claims-mailfax-modal',
-                });
-                this.props.onShowMailOrFax(true);
-              }}
-            >
-              Need to mail or fax your files
-            </a>
-            ?
+            <va-additional-info trigger="Need to mail your files?">
+              {mailMessage}
+            </va-additional-info>
           </p>
         </div>
         <Element name="filesList" />
@@ -171,7 +176,7 @@ class AddFilesForm extends React.Component {
                 Select files to upload
               </span>
             }
-            accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+            accept={FILE_TYPES.map(type => `.${type}`).join(', ')}
             onChange={this.add}
             buttonText="Add Files"
             name="fileUpload"
@@ -229,7 +234,7 @@ class AddFilesForm extends React.Component {
                           : 'Please provide a password to decrypt this file'
                       }
                       name="password"
-                      label={'PDF password'}
+                      label="PDF password"
                       field={password}
                       onValueChange={update => {
                         this.props.onFieldChange(
@@ -276,9 +281,7 @@ class AddFilesForm extends React.Component {
               <div className="vads-u-padding-top--1">
                 To submit supporting documents for a new disability claim,
                 please visit our{' '}
-                <a href={`/disability/how-to-file-claim`}>
-                  How to File a Claim
-                </a>{' '}
+                <a href="/disability/how-to-file-claim">How to File a Claim</a>{' '}
                 page.
               </div>
             </div>
@@ -306,16 +309,6 @@ class AddFilesForm extends React.Component {
             />
           }
         />
-        <Modal
-          onClose={() => true}
-          visible={this.props.showMailOrFax}
-          hideCloseButton
-          focusSelector="button"
-          cssClass=""
-          contents={
-            <MailOrFax onClose={() => this.props.onShowMailOrFax(false)} />
-          }
-        />
       </div>
     );
   }
@@ -325,7 +318,6 @@ AddFilesForm.propTypes = {
   files: PropTypes.array.isRequired,
   field: PropTypes.object.isRequired,
   uploading: PropTypes.bool,
-  showMailOrFax: PropTypes.bool,
   backUrl: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
   onAddFile: PropTypes.func.isRequired,

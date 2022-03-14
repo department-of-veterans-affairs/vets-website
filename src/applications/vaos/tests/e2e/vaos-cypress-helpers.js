@@ -500,6 +500,11 @@ export function initAppointmentListMock() {
   const today = moment();
   cy.route({
     method: 'GET',
+    url: '/v1/facilities/va/vha_442',
+    response: { data: facilityData.data[0] },
+  });
+  cy.route({
+    method: 'GET',
     url: '/vaos/v0/request_eligibility_criteria*',
     response: {
       data: [
@@ -730,6 +735,17 @@ export function initCommunityCareMock({ withoutAddress = false } = {}) {
     url: '/vaos/v0/appointments?start_date=*&end_date=*&type=va',
     response: updateConfirmedVADates(confirmedVA),
   });
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/appointments?start_date=*&end_date=*&type=cc',
+    response: updateConfirmedCCDates(confirmedCC),
+  });
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/appointment_requests*',
+    response: updateRequestDates(requests),
+  });
+
   cy.route({
     method: 'GET',
     url: '/facilities_api/v1/ccp/provider*',

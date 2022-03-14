@@ -25,6 +25,7 @@ http://localhost:3001/?target=https://www.va.gov/health/
 
 ## Charles Proxy
 You can also use an application called Charles Proxy to map the `proxy-rewrite` bundles of TeamSite pages to your local machine. This way you can navigate directly to `https://www.va.gov/health/` and when the request for the production bundle of `proxy-rewrite` is sent, Charles will have overridden that file to instead be served locally. Instructions to set this up are located here, https://github.com/department-of-veterans-affairs/vets.gov-team/blob/master/Work%20Practices/Engineering/Teamsite.md.
+
 ## What To Do When The Test Fails
 - If needed, run `npm run vrt` locally
 - The test log will show a

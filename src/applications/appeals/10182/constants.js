@@ -22,7 +22,7 @@ export const CONTESTABLE_ISSUES_API =
 
 export const FORMAT_READABLE = 'LL';
 
-// contested issue dates
+// contestable issue dates
 export const FORMAT_YMD = 'YYYY-MM-DD';
 
 export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
@@ -30,18 +30,38 @@ export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
 export const MAX_FILE_SIZE_MB = 100;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
 
-export const MAX_SELECTIONS = 100;
-
-// Values from Lighthouse maintained schema
+// Values from Lighthouse maintained schema v1
 // see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v1/10182.json
-export const MAX_ISSUE_LENGTH = 180;
-export const MAX_DISAGREEMENT_REASON_LENGTH = 90;
+export const MAX_LENGTH = {
+  SELECTIONS: 100, // submitted issues (not in schema)
+  ISSUE_NAME: 180,
+  DISAGREEMENT_REASON: 90,
+  EMAIL: 255,
+  COUNTRY_CODE: 3,
+  AREA_CODE: 4,
+  PHONE_NUMBER: 14,
+  PHONE_NUMBER_EXT: 10,
+  ADDRESS_LINE1: 60,
+  ADDRESS_LINE2: 30,
+  ADDRESS_LINE3: 10,
+  CITY: 60,
+  COUNTRY: 2,
+  ZIP_CODE5: 5,
+  POSTAL_CODE: 16,
+  REP_NAME: 120,
+  // EXTENSION_REASON: 2300, // in v2 schema
+};
 
-// Using MAX_DISAGREEMENT_REASON_LENGTH (90) and with all checkboxes selected,
-// this string is submitted - the numbers constitute the "other" typed in value
+// Using MAX_LENGTH.DISAGREEMENT_REASON (90) and with all checkboxes selected,
+// this string is submitted - the numbers constitute the "something else" typed
+// in value
 // "service connection,effective date,disability evaluation,1234567890123456789012345678901234"
 export const SUBMITTED_DISAGREEMENTS = {
   serviceConnection: 'service connection',
   effectiveDate: 'effective date',
   evaluation: 'disability evaluation',
 };
+
+export const LAST_NOD_ITEM = 'lastNodItem'; // focus management across pages
+
+export const contestableIssuesPath = 'contestable-issues';

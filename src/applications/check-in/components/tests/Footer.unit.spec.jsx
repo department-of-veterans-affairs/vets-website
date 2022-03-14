@@ -1,71 +1,38 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import Footer from '../Footer';
 
 describe('check-in', () => {
   describe('Footer', () => {
-    it('Renders the footer with default props', () => {
-      const fakeStore = {
-        getState: () => ({
-          checkInData: {
-            appointments: [{ clinicPhoneNumber: '555-867-5309' }],
-          },
-        }),
-        subscribe: () => {},
-        dispatch: () => ({}),
-      };
-      const screen = render(<Footer store={fakeStore} />);
-
-      expect(screen.getByTestId('heading')).to.have.text('Need help?');
-      expect(screen.getByTestId('message')).to.have.text('Ask a staff member.');
+    let store;
+    const initState = {
+      checkInData: {
+        app: 'PreCheckIn',
+      },
+    };
+    const middleware = [];
+    const mockStore = configureStore(middleware);
+    beforeEach(() => {
+      store = mockStore(initState);
     });
-    it('Renders the footer with custom header props', () => {
-      const fakeStore = {
-        getState: () => ({
-          checkInData: {
-            appointments: [{ clinicPhoneNumber: '555-867-5309' }],
-          },
-        }),
-        subscribe: () => {},
-        dispatch: () => ({}),
-      };
-      const screen = render(
-        <Footer store={fakeStore} header="this is a cool thing" />,
-      );
-      expect(screen.getByTestId('heading')).to.have.text(
-        'this is a cool thing',
+    it('check in button passes axeCheck', () => {
+      axeCheck(
+        <Provider store={store}>
+          <Footer />
+        </Provider>,
       );
     });
-    it('Renders the footer with custom message props', () => {
-      const fakeStore = {
-        getState: () => ({
-          checkInData: {
-            appointments: [{ clinicPhoneNumber: '555-867-5309' }],
-          },
-        }),
-        subscribe: () => {},
-        dispatch: () => ({}),
-      };
-      const screen = render(
-        <Footer store={fakeStore} message="this is a cool thing" />,
+    it('renders additional information', () => {
+      const { getByText } = render(
+        <Provider store={store}>
+          <Footer message={<p>foo</p>} />
+        </Provider>,
       );
-      expect(screen.getByTestId('message')).to.have.text(
-        'this is a cool thing',
-      );
-    });
-    it('Renders the footer when no phone number is presented', () => {
-      const fakeStore = {
-        getState: () => ({
-          checkInData: { appointments: [{ clinicPhoneNumber: '' }] },
-        }),
-        subscribe: () => {},
-        dispatch: () => ({}),
-      };
-      const screen = render(<Footer store={fakeStore} />);
-
-      expect(screen.getByTestId('heading')).to.have.text('Need help?');
-      expect(screen.getByTestId('message')).to.have.text('Ask a staff member.');
+      expect(getByText('foo')).to.exist;
     });
   });
 });

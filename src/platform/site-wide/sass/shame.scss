@@ -139,12 +139,11 @@ $medium-phone-screen: 375px;
   }
 
   .va-nav-breadcrumbs-list {
-    padding-left: 0;
+    padding: 1em 0 0 0;
 
     li {
       list-style: none;
-      padding-bottom: 1em;
-      padding-top: 1em;
+      margin: 0 0 1.375em 0;
     }
   }
 
@@ -495,12 +494,6 @@ $medium-phone-screen: 375px;
   }
 }
 
-.usa-accordion-bordered {
-  .fa {
-    color: $color-link-default;
-  }
-}
-
 // There are styles in our sidebar styles that set a small
 // amount of padding on the grid for detail pages, which we
 // are overriding for WBC with no padding
@@ -513,23 +506,8 @@ $medium-phone-screen: 375px;
   display: flex;
 }
 
-// This is a fix for Edge and lazy image loading.
-img[data-src],
-img[data-srcset] {
-  display: block;
-  min-height: 1px;
-}
-
 .vet-toolbar .va-dropdown {
   margin-left: 0;
-}
-
-.profile-nav {
-  margin-top: 6px;
-}
-
-.process-accordion > li {
-  list-style: none !important;
 }
 
 .circular-profile-image {
@@ -576,26 +554,6 @@ img[data-srcset] {
   clear: both;
 }
 
-.va-u-outline--none:focus {
-  outline: none;
-}
-
-.image-detail {
-  width: 25%;
-  @media (max-width: $small-screen) {
-    width: 100%;
-  }
-  .alt-text-container {
-    min-height: 200px;
-  }
-}
-
-.image-desc {
-  width: 50%;
-  @media (max-width: $small-screen) {
-    width: 100%;
-  }
-}
 ._acs._acsbadge--default {
   background-color: $color-black !important;
 }
@@ -603,5 +561,43 @@ img[data-srcset] {
 .media-list-images {
   @media (min-width: $small-screen) {
     max-width: 50%;
+  }
+}
+
+.events {
+  form {
+    .form-left-error-bar {
+      background: $color-secondary;
+      height: 100%;
+      left: -24px;
+      top: 0;
+      position: absolute;
+      width: 5px;
+      @media (max-width: $medium-screen) {
+        left: -8px;
+        width: 3px;
+      }
+    }
+
+    .filter-by {
+      max-width: 100%;
+      @media (min-width: $medium-screen) {
+        max-width: 328px;
+      }
+    }
+
+    .events-date-select {
+      max-width: unset;
+      @media (min-width: $medium-screen) {
+        max-width: 160px;
+      }
+    }
+
+    button[type="submit"] {
+      max-width: 100%;
+      @media (min-width: $medium-screen) {
+        max-width: fit-content;
+      }
+    }
   }
 }

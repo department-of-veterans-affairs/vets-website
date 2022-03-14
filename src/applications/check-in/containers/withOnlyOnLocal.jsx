@@ -6,9 +6,10 @@ import environment from 'platform/utilities/environment';
 const withOnlyOnLocal = WrappedComponent => props => {
   if (!environment.isLocalhost()) {
     return <></>;
-  } else {
-    return <WrappedComponent {...props} />;
   }
+  // Allowing for HOC
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <WrappedComponent {...props} />;
 };
 
 const composedWrapper = compose(withOnlyOnLocal);

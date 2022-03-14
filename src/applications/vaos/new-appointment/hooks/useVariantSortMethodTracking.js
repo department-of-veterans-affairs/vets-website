@@ -2,7 +2,6 @@ import { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX } from '../../utils/constants';
-import { selectFeatureVariantTesting } from '../../redux/selectors';
 import {
   selectFacilityPageSortMethod,
   selectSingleValidVALocation,
@@ -18,7 +17,6 @@ import {
 export default function useVariantSortMethodTracking({ skip = false }) {
   const methodTrackedRef = useRef(false);
   const sortMethod = useSelector(selectFacilityPageSortMethod);
-  const showVariant = useSelector(selectFeatureVariantTesting);
   const singleValidVALocation = useSelector(selectSingleValidVALocation);
   const noValidVAFacilities = useSelector(selectNoValidVAFacilities);
 
@@ -27,7 +25,6 @@ export default function useVariantSortMethodTracking({ skip = false }) {
       if (
         sortMethod &&
         !methodTrackedRef.current &&
-        showVariant &&
         !skip &&
         !singleValidVALocation &&
         !noValidVAFacilities
@@ -41,6 +38,6 @@ export default function useVariantSortMethodTracking({ skip = false }) {
         methodTrackedRef.current = true;
       }
     },
-    [sortMethod, showVariant, singleValidVALocation, noValidVAFacilities, skip],
+    [sortMethod, singleValidVALocation, noValidVAFacilities, skip],
   );
 }

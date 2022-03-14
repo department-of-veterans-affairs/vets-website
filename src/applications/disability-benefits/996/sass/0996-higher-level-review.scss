@@ -1,7 +1,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
 @import "../../../../platform/forms/sass/m-schemaform";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
@@ -24,9 +23,10 @@
   white-space: nowrap;
 }
 
+fieldset.vads-u-margin-y--2,
 /* Wizard */
 .wizard-content-inner .fieldset-input:first-child {
-  margin-top: 0;
+  margin-top: 0 !important;
 }
 
 /* Fix margins around the form back & continue buttons */
@@ -71,11 +71,123 @@ article[data-location="contact-information"] {
  * This could go in the schemaform css, it's used in form 526 & HLR
  */
 dl.review {
+  /* v1 cards */
   .widget-wrapper {
     position: relative;
 
-    h4 {
+    dt.widget-checkbox-wrap {
+      margin: 0;
+      width: 0;
+      min-width: auto; /* IE11 */
+      min-width: unset;
+
+      [type="checkbox"] {
+        width: 1.8rem;
+        height: 1.8rem;
+        margin: 0;
+      }
+    }
+
+    .widget-title {
+      margin: 1.5rem 2rem 0 5rem;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: calc(100% - 7rem);
+    }
+
+    dd.widget-content {
+      margin-inline-start: 5rem; /* override user agent */
+      text-align: left;
+      margin: 3rem 3.5rem 0 5rem;
+    }
+
+    dd.widget-content.widget-edit {
       margin-top: 0;
+      margin-right: 0;
+      display: flex;
+
+      .widget-content-wrap {
+        margin-top: 3rem;
+        margin-right: 0.5rem;
+        width: 100%;
+      }
+
+      .edit {
+        margin-top: 2rem;
+        /* position the edit button above the overlapping label */
+        position: relative;
+        z-index: 1;
+        align-self: center;
+      }
+    }
+
+    /* v1 new issues cards tweak */
+    .additional-issue.review-row {
+      flex-direction: column;
+
+      dd {
+        padding-left: 0;
+      }
+    }
+  }
+
+  /* v2 cards */
+  .widget-wrapper-v2 {
+    display: flex;
+
+    dt.widget-checkbox-wrap {
+      margin: 0;
+      width: 5rem;
+      min-width: 5rem;
+
+      [type="checkbox"] {
+        width: 1.8rem;
+        height: 1.8rem;
+        margin: 0;
+      }
+    }
+
+    dt label {
+      margin-top: 0;
+    }
+
+    .widget-title {
+      margin: 0;
+      white-space: nowrap;
+      text-transform: capitalize;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: calc(100% - 7rem);
+    }
+
+    dd.widget-content {
+      width: 100%;
+      margin-inline-start: 0; /* override user agent */
+      text-align: left;
+      margin: 0;
+    }
+    dd.widget-content.widget-edit {
+      margin-top: 0;
+      margin-right: 0;
+      display: flex;
+
+      .widget-content-wrap {
+        margin-top: 3rem;
+        margin-right: 0.5rem;
+        width: 100%;
+      }
+
+      .edit {
+        margin-top: 2rem;
+        /* position the edit button above the overlapping label */
+        position: relative;
+        z-index: 1;
+        align-self: center;
+      }
+    }
+    .change-issue-link:visited {
+      color: inherit;
     }
   }
 
@@ -102,53 +214,6 @@ dl.review {
     }
   }
 
-  dt.widget-checkbox-wrap {
-    margin: 0;
-    width: 0;
-    min-width: auto; /* IE11 */
-    min-width: unset;
-
-    [type="checkbox"] {
-      width: 1.8rem;
-      height: 1.8rem;
-      margin: 0;
-    }
-  }
-
-  .widget-title {
-    margin: 1.5rem 2rem 0 5rem;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    width: calc(100% - 7rem);
-  }
-
-  dd.widget-content {
-    margin-inline-start: 0; /* override user agent */
-    text-align: left;
-    margin: 3rem 3.5rem 0 5rem;
-  }
-
-  dd.widget-content.widget-edit {
-    margin-top: 0;
-    margin-right: 0;
-    display: flex;
-
-    .widget-content-wrap {
-      margin-top: 3rem;
-      margin-right: 0.5rem;
-      width: 100%;
-    }
-
-    .edit {
-      margin-top: 2rem;
-      /* position the edit button above the overlapping label */
-      position: relative;
-      z-index: 1;
-      align-self: center;
-    }
-  }
-
   .checkbox-hidden {
     dt.widget-checkbox-wrap {
       width: 0;
@@ -167,20 +232,18 @@ dl.review {
   }
 }
 
-/* new issues cards tweak */
-dl.review .additional-issue.review-row {
-  flex-direction: column;
-
-  dd {
-    padding-left: 0;
-  }
-}
 .usa-input-error #root_additionalIssues_0_decisionDate-label {
   font-weight: bold;
 }
 
 .review-row > dd {
   word-break: break-word;
+}
+
+@media screen and (min-width: 481px) {
+  .va-profile-wrapper button {
+    width: auto;
+  }
 }
 
 /* IE11 hack to fix edit button placement, see
@@ -217,10 +280,70 @@ article[data-location="contested-issues"] {
   }
 }
 
-article[data-location="additional-issues"] {
-  dl.review .review-row.editing {
-    justify-content: start;
+/* Contestable issues - HLR v2 */
+article[data-location="contestable-issues"] {
+  /* fixes va.gov-team/issues/34714 */
+  fieldset > div {
+    clear: both;
   }
+  fieldset legend {
+    float: left; /* moves legend inside fieldset */
+  }
+}
+
+/* Add issue loop page */
+article[data-location="add-issue"] {
+  .usa-input-error {
+    margin-top: 0;
+  }
+  legend {
+    padding-bottom: 0;
+  }
+  /* override !important normal weight on legend */
+  .input-error-date legend {
+    font-weight: bold !important;
+  }
+  #add-hlr-issue {
+    margin-top: 0;
+  }
+  /* Hide extra "Required" label */
+  p.label-description + span {
+    display: none;
+  }
+}
+
+/* Area of disagreement */
+.area-of-disagreement-label {
+  margin-top: 0;
+
+  .usa-input-error-message {
+    display: none;
+  }
+}
+.area-of-disagreement-label[data-submitted="true"].usa-input-error {
+  .usa-input-error-message {
+    display: block;
+  }
+  .input-section {
+    margin-bottom: 0;
+  }
+}
+.area-of-disagreement-label:not(.usa-input-error) {
+  margin: 2rem 0;
+}
+label[for^="root_disagreementOptions"] {
+  margin-top: 3rem;
+}
+
+/* override formation to maintain margin between checkboxes */
+.usa-input-error label {
+  margin-top: 3rem;
+}
+#root_otherEntry-label {
+  margin-top: 2rem;
+}
+.usa-input-error > label {
+  margin-top: 0;
 }
 
 /* Step 3 */
@@ -245,6 +368,34 @@ article[data-contact-choice] .contact-choice {
   display: none;
 }
 
+article[data-location^="area-of-disagreement"],
+article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0ScrollElement"] + form {
+  .schemaform-block-header,
+  .schemaform-block-header + .usa-input-error {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .area-of-disagreement-label.usa-input-error ~ div {
+    /* add left red border to 2 associated divs */
+    border-left: 4px solid var(--color-secondary-dark);
+    position: relative;
+    right: 1.9rem;
+    padding-left: 1.9rem;
+
+    .vads-u-margin-y--2 {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+    #root_otherEntry-label {
+      margin-top: 0 !important;
+      padding-top: 2rem;
+    }
+    label[for="root_disagreementOptions_evaluation"] {
+      margin-bottom: 0;
+    }
+  }
+}
+
 article[data-contact-choice="rep"] .contact-choice.selected-rep,
 article[data-contact-choice="me"] .contact-choice.selected-me {
   display: inline-block;
@@ -267,6 +418,17 @@ article[data-location="informal-conference/availability"] {
 article[data-location="review-and-submit"] {
   .normal-weight-in-review {
     font-weight: normal;
+  }
+  dl.review .widget-wrapper-v2.checkbox-hidden {
+    margin-top: 1rem;
+
+    dt.widget-checkbox-wrap {
+      width: 0;
+      min-width: 0;
+    }
+  }
+  dd {
+    word-break: break-all;
   }
 }
 

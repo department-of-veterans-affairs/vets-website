@@ -11,7 +11,12 @@ import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationDistance from './common/LocationDistance';
 import Covid19Alert from './common/Covid19Alert';
 
-const VaFacilityResult = ({ location, query, index }) => {
+const VaFacilityResult = ({
+  location,
+  query,
+  index,
+  showHealthConnectNumber,
+}) => {
   const { name, website, operatingStatus } = location.attributes;
   const isCovid19Search =
     query.facilityType === LocationType.HEALTH &&
@@ -45,6 +50,7 @@ const VaFacilityResult = ({ location, query, index }) => {
           location={location}
           from={'SearchResult'}
           query={query}
+          showHealthConnectNumber={showHealthConnectNumber}
         />
       </>
       {operatingStatus &&
@@ -59,6 +65,7 @@ VaFacilityResult.propTypes = {
   location: PropTypes.object,
   query: PropTypes.object,
   index: PropTypes.number,
+  showHealthConnectNumber: PropTypes.string,
 };
 
 export default VaFacilityResult;

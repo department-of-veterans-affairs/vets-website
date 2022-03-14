@@ -13,8 +13,9 @@ describe('isReactComponent', () => {
         super();
         this.state = { test: true };
       }
+
       render() {
-        return <div />;
+        return <div>{this.state.test}</div>;
       }
     }
     expect(isReactComponent(MyComponent)).to.be.true;

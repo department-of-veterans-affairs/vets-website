@@ -104,7 +104,7 @@ export class IntroductionPage extends React.Component {
                     <p>
                       See what benefits you’ll get at the school you want to
                       attend.{' '}
-                      <a href="/gi-bill-comparison-tool/">
+                      <a href="/education/gi-bill-comparison-tool/">
                         Use the GI Bill Comparison Tool
                       </a>
                     </p>
@@ -166,7 +166,7 @@ export class IntroductionPage extends React.Component {
               <OMBInfo
                 resBurden={20}
                 ombNumber="2900-0074"
-                expDate="10/31/2021"
+                expDate="8/31/2024"
               />
             </div>
           </div>

@@ -1,0 +1,4 @@
+{
+  "trUsername": <your-TestRail-Username-string>,
+  "trPassword": <your-TestRail-API-Key-string>
+}

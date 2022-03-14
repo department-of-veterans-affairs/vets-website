@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const FormTitle = ({ id, formUrl, title, lang, recordGAEvent }) => (
+const FormTitle = ({ id, formUrl, title, lang, recordGAEvent, formName }) => (
   <div
-    className="vads-u-padding-top--5 vads-u-margin--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-font-weight--bold"
+    className="vads-u-margin--0 vads-u-font-weight--bold"
     data-e2e-id="result-title"
   >
     {formUrl ? (
       <>
-        <p id={id} className="vads-u-font-weight--normal vads-u-margin--0">
-          Form {id}
+        <p
+          id={id}
+          className="vads-u-font-weight--normal vads-u-margin-top--0 vads-u-margin-bottom--1p5"
+        >
+          Form {formName}
         </p>
         <h3
           aria-describedby={id}
@@ -28,7 +31,7 @@ const FormTitle = ({ id, formUrl, title, lang, recordGAEvent }) => (
     ) : (
       <>
         <p id={id} className="vads-u-font-weight--normal vads-u-margin--0">
-          Form {id}
+          Form {formName}
         </p>
         <h3
           aria-describedby={id}

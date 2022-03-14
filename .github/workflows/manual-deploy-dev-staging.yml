@@ -1,0 +1,194 @@
+name: Manual dev/staging Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Deploy a specific commit
+        required: true
+      deploy_environment:
+        type: choice
+        description: The environment to deploy to
+        required: true
+        options:
+          - dev
+          - staging
+          - both
+
+env:
+  DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
+  VETS_WEBSITE_CHANNEL_ID: C02V265VCGH # status-vets-website
+  BUILD_ENV_DEV: vagovdev
+  BUILD_ENV_STAGING: vagovstaging
+
+jobs:
+  build:
+    name: Build
+    runs-on: self-hosted
+
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.commit_sha }}
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Build dev
+        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
+        run: yarn build --verbose --buildtype=${{ env.BUILD_ENV_DEV }}
+        timeout-minutes: 30  
+        
+      - name: Generate build details for dev
+        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
+        run: |
+          cat > build/${{ env.BUILD_ENV_DEV }}/BUILD.txt << EOF
+          BUILDTYPE=${{ env.BUILD_ENV_DEV }}
+          NODE_ENV=production
+          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+          CHANGE_TARGET=null
+          RUN_ID=${{ github.run_id }}
+          RUN_NUMBER=${{ github.run_number }}
+          REF=${{ github.event.inputs.commit_sha }}
+          BUILDTIME=$(date +%s)
+          EOF
+
+      - name: Compress and archive build for dev 
+        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
+        run: tar -C build/${{ env.BUILD_ENV_DEV }} -cjf ${{ env.BUILD_ENV_DEV }}.tar.bz2 .
+
+      - name: Upload build artifact for dev
+        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.BUILD_ENV_DEV }}.tar.bz2
+          path: ${{ env.BUILD_ENV_DEV }}.tar.bz2
+          retention-days: 1   
+        
+      - name: Build staging
+        if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
+        run: yarn build --verbose --buildtype=${{ env.BUILD_ENV_STAGING }}
+        timeout-minutes: 30 
+
+      - name: Generate build details for staging 
+        if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
+        run: |
+          cat > build/${{ env.BUILD_ENV_STAGING }}/BUILD.txt << EOF
+          BUILDTYPE=${{ env.BUILD_ENV_STAGING }}
+          NODE_ENV=production
+          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+          CHANGE_TARGET=null
+          RUN_ID=${{ github.run_id }}
+          RUN_NUMBER=${{ github.run_number }}
+          REF=${{ github.event.inputs.commit_sha }}
+          BUILDTIME=$(date +%s)
+          EOF
+
+      - name: Compress and archive build for staging
+        if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
+        run: tar -C build/${{ env.BUILD_ENV_STAGING }} -cjf ${{ env.BUILD_ENV_STAGING }}.tar.bz2 .
+
+      - name: Upload build artifact for staging
+        if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.BUILD_ENV_STAGING }}.tar.bz2
+          path: ${{ env.BUILD_ENV_STAGING }}.tar.bz2
+          retention-days: 1
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials (1)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get AWS IAM role
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Configure AWS Credentials (2)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+      
+      - name: Download build artifact
+        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.BUILD_ENV_DEV }}.tar.bz2
+
+      - name: Download build artifact staging
+        if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.BUILD_ENV_STAGING }}.tar.bz2
+
+      - name: Upload build dev
+        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
+        run: aws s3 cp ${{ env.BUILD_ENV_DEV }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/${{ env.BUILD_ENV_DEV }}.tar.bz2 --acl public-read --region us-gov-west-1
+      
+      - name: Upload build staging
+        if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
+        run: aws s3 cp ${{ env.BUILD_ENV_STAGING }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/${{ env.BUILD_ENV_STAGING }}.tar.bz2 --acl public-read --region us-gov-west-1
+
+      - name: Deploy Dev
+        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+        env:
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/vagovdev.tar.bz2
+          DEST: s3://dev.va.gov
+          ASSET_DEST: s3://dev-va-gov-assets
+
+      - name: Deploy Staging
+        if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+        env:
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/vagovstaging.tar.bz2
+          DEST: s3://staging.va.gov
+          ASSET_DEST: s3://staging-va-gov-assets
+
+  notify-failure:
+    name: Notify Failure
+    runs-on: ubuntu-latest
+    if: ${{ failure() || cancelled() }}
+    needs: deploy
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Notify Slack
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "vets-website manual dev/staging deploy failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

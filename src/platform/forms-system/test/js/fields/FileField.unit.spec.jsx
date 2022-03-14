@@ -11,9 +11,10 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 
+import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
+import { fileTypeSignatures } from 'platform/forms-system/src/js/utilities/file';
 import { FileField } from '../../../src/js/fields/FileField';
 import fileUploadUI, { fileSchema } from '../../../src/js/definitions/file';
-import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 
 const formContext = {
   setTouched: sinon.spy(),
@@ -245,8 +246,10 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('ProgressBar').exists()).to.be.true;
-    expect(tree.find('button').text()).to.equal('Cancel');
+    expect(tree.find('va-progress-bar').exists()).to.be.true;
+    const button = tree.find('button');
+    expect(button.text()).to.equal('Cancel');
+    expect(button.prop('aria-describedby')).to.eq('field_file_name_0');
     tree.unmount();
   });
 
@@ -286,12 +289,12 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('ProgressBar').props().percent).to.equal(0);
+    expect(tree.find('va-progress-bar').props().percent).to.equal(0);
 
     tree.instance().updateProgress(20);
     tree.update();
 
-    expect(tree.find('ProgressBar').props().percent).to.equal(20);
+    expect(tree.find('va-progress-bar').props().percent).to.equal(20);
     tree.unmount();
   });
   it('should render error', () => {
@@ -443,6 +446,7 @@ describe('Schemaform <FileField>', () => {
       {
         confirmationCode: 'asdfds',
         name: 'Test file name',
+        size: 12345678,
       },
     ];
     const registry = {
@@ -465,6 +469,10 @@ describe('Schemaform <FileField>', () => {
 
     expect(tree.find('label').exists()).to.be.true;
     expect(tree.find('button.usa-button-secondary').exists()).to.be.true;
+
+    const text = tree.text();
+    expect(text).to.include('Test file name');
+    expect(text).to.include('12MB');
     tree.unmount();
   });
 
@@ -510,6 +518,17 @@ describe('Schemaform <FileField>', () => {
         fileField: fileSchema,
       },
     };
+    const mockFile = {
+      name: 'test.png',
+      type: fileTypeSignatures.png.mime,
+    };
+    const uiOptions = {
+      ...uiSchema['ui:options'],
+      mockReadAndCheckFile: () => ({
+        checkIsEncryptedPdf: false,
+        checkTypeAndExtensionMatches: true,
+      }),
+    };
     const uploadFile = sinon.spy();
     const form = render(
       <Provider store={uploadStore}>
@@ -520,17 +539,17 @@ describe('Schemaform <FileField>', () => {
           }}
           uploadFile={uploadFile}
           uiSchema={{
-            fileField: uiSchema,
+            fileField: { ...uiSchema, 'ui:options': uiOptions },
           }}
         />
       </Provider>,
     );
     const formDOM = getFormDOM(form);
 
-    formDOM.files('input[type=file]', [{ name: 'test.png' }]);
+    formDOM.files('input[type=file]', [mockFile]);
 
-    expect(uploadFile.firstCall.args[0]).to.eql({ name: 'test.png' });
-    expect(uploadFile.firstCall.args[1]).to.eql(uiSchema['ui:options']);
+    expect(uploadFile.firstCall.args[0]).to.eql(mockFile);
+    expect(uploadFile.firstCall.args[1]).to.eql(uiOptions);
     expect(uploadFile.firstCall.args[2]).to.be.a('function');
     expect(uploadFile.firstCall.args[3]).to.be.a('function');
     expect(uploadFile.firstCall.args[4]).to.be.a('function');
@@ -545,10 +564,16 @@ describe('Schemaform <FileField>', () => {
       },
     };
     const uploadFile = sinon.spy();
-    const isFileEncrypted = () => Promise.resolve(false);
+    const mockPDFFile = {
+      name: 'test.PDF',
+      type: fileTypeSignatures.pdf.mime,
+    };
     const uiOptions = {
       ...uiSchema['ui:options'],
-      isFileEncrypted,
+      mockReadAndCheckFile: () => ({
+        checkIsEncryptedPdf: false,
+        checkTypeAndExtensionMatches: true,
+      }),
     };
     const fileField = {
       ...uiSchema,
@@ -567,10 +592,10 @@ describe('Schemaform <FileField>', () => {
     );
     const formDOM = getFormDOM(form);
 
-    formDOM.files('input[type=file]', [{ name: 'test.pdf' }]);
+    formDOM.files('input[type=file]', [mockPDFFile]);
 
     setTimeout(() => {
-      expect(uploadFile.firstCall.args[0]).to.eql({ name: 'test.pdf' });
+      expect(uploadFile.firstCall.args[0]).to.eql(mockPDFFile);
       expect(uploadFile.firstCall.args[1]).to.eql(uiOptions);
       expect(uploadFile.firstCall.args[2]).to.be.a('function');
       expect(uploadFile.firstCall.args[3]).to.be.a('function');
@@ -645,6 +670,7 @@ describe('Schemaform <FileField>', () => {
       {
         confirmationCode: 'asdfds',
         name: 'Test file name.pdf',
+        size: 54321,
       },
     ];
     const registry = {
@@ -665,13 +691,16 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('li').text()).to.contain('Test file name.pdf');
+    const text = tree.find('li').text();
+    expect(text).to.contain('Test file name.pdf');
+    expect(text).to.contain('53KB');
     expect(tree.find('SchemaField').prop('schema')).to.equal(
       schema.items[0].properties.attachmentId,
     );
     tree.unmount();
   });
-  it('should render file with attachment name', () => {
+
+  it('should render file with attachmentName', () => {
     const idSchema = {
       $id: 'field',
     };
@@ -696,14 +725,21 @@ describe('Schemaform <FileField>', () => {
       ],
     };
     const uiSchema = fileUploadUI('Files', {
-      attachmentName: {
+      attachmentName: ({ fileId, index }) => ({
         'ui:title': 'Document name',
-      },
+        'ui:options': {
+          widgetProps: {
+            'aria-describedby': fileId,
+            'data-index': index,
+          },
+        },
+      }),
     });
     const formData = [
       {
         confirmationCode: 'asdfds',
         name: 'Test file name',
+        size: 987654,
       },
     ];
     const registry = {
@@ -724,10 +760,97 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('li').text()).to.contain('Test file name');
-    expect(tree.find('SchemaField').prop('schema')).to.equal(
-      schema.items[0].properties.name,
+    const text = tree.find('li').text();
+    expect(text).to.contain('Test file name');
+    expect(text).to.contain('965KB');
+    expect(tree.find('button').prop('aria-describedby')).to.eq(
+      'field_file_name_0',
     );
+
+    // check ids & index passed into SchemaField
+    const schemaProps = tree.find('SchemaField').props();
+    const { widgetProps } = schemaProps.uiSchema['ui:options'];
+    expect(schemaProps.schema).to.equal(schema.items[0].properties.name);
+    expect(schemaProps.registry.formContext.pagePerItemIndex).to.eq(0);
+    expect(widgetProps['aria-describedby']).to.eq('field_file_name_0');
+    expect(widgetProps['data-index']).to.eq(0);
+
+    tree.unmount();
+  });
+  it('should render file with attachmentSchema', () => {
+    const idSchema = {
+      $id: 'field',
+    };
+    const schema = {
+      type: 'array',
+      additionalItems: {
+        type: 'object',
+        properties: {
+          attachmentId: {
+            type: 'string',
+          },
+        },
+      },
+      items: [
+        {
+          type: 'object',
+          properties: {
+            attachmentId: {
+              type: 'string',
+            },
+          },
+        },
+      ],
+    };
+    const uiSchema = fileUploadUI('Files', {
+      attachmentName: false,
+      attachmentSchema: ({ fileId, index }) => ({
+        'ui:title': 'Document type',
+        'ui:options': {
+          widgetProps: {
+            'aria-describedby': fileId,
+            'data-index': index,
+          },
+        },
+      }),
+    });
+    const formData = [
+      {
+        attachmentId: '1234',
+      },
+    ];
+    const registry = {
+      fields: {
+        SchemaField: f => f,
+      },
+    };
+    const tree = shallow(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={formContext}
+        onChange={f => f}
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    expect(tree.find('button').prop('aria-describedby')).to.eq(
+      'field_file_name_0',
+    );
+
+    // check ids & index passed into SchemaField
+    const schemaProps = tree.find('SchemaField').props();
+    const { widgetProps } = schemaProps.uiSchema['ui:options'];
+    expect(schemaProps.schema).to.equal(
+      schema.items[0].properties.attachmentId,
+    );
+    expect(schemaProps.registry.formContext.pagePerItemIndex).to.eq(0);
+    expect(widgetProps['aria-describedby']).to.eq('field_file_name_0');
+    expect(widgetProps['data-index']).to.eq(0);
+
     tree.unmount();
   });
 
@@ -757,6 +880,9 @@ describe('Schemaform <FileField>', () => {
       ],
     };
     const uiSchema = fileUploadUI('Files', {
+      attachmentSchema: {
+        'ui:title': 'Document ID',
+      },
       attachmentName: {
         'ui:title': 'Document name',
       },

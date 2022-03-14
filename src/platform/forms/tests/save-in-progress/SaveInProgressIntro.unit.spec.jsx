@@ -3,6 +3,9 @@ import moment from 'moment';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
+import { fromUnixTime } from 'date-fns';
+import { format } from 'date-fns-tz';
+
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { SaveInProgressIntro } from '../../save-in-progress/SaveInProgressIntro';
 
@@ -29,13 +32,14 @@ describe('Schemaform <SaveInProgressIntro>', () => {
   };
 
   it('should render in progress message', () => {
+    const lastUpdated = 946684800;
     const user = {
       profile: {
         savedForms: [
           {
             form: VA_FORM_IDS.FORM_10_10EZ,
             metadata: {
-              lastUpdated: 946684800,
+              lastUpdated,
               expiresAt: moment().unix() + 2000,
             },
           },
@@ -68,7 +72,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         .find('.usa-alert-heading')
         .last()
         .text(),
-    ).to.include(moment.unix(946684800).format('MMMM D, YYYY [at] h:mm a'));
+    ).to.include(format(fromUnixTime(lastUpdated), "MMMM d, yyyy', at'"));
 
     expect(tree.find('.usa-alert').text()).to.contain(
       'Your application is in progress',
@@ -149,11 +153,15 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
         formConfig={formConfig}
+        ariaLabel="test aria-label"
+        ariaDescribedby="test-id"
       />,
     );
 
-    expect(tree.find('withRouter(FormStartControls)').props().prefillAvailable)
-      .to.be.true;
+    const formControlProps = tree.find('withRouter(FormStartControls)').props();
+    expect(formControlProps.prefillAvailable).to.be.true;
+    expect(formControlProps.ariaLabel).to.eq('test aria-label');
+    expect(formControlProps.ariaDescribedby).to.eq('test-id');
     tree.unmount();
   });
   it('should render sign in message', () => {
@@ -185,12 +193,15 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
         formConfig={formConfig}
+        ariaLabel="test aria-label"
+        ariaDescribedby="test-id"
       />,
     );
 
-    expect(tree.find('.va-button-link').text()).to.contain(
-      'Sign in to your account.',
-    );
+    const link = tree.find('.va-button-link');
+    expect(link.text()).to.contain('Sign in to your account.');
+    expect(link.prop('aria-label')).to.eq('test aria-label');
+    expect(link.prop('aria-describedby')).to.eq('test-id');
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
     tree.unmount();
   });

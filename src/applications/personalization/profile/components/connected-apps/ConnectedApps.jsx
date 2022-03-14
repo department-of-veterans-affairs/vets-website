@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import { isEmpty } from 'lodash';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import {
   deleteConnectedApp,
@@ -18,24 +19,52 @@ import { AppDeletedAlert } from './AppDeletedAlert';
 import { ConnectedApp } from './ConnectedApp';
 
 export class ConnectedApps extends Component {
+  constructor(...args) {
+    super(...args);
+    this.connectedAppsEvent = this.connectedAppsEvent.bind(this);
+    this.faqEvent = this.faqEvent.bind(this);
+  }
+
   componentDidMount() {
+    const { loadConnectedApps: dispatchLoadConnectedApps } = this.props;
     focusElement('[data-focus-target]');
     document.title = `Connected Apps | Veterans Affairs`;
-    this.props.loadConnectedApps();
+    dispatchLoadConnectedApps();
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.loading && !this.props.loading) {
+    const { loading } = this.props;
+    if (prevProps.loading && !loading) {
       focusElement('[data-focus-target]');
     }
   }
 
   confirmDelete = appId => {
-    this.props.deleteConnectedApp(appId);
+    const { deleteConnectedApp: dispatchDeleteConnectedApp } = this.props;
+    dispatchDeleteConnectedApp(appId);
+  };
+
+  connectedAppsEvent = () => {
+    recordEvent({
+      event: 'go-to-app-directory',
+      'profile-action': 'view-link',
+      'profile-section': 'connected-apps',
+    });
   };
 
   dismissAlert = appId => {
-    this.props.dismissDeletedAppAlert(appId);
+    const {
+      dismissDeletedAppAlert: dispatchDismissDeletedAppAlert,
+    } = this.props;
+    dispatchDismissDeletedAppAlert(appId);
+  };
+
+  faqEvent = () => {
+    recordEvent({
+      event: 'profile-navigation',
+      'profile-action': 'view-link',
+      'profile-section': 'vets-faqs',
+    });
   };
 
   render() {
@@ -100,28 +129,20 @@ export class ConnectedApps extends Component {
 
         {deletedApps.map(app => (
           <AppDeletedAlert
-            id={app.id}
             title={app?.attributes?.title}
             privacyUrl={app?.attributes?.privacyUrl}
             key={app.id}
-            dismissAlert={this.dismissAlert}
           />
         ))}
 
         {showHasNoConnectedApps && (
-          <Link
+          <a
             className="vads-u-margin-bottom--3"
             href="/resources/find-apps-you-can-use"
-            onClick={() =>
-              recordEvent({
-                event: 'go-to-app-directory',
-                'profile-action': 'view-link',
-                'profile-section': 'connected-apps',
-              })
-            }
+            onClick={this.connectedAppsEvent}
           >
             Go to app directory
-          </Link>
+          </a>
         )}
 
         {loading && (
@@ -130,14 +151,27 @@ export class ConnectedApps extends Component {
         {!isEmpty(disconnectErrorApps) &&
           disconnectErrorApps.map(app => (
             <AlertBox
-              key={`${app.attributes?.title}`}
+              status={ALERT_TYPE.ERROR}
+              backgroundOnly
               className="vads-u-margin-bottom--2"
-              headline={`We couldn’t disconnect ${app.attributes?.title}`}
-              status="error"
-              content={`We’re sorry. Something went wrong on our end and we couldn’t disconnect ${
-                app.attributes?.title
-              }. Please try again later.`}
-            />
+              key={`${app.attributes?.title}`}
+            >
+              <div className="vads-u-display--flex">
+                <i
+                  aria-hidden="true"
+                  className="fa fa-exclamation-circle vads-u-padding-top--0p5 vads-u-margin-right--1"
+                />
+                <p
+                  className="vads-u-margin-y--0"
+                  role="alert"
+                  aria-live="polite"
+                >
+                  We’re sorry. We can’t disconnect {app.attributes?.title} from
+                  your VA.gov profile right now. We’re working to fix this
+                  problem. Please check back later.
+                </p>
+              </div>
+            </AlertBox>
           ))}
 
         {activeApps.map(app => (
@@ -150,20 +184,12 @@ export class ConnectedApps extends Component {
 
         {!isEmpty(activeApps) && (
           <div className="vads-u-margin-y--3 available-connected-apps">
-            <AdditionalInfo
-              triggerText={`What other third-party apps can I connect to my profile?`}
-            >
+            <AdditionalInfo triggerText="What other third-party apps can I connect to my profile?">
               To find out what other third-party apps are available to connect
               to your profile,{' '}
               <a
                 href="/resources/find-apps-you-can-use"
-                onClick={() =>
-                  recordEvent({
-                    event: 'go-to-app-directory',
-                    'profile-action': 'view-link',
-                    'profile-section': 'connected-apps',
-                  })
-                }
+                onClick={this.connectedAppsEvent}
               >
                 go to the app directory
               </a>
@@ -178,13 +204,7 @@ export class ConnectedApps extends Component {
           <p>
             <a
               className="vads-u-color--primary-alt-darkest"
-              onClick={() =>
-                recordEvent({
-                  event: 'profile-navigation',
-                  'profile-action': 'view-link',
-                  'profile-section': 'vets-faqs',
-                })
-              }
+              onClick={this.faqEvent}
               href="/resources/connected-apps-faqs/"
             >
               Go to FAQs about connecting third-party apps to your VA.gov
@@ -227,11 +247,11 @@ ConnectedApps.propTypes = {
       }),
     }),
   ).isRequired,
-  loadConnectedApps: PropTypes.func.isRequired,
   deleteConnectedApp: PropTypes.func.isRequired,
   dismissDeletedAppAlert: PropTypes.func.isRequired,
-  loading: PropTypes.bool,
+  loadConnectedApps: PropTypes.func.isRequired,
   errors: PropTypes.array,
+  loading: PropTypes.bool,
 };
 
 export default connect(

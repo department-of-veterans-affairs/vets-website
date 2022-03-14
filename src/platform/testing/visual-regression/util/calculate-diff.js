@@ -23,8 +23,8 @@ async function takeScreenshot(browser) {
 
 // Compares the values for the baseline image with the screenshot of the browser's current page.
 async function executeComparison(baselineImageBuffer, screenshotResult) {
-  const baselineImage = new Buffer(baselineImageBuffer, 'base64');
-  const screenshot = new Buffer(screenshotResult, 'base64');
+  const baselineImage = Buffer.from(baselineImageBuffer, 'base64');
+  const screenshot = Buffer.from(screenshotResult, 'base64');
 
   // Execute ResembleJS to compare the images
   return new Promise(resolve => {

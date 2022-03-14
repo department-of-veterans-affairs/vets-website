@@ -13,31 +13,44 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
 import ReviewDescription from '../components/ReviewDescription';
+import {
+  EditPhone,
+  EditEmail,
+  EditAddress,
+} from '../components/EditContactInfo';
+import AddIssue from '../components/AddIssue';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
 import contactInfo from '../pages/contactInformation';
 import homeless from '../pages/homeless';
-import contestedIssuesPage from '../pages/contestedIssues';
-import additionalIssuesIntro from '../pages/additionalIssuesIntro';
-import additionalIssues from '../pages/additionalIssues';
+import contestedIssuesPage from '../pages/contestedIssuesV1';
+import contestableIssuesPage from '../pages/contestableIssues';
+import addIssue from '../pages/addIssue';
+import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
+import optIn from '../pages/optIn';
+import issueSummary from '../pages/issueSummary';
+import sameOffice from '../pages/sameOffice';
 import informalConference from '../pages/informalConference';
 import informalConferenceRep from '../pages/informalConferenceRep';
 import informalConferenceRepV2 from '../pages/informalConferenceRepV2';
 import informalConferenceTimes from '../pages/informalConferenceTimes';
 import informalConferenceTime from '../pages/informalConferenceTimeV2';
-import optIn from '../pages/optIn';
-import issueSummary from '../pages/issueSummary';
-import sameOffice from '../pages/sameOffice';
 
-import { errorMessages, WIZARD_STATUS } from '../constants';
+import {
+  errorMessages,
+  WIZARD_STATUS,
+  contestableIssuesPath,
+  contestedIssuesPath,
+} from '../constants';
 import {
   apiVersion1,
   apiVersion2,
   appStateSelector,
-  showAddIssueQuestion,
-  showAddIssuesPage,
+  mayHaveLegacyAppeals,
 } from '../utils/helpers';
+import { getIssueTitle } from '../content/areaOfDisagreement';
+
 // import initialData from '../tests/schema/initialData';
 
 import manifest from '../manifest.json';
@@ -92,7 +105,7 @@ const formConfig = {
   },
 
   title: 'Request a Higher-Level Review',
-  subTitle: 'Equal to VA Form 20-0996',
+  subTitle: 'VA Form 20-0996 (Higher-Level Review)',
   defaultDefinitions: {},
   preSubmitInfo,
   chapters: {
@@ -105,6 +118,7 @@ const formConfig = {
           path: 'veteran-information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
+          // initialData,
         },
         homeless: {
           title: 'Homelessness question',
@@ -119,34 +133,74 @@ const formConfig = {
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
         },
+        editMobilePhone: {
+          title: 'Edit mobile phone',
+          path: 'edit-mobile-phone',
+          CustomPage: EditPhone,
+          CustomPageReview: EditPhone,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editEmailAddress: {
+          title: 'Edit email address',
+          path: 'edit-email-address',
+          CustomPage: EditEmail,
+          CustomPageReview: EditEmail,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editMailingAddress: {
+          title: 'Edit mailing address',
+          path: 'edit-mailing-address',
+          CustomPage: EditAddress,
+          CustomPageReview: EditAddress,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
       },
     },
     conditions: {
       title: 'Issues eligible for review',
       pages: {
+        // v1 - only show contested issues
         contestedIssues: {
           title: ' ',
-          path: 'eligible-issues',
+          path: contestedIssuesPath,
+          depends: apiVersion1,
           uiSchema: contestedIssuesPage.uiSchema,
           schema: contestedIssuesPage.schema,
-          // initialData,
         },
-        additionalIssuesIntro: {
-          title: 'Additional issues for review',
-          path: 'additional-issues-intro',
-          depends: formData =>
-            showAddIssueQuestion(formData) && apiVersion2(formData),
-          uiSchema: additionalIssuesIntro.uiSchema,
-          schema: additionalIssuesIntro.schema,
+        // v2 - show contested + added issues
+        contestableIssues: {
+          title: ' ',
+          path: contestableIssuesPath,
+          depends: apiVersion2,
+          uiSchema: contestableIssuesPage.uiSchema,
+          schema: contestableIssuesPage.schema,
           appStateSelector,
         },
-        additionalIssues: {
+        // v2 - add issue. Accessed from contestableIssues page only
+        addIssue: {
           title: 'Add issues for review',
-          path: 'additional-issues',
-          depends: formData =>
-            showAddIssuesPage(formData) && apiVersion2(formData),
-          uiSchema: additionalIssues.uiSchema,
-          schema: additionalIssues.schema,
+          path: 'add-issue',
+          depends: () => false,
+          // showPagePerItem: true,
+          // arrayPath: 'additionalIssues',
+          CustomPage: AddIssue,
+          uiSchema: addIssue.uiSchema,
+          schema: addIssue.schema,
+        },
+        areaOfDisagreementFollowUp: {
+          title: getIssueTitle,
+          path: 'area-of-disagreement/:index',
+          depends: apiVersion2,
+          showPagePerItem: true,
+          arrayPath: 'areaOfDisagreement',
+          uiSchema: areaOfDisagreementFollowUp.uiSchema,
+          schema: areaOfDisagreementFollowUp.schema,
           appStateSelector,
         },
         optIn: {
@@ -154,7 +208,8 @@ const formConfig = {
           path: 'opt-in',
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
-          depends: apiVersion2,
+          depends: formData =>
+            apiVersion2(formData) && mayHaveLegacyAppeals(formData),
           initialData: {
             socOptIn: false,
           },

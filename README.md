@@ -1,4 +1,22 @@
-# VA.gov [![Build Status](https://dev.vets.gov/jenkins/buildStatus/icon?job=testing/vets-website/master)](http://jenkins.vetsgov-internal/job/testing/job/vets-website/job/master/)
+# VA.gov ![Build Status](https://github.com/department-of-veterans-affairs/vets-website/actions/workflows/continuous-integration.yml/badge.svg?branch=master)
+
+## Table of Contents
+
+- [What is this?](#what-is-this)
+- [Common commands](#common-commands)
+- [Building `vets-website`](#building-vets-website)
+  - [Building applications](#building-applications)
+  - [Building static content](#building-static-content)
+  - [Building both together](#building-both-together)
+- [Working in GitHub Codespaces](#working-in-github-codespaces)
+- [Running tests](#running-tests)
+  - [Unit tests](#unit-tests)
+  - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
+  - [Contract tests](#contract-tests)
+- [Running a mock API for local development](#running-a-mock-api-for-local-development)
+- [More commands](#more-commands)
+- [Supported Browsers](#supported-browsers)
+- [Additional Resources](#additional-resources)
 
 ## What is this?
 
@@ -15,6 +33,7 @@ Once you have the site set up locally, these are some common commands you might 
 | fetch all dependencies     | `yarn install`; run this any time `package.json` changes |
 | build applications         | `yarn build`                                             |
 | run the webpack dev server | `yarn watch`                                             |
+| build in codespaces        | `yarn build:codespaces`. Build with codespace options    |
 
 ## Building `vets-website`
 
@@ -32,7 +51,7 @@ yarn build
 To **build one or more applications**, you can use the `--entry` option:
 
 ```sh
-yarn build --entry static-pages,auth
+yarn build --entry=static-pages,auth
 ```
 
 To **recompile your application when you make changes**, run:
@@ -41,19 +60,19 @@ To **recompile your application when you make changes**, run:
 yarn watch
 ```
 
-You can also **limit the applications Webpack builds** with `--env.entry`:
+You can also **limit the applications Webpack builds** with `--env entry`:
 
 ```sh
-yarn watch --env.entry static-pages,auth
+yarn watch --env entry=static-pages,auth
 ```
 
 The `entryname` for your application can be found in its `manifest.json` file.
 
 If you're developing a feature that requires the API, but can't or don't want to
-run it locally, you can specify `--env.api`:
+run it locally, you can specify `--env api`:
 
 ```sh
-yarn watch --env.api https://dev-api.va.gov
+yarn watch --env api=https://dev-api.va.gov
 ```
 
 You will need to disable CORS in your browser when using a non-local API. Here are some helpful links that explain how to do this:
@@ -72,6 +91,10 @@ Static pages are created from the [content-build](https://github.com/department-
 ### Building both together
 
 After [building the applications](#building-applications), running `yarn build` in the `../content-build` directory will build content using the generated app bundles from `vets-website/build/localhost/generated`. The full build can be seen in `../content-build/build/localhost`.
+
+## Working in GitHub Codespaces
+
+[Read the Codespaces documentation for this repository](https://depo-platform-documentation.scrollhelp.site/developer-docs/Using-GitHub-Codespaces.1909063762.html#UsingGitHubCodespaces-Codespacesinvets-websiteandcontent-buildrepositories).
 
 ## Running tests
 
@@ -162,10 +185,6 @@ yarn cy:run --spec "src/applications/a/tests/**/*,src/applications/b/tests/**/*"
 To **run Cypress tests from the command line on a specific browser**:
 
 ```sh
-yarn cy:run --headless --browser chrome
-yarn cy:run --headless --browser firefox
-
-# Without --headless, the test runner will open and run the test.
 yarn cy:run --browser chrome
 yarn cy:run --browser firefox
 ```
@@ -226,14 +245,14 @@ for doing very specific things.
 | build the production site (dev features disabled).                                                          | `yarn build:production`                                                                                                                                                                                                                   |
 | deploy the production site (dev features disabled).                                                         | `node src/platform/testing/e2e/test-server.js --buildtype=vagovprod`                                                                                                                                                                      |
 | reset local environment (clean out node modules, Babel cache, and runs `npm install`)                       | `yarn reset:env`                                                                                                                                                                                                                          |
-| run the app pages on the site for local development                                                         | `yarn watch --env.scaffold`                                                                                                                                                                                                               |
-| run the site for local development with automatic rebuilding of Javascript and sass **with** css sourcemaps | `yarn watch:css-sourcemaps` then visit `http://localhost:3001/`. You may also set `--env.buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow.                                             |
-| run the site for local development with automatic rebuilding of code and styles for specific **apps**       | `yarn watch --env.entry disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName`                                                                                                    |
-| run the site so that devices on your local network can access it                                            | `yarn watch --host 0.0.0.0 --public 192.168.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems                                                |
+| run the app pages on the site for local development                                                         | `yarn watch --env scaffold`                                                                                                                                                                                                               |
+| run the site for local development with automatic rebuilding of Javascript and sass **with** css sourcemaps | `yarn watch:css-sourcemaps` then visit `http://localhost:3001/`. You may also set `--env buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow.                                             |
+| run the site for local development with automatic rebuilding of code and styles for specific **apps**       | `yarn watch --env entry=disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName`                                                                                                    |
+| run the site so that devices on your local network can access it                                            | `yarn watch --env host=0.0.0.0 --env public=192.168.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems                                                |
 | watch file changes without starting the server                                                              | `yarn watch:no-server`                                                                                                                                                                                                                    |
 | run all unit tests and watch                                                                                | `yarn test:watch`                                                                                                                                                                                                                         |
-| run only e2e tests                                                                                          | Make sure the site is running locally (`yarn watch`) and run the tests with `yarn test:e2e`                                                                                                                                               |
-| run e2e tests in headless mode                                                                              | `yarn test:e2e:headless`                                                                                                                                                                                                                  |
+| run only E2E tests (headless)                                                                               | Make sure the site is running locally (`yarn watch`) and run the tests with `yarn cy:run`                                                                                                                                               |
+| run E2E tests in the browser                                                                                | `yarn cy:open`                                                                                                                                                                                                                            |
 | run all linters                                                                                             | `yarn lint`                                                                                                                                                                                                                               |
 | run only javascript linter                                                                                  | `yarn lint:js`                                                                                                                                                                                                                            |
 | run only sass linter                                                                                        | `yarn lint:sass`                                                                                                                                                                                                                          |
@@ -244,7 +263,7 @@ for doing very specific things.
 | get the latest json schema                                                                                  | `yarn update:schema`. This updates our [vets-json-schema](https://github.com/department-of-veterans-affairs/vets-json-schema) vets-json-schema https://github.com/department-of-veterans-affairs/ to the most recent commit.              |
 | check test coverage                                                                                         | `yarn test:coverage`                                                                                                                                                                                                                      |
 | run bundle analyzer on our production JS bundles                                                            | `yarn build-analyze`                                                                                                                                                                                                                      |
-| generate a stats file for analysis by bundle analyzer                                                       | `NODE_ENV=production yarn build:webpack --env.buildtype=vagovprod --env.analyzer`.                                                                                                                                                        |
+| generate a stats file for analysis by bundle analyzer                                                       | `NODE_ENV=production yarn build:webpack --env buildtype=vagovprod --env analyzer`.                                                                                                                                                        |
 | load the analyzer tool on a stats file                                                                      | `yarn analyze`                                                                                                                                                                                                                            |
 | add a new React app                                                                                         | `yarn new:app` (make sure you have [`vagov-content`](https://github.com/department-of-veterans-affairs/vagov-content/) and [`content-build`](https://github.com/department-of-veterans-affairs/content-build/) sibling to `vets-website`) |
 

@@ -187,13 +187,18 @@ const ReviewCardField = ({
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2p5">
             {!formContext.reviewMode && (
               <>
-                <button className={updateButtonClasses} onClick={update}>
+                <button
+                  className={updateButtonClasses}
+                  onClick={update}
+                  type="button"
+                >
                   Save mailing address
                 </button>
                 {((volatileData && canCancel) || !volatileData) && (
                   <button
                     className={cancelButtonClasses}
                     onClick={cancelUpdate}
+                    type="button"
                   >
                     Cancel
                   </button>
@@ -223,6 +228,21 @@ const ReviewCardField = ({
 };
 
 ReviewCardField.propTypes = {
+  errorSchema: PropTypes.object.isRequired,
+  formContext: PropTypes.shape({
+    onError: PropTypes.func.isRequired,
+    onReviewPage: PropTypes.func,
+    reviewMode: PropTypes.bool,
+  }).isRequired,
+  formData: PropTypes.object.isRequired,
+  idSchema: PropTypes.object.isRequired,
+  registry: PropTypes.shape({
+    fields: PropTypes.shape({
+      SchemaField: PropTypes.elementType.isRequired,
+    }),
+    definitions: PropTypes.object.isRequired,
+  }).isRequired,
+  schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.shape({
     'ui:options': PropTypes.shape({
       viewComponent: PropTypes.oneOfType([
@@ -245,20 +265,11 @@ ReviewCardField.propTypes = {
     'ui:subtitle': PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     saveClickTrackEvent: PropTypes.object,
   }).isRequired,
-  schema: PropTypes.object.isRequired,
-  errorSchema: PropTypes.object.isRequired,
-  idSchema: PropTypes.object.isRequired,
-  registry: PropTypes.shape({
-    fields: PropTypes.shape({
-      SchemaField: PropTypes.elementType.isRequired,
-    }),
-    definitions: PropTypes.object.isRequired,
-  }).isRequired,
-  formData: PropTypes.object.isRequired,
-  onBlur: PropTypes.func.isRequired,
-  formContext: PropTypes.shape({
-    onError: PropTypes.func.isRequired,
-  }).isRequired,
+  disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
+  required: PropTypes.bool,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
 };
 
 export default ReviewCardField;

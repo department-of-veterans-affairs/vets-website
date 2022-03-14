@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { getCernerURL } from 'platform/utilities/cerner';
-import Select from '@department-of-veterans-affairs/component-library/Select';
+import { VaSelect } from 'web-components/react-bindings';
 import { selectFacilitiesRadioWidget } from '../../redux/selectors';
 import State from '../../../components/State';
 import InfoAlert from '../../../components/InfoAlert';
@@ -32,7 +32,6 @@ export default function FacilitiesRadioWidget({
   const {
     cernerSiteIds,
     requestLocationStatus,
-    showVariant,
     sortMethod,
     loadingEligibility,
   } = useSelector(state => selectFacilitiesRadioWidget(state), shallowEqual);
@@ -44,8 +43,6 @@ export default function FacilitiesRadioWidget({
     : sortOptions[0].label;
   const requestingLocationFailed =
     requestLocationStatus === FETCH_STATUS.failed;
-  const variantRequestingLocationFailed =
-    showVariant && requestingLocationFailed;
 
   // If user has already selected a value, and the index of that value is > 4,
   // show this view already expanded
@@ -62,6 +59,16 @@ export default function FacilitiesRadioWidget({
     enumOptions.length > INITIAL_FACILITY_DISPLAY_COUNT
       ? enumOptions.length - INITIAL_FACILITY_DISPLAY_COUNT
       : 0;
+
+  // format optons for new component
+  const selectOptions = sortOptions.map((s, i) => {
+    return (
+      <option key={i} value={s.value}>
+        {s.label}
+      </option>
+    );
+  });
+
   useEffect(
     () => {
       if (displayedOptions.length > INITIAL_FACILITY_DISPLAY_COUNT) {
@@ -76,54 +83,54 @@ export default function FacilitiesRadioWidget({
       <div aria-live="assertive" className="sr-only">
         Showing VA facilities sorted {sortedByText}
       </div>
-      {showVariant && (
-        <>
-          <div className="vads-u-margin-bottom--3">
-            <Select
-              label="Sort facilities"
-              name="sort"
-              onValueChange={type => {
-                recordEvent({
-                  event: `${GA_PREFIX}-variant-method-${type.value}`,
-                });
-                updateFacilitySortMethod(type.value);
-              }}
-              options={hasUserAddress ? sortOptions : sortOptions.slice(1)}
-              value={{ dirty: false, value: sortMethod }}
-              includeBlankOption={false}
-            />
-          </div>
-          {!hasUserAddress && (
-            <p>
-              Note: to show facilities near your home, add your residential
-              address{' '}
-              <NewTabAnchor href="/profile">in your VA profile</NewTabAnchor>.
-            </p>
-          )}
-          {requestingLocationFailed && (
-            <div className="vads-u-padding-top--1">
-              <InfoAlert
-                status="warning"
-                headline="Your browser is blocked from finding your current location."
-                className="vads-u-background-color--gold-lightest vads-u-font-size--base"
-                level="3"
+      <>
+        <div className="vads-u-margin-bottom--3">
+          <VaSelect
+            label="Sort facilities"
+            name="sort"
+            onVaSelect={type => {
+              recordEvent({
+                event: `${GA_PREFIX}-variant-method-${type.detail.value}`,
+              });
+              updateFacilitySortMethod(type.detail.value);
+            }}
+            value={sortMethod}
+            data-testid="facilitiesSelect"
+          >
+            {hasUserAddress ? selectOptions : selectOptions.slice(1)}
+          </VaSelect>
+        </div>
+        {!hasUserAddress && (
+          <p>
+            Note: to show facilities near your home, add your residential
+            address{' '}
+            <NewTabAnchor href="/profile">in your VA profile</NewTabAnchor>.
+          </p>
+        )}
+        {requestingLocationFailed && (
+          <div className="vads-u-padding-top--1">
+            <InfoAlert
+              status="warning"
+              headline="Your browser is blocked from finding your current location."
+              className="vads-u-background-color--gold-lightest vads-u-font-size--base"
+              level="3"
+            >
+              <p>Make sure your browser’s location feature is turned on.</p>
+              <button
+                className="va-button-link"
+                onClick={() =>
+                  updateFacilitySortMethod(
+                    FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+                  )
+                }
               >
-                <p>Make sure your browser’s location feature is turned on.</p>
-                <a
-                  onClick={() =>
-                    updateFacilitySortMethod(
-                      FACILITY_SORT_METHODS.distanceFromCurrentLocation,
-                    )
-                  }
-                >
-                  Retry searching based on current location
-                </a>
-              </InfoAlert>
-            </div>
-          )}
-        </>
-      )}
-      {!variantRequestingLocationFailed &&
+                Retry searching based on current location
+              </button>
+            </InfoAlert>
+          </div>
+        )}
+      </>
+      {!requestingLocationFailed &&
         displayedOptions.map((option, i) => {
           const { name, address, legacyVAR } = option?.label;
           const checked = option.value === value;
@@ -174,7 +181,7 @@ export default function FacilitiesRadioWidget({
           );
         })}
       {!displayAll &&
-        !variantRequestingLocationFailed &&
+        !requestingLocationFailed &&
         hiddenCount > 0 && (
           <button
             type="button"

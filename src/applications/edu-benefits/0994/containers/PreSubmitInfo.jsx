@@ -1,5 +1,6 @@
 import React from 'react';
 import PreSubmitInfo from '../../containers/PreSubmitInfo';
+import formConfig from '../config/form';
 
 function PreSubmitNotice({
   formData,
@@ -7,8 +8,15 @@ function PreSubmitNotice({
   onSectionComplete,
   setPreSubmit,
 }) {
+  let ariaDescribedBy = null;
+  if (formConfig?.ariaDescribedBySubmit !== null) {
+    ariaDescribedBy = formConfig?.ariaDescribedBySubmit;
+  } else {
+    ariaDescribedBy = null;
+  }
+
   const activeDutyNote = (
-    <div className="vads-u-margin-bottom--3">
+    <div className="vads-u-margin-bottom--3" id={ariaDescribedBy}>
       {formData.activeDuty ? (
         <div>
           <strong>By submitting this form</strong> you certify that:

@@ -11,9 +11,7 @@ export const boardReviewContent = {
       <p className="hide-on-review">
         A Veterans Law Judge will review your appeal based on evidence already
         submitted. Because the Board has all your evidence, choosing this option
-        will often result in a faster decision. Based on current estimates, it
-        takes the Board <strong>about 1 year to make a decision</strong> for
-        this type of appeal.
+        will often result in a faster decision.
       </p>
     </>
   ),
@@ -25,9 +23,8 @@ export const boardReviewContent = {
         You can submit additional evidence within 90 days after submitting your
         Board appeal. Choose this option if you want to turn in additional
         evidence but don’t want to wait for a hearing with a Veterans Law Judge.
-        Based on current estimates, it takes the Board{' '}
-        <strong>more than 1.5 years to make a decision</strong> for this type of
-        appeal.
+        Choosing this option will extend the time it takes for the Board to
+        decide your appeal.
       </p>
     </>
   ),
@@ -39,10 +36,7 @@ export const boardReviewContent = {
         You can request a Board hearing with a Veterans Law Judge and submit
         additional evidence within 90 days after your hearing. Please keep in
         mind that this option has the longest wait time for a decision because
-        of the high number of pending hearing requests. Based on current
-        estimates, it takes the Board{' '}
-        <strong>more than 2 years to make a decision</strong> for this type of
-        appeal.
+        there are currently tens of thousands of pending hearing requests.
       </p>
     </>
   ),

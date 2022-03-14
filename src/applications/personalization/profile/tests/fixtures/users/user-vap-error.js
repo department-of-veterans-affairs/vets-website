@@ -1,4 +1,7 @@
 // mock response from `GET user` when there is an upstream error with the VA
+
+import { CSP_IDS } from 'platform/user/authentication/constants';
+
 // Profile service
 export const mockUser = {
   data: {
@@ -35,7 +38,7 @@ export const mockUser = {
         loa: { current: 3, highest: 3 },
         multifactor: true,
         verified: true,
-        signIn: { serviceName: 'idme', accountType: 'N/A', ssoe: true },
+        signIn: { serviceName: CSP_IDS.ID_ME, accountType: 'N/A', ssoe: true },
         authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
       },
       vaProfile: {

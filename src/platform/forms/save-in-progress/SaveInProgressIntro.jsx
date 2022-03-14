@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { fromUnixTime, isBefore } from 'date-fns';
+import { format } from 'date-fns-tz';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
@@ -11,7 +12,6 @@ import {
   inProgressMessage as getInProgressMessage,
 } from 'platform/forms-system/src/js/utilities/save-in-progress-messages';
 import recordEvent from 'platform/monitoring/record-event';
-import _ from 'platform/utilities/data';
 
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
@@ -35,7 +35,7 @@ class SaveInProgressIntro extends React.Component {
       profile && profile.prefillsAvailable.includes(this.props.formId)
     );
     const isExpired = savedForm
-      ? moment.unix(savedForm.metadata.expiresAt).isBefore()
+      ? isBefore(fromUnixTime(savedForm.metadata.expiresAt), new Date())
       : false;
     return (
       <FormStartControls
@@ -54,6 +54,8 @@ class SaveInProgressIntro extends React.Component {
         prefillAvailable={prefillAvailable}
         formSaved={!!savedForm}
         gaStartEventName={this.props.gaStartEventName}
+        ariaLabel={this.props.ariaLabel}
+        ariaDescribedby={this.props.ariaDescribedby}
       />
     );
   };
@@ -69,6 +71,8 @@ class SaveInProgressIntro extends React.Component {
       verifiedPrefillAlert,
       unverifiedPrefillAlert,
       formConfig,
+      ariaLabel = null,
+      ariaDescribedby = null,
     } = this.props;
     const { profile, login } = this.props.user;
     const prefillAvailable = !!(
@@ -85,25 +89,40 @@ class SaveInProgressIntro extends React.Component {
 
     if (login.currentlyLoggedIn) {
       if (savedForm) {
-        const lastUpdated =
-          savedForm.lastUpdated || _.get('metadata.lastUpdated', savedForm);
-        const savedAt = this.props.lastSavedDate
-          ? moment(this.props.lastSavedDate)
-          : moment.unix(lastUpdated);
-        const expiresAt = moment.unix(savedForm.metadata.expiresAt);
-        const expirationDate = expiresAt.format('MMMM D, YYYY');
-        const isExpired = expiresAt.isBefore();
+        /**
+         * lastSavedDate = JS time (ms) - always undefined?
+         * savedForms.lastUpdated = unix time (seconds)
+         * savedForms.metadata.expiresAt = unix time
+         * savedForms.metadata.lastUpdated = unix time
+         * savedForms.metadata.savedAt = JS time (ms)
+         */
+        const { metadata = {} } = savedForm;
+        const lastUpdated = savedForm.lastUpdated || metadata.lastUpdated;
+
+        let savedAt = '';
+        if (this.props.lastSavedDate) {
+          savedAt = new Date(this.props.lastSavedDate);
+        } else if (lastUpdated) {
+          savedAt = fromUnixTime(lastUpdated);
+        }
+
+        const expiresAt = fromUnixTime(savedForm.metadata.expiresAt);
+        const expirationDate = format(expiresAt, 'MMMM d, yyyy');
+        const isExpired = isBefore(expiresAt, new Date());
         const inProgressMessage = getInProgressMessage(formConfig);
 
         if (!isExpired) {
-          const lastSavedDateTime = savedAt.format('MMMM D, YYYY [at] h:mm a');
+          const lastSavedDateTime =
+            savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa z");
+
           const H = `h${this.props.headingLevel}`;
           includesFormControls = true;
           alert = (
             <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
               <div className="schemaform-sip-alert-title">
                 <H className="usa-alert-heading vads-u-font-size--h3">
-                  {inProgressMessage} and was last saved on {lastSavedDateTime}
+                  {inProgressMessage} {savedAt && 'and was last saved on '}
+                  {lastSavedDateTime}
                 </H>
               </div>
               <div className="saved-form-metadata-container">
@@ -176,7 +195,12 @@ class SaveInProgressIntro extends React.Component {
       const H = `h${this.props.headingLevel}`;
       const { buttonOnly, retentionPeriod, unauthStartText } = this.props;
       const unauthStartButton = (
-        <button className="usa-button-primary" onClick={this.openLoginModal}>
+        <button
+          className="usa-button-primary"
+          onClick={this.openLoginModal}
+          aria-label={ariaLabel}
+          aria-describedby={ariaDescribedby}
+        >
           {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
         </button>
       );
@@ -188,6 +212,8 @@ class SaveInProgressIntro extends React.Component {
               <button
                 className="va-button-link schemaform-start-button"
                 onClick={this.goToBeginning}
+                aria-label={ariaLabel}
+                aria-describedby={ariaDescribedby}
               >
                 Start your {appType} without signing in
               </button>
@@ -227,6 +253,8 @@ class SaveInProgressIntro extends React.Component {
                   <button
                     className="va-button-link schemaform-start-button"
                     onClick={this.goToBeginning}
+                    aria-label={ariaLabel}
+                    aria-describedby={ariaDescribedby}
                   >
                     Start your {appType} without signing in
                   </button>
@@ -246,7 +274,12 @@ class SaveInProgressIntro extends React.Component {
               You can save this {appType} in progress, and come back later to
               finish filling it out.
               <br />
-              <button className="va-button-link" onClick={this.openLoginModal}>
+              <button
+                className="va-button-link"
+                onClick={this.openLoginModal}
+                aria-label={ariaLabel}
+                aria-describedby={ariaDescribedby}
+              >
                 Sign in to your account.
               </button>
             </div>
@@ -388,6 +421,8 @@ SaveInProgressIntro.propTypes = {
     }),
   }),
   headingLevel: PropTypes.number,
+  ariaLabel: PropTypes.string,
+  ariaDescribedby: PropTypes.string,
 };
 
 SaveInProgressIntro.defaultProps = {
@@ -400,6 +435,8 @@ SaveInProgressIntro.defaultProps = {
     },
   },
   headingLevel: 3,
+  ariaLabel: null,
+  ariaDescribedby: null,
 };
 
 function mapStateToProps(state) {

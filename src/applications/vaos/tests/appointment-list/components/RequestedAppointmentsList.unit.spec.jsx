@@ -4,16 +4,19 @@ import { expect } from 'chai';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
+import { within } from '@testing-library/dom';
 import reducers from '../../../redux/reducer';
-import { getVAFacilityMock, getVARequestMock } from '../../mocks/v0';
+import { getVARequestMock } from '../../mocks/v0';
 import { getVAOSRequestMock } from '../../mocks/v2';
-import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
+import { mockAppointmentInfo } from '../../mocks/helpers';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 import {
   renderWithStoreAndRouter,
   getTimezoneTestDate,
 } from '../../mocks/setup';
+import { createMockFacilityByVersion } from '../../mocks/data';
 import RequestedAppointmentsList from '../../../appointment-list/components/RequestedAppointmentsList';
+import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -32,7 +35,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
-    mockFacilitiesFetch();
+    mockFacilitiesFetchByVersion({ version: 0 });
   });
   afterEach(() => {
     MockDate.reset();
@@ -62,26 +65,19 @@ describe('VAOS <RequestedAppointmentsList>', () => {
     appointment.id = '1234';
     mockAppointmentInfo({ requests: [appointment] });
 
-    const facility = {
-      id: 'vha_442GC',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442GC',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
+    const facility = createMockFacilityByVersion({
+      id: '442GC',
+      name: 'Cheyenne VA Medical Center',
+      address: {
+        postalCode: '82001-5356',
+        city: 'Cheyenne',
+        state: 'WY',
+        line: ['2360 East Pershing Boulevard'],
       },
-    };
-    mockFacilitiesFetch('vha_442GC', [facility]);
+      phone: '307-778-7550',
+      version: 0,
+    });
+    mockFacilitiesFetchByVersion({ facilities: [facility], version: 0 });
 
     // When the veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
@@ -266,7 +262,26 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
         ],
       },
       kind: 'clinic',
-      locationId: '983GC',
+      locationId: '983',
+      location: {
+        id: '983',
+        type: 'appointments',
+        attributes: {
+          id: '983',
+          vistaSite: '983',
+          name: 'Cheyenne VA Medical Center',
+          lat: 39.744507,
+          long: -104.830956,
+          phone: { main: '307-778-7550' },
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
+
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
       reason: 'Routine Follow-up',
@@ -298,26 +313,6 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
       requests: [appointment],
     });
 
-    const facility = {
-      id: 'vha_442GC',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442GC',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
-    };
-    mockFacilitiesFetch('vha_442GC', [facility]);
     // When veteran selects the Requested dropdown selection
     const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
       initialState: initialStateVAOSService,
@@ -325,7 +320,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
     });
     // Then it should display the requested appointments
     expect(await screen.findByText('Primary care')).to.be.ok;
-    expect(await screen.findByText(facility.attributes.name)).to.be.ok;
+    expect(await screen.findByText('Cheyenne VA Medical Center')).to.be.ok;
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(screen.baseElement).to.contain.text(
       'Below is your list of appointment requests that haven’t been scheduled yet.',
@@ -334,6 +329,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
 
   it('should show cc request', async () => {
     // Given a veteran has CC appointment request
+    // TODO: practitioners.id is same as practitioners.identifier
     const startDate = moment.utc();
     const ccAppointmentRequest = getVAOSRequestMock();
     ccAppointmentRequest.id = '1234';
@@ -348,7 +344,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
       kind: 'cc',
       locationId: '983GC',
       id: '1234',
-      practitioners: [{ id: { value: '123' } }],
+      practitioners: [{ id: [{ value: '123' }] }],
       preferredTimesForPhoneCall: ['Morning'],
       reason: 'Routine Follow-up',
       requestedPeriods: [
@@ -404,5 +400,108 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
         /We’re having trouble getting your appointment requests/i,
       ),
     ).to.be.ok;
+  });
+  it('should display request sorted by create date in decending order', async () => {
+    // Given a veteran has VA appointment request
+    const startDate = moment.utc();
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
+      comment: 'A message from the patient',
+      contact: {
+        telecom: [
+          { type: 'phone', value: '2125551212' },
+          { type: 'email', value: 'veteranemailtest@va.gov' },
+        ],
+      },
+      kind: 'clinic',
+      locationId: '983',
+      location: {
+        id: '983',
+        type: 'appointments',
+        attributes: {
+          id: '983',
+          vistaSite: '983',
+          name: 'Cheyenne VA Medical Center',
+          lat: 39.744507,
+          long: -104.830956,
+          phone: { main: '307-778-7550' },
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
+
+      id: '1234',
+      preferredTimesForPhoneCall: ['Morning'],
+      reason: 'Routine Follow-up',
+      requestedPeriods: [
+        {
+          start: moment(startDate)
+            .add(3, 'days')
+            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        },
+        {
+          start: moment(startDate)
+            .add(4, 'days')
+            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        },
+      ],
+      serviceType: '323',
+      start: null,
+      status: 'proposed',
+      created: moment()
+        .subtract(2, 'months')
+        .format('YYYY-MM-DDTHH:mm:ss'),
+    };
+    const appointment2 = {
+      ...appointment,
+      attributes: {
+        ...appointment.attributes,
+        created: moment()
+          .clone()
+          .subtract(1, 'month')
+          .format('YYYY-MM-DDTHH:mm:ss'),
+        serviceType: '160',
+      },
+    };
+    const appointment3 = {
+      ...appointment,
+      attributes: {
+        ...appointment.attributes,
+        created: moment().format('YYYY-MM-DDTHH:mm:ss'),
+        serviceType: '408',
+      },
+    };
+
+    // And developer is using the v2 API
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment()
+        .add(1, 'days')
+        .format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment, appointment2, appointment3],
+    });
+
+    // When veteran selects the Requested dropdown selection
+    const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
+      initialState: initialStateVAOSService,
+      reducers,
+    });
+
+    // Then it should display the requested appointments sorted by create date in decending order.
+    expect(await screen.findByText('Primary care')).to.be.ok;
+
+    const links = screen.getAllByRole('listitem');
+    expect(links.length).to.equal(3);
+    expect(within(links[0]).getByText('Optometry')).to.be.ok;
+    expect(within(links[1]).getByText('Pharmacy')).to.be.ok;
+    expect(within(links[2]).getByText('Primary care')).to.be.ok;
   });
 });

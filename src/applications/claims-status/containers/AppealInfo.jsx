@@ -5,16 +5,17 @@ import { Link } from 'react-router';
 
 import moment from 'moment';
 
-import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import CallVBACenter from 'platform/static-data/CallVBACenter';
+
+import { getAppealsV2 as getAppealsV2Action } from '../actions';
 import AppealNotFound from '../components/appeals-v2/AppealNotFound';
-import { getAppealsV2 } from '../actions/index.jsx';
 import AppealHeader from '../components/appeals-v2/AppealHeader';
 import AppealsV2TabNav from '../components/appeals-v2/AppealsV2TabNav';
 import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
+import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import CopyOfExam from '../components/CopyOfExam';
 import { setUpPage } from '../utils/page';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import {
   APPEAL_TYPES,
@@ -24,7 +25,6 @@ import {
   AVAILABLE,
   getTypeName,
 } from '../utils/appeals-v2-helpers';
-import CallVBACenter from 'platform/static-data/CallVBACenter';
 
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
@@ -61,10 +61,11 @@ const recordsNotFoundMessage = (
 
 export class AppealInfo extends React.Component {
   componentDidMount() {
-    if (!this.props.appeal) {
-      this.props.getAppealsV2();
+    const { appeal, appealsLoading, getAppealsV2 } = this.props;
+    if (!appeal) {
+      getAppealsV2();
     }
-    if (!this.props.appealsLoading) {
+    if (!appealsLoading) {
       setUpPage();
     } else {
       scrollToTop();
@@ -73,7 +74,8 @@ export class AppealInfo extends React.Component {
 
   createHeading = () => {
     let requestEventType;
-    switch (this.props.appeal.type) {
+    const { appeal } = this.props;
+    switch (appeal.type) {
       case APPEAL_TYPES.legacy:
         requestEventType = EVENT_TYPES.nod;
         break;
@@ -89,11 +91,11 @@ export class AppealInfo extends React.Component {
       default:
       // do nothing
     }
-    const requestEvent = this.props.appeal.attributes.events.find(
+    const requestEvent = appeal.attributes.events.find(
       event => event.type === requestEventType,
     );
 
-    let appealTitle = capitalizeWord(getTypeName(this.props.appeal));
+    let appealTitle = capitalizeWord(getTypeName(appeal));
 
     if (requestEvent) {
       appealTitle += ` received ${moment(requestEvent.date).format(
@@ -123,7 +125,7 @@ export class AppealInfo extends React.Component {
     if (appealsLoading) {
       appealContent = (
         <div className="vads-u-margin-bottom--2p5">
-          <LoadingIndicator message="Please wait while we load your appeal..." />
+          <va-loading-indicator message="Please wait while we load your appeal..." />
         </div>
       );
     } else if (appealsAvailability === AVAILABLE && appeal) {
@@ -159,10 +161,7 @@ export class AppealInfo extends React.Component {
           <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
             <div className="vads-l-col--12">
               <ClaimsBreadcrumbs>
-                <Link
-                  to={`appeals/${this.props.params.id}`}
-                  key="claims-appeal"
-                >
+                <Link to={`appeals/${params.id}`} key="claims-appeal">
                   Status details
                 </Link>
               </ClaimsBreadcrumbs>
@@ -199,14 +198,16 @@ export class AppealInfo extends React.Component {
 }
 
 AppealInfo.propTypes = {
-  params: PropTypes.shape({ id: PropTypes.string.isRequired }).isRequired,
-  children: PropTypes.node.isRequired,
   appealsLoading: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
+  getAppealsV2: PropTypes.func.isRequired,
+  params: PropTypes.shape({ id: PropTypes.string.isRequired }).isRequired,
   appeal: PropTypes.shape({
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     attributes: PropTypes.object.isRequired,
   }),
+  appealsAvailability: PropTypes.string,
   fullName: PropTypes.shape({
     first: PropTypes.string,
     middle: PropTypes.string,
@@ -228,7 +229,7 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-const mapDispatchToProps = { getAppealsV2 };
+const mapDispatchToProps = { getAppealsV2: getAppealsV2Action };
 
 export default connect(
   mapStateToProps,

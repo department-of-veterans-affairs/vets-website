@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import { focusElement } from 'platform/utilities/ui';
 import StepComponent from './StepComponent';
 import { orientationSteps } from './utils';
@@ -17,7 +17,7 @@ const OrientationApp = props => {
         setIsFirstRender(false);
       } else {
         focusElement('#StepTitle');
-        scrollToTop('topScrollElement');
+        scrollTo(document.getElementById('StepTitle'));
       }
     },
     [step],

@@ -42,7 +42,6 @@ const testConfig = createTestConfig(
             cy.findByLabelText(/Province/i).type('Alberta');
             cy.findByLabelText(/International Postal Code/i).type('T7N');
             cy.findByText(/Save temporary address/i).click();
-            cy.findByLabelText(/Re-enter email address/i).type('vet@vet.com');
           } else {
             cy.findByText('Edit permanent address', {
               selector: 'button',
@@ -51,7 +50,6 @@ const testConfig = createTestConfig(
             cy.findByLabelText(/Province/i).type('Alberta');
             cy.findByLabelText(/International Postal Code/i).type('T7N');
             cy.findByText(/Save permanent address/i).click();
-            cy.findByLabelText(/Re-enter email address/i).type('vet@vet.com');
           }
         });
       },

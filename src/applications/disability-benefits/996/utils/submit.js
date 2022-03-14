@@ -2,8 +2,11 @@ import {
   SELECTED,
   CONFERENCE_TIMES_V1,
   CONFERENCE_TIMES_V2,
+  MAX_LENGTH,
+  SUBMITTED_DISAGREEMENTS,
 } from '../constants';
 import { apiVersion1 } from './helpers';
+import { replaceSubmittedData } from './replace';
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`
@@ -96,14 +99,15 @@ export const createIssueName = ({ attributes } = {}) => {
     ratingIssuePercentNumber,
     description,
   } = attributes;
-  return [
+  const result = [
     ratingIssueSubjectText,
     `${ratingIssuePercentNumber || '0'}%`,
     description,
   ]
     .filter(part => part)
     .join(' - ')
-    .substring(0, 140);
+    .substring(0, MAX_LENGTH.ISSUE_NAME);
+  return replaceSubmittedData(result);
 };
 
 /* submitted contested issue format
@@ -173,7 +177,7 @@ export const getContestedIssues = ({ contestedIssues = [] }) =>
  */
 export const addIncludedIssues = formData => {
   const issues = getContestedIssues(formData);
-  if (formData['view:hasIssuesToAdd']) {
+  if (formData.hlrV2) {
     return issues.concat(
       (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
         if (issue[SELECTED] && issue.issue && issue.decisionDate) {
@@ -181,7 +185,7 @@ export const addIncludedIssues = formData => {
           issuesToAdd.push({
             type: 'contestableIssue',
             attributes: {
-              issue: issue.issue,
+              issue: replaceSubmittedData(issue.issue),
               decisionDate: issue.decisionDate,
             },
           });
@@ -191,6 +195,38 @@ export const addIncludedIssues = formData => {
     );
   }
   return issues;
+};
+
+/**
+ * Add area of disagreement
+ * @param {ContestableIssue~Submittable} issues - selected & processed issues
+ * @param {FormData} formData
+ * @return {ContestableIssues~Submittable} issues with "disagreementArea" added
+ */
+export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
+  const keywords = {
+    serviceConnection: () => SUBMITTED_DISAGREEMENTS.serviceConnection,
+    effectiveDate: () => SUBMITTED_DISAGREEMENTS.effectiveDate,
+    evaluation: () => SUBMITTED_DISAGREEMENTS.evaluation,
+  };
+  return issues.map((issue, index) => {
+    const entry = areaOfDisagreement[index];
+    const reasons = Object.entries(entry.disagreementOptions)
+      .map(([key, value]) => value && keywords[key](entry))
+      .concat((entry?.otherEntry || '').trim())
+      .filter(Boolean);
+    const disagreementArea = replaceSubmittedData(
+      // max length in schema
+      reasons.join(',').substring(0, MAX_LENGTH.DISAGREEMENT_REASON),
+    );
+    return {
+      ...issue,
+      attributes: {
+        ...issue.attributes,
+        disagreementArea,
+      },
+    };
+  });
 };
 
 export const getContact = ({ informalConference }) => {
@@ -252,16 +288,21 @@ export const getAddress = formData => {
   if (apiVersion1(formData)) {
     return { zipCode5: zipCode5 || '00000' };
   }
+  const truncate = (value, max) =>
+    replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
   return removeEmptyEntries({
-    addressLine1: veteran.address?.addressLine1 || '',
-    addressLine2: veteran.address?.addressLine2 || '',
-    addressLine3: veteran.address?.addressLine3 || '',
-    city: veteran.address?.city || '',
+    addressLine1: truncate('addressLine1', MAX_LENGTH.ADDRESS_LINE1),
+    addressLine2: truncate('addressLine2', MAX_LENGTH.ADDRESS_LINE2),
+    addressLine3: truncate('addressLine3', MAX_LENGTH.ADDRESS_LINE3),
+    city: truncate('city', MAX_LENGTH.CITY),
     stateCode: veteran.address?.stateCode || '',
-    countryCodeISO2: veteran.address?.countryCodeIso2 || '',
+    countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.COUNTRY),
     // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json#L145
-    zipCode5: veteran.address?.zipCode || '',
-    internationalPostalCode: veteran.address?.internationalPostalCode || '',
+    zipCode5: truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
+    internationalPostalCode: truncate(
+      'internationalPostalCode',
+      MAX_LENGTH.POSTAL_CODE,
+    ),
   });
 };
 
@@ -270,10 +311,13 @@ export const getAddress = formData => {
  * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable address
  */
-export const getPhone = ({ veteran = {} } = {}) =>
-  removeEmptyEntries({
-    countryCode: veteran.phone?.countryCode || '',
-    areaCode: veteran.phone?.areaCode || '',
-    phoneNumber: veteran.phone?.phoneNumber || '',
-    phoneNumberExt: veteran.phone?.phoneNumberExt || '',
+export const getPhone = ({ veteran = {} } = {}) => {
+  const truncate = (value, max) =>
+    replaceSubmittedData(veteran.phone?.[value] || '').substring(0, max);
+  return removeEmptyEntries({
+    countryCode: truncate('countryCode', MAX_LENGTH.COUNTRY_CODE),
+    areaCode: truncate('areaCode', MAX_LENGTH.AREA_CODE),
+    phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
+    phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
   });
+};

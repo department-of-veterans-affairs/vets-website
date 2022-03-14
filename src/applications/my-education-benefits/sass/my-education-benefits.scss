@@ -1,12 +1,16 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
 @import "../../../platform/forms/sass/m-schemaform";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 @import "./m-review-box-field";
+
+// Introduction Page
+.omb-info {
+	margin: 4rem 0 3rem;
+}
 
 /* Form Styling Overrides
 ---------------------------------------------------------------------*/
@@ -29,13 +33,14 @@ fieldset.schemaform-field-template {
 .form-review-panel-page fieldset.schemaform-field-template {
 	margin-top: 3rem;
 }
+.form-expanding-group-open .schemaform-block-header + div .schemaform-field-template {
+	margin-top: 0;
+}
 .form-review-panel-page .form-expanding-group-open .schemaform-field-template.schemaform-first-field,
 .form-review-panel-page .form-expanding-group-open fieldset.schemaform-field-template.schemaform-first-field {
 	margin-top: 0;
 }
-
-.form-checkbox label:not([name="privacyAgreementAccepted-label"]):not([for^="root_view:phoneNumbers"]),
-.schemaform-block {
+.form-expanding-group-open .form-checkbox label {
 	margin-top: 0;
 }
 [type=checkbox] + label,
@@ -45,17 +50,40 @@ fieldset.schemaform-field-template {
 .schemaform-label[for^="root_view:phoneNumbers"] {
 	margin-top: 1.5rem;
 }
-.schemaform-label[id="root_view:phoneNumbers_phoneNumber_phone-label"] {
+.usa-input-error .schemaform-label[for^="root_view:phoneNumbers"] {
+	margin-top: 0;
+}
+#root_view\:phoneNumbers_phoneNumber_phone-label,
+#root_view\:phoneNumbers_mobilePhoneNumber_phone-label,
+.schemaform-label[for="root_view\:toursOfDutyCorrect_toursOfDutyCorrect"] {
 	margin-top: 3rem;
+}
+
+// Date
+fieldset.usa-input-error,
+.form-review-panel-page fieldset.schemaform-field-template.usa-input-error {
+	margin-top: 0;
+}
+fieldset.usa-input-error legend {
+	margin: 0;
+	padding-top: 30px;
+}
+.usa-input-error legend {
+	font-weight: bold;
+}
+.row .row.usa-date-of-birth {
+	margin: 0;
+}
+
+.schemaform-sip-save-link {
+	margin-top: 20px;
 }
 /* END Form Styling Overrides ---------------------------------------*/
 
-.process p {
-	margin-bottom: 0;
-}
-
-
 // USA Alert
+va-alert {
+	margin-top: 1em;
+}
 .usa-alert,
 .usa-alert.background-color-only {
 	padding: 1em;
@@ -64,11 +92,11 @@ fieldset.schemaform-field-template {
 .usa-alert h3 {
 	margin-top: 0;
 }
-.usa-alert p {
+.usa-alert p,
+.form-review-panel .usa-alert p {
 	margin-bottom: 0;
 }
 
-// @media only screen and (min-width: 40.0625em) {
 @media only screen and (min-width: 64.0625em) {
 	.usa-alert {
 		margin-left: -2rem;
@@ -90,7 +118,7 @@ va-accordion {
 	margin-bottom: 2em;
 }
 va-accordion-item .service-history-details {
-	margin-bottom: 0;
+	margin-bottom: calc(-1em + 1px);
 }
 .accordion-toggle-button {
 	background: transparent;
@@ -131,14 +159,6 @@ va-accordion-item .service-history-details {
 .va-growable-review .va-growable-background:not(:nth-last-child(3)) .service-history-details_definition:last-child {
 	padding-bottom: 1em;
 }
-:not(.va-growable-review) .service-history-details_term:nth-last-child(2),
-:not(.va-growable-review) .service-history-details_definition:last-child,
-.va-growable-review .va-growable-background:last-child .service-history-details_term:nth-last-child(2),
-.va-growable-review .va-growable-background:last-child .service-history-details_definition:last-child,
-.va-growable-review .va-growable-background:nth-last-child(3) .service-history-details_term:nth-last-child(2),
-.va-growable-review .va-growable-background:nth-last-child(3) .service-history-details_definition:last-child {
-	padding-bottom: 0
-}
 .service-history-details_period {
 	display: block;
 }
@@ -152,6 +172,25 @@ va-accordion-item .service-history-details {
 .form-review-panel-page .service-history-details_term:first-of-type {
 	border-top-color: $color-gray-dark;
 	border-top-width: 2px;
+}
+[data-chapter="serviceHistoryChapter"] .form-review-panel-page form > .vads-u-margin-y--2,
+[data-chapter="serviceHistoryChapter"] .review {
+	display: flex;
+	flex-direction: column;
+}
+[data-chapter="serviceHistoryChapter"] .review p,
+[data-chapter="serviceHistoryChapter"] .review .service-history-details {
+	order: 2;
+}
+[data-chapter="serviceHistoryChapter"] .form-review-panel-page form > .vads-u-margin-y--2 > div:last-child {
+	margin-bottom: 1em;
+	order: -1;
+}
+[data-chapter="serviceHistoryChapter"] dl.review .review-row:last-child {
+	margin-bottom: 1em;
+}
+[data-chapter="serviceHistoryChapter"] .form-review-panel-page form > .vads-u-margin-y--2 > .form-expanding-group-open:last-child {
+	margin-bottom: 2em;
 }
 @media (min-width: $small-screen) {
 	.service-history-details_term,
@@ -220,6 +259,9 @@ va-accordion-item .service-history-details {
 	display: flex;
 	margin-right: 1.6rem;
 }
+.meb-list-label {
+	margin-top: 1.8rem;
+}
 .meb-alert_body {
 	display: table-cell;
 	margin: 0;
@@ -250,6 +292,9 @@ dl.review .review-row:last-child {
 		padding-left: 1em;
 		padding-right: 1em;
 	}
+}
+dl.review .review-row > dd {
+	overflow-x: auto;
 }
 
 .form-review-panel-page form.rjsf {
@@ -291,6 +336,7 @@ dl.review .review-row:last-child {
 	display: none;
 }
 .form-review-panel-page p.meb-review-page-only {
+	margin-bottom: 0 !important; // overriding .schemaform-block-header > p
 	margin-top: .5em !important; // overriding .schemaform-block-header > p
 }
 .form-review-panel-page .usa-button-primary,
@@ -369,11 +415,6 @@ dl.review .review-row:last-child {
 
 
 // Contact Information UI
-#root_view\:dateOfBirth_dateOfBirth-label {
-	margin-bottom: 1rem;
-	padding-top: 1.5rem;
-}
-
 #root_view\:mailingAddress_address_postalCode {
 	width: 50%;
 }
@@ -381,4 +422,12 @@ dl.review .review-row:last-child {
 label.schemaform-label[for=root_mobilePhoneNumber_isInternational],
 label.schemaform-label[for=root_phoneNumber_isInternational] {
 	margin-top: 2rem;
+}
+
+// Hide Labels
+#root_formId,
+#root_formId-label,
+#root_claimantId,
+#root_claimantId-label {
+	display: none !important;
 }

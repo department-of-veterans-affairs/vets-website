@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import {
   DefinitionTester,
   selectRadio,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 

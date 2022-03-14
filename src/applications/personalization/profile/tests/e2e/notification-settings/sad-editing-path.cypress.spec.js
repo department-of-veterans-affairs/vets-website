@@ -1,3 +1,11 @@
+/**
+ * [TestRail-integrated] Spec for Notification Prefs > Sad editing path
+ * @testrailinfo projectId 4
+ * @testrailinfo suiteId 5
+ * @testrailinfo groupId 2425
+ * @testrailinfo runName NP-e2e-Sad-editing-path
+ */
+
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import mockPatient from '@@profile/tests/fixtures/users/user-36.json';
@@ -10,20 +18,17 @@ import {
   registerCypressHelpers,
 } from '../helpers';
 
-import mockFeatureToggles from './feature-toggles.json';
-
 registerCypressHelpers();
 
 describe('Updating Notification Settings', () => {
   beforeEach(() => {
     mockNotificationSettingsAPIs();
-    cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
     cy.intercept('GET', '/v0/profile/communication_preferences', {
       statusCode: 200,
       body: mockCommunicationPreferences,
     });
     cy.intercept('POST', '/v0/profile/communication_preferences', {
-      statusCode: 401,
+      statusCode: 200,
       body: error401,
       delay: 100,
     });
@@ -34,7 +39,7 @@ describe('Updating Notification Settings', () => {
     });
   });
   context('when there is an API error', () => {
-    it('should handle 401 errors when opting into getting notifications for the first time', () => {
+    it('should handle 401 errors when opting into getting notifications for the first time - C9518', () => {
       cy.login(mockPatient);
       cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
 
@@ -63,7 +68,7 @@ describe('Updating Notification Settings', () => {
         .should('not.be.disabled');
     });
 
-    it('should handle 500 error when opting out of getting notifications', () => {
+    it('should handle 500 error when opting out of getting notifications - C9519', () => {
       cy.login(mockPatient);
       cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
 

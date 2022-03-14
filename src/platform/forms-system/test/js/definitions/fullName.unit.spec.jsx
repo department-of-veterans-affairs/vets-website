@@ -3,14 +3,15 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import definitions from 'vets-json-schema/dist/definitions.json';
+
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import uiSchema from '../../../src/js/definitions/fullName';
-import { fullName as schema } from 'vets-json-schema/dist/definitions.json';
 
 describe('Schemaform definition fullName', () => {
   it('should render fullName', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} uiSchema={uiSchema} />,
+      <DefinitionTester schema={definitions.fullName} uiSchema={uiSchema} />,
     );
 
     const formDOM = findDOMNode(form);
@@ -20,5 +21,8 @@ describe('Schemaform definition fullName', () => {
     expect(inputs.length).to.equal(3);
     expect(selects.length).to.equal(1);
     expect(selects[0].classList.contains('form-select-medium')).to.be.true;
+    expect(inputs[0].autocomplete).to.equal('given-name');
+    expect(inputs[1].autocomplete).to.equal('additional-name');
+    expect(inputs[2].autocomplete).to.equal('family-name');
   });
 });

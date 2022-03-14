@@ -21,15 +21,10 @@
 
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import get from 'platform/utilities/data/get';
-import {
-  countries,
-  states,
-  militaryCities,
-} from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
 
 /**
  * CONSTANTS:
@@ -40,7 +35,7 @@ import {
  */
 
 // filtered States that include US territories
-const filteredStates = states.USA.filter(
+const filteredStates = constants.states.USA.filter(
   state => !['AA', 'AE', 'AP'].includes(state.value),
 );
 
@@ -64,15 +59,12 @@ const USA = {
 
 const MilitaryBaseInfo = () => (
   <div className="vads-u-padding-x--2p5">
-    <AdditionalInfo
-      status="info"
-      triggerText="Learn more about military base addresses"
-    >
+    <va-additional-info trigger="Learn more about military base addresses">
       <span>
         The United States is automatically chosen as your country if you live on
         a military base outside of the country.
       </span>
-    </AdditionalInfo>
+    </va-additional-info>
   </div>
 );
 
@@ -155,8 +147,8 @@ export const addressUISchema = (
             countryUI['ui:disabled'] = false;
             return {
               type: 'string',
-              enum: countries.map(country => country.value),
-              enumNames: countries.map(country => country.label),
+              enum: constants.countries.map(country => country.value),
+              enumNames: constants.countries.map(country => country.label),
             };
           },
         },
@@ -201,8 +193,8 @@ export const addressUISchema = (
               return {
                 type: 'string',
                 title: 'APO/FPO/DPO',
-                enum: militaryCities.map(city => city.value),
-                enumNames: militaryCities.map(city => city.label),
+                enum: constants.militaryCities.map(city => city.value),
+                enumNames: constants.militaryCities.map(city => city.label),
               };
             }
             return {

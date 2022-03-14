@@ -44,6 +44,10 @@
   }
 }
 
+#copy-address-modal .va-modal-body {
+  margin-right: 0px;
+}
+
 .no-wrap {
   white-space: nowrap;
 }
@@ -56,5 +60,15 @@
 
   [type="radio"] + label::before {
     min-width: 1.4rem;
+  }
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.va-profile-alert {
+  p {
+    margin: 0;
   }
 }

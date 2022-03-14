@@ -178,7 +178,11 @@ class ObjectField extends React.Component {
 
     // description and title setup
     const showFieldLabel = uiOptions.showFieldLabel;
-    const fieldsetClassNames = uiOptions.classNames;
+    const fieldsetClassNames = classNames(
+      uiOptions.classNames,
+      'vads-u-margin-y--2',
+    );
+
     const forceDivWrapper = !!uiOptions.forceDivWrapper;
     const title = uiSchema['ui:title'] || schema.title;
     const CustomTitleField = isReactComponent(title) ? title : null;
@@ -192,12 +196,6 @@ class ObjectField extends React.Component {
 
     const hasTitleOrDescription = !!title || !!description;
     const isRoot = idSchema.$id === 'root';
-
-    const containerClassNames = classNames({
-      'input-section': isRoot,
-      'schemaform-field-container': true,
-      'schemaform-block': title && !isRoot,
-    });
 
     const pageIndex = formContext?.pagePerItemIndex;
     // Fix array nested ids (one-level deep)
@@ -250,10 +248,10 @@ class ObjectField extends React.Component {
         : idSchema.$id
     }${typeof pageIndex === 'undefined' ? '' : `_${pageIndex}`}`;
 
-    const fieldContent = (
-      <div className={containerClassNames}>
+    const accessibleFieldContent = (
+      <>
         {hasTitleOrDescription && (
-          <div className="schemaform-block-header">
+          <>
             {CustomTitleField && !showFieldLabel ? (
               <CustomTitleField
                 id={`${id}__title`}
@@ -279,7 +277,7 @@ class ObjectField extends React.Component {
               />
             )}
             {!textDescription && !DescriptionField && description}
-          </div>
+          </>
         )}
         {this.orderedProperties.map((objectFields, index) => {
           if (objectFields.length > 1) {
@@ -309,14 +307,18 @@ class ObjectField extends React.Component {
               renderProp(objectFields[0], index)
             : undefined;
         })}
-      </div>
+      </>
     );
 
     if (title && !forceDivWrapper) {
-      return <fieldset className={fieldsetClassNames}>{fieldContent}</fieldset>;
+      return (
+        <fieldset className={fieldsetClassNames}>
+          {accessibleFieldContent}
+        </fieldset>
+      );
     }
 
-    return <div className={fieldsetClassNames}>{fieldContent}</div>;
+    return <div className={fieldsetClassNames}>{accessibleFieldContent}</div>;
   }
 }
 

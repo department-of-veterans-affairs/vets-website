@@ -19,6 +19,8 @@ const setup = (mobile = false) => {
   // and then the loading indicator should be removed
   cy.findByText(/loading your information/i).should('not.exist');
   cy.findByRole('progressbar').should('not.exist');
+
+  cy.injectAxe();
 };
 
 const checkModals = options => {
@@ -67,6 +69,61 @@ const checkModals = options => {
   });
 };
 
+const checkRemovalWhileEditingModal = options => {
+  const { editSectionName, removalSectionName } = options;
+
+  // Open edit view
+  cy.findByRole('button', {
+    name: new RegExp(`edit ${editSectionName}`, 'i'),
+  }).click({
+    force: true,
+  });
+
+  // Attempt to remove a different field
+  cy.findByRole('button', {
+    name: new RegExp(`remove ${removalSectionName}`, 'i'),
+  }).click({
+    force: true,
+  });
+
+  // Modal appears
+  cy.get('.va-modal').within(() => {
+    cy.contains(`You’re currently editing your ${editSectionName}`).should(
+      'exist',
+    );
+    cy.findByRole('button', { name: /OK/i }).click({
+      force: true,
+    });
+  });
+
+  cy.findByTestId('cancel-edit-button').click({
+    force: true,
+  });
+};
+
+describe('Modals for removal of field', () => {
+  it('should show edit notice modal when attempting to remove field after editing another field', () => {
+    setup(false);
+
+    checkRemovalWhileEditingModal({
+      editSectionName: 'mailing address',
+      removalSectionName: 'home address',
+    });
+
+    checkRemovalWhileEditingModal({
+      editSectionName: 'home phone number',
+      removalSectionName: 'mobile phone number',
+    });
+
+    checkRemovalWhileEditingModal({
+      editSectionName: 'mailing address',
+      removalSectionName: 'contact email address',
+    });
+
+    cy.axeCheck();
+  });
+});
+
 describe('Modals on the personal information and content page', () => {
   it('should render as expected on Desktop', () => {
     setup();
@@ -105,6 +162,8 @@ describe('Modals on the personal information and content page', () => {
       editLineId: 'root_emailAddress',
       sectionName: 'contact email address',
     });
+
+    cy.axeCheck();
   });
 
   it('should render as expected on Mobile', () => {
@@ -144,6 +203,8 @@ describe('Modals on the personal information and content page', () => {
       editLineId: 'root_emailAddress',
       sectionName: 'contact email address',
     });
+
+    cy.axeCheck();
   });
 });
 
@@ -179,11 +240,53 @@ describe('Modals on the personal information and content page after editing', ()
 
     // verify input exists
     cy.findByLabelText(/email address/i);
+
+    cy.axeCheck();
+  });
+});
+
+describe('when moving to other profile sections', () => {
+  it('should exit edit mode if opened', () => {
+    setup();
+
+    const sectionName = 'contact email address';
+
+    cy.intercept(
+      '/v0/profile/email_addresses',
+      transactionCompletedWithNoChanges,
+    );
+
+    // Open edit view
+    cy.findByRole('button', {
+      name: new RegExp(`edit ${sectionName}`, 'i'),
+    }).click({
+      force: true,
+    });
+
+    cy.findByRole('link', {
+      name: /military information/i,
+    }).click({
+      // using force: true since there are times when the click does not
+      // register and the bank info form does not open
+      force: true,
+    });
+    cy.findByRole('link', {
+      name: /personal.*information/i,
+    }).click({
+      // using force: true since there are times when the click does not
+      // register and the bank info form does not open
+      force: true,
+    });
+    cy.findByRole('button', {
+      name: new RegExp(`edit ${sectionName}`, 'i'),
+    }).should('exist');
+
+    cy.axeCheck();
   });
 });
 
 describe('Modals on the personal information and content page when they error', () => {
-  it('should focus on the close notification and the save button when the error is closed', () => {
+  it('should exist', () => {
     setup();
 
     const sectionName = 'contact email address';
@@ -205,12 +308,6 @@ describe('Modals on the personal information and content page when they error', 
     // expect an error to be shown
     cy.findByTestId('edit-error-alert').should('exist');
 
-    // check for error modal and check that the close is focused then click it
-    cy.findByRole('button', { name: /close notification/i })
-      .should('be.focused')
-      .click();
-
-    // check if update button is focused
-    cy.findByTestId('save-edit-button').should('be.focused');
+    cy.axeCheck();
   });
 });

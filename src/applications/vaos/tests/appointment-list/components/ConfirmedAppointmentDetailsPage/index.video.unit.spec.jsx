@@ -5,11 +5,9 @@ import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import {
   mockAppointmentInfo,
-  mockFacilitiesFetch,
-  mockFacilityFetch,
   mockSingleAppointmentFetch,
 } from '../../../mocks/helpers';
-import { getVAFacilityMock, getVideoAppointmentMock } from '../../../mocks/v0';
+import { getVideoAppointmentMock } from '../../../mocks/v0';
 import {
   renderWithStoreAndRouter,
   getTimezoneTestDate,
@@ -19,11 +17,16 @@ import { mockFetch } from 'platform/testing/unit/helpers';
 import { AppointmentList } from '../../../../appointment-list';
 import sinon from 'sinon';
 import { getICSTokens } from '../../../../utils/calendar';
-import { getV2FacilityMock, getVAOSAppointmentMock } from '../../../mocks/v2';
+import { getVAOSAppointmentMock } from '../../../mocks/v2';
+import { mockSingleVAOSAppointmentFetch } from '../../../mocks/helpers.v2';
 import {
-  mockSingleVAOSAppointmentFetch,
-  mockV2FacilityFetch,
-} from '../../../mocks/helpers.v2';
+  mockFacilitiesFetchByVersion,
+  mockFacilityFetchByVersion,
+} from '../../../mocks/fetch';
+import {
+  createMockFacilityByVersion,
+  createMockCheyenneFacilityByVersion,
+} from '../../../mocks/data';
 
 const initialState = {
   featureToggles: {
@@ -42,17 +45,21 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         .add(330, 'minutes')
         .format('YYYY-MM-DD[T]HH:mm:ss');
       MockDate.set(sameDayDate);
-      mockFacilitiesFetch();
-      mockFacilityFetch(
-        'vha_442',
-        getVAFacilityMock({ id: '442', name: 'Cheyenne VA medical center' }),
-      );
+      mockFacilitiesFetchByVersion({ version: 0 });
+      mockFacilityFetchByVersion({
+        facility: createMockCheyenneFacilityByVersion({
+          version: 0,
+        }),
+        version: 0,
+      });
     });
     afterEach(() => {
       MockDate.reset();
     });
     it('should show info and disabled link if ad hoc and more than 30 minutes in the future', async () => {
+      // Given a video appointment
       const appointment = getVideoAppointmentMock();
+      // And the appointment is more than 30 minutes in the future
       const startDate = moment.utc().add(3, 'days');
       appointment.attributes = {
         ...appointment.attributes,
@@ -93,32 +100,14 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         cc: [],
         requests: [],
       });
-      const facility = {
-        id: 'vha_442',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '442',
-          name: 'Cheyenne VA Medical Center',
-          address: {
-            physical: {
-              zip: '82001-5356',
-              city: 'Cheyenne',
-              state: 'WY',
-              address1: '2360 East Pershing Boulevard',
-            },
-          },
-          phone: {
-            main: '307-778-7550',
-          },
-        },
-      };
-      mockFacilitiesFetch('vha_442', [facility]);
-      mockFacilityFetch('vha_442', facility);
-
+      const facility = createMockCheyenneFacilityByVersion({ version: 0 });
+      mockFacilitiesFetchByVersion({ facilities: [facility] });
+      mockFacilityFetchByVersion({ facility, version: 0 });
+      // When the appointment list page is displayed
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
       });
-
+      // And the user select the appointment to display the appointment details page
       fireEvent.click(await screen.findByText(/Details/));
 
       await screen.findByText(/Cheyenne VA medical center/i);
@@ -134,11 +123,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       expect(screen.getByRole('link', { name: /VA online scheduling/ })).to.be
         .ok;
-
+      // Then the appointment details will display
       expect(screen.baseElement).to.contain.text('VA Video Connect at home');
 
       expect(screen.baseElement).to.contain.text(
-        'You can join this meeting from your home or anywhere you have a secure Internet connnection.',
+        'You can join this meeting from your home or anywhere you have a secure Internet connection.',
       );
       expect(screen.baseElement).to.contain.text(
         'You can join VA Video Connect up to 30 minutes prior to the start time.',
@@ -164,8 +153,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       ).to.be.ok;
       expect(screen.getByText(/Print/)).to.be.ok;
       expect(screen.baseElement).to.not.contain.text('Reschedule');
-
-      expect(screen.baseElement).to.contain.text('Prepare for video visit');
+      expect(screen.baseElement).to.contain.text('video experience');
 
       expect(screen.baseElement).to.contain.text(
         'Contact this facility if you need to reschedule or cancel your appointment',
@@ -174,7 +162,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     });
 
     it('should show active link if 30 minutes in the future', async () => {
+      // Given a video appointment
       const appointment = getVideoAppointmentMock();
+      // And the appointment is 30 minutes or less into the future
       const startDate = moment.utc().add(30, 'minutes');
       appointment.attributes = {
         ...appointment.attributes,
@@ -225,11 +215,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         cc: [],
         requests: [],
       });
-
+      // When appointment list page is displayed
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
       });
-
+      // And user clicks on the appointment to view its details
       fireEvent.click(await screen.findByText(/Details/));
 
       await screen.findByText(/Cheyenne VA medical center/i);
@@ -245,7 +235,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       expect(screen.queryByText(/You don’t have any appointments/i)).not.to
         .exist;
-
+      // Then the join appointment link is clickable
       expect(screen.getByText(/join appointment/i)).to.have.attribute(
         'aria-disabled',
         'false',
@@ -468,10 +458,12 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         cc: [],
         requests: [],
       });
-      mockFacilityFetch(
-        'vha_442',
-        getVAFacilityMock({ id: '442', name: 'Cheyenne VA medical center' }),
-      );
+      mockFacilityFetchByVersion({
+        facility: createMockCheyenneFacilityByVersion({
+          version: 0,
+        }),
+        version: 0,
+      });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
@@ -508,7 +500,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.baseElement).to.contain.text(
         'Contact this facility if you need to reschedule or cancel your appointment',
       );
-      expect(screen.baseElement).to.contain.text('Cheyenne VA medical center');
+      expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     });
 
     it('should direct user to VA facility if we are missing facility details', async () => {
@@ -574,10 +566,14 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         facilityId: '612',
         appointmentKind: 'ADHOC',
       });
-      mockFacilityFetch(
-        'vha_612A4',
-        getVAFacilityMock({ id: '612A4', name: 'Sacramento VA' }),
-      );
+      mockFacilityFetchByVersion({
+        facility: createMockFacilityByVersion({
+          id: '612A4',
+          name: 'Sacramento VA',
+          version: 0,
+        }),
+        version: 0,
+      });
       mockSingleAppointmentFetch({
         appointment,
       });
@@ -636,26 +632,19 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         requests: [],
       });
 
-      const facility = {
-        id: 'vha_442GD',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '442GD',
-          name: 'Cheyenne VA Medical Center',
-          address: {
-            physical: {
-              zip: '82001-5356',
-              city: 'Cheyenne',
-              state: 'WY',
-              address1: '2360 East Pershing Boulevard',
-            },
-          },
-          phone: {
-            main: '307-778-7550',
-          },
+      const facility = createMockFacilityByVersion({
+        id: '442GD',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          postalCode: '82001-5356',
+          city: 'Cheyenne',
+          state: 'WY',
+          line: ['2360 East Pershing Boulevard'],
         },
-      };
-      mockFacilitiesFetch('vha_442GD', [facility]);
+        phone: '307-778-7550',
+        version: 0,
+      });
+      mockFacilitiesFetchByVersion({ facilities: [facility], version: 0 });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
@@ -734,26 +723,19 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         requests: [],
       });
 
-      const facility = {
-        id: 'vha_442GD',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '442GD',
-          name: 'Cheyenne VA Medical Center',
-          address: {
-            physical: {
-              zip: '82001-5356',
-              city: 'Cheyenne',
-              state: 'WY',
-              address1: '2360 East Pershing Boulevard',
-            },
-          },
-          phone: {
-            main: '307-778-7550',
-          },
+      const facility = createMockFacilityByVersion({
+        id: '442GD',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          postalCode: '82001-5356',
+          city: 'Cheyenne',
+          state: 'WY',
+          line: ['2360 East Pershing Boulevard'],
         },
-      };
-      mockFacilitiesFetch('vha_442GD', [facility]);
+        phone: '307-778-7550',
+        version: 0,
+      });
+      mockFacilitiesFetchByVersion({ facilities: [facility], version: 0 });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
@@ -943,7 +925,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     it('should verify Video Connect at home calendar ics file format', async () => {
       const appointment = getVideoAppointmentMock();
-      const startDate = moment.utc().add(3, 'days');
+      const startDate = moment(getTimezoneTestDate()).add(3, 'days');
       appointment.attributes = {
         ...appointment.attributes,
         facilityId: '983',
@@ -996,9 +978,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const ics = decodeURIComponent(
         screen
           .getByRole('link', {
-            name: `Add ${startDate.format(
-              'MMMM D, YYYY',
-            )} appointment to your calendar`,
+            name: `Add ${moment(startDate)
+              .tz('America/Denver')
+              .format('MMMM D, YYYY')} appointment to your calendar`,
           })
           .getAttribute('href')
           .replace('data:text/calendar;charset=utf-8,', ''),
@@ -1053,7 +1035,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     it('should verify Video Connect at VA location calendar ics file format', async () => {
       const appointment = getVideoAppointmentMock();
-      const startDate = moment.utc().add(3, 'days');
+      const startDate = moment(getTimezoneTestDate()).add(3, 'days');
       appointment.attributes = {
         ...appointment.attributes,
         facilityId: '983',
@@ -1084,27 +1066,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         requests: [],
       });
 
-      const facility = {
-        id: 'vha_442',
-        attributes: {
-          ...getVAFacilityMock().attributes,
-          uniqueId: '442',
-          name: 'Cheyenne VA Medical Center',
-          address: {
-            physical: {
-              zip: '82001-5356',
-              city: 'Cheyenne',
-              state: 'WY',
-              address1: '2360 East Pershing Boulevard',
-            },
-          },
-          phone: {
-            main: '307-778-7550',
-          },
-        },
-      };
-      mockFacilitiesFetch('vha_442', [facility]);
-      mockFacilityFetch('vha_442', facility);
+      const facility = createMockCheyenneFacilityByVersion({ version: 0 });
+      mockFacilitiesFetchByVersion({ facilities: [facility], version: 0 });
+      mockFacilityFetchByVersion({ facility, version: 0 });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
@@ -1120,9 +1084,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const ics = decodeURIComponent(
         screen
           .getByRole('link', {
-            name: `Add ${startDate.format(
-              'MMMM D, YYYY',
-            )} appointment to your calendar`,
+            name: `Add ${moment(startDate)
+              .tz('America/Denver')
+              .format('MMMM D, YYYY')} appointment to your calendar`,
           })
           .getAttribute('href')
           .replace('data:text/calendar;charset=utf-8,', ''),
@@ -1186,7 +1150,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     it('should verify Video Connect at ATLAS calendar ics file format', async () => {
       // Given a user with an ATLAS video appointment
-      const startDate = moment.utc().add(3, 'days');
+      const startDate = moment(getTimezoneTestDate()).add(3, 'days');
       const appointment = getVideoAppointmentMock({
         facilityId: '983',
         startDate: startDate.format(),
@@ -1243,9 +1207,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const ics = decodeURIComponent(
         screen
           .getByRole('link', {
-            name: `Add ${startDate.format(
-              'MMMM D, YYYY',
-            )} appointment to your calendar`,
+            name: `Add ${moment(startDate)
+              .tz('America/Denver')
+              .format('MMMM D, YYYY')} appointment to your calendar`,
           })
           .getAttribute('href')
           .replace('data:text/calendar;charset=utf-8,', ''),
@@ -1368,9 +1332,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const ics = decodeURIComponent(
         screen
           .getByRole('link', {
-            name: `Add ${startDate.format(
-              'MMMM D, YYYY',
-            )} appointment to your calendar`,
+            name: `Add ${startDate
+              .tz('America/Denver')
+              .format('MMMM D, YYYY')} appointment to your calendar`,
           })
           .getAttribute('href')
           .replace('data:text/calendar;charset=utf-8,', ''),
@@ -1459,20 +1423,19 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       mockSingleVAOSAppointmentFetch({ appointment });
 
-      // And the appointment has associated facility information
-      const facility = getV2FacilityMock({
-        id: '983',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          postalCode: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          line: ['2360 East Pershing Boulevard'],
-        },
-        phone: '970-224-1550',
+      mockFacilityFetchByVersion({
+        facility: createMockFacilityByVersion({
+          id: '983',
+          name: 'Cheyenne VA Medical Center',
+          address: {
+            postalCode: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            line: ['2360 East Pershing Boulevard'],
+          },
+          phone: '970-224-1550',
+        }),
       });
-
-      mockV2FacilityFetch(facility);
 
       // When the page is displayed
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -1529,13 +1492,16 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   describe('VAOS video appointments (css transition check)', () => {
     beforeEach(() => {
       mockFetch();
-      mockFacilitiesFetch();
-      mockFacilityFetch(
-        'vha_442',
-        getVAFacilityMock({ id: '442', name: 'Cheyenne VA medical center' }),
-      );
+      mockFacilitiesFetchByVersion({ version: 0 });
+      mockFacilityFetchByVersion({
+        facility: createMockCheyenneFacilityByVersion({
+          version: 0,
+        }),
+        version: 0,
+      });
     });
     it('should reveal video visit instructions', async () => {
+      // Given a video appointment
       const startDate = moment.utc().add(30, 'minutes');
       const appointment = getVideoAppointmentMock();
       appointment.attributes = {
@@ -1581,11 +1547,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         cc: [],
         requests: [],
       });
-
+      // When the appointment list page is displayed
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
       });
-
+      // And the user click details to view appointment detail page
       fireEvent.click(await screen.findByText(/Details/));
 
       await screen.findByText(/Cheyenne VA medical center/i);
@@ -1601,13 +1567,14 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       expect(screen.queryByText(/You don’t have any appointments/i)).not.to
         .exist;
-      expect(screen.queryByText(/before your appointment/i)).to.not.exist;
-
-      fireEvent.click(await screen.findByText(/Prepare for video visit/i));
-
-      expect(await screen.findByText('Before your appointment:')).to.be.ok;
+      // Then the video instructions will be display
+      expect(
+        await screen.findByText(/To have the best possible video experience/),
+      ).to.be.ok;
     });
+
     it('should reveal medication review instructions', async () => {
+      // Given a video appointment
       const startDate = moment.utc().add(30, 'minutes');
       const appointment = getVideoAppointmentMock();
       appointment.attributes = {
@@ -1616,6 +1583,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         clinicId: null,
         startDate: startDate.format(),
       };
+      // And has a medical review attribute
       appointment.attributes.vvsAppointments[0] = {
         ...appointment.attributes.vvsAppointments[0],
         dateTime: startDate.format(),
@@ -1629,11 +1597,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         cc: [],
         requests: [],
       });
-
+      // When the appointment list is displayed
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
       });
-
+      // And the user click details to view appointment detail page
       fireEvent.click(await screen.findByText(/Details/));
 
       await screen.findByText(/Cheyenne VA medical center/i);
@@ -1649,10 +1617,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       expect(screen.queryByText(/You don’t have any appointments/i)).not.to
         .exist;
-      expect(screen.queryByText(/before your appointment/i)).to.not.exist;
-
-      fireEvent.click(screen.getByText(/Prepare for video visit/i));
-
+      // Then the review medication instructions will display
       expect(
         await screen.findByText(
           /your provider will want to review all the medications/,

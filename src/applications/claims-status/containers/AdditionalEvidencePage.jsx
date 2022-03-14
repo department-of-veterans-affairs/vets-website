@@ -2,21 +2,19 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import AddFilesForm from '../components/AddFilesForm';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import Notification from '../components/Notification';
-import EvidenceWarning from '../components/EvidenceWarning';
-import { setPageFocus, setUpPage } from '../utils/page';
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+import AddFilesForm from '../components/AddFilesForm';
+import Notification from '../components/Notification';
+import EvidenceWarning from '../components/EvidenceWarning';
+import { setPageFocus, setUpPage } from '../utils/page';
 
 import {
   addFile,
   removeFile,
   submitFiles,
   updateField,
-  showMailOrFaxModal,
   cancelUpload,
   getClaimDetail,
   setFieldsDirty,
@@ -28,7 +26,7 @@ const scrollToError = () => {
   const options = getScrollOptions({ offset: -25 });
   scrollTo('uploadError', options);
 };
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 class AdditionalEvidencePage extends React.Component {
   componentDidMount() {
@@ -40,12 +38,14 @@ class AdditionalEvidencePage extends React.Component {
       scrollToTop();
     }
   }
+
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props) {
     if (props.uploadComplete) {
       this.goToFilesPage();
     }
   }
+
   componentDidUpdate(prevProps) {
     if (this.props.message && !prevProps.message) {
       scrollToError();
@@ -54,28 +54,31 @@ class AdditionalEvidencePage extends React.Component {
       setPageFocus();
     }
   }
+
   componentWillUnmount() {
     if (!this.props.uploadComplete) {
       this.props.clearAdditionalEvidenceNotification();
     }
   }
+
   goToFilesPage() {
     this.props.getClaimDetail(this.props.claim.id);
     this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
+
   render() {
     const filesPath = `your-claims/${this.props.params.id}/additional-evidence`;
     let content;
 
     if (this.props.loading) {
       content = (
-        <LoadingIndicator
-          setFocus
+        <va-loading-indicator
+          set-focus
           message="Loading your claim information..."
         />
       );
     } else {
-      const message = this.props.message;
+      const { message } = this.props;
 
       content = (
         <div className="claim-container">
@@ -95,7 +98,6 @@ class AdditionalEvidencePage extends React.Component {
             progress={this.props.progress}
             uploading={this.props.uploading}
             files={this.props.files}
-            showMailOrFax={this.props.showMailOrFax}
             backUrl={this.props.lastPage || filesPath}
             onSubmit={() =>
               this.props.submitFiles(
@@ -107,7 +109,6 @@ class AdditionalEvidencePage extends React.Component {
             onAddFile={this.props.addFile}
             onRemoveFile={this.props.removeFile}
             onFieldChange={this.props.updateField}
-            onShowMailOrFax={this.props.showMailOrFaxModal}
             onCancel={this.props.cancelUpload}
             onDirtyFields={this.props.setFieldsDirty}
           />
@@ -135,7 +136,6 @@ function mapStateToProps(state) {
     uploadError: claimsState.uploads.uploadError,
     uploadComplete: claimsState.uploads.uploadComplete,
     uploadField: claimsState.uploads.uploadField,
-    showMailOrFax: claimsState.uploads.showMailOrFax,
     lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.additionalEvidenceMessage,
   };
@@ -146,7 +146,6 @@ const mapDispatchToProps = {
   removeFile,
   submitFiles,
   updateField,
-  showMailOrFaxModal,
   cancelUpload,
   getClaimDetail,
   setFieldsDirty,

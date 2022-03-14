@@ -1,41 +1,40 @@
 import React, { useEffect } from 'react';
 import {
   setLangAttributes,
+  adjustSidebarNav,
   getConfigFromUrl,
 } from 'applications/static-pages/i18Select/utilities/helpers';
+import { TRANSLATED_LANGUAGES } from 'applications/static-pages/i18Select/utilities/constants';
 import { FOOTER_EVENTS } from '../helpers';
 import recordEvent from '../../../monitoring/record-event';
-import { TRANSLATED_LANGUAGES } from 'applications/static-pages/i18Select/utilities/constants';
+import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 
 const langAssistanceLabel = 'Language assistance';
 
 function LanguagesListTemplate({ dispatchLanguageSelection }) {
   return (
-    <ul
-      className={
-        'vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-bottom--0'
-      }
-    >
+    <ul className="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-bottom--0">
       {[
         {
           label: 'Español',
           lang: 'es',
-          href: '/asistencia-y-recursos-en-espanol',
+          href: 'https://www.va.gov/asistencia-y-recursos-en-espanol',
         },
         {
           label: 'Tagalog',
           lang: 'tl',
-          href: '/tagalog-wika-mapagkukunan-at-tulong',
+          href: 'https://www.va.gov/tagalog-wika-mapagkukunan-at-tulong',
         },
         {
           label: 'Other languages',
           lang: 'en',
-          href: '/resources/how-to-get-free-language-assistance-from-va/',
+          href:
+            'https://www.va.gov/resources/how-to-get-free-language-assistance-from-va/',
         },
       ].map((link, i) => (
         <li key={i}>
           <a
-            href={link.href}
+            href={replaceWithStagingDomain(link.href)}
             lang={link.lang}
             hrefLang={link.lang}
             onClick={() => {
@@ -56,7 +55,6 @@ function LanguagesListTemplate({ dispatchLanguageSelection }) {
 }
 export default function LanguageSupport({
   isDesktop,
-  showLangSupport,
   dispatchLanguageSelection,
   languageCode,
 }) {
@@ -68,6 +66,7 @@ export default function LanguageSupport({
       );
 
       setLangAttributes(parsedLanguageCode);
+      adjustSidebarNav(parsedLanguageCode);
 
       if (languageCode === parsedLanguageCode) return;
 
@@ -75,8 +74,6 @@ export default function LanguageSupport({
     },
     [dispatchLanguageSelection, languageCode],
   );
-
-  if (showLangSupport !== true) return null;
 
   if (isDesktop) {
     return (

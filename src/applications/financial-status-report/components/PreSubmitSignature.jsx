@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import environment from 'platform/utilities/environment';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 const PreSubmitSignature = ({
   formData,
@@ -104,7 +104,10 @@ const PreSubmitSignature = ({
   if (isSubmitPending) {
     return (
       <div className="vads-u-margin-bottom--3">
-        <LoadingIndicator message="We’re processing your application." />
+        <va-loading-indicator
+          label="Loading"
+          message="We’re processing your application."
+        />
       </div>
     );
   }
@@ -175,6 +178,13 @@ const PreSubmitSignature = ({
       />
     </>
   );
+};
+
+PreSubmitSignature.propTypes = {
+  formData: PropTypes.object,
+  formSubmission: PropTypes.object,
+  showError: PropTypes.bool,
+  onSectionComplete: PropTypes.func,
 };
 
 const mapStateToProps = ({ form }) => {

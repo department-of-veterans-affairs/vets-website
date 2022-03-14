@@ -1,17 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { setData } from 'platform/forms-system/src/js/actions';
+import {
+  getContestableIssues as getContestableIssuesAction,
+  FETCH_CONTESTABLE_ISSUES_INIT,
+} from '../actions';
 
 import formConfig from '../config/form';
-import { IS_PRODUCTION } from '../constants';
+import { SAVED_CLAIM_TYPE } from '../constants';
 import { getHlrWizardStatus, shouldShowWizard } from '../wizard/utils';
+import {
+  issuesNeedUpdating,
+  getSelected,
+  getIssueNameAndDate,
+  processContestableIssues,
+} from '../utils/helpers';
+import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
 
 export const Form0996App = ({
   loggedIn,
@@ -23,20 +32,38 @@ export const Form0996App = ({
   router,
   savedForms,
   hlrV2,
+  getContestableIssues,
+  contestableIssues = {},
+  legacyCount,
 }) => {
   const { email = {}, mobilePhone = {}, mailingAddress = {} } =
     profile?.vapContactInfo || {};
+  // Make sure we're only loading issues once - see
+  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
+  const [isLoadingIssues, setIsLoadingIssues] = useState(false);
 
   useEffect(
     () => {
-      if (loggedIn) {
+      if (loggedIn && getHlrWizardStatus() === WIZARD_STATUS_COMPLETE) {
         const { veteran = {} } = formData || {};
-        if (
+        const areaOfDisagreement = getSelected(formData);
+        if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
+          setIsLoadingIssues(true);
+          const benefitType =
+            sessionStorage.getItem(SAVED_CLAIM_TYPE) || formData.benefitType;
+          getContestableIssues({ benefitType, hlrV2 });
+        } else if (
+          formData?.benefitType !== contestableIssues?.benefitType ||
           email?.emailAddress !== veteran.email ||
           mobilePhone?.updatedAt !== veteran.phone?.updatedAt ||
           mailingAddress?.updatedAt !== veteran.address?.updatedAt ||
           (typeof hlrV2 !== 'undefined' &&
-            typeof formData.hlrV2 === 'undefined')
+            typeof formData.hlrV2 === 'undefined') ||
+          issuesNeedUpdating(
+            contestableIssues?.issues,
+            formData?.contestedIssues,
+          ) ||
+          contestableIssues.legacyCount !== formData.legacyCount
         ) {
           setFormData({
             ...formData,
@@ -47,16 +74,31 @@ export const Form0996App = ({
               phone: mobilePhone,
               email: email?.emailAddress,
             },
+            // Add benefitType from wizard
+            benefitType: contestableIssues?.benefitType || formData.benefitType,
+            contestedIssues: processContestableIssues(
+              contestableIssues?.issues,
+            ),
+            legacyCount: contestableIssues?.legacyCount || 0,
+          });
+        } else if (
+          formData.hlrV2 && // easier to test formData.hlrV2 with SiP menu
+          (areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
+            !areaOfDisagreement.every(
+              (entry, index) =>
+                getIssueNameAndDate(entry) ===
+                getIssueNameAndDate(formData.areaOfDisagreement[index]),
+            ))
+        ) {
+          setFormData({
+            ...formData,
+            // save existing settings
+            areaOfDisagreement: copyAreaOfDisagreementOptions(
+              areaOfDisagreement,
+              formData.areaOfDisagreement,
+            ),
           });
         }
-      }
-
-      if (
-        getHlrWizardStatus() === WIZARD_STATUS_COMPLETE &&
-        window.location.pathname.endsWith('/introduction')
-      ) {
-        focusElement('h1');
-        scrollToTop();
       }
     },
     [
@@ -67,14 +109,37 @@ export const Form0996App = ({
       formData,
       setFormData,
       hlrV2,
+      contestableIssues,
+      isLoadingIssues,
+      getContestableIssues,
+      legacyCount,
     ],
   );
 
-  if (!IS_PRODUCTION && shouldShowWizard(formConfig.formId, savedForms)) {
+  let content = (
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {children}
+    </RoutedSavableApp>
+  );
+
+  if (shouldShowWizard(formConfig.formId, savedForms)) {
     router.push('/start');
-    return (
+    content = (
       <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-        <LoadingIndicator message="Please wait while we restart the application for you." />
+        <va-loading-indicator message="Please wait while we restart the application for you." />
+      </h1>
+    );
+  } else if (
+    loggedIn &&
+    ((contestableIssues?.status || '') === '' ||
+      contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT)
+  ) {
+    content = (
+      <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+        <va-loading-indicator
+          set-focus
+          message="Loading your previous decisions..."
+        />
       </h1>
     );
   }
@@ -82,11 +147,38 @@ export const Form0996App = ({
   // Add data-location attribute to allow styling specific pages
   return (
     <article id="form-0996" data-location={`${location?.pathname?.slice(1)}`}>
-      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-        {children}
-      </RoutedSavableApp>
+      {content}
     </article>
   );
+};
+
+Form0996App.propTypes = {
+  getContestableIssues: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  children: PropTypes.any,
+  contestableIssues: PropTypes.shape({}),
+  formData: PropTypes.shape({
+    additionalIssues: PropTypes.array,
+    areaOfDisagreement: PropTypes.array,
+    benefitType: PropTypes.string,
+    contestedIssues: PropTypes.array, // v1
+    contestableIssues: PropTypes.array, // v2
+    hlrV2: PropTypes.bool,
+    legacyCount: PropTypes.number,
+  }),
+  hlrV2: PropTypes.bool,
+  legacyCount: PropTypes.number,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+  loggedIn: PropTypes.bool,
+  profile: PropTypes.shape({
+    vapContactInfo: PropTypes.shape({}),
+  }),
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  savedForms: PropTypes.array,
 };
 
 const mapStateToProps = state => ({
@@ -94,11 +186,14 @@ const mapStateToProps = state => ({
   formData: state.form?.data || {},
   profile: selectProfile(state) || {},
   savedForms: state.user?.profile?.savedForms || [],
-  hlrV2: state.featureToggles.hlrV2,
+  hlrV2: state.featureToggles?.hlrV2,
+  contestableIssues: state.contestableIssues || {},
+  legacyCount: state.legacyCount || 0,
 });
 
 const mapDispatchToProps = {
   setFormData: setData,
+  getContestableIssues: getContestableIssuesAction,
 };
 
 export default connect(

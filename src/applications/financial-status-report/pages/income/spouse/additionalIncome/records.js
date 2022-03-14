@@ -28,7 +28,6 @@ export const uiSchema = {
           viewType: 'table',
           viewField: TableDetailsView,
           doNotScroll: true,
-          showSave: true,
           itemName: 'income',
           keepInPageOnReview: true,
         },

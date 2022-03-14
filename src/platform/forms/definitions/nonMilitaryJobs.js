@@ -1,4 +1,4 @@
-import EmploymentPeriodView from 'applications/edu-benefits/components/EmploymentPeriodView';
+import EmploymentPeriodView from '../components/EmploymentPeriodView';
 
 const uiSchema = {
   items: {

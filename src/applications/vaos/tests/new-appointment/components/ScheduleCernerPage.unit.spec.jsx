@@ -7,7 +7,7 @@ import {
   setVAFacility,
 } from '../../mocks/setup';
 
-import { getVAFacilityMock } from '../../mocks/v0';
+import { createMockCheyenneFacilityByVersion } from '../../mocks/data';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import ScheduleCernerPage from '../../../new-appointment/components/ScheduleCernerPage';
 
@@ -25,25 +25,7 @@ const initialState = {
 describe('VAOS <ScheduleCernerPage>', () => {
   beforeEach(() => mockFetch());
   it('should show Cerner facility information', async () => {
-    const facilityData = {
-      id: 'vha_442',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
-    };
+    const facilityData = createMockCheyenneFacilityByVersion({ version: 0 });
 
     const store = createTestStore(initialState);
 

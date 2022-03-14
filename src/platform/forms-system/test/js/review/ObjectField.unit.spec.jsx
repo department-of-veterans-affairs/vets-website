@@ -904,4 +904,68 @@ describe('Schemaform review: ObjectField', () => {
     fireEvent.click(editButton);
     expect(onClick.called).to.be.true;
   });
+
+  it('should render custom ObjectViewField even when not attached to the root', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+
+    const pageSchema = {
+      type: 'object',
+      properties: {
+        testz: {
+          type: 'object',
+          properties: {
+            foo: { type: 'boolean' },
+            bar: { type: 'boolean' },
+            baz: { type: 'boolean' },
+          },
+        },
+      },
+    };
+
+    const pageUiSchema = {
+      testz: {
+        'ui:objectViewField': () => <div data-testid="child-objectviewfield" />,
+      },
+    };
+
+    const formData = { testz: { foo: 'blah' } };
+
+    const formContext = {
+      pageTitle: 'Blah',
+    };
+
+    const pageIdSchema = {
+      $id: 'root',
+      testz: {
+        $id: 'root_testz',
+        foo: { $id: 'root_testz_foo' },
+        bar: { $id: 'root_testz_bar' },
+        baz: { $id: 'root_testz_baz' },
+      },
+    };
+
+    // Simulating the nested child ObjectField.
+    // Rendering the root didn't render the ReviewFieldTemplate,
+    // which means that ObjectViewField wasn't rendered
+    const tree = render(
+      <ObjectField
+        schema={pageSchema.properties.testz}
+        uiSchema={pageUiSchema.testz}
+        formData={formData}
+        formContext={formContext}
+        idSchema={pageIdSchema.testz}
+        requiredSchema={{}}
+        onChange={onChange}
+        onBlur={onBlur}
+      />,
+    );
+
+    const objectViewField = tree.getByTestId('child-objectviewfield');
+    expect(objectViewField).to.exist;
+
+    expect(tree.queryByLabelText('foo')).to.be.null;
+    expect(tree.queryByLabelText('bar')).to.be.null;
+    expect(tree.queryByLabelText('baz')).to.be.null;
+  });
 });

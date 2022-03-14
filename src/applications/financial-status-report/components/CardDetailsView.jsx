@@ -2,9 +2,10 @@ import React from 'react';
 import startCase from 'lodash/startCase';
 import toLower from 'lodash/toLower';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import { currency } from '../utils/helpers';
 
-const CardDetailsView = ({ formData, onEdit, index, title }) => {
+const CardDetailsView = ({ formData, onEdit, title }) => {
   if (!formData) return <div>no data</div>;
 
   const keys = Object.keys(formData);
@@ -28,10 +29,10 @@ const CardDetailsView = ({ formData, onEdit, index, title }) => {
       purpose = capitalize(formData[key]);
     }
     if (key.toLowerCase().includes('balance')) {
-      balance = currency.format(parseFloat(formData[key]));
+      balance = currency(formData[key]);
     }
     if (key.toLowerCase().includes('monthly')) {
-      monthly = currency.format(parseFloat(formData[key]));
+      monthly = currency(formData[key]);
     }
     if (key.toLowerCase().includes('type')) {
       type = capitalize(formData[key]);
@@ -40,7 +41,7 @@ const CardDetailsView = ({ formData, onEdit, index, title }) => {
       key.toLowerCase().includes('amount') ||
       key.toLowerCase().includes('value')
     ) {
-      amount = currency.format(parseFloat(formData[key]));
+      amount = currency(formData[key]);
     }
     if (key.toLowerCase().includes('make')) {
       make = capitalize(formData[key]);
@@ -115,8 +116,9 @@ const CardDetailsView = ({ formData, onEdit, index, title }) => {
         <div className="edit-item-container">
           <button
             className="usa-button-secondary vads-u-flex--auto"
-            onClick={e => onEdit(e, index)}
+            onClick={() => onEdit()}
             aria-label={`Edit ${title}`}
+            type="button"
           >
             Edit
           </button>
@@ -124,6 +126,12 @@ const CardDetailsView = ({ formData, onEdit, index, title }) => {
       </div>
     </div>
   );
+};
+
+CardDetailsView.propTypes = {
+  formData: PropTypes.object,
+  title: PropTypes.string,
+  onEdit: PropTypes.func,
 };
 
 export default CardDetailsView;

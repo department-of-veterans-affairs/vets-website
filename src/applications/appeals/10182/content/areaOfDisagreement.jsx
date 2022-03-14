@@ -5,9 +5,7 @@ import { getIssueName, getIssueDate } from '../utils/helpers';
 import { FORMAT_YMD, FORMAT_READABLE } from '../constants';
 
 export const missingAreaOfDisagreementErrorMessage =
-  'Please choose an area of disagreement';
-export const missingAreaOfDisagreementOtherErrorMessage =
-  'Please enter a reason for disagreement';
+  'Please choose or enter a reason for disagreement';
 
 // formContext.pagePerItemIndex is undefined here? Use index added to data :(
 export const issueName = ({ formData, formContext } = {}) => {
@@ -62,14 +60,12 @@ const titles = {
   serviceConnection: 'The service connection',
   effectiveDate: 'The effective date of award',
   evaluation: 'Your evaluation of my condition',
-  other: 'Something else',
 };
 
-export const serviceConnection = titles.serviceConnection;
-export const effectiveDate = titles.effectiveDate;
-export const evaluation = titles.evaluation;
-export const other = titles.other;
-export const otherLabel = 'Tell us what you disagree with:';
+export const { serviceConnection } = titles;
+export const { effectiveDate } = titles;
+export const { evaluation } = titles;
+export const otherLabel = 'Something else:';
 // Includes _{index} which is appended by the TextWidget
 export const otherDescription = ({ index }) => (
   <div

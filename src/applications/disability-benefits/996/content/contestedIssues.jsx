@@ -1,10 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
@@ -16,26 +13,47 @@ import {
 } from '../constants';
 import DownloadLink from './DownloadLink';
 
-import { apiVersion1 } from '../utils/helpers';
+import { apiVersion2 } from '../utils/helpers';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
 // case we end up filtering out deferred and expired issues
-export const ContestedIssuesTitle = props =>
-  props?.formData?.contestedIssues?.length === 0 ? (
-    <h2 className="vads-u-font-size--h4" name="eligibleScrollElement">
-      Sorry, we couldn’t find any eligible issues
-    </h2>
+export const ContestedIssuesTitle = ({ formData = {} } = {}) => {
+  if (formData.contestedIssues?.length === 0) {
+    return (
+      <>
+        <h2 className="vads-u-font-size--h4" name="eligibleScrollElement">
+          Sorry, we couldn’t find any eligible issues
+        </h2>
+        <p>
+          If you’d like to add an issue for review, please select "Add a new
+          issue" to get started.
+        </p>
+      </>
+    );
+  }
+  return apiVersion2(formData) ? (
+    <>
+      <div className="vads-u-margin-bottom--2">
+        These issues are in your VA record. If an issue is missing from this
+        list, you can add it on the next step
+      </div>
+      <legend
+        name="eligibleScrollElement"
+        className="vads-u-font-weight--normal vads-u-font-size--base"
+      >
+        Select the issue(s) you’d like us to review:
+      </legend>
+    </>
   ) : (
     <legend name="eligibleScrollElement" className="vads-u-font-size--lg">
-      Select the issue(s) you would like reviewed
-      {apiVersion1(props.formData) && (
-        <span className="schemaform-required-span vads-u-font-weight--normal vads-u-font-size--base">
-          (*Required)
-        </span>
-      )}
+      Select the issue(s) you’d like us to review:
+      <span className="schemaform-required-span vads-u-font-weight--normal vads-u-font-size--base">
+        (*Required)
+      </span>
     </legend>
   );
+};
 
 /**
  * @typedef {Object} Disability
@@ -119,7 +137,7 @@ const disabilitiesList = (
       </li>
     </ul>
     <p>
-      <DownloadLink content={'Download VA Form 20-0996'} />
+      <DownloadLink content="Download VA Form 20-0996" />
     </p>
     <p className="vads-u-margin-top--2p5">
       To learn more about how COVID-19 affect claims or appeals, please visit
@@ -129,7 +147,7 @@ const disabilitiesList = (
       To learn more about decision review options, please visit our{' '}
       <a href={DECISION_REVIEWS_URL}>decision reviews and appeals</a>{' '}
       information page. You can call us at{' '}
-      <Telephone contact={CONTACTS.VA_BENEFITS} /> or work with an accredited
+      <va-telephone contact={CONTACTS.VA_BENEFITS} /> or work with an accredited
       representative to{' '}
       <a href="/disability/get-help-filing-claim/">get help with your claim</a>.
     </p>
@@ -139,16 +157,16 @@ const disabilitiesList = (
 export const disabilitiesExplanationAlert = (
   <>
     <p className="vads-u-margin-top--2p5" />
-    <AdditionalInfo triggerText={'Why isn’t my issue eligible?'}>
+    <va-additional-info trigger="Why isn’t my issue eligible?">
       {disabilitiesList}
-    </AdditionalInfo>
+    </va-additional-info>
   </>
 );
 
 export const disabilitiesExplanation = (
-  <AdditionalInfo triggerText={'Don’t see the issue you’re looking for?'}>
+  <va-additional-info trigger="Don’t see the issue you’re looking for?">
     {disabilitiesList}
-  </AdditionalInfo>
+  </va-additional-info>
 );
 
 /**

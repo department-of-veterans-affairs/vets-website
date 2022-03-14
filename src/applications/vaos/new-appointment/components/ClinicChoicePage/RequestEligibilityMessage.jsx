@@ -1,8 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
 import InfoAlert from '../../../components/InfoAlert';
+import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 import { ELIGIBILITY_REASONS } from '../../../utils/constants';
 
 export default function RequestEligibilityMessage({
@@ -18,6 +20,9 @@ export default function RequestEligibilityMessage({
         365) *
       12
     : '12-24';
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
+  );
 
   if (requestReason === ELIGIBILITY_REASONS.error) {
     return <ErrorMessage />;
@@ -72,8 +77,11 @@ export default function RequestEligibilityMessage({
             </p>
             <ul>
               <li>
-                Go to <Link to="/">your appointment list</Link> and cancel open
-                requests, or
+                Go to{' '}
+                <Link to={featureStatusImprovement ? '/pending' : '/requested'}>
+                  your appointment list{' '}
+                </Link>
+                and cancel open requests, or
               </li>
               {facilityDetails && (
                 <li>

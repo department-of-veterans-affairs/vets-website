@@ -81,4 +81,26 @@ describe('<AcceptTermsPrompt>', () => {
 
     axeCheck(acceptTermsPrompt, acceptTermsPromptState);
   });
+
+  it('should render the correct default h level', () => {
+    const tree = SkinDeep.shallowRender(
+      <AcceptTermsPrompt {...defaultProps} />,
+    );
+
+    const title = tree.subTree('h1');
+    expect(title).to.exist;
+  });
+
+  it('should render the correct h level', () => {
+    const defaultPropsWithLevel = {
+      ...defaultProps,
+      level: 3,
+    };
+    const tree = SkinDeep.shallowRender(
+      <AcceptTermsPrompt {...defaultPropsWithLevel} />,
+    );
+
+    const title = tree.subTree('h3');
+    expect(title).to.exist;
+  });
 });

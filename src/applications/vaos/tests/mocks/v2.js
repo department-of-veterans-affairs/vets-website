@@ -20,7 +20,7 @@ export function getVAOSRequestMock() {
     id: null,
     type: 'appointments',
     attributes: {
-      cancellationReason: null,
+      cancelationReason: null,
       clinic: null,
       comment: null,
       contact: {
@@ -57,7 +57,7 @@ export function getVAOSAppointmentMock() {
     id: null,
     type: 'appointments',
     attributes: {
-      cancellationReason: null,
+      cancelationReason: null,
       clinic: null,
       comment: null,
       contact: {
@@ -80,42 +80,6 @@ export function getVAOSAppointmentMock() {
       start: null,
       status: 'booked',
       telehealth: null,
-    },
-  };
-}
-/**
- * Returns a stubbed var-resources parent site object from the VAOS service.
- *
- * @export
- * @param {String} id id for the appointment
- * @returns {VARParentSite} var-resources parent site object
- */
-export function getV2FacilityMock({
-  id = 'Fake',
-  name = 'Fake',
-  isParent = false,
-  address = null,
-  lat = null,
-  long = null,
-  phone = null,
-}) {
-  return {
-    id,
-    type: 'facility',
-    attributes: {
-      id: 'fake',
-      vistaSite: id.substring(0, 3),
-      vastParent: isParent ? id : id.substring(0, 3),
-      name,
-      lat,
-      long,
-      phone: { main: phone },
-      physicalAddress: address || {
-        line: [],
-        city: 'fake',
-        state: 'fake',
-        postalCode: 'fake',
-      },
     },
   };
 }

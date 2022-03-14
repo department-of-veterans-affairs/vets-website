@@ -39,6 +39,7 @@ export default function RadioWidget({
             <input
               type="radio"
               checked={checked}
+              autoComplete="off"
               id={`${id}_${i}`}
               name={`${id}`}
               value={option.value}

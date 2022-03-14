@@ -6,34 +6,39 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 
 import migrations from '../migrations';
-import prefillTransformer from '../config/prefill-transformer';
-import { transform } from '../config/submit-transformer';
-import submitForm from '../config/submitForm';
+import prefillTransformer from './prefill-transformer';
+import { transform } from './submit-transformer';
+import submitForm from './submitForm';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
 import ReviewDescription from '../components/ReviewDescription';
+import {
+  EditPhone,
+  EditEmail,
+  EditAddress,
+} from '../components/EditContactInfo';
+import AddIssue from '../components/AddIssue';
 
 import {
   canUploadEvidence,
   wantsToUploadEvidence,
-  showAddIssueQuestion,
-  showAddIssuesPage,
   needsHearingType,
   appStateSelector,
   getIssueName,
 } from '../utils/helpers';
+
+import { contestableIssuesPath } from '../constants';
 
 // Pages
 import veteranInfo from '../pages/veteranInfo';
 import contactInfo from '../pages/contactInfo';
 import homeless from '../pages/homeless';
 import contestableIssues from '../pages/contestableIssues';
-import additionalIssuesIntro from '../pages/additionalIssuesIntro';
-import additionalIssues from '../pages/additionalIssues';
+import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
-import optIn from '../pages/optIn';
+import filingDeadlines from '../pages/filingDeadlines';
 import issueSummary from '../pages/issueSummary';
 import boardReview from '../pages/boardReview';
 import evidenceIntro from '../pages/evidenceIntro';
@@ -107,38 +112,66 @@ const formConfig = {
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
         },
-        contactInformation: {
+        confirmContactInformation: {
           title: 'Contact information',
           path: 'contact-information',
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
+        },
+        editMobilePhone: {
+          title: 'Edit mobile phone',
+          path: 'edit-mobile-phone',
+          CustomPage: EditPhone,
+          CustomPageReview: EditPhone,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editEmailAddress: {
+          title: 'Edit email address',
+          path: 'edit-email-address',
+          CustomPage: EditEmail,
+          CustomPageReview: EditEmail,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editMailingAddress: {
+          title: 'Edit mailing address',
+          path: 'edit-mailing-address',
+          CustomPage: EditAddress,
+          CustomPageReview: EditAddress,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
       },
     },
     conditions: {
       title: 'Issues for review',
       pages: {
+        filingDeadlines: {
+          title: 'Filing deadlines',
+          path: 'filing-deadlines',
+          uiSchema: filingDeadlines.uiSchema,
+          schema: filingDeadlines.schema,
+        },
         contestableIssues: {
           title: 'Issues eligible for review',
-          path: 'eligible-issues',
+          path: contestableIssuesPath,
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
-        },
-        additionalIssuesIntro: {
-          title: 'Additional issues for review',
-          path: 'additional-issues-intro',
-          depends: showAddIssueQuestion,
-          uiSchema: additionalIssuesIntro.uiSchema,
-          schema: additionalIssuesIntro.schema,
           appStateSelector,
         },
-        additionalIssues: {
+        addIssue: {
           title: 'Add issues for review',
-          path: 'additional-issues',
-          depends: showAddIssuesPage,
-          uiSchema: additionalIssues.uiSchema,
-          schema: additionalIssues.schema,
-          appStateSelector,
+          path: 'add-issue',
+          depends: () => false, // accessed from contestableIssues page
+          // showPagePerItem: true,
+          // arrayPath: 'additionalIssues',
+          CustomPage: AddIssue,
+          uiSchema: addIssue.uiSchema,
+          schema: addIssue.schema,
         },
         areaOfDisagreementFollowUp: {
           title: getIssueName,
@@ -147,12 +180,6 @@ const formConfig = {
           arrayPath: 'areaOfDisagreement',
           uiSchema: areaOfDisagreementFollowUp.uiSchema,
           schema: areaOfDisagreementFollowUp.schema,
-        },
-        optIn: {
-          title: 'Opt in',
-          path: 'opt-in',
-          uiSchema: optIn.uiSchema,
-          schema: optIn.schema,
         },
         issueSummary: {
           title: 'Issue summary',

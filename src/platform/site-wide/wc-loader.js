@@ -1,6 +1,9 @@
 import 'core-js/features/promise';
-import 'web-components/dist/component-library/component-library.css';
-import { applyPolyfills, defineCustomElements } from 'web-components/loader';
+import '@department-of-veterans-affairs/component-library/dist/main.css';
+import {
+  applyPolyfills,
+  defineCustomElements,
+} from '@department-of-veterans-affairs/component-library';
 
 applyPolyfills().then(() => {
   defineCustomElements();

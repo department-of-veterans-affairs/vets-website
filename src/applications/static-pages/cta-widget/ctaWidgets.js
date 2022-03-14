@@ -1,12 +1,17 @@
 // Relative imports.
 import backendServices from 'platform/user/profile/constants/backendServices';
-import { MHV_ACCOUNT_TYPES } from './constants';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
-import { rootUrl as addRemoveDependentsUrl } from 'applications/disability-benefits/686c-674/manifest.json';
-import { rootUrl as hearingAidSuppliesUrl } from 'applications/disability-benefits/2346/manifest.json';
-import { rootUrl as higherLevelReviewUrl } from 'applications/disability-benefits/996/manifest.json';
-import { rootUrl as viewDependentsUrl } from 'applications/personalization/view-dependents/manifest.json';
-import { rootUrl as viewPaymentHistoryUrl } from 'applications/disability-benefits/view-payments/manifest.json';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
+import { MHV_ACCOUNT_TYPES } from './constants';
+
+const viewDependentsUrl = getAppUrl('dependents-view-dependents');
+
+const disabilityBenefitsUrls = {
+  '686c': getAppUrl('686C-674'),
+  '2346': getAppUrl('order-form-2346'),
+  '996': getAppUrl('0996-higher-level-review'),
+  'view-payments': getAppUrl('view-payments'),
+};
 
 export const CTA_WIDGET_TYPES = {
   ADD_REMOVE_DEPENDENTS: 'add-remove-dependents',
@@ -37,7 +42,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.ADD_REMOVE_DEPENDENTS]: {
     id: CTA_WIDGET_TYPES.ADD_REMOVE_DEPENDENTS,
     deriveToolUrlDetails: () => ({
-      url: addRemoveDependentsUrl,
+      url: disabilityBenefitsUrls['686c'],
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,
@@ -134,7 +139,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.HEARING_AID_SUPPLIES]: {
     id: CTA_WIDGET_TYPES.HEARING_AID_SUPPLIES,
     deriveToolUrlDetails: () => ({
-      url: hearingAidSuppliesUrl,
+      url: disabilityBenefitsUrls['2346'],
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,
@@ -146,7 +151,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.HIGHER_LEVEL_REVIEW]: {
     id: CTA_WIDGET_TYPES.HIGHER_LEVEL_REVIEW,
     deriveToolUrlDetails: () => ({
-      url: higherLevelReviewUrl,
+      url: disabilityBenefitsUrls['996'],
       redirect: false,
     }),
     isHealthTool: false,
@@ -157,7 +162,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.LAB_AND_TEST_RESULTS]: {
     id: CTA_WIDGET_TYPES.LAB_AND_TEST_RESULTS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
-      url: mhvUrl(authenticatedWithSSOe, 'labs-tests'),
+      url: mhvUrl(authenticatedWithSSOe, 'web/myhealthevet/labs-tests'),
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel =>
@@ -270,7 +275,10 @@ export const ctaWidgetsLookup = {
   },
   [CTA_WIDGET_TYPES.VIEW_DEPENDENTS]: {
     id: CTA_WIDGET_TYPES.VIEW_DEPENDENTS,
-    deriveToolUrlDetails: () => ({ url: viewDependentsUrl, redirect: false }),
+    deriveToolUrlDetails: () => ({
+      url: viewDependentsUrl,
+      redirect: false,
+    }),
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
     mhvToolName: null,
@@ -280,7 +288,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.VIEW_PAYMENT_HISTORY]: {
     id: CTA_WIDGET_TYPES.VIEW_PAYMENT_HISTORY,
     deriveToolUrlDetails: () => ({
-      url: viewPaymentHistoryUrl,
+      url: disabilityBenefitsUrls['view-payments'],
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,

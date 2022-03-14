@@ -4,20 +4,20 @@ import {
   serviceConnection,
   effectiveDate,
   evaluation,
-  other,
   AreaOfDisagreementReviewField,
   otherLabel,
   otherDescription,
   missingAreaOfDisagreementErrorMessage,
-  missingAreaOfDisagreementOtherErrorMessage,
 } from '../content/areaOfDisagreement';
 
 import { areaOfDisagreementRequired } from '../validations';
-import {
-  otherTypeSelected,
-  calculateOtherMaxLength,
-} from '../utils/disagreement';
+import { calculateOtherMaxLength } from '../utils/disagreement';
 import { getIssueName } from '../utils/helpers';
+import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../constants';
+
+// add 1 for last comma
+const allDisagreementsLength =
+  Object.values(SUBMITTED_DISAGREEMENTS).join(',').length + 1;
 
 export default {
   uiSchema: {
@@ -51,18 +51,12 @@ export default {
             'ui:title': evaluation,
             'ui:reviewField': AreaOfDisagreementReviewField,
           },
-          other: {
-            'ui:title': other,
-            'ui:reviewField': AreaOfDisagreementReviewField,
-          },
         },
         otherEntry: {
           'ui:title': otherLabel,
           'ui:description': otherDescription,
-          'ui:required': otherTypeSelected,
           'ui:options': {
-            hideIf: (formData, index) => !otherTypeSelected(formData, index),
-            updateSchema: (formData, _schema, uiSchema, index) => ({
+            updateSchema: (formData, _schema, _uiSchema, index) => ({
               type: 'string',
               maxLength: calculateOtherMaxLength(
                 formData.areaOfDisagreement[index],
@@ -70,9 +64,6 @@ export default {
             }),
             // index is appended to this ID in the TextWidget
             ariaDescribedby: 'other_hint_text',
-          },
-          'ui:errorMessages': {
-            required: missingAreaOfDisagreementOtherErrorMessage,
           },
         },
       },
@@ -100,15 +91,13 @@ export default {
                 evaluation: {
                   type: 'boolean',
                 },
-                other: {
-                  type: 'boolean',
-                },
               },
             },
             otherEntry: {
               type: 'string',
               // disagreementArea limited to 90 chars max
-              maxLength: 34,
+              maxLength:
+                MAX_LENGTH.DISAGREEMENT_REASON - allDisagreementsLength,
             },
           },
         },

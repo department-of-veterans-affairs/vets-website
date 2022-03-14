@@ -2,6 +2,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { createMemoryHistory } from 'history-v4';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
@@ -81,6 +82,20 @@ function fillDate(formDOM, partialId, dateString) {
       },
     },
   );
+}
+
+/**
+ * Allows the user to change a dropdown input to the value provided
+ *
+ * @param {object} form
+ * @param {string} selector
+ * @param {string} value
+ */
+export function changeDropdown(form, selector, value) {
+  const field = form.find(selector);
+  field.simulate('change', {
+    target: { value },
+  });
 }
 
 /**
@@ -221,8 +236,25 @@ const mockEventListeners = (target = {}) => {
   };
 };
 
+/**
+ * Creates a history object and attaches a spy to replace and push.
+ * The history object is fully functional, not stubbed.
+ *
+ * @export
+ * @param {string} [path='/'] - The initial url to use for the history
+ * @returns {History} A History object
+ */
+const createTestHistory = (path = '/') => {
+  const history = createMemoryHistory({ initialEntries: [path] });
+  sinon.spy(history, 'replace');
+  sinon.spy(history, 'push');
+
+  return history;
+};
+
 export {
   chai,
+  createTestHistory,
   expect,
   fillDate,
   mockEventListeners,

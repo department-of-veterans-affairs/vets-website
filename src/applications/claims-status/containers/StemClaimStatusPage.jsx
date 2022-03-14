@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { setUpPage } from '../utils/page';
 
 import { Link } from 'react-router';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import StemAskVAQuestions from '../components/StemAskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
@@ -27,8 +26,8 @@ class StemClaimStatusPage extends React.Component {
     let content;
     if (loading) {
       content = (
-        <LoadingIndicator
-          setFocus
+        <va-loading-indicator
+          set-focus
           message="Loading your claim information..."
         />
       );

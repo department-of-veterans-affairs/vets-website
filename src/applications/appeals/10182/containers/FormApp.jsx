@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
@@ -21,6 +22,7 @@ import { showWorkInProgress } from '../content/WorkInProgressMessage';
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
 export const FormApp = ({
+  isLoading,
   loggedIn,
   showNod,
   location,
@@ -95,26 +97,61 @@ export const FormApp = ({
     ],
   );
 
+  let content = isLoading ? (
+    <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+      <va-loading-indicator
+        set-focus
+        message="Loading your previous decisions..."
+      />
+    </h1>
+  ) : (
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {children}
+    </RoutedSavableApp>
+  );
+
+  if (showNod === false) {
+    content = showWorkInProgress(formConfig);
+  }
+
   return (
     <article id="form-10182" data-location={`${location?.pathname?.slice(1)}`}>
-      {showNod ? (
-        <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-          {children}
-        </RoutedSavableApp>
-      ) : (
-        showWorkInProgress(formConfig)
-      )}
+      {content}
     </article>
   );
+};
+
+FormApp.propTypes = {
+  children: PropTypes.object,
+  contestableIssues: PropTypes.shape({
+    issues: PropTypes.array,
+    status: PropTypes.string,
+  }),
+  formData: PropTypes.shape({
+    areaOfDisagreement: PropTypes.array,
+    contestableIssues: PropTypes.array,
+  }),
+  getContestableIssues: PropTypes.func,
+  isLoading: PropTypes.bool,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+  loggedIn: PropTypes.bool,
+  profile: PropTypes.shape({
+    vapContactInfo: PropTypes.shape({}),
+  }),
+  setFormData: PropTypes.func,
+  showNod: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
   const profile = selectProfile(state);
   const formData = state.form?.data || {};
   const showNod = noticeOfDisagreementFeature(state);
+  const isLoading = state.featureToggles?.loading;
   const loggedIn = isLoggedIn(state);
   const { contestableIssues } = state;
-  return { profile, formData, showNod, contestableIssues, loggedIn };
+  return { profile, formData, showNod, contestableIssues, isLoading, loggedIn };
 };
 
 const mapDispatchToProps = {

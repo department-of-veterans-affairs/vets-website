@@ -62,16 +62,16 @@ describe('<AppealListItemV2/>', () => {
 
   it('should append open class to status-circle div when status active', () => {
     const wrapper = shallow(<AppealListItemV2 {...defaultProps} />);
-    expect(wrapper.find('div.open').length).to.equal(1);
-    expect(wrapper.find('div.closed').length).to.equal(0);
+    expect(wrapper.find('div.open-claim').length).to.equal(1);
+    expect(wrapper.find('div.closed-claim').length).to.equal(0);
     wrapper.unmount();
   });
 
   it('should append closed class to status-circle div when status inactive', () => {
     const closedProps = set('appeal.attributes.active', false, defaultProps);
     const wrapper = shallow(<AppealListItemV2 {...closedProps} />);
-    expect(wrapper.find('div.closed').length).to.equal(1);
-    expect(wrapper.find('div.open').length).to.equal(0);
+    expect(wrapper.find('div.closed-claim').length).to.equal(1);
+    expect(wrapper.find('div.open-claim').length).to.equal(0);
     wrapper.unmount();
   });
 

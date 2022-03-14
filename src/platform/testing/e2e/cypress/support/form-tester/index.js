@@ -1,7 +1,8 @@
-import { join, sep } from 'path';
+import path from 'path';
 
 import get from 'platform/utilities/data/get';
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
+
+import disableFTUXModals from 'platform/user/tests/disableFTUXModals';
 
 const APP_SELECTOR = '#react-root';
 const ARRAY_ITEM_SELECTOR =
@@ -193,7 +194,8 @@ const defaultPostHook = pathname => {
         if (privacyAgreement.length) {
           cy.wrap(privacyAgreement)
             .first()
-            .check(FORCE_OPTION);
+            .check(FORCE_OPTION)
+            .should('be.checked');
         }
       });
 
@@ -289,12 +291,20 @@ Cypress.Commands.add('enterData', field => {
   switch (field.type) {
     // Select fields register as having type 'select-one'.
     case 'select-one':
-      cy.wrap(field.element).select(field.data, FORCE_OPTION);
+      cy.wrap(field.element)
+        .select(field.data, FORCE_OPTION)
+        .should('have.value', field.data);
       break;
 
     case 'checkbox': {
-      if (field.data) cy.wrap(field.element).check(FORCE_OPTION);
-      else cy.wrap(field.element).uncheck(FORCE_OPTION);
+      if (field.data)
+        cy.wrap(field.element)
+          .check(FORCE_OPTION)
+          .should('be.checked');
+      else
+        cy.wrap(field.element)
+          .uncheck(FORCE_OPTION)
+          .should('not.be.checked');
       break;
     }
 
@@ -304,9 +314,10 @@ Cypress.Commands.add('enterData', field => {
     case 'number':
     case 'text': {
       cy.wrap(field.element)
-        .clear(FORCE_OPTION)
+        .clear({ ...FORCE_OPTION, ...NO_DELAY_OPTION })
         .type(field.data, { ...FORCE_OPTION, ...NO_DELAY_OPTION })
         .then(element => {
+          if (element.val()) cy.get(element).should('have.value', field.data);
           // Get the autocomplete menu out of the way.
           if (element.attr('role') === 'combobox') element.blur();
         });
@@ -318,37 +329,44 @@ Cypress.Commands.add('enterData', field => {
       // Use 'Y' / 'N' because of the yesNo widget.
       if (typeof value === 'boolean') value = value ? 'Y' : 'N';
       const selector = `input[name="${field.key}"][value="${value}"]`;
-      cy.get(selector).check(FORCE_OPTION);
+      cy.get(selector)
+        .check(FORCE_OPTION)
+        .should('be.checked');
       break;
     }
 
     case 'date': {
-      const [year, month, day] = field.data
-        .split('-')
-        .map(
-          dateComponent =>
-            isFinite(dateComponent)
-              ? parseInt(dateComponent, 10).toString()
-              : dateComponent,
-        );
+      const [year, month, day] = field.data.split('-').map(
+        dateComponent =>
+          // eslint-disable-next-line no-restricted-globals
+          isFinite(dateComponent)
+            ? parseInt(dateComponent, 10).toString()
+            : dateComponent,
+      );
 
       // Escape non-standard characters like dots and colons.
       const baseSelector = Cypress.$.escapeSelector(field.key);
 
       cy.get(`#${baseSelector}Year`)
-        .clear()
-        .type(year, { ...FORCE_OPTION, ...NO_DELAY_OPTION });
+        .clear({ ...FORCE_OPTION, ...NO_DELAY_OPTION })
+        .type(year, { ...FORCE_OPTION, ...NO_DELAY_OPTION })
+        .should('have.value', year);
 
-      cy.get(`#${baseSelector}Month`).select(month, FORCE_OPTION);
+      cy.get(`#${baseSelector}Month`)
+        .select(month, FORCE_OPTION)
+        .should('have.value', month);
 
-      if (day !== 'XX') cy.get(`#${baseSelector}Day`).select(day, FORCE_OPTION);
+      if (day !== 'XX')
+        cy.get(`#${baseSelector}Day`)
+          .select(day, FORCE_OPTION)
+          .should('have.value', day);
 
       break;
     }
 
     case 'file': {
       cy.get(`#${Cypress.$.escapeSelector(field.key)}`)
-        .upload('src/platform/testing/example-upload.png', 'image/png')
+        .upload('platform/testing/example-upload.png', 'image/png')
         .get('.schemaform-file-uploading')
         .should('not.exist');
       break;
@@ -518,7 +536,9 @@ const testForm = testConfig => {
       const resolvedPageHooks = Object.entries(pageHooks).reduce(
         (hooks, [pagePath, hook]) => ({
           ...hooks,
-          [pagePath.startsWith(sep) ? pagePath : join(rootUrl, pagePath)]: hook,
+          [pagePath.startsWith(path.sep)
+            ? pagePath
+            : path.join(rootUrl, pagePath)]: hook,
         }),
         {},
       );

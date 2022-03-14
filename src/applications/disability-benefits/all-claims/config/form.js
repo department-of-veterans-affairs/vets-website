@@ -1,3 +1,5 @@
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+
 import environment from 'platform/utilities/environment';
 
 import FormFooter from 'platform/forms/components/FormFooter';
@@ -17,28 +19,30 @@ import FormSavedPage from '../containers/FormSavedPage';
 import { hasMilitaryRetiredPay } from '../validations';
 
 import {
-  hasGuardOrReservePeriod,
   capitalizeEachWord,
-  hasVAEvidence,
+  claimingNew,
+  DISABILITY_SHARED_CONFIG,
+  getPageTitle,
+  hasGuardOrReservePeriod,
+  hasNewPtsdDisability,
+  hasOtherEvidence,
   hasPrivateEvidence,
   hasRatedDisabilities,
-  hasOtherEvidence,
+  hasVAEvidence,
+  increaseOnly,
+  isAnswering781aQuestions,
+  isAnswering781Questions,
+  isBDD,
+  isDisabilityPtsd,
+  isNotUploadingPrivateMedical,
+  isUploading781aForm,
+  isUploading781Form,
+  isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
-  isAnswering781Questions,
-  isAnswering781aQuestions,
-  isUploading781Form,
-  isUploading781aForm,
-  isNotUploadingPrivateMedical,
-  hasNewPtsdDisability,
-  increaseOnly,
-  isDisabilityPtsd,
-  DISABILITY_SHARED_CONFIG,
-  isBDD,
-  isUploadingSTR,
+  showPtsdCombat,
+  showPtsdNonCombat,
   showSeparationLocation,
-  getPageTitle,
-  claimingNew,
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
@@ -78,6 +82,8 @@ import {
   privateMedicalRecordsAttachments,
   privateMedicalRecordsRelease,
   ptsd781aChangesIntro,
+  ptsdBypassCombat,
+  ptsdBypassNonCombat,
   ptsdWalkthroughChoice781,
   ptsdWalkthroughChoice781a,
   ratedDisabilities,
@@ -122,8 +128,6 @@ import migrations from '../migrations';
 import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
-
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -175,8 +179,7 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
-  // Don't show error links on the review page in production
-  showReviewErrors: !environment.isProduction(),
+  showReviewErrors: true,
   reviewErrors,
   defaultDefinitions: {
     ...fullSchema.definitions,
@@ -371,6 +374,20 @@ const formConfig = {
           depends: hasNewPtsdDisability,
           uiSchema: choosePtsdType.uiSchema,
           schema: choosePtsdType.schema,
+        },
+        ptsdBypassCombat: {
+          title: 'PTSD combat',
+          path: 'new-disabilities/ptsd-combat',
+          depends: showPtsdCombat,
+          uiSchema: ptsdBypassCombat.uiSchema,
+          schema: ptsdBypassCombat.schema,
+        },
+        ptsdBypassNonCombat: {
+          title: 'PTSD non-combat',
+          path: 'new-disabilities/ptsd-non-combat',
+          depends: showPtsdNonCombat,
+          uiSchema: ptsdBypassNonCombat.uiSchema,
+          schema: ptsdBypassNonCombat.schema,
         },
         // 781 - 2a.  SELECT UPLOAD OPTION
         // 781 - 2b. SELECT 'I WANT TO ANSWER QUESTIONS' AND LAUNCH INTERVIEW

@@ -1,9 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+
+import ServiceProvidersText, {
+  ServiceProvidersTextCreateAcct,
+} from 'platform/user/authentication/components/ServiceProvidersText';
+
+import { hasSession } from 'platform/user/profile/utilities';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -12,9 +19,23 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const { submission, data } = this.props.form;
+    const { form } = this.props;
+    const { submission, data } = form;
     const { response } = submission;
-    const name = data.veteranFullName;
+
+    let name;
+    if (hasSession()) {
+      // authenticated user, get name from profile
+      const { user } = this.props;
+      name = user.userFullName;
+    } else {
+      // unauthenticated user, get name from form data
+      name = data.veteranFullName;
+    }
+    const first = name.first || '';
+    const middle = name.middle || '';
+    const last = name.last || '';
+    const suffix = name.suffix || '';
 
     let emailMessage;
 
@@ -48,7 +69,7 @@ export class ConfirmationPage extends React.Component {
             <span className="additional">(Form 10-10EZ)</span>
           </h5>
           <span>
-            for {name.first} {name.middle} {name.last} {name.suffix}
+            for {first} {middle} {last} {suffix}
           </span>
 
           {response && (
@@ -81,7 +102,7 @@ export class ConfirmationPage extends React.Component {
           </p>
           <p>
             Please don’t apply again. Instead, please call our toll-free hotline
-            at <a href="tel:+18772228387">877-222-8387</a>. We’re here Monday
+            at <va-telephone contact="877-222-8387" />. We’re here Monday
             through Friday, 8:00 am to 8:00 pm ET.
           </p>
           <h4 className="confirmation-guidance-heading">
@@ -93,8 +114,8 @@ export class ConfirmationPage extends React.Component {
                 <strong>Sign in to VA.gov</strong>
               </p>
               <p>
-                You can sign in with your DS Logon, My HealteVet, or ID.me
-                account. If you don’t have an account, you can create one now.
+                You can sign in with your existing <ServiceProvidersText />
+                account. <ServiceProvidersTextCreateAcct />
               </p>
             </li>
             <li className="process-step list-two">
@@ -149,8 +170,8 @@ export class ConfirmationPage extends React.Component {
             What if I have more questions?
           </h4>
           <p className="confirmation-guidance-message">
-            Please call <a href="tel:+18772228387">877-222-8387</a> and select
-            2. We're here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+            Please call <va-telephone contact="877-222-8387" /> and select 2.
+            We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
         </div>
       </div>
@@ -161,7 +182,13 @@ export class ConfirmationPage extends React.Component {
 function mapStateToProps(state) {
   return {
     form: state.form,
+    user: state.user.profile,
   };
 }
 
 export default connect(mapStateToProps)(ConfirmationPage);
+
+ConfirmationPage.propTypes = {
+  form: PropTypes.object,
+  user: PropTypes.object,
+};

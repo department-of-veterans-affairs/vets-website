@@ -7,7 +7,7 @@ import {
   benefitsServices,
   emergencyCareServices,
 } from '../config';
-import { EMERGENCY_CARE_SERVICES, LocationType } from '../constants';
+import { LocationType } from '../constants';
 import { connect } from 'react-redux';
 
 export const SearchResultsHeader = ({
@@ -17,6 +17,7 @@ export const SearchResultsHeader = ({
   context,
   inProgress,
   specialtyMap,
+  pagination,
 }) => {
   const noResultsFound = !results || !results.length;
 
@@ -25,8 +26,6 @@ export const SearchResultsHeader = ({
   }
 
   const location = context ? context.replace(', United States', '') : null;
-  const isEmergencyCareType = facilityType === LocationType.EMERGENCY_CARE;
-  const isCppEmergencyCareTypes = EMERGENCY_CARE_SERVICES.includes(serviceType);
 
   const formatServiceType = rawServiceType => {
     if (facilityType === LocationType.URGENT_CARE) {
@@ -68,26 +67,39 @@ export const SearchResultsHeader = ({
 
   const messagePrefix = noResultsFound ? 'No results found' : 'Results';
 
+  const handleNumberOfResults = () => {
+    const { totalEntries, currentPage, totalPages } = pagination;
+    if (noResultsFound) {
+      return 'No results found';
+    } else if (totalEntries === 1) {
+      return 'Showing 1 result';
+    } else if (totalEntries < 11 && totalEntries > 1) {
+      return `Showing 1 - ${totalEntries} results`;
+    } else if (totalEntries > 10) {
+      const startResultNum = 10 * (currentPage - 1) + 1;
+      let endResultNum;
+
+      if (currentPage !== totalPages) {
+        endResultNum = 10 * currentPage;
+      } else endResultNum = totalEntries;
+
+      return `Showing ${startResultNum} - ${endResultNum} of ${totalEntries} results`;
+    } else return 'Results';
+  };
+
   return (
     <div>
-      {(isEmergencyCareType || isCppEmergencyCareTypes) && (
-        <div id="search-result-emergency-care-info">
-          <p className="search-result-emergency-care-subheader">
-            <strong>Note:</strong> If you think your life or health is in
-            danger, call{' '}
-            <a aria-label="9 1 1" href="tel:911">
-              911
-            </a>{' '}
-            or go to the nearest emergency department right away.
-          </p>
-        </div>
-      )}
       <h2
         id="search-results-subheader"
         className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
         tabIndex="-1"
       >
-        {messagePrefix} for &quot;
+        {[LocationType.URGENT_CARE, LocationType.EMERGENCY_CARE].includes(
+          facilityType,
+        )
+          ? messagePrefix
+          : handleNumberOfResults()}{' '}
+        for &quot;
         <b>{facilityTypes[facilityType]}</b>
         &quot;
         {formattedServiceType && (

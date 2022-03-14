@@ -10,7 +10,7 @@ describe('Schemaform <SelectWidget>', () => {
     const enumOptions = [
       {
         label: 'Testing',
-        val: 'test',
+        value: 'testValue',
       },
     ];
     const onChange = sinon.spy();
@@ -29,11 +29,11 @@ describe('Schemaform <SelectWidget>', () => {
     const enumOptions = [
       {
         label: 'Testing',
-        value: 'test',
+        value: 'testValue',
       },
     ];
     const labels = {
-      test: 'Other',
+      testValue: 'Other',
     };
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
@@ -47,11 +47,54 @@ describe('Schemaform <SelectWidget>', () => {
 
     expect(tree.everySubTree('option')[1].text()).to.equal('Other');
   });
+  it('should render widgetProps from options', () => {
+    const enumOptions = [
+      {
+        label: 'Testing',
+        value: 'testValue',
+      },
+    ];
+    const widgetProps = { 'aria-label': 'testing' };
+
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <SelectWidget
+        schema={{}}
+        id="testing"
+        onChange={onChange}
+        options={{ enumOptions, widgetProps }}
+      />,
+    ).dive(['SelectWidget']);
+
+    expect(tree.subTree('select').props['aria-label']).to.eq('testing');
+  });
+  it('should render selectedProps from options', () => {
+    const enumOptions = [
+      {
+        label: 'Testing',
+        value: 'testValue',
+      },
+    ];
+    const selectedProps = { testValue: { 'data-value': 'ok-test' } };
+    const props = {
+      schema: {},
+      id: 'testing',
+      options: { enumOptions, selectedProps },
+    };
+
+    const tree = SkinDeep.shallowRender(<SelectWidget {...props} />).dive([
+      'SelectWidget',
+    ]);
+
+    expect(tree.subTree('select').props['data-value']).to.not.exist;
+    tree.reRender({ value: 'testValue', ...props });
+    expect(tree.subTree('select').props['data-value']).to.equal('ok-test');
+  });
   it('should handle change', () => {
     const enumOptions = [
       {
         label: 'Testing',
-        val: 'test',
+        value: 'testValue',
       },
     ];
     const onChange = sinon.spy();
@@ -72,16 +115,16 @@ describe('Schemaform <SelectWidget>', () => {
     expect(onChange.firstCall.args[0]).to.be.undefined;
     tree.subTree('select').props.onChange({
       target: {
-        value: 'test',
+        value: 'testValue',
       },
     });
-    expect(onChange.secondCall.args[0]).to.equal('test');
+    expect(onChange.secondCall.args[0]).to.equal('testValue');
   });
   it('should handle number change', () => {
     const enumOptions = [
       {
         label: 'Testing',
-        val: 2,
+        value: 2,
       },
     ];
     const onChange = sinon.spy();
@@ -105,7 +148,7 @@ describe('Schemaform <SelectWidget>', () => {
     const enumOptions = [
       {
         label: 'Testing',
-        val: 2,
+        value: 2,
       },
     ];
     const onChange = sinon.spy();
@@ -129,7 +172,7 @@ describe('Schemaform <SelectWidget>', () => {
     const enumOptions = [
       {
         label: 'Testing',
-        val: 'test',
+        value: 'testValue',
       },
     ];
     const onBlur = sinon.spy();
@@ -144,23 +187,23 @@ describe('Schemaform <SelectWidget>', () => {
 
     tree.subTree('select').props.onBlur({
       target: {
-        value: 'test',
+        value: 'testValue',
       },
     });
-    expect(onBlur.calledWith('testing', 'test')).to.be.true;
+    expect(onBlur.calledWith('testing', 'testValue')).to.be.true;
   });
   it('should not render blank option when default exists', () => {
     const enumOptions = [
       {
         label: 'Testing',
-        val: 'test',
+        value: 'testValue',
       },
     ];
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
       <SelectWidget
         schema={{
-          default: 'test',
+          default: 'testValue',
         }}
         id="testing"
         onChange={onChange}

@@ -5,12 +5,12 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import uiSchema from '../../../src/js/definitions/ssn';
-import { ssn as schema } from 'vets-json-schema/dist/definitions.json';
+import definitions from 'vets-json-schema/dist/definitions.json';
 
 describe('Schemaform definition ssn', () => {
   it('should render ssn with error', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} uiSchema={uiSchema} />,
+      <DefinitionTester schema={definitions.ssn} uiSchema={uiSchema} />,
     );
 
     const formDOM = findDOMNode(form);
@@ -37,7 +37,7 @@ describe('Schemaform definition ssn', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         reviewMode
-        schema={schema}
+        schema={definitions.ssn}
         uiSchema={uiSchema}
         data="123456789"
       />,

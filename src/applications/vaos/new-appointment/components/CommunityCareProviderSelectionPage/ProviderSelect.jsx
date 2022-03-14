@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { selectProviderSelectionInfo } from '../../redux/selectors';
-import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../utils/constants';
+import { GA_PREFIX } from '../../../utils/constants';
 import RemoveProviderModal from './RemoveProviderModal';
 
 export default function SelectedProvider({
@@ -14,10 +14,7 @@ export default function SelectedProvider({
   setProvidersListLength,
   setShowProvidersList,
 }) {
-  const { address, sortMethod } = useSelector(
-    selectProviderSelectionInfo,
-    shallowEqual,
-  );
+  const { address } = useSelector(selectProviderSelectionInfo, shallowEqual);
   const [showRemoveProviderModal, setShowRemoveProviderModal] = useState(false);
 
   return (
@@ -45,7 +42,7 @@ export default function SelectedProvider({
             id="providerPostSelectionHeader"
             className="vads-u-font-size--h3 vads-u-margin-top--0"
           >
-            Selected Provider
+            Selected provider
           </h2>
           <span className="vads-u-display--block">{formData.name}</span>
           <span className="vads-u-display--block">
@@ -54,14 +51,6 @@ export default function SelectedProvider({
           <span className="vads-u-display--block">
             {formData.address?.city}, {formData.address?.state}{' '}
             {formData.address?.postalCode}
-          </span>
-          <span className="vads-u-display--block vads-u-font-size--sm">
-            {formData[sortMethod]} miles{' '}
-            <span className="sr-only">
-              {sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
-                ? 'from your current location'
-                : 'from your home address'}
-            </span>
           </span>
           <div className="vads-u-display--flex vads-u-margin-top--1">
             <button

@@ -1,6 +1,4 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const evidenceUploadIntroTitle = 'Additional evidence';
 
@@ -11,7 +9,7 @@ export const evidenceUploadIntroDescription = (
       receive this request.
     </p>
     <div className="vads-u-margin-y--2">
-      <AdditionalInfo triggerText="How do I submit evidence later?">
+      <va-additional-info trigger="How do I submit evidence later?">
         You can submit more evidence by mailing it to this address:
         <p>
           Board of Veterans’ Appeals
@@ -20,8 +18,9 @@ export const evidenceUploadIntroDescription = (
           <br />
           Washington, D.C. 20038
         </p>
-        You can also fax it to <Telephone notClickable contact="844-678-8979" />
-      </AdditionalInfo>
+        You can also fax it to{' '}
+        <va-telephone not-clickable contact="8446788979" />
+      </va-additional-info>
     </div>
   </>
 );

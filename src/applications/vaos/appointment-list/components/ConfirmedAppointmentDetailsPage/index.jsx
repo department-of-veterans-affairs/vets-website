@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import moment from '../../../lib/moment-tz';
@@ -27,6 +26,7 @@ export default function ConfirmedAppointmentDetailsPage() {
     appointmentDetailsStatus,
     cancelInfo,
     facilityData,
+    useV2,
   } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
@@ -89,7 +89,7 @@ export default function ConfirmedAppointmentDetailsPage() {
   if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
       <FullWidthLayout>
-        <LoadingIndicator setFocus message="Loading your appointment..." />
+        <va-loading-indicator set-focus message="Loading your appointment..." />
       </FullWidthLayout>
     );
   }
@@ -104,7 +104,11 @@ export default function ConfirmedAppointmentDetailsPage() {
         <DetailsVideo appointment={appointment} facilityData={facilityData} />
       )}
       {isVA && (
-        <DetailsVA appointment={appointment} facilityData={facilityData} />
+        <DetailsVA
+          appointment={appointment}
+          facilityData={facilityData}
+          useV2={useV2}
+        />
       )}
       <CancelAppointmentModal
         {...cancelInfo}

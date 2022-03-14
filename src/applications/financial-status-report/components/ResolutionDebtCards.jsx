@@ -1,16 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
-import { currency } from '../utils/helpers';
 import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+import { deductionCodes } from '../../debt-letters/const/deduction-codes';
+import { currency } from '../utils/helpers';
 
 const ExpandedContent = ({
   index,
@@ -29,12 +30,12 @@ const ExpandedContent = ({
       return (
         <div className="currency-input">
           <TextInput
+            name="extended-payment-resolution-amount"
             additionalClass="input-size-3"
             label="How much can you pay monthly on this debt?"
             field={{ value: debt.resolution?.offerToPay || '' }}
             onValueChange={({ value }) => updateDebts(objKey, value, debt)}
             errorMessage={submitted && inputErrMsg}
-            required
           />
         </div>
       );
@@ -42,12 +43,12 @@ const ExpandedContent = ({
       return (
         <div className="currency-input">
           <TextInput
+            name="compromise-resolution-amount"
             additionalClass="input-size-3"
             label="What is your offer for a one-time payment?"
             field={{ value: debt.resolution?.offerToPay || '' }}
             onValueChange={({ value }) => updateDebts(objKey, value, debt)}
             errorMessage={submitted && inputErrMsg}
-            required
           />
         </div>
       );
@@ -60,7 +61,6 @@ const ExpandedContent = ({
             checked={debt.resolution?.agreeToWaiver || false}
             onValueChange={value => updateDebts('agreeToWaiver', value, debt)}
             errorMessage={submitted && checkboxErrMsg}
-            required
           />
           <p>
             Note: If you have questions about this, call us at
@@ -80,6 +80,14 @@ const ExpandedContent = ({
         </>
       );
   }
+};
+
+ExpandedContent.propTypes = {
+  debt: PropTypes.object,
+  errorSchema: PropTypes.object,
+  index: PropTypes.number,
+  submitted: PropTypes.bool,
+  updateDebts: PropTypes.func,
 };
 
 const ResolutionDebtCards = ({
@@ -120,11 +128,12 @@ const ResolutionDebtCards = ({
       <h4 className="resolution-options-debt-title">Your selected debts</h4>
       {selectedDebts.map((debt, index) => {
         const objKey = 'resolutionType';
-        const submitted = formContext.submitted;
+        const { submitted } = formContext;
         const radioError = submitted && !debt.resolution?.resolutionType;
+        const type = debt.resolution?.resolutionType;
+        const compPenWaiver = debt.deductionCode === '30' && type === 'Waiver';
         const title = deductionCodes[debt.deductionCode] || debt.benefitType;
-        const subTitle =
-          debt.currentAr && currency.format(parseFloat(debt.currentAr));
+        const subTitle = currency(debt?.currentAr);
 
         return (
           <div
@@ -137,7 +146,7 @@ const ResolutionDebtCards = ({
               {subTitle}
             </p>
             <ExpandingGroup
-              open={debt.resolution?.resolutionType}
+              open={type && !compPenWaiver}
               additionalClass="form-expanding-group-active-radio"
             >
               <RadioButtons
@@ -165,6 +174,14 @@ const ResolutionDebtCards = ({
       })}
     </>
   );
+};
+
+ResolutionDebtCards.propTypes = {
+  errorSchema: PropTypes.object,
+  formContext: PropTypes.object,
+  formData: PropTypes.object,
+  selectedDebts: PropTypes.array,
+  setDebts: PropTypes.func,
 };
 
 const mapStateToProps = ({ form }) => ({

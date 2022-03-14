@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import TabNav from '../components/TabNav';
-import ClaimSyncWarning from '../components/ClaimSyncWarning';
-import AskVAQuestions from '../components/AskVAQuestions';
-import AddingDetails from '../components/AddingDetails';
-import Notification from '../components/Notification';
+import TabNav from './TabNav';
+import ClaimSyncWarning from './ClaimSyncWarning';
+import AskVAQuestions from './AskVAQuestions';
+import AddingDetails from './AddingDetails';
+import Notification from './Notification';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
-import ClaimsUnavailable from '../components/ClaimsUnavailable';
+import ClaimsUnavailable from './ClaimsUnavailable';
 import { isPopulatedClaim, getClaimType } from '../utils/helpers';
 
 const MAX_CONTENTIONS = 3;
@@ -31,7 +30,10 @@ export default function ClaimDetailLayout(props) {
   let headingContent;
   if (loading) {
     bodyContent = (
-      <LoadingIndicator setFocus message="Loading your claim information..." />
+      <va-loading-indicator
+        set-focus
+        message="Loading your claim information..."
+      />
     );
   } else if (claim !== null) {
     headingContent = (
@@ -137,9 +139,12 @@ export default function ClaimDetailLayout(props) {
 }
 
 ClaimDetailLayout.propTypes = {
+  children: PropTypes.any,
   claim: PropTypes.object,
+  clearNotification: PropTypes.func,
+  currentTab: PropTypes.string,
+  id: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.object,
-  clearNotification: PropTypes.func,
   synced: PropTypes.bool,
 };

@@ -4,13 +4,8 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 
-import { fetchSearchResults } from '../actions';
-import {
-  formatResponseString,
-  truncateResponseString,
-  removeDoubleBars,
-} from '../utils';
 import recordEvent from 'platform/monitoring/record-event';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 
@@ -20,11 +15,18 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
+import {
+  formatResponseString,
+  truncateResponseString,
+  removeDoubleBars,
+} from '../utils';
+import { fetchSearchResults } from '../actions';
 
 import SearchBreadcrumbs from '../components/SearchBreadcrumbs';
+import SearchDropdownComponent from '../components/SearchDropdown/SearchDropdownComponent';
 
 const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
 const MAX_DESCRIPTION_LENGTH = 186;
@@ -102,14 +104,8 @@ class SearchApp extends React.Component {
 
     const queryChanged = userInput !== currentResultsQuery;
     const nextPage = queryChanged ? 1 : page;
-    // Update URL
-    this.props.router.push({
-      pathname: '',
-      query: {
-        query: userInput,
-        page: nextPage,
-      },
-    });
+
+    this.updateURL({ query: userInput, page: nextPage });
 
     // Fetch new results
     this.props.fetchSearchResults(userInput, nextPage, {
@@ -118,6 +114,7 @@ class SearchApp extends React.Component {
       path: document.location.pathname,
       userInput,
       typeaheadEnabled: false,
+      searchLocation: 'Search Results Page',
       keywordSelected: undefined,
       keywordPosition: undefined,
       suggestionsList: undefined,
@@ -126,17 +123,27 @@ class SearchApp extends React.Component {
 
     // Update query is necessary
     if (queryChanged) {
-      this.setState({
-        currentResultsQuery: userInput,
-        page: 1,
-        typeaheadUsed: false,
-      });
+      this.updateQueryInfo({ query: userInput, page: 1, typeaheadUsed: false });
     }
   };
 
-  handleInputChange = event => {
+  updateQueryInfo = options => {
     this.setState({
-      userInput: event.target.value,
+      currentResultsQuery: options?.query,
+      page: options?.page,
+      typeaheadUsed: options?.typeaheadUsed,
+    });
+  };
+
+  updateURL = options => {
+    // Update URL
+    this.props.router.push({
+      pathname: '',
+      query: {
+        query: options?.query,
+        page: options?.page,
+        t: options?.typeaheadUsed || false,
+      },
     });
   };
 
@@ -195,12 +202,116 @@ class SearchApp extends React.Component {
       'search-results-top-recommendation': bestBet,
       'search-result-type': 'title',
       'search-selection': 'All VA.gov',
-      'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
       'search-typeahead-used': this.state.typeaheadUsed,
     });
 
     // relocate to clicked link page
     window.location.href = url;
+  };
+
+  onInputSubmit = componentState => {
+    const savedSuggestions = componentState?.savedSuggestions || [];
+    const suggestions = componentState?.suggestions || [];
+    const inputValue = componentState?.inputValue;
+    const validSuggestions =
+      savedSuggestions.length > 0 ? savedSuggestions : suggestions;
+
+    this.props.fetchSearchResults(inputValue, 1, {
+      trackEvent: true,
+      eventName: 'view_search_results',
+      path: document.location.pathname,
+      userInput: inputValue,
+      typeaheadEnabled: true,
+      searchLocation: 'Search Results Page',
+      keywordSelected: undefined,
+      keywordPosition: undefined,
+      suggestionsList: validSuggestions,
+      sitewideSearch: false,
+    });
+
+    this.updateQueryInfo({
+      query: inputValue,
+      page: 1,
+      typeaheadUsed: true,
+    });
+
+    this.updateURL({
+      query: inputValue,
+      page: 1,
+      typeaheadUsed: true,
+    });
+  };
+
+  handleInputChange = event => {
+    this.setState({
+      userInput: event.target.value,
+    });
+  };
+
+  onSuggestionSubmit = (index, componentState) => {
+    const savedSuggestions = componentState?.savedSuggestions || [];
+    const suggestions = componentState?.suggestions || [];
+    const inputValue = componentState?.inputValue;
+
+    const validSuggestions =
+      savedSuggestions?.length > 0 ? savedSuggestions : suggestions;
+
+    this.props.fetchSearchResults(validSuggestions[index], 1, {
+      trackEvent: true,
+      eventName: 'view_search_results',
+      path: document.location.pathname,
+      userInput: inputValue,
+      typeaheadEnabled: true,
+      searchLocation: 'Search Results Page',
+      keywordSelected: validSuggestions[index],
+      keywordPosition: index + 1,
+      suggestionsList: validSuggestions,
+      sitewideSearch: false,
+    });
+
+    this.updateQueryInfo({
+      query: suggestions[index],
+      page: 1,
+      typeaheadUsed: true,
+    });
+
+    this.updateURL({
+      query: suggestions[index],
+      page: 1,
+      typeaheadUsed: true,
+    });
+  };
+
+  fetchSuggestions = async inputValue => {
+    // encode user input for query to suggestions url
+    const encodedInput = encodeURIComponent(inputValue);
+
+    // fetch suggestions
+    try {
+      const apiRequestOptions = {
+        method: 'GET',
+      };
+      const fetchedSuggestions = await apiRequest(
+        `/search_typeahead?query=${encodedInput}`,
+        apiRequestOptions,
+      );
+
+      if (fetchedSuggestions.length !== 0) {
+        return fetchedSuggestions.sort(function(a, b) {
+          return a.length - b.length;
+        });
+      }
+      return [];
+      // if we fail to fetch suggestions
+    } catch (error) {
+      if (error?.error?.code === 'OVER_RATE_LIMIT') {
+        Sentry.captureException(
+          new Error(`"OVER_RATE_LIMIT" - Search Typeahead`),
+        );
+      }
+      Sentry.captureException(error);
+    }
+    return [];
   };
 
   renderResults() {
@@ -212,6 +323,7 @@ class SearchApp extends React.Component {
       results,
     } = this.props.search;
     const hasErrors = !!(errors && errors.length > 0);
+    const { userInput } = this.state;
 
     // Reusable search input
     const searchInput = (
@@ -221,23 +333,48 @@ class SearchApp extends React.Component {
         aria-labelledby="h1-search-title"
       >
         <div>Enter a keyword</div>
-        <form
-          onSubmit={this.handleSearch}
-          className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0"
-          data-e2e-id="search-form"
-        >
-          <input
-            type="text"
-            name="query"
-            aria-label="Enter a keyword"
-            value={this.state.userInput}
-            onChange={this.handleInputChange}
-          />
-          <button type="submit">
-            <IconSearch color="#fff" />
-            <span className="button-text">Search</span>
-          </button>
-        </form>
+        <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
+          {!this.props.searchDropdownComponentEnabled && (
+            <form
+              onSubmit={this.handleSearch}
+              className="va-flex vads-u-width--full"
+            >
+              <input
+                type="text"
+                name="query"
+                aria-label="Enter a keyword"
+                value={this.state.userInput}
+                onChange={this.handleInputChange}
+              />
+              <button type="submit">
+                <IconSearch color="#fff" />
+                <span className="button-text">Search</span>
+              </button>
+            </form>
+          )}
+          {this.props.searchDropdownComponentEnabled && (
+            <SearchDropdownComponent
+              buttonText="Search"
+              canSubmit
+              id="search-results-page-dropdown"
+              componentClassName=""
+              containerClassName=""
+              buttonClassName=""
+              inputClassName=""
+              suggestionsListClassName=""
+              suggestionClassName=""
+              formatSuggestions
+              fullWidthSuggestions={false}
+              mobileResponsive
+              startingValue={userInput}
+              submitOnClick
+              submitOnEnter
+              fetchSuggestions={this.fetchSuggestions}
+              onInputSubmit={this.onInputSubmit}
+              onSuggestionSubmit={this.onSuggestionSubmit}
+            />
+          )}
+        </div>
       </div>
     );
 
@@ -290,9 +427,7 @@ class SearchApp extends React.Component {
     if (!loading && recommendedResults && recommendedResults.length > 0) {
       return (
         <div>
-          <h3
-            className={`vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--bold`}
-          >
+          <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--bold">
             Our top recommendations for you
           </h3>
           <ul className="results-list">
@@ -435,7 +570,7 @@ class SearchApp extends React.Component {
         className="result-item vads-u-margin-top--1p5 vads-u-margin-bottom--4"
       >
         <a
-          className={`result-title`}
+          className="result-title"
           href={replaceWithStagingDomain(result.url)}
           onClick={this.onSearchResultClick({
             bestBet: isBestBet,
@@ -499,7 +634,7 @@ class SearchApp extends React.Component {
               <li>
                 <a
                   className="right-nav-link"
-                  href="https://www.index.va.gov/search/va/bva.jsp"
+                  href="https://search.usa.gov/search?affiliate=bvadecisions"
                   onClick={() =>
                     recordEvent({
                       event: 'nav-searchresults',
@@ -509,21 +644,6 @@ class SearchApp extends React.Component {
                   }
                 >
                   Look up Board of Veterans' Appeals (BVA) decisions
-                </a>
-              </li>
-              <li>
-                <a
-                  className="right-nav-link"
-                  href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.benefits.va.gov/warms"
-                  onClick={() =>
-                    recordEvent({
-                      event: 'nav-searchresults',
-                      'nav-path':
-                        'More VA Search Tools -> Search VA reference materials',
-                    })
-                  }
-                >
-                  Search VA reference materials (WARMS)
                 </a>
               </li>
               <li>
@@ -580,8 +700,8 @@ class SearchApp extends React.Component {
 
 const mapStateToProps = state => ({
   search: state.search,
-  searchTypeaheadEnabled: toggleValues(state)[
-    FEATURE_FLAG_NAMES.searchTypeaheadEnabled
+  searchDropdownComponentEnabled: toggleValues(state)[
+    FEATURE_FLAG_NAMES.searchDropdownComponentEnabled
   ],
 });
 
@@ -597,3 +717,7 @@ const SearchAppContainer = withRouter(
 );
 
 export default SearchAppContainer;
+
+SearchAppContainer.defaultProps = {
+  searchDropdownComponentEnabled: false,
+};

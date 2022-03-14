@@ -1,4 +1,4 @@
-import { renderWithStoreAndRouter } from 'applications/gi-sandbox/tests/helpers';
+import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import React from 'react';

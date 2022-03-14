@@ -1,7 +1,7 @@
 // Dependencies.
 import { expect } from 'chai';
 // Relative imports.
-import { capitalize, normalizeResponse } from './index';
+import { capitalize, normalizeResponse } from '.';
 
 describe('Yellow Ribbon helpers', () => {
   describe('`capitalize`', () => {

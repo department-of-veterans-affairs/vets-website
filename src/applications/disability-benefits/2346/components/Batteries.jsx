@@ -1,5 +1,4 @@
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import classnames from 'classnames';
 import moment from 'moment';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -7,6 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import { BATTERY } from '../constants';
 
 class Batteries extends Component {
@@ -75,38 +75,35 @@ class Batteries extends Component {
         )}
         {!haveBatteriesBeenOrderedInLastTwoYears &&
           !areBatterySuppliesEligible && (
-            <AlertBox
-              headline="Your batteries aren't available for online ordering"
-              content={
-                <div className="batteries-two-year-alert-content">
-                  <p>You can't add batteries for your hearing aids because:</p>
-                  <ul>
-                    <li>
-                      They don't require batteries,{' '}
-                      <span className="vads-u-font-weight--bold">or</span>
-                    </li>
-                    <li>
-                      You haven't placed an order for hearing aid batteries
-                      within the past 2 years.
-                    </li>
-                  </ul>
-                  <p>
-                    If you need unavailable batteries sooner, call the DLC
-                    Customer Service Section at{' '}
-                    <a
-                      aria-label="3 0 3. 2 7 3. 6 2 0 0."
-                      href="tel:303-273-6200"
-                    >
-                      303-273-6200
-                    </a>{' '}
-                    or email{' '}
-                    <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
-                  </p>
-                </div>
-              }
-              status="info"
-              isVisible
-            />
+            <va-alert status="info" visible>
+              <h3 slot="headline">
+                Your batteries aren’t available for online ordering
+              </h3>
+              <div className="batteries-two-year-alert-content">
+                <p>You can’t add batteries for your hearing aids because:</p>
+                <ul>
+                  <li>
+                    They don’t require batteries,{' '}
+                    <span className="vads-u-font-weight--bold">or</span>
+                  </li>
+                  <li>
+                    You haven’t placed an order for hearing aid batteries within
+                    the past 2 years.
+                  </li>
+                </ul>
+                <p>
+                  If you need unavailable batteries sooner, call the DLC
+                  Customer Service Section at{' '}
+                  <a
+                    aria-label="3 0 3. 2 7 3. 6 2 0 0."
+                    href="tel:303-273-6200"
+                  >
+                    303-273-6200
+                  </a>{' '}
+                  or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+                </p>
+              </div>
+            </va-alert>
           )}
         {batterySupplies.length > 0 &&
           haveBatteriesBeenOrderedInLastTwoYears &&
@@ -190,15 +187,23 @@ class Batteries extends Component {
             </div>
           ))}
         {batterySupplies.length > 0 && (
-          <AdditionalInfo triggerText="What if I don't see my device?">
+          <AdditionalInfo triggerText="What if my device isn’t listed here?">
             <p>
-              You may not see your hearing aid device if you haven’t placed an
-              order for resupply items within the last 2 years. If you need to
-              order batteries, call the DLC Customer Service Section at{' '}
-              <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
-                303-273-6200
-              </a>{' '}
-              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+              Your hearing aid device may not be listed here if you haven’t
+              placed an order for resupply items within the last 2 years. If you
+              need to order batteries, call the DLC Customer Service Section at
+              <Telephone
+                contact="303-273-6200"
+                className="vads-u-margin--0p5"
+              />
+              or email
+              <a
+                href="mailto:dalc.css@va.gov"
+                className="vads-u-margin-left--0p5"
+              >
+                dalc.css@va.gov
+              </a>
+              .
             </p>
             <p>
               If you need a new hearing aid device, you'll need to call your

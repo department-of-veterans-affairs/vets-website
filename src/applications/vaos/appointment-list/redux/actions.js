@@ -91,6 +91,7 @@ export const FETCH_FACILITY_SETTINGS_FAILED =
   'vaos/FETCH_FACILITY_SETTINGS_FAILED';
 export const FETCH_FACILITY_SETTINGS_SUCCEEDED =
   'vaos/FETCH_FACILITY_SETTINGS_SUCCEEDED';
+export const UPDATE_BREADCRUMB = 'vaos/UPDATE_BREADCRUMB';
 
 export function fetchRequestMessages(requestId) {
   return async dispatch => {
@@ -148,6 +149,19 @@ async function getAdditionalFacilityInfo(futureAppointments, useV2 = false) {
   }
 
   return facilityData;
+}
+
+/**
+ * Function to retrieve facility information from the appointment
+ * record when using the v2 api.
+ *
+ * @param {*} appointments
+ */
+function getAdditionalFacilityInfoV2(appointments) {
+  // Facility information included with v2 appointment api call.
+  return appointments
+    ?.map(appt => (appt.vaos.facilityData ? appt.vaos.facilityData : null))
+    .filter(n => n);
 }
 
 export function fetchFutureAppointments({ includeRequests = true } = {}) {
@@ -270,12 +284,17 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       });
 
       try {
-        const facilityData = await getAdditionalFacilityInfo(
-          [].concat(...data),
-          featureFacilitiesServiceV2,
-        );
+        let facilityData;
+        if (featureVAOSServiceVAAppointments) {
+          facilityData = getAdditionalFacilityInfoV2(data[0]);
+        } else {
+          facilityData = await getAdditionalFacilityInfo(
+            [].concat(...data),
+            featureFacilitiesServiceV2,
+          );
+        }
 
-        if (facilityData) {
+        if (facilityData && facilityData.length > 0) {
           dispatch({
             type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
             facilityData,
@@ -340,11 +359,15 @@ export function fetchPendingAppointments() {
       });
 
       try {
-        const facilityData = await getAdditionalFacilityInfo(
-          pendingAppointments,
-          featureFacilitiesServiceV2,
-        );
-
+        let facilityData;
+        if (featureVAOSServiceRequests) {
+          facilityData = getAdditionalFacilityInfoV2(pendingAppointments);
+        } else {
+          facilityData = await getAdditionalFacilityInfo(
+            pendingAppointments,
+            featureFacilitiesServiceV2,
+          );
+        }
         if (facilityData) {
           dispatch({
             type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
@@ -414,12 +437,19 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       });
 
       try {
-        const facilityData = await getAdditionalFacilityInfo(
-          getState().appointments.past,
-          featureFacilitiesServiceV2,
-        );
+        let facilityData;
+        if (featureVAOSServiceVAAppointments) {
+          facilityData = getAdditionalFacilityInfoV2(
+            getState().appointments.past,
+          );
+        } else {
+          facilityData = await getAdditionalFacilityInfo(
+            getState().appointments.past,
+            featureFacilitiesServiceV2,
+          );
+        }
 
-        if (facilityData) {
+        if (facilityData && facilityData.length > 0) {
           dispatch({
             type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
             facilityData,
@@ -486,7 +516,9 @@ export function fetchRequestDetails(id) {
       }
       if (featureVAOSServiceRequests && request.practitioners?.length) {
         request.preferredCommunityCareProviders = [
-          await getCommunityProvider(request.practitioners[0].identifier.value),
+          await getCommunityProvider(
+            request.practitioners[0].identifier[0].value,
+          ),
         ];
       }
 
@@ -498,7 +530,7 @@ export function fetchRequestDetails(id) {
       });
 
       if (!featureVAOSServiceRequests) {
-        const requestMessages = state.appointments.requestMessages;
+        const { requestMessages } = state.appointments;
         const messages = requestMessages?.[id];
 
         if (!messages) {
@@ -553,23 +585,18 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         });
       }
 
+      // We would expect to have the clinic name here, but if we don't, fetch it
       if (
-        featureVAOSServiceCCAppointments &&
-        appointment.vaos.isCommunityCare &&
-        appointment.practitioners?.length
+        featureVAOSServiceVAAppointments &&
+        appointment.location.clinicId &&
+        !appointment.location.clinicName
       ) {
-        appointment.communityCareProvider = await getCommunityProvider(
-          appointment.practitioners[0].identifier.value,
-        );
-      }
-
-      if (featureVAOSServiceVAAppointments && appointment.location.clinicId) {
         try {
           const clinic = await fetchHealthcareServiceById({
             locationId: appointment.location.stationId,
             id: appointment.location.clinicId,
           });
-          appointment.location.clinicName = clinic.serviceName;
+          appointment.location.clinicName = clinic?.serviceName;
         } catch (e) {
           // We don't want to show an overall error on this page just
           // because we don't have a clinic name, so capture the error and continue
@@ -578,8 +605,12 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       }
 
       facilityId = getVAAppointmentLocationId(appointment);
-      facility = state.appointments.facilityData?.[facilityId];
+      facility =
+        state.appointments.facilityData?.[facilityId] ||
+        appointment.vaos.facilityData;
 
+      // Similar to the clinic, we'd expect to have the facility data included, but if
+      // we don't, fetch it
       if (facilityId && !facility) {
         try {
           facility = await getLocation({
@@ -672,6 +703,9 @@ export function startNewVaccineFlow() {
 
 export function fetchFacilitySettings() {
   return async (dispatch, getState) => {
+    const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
+      getState(),
+    );
     dispatch({
       type: FETCH_FACILITY_SETTINGS,
     });
@@ -680,7 +714,10 @@ export function fetchFacilitySettings() {
       const initialState = getState();
       const siteIds = selectSystemIds(initialState) || [];
 
-      const settings = await getLocationSettings({ siteIds });
+      const settings = await getLocationSettings({
+        siteIds,
+        useV2: featureFacilitiesServiceV2,
+      });
 
       dispatch({
         type: FETCH_FACILITY_SETTINGS_SUCCEEDED,
@@ -693,5 +730,11 @@ export function fetchFacilitySettings() {
 
       captureError(e, false);
     }
+  };
+}
+
+export function updateBreadcrumb(breadcrumb) {
+  return async (dispatch, _getState) => {
+    dispatch({ type: UPDATE_BREADCRUMB, breadcrumb });
   };
 }

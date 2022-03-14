@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { fromUnixTime, isBefore } from 'date-fns';
+import { format } from 'date-fns-tz';
 import { connect } from 'react-redux';
 
 import {
@@ -100,7 +101,7 @@ export class ApplicationStatus extends React.Component {
         : `Deleting your ${appType}.`;
 
       return (
-        <div className="sip-application-status">
+        <div className="sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
           <LoadingIndicator message={message} />
         </div>
       );
@@ -128,30 +129,32 @@ export class ApplicationStatus extends React.Component {
         lastUpdated: lastSaved,
         expiresAt: expirationTime,
       } = savedForm.metadata;
-      const expirationDate = moment.unix(expirationTime);
-      const isExpired = expirationDate.isBefore();
+      const expirationDate = fromUnixTime(expirationTime);
+      const isExpired = isBefore(expirationDate, new Date());
 
       if (!isExpired) {
-        const lastSavedDateTime = moment
-          .unix(lastSaved)
-          .format('MMMM D, YYYY [at] h:mm a');
+        const lastSavedDateTime = lastSaved
+          ? format(fromUnixTime(lastSaved), "MMMM d, yyyy', at' h:mm aaaa z")
+          : null;
 
         return (
-          <div className="usa-alert usa-alert-info background-color-only sip-application-status">
+          <div className="usa-alert usa-alert-info background-color-only sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
             <h5 className="form-title saved">Your {appType} is in progress</h5>
             <span className="saved-form-item-metadata">
               Your {formDescriptions[formId]} is in progress.
             </span>
             <br />
-            <span className="saved-form-item-metadata">
-              Your {appType} was last saved on {lastSavedDateTime}
-            </span>
+            {lastSavedDateTime && (
+              <span className="saved-form-item-metadata">
+                Your {appType} was last saved on {lastSavedDateTime}
+              </span>
+            )}
             <br />
             <div className="expires-container">
               You can continue {appAction} now, or come back later to finish
               your {appType}. Your {appType}{' '}
               <span className="expires">
-                will expire on {expirationDate.format('MMMM D, YYYY')}.
+                will expire on {format(expirationDate, 'MMMM d, yyyy')}.
               </span>
             </div>
             <p>
@@ -201,7 +204,7 @@ export class ApplicationStatus extends React.Component {
         );
       }
       return (
-        <div className="usa-alert usa-alert-warning background-color-only sip-application-status">
+        <div className="usa-alert usa-alert-warning background-color-only sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
           <h5 className="form-title saved">Your {appType} has expired</h5>
           <span className="saved-form-item-metadata">
             Your saved {formDescriptions[formId]} has expired. If you want to
@@ -257,7 +260,7 @@ export class ApplicationStatus extends React.Component {
           <h2 itemProp="name">{applyHeading}</h2>
           <div itemProp="itemListElement">
             {this.props.additionalText && <p>{this.props.additionalText}</p>}
-            <div className="sip-application-status">
+            <div className="sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
               <a
                 className="usa-button-primary va-button-primary"
                 href={formLinks[formId]}

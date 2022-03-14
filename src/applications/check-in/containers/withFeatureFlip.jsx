@@ -1,49 +1,39 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 
-import {
-  checkInExperienceEnabled,
-  checkInExperienceLowRiskAuthenicationEnabled,
-  checkInExperienceMultipleAppointmentEnabled,
-  checkInExperienceUpdateInformationPageEnabled,
-  loadingFeatureFlags,
-} from '../selectors';
-
-const withFeatureFlip = WrappedComponent => props => {
-  const { isCheckInEnabled, isLoadingFeatureFlags } = props;
-  if (isLoadingFeatureFlags) {
-    return (
-      <>
-        <LoadingIndicator message="Loading your check in experience" />
-      </>
-    );
-  } else if (!isCheckInEnabled) {
-    window.location.replace('/');
-    return <></>;
-  } else {
+const withFeatureFlip = (Component, options) => {
+  const { isPreCheckIn } = options;
+  return props => {
+    const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+    const featureToggles = useSelector(selectFeatureToggles);
+    const {
+      isCheckInEnabled,
+      isLoadingFeatureFlags,
+      isPreCheckInEnabled,
+    } = featureToggles;
+    const appEnabled = isPreCheckIn ? isPreCheckInEnabled : isCheckInEnabled;
+    if (isLoadingFeatureFlags) {
+      return (
+        <>
+          <va-loading-indicator message="Loading your check in experience" />
+        </>
+      );
+    }
+    if (!appEnabled) {
+      window.location.replace('/');
+      return <></>;
+    }
     return (
       <>
         <meta name="robots" content="noindex" />
-        <WrappedComponent {...props} />
+        {/* Allowing for HOC */}
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Component {...props} {...featureToggles} />
       </>
     );
-  }
+  };
 };
-const mapStateToProps = state => ({
-  isCheckInEnabled: checkInExperienceEnabled(state),
-  isLoadingFeatureFlags: loadingFeatureFlags(state),
-  isLowAuthEnabled: checkInExperienceLowRiskAuthenicationEnabled(state),
-  isMultipleAppointmentsEnabled: checkInExperienceMultipleAppointmentEnabled(
-    state,
-  ),
-  isUpdatePageEnabled: checkInExperienceUpdateInformationPageEnabled(state),
-});
 
-const composedWrapper = compose(
-  connect(mapStateToProps),
-  withFeatureFlip,
-);
-export default composedWrapper;
+export default withFeatureFlip;

@@ -1,5 +1,4 @@
 import {
-  selectFeatureCCIterations,
   selectHasVAPResidentialAddress,
   selectRegisteredCernerFacilityIds,
 } from '../redux/selectors';
@@ -242,6 +241,7 @@ export default {
       }
 
       // fetch appointment slots
+      dispatch(startDirectScheduleFlow());
       return 'preferredDate';
     },
   },
@@ -257,12 +257,7 @@ export default {
     url: '/new-appointment/request-date',
     next(state) {
       const supportedSites = selectCommunityCareSupportedSites(state);
-      const featureCCIteration = selectFeatureCCIterations(state);
-      if (
-        isCCFacility(state) &&
-        supportedSites.length > 1 &&
-        featureCCIteration
-      ) {
+      if (isCCFacility(state) && supportedSites.length > 1) {
         return 'ccClosestCity';
       } else if (isCCFacility(state)) {
         return 'ccPreferences';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { VaAdditionalInfo } from 'web-components/react-bindings';
 import { getPtsdClassification } from './ptsdClassification';
 import { recordEventOnce } from 'platform/monitoring/record-event';
 import {
@@ -20,8 +20,9 @@ export const PtsdUploadChoiceDescription = ({ formType }) => {
   }
 
   return (
-    <AdditionalInfo
-      triggerText="Which should I choose?"
+    <VaAdditionalInfo
+      trigger="Which should I choose?"
+      disableAnalytics
       onClick={() =>
         ptsdWalkthroughEvent &&
         recordEventOnce(ptsdWalkthroughEvent, HELP_TEXT_CLICKED_EVENT)
@@ -38,7 +39,7 @@ export const PtsdUploadChoiceDescription = ({ formType }) => {
         If you choose to upload a completed VA Form {`21-0${formType}`}, you’ll
         move to the next section of the disability application.
       </p>
-    </AdditionalInfo>
+    </VaAdditionalInfo>
   );
 };
 

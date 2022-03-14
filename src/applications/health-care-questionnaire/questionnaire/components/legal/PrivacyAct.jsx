@@ -40,7 +40,7 @@ class PrivacyAct extends React.Component {
     const { expDate } = this.props;
 
     return (
-      <div className="omb-info">
+      <div className="omb-info" role="main">
         <div>
           Expiration date: <strong>{expDate}</strong>
         </div>

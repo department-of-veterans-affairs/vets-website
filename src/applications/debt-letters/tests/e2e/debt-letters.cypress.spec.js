@@ -1,3 +1,10 @@
+/**
+ * [TestRail-integrated] Spec for Debt Letters (DL)
+ * @testrailinfo projectId 7
+ * @testrailinfo suiteId 8
+ * @testrailinfo groupId 318
+ * @testrailinfo runName DL-e2e-List
+ */
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockDebts from './fixtures/mocks/debts.json';
 import mockUser from './fixtures/mocks/mock-user.json';
@@ -5,42 +12,46 @@ import mockUser from './fixtures/mocks/mock-user.json';
 describe('Debt Letters', () => {
   beforeEach(() => {
     cy.login(mockUser);
-    cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
-    cy.intercept('GET', '/v0/debts', mockDebts);
+    cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
+      'features',
+    );
+    cy.intercept('GET', '/v0/debts', mockDebts).as('debts');
     cy.visit('/manage-va-debt/your-debt/');
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.wait(['@features', '@debts']);
   });
 
-  it('C1033 displays the current debts section and navigates to debt details', () => {
-    cy.findByText(/Current debts/i, { selector: 'a' }).click();
-    cy.get('.usa-button')
-      .contains('Go to debt details')
+  it('displays the current debts section and navigates to debt details - C1226', () => {
+    cy.findByTestId('debts-jumplink').click({ waitForAnimations: true });
+    cy.get('[data-testclass="debt-details-button"]')
       .first()
       .click();
-    cy.get('#debtLetterHistory').contains('Debt letter history');
+    cy.get('#debtLetterHistory').should('be.visible');
+    cy.injectAxeThenAxeCheck();
   });
 
-  it('C1034 displays download debt letters', () => {
-    cy.findByText(/Download debt letters/i, { selector: 'a' }).click();
-    cy.findByText(/Download letters related to your va debt/i, {
-      selector: 'a',
-    }).click();
-    cy.get('#downloadDebtLetters').contains('Download debt letters');
+  /* eslint-disable va/axe-check-required */
+  // Same display-states below as test above which already had AXE-check.
+  it('displays download debt letters - C1227', () => {
+    cy.findByTestId('download-jumplink').click({ waitForAnimations: true });
+    cy.findByTestId('download-letters-link').click();
+    cy.get('#downloadDebtLetters').should('be.visible');
   });
 
-  it('C1035 displays how do I pay my VA debt?', () => {
-    cy.findByText(/How do I pay my VA debt/i, { selector: 'a' }).click();
-    cy.get('#howDoIPay').contains('How do I pay my VA debt?');
+  it('displays how do I pay my VA debt? - C1228', () => {
+    cy.findByTestId('howto-pay-jumplink').click({ waitForAnimations: true });
+    cy.get('#howDoIPay').should('be.visible');
   });
 
-  it('C1036 displays how do I get financial help?', () => {
-    cy.findByText(/How do I get financial help/i, { selector: 'a' }).click();
-    cy.get('#howDoIGetHelp').contains('How do I get financial help?');
+  it('displays how do I get financial help? - C1229', () => {
+    cy.findByTestId('howto-help-jumplink').click({ waitForAnimations: true });
+    cy.get('#howDoIGetHelp').should('be.visible');
   });
 
-  it('C1037 displays how do I dispute a debt?', () => {
-    cy.findByText(/How do I dispute a debt?/i, { selector: 'a' }).click();
-    cy.get('#howDoIDispute').contains('How do I dispute a debt?');
+  it('displays how do I dispute a debt? - C1230', () => {
+    cy.findByTestId('howto-dispute-jumplink').click({
+      waitForAnimations: true,
+    });
+    cy.get('#howDoIDispute').should('be.visible');
   });
+  /* eslint-ensable va/axe-check-required */
 });

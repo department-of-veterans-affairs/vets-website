@@ -45,6 +45,7 @@ const createformReducer = (options = {}) =>
   );
 
 const getFormConfig = (options = {}) => ({
+  ariaDescribedBySubmit: '22-0994-submit-application',
   preSubmitInfo: {
     required: true,
     field: 'privacyAgreementAccepted',

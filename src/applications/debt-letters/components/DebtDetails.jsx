@@ -7,14 +7,12 @@ import head from 'lodash/head';
 import last from 'lodash/last';
 import first from 'lodash/first';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { setPageFocus, getCurrentDebt, currency } from '../utils/page';
-import { OnThisPageLinks } from './OnThisPageLinks';
+import OnThisPageLinks from './OnThisPageLinks';
 import { renderAdditionalInfo } from '../const/diary-codes';
 import HistoryTable from './HistoryTable';
 import {
@@ -49,9 +47,10 @@ const DebtDetails = ({ selectedDebt, debts }) => {
     window.location.replace('/manage-va-debt/your-debt');
     return (
       <div className="vads-u-font-family--sans vads-u-margin--0 vads-u-padding--1">
-        <LoadingIndicator
-          setFocus
+        <va-loading-indicator
+          label="Loading"
           message="Please wait while we load the application for you."
+          set-focus
         />
       </div>
     );
@@ -81,38 +80,32 @@ const DebtDetails = ({ selectedDebt, debts }) => {
               </span>
             </p>
           )}
-          <div className="vads-u-display--flex vads-u-flex-direction--row">
-            <dl className="vads-u-display--flex vads-u-flex-direction--column">
-              {dateFirstNotice && (
-                <div className="vads-u-margin-y--1 vads-u-display--flex">
-                  <dt>
-                    <strong>Date of first notice: </strong>
-                  </dt>
-                  <dd className="vads-u-margin-left--1">
-                    {moment(dateFirstNotice, 'MM-DD-YYYY').format(
-                      'MMMM D, YYYY',
-                    )}
-                  </dd>
-                </div>
-              )}
-              <div className="vads-u-display--flex ">
-                <dt>
-                  <strong>Original debt amount: </strong>
-                </dt>
-                <dd className="vads-u-margin-left--1">
-                  {currency.format(parseFloat(currentDebt.originalAr))}
+          <dl className="details-table">
+            <div className="details-row">
+              <dt className="details-title">Amount owed:</dt>
+              <dd className="details-data">
+                {currency.format(parseFloat(currentDebt.currentAr))}
+              </dd>
+            </div>
+            <div className="details-row">
+              <dt className="details-title">Original amount:</dt>
+              <dd className="details-data">
+                {currency.format(parseFloat(currentDebt.originalAr))}
+              </dd>
+            </div>
+            {dateFirstNotice && (
+              <div className="details-row">
+                <dt className="details-title">Date of first notice:</dt>
+                <dd className="details-data">
+                  {moment(dateFirstNotice, 'MM-DD-YYYY').format('MMMM D, YYYY')}
                 </dd>
               </div>
-              <div className="vads-u-margin-y--1 vads-u-display--flex">
-                <dt>
-                  <strong>Current balance: </strong>
-                </dt>
-                <dd className="vads-u-margin-left--1">
-                  {currency.format(parseFloat(currentDebt.currentAr))}
-                </dd>
-              </div>
-            </dl>
-          </div>
+            )}
+            <div className="details-row">
+              <dt className="details-title">Collection status:</dt>
+              <dd className="details-data">{additionalInfo.status}</dd>
+            </div>
+          </dl>
           <va-alert
             status="info"
             class="vads-u-margin-bottom--4 vads-u-font-size--base"
@@ -121,9 +114,9 @@ const DebtDetails = ({ selectedDebt, debts }) => {
             {additionalInfo.nextStep}
           </va-alert>
           {whyContent && (
-            <AdditionalInfo triggerText="Why might I have this debt?">
+            <va-additional-info trigger="Why might I have this debt?">
               {whyContent}
-            </AdditionalInfo>
+            </va-additional-info>
           )}
           <OnThisPageLinks isDetailsPage hasHistory={hasFilteredHistory} />
           {hasFilteredHistory && (
@@ -135,7 +128,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
                 Debt letter history
               </h2>
               <p className="vads-u-margin-y--2">
-                You can view the status or download the letters for this debt.
+                You can check the status or download the letters for this debt.
               </p>
               <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
                 <strong>Note:</strong> The content of the debt letters below may
@@ -185,6 +178,7 @@ DebtDetails.defaultProps = {
 };
 
 DebtDetails.propTypes = {
+  debts: PropTypes.array,
   selectedDebt: PropTypes.shape({
     currentAr: PropTypes.number,
     debtHistory: PropTypes.arrayOf(
@@ -194,7 +188,7 @@ DebtDetails.propTypes = {
     ),
     deductionCode: PropTypes.string,
     originalAr: PropTypes.number,
-  }).isRequired,
+  }),
 };
 
 export default connect(mapStateToProps)(DebtDetails);

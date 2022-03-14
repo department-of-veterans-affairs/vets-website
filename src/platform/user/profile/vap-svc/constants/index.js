@@ -1,10 +1,11 @@
-import { MILITARY_STATES } from 'applications/letters/utils/constants';
-
-import { states } from 'vets-json-schema/dist/constants.json';
+import constants from 'vets-json-schema/dist/constants.json';
+import ADDRESS_DATA from 'platform/forms/address/data';
 import countries from './countries.json';
 
+export const MILITARY_STATES = new Set(ADDRESS_DATA.militaryStates);
+
 export const ADDRESS_FORM_VALUES = {
-  STATES: states.USA.map(state => state.value),
+  STATES: constants.states.USA.map(state => state.value),
   COUNTRIES: countries.map(country => country.countryName),
   COUNTRY_ISO3_CODES: countries.map(country => country.countryCodeISO3),
   MILITARY_STATES,
@@ -16,10 +17,31 @@ export const ADDRESS_TYPES = {
   OVERSEAS_MILITARY: 'OVERSEAS MILITARY',
 };
 
+// TODO: Merge with ADDRESS_TYPES above, or replace them both with the
+// ADDRESS_TYPES constant in platform/forms/address/helpers.js
+export const ADDRESS_TYPES_ALTERNATE = Object.freeze({
+  domestic: 'DOMESTIC',
+  international: 'INTERNATIONAL',
+  military: 'MILITARY',
+});
+
 export const ADDRESS_POU = {
   CORRESPONDENCE: 'CORRESPONDENCE',
   RESIDENCE: 'RESIDENCE/CHOICE',
 };
+
+// address props that are primarily used for comparing two addresses
+export const ADDRESS_PROPS = [
+  'addressLine1',
+  'addressLine2',
+  'addressLine3',
+  'city',
+  'countryCodeIso3',
+  'internationalPostalCode',
+  'province',
+  'stateCode',
+  'zipCode',
+];
 
 export const USA = {
   COUNTRY_NAME: 'United States',
@@ -57,6 +79,10 @@ export const TRANSACTION_STATUS = {
 export const INIT_VAP_SERVICE_ID = 'initializeVAProfileServiceID';
 
 export const FIELD_NAMES = {
+  PREFERRED_NAME: 'preferredName',
+  PRONOUNS: 'pronouns',
+  GENDER_IDENTITY: 'genderIdentity',
+  SEXUAL_ORIENTATION: 'sexualOrientation',
   HOME_PHONE: 'homePhone',
   MOBILE_PHONE: 'mobilePhone',
   WORK_PHONE: 'workPhone',
@@ -68,6 +94,10 @@ export const FIELD_NAMES = {
 };
 
 export const FIELD_TITLES = {
+  [FIELD_NAMES.PREFERRED_NAME]: 'Preferred name',
+  [FIELD_NAMES.PRONOUNS]: 'Pronouns',
+  [FIELD_NAMES.GENDER_IDENTITY]: 'Gender identity',
+  [FIELD_NAMES.SEXUAL_ORIENTATION]: 'Sexual orientation',
   [FIELD_NAMES.HOME_PHONE]: 'Home phone number',
   [FIELD_NAMES.MOBILE_PHONE]: 'Mobile phone number',
   [FIELD_NAMES.WORK_PHONE]: 'Work phone number',
@@ -78,8 +108,20 @@ export const FIELD_TITLES = {
   [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'Home address',
 };
 
+// optional 'hint text' to display below field titles
+export const FIELD_TITLE_DESCRIPTIONS = {
+  [FIELD_NAMES.EMAIL]: 'We use this email to send you information.',
+  [FIELD_NAMES.MAILING_ADDRESS]:
+    'We send your VA letters, bills, and prescriptions to this address.',
+  [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'This is where you currently live.',
+};
+
 // These are intended to be used as values for HTML element id attributes
 export const FIELD_IDS = {
+  [FIELD_NAMES.PREFERRED_NAME]: 'preferred-name',
+  [FIELD_NAMES.PRONOUNS]: 'pronouns',
+  [FIELD_NAMES.GENDER_IDENTITY]: 'gender-identity',
+  [FIELD_NAMES.SEXUAL_ORIENTATION]: 'sexual-orientation',
   [FIELD_NAMES.HOME_PHONE]: 'home-phone-number',
   [FIELD_NAMES.MOBILE_PHONE]: 'mobile-phone-number',
   [FIELD_NAMES.WORK_PHONE]: 'work-phone-number',
@@ -103,6 +145,10 @@ export const ANALYTICS_FIELD_MAP = {
   INIT_VAP_SERVICE_ID: 'initialize-vet360-id',
   primaryTelephone: 'primary-telephone',
   alternateTelephone: 'alternative-telephone',
+  [FIELD_NAMES.PREFERRED_NAME]: 'preferred-name',
+  [FIELD_NAMES.PRONOUNS]: 'pronouns',
+  [FIELD_NAMES.GENDER_IDENTITY]: 'gender-identity',
+  [FIELD_NAMES.SEXUAL_ORIENTATION]: 'sexual-orientation',
   [FIELD_NAMES.HOME_PHONE]: 'home-telephone',
   [FIELD_NAMES.MOBILE_PHONE]: 'mobile-telephone',
   [FIELD_NAMES.WORK_PHONE]: 'work-telephone',
@@ -130,4 +176,10 @@ export const VAP_SERVICE_INITIALIZATION_STATUS = {
 
 export const ACTIVE_EDIT_VIEWS = {
   ADDRESS_VALIDATION: 'addressValidation',
+};
+
+export const MISSING_CONTACT_INFO = {
+  ALL: 'ALL',
+  EMAIL: 'EMAIL',
+  MOBILE: 'MOBILE',
 };

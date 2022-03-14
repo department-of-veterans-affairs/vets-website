@@ -1,0 +1,31 @@
+name: Init Dashboard Data Repo
+description: Check out repo and install dependencies
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout Testing Tools Team Dashboard Data repo
+      uses: actions/checkout@v2
+      with:
+        repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
+        token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+        path: testing-tools-team-dashboard-data
+
+    - name: Get Node version
+      id: get-node-version
+      shell: bash
+      run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+      working-directory: testing-tools-team-dashboard-data
+
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+    # TODO: Potentially use install composite
+    - name: Install dependencies
+      shell: bash
+      run: yarn install --frozen-lockfile --prefer-offline --production=false
+      env:
+        YARN_CACHE_FOLDER: .cache/yarn
+      working-directory: testing-tools-team-dashboard-data

@@ -1,11 +1,13 @@
 import moment from 'moment';
 import { expect } from 'chai';
 
-import { SELECTED } from '../../constants';
+import { SELECTED, LEGACY_TYPE } from '../../constants';
 import { getDate } from '../../utils/dates';
 
 import {
   getEligibleContestableIssues,
+  getLegacyAppealsLength,
+  mayHaveLegacyAppeals,
   apiVersion1,
   apiVersion2,
   isVersion1Data,
@@ -14,12 +16,10 @@ import {
   getSelected,
   getSelectedCount,
   getIssueName,
+  getIssueDate,
   getIssueNameAndDate,
   hasDuplicates,
-  showAddIssuesPage,
-  showAddIssueQuestion,
   isEmptyObject,
-  setInitialEditMode,
   processContestableIssues,
   readableList,
 } from '../../utils/helpers';
@@ -77,6 +77,63 @@ describe('getEligibleContestableIssues', () => {
         ineligibleIssue,
       ]),
     ).to.deep.equal([eligibleIssue]);
+  });
+});
+
+describe('getLegacyAppealsLength', () => {
+  it('should return 0 with no issues', () => {
+    expect(getLegacyAppealsLength()).to.equal(0);
+  });
+  it('should return 0 with no legacy issues', () => {
+    expect(
+      getLegacyAppealsLength([{ type: 'one' }, { type: LEGACY_TYPE }]),
+    ).to.equal(0);
+    expect(
+      getLegacyAppealsLength([
+        { type: 'one' },
+        { type: LEGACY_TYPE, attributes: {} },
+      ]),
+    ).to.equal(0);
+    expect(
+      getLegacyAppealsLength([
+        { type: 'one' },
+        { type: LEGACY_TYPE, attributes: { issues: [] } },
+      ]),
+    ).to.equal(0);
+  });
+  it('should return a value > 0 with legacy issues', () => {
+    expect(
+      getLegacyAppealsLength([
+        { type: 'one' },
+        { type: LEGACY_TYPE, attributes: { issues: [{}, {}] } },
+      ]),
+    ).to.equal(2);
+    expect(
+      getLegacyAppealsLength([
+        { type: 'one' },
+        { type: LEGACY_TYPE, attributes: { issues: [{}, {}] } },
+        { type: LEGACY_TYPE, attributes: { issues: [] } },
+        { type: LEGACY_TYPE, attributes: { issues: [{}] } },
+      ]),
+    ).to.equal(3);
+  });
+});
+
+describe('mayHaveLegacyAppeals', () => {
+  it('should return false if there is no data', () => {
+    expect(mayHaveLegacyAppeals()).to.be.false;
+  });
+  it('should return false if there is no legacy & no additional issues', () => {
+    expect(mayHaveLegacyAppeals({ legacyCount: 0, additionalIssues: [] })).to.be
+      .false;
+  });
+  it('should return true if there are some legacy issues & no additional issues', () => {
+    expect(mayHaveLegacyAppeals({ legacyCount: 1, additionalIssues: [] })).to.be
+      .true;
+  });
+  it('should return true if there is no legacy & some additional issues', () => {
+    expect(mayHaveLegacyAppeals({ legacyCount: 0, additionalIssues: [{}] })).to
+      .be.true;
   });
 });
 
@@ -162,20 +219,9 @@ describe('getSelected & getSelectedCount', () => {
     ]);
     expect(getSelectedCount(data, data.additionalIssues)).to.eq(1);
   });
-  it('should not return selected additional issues when Veteran chooses not to include them', () => {
-    const data = {
-      'view:hasIssuesToAdd': false,
-      additionalIssues: [
-        { type: 'no', [SELECTED]: false },
-        { type: 'ok', [SELECTED]: true },
-      ],
-    };
-    expect(getSelected(data)).to.deep.equal([]);
-    expect(getSelectedCount(data, data.additionalIssues)).to.eq(0);
-  });
   it('should return selected additional issues', () => {
     const data = {
-      'view:hasIssuesToAdd': true,
+      hlrV2: true,
       additionalIssues: [
         { type: 'no', [SELECTED]: false },
         { type: 'ok', [SELECTED]: true },
@@ -192,7 +238,7 @@ describe('getSelected & getSelectedCount', () => {
         { type: 'no1', [SELECTED]: false },
         { type: 'ok1', [SELECTED]: true },
       ],
-      'view:hasIssuesToAdd': true,
+      hlrV2: true,
       additionalIssues: [
         { type: 'no2', [SELECTED]: false },
         { type: 'ok2', [SELECTED]: true },
@@ -217,6 +263,20 @@ describe('getIssueName', () => {
   });
   it('should return an added issue name', () => {
     expect(getIssueName({ issue: 'test2' })).to.eq('test2');
+  });
+});
+
+describe('getIssueDate', () => {
+  it('should return undefined', () => {
+    expect(getIssueDate()).to.eq('');
+  });
+  it('should return a contestable issue date', () => {
+    expect(
+      getIssueDate({ attributes: { approxDecisionDate: '2021-01-01' } }),
+    ).to.eq('2021-01-01');
+  });
+  it('should return an added issue name', () => {
+    expect(getIssueDate({ decisionDate: '2021-02-01' })).to.eq('2021-02-01');
   });
 });
 
@@ -287,73 +347,6 @@ describe('hasDuplicates', () => {
   });
 });
 
-describe('showAddIssuesPage', () => {
-  it('should return true when no contestable issues selected', () => {
-    expect(showAddIssuesPage({})).to.be.true;
-    expect(showAddIssuesPage({ contestedIssues: [{}] })).to.be.true;
-  });
-  it('should return true when question is set to "yes", or no contestable issues selected', () => {
-    expect(showAddIssuesPage({ 'view:hasIssuesToAdd': true })).to.be.true;
-    expect(
-      showAddIssuesPage({
-        'view:hasIssuesToAdd': true,
-        contestedIssues: [{ [SELECTED]: true }],
-      }),
-    ).to.be.true;
-    expect(
-      showAddIssuesPage({
-        'view:hasIssuesToAdd': true,
-        contestedIssues: [{}],
-      }),
-    ).to.be.true;
-    expect(
-      showAddIssuesPage({
-        'view:hasIssuesToAdd': false,
-        contestedIssues: [{}],
-      }),
-    ).to.be.true;
-  });
-  it('should show the issue page when nothing is selected, and past the issues pages', () => {
-    // probably unselected stuff on the review & submit page
-    expect(
-      showAddIssuesPage({
-        'view:hasIssuesToAdd': true,
-        contestedIssues: [{}],
-        additionalIssues: [{}],
-      }),
-    ).to.be.true;
-    expect(
-      showAddIssuesPage({
-        'view:hasIssuesToAdd': false,
-        boardReviewOption: 'foo', // we're past the issues page
-        contestedIssues: [{}],
-        additionalIssues: [{}],
-      }),
-    ).to.be.true;
-  });
-  it('should return false when "no" is chosen and there is a selected contested issue', () => {
-    expect(
-      showAddIssuesPage({
-        'view:hasIssuesToAdd': false,
-        contestedIssues: [{ [SELECTED]: true }],
-      }),
-    ).to.be.false;
-  });
-});
-
-describe('showAddIssueQuestion', () => {
-  it('should show add issue question when contestable issues selected', () => {
-    expect(showAddIssueQuestion({ contestedIssues: [{ [SELECTED]: true }] })).to
-      .be.true;
-  });
-  it('should not show add issue question when no issues or none selected', () => {
-    expect(showAddIssueQuestion({ contestedIssues: [] })).to.be.false;
-    expect(showAddIssueQuestion({ contestedIssues: [{}] })).to.be.false;
-    expect(showAddIssueQuestion({ contestedIssues: [{ [SELECTED]: false }] }))
-      .to.be.false;
-  });
-});
-
 describe('isEmptyObject', () => {
   it('should return true for an empty object', () => {
     expect(isEmptyObject({})).to.be.true;
@@ -367,89 +360,6 @@ describe('isEmptyObject', () => {
     expect(isEmptyObject(true)).to.be.false;
     expect(isEmptyObject(() => {})).to.be.false;
     expect(isEmptyObject({ test: '' })).to.be.false;
-  });
-});
-
-describe('setInitialEditMode', () => {
-  const validDate = getDate({ offset: { months: -2 } });
-  it('should set edit mode when missing data', () => {
-    [
-      [{}],
-      [{ issue: 'test' }],
-      [{ decisionDate: validDate }],
-      [{ issue: '', decisionDate: '' }],
-      [{ issue: undefined, decisionDate: undefined }],
-    ].forEach(additionalIssues => {
-      expect(setInitialEditMode({ additionalIssues })).to.deep.equal([true]);
-    });
-    expect(
-      setInitialEditMode({
-        additionalIssues: [
-          { issue: '', decisionDate: validDate },
-          { issue: 'test', decisionDate: '' },
-        ],
-      }),
-    ).to.deep.equal([true, true]);
-  });
-  it('should set edit mode when there is an invalid date', () => {
-    [
-      [{ issue: 'test', decisionDate: getDate({ offset: { months: 1 } }) }],
-      [{ issue: 'test', decisionDate: '1899-01-01' }],
-      [{ issue: 'test', decisionDate: '2000-01-01' }],
-    ].forEach(additionalIssues => {
-      expect(setInitialEditMode({ additionalIssues })).to.deep.equal([true]);
-    });
-    expect(
-      setInitialEditMode({
-        additionalIssues: [
-          { issue: 'test', decisionDate: validDate },
-          { issue: 'test', decisionDate: '2000-01-01' },
-        ],
-      }),
-    ).to.deep.equal([false, true]);
-  });
-  it('should set edit mode when there is a duplicate contestable issue', () => {
-    expect(
-      setInitialEditMode({
-        contestedIssues: [
-          {
-            attributes: {
-              ratingIssueSubjectText: 'test',
-              approxDecisionDate: validDate,
-            },
-          },
-        ],
-        additionalIssues: [{ issue: 'test', decisionDate: validDate }],
-      }),
-    ).to.deep.equal([true]);
-  });
-  it('should set edit mode when there is a duplicate additional issue', () => {
-    expect(
-      setInitialEditMode({
-        additionalIssues: [
-          { issue: 'test', decisionDate: validDate },
-          { issue: 'test', decisionDate: validDate },
-        ],
-      }),
-    ).to.deep.equal([true, true]);
-  });
-  it('should not set edit mode when data exists', () => {
-    expect(
-      setInitialEditMode({
-        additionalIssues: [{ issue: 'test', decisionDate: validDate }],
-      }),
-    ).to.deep.equal([false]);
-    expect(
-      setInitialEditMode({
-        additionalIssues: [
-          { issue: 'test', decisionDate: validDate },
-          {
-            issue: 'test2',
-            decisionDate: getDate({ offset: { months: -10 } }),
-          },
-        ],
-      }),
-    ).to.deep.equal([false, false]);
   });
 });
 

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -11,14 +12,14 @@ import Wizard from 'applications/static-pages/wizard';
 
 import pages from './pages';
 import formConfig from '../config/form';
-import { SAVED_CLAIM_TYPE, IS_PRODUCTION } from '../constants';
+import { SAVED_CLAIM_TYPE } from '../constants';
 import {
   getHlrWizardStatus,
   removeHlrWizardStatus,
   setHlrWizardStatus,
 } from '../wizard/utils';
 
-const WizardContainer = ({ setWizardStatus }) => {
+export const WizardContainer = ({ setWizardStatus, hlrV2 }) => {
   const { title, subTitle } = formConfig;
 
   useEffect(() => {
@@ -32,6 +33,10 @@ const WizardContainer = ({ setWizardStatus }) => {
     removeHlrWizardStatus();
   }
 
+  const getStarted = `Answer a ${
+    hlrV2 ? 'question' : 'few questions'
+  }  to get started.`;
+
   const wizard = (
     <>
       <FormTitle title={title} subTitle={subTitle} />
@@ -43,7 +48,7 @@ const WizardContainer = ({ setWizardStatus }) => {
           and the evidence you provided. You can’t submit any new evidence with
           a Higher-Level Review.
         </p>
-        <p>Answer a few questions to get started.</p>
+        <p>{getStarted}</p>
         <Wizard
           pages={pages}
           expander={false}
@@ -53,9 +58,7 @@ const WizardContainer = ({ setWizardStatus }) => {
     </>
   );
 
-  return IS_PRODUCTION ? (
-    wizard
-  ) : (
+  return (
     <article className="row">
       <div className="usa-width-two-thirds medium-8 columns vads-u-margin-bottom--2">
         {wizard}
@@ -73,4 +76,8 @@ WizardContainer.propTypes = {
   setWizardStatus: PropTypes.func.isRequired,
 };
 
-export default WizardContainer;
+const mapStateToProps = state => ({
+  hlrV2: state.featureToggles.hlrV2,
+});
+
+export default connect(mapStateToProps)(WizardContainer);

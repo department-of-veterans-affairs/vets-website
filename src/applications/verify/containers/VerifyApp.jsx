@@ -2,31 +2,26 @@ import React from 'react';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { verify } from 'platform/user/authentication/utilities';
 import { hasSession } from 'platform/user/profile/utilities';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
+import { focusElement } from '~/platform/utilities/ui';
 
 export class VerifyApp extends React.Component {
   constructor(props) {
     super(props);
-    const { profile } = this.props;
-    const serviceName = (profile.signIn || {}).serviceName;
 
-    const signinMethodLabels = {
+    this.signinMethodLabels = {
       dslogon: 'DS Logon',
       myhealthevet: 'My HealtheVet',
+      logingov: 'Login.gov',
     };
-
-    this.signInMethod = signinMethodLabels[serviceName] || 'ID.me';
   }
+
   componentDidMount() {
     if (!hasSession()) {
       window.location.replace('/');
@@ -41,19 +36,56 @@ export class VerifyApp extends React.Component {
     if (shouldCheckAccount) {
       this.checkAccountAccess();
     }
+    if (!this.props.profile.loading && prevProps.profile.loading) {
+      focusElement('h1');
+    }
   }
 
   checkAccountAccess() {
     if (this.props.profile.verified) {
       const nextParams = new URLSearchParams(window.location.search);
       const nextPath = nextParams.get('next');
-      window.location.replace(nextPath || '/');
+      if (nextPath && nextPath !== 'loginModal') {
+        window.location.replace(nextPath || '/');
+      }
     }
+  }
+
+  renderVerifyButton(signInMethod) {
+    const verifyWithLoginGov =
+      this.signinMethodLabels.logingov === signInMethod;
+
+    const renderOpts = {
+      copy: verifyWithLoginGov ? 'Login.gov' : 'ID.me',
+      renderImage: verifyWithLoginGov ? (
+        <LoginGovSVG />
+      ) : (
+        <img
+          role="presentation"
+          aria-hidden="true"
+          alt="ID.me"
+          src="/img/signin/idme-icon-white.svg"
+        />
+      ),
+      className: `usa-button ${
+        verifyWithLoginGov ? 'logingov-button' : 'idme-button'
+      }`,
+    };
+
+    return (
+      <button className={renderOpts.className} onClick={() => verify()}>
+        <strong>
+          Verify with <span className="sr-only">{renderOpts.copy}</span>
+        </strong>
+        {renderOpts.renderImage}
+      </button>
+    );
   }
 
   render() {
     const { profile } = this.props;
-    const authVersion = this.props.authenticatedWithSSOe ? 'v1' : 'v0';
+    const signInMethod =
+      this.signinMethodLabels[(profile?.signIn?.serviceName)] || 'ID.me';
 
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
@@ -66,11 +98,9 @@ export class VerifyApp extends React.Component {
             <div className="columns small-12">
               <div>
                 <h1>Verify your identity</h1>
-                <AlertBox
-                  content={`You signed in with ${this.signInMethod}`}
-                  isVisible
-                  status="success"
-                />
+                <va-alert visible status="success">
+                  You signed in with {signInMethod}
+                </va-alert>
                 <p>
                   We'll need to verify your identity so that you can securely
                   access and manage your benefits.
@@ -86,13 +116,7 @@ export class VerifyApp extends React.Component {
                   This one-time process will take{' '}
                   <strong>5 - 10 minutes</strong> to complete.
                 </p>
-                <button
-                  className="usa-button-primary va-button-primary"
-                  onClick={() => verify(authVersion)}
-                >
-                  <img alt="ID.me" src="/img/signin/idme-icon-white.svg" />
-                  <strong> Verify with ID.me</strong>
-                </button>
+                {this.renderVerifyButton(signInMethod)}
               </div>
             </div>
           </div>
@@ -106,13 +130,7 @@ export class VerifyApp extends React.Component {
                   </a>
                 </p>
                 <p>
-                  <SubmitSignInForm startSentence>
-                    Call the VA.gov Help Desk at{' '}
-                    <a href="tel:1-855-574-7286">855-574-7286</a>, TTY:{' '}
-                    <Telephone contact={CONTACTS.HELP_TTY} />
-                    <br />
-                    Monday &#8211; Friday, 8:00 a.m. &#8211; 8:00 p.m. ET
-                  </SubmitSignInForm>
+                  <SubmitSignInForm startSentence />
                 </p>
               </div>
             </div>
@@ -128,7 +146,6 @@ const mapStateToProps = state => {
   return {
     login: userState.login,
     profile: userState.profile,
-    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   };
 };
 

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
@@ -12,7 +12,10 @@ import {
   isLOA3 as isLOA3Selector,
   isMultifactorEnabled,
 } from '~/platform/user/selectors';
-import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
+import {
+  loginGov,
+  signInServiceName as signInServiceNameSelector,
+} from '~/platform/user/authentication/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 
@@ -22,19 +25,16 @@ import {
 } from '@@profile/selectors';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
-import SetUpVerifiedIDMeAlert from '../alerts/SetUpVerifiedIDMeAlert';
+import UnsupportedAccountAlert from '../alerts/UnsupportedAccountAlert';
 
 import Headline from '../ProfileSectionHeadline';
 
 import FraudVictimAlert from './FraudVictimAlert';
 import PaymentHistory from './PaymentHistory';
-import BankInfoCNP from './BankInfoCNP';
-import BankInfoEDU from './BankInfoEDU';
-
-export const benefitTypes = {
-  CNP: 'compensation and pension benefits',
-  EDU: 'education benefits',
-};
+import BankInfo from './BankInfo';
+import { benefitTypes } from '~/applications/personalization/common/constants';
+import { Prompt } from 'react-router-dom';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 
 const SuccessMessage = ({ benefit }) => {
   let content = null;
@@ -65,11 +65,22 @@ const SuccessMessage = ({ benefit }) => {
   return content;
 };
 
-const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
+const DirectDeposit = ({
+  cnpUiState,
+  eduUiState,
+  isLoginGovSupported,
+  isVerifiedUser,
+}) => {
   const [
     recentlySavedBankInfo,
     setRecentlySavedBankInfoForBenefit,
   ] = React.useState('');
+
+  const [cnpFormIsDirty, setCnpFormIsDirty] = React.useState(false);
+
+  const [eduFormIsDirty, setEduFormIsDirty] = React.useState(false);
+
+  const allFormsAreEmpty = eduFormIsDirty && cnpFormIsDirty;
 
   const isSavingCNPBankInfo = cnpUiState.isSaving;
   const wasSavingCNPBankInfo = usePrevious(cnpUiState.isSaving);
@@ -130,32 +141,52 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
     ],
   );
 
+  useEffect(
+    () => {
+      // Show alert when navigating away
+      if (!allFormsAreEmpty) {
+        window.onbeforeunload = () => true;
+        return;
+      }
+
+      window.onbeforeunload = undefined;
+    },
+    [allFormsAreEmpty],
+  );
+
   return (
     <>
       <Headline>Direct deposit information</Headline>
       <div id="success" role="alert" aria-atomic="true">
-        <ReactCSSTransitionGroup
-          transitionName="form-expanding-group-inner"
-          transitionAppear
-          transitionAppearTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
-          transitionEnterTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
-          transitionLeaveTimeout={bankInfoUpdatedAlertSettings.FADE_SPEED}
-        >
+        <TransitionGroup>
           {!!recentlySavedBankInfo && (
-            <div data-testid="bankInfoUpdateSuccessAlert">
-              <AlertBox
-                status={ALERT_TYPE.SUCCESS}
-                backgroundOnly
-                className="vads-u-margin-top--0 vads-u-margin-bottom--2"
-                scrollOnShow
-              >
-                <SuccessMessage benefit={recentlySavedBankInfo} />
-              </AlertBox>
-            </div>
+            <CSSTransition
+              classNames="form-expanding-group-inner"
+              appear
+              timeout={{
+                appear: bankInfoUpdatedAlertSettings.FADE_SPEED,
+                enter: bankInfoUpdatedAlertSettings.FADE_SPEED,
+                exit: bankInfoUpdatedAlertSettings.FADE_SPEED,
+              }}
+            >
+              <div data-testid="bankInfoUpdateSuccessAlert">
+                <AlertBox
+                  status={ALERT_TYPE.SUCCESS}
+                  backgroundOnly
+                  className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+                  scrollOnShow
+                >
+                  <SuccessMessage benefit={recentlySavedBankInfo} />
+                </AlertBox>
+              </div>
+            </CSSTransition>
           )}
-        </ReactCSSTransitionGroup>
+        </TransitionGroup>
       </div>
-
+      <Prompt
+        message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
+        when={!allFormsAreEmpty}
+      />
       {showBankInformation ? (
         <DowntimeNotification
           appTitle="direct deposit"
@@ -164,15 +195,21 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
           )}
           dependencies={[externalServices.evss]}
         >
-          <BankInfoCNP />
+          <BankInfo
+            type={benefitTypes.CNP}
+            setFormIsDirty={setCnpFormIsDirty}
+          />
         </DowntimeNotification>
       ) : (
-        <SetUpVerifiedIDMeAlert />
+        <UnsupportedAccountAlert isLoginGovSupported={isLoginGovSupported} />
       )}
       <FraudVictimAlert status={ALERT_TYPE.INFO} />
       {showBankInformation ? (
         <>
-          <BankInfoEDU />
+          <BankInfo
+            type={benefitTypes.EDU}
+            setFormIsDirty={setEduFormIsDirty}
+          />
           <PaymentHistory />
         </>
       ) : null}
@@ -181,11 +218,16 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
 };
 
 const mapStateToProps = state => {
+  const eligibleSignInServices = new Set([CSP_IDS.ID_ME, CSP_IDS.LOGIN_GOV]);
   const isLOA3 = isLOA3Selector(state);
   const is2faEnabled = isMultifactorEnabled(state);
-  const isIDme = signInServiceNameSelector(state) === 'idme';
+  const signInServiceName = signInServiceNameSelector(state);
+  const isUsingEligibleSignInService = eligibleSignInServices.has(
+    signInServiceName,
+  );
   return {
-    isVerifiedUser: isLOA3 && isIDme && is2faEnabled,
+    isLoginGovSupported: loginGov(state),
+    isVerifiedUser: isLOA3 && isUsingEligibleSignInService && is2faEnabled,
     cnpUiState: cnpDirectDepositUiState(state),
     eduUiState: eduDirectDepositUiState(state),
   };

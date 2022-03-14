@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { groupBy, matches } from 'lodash';
 import environment from '../utilities/environment';
 import { VA_FORM_IDS_IN_PROGRESS_FORMS_API } from './constants';
 
@@ -38,7 +38,7 @@ export function groupPagesIntoChapters(routes, prefix = '') {
     return obj;
   });
 
-  const pageGroups = _.groupBy(pageList, page => page.chapter);
+  const pageGroups = groupBy(pageList, page => page.chapter);
 
   return Object.keys(pageGroups).map(chapter => ({
     name: chapter,
@@ -74,10 +74,10 @@ export function isActivePage(page, data) {
   }
 
   if (Array.isArray(page.depends)) {
-    return page.depends.some(condition => _.matches(condition)(data));
+    return page.depends.some(condition => matches(condition)(data));
   }
 
-  return page.depends === undefined || _.matches(page.depends)(data);
+  return page.depends === undefined || matches(page.depends)(data);
 }
 
 export function getActivePages(pages, data) {
@@ -108,31 +108,4 @@ export function getCurrentPageName(chapters, path) {
   });
 
   return name;
-}
-
-export function sanitizeForm(formData) {
-  try {
-    const suffixes = [
-      'vaFileNumber',
-      'first',
-      'last',
-      'accountNumber',
-      'socialSecurityNumber',
-      'dateOfBirth',
-    ];
-    return JSON.stringify(formData, (key, value) => {
-      if (
-        value &&
-        suffixes.some(suffix =>
-          key.toLowerCase().endsWith(suffix.toLowerCase()),
-        )
-      ) {
-        return 'removed';
-      }
-
-      return value;
-    });
-  } catch (e) {
-    return null;
-  }
 }

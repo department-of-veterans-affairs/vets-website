@@ -7,14 +7,15 @@
         "id": "25956",
         "kind": "cc",
         "status": "proposed",
+        "cancellable": true,
         "serviceType": "408",
         "locationId": "983",
         "clinic": null,
         "telehealth": null,
         "practitioners": [
-          { "identifier": { "value": "1801312053" } },
-          { "identifier": { "value": "1053355479" } },
-          { "identifier": { "value": "1396153797" } }
+          { "identifier": [{ "value": "1801312053" }] },
+          { "identifier": [{ "value": "1053355479" }] },
+          { "identifier": [{ "value": "1396153797" }] }
         ],
         "reason": "Routine Follow-up",
         "start": null,
@@ -34,9 +35,10 @@
         },
         "preferredTimesForPhoneCall": ["Morning"],
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
-        "comment": "I have a headache"
+        "comment": "I have a headache",
+        "created": "2021-12-16T01:30:00Z"
       }
     },
     {
@@ -46,6 +48,7 @@
         "id": "25957",
         "kind": "clinic",
         "status": "proposed",
+        "cancellable": true,
         "serviceType": "323",
         "locationId": "983GC",
         "clinic": null,
@@ -68,9 +71,10 @@
         },
         "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
-        "comment": "I have a cold"
+        "comment": "I have a cold",
+        "created": "2021-12-16T01:30:00Z"
       }
     },
     {
@@ -80,6 +84,7 @@
         "id": "25958",
         "kind": "phone",
         "status": "proposed",
+        "cancellable": true,
         "serviceType": "408",
         "locationId": "983HK",
         "clinic": null,
@@ -102,9 +107,10 @@
         },
         "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
-        "comment": "Pink eye"
+        "comment": "Pink eye",
+        "created": "2021-11-16T01:30:00Z"
       }
     },
     {
@@ -114,6 +120,7 @@
         "id": "25959",
         "kind": "telehealth",
         "status": "proposed",
+        "cancellable": true,
         "serviceType": "160",
         "locationId": "983",
         "clinic": null,
@@ -136,9 +143,10 @@
         },
         "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
-        "comment": "Renew medication"
+        "comment": "Renew medication",
+        "created": "2021-11-16T01:30:00Z"
       }
     },
     {
@@ -148,6 +156,7 @@
         "id": "32152",
         "kind": "clinic",
         "status": "proposed",
+        "cancellable": true,
         "serviceType": "323",
         "locationId": "983",
         "clinic": null,
@@ -172,9 +181,10 @@
         },
         "preferredTimesForPhoneCall": null,
         "priority": null,
-        "cancellationReason": null,
+        "cancelationReason": null,
         "description": null,
-        "comment": null
+        "comment": null,
+        "created": "2021-06-29T12:00:00Z"
       }
     }
   ],

@@ -7,6 +7,8 @@ import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
+import { connect } from 'react-redux';
+import { showEduBenefits1990EZWizard } from '../selectors/educationWizard';
 
 const levels = [
   ['newBenefit'],
@@ -17,7 +19,7 @@ const levels = [
   ['applyForScholarship'],
 ];
 
-export default class EducationWizard extends React.Component {
+class EducationWizard extends React.Component {
   constructor(props) {
     super(props);
 
@@ -37,6 +39,9 @@ export default class EducationWizard extends React.Component {
         break;
       case '10203':
         url = `/education/other-va-education-benefits/stem-scholarship/apply-for-scholarship-form-22-10203`;
+        break;
+      case '22-1990':
+        url = `/education/apply-for-benefits-form-22-1990`;
         break;
       default:
         url = `/education/apply-for-education-benefits/application/${form}`;
@@ -137,7 +142,10 @@ export default class EducationWizard extends React.Component {
       sponsorTransferredBenefits,
       vetTecBenefit,
       applyForScholarship,
+      post911GIBill,
     } = this.state;
+    const { showWizard } = this.props;
+
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
       'va-button-primary': !this.state.open,
     });
@@ -330,12 +338,32 @@ export default class EducationWizard extends React.Component {
                   </div>
                 </div>
               )}
+            {showWizard &&
+              newBenefit === 'yes' &&
+              serviceBenefitBasedOn === 'own' &&
+              nationalCallToService === 'no' &&
+              vetTecBenefit === 'no' && (
+                <RadioButtons
+                  additionalFieldsetClass="wizard-fieldset"
+                  name="post911GIBill"
+                  id="post911GIBill"
+                  options={[
+                    { label: 'Yes', value: 'yes' },
+                    { label: 'No', value: 'no' },
+                  ]}
+                  onValueChange={({ value }) =>
+                    this.answerQuestion('post911GIBill', value)
+                  }
+                  value={{ value: post911GIBill }}
+                  label="Are you applying for the post- 9/11 GI Bill?"
+                />
+              )}
             {newBenefit === 'yes' &&
               nationalCallToService === 'yes' && (
                 <div>
                   <div className="usa-alert usa-alert-warning">
                     <div className="usa-alert-body">
-                      <h4 className="usa-alert-heading wizard-alert-heading">
+                      <h4 className="usa-alert-heading vads-u-padding--0">
                         Are you sure?
                       </h4>
                       <p>
@@ -378,13 +406,13 @@ export default class EducationWizard extends React.Component {
                     , you must meet all the requirements below.
                   </strong>
                   <ul>
-                    <li className="ul-styling">
+                    <li className="vads-u-margin-x--neg0p25 vads-u-margin-y--neg0p25">
                       <b>Education benefit:</b> You're using or recently used
                       Post-9/11 GI Bill or Fry Scholarship benefits.
                     </li>
                     <li>
                       <b>STEM degree:</b>
-                      <ul className="circle-bullet ul-styling vads-u-margin-bottom--neg1">
+                      <ul className="circle-bullet vads-u-margin-x--neg0p25 vads-u-margin-y--neg0p25 vads-u-margin-bottom--neg1">
                         <li className="li-styling">
                           You're enrolled in a bachelor’s degree program for
                           science, technology, engineering, or math (STEM),{' '}
@@ -416,7 +444,7 @@ export default class EducationWizard extends React.Component {
                         </li>
                       </ul>
                     </li>
-                    <li className="ul-styling">
+                    <li className="vads-u-margin-x--neg0p25 vads-u-margin-y--neg0p25">
                       <b>Remaining entitlement:</b> You've used all of your
                       education benefits or are within 6 months of using all
                       your benefits when you submit your application.{' '}
@@ -464,26 +492,45 @@ export default class EducationWizard extends React.Component {
                 </div>
               </div>
             )}
-            {newBenefit === 'yes' &&
+            {showWizard &&
+              (post911GIBill === 'yes' &&
+                newBenefit === 'yes' &&
+                serviceBenefitBasedOn === 'own' &&
+                nationalCallToService === 'no' &&
+                vetTecBenefit === 'no' &&
+                this.getButton('22-1990'))}
+            {showWizard &&
+              (post911GIBill === 'no' &&
+                newBenefit === 'yes' &&
+                nationalCallToService === 'no' &&
+                vetTecBenefit === 'no' &&
+                this.getButton('1990'))}
+            {!showWizard &&
+              newBenefit === 'yes' &&
               nationalCallToService === 'no' &&
               vetTecBenefit === 'no' &&
               this.getButton('1990')}
-            {newBenefit === 'yes' &&
+            {!showWizard &&
+              newBenefit === 'yes' &&
               nationalCallToService === 'no' &&
               vetTecBenefit === 'yes' &&
               this.getButton('0994')}
-            {newBenefit === 'no' &&
+            {!showWizard &&
+              newBenefit === 'no' &&
               (transferredEduBenefits === 'transferred' ||
                 transferredEduBenefits === 'own') &&
               this.getButton('1995')}
-            {newBenefit === 'no' &&
+            {!showWizard &&
+              newBenefit === 'no' &&
               transferredEduBenefits === 'fry' &&
               this.getButton('5495')}
-            {newBenefit === 'yes' &&
+            {!showWizard &&
+              newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'other' &&
               sponsorDeceasedDisabledMIA === 'yes' &&
               this.getButton('5490')}
-            {newBenefit === 'yes' &&
+            {!showWizard &&
+              newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'other' &&
               sponsorDeceasedDisabledMIA === 'no' &&
               sponsorTransferredBenefits !== null &&
@@ -494,3 +541,9 @@ export default class EducationWizard extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  showWizard: showEduBenefits1990EZWizard(state),
+});
+
+export default connect(mapStateToProps)(EducationWizard);

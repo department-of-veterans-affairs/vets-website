@@ -29,7 +29,9 @@ export function mockAppointmentSubmitV2(data) {
  * }
  */
 export function mockSingleVAOSRequestFetch({ request, error = null }) {
-  const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${request.id}`;
+  const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${
+    request.id
+  }?_include=facilities,clinics`;
 
   if (error) {
     setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
@@ -51,7 +53,7 @@ export function mockSingleVAOSRequestFetch({ request, error = null }) {
 export function mockSingleVAOSAppointmentFetch({ appointment, error = null }) {
   const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${
     appointment.id
-  }`;
+  }?_include=facilities,clinics`;
 
   if (error) {
     setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
@@ -81,7 +83,7 @@ export function mockVAOSAppointmentsFetch({
 }) {
   const baseUrl = `${
     environment.API_URL
-  }/vaos/v2/appointments?start=${start}&end=${end}&${statuses
+  }/vaos/v2/appointments?_include=facilities,clinics&start=${start}&end=${end}&${statuses
     .map(status => `statuses[]=${status}`)
     .join('&')}`;
 
@@ -133,6 +135,7 @@ export function mockAppointmentCancelFetch({ appointment, error = false }) {
         attributes: {
           ...appointment.attributes,
           status: 'cancelled',
+          cancelationReason: { coding: [{ code: 'pat' }] },
         },
       },
     });
@@ -208,39 +211,6 @@ export function mockSchedulingConfigurations(configs) {
 }
 
 /**
- * Mocks the api call to get facilities from the VAOS service.
- *
- * @export
- * @param {Array<string>} ids A list of VistA site ids to mock the request for
- * @param {Array<VARParentSite>} data The list of parent site data returned from the mock call
- */
-export function mockV2FacilitiesFetch(ids, data, children = false) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v2/facilities?children=${children}&${ids
-        .map(id => `ids[]=${id}`)
-        .join('&')}`,
-    ),
-    { data },
-  );
-}
-
-/**
- * Mocks the api call to get a facility from the VAOS service.
- *
- * @export
- * @param {Array<VAOSFacility>} data The facility to return
- */
-export function mockV2FacilityFetch(data) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v2/facilities/${data.id}`,
-    ),
-    { data },
-  );
-}
-
-/**
  * Mocks the api call that fetches a list of appointment slots for direct scheduling
  *
  * @export
@@ -249,8 +219,8 @@ export function mockV2FacilityFetch(data) {
  * @param {string} typeOfCareId The type of care id of the slots being requested
  * @param {string} preferredDate The preferred date chosen by the user, which determines the date range fetched,
  *    if startDate and endDate are not provided
- * @param {MomentDate} startDate The start date for the apppointment slots
- * @param {MomentDate} endDate The end date for the apppointment slots
+ * @param {MomentDate} startDate The start date for the appointment slots
+ * @param {MomentDate} endDate The end date for the appointment slots
  * @param {string} [length=20] The length of the appointment slots
  * @param {string} clinicId The VistA clinic id the slots are in
  * @param {Array<VARSlot>} slots The list of slots to return from the mock

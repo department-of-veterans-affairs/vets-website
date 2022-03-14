@@ -9,7 +9,6 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 import {
   contactInfoDescription,
@@ -90,25 +89,23 @@ export const uiSchema = {
     'view:livesOnMilitaryBaseInfo': {
       'ui:description': () => (
         <div className="vads-u-padding-x--2p5">
-          <AdditionalInfo
-            status="info"
-            triggerText="Learn more about military base addresses"
-          >
+          <va-additional-info trigger="Learn more about military base addresses">
             <span>
               The United States is automatically chosen as your country if you
               live on a military base outside of the country.
             </span>
-          </AdditionalInfo>
+          </va-additional-info>
         </div>
       ),
     },
     country: {
       'ui:title': 'Country',
+      'ui:autocomplete': 'country',
       'ui:options': {
         updateSchema: (formData, schema, uiSchemaCountry) => {
           const uiSchemaDisabled = uiSchemaCountry;
 
-          if (formData.mailingAddress['view:livesOnMilitaryBase']) {
+          if (formData.mailingAddress?.['view:livesOnMilitaryBase']) {
             const formDataMailingAddress = formData.mailingAddress;
             formDataMailingAddress.country = USA;
 
@@ -127,30 +124,34 @@ export const uiSchema = {
     },
     addressLine1: {
       'ui:title': 'Street address (20 characters maximum)',
+      'ui:autocomplete': 'address-line1',
       'ui:errorMessages': {
         required: 'Please enter a street address',
       },
     },
     addressLine2: {
       'ui:title': 'Street address line 2 (20 characters maximum)',
+      'ui:autocomplete': 'address-line2',
       'ui:errorMessages': {
         pattern: 'Please enter a valid street address',
       },
     },
     addressLine3: {
       'ui:title': 'Street address line 3 (20 characters maximum)',
+      'ui:autocomplete': 'address-line3',
       'ui:errorMessages': {
         pattern: 'Please enter a valid street address',
       },
     },
     city: {
+      'ui:autocomplete': 'address-level2',
       'ui:errorMessages': {
         pattern: 'Please enter a valid city',
         required: 'Please enter a city',
       },
       'ui:options': {
         replaceSchema: formData => {
-          if (formData.mailingAddress['view:livesOnMilitaryBase'] === true) {
+          if (formData.mailingAddress?.['view:livesOnMilitaryBase'] === true) {
             return {
               type: 'string',
               title: 'APO/FPO/DPO',
@@ -175,13 +176,14 @@ export const uiSchema = {
     },
     state: {
       'ui:title': 'State',
+      'ui:autocomplete': 'address-level1',
       'ui:options': {
         hideIf: formData =>
-          !formData.mailingAddress['view:livesOnMilitaryBase'] &&
+          !formData.mailingAddress?.['view:livesOnMilitaryBase'] &&
           formData.mailingAddress.country !== USA,
         updateSchema: formData => {
           if (
-            formData.mailingAddress['view:livesOnMilitaryBase'] ||
+            formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
             MILITARY_CITIES.includes(formData.mailingAddress.city)
           ) {
             return {
@@ -196,7 +198,7 @@ export const uiSchema = {
         },
       },
       'ui:required': formData =>
-        formData.mailingAddress['view:livesOnMilitaryBase'] ||
+        formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
         formData.mailingAddress.country === USA,
       'ui:validations': [
         {
@@ -212,9 +214,10 @@ export const uiSchema = {
     },
     zipCode: {
       'ui:title': 'Postal code',
+      'ui:autocomplete': 'postal-code',
       'ui:validations': [validateZIP],
       'ui:required': formData =>
-        formData.mailingAddress['view:livesOnMilitaryBase'] ||
+        formData.mailingAddress?.['view:livesOnMilitaryBase'] ||
         formData.mailingAddress.country === USA,
       'ui:errorMessages': {
         required: 'Please enter a postal code',
@@ -224,7 +227,7 @@ export const uiSchema = {
       'ui:options': {
         widgetClassNames: 'va-input-medium-large',
         hideIf: formData =>
-          !formData.mailingAddress['view:livesOnMilitaryBase'] &&
+          !formData.mailingAddress?.['view:livesOnMilitaryBase'] &&
           formData.mailingAddress.country !== USA,
       },
     },

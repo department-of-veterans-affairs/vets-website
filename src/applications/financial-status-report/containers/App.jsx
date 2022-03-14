@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import MetaTags from 'react-meta-tags';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { connect } from 'react-redux';
 
 import {
@@ -66,7 +66,13 @@ const App = ({
   );
 
   if (pending) {
-    return <LoadingIndicator setFocus message="Loading your information..." />;
+    return (
+      <va-loading-indicator
+        label="Loading"
+        message="Loading your information..."
+        set-focus
+      />
+    );
   }
 
   if (isLoggedIn && isError) {
@@ -93,6 +99,18 @@ const App = ({
       {children}
     </RoutedSavableApp>
   ) : null;
+};
+
+App.propTypes = {
+  children: PropTypes.object,
+  getFormStatus: PropTypes.func,
+  isError: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
+  location: PropTypes.object,
+  pending: PropTypes.bool,
+  router: PropTypes.object,
+  showFSR: PropTypes.bool,
+  showWizard: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

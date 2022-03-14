@@ -2,21 +2,24 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { displayFileSize } from 'platform/utilities/ui';
+import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 import unset from '../../../../utilities/data/unset';
-import classNames from 'classnames';
 
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import ProgressBar from '@department-of-veterans-affairs/component-library/ProgressBar';
 import { focusElement } from '../utilities/ui';
 import {
   ShowPdfPassword,
   PasswordLabel,
   PasswordSuccess,
-  checkForEncryptedPdf,
+  readAndCheckFile,
+  checkTypeAndExtensionMatches,
+  checkIsEncryptedPdf,
+  FILE_TYPE_MISMATCH_ERROR,
 } from '../utilities/file';
-import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 
 class FileField extends React.Component {
   constructor(props) {
@@ -26,6 +29,7 @@ class FileField extends React.Component {
     };
     this.uploadRequest = null;
   }
+
   fileInputRef = React.createRef();
 
   /* eslint-disable-next-line camelcase */
@@ -70,13 +74,6 @@ class FileField extends React.Component {
     }
   };
 
-  isFileEncrypted = async file =>
-    checkForEncryptedPdf(file)
-      .then(isEncrypted => isEncrypted)
-      // This _should_ only happen if a file is deleted after the user selects
-      // it for upload
-      .catch(() => false);
-
   /**
    * Add file to list and upload
    * @param {Event} event - DOM File upload event
@@ -97,32 +94,56 @@ class FileField extends React.Component {
         enableShortWorkflow,
       } = this.props;
       const uiOptions = uiSchema['ui:options'];
+      // needed for FileField unit tests
+      const { mockReadAndCheckFile } = uiOptions;
 
       let idx = index;
       if (idx === null) {
         idx = files.length === 0 ? 0 : files.length;
       }
 
+      let checkResults;
+      const checks = { checkTypeAndExtensionMatches, checkIsEncryptedPdf };
+
+      if (currentFile.type === 'testing') {
+        // Skip read file for Cypress testing
+        checkResults = {
+          checkTypeAndExtensionMatches: () => true,
+          checkIsEncryptedPdf: () => false,
+        };
+      } else {
+        // read file mock for unit testing
+        checkResults = uiOptions.mockReadAndCheckFile
+          ? mockReadAndCheckFile()
+          : await readAndCheckFile(currentFile, checks);
+      }
+
+      if (!checkResults.checkTypeAndExtensionMatches) {
+        files[idx] = {
+          file: currentFile,
+          name: currentFile.name,
+          errorMessage: FILE_TYPE_MISMATCH_ERROR,
+        };
+        onChange(files);
+        return;
+      }
+
       // Check if the file is an encrypted PDF
       if (
         requestLockedPdfPassword && // feature flag
         currentFile.name?.endsWith('pdf') &&
-        !password
+        !password &&
+        checkResults.checkIsEncryptedPdf
       ) {
-        const isFileEncrypted =
-          uiOptions.isFileEncrypted || this.isFileEncrypted;
-        const needsPassword = await isFileEncrypted(currentFile);
-        if (needsPassword) {
-          files[idx] = {
-            file: currentFile,
-            name: currentFile.name,
-            isEncrypted: true,
-          };
+        files[idx] = {
+          file: currentFile,
+          name: currentFile.name,
+          isEncrypted: true,
+        };
 
-          onChange(files);
-          // wait for user to enter a password before uploading
-          return;
-        }
+        onChange(files);
+        // wait for user to enter a password before uploading
+        return;
       }
 
       this.uploadRequest = formContext.uploadFile(
@@ -240,7 +261,7 @@ class FileField extends React.Component {
     const uiOptions = uiSchema?.['ui:options'];
     const files = formData || [];
     const maxItems = schema.maxItems || Infinity;
-    const SchemaField = registry.fields.SchemaField;
+    const { SchemaField } = registry.fields;
     const attachmentIdRequired = schema.additionalItems.required
       ? schema.additionalItems.required.includes('attachmentId')
       : false;
@@ -334,6 +355,22 @@ class FileField extends React.Component {
               const deleteButtonText =
                 enableShortWorkflow && hasErrors ? 'Cancel' : 'Delete file';
 
+              const fileId = `${idSchema.$id}_file_name_${index}`;
+
+              const getUiSchema = innerUiSchema =>
+                typeof innerUiSchema === 'function'
+                  ? innerUiSchema({ fileId, index })
+                  : innerUiSchema;
+
+              // make index available to widgets in attachment ui schema
+              const indexedRegistry = {
+                ...registry,
+                formContext: {
+                  ...registry.formContext,
+                  pagePerItemIndex: index,
+                },
+              };
+
               return (
                 <li
                   key={index}
@@ -342,9 +379,9 @@ class FileField extends React.Component {
                 >
                   {file.uploading && (
                     <div className="schemaform-file-uploading">
-                      <span>{file.name}</span>
+                      <strong id={fileId}>{file.name}</strong>
                       <br />
-                      <ProgressBar percent={this.state.progress} />
+                      <va-progress-bar percent={this.state.progress} />
                       <button
                         type="button"
                         className="usa-button-secondary vads-u-width--auto"
@@ -352,13 +389,19 @@ class FileField extends React.Component {
                           this.cancelUpload(index);
                         }}
                         aria-label="Cancel Upload"
+                        aria-describedby={fileId}
                       >
                         Cancel
                       </button>
                     </div>
                   )}
                   {description && <p>{description}</p>}
-                  {!file.uploading && <strong>{file.name}</strong>}
+                  {!file.uploading && (
+                    <>
+                      <strong id={fileId}>{file.name}</strong>
+                      {file?.size && <div> {displayFileSize(file.size)}</div>}
+                    </>
+                  )}
                   {(showPasswordInput || showPasswordSuccess) && (
                     <PasswordLabel />
                   )}
@@ -371,7 +414,7 @@ class FileField extends React.Component {
                           name="attachmentId"
                           required={attachmentIdRequired}
                           schema={itemSchema.properties.attachmentId}
-                          uiSchema={uiOptions.attachmentSchema}
+                          uiSchema={getUiSchema(uiOptions.attachmentSchema)}
                           errorSchema={attachmentIdErrors}
                           idSchema={attachmentIdSchema}
                           formData={formData[index].attachmentId}
@@ -379,7 +422,7 @@ class FileField extends React.Component {
                             this.onAttachmentIdChange(index, value)
                           }
                           onBlur={onBlur}
-                          registry={this.props.registry}
+                          registry={indexedRegistry}
                           disabled={this.props.disabled}
                           readonly={this.props.readonly}
                         />
@@ -393,7 +436,7 @@ class FileField extends React.Component {
                           name="attachmentName"
                           required
                           schema={itemSchema.properties.name}
-                          uiSchema={uiOptions.attachmentName}
+                          uiSchema={getUiSchema(uiOptions.attachmentName)}
                           errorSchema={attachmentNameErrors}
                           idSchema={attachmentNameSchema}
                           formData={formData[index].name}
@@ -401,7 +444,7 @@ class FileField extends React.Component {
                             this.onAttachmentNameChange(index, value)
                           }
                           onBlur={onBlur}
-                          registry={this.props.registry}
+                          registry={indexedRegistry}
                           disabled={this.props.disabled}
                           readonly={this.props.readonly}
                         />
@@ -418,6 +461,7 @@ class FileField extends React.Component {
                       file={file.file}
                       index={index}
                       onSubmitPassword={this.onSubmitPassword}
+                      ariaDescribedby={fileId}
                     />
                   )}
                   {showButtons && (
@@ -433,6 +477,7 @@ class FileField extends React.Component {
                               index,
                               file.file,
                             )}
+                            aria-describedby={fileId}
                           >
                             {retryButtonText}
                           </button>
@@ -443,6 +488,7 @@ class FileField extends React.Component {
                         onClick={() => {
                           this.removeFile(index);
                         }}
+                        aria-describedby={fileId}
                       >
                         {deleteButtonText}
                       </button>

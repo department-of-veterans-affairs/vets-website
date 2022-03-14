@@ -13,6 +13,7 @@ import { selectCommunicationPreferences } from '@@profile/reducers';
 
 import { getContactInfoSelectorByChannelType } from '@@profile/util/notification-settings';
 
+import recordEvent from '~/platform/monitoring/record-event';
 import { selectPatientFacilities } from '~/platform/user/selectors';
 
 import { LOADING_STATES } from '../../../common/constants';
@@ -68,11 +69,12 @@ const NotificationChannel = ({
     );
   }
   return (
-    <div>
+    <>
       <NotificationRadioButtons
         id={channelId}
         value={{ value: currentValue }}
         label={itemName}
+        name={`${itemName}-${channelType}`}
         description={radioButtonDescription}
         options={[
           {
@@ -105,6 +107,15 @@ const NotificationChannel = ({
             isAllowed: newValue === 'true',
             wasAllowed: currentValue,
           });
+          recordEvent({
+            event: 'int-radio-button-option-click',
+            'radio-button-label': itemName,
+            'radio-button-optionLabel': `${
+              channelTypes[channelType]
+            } - ${newValue}`,
+            'radio-button-required': false,
+          });
+
           saveSetting(channelId, model.getApiCallObject());
         }}
         warningMessage={
@@ -125,7 +136,7 @@ const NotificationChannel = ({
         }
         disabled={apiStatus === LOADING_STATES.pending}
       />
-    </div>
+    </>
   );
 };
 

@@ -10,10 +10,13 @@ import ReactDOM from 'react-dom';
  * VetsGov object on window.
  *
  * @param {ReactElement} component The React element you want to mount
- * @param {Element} [root=null] A DOM element to mount the react application into. By default,
+ * @param {Element} [root] A DOM element to mount the react application into. By default,
  * this will be the element with an id of 'react-root'.
  */
-export default function startReactApp(component, root = null) {
+export default function startReactApp(
+  component,
+  root = document.getElementById('react-root'),
+) {
   // Detect if this is a child frame. If yes, initialize the react devtools hook to work around
   //   https://github.com/facebook/react-devtools/issues/57
   // This must occur before any react code is loaded.
@@ -35,17 +38,18 @@ export default function startReactApp(component, root = null) {
       smooth: true,
     },
   };
-
-  let mountElement = root;
-  if (!mountElement) {
-    mountElement = document.getElementById('react-root');
+  // If the specified root element is null/undefined, we don't know where to place the component,
+  // therfore we discard it. This prevents components who have a specified root from being placed
+  // on the page unintentionally.
+  if (!root) {
+    return;
   }
 
   if (document.readyState !== 'loading') {
-    ReactDOM.render(component, mountElement);
+    ReactDOM.render(component, root);
   } else {
     document.addEventListener('DOMContentLoaded', () => {
-      ReactDOM.render(component, mountElement);
+      ReactDOM.render(component, root);
     });
   }
 }

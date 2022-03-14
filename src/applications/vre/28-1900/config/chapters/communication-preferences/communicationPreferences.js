@@ -80,6 +80,9 @@ export const uiSchema = {
       'ui:title': 'Mornings 6:00 to 10:00 a.m.',
       'ui:options': {
         hideEmptyValueInReview: true,
+        widgetProps: {
+          false: { 'aria-describedby': 'appointment-time-desc' },
+        },
       },
     },
     midDay: {

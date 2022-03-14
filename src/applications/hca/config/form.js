@@ -23,10 +23,18 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { createDependentSchema } from '../definitions/dependent';
 
 // chapter 1 Veteran Information
+import PersonalAuthenticatedInformation from '../components/PersonalAuthenticatedInformation';
+import personalInformationSsn from './chapters/veteranInformation/personalInformationSsn';
+import personalInformationDOB from './chapters/veteranInformation/personalInformationDob';
 import birthInformation from './chapters/veteranInformation/birthInformation';
+import maidenNameInformation from './chapters/veteranInformation/maidenNameInformation';
+import americanIndian from './chapters/veteranInformation/americanIndian';
+import birthSex from './chapters/veteranInformation/birthSex';
 import veteranInformation from './chapters/veteranInformation/personalnformation';
 import demographicInformation from './chapters/veteranInformation/demographicInformation';
+import maritalStatus from './chapters/veteranInformation/maritalStatus';
 import veteranAddress from './chapters/veteranInformation/veteranAddress';
+import veteranGender from './chapters/veteranInformation/veteranGender';
 import veteranHomeAddress from './chapters/veteranInformation/veteranHomeAddress';
 import contactInformation from './chapters/veteranInformation/contactInformation';
 
@@ -37,6 +45,7 @@ import documentUpload from './chapters/militaryService/documentUpload';
 
 // chapter 3 VA Benefits
 import basicInformation from './chapters/vaBenefits/basicInformation';
+import pensionInformation from './chapters/vaBenefits/pensionInformation';
 
 // chapter 4 Household Information
 import financialDisclosure from './chapters/householdInformation/financialDisclosure';
@@ -49,8 +58,8 @@ import deductibleExpenses from './chapters/householdInformation/deductibleExpens
 import medicaid from './chapters/insuranceInformation/medicaid';
 import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
-import general from './chapters/insuranceInformation/general';
 import vaFacility from './chapters/insuranceInformation/vaFacility';
+import general from './chapters/insuranceInformation/general';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
 
@@ -123,12 +132,42 @@ const formConfig = {
     veteranInformation: {
       title: 'Veteran Information',
       pages: {
-        veteranInformation: {
+        veteranProfileInformation: {
           path: 'veteran-information/personal-information',
           title: 'Veteran information',
+          CustomPage: PersonalAuthenticatedInformation,
+          CustomPageReview: null,
           initialData: {},
+          depends: () => hasSession(),
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        veteranInformation: {
+          path: 'veteran-information/profile-information',
+          title: 'Veteran information',
+          initialData: {},
+          depends: () => !hasSession(),
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
+        },
+        ssnInformation: {
+          path: 'veteran-information/profile-information-ssn',
+          title: 'Veteran information',
+          initialData: {},
+          depends: () => !hasSession(),
+          uiSchema: personalInformationSsn.uiSchema,
+          schema: personalInformationSsn.schema,
+        },
+        dobInformation: {
+          path: 'veteran-information/profile-information-dob',
+          title: 'Veteran information',
+          initialData: {},
+          depends: () => !hasSession(),
+          uiSchema: personalInformationDOB.uiSchema,
+          schema: personalInformationDOB.schema,
         },
         birthInformation: {
           path: 'veteran-information/birth-information',
@@ -136,6 +175,28 @@ const formConfig = {
           initialData: {},
           uiSchema: birthInformation.uiSchema,
           schema: birthInformation.schema,
+        },
+        maidenNameInformation: {
+          path: 'veteran-information/maiden-name-information',
+          title: 'Veteran information',
+          initialData: {},
+          uiSchema: maidenNameInformation.uiSchema,
+          schema: maidenNameInformation.schema,
+        },
+        birthSex: {
+          path: 'veteran-information/birth-sex',
+          title: 'Veteran information',
+          initialData: {},
+          uiSchema: birthSex.uiSchema,
+          schema: birthSex.schema,
+        },
+        veteranGender: {
+          path: 'veteran-information/veteran-gender',
+          title: 'Veteran information',
+          initialData: {},
+          depends: formData => formData['view:caregiverSIGIEnabled'],
+          uiSchema: veteranGender.uiSchema,
+          schema: veteranGender.schema,
         },
         demographicInformation: {
           path: 'veteran-information/demographic-information',
@@ -147,6 +208,14 @@ const formConfig = {
           },
           uiSchema: demographicInformation.uiSchema,
           schema: demographicInformation.schema,
+        },
+        americanIndian: {
+          path: 'veteran-information/american-indian',
+          title: 'Veteran information',
+          initialData: {},
+          depends: formData => formData['view:hcaAmericanIndianEnabled'],
+          uiSchema: americanIndian.uiSchema,
+          schema: americanIndian.schema,
         },
         veteranAddress: {
           path: 'veteran-information/veteran-address',
@@ -169,6 +238,24 @@ const formConfig = {
           initialData: {},
           uiSchema: contactInformation.uiSchema,
           schema: contactInformation.schema,
+        },
+      },
+    },
+    vaBenefits: {
+      title: 'VA Benefits',
+      pages: {
+        vaBenefits: {
+          path: 'va-benefits/basic-information',
+          title: 'VA benefits',
+          uiSchema: basicInformation.uiSchema,
+          schema: basicInformation.schema,
+        },
+        vaPension: {
+          path: 'va-benefits/pension-information',
+          title: 'VA pension',
+          uiSchema: pensionInformation.uiSchema,
+          schema: pensionInformation.schema,
+          depends: ({ vaCompensationType }) => vaCompensationType === 'none',
         },
       },
     },
@@ -197,17 +284,6 @@ const formConfig = {
         },
       },
     },
-    vaBenefits: {
-      title: 'VA Benefits',
-      pages: {
-        vaBenefits: {
-          path: 'va-benefits/basic-information',
-          title: 'VA benefits',
-          uiSchema: basicInformation.uiSchema,
-          schema: basicInformation.schema,
-        },
-      },
-    },
     householdInformation: {
       title: 'Household Information',
       pages: {
@@ -216,6 +292,13 @@ const formConfig = {
           title: 'Financial disclosure',
           uiSchema: financialDisclosure.uiSchema,
           schema: financialDisclosure.schema,
+        },
+        maritalStatus: {
+          path: 'household-information/marital-status',
+          title: 'Marital status information',
+          initialData: {},
+          uiSchema: maritalStatus.uiSchema,
+          schema: maritalStatus.schema,
         },
         spouseInformation: {
           path: 'household-information/spouse-information',
