@@ -1,8 +1,7 @@
-import path from 'path';
+import { join, sep } from 'path';
 
 import get from 'platform/utilities/data/get';
-
-import disableFTUXModals from 'platform/user/tests/disableFTUXModals';
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 
 const APP_SELECTOR = '#react-root';
 const ARRAY_ITEM_SELECTOR =
@@ -324,13 +323,14 @@ Cypress.Commands.add('enterData', field => {
     }
 
     case 'date': {
-      const [year, month, day] = field.data.split('-').map(
-        dateComponent =>
-          // eslint-disable-next-line no-restricted-globals
-          isFinite(dateComponent)
-            ? parseInt(dateComponent, 10).toString()
-            : dateComponent,
-      );
+      const [year, month, day] = field.data
+        .split('-')
+        .map(
+          dateComponent =>
+            isFinite(dateComponent)
+              ? parseInt(dateComponent, 10).toString()
+              : dateComponent,
+        );
 
       // Escape non-standard characters like dots and colons.
       const baseSelector = Cypress.$.escapeSelector(field.key);
@@ -348,7 +348,7 @@ Cypress.Commands.add('enterData', field => {
 
     case 'file': {
       cy.get(`#${Cypress.$.escapeSelector(field.key)}`)
-        .upload('platform/testing/example-upload.png', 'image/png')
+        .upload('src/platform/testing/example-upload.png', 'image/png')
         .get('.schemaform-file-uploading')
         .should('not.exist');
       break;
@@ -518,9 +518,7 @@ const testForm = testConfig => {
       const resolvedPageHooks = Object.entries(pageHooks).reduce(
         (hooks, [pagePath, hook]) => ({
           ...hooks,
-          [pagePath.startsWith(path.sep)
-            ? pagePath
-            : path.join(rootUrl, pagePath)]: hook,
+          [pagePath.startsWith(sep) ? pagePath : join(rootUrl, pagePath)]: hook,
         }),
         {},
       );

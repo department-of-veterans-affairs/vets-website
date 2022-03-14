@@ -10,7 +10,6 @@
   "fixturesFolder": "src",
   "waitForAnimations": false,
   "chromeWebSecurity": false,
-  "videoCompression": false,
   "retries": {
     "runMode": 2,
     "openMode": 0

@@ -1,8 +1,8 @@
 const fs = require('fs');
-const path = require('path');
-const { table } = require('table');
-const fetch = require('node-fetch');
-const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
+const webpackPreprocessor = require('@cypress/webpack-preprocessor');
+const table = require('table').table;
+const DefinePlugin = require('webpack').DefinePlugin;
+const ProvidePlugin = require('webpack').ProvidePlugin;
 
 const tableConfig = {
   columns: {
@@ -12,97 +12,60 @@ const tableConfig = {
 };
 
 module.exports = async on => {
-  let appRegistry;
-  if (fs.existsSync('../content-build/src/applications/registry.json')) {
-    // eslint-disable-next-line import/no-unresolved
-    appRegistry = require('../../../../../../../content-build/src/applications/registry.json');
-  } else if (fs.existsSync('content-build/src/applications/registry.json')) {
-    // eslint-disable-next-line import/no-unresolved
-    appRegistry = require('../../../../../../content-build/src/applications/registry.json');
-  } else {
-    const REMOTE_CONTENT_BUILD_REGISTRY =
-      'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master/src/applications/registry.json';
+  const ENV = 'localhost';
+  const publicPath = '/generated/';
+  let outputOptions = {};
 
-    const response = await fetch(REMOTE_CONTENT_BUILD_REGISTRY);
-
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch ${REMOTE_CONTENT_BUILD_REGISTRY}.\n\n${
-          response.status
-        }:
-          ${response.statusText}`,
+  // Import our own Webpack config.
+  await require('../../../../../../config/webpack.config.js')(ENV).then(
+    webpackConfig => {
+      // Get the original DefinePlugin so we can use __REGISTRY__
+      const definePlugin = webpackConfig.plugins.find(
+        plugin => plugin.constructor.name === 'DefinePlugin',
       );
-    }
 
-    const registryContents = await response.text();
-    appRegistry = JSON.parse(registryContents);
-  }
+      const appRegistry = definePlugin.definitions.__REGISTRY__;
 
-  // eslint-disable-next-line no-useless-escape
-  const cypressPlugin = {
-    name: 'cypress',
+      const options = {
+        webpackOptions: {
+          ...webpackConfig,
+          plugins: [
+            new DefinePlugin({
+              __BUILDTYPE__: JSON.stringify(ENV),
+              __API__: JSON.stringify(''),
+              __REGISTRY__: appRegistry,
+            }),
+            new ProvidePlugin({
+              process: 'process/browser',
+            }),
+          ],
 
-    setup(build) {
-      // eslint-disable-next-line consistent-return
-      build.onLoad({ filter: /.js?$/ }, ({ path: filePath }) => {
-        // Filter out files in node_modules
-        if (!filePath.split(path.sep).includes('node_modules')) {
-          const regex = /.*\/vets-website\/(.+)/;
-          const [, relativePath] = filePath.match(regex);
-          let contents = fs.readFileSync(filePath, 'utf8');
-          const dirname = path.dirname(relativePath);
-          // Generate __dirname for test files
-          const injectedDir = `const __dirname = '${dirname.replace(
-            'src/',
-            '',
-          )}';`;
-          // Inject __dirname and fix imports
-          contents = `${injectedDir}\n\n${contents
-            .replace(/~\//g, '')
-            .replace(/@@profile/g, 'applications/personalization/profile')}`;
-          return {
-            contents,
-            loader: 'jsx',
-          };
-        }
+          // Expose some Node globals.
+          node: {
+            __dirname: true,
+            __filename: true,
+          },
+        },
+      };
+
+      // Webpack 5 workaround to keep Cypress from unsetting publicPath
+      // https://github.com/cypress-io/cypress/issues/8900
+      Object.defineProperty(options.webpackOptions, 'output', {
+        get: () => {
+          return { ...outputOptions, publicPath };
+        },
+        set: x => {
+          outputOptions = x;
+        },
       });
-    },
-  };
 
-  const bundler = createBundler({
-    entryPoints: ['src/**/*.cypress.spec.js*'],
-    loader: { '.js': 'jsx' },
-    format: 'cjs',
-    external: [
-      'web-components/react-bindings',
-      'url-search-params',
-      '@@vap-svc/*',
-      '~/platform/*',
-      'axe-core/*',
-    ],
-    nodePaths: [path.resolve(__dirname, '../../../../..')],
-    banner: { js: `function require(a) { return a; }; var module = {};` },
-    define: {
-      __BUILDTYPE__: '"vagovprod"',
-      __API__: '""',
-      __REGISTRY__: JSON.stringify(appRegistry),
-      'process.env.NODE_ENV': '"production"',
-      'process.env.BUILDTYPE': '"production"',
+      on('file:preprocessor', webpackPreprocessor(options));
     },
-    plugins: [cypressPlugin],
-    platform: 'browser',
-    target: ['esnext', 'node14'],
-  });
-  on('file:preprocessor', bundler);
+  );
 
   on('after:spec', (spec, results) => {
     if (results.stats.failures === 0 && results.video) {
-      try {
-        fs.unlinkSync(results.video);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error('No video generated.');
-      }
+      fs.unlinkSync(results.video);
     }
   });
 
