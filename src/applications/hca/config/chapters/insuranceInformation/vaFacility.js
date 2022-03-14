@@ -9,6 +9,7 @@ import {
   isEssentialAcaCoverageDescription,
   medicalCenterLabels,
   medicalCentersByState,
+  shortFormMessage,
 } from '../../../helpers';
 
 const {
@@ -28,6 +29,12 @@ const emptyObjectSchema = {
 export default {
   uiSchema: {
     'ui:title': 'VA Facility',
+    'view:shortFormMessage': {
+      'ui:description': shortFormMessage,
+      'ui:options': {
+        hideIf: form => form.vaCompensationType !== 'highDisability',
+      },
+    },
     isEssentialAcaCoverage: {
       'ui:title': isEssentialAcaCoverageDescription,
     },
@@ -74,6 +81,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
+      'view:shortFormMessage': emptyObjectSchema,
       isEssentialAcaCoverage,
       'view:preferredFacility': {
         type: 'object',

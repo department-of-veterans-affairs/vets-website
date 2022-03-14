@@ -8,14 +8,27 @@ import {
   healthInsuranceCoverageQuestionDescription,
   hasTricareWhatIsMyPolicyNumberDescription,
   healthInsuranceDescription,
+  shortFormAlert,
 } from '../../../helpers';
 
 const { provider } = fullSchemaHca.definitions;
 const { isCoveredByHealthInsurance } = fullSchemaHca.properties;
+const emptyObjectSchema = {
+  type: 'object',
+  properties: {},
+};
 
 export default {
   uiSchema: {
-    'ui:description': healthInsuranceDescription,
+    'view:shortFormAlert': {
+      'ui:description': shortFormAlert,
+      'ui:options': {
+        hideIf: form => form.vaCompensationType !== 'highDisability',
+      },
+    },
+    'view:healthInsuranceDescription': {
+      'ui:description': healthInsuranceDescription,
+    },
     isCoveredByHealthInsurance: {
       'ui:title': 'Do you have health insurance coverage?',
       'ui:description': healthInsuranceCoverageQuestionDescription,
@@ -108,6 +121,8 @@ export default {
     type: 'object',
     required: ['isCoveredByHealthInsurance'],
     properties: {
+      'view:shortFormAlert': emptyObjectSchema,
+      'view:healthInsuranceDescription': emptyObjectSchema,
       isCoveredByHealthInsurance,
       providers: {
         type: 'array',
@@ -115,18 +130,9 @@ export default {
         items: merge({}, provider, {
           required: ['insuranceName', 'insurancePolicyHolderName'],
           properties: {
-            'view:policyOrGroupDesc': {
-              type: 'object',
-              properties: {},
-            },
-            'view:hasTricare': {
-              type: 'object',
-              properties: {},
-            },
-            'view:or': {
-              type: 'object',
-              properties: {},
-            },
+            'view:policyOrGroupDesc': emptyObjectSchema,
+            'view:hasTricare': emptyObjectSchema,
+            'view:or': emptyObjectSchema,
           },
         }),
       },

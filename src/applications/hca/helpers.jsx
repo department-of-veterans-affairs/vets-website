@@ -2,7 +2,6 @@ import React from 'react';
 import mapValues from 'lodash/mapValues';
 import set from 'platform/utilities/data/set';
 import moment from 'moment';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
@@ -476,11 +475,11 @@ export const deductibleExpensesDescription = (
     Tell us a bit about your expenses this past calendar year. Enter information
     for any expenses that apply to you.
     <div className="hca-tooltip-wrapper">
-      <AdditionalInfo triggerText="What if my expenses are higher than my annual income?">
+      <va-additional-info trigger="What if my expenses are higher than my annual income?">
         We understand in some cases your expenses might be higher than your
         income. If your expenses exceed your income, we’ll adjust them to be
         equal to your income. This won’t affect your application or benefits.
-      </AdditionalInfo>
+      </va-additional-info>
     </div>
   </div>
 );
@@ -489,12 +488,12 @@ export const isEssentialAcaCoverageDescription = (
     I’m enrolling to get minimum essential coverage under the Affordable Care
     Act.
     <div className="hca-tooltip-wrapper">
-      <AdditionalInfo triggerText="Learn more about minimum essential coverage.">
+      <va-additional-info trigger="Learn more about minimum essential coverage.">
         To avoid the penalty for not having insurance, you must be enrolled in a
         health plan that qualifies as minimum essential coverage. Being signed
         up for VA health care meets the minimum essential coverage requirement
         under the Affordable Care Act.
-      </AdditionalInfo>
+      </va-additional-info>
     </div>
   </div>
 );
@@ -576,6 +575,46 @@ export const medicarePartADescription = (
       care, hospice, and home health services.
     </p>
   </section>
+);
+
+export const shortFormMessage = (
+  <div className="vads-u-margin-y--5">
+    <va-alert
+      close-btn-aria-label="Close notification"
+      status="success"
+      visible
+    >
+      <div className="vads-u-margin-top--neg1">
+        <va-additional-info trigger="You're filling out a shortend application!">
+          <p className="vads-u-padding-y--0 vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+            Your service-connected disability rating is 50% or higher. This is
+            one of our eligibility criteria. This means that we don’t have to
+            ask you questions about other criteria like income and military
+            service.{' '}
+          </p>
+        </va-additional-info>
+      </div>
+    </va-alert>
+  </div>
+);
+
+export const shortFormAlert = (
+  <div className="vads-u-margin-y--4">
+    <va-alert
+      close-btn-aria-label="Close notification"
+      status="success"
+      visible
+    >
+      <h3 slot="headline">
+        You’re now on step 3 of 4 of our shorter application
+      </h3>
+      <div>
+        Your service-connected disability rating is 50% or higher. This is one
+        of our eligibility criteria. This means that we don’t have to ask you
+        questions about other criteria like income and military service.
+      </div>
+    </va-alert>
+  </div>
 );
 
 export const idFormSchema = {

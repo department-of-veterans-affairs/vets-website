@@ -1,6 +1,5 @@
 import React from 'react';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import CustomReviewField from '../../../components/CustomReviewField';
 
@@ -8,7 +7,7 @@ const { vaCompensationType } = fullSchemaHca.properties;
 
 const CompensationInfo = () => (
   <div className="vads-u-margin-top--2 vads-u-margin-bottom--5">
-    <AdditionalInfo triggerText="Why we ask for this information">
+    <va-additional-info trigger="Why we ask for this information">
       <p>We use this information to help us decide these 4 things:</p>
       <ul>
         <li className="vads-u-margin-left--3 vads-u-margin-bottom--2 bullet-disc">
@@ -29,7 +28,17 @@ const CompensationInfo = () => (
         We give veterans with service-connected disabilities the highest
         priority.
       </p>
-    </AdditionalInfo>
+    </va-additional-info>
+  </div>
+);
+
+const warningMessage = () => (
+  <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-background-color--gibill-accent vads-u-font-weight--bold vads-u-margin-y--2p5 vads-u-padding--1p5">
+    <i className="fa fa-exclamation-triangle" aria-hidden="true" role="img" />
+    <p className="vads-u-margin-left--1p5 vads-u-margin-y--0">
+      Are you sure? You made this selection before. We’ll ask you to confirm
+      again.
+    </p>
   </div>
 );
 
@@ -59,6 +68,16 @@ export default {
         },
       },
     },
+    'view:warningMessage': {
+      'ui:description': warningMessage,
+      'ui:options': {
+        hideIf: form =>
+          !(
+            form.vaCompensationType === 'highDisability' &&
+            form['view:isHighDisability'] === true
+          ),
+      },
+    },
   },
   schema: {
     type: 'object',
@@ -69,6 +88,10 @@ export default {
         properties: {},
       },
       vaCompensationType,
+      'view:warningMessage': {
+        type: 'object',
+        properties: {},
+      },
     },
   },
 };

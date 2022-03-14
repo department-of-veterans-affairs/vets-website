@@ -60,6 +60,7 @@ import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
 import vaFacility from './chapters/insuranceInformation/vaFacility';
 import general from './chapters/insuranceInformation/general';
+import ServiceConnectedPayConfirmation from '../components/ServiceConnectedPayConfirmation';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
 
@@ -71,6 +72,16 @@ const {
   provider,
   ssn,
 } = fullSchemaHca.definitions;
+
+const notIsHighDisability = formData =>
+  formData.vaCompensationType !== 'highDisability';
+
+const notIsHighDisabilityAndNotIsUserInMvi = formData =>
+  formData.vaCompensationType !== 'highDisability' &&
+  !formData['view:isUserInMvi'];
+
+const isHighDisability = formData =>
+  formData.vaCompensationType === 'highDisability';
 
 // For which page needs prefill-message, check
 // vets-api/config/form_profile_mappings/1010ez.yml
@@ -250,6 +261,19 @@ const formConfig = {
           uiSchema: basicInformation.uiSchema,
           schema: basicInformation.schema,
         },
+        vaPayConfirmation: {
+          path: 'va-benefits/confirm-service-pay',
+          title: 'Disability Confirmation',
+          CustomPage: ServiceConnectedPayConfirmation,
+          CustomPageReview: null,
+          initialData: {},
+          depends: isHighDisability,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
         vaPension: {
           path: 'va-benefits/pension-information',
           title: 'VA pension',
@@ -265,19 +289,24 @@ const formConfig = {
         serviceInformation: {
           path: 'military-service/service-information',
           title: 'Service periods',
+          depends: notIsHighDisability,
           uiSchema: serviceInformation.uiSchema,
           schema: serviceInformation.schema,
+          updateFormData: (oldData, newData) => {
+            return { ...newData, 'view:isHighDisability': false };
+          },
         },
         additionalInformation: {
           path: 'military-service/additional-information',
           title: 'Service history',
+          depends: notIsHighDisability,
           uiSchema: additionalInformation.uiSchema,
           schema: additionalInformation.schema,
         },
         documentUpload: {
           title: 'Upload your discharge papers',
           path: 'military-service/documents',
-          depends: formData => !formData['view:isUserInMvi'],
+          depends: notIsHighDisabilityAndNotIsUserInMvi,
           editModeOnReviewPage: true,
           uiSchema: documentUpload.uiSchema,
           schema: documentUpload.schema,
@@ -290,12 +319,14 @@ const formConfig = {
         financialDisclosure: {
           path: 'household-information/financial-disclosure',
           title: 'Financial disclosure',
+          depends: notIsHighDisability,
           uiSchema: financialDisclosure.uiSchema,
           schema: financialDisclosure.schema,
         },
         maritalStatus: {
           path: 'household-information/marital-status',
           title: 'Marital status information',
+          depends: notIsHighDisability,
           initialData: {},
           uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
@@ -342,6 +373,7 @@ const formConfig = {
         medicaid: {
           path: 'insurance-information/medicaid',
           title: 'Medicaid coverage',
+          depends: notIsHighDisability,
           initialData: {},
           uiSchema: medicaid.uiSchema,
           schema: medicaid.schema,
@@ -349,6 +381,7 @@ const formConfig = {
         medicare: {
           path: 'insurance-information/medicare',
           title: 'Medicare coverage',
+          depends: notIsHighDisability,
           initialData: {},
           uiSchema: medicare.uiSchema,
           schema: medicare.schema,
