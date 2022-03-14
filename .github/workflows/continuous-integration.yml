@@ -456,6 +456,12 @@ jobs:
       - name: Checkout vets-website
         uses: actions/checkout@v2
 
+      - name: Checkout content-build
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/content-build
+          path: content-build
+
       - name: Download production build artifact
         uses: actions/download-artifact@v3
         with:
