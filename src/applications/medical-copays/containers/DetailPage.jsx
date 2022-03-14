@@ -69,7 +69,11 @@ const DetailPage = ({ match }) => {
       </p>
       <Alert type={alert} copay={selectedCopay} />
       <OnThisPage />
-      {showHTMLStatements ? <HTMLStatementList /> : <PDFStatementList />}
+      {showHTMLStatements ? (
+        <HTMLStatementList selectedId={selectedId} />
+      ) : (
+        <PDFStatementList />
+      )}
       <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />
       <FinancialHelp />
       <DisputeCharges />
