@@ -10,7 +10,7 @@ baseurl: "/va-forms-system-core" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
-theme: just-the-docs
+# theme: just-the-docs
 remote_theme: pmarsceill/just-the-docs # This is specific to GitHub Pages
 plugins:
   - jekyll-remote-theme
