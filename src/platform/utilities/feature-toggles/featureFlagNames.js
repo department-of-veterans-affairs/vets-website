@@ -60,6 +60,7 @@ export default Object.freeze({
   hlrv2: 'hlr_v2',
   loginGov: 'login_gov',
   loginGovCreateAccount: 'login_gov_create_account',
+  loginGovDisabled: 'login_gov_disabled',
   loginGovMHV: 'login_gov_mhv',
   loginGovMyVAHealth: 'login_gov_myvahealth',
   loopPages: 'loop_pages',
