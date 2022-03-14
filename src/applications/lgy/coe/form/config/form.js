@@ -1,6 +1,8 @@
 import fullSchema from 'vets-json-schema/dist/26-1880-schema.json';
-import environment from 'platform/utilities/environment';
+
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -41,6 +43,7 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   footerContent: FormFooter,
+  preSubmitInfo,
   getHelp: GetFormHelp,
   savedFormMessages: {
     notFound: 'Please start over to request benefits.',

@@ -7,7 +7,6 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import { connect } from 'react-redux';
-import environment from 'platform/utilities/environment';
 import classNames from 'classnames';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
@@ -165,13 +164,6 @@ function LocationSearchResults({
   const markerIsVisible = institution => {
     const { latitude, longitude } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
-    if (environment.isProduction()) {
-      return (
-        smallScreen ||
-        !mapState.changed ||
-        map.current.getBounds().contains(lngLat)
-      );
-    }
     return (
       smallScreen ||
       landscape ||
@@ -240,21 +232,12 @@ function LocationSearchResults({
     markerElement.innerText = index + 1;
 
     const popup = new mapboxgl.Popup();
-    if (environment.isProduction()) {
-      popup.on('open', () => {
-        if (smallScreen) {
-          setMobileTab(LIST_TAB);
-        }
-        setMarkerClicked(name);
-      });
-    } else {
-      popup.on('open', () => {
-        if (smallScreen || landscape) {
-          setMobileTab(LIST_TAB);
-        }
-        setMarkerClicked(name);
-      });
-    }
+    popup.on('open', () => {
+      if (smallScreen || landscape) {
+        setMobileTab(LIST_TAB);
+      }
+      setMarkerClicked(name);
+    });
 
     if (locationBounds) {
       locationBounds.extend(lngLat);
