@@ -14,30 +14,22 @@ const useDemographicsFlags = () => {
 
   // These will be undefined if pages are skipped in day-of. Default to 'yes'
   const {
-    demographicsUpToDate,
-    emergencyContactUpToDate,
-    nextOfKinUpToDate,
+    demographicsUpToDate = null,
+    emergencyContactUpToDate = null,
+    nextOfKinUpToDate = null,
   } = data;
 
-  let demographicsData = {
+  const demographicsData = {
     uuid: token,
   };
 
-  if (demographicsUpToDate !== undefined)
-    demographicsData = {
-      ...demographicsData,
-      demographicsUpToDate: demographicsUpToDate === 'yes',
-    };
-  if (emergencyContactUpToDate !== undefined)
-    demographicsData = {
-      ...demographicsData,
-      emergencyContactUpToDate: emergencyContactUpToDate === 'yes',
-    };
-  if (nextOfKinUpToDate !== undefined)
-    demographicsData = {
-      ...demographicsData,
-      nextOfKinUpToDate: nextOfKinUpToDate === 'yes',
-    };
+  if (demographicsUpToDate)
+    demographicsData.demographicsUpToDate = demographicsUpToDate === 'yes';
+  if (emergencyContactUpToDate)
+    demographicsData.emergencyContactUpToDate =
+      emergencyContactUpToDate === 'yes';
+  if (nextOfKinUpToDate)
+    demographicsData.nextOfKinUpToDate = nextOfKinUpToDate === 'yes';
 
   return { demographicsData, demographicsFlagsSent, setDemographicsFlagsSent };
 };
