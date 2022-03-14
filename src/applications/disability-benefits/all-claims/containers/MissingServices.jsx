@@ -1,9 +1,6 @@
 import React from 'react';
 
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -31,8 +28,8 @@ export const MissingServices = ({ title }) => {
       <p className="vads-u-font-size--base">
         We need more information from you before you can {titleLowerCase(title)}
         . Please call Veterans Benefits Assistance at{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
-        <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
+        <va-telephone contact={CONTACTS['711']} />
         ), Monday through Friday, 8:00 a.m. to 9:00 p.m. ET to update your
         account.
       </p>
@@ -60,9 +57,9 @@ export const MissingId = ({ title }) => {
         We don’t have all of your ID information for your account. We need this
         information before you can {titleLowerCase(title)}. To update your
         account, please call Veterans Benefits Assistance at{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:
-        <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
-        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:
+        <va-ta-telephone contact={CONTACTS['711']} />
+        )va-t We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
       <p className="vads-u-font-size--base">
         Tell the representative that you may be missing your{' '}
@@ -102,10 +99,9 @@ export const MissingDob = ({ title }) => {
       </p>
       <p className="vads-u-font-size--base">
         Please call us at
-        <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
-        <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />) to
-        update your account. We’re here Monday through Friday, 8:00 a.m. to 9:00
-        9:00 p.m. ET.
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
+        <va-telephone contact={CONTACTS['711']} />) to update your account.
+        We’re here Monday through Friday, 8:00 a.m. to 9:00 9:00 p.m. ET.
       </p>
     </>
   );
