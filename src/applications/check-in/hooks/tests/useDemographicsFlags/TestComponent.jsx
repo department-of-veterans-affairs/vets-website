@@ -2,12 +2,12 @@ import React, { useCallback } from 'react';
 import propTypes from 'prop-types';
 import { useDemographicsFlags } from '../../useDemographicsFlags';
 
-export default function TestComponent({ defaultValue = false }) {
+export default function TestComponent() {
   const {
     demographicsData,
     demographicsFlagsSent,
     setDemographicsFlagsSent,
-  } = useDemographicsFlags(defaultValue);
+  } = useDemographicsFlags();
   return (
     <div>
       <div data-testid="demographicsUpToDate">
