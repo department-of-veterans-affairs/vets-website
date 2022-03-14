@@ -9,7 +9,7 @@ import TestComponent from './TestComponent';
 
 describe('check-in', () => {
   describe('useDemographicsFlags', () => {
-    describe('should render with default values.', () => {
+    describe('should render with token only.', () => {
       let store;
       beforeEach(() => {
         const middleware = [];
@@ -26,12 +26,13 @@ describe('check-in', () => {
         };
         store = mockStore(initState);
       });
-      it('should render test component with all values set to false', () => {
+      it('should render without form data', () => {
         const component = render(
           <Provider store={store}>
-            <TestComponent defaultValue={false} />
+            <TestComponent />
           </Provider>,
         );
+
         const sentFalseButton = component.getByTestId(
           'setDemographicsFlagsSentFalse',
         );
@@ -58,22 +59,8 @@ describe('check-in', () => {
           'no',
         );
       });
-      it('should render test component with all values set to true', () => {
-        const component = render(
-          <Provider store={store}>
-            <TestComponent defaultValue />
-          </Provider>,
-        );
-        expect(component.getByTestId('demographicsUpToDate')).to.have.text(
-          'yes',
-        );
-        expect(component.getByTestId('emergencyContactUpToDate')).to.have.text(
-          'yes',
-        );
-        expect(component.getByTestId('nextOfKinUpToDate')).to.have.text('yes');
-      });
     });
-    describe('should render without default values.', () => {
+    describe('should render with form data.', () => {
       let store;
       beforeEach(() => {
         const middleware = [];

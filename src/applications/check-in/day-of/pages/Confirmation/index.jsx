@@ -27,7 +27,7 @@ const Confirmation = props => {
     demographicsData,
     demographicsFlagsSent,
     setDemographicsFlagsSent,
-  } = useDemographicsFlags(true);
+  } = useDemographicsFlags();
   const refreshAppointments = useCallback(
     () => {
       dispatch(triggerRefresh());

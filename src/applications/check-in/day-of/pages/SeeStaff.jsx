@@ -23,7 +23,7 @@ const SeeStaff = props => {
     demographicsData,
     demographicsFlagsSent,
     setDemographicsFlagsSent,
-  } = useDemographicsFlags(false);
+  } = useDemographicsFlags();
   const { goBack } = router;
   const selectSeeStaffMessage = useMemo(makeSelectSeeStaffMessage, []);
   const { message } = useSelector(selectSeeStaffMessage);
