@@ -1,20 +1,13 @@
 import _ from 'lodash';
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
-import oldBankAccountUI from 'platform/forms/definitions/bankAccount';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
-import environment from 'platform/utilities/environment';
 import { isValidRoutingNumber } from 'platform/forms/validations';
 import { hasNewBankInformation, hasPrefillBankInformation } from '../utils';
 import PaymentView from '../components/PaymentView';
 import PaymentReviewView from '../components/PaymentReviewView';
 
-import {
-  bankInfoDescriptionWithInfo,
-  bankInfoDescriptionWithoutInfo,
-  bankInfoNote,
-  bankInfoHelpText,
-} from '../content/bankInformation';
+import { bankInfoNote, bankInfoHelpText } from '../content/bankInformation';
 
 const { bankAccount } = fullSchema.properties;
 
@@ -32,9 +25,7 @@ const startInEdit = data =>
   !_.get(data, 'view:hasBankInformation', false) &&
   !hasNewBankInformation(data.bankAccount);
 
-const isProduction = environment.isProduction();
-
-const newItemName = isProduction ? 'account' : 'account information';
+const newItemName = 'account information';
 
 const directDepositDescription = formData => {
   return (
@@ -48,13 +39,12 @@ const directDepositDescription = formData => {
         src="/img/direct-deposit-check-guide.svg"
         alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
       />
-      {!environment.isProduction() &&
-        hasPrefillBankInfo(formData) && (
-          <p>
-            This is the bank account information we have on file for you. We’ll
-            send your housing payment to this account.
-          </p>
-        )}
+      {hasPrefillBankInfo(formData) && (
+        <p>
+          This is the bank account information we have on file for you. We’ll
+          send your housing payment to this account.
+        </p>
+      )}
     </div>
   );
 };
@@ -71,7 +61,7 @@ function validateRoutingNumber(
   }
 }
 
-const newBankUiSchema = {
+const bankAccountUI = {
   'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
   'ui:description': data => directDepositDescription(data),
   accountType: {
@@ -92,7 +82,7 @@ const newBankUiSchema = {
     },
   },
   routingNumber: {
-    'ui:title': 'Bank’s 9 digit routing number',
+    'ui:title': 'Bank’s 9-digit routing number',
     'ui:validations': [validateRoutingNumber],
     'ui:errorMessages': {
       pattern: 'Please enter a valid 9 digit routing number',
@@ -101,18 +91,14 @@ const newBankUiSchema = {
   },
 };
 
-const bankAccountUI = isProduction ? oldBankAccountUI : newBankUiSchema;
-
 export const uiSchema = {
   'ui:title': 'Direct deposit information',
   'view:descriptionWithInfo': {
-    'ui:description': bankInfoDescriptionWithInfo,
     'ui:options': {
       hideIf: data => !hasPrefillBankInfo(data) && !hasNewBankInfo(data),
     },
   },
   'view:descriptionWithoutInfo': {
-    'ui:description': bankInfoDescriptionWithoutInfo,
     'ui:options': {
       hideIf: data => hasPrefillBankInfo(data) || hasNewBankInfo(data),
     },

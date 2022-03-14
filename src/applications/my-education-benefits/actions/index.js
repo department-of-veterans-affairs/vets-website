@@ -1,9 +1,7 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
-export const CLAIMANT_INFO_ENDPOINT = `${
-  environment.API_URL
-}/meb_api/v0/claimant_info`;
+export const CLAIMANT_INFO_ENDPOINT = `${environment.API_URL}/meb_api/v0/claimant_info`;
 
 const CLAIM_STATUS_ENDPOINT = `${environment.API_URL}/meb_api/v0/claim_status`;
 
@@ -106,13 +104,18 @@ const poll = ({
     });
 };
 
+function getNowDate() {
+  const date = new Date();
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+}
+
 export function fetchClaimStatus() {
   return async dispatch => {
     dispatch({ type: FETCH_CLAIM_STATUS });
     const timeoutResponse = {
       attributes: {
         claimStatus: CLAIM_STATUS_RESPONSE_IN_PROGRESS,
-        receivedDate: Date.now(),
+        receivedDate: getNowDate(),
       },
     };
 

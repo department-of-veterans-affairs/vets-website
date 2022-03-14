@@ -21,3 +21,27 @@ export const replaceDescriptionContent = text =>
     (resultingText, transformer) => transformer(resultingText),
     text || '',
   );
+
+/**
+ * Replace typographical quote with single quote
+ * Lighthouse needs ASCII (Windows-1252) characters to build the PDF, but there
+ * is no conversion in place (yet)
+ */
+const apostropheRegex = /\u2019/g;
+const replaceApostrophe = text => text.replace(apostropheRegex, "'");
+
+const submitTransformers = [
+  // add more here
+  replaceApostrophe,
+];
+
+/**
+ * Replace problematic characters preventing submission to Lighthouse
+ * @param {String} text - text to modify
+ * @returns {String}
+ */
+export const replaceSubmittedData = text =>
+  submitTransformers.reduce(
+    (resultingText, transformer) => transformer(resultingText),
+    text || '',
+  );

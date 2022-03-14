@@ -6,7 +6,6 @@ import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { loginGov } from 'platform/user/authentication/selectors';
 import { verify } from 'platform/user/authentication/utilities';
 import { hasSession } from 'platform/user/profile/utilities';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
@@ -86,7 +85,7 @@ export class VerifyApp extends React.Component {
   render() {
     const { profile } = this.props;
     const signInMethod =
-      this.signinMethodLabels[(profile?.signIn?.serviceName)] || 'ID.me';
+      this.signinMethodLabels[profile?.signIn?.serviceName] || 'ID.me';
 
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
@@ -147,7 +146,6 @@ const mapStateToProps = state => {
   return {
     login: userState.login,
     profile: userState.profile,
-    loginGovEnabled: loginGov(state),
   };
 };
 

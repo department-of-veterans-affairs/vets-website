@@ -115,5 +115,9 @@
   "your-appointments": "Your appointments",
   "your-last-name": "Your last name",
   "youre-also-responsible-for-protecting-your-personal-health-information-if-you-print-or-download-your-information-or-share-it-electronically-with-others-youll-need-to-take-steps-to-protect-it": "You’re also responsible for protecting your personal health information. If you print or download your information—or share it electronically with others—you’ll need to take steps to protect it.",
-  "youve-completed-pre-check-in": "You’ve completed pre-check-in"
+  "youve-completed-pre-check-in": "You’ve completed pre-check-in",
+  "extension": "Extension",
+  "please-enter-a-valid-phone-number-address": "Please enter a valid phone number address.",
+  "phonenumber-extension-x-extension": "{0}{1}` : '' }",
+  "please-enter-valid-phone-number": "Please enter a valid phone number."
 }

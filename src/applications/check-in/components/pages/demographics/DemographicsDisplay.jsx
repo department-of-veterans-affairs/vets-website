@@ -25,7 +25,7 @@ export default function DemographicsDisplay({
 }) {
   const dispatch = useDispatch();
   const setEditContext = useCallback(
-    data => {
+    (data, url) => {
       dispatch(
         createSetEditContext({
           ...data,
@@ -33,22 +33,33 @@ export default function DemographicsDisplay({
           editingPage: EDITING_PAGE_NAMES.DEMOGRAPHICS,
         }),
       );
-      jumpToPage(URLS.EDIT_EMAIL);
+      jumpToPage(url);
     },
     [dispatch, jumpToPage],
   );
+
   const demographicFields = [
     { title: i18next.t('mailing-address'), key: 'mailingAddress' },
     { title: i18next.t('home-address'), key: 'homeAddress' },
-    { title: i18next.t('home-phone'), key: 'homePhone' },
-    { title: i18next.t('mobile-phone'), key: 'mobilePhone' },
-    { title: i18next.t('work-phone'), key: 'workPhone' },
+    {
+      title: i18next.t('home-phone'),
+      key: 'homePhone',
+      editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
+    },
+    {
+      title: i18next.t('mobile-phone'),
+      key: 'mobilePhone',
+      editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
+    },
+    {
+      title: i18next.t('work-phone'),
+      key: 'workPhone',
+      editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
+    },
     {
       title: i18next.t('email-address'),
       key: 'emailAddress',
-      editAction: data => {
-        setEditContext(data);
-      },
+      editAction: data => setEditContext(data, URLS.EDIT_EMAIL),
     },
   ];
   return (

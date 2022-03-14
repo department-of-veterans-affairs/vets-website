@@ -17,6 +17,7 @@ import {
 import CancelButton from './shared/CancelButton';
 import UpdateButton from './shared/UpdateButton';
 import Footer from '../../Footer';
+import Header from './shared/Header';
 
 export default function Email(props) {
   const { router } = props;
@@ -29,23 +30,21 @@ export default function Email(props) {
   const [email, setEmail] = useState(value);
   const [errorMessage, setErrorMessage] = useState();
 
+  const isUpdatable = useMemo(() => {
+    return !errorMessage;
+  }, [errorMessage]);
+
   const dispatch = useDispatch();
-  const handleUpdateEmail = useCallback(
-    () => {
-      if (email !== value) {
-        dispatch(
-          createSetPendingEditedData({ emailAddress: email }, editingPage),
-        );
-      }
-    },
-    [dispatch, editingPage, email, value],
-  );
-  const clearEditContext = useCallback(
-    () => {
-      dispatch(createClearEditContext());
-    },
-    [dispatch],
-  );
+  const handleUpdateEmail = useCallback(() => {
+    if (email !== value && !errorMessage) {
+      dispatch(
+        createSetPendingEditedData({ emailAddress: email }, editingPage),
+      );
+    }
+  }, [dispatch, editingPage, email, errorMessage, value]);
+  const clearEditContext = useCallback(() => {
+    dispatch(createClearEditContext());
+  }, [dispatch]);
 
   useEffect(() => {
     focusElement('h1');
@@ -69,7 +68,7 @@ export default function Email(props) {
 
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--4  vads-u-padding-right--4 vads-u-padding-left-2 ">
-      <h1>{t('edit-email-address')}</h1>
+      <Header value={value} what="email address" editingPage={editingPage} />
 
       <VaTextInput
         error={errorMessage}
@@ -86,6 +85,7 @@ export default function Email(props) {
         backPage={originatingUrl}
         clearData={clearEditContext}
         handleUpdate={handleUpdateEmail}
+        isUpdatable={isUpdatable}
       />
       <CancelButton
         jumpToPage={jumpToPage}

@@ -94,6 +94,9 @@
     "Safari 10",
     "ie 11"
   ],
+  "browser": {
+    "path": "path-browserify"
+  },
   "devDependencies": {
     "@actions/core": "^1.6.0",
     "@babel/core": "^7.16.0",
@@ -112,7 +115,8 @@
     "@babel/preset-react": "^7.14.5",
     "@babel/register": "^7.15.3",
     "@babel/traverse": "^7.15.4",
-    "@cypress/webpack-preprocessor": "^5.11.1",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.1.2",
+    "@cypress/code-coverage": "^3.9.12",
     "@department-of-veterans-affairs/generator-vets-website": "^3.5.0",
     "@octokit/rest": "^18.11.0",
     "@pact-foundation/pact": "^9.16.4",
@@ -133,6 +137,7 @@
     "babel-plugin-istanbul": "^6.0.0",
     "babel-plugin-lodash": "^3.2.8",
     "babel-plugin-module-resolver": "^4.1.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "babel-polyfill": "^6.26.0",
     "body-parser": "^1.15.2",
@@ -162,6 +167,7 @@
     "cypress-wait-until": "^1.7.2",
     "docdash": "^1.2.0",
     "enzyme": "^3.11.0",
+    "esbuild": "^0.14.25",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
@@ -202,7 +208,7 @@
     "mocha-junit-reporter": "^2.0.0",
     "mocha-multi-reporters": "^1.5.1",
     "mocha-snapshots": "^4.2.0",
-    "mochawesome": "^6.2.2",
+    "mochawesome": "^7.1.1",
     "mock-fs": "^5.1.1",
     "mockdate": "^3.0.5",
     "mocker-api": "^2.9.0",
@@ -213,6 +219,7 @@
     "node-sass": "^4.14.1",
     "null-loader": "^4.0.1",
     "nyc": "^15.1.0",
+    "path-browserify": "^1.0.1",
     "postcss": "^8.4.4",
     "postcss-loader": "^6.2.1",
     "prettier": "^1.14.3",

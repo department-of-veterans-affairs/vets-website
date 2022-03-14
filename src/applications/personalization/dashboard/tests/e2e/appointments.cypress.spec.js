@@ -1,14 +1,21 @@
-import { mockUser } from '@@profile/tests/fixtures/users/user.js';
+/**
+ * [TestRail-integrated] Spec for My VA (Dashboard) - Appointments
+ * @testrailinfo projectId 4
+ * @testrailinfo suiteId 5
+ * @testrailinfo groupId 4033
+ * @testrailinfo runName MyVA-e2e-Appts
+ */
+import { mockUser } from '@@profile/tests/fixtures/users/user';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
-import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
+import moment from 'moment';
+import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 import MOCK_VA_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_VA_APPOINTMENTS';
 import MOCK_CC_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_CC_APPOINTMENTS';
 
-import moment from 'moment';
 import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
 
 const startOfToday = () =>
@@ -52,7 +59,7 @@ describe('The My VA Dashboard - Appointments', () => {
     cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
   });
   context('when it can show the next appointment', () => {
-    it('when the next upcoming appointment is a community cares appointment', () => {
+    it('when the next upcoming appointment is a community cares appointment - C15731', () => {
       // make sure that the Health care section is shown
       cy.findByTestId('dashboard-section-health-care').should('exist');
       cy.findByRole('link', { name: /manage your appointments/i }).should(
@@ -61,8 +68,7 @@ describe('The My VA Dashboard - Appointments', () => {
       cy.findByRole('heading', { name: /next appointment/i }).should('exist');
 
       // make the a11y check
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

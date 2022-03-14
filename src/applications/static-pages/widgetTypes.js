@@ -33,6 +33,7 @@ export default {
   GET_MEDICAL_RECORDS_PAGE: 'get-medical-records-page',
   HEALTH_CARE_APP_STATUS: 'health-care-app-status',
   HIGHER_LEVEL_REVIEW_APP_STATUS: 'higher-level-review-status',
+  HOME_LOAN_COE_LOGIN_WIDGET: 'home-loan-coe-login-widget',
   HOMEPAGE_BANNER: 'homepage-banner',
   I_18_SELECT: 'i18-select',
   LETTERS_MOBILE_CTA: 'letters-mobile-cta',

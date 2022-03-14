@@ -56,7 +56,8 @@ export const DowntimeBanner = ({ dependencies, headline, status, message }) => (
   </ExternalServicesError>
 );
 
-export default () =>
-  downtimeBannersConfig.map((props, i) => (
+export default function DowntimeBanners() {
+  return downtimeBannersConfig.map((props, i) => (
     <DowntimeBanner {...props} key={`downtime-banner-${i}`} />
   ));
+}

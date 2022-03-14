@@ -133,6 +133,7 @@ const v2 = {
     const data = {
       preCheckIn: {
         demographics,
+        uuid,
       },
     };
     const body = JSON.stringify(data);

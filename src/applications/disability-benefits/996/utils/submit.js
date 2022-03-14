@@ -6,6 +6,7 @@ import {
   SUBMITTED_DISAGREEMENTS,
 } from '../constants';
 import { apiVersion1 } from './helpers';
+import { replaceSubmittedData } from './replace';
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`
@@ -98,7 +99,7 @@ export const createIssueName = ({ attributes } = {}) => {
     ratingIssuePercentNumber,
     description,
   } = attributes;
-  return [
+  const result = [
     ratingIssueSubjectText,
     `${ratingIssuePercentNumber || '0'}%`,
     description,
@@ -106,6 +107,7 @@ export const createIssueName = ({ attributes } = {}) => {
     .filter(part => part)
     .join(' - ')
     .substring(0, MAX_LENGTH.ISSUE_NAME);
+  return replaceSubmittedData(result);
 };
 
 /* submitted contested issue format
@@ -122,33 +124,35 @@ export const createIssueName = ({ attributes } = {}) => {
 }]
 */
 export const getContestedIssues = ({ contestedIssues = [] }) =>
-  contestedIssues.filter(issue => issue[SELECTED]).map(issue => {
-    const attr = issue.attributes;
-    const attributes = [
-      'decisionIssueId',
-      'ratingIssueReferenceId',
-      'ratingDecisionReferenceId',
-      'socDate',
-    ].reduce(
-      (acc, key) => {
-        // Don't submit null or empty strings
-        if (attr[key]) {
-          acc[key] = attr[key];
-        }
-        return acc;
-      },
-      {
-        issue: createIssueName(issue),
-        decisionDate: attr.approxDecisionDate,
-      },
-    );
+  contestedIssues
+    .filter(issue => issue[SELECTED])
+    .map(issue => {
+      const attr = issue.attributes;
+      const attributes = [
+        'decisionIssueId',
+        'ratingIssueReferenceId',
+        'ratingDecisionReferenceId',
+        'socDate',
+      ].reduce(
+        (acc, key) => {
+          // Don't submit null or empty strings
+          if (attr[key]) {
+            acc[key] = attr[key];
+          }
+          return acc;
+        },
+        {
+          issue: createIssueName(issue),
+          decisionDate: attr.approxDecisionDate,
+        },
+      );
 
-    return {
-      // type: "contestableIssues"
-      type: issue.type,
-      attributes,
-    };
-  });
+      return {
+        // type: "contestableIssues"
+        type: issue.type,
+        attributes,
+      };
+    });
 
 /**
  * @typedef AdditionalIssues
@@ -183,7 +187,7 @@ export const addIncludedIssues = formData => {
           issuesToAdd.push({
             type: 'contestableIssue',
             attributes: {
-              issue: issue.issue,
+              issue: replaceSubmittedData(issue.issue),
               decisionDate: issue.decisionDate,
             },
           });
@@ -213,13 +217,15 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
       .map(([key, value]) => value && keywords[key](entry))
       .concat((entry?.otherEntry || '').trim())
       .filter(Boolean);
+    const disagreementArea = replaceSubmittedData(
+      // max length in schema
+      reasons.join(',').substring(0, MAX_LENGTH.DISAGREEMENT_REASON),
+    );
     return {
       ...issue,
       attributes: {
         ...issue.attributes,
-        disagreementArea: reasons
-          .join(',')
-          .substring(0, MAX_LENGTH.DISAGREEMENT_REASON), // max length in schema
+        disagreementArea,
       },
     };
   });
@@ -285,7 +291,7 @@ export const getAddress = formData => {
     return { zipCode5: zipCode5 || '00000' };
   }
   const truncate = (value, max) =>
-    (veteran.address?.[value] || '').substring(0, max);
+    replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
   return removeEmptyEntries({
     addressLine1: truncate('addressLine1', MAX_LENGTH.ADDRESS_LINE1),
     addressLine2: truncate('addressLine2', MAX_LENGTH.ADDRESS_LINE2),
@@ -309,7 +315,7 @@ export const getAddress = formData => {
  */
 export const getPhone = ({ veteran = {} } = {}) => {
   const truncate = (value, max) =>
-    (veteran.phone?.[value] || '').substring(0, max);
+    replaceSubmittedData(veteran.phone?.[value] || '').substring(0, max);
   return removeEmptyEntries({
     countryCode: truncate('countryCode', MAX_LENGTH.COUNTRY_CODE),
     areaCode: truncate('areaCode', MAX_LENGTH.AREA_CODE),

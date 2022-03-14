@@ -6,13 +6,11 @@ import { connect } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
-import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import SearchTabs from '../components/search/SearchTabs';
 import { TABS } from '../constants';
 import NameSearchResults from './search/NameSearchResults';
 import LocationSearchResults from './search/LocationSearchResults';
-import LocationSearchResultsOld from './search/LocationSearchResultsOld';
 import { isSmallScreen } from '../utils/helpers';
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
@@ -44,19 +42,14 @@ export function SearchPage({
   });
   const { version } = preview;
 
-  useEffect(
-    () => {
-      document.title = 'GI Bill® Comparison Tool | Veterans Affairs';
-    },
-    [dispatchSetPageTitle],
-  );
+  useEffect(() => {
+    document.title = 'GI Bill® Comparison Tool | Veterans Affairs';
+  }, [dispatchSetPageTitle]);
 
   useEffect(() => {
     const checkSize = () => {
       setSmallScreen(isSmallScreen());
-      if (!environment.isProduction()) {
-        setLandscape(isLandscape());
-      }
+      setLandscape(isLandscape());
     };
 
     window.addEventListener('resize', checkSize);
@@ -72,16 +65,6 @@ export function SearchPage({
     [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
     [TABS.location]: (
       <LocationSearchResults smallScreen={smallScreen} landscape={landscape} />
-    ),
-  };
-
-  const tabbedResultsOld = {
-    [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
-    [TABS.location]: (
-      <LocationSearchResultsOld
-        smallScreen={smallScreen}
-        landscape={landscape}
-      />
     ),
   };
 
@@ -136,35 +119,30 @@ export function SearchPage({
                 </va-alert>
               </div>
             )}
-            {!error && !smallScreen && environment.isProduction()
-              ? tabbedResultsOld[tab]
-              : tabbedResults[tab]}
-            {!error &&
-              smallScreen && (
-                <div>
-                  <AccordionItem
-                    button="Search by name"
-                    expanded={accordions[TABS.name]}
-                    onClick={expanded => {
-                      accordionChange(TABS.name, expanded);
-                    }}
-                  >
-                    <NameSearchForm smallScreen />
-                  </AccordionItem>
-                  <AccordionItem
-                    button="Search by location"
-                    expanded={accordions[TABS.location]}
-                    onClick={expanded => {
-                      accordionChange(TABS.location, expanded);
-                    }}
-                  >
-                    <LocationSearchForm smallScreen />
-                  </AccordionItem>
-                  {!error && smallScreen && environment.isProduction()
-                    ? tabbedResultsOld[tab]
-                    : tabbedResults[tab]}
-                </div>
-              )}
+            {!error && !smallScreen && tabbedResults[tab]}
+            {!error && smallScreen && (
+              <div>
+                <AccordionItem
+                  button="Search by name"
+                  expanded={accordions[TABS.name]}
+                  onClick={expanded => {
+                    accordionChange(TABS.name, expanded);
+                  }}
+                >
+                  <NameSearchForm smallScreen />
+                </AccordionItem>
+                <AccordionItem
+                  button="Search by location"
+                  expanded={accordions[TABS.location]}
+                  onClick={expanded => {
+                    accordionChange(TABS.location, expanded);
+                  }}
+                >
+                  <LocationSearchForm smallScreen />
+                </AccordionItem>
+                {!error && smallScreen && tabbedResults[tab]}
+              </div>
+            )}
           </div>
         </div>
       </span>
@@ -185,7 +163,4 @@ const mapDispatchToProps = {
   dispatchSetPageTitle: setPageTitle,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SearchPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);

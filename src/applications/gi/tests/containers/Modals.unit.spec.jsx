@@ -998,7 +998,7 @@ describe('<Modals>', () => {
     it('should render', () => {
       const wrapper = shallow(<Modals {...props} />);
       expect(wrapper.html()).to.contain(
-        'Is the school single-gender, a Historically Black College or University, or does it have a religious affiliation?',
+        'Is the school single-gender, a Historically Black college or university, or does it have a religious affiliation?',
       );
       wrapper.unmount();
     });

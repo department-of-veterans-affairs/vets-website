@@ -49,8 +49,16 @@ export default function EmergencyContactDisplay({
       },
     },
     { title: t('address'), key: 'address' },
-    { title: t('phone'), key: 'phone' },
-    { title: t('work-phone'), key: 'workPhone' },
+    {
+      title: t('phone'),
+      key: 'phone',
+      editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
+    },
+    {
+      title: t('work-phone'),
+      key: 'workPhone',
+      editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
+    },
   ];
   return (
     <>
