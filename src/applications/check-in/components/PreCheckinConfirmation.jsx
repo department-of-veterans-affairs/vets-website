@@ -56,7 +56,7 @@ const PreCheckinConfirmation = props => {
         <h3 data-testid="appointment-questions">
           {t('what-if-i-have-questions-about-my-appointment')}
         </h3>
-        <p>{t('call-your-va-health-care-team')}</p>
+        <p>{t('call-your-va-health-care-team')}:</p>
         {appointments.map((appointment, index) => {
           return (
             <p key={index}>
