@@ -43,16 +43,16 @@ const ConfirmablePage = ({
                 {isEditEnabled &&
                   field.editAction && (
                     <div>
-                      <button
+                      <a
+                        href={`#edit-${field.key}`}
                         // eslint-disable-next-line react/jsx-no-bind
                         onClick={() =>
                           editHandler({ ...field, value: data[field.key] })
                         }
-                        type="button"
                         data-testid="edit-button"
                       >
                         Edit
-                      </button>
+                      </a>
                     </div>
                   )}
               </dd>
