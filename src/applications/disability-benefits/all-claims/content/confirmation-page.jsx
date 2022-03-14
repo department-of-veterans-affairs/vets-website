@@ -1,8 +1,6 @@
 import React from 'react';
 
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import DownloadPDF from '../components/DownloadPDF';
 import { capitalizeEachWord, formatDate } from '../utils';
@@ -10,7 +8,7 @@ import {
   successMessage,
   checkLaterMessage,
   errorMessage,
-} from '../content/confirmation-poll';
+} from './confirmation-poll';
 
 import { NULL_CONDITION_STRING } from '../constants';
 
@@ -102,8 +100,9 @@ const template = (props, title, content, submissionMessage, messageType) => {
           </li>
         </ul>
         <button
+          type="button"
           className="usa-button screen-only"
-          onClick={() => window.print()}
+          onClick={window.print}
         >
           Print for your records
         </button>
@@ -137,7 +136,7 @@ const template = (props, title, content, submissionMessage, messageType) => {
           You can check the status of your claim online. Please allow 24 hours
           for your disability claim to show up there. If you don’t see your
           disability claim online after 24 hours, please call Veterans Benefits
-          Assistance at <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday
+          Assistance at <va-telephone contact={CONTACTS.VA_BENEFITS} />, Monday
           through Friday, 8:00 a.m. to 9:00 p.m. ET.
         </p>
         <p>
@@ -240,7 +239,7 @@ export const retryableErrorContent = props =>
           If you don’t see your disability claim online after 24 hours,
         </strong>{' '}
         please call Veterans Benefits Assistance at{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
+        <va-telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
         8:00 a.m. to 9:00 p.m. ET and provide this reference number{' '}
         {props.jobId}.
       </p>
@@ -271,8 +270,8 @@ export const submitErrorContent = props => {
       <ul className="vads-u-font-size--base">
         <li>
           Please call Veterans Benefits Assistance at{' '}
-          <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
-          8:00 a.m. to 9:00 p.m. ET
+          <va-telephone contact={CONTACTS.VA_BENEFITS} />, Monday through
+          Friday, 8:00 a.m. to 9:00 p.m. ET
           {submissionIdContent}, <strong>or</strong>
         </li>
         <li>
