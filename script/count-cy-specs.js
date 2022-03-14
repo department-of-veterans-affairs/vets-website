@@ -20,12 +20,13 @@ const countCySpecs = () => {
 };
 
 const specHasSkip = contents => {
-  const regEx = /\.skip\(/;
+  const regEx1 = /\.skip\(/;
+  const regEx2 = /skip:(\s)*Cypress\.env\('CI'\)/;
   const lines = contents.toString().split('\n');
   const result = [];
 
   lines.forEach(line => {
-    if (line && line.search(regEx) >= 0) {
+    if (line && (line.search(regEx1) >= 0 || line.search(regEx2) >= 0)) {
       result.push(line);
     }
   });
