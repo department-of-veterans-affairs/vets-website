@@ -68,7 +68,11 @@ const DetailPage = ({ match }) => {
       </p>
       <Alert type={alert} copay={selectedCopay} />
       <va-on-this-page className="vads-u-margin-top--0" />
-      {showHTMLStatements ? <HTMLStatementList /> : <PDFStatementList />}
+      {showHTMLStatements ? (
+        <HTMLStatementList selectedId={selectedId} />
+      ) : (
+        <PDFStatementList />
+      )}
       <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />
       <FinancialHelp />
       <DisputeCharges />
