@@ -1,12 +1,10 @@
 import * as Sentry from '@sentry/browser';
 
+import { ADDRESS_POU, FIELD_NAMES } from '@@vap-svc/constants';
+import { showAddressValidationModal, inferAddressType } from '@@vap-svc/util';
 import { apiRequest } from '~/platform/utilities/api';
 import { refreshProfile } from '~/platform/user/profile/actions';
 import recordEvent from '~/platform/monitoring/record-event';
-
-import { ADDRESS_POU, FIELD_NAMES } from '@@vap-svc/constants';
-
-import { showAddressValidationModal, inferAddressType } from '@@vap-svc/util';
 
 import localVAProfileService, {
   isVAProfileServiceConfigured,
@@ -179,6 +177,8 @@ export function createTransaction(
       const transaction = isVAProfileServiceConfigured()
         ? await apiRequest(route, options)
         : await localVAProfileService.createTransaction();
+
+      // const transaction = await apiRequest(route, options);
 
       if (transaction?.errors) {
         const error = new Error('There was a transaction error');
