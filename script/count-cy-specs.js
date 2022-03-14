@@ -4,7 +4,7 @@ const glob = require('glob');
 const path = require('path');
 
 let allCySpecs = [];
-let skippedCySpecs = [];
+let cySpecsWithSkips = [];
 
 const countCySpecs = () => {
   return new Promise((resolve, reject) => {
@@ -38,7 +38,7 @@ const specHasSkip = contents => {
 };
 
 const countSkippedSpecs = files => {
-  const skippedFiles = [];
+  const filesWithSkips = [];
   const cwd = process.cwd();
 
   return new Promise((resolve, reject) => {
@@ -48,14 +48,14 @@ const countSkippedSpecs = files => {
         const contents = fs.readFileSync(currFilePath, { encoding: 'utf8' });
 
         if (specHasSkip(contents)) {
-          skippedFiles.push(f);
+          filesWithSkips.push(f);
         }
       });
     } catch (error) {
       reject(error);
     }
 
-    resolve(skippedFiles);
+    resolve(filesWithSkips);
   });
 };
 
@@ -66,17 +66,16 @@ countCySpecs().then(
     console.info('---------------------------------\n');
 
     countSkippedSpecs(allFiles).then(
-      skippedFiles => {
-        skippedCySpecs = skippedFiles;
-        console.info('skippedSpecs:', skippedCySpecs);
+      filesWithSkips => {
+        cySpecsWithSkips = filesWithSkips;
+        console.info('specsWithSkips:', cySpecsWithSkips);
         console.info('=================================\n');
-        console.info(`All specs total: ${allCySpecs.length}`);
-        console.info(`Skipped specs total: ${skippedCySpecs.length}`);
+        console.info(`CYPRESS SPECS TOTAL: ${allCySpecs.length}`);
         console.info(
-          `Percentage skipped: ${(
-            (skippedCySpecs.length / allCySpecs.length) *
+          `Specs w/ skips: ${cySpecsWithSkips.length} (${(
+            (cySpecsWithSkips.length / allCySpecs.length) *
             100
-          ).toFixed(2)}%`,
+          ).toFixed(2)}%)`,
         );
       },
       error => {
