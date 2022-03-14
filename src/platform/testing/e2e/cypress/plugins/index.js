@@ -1,7 +1,5 @@
 const fs = require('fs');
-const webpackPreprocessor = require('@cypress/webpack-preprocessor');
 const { table } = require('table');
-const { DefinePlugin, ProvidePlugin } = require('webpack');
 const path = require('path');
 const fetch = require('node-fetch');
 const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
@@ -16,10 +14,6 @@ const tableConfig = {
 module.exports = async (on, config) => {
   require('@cypress/code-coverage/task')(on, config);
   on('file:preprocessor', require('@cypress/code-coverage/use-babelrc'));
-
-  const ENV = 'localhost';
-  const publicPath = '/generated/';
-  let outputOptions = {};
 
   let appRegistry;
   if (fs.existsSync('../content-build/src/applications/registry.json')) {
