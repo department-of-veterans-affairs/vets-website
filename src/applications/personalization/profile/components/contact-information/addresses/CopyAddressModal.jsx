@@ -32,6 +32,7 @@ const CopyAddressModal = props => {
         },
         text: 'No',
       }}
+      id="copy-address-modal"
     >
       <>
         <p data-testid="modal-content">
@@ -40,7 +41,7 @@ const CopyAddressModal = props => {
             <AddressView data={mainAddress} />
           </span>
         </p>
-        <p className="vads-u-background-color--primary-alt-lightest vads-u-padding--1p5">
+        <va-featured-content>
           We have this mailing address on file for you:
           <span className="vads-u-font-weight--bold vads-u-display--block vads-u-margin-y--1p5">
             <AddressView data={addressToUpdate} />
@@ -49,7 +50,7 @@ const CopyAddressModal = props => {
           <span className="vads-u-font-weight--bold vads-u-display--block vads-u-margin-y--1p5">
             <AddressView data={mainAddress} />
           </span>
-        </p>
+        </va-featured-content>
         <button type="button" onClick={() => setUpdateStatus('failure')}>
           Trigger Mailing Address Failure
         </button>
@@ -85,7 +86,6 @@ const CopyAddressModal = props => {
       title="We've updated your mailing address"
       visible={updateStatus === 'success'}
       onClose={onClose}
-      status="success"
       primaryButton={{
         action: () => {
           setUpdateStatus(null);
@@ -115,9 +115,11 @@ const CopyAddressModal = props => {
 };
 
 CopyAddressModal.propTypes = {
+  addressToUpdate: PropTypes.object.isRequired,
   isVisible: PropTypes.bool.isRequired,
-  onYes: PropTypes.func.isRequired,
+  mainAddress: PropTypes.object.isRequired,
   onNo: PropTypes.func.isRequired,
+  onYes: PropTypes.func.isRequired,
 };
 
 export default CopyAddressModal;
