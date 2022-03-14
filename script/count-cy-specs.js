@@ -2,6 +2,7 @@
 const fs = require('fs');
 const glob = require('glob');
 const path = require('path');
+const { Spinner } = require('cli-spinner');
 
 let allCySpecs = [];
 let cySpecsWithSkips = [];
@@ -60,15 +61,22 @@ const countSkippedSpecs = files => {
   });
 };
 
+const spinner = new Spinner('%s Counting...');
+spinner.setSpinnerString(18);
+spinner.start();
+
 countCySpecs().then(
   allFiles => {
     allCySpecs = allFiles;
+    spinner.stop(true);
     console.info('allCySpecs:', allCySpecs);
     console.info('---------------------------------\n');
+    spinner.start();
 
     countSkippedSpecs(allFiles).then(
       filesWithSkips => {
         cySpecsWithSkips = filesWithSkips;
+        spinner.stop(true);
         console.info('specsWithSkips:', cySpecsWithSkips);
         console.info('=================================\n');
         console.info(`CYPRESS SPECS TOTAL: ${allCySpecs.length}`);
