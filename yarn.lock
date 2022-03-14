@@ -2890,7 +2890,7 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
     
- "@bahmutov/cypress-esbuild-preprocessor@^2.1.2":
+"@bahmutov/cypress-esbuild-preprocessor@^2.1.2":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@bahmutov/cypress-esbuild-preprocessor/-/cypress-esbuild-preprocessor-2.1.2.tgz#2bd2176da2e15b0db5511cd95c48df3a31102e2e"
   integrity sha512-ZLIPvDwM1e6GiS6Cy8OiPz2tDmVa4++2DBNh3NB1rsjABumIKPRqVczIb4ynhRxpOwLDVxwN/c0nrEOaFAPodw==
