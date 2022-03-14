@@ -11,7 +11,6 @@ import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
 import Modals from '../components/Modals';
 import Alert from '../components/Alerts';
-import { OnThisPage } from '../components/OnThisPage';
 import {
   formatDate,
   verifyCurrentBalance,
@@ -68,7 +67,7 @@ const DetailPage = ({ match }) => {
         </time>
       </p>
       <Alert type={alert} copay={selectedCopay} />
-      <OnThisPage />
+      <va-on-this-page className="vads-u-margin-top--0" />
       {showHTMLStatements ? <HTMLStatementList /> : <PDFStatementList />}
       <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />
       <FinancialHelp />
