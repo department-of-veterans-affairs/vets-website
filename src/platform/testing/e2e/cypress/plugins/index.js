@@ -1,6 +1,6 @@
 const fs = require('fs');
-const path = require('path');
 const { table } = require('table');
+const path = require('path');
 const fetch = require('node-fetch');
 const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
 
@@ -11,7 +11,10 @@ const tableConfig = {
   },
 };
 
-module.exports = async on => {
+module.exports = async (on, config) => {
+  require('@cypress/code-coverage/task')(on, config);
+  on('file:preprocessor', require('@cypress/code-coverage/use-babelrc'));
+
   let appRegistry;
   if (fs.existsSync('../content-build/src/applications/registry.json')) {
     // eslint-disable-next-line import/no-unresolved
@@ -112,4 +115,6 @@ module.exports = async on => {
     table: message => console.log(table(message, tableConfig)) || null,
     /* eslint-enable no-console */
   });
+
+  return config;
 };
