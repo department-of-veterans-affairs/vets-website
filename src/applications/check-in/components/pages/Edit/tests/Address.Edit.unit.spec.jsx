@@ -1,12 +1,35 @@
 import React from 'react';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import configureStore from 'redux-mock-store';
+import { Provider } from 'react-redux';
 import Address from '../Address';
 
 describe('pre-check-in experience', () => {
   describe('Edit pages', () => {
     describe('Address', () => {
+      let store;
+      beforeEach(() => {
+        const middleware = [];
+        const mockStore = configureStore(middleware);
+        const initState = {
+          checkInData: {
+            context: {
+              token: '',
+              editing: {
+                value: '',
+              },
+            },
+            form: {},
+          },
+        };
+        store = mockStore(initState);
+      });
       it('passes axeCheck', () => {
-        axeCheck(<Address />);
+        axeCheck(
+          <Provider store={store}>
+            <Address />
+          </Provider>,
+        );
       });
     });
   });
