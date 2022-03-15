@@ -19,7 +19,6 @@ import {
 import { getRequestMessages } from '../../services/var';
 
 import {
-  getCommunityProvider,
   getLocation,
   getLocations,
   getLocationSettings,
@@ -514,13 +513,14 @@ export function fetchRequestDetails(id) {
           captureError(e);
         }
       }
-      if (featureVAOSServiceRequests && request.practitioners?.length) {
-        request.preferredCommunityCareProviders = [
-          await getCommunityProvider(
-            request.practitioners[0].identifier[0].value,
-          ),
-        ];
-      }
+      // No longer need this facilities call, deprecated endpoint
+      // if (featureVAOSServiceRequests && request.practitioners?.length) {
+      //   request.preferredCommunityCareProviders = [
+      //     await getCommunityProvider(
+      //       request.practitioners[0].identifier[0].value,
+      //     ),
+      //   ];
+      // }
 
       dispatch({
         type: FETCH_REQUEST_DETAILS_SUCCEEDED,
