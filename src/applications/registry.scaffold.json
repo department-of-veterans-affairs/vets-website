@@ -5,6 +5,11 @@
     "widgetType": "disability-rating-calculator"
   },
   {
+    "appName": "Check Home Loans COE Statsus",
+    "rootUrl": "/housing-assistance/home-loans/check-coe-status",
+    "widgetType": "home-loan-coe-login-widget"
+  },
+  {
     "appName": "Coronavirus Chatbot",
     "rootUrl": "/coronavirus-chatbot",
     "widgetType": "va-coronavirus-chatbot",

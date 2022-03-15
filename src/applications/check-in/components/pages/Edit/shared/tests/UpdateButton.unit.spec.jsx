@@ -28,12 +28,21 @@ describe('pre-check-in experience', () => {
             backPage="foo"
             clearData={clearData}
             handleUpdate={handleUpdate}
+            isUpdatable
           />,
         );
         fireEvent.click(getByText('Update'));
         expect(jumpToPage.calledWith('foo')).to.be.true;
         expect(clearData.called).to.be.true;
         expect(handleUpdate.called).to.be.true;
+      });
+      it('button is disabled if isUpdatable is false', () => {
+        const { getByText } = render(<UpdateButton isUpdatable={false} />);
+        expect(getByText('Update')).to.have.attribute('disabled');
+      });
+      it('button is enabled if isUpdatable is true', () => {
+        const { getByText } = render(<UpdateButton isUpdatable />);
+        expect(getByText('Update')).to.not.have.attribute('disabled');
       });
     });
   });

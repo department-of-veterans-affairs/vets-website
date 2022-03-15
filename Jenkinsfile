@@ -9,13 +9,6 @@ node('vetsgov-general-purpose') {
                                        defaultValue: true,
                                        description: "Hack to cancel the run triggered by webhook")])]);
 
-  stage('Cancel') {
-    if (params.cancelBuild) {
-      currentBuild.result = 'ABORTED'
-      error("Aborting run triggered by webhook. Please wait for the run triggered by the GitHub Actions workflow.");
-    }
-  }
-
   // Checkout vets-website code
   dir("vets-website") {
     checkout scm

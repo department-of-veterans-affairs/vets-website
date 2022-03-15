@@ -608,7 +608,10 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       ],
       preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
       preferredLanguage: 'English',
-      preferredLocation: { city: 'Cincinnati', state: 'OH' },
+      preferredLocation: {
+        city: 'Cincinnati',
+        state: 'OH',
+      },
       practitioners: [
         {
           identifier: [
@@ -617,6 +620,12 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
               value: 'ppmsid',
             },
           ],
+          address: {
+            line: ['1012 14TH ST NW STE 700'],
+            city: 'WASHINGTON',
+            state: 'DC',
+            postalCode: '20005-3477',
+          },
         },
       ],
     });

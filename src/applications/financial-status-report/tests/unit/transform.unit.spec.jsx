@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import moment from 'moment';
 import { transform } from '../../utils/transform';
 import inputObject from './unit-maximal.json';
 import {
@@ -1090,17 +1091,14 @@ describe('fsr transform information', () => {
         'veteranDateSigned',
       );
     });
-    it.skip('has valid data', () => {
+    it('has valid data', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj.applicantCertifications.veteranSignature).to.equal(
         'Greg A Anderson',
       );
       expect(submissionObj.applicantCertifications.veteranDateSigned).to.equal(
-        '03/09/2022',
+        moment().format('MM/DD/YYYY'),
       );
     });
   });
 });
-
-// yarn test:unit --app-folder financial-status-report --log-level=error
-// yarn test:unit src/applications/financial-status-report/tests/unit/transform.unit.spec.jsx

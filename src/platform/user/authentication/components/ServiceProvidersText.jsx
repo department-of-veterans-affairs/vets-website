@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { loginGov } from 'platform/user/authentication/selectors';
+import { loginGovDisabled } from 'platform/user/authentication/selectors';
 
 const initialCSPState = ['ID.me', 'DS Logon', 'My HealtheVet'];
 
 const ServiceProviders = React.memo(({ isBold }) => {
   const [serviceProviders, setCSPs] = useState(initialCSPState);
-  const loginGovEnabled = useSelector(state => loginGov(state));
+  const loginGovOff = useSelector(state => loginGovDisabled(state));
 
   useEffect(
     () => {
-      if (loginGovEnabled) {
+      if (!loginGovOff) {
         setCSPs(['Login.gov', ...initialCSPState]);
       }
     },
-    [loginGovEnabled],
+    [!loginGovOff],
   );
 
   return serviceProviders.map((csp, i) => {
@@ -37,12 +37,12 @@ const ServiceProviders = React.memo(({ isBold }) => {
 
 export const ServiceProvidersTextCreateAcct = React.memo(
   ({ isFormBased = false, hasExtraTodo = false }) => {
-    const loginGovEnabled = useSelector(state => loginGov(state));
+    const loginGovOff = useSelector(state => loginGovDisabled(state));
 
     const isFormComponent = isFormBased
       ? 'completed this form without signing in, and you '
       : null;
-    const showLoginGov = loginGovEnabled ? (
+    const showLoginGov = !loginGovOff ? (
       <>
         <strong>Login.gov</strong> or{' '}
       </>
