@@ -98,7 +98,9 @@ const formFields = {
   incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
   loanPayment: 'loanPayment',
   mobilePhoneNumber: 'mobilePhoneNumber',
+  mobilePhoneNumberInternational: 'mobilePhoneNumberInternational',
   phoneNumber: 'phoneNumber',
+  phoneNumberInternational: 'phoneNumberInternational',
   relationshipToServiceMember: 'relationshipToServiceMember',
   receiveTextMessages: 'receiveTextMessages',
   routingNumber: 'routingNumber',
@@ -193,44 +195,37 @@ function isOnlyWhitespace(str) {
   return str && !str.trim().length;
 }
 
-function startPhoneEditValidation({ phone }) {
-  if (!phone) {
-    return true;
-  }
-  return validatePhone(phone);
-}
+// function startPhoneEditValidation({ phone }) {
+//   if (!phone) {
+//     return true;
+//   }
+//   return validatePhone(phone);
+// }
 
 function titleCase(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
 
-function phoneUISchema(category) {
+function phoneUISchema(category, parent, international) {
   return {
-    'ui:options': {
-      hideLabelText: true,
-      showFieldLabel: false,
-      startInEdit: formData => startPhoneEditValidation(formData),
-      viewComponent: PhoneViewField,
+    [parent]: {
+      'ui:options': {
+        hideLabelText: true,
+        showFieldLabel: false,
+        // startInEdit: formData => startPhoneEditValidation(formData),
+        viewComponent: PhoneViewField,
+      },
+      'ui:objectViewField': PhoneReviewField,
+      phone: {
+        ...phoneUI(`${titleCase(category)} phone number`),
+        'ui:validations': [validatePhone],
+      },
     },
-    'ui:objectViewField': PhoneReviewField,
-    phone: {
-      ...phoneUI(`${titleCase(category)} phone number`),
-      'ui:validations': [validatePhone],
-    },
-    isInternational: {
+    [international]: {
       'ui:title': `This ${category} phone number is international`,
       'ui:reviewField': YesNoReviewField,
       'ui:options': {
-        hideIf: formData => {
-          if (category === 'mobile') {
-            if (!formData['view:phoneNumbers'].mobilePhoneNumber.phone) {
-              return true;
-            }
-          } else if (!formData['view:phoneNumbers'].phoneNumber.phone) {
-            return true;
-          }
-          return false;
-        },
+        expandUnder: parent,
       },
     },
   };
@@ -243,9 +238,6 @@ function phoneSchema() {
       phone: {
         ...usaPhone,
         pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
-      },
-      isInternational: {
-        type: 'boolean',
       },
     },
   };
@@ -750,7 +742,6 @@ const formConfig = {
             },
           },
         },
-
         [formPages.sponsorHighSchool]: {
           title: 'Verify your high school education',
           path: 'sponsor/high-school-education',
@@ -785,6 +776,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: [formFields.highSchoolDiplomaDate],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -839,17 +831,25 @@ const formConfig = {
             [formFields.viewPhoneNumbers]: {
               'ui:description': (
                 <>
-                  <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
+                  <h4 className="form-review-panel-page-header vads-u-font-size--h5 toe-review-page-only">
                     Phone numbers and email addresss
                   </h4>
-                  <p className="meb-review-page-only">
+                  <p className="toe-review-page-only">
                     If you’d like to update your phone numbers and email
                     address, please edit the form fields below.
                   </p>
                 </>
               ),
-              [formFields.mobilePhoneNumber]: phoneUISchema('mobile'),
-              [formFields.phoneNumber]: phoneUISchema('home'),
+              ...phoneUISchema(
+                'mobile',
+                formFields.mobilePhoneNumber,
+                formFields.mobilePhoneNumberInternational,
+              ),
+              ...phoneUISchema(
+                'home',
+                formFields.phoneNumber,
+                formFields.phoneNumberInternational,
+              ),
             },
             [formFields.email]: {
               'ui:options': {
@@ -891,7 +891,13 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   [formFields.mobilePhoneNumber]: phoneSchema(),
+                  [formFields.mobilePhoneNumberInternational]: {
+                    type: 'boolean',
+                  },
                   [formFields.phoneNumber]: phoneSchema(),
+                  [formFields.phoneNumberInternational]: {
+                    type: 'boolean',
+                  },
                 },
               },
               [formFields.email]: {

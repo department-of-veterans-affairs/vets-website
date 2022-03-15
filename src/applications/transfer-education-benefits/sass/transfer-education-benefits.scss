@@ -36,3 +36,11 @@ va-alert ul {
 .toe-definition-list_definition {
 	margin-left: 1em;
 }
+
+// Review Page
+.toe-review-page-only {
+	display: none;
+}
+.form-review-panel-page .toe-review-page-only {
+	display: block;
+}
