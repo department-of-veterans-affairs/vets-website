@@ -20,6 +20,12 @@ const mockFile = (componentName, snippet) => {
   `;
 };
 
+const mockFileBindingsImport = (componentName, snippet) => {
+  return `import { ${componentName} } from 'web-components/react-bindings';
+  ${snippet}
+  `;
+};
+
 ruleTester.run('prefer-web-component-library', rule, {
   // This rule should not trigger on application components, only React components
   // from the `component-library`
@@ -298,8 +304,8 @@ ruleTester.run('prefer-web-component-library', rule, {
           suggestions: [
             {
               desc: 'Migrate component',
-              output: mockFile(
-                'Pagination',
+              output: mockFileBindingsImport(
+                'VaPagination',
                 'const PaginationSample = () => (<VaPagination onPageSelect={handlePageSelect} page="3" pages="50" />)',
               ),
             },

@@ -163,6 +163,17 @@ const modalTransformer = (context, node) => {
 
 const paginationTransformer = (context, node) => {
   const componentName = node.openingElement.name;
+  const importNode = context
+    .getAncestors()[0]
+    .body.find(
+      node =>
+        node.type === 'ImportDeclaration' &&
+        node.source.value.includes(
+          `@department-of-veterans-affairs/component-library/${
+            componentName.name
+          }`,
+        ),
+    );
 
   context.report({
     node,
@@ -177,11 +188,23 @@ const paginationTransformer = (context, node) => {
       {
         desc: 'Migrate component',
         fix: fixer => {
-          // Rename component name Pagination to VaPagination
-          // We are using bindings because onPageSelect is an event
-          return [fixer.replaceText(componentName, 'VaPagination')].filter(
-            i => !!i,
-          );
+          return [
+            // Replace import name with bindings
+            fixer.replaceText(
+              importNode.specifiers[0].local,
+              `{ VaPagination }`,
+            ),
+
+            // Update import path to react-bindings
+            fixer.replaceText(
+              importNode.source,
+              `'web-components/react-bindings'`,
+            ),
+
+            // Rename component name Pagination to VaPagination
+            // We are using bindings because onPageSelect is an event
+            fixer.replaceText(componentName, 'VaPagination'),
+          ].filter(i => !!i);
         },
       },
     ],
