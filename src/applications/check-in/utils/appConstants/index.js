@@ -9,7 +9,7 @@ const EDITING_PAGE_NAMES = Object.freeze({
   EMERGENCY_CONTACT: 'emergencyContact',
 });
 
-const getLabelForPhoneOrAddress = (
+const getLabelForEditField = (
   field,
   options = { capitalizeFirstLetter: false },
 ) => {
@@ -38,4 +38,4 @@ const getLabelForPhoneOrAddress = (
   return rv;
 };
 
-export { APP_NAMES, EDITING_PAGE_NAMES, getLabelForPhoneOrAddress };
+export { APP_NAMES, EDITING_PAGE_NAMES, getLabelForEditField };

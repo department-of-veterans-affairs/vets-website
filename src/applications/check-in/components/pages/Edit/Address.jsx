@@ -22,7 +22,7 @@ import Header from './shared/Header';
 import Footer from '../../Footer';
 import BackToHome from '../../BackToHome';
 
-import { getLabelForPhoneOrAddress } from '../../../utils/appConstants';
+import { getLabelForEditField } from '../../../utils/appConstants';
 
 export default function Address(props) {
   const { router } = props;
@@ -184,7 +184,7 @@ export default function Address(props) {
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 edit-address-page">
       <Header
-        what={getLabelForPhoneOrAddress(key)}
+        what={getLabelForEditField(key)}
         editingPage={editingPage}
         value={value}
       />
