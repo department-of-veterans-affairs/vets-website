@@ -9,7 +9,7 @@ const EDITING_PAGE_NAMES = Object.freeze({
   EMERGENCY_CONTACT: 'emergencyContact',
 });
 
-const getLabelForPhone = (
+const getLabelForPhoneOrAddress = (
   field,
   options = { capitalizeFirstLetter: false },
 ) => {
@@ -23,10 +23,19 @@ const getLabelForPhone = (
   if (field === 'workPhone') {
     rv = 'work phone';
   }
+  if (field === 'address') {
+    rv = 'address';
+  }
+  if (field === 'homeAddress') {
+    rv = 'home address';
+  }
+  if (field === 'mailingAddress') {
+    rv = 'mailing address';
+  }
   if (options.capitalizeFirstLetter) {
     rv = rv.charAt(0).toUpperCase() + rv.slice(1);
   }
   return rv;
 };
 
-export { APP_NAMES, EDITING_PAGE_NAMES, getLabelForPhone };
+export { APP_NAMES, EDITING_PAGE_NAMES, getLabelForPhoneOrAddress };

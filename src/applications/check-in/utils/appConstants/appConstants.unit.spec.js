@@ -1,33 +1,50 @@
 import { expect } from 'chai';
-import { getLabelForPhone } from './index';
+import { getLabelForPhoneOrAddress } from './index';
 
 describe('check in utils', () => {
-  describe('getLabelForPhone', () => {
+  describe('getLabelForPhoneOrAddress', () => {
     it('should return the default value of phone', () => {
       const expected = 'phone';
 
-      expect(getLabelForPhone()).to.equal(expected);
+      expect(getLabelForPhoneOrAddress()).to.equal(expected);
     });
     it('should return home phone', () => {
       const expected = 'home phone';
 
-      expect(getLabelForPhone('homePhone')).to.equal(expected);
+      expect(getLabelForPhoneOrAddress('homePhone')).to.equal(expected);
     });
     it('should return work phone', () => {
       const expected = 'work phone';
 
-      expect(getLabelForPhone('workPhone')).to.equal(expected);
+      expect(getLabelForPhoneOrAddress('workPhone')).to.equal(expected);
     });
     it('should return mobile phone', () => {
       const expected = 'mobile phone';
 
-      expect(getLabelForPhone('mobilePhone')).to.equal(expected);
+      expect(getLabelForPhoneOrAddress('mobilePhone')).to.equal(expected);
     });
-    it('should capitalize the first letter of the phone type', () => {
+    it('should return address', () => {
+      const expected = 'address';
+
+      expect(getLabelForPhoneOrAddress('address')).to.equal(expected);
+    });
+    it('should return home address', () => {
+      const expected = 'home address';
+
+      expect(getLabelForPhoneOrAddress('homeAddress')).to.equal(expected);
+    });
+    it('should return mailing address', () => {
+      const expected = 'mailing address';
+
+      expect(getLabelForPhoneOrAddress('mailingAddress')).to.equal(expected);
+    });
+    it('should capitalize the first letter of the label type', () => {
       const expected = 'Mobile phone';
 
       expect(
-        getLabelForPhone('mobilePhone', { capitalizeFirstLetter: true }),
+        getLabelForPhoneOrAddress('mobilePhone', {
+          capitalizeFirstLetter: true,
+        }),
       ).to.equal(expected);
     });
   });
