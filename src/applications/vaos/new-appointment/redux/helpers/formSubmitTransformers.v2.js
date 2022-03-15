@@ -29,6 +29,12 @@ export function transformFormToVAOSCCRequest(state) {
             )?.value,
           },
         ],
+        address: {
+          line: provider.address.line,
+          city: provider.address.city,
+          state: provider.address.state,
+          postalCode: provider.address.postalCode,
+        },
       },
     ];
   }
@@ -37,7 +43,7 @@ export function transformFormToVAOSCCRequest(state) {
 
   if (
     residentialAddress &&
-    residentialAddress.addressType !== 'MILITARY OVERSEAS'
+    residentialAddress.addressType !== 'OVERSEAS MILITARY'
   ) {
     preferredLocation = {
       city: residentialAddress.city,

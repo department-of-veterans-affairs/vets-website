@@ -29,12 +29,12 @@ describe('MyVA Dashboard - CTA Links', () => {
       );
       cy.intercept('GET', '/v0/messaging/health/folders/0', mockFolderResponse);
     });
-    it('should show the rx and messaging CTAs', () => {
+    it('should show the rx CTA amd unread messages alert', () => {
       cy.visit('my-va/');
       cy.findByRole('link', {
         name: /schedule and manage.*appointments/i,
       }).should('exist');
-      cy.findByRole('link', { name: /view your messages/i }).should('exist');
+      cy.findByTestId('unread-messages-alert').should('exist');
       cy.findByRole('link', {
         name: /refill and track.*prescriptions/i,
       }).should('exist');
@@ -61,12 +61,12 @@ describe('MyVA Dashboard - CTA Links', () => {
         enrollmentStatusEnrolled,
       );
     });
-    it('should not show the rx and messaging CTAs', () => {
+    it('should show the rx and messaging CTAs', () => {
       cy.visit('my-va/');
       cy.findByRole('link', {
         name: /schedule and manage.*appointments/i,
       }).should('exist');
-      cy.findByRole('link', { name: /send a.*message/i }).should('not.exist');
+      cy.findByRole('link', { name: /send a.*message/i }).should('exist');
       cy.findByRole('link', {
         name: /refill and track.*prescriptions/i,
       }).should('not.exist');

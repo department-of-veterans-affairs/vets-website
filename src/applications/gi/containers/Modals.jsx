@@ -548,7 +548,7 @@ export function Modals({ hideModal, modals, profile }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            "About this Tool"
+            "About this tool"
           </a>{' '}
           page.
         </p>
@@ -621,13 +621,11 @@ export function Modals({ hideModal, modals, profile }) {
           <p>
             To learn more, please review our "
             <a
-              href={
-                'http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#yellow_ribbon_from_school'
-              }
+              href="http://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#yellow_ribbon_from_school"
               target="_blank"
               rel="noopener noreferrer"
             >
-              About This Tool
+              About this tool
             </a>
             " page.
           </p>
@@ -836,16 +834,14 @@ export function Modals({ hideModal, modals, profile }) {
               <h3>VET TEC</h3>
             </strong>
           </div>
-          {
-            <p>
-              Veteran Employment Through Technology Education Courses (VET TEC)
-              is a 5-year pilot program that matches Veterans with high-tech
-              training providers. Veterans can start or advance their career in
-              the high-tech industry with a training program that’ll take
-              months—or just weeks—to complete. The pilot program started in
-              2019 and runs through March 31, 2024.
-            </p>
-          }
+          <p>
+            Veteran Employment Through Technology Education Courses (VET TEC) is
+            a 5-year pilot program that matches Veterans with high-tech training
+            providers. Veterans can start or advance their career in the
+            high-tech industry with a training program that’ll take months—or
+            just weeks—to complete. The pilot program started in 2019 and runs
+            through March 31, 2024.
+          </p>
           <p>
             <a
               href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/"
@@ -980,7 +976,7 @@ export function Modals({ hideModal, modals, profile }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            visit the About this Tool page
+            visit the About this tool page
           </a>
           .
         </p>

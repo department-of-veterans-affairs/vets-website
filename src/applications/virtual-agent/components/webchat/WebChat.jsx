@@ -68,8 +68,10 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
 
     if (name === 'submitSendBox') {
       recordEvent({
-        event: 'chatbot-resource-link-click',
-        'button-text': 'submitSendBox',
+        event: 'cta-button-click',
+        'button-type': 'default',
+        'button-click-label': 'submitSendBox',
+        'button-background-color': 'gray',
         time: new Date(),
       });
     }
