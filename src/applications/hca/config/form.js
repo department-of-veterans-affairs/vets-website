@@ -373,7 +373,6 @@ const formConfig = {
         medicaid: {
           path: 'insurance-information/medicaid',
           title: 'Medicaid coverage',
-          depends: notIsHighDisability,
           initialData: {},
           uiSchema: medicaid.uiSchema,
           schema: medicaid.schema,
