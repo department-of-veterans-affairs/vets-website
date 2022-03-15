@@ -15,6 +15,7 @@
     "build:webpack:dev": "yarn build:webpack --env buildtype=vagovdev",
     "build:webpack:local": "yarn build:webpack --env buildtype=localhost",
     "check-app-imports": "node script/check-cross-app-imports.js",
+    "cy:count": "node ./script/count-cy-specs",
     "cy:my-testrail-helper": "node ./script/cypress-testrail-helper",
     "cy:my-testrail-run": "cypress run --config-file config/my-cypress-testrail.json",
     "cy:open": "cypress open --config-file config/cypress.json",
