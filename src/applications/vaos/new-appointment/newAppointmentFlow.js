@@ -73,8 +73,6 @@ function isCovidVaccine(state) {
 }
 
 async function vaFacilityNext(state, dispatch) {
-  let eligibility = null;
-
   const location = getChosenFacilityInfo(state);
   const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
   const isCerner = isCernerLocation(location?.id, cernerSiteIds);
@@ -83,18 +81,16 @@ async function vaFacilityNext(state, dispatch) {
     return 'scheduleCerner';
   }
 
-  // Fetch eligibility if we haven't already
-  if (!eligibility) {
-    const siteId = getSiteIdFromFacilityId(location.id);
+  const siteId = getSiteIdFromFacilityId(location.id);
 
-    eligibility = await dispatch(
-      checkEligibility({
-        location,
-        siteId,
-        showModal: true,
-      }),
-    );
-  }
+  const eligibility = await dispatch(
+    checkEligibility({
+      location,
+      siteId,
+      showModal: true,
+    }),
+  );
+  // }
 
   if (eligibility.direct) {
     dispatch(startDirectScheduleFlow());

@@ -368,78 +368,21 @@ describe('VAOS newAppointmentFlow', () => {
             facilities: {
               '323': [
                 {
-                  resourceType: 'Location',
                   id: '983',
-                  vistaId: '983',
-                  name: 'Cheyenne VA Medical Center',
-                  identifier: [
-                    {
-                      system: 'http://med.va.gov/fhir/urn',
-                      value: 'urn:va:division:983:983',
-                    },
-                    {
-                      system: 'urn:oid:2.16.840.1.113883.6.233',
-                      value: '983',
-                    },
-                  ],
-                  telecom: [
-                    {
-                      system: 'phone',
-                      value: '307-778-7550',
-                    },
-                  ],
-                  position: {
-                    longitude: -104.786159,
-                    latitude: 41.148179,
-                  },
-                  address: {
-                    line: ['2360 East Pershing Boulevard'],
-                    city: 'Cheyenne',
-                    state: 'WY',
-                    postalCode: '82001-5356',
-                  },
                   legacyVAR: {
                     settings: {
                       '323': {
                         id: '323',
                         name: 'Primary Care',
-                        stopCodes: [
-                          {
-                            primary: '322',
-                          },
-                          {
-                            primary: '323',
-                          },
-                          {
-                            primary: '350',
-                          },
-                        ],
                         direct: {
-                          patientHistoryRequired: false,
-                          canCancel: true,
                           enabled: true,
                         },
                         request: {
-                          patientHistoryRequired: false,
-                          patientHistoryDuration: 0,
-                          submittedRequestLimit: 1,
-                          enterpriseSubmittedRequestLimit: 1,
-                          enabled: true,
+                          enabled: false,
                         },
                       },
                     },
-                    distanceFromResidentialAddress: 950.7,
                   },
-                },
-              ],
-            },
-            clinics: {
-              '983_323': [
-                {
-                  id: '983_308',
-                  stationId: '983',
-                  stationName: 'CHYSHR-Cheyenne VA Medical Center',
-                  serviceName: 'Green Team Clinic1',
                 },
               ],
             },
@@ -450,15 +393,10 @@ describe('VAOS newAppointmentFlow', () => {
           facilityId: '983',
           typeOfCareId: 'primaryCare',
           pastClinics: true,
-          requestPastVisits: true,
-          directPastVisits: true,
           limit: true,
           clinics: [
             {
               id: '983_308',
-              stationId: '983',
-              stationName: 'CHYSHR-Cheyenne VA Medical Center',
-              serviceName: 'Green Team Clinic1',
             },
           ],
         };
@@ -489,78 +427,17 @@ describe('VAOS newAppointmentFlow', () => {
             facilities: {
               '323': [
                 {
-                  resourceType: 'Location',
                   id: '983',
-                  vistaId: '983',
-                  name: 'Cheyenne VA Medical Center',
-                  identifier: [
-                    {
-                      system: 'http://med.va.gov/fhir/urn',
-                      value: 'urn:va:division:983:983',
-                    },
-                    {
-                      system: 'urn:oid:2.16.840.1.113883.6.233',
-                      value: '983',
-                    },
-                  ],
-                  telecom: [
-                    {
-                      system: 'phone',
-                      value: '307-778-7550',
-                    },
-                  ],
-                  position: {
-                    longitude: -104.786159,
-                    latitude: 41.148179,
-                  },
-                  address: {
-                    line: ['2360 East Pershing Boulevard'],
-                    city: 'Cheyenne',
-                    state: 'WY',
-                    postalCode: '82001-5356',
-                  },
                   legacyVAR: {
                     settings: {
                       '323': {
-                        id: '323',
-                        name: 'Primary Care',
-                        stopCodes: [
-                          {
-                            primary: '322',
-                          },
-                          {
-                            primary: '323',
-                          },
-                          {
-                            primary: '350',
-                          },
-                        ],
-                        direct: {
-                          patientHistoryRequired: false,
-                          canCancel: true,
-                          enabled: false,
-                        },
+                        direct: {},
                         request: {
-                          patientHistoryRequired: false,
-                          patientHistoryDuration: 0,
-                          submittedRequestLimit: 1,
-                          enterpriseSubmittedRequestLimit: 1,
                           enabled: true,
                         },
                       },
                     },
-                    distanceFromResidentialAddress: 950.7,
                   },
-                },
-              ],
-            },
-            clinics: {
-              '983_323': [
-                {
-                  id: '983_308',
-                  stationId: '983',
-                  stationName: 'CHYSHR-Cheyenne VA Medical Center',
-                  serviceName: 'Green Team Clinic1',
                 },
               ],
             },
@@ -570,9 +447,6 @@ describe('VAOS newAppointmentFlow', () => {
         const eligibility = {
           facilityId: '983',
           typeOfCareId: 'primaryCare',
-          pastClinics: true,
-          requestPastVisits: true,
-          directPastVisits: true,
           limit: true,
         };
 
