@@ -18,18 +18,37 @@ import {
 } from '../../../actions/edit';
 import CancelButton from './shared/CancelButton';
 import UpdateButton from './shared/UpdateButton';
+import Header from './shared/Header';
 import Footer from '../../Footer';
 import BackToHome from '../../BackToHome';
+
+import { getLabelForPhoneOrAddress } from '../../../utils/appConstants';
 
 export default function Address(props) {
   const { router } = props;
   const { jumpToPage } = useFormRouting(router);
   const selectEditContext = useMemo(makeSelectEditContext, []);
   const { editing } = useSelector(selectEditContext);
-  const { editingPage, originatingUrl, value } = editing;
+  const { editingPage, originatingUrl, value, key } = editing;
   const [addressValue, setAddressValue] = useState(value);
   const [baseOutsideUS, setBaseOutsideUS] = useState(false);
   const [outsideUS, setOutsideUS] = useState(false);
+
+  const [addressError, setAddressError] = useState({
+    city: null,
+    state: null,
+    zip: null,
+    street1: null,
+    province: null,
+    internationalPostalCode: null,
+  });
+
+  const isUpdatable = useMemo(
+    () => {
+      return !Object.values(addressError).some(val => val !== null);
+    },
+    [addressError],
+  );
 
   const dispatch = useDispatch();
   const clearEditContext = useCallback(
@@ -53,56 +72,122 @@ export default function Address(props) {
     scrollToTop('topScrollElement');
   }, []);
 
-  const onChange = useCallback(
+  const onBlur = useCallback(
     event => {
+      const fieldName = event.target.name;
+      const newValue = event.detail?.value || event.target.value;
+      if (event.target.required) {
+        if (!newValue) {
+          setAddressError(prevState => ({
+            ...prevState,
+            [fieldName]: `${event.target.label} is required`,
+          }));
+        } else if (
+          fieldName === 'zip' &&
+          (!newValue.match(/^[0-9]+$/) || newValue.length !== 5)
+        ) {
+          setAddressError(prevState => ({
+            ...prevState,
+            zip: 'Zip code must be 5 digits',
+          }));
+        } else {
+          setAddressError(prevState => ({
+            ...prevState,
+            [fieldName]: null,
+          }));
+        }
+      }
       setAddressValue(prevState => ({
         ...prevState,
-        [event.target.name]: event.detail.value,
+        [fieldName]: newValue,
       }));
     },
-    [setAddressValue],
+    [setAddressValue, setAddressError],
   );
-
+  const onChange = useCallback(
+    event => {
+      const fieldName = event.target.name;
+      const newValue = event.detail.value;
+      if (!isUpdatable) {
+        if (fieldName === 'zip') {
+          if (newValue && newValue.match(/^[0-9]+$/) && newValue.length === 5) {
+            setAddressError(prevState => ({
+              ...prevState,
+              zip: null,
+            }));
+          }
+        } else if (newValue) {
+          setAddressError(prevState => ({
+            ...prevState,
+            [fieldName]: null,
+          }));
+        }
+      }
+      setAddressValue(prevState => ({
+        ...prevState,
+        [fieldName]: newValue,
+      }));
+    },
+    [setAddressValue, setAddressError, addressError],
+  );
   const handleMilitaryBase = useCallback(
     () => {
       setBaseOutsideUS(!baseOutsideUS);
-      setAddressValue(prevState => ({ ...prevState, city: null, state: null }));
+      setAddressValue(prevState => ({ ...prevState, city: '', state: '' }));
+      setAddressError(prevState => ({
+        ...prevState,
+        city: 'City is required',
+        state: 'State is required',
+      }));
     },
-    [setBaseOutsideUS, setAddressValue, baseOutsideUS],
+    [setBaseOutsideUS, setAddressValue, setAddressError, baseOutsideUS],
   );
 
-  const handleCountryChange = useCallback(event => {
-    if (event.detail.value !== 'USA') {
-      setOutsideUS(true);
-      setAddressValue(prevState => ({
-        ...prevState,
-        country: event.detail.value,
-        state: null,
-      }));
-    } else {
-      setOutsideUS(false);
-      setAddressValue(prevState => ({
-        ...prevState,
-        country: 'USA',
-        province: null,
-      }));
-    }
-  }, []);
+  const handleCountryChange = useCallback(
+    event => {
+      if (event.detail.value !== 'USA') {
+        setOutsideUS(true);
+        setAddressValue(prevState => ({
+          ...prevState,
+          country: event.detail.value,
+          state: null,
+          zip: null,
+        }));
+        setAddressError(prevState => ({
+          ...prevState,
+          state: null,
+          zip: null,
+          province: 'State/Province/Region is required.',
+          internationalPostalCode: 'International postal code is required.',
+        }));
+      } else {
+        setOutsideUS(false);
+        setAddressValue(prevState => ({
+          ...prevState,
+          country: 'USA',
+          province: null,
+          internationalPostalCode: null,
+        }));
+        setAddressError(prevState => ({
+          ...prevState,
+          country: event.detail.value,
+          province: null,
+          internationalPostalCode: null,
+          state: 'State is required',
+          zip: 'Zip code is required',
+        }));
+      }
+    },
+    [setOutsideUS, setAddressValue, setAddressError],
+  );
 
-  let title = '';
-  switch (editingPage) {
-    case 'nextOfKin':
-      title = "Edit next of kin's address";
-      break;
-    case 'emergencyContact':
-      title = "Edit your contact's address";
-      break;
-    default:
-      title = 'Edit address';
-  }
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 edit-address-page">
-      <h1 data-testid="header">{title}</h1>
+      <Header
+        what={getLabelForPhoneOrAddress(key)}
+        editingPage={editingPage}
+        value={value}
+      />
       <VaCheckbox
         label="I live on a United States military base outside of the United States."
         onVaChange={handleMilitaryBase}
@@ -125,10 +210,13 @@ export default function Address(props) {
         </option>
       </VaSelect>
       <VaTextInput
+        error={addressError.street1}
         label="Street address"
         name="street1"
         value={addressValue.street1}
+        onVaBlur={onBlur}
         onVaChange={onChange}
+        required
       />
       <VaTextInput
         label="Street address line 2"
@@ -145,11 +233,11 @@ export default function Address(props) {
       {baseOutsideUS ? (
         <>
           <VaSelect
-            error={null}
+            error={addressError.city}
             label="APO/FPO/DPO"
             name="city"
             required
-            onVaSelect={onChange}
+            onVaSelect={onBlur}
             value={addressValue.city}
           >
             <option value="" />
@@ -164,11 +252,11 @@ export default function Address(props) {
             </option>
           </VaSelect>
           <VaSelect
-            error={null}
+            error={addressError.state}
             label="State"
             name="state"
             required
-            onVaSelect={onChange}
+            onVaSelect={onBlur}
             value={addressValue.state}
           >
             <option value="" />
@@ -180,26 +268,31 @@ export default function Address(props) {
       ) : (
         <>
           <VaTextInput
+            error={addressError.city}
             label="City"
             name="city"
             value={addressValue.city}
+            onBlur={onBlur}
             onVaChange={onChange}
             required
           />
           {outsideUS ? (
             <VaTextInput
+              error={addressError.province}
               label="State/Province/Region"
               name="province"
               value={addressValue.province}
               onVaChange={onChange}
+              onVaBlur={onBlur}
+              required
             />
           ) : (
             <VaSelect
-              error={null}
+              error={addressError.state}
               label="State"
               name="state"
               required
-              onVaSelect={onChange}
+              onVaSelect={onBlur}
               value={addressValue.state}
             >
               <option value="" />
@@ -216,22 +309,38 @@ export default function Address(props) {
           )}
         </>
       )}
+      {outsideUS ? (
+        <VaTextInput
+          error={addressError.internationalPostalCode}
+          label="International postal code"
+          name="internationalPostalCode"
+          value={addressValue.internationalPostalCode}
+          onVaBlur={onBlur}
+          onVaChange={onChange}
+          required
+          className="vads-u-margin-bottom--3"
+        />
+      ) : (
+        <VaTextInput
+          error={addressError.zip}
+          label="Zip code"
+          name="zip"
+          value={addressValue.zip}
+          onVaBlur={onBlur}
+          onVaChange={onChange}
+          required
+          className="vads-u-margin-bottom--3"
+          inputmode="numeric"
+          // maxLength="5"
+        />
+      )}
 
-      <VaTextInput
-        label={outsideUS ? 'International postal code' : 'Zip code'}
-        name={outsideUS ? 'internationalPostalCode' : 'zip'}
-        value={
-          outsideUS ? addressValue.internationalPostalCode : addressValue.zip
-        }
-        onVaChange={onChange}
-        required
-        className="vads-u-margin-bottom--3"
-      />
       <UpdateButton
         jumpToPage={jumpToPage}
         backPage={originatingUrl}
         clearData={clearEditContext}
         handleUpdate={handleUpdate}
+        isUpdatable={isUpdatable}
       />
       <CancelButton
         jumpToPage={jumpToPage}
