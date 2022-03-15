@@ -289,7 +289,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
         name: 'Preferred community care provider',
       }),
     ).to.be.ok;
-    expect(screen.getByText('Atlantic Medical Care')).to.be.ok;
+    expect(screen.getByText(/Atlantic Medical Care/)).to.be.ok;
 
     expect(
       screen.getByRole('heading', {
@@ -809,7 +809,12 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       id: '123',
       type: 'provider',
       attributes: {
-        address: {},
+        address: {
+          street: '123 Main Street',
+          city: 'Orlando',
+          state: 'FL',
+          zipCode: '32826',
+        },
         caresitePhone: null,
         name: 'Atlantic Medical Care',
         lat: null,
@@ -854,7 +859,9 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
         name: 'Preferred community care provider',
       }),
     ).to.be.ok;
-    expect(screen.getByText('Atlantic Medical Care')).to.be.ok;
+    expect(screen.getByText(/Atlantic Medical Care/)).to.be.ok;
+    expect(screen.getByText(/123 Main Street/)).to.be.ok;
+    expect(screen.getByText(/Orlando, FL 32826/)).to.be.ok;
 
     expect(
       screen.getByRole('heading', {

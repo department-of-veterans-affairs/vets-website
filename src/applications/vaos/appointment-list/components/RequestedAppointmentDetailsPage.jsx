@@ -171,6 +171,11 @@ export default function RequestedAppointmentDetailsPage() {
             <span>
               {provider.name ||
                 (provider.providerName || provider.practiceName)}
+              <br />
+              {provider.address?.line[0]}
+              <br />
+              {provider.address?.city}, {provider.address?.state}{' '}
+              {provider.address?.postalCode}
             </span>
           )}
           {!provider && <span>No provider selected</span>}
