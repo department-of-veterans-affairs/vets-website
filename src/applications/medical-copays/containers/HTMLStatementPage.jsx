@@ -34,8 +34,11 @@ const HTMLStatementPage = ({ match }) => {
         </a>
         <a href={`/balance-details/${selectedId}/statement-view`}>{title}</a>
       </va-breadcrumbs>
-      <h1 data-testid="detail-page-title">{title}</h1>
-      <p className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--5">
+      <h1 data-testid="statement-page-title">{title}</h1>
+      <p
+        className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--5"
+        data-testid="facility-name"
+      >
         {`${selectedCopay?.station.facilityName}`}
       </p>
       <Link
