@@ -162,7 +162,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.LAB_AND_TEST_RESULTS]: {
     id: CTA_WIDGET_TYPES.LAB_AND_TEST_RESULTS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
-      url: mhvUrl(authenticatedWithSSOe, 'web/myhealthevet/labs-tests'),
+      url: mhvUrl(authenticatedWithSSOe, 'labs-tests'),
       redirect: false,
     }),
     hasRequiredMhvAccount: accountLevel =>
