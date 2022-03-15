@@ -513,14 +513,6 @@ export function fetchRequestDetails(id) {
           captureError(e);
         }
       }
-      // No longer need this facilities call, deprecated endpoint
-      // if (featureVAOSServiceRequests && request.practitioners?.length) {
-      //   request.preferredCommunityCareProviders = [
-      //     await getCommunityProvider(
-      //       request.practitioners[0].identifier[0].value,
-      //     ),
-      //   ];
-      // }
 
       dispatch({
         type: FETCH_REQUEST_DETAILS_SUCCEEDED,
