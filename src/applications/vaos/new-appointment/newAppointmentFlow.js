@@ -90,7 +90,6 @@ async function vaFacilityNext(state, dispatch) {
       showModal: true,
     }),
   );
-  // }
 
   if (eligibility.direct) {
     dispatch(startDirectScheduleFlow());
