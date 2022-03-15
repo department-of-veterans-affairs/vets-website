@@ -1,5 +1,5 @@
 const MESSAGE =
-  '<{{ reactComponent }}> can be replaced by <{{ webComponent }}>';
+  '<{{ reactComponent }}> can be replaced by <{{ webComponent }}>.';
 
 const getPropNode = (node, propName) =>
   node.openingElement.attributes.find(n => n.name.name === propName);
