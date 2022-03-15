@@ -122,7 +122,6 @@ export function SearchPage({
                 </va-alert>
               </div>
             )}
-            {!error && !smallScreen && tabbedResults[tab]}
             {!error &&
               smallScreen && (
                 <div>
