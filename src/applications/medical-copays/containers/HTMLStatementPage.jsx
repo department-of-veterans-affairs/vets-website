@@ -5,7 +5,7 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Modals from '../components/Modals';
-import { OnThisPage } from '../components/OnThisPage';
+import StatementAddresses from '../components/StatementAddresses';
 
 const HTMLStatementPage = ({ match }) => {
   const selectedId = match.params.id;
@@ -51,10 +51,8 @@ const HTMLStatementPage = ({ match }) => {
         />
         <strong>Return to facility details</strong>
       </Link>
-      <OnThisPage />
-      <h2>Account Summary</h2>
-      <h2>Statement charges</h2>
-      <h2>Statement addresses</h2>
+      <va-on-this-page className="vads-u-margin-top--0" />
+      <StatementAddresses copay={selectedCopay} />
       <h2>What if I have questions about my statement?</h2>
       <Modals title="Notice of rights and responsibilities">
         <Modals.Rights />
