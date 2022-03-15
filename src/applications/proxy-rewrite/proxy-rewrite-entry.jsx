@@ -8,16 +8,16 @@ import bucketsContent from 'site/constants/buckets-content';
 import createCommonStore from 'platform/startup/store';
 import environment from 'platform/utilities/environment';
 import environments from 'site/constants/environments';
-import footerPartial from './partials/footer';
-import headerPartial from './partials/header';
-import redirectIfNecessary from './redirects';
 import startHeader from 'platform/site-wide/header';
 import startMegaMenuWidget from 'platform/site-wide/mega-menu';
 import startMobileMenuButton from 'platform/site-wide/mobile-menu-button';
 import startUserNavWidget from 'platform/site-wide/user-nav';
 import startVAFooter, { footerElemementId } from 'platform/site-wide/va-footer';
 import { addOverlayTriggers } from 'platform/site-wide/legacy/menu';
-import proxyWhitelist from './proxy-rewrite-whitelist.json';
+import redirectIfNecessary from './redirects';
+import headerPartial from './partials/header';
+import footerPartial from './partials/footer';
+import { proxyRewriteWhitelist as proxyWhitelist } from './proxy-rewrite-whitelist.json';
 
 function createMutationObserverCallback() {
   // Find native header, footer, etc based on page path
@@ -179,15 +179,13 @@ function getProxyRewriteCookieValue(
   return parseCookie(cookies).proxyRewrite;
 }
 
-function getMatchedWhitelistItem(
-  whitelist = proxyWhitelist.proxyRewriteWhitelist,
-) {
+function getMatchedWhitelistItem(whitelist = proxyWhitelist) {
   const { hostname, pathname } = window.location;
 
   return whitelist.find(
-    whitelistItem =>
-      whitelistItem.hostname === hostname &&
-      pathname.startsWith(whitelistItem.pathnameBeginning),
+    listItem =>
+      listItem.hostname === hostname &&
+      pathname.startsWith(listItem.pathnameBeginning),
   );
 }
 
