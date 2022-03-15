@@ -99,5 +99,10 @@
     "appName": "Mock SIP Form",
     "rootUrl": "/mock-sip-form",
     "entryName": "mock-sip-form"
+  },
+  {
+    "appName": "Connected Devices",
+    "rootUrl": "/health-care/connected-devices",
+    "entryName": "dhp-consent-flow"
   }
 ]
