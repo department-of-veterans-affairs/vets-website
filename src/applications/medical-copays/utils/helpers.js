@@ -7,6 +7,11 @@ import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/med
 export const mcpFeatureToggle = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.showMedicalCopays];
 
+export const mcpHtmlMedicalStatementsViewEnabled = state =>
+  toggleValues(state)[
+    FEATURE_FLAG_NAMES.medicalCopaysHtmlMedicalStatementsViewEnabled
+  ];
+
 export const currency = amount => {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',

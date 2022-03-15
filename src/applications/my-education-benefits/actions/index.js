@@ -106,13 +106,18 @@ const poll = ({
     });
 };
 
+function getNowDate() {
+  const date = new Date();
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+}
+
 export function fetchClaimStatus() {
   return async dispatch => {
     dispatch({ type: FETCH_CLAIM_STATUS });
     const timeoutResponse = {
       attributes: {
         claimStatus: CLAIM_STATUS_RESPONSE_IN_PROGRESS,
-        receivedDate: Date.now(),
+        receivedDate: getNowDate(),
       },
     };
 
