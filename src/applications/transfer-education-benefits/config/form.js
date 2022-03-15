@@ -934,7 +934,7 @@ const formConfig = {
                     information for other VA benefits, you can do that from your
                     profile.
                   </p>
-                  <p>
+                  <p className="vads-u-margin-bottom--4">
                     <a href="/profile/personal-information">
                       Go to your profile
                     </a>
@@ -945,10 +945,10 @@ const formConfig = {
             'view:mailingAddress': {
               'ui:description': (
                 <>
-                  <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
+                  <h4 className="form-review-panel-page-header vads-u-font-size--h5 toe-review-page-only">
                     Mailing address
                   </h4>
-                  <p className="meb-review-page-only">
+                  <p className="toe-review-page-only">
                     If you’d like to update your mailing address, please edit
                     the form fields below.
                   </p>
@@ -1048,7 +1048,7 @@ const formConfig = {
             'view:contactMethodIntro': {
               'ui:description': (
                 <>
-                  <h3 className="meb-form-page-only">
+                  <h3 className="toe-form-page-only">
                     Choose your contact method for follow-up questions
                   </h3>
                 </>
@@ -1089,7 +1089,7 @@ const formConfig = {
             'view:receiveTextMessages': {
               'ui:description': (
                 <>
-                  <div className="meb-form-page-only">
+                  <div className="toe-form-page-only">
                     <h3>Choose how you want to get notifications</h3>
                     <p>
                       We recommend that you opt in to text message notifications
@@ -1286,7 +1286,7 @@ const formConfig = {
             },
             'view:serviceHistory': {
               'ui:description': (
-                <div className="meb-review-page-only">
+                <div className="toe-review-page-only">
                   <p>
                     If you’d like to update information related to your service
                     history, edit the form fields below.
@@ -1376,7 +1376,7 @@ const formConfig = {
             },
             [formFields.viewBenefitSelection]: {
               'ui:description': (
-                <div className="meb-review-page-only">
+                <div className="toe-review-page-only">
                   <p>
                     If you’d like to update which benefit you’ll give up, please
                     edit your answers to the questions below.

@@ -1,16 +1,15 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 export default function LearnMoreAboutMilitaryBaseTooltip() {
   return (
-    <AdditionalInfo
-      onClick={function noRefCheck() {}}
-      triggerText="Learn more about military base addresses"
+    <va-additional-info
+      trigger="Learn more about military base addresses"
+      class="vads-u-margin-top--4"
     >
       <p>
         U.S. military bases are considered a domestic address and a part of the
         United States.
       </p>
-    </AdditionalInfo>
+    </va-additional-info>
   );
 }
