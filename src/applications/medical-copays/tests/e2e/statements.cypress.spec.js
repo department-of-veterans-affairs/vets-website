@@ -5,7 +5,7 @@
  * @testrailinfo groupId 3090
  * @testrailinfo runName MCP-e2e-Main
  */
-import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
+import mockFeatureToggles from './fixtures/mocks/statement-feature-toggles.json';
 import mockCopays from './fixtures/mocks/copays.json';
 import mockUser from './fixtures/mocks/mock-user.json';
 
