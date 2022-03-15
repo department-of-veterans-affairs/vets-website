@@ -115,6 +115,7 @@ ruleTester.run('prefer-web-component-library', rule, {
         },
       ],
     },
+
     {
       code: mockFile(
         'Telephone',
@@ -281,6 +282,25 @@ ruleTester.run('prefer-web-component-library', rule, {
               output: mockFile(
                 'Modal',
                 'const SampleModal = () => (<VaModal modalTitle="test" onCloseEvent={closeModal} primaryButton={primaryButton} secondaryButton={secondaryButton} >HELLO</VaModal>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Pagination',
+        'const PaginationSample = () => (<Pagination onPageSelect={handlePageSelect} page="3" pages="50" />)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'Pagination',
+                'const PaginationSample = () => (<VaPagination onPageSelect={handlePageSelect} page="3" pages="50" />)',
               ),
             },
           ],
