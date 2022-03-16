@@ -11,7 +11,7 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import dateUI from 'platform/forms-system/src/js/definitions/date';
+// import dateUI from 'platform/forms-system/src/js/definitions/date';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
@@ -32,7 +32,7 @@ import manifest from '../manifest.json';
 // import IntroductionPage from '../containers/IntroductionPage';
 import TOEIntroductionPage from '../containers/TOEIntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import toursOfDutyUI from '../definitions/toursOfDuty';
+// import toursOfDutyUI from '../definitions/toursOfDuty';
 // import CustomReviewDOBField from '../components/CustomReviewDOBField';
 // import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
 import EmailViewField from '../components/EmailViewField';
@@ -74,7 +74,7 @@ const {
   dateRange,
   usaPhone,
   email,
-  toursOfDuty,
+  // toursOfDuty,
 } = commonDefinitions;
 
 // Define all the fields in the form to aid reuse
@@ -127,57 +127,6 @@ const formPages = {
   },
   serviceHistory: 'serviceHistory',
   benefitSelection: 'benefitSelection',
-  additionalConsiderations: {
-    activeDutyKicker: {
-      name: 'active-duty-kicker',
-      order: 1,
-      title:
-        'Do you qualify for an active duty kicker, sometimes called a College Fund?',
-      additionalInfo: {
-        triggerText: 'What is an active duty kicker?',
-        info:
-          'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
-      },
-    },
-    reserveKicker: {
-      name: 'reserve-kicker',
-      order: 1,
-      title:
-        'Do you qualify for a reserve kicker, sometimes called a College Fund?',
-      additionalInfo: {
-        triggerText: 'What is a reserve kicker?',
-        info:
-          'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
-      },
-    },
-    militaryAcademy: {
-      name: 'academy-commission',
-      order: 2,
-      title:
-        'Did you graduate and receive a commission from the United States Military Academy, Naval Academy, Air Force Academy, or Coast Guard Academy?',
-    },
-    seniorRotc: {
-      name: 'rotc-commission',
-      order: 3,
-      title: 'Were you commissioned as a result of Senior ROTC?',
-      additionalInfo: {
-        triggerText: 'What is Senior ROTC?',
-        info:
-          'The Senior Reserve Officer Training Corps (SROTC)—more commonly referred to as the Reserve Officer Training Corps (ROTC)—is an officer training and scholarship program for postsecondary students authorized under Chapter 103 of Title 10 of the United States Code.',
-      },
-    },
-    loanPayment: {
-      name: 'loan-payment',
-      order: 4,
-      title:
-        'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
-      additionalInfo: {
-        triggerText: 'What does this mean?',
-        info:
-          "This is a Loan Repayment Program, which is a special incentive that certain military branches offer to qualified applicants. Under a Loan Repayment Program, the branch of service will repay part of an applicant's qualifying student loans.",
-      },
-    },
-  },
   directDeposit: 'directDeposit',
   sponsorInformation: 'sponsorInformation',
   sponsorHighSchool: 'sponsorHighSchool',
@@ -185,22 +134,10 @@ const formPages = {
 };
 
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
-// const benefits = [
-//   ELIGIBILITY.CHAPTER30,
-//   ELIGIBILITY.CHAPTER1606,
-//   'CannotRelinquish',
-// ];
 
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;
 }
-
-// function startPhoneEditValidation({ phone }) {
-//   if (!phone) {
-//     return true;
-//   }
-//   return validatePhone(phone);
-// }
 
 function titleCase(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
@@ -241,107 +178,6 @@ function phoneSchema() {
       },
     },
   };
-}
-
-function additionalConsiderationsQuestionTitleText(benefitSelection, order) {
-  const isUnsure = !benefitSelection || benefitSelection === 'CannotRelinquish';
-  const pageNumber = isUnsure ? order - 1 : order;
-  const totalPages = isUnsure ? 3 : 4;
-
-  return `Question ${pageNumber} of ${totalPages}`;
-}
-
-function additionalConsiderationsQuestionTitle(benefitSelection, order) {
-  const titleText = additionalConsiderationsQuestionTitleText(
-    benefitSelection,
-    order,
-  );
-
-  return (
-    <>
-      <h3 className="meb-additional-considerations-title meb-form-page-only">
-        {titleText}
-      </h3>
-      <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
-        {titleText}
-      </h4>
-      <p className="meb-review-page-only">
-        If you’d like to update your answer to {titleText}, edit your answer to
-        to the question below.
-      </p>
-    </>
-  );
-}
-
-function AdditionalConsiderationTemplate(page, formField) {
-  const { title, additionalInfo } = page;
-  const additionalInfoViewName = `view:${page.name}AdditionalInfo`;
-  let additionalInfoView;
-
-  if (additionalInfo) {
-    additionalInfoView = {
-      [additionalInfoViewName]: {
-        'ui:description': (
-          <va-additional-info trigger={additionalInfo.triggerText}>
-            <p>{additionalInfo.info}</p>
-          </va-additional-info>
-        ),
-      },
-    };
-  }
-
-  return {
-    path: page.name,
-    title: data => {
-      return additionalConsiderationsQuestionTitleText(
-        data[formFields.viewBenefitSelection][formFields.benefitRelinquished],
-        page.order,
-      );
-    },
-    uiSchema: {
-      'ui:description': data => {
-        return additionalConsiderationsQuestionTitle(
-          data.formData[formFields.viewBenefitSelection][
-            formFields.benefitRelinquished
-          ],
-          page.order,
-        );
-      },
-      [formFields[formField]]: {
-        'ui:title': title,
-        'ui:widget': 'radio',
-      },
-      [formFields[formField]]: {
-        'ui:title': title,
-        'ui:widget': 'radio',
-      },
-      ...additionalInfoView,
-    },
-    schema: {
-      type: 'object',
-      required: [formField],
-      properties: {
-        [formFields[formField]]: {
-          type: 'string',
-          enum: ['Yes', 'No'],
-        },
-        [additionalInfoViewName]: {
-          type: 'object',
-          properties: {},
-        },
-      },
-    },
-  };
-}
-
-function givingUpBenefitSelected(formData) {
-  return ['Chapter30', 'Chapter1606'].includes(
-    formData[formFields.viewBenefitSelection][formFields.benefitRelinquished],
-  );
-}
-
-function notGivingUpBenefitSelected(formData) {
-  return !givingUpBenefitSelected(formData);
 }
 
 // function transform(metaData, form) {
@@ -1252,328 +1088,6 @@ const formConfig = {
         },
       },
     },
-
-    serviceHistoryChapter: {
-      title: 'Service history',
-      pages: {
-        [formPages.serviceHistory]: {
-          path: 'service-history',
-          title: 'Service history',
-          uiSchema: {
-            'view:subHeading': {
-              'ui:description': <h3>Review your service history</h3>,
-            },
-            [formFields.toursOfDuty]: {
-              ...toursOfDutyUI,
-              // 'ui:field': AccordionField,
-              'ui:title': 'Service history',
-              'ui:options': {
-                ...toursOfDutyUI['ui:options'],
-                keepInPageOnReview: true,
-                reviewTitle: <></>,
-                setEditState: () => {
-                  return true;
-                },
-                showSave: false,
-                // viewField: ServicePeriodAccordionView,
-                // viewComponent: ServicePeriodAccordionView,
-                viewOnlyMode: true,
-              },
-              items: {
-                ...toursOfDutyUI.items,
-                // 'ui:objectViewField': ServicePeriodAccordionView,
-              },
-            },
-            'view:serviceHistory': {
-              'ui:description': (
-                <div className="toe-review-page-only">
-                  <p>
-                    If you’d like to update information related to your service
-                    history, edit the form fields below.
-                  </p>
-                </div>
-              ),
-              [formFields.serviceHistoryIncorrect]: {
-                'ui:title': 'This information is incorrect and/or incomplete',
-                // 'ui:reviewField': YesNoReviewField,
-              },
-            },
-            [formFields.incorrectServiceHistoryExplanation]: {
-              'ui:title':
-                'Please explain what is incorrect and/or incomplete about your service history (250 character limit)',
-              'ui:options': {
-                expandUnder: 'view:serviceHistory',
-                hideIf: formData =>
-                  !formData['view:serviceHistory'][
-                    formFields.serviceHistoryIncorrect
-                  ],
-              },
-              'ui:widget': 'textarea',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:subHeading': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.toursOfDuty]: {
-                ...toursOfDuty,
-                title: '', // Hack to prevent console warning
-              },
-              'view:serviceHistory': {
-                type: 'object',
-                properties: {
-                  [formFields.serviceHistoryIncorrect]: {
-                    type: 'boolean',
-                  },
-                },
-              },
-              [formFields.incorrectServiceHistoryExplanation]: {
-                type: 'string',
-                maxLength: 250,
-              },
-            },
-          },
-        },
-      },
-    },
-    benefitSelection: {
-      title: 'Benefit selection',
-      pages: {
-        [formPages.benefitSelection]: {
-          path: 'benefit-selection',
-          title: 'Benefit selection',
-          subTitle: "You're applying for the Post-9/11 GI Bill®",
-          depends: formData => formData.eligibility?.length,
-          uiSchema: {
-            'view:post911Notice': {
-              'ui:description': (
-                <>
-                  <h3>Give up one other benefit</h3>
-                  <p>
-                    Because you are applying for the Post-9/11 GI Bill, you have
-                    to give up one other benefit you may be eligible for.
-                  </p>
-                  <p>
-                    <strong>
-                      You cannot change your decision after you submit this
-                      application.
-                    </strong>
-                  </p>
-                  <va-additional-info trigger="Why do I have to give up a benefit?">
-                    <p>
-                      The law says if you are eligible for both the Post-9/11 GI
-                      Bill and another education benefit based on the same
-                      period of active duty, you must give one up. One
-                      qualifying period of active duty can only be used for one
-                      VA education benefit.
-                    </p>
-                  </va-additional-info>
-                </>
-              ),
-            },
-            [formFields.viewBenefitSelection]: {
-              'ui:description': (
-                <div className="toe-review-page-only">
-                  <p>
-                    If you’d like to update which benefit you’ll give up, please
-                    edit your answers to the questions below.
-                  </p>
-                </div>
-              ),
-              [formFields.benefitRelinquished]: {
-                'ui:title': 'Which benefit will you give up?',
-                // 'ui:reviewField': BenefitGivenUpReviewField,
-                'ui:widget': 'radio',
-                'ui:options': {
-                  labels: {
-                    Chapter30: 'Chapter 30',
-                    Chapter1606: 'Chapter 1606',
-                    CannotRelinquish: "I'm not sure",
-                  },
-                  widgetProps: {
-                    Chapter30: { 'data-info': 'Chapter30' },
-                    Chapter1606: { 'data-info': 'Chapter1606' },
-                    CannotRelinquish: { 'data-info': 'CannotRelinquish' },
-                  },
-                  selectedProps: {
-                    Chapter30: { 'aria-describedby': 'Chapter30' },
-                    Chapter1606: {
-                      'aria-describedby': 'Chapter1606',
-                    },
-                    CannotRelinquish: {
-                      'aria-describedby': 'CannotRelinquish',
-                    },
-                  },
-                  // updateSchema: (() => {
-                  //   const filterEligibility = createSelector(
-                  //     state => state.eligibility,
-                  //     eligibility => {
-                  //       if (!eligibility || !eligibility.length) {
-                  //         return benefits;
-                  //       }
-
-                  //       return {
-                  //         enum: benefits.filter(
-                  //           benefit =>
-                  //             eligibility.includes(benefit) ||
-                  //             benefit === 'CannotRelinquish',
-                  //         ),
-                  //       };
-                  //     },
-                  //   );
-                  //   return (form, state) => filterEligibility(form, state);
-                  // })(),
-                },
-                'ui:errorMessages': {
-                  required: 'Please select an answer.',
-                },
-              },
-            },
-            'view:activeDutyNotice': {
-              'ui:description': (
-                <div className="meb-alert meb-alert--mini meb-alert--warning">
-                  <i aria-hidden="true" role="img" />
-                  <p className="meb-alert_body">
-                    <span className="sr-only">Alert:</span> If you give up the
-                    Montgomery GI Bill Active Duty, you’ll get Post-9/11 GI Bill
-                    benefits only for the number of months you had left under
-                    the Montgomery GI Bill Active Duty.
-                  </p>
-                </div>
-              ),
-              'ui:options': {
-                expandUnder: [formFields.viewBenefitSelection],
-                hideIf: formData =>
-                  formData[formFields.viewBenefitSelection][
-                    formFields.benefitRelinquished
-                  ] !== 'Chapter30',
-              },
-            },
-            [formFields.benefitEffectiveDate]: {
-              ...dateUI('Effective date'),
-              'ui:options': {
-                hideIf: notGivingUpBenefitSelected,
-                expandUnder: [formFields.viewBenefitSelection],
-              },
-              'ui:required': givingUpBenefitSelected,
-              // 'ui:reviewField': DateReviewField,
-              // 'ui:validations': [validateEffectiveDate],
-            },
-            'view:effectiveDateNotes': {
-              'ui:description': (
-                <ul>
-                  <li>
-                    You can select a date up to one year in the past. We may be
-                    able to pay you benefits for education or training taken
-                    during this time.
-                  </li>
-                  <li>
-                    We can’t pay for education or training taken more than one
-                    year before the date of your application for benefits.
-                  </li>
-                  <li>
-                    If you are currently using another benefit, select the date
-                    you would like to start using the Post-9/11 GI Bill.
-                  </li>
-                </ul>
-              ),
-              'ui:options': {
-                hideIf: notGivingUpBenefitSelected,
-                expandUnder: [formFields.viewBenefitSelection],
-              },
-            },
-            'view:unsureNote': {
-              'ui:description': "I'm unsure",
-              'ui:options': {
-                hideIf: formData =>
-                  formData[formFields.viewBenefitSelection][
-                    formFields.benefitRelinquished
-                  ] !== 'CannotRelinquish',
-                expandUnder: [formFields.viewBenefitSelection],
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:post911Notice': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.viewBenefitSelection]: {
-                type: 'object',
-                required: [formFields.benefitRelinquished],
-                properties: {
-                  [formFields.benefitRelinquished]: {
-                    type: 'string',
-                    // enum: benefits,
-                  },
-                },
-              },
-              'view:activeDutyNotice': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.benefitEffectiveDate]: date,
-              'view:effectiveDateNotes': {
-                type: 'object',
-                properties: {},
-              },
-              'view:unsureNote': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
-        },
-      },
-    },
-    additionalConsiderationsChapter: {
-      title: 'Additional considerations',
-      pages: {
-        [formPages.additionalConsiderations.activeDutyKicker.name]: {
-          ...AdditionalConsiderationTemplate(
-            formPages.additionalConsiderations.activeDutyKicker,
-            formFields.activeDutyKicker,
-          ),
-          depends: formData =>
-            formData[formFields.viewBenefitSelection][
-              formFields.benefitRelinquished
-            ] === 'Chapter30',
-        },
-        [formPages.additionalConsiderations.reserveKicker.name]: {
-          ...AdditionalConsiderationTemplate(
-            formPages.additionalConsiderations.reserveKicker,
-            formFields.selectedReserveKicker,
-          ),
-          depends: formData =>
-            formData[formFields.viewBenefitSelection][
-              formFields.benefitRelinquished
-            ] === 'Chapter1606',
-        },
-        [formPages.additionalConsiderations.militaryAcademy.name]: {
-          ...AdditionalConsiderationTemplate(
-            formPages.additionalConsiderations.militaryAcademy,
-            formFields.federallySponsoredAcademy,
-          ),
-        },
-        [formPages.additionalConsiderations.seniorRotc.name]: {
-          ...AdditionalConsiderationTemplate(
-            formPages.additionalConsiderations.seniorRotc,
-            formFields.seniorRotcCommission,
-          ),
-        },
-        [formPages.additionalConsiderations.loanPayment.name]: {
-          ...AdditionalConsiderationTemplate(
-            formPages.additionalConsiderations.loanPayment,
-            formFields.loanPayment,
-          ),
-        },
-      },
-    },
     bankAccountInfoChapter: {
       title: 'Direct deposit',
       pages: {
@@ -1587,27 +1101,19 @@ const formConfig = {
             },
             'view:learnMore': {
               'ui:description': (
-                <>
+                <va-additional-info trigger="Where can I find these numbers?">
                   <img
                     key="check-image-src"
-                    style={{ marginTop: '1rem' }}
                     src={checkImageSrc}
                     alt="Example of a check showing where the account and routing numbers are"
                   />
-                  <p key="learn-more-title">Where can I find these numbers?</p>
-                  <p key="learn-more-description">
+                  <p>
                     The bank routing number is the first 9 digits on the bottom
                     left corner of a printed check. Your account number is the
                     second set of numbers on the bottom of a printed check, just
                     to the right of the bank routing number.
                   </p>
-                  <va-additional-info key="learn-more-btn" trigger="Learn More">
-                    <p key="btn-copy">
-                      If you don’t have a printed check, you can sign in to your
-                      online banking institution for this information
-                    </p>
-                  </va-additional-info>
-                </>
+                </va-additional-info>
               ),
             },
           },
