@@ -205,7 +205,7 @@ jobs:
         timeout-minutes: 30
         env:
           CYPRESS_CI: true
-          CYPRESS_CODE_COVERAGE: true
+          CODE_COVERAGE: true
           STEP: ${{ matrix.ci_node_index }}
           TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
           APP_URLS: ''
