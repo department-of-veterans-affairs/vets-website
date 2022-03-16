@@ -2,20 +2,20 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
-import EditButtonText from '../EditButtonText';
+import EditLinkText from '../EditLinkText';
 
 describe('pre-check-in experience', () => {
   describe('shared components', () => {
     describe('EditButtonText', () => {
       it('passes axeCheck', () => {
-        axeCheck(<EditButtonText />);
+        axeCheck(<EditLinkText />);
       });
       it('renders the edit text when given a value', () => {
-        const { getByText } = render(<EditButtonText value="foo" />);
+        const { getByText } = render(<EditLinkText value="foo" />);
         expect(getByText('Edit')).to.exist;
       });
       it('renders the add text when no value is given', () => {
-        const { getByText } = render(<EditButtonText />);
+        const { getByText } = render(<EditLinkText />);
         expect(getByText('Add')).to.exist;
       });
     });

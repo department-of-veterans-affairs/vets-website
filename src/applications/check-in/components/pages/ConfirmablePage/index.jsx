@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import DemographicItem from '../../DemographicItem';
-import EditLinkText from '../Edit/shared/EditButtonText';
+import EditLinkText from '../Edit/shared/EditLinkText';
 
 const ConfirmablePage = ({
   header,
