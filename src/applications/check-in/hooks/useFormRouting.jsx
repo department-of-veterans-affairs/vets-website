@@ -2,13 +2,16 @@ import { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 
-import { makeSelectForm } from '../selectors';
+import { makeSelectForm, makeSelectCurrentContext } from '../selectors';
 
 import { URLS } from '../utils/navigation';
 
 const useFormRouting = (router = {}) => {
   const selectForm = useMemo(makeSelectForm, []);
   const { pages } = useSelector(selectForm);
+
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectCurrentContext);
 
   const goToErrorPage = useCallback(
     () => {
@@ -26,6 +29,7 @@ const useFormRouting = (router = {}) => {
           pathname: nextPage,
         };
         const { params } = options;
+
         if (params) {
           // get all url keys
           const queryParams = new URLSearchParams(params.url).toString();
@@ -64,9 +68,18 @@ const useFormRouting = (router = {}) => {
       const here = getCurrentPageFromRouter();
       const currentPageIndex = pages.findIndex(page => page === here);
       const nextPage = pages[currentPageIndex + 1] ?? URLS.ERROR;
-      router.push(nextPage);
+      const query = {
+        pathname: nextPage,
+      };
+      // get all url keys
+      const queryParams = new URLSearchParams({ id: token }).toString();
+      // append to string
+      const search = queryParams ? `?${queryParams}` : '';
+      // add to query
+      query.search = search;
+      router.push(query);
     },
-    [getCurrentPageFromRouter, pages, router],
+    [getCurrentPageFromRouter, pages, router, token],
   );
   const goToPreviousPage = useCallback(
     () => {
