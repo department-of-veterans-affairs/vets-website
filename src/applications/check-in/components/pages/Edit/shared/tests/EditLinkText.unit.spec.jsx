@@ -6,7 +6,7 @@ import EditLinkText from '../EditLinkText';
 
 describe('pre-check-in experience', () => {
   describe('shared components', () => {
-    describe('EditButtonText', () => {
+    describe('EditLinkText', () => {
       it('passes axeCheck', () => {
         axeCheck(<EditLinkText />);
       });
