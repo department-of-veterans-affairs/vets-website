@@ -182,7 +182,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.25.1",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "eslint-plugin-sonarjs": "^0.12.0",
+    "eslint-plugin-sonarjs": "^0.10.0",
     "eslint-plugin-unicorn": "^35.0.0",
     "eslint-plugin-va": "link:./script/eslint-plugin-va",
     "express-history-api-fallback": "^2.2.1",
