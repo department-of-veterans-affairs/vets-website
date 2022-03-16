@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 import ReviewAndDownload from '../../../shared/components/ReviewAndDownload';
-import DocumentList from '../DocumentList/DocumentList';
+import DocumentList from '../DocumentList';
 import { MoreQuestions } from '../MoreQuestions';
 
 const coeUrl = getAppUrl('coe');

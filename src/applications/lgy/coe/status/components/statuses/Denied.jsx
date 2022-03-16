@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import StatusAlert from '../../../shared/components/StatusAlert';
-import DocumentList from '../DocumentList/DocumentList';
+import DocumentList from '../DocumentList';
 
 export const Denied = ({ referenceNumber, requestDate }) => {
   return (
