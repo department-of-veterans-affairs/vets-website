@@ -6,6 +6,7 @@ function TravelPayReimbursementLink() {
     <div className="vads-u-margin-top--3">
       <a
         href="/health-care/get-reimbursed-for-travel-pay/"
+        hrefLang="en"
         data-testid="btsss-link"
       >
         {i18next.t('find-out-how-to-request-travel-pay-reimbursement')}
