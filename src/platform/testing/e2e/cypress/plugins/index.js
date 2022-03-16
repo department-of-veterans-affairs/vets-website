@@ -11,6 +11,10 @@ const tableConfig = {
   },
 };
 
+module.exports = (on, config) => {
+  // your previous code is before this line
+  require('dd-trace/ci/cypress/plugin')(on, config)
+}
 module.exports = async (on, config) => {
   require('@cypress/code-coverage/task')(on, config);
   on('file:preprocessor', require('@cypress/code-coverage/use-babelrc'));

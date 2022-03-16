@@ -16,6 +16,15 @@ env:
   BUILDTYPE: vagovprod
 
 jobs:
+  datadog-integration-test:
+    steps:
+      runs-on: ubuntu-latest
+      - name: Datadog Agent
+        uses: DataDog/agent-github-action@v1
+        with:
+          api_key: ${{ secrets.DD_API_KEY }}
+      - run: make test
+
   set-commit-sha:
     name: Set commit sha
     runs-on: ubuntu-latest
