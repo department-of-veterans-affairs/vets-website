@@ -9,19 +9,20 @@ const HTMLStatementLink = ({ id, statementDate }) => {
   };
 
   return (
-    <Link
-      className="vads-u-font-size--sm"
-      to={`/balance-details/${id}/statement-view`}
-      data-testid={`balance-details-${id}-statement-view`}
-    >
-      <span aria-hidden="true">
-        {formattedStatementDate(statementDate)} statement{' '}
-      </span>
-      <span className="sr-only">
-        Download {formattedStatementDate(statementDate)} dated medical copay
-        statement
-      </span>
-    </Link>
+    <div className="vads-u-margin-top--3 vads-u-margin-bottom--3">
+      <Link
+        to={`/balance-details/${id}/statement-view`}
+        data-testid={`balance-details-${id}-statement-view`}
+      >
+        <span aria-hidden="true">
+          {formattedStatementDate(statementDate)} statement{' '}
+        </span>
+        <span className="sr-only">
+          Download {formattedStatementDate(statementDate)} dated medical copay
+          statement
+        </span>
+      </Link>
+    </div>
   );
 };
 
