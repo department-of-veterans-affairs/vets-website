@@ -6,7 +6,7 @@ import {
   maxSelectedErrorMessage,
 } from '../content/contestableIssues';
 import { missingAreaOfDisagreementErrorMessage } from '../content/areaOfDisagreement';
-import { MAX_SELECTIONS, MAX_ISSUE_NAME_LENGTH } from '../constants';
+import { MAX_LENGTH } from '../constants';
 
 /**
  *
@@ -58,7 +58,7 @@ export const uniqueIssue = (
 };
 
 export const maxIssues = (error, data) => {
-  if (getSelected(data).length > MAX_SELECTIONS) {
+  if (getSelected(data).length > MAX_LENGTH.SELECTIONS) {
     error.addError(maxSelectedErrorMessage);
   }
 };
@@ -70,7 +70,7 @@ export const missingIssueName = (error, data) => {
 };
 
 export const maxNameLength = (error, data) => {
-  if (data.length > MAX_ISSUE_NAME_LENGTH) {
+  if (data.length > MAX_LENGTH.ISSUE_NAME) {
     error.addError(issueErrorMessages.maxLength);
   }
 };

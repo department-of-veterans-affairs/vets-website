@@ -29,6 +29,7 @@ export const itfStatuses = {
   claimRecieved: 'claim_recieved',
   duplicate: 'duplicate',
   incomplete: 'incomplete',
+  canceled: 'canceled',
 };
 
 export const RESERVE_GUARD_TYPES = {

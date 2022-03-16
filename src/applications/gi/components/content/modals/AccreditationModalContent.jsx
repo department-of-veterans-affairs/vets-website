@@ -31,7 +31,7 @@ export default function AccreditationModalContent() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          About this Tool
+          About this tool
         </a>{' '}
         page.
       </p>

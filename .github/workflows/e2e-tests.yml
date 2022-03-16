@@ -97,7 +97,7 @@ jobs:
         run: tar -C build/${{ env.BUILDTYPE }} -cjf ${{ env.BUILDTYPE }}.tar.bz2 .
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ env.BUILDTYPE }}.tar.bz2
           path: ${{ env.BUILDTYPE }}.tar.bz2
@@ -171,7 +171,7 @@ jobs:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
       - name: Download production build artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: ${{ env.BUILDTYPE }}.tar.bz2
 
@@ -203,21 +203,21 @@ jobs:
           APP_URLS: ''
 
       - name: Archive test videos
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
           name: cypress-video-artifacts
           path: cypress/videos
 
       - name: Archive test screenshots
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
           name: cypress-screenshot-artifacts
           path: cypress/screenshots
 
       - name: Archive Mochawesome test results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
           name: cypress-mochawesome-test-results
@@ -336,14 +336,14 @@ jobs:
       # --------------------------------------
 
       - name: Download Cypress E2E Mochawesome test results
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: cypress-mochawesome-test-results
           path: testing-tools-team-dashboard-data/src/testing-reports/data
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: cypress-video-artifacts
           path: testing-tools-team-dashboard-data/videos/${{ env.UUID }}
@@ -399,7 +399,7 @@ jobs:
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "Full E2E test suite run in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "@platform-testing-tools-team Full E2E test suite run in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
           channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

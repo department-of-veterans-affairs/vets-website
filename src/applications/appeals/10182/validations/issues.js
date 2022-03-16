@@ -4,7 +4,7 @@ import {
   noneSelected,
   maxSelectedErrorMessage,
 } from '../content/contestableIssues';
-import { MAX_SELECTIONS, MAX_ISSUE_NAME_LENGTH } from '../constants';
+import { MAX_LENGTH } from '../constants';
 
 /**
  *
@@ -64,7 +64,7 @@ export const maxIssues = (
   _index,
   appStateData,
 ) => {
-  if (getSelected(appStateData || formData).length > MAX_SELECTIONS) {
+  if (getSelected(appStateData || formData).length > MAX_LENGTH.SELECTIONS) {
     errors.addError(maxSelectedErrorMessage);
   }
 };
@@ -76,7 +76,7 @@ export const missingIssueName = (errors, data) => {
 };
 
 export const maxNameLength = (errors, data) => {
-  if (data.length > MAX_ISSUE_NAME_LENGTH) {
+  if (data.length > MAX_LENGTH.ISSUE_NAME) {
     errors.addError(issueErrorMessages.maxLength);
   }
 };
