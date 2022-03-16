@@ -17,7 +17,7 @@ import { addOverlayTriggers } from 'platform/site-wide/legacy/menu';
 import redirectIfNecessary from './redirects';
 import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
-import { proxyRewriteWhitelist as proxyWhitelist } from './proxy-rewrite-whitelist.json';
+import proxyWhitelist from './proxy-rewrite-whitelist.json';
 
 function createMutationObserverCallback() {
   // Find native header, footer, etc based on page path
@@ -182,7 +182,7 @@ function getProxyRewriteCookieValue(
 function getMatchedWhitelistItem(whitelist = proxyWhitelist) {
   const { hostname, pathname } = window.location;
 
-  return whitelist.find(
+  return whitelist.proxyRewriteWhitelist.find(
     listItem =>
       listItem.hostname === hostname &&
       pathname.startsWith(listItem.pathnameBeginning),
