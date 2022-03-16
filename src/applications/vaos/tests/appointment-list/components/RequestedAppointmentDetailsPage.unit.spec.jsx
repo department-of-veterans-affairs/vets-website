@@ -854,7 +854,6 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
         name: 'Preferred community care provider',
       }),
     ).to.be.ok;
-    expect(screen.getByText('Atlantic Medical Care')).to.be.ok;
 
     expect(
       screen.getByRole('heading', {
