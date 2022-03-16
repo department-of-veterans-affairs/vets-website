@@ -38,9 +38,8 @@
      */
     "./src/platform/polyfills/preESModulesPolyfills.js"
   ],
-  "plugins": [
+  "plugins": ["istanbul",
     "lodash",
-    "istanbul",
     // Stage 2
     "@babel/plugin-proposal-function-sent",
     "@babel/plugin-proposal-export-namespace-from",
@@ -83,7 +82,7 @@
   "env": {
     "test": {
       "presets": ["@babel/env", "@babel/preset-react"],
-      "plugins": [
+      "plugins": ["istanbul",
         "transform-class-properties",
         "dynamic-import-node",
         "transform-react-remove-prop-types",
@@ -100,7 +99,7 @@
       ]
     },
     "production": {
-      "plugins": [
+      "plugins": ["istanbul",
         [
           "transform-react-remove-prop-types",
           {
