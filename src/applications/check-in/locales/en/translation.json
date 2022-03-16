@@ -120,5 +120,9 @@
   "extension": "Extension",
   "please-enter-a-valid-phone-number-address": "Please enter a valid phone number address.",
   "phonenumber-extension-x-extension": "{0}{1}` : '' }",
-  "please-enter-valid-phone-number": "Please enter a valid phone number."
+  "please-enter-valid-phone-number": "Please enter a valid phone number.",
+  "thank-you-for-checking-in": "Thank you for checking in.",
+  "youre-checked-in-for-your-appointment": "You're checked in for your {{appointmentTime}} appointment",
+  "well-come-get-you-from-the": "We'll come get you from the",
+  "waiting-room-when-its-time-for-your-appointment-to-start": "waiting room when it's time for your appointment to start."
 }

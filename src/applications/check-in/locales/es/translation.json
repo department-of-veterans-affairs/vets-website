@@ -117,5 +117,9 @@
   "your-last-name": "Tu apellido",
   "youre-also-responsible-for-protecting-your-personal-health-information-if-you-print-or-download-your-information-or-share-it-electronically-with-others-youll-need-to-take-steps-to-protect-it": "También es responsable de proteger su información médica personal. \nSi imprime o descarga su información, o la comparte electrónicamente con otros, deberá tomar medidas para protegerla.",
   "youve-completed-pre-check-in": "Ha completado el registro previo",
-  "please-enter-valid-phone-number": "Por favor ingrese un número de teléfono válido."
+  "please-enter-valid-phone-number": "Por favor ingrese un número de teléfono válido.",
+  "thank-you-for-checking-in": "Gracias por registrarse.",
+  "youre-checked-in-for-your-appointment": "Está registrado para su cita de {{appointmentTime}}",
+  "waiting-room-when-its-time-for-your-appointment-to-start": "cuando sea hora de que comience su cita.",
+  "well-come-get-you-from-the": "Iremos a buscarte desde el sala de espera de"
 }

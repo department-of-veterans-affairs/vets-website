@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
+import { useTranslation } from 'react-i18next';
 
 import { VaAlert } from 'web-components/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
@@ -14,6 +15,7 @@ import TravelPayReimbursementLink from '../../../components/TravelPayReimburseme
 
 const MultipleAppointments = props => {
   const { appointments, selectedAppointment, triggerRefresh } = props;
+  const { t } = useTranslation();
 
   const appointment = selectedAppointment;
   const appointmentDateTime = new Date(appointment.startTime);
@@ -29,15 +31,15 @@ const MultipleAppointments = props => {
       <VaAlert status="success" onVa-component-did-load={focusOnLoad}>
         <h1
           tabIndex="-1"
-          aria-label="Thank you for checking in. "
+          aria-label={t('thank-you-for-checking-in')}
           slot="headline"
         >
-          You’re checked in for your {appointmentTime} appointment
+          {t('youre-checked-in-for-your-appointment', { appointmentTime })}
         </h1>
         <p>
-          We’ll come get you from the{' '}
-          <AppointmentLocation appointment={appointment} bold /> waiting room
-          when it’s time for your appointment to start.
+          {t('well-come-get-you-from-the', {})}{' '}
+          <AppointmentLocation appointment={appointment} bold />{' '}
+          {t('waiting-room-when-its-time-for-your-appointment-to-start')}
         </p>
       </VaAlert>
       <TravelPayReimbursementLink />
