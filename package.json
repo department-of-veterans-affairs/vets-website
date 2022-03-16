@@ -194,7 +194,7 @@
     "fs-extra": "^7.0.0",
     "glob": "^7.2.0",
     "html-webpack-plugin": "^5.5.0",
-    "http-server": "^13.0.2",
+    "http-server": "^13.1.0",
     "husky": ">=6",
     "inquirer": "^8.1.5",
     "isomorphic-fetch": "^2.2.1",
