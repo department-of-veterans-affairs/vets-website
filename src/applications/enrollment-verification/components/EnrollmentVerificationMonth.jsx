@@ -45,7 +45,9 @@ const contactScoMonthStatusMessage = (
       className="fas fa-exclamation-circle vads-u-color--secondary-dark vads-u-margin-right--1"
       aria-hidden="true"
     />{' '}
-    Contact your School Certifying Official to update enrollment information
+    <strong>
+      Contact your School Certifying Official to update enrollment information
+    </strong>
   </p>
 );
 
