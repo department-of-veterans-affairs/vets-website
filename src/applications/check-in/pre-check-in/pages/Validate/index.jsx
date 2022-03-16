@@ -78,10 +78,7 @@ const Index = ({ router }) => {
           }
         } catch (e) {
           setIsLoading(false);
-          if (
-            e?.message !== 'Invalid last4 or last name!' ||
-            isMaxValidateAttempts
-          ) {
+          if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
             goToErrorPage();
           } else {
             if (!showValidateError) {
@@ -128,7 +125,7 @@ const Index = ({ router }) => {
         }}
         Footer={Footer}
         showValidateError={showValidateError}
-        validateErrorMessage="Sorry, we couldn't find an account that matches that last name or SSN. Please try again."
+        validateErrorMessage="We're sorry. We couldn't match your information to our records. Please try again."
       />
       <BackToHome />
     </>

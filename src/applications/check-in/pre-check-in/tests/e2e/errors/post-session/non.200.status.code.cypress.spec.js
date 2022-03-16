@@ -11,12 +11,9 @@ describe('Pre-Check In Experience ', () => {
         const {
           initializeFeatureToggle,
           initializeSessionGet,
-          initializeSessionPost,
         } = ApiInitializer;
         initializeFeatureToggle.withCurrentFeatures();
         initializeSessionGet.withSuccessfulNewSession();
-
-        initializeSessionPost.withFailure(400);
       });
       afterEach(() => {
         cy.window().then(window => {
@@ -24,6 +21,21 @@ describe('Pre-Check In Experience ', () => {
         });
       });
       it('bad status code (400)', () => {
+        const { initializeSessionPost } = ApiInitializer;
+        initializeSessionPost.withFailure(400);
+        cy.visitPreCheckInWithUUID();
+        // page: Validate
+        ValidateVeteran.validatePage.preCheckIn();
+        ValidateVeteran.validateVeteran();
+        cy.injectAxeThenAxeCheck();
+
+        ValidateVeteran.attemptToGoToNextPage();
+
+        Error.validatePageLoaded();
+      });
+      it('bad status code (401)', () => {
+        const { initializeSessionPost } = ApiInitializer;
+        initializeSessionPost.withFailure(401);
         cy.visitPreCheckInWithUUID();
         // page: Validate
         ValidateVeteran.validatePage.preCheckIn();
