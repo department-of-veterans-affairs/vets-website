@@ -179,13 +179,15 @@ function getProxyRewriteCookieValue(
   return parseCookie(cookies).proxyRewrite;
 }
 
-function getMatchedWhitelistItem(whitelist = proxyWhitelist) {
+function getMatchedWhitelistItem(
+  whitelist = proxyWhitelist.proxyRewriteWhitelist,
+) {
   const { hostname, pathname } = window.location;
 
-  return whitelist.proxyRewriteWhitelist.find(
-    listItem =>
-      listItem.hostname === hostname &&
-      pathname.startsWith(listItem.pathnameBeginning),
+  return whitelist.find(
+    whitelistItem =>
+      whitelistItem.hostname === hostname &&
+      pathname.startsWith(whitelistItem.pathnameBeginning),
   );
 }
 
