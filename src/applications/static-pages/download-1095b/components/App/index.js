@@ -1,6 +1,7 @@
 // Node modules.
 import React from 'react';
 import PropTypes from 'prop-types';
+import { apiRequest } from 'platform/utilities/api';
 import { connect } from 'react-redux';
 // Relative imports.
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
@@ -10,6 +11,35 @@ import ServiceProvidersText, {
 } from 'platform/user/authentication/components/ServiceProvidersText';
 
 export const App = ({ loggedIn, toggleLoginModal }) => {
+  const getPdf = () => {
+    return apiRequest('/form1095_bs/2021', {
+      mode: 'cors',
+      headers: {
+        'X-CSRF-Token': localStorage.getItem('csrfToken'),
+      },
+    })
+      .then(response => response.blob())
+      .then(blob => {
+        return window.URL.createObjectURL(blob);
+      });
+  };
+
+  const callGetPDF = () => {
+    getPdf()
+      .then(result => {
+        // we could set the url to the existing a tag already in the DOM, but if user clicks on it too fast it will load this page in a new window instead of the PDF
+        const a = document.createElement('a');
+        a.href = result;
+        a.target = '_blank';
+        document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+        a.click();
+        a.remove(); // removes element from the DOM
+      })
+      .catch(() => {
+        // TODO: display error
+      });
+  };
+
   const loggedInComponent = (
     <va-alert close-btn-aria-label="Close notification" status="info" visible>
       <h3 slot="headline">Download your 1095-B</h3>
@@ -22,17 +52,20 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
             <strong>Document last updated:</strong> November 5, 2021
           </span>
         </p>
-        <i
-          className="fas fa-download download-icon vads-u-color--primary-alt-darkest"
-          role="presentation"
-        />
-        &nbsp;
-        <a
-          href="http://localhost:3000/v0/tax_1095/download_pdf"
-          className="download-text"
+        <button
+          className="usa-button-secondary"
+          onClick={function() {
+            // event.preventDefault(); only needed if we decide to use a link tag here (unlikely)
+            callGetPDF();
+          }}
+          id="download-url"
         >
-          Download current 1095-B tax document (PDF){' '}
-        </a>
+          <i
+            className="fas fa-download download-icon vads-u-color--primary-alt-darkest"
+            role="presentation"
+          />
+          &nbsp; Download current 1095-B tax document (PDF){' '}
+        </button>
       </div>
     </va-alert>
   );
