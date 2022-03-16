@@ -1,12 +1,26 @@
+import env from '~/platform/utilities/environment';
+
 /**
  * Helper function for reporting events to Google Analytics. An alias for window.dataLayer.push.
  * @module platform/monitoring/record-event
  * @see https://developers.google.com/tag-manager/devguide
  * @param {object} data - The event data that will be sent to GA.
+ * @param {function} data.eventCallback - The function that will trigger on event completion
  */
 
 export default function recordEvent(data) {
-  return window.dataLayer && window.dataLayer.push(data);
+  const { eventCallback } = data;
+  const pushEvent = () => window.dataLayer && window.dataLayer.push(data);
+
+  // Handle eventCallback on localhost
+  // Since we do not send the data off locally, any reliance on an `eventCallback`
+  // will not work on localhost without this force call
+  if (typeof eventCallback === 'function' && env.isLocalhost()) {
+    pushEvent();
+    eventCallback();
+  }
+
+  return pushEvent();
 }
 
 /**
