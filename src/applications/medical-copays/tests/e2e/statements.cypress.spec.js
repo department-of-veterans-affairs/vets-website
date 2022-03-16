@@ -3,7 +3,7 @@
  * @testrailinfo projectId 7
  * @testrailinfo suiteId 8
  * @testrailinfo groupId 3090
- * @testrailinfo runName MCP-e2e-Main
+ * @testrailinfo runName MCP-e2e-Statements
  */
 import mockFeatureToggles from './fixtures/mocks/statement-feature-toggles.json';
 import mockCopays from './fixtures/mocks/copays.json';

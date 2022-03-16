@@ -10,12 +10,12 @@ import StatementAddresses from '../components/StatementAddresses';
 const HTMLStatementPage = ({ match }) => {
   const selectedId = match.params.id;
   const statements = useSelector(({ mcp }) => mcp.statements) ?? [];
-  const [selectedCopay] = statements?.filter(({ id }) => id === selectedId);
-  const statementDate = moment(selectedCopay?.pSStatementDate, 'MM-DD').format(
+  const [selectedCopay] = statements.filter(({ id }) => id === selectedId);
+  const statementDate = moment(selectedCopay.pSStatementDate, 'MM-DD').format(
     'MMMM D',
   );
   const title = `${statementDate} statement`;
-  const prevPage = `Copay bill for ${selectedCopay?.station.facilityName}`;
+  const prevPage = `Copay bill for ${selectedCopay.station.facilityName}`;
 
   useEffect(() => {
     scrollToTop();
