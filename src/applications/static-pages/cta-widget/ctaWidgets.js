@@ -163,7 +163,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.HOME_LOAN_COE_STATUS]: {
     id: CTA_WIDGET_TYPES.HOME_LOAN_COE_STATUS,
     deriveToolUrlDetails: () => ({
-      url: '/housing-assistance/home-loans/check-coe-status/your-coe',
+      url: '/housing-assistance/home-loans/check-coe-status/your-coe/',
       redirect: true,
     }),
     hasRequiredMhvAccount: () => false,
