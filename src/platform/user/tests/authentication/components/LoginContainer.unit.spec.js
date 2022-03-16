@@ -11,14 +11,14 @@ import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-li
 
 const mockStore = configureMockStore();
 const generateState = ({
-  loginGov = false,
+  loginGovOff = false,
   loginGovMHV = false,
   loginGovCerner = false,
   loginGovCreateAccount = false,
 }) => ({
   featureToggles: {
     ssoe: true,
-    login_gov: loginGov,
+    login_gov_disabled: loginGovOff,
     login_gov_mhv: loginGovMHV,
     login_gov_myvahealth: loginGovCerner,
     login_gov_create_account: loginGovCreateAccount,
@@ -116,20 +116,21 @@ describe('LoginContainer - mapStateToProps', () => {
       <ConnectedLoginContainer store={store} loggedOut isUnifiedSignIn />,
     );
   });
+
   it('matches the the default state and initial props', () => {
     expect(wrapper.props().children.props).to.includes({
       isUnifiedSignIn: true,
       loggedOut: true,
-      loginGovEnabled: false,
+      loginGovOff: false,
       loginGovCreateAccountEnabled: false,
       loginGovMHVEnabled: false,
       loginGovMyVAHealthEnabled: false,
     });
   });
 
-  it('matches the the default state and initial props', () => {
+  it('matches the updated state and props', () => {
     initialState = generateState({
-      loginGov: true,
+      loginGovOff: true,
       loginGovMHV: false,
       loginGovCerner: true,
       loginGovCreateAccount: true,
@@ -148,7 +149,7 @@ describe('LoginContainer - mapStateToProps', () => {
     expect(wrapper.props().children.props).to.includes({
       isUnifiedSignIn: false,
       loggedOut: false,
-      loginGovEnabled: true,
+      loginGovOff: true,
       loginGovCreateAccountEnabled: true,
       loginGovMHVEnabled: false,
       loginGovMyVAHealthEnabled: true,
