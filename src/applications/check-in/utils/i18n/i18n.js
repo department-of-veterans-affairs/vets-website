@@ -21,4 +21,8 @@ i18n
     debug: true,
   });
 
+i18n.on('languageChanged', language => {
+  document.getElementById('content').setAttribute('lang', language);
+});
+
 export default i18n;
