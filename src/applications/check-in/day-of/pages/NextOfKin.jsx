@@ -7,6 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
+import LanguagePicker from '../../components/LanguagePicker';
 import Footer from '../../components/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
@@ -37,28 +38,22 @@ const NextOfKin = props => {
     [dispatch],
   );
 
-  const yesClick = useCallback(
-    () => {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'yes-to-next-of-kin-information',
-      });
-      goToNextPage();
-    },
-    [goToNextPage],
-  );
+  const yesClick = useCallback(() => {
+    recordEvent({
+      event: 'cta-button-click',
+      'button-click-label': 'yes-to-next-of-kin-information',
+    });
+    goToNextPage();
+  }, [goToNextPage]);
 
-  const noClick = useCallback(
-    () => {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'no-to-next-of-kin-information',
-      });
-      updateSeeStaffMessage(seeStaffMessage);
-      jumpToPage(URLS.SEE_STAFF);
-    },
-    [updateSeeStaffMessage, jumpToPage],
-  );
+  const noClick = useCallback(() => {
+    recordEvent({
+      event: 'cta-button-click',
+      'button-click-label': 'no-to-next-of-kin-information',
+    });
+    updateSeeStaffMessage(seeStaffMessage);
+    jumpToPage(URLS.SEE_STAFF);
+  }, [updateSeeStaffMessage, jumpToPage]);
 
   if (!nextOfKin) {
     goToErrorPage();
@@ -74,6 +69,7 @@ const NextOfKin = props => {
         Footer={Footer}
       />
       <BackToHome />
+      <LanguagePicker />
     </>
   );
 };

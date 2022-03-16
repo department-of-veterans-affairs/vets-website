@@ -7,6 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
+import LanguagePicker from '../../components/LanguagePicker';
 import Footer from '../../components/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import EmergencyContactDisplay from '../../components/pages/emergencyContact/EmergencyContactDisplay';
@@ -38,28 +39,22 @@ const EmergencyContact = props => {
     [dispatch],
   );
 
-  const yesClick = useCallback(
-    () => {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'yes-to-emergency-contact-information',
-      });
-      goToNextPage();
-    },
-    [goToNextPage],
-  );
+  const yesClick = useCallback(() => {
+    recordEvent({
+      event: 'cta-button-click',
+      'button-click-label': 'yes-to-emergency-contact-information',
+    });
+    goToNextPage();
+  }, [goToNextPage]);
 
-  const noClick = useCallback(
-    () => {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'no-to-emergency-contact-information',
-      });
-      updateSeeStaffMessage(seeStaffMessage);
-      jumpToPage(URLS.SEE_STAFF);
-    },
-    [updateSeeStaffMessage, jumpToPage],
-  );
+  const noClick = useCallback(() => {
+    recordEvent({
+      event: 'cta-button-click',
+      'button-click-label': 'no-to-emergency-contact-information',
+    });
+    updateSeeStaffMessage(seeStaffMessage);
+    jumpToPage(URLS.SEE_STAFF);
+  }, [updateSeeStaffMessage, jumpToPage]);
 
   if (!emergencyContact) {
     goToErrorPage();
@@ -75,6 +70,7 @@ const EmergencyContact = props => {
         Footer={Footer}
       />
       <BackToHome />
+      <LanguagePicker />
     </>
   );
 };

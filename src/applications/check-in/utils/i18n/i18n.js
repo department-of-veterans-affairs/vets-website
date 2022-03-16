@@ -17,7 +17,7 @@ i18n
   )
   .use(initReactI18next)
   .init({
-    fallbackLng: 'es',
+    fallbackLng: 'en',
     debug: true,
   });
 

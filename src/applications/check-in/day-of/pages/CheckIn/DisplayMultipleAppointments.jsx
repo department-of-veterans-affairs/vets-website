@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import BackButton from '../../../components/BackButton';
 import BackToHome from '../../../components/BackToHome';
+import LanguagePicker from '../../../components/LanguagePicker';
 import Footer from '../../../components/Footer';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
@@ -22,17 +23,14 @@ const DisplayMultipleAppointments = props => {
     focusElement('h1');
   }, []);
 
-  const handleClick = useCallback(
-    () => {
-      recordEvent({
-        event: createAnalyticsSlug('refresh-appointments-button-clicked'),
-      });
+  const handleClick = useCallback(() => {
+    recordEvent({
+      event: createAnalyticsSlug('refresh-appointments-button-clicked'),
+    });
 
-      getMultipleAppointments();
-      focusElement('h1');
-    },
-    [getMultipleAppointments],
-  );
+    getMultipleAppointments();
+    focusElement('h1');
+  }, [getMultipleAppointments]);
   const { goToPreviousPage } = useFormRouting(router);
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
@@ -80,6 +78,7 @@ const DisplayMultipleAppointments = props => {
         </p>
         <Footer />
         <BackToHome />
+        <LanguagePicker />
       </div>
     </>
   );

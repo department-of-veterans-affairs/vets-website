@@ -17,6 +17,7 @@ import CancelButton from './shared/CancelButton';
 import UpdateButton from './shared/UpdateButton';
 import Footer from '../../Footer';
 import BackToHome from '../../BackToHome';
+import LanguagePicker from '../../LanguagePicker';
 
 export default function Relationship(props) {
   const { router } = props;
@@ -28,24 +29,18 @@ export default function Relationship(props) {
   const [relationshipValue, setRelationshipValue] = useState(value);
 
   const dispatch = useDispatch();
-  const clearEditContext = useCallback(
-    () => {
-      dispatch(createClearEditContext());
-    },
-    [dispatch],
-  );
+  const clearEditContext = useCallback(() => {
+    dispatch(createClearEditContext());
+  }, [dispatch]);
 
-  const handleUpdate = useCallback(
-    () => {
-      dispatch(
-        createSetPendingEditedData(
-          { relationship: relationshipValue },
-          editingPage,
-        ),
-      );
-    },
-    [dispatch, editingPage, relationshipValue],
-  );
+  const handleUpdate = useCallback(() => {
+    dispatch(
+      createSetPendingEditedData(
+        { relationship: relationshipValue },
+        editingPage,
+      ),
+    );
+  }, [dispatch, editingPage, relationshipValue]);
 
   useEffect(() => {
     focusElement('h1');
@@ -113,6 +108,7 @@ export default function Relationship(props) {
       />
       <Footer />
       <BackToHome />
+      <LanguagePicker />
     </div>
   );
 }

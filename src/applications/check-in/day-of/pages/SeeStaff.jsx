@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import BackToHome from '../../components/BackToHome';
+import LanguagePicker from '../../components/LanguagePicker';
 import Footer from '../../components/Footer';
 import BackButton from '../../components/BackButton';
 
@@ -33,6 +34,7 @@ const SeeStaff = props => {
       <TravelPayReimbursementLink />
       <Footer />
       <BackToHome />
+      <LanguagePicker />
     </div>
   );
 };

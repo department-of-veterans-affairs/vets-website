@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import AppointmentBlock from './AppointmentBlock';
 import BackToHome from './BackToHome';
+import LanguagePicker from './LanguagePicker';
 
 const PreCheckinConfirmation = props => {
   const { appointments, hasUpdates, isLoading } = props;
@@ -66,6 +67,7 @@ const PreCheckinConfirmation = props => {
           );
         })}
         <BackToHome />
+        <LanguagePicker />
       </div>
     );
   };

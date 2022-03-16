@@ -17,6 +17,7 @@ import CancelButton from './shared/CancelButton';
 import UpdateButton from './shared/UpdateButton';
 import Footer from '../../Footer';
 import BackToHome from '../../BackToHome';
+import LanguagePicker from '../../LanguagePicker';
 
 export default function Name(props) {
   const { router } = props;
@@ -28,19 +29,13 @@ export default function Name(props) {
   const [nameValue, setNameValue] = useState(value);
 
   const dispatch = useDispatch();
-  const clearEditContext = useCallback(
-    () => {
-      dispatch(createClearEditContext());
-    },
-    [dispatch],
-  );
+  const clearEditContext = useCallback(() => {
+    dispatch(createClearEditContext());
+  }, [dispatch]);
 
-  const handleUpdate = useCallback(
-    () => {
-      dispatch(createSetPendingEditedData({ name: nameValue }, editingPage));
-    },
-    [dispatch, editingPage, nameValue],
-  );
+  const handleUpdate = useCallback(() => {
+    dispatch(createSetPendingEditedData({ name: nameValue }, editingPage));
+  }, [dispatch, editingPage, nameValue]);
 
   useEffect(() => {
     focusElement('h1');
@@ -89,6 +84,7 @@ export default function Name(props) {
       />
       <Footer />
       <BackToHome />
+      <LanguagePicker />
     </div>
   );
 }

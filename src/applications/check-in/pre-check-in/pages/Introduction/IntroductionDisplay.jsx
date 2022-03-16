@@ -12,6 +12,7 @@ import { focusElement } from 'platform/utilities/ui';
 import AppointmentBlock from '../../../components/AppointmentBlock';
 import Footer from '../../../components/Footer';
 import BackToHome from '../../../components/BackToHome';
+import LanguagePicker from '../../../components/LanguagePicker';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
@@ -162,6 +163,7 @@ const IntroductionDisplay = props => {
       </div>
       <Footer message={additionalFooterInfo} />
       <BackToHome />
+      <LanguagePicker />
       <Modal
         onClose={useCallback(() => setPrivacyActModalOpen(false), [
           setPrivacyActModalOpen,
