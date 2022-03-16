@@ -48,17 +48,23 @@ const HealthCare = ({
   const today = new Date();
   const hasUpcomingAppointment = differenceInDays(start, today) < 30;
 
-  useEffect(() => {
-    if (!dataLoadingDisabled) {
-      fetchConfirmedFutureAppointments();
-    }
-  }, [fetchConfirmedFutureAppointments, dataLoadingDisabled]);
+  useEffect(
+    () => {
+      if (!dataLoadingDisabled) {
+        fetchConfirmedFutureAppointments();
+      }
+    },
+    [fetchConfirmedFutureAppointments, dataLoadingDisabled],
+  );
 
-  useEffect(() => {
-    if (shouldFetchUnreadMessages && !dataLoadingDisabled) {
-      fetchUnreadMessages();
-    }
-  }, [shouldFetchUnreadMessages, fetchUnreadMessages, dataLoadingDisabled]);
+  useEffect(
+    () => {
+      if (shouldFetchUnreadMessages && !dataLoadingDisabled) {
+        fetchUnreadMessages();
+      }
+    },
+    [shouldFetchUnreadMessages, fetchUnreadMessages, dataLoadingDisabled],
+  );
 
   if (shouldShowLoadingIndicator) {
     return (
@@ -129,11 +135,12 @@ const HealthCare = ({
               hasError={hasAppointmentsError}
             />
           )}
-          {!hasUpcomingAppointment && !hasAppointmentsError && (
-            <p data-testid="no-appointment-message">
-              You have no appointments scheduled in the next 30 days.
-            </p>
-          )}
+          {!hasUpcomingAppointment &&
+            !hasAppointmentsError && (
+              <p data-testid="no-appointment-message">
+                You have no appointments scheduled in the next 30 days.
+              </p>
+            )}
         </DashboardWidgetWrapper>
         <DashboardWidgetWrapper>
           <h3 className="sr-only">Popular actions for Health Care</h3>
@@ -153,21 +160,22 @@ const HealthCare = ({
                 }
               />
             ))}
-          {!hasUpcomingAppointment && !hasAppointmentsError && (
-            <IconCTALink
-              href="/health-care/schedule-view-va-appointments/appointments"
-              icon="calendar-check"
-              newTab
-              text="Schedule and manage your appointments"
-              onClick={() => {
-                recordEvent({
-                  event: 'nav-linkslist',
-                  'links-list-header': 'Schedule and view your appointments',
-                  'links-list-section-header': 'Health care',
-                });
-              }}
-            />
-          )}
+          {!hasUpcomingAppointment &&
+            !hasAppointmentsError && (
+              <IconCTALink
+                href="/health-care/schedule-view-va-appointments/appointments"
+                icon="calendar-check"
+                newTab
+                text="Schedule and manage your appointments"
+                onClick={() => {
+                  recordEvent({
+                    event: 'nav-linkslist',
+                    'links-list-header': 'Schedule and view your appointments',
+                    'links-list-section-header': 'Health care',
+                  });
+                }}
+              />
+            )}
 
           {/* Prescriptions */}
           {shouldShowPrescriptions ? (
@@ -301,4 +309,7 @@ HealthCare.propTypes = {
   unreadMessagesCount: PropTypes.number,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HealthCare);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HealthCare);

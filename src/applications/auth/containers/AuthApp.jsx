@@ -207,4 +207,7 @@ const mapStateToProps = state => ({
   loginGovOff: loginGovDisabled(state),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthApp);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AuthApp);

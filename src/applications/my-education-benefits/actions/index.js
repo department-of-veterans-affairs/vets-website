@@ -1,7 +1,9 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
-export const CLAIMANT_INFO_ENDPOINT = `${environment.API_URL}/meb_api/v0/claimant_info`;
+export const CLAIMANT_INFO_ENDPOINT = `${
+  environment.API_URL
+}/meb_api/v0/claimant_info`;
 
 const CLAIM_STATUS_ENDPOINT = `${environment.API_URL}/meb_api/v0/claim_status`;
 

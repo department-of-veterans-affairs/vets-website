@@ -99,8 +99,8 @@ const ProfileInfoTable = ({
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ol className="vads-u-margin--0 vads-u-padding--0" role="list">
         {data
-          .map(element =>
-            dataTransformer ? dataTransformer(element) : element,
+          .map(
+            element => (dataTransformer ? dataTransformer(element) : element),
           )
           .map((row, index) => (
             // eslint-disable-next-line jsx-a11y/no-redundant-roles

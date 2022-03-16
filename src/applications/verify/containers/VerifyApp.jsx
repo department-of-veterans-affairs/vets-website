@@ -85,7 +85,7 @@ export class VerifyApp extends React.Component {
   render() {
     const { profile } = this.props;
     const signInMethod =
-      this.signinMethodLabels[profile?.signIn?.serviceName] || 'ID.me';
+      this.signinMethodLabels[(profile?.signIn?.serviceName)] || 'ID.me';
 
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;

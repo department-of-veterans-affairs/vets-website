@@ -135,33 +135,31 @@ export const createIssueName = ({ attributes } = {}) => {
  * @returns {ContestableIssue~Submittable}
  */
 export const getContestableIssues = ({ contestableIssues }) =>
-  contestableIssues
-    .filter(issue => issue[SELECTED])
-    .map(issue => {
-      const attr = issue.attributes;
-      const attributes = [
-        'decisionIssueId',
-        'ratingIssueReferenceId',
-        'ratingDecisionReferenceId',
-      ].reduce(
-        (acc, key) => {
-          // Don't submit null or empty strings
-          if (attr[key]) {
-            acc[key] = attr[key];
-          }
-          return acc;
-        },
-        {
-          issue: createIssueName(issue),
-          decisionDate: attr.approxDecisionDate,
-        },
-      );
+  contestableIssues.filter(issue => issue[SELECTED]).map(issue => {
+    const attr = issue.attributes;
+    const attributes = [
+      'decisionIssueId',
+      'ratingIssueReferenceId',
+      'ratingDecisionReferenceId',
+    ].reduce(
+      (acc, key) => {
+        // Don't submit null or empty strings
+        if (attr[key]) {
+          acc[key] = attr[key];
+        }
+        return acc;
+      },
+      {
+        issue: createIssueName(issue),
+        decisionDate: attr.approxDecisionDate,
+      },
+    );
 
-      return {
-        type: issue.type,
-        attributes,
-      };
-    });
+    return {
+      type: issue.type,
+      attributes,
+    };
+  });
 
 /**
  * @typedef AdditionalIssues

@@ -10,27 +10,30 @@ const InboxPage = () => {
   const [isLoading, setLoading] = useState(true);
   const [receivedDate, setReceivedDate] = useState(null);
 
-  useEffect(() => {
-    const checkIfClaimantHasLetters = async () =>
-      apiRequest(FETCH_CLAIM_STATUS)
-        .then(response => {
-          setClaimantId(response?.data?.attributes?.claimantId);
-          setReceivedDate(
-            format(
-              new Date(response?.data?.attributes?.receivedDate),
-              'MMMM d, yyyy',
-            ),
-          );
-          setLoading(false);
-          return response?.data?.attributes?.claimantId;
-        })
-        .catch(err => {
-          window.location.href = '/education/education-inbox/';
-          return err;
-        });
+  useEffect(
+    () => {
+      const checkIfClaimantHasLetters = async () =>
+        apiRequest(FETCH_CLAIM_STATUS)
+          .then(response => {
+            setClaimantId(response?.data?.attributes?.claimantId);
+            setReceivedDate(
+              format(
+                new Date(response?.data?.attributes?.receivedDate),
+                'MMMM d, yyyy',
+              ),
+            );
+            setLoading(false);
+            return response?.data?.attributes?.claimantId;
+          })
+          .catch(err => {
+            window.location.href = '/education/education-inbox/';
+            return err;
+          });
 
-    checkIfClaimantHasLetters().then(r => r);
-  }, [claimantId]);
+      checkIfClaimantHasLetters().then(r => r);
+    },
+    [claimantId],
+  );
 
   const HasLetters = (
     <>

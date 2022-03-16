@@ -1,10 +1,11 @@
 import enrollmentStatusEnrolled from '@@profile/tests/fixtures/enrollment-system/enrolled.json';
 
+import { mockFolderResponse } from '../../utils/mocks/messaging/folder';
+
 import {
   makeUserObject,
   mockLocalStorage,
 } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
-import { mockFolderResponse } from '../../utils/mocks/messaging/folder';
 
 describe('MyVA Dashboard - CTA Links', () => {
   beforeEach(() => {
