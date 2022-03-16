@@ -9,7 +9,7 @@ import DownloadLink from '../../../shared/components/DownloadLink';
 const coeUrl = getAppUrl('coe');
 const introUrl = `${coeUrl}/introduction`;
 
-const downloadLink = '/find-forms/about-form-26-1880/';
+const downloadUrl = '/find-forms/about-form-26-1880/';
 const downloadLinkLabel = 'Download VA form 26-1880 (PDF)';
 
 const Ineligible = () => (
@@ -46,7 +46,7 @@ const Ineligible = () => (
         form. Please keep in mind that this may take longer than requesting a
         COE online or through our WebLGY system.
       </p>
-      <DownloadLink href={downloadLink} label={downloadLinkLabel} />
+      <DownloadLink href={downloadUrl} label={downloadLinkLabel} />
       <MoreQuestions />
     </div>
   </div>
