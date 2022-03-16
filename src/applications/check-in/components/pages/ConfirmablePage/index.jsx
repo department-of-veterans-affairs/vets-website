@@ -2,6 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import DemographicItem from '../../DemographicItem';
+import EditLinkText from '../Edit/shared/EditLinkText';
 
 const ConfirmablePage = ({
   header,
@@ -51,7 +52,7 @@ const ConfirmablePage = ({
                         }
                         data-testid="edit-button"
                       >
-                        Edit
+                        <EditLinkText value={data[field.key]} />
                       </a>
                     </div>
                   )}
