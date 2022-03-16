@@ -334,17 +334,17 @@ const formConfig = {
                 },
               },
             },
-            [formFields.relationshipToServiceMember]: {
-              'ui:title':
-                'What’s your relationship to the service member whose benefit has been transferred to you?',
-              'ui:widget': 'radio',
-            },
+            // [formFields.relationshipToServiceMember]: {
+            //   'ui:title':
+            //     'What’s your relationship to the service member whose benefit has been transferred to you?',
+            //   'ui:widget': 'radio',
+            // },
           },
           schema: {
             type: 'object',
             required: [
               formFields.dateOfBirth,
-              formFields.relationshipToServiceMember,
+              // formFields.relationshipToServiceMember,
             ],
             properties: {
               'view:subHeadings': {
@@ -366,10 +366,10 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [formFields.relationshipToServiceMember]: {
-                type: 'string',
-                enum: ['Spouse', 'Child'],
-              },
+              // [formFields.relationshipToServiceMember]: {
+              //   type: 'string',
+              //   enum: ['Spouse', 'Child'],
+              // },
             },
           },
         },
