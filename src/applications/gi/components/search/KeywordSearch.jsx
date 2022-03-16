@@ -31,15 +31,12 @@ export function KeywordSearch({
     [inputValue],
   );
 
-  useEffect(
-    () => {
-      debouncedFetchSuggestion();
+  useEffect(() => {
+    debouncedFetchSuggestion();
 
-      // Cancel previous debounce calls during useEffect cleanup.
-      return debouncedFetchSuggestion.cancel;
-    },
-    [inputValue, debouncedFetchSuggestion],
-  );
+    // Cancel previous debounce calls during useEffect cleanup.
+    return debouncedFetchSuggestion.cancel;
+  }, [inputValue, debouncedFetchSuggestion]);
 
   const handleSuggestionSelected = selected => {
     recordEvent({
@@ -154,16 +151,15 @@ export function KeywordSearch({
                 })}
               />
               {/* eslint-disable-next-line no-nested-ternary */}
-              {inputValue &&
-                inputValue.length > 0 && (
-                  <button
-                    aria-label={`Clear your ${label}`}
-                    type="button"
-                    id="clear-input"
-                    className="fas fa-times-circle clear-button"
-                    onClick={handleClearInput}
-                  />
-                )}
+              {inputValue && inputValue.length > 0 && (
+                <button
+                  aria-label={`Clear your ${label}`}
+                  type="button"
+                  id="clear-input"
+                  className="fas fa-times-circle clear-button"
+                  onClick={handleClearInput}
+                />
+              )}
             </div>
             {isOpen && (
               <div
@@ -202,7 +198,7 @@ KeywordSearch.propTypes = {
   label: PropTypes.string,
   labelAdditional: PropTypes.object,
   required: PropTypes.any,
-  suggestions: PropTypes.object,
+  suggestions: PropTypes.array,
   validateSearchTerm: PropTypes.func,
   version: PropTypes.string,
   onFetchAutocompleteSuggestions: PropTypes.func,

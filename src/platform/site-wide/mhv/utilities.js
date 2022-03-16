@@ -11,7 +11,7 @@ const mhvToEauthRoutes = {
   'secure-messaging': 'eauth?deeplinking=secure_messaging',
   appointments: 'eauth?deeplinking=appointments',
   home: 'eauth',
-  'web/myhealthevet/labs-tests': 'eauth?deeplinking=labs_tests',
+  'labs-tests': 'web/myhealthevet/labs-tests',
 };
 
 // An MHV URL is a function of the following parameters:

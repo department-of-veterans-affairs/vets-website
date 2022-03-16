@@ -4,6 +4,7 @@ import { focusElement } from 'platform/utilities/ui';
 import i18next from 'i18next';
 import PropTypes from 'prop-types';
 import DemographicItem from '../../DemographicItem';
+import EditLinkText from '../Edit/shared/EditLinkText';
 
 const ConfirmablePage = ({
   header,
@@ -56,6 +57,20 @@ const ConfirmablePage = ({
                       data-testid="edit-button"
                     >
                       {t('edit')}
+                    </a>
+                  </div>
+                )}
+                {isEditEnabled && field.editAction && (
+                  <div>
+                    <a
+                      href={`#edit-${field.key}`}
+                      // eslint-disable-next-line react/jsx-no-bind
+                      onClick={() =>
+                        editHandler({ ...field, value: data[field.key] })
+                      }
+                      data-testid="edit-button"
+                    >
+                      <EditLinkText value={data[field.key]} />
                     </a>
                   </div>
                 )}

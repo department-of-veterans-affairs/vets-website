@@ -22,12 +22,12 @@ const ServiceProviders = React.memo(({ isBold }) => {
     const renderCSP = isBold ? <strong>{csp}</strong> : csp;
 
     return (
-      <>
+      <React.Fragment key={i}>
         {or && 'or '}
         {renderCSP}
         {comma && ','}
         {!last && ' '}
-      </>
+      </React.Fragment>
     );
   });
 });
