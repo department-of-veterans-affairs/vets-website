@@ -35,7 +35,8 @@ export const getQueryParams = () => {
   const paramsObj = {};
 
   Object.keys(AUTH_PARAMS).forEach(paramKey => {
-    paramsObj[paramKey] = searchParams.get(AUTH_PARAMS[paramKey]);
+    const paramValue = searchParams.get(AUTH_PARAMS[paramKey]);
+    if (paramValue) paramsObj[paramKey] = paramValue;
   });
 
   return paramsObj;
