@@ -10,6 +10,21 @@ function LanguagePicker() {
     i18n.changeLanguage(e.target.value);
   }
 
+  function buttonClass(language) {
+    let configuredLanguage;
+    if (i18n.language.startsWith('en-')) {
+      configuredLanguage = 'en';
+    } else if (i18n.language.startsWith('es-')) {
+      configuredLanguage = 'es';
+    } else {
+      configuredLanguage = i18n.language;
+    }
+
+    return configuredLanguage === language
+      ? 'usa-button'
+      : 'usa-button-secondary';
+  }
+
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2">
       {[
@@ -25,9 +40,7 @@ function LanguagePicker() {
         <button
           key={i}
           onClick={changeLanguage}
-          className={
-            i18n.language === link.lang ? 'usa-button' : 'usa-button-secondary'
-          }
+          className={buttonClass(link.lang)}
           data-testid={`translate-button-${link.lang}`}
           type="button"
           value={link.lang}
