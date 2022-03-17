@@ -121,5 +121,6 @@
   "thank-you-for-checking-in": "Gracias por registrarse.",
   "youre-checked-in-for-your-appointment": "Está registrado para su cita de {{appointmentTime}}",
   "waiting-room-when-its-time-for-your-appointment-to-start": "cuando sea hora de que comience su cita.",
-  "well-come-get-you-from-the": "Iremos a buscarte desde el sala de espera de"
+  "well-come-get-you-from-the": "Iremos a buscarte desde el sala de espera de",
+  "were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again": "Lo lamentamos. \nNo pudimos hacer coincidir su información con nuestros registros. \nInténtalo de nuevo."
 }

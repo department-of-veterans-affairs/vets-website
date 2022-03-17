@@ -124,5 +124,6 @@
   "thank-you-for-checking-in": "Thank you for checking in.",
   "youre-checked-in-for-your-appointment": "You're checked in for your {{appointmentTime}} appointment",
   "well-come-get-you-from-the": "We'll come get you from the",
-  "waiting-room-when-its-time-for-your-appointment-to-start": "waiting room when it's time for your appointment to start."
+  "waiting-room-when-its-time-for-your-appointment-to-start": "waiting room when it's time for your appointment to start.",
+  "were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again": "We're sorry. We couldn't match your information to our records. Please try again."
 }
