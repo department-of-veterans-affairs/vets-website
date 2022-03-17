@@ -17,13 +17,13 @@ env:
 
 jobs:
   datadog-integration-test:
+    name: datadog-integration-test
+    runs-on: ubuntu-latest
     steps:
-      runs-on: ubuntu-latest
       - name: Datadog Agent
         uses: DataDog/agent-github-action@v1
         with:
           api_key: ${{ secrets.DD_API_KEY }}
-      - run: make test
 
   set-commit-sha:
     name: Set commit sha
@@ -210,6 +210,8 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
           APP_URLS: ''
+          DD_ENV: ci
+          DD_SERVICE: vets-website
 
       - name: Archive test videos
         uses: actions/upload-artifact@v3
