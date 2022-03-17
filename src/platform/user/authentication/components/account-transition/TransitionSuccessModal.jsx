@@ -12,13 +12,16 @@ export default function TransitionSucessModal({ visible, onClose }) {
     text: 'Continue to VA.gov',
   };
 
-  useEffect(() => {
-    recordEvent({
-      event: `login-account-transition-success-modal-${
-        visible ? 'opened' : 'closed'
-      }`,
-    });
-  }, [visible]);
+  useEffect(
+    () => {
+      recordEvent({
+        event: `login-account-transition-success-modal-${
+          visible ? 'opened' : 'closed'
+        }`,
+      });
+    },
+    [visible],
+  );
 
   return (
     <Modal

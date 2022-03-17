@@ -33,12 +33,15 @@ const DetailPage = ({ match }) => {
     mcpHTMLStatementToggle(state),
   );
 
-  useEffect(() => {
-    if (!isCurrentBalance) {
-      setAlert('past-due-balance');
-    }
-    scrollToTop();
-  }, [isCurrentBalance]);
+  useEffect(
+    () => {
+      if (!isCurrentBalance) {
+        setAlert('past-due-balance');
+      }
+      scrollToTop();
+    },
+    [isCurrentBalance],
+  );
 
   return (
     <>

@@ -8,11 +8,14 @@ const ServiceProviders = React.memo(({ isBold }) => {
   const [serviceProviders, setCSPs] = useState(initialCSPState);
   const loginGovOff = useSelector(state => loginGovDisabled(state));
 
-  useEffect(() => {
-    if (!loginGovOff) {
-      setCSPs(['Login.gov', ...initialCSPState]);
-    }
-  }, [!loginGovOff]);
+  useEffect(
+    () => {
+      if (!loginGovOff) {
+        setCSPs(['Login.gov', ...initialCSPState]);
+      }
+    },
+    [!loginGovOff],
+  );
 
   return serviceProviders.map((csp, i) => {
     const totalProviders = serviceProviders.length;
