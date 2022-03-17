@@ -149,9 +149,29 @@ module.exports = {
     'react/no-multi-comp': 0, // Leave organization to code reviewer discretion.
 
     /* || sonarJS plugin || */
+    'sonarjs/no-all-duplicated-branches': 2,
+    'sonarjs/no-element-overwrite': 2,
+    'sonarjs/no-identical-conditions': 2,
+    'sonarjs/no-one-iteration-loop': 2,
+    'sonarjs/no-use-of-empty-return-value': 2,
+    'sonarjs/no-collection-size-mischeck': 2,
+    'sonarjs/no-redundant-jump': 2,
+    'sonarjs/no-same-line-conditional': 2,
+    'sonarjs/no-useless-catch': 2,
+    'sonarjs/prefer-object-literal': 2,
     'sonarjs/prefer-single-boolean-return': 1,
+    'sonarjs/prefer-while': 2,
+    'sonarjs/no-extra-arguments': 2,
+    'sonarjs/no-identical-expressions': 2,
     'sonarjs/max-switch-cases': [2, 40],
+    'sonarjs/no-duplicated-branches': 2,
+    'sonarjs/no-inverted-boolean-check': 2,
+    'sonarjs/no-redundant-boolean': 2,
+    'sonarjs/no-unused-collection': 2,
+    'sonarjs/no-small-switch': 2,
     'sonarjs/cognitive-complexity': [1, 50],
+    'sonarjs/no-collapsible-if': 2,
+    'sonarjs/prefer-immediate-return': 2,
 
     /* || airbnb plugin || */
     // this is the airbnb default, minus for..of
