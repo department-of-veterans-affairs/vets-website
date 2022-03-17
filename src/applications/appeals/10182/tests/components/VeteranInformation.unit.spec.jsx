@@ -5,6 +5,11 @@ import { shallow } from 'enzyme';
 import { VeteranInformation } from '../../components/VeteranInformation';
 
 describe('<VeteranInformation>', () => {
+  it('should render with empty data', () => {
+    const wrapper = shallow(<VeteranInformation />);
+    expect(wrapper.find('.blue-bar-block').length).to.eq(1);
+    wrapper.unmount();
+  });
   it('should render', () => {
     const wrapper = shallow(<VeteranInformation />);
     expect(wrapper.find('.blue-bar-block').length).to.eq(1);
