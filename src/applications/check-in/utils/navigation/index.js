@@ -49,7 +49,7 @@ const updateFormPages = (
       : null;
     if (
       pageLastUpdated &&
-      isWithInDays(3, pageLastUpdated) &&
+      isWithInDays(7, pageLastUpdated) &&
       page.needsUpdate === false
     ) {
       skippedPages.push(page.url);
