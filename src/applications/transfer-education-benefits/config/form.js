@@ -64,6 +64,7 @@ import {
 // import { createSubmissionForm } from '../utils/form-submit-transform';
 import { directDepositDescription } from '../../edu-benefits/1990/helpers';
 import GetHelp from '../components/GetHelp';
+import Sponsors from '../components/Sponsors';
 
 // import { ELIGIBILITY } from '../actions';
 
@@ -252,7 +253,7 @@ const formConfig = {
                     information for other VA benefits, you can do that from your
                     profile.
                   </p>
-                  <p>
+                  <p className="vads-u-margin-bottom--3">
                     <a href="/profile/personal-information">
                       Go to your profile
                     </a>
@@ -393,31 +394,13 @@ const formConfig = {
                   <p>
                     <strong>Note:</strong> If you notice something wrong with
                     your sponsor’s information or don’t see them listed, let
-                    your sponsor know. Your sponsor can
+                    your sponsor know. Your sponsor can{' '}
                     <a href="/">
-                      update this information on the DoD milConnect website.
+                      update this information on the DoD milConnect website
                     </a>
+                    .
                   </p>
-                  <div className="toe-form-featured-content vads-u-margin-top--3 vads-u-margin-bottom--4">
-                    <h5 className="vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--0">
-                      SPONSOR 1
-                    </h5>
-                    <h4 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-                      Jane Doe
-                    </h4>
-                    <dl className="toe-definition-list">
-                      <dt className="toe-definition-list_term">
-                        Date of birth:
-                      </dt>
-                      <dd className="toe-definition-list_definition">
-                        July 18, 1996
-                      </dd>
-                      <dt className="toe-definition-list_term">
-                        Your relationship to sponsor:
-                      </dt>
-                      <dd className="toe-definition-list_definition">Spouse</dd>
-                    </dl>
-                  </div>
+                  <Sponsors />
                 </>
               ),
               'ui:options': {
@@ -436,8 +419,11 @@ const formConfig = {
                   </h3>
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
-                    they can update this information on the DoD milConnect
-                    website.
+                    they can{' '}
+                    <a href="/">
+                      update this information on the DoD milConnect website
+                    </a>
+                    .
                   </p>
                   <p>
                     You may still continue this application and enter your
