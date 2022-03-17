@@ -47,7 +47,10 @@ const PreCheckinConfirmation = props => {
           <></>
         )}
         <p className={hasUpdates ? `vads-u-padding-left--2` : ``}>
-          <a href="https://va.gov/health-care/schedule-view-va-appointments/appointments/">
+          <a
+            href="https://va.gov/health-care/schedule-view-va-appointments/appointments/"
+            hrefLang="en"
+          >
             {t('go-to-your-appointment')}
           </a>
         </p>
