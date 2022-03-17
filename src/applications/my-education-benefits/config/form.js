@@ -556,7 +556,7 @@ const formConfig = {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
-                    Phone numbers and email addresss
+                    Phone numbers and email addresses
                   </h4>
                   <p className="meb-review-page-only">
                     If you’d like to update your phone numbers and email

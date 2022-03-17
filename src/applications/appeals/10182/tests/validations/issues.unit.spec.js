@@ -2,11 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getDate } from '../../utils/dates';
-import {
-  SELECTED,
-  MAX_SELECTIONS,
-  MAX_ISSUE_NAME_LENGTH,
-} from '../../constants';
+import { SELECTED, MAX_LENGTH } from '../../constants';
 
 import {
   selectionRequired,
@@ -84,7 +80,7 @@ describe('maxIssues', () => {
       [SELECTED]: true,
     };
     maxIssues(errors, _, _, _, _, _, {
-      contestableIssues: new Array(MAX_SELECTIONS).fill(template),
+      contestableIssues: new Array(MAX_LENGTH.SELECTIONS).fill(template),
       additionalIssues: [template],
     });
     expect(errors.addError.called).to.be.true;
@@ -143,7 +139,7 @@ describe('missingIssueName', () => {
 describe('maxNameLength', () => {
   it('should show an error when a name is too long', () => {
     const errors = { addError: sinon.spy() };
-    maxNameLength(errors, 'ab '.repeat(MAX_ISSUE_NAME_LENGTH / 2));
+    maxNameLength(errors, 'ab '.repeat(MAX_LENGTH.ISSUE_NAME / 2));
     expect(errors.addError.called).to.be.true;
   });
   it('should show an error when a name is not too long', () => {

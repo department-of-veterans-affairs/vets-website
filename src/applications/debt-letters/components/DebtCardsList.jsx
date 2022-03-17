@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Telephone, {
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { PATTERNS } from '@department-of-veterans-affairs/component-library/Telephone';
 import DebtLetterCard from './DebtLetterCard';
 import { ErrorMessage, DowntimeMessage } from './Alerts';
 
@@ -38,7 +36,7 @@ const DebtCardsList = ({ debts, errors }) => {
             <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
               If you believe that you have a debt with the VA, call the Debt
               Management Center at
-              <Telephone
+              <va-telephone
                 className="vads-u-margin-left--0p5"
                 contact="8008270648"
               />
@@ -78,9 +76,12 @@ const DebtCardsList = ({ debts, errors }) => {
         <p className="vads-u-font-family--sans">
           If you received a letter about a VA benefit debt that isn’t listed
           here, call us at
-          <Telephone contact="800-827-0648" className="vads-u-margin-x--0p5" />
+          <va-telephone
+            contact="800-827-0648"
+            className="vads-u-margin-x--0p5"
+          />
           (or
-          <Telephone
+          <va-telephone
             contact="1-612-713-6415"
             pattern={PATTERNS.OUTSIDE_US}
             className="vads-u-margin-x--0p5"
@@ -111,6 +112,7 @@ const DebtCardsList = ({ debts, errors }) => {
         <Link
           to="/debt-letters"
           className="vads-u-margin-top--1 vads-u-font-family--sans"
+          data-testid="download-letters-link"
         >
           Download letters related to your va debt
         </Link>

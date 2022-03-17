@@ -8,10 +8,22 @@ import recordEvent from '~/platform/monitoring/record-event';
 
 import Debts from './Debts';
 
+const NoRecentPaymentText = () => {
+  return (
+    <p
+      className="vads-u-margin-bottom--3 vads-u-margin-top--0"
+      data-testid="no-recent-payments-paragraph"
+    >
+      You haven’t received any payments in the past 30 days.
+    </p>
+  );
+};
+
 const BenefitPaymentsAndDebt = ({ payments, debts, debtsError }) => {
-  const lastPayment = payments
-    ?.filter(p => moment(p.payCheckDt) > moment().subtract(31, 'days'))
-    .sort((a, b) => moment(b.payCheckDt) - moment(a.payCheckDt))[0];
+  const lastPayment =
+    payments
+      ?.filter(p => moment(p.payCheckDt) > moment().subtract(31, 'days'))
+      .sort((a, b) => moment(b.payCheckDt) - moment(a.payCheckDt))[0] ?? null;
 
   const debtsCount = debts?.length || 0;
 
@@ -24,25 +36,24 @@ const BenefitPaymentsAndDebt = ({ payments, debts, debtsError }) => {
       >
         <h2>Benefit payments and debts</h2>
         <div className="vads-l-row">
-          {lastPayment &&
-            (payments || debts) && (
-              <DashboardWidgetWrapper>
-                {debts && <Debts debts={debts} hasError={debtsError} />}
-                {payments && <Payments lastPayment={lastPayment} />}
-              </DashboardWidgetWrapper>
-            )}
+          {((debtsCount === 0 && lastPayment) ||
+            debtsCount > 0 ||
+            debtsError) && (
+            <DashboardWidgetWrapper>
+              <Debts debts={debts} hasError={debtsError} />
+              {lastPayment && <Payments lastPayment={lastPayment} />}
+              {!lastPayment && <NoRecentPaymentText />}
+            </DashboardWidgetWrapper>
+          )}
           <DashboardWidgetWrapper>
-            {!lastPayment && (
-              <>
-                {debts && <Debts debts={debts} hasError={debtsError} />}
-                <p
-                  className="vads-u-margin-bottom--3 vads-u-margin-top--0"
-                  data-testid="no-recent-payments-paragraph"
-                >
-                  You haven’t received any payments in the past 30 days.
-                </p>
-              </>
-            )}
+            {!lastPayment &&
+              debtsCount < 1 &&
+              !debtsError && (
+                <>
+                  <Debts debts={debts} hasError={debtsError} />
+                  <NoRecentPaymentText />
+                </>
+              )}
             <h3 className="sr-only">
               Popular actions for Benefit Payments and Debt
             </h3>
@@ -50,7 +61,6 @@ const BenefitPaymentsAndDebt = ({ payments, debts, debtsError }) => {
               <IconCTALink
                 href="/va-payment-history/payments/"
                 icon="user-check"
-                newTab
                 text="View your payment history"
                 /* eslint-disable react/jsx-no-bind */
                 onClick={() => {
@@ -68,7 +78,6 @@ const BenefitPaymentsAndDebt = ({ payments, debts, debtsError }) => {
             <IconCTALink
               href="/profile/direct-deposit"
               icon="dollar-sign"
-              newTab
               text="Manage your direct deposit"
               /* eslint-disable react/jsx-no-bind */
               onClick={() => {
@@ -85,7 +94,6 @@ const BenefitPaymentsAndDebt = ({ payments, debts, debtsError }) => {
               <IconCTALink
                 href="/resources/va-debt-management"
                 icon="file-invoice-dollar"
-                newTab
                 text="Learn about VA debt"
                 /* eslint-disable react/jsx-no-bind */
                 onClick={() => {

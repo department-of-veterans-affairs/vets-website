@@ -4,6 +4,24 @@ import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { LastLocationProvider } from 'react-router-last-location';
 
+import {
+  fetchMilitaryInformation as fetchMilitaryInformationAction,
+  fetchHero as fetchHeroAction,
+  fetchPersonalInformation as fetchPersonalInformationAction,
+} from '@@profile/actions';
+import {
+  cnpDirectDepositAddressIsSetUp,
+  cnpDirectDepositInformation,
+  cnpDirectDepositIsBlocked,
+  cnpDirectDepositIsSetUp,
+  eduDirectDepositIsSetUp,
+  showProfileLGBTQEnhancements,
+} from '@@profile/selectors';
+import {
+  fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
+  fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
+} from '@@profile/actions/paymentInformation';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 import DowntimeNotification, {
   externalServices,
   externalServiceStatus,
@@ -29,23 +47,6 @@ import {
 } from '~/platform/user/selectors';
 import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import { fetchMHVAccount as fetchMHVAccountAction } from '~/platform/user/profile/actions';
-import {
-  fetchMilitaryInformation as fetchMilitaryInformationAction,
-  fetchHero as fetchHeroAction,
-  fetchPersonalInformation as fetchPersonalInformationAction,
-} from '@@profile/actions';
-import {
-  cnpDirectDepositAddressIsSetUp,
-  cnpDirectDepositInformation,
-  cnpDirectDepositIsBlocked,
-  cnpDirectDepositIsSetUp,
-  eduDirectDepositIsSetUp,
-  showProfileLGBTQEnhancements,
-} from '@@profile/selectors';
-import {
-  fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
-  fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
-} from '@@profile/actions/paymentInformation';
 
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
 
@@ -53,7 +54,6 @@ import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
-import { CSP_IDS } from 'platform/user/authentication/constants';
 
 class Profile extends Component {
   componentDidMount() {

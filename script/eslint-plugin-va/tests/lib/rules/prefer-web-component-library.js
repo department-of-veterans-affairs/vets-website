@@ -20,6 +20,12 @@ const mockFile = (componentName, snippet) => {
   `;
 };
 
+const mockFileBindingsImport = (componentName, snippet) => {
+  return `import { ${componentName} } from 'web-components/react-bindings';
+  ${snippet}
+  `;
+};
+
 ruleTester.run('prefer-web-component-library', rule, {
   // This rule should not trigger on application components, only React components
   // from the `component-library`
@@ -206,6 +212,101 @@ ruleTester.run('prefer-web-component-library', rule, {
               output: mockFile(
                 'Breadcrumbs',
                 'const breadcrumb = () => (<va-breadcrumbs ><a href="/">Home</a></va-breadcrumbs>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Modal',
+        'const SampleModal = () => (<Modal title="test" contents={<div>Hi</div>} onClose={closeModal} />)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'Modal',
+                'const SampleModal = () => (<VaModal modalTitle="test"  onCloseEvent={closeModal} ><div>Hi</div></VaModal>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Modal',
+        'const SampleModal = () => (<Modal title="test" contents={someJSX} onClose={closeModal} cssClass="va-modal-large" />)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'Modal',
+                'const SampleModal = () => (<VaModal modalTitle="test"  onCloseEvent={closeModal} className="va-modal-large" >{someJSX}</VaModal>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Modal',
+        'const SampleModal = () => (<Modal title="test" onClose={closeModal}>HELLO</Modal>)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'Modal',
+                'const SampleModal = () => (<VaModal modalTitle="test" onCloseEvent={closeModal}>HELLO</VaModal>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Modal',
+        'const SampleModal = () => (<Modal title="test" onClose={closeModal} primaryButton={primaryButton} secondaryButton={secondaryButton} hideCloseButton>HELLO</Modal>)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'Modal',
+                'const SampleModal = () => (<VaModal modalTitle="test" onCloseEvent={closeModal} primaryButton={primaryButton} secondaryButton={secondaryButton} >HELLO</VaModal>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Pagination',
+        'const PaginationSample = () => (<Pagination onPageSelect={handlePageSelect} page="3" pages="50" />)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFileBindingsImport(
+                'VaPagination',
+                'const PaginationSample = () => (<VaPagination onPageSelect={handlePageSelect} page="3" pages="50" />)',
               ),
             },
           ],

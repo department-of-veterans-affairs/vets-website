@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {
   ssoe,
-  loginGov,
+  loginGovDisabled,
   loginGovCreateAccount,
   loginGovMyVAHealth,
   loginGovMHV,
@@ -23,7 +23,7 @@ export const LoginContainer = props => {
     externalApplication,
     isUnifiedSignIn,
     loggedOut,
-    loginGovEnabled,
+    loginGovOff,
     loginGovCreateAccountEnabled,
     loginGovMHVEnabled,
     loginGovMyVAHealthEnabled,
@@ -45,7 +45,7 @@ export const LoginContainer = props => {
           <LoginHeader loggedOut={loggedOut} />
           <LoginActions
             externalApplication={externalApplication}
-            loginGovEnabled={loginGovEnabled}
+            loginGovOff={loginGovOff}
             loginGovMHVEnabled={loginGovMHVEnabled}
             loginGovMyVAHealthEnabled={loginGovMyVAHealthEnabled}
             loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
@@ -60,7 +60,7 @@ export const LoginContainer = props => {
 function mapStateToProps(state) {
   return {
     useSSOe: ssoe(state),
-    loginGovEnabled: loginGov(state),
+    loginGovOff: loginGovDisabled(state),
     loginGovMHVEnabled: loginGovMHV(state),
     loginGovMyVAHealthEnabled: loginGovMyVAHealth(state),
     loginGovCreateAccountEnabled: loginGovCreateAccount(state),

@@ -2,6 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -86,23 +87,44 @@ export function FilterYourResults({
     const { checked } = e.target;
 
     if (!checked) {
-      dispatchFilterChange({
-        ...filters,
-        schools: false,
-        excludedSchoolTypes: [
-          'PUBLIC',
-          'FOR PROFIT',
-          'PRIVATE',
-          'FOREIGN',
-          'FLIGHT',
-          'CORRESPONDENCE',
-        ],
-        excludeCautionFlags: false,
-        accredited: false,
-        studentVeteran: false,
-        yellowRibbonScholarship: false,
-        specialMission: 'ALL',
-      });
+      if (environment.isProduction()) {
+        dispatchFilterChange({
+          ...filters,
+          schools: false,
+          excludedSchoolTypes: [
+            'PUBLIC',
+            'FOR PROFIT',
+            'PRIVATE',
+            'FOREIGN',
+            'FLIGHT',
+            'CORRESPONDENCE',
+          ],
+          excludeCautionFlags: false,
+          accredited: false,
+          studentVeteran: false,
+          yellowRibbonScholarship: false,
+          specialMission: 'ALL',
+        });
+      } else {
+        dispatchFilterChange({
+          ...filters,
+          schools: false,
+          excludedSchoolTypes: [
+            'PUBLIC',
+            'FOR PROFIT',
+            'PRIVATE',
+            'FOREIGN',
+            'FLIGHT',
+            'CORRESPONDENCE',
+            'HIGH SCHOOL',
+          ],
+          excludeCautionFlags: false,
+          accredited: false,
+          studentVeteran: false,
+          yellowRibbonScholarship: false,
+          specialMission: 'ALL',
+        });
+      }
       recordCheckboxEvent(e);
     } else {
       onChangeCheckbox(e);
@@ -252,7 +274,7 @@ export function FilterYourResults({
     const options = [
       {
         optionValue: 'hbcu',
-        optionLabel: 'Historically Black College or University',
+        optionLabel: 'Historically Black college or university',
       },
       {
         optionValue: 'menonly',
@@ -264,7 +286,7 @@ export function FilterYourResults({
       },
       {
         optionValue: 'relaffil',
-        optionLabel: 'Religious Affiliation',
+        optionLabel: 'Religious affiliation',
       },
     ];
     return (

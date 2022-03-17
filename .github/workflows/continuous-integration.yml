@@ -18,6 +18,8 @@ jobs:
   build:
     name: Build
     runs-on: self-hosted
+    outputs:
+      app_entries: ${{ steps.get-changed-apps.outputs.app_entries }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
@@ -45,11 +47,16 @@ jobs:
 
       - name: List changed files
         id: changed-files
-        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          else
+            echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+          fi
 
       - name: Get app entries for changed files
         id: get-changed-apps
-        if: ${{ github.ref != 'refs/heads/master' }}
+        if: ${{ github.ref != 'refs/heads/master' || matrix.buildtype == 'vagovdev' }}
         run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
@@ -77,7 +84,7 @@ jobs:
         run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.buildtype }}.tar.bz2
           path: ${{ matrix.buildtype }}.tar.bz2
@@ -86,6 +93,9 @@ jobs:
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
+    outputs:
+      app_folders: ${{ steps.get-changed-apps.outputs.app_folders }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -107,11 +117,15 @@ jobs:
 
       - name: List changed files
         id: changed-files
-        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          else
+            echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+          fi
 
       - name: Get app folders for changed files
         id: get-changed-apps
-        if: ${{ github.ref != 'refs/heads/master' }}
         run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder)
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
@@ -124,7 +138,7 @@ jobs:
 
       - name: Archive unit test results
         if: ${{ always() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: unit-test-report
           path: mochawesome-report
@@ -133,7 +147,7 @@ jobs:
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
       - name: Upload Coverage Report Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
           name: unit-test-coverage-report
@@ -166,7 +180,7 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Upload coverage report to S3
-        if: ${{ github.ref == 'refs/heads/master' }}
+        if: ${{ github.ref == 'refs/heads/master' && steps.get-changed-apps.outputs.app_folders == '' }}
         run: aws s3 cp coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
 
       - name: Get code coverage
@@ -249,13 +263,13 @@ jobs:
           --fail
 
       - name: Archive contract test results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: contract-test-report
           path: mochawesome-report
 
       - name: Archive contract test log
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
           name: contract-test-log
@@ -442,8 +456,14 @@ jobs:
       - name: Checkout vets-website
         uses: actions/checkout@v2
 
+      - name: Checkout content-build
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/content-build
+          path: content-build
+
       - name: Download production build artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: vagovprod.tar.bz2
 
@@ -476,21 +496,21 @@ jobs:
           APP_URLS: ${{ needs.cypress-tests-prep.outputs.app_urls }}
 
       - name: Archive test videos
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
           name: cypress-video-artifacts
           path: cypress/videos
 
       - name: Archive test screenshots
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
           name: cypress-screenshot-artifacts
           path: cypress/screenshots
 
       - name: Archive Mochawesome test results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
           name: cypress-mochawesome-test-results
@@ -580,7 +600,7 @@ jobs:
       # ------------------------------------------------------
 
       - name: Download Contract Test Mochawesome test results
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: contract-test-report
           path: testing-tools-team-dashboard-data/src/testing-reports/data
@@ -692,7 +712,7 @@ jobs:
       # --------------------------------------------------
 
       - name: Download Unit Test Mochawesome test results
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: unit-test-report
           path: testing-tools-team-dashboard-data/src/testing-reports/data
@@ -781,7 +801,7 @@ jobs:
       # -------------------------------------
 
       - name: Download Unit Test Coverage Report
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: unit-test-coverage-report
           path: testing-tools-team-dashboard-data/src/testing-reports/data
@@ -861,14 +881,14 @@ jobs:
         # -------------------------------------
 
       - name: Download Cypress E2E Mochawesome test results
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: cypress-mochawesome-test-results
           path: testing-tools-team-dashboard-data/src/testing-reports/data
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: cypress-video-artifacts
           path: testing-tools-team-dashboard-data/videos/${{ env.UUID }}
@@ -923,6 +943,9 @@ jobs:
         linting,
       ]
 
+    env:
+      IS_SINGLE_APP_BUILD: ${{ matrix.buildtype == 'vagovdev' && needs.build.outputs.app_entries != '' }}
+
     # Archive should still run even when linting is skipped (as in PRs).
     # This if overrides the dependency on linting success to include skipped.
     # Because of always(), the rest of the needed jobs have to be checked too.
@@ -938,10 +961,32 @@ jobs:
       (needs.linting.result == 'success' || needs.linting.result == 'skipped')
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Download build artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: ${{ matrix.buildtype }}.tar.bz2
+
+      - name: Extract build artifact
+        if: env.IS_SINGLE_APP_BUILD == 'true'
+        run: |
+          mkdir -p build/${{ matrix.buildtype }}
+          tar -C build/${{ matrix.buildtype }} -xjvf ${{ matrix.buildtype }}.tar.bz2
+          rm ${{ matrix.buildtype }}.tar.bz2
+
+      - name: Remove global assets from build
+        if: env.IS_SINGLE_APP_BUILD == 'true'
+        run: ./script/github-actions/remove-global-assets.sh
+        env:
+          ENTRY_NAMES: ${{ needs.build.outputs.app_entries }}
+          APP_DIRS: ${{ needs.unit-tests.outputs.app_folders }}
+          BUILD_DIR: build/${{ matrix.buildtype }}
+
+      - name: Compress and archive single/grouped app build
+        if: env.IS_SINGLE_APP_BUILD == 'true'
+        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
 
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
@@ -1001,7 +1046,7 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     if: ${{ always() && github.ref == 'refs/heads/master' && needs.get-latest-run-number.result == 'success' && needs.get-latest-run-number.outputs.latest_run_number == github.run_number}}
-    needs: get-latest-run-number
+    needs: [build, get-latest-run-number]
 
     strategy:
       matrix:
@@ -1041,44 +1086,17 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Deploy
-        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+        run: |
+          if [[ ${{ matrix.environment }} == 'vagovdev' ]] && [[ -n "${{ needs.build.outputs.app_entries }}" ]]; then
+            ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+          else
+            ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+          fi
+
         env:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
           DEST: s3://${{ matrix.deploy-bucket }}
           ASSET_DEST: s3://${{ matrix.asset-bucket }}
-
-  jenkins:
-    name: Run Jenkins CI
-    runs-on: ubuntu-latest
-    steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-
-      - name: Get Jenkins token
-        uses: marvinpinto/action-inject-ssm-secrets@latest
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/JENKINS_API_TOKEN
-          env_variable_name: JENKINS_API_TOKEN
-
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
-
-      - name: Trigger Jenkins pipeline
-        run: node script/github-actions/trigger-jenkins.js
 
   notify-failure:
     name: Notify Failure
@@ -1110,7 +1128,12 @@ jobs:
       - name: List changed files
         id: changed-files
         if: env.ALERT_TEAMS == 'true'
-        run: echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          else
+            echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+          fi
 
       - name: Get app team's Slack group
         id: get-slack-groups

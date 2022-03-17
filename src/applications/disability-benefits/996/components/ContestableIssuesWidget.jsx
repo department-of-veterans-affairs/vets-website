@@ -7,7 +7,7 @@ import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { IssueCard } from './IssueCardV2';
-import { SELECTED, MAX_SELECTIONS, LAST_HLR_ITEM } from '../constants';
+import { SELECTED, MAX_LENGTH, LAST_HLR_ITEM } from '../constants';
 import {
   NoneSelectedAlert,
   MaxSelectionsAlert,
@@ -82,7 +82,7 @@ const ContestableIssuesWidget = props => {
     closeModal: () => setShowErrorModal(false),
     onChange: (index, event) => {
       let { checked } = event.target;
-      if (checked && getSelected(formData).length + 1 > MAX_SELECTIONS) {
+      if (checked && getSelected(formData).length + 1 > MAX_LENGTH.SELECTIONS) {
         setShowErrorModal(true);
         event.preventDefault(); // prevent checking
         checked = false;

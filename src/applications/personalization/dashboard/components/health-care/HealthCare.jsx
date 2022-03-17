@@ -47,7 +47,6 @@ const HealthCare = ({
   const start = new Date(nextAppointment?.startsAt);
   const today = new Date();
   const hasUpcomingAppointment = differenceInDays(start, today) < 30;
-  const hasFutureAppointments = Boolean(appointments?.length);
 
   useEffect(
     () => {
@@ -101,21 +100,21 @@ const HealthCare = ({
       <div className="vads-l-row">
         <DashboardWidgetWrapper>
           {/* Messages */}
-          {shouldFetchUnreadMessages ? (
-            <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5">
+          {shouldFetchUnreadMessages &&
+          !hasInboxError &&
+          unreadMessagesCount > 0 ? (
+            <div
+              className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
+              data-testid="unread-messages-alert"
+            >
               <va-alert status="warning" show-icon>
                 <div className="vads-u-margin-top--0">
-                  {!hasInboxError
-                    ? `You have ${unreadMessagesCount} unread message${
-                        unreadMessagesCount === 1 ? '' : 's'
-                      }. `
-                    : null}
+                  {`You have ${unreadMessagesCount} unread message${
+                    unreadMessagesCount === 1 ? '' : 's'
+                  }. `}
                   <CTALink
-                    text={
-                      !hasInboxError
-                        ? 'View your messages'
-                        : 'Send a secure message to your health care team'
-                    }
+                    text="View your messages"
+                    newTab
                     href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
                     onClick={() =>
                       recordEvent({
@@ -137,13 +136,30 @@ const HealthCare = ({
             />
           )}
           {!hasUpcomingAppointment &&
-            !hasAppointmentsError &&
-            hasFutureAppointments && (
-              <p>You have no appointments scheduled in the next 30 days.</p>
+            !hasAppointmentsError && (
+              <p data-testid="no-appointment-message">
+                You have no appointments scheduled in the next 30 days.
+              </p>
             )}
         </DashboardWidgetWrapper>
         <DashboardWidgetWrapper>
           <h3 className="sr-only">Popular actions for Health Care</h3>
+          {hasInboxError ||
+            (unreadMessagesCount === 0 && (
+              <IconCTALink
+                text="Send a secure message to your health care team"
+                icon="comments"
+                newTab
+                href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+                onClick={() =>
+                  recordEvent({
+                    event: 'nav-linkslist',
+                    'links-list-header': 'View your messages',
+                    'links-list-section-header': 'Health care',
+                  })
+                }
+              />
+            ))}
           {!hasUpcomingAppointment &&
             !hasAppointmentsError && (
               <IconCTALink
@@ -276,7 +292,7 @@ const mapStateToProps = state => {
     // API requests have started.
     shouldShowLoadingIndicator: fetchingAppointments || fetchingUnreadMessages,
     shouldShowPrescriptions,
-    unreadMessagesCount: selectUnreadCount(state).count,
+    unreadMessagesCount: selectUnreadCount(state).count || 0,
   };
 };
 

@@ -1,5 +1,3 @@
-$veteran-banner-desktop-width: 1280px;
-
 .veteran-banner {
   @include linear-gradient-background($white, $mm-gray);
   margin: 1.5em auto 0;
@@ -16,5 +14,10 @@ $veteran-banner-desktop-width: 1280px;
 }
 
 .veteran-banner-container {
-  max-width: $veteran-banner-desktop-width;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.veteran-banner-image {
+  width: 100%;
 }
