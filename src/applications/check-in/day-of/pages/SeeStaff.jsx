@@ -11,6 +11,7 @@ import { makeSelectSeeStaffMessage } from '../../selectors';
 import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 import TravelPayReimbursementLink from '../../components/TravelPayReimbursementLink';
 import { useFormRouting } from '../../hooks/useFormRouting';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { useDemographicsFlags } from '../../hooks/useDemographicsFlags';
 
 const SeeStaff = props => {
@@ -19,6 +20,7 @@ const SeeStaff = props => {
   const featureToggles = useSelector(selectFeatureToggles);
   const { isDayOfDemographicsFlagsEnabled } = featureToggles;
   const { goToErrorPage, jumpToPage } = useFormRouting(router);
+  const { getDemographicsConfirmed } = useSessionStorage(false);
   const {
     demographicsData,
     demographicsFlagsSent,
@@ -34,7 +36,12 @@ const SeeStaff = props => {
 
   useEffect(
     () => {
-      if (!isDayOfDemographicsFlagsEnabled || demographicsFlagsSent) return;
+      if (
+        !isDayOfDemographicsFlagsEnabled ||
+        demographicsFlagsSent ||
+        getDemographicsConfirmed(window)
+      )
+        return;
       api.v2
         .patchDayOfDemographicsData(demographicsData)
         .then(resp => {
@@ -49,6 +56,7 @@ const SeeStaff = props => {
     [
       demographicsData,
       demographicsFlagsSent,
+      getDemographicsConfirmed,
       goToErrorPage,
       isDayOfDemographicsFlagsEnabled,
       jumpToPage,
