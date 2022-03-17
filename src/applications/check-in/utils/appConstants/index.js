@@ -38,19 +38,6 @@ const getLabelForEditField = (
   return rv;
 };
 
-const countries = [
-  {
-    key: 'USA',
-    value: 'USA',
-    label: 'USA',
-  },
-  {
-    key: 'other',
-    value: 'other',
-    label: 'Other',
-  },
-];
-
 const usStates = [
   {
     key: 'az',
@@ -267,6 +254,5 @@ export {
   EDITING_PAGE_NAMES,
   getLabelForEditField,
   addressFormFields,
-  countries,
   baseStates,
 };

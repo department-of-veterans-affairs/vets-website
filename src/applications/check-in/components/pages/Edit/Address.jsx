@@ -26,9 +26,9 @@ import BackToHome from '../../BackToHome';
 import {
   getLabelForEditField,
   addressFormFields,
-  countries,
   baseStates,
 } from '../../../utils/appConstants';
+import { countryList } from '../../../utils/appConstants/countryList';
 
 export default function Address(props) {
   const { router } = props;
@@ -292,7 +292,7 @@ export default function Address(props) {
             United States
           </option>
         ) : (
-          countries.map(country => (
+          countryList.map(country => (
             <>
               <option key={country.key} value={country.value}>
                 {country.label}
