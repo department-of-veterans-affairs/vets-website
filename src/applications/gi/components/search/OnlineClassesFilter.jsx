@@ -1,6 +1,6 @@
 import React from 'react';
-import RadioButtons from '../RadioButtons';
 import PropTypes from 'prop-types';
+import RadioButtons from '../RadioButtons';
 import { ariaLabels } from '../../constants';
 import LearnMoreLabel from '../LearnMoreLabel';
 
@@ -12,8 +12,8 @@ function OnlineClassesFilter({
 }) {
   const radioButtonsLabelText = 'Will you be taking any classes in person?';
   const options = [
-    { value: 'no', label: 'Yes' },
-    { value: 'yes', label: 'No' },
+    { value: 'yes', label: 'Yes' },
+    { value: 'no', label: 'No' },
   ];
 
   return (
@@ -36,9 +36,9 @@ function OnlineClassesFilter({
 
 OnlineClassesFilter.propTypes = {
   onlineClasses: PropTypes.string.isRequired,
-  onChange: PropTypes.func,
   showModal: PropTypes.func.isRequired,
   handleInputFocus: PropTypes.func,
+  onChange: PropTypes.func,
 };
 
 export default OnlineClassesFilter;

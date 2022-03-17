@@ -580,6 +580,8 @@ const getDerivedValues = createSelector(
     } else if (onlineClasses === 'yes') {
       housingAllowTerm1 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
+    } else if (onlineClasses === 'no' && hasClassesOutsideUS) {
+      housingAllowTerm1 = 0;
     } else if (hasClassesOutsideUS) {
       housingAllowTerm1 = termLength * rop * (tier * avgBah + kickerBenefit);
     } else {
@@ -637,6 +639,8 @@ const getDerivedValues = createSelector(
     } else if (onlineClasses === 'yes') {
       housingAllowTerm2 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
+    } else if (onlineClasses === 'no' && hasClassesOutsideUS) {
+      housingAllowTerm2 = 0;
     } else if (hasClassesOutsideUS) {
       housingAllowTerm2 = termLength * rop * (tier * avgBah + kickerBenefit);
     } else {
@@ -696,6 +700,8 @@ const getDerivedValues = createSelector(
     } else if (onlineClasses === 'yes') {
       housingAllowTerm3 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
+    } else if (onlineClasses === 'yes' && hasClassesOutsideUS) {
+      housingAllowTerm3 = 0;
     } else if (hasClassesOutsideUS) {
       housingAllowTerm3 = termLength * rop * (tier * avgBah + kickerBenefit);
     } else {
