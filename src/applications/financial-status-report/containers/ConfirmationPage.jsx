@@ -23,7 +23,9 @@ const scrollToTop = () => {
 
 const RequestDetailsCard = ({ data, response }) => {
   const name = data.personalData?.veteranFullName;
-  const windowPrint = useCallback(() => window.print(), []);
+  const windowPrint = useCallback(() => {
+    window.print();
+  }, []);
 
   return (
     <div className="inset">
@@ -64,7 +66,7 @@ const RequestDetailsCard = ({ data, response }) => {
           <DownloadFormPDF />
           <button
             className="usa-button-secondary button vads-u-background-color--white"
-            onClick={windowPrint()}
+            onClick={windowPrint}
             type="button"
           >
             Print this page
