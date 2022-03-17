@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 
+import NeedsToVerify from '../components/NeedsToVerify';
 import {
   FACILITY_LOCATOR_URL,
   GET_HELP_REQUEST_URL,
@@ -17,14 +20,15 @@ import {
   unauthStartText,
   customText,
 } from '../content/saveInProgress';
+import { filingDeadlineContent } from '../content/FilingDeadlines';
 
-class IntroductionPage extends React.Component {
+export class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
 
   render() {
-    const { route } = this.props;
+    const { route, loggedIn, isVerified, location } = this.props;
     const { formConfig, pageList } = route;
     const { formId, prefillEnabled, savedFormMessages, downtime } = formConfig;
     const sipOptions = {
@@ -46,11 +50,22 @@ class IntroductionPage extends React.Component {
       ariaDescribedby: 'main-content',
     };
 
+    // Without being LOA3 (verified), the prefill & contestable issues won't load
+    const showVerifyLink = loggedIn && !isVerified;
+    const pathname = location.basename;
+
     return (
       <div className="schemaform-intro">
         <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
-        <SaveInProgressIntro {...sipOptions} />
-        <h2 id="main-content" className="vads-u-font-size--h3">
+        {showVerifyLink ? (
+          <NeedsToVerify pathname={pathname} />
+        ) : (
+          <SaveInProgressIntro {...sipOptions} />
+        )}
+        <h2
+          id="main-content"
+          className="vads-u-font-size--h3 vads-u-margin-top--2"
+        >
           Follow these steps to request a Board Appeal
         </h2>
         <va-additional-info trigger="Find out about opting in if you have an older claim">
@@ -72,12 +87,7 @@ class IntroductionPage extends React.Component {
               <h3 className="vads-u-font-size--h4">
                 Check to be sure you can request a Board Appeal
               </h3>
-              <p>
-                You can request a Board Appeal up to 1 year from the date on
-                your decision notice. (Exception: if you have a contested claim,
-                you have only 60 days from the date on your decision notice to
-                request a Board Appeal.)
-              </p>
+              {filingDeadlineContent}
               <p>You can request a Board Appeal for these claim decisions:</p>
               <ul>
                 <li>An initial claim</li>
@@ -125,7 +135,11 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <SaveInProgressIntro buttonOnly {...sipOptions} />
+        {showVerifyLink ? (
+          <NeedsToVerify pathname={pathname} />
+        ) : (
+          <SaveInProgressIntro buttonOnly {...sipOptions} />
+        )}
         <h2 className="vads-u-font-size--h3">
           What if I need help filling out my application?
         </h2>
@@ -148,6 +162,11 @@ class IntroductionPage extends React.Component {
 }
 
 IntroductionPage.propTypes = {
+  isVerified: PropTypes.bool,
+  location: PropTypes.shape({
+    basename: PropTypes.string,
+  }),
+  loggedIn: PropTypes.bool,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
       formId: PropTypes.string,
@@ -161,4 +180,11 @@ IntroductionPage.propTypes = {
   }),
 };
 
-export default IntroductionPage;
+function mapStateToProps(state) {
+  return {
+    loggedIn: isLoggedIn(state),
+    isVerified: selectProfile(state)?.verified || false,
+  };
+}
+
+export default connect(mapStateToProps)(IntroductionPage);
