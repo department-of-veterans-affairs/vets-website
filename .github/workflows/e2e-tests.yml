@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: Get commit sha from workflow_run
         if: ${{ github.event_name == 'workflow_run' }}
-        run: echo 'COMMIT_SHA=${{ github.event.head_sha }}' >> $GITHUB_ENV
+        run: echo 'COMMIT_SHA=${{ github.event.workflow_run.head_sha }}' >> $GITHUB_ENV
 
       - name: Get commit sha from workflow_dispatch
         if: ${{ github.event_name == 'workflow_dispatch' }}

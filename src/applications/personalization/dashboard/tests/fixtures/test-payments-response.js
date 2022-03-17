@@ -142,3 +142,15 @@ export const paymentsSuccessEmpty = () => {
     },
   };
 };
+
+export const paymentsError = () => {
+  return {
+    errors: [
+      {
+        title: 'Server Error',
+        code: '500',
+        status: '500',
+      },
+    ],
+  };
+};

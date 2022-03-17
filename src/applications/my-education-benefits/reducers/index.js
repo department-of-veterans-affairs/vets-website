@@ -1,6 +1,5 @@
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import formConfig from '../config/form';
-// import set from 'platform/utilities/data/set';
 
 import {
   FETCH_PERSONAL_INFORMATION_SUCCESS,
@@ -44,7 +43,8 @@ export default {
             action?.response?.data?.attributes?.eligibility
               ?.filter(
                 benefit =>
-                  benefit.veteranIsEligible &&
+                  (benefit.veteranIsEligible === true ||
+                    benefit.veteranIsEligible === null) &&
                   benefit.chapter !== ELIGIBILITY.CHAPTER33,
               )
               .map(benefit => benefit.chapter) || [],

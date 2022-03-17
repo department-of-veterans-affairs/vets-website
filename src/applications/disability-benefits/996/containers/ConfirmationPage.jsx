@@ -6,9 +6,7 @@ import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import { selectProfile } from 'platform/user/selectors';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { SAVED_CLAIM_TYPE, WIZARD_STATUS, FORMAT_READABLE } from '../constants';
 import { getSelected, getIssueName } from '../utils/helpers';
@@ -106,7 +104,7 @@ export class ConfirmationPage extends React.Component {
         <p>
           If you requested a decision review and haven’t heard back from VA yet,
           please don’t request another review. Call VA at{' '}
-          <Telephone contact={CONTACTS.VA_BENEFITS} />.
+          <va-telephone contact={CONTACTS.VA_BENEFITS} />.
         </p>
         <br />
         <a

@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { getAllPayments } from 'applications/disability-benefits/view-payments/actions';
 import moment from 'moment';
 import { Payments } from './Payments';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
@@ -10,19 +8,7 @@ import recordEvent from '~/platform/monitoring/record-event';
 
 import Debts from './Debts';
 
-const BenefitPaymentsAndDebt = ({
-  payments,
-  debts,
-  debtsError,
-  paymentsError,
-  getPayments,
-}) => {
-  useEffect(
-    () => {
-      getPayments();
-    },
-    [getPayments],
-  );
+const BenefitPaymentsAndDebt = ({ payments, debts, debtsError }) => {
   const lastPayment = payments
     ?.filter(p => moment(p.payCheckDt) > moment().subtract(31, 'days'))
     .sort((a, b) => moment(b.payCheckDt) - moment(a.payCheckDt))[0];
@@ -42,12 +28,7 @@ const BenefitPaymentsAndDebt = ({
             (payments || debts) && (
               <DashboardWidgetWrapper>
                 {debts && <Debts debts={debts} hasError={debtsError} />}
-                {payments && (
-                  <Payments
-                    lastPayment={lastPayment}
-                    hasError={paymentsError}
-                  />
-                )}
+                {payments && <Payments lastPayment={lastPayment} />}
               </DashboardWidgetWrapper>
             )}
           <DashboardWidgetWrapper>
@@ -125,19 +106,6 @@ const BenefitPaymentsAndDebt = ({
   );
 };
 
-// eslint-disable-next-line no-unused-vars
-const mapStateToProps = state => {
-  return {
-    payments: state.allPayments.payments?.payments || [],
-    paymentsError: state.allPayments.error,
-  };
-};
-
-const mapDispatchToProps = {
-  // todo: not being used yet as this is a mockup
-  getPayments: getAllPayments,
-};
-
 BenefitPaymentsAndDebt.propTypes = {
   debts: PropTypes.arrayOf(
     PropTypes.shape({
@@ -162,7 +130,6 @@ BenefitPaymentsAndDebt.propTypes = {
     }),
   ),
   debtsError: PropTypes.bool,
-  getPayments: PropTypes.func,
   payments: PropTypes.arrayOf(
     PropTypes.shape({
       payCheckAmount: PropTypes.string.isRequired,
@@ -175,10 +142,6 @@ BenefitPaymentsAndDebt.propTypes = {
       accountNumber: PropTypes.string.isRequired,
     }),
   ),
-  paymentsError: PropTypes.bool,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(BenefitPaymentsAndDebt);
+export default BenefitPaymentsAndDebt;

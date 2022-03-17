@@ -156,7 +156,7 @@ IntroductionPage.propTypes = {
       savedFormMessages: PropTypes.shape({}),
       downtime: PropTypes.shape({}),
     }),
-    pageList: PropTypes.string,
+    pageList: PropTypes.array,
   }),
 };
 
