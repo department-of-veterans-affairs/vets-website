@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
@@ -11,7 +10,7 @@ import ServiceProvidersText, {
 } from 'platform/user/authentication/components/ServiceProvidersText';
 import GetFormHelp from '../components/GetFormHelp';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
-import { downloadPDF } from '../actions';
+import DownloadFormPDF from '../components/DownloadFormPDF';
 
 const { scroller } = Scroll;
 const scrollToTop = () => {
@@ -22,9 +21,9 @@ const scrollToTop = () => {
   });
 };
 
-const RequestDetailsCard = ({ data, response, download }) => {
+const RequestDetailsCard = ({ data, response }) => {
   const name = data.personalData?.veteranFullName;
-  const downloadClick = useCallback(() => download(), [download]);
+  const windowPrint = useCallback(() => window.print(), []);
 
   return (
     <div className="inset">
@@ -62,16 +61,10 @@ const RequestDetailsCard = ({ data, response, download }) => {
         <p className="vads-u-margin-y--0">P.O. Box 11930</p>
         <p className="vads-u-margin-y--0">St. Paul, MN 55111-0930</p>
         <p>
-          <button
-            className="usa-button button"
-            onClick={downloadClick}
-            type="button"
-          >
-            Download completed form
-          </button>
+          <DownloadFormPDF />
           <button
             className="usa-button-secondary button vads-u-background-color--white"
-            onClick={() => window.print()}
+            onClick={windowPrint()}
             type="button"
           >
             Print this page
@@ -191,11 +184,4 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ download: downloadPDF }, dispatch),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ConfirmationPage);
+export default connect(mapStateToProps)(ConfirmationPage);
