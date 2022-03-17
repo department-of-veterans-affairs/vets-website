@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import recordEvent from '~/platform/monitoring/record-event';
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-import { focusElement } from '~/platform/utilities/ui';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
-import CopyAddressModal from '@@profile/components/contact-information/addresses/CopyAddressModal';
 
 import {
   createTransaction,
@@ -20,7 +16,6 @@ import {
 
 import * as VAP_SERVICE from '@@vap-svc/constants';
 import { ACTIVE_EDIT_VIEWS, FIELD_NAMES, USA } from '@@vap-svc/constants';
-import { areAddressesEqual } from '@@vap-svc/util';
 
 import {
   isFailedTransaction,
@@ -39,19 +34,14 @@ import {
   selectEditViewData,
 } from '@@vap-svc/selectors';
 
-import { profileShowAddressChangeModal } from '@@profile/selectors';
-
 import { transformInitialFormValues } from '@@profile/util/contact-information/formValues';
+import { focusElement } from '~/platform/utilities/ui';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import recordEvent from '~/platform/monitoring/record-event';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
 export class ProfileInformationEditView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isShowingCopyAddressModal: false,
-    };
-  }
   static propTypes = {
     activeEditView: PropTypes.string,
     analyticsSectionName: PropTypes.oneOf(
@@ -250,34 +240,9 @@ export class ProfileInformationEditView extends Component {
     );
   };
 
-  compareAddresses = data => {
-    const {
-      field,
-      mailingAddress,
-      shouldProfileShowAddressChangeModal,
-    } = this.props;
-
-    if (
-      shouldProfileShowAddressChangeModal &&
-      !areAddressesEqual(mailingAddress, field.value)
-    ) {
-      this.setState({ isShowingCopyAddressModal: true });
-      return;
-    }
-
-    this.onSubmit(data);
-  };
-
-  toggleCopyAddressModal = () => {
-    this.setState({
-      isShowingCopyAddressModal: !this.state.isShowingCopyAddressModal,
-    });
-  };
-
   render() {
     const {
       onSubmit,
-      compareAddresses,
       props: {
         analyticsSectionName,
         field,
@@ -286,8 +251,6 @@ export class ProfileInformationEditView extends Component {
         title,
         transaction,
         transactionRequest,
-        shouldProfileShowAddressChangeModal,
-        mailingAddress,
       },
     } = this;
 
@@ -307,19 +270,6 @@ export class ProfileInformationEditView extends Component {
               this.editForm = el;
             }}
           >
-            {shouldProfileShowAddressChangeModal &&
-              isResidentialAddress &&
-              this.state.isShowingCopyAddressModal && (
-                <CopyAddressModal
-                  optionalUpdateAddressType="mailing"
-                  addressToUpdate={mailingAddress}
-                  mainAddress={field.value}
-                  isVisible={this.state.isShowingCopyAddressModal}
-                  onYes={this.toggleCopyAddressModal}
-                  onNo={this.toggleCopyAddressModal}
-                  onClose={this.toggleCopyAddressModal}
-                />
-              )}
             {isResidentialAddress && (
               <CopyMailingAddress
                 copyMailingAddress={this.copyMailingAddress}
@@ -338,11 +288,7 @@ export class ProfileInformationEditView extends Component {
               onChange={event =>
                 this.onInput(event, field.formSchema, field.uiSchema)
               }
-              onSubmit={
-                isResidentialAddress && shouldProfileShowAddressChangeModal
-                  ? compareAddresses
-                  : onSubmit
-              }
+              onSubmit={onSubmit}
             >
               {error && (
                 <div
@@ -424,9 +370,7 @@ export const mapStateToProps = (state, ownProps) => {
     transaction,
     transactionRequest,
     editViewData: selectEditViewData(state),
-    shouldProfileShowAddressChangeModal: profileShowAddressChangeModal(state),
     emptyMailingAddress: isEmptyAddress(mailingAddress),
-    mailingAddress,
   };
 };
 
