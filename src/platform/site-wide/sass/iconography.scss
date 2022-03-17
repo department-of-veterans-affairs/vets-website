@@ -4,6 +4,10 @@
   vertical-align: middle;
 }
 
+.inline {
+  display: inline-block;
+}
+
 @mixin make-hub($hub-name,
   $icon,
   $color,
