@@ -68,19 +68,6 @@ export class IntroductionPage extends React.Component {
         >
           Follow these steps to request a Board Appeal
         </h2>
-        <va-additional-info trigger="Find out about opting in if you have an older claim">
-          <p>
-            If you’re requesting a Board Appeal on an issue in a claim we
-            decided before February 19, 2019, you’ll need to opt in to the new
-            decision review process. To do this, you’ll check a box at a certain
-            place in the form. This will move your issue from the old appeals
-            process to the new decision review process.
-          </p>
-          <p className="vads-u-margin-bottom--0">
-            Our new decision review process is part of the Appeals Modernization
-            Act. When you opt in, you’re likely to get a faster decision.
-          </p>
-        </va-additional-info>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
