@@ -1,6 +1,7 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
@@ -33,12 +34,9 @@ export class AppContent extends React.Component {
   }
 
   render() {
-    const unregistered = this.props.isDataAvailable === false;
-    let view;
-
-    if (unregistered) {
-      view = (
-        <>
+    if (this.props.isDataAvailable === false) {
+      return (
+        <div className="usa-grid">
           <h1>VA letters and documents</h1>
           <va-alert status="error">
             We weren’t able to find information about your VA letters. If you
@@ -46,13 +44,11 @@ export class AppContent extends React.Component {
             <CallVBACenter />
           </va-alert>
           <p className="vads-u-margin-bottom--4" />
-        </>
+        </div>
       );
-    } else {
-      view = this.props.children;
     }
 
-    return <div className="usa-grid">{view}</div>;
+    return <div className="usa-grid">{this.props.children}</div>;
   }
 }
 
@@ -73,6 +69,16 @@ export function LettersApp({ user, children }) {
     </RequiredLoginView>
   );
 }
+
+AppContent.propTypes = {
+  children: PropTypes.element,
+  isDataAvailable: PropTypes.bool,
+};
+
+LettersApp.propTypes = {
+  children: PropTypes.element,
+  user: PropTypes.shape({}),
+};
 
 function mapStateToProps(state) {
   return { user: state.user };
