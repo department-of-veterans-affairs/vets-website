@@ -44,8 +44,7 @@ const ConfirmationPage = ({ form }) => {
 
         {name && (
           <span>
-            For: {name.firstName} {name.middleName} {name.lastName}{' '}
-            {name.suffixName}
+            For: {name.first} {name.middle} {name.last} {name.suffix}
           </span>
         )}
 
