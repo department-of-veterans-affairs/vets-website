@@ -20,10 +20,7 @@ export const AuthContent = ({
       cernerFacilities={cernerFacilities}
       otherFacilities={otherFacilities}
       linksHeaderText="View lab and test results from:"
-      myHealtheVetLink={mhvUrl(
-        authenticatedWithSSOe,
-        'web/myhealthevet/labs-tests',
-      )}
+      myHealtheVetLink={mhvUrl(authenticatedWithSSOe, 'labs-tests')}
       myVAHealthLink={getCernerURL('/pages/health_record/results/labs')}
     />
     <div>

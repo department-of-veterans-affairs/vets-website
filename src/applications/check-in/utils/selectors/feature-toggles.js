@@ -21,6 +21,12 @@ const selectFeatureToggles = createSelector(
     isEditingPreCheckInEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceEditingPreCheckInEnabled
     ],
+    isTranslationDayOfEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceTranslationDayOfEnabled
+    ],
+    isTranslationPreCheckInEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceTranslationPreCheckInEnabled
+    ],
     isDayOfDemographicsFlagsEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceDayOfDemographicsFlagsEnabled
     ],

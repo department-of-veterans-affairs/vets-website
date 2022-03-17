@@ -69,7 +69,7 @@ describe('CTA widgets', () => {
       ).to.equal(
         `https://${
           eauthEnvironmentPrefixes[environment.BUILDTYPE]
-        }eauth.va.gov/mhv-portal-web/eauth?deeplinking=labs_tests`,
+        }eauth.va.gov/mhv-portal-web/web/myhealthevet/labs-tests`,
       );
     });
   });
@@ -120,9 +120,7 @@ describe('CTA widgets', () => {
         ctaWidgetsLookup?.[
           CTA_WIDGET_TYPES?.LAB_AND_TEST_RESULTS
         ]?.deriveToolUrlDetails()?.url,
-      ).to.equal(
-        'https://mhv-syst.myhealth.va.gov/mhv-portal-web/web/myhealthevet/labs-tests',
-      );
+      ).to.equal('https://mhv-syst.myhealth.va.gov/mhv-portal-web/labs-tests');
     });
   });
 });

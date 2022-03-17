@@ -37,6 +37,12 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/coe/submit_coe_claim`,
   transformForSubmit: customCOEsubmit,
   trackingPrefix: '26-1880-',
+  customText: {
+    appSavedSuccessfullyMessage: 'Your request has been saved.',
+    appType: 'request',
+    finishAppLaterMessage: 'Finish this request later',
+    reviewPageTitle: 'Review your request',
+  },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '26-1880',
