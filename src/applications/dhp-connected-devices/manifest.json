@@ -1,0 +1,6 @@
+{
+  "appName": "Connect Your Device",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "dhp-consent-flow",
+  "rootUrl": "/health-care/connected-devices"
+}

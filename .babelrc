@@ -40,7 +40,6 @@
   ],
   "plugins": [
     "lodash",
-    "istanbul",
     // Stage 2
     "@babel/plugin-proposal-function-sent",
     "@babel/plugin-proposal-export-namespace-from",

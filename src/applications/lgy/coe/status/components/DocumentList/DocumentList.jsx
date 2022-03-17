@@ -1,22 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import List from './List';
+
 const documents = [
   {
     id: 0,
     title: 'a document',
     type: 'PDF',
-    timestamp: 'January 12, 2021',
+    timestamp: 1645565285000,
   },
   {
     id: 1,
     title: 'another document',
     type: 'PDF',
-    timestamp: 'February 11, 2021',
+    timestamp: 1645565285000,
   },
 ];
 
-export const CoeDocumentList = ({ notOnUploadPage }) => {
+const DocumentList = ({ notOnUploadPage }) => {
   if (documents.length > 0) {
     return (
       <>
@@ -28,28 +30,7 @@ export const CoeDocumentList = ({ notOnUploadPage }) => {
           read these and follow the steps they outline. You may need to take
           action before we can make a final decision.
         </p>
-        {documents.map((document, key) => {
-          return (
-            <div
-              key={key}
-              className="vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-margin-top--4 vads-u-padding-bottom--4"
-            >
-              <h3 className="vads-u-font-family--serif vads-u-margin--0">
-                {document.title}
-              </h3>
-              <p className="vads-u-margin-y--1p5">
-                Date Sent: {document.timestamp}
-              </p>
-              <a className="vads-u-margin--0" href="∂">
-                <i
-                  aria-hidden="true"
-                  className="fas fa-download vads-u-padding-right--1"
-                />
-                {document.title} {document.type}
-              </a>
-            </div>
-          );
-        })}
+        <List documents={documents} />
       </>
     );
   }
@@ -68,6 +49,8 @@ export const CoeDocumentList = ({ notOnUploadPage }) => {
   return '';
 };
 
-CoeDocumentList.propTypes = {
+DocumentList.propTypes = {
   notOnUploadPage: PropTypes.bool,
 };
+
+export default DocumentList;

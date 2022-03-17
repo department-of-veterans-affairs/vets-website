@@ -12,7 +12,7 @@ import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-str
 // separate each number so the screenreader reads "number ending with 1 2 3 4"
 // instead of "number ending with 1,234"
 const mask = value => {
-  const number = value.slice(-4).toString();
+  const number = (value || '').toString().slice(-4);
   return srSubstitute(
     `●●●–●●–${number}`,
     `ending with ${number.split('').join(' ')}`,
@@ -24,6 +24,7 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
   const { dob, gender, userFullName = {} } = profile;
 
   const { first, middle, last, suffix } = userFullName;
+  const momentDob = moment(dob || null); // called with undefined = today's date
 
   return (
     <>
@@ -32,27 +33,22 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
       <div className="blue-bar-block">
         <strong className="name">
           {`${first || ''} ${middle || ''} ${last || ''}`}
-          {suffix && `, ${suffix}`}
+          {suffix ? `, ${suffix}` : null}
         </strong>
-        {ssnLastFour && (
-          <p className="ssn">
-            Social Security number: {mask(ssnLastFour.slice(-4))}
-          </p>
-        )}
-        {vaFileLastFour && (
-          <p className="vafn">
-            VA file number: {mask(vaFileLastFour.slice(-4))}
-          </p>
-        )}
+        {ssnLastFour ? (
+          <p className="ssn">Social Security number: {mask(ssnLastFour)}</p>
+        ) : null}
+        {vaFileLastFour ? (
+          <p className="vafn">VA file number: {mask(vaFileLastFour)}</p>
+        ) : null}
         <p>
           Date of birth:{' '}
-          <span className="dob">{dob ? moment(dob).format('LL') : ''}</span>
+          {momentDob.isValid() ? (
+            <span className="dob">{momentDob.format('LL')}</span>
+          ) : null}
         </p>
         <p>
-          Gender:{' '}
-          <span className="gender">
-            {(gender && genderLabels[gender]) || ''}
-          </span>
+          Gender: <span className="gender">{genderLabels?.[gender] || ''}</span>
         </p>
       </div>
       <br />

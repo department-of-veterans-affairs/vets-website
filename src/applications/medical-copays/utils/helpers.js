@@ -7,7 +7,7 @@ import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/med
 export const mcpFeatureToggle = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.showMedicalCopays];
 
-export const mcpHtmlMedicalStatementsViewEnabled = state =>
+export const mcpHTMLStatementToggle = state =>
   toggleValues(state)[
     FEATURE_FLAG_NAMES.medicalCopaysHtmlMedicalStatementsViewEnabled
   ];
