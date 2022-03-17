@@ -1,7 +1,8 @@
 import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 import { useSelector, useDispatch } from 'react-redux';
+import _ from 'lodash';
+
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import {
@@ -35,19 +36,12 @@ export default function Address(props) {
   const selectEditContext = useMemo(makeSelectEditContext, []);
   const { editing } = useSelector(selectEditContext);
   const { editingPage, originatingUrl, value, key } = editing;
-  const [addressValue, setAddressValue] = useState(value);
+  const [addressValue, setAddressValue] = useState(
+    typeof value !== 'object' || value === null ? {} : value,
+  );
   const [addressFields, setAddressFields] = useState(addressFormFields.US);
   const [outsideBase, setOutsideBase] = useState(false);
-
-  const errorFields = {};
-  Object.keys(addressFormFields).forEach(form => {
-    addressFormFields[form].forEach(field => {
-      if (field.required) {
-        errorFields[field.name] = null;
-      }
-    });
-  });
-  const [addressError, setAddressError] = useState(errorFields);
+  const [addressError, setAddressError] = useState({});
 
   const isUpdatable = useMemo(
     () => {
@@ -221,18 +215,21 @@ export default function Address(props) {
                 key={addressField.name}
                 value={addressValue[addressField.name]}
                 onVaBlur={
-                  addressField.extraValidation
-                    ? event => onBlur(event, addressField.extraValidation)
+                  addressField.options?.extraValidation
+                    ? event =>
+                        onBlur(event, addressField.options.extraValidation)
                     : onBlur
                 }
                 onVaChange={
-                  addressField.extraValidation
-                    ? event => onChange(event, addressField.extraValidation)
+                  addressField.options?.extraValidation
+                    ? event =>
+                        onChange(event, addressField.options.extraValidation)
                     : onChange
                 }
-                required={addressField.required}
-                inputmode={addressField?.inputMode || 'text'}
-                // maxLength={addressField?.maxLength || null}
+                required={addressField.options?.required}
+                inputmode={addressField.options?.inputMode || 'text'}
+                data-testid={_.camelCase(addressField.label)}
+                // maxLength={addressField.options?.maxLength || null}
               />
             );
           }
@@ -244,15 +241,17 @@ export default function Address(props) {
                 name={addressField.name}
                 key={addressField.name}
                 value={addressValue[addressField.name]}
-                required={addressField.required}
+                required={addressField.options?.required}
                 onVaSelect={
-                  addressField.extraValidation
-                    ? event => onBlur(event, addressField.extraValidation)
+                  addressField.options?.extraValidation
+                    ? event =>
+                        onBlur(event, addressField.options.extraValidation)
                     : onBlur
                 }
+                data-testid={_.camelCase(addressField.label)}
               >
                 <option value="" />
-                {addressField.options.map(option => (
+                {addressField.options.options.map(option => (
                   <option value={option.value} key={option.key}>
                     {option.label}
                   </option>
@@ -272,7 +271,7 @@ export default function Address(props) {
       <Header
         what={getLabelForEditField(key)}
         editingPage={editingPage}
-        value={value}
+        value={Object.values(value).some(x => x !== null && x !== '')}
       />
       <VaCheckbox
         label="I live on a United States military base outside of the United States."

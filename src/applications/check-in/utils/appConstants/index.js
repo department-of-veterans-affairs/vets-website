@@ -67,9 +67,14 @@ const usStates = [
     value: 'New Mexico',
     label: 'NM',
   },
+  {
+    key: 'tn',
+    value: 'Tennessee',
+    label: 'TN',
+  },
 ];
 
-const apoFpoDpo = [
+const baseCities = [
   {
     key: 'apo',
     value: 'APO',
@@ -119,41 +124,47 @@ const addressFormFields = Object.freeze({
       name: 'street1',
       label: 'Street address',
       type: 'text',
-      required: true,
+      options: {
+        required: true,
+      },
     },
     {
       name: 'street2',
       label: 'Street address line 2',
       type: 'text',
-      required: false,
     },
     {
       name: 'street3',
       label: 'Street address line 3',
       type: 'text',
-      required: false,
     },
     {
       name: 'city',
       label: 'City',
       type: 'text',
-      required: true,
+      options: {
+        required: true,
+      },
     },
     {
       name: 'state',
       label: 'State',
       type: 'select',
-      required: true,
-      options: usStates,
+      options: {
+        required: true,
+        options: usStates,
+      },
     },
     {
       name: 'zip',
       label: 'Zip code',
       type: 'text',
-      required: true,
-      inputMode: 'numeric',
-      maxLength: '5',
-      extraValidation: zipCodeValid,
+      options: {
+        required: true,
+        inputMode: 'numeric',
+        maxLength: '5',
+        extraValidation: zipCodeValid,
+      },
     },
   ],
   OUTSIDE_US: [
@@ -161,37 +172,43 @@ const addressFormFields = Object.freeze({
       name: 'street1',
       label: 'Street address',
       type: 'text',
-      required: true,
+      options: {
+        required: true,
+      },
     },
     {
       name: 'street2',
       label: 'Street address line 2',
       type: 'text',
-      required: false,
     },
     {
       name: 'street3',
       label: 'Street address line 3',
       type: 'text',
-      required: false,
     },
     {
       name: 'city',
       label: 'City',
       type: 'text',
-      required: true,
+      options: {
+        required: true,
+      },
     },
     {
       name: 'province',
       label: 'State/Province/Region',
       type: 'text',
-      required: true,
+      options: {
+        required: true,
+      },
     },
     {
       name: 'internationalPostalCode',
       label: 'International postal code',
       type: 'text',
-      required: true,
+      options: {
+        required: true,
+      },
     },
   ],
   BASE: [
@@ -199,42 +216,48 @@ const addressFormFields = Object.freeze({
       name: 'street1',
       label: 'Street address',
       type: 'text',
-      required: true,
+      options: {
+        required: true,
+      },
     },
     {
       name: 'street2',
       label: 'Street address line 2',
       type: 'text',
-      required: false,
     },
     {
       name: 'street3',
       label: 'Street address line 3',
       type: 'text',
-      required: false,
     },
     {
       name: 'city',
       label: 'APO/FPO/DPO',
       type: 'select',
-      required: true,
-      options: apoFpoDpo,
+      options: {
+        required: true,
+        options: baseCities,
+      },
     },
     {
       name: 'state',
       label: 'State',
       type: 'select',
-      required: true,
-      options: baseStates,
+      options: {
+        required: true,
+        options: baseStates,
+      },
     },
     {
       name: 'zip',
       label: 'Zip code',
       type: 'text',
-      required: true,
-      inputMode: 'numeric',
-      maxLength: '5',
-      extraValidation: zipCodeValid,
+      options: {
+        required: true,
+        inputMode: 'numeric',
+        maxLength: '5',
+        extraValidation: zipCodeValid,
+      },
     },
   ],
 });
