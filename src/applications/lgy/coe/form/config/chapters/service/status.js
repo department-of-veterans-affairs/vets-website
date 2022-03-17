@@ -10,7 +10,7 @@ schema.properties.identity.enumNames = [
   </>,
   'I’m an active-duty service member',
   <>
-    I'm a <strong>current</strong> member of the National Guard{' '}
+    I'm a <strong>current</strong> member of the National Guard or Reserves{' '}
     <strong>and</strong> was never activated
   </>,
   <>

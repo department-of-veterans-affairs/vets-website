@@ -9,6 +9,7 @@ const { additionalInformation } = contactInformation;
 
 export const schema = {
   ...additionalInformation,
+  title,
   properties: {
     ...additionalInformation.properties,
     'view:confirmContactEmail': {
