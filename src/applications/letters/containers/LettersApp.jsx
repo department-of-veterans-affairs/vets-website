@@ -22,6 +22,7 @@ export class AppContent extends React.Component {
       this.state = { errorLogged: false };
     }
   }
+
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     // only log isDataAvailable error if one isn't already logged
@@ -37,11 +38,15 @@ export class AppContent extends React.Component {
 
     if (unregistered) {
       view = (
-        <h4>
-          We weren’t able to find information about your VA letters. If you
-          think you should be able to access this information, please{' '}
-          <CallVBACenter />
-        </h4>
+        <>
+          <h1>VA letters and documents</h1>
+          <va-alert status="error">
+            We weren’t able to find information about your VA letters. If you
+            think you should be able to access this information, please{' '}
+            <CallVBACenter />
+          </va-alert>
+          <p className="vads-u-margin-bottom--4" />
+        </>
       );
     } else {
       view = this.props.children;
