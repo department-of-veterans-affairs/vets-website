@@ -9,7 +9,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import { MoreQuestions } from '../../status/components/MoreQuestions';
 
-const printPage = () => window.print;
+const printPage = () => window.print();
 
 const statusUrl = getAppUrl('coe-status');
 
