@@ -2671,13 +2671,13 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@^7.4.1":
-  version "7.4.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-7.4.2.tgz#41d0e8f4372d5be7e8976e64648eca848b3ef617"
-  integrity sha512-DxnsPOqXpzKQ7GNSXRJNn4PaBntoDD/7aTo2RjXwR4yCLzwaHKDpkbWSJ8uoMJzcbhNQ7HJjrF5zQFgoLoqyLA==
+"@department-of-veterans-affairs/component-library@7.4.1":
+  version "7.4.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-7.4.1.tgz#7e037acf5dc4ac875a2e3b616acc31bc56a01319"
+  integrity sha512-MYZh47Jo1W9T7DpyADW5iO5+8+HLe1BvaxhX6/WOQ3NoN+LLnJm85xNShh9Tgx9W4FK2nAjHmr8cYUoJssZWTg==
   dependencies:
     "@department-of-veterans-affairs/react-components" "5.0.0"
-    "@department-of-veterans-affairs/web-components" "2.6.2"
+    "@department-of-veterans-affairs/web-components" "2.6.1"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
@@ -2733,10 +2733,10 @@
     lodash "^4.17.21"
     react-router-dom "^5.3.0"
 
-"@department-of-veterans-affairs/web-components@2.6.2":
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-2.6.2.tgz#9d4c742793361e8d6595bf272a619428f0e9dc4a"
-  integrity sha512-pi56qwF6R+yUUcrFl/rNK/SRaISUbfV82weYPsdpc43+Vb6u0wsoZR2bEb7YAG1JOK5CL7MvTrWKBrj7hXKlqg==
+"@department-of-veterans-affairs/web-components@2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-2.6.1.tgz#e004415d067a74597074c224e0b8d5fbc2ae4f57"
+  integrity sha512-ySdrm90elTmYchuoQrFVW2juZhugK4YSOpJ8WNsSOy1hbsUowbxSEgUsxeneOYQ05il911L+slbh6Z0GaB6QCA==
   dependencies:
     "@stencil/core" "^2.10.0"
     aria-hidden "^1.1.3"
