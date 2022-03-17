@@ -8,7 +8,7 @@ export function Sponsors({ sponsors }) {
     return (
       <li
         key={`sponsor-${index}`}
-        className="toe-form-featured-content vads-u-margin-top--3 vads-u-margin-bottom--4"
+        className="toe-form-featured-content vads-u-margin-top--2"
       >
         <h5 className="vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--0">
           SPONSOR {index + 1}
@@ -32,7 +32,11 @@ export function Sponsors({ sponsors }) {
     );
   });
 
-  return <ul>{sponsorsList}</ul>;
+  return (
+    <ul className="toe-sponsors vads-u-margin-top--3 vads-u-margin-bottom--4 vads-u-padding--0">
+      {sponsorsList}
+    </ul>
+  );
 }
 
 Sponsors.propTypes = {

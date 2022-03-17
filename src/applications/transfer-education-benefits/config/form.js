@@ -105,8 +105,8 @@ const formFields = {
   relationshipToServiceMember: 'relationshipToServiceMember',
   receiveTextMessages: 'receiveTextMessages',
   routingNumber: 'routingNumber',
-  selectedReserveKicker: 'selectedReserveKicker',
-  seniorRotcCommission: 'seniorRotcCommission',
+  // selectedReserveKicker: 'selectedReserveKicker',
+  // seniorRotcCommission: 'seniorRotcCommission',
   serviceHistoryIncorrect: 'serviceHistoryIncorrect',
   sponsorDateOfBirth: 'sponsorDateOfBirth',
   sponsorFullName: 'sponsorFullName',
@@ -116,6 +116,7 @@ const formFields = {
   viewBenefitSelection: 'view:benefitSelection',
   viewNoDirectDeposit: 'view:noDirectDeposit',
   viewPhoneNumbers: 'view:phoneNumbers',
+  viewSelectedSponsor: 'view:selectedSponsor',
   viewStopWarning: 'view:stopWarning',
 };
 
@@ -432,13 +433,48 @@ const formConfig = {
                 </va-alert>
               ),
               'ui:options': {
-                hideIf: formData => !formData,
+                hideIf: formData => formData.sponsors?.length,
               },
             },
-            [formFields.relationshipToServiceMember]: {
-              'ui:title':
-                'What’s your relationship to the service member whose benefit has been transferred to you?',
-              'ui:widget': 'radio',
+            [formFields.viewSelectedSponsor]: {
+              'ui:title': 'Which sponsor’s benefits would you like to use?',
+              'ui:description': 'You may check more than one.',
+              sponsorNotListed: {
+                'ui:title': 'Someone not listed here',
+              },
+              'ui:options': {
+                updateSchema: () =>
+                  // formData,
+                  // schema,
+                  // uiSchema,
+                  // index,
+                  // pathToCurrentData,
+                  {
+                    return {
+                      type: 'object',
+                      properties: {
+                        test: { type: 'boolean' },
+                        sponsorNotListed: { type: 'boolean' },
+                      },
+                    };
+                    // const filterSponsors = createSelector(
+                    //   state => state.data?.sponsors,
+                    //   sponsors => {
+                    //     return {
+                    //       type: 'object',
+                    //       properties: {
+                    //         ...sponsors?.map((sponsor, index) => {
+                    //           return { [`sponsor${index}`]: { type: 'boolean' } };
+                    //         }),
+                    //         sponsorNotListed: { type: 'boolean' },
+                    //       },
+                    //     };
+                    //   },
+                    // );
+                    // return (form, state, schema, uiSchema) =>
+                    //   filterSponsors(form, state, schema, uiSchema);
+                  },
+              },
             },
             [formFields.sponsorFullName]: {
               ...fullNameUI,
@@ -468,9 +504,15 @@ const formConfig = {
                 ...fullNameUI.middle,
                 'ui:title': "Sponsor's  middle name",
               },
+              'ui:options': {
+                hideIf: formData => formData.sponsors?.length,
+              },
             },
             [formFields.sponsorDateOfBirth]: {
               ...currentOrPastDateUI("Sponsor's date of birth"),
+              'ui:options': {
+                hideIf: formData => formData.sponsors?.length,
+              },
             },
             'view:additionalInfo': {
               'ui:description': (
@@ -498,9 +540,11 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [formFields.relationshipToServiceMember]: {
-                type: 'string',
-                enum: ['Sponsor 1: Jane Doe', 'Someone not listed here'],
+              [formFields.viewSelectedSponsor]: {
+                type: 'object',
+                properties: {
+                  sponsorNotListed: { type: 'boolean' },
+                },
               },
               [formFields.sponsorFullName]: {
                 ...fullName,

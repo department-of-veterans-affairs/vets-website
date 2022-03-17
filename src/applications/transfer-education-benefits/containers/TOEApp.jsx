@@ -8,6 +8,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 
 import { fetchPersonalInformation, fetchSponsors } from '../actions';
+import { SPONSORS_TYPE } from '../constants';
 
 export const TOEApp = ({
   children,
@@ -78,7 +79,7 @@ TOEApp.propTypes = {
   getSponsors: PropTypes.func,
   location: PropTypes.string,
   setFormData: PropTypes.func,
-  sponsors: PropTypes.object,
+  sponsors: SPONSORS_TYPE,
   user: PropTypes.shape({
     login: PropTypes.shape({
       currentlyLoggedIn: PropTypes.bool,
