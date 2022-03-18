@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import environment from 'platform/utilities/environment';
 import RadioButtons from '../RadioButtons';
 import { ariaLabels } from '../../constants';
 import LearnMoreLabel from '../LearnMoreLabel';
