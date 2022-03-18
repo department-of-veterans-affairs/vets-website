@@ -20,12 +20,12 @@ Cypress.Commands.add('expandAccordions', () => {
         .then(additionalInfo => {
           // If it exists and Additional Info is not already expanded
           if (
-            additionalInfo.find('a[role="button"][aria-expanded="false"]')
+            additionalInfo.find('a[role="button"][aria-expanded=false]')
               .length > 0
           ) {
             cy.get('va-additional-info')
               .shadow()
-              .find('a[role="button"][aria-expanded="false"]')
+              .find('a[role="button"][aria-expanded=false]')
               .each(button => {
                 // Click to open Additional Info
                 cy.wrap(button).click({ force: true });
@@ -35,9 +35,9 @@ Cypress.Commands.add('expandAccordions', () => {
     }
     // Check if AdditionalInfo and/or Accordion React Components exist
     // Check that the component is not already expanded
-    if ($main.find('button[aria-expanded="false"]').length > 0) {
+    if ($main.find('button[aria-expanded=false]').length > 0) {
       cy.get('main')
-        .find('button[aria-expanded="false"]')
+        .find('button[aria-expanded=false]')
         .each(button => {
           // Click to open Accordion or Additional Info
           cy.wrap(button).click({ force: true });
