@@ -98,7 +98,6 @@ const FacilitiesMap = props => {
       latitude: props.currentQuery.position?.latitude,
       longitude: props.currentQuery.position?.longitude,
       radius: props.currentQuery.radius && props.currentQuery.radius.toFixed(),
-      bounds: props.currentQuery.bounds,
       ...params,
     };
 

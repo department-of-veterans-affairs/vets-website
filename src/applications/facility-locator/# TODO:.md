@@ -1,4 +1,4 @@
 # TODO
 
-- [ ] remove bounds from redux
 - [ ] remove bounds from tests
+- [ ] Community Care API endpoints are not working?
