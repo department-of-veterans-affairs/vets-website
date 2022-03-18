@@ -6,13 +6,14 @@ Cypress.Commands.add('expandAccordions', () => {
   Cypress.log();
 
   cy.get('main').then($main => {
+    const accordionMultiOpenSelector =
+      'va-accordion:not([open-single=""]):not([open-single])';
     // Click "Expand all" button on va-accordion if it exists
-    cy.get('va-accordion')
-      .shadow()
-      .find('button[aria-label="Expand all accordions"]')
-      .click({
-        force: true,
-      });
+    if ($main.find(accordionMultiOpenSelector).length > 0)
+      cy.get(accordionMultiOpenSelector)
+        .shadow()
+        .find('button[aria-label="Expand all accordions"]')
+        .click({ force: true });
     // Check if va-additional-info Web Component exists
     if ($main.find('va-additional-info').length > 0) {
       cy.get('va-additional-info')
