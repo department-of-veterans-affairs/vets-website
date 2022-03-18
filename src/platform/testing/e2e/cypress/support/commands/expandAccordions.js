@@ -6,15 +6,13 @@ Cypress.Commands.add('expandAccordions', () => {
   Cypress.log();
 
   cy.get('main').then($main => {
-    // Check if va-accordion-item Web Component exists
-    if ($main.find('va-accordion').length > 0) {
-      cy.get('va-accordion')
-        .shadow()
-        .find('button[aria-label="Expand all accordions"]')
-        .click({
-          force: true,
-        });
-    }
+    // Click "Expand all" button on va-accordion if it exists
+    cy.get('va-accordion')
+      .shadow()
+      .find('button[aria-label="Expand all accordions"]')
+      .click({
+        force: true,
+      });
     // Check if va-additional-info Web Component exists
     if ($main.find('va-additional-info').length > 0) {
       cy.get('va-additional-info')
