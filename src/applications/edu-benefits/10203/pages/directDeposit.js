@@ -22,7 +22,7 @@ export const uiSchema = {
     },
     routingNumber: {
       ...bankAccountUI.routingNumber,
-      'ui:title': 'Bank routing number',
+      'ui:title': 'Bank’s 9-digit routing number',
       'ui:required': useDirectDeposit,
     },
     accountNumber: {

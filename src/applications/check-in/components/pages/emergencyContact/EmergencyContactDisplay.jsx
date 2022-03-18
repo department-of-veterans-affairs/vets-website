@@ -1,31 +1,80 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import ConfirmablePage from '../ConfirmablePage';
 
+import { createSetEditContext } from '../../../actions/edit';
+
+import { URLS } from '../../../utils/navigation';
+import { EDITING_PAGE_NAMES } from '../../../utils/appConstants';
+
 export default function EmergencyContactDisplay({
-  data = {},
+  emergencyContact = {},
   yesAction = () => {},
   noAction = () => {},
+  jumpToPage = () => {},
   isLoading,
+  isEditEnabled = false,
   Footer,
 }) {
+  const dispatch = useDispatch();
+  const setEditContext = useCallback(
+    (data, url) => {
+      dispatch(
+        createSetEditContext({
+          ...data,
+          originatingUrl: URLS.EMERGENCY_CONTACT,
+          editingPage: EDITING_PAGE_NAMES.EMERGENCY_CONTACT,
+        }),
+      );
+      jumpToPage(url);
+    },
+    [dispatch, jumpToPage],
+  );
   const dataFields = [
-    { title: 'Name', key: 'name' },
-    { title: 'Relationship', key: 'relationship' },
-    { title: 'Address', key: 'address' },
-    { title: 'Phone', key: 'phone' },
-    { title: 'Work phone', key: 'workPhone' },
+    {
+      title: 'Name',
+      key: 'name',
+      editAction: data => {
+        setEditContext(data, URLS.EDIT_NAME);
+      },
+    },
+    {
+      title: 'Relationship',
+      key: 'relationship',
+      editAction: data => {
+        setEditContext(data, URLS.EDIT_RELATIONSHIP);
+      },
+    },
+    {
+      title: 'Address',
+      key: 'address',
+      editAction: data => {
+        setEditContext(data, URLS.EDIT_ADDRESS);
+      },
+    },
+    {
+      title: 'Phone',
+      key: 'phone',
+      editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
+    },
+    {
+      title: 'Work phone',
+      key: 'workPhone',
+      editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
+    },
   ];
   return (
     <>
       <ConfirmablePage
         header="Is this your current emergency contact?"
         dataFields={dataFields}
-        data={data}
+        data={emergencyContact}
         yesAction={yesAction}
         noAction={noAction}
         Footer={Footer}
         isLoading={isLoading}
+        isEditEnabled={isEditEnabled}
       />
     </>
   );
@@ -33,8 +82,10 @@ export default function EmergencyContactDisplay({
 
 EmergencyContactDisplay.propTypes = {
   Footer: PropTypes.elementType,
-  data: PropTypes.object,
+  emergencyContact: PropTypes.object,
+  isEditEnabled: PropTypes.bool,
   isLoading: PropTypes.bool,
+  jumpToPage: PropTypes.func,
   noAction: PropTypes.func,
   yesAction: PropTypes.func,
 };

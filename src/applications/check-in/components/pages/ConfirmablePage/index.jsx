@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import DemographicItem from '../../DemographicItem';
+import EditLinkText from '../Edit/shared/EditLinkText';
 
 const ConfirmablePage = ({
   header,
@@ -11,11 +12,15 @@ const ConfirmablePage = ({
   yesAction = () => {},
   noAction = () => {},
   isLoading = false,
+  isEditEnabled = false,
   LoadingMessage = () => <va-loading-indicator message="Loading..." />,
   Footer,
 }) => {
   useEffect(() => {
     focusElement('h1');
+  }, []);
+  const editHandler = useCallback(dataToEdit => {
+    dataToEdit.editAction(dataToEdit);
   }, []);
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 confirmable-page">
@@ -36,6 +41,21 @@ const ConfirmablePage = ({
                 ) : (
                   'Not available'
                 )}
+                {isEditEnabled &&
+                  field.editAction && (
+                    <div>
+                      <a
+                        href={`#edit-${field.key}`}
+                        // eslint-disable-next-line react/jsx-no-bind
+                        onClick={() =>
+                          editHandler({ ...field, value: data[field.key] })
+                        }
+                        data-testid="edit-button"
+                      >
+                        <EditLinkText value={data[field.key]} />
+                      </a>
+                    </div>
+                  )}
               </dd>
             </React.Fragment>
           ))}
@@ -82,6 +102,7 @@ ConfirmablePage.propTypes = {
   yesAction: PropTypes.func.isRequired,
   Footer: PropTypes.func,
   LoadingMessage: PropTypes.func,
+  isEditEnabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   subtitle: PropTypes.string,
 };

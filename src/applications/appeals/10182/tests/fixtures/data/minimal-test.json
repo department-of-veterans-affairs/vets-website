@@ -24,7 +24,7 @@
     "homeless": false,
     "boardReviewOption": "hearing",
     "hearingTypePreference": "central_office",
-    "socOptIn": true,
+    "socOptIn": false,
     "view:additionalEvidence": false,
 
     "contestableIssues": [

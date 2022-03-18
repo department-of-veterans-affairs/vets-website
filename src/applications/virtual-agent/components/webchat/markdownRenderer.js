@@ -30,8 +30,10 @@ document.addEventListener('click', e => {
     const origin = target.closest('span');
     if (origin.innerText === 'Speak with an agent') {
       recordEvent({
-        event: 'chatbot-resource-link-click',
-        'button-text': origin.innerText,
+        event: 'cta-button-click',
+        'button-type': 'default',
+        'button-click-label': origin.innerText,
+        'button-background-color': 'blue',
         time: new Date(),
       });
     }
@@ -39,8 +41,10 @@ document.addEventListener('click', e => {
     const origin = target.closest('button');
     if (origin.innerText === 'Speak with an agent') {
       recordEvent({
-        event: 'chatbot-resource-link-click',
-        'button-text': origin.innerText,
+        event: 'cta-button-click',
+        'button-type': 'default',
+        'button-click-label': origin.innerText,
+        'button-background-color': 'blue',
         time: new Date(),
       });
     }

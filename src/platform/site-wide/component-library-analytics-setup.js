@@ -3,35 +3,178 @@
  * to translate component library actions into analytics dataLayer events.
  */
 import _recordEvent from 'platform/monitoring/record-event';
-import { kebabCase } from 'lodash';
 import { getSectionLabel } from 'applications/static-pages/subscription-creators/subscribeAccordionEvents';
 
 const analyticsEvents = {
-  Modal: [{ action: 'show', event: 'int-modal-show' }],
+  Modal: [{ action: 'show', event: 'int-modal-show', prefix: 'modal' }],
   Accordion: [
-    { action: 'expand', event: 'int-accordion-expand' },
-    { action: 'collapse', event: 'int-accordion-collapse' },
+    { action: 'expand', event: 'int-accordion-expand', prefix: 'accordion' },
+    {
+      action: 'collapse',
+      event: 'int-accordion-collapse',
+      prefix: 'accordion',
+    },
   ],
   AdditionalInfo: [
-    { action: 'expand', event: 'int-additional-info-expand' },
-    { action: 'collapse', event: 'int-additional-info-collapse' },
+    {
+      action: 'expand',
+      event: 'int-additional-info-expand',
+      prefix: 'additional-info',
+    },
+    {
+      action: 'collapse',
+      event: 'int-additional-info-collapse',
+      prefix: 'additional-info',
+    },
   ],
-  AlertBox: [{ action: 'linkClick', event: 'nav-alert-box-link-click' }],
-  Breadcrumbs: [{ action: 'linkClick', event: 'nav-breadcrumb-link-click' }],
-  Checkbox: [{ action: 'change', event: 'int-checkbox-option-click' }],
+  AlertBox: [
+    {
+      action: 'linkClick',
+      event: 'nav-alert-box-link-click',
+      prefix: 'alert-box',
+    },
+  ],
+  Breadcrumbs: [
+    {
+      action: 'linkClick',
+      event: 'nav-breadcrumb-link-click',
+      prefix: 'breadcrumbs',
+    },
+  ],
+  Checkbox: [
+    {
+      action: 'change',
+      event: 'int-checkbox-option-click',
+      prefix: 'checkbox',
+    },
+  ],
   CheckboxGroup: [
-    { action: 'click', event: 'int-checkbox-group-option-click' },
+    {
+      action: 'click',
+      event: 'int-checkbox-group-option-click',
+      prefix: 'checkbox-group',
+    },
   ],
   LoadingIndicator: [
-    { action: 'displayed', event: 'loading-indicator-displayed' },
+    {
+      action: 'displayed',
+      event: 'loading-indicator-displayed',
+      prefix: 'loading-indicator',
+    },
   ],
-  PromoBanner: [{ action: 'linkClick', event: 'nav-promo-banner-link-click' }],
-  RadioButtons: [{ action: 'change', event: 'int-radio-button-option-click' }],
-  Select: [{ action: 'change', event: 'int-select-box-option-click' }],
-  TextArea: [{ action: 'blur', event: 'int-text-area-blur' }],
-  TextInput: [{ action: 'blur', event: 'int-text-input-blur' }],
-  'va-checkbox': [{ action: 'change', event: 'int-checkbox-option-click' }],
-  'va-text-input': [{ action: 'blur', event: 'int-text-input-blur' }],
+  PromoBanner: [
+    {
+      action: 'linkClick',
+      event: 'nav-promo-banner-link-click',
+      prefix: 'promo-banner',
+    },
+  ],
+  RadioButtons: [
+    {
+      action: 'change',
+      event: 'int-radio-button-option-click',
+      prefix: 'radio-button',
+    },
+  ],
+  Select: [
+    {
+      action: 'change',
+      event: 'int-select-box-option-click',
+      prefix: 'select',
+    },
+  ],
+  TextArea: [
+    { action: 'blur', event: 'int-text-area-blur', prefix: 'text-area' },
+  ],
+  TextInput: [
+    { action: 'blur', event: 'int-text-input-blur', prefix: 'text-input' },
+  ],
+  'va-checkbox': [
+    {
+      action: 'change',
+      event: 'int-checkbox-option-click',
+      prefix: 'checkbox',
+    },
+  ],
+  'va-text-input': [
+    { action: 'blur', event: 'int-text-input-blur', prefix: 'text-input' },
+  ],
+  'va-accordion': [
+    { action: 'expand', event: 'int-accordion-expand', prefix: 'accordion' },
+    {
+      action: 'collapse',
+      event: 'int-accordion-collapse',
+      prefix: 'accordion',
+    },
+  ],
+  'va-additional-info': [
+    {
+      action: 'expand',
+      event: 'int-additional-info-expand',
+      prefix: 'additional-info',
+    },
+    {
+      action: 'collapse',
+      event: 'int-additional-info-collapse',
+      prefix: 'additional-info',
+    },
+  ],
+  'va-alert': [
+    {
+      action: 'linkClick',
+      event: 'nav-alert-box-link-click',
+      prefix: 'alert-box',
+    },
+  ],
+  'va-breadcrumbs': [
+    {
+      action: 'linkClick',
+      event: 'nav-breadcrumb-link-click',
+      prefix: 'breadcrumbs',
+    },
+  ],
+  'va-checkbox-group': [
+    {
+      action: 'change',
+      event: 'int-checkbox-group-option-click',
+      prefix: 'checkbox-group',
+    },
+  ],
+  'va-loading-indicator': [
+    {
+      action: 'displayed',
+      event: 'loading-indicator-displayed',
+      prefix: 'loading-indicator',
+    },
+  ],
+  'va-radio': [
+    {
+      action: 'change',
+      event: 'int-radio-button-option-click',
+      prefix: 'radio-button',
+    },
+  ],
+  'va-select': [
+    {
+      action: 'change',
+      event: 'int-select-box-option-click',
+      prefix: 'select',
+    },
+  ],
+  'va-progress-bar': [
+    {
+      action: 'change',
+      event: 'nav-progress-bar-change',
+      prefix: 'progress-bar',
+    },
+  ],
+  'va-segmented-progress-bar': [
+    {
+      action: 'change',
+      event: 'nav-segmented-progress-bar-change',
+      prefix: 'segmented-progress-bar',
+    },
+  ],
 };
 
 export function subscribeComponentAnalyticsEvents(
@@ -43,7 +186,7 @@ export function subscribeComponentAnalyticsEvents(
 
   if (component) {
     const action = component.find(ev => ev.action === e.detail.action);
-    const version = e.detail.version;
+    const { version } = e.detail;
 
     if (action) {
       const dataLayer = {
@@ -55,7 +198,7 @@ export function subscribeComponentAnalyticsEvents(
       // If the event included additional details / context...
       if (e.detail.details) {
         for (const key of Object.keys(e.detail.details)) {
-          const newKey = `${kebabCase(e.detail.componentName)}-${key}`;
+          const newKey = `${action.prefix}-${key}`;
 
           dataLayer[newKey] = e.detail.details[key];
         }

@@ -25,6 +25,7 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import Appointments from './Appointments';
 import IconCTALink from '../IconCTALink';
+import CTALink from '../CTALink';
 
 const HealthCare = ({
   appointments,
@@ -46,7 +47,6 @@ const HealthCare = ({
   const start = new Date(nextAppointment?.startsAt);
   const today = new Date();
   const hasUpcomingAppointment = differenceInDays(start, today) < 30;
-  const hasFutureAppointments = Boolean(appointments?.length);
 
   useEffect(
     () => {
@@ -90,13 +90,6 @@ const HealthCare = ({
     );
   }
 
-  const messagesText =
-    shouldFetchUnreadMessages && !hasInboxError
-      ? `You have ${unreadMessagesCount} unread message${
-          unreadMessagesCount === 1 ? '' : 's'
-        }`
-      : 'Send a secure message to your health care team';
-
   return (
     <div
       className="health-care-wrapper vads-u-margin-y--6"
@@ -105,24 +98,68 @@ const HealthCare = ({
       <h2>Health care</h2>
 
       <div className="vads-l-row">
-        {(hasUpcomingAppointment || hasAppointmentsError) && (
-          /* Appointments */
-          <DashboardWidgetWrapper>
+        <DashboardWidgetWrapper>
+          {/* Messages */}
+          {shouldFetchUnreadMessages &&
+          !hasInboxError &&
+          unreadMessagesCount > 0 ? (
+            <div
+              className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
+              data-testid="unread-messages-alert"
+            >
+              <va-alert status="warning" show-icon>
+                <div className="vads-u-margin-top--0">
+                  {`You have ${unreadMessagesCount} unread message${
+                    unreadMessagesCount === 1 ? '' : 's'
+                  }. `}
+                  <CTALink
+                    text="View your messages"
+                    newTab
+                    href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+                    onClick={() =>
+                      recordEvent({
+                        event: 'nav-linkslist',
+                        'links-list-header': 'View your messages',
+                        'links-list-section-header': 'Health care',
+                      })
+                    }
+                  />
+                </div>
+              </va-alert>
+            </div>
+          ) : null}
+          {(hasUpcomingAppointment || hasAppointmentsError) && (
+            /* Appointments */
             <Appointments
               appointments={appointments}
               hasError={hasAppointmentsError}
             />
-          </DashboardWidgetWrapper>
-        )}
-
-        <DashboardWidgetWrapper>
+          )}
           {!hasUpcomingAppointment &&
-            !hasAppointmentsError &&
-            hasFutureAppointments && (
-              <p>You have no appointments scheduled in the next 30 days.</p>
+            !hasAppointmentsError && (
+              <p data-testid="no-appointment-message">
+                You have no appointments scheduled in the next 30 days.
+              </p>
             )}
-
+        </DashboardWidgetWrapper>
+        <DashboardWidgetWrapper>
           <h3 className="sr-only">Popular actions for Health Care</h3>
+          {hasInboxError ||
+            (unreadMessagesCount === 0 && (
+              <IconCTALink
+                text="Send a secure message to your health care team"
+                icon="comments"
+                newTab
+                href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+                onClick={() =>
+                  recordEvent({
+                    event: 'nav-linkslist',
+                    'links-list-header': 'View your messages',
+                    'links-list-section-header': 'Health care',
+                  })
+                }
+              />
+            ))}
           {!hasUpcomingAppointment &&
             !hasAppointmentsError && (
               <IconCTALink
@@ -139,24 +176,6 @@ const HealthCare = ({
                 }}
               />
             )}
-
-          {/* Messages */}
-          {shouldFetchUnreadMessages ? (
-            <IconCTALink
-              boldText={unreadMessagesCount > 0}
-              href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
-              icon="comments"
-              newTab
-              text={messagesText}
-              onClick={() => {
-                recordEvent({
-                  event: 'nav-linkslist',
-                  'links-list-header': 'You have n unread messages',
-                  'links-list-section-header': 'Health care',
-                });
-              }}
-            />
-          ) : null}
 
           {/* Prescriptions */}
           {shouldShowPrescriptions ? (
@@ -273,7 +292,7 @@ const mapStateToProps = state => {
     // API requests have started.
     shouldShowLoadingIndicator: fetchingAppointments || fetchingUnreadMessages,
     shouldShowPrescriptions,
-    unreadMessagesCount: selectUnreadCount(state).count,
+    unreadMessagesCount: selectUnreadCount(state).count || 0,
   };
 };
 

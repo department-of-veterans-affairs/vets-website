@@ -1,11 +1,11 @@
 import React from 'react';
 import { CSP_IDS, EXTERNAL_APPS } from '../constants';
 import LoginButton from './LoginButton';
-import CreateAccountLink from './CreateAccountLink';
+import AccountLink from './AccountLink';
 
 export default ({
   externalApplication,
-  loginGovEnabled,
+  loginGovOff,
   loginGovCreateAccountEnabled,
   loginGovMHVEnabled,
   loginGovMyVAHealthEnabled,
@@ -13,13 +13,13 @@ export default ({
   const externalLoginGovSupport = {
     [EXTERNAL_APPS.MHV]: loginGovMHVEnabled,
     [EXTERNAL_APPS.MY_VA_HEALTH]: loginGovMyVAHealthEnabled,
-    [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: loginGovEnabled,
-    [EXTERNAL_APPS.VA_OCC_MOBILE]: loginGovEnabled,
-    [EXTERNAL_APPS.EBENEFITS]: loginGovEnabled,
+    [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: !loginGovOff,
+    [EXTERNAL_APPS.VA_OCC_MOBILE]: !loginGovOff,
+    [EXTERNAL_APPS.EBENEFITS]: !loginGovOff,
   };
 
   const showLoginGov = () => {
-    if (!loginGovEnabled) {
+    if (loginGovOff) {
       return false;
     }
 
@@ -42,9 +42,9 @@ export default ({
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             {showLoginGov() &&
               loginGovCreateAccountEnabled && (
-                <CreateAccountLink csp={CSP_IDS.LOGIN_GOV} />
+                <AccountLink csp={CSP_IDS.LOGIN_GOV} />
               )}
-            <CreateAccountLink csp={CSP_IDS.ID_ME} />
+            <AccountLink csp={CSP_IDS.ID_ME} />
           </div>
         </div>
       </div>

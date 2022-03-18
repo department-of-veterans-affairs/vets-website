@@ -12,7 +12,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { isDirtyDate } from 'platform/forms/validations';
 
 import { getSelected, calculateIndexOffset } from '../utils/helpers';
-import { SELECTED, MAX_SELECTIONS, LAST_NOD_ITEM } from '../constants';
+import { SELECTED, MAX_LENGTH, LAST_NOD_ITEM } from '../constants';
 
 import { validateDate } from '../validations/date';
 import {
@@ -103,7 +103,7 @@ const AddIssue = props => {
         issue: fieldObj.value,
         decisionDate: getIsoDateFromSimpleDate(date),
         // select new item, if the max number isn't already selected
-        [SELECTED]: selectedCount <= MAX_SELECTIONS,
+        [SELECTED]: selectedCount <= MAX_LENGTH.SELECTIONS,
       };
       setFormData({ ...data, additionalIssues: issues });
       goToPath(returnPath);
