@@ -1,5 +1,3 @@
-/* eslint-disable sonarjs/no-duplicated-branches */
-
 import { isEmpty } from 'lodash';
 import environment from 'platform/utilities/environment';
 import { createSelector } from 'reselect';
@@ -586,11 +584,7 @@ const getDerivedValues = createSelector(
       hasClassesOutsideUS
     ) {
       housingAllowTerm1 = 0;
-    } else if (!environment.isProduction() && onlineClasses === 'no') {
-      housingAllowTerm1 =
-        termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
-      // remove this else if block when removing env flag
-    } else if (environment.isProduction() && onlineClasses === 'yes') {
+    } else if (onlineClasses === 'no') {
       housingAllowTerm1 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
     } else if (hasClassesOutsideUS) {
@@ -653,11 +647,7 @@ const getDerivedValues = createSelector(
       hasClassesOutsideUS
     ) {
       housingAllowTerm2 = 0;
-    } else if (!environment.isProduction() && onlineClasses === 'no') {
-      housingAllowTerm2 =
-        termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
-      // remove this else if block when removing env flag
-    } else if (environment.isProduction() && onlineClasses === 'yes') {
+    } else if (onlineClasses === 'no') {
       housingAllowTerm2 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
     } else if (hasClassesOutsideUS) {
@@ -722,11 +712,7 @@ const getDerivedValues = createSelector(
       hasClassesOutsideUS
     ) {
       housingAllowTerm3 = 0;
-    } else if (!environment.isProduction() && onlineClasses === 'no') {
-      housingAllowTerm3 =
-        termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
-      // remove this else if block when removing env flag
-    } else if (environment.isProduction() && onlineClasses === 'yes') {
+    } else if (onlineClasses === 'no') {
       housingAllowTerm3 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
     } else if (hasClassesOutsideUS) {
