@@ -76,7 +76,7 @@ describe('pre-check-in experience', () => {
               token: '',
               editing: {
                 value: {
-                  state: 'AE',
+                  city: 'APO',
                 },
                 key: 'homeAddress',
               },

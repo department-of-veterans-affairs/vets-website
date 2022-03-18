@@ -1,3 +1,5 @@
+import { stateList } from './stateList';
+
 const APP_NAMES = Object.freeze({
   CHECK_IN: 'dayOf',
   PRE_CHECK_IN: 'preCheckIn',
@@ -37,29 +39,6 @@ const getLabelForEditField = (
   }
   return rv;
 };
-
-const usStates = [
-  {
-    key: 'az',
-    value: 'Arizona',
-    label: 'AZ',
-  },
-  {
-    key: 'al',
-    value: 'Alabama',
-    label: 'AL',
-  },
-  {
-    key: 'nm',
-    value: 'New Mexico',
-    label: 'NM',
-  },
-  {
-    key: 'tn',
-    value: 'Tennessee',
-    label: 'TN',
-  },
-];
 
 const baseCities = [
   {
@@ -139,7 +118,7 @@ const addressFormFields = Object.freeze({
       type: 'select',
       options: {
         required: true,
-        options: usStates,
+        options: stateList,
       },
     },
     {
@@ -254,5 +233,5 @@ export {
   EDITING_PAGE_NAMES,
   getLabelForEditField,
   addressFormFields,
-  baseStates,
+  baseCities,
 };

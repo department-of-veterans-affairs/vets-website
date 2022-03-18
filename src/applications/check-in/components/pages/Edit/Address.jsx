@@ -26,7 +26,7 @@ import BackToHome from '../../BackToHome';
 import {
   getLabelForEditField,
   addressFormFields,
-  baseStates,
+  baseCities,
 } from '../../../utils/appConstants';
 import { countryList } from '../../../utils/appConstants/countryList';
 
@@ -74,12 +74,12 @@ export default function Address(props) {
 
       if (value.country && value.country !== 'USA') {
         setAddressFields(addressFormFields.OUTSIDE_US);
-      } else if (baseStates.some(state => state.value === value.state)) {
+      } else if (baseCities.some(city => city.value === value.city)) {
         setAddressFields(addressFormFields.BASE);
         setOutsideBase(true);
       }
     },
-    [value.country, value.state],
+    [value.country, value.city],
   );
 
   const onBlur = useCallback(
