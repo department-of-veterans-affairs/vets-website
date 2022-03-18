@@ -65,6 +65,7 @@ import {
 import { directDepositDescription } from '../../edu-benefits/1990/helpers';
 import GetHelp from '../components/GetHelp';
 import Sponsors from '../components/Sponsors';
+import DynamicCheckboxGroup from '../components/DynamicCheckboxGroup';
 
 // import { ELIGIBILITY } from '../actions';
 
@@ -433,47 +434,64 @@ const formConfig = {
                 </va-alert>
               ),
               'ui:options': {
-                hideIf: formData => formData.sponsors?.length,
+                hideIf: formData =>
+                  formData.sponsors?.availableSponsors?.length,
               },
             },
-            [formFields.viewSelectedSponsor]: {
-              'ui:title': 'Which sponsor’s benefits would you like to use?',
-              'ui:description': 'You may check more than one.',
-              sponsorNotListed: {
-                'ui:title': 'Someone not listed here',
-              },
-              'ui:options': {
-                updateSchema: () =>
-                  // formData,
-                  // schema,
-                  // uiSchema,
-                  // index,
-                  // pathToCurrentData,
-                  {
-                    return {
-                      type: 'object',
-                      properties: {
-                        test: { type: 'boolean' },
-                        sponsorNotListed: { type: 'boolean' },
-                      },
-                    };
-                    // const filterSponsors = createSelector(
-                    //   state => state.data?.sponsors,
-                    //   sponsors => {
-                    //     return {
-                    //       type: 'object',
-                    //       properties: {
-                    //         ...sponsors?.map((sponsor, index) => {
-                    //           return { [`sponsor${index}`]: { type: 'boolean' } };
-                    //         }),
-                    //         sponsorNotListed: { type: 'boolean' },
-                    //       },
-                    //     };
-                    //   },
-                    // );
-                    // return (form, state, schema, uiSchema) =>
-                    //   filterSponsors(form, state, schema, uiSchema);
-                  },
+            // [formFields.viewSelectedSponsor]: {
+            //   'ui:title': 'Which sponsor’s benefits would you like to use?',
+            //   'ui:description': 'You may check more than one.',
+            //   sponsorNotListed: {
+            //     'ui:title': 'Someone not listed here',
+            //   },
+            //   'ui:options': {
+            //     updateSchema: () =>
+            //       // formData,
+            //       // schema,
+            //       // uiSchema,
+            //       // index,
+            //       // pathToCurrentData,
+            //       {
+            //         return {
+            //           type: 'object',
+            //           properties: {
+            //             test: { type: 'boolean' },
+            //             sponsorNotListed: { type: 'boolean' },
+            //           },
+            //         };
+            //         // const filterSponsors = createSelector(
+            //         //   state => state.data?.sponsors,
+            //         //   sponsors => {
+            //         //     return {
+            //         //       type: 'object',
+            //         //       properties: {
+            //         //         ...sponsors?.map((sponsor, index) => {
+            //         //           return { [`sponsor${index}`]: { type: 'boolean' } };
+            //         //         }),
+            //         //         sponsorNotListed: { type: 'boolean' },
+            //         //       },
+            //         //     };
+            //         //   },
+            //         // );
+            //         // return (form, state, schema, uiSchema) =>
+            //         //   filterSponsors(form, state, schema, uiSchema);
+            //       },
+            //   },
+            // },
+            sponsors: {
+              selectedSponsors: {
+                'ui:title': 'Selected VA medical center',
+                'ui:widget': DynamicCheckboxGroup,
+                'ui:options': {
+                  hideLabelText: true,
+                  // expandUnder: 'FACILITY',
+                  // expandUnderCondition: true,
+                  // hideIf: formData => !formData.sponsors?.length,
+                },
+                // 'ui:reviewWidget': vaLocationReviewWidget,
+                // 'ui:required': formData =>
+                //   get('zipCode', formData) !== undefined &&
+                //   get('zipCode', formData).length >= 5,
               },
             },
             [formFields.sponsorFullName]: {
@@ -505,13 +523,15 @@ const formConfig = {
                 'ui:title': "Sponsor's  middle name",
               },
               'ui:options': {
-                hideIf: formData => formData.sponsors?.length,
+                hideIf: formData =>
+                  formData.sponsors?.availableSponsors?.length,
               },
             },
             [formFields.sponsorDateOfBirth]: {
               ...currentOrPastDateUI("Sponsor's date of birth"),
               'ui:options': {
-                hideIf: formData => formData.sponsors?.length,
+                hideIf: formData =>
+                  formData.sponsors?.availableSponsors?.length,
               },
             },
             'view:additionalInfo': {
@@ -540,10 +560,18 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [formFields.viewSelectedSponsor]: {
+              // [formFields.viewSelectedSponsor]: {
+              //   type: 'object',
+              //   properties: {
+              //     sponsorNotListed: { type: 'boolean' },
+              //   },
+              // },
+              sponsors: {
                 type: 'object',
                 properties: {
-                  sponsorNotListed: { type: 'boolean' },
+                  selectedSponsors: {
+                    type: 'string',
+                  },
                 },
               },
               [formFields.sponsorFullName]: {

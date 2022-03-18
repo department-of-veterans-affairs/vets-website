@@ -32,12 +32,16 @@ export const TOEApp = ({
             ...claimantInfo,
           });
         }
+
         if (!sponsors) {
           getSponsors();
-        } else if (!formData.sponsors) {
+        } else if (!formData.sponsors.availableSponsors) {
           setFormData({
             ...formData,
-            sponsors,
+            sponsors: {
+              ...formData.sponsors,
+              availableSponsors: sponsors,
+            },
           });
         }
       }
