@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { useDispatch } from 'react-redux';
 import DemographicItem from '../../DemographicItem';
 import EditLinkText from '../Edit/shared/EditLinkText';
 
@@ -15,13 +17,26 @@ const ConfirmablePage = ({
   isEditEnabled = false,
   LoadingMessage = () => <va-loading-indicator message="Loading..." />,
   Footer,
+  history,
+  currentlyLoggedIn,
 }) => {
   useEffect(() => {
     focusElement('h1');
   }, []);
-  const editHandler = useCallback(dataToEdit => {
-    dataToEdit.editAction(dataToEdit);
-  }, []);
+  const dispatch = useDispatch();
+  const editHandler = useCallback(
+    dataToEdit => {
+      if (currentlyLoggedIn) {
+        dataToEdit.editAction(dataToEdit);
+      } else {
+        // console.log('not logged in');
+        history.push('/?thing=first');
+        // add some URL params of what we are edit,
+        dispatch(toggleLoginModal(true));
+      }
+    },
+    [currentlyLoggedIn, dispatch, history],
+  );
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 confirmable-page">
       <h1 data-testid="header">{header}</h1>

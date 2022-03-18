@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import PropTypes from 'prop-types';
 import ConfirmablePage from '../ConfirmablePage';
@@ -20,6 +20,8 @@ export default function DemographicsDisplay({
   noAction = () => {},
   Footer,
 }) {
+  const { currentlyLoggedIn } = useSelector(state => state.user?.login);
+
   const dispatch = useDispatch();
   const setEditContext = useCallback(
     (data, url) => {
@@ -71,6 +73,7 @@ export default function DemographicsDisplay({
         yesAction={yesAction}
         noAction={noAction}
         Footer={Footer}
+        currentlyLoggedIn={currentlyLoggedIn}
       />
     </>
   );
