@@ -127,8 +127,8 @@ export const resolveParamsWithUrl = ({
   } else {
     locationParams = [
       address ? `address=${address}` : null,
-      center && center.length > 0 ? `latitude=${center[0]}` : null,
-      center && center.length > 0 ? `longitude=${center[1]}` : null,
+      center && center.length > 0 ? `lat=${center[0]}` : null,
+      center && center.length > 0 ? `long=${center[1]}` : null,
     ];
   }
 

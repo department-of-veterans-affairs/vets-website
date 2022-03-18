@@ -17,7 +17,6 @@ class LocatorApi {
    */
   static searchWithBounds(
     address = null,
-    bounds,
     locationType,
     serviceType,
     page,
