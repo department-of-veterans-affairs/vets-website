@@ -205,8 +205,14 @@ export default function vapService(state = initialState, action) {
             state?.copyAddressModal ===
               VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PENDING &&
             action.transaction?.data?.attributes?.transactionStatus ===
-              VAP_SERVICE.TRANSACTION_STATUS.COMPLETED_SUCCESS
+              VAP_SERVICE.TRANSACTION_STATUS.COMPLETED_SUCCESS &&
+            state?.mostRecentlySavedField ===
+              VAP_SERVICE.FIELD_NAMES.RESIDENTIAL_ADDRESS
           ) {
+            mostRecentlySavedField = [
+              VAP_SERVICE.FIELD_NAMES.RESIDENTIAL_ADDRESS,
+              VAP_SERVICE.FIELD_NAMES.MAILING_ADDRESS,
+            ];
             copyAddressModal = VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.SUCCESS;
           }
         }
