@@ -22,7 +22,6 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
   const callGetPDF = () => {
     getPdf()
       .then(result => {
-        // we could set the url to the existing a tag already in the DOM, but if user clicks on it too fast it will load this page in a new window instead of the PDF
         const a = document.createElement('a');
         a.href = result;
         a.target = '_blank';
