@@ -12,12 +12,7 @@ import ServiceProvidersText, {
 
 export const App = ({ loggedIn, toggleLoginModal }) => {
   const getPdf = () => {
-    return apiRequest('/form1095_bs/2021', {
-      mode: 'cors',
-      headers: {
-        'X-CSRF-Token': localStorage.getItem('csrfToken'),
-      },
-    })
+    return apiRequest('/form1095_bs/2021')
       .then(response => response.blob())
       .then(blob => {
         return window.URL.createObjectURL(blob);
@@ -40,8 +35,46 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
       });
   };
 
+  // TODO error handling views
+  // const notFoundComponent = (
+  //   <va-alert close-btn-aria-label="Close notification" status="warning" visible>
+  //     <h3 slot="headline">No previous year health coverage found</h3>
+  //     <div>
+  //       <p>
+  //       At this time, you do not have a 1095-B available for download. If you have recently enrolled in VA benefits, this may be why.  1095-B forms are  processed in early January and based on coverage that you had during the previous year.
+  //     </p>
+  //     <p>
+  //       If you feel that you are receiving this notice in error, please contact the Enrollment Center at 1-877-222-VETS (8387).
+  //       </p>
+
+  //     </div>
+  //   </va-alert>
+  // );
+
+  // const errorComponent = (
+  //   <va-alert close-btn-aria-label="Close notification" status="warning" visible>
+  //     <h3 slot="headline">Error</h3>
+  //     <div>
+  //       <p>
+  //       We’re sorry. Something went wrong on our end and we were unable to download your 1095-B tax form. Please try again.  If you continue to experience this error, please call the VA.gov Help Desk at 1-8555-574-7286, TTY: 1-800-877-8339. We’re here Monday - Friday, 8:00 a.m. - 8:00 p.m.
+  //     </p>
+  //     </div>
+  //   </va-alert>
+  // );
+
+  // const successComponent = (
+  //   <va-alert close-btn-aria-label="Close notification" status="success" visible>
+  //     <h3 slot="headline">Download Complete</h3>
+  //     <div>
+  //       <p>
+  //       Your 1095-B form has been successfully downloaded. 4/1/2022 6:35 p.m.
+  //     </p>
+  //     </div>
+  //   </va-alert>
+  // );
+
   const loggedInComponent = (
-    <va-alert close-btn-aria-label="Close notification" status="info" visible>
+    <>
       <h3 slot="headline">Download your 1095-B</h3>
       <div>
         <p className="vads-u-margin-bottom--5">
@@ -53,21 +86,17 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
           </span>
         </p>
         <button
-          className="usa-button-secondary"
+          className="usa-button-primary va-button-primary"
           onClick={function() {
             // event.preventDefault(); only needed if we decide to use a link tag here (unlikely)
             callGetPDF();
           }}
           id="download-url"
         >
-          <i
-            className="fas fa-download download-icon vads-u-color--primary-alt-darkest"
-            role="presentation"
-          />
-          &nbsp; Download current 1095-B tax document (PDF){' '}
+          Download your 1095-B tax form (PDF){' '}
         </button>
       </div>
-    </va-alert>
+    </>
   );
   const loggedOutComponent = (
     <va-alert
@@ -87,7 +116,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
         onClick={() => toggleLoginModal(true)}
         className="usa-button-primary va-button-primary vads-u-margin-top--2"
       >
-        Sign in
+        Sign in or create account
       </button>
     </va-alert>
   );
