@@ -1,5 +1,5 @@
-import { getAPI, resolveParamsWithUrl } from '../config';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import { getAPI, resolveParamsWithUrl } from '../config';
 
 class LocatorApi {
   /**
@@ -31,7 +31,6 @@ class LocatorApi {
       locationType,
       serviceType,
       page,
-      bounds,
       center,
       radius,
       allUrgentCare,
