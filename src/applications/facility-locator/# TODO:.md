@@ -1,4 +1,5 @@
 # TODO
 
 - [ ] remove bounds from tests
-- [ ] Community Care API endpoints are not working?
+- [ ] manually test the features
+- [ ] Add any tests that seem cool?
