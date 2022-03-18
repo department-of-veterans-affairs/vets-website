@@ -1,8 +1,8 @@
-name: E2E Injection Test
+name: E2E Proxy Rewrite Injection Test
 
 
 on:
-  workflow_dispatch:
+  workflow_dispatch
   schedule:
     - cron: 0 14 * * 1-5
 
