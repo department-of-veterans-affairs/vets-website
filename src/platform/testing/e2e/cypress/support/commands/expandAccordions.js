@@ -6,8 +6,7 @@ Cypress.Commands.add('expandAccordions', () => {
   Cypress.log();
 
   cy.get('main').then($main => {
-    const accordionMultiOpenSelector =
-      'va-accordion:not([open-single=""]):not([open-single])';
+    const accordionMultiOpenSelector = 'va-accordion:not([open-single])';
     // Click "Expand all" button on va-accordion if it exists
     if ($main.find(accordionMultiOpenSelector).length > 0)
       cy.get(accordionMultiOpenSelector)
