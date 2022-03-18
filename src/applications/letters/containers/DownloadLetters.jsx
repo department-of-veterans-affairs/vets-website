@@ -4,7 +4,7 @@ import findIndex from 'lodash/findIndex';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
-import { chapters } from '../routes';
+import { chapters } from '../utils/chapters';
 
 export function DownloadLetters({ children, location }) {
   const currentPageIndex = findIndex(chapters, ['path', location.pathname]);

@@ -2,10 +2,10 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
+import createCommonStore from 'platform/startup/store';
 import { LettersApp, AppContent } from '../../containers/LettersApp';
 
 import reducer from '../../reducers';
-import createCommonStore from 'platform/startup/store';
 
 const store = createCommonStore(reducer);
 
@@ -50,6 +50,8 @@ describe('<LettersApp>', () => {
           <span>Rendered!</span>
         </AppContent>,
       );
+      expect(tree.subTree('h1')).to.exist;
+      expect(tree.subTree('va-alert')).to.exist;
       const text = tree.text();
       expect(text).to.contain(
         'We weren’t able to find information about your VA letters.',
