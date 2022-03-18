@@ -11,9 +11,6 @@ function OnlineClassesFilter({
   handleInputFocus,
 }) {
   const radioButtonsLabelText = 'Will you be taking any classes in person?';
-  // const options = environment.isProduction()
-  //   ? [{ value: 'no', label: 'Yes' }, { value: 'yes', label: 'No' }]
-  //   : [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }];
   const options = [
     { value: 'no', label: 'Yes' },
     { value: 'yes', label: 'No' },
