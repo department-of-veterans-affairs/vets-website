@@ -1,13 +1,12 @@
 /* eslint-disable va/prefer-web-component-library */
-// the va-modal doesn't have react bindings so im not using the web-component at this time
-// TODO: use web-component when react bindings are provided
+// having issues with the VaModal throwing errors
+// TODO: use VaModal web-component
 
 import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
 
 import { updateCopyAddressModal, createTransaction } from '@@vap-svc/actions';
@@ -25,10 +24,7 @@ import {
 import { profileShowAddressChangeModal } from '@@profile/selectors';
 import { getProfileInfoFieldAttributes } from '@@profile/util/getProfileInfoFieldAttributes';
 
-import {
-  isFailedTransaction,
-  isPendingTransaction,
-} from '@@vap-svc/util/transactions';
+import { isPendingTransaction } from '@@vap-svc/util/transactions';
 
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
@@ -69,8 +65,8 @@ const CopyAddressModal = ({
   const isLoading =
     transactionRequest?.isPending || isPendingTransaction(transaction);
 
-  const error =
-    transactionRequest?.error || (isFailedTransaction(transaction) ? {} : null);
+  // const error =
+  //   transactionRequest?.error || (isFailedTransaction(transaction) ? {} : null);
 
   const handlers = {
     onYes() {
@@ -99,8 +95,8 @@ const CopyAddressModal = ({
   };
 
   const CopyAddressMainModal = () => (
-    <VaModal
-      modalTitle="We've updated your home address"
+    <Modal
+      title="We've updated your home address"
       visible={
         copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PROMPT ||
         copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PENDING
@@ -125,16 +121,6 @@ const CopyAddressModal = ({
             <AddressView data={homeAddress} />
           </span>
         </va-featured-content>
-        <button
-          type="button"
-          onClick={() =>
-            updateCopyAddressModalAction(
-              VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.FAILURE,
-            )
-          }
-        >
-          Trigger Mailing Address Failure
-        </button>
 
         <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
           <LoadingButton
@@ -160,18 +146,20 @@ const CopyAddressModal = ({
           )}
         </div>
       </>
-    </VaModal>
+    </Modal>
   );
 
   const UpdateErrorModal = () => (
     <Modal
       title="We can't update your mailing address"
-      visible={false}
+      visible={
+        copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.FAILURE
+      }
       onClose={handlers.onClose}
       status="error"
       primaryButton={{
         action: () => {
-          handlers.onYes();
+          handlers.onCloseModal();
         },
         text: 'Close',
       }}
@@ -217,7 +205,8 @@ const CopyAddressModal = ({
         shouldProfileShowAddressChangeModal && <CopyAddressMainModal />}
       {copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.SUCCESS &&
         shouldProfileShowAddressChangeModal && <UpdateSuccessModal />}
-      {error && <UpdateErrorModal />}
+      {copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.FAILURE &&
+        shouldProfileShowAddressChangeModal && <UpdateErrorModal />}
     </>
   );
 };

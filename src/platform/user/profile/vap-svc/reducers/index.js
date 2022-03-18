@@ -85,7 +85,16 @@ export default function vapService(state = initialState, action) {
         },
       };
 
-    case VAP_SERVICE_TRANSACTION_REQUEST_FAILED:
+    case VAP_SERVICE_TRANSACTION_REQUEST_FAILED: {
+      let copyAddressModal = null;
+      if (
+        action.fieldName === VAP_SERVICE.FIELD_NAMES.MAILING_ADDRESS &&
+        state?.copyAddressModal ===
+          VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PENDING
+      ) {
+        copyAddressModal = VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.FAILURE;
+      }
+
       return {
         ...state,
         fieldTransactionMap: {
@@ -97,7 +106,9 @@ export default function vapService(state = initialState, action) {
             error: action.error,
           },
         },
+        copyAddressModal,
       };
+    }
 
     case VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED: {
       return {
