@@ -76,10 +76,11 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     const tree = SkinDeep.shallowRender(
       <VeteranBenefitSummaryLetter {...props} />,
     );
-    const subHeader = tree.subTree('h4');
 
     expect(tree.subTree('#militaryServiceTable')).to.be.false;
-    expect(subHeader.length).to.eq(1);
+    expect(tree.subTree('h4').text()).to.contain(
+      'VA benefit and disability information',
+    );
   });
 
   it('maps each service entry to its own table row', () => {
