@@ -36,7 +36,7 @@ function useWebChat(props) {
 // }
 
 function showBot(loggedIn, requireAuth, accepted, minute, props) {
-  if (!loggedIn && requireAuth) {
+  if (false) {
     return <ConnectedSignInAlert />;
   }
   if (!accepted) {

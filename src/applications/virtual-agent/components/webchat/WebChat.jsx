@@ -30,15 +30,21 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     [createStore],
   );
 
+  let conversationId = '';
+  if (localStorage.getItem('counter') >= 2) {
+    conversationId = localStorage.getItem('conversationId');
+  }
   const directLine = useMemo(
     () =>
       createDirectLine({
-        token,
+        token: localStorage.getItem('token'),
         domain:
           'https://northamerica.directline.botframework.com/v3/directline',
+        conversationId,
       }),
     [token, createDirectLine],
   );
+  // console.log('token is: ', token)
 
   const styleOptions = {
     hideUploadButton: true,
