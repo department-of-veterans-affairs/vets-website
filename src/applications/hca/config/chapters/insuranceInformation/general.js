@@ -8,7 +8,7 @@ import {
   healthInsuranceCoverageQuestionDescription,
   hasTricareWhatIsMyPolicyNumberDescription,
   healthInsuranceDescription,
-  shortFormAlert,
+  shortFormMessage,
 } from '../../../helpers';
 
 const { provider } = fullSchemaHca.definitions;
@@ -20,8 +20,8 @@ const emptyObjectSchema = {
 
 export default {
   uiSchema: {
-    'view:shortFormAlert': {
-      'ui:description': shortFormAlert,
+    'view:shortFormMessage': {
+      'ui:description': shortFormMessage,
       'ui:options': {
         hideIf: form => form.vaCompensationType !== 'highDisability',
       },
@@ -121,7 +121,7 @@ export default {
     type: 'object',
     required: ['isCoveredByHealthInsurance'],
     properties: {
-      'view:shortFormAlert': emptyObjectSchema,
+      'view:shortFormMessage': emptyObjectSchema,
       'view:healthInsuranceDescription': emptyObjectSchema,
       isCoveredByHealthInsurance,
       providers: {

@@ -1,23 +1,53 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
+import { setData } from 'platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+
+import { fetchTotalDisabilityRating } from '../actions';
 
 const PersonalAuthenticatedInformation = ({
   goBack,
   goForward,
+  setFormData,
   isLoggedIn,
-  data: {
+  formData,
+  getTotalDisabilityRating,
+  loading,
+  error,
+  totalDisabilityRating,
+}) => {
+  useEffect(
+    () => {
+      getTotalDisabilityRating();
+    },
+    [getTotalDisabilityRating],
+  );
+
+  useEffect(
+    () => {
+      setFormData({
+        ...formData,
+        'view:totalDisabilityRatingLoading': loading,
+        'view:totalDisabilityRatingError': error,
+        'view:totalDisabilityRating': totalDisabilityRating,
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [loading, error, totalDisabilityRating],
+  );
+
+  const navButtons = <FormNavButtons goBack={goBack} goForward={goForward} />;
+
+  const {
     veteranFullName: { first, middle, last, suffix },
     veteranDateOfBirth,
     veteranSocialSecurityNumber,
-  },
-}) => {
-  const navButtons = <FormNavButtons goBack={goBack} goForward={goForward} />;
+  } = formData;
 
   let dateOfBirthFormatted = '-';
   let ssnLastFour = '-';
@@ -81,23 +111,39 @@ const PersonalAuthenticatedInformation = ({
 
 const mapStateToProps = state => {
   return {
+    formData: state.form.data,
     isLoggedIn: state.user.login.currentlyLoggedIn,
     user: state.user.profile,
-    data: state.form.data,
+    loading: state.totalRating.loading,
+    error: state.totalRating.error,
+    totalDisabilityRating: state.totalRating.totalDisabilityRating,
   };
 };
 
-export default connect(mapStateToProps)(PersonalAuthenticatedInformation);
+const mapDispatchToProps = {
+  setFormData: setData,
+  getTotalDisabilityRating: fetchTotalDisabilityRating,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PersonalAuthenticatedInformation);
 
 PersonalAuthenticatedInformation.propTypes = {
-  data: PropTypes.object,
+  error: PropTypes.object,
   first: PropTypes.string,
+  formData: PropTypes.object,
+  getTotalDisabilityRating: PropTypes.func,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   isLoggedIn: PropTypes.bool,
   last: PropTypes.string,
+  loading: PropTypes.bool,
   middle: PropTypes.string,
+  setFormData: PropTypes.func,
   suffix: PropTypes.string,
+  totalDisabilityRating: PropTypes.number,
   veteranDateOfBirth: PropTypes.string,
   veteranSocialSecurityNumber: PropTypes.string,
 };

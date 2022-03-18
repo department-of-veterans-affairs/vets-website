@@ -1,33 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
-import { setData } from 'platform/forms-system/src/js/actions';
 import ProgressButton from '~/platform/forms-system/src/js/components/ProgressButton';
 
-const ServiceConnectedPayConfirmation = ({
-  goBack,
-  goForward,
-  formData,
-  setFormData,
-}) => {
-  const resetVaCompensationTypeAndGoback = () => {
-    if (formData.vaCompensationType === 'highDisability') {
-      setFormData({
-        ...formData,
-        vaCompensationType: '',
-        'view:isHighDisability': true,
-      });
-    }
-    goBack();
-  };
+const ServiceConnectedPayConfirmation = ({ goBack, goForward }) => {
   const FormNavButtons = () => (
     <div className="row form-progress-buttons schemaform-buttons">
       <div className="small-6 medium-5 columns">
         {goBack && (
           <ProgressButton
             // eslint-disable-next-line react/jsx-no-bind
-            onButtonClick={resetVaCompensationTypeAndGoback}
+            onButtonClick={goBack}
             buttonText="Back"
             buttonClass="usa-button-secondary"
             beforeText="«"
@@ -47,8 +30,8 @@ const ServiceConnectedPayConfirmation = ({
 
   return (
     <div>
-      <div className="hca-id-form-wrapper vads-u-margin-bottom--2">
-        <div className="vads-u-border-left--10px vads-u-border-color--primary-alt-dark signature-box vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-margin-bottom--3">
+      <div className="hca-id-form-wrapper vads-u-margin-bottom--2 vads-u-margin-x--neg1p5">
+        <div className="vads-u-border-left--10px vads-u-border-color--primary-alt-dark signature-box vads-u-background-color--gray-lightest vads-u-padding-top--1 vads-u-padding-bottom--2p5  vads-u-margin-bottom--3">
           <div className="vads-u-padding-x--4">
             <p className="vads-u-font-family--serif vads-u-font-size--lg vads-u-font-weight--bold">
               Please confirm that you receive service-connected pay for a 50% or
@@ -63,38 +46,25 @@ const ServiceConnectedPayConfirmation = ({
               <strong>Note:</strong> The VA will confirm all information upon
               application receipt.{' '}
             </p>
+            <div className="vads-u-margin-y--5">
+              <va-additional-info trigger="Why do I need to confirm my disability pay?">
+                We want to make sure that we ask you all the questions we need
+                to make a decision about your application. This helps you get a
+                decision faster and avoids the need to ask you for more
+                information later.
+              </va-additional-info>
+            </div>
             <FormNavButtons />
           </div>
-        </div>
-        <div className="vads-u-margin-y--5">
-          <va-additional-info trigger="Why do I need to confirm my disability pay?">
-            We want to make sure that we ask you all the questions we need to
-            make a decision about your application. This helps you get a
-            decision faster and avoids the need to ask you for more information
-            later.
-          </va-additional-info>
         </div>
       </div>
     </div>
   );
 };
 
-const mapStateToProps = state => ({
-  formData: state.form.data,
-});
-
-const mapDispatchToProps = {
-  setFormData: setData,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ServiceConnectedPayConfirmation);
+export default ServiceConnectedPayConfirmation;
 
 ServiceConnectedPayConfirmation.propTypes = {
-  formData: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
-  setFormData: PropTypes.func,
 };

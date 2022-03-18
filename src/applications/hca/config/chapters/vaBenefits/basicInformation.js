@@ -32,16 +32,6 @@ const CompensationInfo = () => (
   </div>
 );
 
-const warningMessage = () => (
-  <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-background-color--gibill-accent vads-u-font-weight--bold vads-u-margin-y--2p5 vads-u-padding--1p5">
-    <i className="fa fa-exclamation-triangle" aria-hidden="true" role="img" />
-    <p className="vads-u-margin-left--1p5 vads-u-margin-y--0">
-      Are you sure? You made this selection before. We’ll ask you to confirm
-      again.
-    </p>
-  </div>
-);
-
 export default {
   uiSchema: {
     'ui:title': 'Current compensation from VA',
@@ -68,16 +58,6 @@ export default {
         },
       },
     },
-    'view:warningMessage': {
-      'ui:description': warningMessage,
-      'ui:options': {
-        hideIf: form =>
-          !(
-            form.vaCompensationType === 'highDisability' &&
-            form['view:isHighDisability'] === true
-          ),
-      },
-    },
   },
   schema: {
     type: 'object',
@@ -88,10 +68,6 @@ export default {
         properties: {},
       },
       vaCompensationType,
-      'view:warningMessage': {
-        type: 'object',
-        properties: {},
-      },
     },
   },
 };

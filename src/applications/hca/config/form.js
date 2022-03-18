@@ -292,9 +292,6 @@ const formConfig = {
           depends: notIsHighDisability,
           uiSchema: serviceInformation.uiSchema,
           schema: serviceInformation.schema,
-          updateFormData: (oldData, newData) => {
-            return { ...newData, 'view:isHighDisability': false };
-          },
         },
         additionalInformation: {
           path: 'military-service/additional-information',
