@@ -11,8 +11,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
 const StylelintPlugin = require('stylelint-webpack-plugin');
@@ -257,7 +256,7 @@ module.exports = async (env = {}) => {
   };
 
   const apps = getEntryPoints(buildOptions.entry);
-  const entryFiles = Object.assign({}, apps, globalEntryFiles);
+  const entryFiles = { ...apps, ...globalEntryFiles };
   const isOptimizedBuild = [VAGOVSTAGING, VAGOVPROD].includes(buildtype);
   const scaffoldAssets = await getScaffoldAssets();
   const appRegistry = JSON.parse(scaffoldAssets['registry.json']);
@@ -279,6 +278,9 @@ module.exports = async (env = {}) => {
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
+    experiments: {
+      topLevelAwait: true,
+    },
     output: {
       path: path.resolve(buildPath, 'generated'),
       publicPath: '/generated/',
