@@ -11,10 +11,6 @@ jobs:
     name: Cypress E2E Proxy Rewrite Header/Footer Injection Test
     runs-on: ubuntu-latest
 
-    env:
-      CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
-      NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
