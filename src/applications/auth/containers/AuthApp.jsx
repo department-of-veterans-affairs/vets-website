@@ -6,7 +6,7 @@ import * as Sentry from '@sentry/browser';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { loginGov } from 'platform/user/authentication/selectors';
+import { loginGovDisabled } from 'platform/user/authentication/selectors';
 import {
   AUTHN_SETTINGS,
   EXTERNAL_APPS,
@@ -186,13 +186,13 @@ export class AuthApp extends React.Component {
       code: this.props.location.query.code,
       auth: this.props.location.query.auth,
       recordEvent,
-      loginGovEnabled: this.props.loginGovEnabled,
+      loginGovOff: this.props.loginGovOff,
       openLoginModal: this.props.openLoginModal,
     };
     const view = this.state.error ? (
       <RenderErrorUI {...renderErrorProps} />
     ) : (
-      <va-loading-indicator message={`Signing in to VA.gov...`} />
+      <va-loading-indicator message="Signing in to VA.gov..." />
     );
 
     return <div className="row vads-u-padding-y--5">{view}</div>;
@@ -204,7 +204,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  loginGovEnabled: loginGov(state),
+  loginGovOff: loginGovDisabled(state),
 });
 
 export default connect(

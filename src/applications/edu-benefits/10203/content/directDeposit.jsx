@@ -97,17 +97,18 @@ export const bankInfoHelpText = (
       </div>
     ) : (
       <div>
-        The{' '}
-        <a href="https://veteransbenefitsbanking.org/">
-          Veterans Benefits Banking Program (VBBP)
-        </a>{' '}
-        provides a list of Veteran-friendly banks and credit unions. They’ll
-        work with you to set up an account, or help you qualify for an account,
-        so you can use direct deposit. To get started, call one of the
-        participating banks or credit unions listed on the VBBP website. Be sure
-        to mention the Veterans Benefits Banking Program.
-        <b />
-        <strong>
+        <p>
+          The{' '}
+          <a href="https://veteransbenefitsbanking.org/">
+            Veterans Benefits Banking Program (VBBP)
+          </a>{' '}
+          provides a list of Veteran-friendly banks and credit unions. They’ll
+          work with you to set up an account, or help you qualify for an
+          account, so you can use direct deposit. To get started, call one of
+          the participating banks or credit unions listed on the VBBP website.
+          Be sure to mention the Veterans Benefits Banking Program.
+        </p>
+        <p>
           Note: The Department of the Treasury requires us to make electronic
           payments. If you don’t want to use direct deposit, you’ll need to call
           the Department of the Treasury at{' '}
@@ -116,7 +117,7 @@ export const bankInfoHelpText = (
           </a>
           . Ask to talk with a representative who handles waiver requests. They
           can answer any questions or concerns you may have.
-        </strong>
+        </p>
       </div>
     )}
   </AdditionalInfo>

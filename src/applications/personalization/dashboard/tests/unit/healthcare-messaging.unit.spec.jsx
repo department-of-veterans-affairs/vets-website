@@ -72,7 +72,11 @@ describe('HealthCare component', () => {
         initialState,
         reducers,
       });
-      expect(await view.findByText(/you have 0 unread messages/i)).to.exist;
+      expect(
+        view.queryByRole('link', {
+          name: /send a secure message/i,
+        }),
+      ).to.exist;
     });
   });
 
@@ -117,9 +121,9 @@ describe('HealthCare component', () => {
       });
       expect(
         view.queryByRole('link', {
-          name: /message/i,
+          name: /send a secure message/i,
         }),
-      ).not.to.exist;
+      ).to.exist;
     });
   });
 });

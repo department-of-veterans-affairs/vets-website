@@ -2,9 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -12,6 +10,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { isLoggedIn } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
+import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
 import { itfNotice } from '../content/introductionPage';
 import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';
@@ -22,7 +21,6 @@ import {
   PAGE_TITLE_SUFFIX,
   DOCUMENT_TITLE_SUFFIX,
 } from '../constants';
-import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -31,10 +29,9 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
-    const { route, loggedIn } = this.props;
+    const { route, loggedIn, formId, isBDDForm, showWizard } = this.props;
     const { formConfig, pageList } = route;
 
-    const isBDDForm = this.props.isBDDForm;
     const pageTitle = `${getPageTitle(isBDDForm)} ${PAGE_TITLE_SUFFIX}`;
     const startText = getStartText(isBDDForm);
     document.title = `${pageTitle}${DOCUMENT_TITLE_SUFFIX}`;
@@ -44,6 +41,26 @@ class IntroductionPage extends React.Component {
         ? 'a BDD claim.'
         : 'a claim for a new or secondary condition or for increased disability compensation.'
     }`;
+
+    const handler = {
+      startOver: () => {
+        sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_RESTARTING);
+        recordEvent({ event: 'howToWizard-start-over' });
+      },
+    };
+
+    const sipProps = {
+      hideUnauthedStartLink: true,
+      headingLevel: 2,
+      prefillEnabled: formConfig.prefillEnabled,
+      formId,
+      formConfig,
+      pageList,
+      startText,
+      downtime: formConfig.downtime,
+      retentionPeriod: '1 year',
+      ariaDescribedby: 'main-content',
+    };
 
     return (
       <div className="schemaform-intro">
@@ -70,18 +87,7 @@ class IntroductionPage extends React.Component {
             and Related Compensation Benefits).
           </p>
         )}
-        <SaveInProgressIntro
-          hideUnauthedStartLink
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          formId={this.props.formId}
-          formConfig={formConfig}
-          pageList={pageList}
-          startText={startText}
-          retentionPeriod="1 year"
-          downtime={formConfig.downtime}
-          ariaDescribedby="main-content"
-        />
+        <SaveInProgressIntro {...sipProps} />
         {itfNotice}
         <h2 id="main-content" className="vads-u-font-size--h4">
           {subwayTitle}
@@ -93,17 +99,11 @@ class IntroductionPage extends React.Component {
               <a
                 aria-describedby="restart-wizard"
                 href={
-                  this.props.showWizard
+                  showWizard
                     ? `${DISABILITY_526_V2_ROOT_URL}/start`
                     : '/disability/how-to-file-claim/'
                 }
-                onClick={() => {
-                  sessionStorage.setItem(
-                    WIZARD_STATUS,
-                    WIZARD_STATUS_RESTARTING,
-                  );
-                  recordEvent({ event: 'howToWizard-start-over' });
-                }}
+                onClick={handler.startOver}
               >
                 go back and answer questions again
               </a>
@@ -167,7 +167,7 @@ class IntroductionPage extends React.Component {
                 If you need help filing a disability claim, you can contact a VA
                 regional office and ask to speak to a counselor. To find the
                 nearest regional office, please call{' '}
-                <Telephone contact={CONTACTS.VA_BENEFITS} />.
+                <va-telephone contact={CONTACTS.VA_BENEFITS} />.
               </p>
               <p>
                 An accredited representative, like a Veterans Service Officer
@@ -247,16 +247,7 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <SaveInProgressIntro
-          hideUnauthedStartLink
-          buttonOnly
-          prefillEnabled={formConfig.prefillEnabled}
-          formId={this.props.formId}
-          formConfig={formConfig}
-          pageList={pageList}
-          startText={startText}
-          downtime={formConfig.downtime}
-        />
+        <SaveInProgressIntro buttonOnly {...sipProps} />
         {itfNotice}
         <div className="omb-info--container">
           <OMBInfo resBurden={25} ombNumber="2900-0747" expDate="03/31/2021" />
@@ -278,12 +269,16 @@ IntroductionPage.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool,
+      downtime: PropTypes.shape({
+        requiredForPrefill: PropTypes.bool,
+        dependencies: PropTypes.arrayOf(PropTypes.string),
+      }),
     }),
     pageList: PropTypes.array.isRequired,
   }).isRequired,
+  isBDDForm: PropTypes.bool,
   loggedIn: PropTypes.bool,
   showWizard: PropTypes.bool,
-  isBDDForm: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(IntroductionPage);

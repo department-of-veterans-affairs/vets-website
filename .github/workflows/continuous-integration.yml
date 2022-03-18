@@ -403,7 +403,6 @@ jobs:
 
       - name: Get changed apps for header test
         id: get-changed-apps
-        if: ${{ github.ref != 'refs/heads/master' }}
         run: |
           echo ::set-output name=app_urls::$(node script/github-actions/get-changed-apps.js --output-type url)
           echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
@@ -455,6 +454,12 @@ jobs:
 
       - name: Checkout vets-website
         uses: actions/checkout@v2
+
+      - name: Checkout content-build
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/content-build
+          path: content-build
 
       - name: Download production build artifact
         uses: actions/download-artifact@v3
