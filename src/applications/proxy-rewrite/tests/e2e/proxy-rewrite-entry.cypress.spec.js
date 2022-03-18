@@ -1,29 +1,28 @@
 import manifest from '../../manifest.json';
-import { proxyRewriteWhitelist as whitelist } from '../../proxy-rewrite-whitelist.json';
+import { proxyRewriteWhitelist as allowList } from '../../proxy-rewrite-whitelist.json';
 
 describe(manifest.appName, () => {
-  // Skip tests in CI until the app is released.
-  // Remove this block when the app has a content page in production.
+  // Skip tests unless we are running the daily workflow job
   before(function() {
-    if (Cypress.env('CI')) this.skip();
+    if (Cypress.env('RUN_INJECTION') !== true) this.skip();
   });
 
-  it('Should not inject header & footer on non-whitelisted host', () => {
+  it('Should not inject header & footer on non-allowed host', () => {
     const hostToEval = 'www.innovation.va.gov';
-    const isWhitelisted = whitelist.some(item => item.hostname === hostToEval);
+    const isAllowed = allowList.some(item => item.hostname === hostToEval);
 
-    if (!isWhitelisted) {
+    if (!isAllowed) {
       cy.visit(`https://${hostToEval}`);
       cy.get('.consolidated > header').should('not.exist');
       cy.get('.consolidated > footer').should('not.exist');
     } else {
-      throw new Error('Evaluated hostname is whitelisted.');
+      throw new Error('Evaluated hostname is allowed.');
     }
   });
 
-  it('Should not inject header & footer on whitelisted hosts that are cookie-only', () => {
+  it('Should not inject header & footer on allowed hosts that are cookie-only', () => {
     const hostToEval = 'www.volunteer.va.gov';
-    const listItem = whitelist.find(item => item.hostname === hostToEval);
+    const listItem = allowList.find(item => item.hostname === hostToEval);
     const { cookieOnly } = listItem;
 
     if (cookieOnly) {
@@ -32,14 +31,14 @@ describe(manifest.appName, () => {
       cy.get('.consolidated > footer').should('not.exist');
     } else {
       throw new Error(
-        'Evaluated hostname is not whitelisted or is not cookie-only.',
+        'Evaluated hostname is not allowed or is not cookie-only.',
       );
     }
   });
 
-  it('Should inject header & footer on whitelisted hosts that are not cookie-only', () => {
+  it('Should inject header & footer on allowed hosts that are not cookie-only', () => {
     const hostToEval = 'www.benefits.va.gov';
-    const listItem = whitelist.find(item => item.hostname === hostToEval);
+    const listItem = allowList.find(item => item.hostname === hostToEval);
     const { cookieOnly } = listItem;
 
     if (!cookieOnly) {
@@ -47,9 +46,7 @@ describe(manifest.appName, () => {
       cy.get('.consolidated > header').should('exist');
       cy.get('.consolidated > footer').should('exist');
     } else {
-      throw new Error(
-        'Evaluated hostname is not whitelisted or is cookie-only.',
-      );
+      throw new Error('Evaluated hostname is not allowed or is cookie-only.');
     }
   });
 });
