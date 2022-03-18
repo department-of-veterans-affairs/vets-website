@@ -573,18 +573,18 @@ const getDerivedValues = createSelector(
     } else if (isFlightOrCorrespondence) {
       housingAllowTerm1 = 0;
     } else if (isOJT) {
-      if (onlineClasses === 'no') {
+      if (onlineClasses === 'yes') {
         housingAllowTerm1 = ropOjt * ((tier * avgBah) / 2 + kickerBenefit);
       } else {
         housingAllowTerm1 = ropOjt * (tier * bah + kickerBenefit);
       }
     } else if (
       !environment.isProduction() &&
-      onlineClasses === 'no' &&
+      onlineClasses === 'yes' &&
       hasClassesOutsideUS
     ) {
       housingAllowTerm1 = 0;
-    } else if (onlineClasses === 'no') {
+    } else if (onlineClasses === 'yes') {
       housingAllowTerm1 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
     } else if (hasClassesOutsideUS) {
@@ -643,11 +643,11 @@ const getDerivedValues = createSelector(
       housingAllowTerm2 = 0;
     } else if (
       !environment.isProduction() &&
-      onlineClasses === 'no' &&
+      onlineClasses === 'yes' &&
       hasClassesOutsideUS
     ) {
       housingAllowTerm2 = 0;
-    } else if (onlineClasses === 'no') {
+    } else if (onlineClasses === 'yes') {
       housingAllowTerm2 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
     } else if (hasClassesOutsideUS) {
@@ -708,11 +708,11 @@ const getDerivedValues = createSelector(
       housingAllowTerm3 = 0;
     } else if (
       !environment.isProduction() &&
-      onlineClasses === 'no' &&
+      onlineClasses === 'yes' &&
       hasClassesOutsideUS
     ) {
       housingAllowTerm3 = 0;
-    } else if (onlineClasses === 'no') {
+    } else if (onlineClasses === 'yes') {
       housingAllowTerm3 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
     } else if (hasClassesOutsideUS) {
