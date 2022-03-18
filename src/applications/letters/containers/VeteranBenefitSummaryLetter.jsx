@@ -199,11 +199,11 @@ export class VeteranBenefitSummaryLetter extends React.Component {
 
 VeteranBenefitSummaryLetter.propTypes = {
   benefitSummaryOptions: PropTypes.shape({
-    benefitInfo: PropTypes.array,
+    benefitInfo: PropTypes.shape({}),
     serviceInfo: PropTypes.array,
   }),
   isVeteran: PropTypes.bool,
-  optionsAvailable: PropTypes.shape({}),
+  optionsAvailable: PropTypes.bool,
   requestOptions: PropTypes.shape({
     militaryService: PropTypes.bool,
   }),
