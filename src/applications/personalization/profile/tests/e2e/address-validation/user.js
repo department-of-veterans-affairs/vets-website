@@ -70,12 +70,12 @@ const userObject = {
       vet360ContactInformation: {
         email: null,
         residentialAddress: {
-          addressLine1: '36320 coronado',
+          addressLine1: '36320 Coronado Dr',
           addressLine2: null,
           addressLine3: null,
           addressPou: 'RESIDENCE/CHOICE',
           addressType: 'DOMESTIC',
-          city: 'fremont',
+          city: 'Fremont',
           countryName: 'United States',
           countryCodeIso2: 'US',
           countryCodeIso3: 'USA',
@@ -99,7 +99,7 @@ const userObject = {
           updatedAt: '2020-09-04T15:42:10.000Z',
           validationKey: null,
           vet360Id: '1273780',
-          zipCode: '12312',
+          zipCode: '94536',
           zipCodeSuffix: null,
         },
         mailingAddress: {
