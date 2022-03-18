@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import environment from 'platform/utilities/environment';
 import RadioButtons from '../RadioButtons';
 import { ariaLabels } from '../../constants';
 import LearnMoreLabel from '../LearnMoreLabel';
@@ -11,10 +12,13 @@ function OnlineClassesFilter({
   handleInputFocus,
 }) {
   const radioButtonsLabelText = 'Will you be taking any classes in person?';
-  const options = [
-    { value: 'yes', label: 'Yes' },
-    { value: 'no', label: 'No' },
-  ];
+  const options = environment.isProduction()
+    ? [{ value: 'no', label: 'Yes' }, { value: 'yes', label: 'No' }]
+    : [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }];
+  // const options = [
+  //   { value: 'no', label: 'Yes' },
+  //   { value: 'yes', label: 'No' },
+  // ];
 
   return (
     <RadioButtons
