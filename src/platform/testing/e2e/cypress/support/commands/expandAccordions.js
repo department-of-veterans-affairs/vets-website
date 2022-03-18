@@ -12,10 +12,10 @@ Cypress.Commands.add('expandAccordions', () => {
         .shadow()
         .then(accordion => {
           // If it exists and Accordions are not already expanded
-          if (accordion.find('button[aria-expanded=false]').length > 0) {
+          if (accordion.find('button[aria-expanded="false"]').length > 0) {
             cy.get('va-accordion-item')
               .shadow()
-              .find('button[aria-expanded=false]')
+              .find('button[aria-expanded="false"]')
               .each(button => {
                 // Click to open Accordions
                 cy.wrap(button).click({ force: true });
