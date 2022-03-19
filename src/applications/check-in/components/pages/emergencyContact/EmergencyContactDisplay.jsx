@@ -46,7 +46,13 @@ export default function EmergencyContactDisplay({
         setEditContext(data, URLS.EDIT_RELATIONSHIP);
       },
     },
-    { title: 'Address', key: 'address' },
+    {
+      title: 'Address',
+      key: 'address',
+      editAction: data => {
+        setEditContext(data, URLS.EDIT_ADDRESS);
+      },
+    },
     {
       title: 'Phone',
       key: 'phone',

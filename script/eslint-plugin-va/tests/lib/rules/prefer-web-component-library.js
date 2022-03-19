@@ -20,6 +20,12 @@ const mockFile = (componentName, snippet) => {
   `;
 };
 
+const mockFileBindingsImport = (componentName, snippet) => {
+  return `import { ${componentName} } from 'web-components/react-bindings';
+  ${snippet}
+  `;
+};
+
 ruleTester.run('prefer-web-component-library', rule, {
   // This rule should not trigger on application components, only React components
   // from the `component-library`
@@ -115,6 +121,7 @@ ruleTester.run('prefer-web-component-library', rule, {
         },
       ],
     },
+
     {
       code: mockFile(
         'Telephone',
@@ -281,6 +288,25 @@ ruleTester.run('prefer-web-component-library', rule, {
               output: mockFile(
                 'Modal',
                 'const SampleModal = () => (<VaModal modalTitle="test" onCloseEvent={closeModal} primaryButton={primaryButton} secondaryButton={secondaryButton} >HELLO</VaModal>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Pagination',
+        'const PaginationSample = () => (<Pagination onPageSelect={handlePageSelect} page="3" pages="50" />)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFileBindingsImport(
+                'VaPagination',
+                'const PaginationSample = () => (<VaPagination onPageSelect={handlePageSelect} page="3" pages="50" />)',
               ),
             },
           ],

@@ -5,11 +5,6 @@
     "widgetType": "disability-rating-calculator"
   },
   {
-    "appName": "Check Home Loans COE Statsus",
-    "rootUrl": "/housing-assistance/home-loans/check-coe-status",
-    "widgetType": "home-loan-coe-login-widget"
-  },
-  {
     "appName": "Coronavirus Chatbot",
     "rootUrl": "/coronavirus-chatbot",
     "widgetType": "va-coronavirus-chatbot",
@@ -99,5 +94,10 @@
     "appName": "Mock SIP Form",
     "rootUrl": "/mock-sip-form",
     "entryName": "mock-sip-form"
+  },
+  {
+    "appName": "Connected Devices",
+    "rootUrl": "/health-care/connected-devices",
+    "entryName": "dhp-consent-flow"
   }
 ]
