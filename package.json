@@ -131,6 +131,7 @@
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
     "append-query": "^2.1.1",
     "autoprefixer": "^10.3.5",
+    "aws-sdk": "^2.1096.0",
     "axe-core": "^4.4.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
