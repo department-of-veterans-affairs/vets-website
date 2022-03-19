@@ -1,6 +1,6 @@
 module.exports = {
   // All rules should be disabled or they should produce errors. No warnings.
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   parserOptions: {
     ecmaVersion: 11,
     sourceType: 'module',

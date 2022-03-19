@@ -101,6 +101,7 @@
   "devDependencies": {
     "@actions/core": "^1.6.0",
     "@babel/core": "^7.17.7",
+    "@babel/eslint-parser": "^7.17.0",
     "@babel/parser": "^7.17.7",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/plugin-proposal-export-namespace-from": "^7.16.7",
