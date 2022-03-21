@@ -1,10 +1,14 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import appendQuery from 'append-query';
+import { browserHistory } from 'react-router';
 import DemographicItem from '../../DemographicItem';
 import EditLinkText from '../Edit/shared/EditLinkText';
+
+import { makeSelectCurrentContext } from '../../../selectors';
 
 const ConfirmablePage = ({
   header,
@@ -17,9 +21,10 @@ const ConfirmablePage = ({
   isEditEnabled = false,
   LoadingMessage = () => <va-loading-indicator message="Loading..." />,
   Footer,
-  history,
   currentlyLoggedIn,
 }) => {
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectCurrentContext);
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -29,13 +34,20 @@ const ConfirmablePage = ({
       if (currentlyLoggedIn) {
         dataToEdit.editAction(dataToEdit);
       } else {
-        // console.log('not logged in');
-        history.push('/?thing=first');
+        const params = appendQuery(window.location.pathname, {
+          id: token,
+          title: dataToEdit.title,
+          key: dataToEdit.key,
+          originatingUrl: dataToEdit.originatingUrl,
+          editingPage: dataToEdit.editingPage,
+        });
+
+        browserHistory.push(params);
         // add some URL params of what we are edit,
-        dispatch(toggleLoginModal(true));
+        dispatch(toggleLoginModal(true, 'cta-login'));
       }
     },
-    [currentlyLoggedIn, dispatch, history],
+    [currentlyLoggedIn, dispatch, token],
   );
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 confirmable-page">
@@ -60,7 +72,7 @@ const ConfirmablePage = ({
                   field.editAction && (
                     <div>
                       <a
-                        href={`#edit-${field.key}`}
+                        href={`#edit--${field.key}`}
                         // eslint-disable-next-line react/jsx-no-bind
                         onClick={() =>
                           editHandler({ ...field, value: data[field.key] })

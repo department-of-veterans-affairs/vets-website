@@ -28,14 +28,16 @@ export default function DemographicsDisplay({
       dispatch(
         createSetEditContext({
           ...data,
-          originatingUrl: URLS.DEMOGRAPHICS,
-          editingPage: EDITING_PAGE_NAMES.DEMOGRAPHICS,
         }),
       );
       jumpToPage(url);
     },
     [dispatch, jumpToPage],
   );
+  const shared = {
+    originatingUrl: URLS.DEMOGRAPHICS,
+    editingPage: EDITING_PAGE_NAMES.DEMOGRAPHICS,
+  };
 
   const demographicFields = [
     { title: 'Mailing address', key: 'mailingAddress' },
@@ -43,21 +45,25 @@ export default function DemographicsDisplay({
     {
       title: 'Home phone',
       key: 'homePhone',
+      ...shared,
       editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
     },
     {
       title: 'Mobile phone',
       key: 'mobilePhone',
+      ...shared,
       editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
     },
     {
       title: 'Work phone',
       key: 'workPhone',
+      ...shared,
       editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
     },
     {
       title: 'Email address',
       key: 'emailAddress',
+      ...shared,
       editAction: data => setEditContext(data, URLS.EDIT_EMAIL),
     },
   ];
