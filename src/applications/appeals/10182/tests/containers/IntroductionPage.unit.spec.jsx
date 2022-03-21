@@ -1,49 +1,39 @@
 import React from 'react';
-import moment from 'moment';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import IntroductionPage from '../../containers/IntroductionPage';
+import { IntroductionPage } from '../../containers/IntroductionPage';
+import manifest from '../../manifest.json';
 
-const defaultProps = {
-  user: {
-    profile: {
-      savedForms: [
-        {
-          form: VA_FORM_IDS.FORM_10182,
-          metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
-        },
-      ],
-    },
-  },
-  saveInProgress: {
-    user: {},
-  },
+const defaultProps = ({ isVerified = true } = {}) => ({
+  loggedIn: true,
+  isVerified,
   location: {
     pathname: '/introduction',
+    basename: manifest.rootUrl,
   },
-  saveInProgressActions: {},
   route: {
     formConfig: {
+      title: 'NOD',
       verifyRequiredPrefill: true,
       savedFormMessages: [],
     },
     pageList: [],
   },
-};
+});
 
 describe('IntroductionPage', () => {
   it('should render', () => {
-    const tree = shallow(<IntroductionPage {...defaultProps} />);
+    const tree = shallow(<IntroductionPage {...defaultProps()} />);
     const intro = tree.find('Connect(SaveInProgressIntro)');
     expect(intro).to.exist;
+    expect(tree.find('FormTitle').props().title).to.eq('NOD');
 
     tree.unmount();
   });
 
   it('should render SaveInProgressIntro', () => {
-    const tree = shallow(<IntroductionPage {...defaultProps} />);
+    const tree = shallow(<IntroductionPage {...defaultProps()} />);
     const saveInProgressIntro = tree.find(
       'withRouter(Connect(SaveInProgressIntro))',
     );
@@ -52,9 +42,25 @@ describe('IntroductionPage', () => {
     tree.unmount();
   });
 
+  it('should show verify your account alert', () => {
+    const props = defaultProps({ isVerified: false });
+    const tree = shallow(<IntroductionPage {...props} />);
+    const saveInProgressIntro = tree.find(
+      'withRouter(Connect(SaveInProgressIntro))',
+    );
+
+    const alertText = tree
+      .find('NeedsToVerify')
+      .first()
+      .html();
+    expect(saveInProgressIntro.length).to.eq(0);
+    expect(alertText).to.contain('/verify?');
+    tree.unmount();
+  });
+
   it('should render start button', () => {
     const props = {
-      ...defaultProps,
+      ...defaultProps(),
       contestableIssues: {
         issues: [{}],
         status: 'done',

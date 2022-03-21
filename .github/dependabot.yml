@@ -13,3 +13,12 @@ updates:
       timezone: "America/New_York"
     # Allow up to 10 open pull requests for npm dependencies
     open-pull-requests-limit: 0
+    ignore:
+      # Ignore updates to packages that start with 'cypress'
+      # Wildcards match zero or more arbitrary characters
+      - dependency-name: "cypress*"
+      - dependency-name: "@testing-library/*"
+      - dependency-name: "eslint*"
+      # For all packages, ignore all patch updates
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]

@@ -17,6 +17,11 @@ import {
   API_SESSION_URL,
   GA_CLIENT_ID_KEY,
   EBenefitsDefaultPath,
+  API_SIGN_IN_SERVICE_URL,
+  AUTH_PARAMS,
+  MOBILE_APPS,
+  OAUTH_ENABLED_APPS,
+  OAUTH_ENABLED_POLICIES,
 } from './constants';
 import recordEvent from '../../monitoring/record-event';
 
@@ -27,10 +32,14 @@ export const loginAppUrlRE = new RegExp('^/sign-in(/.*)?$');
 
 export const getQueryParams = () => {
   const searchParams = new URLSearchParams(window.location.search);
-  const application = searchParams.get('application');
-  const to = searchParams.get('to');
+  const paramsObj = {};
 
-  return { application, to };
+  Object.keys(AUTH_PARAMS).forEach(paramKey => {
+    const paramValue = searchParams.get(AUTH_PARAMS[paramKey]);
+    if (paramValue) paramsObj[paramKey] = paramValue;
+  });
+
+  return paramsObj;
 };
 
 export const isExternalRedirect = () => {
@@ -106,26 +115,36 @@ export function sessionTypeUrl({
   if (!type) {
     return null;
   }
+
+  // application is fetched from location, not the passed through queryParams arg
+  const {
+    application,
+    OAuth,
+    codeChallenge,
+    codeChallengeMethod,
+  } = getQueryParams();
+
   const externalRedirect = isExternalRedirect();
-  const verifiedOnlyApps = [
-    EXTERNAL_APPS.VA_OCC_MOBILE,
-    EXTERNAL_APPS.VA_FLAGSHIP_MOBILE,
-  ];
+  const isMobileApplication = MOBILE_APPS.includes(application);
   const isSignup = Object.values(SIGNUP_TYPES).includes(type);
   const isLogin = Object.values(CSP_IDS).includes(type);
   const appendParams = {};
 
-  // application is fetched from location, not the passed through queryParams arg
-  const { application } = getQueryParams();
+  // We should use OAuth when the following are true:
+  // OAuth param is true
+  // Application has OAuth enabled
+  // The policy type has OAuth enabled
+  const useOAuth =
+    OAuth === 'true' &&
+    OAUTH_ENABLED_APPS.includes(application) &&
+    OAUTH_ENABLED_POLICIES.includes(type);
 
   // Only require verification when all of the following are true:
   // 1. On the USiP (Unified Sign In Page)
   // 2. The outbound application is one of the mobile apps
   // 3. The generated link type is for signup, and login only
   const requireVerification =
-    externalRedirect &&
-    (isLogin || isSignup) &&
-    verifiedOnlyApps.includes(application)
+    externalRedirect && (isLogin || isSignup) && isMobileApplication
       ? '_verified'
       : '';
 
@@ -137,8 +156,16 @@ export function sessionTypeUrl({
     appendParams.postLogin = true;
   }
 
+  // Append extra params for mobile sign in service authentication
+  if (useOAuth) {
+    appendParams[AUTH_PARAMS.codeChallenge] = codeChallenge;
+    appendParams[AUTH_PARAMS.codeChallengeMethod] = codeChallengeMethod;
+  }
+
   return appendQuery(
-    API_SESSION_URL({ version, type: `${type}${requireVerification}` }),
+    useOAuth
+      ? API_SIGN_IN_SERVICE_URL({ type })
+      : API_SESSION_URL({ version, type: `${type}${requireVerification}` }),
     { ...queryParams, ...appendParams },
   );
 }

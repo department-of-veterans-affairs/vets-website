@@ -20,7 +20,7 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
   // separate each number so the screenreader reads "number ending with 1 2 3 4"
   // instead of "number ending with 1,234"
   const mask = value => {
-    const number = value.slice(-4).toString();
+    const number = (value || '').toString().slice(-4);
     return srSubstitute(
       `●●●–●●–${number}`,
       `ending with ${number.split('').join(' ')}`,

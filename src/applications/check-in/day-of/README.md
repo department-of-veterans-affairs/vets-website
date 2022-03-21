@@ -141,6 +141,8 @@ Though we have the HOC, its now considered best practice to query redux using th
   - when to sunset: when we expand to multiple facilities and address the edge cases around it
 - `check_in_experience_editing_day_of_enabled` : Enables or disabled editing the demographics information for the day of
   - when to sunset: once we have successfully tested this feature in production with users
+- `check_in_experience_translation_day_of_enabled` : Enables or disables translation to Spanish
+  - when to sunset: once we have successfully tested this feature in production with users
 - `check_in_experience_day_of_demographics_flags_enabled` : Enables the capture of user responses to demographics up-to-date questions (demographics, emergency contact, and next of kin)
   - when to sunset: once we have successfully tested this feature in production with users
 

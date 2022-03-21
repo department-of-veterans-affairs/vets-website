@@ -5,7 +5,7 @@ import SkinDeep from 'skin-deep';
 import { ConfirmationPage } from '../../containers/ConfirmationPage';
 
 describe('hca <ConfirmationPage>', () => {
-  it('should render', () => {
+  it.skip('should render', () => {
     const form = {
       submission: {
         response: {
@@ -34,7 +34,7 @@ describe('hca <ConfirmationPage>', () => {
       tree.everySubTree('.confirmation-guidance-message')[0].text(),
     ).to.contain('Find out what happens after you apply');
   });
-  it('should render without response properties', () => {
+  it.skip('should render without response properties', () => {
     const form = {
       submission: {},
       data: {

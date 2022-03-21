@@ -47,6 +47,7 @@ function LocationSearchResults({
   const [mapState, setMapState] = useState({ changed: false, distance: null });
   const [usedFilters, setUsedFilters] = useState(filtersChanged);
   const [cardResults, setCardResults] = useState(null);
+  const [dataReturned, setDataReturned] = useState(null);
   const [mobileTab, setMobileTab] = useState(LIST_TAB);
   const [markerClicked, setMarkerClicked] = useState(null);
   const [activeMarker, setActiveMarker] = useState(null);
@@ -335,6 +336,7 @@ function LocationSearchResults({
         map.current.fitBounds(locationBounds, { padding: 20 });
       }
 
+      setDataReturned(true);
       setCardResults(visibleResults);
       setUsedFilters(getFiltersChanged(filters));
       setMarkers(mapMarkers);
@@ -675,7 +677,7 @@ function LocationSearchResults({
 
   // Only needed on desktop as can do "Search this area of the map" which causes differences in count between what is
   // returned and what is visible
-  const desktopCount = !cardResults ? null : cardResults.length;
+  const desktopCount = dataReturned ? cardResults.length : 0;
 
   // Returns content setup for desktop screens
   return (
@@ -694,7 +696,7 @@ function LocationSearchResults({
             )}
             {hasSearchLatLong && (
               <>
-                {searchResultsShowing(desktopCount)}
+                {dataReturned && searchResultsShowing(desktopCount)}
                 {eligibilityAndFilters(desktopCount)}
                 {searchResults(desktopCount)}
                 {noResultsFound(desktopCount)}
