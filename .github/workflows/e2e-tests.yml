@@ -1,15 +1,15 @@
 name: E2E Tests
 
-on: [push]
-  # workflow_dispatch:
-  #   inputs:
-  #     commit_sha:
-  #       description: Run the full E2E test suite on a specific commit
-  #       required: true
-  # workflow_run:
-  #   workflows: [Continuous Integration]
-  #   types: [completed]
-  #   branches: [master]
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Run the full E2E test suite on a specific commit
+        required: true
+  workflow_run:
+    workflows: [Continuous Integration]
+    types: [completed]
+    branches: [master]
 
 env:
   NUM_CONTAINERS: '8'
