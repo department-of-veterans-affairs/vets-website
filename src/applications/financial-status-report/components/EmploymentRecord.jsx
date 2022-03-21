@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -27,6 +27,8 @@ const EmploymentRecord = ({
   employmentHistory,
   formContext,
 }) => {
+  const [validation, setValidation] = useState([]);
+
   const index = Number(idSchema.$id.slice(-1));
   const { userType, userArray } = uiSchema['ui:options'];
   const { employmentRecords } = employmentHistory[`${userType}`];
@@ -75,9 +77,21 @@ const EmploymentRecord = ({
   const handleDateChange = (key, value) => {
     const { month, year } = value;
     const dateString = `${year.value}-${month.value}-XX`;
+    const today = new Date();
+
+    if (parseInt(year.value, 10) > today.getFullYear()) {
+      setValidation([
+        {
+          valid: false,
+          message: `Please enter a year between 1900 and ${today.getFullYear()}`,
+        },
+      ]);
+    }
+
     const updated = employment.map((item, i) => {
       return i === index ? { ...item, [key]: dateString } : item;
     });
+
     updateFormData(updated);
   };
 
@@ -107,6 +121,7 @@ const EmploymentRecord = ({
           onValueChange={value => handleDateChange('from', value)}
           required
           requiredMessage={submitted && startError}
+          validation={validation}
         />
       </div>
       <div
