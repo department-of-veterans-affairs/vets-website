@@ -108,7 +108,7 @@ const CopyAddressModal = props => {
         copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PROMPT ||
         copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PENDING
       }
-      onCloseEvent={handlers.onCloseModal}
+      onClose={handlers.onCloseModal}
       id="copy-address-modal"
     >
       <>
@@ -162,7 +162,7 @@ const CopyAddressModal = props => {
       visible={
         copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.FAILURE
       }
-      onClose={handlers.onClose}
+      onClose={handlers.onCloseModal}
       status="error"
       primaryButton={{
         action: () => {
