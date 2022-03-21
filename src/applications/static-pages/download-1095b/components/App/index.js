@@ -76,12 +76,9 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     <>
       <h3 slot="headline">Download your 1095-B</h3>
       <div>
-        <p className="vads-u-margin-bottom--5">
+        <p>
           <span className="vads-u-line-height--3 vads-u-display--block">
             <strong>Related to:</strong> Health care
-          </span>
-          <span className="vads-u-line-height--3 vads-u-display--block">
-            <strong>Document last updated:</strong> November 5, 2021
           </span>
         </p>
         <button
