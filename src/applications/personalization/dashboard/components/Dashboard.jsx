@@ -50,9 +50,9 @@ import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
 import BenefitPaymentsAndDebt from './benefit-payments-and-debts/BenefitPaymentsAndDebt';
-import DebtNotification from './notifications/DebtNotification';
 import DashboardWidgetWrapper from './DashboardWidgetWrapper';
 import { getAllPayments } from '../actions/payments';
+import Notifications from './notifications/Notifications';
 
 const renderWidgetDowntimeNotification = (downtime, children) => {
   if (downtime.status === externalServiceStatus.down) {
@@ -118,9 +118,7 @@ const DashboardHeader = ({
         </DashboardWidgetWrapper>
       )}
       {showNotifications && (
-        <div data-testid="dashboard-notifications">
-          <DebtNotification debts={debts} hasError={debtsError} />
-        </div>
+        <Notifications debtsError={debtsError} debts={debts} />
       )}
     </div>
   );
@@ -359,9 +357,13 @@ const mapStateToProps = state => {
     FEATURE_FLAG_NAMES.showPaymentAndDebtSection
   ];
 
-  const showNotifications = toggleValues(state)[
+  const hasNotificationFeature = toggleValues(state)[
     FEATURE_FLAG_NAMES.showDashboardNotifications
   ];
+
+  const debts = state.fsr.debts || [];
+
+  const showNotifications = !!hasNotificationFeature && debts.length > 0;
 
   return {
     isLOA3,
@@ -378,7 +380,7 @@ const mapStateToProps = state => {
     showNotInMPIError,
     showBenefitPaymentsAndDebt,
     showNotifications,
-    debts: state.fsr.debts || [],
+    debts,
     debtsError: state.fsr.isError || false,
     payments: state.allPayments.payments?.payments || [],
     paymentsError: state.allPayments.error,
