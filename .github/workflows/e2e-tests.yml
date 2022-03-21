@@ -1,15 +1,12 @@
 name: E2E Tests
 
 on:
-  workflow_dispatch:
-    inputs:
-      commit_sha:
-        description: Run the full E2E test suite on a specific commit
-        required: true
-  workflow_run:
-    workflows: [Continuous Integration]
-    types: [completed]
-    branches: [nyc-merge] # WIP - test branch
+  push:
+  pull_request:
+    branches:
+      - develop
+      - staging
+  # WIP - test branch
 
 env:
   NUM_CONTAINERS: '8'
