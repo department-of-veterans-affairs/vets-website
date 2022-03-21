@@ -28,34 +28,41 @@ import { isPendingTransaction } from '@@vap-svc/util/transactions';
 
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
-const CopyAddressModal = ({
-  mailingAddress = null,
-  homeAddress,
-  shouldProfileShowAddressChangeModal,
-  transaction,
-  transactionRequest,
-  copyAddressModal,
-  updateCopyAddressModalAction,
-  createTransactionAction,
-  mailingFieldName,
-  apiRoute,
-  convertCleanDataToPayload,
-}) => {
+const CopyAddressModal = props => {
+  const {
+    mailingAddress = null,
+    homeAddress,
+    shouldProfileShowAddressChangeModal,
+    transaction,
+    transactionRequest,
+    copyAddressModal,
+    updateCopyAddressModalAction,
+    createTransactionAction,
+    mailingFieldName,
+    apiRoute,
+    convertCleanDataToPayload,
+  } = props;
+
   const checkAddressAndPrompt = useCallback(
     () => {
+      // TODO: handle home address update with no mailing address and show custom modal content
+      if (!mailingAddress || !homeAddress) {
+        updateCopyAddressModalAction(null);
+        return;
+      }
+
       const modalStatus = areAddressesEqual(mailingAddress, homeAddress)
         ? null
         : VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PROMPT;
 
       updateCopyAddressModalAction(modalStatus);
     },
-    [mailingAddress, homeAddress],
+    [mailingAddress, homeAddress, updateCopyAddressModalAction],
   );
 
   useEffect(
     () => {
       if (copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.CHECKING) {
-        // console.log('CHECKING');
         checkAddressAndPrompt();
       }
     },
@@ -212,7 +219,12 @@ const CopyAddressModal = ({
 };
 
 CopyAddressModal.propTypes = {
+  apiRoute: PropTypes.string.isRequired,
+  convertCleanDataToPayload: PropTypes.func.isRequired,
+  createTransactionAction: PropTypes.func.isRequired,
   homeAddress: PropTypes.object.isRequired,
+  mailingFieldName: PropTypes.string.isRequired,
+  updateCopyAddressModalAction: PropTypes.func.isRequired,
   copyAddressModal: PropTypes.string,
   mailingAddress: PropTypes.object,
   shouldProfileShowAddressChangeModal: PropTypes.bool,

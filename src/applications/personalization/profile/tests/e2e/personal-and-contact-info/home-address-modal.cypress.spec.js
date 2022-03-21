@@ -24,6 +24,8 @@ describe('Home address update modal', () => {
       addressPage.saveForm();
 
       cy.findByTestId('modal-content').should('not.exist');
+
+      cy.injectAxeThenAxeCheck();
     });
 
     it('should SHOW update prompt modal', () => {
@@ -51,6 +53,8 @@ describe('Home address update modal', () => {
       addressPage.saveForm();
 
       cy.findByTestId('modal-content').should('not.exist');
+
+      cy.injectAxeThenAxeCheck();
     });
   });
 });
