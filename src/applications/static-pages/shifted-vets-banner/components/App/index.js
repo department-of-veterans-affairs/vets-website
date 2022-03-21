@@ -19,7 +19,7 @@ export const App = ({ show }) => {
   // Render the shifted location banner image.
   return (
     <div id="vets-banner-2" className="veteran-banner">
-      <div className="veteran-banner-container">
+      <div className="veteran-banner-container vads-u-margin-y--0 vads-u-margin-x--auto">
         <picture>
           <source
             srcSet="/img/homepage/veterans-banner-mobile-1.png 640w, /img/homepage/veterans-banner-mobile-2.png 920w, /img/homepage/veterans-banner-mobile-3.png 1316w"
