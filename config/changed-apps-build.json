@@ -43,6 +43,9 @@
       {
         "entryName": "vaos",
         "slackGroup": "@vaos-fe-dev"
+      },
+      {
+        "entryName": "lgy"
       }
     ],
     "groupedApps": [
