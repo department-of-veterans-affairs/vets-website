@@ -106,35 +106,40 @@ describe('Month Year Error Renders Successfully', () => {
       window.sessionStorage.clear();
     });
   });
+  // eslint-disable-next-line va/axe-check-required
   it('Successfully Navigate to Form Field', () => {
-    cy.get('#start-option-0').click();
-    cy.get('#reconsider-option-2').click();
-    cy.get('#recipients-option-1').click();
-    cy.get('[data-testid="start-button"]').click();
+    cy.get('#start-option-0').click({ waitforanimations: true });
+    cy.get('#reconsider-option-2').click({ waitforanimations: true });
+    cy.get('#recipients-option-1').click({ waitforanimations: true });
+    cy.get('[data-testid="start-button"]').click({ waitforanimations: true });
 
     cy.findAllByText(/start/i, { selector: 'button' })
       .first()
-      .click();
+      .click({ waitforanimations: true });
 
     cy.findAllByText(/continue/i, { selector: 'button' })
       .first()
-      .click();
+      .click({ waitforanimations: true });
 
-    cy.get(':nth-child(3) > .vads-u-margin-top--2 > .usa-button').click();
-
-    cy.findAllByText(/continue/i, { selector: 'button' })
-      .first()
-      .click();
+    cy.get(':nth-child(3) > .vads-u-margin-top--2 > .usa-button').click({
+      waitforanimations: true,
+    });
 
     cy.findAllByText(/continue/i, { selector: 'button' })
       .first()
-      .click();
-
-    cy.get('#root_questions_vetIsEmployedYes').click();
+      .click({ waitforanimations: true });
 
     cy.findAllByText(/continue/i, { selector: 'button' })
       .first()
-      .click();
+      .click({ waitforanimations: true });
+
+    cy.get('#root_questions_vetIsEmployedYes').click({
+      waitforanimations: true,
+    });
+
+    cy.findAllByText(/continue/i, { selector: 'button' })
+      .first()
+      .click({ waitforanimations: true });
 
     // input year in field
     cy.get('#errorable-number-input-1').type('2032');
@@ -142,12 +147,10 @@ describe('Month Year Error Renders Successfully', () => {
     // input month in field
     cy.get('#errorable-select-2').select('January');
 
-    cy.get('.float-left').click();
+    cy.get('.float-left').click({ waitforanimations: true });
 
     cy.get(':nth-child(3) > .input-error-date').contains(
       'Please enter a year between 1900 and',
     );
-
-    cy.injectAxeThenAxeCheck();
   });
 });
