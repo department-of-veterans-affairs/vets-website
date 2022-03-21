@@ -55,7 +55,8 @@
         "slackGroup": "@check-in-fe"
       },
       {
-        "entryName": "lgy"
+        "entryName": "lgy",
+        "slackGroup": "@benefits-app-builds"
       }
     ]
   }
