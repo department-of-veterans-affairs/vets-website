@@ -9,6 +9,7 @@ const routes = {
   indexRoute: { component: SignInApp },
   childRoutes: [
     { path: 'verify', component: VerifyPage },
+    // Move TransitionAccountPage to separate app
     { path: 'transition', component: TransitionAccountPage },
   ],
 };
