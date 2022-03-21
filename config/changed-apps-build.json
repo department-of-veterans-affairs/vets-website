@@ -43,9 +43,6 @@
       {
         "entryName": "vaos",
         "slackGroup": "@vaos-fe-dev"
-      },
-      {
-        "entryName": "lgy"
       }
     ],
     "groupedApps": [
@@ -56,6 +53,9 @@
       {
         "rootFolder": "check-in",
         "slackGroup": "@check-in-fe"
+      },
+      {
+        "entryName": "lgy"
       }
     ]
   }
