@@ -9003,10 +9003,10 @@ eslint-plugin-react@^7.25.1:
     resolve "^2.0.0-next.3"
     string.prototype.matchall "^4.0.5"
 
-eslint-plugin-sonarjs@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-sonarjs/-/eslint-plugin-sonarjs-0.10.0.tgz#2b520c6d0dbdecbea98cd82f5cb84fc5c3d2b954"
-  integrity sha512-FBRIBmWQh2UAfuLSnuYEfmle33jIup9hfkR0X8pkfjeCKNpHUG8qyZI63ahs3aw8CJrv47QJ9ccdK3ZxKH016A==
+eslint-plugin-sonarjs@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-sonarjs/-/eslint-plugin-sonarjs-0.12.0.tgz#03a160a58f179fde084135baec08656b59786b8c"
+  integrity sha512-soxjK67hoYxO8hesKqXWN50GSM+oG2r35N5WnAMehetahO6zoVpv3HZbdziP0jYWNopEe6te/BFUZOYAZI+qhg==
 
 eslint-plugin-unicorn@^35.0.0:
   version "35.0.0"
@@ -18119,7 +18119,7 @@ shell-quote@^1.6.1:
   resolved "https://registry.npmjs.org/shell-quote/-/shell-quote-1.7.2.tgz"
   integrity sha512-mRz/m/JVscCrkMyPqHc/bczi3OQHkLTqXHEFu0zDhK/qfv3UcOA4SVmRCLmos4bhjr9ekVQubj/R7waKapmiQg==
 
-shelljs@^0.6.0, shelljs@^0.8.3, shelljs@^0.8.4, shelljs@^0.8.5:
+shelljs@^0.6.0, shelljs@^0.8.3, shelljs@^0.8.5:
   version "0.8.5"
   resolved "https://registry.yarnpkg.com/shelljs/-/shelljs-0.8.5.tgz#de055408d8361bed66c669d2f000538ced8ee20c"
   integrity sha512-TiwcRcrkhHvbrZbnRcFYMLl30Dfov3HKqzp5tO5b4pt6G/SezKcYhmDg15zXVBswHmctSAQKznqNW2LO5tTDow==
@@ -18302,6 +18302,13 @@ sonic-boom@^1.0.2:
   dependencies:
     atomic-sleep "^1.0.0"
     flatstr "^1.0.12"
+
+sort-keys@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/sort-keys/-/sort-keys-4.2.0.tgz#6b7638cee42c506fff8c1cecde7376d21315be18"
+  integrity sha512-aUYIEU/UviqPgc8mHR6IW1EGxkAXpeRETYcrzg8cLAvUPZcpAlleSXHV2mY7G12GphSH6Gzv+4MMVSSkbdteHg==
+  dependencies:
+    is-plain-obj "^2.0.0"
 
 sort-on@^3.0.0:
   version "3.0.0"
@@ -20217,9 +20224,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#dc8bc4ceba31e1b68c4f5ba1f52c8300876e10da":
-  version "20.19.3"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#dc8bc4ceba31e1b68c4f5ba1f52c8300876e10da"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#25df658754473310d4f6217fb8febcae68fe6d54":
+  version "20.19.5"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#25df658754473310d4f6217fb8febcae68fe6d54"
 
 vfile-message@^2.0.0:
   version "2.0.4"
@@ -21124,10 +21131,10 @@ yeoman-generator@^4.11.0, yeoman-generator@^4.8.2:
     grouped-queue "^1.1.0"
     yeoman-environment "^2.9.5"
 
-yeoman-generator@^5.4.2:
-  version "5.4.2"
-  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-5.4.2.tgz#ad1ad7bf7c9771a8bbf07ead2eec79ebcdc51a20"
-  integrity sha512-xgS3A4r5VoEYq3vPdk1fWPVZ30y5NHlT2hn0OEyhKG79xojCtPkPkfWcKQamgvC9QLhaotVGvambBxwxwBeDTg==
+yeoman-generator@^5.6.1:
+  version "5.6.1"
+  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-5.6.1.tgz#850fd266a5ab26d9d1cb9c46ad646f06eade4a1d"
+  integrity sha512-XllgFvmDEwoPMq2rKtL4/N52WlINJW6a3I3XtlCrMb3/dqO5dW0nPNgR0L3IIUIdf9y1EHb1ZFMs2Qp3ZEEFxg==
   dependencies:
     chalk "^4.1.0"
     dargs "^7.0.0"
@@ -21139,7 +21146,8 @@ yeoman-generator@^5.4.2:
     read-pkg-up "^7.0.1"
     run-async "^2.0.0"
     semver "^7.2.1"
-    shelljs "^0.8.4"
+    shelljs "^0.8.5"
+    sort-keys "^4.2.0"
     text-table "^0.2.0"
 
 yo@^4.3.0:
