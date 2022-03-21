@@ -49,6 +49,7 @@ export default {
   SCO_ANNOUNCEMENTS: 'sco-announcements',
   SCO_EVENTS: 'sco-events',
   SECURE_MESSAGING_PAGE: 'secure-messaging-page',
+  SHIFTED_VETS_BANNER: 'shifted-vets-banner',
   SIDE_NAV: 'side-nav',
   THIRD_PARTY_APP_DIRECTORY: 'third-party-app-directory',
   VET_CENTER_HOURS: 'vet-center-hours',
