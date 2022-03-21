@@ -7,6 +7,7 @@ const fetch = require('node-fetch');
 const path = require('path');
 const webpack = require('webpack');
 
+const Dotenv = require('dotenv-webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -426,6 +427,10 @@ module.exports = async (env = {}) => {
       }),
 
       new WebpackBar(),
+
+      new Dotenv({
+        systemvars: true,
+      }),
     ],
     devServer: generateWebpackDevConfig(buildOptions),
   };
