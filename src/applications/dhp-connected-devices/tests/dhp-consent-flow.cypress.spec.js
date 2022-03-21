@@ -13,3 +13,5 @@ describe(manifest.appName, () => {
       .axeCheck();
   });
 });
+
+// Going to url renders components
