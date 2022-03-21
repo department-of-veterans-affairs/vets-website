@@ -20,7 +20,7 @@ const Error = () => {
   const { appointments } = useSelector(selectVeteranData);
   // if date exists, then show date
   const defaultMessageText = isMaxValidateAttempts
-    ? "We're sorry. We couldn't match your information to our records. Call us at 800-698-2411 (TTY: 711) for help signing in."
+    ? "We're sorry. We couldn't match your information to our records. Please call us at 800-698-2411 (TTY:711) for help signing in."
     : 'We’re sorry. Something went wrong on our end. Please try again.';
   const messages = [
     {

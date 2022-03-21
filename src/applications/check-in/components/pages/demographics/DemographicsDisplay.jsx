@@ -36,8 +36,20 @@ export default function DemographicsDisplay({
   );
 
   const demographicFields = [
-    { title: 'Mailing address', key: 'mailingAddress' },
-    { title: 'Home address', key: 'homeAddress' },
+    {
+      title: 'Mailing address',
+      key: 'mailingAddress',
+      editAction: data => {
+        setEditContext(data, URLS.EDIT_ADDRESS);
+      },
+    },
+    {
+      title: 'Home address',
+      key: 'homeAddress',
+      editAction: data => {
+        setEditContext(data, URLS.EDIT_ADDRESS);
+      },
+    },
     {
       title: 'Home phone',
       key: 'homePhone',

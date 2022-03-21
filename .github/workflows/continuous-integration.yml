@@ -403,7 +403,6 @@ jobs:
 
       - name: Get changed apps for header test
         id: get-changed-apps
-        if: ${{ github.ref != 'refs/heads/master' }}
         run: |
           echo ::set-output name=app_urls::$(node script/github-actions/get-changed-apps.js --output-type url)
           echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
@@ -486,9 +485,6 @@ jobs:
       - name: Start server
         run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
-      - name: Instrument code
-        run: npx nyc instrument --compact=false src .nyc_output
-
       - name: Run Cypress tests
         run: node script/github-actions/run-cypress-tests.js
         timeout-minutes: 30
@@ -497,16 +493,6 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
           APP_URLS: ${{ needs.cypress-tests-prep.outputs.app_urls }}
-
-      - name: View code coverage summary
-        run: npx nyc report --reporter=text-summary
-
-      - name: Create coverage artifact
-        uses: actions/upload-artifact@v2
-        if: ${{ always() }}
-        with:
-          name: code-coverage-artifacts
-          path: coverage/coverage-summary.json
 
       - name: Archive test videos
         uses: actions/upload-artifact@v3
