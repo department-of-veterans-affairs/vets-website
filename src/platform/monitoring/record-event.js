@@ -1,5 +1,3 @@
-import env from '~/platform/utilities/environment';
-
 /**
  * Helper function for reporting events to Google Analytics. An alias for window.dataLayer.push.
  * @module platform/monitoring/record-event
@@ -10,17 +8,25 @@ import env from '~/platform/utilities/environment';
 
 export default function recordEvent(data) {
   const { eventCallback } = data;
-  const pushEvent = () => window.dataLayer && window.dataLayer.push(data);
+  const eventTimeout = eventCallback ? { eventTimeout: 2000 } : {};
 
-  // Handle eventCallback on localhost
-  // Since we do not send the data off locally, any reliance on an `eventCallback`
-  // will not work on localhost without this force call
-  if (typeof eventCallback === 'function' && env.isLocalhost()) {
-    pushEvent();
+  // Handle eventCallback when window.google_tag_manager is undefined
+  // This ensures that the callback is called when GTM is not loaded
+  // This is needed for localhost, and for users utilizng an adblocker
+  if (typeof eventCallback === 'function' && window.google_tag_manager) {
     eventCallback();
   }
 
-  return pushEvent();
+  // If the data includes an eventCallback, ensure we always add an
+  // accompanying eventTimeout, this ensures the eventCallback is fired
+  // even if the event stalls
+  return (
+    window.dataLayer &&
+    window.dataLayer.push({
+      ...data,
+      ...eventTimeout,
+    })
+  );
 }
 
 /**
