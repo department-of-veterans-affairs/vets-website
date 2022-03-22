@@ -98,7 +98,7 @@ describe('check-in', () => {
         );
         expect(component.getByTestId('nextOfKinUpToDate')).to.have.text('yes');
         expect(component.getByTestId('demographicsFlagsEmpty')).to.have.text(
-          'yes',
+          'no',
         );
       });
     });
