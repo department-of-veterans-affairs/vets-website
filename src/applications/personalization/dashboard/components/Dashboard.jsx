@@ -147,8 +147,8 @@ DashboardHeader.propTypes = {
       personEntitled: PropTypes.string.isRequired,
     }),
   ),
-  paymentsError: PropTypes.bool,
   debtsError: PropTypes.bool,
+  paymentsError: PropTypes.bool,
   showNotifications: PropTypes.bool,
 };
 
@@ -432,8 +432,8 @@ Dashboard.propTypes = {
   paymentsError: PropTypes.bool,
   showBenefitPaymentsAndDebt: PropTypes.bool,
   showClaimsAndAppeals: PropTypes.bool,
+  showHealthCare: PropTypes.bool,
   showLoader: PropTypes.bool,
-  showHealthcare: PropTypes.bool,
   showMPIConnectionError: PropTypes.bool,
   showNameTag: PropTypes.bool,
   showNotInMPIError: PropTypes.bool,
