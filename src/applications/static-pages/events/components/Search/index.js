@@ -109,13 +109,13 @@ export const Search = ({ onSearch }) => {
       }
     }
 
+    // Allow the event to be submitted and clear errors.
     recordEvent({
       event: 'events-apply-filter-click',
       'filter-by': selectedOption?.value,
       'filters-list': filterList,
     });
 
-    // Allow the event to be submitted and clear errors.
     onSearch(event);
     setStartDateMonthError(false);
     setStartDateDayError(false);
