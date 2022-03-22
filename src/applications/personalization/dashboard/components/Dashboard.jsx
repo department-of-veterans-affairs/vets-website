@@ -125,19 +125,11 @@ const DashboardHeader = ({
 };
 
 DashboardHeader.propTypes = {
-  showNotifications: PropTypes.bool,
   debts: PropTypes.arrayOf(
     PropTypes.shape({
-      fileNumber: PropTypes.string.isRequired,
-      payeeNumber: PropTypes.string.isRequired,
-      personEntitled: PropTypes.string.isRequired,
-      deductionCode: PropTypes.string.isRequired,
-      benefitType: PropTypes.string.isRequired,
-      diaryCode: PropTypes.string.isRequired,
-      diaryCodeDescription: PropTypes.string,
       amountOverpaid: PropTypes.number.isRequired,
       amountWithheld: PropTypes.number.isRequired,
-      originalAr: PropTypes.number.isRequired,
+      benefitType: PropTypes.string.isRequired,
       currentAr: PropTypes.number.isRequired,
       debtHistory: PropTypes.arrayOf(
         PropTypes.shape({
@@ -146,10 +138,18 @@ DashboardHeader.propTypes = {
           description: PropTypes.string.isRequired,
         }),
       ),
+      deductionCode: PropTypes.string.isRequired,
+      diaryCode: PropTypes.string.isRequired,
+      diaryCodeDescription: PropTypes.string,
+      fileNumber: PropTypes.string.isRequired,
+      originalAr: PropTypes.number.isRequired,
+      payeeNumber: PropTypes.string.isRequired,
+      personEntitled: PropTypes.string.isRequired,
     }),
   ),
-  debtsError: PropTypes.bool,
   paymentsError: PropTypes.bool,
+  debtsError: PropTypes.bool,
+  showNotifications: PropTypes.bool,
 };
 
 const Dashboard = ({
@@ -388,31 +388,11 @@ const mapStateToProps = state => {
 };
 
 Dashboard.propTypes = {
-  fetchFullName: PropTypes.func,
-  fetchMilitaryInformation: PropTypes.func,
-  fetchTotalDisabilityRating: PropTypes.func,
-  getDebts: PropTypes.func,
-  getPayments: PropTypes.func,
-  isLOA3: PropTypes.bool,
-  showLoader: PropTypes.bool,
-  showMPIConnectionError: PropTypes.bool,
-  showNameTag: PropTypes.bool,
-  showNotInMPIError: PropTypes.bool,
-  showBenefitPaymentsAndDebt: PropTypes.bool,
-  showNotifications: PropTypes.bool,
-  debtsError: PropTypes.bool,
   debts: PropTypes.arrayOf(
     PropTypes.shape({
-      fileNumber: PropTypes.string.isRequired,
-      payeeNumber: PropTypes.string.isRequired,
-      personEntitled: PropTypes.string.isRequired,
-      deductionCode: PropTypes.string.isRequired,
-      benefitType: PropTypes.string.isRequired,
-      diaryCode: PropTypes.string.isRequired,
-      diaryCodeDescription: PropTypes.string,
       amountOverpaid: PropTypes.number.isRequired,
       amountWithheld: PropTypes.number.isRequired,
-      originalAr: PropTypes.number.isRequired,
+      benefitType: PropTypes.string.isRequired,
       currentAr: PropTypes.number.isRequired,
       debtHistory: PropTypes.arrayOf(
         PropTypes.shape({
@@ -421,9 +401,22 @@ Dashboard.propTypes = {
           description: PropTypes.string.isRequired,
         }),
       ),
+      deductionCode: PropTypes.string.isRequired,
+      diaryCode: PropTypes.string.isRequired,
+      diaryCodeDescription: PropTypes.string,
+      fileNumber: PropTypes.string.isRequired,
+      originalAr: PropTypes.number.isRequired,
+      payeeNumber: PropTypes.string.isRequired,
+      personEntitled: PropTypes.string.isRequired,
     }),
   ),
-  paymentsError: PropTypes.bool,
+  debtsError: PropTypes.bool,
+  fetchFullName: PropTypes.func,
+  fetchMilitaryInformation: PropTypes.func,
+  fetchTotalDisabilityRating: PropTypes.func,
+  getDebts: PropTypes.func,
+  getPayments: PropTypes.func,
+  isLOA3: PropTypes.bool,
   payments: PropTypes.arrayOf(
     PropTypes.shape({
       payCheckAmount: PropTypes.string.isRequired,
@@ -436,6 +429,19 @@ Dashboard.propTypes = {
       accountNumber: PropTypes.string.isRequired,
     }),
   ),
+  paymentsError: PropTypes.bool,
+  showBenefitPaymentsAndDebt: PropTypes.bool,
+  showClaimsAndAppeals: PropTypes.bool,
+  showLoader: PropTypes.bool,
+  showHealthcare: PropTypes.bool,
+  showMPIConnectionError: PropTypes.bool,
+  showNameTag: PropTypes.bool,
+  showNotInMPIError: PropTypes.bool,
+  showNotifications: PropTypes.bool,
+  showValidateIdentityAlert: PropTypes.bool,
+  totalDisabilityRating: PropTypes.number,
+  totalDisabilityRatingServerError: PropTypes.bool,
+  user: PropTypes.object,
 };
 
 const mapDispatchToProps = {
