@@ -1,12 +1,12 @@
 name: E2E Tests
 
 on:
-  push:
-    branches:
-      - '**'
-    tags-ignore:
-      - '**'
-  # WIP - test branch
+-  push:
+-    branches:
+-      - '**'
+-    tags-ignore:
+-      - '**'
+-  # WIP - test branch
 
 env:
   NUM_CONTAINERS: '8'
@@ -393,6 +393,106 @@ jobs:
           conclusion: ${{ needs.cypress-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+
+  code-coverage-cypress:
+    name: Code Coverage Reports - Cypress E2E Tests
+    runs-on: ubuntu-latest
+    needs: [set-commit-sha, testing-reports-prep, cypress-tests-prep, cypress-tests]
+    continue-on-error: true
+    if: ${{ always() && needs.cypress-tests-prep.outputs.tests != '[]' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
+    
+    env:
+      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}  
+
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
+
+      # ------------------------
+      # | Upload BigQuery Data |
+      # ------------------------
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Get AWS IAM role
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Set UUID for Mochawesome reports
+        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+
+      - name: Configure AWS Credentials (2)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+
+      # --------------------------------------
+      # | Publish Cypress E2E Testing Report |
+      # --------------------------------------
+
+      - name: Download Cypress E2E Mochawesome test results
+        uses: actions/download-artifact@v3
+        with:
+          name: code-coverage-results
+          path: testing-tools-team-dashboard-data/src/testing-reports/data
+
+      - name: Create Cypress E2E report and post results to BigQuery
+        run: yarn code-coverage-to-bigquery
+        working-directory: testing-tools-team-dashboard-data
+        # env:
+        #   IS_MASTER_BUILD: true
+        #   TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
+        #   TEST_RESULTS_TABLE_NAME: cypress_test_results
+        #   TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
+        #   TEST_RETRIES_TABLE_NAME: cypress_retry_records
+
+      # - name: Upload Cypress E2E test videos to s3
+      #   if: ${{ needs.cypress-tests.result == 'failure' }}
+      #   run: aws s3 cp testing-tools-team-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
+
+      # - name: Upload Cypress E2E test report to s3
+      #   run: aws s3 cp testing-tools-team-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
+
+      # -------------------------
+      # | Cypress Tests Summary |
+      # -------------------------
+
+      - name: Publish Code coverage test results
+        if: ${{ always() }}
+        uses: LouisBrunner/checks-action@v1.2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Code Coverage Summary
+          conclusion: ${{ needs.cypress-tests.result }}
+          output: |
+            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+
 
   notify-failure:
     name: Notify Failure
