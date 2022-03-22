@@ -90,7 +90,8 @@ jobs:
             node_modules
 
       - name: Add istanbul for Cypress code coverage reporting
-        run: | 
+        run: |
+          sed -i -e 's/\"istanbul\",//g' .babelrc
           sed -i -e 's/\"lodash\",/\"lodash\", \"istanbul\",/g' .babelrc
       
       - name: Print babelrc
