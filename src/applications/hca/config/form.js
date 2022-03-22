@@ -61,6 +61,7 @@ import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicare
 import vaFacility from './chapters/insuranceInformation/vaFacility';
 import general from './chapters/insuranceInformation/general';
 import ServiceConnectedPayConfirmation from '../components/ServiceConnectedPayConfirmation';
+import DisabilityRatingShortFormConfirmation from '../components/DisabilityRatingShortFormConfirmation';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
 
@@ -156,6 +157,20 @@ const formConfig = {
           CustomPageReview: null,
           initialData: {},
           depends: () => hasSession(),
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        veteranShortFormConfirmation: {
+          path: 'veteran-information/short-form-message',
+          title: 'Veteran information',
+          CustomPage: DisabilityRatingShortFormConfirmation,
+          CustomPageReview: null,
+          initialData: {},
+          depends: formData =>
+            formData['view:totalDisabilityRating'] >= HIGH_DISABILITY,
           uiSchema: {},
           schema: {
             type: 'object',
