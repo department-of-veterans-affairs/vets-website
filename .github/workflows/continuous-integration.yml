@@ -308,7 +308,7 @@ jobs:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Audit dependencies
-        if: steps.get-changed-apps.outputs.app_entries != ''
+        if: steps.get-changed-apps.outputs.app_entries == ''
         run: yarn security-check
 
   linting:
