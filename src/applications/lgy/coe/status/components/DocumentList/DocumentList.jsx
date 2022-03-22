@@ -1,24 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { getCoeDocuments } from './api';
 import List from './List';
 
-const documents = [
-  {
-    id: 0,
-    title: 'a document',
-    type: 'PDF',
-    timestamp: 1645565285000,
-  },
-  {
-    id: 1,
-    title: 'another document',
-    type: 'PDF',
-    timestamp: 1645565285000,
-  },
-];
-
 const DocumentList = ({ notOnUploadPage }) => {
+  const [documents, setDocuments] = useState([]);
+
+  const getDocuments = async () => setDocuments(await getCoeDocuments());
+
+  useEffect(() => {
+    getDocuments();
+  }, []);
+
   if (documents.length > 0) {
     return (
       <>
@@ -34,6 +28,7 @@ const DocumentList = ({ notOnUploadPage }) => {
       </>
     );
   }
+
   if (notOnUploadPage) {
     return (
       <>
