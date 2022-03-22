@@ -23,8 +23,8 @@ const Issues = ({ issues, isAppeal }) => {
   let remandSection = null;
   if (remandListItems.length) {
     remandSection = (
-      <div>
-        <h5>Remand</h5>
+      <div className="remand-section">
+        <h4 className="vads-u-font-size--h5">Remand</h4>
         <ul>{remandListItems}</ul>
       </div>
     );
@@ -34,7 +34,7 @@ const Issues = ({ issues, isAppeal }) => {
   if (grantedListItems.length) {
     grantedSection = (
       <div className="granted-section">
-        <h5>Granted</h5>
+        <h4 className="vads-u-font-size--h5">Granted</h4>
         <ul>{grantedListItems}</ul>
       </div>
     );
@@ -44,7 +44,7 @@ const Issues = ({ issues, isAppeal }) => {
   if (deniedListItems.length) {
     deniedSection = (
       <div className="denied-section">
-        <h5>Denied</h5>
+        <h4 className="vads-u-font-size--h5">Denied</h4>
         <ul>{deniedListItems}</ul>
       </div>
     );
@@ -53,8 +53,8 @@ const Issues = ({ issues, isAppeal }) => {
   let withdrawnSection = null;
   if (withdrawnListItems.length) {
     withdrawnSection = (
-      <div>
-        <h5 className="withdrawn-section">Withdrawn</h5>
+      <div className="withdrawn-section">
+        <h4 className="vads-u-font-size--h5">Withdrawn</h4>
         <ul>{withdrawnListItems}</ul>
       </div>
     );
@@ -65,9 +65,9 @@ const Issues = ({ issues, isAppeal }) => {
     // Active panel should always render as expanded by default (when items present)
     activeItems = (
       <va-accordion-item open>
-        <h2 slot="headline">
+        <h3 slot="headline">
           {`Currently on ${isAppeal ? 'appeal' : 'review'}`}
-        </h2>
+        </h3>
         {openSection}
         {remandSection}
       </va-accordion-item>
@@ -83,7 +83,7 @@ const Issues = ({ issues, isAppeal }) => {
     // Closed panel should render as expanded by default only if no active panel present
     closedItems = (
       <va-accordion-item open={!activeItems}>
-        <h2 slot="headline">Closed</h2>
+        <h3 slot="headline">Closed</h3>
         {grantedSection}
         {deniedSection}
         {withdrawnSection}
@@ -103,6 +103,7 @@ const Issues = ({ issues, isAppeal }) => {
 };
 
 Issues.propTypes = {
+  isAppeal: PropTypes.bool.isRequired,
   issues: PropTypes.arrayOf(
     PropTypes.shape({
       status: PropTypes.oneOf([
@@ -115,7 +116,6 @@ Issues.propTypes = {
       description: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  isAppeal: PropTypes.bool.isRequired,
 };
 
 export default Issues;
