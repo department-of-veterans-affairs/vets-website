@@ -1,14 +1,13 @@
-import get from '../../../../utilities/data/get';
-import set from '../../../../utilities/data/set';
-import unset from '../../../../utilities/data/unset';
 import { createSelector } from 'reselect';
-
 import {
   countries,
   states,
   isValidUSZipCode,
   isValidCanPostalCode,
 } from 'platform/forms/address';
+import get from '../../../../utilities/data/get';
+import set from '../../../../utilities/data/set';
+import unset from '../../../../utilities/data/unset';
 
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;
@@ -272,21 +271,26 @@ export function uiSchema(
     'ui:order': fieldOrder,
     country: {
       'ui:title': 'Country',
+      'ui:autocomplete': 'country',
     },
     street: {
       'ui:title': 'Street',
+      'ui:autocomplete': 'address-line1',
       'ui:errorMessages': {
         required: 'Please enter a street address',
       },
     },
     street2: {
       'ui:title': 'Street address line 2',
+      'ui:autocomplete': 'address-line2',
     },
     street3: {
       'ui:title': 'Street address line 3',
+      'ui:autocomplete': 'address-line3',
     },
     city: {
       'ui:title': 'City',
+      'ui:autocomplete': 'address-level2',
       'ui:errorMessages': {
         required: 'Please enter a city',
       },
@@ -294,10 +298,12 @@ export function uiSchema(
     state: {
       'ui:errorMessages': {
         required: 'Please enter a state',
+        'ui:autocomplete': 'address-level1',
       },
     },
     postalCode: {
       'ui:title': 'Postal code',
+      'ui:autocomplete': 'postal-code',
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
       },

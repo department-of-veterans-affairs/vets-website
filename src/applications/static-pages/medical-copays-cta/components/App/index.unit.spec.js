@@ -34,7 +34,7 @@ describe('Medical Copays CTA <App>', () => {
     );
     expect(wrapper.text()).not.includes('Review your VA copay balances');
     expect(wrapper.text()).includes(
-      'If you don’t have any of these accounts, you can create a free ID.me account now. When you sign in or create an account, you’ll be able to:',
+      'If you don’t have any of these accounts, you can create a free Login.gov or ID.me account now. When you sign in or create an account, you’ll be able to:',
     );
     expect(wrapper.text()).not.includes('With this tool, you can:');
     expect(wrapper.text()).includes(

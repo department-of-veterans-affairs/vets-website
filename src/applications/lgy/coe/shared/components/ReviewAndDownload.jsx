@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import DownloadLink from './DownloadLink';
+
+const downloadLinkLabel = 'Download your COE (PDF) 0.20MB';
+
 const ReviewAndDownload = ({ downloadUrl }) => (
   <>
     <div>
@@ -15,13 +19,7 @@ const ReviewAndDownload = ({ downloadUrl }) => (
       </p>
     </div>
     <div className="vads-u-margin-top--4">
-      <a href={downloadUrl}>
-        <i
-          className="fas fa-download vads-u-padding-right--1"
-          aria-hidden="true"
-        />
-        Download your COE (PDF) 0.20MB
-      </a>
+      <DownloadLink href={downloadUrl} label={downloadLinkLabel} />
     </div>
   </>
 );

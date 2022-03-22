@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import FinishVerifyingLater from './FinishVerifyingLater';
 
-export default function ReviewPausedInfo() {
+export default function ReviewPausedInfo({ onFinishVerifyingLater }) {
   return (
     <va-alert
       background-only
@@ -16,8 +18,10 @@ export default function ReviewPausedInfo() {
           until your enrollment information is corrected.
         </p>
         <p>
-          You can update your enrollment information before you submit your
-          verification:
+          <strong>
+            You can update your enrollment information before you submit your
+            verification:
+          </strong>
         </p>
         <ul>
           <li>
@@ -30,7 +34,12 @@ export default function ReviewPausedInfo() {
             information.
           </li>
         </ul>
+        <FinishVerifyingLater onFinishVerifyingLater={onFinishVerifyingLater} />
       </va-additional-info>
     </va-alert>
   );
 }
+
+ReviewPausedInfo.propTypes = {
+  onFinishVerifyingLater: PropTypes.func.isRequired,
+};

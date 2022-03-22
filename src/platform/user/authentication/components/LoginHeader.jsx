@@ -1,9 +1,9 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import LogoutAlert from 'platform/user/authentication/components/LogoutAlert';
 import DowntimeBanners from 'platform/user/authentication/components/DowntimeBanner';
 
-export default ({ loggedOut }) => {
+export default function LoginHeader({ loggedOut }) {
   return (
     <>
       <div className="row">
@@ -17,4 +17,8 @@ export default ({ loggedOut }) => {
       <DowntimeBanners />
     </>
   );
+}
+
+LoginHeader.propTypes = {
+  loggedOut: PropTypes.bool,
 };

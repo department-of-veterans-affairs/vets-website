@@ -26,9 +26,16 @@ export function SearchPage({
   preview,
   filters,
 }) {
+  const isLandscape = () => {
+    const islandscape = window.innerHeight < window.innerWidth;
+    const mobileDevice = !!navigator.maxTouchPoints;
+    if (islandscape && mobileDevice) return true;
+    return false;
+  };
   const history = useHistory();
   const { tab, error, query } = search;
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
+  const [landscape, setLandscape] = useState(isLandscape());
   const [accordions, setAccordions] = useState({
     [TABS.name]: tab === TABS.name,
     [TABS.location]: tab === TABS.location,
@@ -45,7 +52,9 @@ export function SearchPage({
   useEffect(() => {
     const checkSize = () => {
       setSmallScreen(isSmallScreen());
+      setLandscape(isLandscape());
     };
+
     window.addEventListener('resize', checkSize);
 
     if (getSearchQueryChanged(search.query)) {
@@ -57,7 +66,9 @@ export function SearchPage({
 
   const tabbedResults = {
     [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
-    [TABS.location]: <LocationSearchResults smallScreen={smallScreen} />,
+    [TABS.location]: (
+      <LocationSearchResults smallScreen={smallScreen} landscape={landscape} />
+    ),
   };
 
   const tabChange = selectedTab => {
@@ -133,7 +144,6 @@ export function SearchPage({
                   >
                     <LocationSearchForm smallScreen />
                   </AccordionItem>
-
                   {!error && smallScreen && tabbedResults[tab]}
                 </div>
               )}

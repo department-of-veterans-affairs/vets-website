@@ -13,6 +13,11 @@ import {
 import { areaOfDisagreementRequired } from '../validations/issues';
 import { calculateOtherMaxLength } from '../utils/disagreement';
 import { getIssueName } from '../utils/helpers';
+import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../constants';
+
+// add 1 for last comma
+const allDisagreementsLength =
+  Object.values(SUBMITTED_DISAGREEMENTS).join(',').length + 1;
 
 export default {
   uiSchema: {
@@ -91,7 +96,8 @@ export default {
             otherEntry: {
               type: 'string',
               // disagreementArea limited to 90 chars max
-              maxLength: 34,
+              maxLength:
+                MAX_LENGTH.DISAGREEMENT_REASON - allDisagreementsLength,
             },
           },
         },

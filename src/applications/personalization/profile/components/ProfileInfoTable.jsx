@@ -63,6 +63,12 @@ const ProfileInfoTable = ({
     'width--auto',
   ]);
 
+  const tableRowTitleDescriptionClasses = prefixUtilityClasses([
+    'color--gray-medium',
+    'display--block',
+    'font-weight--normal',
+  ]);
+
   const tableRowValueClasses = prefixUtilityClasses([
     'margin--0',
     'width--full',
@@ -76,6 +82,10 @@ const ProfileInfoTable = ({
       ' ',
     ),
     tableRowTitle: tableRowTitleClasses.join(' '),
+    tableRowTitleDescription: [
+      ...tableRowValueClasses,
+      ...tableRowTitleDescriptionClasses,
+    ].join(' '),
     tableRowValue: tableRowValueClasses.join(' '),
   };
 
@@ -101,7 +111,14 @@ const ProfileInfoTable = ({
               id={row.id}
             >
               {row.title && (
-                <dfn className={classes.tableRowTitle}>{row.title}</dfn>
+                <dfn className={classes.tableRowTitle}>
+                  {row.title}
+                  {row.description && (
+                    <span className={classes.tableRowTitleDescription}>
+                      {row.description}
+                    </span>
+                  )}
+                </dfn>
               )}
 
               {/* In Account Security, we have some rows that need a checkmark when verified  */}

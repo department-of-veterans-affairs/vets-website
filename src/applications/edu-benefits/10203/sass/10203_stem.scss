@@ -3,7 +3,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
 @import "../../../../platform/forms/sass/m-schemaform";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
@@ -164,9 +163,6 @@ dd > span {
   margin-top: 2em;
 }
 
-.ul-styling {
-  margin: -2px;
-}
 li.li-styling {
   margin-bottom: 0.2em;
 }

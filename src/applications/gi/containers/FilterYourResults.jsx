@@ -96,6 +96,7 @@ export function FilterYourResults({
           'FOREIGN',
           'FLIGHT',
           'CORRESPONDENCE',
+          'HIGH SCHOOL',
         ],
         excludeCautionFlags: false,
         accredited: false,
@@ -252,7 +253,7 @@ export function FilterYourResults({
     const options = [
       {
         optionValue: 'hbcu',
-        optionLabel: 'Historically Black College or University',
+        optionLabel: 'Historically Black college or university',
       },
       {
         optionValue: 'menonly',
@@ -264,7 +265,7 @@ export function FilterYourResults({
       },
       {
         optionValue: 'relaffil',
-        optionLabel: 'Religious Affiliation',
+        optionLabel: 'Religious affiliation',
       },
     ];
     return (

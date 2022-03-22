@@ -1,7 +1,6 @@
 import moment from 'moment';
 
 import { SELECTED, LEGACY_TYPE } from '../constants';
-import { isValidDate } from '../validations/date';
 
 /**
  * Check HLR v2 feature flag
@@ -194,27 +193,6 @@ export const isEmptyObject = obj =>
   obj && typeof obj === 'object' && !Array.isArray(obj)
     ? Object.keys(obj)?.length === 0 || false
     : false;
-
-export const setInitialEditMode = (formData = {}) => {
-  const contestedIssues = (formData.contestedIssues || []).map(entry =>
-    getIssueNameAndDate(entry),
-  );
-  const additionalIssues = (formData.additionalIssues || []).map(entry =>
-    getIssueNameAndDate(entry),
-  );
-  return (formData.additionalIssues || []).map((issue = {}, index) => {
-    const currentIssue = getIssueNameAndDate(issue);
-    return (
-      !issue.issue ||
-      !issue.decisionDate ||
-      !isValidDate(issue.decisionDate) ||
-      // check for duplicates
-      contestedIssues.includes(currentIssue) ||
-      additionalIssues.lastIndexOf(currentIssue) !== index ||
-      additionalIssues.indexOf(currentIssue) !== index
-    );
-  });
-};
 
 // getEligibleContestableIssues will remove deferred issues and issues > 1 year
 // past their decision date. This function removes issues with no title & sorts

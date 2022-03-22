@@ -6,6 +6,7 @@ import {
   renderGender,
   createBooleanSchemaPropertiesFromOptions,
   createUiTitlePropertiesFromOptions,
+  formatIndividualLabel,
 } from '@@profile/util/personal-information/personalInformationUtils';
 
 import { NOT_SET_TEXT } from '@@profile/constants';
@@ -17,13 +18,13 @@ describe('formatMultiSelectAndText utility', () => {
     ).to.equal('He/him/his');
   });
 
-  it('returns comma separated pronouns', () => {
+  it('returns semicolon separated pronouns', () => {
     expect(
       formatMultiSelectAndText(
         { pronouns: ['heHimHis', 'theyThemTheirs'] },
         'pronouns',
       ),
-    ).to.equal('He/him/his, They/them/theirs');
+    ).to.equal('He/him/his; They/them/theirs');
   });
 
   it('returns pronounsNotListedText value', () => {
@@ -35,13 +36,13 @@ describe('formatMultiSelectAndText utility', () => {
     ).to.equal('custom pronouns');
   });
 
-  it('returns comma separated list including pronounsNotListedText', () => {
+  it('returns semicolon separated list including pronounsNotListedText', () => {
     expect(
       formatMultiSelectAndText(
         { pronouns: ['heHimHis'], pronounsNotListedText: 'custom pronouns' },
         'pronouns',
       ),
-    ).to.equal('He/him/his, custom pronouns');
+    ).to.equal('He/him/his; custom pronouns');
   });
 
   it('returns null if fields do not have values', () => {
@@ -111,5 +112,27 @@ describe('createUiTitlePropertiesFromOptions utility', () => {
     };
 
     expect(createUiTitlePropertiesFromOptions(input)).to.deep.equal(output);
+  });
+});
+
+describe('formatIndividualLabel utility', () => {
+  it('returns properly formatted string for "preferNotToAnswer" ', () => {
+    const key = 'preferNotToAnswer';
+
+    const label = 'Prefer not to answer (un-checks other options)';
+
+    const output = 'Prefer not to answer';
+
+    expect(formatIndividualLabel(key, label)).to.equal(output);
+  });
+
+  it('returns label unformatted for standard keys" ', () => {
+    const key = 'test';
+
+    const label = 'test string here';
+
+    const output = 'test string here';
+
+    expect(formatIndividualLabel(key, label)).to.equal(output);
   });
 });

@@ -4,6 +4,20 @@ import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
 
 export const Debts = ({ debts, hasError }) => {
+  if (hasError) {
+    return (
+      <div
+        className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
+        data-testid="debts-error"
+      >
+        <va-alert status="error" show-icon className="vads-u-margin-top--0">
+          We’re sorry. We can’t access some of your financial information right
+          now. We’re working to fix this problem. Please check back later.
+        </va-alert>
+      </div>
+    );
+  }
+
   const debtsCount = debts?.length || 0;
   if (debtsCount < 1) {
     return (
@@ -15,48 +29,25 @@ export const Debts = ({ debts, hasError }) => {
       </p>
     );
   }
-  if (hasError) {
-    return (
-      <div
-        className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
-        data-testid="debts-error"
-      >
-        <va-alert
-          status="error"
-          background-only
-          show-icon
-          className="vads-u-margin-top--0"
-          closeable
-        >
-          We’re sorry. We can’t access some of your financial information right
-          now. We’re working to fix this problem. Please check back later.
-        </va-alert>
-      </div>
-    );
-  }
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5">
-      <va-alert
-        status="warning"
-        background-only
-        show-icon
-        className="vads-u-margin-top--0"
-        data-testid="debt-count-alert"
-      >
-        You have {debtsCount} outstanding debts.{' '}
-        <CTALink
-          text="Manage your VA debt"
-          href="/manage-va-debt/your-debt"
-          onClick={() =>
-            recordEvent({
-              event: 'profile-navigation',
-              'profile-action': 'view-link',
-              'profile-section': 'view-manage-va-debt',
-            })
-          }
-          testId="manage-va-debt-link"
-        />
+      <va-alert status="warning" show-icon data-testid="debt-count-alert">
+        <div className="vads-u-margin-top--0">
+          You have {debtsCount} outstanding debts.{' '}
+          <CTALink
+            text="Manage your VA debt"
+            href="/manage-va-debt/your-debt"
+            onClick={() =>
+              recordEvent({
+                event: 'profile-navigation',
+                'profile-action': 'view-link',
+                'profile-section': 'view-manage-va-debt',
+              })
+            }
+            testId="manage-va-debt-link"
+          />
+        </div>
       </va-alert>
     </div>
   );

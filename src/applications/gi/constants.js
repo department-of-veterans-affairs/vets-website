@@ -54,6 +54,7 @@ export const INSTITUTION_TYPES = [
   'Foreign',
   'Flight',
   'Correspondence',
+  'High school',
 ];
 
 export const ariaLabels = Object.freeze({

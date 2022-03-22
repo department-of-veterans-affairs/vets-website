@@ -37,6 +37,12 @@ describe('validateDate & isValidDate', () => {
     expect(errorMessage).to.contain('past decision date');
     expect(isValidDate(date)).to.be.false;
   });
+  it('should throw an error for todays date', () => {
+    const date = getDate();
+    validateDate(errors, date);
+    expect(errorMessage).to.contain('past decision date');
+    expect(isValidDate(date)).to.be.false;
+  });
   it('should throw an error for dates more than a year in the past', () => {
     const date = getDate({ offset: { weeks: -60 } });
     validateDate(errors, date);

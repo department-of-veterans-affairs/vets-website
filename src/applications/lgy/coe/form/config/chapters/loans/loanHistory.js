@@ -15,18 +15,27 @@ import { loanHistory } from '../../schemaImports';
 const stateLabels = createUSAStateLabels(states);
 
 const PreviousLoanView = ({ formData }) => {
-  const { street, city, state, postalCode } = formData.address;
+  const {
+    propertyAddress1,
+    propertyCity,
+    propertyState,
+    propertyZip,
+  } = formData.propertyAddress;
   let from = '';
   let to = '';
   if (formData.dateRange) {
-    from = formatReviewDate(formData.dateRange.from);
-    to = formatReviewDate(formData.dateRange.to);
+    from = formatReviewDate(formData.dateRange.startDate);
+    to = formatReviewDate(formData.dateRange.paidOffDate);
   }
 
   return (
     <div>
-      <strong>{`${street}, ${city}, ${state}, ${postalCode}`}</strong> <br />
-      {to ? `${from} - ${to}` : `${from} - present`}
+      <div>
+        <strong>
+          {`${propertyAddress1}, ${propertyCity}, ${propertyState}, ${propertyZip}`}
+        </strong>
+      </div>
+      <div>{to ? `${from} - ${to}` : `${from} - present`}</div>
     </div>
   );
 };

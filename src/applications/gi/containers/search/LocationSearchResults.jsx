@@ -8,7 +8,6 @@ import mapboxgl from 'mapbox-gl';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import environment from 'platform/utilities/environment';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
 import ResultCard from './ResultCard';
@@ -37,6 +36,7 @@ function LocationSearchResults({
   dispatchFetchSearchByLocationCoords,
   filtersChanged,
   smallScreen,
+  landscape,
   dispatchMapChanged,
 }) {
   const { inProgress } = search;
@@ -47,6 +47,7 @@ function LocationSearchResults({
   const [mapState, setMapState] = useState({ changed: false, distance: null });
   const [usedFilters, setUsedFilters] = useState(filtersChanged);
   const [cardResults, setCardResults] = useState(null);
+  const [dataReturned, setDataReturned] = useState(null);
   const [mobileTab, setMobileTab] = useState(LIST_TAB);
   const [markerClicked, setMarkerClicked] = useState(null);
   const [activeMarker, setActiveMarker] = useState(null);
@@ -164,9 +165,9 @@ function LocationSearchResults({
   const markerIsVisible = institution => {
     const { latitude, longitude } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
-
     return (
       smallScreen ||
+      landscape ||
       !mapState.changed ||
       map.current.getBounds().contains(lngLat)
     );
@@ -233,7 +234,7 @@ function LocationSearchResults({
 
     const popup = new mapboxgl.Popup();
     popup.on('open', () => {
-      if (smallScreen) {
+      if (smallScreen || landscape) {
         setMobileTab(LIST_TAB);
       }
       setMarkerClicked(name);
@@ -280,11 +281,7 @@ function LocationSearchResults({
    */
   useEffect(
     () => {
-      if (!environment.isProduction()) {
-        if (smallScreen) {
-          map.current = null;
-        }
-      } else {
+      if (smallScreen || landscape) {
         map.current = null;
       }
       setupMap();
@@ -294,7 +291,7 @@ function LocationSearchResults({
       let visibleResults = [];
       const mapMarkers = [];
 
-      if (smallScreen) {
+      if (smallScreen || landscape) {
         visibleResults = results;
       }
 
@@ -339,11 +336,12 @@ function LocationSearchResults({
         map.current.fitBounds(locationBounds, { padding: 20 });
       }
 
+      setDataReturned(true);
       setCardResults(visibleResults);
       setUsedFilters(getFiltersChanged(filters));
       setMarkers(mapMarkers);
     },
-    [results, smallScreen, mobileTab],
+    [results, smallScreen, landscape, mobileTab],
   );
 
   /**
@@ -458,7 +456,7 @@ function LocationSearchResults({
               <FilterYourResults />
             </>
           )}
-          {smallScreen && (
+          {(smallScreen || landscape) && (
             <MobileFilterControls className="vads-u-margin-top--2" />
           )}
         </>
@@ -607,6 +605,7 @@ function LocationSearchResults({
     const containerClassNames = classNames({
       'vads-u-display--none': !visible,
     });
+    const isMobileDevice = smallScreen || landscape;
     return (
       <div className={containerClassNames}>
         <map
@@ -617,7 +616,7 @@ function LocationSearchResults({
           role="region"
         >
           {mapState.changed &&
-            !smallScreen && (
+            !isMobileDevice && (
               <div
                 id="search-area-control-container"
                 className="mapboxgl-ctrl-top-center"
@@ -644,7 +643,7 @@ function LocationSearchResults({
   const smallScreenCount = search.location.count;
 
   // returns content ordered and setup for smallScreens
-  if (smallScreen) {
+  if (smallScreen || landscape) {
     return (
       <div className="location-search vads-u-padding--1">
         {inProgress && (
@@ -678,7 +677,7 @@ function LocationSearchResults({
 
   // Only needed on desktop as can do "Search this area of the map" which causes differences in count between what is
   // returned and what is visible
-  const desktopCount = !cardResults ? null : cardResults.length;
+  const desktopCount = dataReturned ? cardResults.length : 0;
 
   // Returns content setup for desktop screens
   return (
@@ -697,7 +696,7 @@ function LocationSearchResults({
             )}
             {hasSearchLatLong && (
               <>
-                {searchResultsShowing(desktopCount)}
+                {dataReturned && searchResultsShowing(desktopCount)}
                 {eligibilityAndFilters(desktopCount)}
                 {searchResults(desktopCount)}
                 {noResultsFound(desktopCount)}
@@ -725,18 +724,16 @@ const mapDispatchToProps = {
   dispatchMapChanged: mapChanged,
 };
 
-if (!environment.isProduction) {
-  LocationSearchResults.propTypes = {
-    dispatchFetchSearchByLocationCoords: PropTypes.func,
-    dispatchMapChanged: PropTypes.func,
-    dispatchUpdateEligibilityAndFilters: PropTypes.func,
-    filters: PropTypes.object,
-    filtersChanged: PropTypes.bool,
-    preview: PropTypes.object,
-    search: PropTypes.object,
-    smallScreen: PropTypes.bool,
-  };
-}
+LocationSearchResults.propTypes = {
+  dispatchFetchSearchByLocationCoords: PropTypes.func,
+  dispatchMapChanged: PropTypes.func,
+  dispatchUpdateEligibilityAndFilters: PropTypes.func,
+  filters: PropTypes.object,
+  filtersChanged: PropTypes.bool,
+  preview: PropTypes.object,
+  search: PropTypes.object,
+  smallScreen: PropTypes.bool,
+};
 
 export default connect(
   mapStateToProps,

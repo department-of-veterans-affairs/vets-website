@@ -45,7 +45,9 @@ const contactScoMonthStatusMessage = (
       className="fas fa-exclamation-circle vads-u-color--secondary-dark vads-u-margin-right--1"
       aria-hidden="true"
     />{' '}
-    Contact your School Certifying Official to update enrollment information
+    <strong>
+      Contact your School Certifying Official to update enrollment information
+    </strong>
   </p>
 );
 
@@ -66,7 +68,7 @@ export default function EnrollmentVerificationMonth({ month, paymentStatus }) {
   const monthStatusMessage = getMonthStatusMessage(month, paymentStatus);
 
   return (
-    <div className="ev-enrollment-month">
+    <div className="ev-enrollment-month vads-u-margin-y--3">
       <h4>{formatReadableMonthYear(month.month)}</h4>
       {monthStatusMessage}
 

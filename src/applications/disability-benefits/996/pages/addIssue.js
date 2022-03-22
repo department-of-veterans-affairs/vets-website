@@ -1,14 +1,12 @@
-import dateUiSchema from 'platform/forms-system/src/js/definitions/date';
-
-import { SELECTED } from '../constants';
+import { SELECTED, MAX_LENGTH } from '../constants';
 
 /**
  * A CustomPage only needs/uses minimal uiSchema/schema
  */
 
 export default {
+  // this uiSchema is completely ignored
   uiSchema: {
-    'ui:title': '',
     addIssue: {
       'ui:title': '',
       items: {
@@ -16,7 +14,7 @@ export default {
           'ui:title': 'Name of issue',
         },
         decisionDate: {
-          ...dateUiSchema('Date of decision'),
+          'ui:title': 'Date of notification of the decision',
         },
       },
     },
@@ -27,7 +25,7 @@ export default {
     properties: {
       addIssue: {
         type: 'array',
-        maxItems: 100,
+        maxItems: MAX_LENGTH.SELECTIONS,
         minItems: 1,
         items: {
           type: 'object',
@@ -35,7 +33,7 @@ export default {
           properties: {
             issue: {
               type: 'string',
-              maxLength: 140,
+              maxLength: MAX_LENGTH.ISSUE_NAME,
             },
             decisionDate: {
               type: 'string',
